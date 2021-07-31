@@ -39,6 +39,8 @@ use swc_ecma_transforms::{
 };
 use swc_ecma_visit::Fold;
 
+use self::util::BoolOrObject;
+
 #[cfg(test)]
 mod tests;
 pub mod util;
@@ -500,10 +502,10 @@ pub struct Config {
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct JsMinifyOptions {
     #[serde(default)]
-    pub compress: Option<TerserCompressorOptions>,
+    pub compress: BoolOrObject<TerserCompressorOptions>,
 
     #[serde(default)]
-    pub mangle: Option<MangleOptions>,
+    pub mangle: BoolOrObject<MangleOptions>,
 
     #[serde(default)]
     pub ecma: TerserEcmaVersion,

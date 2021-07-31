@@ -574,8 +574,9 @@ impl Compiler {
                 compress: opts
                     .compress
                     .clone()
+                    .into_obj()
                     .map(|v| v.into_config(self.cm.clone())),
-                mangle: opts.mangle.clone(),
+                mangle: opts.mangle.clone().into_obj(),
                 ..Default::default()
             };
 

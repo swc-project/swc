@@ -252,8 +252,9 @@ impl VisitMut for MinifierPass {
                 compress: options
                     .compress
                     .clone()
+                    .into_obj()
                     .map(|v| v.into_config(self.cm.clone())),
-                mangle: options.mangle.clone(),
+                mangle: options.mangle.clone().into_obj(),
                 ..Default::default()
             };
 
