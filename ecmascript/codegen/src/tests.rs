@@ -231,7 +231,7 @@ fn empty_named_export() {
 fn empty_named_export_min() {
     test_from_to_custom_config(
         "export { }",
-        "export{};",
+        "export{}",
         Config { minify: true },
         Default::default(),
     );
@@ -246,7 +246,7 @@ fn empty_named_export_from() {
 fn empty_named_export_from_min() {
     test_from_to_custom_config(
         "export { } from 'foo';",
-        "export{}from'foo';",
+        "export{}from'foo'",
         Config { minify: true },
         Default::default(),
     );
@@ -261,7 +261,7 @@ fn named_export_from() {
 fn named_export_from_min() {
     test_from_to_custom_config(
         "export { bar } from 'foo';",
-        "export{bar}from'foo';",
+        "export{bar}from'foo'",
         Config { minify: true },
         Default::default(),
     );
@@ -284,7 +284,7 @@ fn export_namespace_from() {
 fn export_namespace_from_min() {
     test_from_to_custom_config(
         "export * as Foo from 'foo';",
-        "export*as Foo from'foo';",
+        "export*as Foo from'foo'",
         Config { minify: true },
         Syntax::Es(EsConfig {
             export_namespace_from: true,
@@ -310,7 +310,7 @@ fn named_and_namespace_export_from() {
 fn named_and_namespace_export_from_min() {
     test_from_to_custom_config(
         "export * as Foo, { bar } from 'foo';",
-        "export*as Foo,{bar}from'foo';",
+        "export*as Foo,{bar}from'foo'",
         Config { minify: true },
         Syntax::Es(EsConfig {
             export_namespace_from: true,
