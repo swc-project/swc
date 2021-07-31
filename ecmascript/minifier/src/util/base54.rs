@@ -75,7 +75,7 @@ mod tests {
     fn perf_2() {
         let mut t = Tester { n: 0 };
 
-        t.incr(54 * 64 * 64 * 64 * 64 * 64);
-        t.gen("")
+        t.incr(54 * 64 * 64 * 64 * 64 * 64 * 64 * 64);
+        t.gen("a9888888")
     }
 }
