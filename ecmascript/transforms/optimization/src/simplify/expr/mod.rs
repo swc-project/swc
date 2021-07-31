@@ -876,7 +876,7 @@ impl SimplifyExpr {
     }
 
     /// Try to fold arithmetic binary operators
-    fn perform_arithmetic_op(&mut self, op: BinaryOp, left: &Expr, right: &Expr) -> Value<f64> {
+    fn perform_arithmetic_op(&self, op: BinaryOp, left: &Expr, right: &Expr) -> Value<f64> {
         /// Replace only if it becomes shorter
         macro_rules! try_replace {
             ($value:expr) => {{
@@ -950,15 +950,9 @@ impl SimplifyExpr {
                 // advantage of that without some kind of non-NaN proof.  So the special cases
                 // here only deal with 1*x
                 if Known(1.0) == lv {
-                    self.changed = true;
-                    dbg!();
-                    // TODO: cloneTree()
                     return rv;
                 }
                 if Known(1.0) == rv {
-                    self.changed = true;
-                    dbg!();
-                    // TODO: cloneTree()
                     return lv;
                 }
 
