@@ -95,7 +95,6 @@ impl VisitMut for Mangler {
 
         n.class.visit_mut_with(self);
     }
-
     fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
         if n.exported.is_none() {
             n.exported = Some(n.orig.clone());
@@ -103,7 +102,6 @@ impl VisitMut for Mangler {
 
         self.rename(&mut n.orig);
     }
-
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
 
@@ -118,6 +116,25 @@ impl VisitMut for Mangler {
     fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
         self.rename(&mut n.ident);
         n.function.visit_mut_with(self);
+    }
+
+    fn visit_mut_import_default_specifier(&mut self, n: &mut ImportDefaultSpecifier) {
+        self.rename(&mut n.local);
+    }
+
+    fn visit_mut_import_named_specifier(&mut self, n: &mut ImportNamedSpecifier) {
+        match &n.imported {
+            Some(..) => {}
+            None => {
+                n.imported = Some(n.local.clone());
+            }
+        }
+
+        self.rename(&mut n.local);
+    }
+
+    fn visit_mut_import_star_as_specifier(&mut self, n: &mut ImportStarAsSpecifier) {
+        self.rename(&mut n.local);
     }
 
     fn visit_mut_labeled_stmt(&mut self, n: &mut LabeledStmt) {
