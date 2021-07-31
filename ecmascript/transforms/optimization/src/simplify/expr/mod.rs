@@ -1445,8 +1445,8 @@ impl VisitMut for SimplifyExpr {
                 }
 
                 Expr::Lit(..) | Expr::Ident(..) if self.in_callee => {
-                    self.changed = true;
                     if exprs.is_empty() {
+                        self.changed = true;
                         exprs.push(Box::new(Expr::Lit(Lit::Num(Number {
                             span: DUMMY_SP,
                             value: 0.0,
