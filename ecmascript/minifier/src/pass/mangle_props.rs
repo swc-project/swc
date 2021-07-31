@@ -93,15 +93,14 @@ impl ManglePropertiesState {
             } else {
                 loop {
                     let n = self.n;
+                    self.n += 1;
                     let sym = match base54(n) {
                         Some(v) => v,
                         None => {
-                            self.n += 1;
                             continue;
                         }
                     };
 
-                    self.n += 1;
                     let mangled_name: JsWord = sym.into();
                     self.cache.insert(name.clone(), mangled_name.clone());
                     return Some(mangled_name);

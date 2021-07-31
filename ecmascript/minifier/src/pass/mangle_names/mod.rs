@@ -84,7 +84,7 @@ impl Mangler {
             cached.clone()
         } else {
             loop {
-                let sym = match base54(self.n) {
+                let sym = match base54(self.private_n) {
                     Some(v) => v,
                     None => {
                         self.private_n += 1;
