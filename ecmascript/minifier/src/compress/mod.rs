@@ -134,8 +134,10 @@ impl VisitMut for Compressor<'_> {
         self.data = Some(analyze(&*n));
 
         if self.options.passes != 0 && self.options.passes + 1 <= self.pass {
-            let done = dump(&*n);
-            log::debug!("===== Done =====\n{}", done);
+            if cfg!(feature = "debug") {
+                let done = dump(&*n);
+                log::debug!("===== Done =====\n{}", done);
+            }
             return;
         }
 
