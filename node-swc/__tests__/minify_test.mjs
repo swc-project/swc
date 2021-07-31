@@ -18,7 +18,19 @@ it("should accept object", async () => {
     expect(code).toMatchInlineSnapshot(`"import foo from'@src/app';console.log(foo);"`);
 })
 
-it("should mangle", async () => {
+it("should accpept { mangle = true }", async () => {
+    const { code } = await swc.minify(`
+    import foo from '@src/app';
+    console.log(foo)
+    `, {
+        compress: false,
+        mangle: true,
+    });
+
+    expect(code).toMatchInlineSnapshot(`""`);
+})
+
+it("should accpept { mangle = object }", async () => {
     const { code } = await swc.minify(`
     import foo from '@src/app';
     console.log(foo)
