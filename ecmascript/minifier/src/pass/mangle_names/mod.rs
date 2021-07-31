@@ -56,7 +56,15 @@ impl Mangler {
         }
 
         loop {
-            let sym: JsWord = base54(self.n).into();
+            let sym = base54(self.n);
+            if sym.starts_with(|c: char| c.is_digit(10)) {
+                if sym.starts_with('0') {
+                    self.n += 10;
+                }
+                continue;
+            }
+
+            let sym: JsWord = sym.into();
             self.n += 1;
             if self.preserved_symbols.contains(&sym) {
                 continue;
