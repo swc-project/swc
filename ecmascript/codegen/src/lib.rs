@@ -186,6 +186,10 @@ impl<'a> Emitter<'a> {
             }
         }
 
+        if emitted_default {
+            space!();
+        }
+
         if specifiers.is_empty() {
             if emitted_ns || emitted_default {
                 formatting_space!();
