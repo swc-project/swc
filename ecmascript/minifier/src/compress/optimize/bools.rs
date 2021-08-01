@@ -110,7 +110,7 @@ impl Optimizer<'_> {
                         ..
                     }) => {
                         if negate_cost(&left, self.ctx.in_bool_ctx, false).unwrap_or(isize::MAX) > 0
-                            && negate_cost(&right, self.ctx.in_bool_ctx, false)
+                            || negate_cost(&right, self.ctx.in_bool_ctx, false)
                                 .unwrap_or(isize::MAX)
                                 > 0
                         {
