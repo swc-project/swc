@@ -1,3 +1,4 @@
+use self::ctx::Ctx;
 use crate::option::CompressOptions;
 use rayon::prelude::*;
 use swc_common::pass::Repeated;
@@ -5,11 +6,13 @@ use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 mod bools;
+mod ctx;
 
 pub(super) fn pure_optimizer<'a>(options: &'a CompressOptions) -> impl 'a + VisitMut + Repeated {
     Pure {
         options,
         run_again: false,
+        ctx: Default::default(),
     }
 }
 
@@ -17,6 +20,7 @@ pub(super) fn pure_optimizer<'a>(options: &'a CompressOptions) -> impl 'a + Visi
 struct Pure<'a> {
     options: &'a CompressOptions,
     run_again: bool,
+    ctx: Ctx,
 }
 
 impl Repeated for Pure<'_> {
@@ -40,6 +44,7 @@ impl Pure<'_> {
                 let mut v = Pure {
                     options: self.options,
                     run_again: false,
+                    ctx: self.ctx,
                 };
                 node.visit_mut_with(&mut v);
 
