@@ -95,6 +95,10 @@ impl VisitMut for Pure<'_> {
         self.visit_par(elems);
     }
 
+    fn visit_mut_exprs(&mut self, exprs: &mut Vec<Box<Expr>>) {
+        self.visit_par(exprs);
+    }
+
     fn visit_mut_for_stmt(&mut self, s: &mut ForStmt) {
         s.visit_mut_children_with(self);
 
