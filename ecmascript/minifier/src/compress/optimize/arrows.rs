@@ -1,12 +1,6 @@
 use super::Optimizer;
-use swc_common::Spanned;
-use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_visit::noop_visit_type;
-use swc_ecma_visit::Node;
-use swc_ecma_visit::Visit;
-use swc_ecma_visit::VisitWith;
 
 /// Methods related to the option `arrows`.
 impl Optimizer<'_> {
@@ -30,77 +24,5 @@ impl Optimizer<'_> {
             }
             BlockStmtOrExpr::Expr(_) => {}
         }
-    }
-
-    #[inline(never)]
-    pub(super) fn optimize_arrow_method_prop(&mut self, p: &mut Prop) {
-        if self.options.ecma < EsVersion::Es2015 {
-            return;
-        }
-
-        if !self.options.unsafe_methods && !self.options.arrows {
-            return;
-        }
-
-        match p {
-            Prop::KeyValue(kv) => {
-                //
-                {
-                    let mut v = ThisVisitor { found: false };
-                    kv.value.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
-                    if v.found {
-                        return;
-                    }
-                }
-
-                match &mut *kv.value {
-                    Expr::Arrow(
-                        m
-                        @
-                        ArrowExpr {
-                            body: BlockStmtOrExpr::BlockStmt(..),
-                            ..
-                        },
-                    ) => {
-                        *p = Prop::Method(MethodProp {
-                            key: kv.key.take(),
-                            function: Function {
-                                params: m
-                                    .params
-                                    .take()
-                                    .into_iter()
-                                    .map(|pat| Param {
-                                        span: pat.span(),
-                                        decorators: Default::default(),
-                                        pat,
-                                    })
-                                    .collect(),
-                                decorators: Default::default(),
-                                span: m.span,
-                                body: m.body.take().block_stmt(),
-                                is_generator: m.is_generator,
-                                is_async: m.is_async,
-                                type_params: Default::default(),
-                                return_type: Default::default(),
-                            },
-                        });
-                    }
-                    _ => {}
-                }
-            }
-            _ => {}
-        }
-    }
-}
-
-struct ThisVisitor {
-    found: bool,
-}
-
-impl Visit for ThisVisitor {
-    noop_visit_type!();
-
-    fn visit_this_expr(&mut self, _: &ThisExpr, _: &dyn Node) {
-        self.found = true;
     }
 }

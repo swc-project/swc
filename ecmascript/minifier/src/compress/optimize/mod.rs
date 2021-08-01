@@ -2093,12 +2093,6 @@ impl VisitMut for Optimizer<'_> {
         n.retain(|p| !p.pat.is_invalid());
     }
 
-    fn visit_mut_prop(&mut self, p: &mut Prop) {
-        p.visit_mut_children_with(self);
-
-        self.optimize_arrow_method_prop(p);
-    }
-
     fn visit_mut_prop_name(&mut self, p: &mut PropName) {
         p.visit_mut_children_with(self);
 

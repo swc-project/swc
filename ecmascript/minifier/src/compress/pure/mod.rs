@@ -5,6 +5,7 @@ use swc_common::pass::Repeated;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
+mod arrows;
 mod bools;
 mod conditionals;
 mod ctx;
@@ -130,6 +131,12 @@ impl VisitMut for Pure<'_> {
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
         self.visit_par(items);
+    }
+
+    fn visit_mut_prop(&mut self, p: &mut Prop) {
+        p.visit_mut_children_with(self);
+
+        self.optimize_arrow_method_prop(p);
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
