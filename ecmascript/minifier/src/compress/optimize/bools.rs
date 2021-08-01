@@ -286,41 +286,6 @@ impl Optimizer<'_> {
         }
     }
 
-    pub(super) fn compress_comparsion_of_typeof(&mut self, e: &mut BinExpr) {
-        fn should_optimize(l: &Expr, r: &Expr) -> bool {
-            match (l, r) {
-                (
-                    Expr::Unary(UnaryExpr {
-                        op: op!("typeof"), ..
-                    }),
-                    Expr::Lit(..),
-                ) => true,
-                _ => false,
-            }
-        }
-
-        match e.op {
-            op!("===") | op!("!==") => {}
-            _ => return,
-        }
-
-        if should_optimize(&e.left, &e.right) || should_optimize(&e.right, &e.left) {
-            log::debug!("bools: Compressing comparison of `typeof` with literal");
-            self.changed = true;
-            e.op = match e.op {
-                op!("===") => {
-                    op!("==")
-                }
-                op!("!==") => {
-                    op!("!=")
-                }
-                _ => {
-                    unreachable!()
-                }
-            }
-        }
-    }
-
     ///
     /// - `"undefined" == typeof value;` => `void 0 === value`
     pub(super) fn compress_typeof_undefined(&mut self, e: &mut BinExpr) {

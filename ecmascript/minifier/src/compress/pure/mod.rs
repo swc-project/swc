@@ -73,6 +73,12 @@ impl Pure<'_> {
 impl VisitMut for Pure<'_> {
     noop_visit_mut_type!();
 
+    fn visit_mut_bin_expr(&mut self, e: &mut BinExpr) {
+        e.visit_mut_children_with(self);
+
+        self.compress_cmp_of_typeof_with_lit(e);
+    }
+
     fn visit_mut_cond_expr(&mut self, e: &mut CondExpr) {
         e.visit_mut_children_with(self);
 

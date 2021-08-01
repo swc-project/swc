@@ -1508,8 +1508,6 @@ impl VisitMut for Optimizer<'_> {
 
         self.compress_typeof_undefined(n);
 
-        self.compress_comparsion_of_typeof(n);
-
         self.optimize_bin_operator(n);
 
         self.optimize_bin_and_or(n);
