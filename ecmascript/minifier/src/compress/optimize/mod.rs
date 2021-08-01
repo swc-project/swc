@@ -1628,12 +1628,6 @@ impl VisitMut for Optimizer<'_> {
         e.visit_mut_children_with(self);
     }
 
-    fn visit_mut_cond_expr(&mut self, n: &mut CondExpr) {
-        n.visit_mut_children_with(self);
-
-        self.negate_cond_expr(n);
-    }
-
     fn visit_mut_decl(&mut self, decl: &mut Decl) {
         decl.visit_mut_children_with(self);
 
@@ -1987,8 +1981,6 @@ impl VisitMut for Optimizer<'_> {
         n.cons.visit_mut_with(&mut *self.with_ctx(ctx));
 
         n.alt.visit_mut_with(&mut *self.with_ctx(ctx));
-
-        self.negate_if_stmt(n);
 
         self.merge_nested_if(n);
 
