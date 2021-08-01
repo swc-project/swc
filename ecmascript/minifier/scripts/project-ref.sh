@@ -11,13 +11,19 @@ mkdir -p ./tests/projects/refs
 run angular-1.2.5.js
 run antd-4.16.9.js
 run backbone-1.1.0.js
+run d3-7.0.0.js
+run echarts-5.1.2.js
 run jquery-1.9.1.js
 run jquery.mobile-1.4.2.js
+run lodash-4.17.71.js
+run moment-2.29.1.js
 run mootools-1.4.5.js
-run underscore-1.5.2.js
-run yui-3.12.0.js
 run react-17.0.2.js
 run react-dom-17.0.2.js
+run three-0.124.0.js
+run underscore-1.5.2.js
+run vue-2.6.12.js
+run yui-3.12.0.js
 
 prettier --write tests/projects/refs/
 yarn run eslint --fix ./tests/projects/refs/
