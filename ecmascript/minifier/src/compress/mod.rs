@@ -4,6 +4,7 @@ use self::optimize::optimizer;
 use crate::analyzer::analyze;
 use crate::analyzer::ProgramData;
 use crate::compress::hoist_decls::decl_hoister;
+use crate::compress::pure::pure_optimizer;
 use crate::debug::dump;
 use crate::debug::invoke;
 use crate::marks::Marks;
@@ -218,6 +219,30 @@ impl VisitMut for Compressor<'_> {
 
                 log::info!(
                     "compress: Optimizer took {:?} (pass = {})",
+                    end_time - start_time,
+                    self.pass
+                );
+            }
+            // let done = dump(&*n);
+            // log::debug!("===== Result =====\n{}", done);
+        }
+
+        {
+            log::info!("compress: Running pure optimizer (pass = {})", self.pass);
+
+            let start_time = now();
+            // TODO: reset_opt_flags
+            //
+            // This is swc version of `node.optimize(this);`.
+            let mut visitor = pure_optimizer(self.options, self.comments);
+            n.visit_mut_with(&mut visitor);
+            self.changed |= visitor.changed();
+
+            if let Some(start_time) = start_time {
+                let end_time = Instant::now();
+
+                log::info!(
+                    "compress: Pure optimizer took {:?} (pass = {})",
                     end_time - start_time,
                     self.pass
                 );
