@@ -568,7 +568,11 @@ impl Compiler {
         self.run(|| {
             let target = opts.ecma.clone().into();
 
-            let orig = self.get_orig_src_map(&fm, &InputSourceMap::Bool(opts.source_map))?;
+            let orig = if opts.source_map {
+                self.get_orig_src_map(&fm, &InputSourceMap::Bool(opts.source_map))?
+            } else {
+                None
+            };
 
             let min_opts = MinifyOptions {
                 compress: opts
