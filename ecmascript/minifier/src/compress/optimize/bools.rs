@@ -321,38 +321,6 @@ impl Optimizer<'_> {
         }
     }
 
-    pub(super) fn compress_if_stmt_as_expr(&mut self, s: &mut Stmt) {
-        if !self.options.bools {
-            return;
-        }
-
-        let stmt = match s {
-            Stmt::If(v) => v,
-            _ => return,
-        };
-
-        match &stmt.alt {
-            Some(..) => {}
-            None => match &mut *stmt.cons {
-                Stmt::Expr(cons) => {
-                    self.changed = true;
-                    log::debug!("conditionals: `if (foo) bar;` => `foo && bar`");
-                    *s = Stmt::Expr(ExprStmt {
-                        span: stmt.span,
-                        expr: Box::new(Expr::Bin(BinExpr {
-                            span: stmt.test.span(),
-                            op: op!("&&"),
-                            left: stmt.test.take(),
-                            right: cons.expr.take(),
-                        })),
-                    });
-                    return;
-                }
-                _ => {}
-            },
-        }
-    }
-
     ///
     /// - `"undefined" == typeof value;` => `void 0 === value`
     pub(super) fn compress_typeof_undefined(&mut self, e: &mut BinExpr) {

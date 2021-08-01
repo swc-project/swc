@@ -2265,8 +2265,6 @@ impl VisitMut for Optimizer<'_> {
 
         self.compress_if_stmt_as_cond(s);
 
-        self.compress_if_stmt_as_expr(s);
-
         self.optimize_const_switches(s);
 
         self.optimize_switches(s);

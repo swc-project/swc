@@ -98,6 +98,12 @@ impl VisitMut for Pure<'_> {
         self.visit_par(items);
     }
 
+    fn visit_mut_stmt(&mut self, s: &mut Stmt) {
+        s.visit_mut_children_with(self);
+
+        self.compress_if_stmt_as_logical_and_expr(s);
+    }
+
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
         self.visit_par(stmts);
     }

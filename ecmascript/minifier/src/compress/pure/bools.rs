@@ -8,6 +8,37 @@ use swc_ecma_utils::Value::Known;
 use swc_ecma_utils::{ExprExt, Value};
 
 impl Pure<'_> {
+    pub(super) fn compress_if_stmt_as_logical_and_expr(&mut self, s: &mut Stmt) {
+        if !self.options.bools {
+            return;
+        }
+
+        let stmt = match s {
+            Stmt::If(v) => v,
+            _ => return,
+        };
+
+        match &stmt.alt {
+            Some(..) => {}
+            None => match &mut *stmt.cons {
+                Stmt::Expr(cons) => {
+                    log::debug!("bools: `if (foo) bar;` => `foo && bar`");
+                    *s = Stmt::Expr(ExprStmt {
+                        span: stmt.span,
+                        expr: Box::new(Expr::Bin(BinExpr {
+                            span: stmt.test.span(),
+                            op: op!("&&"),
+                            left: stmt.test.take(),
+                            right: cons.expr.take(),
+                        })),
+                    });
+                    return;
+                }
+                _ => {}
+            },
+        }
+    }
+
     pub(super) fn handle_negated_seq(&mut self, n: &mut Expr) {
         match &mut *n {
             Expr::Unary(e @ UnaryExpr { op: op!("!"), .. })
