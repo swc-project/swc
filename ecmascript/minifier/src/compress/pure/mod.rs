@@ -38,26 +38,35 @@ impl Pure<'_> {
     where
         N: Send + Sync + for<'aa> VisitMutWith<Pure<'aa>>,
     {
-        let should_run_again = nodes
-            .par_iter_mut()
-            .map(|node| {
-                let mut v = Pure {
-                    options: self.options,
-                    run_again: false,
-                    ctx: self.ctx,
-                };
-                node.visit_mut_with(&mut v);
+        if self.ctx.par_depth >= 2 {
+            for node in nodes {
+                node.visit_mut_with(self);
+            }
+        } else {
+            let should_run_again = nodes
+                .par_iter_mut()
+                .map(|node| {
+                    let mut v = Pure {
+                        options: self.options,
+                        run_again: false,
+                        ctx: Ctx {
+                            par_depth: self.ctx.par_depth + 1,
+                            ..self.ctx
+                        },
+                    };
+                    node.visit_mut_with(&mut v);
 
-                if v.run_again {
-                    1
-                } else {
-                    0
-                }
-            })
-            .sum::<usize>()
-            != 0;
+                    if v.run_again {
+                        1
+                    } else {
+                        0
+                    }
+                })
+                .sum::<usize>()
+                != 0;
 
-        self.run_again |= should_run_again;
+            self.run_again |= should_run_again;
+        }
     }
 }
 

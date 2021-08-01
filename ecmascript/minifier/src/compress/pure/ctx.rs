@@ -2,7 +2,10 @@ use super::Pure;
 use std::ops::{Deref, DerefMut};
 
 #[derive(Clone, Copy, Default)]
-pub(super) struct Ctx {}
+pub(super) struct Ctx {
+    /// How much is we deep?
+    pub par_depth: usize,
+}
 
 pub(super) struct WithCtx<'a, 'b> {
     pass: &'a mut Pure<'b>,
