@@ -1006,7 +1006,7 @@ impl Optimizer<'_> {
                     _ => false,
                 } =>
             {
-                log::debug!("ignore_return_value: Preserving negated iife");
+                log::trace!("ignore_return_value: Preserving negated iife");
                 return Some(e.take());
             }
 
