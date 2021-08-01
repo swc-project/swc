@@ -3,7 +3,8 @@ use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_utils::ExprExt;
+use swc_ecma_utils::{ExprExt, Id};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 /// Creates `!e` where e is the expression passed as an argument.
 ///
@@ -211,6 +212,34 @@ pub(crate) fn is_pure_undefined(e: &Expr) -> bool {
         }) if !arg.may_have_side_effects() => true,
 
         _ => false,
+    }
+}
+
+pub(crate) fn replace_id_with_expr(node: &mut Expr, from: Id, to: Box<Expr>) {
+    node.visit_mut_with(&mut ExprReplacer { from, to: Some(to) })
+}
+
+pub(crate) struct ExprReplacer {
+    from: Id,
+    to: Option<Box<Expr>>,
+}
+
+impl VisitMut for ExprReplacer {
+    noop_visit_mut_type!();
+
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
+
+        match e {
+            Expr::Ident(i) => {
+                if self.from.0 == i.sym && self.from.1 == i.span.ctxt {
+                    if let Some(new) = self.to.take() {
+                        *e = *new;
+                    }
+                }
+            }
+            _ => {}
+        }
     }
 }
 

@@ -1,10 +1,9 @@
 use super::{is_pure_undefined, Optimizer};
 use crate::compress::optimize::util::{get_lhs_ident, get_lhs_ident_mut};
-use crate::compress::optimize::Ctx;
+use crate::compress::util::replace_id_with_expr;
 use crate::debug::dump;
 use crate::util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt};
 use retain_mut::RetainMut;
-use std::collections::HashMap;
 use std::mem::take;
 use swc_atoms::js_word;
 use swc_common::Spanned;
@@ -1355,20 +1354,11 @@ impl Optimizer<'_> {
             left_id.span.ctxt
         );
 
-        let ctx = Ctx {
-            inline_as_assignment: false,
-            ..self.ctx
+        let to = match a {
+            Mergable::Var(a) => a.init.take().unwrap_or_else(|| undefined(DUMMY_SP)),
+            Mergable::Expr(a) => Box::new(a.take()),
         };
-
-        let mut vars = HashMap::default();
-        vars.insert(
-            left_id.to_id(),
-            match a {
-                Mergable::Var(a) => a.init.take().unwrap_or_else(|| undefined(DUMMY_SP)),
-                Mergable::Expr(a) => Box::new(a.take()),
-            },
-        );
-        self.with_ctx(ctx).inline_vars_in_node(b, vars);
+        replace_id_with_expr(b, left_id.to_id(), to);
 
         true
     }
