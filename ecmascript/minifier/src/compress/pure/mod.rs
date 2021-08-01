@@ -7,6 +7,7 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 mod bools;
 mod ctx;
+mod strings;
 
 pub(super) fn pure_optimizer<'a>(options: &'a CompressOptions) -> impl 'a + VisitMut + Repeated {
     Pure {
@@ -88,7 +89,9 @@ impl VisitMut for Pure<'_> {
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
 
-        self.handle_negated_seq(e)
+        self.handle_negated_seq(e);
+
+        self.drop_useless_addition_of_str(e);
     }
 
     fn visit_mut_expr_or_spreads(&mut self, elems: &mut Vec<ExprOrSpread>) {
