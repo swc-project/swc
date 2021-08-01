@@ -22,6 +22,7 @@ impl Optimizer<'_> {
     /// This method may change return value.
     ///
     /// - `a ? b : false` => `a && b`
+    #[inline(never)]
     pub(super) fn compress_cond_to_logical_ignoring_return_value(&mut self, e: &mut Expr) {
         let cond = match e {
             Expr::Cond(cond) => cond,
@@ -54,6 +55,7 @@ impl Optimizer<'_> {
     }
 
     /// Removes useless operands of an logical expressions.
+    #[inline(never)]
     pub(super) fn drop_logical_operands(&mut self, e: &mut Expr) {
         if !self.options.conditionals {
             return;
@@ -89,6 +91,7 @@ impl Optimizer<'_> {
         }
     }
 
+    #[inline(never)]
     pub(super) fn compress_cond_with_logical_as_logical(&mut self, e: &mut Expr) {
         if !self.options.conditionals {
             return;
@@ -129,6 +132,7 @@ impl Optimizer<'_> {
     /// - `foo ? bar : false` => `!!foo && bar`
     /// - `!foo ? true : bar` => `!foo || bar`
     /// - `foo ? false : bar` => `!foo && bar`
+    #[inline(never)]
     pub(super) fn compress_conds_as_logical(&mut self, e: &mut Expr) {
         let cond = match e {
             Expr::Cond(cond) => cond,
@@ -225,6 +229,7 @@ impl Optimizer<'_> {
     /// ```ts
     /// if (foo || bar || baz || baa) return;
     /// ```
+    #[inline(never)]
     pub(super) fn merge_simillar_ifs<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike,
@@ -317,6 +322,7 @@ impl Optimizer<'_> {
     ///     some_condition ? side_effects(x) : side_effects(y);
     /// }
     /// ```
+    #[inline(never)]
     pub(super) fn compress_if_stmt_as_cond(&mut self, s: &mut Stmt) {
         let stmt = match s {
             Stmt::If(v) => v,
@@ -435,6 +441,7 @@ impl Optimizer<'_> {
     }
 
     /// Compress a conditional expression if cons and alt is simillar
+    #[inline(never)]
     pub(super) fn compress_cond_expr_if_simillar(&mut self, e: &mut Expr) {
         let cond = match e {
             Expr::Cond(expr) => expr,
@@ -747,6 +754,7 @@ impl Optimizer<'_> {
     }
 
     /// Currently disabled.
+    #[inline(never)]
     pub(super) fn inject_else(&mut self, stmts: &mut Vec<Stmt>) {
         if DISABLE_BUGGY_PASSES {
             return;
@@ -827,6 +835,7 @@ impl Optimizer<'_> {
     /// else baz()
     ///
     /// `else` token can be removed from the code above.
+    #[inline(never)]
     pub(super) fn drop_else_token<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike,
@@ -903,6 +912,7 @@ fn is_simple_lhs(l: &PatOrExpr) -> bool {
     }
 }
 
+#[inline(never)]
 pub(super) fn always_terminates(s: &Stmt) -> bool {
     match s {
         Stmt::Return(..) | Stmt::Throw(..) | Stmt::Break(..) | Stmt::Continue(..) => true,

@@ -18,6 +18,7 @@ impl Optimizer<'_> {
     /// Evaludate expression if possible.
     ///
     /// This method call apppropriate methods for each ast types.
+    #[inline(never)]
     pub(super) fn evaluate(&mut self, e: &mut Expr) {
         self.eval_global_vars(e);
 

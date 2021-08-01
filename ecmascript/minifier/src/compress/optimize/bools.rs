@@ -20,6 +20,7 @@ impl Optimizer<'_> {
     /// - `!condition() || !-3.5` => `!condition()`
     ///
     /// In this case, if lhs is false, rhs is also false so it's removable.
+    #[inline(never)]
     pub(super) fn remove_useless_pipes(&mut self, e: &mut Expr) {
         if !self.options.bools {
             return;
@@ -71,6 +72,7 @@ impl Optimizer<'_> {
     }
 
     /// `!(a && b)` => `!a || !b`
+    #[inline(never)]
     pub(super) fn optimize_bools(&mut self, e: &mut Expr) {
         if !self.options.bools {
             return;
@@ -136,6 +138,7 @@ impl Optimizer<'_> {
     /// **This negates bool**.
     ///
     /// Returns true if it's negated.
+    #[inline(never)]
     pub(super) fn optimize_bang_within_logical_ops(
         &mut self,
         expr: &mut Expr,
@@ -203,6 +206,7 @@ impl Optimizer<'_> {
         true
     }
 
+    #[inline(never)]
     pub(super) fn compress_useless_deletes(&mut self, e: &mut Expr) {
         if !self.options.bools {
             return;
@@ -289,6 +293,7 @@ impl Optimizer<'_> {
 
     ///
     /// - `"undefined" == typeof value;` => `void 0 === value`
+    #[inline(never)]
     pub(super) fn compress_typeof_undefined(&mut self, e: &mut BinExpr) {
         fn opt(o: &mut Optimizer, l: &mut Expr, r: &mut Expr) -> bool {
             match (&mut *l, &mut *r) {

@@ -3,6 +3,7 @@ use swc_ecma_ast::*;
 use unicode_xid::UnicodeXID;
 
 impl Optimizer<'_> {
+    #[inline(never)]
     pub(super) fn optimize_prop_name(&mut self, name: &mut PropName) {
         match name {
             PropName::Str(s) => {
@@ -28,6 +29,7 @@ impl Optimizer<'_> {
         }
     }
 
+    #[inline(never)]
     pub(super) fn remove_useless_return(&mut self, stmts: &mut Vec<Stmt>) {
         if let Some(Stmt::Return(ReturnStmt { arg: None, .. })) = stmts.last() {
             self.changed = true;

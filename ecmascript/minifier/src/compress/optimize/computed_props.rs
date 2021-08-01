@@ -6,6 +6,7 @@ use swc_ecma_ast::*;
 impl Optimizer<'_> {
     /// If a key of is `'str'` (like `{ 'str': 1 }`) change it to [Ident] like
     /// (`{ str: 1, }`)
+    #[inline(never)]
     pub(super) fn optimize_computed_prop_name_as_normal(&mut self, p: &mut PropName) {
         if !self.options.computed_props {
             return;

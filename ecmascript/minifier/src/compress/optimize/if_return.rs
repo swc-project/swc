@@ -17,6 +17,7 @@ use swc_ecma_visit::VisitWith;
 /// Methods related to the option `if_return`. All methods are noop if
 /// `if_return` is false.
 impl Optimizer<'_> {
+    #[inline(never)]
     pub(super) fn drop_undefined_from_return_arg(&mut self, s: &mut ReturnStmt) {
         match s.arg.as_deref() {
             Some(e) => {
@@ -46,6 +47,7 @@ impl Optimizer<'_> {
     ///         console.log(b);
     /// }
     /// ```
+    #[inline(never)]
     pub(super) fn negate_if_terminate(
         &mut self,
         stmts: &mut Vec<Stmt>,
@@ -126,6 +128,7 @@ impl Optimizer<'_> {
         *stmts = new;
     }
 
+    #[inline(never)]
     pub(super) fn merge_nested_if(&mut self, s: &mut IfStmt) {
         if !self.options.conditionals && !self.options.bools {
             return;
@@ -157,6 +160,7 @@ impl Optimizer<'_> {
         }
     }
 
+    #[inline(never)]
     pub(super) fn merge_else_if(&mut self, s: &mut IfStmt) {
         match s.alt.as_deref_mut() {
             Some(Stmt::If(IfStmt {
@@ -247,6 +251,7 @@ impl Optimizer<'_> {
     ///     return a ? foo() : bar();
     /// }
     /// ```
+    #[inline(never)]
     pub(super) fn merge_if_returns(&mut self, stmts: &mut Vec<Stmt>) {
         if !self.options.if_return {
             return;

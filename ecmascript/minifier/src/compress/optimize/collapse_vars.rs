@@ -17,6 +17,7 @@ use swc_ecma_visit::VisitWith;
 
 /// Methods related to the option `collapse_vars`.
 impl Optimizer<'_> {
+    #[inline(never)]
     pub(super) fn collapse_seq_exprs(&mut self, e: &mut Expr) {
         if !self.options.collapse_vars {
             return;
@@ -53,6 +54,7 @@ impl Optimizer<'_> {
         }
     }
 
+    #[inline(never)]
     pub(super) fn collapse_assignment_to_vars(&mut self, e: &mut Expr) {
         if !self.options.collapse_vars {
             return;
@@ -126,6 +128,7 @@ impl Optimizer<'_> {
     /// This merges all variables to first variable declartion with an
     /// initializer. If such variable declaration is not found, variables are
     /// prepended to `stmts`.
+    #[inline(never)]
     pub(super) fn collapse_vars_without_init<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike,

@@ -5,6 +5,7 @@ use swc_ecma_utils::ExprExt;
 
 impl Optimizer<'_> {
     /// Drop arguments of `Symbol()` call.
+    #[inline(never)]
     pub(super) fn optimize_symbol_call_unsafely(&mut self, e: &mut CallExpr) {
         if !self.options.unsafe_symbols {
             return;

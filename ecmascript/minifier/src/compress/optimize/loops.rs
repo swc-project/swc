@@ -12,6 +12,7 @@ impl Optimizer<'_> {
     ///
     /// - `while(test);` => `for(;;test);
     /// - `do; while(true)` => `for(;;);
+    #[inline(never)]
     pub(super) fn loop_to_for_stmt(&mut self, s: &mut Stmt) {
         if !self.options.loops {
             return;
@@ -49,6 +50,7 @@ impl Optimizer<'_> {
     }
 
     /// `for(a;b;c;) break;` => `a;b;`
+    #[inline(never)]
     pub(super) fn optimize_loops_with_break(&mut self, s: &mut Stmt) {
         if !self.options.loops {
             return;
@@ -112,6 +114,7 @@ impl Optimizer<'_> {
     /// ```js
     /// for (; size-- && (result = eq(a[size], b[size], aStack, bStack)););
     /// ```
+    #[inline(never)]
     pub(super) fn merge_for_if_break(&mut self, s: &mut ForStmt) {
         match &mut *s.body {
             Stmt::If(IfStmt {
@@ -164,6 +167,7 @@ impl Optimizer<'_> {
 
     ///
     /// - `while(false) { var a; foo() }` => `var a;`
+    #[inline(never)]
     pub(super) fn optiimze_loops_if_cond_is_false(&mut self, stmt: &mut Stmt) {
         if !self.options.loops {
             return;
@@ -231,6 +235,7 @@ impl Optimizer<'_> {
         }
     }
 
+    #[inline(never)]
     pub(super) fn drop_if_break(&mut self, _s: &ForStmt) {
         if !self.options.loops {
             return;
@@ -239,6 +244,7 @@ impl Optimizer<'_> {
 
     ///
     /// - `for (a(), 5; b(); c())` => `for (a(); b(); c())`
+    #[inline(never)]
     pub(super) fn optimize_init_of_for_stmt(&mut self, s: &mut ForStmt) {
         if !self.options.side_effects {
             return;

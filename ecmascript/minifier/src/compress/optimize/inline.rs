@@ -19,6 +19,7 @@ impl Optimizer<'_> {
     ///
     /// This method may remove value of initializer. It mean that the value will
     /// be inlined and should be removed from [Vec<VarDeclarator>].
+    #[inline(never)]
     pub(super) fn store_var_for_inining(&mut self, var: &mut VarDeclarator) {
         let init = match &mut var.init {
             Some(v) => v,
@@ -268,6 +269,7 @@ impl Optimizer<'_> {
     }
 
     /// Stores `typeof` of [ClassDecl] and [FnDecl].
+    #[inline(never)]
     pub(super) fn store_typeofs(&mut self, decl: &mut Decl) {
         let i = match &*decl {
             Decl::Class(v) => v.ident.clone(),
@@ -300,6 +302,7 @@ impl Optimizer<'_> {
 
     /// This method handles only [ClassDecl] and [FnDecl]. [VarDecl] should be
     /// handled specially.
+    #[inline(never)]
     pub(super) fn store_decl_for_inlining(&mut self, decl: &mut Decl) {
         if self.options.inline == 0 && !self.options.reduce_vars {
             return;
@@ -443,6 +446,7 @@ impl Optimizer<'_> {
     }
 
     /// Actually inlines variables.
+    #[inline(never)]
     pub(super) fn inline(&mut self, e: &mut Expr) {
         if self.ctx.inline_prevented {
             return;

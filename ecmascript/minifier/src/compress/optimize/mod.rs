@@ -67,6 +67,7 @@ mod util;
 const DISABLE_BUGGY_PASSES: bool = true;
 
 /// This pass is simillar to `node.optimize` of terser.
+#[inline(never)]
 pub(super) fn optimizer<'a>(
     cm: Lrc<SourceMap>,
     marks: Marks,
