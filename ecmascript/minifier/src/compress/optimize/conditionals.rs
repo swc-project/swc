@@ -1,7 +1,7 @@
 use super::Optimizer;
-use crate::compress::optimize::bools::negate_cost;
 use crate::compress::optimize::Ctx;
 use crate::compress::optimize::DISABLE_BUGGY_PASSES;
+use crate::compress::util::negate_cost;
 use crate::debug::dump;
 use crate::util::make_bool;
 use crate::util::SpanExt;
