@@ -32,6 +32,7 @@ impl Optimizer<'_> {
         self.eval_fn_method_call(e);
     }
 
+    #[inline(never)]
     fn eval_global_vars(&mut self, e: &mut Expr) {
         if self.options.ie8 {
             return;
@@ -97,6 +98,7 @@ impl Optimizer<'_> {
 
     /// Handle calls on some static classes.
     /// e.g. `String.fromCharCode`, `Object.keys()`
+    #[inline(never)]
     fn eval_known_static_method_call(&mut self, e: &mut Expr) {
         if !self.options.evaluate {
             return;
@@ -313,6 +315,7 @@ impl Optimizer<'_> {
     }
 
     /// Handle calls on string literals, like `'foo'.toUpperCase()`.
+    #[inline(never)]
     fn eval_str_method_call(&mut self, e: &mut Expr) {
         if !self.options.evaluate {
             return;
@@ -394,6 +397,7 @@ impl Optimizer<'_> {
         }));
     }
 
+    #[inline(never)]
     fn eval_numbers(&mut self, e: &mut Expr) {
         if self.options.unsafe_passes && self.options.unsafe_math {
             match e {
@@ -549,6 +553,7 @@ impl Optimizer<'_> {
     }
 
     /// Evaluates method calls of a numeric constant.
+    #[inline(never)]
     fn eval_number_method_call(&mut self, e: &mut Expr) {
         if !self.options.evaluate {
             return;
@@ -611,6 +616,7 @@ impl Optimizer<'_> {
     ///
     /// This method is used to test if a whole call can be replaced, while
     /// preserving standalone constants.
+    #[inline(never)]
     fn eval_as_number(&mut self, e: &Expr) -> Option<f64> {
         match e {
             Expr::Bin(BinExpr {
@@ -748,6 +754,7 @@ impl Optimizer<'_> {
         None
     }
 
+    #[inline(never)]
     fn eval_array_method_call(&mut self, e: &mut Expr) {
         if !self.options.evaluate {
             return;
@@ -879,6 +886,7 @@ impl Optimizer<'_> {
         }
     }
 
+    #[inline(never)]
     fn eval_fn_method_call(&mut self, e: &mut Expr) {
         if !self.options.evaluate {
             return;
