@@ -2,8 +2,8 @@ use self::ctx::Ctx;
 use crate::util::can_end_conditionally;
 use crate::util::idents_used_by;
 use crate::util::now;
-use fxhash::FxHashMap;
-use fxhash::FxHashSet;
+use crate::util::FastHashMap;
+use crate::util::FastHashSet;
 use std::collections::hash_map::Entry;
 use std::time::Instant;
 use swc_atoms::JsWord;
@@ -74,7 +74,7 @@ pub(crate) struct VarUsageInfo {
     pub mutated: bool,
 
     pub has_property_access: bool,
-    pub accessed_props: FxHashSet<JsWord>,
+    pub accessed_props: FastHashSet<JsWord>,
 
     pub exported: bool,
     /// True if used **above** the declaration. (Not eval order).
@@ -122,7 +122,7 @@ pub(crate) struct ScopeData {
     pub has_eval_call: bool,
 
     /// Variables declared in the scope.
-    pub declared_symbols: FxHashMap<JsWord, FxHashSet<SyntaxContext>>,
+    pub declared_symbols: FastHashMap<JsWord, FastHashSet<SyntaxContext>>,
 }
 
 impl ScopeData {
@@ -141,11 +141,11 @@ impl ScopeData {
 /// Analyzed info of a whole program we are working on.
 #[derive(Debug, Default)]
 pub(crate) struct ProgramData {
-    pub vars: FxHashMap<Id, VarUsageInfo>,
+    pub vars: FastHashMap<Id, VarUsageInfo>,
 
     pub top: ScopeData,
 
-    pub scopes: FxHashMap<SyntaxContext, ScopeData>,
+    pub scopes: FastHashMap<SyntaxContext, ScopeData>,
 }
 
 impl ProgramData {
@@ -252,7 +252,7 @@ impl UsageAnalyzer {
         ret
     }
 
-    fn report(&mut self, i: Id, is_modify: bool, dejavu: &mut FxHashSet<Id>) {
+    fn report(&mut self, i: Id, is_modify: bool, dejavu: &mut FastHashSet<Id>) {
         // log::trace!("report({}{:?})", i.0, i.1);
 
         let is_first = dejavu.is_empty();
