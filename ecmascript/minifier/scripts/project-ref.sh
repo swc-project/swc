@@ -11,7 +11,6 @@ mkdir -p ./tests/projects/refs
 run angular-1.2.5.js
 run antd-4.16.9.js
 run backbone-1.1.0.js
-run d3-7.0.0.js
 run echarts-5.1.2.js
 run jquery-1.9.1.js
 run jquery.mobile-1.4.2.js
