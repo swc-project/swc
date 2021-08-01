@@ -1,6 +1,5 @@
 use super::Optimizer;
 use super::DISABLE_BUGGY_PASSES;
-use crate::compress::optimize::is_pure_undefined_or_null;
 use std::f64;
 use std::num::FpCategory;
 use swc_atoms::js_word;
@@ -30,8 +29,6 @@ impl Optimizer<'_> {
 
         self.eval_array_method_call(e);
         self.eval_fn_method_call(e);
-
-        self.eval_opt_chain(e);
     }
 
     fn eval_global_vars(&mut self, e: &mut Expr) {
@@ -946,52 +943,6 @@ impl Optimizer<'_> {
                     _ => {}
                 }
             }
-            _ => {}
-        }
-    }
-
-    fn eval_opt_chain(&mut self, e: &mut Expr) {
-        let opt = match e {
-            Expr::OptChain(e) => e,
-            _ => return,
-        };
-
-        match &mut *opt.expr {
-            Expr::Member(MemberExpr {
-                span,
-                obj: ExprOrSuper::Expr(obj),
-                ..
-            }) => {
-                //
-                if is_pure_undefined_or_null(&obj) {
-                    self.changed = true;
-                    log::debug!(
-                        "evaluate: Reduced an optioanl chaining operation because object is \
-                         always null or undefined"
-                    );
-
-                    *e = *undefined(*span);
-                    return;
-                }
-            }
-
-            Expr::Call(CallExpr {
-                span,
-                callee: ExprOrSuper::Expr(callee),
-                ..
-            }) => {
-                if is_pure_undefined_or_null(&callee) {
-                    self.changed = true;
-                    log::debug!(
-                        "evaluate: Reduced a call expression with optioanl chaining operation \
-                         because object is always null or undefined"
-                    );
-
-                    *e = *undefined(*span);
-                    return;
-                }
-            }
-
             _ => {}
         }
     }

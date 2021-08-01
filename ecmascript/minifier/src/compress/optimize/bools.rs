@@ -1,5 +1,6 @@
 use super::Optimizer;
-use crate::compress::optimize::{is_pure_undefined, Ctx};
+use crate::compress::optimize::Ctx;
+use crate::compress::util::is_pure_undefined;
 use crate::compress::util::negate_cost;
 use crate::debug::dump;
 use crate::util::make_bool;

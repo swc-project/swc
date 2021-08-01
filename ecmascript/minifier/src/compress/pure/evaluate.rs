@@ -1,9 +1,59 @@
+use crate::compress::util::is_pure_undefined_or_null;
+
 use super::Pure;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_utils::{ExprExt, Value::Known};
+use swc_ecma_utils::{undefined, ExprExt, Value::Known};
 
 impl Pure<'_> {
+    pub(super) fn evaluate(&mut self, e: &mut Expr) {
+        self.eval_opt_chain(e);
+    }
+
+    fn eval_opt_chain(&mut self, e: &mut Expr) {
+        let opt = match e {
+            Expr::OptChain(e) => e,
+            _ => return,
+        };
+
+        match &mut *opt.expr {
+            Expr::Member(MemberExpr {
+                span,
+                obj: ExprOrSuper::Expr(obj),
+                ..
+            }) => {
+                //
+                if is_pure_undefined_or_null(&obj) {
+                    log::debug!(
+                        "evaluate: Reduced an optioanl chaining operation because object is \
+                         always null or undefined"
+                    );
+
+                    *e = *undefined(*span);
+                    return;
+                }
+            }
+
+            Expr::Call(CallExpr {
+                span,
+                callee: ExprOrSuper::Expr(callee),
+                ..
+            }) => {
+                if is_pure_undefined_or_null(&callee) {
+                    log::debug!(
+                        "evaluate: Reduced a call expression with optioanl chaining operation \
+                         because object is always null or undefined"
+                    );
+
+                    *e = *undefined(*span);
+                    return;
+                }
+            }
+
+            _ => {}
+        }
+    }
+
     ///
     /// - `Object(1) && 1 && 2` => `Object(1) && 2`.
     pub(super) fn drop_useless_logical_operands(&mut self, e: &mut BinExpr) {

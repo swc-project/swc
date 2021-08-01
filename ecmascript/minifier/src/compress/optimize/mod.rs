@@ -1,5 +1,6 @@
 use crate::analyzer::ProgramData;
 use crate::analyzer::UsageAnalyzer;
+use crate::compress::util::is_pure_undefined;
 use crate::marks::Marks;
 use crate::option::CompressOptions;
 use crate::util::contains_leaping_yield;
@@ -2488,31 +2489,6 @@ impl VisitMut for Optimizer<'_> {
             }
         }
     }
-}
-
-fn is_pure_undefined(e: &Expr) -> bool {
-    match e {
-        Expr::Ident(Ident {
-            sym: js_word!("undefined"),
-            ..
-        }) => true,
-
-        Expr::Unary(UnaryExpr {
-            op: UnaryOp::Void,
-            arg,
-            ..
-        }) if !arg.may_have_side_effects() => true,
-
-        _ => false,
-    }
-}
-
-fn is_pure_undefined_or_null(e: &Expr) -> bool {
-    is_pure_undefined(e)
-        || match e {
-            Expr::Lit(Lit::Null(..)) => true,
-            _ => false,
-        }
 }
 
 /// If true, `0` in `(0, foo.bar)()` is preserved.

@@ -98,6 +98,8 @@ impl VisitMut for Pure<'_> {
         self.handle_negated_seq(e);
 
         self.drop_useless_addition_of_str(e);
+
+        self.evaluate(e);
     }
 
     fn visit_mut_expr_or_spreads(&mut self, elems: &mut Vec<ExprOrSpread>) {

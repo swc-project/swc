@@ -1,5 +1,5 @@
 use super::Optimizer;
-use crate::compress::optimize::is_pure_undefined;
+use crate::compress::util::is_pure_undefined;
 use crate::debug::dump;
 use crate::util::ExprOptExt;
 use swc_common::Spanned;
