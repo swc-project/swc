@@ -1,25 +1,23 @@
 use crate::option::CompressOptions;
-use swc_common::{comments::Comments, pass::Repeated};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut};
+use rayon::prelude::*;
+use swc_common::pass::Repeated;
+use swc_ecma_ast::*;
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-pub(super) fn pure_optimizer<'a>(
-    options: &'a CompressOptions,
-    comments: Option<&'a dyn Comments>,
-) -> impl 'a + VisitMut + Repeated {
-    PureOptimizer {
+pub(super) fn pure_optimizer<'a>(options: &'a CompressOptions) -> impl 'a + VisitMut + Repeated {
+    Pure {
         options,
-        comments,
         run_again: false,
     }
 }
 
-struct PureOptimizer<'a> {
+#[derive(Clone, Copy)]
+struct Pure<'a> {
     options: &'a CompressOptions,
-    comments: Option<&'a dyn Comments>,
     run_again: bool,
 }
 
-impl Repeated for PureOptimizer<'_> {
+impl Repeated for Pure<'_> {
     fn changed(&self) -> bool {
         self.run_again
     }
@@ -29,6 +27,45 @@ impl Repeated for PureOptimizer<'_> {
     }
 }
 
-impl VisitMut for PureOptimizer<'_> {
+impl Pure<'_> {
+    fn visit_par<N>(&mut self, nodes: &mut Vec<N>)
+    where
+        N: Send + Sync + for<'aa> VisitMutWith<Pure<'aa>>,
+    {
+        let should_run_again = nodes
+            .par_iter_mut()
+            .map(|node| {
+                let mut v = Pure {
+                    options: self.options,
+                    run_again: false,
+                };
+                node.visit_mut_with(&mut v);
+
+                if v.run_again {
+                    1
+                } else {
+                    0
+                }
+            })
+            .sum::<usize>()
+            != 0;
+
+        self.run_again |= should_run_again;
+    }
+}
+
+impl VisitMut for Pure<'_> {
     noop_visit_mut_type!();
+
+    fn visit_mut_expr_or_spreads(&mut self, elems: &mut Vec<ExprOrSpread>) {
+        self.visit_par(elems);
+    }
+
+    fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
+        self.visit_par(items);
+    }
+
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        self.visit_par(stmts);
+    }
 }
