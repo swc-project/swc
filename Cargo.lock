@@ -2505,6 +2505,7 @@ dependencies = [
 name = "swc_ecma_minifier"
 version = "0.16.1"
 dependencies = [
+ "ahash 0.7.4",
  "ansi_term 0.12.1",
  "anyhow",
  "fxhash",

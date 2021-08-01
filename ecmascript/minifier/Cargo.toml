@@ -13,6 +13,7 @@ version = "0.16.1"
 debug = []
 
 [dependencies]
+ahash = "0.7.4"
 fxhash = "0.2.1"
 indexmap = "1.7.0"
 log = "0.4"

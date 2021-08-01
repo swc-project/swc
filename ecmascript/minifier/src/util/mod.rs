@@ -1,6 +1,7 @@
-use std::time::Instant;
-
 use fxhash::FxHashSet;
+use std::collections::HashMap;
+use std::collections::HashSet;
+use std::time::Instant;
 use swc_common::pass::CompilerPass;
 use swc_common::pass::Repeated;
 use swc_common::Mark;
@@ -23,6 +24,9 @@ use swc_ecma_visit::VisitWith;
 
 pub(crate) mod base54;
 pub(crate) mod sort;
+
+pub(crate) type FastHashMap<K, V> = HashMap<K, V, ahash::RandomState>;
+pub(crate) type FastHashSet<V> = HashSet<V, ahash::RandomState>;
 
 ///
 pub(crate) fn make_number(span: Span, value: f64) -> Expr {
