@@ -1,6 +1,6 @@
 use self::ctx::Ctx;
 use crate::util::can_end_conditionally;
-use crate::util::idents_used_by;
+use crate::util::idents_used_by_ignoring_nested;
 use crate::util::now;
 use crate::util::FastHashMap;
 use crate::util::FastHashSet;
@@ -101,7 +101,7 @@ pub(crate) struct VarUsageInfo {
     pub no_side_effect_for_member_access: bool,
 
     /// In `c = b`, `b` inffects `c`.
-    infects: Vec<Id>,
+    infects: FastHashSet<Id>,
 }
 
 impl VarUsageInfo {
@@ -795,7 +795,7 @@ impl Visit for UsageAnalyzer {
         for decl in &n.decls {
             match (&decl.name, decl.init.as_deref()) {
                 (Pat::Ident(var), Some(init)) => {
-                    let used_idents = idents_used_by(init);
+                    let used_idents = idents_used_by_ignoring_nested(init);
 
                     for id in used_idents {
                         self.data
@@ -803,14 +803,14 @@ impl Visit for UsageAnalyzer {
                             .entry(id.clone())
                             .or_default()
                             .infects
-                            .push(var.to_id());
+                            .insert(var.to_id());
 
                         self.data
                             .vars
                             .entry(var.to_id())
                             .or_default()
                             .infects
-                            .push(id);
+                            .insert(id);
                     }
                 }
                 _ => {}
