@@ -1685,8 +1685,6 @@ impl VisitMut for Optimizer<'_> {
 
         self.remove_invalid(e);
 
-        self.concat_str(e);
-
         self.lift_minus(e);
 
         self.convert_tpl_to_str(e);

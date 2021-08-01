@@ -8,7 +8,6 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::ExprExt;
-use swc_ecma_utils::Type;
 use swc_ecma_utils::Value::Known;
 
 impl Optimizer<'_> {
@@ -335,62 +334,6 @@ impl Optimizer<'_> {
                 log::debug!("strings: Merged to template literals");
             }
 
-            _ => {}
-        }
-    }
-
-    ///
-    /// - `a + 'foo' + 'bar'` => `a + 'foobar'`
-    pub(super) fn concat_str(&mut self, e: &mut Expr) {
-        match e {
-            Expr::Bin(
-                bin @ BinExpr {
-                    op: op!(bin, "+"), ..
-                },
-            ) => match &mut *bin.left {
-                Expr::Bin(
-                    left
-                    @ BinExpr {
-                        op: op!(bin, "+"), ..
-                    },
-                ) => {
-                    let type_of_second = left.right.get_type();
-                    let type_of_third = bin.right.get_type();
-
-                    if let Known(Type::Str) = type_of_second {
-                        if let Known(Type::Str) = type_of_third {
-                            if let Known(second_str) = left.right.as_string() {
-                                if let Known(third_str) = bin.right.as_string() {
-                                    let new_str = format!("{}{}", second_str, third_str);
-                                    let left_span = left.span;
-
-                                    self.changed = true;
-                                    log::debug!(
-                                        "string: Concatting `{} + {}` to `{}`",
-                                        second_str,
-                                        third_str,
-                                        new_str
-                                    );
-
-                                    *e = Expr::Bin(BinExpr {
-                                        span: bin.span,
-                                        op: op!(bin, "+"),
-                                        left: left.left.take(),
-                                        right: Box::new(Expr::Lit(Lit::Str(Str {
-                                            span: left_span,
-                                            value: new_str.into(),
-                                            has_escape: false,
-                                            kind: Default::default(),
-                                        }))),
-                                    });
-                                    return;
-                                }
-                            }
-                        }
-                    }
-                }
-                _ => {}
-            },
             _ => {}
         }
     }
