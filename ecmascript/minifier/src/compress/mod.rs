@@ -40,6 +40,7 @@ use swc_ecma_visit::VisitMutWith;
 mod drop_console;
 mod hoist_decls;
 mod optimize;
+mod pure;
 
 pub(crate) fn compressor<'a>(
     cm: Lrc<SourceMap>,
