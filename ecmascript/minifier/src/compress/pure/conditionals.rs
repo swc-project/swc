@@ -13,6 +13,7 @@ impl Pure<'_> {
             return;
         }
 
+        self.modified_node = true;
         log::debug!("conditionals: `a ? foo : bar` => `!a ? bar : foo` (considered cost)");
         let start_str = dump(&*cond);
 
@@ -41,6 +42,7 @@ impl Pure<'_> {
         }
 
         if negate_cost(&stmt.test, true, false).unwrap_or(isize::MAX) < 0 {
+            self.modified_node = true;
             log::debug!("if_return: Negating `cond` of an if statement which has cons and alt");
             negate(&mut stmt.test, true);
             swap(alt, &mut *stmt.cons);
@@ -49,6 +51,7 @@ impl Pure<'_> {
 
         match &*alt {
             Stmt::Return(..) | Stmt::Continue(ContinueStmt { label: None, .. }) => {
+                self.modified_node = true;
                 log::debug!(
                     "if_return: Negating an if statement because the alt is return / continue"
                 );

@@ -30,6 +30,8 @@ impl Pure<'_> {
                             ..
                         },
                     ) => {
+                        self.modified_node = true;
+
                         *p = Prop::Method(MethodProp {
                             key: kv.key.take(),
                             function: Function {

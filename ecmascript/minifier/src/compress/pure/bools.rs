@@ -27,6 +27,8 @@ impl Pure<'_> {
         }
 
         if should_optimize(&e.left, &e.right) || should_optimize(&e.right, &e.left) {
+            self.modified_node = true;
+
             log::debug!("bools: Compressing comparison of `typeof` with literal");
             e.op = match e.op {
                 op!("===") => {
@@ -56,6 +58,8 @@ impl Pure<'_> {
             Some(..) => {}
             None => match &mut *stmt.cons {
                 Stmt::Expr(cons) => {
+                    self.modified_node = true;
+
                     log::debug!("bools: `if (foo) bar;` => `foo && bar`");
                     *s = Stmt::Expr(ExprStmt {
                         span: stmt.span,
@@ -86,6 +90,7 @@ impl Pure<'_> {
                         if exprs.is_empty() {
                             return;
                         }
+                        self.modified_node = true;
                         log::debug!("optimizing negated sequences");
 
                         {
@@ -140,6 +145,7 @@ impl Pure<'_> {
                 arg,
             }) => match &mut **arg {
                 Expr::Lit(Lit::Num(Number { value, .. })) => {
+                    self.modified_node = true;
                     log::debug!("Optimizing: number => number (in bool context)");
 
                     *n = Expr::Lit(Lit::Num(Number {
@@ -152,6 +158,8 @@ impl Pure<'_> {
                 Expr::Unary(UnaryExpr {
                     op: op!("!"), arg, ..
                 }) => {
+                    self.modified_node = true;
+
                     log::debug!("bools: !!expr => expr (in bool ctx)");
                     *n = *arg.take();
                     return;
@@ -168,12 +176,15 @@ impl Pure<'_> {
 
                 match &**arg {
                     Expr::Ident(..) => {
+                        self.modified_node = true;
                         *n = Expr::Lit(Lit::Num(Number {
                             span: *span,
                             value: 1.0,
                         }));
                     }
                     _ => {
+                        self.modified_node = true;
+
                         // Return value of typeof is always truthy
                         let true_expr = Box::new(Expr::Lit(Lit::Num(Number {
                             span: *span,
@@ -188,6 +199,7 @@ impl Pure<'_> {
             }
 
             Expr::Lit(Lit::Str(s)) => {
+                self.modified_node = true;
                 log::debug!("Converting string as boolean expressions");
 
                 *n = Expr::Lit(Lit::Num(Number {
@@ -202,6 +214,7 @@ impl Pure<'_> {
                 }
 
                 if self.options.bools {
+                    self.modified_node = true;
                     log::debug!("booleans: Converting number as boolean expressions");
                     *n = Expr::Lit(Lit::Num(Number {
                         span: num.span,
@@ -218,6 +231,7 @@ impl Pure<'_> {
             }) => {
                 // Optimize if (a ?? false); as if (a);
                 if let Value::Known(false) = right.as_pure_bool() {
+                    self.modified_node = true;
                     log::debug!(
                         "Dropping right operand of `??` as it's always false (in bool context)"
                     );
@@ -234,6 +248,7 @@ impl Pure<'_> {
                 // `a || false` => `a` (as it will be casted to boolean anyway)
 
                 if let Known(false) = right.as_pure_bool() {
+                    self.modified_node = true;
                     log::debug!("bools: `expr || false` => `expr` (in bool context)");
                     *n = *left.take();
                     return;
@@ -244,6 +259,7 @@ impl Pure<'_> {
                 let span = n.span();
                 let v = n.as_pure_bool();
                 if let Known(v) = v {
+                    self.modified_node = true;
                     log::debug!("Optimizing expr as {} (in bool context)", v);
                     *n = make_bool(span, v);
                     return;

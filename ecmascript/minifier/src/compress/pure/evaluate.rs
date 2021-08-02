@@ -24,6 +24,8 @@ impl Pure<'_> {
             }) => {
                 //
                 if is_pure_undefined_or_null(&obj) {
+                    self.modified_node = true;
+
                     log::debug!(
                         "evaluate: Reduced an optioanl chaining operation because object is \
                          always null or undefined"
@@ -40,6 +42,7 @@ impl Pure<'_> {
                 ..
             }) => {
                 if is_pure_undefined_or_null(&callee) {
+                    self.modified_node = true;
                     log::debug!(
                         "evaluate: Reduced a call expression with optioanl chaining operation \
                          because object is always null or undefined"
@@ -80,6 +83,8 @@ impl Pure<'_> {
                 if let Known(v) = v {
                     // As we used as_pure_bool, we can drop it.
                     if v && e.op == op!("&&") {
+                        self.modified_node = true;
+
                         log::debug!("Removing `b` from `a && b && c` because b is always truthy");
 
                         left.right.take();
@@ -87,6 +92,8 @@ impl Pure<'_> {
                     }
 
                     if !v && e.op == op!("||") {
+                        self.modified_node = true;
+
                         log::debug!("Removing `b` from `a || b || c` because b is always falsy");
 
                         left.right.take();

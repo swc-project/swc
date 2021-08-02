@@ -30,6 +30,7 @@ impl Pure<'_> {
                                     let new_str = format!("{}{}", second_str, third_str);
                                     let left_span = left.span;
 
+                                    self.modified_node = true;
                                     log::debug!(
                                         "strings: Concatting `{} + {}` to `{}`",
                                         second_str,
@@ -77,6 +78,7 @@ impl Pure<'_> {
                                 value: js_word!(""),
                                 ..
                             })) => {
+                                self.modified_node = true;
                                 log::debug!(
                                     "strings: Dropping empty string literal (in lhs) because it \
                                      does not changes type"
@@ -93,6 +95,7 @@ impl Pure<'_> {
                                 value: js_word!(""),
                                 ..
                             })) => {
+                                self.modified_node = true;
                                 log::debug!(
                                     "strings: Dropping empty string literal (in rhs) because it \
                                      does not changes type"
