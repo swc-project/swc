@@ -79,9 +79,10 @@
         "jest": "^27.0.1",
         "lodash": "^4.17.21",
         "progress": "^2.0.3",
+        "regenerator-runtime": "^0.13.9",
         "source-map": "^0.7.3",
         "source-map-support": "^0.5.19",
-        "sourcemap-validator": "^1.1.1",
+        "sourcemap-validator": "^2.1.0",
         "typescript": "^4.2.0-beta"
     },
     "funding": {
