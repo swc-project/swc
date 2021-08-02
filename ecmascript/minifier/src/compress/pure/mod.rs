@@ -1,9 +1,11 @@
 use self::ctx::Ctx;
-use crate::{marks::Marks, option::CompressOptions};
+use crate::{marks::Marks, option::CompressOptions, util::has_mark};
 use rayon::prelude::*;
-use swc_common::{pass::Repeated, Globals};
+use swc_common::{pass::Repeated, Globals, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+
+use super::util::Respan;
 
 mod arrows;
 mod bools;
@@ -54,6 +56,32 @@ impl Repeated for Pure<'_> {
 }
 
 impl Pure<'_> {
+    fn track<N, F>(&mut self, n: &mut N, op: F)
+    where
+        N: Spanned + Respan,
+        F: for<'aa> FnOnce(&mut Pure<'aa>, &mut N),
+    {
+        if has_mark(n.span(), self.marks.pure_done) {
+            return;
+        }
+
+        let old_ast_modified = self.modified_node;
+        self.modified_node = false;
+
+        op(self, n);
+
+        let modified = self.modified_node;
+
+        if !modified {
+            let span = n.span();
+            let span = span.apply_mark(self.marks.pure_done);
+
+            n.respan(span);
+        }
+
+        self.modified_node |= old_ast_modified;
+    }
+
     fn visit_par<N>(&mut self, nodes: &mut Vec<N>)
     where
         N: Send + Sync + for<'aa> VisitMutWith<Pure<'aa>>,
@@ -113,15 +141,17 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
-        e.visit_mut_children_with(self);
+        self.track(e, |v, e| {
+            e.visit_mut_children_with(v);
 
-        self.handle_negated_seq(e);
+            v.handle_negated_seq(e);
 
-        self.drop_useless_addition_of_str(e);
+            v.drop_useless_addition_of_str(e);
 
-        self.evaluate(e);
+            v.evaluate(e);
 
-        self.concat_str(e);
+            v.concat_str(e);
+        })
     }
 
     fn visit_mut_expr_or_spreads(&mut self, elems: &mut Vec<ExprOrSpread>) {
@@ -163,9 +193,11 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
-        s.visit_mut_children_with(self);
+        self.track(s, |v, s| {
+            s.visit_mut_children_with(v);
 
-        self.compress_if_stmt_as_logical_and_expr(s);
+            v.compress_if_stmt_as_logical_and_expr(s);
+        })
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
