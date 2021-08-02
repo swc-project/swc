@@ -79,7 +79,7 @@ impl Optimizer<'_> {
                                 | Stmt::If(..)
                                 | Stmt::Switch(..)
                                 | Stmt::With(..)
-                                | Stmt::Return(ReturnStmt { arg: Some(..), .. })
+                                | Stmt::Return(ReturnStmt { .. })
                                 | Stmt::Throw(ThrowStmt { .. })
                                 | Stmt::For(ForStmt { init: None, .. })
                                 | Stmt::For(ForStmt {
