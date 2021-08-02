@@ -1,18 +1,19 @@
 use crate::{
-    analyzer::{analyze, ProgramData},
+    analyzer::{analyze, ProgramData, UsageAnalyzer},
     option::CompressOptions,
+    util::MoudleItemExt,
 };
 use fxhash::FxHashMap;
 use swc_atoms::js_word;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{ident::IdentLike, Id};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 
 /// Optimizer invoked before invoking compressor.
 ///
 /// - Remove parens.
-pub fn precompress_optimizer(options: CompressOptions) -> impl VisitMut {
+pub fn precompress_optimizer<'a>(options: &'a CompressOptions) -> impl 'a + VisitMut {
     PrecompressOptimizer {
         options,
         data: Default::default(),
@@ -21,10 +22,10 @@ pub fn precompress_optimizer(options: CompressOptions) -> impl VisitMut {
     }
 }
 
-#[derive(Debug, Default)]
-struct PrecompressOptimizer {
-    options: CompressOptions,
-    data: ProgramData,
+#[derive(Debug)]
+struct PrecompressOptimizer<'a> {
+    options: &'a CompressOptions,
+    data: Option<ProgramData>,
     fn_decl_count: FxHashMap<Id, usize>,
     ctx: Ctx,
 }
@@ -34,7 +35,49 @@ struct Ctx {
     in_var_pat: bool,
 }
 
-impl VisitMut for PrecompressOptimizer {
+impl PrecompressOptimizer<'_> {
+    fn handle_stmts<T>(&mut self, stmts: &mut Vec<T>)
+    where
+        T: for<'aa> VisitMutWith<PrecompressOptimizer<'aa>> + MoudleItemExt,
+        Vec<T>: for<'aa> VisitMutWith<PrecompressOptimizer<'aa>> + VisitWith<UsageAnalyzer>,
+    {
+        if self.data.is_some() {
+            stmts.visit_mut_children_with(self);
+            return;
+        }
+
+        if self.data.is_none() {
+            let has_decl = stmts.iter().any(|stmt| match stmt.as_module_decl() {
+                Ok(..) | Err(Stmt::Decl(..)) => true,
+                _ => false,
+            });
+
+            if has_decl {
+                let data = Some(analyze(&*stmts));
+
+                stmts.visit_mut_children_with(&mut PrecompressOptimizer {
+                    options: self.options,
+                    data,
+                    fn_decl_count: Default::default(),
+                    ctx: self.ctx,
+                });
+                return;
+            }
+
+            for stmt in stmts {
+                stmt.visit_mut_with(&mut PrecompressOptimizer {
+                    options: self.options,
+                    data: None,
+                    fn_decl_count: Default::default(),
+                    ctx: self.ctx,
+                })
+            }
+            return;
+        }
+    }
+}
+
+impl VisitMut for PrecompressOptimizer<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_decl(&mut self, n: &mut Decl) {
@@ -65,7 +108,7 @@ impl VisitMut for PrecompressOptimizer {
         n.visit_mut_children_with(self);
 
         if self.options.dead_code || self.options.unused {
-            if let Some(usage) = self.data.vars.get(&n.ident.to_id()) {
+            if let Some(usage) = self.data.as_ref().unwrap().vars.get(&n.ident.to_id()) {
                 // Remove if variable with same name exists.
                 if usage.var_kind.is_some() && usage.var_initialized {
                     n.ident.take();
@@ -84,13 +127,6 @@ impl VisitMut for PrecompressOptimizer {
         }
     }
 
-    fn visit_mut_module(&mut self, n: &mut Module) {
-        let data = analyze(&*n);
-        self.data = data;
-
-        n.visit_mut_children_with(self);
-    }
-
     fn visit_mut_module_item(&mut self, n: &mut ModuleItem) {
         n.visit_mut_children_with(self);
 
@@ -106,19 +142,12 @@ impl VisitMut for PrecompressOptimizer {
     }
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        n.visit_mut_children_with(self);
+        self.handle_stmts(n);
 
         n.retain(|s| match s {
             ModuleItem::Stmt(Stmt::Empty(..)) => false,
             _ => true,
         });
-    }
-
-    fn visit_mut_script(&mut self, n: &mut Script) {
-        let data = analyze(&*n);
-        self.data = data;
-
-        n.visit_mut_children_with(self);
     }
 
     fn visit_mut_stmt(&mut self, n: &mut Stmt) {
@@ -133,7 +162,7 @@ impl VisitMut for PrecompressOptimizer {
     }
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
-        n.visit_mut_children_with(self);
+        self.handle_stmts(n);
 
         n.retain(|s| match s {
             Stmt::Empty(..) => false,
