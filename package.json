@@ -69,7 +69,6 @@
         "@babel/types": "^7.14.0",
         "@napi-rs/cli": "^1.0.4",
         "@swc/helpers": "^0.2.10",
-        "@types/browserslist": "^4.15.0",
         "@types/jest": "^26.0.23",
         "@types/node": "^14.14.41",
         "axios": "^0.21.1",
