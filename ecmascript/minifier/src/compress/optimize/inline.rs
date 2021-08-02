@@ -428,6 +428,7 @@ impl Optimizer<'_> {
                 && usage.ref_count == 1
                 && usage.is_fn_local
                 && !usage.used_in_loop
+                && !usage.used_above_decl
             {
                 match decl {
                     Decl::Class(ClassDecl { class, .. }) => {
