@@ -10,6 +10,7 @@ use swc_common::Span;
 use swc_ecma_ast::*;
 use swc_ecma_utils::prop_name_eq;
 use swc_ecma_utils::ExprExt;
+use unicode_xid::UnicodeXID;
 
 impl<'b> Optimizer<'b> {
     pub(super) fn line_col(&self, span: Span) -> String {
@@ -280,4 +281,10 @@ pub(crate) fn is_directive(e: &Stmt) -> bool {
         },
         _ => false,
     }
+}
+
+pub(crate) fn is_valid_identifier(s: &str) -> bool {
+    s.starts_with(|c: char| c.is_xid_start())
+        && s.chars().all(|c: char| c.is_xid_continue())
+        && !s.contains("𝒶")
 }

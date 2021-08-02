@@ -1,3 +1,4 @@
+use super::util::is_valid_identifier;
 use crate::compress::optimize::Optimizer;
 use crate::util::deeply_contains_this_expr;
 use swc_atoms::js_word;
@@ -7,6 +8,34 @@ use swc_ecma_utils::prop_name_eq;
 use swc_ecma_utils::ExprExt;
 
 impl Optimizer<'_> {
+    pub(super) fn optimize_property_of_member_expr(&mut self, e: &mut MemberExpr) {
+        if !e.computed {
+            return;
+        }
+
+        match &*e.prop {
+            Expr::Lit(Lit::Str(s)) => {
+                if is_valid_identifier(&s.value) {
+                    self.changed = true;
+                    log::debug!(
+                        "properties: Computed member => member expr with identifier as a prop"
+                    );
+
+                    e.computed = false;
+                    e.prop = Box::new(Expr::Ident(Ident {
+                        span: s.span.with_ctxt(SyntaxContext::empty()),
+                        sym: s.value.clone(),
+                        optional: false,
+                    }));
+
+                    return;
+                }
+            }
+
+            _ => {}
+        }
+    }
+
     /// Converts `{ a: 1 }.a` into `1`.
     pub(super) fn handle_property_access(&mut self, e: &mut Expr) {
         if !self.options.props {

@@ -2036,6 +2036,8 @@ impl VisitMut for Optimizer<'_> {
             n.prop.visit_mut_with(&mut *self.with_ctx(ctx));
         }
 
+        self.optimize_property_of_member_expr(n);
+
         self.handle_known_computed_member_expr(n);
     }
 
