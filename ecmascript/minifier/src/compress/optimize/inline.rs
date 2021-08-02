@@ -11,6 +11,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::ExprExt;
+use swc_ecma_utils::UsageFinder;
 
 /// Methods related to option `inline`.
 impl Optimizer<'_> {
@@ -271,7 +272,7 @@ impl Optimizer<'_> {
                 },
 
                 Stmt::Return(ReturnStmt { arg, .. }) => match arg.as_deref() {
-                    Some(Expr::Lit(Lit::Num(..))) => return true,
+                    Some(Expr::Lit(Lit::Num(..)) | Expr::Bin(..)) => return true,
                     _ => {}
                 },
 
@@ -377,7 +378,9 @@ impl Optimizer<'_> {
                 Decl::Fn(f) if self.options.inline >= 2 && f.ident.sym != *"arguments" => {
                     match &f.function.body {
                         Some(body) => {
-                            if self.is_fn_body_simple_enough_to_inline(body) {
+                            if !UsageFinder::find(&i, body)
+                                && self.is_fn_body_simple_enough_to_inline(body)
+                            {
                                 log::debug!(
                                     "inline: Decided to inline function '{}{:?}' as it's very \
                                      simple",
