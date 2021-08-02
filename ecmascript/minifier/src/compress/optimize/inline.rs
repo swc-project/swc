@@ -382,6 +382,15 @@ impl Optimizer<'_> {
             return;
         }
 
+        if self
+            .data
+            .as_ref()
+            .map(|data| data.top.has_eval_call || data.top.has_with_stmt)
+            .unwrap_or_default()
+        {
+            return;
+        }
+
         if let Some(usage) = self
             .data
             .as_ref()
