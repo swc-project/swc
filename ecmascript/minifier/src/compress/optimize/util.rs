@@ -13,9 +13,13 @@ use swc_ecma_utils::ExprExt;
 
 impl<'b> Optimizer<'b> {
     pub(super) fn line_col(&self, span: Span) -> String {
-        let loc = self.cm.lookup_char_pos(span.lo);
+        if cfg!(feature = "debug") {
+            let loc = self.cm.lookup_char_pos(span.lo);
 
-        format!("{}:{}", loc.line, loc.col_display)
+            format!("{}:{}", loc.line, loc.col_display)
+        } else {
+            String::new()
+        }
     }
 
     pub(super) fn access_property<'e>(
