@@ -20,6 +20,8 @@ pub(super) fn pure_optimizer<'a>(options: &'a CompressOptions) -> impl 'a + Visi
     }
 }
 
+const MAX_PAR_DEPTH: usize = 4;
+
 #[derive(Clone, Copy)]
 struct Pure<'a> {
     options: &'a CompressOptions,
@@ -42,7 +44,7 @@ impl Pure<'_> {
     where
         N: Send + Sync + for<'aa> VisitMutWith<Pure<'aa>>,
     {
-        if self.ctx.par_depth >= 2 || cfg!(target_arch = "wasm32") {
+        if self.ctx.par_depth >= MAX_PAR_DEPTH || cfg!(target_arch = "wasm32") {
             for node in nodes {
                 node.visit_mut_with(self);
             }
