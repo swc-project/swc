@@ -272,7 +272,7 @@ impl Optimizer<'_> {
                 },
 
                 Stmt::Return(ReturnStmt { arg, .. }) => match arg.as_deref() {
-                    Some(Expr::Lit(Lit::Num(..)) | Expr::Bin(..)) => return true,
+                    Some(Expr::Lit(Lit::Num(..)) | Expr::Bin(..) | Expr::Cond(..)) => return true,
                     _ => {}
                 },
 
@@ -347,6 +347,10 @@ impl Optimizer<'_> {
             _ => return,
         };
 
+        if cfg!(feature = "debug") {
+            log::trace!("inline: Trying to inline decl ({}{:?})", i.sym, i.span.ctxt);
+        }
+
         // Respect `top_retain`
         if self.ctx.in_top_level() && self.options.top_retain.contains(&i.sym) {
             return;
@@ -366,10 +370,20 @@ impl Optimizer<'_> {
             .and_then(|data| data.vars.get(&i.to_id()))
         {
             if usage.declared_as_catch_param {
+                if cfg!(feature = "debug") {
+                    log::trace!("inline: [x] Declared as a catch paramter");
+                }
                 return;
             }
 
             if usage.reassigned || usage.inline_prevented {
+                if cfg!(feature = "debug") {
+                    log::trace!(
+                        "inline: [x] reassigned = {}, inline_prevented = {}",
+                        usage.reassigned,
+                        usage.inline_prevented
+                    );
+                }
                 return;
             }
 
