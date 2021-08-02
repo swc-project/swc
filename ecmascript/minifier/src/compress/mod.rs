@@ -29,6 +29,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms::fixer;
 use swc_ecma_transforms::optimization::simplify::dead_branch_remover;
 use swc_ecma_transforms::optimization::simplify::expr_simplifier;
+use swc_ecma_transforms::optimization::simplify::expr_simplifier_with_config;
 use swc_ecma_transforms::pass::JsPass;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::StmtLike;
@@ -165,7 +166,7 @@ impl VisitMut for Compressor<'_> {
 
             let start_time = now();
 
-            let mut visitor = expr_simplifier();
+            let mut visitor = expr_simplifier_with_config(false);
             n.visit_mut_with(&mut visitor);
             self.changed |= visitor.changed();
             if visitor.changed() {
