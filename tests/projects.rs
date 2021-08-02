@@ -60,14 +60,18 @@ fn file_with_opt(filename: &str, options: Options) -> Result<NormalizedOutput, S
 }
 
 fn str_with_opt(content: &str, options: Options) -> Result<NormalizedOutput, StdErr> {
-    compile_str(content, options).map(|v| v.code.into())
+    compile_str(FileName::Anon, content, options).map(|v| v.code.into())
 }
 
-fn compile_str(content: &str, options: Options) -> Result<TransformOutput, StdErr> {
+fn compile_str(
+    filename: FileName,
+    content: &str,
+    options: Options,
+) -> Result<TransformOutput, StdErr> {
     Tester::new().print_errors(|cm, handler| {
         let c = Compiler::new(cm.clone(), Arc::new(handler));
 
-        let fm = cm.new_source_file(FileName::Anon, content.to_string());
+        let fm = cm.new_source_file(filename, content.to_string());
         let s = c.process_js_file(
             fm,
             &Options {
@@ -851,15 +855,18 @@ fn issue_1984() {
 #[test]
 fn opt_source_file_name_1() {
     let map = compile_str(
+        FileName::Real(PathBuf::from("not-unique.js")),
         "import Foo from 'foo';",
         Options {
-            source_file_name: Some("entry".into()),
+            filename: "unique.js".into(),
+            source_file_name: Some("entry-foo".into()),
             source_maps: Some(SourceMapsConfig::Bool(true)),
             ..Default::default()
         },
     )
     .unwrap()
-    .map;
+    .map
+    .unwrap();
 
-    assert_eq!(map.as_deref(), Some(""))
+    assert!(map.contains("entry-foo"));
 }
