@@ -870,5 +870,7 @@ fn opt_source_file_name_1() {
     .map
     .unwrap();
 
+    println!("{}", map);
+
     assert!(map.contains("entry-foo"));
 }
