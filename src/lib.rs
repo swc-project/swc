@@ -538,7 +538,19 @@ impl Compiler {
                 is_module: config.is_module,
                 output_path: config.output_path,
             };
-            let orig = self.get_orig_src_map(&fm, &opts.config.input_source_map)?;
+
+            let orig = if opts
+                .config
+                .source_maps
+                .as_ref()
+                .map(|v| v.enabled())
+                .unwrap_or_default()
+            {
+                self.get_orig_src_map(&fm, &opts.config.input_source_map)?
+            } else {
+                None
+            };
+
             let program = self.parse_js(
                 fm.clone(),
                 config.target,
@@ -568,7 +580,11 @@ impl Compiler {
         self.run(|| {
             let target = opts.ecma.clone().into();
 
-            let orig = self.get_orig_src_map(&fm, &InputSourceMap::Bool(opts.source_map))?;
+            let orig = if opts.source_map {
+                self.get_orig_src_map(&fm, &InputSourceMap::Bool(opts.source_map))?
+            } else {
+                None
+            };
 
             let min_opts = MinifyOptions {
                 compress: opts
@@ -636,7 +652,18 @@ impl Compiler {
         self.run(|| -> Result<_, Error> {
             let loc = self.cm.lookup_char_pos(program.span().lo());
             let fm = loc.file;
-            let orig = self.get_orig_src_map(&fm, &opts.config.input_source_map)?;
+
+            let orig = if opts
+                .config
+                .source_maps
+                .as_ref()
+                .map(|v| v.enabled())
+                .unwrap_or_default()
+            {
+                self.get_orig_src_map(&fm, &opts.config.input_source_map)?
+            } else {
+                None
+            };
 
             let config = self.run(|| self.config_for_file(opts, &fm.name))?;
 
