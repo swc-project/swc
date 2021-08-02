@@ -138,23 +138,13 @@ impl ScopeData {
 }
 
 /// Analyzed info of a whole program we are working on.
-#[derive(Debug)]
+#[derive(Debug, Default)]
 pub(crate) struct ProgramData {
     pub vars: FastHashMap<Id, VarUsageInfo>,
 
     pub top: ScopeData,
 
     pub scopes: FastHashMap<SyntaxContext, ScopeData>,
-}
-
-impl Default for ProgramData {
-    fn default() -> Self {
-        Self {
-            vars: FastHashMap::with_capacity_and_hasher(512, Default::default()),
-            top: Default::default(),
-            scopes: FastHashMap::with_capacity_and_hasher(64, Default::default()),
-        }
-    }
 }
 
 impl ProgramData {
