@@ -61,9 +61,10 @@ impl Pure<'_> {
         N: Spanned + Respan,
         F: for<'aa> FnOnce(&mut Pure<'aa>, &mut N),
     {
-        if has_mark(n.span(), self.marks.pure_done) {
+        if has_mark(n.span(), self.marks.done) {
             return;
         }
+        debug_assert!(!has_mark(n.span(), self.marks.pure_done));
 
         let old_ast_modified = self.modified_node;
         self.modified_node = false;
