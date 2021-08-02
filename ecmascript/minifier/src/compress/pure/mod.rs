@@ -139,6 +139,10 @@ impl VisitMut for Pure<'_> {
         self.optimize_arrow_method_prop(p);
     }
 
+    fn visit_mut_prop_or_spreads(&mut self, props: &mut Vec<PropOrSpread>) {
+        self.visit_par(props);
+    }
+
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         s.visit_mut_children_with(self);
 
