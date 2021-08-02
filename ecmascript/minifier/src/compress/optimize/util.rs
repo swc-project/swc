@@ -137,15 +137,12 @@ impl<'b> Optimizer<'b> {
 
     pub(super) fn is_done(&mut self, span: Span) -> bool {
         let mut ctxt = span.ctxt;
-        if ctxt == self.done_ctxt {
-            return true;
-        }
         loop {
             let mark = ctxt.remove_mark();
             if mark == Mark::root() {
                 return false;
             }
-            if mark == self.done {
+            if mark == self.marks.done {
                 return true;
             }
         }

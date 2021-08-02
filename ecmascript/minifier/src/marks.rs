@@ -5,6 +5,9 @@ pub(crate) struct Marks {
     /// [Mark] applied to non-top level varaibles which is injected while
     /// inlining.
     pub(crate) non_top_level: Mark,
+
+    /// Optimization is finished.
+    pub(crate) done: Mark,
 }
 
 impl Marks {
@@ -13,6 +16,9 @@ impl Marks {
             Mark::fresh(Mark::root())
         }
 
-        Marks { non_top_level: m() }
+        Marks {
+            non_top_level: m(),
+            done: m(),
+        }
     }
 }

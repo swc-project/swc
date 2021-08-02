@@ -15,7 +15,6 @@ use swc_common::comments::Comments;
 use swc_common::iter::IdentifyLast;
 use swc_common::pass::Repeated;
 use swc_common::sync::Lrc;
-use swc_common::Mark;
 use swc_common::SourceMap;
 use swc_common::Spanned;
 use swc_common::SyntaxContext;
@@ -80,8 +79,6 @@ pub(super) fn optimizer<'a>(
         "top_retain should not contain empty string"
     );
 
-    let done = Mark::fresh(Mark::root());
-    let done_ctxt = SyntaxContext::empty().apply_mark(done);
     Optimizer {
         cm,
         marks,
@@ -98,8 +95,6 @@ pub(super) fn optimizer<'a>(
         typeofs: Default::default(),
         data: Some(data),
         ctx: Default::default(),
-        done,
-        done_ctxt,
         label: Default::default(),
     }
 }
@@ -226,9 +221,6 @@ struct Optimizer<'a> {
     /// `visit_mut_module`.
     data: Option<&'a ProgramData>,
     ctx: Ctx,
-    /// In future: This will be used to `mark` node as done.
-    done: Mark,
-    done_ctxt: SyntaxContext,
 
     /// Closest label.
     label: Option<Id>,

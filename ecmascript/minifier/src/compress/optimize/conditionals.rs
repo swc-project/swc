@@ -1,7 +1,6 @@
 use super::Optimizer;
 use crate::compress::optimize::DISABLE_BUGGY_PASSES;
 use crate::util::make_bool;
-use crate::util::SpanExt;
 use swc_common::EqIgnoreSpan;
 use swc_common::Spanned;
 use swc_common::DUMMY_SP;
@@ -428,9 +427,9 @@ impl Optimizer<'_> {
             );
             self.changed = true;
             *s = Stmt::Expr(ExprStmt {
-                span: stmt.span.with_mark(self.done),
+                span: stmt.span,
                 expr: Box::new(Expr::Cond(CondExpr {
-                    span: DUMMY_SP.with_ctxt(self.done_ctxt),
+                    span: DUMMY_SP,
                     test: stmt.test.take(),
                     cons: Box::new(cons.take()),
                     alt: Box::new(alt.take()),
@@ -593,7 +592,7 @@ impl Optimizer<'_> {
                          arguments is 1"
                     );
                     return Some(Expr::Call(CallExpr {
-                        span: DUMMY_SP.with_ctxt(self.done_ctxt),
+                        span: DUMMY_SP,
                         callee: cons.callee.take(),
                         args,
                         type_args: Default::default(),
@@ -603,7 +602,7 @@ impl Optimizer<'_> {
                 if !side_effect_free && is_for_if_stmt {
                     log::debug!("Compreessing if into cond while preserving side effects");
                     return Some(Expr::Cond(CondExpr {
-                        span: DUMMY_SP.with_ctxt(self.done_ctxt),
+                        span: DUMMY_SP,
                         test: test.take(),
                         cons: Box::new(Expr::Call(cons.take())),
                         alt: Box::new(Expr::Call(alt.take())),
@@ -655,7 +654,7 @@ impl Optimizer<'_> {
                              there's no side effect and the number of arguments is 1"
                         );
                         return Some(Expr::New(NewExpr {
-                            span: DUMMY_SP.with_ctxt(self.done_ctxt),
+                            span: DUMMY_SP,
                             callee: cons.callee.take(),
                             args: Some(args),
                             type_args: Default::default(),
@@ -690,7 +689,7 @@ impl Optimizer<'_> {
             (Expr::Cond(cons), alt) if (*cons.alt).eq_ignore_span(&*alt) => {
                 log::debug!("conditionals: a ? b ? c() : d() : d() => a && b ? c() : d()");
                 return Some(Expr::Cond(CondExpr {
-                    span: DUMMY_SP.with_ctxt(self.done_ctxt),
+                    span: DUMMY_SP,
                     test: Box::new(Expr::Bin(BinExpr {
                         span: DUMMY_SP,
                         left: test.take(),
