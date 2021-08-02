@@ -42,7 +42,7 @@ impl Pure<'_> {
     where
         N: Send + Sync + for<'aa> VisitMutWith<Pure<'aa>>,
     {
-        if self.ctx.par_depth >= 2 {
+        if self.ctx.par_depth >= 2 || cfg!(target_arch = "wasm32") {
             for node in nodes {
                 node.visit_mut_with(self);
             }
