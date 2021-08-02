@@ -474,6 +474,10 @@ impl Optimizer<'_> {
                     },
                 );
                 return;
+            } else {
+                if cfg!(feature = "debug") {
+                    log::trace!("inline: [x] Usage: {:?}", usage);
+                }
             }
         }
     }
