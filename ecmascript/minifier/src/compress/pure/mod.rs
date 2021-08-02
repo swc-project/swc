@@ -16,6 +16,7 @@ pub(super) fn pure_optimizer<'a>(options: &'a CompressOptions) -> impl 'a + Visi
     Pure {
         options,
         run_again: false,
+        modified_node: false,
         ctx: Default::default(),
     }
 }
@@ -26,6 +27,10 @@ const MAX_PAR_DEPTH: usize = 4;
 struct Pure<'a> {
     options: &'a CompressOptions,
     run_again: bool,
+
+    /// Used to check if ast node is modified.
+    modified_node: bool,
+
     ctx: Ctx,
 }
 
@@ -49,12 +54,13 @@ impl Pure<'_> {
                 node.visit_mut_with(self);
             }
         } else {
-            let should_run_again = nodes
+            let results = nodes
                 .par_iter_mut()
                 .map(|node| {
                     let mut v = Pure {
                         options: self.options,
                         run_again: false,
+                        modified_node: false,
                         ctx: Ctx {
                             par_depth: self.ctx.par_depth + 1,
                             ..self.ctx
@@ -62,16 +68,14 @@ impl Pure<'_> {
                     };
                     node.visit_mut_with(&mut v);
 
-                    if v.run_again {
-                        1
-                    } else {
-                        0
-                    }
+                    (v.run_again, v.modified_node)
                 })
-                .sum::<usize>()
-                != 0;
+                .collect::<Vec<_>>();
 
-            self.run_again |= should_run_again;
+            for (run_again, modified) in results {
+                self.run_again |= run_again;
+                self.modified_node |= modified;
+            }
         }
     }
 }
