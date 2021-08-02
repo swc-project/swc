@@ -150,6 +150,31 @@ impl VisitMut for Compressor<'_> {
             panic!("Infinite loop detected (current pass = {})", self.pass)
         }
 
+        {
+            // Pure optimizer uses all cpu cores, so we don't have to branch this.
+            log::info!("compress: Running pure optimizer (pass = {})", self.pass);
+
+            let start_time = now();
+            // TODO: reset_opt_flags
+            //
+            // This is swc version of `node.optimize(this);`.
+            let mut visitor = pure_optimizer(self.options);
+            n.visit_mut_with(&mut visitor);
+            self.changed |= visitor.changed();
+
+            if let Some(start_time) = start_time {
+                let end_time = Instant::now();
+
+                log::info!(
+                    "compress: Pure optimizer took {:?} (pass = {})",
+                    end_time - start_time,
+                    self.pass
+                );
+            }
+            // let done = dump(&*n);
+            // log::debug!("===== Result =====\n{}", done);
+        }
+
         let start = if cfg!(feature = "debug") {
             let start = dump(&n.clone().fold_with(&mut fixer(None)));
             log::debug!("===== Start =====\n{}", start);
@@ -197,30 +222,6 @@ impl VisitMut for Compressor<'_> {
                     )
                 }
             }
-        }
-
-        {
-            log::info!("compress: Running pure optimizer (pass = {})", self.pass);
-
-            let start_time = now();
-            // TODO: reset_opt_flags
-            //
-            // This is swc version of `node.optimize(this);`.
-            let mut visitor = pure_optimizer(self.options);
-            n.visit_mut_with(&mut visitor);
-            self.changed |= visitor.changed();
-
-            if let Some(start_time) = start_time {
-                let end_time = Instant::now();
-
-                log::info!(
-                    "compress: Pure optimizer took {:?} (pass = {})",
-                    end_time - start_time,
-                    self.pass
-                );
-            }
-            // let done = dump(&*n);
-            // log::debug!("===== Result =====\n{}", done);
         }
 
         {
