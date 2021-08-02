@@ -246,9 +246,7 @@
                     358: "hello1",
                     367: "hello2",
                     689: "hello-world",
-                }[
-                    chunkId
-                ] || chunkId) +
+                }[chunkId] || chunkId) +
                 "." +
                 {
                     358: "4066327636ea41cc1002",
