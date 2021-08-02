@@ -64,7 +64,10 @@ impl Pure<'_> {
         if has_mark(n.span(), self.marks.done) {
             return;
         }
-        debug_assert!(!has_mark(n.span(), self.marks.pure_done));
+        debug_assert!(
+            !has_mark(n.span(), self.marks.pure_done),
+            "An ast node should not be marked as `pure_done` in this context"
+        );
 
         let old_ast_modified = self.modified_node;
         self.modified_node = false;
