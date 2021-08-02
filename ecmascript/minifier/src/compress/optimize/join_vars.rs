@@ -10,7 +10,7 @@ impl Optimizer<'_> {
     /// This method may move variables to head of for statements like
     ///
     /// `var a; for(var b;;);` => `for(var a, b;;);`
-    #[inline(never)]
+
     pub(super) fn join_vars<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike,

@@ -50,7 +50,7 @@ impl Optimizer<'_> {
     /// }
     /// with (x = 5, obj);
     /// ```
-    #[inline(never)]
+
     pub(super) fn make_sequences<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike,
@@ -327,7 +327,7 @@ impl Optimizer<'_> {
 
     ///
     /// - `(a, b, c) && d` => `a, b, c && d`
-    #[inline(never)]
+
     pub(super) fn lift_seqs_of_bin(&mut self, e: &mut Expr) {
         let bin = match e {
             Expr::Bin(b) => b,
@@ -363,7 +363,6 @@ impl Optimizer<'_> {
         }
     }
 
-    #[inline(never)]
     pub(super) fn normalize_sequences(&self, seq: &mut SeqExpr) {
         for e in &mut seq.exprs {
             match &mut **e {
@@ -393,7 +392,7 @@ impl Optimizer<'_> {
     ///
     /// - `x = (foo(), bar(), baz()) ? 10 : 20` => `foo(), bar(), x = baz() ? 10
     ///   : 20;`
-    #[inline(never)]
+
     pub(super) fn lift_seqs_of_cond_assign(&mut self, e: &mut Expr) {
         if !self.options.sequences() {
             return;
@@ -446,7 +445,7 @@ impl Optimizer<'_> {
     /// Break assignments in sequences.
     ///
     /// This may result in less parenthesis.
-    #[inline(never)]
+
     pub(super) fn break_assignments_in_seqs<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike,
@@ -519,7 +518,7 @@ impl Optimizer<'_> {
     /// Lift sequence expressions in an assign expression.
     ///
     /// - `(a = (f, 4)) => (f, a = 4)`
-    #[inline(never)]
+
     pub(super) fn lift_seqs_of_assign(&mut self, e: &mut SeqExpr) {
         if !self.options.sequences() {
             return;
@@ -581,7 +580,7 @@ impl Optimizer<'_> {
     /// Hoist varaibles in subscope.
     ///
     /// I don't know why it depends on `sequences`.
-    #[inline(never)]
+
     pub(super) fn extract_vars_in_subscopes(&mut self, s: &mut Stmt) {
         if !self.options.sequences() {
             return;
@@ -650,7 +649,7 @@ impl Optimizer<'_> {
 
     ///
     /// - `(path += 'foo', path)` => `(path += 'foo')`
-    #[inline(never)]
+
     pub(super) fn shift_assignment(&mut self, e: &mut SeqExpr) {
         if e.exprs.len() < 2 {
             return;
@@ -678,7 +677,6 @@ impl Optimizer<'_> {
         }
     }
 
-    #[inline(never)]
     pub(super) fn shift_void(&mut self, e: &mut SeqExpr) {
         if e.exprs.len() < 2 {
             return;
@@ -708,7 +706,6 @@ impl Optimizer<'_> {
         }
     }
 
-    #[inline(never)]
     pub(super) fn merge_sequences_in_stmts(&mut self, stmts: &mut Vec<Stmt>) {
         fn exprs_of(s: &mut Stmt) -> Option<Vec<Mergable>> {
             Some(match s {
@@ -765,7 +762,6 @@ impl Optimizer<'_> {
         });
     }
 
-    #[inline(never)]
     pub(super) fn merge_sequences_in_seq_expr(&mut self, e: &mut SeqExpr) {
         self.normalize_sequences(e);
 

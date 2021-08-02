@@ -16,7 +16,7 @@ use swc_ecma_visit::VisitMutWith;
 impl Optimizer<'_> {
     ///
     /// - `arguments['foo']` => `arguments.foo`
-    #[inline(never)]
+
     pub(super) fn optimize_str_access_to_arguments(&mut self, e: &mut Expr) {
         if !self.options.arguments {
             return;
@@ -50,7 +50,6 @@ impl Optimizer<'_> {
         }
     }
 
-    #[inline(never)]
     pub(super) fn optimize_usage_of_arguments(&mut self, f: &mut Function) {
         if !self.options.arguments {
             return;

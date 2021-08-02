@@ -3,7 +3,6 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 
 impl Optimizer<'_> {
-    #[inline(never)]
     pub(super) fn optimize_expr_in_num_ctx(&mut self, e: &mut Expr) {
         match e {
             Expr::Lit(Lit::Str(Str { span, value, .. })) => {
@@ -20,7 +19,7 @@ impl Optimizer<'_> {
 
     ///
     /// - `1 / -0` => `- 1 / 0`
-    #[inline(never)]
+
     pub(super) fn lift_minus(&mut self, e: &mut Expr) {
         if !self.options.evaluate {
             return;

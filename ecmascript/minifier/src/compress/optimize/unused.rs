@@ -17,7 +17,6 @@ use swc_ecma_visit::VisitMutWith;
 
 /// Methods related to the option `unused`.
 impl Optimizer<'_> {
-    #[inline(never)]
     pub(super) fn drop_useless_blocks<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike,
@@ -73,7 +72,6 @@ impl Optimizer<'_> {
         *stmts = new;
     }
 
-    #[inline(never)]
     pub(super) fn drop_unused_stmt_at_end_of_fn(&mut self, s: &mut Stmt) {
         match s {
             Stmt::Return(r) => match r.arg.as_deref_mut() {
@@ -96,7 +94,6 @@ impl Optimizer<'_> {
         }
     }
 
-    #[inline(never)]
     pub(super) fn drop_unused_var_declarator(&mut self, var: &mut VarDeclarator) {
         match &mut var.init {
             Some(init) => match &**init {
@@ -128,7 +125,6 @@ impl Optimizer<'_> {
         }
     }
 
-    #[inline(never)]
     pub(super) fn drop_unused_param(&mut self, pat: &mut Pat) {
         if !self.options.unused {
             return;
@@ -152,7 +148,6 @@ impl Optimizer<'_> {
         self.take_pat_if_unused(DUMMY_SP, pat, None)
     }
 
-    #[inline(never)]
     pub(super) fn drop_unused_vars(
         &mut self,
         var_declarator_span: Span,
@@ -216,7 +211,6 @@ impl Optimizer<'_> {
         self.take_pat_if_unused(var_declarator_span, name, init);
     }
 
-    #[inline(never)]
     pub(super) fn drop_unused_params(&mut self, params: &mut Vec<Param>) {
         for param in params.iter_mut().rev() {
             self.take_pat_if_unused(DUMMY_SP, &mut param.pat, None);
@@ -228,7 +222,7 @@ impl Optimizer<'_> {
     }
 
     /// `parent_span` should be [Span] of [VarDeclarator] or [AssignExpr]
-    #[inline(never)]
+
     pub(super) fn take_pat_if_unused(
         &mut self,
         parent_span: Span,
@@ -355,7 +349,7 @@ impl Optimizer<'_> {
     }
 
     /// Creates an empty [VarDecl] if `decl` should be removed.
-    #[inline(never)]
+
     pub(super) fn drop_unused_decl(&mut self, decl: &mut Decl) {
         if self.ctx.is_exported {
             return;
@@ -427,7 +421,6 @@ impl Optimizer<'_> {
         }
     }
 
-    #[inline(never)]
     pub(super) fn drop_unused_assignments(&mut self, e: &mut Expr) {
         let assign = match e {
             Expr::Assign(e) => e,
@@ -520,7 +513,7 @@ impl Optimizer<'_> {
     }
 
     /// Make `name` [None] if the name is not used.
-    #[inline(never)]
+
     pub(super) fn remove_name_if_not_used(&mut self, name: &mut Option<Ident>) {
         if !self.options.unused {
             return;
@@ -548,7 +541,7 @@ impl Optimizer<'_> {
     }
 
     /// `var Parser = function Parser() {};` => `var Parser = function () {}`
-    #[inline(never)]
+
     pub(super) fn remove_duplicate_names(&mut self, v: &mut VarDeclarator) {
         if !self.options.unused {
             return;

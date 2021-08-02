@@ -6,7 +6,7 @@ use swc_ecma_transforms_base::ext::MapWithMut;
 
 impl Optimizer<'_> {
     /// Calls `reorder_stmts_inner` after splitting stmts.
-    #[inline(never)]
+
     pub(super) fn reorder_stmts<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: MoudleItemExt,

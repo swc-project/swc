@@ -29,7 +29,7 @@ impl Optimizer<'_> {
     ///     throw x();
     /// }
     /// ```
-    #[inline(never)]
+
     pub(super) fn optimize_in_fn_termiation(&mut self, e: &mut Expr) {
         if !self.options.dead_code {
             return;

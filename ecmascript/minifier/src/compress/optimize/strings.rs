@@ -12,7 +12,7 @@ use swc_ecma_utils::Value::Known;
 
 impl Optimizer<'_> {
     /// Converts template literals to string if `exprs` of [Tpl] is empty.
-    #[inline(never)]
+
     pub(super) fn convert_tpl_to_str(&mut self, e: &mut Expr) {
         match e {
             Expr::Tpl(t) if t.quasis.len() == 1 && t.exprs.is_empty() => {
@@ -29,7 +29,6 @@ impl Optimizer<'_> {
         }
     }
 
-    #[inline(never)]
     pub(super) fn optimize_expr_in_str_ctx_unsafely(&mut self, e: &mut Expr) {
         if !self.options.unsafe_passes {
             return;
@@ -79,7 +78,7 @@ impl Optimizer<'_> {
     }
 
     /// Convert expressions to string literal if possible.
-    #[inline(never)]
+
     pub(super) fn optimize_expr_in_str_ctx(&mut self, n: &mut Expr) {
         match n {
             Expr::Lit(Lit::Str(..)) => return,
@@ -190,7 +189,7 @@ impl Optimizer<'_> {
     ///
     /// Note that this pass only cares about string literals and conversion to a
     /// string literal should be done before calling this pass.
-    #[inline(never)]
+
     pub(super) fn compress_tpl(&mut self, tpl: &mut Tpl) {
         debug_assert_eq!(tpl.exprs.len() + 1, tpl.quasis.len());
         let has_str_lit = tpl.exprs.iter().any(|expr| match &**expr {
@@ -270,7 +269,7 @@ impl Optimizer<'_> {
     }
 
     /// Called for binary operations with `+`.
-    #[inline(never)]
+
     pub(super) fn concat_tpl(&mut self, l: &mut Expr, r: &mut Expr) {
         match (&mut *l, &mut *r) {
             (Expr::Tpl(l), Expr::Lit(Lit::Str(rs))) => {

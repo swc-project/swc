@@ -21,7 +21,7 @@ use swc_ecma_visit::VisitWith;
 impl Optimizer<'_> {
     /// Handle switches in the case where we can know which branch will be
     /// taken.
-    #[inline(never)]
+
     pub(super) fn optimize_const_switches(&mut self, s: &mut Stmt) {
         if !self.options.switches || self.ctx.stmt_lablled {
             return;
@@ -181,7 +181,7 @@ impl Optimizer<'_> {
     /// This method will
     ///
     /// - drop the empty cases at the end.
-    #[inline(never)]
+
     pub(super) fn optimize_switch_cases(&mut self, cases: &mut Vec<SwitchCase>) {
         if !self.options.switches {
             return;
@@ -304,7 +304,7 @@ impl Optimizer<'_> {
     }
 
     /// Remove unreachable cases using discriminant.
-    #[inline(never)]
+
     pub(super) fn drop_unreachable_cases(&mut self, s: &mut SwitchStmt) {
         if !self.options.switches {
             return;
@@ -330,7 +330,6 @@ impl Optimizer<'_> {
         }
     }
 
-    #[inline(never)]
     pub(super) fn optimize_switches(&mut self, _s: &mut Stmt) {
         if !self.options.switches || self.ctx.stmt_lablled {
             return;

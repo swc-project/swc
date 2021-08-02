@@ -21,7 +21,7 @@ use swc_ecma_visit::VisitMutWith;
 /// Methods related to the option `negate_iife`.
 impl Optimizer<'_> {
     /// Negates iife, while ignore return value.
-    #[inline(never)]
+
     pub(super) fn negate_iife_ignoring_ret(&mut self, e: &mut Expr) {
         if !self.options.negate_iife || self.ctx.in_bang_arg || self.ctx.dont_use_negated_iife {
             return;
@@ -55,7 +55,7 @@ impl Optimizer<'_> {
     ///
     ///
     /// - `iife ? foo : bar` => `!iife ? bar : foo`
-    #[inline(never)]
+
     pub(super) fn negate_iife_in_cond(&mut self, e: &mut Expr) -> bool {
         let cond = match e {
             Expr::Cond(v) => v,
@@ -87,7 +87,6 @@ impl Optimizer<'_> {
         }
     }
 
-    #[inline(never)]
     pub(super) fn restore_negated_iife(&mut self, cond: &mut CondExpr) {
         if !self.ctx.dont_use_negated_iife {
             return;
@@ -145,7 +144,7 @@ impl Optimizer<'_> {
     ///     })(x);
     /// })(7);
     /// ```
-    #[inline(never)]
+
     pub(super) fn inline_args_of_iife(&mut self, e: &mut CallExpr) {
         if self.options.inline == 0 {
             return;
@@ -252,7 +251,6 @@ impl Optimizer<'_> {
         }
     }
 
-    #[inline(never)]
     pub(super) fn inline_vars_in_node<N>(&mut self, n: &mut N, vars: FxHashMap<Id, Box<Expr>>)
     where
         N: VisitMutWith<Self>,
@@ -285,7 +283,7 @@ impl Optimizer<'_> {
     /// ({
     /// }).x = 10;
     /// ```
-    #[inline(never)]
+
     pub(super) fn invoke_iife(&mut self, e: &mut Expr) {
         if self.options.inline == 0 {
             let skip = match e {

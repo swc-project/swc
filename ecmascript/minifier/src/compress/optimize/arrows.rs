@@ -4,7 +4,6 @@ use swc_ecma_transforms_base::ext::MapWithMut;
 
 /// Methods related to the option `arrows`.
 impl Optimizer<'_> {
-    #[inline(never)]
     pub(super) fn optimize_arrow_body(&mut self, b: &mut BlockStmtOrExpr) {
         if !self.options.arrows {
             return;

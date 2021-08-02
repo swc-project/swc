@@ -12,14 +12,12 @@ use swc_ecma_utils::prop_name_eq;
 use swc_ecma_utils::ExprExt;
 
 impl<'b> Optimizer<'b> {
-    #[inline(never)]
     pub(super) fn line_col(&self, span: Span) -> String {
         let loc = self.cm.lookup_char_pos(span.lo);
 
         format!("{}:{}", loc.line, loc.col_display)
     }
 
-    #[inline(never)]
     pub(super) fn access_property<'e>(
         &mut self,
         expr: &'e mut Expr,
@@ -51,7 +49,6 @@ impl<'b> Optimizer<'b> {
         None
     }
 
-    #[inline(never)]
     pub(super) fn access_property_with_prop_name<'e>(
         &mut self,
         expr: &'e mut Expr,
@@ -66,7 +63,6 @@ impl<'b> Optimizer<'b> {
         }
     }
 
-    #[inline(never)]
     pub(super) fn access_numeric_property<'e>(
         &mut self,
         _expr: &'e mut Expr,
@@ -76,7 +72,7 @@ impl<'b> Optimizer<'b> {
     }
 
     /// Check for `/** @const */`.
-    #[inline(never)]
+
     pub(super) fn has_const_ann(&self, span: Span) -> bool {
         self.find_comment(span, |c| {
             if c.kind == CommentKind::Block {
@@ -95,7 +91,7 @@ impl<'b> Optimizer<'b> {
     }
 
     /// Check for `/*#__NOINLINE__*/`
-    #[inline(never)]
+
     pub(super) fn has_noinline(&self, span: Span) -> bool {
         self.has_flag(span, "NOINLINE")
     }
@@ -138,7 +134,7 @@ impl<'b> Optimizer<'b> {
     }
 
     #[allow(unused)]
-    #[inline(never)]
+
     pub(super) fn is_done(&mut self, span: Span) -> bool {
         let mut ctxt = span.ctxt;
         if ctxt == self.done_ctxt {
@@ -157,7 +153,7 @@ impl<'b> Optimizer<'b> {
 
     /// RAII guard to change context temporarically
     #[inline]
-    #[inline(never)]
+
     pub(super) fn with_ctx(&mut self, ctx: Ctx) -> WithCtx<'_, 'b> {
         let orig_ctx = self.ctx;
         self.ctx = ctx;

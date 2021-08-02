@@ -20,7 +20,7 @@ use Value::Known;
 impl Optimizer<'_> {
     ///
     /// - `a === undefined || a === null` => `a == null`
-    #[inline(never)]
+
     pub(super) fn optimize_null_or_undefined_cmp(&mut self, e: &mut BinExpr) {
         fn opt(
             span: Span,
@@ -139,7 +139,7 @@ impl Optimizer<'_> {
 
     ///
     /// - `'12' === `foo` => '12' == 'foo'`
-    #[inline(never)]
+
     pub(super) fn optimize_bin_operator(&mut self, e: &mut BinExpr) {
         if !self.options.comparisons {
             return;
@@ -200,7 +200,7 @@ impl Optimizer<'_> {
 
     ///
     /// - `1 == 1` => `true`
-    #[inline(never)]
+
     pub(super) fn optimize_lit_cmp(&mut self, n: &mut BinExpr) -> Option<Expr> {
         match n.op {
             op!("==") | op!("!=") => {
@@ -230,7 +230,7 @@ impl Optimizer<'_> {
     ///
     /// - `!!(a in b)` => `a in b`
     /// - `!!(function() {})()` => `!(function() {})()`
-    #[inline(never)]
+
     pub(super) fn optimize_bangbang(&mut self, e: &mut Expr) {
         match e {
             Expr::Unary(UnaryExpr {
@@ -271,14 +271,14 @@ impl Optimizer<'_> {
     }
 
     /// TODO: Optimize based on the type.
-    #[inline(never)]
+
     pub(super) fn negate_twice(&mut self, e: &mut Expr) {
         self.negate(e);
         self.negate(e);
     }
 
     /// See [negate] for details.
-    #[inline(never)]
+
     pub(super) fn negate(&mut self, e: &mut Expr) {
         self.changed = true;
         negate(e, self.ctx.in_bool_ctx)
@@ -290,7 +290,7 @@ impl Optimizer<'_> {
     /// - `x = 3 | x` `x |= 3`
     /// - `x = 3 & x` => `x &= 3;`
     /// - `x ^= 3` => `x = 3 ^ x`
-    #[inline(never)]
+
     pub(super) fn compress_bin_assignment_to_right(&mut self, e: &mut AssignExpr) {
         // TODO: Handle pure properties.
         let lhs = match &e.left {
@@ -439,7 +439,7 @@ impl Optimizer<'_> {
     }
 
     /// Swap lhs and rhs in certain conditions.
-    #[inline(never)]
+
     pub(super) fn swap_bin_operands(&mut self, expr: &mut Expr) {
         match expr {
             Expr::Bin(e @ BinExpr { op: op!("<="), .. })
@@ -476,7 +476,7 @@ impl Optimizer<'_> {
     /// # Examples
     ///
     /// - `x() && true` => `!!x()`
-    #[inline(never)]
+
     pub(super) fn compress_logical_exprs_as_bang_bang(&mut self, e: &mut Expr, in_bool_ctx: bool) {
         if !self.options.conditionals && !self.options.reduce_vars {
             return;
@@ -554,7 +554,7 @@ impl Optimizer<'_> {
     ///
     /// - `!(x == y)` => `x != y`
     /// - `!(x === y)` => `x !== y`
-    #[inline(never)]
+
     pub(super) fn compress_negated_bin_eq(&self, e: &mut Expr) {
         let unary = match e {
             Expr::Unary(e @ UnaryExpr { op: op!("!"), .. }) => e,
@@ -589,7 +589,6 @@ impl Optimizer<'_> {
         }
     }
 
-    #[inline(never)]
     pub(super) fn optimize_nullish_coalescing(&mut self, e: &mut Expr) {
         let (l, r) = match e {
             Expr::Bin(BinExpr {
@@ -623,7 +622,7 @@ impl Optimizer<'_> {
     }
 
     /// `typeof b !== 'undefined'` => `b != void 0`
-    #[inline(never)]
+
     pub(super) fn compress_typeofs(&mut self, e: &mut Expr) {
         if !self.options.typeofs {
             return;
