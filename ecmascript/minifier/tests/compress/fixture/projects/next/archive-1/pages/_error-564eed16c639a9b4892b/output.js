@@ -28,18 +28,13 @@
                 [888, 774, 179,],
                 function (
                 ) {
-                    return (
-                        (moduleId = 4243),
-                        __webpack_require__(
-                            (__webpack_require__.s = moduleId)
-                        )
+                    return __webpack_require__(
+                        (__webpack_require__.s = 4243)
                     );
-                    var moduleId;
                 }
-            );
-            var __webpack_exports__ = __webpack_require__.O(
-            );
-            _N_E = __webpack_exports__;
+            ),
+            (_N_E = __webpack_require__.O(
+            ));
         },
     ]
 );
