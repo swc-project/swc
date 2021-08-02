@@ -321,20 +321,6 @@ impl Optimizer<'_> {
     /// This method handles only [ClassDecl] and [FnDecl]. [VarDecl] should be
     /// handled specially.
     pub(super) fn store_decl_for_inlining(&mut self, decl: &mut Decl) {
-        if self.options.inline == 0 && !self.options.reduce_vars {
-            return;
-        }
-
-        if (!self.options.top_level() && self.options.top_retain.is_empty())
-            && self.ctx.in_top_level()
-        {
-            return;
-        }
-
-        if self.has_noinline(decl.span()) {
-            return;
-        }
-
         let i = match &*decl {
             Decl::Class(v) => v.ident.clone(),
             Decl::Fn(f) => {
@@ -351,16 +337,48 @@ impl Optimizer<'_> {
             log::trace!("inline: Trying to inline decl ({}{:?})", i.sym, i.span.ctxt);
         }
 
+        if self.options.inline == 0 && !self.options.reduce_vars {
+            if cfg!(feature = "debug") {
+                log::trace!("inline: [x] Inline disabled");
+            }
+            return;
+        }
+
+        if (!self.options.top_level() && self.options.top_retain.is_empty())
+            && self.ctx.in_top_level()
+        {
+            if cfg!(feature = "debug") {
+                log::trace!("inline: [x] Top level");
+            }
+            return;
+        }
+
+        if self.has_noinline(decl.span()) {
+            if cfg!(feature = "debug") {
+                log::trace!("inline: [x] Has noinline");
+            }
+            return;
+        }
+
         // Respect `top_retain`
         if self.ctx.in_top_level() && self.options.top_retain.contains(&i.sym) {
+            if cfg!(feature = "debug") {
+                log::trace!("inline: [x] top_retain");
+            }
             return;
         }
 
         if self.ctx.is_exported {
+            if cfg!(feature = "debug") {
+                log::trace!("inline: [x] exported");
+            }
             return;
         }
 
         if self.ctx.inline_as_assignment {
+            if cfg!(feature = "debug") {
+                log::trace!("inline: [x] inline_as_assignment=true");
+            }
             return;
         }
 
