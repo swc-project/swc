@@ -4,6 +4,7 @@ use crate::compress::util::is_pure_undefined;
 use crate::marks::Marks;
 use crate::option::CompressOptions;
 use crate::util::contains_leaping_yield;
+use crate::util::has_mark;
 use crate::util::MoudleItemExt;
 use fxhash::FxHashMap;
 use retain_mut::RetainMut;
@@ -36,6 +37,8 @@ use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 use swc_ecma_visit::VisitWith;
 use Value::Known;
+
+use super::util::Respan;
 
 mod arguments;
 mod arrows;
@@ -237,6 +240,41 @@ impl Repeated for Optimizer<'_> {
 }
 
 impl Optimizer<'_> {
+    fn track<N, F>(&mut self, n: &mut N, op: F)
+    where
+        N: Spanned + Respan,
+        F: for<'aa> FnOnce(&mut Optimizer<'aa>, &mut N),
+    {
+        if has_mark(n.span(), self.marks.done) {
+            return;
+        }
+
+        let old_changed = self.changed;
+        self.changed = false;
+
+        op(self, n);
+
+        let modified = self.changed;
+
+        if modified {
+            if has_mark(n.span(), self.marks.pure_done) {
+                let mut span = n.span();
+                span.remove_mark();
+
+                n.respan(span);
+            }
+        } else {
+            if has_mark(n.span(), self.marks.pure_done) {
+                let span = n.span();
+                let span = span.apply_mark(self.marks.done);
+
+                n.respan(span);
+            }
+        }
+
+        self.changed |= old_changed;
+    }
+
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike + ModuleItemLike + MoudleItemExt + VisitMutWith<Self>,
@@ -1674,90 +1712,92 @@ impl VisitMut for Optimizer<'_> {
             is_exported: false,
             ..self.ctx
         };
-        e.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        self.with_ctx(ctx).track(e, |v, e| {
+            e.visit_mut_children_with(v);
 
-        self.remove_invalid(e);
+            v.remove_invalid(e);
 
-        self.lift_minus(e);
+            v.lift_minus(e);
 
-        self.convert_tpl_to_str(e);
+            v.convert_tpl_to_str(e);
 
-        self.optimize_str_access_to_arguments(e);
+            v.optimize_str_access_to_arguments(e);
 
-        self.replace_props(e);
+            v.replace_props(e);
 
-        self.swap_bin_operands(e);
+            v.swap_bin_operands(e);
 
-        self.collapse_seq_exprs(e);
+            v.collapse_seq_exprs(e);
 
-        self.drop_unused_assignments(e);
+            v.drop_unused_assignments(e);
 
-        self.compress_regexp(e);
+            v.compress_regexp(e);
 
-        self.compress_lits(e);
+            v.compress_lits(e);
 
-        self.compress_typeofs(e);
+            v.compress_typeofs(e);
 
-        self.compress_useless_deletes(e);
+            v.compress_useless_deletes(e);
 
-        self.optimize_nullish_coalescing(e);
+            v.optimize_nullish_coalescing(e);
 
-        self.compress_logical_exprs_as_bang_bang(e, false);
+            v.compress_logical_exprs_as_bang_bang(e, false);
 
-        self.compress_useless_cond_expr(e);
+            v.compress_useless_cond_expr(e);
 
-        self.compress_conds_as_logical(e);
+            v.compress_conds_as_logical(e);
 
-        self.drop_logical_operands(e);
+            v.drop_logical_operands(e);
 
-        self.inline(e);
+            v.inline(e);
 
-        match e {
-            Expr::Bin(bin) => {
-                let expr = self.optimize_lit_cmp(bin);
-                if let Some(expr) = expr {
-                    log::debug!("Optimizing: Literal comparison");
-                    self.changed = true;
-                    *e = expr;
+            match e {
+                Expr::Bin(bin) => {
+                    let expr = v.optimize_lit_cmp(bin);
+                    if let Some(expr) = expr {
+                        log::debug!("Optimizing: Literal comparison");
+                        v.changed = true;
+                        *e = expr;
+                    }
                 }
+                _ => {}
             }
-            _ => {}
-        }
 
-        self.compress_cond_expr_if_simillar(e);
-        self.compress_cond_with_logical_as_logical(e);
+            v.compress_cond_expr_if_simillar(e);
+            v.compress_cond_with_logical_as_logical(e);
 
-        self.compress_negated_bin_eq(e);
-        self.compress_array_join(e);
+            v.compress_negated_bin_eq(e);
+            v.compress_array_join(e);
 
-        self.remove_useless_pipes(e);
+            v.remove_useless_pipes(e);
 
-        self.optimize_bools(e);
+            v.optimize_bools(e);
 
-        self.handle_property_access(e);
+            v.handle_property_access(e);
 
-        self.lift_seqs_of_bin(e);
+            v.lift_seqs_of_bin(e);
 
-        self.lift_seqs_of_cond_assign(e);
+            v.lift_seqs_of_cond_assign(e);
 
-        if self.options.negate_iife {
-            self.negate_iife_in_cond(e);
-        }
-
-        self.collapse_assignment_to_vars(e);
-
-        self.evaluate(e);
-
-        self.invoke_iife(e);
-
-        self.optimize_bangbang(e);
-
-        match e {
-            Expr::Seq(s) if s.exprs.is_empty() => {
-                e.take();
+            if v.options.negate_iife {
+                v.negate_iife_in_cond(e);
             }
-            _ => {}
-        }
+
+            v.collapse_assignment_to_vars(e);
+
+            v.evaluate(e);
+
+            v.invoke_iife(e);
+
+            v.optimize_bangbang(e);
+
+            match e {
+                Expr::Seq(s) if s.exprs.is_empty() => {
+                    e.take();
+                }
+                _ => {}
+            }
+        })
     }
 
     fn visit_mut_expr_stmt(&mut self, n: &mut ExprStmt) {
@@ -2163,83 +2203,86 @@ impl VisitMut for Optimizer<'_> {
             in_obj_of_non_computed_member: false,
             ..self.ctx
         };
-        s.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
-        match s {
-            Stmt::Expr(ExprStmt { expr, .. }) => {
-                if is_pure_undefined(expr) {
-                    *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                    return;
-                }
+        self.with_ctx(ctx).track(s, |v, s| {
+            s.visit_mut_children_with(v);
 
-                let is_directive = match &**expr {
-                    Expr::Lit(Lit::Str(..)) => true,
-                    _ => false,
-                };
+            match s {
+                Stmt::Expr(ExprStmt { expr, .. }) => {
+                    if is_pure_undefined(expr) {
+                        *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                        return;
+                    }
 
-                if self.options.directives && is_directive {
-                    if self.ctx.in_strict
-                        && match &**expr {
-                            Expr::Lit(Lit::Str(Str { value, .. })) => *value == *"use strict",
-                            _ => false,
+                    let is_directive = match &**expr {
+                        Expr::Lit(Lit::Str(..)) => true,
+                        _ => false,
+                    };
+
+                    if v.options.directives && is_directive {
+                        if v.ctx.in_strict
+                            && match &**expr {
+                                Expr::Lit(Lit::Str(Str { value, .. })) => *value == *"use strict",
+                                _ => false,
+                            }
+                        {
+                            log::debug!("Removing 'use strict'");
+                            *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                            return;
                         }
-                    {
-                        log::debug!("Removing 'use strict'");
-                        *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                        return;
+                    }
+
+                    if v.options.unused {
+                        let can_be_removed = !is_directive && !expr.may_have_side_effects();
+
+                        if can_be_removed {
+                            v.changed = true;
+                            log::debug!("Dropping an expression without side effect");
+                            *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                            return;
+                        }
                     }
                 }
+                _ => {}
+            }
 
-                if self.options.unused {
-                    let can_be_removed = !is_directive && !expr.may_have_side_effects();
-
-                    if can_be_removed {
-                        self.changed = true;
-                        log::debug!("Dropping an expression without side effect");
+            if v.options.drop_debugger {
+                match s {
+                    Stmt::Debugger(..) => {
+                        v.changed = true;
                         *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                        log::debug!("drop_debugger: Dropped a debugger statement");
                         return;
                     }
+                    _ => {}
                 }
             }
-            _ => {}
-        }
 
-        if self.options.drop_debugger {
+            v.loop_to_for_stmt(s);
+            v.optiimze_loops_if_cond_is_false(s);
+            v.optimize_loops_with_break(s);
+
             match s {
-                Stmt::Debugger(..) => {
-                    self.changed = true;
+                // We use var devl with no declarator to indicate we dropped an decl.
+                Stmt::Decl(Decl::Var(VarDecl { decls, .. })) if decls.is_empty() => {
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                    log::debug!("drop_debugger: Dropped a debugger statement");
                     return;
                 }
                 _ => {}
             }
-        }
 
-        self.loop_to_for_stmt(s);
-        self.optiimze_loops_if_cond_is_false(s);
-        self.optimize_loops_with_break(s);
+            v.try_removing_block(s, false);
 
-        match s {
-            // We use var devl with no declarator to indicate we dropped an decl.
-            Stmt::Decl(Decl::Var(VarDecl { decls, .. })) if decls.is_empty() => {
-                *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                return;
-            }
-            _ => {}
-        }
+            v.extract_vars_in_subscopes(s);
 
-        self.try_removing_block(s, false);
+            v.compress_if_without_alt(s);
 
-        self.extract_vars_in_subscopes(s);
+            v.compress_if_stmt_as_cond(s);
 
-        self.compress_if_without_alt(s);
+            v.optimize_const_switches(s);
 
-        self.compress_if_stmt_as_cond(s);
-
-        self.optimize_const_switches(s);
-
-        self.optimize_switches(s);
+            v.optimize_switches(s);
+        });
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
