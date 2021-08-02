@@ -1,10 +1,101 @@
 use crate::debug::dump;
 use swc_atoms::js_word;
-use swc_common::DUMMY_SP;
+use swc_common::{Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{ExprExt, Id};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+
+pub trait Respan {
+    fn respan(&mut self, span: Span);
+}
+
+impl Respan for Expr {
+    fn respan(&mut self, span: Span) {
+        match self {
+            Expr::This(e) => e.span = span,
+            Expr::Array(e) => e.span = span,
+            Expr::Object(e) => e.span = span,
+            Expr::Fn(e) => e.function.span = span,
+            Expr::Unary(e) => e.span = span,
+            Expr::Update(e) => e.span = span,
+            Expr::Bin(e) => e.span = span,
+            Expr::Assign(e) => e.span = span,
+            Expr::Member(e) => e.span = span,
+            Expr::Cond(e) => e.span = span,
+            Expr::Call(e) => e.span = span,
+            Expr::New(e) => e.span = span,
+            Expr::Seq(e) => e.span = span,
+            Expr::Ident(e) => e.span = span,
+            Expr::Lit(e) => e.respan(span),
+            Expr::Tpl(e) => e.span = span,
+            Expr::TaggedTpl(e) => e.span = span,
+            Expr::Arrow(e) => e.span = span,
+            Expr::Class(e) => e.class.span = span,
+            Expr::Yield(e) => e.span = span,
+            Expr::Await(e) => e.span = span,
+            Expr::Paren(e) => e.span = span,
+            Expr::PrivateName(e) => e.span = span,
+            Expr::OptChain(e) => e.span = span,
+            Expr::Invalid(e) => e.span = span,
+            _ => {}
+        }
+    }
+}
+
+impl Respan for Lit {
+    fn respan(&mut self, span: Span) {
+        match self {
+            Lit::Str(n) => n.span = span,
+            Lit::Bool(n) => n.span = span,
+            Lit::Null(n) => n.span = span,
+            Lit::Num(n) => n.span = span,
+            Lit::BigInt(n) => n.span = span,
+            Lit::Regex(n) => n.span = span,
+            Lit::JSXText(n) => n.span = span,
+        }
+    }
+}
+
+impl Respan for Stmt {
+    fn respan(&mut self, span: Span) {
+        match self {
+            Stmt::Block(s) => s.span = span,
+            Stmt::Empty(s) => s.span = span,
+            Stmt::Debugger(s) => s.span = span,
+            Stmt::With(s) => s.span = span,
+            Stmt::Return(s) => s.span = span,
+            Stmt::Labeled(s) => s.span = span,
+            Stmt::Break(s) => s.span = span,
+            Stmt::Continue(s) => s.span = span,
+            Stmt::If(s) => s.span = span,
+            Stmt::Switch(s) => s.span = span,
+            Stmt::Throw(s) => s.span = span,
+            Stmt::Try(s) => s.span = span,
+            Stmt::While(s) => s.span = span,
+            Stmt::DoWhile(s) => s.span = span,
+            Stmt::For(s) => s.span = span,
+            Stmt::ForIn(s) => s.span = span,
+            Stmt::ForOf(s) => s.span = span,
+            Stmt::Decl(s) => s.respan(span),
+            Stmt::Expr(s) => s.span = span,
+        }
+    }
+}
+
+impl Respan for Decl {
+    fn respan(&mut self, span: Span) {
+        match self {
+            Decl::Class(n) => n.class.span = span,
+            Decl::Fn(n) => n.function.span = span,
+            Decl::Var(n) => n.span = span,
+            Decl::TsInterface(n) => n.span = span,
+            Decl::TsTypeAlias(n) => n.span = span,
+            Decl::TsEnum(n) => n.span = span,
+            Decl::TsModule(n) => n.span = span,
+        }
+    }
+}
 
 /// Creates `!e` where e is the expression passed as an argument.
 ///
