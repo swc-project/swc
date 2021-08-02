@@ -1,6 +1,5 @@
 use self::ctx::Ctx;
 use crate::util::can_end_conditionally;
-use crate::util::idents_used_by_ignoring_nested;
 use crate::util::now;
 use crate::util::FastHashMap;
 use crate::util::FastHashSet;
@@ -795,7 +794,7 @@ impl Visit for UsageAnalyzer {
         for decl in &n.decls {
             match (&decl.name, decl.init.as_deref()) {
                 (Pat::Ident(var), Some(init)) => {
-                    let used_idents = idents_used_by_ignoring_nested(init);
+                    let used_idents = get_deps(init);
 
                     for id in used_idents {
                         self.data
@@ -845,5 +844,48 @@ impl Visit for UsageAnalyzer {
     fn visit_with_stmt(&mut self, n: &WithStmt, _: &dyn Node) {
         self.scope.has_with_stmt = true;
         n.visit_children_with(self);
+    }
+}
+
+fn get_deps<N>(n: &N) -> Vec<Id>
+where
+    N: VisitWith<DepCalculator>,
+{
+    let mut v = DepCalculator::default();
+    n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+    v.deps
+}
+
+#[derive(Default)]
+struct DepCalculator {
+    deps: Vec<Id>,
+}
+
+impl DepCalculator {}
+
+impl Visit for DepCalculator {
+    noop_visit_type!();
+
+    fn visit_block_stmt_or_expr(&mut self, _: &BlockStmtOrExpr, _: &dyn Node) {}
+
+    fn visit_constructor(&mut self, _s: &Constructor, _: &dyn Node) {}
+
+    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
+
+    fn visit_ident(&mut self, n: &Ident, _: &dyn Node) {
+        self.deps.push(n.to_id());
+    }
+
+    fn visit_member_expr(&mut self, n: &MemberExpr, _: &dyn Node) {
+        n.obj.visit_with(n, self);
+    }
+
+    fn visit_prop_name(&mut self, n: &PropName, _: &dyn Node) {
+        match n {
+            PropName::Computed(..) => {
+                n.visit_children_with(self);
+            }
+            _ => {}
+        }
     }
 }
