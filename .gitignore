@@ -49,3 +49,6 @@ pkg/
 
 # Generated while testing
 *.tmp.js
+
+# Used to see output of babel.
+/lab
