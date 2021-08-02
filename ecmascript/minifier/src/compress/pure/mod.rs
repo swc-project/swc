@@ -47,11 +47,12 @@ struct Pure<'a> {
 
 impl Repeated for Pure<'_> {
     fn changed(&self) -> bool {
-        self.run_again
+        self.modified_node
     }
 
     fn reset(&mut self) {
         self.run_again = false;
+        self.modified_node = false;
     }
 }
 
@@ -62,6 +63,7 @@ impl Pure<'_> {
         F: for<'aa> FnOnce(&mut Pure<'aa>, &mut N),
     {
         if has_mark(n.span(), self.marks.done) {
+            log::debug!("pure: Done");
             return;
         }
         debug_assert!(
