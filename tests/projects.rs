@@ -8,7 +8,7 @@ use swc::{
     config::{
         BuiltConfig, Config, JscConfig, ModuleConfig, Options, SourceMapsConfig, TransformConfig,
     },
-    Compiler,
+    Compiler, TransformOutput,
 };
 use swc_common::{chain, comments::Comment, BytePos, FileName};
 use swc_ecma_ast::EsVersion;
@@ -60,6 +60,10 @@ fn file_with_opt(filename: &str, options: Options) -> Result<NormalizedOutput, S
 }
 
 fn str_with_opt(content: &str, options: Options) -> Result<NormalizedOutput, StdErr> {
+    compile_str(content, options).map(|v| v.code.into())
+}
+
+fn compile_str(content: &str, options: Options) -> Result<TransformOutput, StdErr> {
     Tester::new().print_errors(|cm, handler| {
         let c = Compiler::new(cm.clone(), Arc::new(handler));
 
@@ -77,7 +81,7 @@ fn str_with_opt(content: &str, options: Options) -> Result<NormalizedOutput, Std
                 if c.handler.has_errors() {
                     Err(())
                 } else {
-                    Ok(v.code.into())
+                    Ok(v)
                 }
             }
             Err(err) => panic!("Error: {:?}", err),
@@ -843,7 +847,7 @@ fn issue_1984() {
     })
     .unwrap()
 fn opt_source_file_name_1() {
-    let res = str_with_opt(
+    let map = compile_str(
         "import Foo from 'foo';",
         Options {
             source_file_name: Some("entry".into()),
@@ -851,7 +855,8 @@ fn opt_source_file_name_1() {
             ..Default::default()
         },
     )
-    .unwrap();
+    .unwrap()
+    .map;
 
-    assert_eq!(res.to_string(), "")
+    assert_eq!(map.as_deref(), Some(""))
 }
