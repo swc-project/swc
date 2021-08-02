@@ -275,6 +275,7 @@ impl UsageAnalyzer {
             // log::trace!("insert({}{:?})", i.0, i.1);
 
             VarUsageInfo {
+                is_fn_local: true,
                 used_above_decl: true,
                 ..Default::default()
             }
