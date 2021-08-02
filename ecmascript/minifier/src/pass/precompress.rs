@@ -12,7 +12,7 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 /// Optimizer invoked before invoking compressor.
 ///
 /// - Remove parens.
-pub fn precompress_optimizer(options: CompressOptions) -> impl VisitMut {
+pub fn precompress_optimizer<'a>(options: &'a CompressOptions) -> impl 'a + VisitMut {
     PrecompressOptimizer {
         options,
         data: Default::default(),
@@ -21,9 +21,9 @@ pub fn precompress_optimizer(options: CompressOptions) -> impl VisitMut {
     }
 }
 
-#[derive(Debug, Default)]
-struct PrecompressOptimizer {
-    options: CompressOptions,
+#[derive(Debug)]
+struct PrecompressOptimizer<'a> {
+    options: &'a CompressOptions,
     data: ProgramData,
     fn_decl_count: FxHashMap<Id, usize>,
     ctx: Ctx,
@@ -34,7 +34,7 @@ struct Ctx {
     in_var_pat: bool,
 }
 
-impl VisitMut for PrecompressOptimizer {
+impl VisitMut for PrecompressOptimizer<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_decl(&mut self, n: &mut Decl) {

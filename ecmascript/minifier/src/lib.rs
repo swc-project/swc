@@ -77,7 +77,7 @@ pub fn optimize(
 
     if let Some(options) = &options.compress {
         let start = now();
-        m.visit_mut_with(&mut precompress_optimizer(options.clone()));
+        m.visit_mut_with(&mut precompress_optimizer(options));
         if let Some(start) = start {
             log::info!("precompress took {:?}", Instant::now() - start);
         }
