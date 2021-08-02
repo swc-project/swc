@@ -846,6 +846,9 @@ fn issue_1984() {
         Ok(())
     })
     .unwrap()
+}
+
+#[test]
 fn opt_source_file_name_1() {
     let map = compile_str(
         "import Foo from 'foo';",
