@@ -188,8 +188,7 @@ jobs:
         run: |
           # This does not have any effect on windows.
           npm config set prefix $HOME/npm
-          npm i browserslist regenerator-runtime sourcemap-validator progress
-          npm i
+          yarn
           npm i -g jest
           echo $HOME
           echo $HOME/npm/bin >> $GITHUB_PATH

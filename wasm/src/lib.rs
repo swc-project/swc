@@ -69,6 +69,7 @@ pub fn print_sync(s: JsValue, opts: JsValue) -> Result<JsValue, JsValue> {
         .print(
             &program,
             None,
+            None,
             opts.codegen_target().unwrap_or(JscTarget::Es2020),
             opts.source_maps
                 .clone()

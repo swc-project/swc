@@ -1,3 +1,72 @@
+//! Visitor generator for the rust language.
+//!
+//!
+//! There are three variants of visitor in swc. Those are `Fold`, `VisitMut`,
+//! `Visit`.
+//!
+//! # Comparisons
+//!
+//! ## `Fold` vs `VisitMut`
+//!
+//! `Fold` and `VisitMut` do almost identical tasks, but `Fold` is easier to use
+//! while being slower and weak to stack overflow for very deep asts. `Fold` is
+//! fast enough for almost all cases so it would be better to start with `Fold`.
+//!
+//! By very deep asts, I meant code like thousands of `a + a + a + a + ...`.
+//!
+//!
+//! # `Fold`
+//!
+//! `Fold` takes ownership of value, which means you have to return the new
+//! value. Returning new value means returning ownership of the value. But you
+//! don't have to care about ownership or about managing memories while using
+//! such visitors. `rustc` handles them automatically and all allocations will
+//! be freed when it goes out of the scope.
+//!
+//! You can invoke your `Fold` implementation like `node.fold_with(&mut
+//! visitor)` where `visitor` is your visitor. Note that as it takes ownership
+//! of value, you have to call `node.fold_children_with(self)` in e.g. `fn
+//! fold_module(&mut self, m: Module) -> Module` if you override the default
+//! behavior. Also you have to store return value from `fold_children_with`,
+//! like `let node = node.fold_children_with(self)`. Order of execution can be
+//! controlled using this. If there is some logic that should be applied to the
+//! parent first, you can call `fold_children_with` after such logic.
+//!
+//! # `VisitMut`
+//!
+//! `VisitMut` uses a mutable reference to AST nodes (e.g. `&mut Expr`). You can
+//! use `MapWithMut` from `swc_ecma_transforms_base` to get owned value from a
+//! mutable reference.
+//!
+//! You will typically use code like
+//!
+//! ```ignore
+//! *e = return_value.take();
+//! ```
+//!
+//! where `e = &mut Expr` and `return_value` is also `&mut Expr`. `take()` is an
+//! extension method defined on `MapWithMut`.  It's almost identical to `Fold`,
+//! so I'll skip memory management.
+//!
+//! You can invoke your `VisitMut` implementation like `node.visit_mut_with(&mut
+//! visitor)` where `visitor` is your visitor. Again, you need to call
+//! `node.visit_mut_children_with(self)` in visitor implementation if you want
+//! to modify children nodes. You don't need to store the return value in this
+//! case.
+//!
+//!
+//! # `Visit`
+//!
+//!`Visit` uses non-mutable references to AST nodes. It can be used to see if
+//! an AST node contains a specific node nested deeply in the AST. This is
+//! useful for checking if AST node contains `this`. This is useful for lots of
+//! cases - `this` in arrow expressions are special and we need to generate
+//! different code if a `this` expression is used.
+//!
+//! You can use your `Visit` implementation like  `node.visit_with(&Invalid{
+//! span: DUMY_SP, }, &mut visitor`. I think API is misdesigned, but it works
+//! and there are really lots of code using `Visit` already.
+
 pub use either::Either;
 pub use swc_visit_macros::define;
 

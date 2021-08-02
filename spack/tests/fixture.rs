@@ -198,6 +198,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                             .print(
                                 &bundled.module.fold_with(&mut fixer(None)),
                                 None,
+                                None,
                                 JscTarget::Es2020,
                                 SourceMapsConfig::Bool(false),
                                 None,

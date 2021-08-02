@@ -27,6 +27,7 @@ impl Task for PrintTask {
         self.c
             .print(
                 &self.program,
+                None,
                 self.options.output_path.clone(),
                 self.options.config.jsc.target.unwrap_or(JscTarget::Es2020),
                 self.options
@@ -82,6 +83,7 @@ pub fn print_sync(cx: CallContext) -> napi::Result<JsObject> {
     let result = {
         c.print(
             &program,
+            None,
             options.output_path,
             codegen_target,
             options

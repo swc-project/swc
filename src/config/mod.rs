@@ -188,6 +188,7 @@ impl Options {
         cm: &Arc<SourceMap>,
         base: &FileName,
         output_path: Option<&Path>,
+        source_file_name: Option<String>,
         handler: &Handler,
         is_module: bool,
         config: Option<Config>,
@@ -308,6 +309,7 @@ impl Options {
                 .unwrap_or(SourceMapsConfig::Bool(false)),
             input_source_map: self.config.input_source_map.clone(),
             output_path: output_path.map(|v| v.to_path_buf()),
+            source_file_name,
         }
     }
 }
@@ -635,6 +637,8 @@ pub struct BuiltConfig<P: swc_ecma_visit::Fold> {
     pub input_source_map: InputSourceMap,
     pub is_module: bool,
     pub output_path: Option<PathBuf>,
+
+    pub source_file_name: Option<String>,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
