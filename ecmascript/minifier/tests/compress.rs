@@ -273,7 +273,6 @@ fn base_fixture(input: PathBuf) {
     .unwrap()
 }
 
-#[testing::fixture("tests/projects/issues/*.js")]
 #[testing::fixture("tests/projects/files/*.js")]
 fn projects(input: PathBuf) {
     let dir = input.parent().unwrap();
