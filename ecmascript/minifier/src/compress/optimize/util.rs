@@ -1,11 +1,11 @@
 use super::Ctx;
 use super::Optimizer;
+use crate::util::has_mark;
 use std::ops::Deref;
 use std::ops::DerefMut;
 use swc_atoms::JsWord;
 use swc_common::comments::Comment;
 use swc_common::comments::CommentKind;
-use swc_common::Mark;
 use swc_common::Span;
 use swc_ecma_ast::*;
 use swc_ecma_utils::prop_name_eq;
@@ -136,16 +136,7 @@ impl<'b> Optimizer<'b> {
     #[allow(unused)]
 
     pub(super) fn is_done(&mut self, span: Span) -> bool {
-        let mut ctxt = span.ctxt;
-        loop {
-            let mark = ctxt.remove_mark();
-            if mark == Mark::root() {
-                return false;
-            }
-            if mark == self.marks.done {
-                return true;
-            }
-        }
+        has_mark(span, self.marks.done)
     }
 
     /// RAII guard to change context temporarically
