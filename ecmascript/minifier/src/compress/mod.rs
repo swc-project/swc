@@ -24,6 +24,7 @@ use swc_common::pass::CompilerPass;
 use swc_common::pass::Repeat;
 use swc_common::pass::Repeated;
 use swc_common::sync::Lrc;
+use swc_common::Globals;
 use swc_common::{chain, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::fixer;
@@ -47,6 +48,7 @@ mod util;
 
 pub(crate) fn compressor<'a>(
     cm: Lrc<SourceMap>,
+    swc_globals: &'a Globals,
     marks: Marks,
     options: &'a CompressOptions,
     comments: Option<&'a dyn Comments>,
@@ -57,6 +59,7 @@ pub(crate) fn compressor<'a>(
     };
     let compressor = Compressor {
         cm,
+        swc_globals,
         marks,
         options,
         comments,
@@ -74,6 +77,7 @@ pub(crate) fn compressor<'a>(
 
 struct Compressor<'a> {
     cm: Lrc<SourceMap>,
+    swc_globals: &'a Globals,
     marks: Marks,
     options: &'a CompressOptions,
     comments: Option<&'a dyn Comments>,
@@ -158,7 +162,7 @@ impl VisitMut for Compressor<'_> {
             // TODO: reset_opt_flags
             //
             // This is swc version of `node.optimize(this);`.
-            let mut visitor = pure_optimizer(self.marks, self.options);
+            let mut visitor = pure_optimizer(&self.swc_globals, self.marks, self.options);
             n.visit_mut_with(&mut visitor);
             self.changed |= visitor.changed();
 

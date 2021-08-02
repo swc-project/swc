@@ -114,7 +114,15 @@ pub fn optimize(
     }
     if let Some(options) = &options.compress {
         let start = now();
-        m = m.fold_with(&mut compressor(cm.clone(), marks, &options, comments));
+        m = swc_common::GLOBALS.with(|globals| {
+            m.fold_with(&mut compressor(
+                cm.clone(),
+                globals,
+                marks,
+                &options,
+                comments,
+            ))
+        });
         if let Some(start) = start {
             log::info!("compressor took {:?}", Instant::now() - start);
         }

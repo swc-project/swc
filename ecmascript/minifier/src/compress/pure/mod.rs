@@ -1,7 +1,7 @@
 use self::ctx::Ctx;
 use crate::{marks::Marks, option::CompressOptions};
 use rayon::prelude::*;
-use swc_common::pass::Repeated;
+use swc_common::{pass::Repeated, Globals};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
@@ -13,10 +13,12 @@ mod evaluate;
 mod strings;
 
 pub(super) fn pure_optimizer<'a>(
+    swc_globals: &'a Globals,
     marks: Marks,
     options: &'a CompressOptions,
 ) -> impl 'a + VisitMut + Repeated {
     Pure {
+        swc_globals,
         marks,
         options,
         run_again: false,
@@ -29,7 +31,9 @@ const MAX_PAR_DEPTH: usize = 4;
 
 #[derive(Clone, Copy)]
 struct Pure<'a> {
+    swc_globals: &'a Globals,
     marks: Marks,
+
     options: &'a CompressOptions,
     run_again: bool,
 
@@ -62,19 +66,22 @@ impl Pure<'_> {
             let results = nodes
                 .par_iter_mut()
                 .map(|node| {
-                    let mut v = Pure {
-                        marks: self.marks,
-                        options: self.options,
-                        run_again: false,
-                        modified_node: false,
-                        ctx: Ctx {
-                            par_depth: self.ctx.par_depth + 1,
-                            ..self.ctx
-                        },
-                    };
-                    node.visit_mut_with(&mut v);
+                    swc_common::GLOBALS.set(&self.swc_globals, || {
+                        let mut v = Pure {
+                            swc_globals: self.swc_globals,
+                            marks: self.marks,
+                            options: self.options,
+                            run_again: false,
+                            modified_node: false,
+                            ctx: Ctx {
+                                par_depth: self.ctx.par_depth + 1,
+                                ..self.ctx
+                            },
+                        };
+                        node.visit_mut_with(&mut v);
 
-                    (v.run_again, v.modified_node)
+                        (v.run_again, v.modified_node)
+                    })
                 })
                 .collect::<Vec<_>>();
 
