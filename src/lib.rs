@@ -248,7 +248,7 @@ impl Compiler {
     pub fn print<T>(
         &self,
         node: &T,
-        source_file_name: Option<&Path>,
+        source_file_name: Option<&str>,
         output_path: Option<PathBuf>,
         target: JscTarget,
         source_map: SourceMapsConfig,
@@ -297,7 +297,8 @@ impl Compiler {
                                 &mut src_map_buf,
                                 orig,
                                 SwcSourceMapConfig {
-                                    output_path: source_file_name.or(output_path.as_deref()),
+                                    source_file_name,
+                                    output_path: output_path.as_deref(),
                                 },
                             )
                             .to_writer(&mut buf)
@@ -318,7 +319,8 @@ impl Compiler {
                             &mut src_map_buf,
                             orig,
                             SwcSourceMapConfig {
-                                output_path: source_file_name.or(output_path.as_deref()),
+                                source_file_name,
+                                output_path: output_path.as_deref(),
                             },
                         )
                         .to_writer(&mut buf)
@@ -341,12 +343,17 @@ impl Compiler {
 }
 
 struct SwcSourceMapConfig<'a> {
+    source_file_name: Option<&'a str>,
     /// Output path of the `.map` file.
     output_path: Option<&'a Path>,
 }
 
 impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
     fn file_name_to_source(&self, f: &FileName) -> String {
+        if let Some(file_name) = self.source_file_name {
+            return file_name.to_string();
+        }
+
         let base_path = match self.output_path {
             Some(v) => v,
             None => return f.to_string(),
@@ -539,7 +546,7 @@ impl Compiler {
                 input_source_map: config.input_source_map,
                 is_module: config.is_module,
                 output_path: config.output_path,
-                source_file_name: opts.source_file_name.clone(),
+                source_file_name: config.source_file_name,
             };
 
             let orig = if opts
@@ -708,7 +715,7 @@ impl Compiler {
 
             self.print(
                 &program,
-                config.source_file_name.as_deref().map(Path::new),
+                config.source_file_name.as_deref(),
                 config.output_path,
                 config.target,
                 config.source_maps,
