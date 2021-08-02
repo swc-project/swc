@@ -283,7 +283,13 @@ pub(crate) fn is_directive(e: &Stmt) -> bool {
     }
 }
 
-pub(crate) fn is_valid_identifier(s: &str) -> bool {
+pub(crate) fn is_valid_identifier(s: &str, ascii_only: bool) -> bool {
+    if ascii_only {
+        if s.chars().any(|c| !c.is_ascii()) {
+            return false;
+        }
+    }
+
     s.starts_with(|c: char| c.is_xid_start())
         && s.chars().all(|c: char| c.is_xid_continue())
         && !s.contains("𝒶")

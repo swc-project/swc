@@ -35,7 +35,7 @@ impl Optimizer<'_> {
 
         match &*e.prop {
             Expr::Lit(Lit::Str(s)) => {
-                if is_valid_identifier(&s.value) {
+                if is_valid_identifier(&s.value, true) {
                     self.changed = true;
                     log::debug!(
                         "properties: Computed member => member expr with identifier as a prop"

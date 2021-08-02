@@ -9,7 +9,7 @@ impl Optimizer<'_> {
                     return;
                 }
 
-                if is_valid_identifier(&s.value) {
+                if is_valid_identifier(&s.value, false) {
                     self.changed = true;
                     log::debug!("misc: Optimizing string property name");
                     *name = PropName::Ident(Ident {
