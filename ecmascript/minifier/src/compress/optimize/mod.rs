@@ -259,13 +259,25 @@ impl Optimizer<'_> {
         if modified {
             if has_mark(n.span(), self.marks.pure_done) {
                 let mut span = n.span();
-                span.remove_mark();
+                let removed = span.remove_mark();
+
+                debug_assert_eq!(
+                    removed, self.marks.pure_done,
+                    "`pure_done` should be last mark in this situation"
+                );
 
                 n.respan(span);
             }
         } else {
             if has_mark(n.span(), self.marks.pure_done) {
-                let span = n.span();
+                let mut span = n.span();
+                let removed = span.remove_mark();
+
+                debug_assert_eq!(
+                    removed, self.marks.pure_done,
+                    "`pure_done` should be last mark in this situation"
+                );
+
                 let span = span.apply_mark(self.marks.done);
 
                 n.respan(span);
