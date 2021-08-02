@@ -414,9 +414,10 @@
                                 s: F,
                                 n: function n(
                                 ) {
-                                    if (i >= o.length) return {
-                                        done: true,
-                                    };
+                                    if (i >= o.length)
+                                        return {
+                                            done: true,
+                                        };
                                     return {
                                         done: false,
                                         value: o[i++],
