@@ -41,6 +41,11 @@ impl PrecompressOptimizer<'_> {
         T: for<'aa> VisitMutWith<PrecompressOptimizer<'aa>> + MoudleItemExt,
         Vec<T>: for<'aa> VisitMutWith<PrecompressOptimizer<'aa>> + VisitWith<UsageAnalyzer>,
     {
+        if self.data.is_some() {
+            stmts.visit_mut_children_with(self);
+            return;
+        }
+
         if self.data.is_none() {
             let has_decl = stmts.iter().any(|stmt| match stmt.as_module_decl() {
                 Ok(..) | Err(Stmt::Decl(..)) => true,
@@ -48,22 +53,27 @@ impl PrecompressOptimizer<'_> {
             });
 
             if has_decl {
-                self.data = Some(analyze(&*stmts));
-            } else {
-                for stmt in stmts {
-                    stmt.visit_mut_with(&mut PrecompressOptimizer {
-                        options: self.options,
-                        data: None,
-                        fn_decl_count: Default::default(),
-                        ctx: self.ctx,
-                    })
-                }
+                let data = Some(analyze(&*stmts));
 
+                stmts.visit_mut_children_with(&mut PrecompressOptimizer {
+                    options: self.options,
+                    data,
+                    fn_decl_count: Default::default(),
+                    ctx: self.ctx,
+                });
                 return;
             }
-        }
 
-        stmts.visit_mut_children_with(self);
+            for stmt in stmts {
+                stmt.visit_mut_with(&mut PrecompressOptimizer {
+                    options: self.options,
+                    data: None,
+                    fn_decl_count: Default::default(),
+                    ctx: self.ctx,
+                })
+            }
+            return;
+        }
     }
 }
 
