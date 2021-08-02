@@ -65,6 +65,11 @@ mod util;
 
 const DISABLE_BUGGY_PASSES: bool = true;
 
+#[derive(Debug, Default)]
+pub(super) struct OptimizerState {
+    vars_for_inlining: FxHashMap<Id, Box<Expr>>,
+}
+
 /// This pass is simillar to `node.optimize` of terser.
 pub(super) fn optimizer<'a>(
     cm: Lrc<SourceMap>,
@@ -72,6 +77,7 @@ pub(super) fn optimizer<'a>(
     options: &'a CompressOptions,
     comments: Option<&'a dyn Comments>,
     data: &'a ProgramData,
+    state: &'a mut OptimizerState,
 ) -> impl 'a + VisitMut + Repeated {
     assert!(
         options.top_retain.iter().all(|s| s.trim() != ""),
@@ -89,7 +95,7 @@ pub(super) fn optimizer<'a>(
         prepend_stmts: Default::default(),
         append_stmts: Default::default(),
         lits: Default::default(),
-        vars_for_inlining: Default::default(),
+        state,
         vars_for_prop_hoisting: Default::default(),
         simple_props: Default::default(),
         _simple_array_values: Default::default(),
@@ -212,7 +218,9 @@ struct Optimizer<'a> {
     ///
     /// Used for inlining.
     lits: FxHashMap<Id, Box<Expr>>,
-    vars_for_inlining: FxHashMap<Id, Box<Expr>>,
+
+    state: &'a mut OptimizerState,
+
     vars_for_prop_hoisting: FxHashMap<Id, Box<Expr>>,
     /// Used for `hoist_props`.
     simple_props: FxHashMap<(Id, JsWord), Box<Expr>>,

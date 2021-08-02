@@ -252,7 +252,7 @@ impl Optimizer<'_> {
                             i.id.span.ctxt
                         );
                         self.changed = true;
-                        self.vars_for_inlining.insert(i.to_id(), init.take());
+                        self.state.vars_for_inlining.insert(i.to_id(), init.take());
                         return;
                     }
                 }
@@ -420,7 +420,7 @@ impl Optimizer<'_> {
                                     f.ident.span.ctxt
                                 );
 
-                                self.vars_for_inlining.insert(
+                                self.state.vars_for_inlining.insert(
                                     i.to_id(),
                                     match decl {
                                         Decl::Fn(f) => Box::new(Expr::Fn(FnExpr {
@@ -476,7 +476,7 @@ impl Optimizer<'_> {
                     _ => {}
                 }
 
-                self.vars_for_inlining.insert(
+                self.state.vars_for_inlining.insert(
                     i.to_id(),
                     match decl.take() {
                         Decl::Class(c) => Box::new(Expr::Class(ClassExpr {
@@ -548,7 +548,7 @@ impl Optimizer<'_> {
                     return;
                 }
 
-                if let Some(value) = self.vars_for_inlining.get(&i.to_id()) {
+                if let Some(value) = self.state.vars_for_inlining.get(&i.to_id()) {
                     if self.ctx.is_exact_lhs_of_assign && !is_valid_for_lhs(&value) {
                         return;
                     }
@@ -564,7 +564,7 @@ impl Optimizer<'_> {
                 }
 
                 if self.ctx.inline_as_assignment {
-                    if let Some(value) = self.vars_for_inlining.remove(&i.to_id()) {
+                    if let Some(value) = self.state.vars_for_inlining.remove(&i.to_id()) {
                         self.changed = true;
                         log::debug!(
                             "inline: Inlining '{}{:?}' using assignment",
@@ -586,7 +586,7 @@ impl Optimizer<'_> {
                     }
                 }
 
-                if let Some(value) = self.vars_for_inlining.get(&i.to_id()) {
+                if let Some(value) = self.state.vars_for_inlining.get(&i.to_id()) {
                     self.changed = true;
                     log::debug!(
                         "inline: Replacing '{}{:?}' with an expression",

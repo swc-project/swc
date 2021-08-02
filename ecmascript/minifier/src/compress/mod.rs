@@ -1,6 +1,7 @@
 use self::drop_console::drop_console;
 use self::hoist_decls::DeclHoisterConfig;
 use self::optimize::optimizer;
+use self::optimize::OptimizerState;
 use crate::analyzer::analyze;
 use crate::analyzer::ProgramData;
 use crate::compress::hoist_decls::decl_hoister;
@@ -59,6 +60,7 @@ pub(crate) fn compressor<'a>(
         changed: false,
         pass: 0,
         data: None,
+        optimizer_state: Default::default(),
     };
 
     chain!(
@@ -76,6 +78,7 @@ struct Compressor<'a> {
     changed: bool,
     pass: usize,
     data: Option<ProgramData>,
+    optimizer_state: OptimizerState,
 }
 
 impl CompilerPass for Compressor<'_> {
@@ -206,6 +209,7 @@ impl VisitMut for Compressor<'_> {
                 self.options,
                 self.comments,
                 self.data.as_ref().unwrap(),
+                &mut self.optimizer_state,
             );
             n.visit_mut_with(&mut visitor);
             self.changed |= visitor.changed();
