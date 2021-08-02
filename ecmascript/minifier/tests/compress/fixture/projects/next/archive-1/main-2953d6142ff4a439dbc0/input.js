@@ -1522,9 +1522,11 @@
                     // The root entry object (effectively a try statement without a catch
                     // or a finally block) gives us a place to store values thrown from
                     // locations where there is no enclosing try statement.
-                        this.tryEntries = [{
-                            tryLoc: "root",
-                        },];
+                        this.tryEntries = [
+                            {
+                                tryLoc: "root",
+                            },
+                        ];
                         tryLocsList.forEach(
                             pushTryEntry,
                             this
@@ -2702,7 +2704,7 @@
                 __webpack_require__.p = "".concat(
                     prefix,
                     "/_next/"
-                ); //eslint-disable-line // Initialize next/config with the environment configuration
+                );
 
                 (0, _runtimeConfig).setConfig(
                     {
@@ -4043,7 +4045,6 @@
                     );
 
                     if (undefined) {
-                    // eslint-disable-next-line react-hooks/rules-of-hooks
                         _react["default"].useEffect(
                             function (
                             ) {
@@ -5549,9 +5550,10 @@
                                 s: F,
                                 n: function n(
                                 ) {
-                                    if (i >= o.length) return {
-                                        done: true,
-                                    };
+                                    if (i >= o.length)
+                                        return {
+                                            done: true,
+                                        };
                                     return {
                                         done: false,
                                         value: o[i++],
@@ -7292,7 +7294,7 @@
                                     key
                                 );
                             }
-                        } // eslint-disable-next-line default-case
+                        }
 
                         switch (h.type) {
                         case "title":
@@ -8230,7 +8232,6 @@
                     if (!pages.includes(
                         cleanPathname
                     )) {
-                    // eslint-disable-next-line array-callback-return
                         pages.some(
                             function (
                                 page
