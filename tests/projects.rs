@@ -734,6 +734,7 @@ fn should_visit() {
                 input_source_map: config.input_source_map,
                 is_module: config.is_module,
                 output_path: config.output_path,
+                source_file_name: config.source_file_name,
             };
 
             if config.minify {
@@ -754,6 +755,7 @@ fn should_visit() {
 
             Ok(c.print(
                 &program,
+                None,
                 config.output_path,
                 config.target,
                 config.source_maps,

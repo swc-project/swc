@@ -248,6 +248,7 @@ impl Compiler {
     pub fn print<T>(
         &self,
         node: &T,
+        source_file_name: Option<&Path>,
         output_path: Option<PathBuf>,
         target: JscTarget,
         source_map: SourceMapsConfig,
@@ -296,7 +297,7 @@ impl Compiler {
                                 &mut src_map_buf,
                                 orig,
                                 SwcSourceMapConfig {
-                                    output_path: output_path.as_deref(),
+                                    output_path: source_file_name.or(output_path.as_deref()),
                                 },
                             )
                             .to_writer(&mut buf)
@@ -317,7 +318,7 @@ impl Compiler {
                             &mut src_map_buf,
                             orig,
                             SwcSourceMapConfig {
-                                output_path: output_path.as_deref(),
+                                output_path: source_file_name.or(output_path.as_deref()),
                             },
                         )
                         .to_writer(&mut buf)
@@ -476,6 +477,7 @@ impl Compiler {
                 &self.cm,
                 name,
                 opts.output_path.as_deref(),
+                opts.source_file_name.clone(),
                 &self.handler,
                 opts.is_module,
                 Some(config),
@@ -537,6 +539,7 @@ impl Compiler {
                 input_source_map: config.input_source_map,
                 is_module: config.is_module,
                 output_path: config.output_path,
+                source_file_name: opts.source_file_name.clone(),
             };
 
             let orig = if opts
@@ -636,6 +639,7 @@ impl Compiler {
 
             self.print(
                 &module,
+                None,
                 opts.output_path.clone().map(From::from),
                 target,
                 SourceMapsConfig::Bool(opts.source_map),
@@ -704,6 +708,7 @@ impl Compiler {
 
             self.print(
                 &program,
+                config.source_file_name.as_deref().map(Path::new),
                 config.output_path,
                 config.target,
                 config.source_maps,

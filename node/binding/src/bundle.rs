@@ -138,6 +138,7 @@ impl Task for BundleTask {
                         let output = self.swc.print(
                             &m,
                             None,
+                            None,
                             codegen_target,
                             SourceMapsConfig::Bool(true),
                             None,
