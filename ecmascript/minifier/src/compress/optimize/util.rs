@@ -10,6 +10,10 @@ use swc_common::Span;
 use swc_ecma_ast::*;
 use swc_ecma_utils::prop_name_eq;
 use swc_ecma_utils::ExprExt;
+use swc_ecma_utils::Id;
+use swc_ecma_visit::noop_visit_mut_type;
+use swc_ecma_visit::VisitMut;
+use swc_ecma_visit::VisitMutWith;
 use unicode_xid::UnicodeXID;
 
 impl<'b> Optimizer<'b> {
@@ -293,4 +297,32 @@ pub(crate) fn is_valid_identifier(s: &str, ascii_only: bool) -> bool {
     s.starts_with(|c: char| c.is_xid_start())
         && s.chars().all(|c: char| c.is_xid_continue())
         && !s.contains("𝒶")
+}
+
+pub(crate) fn replace_id_with_expr(node: &mut Expr, from: Id, to: Box<Expr>) {
+    node.visit_mut_with(&mut ExprReplacer { from, to: Some(to) })
+}
+
+pub(crate) struct ExprReplacer {
+    from: Id,
+    to: Option<Box<Expr>>,
+}
+
+impl VisitMut for ExprReplacer {
+    noop_visit_mut_type!();
+
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
+
+        match e {
+            Expr::Ident(i) => {
+                if self.from.0 == i.sym && self.from.1 == i.span.ctxt {
+                    if let Some(new) = self.to.take() {
+                        *e = *new;
+                    }
+                }
+            }
+            _ => {}
+        }
+    }
 }
