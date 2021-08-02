@@ -26,7 +26,6 @@ impl Respan for Expr {
             Expr::Call(e) => e.span = span,
             Expr::New(e) => e.span = span,
             Expr::Seq(e) => e.span = span,
-            Expr::Ident(e) => e.span = span,
             Expr::Lit(e) => e.respan(span),
             Expr::Tpl(e) => e.span = span,
             Expr::TaggedTpl(e) => e.span = span,
