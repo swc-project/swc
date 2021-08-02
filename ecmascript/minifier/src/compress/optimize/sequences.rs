@@ -1,5 +1,5 @@
 use super::{is_pure_undefined, Optimizer};
-use crate::compress::optimize::util::{get_lhs_ident, get_lhs_ident_mut};
+use crate::compress::optimize::util::{get_lhs_ident, get_lhs_ident_mut, is_directive};
 use crate::compress::optimize::Ctx;
 use crate::debug::dump;
 use crate::util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt};
@@ -64,7 +64,11 @@ impl Optimizer<'_> {
                 stmts
                     .windows(2)
                     .any(|stmts| match (stmts[0].as_stmt(), stmts[1].as_stmt()) {
-                        (Some(Stmt::Expr(..)), Some(r)) => {
+                        (Some(l @ Stmt::Expr(..)), Some(r)) => {
+                            if is_directive(&l) || is_directive(&r) {
+                                return false;
+                            }
+
                             // If an expression contains `in` and following statement is for loop,
                             // we should not merge it.
 
@@ -138,6 +142,10 @@ impl Optimizer<'_> {
         for stmt in stmts.take() {
             match stmt.try_into_stmt() {
                 Ok(stmt) => {
+                    if is_directive(&stmt) {
+                        new_stmts.push(T::from_stmt(stmt));
+                        continue;
+                    }
                     // If
                     match stmt {
                         Stmt::Expr(stmt) => {
