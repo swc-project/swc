@@ -18,9 +18,9 @@ use swc_ecma_visit::VisitWith;
 use testing::fixture;
 use testing::Tester;
 
-#[fixture("comments/**/input.js")]
-#[fixture("comments/**/input.ts")]
-#[fixture("comments/**/input.tsx")]
+#[fixture("tests/comments/**/input.js")]
+#[fixture("tests/comments/**/input.ts")]
+#[fixture("tests/comments/**/input.tsx")]
 fn test(input: PathBuf) {
     let ext = input.extension().unwrap();
     let ext = ext.to_string_lossy();

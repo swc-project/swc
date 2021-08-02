@@ -1,5 +1,6 @@
 use crate::compress::optimize::unused::UnreachableHandler;
 use crate::compress::optimize::Optimizer;
+use swc_common::Spanned;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -19,7 +20,7 @@ impl Optimizer<'_> {
         match s {
             Stmt::While(stmt) => {
                 self.changed = true;
-                log::trace!("loops: Converting a while loop to a for loop");
+                log::debug!("loops: Converting a while loop to a for loop");
                 *s = Stmt::For(ForStmt {
                     span: stmt.span,
                     init: None,
@@ -32,7 +33,7 @@ impl Optimizer<'_> {
                 let val = stmt.test.as_pure_bool();
                 if let Known(true) = val {
                     self.changed = true;
-                    log::trace!("loops: Converting an always-true do-while loop to a for loop");
+                    log::debug!("loops: Converting an always-true do-while loop to a for loop");
 
                     *s = Stmt::For(ForStmt {
                         span: stmt.span,
@@ -79,7 +80,7 @@ impl Optimizer<'_> {
         }
 
         self.changed = true;
-        log::trace!("loops: Removing a for loop with instant break");
+        log::debug!("loops: Removing a for loop with instant break");
         self.prepend_stmts
             .extend(f.init.take().map(|init| match init {
                 VarDeclOrExpr::VarDecl(var) => Stmt::Decl(Decl::Var(var)),
@@ -97,6 +98,70 @@ impl Optimizer<'_> {
         *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP })
     }
 
+    /// # Input
+    ///
+    /// ```js
+    /// for(; size--;)
+    ///     if (!(result = eq(a[size], b[size], aStack, bStack)))
+    ///         break;
+    /// ```
+    ///
+    ///
+    /// # Output
+    ///
+    /// ```js
+    /// for (; size-- && (result = eq(a[size], b[size], aStack, bStack)););
+    /// ```
+    pub(super) fn merge_for_if_break(&mut self, s: &mut ForStmt) {
+        match &mut *s.body {
+            Stmt::If(IfStmt {
+                test,
+                cons,
+                alt: None,
+                ..
+            }) => {
+                match &**cons {
+                    Stmt::Break(BreakStmt { label: None, .. }) => {
+                        // We only care about instant breaks.
+                        //
+                        // Note: As the minifier of swc is very fast, we don't
+                        // care about block statements with a single break as a
+                        // body.
+                        //
+                        // If it's optimizable, other pass for if statements
+                        // will remove block and with the next pass we can apply
+                        // this pass.
+                        self.changed = true;
+                        log::debug!("loops: Compressing for-if-break into a for statement");
+
+                        // We negate because this `test` is used as a condition for `break`.
+                        self.negate(test);
+
+                        match s.test.take() {
+                            Some(left) => {
+                                s.test = Some(Box::new(Expr::Bin(BinExpr {
+                                    span: s.test.span(),
+                                    op: op!("&&"),
+                                    left,
+                                    right: test.take(),
+                                })));
+                            }
+                            None => {
+                                s.test = Some(test.take());
+                            }
+                        }
+
+                        // Remove body
+                        s.body.take();
+                    }
+                    _ => {}
+                }
+            }
+
+            _ => {}
+        }
+    }
+
     ///
     /// - `while(false) { var a; foo() }` => `var a;`
     pub(super) fn optiimze_loops_if_cond_is_false(&mut self, stmt: &mut Stmt) {
@@ -112,7 +177,7 @@ impl Optimizer<'_> {
                         let changed = UnreachableHandler::preserve_vars(stmt);
                         self.changed |= changed;
                         if changed {
-                            log::trace!(
+                            log::debug!(
                                 "loops: Removing unreachable while statement without side effects"
                             );
                         }
@@ -120,7 +185,7 @@ impl Optimizer<'_> {
                         let changed = UnreachableHandler::preserve_vars(&mut w.body);
                         self.changed |= changed;
                         if changed {
-                            log::trace!("loops: Removing unreachable body of a while statement");
+                            log::debug!("loops: Removing unreachable body of a while statement");
                         }
                     }
                 }
@@ -132,7 +197,7 @@ impl Optimizer<'_> {
                         let changed = UnreachableHandler::preserve_vars(&mut f.body);
                         self.changed |= changed;
                         if changed {
-                            log::trace!("loops: Removing unreachable body of a for statement");
+                            log::debug!("loops: Removing unreachable body of a for statement");
                         }
                         self.changed |= f.init.is_some() | f.update.is_some();
 
@@ -154,7 +219,7 @@ impl Optimizer<'_> {
                     } else if let Known(true) = val {
                         if purity.is_pure() {
                             self.changed = true;
-                            log::trace!(
+                            log::debug!(
                                 "loops: Remving `test` part of a for stmt as it's always true"
                             );
                             f.test = None;
@@ -190,7 +255,7 @@ impl Optimizer<'_> {
                     } else {
                         s.init = None;
                         self.changed = true;
-                        log::trace!(
+                        log::debug!(
                             "loops: Removed side-effect-free expressions in `init` of a for stmt"
                         );
                     }

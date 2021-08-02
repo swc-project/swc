@@ -1,3 +1,2 @@
-var a;
+var a, b;
 x() ? y() : z();
-var b;

@@ -12,6 +12,210 @@ export type ParseOptions = ParserConfig & {
   target?: JscTarget;
 };
 
+export type TerserEcmaVersion = 5 | 2015 | 2016 | string | number;
+
+export interface JsMinifyOptions {
+  compress?: TerserCompressOptions | boolean,
+
+  mangle?: TerserMangleOptions | boolean,
+
+  ecma?: TerserEcmaVersion,
+
+  keep_classnames?: boolean,
+
+  keep_fnames?: boolean,
+
+  module?: boolean,
+
+  safari10?: boolean
+
+  toplevel?: boolean
+
+  sourceMap?: boolean
+
+  outputPath?: string
+}
+
+export interface TerserCompressOptions {
+  arguments?: boolean,
+  arrows?: boolean,
+
+
+  booleans?: boolean,
+
+
+  booleans_as_integers?: boolean,
+
+
+  collapse_vars?: boolean,
+
+
+  comparisons?: boolean,
+
+
+  computed_props?: boolean,
+
+
+  conditionals?: boolean,
+
+
+  dead_code?: boolean,
+
+  defaults?: boolean,
+
+
+  directives?: boolean,
+
+
+  drop_console?: boolean,
+
+
+  drop_debugger?: boolean,
+
+  ecma?: TerserEcmaVersion,
+
+
+  evaluate?: boolean,
+
+
+  expression?: boolean,
+
+
+  global_defs?: any,
+
+
+  hoist_funs?: boolean,
+
+
+  hoist_props?: boolean,
+
+
+  hoist_vars?: boolean,
+
+
+  ie8?: boolean,
+
+
+  if_return?: boolean,
+
+
+  inline?: 0 | 1 | 2 | 3
+
+
+  join_vars?: boolean,
+
+
+  keep_classnames?: boolean,
+
+
+  keep_fargs?: boolean,
+
+
+  keep_fnames?: boolean,
+
+
+  keep_infinity?: boolean,
+
+
+  loops?: boolean,
+  // module        : false,
+
+  negate_iife?: boolean,
+
+
+  passes?: number,
+
+
+  properties?: boolean,
+
+
+  pure_getters?: any,
+
+
+  pure_funcs?: string[],
+
+
+  reduce_funcs?: boolean,
+
+
+  reduce_vars?: boolean,
+
+
+  sequences?: any,
+
+
+  side_effects?: boolean,
+
+
+  switches?: boolean,
+
+
+  top_retain?: any,
+
+
+  toplevel?: any,
+
+
+  typeofs?: boolean,
+
+
+  unsafe_passes?: boolean,
+
+
+  unsafe_arrows?: boolean,
+
+
+  unsafe_comps?: boolean,
+
+
+  unsafe_function?: boolean,
+
+
+  unsafe_math?: boolean,
+
+
+  unsafe_symbols?: boolean,
+
+
+  unsafe_methods?: boolean,
+
+
+  unsafe_proto?: boolean,
+
+
+  unsafe_regexp?: boolean,
+
+
+  unsafe_undefined?: boolean,
+
+
+  unused?: boolean,
+
+
+  module?: boolean,
+}
+
+export interface TerserMangleOptions {
+  props?: TerserManglePropertiesOptions,
+
+  top_level?: boolean,
+
+  keep_class_names?: boolean,
+
+  keep_fn_names?: boolean,
+
+  keep_private_props?: boolean,
+
+  ie8?: boolean,
+
+  safari10?: boolean,
+}
+
+export interface TerserManglePropertiesOptions {
+
+}
+
+
 /**
  * Programmatic options.
  */
@@ -339,6 +543,8 @@ export interface EsParserConfig {
   privateMethod?: boolean;
   /**
    * Defaults to `false`
+   *
+   * @deprecated Always true because it's in ecmascript spec.
    */
   classProperty?: boolean;
   /**
@@ -356,6 +562,16 @@ export interface EsParserConfig {
   /**
    * Defaults to `false`
    */
+  exportDefaultFrom?: boolean;
+  /**
+   * Defaults to `false`
+   *
+   * @deprecated Always true because it's in ecmascript spec.
+   */
+  exportNamespaceFrom?: boolean;
+  /**
+   * Defaults to `false`
+   */
   dynamicImport?: boolean;
   /**
    * Defaults to `false`
@@ -365,16 +581,22 @@ export interface EsParserConfig {
   nullishCoalescing?: boolean;
   /**
    * Defaults to `false`
+   *
+   * @deprecated Always true because it's in ecmascript spec.
    */
-  exportDefaultFrom?: boolean;
-  /**
-   * Defaults to `false`
-   */
-  exportNamespaceFrom?: boolean;
+  optionalChaining?: boolean;
   /**
    * Defaults to `false`
    */
   importMeta?: boolean;
+  /**
+   * Defaults to `false`
+   */
+  topLevelAwait?: boolean;
+  /**
+   * Defaults to `false`
+   */
+  importAssertions?: boolean;
 }
 
 /**

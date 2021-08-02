@@ -455,7 +455,7 @@ jobs:
         with:
           envs: "DEBUG RUSTUP_HOME CARGO_HOME RUSTUP_IO_THREADS"
           usesh: true
-          mem: 3000
+          mem: 6000
           prepare: |
             pkg install -y curl node yarn npm
             curl https://sh.rustup.rs -sSf --output rustup.sh

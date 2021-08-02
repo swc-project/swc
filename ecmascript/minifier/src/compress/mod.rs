@@ -1,10 +1,14 @@
 use self::drop_console::drop_console;
 use self::hoist_decls::DeclHoisterConfig;
 use self::optimize::optimizer;
+use crate::analyzer::analyze;
+use crate::analyzer::ProgramData;
 use crate::compress::hoist_decls::decl_hoister;
 use crate::debug::dump;
 use crate::debug::invoke;
+use crate::marks::Marks;
 use crate::option::CompressOptions;
+use crate::util::now;
 use crate::util::Optional;
 #[cfg(feature = "pretty_assertions")]
 use pretty_assertions::assert_eq;
@@ -13,12 +17,15 @@ use std::fmt;
 use std::fmt::Debug;
 use std::fmt::Display;
 use std::fmt::Formatter;
-use swc_common::chain;
+use std::time::Instant;
 use swc_common::comments::Comments;
 use swc_common::pass::CompilerPass;
 use swc_common::pass::Repeat;
 use swc_common::pass::Repeated;
+use swc_common::sync::Lrc;
+use swc_common::{chain, SourceMap};
 use swc_ecma_ast::*;
+use swc_ecma_transforms::fixer;
 use swc_ecma_transforms::optimization::simplify::dead_branch_remover;
 use swc_ecma_transforms::optimization::simplify::expr_simplifier;
 use swc_ecma_transforms::pass::JsPass;
@@ -34,7 +41,9 @@ mod drop_console;
 mod hoist_decls;
 mod optimize;
 
-pub fn compressor<'a>(
+pub(crate) fn compressor<'a>(
+    cm: Lrc<SourceMap>,
+    marks: Marks,
     options: &'a CompressOptions,
     comments: Option<&'a dyn Comments>,
 ) -> impl 'a + JsPass {
@@ -43,10 +52,13 @@ pub fn compressor<'a>(
         visitor: drop_console(),
     };
     let compressor = Compressor {
-        comments,
+        cm,
+        marks,
         options,
-        pass: 0,
+        comments,
         changed: false,
+        pass: 0,
+        data: None,
     };
 
     chain!(
@@ -57,10 +69,13 @@ pub fn compressor<'a>(
 }
 
 struct Compressor<'a> {
+    cm: Lrc<SourceMap>,
+    marks: Marks,
     options: &'a CompressOptions,
     comments: Option<&'a dyn Comments>,
     changed: bool,
     pass: usize,
+    data: Option<ProgramData>,
 }
 
 impl CompilerPass for Compressor<'_> {
@@ -77,6 +92,7 @@ impl Repeated for Compressor<'_> {
     fn reset(&mut self) {
         self.changed = false;
         self.pass += 1;
+        self.data = None;
     }
 }
 
@@ -84,7 +100,7 @@ impl Compressor<'_> {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike,
-        Vec<T>: VisitMutWith<Self> + VisitMutWith<hoist_decls::Hoister>,
+        Vec<T>: VisitMutWith<Self> + for<'aa> VisitMutWith<hoist_decls::Hoister<'aa>>,
     {
         // Skip if `use asm` exists.
         if stmts.iter().any(|stmt| match stmt.as_stmt() {
@@ -104,17 +120,6 @@ impl Compressor<'_> {
             return;
         }
 
-        {
-            let mut v = decl_hoister(DeclHoisterConfig {
-                hoist_fns: self.options.hoist_fns,
-                hoist_vars: self.options.hoist_vars,
-                top_level: self.options.top_level(),
-            });
-            stmts.visit_mut_with(&mut v);
-            self.changed |= v.changed();
-        }
-        // TODO: Hoist decls
-
         stmts.visit_mut_children_with(self);
 
         // TODO: drop unused
@@ -125,38 +130,58 @@ impl VisitMut for Compressor<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_module(&mut self, n: &mut Module) {
+        debug_assert!(self.data.is_none());
+        self.data = Some(analyze(&*n));
+
         if self.options.passes != 0 && self.options.passes + 1 <= self.pass {
             let done = dump(&*n);
-            log::trace!("===== Done =====\n{}", done);
+            log::debug!("===== Done =====\n{}", done);
             return;
         }
 
         // Temporary
-        if self.pass > 10 {
-            panic!("Infinite loop detected")
+        if self.pass > 30 {
+            panic!("Infinite loop detected (current pass = {})", self.pass)
         }
 
         let start = if cfg!(feature = "debug") {
-            let start = dump(&*n);
-            log::trace!("===== Start =====\n{}", start);
+            let start = dump(&n.clone().fold_with(&mut fixer(None)));
+            log::debug!("===== Start =====\n{}", start);
             start
         } else {
             String::new()
         };
 
         {
+            log::info!(
+                "compress: Running expression simplifier (pass = {})",
+                self.pass
+            );
+
+            let start_time = now();
+
             let mut visitor = expr_simplifier();
-            n.map_with_mut(|m| m.fold_with(&mut visitor));
+            n.visit_mut_with(&mut visitor);
             self.changed |= visitor.changed();
             if visitor.changed() {
-                log::trace!("compressor: Simplified expressions");
+                log::debug!("compressor: Simplified expressions");
                 if cfg!(feature = "debug") {
-                    log::trace!("===== Simplified =====\n{}", dump(&*n));
+                    log::debug!("===== Simplified =====\n{}", dump(&*n));
                 }
             }
 
+            if let Some(start_time) = start_time {
+                let end_time = Instant::now();
+
+                log::info!(
+                    "compress: expr_simplifier took {:?} (pass = {})",
+                    end_time - start_time,
+                    self.pass
+                );
+            }
+
             if cfg!(feature = "debug") && !visitor.changed() {
-                let simplified = dump(&*n);
+                let simplified = dump(&n.clone().fold_with(&mut fixer(None)));
                 if start != simplified {
                     assert_eq!(
                         DebugUsingDisplay(&start),
@@ -169,12 +194,33 @@ impl VisitMut for Compressor<'_> {
         }
 
         {
+            log::info!("compress: Running optimizer (pass = {})", self.pass);
+
+            let start_time = now();
             // TODO: reset_opt_flags
             //
             // This is swc version of `node.optimize(this);`.
-            let mut visitor = optimizer(self.options.clone(), self.comments);
+            let mut visitor = optimizer(
+                self.cm.clone(),
+                self.marks,
+                self.options,
+                self.comments,
+                self.data.as_ref().unwrap(),
+            );
             n.visit_mut_with(&mut visitor);
             self.changed |= visitor.changed();
+
+            if let Some(start_time) = start_time {
+                let end_time = Instant::now();
+
+                log::info!(
+                    "compress: Optimizer took {:?} (pass = {})",
+                    end_time - start_time,
+                    self.pass
+                );
+            }
+            // let done = dump(&*n);
+            // log::debug!("===== Result =====\n{}", done);
         }
 
         if self.options.conditionals || self.options.dead_code {
@@ -184,14 +230,26 @@ impl VisitMut for Compressor<'_> {
                 "".into()
             };
 
+            let start_time = now();
+
             let mut v = dead_branch_remover();
             n.map_with_mut(|n| n.fold_with(&mut v));
+
+            if let Some(start_time) = start_time {
+                let end_time = Instant::now();
+
+                log::info!(
+                    "compress: dead_branch_remover took {:?} (pass = {})",
+                    end_time - start_time,
+                    self.pass
+                );
+            }
 
             if cfg!(feature = "debug") {
                 let simplified = dump(&*n);
 
                 if start != simplified {
-                    log::trace!(
+                    log::debug!(
                         "===== Removed dead branches =====\n{}\n==== ===== ===== ===== ======\n{}",
                         start,
                         simplified
@@ -207,14 +265,20 @@ impl VisitMut for Compressor<'_> {
         invoke(&*n);
     }
 
-    fn visit_mut_stmt(&mut self, n: &mut Stmt) {
-        // TODO: Skip if node is already optimized.
-        // if (has_flag(node, SQUEEZED)) return node;
-
-        n.visit_mut_children_with(self);
-    }
-
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
+        {
+            let mut v = decl_hoister(
+                DeclHoisterConfig {
+                    hoist_fns: self.options.hoist_fns,
+                    hoist_vars: self.options.hoist_vars,
+                    top_level: self.options.top_level(),
+                },
+                self.data.as_ref().unwrap(),
+            );
+            stmts.visit_mut_with(&mut v);
+            self.changed |= v.changed();
+        }
+
         self.handle_stmt_likes(stmts);
 
         stmts.retain(|stmt| match stmt {
@@ -230,6 +294,26 @@ impl VisitMut for Compressor<'_> {
             }
             _ => true,
         });
+    }
+
+    fn visit_mut_script(&mut self, n: &mut Script) {
+        debug_assert!(self.data.is_none());
+        self.data = Some(analyze(&*n));
+
+        {
+            let mut v = decl_hoister(
+                DeclHoisterConfig {
+                    hoist_fns: self.options.hoist_fns,
+                    hoist_vars: self.options.hoist_vars,
+                    top_level: self.options.top_level(),
+                },
+                self.data.as_ref().unwrap(),
+            );
+            n.body.visit_mut_with(&mut v);
+            self.changed |= v.changed();
+        }
+
+        n.visit_mut_children_with(self);
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {

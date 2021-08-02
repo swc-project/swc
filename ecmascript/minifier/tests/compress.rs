@@ -1,3 +1,5 @@
+extern crate swc_node_base;
+
 use ansi_term::Color;
 use anyhow::bail;
 use anyhow::Context;
@@ -11,6 +13,7 @@ use std::panic::catch_unwind;
 use std::path::Path;
 use std::path::PathBuf;
 use std::process::Command;
+use std::time::Instant;
 use swc_common::comments::SingleThreadedComments;
 use swc_common::errors::Handler;
 use swc_common::sync::Lrc;
@@ -89,9 +92,19 @@ enum TestMangleOptions {
     Normal(MangleOptions),
 }
 
+#[derive(Debug, Clone, Deserialize)]
+struct TestOptions {
+    #[serde(default)]
+    defaults: bool,
+}
+
 fn parse_compressor_config(cm: Lrc<SourceMap>, s: &str) -> (bool, CompressOptions) {
-    let c: TerserCompressorOptions =
+    let opts: TestOptions =
         serde_json::from_str(s).expect("failed to deserialize value into a compressor config");
+    let mut c: TerserCompressorOptions =
+        serde_json::from_str(s).expect("failed to deserialize value into a compressor config");
+
+    c.defaults = opts.defaults;
 
     (c.module, c.into_config(cm))
 }
@@ -132,6 +145,8 @@ fn run(
 
     let top_level_mark = Mark::fresh(Mark::root());
 
+    let minification_start = Instant::now();
+
     let lexer = Lexer::new(
         Default::default(),
         Default::default(),
@@ -155,8 +170,10 @@ fn run(
         _ => return None,
     };
 
+    let optimization_start = Instant::now();
     let output = optimize(
         program,
+        cm.clone(),
         Some(&comments),
         None,
         &MinifyOptions {
@@ -174,9 +191,22 @@ fn run(
             ..Default::default()
         },
         &ExtraOptions { top_level_mark },
-    )
-    .fold_with(&mut hygiene())
-    .fold_with(&mut fixer(None));
+    );
+    let end = Instant::now();
+    log::info!(
+        "optimize({}) took {:?}",
+        input.display(),
+        end - optimization_start
+    );
+
+    let output = output.fold_with(&mut hygiene()).fold_with(&mut fixer(None));
+
+    let end = Instant::now();
+    log::info!(
+        "process({}) took {:?}",
+        input.display(),
+        end - minification_start
+    );
 
     Some(output)
 }
@@ -199,11 +229,26 @@ fn stdout_of(code: &str) -> Result<String, Error> {
     Ok(String::from_utf8_lossy(&actual_output.stdout).to_string())
 }
 
-#[testing::fixture("compress/fixture/**/input.js")]
+fn find_config(dir: &Path) -> String {
+    let mut cur = Some(dir);
+    while let Some(dir) = cur {
+        let config = dir.join("config.json");
+        if config.exists() {
+            let config = read_to_string(&config).expect("failed to read config.json");
+
+            return config;
+        }
+
+        cur = dir.parent();
+    }
+
+    panic!("failed to find config file for {}", dir.display())
+}
+
+#[testing::fixture("tests/compress/fixture/**/input.js")]
 fn base_fixture(input: PathBuf) {
     let dir = input.parent().unwrap();
-    let config = dir.join("config.json");
-    let config = read_to_string(&config).expect("failed to read config.json");
+    let config = find_config(&dir);
     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
 
     testing::run_test2(false, |cm, handler| {
@@ -213,7 +258,7 @@ fn base_fixture(input: PathBuf) {
             None => return Ok(()),
         };
 
-        let output = print(cm.clone(), &[output_module.clone()]);
+        let output = print(cm.clone(), &[output_module.clone()], false);
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Ouput"), output);
 
@@ -228,8 +273,42 @@ fn base_fixture(input: PathBuf) {
     .unwrap()
 }
 
+#[testing::fixture("tests/projects/files/*.js")]
+fn projects(input: PathBuf) {
+    let dir = input.parent().unwrap();
+    let config = dir.join("config.json");
+    let config = read_to_string(&config).expect("failed to read config.json");
+    eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
+
+    testing::run_test2(false, |cm, handler| {
+        let output = run(cm.clone(), &handler, &input, &config, None);
+        let output_module = match output {
+            Some(v) => v,
+            None => return Ok(()),
+        };
+
+        let output = print(cm.clone(), &[output_module.clone()], false);
+
+        eprintln!("---- {} -----\n{}", Color::Green.paint("Ouput"), output);
+
+        println!("{}", input.display());
+
+        NormalizedOutput::from(output)
+            .compare_to_file(
+                dir.parent()
+                    .unwrap()
+                    .join("output")
+                    .join(input.file_name().unwrap()),
+            )
+            .unwrap();
+
+        Ok(())
+    })
+    .unwrap()
+}
+
 /// Tests used to prevent regressions.
-#[testing::fixture("compress/exec/**/input.js")]
+#[testing::fixture("tests/compress/exec/**/input.js")]
 fn base_exec(input: PathBuf) {
     let dir = input.parent().unwrap();
     let config = dir.join("config.json");
@@ -241,7 +320,7 @@ fn base_exec(input: PathBuf) {
 
         let output = run(cm.clone(), &handler, &input, &config, None);
         let output = output.expect("Parsing in base test should not fail");
-        let output = print(cm.clone(), &[output]);
+        let output = print(cm.clone(), &[output], false);
 
         eprintln!(
             "---- {} -----\n{}",
@@ -266,7 +345,7 @@ fn base_exec(input: PathBuf) {
 }
 
 /// Tests ported from terser.
-#[testing::fixture("terser/compress/**/input.js")]
+#[testing::fixture("tests/terser/compress/**/input.js")]
 fn fixture(input: PathBuf) {
     if is_ignored(&input) {
         return;
@@ -297,7 +376,7 @@ fn fixture(input: PathBuf) {
             None => return Ok(()),
         };
 
-        let output = print(cm.clone(), &[output_module.clone()]);
+        let output = print(cm.clone(), &[output_module.clone()], false);
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Ouput"), output);
 
@@ -327,7 +406,7 @@ fn fixture(input: PathBuf) {
                 ModuleItem::Stmt(Stmt::Empty(..)) => false,
                 _ => true,
             });
-            print(cm.clone(), &[expected])
+            print(cm.clone(), &[expected], false)
         };
 
         if output == expected {
@@ -368,7 +447,7 @@ fn fixture(input: PathBuf) {
             });
         }
 
-        let output_str = print(cm.clone(), &[drop_span(output_module.clone())]);
+        let output_str = print(cm.clone(), &[drop_span(output_module.clone())], false);
 
         assert_eq!(DebugUsingDisplay(&output_str), DebugUsingDisplay(&expected));
 
@@ -377,12 +456,12 @@ fn fixture(input: PathBuf) {
     .unwrap()
 }
 
-fn print<N: swc_ecma_codegen::Node>(cm: Lrc<SourceMap>, nodes: &[N]) -> String {
+fn print<N: swc_ecma_codegen::Node>(cm: Lrc<SourceMap>, nodes: &[N], minify: bool) -> String {
     let mut buf = vec![];
 
     {
         let mut emitter = Emitter {
-            cfg: Default::default(),
+            cfg: swc_ecma_codegen::Config { minify },
             cm: cm.clone(),
             comments: None,
             wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),

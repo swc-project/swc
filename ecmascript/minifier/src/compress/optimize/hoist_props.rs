@@ -88,7 +88,7 @@ impl Optimizer<'_> {
 
                                     match &p.key {
                                         PropName::Str(s) => {
-                                            log::trace!(
+                                            log::debug!(
                                                 "hoist_props: Storing a varaible to inline \
                                                  properties"
                                             );
@@ -96,7 +96,7 @@ impl Optimizer<'_> {
                                                 .insert((name.to_id(), s.value.clone()), value);
                                         }
                                         PropName::Ident(i) => {
-                                            log::trace!(
+                                            log::debug!(
                                                 "hoist_props: Storing a varaible to inline \
                                                  properties"
                                             );
@@ -118,9 +118,12 @@ impl Optimizer<'_> {
                     .data
                     .as_ref()
                     .and_then(|data| {
-                        data.vars
-                            .get(&name.to_id())
-                            .map(|v| v.ref_count == 1 && v.has_property_access)
+                        data.vars.get(&name.to_id()).map(|v| {
+                            v.ref_count == 1
+                                && v.has_property_access
+                                && v.is_fn_local
+                                && !v.used_in_loop
+                        })
                     })
                     .unwrap_or(false)
                 {
@@ -132,6 +135,15 @@ impl Optimizer<'_> {
                     None => return,
                 };
 
+                match &*init {
+                    Expr::This(..) => {
+                        n.init = Some(init);
+                        return;
+                    }
+
+                    _ => {}
+                }
+
                 match self.vars_for_prop_hoisting.insert(name.to_id(), init) {
                     Some(prev) => {
                         panic!(
@@ -140,7 +152,13 @@ impl Optimizer<'_> {
                             prev
                         );
                     }
-                    None => {}
+                    None => {
+                        log::debug!(
+                            "hoist_props: Stored {}{:?} to inline property access",
+                            name.id.sym,
+                            name.id.span.ctxt
+                        );
+                    }
                 }
             }
             _ => {}
@@ -161,7 +179,7 @@ impl Optimizer<'_> {
                     if let Some(value) = self.vars_for_prop_hoisting.remove(&obj.to_id()) {
                         member.obj = ExprOrSuper::Expr(value);
                         self.changed = true;
-                        log::trace!("hoist_props: Inlined a property");
+                        log::debug!("hoist_props: Inlined a property");
                         return;
                     }
 
@@ -174,7 +192,7 @@ impl Optimizer<'_> {
                             if let Some(value) =
                                 self.simple_props.get(&(obj.to_id(), prop.sym.clone()))
                             {
-                                log::trace!("hoist_props: Inlining `{}.{}`", obj.sym, prop.sym);
+                                log::debug!("hoist_props: Inlining `{}.{}`", obj.sym, prop.sym);
                                 self.changed = true;
                                 *e = *value.clone()
                             }

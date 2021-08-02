@@ -55,6 +55,9 @@ pub struct MangleOptions {
     #[serde(default, alias = "keep_fnames")]
     pub keep_fn_names: bool,
 
+    #[serde(default, alias = "keep_private_props")]
+    pub keep_private_props: bool,
+
     #[serde(default, alias = "ie8")]
     pub ie8: bool,
 
@@ -171,6 +174,7 @@ pub struct CompressOptions {
     #[serde(alias = "hoist_vars")]
     pub hoist_vars: bool,
 
+    /// No effect.
     #[serde(default)]
     #[serde(alias = "ie8")]
     pub ie8: bool,

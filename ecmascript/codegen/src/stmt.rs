@@ -92,7 +92,7 @@ mod tests {
     fn import() {
         assert_min(
             "import colors, { color } from 'patterns/colors';",
-            "import colors,{color}from'patterns/colors';",
+            "import colors,{color}from'patterns/colors'",
         );
         assert_pretty(
             "import colors, { color } from 'patterns/colors';",

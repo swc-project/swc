@@ -1,3 +1,5 @@
+use std::time::Instant;
+
 use fxhash::FxHashSet;
 use swc_common::pass::CompilerPass;
 use swc_common::pass::Repeated;
@@ -9,6 +11,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::Id;
+use swc_ecma_utils::ModuleItemLike;
 use swc_ecma_utils::StmtLike;
 use swc_ecma_utils::Value;
 use swc_ecma_visit::noop_visit_type;
@@ -24,6 +27,55 @@ pub(crate) mod sort;
 ///
 pub(crate) fn make_number(span: Span, value: f64) -> Expr {
     Expr::Lit(Lit::Num(Number { span, value }))
+}
+
+pub trait MoudleItemExt: StmtLike + ModuleItemLike {
+    fn as_module_decl(&self) -> Result<&ModuleDecl, &Stmt>;
+
+    fn from_module_item(item: ModuleItem) -> Self;
+
+    fn into_module_item(self) -> ModuleItem {
+        match self.into_module_decl() {
+            Ok(v) => ModuleItem::ModuleDecl(v),
+            Err(v) => ModuleItem::Stmt(v),
+        }
+    }
+
+    fn into_module_decl(self) -> Result<ModuleDecl, Stmt>;
+}
+
+impl MoudleItemExt for Stmt {
+    fn as_module_decl(&self) -> Result<&ModuleDecl, &Stmt> {
+        Err(self)
+    }
+
+    fn from_module_item(item: ModuleItem) -> Self {
+        item.expect_stmt()
+    }
+
+    fn into_module_decl(self) -> Result<ModuleDecl, Stmt> {
+        Err(self)
+    }
+}
+
+impl MoudleItemExt for ModuleItem {
+    fn as_module_decl(&self) -> Result<&ModuleDecl, &Stmt> {
+        match self {
+            ModuleItem::ModuleDecl(v) => Ok(v),
+            ModuleItem::Stmt(v) => Err(v),
+        }
+    }
+
+    fn from_module_item(item: ModuleItem) -> Self {
+        item
+    }
+
+    fn into_module_decl(self) -> Result<ModuleDecl, Stmt> {
+        match self {
+            ModuleItem::ModuleDecl(v) => Ok(v),
+            ModuleItem::Stmt(v) => Err(v),
+        }
+    }
 }
 
 ///
@@ -44,6 +96,18 @@ pub(crate) fn make_bool(span: Span, value: bool) -> Expr {
 pub(crate) trait ExprOptExt: Sized {
     fn as_expr(&self) -> &Expr;
     fn as_mut(&mut self) -> &mut Expr;
+
+    fn first_expr_mut(&mut self) -> &mut Expr {
+        let expr = self.as_mut();
+        match expr {
+            Expr::Seq(seq) => seq
+                .exprs
+                .first_mut()
+                .expect("Sequence expressions should have at least one element")
+                .first_expr_mut(),
+            expr => expr,
+        }
+    }
 
     /// This returns itself for normal expressions and returns last exprssions
     /// for sequence expressions.
@@ -279,10 +343,35 @@ where
 #[derive(Default)]
 pub(crate) struct IdentUsageCollector {
     ids: FxHashSet<Id>,
+    ignore_nested: bool,
 }
 
 impl Visit for IdentUsageCollector {
     noop_visit_type!();
+
+    fn visit_block_stmt_or_expr(&mut self, n: &BlockStmtOrExpr, _: &dyn Node) {
+        if self.ignore_nested {
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_constructor(&mut self, n: &Constructor, _: &dyn Node) {
+        if self.ignore_nested {
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_function(&mut self, n: &Function, _: &dyn Node) {
+        if self.ignore_nested {
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
 
     fn visit_ident(&mut self, n: &Ident, _: &dyn Node) {
         self.ids.insert(n.to_id());
@@ -295,13 +384,37 @@ impl Visit for IdentUsageCollector {
             n.prop.visit_with(n, self);
         }
     }
+
+    fn visit_prop_name(&mut self, n: &PropName, _: &dyn Node) {
+        match n {
+            PropName::Computed(..) => {
+                n.visit_children_with(self);
+            }
+            _ => {}
+        }
+    }
 }
 
 pub(crate) fn idents_used_by<N>(n: &N) -> FxHashSet<Id>
 where
     N: VisitWith<IdentUsageCollector>,
 {
-    let mut v = IdentUsageCollector::default();
+    let mut v = IdentUsageCollector {
+        ignore_nested: false,
+        ..Default::default()
+    };
+    n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+    v.ids
+}
+
+pub(crate) fn idents_used_by_ignoring_nested<N>(n: &N) -> FxHashSet<Id>
+where
+    N: VisitWith<IdentUsageCollector>,
+{
+    let mut v = IdentUsageCollector {
+        ignore_nested: true,
+        ..Default::default()
+    };
     n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
     v.ids
 }
@@ -363,4 +476,12 @@ pub(crate) fn can_end_conditionally(s: &Stmt) -> bool {
     }
 
     can_end(s, true)
+}
+
+pub fn now() -> Option<Instant> {
+    if cfg!(target_arch = "wasm32") {
+        None
+    } else {
+        Some(Instant::now())
+    }
 }
