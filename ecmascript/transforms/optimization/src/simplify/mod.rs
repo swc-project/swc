@@ -1,5 +1,7 @@
 //! Ported from closure compiler.
-pub use self::{branch::dead_branch_remover, expr::expr_simplifier};
+pub use self::{
+    branch::dead_branch_remover, expr::expr_simplifier, expr::expr_simplifier_with_config,
+};
 use swc_common::{chain, pass::Repeat};
 use swc_ecma_transforms_base::pass::RepeatedJsPass;
 

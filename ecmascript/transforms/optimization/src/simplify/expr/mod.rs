@@ -49,11 +49,19 @@ pub fn expr_simplifier() -> impl RepeatedJsPass + VisitMut + 'static {
     as_folder(SimplifyExpr::default())
 }
 
+pub fn expr_simplifier_with_config(inject_vars: bool) -> impl RepeatedJsPass + VisitMut + 'static {
+    as_folder(SimplifyExpr {
+        dont_use_vars: !inject_vars,
+        ..Default::default()
+    })
+}
+
 #[derive(Debug, Default)]
 struct SimplifyExpr {
     changed: bool,
     /// Uninitializd variables.
     vars: Vec<VarDeclarator>,
+    dont_use_vars: bool,
     is_arg_of_update: bool,
     is_modifying: bool,
     in_callee: bool,
@@ -183,6 +191,19 @@ impl SimplifyExpr {
                 });
 
                 if has_spread {
+                    return Expr::Member(MemberExpr {
+                        obj: ExprOrSuper::Expr(Box::new(Expr::Array(ArrayLit { span, elems }))),
+                        ..e
+                    });
+                }
+
+                if self.dont_use_vars
+                    && elems.iter().any(|elem| {
+                        elem.as_ref()
+                            .map(|expr| expr.expr.may_have_side_effects())
+                            .unwrap_or_default()
+                    })
+                {
                     return Expr::Member(MemberExpr {
                         obj: ExprOrSuper::Expr(Box::new(Expr::Array(ArrayLit { span, elems }))),
                         ..e
