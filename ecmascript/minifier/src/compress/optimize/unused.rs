@@ -485,7 +485,7 @@ impl Optimizer<'_> {
                         .as_ref()
                         .and_then(|data| data.vars.get(&i.to_id()))
                     {
-                        if var.is_fn_local && var.usage_count == 0 {
+                        if var.is_fn_local && var.usage_count == 0 && var.declared {
                             log::debug!(
                                 "unused: Dropping assignment to var '{}{:?}', which is never used",
                                 i.id.sym,
