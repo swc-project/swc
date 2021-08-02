@@ -323,7 +323,7 @@ impl UsageAnalyzer {
             .vars
             .entry(i.to_id())
             .and_modify(|v| {
-                if has_init {
+                if has_init && v.declared {
                     v.mutated = true;
                     v.reassigned = true;
                     v.assign_count += 1;
@@ -391,7 +391,12 @@ impl Visit for UsageAnalyzer {
         };
         n.left.visit_with(n, &mut *self.with_ctx(ctx));
 
-        n.right.visit_with(n, self);
+        let ctx = Ctx {
+            in_assign_lhs: false,
+            is_exact_reassignment: false,
+            ..self.ctx
+        };
+        n.right.visit_with(n, &mut *self.with_ctx(ctx));
     }
 
     fn visit_block_stmt(&mut self, n: &BlockStmt, _: &dyn Node) {
@@ -406,6 +411,7 @@ impl Visit for UsageAnalyzer {
             let ctx = Ctx {
                 in_call_arg: true,
                 is_exact_arg: true,
+                is_exact_reassignment: false,
                 ..self.ctx
             };
             n.args.visit_with(n, &mut *self.with_ctx(ctx));
