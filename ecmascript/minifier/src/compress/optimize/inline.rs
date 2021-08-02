@@ -1,10 +1,9 @@
+use super::Optimizer;
 use crate::compress::optimize::util::class_has_side_effect;
 use crate::compress::optimize::util::is_valid_for_lhs;
 use crate::debug::dump;
 use crate::util::has_mark;
 use crate::util::idents_used_by;
-
-use super::Optimizer;
 use swc_atoms::js_word;
 use swc_common::Spanned;
 use swc_common::DUMMY_SP;
