@@ -6,8 +6,16 @@ pub(crate) struct Marks {
     /// inlining.
     pub(crate) non_top_level: Mark,
 
-    /// Optimization is finished.
+    /// Optimization is finished. This mark is only applied if both of the
+    /// stateful optimizer and the pure optimizer cannot optimize anymore.
     pub(crate) done: Mark,
+
+    /// Temporary mark, used to mark nodes which cannot be optimized by the pure
+    /// optimizer.
+    ///
+    /// The stateful optimizer removes this mark if it modified the node, so
+    /// that the pure optimizer can try again to optimize the node.
+    pub(crate) pure_done: Mark,
 }
 
 impl Marks {
@@ -19,6 +27,7 @@ impl Marks {
         Marks {
             non_top_level: m(),
             done: m(),
+            pure_done: m(),
         }
     }
 }
