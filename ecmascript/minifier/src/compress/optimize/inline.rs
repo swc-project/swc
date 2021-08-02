@@ -88,6 +88,26 @@ impl Optimizer<'_> {
                     if !usage.is_fn_local {
                         match &**init {
                             Expr::Lit(..) => {}
+                            Expr::Fn(FnExpr {
+                                function:
+                                    Function {
+                                        body: Some(body), ..
+                                    },
+                                ..
+                            }) => {
+                                if body.stmts.len() == 1
+                                    && match &body.stmts[0] {
+                                        Stmt::Return(..) => true,
+                                        _ => false,
+                                    }
+                                {
+                                } else {
+                                    if cfg!(feature = "debug") {
+                                        log::trace!("inline: [x] It's not fn-local");
+                                    }
+                                    return;
+                                }
+                            }
                             _ => {
                                 if cfg!(feature = "debug") {
                                     log::trace!("inline: [x] It's not fn-local");
