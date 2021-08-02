@@ -4,7 +4,6 @@ use crate::util::deeply_contains_this_expr;
 use swc_atoms::js_word;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
-use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::prop_name_eq;
 use swc_ecma_utils::ExprExt;
 
@@ -13,20 +12,12 @@ impl Optimizer<'_> {
         if !e.computed {
             return;
         }
+        if !self.options.props {
+            return;
+        }
 
         match &e.obj {
             ExprOrSuper::Expr(obj) => match &**obj {
-                Expr::Ident(obj) => {
-                    if let Some(usage) = self
-                        .data
-                        .as_ref()
-                        .and_then(|data| data.vars.get(&obj.to_id()))
-                    {
-                        if !usage.declared {
-                            return;
-                        }
-                    }
-                }
                 Expr::Array(..) | Expr::Await(..) | Expr::Yield(..) | Expr::Lit(..) => return,
                 _ => {}
             },
