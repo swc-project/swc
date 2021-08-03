@@ -1414,7 +1414,7 @@ impl<'a> Emitter<'a> {
             formatting_space!();
         }
         emit!(node.key);
-        space!();
+        formatting_space!();
         punct!("(");
         punct!(")");
         formatting_space!();
@@ -1439,7 +1439,7 @@ impl<'a> Emitter<'a> {
         }
 
         emit!(node.key);
-        space!();
+        formatting_space!();
 
         punct!("(");
         emit!(node.param);
