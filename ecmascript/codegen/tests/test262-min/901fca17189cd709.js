@@ -1,0 +1,1 @@
+function*a(){(class{[yield](){}})};
