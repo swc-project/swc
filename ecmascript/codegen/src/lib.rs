@@ -2248,8 +2248,15 @@ impl<'a> Emitter<'a> {
         let throw_span = self.cm.span_until_char(node.span, ' ');
 
         keyword!(throw_span, "throw");
-        space!();
-        emit!(node.arg);
+
+        {
+            if node.arg.starts_with_alpha_num() {
+                space!();
+            } else {
+                formatting_space!();
+            }
+            emit!(node.arg);
+        }
         formatting_semi!();
     }
 
