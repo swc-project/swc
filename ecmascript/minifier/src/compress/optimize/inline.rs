@@ -525,9 +525,6 @@ impl Optimizer<'_> {
 
         match e {
             Expr::Ident(i) => {
-                if self.has_noinline(i.span) {
-                    return;
-                }
                 //
                 if let Some(value) = self
                     .lits

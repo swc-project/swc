@@ -1562,6 +1562,8 @@ impl VisitMut for Optimizer<'_> {
     }
 
     fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
+        let inline_prevented = self.ctx.inline_prevented || self.has_noinline(e.span);
+
         let is_this_undefined = match &e.callee {
             ExprOrSuper::Super(_) => false,
             ExprOrSuper::Expr(e) => e.is_ident(),
@@ -1569,6 +1571,7 @@ impl VisitMut for Optimizer<'_> {
         {
             let ctx = Ctx {
                 is_callee: true,
+                inline_prevented,
                 is_this_aware_callee: is_this_undefined
                     || match &e.callee {
                         ExprOrSuper::Super(_) => false,
@@ -1602,8 +1605,9 @@ impl VisitMut for Optimizer<'_> {
 
         {
             let ctx = Ctx {
-                is_this_aware_callee: false,
                 in_call_arg: true,
+                inline_prevented,
+                is_this_aware_callee: false,
                 ..self.ctx
             };
             // TODO: Prevent inline if callee is unknown.
