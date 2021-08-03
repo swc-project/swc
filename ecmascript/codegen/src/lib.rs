@@ -2014,7 +2014,11 @@ impl<'a> Emitter<'a> {
             if need_paren {
                 punct!("(");
             } else {
-                space!();
+                if arg.starts_with_alpha_num() {
+                    space!();
+                } else {
+                    formatting_space!();
+                }
             }
 
             emit!(arg);
