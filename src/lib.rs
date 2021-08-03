@@ -280,12 +280,12 @@ impl Compiler {
                         wr = Box::new(swc_ecma_codegen::text_writer::omit_trailing_semi(wr));
                     }
 
-                    let mut emitter = Emitter {
-                        cfg: swc_ecma_codegen::Config { minify },
-                        comments: if minify { None } else { Some(&self.comments) },
-                        cm: self.cm.clone(),
+                    let mut emitter = Emitter::new(
+                        swc_ecma_codegen::Config { minify },
+                        self.cm.clone(),
+                        if minify { None } else { Some(&self.comments) },
                         wr,
-                    };
+                    );
 
                     node.emit_with(&mut emitter)
                         .context("failed to emit module")?;

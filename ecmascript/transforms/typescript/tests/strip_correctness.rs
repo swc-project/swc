@@ -164,17 +164,17 @@ fn correctness_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                     let mut wr = Buf(Arc::new(RwLock::new(vec![])));
 
                     {
-                        let mut emitter = Emitter {
-                            cfg: swc_ecma_codegen::Config { minify: false },
-                            cm: cm.clone(),
-                            wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
+                        let mut emitter = Emitter::new(
+                            swc_ecma_codegen::Config { minify: false },
+                            cm.clone(),
+                            None,
+                            Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
                                 cm.clone(),
                                 "\n",
                                 &mut wr,
                                 None,
                             )),
-                            comments: None,
-                        };
+                        );
 
                         // Parse source
                         let module = parser

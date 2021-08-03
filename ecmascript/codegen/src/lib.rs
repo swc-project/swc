@@ -9,6 +9,7 @@ use self::{
     text_writer::WriteJs,
     util::{SourceMapperExt, SpanExt, StartsWithAlphaNum},
 };
+use std::collections::HashSet;
 use std::{borrow::Cow, fmt::Write, io, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::{
@@ -52,13 +53,29 @@ impl<'a, N: Node> Node for &'a N {
 }
 
 pub struct Emitter<'a> {
-    pub cfg: config::Config,
-    pub cm: Lrc<SourceMap>,
-    pub comments: Option<&'a dyn Comments>,
-    pub wr: Box<(dyn 'a + WriteJs)>,
+    cfg: config::Config,
+    cm: Lrc<SourceMap>,
+    comments: Option<&'a dyn Comments>,
+    wr: Box<(dyn 'a + WriteJs)>,
+    emitted_comment_positions: HashSet<BytePos>,
 }
 
 impl<'a> Emitter<'a> {
+    pub fn new(
+        cfg: config::Config,
+        cm: Lrc<SourceMap>,
+        comments: Option<&'a dyn Comments>,
+        wr: Box<(dyn 'a + WriteJs)>,
+    ) -> Self {
+        Emitter {
+            cfg,
+            cm,
+            comments,
+            wr,
+            emitted_comment_positions: HashSet::new(),
+        }
+    }
+
     #[emitter]
     pub fn emit_program(&mut self, node: &Program) -> Result {
         match *node {

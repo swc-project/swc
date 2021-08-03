@@ -46,12 +46,8 @@ fn run(input: &Path, minify: bool) {
                 wr = Box::new(swc_ecma_codegen::text_writer::omit_trailing_semi(wr));
             }
 
-            let mut emitter = Emitter {
-                cfg: swc_ecma_codegen::Config { minify },
-                cm: cm.clone(),
-                comments: None,
-                wr,
-            };
+            let mut emitter =
+                Emitter::new(swc_ecma_codegen::Config { minify }, cm.clone(), None, wr);
 
             emitter.emit_module(&m).unwrap();
         }

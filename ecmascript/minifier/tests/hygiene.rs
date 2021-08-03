@@ -57,12 +57,12 @@ fn print<N: swc_ecma_codegen::Node>(cm: Lrc<SourceMap>, nodes: &[N]) -> String {
     let mut buf = vec![];
 
     {
-        let mut emitter = Emitter {
-            cfg: Default::default(),
-            cm: cm.clone(),
-            comments: None,
-            wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
-        };
+        let mut emitter = Emitter::new(
+            Default::default(),
+            cm.clone(),
+            None,
+            Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
+        );
 
         for n in nodes {
             n.emit_with(&mut emitter).unwrap();

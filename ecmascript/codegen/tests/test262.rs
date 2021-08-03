@@ -168,12 +168,12 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>, minify: bool) -> Result<(), io::E
                         wr = Box::new(swc_ecma_codegen::text_writer::omit_trailing_semi(wr));
                     }
 
-                    let mut emitter = Emitter {
-                        cfg: swc_ecma_codegen::Config { minify },
-                        cm: cm.clone(),
+                    let mut emitter = Emitter::new(
+                        swc_ecma_codegen::Config { minify },
+                        cm.clone(),
+                        if minify { None } else { Some(&comments) },
                         wr,
-                        comments: if minify { None } else { Some(&comments) },
-                    };
+                    );
 
                     // Parse source
                     if module {

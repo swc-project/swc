@@ -460,12 +460,12 @@ fn print<N: swc_ecma_codegen::Node>(cm: Lrc<SourceMap>, nodes: &[N], minify: boo
     let mut buf = vec![];
 
     {
-        let mut emitter = Emitter {
-            cfg: swc_ecma_codegen::Config { minify },
-            cm: cm.clone(),
-            comments: None,
-            wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
-        };
+        let mut emitter = Emitter::new(
+            swc_ecma_codegen::Config { minify },
+            cm.clone(),
+            None,
+            Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
+        );
 
         for n in nodes {
             n.emit_with(&mut emitter).unwrap();

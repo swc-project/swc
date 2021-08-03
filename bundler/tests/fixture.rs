@@ -201,14 +201,14 @@ fn do_test(entry: &DirEntry, entries: HashMap<String, FileName>, inline: bool) {
                 let mut buf = vec![];
 
                 {
-                    let mut emitter = Emitter {
-                        cfg: swc_ecma_codegen::Config {
+                    let mut emitter = Emitter::new(
+                        swc_ecma_codegen::Config {
                             ..Default::default()
                         },
-                        cm: cm.clone(),
-                        comments: None,
-                        wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
-                    };
+                        cm.clone(),
+                        None,
+                        Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
+                    );
 
                     emitter
                         .emit_module(&bundled.module.fold_with(&mut fixer(None)))

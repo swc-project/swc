@@ -52,12 +52,12 @@ where
     let cm = Lrc::new(SourceMap::default());
 
     {
-        let mut emitter = Emitter {
-            cfg: Default::default(),
-            cm: cm.clone(),
-            comments: None,
-            wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
-        };
+        let mut emitter = Emitter::new(
+            Default::default(),
+            cm.clone(),
+            None,
+            Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
+        );
 
         node.emit_with(&mut emitter).unwrap();
     }
@@ -87,12 +87,12 @@ pub(crate) fn invoke(module: &Module) {
     let cm = Lrc::new(SourceMap::default());
 
     {
-        let mut emitter = Emitter {
-            cfg: Default::default(),
-            cm: cm.clone(),
-            comments: None,
-            wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
-        };
+        let mut emitter = Emitter::new(
+            Default::default(),
+            cm.clone(),
+            None,
+            Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
+        );
 
         emitter.emit_module(&module).unwrap();
     }

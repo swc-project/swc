@@ -50,6 +50,10 @@ impl<'a> Emitter<'a> {
             None => return Ok(()),
         };
 
+        if !self.emitted_comment_positions.insert(pos) {
+            return Ok(());
+        }
+
         let cmts = comments.get_trailing(pos);
 
         write_comments!(self, prefix_space, &cmts)

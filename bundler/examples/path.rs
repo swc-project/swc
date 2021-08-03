@@ -44,12 +44,12 @@ fn main() {
     );
 
     let wr = stdout();
-    let mut emitter = Emitter {
-        cfg: swc_ecma_codegen::Config { minify: false },
-        cm: cm.clone(),
-        comments: None,
-        wr: Box::new(JsWriter::new(cm.clone(), "\n", wr.lock(), None)),
-    };
+    let mut emitter = Emitter::new(
+        swc_ecma_codegen::Config { minify: false },
+        cm.clone(),
+        None,
+        Box::new(JsWriter::new(cm.clone(), "\n", wr.lock(), None)),
+    );
 
     emitter.emit_module(&bundle.module).unwrap();
 }

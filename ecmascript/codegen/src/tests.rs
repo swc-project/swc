@@ -31,12 +31,7 @@ impl Builder {
             Box::new(writer)
         };
 
-        let mut e = Emitter {
-            cfg: self.cfg,
-            cm: self.cm.clone(),
-            wr: writer,
-            comments: Some(&self.comments),
-        };
+        let mut e = Emitter::new(self.cfg, self.cm.clone(), Some(&self.comments), writer);
 
         let ret = op(&mut e);
 

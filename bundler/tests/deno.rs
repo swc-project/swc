@@ -1046,12 +1046,12 @@ fn bundle(url: &str) -> String {
 
             let mut buf = vec![];
             {
-                Emitter {
-                    cfg: swc_ecma_codegen::Config { minify: false },
-                    cm: cm.clone(),
-                    comments: None,
-                    wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
-                }
+                Emitter::new(
+                    swc_ecma_codegen::Config { minify: false },
+                    cm.clone(),
+                    None,
+                    Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
+                )
                 .emit_module(&module)
                 .unwrap();
             }

@@ -22,17 +22,17 @@ use testing::{fixture, run_test2};
 pub fn print(cm: Lrc<SourceMap>, module: &Module) -> String {
     let mut buf = vec![];
     {
-        let mut emitter = Emitter {
-            cfg: Default::default(),
-            cm: cm.clone(),
-            wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
+        let mut emitter = Emitter::new(
+            Default::default(),
+            cm.clone(),
+            None,
+            Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
                 cm.clone(),
                 "\n",
                 &mut buf,
                 None,
             )),
-            comments: None,
-        };
+        );
 
         // println!("Emitting: {:?}", module);
         emitter.emit_module(&module).unwrap();

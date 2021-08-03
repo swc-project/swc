@@ -10,12 +10,12 @@ pub(crate) fn calc_hash(cm: Lrc<SourceMap>, m: &Module) -> Result<String, Error>
     let mut buf = Hasher { digest };
 
     {
-        let mut emitter = Emitter {
-            cfg: Default::default(),
+        let mut emitter = Emitter::new(
+            Default::default(),
             cm,
-            comments: None,
-            wr: Box::new(&mut buf) as Box<dyn WriteJs>,
-        };
+            None,
+            Box::new(&mut buf) as Box<dyn WriteJs>,
+        );
 
         emitter
             .emit_module(&m)

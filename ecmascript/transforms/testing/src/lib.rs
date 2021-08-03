@@ -176,17 +176,17 @@ impl<'a> Tester<'a> {
     pub fn print(&mut self, module: &Module, comments: &Rc<SingleThreadedComments>) -> String {
         let mut wr = Buf(Arc::new(RwLock::new(vec![])));
         {
-            let mut emitter = Emitter {
-                cfg: Default::default(),
-                cm: self.cm.clone(),
-                wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
+            let mut emitter = Emitter::new(
+                Default::default(),
+                self.cm.clone(),
+                Some(comments),
+                Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
                     self.cm.clone(),
                     "\n",
                     &mut wr,
                     None,
                 )),
-                comments: Some(comments),
-            };
+            );
 
             // println!("Emitting: {:?}", module);
             emitter.emit_module(&module).unwrap();

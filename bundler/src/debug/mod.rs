@@ -17,12 +17,12 @@ pub(crate) fn print_hygiene(event: &str, cm: &Lrc<SourceMap>, t: &Module) {
     let mut w = stdout.lock();
 
     writeln!(w, "==================== @ {} ====================", event).unwrap();
-    Emitter {
-        cfg: swc_ecma_codegen::Config { minify: false },
-        cm: cm.clone(),
-        comments: None,
-        wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut w, None)),
-    }
+    Emitter::new(
+        swc_ecma_codegen::Config { minify: false },
+        cm.clone(),
+        None,
+        Box::new(JsWriter::new(cm.clone(), "\n", &mut w, None)),
+    )
     .emit_module(&module)
     .unwrap();
     writeln!(w, "==================== @ ====================").unwrap();

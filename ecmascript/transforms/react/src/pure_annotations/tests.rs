@@ -49,12 +49,12 @@ fn emit(
             &mut buf,
             Some(&mut src_map_buf),
         ));
-        let mut emitter = Emitter {
-            cfg: Default::default(),
-            comments: Some(&comments),
-            cm: source_map.clone(),
-            wr: writer,
-        };
+        let mut emitter = Emitter::new(
+            Default::default(),
+            source_map.clone(),
+            Some(&comments),
+            writer,
+        );
         emitter.emit_module(&program).unwrap();
     }
 

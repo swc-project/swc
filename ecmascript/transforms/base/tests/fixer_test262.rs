@@ -168,25 +168,25 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                         Parser::new(Syntax::default(), (&*src).into(), None);
 
                     {
-                        let mut emitter = Emitter {
-                            cfg: swc_ecma_codegen::Config { minify: false },
-                            cm: cm.clone(),
-                            wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
+                        let mut emitter = Emitter::new(
+                            swc_ecma_codegen::Config { minify: false },
+                            cm.clone(),
+                            None,
+                            Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
                                 cm.clone(),
                                 "\n",
                                 &mut wr,
                                 None,
                             )),
-                            comments: None,
-                        };
-                        let mut expected_emitter = Emitter {
-                            cfg: swc_ecma_codegen::Config { minify: false },
-                            cm: cm.clone(),
-                            wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
+                        );
+                        let mut expected_emitter = Emitter::new(
+                            swc_ecma_codegen::Config { minify: false },
+                            cm.clone(),
+                            None,
+                            Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
                                 cm, "\n", &mut wr2, None,
                             )),
-                            comments: None,
-                        };
+                        );
 
                         // Parse source
 
