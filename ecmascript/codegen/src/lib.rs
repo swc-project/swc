@@ -993,13 +993,23 @@ impl<'a> Emitter<'a> {
             }
             MethodKind::Getter => {
                 keyword!("get");
-                space!();
+
+                if n.key.starts_with_alpha_num() {
+                    space!();
+                } else {
+                    formatting_space!()
+                }
 
                 emit!(n.key);
             }
             MethodKind::Setter => {
                 keyword!("set");
-                space!();
+
+                if n.key.starts_with_alpha_num() {
+                    space!();
+                } else {
+                    formatting_space!()
+                }
 
                 emit!(n.key);
             }
