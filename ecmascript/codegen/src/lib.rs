@@ -458,7 +458,18 @@ impl<'a> Emitter<'a> {
             if num.value.is_sign_negative() && num.value == 0.0 {
                 self.wr.write_str_lit(num.span, "-0")?;
             } else {
-                self.wr.write_str_lit(num.span, &format!("{}", num.value))?;
+                let mut s = num.value.to_string();
+                if self.cfg.minify {
+                    if !s.contains('.') && s.ends_with("000") {
+                        let cnt = s.as_bytes().iter().rev().filter(|&&v| v == b'0').count();
+
+                        s.truncate(s.len() - cnt);
+                        s.push('e');
+                        s.push_str(&cnt.to_string());
+                    }
+                }
+
+                self.wr.write_str_lit(num.span, &s)?;
             }
         }
     }
