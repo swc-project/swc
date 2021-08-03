@@ -16,6 +16,15 @@ pub(crate) struct Marks {
     /// The stateful optimizer removes this mark if it modified the node, so
     /// that the pure optimizer can try again to optimize the node.
     pub(crate) pure_done: Mark,
+
+    ///  `/** @const */`.
+    pub(crate) const_ann: Mark,
+
+    /// Check for `/*#__NOINLINE__*/`
+    pub(crate) noinline: Mark,
+
+    /// Check for `/*#__PURE__*/`
+    pub(crate) pure: Mark,
 }
 
 impl Marks {
@@ -28,6 +37,9 @@ impl Marks {
             non_top_level: m(),
             done: m(),
             pure_done: m(),
+            const_ann: m(),
+            noinline: m(),
+            pure: m(),
         }
     }
 }
