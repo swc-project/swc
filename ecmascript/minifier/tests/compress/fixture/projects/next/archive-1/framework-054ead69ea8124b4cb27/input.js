@@ -3538,10 +3538,11 @@
                     for (var d; c; ) {
                         if (3 === c.nodeType) {
                             d = a + c.textContent.length;
-                            if (a <= b && d >= b) return {
-                                node: c,
-                                offset: b - a,
-                            };
+                            if (a <= b && d >= b)
+                                return {
+                                    node: c,
+                                    offset: b - a,
+                                };
                             a = d;
                         }
                         a: {
@@ -4584,7 +4585,8 @@
                               )));
                         c = c.return;
                     }
-                    0 !== g.length && a.push(
+                    0 !== g.length &&
+                    a.push(
                         {
                             event: b,
                             listeners: g,
@@ -7948,7 +7950,8 @@
                         if (0 === (b.mode & 4))
                             (b.memoizedState = {
                                 baseLanes: 0,
-                            }), ni(
+                            }),
+                            ni(
                                 b,
                                 c
                             );
@@ -13984,9 +13987,17 @@
                     );
                 }
                 var vk = {
-                        Events: [Cb, ue, Db, Eb, Fb, Oj, {
-                            current: !1,
-                        },],
+                        Events: [
+                            Cb,
+                            ue,
+                            Db,
+                            Eb,
+                            Fb,
+                            Oj,
+                            {
+                                current: !1,
+                            },
+                        ],
                     },
                     wk = {
                         findFiberByHostInstance: wc,
