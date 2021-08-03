@@ -460,7 +460,7 @@ impl<'a> Emitter<'a> {
             } else {
                 let mut s = num.value.to_string();
                 if self.cfg.minify {
-                    if !s.contains('.') && s.ends_with("000") {
+                    if !s.contains('.') && !s.contains('e') && s.ends_with("000") {
                         let cnt = s.as_bytes().iter().rev().filter(|&&v| v == b'0').count();
 
                         s.truncate(s.len() - cnt);
