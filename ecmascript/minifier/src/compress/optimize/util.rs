@@ -300,7 +300,10 @@ pub(crate) fn is_valid_identifier(s: &str, ascii_only: bool) -> bool {
         && !s.is_reserved()
 }
 
-pub(crate) fn replace_id_with_expr(node: &mut Expr, from: Id, to: Box<Expr>) {
+pub(crate) fn replace_id_with_expr<N>(node: &mut N, from: Id, to: Box<Expr>)
+where
+    N: VisitMutWith<ExprReplacer>,
+{
     node.visit_mut_with(&mut ExprReplacer { from, to: Some(to) })
 }
 
