@@ -1894,7 +1894,7 @@ impl<'a> Emitter<'a> {
         if let Some(ref value) = node.value {
             punct!("=");
             emit!(node.value);
-            space!();
+            formatting_space!();
         }
     }
 
