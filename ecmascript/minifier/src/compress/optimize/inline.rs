@@ -453,7 +453,7 @@ impl Optimizer<'_> {
             // Single use => inlined
             if (self.options.reduce_vars || self.options.collapse_vars || self.options.inline != 0)
                 && usage.ref_count == 1
-                && usage.is_fn_local
+                && (usage.is_fn_local || self.options.inline == 3)
                 && !usage.used_in_loop
                 && (match decl {
                     Decl::Class(..) => !usage.used_above_decl,
