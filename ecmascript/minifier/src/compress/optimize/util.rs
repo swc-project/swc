@@ -297,6 +297,7 @@ pub(crate) fn is_valid_identifier(s: &str, ascii_only: bool) -> bool {
     s.starts_with(|c: char| c.is_xid_start())
         && s.chars().all(|c: char| c.is_xid_continue())
         && !s.contains("𝒶")
+        && !s.is_reserved()
 }
 
 pub(crate) fn replace_id_with_expr(node: &mut Expr, from: Id, to: Box<Expr>) {
