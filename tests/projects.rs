@@ -5,12 +5,19 @@ use std::{
     sync::Arc,
 };
 use swc::{
-    config::{Config, JscConfig, ModuleConfig, Options, SourceMapsConfig, TransformConfig},
-    Compiler,
+    config::{
+        BuiltConfig, Config, JscConfig, ModuleConfig, Options, SourceMapsConfig, TransformConfig,
+    },
+    Compiler, TransformOutput,
 };
-use swc_common::FileName;
+use swc_common::{chain, comments::Comment, BytePos, FileName};
 use swc_ecma_ast::EsVersion;
-use swc_ecma_parser::{Syntax, TsConfig};
+use swc_ecma_ast::*;
+use swc_ecma_parser::TsConfig;
+use swc_ecma_parser::{EsConfig, Syntax};
+use swc_ecma_transforms::helpers::{self, Helpers};
+use swc_ecma_utils::HANDLER;
+use swc_ecma_visit::{Fold, FoldWith};
 use testing::{NormalizedOutput, StdErr, Tester};
 use walkdir::WalkDir;
 
@@ -53,10 +60,18 @@ fn file_with_opt(filename: &str, options: Options) -> Result<NormalizedOutput, S
 }
 
 fn str_with_opt(content: &str, options: Options) -> Result<NormalizedOutput, StdErr> {
+    compile_str(FileName::Anon, content, options).map(|v| v.code.into())
+}
+
+fn compile_str(
+    filename: FileName,
+    content: &str,
+    options: Options,
+) -> Result<TransformOutput, StdErr> {
     Tester::new().print_errors(|cm, handler| {
         let c = Compiler::new(cm.clone(), Arc::new(handler));
 
-        let fm = cm.new_source_file(FileName::Anon, content.to_string());
+        let fm = cm.new_source_file(filename, content.to_string());
         let s = c.process_js_file(
             fm,
             &Options {
@@ -70,7 +85,7 @@ fn str_with_opt(content: &str, options: Options) -> Result<NormalizedOutput, Std
                 if c.handler.has_errors() {
                     Err(())
                 } else {
-                    Ok(v.code.into())
+                    Ok(v)
                 }
             }
             Err(err) => panic!("Error: {:?}", err),
@@ -654,6 +669,105 @@ fn deno_10282_2() {
     assert_eq!(output.to_string(), "const a = `\n`;\n");
 }
 
+struct Panicking;
+
+impl Fold for Panicking {
+    fn fold_jsx_opening_element(&mut self, node: JSXOpeningElement) -> JSXOpeningElement {
+        let JSXOpeningElement { name, .. } = &node;
+        println!("HMM");
+
+        if let JSXElementName::Ident(Ident { sym, .. }) = name {
+            panic!("visited: {}", sym)
+        }
+
+        JSXOpeningElement { ..node }
+    }
+}
+
+#[test]
+#[should_panic = "visited"]
+fn should_visit() {
+    Tester::new()
+        .print_errors(|cm, handler| {
+            let c = Compiler::new(cm.clone(), Arc::new(handler));
+
+            let fm = cm.new_source_file(
+                FileName::Anon,
+                "
+                    import React from 'react';
+                    const comp = () => <amp-something className='something' />;
+                "
+                .into(),
+            );
+            let config = c
+                .config_for_file(
+                    &swc::config::Options {
+                        config: swc::config::Config {
+                            jsc: JscConfig {
+                                syntax: Some(Syntax::Es(EsConfig {
+                                    jsx: true,
+                                    ..Default::default()
+                                })),
+                                ..Default::default()
+                            },
+                            ..Default::default()
+                        },
+                        ..Default::default()
+                    },
+                    &fm.name,
+                )
+                .unwrap()
+                .unwrap();
+
+            dbg!(config.syntax);
+            let program = c
+                .parse_js(fm.clone(), config.target, config.syntax, true, true)
+                .map_err(|_| ())?;
+
+            let config = BuiltConfig {
+                pass: chain!(Panicking, config.pass),
+                syntax: config.syntax,
+                target: config.target,
+                minify: config.minify,
+                external_helpers: config.external_helpers,
+                source_maps: config.source_maps,
+                input_source_map: config.input_source_map,
+                is_module: config.is_module,
+                output_path: config.output_path,
+                source_file_name: config.source_file_name,
+            };
+
+            if config.minify {
+                let preserve_excl = |_: &BytePos, vc: &mut Vec<Comment>| -> bool {
+                    vc.retain(|c: &Comment| c.text.starts_with("!"));
+                    !vc.is_empty()
+                };
+                c.comments().leading.retain(preserve_excl);
+                c.comments().trailing.retain(preserve_excl);
+            }
+            let mut pass = config.pass;
+            let program = helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
+                HANDLER.set(&c.handler, || {
+                    // Fold module
+                    program.fold_with(&mut pass)
+                })
+            });
+
+            Ok(c.print(
+                &program,
+                None,
+                config.output_path,
+                config.target,
+                config.source_maps,
+                None, // TODO: figure out sourcemaps
+                config.minify,
+            )
+            .unwrap()
+            .code)
+        })
+        .unwrap();
+}
+
 #[testing::fixture("tests/fixture/**/input/")]
 fn tests(dir: PathBuf) {
     let output = dir.parent().unwrap().join("output");
@@ -714,4 +828,49 @@ fn tests(dir: PathBuf) {
         })
         .map(|_| ())
         .expect("failed");
+}
+
+#[test]
+fn issue_1984() {
+    testing::run_test2(false, |cm, handler| {
+        let c = Compiler::new(cm.clone(), Arc::new(handler));
+        let fm = c.cm.new_source_file(
+            FileName::Anon,
+            "
+            function Set() {}
+            function useSelection(selectionType, derivedHalfSelectedKeys) {
+                return selectionType === 'radio'
+                    ? new Set()
+                    : new Set(derivedHalfSelectedKeys);
+            }
+            "
+            .into(),
+        );
+
+        c.minify(fm, &serde_json::from_str("{}").unwrap()).unwrap();
+
+        Ok(())
+    })
+    .unwrap()
+}
+
+#[test]
+fn opt_source_file_name_1() {
+    let map = compile_str(
+        FileName::Real(PathBuf::from("not-unique.js")),
+        "import Foo from 'foo';",
+        Options {
+            filename: "unique.js".into(),
+            source_file_name: Some("entry-foo".into()),
+            source_maps: Some(SourceMapsConfig::Bool(true)),
+            ..Default::default()
+        },
+    )
+    .unwrap()
+    .map
+    .unwrap();
+
+    println!("{}", map);
+
+    assert!(map.contains("entry-foo"));
 }

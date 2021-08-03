@@ -115,7 +115,9 @@ impl<'a> Emitter<'a> {
 
         self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
 
-        self.wr.write_line()?;
+        if !self.cfg.minify {
+            self.wr.write_line()?;
+        }
     }
 
     #[emitter]
@@ -190,7 +192,7 @@ impl<'a> Emitter<'a> {
 
         if specifiers.is_empty() {
             if emitted_ns || emitted_default {
-                formatting_space!();
+                space!();
                 keyword!("from");
                 formatting_space!();
             }
@@ -2541,6 +2543,13 @@ fn escape_without_source(v: &str, target: JscTarget, single_quote: bool) -> Stri
             }
             '\u{7f}'..='\u{ff}' => {
                 let _ = write!(buf, "\\x{:x}", c as u8);
+            }
+
+            '\u{2028}' => {
+                buf.push_str("\\u2028");
+            }
+            '\u{2029}' => {
+                buf.push_str("\\u2029");
             }
 
             _ => {

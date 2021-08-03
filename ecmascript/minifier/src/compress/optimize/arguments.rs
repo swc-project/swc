@@ -1,12 +1,13 @@
 use super::Optimizer;
-use crate::analyzer::analyze;
 use crate::compress::optimize::is_left_access_to_arguments;
 use std::iter::repeat_with;
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_utils::find_ids;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::private_ident;
+use swc_ecma_utils::Id;
 use swc_ecma_visit::noop_visit_mut_type;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
@@ -36,7 +37,7 @@ impl Optimizer<'_> {
                 }
 
                 self.changed = true;
-                log::trace!("arguments: Optimizing computed access to arguments");
+                log::debug!("arguments: Optimizing computed access to arguments");
                 member.computed = false;
                 member.prop = Box::new(Expr::Ident(Ident {
                     span: prop.span,
@@ -75,9 +76,9 @@ impl Optimizer<'_> {
 
         {
             // If a function has a variable named `arguments`, we abort.
-            let data = analyze(&f.body);
-            for (id, var) in &data.vars {
-                if id.0 == js_word!("arguments") && var.declared {
+            let data: Vec<Id> = find_ids(&f.body);
+            for id in &data {
+                if id.0 == js_word!("arguments") {
                     return;
                 }
             }
@@ -113,7 +114,7 @@ impl ArgReplacer<'_> {
         let new_args = idx + 1 - self.params.len();
 
         self.changed = true;
-        log::trace!("arguments: Injecting {} parameters", new_args);
+        log::debug!("arguments: Injecting {} parameters", new_args);
         let mut start = self.params.len();
         self.params.extend(
             repeat_with(|| {
@@ -191,7 +192,7 @@ impl VisitMut for ArgReplacer<'_> {
                                     if let Some(param) = self.params.get(idx) {
                                         match &param.pat {
                                             Pat::Ident(i) => {
-                                                log::trace!(
+                                                log::debug!(
                                                     "arguments: Replacing access to arguments to \
                                                      normal reference",
                                                 );

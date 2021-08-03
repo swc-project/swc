@@ -1,6 +1,3 @@
 function x() {
-    if (a()) return b();
-    if (c()) return d();
-    else e();
-    f();
+    return a() ? b() : (0, c()) ? d() : (e(), void f());
 }

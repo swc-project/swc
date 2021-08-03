@@ -12,6 +12,12 @@ use swc_ecma_utils::prop_name_eq;
 use swc_ecma_utils::ExprExt;
 
 impl<'b> Optimizer<'b> {
+    pub(super) fn line_col(&self, span: Span) -> String {
+        let loc = self.cm.lookup_char_pos(span.lo);
+
+        format!("{}:{}", loc.line, loc.col_display)
+    }
+
     pub(super) fn access_property<'e>(
         &mut self,
         expr: &'e mut Expr,
@@ -222,6 +228,40 @@ pub(crate) fn class_has_side_effect(c: &Class) -> bool {
     }
 
     false
+}
+
+pub(crate) fn get_lhs_ident(e: &PatOrExpr) -> Option<&Ident> {
+    match e {
+        PatOrExpr::Expr(v) => match &**v {
+            Expr::Ident(i) => Some(i),
+            _ => None,
+        },
+        PatOrExpr::Pat(v) => match &**v {
+            Pat::Ident(i) => Some(&i.id),
+            Pat::Expr(v) => match &**v {
+                Expr::Ident(i) => Some(i),
+                _ => None,
+            },
+            _ => None,
+        },
+    }
+}
+
+pub(crate) fn get_lhs_ident_mut(e: &mut PatOrExpr) -> Option<&mut Ident> {
+    match e {
+        PatOrExpr::Expr(v) => match &mut **v {
+            Expr::Ident(i) => Some(i),
+            _ => None,
+        },
+        PatOrExpr::Pat(v) => match &mut **v {
+            Pat::Ident(i) => Some(&mut i.id),
+            Pat::Expr(v) => match &mut **v {
+                Expr::Ident(i) => Some(i),
+                _ => None,
+            },
+            _ => None,
+        },
+    }
 }
 
 pub(crate) fn is_valid_for_lhs(e: &Expr) -> bool {

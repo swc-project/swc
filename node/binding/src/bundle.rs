@@ -132,11 +132,12 @@ impl Task for BundleTask {
                             .config
                             .options
                             .as_ref()
-                            .and_then(|v| v.config.minify)
+                            .map(|v| v.config.minify.is_some())
                             .unwrap_or(false);
 
                         let output = self.swc.print(
                             &m,
+                            None,
                             None,
                             codegen_target,
                             SourceMapsConfig::Bool(true),

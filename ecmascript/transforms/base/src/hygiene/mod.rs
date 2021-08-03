@@ -185,11 +185,15 @@ impl<'a> Hygiene<'a> {
     }
 }
 
-/// Creates a `hygiene` pass with default value of [Config].
+/// See [hygiene_with_config] for doc. Creates a `hygiene` pass with default
+/// value of [Config].
 pub fn hygiene() -> impl Fold + 'static {
     hygiene_with_config(Default::default())
 }
 
+/// The pass actually modifies the identifiers in the way that different
+/// identifier (with respect to span hygiene) becomes different identifier.
+/// (e.g. `a1` for `a#6`, `a2` for `a#23`)
 pub fn hygiene_with_config(config: Config) -> impl 'static + Fold + VisitMut {
     chain!(
         as_folder(Hygiene {

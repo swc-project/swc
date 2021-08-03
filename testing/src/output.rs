@@ -100,19 +100,19 @@ impl NormalizedOutput {
             expected: NormalizedOutput(expected),
             actual: self.clone(),
         };
-        if std::env::var("UPDATE").unwrap_or(String::from("0")) == "0" {
-            assert_eq!(diff.expected, diff.actual, "Actual:\n{}", diff.actual);
-            return Err(diff);
+        if std::env::var("UPDATE").unwrap_or(String::from("0")) == "1" {
+            // ::write_to_file(&path_for_actual, &self.0);
+            crate::write_to_file(&path, &self.0);
+
+            eprintln!(
+                "Assertion failed: \nActual file printed to {}",
+                path_for_actual.display()
+            );
         }
 
-        // ::write_to_file(&path_for_actual, &self.0);
-        crate::write_to_file(&path, &self.0);
+        assert_eq!(diff.expected, diff.actual, "Actual:\n{}", diff.actual);
 
-        eprintln!(
-            "Assertion failed: \nActual file printed to {}",
-            path_for_actual.display()
-        );
-
+        // Actually unreachable.
         Err(diff)
     }
 }

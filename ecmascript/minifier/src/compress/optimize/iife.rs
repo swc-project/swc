@@ -2,7 +2,6 @@ use super::Optimizer;
 use crate::compress::optimize::Ctx;
 use crate::util::idents_used_by;
 use crate::util::make_number;
-use crate::util::IdentUsageCollector;
 use fxhash::FxHashMap;
 use std::collections::HashMap;
 use std::mem::replace;
@@ -13,20 +12,17 @@ use swc_common::Spanned;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_utils::find_ids;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::undefined;
-use swc_ecma_utils::DestructuringFinder;
-use swc_ecma_utils::ExprExt;
+use swc_ecma_utils::ExprFactory;
 use swc_ecma_utils::Id;
 use swc_ecma_visit::VisitMutWith;
-use swc_ecma_visit::VisitWith;
 
 /// Methods related to the option `negate_iife`.
 impl Optimizer<'_> {
     /// Negates iife, while ignore return value.
     pub(super) fn negate_iife_ignoring_ret(&mut self, e: &mut Expr) {
-        if !self.options.negate_iife || self.ctx.in_bang_arg {
+        if !self.options.negate_iife || self.ctx.in_bang_arg || self.ctx.dont_use_negated_iife {
             return;
         }
 
@@ -42,7 +38,7 @@ impl Optimizer<'_> {
 
         match callee {
             Expr::Fn(..) => {
-                log::trace!("negate_iife: Negating iife");
+                log::debug!("negate_iife: Negating iife");
                 *e = Expr::Unary(UnaryExpr {
                     span: DUMMY_SP,
                     op: op!("!"),
@@ -54,37 +50,71 @@ impl Optimizer<'_> {
         }
     }
 
+    /// Returns true if it did any work.
+    ///
     ///
     /// - `iife ? foo : bar` => `!iife ? bar : foo`
-    pub(super) fn negate_iife_in_cond(&mut self, e: &mut Expr) {
+    pub(super) fn negate_iife_in_cond(&mut self, e: &mut Expr) -> bool {
         let cond = match e {
             Expr::Cond(v) => v,
-            _ => return,
+            _ => return false,
         };
 
         let test_call = match &mut *cond.test {
             Expr::Call(e) => e,
-            _ => return,
+            _ => return false,
         };
 
         let callee = match &mut test_call.callee {
-            ExprOrSuper::Super(_) => return,
+            ExprOrSuper::Super(_) => return false,
             ExprOrSuper::Expr(e) => &mut **e,
         };
 
         match callee {
             Expr::Fn(..) => {
-                log::trace!("negate_iife: Swapping cons and alt");
+                log::debug!("negate_iife: Swapping cons and alt");
                 cond.test = Box::new(Expr::Unary(UnaryExpr {
                     span: DUMMY_SP,
                     op: op!("!"),
                     arg: cond.test.take(),
                 }));
                 swap(&mut cond.cons, &mut cond.alt);
-                return;
+                return true;
             }
-            _ => {}
+            _ => false,
         }
+    }
+
+    pub(super) fn restore_negated_iife(&mut self, cond: &mut CondExpr) {
+        if !self.ctx.dont_use_negated_iife {
+            return;
+        }
+
+        match &mut *cond.test {
+            Expr::Unary(UnaryExpr {
+                op: op!("!"), arg, ..
+            }) => match &mut **arg {
+                Expr::Call(CallExpr {
+                    span: call_span,
+                    callee: ExprOrSuper::Expr(callee),
+                    args,
+                    ..
+                }) => match &**callee {
+                    Expr::Fn(..) => {
+                        cond.test = Box::new(Expr::Call(CallExpr {
+                            span: *call_span,
+                            callee: callee.take().as_callee(),
+                            args: args.take(),
+                            type_args: Default::default(),
+                        }));
+                        swap(&mut cond.cons, &mut cond.alt);
+                    }
+                    _ => {}
+                },
+                _ => {}
+            },
+            _ => {}
+        };
     }
 }
 
@@ -168,21 +198,33 @@ impl Optimizer<'_> {
                         if usage.reassigned {
                             continue;
                         }
+                        if usage.ref_count != 1 {
+                            continue;
+                        }
                     }
 
                     if let Some(arg) = arg {
+                        // NOTE
+                        //
+                        // This function is misdesigned and should be removed.
+                        // This is wrong because the order of execution is not guaranteed.
+                        match &**arg {
+                            Expr::Ident(..) | Expr::Lit(..) => {}
+                            _ => continue,
+                        }
+
                         let should_be_inlined = self.can_be_inlined_for_iife(arg);
                         if should_be_inlined {
-                            log::trace!(
-                                "iife: Trying to inline {}{:?}",
+                            log::debug!(
+                                "iife: Trying to inline argument ({}{:?})",
                                 param.id.sym,
                                 param.id.span.ctxt
                             );
                             vars.insert(param.to_id(), arg.clone());
                         }
                     } else {
-                        log::trace!(
-                            "iife: Trying to inline {}{:?} (undefined)",
+                        log::debug!(
+                            "iife: Trying to inline argument ({}{:?}) (undefined)",
                             param.id.sym,
                             param.id.span.ctxt
                         );
@@ -206,10 +248,11 @@ impl Optimizer<'_> {
         }
     }
 
-    fn inline_vars_in_node<N>(&mut self, n: &mut N, vars: FxHashMap<Id, Box<Expr>>)
+    pub(super) fn inline_vars_in_node<N>(&mut self, n: &mut N, vars: FxHashMap<Id, Box<Expr>>)
     where
         N: VisitMutWith<Self>,
     {
+        log::debug!("inline: inline_vars_in_node");
         let ctx = Ctx {
             inline_prevented: false,
             ..self.ctx
@@ -249,10 +292,6 @@ impl Optimizer<'_> {
             }
         }
 
-        if self.ctx.inline_prevented {
-            return;
-        }
-
         let call = match e {
             Expr::Call(v) => v,
             _ => return,
@@ -267,31 +306,44 @@ impl Optimizer<'_> {
             ExprOrSuper::Expr(e) => &mut **e,
         };
 
-        if call.args.iter().any(|arg| match &*arg.expr {
-            Expr::Member(MemberExpr {
-                computed: false, ..
-            }) => false,
-            _ => arg.expr.may_have_side_effects(),
-        }) {
+        if self.ctx.inline_prevented {
+            log::trace!("iife: [x] Inline is prevented");
             return;
         }
 
         match callee {
             Expr::Arrow(f) => {
+                if self.ctx.in_top_level() && !self.ctx.in_call_arg && self.options.negate_iife {
+                    match &f.body {
+                        BlockStmtOrExpr::BlockStmt(body) => {
+                            let has_decl = body.stmts.iter().any(|stmt| match stmt {
+                                Stmt::Decl(..) => true,
+                                _ => false,
+                            });
+                            if has_decl {
+                                return;
+                            }
+                        }
+                        BlockStmtOrExpr::Expr(_) => {}
+                    }
+                }
+
                 if f.params.iter().any(|param| !param.is_ident()) {
                     return;
                 }
 
-                if is_param_used_by_body(&f.params, &f.body) {
-                    return;
-                }
+                let param_ids = f
+                    .params
+                    .iter()
+                    .map(|p| p.clone().ident().unwrap().id)
+                    .collect::<Vec<_>>();
 
                 match &mut f.body {
                     BlockStmtOrExpr::BlockStmt(body) => {
-                        let new = self.inline_fn_like(body);
+                        let new = self.inline_fn_like(&param_ids, body, &mut call.args);
                         if let Some(new) = new {
                             self.changed = true;
-                            log::trace!("inline: Inlining a function call (arrow)");
+                            log::debug!("inline: Inlining a function call (arrow)");
 
                             *e = new;
                         }
@@ -306,23 +358,6 @@ impl Optimizer<'_> {
                         _ => {}
                     },
                 }
-                let mut inline_map = HashMap::default();
-                for (idx, param) in f.params.iter().enumerate() {
-                    let arg_val = if let Some(arg) = call.args.get(idx) {
-                        arg.expr.clone()
-                    } else {
-                        undefined(DUMMY_SP)
-                    };
-
-                    match param {
-                        Pat::Ident(param) => {
-                            inline_map.insert(param.id.to_id(), arg_val);
-                        }
-                        _ => {}
-                    }
-                }
-
-                self.inline_vars_in_node(&mut f.body, inline_map);
 
                 match &mut f.body {
                     BlockStmtOrExpr::BlockStmt(_) => {
@@ -330,17 +365,74 @@ impl Optimizer<'_> {
                     }
                     BlockStmtOrExpr::Expr(body) => {
                         self.changed = true;
-                        log::trace!("inline: Inlining a call to an arrow function");
+
+                        {
+                            let vars = f
+                                .params
+                                .iter()
+                                .cloned()
+                                .map(|name| VarDeclarator {
+                                    span: DUMMY_SP.apply_mark(self.marks.non_top_level),
+                                    name,
+                                    init: Default::default(),
+                                    definite: Default::default(),
+                                })
+                                .collect::<Vec<_>>();
+
+                            if !vars.is_empty() {
+                                self.prepend_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                                    span: DUMMY_SP,
+                                    kind: VarDeclKind::Var,
+                                    declare: Default::default(),
+                                    decls: vars,
+                                })));
+                            }
+                        }
+
+                        let mut exprs = vec![];
+                        exprs.push(Box::new(make_number(DUMMY_SP, 0.0)));
+                        for (idx, param) in f.params.iter().enumerate() {
+                            if let Some(arg) = call.args.get_mut(idx) {
+                                exprs.push(Box::new(Expr::Assign(AssignExpr {
+                                    span: DUMMY_SP.apply_mark(self.marks.non_top_level),
+                                    op: op!("="),
+                                    left: PatOrExpr::Pat(Box::new(param.clone())),
+                                    right: arg.expr.take(),
+                                })));
+                            }
+                        }
+
+                        if call.args.len() > f.params.len() {
+                            for arg in &mut call.args[f.params.len()..] {
+                                exprs.push(arg.expr.take());
+                            }
+                        }
+                        exprs.push(body.take());
+
+                        log::debug!("inline: Inlining a call to an arrow function");
                         *e = Expr::Seq(SeqExpr {
                             span: DUMMY_SP,
-                            exprs: vec![Box::new(make_number(DUMMY_SP, 0.0)), body.take()],
+                            exprs,
                         });
                         return;
                     }
                 }
             }
             Expr::Fn(f) => {
+                if self.ctx.in_top_level() && !self.ctx.in_call_arg && self.options.negate_iife {
+                    let body = f.function.body.as_ref().unwrap();
+                    let has_decl = body.stmts.iter().any(|stmt| match stmt {
+                        Stmt::Decl(..) => true,
+                        _ => false,
+                    });
+                    if has_decl {
+                        log::trace!("iife: [x] Found decl");
+                        return;
+                    }
+                }
+
                 if f.function.is_generator {
+                    log::trace!("iife: [x] Cannot inline generator");
                     return;
                 }
 
@@ -349,17 +441,29 @@ impl Optimizer<'_> {
                     Pat::Object(..) | Pat::Array(..) | Pat::Assign(..) | Pat::Rest(..) => true,
                     _ => false,
                 }) {
+                    log::trace!("iife: [x] Found complex pattern");
                     return;
                 }
 
                 if let Some(i) = &f.ident {
                     if idents_used_by(&f.function.body).contains(&i.to_id()) {
+                        log::trace!("iife: [x] Recursive?");
                         return;
                     }
                 }
 
-                if is_param_used_by_body(&f.function.params, &f.function.body) {
-                    return;
+                for arg in &call.args {
+                    if arg.spread.is_some() {
+                        log::trace!("iife: [x] Found spread argument");
+                        return;
+                    }
+                    match &*arg.expr {
+                        Expr::Fn(..) | Expr::Arrow(..) => {
+                            log::trace!("iife: [x] Found callable argument");
+                            return;
+                        }
+                        _ => {}
+                    }
                 }
 
                 let body = f.function.body.as_mut().unwrap();
@@ -368,10 +472,22 @@ impl Optimizer<'_> {
                     return;
                 }
 
-                let new = self.inline_fn_like(body);
+                let param_ids = f
+                    .function
+                    .params
+                    .iter()
+                    .map(|p| p.pat.clone().ident().unwrap().id)
+                    .collect::<Vec<_>>();
+
+                if !self.can_inline_fn_like(&param_ids, body) {
+                    log::trace!("iife: [x] Body is not inliable");
+                    return;
+                }
+
+                let new = self.inline_fn_like(&param_ids, body, &mut call.args);
                 if let Some(new) = new {
                     self.changed = true;
-                    log::trace!("inline: Inlining a function call");
+                    log::debug!("inline: Inlining a function call");
 
                     *e = new;
                 }
@@ -382,11 +498,39 @@ impl Optimizer<'_> {
         }
     }
 
-    fn inline_fn_like(&mut self, body: &mut BlockStmt) -> Option<Expr> {
+    fn can_inline_fn_like(&self, param_ids: &[Ident], body: &BlockStmt) -> bool {
         if !body.stmts.iter().all(|stmt| match stmt {
-            Stmt::Expr(e) if e.expr.is_await_expr() => false,
+            Stmt::Decl(Decl::Var(VarDecl {
+                kind: VarDeclKind::Var | VarDeclKind::Let,
+                decls,
+                ..
+            })) => {
+                if decls.iter().any(|decl| match decl.name {
+                    Pat::Ident(..) => false,
+                    _ => true,
+                }) {
+                    return false;
+                }
 
-            Stmt::Expr(..) => true,
+                if self.ctx.executed_multiple_time {
+                    return false;
+                }
+
+                true
+            }
+
+            Stmt::Expr(e) => match &*e.expr {
+                Expr::Await(..) => false,
+
+                // TODO: Check if paramter is used and inline if call is not related to parameters.
+                Expr::Call(e) => {
+                    let used = idents_used_by(e);
+                    param_ids.iter().all(|param| !used.contains(&param.to_id()))
+                }
+
+                _ => true,
+            },
+
             Stmt::Return(ReturnStmt { arg, .. }) => match arg.as_deref() {
                 Some(Expr::Await(..)) => false,
 
@@ -401,12 +545,92 @@ impl Optimizer<'_> {
             },
             _ => false,
         }) {
+            return false;
+        }
+
+        if idents_used_by(&*body)
+            .iter()
+            .any(|v| v.0 == js_word!("arguments"))
+        {
+            return false;
+        }
+
+        true
+    }
+
+    fn inline_fn_like(
+        &mut self,
+        params: &[Ident],
+        body: &mut BlockStmt,
+        args: &mut [ExprOrSpread],
+    ) -> Option<Expr> {
+        if !self.can_inline_fn_like(&params, &*body) {
             return None;
         }
 
+        self.changed = true;
+        log::debug!("inline: Inling an iife");
+
         let mut exprs = vec![];
-        for stmt in body.stmts.take() {
+
+        {
+            let vars = params
+                .iter()
+                .cloned()
+                .map(BindingIdent::from)
+                .map(Pat::Ident)
+                .map(|name| VarDeclarator {
+                    span: DUMMY_SP.apply_mark(self.marks.non_top_level),
+                    name,
+                    init: Default::default(),
+                    definite: Default::default(),
+                })
+                .collect::<Vec<_>>();
+
+            if !vars.is_empty() {
+                self.prepend_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: Default::default(),
+                    decls: vars,
+                })));
+            }
+        }
+
+        for (idx, param) in params.iter().enumerate() {
+            if let Some(arg) = args.get_mut(idx) {
+                exprs.push(Box::new(Expr::Assign(AssignExpr {
+                    span: DUMMY_SP.apply_mark(self.marks.non_top_level),
+                    op: op!("="),
+                    left: PatOrExpr::Pat(Box::new(Pat::Ident(param.clone().into()))),
+                    right: arg.expr.take(),
+                })));
+            }
+        }
+
+        if args.len() > params.len() {
+            for arg in &mut args[params.len()..] {
+                exprs.push(arg.expr.take());
+            }
+        }
+
+        for mut stmt in body.stmts.take() {
             match stmt {
+                Stmt::Decl(Decl::Var(ref mut var)) => {
+                    for decl in &mut var.decls {
+                        if decl.init.is_some() {
+                            exprs.push(Box::new(Expr::Assign(AssignExpr {
+                                span: DUMMY_SP.apply_mark(self.marks.non_top_level),
+                                op: op!("="),
+                                left: PatOrExpr::Pat(Box::new(decl.name.clone())),
+                                right: decl.init.take().unwrap(),
+                            })))
+                        }
+                    }
+
+                    self.prepend_stmts.push(stmt);
+                }
+
                 Stmt::Expr(stmt) => {
                     exprs.push(stmt.expr);
                 }
@@ -512,30 +736,4 @@ impl Optimizer<'_> {
             _ => false,
         }
     }
-}
-
-// We can't remove a function call if a parameter is declared by function and
-// the body of the function uses it.
-fn is_param_used_by_body<P, B>(params: &P, body: &B) -> bool
-where
-    P: for<'any> VisitWith<DestructuringFinder<'any, Id>>,
-    B: VisitWith<IdentUsageCollector>,
-{
-    let declared: Vec<Id> = find_ids(params);
-
-    let used = idents_used_by(body);
-
-    for id in declared {
-        if used.contains(&id) {
-            return true;
-        }
-    }
-
-    for (sym, _) in used {
-        if sym == js_word!("arguments") {
-            return true;
-        }
-    }
-
-    false
 }

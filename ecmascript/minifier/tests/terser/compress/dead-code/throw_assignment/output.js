@@ -1,5 +1,5 @@
 function f1() {
-    throw (a = x());
+    throw a = x();
 }
 function f2(a) {
     throw x();
@@ -9,14 +9,14 @@ function f3() {
 }
 function f4() {
     try {
-        throw (a = x());
+        throw a = x();
     } catch (b) {
         console.log(a);
     }
 }
 function f5(a) {
     try {
-        throw (a = x());
+        throw a = x();
     } catch (b) {
         console.log(a);
     }
@@ -24,41 +24,49 @@ function f5(a) {
 function f6() {
     var a;
     try {
-        throw (a = x());
+        throw a = x();
     } catch (b) {
         console.log(a);
     }
 }
 function f7() {
     try {
-        throw (a = x());
-    } finally {
+        throw a = x();
+    } finally{
         console.log(a);
     }
 }
 function f8(a) {
     try {
-        throw (a = x());
-    } finally {
+        throw a = x();
+    } finally{
         console.log(a);
     }
 }
 function f9() {
     var a;
     try {
-        throw (a = x());
-    } finally {
+        throw a = x();
+    } finally{
         console.log(a);
     }
 }
 function test(inc) {
     var counter = 0;
-    x = function () {
+    x = function() {
         counter += inc;
         if (inc < 0) throw counter;
         return counter;
     };
-    [f1, f2, f3, f4, f5, f6, f7, f8, f9].forEach(function (f, i) {
+    [f1,
+        f2,
+        f3,
+        f4,
+        f5,
+        f6,
+        f7,
+        f8,
+        f9].forEach(function(f, i) {
         a = null;
         try {
             f(10 * (1 + i));

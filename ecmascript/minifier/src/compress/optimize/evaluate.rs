@@ -65,7 +65,7 @@ impl Optimizer<'_> {
                 sym: js_word!("undefined"),
                 ..
             }) => {
-                log::trace!("evaluate: `undefined` -> `void 0`");
+                log::debug!("evaluate: `undefined` -> `void 0`");
                 self.changed = true;
                 *e = *undefined(*span);
                 return;
@@ -76,7 +76,7 @@ impl Optimizer<'_> {
                 sym: js_word!("Infinity"),
                 ..
             }) => {
-                log::trace!("evaluate: `Infinity` -> `1 / 0`");
+                log::debug!("evaluate: `Infinity` -> `1 / 0`");
                 self.changed = true;
                 *e = Expr::Bin(BinExpr {
                     span: span.with_ctxt(self.done_ctxt),
@@ -149,7 +149,7 @@ impl Optimizer<'_> {
                     1 => match &*args[0].expr {
                         Expr::Lit(Lit::Str(exp)) => {
                             self.changed = true;
-                            log::trace!(
+                            log::debug!(
                                 "evaluate: Converting RegExpr call into a regexp literal `/{}/`",
                                 exp.value
                             );
@@ -165,7 +165,7 @@ impl Optimizer<'_> {
                     _ => match (&*args[0].expr, &*args[1].expr) {
                         (Expr::Lit(Lit::Str(exp)), Expr::Lit(Lit::Str(flags))) => {
                             self.changed = true;
-                            log::trace!(
+                            log::debug!(
                                 "evaluate: Converting RegExpr call into a regexp literal `/{}/{}`",
                                 exp.value,
                                 flags.value
@@ -209,7 +209,7 @@ impl Optimizer<'_> {
                                 match char::from_u32(v) {
                                     Some(v) => {
                                         self.changed = true;
-                                        log::trace!(
+                                        log::debug!(
                                             "evanluate: Evaluated `String.charCodeAt({})` as `{}`",
                                             char_code,
                                             v
@@ -362,7 +362,7 @@ impl Optimizer<'_> {
                     match c {
                         Some(v) => {
                             self.changed = true;
-                            log::trace!(
+                            log::debug!(
                                 "evaluate: Evaluated `charCodeAt` of a string literal as `{}`",
                                 v
                             );
@@ -373,7 +373,7 @@ impl Optimizer<'_> {
                         }
                         None => {
                             self.changed = true;
-                            log::trace!(
+                            log::debug!(
                                 "evaluate: Evaluated `charCodeAt` of a string literal as `NaN`",
                             );
                             *e = Expr::Ident(Ident::new(
@@ -389,7 +389,7 @@ impl Optimizer<'_> {
         };
 
         self.changed = true;
-        log::trace!("evaluate: Evaluated `{}` of a string literal", method);
+        log::debug!("evaluate: Evaluated `{}` of a string literal", method);
         *e = Expr::Lit(Lit::Str(Str {
             value: new_val.into(),
             ..s
@@ -412,7 +412,7 @@ impl Optimizer<'_> {
                                 ..
                             }) => {
                                 self.changed = true;
-                                log::trace!(
+                                log::debug!(
                                     "evaluate: Reducing a call to `Number` into an unary operation"
                                 );
 
@@ -442,7 +442,7 @@ impl Optimizer<'_> {
             Expr::Call(..) => {
                 if let Some(value) = self.eval_as_number(&e) {
                     self.changed = true;
-                    log::trace!("evaluate: Evaluated an expression as `{}`", value);
+                    log::debug!("evaluate: Evaluated an expression as `{}`", value);
 
                     *e = Expr::Lit(Lit::Num(Number {
                         span: e.span(),
@@ -462,7 +462,7 @@ impl Optimizer<'_> {
                 if let Known(l) = l {
                     if let Known(r) = r {
                         self.changed = true;
-                        log::trace!("evaluate: Evaulated `{:?} ** {:?}`", l, r);
+                        log::debug!("evaluate: Evaulated `{:?} ** {:?}`", l, r);
 
                         let value = l.powf(r);
                         *e = Expr::Lit(Lit::Num(Number {
@@ -507,7 +507,7 @@ impl Optimizer<'_> {
                                 }
 
                                 self.changed = true;
-                                log::trace!("evaluate: `0 / 0` => `NaN`");
+                                log::debug!("evaluate: `0 / 0` => `NaN`");
 
                                 // Sign does not matter for NaN
                                 *e = Expr::Ident(Ident::new(
@@ -518,7 +518,7 @@ impl Optimizer<'_> {
                             }
                             (FpCategory::Normal, FpCategory::Zero) => {
                                 self.changed = true;
-                                log::trace!("evaluate: `constant / 0` => `Infinity`");
+                                log::debug!("evaluate: `constant / 0` => `Infinity`");
 
                                 // Sign does not matter for NaN
                                 *e = if ln.is_sign_positive() == rn.is_sign_positive() {
@@ -590,7 +590,7 @@ impl Optimizer<'_> {
                     let value = num_to_fixed(num.value, precision + 1);
 
                     self.changed = true;
-                    log::trace!(
+                    log::debug!(
                         "evaluate: Evaluating `{}.toFixed({})` as `{}`",
                         num,
                         precision,
@@ -816,7 +816,7 @@ impl Optimizer<'_> {
                         match call.args.len() {
                             0 => {
                                 self.changed = true;
-                                log::trace!("evaluate: Dropping array.slice call");
+                                log::debug!("evaluate: Dropping array.slice call");
                                 *e = *obj.take();
                                 return;
                             }
@@ -825,7 +825,7 @@ impl Optimizer<'_> {
                                     let start = start.floor() as usize;
 
                                     self.changed = true;
-                                    log::trace!("evaluate: Reducing array.slice({}) call", start);
+                                    log::debug!("evaluate: Reducing array.slice({}) call", start);
 
                                     if start >= arr.elems.len() {
                                         *e = Expr::Array(ArrayLit {
@@ -850,7 +850,7 @@ impl Optimizer<'_> {
                                     if let Known(end) = end {
                                         let end = end.floor() as usize;
                                         self.changed = true;
-                                        log::trace!(
+                                        log::debug!(
                                             "evaluate: Reducing array.slice({}, {}) call",
                                             start,
                                             end
@@ -936,7 +936,7 @@ impl Optimizer<'_> {
                         }
 
                         self.changed = true;
-                        log::trace!(
+                        log::debug!(
                             "evaludate: Reduced `funtion.valueOf()` into a function expression"
                         );
 
@@ -977,7 +977,7 @@ impl Optimizer<'_> {
                     // As we used as_pure_bool, we can drop it.
                     if v && e.op == op!("&&") {
                         self.changed = true;
-                        log::trace!("Removing `b` from `a && b && c` because b is always truthy");
+                        log::debug!("Removing `b` from `a && b && c` because b is always truthy");
 
                         left.right.take();
                         return;
@@ -985,7 +985,7 @@ impl Optimizer<'_> {
 
                     if !v && e.op == op!("||") {
                         self.changed = true;
-                        log::trace!("Removing `b` from `a || b || c` because b is always falsy");
+                        log::debug!("Removing `b` from `a || b || c` because b is always falsy");
 
                         left.right.take();
                         return;
@@ -1011,7 +1011,7 @@ impl Optimizer<'_> {
                 //
                 if is_pure_undefined_or_null(&obj) {
                     self.changed = true;
-                    log::trace!(
+                    log::debug!(
                         "evaluate: Reduced an optioanl chaining operation because object is \
                          always null or undefined"
                     );
@@ -1028,7 +1028,7 @@ impl Optimizer<'_> {
             }) => {
                 if is_pure_undefined_or_null(&callee) {
                     self.changed = true;
-                    log::trace!(
+                    log::debug!(
                         "evaluate: Reduced a call expression with optioanl chaining operation \
                          because object is always null or undefined"
                     );

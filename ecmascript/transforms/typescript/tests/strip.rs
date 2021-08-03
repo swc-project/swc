@@ -78,6 +78,21 @@ to!(
 }"
 );
 
+to!(
+    private_method_overload_and_abstract,
+    "class test {
+    #test();
+    #test() {
+    }
+
+    abstract #test();
+}",
+    "class test {
+    #test() {
+    }
+}"
+);
+
 to!(export_import, "export import A = B", "export var A = B;");
 
 to!(export_equals, "export = Foo", "module.exports = Foo;");
@@ -3905,7 +3920,7 @@ to!(
         public text: string;
         public args: EncodedArg[];
         public fields?: string[];
-      
+
         constructor(config: QueryObjectConfig);
         constructor(text: string, ...args: unknown[]);
     }",
@@ -3920,15 +3935,15 @@ to!(
         app!: Application;
         request!: ServerRequest;
         url!: URL;
-      
+
         response: Response & { headers: Headers } = { headers: new Headers() };
         params: Record<string, string> = {};
         customContext: any;
-      
+
         #store?: Map<string | symbol, unknown>;
-      
+
         #body: Promise<unknown> | undefined;
-      
+
         constructor(opts: ContextOptions);
         constructor(c: Context);
         constructor(optionsOrContext: ContextOptions | Context) {

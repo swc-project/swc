@@ -58,7 +58,7 @@ impl Optimizer<'_> {
                         match &*args[0].expr {
                             Expr::Lit(Lit::Str(..)) => {
                                 self.changed = true;
-                                log::trace!(
+                                log::debug!(
                                     "strings: Unsafely reduced `RegExp` call in a string context"
                                 );
 
@@ -87,7 +87,7 @@ impl Optimizer<'_> {
                     Expr::Lit(Lit::Str(..)) => {
                         *n = *e.expr.take();
                         self.changed = true;
-                        log::trace!("string: Removed a paren in a string context");
+                        log::debug!("string: Removed a paren in a string context");
                     }
                     _ => {}
                 }
@@ -101,7 +101,7 @@ impl Optimizer<'_> {
         let value = n.as_string();
         if let Known(value) = value {
             self.changed = true;
-            log::trace!(
+            log::debug!(
                 "strings: Converted an expression into a string literal (in string context)"
             );
             *n = Expr::Lit(Lit::Str(Str {
@@ -116,7 +116,7 @@ impl Optimizer<'_> {
         match n {
             Expr::Lit(Lit::Num(v)) => {
                 self.changed = true;
-                log::trace!(
+                log::debug!(
                     "strings: Converted a numeric literal ({}) into a string literal (in string \
                      context)",
                     v.value
@@ -136,7 +136,7 @@ impl Optimizer<'_> {
                     return;
                 }
                 self.changed = true;
-                log::trace!(
+                log::debug!(
                     "strings: Converted a regex (/{}/{}) into a string literal (in string context)",
                     v.exp,
                     v.flags
@@ -163,7 +163,7 @@ impl Optimizer<'_> {
                     .unwrap_or(false)
                 {
                     self.changed = true;
-                    log::trace!(
+                    log::debug!(
                         "strings: Converting a reference ({}{:?}) into `undefined` (in string \
                          context)",
                         i.sym,
@@ -274,7 +274,7 @@ impl Optimizer<'_> {
                 if let Some(l_last) = l.quasis.last_mut() {
                     self.changed = true;
 
-                    log::trace!(
+                    log::debug!(
                         "template: Concatted a string (`{}`) on rhs of `+` to a template literal",
                         rs.value
                     );
@@ -294,7 +294,7 @@ impl Optimizer<'_> {
                 if let Some(r_first) = r.quasis.first_mut() {
                     self.changed = true;
 
-                    log::trace!(
+                    log::debug!(
                         "template: Prepended a string (`{}`) on lhs of `+` to a template literal",
                         ls.value
                     );
@@ -332,7 +332,7 @@ impl Optimizer<'_> {
 
                 debug_assert!(l.quasis.len() == l.exprs.len() + 1, "{:?} is invalid", l);
                 self.changed = true;
-                log::trace!("strings: Merged to template literals");
+                log::debug!("strings: Merged to template literals");
             }
 
             _ => {}
@@ -365,7 +365,7 @@ impl Optimizer<'_> {
                                     let left_span = left.span;
 
                                     self.changed = true;
-                                    log::trace!(
+                                    log::debug!(
                                         "string: Concatting `{} + {}` to `{}`",
                                         second_str,
                                         third_str,
@@ -413,7 +413,7 @@ impl Optimizer<'_> {
                                 ..
                             })) => {
                                 self.changed = true;
-                                log::trace!(
+                                log::debug!(
                                     "string: Dropping empty string literal (in lhs) because it \
                                      does not changes type"
                                 );
@@ -430,7 +430,7 @@ impl Optimizer<'_> {
                                 ..
                             })) => {
                                 self.changed = true;
-                                log::trace!(
+                                log::debug!(
                                     "string: Dropping empty string literal (in rhs) because it \
                                      does not changes type"
                                 );

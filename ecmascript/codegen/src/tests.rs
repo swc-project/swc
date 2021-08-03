@@ -231,7 +231,7 @@ fn empty_named_export() {
 fn empty_named_export_min() {
     test_from_to_custom_config(
         "export { }",
-        "export{};",
+        "export{}",
         Config { minify: true },
         Default::default(),
     );
@@ -246,7 +246,7 @@ fn empty_named_export_from() {
 fn empty_named_export_from_min() {
     test_from_to_custom_config(
         "export { } from 'foo';",
-        "export{}from'foo';",
+        "export{}from'foo'",
         Config { minify: true },
         Default::default(),
     );
@@ -261,7 +261,7 @@ fn named_export_from() {
 fn named_export_from_min() {
     test_from_to_custom_config(
         "export { bar } from 'foo';",
-        "export{bar}from'foo';",
+        "export{bar}from'foo'",
         Config { minify: true },
         Default::default(),
     );
@@ -284,7 +284,7 @@ fn export_namespace_from() {
 fn export_namespace_from_min() {
     test_from_to_custom_config(
         "export * as Foo from 'foo';",
-        "export*as Foo from'foo';",
+        "export*as Foo from'foo'",
         Config { minify: true },
         Syntax::Es(EsConfig {
             export_namespace_from: true,
@@ -310,7 +310,7 @@ fn named_and_namespace_export_from() {
 fn named_and_namespace_export_from_min() {
     test_from_to_custom_config(
         "export * as Foo, { bar } from 'foo';",
-        "export*as Foo,{bar}from'foo';",
+        "export*as Foo,{bar}from'foo'",
         Config { minify: true },
         Syntax::Es(EsConfig {
             export_namespace_from: true,
@@ -560,7 +560,7 @@ fn test_escape_without_source() {
     es2020("abcde", "abcde");
     es2020(
         "\x00\r\n\u{85}\u{2028}\u{2029};",
-        "\\x00\\r\\n\\x85\u{2028}\u{2029};",
+        "\\x00\\r\\n\\x85\\u2028\\u2029;",
     );
 
     es2020("\n", "\\n");

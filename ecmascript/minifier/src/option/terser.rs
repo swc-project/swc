@@ -1,11 +1,11 @@
 //! Compatibility for terser config.
 
-use crate::option::PureGetterOption;
-
+use super::true_by_default;
 use super::CompressOptions;
 use super::TopLevelOptions;
+use crate::option::PureGetterOption;
 use fxhash::FxHashMap;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use swc_atoms::JsWord;
 use swc_common::input::SourceFileInput;
@@ -18,7 +18,7 @@ use swc_ecma_parser::lexer::Lexer;
 use swc_ecma_parser::Parser;
 use swc_ecma_utils::drop_span;
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 #[serde(untagged)]
 pub enum TerserEcmaVersion {
@@ -26,7 +26,13 @@ pub enum TerserEcmaVersion {
     Str(String),
 }
 
-#[derive(Debug, Clone, Deserialize)]
+impl Default for TerserEcmaVersion {
+    fn default() -> Self {
+        Self::Num(5)
+    }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 #[serde(untagged)]
 pub enum TerserPureGetterOption {
@@ -42,7 +48,7 @@ impl Default for TerserPureGetterOption {
     }
 }
 
-#[derive(Debug, Clone, Copy, Deserialize)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 #[serde(untagged)]
 pub enum TerserInlineOption {
@@ -50,7 +56,7 @@ pub enum TerserInlineOption {
     Num(u8),
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 #[serde(untagged)]
 pub enum TerserTopLevelOptions {
@@ -58,7 +64,7 @@ pub enum TerserTopLevelOptions {
     Str(String),
 }
 
-#[derive(Debug, Clone, Copy, Deserialize)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 #[serde(untagged)]
 pub enum TerserSequenceOptions {
@@ -66,7 +72,7 @@ pub enum TerserSequenceOptions {
     Num(u8),
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 #[serde(untagged)]
 pub enum TerserTopRetainOption {
@@ -74,7 +80,7 @@ pub enum TerserTopRetainOption {
     Seq(Vec<JsWord>),
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct TerserCompressorOptions {
     #[serde(default)]
@@ -104,7 +110,7 @@ pub struct TerserCompressorOptions {
     #[serde(default)]
     pub dead_code: bool,
 
-    #[serde(default)]
+    #[serde(default = "true_by_default")]
     pub defaults: bool,
 
     #[serde(default)]
@@ -240,6 +246,67 @@ pub struct TerserCompressorOptions {
 
     #[serde(default)]
     pub module: bool,
+}
+
+impl Default for TerserCompressorOptions {
+    fn default() -> Self {
+        Self {
+            arguments: Default::default(),
+            arrows: Default::default(),
+            booleans: Default::default(),
+            booleans_as_integers: Default::default(),
+            collapse_vars: Default::default(),
+            comparisons: Default::default(),
+            computed_props: Default::default(),
+            conditionals: Default::default(),
+            dead_code: Default::default(),
+            defaults: true,
+            directives: Default::default(),
+            drop_console: Default::default(),
+            drop_debugger: Default::default(),
+            ecma: Default::default(),
+            evaluate: Default::default(),
+            expression: Default::default(),
+            global_defs: Default::default(),
+            hoist_funs: Default::default(),
+            hoist_props: Default::default(),
+            hoist_vars: Default::default(),
+            ie8: Default::default(),
+            if_return: Default::default(),
+            inline: Default::default(),
+            join_vars: Default::default(),
+            keep_classnames: Default::default(),
+            keep_fargs: Default::default(),
+            keep_fnames: Default::default(),
+            keep_infinity: Default::default(),
+            loops: Default::default(),
+            negate_iife: Default::default(),
+            passes: Default::default(),
+            properties: Default::default(),
+            pure_getters: Default::default(),
+            pure_funcs: Default::default(),
+            reduce_funcs: Default::default(),
+            reduce_vars: Default::default(),
+            sequences: Default::default(),
+            side_effects: Default::default(),
+            switches: Default::default(),
+            top_retain: Default::default(),
+            toplevel: Default::default(),
+            typeofs: Default::default(),
+            unsafe_passes: Default::default(),
+            unsafe_arrows: Default::default(),
+            unsafe_comps: Default::default(),
+            unsafe_function: Default::default(),
+            unsafe_math: Default::default(),
+            unsafe_symbols: Default::default(),
+            unsafe_methods: Default::default(),
+            unsafe_proto: Default::default(),
+            unsafe_regexp: Default::default(),
+            unsafe_undefined: Default::default(),
+            unused: Default::default(),
+            module: Default::default(),
+        }
+    }
 }
 
 fn ecma_default() -> TerserEcmaVersion {

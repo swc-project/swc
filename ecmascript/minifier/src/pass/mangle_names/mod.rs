@@ -28,9 +28,12 @@ pub fn name_mangler(options: MangleOptions, _char_freq_info: CharFreqInfo) -> im
 struct Mangler {
     options: MangleOptions,
     n: usize,
+    private_n: usize,
+
     preserved: FxHashSet<Id>,
     preserved_symbols: FxHashSet<JsWord>,
     renamed: FxHashMap<Id, JsWord>,
+    renamed_private: FxHashMap<Id, JsWord>,
     data: Option<ProgramData>,
 }
 
@@ -53,7 +56,15 @@ impl Mangler {
         }
 
         loop {
-            let sym: JsWord = base54(self.n).into();
+            let sym = match base54(self.n) {
+                Some(v) => v,
+                None => {
+                    self.n += 1;
+                    continue;
+                }
+            };
+
+            let sym: JsWord = sym.into();
             self.n += 1;
             if self.preserved_symbols.contains(&sym) {
                 continue;
@@ -65,6 +76,33 @@ impl Mangler {
             break;
         }
     }
+
+    fn rename_private(&mut self, private_name: &mut PrivateName) {
+        let id = private_name.id.to_id();
+
+        let new_sym = if let Some(cached) = self.renamed_private.get(&id) {
+            cached.clone()
+        } else {
+            loop {
+                let sym = match base54(self.private_n) {
+                    Some(v) => v,
+                    None => {
+                        self.private_n += 1;
+                        continue;
+                    }
+                };
+
+                let sym: JsWord = sym.into();
+                self.private_n += 1;
+
+                self.renamed_private.insert(id.clone(), sym.clone());
+
+                break sym;
+            }
+        };
+
+        private_name.id.sym = new_sym;
+    }
 }
 
 impl VisitMut for Mangler {
@@ -75,7 +113,6 @@ impl VisitMut for Mangler {
 
         n.class.visit_mut_with(self);
     }
-
     fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
         if n.exported.is_none() {
             n.exported = Some(n.orig.clone());
@@ -83,7 +120,6 @@ impl VisitMut for Mangler {
 
         self.rename(&mut n.orig);
     }
-
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
 
@@ -98,6 +134,25 @@ impl VisitMut for Mangler {
     fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
         self.rename(&mut n.ident);
         n.function.visit_mut_with(self);
+    }
+
+    fn visit_mut_import_default_specifier(&mut self, n: &mut ImportDefaultSpecifier) {
+        self.rename(&mut n.local);
+    }
+
+    fn visit_mut_import_named_specifier(&mut self, n: &mut ImportNamedSpecifier) {
+        match &n.imported {
+            Some(..) => {}
+            None => {
+                n.imported = Some(n.local.clone());
+            }
+        }
+
+        self.rename(&mut n.local);
+    }
+
+    fn visit_mut_import_star_as_specifier(&mut self, n: &mut ImportStarAsSpecifier) {
+        self.rename(&mut n.local);
     }
 
     fn visit_mut_labeled_stmt(&mut self, n: &mut LabeledStmt) {
@@ -135,6 +190,12 @@ impl VisitMut for Mangler {
                 self.rename(&mut i.id);
             }
             _ => {}
+        }
+    }
+
+    fn visit_mut_private_name(&mut self, private_name: &mut PrivateName) {
+        if !self.options.keep_private_props {
+            self.rename_private(private_name);
         }
     }
 

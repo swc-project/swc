@@ -12,4 +12,4 @@ set -eu
 echo '' > tests/ignored.txt
 
 scripts/add-golden.sh
-scripts/ignore.sh ''
+scripts/ignore.sh 'fixture_tests__terser__compress__'

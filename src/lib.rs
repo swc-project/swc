@@ -6,6 +6,7 @@ use crate::config::{
     SourceMapsConfig,
 };
 use anyhow::{bail, Context, Error};
+use config::JsMinifyOptions;
 use dashmap::DashMap;
 use serde::Serialize;
 use serde_json::error::Category;
@@ -21,16 +22,20 @@ use swc_common::{
     errors::Handler,
     input::StringInput,
     source_map::SourceMapGenConfig,
-    BytePos, FileName, Globals, SourceFile, SourceMap, Spanned, DUMMY_SP, GLOBALS,
+    BytePos, FileName, Globals, Mark, SourceFile, SourceMap, Spanned, DUMMY_SP, GLOBALS,
 };
 use swc_ecma_ast::Program;
 use swc_ecma_codegen::{self, Emitter, Node};
 use swc_ecma_loader::resolvers::{lru::CachingResolver, node::NodeResolver, tsc::TsConfigResolver};
-use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
+use swc_ecma_minifier::option::MinifyOptions;
+use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, Syntax};
 use swc_ecma_transforms::{
+    fixer,
     helpers::{self, Helpers},
+    hygiene,
     modules::path::NodeImportResolver,
     pass::noop,
+    resolver_with_mark,
 };
 use swc_ecma_visit::FoldWith;
 
@@ -243,6 +248,7 @@ impl Compiler {
     pub fn print<T>(
         &self,
         node: &T,
+        source_file_name: Option<&str>,
         output_path: Option<PathBuf>,
         target: JscTarget,
         source_map: SourceMapsConfig,
@@ -291,6 +297,7 @@ impl Compiler {
                                 &mut src_map_buf,
                                 orig,
                                 SwcSourceMapConfig {
+                                    source_file_name,
                                     output_path: output_path.as_deref(),
                                 },
                             )
@@ -312,6 +319,7 @@ impl Compiler {
                             &mut src_map_buf,
                             orig,
                             SwcSourceMapConfig {
+                                source_file_name,
                                 output_path: output_path.as_deref(),
                             },
                         )
@@ -335,12 +343,17 @@ impl Compiler {
 }
 
 struct SwcSourceMapConfig<'a> {
+    source_file_name: Option<&'a str>,
     /// Output path of the `.map` file.
     output_path: Option<&'a Path>,
 }
 
 impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
     fn file_name_to_source(&self, f: &FileName) -> String {
+        if let Some(file_name) = self.source_file_name {
+            return file_name.to_string();
+        }
+
         let base_path = match self.output_path {
             Some(v) => v,
             None => return f.to_string(),
@@ -471,6 +484,7 @@ impl Compiler {
                 &self.cm,
                 name,
                 opts.output_path.as_deref(),
+                opts.source_file_name.clone(),
                 &self.handler,
                 opts.is_module,
                 Some(config),
@@ -532,8 +546,21 @@ impl Compiler {
                 input_source_map: config.input_source_map,
                 is_module: config.is_module,
                 output_path: config.output_path,
+                source_file_name: config.source_file_name,
             };
-            let orig = self.get_orig_src_map(&fm, &opts.config.input_source_map)?;
+
+            let orig = if opts
+                .config
+                .source_maps
+                .as_ref()
+                .map(|v| v.enabled())
+                .unwrap_or_default()
+            {
+                self.get_orig_src_map(&fm, &opts.config.input_source_map)?
+            } else {
+                None
+            };
+
             let program = self.parse_js(
                 fm.clone(),
                 config.target,
@@ -555,6 +582,80 @@ impl Compiler {
         self.process_js_with_custom_pass(fm, opts, noop())
     }
 
+    pub fn minify(
+        &self,
+        fm: Arc<SourceFile>,
+        opts: &JsMinifyOptions,
+    ) -> Result<TransformOutput, Error> {
+        self.run(|| {
+            let target = opts.ecma.clone().into();
+
+            let orig = if opts.source_map {
+                self.get_orig_src_map(&fm, &InputSourceMap::Bool(opts.source_map))?
+            } else {
+                None
+            };
+
+            let min_opts = MinifyOptions {
+                compress: opts
+                    .compress
+                    .clone()
+                    .into_obj()
+                    .map(|v| v.into_config(self.cm.clone())),
+                mangle: opts.mangle.clone().into_obj(),
+                ..Default::default()
+            };
+
+            let module = self
+                .parse_js(
+                    fm.clone(),
+                    target,
+                    Syntax::Es(EsConfig {
+                        jsx: true,
+                        decorators: true,
+                        decorators_before_export: true,
+                        top_level_await: true,
+                        import_assertions: true,
+
+                        ..Default::default()
+                    }),
+                    true,
+                    true,
+                )
+                .context("failed to parse input file")?
+                .expect_module();
+
+            let top_level_mark = Mark::fresh(Mark::root());
+
+            let module = self.run_transform(false, || {
+                let module = module.fold_with(&mut resolver_with_mark(top_level_mark));
+
+                let module = swc_ecma_minifier::optimize(
+                    module,
+                    self.cm.clone(),
+                    Some(&self.comments),
+                    None,
+                    &min_opts,
+                    &swc_ecma_minifier::option::ExtraOptions { top_level_mark },
+                );
+
+                module
+                    .fold_with(&mut hygiene())
+                    .fold_with(&mut fixer(Some(&self.comments as &dyn Comments)))
+            });
+
+            self.print(
+                &module,
+                None,
+                opts.output_path.clone().map(From::from),
+                target,
+                SourceMapsConfig::Bool(opts.source_map),
+                orig.as_ref(),
+                true,
+            )
+        })
+    }
+
     /// You can use custom pass with this method.
     ///
     /// There exists a [PassBuilder] to help building custom passes.
@@ -562,7 +663,18 @@ impl Compiler {
         self.run(|| -> Result<_, Error> {
             let loc = self.cm.lookup_char_pos(program.span().lo());
             let fm = loc.file;
-            let orig = self.get_orig_src_map(&fm, &opts.config.input_source_map)?;
+
+            let orig = if opts
+                .config
+                .source_maps
+                .as_ref()
+                .map(|v| v.enabled())
+                .unwrap_or_default()
+            {
+                self.get_orig_src_map(&fm, &opts.config.input_source_map)?
+            } else {
+                None
+            };
 
             let config = self.run(|| self.config_for_file(opts, &fm.name))?;
 
@@ -603,6 +715,7 @@ impl Compiler {
 
             self.print(
                 &program,
+                config.source_file_name.as_deref(),
                 config.output_path,
                 config.target,
                 config.source_maps,

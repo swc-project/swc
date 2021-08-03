@@ -1,5 +1,3 @@
-var a = 0,
-    b = 5;
-a += 1;
+var a = 0, b = 5;
 var c;
-console.log(a);
+a += 1, console.log(a);
