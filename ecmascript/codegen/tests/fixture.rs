@@ -37,9 +37,7 @@ fn run(input: &Path, minify: bool) {
 
         {
             let mut emitter = Emitter {
-                cfg: swc_ecma_codegen::Config {
-                    minify: input.to_string_lossy().contains("minify"),
-                },
+                cfg: swc_ecma_codegen::Config { minify },
                 cm: cm.clone(),
                 comments: None,
                 wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
