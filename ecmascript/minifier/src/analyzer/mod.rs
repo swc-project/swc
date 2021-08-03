@@ -1,6 +1,7 @@
 use self::ctx::Ctx;
 use crate::marks::Marks;
 use crate::util::can_end_conditionally;
+use crate::util::has_mark;
 use crate::util::idents_used_by;
 use crate::util::now;
 use fxhash::FxHashMap;
@@ -31,6 +32,7 @@ where
 
     let mut v = UsageAnalyzer {
         data: Default::default(),
+        marks,
         scope: Default::default(),
         ctx: Default::default(),
     };
@@ -236,6 +238,7 @@ impl ProgramData {
 #[derive(Debug)]
 pub(crate) struct UsageAnalyzer {
     data: ProgramData,
+    marks: Marks,
     scope: ScopeData,
     ctx: Ctx,
 }
@@ -247,6 +250,7 @@ impl UsageAnalyzer {
     {
         let mut child = UsageAnalyzer {
             data: Default::default(),
+            marks: self.marks,
             ctx: self.ctx,
             scope: Default::default(),
         };
@@ -412,9 +416,19 @@ impl Visit for UsageAnalyzer {
     }
 
     fn visit_call_expr(&mut self, n: &CallExpr, _: &dyn Node) {
+        let inline_prevented = self.ctx.inline_prevented || has_mark(n.span, self.marks.noinline);
+
         {
-            n.callee.visit_with(n, self);
             let ctx = Ctx {
+                inline_prevented,
+                ..self.ctx
+            };
+            n.callee.visit_with(n, &mut *self.with_ctx(ctx));
+        }
+
+        {
+            let ctx = Ctx {
+                inline_prevented,
                 in_call_arg: true,
                 is_exact_arg: true,
                 is_exact_reassignment: false,
