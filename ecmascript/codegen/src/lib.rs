@@ -1404,7 +1404,7 @@ impl<'a> Emitter<'a> {
         self.emit_list(
             node.span(),
             Some(&node.props),
-            ListFormat::ObjectLiteralExpressionProperties,
+            ListFormat::ObjectLiteralExpressionProperties | ListFormat::CanSkipTrailingComma,
         )?;
         if !self.cfg.minify {
             self.wr.write_line()?;
@@ -1737,8 +1737,10 @@ impl<'a> Emitter<'a> {
             };
 
             if has_trailing_comma && format.contains(ListFormat::CommaDelimited) {
-                punct!(self, ",");
-                formatting_space!(self);
+                if !self.cfg.minify || !format.contains(ListFormat::CanSkipTrailingComma) {
+                    punct!(self, ",");
+                    formatting_space!(self);
+                }
             }
 
             {
@@ -1917,7 +1919,11 @@ impl<'a> Emitter<'a> {
         };
 
         punct!("{");
-        self.emit_list(node.span(), Some(&node.props), format)?;
+        self.emit_list(
+            node.span(),
+            Some(&node.props),
+            format | ListFormat::CanSkipTrailingComma,
+        )?;
         punct!("}");
         if node.optional {
             punct!("?");
