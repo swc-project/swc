@@ -105,8 +105,8 @@ fn bench_emitter(b: &mut Bencher, s: &str) {
                     swc_ecma_codegen::Config {
                         ..Default::default()
                     },
-                    None,
                     cm.clone(),
+                    None,
                     Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
                         cm.clone(),
                         "\n",
