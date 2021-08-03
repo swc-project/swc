@@ -158,7 +158,16 @@ impl<'a> Emitter<'a> {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         keyword!("import");
-        space!();
+        let starts_with_ident = !node.specifiers.is_empty()
+            && match &node.specifiers[0] {
+                ImportSpecifier::Default(_) => true,
+                _ => false,
+            };
+        if starts_with_ident {
+            space!();
+        } else {
+            formatting_space!();
+        }
 
         let mut specifiers = vec![];
         let mut emitted_default = false;
