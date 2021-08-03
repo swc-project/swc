@@ -455,6 +455,10 @@ impl Optimizer<'_> {
                 && usage.ref_count == 1
                 && usage.is_fn_local
                 && !usage.used_in_loop
+                && (match decl {
+                    Decl::Class(..) => !usage.used_above_decl,
+                    _ => true,
+                })
             {
                 match decl {
                     Decl::Class(ClassDecl { class, .. }) => {
@@ -484,40 +488,23 @@ impl Optimizer<'_> {
                     _ => {}
                 }
 
+                let e = match decl.take() {
+                    Decl::Class(c) => Box::new(Expr::Class(ClassExpr {
+                        ident: Some(c.ident),
+                        class: c.class,
+                    })),
+                    Decl::Fn(f) => Box::new(Expr::Fn(FnExpr {
+                        ident: Some(f.ident),
+                        function: f.function,
+                    })),
+                    _ => {
+                        unreachable!()
+                    }
+                };
                 if usage.used_above_decl {
-                    self.state.vars_for_inlining.insert(
-                        i.to_id(),
-                        match decl.clone() {
-                            Decl::Class(c) => Box::new(Expr::Class(ClassExpr {
-                                ident: Some(c.ident),
-                                class: c.class,
-                            })),
-                            Decl::Fn(f) => Box::new(Expr::Fn(FnExpr {
-                                ident: Some(f.ident),
-                                function: f.function,
-                            })),
-                            _ => {
-                                unreachable!()
-                            }
-                        },
-                    );
+                    self.state.inlined_vars.insert(i.to_id(), e);
                 } else {
-                    self.state.vars_for_inlining.insert(
-                        i.to_id(),
-                        match decl.take() {
-                            Decl::Class(c) => Box::new(Expr::Class(ClassExpr {
-                                ident: Some(c.ident),
-                                class: c.class,
-                            })),
-                            Decl::Fn(f) => Box::new(Expr::Fn(FnExpr {
-                                ident: Some(f.ident),
-                                function: f.function,
-                            })),
-                            _ => {
-                                unreachable!()
-                            }
-                        },
-                    );
+                    self.state.vars_for_inlining.insert(i.to_id(), e);
                 }
 
                 return;

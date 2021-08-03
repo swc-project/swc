@@ -37,6 +37,8 @@ use swc_ecma_visit::VisitMutWith;
 use swc_ecma_visit::VisitWith;
 use Value::Known;
 
+use self::util::replace_id_with_expr;
+
 mod arguments;
 mod arrows;
 mod bools;
@@ -68,6 +70,7 @@ const DISABLE_BUGGY_PASSES: bool = true;
 #[derive(Debug, Default)]
 pub(super) struct OptimizerState {
     vars_for_inlining: FxHashMap<Id, Box<Expr>>,
+    inlined_vars: FxHashMap<Id, Box<Expr>>,
 }
 
 /// This pass is simillar to `node.optimize` of terser.
@@ -2057,6 +2060,10 @@ impl VisitMut for Optimizer<'_> {
             ..self.ctx
         };
         self.with_ctx(ctx).handle_stmt_likes(stmts);
+
+        for (from, to) in self.state.inlined_vars.drain() {
+            replace_id_with_expr(stmts, from, to);
+        }
 
         stmts.retain(|s| match s {
             ModuleItem::Stmt(Stmt::Empty(..)) => false,
