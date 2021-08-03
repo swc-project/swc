@@ -760,15 +760,29 @@ impl Visit for UsageAnalyzer {
     fn visit_stmts(&mut self, stmts: &[Stmt], _: &dyn Node) {
         let mut had_cond = false;
 
-        for n in stmts {
+        for stmt in stmts {
+            match stmt {
+                Stmt::Decl(Decl::Fn(..)) => {
+                    stmt.visit_with(&Invalid { span: DUMMY_SP }, self);
+                }
+                _ => {}
+            }
+        }
+
+        for stmt in stmts {
+            match stmt {
+                Stmt::Decl(Decl::Fn(..)) => continue,
+                _ => {}
+            }
+
             let ctx = Ctx {
                 in_cond: self.ctx.in_cond || had_cond,
                 ..self.ctx
             };
 
-            n.visit_with(&Invalid { span: DUMMY_SP }, &mut *self.with_ctx(ctx));
+            stmt.visit_with(&Invalid { span: DUMMY_SP }, &mut *self.with_ctx(ctx));
 
-            had_cond |= can_end_conditionally(n);
+            had_cond |= can_end_conditionally(stmt);
         }
     }
 
