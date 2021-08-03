@@ -8,7 +8,7 @@ echo "Comparing $1"
 EXPECTED=$(terser "$1" | xargs)
 ACTUAL=$(cat "$1" | xargs)
 
-if [[ $EXPECTED == $ACTUAL ]]; then
+if [[ $EXPECTED == $ACTUAL || $EXPECTED == "$ACTUAL;" ]]; then
     echo "PASSED";
     git add "$1"
 else
