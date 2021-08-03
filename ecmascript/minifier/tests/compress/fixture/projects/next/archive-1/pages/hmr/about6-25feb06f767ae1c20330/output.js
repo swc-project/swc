@@ -1,4 +1,8 @@
-(self.webpackChunk_N_E = self.webpackChunk_N_E || []).push([[472, ], {
+(self.webpackChunk_N_E = self.webpackChunk_N_E || []).push([
+    [
+        472, 
+    ],
+    {
         9249: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
@@ -13,12 +17,17 @@
             };
         },
         5754: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
-            (window.__NEXT_P = window.__NEXT_P || []).push(["/hmr/about6", function() {
+            (window.__NEXT_P = window.__NEXT_P || []).push([
+                "/hmr/about6", function() {
                     return __webpack_require__(9249);
                 }, ]);
         }
     }, function(__webpack_require__) {
-        __webpack_require__.O(0, [774, 888, 179, ], function() {
+        __webpack_require__.O(0, [
+            774,
+            888,
+            179, 
+        ], function() {
             return __webpack_require__(__webpack_require__.s = 5754);
         }), _N_E = __webpack_require__.O();
     }, ]);
