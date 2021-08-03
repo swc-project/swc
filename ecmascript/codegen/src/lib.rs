@@ -598,7 +598,14 @@ impl<'a> Emitter<'a> {
             let span = self.cm.span_until_char(node.span, ' ');
             keyword!(span, "new");
         }
-        space!();
+
+        let starts_with_alpha_num = node.callee.starts_with_alpha_num();
+
+        if starts_with_alpha_num {
+            space!();
+        } else {
+            formatting_space!();
+        }
         emit!(node.callee);
 
         if let Some(type_args) = &node.type_args {
