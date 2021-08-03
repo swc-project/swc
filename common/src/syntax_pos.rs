@@ -362,6 +362,9 @@ impl Span {
         mark
     }
 
+    /// Returns `true` if `self` is marked with `mark`.
+    ///
+    /// Panics if `mark` is not a valid mark.
     #[inline]
     pub fn has_mark(self, mark: Mark) -> bool {
         debug_assert_ne!(
