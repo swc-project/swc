@@ -802,19 +802,28 @@ impl<'a> Emitter<'a> {
             if is_kwd_op {
                 node.right.starts_with_alpha_num()
             } else {
-                match *node.right {
-                    Expr::Unary(UnaryExpr {
-                        op: op!("typeof") | op!("void") | op!("delete"),
-                        ..
-                    }) => false,
+                match (node.op, &*node.right) {
+                    (
+                        _,
+                        Expr::Unary(UnaryExpr {
+                            op: op!("typeof") | op!("void") | op!("delete"),
+                            ..
+                        }),
+                    ) => false,
 
-                    Expr::Unary(UnaryExpr { op: op!("!"), .. })
-                        if node.op == op!("||") || node.op == op!("&&") =>
-                    {
-                        false
-                    }
+                    (op!("||") | op!("&&"), Expr::Unary(UnaryExpr { op: op!("!"), .. })) => false,
 
-                    Expr::Update(UpdateExpr { prefix: true, .. }) | Expr::Unary(..) => true,
+                    (op!("*") | op!("/"), Expr::Unary(..)) => false,
+
+                    (
+                        op!("||") | op!("&&"),
+                        Expr::Unary(UnaryExpr {
+                            op: op!(unary, "+") | op!(unary, "-") | op!("!"),
+                            ..
+                        }),
+                    ) => false,
+
+                    (_, Expr::Update(UpdateExpr { prefix: true, .. }) | Expr::Unary(..)) => true,
                     _ => false,
                 }
             }
