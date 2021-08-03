@@ -50,7 +50,7 @@ impl<'a> Emitter<'a> {
             None => return Ok(()),
         };
 
-        let cmts = comments.take_trailing(pos);
+        let cmts = comments.get_trailing(pos);
 
         write_comments!(self, prefix_space, &cmts)
     }
@@ -65,7 +65,7 @@ impl<'a> Emitter<'a> {
             None => return Ok(()),
         };
 
-        write_comments!(self, false, comments.take_leading(pos))
+        write_comments!(self, false, comments.get_leading(pos))
     }
 
     pub(super) fn emit_leading_comments_of_span(&mut self, span: Span, is_hi: bool) -> Result {

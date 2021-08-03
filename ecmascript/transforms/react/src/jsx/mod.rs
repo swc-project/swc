@@ -719,8 +719,8 @@ where
     noop_visit_mut_type!();
 
     fn visit_mut_module(&mut self, module: &mut Module) {
-        let leading = if let Some(comments) = &self.comments {
-            let leading = comments.take_leading(module.span.lo);
+        if let Some(comments) = &self.comments {
+            let leading = comments.get_leading(module.span.lo);
 
             if let Some(leading) = &leading {
                 for leading in &**leading {
@@ -798,16 +798,6 @@ where
                         }
                     }
                 }
-            }
-
-            leading
-        } else {
-            None
-        };
-
-        if let Some(leading) = leading {
-            if let Some(comments) = &self.comments {
-                comments.add_leading_comments(module.span.lo, leading);
             }
         }
 
