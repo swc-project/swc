@@ -178,7 +178,13 @@ impl EndsWithAlphaNum for Pat {
 
 impl EndsWithAlphaNum for VarDecl {
     fn ends_with_alpha_num(&self) -> bool {
-        true
+        match self.decls.last() {
+            None => true,
+            Some(d) => match d.init.as_deref() {
+                Some(e) => e.ends_with_alpha_num(),
+                None => d.name.ends_with_alpha_num(),
+            },
+        }
     }
 }
 
