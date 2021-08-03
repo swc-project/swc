@@ -64,6 +64,10 @@ impl<'a> Emitter<'a> {
             pos = pos - BytePos(1)
         }
 
+        if !self.emitted_comment_positions.insert(pos) {
+            return Ok(());
+        }
+
         let comments = match self.comments {
             Some(ref comments) => comments,
             None => return Ok(()),
