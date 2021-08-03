@@ -932,7 +932,26 @@ impl<'a> Emitter<'a> {
 
         if n.is_static {
             keyword!("static");
-            space!();
+
+            let starts_with_alpha_num = match n.kind {
+                MethodKind::Method => {
+                    if n.function.is_async {
+                        true
+                    } else if n.function.is_generator {
+                        false
+                    } else {
+                        n.key.starts_with_alpha_num()
+                    }
+                }
+                MethodKind::Getter => true,
+                MethodKind::Setter => true,
+            };
+
+            if starts_with_alpha_num {
+                formatting_space!();
+            } else {
+                space!();
+            }
         }
         match n.kind {
             MethodKind::Method => {

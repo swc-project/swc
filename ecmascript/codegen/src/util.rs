@@ -156,6 +156,15 @@ pub trait StartsWithAlphaNum {
     fn starts_with_alpha_num(&self) -> bool;
 }
 
+impl StartsWithAlphaNum for PropName {
+    fn starts_with_alpha_num(&self) -> bool {
+        match self {
+            PropName::Str(_) | PropName::Computed(_) => false,
+            PropName::Ident(_) | PropName::Num(_) | PropName::BigInt(_) => false,
+        }
+    }
+}
+
 impl StartsWithAlphaNum for Expr {
     fn starts_with_alpha_num(&self) -> bool {
         match *self {
