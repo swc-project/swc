@@ -1,5 +1,8 @@
 use super::Optimizer;
-use crate::util::{sort::is_sorted_by, MoudleItemExt};
+use crate::{
+    compress::optimize::util::is_directive,
+    util::{sort::is_sorted_by, MoudleItemExt},
+};
 use std::cmp::Ordering;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -32,6 +35,8 @@ impl Optimizer<'_> {
             // Check for function declarations.
 
             match (a.as_module_decl(), b.as_module_decl()) {
+                (Err(stmt), _) if is_directive(&stmt) => return Some(Ordering::Equal),
+
                 (
                     Err(Stmt::Decl(
                         Decl::Fn(..)
@@ -62,6 +67,14 @@ impl Optimizer<'_> {
 
         for stmt in stmts.take() {
             let stmt = stmt.into_module_item();
+
+            match stmt {
+                ModuleItem::Stmt(stmt) if is_directive(&stmt) => {
+                    fns.push(T::from_stmt(stmt));
+                    continue;
+                }
+                _ => {}
+            }
 
             match stmt {
                 ModuleItem::Stmt(Stmt::Decl(Decl::Fn(..)))
