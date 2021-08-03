@@ -1005,6 +1005,7 @@ impl Merge for JscConfig {
         self.external_helpers.merge(&from.external_helpers);
         self.keep_class_names.merge(&from.keep_class_names);
         self.paths.merge(&from.paths);
+        self.minify.merge(&from.minify);
     }
 }
 

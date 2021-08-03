@@ -1,7 +1,4 @@
-use crate::{
-    analyzer::{ProgramData, ScopeData},
-    util::has_mark,
-};
+use crate::analyzer::{ProgramData, ScopeData};
 use fxhash::FxHashSet;
 use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
@@ -83,7 +80,7 @@ impl Visit for HygieneAnalyzer<'_> {
             return;
         }
 
-        if has_mark(i.span, self.top_level_mark) {
+        if i.span.has_mark(self.top_level_mark) {
             return;
         }
 

@@ -1,6 +1,5 @@
-use super::Optimizer;
+use super::{util::is_valid_identifier, Optimizer};
 use swc_ecma_ast::*;
-use unicode_xid::UnicodeXID;
 
 impl Optimizer<'_> {
     pub(super) fn optimize_prop_name(&mut self, name: &mut PropName) {
@@ -10,10 +9,7 @@ impl Optimizer<'_> {
                     return;
                 }
 
-                if s.value.starts_with(|c: char| c.is_xid_start())
-                    && s.value.chars().all(|c: char| c.is_xid_continue())
-                    && !s.value.contains("𝒶")
-                {
+                if is_valid_identifier(&s.value, false) {
                     self.changed = true;
                     log::debug!("misc: Optimizing string property name");
                     *name = PropName::Ident(Ident {

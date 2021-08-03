@@ -55,8 +55,25 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
     with_semi!(write_symbol(span: Span, s: &str));
 
     fn write_punct(&mut self, span: Option<Span>, s: &'static str) -> Result {
-        self.pending_semi = false;
+        match s {
+            "\"" | "'" => {
+                self.commit_pending_semi()?;
+            }
+
+            "{" | "(" => {
+                self.commit_pending_semi()?;
+            }
+
+            _ => {
+                self.pending_semi = false;
+            }
+        }
+
         Ok(self.inner.write_punct(span, s)?)
+    }
+
+    fn target(&self) -> swc_ecma_ast::EsVersion {
+        self.inner.target()
     }
 }
 

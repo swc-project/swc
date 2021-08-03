@@ -1,7 +1,8 @@
 use crate::analyzer::analyze;
 use crate::analyzer::ProgramData;
+use crate::marks::Marks;
 use crate::option::ManglePropertiesOptions;
-use crate::util::base54::base54;
+use crate::util::base54::incr_base54;
 use once_cell::sync::Lazy;
 use std::collections::{HashMap, HashSet};
 use swc_atoms::JsWord;
@@ -92,14 +93,7 @@ impl ManglePropertiesState {
                 Some(cached.clone())
             } else {
                 loop {
-                    let n = self.n;
-                    self.n += 1;
-                    let sym = match base54(n) {
-                        Some(v) => v,
-                        None => {
-                            continue;
-                        }
-                    };
+                    let sym = incr_base54(&mut self.n);
 
                     let mangled_name: JsWord = sym.into();
                     self.cache.insert(name.clone(), mangled_name.clone());
@@ -112,13 +106,17 @@ impl ManglePropertiesState {
     }
 }
 
-pub fn mangle_properties<'a>(m: &mut Module, options: ManglePropertiesOptions) {
+pub(crate) fn mangle_properties<'a>(
+    m: &mut Module,
+    options: ManglePropertiesOptions,
+    marks: Marks,
+) {
     let mut state = ManglePropertiesState {
         options,
         ..Default::default()
     };
 
-    let data = analyze(&*m);
+    let data = analyze(&*m, marks);
     m.visit_mut_with(&mut PropertyCollector {
         state: &mut state,
         data,

@@ -2,8 +2,9 @@ use self::preserver::idents_to_preserve;
 use super::compute_char_freq::CharFreqInfo;
 use crate::analyzer::analyze;
 use crate::analyzer::ProgramData;
+use crate::marks::Marks;
 use crate::option::MangleOptions;
-use crate::util::base54::base54;
+use crate::util::base54::incr_base54;
 use fxhash::FxHashMap;
 use fxhash::FxHashSet;
 use swc_atoms::JsWord;
@@ -17,14 +18,25 @@ use swc_ecma_visit::VisitMutWith;
 
 mod preserver;
 
-pub fn name_mangler(options: MangleOptions, _char_freq_info: CharFreqInfo) -> impl VisitMut {
+pub(crate) fn name_mangler(
+    options: MangleOptions,
+    _char_freq_info: CharFreqInfo,
+    marks: Marks,
+) -> impl VisitMut {
     Mangler {
         options,
-        ..Default::default()
+        n: 0,
+        private_n: 0,
+        preserved: Default::default(),
+        preserved_symbols: Default::default(),
+        renamed: Default::default(),
+        renamed_private: Default::default(),
+        data: Default::default(),
+        marks,
     }
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug)]
 struct Mangler {
     options: MangleOptions,
     n: usize,
@@ -35,6 +47,8 @@ struct Mangler {
     renamed: FxHashMap<Id, JsWord>,
     renamed_private: FxHashMap<Id, JsWord>,
     data: Option<ProgramData>,
+
+    marks: Marks,
 }
 
 impl Mangler {
@@ -56,16 +70,9 @@ impl Mangler {
         }
 
         loop {
-            let sym = match base54(self.n) {
-                Some(v) => v,
-                None => {
-                    self.n += 1;
-                    continue;
-                }
-            };
+            let sym = incr_base54(&mut self.n);
 
             let sym: JsWord = sym.into();
-            self.n += 1;
             if self.preserved_symbols.contains(&sym) {
                 continue;
             }
@@ -84,16 +91,9 @@ impl Mangler {
             cached.clone()
         } else {
             loop {
-                let sym = match base54(self.private_n) {
-                    Some(v) => v,
-                    None => {
-                        self.private_n += 1;
-                        continue;
-                    }
-                };
+                let sym = incr_base54(&mut self.private_n);
 
                 let sym: JsWord = sym.into();
-                self.private_n += 1;
 
                 self.renamed_private.insert(id.clone(), sym.clone());
 
@@ -167,7 +167,7 @@ impl VisitMut for Mangler {
     }
 
     fn visit_mut_module(&mut self, n: &mut Module) {
-        let data = analyze(&*n);
+        let data = analyze(&*n, self.marks);
         self.data = Some(data);
         self.preserved = idents_to_preserve(self.options.clone(), n);
         self.preserved_symbols = self.preserved.iter().map(|v| v.0.clone()).collect();
@@ -200,7 +200,7 @@ impl VisitMut for Mangler {
     }
 
     fn visit_mut_script(&mut self, n: &mut Script) {
-        let data = analyze(&*n);
+        let data = analyze(&*n, self.marks);
         self.data = Some(data);
         self.preserved = idents_to_preserve(self.options.clone(), n);
         self.preserved_symbols = self.preserved.iter().map(|v| v.0.clone()).collect();

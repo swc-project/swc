@@ -18,6 +18,7 @@ napi-build = {version = "1"}
 anyhow = "1"
 backtrace = "0.3"
 fxhash = "0.2"
+log = {version = "0.4.14", features = ["release_max_level_off"]}
 napi = {version = "1", features = ["serde-json"]}
 napi-derive = {version = "1"}
 path-clean = "0.1"

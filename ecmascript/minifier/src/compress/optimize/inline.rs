@@ -1,10 +1,8 @@
+use super::Optimizer;
 use crate::compress::optimize::util::class_has_side_effect;
 use crate::compress::optimize::util::is_valid_for_lhs;
 use crate::debug::dump;
-use crate::util::has_mark;
 use crate::util::idents_used_by;
-
-use super::Optimizer;
 use swc_atoms::js_word;
 use swc_common::Spanned;
 use swc_common::DUMMY_SP;
@@ -12,6 +10,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::ExprExt;
+use swc_ecma_utils::UsageFinder;
 
 /// Methods related to option `inline`.
 impl Optimizer<'_> {
@@ -25,7 +24,7 @@ impl Optimizer<'_> {
             None => return,
         };
 
-        let should_preserve = !has_mark(var.span, self.marks.non_top_level)
+        let should_preserve = !var.span.has_mark(self.marks.non_top_level)
             && (!self.options.top_level() && self.options.top_retain.is_empty())
             && self.ctx.in_top_level();
 
@@ -89,6 +88,26 @@ impl Optimizer<'_> {
                     if !usage.is_fn_local {
                         match &**init {
                             Expr::Lit(..) => {}
+                            Expr::Fn(FnExpr {
+                                function:
+                                    Function {
+                                        body: Some(body), ..
+                                    },
+                                ..
+                            }) => {
+                                if body.stmts.len() == 1
+                                    && match &body.stmts[0] {
+                                        Stmt::Return(..) => true,
+                                        _ => false,
+                                    }
+                                {
+                                } else {
+                                    if cfg!(feature = "debug") {
+                                        log::trace!("inline: [x] It's not fn-local");
+                                    }
+                                    return;
+                                }
+                            }
                             _ => {
                                 if cfg!(feature = "debug") {
                                     log::trace!("inline: [x] It's not fn-local");
@@ -232,7 +251,7 @@ impl Optimizer<'_> {
                             i.id.span.ctxt
                         );
                         self.changed = true;
-                        self.vars_for_inlining.insert(i.to_id(), init.take());
+                        self.state.vars_for_inlining.insert(i.to_id(), init.take());
                         return;
                     }
                 }
@@ -301,20 +320,6 @@ impl Optimizer<'_> {
     /// This method handles only [ClassDecl] and [FnDecl]. [VarDecl] should be
     /// handled specially.
     pub(super) fn store_decl_for_inlining(&mut self, decl: &mut Decl) {
-        if self.options.inline == 0 && !self.options.reduce_vars {
-            return;
-        }
-
-        if (!self.options.top_level() && self.options.top_retain.is_empty())
-            && self.ctx.in_top_level()
-        {
-            return;
-        }
-
-        if self.has_noinline(decl.span()) {
-            return;
-        }
-
         let i = match &*decl {
             Decl::Class(v) => v.ident.clone(),
             Decl::Fn(f) => {
@@ -327,16 +332,61 @@ impl Optimizer<'_> {
             _ => return,
         };
 
+        if cfg!(feature = "debug") {
+            log::trace!("inline: Trying to inline decl ({}{:?})", i.sym, i.span.ctxt);
+        }
+
+        if self.options.inline == 0 && !self.options.reduce_vars {
+            if cfg!(feature = "debug") {
+                log::trace!("inline: [x] Inline disabled");
+            }
+            return;
+        }
+
+        if (!self.options.top_level() && self.options.top_retain.is_empty())
+            && self.ctx.in_top_level()
+        {
+            if cfg!(feature = "debug") {
+                log::trace!("inline: [x] Top level");
+            }
+            return;
+        }
+
+        if self.has_noinline(decl.span()) {
+            if cfg!(feature = "debug") {
+                log::trace!("inline: [x] Has noinline");
+            }
+            return;
+        }
+
         // Respect `top_retain`
         if self.ctx.in_top_level() && self.options.top_retain.contains(&i.sym) {
+            if cfg!(feature = "debug") {
+                log::trace!("inline: [x] top_retain");
+            }
             return;
         }
 
         if self.ctx.is_exported {
+            if cfg!(feature = "debug") {
+                log::trace!("inline: [x] exported");
+            }
             return;
         }
 
         if self.ctx.inline_as_assignment {
+            if cfg!(feature = "debug") {
+                log::trace!("inline: [x] inline_as_assignment=true");
+            }
+            return;
+        }
+
+        if self
+            .data
+            .as_ref()
+            .map(|data| data.top.has_eval_call || data.top.has_with_stmt)
+            .unwrap_or_default()
+        {
             return;
         }
 
@@ -346,10 +396,20 @@ impl Optimizer<'_> {
             .and_then(|data| data.vars.get(&i.to_id()))
         {
             if usage.declared_as_catch_param {
+                if cfg!(feature = "debug") {
+                    log::trace!("inline: [x] Declared as a catch paramter");
+                }
                 return;
             }
 
             if usage.reassigned || usage.inline_prevented {
+                if cfg!(feature = "debug") {
+                    log::trace!(
+                        "inline: [x] reassigned = {}, inline_prevented = {}",
+                        usage.reassigned,
+                        usage.inline_prevented
+                    );
+                }
                 return;
             }
 
@@ -358,7 +418,9 @@ impl Optimizer<'_> {
                 Decl::Fn(f) if self.options.inline >= 2 && f.ident.sym != *"arguments" => {
                     match &f.function.body {
                         Some(body) => {
-                            if self.is_fn_body_simple_enough_to_inline(body) {
+                            if !UsageFinder::find(&i, body)
+                                && self.is_fn_body_simple_enough_to_inline(body)
+                            {
                                 log::debug!(
                                     "inline: Decided to inline function '{}{:?}' as it's very \
                                      simple",
@@ -366,7 +428,7 @@ impl Optimizer<'_> {
                                     f.ident.span.ctxt
                                 );
 
-                                self.vars_for_inlining.insert(
+                                self.state.vars_for_inlining.insert(
                                     i.to_id(),
                                     match decl {
                                         Decl::Fn(f) => Box::new(Expr::Fn(FnExpr {
@@ -388,10 +450,23 @@ impl Optimizer<'_> {
             }
 
             // Single use => inlined
+
+            // TODO(kdy1):
+            //
+            // (usage.is_fn_local || self.options.inline == 3)
+            //
+            // seems like a correct check, but it's way to aggressive.
+            // It does not break the code, but everything like _asyncToGenerator is inlined.
+            //
             if (self.options.reduce_vars || self.options.collapse_vars || self.options.inline != 0)
                 && usage.ref_count == 1
                 && usage.is_fn_local
                 && !usage.used_in_loop
+                && (match decl {
+                    Decl::Class(..) => !usage.used_above_decl,
+                    Decl::Fn(..) => true,
+                    _ => false,
+                })
             {
                 match decl {
                     Decl::Class(ClassDecl { class, .. }) => {
@@ -421,23 +496,30 @@ impl Optimizer<'_> {
                     _ => {}
                 }
 
-                self.vars_for_inlining.insert(
-                    i.to_id(),
-                    match decl.take() {
-                        Decl::Class(c) => Box::new(Expr::Class(ClassExpr {
-                            ident: Some(c.ident),
-                            class: c.class,
-                        })),
-                        Decl::Fn(f) => Box::new(Expr::Fn(FnExpr {
-                            ident: Some(f.ident),
-                            function: f.function,
-                        })),
-                        _ => {
-                            unreachable!()
-                        }
-                    },
-                );
+                let e = match decl.take() {
+                    Decl::Class(c) => Box::new(Expr::Class(ClassExpr {
+                        ident: Some(c.ident),
+                        class: c.class,
+                    })),
+                    Decl::Fn(f) => Box::new(Expr::Fn(FnExpr {
+                        ident: Some(f.ident),
+                        function: f.function,
+                    })),
+                    _ => {
+                        unreachable!()
+                    }
+                };
+                if usage.used_above_decl {
+                    self.state.inlined_vars.insert(i.to_id(), e);
+                } else {
+                    self.state.vars_for_inlining.insert(i.to_id(), e);
+                }
+
                 return;
+            } else {
+                if cfg!(feature = "debug") {
+                    log::trace!("inline: [x] Usage: {:?}", usage);
+                }
             }
         }
     }
@@ -450,9 +532,6 @@ impl Optimizer<'_> {
 
         match e {
             Expr::Ident(i) => {
-                if self.has_noinline(i.span) {
-                    return;
-                }
                 //
                 if let Some(value) = self
                     .lits
@@ -489,7 +568,7 @@ impl Optimizer<'_> {
                     return;
                 }
 
-                if let Some(value) = self.vars_for_inlining.get(&i.to_id()) {
+                if let Some(value) = self.state.vars_for_inlining.get(&i.to_id()) {
                     if self.ctx.is_exact_lhs_of_assign && !is_valid_for_lhs(&value) {
                         return;
                     }
@@ -505,7 +584,7 @@ impl Optimizer<'_> {
                 }
 
                 if self.ctx.inline_as_assignment {
-                    if let Some(value) = self.vars_for_inlining.remove(&i.to_id()) {
+                    if let Some(value) = self.state.vars_for_inlining.remove(&i.to_id()) {
                         self.changed = true;
                         log::debug!(
                             "inline: Inlining '{}{:?}' using assignment",
@@ -527,7 +606,7 @@ impl Optimizer<'_> {
                     }
                 }
 
-                if let Some(value) = self.vars_for_inlining.get(&i.to_id()) {
+                if let Some(value) = self.state.vars_for_inlining.get(&i.to_id()) {
                     self.changed = true;
                     log::debug!(
                         "inline: Replacing '{}{:?}' with an expression",

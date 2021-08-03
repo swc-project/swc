@@ -257,9 +257,9 @@ impl Optimizer<'_> {
             inline_prevented: false,
             ..self.ctx
         };
-        let orig_vars = replace(&mut self.vars_for_inlining, vars);
+        let orig_vars = replace(&mut self.state.vars_for_inlining, vars);
         n.visit_mut_with(&mut *self.with_ctx(ctx));
-        self.vars_for_inlining = orig_vars;
+        self.state.vars_for_inlining = orig_vars;
     }
 
     /// Fully inlines iife.

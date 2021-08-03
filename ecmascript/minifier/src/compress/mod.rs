@@ -1,6 +1,7 @@
 use self::drop_console::drop_console;
 use self::hoist_decls::DeclHoisterConfig;
 use self::optimize::optimizer;
+use self::optimize::OptimizerState;
 use crate::analyzer::analyze;
 use crate::analyzer::ProgramData;
 use crate::compress::hoist_decls::decl_hoister;
@@ -18,7 +19,6 @@ use std::fmt::Debug;
 use std::fmt::Display;
 use std::fmt::Formatter;
 use std::time::Instant;
-use swc_common::comments::Comments;
 use swc_common::pass::CompilerPass;
 use swc_common::pass::Repeat;
 use swc_common::pass::Repeated;
@@ -45,7 +45,6 @@ pub(crate) fn compressor<'a>(
     cm: Lrc<SourceMap>,
     marks: Marks,
     options: &'a CompressOptions,
-    comments: Option<&'a dyn Comments>,
 ) -> impl 'a + JsPass {
     let console_remover = Optional {
         enabled: options.drop_console,
@@ -55,10 +54,10 @@ pub(crate) fn compressor<'a>(
         cm,
         marks,
         options,
-        comments,
         changed: false,
         pass: 0,
         data: None,
+        optimizer_state: Default::default(),
     };
 
     chain!(
@@ -72,10 +71,10 @@ struct Compressor<'a> {
     cm: Lrc<SourceMap>,
     marks: Marks,
     options: &'a CompressOptions,
-    comments: Option<&'a dyn Comments>,
     changed: bool,
     pass: usize,
     data: Option<ProgramData>,
+    optimizer_state: OptimizerState,
 }
 
 impl CompilerPass for Compressor<'_> {
@@ -131,7 +130,7 @@ impl VisitMut for Compressor<'_> {
 
     fn visit_mut_module(&mut self, n: &mut Module) {
         debug_assert!(self.data.is_none());
-        self.data = Some(analyze(&*n));
+        self.data = Some(analyze(&*n, self.marks));
 
         if self.options.passes != 0 && self.options.passes + 1 <= self.pass {
             let done = dump(&*n);
@@ -200,12 +199,15 @@ impl VisitMut for Compressor<'_> {
             // TODO: reset_opt_flags
             //
             // This is swc version of `node.optimize(this);`.
+
+            self.optimizer_state = Default::default();
+
             let mut visitor = optimizer(
                 self.cm.clone(),
                 self.marks,
                 self.options,
-                self.comments,
                 self.data.as_ref().unwrap(),
+                &mut self.optimizer_state,
             );
             n.visit_mut_with(&mut visitor);
             self.changed |= visitor.changed();
@@ -298,7 +300,7 @@ impl VisitMut for Compressor<'_> {
 
     fn visit_mut_script(&mut self, n: &mut Script) {
         debug_assert!(self.data.is_none());
-        self.data = Some(analyze(&*n));
+        self.data = Some(analyze(&*n, self.marks));
 
         {
             let mut v = decl_hoister(

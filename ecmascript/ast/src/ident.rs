@@ -172,3 +172,5 @@ pub trait IdentExt: AsRef<str> {
 
 impl IdentExt for JsWord {}
 impl IdentExt for Ident {}
+impl IdentExt for &'_ str {}
+impl IdentExt for String {}

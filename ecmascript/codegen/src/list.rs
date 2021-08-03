@@ -79,6 +79,10 @@ add_bitflags!(
         NoSpaceIfEmpty: 1 << 18,
         SingleElement: 1 << 19,
     },
+    // Optimization.
+    Values {
+        CanSkipTrailingComma: 1 << 20
+    },
     /// Precomputed Formats
     Values {
         Modifiers: SingleLine | SpaceBetweenSiblings | NoInterveningComments,

@@ -1,11 +1,9 @@
-use std::time::Instant;
-
 use fxhash::FxHashSet;
+use std::time::Instant;
 use swc_common::pass::CompilerPass;
 use swc_common::pass::Repeated;
 use swc_common::Mark;
 use swc_common::Span;
-use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -417,28 +415,6 @@ where
     };
     n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
     v.ids
-}
-
-pub(crate) fn ctxt_has_mark(mut ctxt: SyntaxContext, mark: Mark) -> bool {
-    debug_assert_ne!(mark, Mark::root());
-
-    loop {
-        if ctxt == SyntaxContext::empty() {
-            return false;
-        }
-
-        let m = ctxt.remove_mark();
-        if m == mark {
-            return true;
-        }
-        if m == Mark::root() {
-            return false;
-        }
-    }
-}
-
-pub(crate) fn has_mark(span: Span, mark: Mark) -> bool {
-    ctxt_has_mark(span.ctxt, mark)
 }
 
 pub(crate) fn can_end_conditionally(s: &Stmt) -> bool {

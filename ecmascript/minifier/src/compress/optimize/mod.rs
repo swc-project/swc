@@ -10,7 +10,6 @@ use std::fmt::Write;
 use std::mem::take;
 use swc_atoms::js_word;
 use swc_atoms::JsWord;
-use swc_common::comments::Comments;
 use swc_common::iter::IdentifyLast;
 use swc_common::pass::Repeated;
 use swc_common::sync::Lrc;
@@ -36,6 +35,8 @@ use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 use swc_ecma_visit::VisitWith;
 use Value::Known;
+
+use self::util::replace_id_with_expr;
 
 mod arguments;
 mod arrows;
@@ -65,13 +66,19 @@ mod util;
 
 const DISABLE_BUGGY_PASSES: bool = true;
 
+#[derive(Debug, Default)]
+pub(super) struct OptimizerState {
+    vars_for_inlining: FxHashMap<Id, Box<Expr>>,
+    inlined_vars: FxHashMap<Id, Box<Expr>>,
+}
+
 /// This pass is simillar to `node.optimize` of terser.
 pub(super) fn optimizer<'a>(
     cm: Lrc<SourceMap>,
     marks: Marks,
     options: &'a CompressOptions,
-    comments: Option<&'a dyn Comments>,
     data: &'a ProgramData,
+    state: &'a mut OptimizerState,
 ) -> impl 'a + VisitMut + Repeated {
     assert!(
         options.top_retain.iter().all(|s| s.trim() != ""),
@@ -83,13 +90,12 @@ pub(super) fn optimizer<'a>(
     Optimizer {
         cm,
         marks,
-        comments,
         changed: false,
         options,
         prepend_stmts: Default::default(),
         append_stmts: Default::default(),
         lits: Default::default(),
-        vars_for_inlining: Default::default(),
+        state,
         vars_for_prop_hoisting: Default::default(),
         simple_props: Default::default(),
         _simple_array_values: Default::default(),
@@ -198,8 +204,6 @@ struct Optimizer<'a> {
 
     marks: Marks,
 
-    comments: Option<&'a dyn Comments>,
-
     changed: bool,
     options: &'a CompressOptions,
 
@@ -212,7 +216,9 @@ struct Optimizer<'a> {
     ///
     /// Used for inlining.
     lits: FxHashMap<Id, Box<Expr>>,
-    vars_for_inlining: FxHashMap<Id, Box<Expr>>,
+
+    state: &'a mut OptimizerState,
+
     vars_for_prop_hoisting: FxHashMap<Id, Box<Expr>>,
     /// Used for `hoist_props`.
     simple_props: FxHashMap<(Id, JsWord), Box<Expr>>,
@@ -1031,6 +1037,8 @@ impl Optimizer<'_> {
             }
 
             Expr::Cond(cond) => {
+                log::debug!("ignore_return_value: Cond expr");
+
                 self.restore_negated_iife(cond);
 
                 let ctx = Ctx {
@@ -1549,6 +1557,8 @@ impl VisitMut for Optimizer<'_> {
     }
 
     fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
+        let inline_prevented = self.ctx.inline_prevented || self.has_noinline(e.span);
+
         let is_this_undefined = match &e.callee {
             ExprOrSuper::Super(_) => false,
             ExprOrSuper::Expr(e) => e.is_ident(),
@@ -1556,6 +1566,7 @@ impl VisitMut for Optimizer<'_> {
         {
             let ctx = Ctx {
                 is_callee: true,
+                inline_prevented,
                 is_this_aware_callee: is_this_undefined
                     || match &e.callee {
                         ExprOrSuper::Super(_) => false,
@@ -1589,8 +1600,9 @@ impl VisitMut for Optimizer<'_> {
 
         {
             let ctx = Ctx {
-                is_this_aware_callee: false,
                 in_call_arg: true,
+                inline_prevented,
+                is_this_aware_callee: false,
                 ..self.ctx
             };
             // TODO: Prevent inline if callee is unknown.
@@ -2036,6 +2048,8 @@ impl VisitMut for Optimizer<'_> {
             n.prop.visit_mut_with(&mut *self.with_ctx(ctx));
         }
 
+        self.optimize_property_of_member_expr(n);
+
         self.handle_known_computed_member_expr(n);
     }
 
@@ -2045,6 +2059,11 @@ impl VisitMut for Optimizer<'_> {
             ..self.ctx
         };
         self.with_ctx(ctx).handle_stmt_likes(stmts);
+
+        for (from, to) in self.state.inlined_vars.drain() {
+            log::debug!("inline: Inlining `{}{:?}`", from.0, from.1);
+            replace_id_with_expr(stmts, from, to);
+        }
 
         stmts.retain(|s| match s {
             ModuleItem::Stmt(Stmt::Empty(..)) => false,
@@ -2152,6 +2171,8 @@ impl VisitMut for Optimizer<'_> {
         self.shift_void(n);
 
         self.shift_assignment(n);
+
+        self.merge_seq_call(n);
 
         {
             let exprs = n

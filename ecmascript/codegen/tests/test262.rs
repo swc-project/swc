@@ -10,7 +10,7 @@ use std::{
     sync::{Arc, RwLock},
 };
 use swc_common::comments::SingleThreadedComments;
-use swc_ecma_codegen::{self, Emitter};
+use swc_ecma_codegen::{self, text_writer::WriteJs, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
@@ -89,10 +89,10 @@ fn add_test<F: FnOnce() + Send + 'static>(
     });
 }
 
-fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
+fn error_tests(tests: &mut Vec<TestDescAndFn>, minify: bool) -> Result<(), io::Error> {
     let ref_dir = Path::new(env!("CARGO_MANIFEST_DIR"))
         .join("tests")
-        .join("references");
+        .join(if minify { "test262-min" } else { "test262" });
     let dir = Path::new(env!("CARGO_MANIFEST_DIR"))
         .parent()
         .unwrap()
@@ -124,7 +124,11 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
         let module = file_name.contains("module");
 
         let ref_dir = ref_dir.clone();
-        let name = format!("test262::golden::{}", file_name);
+        let name = format!(
+            "test262::golden::{}::{}",
+            if minify { "minify" } else { "normal" },
+            file_name
+        );
 
         add_test(tests, name, ignore, move || {
             let msg = format!(
@@ -153,13 +157,22 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                 let mut parser: Parser<Lexer<StringInput>> = Parser::new_from(lexer);
 
                 {
+                    let mut wr = Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
+                        cm.clone(),
+                        "\n",
+                        &mut wr,
+                        None,
+                    )) as Box<dyn WriteJs>;
+
+                    if minify {
+                        wr = Box::new(swc_ecma_codegen::text_writer::omit_trailing_semi(wr));
+                    }
+
                     let mut emitter = Emitter {
-                        cfg: Default::default(),
+                        cfg: swc_ecma_codegen::Config { minify },
                         cm: cm.clone(),
-                        wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
-                            cm, "\n", &mut wr, None,
-                        )),
-                        comments: Some(&comments),
+                        wr,
+                        comments: if minify { None } else { Some(&comments) },
                     };
 
                     // Parse source
@@ -200,7 +213,8 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 fn identity() {
     let args: Vec<_> = env::args().collect();
     let mut tests = Vec::new();
-    error_tests(&mut tests).expect("failed to load testss");
+    error_tests(&mut tests, true).expect("failed to load testss");
+    error_tests(&mut tests, false).expect("failed to load testss");
     test_main(&args, tests, Some(Options::new()));
 }
 

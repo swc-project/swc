@@ -1,0 +1,1 @@
+Infinity.a();NaN.a()
