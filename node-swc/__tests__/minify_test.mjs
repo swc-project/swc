@@ -41,7 +41,7 @@ it("should accpept { mangle = object }", async () => {
         },
     });
 
-    expect(code).toMatchInlineSnapshot(`"import a from'@src/app';console.log(a);"`);
+    expect(code).toMatchInlineSnapshot(`"import a from'@src/app';console.log(a)"`);
 })
 
 it("should mangle locals", async () => {
