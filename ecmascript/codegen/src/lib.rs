@@ -362,7 +362,7 @@ impl<'a> Emitter<'a> {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         keyword!("export");
-        space!();
+        formatting_space!();
         punct!("*");
         formatting_space!();
         keyword!("from");
