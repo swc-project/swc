@@ -1295,7 +1295,7 @@ impl<'a> Emitter<'a> {
         }
 
         if let Some(ref arg) = node.arg {
-            if arg.starts_with_alpha_num() {
+            if !node.delegate && arg.starts_with_alpha_num() {
                 space!()
             } else {
                 formatting_space!()
