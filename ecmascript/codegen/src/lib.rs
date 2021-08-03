@@ -1873,7 +1873,7 @@ impl<'a> Emitter<'a> {
         punct!(":");
         formatting_space!();
         emit!(node.value);
-        space!();
+        formatting_space!();
     }
 
     #[emitter]
