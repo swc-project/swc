@@ -114,7 +114,7 @@ pub fn optimize(
     }
     if let Some(options) = &options.compress {
         let start = now();
-        m = m.fold_with(&mut compressor(cm.clone(), marks, &options, comments));
+        m = m.fold_with(&mut compressor(cm.clone(), marks, &options));
         if let Some(start) = start {
             log::info!("compressor took {:?}", Instant::now() - start);
         }

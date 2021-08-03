@@ -10,7 +10,6 @@ use std::fmt::Write;
 use std::mem::take;
 use swc_atoms::js_word;
 use swc_atoms::JsWord;
-use swc_common::comments::Comments;
 use swc_common::iter::IdentifyLast;
 use swc_common::pass::Repeated;
 use swc_common::sync::Lrc;
@@ -78,7 +77,6 @@ pub(super) fn optimizer<'a>(
     cm: Lrc<SourceMap>,
     marks: Marks,
     options: &'a CompressOptions,
-    comments: Option<&'a dyn Comments>,
     data: &'a ProgramData,
     state: &'a mut OptimizerState,
 ) -> impl 'a + VisitMut + Repeated {
@@ -92,7 +90,6 @@ pub(super) fn optimizer<'a>(
     Optimizer {
         cm,
         marks,
-        comments,
         changed: false,
         options,
         prepend_stmts: Default::default(),
@@ -206,8 +203,6 @@ struct Optimizer<'a> {
     cm: Lrc<SourceMap>,
 
     marks: Marks,
-
-    comments: Option<&'a dyn Comments>,
 
     changed: bool,
     options: &'a CompressOptions,

@@ -19,7 +19,6 @@ use std::fmt::Debug;
 use std::fmt::Display;
 use std::fmt::Formatter;
 use std::time::Instant;
-use swc_common::comments::Comments;
 use swc_common::pass::CompilerPass;
 use swc_common::pass::Repeat;
 use swc_common::pass::Repeated;
@@ -46,7 +45,6 @@ pub(crate) fn compressor<'a>(
     cm: Lrc<SourceMap>,
     marks: Marks,
     options: &'a CompressOptions,
-    comments: Option<&'a dyn Comments>,
 ) -> impl 'a + JsPass {
     let console_remover = Optional {
         enabled: options.drop_console,
@@ -56,7 +54,6 @@ pub(crate) fn compressor<'a>(
         cm,
         marks,
         options,
-        comments,
         changed: false,
         pass: 0,
         data: None,
@@ -74,7 +71,6 @@ struct Compressor<'a> {
     cm: Lrc<SourceMap>,
     marks: Marks,
     options: &'a CompressOptions,
-    comments: Option<&'a dyn Comments>,
     changed: bool,
     pass: usize,
     data: Option<ProgramData>,
@@ -210,7 +206,6 @@ impl VisitMut for Compressor<'_> {
                 self.cm.clone(),
                 self.marks,
                 self.options,
-                self.comments,
                 self.data.as_ref().unwrap(),
                 &mut self.optimizer_state,
             );
