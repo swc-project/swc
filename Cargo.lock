@@ -2830,7 +2830,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "0.35.0"
+version = "0.35.1"
 dependencies = [
  "num-bigint",
  "swc_atoms",
@@ -2885,7 +2885,7 @@ dependencies = [
 
 [[package]]
 name = "swc_visit"
-version = "0.2.4"
+version = "0.2.5"
 dependencies = [
  "either",
  "swc_visit_macros",
