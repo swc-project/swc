@@ -808,6 +808,12 @@ impl<'a> Emitter<'a> {
                         ..
                     }) => false,
 
+                    Expr::Unary(UnaryExpr { op: op!("!"), .. })
+                        if node.op == op!("||") || node.op == op!("&&") =>
+                    {
+                        false
+                    }
+
                     Expr::Update(UpdateExpr { prefix: true, .. }) | Expr::Unary(..) => true,
                     _ => false,
                 }
