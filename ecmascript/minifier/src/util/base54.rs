@@ -1,3 +1,5 @@
+use swc_ecma_ast::IdentExt;
+
 const CHARS: &[u8] = b"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$_0123456789";
 
 /// Note: This returns `a` for 0.
