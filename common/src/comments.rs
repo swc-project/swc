@@ -230,6 +230,14 @@ impl Comments for SingleThreadedComments {
 }
 
 impl SingleThreadedComments {
+    /// Creates a new `SingleThreadedComments` from the provided leading and trailing.
+    pub fn from_leading_and_trailing(leading: SingleThreadedCommentsMap, trailing: SingleThreadedCommentsMap) -> Self {
+        SingleThreadedComments {
+            leading,
+            trailing,
+        }
+    }
+
     /// Takes all the comments as (leading, trailing).
     pub fn take_all(self) -> (SingleThreadedCommentsMap, SingleThreadedCommentsMap) {
         (self.leading, self.trailing)
