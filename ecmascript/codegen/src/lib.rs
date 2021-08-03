@@ -1403,7 +1403,16 @@ impl<'a> Emitter<'a> {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         keyword!("get");
-        space!();
+
+        let starts_with_alpha_num = match node.key {
+            PropName::Str(_) | PropName::Computed(_) => false,
+            _ => true,
+        };
+        if starts_with_alpha_num {
+            space!();
+        } else {
+            formatting_space!();
+        }
         emit!(node.key);
         space!();
         punct!("(");
@@ -1417,7 +1426,18 @@ impl<'a> Emitter<'a> {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         keyword!("set");
-        space!();
+
+        let starts_with_alpha_num = match node.key {
+            PropName::Str(_) | PropName::Computed(_) => false,
+            _ => true,
+        };
+
+        if starts_with_alpha_num {
+            space!();
+        } else {
+            formatting_space!();
+        }
+
         emit!(node.key);
         space!();
 
