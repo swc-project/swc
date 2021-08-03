@@ -723,6 +723,9 @@ impl Optimizer<'_> {
                 Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => {
                     vec![Mergable::Expr(&mut **arg)]
                 }
+                Stmt::If(s) => {
+                    vec![Mergable::Expr(&mut *s.test)]
+                }
 
                 _ => return None,
             })
@@ -736,10 +739,19 @@ impl Optimizer<'_> {
         let mut buf = vec![];
 
         for stmt in stmts.iter_mut() {
+            let is_end = match stmt {
+                Stmt::If(..) => true,
+                _ => false,
+            };
+
             let items = exprs_of(stmt);
             if let Some(items) = items {
                 buf.extend(items)
             } else {
+                exprs.push(take(&mut buf));
+                continue;
+            }
+            if is_end {
                 exprs.push(take(&mut buf));
             }
         }
