@@ -770,10 +770,11 @@ impl<'a> Emitter<'a> {
     fn emit_bin_expr_trailing(&mut self, node: &BinExpr) -> Result {
         // let indent_before_op = needs_indention(node, &node.left, node.op);
         // let indent_after_op = needs_indention(node, node.op, &node.right);
-        let need_space = match node.op {
+        let is_kwd_op = match node.op {
             op!("in") | op!("instanceof") => true,
             _ => false,
         };
+        let need_space = is_kwd_op;
 
         let need_pre_space = need_space
             || match *node.left {
