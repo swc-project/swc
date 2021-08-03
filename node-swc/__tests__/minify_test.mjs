@@ -64,3 +64,32 @@ it("should mangle locals", async () => {
 
     expect(code).toMatchInlineSnapshot(`"(function(){const a=Math.random()+'_'+Math.random();console.log(a);console.log(a);console.log(a);console.log(a);console.log(a);console.log(a);})();"`);
 })
+
+
+describe('transform apis', () => {
+    it("handle jsc.minify", async () => {
+        const { code } = await swc.trasform(`
+        (function(){
+            const longName = Math.random() + '_' + Math.random();
+            console.log(longName);
+            console.log(longName);
+            console.log(longName);
+            console.log(longName);
+            console.log(longName);
+            console.log(longName);
+        })()
+        `, {
+            jsc: {
+                minify: {
+                    compress: false,
+                    mangle: {
+                        topLevel: true
+                    },
+                }
+            },
+        });
+
+        expect(code).toMatchInlineSnapshot(`"(function(){const a=Math.random()+'_'+Math.random();console.log(a);console.log(a);console.log(a);console.log(a);console.log(a);console.log(a);})();"`);
+    })
+
+})
