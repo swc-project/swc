@@ -333,6 +333,11 @@ impl Optimizer<'_> {
         *stmts = new_stmts;
     }
 
+    /// `(a = foo, a.apply())` => `(a = foo).apply()`
+    ///
+    /// This is useful for outputs of swc/babel
+    pub(super) fn merge_seq_call(&mut self, e: &mut SeqExpr) {}
+
     ///
     /// - `(a, b, c) && d` => `a, b, c && d`
     pub(super) fn lift_seqs_of_bin(&mut self, e: &mut Expr) {
