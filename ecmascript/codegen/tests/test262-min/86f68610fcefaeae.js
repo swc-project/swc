@@ -1,1 +1,1 @@
-class a{b(){}staticc(){}}
+class a{b(){}static c(){}}

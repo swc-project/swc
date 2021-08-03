@@ -1,1 +1,1 @@
-class a{staticget(){}}
+class a{static get(){}}
