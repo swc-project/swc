@@ -292,10 +292,8 @@ pub trait CommentsExt: Comments {
     where
         F: FnOnce(&[Comment]) -> Ret,
     {
-        if let Some(comments) = self.take_leading(pos) {
-            let ret = op(&comments);
-            self.add_leading_comments(pos, comments);
-            ret
+        if let Some(comments) = self.get_leading(pos) {
+            op(&comments)
         } else {
             op(&[])
         }
@@ -305,10 +303,8 @@ pub trait CommentsExt: Comments {
     where
         F: FnOnce(&[Comment]) -> Ret,
     {
-        if let Some(comments) = self.take_trailing(pos) {
-            let ret = op(&comments);
-            self.add_trailing_comments(pos, comments);
-            ret
+        if let Some(comments) = self.get_trailing(pos) {
+            op(&comments)
         } else {
             op(&[])
         }
