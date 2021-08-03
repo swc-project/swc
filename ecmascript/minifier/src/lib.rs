@@ -13,7 +13,7 @@
 //! `visit_mut_module_items`.
 
 use crate::compress::compressor;
-use crate::hygiene::unique_marker;
+use crate::hygiene::info_marker;
 use crate::marks::Marks;
 use crate::option::ExtraOptions;
 use crate::option::MinifyOptions;
@@ -83,7 +83,7 @@ pub fn optimize(
         }
     }
 
-    m.visit_mut_with(&mut unique_marker());
+    m.visit_mut_with(&mut info_marker(comments, marks));
 
     if options.wrap {
         // TODO: wrap_common_js
