@@ -948,9 +948,9 @@ impl<'a> Emitter<'a> {
             };
 
             if starts_with_alpha_num {
-                formatting_space!();
-            } else {
                 space!();
+            } else {
+                formatting_space!();
             }
         }
         match n.kind {
