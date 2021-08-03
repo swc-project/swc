@@ -761,20 +761,6 @@ impl Visit for UsageAnalyzer {
         let mut had_cond = false;
 
         for stmt in stmts {
-            match stmt {
-                Stmt::Decl(Decl::Fn(..)) => {
-                    stmt.visit_with(&Invalid { span: DUMMY_SP }, self);
-                }
-                _ => {}
-            }
-        }
-
-        for stmt in stmts {
-            match stmt {
-                Stmt::Decl(Decl::Fn(..)) => continue,
-                _ => {}
-            }
-
             let ctx = Ctx {
                 in_cond: self.ctx.in_cond || had_cond,
                 ..self.ctx
