@@ -2133,7 +2133,7 @@ impl<'a> Emitter<'a> {
             punct!(")");
         }
 
-        space!();
+        formatting_space!();
 
         emit!(node.body);
     }
