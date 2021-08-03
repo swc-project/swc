@@ -774,13 +774,23 @@ impl<'a> Emitter<'a> {
             op!("in") | op!("instanceof") => true,
             _ => false,
         };
-        let need_space = is_kwd_op;
 
-        let need_pre_space = need_space
-            || match *node.left {
-                Expr::Update(UpdateExpr { prefix: false, .. }) => true,
-                _ => false,
-            };
+        let need_pre_space = if self.cfg.minify {
+            if is_kwd_op {
+                node.left.ends_with_alpha_num()
+            } else {
+                match *node.left {
+                    Expr::Update(UpdateExpr { prefix: false, .. }) => true,
+                    _ => false,
+                }
+            }
+        } else {
+            is_kwd_op
+                || match *node.left {
+                    Expr::Update(UpdateExpr { prefix: false, .. }) => true,
+                    _ => false,
+                }
+        };
         if need_pre_space {
             space!(self);
         } else {
@@ -788,11 +798,27 @@ impl<'a> Emitter<'a> {
         }
         operator!(self, node.op.as_str());
 
-        let need_post_space = need_space
-            || match *node.right {
-                Expr::Unary(..) | Expr::Update(UpdateExpr { prefix: true, .. }) => true,
-                _ => false,
-            };
+        let need_post_space = if self.cfg.minify {
+            if is_kwd_op {
+                node.right.starts_with_alpha_num()
+            } else {
+                match *node.right {
+                    Expr::Unary(UnaryExpr {
+                        op: op!("typeof") | op!("void") | op!("delete"),
+                        ..
+                    }) => false,
+
+                    Expr::Update(UpdateExpr { prefix: true, .. }) | Expr::Unary(..) => true,
+                    _ => false,
+                }
+            }
+        } else {
+            is_kwd_op
+                || match *node.right {
+                    Expr::Unary(..) | Expr::Update(UpdateExpr { prefix: true, .. }) => true,
+                    _ => false,
+                }
+        };
         if need_post_space {
             space!(self);
         } else {
