@@ -182,7 +182,7 @@ impl<'a> Emitter<'a> {
 
                     assert!(node.specifiers.len() <= 2);
                     punct!("*");
-                    space!();
+                    formatting_space!();
                     keyword!("as");
                     space!();
                     emit!(ns.local);
