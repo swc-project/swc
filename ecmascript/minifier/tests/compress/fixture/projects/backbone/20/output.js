@@ -3,7 +3,9 @@ export const E = {
         (options = _.defaults({
         }, options, setOptions)).parse && (models = this.parse(models, options));
         var singular = !_.isArray(models);
-        models = singular ? models ? [models] : [] : _.clone(models);
+        models = singular ? models ? [
+            models
+        ] : [] : _.clone(models);
         var i, l, id, model, attrs, existing, sort, at = options.at, targetModel = this.model, sortable = this.comparator && null == at && !1 !== options.sort, sortAttr = _.isString(this.comparator) ? this.comparator : null, toAdd = [], toRemove = [], modelMap = {
         }, add = options.add, merge = options.merge, remove = options.remove, order = !sortable && !!add && !!remove && [];
         for(i = 0, l = models.length; i < l; i++){

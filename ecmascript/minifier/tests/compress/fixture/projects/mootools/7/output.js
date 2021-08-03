@@ -14,7 +14,8 @@ export const exported = {
                         qs[i] = val;
                     }), result = Object.toQueryString(qs, key);
                     break;
-                default: result = key + "=" + encodeURIComponent(value);
+                default:
+                    result = key + "=" + encodeURIComponent(value);
             }
             null != value && queryString.push(result);
         }), queryString.join("&");

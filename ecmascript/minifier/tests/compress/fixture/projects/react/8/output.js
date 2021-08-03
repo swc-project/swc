@@ -8,10 +8,12 @@ function mapIntoArray(children, array, escapedPrefix, nameSoFar, callback) {
         case "number":
             invokeCallback = !0;
             break;
-        case "object": switch(children.$$typeof){
-            case REACT_ELEMENT_TYPE:
-            case REACT_PORTAL_TYPE: invokeCallback = !0;
-        }
+        case "object":
+            switch(children.$$typeof){
+                case REACT_ELEMENT_TYPE:
+                case REACT_PORTAL_TYPE:
+                    invokeCallback = !0;
+            }
     }
     if (invokeCallback) {
         var _child = children, mappedChild = callback(_child), childKey = "" === nameSoFar ? "." + getElementKey(_child, 0) : nameSoFar;

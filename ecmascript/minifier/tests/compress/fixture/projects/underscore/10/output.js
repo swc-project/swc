@@ -5,11 +5,15 @@ var eq = function(a, b, aStack, bStack) {
     var className = toString.call(a);
     if (className != toString.call(b)) return !1;
     switch(className){
-        case "[object String]": return a == String(b);
-        case "[object Number]": return a != +a ? b != +b : 0 == a ? 1 / a == 1 / b : a == +b;
+        case "[object String]":
+            return a == String(b);
+        case "[object Number]":
+            return a != +a ? b != +b : 0 == a ? 1 / a == 1 / b : a == +b;
         case "[object Date]":
-        case "[object Boolean]": return +a == +b;
-        case "[object RegExp]": return a.source == b.source && a.global == b.global && a.multiline == b.multiline && a.ignoreCase == b.ignoreCase;
+        case "[object Boolean]":
+            return +a == +b;
+        case "[object RegExp]":
+            return a.source == b.source && a.global == b.global && a.multiline == b.multiline && a.ignoreCase == b.ignoreCase;
     }
     if ("object" != typeof a || "object" != typeof b) return !1;
     for(var length = aStack.length; length--;)if (aStack[length] == a) return bStack[length] == b;

@@ -1,6 +1,8 @@
 function printWarning(level, format, args) {
     var stack = ReactSharedInternals.ReactDebugCurrentFrame.getStackAddendum();
-    "" !== stack && (format += "%s", args = args.concat([stack]));
+    "" !== stack && (format += "%s", args = args.concat([
+        stack
+    ]));
     var argsWithFormat = args.map(function(item) {
         return "" + item;
     });

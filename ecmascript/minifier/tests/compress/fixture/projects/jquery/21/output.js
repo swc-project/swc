@@ -9,7 +9,10 @@ jQuery.fn.load = function(url, params, callback) {
     }).done(function(responseText) {
         response = arguments, self.html(selector ? jQuery("<div>").append(jQuery.parseHTML(responseText)).find(selector) : responseText);
     }).complete(callback && function(jqXHR, status) {
-        self.each(callback, response || [jqXHR.responseText, status,
-            jqXHR]);
+        self.each(callback, response || [
+            jqXHR.responseText,
+            status,
+            jqXHR
+        ]);
     }), this;
 };

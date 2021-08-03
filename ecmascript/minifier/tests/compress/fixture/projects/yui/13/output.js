@@ -1,7 +1,9 @@
 export const E = {
     _getTransaction: function(urls, options) {
         var i, len, req, url, requests = [];
-        for(Lang.isArray(urls) || (urls = [urls]), (options = Y.merge(this.options, options)).attributes = Y.merge(this.options.attributes, options.attributes), i = 0, len = urls.length; i < len; ++i){
+        for(Lang.isArray(urls) || (urls = [
+            urls
+        ]), (options = Y.merge(this.options, options)).attributes = Y.merge(this.options.attributes, options.attributes), i = 0, len = urls.length; i < len; ++i){
             if (req = {
                 attributes: {
                 }
