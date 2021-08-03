@@ -81,7 +81,19 @@ impl<'a> Emitter<'a> {
             let span = self.cm.span_until_char(node.span, ' ');
             keyword!(span, node.kind.as_str());
         }
-        space!();
+
+        let starts_with_ident = match node.decls.first() {
+            Some(VarDeclarator {
+                name: Pat::Array(..) | Pat::Rest(..) | Pat::Object(..),
+                ..
+            }) => false,
+            _ => true,
+        };
+        if starts_with_ident {
+            space!();
+        } else {
+            formatting_space!();
+        }
 
         self.emit_list(
             node.span(),
