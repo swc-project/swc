@@ -860,7 +860,17 @@ impl<'a> Emitter<'a> {
         if node.super_class.is_some() {
             space!();
             keyword!("extends");
-            space!();
+
+            {
+                let starts_with_alpha_num =
+                    node.super_class.as_ref().unwrap().starts_with_alpha_num();
+
+                if starts_with_alpha_num {
+                    space!();
+                } else {
+                    formatting_space!()
+                }
+            }
             emit!(node.super_class);
         }
 
