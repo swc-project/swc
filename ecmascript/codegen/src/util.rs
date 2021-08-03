@@ -191,7 +191,7 @@ impl EndsWithAlphaNum for VarDecl {
 impl EndsWithAlphaNum for Expr {
     fn ends_with_alpha_num(&self) -> bool {
         match self {
-            Expr::Array(..) | Expr::Object(..) => false,
+            Expr::Array(..) | Expr::Object(..) | Expr::Lit(Lit::Str(..)) => false,
             _ => true,
         }
     }
