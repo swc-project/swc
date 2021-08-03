@@ -2190,7 +2190,15 @@ impl<'a> Emitter<'a> {
 
         if let Some(ref test) = node.test {
             keyword!("case");
-            space!();
+
+            let starts_with_alpha_num = test.starts_with_alpha_num();
+
+            if starts_with_alpha_num {
+                space!();
+            } else {
+                formatting_space!();
+            }
+
             emit!(test);
         } else {
             keyword!("default");
