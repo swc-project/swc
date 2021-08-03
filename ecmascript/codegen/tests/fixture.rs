@@ -1,7 +1,10 @@
 use std::path::{Path, PathBuf};
 use swc_common::input::SourceFileInput;
 use swc_ecma_ast::EsVersion;
-use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
+use swc_ecma_codegen::{
+    text_writer::{JsWriter, WriteJs},
+    Emitter,
+};
 use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
 use testing::{run_test2, NormalizedOutput};
 
@@ -36,11 +39,18 @@ fn run(input: &Path, minify: bool) {
         let mut buf = vec![];
 
         {
+            let mut wr =
+                Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)) as Box<dyn WriteJs>;
+
+            if minify {
+                wr = Box::new(swc_ecma_codegen::text_writer::omit_trailing_semi(wr));
+            }
+
             let mut emitter = Emitter {
                 cfg: swc_ecma_codegen::Config { minify },
                 cm: cm.clone(),
                 comments: None,
-                wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
+                wr,
             };
 
             emitter.emit_module(&m).unwrap();
