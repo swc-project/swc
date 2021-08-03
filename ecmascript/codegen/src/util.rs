@@ -194,6 +194,7 @@ impl EndsWithAlphaNum for Expr {
             Expr::Array(..)
             | Expr::Object(..)
             | Expr::Lit(Lit::Str(..))
+            | Expr::Paren(..)
             | Expr::Member(MemberExpr { computed: true, .. }) => false,
             _ => true,
         }
