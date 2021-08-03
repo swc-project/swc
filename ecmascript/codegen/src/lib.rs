@@ -132,8 +132,15 @@ impl<'a> Emitter<'a> {
         keyword!("export");
         space!();
         keyword!("default");
-        space!();
-        emit!(node.expr);
+        {
+            let starts_with_alpha_num = node.expr.starts_with_alpha_num();
+            if starts_with_alpha_num {
+                space!();
+            } else {
+                formatting_space!();
+            }
+            emit!(node.expr);
+        }
         formatting_semi!();
     }
 
