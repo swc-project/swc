@@ -457,7 +457,8 @@ impl Optimizer<'_> {
                 && !usage.used_in_loop
                 && (match decl {
                     Decl::Class(..) => !usage.used_above_decl,
-                    _ => true,
+                    Decl::Fn(..) => true,
+                    _ => false,
                 })
             {
                 match decl {
