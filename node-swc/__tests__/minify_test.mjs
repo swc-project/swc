@@ -87,9 +87,10 @@ describe('transform apis', () => {
                     },
                 }
             },
+            minify: true,
         });
 
-        expect(code).toMatchInlineSnapshot(`"(function(){const a=Math.random()+'_'+Math.random();console.log(a);console.log(a);console.log(a);console.log(a);console.log(a);console.log(a)})()"`);
+        expect(code).toMatchInlineSnapshot(`"(function(){var a=Math.random()+'_'+Math.random();console.log(a);console.log(a);console.log(a);console.log(a);console.log(a);console.log(a)})()"`);
     })
 
 })
