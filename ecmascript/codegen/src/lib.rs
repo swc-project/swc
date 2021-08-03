@@ -2316,8 +2316,18 @@ impl<'a> Emitter<'a> {
         emit!(node.left);
         space!();
         keyword!("in");
-        space!();
-        emit!(node.right);
+
+        {
+            let starts_with_alpha_num = node.right.starts_with_alpha_num();
+
+            if starts_with_alpha_num {
+                space!();
+            } else {
+                formatting_space!()
+            }
+            emit!(node.right);
+        }
+
         punct!(")");
 
         emit!(node.body);
