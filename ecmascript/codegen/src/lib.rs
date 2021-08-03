@@ -364,7 +364,7 @@ impl<'a> Emitter<'a> {
         punct!("*");
         formatting_space!();
         keyword!("from");
-        space!();
+        formatting_space!();
         emit!(node.src);
         formatting_semi!();
     }
