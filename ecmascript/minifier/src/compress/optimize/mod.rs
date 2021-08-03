@@ -2062,6 +2062,7 @@ impl VisitMut for Optimizer<'_> {
         self.with_ctx(ctx).handle_stmt_likes(stmts);
 
         for (from, to) in self.state.inlined_vars.drain() {
+            log::debug!("inline: Inlining `{}{:?}`", from.0, from.1);
             replace_id_with_expr(stmts, from, to);
         }
 
