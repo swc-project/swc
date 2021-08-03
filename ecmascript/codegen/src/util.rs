@@ -210,7 +210,7 @@ impl StartsWithAlphaNum for PropName {
     fn starts_with_alpha_num(&self) -> bool {
         match self {
             PropName::Str(_) | PropName::Computed(_) => false,
-            PropName::Ident(_) | PropName::Num(_) | PropName::BigInt(_) => false,
+            PropName::Ident(_) | PropName::Num(_) | PropName::BigInt(_) => true,
         }
     }
 }
