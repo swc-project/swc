@@ -66,8 +66,12 @@ fn run(input: &Path, minify: bool) {
 }
 
 #[testing::fixture("tests/fixture/**/input.ts")]
+fn ts(input: PathBuf) {
+    run(&input, false);
+}
+
 #[testing::fixture("tests/fixture/**/input.js")]
-fn test_fixture(input: PathBuf) {
+fn js(input: PathBuf) {
     run(&input, false);
     run(&input, true);
 }
