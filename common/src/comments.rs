@@ -1,6 +1,6 @@
 use crate::{
     pos::Spanned,
-    syntax_pos::{BytePos, Span, DUMMY_SP},
+    syntax_pos::{BytePos, Span},
 };
 use fxhash::FxHashMap;
 use std::{
@@ -219,7 +219,7 @@ impl Comments for SingleThreadedComments {
         let leading = leading_map.entry(pos).or_default();
         let pure_comment = Comment {
             kind: CommentKind::Block,
-            span: DUMMY_SP,
+            span: Span::new(pos, pos, Default::default()),
             text: "#__PURE__".into(),
         };
 
