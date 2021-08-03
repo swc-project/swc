@@ -1,7 +1,6 @@
 use self::ctx::Ctx;
 use crate::marks::Marks;
 use crate::util::can_end_conditionally;
-use crate::util::has_mark;
 use crate::util::idents_used_by;
 use crate::util::now;
 use fxhash::FxHashMap;
@@ -416,7 +415,7 @@ impl Visit for UsageAnalyzer {
     }
 
     fn visit_call_expr(&mut self, n: &CallExpr, _: &dyn Node) {
-        let inline_prevented = self.ctx.inline_prevented || has_mark(n.span, self.marks.noinline);
+        let inline_prevented = self.ctx.inline_prevented || n.span.has_mark(self.marks.noinline);
 
         {
             let ctx = Ctx {

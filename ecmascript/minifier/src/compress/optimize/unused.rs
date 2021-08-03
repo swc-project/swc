@@ -2,7 +2,6 @@ use super::Optimizer;
 use crate::compress::optimize::util::class_has_side_effect;
 use crate::debug::dump;
 use crate::option::PureGetterOption;
-use crate::util::has_mark;
 use swc_atoms::js_word;
 use swc_common::Span;
 use swc_common::DUMMY_SP;
@@ -154,7 +153,7 @@ impl Optimizer<'_> {
         name: &mut Pat,
         init: Option<&mut Expr>,
     ) {
-        let has_mark = has_mark(var_declarator_span, self.marks.non_top_level);
+        let has_mark = var_declarator_span.has_mark(self.marks.non_top_level);
 
         if !has_mark {
             if !self.options.unused
@@ -240,7 +239,7 @@ impl Optimizer<'_> {
 
         match name {
             Pat::Ident(i) => {
-                if !has_mark(parent_span, self.marks.non_top_level)
+                if !parent_span.has_mark(self.marks.non_top_level)
                     && self.options.top_retain.contains(&i.id.sym)
                 {
                     return;
@@ -425,7 +424,7 @@ impl Optimizer<'_> {
             _ => return,
         };
 
-        let has_mark = has_mark(assign.span, self.marks.non_top_level);
+        let has_mark = assign.span.has_mark(self.marks.non_top_level);
 
         if !has_mark && !self.options.unused {
             return;

@@ -1,6 +1,5 @@
 use super::Ctx;
 use super::Optimizer;
-use crate::util::has_mark;
 use std::ops::Deref;
 use std::ops::DerefMut;
 use swc_atoms::JsWord;
@@ -76,17 +75,17 @@ impl<'b> Optimizer<'b> {
 
     /// Check for `/** @const */`.
     pub(super) fn has_const_ann(&self, span: Span) -> bool {
-        has_mark(span, self.marks.const_ann)
+        span.has_mark(self.marks.const_ann)
     }
 
     /// Check for `/*#__NOINLINE__*/`
     pub(super) fn has_noinline(&self, span: Span) -> bool {
-        has_mark(span, self.marks.noinline)
+        span.has_mark(self.marks.noinline)
     }
 
     #[allow(unused)]
     pub(super) fn is_done(&mut self, span: Span) -> bool {
-        has_mark(span, self.done)
+        span.has_mark(self.done)
     }
 
     /// RAII guard to change context temporarically
