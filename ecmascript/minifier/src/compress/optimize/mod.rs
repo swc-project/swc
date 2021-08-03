@@ -1039,6 +1039,8 @@ impl Optimizer<'_> {
             }
 
             Expr::Cond(cond) => {
+                log::debug!("ignore_return_value: Cond expr");
+
                 self.restore_negated_iife(cond);
 
                 let ctx = Ctx {
