@@ -151,6 +151,46 @@ impl SourceMapperExt for Rc<SourceMap> {
     }
 }
 
+pub trait EndsWithAlphaNum {
+    fn ends_with_alpha_num(&self) -> bool;
+}
+
+impl EndsWithAlphaNum for VarDeclOrPat {
+    fn ends_with_alpha_num(&self) -> bool {
+        match self {
+            VarDeclOrPat::VarDecl(n) => n.ends_with_alpha_num(),
+            VarDeclOrPat::Pat(n) => n.ends_with_alpha_num(),
+        }
+    }
+}
+
+impl EndsWithAlphaNum for Pat {
+    fn ends_with_alpha_num(&self) -> bool {
+        match self {
+            Pat::Object(_) | Pat::Array(_) => false,
+            Pat::Rest(p) => p.arg.ends_with_alpha_num(),
+            Pat::Assign(p) => p.right.ends_with_alpha_num(),
+            Pat::Expr(p) => p.ends_with_alpha_num(),
+            _ => true,
+        }
+    }
+}
+
+impl EndsWithAlphaNum for VarDecl {
+    fn ends_with_alpha_num(&self) -> bool {
+        true
+    }
+}
+
+impl EndsWithAlphaNum for Expr {
+    fn ends_with_alpha_num(&self) -> bool {
+        match self {
+            Expr::Array(..) | Expr::Object(..) => false,
+            _ => true,
+        }
+    }
+}
+
 /// Leftmost recursion
 pub trait StartsWithAlphaNum {
     fn starts_with_alpha_num(&self) -> bool;

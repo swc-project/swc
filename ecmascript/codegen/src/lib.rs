@@ -1,6 +1,8 @@
 #![recursion_limit = "1024"]
 #![allow(unused_variables)]
 
+use crate::util::EndsWithAlphaNum;
+
 pub use self::config::Config;
 use self::{
     list::ListFormat,
@@ -2338,7 +2340,12 @@ impl<'a> Emitter<'a> {
         keyword!("for");
         punct!("(");
         emit!(node.left);
-        space!();
+
+        if node.left.ends_with_alpha_num() {
+            space!();
+        } else {
+            formatting_space!();
+        }
         keyword!("in");
 
         {
@@ -2369,7 +2376,11 @@ impl<'a> Emitter<'a> {
         formatting_space!();
         punct!("(");
         emit!(node.left);
-        space!();
+        if node.left.ends_with_alpha_num() {
+            space!();
+        } else {
+            formatting_space!();
+        }
         keyword!("of");
 
         {
