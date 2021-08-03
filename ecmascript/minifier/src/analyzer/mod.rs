@@ -329,6 +329,10 @@ impl UsageAnalyzer {
                     v.reassigned = true;
                     v.assign_count += 1;
                 }
+
+                if v.used_by_nested_fn {
+                    v.is_fn_local = false;
+                }
             })
             .or_insert_with(|| VarUsageInfo {
                 is_fn_local: true,
