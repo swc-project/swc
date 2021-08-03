@@ -1,7 +1,10 @@
 !function(global, factory) {
-    "object" == typeof exports && "undefined" != typeof module ? factory(exports) : "function" == typeof define && define.amd ? define(["exports"], factory) : factory((global = global || self).React = {
+    "object" == typeof exports && "undefined" != typeof module ? factory(exports) : "function" == typeof define && define.amd ? define([
+        "exports"
+    ], factory) : factory((global = global || self).React = {
     });
 }(this, function(exports) {
+    "use strict";
     var REACT_ELEMENT_TYPE = 60103, REACT_PORTAL_TYPE = 60106, REACT_PROVIDER_TYPE = 60109, REACT_CONTEXT_TYPE = 60110, REACT_FORWARD_REF_TYPE = 60112, REACT_SUSPENSE_LIST_TYPE = 60120, REACT_MEMO_TYPE = 60115, REACT_LAZY_TYPE = 60116, REACT_BLOCK_TYPE = 60121, REACT_SERVER_BLOCK_TYPE = 60122, REACT_FUNDAMENTAL_TYPE = 60117, REACT_DEBUG_TRACING_MODE_TYPE = 60129, REACT_LEGACY_HIDDEN_TYPE = 60131, MAYBE_ITERATOR_SYMBOL = "function" == typeof Symbol && Symbol.iterator;
     function getIteratorFn(maybeIterable) {
         if (null === maybeIterable || "object" != typeof maybeIterable) return null;
@@ -47,7 +50,9 @@
     }
     function printWarning(level, format, args) {
         var stack = ReactSharedInternals.ReactDebugCurrentFrame.getStackAddendum();
-        "" !== stack && (format += "%s", args = args.concat([stack]));
+        "" !== stack && (format += "%s", args = args.concat([
+            stack
+        ]));
         var argsWithFormat = args.map(function(item) {
             return "" + item;
         });
@@ -78,8 +83,14 @@
         this.props = props, this.context = context, this.refs = emptyObject, this.updater = updater || ReactNoopUpdateQueue;
     }
     var deprecatedAPIs = {
-        isMounted: ["isMounted", "Instead, make sure to clean up subscriptions and pending requests in componentWillUnmount to prevent memory leaks."],
-        replaceState: ["replaceState", "Refactor your code to use setState instead (see https://github.com/facebook/react/issues/3236)."]
+        isMounted: [
+            "isMounted",
+            "Instead, make sure to clean up subscriptions and pending requests in componentWillUnmount to prevent memory leaks."
+        ],
+        replaceState: [
+            "replaceState",
+            "Refactor your code to use setState instead (see https://github.com/facebook/react/issues/3236)."
+        ]
     };
     function ComponentDummy() {
     }
@@ -99,19 +110,30 @@
         if ("number" == typeof type.tag && error("Received an unexpected object in getComponentName(). This is likely a bug in React. Please file an issue."), "function" == typeof type) return type.displayName || type.name || null;
         if ("string" == typeof type) return type;
         switch(type){
-            case exports.Fragment: return "Fragment";
-            case REACT_PORTAL_TYPE: return "Portal";
-            case exports.Profiler: return "Profiler";
-            case exports.StrictMode: return "StrictMode";
-            case exports.Suspense: return "Suspense";
-            case REACT_SUSPENSE_LIST_TYPE: return "SuspenseList";
+            case exports.Fragment:
+                return "Fragment";
+            case REACT_PORTAL_TYPE:
+                return "Portal";
+            case exports.Profiler:
+                return "Profiler";
+            case exports.StrictMode:
+                return "StrictMode";
+            case exports.Suspense:
+                return "Suspense";
+            case REACT_SUSPENSE_LIST_TYPE:
+                return "SuspenseList";
         }
         if ("object" == typeof type) switch(type.$$typeof){
-            case REACT_CONTEXT_TYPE: return getContextName(type) + ".Consumer";
-            case REACT_PROVIDER_TYPE: return getContextName(type._context) + ".Provider";
-            case REACT_FORWARD_REF_TYPE: return getWrappedName(type, type.render, "ForwardRef");
-            case REACT_MEMO_TYPE: return getComponentName(type.type);
-            case REACT_BLOCK_TYPE: return getComponentName(type._render);
+            case REACT_CONTEXT_TYPE:
+                return getContextName(type) + ".Consumer";
+            case REACT_PROVIDER_TYPE:
+                return getContextName(type._context) + ".Provider";
+            case REACT_FORWARD_REF_TYPE:
+                return getWrappedName(type, type.render, "ForwardRef");
+            case REACT_MEMO_TYPE:
+                return getComponentName(type.type);
+            case REACT_BLOCK_TYPE:
+                return getComponentName(type._render);
             case REACT_LAZY_TYPE:
                 var lazyComponent = type, payload = lazyComponent._payload, init = lazyComponent._init;
                 try {
@@ -258,10 +280,12 @@
             case "number":
                 invokeCallback = !0;
                 break;
-            case "object": switch(children.$$typeof){
-                case REACT_ELEMENT_TYPE:
-                case REACT_PORTAL_TYPE: invokeCallback = !0;
-            }
+            case "object":
+                switch(children.$$typeof){
+                    case REACT_ELEMENT_TYPE:
+                    case REACT_PORTAL_TYPE:
+                        invokeCallback = !0;
+                }
         }
         if (invokeCallback) {
             var _child = children, mappedChild = callback(_child), childKey = "" === nameSoFar ? "." + getElementKey(_child, 0) : nameSoFar;
@@ -468,13 +492,18 @@
         if ("function" == typeof type) return describeNativeComponentFrame(type, shouldConstruct(type));
         if ("string" == typeof type) return describeBuiltInComponentFrame(type);
         switch(type){
-            case exports.Suspense: return describeBuiltInComponentFrame("Suspense");
-            case REACT_SUSPENSE_LIST_TYPE: return describeBuiltInComponentFrame("SuspenseList");
+            case exports.Suspense:
+                return describeBuiltInComponentFrame("Suspense");
+            case REACT_SUSPENSE_LIST_TYPE:
+                return describeBuiltInComponentFrame("SuspenseList");
         }
         if ("object" == typeof type) switch(type.$$typeof){
-            case REACT_FORWARD_REF_TYPE: return describeFunctionComponentFrame(type.render);
-            case REACT_MEMO_TYPE: return describeUnknownElementTypeFrameInDEV(type.type, source, ownerFn);
-            case REACT_BLOCK_TYPE: return describeFunctionComponentFrame(type._render);
+            case REACT_FORWARD_REF_TYPE:
+                return describeFunctionComponentFrame(type.render);
+            case REACT_MEMO_TYPE:
+                return describeUnknownElementTypeFrameInDEV(type.type, source, ownerFn);
+            case REACT_BLOCK_TYPE:
+                return describeFunctionComponentFrame(type._render);
             case REACT_LAZY_TYPE:
                 var lazyComponent = type, payload = lazyComponent._payload, init = lazyComponent._init;
                 try {
@@ -599,7 +628,7 @@
         if (validType) for(var i = 2; i < arguments.length; i++)validateChildKeys(arguments[i], type);
         return type === exports.Fragment ? validateFragmentProps(element) : validatePropTypes(element), element;
     }
-    var propTypesMisspellWarningShown, requestHostCallback, requestHostTimeout, cancelHostTimeout, shouldYieldToHost, requestPaint, getCurrentTime, forceFrameRate, didWarnAboutDeprecatedCreateFactory = !1, enableSchedulerDebugging = !1, enableProfiling = !1, hasPerformanceNow = "object" == typeof performance && "function" == typeof performance.now;
+    var propTypesMisspellWarningShown, requestHostCallback, requestHostTimeout, cancelHostTimeout, shouldYieldToHost, requestPaint, getCurrentTime, forceFrameRate, didWarnAboutDeprecatedCreateFactory = !1, enableSchedulerDebugging = !1, enableProfiling = !1;
     function push(heap, node) {
         var index = heap.length;
         heap.push(node), siftUp(heap, node, index);
@@ -701,8 +730,10 @@
                 case 2:
                 case 3:
                 case 4:
-                case 5: break;
-                default: priorityLevel = 3;
+                case 5:
+                    break;
+                default:
+                    priorityLevel = 3;
             }
             var previousPriorityLevel = currentPriorityLevel;
             currentPriorityLevel = 3;
@@ -1000,7 +1031,7 @@
         });
     })(fnName, deprecatedAPIs[fnName]);
     if (ComponentDummy.prototype = Component.prototype, pureComponentPrototype.constructor = PureComponent, assign(pureComponentPrototype, Component.prototype), pureComponentPrototype.isPureReactComponent = !0, didWarnAboutStringRefs = {
-    }, disabledLog.__reactDisabledLog = !0, componentFrameCache = new ("function" == typeof WeakMap ? WeakMap : Map)(), propTypesMisspellWarningShown = !1, hasPerformanceNow) {
+    }, disabledLog.__reactDisabledLog = !0, componentFrameCache = new ("function" == typeof WeakMap ? WeakMap : Map)(), propTypesMisspellWarningShown = !1, "object" == typeof performance && "function" == typeof performance.now) {
         var localPerformance = performance;
         getCurrentTime = function() {
             return localPerformance.now();
@@ -1041,16 +1072,16 @@
             return getCurrentTime() >= deadline;
         }, requestPaint = function() {
         }, forceFrameRate = function(fps) {
-            (fps < 0 || fps > 125) && console.error("forceFrameRate takes a positive int between 0 and 125, forcing frame rates higher than 125 fps is not supported"), yieldInterval = fps > 0 ? Math.floor(1000 / fps) : 5;
+            if (fps < 0 || fps > 125) return void console.error("forceFrameRate takes a positive int between 0 and 125, forcing frame rates higher than 125 fps is not supported");
+            yieldInterval = fps > 0 ? Math.floor(1000 / fps) : 5;
         };
         var performWorkUntilDeadline = function() {
             if (null !== scheduledHostCallback) {
-                var currentTime = getCurrentTime();
+                var hasMoreWork, currentTime = getCurrentTime();
                 deadline = currentTime + yieldInterval;
                 var hasTimeRemaining = !0;
                 try {
-                    var hasMoreWork = scheduledHostCallback(hasTimeRemaining, currentTime);
-                    hasMoreWork ? port.postMessage(null) : (isMessageLoopRunning = !1, scheduledHostCallback = null);
+                    scheduledHostCallback(hasTimeRemaining, currentTime) ? port.postMessage(null) : (isMessageLoopRunning = !1, scheduledHostCallback = null);
                 } catch (error) {
                     throw port.postMessage(null), error;
                 }
@@ -1074,7 +1105,14 @@
     try {
         var frozenObject = Object.freeze({
         });
-        new Map([[frozenObject, null]]), new Set([frozenObject]);
+        new Map([
+            [
+                frozenObject,
+                null
+            ]
+        ]), new Set([
+            frozenObject
+        ]);
     } catch (e) {
     }
     exports.Children = {

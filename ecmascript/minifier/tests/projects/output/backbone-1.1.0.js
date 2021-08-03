@@ -8,8 +8,10 @@
     }, Backbone.emulateHTTP = !1, Backbone.emulateJSON = !1;
     var Events = Backbone.Events = {
         on: function(name, callback, context) {
-            return eventsApi(this, "on", name, [callback,
-                context]) && callback && (this._events || (this._events = {
+            return eventsApi(this, "on", name, [
+                callback,
+                context
+            ]) && callback && (this._events || (this._events = {
             }), (this._events[name] || (this._events[name] = [])).push({
                 callback: callback,
                 context: context,
@@ -17,8 +19,10 @@
             })), this;
         },
         once: function(name, callback, context) {
-            if (!eventsApi(this, "once", name, [callback,
-                context]) || !callback) return this;
+            if (!eventsApi(this, "once", name, [
+                callback,
+                context
+            ]) || !callback) return this;
             var self = this, once = _.once(function() {
                 self.off(name, once), callback.apply(this, arguments);
             });
@@ -26,11 +30,15 @@
         },
         off: function(name, callback, context) {
             var retain, ev, events, names, i, l, j, k;
-            if (!this._events || !eventsApi(this, "off", name, [callback,
-                context])) return this;
+            if (!this._events || !eventsApi(this, "off", name, [
+                callback,
+                context
+            ])) return this;
             if (!name && !callback && !context) return this._events = {
             }, this;
-            for(i = 0, l = (names = name ? [name] : _.keys(this._events)).length; i < l; i++)if (name = names[i], events = this._events[name]) {
+            for(i = 0, l = (names = name ? [
+                name
+            ] : _.keys(this._events)).length; i < l; i++)if (name = names[i], events = this._events[name]) {
                 if (this._events[name] = retain = [], callback || context) for(j = 0, k = events.length; j < k; j++)ev = events[j], (callback && callback !== ev.callback && callback !== ev.callback._callback || context && context !== ev.context) && retain.push(ev);
                 retain.length || delete this._events[name];
             }
@@ -54,11 +62,16 @@
     }, eventSplitter = /\s+/, eventsApi = function(obj, action, name, rest) {
         if (!name) return !0;
         if ("object" == typeof name) {
-            for(var key in name)obj[action].apply(obj, [key, name[key]].concat(rest));
+            for(var key in name)obj[action].apply(obj, [
+                key,
+                name[key]
+            ].concat(rest));
             return !1;
         }
         if (eventSplitter.test(name)) {
-            for(var names = name.split(eventSplitter), i = 0, l = names.length; i < l; i++)obj[action].apply(obj, [names[i]].concat(rest));
+            for(var names = name.split(eventSplitter), i = 0, l = names.length; i < l; i++)obj[action].apply(obj, [
+                names[i]
+            ].concat(rest));
             return !1;
         }
         return !0;
@@ -77,7 +90,8 @@
             case 3:
                 for(; ++i < l;)(ev = events[i]).callback.call(ev.ctx, a1, a2, a3);
                 return;
-            default: for(; ++i < l;)(ev = events[i]).callback.apply(ev.ctx, args);
+            default:
+                for(; ++i < l;)(ev = events[i]).callback.apply(ev.ctx, args);
         }
     };
     _.each({
@@ -237,7 +251,14 @@
                 validationError: error
             })), !1);
         }
-    }), _.each(["keys", "values", "pairs", "invert", "pick", "omit"], function(method) {
+    }), _.each([
+        "keys",
+        "values",
+        "pairs",
+        "invert",
+        "pick",
+        "omit"
+    ], function(method) {
         Model.prototype[method] = function() {
             var args = slice.call(arguments);
             return args.unshift(this.attributes), _[method].apply(_, args);
@@ -276,14 +297,18 @@
         remove: function(models, options) {
             var i, l, index, model, singular = !_.isArray(models);
             for(options || (options = {
-            }), i = 0, l = (models = singular ? [models] : _.clone(models)).length; i < l; i++)(model = models[i] = this.get(models[i])) && (delete this._byId[model.id], delete this._byId[model.cid], index = this.indexOf(model), this.models.splice(index, 1), this.length--, options.silent || (options.index = index, model.trigger("remove", model, this, options)), this._removeReference(model));
+            }), i = 0, l = (models = singular ? [
+                models
+            ] : _.clone(models)).length; i < l; i++)(model = models[i] = this.get(models[i])) && (delete this._byId[model.id], delete this._byId[model.cid], index = this.indexOf(model), this.models.splice(index, 1), this.length--, options.silent || (options.index = index, model.trigger("remove", model, this, options)), this._removeReference(model));
             return singular ? models[0] : models;
         },
         set: function(models, options) {
             (options = _.defaults({
             }, options, setOptions)).parse && (models = this.parse(models, options));
             var singular = !_.isArray(models);
-            models = singular ? models ? [models] : [] : _.clone(models);
+            models = singular ? models ? [
+                models
+            ] : [] : _.clone(models);
             var i, l, id, model, attrs, existing, sort, at = options.at, targetModel = this.model, sortable = this.comparator && null == at && !1 !== options.sort, sortAttr = _.isString(this.comparator) ? this.comparator : null, toAdd = [], toRemove = [], modelMap = {
             }, add = options.add, merge = options.merge, remove = options.remove, order = !sortable && !!add && !!remove && [];
             for(i = 0, l = models.length; i < l; i++){
@@ -404,12 +429,57 @@
         _onModelEvent: function(event, model, collection, options) {
             ("add" !== event && "remove" !== event || collection === this) && ("destroy" === event && this.remove(model, options), model && event === "change:" + model.idAttribute && (delete this._byId[model.previous(model.idAttribute)], null != model.id && (this._byId[model.id] = model)), this.trigger.apply(this, arguments));
         }
-    }), _.each(["forEach", "each", "map", "collect", "reduce", "foldl", "inject", "reduceRight", "foldr", "find", "detect", "filter", "select", "reject", "every", "all", "some", "any", "include", "contains", "invoke", "max", "min", "toArray", "size", "first", "head", "take", "initial", "rest", "tail", "drop", "last", "without", "difference", "indexOf", "shuffle", "lastIndexOf", "isEmpty", "chain"], function(method) {
+    }), _.each([
+        "forEach",
+        "each",
+        "map",
+        "collect",
+        "reduce",
+        "foldl",
+        "inject",
+        "reduceRight",
+        "foldr",
+        "find",
+        "detect",
+        "filter",
+        "select",
+        "reject",
+        "every",
+        "all",
+        "some",
+        "any",
+        "include",
+        "contains",
+        "invoke",
+        "max",
+        "min",
+        "toArray",
+        "size",
+        "first",
+        "head",
+        "take",
+        "initial",
+        "rest",
+        "tail",
+        "drop",
+        "last",
+        "without",
+        "difference",
+        "indexOf",
+        "shuffle",
+        "lastIndexOf",
+        "isEmpty",
+        "chain"
+    ], function(method) {
         Collection.prototype[method] = function() {
             var args = slice.call(arguments);
             return args.unshift(this.models), _[method].apply(_, args);
         };
-    }), _.each(["groupBy", "countBy", "sortBy"], function(method) {
+    }), _.each([
+        "groupBy",
+        "countBy",
+        "sortBy"
+    ], function(method) {
         Collection.prototype[method] = function(value, context) {
             var iterator = _.isFunction(value) ? value : function(model) {
                 return model.get(value);
@@ -420,7 +490,16 @@
     var View = Backbone.View = function(options) {
         this.cid = _.uniqueId("view"), options || (options = {
         }), _.extend(this, _.pick(options, viewOptions)), this._ensureElement(), this.initialize.apply(this, arguments), this.delegateEvents();
-    }, delegateEventSplitter = /^(\S+)\s*(.*)$/, viewOptions = ["model", "collection", "el", "id", "attributes", "className", "tagName", "events"];
+    }, delegateEventSplitter = /^(\S+)\s*(.*)$/, viewOptions = [
+        "model",
+        "collection",
+        "el",
+        "id",
+        "attributes",
+        "className",
+        "tagName",
+        "events"
+    ];
     _.extend(View.prototype, Events, {
         tagName: "div",
         $: function(selector) {
@@ -510,7 +589,9 @@
             var router = this;
             return Backbone.history.route(route, function(fragment) {
                 var args = router._extractParameters(route, fragment);
-                callback && callback.apply(router, args), router.trigger.apply(router, ["route:" + name].concat(args)), router.trigger("route", name, args), Backbone.history.trigger("route", router, name, args);
+                callback && callback.apply(router, args), router.trigger.apply(router, [
+                    "route:" + name
+                ].concat(args)), router.trigger("route", name, args), Backbone.history.trigger("route", router, name, args);
             }), this;
         },
         navigate: function(fragment, options) {
