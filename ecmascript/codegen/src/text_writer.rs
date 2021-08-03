@@ -20,9 +20,7 @@ pub trait WriteJs {
     ///
     /// Implementor **should return same value** regardless how much time it is
     /// called.
-    fn target(&self) -> JscTarget {
-        JscTarget::Es2020
-    }
+    fn target(&self) -> JscTarget;
 
     fn increase_indent(&mut self) -> Result;
     fn decrease_indent(&mut self) -> Result;
