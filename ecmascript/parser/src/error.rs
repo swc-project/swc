@@ -128,6 +128,7 @@ pub enum SyntaxError {
     AsyncGenerator,
     NonTopLevelImportExport,
     ImportExportInScript,
+    ImportMetaInScript,
     PatVarWithoutInit,
     WithInStrict,
     ReturnNotAllowed,
@@ -339,6 +340,7 @@ impl SyntaxError {
             SyntaxError::ImportExportInScript => {
                 "'import', and 'export' cannot be used outside of module code".into()
             }
+            SyntaxError::ImportMetaInScript => "'import.meta' cannot be used outside of module code.".into(),
 
             SyntaxError::PatVarWithoutInit => "Destructuring bindings require initializers".into(),
             SyntaxError::WithInStrict => "With statement are not allowed in strict mode".into(),
