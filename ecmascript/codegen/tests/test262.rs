@@ -169,7 +169,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>, minify: bool) -> Result<(), io::E
                     }
 
                     let mut emitter = Emitter {
-                        cfg: Default::default(),
+                        cfg: swc_ecma_codegen::Config { minify },
                         cm: cm.clone(),
                         wr,
                         comments: Some(&comments),
