@@ -1,5 +1,6 @@
 use crate::analyzer::analyze;
 use crate::analyzer::ProgramData;
+use crate::marks::Marks;
 use crate::option::ManglePropertiesOptions;
 use crate::util::base54::incr_base54;
 use once_cell::sync::Lazy;
@@ -105,13 +106,17 @@ impl ManglePropertiesState {
     }
 }
 
-pub fn mangle_properties<'a>(m: &mut Module, options: ManglePropertiesOptions) {
+pub(crate) fn mangle_properties<'a>(
+    m: &mut Module,
+    options: ManglePropertiesOptions,
+    marks: Marks,
+) {
     let mut state = ManglePropertiesState {
         options,
         ..Default::default()
     };
 
-    let data = analyze(&*m);
+    let data = analyze(&*m, marks);
     m.visit_mut_with(&mut PropertyCollector {
         state: &mut state,
         data,

@@ -130,7 +130,7 @@ impl VisitMut for Compressor<'_> {
 
     fn visit_mut_module(&mut self, n: &mut Module) {
         debug_assert!(self.data.is_none());
-        self.data = Some(analyze(&*n));
+        self.data = Some(analyze(&*n, self.marks));
 
         if self.options.passes != 0 && self.options.passes + 1 <= self.pass {
             let done = dump(&*n);
@@ -300,7 +300,7 @@ impl VisitMut for Compressor<'_> {
 
     fn visit_mut_script(&mut self, n: &mut Script) {
         debug_assert!(self.data.is_none());
-        self.data = Some(analyze(&*n));
+        self.data = Some(analyze(&*n, self.marks));
 
         {
             let mut v = decl_hoister(

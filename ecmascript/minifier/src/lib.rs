@@ -77,7 +77,7 @@ pub fn optimize(
 
     if let Some(options) = &options.compress {
         let start = now();
-        m.visit_mut_with(&mut precompress_optimizer(options));
+        m.visit_mut_with(&mut precompress_optimizer(options, marks));
         if let Some(start) = start {
             log::info!("precompress took {:?}", Instant::now() - start);
         }
@@ -142,11 +142,11 @@ pub fn optimize(
         // TODO: base54.reset();
 
         let char_freq_info = compute_char_freq(&m);
-        m.visit_mut_with(&mut name_mangler(mangle.clone(), char_freq_info));
+        m.visit_mut_with(&mut name_mangler(mangle.clone(), char_freq_info, marks));
     }
 
     if let Some(property_mangle_options) = options.mangle.as_ref().and_then(|o| o.props.as_ref()) {
-        mangle_properties(&mut m, property_mangle_options.clone());
+        mangle_properties(&mut m, property_mangle_options.clone(), marks);
     }
 
     if let Some(ref mut t) = timings {
@@ -154,7 +154,7 @@ pub fn optimize(
     }
 
     {
-        let data = analyze(&m);
+        let data = analyze(&m, marks);
         m.visit_mut_with(&mut hygiene_optimizer(data, extra.top_level_mark));
     }
 

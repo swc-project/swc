@@ -1,4 +1,5 @@
 use self::ctx::Ctx;
+use crate::marks::Marks;
 use crate::util::can_end_conditionally;
 use crate::util::idents_used_by;
 use crate::util::now;
@@ -22,7 +23,7 @@ mod ctx;
 
 /// TODO: Track assignments to variables via `arguments`.
 /// TODO: Scope-local. (Including block)
-pub(crate) fn analyze<N>(n: &N) -> ProgramData
+pub(crate) fn analyze<N>(n: &N, marks: Marks) -> ProgramData
 where
     N: VisitWith<UsageAnalyzer>,
 {
