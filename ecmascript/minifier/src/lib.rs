@@ -41,7 +41,7 @@ mod analyzer;
 mod compress;
 mod debug;
 mod hygiene;
-mod marks;
+pub mod marks;
 pub mod option;
 mod pass;
 pub mod timing;
@@ -157,7 +157,7 @@ pub fn optimize(
 
     {
         let data = analyze(&m, marks);
-        m.visit_mut_with(&mut hygiene_optimizer(data, extra.top_level_mark));
+        m.visit_mut_with(&mut hygiene_optimizer(data, marks, extra.top_level_mark));
     }
 
     if let Some(ref mut t) = timings {

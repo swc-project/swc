@@ -1,4 +1,7 @@
-use crate::analyzer::{ProgramData, ScopeData};
+use crate::{
+    analyzer::{ProgramData, ScopeData},
+    marks::Marks,
+};
 use fxhash::FxHashSet;
 use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
@@ -7,9 +10,12 @@ use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 
 pub(super) struct HygieneAnalyzer<'a> {
     pub data: &'a ProgramData,
+    pub marks: Marks,
     pub hygiene: HygieneData,
     pub top_level_mark: Mark,
     pub cur_scope: Option<SyntaxContext>,
+
+    pub skip_standalone: bool,
 }
 
 #[derive(Debug, Default)]
@@ -68,9 +74,20 @@ impl Visit for HygieneAnalyzer<'_> {
     noop_visit_type!();
 
     fn visit_function(&mut self, n: &Function, _: &dyn Node) {
+        let is_standalone = n.span.has_mark(self.marks.standalone);
+
+        if self.skip_standalone && is_standalone {
+            return;
+        }
+
+        let old_skip_standalone = self.skip_standalone;
+        self.skip_standalone |= is_standalone;
+
         self.with_scope(n.span.ctxt, |v| {
             n.visit_children_with(v);
         });
+
+        self.skip_standalone = old_skip_standalone;
     }
 
     fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
@@ -129,5 +146,10 @@ impl Visit for HygieneAnalyzer<'_> {
         if n.computed {
             n.prop.visit_with(n, self);
         }
+    }
+
+    fn visit_module(&mut self, n: &Module, _: &dyn Node) {
+        self.skip_standalone = true;
+        n.visit_children_with(self);
     }
 }

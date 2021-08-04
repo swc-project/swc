@@ -1,7 +1,7 @@
 use swc_common::Mark;
 
 #[derive(Debug, Clone, Copy)]
-pub(crate) struct Marks {
+pub struct Marks {
     /// [Mark] applied to non-top level varaibles which is injected while
     /// inlining.
     ///

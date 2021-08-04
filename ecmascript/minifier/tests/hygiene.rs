@@ -4,6 +4,7 @@ use swc_common::SourceMap;
 use swc_common::{input::SourceFileInput, Mark};
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_codegen::Emitter;
+use swc_ecma_minifier::marks::Marks;
 use swc_ecma_minifier::optimize_hygiene;
 use swc_ecma_parser::{lexer::Lexer, Parser};
 use swc_ecma_transforms::{fixer, hygiene, resolver_with_mark};
@@ -38,7 +39,7 @@ fn identical(input: PathBuf) {
 
         let expected = print(cm.clone(), &[drop_span(program.clone())]);
 
-        optimize_hygiene(&mut program, top_level_mark);
+        optimize_hygiene(&mut program, Marks::new(), top_level_mark);
 
         let program = program
             .fold_with(&mut hygiene())
