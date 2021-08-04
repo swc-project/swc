@@ -35,6 +35,7 @@ impl Optimizer<'_> {
             // Check for function declarations.
 
             match (a.as_module_decl(), b.as_module_decl()) {
+                (Ok(ModuleDecl::Import(..)), _) => return Some(Ordering::Less),
                 (Err(stmt), _) if is_directive(&stmt) => return Some(Ordering::Equal),
 
                 (
@@ -69,6 +70,10 @@ impl Optimizer<'_> {
             let stmt = stmt.into_module_item();
 
             match stmt {
+                ModuleItem::ModuleDecl(ModuleDecl::Import(..)) => {
+                    fns.push(T::from_module_item(stmt));
+                    continue;
+                }
                 ModuleItem::Stmt(stmt) if is_directive(&stmt) => {
                     fns.push(T::from_stmt(stmt));
                     continue;
