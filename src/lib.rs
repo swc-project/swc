@@ -622,6 +622,7 @@ impl Compiler {
                         decorators_before_export: true,
                         top_level_await: true,
                         import_assertions: true,
+                        dynamic_import: true,
 
                         ..Default::default()
                     }),
