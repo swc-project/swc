@@ -121,6 +121,7 @@
     function isFile(obj) {
         return "[object File]" === toString.call(obj);
     }
+    isNaN(msie = int((/msie (\d+)/.exec(lowercase(navigator.userAgent)) || [])[1])) && (msie = int((/trident\/.*; rv:(\d+)/.exec(lowercase(navigator.userAgent)) || [])[1])), noop.$inject = [], identity.$inject = [];
     var trim = String.prototype.trim ? function(value) {
         return isString(value) ? value.trim() : value;
     } : function(value) {
@@ -331,6 +332,11 @@
             }), doBootstrap();
         };
     }
+    nodeName_ = msie < 9 ? function(element) {
+        return (element = element.nodeName ? element : element[0]).scopeName && "HTML" != element.scopeName ? uppercase(element.scopeName + ":" + element.nodeName) : element.nodeName;
+    } : function(element) {
+        return element.nodeName ? element.nodeName : element[0].nodeName;
+    };
     var SNAKE_CASE_REGEXP = /[A-Z]/g;
     function snake_case(name, separator) {
         return separator = separator || "_", name.replace(SNAKE_CASE_REGEXP, function(letter, pos) {
@@ -377,6 +383,7 @@
                 return (function(name, context) {
                     if ("hasOwnProperty" === name) throw ngMinErr("badname", "hasOwnProperty is not a valid {0} name", "module");
                 })(name, "module"), requires && modules.hasOwnProperty(name) && (modules[name] = null), ensure(modules, name, function() {
+                    if (!requires) throw $injectorMinErr("nomod", "Module '{0}' is not available! You either misspelled the module name or forgot to load it. If registering a module ensure that you specify the dependencies as the second argument.", name);
                     var invokeQueue = [], runBlocks = [], config = invokeLater("$injector", "invoke"), moduleInstance = {
                         _invokeQueue: invokeQueue,
                         _runBlocks: runBlocks,
@@ -396,6 +403,7 @@
                             return runBlocks.push(block), this;
                         }
                     };
+                    return configFn && config(configFn), moduleInstance;
                     function invokeLater(provider, method, insertMethod) {
                         return function() {
                             return invokeQueue[insertMethod || "push"]([
@@ -405,8 +413,6 @@
                             ]), moduleInstance;
                         };
                     }
-                    if (!requires) throw $injectorMinErr("nomod", "Module '{0}' is not available! You either misspelled the module name or forgot to load it. If registering a module ensure that you specify the dependencies as the second argument.", name);
-                    return configFn && config(configFn), moduleInstance;
                 });
             };
         });
@@ -558,7 +564,11 @@
         sort: [].sort,
         splice: [].splice
     }, BOOLEAN_ATTR = {
-    }, BOOLEAN_ELEMENTS = {
+    };
+    forEach("multiple,selected,checked,disabled,readOnly,required,open".split(","), function(value) {
+        BOOLEAN_ATTR[lowercase(value)] = value;
+    });
+    var BOOLEAN_ELEMENTS = {
     };
     function getBooleanAttrName(element, name) {
         var booleanAttr = BOOLEAN_ATTR[name.toLowerCase()];
@@ -591,6 +601,222 @@
     function HashMap(array) {
         forEach(array, this.put, this);
     }
+    forEach("input,select,option,textarea,button,form,details".split(","), function(value) {
+        BOOLEAN_ELEMENTS[uppercase(value)] = !0;
+    }), forEach({
+        data: jqLiteData,
+        inheritedData: jqLiteInheritedData,
+        scope: function(element) {
+            return jqLite(element).data("$scope") || jqLiteInheritedData(element.parentNode || element, [
+                "$isolateScope",
+                "$scope"
+            ]);
+        },
+        isolateScope: function(element) {
+            return jqLite(element).data("$isolateScope") || jqLite(element).data("$isolateScopeNoTemplate");
+        },
+        controller: jqLiteController,
+        injector: function(element) {
+            return jqLiteInheritedData(element, "$injector");
+        },
+        removeAttr: function(element, name) {
+            element.removeAttribute(name);
+        },
+        hasClass: jqLiteHasClass,
+        css: function(element, name, value) {
+            if (name = camelCase(name), isDefined(value)) element.style[name] = value;
+            else {
+                var val;
+                return msie <= 8 && "" === (val = element.currentStyle && element.currentStyle[name]) && (val = "auto"), val = val || element.style[name], msie <= 8 && (val = "" === val ? undefined : val), val;
+            }
+        },
+        attr: function(element, name, value) {
+            var lowercasedName = lowercase(name);
+            if (BOOLEAN_ATTR[lowercasedName]) {
+                if (!isDefined(value)) return element[name] || (element.attributes.getNamedItem(name) || noop).specified ? lowercasedName : undefined;
+                value ? (element[name] = !0, element.setAttribute(name, lowercasedName)) : (element[name] = !1, element.removeAttribute(lowercasedName));
+            } else if (isDefined(value)) element.setAttribute(name, value);
+            else if (element.getAttribute) {
+                var ret = element.getAttribute(name, 2);
+                return null === ret ? undefined : ret;
+            }
+        },
+        prop: function(element, name, value) {
+            if (!isDefined(value)) return element[name];
+            element[name] = value;
+        },
+        text: function() {
+            var NODE_TYPE_TEXT_PROPERTY = [];
+            return msie < 9 ? (NODE_TYPE_TEXT_PROPERTY[1] = "innerText", NODE_TYPE_TEXT_PROPERTY[3] = "nodeValue") : NODE_TYPE_TEXT_PROPERTY[1] = NODE_TYPE_TEXT_PROPERTY[3] = "textContent", getText.$dv = "", getText;
+            function getText(element, value) {
+                var textProp = NODE_TYPE_TEXT_PROPERTY[element.nodeType];
+                if (isUndefined(value)) return textProp ? element[textProp] : "";
+                element[textProp] = value;
+            }
+        }(),
+        val: function(element, value) {
+            if (isUndefined(value)) {
+                if ("SELECT" === nodeName_(element) && element.multiple) {
+                    var result = [];
+                    return forEach(element.options, function(option) {
+                        option.selected && result.push(option.value || option.text);
+                    }), 0 === result.length ? null : result;
+                }
+                return element.value;
+            }
+            element.value = value;
+        },
+        html: function(element, value) {
+            if (isUndefined(value)) return element.innerHTML;
+            for(var i = 0, childNodes = element.childNodes; i < childNodes.length; i++)jqLiteDealoc(childNodes[i]);
+            element.innerHTML = value;
+        },
+        empty: jqLiteEmpty
+    }, function(fn, name) {
+        JQLite.prototype[name] = function(arg1, arg2) {
+            var i, key;
+            if (fn !== jqLiteEmpty && (2 == fn.length && fn !== jqLiteHasClass && fn !== jqLiteController ? arg1 : arg2) === undefined) {
+                if (isObject(arg1)) {
+                    for(i = 0; i < this.length; i++)if (fn === jqLiteData) fn(this[i], arg1);
+                    else for(key in arg1)fn(this[i], key, arg1[key]);
+                    return this;
+                }
+                for(var value = fn.$dv, jj = value === undefined ? Math.min(this.length, 1) : this.length, j = 0; j < jj; j++){
+                    var nodeValue = fn(this[j], arg1, arg2);
+                    value = value ? value + nodeValue : nodeValue;
+                }
+                return value;
+            }
+            for(i = 0; i < this.length; i++)fn(this[i], arg1, arg2);
+            return this;
+        };
+    }), forEach({
+        removeData: jqLiteRemoveData,
+        dealoc: jqLiteDealoc,
+        on: function onFn(element, type, fn, unsupported) {
+            if (isDefined(unsupported)) throw jqLiteMinErr("onargs", "jqLite#on() does not support the `selector` or `eventData` parameters");
+            var events = jqLiteExpandoStore(element, "events"), handle = jqLiteExpandoStore(element, "handle");
+            events || jqLiteExpandoStore(element, "events", events = {
+            }), handle || jqLiteExpandoStore(element, "handle", handle = createEventHandler(element, events)), forEach(type.split(" "), function(type) {
+                var eventFns = events[type];
+                if (!eventFns) {
+                    if ("mouseenter" == type || "mouseleave" == type) {
+                        var contains = document.body.contains || document.body.compareDocumentPosition ? function(a, b) {
+                            var adown = 9 === a.nodeType ? a.documentElement : a, bup = b && b.parentNode;
+                            return a === bup || !!(bup && 1 === bup.nodeType && (adown.contains ? adown.contains(bup) : a.compareDocumentPosition && 16 & a.compareDocumentPosition(bup)));
+                        } : function(a, b) {
+                            if (b) {
+                                for(; b = b.parentNode;)if (b === a) return !0;
+                            }
+                            return !1;
+                        };
+                        events[type] = [], onFn(element, {
+                            mouseleave: "mouseout",
+                            mouseenter: "mouseover"
+                        }[type], function(event) {
+                            var target = this, related = event.relatedTarget;
+                            related && (related === target || contains(target, related)) || handle(event, type);
+                        });
+                    } else addEventListenerFn(element, type, handle), events[type] = [];
+                    eventFns = events[type];
+                }
+                eventFns.push(fn);
+            });
+        },
+        off: jqLiteOff,
+        replaceWith: function(element, replaceNode) {
+            var index, parent = element.parentNode;
+            jqLiteDealoc(element), forEach(new JQLite(replaceNode), function(node) {
+                index ? parent.insertBefore(node, index.nextSibling) : parent.replaceChild(node, element), index = node;
+            });
+        },
+        children: function(element) {
+            var children = [];
+            return forEach(element.childNodes, function(element) {
+                1 === element.nodeType && children.push(element);
+            }), children;
+        },
+        contents: function(element) {
+            return element.childNodes || [];
+        },
+        append: function(element, node) {
+            forEach(new JQLite(node), function(child) {
+                (1 === element.nodeType || 11 === element.nodeType) && element.appendChild(child);
+            });
+        },
+        prepend: function(element, node) {
+            if (1 === element.nodeType) {
+                var index = element.firstChild;
+                forEach(new JQLite(node), function(child) {
+                    element.insertBefore(child, index);
+                });
+            }
+        },
+        wrap: function(element, wrapNode) {
+            wrapNode = jqLite(wrapNode)[0];
+            var parent = element.parentNode;
+            parent && parent.replaceChild(wrapNode, element), wrapNode.appendChild(element);
+        },
+        remove: function(element) {
+            jqLiteDealoc(element);
+            var parent = element.parentNode;
+            parent && parent.removeChild(element);
+        },
+        after: function(element, newElement) {
+            var index = element, parent = element.parentNode;
+            forEach(new JQLite(newElement), function(node) {
+                parent.insertBefore(node, index.nextSibling), index = node;
+            });
+        },
+        addClass: jqLiteAddClass,
+        removeClass: jqLiteRemoveClass,
+        toggleClass: function(element, selector, condition) {
+            isUndefined(condition) && (condition = !jqLiteHasClass(element, selector)), (condition ? jqLiteAddClass : jqLiteRemoveClass)(element, selector);
+        },
+        parent: function(element) {
+            var parent = element.parentNode;
+            return parent && 11 !== parent.nodeType ? parent : null;
+        },
+        next: function(element) {
+            if (element.nextElementSibling) return element.nextElementSibling;
+            for(var elm = element.nextSibling; null != elm && 1 !== elm.nodeType;)elm = elm.nextSibling;
+            return elm;
+        },
+        find: function(element, selector) {
+            return element.getElementsByTagName ? element.getElementsByTagName(selector) : [];
+        },
+        clone: jqLiteClone,
+        triggerHandler: function(element, eventName, eventData) {
+            var eventFns = (jqLiteExpandoStore(element, "events") || {
+            })[eventName];
+            eventData = eventData || [];
+            var event = [
+                {
+                    preventDefault: noop,
+                    stopPropagation: noop
+                }
+            ];
+            forEach(eventFns, function(fn) {
+                fn.apply(element, event.concat(eventData));
+            });
+        }
+    }, function(fn, name) {
+        JQLite.prototype[name] = function(arg1, arg2, arg3) {
+            for(var value, i = 0; i < this.length; i++)isUndefined(value) ? isDefined(value = fn(this[i], arg1, arg2, arg3)) && (value = jqLite(value)) : jqLiteAddNodes(value, fn(this[i], arg1, arg2, arg3));
+            return isDefined(value) ? value : this;
+        }, JQLite.prototype.bind = JQLite.prototype.on, JQLite.prototype.unbind = JQLite.prototype.off;
+    }), HashMap.prototype = {
+        put: function(key, value) {
+            this[hashKey(key)] = value;
+        },
+        get: function(key) {
+            return this[hashKey(key)];
+        },
+        remove: function(key) {
+            var value = this[key = hashKey(key)];
+            return delete this[key], value;
+        }
+    };
     var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m, FN_ARG_SPLIT = /,/, FN_ARG = /^\s*(_?)(\S+?)\1\s*$/, STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg, $injectorMinErr = minErr("$injector");
     function annotate(fn) {
         var $inject, last;
@@ -635,6 +861,9 @@
             var provider = providerInjector.get(servicename + "Provider");
             return instanceInjector.invoke(provider.$get, provider);
         });
+        return forEach(loadModules(modulesToLoad), function(fn) {
+            instanceInjector.invoke(fn || noop);
+        }), instanceInjector;
         function supportObject(delegate) {
             return function(key, value) {
                 if (!isObject(key)) return delegate(key, value);
@@ -701,9 +930,6 @@
                 }
             };
         }
-        return forEach(loadModules(modulesToLoad), function(fn) {
-            instanceInjector.invoke(fn || noop);
-        }), instanceInjector;
     }
     function $AnchorScrollProvider() {
         var autoScrollingEnabled = !0;
@@ -766,7 +992,9 @@
         }];
     function Browser(window, document, $log, $sniffer) {
         var self = this, rawDocument = document[0], location = window.location, history = window.history, setTimeout = window.setTimeout, clearTimeout = window.clearTimeout, pendingDeferIds = {
-        }, outstandingRequestCount = 0, outstandingRequestCallbacks = [];
+        };
+        self.isMock = !1;
+        var outstandingRequestCount = 0, outstandingRequestCallbacks = [];
         function completeOutstandingRequest(fn) {
             try {
                 fn.apply(null, sliceArgs(arguments, 1));
@@ -778,6 +1006,13 @@
                 }
             }
         }
+        self.$$completeOutstandingRequest = completeOutstandingRequest, self.$$incOutstandingRequestCount = function() {
+            outstandingRequestCount++;
+        }, self.notifyWhenNoOutstandingRequests = function(callback) {
+            forEach(pollFns, function(pollFn) {
+                pollFn();
+            }), 0 === outstandingRequestCount ? callback() : outstandingRequestCallbacks.push(callback);
+        };
         var pollTimeout, pollFns = [];
         function startPoller(interval, setTimeout) {
             !function check() {
@@ -786,30 +1021,28 @@
                 }), pollTimeout = setTimeout(check, interval);
             }();
         }
-        var lastBrowserUrl = location.href, baseElement = document.find("base"), newLocation = null, urlChangeListeners = [], urlChangeInit = !1;
+        self.addPollFn = function(fn) {
+            return isUndefined(pollTimeout) && startPoller(100, setTimeout), pollFns.push(fn), fn;
+        };
+        var lastBrowserUrl = location.href, baseElement = document.find("base"), newLocation = null;
+        self.url = function(url, replace) {
+            return (location !== window.location && (location = window.location), url) ? lastBrowserUrl != url ? (lastBrowserUrl = url, $sniffer.history ? replace ? history.replaceState(null, "", url) : (history.pushState(null, "", url), baseElement.attr("href", baseElement.attr("href"))) : (newLocation = url, replace ? location.replace(url) : location.href = url), self) : void 0 : newLocation || location.href.replace(/%27/g, "'");
+        };
+        var urlChangeListeners = [], urlChangeInit = !1;
         function fireUrlChange() {
             newLocation = null, lastBrowserUrl != self.url() && (lastBrowserUrl = self.url(), forEach(urlChangeListeners, function(listener) {
                 listener(self.url());
             }));
         }
-        var lastCookies = {
-        }, lastCookieString = "", cookiePath = self.baseHref();
-        self.isMock = !1, self.$$completeOutstandingRequest = completeOutstandingRequest, self.$$incOutstandingRequestCount = function() {
-            outstandingRequestCount++;
-        }, self.notifyWhenNoOutstandingRequests = function(callback) {
-            forEach(pollFns, function(pollFn) {
-                pollFn();
-            }), 0 === outstandingRequestCount ? callback() : outstandingRequestCallbacks.push(callback);
-        }, self.addPollFn = function(fn) {
-            return isUndefined(pollTimeout) && startPoller(100, setTimeout), pollFns.push(fn), fn;
-        }, self.url = function(url, replace) {
-            return (location !== window.location && (location = window.location), url) ? lastBrowserUrl != url ? (lastBrowserUrl = url, $sniffer.history ? replace ? history.replaceState(null, "", url) : (history.pushState(null, "", url), baseElement.attr("href", baseElement.attr("href"))) : (newLocation = url, replace ? location.replace(url) : location.href = url), self) : void 0 : newLocation || location.href.replace(/%27/g, "'");
-        }, self.onUrlChange = function(callback) {
+        self.onUrlChange = function(callback) {
             return urlChangeInit || ($sniffer.history && jqLite(window).on("popstate", fireUrlChange), $sniffer.hashchange ? jqLite(window).on("hashchange", fireUrlChange) : self.addPollFn(fireUrlChange), urlChangeInit = !0), urlChangeListeners.push(callback), callback;
         }, self.baseHref = function() {
             var href = baseElement.attr("href");
             return href ? href.replace(/^https?\:\/\/[^\/]*/, "") : "";
-        }, self.cookies = function(name, value) {
+        };
+        var lastCookies = {
+        }, lastCookieString = "", cookiePath = self.baseHref();
+        self.cookies = function(name, value) {
             var cookieLength, cookieArray, cookie, i, index;
             if (name) value === undefined ? rawDocument.cookie = escape(name) + "=;path=" + cookiePath + ";expires=Thu, 01 Jan 1970 00:00:00 GMT" : isString(value) && (cookieLength = (rawDocument.cookie = escape(name) + "=" + escape(value) + ";path=" + cookiePath).length + 1) > 4096 && $log.warn("Cookie '" + name + "' possibly not set or overflowed because it was too large (" + cookieLength + " > 4096 bytes)!");
             else {
@@ -840,19 +1073,13 @@
             var caches = {
             };
             function cacheFactory(cacheId, options) {
+                if (cacheId in caches) throw minErr("$cacheFactory")("iid", "CacheId '{0}' is already taken!", cacheId);
                 var size = 0, stats = extend({
                 }, options, {
                     id: cacheId
                 }), data = {
                 }, capacity = options && options.capacity || Number.MAX_VALUE, lruHash = {
                 }, freshEnd = null, staleEnd = null;
-                function refresh(entry) {
-                    entry != freshEnd && (staleEnd ? staleEnd == entry && (staleEnd = entry.n) : staleEnd = entry, link(entry.n, entry.p), link(entry, freshEnd), (freshEnd = entry).n = null);
-                }
-                function link(nextEntry, prevEntry) {
-                    nextEntry != prevEntry && (nextEntry && (nextEntry.p = prevEntry), prevEntry && (prevEntry.n = nextEntry));
-                }
-                if (cacheId in caches) throw minErr("$cacheFactory")("iid", "CacheId '{0}' is already taken!", cacheId);
                 return caches[cacheId] = {
                     put: function(key, value) {
                         if (refresh(lruHash[key] || (lruHash[key] = {
@@ -882,6 +1109,12 @@
                         });
                     }
                 };
+                function refresh(entry) {
+                    entry != freshEnd && (staleEnd ? staleEnd == entry && (staleEnd = entry.n) : staleEnd = entry, link(entry.n, entry.p), link(entry, freshEnd), (freshEnd = entry).n = null);
+                }
+                function link(nextEntry, prevEntry) {
+                    nextEntry != prevEntry && (nextEntry && (nextEntry.p = prevEntry), prevEntry && (prevEntry.n = nextEntry));
+                }
             }
             return cacheFactory.info = function() {
                 var info = {
@@ -940,9 +1173,42 @@
                 var Attributes = function(element, attr) {
                     this.$$element = element, this.$attr = attr || {
                     };
-                }, startSymbol = $interpolate.startSymbol(), endSymbol = $interpolate.endSymbol(), denormalizeTemplate = "{{" == startSymbol || "}}" == endSymbol ? identity : function(template) {
+                };
+                Attributes.prototype = {
+                    $normalize: directiveNormalize,
+                    $addClass: function(classVal) {
+                        classVal && classVal.length > 0 && $animate.addClass(this.$$element, classVal);
+                    },
+                    $removeClass: function(classVal) {
+                        classVal && classVal.length > 0 && $animate.removeClass(this.$$element, classVal);
+                    },
+                    $updateClass: function(newClasses, oldClasses) {
+                        this.$removeClass(tokenDifference(oldClasses, newClasses)), this.$addClass(tokenDifference(newClasses, oldClasses));
+                    },
+                    $set: function(key, value, writeAttr, attrName) {
+                        var nodeName, booleanKey = getBooleanAttrName(this.$$element[0], key);
+                        booleanKey && (this.$$element.prop(key, value), attrName = booleanKey), this[key] = value, attrName ? this.$attr[key] = attrName : (attrName = this.$attr[key]) || (this.$attr[key] = attrName = snake_case(key, "-")), ("A" === (nodeName = nodeName_(this.$$element)) && "href" === key || "IMG" === nodeName && "src" === key) && (this[key] = value = $$sanitizeUri(value, "src" === key)), !1 !== writeAttr && (null === value || value === undefined ? this.$$element.removeAttr(attrName) : this.$$element.attr(attrName, value));
+                        var $$observers = this.$$observers;
+                        $$observers && forEach($$observers[key], function(fn) {
+                            try {
+                                fn(value);
+                            } catch (e) {
+                                $exceptionHandler(e);
+                            }
+                        });
+                    },
+                    $observe: function(key, fn) {
+                        var attrs = this, $$observers = attrs.$$observers || (attrs.$$observers = {
+                        }), listeners = $$observers[key] || ($$observers[key] = []);
+                        return listeners.push(fn), $rootScope.$evalAsync(function() {
+                            listeners.$$inter || fn(attrs[key]);
+                        }), fn;
+                    }
+                };
+                var startSymbol = $interpolate.startSymbol(), endSymbol = $interpolate.endSymbol(), denormalizeTemplate = "{{" == startSymbol || "}}" == endSymbol ? identity : function(template) {
                     return template.replace(/\{\{/g, startSymbol).replace(/}}/g, endSymbol);
                 }, NG_ATTR_BINDING = /^ngAttr[A-Z]/;
+                return compile;
                 function compile($compileNodes, transcludeFn, maxPriority, ignoreDirective, previousCompileContext) {
                     $compileNodes instanceof jqLite || ($compileNodes = jqLite($compileNodes)), forEach($compileNodes, function(node, index) {
                         3 == node.nodeType && node.nodeValue.match(/\S+/) && ($compileNodes[index] = node = jqLite(node).wrap("<span></span>").parent()[0]);
@@ -1021,7 +1287,37 @@
                     };
                 }
                 function applyDirectivesToNode(directives, compileNode, templateAttrs, transcludeFn, jqCollection, originalReplaceDirective, preLinkFns, postLinkFns, previousCompileContext) {
-                    var newScopeDirective, directive, directiveName, $template, linkFn, directiveValue, terminalPriority = -Number.MAX_VALUE, controllerDirectives = previousCompileContext.controllerDirectives, newIsolateScopeDirective = previousCompileContext.newIsolateScopeDirective, templateDirective = previousCompileContext.templateDirective, nonTlbTranscludeDirective = previousCompileContext.nonTlbTranscludeDirective, hasTranscludeDirective = !1, hasElementTranscludeDirective = !1, $compileNode = templateAttrs.$$element = jqLite(compileNode), replaceDirective = originalReplaceDirective, childTranscludeFn = transcludeFn;
+                    previousCompileContext = previousCompileContext || {
+                    };
+                    for(var newScopeDirective, directive, directiveName, $template, linkFn, directiveValue, terminalPriority = -Number.MAX_VALUE, controllerDirectives = previousCompileContext.controllerDirectives, newIsolateScopeDirective = previousCompileContext.newIsolateScopeDirective, templateDirective = previousCompileContext.templateDirective, nonTlbTranscludeDirective = previousCompileContext.nonTlbTranscludeDirective, hasTranscludeDirective = !1, hasElementTranscludeDirective = !1, $compileNode = templateAttrs.$$element = jqLite(compileNode), replaceDirective = originalReplaceDirective, childTranscludeFn = transcludeFn, i = 0, ii = directives.length; i < ii; i++){
+                        var attrStart = (directive = directives[i]).$$start, attrEnd = directive.$$end;
+                        if (attrStart && ($compileNode = groupScan(compileNode, attrStart, attrEnd)), $template = undefined, terminalPriority > directive.priority) break;
+                        if ((directiveValue = directive.scope) && (newScopeDirective = newScopeDirective || directive, !directive.templateUrl && (assertNoDuplicate("new/isolated scope", newIsolateScopeDirective, directive, $compileNode), isObject(directiveValue) && (newIsolateScopeDirective = directive))), directiveName = directive.name, !directive.templateUrl && directive.controller && (directiveValue = directive.controller, assertNoDuplicate("'" + directiveName + "' controller", (controllerDirectives = controllerDirectives || {
+                        })[directiveName], directive, $compileNode), controllerDirectives[directiveName] = directive), (directiveValue = directive.transclude) && (hasTranscludeDirective = !0, directive.$$tlb || (assertNoDuplicate("transclusion", nonTlbTranscludeDirective, directive, $compileNode), nonTlbTranscludeDirective = directive), "element" == directiveValue ? (hasElementTranscludeDirective = !0, terminalPriority = directive.priority, $template = groupScan(compileNode, attrStart, attrEnd), compileNode = ($compileNode = templateAttrs.$$element = jqLite(document.createComment(" " + directiveName + ": " + templateAttrs[directiveName] + " ")))[0], replaceWith(jqCollection, jqLite(sliceArgs($template)), compileNode), childTranscludeFn = compile($template, transcludeFn, terminalPriority, replaceDirective && replaceDirective.name, {
+                            nonTlbTranscludeDirective: nonTlbTranscludeDirective
+                        })) : ($template = jqLite(jqLiteClone(compileNode)).contents(), $compileNode.empty(), childTranscludeFn = compile($template, transcludeFn))), directive.template) if (assertNoDuplicate("template", templateDirective, directive, $compileNode), templateDirective = directive, directiveValue = denormalizeTemplate(directiveValue = isFunction(directive.template) ? directive.template($compileNode, templateAttrs) : directive.template), directive.replace) {
+                            if (replaceDirective = directive, compileNode = ($template = jqLite("<div>" + trim(directiveValue) + "</div>").contents())[0], 1 != $template.length || 1 !== compileNode.nodeType) throw $compileMinErr("tplrt", "Template for directive '{0}' must have exactly one root element. {1}", directiveName, "");
+                            replaceWith(jqCollection, $compileNode, compileNode);
+                            var newTemplateAttrs = {
+                                $attr: {
+                                }
+                            }, templateDirectives = collectDirectives(compileNode, [], newTemplateAttrs), unprocessedDirectives = directives.splice(i + 1, directives.length - (i + 1));
+                            newIsolateScopeDirective && markDirectivesAsIsolate(templateDirectives), directives = directives.concat(templateDirectives).concat(unprocessedDirectives), mergeTemplateAttributes(templateAttrs, newTemplateAttrs), ii = directives.length;
+                        } else $compileNode.html(directiveValue);
+                        if (directive.templateUrl) assertNoDuplicate("template", templateDirective, directive, $compileNode), templateDirective = directive, directive.replace && (replaceDirective = directive), nodeLinkFn = compileTemplateUrl(directives.splice(i, directives.length - i), $compileNode, templateAttrs, jqCollection, childTranscludeFn, preLinkFns, postLinkFns, {
+                            controllerDirectives: controllerDirectives,
+                            newIsolateScopeDirective: newIsolateScopeDirective,
+                            templateDirective: templateDirective,
+                            nonTlbTranscludeDirective: nonTlbTranscludeDirective
+                        }), ii = directives.length;
+                        else if (directive.compile) try {
+                            linkFn = directive.compile($compileNode, templateAttrs, childTranscludeFn), isFunction(linkFn) ? addLinkFns(null, linkFn, attrStart, attrEnd) : linkFn && addLinkFns(linkFn.pre, linkFn.post, attrStart, attrEnd);
+                        } catch (e) {
+                            $exceptionHandler(e, startingTag($compileNode));
+                        }
+                        directive.terminal && (nodeLinkFn.terminal = !0, terminalPriority = Math.max(terminalPriority, directive.priority));
+                    }
+                    return nodeLinkFn.scope = newScopeDirective && !0 === newScopeDirective.scope, nodeLinkFn.transclude = hasTranscludeDirective && childTranscludeFn, nodeLinkFn;
                     function addLinkFns(pre, post, attrStart, attrEnd) {
                         pre && (attrStart && (pre = groupElementsLinkFnWrapper(pre, attrStart, attrEnd)), pre.require = directive.require, (newIsolateScopeDirective === directive || directive.$$isolateScope) && (pre = cloneAndAnnotateFn(pre, {
                             isolateScope: !0
@@ -1097,37 +1393,6 @@
                             $exceptionHandler(e, startingTag($element));
                         }
                     }
-                    previousCompileContext = previousCompileContext || {
-                    };
-                    for(var i = 0, ii = directives.length; i < ii; i++){
-                        var attrStart = (directive = directives[i]).$$start, attrEnd = directive.$$end;
-                        if (attrStart && ($compileNode = groupScan(compileNode, attrStart, attrEnd)), $template = undefined, terminalPriority > directive.priority) break;
-                        if ((directiveValue = directive.scope) && (newScopeDirective = newScopeDirective || directive, !directive.templateUrl && (assertNoDuplicate("new/isolated scope", newIsolateScopeDirective, directive, $compileNode), isObject(directiveValue) && (newIsolateScopeDirective = directive))), directiveName = directive.name, !directive.templateUrl && directive.controller && (directiveValue = directive.controller, assertNoDuplicate("'" + directiveName + "' controller", (controllerDirectives = controllerDirectives || {
-                        })[directiveName], directive, $compileNode), controllerDirectives[directiveName] = directive), (directiveValue = directive.transclude) && (hasTranscludeDirective = !0, directive.$$tlb || (assertNoDuplicate("transclusion", nonTlbTranscludeDirective, directive, $compileNode), nonTlbTranscludeDirective = directive), "element" == directiveValue ? (hasElementTranscludeDirective = !0, terminalPriority = directive.priority, $template = groupScan(compileNode, attrStart, attrEnd), compileNode = ($compileNode = templateAttrs.$$element = jqLite(document.createComment(" " + directiveName + ": " + templateAttrs[directiveName] + " ")))[0], replaceWith(jqCollection, jqLite(sliceArgs($template)), compileNode), childTranscludeFn = compile($template, transcludeFn, terminalPriority, replaceDirective && replaceDirective.name, {
-                            nonTlbTranscludeDirective: nonTlbTranscludeDirective
-                        })) : ($template = jqLite(jqLiteClone(compileNode)).contents(), $compileNode.empty(), childTranscludeFn = compile($template, transcludeFn))), directive.template) if (assertNoDuplicate("template", templateDirective, directive, $compileNode), templateDirective = directive, directiveValue = denormalizeTemplate(directiveValue = isFunction(directive.template) ? directive.template($compileNode, templateAttrs) : directive.template), directive.replace) {
-                            if (replaceDirective = directive, compileNode = ($template = jqLite("<div>" + trim(directiveValue) + "</div>").contents())[0], 1 != $template.length || 1 !== compileNode.nodeType) throw $compileMinErr("tplrt", "Template for directive '{0}' must have exactly one root element. {1}", directiveName, "");
-                            replaceWith(jqCollection, $compileNode, compileNode);
-                            var newTemplateAttrs = {
-                                $attr: {
-                                }
-                            }, templateDirectives = collectDirectives(compileNode, [], newTemplateAttrs), unprocessedDirectives = directives.splice(i + 1, directives.length - (i + 1));
-                            newIsolateScopeDirective && markDirectivesAsIsolate(templateDirectives), directives = directives.concat(templateDirectives).concat(unprocessedDirectives), mergeTemplateAttributes(templateAttrs, newTemplateAttrs), ii = directives.length;
-                        } else $compileNode.html(directiveValue);
-                        if (directive.templateUrl) assertNoDuplicate("template", templateDirective, directive, $compileNode), templateDirective = directive, directive.replace && (replaceDirective = directive), nodeLinkFn = compileTemplateUrl(directives.splice(i, directives.length - i), $compileNode, templateAttrs, jqCollection, childTranscludeFn, preLinkFns, postLinkFns, {
-                            controllerDirectives: controllerDirectives,
-                            newIsolateScopeDirective: newIsolateScopeDirective,
-                            templateDirective: templateDirective,
-                            nonTlbTranscludeDirective: nonTlbTranscludeDirective
-                        }), ii = directives.length;
-                        else if (directive.compile) try {
-                            linkFn = directive.compile($compileNode, templateAttrs, childTranscludeFn), isFunction(linkFn) ? addLinkFns(null, linkFn, attrStart, attrEnd) : linkFn && addLinkFns(linkFn.pre, linkFn.post, attrStart, attrEnd);
-                        } catch (e) {
-                            $exceptionHandler(e, startingTag($compileNode));
-                        }
-                        directive.terminal && (nodeLinkFn.terminal = !0, terminalPriority = Math.max(terminalPriority, directive.priority));
-                    }
-                    return nodeLinkFn.scope = newScopeDirective && !0 === newScopeDirective.scope, nodeLinkFn.transclude = hasTranscludeDirective && childTranscludeFn, nodeLinkFn;
                 }
                 function markDirectivesAsIsolate(directives) {
                     for(var j = 0, jj = directives.length; j < jj; j++)directives[j] = inherit(directives[j], {
@@ -1258,39 +1523,12 @@
                         return fn.apply(null, arguments);
                     }, fn, annotation);
                 }
-                return Attributes.prototype = {
-                    $normalize: directiveNormalize,
-                    $addClass: function(classVal) {
-                        classVal && classVal.length > 0 && $animate.addClass(this.$$element, classVal);
-                    },
-                    $removeClass: function(classVal) {
-                        classVal && classVal.length > 0 && $animate.removeClass(this.$$element, classVal);
-                    },
-                    $updateClass: function(newClasses, oldClasses) {
-                        this.$removeClass(tokenDifference(oldClasses, newClasses)), this.$addClass(tokenDifference(newClasses, oldClasses));
-                    },
-                    $set: function(key, value, writeAttr, attrName) {
-                        var nodeName, booleanKey = getBooleanAttrName(this.$$element[0], key);
-                        booleanKey && (this.$$element.prop(key, value), attrName = booleanKey), this[key] = value, attrName ? this.$attr[key] = attrName : (attrName = this.$attr[key]) || (this.$attr[key] = attrName = snake_case(key, "-")), ("A" === (nodeName = nodeName_(this.$$element)) && "href" === key || "IMG" === nodeName && "src" === key) && (this[key] = value = $$sanitizeUri(value, "src" === key)), !1 !== writeAttr && (null === value || value === undefined ? this.$$element.removeAttr(attrName) : this.$$element.attr(attrName, value));
-                        var $$observers = this.$$observers;
-                        $$observers && forEach($$observers[key], function(fn) {
-                            try {
-                                fn(value);
-                            } catch (e) {
-                                $exceptionHandler(e);
-                            }
-                        });
-                    },
-                    $observe: function(key, fn) {
-                        var attrs = this, $$observers = attrs.$$observers || (attrs.$$observers = {
-                        }), listeners = $$observers[key] || ($$observers[key] = []);
-                        return listeners.push(fn), $rootScope.$evalAsync(function() {
-                            listeners.$$inter || fn(attrs[key]);
-                        }), fn;
-                    }
-                }, compile;
             }];
     }
+    $CompileProvider.$inject = [
+        "$provide",
+        "$$sanitizeUriProvider"
+    ];
     var PREFIX_REGEXP = /^(x[\:\-_]|data[\:\-_])/i;
     function directiveNormalize(name) {
         return camelCase(name.replace(PREFIX_REGEXP, ""));
@@ -1392,12 +1630,6 @@
                     }, headers = function mergeHeaders(config) {
                         var defHeaderName, lowercaseDefHeaderName, reqHeaderName, defHeaders = defaults.headers, reqHeaders = extend({
                         }, config.headers);
-                        function execHeaders(headers) {
-                            var headerContent;
-                            forEach(headers, function(headerFn, header) {
-                                isFunction(headerFn) && (null != (headerContent = headerFn()) ? headers[header] = headerContent : delete headers[header]);
-                            });
-                        }
                         execHeaders(defHeaders = extend({
                         }, defHeaders.common, defHeaders[lowercase(config.method)])), execHeaders(reqHeaders);
                         defaultHeadersIteration: for(defHeaderName in defHeaders){
@@ -1405,7 +1637,17 @@
                             reqHeaders[defHeaderName] = defHeaders[defHeaderName];
                         }
                         return reqHeaders;
-                    }(requestConfig), xsrfValue = urlIsSameOrigin(config.url) ? $browser.cookies()[config.xsrfCookieName || defaults.xsrfCookieName] : undefined, chain = [function(config) {
+                        function execHeaders(headers) {
+                            var headerContent;
+                            forEach(headers, function(headerFn, header) {
+                                isFunction(headerFn) && (null != (headerContent = headerFn()) ? headers[header] = headerContent : delete headers[header]);
+                            });
+                        }
+                    }(requestConfig);
+                    extend(config, requestConfig), config.headers = headers, config.method = uppercase(config.method);
+                    var xsrfValue = urlIsSameOrigin(config.url) ? $browser.cookies()[config.xsrfCookieName || defaults.xsrfCookieName] : undefined;
+                    xsrfValue && (headers[config.xsrfHeaderName || defaults.xsrfHeaderName] = xsrfValue);
+                    var chain = [function(config) {
                             headers = config.headers;
                             var reqData = transformData(config.data, headersGetter(headers), config.transformRequest);
                             return isUndefined(config.data) && forEach(headers, function(value, header) {
@@ -1413,14 +1655,7 @@
                             }), isUndefined(config.withCredentials) && !isUndefined(defaults.withCredentials) && (config.withCredentials = defaults.withCredentials), sendReq(config, reqData, headers).then(transformResponse, transformResponse);
                         }, undefined
                     ], promise = $q.when(config);
-                    function transformResponse(response) {
-                        var resp = extend({
-                        }, response, {
-                            data: transformData(response.data, response.headers, config.transformResponse)
-                        });
-                        return isSuccess(response.status) ? resp : $q.reject(resp);
-                    }
-                    for(extend(config, requestConfig), config.headers = headers, config.method = uppercase(config.method), xsrfValue && (headers[config.xsrfHeaderName || defaults.xsrfHeaderName] = xsrfValue), forEach(reversedInterceptors, function(interceptor) {
+                    for(forEach(reversedInterceptors, function(interceptor) {
                         (interceptor.request || interceptor.requestError) && chain.unshift(interceptor.request, interceptor.requestError), (interceptor.response || interceptor.responseError) && chain.push(interceptor.response, interceptor.responseError);
                     }); chain.length;){
                         var thenFn = chain.shift(), rejectFn = chain.shift();
@@ -1435,44 +1670,13 @@
                             fn(response.data, response.status, response.headers, config);
                         }), promise;
                     }, promise;
-                }
-                function sendReq(config, reqData, reqHeaders) {
-                    var cache, cachedResp, deferred = $q.defer(), promise = deferred.promise, url = buildUrl(config.url, config.params);
-                    function resolvePromise(response, status, headers) {
-                        (isSuccess(status = Math.max(status, 0)) ? deferred.resolve : deferred.reject)({
-                            data: response,
-                            status: status,
-                            headers: headersGetter(headers),
-                            config: config
+                    function transformResponse(response) {
+                        var resp = extend({
+                        }, response, {
+                            data: transformData(response.data, response.headers, config.transformResponse)
                         });
+                        return isSuccess(response.status) ? resp : $q.reject(resp);
                     }
-                    function removePendingReq() {
-                        var idx = indexOf($http.pendingRequests, config);
-                        -1 !== idx && $http.pendingRequests.splice(idx, 1);
-                    }
-                    if ($http.pendingRequests.push(config), promise.then(removePendingReq, removePendingReq), (config.cache || defaults.cache) && !1 !== config.cache && "GET" == config.method && (cache = isObject(config.cache) ? config.cache : isObject(defaults.cache) ? defaults.cache : defaultCache), cache) if (isDefined(cachedResp = cache.get(url))) {
-                        if (cachedResp.then) return cachedResp.then(removePendingReq, removePendingReq), cachedResp;
-                        isArray(cachedResp) ? resolvePromise(cachedResp[1], cachedResp[0], copy(cachedResp[2])) : resolvePromise(cachedResp, 200, {
-                        });
-                    } else cache.put(url, promise);
-                    return isUndefined(cachedResp) && $httpBackend(config.method, url, reqData, function(status, response, headersString) {
-                        cache && (isSuccess(status) ? cache.put(url, [
-                            status,
-                            response,
-                            parseHeaders(headersString)
-                        ]) : cache.remove(url)), resolvePromise(response, status, headersString), $rootScope.$$phase || $rootScope.$apply();
-                    }, reqHeaders, config.timeout, config.withCredentials, config.responseType), promise;
-                }
-                function buildUrl(url, params) {
-                    if (!params) return url;
-                    var parts = [];
-                    return forEachSorted(params, function(value, key) {
-                        null === value || isUndefined(value) || (isArray(value) || (value = [
-                            value
-                        ]), forEach(value, function(v) {
-                            isObject(v) && (v = toJson(v)), parts.push(encodeUriQuery(key) + "=" + encodeUriQuery(v));
-                        }));
-                    }), url + (-1 == url.indexOf("?") ? "?" : "&") + parts.join("&");
                 }
                 return forEach(interceptorFactories, function(interceptorFactory) {
                     reversedInterceptors.unshift(isString(interceptorFactory) ? $injector.get(interceptorFactory) : $injector.invoke(interceptorFactory));
@@ -1508,6 +1712,44 @@
                         };
                     });
                 })("post", "put"), $http.defaults = defaults, $http;
+                function sendReq(config, reqData, reqHeaders) {
+                    var cache, cachedResp, deferred = $q.defer(), promise = deferred.promise, url = buildUrl(config.url, config.params);
+                    if ($http.pendingRequests.push(config), promise.then(removePendingReq, removePendingReq), (config.cache || defaults.cache) && !1 !== config.cache && "GET" == config.method && (cache = isObject(config.cache) ? config.cache : isObject(defaults.cache) ? defaults.cache : defaultCache), cache) if (isDefined(cachedResp = cache.get(url))) {
+                        if (cachedResp.then) return cachedResp.then(removePendingReq, removePendingReq), cachedResp;
+                        isArray(cachedResp) ? resolvePromise(cachedResp[1], cachedResp[0], copy(cachedResp[2])) : resolvePromise(cachedResp, 200, {
+                        });
+                    } else cache.put(url, promise);
+                    return isUndefined(cachedResp) && $httpBackend(config.method, url, reqData, function(status, response, headersString) {
+                        cache && (isSuccess(status) ? cache.put(url, [
+                            status,
+                            response,
+                            parseHeaders(headersString)
+                        ]) : cache.remove(url)), resolvePromise(response, status, headersString), $rootScope.$$phase || $rootScope.$apply();
+                    }, reqHeaders, config.timeout, config.withCredentials, config.responseType), promise;
+                    function resolvePromise(response, status, headers) {
+                        (isSuccess(status = Math.max(status, 0)) ? deferred.resolve : deferred.reject)({
+                            data: response,
+                            status: status,
+                            headers: headersGetter(headers),
+                            config: config
+                        });
+                    }
+                    function removePendingReq() {
+                        var idx = indexOf($http.pendingRequests, config);
+                        -1 !== idx && $http.pendingRequests.splice(idx, 1);
+                    }
+                }
+                function buildUrl(url, params) {
+                    if (!params) return url;
+                    var parts = [];
+                    return forEachSorted(params, function(value, key) {
+                        null === value || isUndefined(value) || (isArray(value) || (value = [
+                            value
+                        ]), forEach(value, function(v) {
+                            isObject(v) && (v = toJson(v)), parts.push(encodeUriQuery(key) + "=" + encodeUriQuery(v));
+                        }));
+                    }), url + (-1 == url.indexOf("?") ? "?" : "&") + parts.join("&");
+                }
             }];
     }
     var XHR = window.XMLHttpRequest || function() {
@@ -1534,25 +1776,8 @@
             }];
     }
     function createHttpBackend($browser, XHR, $browserDefer, callbacks, rawDocument) {
-        function jsonpReq(url, done) {
-            var script = rawDocument.createElement("script"), doneWrapper = function() {
-                script.onreadystatechange = script.onload = script.onerror = null, rawDocument.body.removeChild(script), done && done();
-            };
-            return script.type = "text/javascript", script.src = url, msie && msie <= 8 ? script.onreadystatechange = function() {
-                /loaded|complete/.test(script.readyState) && doneWrapper();
-            } : script.onload = script.onerror = function() {
-                doneWrapper();
-            }, rawDocument.body.appendChild(script), doneWrapper;
-        }
         return function(method, url, post, callback, headers, timeout, withCredentials, responseType) {
             var status;
-            function timeoutRequest() {
-                status = -1, jsonpDone && jsonpDone(), xhr && xhr.abort();
-            }
-            function completeRequest(callback, status, response, headersString) {
-                var protocol = urlResolve(url).protocol;
-                timeoutId && $browserDefer.cancel(timeoutId), jsonpDone = xhr = null, callback(status = 1223 == (status = "file" == protocol && 0 === status ? response ? 200 : 404 : status) ? 204 : status, response, headersString), $browser.$$completeOutstandingRequest(noop);
-            }
             if ($browser.$$incOutstandingRequestCount(), url = url || $browser.url(), "jsonp" == lowercase(method)) {
                 var callbackId = "_" + (callbacks.counter++).toString(36);
                 callbacks[callbackId] = function(data) {
@@ -1574,7 +1799,24 @@
             }
             if (timeout > 0) var timeoutId = $browserDefer(timeoutRequest, timeout);
             else timeout && timeout.then && timeout.then(timeoutRequest);
+            function timeoutRequest() {
+                status = -1, jsonpDone && jsonpDone(), xhr && xhr.abort();
+            }
+            function completeRequest(callback, status, response, headersString) {
+                var protocol = urlResolve(url).protocol;
+                timeoutId && $browserDefer.cancel(timeoutId), jsonpDone = xhr = null, callback(status = 1223 == (status = "file" == protocol && 0 === status ? response ? 200 : 404 : status) ? 204 : status, response, headersString), $browser.$$completeOutstandingRequest(noop);
+            }
         };
+        function jsonpReq(url, done) {
+            var script = rawDocument.createElement("script"), doneWrapper = function() {
+                script.onreadystatechange = script.onload = script.onerror = null, rawDocument.body.removeChild(script), done && done();
+            };
+            return script.type = "text/javascript", script.src = url, msie && msie <= 8 ? script.onreadystatechange = function() {
+                /loaded|complete/.test(script.readyState) && doneWrapper();
+            } : script.onload = script.onerror = function() {
+                doneWrapper();
+            }, rawDocument.body.appendChild(script), doneWrapper;
+        }
     }
     var $interpolateMinErr = minErr("$interpolate");
     function $InterpolateProvider() {
@@ -1771,11 +2013,8 @@
             "$browser",
             "$sniffer",
             "$rootElement", function($rootScope, $browser, $sniffer, $rootElement) {
-                var $location, LocationMode, appBase, baseHref = $browser.baseHref(), initialUrl = $browser.url(), changeCounter = 0;
-                function afterLocationChange(oldUrl) {
-                    $rootScope.$broadcast("$locationChangeSuccess", $location.absUrl(), oldUrl);
-                }
-                return html5Mode ? (appBase = serverBase(initialUrl) + (baseHref || "/"), LocationMode = $sniffer.history ? LocationHtml5Url : LocationHashbangInHtml5Url) : (appBase = stripHash(initialUrl), LocationMode = LocationHashbangUrl), ($location = new LocationMode(appBase, "#" + hashPrefix)).$$parse($location.$$rewrite(initialUrl)), $rootElement.on("click", function(event) {
+                var $location, LocationMode, appBase, baseHref = $browser.baseHref(), initialUrl = $browser.url();
+                html5Mode ? (appBase = serverBase(initialUrl) + (baseHref || "/"), LocationMode = $sniffer.history ? LocationHtml5Url : LocationHashbangInHtml5Url) : (appBase = stripHash(initialUrl), LocationMode = LocationHashbangUrl), ($location = new LocationMode(appBase, "#" + hashPrefix)).$$parse($location.$$rewrite(initialUrl)), $rootElement.on("click", function(event) {
                     if (!event.ctrlKey && !event.metaKey && 2 != event.which) {
                         for(var elm = jqLite(event.target); "a" !== lowercase(elm[0].nodeName);)if (elm[0] === $rootElement[0] || !(elm = elm.parent())[0]) return;
                         var absHref = elm.prop("href"), rewrittenUrl = $location.$$rewrite(absHref);
@@ -1789,12 +2028,17 @@
                             $location.$$parse(newUrl), afterLocationChange(oldUrl);
                         }), $rootScope.$$phase || $rootScope.$digest();
                     }
-                }), $rootScope.$watch(function() {
+                });
+                var changeCounter = 0;
+                return $rootScope.$watch(function() {
                     var oldUrl = $browser.url(), currentReplace = $location.$$replace;
                     return changeCounter && oldUrl == $location.absUrl() || (changeCounter++, $rootScope.$evalAsync(function() {
                         $rootScope.$broadcast("$locationChangeStart", $location.absUrl(), oldUrl).defaultPrevented ? $location.$$parse(oldUrl) : ($browser.url($location.absUrl(), currentReplace), afterLocationChange(oldUrl));
                     })), $location.$$replace = !1, changeCounter;
                 }), $location;
+                function afterLocationChange(oldUrl) {
+                    $rootScope.$broadcast("$locationChangeSuccess", $location.absUrl(), oldUrl);
+                }
             }];
     }
     function $LogProvider() {
@@ -1803,6 +2047,18 @@
             return isDefined(flag) ? (debug = flag, this) : debug;
         }, this.$get = [
             "$window", function($window) {
+                return {
+                    log: consoleLog("log"),
+                    info: consoleLog("info"),
+                    warn: consoleLog("warn"),
+                    error: consoleLog("error"),
+                    debug: (function() {
+                        var fn = consoleLog("debug");
+                        return function() {
+                            debug && fn.apply(self, arguments);
+                        };
+                    })()
+                };
                 function formatError(arg) {
                     return arg instanceof Error && (arg.stack ? arg = arg.message && -1 === arg.stack.indexOf(arg.message) ? "Error: " + arg.message + "\n" + arg.stack : arg.stack : arg.sourceURL && (arg = arg.message + "\n" + arg.sourceURL + ":" + arg.line)), arg;
                 }
@@ -1818,20 +2074,41 @@
                         logFn(arg1, null == arg2 ? "" : arg2);
                     };
                 }
-                return {
-                    log: consoleLog("log"),
-                    info: consoleLog("info"),
-                    warn: consoleLog("warn"),
-                    error: consoleLog("error"),
-                    debug: (function() {
-                        var fn = consoleLog("debug");
-                        return function() {
-                            debug && fn.apply(self, arguments);
-                        };
-                    })()
-                };
             }];
     }
+    LocationHashbangInHtml5Url.prototype = LocationHashbangUrl.prototype = LocationHtml5Url.prototype = {
+        $$html5: !1,
+        $$replace: !1,
+        absUrl: locationGetter("$$absUrl"),
+        url: function(url, replace) {
+            if (isUndefined(url)) return this.$$url;
+            var match = PATH_MATCH.exec(url);
+            return match[1] && this.path(decodeURIComponent(match[1])), (match[2] || match[1]) && this.search(match[3] || ""), this.hash(match[5] || "", replace), this;
+        },
+        protocol: locationGetter("$$protocol"),
+        host: locationGetter("$$host"),
+        port: locationGetter("$$port"),
+        path: locationGetterSetter("$$path", function(path) {
+            return "/" == path.charAt(0) ? path : "/" + path;
+        }),
+        search: function(search, paramValue) {
+            switch(arguments.length){
+                case 0:
+                    return this.$$search;
+                case 1:
+                    if (isString(search)) this.$$search = parseKeyValue(search);
+                    else if (isObject(search)) this.$$search = search;
+                    else throw $locationMinErr("isrcharg", "The first argument of the `$location#search()` call must be a string or an object.");
+                    break;
+                default: isUndefined(paramValue) || null === paramValue ? delete this.$$search[search] : this.$$search[search] = paramValue;
+            }
+            return this.$$compose(), this;
+        },
+        hash: locationGetterSetter("$$hash", identity),
+        replace: function() {
+            return this.$$replace = !0, this;
+        }
+    };
     var promiseWarning, $parseMinErr = minErr("$parse"), promiseWarningCache = {
     };
     function ensureSafeMemberName(name, fullExpression) {
@@ -1925,7 +2202,165 @@
         "\"": "\""
     }, Lexer = function(options) {
         this.options = options;
-    }, Parser = function(lexer, $filter, options) {
+    };
+    Lexer.prototype = {
+        constructor: Lexer,
+        lex: function(text) {
+            this.text = text, this.index = 0, this.ch = undefined, this.lastCh = ":", this.tokens = [];
+            for(var token, json = []; this.index < this.text.length;){
+                if (this.ch = this.text.charAt(this.index), this.is("\"'")) this.readString(this.ch);
+                else if (this.isNumber(this.ch) || this.is(".") && this.isNumber(this.peek())) this.readNumber();
+                else if (this.isIdent(this.ch)) this.readIdent(), this.was("{,") && "{" === json[0] && (token = this.tokens[this.tokens.length - 1]) && (token.json = -1 === token.text.indexOf("."));
+                else if (this.is("(){}[].,;:?")) this.tokens.push({
+                    index: this.index,
+                    text: this.ch,
+                    json: this.was(":[,") && this.is("{[") || this.is("}]:,")
+                }), this.is("{[") && json.unshift(this.ch), this.is("}]") && json.shift(), this.index++;
+                else if (this.isWhitespace(this.ch)) {
+                    this.index++;
+                    continue;
+                } else {
+                    var ch2 = this.ch + this.peek(), ch3 = ch2 + this.peek(2), fn = OPERATORS[this.ch], fn2 = OPERATORS[ch2], fn3 = OPERATORS[ch3];
+                    fn3 ? (this.tokens.push({
+                        index: this.index,
+                        text: ch3,
+                        fn: fn3
+                    }), this.index += 3) : fn2 ? (this.tokens.push({
+                        index: this.index,
+                        text: ch2,
+                        fn: fn2
+                    }), this.index += 2) : fn ? (this.tokens.push({
+                        index: this.index,
+                        text: this.ch,
+                        fn: fn,
+                        json: this.was("[,:") && this.is("+-")
+                    }), this.index += 1) : this.throwError("Unexpected next character ", this.index, this.index + 1);
+                }
+                this.lastCh = this.ch;
+            }
+            return this.tokens;
+        },
+        is: function(chars) {
+            return -1 !== chars.indexOf(this.ch);
+        },
+        was: function(chars) {
+            return -1 !== chars.indexOf(this.lastCh);
+        },
+        peek: function(i) {
+            var num = i || 1;
+            return this.index + num < this.text.length && this.text.charAt(this.index + num);
+        },
+        isNumber: function(ch) {
+            return "0" <= ch && ch <= "9";
+        },
+        isWhitespace: function(ch) {
+            return " " === ch || "\r" === ch || "\t" === ch || "\n" === ch || "\v" === ch || "\xa0" === ch;
+        },
+        isIdent: function(ch) {
+            return "a" <= ch && ch <= "z" || "A" <= ch && ch <= "Z" || "_" === ch || "$" === ch;
+        },
+        isExpOperator: function(ch) {
+            return "-" === ch || "+" === ch || this.isNumber(ch);
+        },
+        throwError: function(error, start, end) {
+            end = end || this.index;
+            var colStr = isDefined(start) ? "s " + start + "-" + this.index + " [" + this.text.substring(start, end) + "]" : " " + end;
+            throw $parseMinErr("lexerr", "Lexer Error: {0} at column{1} in expression [{2}].", error, colStr, this.text);
+        },
+        readNumber: function() {
+            for(var number = "", start = this.index; this.index < this.text.length;){
+                var ch = lowercase(this.text.charAt(this.index));
+                if ("." == ch || this.isNumber(ch)) number += ch;
+                else {
+                    var peekCh = this.peek();
+                    if ("e" == ch && this.isExpOperator(peekCh)) number += ch;
+                    else if (this.isExpOperator(ch) && peekCh && this.isNumber(peekCh) && "e" == number.charAt(number.length - 1)) number += ch;
+                    else if (!this.isExpOperator(ch) || peekCh && this.isNumber(peekCh) || "e" != number.charAt(number.length - 1)) break;
+                    else this.throwError("Invalid exponent");
+                }
+                this.index++;
+            }
+            number *= 1, this.tokens.push({
+                index: start,
+                text: number,
+                json: !0,
+                fn: function() {
+                    return number;
+                }
+            });
+        },
+        readIdent: function() {
+            for(var lastDot, peekIndex, methodName, ch, parser = this, ident = "", start = this.index; this.index < this.text.length;){
+                if ("." === (ch = this.text.charAt(this.index)) || this.isIdent(ch) || this.isNumber(ch)) "." === ch && (lastDot = this.index), ident += ch;
+                else break;
+                this.index++;
+            }
+            if (lastDot) for(peekIndex = this.index; peekIndex < this.text.length;){
+                if ("(" === (ch = this.text.charAt(peekIndex))) {
+                    methodName = ident.substr(lastDot - start + 1), ident = ident.substr(0, lastDot - start), this.index = peekIndex;
+                    break;
+                }
+                if (this.isWhitespace(ch)) peekIndex++;
+                else break;
+            }
+            var token = {
+                index: start,
+                text: ident
+            };
+            if (OPERATORS.hasOwnProperty(ident)) token.fn = OPERATORS[ident], token.json = OPERATORS[ident];
+            else {
+                var getter1 = getterFn(ident, this.options, this.text);
+                token.fn = extend(function(self, locals) {
+                    return getter1(self, locals);
+                }, {
+                    assign: function(self, value) {
+                        return setter(self, ident, value, parser.text, parser.options);
+                    }
+                });
+            }
+            this.tokens.push(token), methodName && (this.tokens.push({
+                index: lastDot,
+                text: ".",
+                json: !1
+            }), this.tokens.push({
+                index: lastDot + 1,
+                text: methodName,
+                json: !1
+            }));
+        },
+        readString: function(quote) {
+            var start = this.index;
+            this.index++;
+            for(var string = "", rawString = quote, escape = !1; this.index < this.text.length;){
+                var ch = this.text.charAt(this.index);
+                if (rawString += ch, escape) {
+                    if ("u" === ch) {
+                        var hex = this.text.substring(this.index + 1, this.index + 5);
+                        hex.match(/[\da-f]{4}/i) || this.throwError("Invalid unicode escape [\\u" + hex + "]"), this.index += 4, string += String.fromCharCode(parseInt(hex, 16));
+                    } else {
+                        var rep = ESCAPE[ch];
+                        rep ? string += rep : string += ch;
+                    }
+                    escape = !1;
+                } else if ("\\" === ch) escape = !0;
+                else {
+                    if (ch === quote) return this.index++, void this.tokens.push({
+                        index: start,
+                        text: rawString,
+                        string: string,
+                        json: !0,
+                        fn: function() {
+                            return string;
+                        }
+                    });
+                    string += ch;
+                }
+                this.index++;
+            }
+            this.throwError("Unterminated quote", start);
+        }
+    };
+    var Parser = function(lexer, $filter, options) {
         this.lexer = lexer, this.$filter = $filter, this.options = options;
     };
     function setter(obj, path, setValue, fullExp, options) {
@@ -1943,6 +2378,219 @@
         }
         return obj[key = ensureSafeMemberName(element.shift(), fullExp)] = setValue, setValue;
     }
+    Parser.ZERO = function() {
+        return 0;
+    }, Parser.prototype = {
+        constructor: Parser,
+        parse: function(text, json) {
+            this.text = text, this.json = json, this.tokens = this.lexer.lex(text), json && (this.assignment = this.logicalOR, this.functionCall = this.fieldAccess = this.objectIndex = this.filterChain = function() {
+                this.throwError("is not valid json", {
+                    text: text,
+                    index: 0
+                });
+            });
+            var value = json ? this.primary() : this.statements();
+            return 0 !== this.tokens.length && this.throwError("is an unexpected token", this.tokens[0]), value.literal = !!value.literal, value.constant = !!value.constant, value;
+        },
+        primary: function() {
+            if (this.expect("(")) primary = this.filterChain(), this.consume(")");
+            else if (this.expect("[")) primary = this.arrayDeclaration();
+            else if (this.expect("{")) primary = this.object();
+            else {
+                var primary, next, context, token = this.expect();
+                (primary = token.fn) || this.throwError("not a primary expression", token), token.json && (primary.constant = !0, primary.literal = !0);
+            }
+            for(; next = this.expect("(", "[", ".");)"(" === next.text ? (primary = this.functionCall(primary, context), context = null) : "[" === next.text ? (context = primary, primary = this.objectIndex(primary)) : "." === next.text ? (context = primary, primary = this.fieldAccess(primary)) : this.throwError("IMPOSSIBLE");
+            return primary;
+        },
+        throwError: function(msg, token) {
+            throw $parseMinErr("syntax", "Syntax Error: Token '{0}' {1} at column {2} of the expression [{3}] starting at [{4}].", token.text, msg, token.index + 1, this.text, this.text.substring(token.index));
+        },
+        peekToken: function() {
+            if (0 === this.tokens.length) throw $parseMinErr("ueoe", "Unexpected end of expression: {0}", this.text);
+            return this.tokens[0];
+        },
+        peek: function(e1, e2, e3, e4) {
+            if (this.tokens.length > 0) {
+                var token = this.tokens[0], t = token.text;
+                if (t === e1 || t === e2 || t === e3 || t === e4 || !e1 && !e2 && !e3 && !e4) return token;
+            }
+            return !1;
+        },
+        expect: function(e1, e2, e3, e4) {
+            var token = this.peek(e1, e2, e3, e4);
+            return !!token && (this.json && !token.json && this.throwError("is not valid json", token), this.tokens.shift(), token);
+        },
+        consume: function(e1) {
+            this.expect(e1) || this.throwError("is unexpected, expecting [" + e1 + "]", this.peek());
+        },
+        unaryFn: function(fn, right) {
+            return extend(function(self, locals) {
+                return fn(self, locals, right);
+            }, {
+                constant: right.constant
+            });
+        },
+        ternaryFn: function(left, middle, right) {
+            return extend(function(self, locals) {
+                return left(self, locals) ? middle(self, locals) : right(self, locals);
+            }, {
+                constant: left.constant && middle.constant && right.constant
+            });
+        },
+        binaryFn: function(left, fn, right) {
+            return extend(function(self, locals) {
+                return fn(self, locals, left, right);
+            }, {
+                constant: left.constant && right.constant
+            });
+        },
+        statements: function() {
+            for(var statements = [];;)if (this.tokens.length > 0 && !this.peek("}", ")", ";", "]") && statements.push(this.filterChain()), !this.expect(";")) return 1 === statements.length ? statements[0] : function(self, locals) {
+                for(var value, i = 0; i < statements.length; i++){
+                    var statement = statements[i];
+                    statement && (value = statement(self, locals));
+                }
+                return value;
+            };
+        },
+        filterChain: function() {
+            for(var token, left = this.expression();;){
+                if (!(token = this.expect("|"))) return left;
+                left = this.binaryFn(left, token.fn, this.filter());
+            }
+        },
+        filter: function() {
+            for(var token = this.expect(), fn = this.$filter(token.text), argsFn = [];;)if (token = this.expect(":")) argsFn.push(this.expression());
+            else {
+                var fnInvoke = function(self, locals, input) {
+                    for(var args = [
+                        input
+                    ], i = 0; i < argsFn.length; i++)args.push(argsFn[i](self, locals));
+                    return fn.apply(self, args);
+                };
+                return function() {
+                    return fnInvoke;
+                };
+            }
+        },
+        expression: function() {
+            return this.assignment();
+        },
+        assignment: function() {
+            var right, token, left = this.ternary();
+            return (token = this.expect("=")) ? (left.assign || this.throwError("implies assignment but [" + this.text.substring(0, token.index) + "] can not be assigned to", token), function(scope, locals) {
+                return left.assign(scope, (right = this.ternary())(scope, locals), locals);
+            }) : left;
+        },
+        ternary: function() {
+            var middle, token, left = this.logicalOR();
+            return (token = this.expect("?")) ? (middle = this.ternary(), token = this.expect(":")) ? this.ternaryFn(left, middle, this.ternary()) : void this.throwError("expected :", token) : left;
+        },
+        logicalOR: function() {
+            for(var token, left = this.logicalAND();;){
+                if (!(token = this.expect("||"))) return left;
+                left = this.binaryFn(left, token.fn, this.logicalAND());
+            }
+        },
+        logicalAND: function() {
+            var token, left = this.equality();
+            return (token = this.expect("&&")) && (left = this.binaryFn(left, token.fn, this.logicalAND())), left;
+        },
+        equality: function() {
+            var token, left = this.relational();
+            return (token = this.expect("==", "!=", "===", "!==")) && (left = this.binaryFn(left, token.fn, this.equality())), left;
+        },
+        relational: function() {
+            var token, left = this.additive();
+            return (token = this.expect("<", ">", "<=", ">=")) && (left = this.binaryFn(left, token.fn, this.relational())), left;
+        },
+        additive: function() {
+            for(var token, left = this.multiplicative(); token = this.expect("+", "-");)left = this.binaryFn(left, token.fn, this.multiplicative());
+            return left;
+        },
+        multiplicative: function() {
+            for(var token, left = this.unary(); token = this.expect("*", "/", "%");)left = this.binaryFn(left, token.fn, this.unary());
+            return left;
+        },
+        unary: function() {
+            var token;
+            return this.expect("+") ? this.primary() : (token = this.expect("-")) ? this.binaryFn(Parser.ZERO, token.fn, this.unary()) : (token = this.expect("!")) ? this.unaryFn(token.fn, this.unary()) : this.primary();
+        },
+        fieldAccess: function(object) {
+            var parser = this, field = this.expect().text, getter2 = getterFn(field, this.options, this.text);
+            return extend(function(scope, locals, self) {
+                return getter2(self || object(scope, locals), locals);
+            }, {
+                assign: function(scope, value, locals) {
+                    return setter(object(scope, locals), field, value, parser.text, parser.options);
+                }
+            });
+        },
+        objectIndex: function(obj) {
+            var parser = this, indexFn = this.expression();
+            return this.consume("]"), extend(function(self, locals) {
+                var v, p, o = obj(self, locals), i = indexFn(self, locals);
+                if (o) return (v = ensureSafeObject(o[i], parser.text)) && v.then && parser.options.unwrapPromises && (p = v, "$$v" in v || (p.$$v = undefined, p.then(function(val) {
+                    p.$$v = val;
+                })), v = v.$$v), v;
+            }, {
+                assign: function(self, value, locals) {
+                    var key = indexFn(self, locals);
+                    return ensureSafeObject(obj(self, locals), parser.text)[key] = value;
+                }
+            });
+        },
+        functionCall: function(fn, contextGetter) {
+            var argsFn = [];
+            if (")" !== this.peekToken().text) do argsFn.push(this.expression());
+            while (this.expect(","))
+            this.consume(")");
+            var parser = this;
+            return function(scope, locals) {
+                for(var args = [], context = contextGetter ? contextGetter(scope, locals) : scope, i = 0; i < argsFn.length; i++)args.push(argsFn[i](scope, locals));
+                var fnPtr = fn(scope, locals, context) || noop;
+                return ensureSafeObject(context, parser.text), ensureSafeObject(fnPtr, parser.text), ensureSafeObject(fnPtr.apply ? fnPtr.apply(context, args) : fnPtr(args[0], args[1], args[2], args[3], args[4]), parser.text);
+            };
+        },
+        arrayDeclaration: function() {
+            var elementFns = [], allConstant = !0;
+            if ("]" !== this.peekToken().text) do {
+                var elementFn = this.expression();
+                elementFns.push(elementFn), elementFn.constant || (allConstant = !1);
+            }while (this.expect(","))
+            return this.consume("]"), extend(function(self, locals) {
+                for(var array = [], i = 0; i < elementFns.length; i++)array.push(elementFns[i](self, locals));
+                return array;
+            }, {
+                literal: !0,
+                constant: allConstant
+            });
+        },
+        object: function() {
+            var keyValues = [], allConstant = !0;
+            if ("}" !== this.peekToken().text) do {
+                var token = this.expect(), key = token.string || token.text;
+                this.consume(":");
+                var value = this.expression();
+                keyValues.push({
+                    key: key,
+                    value: value
+                }), value.constant || (allConstant = !1);
+            }while (this.expect(","))
+            return this.consume("}"), extend(function(self, locals) {
+                for(var object = {
+                }, i = 0; i < keyValues.length; i++){
+                    var keyValue = keyValues[i];
+                    object[keyValue.key] = keyValue.value(self, locals);
+                }
+                return object;
+            }, {
+                literal: !0,
+                constant: allConstant
+            });
+        }
+    };
     var getterFnCache = {
     };
     function cspSafeGetterFn(key0, key1, key2, key3, key4, fullExp, options) {
@@ -2196,21 +2844,7 @@
                     }, this.$$isolateBindings = {
                     };
                 }
-                var $rootScope = new Scope();
-                function beginPhase(phase) {
-                    if ($rootScope.$$phase) throw $rootScopeMinErr("inprog", "{0} already in progress", $rootScope.$$phase);
-                    $rootScope.$$phase = phase;
-                }
-                function clearPhase() {
-                    $rootScope.$$phase = null;
-                }
-                function compileToFn(exp, name) {
-                    var fn = $parse(exp);
-                    return assertArgFn(fn, name), fn;
-                }
-                function initWatchVal() {
-                }
-                return Scope.prototype = {
+                Scope.prototype = {
                     constructor: Scope,
                     $new: function(isolate) {
                         var ChildScope, child;
@@ -2392,7 +3026,22 @@
                         }while (current = next)
                         return event;
                     }
-                }, $rootScope;
+                };
+                var $rootScope = new Scope();
+                return $rootScope;
+                function beginPhase(phase) {
+                    if ($rootScope.$$phase) throw $rootScopeMinErr("inprog", "{0} already in progress", $rootScope.$$phase);
+                    $rootScope.$$phase = phase;
+                }
+                function clearPhase() {
+                    $rootScope.$$phase = null;
+                }
+                function compileToFn(exp, name) {
+                    var fn = $parse(exp);
+                    return assertArgFn(fn, name), fn;
+                }
+                function initWatchVal() {
+                }
             }];
     }
     function $$SanitizeUriProvider() {
@@ -2476,9 +3125,10 @@
                         return this.$$unwrapTrustedValue().toString();
                     }, holderType;
                 }
+                $injector.has("$sanitize") && (htmlSanitizer = $injector.get("$sanitize"));
                 var trustedValueHolderBase = generateHolderType(), byType = {
                 };
-                return $injector.has("$sanitize") && (htmlSanitizer = $injector.get("$sanitize")), byType[SCE_CONTEXTS.HTML] = generateHolderType(trustedValueHolderBase), byType[SCE_CONTEXTS.CSS] = generateHolderType(trustedValueHolderBase), byType[SCE_CONTEXTS.URL] = generateHolderType(trustedValueHolderBase), byType[SCE_CONTEXTS.JS] = generateHolderType(trustedValueHolderBase), byType[SCE_CONTEXTS.RESOURCE_URL] = generateHolderType(byType[SCE_CONTEXTS.URL]), {
+                return byType[SCE_CONTEXTS.HTML] = generateHolderType(trustedValueHolderBase), byType[SCE_CONTEXTS.CSS] = generateHolderType(trustedValueHolderBase), byType[SCE_CONTEXTS.URL] = generateHolderType(trustedValueHolderBase), byType[SCE_CONTEXTS.JS] = generateHolderType(trustedValueHolderBase), byType[SCE_CONTEXTS.RESOURCE_URL] = generateHolderType(byType[SCE_CONTEXTS.URL]), {
                     trustAs: function(type, trustedValue) {
                         var Constructor = byType.hasOwnProperty(type) ? byType[type] : null;
                         if (!Constructor) throw $sceMinErr("icontext", "Attempted to trust a value in invalid context. Context: {0}; Value: {1}", type, trustedValue);
@@ -2719,6 +3369,13 @@
             return formatNumber(number, formats.PATTERNS[0], formats.GROUP_SEP, formats.DECIMAL_SEP, fractionSize);
         };
     }
+    $FilterProvider.$inject = [
+        "$provide"
+    ], currencyFilter.$inject = [
+        "$locale"
+    ], numberFilter.$inject = [
+        "$locale"
+    ];
     var DECIMAL_SEP = ".";
     function formatNumber(number, pattern, groupSep, decimalSep, fractionSize) {
         if (isNaN(number) || !isFinite(number)) return "";
@@ -2813,6 +3470,9 @@
             return toJson(object, !0);
         };
     }
+    dateFilter.$inject = [
+        "$locale"
+    ];
     var lowercaseFilter = valueFn(lowercase), uppercaseFilter = valueFn(uppercase);
     function limitToFilter() {
         return function(input, limit) {
@@ -2825,16 +3485,6 @@
     }
     function orderByFilter($parse) {
         return function(array, sortPredicate, reverseOrder) {
-            var arrayCopy = [];
-            function reverseComparator(comp, descending) {
-                return toBoolean(descending) ? function(a, b) {
-                    return comp(b, a);
-                } : comp;
-            }
-            function compare(v1, v2) {
-                var t1 = typeof v1, t2 = typeof v2;
-                return t1 != t2 ? t1 < t2 ? -1 : 1 : ("string" == t1 && (v1 = v1.toLowerCase(), v2 = v2.toLowerCase()), v1 === v2) ? 0 : v1 < v2 ? -1 : 1;
-            }
             if (!isArray(array)) return array;
             if (!sortPredicate) return array;
             sortPredicate = map(sortPredicate = isArray(sortPredicate) ? sortPredicate : [
@@ -2845,7 +3495,7 @@
                     return compare(get(a), get(b));
                 }, descending);
             });
-            for(var i = 0; i < array.length; i++)arrayCopy.push(array[i]);
+            for(var arrayCopy = [], i = 0; i < array.length; i++)arrayCopy.push(array[i]);
             return arrayCopy.sort(reverseComparator(function(o1, o2) {
                 for(var i = 0; i < sortPredicate.length; i++){
                     var comp = sortPredicate[i](o1, o2);
@@ -2853,6 +3503,15 @@
                 }
                 return 0;
             }, reverseOrder));
+            function reverseComparator(comp, descending) {
+                return toBoolean(descending) ? function(a, b) {
+                    return comp(b, a);
+                } : comp;
+            }
+            function compare(v1, v2) {
+                var t1 = typeof v1, t2 = typeof v2;
+                return t1 != t2 ? t1 < t2 ? -1 : 1 : ("string" == t1 && (v1 = v1.toLowerCase(), v2 = v2.toLowerCase()), v1 === v2) ? 0 : v1 < v2 ? -1 : 1;
+            }
         };
     }
     function ngDirective(directive) {
@@ -2860,6 +3519,9 @@
             link: directive
         }), directive.restrict = directive.restrict || "AC", valueFn(directive);
     }
+    orderByFilter.$inject = [
+        "$parse"
+    ];
     var htmlAnchorDirective = valueFn({
         restrict: "E",
         compile: function(element, attr) {
@@ -2870,7 +3532,41 @@
             };
         }
     }), ngAttributeAliasDirectives = {
-    }, nullFormCtrl = {
+    };
+    forEach(BOOLEAN_ATTR, function(propName, attrName) {
+        if ("multiple" != propName) {
+            var normalized = directiveNormalize("ng-" + attrName);
+            ngAttributeAliasDirectives[normalized] = function() {
+                return {
+                    priority: 100,
+                    compile: function() {
+                        return function(scope, element, attr) {
+                            scope.$watch(attr[normalized], function(value) {
+                                attr.$set(attrName, !!value);
+                            });
+                        };
+                    }
+                };
+            };
+        }
+    }), forEach([
+        "src",
+        "srcset",
+        "href"
+    ], function(attrName) {
+        var normalized = directiveNormalize("ng-" + attrName);
+        ngAttributeAliasDirectives[normalized] = function() {
+            return {
+                priority: 99,
+                link: function(scope, element, attr) {
+                    attr.$observe(normalized, function(value) {
+                        value && (attr.$set(attrName, value), msie && element.prop(attrName, attr[attrName]));
+                    });
+                }
+            };
+        };
+    });
+    var nullFormCtrl = {
         $addControl: noop,
         $removeControl: noop,
         $setValidity: noop,
@@ -2906,6 +3602,11 @@
             });
         };
     }
+    FormController.$inject = [
+        "$element",
+        "$attrs",
+        "$scope"
+    ];
     var formDirectiveFactory = function(isNgForm) {
         return [
             "$timeout", function($timeout) {
@@ -3075,16 +3776,18 @@
         "$attrs",
         "$element",
         "$parse", function($scope, $exceptionHandler, $attr, $element, $parse) {
-            var ngModelGet = $parse($attr.ngModel), ngModelSet = ngModelGet.assign, parentForm = $element.inheritedData("$formController") || nullFormCtrl, invalidCount = 0, $error = this.$error = {
+            this.$viewValue = Number.NaN, this.$modelValue = Number.NaN, this.$parsers = [], this.$formatters = [], this.$viewChangeListeners = [], this.$pristine = !0, this.$dirty = !1, this.$valid = !0, this.$invalid = !1, this.$name = $attr.name;
+            var ngModelGet = $parse($attr.ngModel), ngModelSet = ngModelGet.assign;
+            if (!ngModelSet) throw minErr("ngModel")("nonassign", "Expression '{0}' is non-assignable. Element: {1}", $attr.ngModel, startingTag($element));
+            this.$render = noop, this.$isEmpty = function(value) {
+                return isUndefined(value) || "" === value || null === value || value != value;
+            };
+            var parentForm = $element.inheritedData("$formController") || nullFormCtrl, invalidCount = 0, $error = this.$error = {
             };
             function toggleValidCss(isValid, validationErrorKey) {
                 validationErrorKey = validationErrorKey ? "-" + snake_case(validationErrorKey, "-") : "", $element.removeClass((isValid ? INVALID_CLASS : VALID_CLASS) + validationErrorKey).addClass((isValid ? VALID_CLASS : INVALID_CLASS) + validationErrorKey);
             }
-            var ctrl = this;
-            if (this.$viewValue = Number.NaN, this.$modelValue = Number.NaN, this.$parsers = [], this.$formatters = [], this.$viewChangeListeners = [], this.$pristine = !0, this.$dirty = !1, this.$valid = !0, this.$invalid = !1, this.$name = $attr.name, !ngModelSet) throw minErr("ngModel")("nonassign", "Expression '{0}' is non-assignable. Element: {1}", $attr.ngModel, startingTag($element));
-            this.$render = noop, this.$isEmpty = function(value) {
-                return isUndefined(value) || "" === value || null === value || value != value;
-            }, $element.addClass(PRISTINE_CLASS), toggleValidCss(!0), this.$setValidity = function(validationErrorKey, isValid) {
+            $element.addClass(PRISTINE_CLASS), toggleValidCss(!0), this.$setValidity = function(validationErrorKey, isValid) {
                 !isValid !== $error[validationErrorKey] && (isValid ? ($error[validationErrorKey] && invalidCount--, invalidCount || (toggleValidCss(!0), this.$valid = !0, this.$invalid = !1)) : (toggleValidCss(!1), this.$invalid = !0, this.$valid = !1, invalidCount++), $error[validationErrorKey] = !isValid, toggleValidCss(isValid, validationErrorKey), parentForm.$setValidity(validationErrorKey, isValid, this));
             }, this.$setPristine = function() {
                 this.$dirty = !1, this.$pristine = !0, $element.removeClass(DIRTY_CLASS).addClass(PRISTINE_CLASS);
@@ -3098,7 +3801,9 @@
                         $exceptionHandler(e);
                     }
                 }));
-            }, $scope.$watch(function() {
+            };
+            var ctrl = this;
+            $scope.$watch(function() {
                 var value = ngModelGet($scope);
                 if (ctrl.$modelValue !== value) {
                     var formatters = ctrl.$formatters, idx = formatters.length;
@@ -3234,7 +3939,28 @@
                 priority: 500
             };
         }], ngEventDirectives = {
-    }, ngIfDirective = [
+    };
+    forEach("click dblclick mousedown mouseup mouseover mouseout mousemove mouseenter mouseleave keydown keyup keypress submit focus blur copy cut paste".split(" "), function(name) {
+        var directiveName = directiveNormalize("ng-" + name);
+        ngEventDirectives[directiveName] = [
+            "$parse", function($parse) {
+                return {
+                    compile: function($element, attr) {
+                        var fn = $parse(attr[directiveName]);
+                        return function(scope, element, attr) {
+                            element.on(lowercase(name), function(event) {
+                                scope.$apply(function() {
+                                    fn(scope, {
+                                        $event: event
+                                    });
+                                });
+                            });
+                        };
+                    }
+                };
+            }];
+    });
+    var ngIfDirective = [
         "$animate", function($animate) {
             return {
                 transclude: "element",
@@ -3341,12 +4067,6 @@
         "$parse",
         "$animate", function($parse, $animate) {
             var ngRepeatMinErr = minErr("ngRepeat");
-            function getBlockStart(block) {
-                return block.clone[0];
-            }
-            function getBlockEnd(block) {
-                return block.clone[block.clone.length - 1];
-            }
             return {
                 transclude: "element",
                 priority: 1000,
@@ -3400,6 +4120,12 @@
                     });
                 }
             };
+            function getBlockStart(block) {
+                return block.clone[0];
+            }
+            function getBlockEnd(block) {
+                return block.clone[block.clone.length - 1];
+            }
         }], ngShowDirective = [
         "$animate", function($animate) {
             return function(scope, element, attr) {
@@ -3540,6 +4266,7 @@
                             });
                         }
                         optionsExp ? (function setupAsOptions(scope3, selectElement2, ctrl1) {
+                            if (!(match = optionsExp.match(NG_OPTIONS_REGEXP))) throw ngOptionsMinErr("iexp", "Expected expression in form of '_select_ (as _label_)? for (_key_,)?_value_ in _collection_' but got '{0}'. Element: {1}", optionsExp, startingTag(selectElement2));
                             var match, track, displayFn = $parse(match[2] || match[1]), valueName = match[4] || match[6], keyName = match[5], groupByFn = $parse(match[3] || ""), valueFn = $parse(match[2] ? match[1] : valueName), valuesFn = $parse(match[7]), trackFn = match[8] ? $parse(match[8]) : null, optionGroupsCache = [
                                 [
                                     {
@@ -3603,7 +4330,6 @@
                                 }
                                 for(; optionGroupsCache.length > groupIndex;)optionGroupsCache.pop()[0].element.remove();
                             }
-                            if (!(match = optionsExp.match(NG_OPTIONS_REGEXP))) throw ngOptionsMinErr("iexp", "Expected expression in form of '_select_ (as _label_)? for (_key_,)?_value_ in _collection_' but got '{0}'. Element: {1}", optionsExp, startingTag(selectElement2));
                             nullOption && ($compile(nullOption)(scope3), nullOption.removeClass("ng-scope"), nullOption.remove()), selectElement2.empty(), selectElement2.on("change", function() {
                                 scope3.$apply(function() {
                                     var optionGroup, key, value, optionElement, index, groupIndex, length, groupLength, trackIndex, collection = valuesFn(scope3) || [], locals = {
@@ -3678,696 +4404,7 @@
         restrict: "E",
         terminal: !0
     });
-    isNaN(msie = int((/msie (\d+)/.exec(lowercase(navigator.userAgent)) || [])[1])) && (msie = int((/trident\/.*; rv:(\d+)/.exec(lowercase(navigator.userAgent)) || [])[1])), noop.$inject = [], identity.$inject = [], nodeName_ = msie < 9 ? function(element) {
-        return (element = element.nodeName ? element : element[0]).scopeName && "HTML" != element.scopeName ? uppercase(element.scopeName + ":" + element.nodeName) : element.nodeName;
-    } : function(element) {
-        return element.nodeName ? element.nodeName : element[0].nodeName;
-    }, forEach("multiple,selected,checked,disabled,readOnly,required,open".split(","), function(value) {
-        BOOLEAN_ATTR[lowercase(value)] = value;
-    }), forEach("input,select,option,textarea,button,form,details".split(","), function(value) {
-        BOOLEAN_ELEMENTS[uppercase(value)] = !0;
-    }), forEach({
-        data: jqLiteData,
-        inheritedData: jqLiteInheritedData,
-        scope: function(element) {
-            return jqLite(element).data("$scope") || jqLiteInheritedData(element.parentNode || element, [
-                "$isolateScope",
-                "$scope"
-            ]);
-        },
-        isolateScope: function(element) {
-            return jqLite(element).data("$isolateScope") || jqLite(element).data("$isolateScopeNoTemplate");
-        },
-        controller: jqLiteController,
-        injector: function(element) {
-            return jqLiteInheritedData(element, "$injector");
-        },
-        removeAttr: function(element, name) {
-            element.removeAttribute(name);
-        },
-        hasClass: jqLiteHasClass,
-        css: function(element, name, value) {
-            if (name = camelCase(name), isDefined(value)) element.style[name] = value;
-            else {
-                var val;
-                return msie <= 8 && "" === (val = element.currentStyle && element.currentStyle[name]) && (val = "auto"), val = val || element.style[name], msie <= 8 && (val = "" === val ? undefined : val), val;
-            }
-        },
-        attr: function(element, name, value) {
-            var lowercasedName = lowercase(name);
-            if (BOOLEAN_ATTR[lowercasedName]) {
-                if (!isDefined(value)) return element[name] || (element.attributes.getNamedItem(name) || noop).specified ? lowercasedName : undefined;
-                value ? (element[name] = !0, element.setAttribute(name, lowercasedName)) : (element[name] = !1, element.removeAttribute(lowercasedName));
-            } else if (isDefined(value)) element.setAttribute(name, value);
-            else if (element.getAttribute) {
-                var ret = element.getAttribute(name, 2);
-                return null === ret ? undefined : ret;
-            }
-        },
-        prop: function(element, name, value) {
-            if (!isDefined(value)) return element[name];
-            element[name] = value;
-        },
-        text: function() {
-            var NODE_TYPE_TEXT_PROPERTY = [];
-            function getText(element, value) {
-                var textProp = NODE_TYPE_TEXT_PROPERTY[element.nodeType];
-                if (isUndefined(value)) return textProp ? element[textProp] : "";
-                element[textProp] = value;
-            }
-            return msie < 9 ? (NODE_TYPE_TEXT_PROPERTY[1] = "innerText", NODE_TYPE_TEXT_PROPERTY[3] = "nodeValue") : NODE_TYPE_TEXT_PROPERTY[1] = NODE_TYPE_TEXT_PROPERTY[3] = "textContent", getText.$dv = "", getText;
-        }(),
-        val: function(element, value) {
-            if (isUndefined(value)) {
-                if ("SELECT" === nodeName_(element) && element.multiple) {
-                    var result = [];
-                    return forEach(element.options, function(option) {
-                        option.selected && result.push(option.value || option.text);
-                    }), 0 === result.length ? null : result;
-                }
-                return element.value;
-            }
-            element.value = value;
-        },
-        html: function(element, value) {
-            if (isUndefined(value)) return element.innerHTML;
-            for(var i = 0, childNodes = element.childNodes; i < childNodes.length; i++)jqLiteDealoc(childNodes[i]);
-            element.innerHTML = value;
-        },
-        empty: jqLiteEmpty
-    }, function(fn, name) {
-        JQLite.prototype[name] = function(arg1, arg2) {
-            var i, key;
-            if (fn !== jqLiteEmpty && (2 == fn.length && fn !== jqLiteHasClass && fn !== jqLiteController ? arg1 : arg2) === undefined) {
-                if (isObject(arg1)) {
-                    for(i = 0; i < this.length; i++)if (fn === jqLiteData) fn(this[i], arg1);
-                    else for(key in arg1)fn(this[i], key, arg1[key]);
-                    return this;
-                }
-                for(var value = fn.$dv, jj = value === undefined ? Math.min(this.length, 1) : this.length, j = 0; j < jj; j++){
-                    var nodeValue = fn(this[j], arg1, arg2);
-                    value = value ? value + nodeValue : nodeValue;
-                }
-                return value;
-            }
-            for(i = 0; i < this.length; i++)fn(this[i], arg1, arg2);
-            return this;
-        };
-    }), forEach({
-        removeData: jqLiteRemoveData,
-        dealoc: jqLiteDealoc,
-        on: function onFn(element, type, fn, unsupported) {
-            if (isDefined(unsupported)) throw jqLiteMinErr("onargs", "jqLite#on() does not support the `selector` or `eventData` parameters");
-            var events = jqLiteExpandoStore(element, "events"), handle = jqLiteExpandoStore(element, "handle");
-            events || jqLiteExpandoStore(element, "events", events = {
-            }), handle || jqLiteExpandoStore(element, "handle", handle = createEventHandler(element, events)), forEach(type.split(" "), function(type) {
-                var eventFns = events[type];
-                if (!eventFns) {
-                    if ("mouseenter" == type || "mouseleave" == type) {
-                        var contains = document.body.contains || document.body.compareDocumentPosition ? function(a, b) {
-                            var adown = 9 === a.nodeType ? a.documentElement : a, bup = b && b.parentNode;
-                            return a === bup || !!(bup && 1 === bup.nodeType && (adown.contains ? adown.contains(bup) : a.compareDocumentPosition && 16 & a.compareDocumentPosition(bup)));
-                        } : function(a, b) {
-                            if (b) {
-                                for(; b = b.parentNode;)if (b === a) return !0;
-                            }
-                            return !1;
-                        };
-                        events[type] = [], onFn(element, {
-                            mouseleave: "mouseout",
-                            mouseenter: "mouseover"
-                        }[type], function(event) {
-                            var target = this, related = event.relatedTarget;
-                            related && (related === target || contains(target, related)) || handle(event, type);
-                        });
-                    } else addEventListenerFn(element, type, handle), events[type] = [];
-                    eventFns = events[type];
-                }
-                eventFns.push(fn);
-            });
-        },
-        off: jqLiteOff,
-        replaceWith: function(element, replaceNode) {
-            var index, parent = element.parentNode;
-            jqLiteDealoc(element), forEach(new JQLite(replaceNode), function(node) {
-                index ? parent.insertBefore(node, index.nextSibling) : parent.replaceChild(node, element), index = node;
-            });
-        },
-        children: function(element) {
-            var children = [];
-            return forEach(element.childNodes, function(element) {
-                1 === element.nodeType && children.push(element);
-            }), children;
-        },
-        contents: function(element) {
-            return element.childNodes || [];
-        },
-        append: function(element, node) {
-            forEach(new JQLite(node), function(child) {
-                (1 === element.nodeType || 11 === element.nodeType) && element.appendChild(child);
-            });
-        },
-        prepend: function(element, node) {
-            if (1 === element.nodeType) {
-                var index = element.firstChild;
-                forEach(new JQLite(node), function(child) {
-                    element.insertBefore(child, index);
-                });
-            }
-        },
-        wrap: function(element, wrapNode) {
-            wrapNode = jqLite(wrapNode)[0];
-            var parent = element.parentNode;
-            parent && parent.replaceChild(wrapNode, element), wrapNode.appendChild(element);
-        },
-        remove: function(element) {
-            jqLiteDealoc(element);
-            var parent = element.parentNode;
-            parent && parent.removeChild(element);
-        },
-        after: function(element, newElement) {
-            var index = element, parent = element.parentNode;
-            forEach(new JQLite(newElement), function(node) {
-                parent.insertBefore(node, index.nextSibling), index = node;
-            });
-        },
-        addClass: jqLiteAddClass,
-        removeClass: jqLiteRemoveClass,
-        toggleClass: function(element, selector, condition) {
-            isUndefined(condition) && (condition = !jqLiteHasClass(element, selector)), (condition ? jqLiteAddClass : jqLiteRemoveClass)(element, selector);
-        },
-        parent: function(element) {
-            var parent = element.parentNode;
-            return parent && 11 !== parent.nodeType ? parent : null;
-        },
-        next: function(element) {
-            if (element.nextElementSibling) return element.nextElementSibling;
-            for(var elm = element.nextSibling; null != elm && 1 !== elm.nodeType;)elm = elm.nextSibling;
-            return elm;
-        },
-        find: function(element, selector) {
-            return element.getElementsByTagName ? element.getElementsByTagName(selector) : [];
-        },
-        clone: jqLiteClone,
-        triggerHandler: function(element, eventName, eventData) {
-            var eventFns = (jqLiteExpandoStore(element, "events") || {
-            })[eventName];
-            eventData = eventData || [];
-            var event = [
-                {
-                    preventDefault: noop,
-                    stopPropagation: noop
-                }
-            ];
-            forEach(eventFns, function(fn) {
-                fn.apply(element, event.concat(eventData));
-            });
-        }
-    }, function(fn, name) {
-        JQLite.prototype[name] = function(arg1, arg2, arg3) {
-            for(var value, i = 0; i < this.length; i++)isUndefined(value) ? isDefined(value = fn(this[i], arg1, arg2, arg3)) && (value = jqLite(value)) : jqLiteAddNodes(value, fn(this[i], arg1, arg2, arg3));
-            return isDefined(value) ? value : this;
-        }, JQLite.prototype.bind = JQLite.prototype.on, JQLite.prototype.unbind = JQLite.prototype.off;
-    }), HashMap.prototype = {
-        put: function(key, value) {
-            this[hashKey(key)] = value;
-        },
-        get: function(key) {
-            return this[hashKey(key)];
-        },
-        remove: function(key) {
-            var value = this[key = hashKey(key)];
-            return delete this[key], value;
-        }
-    }, $CompileProvider.$inject = [
-        "$provide",
-        "$$sanitizeUriProvider"
-    ], LocationHashbangInHtml5Url.prototype = LocationHashbangUrl.prototype = LocationHtml5Url.prototype = {
-        $$html5: !1,
-        $$replace: !1,
-        absUrl: locationGetter("$$absUrl"),
-        url: function(url, replace) {
-            if (isUndefined(url)) return this.$$url;
-            var match = PATH_MATCH.exec(url);
-            return match[1] && this.path(decodeURIComponent(match[1])), (match[2] || match[1]) && this.search(match[3] || ""), this.hash(match[5] || "", replace), this;
-        },
-        protocol: locationGetter("$$protocol"),
-        host: locationGetter("$$host"),
-        port: locationGetter("$$port"),
-        path: locationGetterSetter("$$path", function(path) {
-            return "/" == path.charAt(0) ? path : "/" + path;
-        }),
-        search: function(search, paramValue) {
-            switch(arguments.length){
-                case 0:
-                    return this.$$search;
-                case 1:
-                    if (isString(search)) this.$$search = parseKeyValue(search);
-                    else if (isObject(search)) this.$$search = search;
-                    else throw $locationMinErr("isrcharg", "The first argument of the `$location#search()` call must be a string or an object.");
-                    break;
-                default: isUndefined(paramValue) || null === paramValue ? delete this.$$search[search] : this.$$search[search] = paramValue;
-            }
-            return this.$$compose(), this;
-        },
-        hash: locationGetterSetter("$$hash", identity),
-        replace: function() {
-            return this.$$replace = !0, this;
-        }
-    }, Lexer.prototype = {
-        constructor: Lexer,
-        lex: function(text) {
-            this.text = text, this.index = 0, this.ch = undefined, this.lastCh = ":", this.tokens = [];
-            for(var token, json = []; this.index < this.text.length;){
-                if (this.ch = this.text.charAt(this.index), this.is("\"'")) this.readString(this.ch);
-                else if (this.isNumber(this.ch) || this.is(".") && this.isNumber(this.peek())) this.readNumber();
-                else if (this.isIdent(this.ch)) this.readIdent(), this.was("{,") && "{" === json[0] && (token = this.tokens[this.tokens.length - 1]) && (token.json = -1 === token.text.indexOf("."));
-                else if (this.is("(){}[].,;:?")) this.tokens.push({
-                    index: this.index,
-                    text: this.ch,
-                    json: this.was(":[,") && this.is("{[") || this.is("}]:,")
-                }), this.is("{[") && json.unshift(this.ch), this.is("}]") && json.shift(), this.index++;
-                else if (this.isWhitespace(this.ch)) {
-                    this.index++;
-                    continue;
-                } else {
-                    var ch2 = this.ch + this.peek(), ch3 = ch2 + this.peek(2), fn = OPERATORS[this.ch], fn2 = OPERATORS[ch2], fn3 = OPERATORS[ch3];
-                    fn3 ? (this.tokens.push({
-                        index: this.index,
-                        text: ch3,
-                        fn: fn3
-                    }), this.index += 3) : fn2 ? (this.tokens.push({
-                        index: this.index,
-                        text: ch2,
-                        fn: fn2
-                    }), this.index += 2) : fn ? (this.tokens.push({
-                        index: this.index,
-                        text: this.ch,
-                        fn: fn,
-                        json: this.was("[,:") && this.is("+-")
-                    }), this.index += 1) : this.throwError("Unexpected next character ", this.index, this.index + 1);
-                }
-                this.lastCh = this.ch;
-            }
-            return this.tokens;
-        },
-        is: function(chars) {
-            return -1 !== chars.indexOf(this.ch);
-        },
-        was: function(chars) {
-            return -1 !== chars.indexOf(this.lastCh);
-        },
-        peek: function(i) {
-            var num = i || 1;
-            return this.index + num < this.text.length && this.text.charAt(this.index + num);
-        },
-        isNumber: function(ch) {
-            return "0" <= ch && ch <= "9";
-        },
-        isWhitespace: function(ch) {
-            return " " === ch || "\r" === ch || "\t" === ch || "\n" === ch || "\v" === ch || "\xa0" === ch;
-        },
-        isIdent: function(ch) {
-            return "a" <= ch && ch <= "z" || "A" <= ch && ch <= "Z" || "_" === ch || "$" === ch;
-        },
-        isExpOperator: function(ch) {
-            return "-" === ch || "+" === ch || this.isNumber(ch);
-        },
-        throwError: function(error, start, end) {
-            end = end || this.index;
-            var colStr = isDefined(start) ? "s " + start + "-" + this.index + " [" + this.text.substring(start, end) + "]" : " " + end;
-            throw $parseMinErr("lexerr", "Lexer Error: {0} at column{1} in expression [{2}].", error, colStr, this.text);
-        },
-        readNumber: function() {
-            for(var number = "", start = this.index; this.index < this.text.length;){
-                var ch = lowercase(this.text.charAt(this.index));
-                if ("." == ch || this.isNumber(ch)) number += ch;
-                else {
-                    var peekCh = this.peek();
-                    if ("e" == ch && this.isExpOperator(peekCh)) number += ch;
-                    else if (this.isExpOperator(ch) && peekCh && this.isNumber(peekCh) && "e" == number.charAt(number.length - 1)) number += ch;
-                    else if (!this.isExpOperator(ch) || peekCh && this.isNumber(peekCh) || "e" != number.charAt(number.length - 1)) break;
-                    else this.throwError("Invalid exponent");
-                }
-                this.index++;
-            }
-            number *= 1, this.tokens.push({
-                index: start,
-                text: number,
-                json: !0,
-                fn: function() {
-                    return number;
-                }
-            });
-        },
-        readIdent: function() {
-            for(var lastDot, peekIndex, methodName, ch, parser = this, ident = "", start = this.index; this.index < this.text.length;){
-                if ("." === (ch = this.text.charAt(this.index)) || this.isIdent(ch) || this.isNumber(ch)) "." === ch && (lastDot = this.index), ident += ch;
-                else break;
-                this.index++;
-            }
-            if (lastDot) for(peekIndex = this.index; peekIndex < this.text.length;){
-                if ("(" === (ch = this.text.charAt(peekIndex))) {
-                    methodName = ident.substr(lastDot - start + 1), ident = ident.substr(0, lastDot - start), this.index = peekIndex;
-                    break;
-                }
-                if (this.isWhitespace(ch)) peekIndex++;
-                else break;
-            }
-            var token = {
-                index: start,
-                text: ident
-            };
-            if (OPERATORS.hasOwnProperty(ident)) token.fn = OPERATORS[ident], token.json = OPERATORS[ident];
-            else {
-                var getter1 = getterFn(ident, this.options, this.text);
-                token.fn = extend(function(self, locals) {
-                    return getter1(self, locals);
-                }, {
-                    assign: function(self, value) {
-                        return setter(self, ident, value, parser.text, parser.options);
-                    }
-                });
-            }
-            this.tokens.push(token), methodName && (this.tokens.push({
-                index: lastDot,
-                text: ".",
-                json: !1
-            }), this.tokens.push({
-                index: lastDot + 1,
-                text: methodName,
-                json: !1
-            }));
-        },
-        readString: function(quote) {
-            var start = this.index;
-            this.index++;
-            for(var string = "", rawString = quote, escape = !1; this.index < this.text.length;){
-                var ch = this.text.charAt(this.index);
-                if (rawString += ch, escape) {
-                    if ("u" === ch) {
-                        var hex = this.text.substring(this.index + 1, this.index + 5);
-                        hex.match(/[\da-f]{4}/i) || this.throwError("Invalid unicode escape [\\u" + hex + "]"), this.index += 4, string += String.fromCharCode(parseInt(hex, 16));
-                    } else {
-                        var rep = ESCAPE[ch];
-                        rep ? string += rep : string += ch;
-                    }
-                    escape = !1;
-                } else if ("\\" === ch) escape = !0;
-                else {
-                    if (ch === quote) return this.index++, void this.tokens.push({
-                        index: start,
-                        text: rawString,
-                        string: string,
-                        json: !0,
-                        fn: function() {
-                            return string;
-                        }
-                    });
-                    string += ch;
-                }
-                this.index++;
-            }
-            this.throwError("Unterminated quote", start);
-        }
-    }, Parser.ZERO = function() {
-        return 0;
-    }, Parser.prototype = {
-        constructor: Parser,
-        parse: function(text, json) {
-            this.text = text, this.json = json, this.tokens = this.lexer.lex(text), json && (this.assignment = this.logicalOR, this.functionCall = this.fieldAccess = this.objectIndex = this.filterChain = function() {
-                this.throwError("is not valid json", {
-                    text: text,
-                    index: 0
-                });
-            });
-            var value = json ? this.primary() : this.statements();
-            return 0 !== this.tokens.length && this.throwError("is an unexpected token", this.tokens[0]), value.literal = !!value.literal, value.constant = !!value.constant, value;
-        },
-        primary: function() {
-            if (this.expect("(")) primary = this.filterChain(), this.consume(")");
-            else if (this.expect("[")) primary = this.arrayDeclaration();
-            else if (this.expect("{")) primary = this.object();
-            else {
-                var primary, next, context, token = this.expect();
-                (primary = token.fn) || this.throwError("not a primary expression", token), token.json && (primary.constant = !0, primary.literal = !0);
-            }
-            for(; next = this.expect("(", "[", ".");)"(" === next.text ? (primary = this.functionCall(primary, context), context = null) : "[" === next.text ? (context = primary, primary = this.objectIndex(primary)) : "." === next.text ? (context = primary, primary = this.fieldAccess(primary)) : this.throwError("IMPOSSIBLE");
-            return primary;
-        },
-        throwError: function(msg, token) {
-            throw $parseMinErr("syntax", "Syntax Error: Token '{0}' {1} at column {2} of the expression [{3}] starting at [{4}].", token.text, msg, token.index + 1, this.text, this.text.substring(token.index));
-        },
-        peekToken: function() {
-            if (0 === this.tokens.length) throw $parseMinErr("ueoe", "Unexpected end of expression: {0}", this.text);
-            return this.tokens[0];
-        },
-        peek: function(e1, e2, e3, e4) {
-            if (this.tokens.length > 0) {
-                var token = this.tokens[0], t = token.text;
-                if (t === e1 || t === e2 || t === e3 || t === e4 || !e1 && !e2 && !e3 && !e4) return token;
-            }
-            return !1;
-        },
-        expect: function(e1, e2, e3, e4) {
-            var token = this.peek(e1, e2, e3, e4);
-            return !!token && (this.json && !token.json && this.throwError("is not valid json", token), this.tokens.shift(), token);
-        },
-        consume: function(e1) {
-            this.expect(e1) || this.throwError("is unexpected, expecting [" + e1 + "]", this.peek());
-        },
-        unaryFn: function(fn, right) {
-            return extend(function(self, locals) {
-                return fn(self, locals, right);
-            }, {
-                constant: right.constant
-            });
-        },
-        ternaryFn: function(left, middle, right) {
-            return extend(function(self, locals) {
-                return left(self, locals) ? middle(self, locals) : right(self, locals);
-            }, {
-                constant: left.constant && middle.constant && right.constant
-            });
-        },
-        binaryFn: function(left, fn, right) {
-            return extend(function(self, locals) {
-                return fn(self, locals, left, right);
-            }, {
-                constant: left.constant && right.constant
-            });
-        },
-        statements: function() {
-            for(var statements = [];;)if (this.tokens.length > 0 && !this.peek("}", ")", ";", "]") && statements.push(this.filterChain()), !this.expect(";")) return 1 === statements.length ? statements[0] : function(self, locals) {
-                for(var value, i = 0; i < statements.length; i++){
-                    var statement = statements[i];
-                    statement && (value = statement(self, locals));
-                }
-                return value;
-            };
-        },
-        filterChain: function() {
-            for(var token, left = this.expression();;){
-                if (!(token = this.expect("|"))) return left;
-                left = this.binaryFn(left, token.fn, this.filter());
-            }
-        },
-        filter: function() {
-            for(var token = this.expect(), fn = this.$filter(token.text), argsFn = [];;)if (token = this.expect(":")) argsFn.push(this.expression());
-            else {
-                var fnInvoke = function(self, locals, input) {
-                    for(var args = [
-                        input
-                    ], i = 0; i < argsFn.length; i++)args.push(argsFn[i](self, locals));
-                    return fn.apply(self, args);
-                };
-                return function() {
-                    return fnInvoke;
-                };
-            }
-        },
-        expression: function() {
-            return this.assignment();
-        },
-        assignment: function() {
-            var right, token, left = this.ternary();
-            return (token = this.expect("=")) ? (left.assign || this.throwError("implies assignment but [" + this.text.substring(0, token.index) + "] can not be assigned to", token), function(scope9, locals) {
-                return left.assign(scope9, (right = this.ternary())(scope9, locals), locals);
-            }) : left;
-        },
-        ternary: function() {
-            var middle, token, left = this.logicalOR();
-            return (token = this.expect("?")) ? (middle = this.ternary(), token = this.expect(":")) ? this.ternaryFn(left, middle, this.ternary()) : void this.throwError("expected :", token) : left;
-        },
-        logicalOR: function() {
-            for(var token, left = this.logicalAND();;){
-                if (!(token = this.expect("||"))) return left;
-                left = this.binaryFn(left, token.fn, this.logicalAND());
-            }
-        },
-        logicalAND: function() {
-            var token, left = this.equality();
-            return (token = this.expect("&&")) && (left = this.binaryFn(left, token.fn, this.logicalAND())), left;
-        },
-        equality: function() {
-            var token, left = this.relational();
-            return (token = this.expect("==", "!=", "===", "!==")) && (left = this.binaryFn(left, token.fn, this.equality())), left;
-        },
-        relational: function() {
-            var token, left = this.additive();
-            return (token = this.expect("<", ">", "<=", ">=")) && (left = this.binaryFn(left, token.fn, this.relational())), left;
-        },
-        additive: function() {
-            for(var token, left = this.multiplicative(); token = this.expect("+", "-");)left = this.binaryFn(left, token.fn, this.multiplicative());
-            return left;
-        },
-        multiplicative: function() {
-            for(var token, left = this.unary(); token = this.expect("*", "/", "%");)left = this.binaryFn(left, token.fn, this.unary());
-            return left;
-        },
-        unary: function() {
-            var token;
-            return this.expect("+") ? this.primary() : (token = this.expect("-")) ? this.binaryFn(Parser.ZERO, token.fn, this.unary()) : (token = this.expect("!")) ? this.unaryFn(token.fn, this.unary()) : this.primary();
-        },
-        fieldAccess: function(object) {
-            var parser = this, field = this.expect().text, getter2 = getterFn(field, this.options, this.text);
-            return extend(function(scope9, locals, self) {
-                return getter2(self || object(scope9, locals), locals);
-            }, {
-                assign: function(scope9, value, locals) {
-                    return setter(object(scope9, locals), field, value, parser.text, parser.options);
-                }
-            });
-        },
-        objectIndex: function(obj) {
-            var parser = this, indexFn = this.expression();
-            return this.consume("]"), extend(function(self, locals) {
-                var v, p, o = obj(self, locals), i = indexFn(self, locals);
-                if (o) return (v = ensureSafeObject(o[i], parser.text)) && v.then && parser.options.unwrapPromises && (p = v, "$$v" in v || (p.$$v = undefined, p.then(function(val) {
-                    p.$$v = val;
-                })), v = v.$$v), v;
-            }, {
-                assign: function(self, value, locals) {
-                    var key = indexFn(self, locals);
-                    return ensureSafeObject(obj(self, locals), parser.text)[key] = value;
-                }
-            });
-        },
-        functionCall: function(fn, contextGetter) {
-            var argsFn = [];
-            if (")" !== this.peekToken().text) do argsFn.push(this.expression());
-            while (this.expect(","))
-            this.consume(")");
-            var parser = this;
-            return function(scope9, locals) {
-                for(var args = [], context = contextGetter ? contextGetter(scope9, locals) : scope9, i = 0; i < argsFn.length; i++)args.push(argsFn[i](scope9, locals));
-                var fnPtr = fn(scope9, locals, context) || noop;
-                return ensureSafeObject(context, parser.text), ensureSafeObject(fnPtr, parser.text), ensureSafeObject(fnPtr.apply ? fnPtr.apply(context, args) : fnPtr(args[0], args[1], args[2], args[3], args[4]), parser.text);
-            };
-        },
-        arrayDeclaration: function() {
-            var elementFns = [], allConstant = !0;
-            if ("]" !== this.peekToken().text) do {
-                var elementFn = this.expression();
-                elementFns.push(elementFn), elementFn.constant || (allConstant = !1);
-            }while (this.expect(","))
-            return this.consume("]"), extend(function(self, locals) {
-                for(var array = [], i = 0; i < elementFns.length; i++)array.push(elementFns[i](self, locals));
-                return array;
-            }, {
-                literal: !0,
-                constant: allConstant
-            });
-        },
-        object: function() {
-            var keyValues = [], allConstant = !0;
-            if ("}" !== this.peekToken().text) do {
-                var token = this.expect(), key = token.string || token.text;
-                this.consume(":");
-                var value = this.expression();
-                keyValues.push({
-                    key: key,
-                    value: value
-                }), value.constant || (allConstant = !1);
-            }while (this.expect(","))
-            return this.consume("}"), extend(function(self, locals) {
-                for(var object = {
-                }, i = 0; i < keyValues.length; i++){
-                    var keyValue = keyValues[i];
-                    object[keyValue.key] = keyValue.value(self, locals);
-                }
-                return object;
-            }, {
-                literal: !0,
-                constant: allConstant
-            });
-        }
-    }, $FilterProvider.$inject = [
-        "$provide"
-    ], currencyFilter.$inject = [
-        "$locale"
-    ], numberFilter.$inject = [
-        "$locale"
-    ], dateFilter.$inject = [
-        "$locale"
-    ], orderByFilter.$inject = [
-        "$parse"
-    ], forEach(BOOLEAN_ATTR, function(propName, attrName) {
-        if ("multiple" != propName) {
-            var normalized = directiveNormalize("ng-" + attrName);
-            ngAttributeAliasDirectives[normalized] = function() {
-                return {
-                    priority: 100,
-                    compile: function() {
-                        return function(scope9, element, attr) {
-                            scope9.$watch(attr[normalized], function(value) {
-                                attr.$set(attrName, !!value);
-                            });
-                        };
-                    }
-                };
-            };
-        }
-    }), forEach([
-        "src",
-        "srcset",
-        "href"
-    ], function(attrName) {
-        var normalized = directiveNormalize("ng-" + attrName);
-        ngAttributeAliasDirectives[normalized] = function() {
-            return {
-                priority: 99,
-                link: function(scope9, element, attr) {
-                    attr.$observe(normalized, function(value) {
-                        value && (attr.$set(attrName, value), msie && element.prop(attrName, attr[attrName]));
-                    });
-                }
-            };
-        };
-    }), FormController.$inject = [
-        "$element",
-        "$attrs",
-        "$scope"
-    ], forEach("click dblclick mousedown mouseup mouseover mouseout mousemove mouseenter mouseleave keydown keyup keypress submit focus blur copy cut paste".split(" "), function(name) {
-        var directiveName = directiveNormalize("ng-" + name);
-        ngEventDirectives[directiveName] = [
-            "$parse", function($parse) {
-                return {
-                    compile: function($element, attr) {
-                        var fn = $parse(attr[directiveName]);
-                        return function(scope9, element, attr) {
-                            element.on(lowercase(name), function(event) {
-                                scope9.$apply(function() {
-                                    fn(scope9, {
-                                        $event: event
-                                    });
-                                });
-                            });
-                        };
-                    }
-                };
-            }];
-    }), (jQuery = window.jQuery) ? (jqLite = jQuery, extend(jQuery.fn, {
+    (jQuery = window.jQuery) ? (jqLite = jQuery, extend(jQuery.fn, {
         scope: JQLitePrototype.scope,
         isolateScope: JQLitePrototype.isolateScope,
         controller: JQLitePrototype.controller,

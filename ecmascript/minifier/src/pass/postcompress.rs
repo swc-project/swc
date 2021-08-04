@@ -1,4 +1,4 @@
-use crate::option::CompressOptions;
+use crate::{option::CompressOptions, DISABLE_BUGGY_PASSES};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -14,6 +14,10 @@ struct PostcompressOptimizer<'a> {
 impl PostcompressOptimizer<'_> {
     fn optimize_in_bool_ctx(&mut self, e: &mut Expr) {
         if !self.options.bools {
+            return;
+        }
+        // This is buggy
+        if DISABLE_BUGGY_PASSES {
             return;
         }
 
