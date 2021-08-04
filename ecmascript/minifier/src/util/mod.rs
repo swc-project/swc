@@ -27,7 +27,7 @@ pub(crate) fn make_number(span: Span, value: f64) -> Expr {
     Expr::Lit(Lit::Num(Number { span, value }))
 }
 
-pub trait MoudleItemExt: StmtLike + ModuleItemLike {
+pub trait MoudleItemExt: StmtLike + ModuleItemLike + From<Stmt> {
     fn as_module_decl(&self) -> Result<&ModuleDecl, &Stmt>;
 
     fn from_module_item(item: ModuleItem) -> Self;
