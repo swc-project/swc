@@ -1,5 +1,4 @@
 {
-    "sourceMaps": "inline",
     "jsc": {
         "target": "es5",
         "parser": {

@@ -752,6 +752,7 @@ where
 
                         if line.starts_with("@jsxImportSource") {
                             let src = line.replace("@jsxImportSource", "").trim().to_string();
+                            self.runtime = Runtime::Automatic;
                             self.import_source = src.into();
                         }
 
@@ -775,17 +776,15 @@ where
                             };
                         } else if line.starts_with("@jsx ") {
                             if self.runtime == Runtime::Automatic {
-                                if self.runtime == Runtime::Automatic {
-                                    HANDLER.with(|handler| {
-                                        handler
-                                            .struct_span_err(
-                                                module.span,
-                                                "pragma and pragmaFrag cannot be set when runtime \
-                                                 is automatic",
-                                            )
-                                            .emit()
-                                    });
-                                }
+                                HANDLER.with(|handler| {
+                                    handler
+                                        .struct_span_err(
+                                            module.span,
+                                            "pragma and pragmaFrag cannot be set when runtime is \
+                                             automatic",
+                                        )
+                                        .emit()
+                                });
                             }
 
                             let src = line.replace("@jsx", "").trim().to_string();
