@@ -11,7 +11,7 @@ use swc_ecma_minifier::option::{
     ExtraOptions, MangleOptions, ManglePropertiesOptions, MinifyOptions,
 };
 use swc_ecma_parser::lexer::Lexer;
-use swc_ecma_parser::Parser;
+use swc_ecma_parser::{EsConfig, Parser, Syntax};
 
 fn print(cm: Lrc<SourceMap>, m: &Module, minify: bool) -> String {
     let mut buf = vec![];
@@ -43,7 +43,10 @@ fn parse(cm: Lrc<SourceMap>, path: &Path) -> Module {
 
 fn parse_fm(fm: Lrc<SourceFile>) -> Module {
     let lexer = Lexer::new(
-        Default::default(),
+        Syntax::Es(EsConfig {
+            dynamic_import: true,
+            ..Default::default()
+        }),
         EsVersion::latest(),
         SourceFileInput::from(&*fm),
         None,
