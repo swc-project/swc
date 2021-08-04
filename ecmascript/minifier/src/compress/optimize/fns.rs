@@ -1,7 +1,8 @@
 use super::Optimizer;
 use crate::{
-    compress::optimize::{util::is_directive, DISABLE_BUGGY_PASSES},
+    compress::optimize::util::is_directive,
     util::{sort::is_sorted_by, MoudleItemExt},
+    DISABLE_BUGGY_PASSES,
 };
 use std::cmp::Ordering;
 use swc_ecma_ast::*;

@@ -64,8 +64,6 @@ mod unsafes;
 mod unused;
 mod util;
 
-const DISABLE_BUGGY_PASSES: bool = true;
-
 #[derive(Debug, Default)]
 pub(super) struct OptimizerState {
     vars_for_inlining: FxHashMap<Id, Box<Expr>>,

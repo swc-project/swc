@@ -1,6 +1,6 @@
 use super::Optimizer;
-use super::DISABLE_BUGGY_PASSES;
 use crate::compress::optimize::is_pure_undefined_or_null;
+use crate::DISABLE_BUGGY_PASSES;
 use std::f64;
 use std::num::FpCategory;
 use swc_atoms::js_word;

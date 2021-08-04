@@ -1,4 +1,4 @@
-use crate::option::CompressOptions;
+use crate::{option::CompressOptions, DISABLE_BUGGY_PASSES};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -17,7 +17,7 @@ impl PostcompressOptimizer<'_> {
             return;
         }
         // This is buggy
-        if true {
+        if DISABLE_BUGGY_PASSES {
             return;
         }
 
