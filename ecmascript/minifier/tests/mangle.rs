@@ -1,5 +1,4 @@
 use std::path::{Path, PathBuf};
-use std::sync::Arc;
 use swc_common::{input::SourceFileInput, sync::Lrc};
 use swc_common::{FileName, Mark, SourceFile, SourceMap};
 use swc_ecma_ast::*;
@@ -42,7 +41,7 @@ fn parse(cm: Lrc<SourceMap>, path: &Path) -> Module {
     parse_fm(fm)
 }
 
-fn parse_fm(fm: Arc<SourceFile>) -> Module {
+fn parse_fm(fm: Lrc<SourceFile>) -> Module {
     let lexer = Lexer::new(
         Default::default(),
         EsVersion::latest(),
