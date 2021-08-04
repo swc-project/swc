@@ -111,6 +111,9 @@ pub(super) fn optimizer<'a>(
 /// This should not be modified directly. Use `.with_ctx()` instead.
 #[derive(Debug, Default, Clone, Copy)]
 struct Ctx {
+    /// See [crate::marks::Marks]
+    skip_standalone: bool,
+
     /// `true` if the [VarDecl] has const annotation.
     has_const_ann: bool,
 
@@ -1953,10 +1956,19 @@ impl VisitMut for Optimizer<'_> {
             n.decorators.visit_mut_with(&mut *self.with_ctx(ctx));
         }
 
+        let is_standalone = n.span.has_mark(self.marks.standalone);
+
+        // We don't dig into standalone function, as it does not share any variable with
+        // outer scope.
+        if self.ctx.skip_standalone && is_standalone {
+            return;
+        }
+
         let old_in_asm = self.ctx.in_asm;
 
         {
             let ctx = Ctx {
+                skip_standalone: self.ctx.skip_standalone || is_standalone,
                 stmt_lablled: false,
                 in_fn_like: true,
                 scope: n.span.ctxt,
@@ -2054,6 +2066,7 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         let ctx = Ctx {
             top_level: true,
+            skip_standalone: true,
             ..self.ctx
         };
         self.with_ctx(ctx).handle_stmt_likes(stmts);
