@@ -108,7 +108,7 @@ var isServerSide = "undefined" == typeof document,
                                 currentMetaIndex =
                                     0);
                     },
-                    1e3 / 60
+                    1000 / 60
                 ));
             };
         return {
@@ -188,23 +188,21 @@ var isServerSide = "undefined" == typeof document,
                                 );
                             }
                         );
-                        if (newMeta) changeOrCreateMetaTag(
-                            newMeta
-                        );
-                        else {
-                            var result = document.head.querySelectorAll(
-                                oldMeta.charset
-                                    ? "meta[" + oldMeta.keyword + "]"
-                                    : "meta[" +
-                                          oldMeta.keyword +
-                                          '="' +
-                                          oldMeta[oldMeta.keyword] +
-                                          '"]'
+                        newMeta
+                            ? changeOrCreateMetaTag(
+                                newMeta
+                            )
+                            : document.head.removeChild(
+                                document.head.querySelectorAll(
+                                    oldMeta.charset
+                                        ? "meta[" + oldMeta.keyword + "]"
+                                        : "meta[" +
+                                                oldMeta.keyword +
+                                                '="' +
+                                                oldMeta[oldMeta.keyword] +
+                                                '"]'
+                                )[0]
                             );
-                            document.head.removeChild(
-                                result[0]
-                            );
-                        }
                     }
                 }
             },
@@ -313,10 +311,9 @@ var isServerSide = "undefined" == typeof document,
     useLang = function (
         language
     ) {
-        var dispatcher = F(
+        isServerSide && F(
             DispatcherContext
-        );
-        isServerSide && dispatcher._setLang(
+        )._setLang(
             language
         ),
         y(
@@ -337,10 +334,7 @@ var isServerSide = "undefined" == typeof document,
     useLink = function (
         options
     ) {
-        var dispatcher = F(
-                DispatcherContext
-            ),
-            hasMounted = s(
+        var hasMounted = s(
                 !1
             ),
             node = s(
@@ -349,7 +343,9 @@ var isServerSide = "undefined" == typeof document,
             );
         isServerSide &&
             !hasMounted.current &&
-            dispatcher._addToQueue(
+            F(
+                DispatcherContext
+            )._addToQueue(
                 LINK,
                 options
             ),
