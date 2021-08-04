@@ -4,6 +4,9 @@ use swc_common::Mark;
 pub(crate) struct Marks {
     /// [Mark] applied to non-top level varaibles which is injected while
     /// inlining.
+    ///
+    /// In other words, AST nodes marked with this mark will not be treated as a
+    /// top level item, even if it's in the top level scope.
     pub(crate) non_top_level: Mark,
 
     /// Optimization is finished. This mark is only applied if both of the
