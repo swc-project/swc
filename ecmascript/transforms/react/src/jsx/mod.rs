@@ -3,7 +3,6 @@ use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
-use std::fmt::Write;
 use std::iter::once;
 use std::{iter, mem};
 use string_enum::StringEnum;
@@ -1129,11 +1128,8 @@ fn transform_jsx_attr_str(v: &str) -> String {
             '\'' if single_quote => buf.push_str("\\'"),
             '"' if !single_quote => buf.push_str("\\\""),
 
-            '\x01'..='\x0f' => {
-                let _ = write!(buf, "\\x0{:x}", c as u8);
-            }
-            '\x10'..='\x1f' => {
-                let _ = write!(buf, "\\x{:x}", c as u8);
+            '\x01'..='\x0f' | '\x10'..='\x1f' => {
+                buf.push(c);
             }
 
             '\x20'..='\x7e' => {
@@ -1141,7 +1137,7 @@ fn transform_jsx_attr_str(v: &str) -> String {
                 buf.push(c);
             }
             '\u{7f}'..='\u{ff}' => {
-                let _ = write!(buf, "\\x{:x}", c as u8);
+                buf.push(c);
             }
 
             _ => {
