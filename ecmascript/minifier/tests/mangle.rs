@@ -1,7 +1,7 @@
 use std::path::{Path, PathBuf};
-
+use std::sync::Arc;
 use swc_common::{input::SourceFileInput, sync::Lrc};
-use swc_common::{Mark, SourceMap};
+use swc_common::{FileName, Mark, SourceFile, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{
     text_writer::{omit_trailing_semi, JsWriter, WriteJs},
@@ -13,7 +13,6 @@ use swc_ecma_minifier::option::{
 };
 use swc_ecma_parser::lexer::Lexer;
 use swc_ecma_parser::Parser;
-use testing::NormalizedOutput;
 
 fn print(cm: Lrc<SourceMap>, m: &Module, minify: bool) -> String {
     let mut buf = vec![];
@@ -40,7 +39,10 @@ fn print(cm: Lrc<SourceMap>, m: &Module, minify: bool) -> String {
 
 fn parse(cm: Lrc<SourceMap>, path: &Path) -> Module {
     let fm = cm.load_file(path).unwrap();
+    parse_fm(fm)
+}
 
+fn parse_fm(fm: Arc<SourceFile>) -> Module {
     let lexer = Lexer::new(
         Default::default(),
         EsVersion::latest(),
@@ -54,8 +56,6 @@ fn parse(cm: Lrc<SourceMap>, path: &Path) -> Module {
 
 #[testing::fixture("tests/compress/fixture/**/output.js")]
 fn compressed(compressed_file: PathBuf) {
-    let mangled_file = compressed_file.parent().unwrap().join("output.mangled.js");
-    let minified_file = compressed_file.parent().unwrap().join("output.min.js");
     testing::run_test2(false, |cm, _handler| {
         let m = parse(cm.clone(), &compressed_file);
 
@@ -89,12 +89,8 @@ fn compressed(compressed_file: PathBuf) {
         let mangled = print(cm.clone(), &m, false);
         let minified = print(cm.clone(), &m, true);
 
-        NormalizedOutput::from(mangled)
-            .compare_to_file(&mangled_file)
-            .unwrap();
-        NormalizedOutput::from(minified)
-            .compare_to_file(&minified_file)
-            .unwrap();
+        parse_fm(cm.new_source_file(FileName::Anon, mangled));
+        parse_fm(cm.new_source_file(FileName::Anon, minified));
 
         Ok(())
     })
