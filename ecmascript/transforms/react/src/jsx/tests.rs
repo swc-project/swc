@@ -766,6 +766,19 @@ React.createElement("div", null, "this should not parse as unicode: \\u00a0");
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(t, Default::default()),
+    react_should_escape_unicode_chars_in_attribute,
+    r#"<Bla title="Ú"/>"#,
+    r#"React.createElement(Bla, {
+    title: "\xda"
+});"#
+);
+
+test!(
     // FIXME
     ignore,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
