@@ -1,6 +1,6 @@
 use super::Optimizer;
 use crate::{
-    compress::optimize::util::is_directive,
+    compress::optimize::{util::is_directive, DISABLE_BUGGY_PASSES},
     util::{sort::is_sorted_by, MoudleItemExt},
 };
 use std::cmp::Ordering;
@@ -26,6 +26,9 @@ impl Optimizer<'_> {
         T: MoudleItemExt,
     {
         if !self.options.join_vars {
+            return;
+        }
+        if DISABLE_BUGGY_PASSES {
             return;
         }
 
