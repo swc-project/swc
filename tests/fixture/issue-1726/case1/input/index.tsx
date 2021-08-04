@@ -1,1 +1,1 @@
-const foo = <h1>{bar}</h1>
+const foo = /* 1 */ <h1>{/* 2 */ bar /* 3 */}</h1>; /* 4 */
