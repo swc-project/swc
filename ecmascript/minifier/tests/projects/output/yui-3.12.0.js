@@ -320,43 +320,7 @@ var YUI = function() {
         "[object Array]": "array",
         "[object Date]": "date",
         "[object Error]": "error"
-    }, SUBREGEX = /\{\s*([^|}]+?)\s*(?:\|([^}]*))?\s*\}/g, TRIM_LEFT_REGEX = new RegExp("^[\t-\r \xa0 ᠎ - \u2028\u2029  　﻿]+"), TRIM_RIGHT_REGEX = new RegExp("[\t-\r \xa0 ᠎ - \u2028\u2029  　﻿]+$"), TRIMREGEX = new RegExp(TRIM_LEFT_REGEX.source + "|" + TRIM_RIGHT_REGEX.source, "g"), NATIVE_FN_REGEX = /\{\s*\[(?:native code|function)\]\s*\}/i, Lang = Y.Lang, Native = Array.prototype, hasOwn = Object.prototype.hasOwnProperty;
-    function YArray(thing, startIndex, force) {
-        var len, result;
-        if (startIndex || (startIndex = 0), force || YArray.test(thing)) try {
-            return Native.slice.call(thing, startIndex);
-        } catch (ex) {
-            for(result = [], len = thing.length; startIndex < len; ++startIndex)result.push(thing[startIndex]);
-            return result;
-        }
-        return [
-            thing
-        ];
-    }
-    function Queue() {
-        this._init(), this.add.apply(this, arguments);
-    }
-    var UNDEFINED, hasOwn = Object.prototype.hasOwnProperty, isObject = Y.Lang.isObject, Lang = Y.Lang, hasOwn = Object.prototype.hasOwnProperty, O = Y.Object = Lang._isNative(Object.create) ? function(obj) {
-        return Object.create(obj);
-    } : function() {
-        function F() {
-        }
-        return function(obj) {
-            return F.prototype = obj, new F();
-        };
-    }(), forceEnum = O._forceEnum = [
-        "hasOwnProperty",
-        "isPrototypeOf",
-        "propertyIsEnumerable",
-        "toString",
-        "toLocaleString",
-        "valueOf"
-    ], hasEnumBug = O._hasEnumBug = !({
-        valueOf: 0
-    }).propertyIsEnumerable("valueOf"), hasProtoEnumBug = O._hasProtoEnumBug = (function() {
-    }).propertyIsEnumerable("prototype"), owns = O.owns = function(obj, key) {
-        return !!obj && hasOwn.call(obj, key);
-    };
+    }, SUBREGEX = /\{\s*([^|}]+?)\s*(?:\|([^}]*))?\s*\}/g, TRIM_LEFT_REGEX = new RegExp("^[\t-\r \xa0 ᠎ - \u2028\u2029  　﻿]+"), TRIM_RIGHT_REGEX = new RegExp("[\t-\r \xa0 ᠎ - \u2028\u2029  　﻿]+$"), TRIMREGEX = new RegExp(TRIM_LEFT_REGEX.source + "|" + TRIM_RIGHT_REGEX.source, "g"), NATIVE_FN_REGEX = /\{\s*\[(?:native code|function)\]\s*\}/i;
     L._isNative = function(fn) {
         return !!(Y.config.useNativeES5 && fn && NATIVE_FN_REGEX.test(fn));
     }, L.isArray = L._isNative(Array.isArray) ? Array.isArray : function(o) {
@@ -413,7 +377,24 @@ var YUI = function() {
         return s.replace(TRIM_RIGHT_REGEX, "");
     }, L.type = function(o) {
         return TYPES[typeof o] || TYPES[TOSTRING.call(o)] || (o ? "object" : "null");
-    }, Y.Array = YArray, YArray.dedupe = Lang._isNative(Object.create) ? function(array) {
+    };
+    var Lang = Y.Lang, Native = Array.prototype, hasOwn = Object.prototype.hasOwnProperty;
+    function YArray(thing, startIndex, force) {
+        var len, result;
+        if (startIndex || (startIndex = 0), force || YArray.test(thing)) try {
+            return Native.slice.call(thing, startIndex);
+        } catch (ex) {
+            for(result = [], len = thing.length; startIndex < len; ++startIndex)result.push(thing[startIndex]);
+            return result;
+        }
+        return [
+            thing
+        ];
+    }
+    function Queue() {
+        this._init(), this.add.apply(this, arguments);
+    }
+    Y.Array = YArray, YArray.dedupe = Lang._isNative(Object.create) ? function(array) {
         var i, item, len, hash = Object.create(null), results = [];
         for(i = 0, len = array.length; i < len; ++i)hash[item = array[i]] || (hash[item] = 1, results.push(item));
         return results;
@@ -469,7 +450,9 @@ var YUI = function() {
         size: function() {
             return this._q.length;
         }
-    }, Y.Queue = Queue, YUI.Env._loaderQueue = YUI.Env._loaderQueue || new Queue(), Y.cached = function(source, cache, refetch) {
+    }, Y.Queue = Queue, YUI.Env._loaderQueue = YUI.Env._loaderQueue || new Queue();
+    var hasOwn = Object.prototype.hasOwnProperty, isObject = Y.Lang.isObject;
+    Y.cached = function(source, cache, refetch) {
         return cache || (cache = {
         }), function(arg) {
             var key = arguments.length > 1 ? Array.prototype.join.call(arguments, "__") : String(arg);
@@ -494,7 +477,29 @@ var YUI = function() {
             Y.Object._hasEnumBug && Y.mix(to, from, overwrite, Y.Object._forceEnum, mode, merge);
         }
         return receiver;
-    }, O.hasKey = owns, O.keys = Lang._isNative(Object.keys) || hasProtoEnumBug ? Object.keys : function(obj) {
+    };
+    var UNDEFINED, Lang = Y.Lang, hasOwn = Object.prototype.hasOwnProperty, O = Y.Object = Lang._isNative(Object.create) ? function(obj) {
+        return Object.create(obj);
+    } : function() {
+        function F() {
+        }
+        return function(obj) {
+            return F.prototype = obj, new F();
+        };
+    }(), forceEnum = O._forceEnum = [
+        "hasOwnProperty",
+        "isPrototypeOf",
+        "propertyIsEnumerable",
+        "toString",
+        "toLocaleString",
+        "valueOf"
+    ], hasEnumBug = O._hasEnumBug = !({
+        valueOf: 0
+    }).propertyIsEnumerable("valueOf"), hasProtoEnumBug = O._hasProtoEnumBug = (function() {
+    }).propertyIsEnumerable("prototype"), owns = O.owns = function(obj, key) {
+        return !!obj && hasOwn.call(obj, key);
+    };
+    O.hasKey = owns, O.keys = Lang._isNative(Object.keys) && !hasProtoEnumBug ? Object.keys : function(obj) {
         if (!Lang.isObject(obj)) throw new TypeError("Object.keys called on a non-object");
         var i, key, len, keys = [];
         if (hasProtoEnumBug && "function" == typeof obj) for(key in obj)owns(obj, key) && "prototype" !== key && keys.push(key);
