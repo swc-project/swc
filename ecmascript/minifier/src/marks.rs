@@ -9,16 +9,20 @@ pub(crate) struct Marks {
     /// top level item, even if it's in the top level scope.
     pub(crate) non_top_level: Mark,
 
+    /// Treat this function as a top level module.
+    ///
+    /// If this mark is applied, the function will be treated as a black box. It
+    /// will not be analyzed by usage analyzer.
+    ///
+    /// # Note
+    ///
+    /// This is only applied to [swc_ecma_ast::Function] and it should not be
+    /// nested.
+    pub(crate) standalone: Mark,
+
     /// Optimization is finished. This mark is only applied if both of the
     /// stateful optimizer and the pure optimizer cannot optimize anymore.
     pub(crate) done: Mark,
-
-    /// Temporary mark, used to mark nodes which cannot be optimized by the pure
-    /// optimizer.
-    ///
-    /// The stateful optimizer removes this mark if it modified the node, so
-    /// that the pure optimizer can try again to optimize the node.
-    pub(crate) pure_done: Mark,
 
     ///  `/** @const */`.
     pub(crate) const_ann: Mark,
@@ -38,8 +42,8 @@ impl Marks {
 
         Marks {
             non_top_level: m(),
+            standalone: m(),
             done: m(),
-            pure_done: m(),
             const_ann: m(),
             noinline: m(),
             pure: m(),
