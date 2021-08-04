@@ -16,6 +16,9 @@ pub(crate) struct Marks {
     ///
     /// # Note
     ///
+    /// Standalone functions should not depend on any other declarations in the
+    /// outer scope.
+    ///
     /// This is only applied to [swc_ecma_ast::Function] and it should not be
     /// nested.
     pub(crate) standalone: Mark,
