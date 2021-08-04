@@ -588,7 +588,20 @@ impl Visit for UsageAnalyzer {
     fn visit_function(&mut self, n: &Function, _: &dyn Node) {
         n.decorators.visit_with(n, self);
 
-        self.with_child(n.span.ctxt, ScopeKind::Fn, |child| {
+        let is_standalone = n.span.has_mark(self.marks.standalone);
+
+        // We don't dig into standalone function, as it does not share any variable with
+        // outer scope.
+        if self.ctx.skip_standalone && is_standalone {
+            return;
+        }
+
+        let ctx = Ctx {
+            skip_standalone: self.ctx.skip_standalone || is_standalone,
+            ..self.ctx
+        };
+
+        self.with_ctx(ctx).with_child(n.span.ctxt, ScopeKind::Fn, |child| {
             n.params.visit_with(n, child);
 
             match &n.body {
@@ -663,6 +676,14 @@ impl Visit for UsageAnalyzer {
                 _ => {}
             },
         }
+    }
+
+    fn visit_module(&mut self, n: &Module, _: &dyn Node) {
+        let ctx = Ctx {
+            skip_standalone: true,
+            ..self.ctx
+        };
+        n.visit_children_with(&mut *self.with_ctx(ctx))
     }
 
     fn visit_named_export(&mut self, n: &NamedExport, _: &dyn Node) {
