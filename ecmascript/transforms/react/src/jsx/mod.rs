@@ -3,7 +3,6 @@ use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
-use std::fmt::Write;
 use std::iter::once;
 use std::{iter, mem};
 use string_enum::StringEnum;
