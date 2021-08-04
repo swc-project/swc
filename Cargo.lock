@@ -2385,7 +2385,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.11.2"
+version = "0.11.4"
 dependencies = [
  "arbitrary",
  "ast_node",
