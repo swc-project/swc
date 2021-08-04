@@ -120,16 +120,17 @@ impl VisitMut for InfoMarker<'_> {
 
         self.make_unique(&mut n.span);
 
-        if n.params
-            .iter()
-            .filter_map(|p| match &p.pat {
-                Pat::Ident(i) => Some(&i.id),
-                _ => None,
-            })
-            .all(|i| match &*i.sym {
-                "module" | "__webpack_exports__" | "__webpack_require__" => true,
-                _ => false,
-            })
+        if !n.params.is_empty()
+            && n.params
+                .iter()
+                .filter_map(|p| match &p.pat {
+                    Pat::Ident(i) => Some(&i.id),
+                    _ => None,
+                })
+                .all(|i| match &*i.sym {
+                    "module" | "__webpack_exports__" | "__webpack_require__" => true,
+                    _ => false,
+                })
         {
             n.span = n.span.apply_mark(self.marks.standalone);
         }
