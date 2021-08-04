@@ -230,6 +230,15 @@ impl Comments for SingleThreadedComments {
 }
 
 impl SingleThreadedComments {
+    /// Creates a new `SingleThreadedComments` from the provided leading and
+    /// trailing.
+    pub fn from_leading_and_trailing(
+        leading: SingleThreadedCommentsMap,
+        trailing: SingleThreadedCommentsMap,
+    ) -> Self {
+        SingleThreadedComments { leading, trailing }
+    }
+
     /// Takes all the comments as (leading, trailing).
     pub fn take_all(self) -> (SingleThreadedCommentsMap, SingleThreadedCommentsMap) {
         (self.leading, self.trailing)
@@ -292,10 +301,8 @@ pub trait CommentsExt: Comments {
     where
         F: FnOnce(&[Comment]) -> Ret,
     {
-        if let Some(comments) = self.take_leading(pos) {
-            let ret = op(&comments);
-            self.add_leading_comments(pos, comments);
-            ret
+        if let Some(comments) = self.get_leading(pos) {
+            op(&comments)
         } else {
             op(&[])
         }
@@ -305,10 +312,8 @@ pub trait CommentsExt: Comments {
     where
         F: FnOnce(&[Comment]) -> Ret,
     {
-        if let Some(comments) = self.take_trailing(pos) {
-            let ret = op(&comments);
-            self.add_trailing_comments(pos, comments);
-            ret
+        if let Some(comments) = self.get_trailing(pos) {
+            op(&comments)
         } else {
             op(&[])
         }
