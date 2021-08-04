@@ -47,6 +47,8 @@ mod pass;
 pub mod timing;
 mod util;
 
+const DISABLE_BUGGY_PASSES: bool = true;
+
 #[inline]
 pub fn optimize(
     mut m: Module,

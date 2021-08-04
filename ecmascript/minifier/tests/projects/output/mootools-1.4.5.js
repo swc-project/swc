@@ -1308,7 +1308,7 @@ Event1.Keys = {
             var nativeRootContains = root && this.isNativeCode(root.contains), nativeDocumentContains = document && this.isNativeCode(document.contains);
             for(feature in features.contains = nativeRootContains && nativeDocumentContains ? function(context, node) {
                 return context.contains(node);
-            } : nativeRootContains || nativeDocumentContains ? function(context, node) {
+            } : nativeRootContains && !nativeDocumentContains ? function(context, node) {
                 return context === node || (context === document ? document.documentElement : context).contains(node);
             } : root && root.compareDocumentPosition ? function(context, node) {
                 return context === node || !!(16 & context.compareDocumentPosition(node));

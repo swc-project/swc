@@ -1648,7 +1648,7 @@
                         document.activeElement && "body" !== document.activeElement.nodeName.toLowerCase() ? $17(document.activeElement).blur() : $17("input:focus, textarea:focus, select:focus").blur();
                     } catch (e) {
                     }
-                    alreadyThere = !1, isDialog && active && (active.url && active.url.indexOf($17.mobile.dialogHashKey) > -1 && this.activePage && !this.activePage.hasClass("ui-dialog") && $17.mobile.navigate.history.activeIndex > 0 && (settings.changeHash = !1, alreadyThere = !0), url = active.url || "", !alreadyThere && url.indexOf("#") > -1 ? url += $17.mobile.dialogHashKey : url += "#" + $17.mobile.dialogHashKey, 0 === $17.mobile.navigate.history.activeIndex && url === $17.mobile.navigate.history.initialDst && (url += $17.mobile.dialogHashKey)), (newPageTitle = active ? toPage.jqmData("title") || toPage.children(":jqmData(role='header')").find(".ui-title").text() : pageTitle) && pageTitle === document.title && (pageTitle = newPageTitle), toPage.jqmData("title") || toPage.jqmData("title", pageTitle), settings.transition = settings.transition || (historyDir || activeIsInitialPage ? active.transition : undefined) || (isDialog ? $17.mobile.defaultDialogTransition : $17.mobile.defaultPageTransition), !historyDir && alreadyThere && ($17.mobile.navigate.history.getActive().pageUrl = pageUrl), url && !settings.fromHashChange && (!$17.mobile.path.isPath(url) && 0 > url.indexOf("#") && (url = "#" + url), params = {
+                    alreadyThere = !1, isDialog && active && (active.url && active.url.indexOf($17.mobile.dialogHashKey) > -1 && this.activePage && !this.activePage.hasClass("ui-dialog") && $17.mobile.navigate.history.activeIndex > 0 && (settings.changeHash = !1, alreadyThere = !0), url = active.url || "", !alreadyThere && url.indexOf("#") > -1 ? url += $17.mobile.dialogHashKey : url += "#" + $17.mobile.dialogHashKey, 0 === $17.mobile.navigate.history.activeIndex && url === $17.mobile.navigate.history.initialDst && (url += $17.mobile.dialogHashKey)), (newPageTitle = active ? toPage.jqmData("title") || toPage.children(":jqmData(role='header')").find(".ui-title").text() : pageTitle) && pageTitle === document.title && (pageTitle = newPageTitle), toPage.jqmData("title") || toPage.jqmData("title", pageTitle), settings.transition = settings.transition || (historyDir && !activeIsInitialPage ? active.transition : undefined) || (isDialog ? $17.mobile.defaultDialogTransition : $17.mobile.defaultPageTransition), !historyDir && alreadyThere && ($17.mobile.navigate.history.getActive().pageUrl = pageUrl), url && !settings.fromHashChange && (!$17.mobile.path.isPath(url) && 0 > url.indexOf("#") && (url = "#" + url), params = {
                         transition: settings.transition,
                         title: pageTitle,
                         pageUrl: pageUrl,
@@ -1829,7 +1829,7 @@
             },
             transition: function() {
                 var none, reverseClass = this.reverse ? " reverse" : "", screenHeight = $17.mobile.getScreenHeight(), maxTransitionOverride = !1 !== $17.mobile.maxTransitionWidth && $17.mobile.window.width() > $17.mobile.maxTransitionWidth;
-                return this.toScroll = $17.mobile.navigate.history.getActive().lastScroll || $17.mobile.defaultHomeScroll, none = !$17.support.cssTransitions || !$17.support.cssAnimations || maxTransitionOverride || !this.name || "none" === this.name || Math.max($17.mobile.window.scrollTop(), this.toScroll) > $17.mobile.getMaxScrollForTransition(), this.toggleViewportClass(), this.$from || none ? this.startOut(screenHeight, reverseClass, none) : this.doneOut(screenHeight, reverseClass, none, !0), this.deferred.promise();
+                return this.toScroll = $17.mobile.navigate.history.getActive().lastScroll || $17.mobile.defaultHomeScroll, none = !$17.support.cssTransitions || !$17.support.cssAnimations || maxTransitionOverride || !this.name || "none" === this.name || Math.max($17.mobile.window.scrollTop(), this.toScroll) > $17.mobile.getMaxScrollForTransition(), this.toggleViewportClass(), this.$from && !none ? this.startOut(screenHeight, reverseClass, none) : this.doneOut(screenHeight, reverseClass, none, !0), this.deferred.promise();
             }
         });
     })(jQuery, this), (function($17) {
@@ -4756,11 +4756,12 @@
             }
         });
     })(jQuery), (function($17, window) {
+        $17.mobile.iosorientationfixEnabled = !0;
         var zoom, evt, x, y, z, aig, ua = navigator.userAgent;
+        if (!(/iPhone|iPad|iPod/.test(navigator.platform) && /OS [1-5]_[0-9_]* like Mac OS X/i.test(ua) && ua.indexOf("AppleWebKit") > -1)) return void ($17.mobile.iosorientationfixEnabled = !1);
         function checkTilt(e) {
             x = Math.abs((aig = (evt = e.originalEvent).accelerationIncludingGravity).x), y = Math.abs(aig.y), z = Math.abs(aig.z), !window.orientation && (x > 7 || (z > 6 && y < 8 || z < 8 && y > 6) && x > 5) ? zoom.enabled && zoom.disable() : zoom.enabled || zoom.enable();
         }
-        if ($17.mobile.iosorientationfixEnabled = !0, !(/iPhone|iPad|iPod/.test(navigator.platform) && /OS [1-5]_[0-9_]* like Mac OS X/i.test(ua) && ua.indexOf("AppleWebKit") > -1)) return void ($17.mobile.iosorientationfixEnabled = !1);
         zoom = $17.mobile.zoom, $17.mobile.document.on("mobileinit", function() {
             $17.mobile.iosorientationfixEnabled && $17.mobile.window.bind("orientationchange.iosorientationfix", zoom.enable).bind("devicemotion.iosorientationfix", checkTilt);
         });

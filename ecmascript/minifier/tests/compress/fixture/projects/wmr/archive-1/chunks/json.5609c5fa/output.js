@@ -1,4 +1,8 @@
 import { a as l, y, m } from "../index.f66dda46.js";
+const json = {
+    foo: 42,
+    bar: "bar"
+};
 function JSONView() {
     const [fetched, setFetched, ] = l(null);
     return y(()=>{
@@ -7,8 +11,4 @@ function JSONView() {
         );
     }, []), m`<div><p>import: ${JSON.stringify(json)}</p><p>fetch: ${JSON.stringify(fetched)}</p></div>`;
 }
-const json = {
-    foo: 42,
-    bar: "bar"
-};
 export { JSONView };
