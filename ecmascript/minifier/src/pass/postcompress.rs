@@ -16,6 +16,10 @@ impl PostcompressOptimizer<'_> {
         if !self.options.bools {
             return;
         }
+        // This is buggy
+        if true {
+            return;
+        }
 
         // Note: `||` is not handled because of precedence.
         match e {
