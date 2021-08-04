@@ -1,4 +1,6 @@
-import { s as style, m } from "../index.f66dda46.js";
+import {
+    s as style, m,
+} from "../index.f66dda46.js";
 const process = {
     browser: true,
     env: {
@@ -11,15 +13,23 @@ const process = {
 };
 null;
 const foo = 42;
-function Environment() {
+function Environment(
+) {
     return m`<table><thead><tr><th>Name ${foo}</th><th>Value</th></tr></thead><tbody>${Object.keys(
         process.env
     )
-        .sort()
-        .map((key) => {
-            return m`<tr key=${key}><td>${key}</td><td>${String(
-                process.env[key]
-            )}</td></tr>`;
-        })}</tbody></table>`;
+        .sort(
+        )
+        .map(
+            (
+                key
+            ) => {
+                return m`<tr key=${key}><td>${key}</td><td>${String(
+                    process.env[key]
+                )}</td></tr>`;
+            }
+        )}</tbody></table>`;
 }
-export { Environment };
+export {
+    Environment,
+};

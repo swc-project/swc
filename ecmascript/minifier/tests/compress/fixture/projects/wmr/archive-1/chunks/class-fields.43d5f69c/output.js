@@ -5,7 +5,6 @@ class ClassFields extends _ {
     state = {
         value: 1,
     };
-
     onClick = (
     ) => {
         this.setState(
@@ -16,7 +15,6 @@ class ClassFields extends _ {
             })
         );
     };
-
     render(
     ) {
         return m`<div><p> State: <span>${this.state.value}</span></p><button onClick=${this.onClick}>click me</button></div>`;

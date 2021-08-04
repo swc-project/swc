@@ -488,92 +488,71 @@ function x(
         N
     );
 }
-m.shallowRender = g;
 let vnodeHook;
-
+m.shallowRender = g;
 const old = l$1.vnode;
-l$1.vnode = (
-    vnode
-) => {
-    if (old) old(
-        vnode
-    );
-    if (vnodeHook) vnodeHook(
-        vnode
-    );
-};
-
-/**
- * @param {ReturnType<h>} vnode The root JSX element to render (eg: `<App />`)
- * @param {object} [options]
- * @param {number} [options.maxDepth = 10] The maximum number of nested asynchronous operations to wait for before flushing
- * @param {object} [options.props] Additional props to merge into the root JSX element
- */
 async function prerender(
     vnode, options
 ) {
-    options = options || {
-    };
-
-    const maxDepth = options.maxDepth || 10;
-    const props = options.props;
+    const maxDepth = (options = options || {
+        }).maxDepth || 10,
+        props = options.props;
     let tries = 0;
-
-    if (typeof vnode === "function") {
-        vnode = v$1(
+    "function" == typeof vnode
+        ? (vnode = v$1(
             vnode,
             props
-        );
-    } else if (props) {
-        vnode = B(
+        ))
+        : props && (vnode = B(
             vnode,
             props
-        );
-    }
-
+        ));
     const render = (
     ) => {
-        if (++tries > maxDepth) return;
-        try {
-            return m(
-                vnode
-            );
-        } catch (e) {
-            if (e && e.then) return e.then(
-                render
-            );
-            throw e;
-        }
+        if (!(++tries > maxDepth))
+            try {
+                return m(
+                    vnode
+                );
+            } catch (e) {
+                if (e && e.then) return e.then(
+                    render
+                );
+                throw e;
+            }
     };
-
     let links = new Set(
     );
     vnodeHook = (
         {
-            type, props,
+            type: type, props: props,
         }
     ) => {
-        if (
-            type === "a" &&
-            props &&
-            props.href &&
-            (!props.target || props.target === "_self")
-        ) {
+        "a" !== type ||
+            !props ||
+            !props.href ||
+            (props.target && "_self" !== props.target) ||
             links.add(
                 props.href
             );
-        }
     };
-
     try {
-        const html = await render(
-        );
         return {
-            html,
-            links,
+            html: await render(
+            ),
+            links: links,
         };
     } finally {
         vnodeHook = null;
     }
 }
+l$1.vnode = (
+    vnode
+) => {
+    old && old(
+        vnode
+    ), vnodeHook && vnodeHook(
+        vnode
+    );
+};
 export default prerender;
