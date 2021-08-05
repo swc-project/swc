@@ -193,36 +193,6 @@ impl<'a> Fold for SuperCalleeFolder<'a> {
                     right,
                 })
             }
-
-            Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(ref expr),
-                ref args,
-                ref type_args,
-                ..
-            }) => match &**expr {
-                Expr::Member(MemberExpr {
-                    obj: ExprOrSuper::Super(Super { span: super_token }),
-                    ..
-                }) => {
-                    let this_arg = ThisExpr {
-                        span: super_token.clone(),
-                    }
-                    .as_arg();
-                    Expr::Call(CallExpr {
-                        span: DUMMY_SP,
-                        callee: MemberExpr {
-                            span: DUMMY_SP,
-                            obj: ExprOrSuper::Expr(expr.clone()),
-                            prop: Box::new(Expr::Ident(quote_ident!("call"))),
-                            computed: false,
-                        }
-                        .as_callee(),
-                        args: iter::once(this_arg).chain(args.clone()).collect(),
-                        type_args: type_args.clone(),
-                    })
-                }
-                _ => n.fold_children_with(self),
-            },
             _ => n.fold_children_with(self),
         };
 
@@ -477,17 +447,6 @@ impl<'a> Fold for SuperFieldAccessFolder<'a> {
             _ => {}
         }
 
-        let mut callee_folder = SuperCalleeFolder {
-            class_name: self.class_name,
-            inject_get: false,
-            _inject_set: false,
-            vars: self.vars,
-            constructor_this_mark: self.constructor_this_mark,
-            is_static: self.is_static,
-            in_nested_scope: self.in_nested_scope,
-            this_alias_mark: self.this_alias_mark,
-        };
-
         let should_invoke_call = match n {
             Expr::Call(CallExpr {
                 callee: ExprOrSuper::Expr(ref expr),
@@ -502,46 +461,39 @@ impl<'a> Fold for SuperFieldAccessFolder<'a> {
             _ => false,
         };
 
-        let n = n.fold_with(&mut callee_folder);
-        if callee_folder.this_alias_mark.is_some() {
-            self.this_alias_mark = callee_folder.this_alias_mark;
-        }
+        let n = match n {
+            Expr::Call(CallExpr {
+                callee,
+                mut args,
+                type_args,
+                ..
+            }) if should_invoke_call => {
+                let this = match self.constructor_this_mark {
+                    Some(mark) => quote_ident!(DUMMY_SP.apply_mark(mark), "_this").as_arg(),
+                    _ => ThisExpr { span: DUMMY_SP }.as_arg(),
+                };
 
-        if callee_folder.inject_get && should_invoke_call {
-            match n {
-                Expr::Call(CallExpr {
-                    callee,
-                    mut args,
-                    type_args,
-                    ..
-                }) => {
-                    let this = match self.constructor_this_mark {
-                        Some(mark) => quote_ident!(DUMMY_SP.apply_mark(mark), "_this").as_arg(),
-                        _ => ThisExpr { span: DUMMY_SP }.as_arg(),
-                    };
-
-                    if args.len() == 1 && is_rest_arguments(&args[0]) {
-                        return Expr::Call(CallExpr {
+                if args.len() == 1 && is_rest_arguments(&args[0]) {
+                    Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: MemberExpr {
                             span: DUMMY_SP,
-                            callee: MemberExpr {
-                                span: DUMMY_SP,
-                                obj: callee,
-                                prop: Box::new(Expr::Ident(quote_ident!("apply"))),
-                                computed: false,
-                            }
-                            .as_callee(),
-                            args: iter::once(this)
-                                .chain(iter::once({
-                                    let mut arg = args.pop().unwrap();
-                                    arg.spread = None;
-                                    arg
-                                }))
-                                .collect(),
-                            type_args,
-                        });
-                    }
-
-                    return Expr::Call(CallExpr {
+                            obj: callee,
+                            prop: Box::new(Expr::Ident(quote_ident!("apply"))),
+                            computed: false,
+                        }
+                        .as_callee(),
+                        args: iter::once(this)
+                            .chain(iter::once({
+                                let mut arg = args.pop().unwrap();
+                                arg.spread = None;
+                                arg
+                            }))
+                            .collect(),
+                        type_args,
+                    })
+                } else {
+                    Expr::Call(CallExpr {
                         span: DUMMY_SP,
                         callee: MemberExpr {
                             span: DUMMY_SP,
@@ -552,12 +504,23 @@ impl<'a> Fold for SuperFieldAccessFolder<'a> {
                         .as_callee(),
                         args: iter::once(this).chain(args).collect(),
                         type_args,
-                    });
+                    })
                 }
-                _ => unreachable!(),
             }
-        }
-
-        n.fold_children_with(self)
+            _ => n,
+        };
+        let n = n.fold_children_with(self);
+        let mut callee_folder = SuperCalleeFolder {
+            class_name: self.class_name,
+            inject_get: false,
+            _inject_set: false,
+            vars: self.vars,
+            constructor_this_mark: self.constructor_this_mark,
+            is_static: self.is_static,
+            in_nested_scope: self.in_nested_scope,
+            this_alias_mark: self.this_alias_mark,
+        };
+        let n = n.fold_with(&mut callee_folder);
+        n
     }
 }

@@ -361,27 +361,7 @@ impl Decorators {
                     this_alias_mark: None,
                 };
 
-                let method = method.fold_with(&mut folder);
-
-                let this = match folder.constructor_this_mark {
-                    Some(mark) => quote_ident!(DUMMY_SP.apply_mark(mark), "_this"),
-                    _ => quote_ident!("_this"),
-                };
-
-                // add var _this = this;
-                let this_alias = Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    declare: false,
-                    kind: VarDeclKind::Var,
-                    decls: vec![VarDeclarator {
-                        span: DUMMY_SP,
-                        name: Pat::Ident(this.into()),
-                        init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
-                        definite: false,
-                    }],
-                }));
-
-                let has_decorator = !method.function.decorators.is_empty();
+                let method =method.fold_with(&mut folder);
 
                 //   kind: "method",
                 //   key: getKeyJ(),
@@ -448,20 +428,6 @@ impl Decorators {
                                         ident: fn_name.map(IdentExt::private),
                                         function: Function {
                                             decorators: vec![],
-                                            body: match method.function.body {
-                                                Some(BlockStmt { stmts, span }) => {
-                                                    let stmts =
-                                                        if !stmts.is_empty() && has_decorator {
-                                                            iter::once(this_alias)
-                                                                .chain(stmts.iter().cloned())
-                                                                .collect()
-                                                        } else {
-                                                            stmts
-                                                        };
-                                                    Some(BlockStmt { stmts, span })
-                                                }
-                                                _ => None,
-                                            },
                                             ..method.function
                                         },
                                     }
