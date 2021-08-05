@@ -132,14 +132,7 @@ impl VisitMut for InfoMarker<'_> {
             && n.function
                 .params
                 .iter()
-                .filter_map(|p| match &p.pat {
-                    Pat::Ident(i) => Some(&i.id),
-                    _ => None,
-                })
-                .all(|i| match &*i.sym {
-                    "module" | "__webpack_exports__" | "__webpack_require__" => true,
-                    _ => false,
-                })
+                .any(|p| is_param_one_of(p, &["__webpack_exports__", "__webpack_require__"]))
         {
             self.state.is_bundle = true;
 
@@ -174,5 +167,12 @@ impl VisitMut for InfoMarker<'_> {
         if self.has_const_ann(n.span) {
             n.span = n.span.apply_mark(self.marks.const_ann);
         }
+    }
+}
+
+fn is_param_one_of(p: &Param, allowed: &[&str]) -> bool {
+    match &p.pat {
+        Pat::Ident(i) => allowed.contains(&&*i.id.sym),
+        _ => false,
     }
 }
