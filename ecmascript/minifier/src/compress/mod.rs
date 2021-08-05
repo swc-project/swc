@@ -26,7 +26,6 @@ use std::thread;
 use std::time::Instant;
 use swc_common::chain;
 use swc_common::pass::CompilerPass;
-use swc_common::pass::Repeat;
 use swc_common::pass::Repeated;
 use swc_common::Globals;
 use swc_ecma_ast::*;
@@ -64,11 +63,7 @@ pub(crate) fn compressor<'a>(
         left_parallel_depth: 0,
     };
 
-    chain!(
-        console_remover,
-        Repeat::new(as_folder(compressor)),
-        expr_simplifier()
-    )
+    chain!(console_remover, as_folder(compressor), expr_simplifier())
 }
 
 struct Compressor<'a> {
@@ -86,18 +81,6 @@ struct Compressor<'a> {
 impl CompilerPass for Compressor<'_> {
     fn name() -> Cow<'static, str> {
         "compressor".into()
-    }
-}
-
-impl Repeated for Compressor<'_> {
-    fn changed(&self) -> bool {
-        self.changed
-    }
-
-    fn reset(&mut self) {
-        self.changed = false;
-        self.pass += 1;
-        self.data = None;
     }
 }
 
@@ -175,6 +158,20 @@ impl Compressor<'_> {
 
             for changed in results {
                 self.changed |= changed;
+            }
+        }
+    }
+
+    fn optimize_unit_repeatedly<N>(&mut self, n: &mut N)
+    where
+        N: CompileUnit + VisitWith<UsageAnalyzer> + for<'aa> VisitMutWith<Compressor<'aa>>,
+    {
+        loop {
+            self.changed = false;
+            self.optimize_unit(n);
+            self.pass += 1;
+            if !self.changed {
+                break;
             }
         }
     }
@@ -344,7 +341,7 @@ impl VisitMut for Compressor<'_> {
         if n.span.has_mark(self.marks.bundle_of_standalones) {
             self.left_parallel_depth = MAX_PAR_DEPTH - 1;
         } else {
-            self.optimize_unit(n);
+            self.optimize_unit_repeatedly(n);
             return;
         }
 
@@ -373,7 +370,7 @@ impl VisitMut for Compressor<'_> {
 
     fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
         if n.function.span.has_mark(self.marks.standalone) {
-            self.optimize_unit(n);
+            self.optimize_unit_repeatedly(n);
             return;
         }
 
