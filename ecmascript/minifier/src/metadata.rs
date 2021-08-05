@@ -18,12 +18,22 @@ pub(crate) fn info_marker<'a>(
     comments: Option<&'a dyn Comments>,
     marks: Marks,
 ) -> impl 'a + VisitMut {
-    InfoMarker { comments, marks }
+    InfoMarker {
+        comments,
+        marks,
+        state: Default::default(),
+    }
+}
+
+#[derive(Default)]
+struct State {
+    is_bundle: bool,
 }
 
 struct InfoMarker<'a> {
     comments: Option<&'a dyn Comments>,
     marks: Marks,
+    state: State,
 }
 
 impl InfoMarker<'_> {
@@ -132,6 +142,8 @@ impl VisitMut for InfoMarker<'_> {
                     _ => false,
                 })
         {
+            self.state.is_bundle = true;
+
             n.span = n.span.apply_mark(self.marks.standalone);
         }
     }
@@ -139,6 +151,14 @@ impl VisitMut for InfoMarker<'_> {
     fn visit_mut_ident(&mut self, _: &mut Ident) {}
 
     fn visit_mut_lit(&mut self, _: &mut Lit) {}
+
+    fn visit_mut_module(&mut self, m: &mut Module) {
+        m.visit_mut_children_with(self);
+
+        if self.state.is_bundle {
+            m.span = m.span.apply_mark(self.marks.bundle_of_standalones);
+        }
+    }
 
     fn visit_mut_var_decl(&mut self, n: &mut VarDecl) {
         n.visit_mut_children_with(self);
