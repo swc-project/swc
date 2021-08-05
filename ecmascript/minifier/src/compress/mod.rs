@@ -118,6 +118,8 @@ impl Compressor<'_> {
     where
         N: Send + Sync + for<'aa> VisitMutWith<Compressor<'aa>>,
     {
+        log::debug!("visit_par(left_depth = {})", self.left_parallel_depth);
+
         if self.left_parallel_depth == 0 || cfg!(target_arch = "wasm32") {
             for node in nodes {
                 let mut v = Compressor {
@@ -128,7 +130,7 @@ impl Compressor<'_> {
                     pass: self.pass,
                     data: None,
                     optimizer_state: Default::default(),
-                    left_parallel_depth: self.left_parallel_depth - 1,
+                    left_parallel_depth: 0,
                 };
                 node.visit_mut_with(&mut v);
 
@@ -166,6 +168,11 @@ impl Compressor<'_> {
     where
         N: CompileUnit + VisitWith<UsageAnalyzer> + for<'aa> VisitMutWith<Compressor<'aa>>,
     {
+        log::debug!(
+            "Optimizing a compile unit within `{:?}`",
+            thread::current().name()
+        );
+
         loop {
             self.changed = false;
             self.optimize_unit(n);
@@ -189,10 +196,6 @@ impl Compressor<'_> {
     where
         N: CompileUnit + VisitWith<UsageAnalyzer> + for<'aa> VisitMutWith<Compressor<'aa>>,
     {
-        if cfg!(feature = "debug") {
-            log::debug!("optimize_unit: `{:?}`", thread::current().name());
-        }
-
         self.data = Some(analyze(&*n, self.marks));
 
         if self.options.passes != 0 && self.options.passes + 1 <= self.pass {
@@ -344,6 +347,15 @@ impl Compressor<'_> {
 impl VisitMut for Compressor<'_> {
     noop_visit_mut_type!();
 
+    fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
+        if n.function.span.has_mark(self.marks.standalone) {
+            self.optimize_unit_repeatedly(n);
+            return;
+        }
+
+        n.visit_mut_children_with(self);
+    }
+
     fn visit_mut_module(&mut self, n: &mut Module) {
         let is_bundle_mode = n.span.has_mark(self.marks.bundle_of_standalones);
 
@@ -379,17 +391,8 @@ impl VisitMut for Compressor<'_> {
         });
     }
 
-    fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
-        if n.function.span.has_mark(self.marks.standalone) {
-            self.optimize_unit_repeatedly(n);
-            return;
-        }
-
-        n.visit_mut_children_with(self);
-    }
-
     fn visit_mut_prop_or_spreads(&mut self, nodes: &mut Vec<PropOrSpread>) {
-        self.visit_par(nodes)
+        self.visit_par(nodes);
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
