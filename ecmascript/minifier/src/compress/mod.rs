@@ -181,7 +181,9 @@ impl Compressor<'_> {
     where
         N: CompileUnit + VisitWith<UsageAnalyzer> + for<'aa> VisitMutWith<Compressor<'aa>>,
     {
-        log::warn!("optimize_unit: `{:?}`", thread::current().name());
+        if cfg!(feature = "debug") {
+            log::debug!("optimize_unit: `{:?}`", thread::current().name());
+        }
 
         debug_assert!(self.data.is_none());
         self.data = Some(analyze(&*n, self.marks));
@@ -336,9 +338,9 @@ impl VisitMut for Compressor<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_module(&mut self, n: &mut Module) {
-        log::warn!("visit_mut_module: `{:?}`", thread::current().name());
+        let is_bundle_mode = n.span.has_mark(self.marks.bundle_of_standalones);
 
-        if n.span.has_mark(self.marks.bundle_of_standalones) {
+        if is_bundle_mode {
             self.left_parallel_depth = MAX_PAR_DEPTH - 1;
         } else {
             self.optimize_unit_repeatedly(n);
@@ -346,6 +348,8 @@ impl VisitMut for Compressor<'_> {
         }
 
         n.visit_mut_children_with(self);
+
+        self.optimize_unit_repeatedly(n);
 
         invoke(&*n);
     }
