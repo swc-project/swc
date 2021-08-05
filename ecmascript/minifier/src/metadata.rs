@@ -156,7 +156,10 @@ impl VisitMut for InfoMarker<'_> {
         m.visit_mut_children_with(self);
 
         if self.state.is_bundle {
+            log::info!("Running minifier in the bundle mode");
             m.span = m.span.apply_mark(self.marks.bundle_of_standalones);
+        } else {
+            log::info!("Running minifier in the normal mode");
         }
     }
 
