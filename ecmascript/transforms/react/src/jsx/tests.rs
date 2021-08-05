@@ -706,7 +706,7 @@ test!(
 "#,
     r#"
 React.createElement("div", {
-  id: "w\\xf4w"
+  id: "w\xf4w"
 });
 React.createElement("div", {
   id: "w"
@@ -763,6 +763,19 @@ test!(
 React.createElement("div", null, "this should not parse as unicode: \\u00a0");
 "#,
     ok_if_code_eq
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(t, Default::default()),
+    react_should_escape_unicode_chars_in_attribute,
+    r#"<Bla title="Ú"/>"#,
+    r#"React.createElement(Bla, {
+    title: "\xda"
+});"#
 );
 
 test!(
