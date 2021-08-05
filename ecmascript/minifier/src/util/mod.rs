@@ -21,6 +21,7 @@ use swc_ecma_visit::VisitWith;
 
 pub(crate) mod base54;
 pub(crate) mod sort;
+pub(crate) mod unit;
 
 ///
 pub(crate) fn make_number(span: Span, value: f64) -> Expr {
