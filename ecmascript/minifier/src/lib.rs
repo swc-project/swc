@@ -13,8 +13,8 @@
 //! `visit_mut_module_items`.
 
 use crate::compress::compressor;
-use crate::hygiene::info_marker;
 use crate::marks::Marks;
+use crate::metadata::info_marker;
 use crate::option::ExtraOptions;
 use crate::option::MinifyOptions;
 use crate::pass::compute_char_freq::compute_char_freq;
@@ -40,8 +40,8 @@ use timing::Timings;
 mod analyzer;
 mod compress;
 mod debug;
-mod hygiene;
 pub mod marks;
+mod metadata;
 pub mod option;
 mod pass;
 pub mod timing;
