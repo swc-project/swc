@@ -32,6 +32,7 @@ use std::time::Instant;
 use swc_common::comments::Comments;
 use swc_common::sync::Lrc;
 use swc_common::SourceMap;
+use swc_common::GLOBALS;
 use swc_ecma_ast::Module;
 use swc_ecma_visit::FoldWith;
 use swc_ecma_visit::VisitMutWith;
@@ -48,6 +49,7 @@ pub mod timing;
 mod util;
 
 const DISABLE_BUGGY_PASSES: bool = true;
+const MAX_PAR_DEPTH: u8 = 3;
 
 #[inline]
 pub fn optimize(
@@ -116,7 +118,8 @@ pub fn optimize(
     }
     if let Some(options) = &options.compress {
         let start = now();
-        m = m.fold_with(&mut compressor(cm.clone(), marks, &options));
+        m = GLOBALS
+            .with(|globals| m.fold_with(&mut compressor(cm.clone(), globals, marks, &options)));
         if let Some(start) = start {
             log::info!("compressor took {:?}", Instant::now() - start);
         }

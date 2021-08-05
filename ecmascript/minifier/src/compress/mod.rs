@@ -13,18 +13,22 @@ use crate::option::CompressOptions;
 use crate::util::now;
 use crate::util::unit::CompileUnit;
 use crate::util::Optional;
+use crate::MAX_PAR_DEPTH;
 #[cfg(feature = "pretty_assertions")]
 use pretty_assertions::assert_eq;
+use rayon::prelude::*;
 use std::borrow::Cow;
 use std::fmt;
 use std::fmt::Debug;
 use std::fmt::Display;
 use std::fmt::Formatter;
+use std::thread;
 use std::time::Instant;
 use swc_common::pass::CompilerPass;
 use swc_common::pass::Repeat;
 use swc_common::pass::Repeated;
 use swc_common::sync::Lrc;
+use swc_common::Globals;
 use swc_common::{chain, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::optimization::simplify::dead_branch_remover;
@@ -43,6 +47,7 @@ mod optimize;
 
 pub(crate) fn compressor<'a>(
     cm: Lrc<SourceMap>,
+    globals: &'a Globals,
     marks: Marks,
     options: &'a CompressOptions,
 ) -> impl 'a + JsPass {
@@ -52,12 +57,14 @@ pub(crate) fn compressor<'a>(
     };
     let compressor = Compressor {
         cm,
+        globals,
         marks,
         options,
         changed: false,
         pass: 0,
         data: None,
         optimizer_state: Default::default(),
+        left_parallel_depth: 0,
     };
 
     chain!(
@@ -69,12 +76,15 @@ pub(crate) fn compressor<'a>(
 
 struct Compressor<'a> {
     cm: Lrc<SourceMap>,
+    globals: &'a Globals,
     marks: Marks,
     options: &'a CompressOptions,
     changed: bool,
     pass: usize,
     data: Option<ProgramData>,
     optimizer_state: OptimizerState,
+    /// `0` means we should not create more threads.
+    left_parallel_depth: u8,
 }
 
 impl CompilerPass for Compressor<'_> {
@@ -125,13 +135,50 @@ impl Compressor<'_> {
     }
 
     /// Optimize a bundle in a parallel.
-    fn optimize_bundle_in_par(&mut self, n: &mut Module) {}
+    fn visit_par<N>(&mut self, nodes: &mut Vec<N>)
+    where
+        N: Send + Sync + for<'aa> VisitMutWith<Compressor<'aa>>,
+    {
+        if self.left_parallel_depth == 0 || cfg!(target_arch = "wasm32") {
+            for node in nodes {
+                node.visit_mut_with(self);
+            }
+        } else {
+            let results = nodes
+                .par_iter_mut()
+                .map(|node| {
+                    swc_common::GLOBALS.set(&self.globals, || {
+                        let mut v = Compressor {
+                            globals: self.globals,
+                            marks: self.marks,
+                            options: self.options,
+                            cm: self.cm.clone(),
+                            changed: false,
+                            pass: self.pass,
+                            data: None,
+                            optimizer_state: Default::default(),
+                            left_parallel_depth: self.left_parallel_depth - 1,
+                        };
+                        node.visit_mut_with(&mut v);
+
+                        v.changed
+                    })
+                })
+                .collect::<Vec<_>>();
+
+            for changed in results {
+                self.changed |= changed;
+            }
+        }
+    }
 
     /// Optimize a module. `N` can be [Module] or [FnExpr].
     fn optimize_unit<N>(&mut self, n: &mut N)
     where
         N: CompileUnit + VisitWith<UsageAnalyzer> + for<'aa> VisitMutWith<Compressor<'aa>>,
     {
+        log::warn!("optimize_unit: `{:?}`", thread::current().name());
+
         debug_assert!(self.data.is_none());
         self.data = Some(analyze(&*n, self.marks));
 
@@ -264,8 +311,6 @@ impl Compressor<'_> {
 
             self.changed |= v.changed();
         }
-
-        n.visit_mut_children_with(self);
     }
 }
 
@@ -273,7 +318,15 @@ impl VisitMut for Compressor<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_module(&mut self, n: &mut Module) {
-        self.optimize_unit(n);
+        log::warn!("visit_mut_module: `{:?}`", thread::current().name());
+
+        if n.span.has_mark(self.marks.bundle_of_standalones) {
+            self.left_parallel_depth = MAX_PAR_DEPTH - 1;
+        } else {
+            self.optimize_unit(n);
+        }
+
+        n.visit_mut_children_with(self);
 
         invoke(&*n);
     }
@@ -307,6 +360,18 @@ impl VisitMut for Compressor<'_> {
             }
             _ => true,
         });
+    }
+
+    fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
+        if n.function.span.has_mark(self.marks.standalone) {
+            self.optimize_unit(n);
+        }
+
+        n.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_prop_or_spreads(&mut self, nodes: &mut Vec<PropOrSpread>) {
+        self.visit_par(nodes)
     }
 
     fn visit_mut_script(&mut self, n: &mut Script) {
