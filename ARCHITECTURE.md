@@ -93,7 +93,7 @@ let a = 1;
 
 #### `/ecmascript/transforms/src/fixer`
 
-Fixes borken ast. This allow us to simply fold types like `BinExpr` without caring about operator precedence.
+Fixes broken ast. This allow us to simply fold types like `BinExpr` without caring about operator precedence.
 
 It means,
 
