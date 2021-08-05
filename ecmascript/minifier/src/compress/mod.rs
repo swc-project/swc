@@ -168,10 +168,12 @@ impl Compressor<'_> {
     where
         N: CompileUnit + VisitWith<UsageAnalyzer> + for<'aa> VisitMutWith<Compressor<'aa>>,
     {
-        log::debug!(
-            "Optimizing a compile unit within `{:?}`",
-            thread::current().name()
-        );
+        if cfg!(feature = "debug") {
+            log::debug!(
+                "Optimizing a compile unit within `{:?}`",
+                thread::current().name()
+            );
+        }
 
         {
             let data = analyze(&*n, self.marks);
