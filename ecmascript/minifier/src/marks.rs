@@ -23,6 +23,9 @@ pub struct Marks {
     /// nested.
     pub(crate) standalone: Mark,
 
+    //// Appied to [swc_ecma_ast::Module].
+    pub(crate) bundle_of_standalones: Mark,
+
     /// Optimization is finished. This mark is only applied if both of the
     /// stateful optimizer and the pure optimizer cannot optimize anymore.
     pub(crate) done: Mark,
@@ -46,6 +49,7 @@ impl Marks {
         Marks {
             non_top_level: m(),
             standalone: m(),
+            bundle_of_standalones: m(),
             done: m(),
             const_ann: m(),
             noinline: m(),
