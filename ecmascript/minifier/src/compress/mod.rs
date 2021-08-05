@@ -174,6 +174,14 @@ impl Compressor<'_> {
                 break;
             }
         }
+
+        let last_mark = n.remove_mark();
+        assert!(
+            N::is_module() || last_mark == self.marks.standalone,
+            "{:?}; last={:?}",
+            self.marks,
+            last_mark
+        );
     }
 
     /// Optimize a module. `N` can be [Module] or [FnExpr].
@@ -185,7 +193,6 @@ impl Compressor<'_> {
             log::debug!("optimize_unit: `{:?}`", thread::current().name());
         }
 
-        debug_assert!(self.data.is_none());
         self.data = Some(analyze(&*n, self.marks));
 
         if self.options.passes != 0 && self.options.passes + 1 <= self.pass {
