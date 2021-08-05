@@ -4,12 +4,14 @@ use self::optimize::optimizer;
 use self::optimize::OptimizerState;
 use crate::analyzer::analyze;
 use crate::analyzer::ProgramData;
+use crate::analyzer::UsageAnalyzer;
 use crate::compress::hoist_decls::decl_hoister;
 use crate::debug::dump;
 use crate::debug::invoke;
 use crate::marks::Marks;
 use crate::option::CompressOptions;
 use crate::util::now;
+use crate::util::unit::CompileUnit;
 use crate::util::Optional;
 #[cfg(feature = "pretty_assertions")]
 use pretty_assertions::assert_eq;
@@ -25,17 +27,15 @@ use swc_common::pass::Repeated;
 use swc_common::sync::Lrc;
 use swc_common::{chain, SourceMap};
 use swc_ecma_ast::*;
-use swc_ecma_transforms::fixer;
 use swc_ecma_transforms::optimization::simplify::dead_branch_remover;
 use swc_ecma_transforms::optimization::simplify::expr_simplifier;
 use swc_ecma_transforms::pass::JsPass;
-use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::as_folder;
 use swc_ecma_visit::noop_visit_mut_type;
-use swc_ecma_visit::FoldWith;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
+use swc_ecma_visit::VisitWith;
 
 mod drop_console;
 mod hoist_decls;
@@ -123,12 +123,15 @@ impl Compressor<'_> {
 
         // TODO: drop unused
     }
-}
 
-impl VisitMut for Compressor<'_> {
-    noop_visit_mut_type!();
+    /// Optimize a bundle in a parallel.
+    fn optimize_bundle_in_par(&mut self, n: &mut Module) {}
 
-    fn visit_mut_module(&mut self, n: &mut Module) {
+    /// Optimize a module. `N` can be [Module] or [FnExpr].
+    fn optimize_unit<N>(&mut self, n: &mut N)
+    where
+        N: CompileUnit + VisitWith<UsageAnalyzer> + for<'aa> VisitMutWith<Compressor<'aa>>,
+    {
         debug_assert!(self.data.is_none());
         self.data = Some(analyze(&*n, self.marks));
 
@@ -144,7 +147,7 @@ impl VisitMut for Compressor<'_> {
         }
 
         let start = if cfg!(feature = "debug") {
-            let start = dump(&n.clone().fold_with(&mut fixer(None)));
+            let start = n.dump();
             log::debug!("===== Start =====\n{}", start);
             start
         } else {
@@ -160,7 +163,7 @@ impl VisitMut for Compressor<'_> {
             let start_time = now();
 
             let mut visitor = expr_simplifier();
-            n.visit_mut_with(&mut visitor);
+            n.apply(&mut visitor);
             self.changed |= visitor.changed();
             if visitor.changed() {
                 log::debug!("compressor: Simplified expressions");
@@ -180,7 +183,7 @@ impl VisitMut for Compressor<'_> {
             }
 
             if cfg!(feature = "debug") && !visitor.changed() {
-                let simplified = dump(&n.clone().fold_with(&mut fixer(None)));
+                let simplified = n.dump();
                 if start != simplified {
                     assert_eq!(
                         DebugUsingDisplay(&start),
@@ -209,7 +212,7 @@ impl VisitMut for Compressor<'_> {
                 self.data.as_ref().unwrap(),
                 &mut self.optimizer_state,
             );
-            n.visit_mut_with(&mut visitor);
+            n.apply(&mut visitor);
             self.changed |= visitor.changed();
 
             if let Some(start_time) = start_time {
@@ -235,7 +238,7 @@ impl VisitMut for Compressor<'_> {
             let start_time = now();
 
             let mut v = dead_branch_remover();
-            n.map_with_mut(|n| n.fold_with(&mut v));
+            n.apply(&mut v);
 
             if let Some(start_time) = start_time {
                 let end_time = Instant::now();
@@ -263,6 +266,14 @@ impl VisitMut for Compressor<'_> {
         }
 
         n.visit_mut_children_with(self);
+    }
+}
+
+impl VisitMut for Compressor<'_> {
+    noop_visit_mut_type!();
+
+    fn visit_mut_module(&mut self, n: &mut Module) {
+        self.optimize_unit(n);
 
         invoke(&*n);
     }
