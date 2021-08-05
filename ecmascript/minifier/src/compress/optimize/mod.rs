@@ -1163,7 +1163,7 @@ impl Optimizer<'_> {
                         if s.value.contains(|c: char| !c.is_ascii()) {
                             return true;
                         }
-                        if s.value.contains("\\\0") {
+                        if s.value.contains("\\\0") || s.value.contains("//") {
                             return true;
                         }
 
