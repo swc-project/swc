@@ -601,18 +601,19 @@ impl Visit for UsageAnalyzer {
             ..self.ctx
         };
 
-        self.with_ctx(ctx).with_child(n.span.ctxt, ScopeKind::Fn, |child| {
-            n.params.visit_with(n, child);
+        self.with_ctx(ctx)
+            .with_child(n.span.ctxt, ScopeKind::Fn, |child| {
+                n.params.visit_with(n, child);
 
-            match &n.body {
-                Some(body) => {
-                    // We use visit_children_with instead of visit_with to bypass block scope
-                    // handler.
-                    body.visit_children_with(child);
+                match &n.body {
+                    Some(body) => {
+                        // We use visit_children_with instead of visit_with to bypass block scope
+                        // handler.
+                        body.visit_children_with(child);
+                    }
+                    None => {}
                 }
-                None => {}
-            }
-        })
+            })
     }
 
     fn visit_if_stmt(&mut self, n: &IfStmt, _: &dyn Node) {
