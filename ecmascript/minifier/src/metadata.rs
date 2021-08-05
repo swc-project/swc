@@ -125,13 +125,12 @@ impl VisitMut for InfoMarker<'_> {
         }
     }
 
-    fn visit_mut_function(&mut self, n: &mut Function) {
+    fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
         n.visit_mut_children_with(self);
 
-        self.make_unique(&mut n.span);
-
-        if !n.params.is_empty()
-            && n.params
+        if !n.function.params.is_empty()
+            && n.function
+                .params
                 .iter()
                 .filter_map(|p| match &p.pat {
                     Pat::Ident(i) => Some(&i.id),
@@ -144,8 +143,14 @@ impl VisitMut for InfoMarker<'_> {
         {
             self.state.is_bundle = true;
 
-            n.span = n.span.apply_mark(self.marks.standalone);
+            n.function.span = n.function.span.apply_mark(self.marks.standalone);
         }
+    }
+
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        n.visit_mut_children_with(self);
+
+        self.make_unique(&mut n.span);
     }
 
     fn visit_mut_ident(&mut self, _: &mut Ident) {}
