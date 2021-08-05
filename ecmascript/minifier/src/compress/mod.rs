@@ -24,12 +24,11 @@ use std::fmt::Display;
 use std::fmt::Formatter;
 use std::thread;
 use std::time::Instant;
+use swc_common::chain;
 use swc_common::pass::CompilerPass;
 use swc_common::pass::Repeat;
 use swc_common::pass::Repeated;
-use swc_common::sync::Lrc;
 use swc_common::Globals;
-use swc_common::{chain, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::optimization::simplify::dead_branch_remover;
 use swc_ecma_transforms::optimization::simplify::expr_simplifier;
@@ -46,7 +45,6 @@ mod hoist_decls;
 mod optimize;
 
 pub(crate) fn compressor<'a>(
-    cm: Lrc<SourceMap>,
     globals: &'a Globals,
     marks: Marks,
     options: &'a CompressOptions,
@@ -56,7 +54,6 @@ pub(crate) fn compressor<'a>(
         visitor: drop_console(),
     };
     let compressor = Compressor {
-        cm,
         globals,
         marks,
         options,
@@ -75,7 +72,6 @@ pub(crate) fn compressor<'a>(
 }
 
 struct Compressor<'a> {
-    cm: Lrc<SourceMap>,
     globals: &'a Globals,
     marks: Marks,
     options: &'a CompressOptions,
@@ -141,7 +137,19 @@ impl Compressor<'_> {
     {
         if self.left_parallel_depth == 0 || cfg!(target_arch = "wasm32") {
             for node in nodes {
-                node.visit_mut_with(self);
+                let mut v = Compressor {
+                    globals: self.globals,
+                    marks: self.marks,
+                    options: self.options,
+                    changed: false,
+                    pass: self.pass,
+                    data: None,
+                    optimizer_state: Default::default(),
+                    left_parallel_depth: self.left_parallel_depth - 1,
+                };
+                node.visit_mut_with(&mut v);
+
+                self.changed |= v.changed;
             }
         } else {
             let results = nodes
@@ -152,7 +160,6 @@ impl Compressor<'_> {
                             globals: self.globals,
                             marks: self.marks,
                             options: self.options,
-                            cm: self.cm.clone(),
                             changed: false,
                             pass: self.pass,
                             data: None,
@@ -253,7 +260,6 @@ impl Compressor<'_> {
             self.optimizer_state = Default::default();
 
             let mut visitor = optimizer(
-                self.cm.clone(),
                 self.marks,
                 self.options,
                 self.data.as_ref().unwrap(),

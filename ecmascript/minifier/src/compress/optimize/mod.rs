@@ -12,9 +12,7 @@ use swc_atoms::js_word;
 use swc_atoms::JsWord;
 use swc_common::iter::IdentifyLast;
 use swc_common::pass::Repeated;
-use swc_common::sync::Lrc;
 use swc_common::Mark;
-use swc_common::SourceMap;
 use swc_common::Spanned;
 use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;
@@ -72,7 +70,6 @@ pub(super) struct OptimizerState {
 
 /// This pass is simillar to `node.optimize` of terser.
 pub(super) fn optimizer<'a>(
-    cm: Lrc<SourceMap>,
     marks: Marks,
     options: &'a CompressOptions,
     data: &'a ProgramData,
@@ -86,7 +83,6 @@ pub(super) fn optimizer<'a>(
     let done = Mark::fresh(Mark::root());
     let done_ctxt = SyntaxContext::empty().apply_mark(done);
     Optimizer {
-        cm,
         marks,
         changed: false,
         options,
@@ -201,8 +197,6 @@ impl Ctx {
 }
 
 struct Optimizer<'a> {
-    cm: Lrc<SourceMap>,
-
     marks: Marks,
 
     changed: bool,

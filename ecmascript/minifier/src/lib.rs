@@ -54,7 +54,7 @@ const MAX_PAR_DEPTH: u8 = 3;
 #[inline]
 pub fn optimize(
     mut m: Module,
-    cm: Lrc<SourceMap>,
+    _cm: Lrc<SourceMap>,
     comments: Option<&dyn Comments>,
     mut timings: Option<&mut Timings>,
     options: &MinifyOptions,
@@ -118,8 +118,7 @@ pub fn optimize(
     }
     if let Some(options) = &options.compress {
         let start = now();
-        m = GLOBALS
-            .with(|globals| m.fold_with(&mut compressor(cm.clone(), globals, marks, &options)));
+        m = GLOBALS.with(|globals| m.fold_with(&mut compressor(globals, marks, &options)));
         if let Some(start) = start {
             log::info!("compressor took {:?}", Instant::now() - start);
         }

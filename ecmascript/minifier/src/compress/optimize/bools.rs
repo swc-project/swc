@@ -174,9 +174,8 @@ impl Optimizer<'_> {
         //
         // `_ || 'undefined' == typeof require`
         log::debug!(
-            "bools({}): Negating: (!a && !b) => !(a || b) (because both expression are good for \
+            "bools: Negating: (!a && !b) => !(a || b) (because both expression are good for \
              negation)",
-            self.line_col(e.span)
         );
         let start = dump(&*e);
 
