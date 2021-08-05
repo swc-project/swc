@@ -173,6 +173,21 @@ impl Compressor<'_> {
             thread::current().name()
         );
 
+        {
+            let data = analyze(&*n, self.marks);
+
+            let mut v = decl_hoister(
+                DeclHoisterConfig {
+                    hoist_fns: self.options.hoist_fns,
+                    hoist_vars: self.options.hoist_vars,
+                    top_level: self.options.top_level(),
+                },
+                &data,
+            );
+            n.apply(&mut v);
+            self.changed |= v.changed();
+        }
+
         loop {
             self.changed = false;
             self.optimize_unit(n);
@@ -207,21 +222,6 @@ impl Compressor<'_> {
         // Temporary
         if self.pass > 30 {
             panic!("Infinite loop detected (current pass = {})", self.pass)
-        }
-
-        {
-            {
-                let mut v = decl_hoister(
-                    DeclHoisterConfig {
-                        hoist_fns: self.options.hoist_fns,
-                        hoist_vars: self.options.hoist_vars,
-                        top_level: self.options.top_level(),
-                    },
-                    self.data.as_ref().unwrap(),
-                );
-                n.apply(&mut v);
-                self.changed |= v.changed();
-            }
         }
 
         let start = if cfg!(feature = "debug") {
