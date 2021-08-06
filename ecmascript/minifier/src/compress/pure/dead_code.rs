@@ -1,74 +1,84 @@
 use super::Pure;
+use swc_atoms::js_word;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_utils::StmtLike;
 
 /// Methods related to option `dead_code`.
 impl Pure<'_> {
-    /// Optimize return value or argument of throw.
-    ///
-    /// This methods removes some useless assignments.
-    ///
-    /// # Example
-    ///
-    /// Note: `a` being declared in the function is important in the example
-    /// below.
-    ///
-    /// ```ts
-    /// function foo(){
-    ///     var a;
-    ///     throw a = x();
-    /// }
-    /// ```
-    ///
-    /// can be optimized as
-    ///
-    /// ```ts
-    /// function foo(){
-    ///     var a; // Will be dropped in next pass.
-    ///     throw x();
-    /// }
-    /// ```
-    pub(super) fn optimize_in_fn_termiation(&mut self, e: &mut Expr) {
-        if !self.options.dead_code {
+    pub(super) fn drop_useless_blocks<T>(&mut self, stmts: &mut Vec<T>)
+    where
+        T: StmtLike,
+    {
+        fn is_inliable(b: &BlockStmt) -> bool {
+            b.stmts.iter().all(|s| match s {
+                Stmt::Decl(Decl::Fn(FnDecl {
+                    ident:
+                        Ident {
+                            sym: js_word!("undefined"),
+                            ..
+                        },
+                    ..
+                })) => false,
+
+                Stmt::Decl(
+                    Decl::Var(VarDecl {
+                        kind: VarDeclKind::Var,
+                        ..
+                    })
+                    | Decl::Fn(..),
+                ) => true,
+                Stmt::Decl(..) => false,
+                _ => true,
+            })
+        }
+
+        if stmts.iter().all(|stmt| match stmt.as_stmt() {
+            Some(Stmt::Block(b)) if is_inliable(b) => false,
+            _ => true,
+        }) {
             return;
         }
 
-        // A return statement in a try block may not terminate function.
-        if self.ctx.in_try_block {
-            return;
-        }
+        self.changed = true;
+        log::debug!("Dropping useless block");
 
-        match e {
-            Expr::Assign(assign) => {
-                self.optimize_in_fn_termiation(&mut assign.right);
-
-                // We only handle identifiers on lhs for now.
-                match &assign.left {
-                    PatOrExpr::Pat(lhs) => match &**lhs {
-                        Pat::Ident(lhs) => {
-                            //
-                            if self
-                                .data
-                                .as_ref()
-                                .and_then(|data| data.vars.get(&lhs.to_id()))
-                                .map(|var| var.is_fn_local)
-                                .unwrap_or(false)
-                            {
-                                log::debug!(
-                                    "dead_code: Dropping an assigment to a varaible declared in \
-                                     function because function is being terminated"
-                                );
-                                self.changed = true;
-                                *e = *assign.right.take();
-                                return;
-                            }
-                        }
-                        _ => {}
-                    },
-                    _ => {}
+        let mut new = vec![];
+        for stmt in stmts.take() {
+            match stmt.try_into_stmt() {
+                Ok(v) => match v {
+                    Stmt::Block(v) if is_inliable(&v) => {
+                        new.extend(v.stmts.into_iter().map(T::from_stmt));
+                    }
+                    _ => new.push(T::from_stmt(v)),
+                },
+                Err(v) => {
+                    new.push(v);
                 }
             }
+        }
+
+        *stmts = new;
+    }
+
+    pub(super) fn drop_unused_stmt_at_end_of_fn(&mut self, s: &mut Stmt) {
+        match s {
+            Stmt::Return(r) => match r.arg.as_deref_mut() {
+                Some(Expr::Unary(UnaryExpr {
+                    span,
+                    op: op!("void"),
+                    arg,
+                })) => {
+                    log::debug!("unused: Removing `return void` in end of a function");
+                    self.changed = true;
+                    *s = Stmt::Expr(ExprStmt {
+                        span: *span,
+                        expr: arg.take(),
+                    });
+                    return;
+                }
+                _ => {}
+            },
             _ => {}
         }
     }

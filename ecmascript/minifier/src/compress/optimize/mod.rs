@@ -302,8 +302,6 @@ impl Optimizer<'_> {
 
         self.ctx.in_asm |= use_asm;
 
-        self.drop_useless_blocks(stmts);
-
         self.reorder_stmts(stmts);
 
         self.merge_simillar_ifs(stmts);
@@ -1907,10 +1905,6 @@ impl VisitMut for Optimizer<'_> {
                     body.visit_mut_children_with(optimizer);
 
                     optimizer.negate_if_terminate(&mut body.stmts, true, false);
-
-                    if let Some(last) = body.stmts.last_mut() {
-                        optimizer.drop_unused_stmt_at_end_of_fn(last);
-                    }
                 }
                 None => {}
             }

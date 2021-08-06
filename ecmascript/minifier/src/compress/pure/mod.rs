@@ -9,6 +9,7 @@ mod arrows;
 mod bools;
 mod conds;
 mod ctx;
+mod dead_code;
 mod evaluate;
 mod loops;
 mod misc;
@@ -57,6 +58,8 @@ impl Pure<'_> {
             + VisitMutWith<self::vars::VarPrepender>
             + VisitMutWith<self::vars::VarMover>,
     {
+        self.drop_useless_blocks(stmts);
+
         self.collapse_vars_without_init(stmts);
     }
 
@@ -239,6 +242,10 @@ impl VisitMut for Pure<'_> {
 
         if let Some(body) = &mut f.body {
             self.remove_useless_return(&mut body.stmts);
+
+            if let Some(last) = body.stmts.last_mut() {
+                self.drop_unused_stmt_at_end_of_fn(last);
+            }
         }
     }
 
