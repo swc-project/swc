@@ -43,7 +43,7 @@ impl Pure<'_> {
     where
         N: for<'aa> VisitMutWith<Pure<'aa>> + Send + Sync,
     {
-        if self.ctx.par_depth >= MAX_PAR_DEPTH * 2 {
+        if self.ctx.par_depth >= MAX_PAR_DEPTH * 2 || true {
             for node in nodes {
                 let mut v = Pure {
                     options: self.options,
