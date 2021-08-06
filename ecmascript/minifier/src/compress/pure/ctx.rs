@@ -13,6 +13,8 @@ pub(super) struct Ctx {
     pub is_callee: bool,
 
     pub in_try_block: bool,
+
+    pub is_lhs_of_assign: bool,
 }
 
 impl<'b> Pure<'b> {

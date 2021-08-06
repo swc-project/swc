@@ -101,6 +101,18 @@ impl Pure<'_> {
 impl VisitMut for Pure<'_> {
     noop_visit_mut_type!();
 
+    fn visit_mut_assign_expr(&mut self, e: &mut AssignExpr) {
+        {
+            let ctx = Ctx {
+                is_lhs_of_assign: true,
+                ..self.ctx
+            };
+            e.left.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        }
+
+        e.right.visit_mut_with(self);
+    }
+
     fn visit_mut_bin_expr(&mut self, e: &mut BinExpr) {
         e.visit_mut_children_with(self);
 
