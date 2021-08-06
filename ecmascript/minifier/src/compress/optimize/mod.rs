@@ -242,11 +242,7 @@ impl Optimizer<'_> {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike + ModuleItemLike + MoudleItemExt + VisitMutWith<Self>,
-        Vec<T>: VisitMutWith<Self>
-            + VisitWith<UsageAnalyzer>
-            + VisitWith<self::collapse_vars::VarWithOutInitCounter>
-            + VisitMutWith<self::collapse_vars::VarPrepender>
-            + VisitMutWith<self::collapse_vars::VarMover>,
+        Vec<T>: VisitMutWith<Self> + VisitWith<UsageAnalyzer>,
     {
         match self.data {
             Some(..) => {}
@@ -314,8 +310,6 @@ impl Optimizer<'_> {
         self.join_vars(stmts);
 
         self.make_sequences(stmts);
-
-        self.collapse_vars_without_init(stmts);
 
         self.drop_else_token(stmts);
 

@@ -3,7 +3,7 @@ use crate::{marks::Marks, option::CompressOptions, util::MoudleItemExt, MAX_PAR_
 use rayon::prelude::*;
 use swc_common::{pass::Repeated, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 
 mod arrows;
 mod bools;
@@ -50,10 +50,14 @@ impl Repeated for Pure<'_> {
 }
 
 impl Pure<'_> {
-    fn handle_stmt_likes<T>(&mut self, _stmts: &mut Vec<T>)
+    fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: MoudleItemExt,
+        Vec<T>: VisitWith<self::vars::VarWithOutInitCounter>
+            + VisitMutWith<self::vars::VarPrepender>
+            + VisitMutWith<self::vars::VarMover>,
     {
+        self.collapse_vars_without_init(stmts);
     }
 
     /// Visit `nodes`, maybe in parallel.
