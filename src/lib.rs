@@ -1,8 +1,8 @@
 #![deny(unused)]
 
-pub extern crate swc_ecmascript as ecmascript;
 pub extern crate swc_atoms as atoms;
 pub extern crate swc_common as common;
+pub extern crate swc_ecmascript as ecmascript;
 
 pub use crate::builder::PassBuilder;
 use crate::config::{
