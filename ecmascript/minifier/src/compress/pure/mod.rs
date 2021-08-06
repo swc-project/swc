@@ -1,5 +1,5 @@
 use self::ctx::Ctx;
-use crate::{marks::Marks, option::CompressOptions, MAX_PAR_DEPTH};
+use crate::{marks::Marks, option::CompressOptions, util::MoudleItemExt, MAX_PAR_DEPTH};
 use rayon::prelude::*;
 use swc_common::{pass::Repeated, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -46,6 +46,12 @@ impl Repeated for Pure<'_> {
 }
 
 impl Pure<'_> {
+    fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
+    where
+        T: MoudleItemExt,
+    {
+    }
+
     /// Visit `nodes`, maybe in parallel.
     fn visit_par<N>(&mut self, nodes: &mut Vec<N>)
     where
@@ -195,6 +201,8 @@ impl VisitMut for Pure<'_> {
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
         self.visit_par(items);
+
+        self.handle_stmt_likes(items);
     }
 
     fn visit_mut_new_expr(&mut self, e: &mut NewExpr) {
@@ -260,6 +268,8 @@ impl VisitMut for Pure<'_> {
 
     fn visit_mut_stmts(&mut self, items: &mut Vec<Stmt>) {
         self.visit_par(items);
+
+        self.handle_stmt_likes(items);
 
         items.retain(|s| match s {
             Stmt::Empty(..) => false,
