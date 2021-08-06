@@ -44,6 +44,7 @@ impl Repeated for Pure<'_> {
 }
 
 impl Pure<'_> {
+    /// Visit `nodes`, maybe in parallel.
     fn visit_par<N>(&mut self, nodes: &mut Vec<N>)
     where
         N: for<'aa> VisitMutWith<Pure<'aa>> + Send + Sync,
