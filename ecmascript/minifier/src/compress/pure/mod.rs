@@ -148,6 +148,10 @@ impl VisitMut for Pure<'_> {
         self.compress_conds_as_logical(e);
 
         self.compress_cond_with_logical_as_logical(e);
+
+        self.lift_seqs_of_bin(e);
+
+        self.lift_seqs_of_cond_assign(e);
     }
 
     fn visit_mut_exprs(&mut self, exprs: &mut Vec<Box<Expr>>) {

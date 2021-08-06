@@ -1731,10 +1731,6 @@ impl VisitMut for Optimizer<'_> {
         self.compress_negated_bin_eq(e);
         self.compress_array_join(e);
 
-        self.lift_seqs_of_bin(e);
-
-        self.lift_seqs_of_cond_assign(e);
-
         if self.options.negate_iife {
             self.negate_iife_in_cond(e);
         }

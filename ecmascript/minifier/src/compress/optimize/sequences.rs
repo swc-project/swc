@@ -332,121 +332,6 @@ impl Optimizer<'_> {
         *stmts = new_stmts;
     }
 
-    ///
-    /// - `(a, b, c) && d` => `a, b, c && d`
-    pub(super) fn lift_seqs_of_bin(&mut self, e: &mut Expr) {
-        let bin = match e {
-            Expr::Bin(b) => b,
-            _ => return,
-        };
-
-        match &mut *bin.left {
-            Expr::Seq(left) => {
-                if left.exprs.is_empty() {
-                    return;
-                }
-
-                self.changed = true;
-                log::debug!("sequences: Lifting sequence in a binary expression");
-
-                let left_last = left.exprs.pop().unwrap();
-
-                let mut exprs = left.exprs.take();
-
-                exprs.push(Box::new(Expr::Bin(BinExpr {
-                    span: left.span,
-                    op: bin.op,
-                    left: left_last,
-                    right: bin.right.take(),
-                })));
-
-                *e = Expr::Seq(SeqExpr {
-                    span: bin.span,
-                    exprs,
-                })
-            }
-            _ => {}
-        }
-    }
-
-    pub(super) fn normalize_sequences(&self, seq: &mut SeqExpr) {
-        for e in &mut seq.exprs {
-            match &mut **e {
-                Expr::Seq(e) => {
-                    self.normalize_sequences(&mut *e);
-                }
-                _ => {}
-            }
-        }
-
-        if seq.exprs.iter().any(|v| v.is_seq()) {
-            let mut new = vec![];
-
-            for e in seq.exprs.take() {
-                match *e {
-                    Expr::Seq(s) => {
-                        new.extend(s.exprs);
-                    }
-                    _ => new.push(e),
-                }
-            }
-
-            seq.exprs = new;
-        }
-    }
-
-    ///
-    /// - `x = (foo(), bar(), baz()) ? 10 : 20` => `foo(), bar(), x = baz() ? 10
-    ///   : 20;`
-    pub(super) fn lift_seqs_of_cond_assign(&mut self, e: &mut Expr) {
-        if !self.options.sequences() {
-            return;
-        }
-
-        let assign = match e {
-            Expr::Assign(v) => v,
-            _ => return,
-        };
-
-        let cond = match &mut *assign.right {
-            Expr::Cond(v) => v,
-            _ => return,
-        };
-
-        match &mut *cond.test {
-            Expr::Seq(test) => {
-                //
-                if test.exprs.len() >= 2 {
-                    let mut new_seq = vec![];
-                    new_seq.extend(test.exprs.drain(..test.exprs.len() - 1));
-
-                    self.changed = true;
-                    log::debug!("sequences: Lifting sequences in a assignment with cond expr");
-                    let new_cond = CondExpr {
-                        span: cond.span,
-                        test: test.exprs.pop().unwrap(),
-                        cons: cond.cons.take(),
-                        alt: cond.alt.take(),
-                    };
-
-                    new_seq.push(Box::new(Expr::Assign(AssignExpr {
-                        span: assign.span,
-                        op: assign.op,
-                        left: assign.left.take(),
-                        right: Box::new(Expr::Cond(new_cond)),
-                    })));
-
-                    *e = Expr::Seq(SeqExpr {
-                        span: assign.span,
-                        exprs: new_seq,
-                    });
-                    return;
-                }
-            }
-            _ => {}
-        }
-    }
-
     /// Break assignments in sequences.
     ///
     /// This may result in less parenthesis.
@@ -773,6 +658,32 @@ impl Optimizer<'_> {
             Stmt::Expr(s) if s.expr.is_invalid() => false,
             _ => true,
         });
+    }
+
+    pub(super) fn normalize_sequences(&self, seq: &mut SeqExpr) {
+        for e in &mut seq.exprs {
+            match &mut **e {
+                Expr::Seq(e) => {
+                    self.normalize_sequences(&mut *e);
+                }
+                _ => {}
+            }
+        }
+
+        if seq.exprs.iter().any(|v| v.is_seq()) {
+            let mut new = vec![];
+
+            for e in seq.exprs.take() {
+                match *e {
+                    Expr::Seq(s) => {
+                        new.extend(s.exprs);
+                    }
+                    _ => new.push(e),
+                }
+            }
+
+            seq.exprs = new;
+        }
     }
 
     pub(super) fn merge_sequences_in_seq_expr(&mut self, e: &mut SeqExpr) {
