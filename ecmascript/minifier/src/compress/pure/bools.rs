@@ -23,7 +23,7 @@ impl Pure<'_> {
                         if exprs.is_empty() {
                             return;
                         }
-                        log::debug!("optimizing negated sequences");
+                        log::debug!("bools: Optimizing negated sequences");
 
                         {
                             let last = exprs.last_mut().unwrap();
