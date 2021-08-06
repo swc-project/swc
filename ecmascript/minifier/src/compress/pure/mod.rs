@@ -7,6 +7,7 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 mod bools;
 mod ctx;
+mod numbers;
 
 pub(super) fn pure_optimizer<'a>(
     options: &'a CompressOptions,
@@ -101,6 +102,8 @@ impl VisitMut for Pure<'_> {
 
         self.optimize_bools(e);
 
+        self.lift_minus(e);
+
         self.compress_useless_deletes(e);
 
         self.remove_useless_logical_rhs(e);
@@ -154,6 +157,10 @@ impl VisitMut for Pure<'_> {
         match e.op {
             op!("!") => {
                 self.optimize_expr_in_bool_ctx(&mut e.arg);
+            }
+
+            op!(unary, "+") | op!(unary, "-") => {
+                self.optimize_expr_in_num_ctx(&mut e.arg);
             }
             _ => {}
         }

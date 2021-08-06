@@ -53,7 +53,6 @@ mod inline;
 mod join_vars;
 mod loops;
 mod misc;
-mod numbers;
 mod ops;
 mod properties;
 mod sequences;
@@ -1702,8 +1701,6 @@ impl VisitMut for Optimizer<'_> {
 
         self.concat_str(e);
 
-        self.lift_minus(e);
-
         self.convert_tpl_to_str(e);
 
         self.optimize_str_access_to_arguments(e);
@@ -2405,10 +2402,6 @@ impl VisitMut for Optimizer<'_> {
         };
 
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
-
-        if n.op == op!(unary, "+") || n.op == op!(unary, "-") {
-            self.with_ctx(ctx).optimize_expr_in_num_ctx(&mut n.arg);
-        }
     }
 
     fn visit_mut_update_expr(&mut self, n: &mut UpdateExpr) {
