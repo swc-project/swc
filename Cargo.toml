@@ -49,6 +49,7 @@ swc_ecma_transforms = {version = "0.63.0", path = "./ecmascript/transforms", fea
 swc_ecma_transforms_base = {version = "0.26.0", path = "./ecmascript/transforms/base"}
 swc_ecma_utils = {version = "0.41.0", path = "./ecmascript/utils"}
 swc_ecma_visit = {version = "0.35.0", path = "./ecmascript/visit"}
+swc_ecmascript = {version = "0.52.0", path = "./ecmascript"}
 swc_node_base = {version = "0.2.0", path = "./node/base"}
 swc_visit = {version = "0.2.3", path = "./visit"}
 
