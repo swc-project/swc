@@ -11,7 +11,6 @@ use swc_ecma_utils::Id;
 use swc_ecma_visit::noop_visit_mut_type;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
-use unicode_xid::UnicodeXID;
 
 impl<'b> Optimizer<'b> {
     pub(super) fn access_property<'e>(
@@ -214,19 +213,6 @@ pub(crate) fn is_directive(e: &Stmt) -> bool {
         },
         _ => false,
     }
-}
-
-pub(crate) fn is_valid_identifier(s: &str, ascii_only: bool) -> bool {
-    if ascii_only {
-        if s.chars().any(|c| !c.is_ascii()) {
-            return false;
-        }
-    }
-
-    s.starts_with(|c: char| c.is_xid_start())
-        && s.chars().all(|c: char| c.is_xid_continue())
-        && !s.contains("𝒶")
-        && !s.is_reserved()
 }
 
 pub(crate) fn replace_id_with_expr<N>(node: &mut N, from: Id, to: Box<Expr>)

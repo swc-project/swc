@@ -1,4 +1,6 @@
-use super::{util::is_valid_identifier, Optimizer};
+use crate::compress::util::is_valid_identifier;
+
+use super::Optimizer;
 use swc_ecma_ast::*;
 
 impl Optimizer<'_> {

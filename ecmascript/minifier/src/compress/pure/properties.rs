@@ -1,5 +1,5 @@
-use super::util::is_valid_identifier;
-use crate::compress::optimize::Optimizer;
+use super::Pure;
+use crate::compress::util::is_valid_identifier;
 use crate::util::deeply_contains_this_expr;
 use swc_atoms::js_word;
 use swc_common::SyntaxContext;
@@ -7,7 +7,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::prop_name_eq;
 use swc_ecma_utils::ExprExt;
 
-impl Optimizer<'_> {
+impl Pure<'_> {
     pub(super) fn optimize_property_of_member_expr(&mut self, e: &mut MemberExpr) {
         if !e.computed {
             return;
@@ -57,6 +57,10 @@ impl Optimizer<'_> {
             return;
         }
 
+        if self.ctx.is_callee {
+            return;
+        }
+
         let me = match e {
             Expr::Member(m) => m,
             _ => return,
@@ -97,10 +101,6 @@ impl Optimizer<'_> {
             .count()
             != 1;
         if duplicate_prop {
-            return;
-        }
-
-        if self.ctx.is_callee {
             return;
         }
 

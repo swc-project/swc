@@ -8,6 +8,7 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 mod bools;
 mod ctx;
 mod numbers;
+mod properties;
 mod strings;
 
 pub(super) fn pure_optimizer<'a>(
@@ -96,6 +97,18 @@ impl VisitMut for Pure<'_> {
         }
     }
 
+    fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
+        {
+            let ctx = Ctx {
+                is_callee: true,
+                ..self.ctx
+            };
+            e.callee.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
+
+        e.args.visit_mut_with(self);
+    }
+
     fn visit_mut_cond_expr(&mut self, e: &mut CondExpr) {
         e.visit_mut_children_with(self);
 
@@ -104,6 +117,8 @@ impl VisitMut for Pure<'_> {
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
+
+        self.handle_property_access(e);
 
         self.optimize_bools(e);
 
@@ -140,8 +155,31 @@ impl VisitMut for Pure<'_> {
         self.optimize_expr_in_bool_ctx(&mut s.test);
     }
 
+    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
+        e.obj.visit_mut_with(self);
+        if e.computed {
+            e.prop.visit_mut_with(self);
+        }
+
+        self.optimize_property_of_member_expr(e);
+
+        self.handle_known_computed_member_expr(e);
+    }
+
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
         self.visit_par(items);
+    }
+
+    fn visit_mut_new_expr(&mut self, e: &mut NewExpr) {
+        {
+            let ctx = Ctx {
+                is_callee: true,
+                ..self.ctx
+            };
+            e.callee.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
+
+        e.args.visit_mut_with(self);
     }
 
     fn visit_mut_prop_or_spreads(&mut self, exprs: &mut Vec<PropOrSpread>) {
@@ -149,7 +187,15 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
-        s.visit_mut_children_with(self);
+        {
+            let ctx = Ctx {
+                is_update_arg: false,
+                is_callee: false,
+                in_delete: false,
+                ..self.ctx
+            };
+            s.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        }
     }
 
     fn visit_mut_stmts(&mut self, items: &mut Vec<Stmt>) {
@@ -198,6 +244,15 @@ impl VisitMut for Pure<'_> {
             }
             _ => {}
         }
+    }
+
+    fn visit_mut_update_expr(&mut self, e: &mut UpdateExpr) {
+        let ctx = Ctx {
+            is_update_arg: true,
+            ..self.ctx
+        };
+
+        e.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
     fn visit_mut_while_stmt(&mut self, s: &mut WhileStmt) {

@@ -6,6 +6,11 @@ pub(super) struct Ctx {
     pub par_depth: u8,
 
     pub in_delete: bool,
+
+    /// `true` if we are in `arg` of `++arg` or `--arg`.
+    pub is_update_arg: bool,
+
+    pub is_callee: bool,
 }
 
 impl<'b> Pure<'b> {

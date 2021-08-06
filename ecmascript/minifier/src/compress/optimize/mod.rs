@@ -54,7 +54,6 @@ mod join_vars;
 mod loops;
 mod misc;
 mod ops;
-mod properties;
 mod sequences;
 mod strings;
 mod switches;
@@ -1741,8 +1740,6 @@ impl VisitMut for Optimizer<'_> {
         self.compress_negated_bin_eq(e);
         self.compress_array_join(e);
 
-        self.handle_property_access(e);
-
         self.lift_seqs_of_bin(e);
 
         self.lift_seqs_of_cond_assign(e);
@@ -2022,10 +2019,6 @@ impl VisitMut for Optimizer<'_> {
             };
             n.prop.visit_mut_with(&mut *self.with_ctx(ctx));
         }
-
-        self.optimize_property_of_member_expr(n);
-
-        self.handle_known_computed_member_expr(n);
     }
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {

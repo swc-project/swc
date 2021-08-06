@@ -4,6 +4,7 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ExprExt;
+use unicode_xid::UnicodeXID;
 
 /// Creates `!e` where e is the expression passed as an argument.
 ///
@@ -319,6 +320,19 @@ pub(crate) fn is_pure_undefined(e: &Expr) -> bool {
 
         _ => false,
     }
+}
+
+pub(crate) fn is_valid_identifier(s: &str, ascii_only: bool) -> bool {
+    if ascii_only {
+        if s.chars().any(|c| !c.is_ascii()) {
+            return false;
+        }
+    }
+
+    s.starts_with(|c: char| c.is_xid_start())
+        && s.chars().all(|c: char| c.is_xid_continue())
+        && !s.contains("𝒶")
+        && !s.is_reserved()
 }
 
 #[cfg(test)]
