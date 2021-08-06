@@ -38,7 +38,6 @@ use Value::Known;
 use self::util::replace_id_with_expr;
 
 mod arguments;
-mod arrows;
 mod bools;
 mod collapse_vars;
 mod conditionals;
@@ -1533,12 +1532,6 @@ impl VisitMut for Optimizer<'_> {
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
-    fn visit_mut_block_stmt_or_expr(&mut self, body: &mut BlockStmtOrExpr) {
-        body.visit_mut_children_with(self);
-
-        self.optimize_arrow_body(body);
-    }
-
     fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
         let inline_prevented = self.ctx.inline_prevented || self.has_noinline(e.span);
 
@@ -2083,12 +2076,6 @@ impl VisitMut for Optimizer<'_> {
         n.visit_mut_children_with(self);
 
         n.retain(|p| !p.pat.is_invalid());
-    }
-
-    fn visit_mut_prop(&mut self, p: &mut Prop) {
-        p.visit_mut_children_with(self);
-
-        self.optimize_arrow_method_prop(p);
     }
 
     fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {

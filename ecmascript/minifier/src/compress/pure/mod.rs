@@ -5,6 +5,7 @@ use swc_common::{pass::Repeated, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
+mod arrows;
 mod bools;
 mod conds;
 mod ctx;
@@ -47,7 +48,7 @@ impl Repeated for Pure<'_> {
 }
 
 impl Pure<'_> {
-    fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
+    fn handle_stmt_likes<T>(&mut self, _stmts: &mut Vec<T>)
     where
         T: MoudleItemExt,
     {
@@ -109,6 +110,12 @@ impl VisitMut for Pure<'_> {
         if e.op == op!(bin, "+") {
             self.concat_tpl(&mut e.left, &mut e.right);
         }
+    }
+
+    fn visit_mut_block_stmt_or_expr(&mut self, body: &mut BlockStmtOrExpr) {
+        body.visit_mut_children_with(self);
+
+        self.optimize_arrow_body(body);
     }
 
     fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
@@ -332,5 +339,11 @@ impl VisitMut for Pure<'_> {
         s.visit_mut_children_with(self);
 
         self.optimize_expr_in_bool_ctx(&mut s.test);
+    }
+
+    fn visit_mut_prop(&mut self, p: &mut Prop) {
+        p.visit_mut_children_with(self);
+
+        self.optimize_arrow_method_prop(p);
     }
 }
