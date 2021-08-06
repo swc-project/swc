@@ -1,4 +1,5 @@
 use crate::debug::dump;
+use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -301,4 +302,21 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
     }
 
     Some(cost)
+}
+
+pub(crate) fn is_pure_undefined(e: &Expr) -> bool {
+    match e {
+        Expr::Ident(Ident {
+            sym: js_word!("undefined"),
+            ..
+        }) => true,
+
+        Expr::Unary(UnaryExpr {
+            op: UnaryOp::Void,
+            arg,
+            ..
+        }) if !arg.may_have_side_effects() => true,
+
+        _ => false,
+    }
 }

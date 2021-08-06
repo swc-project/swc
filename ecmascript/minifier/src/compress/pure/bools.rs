@@ -1,6 +1,8 @@
 use super::Pure;
+use crate::compress::util::is_pure_undefined;
 use crate::compress::util::negate;
 use crate::util::make_bool;
+use swc_atoms::js_word;
 use swc_common::Spanned;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -9,6 +11,90 @@ use swc_ecma_utils::Value;
 use Value::Known;
 
 impl Pure<'_> {
+    pub(super) fn compress_useless_deletes(&mut self, e: &mut Expr) {
+        if !self.options.bools {
+            return;
+        }
+
+        let delete = match e {
+            Expr::Unary(
+                u @ UnaryExpr {
+                    op: op!("delete"), ..
+                },
+            ) => u,
+            _ => return,
+        };
+
+        if delete.arg.may_have_side_effects() {
+            return;
+        }
+
+        let convert_to_true = match &*delete.arg {
+            Expr::Seq(..)
+            | Expr::Cond(..)
+            | Expr::Bin(BinExpr { op: op!("&&"), .. })
+            | Expr::Bin(BinExpr { op: op!("||"), .. }) => true,
+            // V8 and terser test ref have different opinion.
+            Expr::Ident(Ident {
+                sym: js_word!("Infinity"),
+                ..
+            }) => false,
+            Expr::Ident(Ident {
+                sym: js_word!("undefined"),
+                ..
+            }) => false,
+            Expr::Ident(Ident {
+                sym: js_word!("NaN"),
+                ..
+            }) => false,
+
+            e if is_pure_undefined(&e) => true,
+
+            Expr::Ident(..) => true,
+
+            // NaN
+            Expr::Bin(BinExpr {
+                op: op!("/"),
+                right,
+                ..
+            }) => {
+                let rn = right.as_number();
+                let v = if let Known(rn) = rn {
+                    if rn != 0.0 {
+                        true
+                    } else {
+                        false
+                    }
+                } else {
+                    false
+                };
+
+                if v {
+                    true
+                } else {
+                    self.changed = true;
+                    let span = delete.arg.span();
+                    log::debug!("booleans: Compressing `delete` as sequence expression");
+                    *e = Expr::Seq(SeqExpr {
+                        span,
+                        exprs: vec![delete.arg.take(), Box::new(make_bool(span, true))],
+                    });
+                    return;
+                }
+            }
+
+            _ => false,
+        };
+
+        if convert_to_true {
+            self.changed = true;
+            let span = delete.arg.span();
+            log::debug!("booleans: Compressing `delete` => true");
+            *e = make_bool(span, true);
+            return;
+        }
+    }
+
     pub(super) fn handle_negated_seq(&mut self, n: &mut Expr) {
         match &mut *n {
             Expr::Unary(e @ UnaryExpr { op: op!("!"), .. })

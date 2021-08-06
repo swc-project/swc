@@ -1,8 +1,7 @@
 use super::Optimizer;
-use crate::compress::optimize::{is_pure_undefined, Ctx};
+use crate::compress::optimize::Ctx;
 use crate::compress::util::negate_cost;
 use crate::debug::dump;
-use crate::util::make_bool;
 use swc_atoms::js_word;
 use swc_common::Spanned;
 use swc_ecma_ast::*;
@@ -199,90 +198,6 @@ impl Optimizer<'_> {
         }
 
         true
-    }
-
-    pub(super) fn compress_useless_deletes(&mut self, e: &mut Expr) {
-        if !self.options.bools {
-            return;
-        }
-
-        let delete = match e {
-            Expr::Unary(
-                u @ UnaryExpr {
-                    op: op!("delete"), ..
-                },
-            ) => u,
-            _ => return,
-        };
-
-        if delete.arg.may_have_side_effects() {
-            return;
-        }
-
-        let convert_to_true = match &*delete.arg {
-            Expr::Seq(..)
-            | Expr::Cond(..)
-            | Expr::Bin(BinExpr { op: op!("&&"), .. })
-            | Expr::Bin(BinExpr { op: op!("||"), .. }) => true,
-            // V8 and terser test ref have different opinion.
-            Expr::Ident(Ident {
-                sym: js_word!("Infinity"),
-                ..
-            }) => false,
-            Expr::Ident(Ident {
-                sym: js_word!("undefined"),
-                ..
-            }) => false,
-            Expr::Ident(Ident {
-                sym: js_word!("NaN"),
-                ..
-            }) => false,
-
-            e if is_pure_undefined(&e) => true,
-
-            Expr::Ident(..) => true,
-
-            // NaN
-            Expr::Bin(BinExpr {
-                op: op!("/"),
-                right,
-                ..
-            }) => {
-                let rn = right.as_number();
-                let v = if let Known(rn) = rn {
-                    if rn != 0.0 {
-                        true
-                    } else {
-                        false
-                    }
-                } else {
-                    false
-                };
-
-                if v {
-                    true
-                } else {
-                    self.changed = true;
-                    let span = delete.arg.span();
-                    log::debug!("booleans: Compressing `delete` as sequence expression");
-                    *e = Expr::Seq(SeqExpr {
-                        span,
-                        exprs: vec![delete.arg.take(), Box::new(make_bool(span, true))],
-                    });
-                    return;
-                }
-            }
-
-            _ => false,
-        };
-
-        if convert_to_true {
-            self.changed = true;
-            let span = delete.arg.span();
-            log::debug!("booleans: Compressing `delete` => true");
-            *e = make_bool(span, true);
-            return;
-        }
     }
 
     pub(super) fn compress_comparsion_of_typeof(&mut self, e: &mut BinExpr) {

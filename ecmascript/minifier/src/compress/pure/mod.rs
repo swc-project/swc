@@ -93,6 +93,8 @@ impl VisitMut for Pure<'_> {
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
 
+        self.compress_useless_deletes(e);
+
         self.handle_negated_seq(e);
     }
 
