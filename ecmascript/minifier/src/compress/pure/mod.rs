@@ -185,7 +185,13 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_function(&mut self, f: &mut Function) {
-        f.visit_mut_children_with(self);
+        {
+            let ctx = Ctx {
+                in_try_block: false,
+                ..self.ctx
+            };
+            f.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        }
 
         if let Some(body) = &mut f.body {
             self.remove_useless_return(&mut body.stmts);
