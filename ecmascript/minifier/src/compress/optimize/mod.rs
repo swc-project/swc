@@ -1512,8 +1512,6 @@ impl VisitMut for Optimizer<'_> {
 
         self.compress_typeof_undefined(n);
 
-        self.compress_cmp_of_typeof_with_lit(n);
-
         self.optimize_bin_operator(n);
 
         self.optimize_bin_and_or(n);
