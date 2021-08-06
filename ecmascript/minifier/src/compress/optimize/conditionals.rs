@@ -1,7 +1,6 @@
 use super::Optimizer;
 use crate::compress::optimize::Ctx;
 use crate::compress::util::negate_cost;
-use crate::util::make_bool;
 use crate::util::SpanExt;
 use crate::DISABLE_BUGGY_PASSES;
 use std::mem::swap;
@@ -16,8 +15,6 @@ use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::ExprExt;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_utils::StmtLike;
-use swc_ecma_utils::Type;
-use swc_ecma_utils::Value::Known;
 
 /// Methods related to the option `conditionals`. All methods are noop if
 /// `conditionals` is false.
@@ -92,41 +89,6 @@ impl Optimizer<'_> {
         }
     }
 
-    /// Removes useless operands of an logical expressions.
-    pub(super) fn drop_logical_operands(&mut self, e: &mut Expr) {
-        if !self.options.conditionals {
-            return;
-        }
-
-        let bin = match e {
-            Expr::Bin(b) => b,
-            _ => return,
-        };
-
-        if bin.op != op!("||") && bin.op != op!("&&") {
-            return;
-        }
-
-        if bin.left.may_have_side_effects() {
-            return;
-        }
-
-        let lt = bin.left.get_type();
-        let rt = bin.right.get_type();
-
-        let _lb = bin.left.as_pure_bool();
-        let rb = bin.right.as_pure_bool();
-
-        if let (Known(Type::Bool), Known(Type::Bool)) = (lt, rt) {
-            // `!!b || true` => true
-            if let Known(true) = rb {
-                self.changed = true;
-                log::debug!("conditionals: `!!foo || true` => `true`");
-                *e = make_bool(bin.span, true);
-                return;
-            }
-        }
-    }
     ///
     /// # Example
     ///

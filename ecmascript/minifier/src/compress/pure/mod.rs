@@ -173,6 +173,8 @@ impl VisitMut for Pure<'_> {
 
         self.optimize_bools(e);
 
+        self.drop_logical_operands(e);
+
         self.lift_minus(e);
 
         self.convert_tpl_to_str(e);

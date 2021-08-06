@@ -1686,8 +1686,6 @@ impl VisitMut for Optimizer<'_> {
 
         self.compress_useless_cond_expr(e);
 
-        self.drop_logical_operands(e);
-
         self.inline(e);
 
         match e {

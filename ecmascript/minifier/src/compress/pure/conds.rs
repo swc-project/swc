@@ -1,5 +1,5 @@
 use super::Pure;
-use crate::{compress::util::negate_cost, debug::dump};
+use crate::{compress::util::negate_cost, debug::dump, util::make_bool};
 use std::mem::swap;
 use swc_common::{EqIgnoreSpan, Spanned};
 use swc_ecma_ast::*;
@@ -143,6 +143,42 @@ impl Pure<'_> {
                 start_str,
                 dump(&*cond)
             )
+        }
+    }
+
+    /// Removes useless operands of an logical expressions.
+    pub(super) fn drop_logical_operands(&mut self, e: &mut Expr) {
+        if !self.options.conditionals {
+            return;
+        }
+
+        let bin = match e {
+            Expr::Bin(b) => b,
+            _ => return,
+        };
+
+        if bin.op != op!("||") && bin.op != op!("&&") {
+            return;
+        }
+
+        if bin.left.may_have_side_effects() {
+            return;
+        }
+
+        let lt = bin.left.get_type();
+        let rt = bin.right.get_type();
+
+        let _lb = bin.left.as_pure_bool();
+        let rb = bin.right.as_pure_bool();
+
+        if let (Value::Known(Type::Bool), Value::Known(Type::Bool)) = (lt, rt) {
+            // `!!b || true` => true
+            if let Value::Known(true) = rb {
+                self.changed = true;
+                log::debug!("conditionals: `!!foo || true` => `true`");
+                *e = make_bool(bin.span, true);
+                return;
+            }
         }
     }
 }
