@@ -277,6 +277,26 @@ impl Compressor<'_> {
         }
 
         {
+            log::info!("compress: Running pure optimizer (pass = {})", self.pass);
+
+            let start_time = now();
+
+            let mut visitor = expr_simplifier();
+            n.apply(&mut visitor);
+            self.changed |= visitor.changed();
+
+            if let Some(start_time) = start_time {
+                let end_time = Instant::now();
+
+                log::info!(
+                    "compress: Pure optimizer took {:?} (pass = {})",
+                    end_time - start_time,
+                    self.pass
+                );
+            }
+        }
+
+        {
             log::info!("compress: Running optimizer (pass = {})", self.pass);
 
             let start_time = now();
