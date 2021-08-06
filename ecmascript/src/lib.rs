@@ -5,6 +5,8 @@ pub use swc_ecma_codegen as codegen;
 pub use swc_ecma_dep_graph as dep_graph;
 #[cfg(feature = "parser")]
 pub use swc_ecma_parser as parser;
+#[cfg(feature = "preset_env")]
+pub use swc_ecma_preset_env as preset_env;
 #[cfg(feature = "transforms")]
 pub use swc_ecma_transforms as transforms;
 #[cfg(feature = "utils")]

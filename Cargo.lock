@@ -2843,6 +2843,7 @@ dependencies = [
  "swc_ecma_dep_graph",
  "swc_ecma_minifier",
  "swc_ecma_parser",
+ "swc_ecma_preset_env",
  "swc_ecma_transforms",
  "swc_ecma_utils",
  "swc_ecma_visit",
