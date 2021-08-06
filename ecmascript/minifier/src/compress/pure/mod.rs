@@ -95,6 +95,8 @@ impl VisitMut for Pure<'_> {
 
         self.compress_useless_deletes(e);
 
+        self.remove_useless_logical_rhs(e);
+
         self.handle_negated_seq(e);
     }
 

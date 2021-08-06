@@ -9,65 +9,10 @@ use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::Type;
 use swc_ecma_utils::Value::Known;
-use swc_ecma_utils::Value::Unknown;
 use swc_ecma_utils::{undefined, ExprExt};
 
 /// Methods related to the options `bools` and `bool_as_ints`.
 impl Optimizer<'_> {
-    ///
-    /// - `!condition() || !-3.5` => `!condition()`
-    ///
-    /// In this case, if lhs is false, rhs is also false so it's removable.
-    pub(super) fn remove_useless_pipes(&mut self, e: &mut Expr) {
-        if !self.options.bools {
-            return;
-        }
-
-        match e {
-            Expr::Bin(BinExpr {
-                left,
-                op: op @ op!("&&"),
-                right,
-                ..
-            })
-            | Expr::Bin(BinExpr {
-                left,
-                op: op @ op!("||"),
-                right,
-                ..
-            }) => {
-                let lt = left.get_type();
-                let rt = right.get_type();
-
-                match (lt, rt) {
-                    (Known(Type::Bool), Known(Type::Bool)) => {
-                        let rb = right.as_pure_bool();
-                        let rb = match rb {
-                            Known(v) => v,
-                            Unknown => return,
-                        };
-
-                        //
-                        let can_remove = if *op == op!("&&") { rb } else { !rb };
-
-                        if can_remove {
-                            if *op == op!("&&") {
-                                log::debug!("booleans: Compressing `!foo && true` as `!foo`");
-                            } else {
-                                log::debug!("booleans: Compressing `!foo || false` as `!foo`");
-                            }
-                            self.changed = true;
-                            *e = *left.take();
-                            return;
-                        }
-                    }
-                    _ => {}
-                }
-            }
-            _ => {}
-        }
-    }
-
     /// `!(a && b)` => `!a || !b`
     pub(super) fn optimize_bools(&mut self, e: &mut Expr) {
         if !self.options.bools {

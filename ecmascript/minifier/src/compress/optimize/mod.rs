@@ -1756,8 +1756,6 @@ impl VisitMut for Optimizer<'_> {
         self.compress_negated_bin_eq(e);
         self.compress_array_join(e);
 
-        self.remove_useless_pipes(e);
-
         self.optimize_bools(e);
 
         self.handle_property_access(e);

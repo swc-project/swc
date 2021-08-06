@@ -7,10 +7,64 @@ use swc_common::Spanned;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ExprExt;
+use swc_ecma_utils::Type;
 use swc_ecma_utils::Value;
-use Value::Known;
 
 impl Pure<'_> {
+    ///
+    /// - `!condition() || !-3.5` => `!condition()`
+    ///
+    /// In this case, if lhs is false, rhs is also false so it's removable.
+    pub(super) fn remove_useless_logical_rhs(&mut self, e: &mut Expr) {
+        if !self.options.bools {
+            return;
+        }
+
+        match e {
+            Expr::Bin(BinExpr {
+                left,
+                op: op @ op!("&&"),
+                right,
+                ..
+            })
+            | Expr::Bin(BinExpr {
+                left,
+                op: op @ op!("||"),
+                right,
+                ..
+            }) => {
+                let lt = left.get_type();
+                let rt = right.get_type();
+
+                match (lt, rt) {
+                    (Value::Known(Type::Bool), Value::Known(Type::Bool)) => {
+                        let rb = right.as_pure_bool();
+                        let rb = match rb {
+                            Value::Known(v) => v,
+                            Value::Unknown => return,
+                        };
+
+                        //
+                        let can_remove = if *op == op!("&&") { rb } else { !rb };
+
+                        if can_remove {
+                            if *op == op!("&&") {
+                                log::debug!("booleans: Compressing `!foo && true` as `!foo`");
+                            } else {
+                                log::debug!("booleans: Compressing `!foo || false` as `!foo`");
+                            }
+                            self.changed = true;
+                            *e = *left.take();
+                            return;
+                        }
+                    }
+                    _ => {}
+                }
+            }
+            _ => {}
+        }
+    }
+
     /// Note: This should be invoked before calling `handle_negated_seq`.
     pub(super) fn compress_useless_deletes(&mut self, e: &mut Expr) {
         if !self.options.bools {
@@ -60,7 +114,7 @@ impl Pure<'_> {
                 ..
             }) => {
                 let rn = right.as_number();
-                let v = if let Known(rn) = rn {
+                let v = if let Value::Known(rn) = rn {
                     if rn != 0.0 {
                         true
                     } else {
@@ -259,7 +313,7 @@ impl Pure<'_> {
             }) => {
                 // `a || false` => `a` (as it will be casted to boolean anyway)
 
-                if let Known(false) = right.as_pure_bool() {
+                if let Value::Known(false) = right.as_pure_bool() {
                     log::debug!("bools: `expr || false` => `expr` (in bool context)");
                     self.changed = true;
                     *n = *left.take();
@@ -270,7 +324,7 @@ impl Pure<'_> {
             _ => {
                 let span = n.span();
                 let v = n.as_pure_bool();
-                if let Known(v) = v {
+                if let Value::Known(v) = v {
                     log::debug!("Optimizing expr as {} (in bool context)", v);
                     *n = make_bool(span, v);
                     return;
