@@ -1,12 +1,8 @@
 use super::Optimizer;
 use swc_common::Spanned;
-use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_visit::noop_visit_type;
-use swc_ecma_visit::Node;
-use swc_ecma_visit::Visit;
-use swc_ecma_visit::VisitWith;
+use swc_ecma_utils::contains_this_expr;
 
 /// Methods related to the option `arrows`.
 impl Optimizer<'_> {
@@ -43,12 +39,8 @@ impl Optimizer<'_> {
         match p {
             Prop::KeyValue(kv) => {
                 //
-                {
-                    let mut v = ThisVisitor { found: false };
-                    kv.value.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
-                    if v.found {
-                        return;
-                    }
+                if contains_this_expr(&kv.value) {
+                    return;
                 }
 
                 match &mut *kv.value {
@@ -88,17 +80,5 @@ impl Optimizer<'_> {
             }
             _ => {}
         }
-    }
-}
-
-struct ThisVisitor {
-    found: bool,
-}
-
-impl Visit for ThisVisitor {
-    noop_visit_type!();
-
-    fn visit_this_expr(&mut self, _: &ThisExpr, _: &dyn Node) {
-        self.found = true;
     }
 }
