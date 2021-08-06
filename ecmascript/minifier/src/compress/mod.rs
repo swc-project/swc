@@ -202,13 +202,13 @@ impl Compressor<'_> {
             }
         }
 
-        let last_mark = n.remove_mark();
-        assert!(
-            N::is_module() || last_mark == self.marks.standalone,
-            "{:?}; last={:?}",
-            self.marks,
-            last_mark
-        );
+        // let last_mark = n.remove_mark();
+        // assert!(
+        //     N::is_module() || last_mark == self.marks.standalone,
+        //     "{:?}; last={:?}",
+        //     self.marks,
+        //     last_mark
+        // );
     }
 
     /// Optimize a module. `N` can be [Module] or [FnExpr].
