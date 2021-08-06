@@ -7,6 +7,7 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 mod bools;
 mod ctx;
+mod loops;
 mod numbers;
 mod properties;
 mod strings;
