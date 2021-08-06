@@ -13,69 +13,6 @@ use swc_ecma_utils::{undefined, ExprExt};
 
 /// Methods related to the options `bools` and `bool_as_ints`.
 impl Optimizer<'_> {
-    /// `!(a && b)` => `!a || !b`
-    pub(super) fn optimize_bools(&mut self, e: &mut Expr) {
-        if !self.options.bools {
-            return;
-        }
-
-        match e {
-            Expr::Unary(UnaryExpr {
-                op: op!("!"), arg, ..
-            }) => match &mut **arg {
-                Expr::Bin(BinExpr {
-                    op: op!("&&"),
-                    left,
-                    right,
-                    ..
-                }) => {
-                    if negate_cost(&left, self.ctx.in_bool_ctx, false).unwrap_or(isize::MAX) >= 0
-                        || negate_cost(&right, self.ctx.in_bool_ctx, false).unwrap_or(isize::MAX)
-                            >= 0
-                    {
-                        return;
-                    }
-                    log::debug!("Optimizing `!(a && b)` as `!a || !b`");
-                    self.changed = true;
-                    self.negate(arg);
-                    *e = *arg.take();
-                    return;
-                }
-
-                Expr::Unary(UnaryExpr {
-                    op: op!("!"),
-                    arg: arg_of_arg,
-                    ..
-                }) => match &mut **arg_of_arg {
-                    Expr::Bin(BinExpr {
-                        op: op!("||"),
-                        left,
-                        right,
-                        ..
-                    }) => {
-                        if negate_cost(&left, self.ctx.in_bool_ctx, false).unwrap_or(isize::MAX) > 0
-                            && negate_cost(&right, self.ctx.in_bool_ctx, false)
-                                .unwrap_or(isize::MAX)
-                                > 0
-                        {
-                            return;
-                        }
-                        log::debug!("Optimizing `!!(a || b)` as `!a && !b`");
-                        self.changed = true;
-                        self.negate(arg_of_arg);
-                        *e = *arg.take();
-                        return;
-                    }
-
-                    _ => {}
-                },
-
-                _ => {}
-            },
-            _ => {}
-        }
-    }
-
     /// **This negates bool**.
     ///
     /// Returns true if it's negated.

@@ -1,6 +1,7 @@
 use super::Pure;
 use crate::compress::util::is_pure_undefined;
 use crate::compress::util::negate;
+use crate::compress::util::negate_cost;
 use crate::util::make_bool;
 use swc_atoms::js_word;
 use swc_common::Spanned;
@@ -11,6 +12,70 @@ use swc_ecma_utils::Type;
 use swc_ecma_utils::Value;
 
 impl Pure<'_> {
+    pub(super) fn negate(&mut self, e: &mut Expr, in_bool_ctx: bool) {
+        self.changed = true;
+        negate(e, in_bool_ctx)
+    }
+
+    /// `!(a && b)` => `!a || !b`
+    pub(super) fn optimize_bools(&mut self, e: &mut Expr) {
+        if !self.options.bools {
+            return;
+        }
+
+        match e {
+            Expr::Unary(UnaryExpr {
+                op: op!("!"), arg, ..
+            }) => match &mut **arg {
+                Expr::Bin(BinExpr {
+                    op: op!("&&"),
+                    left,
+                    right,
+                    ..
+                }) => {
+                    if negate_cost(&left, false, false).unwrap_or(isize::MAX) >= 0
+                        || negate_cost(&right, false, false).unwrap_or(isize::MAX) >= 0
+                    {
+                        return;
+                    }
+                    log::debug!("Optimizing `!(a && b)` as `!a || !b`");
+                    self.changed = true;
+                    self.negate(arg, false);
+                    *e = *arg.take();
+                    return;
+                }
+
+                Expr::Unary(UnaryExpr {
+                    op: op!("!"),
+                    arg: arg_of_arg,
+                    ..
+                }) => match &mut **arg_of_arg {
+                    Expr::Bin(BinExpr {
+                        op: op!("||"),
+                        left,
+                        right,
+                        ..
+                    }) => {
+                        if negate_cost(&left, false, false).unwrap_or(isize::MAX) > 0
+                            && negate_cost(&right, false, false).unwrap_or(isize::MAX) > 0
+                        {
+                            return;
+                        }
+                        log::debug!("Optimizing `!!(a || b)` as `!a && !b`");
+                        self.negate(arg_of_arg, false);
+                        *e = *arg.take();
+                        return;
+                    }
+
+                    _ => {}
+                },
+
+                _ => {}
+            },
+            _ => {}
+        }
+    }
+
     pub(super) fn compress_cmp_of_typeof_with_lit(&mut self, e: &mut BinExpr) {
         fn should_optimize(l: &Expr, r: &Expr) -> bool {
             match (l, r) {
