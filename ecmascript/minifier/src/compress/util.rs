@@ -379,6 +379,14 @@ pub(crate) fn is_directive(e: &Stmt) -> bool {
     }
 }
 
+pub(crate) fn is_pure_undefined_or_null(e: &Expr) -> bool {
+    is_pure_undefined(e)
+        || match e {
+            Expr::Lit(Lit::Null(..)) => true,
+            _ => false,
+        }
+}
+
 #[cfg(test)]
 mod tests {
     use super::negate_cost;

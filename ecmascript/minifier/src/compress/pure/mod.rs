@@ -9,6 +9,7 @@ mod arrows;
 mod bools;
 mod conds;
 mod ctx;
+mod evaluate;
 mod loops;
 mod misc;
 mod numbers;
@@ -140,6 +141,8 @@ impl VisitMut for Pure<'_> {
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
+
+        self.eval_opt_chain(e);
 
         self.swap_bin_operands(e);
 

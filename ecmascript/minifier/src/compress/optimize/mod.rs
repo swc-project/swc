@@ -2437,14 +2437,6 @@ impl VisitMut for Optimizer<'_> {
     }
 }
 
-fn is_pure_undefined_or_null(e: &Expr) -> bool {
-    is_pure_undefined(e)
-        || match e {
-            Expr::Lit(Lit::Null(..)) => true,
-            _ => false,
-        }
-}
-
 /// If true, `0` in `(0, foo.bar)()` is preserved.
 fn is_callee_this_aware(callee: &Expr) -> bool {
     match &*callee {
