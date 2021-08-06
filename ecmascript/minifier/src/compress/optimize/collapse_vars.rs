@@ -1,19 +1,11 @@
 use super::Optimizer;
 use fxhash::FxHashMap;
-use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_utils::prepend;
 use swc_ecma_utils::Id;
-use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::noop_visit_mut_type;
-use swc_ecma_visit::noop_visit_type;
-use swc_ecma_visit::Node;
-use swc_ecma_visit::Visit;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
-use swc_ecma_visit::VisitWith;
 
 /// Methods related to the option `collapse_vars`.
 impl Optimizer<'_> {
