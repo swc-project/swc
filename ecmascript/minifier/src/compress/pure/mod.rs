@@ -129,7 +129,12 @@ impl VisitMut for Pure<'_> {
     fn visit_mut_unary_expr(&mut self, e: &mut UnaryExpr) {
         e.visit_mut_children_with(self);
 
-        self.optimize_expr_in_bool_ctx(&mut e.arg);
+        match e.op {
+            op!("!") => {
+                self.optimize_expr_in_bool_ctx(&mut e.arg);
+            }
+            _ => {}
+        }
     }
 
     fn visit_mut_while_stmt(&mut self, s: &mut WhileStmt) {
