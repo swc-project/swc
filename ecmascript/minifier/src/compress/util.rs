@@ -1,9 +1,10 @@
 use crate::debug::dump;
+use std::f64;
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_utils::ExprExt;
+use swc_ecma_utils::{ExprExt, Value};
 use unicode_xid::UnicodeXID;
 
 /// Creates `!e` where e is the expression passed as an argument.
@@ -385,6 +386,147 @@ pub(crate) fn is_pure_undefined_or_null(e: &Expr) -> bool {
             Expr::Lit(Lit::Null(..)) => true,
             _ => false,
         }
+}
+
+/// This method does **not** modifies `e`.
+///
+/// This method is used to test if a whole call can be replaced, while
+/// preserving standalone constants.
+pub(crate) fn eval_as_number(e: &Expr) -> Option<f64> {
+    match e {
+        Expr::Bin(BinExpr {
+            op: op!(bin, "-"),
+            left,
+            right,
+            ..
+        }) => {
+            let l = eval_as_number(&left)?;
+            let r = eval_as_number(&right)?;
+
+            return Some(l - r);
+        }
+
+        Expr::Call(CallExpr {
+            callee: ExprOrSuper::Expr(callee),
+            args,
+            ..
+        }) => {
+            for arg in &*args {
+                if arg.spread.is_some() || arg.expr.may_have_side_effects() {
+                    return None;
+                }
+            }
+
+            match &**callee {
+                Expr::Member(MemberExpr {
+                    obj: ExprOrSuper::Expr(obj),
+                    prop,
+                    computed: false,
+                    ..
+                }) => {
+                    let prop = match &**prop {
+                        Expr::Ident(i) => i,
+                        _ => return None,
+                    };
+
+                    match &**obj {
+                        Expr::Ident(obj) if &*obj.sym == "Math" => match &*prop.sym {
+                            "cos" => {
+                                let v = eval_as_number(&args.first()?.expr)?;
+
+                                return Some(v.cos());
+                            }
+                            "sin" => {
+                                let v = eval_as_number(&args.first()?.expr)?;
+
+                                return Some(v.sin());
+                            }
+
+                            "max" => {
+                                let mut numbers = vec![];
+                                for arg in args {
+                                    let v = eval_as_number(&arg.expr)?;
+                                    if v.is_infinite() || v.is_nan() {
+                                        return None;
+                                    }
+                                    numbers.push(v);
+                                }
+
+                                return Some(
+                                    numbers
+                                        .into_iter()
+                                        .max_by(|a, b| a.partial_cmp(b).unwrap())
+                                        .unwrap_or(f64::NEG_INFINITY),
+                                );
+                            }
+
+                            "min" => {
+                                let mut numbers = vec![];
+                                for arg in args {
+                                    let v = eval_as_number(&arg.expr)?;
+                                    if v.is_infinite() || v.is_nan() {
+                                        return None;
+                                    }
+                                    numbers.push(v);
+                                }
+
+                                return Some(
+                                    numbers
+                                        .into_iter()
+                                        .min_by(|a, b| a.partial_cmp(b).unwrap())
+                                        .unwrap_or(f64::INFINITY),
+                                );
+                            }
+
+                            "pow" => {
+                                if args.len() != 2 {
+                                    return None;
+                                }
+                                let first = eval_as_number(&args[0].expr)?;
+                                let second = eval_as_number(&args[1].expr)?;
+
+                                return Some(first.powf(second));
+                            }
+
+                            _ => {}
+                        },
+                        _ => {}
+                    }
+                }
+                _ => {}
+            }
+        }
+
+        Expr::Member(MemberExpr {
+            obj: ExprOrSuper::Expr(obj),
+            prop,
+            computed: false,
+            ..
+        }) => {
+            let prop = match &**prop {
+                Expr::Ident(i) => i,
+                _ => return None,
+            };
+
+            match &**obj {
+                Expr::Ident(obj) if &*obj.sym == "Math" => match &*prop.sym {
+                    "PI" => return Some(f64::consts::PI),
+                    "E" => return Some(f64::consts::E),
+                    "LN10" => return Some(f64::consts::LN_10),
+                    _ => {}
+                },
+                _ => {}
+            }
+        }
+
+        _ => {
+            if let Value::Known(v) = e.as_number() {
+                return Some(v);
+            }
+        }
+    }
+
+    None
 }
 
 #[cfg(test)]

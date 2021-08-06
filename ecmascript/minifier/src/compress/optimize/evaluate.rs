@@ -1,4 +1,5 @@
 use super::Optimizer;
+use crate::compress::util::eval_as_number;
 use crate::DISABLE_BUGGY_PASSES;
 use std::f64;
 use std::num::FpCategory;
@@ -404,7 +405,7 @@ impl Optimizer<'_> {
 
         match e {
             Expr::Call(..) => {
-                if let Some(value) = self.eval_as_number(&e) {
+                if let Some(value) = eval_as_number(&e) {
                     self.changed = true;
                     log::debug!("evaluate: Evaluated an expression as `{}`", value);
 
@@ -513,8 +514,8 @@ impl Optimizer<'_> {
             _ => {}
         }
     }
-
     /// Evaluates method calls of a numeric constant.
+
     fn eval_number_method_call(&mut self, e: &mut Expr) {
         if !self.options.evaluate {
             return;
@@ -549,7 +550,7 @@ impl Optimizer<'_> {
 
         match &*method.sym {
             "toFixed" => {
-                if let Some(precision) = self.eval_as_number(&args[0].expr) {
+                if let Some(precision) = eval_as_number(&args[0].expr) {
                     let precision = precision.floor() as usize;
                     let value = num_to_fixed(num.value, precision + 1);
 
@@ -571,147 +572,6 @@ impl Optimizer<'_> {
             }
             _ => {}
         }
-    }
-
-    /// This method does **not** modifies `e`.
-    ///
-    /// This method is used to test if a whole call can be replaced, while
-    /// preserving standalone constants.
-    fn eval_as_number(&mut self, e: &Expr) -> Option<f64> {
-        match e {
-            Expr::Bin(BinExpr {
-                op: op!(bin, "-"),
-                left,
-                right,
-                ..
-            }) => {
-                let l = self.eval_as_number(&left)?;
-                let r = self.eval_as_number(&right)?;
-
-                return Some(l - r);
-            }
-
-            Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(callee),
-                args,
-                ..
-            }) => {
-                for arg in &*args {
-                    if arg.spread.is_some() || arg.expr.may_have_side_effects() {
-                        return None;
-                    }
-                }
-
-                match &**callee {
-                    Expr::Member(MemberExpr {
-                        obj: ExprOrSuper::Expr(obj),
-                        prop,
-                        computed: false,
-                        ..
-                    }) => {
-                        let prop = match &**prop {
-                            Expr::Ident(i) => i,
-                            _ => return None,
-                        };
-
-                        match &**obj {
-                            Expr::Ident(obj) if &*obj.sym == "Math" => match &*prop.sym {
-                                "cos" => {
-                                    let v = self.eval_as_number(&args.first()?.expr)?;
-
-                                    return Some(v.cos());
-                                }
-                                "sin" => {
-                                    let v = self.eval_as_number(&args.first()?.expr)?;
-
-                                    return Some(v.sin());
-                                }
-
-                                "max" => {
-                                    let mut numbers = vec![];
-                                    for arg in args {
-                                        let v = self.eval_as_number(&arg.expr)?;
-                                        if v.is_infinite() || v.is_nan() {
-                                            return None;
-                                        }
-                                        numbers.push(v);
-                                    }
-
-                                    return Some(
-                                        numbers
-                                            .into_iter()
-                                            .max_by(|a, b| a.partial_cmp(b).unwrap())
-                                            .unwrap_or(f64::NEG_INFINITY),
-                                    );
-                                }
-
-                                "min" => {
-                                    let mut numbers = vec![];
-                                    for arg in args {
-                                        let v = self.eval_as_number(&arg.expr)?;
-                                        if v.is_infinite() || v.is_nan() {
-                                            return None;
-                                        }
-                                        numbers.push(v);
-                                    }
-
-                                    return Some(
-                                        numbers
-                                            .into_iter()
-                                            .min_by(|a, b| a.partial_cmp(b).unwrap())
-                                            .unwrap_or(f64::INFINITY),
-                                    );
-                                }
-
-                                "pow" => {
-                                    if args.len() != 2 {
-                                        return None;
-                                    }
-                                    let first = self.eval_as_number(&args[0].expr)?;
-                                    let second = self.eval_as_number(&args[1].expr)?;
-
-                                    return Some(first.powf(second));
-                                }
-
-                                _ => {}
-                            },
-                            _ => {}
-                        }
-                    }
-                    _ => {}
-                }
-            }
-
-            Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(obj),
-                prop,
-                computed: false,
-                ..
-            }) => {
-                let prop = match &**prop {
-                    Expr::Ident(i) => i,
-                    _ => return None,
-                };
-
-                match &**obj {
-                    Expr::Ident(obj) if &*obj.sym == "Math" => match &*prop.sym {
-                        "PI" => return Some(f64::consts::PI),
-                        "E" => return Some(f64::consts::E),
-                        "LN10" => return Some(f64::consts::LN_10),
-                        _ => {}
-                    },
-                    _ => {}
-                }
-            }
-
-            _ => {
-                if let Known(v) = e.as_number() {
-                    return Some(v);
-                }
-            }
-        }
-
-        None
     }
 
     fn eval_array_method_call(&mut self, e: &mut Expr) {
