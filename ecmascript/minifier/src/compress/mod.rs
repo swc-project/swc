@@ -42,6 +42,7 @@ use swc_ecma_visit::VisitWith;
 mod drop_console;
 mod hoist_decls;
 mod optimize;
+mod pure;
 
 pub(crate) fn compressor<'a>(
     globals: &'a Globals,
