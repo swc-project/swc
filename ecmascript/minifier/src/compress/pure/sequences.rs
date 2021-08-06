@@ -7,6 +7,37 @@ use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{ExprExt, ExprFactory};
 
 impl Pure<'_> {
+    pub(super) fn drop_useless_ident_ref_in_seq(&mut self, seq: &mut SeqExpr) {
+        if !self.options.collapse_vars {
+            return;
+        }
+
+        if seq.exprs.len() < 2 {
+            return;
+        }
+
+        match (
+            &*seq.exprs[seq.exprs.len() - 2],
+            &*seq.exprs[seq.exprs.len() - 1],
+        ) {
+            (Expr::Assign(assign), Expr::Ident(ident)) => {
+                // Check if lhs is same as `ident`.
+                match &assign.left {
+                    PatOrExpr::Expr(_) => {}
+                    PatOrExpr::Pat(left) => match &**left {
+                        Pat::Ident(left) => {
+                            if left.id.sym == ident.sym && left.id.span.ctxt == ident.span.ctxt {
+                                seq.exprs.pop();
+                            }
+                        }
+                        _ => {}
+                    },
+                }
+            }
+            _ => {}
+        }
+    }
+
     ///
     /// - `(a, b, c) && d` => `a, b, c && d`
     pub(super) fn lift_seqs_of_bin(&mut self, e: &mut Expr) {

@@ -285,6 +285,8 @@ impl VisitMut for Pure<'_> {
     fn visit_mut_seq_expr(&mut self, e: &mut SeqExpr) {
         e.visit_mut_children_with(self);
 
+        self.drop_useless_ident_ref_in_seq(e);
+
         self.merge_seq_call(e);
     }
 

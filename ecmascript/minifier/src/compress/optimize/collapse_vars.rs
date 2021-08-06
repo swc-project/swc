@@ -9,42 +9,6 @@ use swc_ecma_visit::VisitMutWith;
 
 /// Methods related to the option `collapse_vars`.
 impl Optimizer<'_> {
-    pub(super) fn collapse_seq_exprs(&mut self, e: &mut Expr) {
-        if !self.options.collapse_vars {
-            return;
-        }
-
-        let seq = match e {
-            Expr::Seq(seq) => seq,
-            _ => return,
-        };
-
-        if seq.exprs.len() < 2 {
-            return;
-        }
-
-        match (
-            &*seq.exprs[seq.exprs.len() - 2],
-            &*seq.exprs[seq.exprs.len() - 1],
-        ) {
-            (Expr::Assign(assign), Expr::Ident(ident)) => {
-                // Check if lhs is same as `ident`.
-                match &assign.left {
-                    PatOrExpr::Expr(_) => {}
-                    PatOrExpr::Pat(left) => match &**left {
-                        Pat::Ident(left) => {
-                            if left.id.sym == ident.sym && left.id.span.ctxt == ident.span.ctxt {
-                                seq.exprs.pop();
-                            }
-                        }
-                        _ => {}
-                    },
-                }
-            }
-            _ => {}
-        }
-    }
-
     pub(super) fn collapse_assignment_to_vars(&mut self, e: &mut Expr) {
         if !self.options.collapse_vars {
             return;
