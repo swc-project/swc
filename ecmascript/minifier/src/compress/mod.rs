@@ -279,7 +279,10 @@ impl Compressor<'_> {
         }
 
         {
-            log::info!("compress: Running pure optimizer (pass = {})", self.pass);
+            log::info!(
+                "compress/pure: Running pure optimizer (pass = {})",
+                self.pass
+            );
 
             let start_time = now();
 
@@ -291,7 +294,7 @@ impl Compressor<'_> {
                 let end_time = Instant::now();
 
                 log::info!(
-                    "compress: Pure optimizer took {:?} (pass = {})",
+                    "compress/pure: Pure optimizer took {:?} (pass = {})",
                     end_time - start_time,
                     self.pass
                 );
