@@ -6,6 +6,7 @@ use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 mod bools;
+mod conds;
 mod ctx;
 mod loops;
 mod misc;
@@ -142,6 +143,8 @@ impl VisitMut for Pure<'_> {
         self.handle_negated_seq(e);
 
         self.concat_str(e);
+
+        self.compress_conds_as_logical(e);
     }
 
     fn visit_mut_exprs(&mut self, exprs: &mut Vec<Box<Expr>>) {

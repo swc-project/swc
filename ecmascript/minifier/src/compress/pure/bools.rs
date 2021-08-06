@@ -17,6 +17,12 @@ use swc_ecma_utils::Type;
 use swc_ecma_utils::Value;
 
 impl Pure<'_> {
+    pub(super) fn negate_twice(&mut self, e: &mut Expr) {
+        self.changed = true;
+        negate(e, false);
+        negate(e, false);
+    }
+
     pub(super) fn negate(&mut self, e: &mut Expr, in_bool_ctx: bool) {
         self.changed = true;
         negate(e, in_bool_ctx)
