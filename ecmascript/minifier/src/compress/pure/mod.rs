@@ -161,6 +161,16 @@ impl VisitMut for Pure<'_> {
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
 
+        match e {
+            Expr::Seq(seq) => {
+                if seq.exprs.is_empty() {
+                    *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                    return;
+                }
+            }
+            _ => {}
+        }
+
         self.eval_opt_chain(e);
 
         self.eval_number_call(e);
