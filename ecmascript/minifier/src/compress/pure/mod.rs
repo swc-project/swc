@@ -154,6 +154,11 @@ impl VisitMut for Pure<'_> {
 
     fn visit_mut_stmts(&mut self, items: &mut Vec<Stmt>) {
         self.visit_par(items);
+
+        items.retain(|s| match s {
+            Stmt::Empty(..) => false,
+            _ => true,
+        });
     }
 
     /// We don't optimize [Tpl] contained in [TaggedTpl].
