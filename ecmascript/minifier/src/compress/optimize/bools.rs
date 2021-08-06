@@ -145,7 +145,7 @@ impl Optimizer<'_> {
         true
     }
 
-    pub(super) fn compress_comparsion_of_typeof(&mut self, e: &mut BinExpr) {
+    pub(super) fn compress_cmp_of_typeof_with_lit(&mut self, e: &mut BinExpr) {
         fn should_optimize(l: &Expr, r: &Expr) -> bool {
             match (l, r) {
                 (
