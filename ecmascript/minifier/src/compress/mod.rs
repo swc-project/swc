@@ -6,6 +6,7 @@ use crate::analyzer::analyze;
 use crate::analyzer::ProgramData;
 use crate::analyzer::UsageAnalyzer;
 use crate::compress::hoist_decls::decl_hoister;
+use crate::compress::pure::pure_optimizer;
 use crate::debug::dump;
 use crate::debug::invoke;
 use crate::marks::Marks;
@@ -282,7 +283,7 @@ impl Compressor<'_> {
 
             let start_time = now();
 
-            let mut visitor = expr_simplifier();
+            let mut visitor = pure_optimizer(&self.options, self.marks);
             n.apply(&mut visitor);
             self.changed |= visitor.changed();
 

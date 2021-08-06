@@ -1,16 +1,41 @@
 use self::ctx::Ctx;
-use crate::{option::CompressOptions, MAX_PAR_DEPTH};
+use crate::{marks::Marks, option::CompressOptions, MAX_PAR_DEPTH};
 use rayon::prelude::*;
+use swc_common::pass::Repeated;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 mod bools;
 mod ctx;
 
+pub(super) fn pure_optimizer<'a>(
+    options: &'a CompressOptions,
+    marks: Marks,
+) -> impl 'a + VisitMut + Repeated {
+    Pure {
+        options,
+        marks,
+        ctx: Default::default(),
+        changed: Default::default(),
+    }
+}
+
 struct Pure<'a> {
     options: &'a CompressOptions,
+    marks: Marks,
     ctx: Ctx,
     changed: bool,
+}
+
+impl Repeated for Pure<'_> {
+    fn changed(&self) -> bool {
+        self.changed
+    }
+
+    fn reset(&mut self) {
+        self.ctx = Default::default();
+        self.changed = false;
+    }
 }
 
 impl Pure<'_> {
@@ -22,6 +47,7 @@ impl Pure<'_> {
             for node in nodes {
                 let mut v = Pure {
                     options: self.options,
+                    marks: self.marks,
                     ctx: self.ctx,
                     changed: false,
                 };
@@ -35,6 +61,7 @@ impl Pure<'_> {
                 .map(|node| {
                     let mut v = Pure {
                         options: self.options,
+                        marks: self.marks,
                         ctx: Ctx {
                             par_depth: self.ctx.par_depth + 1,
                             ..self.ctx
