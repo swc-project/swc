@@ -154,6 +154,8 @@ impl VisitMut for Pure<'_> {
         e.visit_mut_children_with(self);
 
         self.optimize_expr_in_bool_ctx(&mut e.test);
+
+        self.negate_cond_expr(e);
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {

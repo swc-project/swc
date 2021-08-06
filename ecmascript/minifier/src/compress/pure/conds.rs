@@ -1,4 +1,6 @@
 use super::Pure;
+use crate::{compress::util::negate_cost, debug::dump};
+use std::mem::swap;
 use swc_common::{EqIgnoreSpan, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -120,6 +122,27 @@ impl Pure<'_> {
                 return;
             }
             _ => {}
+        }
+    }
+
+    pub(super) fn negate_cond_expr(&mut self, cond: &mut CondExpr) {
+        if negate_cost(&cond.test, true, false).unwrap_or(isize::MAX) >= 0 {
+            return;
+        }
+
+        self.changed = true;
+        log::debug!("conditionals: `a ? foo : bar` => `!a ? bar : foo` (considered cost)");
+        let start_str = dump(&*cond);
+
+        self.negate(&mut cond.test, true);
+        swap(&mut cond.cons, &mut cond.alt);
+
+        if cfg!(feature = "debug") {
+            log::trace!(
+                "[Change] Negated cond: `{}` => `{}`",
+                start_str,
+                dump(&*cond)
+            )
         }
     }
 }

@@ -1,7 +1,6 @@
 use super::Optimizer;
 use crate::compress::optimize::Ctx;
 use crate::compress::util::negate_cost;
-use crate::debug::dump;
 use crate::util::make_bool;
 use crate::util::SpanExt;
 use crate::DISABLE_BUGGY_PASSES;
@@ -23,33 +22,6 @@ use swc_ecma_utils::Value::Known;
 /// Methods related to the option `conditionals`. All methods are noop if
 /// `conditionals` is false.
 impl Optimizer<'_> {
-    pub(super) fn negate_cond_expr(&mut self, cond: &mut CondExpr) {
-        if negate_cost(&cond.test, true, false).unwrap_or(isize::MAX) >= 0 {
-            return;
-        }
-
-        self.changed = true;
-        log::debug!("conditionals: `a ? foo : bar` => `!a ? bar : foo` (considered cost)");
-        let start_str = dump(&*cond);
-
-        {
-            let ctx = Ctx {
-                in_bool_ctx: true,
-                ..self.ctx
-            };
-            self.with_ctx(ctx).negate(&mut cond.test);
-        }
-        swap(&mut cond.cons, &mut cond.alt);
-
-        if cfg!(feature = "debug") {
-            log::trace!(
-                "[Change] Negated cond: `{}` => `{}`",
-                start_str,
-                dump(&*cond)
-            )
-        }
-    }
-
     /// Negates the condition of a `if` statement to reduce body size.
     pub(super) fn negate_if_stmt(&mut self, stmt: &mut IfStmt) {
         let alt = match stmt.alt.as_deref_mut() {
@@ -86,7 +58,6 @@ impl Optimizer<'_> {
             _ => return,
         }
     }
-
     /// This method may change return value.
     ///
     /// - `a ? b : false` => `a && b`
