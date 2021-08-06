@@ -1,11 +1,11 @@
-use super::Optimizer;
+use super::Pure;
 use swc_atoms::js_word;
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprExt;
 
-impl Optimizer<'_> {
+impl Pure<'_> {
     /// Drop arguments of `Symbol()` call.
-    pub(super) fn optimize_symbol_call_unsafely(&mut self, e: &mut CallExpr) {
+    pub(super) fn drop_arguemtns_of_symbol_call(&mut self, e: &mut CallExpr) {
         if !self.options.unsafe_symbols {
             return;
         }

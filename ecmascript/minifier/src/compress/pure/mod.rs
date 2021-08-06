@@ -14,6 +14,7 @@ mod numbers;
 mod properties;
 mod sequences;
 mod strings;
+mod unsafes;
 
 pub(super) fn pure_optimizer<'a>(
     options: &'a CompressOptions,
@@ -120,6 +121,8 @@ impl VisitMut for Pure<'_> {
         }
 
         e.args.visit_mut_with(self);
+
+        self.drop_arguemtns_of_symbol_call(e);
     }
 
     fn visit_mut_cond_expr(&mut self, e: &mut CondExpr) {

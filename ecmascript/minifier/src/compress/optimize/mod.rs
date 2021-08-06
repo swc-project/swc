@@ -55,7 +55,6 @@ mod ops;
 mod sequences;
 mod strings;
 mod switches;
-mod unsafes;
 mod unused;
 mod util;
 
@@ -1592,8 +1591,6 @@ impl VisitMut for Optimizer<'_> {
             // TODO: Prevent inline if callee is unknown.
             e.args.visit_mut_with(&mut *self.with_ctx(ctx));
         }
-
-        self.optimize_symbol_call_unsafely(e);
 
         self.inline_args_of_iife(e);
     }
