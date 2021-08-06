@@ -153,6 +153,14 @@ impl VisitMut for Pure<'_> {
         }
     }
 
+    fn visit_mut_function(&mut self, f: &mut Function) {
+        f.visit_mut_children_with(self);
+
+        if let Some(body) = &mut f.body {
+            self.remove_useless_return(&mut body.stmts);
+        }
+    }
+
     fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
         s.visit_mut_children_with(self);
 
@@ -184,6 +192,13 @@ impl VisitMut for Pure<'_> {
         }
 
         e.args.visit_mut_with(self);
+    }
+
+    fn visit_mut_prop_name(&mut self, p: &mut PropName) {
+        p.visit_mut_children_with(self);
+
+        self.optimize_computed_prop_name_as_normal(p);
+        self.optimize_prop_name(p);
     }
 
     fn visit_mut_prop_or_spreads(&mut self, exprs: &mut Vec<PropOrSpread>) {

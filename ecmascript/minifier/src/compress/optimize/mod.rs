@@ -41,7 +41,6 @@ mod arguments;
 mod arrows;
 mod bools;
 mod collapse_vars;
-mod computed_props;
 mod conditionals;
 mod dead_code;
 mod evaluate;
@@ -52,7 +51,6 @@ mod iife;
 mod inline;
 mod join_vars;
 mod loops;
-mod misc;
 mod ops;
 mod sequences;
 mod strings;
@@ -1944,7 +1942,6 @@ impl VisitMut for Optimizer<'_> {
                 Some(body) => {
                     // Bypass block scope handler.
                     body.visit_mut_children_with(optimizer);
-                    optimizer.remove_useless_return(&mut body.stmts);
 
                     optimizer.negate_if_terminate(&mut body.stmts, true, false);
 
@@ -2106,13 +2103,6 @@ impl VisitMut for Optimizer<'_> {
         p.visit_mut_children_with(self);
 
         self.optimize_arrow_method_prop(p);
-    }
-
-    fn visit_mut_prop_name(&mut self, p: &mut PropName) {
-        p.visit_mut_children_with(self);
-
-        self.optimize_computed_prop_name_as_normal(p);
-        self.optimize_prop_name(p);
     }
 
     fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {

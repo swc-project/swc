@@ -15,4 +15,12 @@ impl Pure<'_> {
             None => {}
         }
     }
+
+    pub(super) fn remove_useless_return(&mut self, stmts: &mut Vec<Stmt>) {
+        if let Some(Stmt::Return(ReturnStmt { arg: None, .. })) = stmts.last() {
+            self.changed = true;
+            log::debug!("misc: Removing useless return");
+            stmts.pop();
+        }
+    }
 }
