@@ -12,6 +12,7 @@ mod loops;
 mod misc;
 mod numbers;
 mod properties;
+mod sequences;
 mod strings;
 
 pub(super) fn pure_optimizer<'a>(
@@ -219,6 +220,12 @@ impl VisitMut for Pure<'_> {
         s.visit_mut_children_with(self);
 
         self.drop_undefined_from_return_arg(s);
+    }
+
+    fn visit_mut_seq_expr(&mut self, e: &mut SeqExpr) {
+        e.visit_mut_children_with(self);
+
+        self.merge_seq_call(e);
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {

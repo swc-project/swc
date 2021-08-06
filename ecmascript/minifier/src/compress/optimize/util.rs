@@ -163,40 +163,6 @@ pub(crate) fn class_has_side_effect(c: &Class) -> bool {
     false
 }
 
-pub(crate) fn get_lhs_ident(e: &PatOrExpr) -> Option<&Ident> {
-    match e {
-        PatOrExpr::Expr(v) => match &**v {
-            Expr::Ident(i) => Some(i),
-            _ => None,
-        },
-        PatOrExpr::Pat(v) => match &**v {
-            Pat::Ident(i) => Some(&i.id),
-            Pat::Expr(v) => match &**v {
-                Expr::Ident(i) => Some(i),
-                _ => None,
-            },
-            _ => None,
-        },
-    }
-}
-
-pub(crate) fn get_lhs_ident_mut(e: &mut PatOrExpr) -> Option<&mut Ident> {
-    match e {
-        PatOrExpr::Expr(v) => match &mut **v {
-            Expr::Ident(i) => Some(i),
-            _ => None,
-        },
-        PatOrExpr::Pat(v) => match &mut **v {
-            Pat::Ident(i) => Some(&mut i.id),
-            Pat::Expr(v) => match &mut **v {
-                Expr::Ident(i) => Some(i),
-                _ => None,
-            },
-            _ => None,
-        },
-    }
-}
-
 pub(crate) fn is_valid_for_lhs(e: &Expr) -> bool {
     match e {
         Expr::Lit(..) => return false,

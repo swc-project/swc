@@ -2120,8 +2120,6 @@ impl VisitMut for Optimizer<'_> {
 
         self.shift_assignment(n);
 
-        self.merge_seq_call(n);
-
         {
             let exprs = n
                 .exprs

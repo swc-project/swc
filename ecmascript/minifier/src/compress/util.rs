@@ -335,6 +335,40 @@ pub(crate) fn is_valid_identifier(s: &str, ascii_only: bool) -> bool {
         && !s.is_reserved()
 }
 
+pub(crate) fn get_lhs_ident(e: &PatOrExpr) -> Option<&Ident> {
+    match e {
+        PatOrExpr::Expr(v) => match &**v {
+            Expr::Ident(i) => Some(i),
+            _ => None,
+        },
+        PatOrExpr::Pat(v) => match &**v {
+            Pat::Ident(i) => Some(&i.id),
+            Pat::Expr(v) => match &**v {
+                Expr::Ident(i) => Some(i),
+                _ => None,
+            },
+            _ => None,
+        },
+    }
+}
+
+pub(crate) fn get_lhs_ident_mut(e: &mut PatOrExpr) -> Option<&mut Ident> {
+    match e {
+        PatOrExpr::Expr(v) => match &mut **v {
+            Expr::Ident(i) => Some(i),
+            _ => None,
+        },
+        PatOrExpr::Pat(v) => match &mut **v {
+            Pat::Ident(i) => Some(&mut i.id),
+            Pat::Expr(v) => match &mut **v {
+                Expr::Ident(i) => Some(i),
+                _ => None,
+            },
+            _ => None,
+        },
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::negate_cost;
