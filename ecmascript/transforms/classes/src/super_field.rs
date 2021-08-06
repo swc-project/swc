@@ -119,8 +119,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
     /// ```
     /// # out
     /// ```js
-    /// _get(Child.prototype.__proto__ ||
-    /// Object.getPrototypeOf(Child.prototype), 'foo', this).call(this, a);
+    /// _get(_getPrototypeOf(Clazz.prototype), 'foo', this).call(this, a)
     /// ```
     fn fold_super_member_call(&mut self, n: Expr) -> Expr {
         match n {
@@ -188,12 +187,12 @@ impl<'a> SuperFieldAccessFolder<'a> {
         }
     }
 
-    ///
-    /// Handle
+    /// # In
     /// ```js
-    /// super[foo] = bar;
-    /// // or
-    /// super.foo = bar;
+    /// super.foo = bar
+    /// # out
+    /// ```js
+    /// _set(_getPrototypeOf(Clazz.prototype), "foo", bar, this, true)
     /// ```
     fn fold_super_member_set(&mut self, n: Expr) -> Expr {
         match n {
@@ -288,6 +287,14 @@ impl<'a> SuperFieldAccessFolder<'a> {
         }
     }
 
+    /// # In
+    /// ```js
+    /// super.foo
+    /// ```
+    /// # out
+    /// ```js
+    /// _get(_getPrototypeOf(Clazz.prototype), 'foo', this)
+    /// ```
     fn fold_super_member_get(&mut self, n: Expr) -> Expr {
         match n {
             Expr::Member(MemberExpr {
