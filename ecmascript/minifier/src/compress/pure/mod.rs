@@ -1,7 +1,7 @@
 use self::ctx::Ctx;
 use crate::{marks::Marks, option::CompressOptions, MAX_PAR_DEPTH};
 use rayon::prelude::*;
-use swc_common::pass::Repeated;
+use swc_common::{pass::Repeated, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
@@ -145,6 +145,8 @@ impl VisitMut for Pure<'_> {
     fn visit_mut_for_stmt(&mut self, s: &mut ForStmt) {
         s.visit_mut_children_with(self);
 
+        self.merge_for_if_break(s);
+
         if let Some(test) = &mut s.test {
             self.optimize_expr_in_bool_ctx(&mut **test);
         }
@@ -197,6 +199,20 @@ impl VisitMut for Pure<'_> {
             };
             s.visit_mut_children_with(&mut *self.with_ctx(ctx));
         }
+
+        if self.options.drop_debugger {
+            match s {
+                Stmt::Debugger(..) => {
+                    self.changed = true;
+                    *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                    log::debug!("drop_debugger: Dropped a debugger statement");
+                    return;
+                }
+                _ => {}
+            }
+        }
+
+        self.loop_to_for_stmt(s);
     }
 
     fn visit_mut_stmts(&mut self, items: &mut Vec<Stmt>) {

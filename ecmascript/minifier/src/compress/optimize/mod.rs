@@ -1897,8 +1897,6 @@ impl VisitMut for Optimizer<'_> {
 
         s.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
-        self.with_ctx(ctx).merge_for_if_break(s);
-
         self.with_ctx(ctx).optimize_init_of_for_stmt(s);
 
         self.with_ctx(ctx).drop_if_break(s);
@@ -2231,19 +2229,6 @@ impl VisitMut for Optimizer<'_> {
             _ => {}
         }
 
-        if self.options.drop_debugger {
-            match s {
-                Stmt::Debugger(..) => {
-                    self.changed = true;
-                    *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                    log::debug!("drop_debugger: Dropped a debugger statement");
-                    return;
-                }
-                _ => {}
-            }
-        }
-
-        self.loop_to_for_stmt(s);
         self.optiimze_loops_if_cond_is_false(s);
         self.optimize_loops_with_break(s);
 
