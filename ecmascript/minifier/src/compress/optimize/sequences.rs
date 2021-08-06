@@ -1,6 +1,6 @@
 use super::{is_pure_undefined, Optimizer};
-use crate::compress::optimize::util::{is_directive, replace_id_with_expr};
-use crate::compress::util::{get_lhs_ident, get_lhs_ident_mut};
+use crate::compress::optimize::util::replace_id_with_expr;
+use crate::compress::util::{get_lhs_ident, get_lhs_ident_mut, is_directive};
 use crate::debug::dump;
 use crate::util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt};
 use retain_mut::RetainMut;

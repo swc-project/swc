@@ -369,6 +369,16 @@ pub(crate) fn get_lhs_ident_mut(e: &mut PatOrExpr) -> Option<&mut Ident> {
     }
 }
 
+pub(crate) fn is_directive(e: &Stmt) -> bool {
+    match e {
+        Stmt::Expr(s) => match &*s.expr {
+            Expr::Lit(Lit::Str(Str { value, .. })) => value.starts_with("use "),
+            _ => false,
+        },
+        _ => false,
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::negate_cost;

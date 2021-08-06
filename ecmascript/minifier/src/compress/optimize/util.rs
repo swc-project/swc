@@ -171,16 +171,6 @@ pub(crate) fn is_valid_for_lhs(e: &Expr) -> bool {
     }
 }
 
-pub(crate) fn is_directive(e: &Stmt) -> bool {
-    match e {
-        Stmt::Expr(s) => match &*s.expr {
-            Expr::Lit(Lit::Str(Str { value, .. })) => value.starts_with("use "),
-            _ => false,
-        },
-        _ => false,
-    }
-}
-
 pub(crate) fn replace_id_with_expr<N>(node: &mut N, from: Id, to: Box<Expr>)
 where
     N: VisitMutWith<ExprReplacer>,
