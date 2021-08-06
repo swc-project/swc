@@ -2118,8 +2118,6 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {
         n.visit_mut_children_with(self);
 
-        self.drop_undefined_from_return_arg(n);
-
         if let Some(arg) = &mut n.arg {
             self.optimize_in_fn_termiation(&mut **arg);
         }

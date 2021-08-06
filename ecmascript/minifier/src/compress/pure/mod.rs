@@ -8,6 +8,7 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 mod bools;
 mod ctx;
 mod loops;
+mod misc;
 mod numbers;
 mod properties;
 mod strings;
@@ -187,6 +188,12 @@ impl VisitMut for Pure<'_> {
 
     fn visit_mut_prop_or_spreads(&mut self, exprs: &mut Vec<PropOrSpread>) {
         self.visit_par(exprs);
+    }
+
+    fn visit_mut_return_stmt(&mut self, s: &mut ReturnStmt) {
+        s.visit_mut_children_with(self);
+
+        self.drop_undefined_from_return_arg(s);
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
