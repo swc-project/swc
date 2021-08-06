@@ -320,3 +320,61 @@ pub(crate) fn is_pure_undefined(e: &Expr) -> bool {
         _ => false,
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::negate_cost;
+    use swc_common::{input::SourceFileInput, FileName};
+    use swc_ecma_parser::{lexer::Lexer, Parser};
+
+    fn assert_negate_cost(s: &str, in_bool_ctx: bool, is_ret_val_ignored: bool, expected: isize) {
+        testing::run_test2(false, |cm, _| {
+            let fm = cm.new_source_file(FileName::Anon, s.to_string());
+
+            let lexer = Lexer::new(
+                Default::default(),
+                swc_ecma_ast::EsVersion::latest(),
+                SourceFileInput::from(&*fm),
+                None,
+            );
+
+            let mut parser = Parser::new_from(lexer);
+
+            let e = parser
+                .parse_expr()
+                .expect("failed to parse input as an expression");
+
+            let actual = negate_cost(&e, in_bool_ctx, is_ret_val_ignored).unwrap();
+
+            assert_eq!(
+                actual, expected,
+                "Expected negation cost of {} to be {}, but got {}",
+                s, expected, actual,
+            );
+
+            Ok(())
+        })
+        .unwrap();
+    }
+
+    #[test]
+    fn logical_1() {
+        assert_negate_cost(
+            "this[key] && !this.hasOwnProperty(key) || (this[key] = value)",
+            false,
+            true,
+            2,
+        );
+    }
+
+    #[test]
+    #[ignore]
+    fn logical_2() {
+        assert_negate_cost(
+            "(!this[key] || this.hasOwnProperty(key)) && (this[key] = value)",
+            false,
+            true,
+            -2,
+        );
+    }
+}
