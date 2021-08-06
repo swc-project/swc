@@ -227,6 +227,12 @@ impl VisitMut for Pure<'_> {
         e.args.visit_mut_with(self);
     }
 
+    fn visit_mut_prop(&mut self, p: &mut Prop) {
+        p.visit_mut_children_with(self);
+
+        self.optimize_arrow_method_prop(p);
+    }
+
     fn visit_mut_prop_name(&mut self, p: &mut PropName) {
         p.visit_mut_children_with(self);
 
@@ -305,6 +311,18 @@ impl VisitMut for Pure<'_> {
         );
     }
 
+    fn visit_mut_try_stmt(&mut self, n: &mut TryStmt) {
+        let ctx = Ctx {
+            in_try_block: true,
+            ..self.ctx
+        };
+        n.block.visit_mut_with(&mut *self.with_ctx(ctx));
+
+        n.handler.visit_mut_with(self);
+
+        n.finalizer.visit_mut_with(self);
+    }
+
     fn visit_mut_unary_expr(&mut self, e: &mut UnaryExpr) {
         {
             let ctx = Ctx {
@@ -339,11 +357,5 @@ impl VisitMut for Pure<'_> {
         s.visit_mut_children_with(self);
 
         self.optimize_expr_in_bool_ctx(&mut s.test);
-    }
-
-    fn visit_mut_prop(&mut self, p: &mut Prop) {
-        p.visit_mut_children_with(self);
-
-        self.optimize_arrow_method_prop(p);
     }
 }

@@ -11,6 +11,8 @@ pub(super) struct Ctx {
     pub is_update_arg: bool,
 
     pub is_callee: bool,
+
+    pub in_try_block: bool,
 }
 
 impl<'b> Pure<'b> {
