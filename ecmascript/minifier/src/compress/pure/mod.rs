@@ -145,6 +145,8 @@ impl VisitMut for Pure<'_> {
         self.concat_str(e);
 
         self.compress_conds_as_logical(e);
+
+        self.compress_cond_with_logical_as_logical(e);
     }
 
     fn visit_mut_exprs(&mut self, exprs: &mut Vec<Box<Expr>>) {

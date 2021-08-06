@@ -156,42 +156,6 @@ impl Optimizer<'_> {
             }
         }
     }
-
-    pub(super) fn compress_cond_with_logical_as_logical(&mut self, e: &mut Expr) {
-        if !self.options.conditionals {
-            return;
-        }
-
-        let cond = match e {
-            Expr::Cond(v) => v,
-            _ => return,
-        };
-
-        let cons_span = cond.cons.span();
-
-        match (&mut *cond.cons, &mut *cond.alt) {
-            (Expr::Bin(cons @ BinExpr { op: op!("||"), .. }), alt)
-                if (*cons.right).eq_ignore_span(&*alt) =>
-            {
-                log::debug!("conditionals: `x ? y || z : z` => `x || y && z`");
-                self.changed = true;
-
-                *e = Expr::Bin(BinExpr {
-                    span: cond.span,
-                    op: op!("||"),
-                    left: Box::new(Expr::Bin(BinExpr {
-                        span: cons_span,
-                        op: op!("&&"),
-                        left: cond.test.take(),
-                        right: cons.left.take(),
-                    })),
-                    right: cons.right.take(),
-                });
-                return;
-            }
-            _ => {}
-        }
-    }
     ///
     /// # Example
     ///

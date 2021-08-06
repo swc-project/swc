@@ -1727,7 +1727,6 @@ impl VisitMut for Optimizer<'_> {
         }
 
         self.compress_cond_expr_if_simillar(e);
-        self.compress_cond_with_logical_as_logical(e);
 
         self.compress_negated_bin_eq(e);
         self.compress_array_join(e);
