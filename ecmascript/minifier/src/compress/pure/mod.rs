@@ -144,6 +144,8 @@ impl VisitMut for Pure<'_> {
 
         self.eval_opt_chain(e);
 
+        self.eval_number_call(e);
+
         self.swap_bin_operands(e);
 
         self.handle_property_access(e);
