@@ -1696,8 +1696,6 @@ impl VisitMut for Optimizer<'_> {
 
         self.replace_props(e);
 
-        self.swap_bin_operands(e);
-
         self.collapse_seq_exprs(e);
 
         self.drop_unused_assignments(e);

@@ -121,6 +121,8 @@ impl VisitMut for Pure<'_> {
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
 
+        self.swap_bin_operands(e);
+
         self.handle_property_access(e);
 
         self.optimize_bools(e);

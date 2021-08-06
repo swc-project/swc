@@ -1,3 +1,5 @@
+use std::mem::swap;
+
 use super::Pure;
 use crate::compress::util::is_pure_undefined;
 use crate::compress::util::negate;
@@ -430,6 +432,123 @@ impl Pure<'_> {
                     return;
                 }
             }
+        }
+    }
+
+    /// Rules:
+    ///  - `l > i` => `i < l`
+    fn can_swap_bin_operands(&mut self, l: &Expr, r: &Expr, is_for_rel: bool) -> bool {
+        match (l, r) {
+            (Expr::Member(_), _) if is_for_rel => false,
+
+            (Expr::Update(..) | Expr::Assign(..), Expr::Lit(..)) if is_for_rel => false,
+
+            (
+                Expr::Member(..)
+                | Expr::Call(..)
+                | Expr::Assign(..)
+                | Expr::Update(..)
+                | Expr::Bin(BinExpr {
+                    op: op!("&&") | op!("||"),
+                    ..
+                }),
+                Expr::Lit(..),
+            ) => true,
+
+            (
+                Expr::Member(..) | Expr::Call(..) | Expr::Assign(..),
+                Expr::Unary(UnaryExpr {
+                    op: op!("!"), arg, ..
+                }),
+            ) if match &**arg {
+                Expr::Lit(..) => true,
+                _ => false,
+            } =>
+            {
+                true
+            }
+
+            (Expr::Member(..) | Expr::Call(..) | Expr::Assign(..), r) if is_pure_undefined(r) => {
+                true
+            }
+
+            (Expr::Ident(..), Expr::Lit(..)) if is_for_rel => false,
+
+            (Expr::Ident(..), Expr::Ident(..)) => false,
+
+            (Expr::Ident(..), Expr::Lit(..))
+            | (
+                Expr::Ident(..) | Expr::Member(..),
+                Expr::Unary(UnaryExpr {
+                    op: op!("void") | op!("!"),
+                    ..
+                }),
+            )
+            | (
+                Expr::This(..),
+                Expr::Unary(UnaryExpr {
+                    op: op!("void"), ..
+                }),
+            )
+            | (Expr::Unary(..), Expr::Lit(..))
+            | (Expr::Tpl(..), Expr::Lit(..)) => true,
+            _ => false,
+        }
+    }
+
+    fn try_swap_bin(&mut self, op: BinaryOp, left: &mut Expr, right: &mut Expr) -> bool {
+        fn is_supported(op: BinaryOp) -> bool {
+            match op {
+                op!("===")
+                | op!("!==")
+                | op!("==")
+                | op!("!=")
+                | op!("&")
+                | op!("^")
+                | op!("|")
+                | op!("*") => true,
+                _ => false,
+            }
+        }
+
+        if !is_supported(op) {
+            return false;
+        }
+
+        if self.can_swap_bin_operands(&left, &right, false) {
+            log::debug!("Swapping operands of binary exprssion");
+            swap(left, right);
+            return true;
+        }
+
+        false
+    }
+
+    /// Swap lhs and rhs in certain conditions.
+    pub(super) fn swap_bin_operands(&mut self, expr: &mut Expr) {
+        match expr {
+            Expr::Bin(e @ BinExpr { op: op!("<="), .. })
+            | Expr::Bin(e @ BinExpr { op: op!("<"), .. }) => {
+                if self.options.comparisons && self.can_swap_bin_operands(&e.left, &e.right, true) {
+                    self.changed = true;
+                    log::debug!("comparisons: Swapping operands of {}", e.op);
+
+                    e.op = if e.op == op!("<=") {
+                        op!(">=")
+                    } else {
+                        op!(">")
+                    };
+
+                    swap(&mut e.left, &mut e.right);
+                }
+            }
+
+            Expr::Bin(bin) => {
+                if self.try_swap_bin(bin.op, &mut bin.left, &mut bin.right) {
+                    self.changed = true;
+                }
+            }
+            _ => {}
         }
     }
 }
