@@ -1,18 +1,18 @@
 use super::{is_pure_undefined, Optimizer};
-use crate::compress::optimize::util::{get_lhs_ident, get_lhs_ident_mut};
-use crate::compress::optimize::Ctx;
+use crate::compress::optimize::util::{
+    get_lhs_ident, get_lhs_ident_mut, is_directive, replace_id_with_expr,
+};
 use crate::debug::dump;
 use crate::util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt};
 use retain_mut::RetainMut;
-use std::collections::HashMap;
 use std::mem::take;
 use swc_atoms::js_word;
-use swc_common::Spanned;
 use swc_common::DUMMY_SP;
+use swc_common::{Spanned, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_utils::{contains_this_expr, undefined, ExprExt, Id, StmtLike};
+use swc_ecma_utils::{contains_this_expr, undefined, ExprExt, ExprFactory, Id, StmtLike};
 use swc_ecma_visit::noop_visit_type;
 use swc_ecma_visit::Node;
 use swc_ecma_visit::Visit;
@@ -64,7 +64,11 @@ impl Optimizer<'_> {
                 stmts
                     .windows(2)
                     .any(|stmts| match (stmts[0].as_stmt(), stmts[1].as_stmt()) {
-                        (Some(Stmt::Expr(..)), Some(r)) => {
+                        (Some(l @ Stmt::Expr(..)), Some(r)) => {
+                            if is_directive(&l) || is_directive(&r) {
+                                return false;
+                            }
+
                             // If an expression contains `in` and following statement is for loop,
                             // we should not merge it.
 
@@ -75,7 +79,7 @@ impl Optimizer<'_> {
                                 | Stmt::If(..)
                                 | Stmt::Switch(..)
                                 | Stmt::With(..)
-                                | Stmt::Return(ReturnStmt { arg: Some(..), .. })
+                                | Stmt::Return(ReturnStmt { .. })
                                 | Stmt::Throw(ThrowStmt { .. })
                                 | Stmt::For(ForStmt { init: None, .. })
                                 | Stmt::For(ForStmt {
@@ -138,6 +142,10 @@ impl Optimizer<'_> {
         for stmt in stmts.take() {
             match stmt.try_into_stmt() {
                 Ok(stmt) => {
+                    if is_directive(&stmt) {
+                        new_stmts.push(T::from_stmt(stmt));
+                        continue;
+                    }
                     // If
                     match stmt {
                         Stmt::Expr(stmt) => {
@@ -323,6 +331,95 @@ impl Optimizer<'_> {
         }
 
         *stmts = new_stmts;
+    }
+
+    /// `(a = foo, a.apply())` => `(a = foo).apply()`
+    ///
+    /// This is useful for outputs of swc/babel
+    pub(super) fn merge_seq_call(&mut self, e: &mut SeqExpr) {
+        if !self.options.sequences() {
+            return;
+        }
+
+        for idx in 0..e.exprs.len() {
+            let (e1, e2) = e.exprs.split_at_mut(idx);
+
+            let a = match e1.last_mut() {
+                Some(v) => &mut **v,
+                None => continue,
+            };
+
+            let b = match e2.first_mut() {
+                Some(v) => &mut **v,
+                None => continue,
+            };
+
+            match (&mut *a, &mut *b) {
+                (
+                    Expr::Assign(a_assign),
+                    Expr::Call(CallExpr {
+                        callee: ExprOrSuper::Expr(b_callee),
+                        args,
+                        ..
+                    }),
+                ) => {
+                    let var_name = get_lhs_ident(&a_assign.left);
+                    let var_name = match var_name {
+                        Some(v) => v,
+                        None => continue,
+                    };
+
+                    match &mut **b_callee {
+                        Expr::Member(MemberExpr {
+                            obj: ExprOrSuper::Expr(b_callee_obj),
+                            computed: false,
+                            prop,
+                            ..
+                        }) => {
+                            //
+                            if !b_callee_obj.is_ident_ref_to(var_name.sym.clone()) {
+                                continue;
+                            }
+
+                            match &**prop {
+                                Expr::Ident(Ident { sym, .. }) => match &**sym {
+                                    "apply" | "call" => {}
+                                    _ => continue,
+                                },
+                                _ => {}
+                            }
+
+                            let span = a_assign.span.with_ctxt(SyntaxContext::empty());
+
+                            let obj = a.take();
+
+                            let new = Expr::Call(CallExpr {
+                                span,
+                                callee: MemberExpr {
+                                    span: DUMMY_SP,
+                                    obj: obj.as_obj(),
+                                    prop: prop.take(),
+                                    computed: false,
+                                }
+                                .as_callee(),
+                                args: args.take(),
+                                type_args: Default::default(),
+                            });
+                            b.take();
+                            self.changed = true;
+                            log::debug!(
+                                "sequences: Reducing `(a = foo, a.call())` to `((a = foo).call())`"
+                            );
+
+                            *a = new;
+                        }
+                        _ => {}
+                    };
+                }
+
+                _ => {}
+            }
+        }
     }
 
     ///
@@ -715,6 +812,9 @@ impl Optimizer<'_> {
                 Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => {
                     vec![Mergable::Expr(&mut **arg)]
                 }
+                Stmt::If(s) => {
+                    vec![Mergable::Expr(&mut *s.test)]
+                }
 
                 _ => return None,
             })
@@ -728,10 +828,19 @@ impl Optimizer<'_> {
         let mut buf = vec![];
 
         for stmt in stmts.iter_mut() {
+            let is_end = match stmt {
+                Stmt::If(..) => true,
+                _ => false,
+            };
+
             let items = exprs_of(stmt);
             if let Some(items) = items {
                 buf.extend(items)
             } else {
+                exprs.push(take(&mut buf));
+                continue;
+            }
+            if is_end {
                 exprs.push(take(&mut buf));
             }
         }
@@ -1344,20 +1453,12 @@ impl Optimizer<'_> {
             left_id.span.ctxt
         );
 
-        let ctx = Ctx {
-            inline_as_assignment: false,
-            ..self.ctx
+        let to = match a {
+            Mergable::Var(a) => a.init.take().unwrap_or_else(|| undefined(DUMMY_SP)),
+            Mergable::Expr(a) => Box::new(a.take()),
         };
 
-        let mut vars = HashMap::default();
-        vars.insert(
-            left_id.to_id(),
-            match a {
-                Mergable::Var(a) => a.init.take().unwrap_or_else(|| undefined(DUMMY_SP)),
-                Mergable::Expr(a) => Box::new(a.take()),
-            },
-        );
-        self.with_ctx(ctx).inline_vars_in_node(b, vars);
+        replace_id_with_expr(b, left_id.to_id(), to);
 
         true
     }

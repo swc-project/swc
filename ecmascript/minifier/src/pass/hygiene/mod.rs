@@ -1,10 +1,10 @@
-use std::time::Instant;
-
 use crate::analyzer::analyze;
 use crate::analyzer::ProgramData;
+use crate::marks::Marks;
 use crate::pass::hygiene::analyzer::HygieneAnalyzer;
 use crate::pass::hygiene::analyzer::HygieneData;
 use crate::util::now;
+use std::time::Instant;
 use swc_common::Mark;
 use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;
@@ -17,8 +17,11 @@ use swc_ecma_visit::VisitWith;
 
 mod analyzer;
 
+/// Optimize hygiene info to get minified output.
+///
+/// Requires [swc_common::GLOBALS].
 pub fn optimize_hygiene(m: &mut Module, top_level_mark: Mark) {
-    let data = analyze(&*m);
+    let data = analyze(&*m, Marks::new());
     m.visit_mut_with(&mut hygiene_optimizer(data, top_level_mark))
 }
 

@@ -25,7 +25,7 @@ use swc_common::{
     BytePos, FileName, Globals, Mark, SourceFile, SourceMap, Spanned, DUMMY_SP, GLOBALS,
 };
 use swc_ecma_ast::Program;
-use swc_ecma_codegen::{self, Emitter, Node};
+use swc_ecma_codegen::{self, text_writer::WriteJs, Emitter, Node};
 use swc_ecma_loader::resolvers::{lru::CachingResolver, node::NodeResolver, tsc::TsConfigResolver};
 use swc_ecma_minifier::option::MinifyOptions;
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, Syntax};
@@ -264,21 +264,27 @@ impl Compiler {
             let src = {
                 let mut buf = vec![];
                 {
+                    let mut wr = Box::new(swc_ecma_codegen::text_writer::JsWriter::with_target(
+                        self.cm.clone(),
+                        "\n",
+                        &mut buf,
+                        if source_map.enabled() {
+                            Some(&mut src_map_buf)
+                        } else {
+                            None
+                        },
+                        target,
+                    )) as Box<dyn WriteJs>;
+
+                    if minify {
+                        wr = Box::new(swc_ecma_codegen::text_writer::omit_trailing_semi(wr));
+                    }
+
                     let mut emitter = Emitter {
                         cfg: swc_ecma_codegen::Config { minify },
                         comments: if minify { None } else { Some(&self.comments) },
                         cm: self.cm.clone(),
-                        wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::with_target(
-                            self.cm.clone(),
-                            "\n",
-                            &mut buf,
-                            if source_map.enabled() {
-                                Some(&mut src_map_buf)
-                            } else {
-                                None
-                            },
-                            target,
-                        )),
+                        wr,
                     };
 
                     node.emit_with(&mut emitter)
@@ -616,6 +622,7 @@ impl Compiler {
                         decorators_before_export: true,
                         top_level_await: true,
                         import_assertions: true,
+                        dynamic_import: true,
 
                         ..Default::default()
                     }),

@@ -262,7 +262,6 @@ issue_417/test_unexpected_crash_2/input.js
 issue_44/issue_44_valid_ast_1/input.js
 issue_44/issue_44_valid_ast_2/input.js
 issue_597/issue_1724/input.js
-issue_611/issue_611/input.js
 issue_637/wrongly_optimized/input.js
 issue_640/cond_5/input.js
 issue_640/conditional/input.js
@@ -279,7 +278,6 @@ issue_782/remove_redundant_sequence_items/input.js
 issue_913/keep_var_for_in/input.js
 issue_973/this_binding_collapse_vars/input.js
 issue_973/this_binding_conditionals/input.js
-issue_973/this_binding_sequences/input.js
 issue_973/this_binding_side_effects/input.js
 issue_976/eval_mangle/input.js
 issue_976/eval_unused/input.js
@@ -390,6 +388,7 @@ reduce_vars/array_forin_1/input.js
 reduce_vars/conditional_chain_certain_part/input.js
 reduce_vars/defun_inline_1/input.js
 reduce_vars/defun_inline_2/input.js
+reduce_vars/defun_reference/input.js
 reduce_vars/defun_var_1/input.js
 reduce_vars/defun_var_2/input.js
 reduce_vars/escaped_prop_1/input.js

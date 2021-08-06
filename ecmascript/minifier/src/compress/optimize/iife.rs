@@ -257,9 +257,9 @@ impl Optimizer<'_> {
             inline_prevented: false,
             ..self.ctx
         };
-        let orig_vars = replace(&mut self.vars_for_inlining, vars);
+        let orig_vars = replace(&mut self.state.vars_for_inlining, vars);
         n.visit_mut_with(&mut *self.with_ctx(ctx));
-        self.vars_for_inlining = orig_vars;
+        self.state.vars_for_inlining = orig_vars;
     }
 
     /// Fully inlines iife.
@@ -313,6 +313,16 @@ impl Optimizer<'_> {
 
         match callee {
             Expr::Arrow(f) => {
+                if f.is_async {
+                    log::trace!("iife: [x] Cannot inline async fn");
+                    return;
+                }
+
+                if f.is_generator {
+                    log::trace!("iife: [x] Cannot inline generator");
+                    return;
+                }
+
                 if self.ctx.in_top_level() && !self.ctx.in_call_arg && self.options.negate_iife {
                     match &f.body {
                         BlockStmtOrExpr::BlockStmt(body) => {
@@ -429,6 +439,11 @@ impl Optimizer<'_> {
                         log::trace!("iife: [x] Found decl");
                         return;
                     }
+                }
+
+                if f.function.is_async {
+                    log::trace!("iife: [x] Cannot inline async fn");
+                    return;
                 }
 
                 if f.function.is_generator {

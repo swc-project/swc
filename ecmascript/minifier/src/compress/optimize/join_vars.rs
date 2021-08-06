@@ -1,3 +1,5 @@
+use crate::compress::optimize::util::is_directive;
+
 use super::Optimizer;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -54,23 +56,44 @@ impl Optimizer<'_> {
 
         for stmt in stmts.take() {
             match stmt.try_into_stmt() {
-                Ok(stmt) => match stmt {
-                    Stmt::Decl(Decl::Var(var)) => match &mut cur {
-                        Some(v) if var.kind == v.kind => {
-                            v.decls.extend(var.decls);
-                        }
-                        _ => {
-                            new.extend(cur.take().map(Decl::Var).map(Stmt::Decl).map(T::from_stmt));
+                Ok(stmt) => {
+                    if is_directive(&stmt) {
+                        new.push(T::from_stmt(stmt));
+                        continue;
+                    }
 
-                            cur = Some(var)
-                        }
-                    },
-                    Stmt::For(mut stmt) => match &mut stmt.init {
-                        Some(VarDeclOrExpr::VarDecl(var)) => match &mut cur {
-                            Some(cur) if cur.kind == var.kind => {
-                                // Merge
-                                cur.decls.append(&mut var.decls);
-                                var.decls = cur.decls.take();
+                    match stmt {
+                        Stmt::Decl(Decl::Var(var)) => match &mut cur {
+                            Some(v) if var.kind == v.kind => {
+                                v.decls.extend(var.decls);
+                            }
+                            _ => {
+                                new.extend(
+                                    cur.take().map(Decl::Var).map(Stmt::Decl).map(T::from_stmt),
+                                );
+
+                                cur = Some(var)
+                            }
+                        },
+                        Stmt::For(mut stmt) => match &mut stmt.init {
+                            Some(VarDeclOrExpr::VarDecl(var)) => match &mut cur {
+                                Some(cur) if cur.kind == var.kind => {
+                                    // Merge
+                                    cur.decls.append(&mut var.decls);
+                                    var.decls = cur.decls.take();
+
+                                    new.push(T::from_stmt(Stmt::For(stmt)))
+                                }
+                                _ => {
+                                    new.extend(
+                                        cur.take().map(Decl::Var).map(Stmt::Decl).map(T::from_stmt),
+                                    );
+
+                                    new.push(T::from_stmt(Stmt::For(stmt)))
+                                }
+                            },
+                            None => {
+                                stmt.init = cur.take().map(VarDeclOrExpr::VarDecl);
 
                                 new.push(T::from_stmt(Stmt::For(stmt)))
                             }
@@ -82,23 +105,13 @@ impl Optimizer<'_> {
                                 new.push(T::from_stmt(Stmt::For(stmt)))
                             }
                         },
-                        None => {
-                            stmt.init = cur.take().map(VarDeclOrExpr::VarDecl);
-
-                            new.push(T::from_stmt(Stmt::For(stmt)))
-                        }
                         _ => {
                             new.extend(cur.take().map(Decl::Var).map(Stmt::Decl).map(T::from_stmt));
 
-                            new.push(T::from_stmt(Stmt::For(stmt)))
+                            new.push(T::from_stmt(stmt))
                         }
-                    },
-                    _ => {
-                        new.extend(cur.take().map(Decl::Var).map(Stmt::Decl).map(T::from_stmt));
-
-                        new.push(T::from_stmt(stmt))
                     }
-                },
+                }
                 Err(item) => {
                     new.extend(cur.take().map(Decl::Var).map(Stmt::Decl).map(T::from_stmt));
 

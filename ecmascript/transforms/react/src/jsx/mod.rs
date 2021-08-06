@@ -3,7 +3,6 @@ use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
-use std::fmt::Write;
 use std::iter::once;
 use std::{iter, mem};
 use string_enum::StringEnum;
@@ -752,6 +751,7 @@ where
 
                         if line.starts_with("@jsxImportSource") {
                             let src = line.replace("@jsxImportSource", "").trim().to_string();
+                            self.runtime = Runtime::Automatic;
                             self.import_source = src.into();
                         }
 
@@ -775,17 +775,15 @@ where
                             };
                         } else if line.starts_with("@jsx ") {
                             if self.runtime == Runtime::Automatic {
-                                if self.runtime == Runtime::Automatic {
-                                    HANDLER.with(|handler| {
-                                        handler
-                                            .struct_span_err(
-                                                module.span,
-                                                "pragma and pragmaFrag cannot be set when runtime \
-                                                 is automatic",
-                                            )
-                                            .emit()
-                                    });
-                                }
+                                HANDLER.with(|handler| {
+                                    handler
+                                        .struct_span_err(
+                                            module.span,
+                                            "pragma and pragmaFrag cannot be set when runtime is \
+                                             automatic",
+                                        )
+                                        .emit()
+                                });
                             }
 
                             let src = line.replace("@jsx", "").trim().to_string();
@@ -1130,11 +1128,8 @@ fn transform_jsx_attr_str(v: &str) -> String {
             '\'' if single_quote => buf.push_str("\\'"),
             '"' if !single_quote => buf.push_str("\\\""),
 
-            '\x01'..='\x0f' => {
-                let _ = write!(buf, "\\x0{:x}", c as u8);
-            }
-            '\x10'..='\x1f' => {
-                let _ = write!(buf, "\\x{:x}", c as u8);
+            '\x01'..='\x0f' | '\x10'..='\x1f' => {
+                buf.push(c);
             }
 
             '\x20'..='\x7e' => {
@@ -1142,7 +1137,7 @@ fn transform_jsx_attr_str(v: &str) -> String {
                 buf.push(c);
             }
             '\u{7f}'..='\u{ff}' => {
-                let _ = write!(buf, "\\x{:x}", c as u8);
+                buf.push(c);
             }
 
             _ => {

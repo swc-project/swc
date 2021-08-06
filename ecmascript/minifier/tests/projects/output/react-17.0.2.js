@@ -1,8 +1,20 @@
 !function(global, factory) {
-    "object" == typeof exports && "undefined" != typeof module ? factory(exports) : "function" == typeof define && define.amd ? define(["exports"], factory) : factory((global = global || self).React = {
+    "object" == typeof exports && "undefined" != typeof module ? factory(exports) : "function" == typeof define && define.amd ? define([
+        "exports"
+    ], factory) : factory((global = global || self).React = {
     });
 }(this, function(exports) {
-    var REACT_ELEMENT_TYPE = 60103, REACT_PORTAL_TYPE = 60106, REACT_PROVIDER_TYPE = 60109, REACT_CONTEXT_TYPE = 60110, REACT_FORWARD_REF_TYPE = 60112, REACT_SUSPENSE_LIST_TYPE = 60120, REACT_MEMO_TYPE = 60115, REACT_LAZY_TYPE = 60116, REACT_BLOCK_TYPE = 60121, REACT_SERVER_BLOCK_TYPE = 60122, REACT_FUNDAMENTAL_TYPE = 60117, REACT_DEBUG_TRACING_MODE_TYPE = 60129, REACT_LEGACY_HIDDEN_TYPE = 60131, MAYBE_ITERATOR_SYMBOL = "function" == typeof Symbol && Symbol.iterator;
+    "use strict";
+    var REACT_ELEMENT_TYPE = 60103, REACT_PORTAL_TYPE = 60106;
+    exports.Fragment = 60107, exports.StrictMode = 60108, exports.Profiler = 60114;
+    var REACT_PROVIDER_TYPE = 60109, REACT_CONTEXT_TYPE = 60110, REACT_FORWARD_REF_TYPE = 60112;
+    exports.Suspense = 60113;
+    var REACT_SUSPENSE_LIST_TYPE = 60120, REACT_MEMO_TYPE = 60115, REACT_LAZY_TYPE = 60116, REACT_BLOCK_TYPE = 60121, REACT_SERVER_BLOCK_TYPE = 60122, REACT_FUNDAMENTAL_TYPE = 60117, REACT_DEBUG_TRACING_MODE_TYPE = 60129, REACT_LEGACY_HIDDEN_TYPE = 60131;
+    if ("function" == typeof Symbol && Symbol.for) {
+        var symbolFor = Symbol.for;
+        REACT_ELEMENT_TYPE = symbolFor("react.element"), REACT_PORTAL_TYPE = symbolFor("react.portal"), exports.Fragment = symbolFor("react.fragment"), exports.StrictMode = symbolFor("react.strict_mode"), exports.Profiler = symbolFor("react.profiler"), REACT_PROVIDER_TYPE = symbolFor("react.provider"), REACT_CONTEXT_TYPE = symbolFor("react.context"), REACT_FORWARD_REF_TYPE = symbolFor("react.forward_ref"), exports.Suspense = symbolFor("react.suspense"), REACT_SUSPENSE_LIST_TYPE = symbolFor("react.suspense_list"), REACT_MEMO_TYPE = symbolFor("react.memo"), REACT_LAZY_TYPE = symbolFor("react.lazy"), REACT_BLOCK_TYPE = symbolFor("react.block"), REACT_SERVER_BLOCK_TYPE = symbolFor("react.server.block"), REACT_FUNDAMENTAL_TYPE = symbolFor("react.fundamental"), symbolFor("react.scope"), symbolFor("react.opaque.id"), REACT_DEBUG_TRACING_MODE_TYPE = symbolFor("react.debug_trace_mode"), symbolFor("react.offscreen"), REACT_LEGACY_HIDDEN_TYPE = symbolFor("react.legacy_hidden");
+    }
+    var MAYBE_ITERATOR_SYMBOL = "function" == typeof Symbol && Symbol.iterator;
     function getIteratorFn(maybeIterable) {
         if (null === maybeIterable || "object" != typeof maybeIterable) return null;
         var maybeIterator = MAYBE_ITERATOR_SYMBOL && maybeIterable[MAYBE_ITERATOR_SYMBOL] || maybeIterable["@@iterator"];
@@ -28,6 +40,14 @@
     function setExtraStackFrame(stack) {
         currentExtraStackFrame = stack;
     }
+    ReactDebugCurrentFrame.setExtraStackFrame = function(stack) {
+        currentExtraStackFrame = stack;
+    }, ReactDebugCurrentFrame.getCurrentStack = null, ReactDebugCurrentFrame.getStackAddendum = function() {
+        var stack = "";
+        currentExtraStackFrame && (stack += currentExtraStackFrame);
+        var impl = ReactDebugCurrentFrame.getCurrentStack;
+        return impl && (stack += impl() || ""), stack;
+    };
     var IsSomeRendererActing = {
         current: !1
     }, ReactSharedInternals = {
@@ -47,12 +67,15 @@
     }
     function printWarning(level, format, args) {
         var stack = ReactSharedInternals.ReactDebugCurrentFrame.getStackAddendum();
-        "" !== stack && (format += "%s", args = args.concat([stack]));
+        "" !== stack && (format += "%s", args = args.concat([
+            stack
+        ]));
         var argsWithFormat = args.map(function(item) {
             return "" + item;
         });
         argsWithFormat.unshift("Warning: " + format), Function.prototype.apply.call(console[level], console, argsWithFormat);
     }
+    ReactSharedInternals.ReactDebugCurrentFrame = ReactDebugCurrentFrame;
     var didWarnStateUpdateForUnmountedComponent = {
     };
     function warnNoop(publicInstance, callerName) {
@@ -77,15 +100,36 @@
     function Component(props, context, updater) {
         this.props = props, this.context = context, this.refs = emptyObject, this.updater = updater || ReactNoopUpdateQueue;
     }
-    var deprecatedAPIs = {
-        isMounted: ["isMounted", "Instead, make sure to clean up subscriptions and pending requests in componentWillUnmount to prevent memory leaks."],
-        replaceState: ["replaceState", "Refactor your code to use setState instead (see https://github.com/facebook/react/issues/3236)."]
+    Object.freeze(emptyObject), Component.prototype.isReactComponent = {
+    }, Component.prototype.setState = function(partialState, callback) {
+        if (!("object" == typeof partialState || "function" == typeof partialState || null == partialState)) throw Error("setState(...): takes an object of state variables to update or a function which returns an object of state variables.");
+        this.updater.enqueueSetState(this, partialState, callback, "setState");
+    }, Component.prototype.forceUpdate = function(callback) {
+        this.updater.enqueueForceUpdate(this, callback, "forceUpdate");
     };
+    var deprecatedAPIs = {
+        isMounted: [
+            "isMounted",
+            "Instead, make sure to clean up subscriptions and pending requests in componentWillUnmount to prevent memory leaks."
+        ],
+        replaceState: [
+            "replaceState",
+            "Refactor your code to use setState instead (see https://github.com/facebook/react/issues/3236)."
+        ]
+    };
+    for(var fnName in deprecatedAPIs)deprecatedAPIs.hasOwnProperty(fnName) && (function(methodName, info) {
+        Object.defineProperty(Component.prototype, fnName, {
+            get: function() {
+                warn("%s(...) is deprecated in plain JavaScript React classes. %s", info[0], info[1]);
+            }
+        });
+    })(fnName, deprecatedAPIs[fnName]);
     function ComponentDummy() {
     }
     function PureComponent(props, context, updater) {
         this.props = props, this.context = context, this.refs = emptyObject, this.updater = updater || ReactNoopUpdateQueue;
     }
+    ComponentDummy.prototype = Component.prototype;
     var pureComponentPrototype = PureComponent.prototype = new ComponentDummy();
     function getWrappedName(outerType, innerType, wrapperName) {
         var functionName = innerType.displayName || innerType.name || "";
@@ -99,19 +143,30 @@
         if ("number" == typeof type.tag && error("Received an unexpected object in getComponentName(). This is likely a bug in React. Please file an issue."), "function" == typeof type) return type.displayName || type.name || null;
         if ("string" == typeof type) return type;
         switch(type){
-            case exports.Fragment: return "Fragment";
-            case REACT_PORTAL_TYPE: return "Portal";
-            case exports.Profiler: return "Profiler";
-            case exports.StrictMode: return "StrictMode";
-            case exports.Suspense: return "Suspense";
-            case REACT_SUSPENSE_LIST_TYPE: return "SuspenseList";
+            case exports.Fragment:
+                return "Fragment";
+            case REACT_PORTAL_TYPE:
+                return "Portal";
+            case exports.Profiler:
+                return "Profiler";
+            case exports.StrictMode:
+                return "StrictMode";
+            case exports.Suspense:
+                return "Suspense";
+            case REACT_SUSPENSE_LIST_TYPE:
+                return "SuspenseList";
         }
         if ("object" == typeof type) switch(type.$$typeof){
-            case REACT_CONTEXT_TYPE: return getContextName(type) + ".Consumer";
-            case REACT_PROVIDER_TYPE: return getContextName(type._context) + ".Provider";
-            case REACT_FORWARD_REF_TYPE: return getWrappedName(type, type.render, "ForwardRef");
-            case REACT_MEMO_TYPE: return getComponentName(type.type);
-            case REACT_BLOCK_TYPE: return getComponentName(type._render);
+            case REACT_CONTEXT_TYPE:
+                return getContextName(type) + ".Consumer";
+            case REACT_PROVIDER_TYPE:
+                return getContextName(type._context) + ".Provider";
+            case REACT_FORWARD_REF_TYPE:
+                return getWrappedName(type, type.render, "ForwardRef");
+            case REACT_MEMO_TYPE:
+                return getComponentName(type.type);
+            case REACT_BLOCK_TYPE:
+                return getComponentName(type._render);
             case REACT_LAZY_TYPE:
                 var lazyComponent = type, payload = lazyComponent._payload, init = lazyComponent._init;
                 try {
@@ -122,6 +177,7 @@
         }
         return null;
     }
+    pureComponentPrototype.constructor = PureComponent, assign(pureComponentPrototype, Component.prototype), pureComponentPrototype.isPureReactComponent = !0;
     var specialPropKeyWarningShown, specialPropRefWarningShown, didWarnAboutStringRefs, hasOwnProperty$1 = Object.prototype.hasOwnProperty, RESERVED_PROPS = {
         key: !0,
         ref: !0,
@@ -166,6 +222,8 @@
             didWarnAboutStringRefs[componentName] || (error("Component \"%s\" contains the string ref \"%s\". Support for string refs will be removed in a future major release. This case cannot be automatically converted to an arrow function. We ask you to manually fix this case by using useRef() or createRef() instead. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-string-ref", componentName, config.ref), didWarnAboutStringRefs[componentName] = !0);
         }
     }
+    didWarnAboutStringRefs = {
+    };
     var ReactElement = function(type, key, ref, self, source, owner, props) {
         var element = {
             $$typeof: REACT_ELEMENT_TYPE,
@@ -258,10 +316,12 @@
             case "number":
                 invokeCallback = !0;
                 break;
-            case "object": switch(children.$$typeof){
-                case REACT_ELEMENT_TYPE:
-                case REACT_PORTAL_TYPE: invokeCallback = !0;
-            }
+            case "object":
+                switch(children.$$typeof){
+                    case REACT_ELEMENT_TYPE:
+                    case REACT_PORTAL_TYPE:
+                        invokeCallback = !0;
+                }
         }
         if (invokeCallback) {
             var _child = children, mappedChild = callback(_child), childKey = "" === nameSoFar ? "." + getElementKey(_child, 0) : nameSoFar;
@@ -388,6 +448,7 @@
         }
         disabledDepth < 0 && error("disabledDepth fell below zero. This is a bug in React. Please file an issue.");
     }
+    disabledLog.__reactDisabledLog = !0;
     var prefix, ReactCurrentDispatcher$1 = ReactSharedInternals.ReactCurrentDispatcher;
     function describeBuiltInComponentFrame(name, source, ownerFn) {
         if (void 0 === prefix) try {
@@ -468,13 +529,18 @@
         if ("function" == typeof type) return describeNativeComponentFrame(type, shouldConstruct(type));
         if ("string" == typeof type) return describeBuiltInComponentFrame(type);
         switch(type){
-            case exports.Suspense: return describeBuiltInComponentFrame("Suspense");
-            case REACT_SUSPENSE_LIST_TYPE: return describeBuiltInComponentFrame("SuspenseList");
+            case exports.Suspense:
+                return describeBuiltInComponentFrame("Suspense");
+            case REACT_SUSPENSE_LIST_TYPE:
+                return describeBuiltInComponentFrame("SuspenseList");
         }
         if ("object" == typeof type) switch(type.$$typeof){
-            case REACT_FORWARD_REF_TYPE: return describeFunctionComponentFrame(type.render);
-            case REACT_MEMO_TYPE: return describeUnknownElementTypeFrameInDEV(type.type, source, ownerFn);
-            case REACT_BLOCK_TYPE: return describeFunctionComponentFrame(type._render);
+            case REACT_FORWARD_REF_TYPE:
+                return describeFunctionComponentFrame(type.render);
+            case REACT_MEMO_TYPE:
+                return describeUnknownElementTypeFrameInDEV(type.type, source, ownerFn);
+            case REACT_BLOCK_TYPE:
+                return describeFunctionComponentFrame(type._render);
             case REACT_LAZY_TYPE:
                 var lazyComponent = type, payload = lazyComponent._payload, init = lazyComponent._init;
                 try {
@@ -484,6 +550,7 @@
         }
         return "";
     }
+    componentFrameCache = new ("function" == typeof WeakMap ? WeakMap : Map)();
     var loggedTypeFailures = {
     }, ReactDebugCurrentFrame$1 = ReactSharedInternals.ReactDebugCurrentFrame;
     function setCurrentlyValidatingElement(element) {
@@ -527,6 +594,7 @@
     function getSourceInfoErrorAddendumForProps(elementProps) {
         return null != elementProps ? getSourceInfoErrorAddendum(elementProps.__source) : "";
     }
+    propTypesMisspellWarningShown = !1;
     var ownerHasKeyUseWarning = {
     };
     function getCurrentComponentErrorInfo(parentType) {
@@ -599,7 +667,73 @@
         if (validType) for(var i = 2; i < arguments.length; i++)validateChildKeys(arguments[i], type);
         return type === exports.Fragment ? validateFragmentProps(element) : validatePropTypes(element), element;
     }
-    var propTypesMisspellWarningShown, requestHostCallback, requestHostTimeout, cancelHostTimeout, shouldYieldToHost, requestPaint, getCurrentTime, forceFrameRate, didWarnAboutDeprecatedCreateFactory = !1, enableSchedulerDebugging = !1, enableProfiling = !1, hasPerformanceNow = "object" == typeof performance && "function" == typeof performance.now;
+    var propTypesMisspellWarningShown, requestHostCallback, requestHostTimeout, cancelHostTimeout, shouldYieldToHost, requestPaint, getCurrentTime, forceFrameRate, didWarnAboutDeprecatedCreateFactory = !1, enableSchedulerDebugging = !1, enableProfiling = !1;
+    if ("object" == typeof performance && "function" == typeof performance.now) {
+        var localPerformance = performance;
+        getCurrentTime = function() {
+            return localPerformance.now();
+        };
+    } else {
+        var localDate = Date, initialTime = localDate.now();
+        getCurrentTime = function() {
+            return localDate.now() - initialTime;
+        };
+    }
+    if ("undefined" == typeof window || "function" != typeof MessageChannel) {
+        var _callback = null, _timeoutID = null, _flushCallback = function() {
+            if (null !== _callback) try {
+                var currentTime = getCurrentTime(), hasRemainingTime = !0;
+                _callback(hasRemainingTime, currentTime), _callback = null;
+            } catch (e) {
+                throw setTimeout(_flushCallback, 0), e;
+            }
+        };
+        requestHostCallback = function(cb) {
+            null !== _callback ? setTimeout(requestHostCallback, 0, cb) : (_callback = cb, setTimeout(_flushCallback, 0));
+        }, requestHostTimeout = function(cb, ms) {
+            _timeoutID = setTimeout(cb, ms);
+        }, cancelHostTimeout = function() {
+            clearTimeout(_timeoutID);
+        }, shouldYieldToHost = function() {
+            return !1;
+        }, requestPaint = forceFrameRate = function() {
+        };
+    } else {
+        var _setTimeout = window.setTimeout, _clearTimeout = window.clearTimeout;
+        if ("undefined" != typeof console) {
+            var requestAnimationFrame = window.requestAnimationFrame, cancelAnimationFrame = window.cancelAnimationFrame;
+            "function" != typeof requestAnimationFrame && console.error("This browser doesn't support requestAnimationFrame. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills"), "function" != typeof cancelAnimationFrame && console.error("This browser doesn't support cancelAnimationFrame. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills");
+        }
+        var isMessageLoopRunning = !1, scheduledHostCallback = null, taskTimeoutID = -1, yieldInterval = 5, deadline = 0;
+        shouldYieldToHost = function() {
+            return getCurrentTime() >= deadline;
+        }, requestPaint = function() {
+        }, forceFrameRate = function(fps) {
+            if (fps < 0 || fps > 125) return void console.error("forceFrameRate takes a positive int between 0 and 125, forcing frame rates higher than 125 fps is not supported");
+            yieldInterval = fps > 0 ? Math.floor(1000 / fps) : 5;
+        };
+        var performWorkUntilDeadline = function() {
+            if (null !== scheduledHostCallback) {
+                var currentTime = getCurrentTime();
+                deadline = currentTime + yieldInterval;
+                var hasTimeRemaining = !0;
+                try {
+                    scheduledHostCallback(hasTimeRemaining, currentTime) ? port.postMessage(null) : (isMessageLoopRunning = !1, scheduledHostCallback = null);
+                } catch (error) {
+                    throw port.postMessage(null), error;
+                }
+            } else isMessageLoopRunning = !1;
+        }, channel = new MessageChannel(), port = channel.port2;
+        channel.port1.onmessage = performWorkUntilDeadline, requestHostCallback = function(callback) {
+            scheduledHostCallback = callback, isMessageLoopRunning || (isMessageLoopRunning = !0, port.postMessage(null));
+        }, requestHostTimeout = function(callback, ms) {
+            taskTimeoutID = _setTimeout(function() {
+                callback(getCurrentTime());
+            }, ms);
+        }, cancelHostTimeout = function() {
+            _clearTimeout(taskTimeoutID), taskTimeoutID = -1;
+        };
+    }
     function push(heap, node) {
         var index = heap.length;
         heap.push(node), siftUp(heap, node, index);
@@ -695,14 +829,16 @@
         unstable_NormalPriority: 3,
         unstable_IdlePriority: 5,
         unstable_LowPriority: 4,
-        unstable_runWithPriority: function unstable_runWithPriority(priorityLevel, eventHandler) {
+        unstable_runWithPriority: function(priorityLevel, eventHandler) {
             switch(priorityLevel){
                 case 1:
                 case 2:
                 case 3:
                 case 4:
-                case 5: break;
-                default: priorityLevel = 3;
+                case 5:
+                    break;
+                default:
+                    priorityLevel = 3;
             }
             var previousPriorityLevel = currentPriorityLevel;
             currentPriorityLevel = 3;
@@ -712,7 +848,7 @@
                 currentPriorityLevel = previousPriorityLevel;
             }
         },
-        unstable_next: function unstable_next(eventHandler) {
+        unstable_next: function(eventHandler) {
             var priorityLevel;
             switch(currentPriorityLevel){
                 case 1:
@@ -732,7 +868,7 @@
                 currentPriorityLevel = previousPriorityLevel;
             }
         },
-        unstable_scheduleCallback: function unstable_scheduleCallback(priorityLevel, callback, options) {
+        unstable_scheduleCallback: function(priorityLevel, callback, options) {
             var timeout, startTime, currentTime = getCurrentTime();
             if ("object" == typeof options && null !== options) {
                 var delay = options.delay;
@@ -766,10 +902,10 @@
             };
             return startTime > currentTime ? (newTask.sortIndex = startTime, push(timerQueue, newTask), null === peek(taskQueue) && newTask === peek(timerQueue) && (isHostTimeoutScheduled ? cancelHostTimeout() : isHostTimeoutScheduled = !0, requestHostTimeout(handleTimeout, startTime - currentTime))) : (newTask.sortIndex = expirationTime, push(taskQueue, newTask), isHostCallbackScheduled || isPerformingWork || (isHostCallbackScheduled = !0, requestHostCallback(flushWork))), newTask;
         },
-        unstable_cancelCallback: function unstable_cancelCallback(task) {
+        unstable_cancelCallback: function(task) {
             task.callback = null;
         },
-        unstable_wrapCallback: function unstable_wrapCallback(callback) {
+        unstable_wrapCallback: function(callback) {
             var parentPriorityLevel = currentPriorityLevel;
             return function() {
                 var previousPriorityLevel = currentPriorityLevel;
@@ -781,19 +917,19 @@
                 }
             };
         },
-        unstable_getCurrentPriorityLevel: function unstable_getCurrentPriorityLevel() {
+        unstable_getCurrentPriorityLevel: function() {
             return currentPriorityLevel;
         },
         get unstable_shouldYield () {
             return shouldYieldToHost;
         },
         unstable_requestPaint: requestPaint,
-        unstable_continueExecution: function unstable_continueExecution() {
+        unstable_continueExecution: function() {
             isHostCallbackScheduled || isPerformingWork || (isHostCallbackScheduled = !0, requestHostCallback(flushWork));
         },
-        unstable_pauseExecution: function unstable_pauseExecution() {
+        unstable_pauseExecution: function() {
         },
-        unstable_getFirstCallbackNode: function unstable_getFirstCallbackNode() {
+        unstable_getFirstCallbackNode: function() {
             return peek(taskQueue);
         },
         get unstable_now () {
@@ -803,7 +939,13 @@
             return forceFrameRate;
         },
         unstable_Profiling: null
-    }), interactionIDCounter = 0, threadIDCounter = 0, interactionsRef = null, subscriberRef = null, subscribers = null;
+    }), interactionIDCounter = 0, threadIDCounter = 0, interactionsRef = null, subscriberRef = null;
+    interactionsRef = {
+        current: new Set()
+    }, subscriberRef = {
+        current: null
+    };
+    var subscribers = null;
     function onInteractionTraced(interaction) {
         var didCatchError = !1, caughtError = null;
         if (subscribers.forEach(function(subscriber) {
@@ -864,6 +1006,7 @@
             }
         }), didCatchError) throw caughtError;
     }
+    subscribers = new Set();
     var ReactSharedInternals$1 = {
         ReactCurrentDispatcher: ReactCurrentDispatcher,
         ReactCurrentOwner: ReactCurrentOwner,
@@ -879,7 +1022,7 @@
             get __subscriberRef () {
                 return subscriberRef;
             },
-            unstable_clear: function unstable_clear(callback) {
+            unstable_clear: function(callback) {
                 var prevInteractions = interactionsRef.current;
                 interactionsRef.current = new Set();
                 try {
@@ -888,13 +1031,13 @@
                     interactionsRef.current = prevInteractions;
                 }
             },
-            unstable_getCurrent: function unstable_getCurrent() {
+            unstable_getCurrent: function() {
                 return interactionsRef.current;
             },
-            unstable_getThreadID: function unstable_getThreadID() {
+            unstable_getThreadID: function() {
                 return ++threadIDCounter;
             },
-            unstable_trace: function unstable_trace(name, timestamp, callback) {
+            unstable_trace: function(name, timestamp, callback) {
                 var threadID = arguments.length > 3 && void 0 !== arguments[3] ? arguments[3] : 0, interaction = {
                     __count: 1,
                     id: interactionIDCounter++,
@@ -923,7 +1066,7 @@
                 }
                 return returnValue;
             },
-            unstable_wrap: function unstable_wrap(callback) {
+            unstable_wrap: function(callback) {
                 var threadID = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 0, wrappedInteractions = interactionsRef.current, subscriber = subscriberRef.current;
                 null !== subscriber && subscriber.onWorkScheduled(wrappedInteractions, threadID), wrappedInteractions.forEach(function(interaction) {
                     interaction.__count++;
@@ -960,7 +1103,7 @@
                     }
                 }, wrapped;
             },
-            unstable_subscribe: function unstable_subscribe(subscriber) {
+            unstable_subscribe: function(subscriber) {
                 subscribers.add(subscriber), 1 === subscribers.size && (subscriberRef.current = {
                     onInteractionScheduledWorkCompleted: onInteractionScheduledWorkCompleted,
                     onInteractionTraced: onInteractionTraced,
@@ -970,111 +1113,23 @@
                     onWorkStopped: onWorkStopped
                 });
             },
-            unstable_unsubscribe: function unstable_unsubscribe(subscriber) {
+            unstable_unsubscribe: function(subscriber) {
                 subscribers.delete(subscriber), 0 === subscribers.size && (subscriberRef.current = null);
             }
         })
     };
-    if (exports.Fragment = 60107, exports.StrictMode = 60108, exports.Profiler = 60114, exports.Suspense = 60113, "function" == typeof Symbol && Symbol.for) {
-        var symbolFor = Symbol.for;
-        REACT_ELEMENT_TYPE = symbolFor("react.element"), REACT_PORTAL_TYPE = symbolFor("react.portal"), exports.Fragment = symbolFor("react.fragment"), exports.StrictMode = symbolFor("react.strict_mode"), exports.Profiler = symbolFor("react.profiler"), REACT_PROVIDER_TYPE = symbolFor("react.provider"), REACT_CONTEXT_TYPE = symbolFor("react.context"), REACT_FORWARD_REF_TYPE = symbolFor("react.forward_ref"), exports.Suspense = symbolFor("react.suspense"), REACT_SUSPENSE_LIST_TYPE = symbolFor("react.suspense_list"), REACT_MEMO_TYPE = symbolFor("react.memo"), REACT_LAZY_TYPE = symbolFor("react.lazy"), REACT_BLOCK_TYPE = symbolFor("react.block"), REACT_SERVER_BLOCK_TYPE = symbolFor("react.server.block"), REACT_FUNDAMENTAL_TYPE = symbolFor("react.fundamental"), symbolFor("react.scope"), symbolFor("react.opaque.id"), REACT_DEBUG_TRACING_MODE_TYPE = symbolFor("react.debug_trace_mode"), symbolFor("react.offscreen"), REACT_LEGACY_HIDDEN_TYPE = symbolFor("react.legacy_hidden");
-    }
-    for(var fnName in ReactDebugCurrentFrame.setExtraStackFrame = function(stack) {
-        currentExtraStackFrame = stack;
-    }, ReactDebugCurrentFrame.getCurrentStack = null, ReactDebugCurrentFrame.getStackAddendum = function() {
-        var stack = "";
-        currentExtraStackFrame && (stack += currentExtraStackFrame);
-        var impl = ReactDebugCurrentFrame.getCurrentStack;
-        return impl && (stack += impl() || ""), stack;
-    }, ReactSharedInternals.ReactDebugCurrentFrame = ReactDebugCurrentFrame, Object.freeze(emptyObject), Component.prototype.isReactComponent = {
-    }, Component.prototype.setState = function(partialState, callback) {
-        if (!("object" == typeof partialState || "function" == typeof partialState || null == partialState)) throw Error("setState(...): takes an object of state variables to update or a function which returns an object of state variables.");
-        this.updater.enqueueSetState(this, partialState, callback, "setState");
-    }, Component.prototype.forceUpdate = function(callback) {
-        this.updater.enqueueForceUpdate(this, callback, "forceUpdate");
-    }, deprecatedAPIs)deprecatedAPIs.hasOwnProperty(fnName) && (function(methodName, info) {
-        Object.defineProperty(Component.prototype, fnName, {
-            get: function() {
-                warn("%s(...) is deprecated in plain JavaScript React classes. %s", info[0], info[1]);
-            }
-        });
-    })(fnName, deprecatedAPIs[fnName]);
-    if (ComponentDummy.prototype = Component.prototype, pureComponentPrototype.constructor = PureComponent, assign(pureComponentPrototype, Component.prototype), pureComponentPrototype.isPureReactComponent = !0, didWarnAboutStringRefs = {
-    }, disabledLog.__reactDisabledLog = !0, componentFrameCache = new ("function" == typeof WeakMap ? WeakMap : Map)(), propTypesMisspellWarningShown = !1, hasPerformanceNow) {
-        var localPerformance = performance;
-        getCurrentTime = function() {
-            return localPerformance.now();
-        };
-    } else {
-        var localDate = Date, initialTime = localDate.now();
-        getCurrentTime = function() {
-            return localDate.now() - initialTime;
-        };
-    }
-    if ("undefined" == typeof window || "function" != typeof MessageChannel) {
-        var _callback = null, _timeoutID = null, _flushCallback = function() {
-            if (null !== _callback) try {
-                var currentTime = getCurrentTime(), hasRemainingTime = !0;
-                _callback(hasRemainingTime, currentTime), _callback = null;
-            } catch (e) {
-                throw setTimeout(_flushCallback, 0), e;
-            }
-        };
-        requestHostCallback = function(cb) {
-            null !== _callback ? setTimeout(requestHostCallback, 0, cb) : (_callback = cb, setTimeout(_flushCallback, 0));
-        }, requestHostTimeout = function(cb, ms) {
-            _timeoutID = setTimeout(cb, ms);
-        }, cancelHostTimeout = function() {
-            clearTimeout(_timeoutID);
-        }, shouldYieldToHost = function() {
-            return !1;
-        }, requestPaint = forceFrameRate = function() {
-        };
-    } else {
-        var _setTimeout = window.setTimeout, _clearTimeout = window.clearTimeout;
-        if ("undefined" != typeof console) {
-            var requestAnimationFrame = window.requestAnimationFrame, cancelAnimationFrame = window.cancelAnimationFrame;
-            "function" != typeof requestAnimationFrame && console.error("This browser doesn't support requestAnimationFrame. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills"), "function" != typeof cancelAnimationFrame && console.error("This browser doesn't support cancelAnimationFrame. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills");
-        }
-        var isMessageLoopRunning = !1, scheduledHostCallback = null, taskTimeoutID = -1, yieldInterval = 5, deadline = 0;
-        shouldYieldToHost = function() {
-            return getCurrentTime() >= deadline;
-        }, requestPaint = function() {
-        }, forceFrameRate = function(fps) {
-            (fps < 0 || fps > 125) && console.error("forceFrameRate takes a positive int between 0 and 125, forcing frame rates higher than 125 fps is not supported"), yieldInterval = fps > 0 ? Math.floor(1000 / fps) : 5;
-        };
-        var performWorkUntilDeadline = function() {
-            if (null !== scheduledHostCallback) {
-                var currentTime = getCurrentTime();
-                deadline = currentTime + yieldInterval;
-                var hasTimeRemaining = !0;
-                try {
-                    var hasMoreWork = scheduledHostCallback(hasTimeRemaining, currentTime);
-                    hasMoreWork ? port.postMessage(null) : (isMessageLoopRunning = !1, scheduledHostCallback = null);
-                } catch (error) {
-                    throw port.postMessage(null), error;
-                }
-            } else isMessageLoopRunning = !1;
-        }, channel = new MessageChannel(), port = channel.port2;
-        channel.port1.onmessage = performWorkUntilDeadline, requestHostCallback = function(callback) {
-            scheduledHostCallback = callback, isMessageLoopRunning || (isMessageLoopRunning = !0, port.postMessage(null));
-        }, requestHostTimeout = function(callback, ms) {
-            taskTimeoutID = _setTimeout(function() {
-                callback(getCurrentTime());
-            }, ms);
-        }, cancelHostTimeout = function() {
-            _clearTimeout(taskTimeoutID), taskTimeoutID = -1;
-        };
-    }
-    interactionsRef = {
-        current: new Set()
-    }, subscriberRef = {
-        current: null
-    }, subscribers = new Set(), ReactSharedInternals$1.ReactDebugCurrentFrame = ReactDebugCurrentFrame;
+    ReactSharedInternals$1.ReactDebugCurrentFrame = ReactDebugCurrentFrame;
     try {
         var frozenObject = Object.freeze({
         });
-        new Map([[frozenObject, null]]), new Set([frozenObject]);
+        new Map([
+            [
+                frozenObject,
+                null
+            ]
+        ]), new Set([
+            frozenObject
+        ]);
     } catch (e) {
     }
     exports.Children = {

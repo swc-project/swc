@@ -16,7 +16,15 @@
     for(var i in {
         toString: 1
     })enumerables = null;
-    enumerables && (enumerables = ["hasOwnProperty", "valueOf", "isPrototypeOf", "propertyIsEnumerable", "toLocaleString", "toString", "constructor"]), Function1.prototype.overloadSetter = function(usePlural) {
+    enumerables && (enumerables = [
+        "hasOwnProperty",
+        "valueOf",
+        "isPrototypeOf",
+        "propertyIsEnumerable",
+        "toLocaleString",
+        "toString",
+        "constructor"
+    ]), Function1.prototype.overloadSetter = function(usePlural) {
         var self = this;
         return function(a, b) {
             if (null == a) return this;
@@ -30,7 +38,9 @@
         var self = this;
         return function(a) {
             var args, result;
-            if ("string" != typeof a ? args = a : arguments.length > 1 ? args = arguments : usePlural && (args = [a]), args) {
+            if ("string" != typeof a ? args = a : arguments.length > 1 ? args = arguments : usePlural && (args = [
+                a
+            ]), args) {
                 result = {
                 };
                 for(var i = 0; i < args.length; i++)result[args[i]] = self.call(this, args[i]);
@@ -48,7 +58,9 @@
             return item;
         };
     }, Array.from = function(item) {
-        return null == item ? [] : Type.isEnumerable(item) && "string" != typeof item ? "array" == typeOf(item) ? item : slice.call(item) : [item];
+        return null == item ? [] : Type.isEnumerable(item) && "string" != typeof item ? "array" == typeOf(item) ? item : slice.call(item) : [
+            item
+        ];
     }, Number.from = function(item) {
         var number = parseFloat(item);
         return isFinite(number) ? number : null;
@@ -123,7 +135,72 @@
         }
         return force;
     };
-    force("String", String, ["charAt", "charCodeAt", "concat", "indexOf", "lastIndexOf", "match", "quote", "replace", "search", "slice", "split", "substr", "substring", "trim", "toLowerCase", "toUpperCase"])("Array", Array, ["pop", "push", "reverse", "shift", "sort", "splice", "unshift", "concat", "join", "slice", "indexOf", "lastIndexOf", "filter", "forEach", "every", "map", "some", "reduce", "reduceRight"])("Number", Number, ["toExponential", "toFixed", "toLocaleString", "toPrecision"])("Function", Function1, ["apply", "call", "bind"])("RegExp", RegExp, ["exec", "test"])("Object", Object, ["create", "defineProperty", "defineProperties", "keys", "getPrototypeOf", "getOwnPropertyDescriptor", "getOwnPropertyNames", "preventExtensions", "isExtensible", "seal", "isSealed", "freeze", "isFrozen"])("Date", Date, ["now"]), Object.extend = extend.overloadSetter(), Date.extend("now", function() {
+    force("String", String, [
+        "charAt",
+        "charCodeAt",
+        "concat",
+        "indexOf",
+        "lastIndexOf",
+        "match",
+        "quote",
+        "replace",
+        "search",
+        "slice",
+        "split",
+        "substr",
+        "substring",
+        "trim",
+        "toLowerCase",
+        "toUpperCase"
+    ])("Array", Array, [
+        "pop",
+        "push",
+        "reverse",
+        "shift",
+        "sort",
+        "splice",
+        "unshift",
+        "concat",
+        "join",
+        "slice",
+        "indexOf",
+        "lastIndexOf",
+        "filter",
+        "forEach",
+        "every",
+        "map",
+        "some",
+        "reduce",
+        "reduceRight"
+    ])("Number", Number, [
+        "toExponential",
+        "toFixed",
+        "toLocaleString",
+        "toPrecision"
+    ])("Function", Function1, [
+        "apply",
+        "call",
+        "bind"
+    ])("RegExp", RegExp, [
+        "exec",
+        "test"
+    ])("Object", Object, [
+        "create",
+        "defineProperty",
+        "defineProperties",
+        "keys",
+        "getPrototypeOf",
+        "getOwnPropertyDescriptor",
+        "getOwnPropertyNames",
+        "preventExtensions",
+        "isExtensible",
+        "seal",
+        "isSealed",
+        "freeze",
+        "isFrozen"
+    ])("Date", Date, [
+        "now"
+    ]), Object.extend = extend.overloadSetter(), Date.extend("now", function() {
         return +new Date;
     }), new Type("Boolean", Boolean), Number.prototype.$family = (function() {
         return isFinite(this) ? "number" : "null";
@@ -143,9 +220,12 @@
     });
     var cloneOf = function(item) {
         switch(typeOf(item)){
-            case "array": return item.clone();
-            case "object": return Object.clone(item);
-            default: return item;
+            case "array":
+                return item.clone();
+            case "object":
+                return Object.clone(item);
+            default:
+                return item;
         }
     };
     Array.implement("clone", function() {
@@ -160,7 +240,8 @@
             case "array":
                 source[key] = current.clone();
                 break;
-            default: source[key] = current;
+            default:
+                source[key] = current;
         }
         return source;
     };
@@ -187,7 +268,13 @@
             }
             return original;
         }
-    }), ["Object", "WhiteSpace", "TextNode", "Collection", "Arguments"].each(function(name) {
+    }), [
+        "Object",
+        "WhiteSpace",
+        "TextNode",
+        "Collection",
+        "Arguments"
+    ].each(function(name) {
         new Type(name);
     });
     var UID = Date.now();
@@ -253,10 +340,14 @@
         return "elements" == type ? "array" : "null" != type && type;
     }, this.$unlink = function(object) {
         switch(typeOf(object)){
-            case "object": return Object.clone(object);
-            case "array": return Array.clone(object);
-            case "hash": return new Hash(object);
-            default: return object;
+            case "object":
+                return Object.clone(object);
+            case "array":
+                return Array.clone(object);
+            case "hash":
+                return new Hash(object);
+            default:
+                return object;
         }
     };
 }(), Array.implement({
@@ -432,10 +523,29 @@ String.implement({
     };
     math.each(function(name) {
         Number[name] || (methods[name] = function() {
-            return Math[name].apply(null, [this].concat(Array.from(arguments)));
+            return Math[name].apply(null, [
+                this
+            ].concat(Array.from(arguments)));
         });
     }), Number.implement(methods);
-})(["abs", "acos", "asin", "atan", "atan2", "ceil", "cos", "exp", "floor", "log", "max", "min", "pow", "sin", "sqrt", "tan"]), Function.extend({
+})([
+    "abs",
+    "acos",
+    "asin",
+    "atan",
+    "atan2",
+    "ceil",
+    "cos",
+    "exp",
+    "floor",
+    "log",
+    "max",
+    "min",
+    "pow",
+    "sin",
+    "sqrt",
+    "tan"
+]), Function.extend({
     attempt: function() {
         for(var i = 0, l = arguments.length; i < l; i++)try {
             return arguments[i]();
@@ -479,7 +589,9 @@ String.implement({
         return options = options || {
         }, function(event) {
             var args = options.arguments;
-            args = null != args ? Array.from(args) : Array.slice(arguments, options.event ? 1 : 0), options.event && (args = [event || window.event].extend(args));
+            args = null != args ? Array.from(args) : Array.slice(arguments, options.event ? 1 : 0), options.event && (args = [
+                event || window.event
+            ].extend(args));
             var returns = function() {
                 return self.apply(options.bind || null, args);
             };
@@ -495,7 +607,9 @@ String.implement({
     bindWithEvent: function(bind, args) {
         var self = this;
         return null != args && (args = Array.from(args)), function(event) {
-            return self.apply(bind, null == args ? arguments : [event].concat(args));
+            return self.apply(bind, null == args ? arguments : [
+                event
+            ].concat(args));
         };
     },
     run: function(args, bind) {
@@ -572,7 +686,8 @@ var $try = Function.attempt;
                             qs[i] = val;
                         }), result = Object.toQueryString(qs, key);
                         break;
-                    default: result = key + "=" + encodeURIComponent(value);
+                    default:
+                        result = key + "=" + encodeURIComponent(value);
                 }
                 null != value && queryString.push(result);
             }), queryString.join("&");
@@ -640,12 +755,18 @@ var $try = Function.attempt;
     indexOf: "keyOf",
     contains: "hasValue"
 }), (function() {
-    var XMLHTTP, MSXML2, MSXML, document = this.document, window = document.window = this, ua = navigator.userAgent.toLowerCase(), platform = navigator.platform.toLowerCase(), UA = ua.match(/(opera|ie|firefox|chrome|version)[\s\/:]([\w\d\.]+)?.*?(safari|version[\s\/:]([\w\d\.]+)|$)/) || [null, "unknown", 0], mode = "ie" == UA[1] && document.documentMode, Browser = this.Browser = {
+    var XMLHTTP, MSXML2, MSXML, document = this.document, window = document.window = this, ua = navigator.userAgent.toLowerCase(), platform = navigator.platform.toLowerCase(), UA = ua.match(/(opera|ie|firefox|chrome|version)[\s\/:]([\w\d\.]+)?.*?(safari|version[\s\/:]([\w\d\.]+)|$)/) || [
+        null,
+        "unknown",
+        0
+    ], mode = "ie" == UA[1] && document.documentMode, Browser = this.Browser = {
         extend: Function.prototype.extend,
         name: "version" == UA[1] ? UA[3] : UA[1],
         version: mode || parseFloat("opera" == UA[1] && UA[4] ? UA[4] : UA[2]),
         Platform: {
-            name: ua.match(/ip(?:ad|od|hone)/) ? "ios" : (ua.match(/(?:webos|android)/) || platform.match(/mac|win|linux/) || ["other"])[0]
+            name: ua.match(/ip(?:ad|od|hone)/) ? "ios" : (ua.match(/(?:webos|android)/) || platform.match(/mac|win|linux/) || [
+                "other"
+            ])[0]
         },
         Features: {
             xpath: !!document.evaluate,
@@ -723,7 +844,18 @@ var $try = Function.attempt;
             return arrayFrom(item);
         };
         var prototype = Array.prototype, slice = prototype.slice;
-        ["pop", "push", "reverse", "shift", "sort", "splice", "unshift", "concat", "join", "slice"].each(function(name) {
+        [
+            "pop",
+            "push",
+            "reverse",
+            "shift",
+            "sort",
+            "splice",
+            "unshift",
+            "concat",
+            "join",
+            "slice"
+        ].each(function(name) {
             var method = prototype[name];
             Array[name] = function(item) {
                 return method.apply(Array.from(item), slice.call(arguments, 1));
@@ -742,7 +874,8 @@ var $try = Function.attempt;
         case 7:
             setEngine("trident", 5);
             break;
-        case 8: setEngine("trident", 6);
+        case 8:
+            setEngine("trident", 6);
     }
     if (Browser.firefox && (Browser.Engine.gecko = !0, setEngine("gecko", Browser.version >= 3 ? 19 : 18)), Browser.safari || Browser.chrome) switch(Browser.Engine.webkit = !0, Browser.version){
         case 2:
@@ -751,14 +884,16 @@ var $try = Function.attempt;
         case 3:
             setEngine("webkit", 420);
             break;
-        case 4: setEngine("webkit", 525);
+        case 4:
+            setEngine("webkit", 525);
     }
     if (Browser.opera && (Browser.Engine.presto = !0, setEngine("presto", Browser.version >= 9.6 ? 960 : Browser.version >= 9.5 ? 950 : 925)), "unknown" == Browser.name) switch((ua.match(/(?:webkit|khtml|gecko)/) || [])[0]){
         case "webkit":
         case "khtml":
             Browser.Engine.webkit = !0;
             break;
-        case "gecko": Browser.Engine.gecko = !0;
+        case "gecko":
+            Browser.Engine.gecko = !0;
     }
     this.$exec = Browser.exec;
 })(), (function() {
@@ -951,8 +1086,11 @@ Event1.Keys = {
         }
     }), this.Options = new Class({
         setOptions: function() {
-            var options = this.options = Object.merge.apply(null, [{
-                }, this.options].append(arguments));
+            var options = this.options = Object.merge.apply(null, [
+                {
+                },
+                this.options
+            ].append(arguments));
             if (this.addEvent) for(var option in options)"function" == typeOf(options[option]) && /^on[A-Z]/.test(option) && (this.addEvent(option, options[option]), delete options[option]);
             return this;
         }
@@ -1046,9 +1184,10 @@ Event1.Keys = {
                         return attributeValue != value;
                     };
                     break;
-                default: test = function(value) {
-                    return !!value;
-                };
+                default:
+                    test = function(value) {
+                        return !!value;
+                    };
             }
             "" == attributeValue && /^[*$^]=$/.test(attributeOperator) && (test = function() {
                 return !1;
@@ -1169,7 +1308,7 @@ Event1.Keys = {
             var nativeRootContains = root && this.isNativeCode(root.contains), nativeDocumentContains = document && this.isNativeCode(document.contains);
             for(feature in features.contains = nativeRootContains && nativeDocumentContains ? function(context, node) {
                 return context.contains(node);
-            } : nativeRootContains || nativeDocumentContains ? function(context, node) {
+            } : nativeRootContains && !nativeDocumentContains ? function(context, node) {
                 return context === node || (context === document ? document.documentElement : context).contains(node);
             } : root && root.compareDocumentPosition ? function(context, node) {
                 return context === node || !!(16 & context.compareDocumentPosition(node));
@@ -1376,7 +1515,9 @@ Event1.Keys = {
                 getById: if (id) {
                     if (!(item = this.document.getElementById(id)) && node.all || this.idGetsName && item && item.getAttributeNode("id").nodeValue != id) {
                         if (!(children = node.all[id])) return;
-                        for(children[0] || (children = [children]), i = 0; item = children[i++];){
+                        for(children[0] || (children = [
+                            children
+                        ]), i = 0; item = children[i++];){
                             var idNode = item.getAttributeNode("id");
                             if (idNode && idNode.nodeValue == id) {
                                 this.push(item, tag, null, classes, attributes, pseudos);
@@ -1626,7 +1767,11 @@ var IFrame = new Type("IFrame", function() {
     params.iframe && (iframe = document.id(params.iframe));
     var onload = props.onload || function() {
     };
-    delete props.onload, props.id = props.name = [props.id, props.name, iframe ? iframe.id || iframe.name : "IFrame_" + String.uniqueID()].pick();
+    delete props.onload, props.id = props.name = [
+        props.id,
+        props.name,
+        iframe ? iframe.id || iframe.name : "IFrame_" + String.uniqueID()
+    ].pick();
     var onLoad = function() {
         onload.call((iframe = new Element1(iframe || "iframe", props)).contentWindow);
     };
@@ -1742,8 +1887,10 @@ Elements.prototype = {
         getWindow: function() {
             return this;
         }
-    }), [Document,
-        Element1].invoke("implement", {
+    }), [
+        Document,
+        Element1
+    ].invoke("implement", {
         getElements: function(expression) {
             return Slick.search(this, expression, new Elements);
         },
@@ -1819,7 +1966,8 @@ Elements.prototype = {
                 case "element":
                     elements.push(item);
                     break;
-                case "string": Slick.search(this.document, item, elements);
+                case "string":
+                    Slick.search(this.document, item, elements);
             }
         }
         return elements;
@@ -1856,7 +2004,19 @@ Elements.prototype = {
     }, propertySetters = {
     }, properties = {
     };
-    Array.forEach(["type", "value", "defaultValue", "accessKey", "cellPadding", "cellSpacing", "colSpan", "frameBorder", "rowSpan", "tabIndex", "useMap"], function(property) {
+    Array.forEach([
+        "type",
+        "value",
+        "defaultValue",
+        "accessKey",
+        "cellPadding",
+        "cellSpacing",
+        "colSpan",
+        "frameBorder",
+        "rowSpan",
+        "tabIndex",
+        "useMap"
+    ], function(property) {
         properties[property.toLowerCase()] = property;
     }), properties.html = "innerHTML", properties.text = null == document.createElement("div").textContent ? "innerText" : "textContent", Object.forEach(properties, function(real, key) {
         propertySetters[key] = function(node, value) {
@@ -1865,7 +2025,25 @@ Elements.prototype = {
             return node[real];
         };
     });
-    var bools = ["compact", "nowrap", "ismap", "declare", "noshade", "checked", "disabled", "readOnly", "multiple", "selected", "noresize", "defer", "defaultChecked", "autofocus", "controls", "autoplay", "loop"], booleans = {
+    var bools = [
+        "compact",
+        "nowrap",
+        "ismap",
+        "declare",
+        "noshade",
+        "checked",
+        "disabled",
+        "readOnly",
+        "multiple",
+        "selected",
+        "noresize",
+        "defer",
+        "defaultChecked",
+        "autofocus",
+        "controls",
+        "autoplay",
+        "loop"
+    ], booleans = {
     };
     Array.forEach(bools, function(bool) {
         var lower = bool.toLowerCase();
@@ -2039,7 +2217,11 @@ Elements.prototype = {
         },
         clone: function(contents, keepid) {
             contents = !1 !== contents;
-            var i, clone = this.cloneNode(contents), ce = [clone], te = [this];
+            var i, clone = this.cloneNode(contents), ce = [
+                clone
+            ], te = [
+                this
+            ];
             for(contents && (ce.append(Array.from(clone.getElementsByTagName("*"))), te.append(Array.from(this.getElementsByTagName("*")))), i = ce.length; i--;){
                 var node = ce[i], element = te[i];
                 if (keepid || node.removeAttribute("id"), node.clearAttributes && (node.clearAttributes(), node.mergeAttributes(element), node.removeAttribute("uniqueNumber"), node.options)) for(var no = node.options, eo = element.options, j = no.length; j--;)no[j].selected = eo[j].selected;
@@ -2052,9 +2234,11 @@ Elements.prototype = {
             }
             return document.id(clone);
         }
-    }), [Element1,
+    }), [
+        Element1,
         Window,
-        Document].invoke("implement", {
+        Document
+    ].invoke("implement", {
         addListener: function(type, fn) {
             if ("unload" == type) {
                 var old = fn, self = this;
@@ -2114,25 +2298,48 @@ Elements.prototype = {
     tr.innerHTML = html;
     var supportsTRInnerHTML = tr.innerHTML == html;
     tr = null, supportsTableInnerHTML && supportsTRInnerHTML && supportsHTML5Elements || (Element1.Properties.html.set = (set = Element1.Properties.html.set, (translations = {
-        table: [1, "<table>", "</table>"],
-        select: [1, "<select>", "</select>"],
-        tbody: [2, "<table><tbody>", "</tbody></table>"],
-        tr: [3, "<table><tbody><tr>", "</tr></tbody></table>"]
+        table: [
+            1,
+            "<table>",
+            "</table>"
+        ],
+        select: [
+            1,
+            "<select>",
+            "</select>"
+        ],
+        tbody: [
+            2,
+            "<table><tbody>",
+            "</tbody></table>"
+        ],
+        tr: [
+            3,
+            "<table><tbody><tr>",
+            "</tr></tbody></table>"
+        ]
     }).thead = translations.tfoot = translations.tbody, function(html) {
         var wrap = translations[this.get("tag")];
-        if (wrap || supportsHTML5Elements || (wrap = [0, "", ""]), !wrap) return set.call(this, html);
+        if (wrap || supportsHTML5Elements || (wrap = [
+            0,
+            "",
+            ""
+        ]), !wrap) return set.call(this, html);
         var level = wrap[0], wrapper = document.createElement("div"), target = wrapper;
-        for(supportsHTML5Elements || fragment.appendChild(wrapper), wrapper.innerHTML = [wrap[1], html, wrap[2]].flatten().join(""); level--;)target = target.firstChild;
+        for(supportsHTML5Elements || fragment.appendChild(wrapper), wrapper.innerHTML = [
+            wrap[1],
+            html,
+            wrap[2]
+        ].flatten().join(""); level--;)target = target.firstChild;
         this.empty().adopt(target.childNodes), supportsHTML5Elements || fragment.removeChild(wrapper), wrapper = null;
     }));
     var testForm = document.createElement("form");
     null.innerHTML = "<select><option>s</option></select>", "s" != null.firstChild.value && (Element1.Properties.value = {
         set: function(value) {
-            var tag = this.get("tag");
-            if ("select" != tag) return this.setProperty("value", value);
+            if ("select" != this.get("tag")) return this.setProperty("value", value);
             for(var options = this.getElements("option"), i = 0; i < options.length; i++){
-                var option = options[i], attr = option.getAttributeNode("value"), optionValue = attr && attr.specified ? option.value : option.get("text");
-                if (optionValue == value) return option.selected = !0;
+                var option = options[i], attr = option.getAttributeNode("value");
+                if ((attr && attr.specified ? option.value : option.get("text")) == value) return option.selected = !0;
             }
         },
         get: function() {
@@ -2214,7 +2421,13 @@ Elements.prototype = {
             }
             if (Browser.opera || Browser.ie) {
                 if (/^(height|width)$/.test(property) && !/px$/.test(result)) {
-                    var values = "width" == property ? ["left", "right"] : ["top", "bottom"], size = 0;
+                    var values = "width" == property ? [
+                        "left",
+                        "right"
+                    ] : [
+                        "top",
+                        "bottom"
+                    ], size = 0;
                     return values.each(function(value) {
                         size += this.getStyle("border-" + value + "-width").toInt() + this.getStyle("padding-" + value).toInt();
                     }, this), this["offset" + property.capitalize()] - size + "px";
@@ -2290,9 +2503,17 @@ Elements.prototype = {
         },
         borderColor: {
         }
-    }, ["Top", "Right", "Bottom", "Left"].each(function(direction) {
+    }, [
+        "Top",
+        "Right",
+        "Bottom",
+        "Left"
+    ].each(function(direction) {
         var Short = Element1.ShortStyles, All = Element1.Styles;
-        ["margin", "padding"].each(function(style) {
+        [
+            "margin",
+            "padding"
+        ].each(function(style) {
             var sd = style + direction;
             Short[style][sd] = All[sd] = "@px";
         });
@@ -2307,9 +2528,11 @@ Elements.prototype = {
         set: function(events) {
             this.addEvents(events);
         }
-    }, [Element1,
+    }, [
+        Element1,
         Window,
-        Document].invoke("implement", {
+        Document
+    ].invoke("implement", {
         addEvent: function(type, fn) {
             var events = this.retrieve("events", {
             });
@@ -2570,9 +2793,11 @@ Elements.prototype = {
             return this;
         }
     };
-    [Element1,
+    [
+        Element1,
         Window,
-        Document].invoke("implement", {
+        Document
+    ].invoke("implement", {
         addEvent: relay(addEvent, delegation.addEvent),
         removeEvent: relay(removeEvent, delegation.removeEvent)
     });
@@ -2685,8 +2910,10 @@ Elements.prototype = {
         setPosition: function(obj) {
             return this.setStyles(this.computePosition(obj));
         }
-    }), [Document,
-        Window].invoke("implement", {
+    }), [
+        Document,
+        Window
+    ].invoke("implement", {
         getSize: function() {
             var doc = getCompatElement(this);
             return {
@@ -2748,9 +2975,11 @@ Elements.prototype = {
     }
 })(), Element1.alias({
     position: "setPosition"
-}), [Window,
+}), [
+    Window,
     Document,
-    Element1].invoke("implement", {
+    Element1
+].invoke("implement", {
     getHeight: function() {
         return this.getSize().y;
     },
@@ -2777,9 +3006,11 @@ Elements.prototype = {
     }
 }), (function() {
     var Fx = this.Fx = new Class({
-        Implements: [Chain,
+        Implements: [
+            Chain,
             Events,
-            Options],
+            Options
+        ],
         options: {
             fps: 60,
             unit: !1,
@@ -2815,8 +3046,10 @@ Elements.prototype = {
         check: function() {
             if (!this.isRunning()) return !0;
             switch(this.options.link){
-                case "cancel": return this.cancel(), !0;
-                case "chain": return this.chain(this.caller.pass(arguments, this)), !1;
+                case "cancel":
+                    return this.cancel(), !0;
+                case "chain":
+                    return this.chain(this.caller.pass(arguments, this)), !1;
             }
             return !1;
         },
@@ -2948,7 +3181,11 @@ Elements.prototype = {
 }, Fx.CSS.Parsers = {
     Color: {
         parse: function(value) {
-            return value.match(/^#[0-9a-f]{3,6}$/i) ? value.hexToRgb(!0) : !!(value = value.match(/(\d+),\s*(\d+),\s*(\d+)/)) && [value[1], value[2], value[3]];
+            return value.match(/^#[0-9a-f]{3,6}$/i) ? value.hexToRgb(!0) : !!(value = value.match(/(\d+),\s*(\d+),\s*(\d+)/)) && [
+                value[1],
+                value[2],
+                value[3]
+            ];
         },
         compute: function(from, to, delta) {
             return from.map(function(value, i) {
@@ -3005,7 +3242,9 @@ Elements.prototype = {
         return this.get("tween").start(property, from, to), this;
     },
     fade: function(how) {
-        var method, toggle, fade = this.get("tween"), args = ["opacity"].append(arguments);
+        var method, toggle, fade = this.get("tween"), args = [
+            "opacity"
+        ].append(arguments);
         switch(null == args[1] && (args[1] = "toggle"), args[1]){
             case "in":
                 method = "start", args[1] = 1;
@@ -3023,7 +3262,8 @@ Elements.prototype = {
                 var flag = this.retrieve("fade:flag", 1 == this.getStyle("opacity"));
                 method = "start", args[1] = flag ? 0 : 1, this.store("fade:flag", !flag), toggle = !0;
                 break;
-            default: method = "start";
+            default:
+                method = "start";
         }
         toggle || this.eliminate("fade:flag"), fade[method].apply(fade, args);
         var to = args[args.length - 1];
@@ -3133,16 +3373,23 @@ Elements.prototype = {
     Elastic: function(p, x) {
         return Math.pow(2, 10 * --p) * Math.cos(20 * p * Math.PI * (x && x[0] || 1) / 3);
     }
-}), ["Quad", "Cubic", "Quart", "Quint"].each(function(transition, i) {
+}), [
+    "Quad",
+    "Cubic",
+    "Quart",
+    "Quint"
+].each(function(transition, i) {
     Fx.Transitions[transition] = new Fx.Transition(function(p) {
         return Math.pow(p, i + 2);
     });
 }), (function() {
     var empty = function() {
     }, progressSupport = "onprogress" in new Browser.Request, Request1 = this.Request = new Class({
-        Implements: [Chain,
+        Implements: [
+            Chain,
             Events,
-            Options],
+            Options
+        ],
         options: {
             url: "",
             data: "",
@@ -3199,10 +3446,16 @@ Elements.prototype = {
             this.fireEvent("complete").fireEvent("failure", this.xhr);
         },
         loadstart: function(event) {
-            this.fireEvent("loadstart", [event, this.xhr]);
+            this.fireEvent("loadstart", [
+                event,
+                this.xhr
+            ]);
         },
         progress: function(event) {
-            this.fireEvent("progress", [event, this.xhr]);
+            this.fireEvent("progress", [
+                event,
+                this.xhr
+            ]);
         },
         timeout: function() {
             this.fireEvent("timeout", this.xhr);
@@ -3218,8 +3471,10 @@ Elements.prototype = {
         check: function() {
             if (!this.running) return !0;
             switch(this.options.link){
-                case "cancel": return this.cancel(), !0;
-                case "chain": return this.chain(this.caller.pass(arguments, this)), !1;
+                case "cancel":
+                    return this.cancel(), !0;
+                case "chain":
+                    return this.chain(this.caller.pass(arguments, this)), !1;
             }
             return !1;
         },
@@ -3240,17 +3495,24 @@ Elements.prototype = {
                     data = document.id(data).toQueryString();
                     break;
                 case "object":
-                case "hash": data = Object.toQueryString(data);
+                case "hash":
+                    data = Object.toQueryString(data);
             }
             if (this.options.format) {
                 var format = "format=" + this.options.format;
                 data = data ? format + "&" + data : format;
             }
-            if (this.options.emulation && !["get", "post"].contains(method)) {
+            if (this.options.emulation && ![
+                "get",
+                "post"
+            ].contains(method)) {
                 var _method = "_method=" + method;
                 data = data ? _method + "&" + data : _method, method = "post";
             }
-            if (this.options.urlEncoded && ["post", "put"].contains(method)) {
+            if (this.options.urlEncoded && [
+                "post",
+                "put"
+            ].contains(method)) {
                 var encoding = this.options.encoding ? "; charset=" + this.options.encoding : "";
                 this.headers["Content-type"] = "application/x-www-form-urlencoded" + encoding;
             }
@@ -3262,8 +3524,10 @@ Elements.prototype = {
                 try {
                     xhr.setRequestHeader(key, value);
                 } catch (e) {
-                    this.fireEvent("exception", [key,
-                        value]);
+                    this.fireEvent("exception", [
+                        key,
+                        value
+                    ]);
                 }
             }, this), this.fireEvent("request"), xhr.send(data), this.options.async ? this.options.timeout && (this.timer = this.timeout.delay(this.options.timeout, this)) : this.onStateChange(), this;
         },
@@ -3275,7 +3539,16 @@ Elements.prototype = {
         }
     }), methods = {
     };
-    ["get", "post", "put", "delete", "GET", "POST", "PUT", "DELETE"].each(function(method) {
+    [
+        "get",
+        "post",
+        "put",
+        "delete",
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+    ].each(function(method) {
         methods[method] = function(data) {
             var object = {
                 method: method
@@ -3374,8 +3647,10 @@ Elements.prototype = {
         return JSON.stringify(obj);
     } : function(obj) {
         switch(obj && obj.toJSON && (obj = obj.toJSON()), typeOf(obj)){
-            case "string": return "\"" + obj.replace(/[\x00-\x1f\\"]/g, escape) + "\"";
-            case "array": return "[" + obj.map(JSON.encode).clean() + "]";
+            case "string":
+                return "\"" + obj.replace(/[\x00-\x1f\\"]/g, escape) + "\"";
+            case "array":
+                return "[" + obj.map(JSON.encode).clean() + "]";
             case "object":
             case "hash":
                 var string = [];
@@ -3384,8 +3659,10 @@ Elements.prototype = {
                     json && string.push(JSON.encode(key) + ":" + json);
                 }), "{" + string + "}";
             case "number":
-            case "boolean": return "" + obj;
-            case "null": return "null";
+            case "boolean":
+                return "" + obj;
+            case "null":
+                return "null";
         }
         return null;
     }, JSON.decode = function(string, secure) {
@@ -3412,9 +3689,10 @@ Elements.prototype = {
         try {
             json = this.response.json = JSON.decode(text, this.options.secure);
         } catch (error) {
-            this.fireEvent("error", [text,
-                error]);
-            return;
+            return void this.fireEvent("error", [
+                text,
+                error
+            ]);
         }
         null == json ? this.onFailure() : this.onSuccess(json, text);
     }
@@ -3542,7 +3820,9 @@ Cookie.write = function(key, value, options) {
             return document.id(element, !0).appendChild(this.toElement()), this;
         },
         remote: function() {
-            return Swiff.remote.apply(Swiff, [this.toElement()].append(arguments));
+            return Swiff.remote.apply(Swiff, [
+                this.toElement()
+            ].append(arguments));
         }
     });
     Swiff.CallBacks = {

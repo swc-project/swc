@@ -361,6 +361,34 @@ impl Span {
         *self = Span::new(span.lo, span.hi, span.ctxt);
         mark
     }
+
+    /// Returns `true` if `self` is marked with `mark`.
+    ///
+    /// Panics if `mark` is not a valid mark.
+    #[inline]
+    pub fn has_mark(self, mark: Mark) -> bool {
+        debug_assert_ne!(
+            mark,
+            Mark::root(),
+            "Cannot check if a span contains a `ROOT` mark"
+        );
+
+        let mut ctxt = self.ctxt;
+
+        loop {
+            if ctxt == SyntaxContext::empty() {
+                return false;
+            }
+
+            let m = ctxt.remove_mark();
+            if m == mark {
+                return true;
+            }
+            if m == Mark::root() {
+                return false;
+            }
+        }
+    }
 }
 
 #[derive(Clone, Debug)]

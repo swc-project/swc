@@ -271,7 +271,10 @@
             return func.apply(null, args);
         }, wait);
     }, _.defer = function(func) {
-        return _.delay.apply(_, [func, 1].concat(slice.call(arguments, 1)));
+        return _.delay.apply(_, [
+            func,
+            1
+        ].concat(slice.call(arguments, 1)));
     }, _.throttle = function(func, wait, options) {
         var context, args, result, timeout = null, previous = 0;
         options || (options = {
@@ -302,13 +305,17 @@
         };
     }, _.wrap = function(func, wrapper) {
         return function() {
-            var args = [func];
+            var args = [
+                func
+            ];
             return push.apply(args, arguments), wrapper.apply(this, args);
         };
     }, _.compose = function() {
         var funcs = arguments;
         return function() {
-            for(var args = arguments, i = funcs.length - 1; i >= 0; i--)args = [funcs[i].apply(this, args)];
+            for(var args = arguments, i = funcs.length - 1; i >= 0; i--)args = [
+                funcs[i].apply(this, args)
+            ];
             return args[0];
         };
     }, _.after = function(times, func) {
@@ -324,7 +331,10 @@
         for(var keys = _.keys(obj), length = keys.length, values = new Array(length), i = 0; i < length; i++)values[i] = obj[keys[i]];
         return values;
     }, _.pairs = function(obj) {
-        for(var keys = _.keys(obj), length = keys.length, pairs = new Array(length), i = 0; i < length; i++)pairs[i] = [keys[i], obj[keys[i]]];
+        for(var keys = _.keys(obj), length = keys.length, pairs = new Array(length), i = 0; i < length; i++)pairs[i] = [
+            keys[i],
+            obj[keys[i]]
+        ];
         return pairs;
     }, _.invert = function(obj) {
         for(var result = {
@@ -366,11 +376,15 @@
         var className = toString.call(a);
         if (className != toString.call(b)) return !1;
         switch(className){
-            case "[object String]": return a == String(b);
-            case "[object Number]": return a != +a ? b != +b : 0 == a ? 1 / a == 1 / b : a == +b;
+            case "[object String]":
+                return a == String(b);
+            case "[object Number]":
+                return a != +a ? b != +b : 0 == a ? 1 / a == 1 / b : a == +b;
             case "[object Date]":
-            case "[object Boolean]": return +a == +b;
-            case "[object RegExp]": return a.source == b.source && a.global == b.global && a.multiline == b.multiline && a.ignoreCase == b.ignoreCase;
+            case "[object Boolean]":
+                return +a == +b;
+            case "[object RegExp]":
+                return a.source == b.source && a.global == b.global && a.multiline == b.multiline && a.ignoreCase == b.ignoreCase;
         }
         if ("object" != typeof a || "object" != typeof b) return !1;
         for(var length = aStack.length; length--;)if (aStack[length] == a) return bStack[length] == b;
@@ -402,7 +416,14 @@
         return "[object Array]" == toString.call(obj);
     }, _.isObject = function(obj) {
         return obj === Object(obj);
-    }, each(["Arguments", "Function", "String", "Number", "Date", "RegExp"], function(name) {
+    }, each([
+        "Arguments",
+        "Function",
+        "String",
+        "Number",
+        "Date",
+        "RegExp"
+    ], function(name) {
         _["is" + name] = function(obj) {
             return toString.call(obj) == "[object " + name + "]";
         };
@@ -446,7 +467,10 @@
         escape: new RegExp("[" + _.keys(entityMap.escape).join("") + "]", "g"),
         unescape: new RegExp("(" + _.keys(entityMap.unescape).join("|") + ")", "g")
     };
-    _.each(["escape", "unescape"], function(method) {
+    _.each([
+        "escape",
+        "unescape"
+    ], function(method) {
         _[method] = function(string) {
             return null == string ? "" : ("" + string).replace(entityRegexes[method], function(match) {
                 return entityMap[method][match];
@@ -461,7 +485,9 @@
         each(_.functions(obj), function(name) {
             var func = _[name] = obj[name];
             _.prototype[name] = function() {
-                var args = [this._wrapped];
+                var args = [
+                    this._wrapped
+                ];
                 return push.apply(args, arguments), result.call(this, func.apply(_, args));
             };
         });
@@ -488,7 +514,11 @@
         var render;
         settings = _.defaults({
         }, settings, _.templateSettings);
-        var matcher = new RegExp([(settings.escape || noMatch).source, (settings.interpolate || noMatch).source, (settings.evaluate || noMatch).source].join("|") + "|$", "g"), index = 0, source = "__p+='";
+        var matcher = new RegExp([
+            (settings.escape || noMatch).source,
+            (settings.interpolate || noMatch).source,
+            (settings.evaluate || noMatch).source
+        ].join("|") + "|$", "g"), index = 0, source = "__p+='";
         text.replace(matcher, function(match, escape, interpolate, evaluate, offset) {
             return source += text.slice(index, offset).replace(escaper, function(match) {
                 return "\\" + escapes[match];
@@ -510,13 +540,25 @@
     var result = function(obj) {
         return this._chain ? _(obj).chain() : obj;
     };
-    _.mixin(_), each(["pop", "push", "reverse", "shift", "sort", "splice", "unshift"], function(name) {
+    _.mixin(_), each([
+        "pop",
+        "push",
+        "reverse",
+        "shift",
+        "sort",
+        "splice",
+        "unshift"
+    ], function(name) {
         var method = ArrayProto[name];
         _.prototype[name] = function() {
             var obj = this._wrapped;
             return method.apply(obj, arguments), ("shift" == name || "splice" == name) && 0 === obj.length && delete obj[0], result.call(this, obj);
         };
-    }), each(["concat", "join", "slice"], function(name) {
+    }), each([
+        "concat",
+        "join",
+        "slice"
+    ], function(name) {
         var method = ArrayProto[name];
         _.prototype[name] = function() {
             return result.call(this, method.apply(this._wrapped, arguments));

@@ -1,5 +1,9 @@
 use super::Optimizer;
-use crate::util::{sort::is_sorted_by, MoudleItemExt};
+use crate::{
+    compress::optimize::util::is_directive,
+    util::{sort::is_sorted_by, MoudleItemExt},
+    DISABLE_BUGGY_PASSES,
+};
 use std::cmp::Ordering;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -25,6 +29,9 @@ impl Optimizer<'_> {
         if !self.options.join_vars {
             return;
         }
+        if DISABLE_BUGGY_PASSES {
+            return;
+        }
 
         // Sort by position
 
@@ -32,6 +39,9 @@ impl Optimizer<'_> {
             // Check for function declarations.
 
             match (a.as_module_decl(), b.as_module_decl()) {
+                (Ok(ModuleDecl::Import(..)), _) => return Some(Ordering::Less),
+                (Err(stmt), _) if is_directive(&stmt) => return Some(Ordering::Equal),
+
                 (
                     Err(Stmt::Decl(
                         Decl::Fn(..)
@@ -62,6 +72,18 @@ impl Optimizer<'_> {
 
         for stmt in stmts.take() {
             let stmt = stmt.into_module_item();
+
+            match stmt {
+                ModuleItem::ModuleDecl(ModuleDecl::Import(..)) => {
+                    fns.push(T::from_module_item(stmt));
+                    continue;
+                }
+                ModuleItem::Stmt(stmt) if is_directive(&stmt) => {
+                    fns.push(T::from_stmt(stmt));
+                    continue;
+                }
+                _ => {}
+            }
 
             match stmt {
                 ModuleItem::Stmt(Stmt::Decl(Decl::Fn(..)))

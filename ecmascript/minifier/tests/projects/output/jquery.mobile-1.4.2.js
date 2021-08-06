@@ -1,9 +1,11 @@
 !function(root, doc, factory) {
-    "function" == typeof define && define.amd ? define(["jquery"], function($) {
+    "function" == typeof define && define.amd ? define([
+        "jquery"
+    ], function($) {
         return factory($, root, doc), $.mobile;
     }) : factory(root.jQuery, root, doc);
 }(this, document, function(jQuery, window, document, undefined) {
-    var $, rcapitals, replaceFunction, doc, bool, docElem, refNode, fakeBody, div, $1, support, $2, self, $win, dummyFnToInitNavigate, $3, undefined, path, $base, $4, undefined, $5, path1, initialHref, $6, heldCall, curr, diff, handler, lastCall, $7, baseElement, base, $8, $9, $10, $11, undefined, rInitialLetter, iconposClass, $12, $13, $14, meta, initialContent, disabledZoom, enabledZoom, disabledInitially, $15, $16, undefined, replaceSetOptions, rDividerListItem, origDefaultFilterCallback;
+    var $, rcapitals, doc, bool, docElem, refNode, fakeBody, div, $1, support, $2, self, $win, dummyFnToInitNavigate, $3, undefined, path, $base, $4, undefined, $5, path1, initialHref, $6, heldCall, curr, diff, handler, lastCall, $7, baseElement, base, $8, $9, $10, $11, undefined, rInitialLetter, iconposClass, $12, $13, $14, meta, initialContent, disabledZoom, enabledZoom, disabledInitially, $15, $16, undefined, rDividerListItem, origDefaultFilterCallback;
     jQuery.mobile = {
     }, (function($17, window, undefined) {
         $17.extend($17.mobile, {
@@ -145,8 +147,17 @@
                 var tabIndex = $17.attr(element, "tabindex"), isTabIndexNaN = isNaN(tabIndex);
                 return (isTabIndexNaN || tabIndex >= 0) && focusable(element, !isTabIndexNaN);
             }
-        }), $17("<a>").outerWidth(1).jquery || $17.each(["Width", "Height"], function(i, name) {
-            var side = "Width" === name ? ["Left", "Right"] : ["Top", "Bottom"], type = name.toLowerCase(), orig = {
+        }), $17("<a>").outerWidth(1).jquery || $17.each([
+            "Width",
+            "Height"
+        ], function(i, name) {
+            var side = "Width" === name ? [
+                "Left",
+                "Right"
+            ] : [
+                "Top",
+                "Bottom"
+            ], type = name.toLowerCase(), orig = {
                 innerWidth: $17.fn.innerWidth,
                 innerHeight: $17.fn.innerHeight,
                 outerWidth: $17.fn.outerWidth,
@@ -192,7 +203,10 @@
         }), $17.ui.plugin = {
             add: function(module, option, set) {
                 var i, proto = $17.ui[module].prototype;
-                for(i in set)proto.plugins[i] = proto.plugins[i] || [], proto.plugins[i].push([option, set[i]]);
+                for(i in set)proto.plugins[i] = proto.plugins[i] || [], proto.plugins[i].push([
+                    option,
+                    set[i]
+                ]);
             },
             call: function(instance, name, args, allowDisconnected) {
                 var i, set = instance.plugins[name];
@@ -307,7 +321,9 @@
         }, $17.find.matches = function(expr, set) {
             return $17.find(expr, null, null, set);
         }, $17.find.matchesSelector = function(node, expr) {
-            return $17.find(expr, null, null, [node]).length > 0;
+            return $17.find(expr, null, null, [
+                node
+            ]).length > 0;
         };
     })(jQuery, this), (function($17, undefined) {
         var uuid = 0, slice = Array.prototype.slice, _cleanData = $17.cleanData;
@@ -333,15 +349,15 @@
                 _childConstructors: []
             }), (basePrototype = new base()).options = $17.widget.extend({
             }, basePrototype.options), $17.each(prototype, function(prop, value) {
-                $17.isFunction(value) || (proxiedPrototype[prop] = value), proxiedPrototype[prop] = (function() {
-                    var _super = function() {
-                        return base.prototype[prop].apply(this, arguments);
-                    }, _superApply = function(args) {
-                        return base.prototype[prop].apply(this, args);
-                    };
+                if (!$17.isFunction(value)) return void (proxiedPrototype[prop] = value);
+                proxiedPrototype[prop] = (function() {
                     return function() {
                         var returnValue, __super = this._super, __superApply = this._superApply;
-                        return this._super = _super, this._superApply = _superApply, returnValue = value.apply(this, arguments), this._super = __super, this._superApply = __superApply, returnValue;
+                        return this._super = function() {
+                            return base.prototype[prop].apply(this, arguments);
+                        }, this._superApply = function(args) {
+                            return base.prototype[prop].apply(this, args);
+                        }, returnValue = value.apply(this, arguments), this._super = __super, this._superApply = __superApply, returnValue;
                     };
                 })();
             }), constructor.prototype = $17.widget.extend(basePrototype, {
@@ -364,7 +380,9 @@
             var fullName = object.prototype.widgetFullName || name;
             $17.fn[name] = function(options) {
                 var isMethodCall = "string" == typeof options, args = slice.call(arguments, 1), returnValue = this;
-                return options = !isMethodCall && args.length ? $17.widget.extend.apply(null, [options].concat(args)) : options, isMethodCall ? this.each(function() {
+                return options = !isMethodCall && args.length ? $17.widget.extend.apply(null, [
+                    options
+                ].concat(args)) : options, isMethodCall ? this.each(function() {
                     var methodValue, instance = $17.data(this, fullName);
                     return "instance" === options ? (returnValue = instance, !1) : instance ? $17.isFunction(instance[options]) && "_" !== options.charAt(0) ? (methodValue = instance[options].apply(instance, args)) !== instance && methodValue !== undefined ? (returnValue = methodValue && methodValue.jquery ? returnValue.pushStack(methodValue.get()) : methodValue, !1) : void 0 : $17.error("no such method '" + options + "' for " + name + " widget instance") : $17.error("cannot call methods on " + name + " prior to initialization; attempted to call method '" + options + "'");
                 }) : this.each(function() {
@@ -480,7 +498,9 @@
                 var prop, orig, callback = this.options[type];
                 if (data = data || {
                 }, (event = $17.Event(event)).type = (type === this.widgetEventPrefix ? type : this.widgetEventPrefix + type).toLowerCase(), event.target = this.element[0], orig = event.originalEvent) for(prop in orig)prop in event || (event[prop] = orig[prop]);
-                return this.element.trigger(event, data), !($17.isFunction(callback) && !1 === callback.apply(this.element[0], [event].concat(data)) || event.isDefaultPrevented());
+                return this.element.trigger(event, data), !($17.isFunction(callback) && !1 === callback.apply(this.element[0], [
+                    event
+                ].concat(data)) || event.isDefaultPrevented());
             }
         }, $17.each({
             show: "fadeIn",
@@ -499,13 +519,13 @@
                 });
             };
         });
-    })(jQuery), $ = jQuery, rcapitals = /[A-Z]/g, replaceFunction = function(c) {
-        return "-" + c.toLowerCase();
-    }, $.extend($.Widget.prototype, {
+    })(jQuery), rcapitals = /[A-Z]/g, ($ = jQuery).extend($.Widget.prototype, {
         _getCreateOptions: function() {
             var option, value, elem = this.element[0], options = {
             };
-            if (!$.mobile.getAttribute(elem, "defaults")) for(option in this.options)null != (value = $.mobile.getAttribute(elem, option.replace(rcapitals, replaceFunction))) && (options[option] = value);
+            if (!$.mobile.getAttribute(elem, "defaults")) for(option in this.options)null != (value = $.mobile.getAttribute(elem, option.replace(rcapitals, function(c) {
+                return "-" + c.toLowerCase();
+            }))) && (options[option] = value);
             return options;
         }
     }), $.mobile.widget = $.Widget, (function($17) {
@@ -604,7 +624,11 @@
             var v, uc_prop = prop.charAt(0).toUpperCase() + prop.substr(1), props = (prop + " " + vendors.join(uc_prop + " ") + uc_prop).split(" ");
             for(v in props)if (undefined !== fbCSS[props[v]]) return !0;
         }
-        var w, ua, platform, wkmatch, wkversion, ffmatch, ffversion, operammobilematch, omversion, fauxBase, base, supports, element, documentElement, getComputedStyle, ua1, nokiaLTE7_3, fakeBody = $17("<body>").prependTo("html"), fbCSS = fakeBody[0].style, vendors = ["Webkit", "Moz", "O"], operamini = window.operamini && "[object OperaMini]" === ({
+        var w, ua, platform, wkmatch, wkversion, ffmatch, ffversion, operammobilematch, omversion, fauxBase, base, supports, element, documentElement, getComputedStyle, ua1, nokiaLTE7_3, fakeBody = $17("<body>").prependTo("html"), fbCSS = fakeBody[0].style, vendors = [
+            "Webkit",
+            "Moz",
+            "O"
+        ], operamini = window.operamini && "[object OperaMini]" === ({
         }).toString.call(window.operamini), bb = window.blackberry && !propExists("-webkit-transform");
         $17.extend($17.mobile, {
             browser: {
@@ -730,7 +754,8 @@
             var absStack, relStack, i, d;
             if (relPath && "/" === relPath.charAt(0)) return relPath;
             for(i = 0, relPath = relPath || "", absStack = (absPath = absPath ? absPath.replace(/^\/|(\/[^\/]*|[^\/]+)$/g, "") : "") ? absPath.split("/") : [], relStack = relPath.split("/"); i < relStack.length; i++)switch(d = relStack[i]){
-                case ".": break;
+                case ".":
+                    break;
                 case "..":
                     absStack.length && absStack.pop();
                     break;
@@ -933,8 +958,16 @@
             },
             transition: {
             }
-        }, testElement = document.createElement("a"), vendorPrefixes = ["", "webkit-", "moz-", "o-"];
-        $17.each(["animation", "transition"], function(i, test) {
+        }, testElement = document.createElement("a"), vendorPrefixes = [
+            "",
+            "webkit-",
+            "moz-",
+            "o-"
+        ];
+        $17.each([
+            "animation",
+            "transition"
+        ], function(i, test) {
             var testName = 0 === i ? test + "-name" : test;
             $17.each(vendorPrefixes, function(j, prefix) {
                 if (undefined !== testElement.style[$17.camelCase(prefix + testName)]) return props[test].prefix = prefix, !1;
@@ -1131,7 +1164,10 @@
                 var data = event.originalEvent.touches ? event.originalEvent.touches[0] : event, location = $17.event.special.swipe.getLocation(data);
                 return {
                     time: new Date().getTime(),
-                    coords: [location.x, location.y],
+                    coords: [
+                        location.x,
+                        location.y
+                    ],
                     origin: $17(event.target)
                 };
             },
@@ -1139,7 +1175,10 @@
                 var data = event.originalEvent.touches ? event.originalEvent.touches[0] : event, location = $17.event.special.swipe.getLocation(data);
                 return {
                     time: new Date().getTime(),
-                    coords: [location.x, location.y]
+                    coords: [
+                        location.x,
+                        location.y
+                    ]
                 };
             },
             handleSwipe: function(start, stop, thisObject, origTarget) {
@@ -1318,7 +1357,13 @@
             },
             keepNativeSelector: function() {
                 var options = this.options, keepNative = $17.trim(options.keepNative || ""), globalValue = $17.trim($17.mobile.keepNative), optionValue = $17.trim(options.keepNativeDefault), newDefault = keepNativeFactoryDefault === globalValue ? "" : globalValue, oldDefault = "" === newDefault ? optionValue : "";
-                return (keepNative ? [keepNative] : []).concat(newDefault ? [newDefault] : []).concat(oldDefault ? [oldDefault] : []).join(", ");
+                return (keepNative ? [
+                    keepNative
+                ] : []).concat(newDefault ? [
+                    newDefault
+                ] : []).concat(oldDefault ? [
+                    oldDefault
+                ] : []).join(", ");
             }
         });
     })(jQuery), (function($17, undefined) {
@@ -1511,22 +1556,26 @@
             load: function(url, options) {
                 var fileUrl, dataUrl, pblEvent, triggerData, deferred = options && options.deferred || $17.Deferred(), settings = $17.extend({
                 }, this._loadDefaults, options), content = null, absUrl = $17.mobile.path.makeUrlAbsolute(url, this._findBaseWithDefault());
-                if (settings.reload = settings.reloadPage, settings.data && "get" === settings.type && (absUrl = $17.mobile.path.addSearchParams(absUrl, settings.data), settings.data = undefined), settings.data && "post" === settings.type && (settings.reload = !0), fileUrl = this._createFileUrl(absUrl), dataUrl = this._createDataUrl(absUrl), 0 === (content = this._find(absUrl)).length && $17.mobile.path.isEmbeddedPage(fileUrl) && !$17.mobile.path.isFirstPageUrl(fileUrl) && deferred.reject(absUrl, settings), this._getBase().reset(), content.length && !settings.reload) return this._enhance(content, settings.role), deferred.resolve(absUrl, settings, content), void (!settings.prefetch && this._getBase().set(url));
-                triggerData = {
+                if (settings.reload = settings.reloadPage, settings.data && "get" === settings.type && (absUrl = $17.mobile.path.addSearchParams(absUrl, settings.data), settings.data = undefined), settings.data && "post" === settings.type && (settings.reload = !0), fileUrl = this._createFileUrl(absUrl), dataUrl = this._createDataUrl(absUrl), 0 === (content = this._find(absUrl)).length && $17.mobile.path.isEmbeddedPage(fileUrl) && !$17.mobile.path.isFirstPageUrl(fileUrl)) return void deferred.reject(absUrl, settings);
+                if (this._getBase().reset(), content.length && !settings.reload) return this._enhance(content, settings.role), deferred.resolve(absUrl, settings, content), void (!settings.prefetch && this._getBase().set(url));
+                if (triggerData = {
                     url: url,
                     absUrl: absUrl,
                     dataUrl: dataUrl,
                     deferred: deferred,
                     options: settings
-                }, (pblEvent = this._triggerWithDeprecated("beforeload", triggerData)).deprecatedEvent.isDefaultPrevented() || pblEvent.event.isDefaultPrevented() || (settings.showLoadMsg && this._showLoading(settings.loadMsgDelay), undefined === settings.prefetch && this._getBase().reset(), $17.mobile.allowCrossDomainPages || $17.mobile.path.isSameDomain($17.mobile.path.documentUrl, absUrl) || deferred.reject(absUrl, settings), $17.ajax({
-                    url: fileUrl,
-                    type: settings.type,
-                    data: settings.data,
-                    contentType: settings.contentType,
-                    dataType: "html",
-                    success: this._loadSuccess(absUrl, triggerData, settings, deferred),
-                    error: this._loadError(absUrl, triggerData, settings, deferred)
-                }));
+                }, !((pblEvent = this._triggerWithDeprecated("beforeload", triggerData)).deprecatedEvent.isDefaultPrevented() || pblEvent.event.isDefaultPrevented())) {
+                    if (settings.showLoadMsg && this._showLoading(settings.loadMsgDelay), undefined === settings.prefetch && this._getBase().reset(), !($17.mobile.allowCrossDomainPages || $17.mobile.path.isSameDomain($17.mobile.path.documentUrl, absUrl))) return void deferred.reject(absUrl, settings);
+                    $17.ajax({
+                        url: fileUrl,
+                        type: settings.type,
+                        data: settings.data,
+                        contentType: settings.contentType,
+                        dataType: "html",
+                        success: this._loadSuccess(absUrl, triggerData, settings, deferred),
+                        error: this._loadError(absUrl, triggerData, settings, deferred)
+                    });
+                }
             },
             _loadError: function(absUrl, triggerData, settings, deferred) {
                 return $17.proxy(function(xhr, textStatus, errorThrown) {
@@ -1576,7 +1625,7 @@
                 }), "string" === $17.type(to) ? triggerData.absUrl = $17.mobile.path.makeUrlAbsolute(to, this._findBaseWithDefault()) : triggerData.absUrl = settings.absUrl, this.element.trigger(pbcEvent, triggerData), !pbcEvent.isDefaultPrevented();
             },
             change: function(to, options) {
-                isPageTransitioning && pageTransitionQueue.unshift(arguments);
+                if (isPageTransitioning) return void pageTransitionQueue.unshift(arguments);
                 var settings = $17.extend({
                 }, $17.mobile.changePage.defaults, options), triggerData = {
                 };
@@ -1584,8 +1633,11 @@
             },
             transition: function(toPage, triggerData, settings) {
                 var fromPage, url, pageUrl, active, activeIsInitialPage, historyDir, pageTitle, isDialog, alreadyThere, newPageTitle, params, cssTransitionDeferred, beforeTransition;
-                if (isPageTransitioning && pageTransitionQueue.unshift([toPage,
-                    settings]), this._triggerPageBeforeChange(toPage, triggerData, settings) && !((beforeTransition = this._triggerWithDeprecated("beforetransition", triggerData)).deprecatedEvent.isDefaultPrevented() || beforeTransition.event.isDefaultPrevented())) {
+                if (isPageTransitioning) return void pageTransitionQueue.unshift([
+                    toPage,
+                    settings
+                ]);
+                if (this._triggerPageBeforeChange(toPage, triggerData, settings) && !((beforeTransition = this._triggerWithDeprecated("beforetransition", triggerData)).deprecatedEvent.isDefaultPrevented() || beforeTransition.event.isDefaultPrevented())) {
                     if (isPageTransitioning = !0, toPage[0] !== $17.mobile.firstPage[0] || settings.dataUrl || (settings.dataUrl = $17.mobile.path.documentUrl.hrefNoHash), fromPage = settings.fromPage, pageUrl = url = settings.dataUrl && $17.mobile.path.convertUrlToDataUrl(settings.dataUrl) || toPage.jqmData("url"), $17.mobile.path.getFilePath(url), active = $17.mobile.navigate.history.getActive(), activeIsInitialPage = 0 === $17.mobile.navigate.history.activeIndex, historyDir = 0, pageTitle = document.title, isDialog = ("dialog" === settings.role || "dialog" === toPage.jqmData("role")) && !0 !== toPage.jqmData("dialog"), fromPage && fromPage[0] === toPage[0] && !settings.allowSamePageTransition) return isPageTransitioning = !1, this._triggerWithDeprecated("transition", triggerData), this.element.trigger("pagechange", triggerData), void (settings.fromHashChange && $17.mobile.navigate.history.direct({
                         url: url
                     }));
@@ -1596,7 +1648,7 @@
                         document.activeElement && "body" !== document.activeElement.nodeName.toLowerCase() ? $17(document.activeElement).blur() : $17("input:focus, textarea:focus, select:focus").blur();
                     } catch (e) {
                     }
-                    alreadyThere = !1, isDialog && active && (active.url && active.url.indexOf($17.mobile.dialogHashKey) > -1 && this.activePage && !this.activePage.hasClass("ui-dialog") && $17.mobile.navigate.history.activeIndex > 0 && (settings.changeHash = !1, alreadyThere = !0), url = active.url || "", !alreadyThere && url.indexOf("#") > -1 ? url += $17.mobile.dialogHashKey : url += "#" + $17.mobile.dialogHashKey, 0 === $17.mobile.navigate.history.activeIndex && url === $17.mobile.navigate.history.initialDst && (url += $17.mobile.dialogHashKey)), (newPageTitle = active ? toPage.jqmData("title") || toPage.children(":jqmData(role='header')").find(".ui-title").text() : pageTitle) && pageTitle === document.title && (pageTitle = newPageTitle), toPage.jqmData("title") || toPage.jqmData("title", pageTitle), settings.transition = settings.transition || (historyDir || activeIsInitialPage ? active.transition : undefined) || (isDialog ? $17.mobile.defaultDialogTransition : $17.mobile.defaultPageTransition), !historyDir && alreadyThere && ($17.mobile.navigate.history.getActive().pageUrl = pageUrl), url && !settings.fromHashChange && (!$17.mobile.path.isPath(url) && 0 > url.indexOf("#") && (url = "#" + url), params = {
+                    alreadyThere = !1, isDialog && active && (active.url && active.url.indexOf($17.mobile.dialogHashKey) > -1 && this.activePage && !this.activePage.hasClass("ui-dialog") && $17.mobile.navigate.history.activeIndex > 0 && (settings.changeHash = !1, alreadyThere = !0), url = active.url || "", !alreadyThere && url.indexOf("#") > -1 ? url += $17.mobile.dialogHashKey : url += "#" + $17.mobile.dialogHashKey, 0 === $17.mobile.navigate.history.activeIndex && url === $17.mobile.navigate.history.initialDst && (url += $17.mobile.dialogHashKey)), (newPageTitle = active ? toPage.jqmData("title") || toPage.children(":jqmData(role='header')").find(".ui-title").text() : pageTitle) && pageTitle === document.title && (pageTitle = newPageTitle), toPage.jqmData("title") || toPage.jqmData("title", pageTitle), settings.transition = settings.transition || (historyDir && !activeIsInitialPage ? active.transition : undefined) || (isDialog ? $17.mobile.defaultDialogTransition : $17.mobile.defaultPageTransition), !historyDir && alreadyThere && ($17.mobile.navigate.history.getActive().pageUrl = pageUrl), url && !settings.fromHashChange && (!$17.mobile.path.isPath(url) && 0 > url.indexOf("#") && (url = "#" + url), params = {
                         transition: settings.transition,
                         title: pageTitle,
                         pageUrl: pageUrl,
@@ -1633,7 +1685,8 @@
             this.phonegapNavigationEnabled && nav && nav.app && nav.app.backHistory ? nav.app.backHistory() : $17.mobile.pageContainer.pagecontainer("back");
         }, $17.mobile.focusPage = function(page) {
             var autofocus = page.find("[autofocus]"), pageTitle = page.find(".ui-title:eq(0)");
-            autofocus.length && autofocus.focus(), pageTitle.length ? pageTitle.focus() : page.focus();
+            if (autofocus.length) return void autofocus.focus();
+            pageTitle.length ? pageTitle.focus() : page.focus();
         }, $17.mobile._maybeDegradeTransition = $17.mobile._maybeDegradeTransition || function(transition) {
             return transition;
         }, $17.mobile.changePage = function(to, options) {
@@ -1691,7 +1744,13 @@
                     };
                     if ($17.mobile.activeClickedLink && $17.mobile.activeClickedLink[0] === event.target.parentNode && httpCleanup(), link && !(event.which > 1) && $link.jqmHijackable().length) {
                         if ($link.is(":jqmData(rel='back')")) return $17.mobile.back(), !1;
-                        baseUrl = $17.mobile.getClosestBaseUrl($link), href = $17.mobile.path.makeUrlAbsolute($link.attr("href") || "#", baseUrl), $17.mobile.ajaxEnabled || $17.mobile.path.isEmbeddedPage(href) || httpCleanup(), -1 !== href.search("#") && ((href = href.replace(/[^#]*#/, "")) ? href = $17.mobile.path.isPath(href) ? $17.mobile.path.makeUrlAbsolute(href, baseUrl) : $17.mobile.path.makeUrlAbsolute("#" + href, documentUrl.hrefNoHash) : event.preventDefault()), ($link.is("[rel='external']") || $link.is(":jqmData(ajax='false')") || $link.is("[target]") || $17.mobile.path.isExternal(href) && !$17.mobile.path.isPermittedCrossDomainRequest(documentUrl, href)) && httpCleanup(), transition = $link.jqmData("transition"), reverse = "reverse" === $link.jqmData("direction") || $link.jqmData("back"), role = $link.attr("data-" + $17.mobile.ns + "rel") || undefined, $17.mobile.changePage(href, {
+                        if (baseUrl = $17.mobile.getClosestBaseUrl($link), href = $17.mobile.path.makeUrlAbsolute($link.attr("href") || "#", baseUrl), !$17.mobile.ajaxEnabled && !$17.mobile.path.isEmbeddedPage(href)) return void httpCleanup();
+                        if (-1 !== href.search("#")) {
+                            if (!(href = href.replace(/[^#]*#/, ""))) return void event.preventDefault();
+                            href = $17.mobile.path.isPath(href) ? $17.mobile.path.makeUrlAbsolute(href, baseUrl) : $17.mobile.path.makeUrlAbsolute("#" + href, documentUrl.hrefNoHash);
+                        }
+                        if ($link.is("[rel='external']") || $link.is(":jqmData(ajax='false')") || $link.is("[target]") || $17.mobile.path.isExternal(href) && !$17.mobile.path.isPermittedCrossDomainRequest(documentUrl, href)) return void httpCleanup();
+                        transition = $link.jqmData("transition"), reverse = "reverse" === $link.jqmData("direction") || $link.jqmData("back"), role = $link.attr("data-" + $17.mobile.ns + "rel") || undefined, $17.mobile.changePage(href, {
                             transition: transition,
                             reverse: reverse,
                             role: role,
@@ -1770,7 +1829,7 @@
             },
             transition: function() {
                 var none, reverseClass = this.reverse ? " reverse" : "", screenHeight = $17.mobile.getScreenHeight(), maxTransitionOverride = !1 !== $17.mobile.maxTransitionWidth && $17.mobile.window.width() > $17.mobile.maxTransitionWidth;
-                return this.toScroll = $17.mobile.navigate.history.getActive().lastScroll || $17.mobile.defaultHomeScroll, none = !$17.support.cssTransitions || !$17.support.cssAnimations || maxTransitionOverride || !this.name || "none" === this.name || Math.max($17.mobile.window.scrollTop(), this.toScroll) > $17.mobile.getMaxScrollForTransition(), this.toggleViewportClass(), this.$from || none ? this.startOut(screenHeight, reverseClass, none) : this.doneOut(screenHeight, reverseClass, none, !0), this.deferred.promise();
+                return this.toScroll = $17.mobile.navigate.history.getActive().lastScroll || $17.mobile.defaultHomeScroll, none = !$17.support.cssTransitions || !$17.support.cssAnimations || maxTransitionOverride || !this.name || "none" === this.name || Math.max($17.mobile.window.scrollTop(), this.toScroll) > $17.mobile.getMaxScrollForTransition(), this.toggleViewportClass(), this.$from && !none ? this.startOut(screenHeight, reverseClass, none) : this.doneOut(screenHeight, reverseClass, none, !0), this.deferred.promise();
             }
         });
     })(jQuery, this), (function($17) {
@@ -1965,7 +2024,19 @@
         },
         _applyOptions: function(options) {
             var isCollapsed, newTheme, oldTheme, hasCorners, hasIcon, elem = this.element, currentOpts = this._renderedOptions, ui = this._ui, anchor = ui.anchor, status = ui.status, opts = this._getOptions(options);
-            undefined !== options.collapsed && this._handleExpandCollapse(options.collapsed), (isCollapsed = elem.hasClass("ui-collapsible-collapsed")) ? undefined !== opts.expandCueText && status.text(opts.expandCueText) : undefined !== opts.collapseCueText && status.text(opts.collapseCueText), hasIcon = undefined !== opts.collapsedIcon ? !1 !== opts.collapsedIcon : !1 !== currentOpts.collapsedIcon, !(undefined === opts.iconpos && undefined === opts.collapsedIcon && undefined === opts.expandedIcon) && (anchor.removeClass([iconposClass(currentOpts.iconpos)].concat(currentOpts.expandedIcon ? ["ui-icon-" + currentOpts.expandedIcon] : []).concat(currentOpts.collapsedIcon ? ["ui-icon-" + currentOpts.collapsedIcon] : []).join(" ")), hasIcon && anchor.addClass([iconposClass(undefined !== opts.iconpos ? opts.iconpos : currentOpts.iconpos)].concat(isCollapsed ? ["ui-icon-" + (undefined !== opts.collapsedIcon ? opts.collapsedIcon : currentOpts.collapsedIcon)] : ["ui-icon-" + (undefined !== opts.expandedIcon ? opts.expandedIcon : currentOpts.expandedIcon)]).join(" "))), undefined !== opts.theme && (oldTheme = this._themeClassFromOption("ui-btn-", currentOpts.theme), newTheme = this._themeClassFromOption("ui-btn-", opts.theme), anchor.removeClass(oldTheme).addClass(newTheme)), undefined !== opts.contentTheme && (oldTheme = this._themeClassFromOption("ui-body-", currentOpts.contentTheme), newTheme = this._themeClassFromOption("ui-body-", opts.contentTheme), ui.content.removeClass(oldTheme).addClass(newTheme)), undefined !== opts.inset && (elem.toggleClass("ui-collapsible-inset", opts.inset), hasCorners = !!(opts.inset && (opts.corners || currentOpts.corners))), undefined !== opts.corners && (hasCorners = !!(opts.corners && (opts.inset || currentOpts.inset))), hasCorners !== undefined && elem.toggleClass("ui-corner-all", hasCorners), undefined !== opts.mini && anchor.toggleClass("ui-mini", opts.mini);
+            undefined !== options.collapsed && this._handleExpandCollapse(options.collapsed), (isCollapsed = elem.hasClass("ui-collapsible-collapsed")) ? undefined !== opts.expandCueText && status.text(opts.expandCueText) : undefined !== opts.collapseCueText && status.text(opts.collapseCueText), hasIcon = undefined !== opts.collapsedIcon ? !1 !== opts.collapsedIcon : !1 !== currentOpts.collapsedIcon, !(undefined === opts.iconpos && undefined === opts.collapsedIcon && undefined === opts.expandedIcon) && (anchor.removeClass([
+                iconposClass(currentOpts.iconpos)
+            ].concat(currentOpts.expandedIcon ? [
+                "ui-icon-" + currentOpts.expandedIcon
+            ] : []).concat(currentOpts.collapsedIcon ? [
+                "ui-icon-" + currentOpts.collapsedIcon
+            ] : []).join(" ")), hasIcon && anchor.addClass([
+                iconposClass(undefined !== opts.iconpos ? opts.iconpos : currentOpts.iconpos)
+            ].concat(isCollapsed ? [
+                "ui-icon-" + (undefined !== opts.collapsedIcon ? opts.collapsedIcon : currentOpts.collapsedIcon)
+            ] : [
+                "ui-icon-" + (undefined !== opts.expandedIcon ? opts.expandedIcon : currentOpts.expandedIcon)
+            ]).join(" "))), undefined !== opts.theme && (oldTheme = this._themeClassFromOption("ui-btn-", currentOpts.theme), newTheme = this._themeClassFromOption("ui-btn-", opts.theme), anchor.removeClass(oldTheme).addClass(newTheme)), undefined !== opts.contentTheme && (oldTheme = this._themeClassFromOption("ui-body-", currentOpts.contentTheme), newTheme = this._themeClassFromOption("ui-body-", opts.contentTheme), ui.content.removeClass(oldTheme).addClass(newTheme)), undefined !== opts.inset && (elem.toggleClass("ui-collapsible-inset", opts.inset), hasCorners = !!(opts.inset && (opts.corners || currentOpts.corners))), undefined !== opts.corners && (hasCorners = !!(opts.corners && (opts.inset || currentOpts.inset))), hasCorners !== undefined && elem.toggleClass("ui-corner-all", hasCorners), undefined !== opts.mini && anchor.toggleClass("ui-mini", opts.mini);
         },
         _setOptions: function(options) {
             this._applyOptions(options), this._super(options), this._renderedOptions = this._getOptions(this.options);
@@ -2230,7 +2301,7 @@
             },
             _handleLabelVClick: function(event) {
                 var input = this.element;
-                return input.is(":disabled") && event.preventDefault(), this._cacheVals(), input.prop("checked", "radio" === this.inputtype || !input.prop("checked")), input.triggerHandler("click"), this._getInputSet().not(input).prop("checked", !1), this._updateAll(), !1;
+                return input.is(":disabled") ? void event.preventDefault() : (this._cacheVals(), input.prop("checked", "radio" === this.inputtype || !input.prop("checked")), input.triggerHandler("click"), this._getInputSet().not(input).prop("checked", !1), this._updateAll(), !1);
             },
             _cacheVals: function() {
                 this._getInputSet().each(function() {
@@ -2411,8 +2482,13 @@
             },
             _create: function() {
                 var bg, options, wrapper, j, length, i, optionsCount, origTabIndex, side, activeClass, sliderImg, control = this.element, trackTheme = this.options.trackTheme || $17.mobile.getAttribute(control[0], "theme"), cornerClass = this.options.corners || control.jqmData("corners") ? " ui-corner-all" : "", miniClass = this.options.mini || control.jqmData("mini") ? " ui-mini" : "", cType = control[0].nodeName.toLowerCase(), isToggleSwitch = "select" === cType, isRangeslider = control.parent().is(":jqmData(role='rangeslider')"), controlID = control.attr("id"), $label = $17("[for='" + controlID + "']"), labelID = $label.attr("id") || controlID + "-label", min = isToggleSwitch ? 0 : parseFloat(control.attr("min")), max = isToggleSwitch ? control.find("option").length - 1 : parseFloat(control.attr("max")), step = window.parseFloat(control.attr("step") || 1), domHandle = document.createElement("a"), handle = $17(domHandle), domSlider = document.createElement("div"), slider = $17(domSlider), valuebg = !!this.options.highlight && !isToggleSwitch && ((bg = document.createElement("div")).className = "ui-slider-bg " + $17.mobile.activeBtnClass, $17(bg).prependTo(slider));
-                if ($label.attr("id", labelID), this.isToggleSwitch = isToggleSwitch, domHandle.setAttribute("href", "#"), domSlider.setAttribute("role", "application"), domSlider.className = [this.isToggleSwitch ? "ui-slider ui-slider-track ui-shadow-inset " : "ui-slider-track ui-shadow-inset ", isToggleSwitch ? "ui-slider-switch" : "", trackTheme ? " ui-bar-" + trackTheme : " ui-bar-inherit", cornerClass,
-                    miniClass].join(""), domHandle.className = "ui-slider-handle", domSlider.appendChild(domHandle), handle.attr({
+                if ($label.attr("id", labelID), this.isToggleSwitch = isToggleSwitch, domHandle.setAttribute("href", "#"), domSlider.setAttribute("role", "application"), domSlider.className = [
+                    this.isToggleSwitch ? "ui-slider ui-slider-track ui-shadow-inset " : "ui-slider-track ui-shadow-inset ",
+                    isToggleSwitch ? "ui-slider-switch" : "",
+                    trackTheme ? " ui-bar-" + trackTheme : " ui-bar-inherit",
+                    cornerClass,
+                    miniClass
+                ].join(""), domHandle.className = "ui-slider-handle", domSlider.appendChild(domHandle), handle.attr({
                     role: "slider",
                     "aria-valuemin": min,
                     "aria-valuemax": max,
@@ -2438,8 +2514,11 @@
                     for((origTabIndex = control.attr("tabindex")) && handle.attr("tabindex", origTabIndex), control.attr("tabindex", "-1").focus(function() {
                         $17(this).blur(), handle.focus();
                     }), (wrapper = document.createElement("div")).className = "ui-slider-inneroffset", j = 0, length = domSlider.childNodes.length; j < length; j++)wrapper.appendChild(domSlider.childNodes[j]);
-                    for(domSlider.appendChild(wrapper), handle.addClass("ui-slider-handle-snapping"), i = 0, optionsCount = (options = control.find("option")).length; i < optionsCount; i++)side = i ? "a" : "b", activeClass = i ? " " + $17.mobile.activeBtnClass : "", (sliderImg = document.createElement("span")).className = ["ui-slider-label ui-slider-label-", side,
-                        activeClass].join(""), sliderImg.setAttribute("role", "img"), sliderImg.appendChild(document.createTextNode(options[i].innerHTML)), $17(sliderImg).prependTo(slider);
+                    for(domSlider.appendChild(wrapper), handle.addClass("ui-slider-handle-snapping"), i = 0, optionsCount = (options = control.find("option")).length; i < optionsCount; i++)side = i ? "a" : "b", activeClass = i ? " " + $17.mobile.activeBtnClass : "", (sliderImg = document.createElement("span")).className = [
+                        "ui-slider-label ui-slider-label-",
+                        side,
+                        activeClass
+                    ].join(""), sliderImg.setAttribute("role", "img"), sliderImg.appendChild(document.createTextNode(options[i].innerHTML)), $17(sliderImg).prependTo(slider);
                     this._labels = $17(".ui-slider-label", slider);
                 }
                 control.addClass(isToggleSwitch ? "ui-slider-switch" : "ui-slider-input"), this._on(control, {
@@ -2534,8 +2613,12 @@
             },
             refresh: function(val, isfromControl, preventInputUpdate) {
                 var bg, left, width, data, pxStep, percent, control, isInput, optionElements, min, max, step, newval, valModStep, alignValue, percentPerStep, handlePercent, aPercent, bPercent, valueChanged, parentTheme = $17.mobile.getAttribute(this.element[0], "theme"), theme = this.options.theme || parentTheme, trackTheme = this.options.trackTheme || parentTheme, cornerClass = this.options.corners ? " ui-corner-all" : "", miniClass = this.options.mini ? " ui-mini" : "";
-                if (this.slider[0].className = [this.isToggleSwitch ? "ui-slider ui-slider-switch ui-slider-track ui-shadow-inset" : "ui-slider-track ui-shadow-inset", trackTheme ? " ui-bar-" + trackTheme : " ui-bar-inherit", cornerClass,
-                    miniClass].join(""), (this.options.disabled || this.element.prop("disabled")) && this.disable(), this.value = this._value(), this.options.highlight && !this.isToggleSwitch && 0 === this.slider.find(".ui-slider-bg").length && (this.valuebg = ((bg = document.createElement("div")).className = "ui-slider-bg " + $17.mobile.activeBtnClass, $17(bg).prependTo(this.slider))), (this.handle.addClass("ui-btn" + (theme ? " ui-btn-" + theme : "") + " ui-shadow"), control = this.element, optionElements = (isInput = !this.isToggleSwitch) ? [] : control.find("option"), min = isInput ? parseFloat(control.attr("min")) : 0, max = isInput ? parseFloat(control.attr("max")) : optionElements.length - 1, step = isInput && parseFloat(control.attr("step")) > 0 ? parseFloat(control.attr("step")) : 1, "object" == typeof val) ? (data = val, left = this.slider.offset().left, pxStep = (width = this.slider.width()) / ((max - min) / step), !this.dragging || data.pageX < left - 8 || data.pageX > left + width + 8 || (percent = pxStep > 1 ? (data.pageX - left) / width * 100 : Math.round((data.pageX - left) / width * 100))) : (null == val && (val = isInput ? parseFloat(control.val() || 0) : control[0].selectedIndex), percent = (parseFloat(val) - min) / (max - min) * 100), !isNaN(percent) && (alignValue = newval - (valModStep = ((newval = percent / 100 * (max - min) + min) - min) % step), 2 * Math.abs(valModStep) >= step && (alignValue += valModStep > 0 ? step : -step), percentPerStep = 100 / ((max - min) / step), newval = parseFloat(alignValue.toFixed(5)), void 0 === pxStep && (pxStep = width / ((max - min) / step)), pxStep > 1 && isInput && (percent = (newval - min) * percentPerStep * (1 / step)), percent < 0 && (percent = 0), percent > 100 && (percent = 100), newval < min && (newval = min), newval > max && (newval = max), this.handle.css("left", percent + "%"), this.handle[0].setAttribute("aria-valuenow", isInput ? newval : optionElements.eq(newval).attr("value")), this.handle[0].setAttribute("aria-valuetext", isInput ? newval : optionElements.eq(newval).getEncodedText()), this.handle[0].setAttribute("title", isInput ? newval : optionElements.eq(newval).getEncodedText()), this.valuebg && this.valuebg.css("width", percent + "%"), this._labels && (handlePercent = this.handle.width() / this.slider.width() * 100, aPercent = percent && handlePercent + (100 - handlePercent) * percent / 100, bPercent = 100 === percent ? 0 : Math.min(handlePercent + 100 - aPercent, 100), this._labels.each(function() {
+                if (this.slider[0].className = [
+                    this.isToggleSwitch ? "ui-slider ui-slider-switch ui-slider-track ui-shadow-inset" : "ui-slider-track ui-shadow-inset",
+                    trackTheme ? " ui-bar-" + trackTheme : " ui-bar-inherit",
+                    cornerClass,
+                    miniClass
+                ].join(""), (this.options.disabled || this.element.prop("disabled")) && this.disable(), this.value = this._value(), this.options.highlight && !this.isToggleSwitch && 0 === this.slider.find(".ui-slider-bg").length && (this.valuebg = ((bg = document.createElement("div")).className = "ui-slider-bg " + $17.mobile.activeBtnClass, $17(bg).prependTo(this.slider))), (this.handle.addClass("ui-btn" + (theme ? " ui-btn-" + theme : "") + " ui-shadow"), control = this.element, optionElements = (isInput = !this.isToggleSwitch) ? [] : control.find("option"), min = isInput ? parseFloat(control.attr("min")) : 0, max = isInput ? parseFloat(control.attr("max")) : optionElements.length - 1, step = isInput && parseFloat(control.attr("step")) > 0 ? parseFloat(control.attr("step")) : 1, "object" == typeof val) ? (data = val, left = this.slider.offset().left, pxStep = (width = this.slider.width()) / ((max - min) / step), !this.dragging || data.pageX < left - 8 || data.pageX > left + width + 8 || (percent = pxStep > 1 ? (data.pageX - left) / width * 100 : Math.round((data.pageX - left) / width * 100))) : (null == val && (val = isInput ? parseFloat(control.val() || 0) : control[0].selectedIndex), percent = (parseFloat(val) - min) / (max - min) * 100), !isNaN(percent) && (alignValue = newval - (valModStep = ((newval = percent / 100 * (max - min) + min) - min) % step), 2 * Math.abs(valModStep) >= step && (alignValue += valModStep > 0 ? step : -step), percentPerStep = 100 / ((max - min) / step), newval = parseFloat(alignValue.toFixed(5)), void 0 === pxStep && (pxStep = width / ((max - min) / step)), pxStep > 1 && isInput && (percent = (newval - min) * percentPerStep * (1 / step)), percent < 0 && (percent = 0), percent > 100 && (percent = 100), newval < min && (newval = min), newval > max && (newval = max), this.handle.css("left", percent + "%"), this.handle[0].setAttribute("aria-valuenow", isInput ? newval : optionElements.eq(newval).attr("value")), this.handle[0].setAttribute("aria-valuetext", isInput ? newval : optionElements.eq(newval).getEncodedText()), this.handle[0].setAttribute("title", isInput ? newval : optionElements.eq(newval).getEncodedText()), this.valuebg && this.valuebg.css("width", percent + "%"), this._labels && (handlePercent = this.handle.width() / this.slider.width() * 100, aPercent = percent && handlePercent + (100 - handlePercent) * percent / 100, bPercent = 100 === percent ? 0 : Math.min(handlePercent + 100 - aPercent, 100), this._labels.each(function() {
                     var ab = $17(this).hasClass("ui-slider-label-a");
                     $17(this).width((ab ? aPercent : bPercent) + "%");
                 })), !preventInputUpdate)) {
@@ -3173,7 +3256,8 @@
                     case 4:
                         isNaN(ar[0]) || (tol.t = ar[0]), isNaN(ar[1]) || (tol.r = ar[1]), isNaN(ar[2]) || (tol.b = ar[2]), isNaN(ar[3]) || (tol.l = ar[3]);
                         break;
-                    default: break;
+                    default:
+                        break;
                 }
                 return this._tolerance = tol, this;
             },
@@ -3216,7 +3300,8 @@
                 }), self._prerequisites = prerequisites;
             },
             _animate: function(args) {
-                this._ui.screen.removeClass(args.classToRemove).addClass(args.screenClassToAdd), args.prerequisites.screen.resolve(), args.transition && "none" !== args.transition && (args.applyTransition && this._applyTransition(args.transition), this._fallbackTransition) && this._ui.container.addClass(args.containerClassToAdd).removeClass(args.classToRemove).animationComplete($17.proxy(args.prerequisites.container, "resolve")), this._ui.container.removeClass(args.classToRemove), args.prerequisites.container.resolve();
+                if (this._ui.screen.removeClass(args.classToRemove).addClass(args.screenClassToAdd), args.prerequisites.screen.resolve(), args.transition && "none" !== args.transition && (args.applyTransition && this._applyTransition(args.transition), this._fallbackTransition)) return void this._ui.container.addClass(args.containerClassToAdd).removeClass(args.classToRemove).animationComplete($17.proxy(args.prerequisites.container, "resolve"));
+                this._ui.container.removeClass(args.classToRemove), args.prerequisites.container.resolve();
             },
             _desiredCoords: function(openOptions) {
                 var offset, dst = null, windowCoordinates = getWindowCoordinates(this.window), x = openOptions.x, y = openOptions.y, pTo = openOptions.positionTo;
@@ -3358,10 +3443,13 @@
             _handleListKeydown: function(event) {
                 var target = $17(event.target), li = target.closest("li");
                 switch(event.keyCode){
-                    case 38: return goToAdjacentItem(li, target, "prev"), !1;
-                    case 40: return goToAdjacentItem(li, target, "next"), !1;
+                    case 38:
+                        return goToAdjacentItem(li, target, "prev"), !1;
+                    case 40:
+                        return goToAdjacentItem(li, target, "next"), !1;
                     case 13:
-                    case 32: return target.trigger("click"), !1;
+                    case 32:
+                        return target.trigger("click"), !1;
                 }
             },
             _handleMenuPageHide: function() {
@@ -3485,7 +3573,10 @@
         }, capitalLettersRE = /[A-Z]/g;
         function optionsToClasses(options, existingClasses) {
             var classes = existingClasses || [];
-            return classes.push("ui-btn"), options.theme && classes.push("ui-btn-" + options.theme), options.icon && (classes = classes.concat(["ui-icon-" + options.icon, "ui-btn-icon-" + options.iconpos]), options.iconshadow && classes.push("ui-shadow-icon")), options.inline && classes.push("ui-btn-inline"), options.shadow && classes.push("ui-shadow"), options.corners && classes.push("ui-corner-all"), options.mini && classes.push("ui-mini"), classes;
+            return classes.push("ui-btn"), options.theme && classes.push("ui-btn-" + options.theme), options.icon && (classes = classes.concat([
+                "ui-icon-" + options.icon,
+                "ui-btn-icon-" + options.iconpos
+            ]), options.iconshadow && classes.push("ui-shadow-icon")), options.inline && classes.push("ui-btn-inline"), options.shadow && classes.push("ui-shadow"), options.corners && classes.push("ui-corner-all"), options.mini && classes.push("ui-mini"), classes;
         }
         function classNameToOptions(classes) {
             var idx, map, unknownClass, alreadyEnhanced = !1, noIcon = !0, o = {
@@ -3554,7 +3645,11 @@
                     childWrapper: elem.children(".ui-controlgroup-controls")
                 } : this._ui = this._enhance();
             },
-            _childWidgets: ["checkboxradio", "selectmenu", "button"],
+            _childWidgets: [
+                "checkboxradio",
+                "selectmenu",
+                "button"
+            ],
             _themeClassFromOption: function(value) {
                 return value ? "none" === value ? "" : "ui-group-theme-" + value : "";
             },
@@ -3919,7 +4014,11 @@
             },
             _setOptions: function(opts) {
                 var newTheme, oldTheme = this.options.theme, ar = this._ui.arrow, ret = this._super(opts);
-                return undefined !== opts.arrow && (!ar && opts.arrow && (this._ui.arrow = this._addArrow()), ar && !opts.arrow && (ar.arEls.remove(), this._ui.arrow = null)), (ar = this._ui.arrow) && (undefined !== opts.theme && (oldTheme = this._themeClassFromOption("ui-body-", oldTheme), newTheme = this._themeClassFromOption("ui-body-", opts.theme), ar.ar.removeClass(oldTheme).addClass(newTheme)), undefined !== opts.shadow && ar.ar.toggleClass("ui-overlay-shadow", opts.shadow)), ret;
+                if (undefined !== opts.arrow) {
+                    if (!ar && opts.arrow) return void (this._ui.arrow = this._addArrow());
+                    ar && !opts.arrow && (ar.arEls.remove(), this._ui.arrow = null);
+                }
+                return (ar = this._ui.arrow) && (undefined !== opts.theme && (oldTheme = this._themeClassFromOption("ui-body-", oldTheme), newTheme = this._themeClassFromOption("ui-body-", opts.theme), ar.ar.removeClass(oldTheme).addClass(newTheme)), undefined !== opts.shadow && ar.ar.toggleClass("ui-overlay-shadow", opts.shadow)), ret;
             },
             _destroy: function() {
                 var ar = this._ui.arrow;
@@ -4100,7 +4199,11 @@
             },
             _destroy: function() {
                 var o = this.options, multiplePanels = $17("body > :mobile-panel").length + $17.mobile.activePage.find(":mobile-panel").length > 1;
-                "overlay" !== o.display && (0 === $17("body > :mobile-panel").add($17.mobile.activePage.find(":mobile-panel")).not(".ui-panel-display-overlay").not(this.element).length && this._wrapper.children().unwrap(), this._open && (this._fixedToolbars().removeClass(o.classes.pageContentPrefix + "-open"), $17.support.cssTransform3d && o.animate && this._fixedToolbars().removeClass(o.classes.animate), this._page().parent().removeClass(o.classes.pageContainer), o.theme && this._page().parent().removeClass(o.classes.pageContainer + "-themed " + o.classes.pageContainer + "-" + o.theme))), multiplePanels || this.document.off("panelopen panelclose"), this._open && this._page().jqmRemoveData("panel"), this._panelInner.children().unwrap(), this.element.removeClass([this._getPanelClasses(), o.classes.panelOpen, o.classes.animate].join(" ")).off("swipeleft.panel swiperight.panel").off("panelbeforeopen").off("panelhide").off("keyup.panel").off("updatelayout"), this._modal && this._modal.remove();
+                "overlay" !== o.display && (0 === $17("body > :mobile-panel").add($17.mobile.activePage.find(":mobile-panel")).not(".ui-panel-display-overlay").not(this.element).length && this._wrapper.children().unwrap(), this._open && (this._fixedToolbars().removeClass(o.classes.pageContentPrefix + "-open"), $17.support.cssTransform3d && o.animate && this._fixedToolbars().removeClass(o.classes.animate), this._page().parent().removeClass(o.classes.pageContainer), o.theme && this._page().parent().removeClass(o.classes.pageContainer + "-themed " + o.classes.pageContainer + "-" + o.theme))), multiplePanels || this.document.off("panelopen panelclose"), this._open && this._page().jqmRemoveData("panel"), this._panelInner.children().unwrap(), this.element.removeClass([
+                    this._getPanelClasses(),
+                    o.classes.panelOpen,
+                    o.classes.animate
+                ].join(" ")).off("swipeleft.panel swiperight.panel").off("panelbeforeopen").off("panelhide").off("keyup.panel").off("updatelayout"), this._modal && this._modal.remove();
             }
         });
     })(jQuery), (function($17, undefined) {
@@ -4273,7 +4376,12 @@
                 });
             },
             _refreshChildWidget: function() {
-                var widget, idx, recognizedWidgets = ["collapsibleset", "selectmenu", "controlgroup", "listview"];
+                var widget, idx, recognizedWidgets = [
+                    "collapsibleset",
+                    "selectmenu",
+                    "controlgroup",
+                    "listview"
+                ];
                 for(idx = recognizedWidgets.length - 1; idx > -1; idx--)widget = recognizedWidgets[idx], $17.mobile[widget] && (widget = this.element.data("mobile-" + widget)) && $17.isFunction(widget.refresh) && widget.refresh();
             },
             _setInput: function(selector) {
@@ -4296,11 +4404,7 @@
                 this._timer && (window.clearTimeout(this._timer), this._timer = 0), this._filterItems((this._search && this._search.val() || "").toLowerCase());
             }
         });
-    })(jQuery), $16 = jQuery, replaceSetOptions = function(self3, orig) {
-        return function(options) {
-            orig.call(this, options), self3._syncTextInputOptions(options);
-        };
-    }, rDividerListItem = /(^|\s)ui-li-divider(\s|$)/, origDefaultFilterCallback = $16.mobile.filterable.prototype.options.filterCallback, $16.mobile.filterable.prototype.options.filterCallback = function(index, searchValue) {
+    })(jQuery), rDividerListItem = /(^|\s)ui-li-divider(\s|$)/, origDefaultFilterCallback = ($16 = jQuery).mobile.filterable.prototype.options.filterCallback, $16.mobile.filterable.prototype.options.filterCallback = function(index, searchValue) {
         return !this.className.match(rDividerListItem) && origDefaultFilterCallback.call(this, index, searchValue);
     }, $16.widget("mobile.filterable", $16.mobile.filterable, {
         options: {
@@ -4308,7 +4412,12 @@
             filterTheme: null
         },
         _create: function() {
-            var idx, widgetName, elem = this.element, recognizedWidgets = ["collapsibleset", "selectmenu", "controlgroup", "listview"], createHandlers = {
+            var idx, widgetName, elem = this.element, recognizedWidgets = [
+                "collapsibleset",
+                "selectmenu",
+                "controlgroup",
+                "listview"
+            ], createHandlers = {
             };
             for(this._super(), $16.extend(this, {
                 _widget: null
@@ -4325,7 +4434,13 @@
             this._widget && "mobile-listview" === this._widget.widgetFullName && "beforefilter" === type && this._widget._trigger("beforefilter", event, data), this._super(type, event, data);
         },
         _setWidget: function(widget) {
-            return !this._widget && widget && (this._widget = widget, this._widget._setOptions = replaceSetOptions(this, this._widget._setOptions)), this._widget && (this._syncTextInputOptions(this._widget.options), "listview" === this._widget.widgetName && (this._widget.options.hideDividers = !0, this._widget.element.listview("refresh"))), !!this._widget;
+            if (!this._widget && widget) {
+                var self3, orig;
+                this._widget = widget, self3 = this, this._widget._setOptions = function(options) {
+                    (orig = this._widget._setOptions).call(this, options), self3._syncTextInputOptions(options);
+                };
+            }
+            return this._widget && (this._syncTextInputOptions(this._widget.options), "listview" === this._widget.widgetName && (this._widget.options.hideDividers = !0, this._widget.element.listview("refresh"))), !!this._widget;
         },
         _isSearchInternal: function() {
             return this._search && this._search.jqmData("ui-filterable-" + this.uuid + "-internal");
@@ -4415,9 +4530,12 @@
                         case $17.ui.keyCode.HOME:
                             selectedIndex = 0;
                             break;
-                        case $17.ui.keyCode.SPACE: return event.preventDefault(), clearTimeout(this.activating), void this._activate(selectedIndex);
-                        case $17.ui.keyCode.ENTER: return event.preventDefault(), clearTimeout(this.activating), void this._activate(selectedIndex !== this.options.active && selectedIndex);
-                        default: return;
+                        case $17.ui.keyCode.SPACE:
+                            return event.preventDefault(), clearTimeout(this.activating), void this._activate(selectedIndex);
+                        case $17.ui.keyCode.ENTER:
+                            return event.preventDefault(), clearTimeout(this.activating), void this._activate(selectedIndex !== this.options.active && selectedIndex);
+                        default:
+                            return;
                     }
                     event.preventDefault(), clearTimeout(this.activating), selectedIndex = this._focusNextTab(selectedIndex, goingForward), event.ctrlKey || (focusedTab.attr("aria-selected", "false"), this.tabs.eq(selectedIndex).attr("aria-selected", "true"), this.activating = this._delay(function() {
                         this.option("active", selectedIndex);
@@ -4442,7 +4560,7 @@
                 return index = this._findNextTab(index, goingForward), this.tabs.eq(index).focus(), index;
             },
             _setOption: function(key, value) {
-                "active" === key && this._activate(value), "disabled" === key && this._setupDisabled(value), this._super(key, value), "collapsible" !== key || (this.element.toggleClass("ui-tabs-collapsible", value), value || !1 !== this.options.active || this._activate(0)), "event" === key && this._setupEvents(value), "heightStyle" === key && this._setupHeightStyle(value);
+                return "active" === key ? void this._activate(value) : "disabled" === key ? void this._setupDisabled(value) : void (this._super(key, value), "collapsible" !== key || (this.element.toggleClass("ui-tabs-collapsible", value), value || !1 !== this.options.active || this._activate(0)), "event" === key && this._setupEvents(value), "heightStyle" === key && this._setupHeightStyle(value));
             },
             _tabId: function(tab) {
                 return tab.attr("aria-controls") || "ui-tabs-" + getNextTabId();
@@ -4595,7 +4713,11 @@
                     if (index === undefined) disabled = !0;
                     else {
                         if (index = this._getIndex(index), -1 !== $17.inArray(index, disabled)) return;
-                        disabled = $17.isArray(disabled) ? $17.merge([index], disabled).sort() : [index];
+                        disabled = $17.isArray(disabled) ? $17.merge([
+                            index
+                        ], disabled).sort() : [
+                            index
+                        ];
                     }
                     this._setupDisabled(disabled);
                 }
@@ -4634,11 +4756,13 @@
             }
         });
     })(jQuery), (function($17, window) {
+        $17.mobile.iosorientationfixEnabled = !0;
         var zoom, evt, x, y, z, aig, ua = navigator.userAgent;
+        if (!(/iPhone|iPad|iPod/.test(navigator.platform) && /OS [1-5]_[0-9_]* like Mac OS X/i.test(ua) && ua.indexOf("AppleWebKit") > -1)) return void ($17.mobile.iosorientationfixEnabled = !1);
         function checkTilt(e) {
             x = Math.abs((aig = (evt = e.originalEvent).accelerationIncludingGravity).x), y = Math.abs(aig.y), z = Math.abs(aig.z), !window.orientation && (x > 7 || (z > 6 && y < 8 || z < 8 && y > 6) && x > 5) ? zoom.enabled && zoom.disable() : zoom.enabled || zoom.enable();
         }
-        $17.mobile.iosorientationfixEnabled = !0, /iPhone|iPad|iPod/.test(navigator.platform) && /OS [1-5]_[0-9_]* like Mac OS X/i.test(ua) && ua.indexOf("AppleWebKit") > -1 || ($17.mobile.iosorientationfixEnabled = !1), zoom = $17.mobile.zoom, $17.mobile.document.on("mobileinit", function() {
+        zoom = $17.mobile.zoom, $17.mobile.document.on("mobileinit", function() {
             $17.mobile.iosorientationfixEnabled && $17.mobile.window.bind("orientationchange.iosorientationfix", zoom.enable).bind("devicemotion.iosorientationfix", checkTilt);
         });
     })(jQuery, this), (function($17, window, undefined) {
@@ -4652,7 +4776,9 @@
                 $pages.length || ($pages = $17("body").wrapInner("<div data-" + $17.mobile.ns + "role='page'></div>").children(0)), $pages.each(function() {
                     var $this = $17(this);
                     $this[0].getAttribute("data-" + $17.mobile.ns + "url") || $this.attr("data-" + $17.mobile.ns + "url", $this.attr("id") || location.pathname + location.search);
-                }), $17.mobile.firstPage = $pages.first(), $17.mobile.pageContainer = $17.mobile.firstPage.parent().addClass("ui-mobile-viewport").pagecontainer(), $17.mobile.navreadyDeferred.resolve(), $window.trigger("pagecontainercreate"), $17.mobile.loading("show"), hideRenderingClass(), $17.mobile.hashListeningEnabled && $17.mobile.path.isHashValid(location.hash) && ($17(hashPage).is(":jqmData(role='page')") || $17.mobile.path.isPath(hash) || hash === $17.mobile.dialogHashKey) ? $17.event.special.navigate.isPushStateEnabled() ? ($17.mobile.navigate.history.stack = [], $17.mobile.navigate($17.mobile.path.isPath(location.hash) ? location.hash : location.href)) : $window.trigger("hashchange", [!0]) : ($17.mobile.path.isHashValid(location.hash) && ($17.mobile.navigate.history.initialDst = hash.replace("#", "")), $17.event.special.navigate.isPushStateEnabled() && $17.mobile.navigate.navigator.squash(path2.parseLocation().href), $17.mobile.changePage($17.mobile.firstPage, {
+                }), $17.mobile.firstPage = $pages.first(), $17.mobile.pageContainer = $17.mobile.firstPage.parent().addClass("ui-mobile-viewport").pagecontainer(), $17.mobile.navreadyDeferred.resolve(), $window.trigger("pagecontainercreate"), $17.mobile.loading("show"), hideRenderingClass(), $17.mobile.hashListeningEnabled && $17.mobile.path.isHashValid(location.hash) && ($17(hashPage).is(":jqmData(role='page')") || $17.mobile.path.isPath(hash) || hash === $17.mobile.dialogHashKey) ? $17.event.special.navigate.isPushStateEnabled() ? ($17.mobile.navigate.history.stack = [], $17.mobile.navigate($17.mobile.path.isPath(location.hash) ? location.hash : location.href)) : $window.trigger("hashchange", [
+                    !0
+                ]) : ($17.mobile.path.isHashValid(location.hash) && ($17.mobile.navigate.history.initialDst = hash.replace("#", "")), $17.event.special.navigate.isPushStateEnabled() && $17.mobile.navigate.navigator.squash(path2.parseLocation().href), $17.mobile.changePage($17.mobile.firstPage, {
                     transition: "none",
                     reverse: !0,
                     changeHash: !1,

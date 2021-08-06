@@ -151,9 +151,68 @@ impl SourceMapperExt for Rc<SourceMap> {
     }
 }
 
+pub trait EndsWithAlphaNum {
+    fn ends_with_alpha_num(&self) -> bool;
+}
+
+impl EndsWithAlphaNum for VarDeclOrPat {
+    fn ends_with_alpha_num(&self) -> bool {
+        match self {
+            VarDeclOrPat::VarDecl(n) => n.ends_with_alpha_num(),
+            VarDeclOrPat::Pat(n) => n.ends_with_alpha_num(),
+        }
+    }
+}
+
+impl EndsWithAlphaNum for Pat {
+    fn ends_with_alpha_num(&self) -> bool {
+        match self {
+            Pat::Object(_) | Pat::Array(_) => false,
+            Pat::Rest(p) => p.arg.ends_with_alpha_num(),
+            Pat::Assign(p) => p.right.ends_with_alpha_num(),
+            Pat::Expr(p) => p.ends_with_alpha_num(),
+            _ => true,
+        }
+    }
+}
+
+impl EndsWithAlphaNum for VarDecl {
+    fn ends_with_alpha_num(&self) -> bool {
+        match self.decls.last() {
+            None => true,
+            Some(d) => match d.init.as_deref() {
+                Some(e) => e.ends_with_alpha_num(),
+                None => d.name.ends_with_alpha_num(),
+            },
+        }
+    }
+}
+
+impl EndsWithAlphaNum for Expr {
+    fn ends_with_alpha_num(&self) -> bool {
+        match self {
+            Expr::Array(..)
+            | Expr::Object(..)
+            | Expr::Lit(Lit::Str(..))
+            | Expr::Paren(..)
+            | Expr::Member(MemberExpr { computed: true, .. }) => false,
+            _ => true,
+        }
+    }
+}
+
 /// Leftmost recursion
 pub trait StartsWithAlphaNum {
     fn starts_with_alpha_num(&self) -> bool;
+}
+
+impl StartsWithAlphaNum for PropName {
+    fn starts_with_alpha_num(&self) -> bool {
+        match self {
+            PropName::Str(_) | PropName::Computed(_) => false,
+            PropName::Ident(_) | PropName::Num(_) | PropName::BigInt(_) => true,
+        }
+    }
 }
 
 impl StartsWithAlphaNum for Expr {

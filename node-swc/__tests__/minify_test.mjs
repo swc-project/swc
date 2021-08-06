@@ -6,7 +6,7 @@ it("should compress", async () => {
     console.log(foo)
     `);
 
-    expect(code).toMatchInlineSnapshot(`"import foo from'@src/app';console.log(foo);"`);
+    expect(code).toMatchInlineSnapshot(`"import foo from'@src/app';console.log(foo)"`);
 })
 
 it("should accept object", async () => {
@@ -15,7 +15,7 @@ it("should accept object", async () => {
     console.log(foo)
     `, {});
 
-    expect(code).toMatchInlineSnapshot(`"import foo from'@src/app';console.log(foo);"`);
+    expect(code).toMatchInlineSnapshot(`"import foo from'@src/app';console.log(foo)"`);
 })
 
 it("should accpept { mangle = true }", async () => {
@@ -27,7 +27,7 @@ it("should accpept { mangle = true }", async () => {
         mangle: true,
     });
 
-    expect(code).toMatchInlineSnapshot(`"import a from'@src/app';console.log(a);"`);
+    expect(code).toMatchInlineSnapshot(`"import a from'@src/app';console.log(a)"`);
 })
 
 it("should accpept { mangle = object }", async () => {
@@ -41,7 +41,7 @@ it("should accpept { mangle = object }", async () => {
         },
     });
 
-    expect(code).toMatchInlineSnapshot(`"import a from'@src/app';console.log(a);"`);
+    expect(code).toMatchInlineSnapshot(`"import a from'@src/app';console.log(a)"`);
 })
 
 it("should mangle locals", async () => {
@@ -62,5 +62,35 @@ it("should mangle locals", async () => {
         },
     });
 
-    expect(code).toMatchInlineSnapshot(`"(function(){const a=Math.random()+'_'+Math.random();console.log(a);console.log(a);console.log(a);console.log(a);console.log(a);console.log(a);})();"`);
+    expect(code).toMatchInlineSnapshot(`"(function(){const a=Math.random()+'_'+Math.random();console.log(a);console.log(a);console.log(a);console.log(a);console.log(a);console.log(a)})()"`);
+})
+
+
+describe('transform apis', () => {
+    it("handle jsc.minify", async () => {
+        const { code } = await swc.transform(`
+        (function(){
+            const longName = Math.random() + '_' + Math.random();
+            console.log(longName);
+            console.log(longName);
+            console.log(longName);
+            console.log(longName);
+            console.log(longName);
+            console.log(longName);
+        })()
+        `, {
+            jsc: {
+                minify: {
+                    compress: false,
+                    mangle: {
+                        topLevel: true
+                    },
+                }
+            },
+            minify: true,
+        });
+
+        expect(code).toMatchInlineSnapshot(`"(function(){var a=Math.random()+'_'+Math.random();console.log(a);console.log(a);console.log(a);console.log(a);console.log(a);console.log(a)})()"`);
+    })
+
 })

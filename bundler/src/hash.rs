@@ -2,7 +2,7 @@ use anyhow::{Context, Error};
 use crc::{crc64, crc64::Digest, Hasher64};
 use std::io;
 use swc_common::{sync::Lrc, SourceMap, Span};
-use swc_ecma_ast::Module;
+use swc_ecma_ast::{EsVersion, Module};
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
 
 pub(crate) fn calc_hash(cm: Lrc<SourceMap>, m: &Module) -> Result<String, Error> {
@@ -38,6 +38,10 @@ impl Hasher {
 }
 
 impl WriteJs for &mut Hasher {
+    fn target(&self) -> EsVersion {
+        EsVersion::latest()
+    }
+
     fn increase_indent(&mut self) -> io::Result<()> {
         Ok(())
     }

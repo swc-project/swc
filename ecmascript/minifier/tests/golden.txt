@@ -684,6 +684,7 @@ issue_597/beautify_off_2/input.js
 issue_597/beautify_on_1/input.js
 issue_597/beautify_on_2/input.js
 issue_597/issue_1725/input.js
+issue_611/issue_611/input.js
 issue_640/drop_value/input.js
 issue_640/issue_1254_negate_iife_nested/input.js
 issue_640/issue_1254_negate_iife_true/input.js
@@ -693,6 +694,7 @@ issue_640/negate_iife_5/input.js
 issue_640/negate_iife_5_off/input.js
 issue_751/negate_booleans_2/input.js
 issue_926/template_strings/input.js
+issue_973/this_binding_sequences/input.js
 issue_t50/issue_t50/input.js
 issue_t50/issue_t50_const/input.js
 issue_t50/issue_t50_let/input.js
@@ -897,7 +899,6 @@ reduce_vars/const_expr_2/input.js
 reduce_vars/defun_assign/input.js
 reduce_vars/defun_catch_4/input.js
 reduce_vars/defun_catch_5/input.js
-reduce_vars/defun_reference/input.js
 reduce_vars/defun_single_use_loop/input.js
 reduce_vars/delay_def_lhs/input.js
 reduce_vars/do_while/input.js

@@ -13,7 +13,7 @@
 //! `visit_mut_module_items`.
 
 use crate::compress::compressor;
-use crate::hygiene::unique_marker;
+use crate::hygiene::info_marker;
 use crate::marks::Marks;
 use crate::option::ExtraOptions;
 use crate::option::MinifyOptions;
@@ -47,6 +47,8 @@ mod pass;
 pub mod timing;
 mod util;
 
+const DISABLE_BUGGY_PASSES: bool = true;
+
 #[inline]
 pub fn optimize(
     mut m: Module,
@@ -77,13 +79,13 @@ pub fn optimize(
 
     if let Some(options) = &options.compress {
         let start = now();
-        m.visit_mut_with(&mut precompress_optimizer(options.clone()));
+        m.visit_mut_with(&mut precompress_optimizer(options, marks));
         if let Some(start) = start {
             log::info!("precompress took {:?}", Instant::now() - start);
         }
     }
 
-    m.visit_mut_with(&mut unique_marker());
+    m.visit_mut_with(&mut info_marker(comments, marks));
 
     if options.wrap {
         // TODO: wrap_common_js
@@ -114,7 +116,7 @@ pub fn optimize(
     }
     if let Some(options) = &options.compress {
         let start = now();
-        m = m.fold_with(&mut compressor(cm.clone(), marks, &options, comments));
+        m = m.fold_with(&mut compressor(cm.clone(), marks, &options));
         if let Some(start) = start {
             log::info!("compressor took {:?}", Instant::now() - start);
         }
@@ -142,11 +144,11 @@ pub fn optimize(
         // TODO: base54.reset();
 
         let char_freq_info = compute_char_freq(&m);
-        m.visit_mut_with(&mut name_mangler(mangle.clone(), char_freq_info));
+        m.visit_mut_with(&mut name_mangler(mangle.clone(), char_freq_info, marks));
     }
 
     if let Some(property_mangle_options) = options.mangle.as_ref().and_then(|o| o.props.as_ref()) {
-        mangle_properties(&mut m, property_mangle_options.clone());
+        mangle_properties(&mut m, property_mangle_options.clone(), marks);
     }
 
     if let Some(ref mut t) = timings {
@@ -154,7 +156,7 @@ pub fn optimize(
     }
 
     {
-        let data = analyze(&m);
+        let data = analyze(&m, marks);
         m.visit_mut_with(&mut hygiene_optimizer(data, extra.top_level_mark));
     }
 
