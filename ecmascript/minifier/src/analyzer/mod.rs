@@ -23,7 +23,9 @@ mod ctx;
 
 /// TODO: Track assignments to variables via `arguments`.
 /// TODO: Scope-local. (Including block)
-pub(crate) fn analyze<N>(n: &N, marks: Marks) -> ProgramData
+///
+/// If `marks` is [None], markers are ignored.
+pub(crate) fn analyze<N>(n: &N, marks: Option<Marks>) -> ProgramData
 where
     N: VisitWith<UsageAnalyzer>,
 {
@@ -237,7 +239,7 @@ impl ProgramData {
 #[derive(Debug)]
 pub(crate) struct UsageAnalyzer {
     data: ProgramData,
-    marks: Marks,
+    marks: Option<Marks>,
     scope: ScopeData,
     ctx: Ctx,
 }
@@ -415,7 +417,11 @@ impl Visit for UsageAnalyzer {
     }
 
     fn visit_call_expr(&mut self, n: &CallExpr, _: &dyn Node) {
-        let inline_prevented = self.ctx.inline_prevented || n.span.has_mark(self.marks.noinline);
+        let inline_prevented = self.ctx.inline_prevented
+            || self
+                .marks
+                .map(|marks| n.span.has_mark(marks.noinline))
+                .unwrap_or_default();
 
         {
             let ctx = Ctx {
@@ -588,7 +594,10 @@ impl Visit for UsageAnalyzer {
     fn visit_function(&mut self, n: &Function, _: &dyn Node) {
         n.decorators.visit_with(n, self);
 
-        let is_standalone = n.span.has_mark(self.marks.standalone);
+        let is_standalone = self
+            .marks
+            .map(|marks| n.span.has_mark(marks.standalone))
+            .unwrap_or_default();
 
         // We don't dig into standalone function, as it does not share any variable with
         // outer scope.

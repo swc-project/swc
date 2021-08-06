@@ -179,7 +179,7 @@ impl Compressor<'_> {
         }
 
         {
-            let data = analyze(&*n, self.marks);
+            let data = analyze(&*n, Some(self.marks));
 
             let mut v = decl_hoister(
                 DeclHoisterConfig {
@@ -216,7 +216,7 @@ impl Compressor<'_> {
     where
         N: CompileUnit + VisitWith<UsageAnalyzer> + for<'aa> VisitMutWith<Compressor<'aa>>,
     {
-        self.data = Some(analyze(&*n, self.marks));
+        self.data = Some(analyze(&*n, Some(self.marks)));
 
         if self.options.passes != 0 && self.options.passes + 1 <= self.pass {
             let done = dump(&*n);

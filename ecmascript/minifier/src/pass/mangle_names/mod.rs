@@ -167,7 +167,7 @@ impl VisitMut for Mangler {
     }
 
     fn visit_mut_module(&mut self, n: &mut Module) {
-        let data = analyze(&*n, self.marks);
+        let data = analyze(&*n, None);
         self.data = Some(data);
         self.preserved = idents_to_preserve(self.options.clone(), n);
         self.preserved_symbols = self.preserved.iter().map(|v| v.0.clone()).collect();
@@ -200,7 +200,7 @@ impl VisitMut for Mangler {
     }
 
     fn visit_mut_script(&mut self, n: &mut Script) {
-        let data = analyze(&*n, self.marks);
+        let data = analyze(&*n, None);
         self.data = Some(data);
         self.preserved = idents_to_preserve(self.options.clone(), n);
         self.preserved_symbols = self.preserved.iter().map(|v| v.0.clone()).collect();

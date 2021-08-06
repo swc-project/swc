@@ -1,6 +1,5 @@
 use crate::analyzer::analyze;
 use crate::analyzer::ProgramData;
-use crate::marks::Marks;
 use crate::pass::hygiene::analyzer::HygieneAnalyzer;
 use crate::pass::hygiene::analyzer::HygieneData;
 use crate::util::now;
@@ -20,9 +19,9 @@ mod analyzer;
 /// Optimize hygiene info to get minified output.
 ///
 /// Requires [swc_common::GLOBALS].
-pub fn optimize_hygiene(m: &mut Module, marks: Marks, top_level_mark: Mark) {
-    let data = analyze(&*m, marks);
-    m.visit_mut_with(&mut hygiene_optimizer(data, marks, top_level_mark))
+pub fn optimize_hygiene(m: &mut Module, top_level_mark: Mark) {
+    let data = analyze(&*m, None);
+    m.visit_mut_with(&mut hygiene_optimizer(data, top_level_mark))
 }
 
 /// Create a hygiene optimizer.
@@ -30,12 +29,10 @@ pub fn optimize_hygiene(m: &mut Module, marks: Marks, top_level_mark: Mark) {
 /// Hygiene optimizer removes span hygiene without renaming if it's ok to do so.
 pub(crate) fn hygiene_optimizer(
     data: ProgramData,
-    marks: Marks,
     top_level_mark: Mark,
 ) -> impl 'static + VisitMut {
     Optimizer {
         data,
-        marks,
         hygiene: Default::default(),
         top_level_mark,
     }
@@ -43,7 +40,6 @@ pub(crate) fn hygiene_optimizer(
 
 struct Optimizer {
     data: ProgramData,
-    marks: Marks,
     hygiene: HygieneData,
     top_level_mark: Mark,
 }
@@ -81,11 +77,9 @@ impl VisitMut for Optimizer {
 
         let mut analyzer = HygieneAnalyzer {
             data: &self.data,
-            marks: self.marks,
             hygiene: Default::default(),
             top_level_mark: self.top_level_mark,
             cur_scope: None,
-            skip_standalone: false,
         };
         n.visit_with(&Invalid { span: DUMMY_SP }, &mut analyzer);
         self.hygiene = analyzer.hygiene;

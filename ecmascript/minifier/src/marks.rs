@@ -41,7 +41,7 @@ pub struct Marks {
 }
 
 impl Marks {
-    pub fn new() -> Marks {
+    pub fn new() -> Self {
         fn m() -> Mark {
             Mark::fresh(Mark::root())
         }

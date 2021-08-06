@@ -150,7 +150,7 @@ pub fn optimize(
     }
 
     if let Some(property_mangle_options) = options.mangle.as_ref().and_then(|o| o.props.as_ref()) {
-        mangle_properties(&mut m, property_mangle_options.clone(), marks);
+        mangle_properties(&mut m, property_mangle_options.clone());
     }
 
     if let Some(ref mut t) = timings {
@@ -158,8 +158,8 @@ pub fn optimize(
     }
 
     {
-        let data = analyze(&m, marks);
-        m.visit_mut_with(&mut hygiene_optimizer(data, marks, extra.top_level_mark));
+        let data = analyze(&m, None);
+        m.visit_mut_with(&mut hygiene_optimizer(data, extra.top_level_mark));
     }
 
     if let Some(ref mut t) = timings {
