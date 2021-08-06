@@ -3695,7 +3695,7 @@ function (Hello1) {
     _classCallCheck(this, Outer);
     var _this = _possibleConstructorReturn(this, _getPrototypeOf(Outer).call(this));
     var Inner = {
-      [_get(_getPrototypeOf(Outer.prototype), 'toString', _assertThisInitialized(_this))()] () {
+      [_get(_getPrototypeOf(Outer.prototype), 'toString', _assertThisInitialized(_this)).call(_this)] () {
         return 'hello';
       }
 
@@ -6481,7 +6481,8 @@ var Extended = function(Base) {
         {
             key: 'getNext',
             value: function getNext() {
-                return _get(_getPrototypeOf(Extended.prototype), 'getNext', this).call(this, 114514) + 114514;
+                return _get(_getPrototypeOf(Extended.prototype), 'getNext', this).call(this, \
+     114514) + 114514;
             }
         }
     ]);
@@ -6526,7 +6527,8 @@ var Extended = function(Base) {
         {
             key: 'getNext',
             value: function getNext() {
-                return _get(_getPrototypeOf(Extended.prototype), 'getNext', this).call(this, 114514);
+                return _get(_getPrototypeOf(Extended.prototype), 'getNext', this).call(this, \
+     114514);
             }
         }
     ]);
