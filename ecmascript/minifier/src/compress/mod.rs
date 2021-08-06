@@ -43,6 +43,7 @@ mod drop_console;
 mod hoist_decls;
 mod optimize;
 mod pure;
+mod util;
 
 pub(crate) fn compressor<'a>(
     globals: &'a Globals,

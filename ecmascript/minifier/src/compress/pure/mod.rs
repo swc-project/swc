@@ -4,6 +4,7 @@ use rayon::prelude::*;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
+mod bools;
 mod ctx;
 
 struct Pure<'a> {
@@ -56,8 +57,34 @@ impl Pure<'_> {
 impl VisitMut for Pure<'_> {
     noop_visit_mut_type!();
 
+    fn visit_mut_cond_expr(&mut self, e: &mut CondExpr) {
+        e.visit_mut_children_with(self);
+
+        self.optimize_expr_in_bool_ctx(&mut e.test);
+    }
+
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
+
+        self.handle_negated_seq(e);
+    }
+
     fn visit_mut_exprs(&mut self, exprs: &mut Vec<Box<Expr>>) {
         self.visit_par(exprs);
+    }
+
+    fn visit_mut_for_stmt(&mut self, s: &mut ForStmt) {
+        s.visit_mut_children_with(self);
+
+        if let Some(test) = &mut s.test {
+            self.optimize_expr_in_bool_ctx(&mut **test);
+        }
+    }
+
+    fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
+        s.visit_mut_children_with(self);
+
+        self.optimize_expr_in_bool_ctx(&mut s.test);
     }
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
@@ -66,5 +93,21 @@ impl VisitMut for Pure<'_> {
 
     fn visit_mut_prop_or_spreads(&mut self, exprs: &mut Vec<PropOrSpread>) {
         self.visit_par(exprs);
+    }
+
+    fn visit_mut_stmts(&mut self, items: &mut Vec<Stmt>) {
+        self.visit_par(items);
+    }
+
+    fn visit_mut_unary_expr(&mut self, e: &mut UnaryExpr) {
+        e.visit_mut_children_with(self);
+
+        self.optimize_expr_in_bool_ctx(&mut e.arg);
+    }
+
+    fn visit_mut_while_stmt(&mut self, s: &mut WhileStmt) {
+        s.visit_mut_children_with(self);
+
+        self.optimize_expr_in_bool_ctx(&mut s.test);
     }
 }

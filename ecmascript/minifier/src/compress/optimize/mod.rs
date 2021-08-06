@@ -1641,8 +1641,6 @@ impl VisitMut for Optimizer<'_> {
         n.visit_mut_children_with(self);
 
         self.negate_cond_expr(n);
-
-        self.optimize_expr_in_bool_ctx(&mut n.test);
     }
 
     fn visit_mut_decl(&mut self, decl: &mut Decl) {
@@ -1757,7 +1755,6 @@ impl VisitMut for Optimizer<'_> {
         self.compress_cond_with_logical_as_logical(e);
 
         self.compress_negated_bin_eq(e);
-        self.handle_negated_seq(e);
         self.compress_array_join(e);
 
         self.remove_useless_pipes(e);
@@ -1929,10 +1926,6 @@ impl VisitMut for Optimizer<'_> {
 
         self.with_ctx(ctx).drop_if_break(s);
 
-        if let Some(test) = &mut s.test {
-            self.with_ctx(ctx).optimize_expr_in_bool_ctx(test);
-        }
-
         match &mut *s.body {
             Stmt::Block(body) => {
                 self.negate_if_terminate(&mut body.stmts, false, true);
@@ -2016,8 +2009,6 @@ impl VisitMut for Optimizer<'_> {
         n.alt.visit_mut_with(&mut *self.with_ctx(ctx));
 
         self.negate_if_stmt(n);
-
-        self.optimize_expr_in_bool_ctx(&mut n.test);
 
         self.merge_nested_if(n);
 
@@ -2422,9 +2413,7 @@ impl VisitMut for Optimizer<'_> {
 
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
-        if n.op == op!("!") {
-            self.with_ctx(ctx).optimize_expr_in_bool_ctx(&mut n.arg);
-        } else if n.op == op!(unary, "+") || n.op == op!(unary, "-") {
+        if n.op == op!(unary, "+") || n.op == op!(unary, "-") {
             self.with_ctx(ctx).optimize_expr_in_num_ctx(&mut n.arg);
         }
     }
@@ -2526,8 +2515,6 @@ impl VisitMut for Optimizer<'_> {
             };
             n.visit_mut_children_with(&mut *self.with_ctx(ctx));
         }
-
-        self.optimize_expr_in_bool_ctx(&mut n.test);
     }
 
     fn visit_mut_yield_expr(&mut self, n: &mut YieldExpr) {
