@@ -11,6 +11,7 @@ use swc_ecma_utils::Value;
 use Value::Known;
 
 impl Pure<'_> {
+    /// Note: This should be invoked before calling `handle_negated_seq`.
     pub(super) fn compress_useless_deletes(&mut self, e: &mut Expr) {
         if !self.options.bools {
             return;
