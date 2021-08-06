@@ -158,6 +158,8 @@ impl VisitMut for Pure<'_> {
 
         self.eval_number_call(e);
 
+        self.eval_number_method_call(e);
+
         self.swap_bin_operands(e);
 
         self.handle_property_access(e);
