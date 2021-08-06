@@ -127,7 +127,13 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_unary_expr(&mut self, e: &mut UnaryExpr) {
-        e.visit_mut_children_with(self);
+        {
+            let ctx = Ctx {
+                in_delete: e.op == op!("delete"),
+                ..self.ctx
+            };
+            e.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        }
 
         match e.op {
             op!("!") => {

@@ -1,7 +1,6 @@
+use super::Pure;
 use crate::compress::util::negate;
 use crate::util::make_bool;
-
-use super::Pure;
 use swc_common::Spanned;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
