@@ -90,6 +90,10 @@ impl VisitMut for Pure<'_> {
         e.visit_mut_children_with(self);
 
         self.compress_cmp_of_typeof_with_lit(e);
+
+        if e.op == op!(bin, "+") {
+            self.concat_tpl(&mut e.left, &mut e.right);
+        }
     }
 
     fn visit_mut_cond_expr(&mut self, e: &mut CondExpr) {
@@ -105,11 +109,17 @@ impl VisitMut for Pure<'_> {
 
         self.lift_minus(e);
 
+        self.convert_tpl_to_str(e);
+
+        self.drop_useless_addition_of_str(e);
+
         self.compress_useless_deletes(e);
 
         self.remove_useless_logical_rhs(e);
 
         self.handle_negated_seq(e);
+
+        self.concat_str(e);
     }
 
     fn visit_mut_exprs(&mut self, exprs: &mut Vec<Box<Expr>>) {
@@ -144,6 +154,24 @@ impl VisitMut for Pure<'_> {
 
     fn visit_mut_stmts(&mut self, items: &mut Vec<Stmt>) {
         self.visit_par(items);
+    }
+
+    /// We don't optimize [Tpl] contained in [TaggedTpl].
+    fn visit_mut_tagged_tpl(&mut self, n: &mut TaggedTpl) {
+        n.tag.visit_mut_with(self);
+    }
+
+    fn visit_mut_tpl(&mut self, n: &mut Tpl) {
+        n.visit_mut_children_with(self);
+        debug_assert_eq!(n.exprs.len() + 1, n.quasis.len());
+
+        self.compress_tpl(n);
+
+        debug_assert_eq!(
+            n.exprs.len() + 1,
+            n.quasis.len(),
+            "tagged template literal compressor created an invalid template literal"
+        );
     }
 
     fn visit_mut_unary_expr(&mut self, e: &mut UnaryExpr) {

@@ -1526,10 +1526,6 @@ impl VisitMut for Optimizer<'_> {
                 self.optimize_expr_in_str_ctx(&mut n.left);
             }
         }
-
-        if n.op == op!(bin, "+") {
-            self.concat_tpl(&mut n.left, &mut n.right);
-        }
     }
 
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
@@ -1699,10 +1695,6 @@ impl VisitMut for Optimizer<'_> {
 
         self.remove_invalid(e);
 
-        self.concat_str(e);
-
-        self.convert_tpl_to_str(e);
-
         self.optimize_str_access_to_arguments(e);
 
         self.replace_props(e);
@@ -1728,8 +1720,6 @@ impl VisitMut for Optimizer<'_> {
         self.compress_conds_as_logical(e);
 
         self.drop_logical_operands(e);
-
-        self.drop_useless_addition_of_str(e);
 
         self.inline(e);
 
@@ -2372,14 +2362,6 @@ impl VisitMut for Optimizer<'_> {
         n.exprs
             .iter_mut()
             .for_each(|expr| self.optimize_expr_in_str_ctx(&mut **expr));
-
-        self.compress_tpl(n);
-
-        debug_assert_eq!(
-            n.exprs.len() + 1,
-            n.quasis.len(),
-            "tagged template literal compressor created an invalid template literal"
-        );
     }
 
     fn visit_mut_try_stmt(&mut self, n: &mut TryStmt) {
