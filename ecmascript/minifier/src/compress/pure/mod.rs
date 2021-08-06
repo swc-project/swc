@@ -180,6 +180,8 @@ impl VisitMut for Pure<'_> {
 
         self.concat_str(e);
 
+        self.eval_str_method_call(e);
+
         self.compress_conds_as_logical(e);
 
         self.compress_cond_with_logical_as_logical(e);

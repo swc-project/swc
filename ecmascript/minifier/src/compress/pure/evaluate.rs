@@ -1,7 +1,7 @@
 use super::Pure;
 use crate::compress::util::{eval_as_number, is_pure_undefined_or_null};
 use swc_atoms::js_word;
-use swc_common::Spanned;
+use swc_common::{Spanned, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{undefined, ExprExt};
@@ -147,6 +147,91 @@ impl Pure<'_> {
 
             _ => {}
         }
+    }
+}
+
+/// Evaluation of strings.
+impl Pure<'_> {
+    /// Handle calls on string literals, like `'foo'.toUpperCase()`.
+    pub(super) fn eval_str_method_call(&mut self, e: &mut Expr) {
+        if !self.options.evaluate {
+            return;
+        }
+
+        if self.ctx.in_delete || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
+            return;
+        }
+
+        let call = match e {
+            Expr::Call(v) => v,
+            _ => return,
+        };
+
+        let (s, method) = match &call.callee {
+            ExprOrSuper::Super(_) => return,
+            ExprOrSuper::Expr(callee) => match &**callee {
+                Expr::Member(MemberExpr {
+                    obj: ExprOrSuper::Expr(obj),
+                    prop,
+                    computed: false,
+                    ..
+                }) => match (&**obj, &**prop) {
+                    (Expr::Lit(Lit::Str(s)), Expr::Ident(prop)) => (s.clone(), prop.sym.clone()),
+                    _ => return,
+                },
+                _ => return,
+            },
+        };
+
+        let new_val = match &*method {
+            "toLowerCase" => s.value.to_lowercase(),
+            "toUpperCase" => s.value.to_uppercase(),
+            "charCodeAt" => {
+                if call.args.len() != 1 {
+                    return;
+                }
+                if let Expr::Lit(Lit::Num(Number { value, .. })) = &*call.args[0].expr {
+                    if value.fract() != 0.0 {
+                        return;
+                    }
+
+                    let idx = value.round() as i64 as usize;
+                    let c = s.value.chars().nth(idx);
+                    match c {
+                        Some(v) => {
+                            self.changed = true;
+                            log::debug!(
+                                "evaluate: Evaluated `charCodeAt` of a string literal as `{}`",
+                                v
+                            );
+                            *e = Expr::Lit(Lit::Num(Number {
+                                span: call.span,
+                                value: v as usize as f64,
+                            }))
+                        }
+                        None => {
+                            self.changed = true;
+                            log::debug!(
+                                "evaluate: Evaluated `charCodeAt` of a string literal as `NaN`",
+                            );
+                            *e = Expr::Ident(Ident::new(
+                                js_word!("NaN"),
+                                e.span().with_ctxt(SyntaxContext::empty()),
+                            ))
+                        }
+                    }
+                }
+                return;
+            }
+            _ => return,
+        };
+
+        self.changed = true;
+        log::debug!("evaluate: Evaluated `{}` of a string literal", method);
+        *e = Expr::Lit(Lit::Str(Str {
+            value: new_val.into(),
+            ..s
+        }));
     }
 }
 
