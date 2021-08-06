@@ -5,7 +5,7 @@
     });
 }(this, function(exports) {
     "use strict";
-    var REACT_ELEMENT_TYPE = 60103, REACT_PORTAL_TYPE = 60106;
+    var specialPropKeyWarningShown, specialPropRefWarningShown, didWarnAboutStringRefs, prevLog, prevInfo, prevWarn, prevError, prevGroup, prevGroupCollapsed, prevGroupEnd, prefix, componentFrameCache, propTypesMisspellWarningShown, requestHostCallback, requestHostTimeout, cancelHostTimeout, shouldYieldToHost, requestPaint, getCurrentTime, forceFrameRate, REACT_ELEMENT_TYPE = 60103, REACT_PORTAL_TYPE = 60106;
     exports.Fragment = 60107, exports.StrictMode = 60108, exports.Profiler = 60114;
     var REACT_PROVIDER_TYPE = 60109, REACT_CONTEXT_TYPE = 60110, REACT_FORWARD_REF_TYPE = 60112;
     exports.Suspense = 60113;
@@ -178,7 +178,7 @@
         return null;
     }
     pureComponentPrototype.constructor = PureComponent, assign(pureComponentPrototype, Component.prototype), pureComponentPrototype.isPureReactComponent = !0;
-    var specialPropKeyWarningShown, specialPropRefWarningShown, didWarnAboutStringRefs, hasOwnProperty$1 = Object.prototype.hasOwnProperty, RESERVED_PROPS = {
+    var hasOwnProperty$1 = Object.prototype.hasOwnProperty, RESERVED_PROPS = {
         key: !0,
         ref: !0,
         __self: !0,
@@ -276,7 +276,7 @@
     }
     function cloneElement(element, config, children) {
         if (!(null != element)) throw Error("React.cloneElement(...): The argument must be a React element, but you passed " + element + ".");
-        var defaultProps, propName, props = assign({
+        var propName, defaultProps, props = assign({
         }, element.props), key = element.key, ref = element.ref, self = element._self, source = element._source, owner = element._owner;
         if (null != config) for(propName in hasValidRef(config) && (ref = config.ref, owner = ReactCurrentOwner.current), hasValidKey(config) && (key = "" + config.key), element.type && element.type.defaultProps && (defaultProps = element.type.defaultProps), config)hasOwnProperty$1.call(config, propName) && !RESERVED_PROPS.hasOwnProperty(propName) && (void 0 === config[propName] && void 0 !== defaultProps ? props[propName] = defaultProps[propName] : props[propName] = config[propName]);
         var childrenLength = arguments.length - 2;
@@ -333,14 +333,14 @@
             } else null != mappedChild && (isValidElement(mappedChild) && (mappedChild = cloneAndReplaceKey(mappedChild, escapedPrefix + (mappedChild.key && (!_child || _child.key !== mappedChild.key) ? escapeUserProvidedKey("" + mappedChild.key) + "/" : "") + childKey)), array.push(mappedChild));
             return 1;
         }
-        var child, subtreeCount = 0, nextNamePrefix = "" === nameSoFar ? "." : nameSoFar + ":";
+        var subtreeCount = 0, nextNamePrefix = "" === nameSoFar ? "." : nameSoFar + ":";
         if (Array.isArray(children)) for(var i = 0; i < children.length; i++)subtreeCount += mapIntoArray(child, array, escapedPrefix, nextNamePrefix + getElementKey(child = children[i], i), callback);
         else {
             var iteratorFn = getIteratorFn(children);
             if ("function" == typeof iteratorFn) {
-                var iterableChildren = children;
+                var child, step, iterableChildren = children;
                 iteratorFn === iterableChildren.entries && (didWarnAboutMaps || warn("Using Maps as children is not supported. Use an array of keyed ReactElements instead."), didWarnAboutMaps = !0);
-                for(var step, iterator = iteratorFn.call(iterableChildren), ii = 0; !(step = iterator.next()).done;)subtreeCount += mapIntoArray(child, array, escapedPrefix, nextNamePrefix + getElementKey(child = step.value, ii++), callback);
+                for(var iterator = iteratorFn.call(iterableChildren), ii = 0; !(step = iterator.next()).done;)subtreeCount += mapIntoArray(child, array, escapedPrefix, nextNamePrefix + getElementKey(child = step.value, ii++), callback);
             } else if ("object" === type) {
                 var childrenString = "" + children;
                 throw Error("Objects are not valid as a React child (found: " + ("[object Object]" === childrenString ? "object with keys {" + Object.keys(children).join(", ") + "}" : childrenString) + "). If you meant to render a collection of children, use an array instead.");
@@ -384,7 +384,7 @@
         if (!(null !== dispatcher)) throw Error("Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:\n1. You might have mismatching versions of React and the renderer (such as React DOM)\n2. You might be breaking the Rules of Hooks\n3. You might have more than one copy of React in the same app\nSee https://reactjs.org/link/invalid-hook-call for tips about how to debug and fix this problem.");
         return dispatcher;
     }
-    var prevLog, prevInfo, prevWarn, prevError, prevGroup, prevGroupCollapsed, prevGroupEnd, disabledDepth = 0;
+    var disabledDepth = 0;
     function disabledLog() {
     }
     function disableLogs() {
@@ -449,7 +449,7 @@
         disabledDepth < 0 && error("disabledDepth fell below zero. This is a bug in React. Please file an issue.");
     }
     disabledLog.__reactDisabledLog = !0;
-    var prefix, ReactCurrentDispatcher$1 = ReactSharedInternals.ReactCurrentDispatcher;
+    var ReactCurrentDispatcher$1 = ReactSharedInternals.ReactCurrentDispatcher;
     function describeBuiltInComponentFrame(name, source, ownerFn) {
         if (void 0 === prefix) try {
             throw Error();
@@ -459,7 +459,7 @@
         }
         return "\n" + prefix + name;
     }
-    var componentFrameCache, reentry = !1;
+    var reentry = !1;
     function describeNativeComponentFrame(fn, construct) {
         if (!fn || reentry) return "";
         var control, frame = componentFrameCache.get(fn);
@@ -667,7 +667,7 @@
         if (validType) for(var i = 2; i < arguments.length; i++)validateChildKeys(arguments[i], type);
         return type === exports.Fragment ? validateFragmentProps(element) : validatePropTypes(element), element;
     }
-    var propTypesMisspellWarningShown, requestHostCallback, requestHostTimeout, cancelHostTimeout, shouldYieldToHost, requestPaint, getCurrentTime, forceFrameRate, didWarnAboutDeprecatedCreateFactory = !1, enableSchedulerDebugging = !1, enableProfiling = !1;
+    var didWarnAboutDeprecatedCreateFactory = !1, enableSchedulerDebugging = !1, enableProfiling = !1;
     if ("object" == typeof performance && "function" == typeof performance.now) {
         var localPerformance = performance;
         getCurrentTime = function() {
@@ -869,7 +869,7 @@
             }
         },
         unstable_scheduleCallback: function(priorityLevel, callback, options) {
-            var timeout, startTime, currentTime = getCurrentTime();
+            var startTime, timeout, currentTime = getCurrentTime();
             if ("object" == typeof options && null !== options) {
                 var delay = options.delay;
                 startTime = "number" == typeof delay && delay > 0 ? currentTime + delay : currentTime;
@@ -1038,14 +1038,14 @@
                 return ++threadIDCounter;
             },
             unstable_trace: function(name, timestamp, callback) {
-                var threadID = arguments.length > 3 && void 0 !== arguments[3] ? arguments[3] : 0, interaction = {
+                var returnValue, threadID = arguments.length > 3 && void 0 !== arguments[3] ? arguments[3] : 0, interaction = {
                     __count: 1,
                     id: interactionIDCounter++,
                     name: name,
                     timestamp: timestamp
                 }, prevInteractions = interactionsRef.current, interactions = new Set(prevInteractions);
                 interactions.add(interaction), interactionsRef.current = interactions;
-                var returnValue, subscriber = subscriberRef.current;
+                var subscriber = subscriberRef.current;
                 try {
                     null !== subscriber && subscriber.onInteractionTraced(interaction);
                 } finally{

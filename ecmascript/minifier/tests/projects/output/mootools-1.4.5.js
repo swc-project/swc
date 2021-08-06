@@ -1898,7 +1898,7 @@ Elements.prototype = {
             return document.id(Slick.find(this, expression));
         }
     });
-    var set, translations, contains = {
+    var set, translations, types, search, find, match, pseudos, addSlickPseudos, contains = {
         contains: function(element) {
             return Slick.contains(this, element);
         }
@@ -2081,7 +2081,7 @@ Elements.prototype = {
         var value = node.value;
         node.type = type, node.value = value;
     }), input = null;
-    var types, search, find, match, pseudos, addSlickPseudos, div, pollutesGetAttribute = ((div = document.createElement("div")).random = "attribute", "attribute" == div.getAttribute("random"));
+    var div, pollutesGetAttribute = ((div = document.createElement("div")).random = "attribute", "attribute" == div.getAttribute("random"));
     Element1.implement({
         setProperty: function(name, value) {
             var setter = propertySetters[name.toLowerCase()];
