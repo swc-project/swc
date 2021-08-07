@@ -138,3 +138,18 @@ fn usage_of_fn_1() {
         1,
     );
 }
+
+#[test]
+fn usage_of_var_2() {
+    assert_standalone(
+        "var C = 1;
+        var obj = {
+            bar: function () {
+                return C + C;
+            },
+        };
+        console.log(obj.bar());
+        ",
+        0,
+    );
+}
