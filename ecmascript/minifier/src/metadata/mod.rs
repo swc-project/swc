@@ -303,10 +303,6 @@ struct IdentCollector {
 
 impl IdentCollector {
     fn add(&mut self, i: &Ident) {
-        if i.span.ctxt == self.top_level_ctxt {
-            return;
-        }
-
         let id = i.to_id();
         self.ids.push(id);
     }
