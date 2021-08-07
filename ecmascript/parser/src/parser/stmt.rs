@@ -1148,7 +1148,7 @@ pub(super) trait StmtLikeParser<'a, Type: IsDirective> {
 impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<I> {
     fn handle_import_export(&mut self, top_level: bool, _: Vec<Decorator>) -> PResult<Stmt> {
         let start = cur_pos!(self);
-        if self.input.syntax().dynamic_import() && is!(self, "import") {
+        if self.input.syntax().dynamic_import() && is!(self, "import") && peeked_is!(self, '(') {
             let expr = self.parse_expr()?;
 
             eat!(self, ';');
@@ -1161,10 +1161,6 @@ impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<I> {
         }
 
         if self.input.syntax().import_meta() && is!(self, "import") && peeked_is!(self, '.') {
-            if !self.ctx().module {
-                syntax_error!(self, SyntaxError::ImportMetaInScript);
-            }
-
             let expr = self.parse_expr()?;
 
             eat!(self, ';');
@@ -1798,11 +1794,25 @@ export default function waitUntil(callback, options = {}) {
     #[test]
     #[should_panic(expected = "'import.meta' cannot be used outside of module code.")]
     fn import_meta_in_script() {
-        let src = "import.meta.url;";
+        let src = "const foo = import.meta.url;";
         test_parser(
             src,
             Syntax::Es(EsConfig {
                 import_meta: true,
+                ..Default::default()
+            }),
+            |p| p.parse_script(),
+        );
+    }
+
+    #[test]
+    #[should_panic(expected = "'import', and 'export' cannot be used outside of module code")]
+    fn import_statement_in_script() {
+        let src = "import 'foo';";
+        test_parser(
+            src,
+            Syntax::Es(EsConfig {
+                dynamic_import: true,
                 ..Default::default()
             }),
             |p| p.parse_script(),
