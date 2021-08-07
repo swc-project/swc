@@ -345,10 +345,6 @@ impl VisitMut for IdentCollector {
     }
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
-        if i.span.ctxt == self.top_level_ctxt {
-            return;
-        }
-
         self.add(&*i);
     }
 
