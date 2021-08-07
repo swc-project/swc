@@ -153,3 +153,8 @@ fn usage_of_var_2() {
         0,
     );
 }
+
+#[test]
+fn export_default_fn_1() {
+    assert_standalone("export default function f() {}", 0);
+}
