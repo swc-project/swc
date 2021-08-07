@@ -355,7 +355,7 @@ impl Decorators {
                     vars: &mut vars,
                     constructor_this_mark: None,
                     is_static: method.is_static,
-                    folding_constructor: true,
+                    folding_constructor: false,
                     in_nested_scope: false,
                     in_injected_define_property_call: false,
                     this_alias_mark: None,
