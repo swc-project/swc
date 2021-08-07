@@ -200,6 +200,8 @@ where
         v.ids
     };
 
+    dbg!(&bindings, &used);
+
     for used_id in &used {
         if used_id.1 == top_level_ctxt {
             continue;
@@ -289,7 +291,7 @@ impl VisitMut for IdentCollector {
 
     fn visit_mut_pat(&mut self, p: &mut Pat) {
         match p {
-            Pat::Ident(..) if !self.for_binding => {}
+            Pat::Ident(..) if self.for_binding => {}
 
             _ => {
                 p.visit_mut_children_with(self);
