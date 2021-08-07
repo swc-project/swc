@@ -6,9 +6,14 @@ use swc_common::Mark;
 use swc_common::Span;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
+use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_utils::Id;
 use swc_ecma_visit::noop_visit_mut_type;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
+
+#[cfg(test)]
+mod tests;
 
 /// This pass analyzes the comment
 ///
@@ -128,6 +133,8 @@ impl VisitMut for InfoMarker<'_> {
     fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
         n.visit_mut_children_with(self);
 
+        {}
+
         if !n.function.params.is_empty()
             && n.function
                 .params
@@ -174,5 +181,103 @@ fn is_param_one_of(p: &Param, allowed: &[&str]) -> bool {
     match &p.pat {
         Pat::Ident(i) => allowed.contains(&&*i.id.sym),
         _ => false,
+    }
+}
+
+fn is_standalone<N>(n: &mut N, top_level_mark: Mark) -> bool
+where
+    N: VisitMutWith<IdentCollector>,
+{
+    let top_level_ctxt = SyntaxContext::empty().apply_mark(top_level_mark);
+
+    let mut bindings = {
+        let mut v = IdentCollector {
+            top_level_ctxt,
+            ids: Default::default(),
+            for_binding: true,
+        };
+        n.visit_mut_with(&mut v);
+        v.ids
+    };
+
+    let mut used = {
+        let mut v = IdentCollector {
+            top_level_ctxt,
+            ids: Default::default(),
+            for_binding: false,
+        };
+        n.visit_mut_with(&mut v);
+        v.ids
+    };
+
+    for used_id in &used {
+        if used_id.1 == top_level_ctxt {
+            continue;
+        }
+
+        if bindings.contains(used_id) {
+            continue;
+        }
+
+        return false;
+    }
+
+    true
+}
+
+struct IdentCollector {
+    top_level_ctxt: SyntaxContext,
+    ids: Vec<Id>,
+    for_binding: bool,
+}
+
+impl VisitMut for IdentCollector {
+    noop_visit_mut_type!();
+
+    fn visit_mut_ident(&mut self, i: &mut Ident) {
+        if i.span.ctxt == self.top_level_ctxt {
+            return;
+        }
+
+        self.ids.push(i.to_id());
+    }
+
+    fn visit_mut_pat(&mut self, p: &mut Pat) {
+        match p {
+            Pat::Ident(..) if !self.for_binding => {}
+
+            _ => {
+                p.visit_mut_children_with(self);
+            }
+        }
+    }
+
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        match e {
+            Expr::Ident(..) if self.for_binding => {}
+            _ => {
+                e.visit_mut_children_with(self);
+            }
+        }
+    }
+
+    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
+        e.obj.visit_mut_with(self);
+        if e.computed {
+            e.prop.visit_mut_with(self);
+        }
+    }
+
+    fn visit_mut_prop_name(&mut self, p: &mut PropName) {
+        match p {
+            PropName::Computed(..) => {
+                p.visit_mut_children_with(self);
+            }
+            _ => {}
+        }
+    }
+
+    fn visit_mut_labeled_stmt(&mut self, s: &mut LabeledStmt) {
+        s.body.visit_mut_with(self);
     }
 }
