@@ -1,21 +1,34 @@
 use swc_common::Mark;
 
 #[derive(Debug, Clone, Copy)]
-pub(crate) struct Marks {
+pub struct Marks {
     /// [Mark] applied to non-top level varaibles which is injected while
     /// inlining.
+    ///
+    /// In other words, AST nodes marked with this mark will not be treated as a
+    /// top level item, even if it's in the top level scope.
     pub(crate) non_top_level: Mark,
+
+    /// Treat this function as a top level module.
+    ///
+    /// If this mark is applied, the function will be treated as a black box. It
+    /// will not be analyzed by usage analyzer.
+    ///
+    /// # Note
+    ///
+    /// Standalone functions should not depend on any other declarations in the
+    /// outer scope.
+    ///
+    /// This is only applied to [swc_ecma_ast::Function] and it should not be
+    /// nested.
+    pub(crate) standalone: Mark,
+
+    //// Appied to [swc_ecma_ast::Module].
+    pub(crate) bundle_of_standalones: Mark,
 
     /// Optimization is finished. This mark is only applied if both of the
     /// stateful optimizer and the pure optimizer cannot optimize anymore.
     pub(crate) done: Mark,
-
-    /// Temporary mark, used to mark nodes which cannot be optimized by the pure
-    /// optimizer.
-    ///
-    /// The stateful optimizer removes this mark if it modified the node, so
-    /// that the pure optimizer can try again to optimize the node.
-    pub(crate) pure_done: Mark,
 
     ///  `/** @const */`.
     pub(crate) const_ann: Mark,
@@ -28,15 +41,16 @@ pub(crate) struct Marks {
 }
 
 impl Marks {
-    pub fn new() -> Marks {
+    pub fn new() -> Self {
         fn m() -> Mark {
             Mark::fresh(Mark::root())
         }
 
         Marks {
             non_top_level: m(),
+            standalone: m(),
+            bundle_of_standalones: m(),
             done: m(),
-            pure_done: m(),
             const_ann: m(),
             noinline: m(),
             pure: m(),

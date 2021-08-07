@@ -2498,7 +2498,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.18.1"
+version = "0.18.2"
 dependencies = [
  "ansi_term 0.12.1",
  "anyhow",
@@ -2507,6 +2507,7 @@ dependencies = [
  "log",
  "once_cell",
  "pretty_assertions 0.6.1",
+ "rayon",
  "regex",
  "retain_mut",
  "serde",
@@ -2529,7 +2530,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.66.0"
+version = "0.66.1"
 dependencies = [
  "either",
  "enum_kind",

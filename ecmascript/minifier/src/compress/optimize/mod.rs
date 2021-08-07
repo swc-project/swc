@@ -1,5 +1,6 @@
 use crate::analyzer::ProgramData;
 use crate::analyzer::UsageAnalyzer;
+use crate::compress::util::is_pure_undefined;
 use crate::marks::Marks;
 use crate::option::CompressOptions;
 use crate::util::contains_leaping_yield;
@@ -12,9 +13,7 @@ use swc_atoms::js_word;
 use swc_atoms::JsWord;
 use swc_common::iter::IdentifyLast;
 use swc_common::pass::Repeated;
-use swc_common::sync::Lrc;
 use swc_common::Mark;
-use swc_common::SourceMap;
 use swc_common::Spanned;
 use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;
@@ -39,10 +38,8 @@ use Value::Known;
 use self::util::replace_id_with_expr;
 
 mod arguments;
-mod arrows;
 mod bools;
 mod collapse_vars;
-mod computed_props;
 mod conditionals;
 mod dead_code;
 mod evaluate;
@@ -53,14 +50,10 @@ mod iife;
 mod inline;
 mod join_vars;
 mod loops;
-mod misc;
-mod numbers;
 mod ops;
-mod properties;
 mod sequences;
 mod strings;
 mod switches;
-mod unsafes;
 mod unused;
 mod util;
 
@@ -72,7 +65,6 @@ pub(super) struct OptimizerState {
 
 /// This pass is simillar to `node.optimize` of terser.
 pub(super) fn optimizer<'a>(
-    cm: Lrc<SourceMap>,
     marks: Marks,
     options: &'a CompressOptions,
     data: &'a ProgramData,
@@ -86,7 +78,6 @@ pub(super) fn optimizer<'a>(
     let done = Mark::fresh(Mark::root());
     let done_ctxt = SyntaxContext::empty().apply_mark(done);
     Optimizer {
-        cm,
         marks,
         changed: false,
         options,
@@ -111,6 +102,9 @@ pub(super) fn optimizer<'a>(
 /// This should not be modified directly. Use `.with_ctx()` instead.
 #[derive(Debug, Default, Clone, Copy)]
 struct Ctx {
+    /// See [crate::marks::Marks]
+    skip_standalone: bool,
+
     /// `true` if the [VarDecl] has const annotation.
     has_const_ann: bool,
 
@@ -198,8 +192,6 @@ impl Ctx {
 }
 
 struct Optimizer<'a> {
-    cm: Lrc<SourceMap>,
-
     marks: Marks,
 
     changed: bool,
@@ -250,11 +242,7 @@ impl Optimizer<'_> {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike + ModuleItemLike + MoudleItemExt + VisitMutWith<Self>,
-        Vec<T>: VisitMutWith<Self>
-            + VisitWith<UsageAnalyzer>
-            + VisitWith<self::collapse_vars::VarWithOutInitCounter>
-            + VisitMutWith<self::collapse_vars::VarPrepender>
-            + VisitMutWith<self::collapse_vars::VarMover>,
+        Vec<T>: VisitMutWith<Self> + VisitWith<UsageAnalyzer>,
     {
         match self.data {
             Some(..) => {}
@@ -314,16 +302,12 @@ impl Optimizer<'_> {
 
         self.ctx.in_asm |= use_asm;
 
-        self.drop_useless_blocks(stmts);
-
         self.reorder_stmts(stmts);
 
         self.merge_simillar_ifs(stmts);
         self.join_vars(stmts);
 
         self.make_sequences(stmts);
-
-        self.collapse_vars_without_init(stmts);
 
         self.drop_else_token(stmts);
 
@@ -1166,7 +1150,7 @@ impl Optimizer<'_> {
                         if s.value.contains(|c: char| !c.is_ascii()) {
                             return true;
                         }
-                        if s.value.contains("\\\0") {
+                        if s.value.contains("\\\0") || s.value.contains("//") {
                             return true;
                         }
 
@@ -1514,13 +1498,9 @@ impl VisitMut for Optimizer<'_> {
 
         self.compress_typeof_undefined(n);
 
-        self.compress_comparsion_of_typeof(n);
-
         self.optimize_bin_operator(n);
 
         self.optimize_bin_and_or(n);
-
-        self.optimize_null_or_undefined_cmp(n);
 
         if n.op == op!(bin, "+") {
             if let Known(Type::Str) = n.left.get_type() {
@@ -1530,10 +1510,6 @@ impl VisitMut for Optimizer<'_> {
             if let Known(Type::Str) = n.right.get_type() {
                 self.optimize_expr_in_str_ctx(&mut n.left);
             }
-        }
-
-        if n.op == op!(bin, "+") {
-            self.concat_tpl(&mut n.left, &mut n.right);
         }
     }
 
@@ -1546,12 +1522,6 @@ impl VisitMut for Optimizer<'_> {
             ..self.ctx
         };
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
-    }
-
-    fn visit_mut_block_stmt_or_expr(&mut self, body: &mut BlockStmtOrExpr) {
-        body.visit_mut_children_with(self);
-
-        self.optimize_arrow_body(body);
     }
 
     fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
@@ -1607,8 +1577,6 @@ impl VisitMut for Optimizer<'_> {
             e.args.visit_mut_with(&mut *self.with_ctx(ctx));
         }
 
-        self.optimize_symbol_call_unsafely(e);
-
         self.inline_args_of_iife(e);
     }
 
@@ -1638,14 +1606,6 @@ impl VisitMut for Optimizer<'_> {
         }
 
         e.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_cond_expr(&mut self, n: &mut CondExpr) {
-        n.visit_mut_children_with(self);
-
-        self.negate_cond_expr(n);
-
-        self.optimize_expr_in_bool_ctx(&mut n.test);
     }
 
     fn visit_mut_decl(&mut self, decl: &mut Decl) {
@@ -1706,19 +1666,9 @@ impl VisitMut for Optimizer<'_> {
 
         self.remove_invalid(e);
 
-        self.concat_str(e);
-
-        self.lift_minus(e);
-
-        self.convert_tpl_to_str(e);
-
         self.optimize_str_access_to_arguments(e);
 
         self.replace_props(e);
-
-        self.swap_bin_operands(e);
-
-        self.collapse_seq_exprs(e);
 
         self.drop_unused_assignments(e);
 
@@ -1728,19 +1678,11 @@ impl VisitMut for Optimizer<'_> {
 
         self.compress_typeofs(e);
 
-        self.compress_useless_deletes(e);
-
         self.optimize_nullish_coalescing(e);
 
         self.compress_logical_exprs_as_bang_bang(e, false);
 
         self.compress_useless_cond_expr(e);
-
-        self.compress_conds_as_logical(e);
-
-        self.drop_logical_operands(e);
-
-        self.drop_useless_addition_of_str(e);
 
         self.inline(e);
 
@@ -1757,21 +1699,9 @@ impl VisitMut for Optimizer<'_> {
         }
 
         self.compress_cond_expr_if_simillar(e);
-        self.compress_cond_with_logical_as_logical(e);
 
         self.compress_negated_bin_eq(e);
-        self.handle_negated_seq(e);
         self.compress_array_join(e);
-
-        self.remove_useless_pipes(e);
-
-        self.optimize_bools(e);
-
-        self.handle_property_access(e);
-
-        self.lift_seqs_of_bin(e);
-
-        self.lift_seqs_of_cond_assign(e);
 
         if self.options.negate_iife {
             self.negate_iife_in_cond(e);
@@ -1926,15 +1856,9 @@ impl VisitMut for Optimizer<'_> {
 
         s.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
-        self.with_ctx(ctx).merge_for_if_break(s);
-
         self.with_ctx(ctx).optimize_init_of_for_stmt(s);
 
         self.with_ctx(ctx).drop_if_break(s);
-
-        if let Some(test) = &mut s.test {
-            self.with_ctx(ctx).optimize_expr_in_bool_ctx(test);
-        }
 
         match &mut *s.body {
             Stmt::Block(body) => {
@@ -1953,10 +1877,19 @@ impl VisitMut for Optimizer<'_> {
             n.decorators.visit_mut_with(&mut *self.with_ctx(ctx));
         }
 
+        let is_standalone = n.span.has_mark(self.marks.standalone);
+
+        // We don't dig into standalone function, as it does not share any variable with
+        // outer scope.
+        if self.ctx.skip_standalone && is_standalone {
+            return;
+        }
+
         let old_in_asm = self.ctx.in_asm;
 
         {
             let ctx = Ctx {
+                skip_standalone: self.ctx.skip_standalone || is_standalone,
                 stmt_lablled: false,
                 in_fn_like: true,
                 scope: n.span.ctxt,
@@ -1970,13 +1903,8 @@ impl VisitMut for Optimizer<'_> {
                 Some(body) => {
                     // Bypass block scope handler.
                     body.visit_mut_children_with(optimizer);
-                    optimizer.remove_useless_return(&mut body.stmts);
 
                     optimizer.negate_if_terminate(&mut body.stmts, true, false);
-
-                    if let Some(last) = body.stmts.last_mut() {
-                        optimizer.drop_unused_stmt_at_end_of_fn(last);
-                    }
                 }
                 None => {}
             }
@@ -2011,8 +1939,6 @@ impl VisitMut for Optimizer<'_> {
 
         self.negate_if_stmt(n);
 
-        self.optimize_expr_in_bool_ctx(&mut n.test);
-
         self.merge_nested_if(n);
 
         self.merge_else_if(n);
@@ -2045,15 +1971,12 @@ impl VisitMut for Optimizer<'_> {
             };
             n.prop.visit_mut_with(&mut *self.with_ctx(ctx));
         }
-
-        self.optimize_property_of_member_expr(n);
-
-        self.handle_known_computed_member_expr(n);
     }
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         let ctx = Ctx {
             top_level: true,
+            skip_standalone: true,
             ..self.ctx
         };
         self.with_ctx(ctx).handle_stmt_likes(stmts);
@@ -2133,23 +2056,8 @@ impl VisitMut for Optimizer<'_> {
         n.retain(|p| !p.pat.is_invalid());
     }
 
-    fn visit_mut_prop(&mut self, p: &mut Prop) {
-        p.visit_mut_children_with(self);
-
-        self.optimize_arrow_method_prop(p);
-    }
-
-    fn visit_mut_prop_name(&mut self, p: &mut PropName) {
-        p.visit_mut_children_with(self);
-
-        self.optimize_computed_prop_name_as_normal(p);
-        self.optimize_prop_name(p);
-    }
-
     fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {
         n.visit_mut_children_with(self);
-
-        self.drop_undefined_from_return_arg(n);
 
         if let Some(arg) = &mut n.arg {
             self.optimize_in_fn_termiation(&mut **arg);
@@ -2169,8 +2077,6 @@ impl VisitMut for Optimizer<'_> {
         self.shift_void(n);
 
         self.shift_assignment(n);
-
-        self.merge_seq_call(n);
 
         {
             let exprs = n
@@ -2260,19 +2166,6 @@ impl VisitMut for Optimizer<'_> {
             _ => {}
         }
 
-        if self.options.drop_debugger {
-            match s {
-                Stmt::Debugger(..) => {
-                    self.changed = true;
-                    *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                    log::debug!("drop_debugger: Dropped a debugger statement");
-                    return;
-                }
-                _ => {}
-            }
-        }
-
-        self.loop_to_for_stmt(s);
         self.optiimze_loops_if_cond_is_false(s);
         self.optimize_loops_with_break(s);
 
@@ -2384,14 +2277,6 @@ impl VisitMut for Optimizer<'_> {
         n.exprs
             .iter_mut()
             .for_each(|expr| self.optimize_expr_in_str_ctx(&mut **expr));
-
-        self.compress_tpl(n);
-
-        debug_assert_eq!(
-            n.exprs.len() + 1,
-            n.quasis.len(),
-            "tagged template literal compressor created an invalid template literal"
-        );
     }
 
     fn visit_mut_try_stmt(&mut self, n: &mut TryStmt) {
@@ -2414,12 +2299,6 @@ impl VisitMut for Optimizer<'_> {
         };
 
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
-
-        if n.op == op!("!") {
-            self.with_ctx(ctx).optimize_expr_in_bool_ctx(&mut n.arg);
-        } else if n.op == op!(unary, "+") || n.op == op!(unary, "-") {
-            self.with_ctx(ctx).optimize_expr_in_num_ctx(&mut n.arg);
-        }
     }
 
     fn visit_mut_update_expr(&mut self, n: &mut UpdateExpr) {
@@ -2519,8 +2398,6 @@ impl VisitMut for Optimizer<'_> {
             };
             n.visit_mut_children_with(&mut *self.with_ctx(ctx));
         }
-
-        self.optimize_expr_in_bool_ctx(&mut n.test);
     }
 
     fn visit_mut_yield_expr(&mut self, n: &mut YieldExpr) {
@@ -2536,31 +2413,6 @@ impl VisitMut for Optimizer<'_> {
             }
         }
     }
-}
-
-fn is_pure_undefined(e: &Expr) -> bool {
-    match e {
-        Expr::Ident(Ident {
-            sym: js_word!("undefined"),
-            ..
-        }) => true,
-
-        Expr::Unary(UnaryExpr {
-            op: UnaryOp::Void,
-            arg,
-            ..
-        }) if !arg.may_have_side_effects() => true,
-
-        _ => false,
-    }
-}
-
-fn is_pure_undefined_or_null(e: &Expr) -> bool {
-    is_pure_undefined(e)
-        || match e {
-            Expr::Lit(Lit::Null(..)) => true,
-            _ => false,
-        }
 }
 
 /// If true, `0` in `(0, foo.bar)()` is preserved.

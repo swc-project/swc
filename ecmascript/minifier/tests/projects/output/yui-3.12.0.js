@@ -1296,6 +1296,7 @@ var YUI = function() {
         "yui-base"
     ]
 }), YUI.add("loader-base", function(Y, NAME) {
+    var VERSION, CDN_BASE, COMBO_BASE, META, groups, yui2Update, galleryUpdate;
     VERSION = Y.version, COMBO_BASE = (CDN_BASE = Y.Env.base) + "combo?", groups = (META = {
         version: VERSION,
         root: VERSION + "/",
@@ -1356,7 +1357,7 @@ var YUI = function() {
         "groups",
         "skin"
     ], 0, !0), YUI.Env[VERSION] = META;
-    var VERSION, CDN_BASE, COMBO_BASE, META, groups, yui2Update, galleryUpdate, modulekey, NOT_FOUND = {
+    var modulekey, NOT_FOUND = {
     }, NO_REQUIREMENTS = [], GLOBAL_ENV = YUI.Env, GLOBAL_LOADED = GLOBAL_ENV._loaded, VERSION1 = Y.version, YObject = Y.Object, oeach = YObject.each, yArray = Y.Array, _queue = GLOBAL_ENV._loaderQueue, META1 = GLOBAL_ENV[VERSION1], L = Y.Lang, ON_PAGE = GLOBAL_ENV.mods, _path = function(dir, file, type, nomin) {
         var path = dir + "/" + file;
         return nomin || (path += "-min"), path += "." + (type || "css");

@@ -1,8 +1,8 @@
-use crate::compress::optimize::Optimizer;
+use super::Pure;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 
-impl Optimizer<'_> {
+impl Pure<'_> {
     pub(super) fn optimize_expr_in_num_ctx(&mut self, e: &mut Expr) {
         match e {
             Expr::Lit(Lit::Str(Str { span, value, .. })) => {

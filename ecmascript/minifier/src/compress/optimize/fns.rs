@@ -1,6 +1,6 @@
 use super::Optimizer;
 use crate::{
-    compress::optimize::util::is_directive,
+    compress::util::is_directive,
     util::{sort::is_sorted_by, MoudleItemExt},
     DISABLE_BUGGY_PASSES,
 };

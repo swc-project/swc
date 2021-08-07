@@ -1,3 +1,5 @@
 function x() {
-    if (FOO) var var1, var2;
+    if (FOO) {
+        let let1, let2;
+    }
 }

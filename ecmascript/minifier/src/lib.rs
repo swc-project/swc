@@ -13,8 +13,8 @@
 //! `visit_mut_module_items`.
 
 use crate::compress::compressor;
-use crate::hygiene::info_marker;
 use crate::marks::Marks;
+use crate::metadata::info_marker;
 use crate::option::ExtraOptions;
 use crate::option::MinifyOptions;
 use crate::pass::compute_char_freq::compute_char_freq;
@@ -32,6 +32,7 @@ use std::time::Instant;
 use swc_common::comments::Comments;
 use swc_common::sync::Lrc;
 use swc_common::SourceMap;
+use swc_common::GLOBALS;
 use swc_ecma_ast::Module;
 use swc_ecma_visit::FoldWith;
 use swc_ecma_visit::VisitMutWith;
@@ -40,19 +41,20 @@ use timing::Timings;
 mod analyzer;
 mod compress;
 mod debug;
-mod hygiene;
-mod marks;
+pub mod marks;
+mod metadata;
 pub mod option;
 mod pass;
 pub mod timing;
 mod util;
 
 const DISABLE_BUGGY_PASSES: bool = true;
+const MAX_PAR_DEPTH: u8 = 3;
 
 #[inline]
 pub fn optimize(
     mut m: Module,
-    cm: Lrc<SourceMap>,
+    _cm: Lrc<SourceMap>,
     comments: Option<&dyn Comments>,
     mut timings: Option<&mut Timings>,
     options: &MinifyOptions,
@@ -85,7 +87,7 @@ pub fn optimize(
         }
     }
 
-    m.visit_mut_with(&mut info_marker(comments, marks));
+    m.visit_mut_with(&mut info_marker(comments, marks, extra.top_level_mark));
 
     if options.wrap {
         // TODO: wrap_common_js
@@ -116,7 +118,7 @@ pub fn optimize(
     }
     if let Some(options) = &options.compress {
         let start = now();
-        m = m.fold_with(&mut compressor(cm.clone(), marks, &options));
+        m = GLOBALS.with(|globals| m.fold_with(&mut compressor(globals, marks, &options)));
         if let Some(start) = start {
             log::info!("compressor took {:?}", Instant::now() - start);
         }
@@ -148,7 +150,7 @@ pub fn optimize(
     }
 
     if let Some(property_mangle_options) = options.mangle.as_ref().and_then(|o| o.props.as_ref()) {
-        mangle_properties(&mut m, property_mangle_options.clone(), marks);
+        mangle_properties(&mut m, property_mangle_options.clone());
     }
 
     if let Some(ref mut t) = timings {
@@ -156,7 +158,7 @@ pub fn optimize(
     }
 
     {
-        let data = analyze(&m, marks);
+        let data = analyze(&m, None);
         m.visit_mut_with(&mut hygiene_optimizer(data, extra.top_level_mark));
     }
 

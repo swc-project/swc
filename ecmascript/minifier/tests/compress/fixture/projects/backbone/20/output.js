@@ -2,11 +2,11 @@ export const E = {
     set: function(models, options) {
         (options = _.defaults({
         }, options, setOptions)).parse && (models = this.parse(models, options));
-        var singular = !_.isArray(models);
+        var i, l, id, model, attrs, existing, sort, singular = !_.isArray(models);
         models = singular ? models ? [
             models
         ] : [] : _.clone(models);
-        var i, l, id, model, attrs, existing, sort, at = options.at, targetModel = this.model, sortable = this.comparator && null == at && !1 !== options.sort, sortAttr = _.isString(this.comparator) ? this.comparator : null, toAdd = [], toRemove = [], modelMap = {
+        var at = options.at, targetModel = this.model, sortable = this.comparator && null == at && !1 !== options.sort, sortAttr = _.isString(this.comparator) ? this.comparator : null, toAdd = [], toRemove = [], modelMap = {
         }, add = options.add, merge = options.merge, remove = options.remove, order = !sortable && !!add && !!remove && [];
         for(i = 0, l = models.length; i < l; i++){
             if (id = (attrs = models[i]) instanceof Model ? model = attrs : attrs[targetModel.prototype.idAttribute], existing = this.get(id)) remove && (modelMap[existing.cid] = !0), merge && (attrs = attrs === model ? model.attributes : attrs, options.parse && (attrs = existing.parse(attrs, options)), existing.set(attrs, options), sortable && !sort && existing.hasChanged(sortAttr) && (sort = !0)), models[i] = existing;
