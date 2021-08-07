@@ -42,6 +42,7 @@ pub(crate) fn info_marker<'a>(
 #[derive(Default)]
 struct State {
     is_bundle: bool,
+    is_in_export: bool,
 }
 
 struct InfoMarker<'a> {
@@ -141,18 +142,32 @@ impl VisitMut for InfoMarker<'_> {
         }
     }
 
+    fn visit_mut_export_default_decl(&mut self, e: &mut ExportDefaultDecl) {
+        self.state.is_in_export = true;
+        e.visit_mut_children_with(self);
+        self.state.is_in_export = false;
+    }
+
+    fn visit_mut_export_default_expr(&mut self, e: &mut ExportDefaultExpr) {
+        self.state.is_in_export = true;
+        e.visit_mut_children_with(self);
+        self.state.is_in_export = false;
+    }
+
     fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
         n.visit_mut_children_with(self);
 
-        if is_standalone(
-            &mut n.function,
-            self.top_level_mark,
-            &self.top_level_bindings,
-        ) {
-            self.state.is_bundle = true;
+        if !self.state.is_in_export {
+            if is_standalone(
+                &mut n.function,
+                self.top_level_mark,
+                &self.top_level_bindings,
+            ) {
+                self.state.is_bundle = true;
 
-            n.function.span = n.function.span.apply_mark(self.marks.standalone);
-            return;
+                n.function.span = n.function.span.apply_mark(self.marks.standalone);
+                return;
+            }
         }
     }
 
