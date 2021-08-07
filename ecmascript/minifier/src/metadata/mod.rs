@@ -5,12 +5,18 @@ use swc_common::comments::Comments;
 use swc_common::Mark;
 use swc_common::Span;
 use swc_common::SyntaxContext;
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_utils::find_ids;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::Id;
 use swc_ecma_visit::noop_visit_mut_type;
+use swc_ecma_visit::noop_visit_type;
+use swc_ecma_visit::Node;
+use swc_ecma_visit::Visit;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
+use swc_ecma_visit::VisitWith;
 
 #[cfg(test)]
 mod tests;
@@ -29,6 +35,7 @@ pub(crate) fn info_marker<'a>(
         marks,
         top_level_mark,
         state: Default::default(),
+        top_level_bindings: Default::default(),
     }
 }
 
@@ -42,6 +49,7 @@ struct InfoMarker<'a> {
     marks: Marks,
     top_level_mark: Mark,
     state: State,
+    top_level_bindings: Vec<Id>,
 }
 
 impl InfoMarker<'_> {
@@ -136,7 +144,11 @@ impl VisitMut for InfoMarker<'_> {
     fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
         n.visit_mut_children_with(self);
 
-        if is_standalone(&mut n.function, self.top_level_mark) {
+        if is_standalone(
+            &mut n.function,
+            self.top_level_mark,
+            &self.top_level_bindings,
+        ) {
             self.state.is_bundle = true;
 
             n.function.span = n.function.span.apply_mark(self.marks.standalone);
@@ -155,6 +167,15 @@ impl VisitMut for InfoMarker<'_> {
     fn visit_mut_lit(&mut self, _: &mut Lit) {}
 
     fn visit_mut_module(&mut self, m: &mut Module) {
+        self.top_level_bindings = {
+            let mut v = TopLevelBindingCollector {
+                top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
+                bindings: Default::default(),
+            };
+            m.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+            v.bindings
+        };
+
         m.visit_mut_children_with(self);
 
         if self.state.is_bundle {
@@ -174,7 +195,45 @@ impl VisitMut for InfoMarker<'_> {
     }
 }
 
-fn is_standalone<N>(n: &mut N, top_level_mark: Mark) -> bool
+struct TopLevelBindingCollector {
+    top_level_ctxt: SyntaxContext,
+    bindings: Vec<Id>,
+}
+
+impl TopLevelBindingCollector {
+    fn add(&mut self, id: Id) {
+        if id.1 != self.top_level_ctxt {
+            return;
+        }
+
+        self.bindings.push(id);
+    }
+}
+
+impl Visit for TopLevelBindingCollector {
+    noop_visit_type!();
+
+    fn visit_class_decl(&mut self, v: &ClassDecl, _: &dyn Node) {
+        self.add(v.ident.to_id());
+    }
+
+    fn visit_fn_decl(&mut self, v: &FnDecl, _: &dyn Node) {
+        self.add(v.ident.to_id());
+    }
+
+    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
+
+    fn visit_var_decl(&mut self, v: &VarDecl, _: &dyn Node) {
+        v.visit_children_with(self);
+        let ids: Vec<Id> = find_ids(&v.decls);
+
+        for id in ids {
+            self.add(id)
+        }
+    }
+}
+
+fn is_standalone<N>(n: &mut N, top_level_mark: Mark, top_level_bindings: &[Id]) -> bool
 where
     N: VisitMutWith<IdentCollector>,
 {
@@ -204,6 +263,10 @@ where
 
     for used_id in &used {
         if used_id.1 == top_level_ctxt {
+            if top_level_bindings.contains(&used_id) {
+                return false;
+            }
+
             continue;
         }
 
