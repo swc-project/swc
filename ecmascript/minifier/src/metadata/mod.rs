@@ -157,7 +157,19 @@ impl VisitMut for InfoMarker<'_> {
     fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
         n.visit_mut_children_with(self);
 
-        if !self.state.is_in_export {
+        if !self.state.is_in_export
+            && n.function.params.iter().any(|p| {
+                is_param_one_of(
+                    p,
+                    &[
+                        "module",
+                        "exports",
+                        "__webpack_require__",
+                        "__webpack_exports__",
+                    ],
+                )
+            })
+        {
             if is_standalone(
                 &mut n.function,
                 self.top_level_mark,
@@ -210,6 +222,13 @@ impl VisitMut for InfoMarker<'_> {
     }
 }
 
+fn is_param_one_of(p: &Param, allowed: &[&str]) -> bool {
+    match &p.pat {
+        Pat::Ident(i) => allowed.contains(&&*i.id.sym),
+        _ => false,
+    }
+}
+
 struct TopLevelBindingCollector {
     top_level_ctxt: SyntaxContext,
     bindings: Vec<Id>,
@@ -259,6 +278,7 @@ where
             top_level_ctxt,
             ids: Default::default(),
             for_binding: true,
+            is_pat_decl: false,
         };
         n.visit_mut_with(&mut v);
         v.ids
@@ -269,16 +289,32 @@ where
             top_level_ctxt,
             ids: Default::default(),
             for_binding: false,
+            is_pat_decl: false,
         };
         n.visit_mut_with(&mut v);
         v.ids
     };
 
-    dbg!(&bindings, &used);
-
     for used_id in &used {
+        if used_id.0.starts_with("__WEBPACK_EXTERNAL_MODULE_") {
+            continue;
+        }
+
+        match &*used_id.0 {
+            "__webpack_require__" | "exports" => continue,
+            _ => {}
+        }
+
         if used_id.1 == top_level_ctxt {
             if top_level_bindings.contains(&used_id) {
+                if cfg!(feature = "debug") {
+                    log::debug!(
+                        "Due to {}{:?} (top-level), it's not a bundle",
+                        used_id.0,
+                        used_id.1
+                    );
+                }
+
                 return false;
             }
 
@@ -289,6 +325,9 @@ where
             continue;
         }
 
+        if cfg!(feature = "debug") {
+            log::debug!("Due to {}{:?}, it's not a bundle", used_id.0, used_id.1);
+        }
         return false;
     }
 
@@ -299,6 +338,8 @@ struct IdentCollector {
     top_level_ctxt: SyntaxContext,
     ids: Vec<Id>,
     for_binding: bool,
+
+    is_pat_decl: bool,
 }
 
 impl IdentCollector {
@@ -310,6 +351,18 @@ impl IdentCollector {
 
 impl VisitMut for IdentCollector {
     noop_visit_mut_type!();
+
+    fn visit_mut_catch_clause(&mut self, c: &mut CatchClause) {
+        let old = self.is_pat_decl;
+        self.is_pat_decl = true;
+        c.param.visit_mut_children_with(self);
+        self.is_pat_decl = old;
+
+        self.is_pat_decl = false;
+        c.body.visit_mut_with(self);
+
+        self.is_pat_decl = old;
+    }
 
     fn visit_mut_class_decl(&mut self, e: &mut ClassDecl) {
         if self.for_binding {
@@ -341,6 +394,10 @@ impl VisitMut for IdentCollector {
     }
 
     fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
+        if self.for_binding {
+            e.ident.visit_mut_with(self);
+        }
+
         e.function.visit_mut_with(self);
     }
 
@@ -359,9 +416,16 @@ impl VisitMut for IdentCollector {
         }
     }
 
+    fn visit_mut_param(&mut self, p: &mut Param) {
+        let old = self.is_pat_decl;
+        self.is_pat_decl = true;
+        p.visit_mut_children_with(self);
+        self.is_pat_decl = old;
+    }
+
     fn visit_mut_pat(&mut self, p: &mut Pat) {
         match p {
-            Pat::Ident(..) if self.for_binding => {}
+            Pat::Ident(..) if self.for_binding && !self.is_pat_decl => {}
 
             _ => {
                 p.visit_mut_children_with(self);
@@ -376,5 +440,17 @@ impl VisitMut for IdentCollector {
             }
             _ => {}
         }
+    }
+
+    fn visit_mut_var_declarator(&mut self, d: &mut VarDeclarator) {
+        let old = self.is_pat_decl;
+
+        self.is_pat_decl = true;
+        d.name.visit_mut_with(self);
+
+        self.is_pat_decl = false;
+        d.init.visit_mut_with(self);
+
+        self.is_pat_decl = old;
     }
 }
