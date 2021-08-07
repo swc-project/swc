@@ -80,9 +80,9 @@ fn standalone_base() {
 fn standalone_no_usage() {
     assert_standalone(
         "function foo() {
-        declare(function () {
+        declare(function (module, exports) {
 
-        }, function () {
+        }, function (module, exports) {
 
         });
     }",
@@ -95,9 +95,9 @@ fn usage_of_var_1() {
     assert_standalone(
         "function foo() {
             var bar = 2;
-        declare(function () {
+        declare(function (module, exports) {
             bar = 1;
-        }, function () {
+        }, function (module, exports) {
 
         });
     }",
@@ -112,9 +112,9 @@ fn usage_of_class_1() {
             class Foo {
 
             }
-        declare(function () {
+        declare(function (module, exports) {
             const bar = new Foo();
-        }, function () {
+        }, function (module, exports) {
 
         });
     }",
@@ -129,9 +129,9 @@ fn usage_of_fn_1() {
             function bar() {
 
             }
-        declare(function () {
+        declare(function (module, exports) {
             const baz = new bar();
-        }, function () {
+        }, function (module, exports) {
 
         });
     }",
@@ -144,7 +144,7 @@ fn usage_of_var_2() {
     assert_standalone(
         "var C = 1;
         var obj = {
-            bar: function () {
+            bar: function (module, exports) {
                 return C + C;
             },
         };
@@ -156,5 +156,5 @@ fn usage_of_var_2() {
 
 #[test]
 fn export_default_fn_1() {
-    assert_standalone("export default function f() {}", 0);
+    assert_standalone("export default function f(module, exports) {}", 0);
 }
