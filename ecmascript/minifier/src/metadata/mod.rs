@@ -221,15 +221,70 @@ struct IdentCollector {
     for_binding: bool,
 }
 
+impl IdentCollector {
+    fn add(&mut self, i: &Ident) {
+        if i.span.ctxt == self.top_level_ctxt {
+            return;
+        }
+
+        let id = i.to_id();
+        self.ids.push(id);
+    }
+}
+
 impl VisitMut for IdentCollector {
     noop_visit_mut_type!();
+
+    fn visit_mut_class_decl(&mut self, e: &mut ClassDecl) {
+        if self.for_binding {
+            e.ident.visit_mut_with(self);
+        }
+
+        e.class.visit_mut_with(self);
+    }
+
+    fn visit_mut_class_expr(&mut self, e: &mut ClassExpr) {
+        e.class.visit_mut_with(self);
+    }
+
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        match e {
+            Expr::Ident(..) if self.for_binding => {}
+            _ => {
+                e.visit_mut_children_with(self);
+            }
+        }
+    }
+
+    fn visit_mut_fn_decl(&mut self, e: &mut FnDecl) {
+        if self.for_binding {
+            e.ident.visit_mut_with(self);
+        }
+
+        e.function.visit_mut_with(self);
+    }
+
+    fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
+        e.function.visit_mut_with(self);
+    }
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         if i.span.ctxt == self.top_level_ctxt {
             return;
         }
 
-        self.ids.push(i.to_id());
+        self.add(&*i);
+    }
+
+    fn visit_mut_labeled_stmt(&mut self, s: &mut LabeledStmt) {
+        s.body.visit_mut_with(self);
+    }
+
+    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
+        e.obj.visit_mut_with(self);
+        if e.computed {
+            e.prop.visit_mut_with(self);
+        }
     }
 
     fn visit_mut_pat(&mut self, p: &mut Pat) {
@@ -242,22 +297,6 @@ impl VisitMut for IdentCollector {
         }
     }
 
-    fn visit_mut_expr(&mut self, e: &mut Expr) {
-        match e {
-            Expr::Ident(..) if self.for_binding => {}
-            _ => {
-                e.visit_mut_children_with(self);
-            }
-        }
-    }
-
-    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
-        e.obj.visit_mut_with(self);
-        if e.computed {
-            e.prop.visit_mut_with(self);
-        }
-    }
-
     fn visit_mut_prop_name(&mut self, p: &mut PropName) {
         match p {
             PropName::Computed(..) => {
@@ -265,9 +304,5 @@ impl VisitMut for IdentCollector {
             }
             _ => {}
         }
-    }
-
-    fn visit_mut_labeled_stmt(&mut self, s: &mut LabeledStmt) {
-        s.body.visit_mut_with(self);
     }
 }
