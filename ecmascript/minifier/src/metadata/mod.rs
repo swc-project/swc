@@ -275,7 +275,6 @@ where
 
     let bindings = {
         let mut v = IdentCollector {
-            top_level_ctxt,
             ids: Default::default(),
             for_binding: true,
             is_pat_decl: false,
@@ -286,7 +285,6 @@ where
 
     let used = {
         let mut v = IdentCollector {
-            top_level_ctxt,
             ids: Default::default(),
             for_binding: false,
             is_pat_decl: false,
@@ -335,7 +333,6 @@ where
 }
 
 struct IdentCollector {
-    top_level_ctxt: SyntaxContext,
     ids: Vec<Id>,
     for_binding: bool,
 
