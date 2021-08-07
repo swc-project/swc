@@ -2255,7 +2255,7 @@ checksum = "6446ced80d6c486436db5c078dde11a9f73d42b57fb273121e160b84f63d894c"
 
 [[package]]
 name = "swc"
-version = "0.35.0"
+version = "0.35.1"
 dependencies = [
  "ahash 0.7.4",
  "anyhow",
@@ -2285,6 +2285,7 @@ dependencies = [
  "swc_ecma_transforms_base",
  "swc_ecma_utils",
  "swc_ecma_visit",
+ "swc_ecmascript",
  "swc_node_base",
  "swc_visit",
  "testing",
@@ -2624,7 +2625,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_classes"
-version = "0.12.0"
+version = "0.12.1"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -2835,13 +2836,14 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.52.0"
+version = "0.52.1"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
  "swc_ecma_dep_graph",
  "swc_ecma_minifier",
  "swc_ecma_parser",
+ "swc_ecma_preset_env",
  "swc_ecma_transforms",
  "swc_ecma_utils",
  "swc_ecma_visit",
