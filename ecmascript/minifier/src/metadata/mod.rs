@@ -22,10 +22,12 @@ mod tests;
 pub(crate) fn info_marker<'a>(
     comments: Option<&'a dyn Comments>,
     marks: Marks,
+    top_level_mark: Mark,
 ) -> impl 'a + VisitMut {
     InfoMarker {
         comments,
         marks,
+        top_level_mark,
         state: Default::default(),
     }
 }
@@ -38,6 +40,7 @@ struct State {
 struct InfoMarker<'a> {
     comments: Option<&'a dyn Comments>,
     marks: Marks,
+    top_level_mark: Mark,
     state: State,
 }
 
@@ -133,17 +136,11 @@ impl VisitMut for InfoMarker<'_> {
     fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
         n.visit_mut_children_with(self);
 
-        {}
-
-        if !n.function.params.is_empty()
-            && n.function
-                .params
-                .iter()
-                .any(|p| is_param_one_of(p, &["__webpack_exports__", "__webpack_require__"]))
-        {
+        if is_standalone(&mut n.function, self.top_level_mark) {
             self.state.is_bundle = true;
 
             n.function.span = n.function.span.apply_mark(self.marks.standalone);
+            return;
         }
     }
 
@@ -177,20 +174,13 @@ impl VisitMut for InfoMarker<'_> {
     }
 }
 
-fn is_param_one_of(p: &Param, allowed: &[&str]) -> bool {
-    match &p.pat {
-        Pat::Ident(i) => allowed.contains(&&*i.id.sym),
-        _ => false,
-    }
-}
-
 fn is_standalone<N>(n: &mut N, top_level_mark: Mark) -> bool
 where
     N: VisitMutWith<IdentCollector>,
 {
     let top_level_ctxt = SyntaxContext::empty().apply_mark(top_level_mark);
 
-    let mut bindings = {
+    let bindings = {
         let mut v = IdentCollector {
             top_level_ctxt,
             ids: Default::default(),
@@ -200,7 +190,7 @@ where
         v.ids
     };
 
-    let mut used = {
+    let used = {
         let mut v = IdentCollector {
             top_level_ctxt,
             ids: Default::default(),
