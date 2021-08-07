@@ -1791,7 +1791,7 @@ function (A1) {
 
     _foo.set(_assertThisInitialized(_this), {
       writable: true,
-      value: _get(_getPrototypeOf(B.prototype), "foo", _assertThisInitialized(_this))()
+      value: _get(_getPrototypeOf(B.prototype), "foo", _assertThisInitialized(_this)).call(_this)
     });
 
     return _this;
