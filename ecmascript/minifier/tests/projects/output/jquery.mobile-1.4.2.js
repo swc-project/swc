@@ -2594,7 +2594,7 @@
                 this._keySliding && (this._keySliding = !1, this.handle.removeClass("ui-state-active"));
             },
             _sliderVMouseDown: function(event) {
-                return !this.options.disabled && !(1 !== event.which && 0 !== event.which && undefined !== event.which) && !1 !== this._trigger("beforestart", event) && (this.dragging = !0, this.userModified = !1, this.mouseMoved = !1, this.isToggleSwitch && (this.beforeStart = this.element[0].selectedIndex), this.refresh(event), this._trigger("start"), !1);
+                return !this.options.disabled && !!(1 === event.which || 0 === event.which || undefined === event.which) && !1 !== this._trigger("beforestart", event) && (this.dragging = !0, this.userModified = !1, this.mouseMoved = !1, this.isToggleSwitch && (this.beforeStart = this.element[0].selectedIndex), this.refresh(event), this._trigger("start"), !1);
             },
             _sliderVMouseUp: function() {
                 if (this.dragging) return this.dragging = !1, this.isToggleSwitch && (this.handle.addClass("ui-slider-handle-snapping"), this.mouseMoved ? this.userModified ? this.refresh(0 === this.beforeStart ? 1 : 0) : this.refresh(this.beforeStart) : this.refresh(0 === this.beforeStart ? 1 : 0)), this.mouseMoved = !1, this._trigger("stop"), !1;
