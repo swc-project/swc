@@ -1,10 +1,9 @@
-use std::mem::swap;
-
 use super::Pure;
 use crate::compress::util::is_pure_undefined;
 use crate::compress::util::negate;
 use crate::compress::util::negate_cost;
 use crate::util::make_bool;
+use std::mem::swap;
 use swc_atoms::js_word;
 use swc_common::EqIgnoreSpan;
 use swc_common::Span;
@@ -34,6 +33,10 @@ impl Pure<'_> {
             return;
         }
 
+        if !self.ctx.in_first_expr {
+            return;
+        }
+
         match e {
             Expr::Unary(UnaryExpr {
                 op: op!("!"), arg, ..
@@ -49,10 +52,11 @@ impl Pure<'_> {
                     {
                         return;
                     }
-                    log::debug!("Optimizing `!(a && b)` as `!a || !b`");
+                    log::debug!("bools: Optimizing `!(a && b)` as `!a || !b`");
                     self.changed = true;
                     self.negate(arg, false);
                     *e = *arg.take();
+
                     return;
                 }
 
@@ -68,13 +72,14 @@ impl Pure<'_> {
                         ..
                     }) => {
                         if negate_cost(&left, false, false).unwrap_or(isize::MAX) > 0
-                            && negate_cost(&right, false, false).unwrap_or(isize::MAX) > 0
+                            || negate_cost(&right, false, false).unwrap_or(isize::MAX) > 0
                         {
                             return;
                         }
-                        log::debug!("Optimizing `!!(a || b)` as `!a && !b`");
+                        log::debug!("bools: Optimizing `!!(a || b)` as `!a && !b`");
                         self.negate(arg_of_arg, false);
                         *e = *arg.take();
+
                         return;
                     }
 
