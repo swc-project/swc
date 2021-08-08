@@ -128,7 +128,7 @@ impl Load for SwcLoader {
                                 ..c.jsc.clone()
                             },
                             module: None,
-                            minify: Some(Default::default()),
+                            minify: false,
                             input_source_map: InputSourceMap::Bool(false),
                             ..c.clone()
                         }

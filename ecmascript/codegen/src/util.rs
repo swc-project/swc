@@ -256,10 +256,16 @@ impl StartsWithAlphaNum for Expr {
                 _ => false,
             },
 
-            Expr::Arrow(ref expr) => match expr.params.as_slice() {
-                [p] => p.starts_with_alpha_num(),
-                _ => false,
-            },
+            Expr::Arrow(ref expr) => {
+                if expr.is_async {
+                    true
+                } else {
+                    match expr.params.as_slice() {
+                        [p] => p.starts_with_alpha_num(),
+                        _ => false,
+                    }
+                }
+            }
 
             Expr::Update(ref expr) => {
                 if expr.prefix {

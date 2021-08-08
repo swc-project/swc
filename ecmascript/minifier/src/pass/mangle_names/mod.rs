@@ -63,8 +63,8 @@ impl Mangler {
             }
         }
 
-        i.span.ctxt = SyntaxContext::empty();
         if let Some(v) = self.renamed.get(&i.to_id()) {
+            i.span.ctxt = SyntaxContext::empty();
             i.sym = v.clone();
             return;
         }
@@ -80,6 +80,7 @@ impl Mangler {
             self.renamed.insert(i.to_id(), sym.clone());
 
             i.sym = sym.clone();
+            i.span.ctxt = SyntaxContext::empty();
             break;
         }
     }

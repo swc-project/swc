@@ -162,7 +162,13 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
-        e.visit_mut_children_with(self);
+        {
+            let ctx = Ctx {
+                in_first_expr: false,
+                ..self.ctx
+            };
+            e.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        }
 
         match e {
             Expr::Seq(seq) => {
@@ -321,6 +327,7 @@ impl VisitMut for Pure<'_> {
                 is_update_arg: false,
                 is_callee: false,
                 in_delete: false,
+                in_first_expr: true,
                 ..self.ctx
             };
             s.visit_mut_children_with(&mut *self.with_ctx(ctx));

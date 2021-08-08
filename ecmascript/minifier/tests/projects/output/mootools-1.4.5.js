@@ -318,7 +318,7 @@
             return arguments[i];
         };
     }, this.$chk = function(obj) {
-        return !(!obj && 0 !== obj);
+        return !!(obj || 0 === obj);
     }, this.$clear = function(timer) {
         return clearTimeout(timer), clearInterval(timer), null;
     }, this.$defined = function(obj) {
