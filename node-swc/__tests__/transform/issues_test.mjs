@@ -11,5 +11,5 @@ it("should respect jsc.minify = false", async () => {
         minify: false,
     });
 
-    expect(code).toContain(`bar/app`);
+    expect(code).toMatchInlineSnapshot(`"var hello = function(){\nconsole.log('hello');\n};"`);
 })
