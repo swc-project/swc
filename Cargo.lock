@@ -2428,7 +2428,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.66.1"
+version = "0.66.2"
 dependencies = [
  "bitflags",
  "num-bigint",
@@ -2498,7 +2498,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.18.2"
+version = "0.18.3"
 dependencies = [
  "ansi_term 0.12.1",
  "anyhow",
