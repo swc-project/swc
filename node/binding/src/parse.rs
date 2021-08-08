@@ -3,7 +3,7 @@ use crate::{
     util::{CtxtExt, MapErr},
 };
 use anyhow::Context as _;
-use napi::{CallContext, Env, JsObject, JsString, Task};
+use napi::{CallContext, Either, Env, JsObject, JsString, JsUndefined, Task};
 use std::{
     path::{Path, PathBuf},
     sync::Arc,
@@ -87,14 +87,19 @@ impl Task for ParseFileTask {
     }
 }
 
-#[js_function(2)]
+#[js_function(3)]
 pub fn parse(ctx: CallContext) -> napi::Result<JsObject> {
     let c = get_compiler(&ctx);
     let src = ctx.get::<JsString>(0)?.into_utf8()?;
     let options: ParseOptions = ctx.get_deserialized(1)?;
+    let filename = ctx.get::<Either<JsString, JsUndefined>>(2)?;
+    let filename = if let Either::A(value) = filename {
+        FileName::Real(value.into_utf8()?.as_str()?.to_owned().into())
+    } else {
+        FileName::Anon
+    };
 
-    let fm =
-        c.cm.new_source_file(FileName::Anon, src.as_str()?.to_string());
+    let fm = c.cm.new_source_file(filename, src.as_str()?.to_string());
 
     ctx.env
         .spawn(ParseTask {
@@ -105,16 +110,22 @@ pub fn parse(ctx: CallContext) -> napi::Result<JsObject> {
         .map(|t| t.promise_object())
 }
 
-#[js_function(2)]
+#[js_function(3)]
 pub fn parse_sync(cx: CallContext) -> napi::Result<JsString> {
     let c = get_compiler(&cx);
 
     c.run(|| {
         let src = cx.get::<JsString>(0)?.into_utf8()?.as_str()?.to_owned();
         let options: ParseOptions = cx.get_deserialized(1)?;
+        let filename = cx.get::<Either<JsString, JsUndefined>>(2)?;
+        let filename = if let Either::A(value) = filename {
+            FileName::Real(value.into_utf8()?.as_str()?.to_owned().into())
+        } else {
+            FileName::Anon
+        };
 
         let program = {
-            let fm = c.cm.new_source_file(FileName::Anon, src);
+            let fm = c.cm.new_source_file(filename, src);
             c.parse_js(
                 fm,
                 options.target,
