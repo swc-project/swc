@@ -526,24 +526,18 @@ export interface EsParserConfig {
    */
   jsx?: boolean;
   /**
-   * Defaults to `false`.
-   *
    * @deprecated Always true because it's in ecmascript spec.
    */
   numericSeparator?: boolean;
   /**
-   * Defaults to `false`
+   * @deprecated Always true because it's in ecmascript spec.
    */
   classPrivateProperty?: boolean;
   /**
-   * Defaults to `false`
-   *
    * @deprecated Always true because it's in ecmascript spec.
    */
   privateMethod?: boolean;
   /**
-   * Defaults to `false`
-   *
    * @deprecated Always true because it's in ecmascript spec.
    */
   classProperty?: boolean;
@@ -564,33 +558,27 @@ export interface EsParserConfig {
    */
   exportDefaultFrom?: boolean;
   /**
-   * Defaults to `false`
-   *
    * @deprecated Always true because it's in ecmascript spec.
    */
   exportNamespaceFrom?: boolean;
   /**
-   * Defaults to `false`
+   * @deprecated Always true because it's in ecmascript spec.
    */
   dynamicImport?: boolean;
   /**
-   * Defaults to `false`
-   *
    * @deprecated Always true because it's in ecmascript spec.
    */
   nullishCoalescing?: boolean;
   /**
-   * Defaults to `false`
-   *
    * @deprecated Always true because it's in ecmascript spec.
    */
   optionalChaining?: boolean;
   /**
-   * Defaults to `false`
+   * @deprecated Always true because it's in ecmascript spec.
    */
   importMeta?: boolean;
   /**
-   * Defaults to `false`
+   * @deprecated Always true because it's in ecmascript spec.
    */
   topLevelAwait?: boolean;
   /**

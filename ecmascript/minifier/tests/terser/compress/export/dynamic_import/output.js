@@ -1,7 +1,7 @@
-import o from "./traditional.js";
-function t(o) {
-    return import(o);
+import a from "./traditional.js";
+function b(c) {
+    return import(c);
 }
 import("module_for_side_effects.js");
-let r = import("some/module.js");
-r.foo();
+let d = import("some/module.js");
+d.foo();
