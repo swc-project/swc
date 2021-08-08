@@ -165,17 +165,7 @@ impl Syntax {
     }
 
     pub fn dynamic_import(self) -> bool {
-        match self {
-            Syntax::Es(EsConfig {
-                dynamic_import: true,
-                ..
-            })
-            | Syntax::Typescript(TsConfig {
-                dynamic_import: true,
-                ..
-            }) => true,
-            _ => false,
-        }
+        true
     }
 
     pub fn fn_bind(self) -> bool {
@@ -206,14 +196,7 @@ impl Syntax {
     }
 
     pub fn class_private_props(self) -> bool {
-        match self {
-            Syntax::Es(EsConfig {
-                class_private_props: true,
-                ..
-            })
-            | Syntax::Typescript(..) => true,
-            _ => false,
-        }
+        true
     }
 
     pub fn class_props(self) -> bool {
@@ -267,26 +250,11 @@ impl Syntax {
     }
 
     pub fn import_meta(self) -> bool {
-        match self {
-            Syntax::Es(EsConfig {
-                import_meta: true, ..
-            })
-            | Syntax::Typescript(..) => true,
-
-            _ => false,
-        }
+        true
     }
 
     pub fn top_level_await(self) -> bool {
-        match self {
-            Syntax::Es(EsConfig {
-                top_level_await: true,
-                ..
-            })
-            | Syntax::Typescript(..) => true,
-
-            _ => false,
-        }
+        true
     }
 
     pub fn dts(self) -> bool {
