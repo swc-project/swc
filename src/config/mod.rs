@@ -296,7 +296,7 @@ impl Options {
         let pass = chain!(pass, Optional::new(jest::jest(), transform.hidden.jest));
 
         BuiltConfig {
-            minify: config.minify.is_some(),
+            minify: config.minify,
             pass,
             external_helpers,
             syntax,
@@ -382,7 +382,7 @@ impl Default for Rc {
                     ..Default::default()
                 },
                 module: None,
-                minify: None,
+                minify: false,
                 source_maps: None,
                 input_source_map: InputSourceMap::default(),
             },
@@ -403,7 +403,7 @@ impl Default for Rc {
                     ..Default::default()
                 },
                 module: None,
-                minify: None,
+                minify: false,
                 source_maps: None,
                 input_source_map: InputSourceMap::default(),
             },
@@ -424,7 +424,7 @@ impl Default for Rc {
                     ..Default::default()
                 },
                 module: None,
-                minify: None,
+                minify: false,
                 source_maps: None,
                 input_source_map: InputSourceMap::default(),
             },
@@ -489,7 +489,7 @@ pub struct Config {
     pub module: Option<ModuleConfig>,
 
     #[serde(default)]
-    pub minify: Option<bool>,
+    pub minify: bool,
 
     #[serde(default)]
     pub input_source_map: InputSourceMap,
