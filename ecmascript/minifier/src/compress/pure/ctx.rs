@@ -15,6 +15,12 @@ pub(super) struct Ctx {
     pub in_try_block: bool,
 
     pub is_lhs_of_assign: bool,
+
+    /// `true` if we are in topmost expression of a statement
+    ///
+    /// This is true for `expr` of [swc_ecma_ast::ExprStmt], `test` of
+    /// [swc_ecma_ast::IfStmt], and more like that.
+    pub in_first_expr: bool,
 }
 
 impl<'b> Pure<'b> {
