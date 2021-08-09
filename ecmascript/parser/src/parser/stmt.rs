@@ -1806,6 +1806,19 @@ export default function waitUntil(callback, options = {}) {
     }
 
     #[test]
+    fn import_meta_in_program() {
+        let src = "const foo = import.meta.url;";
+        test_parser(
+            src,
+            Syntax::Es(EsConfig {
+                import_meta: true,
+                ..Default::default()
+            }),
+            |p| p.parse_program(),
+        );
+    }
+
+    #[test]
     #[should_panic(expected = "'import', and 'export' cannot be used outside of module code")]
     fn import_statement_in_script() {
         let src = "import 'foo';";
