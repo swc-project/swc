@@ -194,6 +194,11 @@ macro_rules! tok {
     ("in") => {
         crate::token::Token::Word(crate::token::Word::Keyword(crate::token::Keyword::In))
     };
+    ("instanceof") => {
+        crate::token::Token::Word(crate::token::Word::Keyword(
+            crate::token::Keyword::InstanceOf,
+        ))
+    };
     ("import") => {
         crate::token::Token::Word(crate::token::Word::Keyword(crate::token::Keyword::Import))
     };

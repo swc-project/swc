@@ -1,6 +1,5 @@
 //! Parser for unary operations and binary operations.
 use super::*;
-use crate::token::Keyword;
 use log::trace;
 use swc_common::Spanned;
 
@@ -17,12 +16,12 @@ impl<'a, I: Tokens> Parser<I> {
                 trace_cur!(self, parse_bin_expr__recovery_unary_err);
 
                 match cur!(self, true)? {
-                    &Word(Word::Keyword(Keyword::In)) if ctx.include_in_expr => {
+                    &tok!("in") if ctx.include_in_expr => {
                         self.emit_err(self.input.cur_span(), SyntaxError::TS1109);
 
                         Box::new(Expr::Invalid(Invalid { span: err.span() }))
                     }
-                    &Word(Word::Keyword(Keyword::InstanceOf)) | &Token::BinOp(..) => {
+                    &tok!("instanceof") | &Token::BinOp(..) => {
                         self.emit_err(self.input.cur_span(), SyntaxError::TS1109);
 
                         Box::new(Expr::Invalid(Invalid { span: err.span() }))
@@ -124,8 +123,8 @@ impl<'a, I: Tokens> Parser<I> {
             Err(..) => return Ok((left, None)),
         };
         let op = match *word {
-            Word(Word::Keyword(Keyword::In)) if ctx.include_in_expr => op!("in"),
-            Word(Word::Keyword(Keyword::InstanceOf)) => op!("instanceof"),
+            tok!("in") if ctx.include_in_expr => op!("in"),
+            tok!("instanceof") => op!("instanceof"),
             Token::BinOp(op) => op.into(),
             _ => {
                 return Ok((left, None));
