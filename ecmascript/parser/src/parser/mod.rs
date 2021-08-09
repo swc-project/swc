@@ -248,12 +248,20 @@ where
         let lexer = Lexer::new(syntax, JscTarget::Es2019, input, None);
         let mut p = Parser::new_from(lexer);
         let ret = f(&mut p);
+        let mut error = false;
 
         for err in p.take_errors() {
+            error = true;
             err.into_diagnostic(handler).emit();
         }
 
-        ret.map_err(|err| err.into_diagnostic(handler).emit())
+        let res = ret.map_err(|err| err.into_diagnostic(handler).emit())?;
+
+        if error {
+            return Err(());
+        }
+
+        Ok(res)
     })
     .unwrap_or_else(|output| panic!("test_parser(): failed to parse \n{}\n{}", s, output))
 }
