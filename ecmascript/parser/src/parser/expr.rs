@@ -232,7 +232,8 @@ impl<'a, I: Tokens> Parser<I> {
                 tok!("import") => {
                     let import = self.parse_ident_name()?;
                     if self.input.syntax().import_meta() && is!(self, '.') {
-                        if !self.ctx().module {
+                        self.state.found_module_item = true;
+                        if !self.ctx().can_be_module {
                             syntax_error!(self, SyntaxError::ImportMetaInScript);
                         }
                         return self

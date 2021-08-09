@@ -50,6 +50,8 @@ struct State {
     labels: Vec<JsWord>,
     /// Start position of an assignment expression.
     potential_arrow_start: Option<BytePos>,
+
+    found_module_item: bool,
 }
 
 impl<'a, I: Input> Parser<Lexer<'a, I>> {
@@ -127,15 +129,21 @@ impl<I: Tokens> Parser<I> {
     pub fn parse_program(&mut self) -> PResult<Program> {
         let start = cur_pos!(self);
         let shebang = self.parse_shebang()?;
+        let ctx = Context {
+            can_be_module: true,
+            ..self.ctx()
+        };
 
-        let body: Vec<ModuleItem> = self.parse_block_body(true, true, None)?;
-        let has_module_item = body.iter().any(|item| match item {
-            ModuleItem::ModuleDecl(..) => true,
-            _ => false,
-        });
+        let body: Vec<ModuleItem> = self.with_ctx(ctx).parse_block_body(true, true, None)?;
+        let has_module_item = self.state.found_module_item
+            || body.iter().any(|item| match item {
+                ModuleItem::ModuleDecl(..) => true,
+                _ => false,
+            });
         if has_module_item && !self.ctx().module {
             let ctx = Context {
                 module: true,
+                can_be_module: true,
                 strict: true,
                 ..self.ctx()
             };
@@ -168,6 +176,7 @@ impl<I: Tokens> Parser<I> {
     pub fn parse_module(&mut self) -> PResult<Module> {
         let ctx = Context {
             module: true,
+            can_be_module: true,
             strict: true,
             ..self.ctx()
         };

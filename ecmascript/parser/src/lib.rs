@@ -369,6 +369,7 @@ pub struct EsConfig {
 pub struct Context {
     /// Is in module code?
     module: bool,
+    can_be_module: bool,
     strict: bool,
     include_in_expr: bool,
     /// If true, await expression is parsed, and "await" is treated as a
