@@ -70,6 +70,8 @@ impl BlockScoping {
     where
         T: FoldWith<Self>,
     {
+        let len = self.scope.len();
+
         let remove = match kind {
             ScopeKind::ForLetLoop { .. } => false,
             _ => true,
@@ -78,7 +80,7 @@ impl BlockScoping {
         let node = node.fold_with(self);
 
         if remove {
-            self.scope.pop();
+            self.scope.truncate(len);
         }
 
         node
