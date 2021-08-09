@@ -994,6 +994,10 @@ struct FunctionFinder {
 impl Visit for FunctionFinder {
     noop_visit_type!();
 
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {
+        self.found = true;
+    }
+
     fn visit_function(&mut self, _: &Function, _: &dyn Node) {
         self.found = true
     }
