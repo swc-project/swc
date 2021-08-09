@@ -587,49 +587,50 @@ test!(
     |_| block_scoping(),
     issue_1231_1,
     "
-        function combineOverlappingMatches(matches) {
-            let hasOverlaps = false
+    function combineOverlappingMatches(matches) {
+        let hasOverlaps = false
+        
+        for (let i = matches.length - 1; i >= 0; i--) {
+            let currentMatch = matches[i]
+            let overlap = matches.find(match => {
+                return match !== currentMatch && match.itemsType === currentMatch.itemsType
+            })
             
-            for (let i = matches.length - 1; i >= 0; i--) {
-                let currentMatch = matches[i]
-                let overlap = matches.find(match => {
-                    return match !== currentMatch && match.itemsType === currentMatch.itemsType
-                })
-                
-                if (overlap) {
-                    hasOverlaps = true
-                    matches.splice(i, 1)
-                }
-            }
-            
-            if (hasOverlaps) {
-                combineOverlappingMatches(matches)
+            if (overlap) {
+                hasOverlaps = true
+                matches.splice(i, 1)
             }
         }
         
-        combineOverlappingMatches([1])
-        ",
-    "
-        function combineOverlappingMatches(matches) {
-            var hasOverlaps = false;
-            for(var i = matches.length - 1; i >= 0; i--){
-                var currentMatch = matches[i];
-                var overlap = matches.find((match)=>{
-                    return match !== currentMatch && match.itemsType === currentMatch.itemsType;
-                });
-                if (overlap) {
-                    hasOverlaps = true;
-                    matches.splice(i, 1);
-                }
-            }
-            if (hasOverlaps) {
-                combineOverlappingMatches(matches);
-            }
+        if (hasOverlaps) {
+            combineOverlappingMatches(matches)
         }
-        combineOverlappingMatches([
-            1
-        ]);
-        "
+    }
+    
+    combineOverlappingMatches([1])
+    ",
+    "
+    function combineOverlappingMatches(matches) {
+        var _loop = function(i) {
+            var currentMatch = matches[i];
+            var overlap = matches.find((match)=>{
+                return match !== currentMatch && match.itemsType === currentMatch.itemsType;
+            });
+            if (overlap) {
+                hasOverlaps = true;
+                matches.splice(i, 1);
+            }
+        };
+        var hasOverlaps = false;
+        for(var i = matches.length - 1; i >= 0; i--)_loop(i);
+        if (hasOverlaps) {
+            combineOverlappingMatches(matches);
+        }
+    }
+    combineOverlappingMatches([
+        1
+    ]);
+    "
 );
 
 test!(
