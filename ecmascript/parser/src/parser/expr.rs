@@ -234,7 +234,8 @@ impl<'a, I: Tokens> Parser<I> {
                     if self.input.syntax().import_meta() && is!(self, '.') {
                         self.state.found_module_item = true;
                         if !self.ctx().can_be_module {
-                            syntax_error!(self, SyntaxError::ImportMetaInScript);
+                            let span = span!(self, start);
+                            self.emit_err(span, SyntaxError::ImportMetaInScript);
                         }
                         return self
                             .parse_import_meta_prop(import)
