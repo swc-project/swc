@@ -1,7 +1,9 @@
 {
     "env": {
-        "target": {
-            "node": "16.4.2"
-        }
+        "targets": {
+            "node": "16"
+        },
+        "mode": "entry",
+        "coreJs": 3
     }
 }

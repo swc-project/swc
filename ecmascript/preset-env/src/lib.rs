@@ -83,15 +83,18 @@ where
 
     // Proposals
 
-    // ES2020
-
-    let pass = add!(pass, ExportNamespaceFrom, es2020::export_namespace_from());
-    let pass = add!(pass, NullishCoalescing, es2020::nullish_coalescing());
+    // ES2021
     let pass = add!(
         pass,
         LogicalAssignmentOperators,
         es2021::logical_assignments()
     );
+
+    // ES2020
+
+    let pass = add!(pass, ExportNamespaceFrom, es2020::export_namespace_from());
+    let pass = add!(pass, NullishCoalescing, es2020::nullish_coalescing());
+
     let pass = add!(pass, OptionalChaining, es2020::optional_chaining());
     let pass = add!(pass, ClassProperties, es2020::class_properties());
 
@@ -224,6 +227,8 @@ pub struct BrowserData<T: Default> {
     pub phantom: T,
     #[serde(default)]
     pub opera_mobile: T,
+    #[serde(default)]
+    pub rhino: T,
 }
 
 #[derive(Debug)]
