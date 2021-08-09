@@ -1153,7 +1153,6 @@ impl Optimizer<'_> {
                             Some(v) => v,
                             None => {
                                 log::trace!("[X] sequences: Aborting because lhs is not an id");
-
                                 return false;
                             }
                         };
@@ -1164,6 +1163,7 @@ impl Optimizer<'_> {
                             .and_then(|data| data.vars.get(&left_id.to_id()))
                         {
                             if usage.declared_as_fn_expr {
+                                log::trace!("sequences: [X] Declared as fn expr");
                                 return false;
                             }
                         }
