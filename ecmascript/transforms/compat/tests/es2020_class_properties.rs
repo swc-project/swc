@@ -5542,3 +5542,20 @@ test!(
     }
     "
 );
+
+test!(
+    syntax(),
+    |_| class_properties(),
+    issue_2021_1,
+    "
+    class Item extends Component {
+      constructor(props) {
+        super(props);
+      }
+    
+      input = this.props.item;
+    }
+    ",
+    "
+    "
+);
