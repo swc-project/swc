@@ -9,7 +9,7 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.36.0"
+version = "0.37.0"
 
 [lib]
 name = "swc"
@@ -37,7 +37,7 @@ swc_ecma_ext_transforms = {version = "0.24.0", path = "./ecmascript/ext-transfor
 swc_ecma_loader = {version = "0.12.0", path = "./ecmascript/loader", features = ["lru", "node", "tsc"]}
 swc_ecma_minifier = {version = "0.18.0", path = "./ecmascript/minifier"}
 swc_ecma_parser = {version = "0.66.0", path = "./ecmascript/parser"}
-swc_ecma_preset_env = {version = "0.33.0", path = "./ecmascript/preset-env"}
+swc_ecma_preset_env = {version = "0.34.0", path = "./ecmascript/preset-env"}
 swc_ecma_transforms = {version = "0.63.0", path = "./ecmascript/transforms", features = [
   "compat",
   "module",
@@ -49,7 +49,7 @@ swc_ecma_transforms = {version = "0.63.0", path = "./ecmascript/transforms", fea
 swc_ecma_transforms_base = {version = "0.26.0", path = "./ecmascript/transforms/base"}
 swc_ecma_utils = {version = "0.41.0", path = "./ecmascript/utils"}
 swc_ecma_visit = {version = "0.35.0", path = "./ecmascript/visit"}
-swc_ecmascript = {version = "0.52.0", path = "./ecmascript"}
+swc_ecmascript = {version = "0.53.0", path = "./ecmascript"}
 swc_node_base = {version = "0.2.0", path = "./node/base"}
 swc_visit = {version = "0.2.3", path = "./visit"}
 
