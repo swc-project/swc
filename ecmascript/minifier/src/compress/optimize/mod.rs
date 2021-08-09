@@ -2079,6 +2079,11 @@ impl VisitMut for Optimizer<'_> {
         self.shift_assignment(n);
 
         {
+            let is_last_member_expr = match n.exprs.last().map(|v| &**v) {
+                Some(Expr::Member(..)) => true,
+                _ => false,
+            };
+
             let exprs = n
                 .exprs
                 .iter_mut()
@@ -2090,8 +2095,11 @@ impl VisitMut for Optimizer<'_> {
                         _ => false,
                     };
 
-                    let can_remove =
-                        !last && (idx != 0 || !is_injected_zero || !self.ctx.is_this_aware_callee);
+                    let can_remove = !last
+                        && (idx != 0
+                            || !is_injected_zero
+                            || !self.ctx.is_this_aware_callee
+                            || !is_last_member_expr);
 
                     if can_remove {
                         // If negate_iife is true, it's already handled by
