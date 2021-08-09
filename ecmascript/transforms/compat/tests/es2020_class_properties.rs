@@ -3779,7 +3779,7 @@ var qux = function() {
 
 (function () {
   class Baz {
-    constructor(force1){
+    constructor(force){
       _defineProperty(this, 'fn', (function() {
         return console.log(this);
       }).bind(this));
