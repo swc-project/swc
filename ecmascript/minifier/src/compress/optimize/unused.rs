@@ -487,7 +487,15 @@ impl Optimizer<'_> {
     }
 
     pub(super) fn remove_name_of_unused_var(&mut self, v: &mut VarDecl) {
-        if self.ctx.is_exported {
+        if !self.options.unused {
+            return;
+        }
+
+        if self.ctx.is_exported || self.ctx.in_var_decl_of_for_in_or_of_loop {
+            return;
+        }
+
+        if self.ctx.in_top_level() {
             return;
         }
 
