@@ -819,6 +819,27 @@ impl Optimizer<'_> {
 
     /// Returns true if something is modified.
     fn merge_sequential_expr(&mut self, a: &mut Mergable, b: &mut Expr) -> bool {
+        match a {
+            Mergable::Var(..) => {}
+            Mergable::Expr(a) => match a {
+                Expr::Seq(a) => {
+                    //
+                    for a in a.exprs.iter_mut().rev() {
+                        if self.merge_sequential_expr(&mut Mergable::Expr(a), b) {
+                            return true;
+                        }
+
+                        if !self.is_skippable_for_seq(&a) {
+                            return false;
+                        }
+                    }
+
+                    return false;
+                }
+                _ => {}
+            },
+        }
+
         match b {
             Expr::Update(..) => return false,
 
