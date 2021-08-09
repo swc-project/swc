@@ -2346,6 +2346,8 @@ impl VisitMut for Optimizer<'_> {
                 }
             });
         }
+
+        self.remove_name_of_unused_var(n);
     }
 
     fn visit_mut_var_declarator(&mut self, var: &mut VarDeclarator) {

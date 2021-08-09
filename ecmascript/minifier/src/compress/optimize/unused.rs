@@ -485,6 +485,45 @@ impl Optimizer<'_> {
             _ => {}
         }
     }
+
+    pub(super) fn remove_name_of_unused_var(&mut self, v: &mut VarDecl) {
+        if self.ctx.is_exported {
+            return;
+        }
+
+        if let Some(decl) = v.decls.last_mut() {
+            match &decl.name {
+                Pat::Ident(name) => {
+                    if let Some(usage) = self
+                        .data
+                        .as_ref()
+                        .and_then(|data| data.vars.get(&name.id.to_id()))
+                    {
+                        if usage.ref_count != 0 {
+                            return;
+                        }
+                    }
+
+                    self.changed = true;
+                    log::trace!(
+                        "unused: Removing var decl {}{:?} while preserving side effects",
+                        name.id.sym,
+                        name.id.span.ctxt
+                    );
+
+                    if let Some(expr) = decl.init.take() {
+                        self.append_stmts.push(Stmt::Expr(ExprStmt {
+                            span: decl.span,
+                            expr,
+                        }));
+                    }
+
+                    v.decls.pop();
+                }
+                _ => {}
+            }
+        }
+    }
 }
 
 #[derive(Debug, Default)]
