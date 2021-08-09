@@ -160,11 +160,11 @@ impl Syntax {
         }
     }
 
-    pub fn optional_chaining(self) -> bool {
+    pub const fn optional_chaining(self) -> bool {
         true
     }
 
-    pub fn dynamic_import(self) -> bool {
+    pub const fn dynamic_import(self) -> bool {
         true
     }
 
@@ -175,7 +175,7 @@ impl Syntax {
         }
     }
 
-    pub fn num_sep(self) -> bool {
+    pub const fn num_sep(self) -> bool {
         true
     }
 
@@ -191,15 +191,15 @@ impl Syntax {
         }
     }
 
-    pub fn class_private_methods(self) -> bool {
+    pub const fn class_private_methods(self) -> bool {
         true
     }
 
-    pub fn class_private_props(self) -> bool {
+    pub const fn class_private_props(self) -> bool {
         true
     }
 
-    pub fn class_props(self) -> bool {
+    pub const fn class_props(self) -> bool {
         true
     }
 
@@ -240,20 +240,20 @@ impl Syntax {
     }
 
     /// `true`
-    pub fn export_namespace_from(self) -> bool {
+    pub const fn export_namespace_from(self) -> bool {
         true
     }
 
     /// `true`
-    pub fn nullish_coalescing(self) -> bool {
+    pub const fn nullish_coalescing(self) -> bool {
         true
     }
 
-    pub fn import_meta(self) -> bool {
+    pub const fn import_meta(self) -> bool {
         true
     }
 
-    pub fn top_level_await(self) -> bool {
+    pub const fn top_level_await(self) -> bool {
         true
     }
 
