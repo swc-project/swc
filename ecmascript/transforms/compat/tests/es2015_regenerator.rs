@@ -1615,3 +1615,21 @@ test!(
     });
 "#
 );
+
+test!(
+    Syntax::default(),
+    |_| {
+        let mark = Mark::fresh(Mark::root());
+        es2015::<SingleThreadedComments>(mark, None, Default::default())
+    },
+    issue_2024_1,
+    "
+    _asyncToGenerator(function*() {
+        const sleep = ()=>new Promise((resolve)=>setTimeout(()=>resolve(undefined), 500));
+        const result = (yield sleep()) || 'fallback';
+        console.log(result);
+    })();
+    ",
+    "
+    "
+);
