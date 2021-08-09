@@ -433,6 +433,14 @@ impl Fold for BlockScoping {
         }
     }
 
+    fn fold_block_stmt(&mut self, n: BlockStmt) -> BlockStmt {
+        let vars = take(&mut self.vars);
+        let n = n.fold_children_with(self);
+        debug_assert_eq!(self.vars, vec![]);
+        self.vars = vars;
+        n
+    }
+
     fn fold_constructor(&mut self, f: Constructor) -> Constructor {
         Constructor {
             key: f.key.fold_with(self),
@@ -567,6 +575,10 @@ impl Fold for BlockScoping {
         node
     }
 
+    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        self.fold_stmt_like(n)
+    }
+
     fn fold_setter_prop(&mut self, f: SetterProp) -> SetterProp {
         SetterProp {
             key: f.key.fold_with(self),
@@ -574,6 +586,10 @@ impl Fold for BlockScoping {
             body: self.fold_with_scope(ScopeKind::Fn, f.body),
             ..f
         }
+    }
+
+    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
+        self.fold_stmt_like(n)
     }
 
     fn fold_var_decl(&mut self, var: VarDecl) -> VarDecl {
@@ -611,22 +627,6 @@ impl Fold for BlockScoping {
         let test = node.test.fold_with(self);
 
         WhileStmt { body, test, ..node }
-    }
-
-    fn fold_block_stmt(&mut self, n: BlockStmt) -> BlockStmt {
-        let vars = take(&mut self.vars);
-        let n = n.fold_children_with(self);
-        debug_assert_eq!(self.vars, vec![]);
-        self.vars = vars;
-        n
-    }
-
-    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        self.fold_stmt_like(n)
-    }
-
-    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
-        self.fold_stmt_like(n)
     }
 }
 
