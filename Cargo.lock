@@ -2165,7 +2165,7 @@ checksum = "6446ced80d6c486436db5c078dde11a9f73d42b57fb273121e160b84f63d894c"
 
 [[package]]
 name = "swc"
-version = "0.36.0"
+version = "0.37.0"
 dependencies = [
  "ahash 0.7.4",
  "anyhow",
@@ -2464,7 +2464,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.33.0"
+version = "0.34.0"
 dependencies = [
  "dashmap",
  "fxhash",
@@ -2747,7 +2747,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.52.1"
+version = "0.53.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
