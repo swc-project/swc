@@ -916,3 +916,41 @@ test!(
     for(var key in keys)_loop(key);
     "
 );
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |t| {
+        let mark = Mark::fresh(Mark::root());
+
+        es2015(mark, Some(t.comments.clone()), Default::default())
+    },
+    issue_2027_2,
+    "
+    const keys = {
+        a: 1,
+        b: 2,
+      }
+      
+      const controller = {}
+      
+      for (const key in keys) {
+        controller[key] = (c, ...d) => {
+          console.log(keys[key])
+        }
+      }
+    ",
+    "
+    var _loop = function(key) {
+        controller[key] = (c, ...d)=>{
+            console.log(keys[key]);
+        };
+    };
+    var keys = {
+        a: 1,
+        b: 2
+    };
+    var controller = {
+    };
+    for(var key in keys)_loop(key);
+    "
+);
