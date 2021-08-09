@@ -319,7 +319,7 @@ impl UsageAnalyzer {
         i: &Ident,
         has_init: bool,
         kind: Option<VarDeclKind>,
-        is_fn_decl: bool,
+        _is_fn_decl: bool,
     ) -> &mut VarUsageInfo {
         // log::trace!("declare_decl({}{:?})", i.sym, i.span.ctxt);
 
@@ -361,8 +361,6 @@ impl UsageAnalyzer {
             v.cond_init = true;
         }
         v.declared_as_catch_param |= self.ctx.in_catch_param;
-
-        v.declared_as_fn_expr |= is_fn_decl;
 
         v
     }
