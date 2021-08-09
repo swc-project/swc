@@ -882,3 +882,25 @@ test!(
     }
     "
 );
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| block_scoping(),
+    issue_2027_1,
+    "
+    const keys = {
+        a: 1,
+        b: 2,
+      }
+      
+      const controller = {}
+      
+      for (const key in keys) {
+        controller[key] = (c, ...d) => {
+          console.log(keys[key])
+        }
+      }
+    ",
+    "
+    "
+);
