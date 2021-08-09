@@ -587,49 +587,50 @@ test!(
     |_| block_scoping(),
     issue_1231_1,
     "
-        function combineOverlappingMatches(matches) {
-            let hasOverlaps = false
+    function combineOverlappingMatches(matches) {
+        let hasOverlaps = false
+        
+        for (let i = matches.length - 1; i >= 0; i--) {
+            let currentMatch = matches[i]
+            let overlap = matches.find(match => {
+                return match !== currentMatch && match.itemsType === currentMatch.itemsType
+            })
             
-            for (let i = matches.length - 1; i >= 0; i--) {
-                let currentMatch = matches[i]
-                let overlap = matches.find(match => {
-                    return match !== currentMatch && match.itemsType === currentMatch.itemsType
-                })
-                
-                if (overlap) {
-                    hasOverlaps = true
-                    matches.splice(i, 1)
-                }
-            }
-            
-            if (hasOverlaps) {
-                combineOverlappingMatches(matches)
+            if (overlap) {
+                hasOverlaps = true
+                matches.splice(i, 1)
             }
         }
         
-        combineOverlappingMatches([1])
-        ",
-    "
-        function combineOverlappingMatches(matches) {
-            var hasOverlaps = false;
-            for(var i = matches.length - 1; i >= 0; i--){
-                var currentMatch = matches[i];
-                var overlap = matches.find((match)=>{
-                    return match !== currentMatch && match.itemsType === currentMatch.itemsType;
-                });
-                if (overlap) {
-                    hasOverlaps = true;
-                    matches.splice(i, 1);
-                }
-            }
-            if (hasOverlaps) {
-                combineOverlappingMatches(matches);
-            }
+        if (hasOverlaps) {
+            combineOverlappingMatches(matches)
         }
-        combineOverlappingMatches([
-            1
-        ]);
-        "
+    }
+    
+    combineOverlappingMatches([1])
+    ",
+    "
+    function combineOverlappingMatches(matches) {
+        var _loop = function(i) {
+            var currentMatch = matches[i];
+            var overlap = matches.find((match)=>{
+                return match !== currentMatch && match.itemsType === currentMatch.itemsType;
+            });
+            if (overlap) {
+                hasOverlaps = true;
+                matches.splice(i, 1);
+            }
+        };
+        var hasOverlaps = false;
+        for(var i = matches.length - 1; i >= 0; i--)_loop(i);
+        if (hasOverlaps) {
+            combineOverlappingMatches(matches);
+        }
+    }
+    combineOverlappingMatches([
+        1
+    ]);
+    "
 );
 
 test!(
@@ -637,72 +638,73 @@ test!(
     |_| block_scoping(),
     issue_1415_1,
     "
-        export function test(items) {
-            const infoMap = new WeakMap();
-            for (let i = 0; i < items.length; i += 1) {
-              const item = items[i];
-              let info;
-              switch (item.type) {
-                case 'branch1':
-                  info = item.method1();
-                  break;
-                case 'branch2':
-                  info = item.method2();
-                  break;
-                case 'branch3':
-                  info = item.method3(
-                    Object.fromEntries(
-                      item.subItems.map((t) => [item.alias ?? t.name, getInfo(t)])
-                    )
-                  );
-                  break;
-                default:
-                  throw new Error('boom');
-              }
-              infoMap.set(item, info); // important
+    export function test(items) {
+        const infoMap = new WeakMap();
+        for (let i = 0; i < items.length; i += 1) {
+            const item = items[i];
+            let info;
+            switch (item.type) {
+            case 'branch1':
+                info = item.method1();
+                break;
+            case 'branch2':
+                info = item.method2();
+                break;
+            case 'branch3':
+                info = item.method3(
+                Object.fromEntries(
+                    item.subItems.map((t) => [item.alias ?? t.name, getInfo(t)])
+                )
+                );
+                break;
+            default:
+                throw new Error('boom');
             }
-          
-            function getInfo(item) {
-              if (!infoMap.has(item)) {
-                throw new Error('no info yet');
-              }
-              return infoMap.get(item);
-            }
-          }
-        ",
-    "
-        export function test(items) {
-            var infoMap = new WeakMap();
-            for(var i = 0; i < items.length; i += 1){
-                var item = items[i];
-                var info = void 0;
-                switch(item.type){
-                    case 'branch1':
-                        info = item.method1();
-                        break;
-                    case 'branch2':
-                        info = item.method2();
-                        break;
-                    case 'branch3':
-                        info = item.method3(Object.fromEntries(item.subItems.map((t)=>[
-                                item.alias ?? t.name,
-                                getInfo(t)
-                            ]
-                        )));
-                        break;
-                    default:
-                        throw new Error('boom');
-                }
-                infoMap.set(item, info);
-            }
-            function getInfo(item) {
-                if (!infoMap.has(item)) {
-                    throw new Error('no info yet');
-                }
-                return infoMap.get(item);
-            }
+            infoMap.set(item, info); // important
         }
-        "
+        
+        function getInfo(item) {
+            if (!infoMap.has(item)) {
+            throw new Error('no info yet');
+            }
+            return infoMap.get(item);
+        }
+    }
+    ",
+    "
+    export function test(items) {
+        var _loop = function(i) {
+            var item = items[i];
+            var info = void 0;
+            switch(item.type){
+                case 'branch1':
+                    info = item.method1();
+                    break;
+                case 'branch2':
+                    info = item.method2();
+                    break;
+                case 'branch3':
+                    info = item.method3(Object.fromEntries(item.subItems.map((t)=>[
+                            item.alias ?? t.name,
+                            getInfo(t)
+                        ]
+                    )));
+                    break;
+                default:
+                    throw new Error('boom');
+            }
+            infoMap.set(item, info);
+        };
+        var infoMap = new WeakMap();
+        for(var i = 0; i < items.length; i += 1)_loop(i);
+        function getInfo(item) {
+            if (!infoMap.has(item)) {
+                throw new Error('no info yet');
+            }
+            return infoMap.get(item);
+        }
+    }
+    "
 );
 
 test!(
@@ -880,5 +882,81 @@ test!(
         for(var i = 1; i < arguments.length; i++)_loop(i);
         return target;
     }
+    "
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| block_scoping(),
+    issue_2027_1,
+    "
+    const keys = {
+        a: 1,
+        b: 2,
+    }
+      
+    const controller = {}
+      
+    for (const key in keys) {
+        controller[key] = (c, ...d) => {
+            console.log(keys[key])
+        }
+      }
+    ",
+    "
+    var _loop = function(key) {
+        controller[key] = (c, ...d)=>{
+            console.log(keys[key]);
+        };
+    };
+    var keys = {
+        a: 1,
+        b: 2
+    };
+    var controller = {
+    };
+    for(var key in keys)_loop(key);
+    "
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |t| {
+        let mark = Mark::fresh(Mark::root());
+
+        es2015(mark, Some(t.comments.clone()), Default::default())
+    },
+    issue_2027_2,
+    "
+    const keys = {
+        a: 1,
+        b: 2,
+    }
+      
+    const controller = {}
+      
+    for (const key in keys) {
+        controller[key] = (c, ...d) => {
+            console.log(keys[key])
+        }
+      }
+    ",
+    "
+    var _loop = function(key) {
+        controller[key] = function(c) {
+            for(var _len = arguments.length, d = new Array(_len > 1 ? _len - 1 : 0), _key = 1; \
+     _key < _len; _key++){
+                d[_key - 1] = arguments[_key];
+            }
+            console.log(keys[key]);
+        };
+    };
+    var keys = {
+        a: 1,
+        b: 2
+    };
+    var controller = {
+    };
+    for(var key in keys)_loop(key);
     "
 );

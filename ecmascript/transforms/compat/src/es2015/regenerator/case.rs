@@ -580,7 +580,14 @@ impl CaseHandler<'_> {
                     _ => unreachable!(),
                 }
 
-                let right = e.right.map(|e| self.explode_expr(e, false));
+                let right = e.right.map(|e| {
+                    self.explode_expr_via_temp_var(
+                        result.clone(),
+                        has_leaping_children,
+                        e,
+                        ignore_result,
+                    )
+                });
 
                 self.mark(after);
 

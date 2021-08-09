@@ -1,11 +1,8 @@
 use self::{
-    class_name_tdz::ClassNameTdzFolder,
-    private_field::FieldAccessFolder,
-    this_in_static::ThisInStaticFolder,
-    used_name::{UsedNameCollector, UsedNameRenamer},
+    class_name_tdz::ClassNameTdzFolder, private_field::FieldAccessFolder,
+    this_in_static::ThisInStaticFolder, used_name::UsedNameCollector,
 };
 use std::{collections::HashSet, mem::take};
-use swc_atoms::JsWord;
 use swc_common::SyntaxContext;
 use swc_common::{util::move_map::MoveMap, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -734,8 +731,7 @@ impl ClassProperties {
             typescript_constructor_properties
         };
 
-        let constructor =
-            self.process_constructor(constructor, has_super, &used_names, constructor_exprs);
+        let constructor = self.process_constructor(constructor, has_super, constructor_exprs);
         if let Some(c) = constructor {
             members.push(ClassMember::Constructor(c));
         }
@@ -808,45 +804,15 @@ impl ClassProperties {
         &mut self,
         constructor: Option<Constructor>,
         has_super: bool,
-        used_names: &[JsWord],
         constructor_exprs: Vec<Box<Expr>>,
     ) -> Option<Constructor> {
-        let constructor = constructor
-            .map(|c| {
-                if self.typescript {
-                    c
-                } else {
-                    let mut folder = UsedNameRenamer {
-                        mark: Mark::fresh(Mark::root()),
-                        used_names,
-                    };
-
-                    // Handle collisions like
-                    //
-                    // var foo = "bar";
-                    //
-                    // class Foo {
-                    //     bar = foo;
-                    //     static bar = baz;
-                    //
-                    //     constructor() {
-                    //     var foo = "foo";
-                    //     var baz = "baz";
-                    //     }
-                    // }
-                    let body = c.body.fold_with(&mut folder);
-
-                    let params = c.params.fold_with(&mut folder);
-                    Constructor { body, params, ..c }
-                }
-            })
-            .or_else(|| {
-                if constructor_exprs.is_empty() {
-                    None
-                } else {
-                    Some(default_constructor(has_super))
-                }
-            });
+        let constructor = constructor.or_else(|| {
+            if constructor_exprs.is_empty() {
+                None
+            } else {
+                Some(default_constructor(has_super))
+            }
+        });
 
         if let Some(mut c) = constructor {
             // Prepend properties
