@@ -2586,15 +2586,17 @@ test!(
                     case 0:
                         _ctx.t0 = cache[key];
                         if (_ctx.t0) {
-                            _ctx.next = 4;
+                            _ctx.next = 5;
                             break;
                         }
                         _ctx.next = 4;
                         return fetchThing(key);
                     case 4:
+                        _ctx.t0 = _ctx.sent;
+                    case 5:
                         it = _ctx.t0;
                         return _ctx.abrupt('return', it);
-                    case 6:
+                    case 7:
                     case 'end':
                         return _ctx.stop();
                 }
