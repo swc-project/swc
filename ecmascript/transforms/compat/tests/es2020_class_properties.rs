@@ -5557,5 +5557,11 @@ test!(
     }
     ",
     "
+    class Item extends Component {
+        constructor(props){
+            super(props);
+            _defineProperty(this, 'input', this.props.item);
+        }
+    }
     "
 );
