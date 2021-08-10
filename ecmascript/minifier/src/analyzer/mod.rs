@@ -289,7 +289,9 @@ impl UsageAnalyzer {
 
         e.inline_prevented |= self.ctx.inline_prevented;
 
-        e.ref_count += 1;
+        if is_first {
+            e.ref_count += 1;
+        }
         e.reassigned |= is_first && is_modify && self.ctx.is_exact_reassignment;
         // Passing object as a argument is possibly modification.
         e.mutated |= is_modify || (self.ctx.in_call_arg && self.ctx.is_exact_arg);
