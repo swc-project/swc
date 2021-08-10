@@ -1,6 +1,11 @@
 use anyhow::Error;
 use pathdiff::diff_paths;
-use std::{borrow::Cow, env::current_dir, path::Component, sync::Arc};
+use std::{
+    borrow::Cow,
+    env::current_dir,
+    path::{Component, PathBuf},
+    sync::Arc,
+};
 use swc_atoms::JsWord;
 use swc_common::FileName;
 use swc_ecma_loader::resolve::Resolve;
@@ -47,6 +52,12 @@ where
     R: Resolve,
 {
     fn resolve_import(&self, base: &FileName, module_specifier: &str) -> Result<JsWord, Error> {
+        fn strip_ext(s: &str) -> JsWord {
+            let mut p = PathBuf::from(s);
+            p.set_extension("");
+            p.display().to_string().into()
+        }
+
         let target = self.resolver.resolve(base, module_specifier);
         let target = match target {
             Ok(v) => v,
@@ -55,7 +66,7 @@ where
 
         let target = match target {
             FileName::Real(v) => v,
-            FileName::Custom(s) => return Ok(s.into()),
+            FileName::Custom(s) => return Ok(strip_ext(&s)),
             _ => {
                 unreachable!(
                     "Node path provider does not support using `{:?}` as a target file name",
@@ -121,9 +132,9 @@ where
             Cow::Owned(format!("./{}", s))
         };
         if cfg!(target_os = "windows") {
-            Ok(s.replace('\\', "/").into())
+            Ok(strip_ext(&s.replace('\\', "/")))
         } else {
-            Ok(s.into())
+            Ok(strip_ext(&s))
         }
     }
 }

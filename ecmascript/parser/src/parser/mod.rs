@@ -50,6 +50,8 @@ struct State {
     labels: Vec<JsWord>,
     /// Start position of an assignment expression.
     potential_arrow_start: Option<BytePos>,
+
+    found_module_item: bool,
 }
 
 impl<'a, I: Input> Parser<Lexer<'a, I>> {
@@ -127,15 +129,21 @@ impl<I: Tokens> Parser<I> {
     pub fn parse_program(&mut self) -> PResult<Program> {
         let start = cur_pos!(self);
         let shebang = self.parse_shebang()?;
+        let ctx = Context {
+            can_be_module: true,
+            ..self.ctx()
+        };
 
-        let body: Vec<ModuleItem> = self.parse_block_body(true, true, None)?;
-        let has_module_item = body.iter().any(|item| match item {
-            ModuleItem::ModuleDecl(..) => true,
-            _ => false,
-        });
+        let body: Vec<ModuleItem> = self.with_ctx(ctx).parse_block_body(true, true, None)?;
+        let has_module_item = self.state.found_module_item
+            || body.iter().any(|item| match item {
+                ModuleItem::ModuleDecl(..) => true,
+                _ => false,
+            });
         if has_module_item && !self.ctx().module {
             let ctx = Context {
                 module: true,
+                can_be_module: true,
                 strict: true,
                 ..self.ctx()
             };
@@ -168,6 +176,7 @@ impl<I: Tokens> Parser<I> {
     pub fn parse_module(&mut self) -> PResult<Module> {
         let ctx = Context {
             module: true,
+            can_be_module: true,
             strict: true,
             ..self.ctx()
         };
@@ -239,12 +248,20 @@ where
         let lexer = Lexer::new(syntax, JscTarget::Es2019, input, None);
         let mut p = Parser::new_from(lexer);
         let ret = f(&mut p);
+        let mut error = false;
 
         for err in p.take_errors() {
+            error = true;
             err.into_diagnostic(handler).emit();
         }
 
-        ret.map_err(|err| err.into_diagnostic(handler).emit())
+        let res = ret.map_err(|err| err.into_diagnostic(handler).emit())?;
+
+        if error {
+            return Err(());
+        }
+
+        Ok(res)
     })
     .unwrap_or_else(|output| panic!("test_parser(): failed to parse \n{}\n{}", s, output))
 }

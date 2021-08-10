@@ -3779,7 +3779,7 @@ var qux = function() {
 
 (function () {
   class Baz {
-    constructor(force1){
+    constructor(force){
       _defineProperty(this, 'fn', (function() {
         return console.log(this);
       }).bind(this));
@@ -5539,6 +5539,29 @@ test!(
     }()) || _class) || _class;
     function someClassDecorator(c) {
         return c;
+    }
+    "
+);
+
+test!(
+    syntax(),
+    |_| class_properties(),
+    issue_2021_1,
+    "
+    class Item extends Component {
+      constructor(props) {
+        super(props);
+      }
+    
+      input = this.props.item;
+    }
+    ",
+    "
+    class Item extends Component {
+        constructor(props){
+            super(props);
+            _defineProperty(this, 'input', this.props.item);
+        }
     }
     "
 );

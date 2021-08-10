@@ -70,6 +70,8 @@ impl BlockScoping {
     where
         T: FoldWith<Self>,
     {
+        let len = self.scope.len();
+
         let remove = match kind {
             ScopeKind::ForLetLoop { .. } => false,
             _ => true,
@@ -78,7 +80,7 @@ impl BlockScoping {
         let node = node.fold_with(self);
 
         if remove {
-            self.scope.pop();
+            self.scope.truncate(len);
         }
 
         node
@@ -433,6 +435,14 @@ impl Fold for BlockScoping {
         }
     }
 
+    fn fold_block_stmt(&mut self, n: BlockStmt) -> BlockStmt {
+        let vars = take(&mut self.vars);
+        let n = n.fold_children_with(self);
+        debug_assert_eq!(self.vars, vec![]);
+        self.vars = vars;
+        n
+    }
+
     fn fold_constructor(&mut self, f: Constructor) -> Constructor {
         Constructor {
             key: f.key.fold_with(self),
@@ -567,6 +577,10 @@ impl Fold for BlockScoping {
         node
     }
 
+    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        self.fold_stmt_like(n)
+    }
+
     fn fold_setter_prop(&mut self, f: SetterProp) -> SetterProp {
         SetterProp {
             key: f.key.fold_with(self),
@@ -574,6 +588,10 @@ impl Fold for BlockScoping {
             body: self.fold_with_scope(ScopeKind::Fn, f.body),
             ..f
         }
+    }
+
+    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
+        self.fold_stmt_like(n)
     }
 
     fn fold_var_decl(&mut self, var: VarDecl) -> VarDecl {
@@ -611,22 +629,6 @@ impl Fold for BlockScoping {
         let test = node.test.fold_with(self);
 
         WhileStmt { body, test, ..node }
-    }
-
-    fn fold_block_stmt(&mut self, n: BlockStmt) -> BlockStmt {
-        let vars = take(&mut self.vars);
-        let n = n.fold_children_with(self);
-        debug_assert_eq!(self.vars, vec![]);
-        self.vars = vars;
-        n
-    }
-
-    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        self.fold_stmt_like(n)
-    }
-
-    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
-        self.fold_stmt_like(n)
     }
 }
 
@@ -993,6 +995,10 @@ struct FunctionFinder {
 
 impl Visit for FunctionFinder {
     noop_visit_type!();
+
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {
+        self.found = true;
+    }
 
     fn visit_function(&mut self, _: &Function, _: &dyn Node) {
         self.found = true
