@@ -502,6 +502,12 @@ impl Optimizer<'_> {
         if let Some(decl) = v.decls.last_mut() {
             match &decl.name {
                 Pat::Ident(name) => {
+                    log::trace!(
+                        "unused: Trying to removing var decl ({}{:?})",
+                        name.id.sym,
+                        name.id.span.ctxt
+                    );
+
                     if let Some(usage) = self
                         .data
                         .as_ref()
@@ -513,8 +519,8 @@ impl Optimizer<'_> {
                     }
 
                     self.changed = true;
-                    log::trace!(
-                        "unused: Removing var decl {}{:?} while preserving side effects",
+                    log::debug!(
+                        "unused: Removing var decl ({}{:?}) while preserving side effects",
                         name.id.sym,
                         name.id.span.ctxt
                     );
