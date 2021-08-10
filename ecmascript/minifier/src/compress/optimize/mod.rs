@@ -1,6 +1,7 @@
 use crate::analyzer::ProgramData;
 use crate::analyzer::UsageAnalyzer;
 use crate::compress::util::is_pure_undefined;
+use crate::debug::dump;
 use crate::marks::Marks;
 use crate::option::CompressOptions;
 use crate::util::contains_leaping_yield;
@@ -2170,7 +2171,10 @@ impl VisitMut for Optimizer<'_> {
 
                     if can_be_removed {
                         self.changed = true;
-                        log::debug!("Dropping an expression without side effect");
+                        log::debug!("unused: Dropping an expression without side effect");
+                        if cfg!(feature = "debug") {
+                            log::trace!("unused: [Change] Dropping \n{}\n", dump(&*expr));
+                        }
                         *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                         return;
                     }
