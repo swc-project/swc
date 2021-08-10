@@ -28,7 +28,7 @@ pub use self::{
 pub use ast_node::ast_serde;
 pub use ast_node::{ast_node, DeserializeEnum, Spanned};
 pub use from_variant::FromVariant;
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 use std::fmt::Debug;
 pub use swc_eq_ignore_macros::EqIgnoreSpan;
 pub use swc_eq_ignore_macros::TypeEq;
@@ -39,21 +39,6 @@ pub mod private;
 /// A trait for ast nodes.
 pub trait AstNode: Debug + PartialEq + Clone + Spanned + Serialize {
     const TYPE: &'static str;
-}
-
-/// Target runtime environment.
-#[derive(Debug, Serialize, Deserialize)]
-pub enum TargetEnv {
-    #[serde(rename = "browser")]
-    Browser,
-    #[serde(rename = "node")]
-    Node,
-}
-
-impl Default for TargetEnv {
-    fn default() -> Self {
-        TargetEnv::Browser
-    }
 }
 
 pub mod comments;

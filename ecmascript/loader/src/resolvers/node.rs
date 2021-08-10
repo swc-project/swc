@@ -12,7 +12,8 @@ use std::{
     io::BufReader,
     path::{Component, Path, PathBuf},
 };
-use swc_common::{FileName, TargetEnv};
+use swc_common::FileName;
+use swc_ecma_ast::TargetEnv;
 
 // Run `node -p "require('module').builtinModules"`
 pub(crate) fn is_core_module(s: &str) -> bool {

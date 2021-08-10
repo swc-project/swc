@@ -15,9 +15,10 @@ use std::{
 use swc::{config::SourceMapsConfig, resolver::environment_resolver};
 use swc_atoms::js_word;
 use swc_bundler::{BundleKind, Bundler, Config, ModuleRecord};
-use swc_common::{FileName, Span, TargetEnv, GLOBALS};
+use swc_common::{FileName, Span, GLOBALS};
 use swc_ecma_ast::{
     Bool, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, MetaPropExpr, PropName, Str,
+    TargetEnv,
 };
 use swc_ecma_parser::JscTarget;
 use swc_ecma_transforms::fixer;

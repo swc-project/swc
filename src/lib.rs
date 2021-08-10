@@ -46,7 +46,7 @@ use swc_ecma_visit::FoldWith;
 mod builder;
 pub mod config;
 pub mod resolver {
-    use swc_common::TargetEnv;
+    use swc_ecma_ast::TargetEnv;
     use swc_ecma_loader::resolvers::lru::CachingResolver;
 
     pub type NodeResolver = CachingResolver<swc_ecma_loader::resolvers::node::NodeResolver>;
