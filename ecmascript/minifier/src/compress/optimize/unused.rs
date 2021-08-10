@@ -485,60 +485,6 @@ impl Optimizer<'_> {
             _ => {}
         }
     }
-
-    pub(super) fn remove_name_of_unused_var(&mut self, v: &mut VarDecl) {
-        if !self.options.unused {
-            return;
-        }
-
-        if self.ctx.is_exported || self.ctx.in_var_decl_of_for_in_or_of_loop {
-            return;
-        }
-
-        if self.ctx.in_top_level() {
-            return;
-        }
-
-        if let Some(decl) = v.decls.last_mut() {
-            match &decl.name {
-                Pat::Ident(name) => {
-                    log::trace!(
-                        "unused: Trying to removing var decl ({}{:?})",
-                        name.id.sym,
-                        name.id.span.ctxt
-                    );
-
-                    if let Some(usage) = self
-                        .data
-                        .as_ref()
-                        .and_then(|data| data.vars.get(&name.id.to_id()))
-                    {
-                        if usage.ref_count != 0 {
-                            log::trace!("unused: [x] It's used {} times", usage.ref_count);
-                            return;
-                        }
-                    }
-
-                    self.changed = true;
-                    log::debug!(
-                        "unused: Removing var decl ({}{:?}) while preserving side effects",
-                        name.id.sym,
-                        name.id.span.ctxt
-                    );
-
-                    if let Some(expr) = decl.init.take() {
-                        self.append_stmts.push(Stmt::Expr(ExprStmt {
-                            span: decl.span,
-                            expr,
-                        }));
-                    }
-
-                    v.decls.pop();
-                }
-                _ => {}
-            }
-        }
-    }
 }
 
 #[derive(Debug, Default)]
