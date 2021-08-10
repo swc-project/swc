@@ -1912,6 +1912,7 @@ impl VisitMut for Optimizer<'_> {
 
         if let Some(body) = &mut n.body {
             self.merge_if_returns(&mut body.stmts);
+            self.drop_else_token(&mut body.stmts);
         }
 
         {
