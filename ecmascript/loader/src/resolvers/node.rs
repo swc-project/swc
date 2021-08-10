@@ -103,10 +103,9 @@ pub struct NodeResolver {
 static EXTENSIONS: &[&str] = &["ts", "tsx", "js", "jsx", "json", "node"];
 
 impl NodeResolver {
-
     /// Create a node modules resolver for the target runtime environment.
     pub fn new(target_env: TargetEnv) -> Self {
-        Self { target_env } 
+        Self { target_env }
     }
 
     fn wrap(&self, path: PathBuf) -> Result<FileName, Error> {

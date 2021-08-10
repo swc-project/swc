@@ -28,7 +28,7 @@ pub use self::{
 pub use ast_node::ast_serde;
 pub use ast_node::{ast_node, DeserializeEnum, Spanned};
 pub use from_variant::FromVariant;
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 use std::fmt::Debug;
 pub use swc_eq_ignore_macros::EqIgnoreSpan;
 pub use swc_eq_ignore_macros::TypeEq;
