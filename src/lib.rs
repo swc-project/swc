@@ -46,9 +46,17 @@ use swc_ecma_visit::FoldWith;
 mod builder;
 pub mod config;
 pub mod resolver {
-    pub use swc_ecma_loader::resolvers::lru::CachingResolver;
+    use swc_common::TargetEnv;
+    use swc_ecma_loader::resolvers::lru::CachingResolver;
 
     pub type NodeResolver = CachingResolver<swc_ecma_loader::resolvers::node::NodeResolver>;
+
+    pub fn environment_resolver(target_env: TargetEnv) -> NodeResolver {
+        CachingResolver::new(
+            40,
+            swc_ecma_loader::resolvers::node::NodeResolver::new(target_env),
+        )
+    }
 }
 
 type SwcImportResolver = Arc<NodeImportResolver<CachingResolver<TsConfigResolver<NodeResolver>>>>;
