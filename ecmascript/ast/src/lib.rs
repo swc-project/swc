@@ -129,3 +129,18 @@ impl Default for EsVersion {
         EsVersion::Es5
     }
 }
+
+/// Target runtime environment.
+#[derive(Debug, Copy, Clone, Serialize, Deserialize)]
+pub enum TargetEnv {
+    #[serde(rename = "browser")]
+    Browser,
+    #[serde(rename = "node")]
+    Node,
+}
+
+impl Default for TargetEnv {
+    fn default() -> Self {
+        TargetEnv::Browser
+    }
+}

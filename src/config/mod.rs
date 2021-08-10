@@ -21,7 +21,9 @@ pub use swc_common::chain;
 use swc_common::{errors::Handler, FileName, Mark, SourceMap};
 use swc_ecma_ast::{Expr, ExprStmt, ModuleItem, Stmt};
 use swc_ecma_ext_transforms::jest;
-use swc_ecma_loader::resolvers::{lru::CachingResolver, node::NodeResolver, tsc::TsConfigResolver};
+use swc_ecma_loader::resolvers::{
+    lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
+};
 use swc_ecma_minifier::option::terser::{TerserCompressorOptions, TerserEcmaVersion};
 use swc_ecma_minifier::option::{MangleOptions, ManglePropertiesOptions};
 pub use swc_ecma_parser::JscTarget;
@@ -1099,7 +1101,7 @@ fn build_resolver(base_url: String, paths: CompiledPaths) -> SwcImportResolver {
 
     let r = {
         let r = TsConfigResolver::new(
-            NodeResolver::default(),
+            NodeModulesResolver::default(),
             base_url.clone().into(),
             paths.clone(),
         );

@@ -10,7 +10,7 @@ use std::{
     panic::{catch_unwind, AssertUnwindSafe},
     sync::Arc,
 };
-use swc::{config::SourceMapsConfig, resolver::NodeResolver, Compiler, TransformOutput};
+use swc::{config::SourceMapsConfig, resolver::environment_resolver, Compiler, TransformOutput};
 use swc_atoms::js_word;
 use swc_atoms::JsWord;
 use swc_bundler::{BundleKind, Bundler, Load, ModuleRecord, Resolve};
@@ -195,12 +195,14 @@ pub(crate) fn bundle(cx: CallContext) -> napi::Result<JsObject> {
             }),
     ));
 
+    let target_env = static_items.config.target;
+
     cx.env
         .spawn(BundleTask {
             swc: c.clone(),
             config: ConfigItem {
                 loader,
-                resolver: Box::new(NodeResolver::default()) as Box<_>,
+                resolver: Box::new(environment_resolver(target_env)) as Box<_>,
                 static_items,
             },
         })

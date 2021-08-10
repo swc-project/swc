@@ -13,6 +13,7 @@ use std::{
     path::{Component, Path, PathBuf},
 };
 use swc_common::FileName;
+use swc_ecma_ast::TargetEnv;
 
 // Run `node -p "require('module').builtinModules"`
 pub(crate) fn is_core_module(s: &str) -> bool {
@@ -87,22 +88,25 @@ pub(crate) fn is_core_module(s: &str) -> bool {
 
 #[derive(Deserialize)]
 struct PackageJson {
-    #[serde(rename = "swc-main", default)]
-    swc_main: Option<String>,
-    #[serde(default)]
-    esnext: Option<String>,
     #[serde(default)]
     main: Option<String>,
+    #[serde(default)]
+    browser: Option<String>,
 }
 
 #[derive(Debug, Default)]
-pub struct NodeResolver {
-    _private: (),
+pub struct NodeModulesResolver {
+    target_env: TargetEnv,
 }
 
 static EXTENSIONS: &[&str] = &["ts", "tsx", "js", "jsx", "json", "node"];
 
-impl NodeResolver {
+impl NodeModulesResolver {
+    /// Create a node modules resolver for the target runtime environment.
+    pub fn new(target_env: TargetEnv) -> Self {
+        Self { target_env }
+    }
+
     fn wrap(&self, path: PathBuf) -> Result<FileName, Error> {
         let path = path.canonicalize().context("failed to canonicalize")?;
         Ok(FileName::Real(path))
@@ -154,7 +158,16 @@ impl NodeResolver {
         let pkg: PackageJson =
             serde_json::from_reader(reader).context("failed to deserialize package.json")?;
 
-        for main in &[&pkg.swc_main, &pkg.esnext, &pkg.main] {
+        let main_fields = match self.target_env {
+            TargetEnv::Node => {
+                vec![&pkg.main]
+            }
+            TargetEnv::Browser => {
+                vec![&pkg.browser, &pkg.main]
+            }
+        };
+
+        for main in main_fields {
             if let Some(target) = main {
                 let path = pkg_dir.join(target);
                 return self
@@ -201,10 +214,12 @@ impl NodeResolver {
     }
 }
 
-impl Resolve for NodeResolver {
+impl Resolve for NodeModulesResolver {
     fn resolve(&self, base: &FileName, target: &str) -> Result<FileName, Error> {
-        if is_core_module(target) {
-            return Ok(FileName::Custom(target.to_string()));
+        if let TargetEnv::Node = self.target_env {
+            if is_core_module(target) {
+                return Ok(FileName::Custom(target.to_string()));
+            }
         }
 
         let base = match base {
