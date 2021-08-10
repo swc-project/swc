@@ -130,4 +130,13 @@ impl Visit for HygieneAnalyzer<'_> {
             n.prop.visit_with(n, self);
         }
     }
+
+    fn visit_prop_name(&mut self, n: &PropName, _: &dyn Node) {
+        match n {
+            PropName::Computed(..) => {
+                n.visit_children_with(self);
+            }
+            _ => {}
+        }
+    }
 }

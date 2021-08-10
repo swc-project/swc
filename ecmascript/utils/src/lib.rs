@@ -1101,8 +1101,11 @@ pub trait ExprExt {
 
             Expr::Call(CallExpr {
                 callee: ExprOrSuper::Expr(ref callee),
+                ref args,
                 ..
-            }) if callee.is_pure_callee() => false,
+            }) if callee.is_pure_callee() => {
+                args.iter().any(|arg| arg.expr.may_have_side_effects())
+            }
             Expr::Call(_) => true,
 
             Expr::Seq(SeqExpr { ref exprs, .. }) => exprs.iter().any(|e| e.may_have_side_effects()),

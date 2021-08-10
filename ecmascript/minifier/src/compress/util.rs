@@ -529,6 +529,18 @@ pub(crate) fn eval_as_number(e: &Expr) -> Option<f64> {
     None
 }
 
+pub(crate) fn always_terminates(s: &Stmt) -> bool {
+    match s {
+        Stmt::Return(..) | Stmt::Throw(..) | Stmt::Break(..) | Stmt::Continue(..) => true,
+        Stmt::If(IfStmt { cons, alt, .. }) => {
+            always_terminates(&cons) && alt.as_deref().map(always_terminates).unwrap_or(false)
+        }
+        Stmt::Block(s) => s.stmts.iter().any(always_terminates),
+
+        _ => false,
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::negate_cost;

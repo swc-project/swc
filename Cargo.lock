@@ -2409,7 +2409,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.19.0"
+version = "0.19.1"
 dependencies = [
  "ansi_term 0.12.1",
  "anyhow",
@@ -2723,7 +2723,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.41.0"
+version = "0.41.1"
 dependencies = [
  "once_cell",
  "scoped-tls",
