@@ -195,12 +195,14 @@ pub(crate) fn bundle(cx: CallContext) -> napi::Result<JsObject> {
             }),
     ));
 
+    let target_env = static_items.config.target;
+
     cx.env
         .spawn(BundleTask {
             swc: c.clone(),
             config: ConfigItem {
                 loader,
-                resolver: Box::new(NodeResolver::default()) as Box<_>,
+                resolver: Box::new(NodeResolver::new(target_env)) as Box<_>,
                 static_items,
             },
         })

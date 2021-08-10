@@ -8,7 +8,7 @@ use serde::Deserialize;
 use std::{collections::HashMap, fmt, marker::PhantomData, path::PathBuf};
 use string_enum::StringEnum;
 use swc_atoms::JsWord;
-use swc_common::FileName;
+use swc_common::{FileName, TargetEnv};
 use swc_ecma_parser::JscTarget;
 
 mod module;
@@ -24,6 +24,9 @@ pub struct Config {
 
     #[serde(default)]
     pub mode: Mode,
+
+    #[serde(default)]
+    pub target: TargetEnv,
 
     pub entry: EntryConfig,
 
