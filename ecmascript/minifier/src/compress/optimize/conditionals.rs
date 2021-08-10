@@ -1,8 +1,6 @@
 use super::Optimizer;
-use crate::compress::optimize::bools::negate_cost;
 use crate::compress::optimize::Ctx;
-use crate::debug::dump;
-use crate::util::make_bool;
+use crate::compress::util::negate_cost;
 use crate::util::SpanExt;
 use crate::DISABLE_BUGGY_PASSES;
 use std::mem::swap;
@@ -17,39 +15,10 @@ use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::ExprExt;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_utils::StmtLike;
-use swc_ecma_utils::Type;
-use swc_ecma_utils::Value::Known;
 
 /// Methods related to the option `conditionals`. All methods are noop if
 /// `conditionals` is false.
 impl Optimizer<'_> {
-    pub(super) fn negate_cond_expr(&mut self, cond: &mut CondExpr) {
-        if negate_cost(&cond.test, true, false).unwrap_or(isize::MAX) >= 0 {
-            return;
-        }
-
-        self.changed = true;
-        log::debug!("conditionals: `a ? foo : bar` => `!a ? bar : foo` (considered cost)");
-        let start_str = dump(&*cond);
-
-        {
-            let ctx = Ctx {
-                in_bool_ctx: true,
-                ..self.ctx
-            };
-            self.with_ctx(ctx).negate(&mut cond.test);
-        }
-        swap(&mut cond.cons, &mut cond.alt);
-
-        if cfg!(feature = "debug") {
-            log::trace!(
-                "[Change] Negated cond: `{}` => `{}`",
-                start_str,
-                dump(&*cond)
-            )
-        }
-    }
-
     /// Negates the condition of a `if` statement to reduce body size.
     pub(super) fn negate_if_stmt(&mut self, stmt: &mut IfStmt) {
         let alt = match stmt.alt.as_deref_mut() {
@@ -86,7 +55,6 @@ impl Optimizer<'_> {
             _ => return,
         }
     }
-
     /// This method may change return value.
     ///
     /// - `a ? b : false` => `a && b`
@@ -118,161 +86,6 @@ impl Optimizer<'_> {
                 right: cond.cons.take(),
             });
             return;
-        }
-    }
-
-    /// Removes useless operands of an logical expressions.
-    pub(super) fn drop_logical_operands(&mut self, e: &mut Expr) {
-        if !self.options.conditionals {
-            return;
-        }
-
-        let bin = match e {
-            Expr::Bin(b) => b,
-            _ => return,
-        };
-
-        if bin.op != op!("||") && bin.op != op!("&&") {
-            return;
-        }
-
-        if bin.left.may_have_side_effects() {
-            return;
-        }
-
-        let lt = bin.left.get_type();
-        let rt = bin.right.get_type();
-
-        let _lb = bin.left.as_pure_bool();
-        let rb = bin.right.as_pure_bool();
-
-        if let (Known(Type::Bool), Known(Type::Bool)) = (lt, rt) {
-            // `!!b || true` => true
-            if let Known(true) = rb {
-                self.changed = true;
-                log::debug!("conditionals: `!!foo || true` => `true`");
-                *e = make_bool(bin.span, true);
-                return;
-            }
-        }
-    }
-
-    pub(super) fn compress_cond_with_logical_as_logical(&mut self, e: &mut Expr) {
-        if !self.options.conditionals {
-            return;
-        }
-
-        let cond = match e {
-            Expr::Cond(v) => v,
-            _ => return,
-        };
-
-        let cons_span = cond.cons.span();
-
-        match (&mut *cond.cons, &mut *cond.alt) {
-            (Expr::Bin(cons @ BinExpr { op: op!("||"), .. }), alt)
-                if (*cons.right).eq_ignore_span(&*alt) =>
-            {
-                log::debug!("conditionals: `x ? y || z : z` => `x || y && z`");
-                self.changed = true;
-
-                *e = Expr::Bin(BinExpr {
-                    span: cond.span,
-                    op: op!("||"),
-                    left: Box::new(Expr::Bin(BinExpr {
-                        span: cons_span,
-                        op: op!("&&"),
-                        left: cond.test.take(),
-                        right: cons.left.take(),
-                    })),
-                    right: cons.right.take(),
-                });
-                return;
-            }
-            _ => {}
-        }
-    }
-
-    ///
-    /// - `foo ? bar : false` => `!!foo && bar`
-    /// - `!foo ? true : bar` => `!foo || bar`
-    /// - `foo ? false : bar` => `!foo && bar`
-    pub(super) fn compress_conds_as_logical(&mut self, e: &mut Expr) {
-        let cond = match e {
-            Expr::Cond(cond) => cond,
-            _ => return,
-        };
-
-        let lt = cond.cons.get_type();
-        if let Known(Type::Bool) = lt {
-            let lb = cond.cons.as_pure_bool();
-            if let Known(true) = lb {
-                log::debug!("conditionals: `foo ? true : bar` => `!!foo || bar`");
-
-                // Negate twice to convert `test` to boolean.
-                self.negate_twice(&mut cond.test);
-
-                self.changed = true;
-                *e = Expr::Bin(BinExpr {
-                    span: cond.span,
-                    op: op!("||"),
-                    left: cond.test.take(),
-                    right: cond.alt.take(),
-                });
-                return;
-            }
-
-            // TODO: Verify this rule.
-            if let Known(false) = lb {
-                log::debug!("conditionals: `foo ? false : bar` => `!foo && bar`");
-
-                self.changed = true;
-                self.negate(&mut cond.test);
-
-                *e = Expr::Bin(BinExpr {
-                    span: cond.span,
-                    op: op!("&&"),
-                    left: cond.test.take(),
-                    right: cond.alt.take(),
-                });
-                return;
-            }
-        }
-
-        let rt = cond.alt.get_type();
-        if let Known(Type::Bool) = rt {
-            let rb = cond.alt.as_pure_bool();
-            if let Known(false) = rb {
-                log::debug!("conditionals: `foo ? bar : false` => `!!foo && bar`");
-                self.changed = true;
-
-                // Negate twice to convert `test` to boolean.
-                self.negate_twice(&mut cond.test);
-
-                *e = Expr::Bin(BinExpr {
-                    span: cond.span,
-                    op: op!("&&"),
-                    left: cond.test.take(),
-                    right: cond.cons.take(),
-                });
-                return;
-            }
-
-            if let Known(true) = rb {
-                log::debug!("conditionals: `foo ? bar : true` => `!foo || bar");
-                self.changed = true;
-
-                // Negate twice to convert `test` to boolean.
-                self.negate(&mut cond.test);
-
-                *e = Expr::Bin(BinExpr {
-                    span: cond.span,
-                    op: op!("||"),
-                    left: cond.test.take(),
-                    right: cond.cons.take(),
-                });
-                return;
-            }
         }
     }
 

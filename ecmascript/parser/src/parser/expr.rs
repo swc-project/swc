@@ -232,6 +232,11 @@ impl<'a, I: Tokens> Parser<I> {
                 tok!("import") => {
                     let import = self.parse_ident_name()?;
                     if self.input.syntax().import_meta() && is!(self, '.') {
+                        self.state.found_module_item = true;
+                        if !self.ctx().can_be_module {
+                            let span = span!(self, start);
+                            self.emit_err(span, SyntaxError::ImportMetaInScript);
+                        }
                         return self
                             .parse_import_meta_prop(import)
                             .map(Expr::MetaProp)

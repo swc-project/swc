@@ -1,4 +1,4 @@
-use crate::compress::optimize::util::is_directive;
+use crate::compress::util::is_directive;
 
 use super::Optimizer;
 use swc_ecma_ast::*;

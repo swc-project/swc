@@ -11,15 +11,8 @@ use swc_ecma_utils::Id;
 use swc_ecma_visit::noop_visit_mut_type;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
-use unicode_xid::UnicodeXID;
 
 impl<'b> Optimizer<'b> {
-    pub(super) fn line_col(&self, span: Span) -> String {
-        let loc = self.cm.lookup_char_pos(span.lo);
-
-        format!("{}:{}", loc.line, loc.col_display)
-    }
-
     pub(super) fn access_property<'e>(
         &mut self,
         expr: &'e mut Expr,
@@ -170,69 +163,12 @@ pub(crate) fn class_has_side_effect(c: &Class) -> bool {
     false
 }
 
-pub(crate) fn get_lhs_ident(e: &PatOrExpr) -> Option<&Ident> {
-    match e {
-        PatOrExpr::Expr(v) => match &**v {
-            Expr::Ident(i) => Some(i),
-            _ => None,
-        },
-        PatOrExpr::Pat(v) => match &**v {
-            Pat::Ident(i) => Some(&i.id),
-            Pat::Expr(v) => match &**v {
-                Expr::Ident(i) => Some(i),
-                _ => None,
-            },
-            _ => None,
-        },
-    }
-}
-
-pub(crate) fn get_lhs_ident_mut(e: &mut PatOrExpr) -> Option<&mut Ident> {
-    match e {
-        PatOrExpr::Expr(v) => match &mut **v {
-            Expr::Ident(i) => Some(i),
-            _ => None,
-        },
-        PatOrExpr::Pat(v) => match &mut **v {
-            Pat::Ident(i) => Some(&mut i.id),
-            Pat::Expr(v) => match &mut **v {
-                Expr::Ident(i) => Some(i),
-                _ => None,
-            },
-            _ => None,
-        },
-    }
-}
-
 pub(crate) fn is_valid_for_lhs(e: &Expr) -> bool {
     match e {
         Expr::Lit(..) => return false,
         Expr::Unary(..) => return false,
         _ => true,
     }
-}
-
-pub(crate) fn is_directive(e: &Stmt) -> bool {
-    match e {
-        Stmt::Expr(s) => match &*s.expr {
-            Expr::Lit(Lit::Str(Str { value, .. })) => value.starts_with("use "),
-            _ => false,
-        },
-        _ => false,
-    }
-}
-
-pub(crate) fn is_valid_identifier(s: &str, ascii_only: bool) -> bool {
-    if ascii_only {
-        if s.chars().any(|c| !c.is_ascii()) {
-            return false;
-        }
-    }
-
-    s.starts_with(|c: char| c.is_xid_start())
-        && s.chars().all(|c: char| c.is_xid_continue())
-        && !s.contains("𝒶")
-        && !s.is_reserved()
 }
 
 pub(crate) fn replace_id_with_expr<N>(node: &mut N, from: Id, to: Box<Expr>)

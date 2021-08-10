@@ -624,7 +624,7 @@
             var v, uc_prop = prop.charAt(0).toUpperCase() + prop.substr(1), props = (prop + " " + vendors.join(uc_prop + " ") + uc_prop).split(" ");
             for(v in props)if (undefined !== fbCSS[props[v]]) return !0;
         }
-        var w, ua, platform, wkmatch, wkversion, ffmatch, ffversion, operammobilematch, omversion, fauxBase, base, supports, element, documentElement, getComputedStyle, ua1, nokiaLTE7_3, fakeBody = $17("<body>").prependTo("html"), fbCSS = fakeBody[0].style, vendors = [
+        var nokiaLTE7_3, w, ua, platform, wkmatch, wkversion, ffmatch, ffversion, operammobilematch, omversion, fauxBase, base, supports, element, documentElement, getComputedStyle, ua1, fakeBody = $17("<body>").prependTo("html"), fbCSS = fakeBody[0].style, vendors = [
             "Webkit",
             "Moz",
             "O"
@@ -1207,7 +1207,7 @@
                         $17.event.special.swipe.eventInProgress = !0;
                         var stop, start = $17.event.special.swipe.start(event), origTarget = event.target, emitted = !1;
                         context.move = function(event) {
-                            start && (stop = $17.event.special.swipe.stop(event), !emitted && (emitted = $17.event.special.swipe.handleSwipe(start, stop, thisObject, origTarget)) && ($17.event.special.swipe.eventInProgress = !1), Math.abs(start.coords[0] - stop.coords[0]) > $17.event.special.swipe.scrollSupressionThreshold && event.preventDefault());
+                            !!start && (stop = $17.event.special.swipe.stop(event), !emitted && (emitted = $17.event.special.swipe.handleSwipe(start, stop, thisObject, origTarget)) && ($17.event.special.swipe.eventInProgress = !1), Math.abs(start.coords[0] - stop.coords[0]) > $17.event.special.swipe.scrollSupressionThreshold && event.preventDefault());
                         }, context.stop = function() {
                             emitted = !0, $17.event.special.swipe.eventInProgress = !1, $document.off(touchMoveEvent, context.move), context.move = null;
                         }, $document.on(touchMoveEvent, context.move).one(touchStopEvent, context.stop);
@@ -1282,7 +1282,7 @@
         }).prependTo($7("head")),
         linkSelector: "[src], link[href], a[rel='external'], :jqmData(ajax='false'), a[target]",
         set: function(href) {
-            $7.mobile.dynamicBaseEnabled && $7.support.dynamicBaseTag && base.element.attr("href", $7.mobile.path.makeUrlAbsolute(href, $7.mobile.path.documentBase));
+            !!$7.mobile.dynamicBaseEnabled && $7.support.dynamicBaseTag && base.element.attr("href", $7.mobile.path.makeUrlAbsolute(href, $7.mobile.path.documentBase));
         },
         rewrite: function(href, page) {
             var newPath = $7.mobile.path.get(href);
@@ -1728,7 +1728,7 @@
             }), $17.mobile.document.bind("vclick", function(event) {
                 var $btn, btnEls, target = event.target, needClosest = !1;
                 if (!(event.which > 1) && $17.mobile.linkBindingEnabled) {
-                    if ($lastVClicked = $17(target), $17.data(target, "mobile-button")) getAjaxFormData($17(target).closest("form"), !0) && target.parentNode && (target = target.parentNode);
+                    if ($lastVClicked = $17(target), $17.data(target, "mobile-button")) !!getAjaxFormData($17(target).closest("form"), !0) && target.parentNode && (target = target.parentNode);
                     else {
                         if (!((target = findClosestLink(target)) && "#" !== $17.mobile.path.parseUrl(target.getAttribute("href") || "#").hash)) return;
                         if (!$17(target).jqmHijackable().length) return;
@@ -2594,7 +2594,7 @@
                 this._keySliding && (this._keySliding = !1, this.handle.removeClass("ui-state-active"));
             },
             _sliderVMouseDown: function(event) {
-                return !this.options.disabled && !(1 !== event.which && 0 !== event.which && undefined !== event.which) && !1 !== this._trigger("beforestart", event) && (this.dragging = !0, this.userModified = !1, this.mouseMoved = !1, this.isToggleSwitch && (this.beforeStart = this.element[0].selectedIndex), this.refresh(event), this._trigger("start"), !1);
+                return !this.options.disabled && !!(1 === event.which || 0 === event.which || undefined === event.which) && !1 !== this._trigger("beforestart", event) && (this.dragging = !0, this.userModified = !1, this.mouseMoved = !1, this.isToggleSwitch && (this.beforeStart = this.element[0].selectedIndex), this.refresh(event), this._trigger("start"), !1);
             },
             _sliderVMouseUp: function() {
                 if (this.dragging) return this.dragging = !1, this.isToggleSwitch && (this.handle.addClass("ui-slider-handle-snapping"), this.mouseMoved ? this.userModified ? this.refresh(0 === this.beforeStart ? 1 : 0) : this.refresh(this.beforeStart) : this.refresh(0 === this.beforeStart ? 1 : 0)), this.mouseMoved = !1, this._trigger("stop"), !1;
@@ -3522,7 +3522,7 @@
                 });
             },
             close: function() {
-                !this.options.disabled && this.isOpen && ("page" === this.menuType ? (this.menuPage.dialog("close"), this.list.appendTo(this.listbox)) : this.listbox.popup("close"), this._focusButton(), this.isOpen = !1);
+                this.options.disabled || !this.isOpen || ("page" === this.menuType ? (this.menuPage.dialog("close"), this.list.appendTo(this.listbox)) : this.listbox.popup("close"), this._focusButton(), this.isOpen = !1);
             },
             open: function() {
                 this.button.click();

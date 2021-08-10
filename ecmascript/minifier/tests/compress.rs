@@ -116,6 +116,10 @@ fn run(
     config: &str,
     mangle: Option<TestMangleOptions>,
 ) -> Option<Module> {
+    let _ = rayon::ThreadPoolBuilder::new()
+        .thread_name(|i| format!("rayon-{}", i + 1))
+        .build_global();
+
     let (_module, config) = parse_compressor_config(cm.clone(), &config);
 
     let fm = cm.load_file(&input).expect("failed to load input.js");

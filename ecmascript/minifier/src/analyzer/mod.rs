@@ -23,7 +23,9 @@ mod ctx;
 
 /// TODO: Track assignments to variables via `arguments`.
 /// TODO: Scope-local. (Including block)
-pub(crate) fn analyze<N>(n: &N, marks: Marks) -> ProgramData
+///
+/// If `marks` is [None], markers are ignored.
+pub(crate) fn analyze<N>(n: &N, marks: Option<Marks>) -> ProgramData
 where
     N: VisitWith<UsageAnalyzer>,
 {
@@ -237,7 +239,7 @@ impl ProgramData {
 #[derive(Debug)]
 pub(crate) struct UsageAnalyzer {
     data: ProgramData,
-    marks: Marks,
+    marks: Option<Marks>,
     scope: ScopeData,
     ctx: Ctx,
 }
@@ -415,7 +417,11 @@ impl Visit for UsageAnalyzer {
     }
 
     fn visit_call_expr(&mut self, n: &CallExpr, _: &dyn Node) {
-        let inline_prevented = self.ctx.inline_prevented || n.span.has_mark(self.marks.noinline);
+        let inline_prevented = self.ctx.inline_prevented
+            || self
+                .marks
+                .map(|marks| n.span.has_mark(marks.noinline))
+                .unwrap_or_default();
 
         {
             let ctx = Ctx {
@@ -588,18 +594,35 @@ impl Visit for UsageAnalyzer {
     fn visit_function(&mut self, n: &Function, _: &dyn Node) {
         n.decorators.visit_with(n, self);
 
-        self.with_child(n.span.ctxt, ScopeKind::Fn, |child| {
-            n.params.visit_with(n, child);
+        let is_standalone = self
+            .marks
+            .map(|marks| n.span.has_mark(marks.standalone))
+            .unwrap_or_default();
 
-            match &n.body {
-                Some(body) => {
-                    // We use visit_children_with instead of visit_with to bypass block scope
-                    // handler.
-                    body.visit_children_with(child);
+        // We don't dig into standalone function, as it does not share any variable with
+        // outer scope.
+        if self.ctx.skip_standalone && is_standalone {
+            return;
+        }
+
+        let ctx = Ctx {
+            skip_standalone: self.ctx.skip_standalone || is_standalone,
+            ..self.ctx
+        };
+
+        self.with_ctx(ctx)
+            .with_child(n.span.ctxt, ScopeKind::Fn, |child| {
+                n.params.visit_with(n, child);
+
+                match &n.body {
+                    Some(body) => {
+                        // We use visit_children_with instead of visit_with to bypass block scope
+                        // handler.
+                        body.visit_children_with(child);
+                    }
+                    None => {}
                 }
-                None => {}
-            }
-        })
+            })
     }
 
     fn visit_if_stmt(&mut self, n: &IfStmt, _: &dyn Node) {
@@ -663,6 +686,14 @@ impl Visit for UsageAnalyzer {
                 _ => {}
             },
         }
+    }
+
+    fn visit_module(&mut self, n: &Module, _: &dyn Node) {
+        let ctx = Ctx {
+            skip_standalone: true,
+            ..self.ctx
+        };
+        n.visit_children_with(&mut *self.with_ctx(ctx))
     }
 
     fn visit_named_export(&mut self, n: &NamedExport, _: &dyn Node) {

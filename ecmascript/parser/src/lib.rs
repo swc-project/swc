@@ -160,22 +160,12 @@ impl Syntax {
         }
     }
 
-    pub fn optional_chaining(self) -> bool {
+    pub const fn optional_chaining(self) -> bool {
         true
     }
 
-    pub fn dynamic_import(self) -> bool {
-        match self {
-            Syntax::Es(EsConfig {
-                dynamic_import: true,
-                ..
-            })
-            | Syntax::Typescript(TsConfig {
-                dynamic_import: true,
-                ..
-            }) => true,
-            _ => false,
-        }
+    pub const fn dynamic_import(self) -> bool {
+        true
     }
 
     pub fn fn_bind(self) -> bool {
@@ -185,7 +175,7 @@ impl Syntax {
         }
     }
 
-    pub fn num_sep(self) -> bool {
+    pub const fn num_sep(self) -> bool {
         true
     }
 
@@ -201,22 +191,15 @@ impl Syntax {
         }
     }
 
-    pub fn class_private_methods(self) -> bool {
+    pub const fn class_private_methods(self) -> bool {
         true
     }
 
-    pub fn class_private_props(self) -> bool {
-        match self {
-            Syntax::Es(EsConfig {
-                class_private_props: true,
-                ..
-            })
-            | Syntax::Typescript(..) => true,
-            _ => false,
-        }
+    pub const fn class_private_props(self) -> bool {
+        true
     }
 
-    pub fn class_props(self) -> bool {
+    pub const fn class_props(self) -> bool {
         true
     }
 
@@ -257,36 +240,21 @@ impl Syntax {
     }
 
     /// `true`
-    pub fn export_namespace_from(self) -> bool {
+    pub const fn export_namespace_from(self) -> bool {
         true
     }
 
     /// `true`
-    pub fn nullish_coalescing(self) -> bool {
+    pub const fn nullish_coalescing(self) -> bool {
         true
     }
 
-    pub fn import_meta(self) -> bool {
-        match self {
-            Syntax::Es(EsConfig {
-                import_meta: true, ..
-            })
-            | Syntax::Typescript(..) => true,
-
-            _ => false,
-        }
+    pub const fn import_meta(self) -> bool {
+        true
     }
 
-    pub fn top_level_await(self) -> bool {
-        match self {
-            Syntax::Es(EsConfig {
-                top_level_await: true,
-                ..
-            })
-            | Syntax::Typescript(..) => true,
-
-            _ => false,
-        }
+    pub const fn top_level_await(self) -> bool {
+        true
     }
 
     pub fn dts(self) -> bool {
@@ -401,6 +369,7 @@ pub struct EsConfig {
 pub struct Context {
     /// Is in module code?
     module: bool,
+    can_be_module: bool,
     strict: bool,
     include_in_expr: bool,
     /// If true, await expression is parsed, and "await" is treated as a

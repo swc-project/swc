@@ -10,7 +10,7 @@
             return new Error(message);
         };
     }
-    var msie, jqLite, jQuery, angularModule, nodeName_, lowercase = function(string) {
+    var promiseWarning, msie, jqLite, jQuery, angularModule, nodeName_, lowercase = function(string) {
         return isString(string) ? string.toLowerCase() : string;
     }, uppercase = function(string) {
         return isString(string) ? string.toUpperCase() : string;
@@ -1092,7 +1092,7 @@
                     },
                     remove: function(key) {
                         var lruEntry = lruHash[key];
-                        lruEntry && (lruEntry == freshEnd && (freshEnd = lruEntry.p), lruEntry == staleEnd && (staleEnd = lruEntry.n), link(lruEntry.n, lruEntry.p), delete lruHash[key], delete data[key], size--);
+                        !!lruEntry && (lruEntry == freshEnd && (freshEnd = lruEntry.p), lruEntry == staleEnd && (staleEnd = lruEntry.n), link(lruEntry.n, lruEntry.p), delete lruHash[key], delete data[key], size--);
                     },
                     removeAll: function() {
                         data = {
@@ -2109,7 +2109,7 @@
             return this.$$replace = !0, this;
         }
     };
-    var promiseWarning, $parseMinErr = minErr("$parse"), promiseWarningCache = {
+    var $parseMinErr = minErr("$parse"), promiseWarningCache = {
     };
     function ensureSafeMemberName(name, fullExpression) {
         if ("constructor" === name) throw $parseMinErr("isecfld", "Referencing \"constructor\" field in Angular expressions is disallowed! Expression: {0}", fullExpression);
@@ -2604,9 +2604,9 @@
                 promise.$$v = val;
             })), pathVal = pathVal.$$v), key3 && null !== pathVal && pathVal !== undefined && ((pathVal = pathVal[key3]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = undefined, promise.then(function(val) {
                 promise.$$v = val;
-            })), pathVal = pathVal.$$v), key4 && null !== pathVal && pathVal !== undefined))) && (pathVal = pathVal[key4]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = undefined, promise.then(function(val) {
+            })), pathVal = pathVal.$$v), key4 && null !== pathVal && pathVal !== undefined && (pathVal = pathVal[key4]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = undefined, promise.then(function(val) {
                 promise.$$v = val;
-            })), pathVal = pathVal.$$v)), pathVal;
+            })), pathVal = pathVal.$$v))))), pathVal;
         } : function(scope, locals) {
             var pathVal = locals && locals.hasOwnProperty(key0) ? locals : scope;
             return null === pathVal || pathVal === undefined ? pathVal : (pathVal = pathVal[key0], key1 && null !== pathVal && pathVal !== undefined && (pathVal = pathVal[key1], key2 && null !== pathVal && pathVal !== undefined && (pathVal = pathVal[key2], key3 && null !== pathVal && pathVal !== undefined && (pathVal = pathVal[key3], key4 && null !== pathVal && pathVal !== undefined)))) ? pathVal = pathVal[key4] : pathVal;
@@ -3560,7 +3560,7 @@
                 priority: 99,
                 link: function(scope, element, attr) {
                     attr.$observe(normalized, function(value) {
-                        value && (attr.$set(attrName, value), msie && element.prop(attrName, attr[attrName]));
+                        !!value && (attr.$set(attrName, value), msie && element.prop(attrName, attr[attrName]));
                     });
                 }
             };
@@ -3725,7 +3725,7 @@
         };
         if ($sniffer.hasEvent("input")) element.on("input", listener);
         else {
-            var timeout, deferListener = function() {
+            var deferListener = function() {
                 timeout || (timeout = $browser.defer(function() {
                     listener(), timeout = null;
                 }));
@@ -3738,7 +3738,7 @@
         element.on("change", listener), ctrl.$render = function() {
             element.val(ctrl.$isEmpty(ctrl.$viewValue) ? "" : ctrl.$viewValue);
         };
-        var patternValidator, match, pattern = attr.ngPattern, validate = function(regexp, value) {
+        var timeout, patternValidator, match, pattern = attr.ngPattern, validate = function(regexp, value) {
             return ctrl.$isEmpty(value) || regexp.test(value) ? (ctrl.$setValidity("pattern", !0), value) : void ctrl.$setValidity("pattern", !1);
         };
         if (pattern && (patternValidator = (match = pattern.match(/^\/(.*)\/([gim]*)$/)) ? function(value) {

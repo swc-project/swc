@@ -1,6 +1,5 @@
 use crate::analyzer::analyze;
 use crate::analyzer::ProgramData;
-use crate::marks::Marks;
 use crate::pass::hygiene::analyzer::HygieneAnalyzer;
 use crate::pass::hygiene::analyzer::HygieneData;
 use crate::util::now;
@@ -21,7 +20,7 @@ mod analyzer;
 ///
 /// Requires [swc_common::GLOBALS].
 pub fn optimize_hygiene(m: &mut Module, top_level_mark: Mark) {
-    let data = analyze(&*m, Marks::new());
+    let data = analyze(&*m, None);
     m.visit_mut_with(&mut hygiene_optimizer(data, top_level_mark))
 }
 

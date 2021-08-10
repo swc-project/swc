@@ -43,22 +43,22 @@ export class Compiler {
     src: string,
     options: ParseOptions & { isModule: false }
   ): Promise<Script>;
-  parse(src: string, options?: ParseOptions): Promise<Module>;
-  async parse(src: string, options?: ParseOptions): Promise<Program> {
+  parse(src: string, options?: ParseOptions, filename?: string): Promise<Module>;
+  async parse(src: string, options?: ParseOptions, filename?: string): Promise<Program> {
     options = options || { syntax: "ecmascript" };
     options.syntax = options.syntax || "ecmascript";
 
-    const res = await bindings.parse(src, toBuffer(options));
+    const res = await bindings.parse(src, toBuffer(options), filename);
     return JSON.parse(res);
   }
 
   parseSync(src: string, options: ParseOptions & { isModule: false }): Script;
-  parseSync(src: string, options?: ParseOptions): Module;
-  parseSync(src: string, options?: ParseOptions): Program {
+  parseSync(src: string, options?: ParseOptions, filename?: string): Module;
+  parseSync(src: string, options?: ParseOptions, filename?: string): Program {
     options = options || { syntax: "ecmascript" };
     options.syntax = options.syntax || "ecmascript";
 
-    return JSON.parse(bindings.parseSync(src, toBuffer(options)));
+    return JSON.parse(bindings.parseSync(src, toBuffer(options), filename));
   }
 
   parseFile(
@@ -121,7 +121,7 @@ export class Compiler {
     if (plugin) {
       const m =
         typeof src === "string"
-          ? await this.parse(src, options?.jsc?.parser)
+          ? await this.parse(src, options?.jsc?.parser, options.filename)
           : src;
       return this.transform(plugin(m), newOptions);
     }
@@ -142,7 +142,7 @@ export class Compiler {
 
     if (plugin) {
       const m =
-        typeof src === "string" ? this.parseSync(src, options?.jsc?.parser) : src;
+        typeof src === "string" ? this.parseSync(src, options?.jsc?.parser, options.filename) : src;
       return this.transformSync(plugin(m), newOptions);
     }
 
