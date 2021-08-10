@@ -13,10 +13,7 @@ createCommonjsModule(function(module, exports) {
     module.exports = {
         findConfig: function(from) {
             return function(dir) {
-                if (1) throw new Error("");
-                if (pkgBrowserslist) throw new Error("");
-                if (1) throw new Error("");
-                return module.exports.findConfig(null);
+                throw new Error("");
             };
         }
     };
