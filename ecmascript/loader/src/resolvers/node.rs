@@ -88,8 +88,6 @@ pub(crate) fn is_core_module(s: &str) -> bool {
 
 #[derive(Deserialize)]
 struct PackageJson {
-    #[serde(rename = "swc-main", default)]
-    swc_main: Option<String>,
     #[serde(default)]
     esnext: Option<String>,
     #[serde(default)]
@@ -164,10 +162,10 @@ impl NodeModulesResolver {
 
         let main_fields = match self.target_env {
             TargetEnv::Node => {
-                vec![&pkg.swc_main, &pkg.esnext, &pkg.main]
+                vec![&pkg.esnext, &pkg.main]
             }
             TargetEnv::Browser => {
-                vec![&pkg.browser, &pkg.swc_main, &pkg.esnext, &pkg.main]
+                vec![&pkg.browser, &pkg.esnext, &pkg.main]
             }
         };
 
