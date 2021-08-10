@@ -94,6 +94,8 @@ struct PackageJson {
     esnext: Option<String>,
     #[serde(default)]
     main: Option<String>,
+    #[serde(default)]
+    browser: Option<String>,
 }
 
 #[derive(Debug, Default)]
@@ -160,7 +162,16 @@ impl NodeModulesResolver {
         let pkg: PackageJson =
             serde_json::from_reader(reader).context("failed to deserialize package.json")?;
 
-        for main in &[&pkg.swc_main, &pkg.esnext, &pkg.main] {
+        let main_fields = match self.target_env {
+            TargetEnv::Node => {
+                vec![&pkg.swc_main, &pkg.esnext, &pkg.main]
+            }
+            TargetEnv::Browser => {
+                vec![&pkg.browser, &pkg.swc_main, &pkg.esnext, &pkg.main]
+            }
+        };
+
+        for main in main_fields {
             if let Some(target) = main {
                 let path = pkg_dir.join(target);
                 return self
