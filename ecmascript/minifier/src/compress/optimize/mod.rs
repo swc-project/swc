@@ -873,7 +873,7 @@ impl Optimizer<'_> {
                         .as_ref()
                         .and_then(|data| data.vars.get(&obj.to_id()))
                     {
-                        if usage.var_kind.is_none() {
+                        if !usage.declared_as_fn_param && usage.var_kind.is_none() {
                             return None;
                         }
 
