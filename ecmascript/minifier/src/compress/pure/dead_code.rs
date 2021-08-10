@@ -167,6 +167,9 @@ impl Pure<'_> {
                 return;
             }
 
+            self.changed = true;
+            log::debug!("dead_code: Removing unreachable statements");
+
             let extras = stmts.drain(last..).collect::<Vec<_>>();
 
             for extra in extras {
