@@ -514,6 +514,7 @@ impl Optimizer<'_> {
                         .and_then(|data| data.vars.get(&name.id.to_id()))
                     {
                         if usage.ref_count != 0 {
+                            log::trace!("unused: [x] It's used {} times", usage.ref_count);
                             return;
                         }
                     }
