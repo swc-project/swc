@@ -58,6 +58,8 @@ impl Pure<'_> {
             + VisitMutWith<self::vars::VarPrepender>
             + VisitMutWith<self::vars::VarMover>,
     {
+        self.remove_dead_branch(stmts);
+
         self.drop_useless_blocks(stmts);
 
         self.collapse_vars_without_init(stmts);
