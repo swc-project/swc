@@ -88,6 +88,14 @@ impl Optimizer<'_> {
                     if !usage.is_fn_local {
                         match &**init {
                             Expr::Lit(..) => {}
+
+                            Expr::Unary(UnaryExpr {
+                                op: op!("!"), arg, ..
+                            }) if match &**arg {
+                                Expr::Lit(..) => true,
+                                _ => false,
+                            } => {}
+
                             Expr::Fn(FnExpr {
                                 function:
                                     Function {
