@@ -1,5 +1,6 @@
 use super::Optimizer;
 use crate::compress::optimize::Ctx;
+use crate::compress::util::always_terminates;
 use crate::compress::util::negate_cost;
 use crate::util::SpanExt;
 use crate::DISABLE_BUGGY_PASSES;
@@ -781,17 +782,5 @@ fn is_simple_lhs(l: &PatOrExpr) -> bool {
             },
             _ => false,
         },
-    }
-}
-
-pub(super) fn always_terminates(s: &Stmt) -> bool {
-    match s {
-        Stmt::Return(..) | Stmt::Throw(..) | Stmt::Break(..) | Stmt::Continue(..) => true,
-        Stmt::If(IfStmt { cons, alt, .. }) => {
-            always_terminates(&cons) && alt.as_deref().map(always_terminates).unwrap_or(false)
-        }
-        Stmt::Block(s) => s.stmts.iter().any(always_terminates),
-
-        _ => false,
     }
 }

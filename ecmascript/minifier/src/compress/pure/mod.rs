@@ -60,6 +60,8 @@ impl Pure<'_> {
     {
         self.remove_dead_branch(stmts);
 
+        self.remove_unreachable_stmts(stmts);
+
         self.drop_useless_blocks(stmts);
 
         self.collapse_vars_without_init(stmts);

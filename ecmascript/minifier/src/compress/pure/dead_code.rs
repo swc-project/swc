@@ -1,3 +1,5 @@
+use crate::compress::util::always_terminates;
+
 use super::Pure;
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
@@ -132,5 +134,34 @@ impl Pure<'_> {
         }
 
         *stmts = new;
+    }
+
+    pub(super) fn remove_unreachable_stmts<T>(&mut self, stmts: &mut Vec<T>)
+    where
+        T: StmtLike,
+    {
+        if !self.options.side_effects {
+            return;
+        }
+
+        let mut last = None;
+        let mut terminated = false;
+        for (idx, stmt) in stmts.iter().enumerate() {
+            match stmt.as_stmt() {
+                Some(stmt) if always_terminates(&stmt) => {
+                    terminated = true;
+                }
+                _ => {
+                    if terminated {
+                        last = Some(idx);
+                        break;
+                    }
+                }
+            }
+        }
+
+        if let Some(last) = last {
+            stmts.drain(last..);
+        }
     }
 }
