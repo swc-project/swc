@@ -202,6 +202,7 @@ impl Compressor<'_> {
             }
         }
 
+        self.pass = 0;
         // let last_mark = n.remove_mark();
         // assert!(
         //     N::is_module() || last_mark == self.marks.standalone,
