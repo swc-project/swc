@@ -1,4 +1,4 @@
-use crate::compress::util::always_terminates;
+use crate::{compress::util::always_terminates, DISABLE_BUGGY_PASSES};
 
 use super::Pure;
 use swc_atoms::js_word;
@@ -141,6 +141,9 @@ impl Pure<'_> {
         T: StmtLike,
     {
         if !self.options.side_effects {
+            return;
+        }
+        if DISABLE_BUGGY_PASSES {
             return;
         }
 
