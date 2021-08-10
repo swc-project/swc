@@ -97,13 +97,13 @@ struct PackageJson {
 }
 
 #[derive(Debug, Default)]
-pub struct NodeResolver {
+pub struct NodeModulesResolver {
     target_env: TargetEnv,
 }
 
 static EXTENSIONS: &[&str] = &["ts", "tsx", "js", "jsx", "json", "node"];
 
-impl NodeResolver {
+impl NodeModulesResolver {
     /// Create a node modules resolver for the target runtime environment.
     pub fn new(target_env: TargetEnv) -> Self {
         Self { target_env }
@@ -207,7 +207,7 @@ impl NodeResolver {
     }
 }
 
-impl Resolve for NodeResolver {
+impl Resolve for NodeModulesResolver {
     fn resolve(&self, base: &FileName, target: &str) -> Result<FileName, Error> {
         if let TargetEnv::Node = self.target_env {
             if is_core_module(target) {
