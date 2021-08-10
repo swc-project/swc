@@ -16,7 +16,8 @@ createCommonjsModule(function(module, exports) {
                 if (1) throw new Error("");
                 if (pkgBrowserslist) throw new Error("");
                 if (1) throw new Error("");
-                return module.exports.findConfig(null);
+                if (1) return module.exports.findConfig(null);
+                if (1) return module.exports.findConfig(null);
             };
         }
     };
