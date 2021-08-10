@@ -1,6 +1,5 @@
-use crate::{compress::util::always_terminates, DISABLE_BUGGY_PASSES};
-
 use super::Pure;
+use crate::compress::util::always_terminates;
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -143,9 +142,6 @@ impl Pure<'_> {
         if !self.options.side_effects {
             return;
         }
-        if DISABLE_BUGGY_PASSES {
-            return;
-        }
 
         let mut last = None;
         let mut terminated = false;
@@ -164,7 +160,23 @@ impl Pure<'_> {
         }
 
         if let Some(last) = last {
-            stmts.drain(last..);
+            if stmts[last..].iter().all(|stmt| match stmt.as_stmt() {
+                Some(Stmt::Decl(..)) | None => true,
+                _ => false,
+            }) {
+                return;
+            }
+
+            let extras = stmts.drain(last..).collect::<Vec<_>>();
+
+            for extra in extras {
+                match extra.as_stmt() {
+                    Some(Stmt::Decl(..)) | None => {
+                        stmts.push(extra);
+                    }
+                    _ => {}
+                }
+            }
         }
     }
 }
