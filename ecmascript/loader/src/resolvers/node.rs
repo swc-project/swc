@@ -12,7 +12,7 @@ use std::{
     io::BufReader,
     path::{Component, Path, PathBuf},
 };
-use swc_common::FileName;
+use swc_common::{FileName, TargetEnv};
 
 // Run `node -p "require('module').builtinModules"`
 pub(crate) fn is_core_module(s: &str) -> bool {
@@ -97,12 +97,18 @@ struct PackageJson {
 
 #[derive(Debug, Default)]
 pub struct NodeResolver {
-    _private: (),
+    target_env: TargetEnv,
 }
 
 static EXTENSIONS: &[&str] = &["ts", "tsx", "js", "jsx", "json", "node"];
 
 impl NodeResolver {
+
+    /// Create a node modules resolver for the target runtime environment.
+    pub fn new(target_env: TargetEnv) -> Self {
+        Self { target_env } 
+    }
+
     fn wrap(&self, path: PathBuf) -> Result<FileName, Error> {
         let path = path.canonicalize().context("failed to canonicalize")?;
         Ok(FileName::Real(path))
@@ -203,8 +209,10 @@ impl NodeResolver {
 
 impl Resolve for NodeResolver {
     fn resolve(&self, base: &FileName, target: &str) -> Result<FileName, Error> {
-        if is_core_module(target) {
-            return Ok(FileName::Custom(target.to_string()));
+        if let TargetEnv::Node = self.target_env {
+            if is_core_module(target) {
+                return Ok(FileName::Custom(target.to_string()));
+            }
         }
 
         let base = match base {
