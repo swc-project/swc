@@ -375,9 +375,8 @@
         if (1 === payload._status) return payload._result;
         throw payload._result;
     }
-    var enableScopeAPI = !1;
     function isValidElementType(type) {
-        return "string" == typeof type || "function" == typeof type || type === exports.Fragment || type === exports.Profiler || type === REACT_DEBUG_TRACING_MODE_TYPE || type === exports.StrictMode || type === exports.Suspense || type === REACT_SUSPENSE_LIST_TYPE || type === REACT_LEGACY_HIDDEN_TYPE || !!enableScopeAPI || "object" == typeof type && null !== type && (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE || type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE || type.$$typeof === REACT_FUNDAMENTAL_TYPE || type.$$typeof === REACT_BLOCK_TYPE || type[0] === REACT_SERVER_BLOCK_TYPE);
+        return "string" == typeof type || "function" == typeof type || type === exports.Fragment || type === exports.Profiler || type === REACT_DEBUG_TRACING_MODE_TYPE || type === exports.StrictMode || type === exports.Suspense || type === REACT_SUSPENSE_LIST_TYPE || type === REACT_LEGACY_HIDDEN_TYPE || "object" == typeof type && null !== type && (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE || type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE || type.$$typeof === REACT_FUNDAMENTAL_TYPE || type.$$typeof === REACT_BLOCK_TYPE || type[0] === REACT_SERVER_BLOCK_TYPE);
     }
     function resolveDispatcher() {
         var dispatcher = ReactCurrentDispatcher.current;
@@ -667,7 +666,7 @@
         if (validType) for(var i = 2; i < arguments.length; i++)validateChildKeys(arguments[i], type);
         return type === exports.Fragment ? validateFragmentProps(element) : validatePropTypes(element), element;
     }
-    var didWarnAboutDeprecatedCreateFactory = !1, enableSchedulerDebugging = !1, enableProfiling = !1;
+    var didWarnAboutDeprecatedCreateFactory = !1, enableSchedulerDebugging = !1;
     if ("object" == typeof performance && "function" == typeof performance.now) {
         var localPerformance = performance;
         getCurrentTime = function() {
@@ -769,8 +768,6 @@
         var diff = a.sortIndex - b.sortIndex;
         return 0 !== diff ? diff : a.id - b.id;
     }
-    function markTaskErrored(task, ms) {
-    }
     var taskQueue = [], timerQueue = [], taskIdCounter = 1, currentTask = null, currentPriorityLevel = 3, isPerformingWork = !1, isHostCallbackScheduled = !1, isHostTimeoutScheduled = !1;
     function advanceTimers(currentTime) {
         for(var timer = peek(timerQueue); null !== timer;){
@@ -792,16 +789,7 @@
     function flushWork(hasTimeRemaining, initialTime) {
         isHostCallbackScheduled = !1, isHostTimeoutScheduled && (isHostTimeoutScheduled = !1, cancelHostTimeout()), isPerformingWork = !0;
         try {
-            if (!enableProfiling) return workLoop(hasTimeRemaining, initialTime);
-            try {
-                return workLoop(hasTimeRemaining, initialTime);
-            } catch (error) {
-                if (null !== currentTask) {
-                    var currentTime = getCurrentTime();
-                    markTaskErrored(currentTask, currentTime), currentTask.isQueued = !1;
-                }
-                throw error;
-            }
+            return workLoop(hasTimeRemaining, initialTime);
         } finally{
             currentTask = null, currentPriorityLevel = currentPriorityLevel, isPerformingWork = !1;
         }
@@ -813,7 +801,7 @@
             var callback = currentTask.callback;
             if ("function" == typeof callback) {
                 currentTask.callback = null, currentPriorityLevel = currentTask.priorityLevel;
-                var didUserCallbackTimeout = currentTask.expirationTime <= currentTime, continuationCallback = callback(didUserCallbackTimeout);
+                var continuationCallback = callback(currentTask.expirationTime <= currentTime);
                 currentTime = getCurrentTime(), "function" == typeof continuationCallback ? currentTask.callback = continuationCallback : currentTask === peek(taskQueue) && pop(taskQueue), advanceTimers(currentTime);
             } else pop(taskQueue);
             currentTask = peek(taskQueue);

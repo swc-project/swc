@@ -2292,8 +2292,7 @@ Elements.prototype = {
     if (!supportsHTML5Elements) for(var tags = "abbr article aside audio canvas datalist details figcaption figure footer header hgroup mark meter nav output progress section summary time video".split(" "), fragment = document.createDocumentFragment(), l = tags.length; l--;)fragment.createElement(tags[l]);
     div1 = null;
     var supportsTableInnerHTML = Function.attempt(function() {
-        var table = document.createElement("table");
-        return table.innerHTML = "<tr><td></td></tr>", !0;
+        return document.createElement("table").innerHTML = "<tr><td></td></tr>", !0;
     }), tr = document.createElement("tr"), html = "<td></td>";
     tr.innerHTML = html;
     var supportsTRInnerHTML = tr.innerHTML == html;
