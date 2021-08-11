@@ -8,6 +8,7 @@ use crate::util::base54::incr_base54;
 use fxhash::FxHashMap;
 use fxhash::FxHashSet;
 use swc_atoms::JsWord;
+use swc_atoms::js_word;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
@@ -53,6 +54,11 @@ struct Mangler {
 
 impl Mangler {
     fn rename(&mut self, i: &mut Ident) {
+        match i.sym {
+            js_word!("arguments") => return,
+            _ => {}
+        }
+
         if self.preserved.contains(&i.to_id()) {
             return;
         }
