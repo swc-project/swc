@@ -2409,7 +2409,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.19.1"
+version = "0.19.2"
 dependencies = [
  "ansi_term 0.12.1",
  "anyhow",
@@ -2585,7 +2585,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.31.0"
+version = "0.31.1"
 dependencies = [
  "Inflector",
  "anyhow",
