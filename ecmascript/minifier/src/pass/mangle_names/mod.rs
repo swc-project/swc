@@ -191,6 +191,27 @@ impl VisitMut for Mangler {
         n.visit_mut_children_with(self)
     }
 
+    fn visit_mut_object_pat_prop(&mut self, n: &mut ObjectPatProp) {
+        match n {
+            ObjectPatProp::Assign(AssignPatProp {
+                value: None, key, ..
+            }) => {
+                let span = key.span.with_ctxt(SyntaxContext::empty());
+                let orig = key.sym.clone();
+
+                if self.rename(key) {
+                    *n = ObjectPatProp::KeyValue(KeyValuePatProp {
+                        key: PropName::Ident(Ident::new(orig, span)),
+                        value: Box::new(Pat::Ident(key.clone().into())),
+                    });
+                }
+            }
+            _ => {
+                n.visit_mut_children_with(self);
+            }
+        }
+    }
+
     fn visit_mut_pat(&mut self, n: &mut Pat) {
         n.visit_mut_children_with(self);
 
