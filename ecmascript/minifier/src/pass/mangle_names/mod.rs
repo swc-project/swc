@@ -129,6 +129,7 @@ impl VisitMut for Mangler {
 
         self.rename(&mut n.orig);
     }
+
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
 
