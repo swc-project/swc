@@ -708,11 +708,27 @@ impl Scope {
                             args: vec![],
                             type_args: Default::default(),
                         });
+
+                        let left = if let PatOrExpr::Pat(ref left_pat) = expr.left {
+                            if let Pat::Ident(BindingIdent { ref id, .. }) = **left_pat {
+                                let expr = match Self::fold_ident(folder, top_level, id.clone()) {
+                                    Ok(expr) => expr,
+                                    Err(ident) => Expr::Ident(ident),
+                                };
+                                PatOrExpr::Expr(Box::new(expr))
+                            } else {
+                                expr.left
+                            }
+                        } else {
+                            expr.left
+                        };
+
                         return Expr::Assign(AssignExpr {
                             right: Box::new(Expr::Seq(SeqExpr {
                                 span: DUMMY_SP,
                                 exprs: vec![expr.right, Box::new(throw)],
                             })),
+                            left,
                             ..expr
                         });
                     }
