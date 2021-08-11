@@ -30,7 +30,9 @@ use swc_common::{
 };
 use swc_ecma_ast::Program;
 use swc_ecma_codegen::{self, text_writer::WriteJs, Emitter, Node};
-use swc_ecma_loader::resolvers::{lru::CachingResolver, node::NodeResolver, tsc::TsConfigResolver};
+use swc_ecma_loader::resolvers::{
+    lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
+};
 use swc_ecma_minifier::option::MinifyOptions;
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, Syntax};
 use swc_ecma_transforms::{
@@ -46,12 +48,18 @@ use swc_ecma_visit::FoldWith;
 mod builder;
 pub mod config;
 pub mod resolver {
-    use swc_ecma_loader::resolvers::lru::CachingResolver;
+    use swc_ecma_ast::TargetEnv;
+    use swc_ecma_loader::resolvers::{lru::CachingResolver, node::NodeModulesResolver};
 
-    pub type NodeResolver = CachingResolver<swc_ecma_loader::resolvers::node::NodeResolver>;
+    pub type NodeResolver = CachingResolver<NodeModulesResolver>;
+
+    pub fn environment_resolver(target_env: TargetEnv) -> NodeResolver {
+        CachingResolver::new(40, NodeModulesResolver::new(target_env))
+    }
 }
 
-type SwcImportResolver = Arc<NodeImportResolver<CachingResolver<TsConfigResolver<NodeResolver>>>>;
+type SwcImportResolver =
+    Arc<NodeImportResolver<CachingResolver<TsConfigResolver<NodeModulesResolver>>>>;
 
 pub struct Compiler {
     /// swc uses rustc's span interning.

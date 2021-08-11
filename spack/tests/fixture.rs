@@ -12,12 +12,13 @@ use std::{
     path::{Path, PathBuf},
     sync::Arc,
 };
-use swc::{config::SourceMapsConfig, resolver::NodeResolver};
+use swc::{config::SourceMapsConfig, resolver::environment_resolver};
 use swc_atoms::js_word;
 use swc_bundler::{BundleKind, Bundler, Config, ModuleRecord};
 use swc_common::{FileName, Span, GLOBALS};
 use swc_ecma_ast::{
     Bool, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, MetaPropExpr, PropName, Str,
+    TargetEnv,
 };
 use swc_ecma_parser::JscTarget;
 use swc_ecma_transforms::fixer;
@@ -139,7 +140,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         compiler.globals(),
                         cm.clone(),
                         &loader,
-                        NodeResolver::default(),
+                        environment_resolver(TargetEnv::Node),
                         Config {
                             require: true,
                             disable_inliner: true,

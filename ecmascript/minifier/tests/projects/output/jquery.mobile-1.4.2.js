@@ -1461,7 +1461,7 @@
             },
             _handleDialog: function(changePageOptions, data) {
                 var active, activeContent = this.getActivePage();
-                return activeContent && !activeContent.hasClass("ui-dialog") ? ("back" === data.direction ? this.back() : this.forward(), !1) : (active = this._getActiveHistory(), $17.extend(changePageOptions, {
+                return activeContent && !activeContent.hasClass("ui-dialog") ? ("back" === data.direction ? this.back() : this.forward(), !1) : (data.pageUrl, active = this._getActiveHistory(), $17.extend(changePageOptions, {
                     role: active.role,
                     transition: active.transition,
                     reverse: "back" === data.direction

@@ -1,6 +1,7 @@
 use crate::analyzer::ProgramData;
 use crate::analyzer::UsageAnalyzer;
 use crate::compress::util::is_pure_undefined;
+use crate::debug::dump;
 use crate::marks::Marks;
 use crate::option::CompressOptions;
 use crate::util::contains_leaping_yield;
@@ -873,7 +874,7 @@ impl Optimizer<'_> {
                         .as_ref()
                         .and_then(|data| data.vars.get(&obj.to_id()))
                     {
-                        if usage.var_kind.is_none() {
+                        if !usage.declared_as_fn_param && usage.var_kind.is_none() {
                             return None;
                         }
 
@@ -1912,6 +1913,7 @@ impl VisitMut for Optimizer<'_> {
 
         if let Some(body) = &mut n.body {
             self.merge_if_returns(&mut body.stmts);
+            self.drop_else_token(&mut body.stmts);
         }
 
         {
@@ -2079,6 +2081,15 @@ impl VisitMut for Optimizer<'_> {
         self.shift_assignment(n);
 
         {
+            let should_preserve_zero = match n.exprs.last().map(|v| &**v) {
+                Some(Expr::Member(..)) => true,
+                Some(Expr::Ident(Ident {
+                    sym: js_word!("eval"),
+                    ..
+                })) => true,
+                _ => false,
+            };
+
             let exprs = n
                 .exprs
                 .iter_mut()
@@ -2090,8 +2101,11 @@ impl VisitMut for Optimizer<'_> {
                         _ => false,
                     };
 
-                    let can_remove =
-                        !last && (idx != 0 || !is_injected_zero || !self.ctx.is_this_aware_callee);
+                    let can_remove = !last
+                        && (idx != 0
+                            || !is_injected_zero
+                            || !self.ctx.is_this_aware_callee
+                            || !should_preserve_zero);
 
                     if can_remove {
                         // If negate_iife is true, it's already handled by
@@ -2157,7 +2171,10 @@ impl VisitMut for Optimizer<'_> {
 
                     if can_be_removed {
                         self.changed = true;
-                        log::debug!("Dropping an expression without side effect");
+                        log::debug!("unused: Dropping an expression without side effect");
+                        if cfg!(feature = "debug") {
+                            log::trace!("unused: [Change] Dropping \n{}\n", dump(&*expr));
+                        }
                         *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                         return;
                     }

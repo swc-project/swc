@@ -1,8 +1,8 @@
 use swc_common::FileName;
-use swc_ecma_loader::resolvers::node::NodeResolver;
+use swc_ecma_loader::resolvers::node::NodeModulesResolver;
 use swc_ecma_transforms_module::path::{ImportResolver, NodeImportResolver};
 use testing::run_test2;
-type TestProvider = NodeImportResolver<NodeResolver>;
+type TestProvider = NodeImportResolver<NodeModulesResolver>;
 
 #[test]
 fn node_modules() {

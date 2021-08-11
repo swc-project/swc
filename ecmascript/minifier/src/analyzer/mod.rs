@@ -289,7 +289,9 @@ impl UsageAnalyzer {
 
         e.inline_prevented |= self.ctx.inline_prevented;
 
-        e.ref_count += 1;
+        if is_first {
+            e.ref_count += 1;
+        }
         e.reassigned |= is_first && is_modify && self.ctx.is_exact_reassignment;
         // Passing object as a argument is possibly modification.
         e.mutated |= is_modify || (self.ctx.in_call_arg && self.ctx.is_exact_arg);
@@ -319,7 +321,7 @@ impl UsageAnalyzer {
         i: &Ident,
         has_init: bool,
         kind: Option<VarDeclKind>,
-        is_fn_decl: bool,
+        _is_fn_decl: bool,
     ) -> &mut VarUsageInfo {
         // log::trace!("declare_decl({}{:?})", i.sym, i.span.ctxt);
 
@@ -361,8 +363,6 @@ impl UsageAnalyzer {
             v.cond_init = true;
         }
         v.declared_as_catch_param |= self.ctx.in_catch_param;
-
-        v.declared_as_fn_expr |= is_fn_decl;
 
         v
     }
