@@ -312,7 +312,7 @@ fn projects(input: PathBuf) {
 }
 
 /// Tests used to prevent regressions.
-#[testing::fixture("tests/compress/exec/**/input.js")]
+#[testing::fixture("tests/exec/**/input.js")]
 fn base_exec(input: PathBuf) {
     let dir = input.parent().unwrap();
     let config = dir.join("config.json");
