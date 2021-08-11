@@ -11,6 +11,5 @@
             "compress": true,
             "mangle": true
         }
-    },
-    "minify": true
+    }
 }
