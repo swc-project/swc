@@ -197,16 +197,41 @@ impl VisitMut for Mangler {
             ObjectPatProp::Assign(AssignPatProp {
                 value: None, key, ..
             }) => {
-                let span = key.span.with_ctxt(SyntaxContext::empty());
+                let key_span = key.span.with_ctxt(SyntaxContext::empty());
                 let orig = key.sym.clone();
 
                 if self.rename(key) {
                     *n = ObjectPatProp::KeyValue(KeyValuePatProp {
-                        key: PropName::Ident(Ident::new(orig, span)),
+                        key: PropName::Ident(Ident::new(orig, key_span)),
                         value: Box::new(Pat::Ident(key.clone().into())),
                     });
                 }
             }
+
+            ObjectPatProp::Assign(p) => {
+                let key_span = p.key.span.with_ctxt(SyntaxContext::empty());
+                let orig = p.key.sym.clone();
+
+                if self.rename(&mut p.key) {
+                    if let Some(right) = p.value.take() {
+                        *n = ObjectPatProp::KeyValue(KeyValuePatProp {
+                            key: PropName::Ident(Ident::new(orig, key_span)),
+                            value: Box::new(Pat::Assign(AssignPat {
+                                span: p.span,
+                                left: Box::new(Pat::Ident(p.key.clone().into())),
+                                right,
+                                type_ann: None,
+                            })),
+                        });
+                    } else {
+                        *n = ObjectPatProp::KeyValue(KeyValuePatProp {
+                            key: PropName::Ident(Ident::new(orig, key_span)),
+                            value: Box::new(Pat::Ident(p.key.clone().into())),
+                        });
+                    }
+                }
+            }
+
             _ => {
                 n.visit_mut_children_with(self);
             }
