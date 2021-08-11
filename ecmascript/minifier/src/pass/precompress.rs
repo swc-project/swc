@@ -119,7 +119,7 @@ impl VisitMut for PrecompressOptimizer<'_> {
         if self.options.dead_code || self.options.unused {
             if let Some(usage) = self.data.as_ref().unwrap().vars.get(&n.ident.to_id()) {
                 // Remove if variable with same name exists.
-                if usage.var_kind.is_some() && usage.var_initialized {
+                if usage.var_kind.is_some() && usage.var_initialized && usage.is_fn_local {
                     n.ident.take();
                     return;
                 }
