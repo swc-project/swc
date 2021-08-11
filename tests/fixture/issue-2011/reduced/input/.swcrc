@@ -8,7 +8,9 @@
         },
         "target": "es3",
         "minify": {
-            "compress": true,
+            "compress": {
+                "toplevel": true
+            },
             "mangle": true
         }
     }
