@@ -1,0 +1,11 @@
+{
+    "sourceMaps": false,
+    "jsc": {
+        "loose": true,
+        "parser": {
+            "syntax": "ecmascript",
+            "classPrivateProperty": true
+        },
+        "target": "es3"
+    }
+}
