@@ -7,8 +7,8 @@ use crate::option::MangleOptions;
 use crate::util::base54::incr_base54;
 use fxhash::FxHashMap;
 use fxhash::FxHashSet;
-use swc_atoms::JsWord;
 use swc_atoms::js_word;
+use swc_atoms::JsWord;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
@@ -53,26 +53,26 @@ struct Mangler {
 }
 
 impl Mangler {
-    fn rename(&mut self, i: &mut Ident) {
+    fn rename(&mut self, i: &mut Ident) -> bool {
         match i.sym {
-            js_word!("arguments") => return,
+            js_word!("arguments") => return false,
             _ => {}
         }
 
         if self.preserved.contains(&i.to_id()) {
-            return;
+            return false;
         }
 
         if let Some(var) = self.data.as_ref().unwrap().vars.get(&i.to_id()) {
             if !var.declared {
-                return;
+                return false;
             }
         }
 
         if let Some(v) = self.renamed.get(&i.to_id()) {
             i.span.ctxt = SyntaxContext::empty();
             i.sym = v.clone();
-            return;
+            return true;
         }
 
         loop {
@@ -89,6 +89,8 @@ impl Mangler {
             i.span.ctxt = SyntaxContext::empty();
             break;
         }
+
+        true
     }
 
     fn rename_private(&mut self, private_name: &mut PrivateName) {
@@ -203,6 +205,25 @@ impl VisitMut for Mangler {
     fn visit_mut_private_name(&mut self, private_name: &mut PrivateName) {
         if !self.options.keep_private_props {
             self.rename_private(private_name);
+        }
+    }
+
+    fn visit_mut_prop(&mut self, n: &mut Prop) {
+        match n {
+            Prop::Shorthand(p) => {
+                let span = p.span.with_ctxt(SyntaxContext::empty());
+                let orig = p.sym.clone();
+
+                if self.rename(p) {
+                    *n = Prop::KeyValue(KeyValueProp {
+                        key: PropName::Ident(Ident::new(orig, span)),
+                        value: Box::new(Expr::Ident(p.clone())),
+                    });
+                }
+            }
+            _ => {
+                n.visit_mut_children_with(self);
+            }
         }
     }
 
