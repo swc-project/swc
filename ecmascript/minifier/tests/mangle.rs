@@ -183,6 +183,7 @@ fn compressed(compressed_file: PathBuf) {
 
 /// Tests used to prevent regressions.
 #[testing::fixture("tests/exec/**/input.js")]
+#[testing::fixture("tests/exec/**/output.js")]
 fn exec(input: PathBuf) {
     {
         let s = input.to_string_lossy().replace("_", "-");
