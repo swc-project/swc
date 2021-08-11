@@ -182,7 +182,7 @@ fn compressed(compressed_file: PathBuf) {
 }
 
 /// Tests used to prevent regressions.
-#[testing::fixture("tests/compress/exec/**/input.js")]
+#[testing::fixture("tests/exec/**/input.js")]
 fn exec(input: PathBuf) {
     testing::run_test2(false, |cm, handler| {
         let input_src = read_to_string(&input).expect("failed to read input.js as a string");
