@@ -10,7 +10,11 @@ use std::{
     panic::{catch_unwind, AssertUnwindSafe},
     sync::Arc,
 };
-use swc::{config::SourceMapsConfig, resolver::environment_resolver, Compiler, TransformOutput};
+use swc::{
+    config::SourceMapsConfig,
+    resolver::{environment_resolver, paths_resolver},
+    Compiler, TransformOutput,
+};
 use swc_atoms::js_word;
 use swc_atoms::JsWord;
 use swc_bundler::{BundleKind, Bundler, Load, ModuleRecord, Resolve};
@@ -197,12 +201,29 @@ pub(crate) fn bundle(cx: CallContext) -> napi::Result<JsObject> {
 
     let target_env = static_items.config.target;
 
+    let paths = static_items.config.options.as_ref().map(|options| {
+        let paths: Vec<(String, Vec<String>)> = options
+            .config
+            .jsc
+            .paths
+            .iter()
+            .map(|(k, v)| (k.clone(), v.clone()))
+            .collect();
+        (options.config.jsc.base_url.clone(), paths)
+    });
+
+    let resolver: Box<dyn Resolve> = if let Some((base_url, paths)) = paths {
+        Box::new(paths_resolver(target_env, base_url, paths))
+    } else {
+        Box::new(environment_resolver(target_env))
+    };
+
     cx.env
         .spawn(BundleTask {
             swc: c.clone(),
             config: ConfigItem {
                 loader,
-                resolver: Box::new(environment_resolver(target_env)) as Box<_>,
+                resolver,
                 static_items,
             },
         })
