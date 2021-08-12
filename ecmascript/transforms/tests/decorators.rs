@@ -5984,3 +5984,21 @@ test!(
     }
     "
 );
+
+test_exec!(
+    Default::default(),
+    |_| decorators(Config {
+        legacy: true,
+        emit_metadata: true,
+        ..Default::default()
+    }),
+    issue_1362_1,
+    "
+    import { IsString } from 'class-validator';
+
+    export class CreateUserDto {
+      @IsString()
+      id!: string;
+    }
+"
+);
