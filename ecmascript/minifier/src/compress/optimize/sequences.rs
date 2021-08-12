@@ -646,6 +646,13 @@ impl Optimizer<'_> {
 
         exprs.push(buf);
 
+        if cfg!(feature = "debug") {
+            log::trace!(
+                "sequences: Merging statements: {:?}",
+                exprs.iter().map(|v| v.len()).collect::<Vec<_>>()
+            );
+        }
+
         for mut exprs in exprs {
             self.merge_sequences_in_exprs(&mut exprs);
         }
