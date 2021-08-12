@@ -163,9 +163,9 @@ function _main() {
                     _iterator = _asyncIterator(lol());
                 case 3:
                     _ctx.next = 5;
-                    return _iterator.next;
+                    return _iterator.next();
                 case 5:
-                    if (!(_iteratorAbruptCompletion = !(_step = (0, _ctx.sent)()).done)) {
+                    if (!(_iteratorAbruptCompletion = !(_step = _ctx.sent).done)) {
                         _ctx.next = 10;
                         break;
                     }

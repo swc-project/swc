@@ -1,23 +1,5 @@
 "use strict";
 var _regeneratorRuntime = _interopRequireDefault(require("regenerator-runtime"));
-function _defineProperty(obj, key, value) {
-    if (key in obj) {
-        Object.defineProperty(obj, key, {
-            value: value,
-            enumerable: true,
-            configurable: true,
-            writable: true
-        });
-    } else {
-        obj[key] = value;
-    }
-    return obj;
-}
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : {
-        default: obj
-    };
-}
 function _asyncIterator(iterable) {
     var method;
     if (typeof Symbol === "function") {
@@ -47,9 +29,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     }
 }
 function _asyncToGenerator(fn) {
-    return function () {
+    return function() {
         var self = this, args = arguments;
-        return new Promise(function (resolve, reject) {
+        return new Promise(function(resolve, reject) {
             var gen = fn.apply(self, args);
             function _next(value) {
                 asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
@@ -61,20 +43,38 @@ function _asyncToGenerator(fn) {
         });
     };
 }
+function _defineProperty(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        default: obj
+    };
+}
 _asyncToGenerator(_regeneratorRuntime.default.mark(function _callee() {
     var counter, resolve, promise, iterable, res, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, v, oldresolve;
     return _regeneratorRuntime.default.wrap(function _callee$(_ctx) {
-        while (1) switch (_ctx.prev = _ctx.next) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
                 counter = 0;
                 ;
-                promise = new Promise(function (r) {
+                promise = new Promise(function(r) {
                     return resolve = r;
                 });
                 iterable = _defineProperty({
-                }, Symbol.asyncIterator, function () {
+                }, Symbol.asyncIterator, function() {
                     return {
-                        next: function () {
+                        next: function() {
                             return promise;
                         }
                     };
@@ -82,7 +82,7 @@ _asyncToGenerator(_regeneratorRuntime.default.mark(function _callee() {
                 res = _asyncToGenerator(_regeneratorRuntime.default.mark(function _callee1() {
                     var _iteratorAbruptCompletion, _didIteratorError1, _iteratorError1, _iterator1, _step1, _value, value;
                     return _regeneratorRuntime.default.wrap(function _callee$1(_ctx1) {
-                        while (1) switch (_ctx1.prev = _ctx1.next) {
+                        while(1)switch(_ctx1.prev = _ctx1.next){
                             case 0:
                                 _iteratorAbruptCompletion = false, _didIteratorError1 = false;
                                 _ctx1.prev = 1;
@@ -174,7 +174,7 @@ _asyncToGenerator(_regeneratorRuntime.default.mark(function _callee() {
                 return null;
             case 12:
                 oldresolve = resolve;
-                promise = new Promise(function (r) {
+                promise = new Promise(function(r) {
                     return resolve = r;
                 });
                 oldresolve({
