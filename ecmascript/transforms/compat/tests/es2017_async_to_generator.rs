@@ -2660,7 +2660,7 @@ test_exec!(
 		},
     };
 
-    (async () => {
+    const res = (async () => {
 		for await (let value of iterable) {
 			counter++;
 			console.log(value);
@@ -2678,5 +2678,6 @@ test_exec!(
 	}
 	resolve({ value: undefined, done: true });
 
+	await res;
     "
 );
