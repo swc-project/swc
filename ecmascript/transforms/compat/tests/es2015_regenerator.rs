@@ -1701,8 +1701,8 @@ test_exec!(
             oldresolve({ value: v, done: false });
         }
         resolve({ value: undefined, done: true });
-    })();
 
-    expect(counter).toBe(2);
+        expect(counter).toBe(2);
+    })();
     "
 );
