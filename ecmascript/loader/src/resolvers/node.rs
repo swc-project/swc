@@ -92,7 +92,21 @@ struct PackageJson {
     #[serde(default)]
     main: Option<String>,
     #[serde(default)]
-    browser: Option<String>,
+    browser: Option<Browser>,
+}
+
+#[derive(Deserialize)]
+#[serde(untagged)]
+enum Browser {
+    Str(String),
+    Obj(FxHashMap<String, String>),
+}
+
+#[derive(Deserialize)]
+#[serde(untagged)]
+enum StringOrBool {
+    Str(String),
+    Bool(bool),
 }
 
 #[derive(Debug, Default)]
@@ -138,13 +152,12 @@ impl NodeModulesResolver {
 
     /// Resolve a path as a directory, using the "main" key from a package.json
     /// file if it exists, or resolving to the index.EXT file if it exists.
-    fn resolve_as_directory(&self, path: &PathBuf) -> Result<PathBuf, Error> {
+    fn resolve_as_directory(&self, path: &PathBuf, target: &str) -> Result<PathBuf, Error> {
         // 1. If X/package.json is a file, use it.
         let pkg_path = path.join("package.json");
         if pkg_path.is_file() {
-            let main = self.resolve_package_main(&pkg_path);
-            if main.is_ok() {
-                return main;
+            if let Some(main) = self.resolve_package_main(&pkg_path, target)? {
+                return Ok(main);
             }
         }
 
@@ -153,19 +166,42 @@ impl NodeModulesResolver {
     }
 
     /// Resolve using the package.json "main" key.
-    fn resolve_package_main(&self, pkg_path: &PathBuf) -> Result<PathBuf, Error> {
+    fn resolve_package_main(&self, pkg_path: &PathBuf, target: &str) -> Result<Option<PathBuf>, Error> {
         let pkg_dir = pkg_path.parent().unwrap_or_else(|| Path::new("/"));
         let file = File::open(pkg_path)?;
         let reader = BufReader::new(file);
         let pkg: PackageJson =
-            serde_json::from_reader(reader).context("failed to deserialize package.json")?;
+            serde_json::from_reader(reader).context(format!("failed to deserialize {}", pkg_path.display()))?;
 
         let main_fields = match self.target_env {
             TargetEnv::Node => {
-                vec![&pkg.main]
+                vec![pkg.main.as_ref().clone()]
             }
             TargetEnv::Browser => {
-                vec![&pkg.browser, &pkg.main]
+                if let Some(browser) = &pkg.browser {
+                    match browser {
+                        Browser::Str(path) => {
+                            vec![Some(path), pkg.main.as_ref().clone()]
+                        }
+                        Browser::Obj(map) => {
+                            if let Some(mapping) = map.get(target) {
+                                /*
+                                match mapping {
+                                    StringOrBool::Str(path) => {
+                                        vec![Some(path), pkg.main.as_ref().clone()]
+                                    }
+                                    _ => todo!("Handle boolean value for browser"),
+                                }
+                                */
+                                vec![Some(mapping), pkg.main.as_ref().clone()]
+                            } else {
+                                vec![pkg.main.as_ref().clone()]
+                            }
+                        }
+                    }
+                } else {
+                    vec![pkg.main.as_ref().clone()]
+                }
             }
         };
 
@@ -174,11 +210,12 @@ impl NodeModulesResolver {
                 let path = pkg_dir.join(target);
                 return self
                     .resolve_as_file(&path)
-                    .or_else(|_| self.resolve_as_directory(&path));
+                    .or_else(|_| self.resolve_as_directory(&path, target))
+                    .map(|p| Some(p));
             }
         }
 
-        bail!("package.json does not contain a \"main\" string")
+        Ok(None)
     }
 
     /// Resolve a directory to its index.EXT.
@@ -201,12 +238,9 @@ impl NodeModulesResolver {
         let node_modules = base_dir.join("node_modules");
         if node_modules.is_dir() {
             let path = node_modules.join(target);
-            let result = self
+            return Ok(self
                 .resolve_as_file(&path)
-                .or_else(|_| self.resolve_as_directory(&path));
-            if result.is_ok() {
-                return result;
-            }
+                .or_else(|_| self.resolve_as_directory(&path, target))?);
         }
 
         match base_dir.parent() {
@@ -241,7 +275,7 @@ impl Resolve for NodeModulesResolver {
             let path = PathBuf::from(target_path);
             return self
                 .resolve_as_file(&path)
-                .or_else(|_| self.resolve_as_directory(&path))
+                .or_else(|_| self.resolve_as_directory(&path, target))
                 .and_then(|p| self.wrap(p));
         }
 
@@ -263,7 +297,7 @@ impl Resolve for NodeModulesResolver {
             let path = base_dir.join(target);
             return self
                 .resolve_as_file(&path)
-                .or_else(|_| self.resolve_as_directory(&path))
+                .or_else(|_| self.resolve_as_directory(&path, target))
                 .and_then(|p| self.wrap(p));
         }
 
