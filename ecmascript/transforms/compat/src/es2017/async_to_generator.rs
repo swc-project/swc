@@ -1157,7 +1157,11 @@ fn handle_await_for(stmt: Stmt) -> Stmt {
                     })),
                 });
 
-                let right = Box::new(assign_to_step.make_member(quote_ident!("done")));
+                let right = Box::new(Expr::Unary(UnaryExpr {
+                    span: DUMMY_SP,
+                    op: op!("!"),
+                    arg: Box::new(assign_to_step.make_member(quote_ident!("done"))),
+                }));
 
                 let left = PatOrExpr::Pat(Box::new(Pat::Ident(
                     iterator_abrupt_completion.clone().into(),
