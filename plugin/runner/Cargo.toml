@@ -17,3 +17,4 @@ serde_json = "1.0.64"
 swc_atoms = {path = "../../atoms"}
 swc_common = {path = "../../common"}
 swc_ecma_ast = {path = "../../ecmascript/ast"}
+swc_plugin_shared = {path = "../shared"}

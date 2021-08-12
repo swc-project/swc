@@ -2982,6 +2982,7 @@ dependencies = [
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
+ "swc_plugin_shared",
 ]
 
 [[package]]
