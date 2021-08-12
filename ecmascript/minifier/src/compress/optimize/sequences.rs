@@ -623,10 +623,16 @@ impl Optimizer<'_> {
         }
 
         if !self.options.sequences() && !self.options.collapse_vars {
+            if cfg!(feature = "debug") {
+                log::trace!("sequences: [x] Disabled");
+            }
             return;
         }
 
         if self.ctx.in_top_level() && !self.options.top_level() {
+            if cfg!(feature = "debug") {
+                log::trace!("sequences: [x] Top level");
+            }
             return;
         }
 
