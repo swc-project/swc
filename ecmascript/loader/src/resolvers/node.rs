@@ -4,11 +4,11 @@
 
 use crate::resolve::Resolve;
 use anyhow::{bail, Context, Error};
+use fxhash::FxHashMap;
 #[cfg(windows)]
 use normpath::BasePath;
 use serde::Deserialize;
 use std::{
-    collections::HashMap,
     fs::File,
     io::BufReader,
     path::{Component, Path, PathBuf},
@@ -98,14 +98,14 @@ struct PackageJson {
 #[derive(Debug, Default)]
 pub struct NodeModulesResolver {
     target_env: TargetEnv,
-    alias: HashMap<String, String>,
+    alias: FxHashMap<String, String>,
 }
 
 static EXTENSIONS: &[&str] = &["ts", "tsx", "js", "jsx", "json", "node"];
 
 impl NodeModulesResolver {
     /// Create a node modules resolver for the target runtime environment.
-    pub fn new(target_env: TargetEnv, alias: HashMap<String, String>) -> Self {
+    pub fn new(target_env: TargetEnv, alias: FxHashMap<String, String>) -> Self {
         Self { target_env, alias }
     }
 

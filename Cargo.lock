@@ -2061,6 +2061,7 @@ version = "0.0.0"
 dependencies = [
  "anyhow",
  "dashmap",
+ "fxhash",
  "is-macro",
  "log",
  "once_cell",
@@ -2173,6 +2174,7 @@ dependencies = [
  "base64 0.13.0",
  "dashmap",
  "either",
+ "fxhash",
  "log",
  "lru",
  "once_cell",
@@ -2394,6 +2396,7 @@ version = "0.13.0"
 dependencies = [
  "anyhow",
  "dashmap",
+ "fxhash",
  "lru",
  "normpath",
  "once_cell",

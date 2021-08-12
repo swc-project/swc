@@ -49,7 +49,7 @@ mod builder;
 pub mod config;
 pub mod resolver {
     use crate::config::CompiledPaths;
-    use std::collections::HashMap;
+    use fxhash::FxHashMap;
     use swc_ecma_ast::TargetEnv;
     use swc_ecma_loader::resolvers::{
         lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
@@ -59,7 +59,7 @@ pub mod resolver {
 
     pub fn paths_resolver(
         target_env: TargetEnv,
-        alias: HashMap<String, String>,
+        alias: FxHashMap<String, String>,
         base_url: String,
         paths: CompiledPaths,
     ) -> CachingResolver<TsConfigResolver<NodeModulesResolver>> {
@@ -73,7 +73,7 @@ pub mod resolver {
 
     pub fn environment_resolver(
         target_env: TargetEnv,
-        alias: HashMap<String, String>,
+        alias: FxHashMap<String, String>,
     ) -> NodeResolver {
         CachingResolver::new(40, NodeModulesResolver::new(target_env, alias))
     }

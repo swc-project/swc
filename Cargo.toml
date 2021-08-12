@@ -16,6 +16,7 @@ name = "swc"
 
 [dependencies]
 ahash = "0.7.2"
+fxhash = "0.2.1"
 anyhow = "1"
 base64 = "0.13.0"
 dashmap = "4.0.2"
