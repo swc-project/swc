@@ -2968,6 +2968,7 @@ dependencies = [
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_visit",
+ "swc_plugin_shared",
 ]
 
 [[package]]
@@ -2982,6 +2983,10 @@ dependencies = [
  "swc_common",
  "swc_ecma_ast",
 ]
+
+[[package]]
+name = "swc_plugin_shared"
+version = "0.0.0"
 
 [[package]]
 name = "swc_plugin_testing"
