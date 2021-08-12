@@ -1673,7 +1673,7 @@ test_exec!(
     },
     issue_1918_1,
     "
-    let counter = 0;
+    let count = 0;
     let resolve;
     let promise = new Promise((r) => (resolve = r));
     let iterable = {
@@ -1686,10 +1686,14 @@ test_exec!(
         },
     };
 
+    (async () => {
         for await (let value of iterable) {
             counter++;
             console.log(value);
         }
+
+        expect(counter).toBe(2);
+    })();
 
     for (let v of [0, 1]) {
         await null;
@@ -1698,7 +1702,5 @@ test_exec!(
         oldresolve({ value: v, done: false });
     }
     resolve({ value: undefined, done: true });
-
-    expect(counter).toBe(2);
     "
 );

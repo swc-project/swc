@@ -2665,6 +2665,8 @@ test_exec!(
 			counter++;
 			console.log(value);
 		}
+
+		expect(counter).toBe(2);
 	})();
 
 
@@ -2676,6 +2678,5 @@ test_exec!(
 	}
 	resolve({ value: undefined, done: true });
 
-	expect(counter).toBe(2);
     "
 );
