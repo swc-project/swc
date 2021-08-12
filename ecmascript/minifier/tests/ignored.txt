@@ -28,11 +28,6 @@ collapse_vars/collapse_vars_switch/input.js
 collapse_vars/collapse_vars_unary/input.js
 collapse_vars/collapse_vars_while/input.js
 collapse_vars/compound_assignment/input.js
-collapse_vars/double_def_1/input.js
-collapse_vars/double_def_2/input.js
-collapse_vars/for_init/input.js
-collapse_vars/iife_1/input.js
-collapse_vars/iife_2/input.js
 collapse_vars/issue_1537_destructuring_1/input.js
 collapse_vars/issue_1562/input.js
 collapse_vars/issue_1605_2/input.js
