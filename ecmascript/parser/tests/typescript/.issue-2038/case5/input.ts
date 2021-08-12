@@ -1,1 +1,0 @@
-(function (p = function* () { yield }) { })
