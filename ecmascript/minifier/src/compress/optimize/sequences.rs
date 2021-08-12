@@ -7,6 +7,11 @@ use crate::{
     debug::dump,
     util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt},
 };
+use crate::compress::optimize::util::replace_id_with_expr;
+use crate::compress::util::{get_lhs_ident, get_lhs_ident_mut, is_directive};
+use crate::debug::dump;
+use crate::option::CompressOptions;
+use crate::util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt};
 use retain_mut::RetainMut;
 use std::mem::take;
 use swc_atoms::js_word;
@@ -592,7 +597,7 @@ impl Optimizer<'_> {
     }
 
     pub(super) fn merge_sequences_in_stmts(&mut self, stmts: &mut Vec<Stmt>) {
-        fn exprs_of(s: &mut Stmt) -> Option<Vec<Mergable>> {
+        fn exprs_of<'a>(s: &'a mut Stmt, options: &CompressOptions) -> Option<Vec<Mergable<'a>>> {
             Some(match s {
                 Stmt::Expr(e) => vec![Mergable::Expr(&mut *e.expr)],
                 Stmt::Decl(Decl::Var(
@@ -603,10 +608,10 @@ impl Optimizer<'_> {
                         ..
                     },
                 )) => v.decls.iter_mut().map(Mergable::Var).collect(),
-                Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => {
+                Stmt::Return(ReturnStmt { arg: Some(arg), .. }) if options.sequences() => {
                     vec![Mergable::Expr(&mut **arg)]
                 }
-                Stmt::If(s) => {
+                Stmt::If(s) if options.sequences() => {
                     vec![Mergable::Expr(&mut *s.test)]
                 }
 
@@ -614,7 +619,7 @@ impl Optimizer<'_> {
             })
         }
 
-        if !self.options.sequences() {
+        if !self.options.sequences() && !self.options.collapse_vars {
             return;
         }
 
@@ -627,7 +632,7 @@ impl Optimizer<'_> {
                 _ => false,
             };
 
-            let items = exprs_of(stmt);
+            let items = exprs_of(stmt, self.options);
             if let Some(items) = items {
                 buf.extend(items)
             } else {
