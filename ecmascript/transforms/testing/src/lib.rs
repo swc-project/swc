@@ -372,7 +372,7 @@ where
             "input.js",
             syntax,
             &format!(
-                "it('should work', function () {{
+                "it('should work', async function () {{
                     {}
                 }})",
                 input

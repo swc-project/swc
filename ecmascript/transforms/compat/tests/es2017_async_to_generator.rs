@@ -2668,16 +2668,14 @@ test_exec!(
 	})();
 
 
-    (async function () {
-		for (let v of [0, 1]) {
-			await null;
-			let oldresolve = resolve;
-			promise = new Promise((r) => (resolve = r));
-			oldresolve({ value: v, done: false });
-		}
-		resolve({ value: undefined, done: true });
+	for (let v of [0, 1]) {
+		await null;
+		let oldresolve = resolve;
+		promise = new Promise((r) => (resolve = r));
+		oldresolve({ value: v, done: false });
+	}
+	resolve({ value: undefined, done: true });
 
-		expect(counter).toBe(2);
-    })();
+	expect(counter).toBe(2);
     "
 );
