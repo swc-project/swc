@@ -27,12 +27,6 @@ collapse_vars/collapse_vars_side_effects_2/input.js
 collapse_vars/collapse_vars_switch/input.js
 collapse_vars/collapse_vars_unary/input.js
 collapse_vars/compound_assignment/input.js
-collapse_vars/issue_1537_destructuring_1/input.js
-collapse_vars/issue_1562/input.js
-collapse_vars/issue_1605_2/input.js
-collapse_vars/issue_1631_1/input.js
-collapse_vars/issue_1631_2/input.js
-collapse_vars/issue_1631_3/input.js
 collapse_vars/issue_1858/input.js
 collapse_vars/issue_2250_1/input.js
 collapse_vars/issue_2250_2/input.js
