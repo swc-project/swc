@@ -99,7 +99,7 @@ struct PackageJson {
 #[serde(untagged)]
 enum Browser {
     Str(String),
-    Obj(FxHashMap<String, String>),
+    Obj(FxHashMap<String, StringOrBool>),
 }
 
 #[derive(Deserialize)]
@@ -166,12 +166,16 @@ impl NodeModulesResolver {
     }
 
     /// Resolve using the package.json "main" key.
-    fn resolve_package_main(&self, pkg_path: &PathBuf, target: &str) -> Result<Option<PathBuf>, Error> {
+    fn resolve_package_main(
+        &self,
+        pkg_path: &PathBuf,
+        target: &str,
+    ) -> Result<Option<PathBuf>, Error> {
         let pkg_dir = pkg_path.parent().unwrap_or_else(|| Path::new("/"));
         let file = File::open(pkg_path)?;
         let reader = BufReader::new(file);
-        let pkg: PackageJson =
-            serde_json::from_reader(reader).context(format!("failed to deserialize {}", pkg_path.display()))?;
+        let pkg: PackageJson = serde_json::from_reader(reader)
+            .context(format!("failed to deserialize {}", pkg_path.display()))?;
 
         let main_fields = match self.target_env {
             TargetEnv::Node => {
@@ -185,15 +189,12 @@ impl NodeModulesResolver {
                         }
                         Browser::Obj(map) => {
                             if let Some(mapping) = map.get(target) {
-                                /*
                                 match mapping {
                                     StringOrBool::Str(path) => {
                                         vec![Some(path), pkg.main.as_ref().clone()]
                                     }
                                     _ => todo!("Handle boolean value for browser"),
                                 }
-                                */
-                                vec![Some(mapping), pkg.main.as_ref().clone()]
                             } else {
                                 vec![pkg.main.as_ref().clone()]
                             }
