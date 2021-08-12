@@ -15,7 +15,6 @@ collapse_vars/collapse_vars_do_while/input.js
 collapse_vars/collapse_vars_do_while_drop_assign/input.js
 collapse_vars/collapse_vars_eval_and_with/input.js
 collapse_vars/collapse_vars_if/input.js
-collapse_vars/collapse_vars_issue_721/input.js
 collapse_vars/collapse_vars_lvalues/input.js
 collapse_vars/collapse_vars_lvalues_drop_assign/input.js
 collapse_vars/collapse_vars_misc1/input.js
@@ -188,7 +187,6 @@ harmony/object_rest_spread/input.js
 harmony/object_spread_of_sequence/input.js
 harmony/regression_cannot_use_of/input.js
 hoist_props/issue_851_hoist_to_conflicting_name/input.js
-identity/inline_identity_async/input.js
 identity/inline_identity_dont_lose_this_when_arg/input.js
 identity/inline_identity_higher_order/input.js
 identity/inline_identity_inline_function/input.js
@@ -202,7 +200,6 @@ inline/do_not_repeat_when_variable_larger_than_inlined_node/input.js
 inline/dont_inline_funcs_into_default_param/input.js
 inline/dont_inline_funcs_into_default_param_2/input.js
 inline/inline_annotation/input.js
-inline/inline_annotation_2/input.js
 inline/inline_into_scope_conflict/input.js
 inline/inline_within_extends_1/input.js
 inline/issue_308/input.js
@@ -273,12 +270,9 @@ issue_640/negate_iife_1/input.js
 issue_640/negate_iife_3/input.js
 issue_640/wrongly_optimized/input.js
 issue_751/negate_booleans_1/input.js
-issue_782/dont_remove_this_binding_sequence/input.js
-issue_782/remove_redundant_sequence_items/input.js
 issue_913/keep_var_for_in/input.js
 issue_973/this_binding_collapse_vars/input.js
 issue_973/this_binding_conditionals/input.js
-issue_973/this_binding_side_effects/input.js
 issue_976/eval_mangle/input.js
 issue_976/eval_unused/input.js
 issue_979/issue979_reported/input.js
@@ -394,7 +388,6 @@ reduce_vars/defun_var_2/input.js
 reduce_vars/escaped_prop_1/input.js
 reduce_vars/escaped_prop_2/input.js
 reduce_vars/issue_1595_3/input.js
-reduce_vars/issue_1606/input.js
 reduce_vars/issue_2442/input.js
 reduce_vars/issue_2916/input.js
 reduce_vars/issue_294/input.js
@@ -411,7 +404,6 @@ sequences/cascade_assignment_in_return/input.js
 sequences/for_sequences/input.js
 sequences/hoist_decl/input.js
 sequences/issue_1758/input.js
-sequences/issue_27/input.js
 sequences/lift_sequences_2/input.js
 sequences/side_effects_cascade_1/input.js
 sequences/side_effects_cascade_3/input.js
