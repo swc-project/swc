@@ -1144,16 +1144,18 @@ fn handle_await_for(stmt: Stmt) -> Stmt {
                     span: DUMMY_SP,
                     op: op!("="),
                     left: PatOrExpr::Pat(Box::new(Pat::Ident(step.clone().into()))),
-                    right: Box::new(Expr::Call(CallExpr {
+                    right: Box::new(Expr::Yield(YieldExpr {
                         span: DUMMY_SP,
-                        callee: Expr::Yield(YieldExpr {
+                        arg: Some(Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
-                            arg: Some(Box::new(iterator.clone().make_member(quote_ident!("next")))),
-                            delegate: false,
-                        })
-                        .as_callee(),
-                        args: Default::default(),
-                        type_args: Default::default(),
+                            callee: iterator
+                                .clone()
+                                .make_member(quote_ident!("next"))
+                                .as_callee(),
+                            args: Default::default(),
+                            type_args: Default::default(),
+                        }))),
+                        delegate: false,
                     })),
                 });
 
