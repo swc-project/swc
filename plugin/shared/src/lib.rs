@@ -13,7 +13,7 @@ pub struct SwcPlugin {
     pub get_js_ast_version: extern "C" fn() -> RString,
 
     #[sabi(last_prefix_field)]
-    pub new_js_transform: extern "C" fn() -> JsTransformBox,
+    pub process_js: extern "C" fn(config_str: RStr, ast_json: RStr) -> RResult<RString, RString>,
 }
 
 impl RootModule for SwcPluginRef {
@@ -23,11 +23,3 @@ impl RootModule for SwcPluginRef {
     const NAME: &'static str = "swc_plugin";
     const VERSION_STRINGS: VersionStrings = package_version_strings!();
 }
-
-#[sabi_trait]
-pub trait JsTransform {
-    /// Should return ast as json string,
-    fn process(&mut self, config_str: RStr, ast_json: RStr) -> RResult<RString, RString>;
-}
-
-pub type JsTransformBox = JsTransform_TO<'static, RBox<()>>;
