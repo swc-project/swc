@@ -48,6 +48,9 @@ pub struct Config {
 
     #[serde(default)]
     pub extenal_modules: Vec<JsWord>,
+
+    #[serde(default)]
+    pub alias: HashMap<TargetEnv, HashMap<String, String>>,
 }
 
 impl Config {

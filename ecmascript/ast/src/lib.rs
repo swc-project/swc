@@ -131,7 +131,7 @@ impl Default for EsVersion {
 }
 
 /// Target runtime environment.
-#[derive(Debug, Copy, Clone, Serialize, Deserialize)]
+#[derive(Debug, Copy, Clone, Serialize, Deserialize, Eq, PartialEq, Hash)]
 pub enum TargetEnv {
     #[serde(rename = "browser")]
     Browser,

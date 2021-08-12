@@ -140,7 +140,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         compiler.globals(),
                         cm.clone(),
                         &loader,
-                        environment_resolver(TargetEnv::Node),
+                        environment_resolver(TargetEnv::Node, Default::default()),
                         Config {
                             require: true,
                             disable_inliner: true,

@@ -212,10 +212,17 @@ pub(crate) fn bundle(cx: CallContext) -> napi::Result<JsObject> {
         (options.config.jsc.base_url.clone(), paths)
     });
 
+    let alias = static_items
+        .config
+        .alias
+        .get(&target_env)
+        .map(|a| a.clone())
+        .unwrap_or_else(|| Default::default());
+
     let resolver: Box<dyn Resolve> = if let Some((base_url, paths)) = paths {
-        Box::new(paths_resolver(target_env, base_url, paths))
+        Box::new(paths_resolver(target_env, alias, base_url, paths))
     } else {
-        Box::new(environment_resolver(target_env))
+        Box::new(environment_resolver(target_env, alias))
     };
 
     cx.env
