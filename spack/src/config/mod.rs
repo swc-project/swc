@@ -4,6 +4,7 @@ pub use self::{
     output::OutputConfig,
     resolve::{AliasConfig, ResolveConfig},
 };
+use fxhash::FxHashMap;
 use serde::Deserialize;
 use std::{collections::HashMap, fmt, marker::PhantomData, path::PathBuf};
 use string_enum::StringEnum;
@@ -48,6 +49,9 @@ pub struct Config {
 
     #[serde(default)]
     pub extenal_modules: Vec<JsWord>,
+
+    #[serde(default)]
+    pub alias: FxHashMap<TargetEnv, FxHashMap<String, String>>,
 }
 
 impl Config {

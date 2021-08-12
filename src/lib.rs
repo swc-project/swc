@@ -48,13 +48,34 @@ use swc_ecma_visit::FoldWith;
 mod builder;
 pub mod config;
 pub mod resolver {
+    use crate::config::CompiledPaths;
+    use fxhash::FxHashMap;
     use swc_ecma_ast::TargetEnv;
-    use swc_ecma_loader::resolvers::{lru::CachingResolver, node::NodeModulesResolver};
+    use swc_ecma_loader::resolvers::{
+        lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
+    };
 
     pub type NodeResolver = CachingResolver<NodeModulesResolver>;
 
-    pub fn environment_resolver(target_env: TargetEnv) -> NodeResolver {
-        CachingResolver::new(40, NodeModulesResolver::new(target_env))
+    pub fn paths_resolver(
+        target_env: TargetEnv,
+        alias: FxHashMap<String, String>,
+        base_url: String,
+        paths: CompiledPaths,
+    ) -> CachingResolver<TsConfigResolver<NodeModulesResolver>> {
+        let r = TsConfigResolver::new(
+            NodeModulesResolver::new(target_env, alias),
+            base_url.clone().into(),
+            paths.clone(),
+        );
+        CachingResolver::new(40, r)
+    }
+
+    pub fn environment_resolver(
+        target_env: TargetEnv,
+        alias: FxHashMap<String, String>,
+    ) -> NodeResolver {
+        CachingResolver::new(40, NodeModulesResolver::new(target_env, alias))
     }
 }
 
