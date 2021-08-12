@@ -151,7 +151,8 @@ where
                         });
 
                         if to.len() == 1 {
-                            return Ok(FileName::Custom(replaced));
+                            let full_path = self.base_url.join(&replaced);
+                            return Ok(FileName::Real(full_path));
                         }
                     }
 
