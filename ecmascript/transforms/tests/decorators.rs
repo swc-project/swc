@@ -5986,12 +5986,20 @@ test!(
 );
 
 test_exec!(
-    Default::default(),
-    |_| decorators(Config {
-        legacy: true,
-        emit_metadata: true,
+    Syntax::Typescript(TsConfig {
+        decorators: true,
         ..Default::default()
     }),
+    |_| {
+        chain!(
+            decorators(Config {
+                legacy: true,
+                emit_metadata: true,
+                ..Default::default()
+            }),
+            strip()
+        )
+    },
     issue_1362_1,
     "
     const { IsString } = require('class-validator');
