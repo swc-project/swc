@@ -7,6 +7,7 @@ use crate::option::MangleOptions;
 use crate::util::base54::incr_base54;
 use fxhash::FxHashMap;
 use fxhash::FxHashSet;
+use swc_atoms::js_word;
 use swc_atoms::JsWord;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
@@ -52,21 +53,26 @@ struct Mangler {
 }
 
 impl Mangler {
-    fn rename(&mut self, i: &mut Ident) {
+    fn rename(&mut self, i: &mut Ident) -> bool {
+        match i.sym {
+            js_word!("arguments") => return false,
+            _ => {}
+        }
+
         if self.preserved.contains(&i.to_id()) {
-            return;
+            return false;
         }
 
         if let Some(var) = self.data.as_ref().unwrap().vars.get(&i.to_id()) {
             if !var.declared {
-                return;
+                return false;
             }
         }
 
         if let Some(v) = self.renamed.get(&i.to_id()) {
             i.span.ctxt = SyntaxContext::empty();
             i.sym = v.clone();
-            return;
+            return true;
         }
 
         loop {
@@ -83,6 +89,8 @@ impl Mangler {
             i.span.ctxt = SyntaxContext::empty();
             break;
         }
+
+        true
     }
 
     fn rename_private(&mut self, private_name: &mut PrivateName) {
@@ -121,6 +129,7 @@ impl VisitMut for Mangler {
 
         self.rename(&mut n.orig);
     }
+
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
 
@@ -183,6 +192,52 @@ impl VisitMut for Mangler {
         n.visit_mut_children_with(self)
     }
 
+    fn visit_mut_object_pat_prop(&mut self, n: &mut ObjectPatProp) {
+        match n {
+            ObjectPatProp::Assign(AssignPatProp {
+                value: None, key, ..
+            }) => {
+                let key_span = key.span.with_ctxt(SyntaxContext::empty());
+                let orig = key.sym.clone();
+
+                if self.rename(key) {
+                    *n = ObjectPatProp::KeyValue(KeyValuePatProp {
+                        key: PropName::Ident(Ident::new(orig, key_span)),
+                        value: Box::new(Pat::Ident(key.clone().into())),
+                    });
+                }
+            }
+
+            ObjectPatProp::Assign(p) => {
+                let key_span = p.key.span.with_ctxt(SyntaxContext::empty());
+                let orig = p.key.sym.clone();
+
+                if self.rename(&mut p.key) {
+                    if let Some(right) = p.value.take() {
+                        *n = ObjectPatProp::KeyValue(KeyValuePatProp {
+                            key: PropName::Ident(Ident::new(orig, key_span)),
+                            value: Box::new(Pat::Assign(AssignPat {
+                                span: p.span,
+                                left: Box::new(Pat::Ident(p.key.clone().into())),
+                                right,
+                                type_ann: None,
+                            })),
+                        });
+                    } else {
+                        *n = ObjectPatProp::KeyValue(KeyValuePatProp {
+                            key: PropName::Ident(Ident::new(orig, key_span)),
+                            value: Box::new(Pat::Ident(p.key.clone().into())),
+                        });
+                    }
+                }
+            }
+
+            _ => {
+                n.visit_mut_children_with(self);
+            }
+        }
+    }
+
     fn visit_mut_pat(&mut self, n: &mut Pat) {
         n.visit_mut_children_with(self);
 
@@ -197,6 +252,25 @@ impl VisitMut for Mangler {
     fn visit_mut_private_name(&mut self, private_name: &mut PrivateName) {
         if !self.options.keep_private_props {
             self.rename_private(private_name);
+        }
+    }
+
+    fn visit_mut_prop(&mut self, n: &mut Prop) {
+        match n {
+            Prop::Shorthand(p) => {
+                let span = p.span.with_ctxt(SyntaxContext::empty());
+                let orig = p.sym.clone();
+
+                if self.rename(p) {
+                    *n = Prop::KeyValue(KeyValueProp {
+                        key: PropName::Ident(Ident::new(orig, span)),
+                        value: Box::new(Expr::Ident(p.clone())),
+                    });
+                }
+            }
+            _ => {
+                n.visit_mut_children_with(self);
+            }
         }
     }
 

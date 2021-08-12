@@ -1592,13 +1592,13 @@ var Bar = _interopRequireWildcard(require("bar"));
 
 var _baz = require("baz");
 
-Foo = (42, (function() {
+_foo.default = (42, (function() {
     throw new Error('"' + 'Foo' + '" is read-only.');
 })());
 Bar = (43, (function() {
     throw new Error('"' + 'Bar' + '" is read-only.');
 })());
-Baz = (44, (function() {
+_baz.Baz = (44, (function() {
     throw new Error('"' + 'Baz' + '" is read-only.');
 })());
 ({ Foo  } = ( {
