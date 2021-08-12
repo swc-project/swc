@@ -5994,9 +5994,9 @@ test_exec!(
     }),
     issue_1362_1,
     "
-    import { IsString } from 'class-validator';
+    const { IsString } = require('class-validator');
 
-    export class CreateUserDto {
+    class CreateUserDto {
       @IsString()
       id!: string;
     }
