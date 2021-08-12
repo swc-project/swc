@@ -5984,3 +5984,29 @@ test!(
     }
     "
 );
+
+test_exec!(
+    Syntax::Typescript(TsConfig {
+        decorators: true,
+        ..Default::default()
+    }),
+    |_| {
+        chain!(
+            decorators(Config {
+                legacy: true,
+                emit_metadata: true,
+                ..Default::default()
+            }),
+            strip()
+        )
+    },
+    issue_1362_1,
+    "
+    const { IsString } = require('class-validator');
+
+    class CreateUserDto {
+      @IsString()
+      id!: string;
+    }
+    "
+);

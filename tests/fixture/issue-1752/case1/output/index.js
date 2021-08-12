@@ -154,9 +154,10 @@ function _printValues() {
     _printValues = _asyncToGenerator(function*() {
         const iterator = generate();
         {
-            var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError;
+            var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
             try {
-                for(var _iterator = _asyncIterator(iterator), _step, _value; _step = yield _iterator.next(), _iteratorNormalCompletion = _step.done, _value = yield _step.value, !_iteratorNormalCompletion; _iteratorNormalCompletion = true){
+                for(var _iterator = _asyncIterator(iterator), _step; _iteratorAbruptCompletion = !(_step = yield _iterator.next()).done; _iteratorAbruptCompletion = false){
+                    let _value = _step.value;
                     const value = _value;
                     console.log(`iterator value: ${value}`);
                 }
@@ -165,7 +166,7 @@ function _printValues() {
                 _iteratorError = err;
             } finally{
                 try {
-                    if (!_iteratorNormalCompletion && _iterator.return != null) {
+                    if (_iteratorAbruptCompletion && _iterator.return != null) {
                         yield _iteratorError.return();
                     }
                 } finally{
