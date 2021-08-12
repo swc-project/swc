@@ -2647,7 +2647,7 @@ test_exec!(
     |_| async_to_generator(),
     issue_1918_1,
     "
-    let count = 0;
+    let counter = 0;
     let resolve;
     let promise = new Promise((r) => (resolve = r));
     let iterable = {

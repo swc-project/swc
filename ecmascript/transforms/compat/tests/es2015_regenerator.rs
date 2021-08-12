@@ -1673,7 +1673,7 @@ test_exec!(
     },
     issue_1918_1,
     "
-    let count = 0;
+    let counter = 0;
     let resolve;
     let promise = new Promise((r) => (resolve = r));
     let iterable = {
