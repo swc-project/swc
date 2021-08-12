@@ -153,10 +153,12 @@ collapse_vars/issue_2365/input.js
 collapse_vars/issue_2425_1/input.js
 collapse_vars/issue_2425_2/input.js
 collapse_vars/issue_2425_3/input.js
+collapse_vars/issue_2436_12/input.js
 collapse_vars/issue_2437_1/input.js
 collapse_vars/issue_2437_2/input.js
 collapse_vars/issue_2571_1/input.js
 collapse_vars/issue_2571_2/input.js
+collapse_vars/issue_27/input.js
 collapse_vars/issue_2858/input.js
 collapse_vars/issue_2873_1/input.js
 collapse_vars/issue_2873_2/input.js
@@ -602,6 +604,7 @@ issue_1447/else_with_empty_block/input.js
 issue_1447/else_with_empty_statement/input.js
 issue_1588/runtime_error/input.js
 issue_1588/support_ie8/input.js
+issue_1609/chained_evaluation_1/input.js
 issue_1639/issue_1639_3/input.js
 issue_1656/f7/input.js
 issue_1673/side_effects_catch/input.js
