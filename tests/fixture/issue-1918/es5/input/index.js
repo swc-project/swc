@@ -18,7 +18,9 @@
             console.log(value);
         }
 
-        expect(counter).toBe(2);
+        if (counter !== 2) {
+            throw new Error('')
+        }
     })();
 
 
