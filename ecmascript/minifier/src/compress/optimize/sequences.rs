@@ -626,6 +626,10 @@ impl Optimizer<'_> {
             return;
         }
 
+        if self.ctx.in_top_level() && !self.options.top_level() {
+            return;
+        }
+
         let mut exprs = vec![];
         let mut buf = vec![];
 
