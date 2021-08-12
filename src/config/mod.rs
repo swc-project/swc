@@ -212,15 +212,6 @@ impl Options {
         } = config.jsc;
         let target = target.unwrap_or_default();
 
-        let swcrc_dir = config.swcrc_dir.unwrap_or_else(|| {
-            if cfg!(target_arch = "wasm32") {
-                PathBuf::from(".")
-            } else {
-                env::current_dir().expect("failed to get current directory")
-            }
-        });
-        let base_url = swcrc_dir.join(&base_url);
-
         let syntax = syntax.unwrap_or_default();
         let mut transform = transform.unwrap_or_default();
 
@@ -396,7 +387,6 @@ impl Default for Rc {
                 minify: false,
                 source_maps: None,
                 input_source_map: InputSourceMap::default(),
-                swcrc_dir: None,
             },
             Config {
                 env: None,
@@ -418,7 +408,6 @@ impl Default for Rc {
                 minify: false,
                 source_maps: None,
                 input_source_map: InputSourceMap::default(),
-                swcrc_dir: None,
             },
             Config {
                 env: None,
@@ -440,7 +429,6 @@ impl Default for Rc {
                 minify: false,
                 source_maps: None,
                 input_source_map: InputSourceMap::default(),
-                swcrc_dir: None,
             },
         ])
     }
@@ -511,10 +499,6 @@ pub struct Config {
     /// Possible values are: `'inline'`, `true`, `false`.
     #[serde(default)]
     pub source_maps: Option<SourceMapsConfig>,
-
-    /// Directory of the `.swcrc` file.
-    #[serde(skip)]
-    pub swcrc_dir: Option<PathBuf>,
 }
 
 /// Second argument of `minify`.
@@ -711,7 +695,7 @@ pub enum ModuleConfig {
 impl ModuleConfig {
     pub fn build(
         cm: Arc<SourceMap>,
-        base_url: PathBuf,
+        base_url: String,
         paths: CompiledPaths,
         base: &FileName,
         root_mark: Mark,
@@ -1107,14 +1091,9 @@ impl Merge for ConstModulesConfig {
     }
 }
 
-fn build_resolver(base_url: PathBuf, paths: CompiledPaths) -> SwcImportResolver {
-    static CACHE: Lazy<DashMap<(PathBuf, CompiledPaths), SwcImportResolver>> =
+fn build_resolver(base_url: String, paths: CompiledPaths) -> SwcImportResolver {
+    static CACHE: Lazy<DashMap<(String, CompiledPaths), SwcImportResolver>> =
         Lazy::new(|| Default::default());
-
-    assert!(
-        base_url.is_absolute(),
-        "build_resolver: `base_url` must be canonicalized path"
-    );
 
     if let Some(cached) = CACHE.get(&(base_url.clone(), paths.clone())) {
         return (*cached).clone();
@@ -1123,7 +1102,7 @@ fn build_resolver(base_url: PathBuf, paths: CompiledPaths) -> SwcImportResolver 
     let r = {
         let r = TsConfigResolver::new(
             NodeModulesResolver::default(),
-            base_url.clone(),
+            base_url.clone().into(),
             paths.clone(),
         );
         let r = CachingResolver::new(40, r);

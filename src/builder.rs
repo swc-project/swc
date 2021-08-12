@@ -3,7 +3,6 @@ use crate::SwcComments;
 use compat::es2020::export_namespace_from;
 use either::Either;
 use std::cell::RefCell;
-use std::path::PathBuf;
 use std::rc::Rc;
 use std::{collections::HashMap, sync::Arc};
 use swc_atoms::JsWord;
@@ -145,7 +144,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
     ///  - fixer if enabled
     pub fn finalize<'cmt>(
         self,
-        base_url: PathBuf,
+        base_url: String,
         paths: CompiledPaths,
         base: &FileName,
         syntax: Syntax,
