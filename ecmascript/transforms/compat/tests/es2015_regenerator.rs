@@ -1669,7 +1669,11 @@ test_exec!(
     Syntax::default(),
     |_| {
         let mark = Mark::fresh(Mark::root());
-        chain!(async_to_generator(), regenerator(mark))
+        chain!(
+            async_to_generator(),
+            es2015::for_of(Default::default()),
+            regenerator(mark)
+        )
     },
     issue_1918_1,
     "
