@@ -11,7 +11,7 @@ use crate::compress::optimize::util::replace_id_with_expr;
 use crate::compress::util::{get_lhs_ident, get_lhs_ident_mut, is_directive};
 use crate::debug::dump;
 use crate::option::CompressOptions;
-use crate::util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt};
+use crate::util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt, MoudleItemExt};
 use retain_mut::RetainMut;
 use std::mem::take;
 use swc_atoms::js_word;
@@ -596,7 +596,10 @@ impl Optimizer<'_> {
         }
     }
 
-    pub(super) fn merge_sequences_in_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+    pub(super) fn merge_sequences_in_stmts<T>(&mut self, stmts: &mut Vec<T>)
+    where
+        T: MoudleItemExt,
+    {
         fn exprs_of<'a>(s: &'a mut Stmt, options: &CompressOptions) -> Option<Vec<Mergable<'a>>> {
             Some(match s {
                 Stmt::Expr(e) => vec![Mergable::Expr(&mut *e.expr)],
@@ -627,12 +630,16 @@ impl Optimizer<'_> {
         let mut buf = vec![];
 
         for stmt in stmts.iter_mut() {
-            let is_end = match stmt {
-                Stmt::If(..) => true,
+            let is_end = match stmt.as_stmt() {
+                Some(Stmt::If(..)) => true,
                 _ => false,
             };
 
-            let items = exprs_of(stmt, self.options);
+            let items = if let Some(stmt) = stmt.as_stmt_mut() {
+                exprs_of(stmt, self.options)
+            } else {
+                None
+            };
             if let Some(items) = items {
                 buf.extend(items)
             } else {
@@ -657,8 +664,8 @@ impl Optimizer<'_> {
             self.merge_sequences_in_exprs(&mut exprs);
         }
 
-        stmts.retain_mut(|stmt| match stmt {
-            Stmt::Decl(Decl::Var(v)) => {
+        stmts.retain_mut(|stmt| match stmt.as_stmt_mut() {
+            Some(Stmt::Decl(Decl::Var(v))) => {
                 v.decls.retain(|decl| match decl.init.as_deref() {
                     Some(Expr::Invalid(..)) => false,
                     _ => true,
@@ -666,7 +673,7 @@ impl Optimizer<'_> {
 
                 !v.decls.is_empty()
             }
-            Stmt::Expr(s) if s.expr.is_invalid() => false,
+            Some(Stmt::Expr(s)) if s.expr.is_invalid() => false,
             _ => true,
         });
     }
