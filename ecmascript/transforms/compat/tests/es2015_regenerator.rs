@@ -1679,27 +1679,28 @@ test_exec!(
     let iterable = {
     [Symbol.asyncIterator]() {
         return {
-        next() {
-            return promise;
-        },
+            next() {
+                return promise;
+            },
         };
     },
     };
 
     (async () => {
-    for await (let value of iterable) {
-        counter++;
-        console.log(value);
-    }
+        for await (let value of iterable) {
+            counter++;
+            console.log(value);
+        }
+    })();
 
     (async function () {
-    for (let v of [0, 1]) {
-        await null;
-        let oldresolve = resolve;
-        promise = new Promise((r) => (resolve = r));
-        oldresolve({ value: v, done: false });
-    }
-    resolve({ value: undefined, done: true });
+        for (let v of [0, 1]) {
+            await null;
+            let oldresolve = resolve;
+            promise = new Promise((r) => (resolve = r));
+            oldresolve({ value: v, done: false });
+        }
+        resolve({ value: undefined, done: true });
     })();
 
     expect(counter).toBe(2);
