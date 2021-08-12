@@ -2651,13 +2651,13 @@ test_exec!(
     let resolve;
     let promise = new Promise((r) => (resolve = r));
     let iterable = {
-    [Symbol.asyncIterator]() {
-        return {
-			next() {
-				return promise;
-			},
-        };
-    },
+		[Symbol.asyncIterator]() {
+			return {
+				next() {
+					return promise;
+				},
+			};
+		},
     };
 
     (async () => {

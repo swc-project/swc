@@ -1677,21 +1677,19 @@ test_exec!(
     let resolve;
     let promise = new Promise((r) => (resolve = r));
     let iterable = {
-    [Symbol.asyncIterator]() {
-        return {
-            next() {
-                return promise;
-            },
-        };
-    },
+        [Symbol.asyncIterator]() {
+            return {
+                next() {
+                    return promise;
+                },
+            };
+        },
     };
 
-    (async () => {
         for await (let value of iterable) {
             counter++;
             console.log(value);
         }
-    })();
 
     for (let v of [0, 1]) {
         await null;
