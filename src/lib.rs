@@ -783,16 +783,40 @@ fn load_swcrc(path: &Path) -> Result<Rc, Error> {
         ))
     }
 
-    let content = read_to_string(path).context("failed to read config (.swcrc) file")?;
+    fn load(path: &Path) -> Result<Rc, Error> {
+        let content = read_to_string(path).context("failed to read config (.swcrc) file")?;
 
-    match serde_json::from_str(&content) {
-        Ok(v) => return Ok(v),
-        Err(..) => {}
+        match serde_json::from_str(&content) {
+            Ok(v) => return Ok(v),
+            Err(..) => {}
+        }
+
+        serde_json::from_str::<Config>(&content)
+            .map(Rc::Single)
+            .map_err(convert_json_err)
     }
 
-    serde_json::from_str::<Config>(&content)
-        .map(Rc::Single)
-        .map_err(convert_json_err)
+    let mut rc = load(path)?;
+
+    match &mut rc {
+        Rc::Single(rc) => {
+            rc.swcrc_dir = Some(
+                path.parent()
+                    .expect(".swcrc should have parent")
+                    .to_path_buf(),
+            );
+        }
+        Rc::Multi(rc) => {
+            for rc in rc {
+                rc.swcrc_dir = Some(
+                    path.parent()
+                        .expect(".swcrc should have parent")
+                        .to_path_buf(),
+                );
+            }
+        }
+    }
+    Ok(rc)
 }
 
 type CommentMap = Arc<DashMap<BytePos, Vec<Comment>, ahash::RandomState>>;
