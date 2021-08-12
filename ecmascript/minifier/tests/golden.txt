@@ -126,10 +126,12 @@ collapse_vars/collapse_vars_properties/input.js
 collapse_vars/collapse_vars_regexp/input.js
 collapse_vars/collapse_vars_try/input.js
 collapse_vars/collapse_vars_unary_2/input.js
+collapse_vars/collapse_vars_while/input.js
 collapse_vars/cond_branch_switch/input.js
 collapse_vars/conditional_1/input.js
 collapse_vars/conditional_2/input.js
 collapse_vars/duplicate_argname/input.js
+collapse_vars/for_init/input.js
 collapse_vars/ignore_class/input.js
 collapse_vars/iife_1/input.js
 collapse_vars/iife_2/input.js
