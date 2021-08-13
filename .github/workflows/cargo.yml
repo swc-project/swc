@@ -145,7 +145,7 @@ jobs:
           - wasm
         exclude:
           - os: windows-latest
-            crate: spack
+            crate: swc_node_bundler
 
     steps:
       - name: Handle line endings
