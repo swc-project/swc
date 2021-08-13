@@ -1,15 +1,16 @@
-use std::{path::Path, sync::Arc};
+use std::path::Path;
 use swc::{config::Options, Compiler};
 use testing::{NormalizedOutput, Tester};
 
 fn file(f: &str) -> NormalizedOutput {
     Tester::new()
         .print_errors(|cm, handler| -> Result<NormalizedOutput, _> {
-            let c = Compiler::new(cm.clone(), Arc::new(handler));
+            let c = Compiler::new(cm.clone());
 
             let fm = cm.load_file(Path::new(f)).expect("failed to load file");
             let s = c.process_js_file(
                 fm,
+                &handler,
                 &Options {
                     swcrc: true,
                     is_module: true,

@@ -2,14 +2,12 @@
 
 extern crate test;
 
+use std::io::stderr;
 use std::{hint::black_box, sync::Arc};
 use swc_babel_compat::babelify::Babelify;
 use swc_babel_compat::babelify::Context;
 use swc_common::SourceFile;
-use swc_common::{
-    errors::{ColorConfig, Handler},
-    FileName, FilePathMapping, SourceMap,
-};
+use swc_common::{errors::Handler, FileName, FilePathMapping, SourceMap};
 use swc_ecma_ast::Program;
 use swc_ecma_parser::{JscTarget, Syntax};
 use swc_ecma_transforms::compat::es2020;
@@ -21,14 +19,8 @@ static SOURCE: &str = include_str!("assets/AjaxObservable.ts");
 
 fn mk() -> swc::Compiler {
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
-    let handler = Arc::new(Handler::with_tty_emitter(
-        ColorConfig::Always,
-        true,
-        false,
-        Some(cm.clone()),
-    ));
 
-    let c = swc::Compiler::new(cm.clone(), handler);
+    let c = swc::Compiler::new(cm.clone());
 
     c
 }
@@ -38,9 +30,13 @@ fn parse(c: &swc::Compiler, src: &str) -> (Arc<SourceFile>, Program) {
         FileName::Real("rxjs/src/internal/observable/dom/AjaxObservable.ts".into()),
         src.to_string(),
     );
+
+    let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
+
     let module = c
         .parse_js(
             fm.clone(),
+            &handler,
             JscTarget::Es5,
             Syntax::Typescript(Default::default()),
             true,
@@ -57,7 +53,9 @@ fn babelify_only(b: &mut Bencher) {
 
     let c = mk();
     let (fm, module) = parse(&c, SOURCE);
-    let module = c.run_transform(false, || {
+    let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
+
+    let module = c.run_transform(&handler, false, || {
         module
             .fold_with(&mut typescript::strip())
             .fold_with(&mut es2020())

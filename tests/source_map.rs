@@ -22,12 +22,13 @@ fn file(f: &str) -> Result<(), StdErr> {
     Tester::new().print_errors(|cm, handler| {
         let path = canonicalize(f).expect("failed to canonicalize");
 
-        let c = Compiler::new(cm.clone(), Arc::new(handler));
+        let c = Compiler::new(cm.clone());
 
         let fm = cm.load_file(&path).expect("failed to load file");
         let s = c
             .process_js_file(
                 fm,
+                &handler,
                 &Options {
                     swcrc: true,
                     is_module: true,
@@ -72,12 +73,13 @@ fn inline(f: &str) -> Result<(), StdErr> {
     Tester::new().print_errors(|cm, handler| {
         let path = canonicalize(f).expect("failed to canonicalize");
 
-        let c = Compiler::new(cm.clone(), Arc::new(handler));
+        let c = Compiler::new(cm.clone());
 
         let fm = cm.load_file(&path).expect("failed to load file");
         let s = c
             .process_js_file(
                 fm,
+                &handler,
                 &Options {
                     swcrc: true,
                     is_module: true,

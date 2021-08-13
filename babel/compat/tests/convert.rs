@@ -126,12 +126,13 @@ fn run_test(src: String, expected: String, syntax: Syntax, is_module: bool) {
         false,
         Some(cm.clone()),
     ));
-    let compiler = Compiler::new(cm.clone(), handler);
+    let compiler = Compiler::new(cm.clone());
     let fm = compiler.cm.new_source_file(FileName::Anon, src);
 
     let swc_ast = compiler
         .parse_js(
             fm.clone(),
+            &handler,
             Default::default(), // JscTarget (ES version)
             syntax,
             is_module,

@@ -2,12 +2,13 @@
 
 extern crate test;
 
-use std::{hint::black_box, sync::Arc};
-use swc::config::{Config, JscConfig, Options, SourceMapsConfig};
-use swc_common::{
-    errors::{ColorConfig, Handler},
-    FileName, FilePathMapping, SourceMap,
+use std::{
+    hint::black_box,
+    io::{self, stderr},
+    sync::Arc,
 };
+use swc::config::{Config, JscConfig, Options, SourceMapsConfig};
+use swc_common::{errors::Handler, FileName, FilePathMapping, SourceMap};
 use swc_ecma_ast::Program;
 use swc_ecma_parser::{JscTarget, Syntax, TsConfig};
 use swc_ecma_transforms::{fixer, hygiene, resolver, typescript};
@@ -18,14 +19,8 @@ static SOURCE: &str = include_str!("assets/AjaxObservable.ts");
 
 fn mk() -> swc::Compiler {
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
-    let handler = Arc::new(Handler::with_tty_emitter(
-        ColorConfig::Always,
-        true,
-        false,
-        Some(cm.clone()),
-    ));
 
-    let c = swc::Compiler::new(cm.clone(), handler);
+    let c = swc::Compiler::new(cm.clone());
 
     c
 }
@@ -35,8 +30,11 @@ fn parse(c: &swc::Compiler) -> Program {
         FileName::Real("rxjs/src/internal/observable/dom/AjaxObservable.ts".into()),
         SOURCE.to_string(),
     );
+    let handler = Handler::with_emitter_writer(Box::new(io::stderr()), Some(c.cm.clone()));
+
     c.parse_js(
         fm,
+        &handler,
         JscTarget::Es5,
         Syntax::Typescript(Default::default()),
         true,
@@ -57,7 +55,9 @@ fn base_tr_fixer(b: &mut Bencher) {
     let module = as_es(&c);
 
     b.iter(|| {
-        black_box(c.run_transform(true, || {
+        let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
+
+        black_box(c.run_transform(&handler, true, || {
             module.clone().fold_with(&mut fixer(Some(c.comments())))
         }))
     });
@@ -69,7 +69,9 @@ fn base_tr_resolver_and_hygiene(b: &mut Bencher) {
     let module = as_es(&c);
 
     b.iter(|| {
-        black_box(c.run_transform(true, || {
+        let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
+
+        black_box(c.run_transform(&handler, true, || {
             module
                 .clone()
                 .fold_with(&mut resolver())
@@ -84,7 +86,10 @@ fn config_for_file(b: &mut Bencher) {
     let c = mk();
 
     b.iter(|| {
+        let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
+
         black_box(c.config_for_file(
+            &handler,
             &Options {
                 config: Config {
                     jsc: JscConfig {
@@ -152,11 +157,13 @@ fn bench_full(b: &mut Bencher, opts: &Options) {
     let c = mk();
 
     b.iter(|| {
+        let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
+
         let fm = c.cm.new_source_file(
             FileName::Real("rxjs/src/internal/observable/dom/AjaxObservable.ts".into()),
             SOURCE.to_string(),
         );
-        c.process_js_file(fm, opts)
+        c.process_js_file(fm, &handler, opts)
     });
 }
 
@@ -204,10 +211,12 @@ macro_rules! tr_only {
             let module = parse(&c);
 
             b.iter(|| {
+                let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
                 let program = module.clone();
 
                 let mut config = c
                     .config_for_file(
+                        &handler,
                         &Options {
                             config: Config {
                                 jsc: JscConfig {
@@ -230,7 +239,8 @@ macro_rules! tr_only {
                     )
                     .unwrap()
                     .unwrap();
-                let program = c.run_transform(true, || program.fold_with(&mut config.pass));
+                let program =
+                    c.run_transform(&handler, true, || program.fold_with(&mut config.pass));
                 black_box(program)
             });
         }
