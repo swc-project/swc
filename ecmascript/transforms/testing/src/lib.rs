@@ -1,42 +1,31 @@
 use ansi_term::Color;
 use serde::de::DeserializeOwned;
-use std::env;
-use std::fs::read_to_string;
-use std::mem::replace;
-use std::mem::take;
-use std::rc::Rc;
 use std::{
-    fs::{create_dir_all, remove_dir_all, OpenOptions},
+    env,
+    fs::{create_dir_all, read_to_string, remove_dir_all, OpenOptions},
     io::{self, Write},
+    mem::{replace, take},
     path::Path,
     process::Command,
+    rc::Rc,
     sync::{Arc, RwLock},
 };
-use swc_common::chain;
-use swc_common::DUMMY_SP;
 use swc_common::{
-    comments::SingleThreadedComments, errors::Handler, sync::Lrc, FileName, SourceMap,
+    chain, comments::SingleThreadedComments, errors::Handler, sync::Lrc, FileName, SourceMap,
+    DUMMY_SP,
 };
 use swc_ecma_ast::{Pat, *};
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{error::Error, lexer::Lexer, Parser, StringInput, Syntax};
-use swc_ecma_transforms_base::fixer;
-use swc_ecma_transforms_base::helpers::{inject_helpers, HELPERS};
-use swc_ecma_transforms_base::hygiene;
-use swc_ecma_utils::quote_ident;
-use swc_ecma_utils::quote_str;
-use swc_ecma_utils::DropSpan;
-use swc_ecma_utils::ExprFactory;
-use swc_ecma_utils::HANDLER;
-use swc_ecma_visit::noop_visit_mut_type;
-use swc_ecma_visit::VisitMut;
-use swc_ecma_visit::VisitMutWith;
-use swc_ecma_visit::{as_folder, Fold, FoldWith};
+use swc_ecma_transforms_base::{
+    fixer,
+    helpers::{inject_helpers, HELPERS},
+    hygiene,
+};
+use swc_ecma_utils::{quote_ident, quote_str, DropSpan, ExprFactory, HANDLER};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 use tempfile::tempdir_in;
-use testing::assert_eq;
-use testing::find_executable;
-use testing::DebugUsingDisplay;
-use testing::NormalizedOutput;
+use testing::{assert_eq, find_executable, DebugUsingDisplay, NormalizedOutput};
 
 pub struct Tester<'a> {
     pub cm: Lrc<SourceMap>,

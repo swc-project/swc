@@ -3,9 +3,7 @@ use fxhash::FxHashMap;
 use swc_atoms::js_word;
 use swc_common::{util::move_map::MoveMap, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::member_expr;
-use swc_ecma_utils::quote_ident;
-use swc_ecma_utils::{ident::IdentLike, undefined, ExprFactory, Id};
+use swc_ecma_utils::{ident::IdentLike, member_expr, quote_ident, undefined, ExprFactory, Id};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 /// https://github.com/leonardfactory/babel-plugin-transform-typescript-metadata/blob/master/src/parameter/parameterVisitor.ts

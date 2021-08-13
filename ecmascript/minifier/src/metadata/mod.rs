@@ -1,22 +1,13 @@
 use crate::marks::Marks;
-use swc_common::comments::Comment;
-use swc_common::comments::CommentKind;
-use swc_common::comments::Comments;
-use swc_common::Mark;
-use swc_common::Span;
-use swc_common::SyntaxContext;
-use swc_common::DUMMY_SP;
+use swc_common::{
+    comments::{Comment, CommentKind, Comments},
+    Mark, Span, SyntaxContext, DUMMY_SP,
+};
 use swc_ecma_ast::*;
-use swc_ecma_utils::find_ids;
-use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_utils::Id;
-use swc_ecma_visit::noop_visit_mut_type;
-use swc_ecma_visit::noop_visit_type;
-use swc_ecma_visit::Node;
-use swc_ecma_visit::Visit;
-use swc_ecma_visit::VisitMut;
-use swc_ecma_visit::VisitMutWith;
-use swc_ecma_visit::VisitWith;
+use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
+use swc_ecma_visit::{
+    noop_visit_mut_type, noop_visit_type, Node, Visit, VisitMut, VisitMutWith, VisitWith,
+};
 
 #[cfg(test)]
 mod tests;

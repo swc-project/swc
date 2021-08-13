@@ -3,23 +3,13 @@ use std::mem;
 use swc_atoms::js_word;
 use swc_common::{util::move_map::MoveMap, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::ExprRefExt;
-use swc_ecma_transforms_base::helper;
-use swc_ecma_transforms_base::perf::Check;
+use swc_ecma_transforms_base::{ext::ExprRefExt, helper, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
-use swc_ecma_utils::alias_ident_for;
-use swc_ecma_utils::is_literal;
-use swc_ecma_utils::member_expr;
-use swc_ecma_utils::prepend;
-use swc_ecma_utils::quote_ident;
-use swc_ecma_utils::undefined;
-use swc_ecma_utils::ExprFactory;
-use swc_ecma_utils::StmtLike;
-use swc_ecma_visit::noop_visit_type;
-use swc_ecma_visit::Node;
-use swc_ecma_visit::Visit;
-use swc_ecma_visit::VisitWith;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_utils::{
+    alias_ident_for, is_literal, member_expr, prepend, quote_ident, undefined, ExprFactory,
+    StmtLike,
+};
+use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 pub fn spread(c: Config) -> impl Fold {
     Spread { c }

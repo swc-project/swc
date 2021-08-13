@@ -3,28 +3,25 @@
 
 #![allow(dead_code)] // We don't want to modify copied source code.
 
-use fxhash::FxBuildHasher;
-use fxhash::FxHashSet;
-use indexmap::map::Keys;
-use indexmap::map::{Iter as IndexMapIter, IterMut as IndexMapIterMut};
-use indexmap::IndexMap;
-use petgraph::graph::node_index;
-use petgraph::graph::Graph;
-use petgraph::visit::GraphBase;
-use petgraph::visit::IntoNeighbors;
-use petgraph::visit::IntoNeighborsDirected;
-use petgraph::visit::NodeCount;
-use petgraph::visit::Visitable;
-use petgraph::IntoWeightedEdge;
-use petgraph::{Directed, Direction, EdgeType, Incoming, Outgoing, Undirected};
-use std::cmp::Ordering;
-use std::fmt;
-use std::hash::{self, Hash};
-use std::iter::FromIterator;
-use std::iter::{Cloned, DoubleEndedIterator};
-use std::marker::PhantomData;
-use std::ops::Deref;
-use std::slice::Iter;
+use fxhash::{FxBuildHasher, FxHashSet};
+use indexmap::{
+    map::{Iter as IndexMapIter, IterMut as IndexMapIterMut, Keys},
+    IndexMap,
+};
+use petgraph::{
+    graph::{node_index, Graph},
+    visit::{GraphBase, IntoNeighbors, IntoNeighborsDirected, NodeCount, Visitable},
+    Directed, Direction, EdgeType, Incoming, IntoWeightedEdge, Outgoing, Undirected,
+};
+use std::{
+    cmp::Ordering,
+    fmt,
+    hash::{self, Hash},
+    iter::{Cloned, DoubleEndedIterator, FromIterator},
+    marker::PhantomData,
+    ops::Deref,
+    slice::Iter,
+};
 
 /// A `GraphMap` with directed edges.
 ///

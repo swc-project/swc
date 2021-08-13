@@ -1,6 +1,4 @@
-use std::cell::Ref;
-use std::cell::RefCell;
-use std::cell::RefMut;
+use std::cell::{Ref, RefCell, RefMut};
 
 use self::config::BuiltConfig;
 pub use self::config::Config;
@@ -11,15 +9,13 @@ use super::util::{
 use crate::path::{ImportResolver, NoopImportResolver};
 use fxhash::FxHashSet;
 use swc_atoms::js_word;
-use swc_common::FileName;
-use swc_common::{sync::Lrc, Mark, SourceMap, DUMMY_SP};
+use swc_common::{sync::Lrc, FileName, Mark, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::member_expr;
-use swc_ecma_utils::private_ident;
-use swc_ecma_utils::quote_ident;
-use swc_ecma_utils::quote_str;
-use swc_ecma_utils::{prepend_stmts, var::VarCollector, DestructuringFinder, ExprFactory};
+use swc_ecma_utils::{
+    member_expr, prepend_stmts, private_ident, quote_ident, quote_str, var::VarCollector,
+    DestructuringFinder, ExprFactory,
+};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
 
 mod config;

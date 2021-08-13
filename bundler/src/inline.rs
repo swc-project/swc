@@ -1,17 +1,11 @@
-use crate::id::Id;
-use crate::modules::Modules;
+use crate::{id::Id, modules::Modules};
 use ahash::RandomState;
 use std::collections::HashMap;
-use swc_common::SyntaxContext;
-use swc_common::DUMMY_SP;
+use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::noop_visit_mut_type;
-use swc_ecma_visit::noop_visit_type;
-use swc_ecma_visit::Node;
-use swc_ecma_visit::Visit;
-use swc_ecma_visit::VisitMut;
-use swc_ecma_visit::VisitMutWith;
-use swc_ecma_visit::VisitWith;
+use swc_ecma_visit::{
+    noop_visit_mut_type, noop_visit_type, Node, Visit, VisitMut, VisitMutWith, VisitWith,
+};
 
 #[derive(Debug, Default)]
 pub(crate) struct InlineData {

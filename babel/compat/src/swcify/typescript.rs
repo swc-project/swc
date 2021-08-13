@@ -1,26 +1,14 @@
 use super::Context;
 use crate::swcify::Swcify;
-use swc_babel_ast::Access;
-use swc_babel_ast::FlowType;
-use swc_babel_ast::SuperTypeParams;
-use swc_babel_ast::TSEntityName;
-use swc_babel_ast::TSQualifiedName;
-use swc_babel_ast::TSType;
-use swc_babel_ast::TSTypeAnnotation;
-use swc_babel_ast::TSTypeParameter;
-use swc_babel_ast::TSTypeParameterDeclaration;
-use swc_babel_ast::TSTypeParameterInstantiation;
-use swc_babel_ast::TypeAnnotOrNoop;
-use swc_babel_ast::TypeParamDeclOrNoop;
-use swc_ecma_ast::Accessibility;
-use swc_ecma_ast::Ident;
-use swc_ecma_ast::TsEntityName;
-use swc_ecma_ast::TsQualifiedName;
-use swc_ecma_ast::TsType;
-use swc_ecma_ast::TsTypeAnn;
-use swc_ecma_ast::TsTypeParam;
-use swc_ecma_ast::TsTypeParamDecl;
-use swc_ecma_ast::TsTypeParamInstantiation;
+use swc_babel_ast::{
+    Access, FlowType, SuperTypeParams, TSEntityName, TSQualifiedName, TSType, TSTypeAnnotation,
+    TSTypeParameter, TSTypeParameterDeclaration, TSTypeParameterInstantiation, TypeAnnotOrNoop,
+    TypeParamDeclOrNoop,
+};
+use swc_ecma_ast::{
+    Accessibility, Ident, TsEntityName, TsQualifiedName, TsType, TsTypeAnn, TsTypeParam,
+    TsTypeParamDecl, TsTypeParamInstantiation,
+};
 
 impl Swcify for TSTypeParameterInstantiation {
     type Output = TsTypeParamInstantiation;

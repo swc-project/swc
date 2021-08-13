@@ -1,121 +1,31 @@
 use crate::swcify::Swcify;
 use swc_atoms::js_word;
-use swc_babel_ast::Arg;
-use swc_babel_ast::ArrayExprEl;
-use swc_babel_ast::ArrayExpression;
-use swc_babel_ast::ArrowFuncExprBody;
-use swc_babel_ast::ArrowFunctionExpression;
-use swc_babel_ast::AssignmentExpression;
-use swc_babel_ast::AwaitExpression;
-use swc_babel_ast::BinaryExprLeft;
-use swc_babel_ast::BinaryExprOp;
-use swc_babel_ast::BinaryExpression;
-use swc_babel_ast::BindExpression;
-use swc_babel_ast::CallExpression;
-use swc_babel_ast::Callee;
-use swc_babel_ast::ClassExpression;
-use swc_babel_ast::ConditionalExpression;
-use swc_babel_ast::DoExpression;
-use swc_babel_ast::Expression;
-use swc_babel_ast::FunctionExpression;
-use swc_babel_ast::Identifier;
-use swc_babel_ast::Import;
-use swc_babel_ast::JSXAttrVal;
-use swc_babel_ast::JSXAttribute;
-use swc_babel_ast::JSXEmptyExpression;
-use swc_babel_ast::JSXExprContainerExpr;
-use swc_babel_ast::JSXExpressionContainer;
-use swc_babel_ast::JSXMemberExprObject;
-use swc_babel_ast::JSXMemberExpression;
-use swc_babel_ast::JSXSpreadAttribute;
-use swc_babel_ast::LogicalExprOp;
-use swc_babel_ast::LogicalExpression;
-use swc_babel_ast::MemberExprProp;
-use swc_babel_ast::MemberExpression;
-use swc_babel_ast::MetaProperty;
-use swc_babel_ast::ModuleExpression;
-use swc_babel_ast::NewExpression;
-use swc_babel_ast::ObjectExprProp;
-use swc_babel_ast::ObjectExpression;
-use swc_babel_ast::ObjectKey;
-use swc_babel_ast::ObjectMethod;
-use swc_babel_ast::ObjectPropVal;
-use swc_babel_ast::ObjectProperty;
-use swc_babel_ast::OptionalCallExpression;
-use swc_babel_ast::OptionalMemberExprProp;
-use swc_babel_ast::OptionalMemberExpression;
-use swc_babel_ast::ParenthesizedExpression;
-use swc_babel_ast::PatternLike;
-use swc_babel_ast::PipelinePrimaryTopicReference;
-use swc_babel_ast::RecordExpression;
-use swc_babel_ast::SequenceExpression;
-use swc_babel_ast::TSAsExpression;
-use swc_babel_ast::TSNonNullExpression;
-use swc_babel_ast::TSTypeAssertion;
-use swc_babel_ast::TaggedTemplateExprTypeParams;
-use swc_babel_ast::TaggedTemplateExpression;
-use swc_babel_ast::ThisExpression;
-use swc_babel_ast::TupleExpression;
-use swc_babel_ast::TypeCastExpression;
-use swc_babel_ast::UnaryExprOp;
-use swc_babel_ast::UnaryExpression;
-use swc_babel_ast::UpdateExprOp;
-use swc_babel_ast::UpdateExpression;
-use swc_babel_ast::YieldExpression;
-use swc_common::Spanned;
-use swc_common::DUMMY_SP;
-use swc_ecma_ast::op;
-use swc_ecma_ast::ArrayLit;
-use swc_ecma_ast::ArrowExpr;
-use swc_ecma_ast::AssignExpr;
-use swc_ecma_ast::AwaitExpr;
-use swc_ecma_ast::BinExpr;
-use swc_ecma_ast::BinaryOp;
-use swc_ecma_ast::BindingIdent;
-use swc_ecma_ast::BlockStmtOrExpr;
-use swc_ecma_ast::CallExpr;
-use swc_ecma_ast::ClassExpr;
-use swc_ecma_ast::ComputedPropName;
-use swc_ecma_ast::CondExpr;
-use swc_ecma_ast::Expr;
-use swc_ecma_ast::ExprOrSpread;
-use swc_ecma_ast::ExprOrSuper;
-use swc_ecma_ast::FnExpr;
-use swc_ecma_ast::Function;
-use swc_ecma_ast::Ident;
-use swc_ecma_ast::JSXAttr;
-use swc_ecma_ast::JSXAttrOrSpread;
-use swc_ecma_ast::JSXAttrValue;
-use swc_ecma_ast::JSXEmptyExpr;
-use swc_ecma_ast::JSXExpr;
-use swc_ecma_ast::JSXExprContainer;
-use swc_ecma_ast::JSXMemberExpr;
-use swc_ecma_ast::JSXObject;
-use swc_ecma_ast::KeyValueProp;
-use swc_ecma_ast::Lit;
-use swc_ecma_ast::MemberExpr;
-use swc_ecma_ast::MetaPropExpr;
-use swc_ecma_ast::MethodProp;
-use swc_ecma_ast::NewExpr;
-use swc_ecma_ast::ObjectLit;
-use swc_ecma_ast::OptChainExpr;
-use swc_ecma_ast::ParenExpr;
-use swc_ecma_ast::PatOrExpr;
-use swc_ecma_ast::Prop;
-use swc_ecma_ast::PropName;
-use swc_ecma_ast::PropOrSpread;
-use swc_ecma_ast::SeqExpr;
-use swc_ecma_ast::SpreadElement;
-use swc_ecma_ast::TaggedTpl;
-use swc_ecma_ast::ThisExpr;
-use swc_ecma_ast::TsAsExpr;
-use swc_ecma_ast::TsNonNullExpr;
-use swc_ecma_ast::TsTypeAssertion;
-use swc_ecma_ast::TsTypeParamInstantiation;
-use swc_ecma_ast::UnaryExpr;
-use swc_ecma_ast::UnaryOp;
-use swc_ecma_ast::UpdateExpr;
-use swc_ecma_ast::YieldExpr;
+use swc_babel_ast::{
+    Arg, ArrayExprEl, ArrayExpression, ArrowFuncExprBody, ArrowFunctionExpression,
+    AssignmentExpression, AwaitExpression, BinaryExprLeft, BinaryExprOp, BinaryExpression,
+    BindExpression, CallExpression, Callee, ClassExpression, ConditionalExpression, DoExpression,
+    Expression, FunctionExpression, Identifier, Import, JSXAttrVal, JSXAttribute,
+    JSXEmptyExpression, JSXExprContainerExpr, JSXExpressionContainer, JSXMemberExprObject,
+    JSXMemberExpression, JSXSpreadAttribute, LogicalExprOp, LogicalExpression, MemberExprProp,
+    MemberExpression, MetaProperty, ModuleExpression, NewExpression, ObjectExprProp,
+    ObjectExpression, ObjectKey, ObjectMethod, ObjectPropVal, ObjectProperty,
+    OptionalCallExpression, OptionalMemberExprProp, OptionalMemberExpression,
+    ParenthesizedExpression, PatternLike, PipelinePrimaryTopicReference, RecordExpression,
+    SequenceExpression, TSAsExpression, TSNonNullExpression, TSTypeAssertion,
+    TaggedTemplateExprTypeParams, TaggedTemplateExpression, ThisExpression, TupleExpression,
+    TypeCastExpression, UnaryExprOp, UnaryExpression, UpdateExprOp, UpdateExpression,
+    YieldExpression,
+};
+use swc_common::{Spanned, DUMMY_SP};
+use swc_ecma_ast::{
+    op, ArrayLit, ArrowExpr, AssignExpr, AwaitExpr, BinExpr, BinaryOp, BindingIdent,
+    BlockStmtOrExpr, CallExpr, ClassExpr, ComputedPropName, CondExpr, Expr, ExprOrSpread,
+    ExprOrSuper, FnExpr, Function, Ident, JSXAttr, JSXAttrOrSpread, JSXAttrValue, JSXEmptyExpr,
+    JSXExpr, JSXExprContainer, JSXMemberExpr, JSXObject, KeyValueProp, Lit, MemberExpr,
+    MetaPropExpr, MethodProp, NewExpr, ObjectLit, OptChainExpr, ParenExpr, PatOrExpr, Prop,
+    PropName, PropOrSpread, SeqExpr, SpreadElement, TaggedTpl, ThisExpr, TsAsExpr, TsNonNullExpr,
+    TsTypeAssertion, TsTypeParamInstantiation, UnaryExpr, UnaryOp, UpdateExpr, YieldExpr,
+};
 
 use super::Context;
 

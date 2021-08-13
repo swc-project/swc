@@ -1,7 +1,6 @@
 use self::swc_ecma_parser::{EsConfig, Parser, StringInput, Syntax};
 use super::*;
-use crate::config::Config;
-use crate::text_writer::omit_trailing_semi;
+use crate::{config::Config, text_writer::omit_trailing_semi};
 use std::{
     fmt::Debug,
     io::Write,

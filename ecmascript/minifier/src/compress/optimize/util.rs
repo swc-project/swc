@@ -1,16 +1,10 @@
-use super::Ctx;
-use super::Optimizer;
-use std::ops::Deref;
-use std::ops::DerefMut;
+use super::{Ctx, Optimizer};
+use std::ops::{Deref, DerefMut};
 use swc_atoms::JsWord;
 use swc_common::Span;
 use swc_ecma_ast::*;
-use swc_ecma_utils::prop_name_eq;
-use swc_ecma_utils::ExprExt;
-use swc_ecma_utils::Id;
-use swc_ecma_visit::noop_visit_mut_type;
-use swc_ecma_visit::VisitMut;
-use swc_ecma_visit::VisitMutWith;
+use swc_ecma_utils::{prop_name_eq, ExprExt, Id};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 impl<'b> Optimizer<'b> {
     pub(super) fn access_property<'e>(

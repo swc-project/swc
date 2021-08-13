@@ -1,18 +1,10 @@
 use super::Optimizer;
-use crate::compress::util::is_pure_undefined;
-use crate::debug::dump;
-use crate::util::ExprOptExt;
-use swc_common::Spanned;
-use swc_common::DUMMY_SP;
+use crate::{compress::util::is_pure_undefined, debug::dump, util::ExprOptExt};
+use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_utils::prepend;
-use swc_ecma_utils::undefined;
-use swc_ecma_utils::StmtLike;
-use swc_ecma_visit::noop_visit_type;
-use swc_ecma_visit::Node;
-use swc_ecma_visit::Visit;
-use swc_ecma_visit::VisitWith;
+use swc_ecma_utils::{prepend, undefined, StmtLike};
+use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 
 /// Methods related to the option `if_return`. All methods are noop if
 /// `if_return` is false.

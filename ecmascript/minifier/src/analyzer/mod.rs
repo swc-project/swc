@@ -1,23 +1,15 @@
 use self::ctx::Ctx;
-use crate::marks::Marks;
-use crate::util::can_end_conditionally;
-use crate::util::idents_used_by;
-use crate::util::now;
-use fxhash::FxHashMap;
-use fxhash::FxHashSet;
-use std::collections::hash_map::Entry;
-use std::time::Instant;
+use crate::{
+    marks::Marks,
+    util::{can_end_conditionally, idents_used_by, now},
+};
+use fxhash::{FxHashMap, FxHashSet};
+use std::{collections::hash_map::Entry, time::Instant};
 use swc_atoms::JsWord;
-use swc_common::SyntaxContext;
-use swc_common::DUMMY_SP;
+use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::find_ids;
-use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_utils::Id;
-use swc_ecma_visit::noop_visit_type;
-use swc_ecma_visit::Node;
-use swc_ecma_visit::Visit;
-use swc_ecma_visit::VisitWith;
+use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
+use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 
 mod ctx;
 

@@ -1,13 +1,13 @@
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_transforms_base::helper;
-use swc_ecma_transforms_base::perf::Check;
+use swc_ecma_transforms_base::{ext::MapWithMut, helper, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{quote_str, ExprFactory};
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, noop_visit_type, VisitMut, VisitMutWith};
-use swc_ecma_visit::{Fold, Node, Visit, VisitWith};
+use swc_ecma_visit::{
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
+    VisitWith,
+};
 
 pub fn typeof_symbol() -> impl VisitMut + Fold {
     as_folder(TypeOfSymbol)

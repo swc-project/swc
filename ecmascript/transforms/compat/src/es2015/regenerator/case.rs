@@ -1,5 +1,4 @@
-use super::leap::{CatchEntry, FinallyEntry, TryEntry};
-use super::leap::{Entry, LeapManager};
+use super::leap::{CatchEntry, Entry, FinallyEntry, LeapManager, TryEntry};
 use smallvec::SmallVec;
 use std::mem::replace;
 use swc_atoms::JsWord;
@@ -8,14 +7,10 @@ use swc_common::{
     BytePos, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_utils::member_expr;
-use swc_ecma_utils::quote_ident;
-use swc_ecma_utils::quote_str;
-use swc_ecma_utils::undefined;
-use swc_ecma_utils::ExprFactory;
-use swc_ecma_visit::noop_visit_type;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_utils::{
+    ident::IdentLike, member_expr, quote_ident, quote_str, undefined, ExprFactory,
+};
+use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub(super) struct Loc {

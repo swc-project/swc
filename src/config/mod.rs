@@ -1,18 +1,17 @@
-use crate::SwcComments;
-use crate::{builder::PassBuilder, SwcImportResolver};
+use crate::{builder::PassBuilder, SwcComments, SwcImportResolver};
 use anyhow::{bail, Context, Error};
 use dashmap::DashMap;
 use either::Either;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
-use std::hash::BuildHasher;
-use std::rc::Rc as RustRc;
 use std::{
     cell::RefCell,
     collections::{HashMap, HashSet},
     env,
+    hash::BuildHasher,
     path::{Path, PathBuf},
+    rc::Rc as RustRc,
     sync::Arc,
     usize,
 };
@@ -24,17 +23,16 @@ use swc_ecma_ext_transforms::jest;
 use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
 };
-use swc_ecma_minifier::option::terser::{TerserCompressorOptions, TerserEcmaVersion};
-use swc_ecma_minifier::option::{MangleOptions, ManglePropertiesOptions};
+use swc_ecma_minifier::option::{
+    terser::{TerserCompressorOptions, TerserEcmaVersion},
+    MangleOptions, ManglePropertiesOptions,
+};
 pub use swc_ecma_parser::JscTarget;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
-use swc_ecma_transforms::modules::hoist::import_hoister;
-use swc_ecma_transforms::modules::path::NodeImportResolver;
-use swc_ecma_transforms::{hygiene, modules::util::Scope};
 use swc_ecma_transforms::{
-    modules,
-    optimization::const_modules,
-    optimization::{inline_globals, json_parse, simplifier},
+    hygiene, modules,
+    modules::{hoist::import_hoister, path::NodeImportResolver, util::Scope},
+    optimization::{const_modules, inline_globals, json_parse, simplifier},
     pass::{noop, Optional},
     proposals::{decorators, export_default_from},
     react, resolver_with_mark, typescript,

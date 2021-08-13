@@ -2,8 +2,7 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{ext::MapWithMut, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
-use swc_ecma_utils::prepend;
-use swc_ecma_utils::{alias_ident_for, ExprFactory};
+use swc_ecma_utils::{alias_ident_for, prepend, ExprFactory};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
 };

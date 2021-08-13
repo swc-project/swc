@@ -25,8 +25,7 @@ use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
 };
 use testing::NormalizedOutput;
-use walkdir::DirEntry;
-use walkdir::WalkDir;
+use walkdir::{DirEntry, WalkDir};
 
 #[path = "common/mod.rs"]
 mod common;

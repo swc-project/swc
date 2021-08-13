@@ -1,11 +1,8 @@
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::quote_ident;
-use swc_ecma_utils::ExprFactory;
-use swc_ecma_utils::StmtLike;
-use swc_ecma_visit::noop_visit_type;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_utils::{quote_ident, ExprFactory, StmtLike};
+use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 /// `@babel/plugin-transform-computed-properties`
 ///

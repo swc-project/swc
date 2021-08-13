@@ -1,11 +1,9 @@
 use fxhash::FxHashMap;
 use regex::Regex;
-use serde::Deserialize;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
 use swc_common::Mark;
-use swc_ecma_ast::EsVersion;
-use swc_ecma_ast::Expr;
+use swc_ecma_ast::{EsVersion, Expr};
 
 pub mod terser;
 

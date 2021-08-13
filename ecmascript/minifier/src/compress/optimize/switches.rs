@@ -2,20 +2,11 @@ use std::mem::take;
 
 use super::Optimizer;
 use crate::util::ExprOptExt;
-use swc_common::EqIgnoreSpan;
-use swc_common::DUMMY_SP;
+use swc_common::{EqIgnoreSpan, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_utils::prepend;
-use swc_ecma_utils::ExprExt;
-use swc_ecma_utils::StmtExt;
-use swc_ecma_utils::Type;
-use swc_ecma_utils::Value::Known;
-use swc_ecma_visit::noop_visit_type;
-use swc_ecma_visit::Node;
-use swc_ecma_visit::Visit;
-use swc_ecma_visit::VisitWith;
+use swc_ecma_utils::{ident::IdentLike, prepend, ExprExt, StmtExt, Type, Value::Known};
+use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 
 /// Methods related to option `switches`.
 impl Optimizer<'_> {

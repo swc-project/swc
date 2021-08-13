@@ -1,27 +1,14 @@
 use super::graph::Required;
-use crate::id::Id;
-use crate::modules::sort::graph::StmtDepGraph;
-use crate::util::MapWithMut;
-use fxhash::FxHashMap;
-use fxhash::FxHashSet;
+use crate::{id::Id, modules::sort::graph::StmtDepGraph, util::MapWithMut};
+use fxhash::{FxHashMap, FxHashSet};
 use indexmap::IndexSet;
-use petgraph::EdgeDirection::Incoming as Dependants;
-use petgraph::EdgeDirection::Outgoing as Dependancies;
-use std::collections::VecDeque;
-use std::iter::from_fn;
-use std::ops::Range;
+use petgraph::EdgeDirection::{Incoming as Dependants, Outgoing as Dependancies};
+use std::{collections::VecDeque, iter::from_fn, ops::Range};
 use swc_atoms::js_word;
-use swc_common::sync::Lrc;
-use swc_common::SourceMap;
-use swc_common::Spanned;
-use swc_common::SyntaxContext;
-use swc_common::DUMMY_SP;
+use swc_common::{sync::Lrc, SourceMap, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
-use swc_ecma_visit::noop_visit_type;
-use swc_ecma_visit::Node;
-use swc_ecma_visit::Visit;
-use swc_ecma_visit::VisitWith;
+use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 
 pub(super) fn sort_stmts(
     injected_ctxt: SyntaxContext,
@@ -795,10 +782,8 @@ fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
 
 #[cfg(test)]
 mod tests {
-    use super::calc_deps;
-    use super::Dependancies;
-    use crate::bundler::tests::suite;
-    use crate::debug::print_hygiene;
+    use super::{calc_deps, Dependancies};
+    use crate::{bundler::tests::suite, debug::print_hygiene};
     use swc_common::DUMMY_SP;
     use swc_ecma_ast::*;
 

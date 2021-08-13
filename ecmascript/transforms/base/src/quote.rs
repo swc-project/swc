@@ -25,8 +25,7 @@ macro_rules! helper_expr {
     }};
 
     ($span:expr, $field_name:ident, $s:tt) => {{
-        use swc_ecma_utils::quote_ident;
-        use swc_ecma_utils::ExprFactory;
+        use swc_ecma_utils::{quote_ident, ExprFactory};
 
         debug_assert!(
             !$s.starts_with("_"),

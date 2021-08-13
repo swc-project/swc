@@ -1,22 +1,11 @@
 use once_cell::sync::Lazy;
-use std::env;
-use std::process::Command;
-use swc_common::sync::Lrc;
-use swc_common::SourceMap;
-use swc_common::SyntaxContext;
-use swc_ecma_ast::Ident;
-use swc_ecma_ast::Module;
-use swc_ecma_ast::StrKind;
-use swc_ecma_codegen::text_writer::JsWriter;
-use swc_ecma_codegen::Emitter;
-use swc_ecma_transforms::fixer;
-use swc_ecma_transforms::hygiene;
-use swc_ecma_utils::drop_span;
-use swc_ecma_utils::DropSpan;
-use swc_ecma_visit::noop_visit_mut_type;
-use swc_ecma_visit::FoldWith;
-use swc_ecma_visit::VisitMut;
-use swc_ecma_visit::VisitMutWith;
+use std::{env, process::Command};
+use swc_common::{sync::Lrc, SourceMap, SyntaxContext};
+use swc_ecma_ast::{Ident, Module, StrKind};
+use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
+use swc_ecma_transforms::{fixer, hygiene};
+use swc_ecma_utils::{drop_span, DropSpan};
+use swc_ecma_visit::{noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith};
 
 pub(crate) struct Debugger;
 

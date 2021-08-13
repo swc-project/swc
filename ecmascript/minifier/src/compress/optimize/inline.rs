@@ -1,16 +1,14 @@
 use super::Optimizer;
-use crate::compress::optimize::util::class_has_side_effect;
-use crate::compress::optimize::util::is_valid_for_lhs;
-use crate::debug::dump;
-use crate::util::idents_used_by;
+use crate::{
+    compress::optimize::util::{class_has_side_effect, is_valid_for_lhs},
+    debug::dump,
+    util::idents_used_by,
+};
 use swc_atoms::js_word;
-use swc_common::Spanned;
-use swc_common::DUMMY_SP;
+use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_utils::ExprExt;
-use swc_ecma_utils::UsageFinder;
+use swc_ecma_utils::{ident::IdentLike, ExprExt, UsageFinder};
 
 /// Methods related to option `inline`.
 impl Optimizer<'_> {

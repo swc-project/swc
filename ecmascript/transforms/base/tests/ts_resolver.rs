@@ -1,18 +1,9 @@
 use std::path::PathBuf;
-use swc_common::input::SourceFileInput;
-use swc_common::Mark;
-use swc_common::SyntaxContext;
-use swc_common::DUMMY_SP;
+use swc_common::{input::SourceFileInput, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_parser::lexer::Lexer;
-use swc_ecma_parser::Parser;
-use swc_ecma_parser::Syntax;
-use swc_ecma_parser::TsConfig;
+use swc_ecma_parser::{lexer::Lexer, Parser, Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::ts_resolver;
-use swc_ecma_visit::FoldWith;
-use swc_ecma_visit::Node;
-use swc_ecma_visit::Visit;
-use swc_ecma_visit::VisitWith;
+use swc_ecma_visit::{FoldWith, Node, Visit, VisitWith};
 use testing::fixture;
 
 #[fixture("../../parser/tests/typescript/**/*.ts")]

@@ -1,5 +1,4 @@
-use swc_ecma_visit::noop_visit_mut_type;
-use swc_ecma_visit::VisitMut;
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut};
 
 /// Currently noop.
 ///

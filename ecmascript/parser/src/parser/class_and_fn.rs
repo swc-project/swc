@@ -1,6 +1,5 @@
 use super::{ident::MaybeOptionalIdentParser, *};
-use crate::lexer::TokenContext;
-use crate::{error::SyntaxError, Tokens};
+use crate::{error::SyntaxError, lexer::TokenContext, Tokens};
 use either::Either;
 use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext};

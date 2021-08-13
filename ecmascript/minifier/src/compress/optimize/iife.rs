@@ -1,21 +1,18 @@
 use super::Optimizer;
-use crate::compress::optimize::Ctx;
-use crate::util::idents_used_by;
-use crate::util::make_number;
+use crate::{
+    compress::optimize::Ctx,
+    util::{idents_used_by, make_number},
+};
 use fxhash::FxHashMap;
-use std::collections::HashMap;
-use std::mem::replace;
-use std::mem::swap;
+use std::{
+    collections::HashMap,
+    mem::{replace, swap},
+};
 use swc_atoms::js_word;
-use swc_common::pass::Either;
-use swc_common::Spanned;
-use swc_common::DUMMY_SP;
+use swc_common::{pass::Either, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_utils::undefined;
-use swc_ecma_utils::ExprFactory;
-use swc_ecma_utils::Id;
+use swc_ecma_utils::{ident::IdentLike, undefined, ExprFactory, Id};
 use swc_ecma_visit::VisitMutWith;
 
 /// Methods related to the option `negate_iife`.

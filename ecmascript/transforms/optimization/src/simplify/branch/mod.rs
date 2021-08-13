@@ -7,20 +7,13 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{ext::MapWithMut, pass::RepeatedJsPass};
-use swc_ecma_utils::extract_var_ids;
-use swc_ecma_utils::is_literal;
-use swc_ecma_utils::prepend;
-use swc_ecma_utils::preserve_effects;
-use swc_ecma_utils::undefined;
-use swc_ecma_utils::ExprExt;
-use swc_ecma_utils::ExprFactory;
-use swc_ecma_utils::Hoister;
-use swc_ecma_utils::IsEmpty;
-use swc_ecma_utils::StmtExt;
-use swc_ecma_utils::StmtLike;
-use swc_ecma_utils::Value::Known;
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, noop_visit_type, VisitMut, VisitMutWith};
-use swc_ecma_visit::{Node, Visit, VisitWith};
+use swc_ecma_utils::{
+    extract_var_ids, is_literal, prepend, preserve_effects, undefined, ExprExt, ExprFactory,
+    Hoister, IsEmpty, StmtExt, StmtLike, Value::Known,
+};
+use swc_ecma_visit::{
+    as_folder, noop_visit_mut_type, noop_visit_type, Node, Visit, VisitMut, VisitMutWith, VisitWith,
+};
 
 #[cfg(test)]
 mod tests;

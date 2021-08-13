@@ -1,4 +1,3 @@
-use crate::util::fast_graph::FastDiGraphMap;
-use crate::ModuleId;
+use crate::{util::fast_graph::FastDiGraphMap, ModuleId};
 
 pub(crate) type ModuleGraph = FastDiGraphMap<ModuleId, ()>;

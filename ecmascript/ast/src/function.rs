@@ -5,8 +5,7 @@ use crate::{
     typescript::{TsParamProp, TsTypeAnn, TsTypeParamDecl},
 };
 use is_macro::Is;
-use swc_common::EqIgnoreSpan;
-use swc_common::{ast_node, Span};
+use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 /// Common parts of function and method.
 #[ast_node]

@@ -3,7 +3,6 @@
 extern crate test;
 
 use anyhow::Error;
-use spack::loaders::swc::SwcLoader;
 use std::{
     collections::HashMap,
     env,
@@ -23,6 +22,7 @@ use swc_ecma_ast::{
 use swc_ecma_parser::JscTarget;
 use swc_ecma_transforms::fixer;
 use swc_ecma_visit::FoldWith;
+use swc_node_bundler::loaders::swc::SwcLoader;
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
 };

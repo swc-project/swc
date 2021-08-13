@@ -1,22 +1,16 @@
 use self::metadata::{Metadata, ParamMetadata};
-use super::contains_decorator;
-use super::DecoratorFinder;
+use super::{contains_decorator, DecoratorFinder};
 use fxhash::FxHashMap;
 use smallvec::SmallVec;
-use std::mem::replace;
-use std::mem::take;
+use std::mem::{replace, take};
 use swc_common::{util::move_map::MoveMap, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::member_expr;
-use swc_ecma_utils::private_ident;
-use swc_ecma_utils::quote_ident;
-use swc_ecma_utils::replace_ident;
 use swc_ecma_utils::{
-    alias_if_required, default_constructor, prepend, prop_name_to_expr_value, undefined,
-    ExprFactory, ModuleItemLike, StmtLike,
+    alias_if_required, default_constructor, ident::IdentLike, member_expr, prepend, private_ident,
+    prop_name_to_expr_value, quote_ident, replace_ident, undefined, ExprFactory, Id,
+    ModuleItemLike, StmtLike,
 };
-use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 mod metadata;

@@ -11,14 +11,10 @@ use std::{
 };
 use swc::Compiler;
 use swc_babel_ast::File;
-use swc_babel_compat::babelify::normalize::normalize;
-use swc_babel_compat::babelify::{Babelify, Context};
+use swc_babel_compat::babelify::{normalize::normalize, Babelify, Context};
 use swc_common::{
     errors::{ColorConfig, Handler},
-    FileName,
-    // FilePathMapping, SourceMap, FileName, SourceFile,
-    FilePathMapping,
-    SourceMap,
+    FileName, FilePathMapping, SourceMap,
 };
 use swc_ecma_parser::{EsConfig, Syntax};
 use test::{test_main, DynTestFn, ShouldPanic, TestDesc, TestDescAndFn, TestName, TestType};
