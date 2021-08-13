@@ -24,7 +24,7 @@ napi-derive = {version = "1"}
 path-clean = "0.1"
 serde = {version = "1", features = ["derive"]}
 serde_json = "1"
-spack = {path = "../../spack"}
+spack = {path = "../spack"}
 swc = {path = "../../"}
 swc_atoms = {version = "0.2.4", path = "../../atoms"}
 swc_babel_compat = {path = "../../babel/compat"}
