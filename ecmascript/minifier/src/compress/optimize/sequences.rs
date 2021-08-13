@@ -5,13 +5,9 @@ use crate::{
         util::{get_lhs_ident, get_lhs_ident_mut, is_directive},
     },
     debug::dump,
-    util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt},
+    option::CompressOptions,
+    util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt, MoudleItemExt},
 };
-use crate::compress::optimize::util::replace_id_with_expr;
-use crate::compress::util::{get_lhs_ident, get_lhs_ident_mut, is_directive};
-use crate::debug::dump;
-use crate::option::CompressOptions;
-use crate::util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt, MoudleItemExt};
 use retain_mut::RetainMut;
 use std::mem::take;
 use swc_atoms::js_word;
