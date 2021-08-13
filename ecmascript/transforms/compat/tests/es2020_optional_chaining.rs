@@ -702,11 +702,11 @@ test!(
     const patch = PATCHES.get(ident)?.();
     ",
     "
-    var ref;
+    var _obj, ref;
     const PATCHES = new Map();
     const ident = \"foo\";
-    var _obj = PATCHES.get(ident);
-    const patch = (ref = _obj) === null || ref === void 0 ? void 0 : ref.call(_obj);
+    const patch = (ref = _obj = PATCHES.get(ident)) === null || ref === void 0 ? void 0 : \
+     ref.call(_obj);
     "
 );
 
