@@ -1,7 +1,3 @@
-#![feature(test)]
-
-extern crate test;
-
 use self::common::*;
 use anyhow::Error;
 use std::{

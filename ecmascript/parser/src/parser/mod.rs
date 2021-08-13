@@ -12,7 +12,6 @@ use std::ops::{Deref, DerefMut};
 use swc_atoms::JsWord;
 use swc_common::{comments::Comments, input::Input, BytePos, Span};
 use swc_ecma_ast::*;
-#[cfg(test)]
 extern crate test;
 use crate::error::Error;
 #[cfg(test)]

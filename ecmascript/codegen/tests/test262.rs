@@ -1,7 +1,4 @@
-#![feature(test)]
 #![feature(bench_black_box)]
-
-extern crate test;
 
 use std::{
     env,

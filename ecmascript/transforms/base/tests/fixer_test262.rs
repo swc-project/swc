@@ -1,6 +1,3 @@
-#![feature(test)]
-extern crate test;
-
 use std::{
     env,
     fs::{read_dir, File},

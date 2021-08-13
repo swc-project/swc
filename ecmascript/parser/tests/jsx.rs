@@ -1,7 +1,3 @@
-#![feature(test)]
-
-extern crate test;
-
 use pretty_assertions::assert_eq;
 use serde_json;
 use std::{

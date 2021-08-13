@@ -1,7 +1,3 @@
-#![feature(test)]
-
-extern crate test;
-
 use anyhow::Error;
 use std::{
     collections::HashMap,

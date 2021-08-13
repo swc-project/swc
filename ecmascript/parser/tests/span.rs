@@ -1,7 +1,3 @@
-#![feature(test)]
-
-extern crate test;
-
 use std::{
     env,
     io::{self},
