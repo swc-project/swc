@@ -12,6 +12,7 @@ version = "0.26.1"
 
 [dependencies]
 ansi_term = "0.12.1"
+anyhow = "1"
 serde = "1"
 serde_json = "1"
 swc_common = {version = "0.11.0", path = "../../../common"}
