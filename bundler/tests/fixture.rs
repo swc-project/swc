@@ -145,9 +145,9 @@ fn do_test(entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
     .expect("failed to process a module");
 }
 
-#[testing::fixture("tests/fixture/**/entry.js")]
+#[testing::fixture("tests/fixture/**/input")]
 fn pass(entry: PathBuf) {
-    let entries = read_dir(&entry.join("input"))
+    let entries = read_dir(&entry)
         .unwrap()
         .filter(|e| match e {
             Ok(e) => {
@@ -174,8 +174,8 @@ fn pass(entry: PathBuf) {
         .collect::<Result<HashMap<_, _>, _>>()
         .unwrap();
 
-    do_test(&entry, entries.clone(), true);
-    do_test(&entry, entries, false);
+    do_test(entry.parent().unwrap(), entries.clone(), true);
+    do_test(entry.parent().unwrap(), entries, false);
 }
 
 struct Hook;
