@@ -112,7 +112,7 @@ where
 
     let handler = Handler::with_emitter_writer(wr.clone(), Some(cm.clone()));
 
-    let ret = op(&handler)?;
+    let ret = swc_ecma_utils::HANDLER.set(&handler, || op(&handler));
 
     if handler.has_errors() {
         let mut lock =
@@ -122,9 +122,9 @@ where
 
         let msg = String::from_utf8(error).expect("error string should be utf8");
 
-        Err(Error::msg(msg))
+        ret.context(msg)
     } else {
-        Ok(ret)
+        ret
     }
 }
 
