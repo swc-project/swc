@@ -1,19 +1,19 @@
-use crate::bundler::keywords::KeywordRenamer;
-use crate::dep_graph::ModuleGraph;
-use crate::inline::inline;
-use crate::modules::Modules;
 use crate::{
-    bundler::load::{Imports, TransformedModule},
+    bundler::{
+        keywords::KeywordRenamer,
+        load::{Imports, TransformedModule},
+    },
+    dep_graph::ModuleGraph,
     id::{Id, ModuleId},
+    inline::inline,
     load::Load,
+    modules::Modules,
     resolve::Resolve,
     util::{CloneMap, ExprExt, VarDeclaratorExt},
     Bundler, Hook, ModuleRecord,
 };
 use anyhow::Error;
-use fxhash::FxBuildHasher;
-use fxhash::FxHashMap;
-use fxhash::FxHashSet;
+use fxhash::{FxBuildHasher, FxHashMap, FxHashSet};
 use indexmap::IndexSet;
 use petgraph::EdgeDirection;
 #[cfg(feature = "concurrent")]

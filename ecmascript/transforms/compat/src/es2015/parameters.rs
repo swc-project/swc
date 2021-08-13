@@ -2,17 +2,11 @@ use arrayvec::ArrayVec;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_utils::contains_this_expr;
-use swc_ecma_utils::member_expr;
-use swc_ecma_utils::prepend;
-use swc_ecma_utils::prepend_stmts;
-use swc_ecma_utils::private_ident;
-use swc_ecma_utils::quote_ident;
-use swc_ecma_utils::ExprFactory;
-use swc_ecma_visit::noop_visit_mut_type;
-use swc_ecma_visit::VisitMut;
-use swc_ecma_visit::VisitMutWith;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_utils::{
+    contains_this_expr, member_expr, prepend, prepend_stmts, private_ident, quote_ident,
+    ExprFactory,
+};
+use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 
 pub fn parameters() -> impl 'static + Fold {
     Params::default()

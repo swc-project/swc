@@ -20,12 +20,9 @@ use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{EsConfig, Parser, Syntax};
 use swc_ecma_preset_env::{preset_env, Config, FeatureOrModule, Mode, Targets, Version};
 use swc_ecma_utils::drop_span;
-use swc_ecma_visit::as_folder;
-use swc_ecma_visit::FoldWith;
-use swc_ecma_visit::VisitMut;
+use swc_ecma_visit::{as_folder, FoldWith, VisitMut};
 use test::{test_main, ShouldPanic, TestDesc, TestDescAndFn, TestFn, TestName, TestType};
-use testing::NormalizedOutput;
-use testing::Tester;
+use testing::{NormalizedOutput, Tester};
 use walkdir::WalkDir;
 
 /// options.json file
@@ -160,6 +157,8 @@ fn load() -> Result<Vec<TestDescAndFn>, Error> {
                 name: TestName::DynTestName(name),
                 allow_fail: false,
                 should_panic: ShouldPanic::No,
+                compile_fail: false,
+                no_run: false,
             },
             testfn: TestFn::DynTestFn(Box::new(move || {
                 //

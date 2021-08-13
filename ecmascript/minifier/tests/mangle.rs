@@ -1,23 +1,24 @@
 use ansi_term::Color;
 use anyhow::{bail, Context, Error};
-use std::fs::read_to_string;
-use std::path::{Path, PathBuf};
-use std::process::Command;
-use swc_common::comments::SingleThreadedComments;
-use swc_common::errors::Handler;
-use swc_common::{input::SourceFileInput, sync::Lrc};
-use swc_common::{FileName, Mark, SourceFile, SourceMap};
+use std::{
+    fs::read_to_string,
+    path::{Path, PathBuf},
+    process::Command,
+};
+use swc_common::{
+    comments::SingleThreadedComments, errors::Handler, input::SourceFileInput, sync::Lrc, FileName,
+    Mark, SourceFile, SourceMap,
+};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{
     text_writer::{omit_trailing_semi, JsWriter, WriteJs},
     Emitter,
 };
-use swc_ecma_minifier::optimize;
-use swc_ecma_minifier::option::{
-    ExtraOptions, MangleOptions, ManglePropertiesOptions, MinifyOptions,
+use swc_ecma_minifier::{
+    optimize,
+    option::{ExtraOptions, MangleOptions, ManglePropertiesOptions, MinifyOptions},
 };
-use swc_ecma_parser::lexer::Lexer;
-use swc_ecma_parser::Parser;
+use swc_ecma_parser::{lexer::Lexer, Parser};
 use swc_ecma_transforms::{fixer, hygiene, resolver_with_mark};
 use swc_ecma_visit::FoldWith;
 use testing::DebugUsingDisplay;

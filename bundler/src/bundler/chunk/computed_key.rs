@@ -1,5 +1,4 @@
-use crate::modules::Modules;
-use crate::{bundler::chunk::merge::Ctx, Bundler, Load, ModuleId, Resolve};
+use crate::{bundler::chunk::merge::Ctx, modules::Modules, Bundler, Load, ModuleId, Resolve};
 use anyhow::{bail, Error};
 use std::mem::take;
 use swc_atoms::js_word;

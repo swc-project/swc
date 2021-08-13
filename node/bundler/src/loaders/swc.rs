@@ -2,12 +2,14 @@ use crate::loaders::json::load_json_as_module;
 use anyhow::{bail, Context, Error};
 use helpers::Helpers;
 use std::{collections::HashMap, env, sync::Arc};
-use swc::config::{InputSourceMap, JscConfig, TransformConfig};
+use swc::{
+    config::{InputSourceMap, JscConfig, TransformConfig},
+    try_with_handler,
+};
 use swc_atoms::JsWord;
 use swc_bundler::{Load, ModuleData};
-use swc_common::{FileName, DUMMY_SP};
-use swc_ecma_ast::Module;
-use swc_ecma_ast::{Expr, Lit, Program, Str};
+use swc_common::{errors::Handler, FileName, DUMMY_SP};
+use swc_ecma_ast::{Expr, Lit, Module, Program, Str};
 use swc_ecma_parser::JscTarget;
 use swc_ecma_transforms::{
     helpers,
@@ -28,10 +30,8 @@ impl SwcLoader {
     pub fn new(compiler: Arc<swc::Compiler>, options: swc::config::Options) -> Self {
         SwcLoader { compiler, options }
     }
-}
 
-impl Load for SwcLoader {
-    fn load(&self, name: &FileName) -> Result<ModuleData, Error> {
+    fn load_with_handler(&self, handler: &Handler, name: &FileName) -> Result<ModuleData, Error> {
         log::debug!("JsLoader.load({})", name);
         let helpers = Helpers::new(false);
 
@@ -86,13 +86,14 @@ impl Load for SwcLoader {
         let program = if fm.name.to_string().contains("node_modules") {
             let program = self.compiler.parse_js(
                 fm.clone(),
+                &handler,
                 JscTarget::Es2020,
                 Default::default(),
                 true,
                 true,
             )?;
             let program = helpers::HELPERS.set(&helpers, || {
-                swc_ecma_utils::HANDLER.set(&self.compiler.handler, || {
+                swc_ecma_utils::HANDLER.set(&handler, || {
                     let program =
                         program.fold_with(&mut inline_globals(env_map(), Default::default()));
                     let program = program.fold_with(&mut expr_simplifier());
@@ -105,6 +106,7 @@ impl Load for SwcLoader {
             program
         } else {
             let config = self.compiler.config_for_file(
+                handler,
                 &swc::config::Options {
                     config: {
                         let c = &self.options.config;
@@ -165,6 +167,7 @@ impl Load for SwcLoader {
             // Note that we don't apply compat transform at loading phase.
             let program = self.compiler.parse_js(
                 fm.clone(),
+                handler,
                 JscTarget::Es2020,
                 config.as_ref().map(|v| v.syntax).unwrap_or_default(),
                 true,
@@ -181,7 +184,7 @@ impl Load for SwcLoader {
             // Fold module
             let program = if let Some(mut config) = config {
                 helpers::HELPERS.set(&helpers, || {
-                    swc_ecma_utils::HANDLER.set(&self.compiler.handler, || {
+                    swc_ecma_utils::HANDLER.set(handler, || {
                         let program =
                             program.fold_with(&mut inline_globals(env_map(), Default::default()));
                         let program = program.fold_with(&mut expr_simplifier());
@@ -209,6 +212,14 @@ impl Load for SwcLoader {
             }),
             _ => unreachable!(),
         }
+    }
+}
+
+impl Load for SwcLoader {
+    fn load(&self, name: &FileName) -> Result<ModuleData, Error> {
+        try_with_handler(self.compiler.cm.clone(), |handler| {
+            self.load_with_handler(&handler, name)
+        })
     }
 }
 

@@ -1,13 +1,8 @@
-use crate::swcify::Context;
-use crate::swcify::Swcify;
-use swc_babel_ast::ArrayPattern;
-use swc_babel_ast::AssignmentPattern;
-use swc_babel_ast::AssignmentPatternLeft;
-use swc_babel_ast::LVal;
-use swc_babel_ast::ObjectPattern;
-use swc_babel_ast::ObjectPatternProp;
-use swc_babel_ast::PatternLike;
-use swc_babel_ast::RestElement;
+use crate::swcify::{Context, Swcify};
+use swc_babel_ast::{
+    ArrayPattern, AssignmentPattern, AssignmentPatternLeft, LVal, ObjectPattern, ObjectPatternProp,
+    PatternLike, RestElement,
+};
 use swc_common::Spanned;
 use swc_ecma_ast::*;
 

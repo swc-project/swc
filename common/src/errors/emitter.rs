@@ -132,6 +132,7 @@ impl ColorConfig {
     }
 }
 
+/// Implementation of [Emitter] which pretty-prints the errors.
 pub struct EmitterWriter {
     dst: Destination,
     sm: Option<Lrc<SourceMapperDyn>>,

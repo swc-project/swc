@@ -24,12 +24,12 @@ napi-derive = {version = "1"}
 path-clean = "0.1"
 serde = {version = "1", features = ["derive"]}
 serde_json = "1"
-spack = {path = "../../spack"}
 swc = {path = "../../"}
 swc_atoms = {version = "0.2.4", path = "../../atoms"}
 swc_babel_compat = {path = "../../babel/compat"}
 swc_bundler = {path = "../../bundler"}
-swc_common = {path = "../../common", features = ["tty-emitter", "sourcemap"]}
+swc_common = {path = "../../common", features = ["sourcemap"]}
 swc_ecma_ast = {path = "../../ecmascript/ast"}
 swc_ecma_parser = {path = "../../ecmascript/parser"}
 swc_node_base = {path = "../base"}
+swc_node_bundler = {path = "../bundler"}

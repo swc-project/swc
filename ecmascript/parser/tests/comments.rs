@@ -1,22 +1,14 @@
 use std::path::PathBuf;
-use swc_common::comments::SingleThreadedComments;
-use swc_common::errors::DiagnosticBuilder;
-use swc_common::errors::Handler;
-use swc_common::input::SourceFileInput;
-use swc_common::BytePos;
-use swc_common::Span;
-use swc_common::DUMMY_SP;
+use swc_common::{
+    comments::SingleThreadedComments,
+    errors::{DiagnosticBuilder, Handler},
+    input::SourceFileInput,
+    BytePos, Span, DUMMY_SP,
+};
 use swc_ecma_ast::*;
-use swc_ecma_parser::lexer::Lexer;
-use swc_ecma_parser::EsConfig;
-use swc_ecma_parser::Parser;
-use swc_ecma_parser::Syntax;
-use swc_ecma_parser::TsConfig;
-use swc_ecma_visit::Node;
-use swc_ecma_visit::Visit;
-use swc_ecma_visit::VisitWith;
-use testing::fixture;
-use testing::Tester;
+use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, Syntax, TsConfig};
+use swc_ecma_visit::{Node, Visit, VisitWith};
+use testing::{fixture, Tester};
 
 #[fixture("tests/comments/**/input.js")]
 #[fixture("tests/comments/**/input.ts")]

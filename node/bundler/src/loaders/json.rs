@@ -1,14 +1,8 @@
-use anyhow::anyhow;
-use anyhow::Error;
+use anyhow::{anyhow, Error};
 use std::sync::Arc;
-use swc_common::input::SourceFileInput;
-use swc_common::SourceFile;
-use swc_common::DUMMY_SP;
-use swc_ecma_ast::EsVersion;
-use swc_ecma_ast::*;
-use swc_ecma_parser::lexer::Lexer;
-use swc_ecma_parser::Parser;
-use swc_ecma_parser::Syntax;
+use swc_common::{input::SourceFileInput, SourceFile, DUMMY_SP};
+use swc_ecma_ast::{EsVersion, *};
+use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
 
 pub(super) fn load_json_as_module(fm: &Arc<SourceFile>) -> Result<Module, Error> {
     let lexer = Lexer::new(

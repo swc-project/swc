@@ -15,8 +15,7 @@ use swc::{
     resolver::{environment_resolver, paths_resolver},
     Compiler, TransformOutput,
 };
-use swc_atoms::js_word;
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
 use swc_bundler::{BundleKind, Bundler, Load, ModuleRecord, Resolve};
 use swc_common::Span;
 use swc_ecma_ast::{
@@ -35,7 +34,7 @@ struct StaticConfigItem {
     #[serde(default)]
     working_dir: String,
     #[serde(flatten)]
-    config: spack::config::Config,
+    config: swc_node_bundler::config::Config,
 }
 
 struct BundleTask {
@@ -187,7 +186,7 @@ pub(crate) fn bundle(cx: CallContext) -> napi::Result<JsObject> {
 
     let static_items: StaticConfigItem = cx.get_deserialized(0)?;
 
-    let loader = Box::new(spack::loaders::swc::SwcLoader::new(
+    let loader = Box::new(swc_node_bundler::loaders::swc::SwcLoader::new(
         c.clone(),
         static_items
             .config

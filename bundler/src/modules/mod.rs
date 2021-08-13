@@ -2,16 +2,9 @@ use crate::ModuleId;
 use fxhash::FxHashMap;
 use retain_mut::RetainMut;
 use std::mem::take;
-use swc_common::SourceMap;
-use swc_common::SyntaxContext;
-use swc_common::DUMMY_SP;
+use swc_common::{SourceMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::Fold;
-use swc_ecma_visit::FoldWith;
-use swc_ecma_visit::Visit;
-use swc_ecma_visit::VisitMut;
-use swc_ecma_visit::VisitMutWith;
-use swc_ecma_visit::VisitWith;
+use swc_ecma_visit::{Fold, FoldWith, Visit, VisitMut, VisitMutWith, VisitWith};
 
 mod sort;
 

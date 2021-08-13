@@ -8,7 +8,7 @@ use std::{
     path::{Path, PathBuf},
     sync::Arc,
 };
-use swc::{config::ParseOptions, Compiler};
+use swc::{config::ParseOptions, try_with_handler, Compiler};
 use swc_common::{FileName, SourceFile};
 use swc_ecma_ast::Program;
 
@@ -38,16 +38,17 @@ impl Task for ParseTask {
     type JsValue = JsString;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
-        let program = self
-            .c
-            .parse_js(
+        let program = try_with_handler(self.c.cm.clone(), |handler| {
+            self.c.parse_js(
                 self.fm.clone(),
+                &handler,
                 self.options.target,
                 self.options.syntax,
                 self.options.is_module,
                 self.options.comments,
             )
-            .convert_err()?;
+        })
+        .convert_err()?;
 
         Ok(program)
     }
@@ -62,24 +63,25 @@ impl Task for ParseFileTask {
     type JsValue = JsString;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
-        self.c.run(|| {
-            let fm = self
-                .c
-                .cm
-                .load_file(&self.path)
-                .context("failed to read module")
-                .convert_err()?;
+        try_with_handler(self.c.cm.clone(), |handler| {
+            self.c.run(|| {
+                let fm = self
+                    .c
+                    .cm
+                    .load_file(&self.path)
+                    .context("failed to read module")?;
 
-            self.c
-                .parse_js(
+                self.c.parse_js(
                     fm,
+                    handler,
                     self.options.target,
                     self.options.syntax,
                     self.options.is_module,
                     self.options.comments,
                 )
-                .convert_err()
+            })
         })
+        .convert_err()
     }
 
     fn resolve(self, env: Env, result: Self::Output) -> napi::Result<Self::JsValue> {
@@ -114,30 +116,31 @@ pub fn parse(ctx: CallContext) -> napi::Result<JsObject> {
 pub fn parse_sync(cx: CallContext) -> napi::Result<JsString> {
     let c = get_compiler(&cx);
 
-    c.run(|| {
-        let src = cx.get::<JsString>(0)?.into_utf8()?.as_str()?.to_owned();
-        let options: ParseOptions = cx.get_deserialized(1)?;
-        let filename = cx.get::<Either<JsString, JsUndefined>>(2)?;
-        let filename = if let Either::A(value) = filename {
-            FileName::Real(value.into_utf8()?.as_str()?.to_owned().into())
-        } else {
-            FileName::Anon
-        };
+    let src = cx.get::<JsString>(0)?.into_utf8()?.as_str()?.to_owned();
+    let options: ParseOptions = cx.get_deserialized(1)?;
+    let filename = cx.get::<Either<JsString, JsUndefined>>(2)?;
+    let filename = if let Either::A(value) = filename {
+        FileName::Real(value.into_utf8()?.as_str()?.to_owned().into())
+    } else {
+        FileName::Anon
+    };
 
-        let program = {
+    let program = try_with_handler(c.cm.clone(), |handler| {
+        c.run(|| {
             let fm = c.cm.new_source_file(filename, src);
             c.parse_js(
                 fm,
+                handler,
                 options.target,
                 options.syntax,
                 options.is_module,
                 options.comments,
             )
-        }
-        .convert_err()?;
-
-        complete_parse(&cx.env, program, &c)
+        })
     })
+    .convert_err()?;
+
+    complete_parse(&cx.env, program, &c)
 }
 
 #[js_function(2)]
@@ -147,17 +150,20 @@ pub fn parse_file_sync(cx: CallContext) -> napi::Result<JsString> {
     let options: ParseOptions = cx.get_deserialized(1)?;
 
     let program = {
-        let fm =
-            c.cm.load_file(Path::new(path.as_str()?))
-                .expect("failed to read program file");
+        try_with_handler(c.cm.clone(), |handler| {
+            let fm =
+                c.cm.load_file(Path::new(path.as_str()?))
+                    .expect("failed to read program file");
 
-        c.parse_js(
-            fm,
-            options.target,
-            options.syntax,
-            options.is_module,
-            options.comments,
-        )
+            c.parse_js(
+                fm,
+                handler,
+                options.target,
+                options.syntax,
+                options.is_module,
+                options.comments,
+            )
+        })
     }
     .convert_err()?;
 

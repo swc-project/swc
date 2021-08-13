@@ -1,10 +1,10 @@
 use crate::util::fast_graph::FastDiGraphMap;
 use fxhash::FxHashSet;
-use petgraph::EdgeDirection;
-use petgraph::EdgeDirection::Incoming;
-use petgraph::EdgeDirection::Outgoing;
-use std::collections::VecDeque;
-use std::iter::repeat;
+use petgraph::{
+    EdgeDirection,
+    EdgeDirection::{Incoming, Outgoing},
+};
+use std::{collections::VecDeque, iter::repeat};
 
 /// Is dependancy between nodes hard?
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]

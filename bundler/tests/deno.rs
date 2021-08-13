@@ -6,10 +6,10 @@
 use self::common::*;
 use anyhow::Error;
 use ntest::timeout;
-use std::path::PathBuf;
 use std::{
     collections::{HashMap, HashSet},
     fs::write,
+    path::PathBuf,
     process::{Command, Stdio},
 };
 use swc_atoms::js_word;

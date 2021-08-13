@@ -1,21 +1,17 @@
 use super::Optimizer;
-use crate::compress::optimize::Ctx;
-use crate::compress::util::always_terminates;
-use crate::compress::util::negate_cost;
-use crate::util::SpanExt;
-use crate::DISABLE_BUGGY_PASSES;
+use crate::{
+    compress::{
+        optimize::Ctx,
+        util::{always_terminates, negate_cost},
+    },
+    util::SpanExt,
+    DISABLE_BUGGY_PASSES,
+};
 use std::mem::swap;
-use swc_common::EqIgnoreSpan;
-use swc_common::Spanned;
-use swc_common::DUMMY_SP;
+use swc_common::{EqIgnoreSpan, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::AsOptExpr;
-use swc_ecma_transforms_base::ext::ExprRefExt;
-use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_utils::ExprExt;
-use swc_ecma_utils::ExprFactory;
-use swc_ecma_utils::StmtLike;
+use swc_ecma_transforms_base::ext::{AsOptExpr, ExprRefExt, MapWithMut};
+use swc_ecma_utils::{ident::IdentLike, ExprExt, ExprFactory, StmtLike};
 
 /// Methods related to the option `conditionals`. All methods are noop if
 /// `conditionals` is false.

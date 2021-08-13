@@ -1,17 +1,12 @@
-use swc_common::chain;
-use swc_common::Mark;
+use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver::resolver;
-use swc_ecma_transforms_compat::es2015;
-use swc_ecma_transforms_compat::es2015::arrow;
-use swc_ecma_transforms_compat::es2015::block_scoping;
-use swc_ecma_transforms_compat::es2015::classes;
-use swc_ecma_transforms_compat::es2015::spread;
-use swc_ecma_transforms_compat::es2016;
-use swc_ecma_transforms_compat::es2017;
-use swc_ecma_transforms_compat::es2018;
-use swc_ecma_transforms_compat::es2020;
-use swc_ecma_transforms_compat::es2020::class_properties;
+use swc_ecma_transforms_compat::{
+    es2015,
+    es2015::{arrow, block_scoping, classes, spread},
+    es2016, es2017, es2018, es2020,
+    es2020::class_properties,
+};
 use swc_ecma_transforms_testing::{test, test_exec, Tester};
 use swc_ecma_visit::Fold;
 

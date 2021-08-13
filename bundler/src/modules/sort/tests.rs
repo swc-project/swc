@@ -1,8 +1,6 @@
 use super::stmt::sort_stmts;
-use crate::bundler::tests::suite;
-use crate::debug::print_hygiene;
-use swc_common::SyntaxContext;
-use swc_common::DUMMY_SP;
+use crate::{bundler::tests::suite, debug::print_hygiene};
+use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::drop_span;
 use testing::assert_eq;

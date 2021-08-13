@@ -1,17 +1,9 @@
 use fxhash::FxHashSet;
 use std::borrow::Cow;
-use swc_common::pass::CompilerPass;
-use swc_common::EqIgnoreSpan;
-use swc_common::Mark;
-use swc_common::SyntaxContext;
+use swc_common::{pass::CompilerPass, EqIgnoreSpan, Mark, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_utils::Id;
-use swc_ecma_visit::noop_visit_mut_type;
-use swc_ecma_visit::noop_visit_type;
-use swc_ecma_visit::Visit;
-use swc_ecma_visit::VisitMut;
-use swc_ecma_visit::VisitMutWith;
+use swc_ecma_utils::{ident::IdentLike, Id};
+use swc_ecma_visit::{noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith};
 
 pub fn globals_defs(defs: Vec<(Box<Expr>, Box<Expr>)>, top_level_mark: Mark) -> impl VisitMut {
     GlobalDefs {

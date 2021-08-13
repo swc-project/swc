@@ -1,13 +1,10 @@
 use super::util::Scope;
-use std::cell::RefCell;
-use std::rc::Rc;
+use std::{cell::RefCell, rc::Rc};
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::enable_helper;
-use swc_ecma_visit::noop_visit_type;
-use swc_ecma_visit::VisitWith;
-use swc_ecma_visit::{noop_fold_type, Fold, Node, Visit};
+use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, Node, Visit, VisitWith};
 
 pub fn import_analyzer(scope: Rc<RefCell<Scope>>) -> ImportAnalyzer {
     ImportAnalyzer { scope }

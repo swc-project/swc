@@ -1,6 +1,5 @@
 #![allow(clippy::vec_box)]
 #![allow(missing_copy_implementations)]
-use crate::BindingIdent;
 use crate::{
     class::Decorator,
     expr::Expr,
@@ -8,7 +7,7 @@ use crate::{
     lit::{Bool, Number, Str},
     module::ModuleItem,
     pat::{ArrayPat, AssignPat, ObjectPat, Pat, RestPat},
-    BigInt, TplElement,
+    BigInt, BindingIdent, TplElement,
 };
 use is_macro::Is;
 use serde::{
@@ -17,8 +16,7 @@ use serde::{
 };
 use std::fmt;
 use string_enum::StringEnum;
-use swc_common::EqIgnoreSpan;
-use swc_common::{ast_node, Span};
+use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 #[ast_node("TsTypeAnnotation")]
 #[derive(Eq, Hash, EqIgnoreSpan)]

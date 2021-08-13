@@ -1449,6 +1449,8 @@ export interface ExportDeclaration extends Node, HasSpan {
 export interface ImportDeclaration extends Node, HasSpan {
   type: "ImportDeclaration";
 
+  typeOnly?: boolean;
+
   specifiers: ImportSpecifier[];
 
   source: StringLiteral;

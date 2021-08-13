@@ -5,20 +5,18 @@ use super::util::{
 };
 use crate::path::{ImportResolver, NoopImportResolver};
 use fxhash::FxHashSet;
-use std::cell::{Ref, RefCell, RefMut};
-use std::rc::Rc;
+use std::{
+    cell::{Ref, RefCell, RefMut},
+    rc::Rc,
+};
 use swc_atoms::js_word;
-use swc_common::FileName;
-use swc_common::{Mark, Span, DUMMY_SP};
+use swc_common::{FileName, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_utils::member_expr;
-use swc_ecma_utils::private_ident;
-use swc_ecma_utils::quote_ident;
-use swc_ecma_utils::quote_str;
-use swc_ecma_utils::IsDirective;
-use swc_ecma_utils::{var::VarCollector, DestructuringFinder, ExprFactory};
+use swc_ecma_utils::{
+    ident::IdentLike, member_expr, private_ident, quote_ident, quote_str, var::VarCollector,
+    DestructuringFinder, ExprFactory, IsDirective,
+};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
 
 pub fn common_js(root_mark: Mark, config: Config, scope: Option<Rc<RefCell<Scope>>>) -> impl Fold {

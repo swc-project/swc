@@ -1,22 +1,16 @@
-#![feature(test)]
-
 pub use self::output::{NormalizedOutput, StdErr, StdOut, TestOutput};
 use difference::Changeset;
 use once_cell::sync::Lazy;
 pub use pretty_assertions::{assert_eq, assert_ne};
 use regex::Regex;
-use std::collections::HashMap;
-use std::env;
-use std::fmt::Display;
-use std::fmt::Formatter;
-use std::path::PathBuf;
-use std::sync::RwLock;
 use std::{
-    fmt,
-    fmt::Debug,
+    collections::HashMap,
+    env, fmt,
+    fmt::{Debug, Display, Formatter},
     fs::{create_dir_all, File},
     io::Write,
-    path::Path,
+    path::{Path, PathBuf},
+    sync::RwLock,
     thread,
 };
 use swc_common::{

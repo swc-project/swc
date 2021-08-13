@@ -105,6 +105,7 @@
 
 #![cfg_attr(test, feature(test))]
 #![deny(unused)]
+#![feature(bench_black_box)]
 
 pub use self::{
     lexer::input::{Input, StringInput},

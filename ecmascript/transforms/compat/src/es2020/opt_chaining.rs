@@ -3,11 +3,8 @@ use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Check;
 use swc_ecma_transforms_macros::fast_path;
-use swc_ecma_utils::alias_if_required;
-use swc_ecma_utils::private_ident;
-use swc_ecma_utils::{prepend, undefined, ExprFactory, StmtLike};
-use swc_ecma_visit::noop_visit_type;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit};
+use swc_ecma_utils::{alias_if_required, prepend, private_ident, undefined, ExprFactory, StmtLike};
+use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit};
 
 pub fn optional_chaining() -> impl Fold {
     OptChaining::default()
@@ -457,39 +454,71 @@ impl OptChaining {
                             },
                             "_obj",
                         );
-                        let obj = if !is_super_access && aliased {
-                            self.vars_with_init.push(VarDeclarator {
+                        let obj_expr = if !is_super_access && aliased {
+                            self.vars_without_init.push(VarDeclarator {
                                 span: obj_span,
                                 definite: false,
                                 name: Pat::Ident(this_obj.clone().into()),
-                                init: Some(obj),
+                                init: None,
                             });
 
-                            Box::new(Expr::Ident(this_obj.clone()))
+                            match *obj {
+                                Expr::Member(
+                                    obj
+                                    @
+                                    MemberExpr {
+                                        obj: ExprOrSuper::Expr(..),
+                                        ..
+                                    },
+                                ) => Box::new(Expr::Member(MemberExpr {
+                                    span: obj.span,
+                                    obj: Expr::Assign(AssignExpr {
+                                        span: DUMMY_SP,
+                                        op: op!("="),
+                                        left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                                            this_obj.clone().into(),
+                                        ))),
+                                        right: obj.obj.expect_expr(),
+                                    })
+                                    .as_obj(),
+                                    prop: obj.prop,
+                                    computed: obj.computed,
+                                })),
+                                _ => Box::new(Expr::Assign(AssignExpr {
+                                    span: DUMMY_SP,
+                                    op: op!("="),
+                                    left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                                        this_obj.clone().into(),
+                                    ))),
+                                    right: obj,
+                                })),
+                            }
                         } else {
                             obj
                         };
-                        let i = private_ident!(obj_span, "ref");
+
+                        let tmp = private_ident!(obj_span, "ref");
+
                         self.vars_without_init.push(VarDeclarator {
                             span: obj_span,
                             definite: false,
-                            name: Pat::Ident(i.clone().into()),
+                            name: Pat::Ident(tmp.clone().into()),
                             init: None,
                         });
 
                         (
                             Box::new(Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
-                                left: PatOrExpr::Pat(Box::new(Pat::Ident(i.clone().into()))),
+                                left: PatOrExpr::Pat(Box::new(Pat::Ident(tmp.clone().into()))),
                                 op: op!("="),
-                                right: obj,
+                                right: obj_expr,
                             })),
-                            Box::new(Expr::Ident(i.clone())),
+                            Box::new(Expr::Ident(tmp.clone())),
                             Box::new(Expr::Call(CallExpr {
                                 span,
                                 callee: ExprOrSuper::Expr(Box::new(Expr::Member(MemberExpr {
                                     span: DUMMY_SP,
-                                    obj: ExprOrSuper::Expr(Box::new(Expr::Ident(i.clone()))),
+                                    obj: ExprOrSuper::Expr(Box::new(Expr::Ident(tmp.clone()))),
                                     prop: Box::new(Expr::Ident(Ident::new("call".into(), span))),
                                     computed: false,
                                 }))),

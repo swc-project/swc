@@ -3,7 +3,6 @@
 extern crate test;
 
 use anyhow::Error;
-use spack::loaders::swc::SwcLoader;
 use std::{
     collections::HashMap,
     env,
@@ -23,6 +22,7 @@ use swc_ecma_ast::{
 use swc_ecma_parser::JscTarget;
 use swc_ecma_transforms::fixer;
 use swc_ecma_visit::FoldWith;
+use swc_node_bundler::loaders::swc::SwcLoader;
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
 };
@@ -42,6 +42,8 @@ fn add_test<F: FnOnce() + Send + 'static>(
             ignore,
             should_panic: No,
             allow_fail: false,
+            compile_fail: false,
+            no_run: false,
         },
         testfn: DynTestFn(Box::new(f)),
     });
@@ -125,8 +127,8 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
         add_test(tests, name, ignore, move || {
             eprintln!("\n\n========== Running reference test {}\n", dir_name);
 
-            testing::run_test2(false, |cm, handler| {
-                let compiler = Arc::new(swc::Compiler::new(cm.clone(), Arc::new(handler)));
+            testing::run_test2(false, |cm, _handler| {
+                let compiler = Arc::new(swc::Compiler::new(cm.clone()));
 
                 GLOBALS.set(compiler.globals(), || {
                     let loader = SwcLoader::new(

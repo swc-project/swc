@@ -1,5 +1,4 @@
-use swc_atoms::js_word;
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Check;
 use swc_ecma_transforms_macros::fast_path;

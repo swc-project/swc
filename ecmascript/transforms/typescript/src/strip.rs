@@ -1,19 +1,15 @@
-use fxhash::FxHashMap;
-use fxhash::FxHashSet;
+use fxhash::{FxHashMap, FxHashSet};
 use serde::{Deserialize, Serialize};
 use std::{borrow::Borrow, mem::take};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{util::move_map::MoveMap, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_utils::member_expr;
-use swc_ecma_utils::private_ident;
-use swc_ecma_utils::quote_ident;
-use swc_ecma_utils::replace_ident;
-use swc_ecma_utils::var::VarCollector;
-use swc_ecma_utils::ExprFactory;
-use swc_ecma_utils::{constructor::inject_after_super, default_constructor};
-use swc_ecma_utils::{ident::IdentLike, prepend, Id, ModuleItemLike, StmtLike};
+use swc_ecma_utils::{
+    constructor::inject_after_super, default_constructor, ident::IdentLike, member_expr, prepend,
+    private_ident, quote_ident, replace_ident, var::VarCollector, ExprFactory, Id, ModuleItemLike,
+    StmtLike,
+};
 use swc_ecma_visit::{as_folder, Fold, Node, Visit, VisitMut, VisitMutWith, VisitWith};
 
 /// Value does not contain TsLit::Bool

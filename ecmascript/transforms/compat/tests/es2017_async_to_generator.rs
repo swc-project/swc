@@ -3,17 +3,14 @@ use crate::es2015::regenerator;
 use swc_common::{chain, Mark, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_parser::Syntax;
-use swc_ecma_transforms_base::fixer::fixer;
-use swc_ecma_transforms_base::resolver::resolver;
-use swc_ecma_transforms_compat::es2015;
-use swc_ecma_transforms_compat::es2015::arrow;
-use swc_ecma_transforms_compat::es2015::destructuring;
-use swc_ecma_transforms_compat::es2015::function_name;
-use swc_ecma_transforms_compat::es2015::parameters;
-use swc_ecma_transforms_compat::es2017::async_to_generator;
-use swc_ecma_transforms_compat::es2020::class_properties;
-use swc_ecma_transforms_testing::test;
-use swc_ecma_transforms_testing::test_exec;
+use swc_ecma_transforms_base::{fixer::fixer, resolver::resolver};
+use swc_ecma_transforms_compat::{
+    es2015,
+    es2015::{arrow, destructuring, function_name, parameters},
+    es2017::async_to_generator,
+    es2020::class_properties,
+};
+use swc_ecma_transforms_testing::{test, test_exec};
 use swc_ecma_visit::{Fold, FoldWith};
 
 struct ParenRemover;

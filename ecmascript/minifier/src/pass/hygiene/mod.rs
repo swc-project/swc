@@ -1,18 +1,13 @@
-use crate::analyzer::analyze;
-use crate::analyzer::ProgramData;
-use crate::pass::hygiene::analyzer::HygieneAnalyzer;
-use crate::pass::hygiene::analyzer::HygieneData;
-use crate::util::now;
+use crate::{
+    analyzer::{analyze, ProgramData},
+    pass::hygiene::analyzer::{HygieneAnalyzer, HygieneData},
+    util::now,
+};
 use std::time::Instant;
-use swc_common::Mark;
-use swc_common::SyntaxContext;
-use swc_common::DUMMY_SP;
+use swc_common::{Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_visit::noop_visit_mut_type;
-use swc_ecma_visit::VisitMut;
-use swc_ecma_visit::VisitMutWith;
-use swc_ecma_visit::VisitWith;
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 
 mod analyzer;
 

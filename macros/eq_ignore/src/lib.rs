@@ -1,31 +1,10 @@
-use pmutil::q;
-use pmutil::IdentExt;
-use pmutil::SpanExt;
+use pmutil::{q, IdentExt, SpanExt};
 use proc_macro2::Span;
-use syn::parse;
-use syn::punctuated::Punctuated;
-use syn::spanned::Spanned;
-use syn::Arm;
-use syn::BinOp;
-use syn::Block;
-use syn::Data;
-use syn::DeriveInput;
-use syn::Expr;
-use syn::ExprBinary;
-use syn::ExprBlock;
-use syn::Field;
-use syn::FieldPat;
-use syn::Fields;
-use syn::Ident;
-use syn::Index;
-use syn::Member;
-use syn::Pat;
-use syn::PatIdent;
-use syn::PatStruct;
-use syn::PatTuple;
-use syn::Path;
-use syn::Stmt;
-use syn::Token;
+use syn::{
+    parse, punctuated::Punctuated, spanned::Spanned, Arm, BinOp, Block, Data, DeriveInput, Expr,
+    ExprBinary, ExprBlock, Field, FieldPat, Fields, Ident, Index, Member, Pat, PatIdent, PatStruct,
+    PatTuple, Path, Stmt, Token,
+};
 
 /// Derives `swc_common::TypeEq`.
 ///

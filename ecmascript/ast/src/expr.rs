@@ -17,8 +17,7 @@ use crate::{
 };
 use is_macro::Is;
 use serde::{self, Deserialize, Serialize};
-use swc_common::EqIgnoreSpan;
-use swc_common::{ast_node, Span, Spanned, DUMMY_SP};
+use swc_common::{ast_node, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
 
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]

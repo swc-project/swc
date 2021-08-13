@@ -1,17 +1,11 @@
 use super::Optimizer;
-use crate::compress::util::eval_as_number;
-use crate::DISABLE_BUGGY_PASSES;
+use crate::{compress::util::eval_as_number, DISABLE_BUGGY_PASSES};
 use std::num::FpCategory;
 use swc_atoms::js_word;
-use swc_common::Spanned;
-use swc_common::SyntaxContext;
-use swc_common::DUMMY_SP;
+use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_utils::undefined;
-use swc_ecma_utils::ExprExt;
-use swc_ecma_utils::Value::Known;
+use swc_ecma_utils::{ident::IdentLike, undefined, ExprExt, Value::Known};
 
 /// Methods related to the option `evaludate`.
 impl Optimizer<'_> {

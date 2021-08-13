@@ -1,23 +1,13 @@
 use fxhash::FxHashSet;
 use std::time::Instant;
-use swc_common::pass::CompilerPass;
-use swc_common::pass::Repeated;
-use swc_common::Mark;
-use swc_common::Span;
-use swc_common::DUMMY_SP;
+use swc_common::{
+    pass::{CompilerPass, Repeated},
+    Mark, Span, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_utils::Id;
-use swc_ecma_utils::ModuleItemLike;
-use swc_ecma_utils::StmtLike;
-use swc_ecma_utils::Value;
-use swc_ecma_visit::noop_visit_type;
-use swc_ecma_visit::Fold;
-use swc_ecma_visit::FoldWith;
-use swc_ecma_visit::Node;
-use swc_ecma_visit::Visit;
-use swc_ecma_visit::VisitWith;
+use swc_ecma_utils::{ident::IdentLike, Id, ModuleItemLike, StmtLike, Value};
+use swc_ecma_visit::{noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 pub(crate) mod base54;
 pub(crate) mod sort;

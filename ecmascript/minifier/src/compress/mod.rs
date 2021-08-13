@@ -1,44 +1,39 @@
-use self::drop_console::drop_console;
-use self::hoist_decls::DeclHoisterConfig;
-use self::optimize::optimizer;
-use self::optimize::OptimizerState;
-use crate::analyzer::analyze;
-use crate::analyzer::ProgramData;
-use crate::analyzer::UsageAnalyzer;
-use crate::compress::hoist_decls::decl_hoister;
-use crate::compress::pure::pure_optimizer;
-use crate::debug::dump;
-use crate::debug::invoke;
-use crate::marks::Marks;
-use crate::option::CompressOptions;
-use crate::util::now;
-use crate::util::unit::CompileUnit;
-use crate::util::Optional;
-use crate::MAX_PAR_DEPTH;
+use self::{
+    drop_console::drop_console,
+    hoist_decls::DeclHoisterConfig,
+    optimize::{optimizer, OptimizerState},
+};
+use crate::{
+    analyzer::{analyze, ProgramData, UsageAnalyzer},
+    compress::{hoist_decls::decl_hoister, pure::pure_optimizer},
+    debug::{dump, invoke},
+    marks::Marks,
+    option::CompressOptions,
+    util::{now, unit::CompileUnit, Optional},
+    MAX_PAR_DEPTH,
+};
 #[cfg(feature = "pretty_assertions")]
 use pretty_assertions::assert_eq;
 use rayon::prelude::*;
-use std::borrow::Cow;
-use std::fmt;
-use std::fmt::Debug;
-use std::fmt::Display;
-use std::fmt::Formatter;
-use std::thread;
-use std::time::Instant;
-use swc_common::chain;
-use swc_common::pass::CompilerPass;
-use swc_common::pass::Repeated;
-use swc_common::Globals;
+use std::{
+    borrow::Cow,
+    fmt,
+    fmt::{Debug, Display, Formatter},
+    thread,
+    time::Instant,
+};
+use swc_common::{
+    chain,
+    pass::{CompilerPass, Repeated},
+    Globals,
+};
 use swc_ecma_ast::*;
-use swc_ecma_transforms::optimization::simplify::dead_branch_remover;
-use swc_ecma_transforms::optimization::simplify::expr_simplifier;
-use swc_ecma_transforms::pass::JsPass;
+use swc_ecma_transforms::{
+    optimization::simplify::{dead_branch_remover, expr_simplifier},
+    pass::JsPass,
+};
 use swc_ecma_utils::StmtLike;
-use swc_ecma_visit::as_folder;
-use swc_ecma_visit::noop_visit_mut_type;
-use swc_ecma_visit::VisitMut;
-use swc_ecma_visit::VisitMutWith;
-use swc_ecma_visit::VisitWith;
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 
 mod drop_console;
 mod hoist_decls;

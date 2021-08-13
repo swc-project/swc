@@ -1,16 +1,13 @@
 use rayon::prelude::*;
-use serde::de::DeserializeOwned;
-use serde::Serialize;
+use serde::{de::DeserializeOwned, Serialize};
 use std::sync::Arc;
 use swc::SwcComments;
 use swc_babel_ast::{BaseComment, BaseNode, Comment, LineCol, Loc};
-use swc_common::comments::CommentKind;
-use swc_common::comments::Comments;
-use swc_common::sync::Lrc;
-use swc_common::BytePos;
-use swc_common::SourceFile;
-use swc_common::SourceMap;
-use swc_common::Span;
+use swc_common::{
+    comments::{CommentKind, Comments},
+    sync::Lrc,
+    BytePos, SourceFile, SourceMap, Span,
+};
 use swc_ecma_ast::Class;
 
 mod class;

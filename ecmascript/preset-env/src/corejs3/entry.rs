@@ -1,7 +1,6 @@
 use super::compat::DATA as CORE_JS_COMPAT_DATA;
 use crate::{version::should_enable, Version, Versions};
-use fxhash::FxBuildHasher;
-use fxhash::FxHashMap;
+use fxhash::{FxBuildHasher, FxHashMap};
 use indexmap::IndexSet;
 use once_cell::sync::Lazy;
 use swc_atoms::js_word;

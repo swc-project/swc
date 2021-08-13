@@ -5,12 +5,7 @@ pub use self::{
     hygiene::hygiene,
     resolver::{resolver, resolver_with_mark},
 };
-pub use swc_ecma_transforms_base::fixer;
-pub use swc_ecma_transforms_base::helpers;
-pub use swc_ecma_transforms_base::hygiene;
-pub use swc_ecma_transforms_base::pass;
-pub use swc_ecma_transforms_base::perf;
-pub use swc_ecma_transforms_base::resolver;
+pub use swc_ecma_transforms_base::{fixer, helpers, hygiene, pass, perf, resolver};
 #[cfg(feature = "swc_ecma_transforms_compat")]
 pub use swc_ecma_transforms_compat as compat;
 #[cfg(feature = "swc_ecma_transforms_module")]

@@ -1,21 +1,14 @@
 //! Compatibility for terser config.
 
-use super::true_by_default;
-use super::CompressOptions;
-use super::TopLevelOptions;
+use super::{true_by_default, CompressOptions, TopLevelOptions};
 use crate::option::PureGetterOption;
 use fxhash::FxHashMap;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use swc_atoms::JsWord;
-use swc_common::input::SourceFileInput;
-use swc_common::sync::Lrc;
-use swc_common::FileName;
-use swc_common::SourceMap;
-use swc_common::DUMMY_SP;
+use swc_common::{input::SourceFileInput, sync::Lrc, FileName, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_parser::lexer::Lexer;
-use swc_ecma_parser::Parser;
+use swc_ecma_parser::{lexer::Lexer, Parser};
 use swc_ecma_utils::drop_span;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

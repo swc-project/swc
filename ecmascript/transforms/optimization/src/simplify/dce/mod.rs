@@ -2,8 +2,7 @@ use self::side_effect::{ImportDetector, SideEffectVisitor};
 use fxhash::FxHashSet;
 use retain_mut::RetainMut;
 use std::{any::type_name, borrow::Cow, fmt::Debug, mem::take};
-use swc_atoms::js_word;
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{
     chain,
     pass::{CompilerPass, Repeated},

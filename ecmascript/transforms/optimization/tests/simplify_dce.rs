@@ -1,11 +1,9 @@
 use swc_common::{chain, Mark, SyntaxContext};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::resolver;
-use swc_ecma_transforms_optimization::simplify::dce;
-use swc_ecma_transforms_optimization::simplify::dce::dce;
+use swc_ecma_transforms_optimization::simplify::{dce, dce::dce};
 use swc_ecma_transforms_proposal::decorators;
-use swc_ecma_transforms_testing::test;
-use swc_ecma_transforms_testing::test_transform;
+use swc_ecma_transforms_testing::{test, test_transform};
 use swc_ecma_transforms_typescript::strip;
 
 macro_rules! to {
