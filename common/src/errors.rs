@@ -359,13 +359,14 @@ impl Handler {
         Handler::with_emitter_and_flags(emitter, flags)
     }
 
+    /// Example implementation of [Emitter] is [EmitterWriter]
     pub fn with_emitter(
         can_emit_warnings: bool,
         treat_err_as_bug: bool,
-        e: Box<dyn Emitter + Send>,
+        emitter: Box<dyn Emitter + Send>,
     ) -> Handler {
         Handler::with_emitter_and_flags(
-            e,
+            emitter,
             HandlerFlags {
                 can_emit_warnings,
                 treat_err_as_bug,
