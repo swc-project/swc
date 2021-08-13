@@ -123,17 +123,21 @@ impl NodeModulesResolver {
         Self { target_env, alias }
     }
 
-    fn wrap(&self, path: PathBuf) -> Result<FileName, Error> {
-        let path = path.canonicalize().context("failed to canonicalize")?;
-        Ok(FileName::Real(path))
+    fn wrap(&self, path: Option<PathBuf>) -> Result<FileName, Error> {
+        if let Some(path) = path {
+            let path = path.canonicalize().context("failed to canonicalize")?;
+            return Ok(FileName::Real(path));
+        }
+        bail!("index not found")
     }
 
     /// Resolve a path as a file. If `path` refers to a file, it is returned;
     /// otherwise the `path` + each extension is tried.
-    fn resolve_as_file(&self, path: &Path) -> Result<PathBuf, Error> {
-        // 1. If X is a file, load X as JavaScript text.
+    fn resolve_as_file(&self, path: &Path) -> Result<Option<PathBuf>, Error> {
+        log::debug!("Resolve file {}", path.display());
+
         if path.is_file() {
-            return Ok(path.to_path_buf());
+            return Ok(Some(path.to_path_buf()));
         }
 
         if let Some(name) = path.file_name() {
@@ -142,36 +146,47 @@ impl NodeModulesResolver {
             for ext in EXTENSIONS {
                 ext_path.set_file_name(format!("{}.{}", name, ext));
                 if ext_path.is_file() {
-                    return Ok(ext_path);
+                    return Ok(Some(ext_path));
                 }
             }
         }
 
-        bail!("file not found: {}", path.display())
+        bail!("file not found")
     }
 
     /// Resolve a path as a directory, using the "main" key from a package.json
     /// file if it exists, or resolving to the index.EXT file if it exists.
-    fn resolve_as_directory(&self, path: &PathBuf, target: &str) -> Result<PathBuf, Error> {
-        // 1. If X/package.json is a file, use it.
+    fn resolve_as_directory(&self, path: &PathBuf, target: &str) -> Result<Option<PathBuf>, Error> {
+        log::debug!("Resolve directory {}", path.display());
+
         let pkg_path = path.join("package.json");
         if pkg_path.is_file() {
-            if let Some(main) = self.resolve_package_main(&pkg_path, target)? {
-                return Ok(main);
+            if let Some(main) = self.resolve_package_entry(path, &pkg_path, target)? {
+                return Ok(Some(main));
             }
         }
 
-        // 2. LOAD_INDEX(X)
-        self.resolve_index(path)
+        log::debug!("Resolve using index file on {}", path.display());
+
+        // Try to resolve to an index file.
+        for ext in EXTENSIONS {
+            let ext_path = path.join(format!("index.{}", ext));
+            if ext_path.is_file() {
+                return Ok(Some(ext_path));
+            }
+        }
+        Ok(None)
     }
 
-    /// Resolve using the package.json "main" key.
-    fn resolve_package_main(
+    /// Resolve using the package.json "main" or "browser" keys.
+    fn resolve_package_entry(
         &self,
+        pkg_dir: &PathBuf,
         pkg_path: &PathBuf,
         target: &str,
     ) -> Result<Option<PathBuf>, Error> {
-        let pkg_dir = pkg_path.parent().unwrap_or_else(|| Path::new("/"));
+        log::debug!("Resolve package entry points {:#?}", pkg_dir);
+
         let file = File::open(pkg_path)?;
         let reader = BufReader::new(file);
         let pkg: PackageJson = serde_json::from_reader(reader)
@@ -206,53 +221,57 @@ impl NodeModulesResolver {
             }
         };
 
+        log::debug!("Resolve using main fields {:#?}", main_fields);
+
         for main in main_fields {
             if let Some(target) = main {
                 let path = pkg_dir.join(target);
                 return self
                     .resolve_as_file(&path)
-                    .or_else(|_| self.resolve_as_directory(&path, target))
-                    .map(|p| Some(p));
+                    .or_else(|_| self.resolve_as_directory(&path, target));
             }
         }
 
         Ok(None)
     }
 
-    /// Resolve a directory to its index.EXT.
-    fn resolve_index(&self, path: &PathBuf) -> Result<PathBuf, Error> {
-        // 1. If X/index.js is a file, load X/index.js as JavaScript text.
-        // 2. If X/index.json is a file, parse X/index.json to a JavaScript object.
-        // 3. If X/index.node is a file, load X/index.node as binary addon.
-        for ext in EXTENSIONS {
-            let ext_path = path.join(format!("index.{}", ext));
-            if ext_path.is_file() {
-                return Ok(ext_path);
-            }
-        }
-
-        bail!("index not found: {}", path.display())
-    }
-
     /// Resolve by walking up node_modules folders.
-    fn resolve_node_modules(&self, base_dir: &Path, target: &str) -> Result<PathBuf, Error> {
-        let node_modules = base_dir.join("node_modules");
-        if node_modules.is_dir() {
-            let path = node_modules.join(target);
-            return Ok(self
-                .resolve_as_file(&path)
-                .or_else(|_| self.resolve_as_directory(&path, target))?);
+    fn resolve_node_modules(
+        &self,
+        base_dir: &Path,
+        target: &str,
+    ) -> Result<Option<PathBuf>, Error> {
+        log::debug!("Resolve node_modules {} for {}", base_dir.display(), target);
+
+        let mut path = Some(base_dir);
+        while let Some(dir) = path {
+            let node_modules = dir.join("node_modules");
+            if node_modules.is_dir() {
+                let path = node_modules.join(target);
+                log::debug!("Resolve node_modules path {}", path.display());
+                if let Some(result) = self
+                    .resolve_as_file(&path)
+                    .or_else(|_| self.resolve_as_directory(&path, target))?
+                {
+                    return Ok(Some(result));
+                }
+            }
+            path = dir.parent();
         }
 
-        match base_dir.parent() {
-            Some(parent) => self.resolve_node_modules(parent, target),
-            None => bail!("not found"),
-        }
+        Ok(None)
     }
 }
 
 impl Resolve for NodeModulesResolver {
     fn resolve(&self, base: &FileName, target: &str) -> Result<FileName, Error> {
+        log::debug!(
+            "Resolve {} from {:#?} in {:#?}",
+            target,
+            base,
+            self.target_env
+        );
+
         let target = if let Some(alias) = self.alias.get(target) {
             &alias[..]
         } else {

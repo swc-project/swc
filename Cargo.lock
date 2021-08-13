@@ -2397,6 +2397,7 @@ dependencies = [
  "anyhow",
  "dashmap",
  "fxhash",
+ "log",
  "lru",
  "normpath",
  "once_cell",
