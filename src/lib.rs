@@ -17,9 +17,12 @@ use serde_json::error::Category;
 pub use sourcemap;
 use std::{
     fs::{read_to_string, File},
+    io::Write,
+    mem::take,
     path::{Path, PathBuf},
-    sync::Arc,
+    sync::{Arc, Mutex},
 };
+use swc_common::sync::Lrc;
 use swc_common::{
     chain,
     comments::{Comment, CommentKind, Comments},
@@ -76,6 +79,52 @@ pub mod resolver {
         alias: FxHashMap<String, String>,
     ) -> NodeResolver {
         CachingResolver::new(40, NodeModulesResolver::new(target_env, alias))
+    }
+}
+
+#[derive(Clone, Default)]
+struct LockedWriter(Arc<Mutex<Vec<u8>>>);
+
+impl Write for LockedWriter {
+    fn write(&mut self, buf: &[u8]) -> std::io::Result<usize> {
+        let mut lock = self
+            .0
+            .lock()
+            .expect("failed to get lock while trying to report error");
+
+        lock.extend_from_slice(buf);
+
+        Ok(buf.len())
+    }
+
+    fn flush(&mut self) -> std::io::Result<()> {
+        Ok(())
+    }
+}
+
+/// Try operation with a [Handler] and prints the errors as a [String] wrapped
+/// by [Err].
+pub fn try_with_handler<F, Ret>(cm: Lrc<SourceMap>, op: F) -> Result<Ret, Error>
+where
+    F: FnOnce(&Handler) -> Result<Ret, Error>,
+{
+    let wr = Box::new(LockedWriter::default());
+
+    let handler = Handler::with_emitter_writer(wr.clone(), Some(cm.clone()));
+
+    let ret = op(&handler)?;
+
+    if handler.has_errors() {
+        let mut lock =
+            wr.0.lock()
+                .expect("reference to handler should not exist in this point");
+        let error = take(&mut *lock);
+
+        let msg = String::from_utf8(error).expect("error string should be utf8");
+
+        Err(Error::msg(msg))
+    } else {
+        Ok(ret)
     }
 }
 
