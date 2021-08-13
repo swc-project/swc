@@ -250,7 +250,7 @@ impl VisitMut for RegeneratorHandler {
     }
 }
 
-fn make_tr<F, P>(_: &'static str, op: F, tester: &mut Tester<'_>) -> impl Fold
+fn make_tr<F, P>(_: &str, op: F, tester: &mut Tester<'_>) -> impl Fold
 where
     F: FnOnce(&mut Tester<'_>) -> P,
     P: Fold,
@@ -366,7 +366,7 @@ macro_rules! test {
 
 /// Execute `node` for `input` and ensure that it prints same output after
 /// transformation.
-pub fn compare_stdout<F, P>(test_name: &'static str, syntax: Syntax, tr: F, input: &str)
+pub fn compare_stdout<F, P>(test_name: &str, syntax: Syntax, tr: F, input: &str)
 where
     F: FnOnce(&mut Tester<'_>) -> P,
     P: Fold,
@@ -400,7 +400,7 @@ where
 }
 
 /// Execute `jest` after transpiling `input` using `tr`.
-pub fn exec_tr<F, P>(test_name: &'static str, syntax: Syntax, tr: F, input: &str)
+pub fn exec_tr<F, P>(test_name: &str, syntax: Syntax, tr: F, input: &str)
 where
     F: FnOnce(&mut Tester<'_>) -> P,
     P: Fold,
