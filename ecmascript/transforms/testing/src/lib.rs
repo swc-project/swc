@@ -250,7 +250,7 @@ impl VisitMut for RegeneratorHandler {
     }
 }
 
-fn make_tr<F, P>(_: &str, op: F, tester: &mut Tester<'_>) -> impl Fold
+fn make_tr<F, P>(op: F, tester: &mut Tester<'_>) -> impl Fold
 where
     F: FnOnce(&mut Tester<'_>) -> P,
     P: Fold,
@@ -282,7 +282,7 @@ pub fn test_transform<F, P>(
 
         println!("----- Actual -----");
 
-        let tr = make_tr("actual", tr, tester);
+        let tr = make_tr(tr, tester);
         let actual = tester.apply_transform(tr, "input.js", syntax, input)?;
 
         match ::std::env::var("PRINT_HYGIENE") {
@@ -366,13 +366,13 @@ macro_rules! test {
 
 /// Execute `node` for `input` and ensure that it prints same output after
 /// transformation.
-pub fn compare_stdout<F, P>(test_name: &str, syntax: Syntax, tr: F, input: &str)
+pub fn compare_stdout<F, P>(syntax: Syntax, tr: F, input: &str)
 where
     F: FnOnce(&mut Tester<'_>) -> P,
     P: Fold,
 {
     Tester::run(|tester| {
-        let tr = make_tr(test_name, tr, tester);
+        let tr = make_tr(tr, tester);
 
         let module = tester.apply_transform(tr, "input.js", syntax, input)?;
 
@@ -406,7 +406,7 @@ where
     P: Fold,
 {
     Tester::run(|tester| {
-        let tr = make_tr(test_name, tr, tester);
+        let tr = make_tr(tr, tester);
 
         let module = tester.apply_transform(
             tr,

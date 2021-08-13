@@ -737,10 +737,5 @@ test!(
 fn exec(input: PathBuf) {
     let src = read_to_string(&input).unwrap();
 
-    compare_stdout(
-        "opt_chain_fixture",
-        Default::default(),
-        |_| optional_chaining(),
-        &src,
-    );
+    compare_stdout(Default::default(), |_| optional_chaining(), &src);
 }
