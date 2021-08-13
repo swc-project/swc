@@ -1,4 +1,8 @@
-const swc = require("../../");
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import * as swc from '../..';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 it("should work", () => {
   expect(() => {
@@ -32,4 +36,10 @@ export async function getDependency(): Promise<any> {
 
     swc.transformSync(code, options)
   }).toThrow("unknown variant `esnext`");
+});
+
+it("should report good error", () => {
+  expect(() => {
+    swc.transformFileSync(__dirname + "/../tests/error/simple.js");
+  }).toThrow("failed to load config for");
 });
