@@ -4,4 +4,4 @@ const myVar = {
     }
 }
 
-expect(myVar.target.value.toLowerCase?.()).toEqual("abc")
+console.log(myVar.target.value.toLowerCase?.())
