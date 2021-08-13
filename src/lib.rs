@@ -89,7 +89,6 @@ pub struct Compiler {
     globals: Globals,
     /// CodeMap
     pub cm: Arc<SourceMap>,
-    pub handler: Arc<Handler>,
     comments: SwcComments,
 }
 
@@ -216,6 +215,7 @@ impl Compiler {
     pub fn parse_js(
         &self,
         fm: Arc<SourceFile>,
+        handler: &Handler,
         target: JscTarget,
         syntax: Syntax,
         is_module: bool,
@@ -238,12 +238,12 @@ impl Compiler {
                 let m = parser.parse_module();
 
                 for e in parser.take_errors() {
-                    e.into_diagnostic(&self.handler).emit();
+                    e.into_diagnostic(handler).emit();
                     error = true;
                 }
 
                 m.map_err(|e| {
-                    e.into_diagnostic(&self.handler).emit();
+                    e.into_diagnostic(handler).emit();
                     Error::msg("failed to parse module")
                 })
                 .map(Program::Module)?
@@ -251,12 +251,12 @@ impl Compiler {
                 let s = parser.parse_script();
 
                 for e in parser.take_errors() {
-                    e.into_diagnostic(&self.handler).emit();
+                    e.into_diagnostic(handler).emit();
                     error = true;
                 }
 
                 s.map_err(|e| {
-                    e.into_diagnostic(&self.handler).emit();
+                    e.into_diagnostic(handler).emit();
                     Error::msg("failed to parse module")
                 })
                 .map(Program::Script)?
@@ -419,10 +419,9 @@ impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
 
 /// High-level apis.
 impl Compiler {
-    pub fn new(cm: Arc<SourceMap>, handler: Arc<Handler>) -> Self {
+    pub fn new(cm: Arc<SourceMap>) -> Self {
         Compiler {
             cm,
-            handler,
             globals: Globals::new(),
             comments: Default::default(),
         }
@@ -509,6 +508,7 @@ impl Compiler {
     /// This method does **not** parse module.
     pub fn config_for_file<'a>(
         &'a self,
+        handler: &Handler,
         opts: &Options,
         name: &FileName,
     ) -> Result<Option<BuiltConfig<impl 'a + swc_ecma_visit::Fold>>, Error> {
@@ -524,7 +524,7 @@ impl Compiler {
                 name,
                 opts.output_path.as_deref(),
                 opts.source_file_name.clone(),
-                &self.handler,
+                &handler,
                 opts.is_module,
                 Some(config),
                 Some(&self.comments),
@@ -534,24 +534,25 @@ impl Compiler {
         .with_context(|| format!("failed to load config for file '{:?}'", name))
     }
 
-    pub fn run_transform<F, Ret>(&self, external_helpers: bool, op: F) -> Ret
+    pub fn run_transform<F, Ret>(&self, handler: &Handler, external_helpers: bool, op: F) -> Ret
     where
         F: FnOnce() -> Ret,
     {
         self.run(|| {
             helpers::HELPERS.set(&Helpers::new(external_helpers), || {
-                swc_ecma_utils::HANDLER.set(&self.handler, || op())
+                swc_ecma_utils::HANDLER.set(handler, || op())
             })
         })
     }
 
     pub fn transform(
         &self,
+        handler: &Handler,
         program: Program,
         external_helpers: bool,
         mut pass: impl swc_ecma_visit::Fold,
     ) -> Program {
-        self.run_transform(external_helpers, || {
+        self.run_transform(handler, external_helpers, || {
             // Fold module
             program.fold_with(&mut pass)
         })
@@ -561,6 +562,7 @@ impl Compiler {
     pub fn process_js_with_custom_pass<P>(
         &self,
         fm: Arc<SourceFile>,
+        handler: &Handler,
         opts: &Options,
         custom_after_pass: P,
     ) -> Result<TransformOutput, Error>
@@ -568,7 +570,7 @@ impl Compiler {
         P: swc_ecma_visit::Fold,
     {
         self.run(|| -> Result<_, Error> {
-            let config = self.run(|| self.config_for_file(opts, &fm.name))?;
+            let config = self.run(|| self.config_for_file(handler, opts, &fm.name))?;
             let config = match config {
                 Some(v) => v,
                 None => {
@@ -602,13 +604,14 @@ impl Compiler {
 
             let program = self.parse_js(
                 fm.clone(),
+                handler,
                 config.target,
                 config.syntax,
                 config.is_module,
                 true,
             )?;
 
-            self.process_js_inner(program, orig.as_ref(), config)
+            self.process_js_inner(handler, program, orig.as_ref(), config)
         })
         .context("failed to process js file")
     }
@@ -616,14 +619,16 @@ impl Compiler {
     pub fn process_js_file(
         &self,
         fm: Arc<SourceFile>,
+        handler: &Handler,
         opts: &Options,
     ) -> Result<TransformOutput, Error> {
-        self.process_js_with_custom_pass(fm, opts, noop())
+        self.process_js_with_custom_pass(fm, handler, opts, noop())
     }
 
     pub fn minify(
         &self,
         fm: Arc<SourceFile>,
+        handler: &Handler,
         opts: &JsMinifyOptions,
     ) -> Result<TransformOutput, Error> {
         self.run(|| {
@@ -648,6 +653,7 @@ impl Compiler {
             let module = self
                 .parse_js(
                     fm.clone(),
+                    handler,
                     target,
                     Syntax::Es(EsConfig {
                         jsx: true,
@@ -667,7 +673,7 @@ impl Compiler {
 
             let top_level_mark = Mark::fresh(Mark::root());
 
-            let module = self.run_transform(false, || {
+            let module = self.run_transform(handler, false, || {
                 let module = module.fold_with(&mut resolver_with_mark(top_level_mark));
 
                 let module = swc_ecma_minifier::optimize(
@@ -699,7 +705,12 @@ impl Compiler {
     /// You can use custom pass with this method.
     ///
     /// There exists a [PassBuilder] to help building custom passes.
-    pub fn process_js(&self, program: Program, opts: &Options) -> Result<TransformOutput, Error> {
+    pub fn process_js(
+        &self,
+        handler: &Handler,
+        program: Program,
+        opts: &Options,
+    ) -> Result<TransformOutput, Error> {
         self.run(|| -> Result<_, Error> {
             let loc = self.cm.lookup_char_pos(program.span().lo());
             let fm = loc.file;
@@ -716,7 +727,7 @@ impl Compiler {
                 None
             };
 
-            let config = self.run(|| self.config_for_file(opts, &fm.name))?;
+            let config = self.run(|| self.config_for_file(handler, opts, &fm.name))?;
 
             let config = match config {
                 Some(v) => v,
@@ -725,13 +736,14 @@ impl Compiler {
                 }
             };
 
-            self.process_js_inner(program, orig.as_ref(), config)
+            self.process_js_inner(handler, program, orig.as_ref(), config)
         })
         .context("failed to process js module")
     }
 
     fn process_js_inner(
         &self,
+        handler: &Handler,
         program: Program,
         orig: Option<&sourcemap::SourceMap>,
         config: BuiltConfig<impl swc_ecma_visit::Fold>,
@@ -747,7 +759,7 @@ impl Compiler {
             }
             let mut pass = config.pass;
             let program = helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
-                swc_ecma_utils::HANDLER.set(&self.handler, || {
+                swc_ecma_utils::HANDLER.set(handler, || {
                     // Fold module
                     program.fold_with(&mut pass)
                 })
