@@ -348,6 +348,7 @@ macro_rules! test {
     };
 }
 
+/// Execute `jest` after transpiling `input` using `tr`.
 pub fn exec_tr<F, P>(test_name: &'static str, syntax: Syntax, tr: F, input: &str)
 where
     F: FnOnce(&mut Tester<'_>) -> P,
