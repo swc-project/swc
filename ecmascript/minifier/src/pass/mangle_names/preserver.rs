@@ -2,13 +2,8 @@ use crate::option::MangleOptions;
 use fxhash::FxHashSet;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_utils::find_ids;
-use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_utils::Id;
-use swc_ecma_visit::noop_visit_type;
-use swc_ecma_visit::Node;
-use swc_ecma_visit::Visit;
-use swc_ecma_visit::VisitWith;
+use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
+use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 
 pub(super) fn idents_to_preserve<N>(options: MangleOptions, n: &N) -> FxHashSet<Id>
 where

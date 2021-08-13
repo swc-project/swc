@@ -2,15 +2,10 @@ use serde::Deserialize;
 use swc_atoms::js_word;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::alias_if_required;
-use swc_ecma_utils::member_expr;
-use swc_ecma_utils::prepend;
-use swc_ecma_utils::private_ident;
-use swc_ecma_utils::quote_ident;
-use swc_ecma_utils::ExprFactory;
-use swc_ecma_utils::StmtLike;
-use swc_ecma_visit::noop_visit_type;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_utils::{
+    alias_if_required, member_expr, prepend, private_ident, quote_ident, ExprFactory, StmtLike,
+};
+use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 /// `@babel/plugin-transform-for-of`
 ///

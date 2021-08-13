@@ -1,6 +1,5 @@
 use super::*;
-use crate::tests::HygieneVisualizer;
-use crate::tests::Tester;
+use crate::tests::{HygieneVisualizer, Tester};
 use std::collections::HashMap;
 use swc_common::{hygiene::*, DUMMY_SP};
 use swc_ecma_parser::Syntax;

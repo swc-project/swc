@@ -1,10 +1,6 @@
 use swc_common::chain;
-use swc_ecma_transforms_compat::es2015::block_scoping;
-use swc_ecma_transforms_compat::es2015::parameters;
-use swc_ecma_transforms_compat::es2015::spread;
-use swc_ecma_transforms_compat::es2015::spread::Config;
-use swc_ecma_transforms_testing::test;
-use swc_ecma_transforms_testing::test_exec;
+use swc_ecma_transforms_compat::es2015::{block_scoping, parameters, spread, spread::Config};
+use swc_ecma_transforms_testing::{test, test_exec};
 use swc_ecma_visit::Fold;
 
 fn syntax() -> ::swc_ecma_parser::Syntax {

@@ -1,5 +1,7 @@
-use std::collections::{HashMap, HashSet};
-use std::mem;
+use std::{
+    collections::{HashMap, HashSet},
+    mem,
+};
 
 use base64;
 use indexmap::IndexSet;
@@ -8,9 +10,10 @@ use regex::Regex;
 use sha1::{Digest, Sha1};
 
 use swc_atoms::JsWord;
-use swc_common::BytePos;
 use swc_common::{
-    comments::Comments, comments::CommentsExt, sync::Lrc, SourceMap, Span, Spanned, DUMMY_SP,
+    comments::{Comments, CommentsExt},
+    sync::Lrc,
+    BytePos, SourceMap, Span, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;

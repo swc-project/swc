@@ -1,5 +1,4 @@
-use crate::swcify::Context;
-use crate::swcify::Swcify;
+use crate::swcify::{Context, Swcify};
 use swc_ecma_ast::Ident;
 
 impl Swcify for swc_babel_ast::JSXNamespacedName {

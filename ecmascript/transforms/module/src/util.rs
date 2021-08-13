@@ -13,12 +13,10 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{FileName, Mark, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_utils::member_expr;
-use swc_ecma_utils::private_ident;
-use swc_ecma_utils::quote_ident;
-use swc_ecma_utils::quote_str;
-use swc_ecma_utils::{undefined, DestructuringFinder, ExprFactory};
+use swc_ecma_utils::{
+    ident::IdentLike, member_expr, private_ident, quote_ident, quote_str, undefined,
+    DestructuringFinder, ExprFactory,
+};
 use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 
 pub(super) trait ModulePass: Fold {

@@ -1,46 +1,39 @@
 extern crate swc_node_base;
 
 use ansi_term::Color;
-use anyhow::bail;
-use anyhow::Context;
-use anyhow::Error;
+use anyhow::{bail, Context, Error};
 use once_cell::sync::Lazy;
 use serde::Deserialize;
-use std::env;
-use std::fmt::Debug;
-use std::fs::read_to_string;
-use std::panic::catch_unwind;
-use std::path::Path;
-use std::path::PathBuf;
-use std::process::Command;
-use std::time::Instant;
-use swc_common::comments::SingleThreadedComments;
-use swc_common::errors::Handler;
-use swc_common::sync::Lrc;
-use swc_common::EqIgnoreSpan;
-use swc_common::FileName;
-use swc_common::Mark;
-use swc_common::SourceMap;
+use std::{
+    env,
+    fmt::Debug,
+    fs::read_to_string,
+    panic::catch_unwind,
+    path::{Path, PathBuf},
+    process::Command,
+    time::Instant,
+};
+use swc_common::{
+    comments::SingleThreadedComments, errors::Handler, sync::Lrc, EqIgnoreSpan, FileName, Mark,
+    SourceMap,
+};
 use swc_ecma_ast::*;
-use swc_ecma_codegen::text_writer::JsWriter;
-use swc_ecma_codegen::Emitter;
-use swc_ecma_minifier::optimize;
-use swc_ecma_minifier::option::terser::TerserCompressorOptions;
-use swc_ecma_minifier::option::CompressOptions;
-use swc_ecma_minifier::option::ExtraOptions;
-use swc_ecma_minifier::option::MangleOptions;
-use swc_ecma_minifier::option::MinifyOptions;
-use swc_ecma_parser::lexer::input::SourceFileInput;
-use swc_ecma_parser::lexer::Lexer;
-use swc_ecma_parser::Parser;
-use swc_ecma_transforms::fixer;
-use swc_ecma_transforms::hygiene;
-use swc_ecma_transforms::resolver_with_mark;
+use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
+use swc_ecma_minifier::{
+    optimize,
+    option::{
+        terser::TerserCompressorOptions, CompressOptions, ExtraOptions, MangleOptions,
+        MinifyOptions,
+    },
+};
+use swc_ecma_parser::{
+    lexer::{input::SourceFileInput, Lexer},
+    Parser,
+};
+use swc_ecma_transforms::{fixer, hygiene, resolver_with_mark};
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::FoldWith;
-use testing::assert_eq;
-use testing::DebugUsingDisplay;
-use testing::NormalizedOutput;
+use testing::{assert_eq, DebugUsingDisplay, NormalizedOutput};
 
 fn load_txt(filename: &str) -> Vec<String> {
     let lines = read_to_string(filename).unwrap();

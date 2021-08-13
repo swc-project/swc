@@ -1,8 +1,12 @@
-use crate::ident::BindingIdent;
-use crate::{expr::Expr, ident::Ident, prop::PropName, typescript::TsTypeAnn, Invalid};
+use crate::{
+    expr::Expr,
+    ident::{BindingIdent, Ident},
+    prop::PropName,
+    typescript::TsTypeAnn,
+    Invalid,
+};
 use is_macro::Is;
-use swc_common::EqIgnoreSpan;
-use swc_common::{ast_node, Span};
+use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 impl From<Ident> for Pat {
     fn from(i: Ident) -> Self {

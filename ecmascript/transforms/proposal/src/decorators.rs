@@ -1,18 +1,13 @@
 use either::Either;
 use serde::Deserialize;
-use std::iter;
-use std::mem::take;
+use std::{iter, mem::take};
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
-use swc_ecma_utils::prepend;
-use swc_ecma_utils::private_ident;
-use swc_ecma_utils::quote_ident;
-use swc_ecma_utils::quote_str;
 use swc_ecma_utils::{
-    alias_ident_for, constructor::inject_after_super, prop_name_to_expr_value, undefined,
-    ExprFactory, IdentExt,
+    alias_ident_for, constructor::inject_after_super, prepend, private_ident,
+    prop_name_to_expr_value, quote_ident, quote_str, undefined, ExprFactory, IdentExt,
 };
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 

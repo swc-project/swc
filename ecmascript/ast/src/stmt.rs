@@ -5,8 +5,7 @@ use crate::{
     pat::Pat,
 };
 use is_macro::Is;
-use swc_common::EqIgnoreSpan;
-use swc_common::{ast_node, Span};
+use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 /// Use when only block statements are allowed.
 #[ast_node("BlockStatement")]

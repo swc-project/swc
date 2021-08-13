@@ -6,22 +6,18 @@ use crate::path::{ImportResolver, NoopImportResolver};
 use anyhow::Context;
 use fxhash::FxHashSet;
 use serde::{Deserialize, Serialize};
-use std::cell::Ref;
-use std::cell::RefCell;
-use std::cell::RefMut;
-use std::iter;
+use std::{
+    cell::{Ref, RefCell, RefMut},
+    iter,
+};
 use swc_atoms::js_word;
-use swc_common::FileName;
-use swc_common::{Mark, Span, DUMMY_SP};
+use swc_common::{FileName, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::prepend_stmts;
-use swc_ecma_utils::private_ident;
-use swc_ecma_utils::quote_ident;
-use swc_ecma_utils::quote_str;
-use swc_ecma_utils::var::VarCollector;
-use swc_ecma_utils::DestructuringFinder;
-use swc_ecma_utils::ExprFactory;
+use swc_ecma_utils::{
+    prepend_stmts, private_ident, quote_ident, quote_str, var::VarCollector, DestructuringFinder,
+    ExprFactory,
+};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
 
 pub fn amd(config: Config) -> impl Fold {

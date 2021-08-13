@@ -1,16 +1,19 @@
 use anyhow::{bail, Context, Error};
 use reqwest::Url;
 use sha1::{Digest, Sha1};
-use std::env::current_dir;
-use std::io::Write;
 use std::{
+    env::current_dir,
     fs::{create_dir_all, read_to_string, write},
+    io::Write,
     path::{Path, PathBuf},
 };
 use swc_bundler::{Load, ModuleData, Resolve};
-use swc_common::errors::ColorConfig;
-use swc_common::errors::Handler;
-use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, SourceMap};
+use swc_common::{
+    comments::SingleThreadedComments,
+    errors::{ColorConfig, Handler},
+    sync::Lrc,
+    FileName, SourceMap,
+};
 use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::{react, typescript::strip};
 use swc_ecma_visit::FoldWith;

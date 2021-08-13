@@ -22,13 +22,13 @@ use std::{
     path::{Path, PathBuf},
     sync::{Arc, Mutex},
 };
-use swc_common::sync::Lrc;
 use swc_common::{
     chain,
     comments::{Comment, CommentKind, Comments},
     errors::Handler,
     input::StringInput,
     source_map::SourceMapGenConfig,
+    sync::Lrc,
     BytePos, FileName, Globals, Mark, SourceFile, SourceMap, Spanned, DUMMY_SP, GLOBALS,
 };
 use swc_ecma_ast::Program;

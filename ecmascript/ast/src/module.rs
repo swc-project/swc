@@ -1,8 +1,7 @@
 use crate::{module_decl::ModuleDecl, stmt::Stmt};
 use is_macro::Is;
 use swc_atoms::JsWord;
-use swc_common::EqIgnoreSpan;
-use swc_common::{ast_node, Span};
+use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]

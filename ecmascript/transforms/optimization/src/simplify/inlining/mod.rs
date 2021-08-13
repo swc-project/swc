@@ -5,14 +5,14 @@ use swc_common::{
     DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_transforms_base::ext::PatOrExprExt;
-use swc_ecma_transforms_base::pass::RepeatedJsPass;
-use swc_ecma_transforms_base::scope::IdentType;
+use swc_ecma_transforms_base::{
+    ext::{MapWithMut, PatOrExprExt},
+    pass::RepeatedJsPass,
+    scope::IdentType,
+};
 use swc_ecma_utils::{contains_this_expr, find_ids, ident::IdentLike, undefined, Id};
-use swc_ecma_visit::noop_visit_type;
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, Node, Visit, VisitMut, VisitMutWith, VisitWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, Node, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
 mod scope;

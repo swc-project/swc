@@ -3,14 +3,12 @@ use crate::display_name;
 use std::path::PathBuf;
 use swc_common::{chain, Mark};
 use swc_ecma_parser::EsConfig;
-use swc_ecma_transforms_compat::es2015::arrow;
-use swc_ecma_transforms_compat::es2015::classes;
-use swc_ecma_transforms_compat::es3::property_literals;
+use swc_ecma_transforms_compat::{
+    es2015::{arrow, classes},
+    es3::property_literals,
+};
 use swc_ecma_transforms_module::common_js::common_js;
-use swc_ecma_transforms_testing::parse_options;
-use swc_ecma_transforms_testing::test;
-use swc_ecma_transforms_testing::test_fixture;
-use swc_ecma_transforms_testing::Tester;
+use swc_ecma_transforms_testing::{parse_options, test, test_fixture, Tester};
 
 fn tr(t: &mut Tester, options: Options) -> impl Fold {
     chain!(

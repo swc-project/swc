@@ -1,6 +1,5 @@
 use super::UsageAnalyzer;
-use std::ops::Deref;
-use std::ops::DerefMut;
+use std::ops::{Deref, DerefMut};
 use swc_ecma_ast::VarDeclKind;
 
 impl UsageAnalyzer {

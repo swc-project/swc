@@ -14,10 +14,9 @@ pub use self::{
     diagnostic_builder::DiagnosticBuilder,
     emitter::{ColorConfig, Emitter, EmitterWriter},
 };
-use crate::sync::Lrc;
 use crate::{
     rustc_data_structures::stable_hasher::StableHasher,
-    sync::{Lock, LockCell},
+    sync::{Lock, LockCell, Lrc},
     syntax_pos::{BytePos, FileLinesResult, FileName, Loc, MultiSpan, Span, NO_EXPANSION},
 };
 use std::{

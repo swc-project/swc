@@ -1,9 +1,10 @@
-use crate::dep_graph::ModuleGraph;
-use crate::{bundler::load::TransformedModule, BundleKind, Bundler, Load, ModuleId, Resolve};
+use crate::{
+    bundler::load::TransformedModule, dep_graph::ModuleGraph, BundleKind, Bundler, Load, ModuleId,
+    Resolve,
+};
 use ahash::AHashMap;
 use anyhow::{bail, Error};
-use fxhash::FxHashMap;
-use fxhash::FxHashSet;
+use fxhash::{FxHashMap, FxHashSet};
 
 #[cfg(test)]
 mod tests;

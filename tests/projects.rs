@@ -10,10 +10,8 @@ use swc::{
     Compiler, TransformOutput,
 };
 use swc_common::{chain, comments::Comment, BytePos, FileName};
-use swc_ecma_ast::EsVersion;
-use swc_ecma_ast::*;
-use swc_ecma_parser::TsConfig;
-use swc_ecma_parser::{EsConfig, Syntax};
+use swc_ecma_ast::{EsVersion, *};
+use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms::helpers::{self, Helpers};
 use swc_ecma_utils::HANDLER;
 use swc_ecma_visit::{Fold, FoldWith};

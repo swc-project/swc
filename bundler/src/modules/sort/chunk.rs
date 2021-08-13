@@ -1,17 +1,10 @@
 use super::stmt::sort_stmts;
-use crate::dep_graph::ModuleGraph;
-use crate::modules::Modules;
-use crate::ModuleId;
+use crate::{dep_graph::ModuleGraph, modules::Modules, ModuleId};
 use fxhash::FxHashSet;
 use indexmap::IndexSet;
 use petgraph::EdgeDirection::Outgoing;
-use std::collections::VecDeque;
-use std::iter::from_fn;
-use std::mem::take;
-use std::time::Instant;
-use swc_common::sync::Lrc;
-use swc_common::SourceMap;
-use swc_common::SyntaxContext;
+use std::{collections::VecDeque, iter::from_fn, mem::take, time::Instant};
+use swc_common::{sync::Lrc, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::prepend_stmts;
 

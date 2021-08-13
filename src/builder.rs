@@ -1,23 +1,20 @@
-use crate::config::{CompiledPaths, GlobalPassOption, JsMinifyOptions, JscTarget, ModuleConfig};
-use crate::SwcComments;
+use crate::{
+    config::{CompiledPaths, GlobalPassOption, JsMinifyOptions, JscTarget, ModuleConfig},
+    SwcComments,
+};
 use compat::es2020::export_namespace_from;
 use either::Either;
-use std::cell::RefCell;
-use std::rc::Rc;
-use std::{collections::HashMap, sync::Arc};
+use std::{cell::RefCell, collections::HashMap, rc::Rc, sync::Arc};
 use swc_atoms::JsWord;
-use swc_common::comments::Comments;
-use swc_common::sync::Lrc;
-use swc_common::FileName;
-use swc_common::{chain, errors::Handler, Mark, SourceMap};
+use swc_common::{
+    chain, comments::Comments, errors::Handler, sync::Lrc, FileName, Mark, SourceMap,
+};
 use swc_ecma_ast::Module;
 use swc_ecma_minifier::option::MinifyOptions;
 use swc_ecma_parser::Syntax;
-use swc_ecma_transforms::hygiene::hygiene_with_config;
-use swc_ecma_transforms::modules::util::Scope;
 use swc_ecma_transforms::{
-    compat, fixer, helpers, hygiene, modules, optimization::const_modules, pass::Optional,
-    proposals::import_assertions, typescript,
+    compat, fixer, helpers, hygiene, hygiene::hygiene_with_config, modules, modules::util::Scope,
+    optimization::const_modules, pass::Optional, proposals::import_assertions, typescript,
 };
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut};

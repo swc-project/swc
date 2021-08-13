@@ -1,8 +1,6 @@
 #![deny(unused)]
 
-pub use self::amd::amd;
-pub use self::common_js::common_js;
-pub use self::umd::umd;
+pub use self::{amd::amd, common_js::common_js, umd::umd};
 
 #[macro_use]
 pub mod util;

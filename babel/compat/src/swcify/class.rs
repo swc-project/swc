@@ -1,15 +1,9 @@
 use super::Context;
 use crate::swcify::Swcify;
-use swc_babel_ast::ClassBody;
-use swc_babel_ast::ClassBodyEl;
-use swc_babel_ast::ClassImpl;
-use swc_babel_ast::ClassMethodKind;
-use swc_babel_ast::TSExpressionWithTypeArguments;
-use swc_ecma_ast::ClassMember;
-use swc_ecma_ast::Function;
-use swc_ecma_ast::MethodKind;
-use swc_ecma_ast::ParamOrTsParamProp;
-use swc_ecma_ast::TsExprWithTypeArgs;
+use swc_babel_ast::{
+    ClassBody, ClassBodyEl, ClassImpl, ClassMethodKind, TSExpressionWithTypeArguments,
+};
+use swc_ecma_ast::{ClassMember, Function, MethodKind, ParamOrTsParamProp, TsExprWithTypeArgs};
 use swc_ecma_utils::prop_name_to_expr;
 
 impl Swcify for ClassBody {

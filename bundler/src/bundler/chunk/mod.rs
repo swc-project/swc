@@ -5,8 +5,7 @@ use crate::{
 };
 use ahash::AHashMap;
 use anyhow::{Context, Error};
-use fxhash::FxHashMap;
-use fxhash::FxHashSet;
+use fxhash::{FxHashMap, FxHashSet};
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
 use std::time::Instant;

@@ -15,8 +15,7 @@ use swc::{
     resolver::{environment_resolver, paths_resolver},
     Compiler, TransformOutput,
 };
-use swc_atoms::js_word;
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
 use swc_bundler::{BundleKind, Bundler, Load, ModuleRecord, Resolve};
 use swc_common::Span;
 use swc_ecma_ast::{

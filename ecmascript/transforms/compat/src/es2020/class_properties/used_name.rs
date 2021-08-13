@@ -1,7 +1,6 @@
 use swc_atoms::JsWord;
 use swc_ecma_ast::*;
-use swc_ecma_visit::noop_visit_type;
-use swc_ecma_visit::{Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 
 pub(super) struct UsedNameCollector<'a> {
     pub used_names: &'a mut Vec<JsWord>,

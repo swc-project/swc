@@ -7,23 +7,16 @@ use self::{
 };
 use fxhash::FxBuildHasher;
 use std::iter;
-use swc_common::comments::Comments;
-use swc_common::{Mark, Spanned, DUMMY_SP};
+use swc_common::{comments::Comments, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::helper;
-use swc_ecma_transforms_base::native::is_native;
-use swc_ecma_transforms_base::perf::Check;
+use swc_ecma_transforms_base::{helper, native::is_native, perf::Check};
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_transforms_macros::fast_path;
-use swc_ecma_utils::quote_expr;
-use swc_ecma_utils::quote_str;
 use swc_ecma_utils::{
-    alias_if_required, default_constructor, prepend, prop_name_to_expr, ExprFactory, IsDirective,
-    ModuleItemLike, StmtLike,
+    alias_if_required, default_constructor, prepend, private_ident, prop_name_to_expr, quote_expr,
+    quote_ident, quote_str, ExprFactory, IsDirective, ModuleItemLike, StmtLike,
 };
-use swc_ecma_utils::{private_ident, quote_ident};
-use swc_ecma_visit::noop_visit_type;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 mod constructor;
 mod prop_name;

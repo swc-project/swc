@@ -1,10 +1,8 @@
-use crate::compress::optimize::unused::UnreachableHandler;
-use crate::compress::optimize::Optimizer;
+use crate::compress::optimize::{unused::UnreachableHandler, Optimizer};
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_utils::ExprExt;
-use swc_ecma_utils::Value::Known;
+use swc_ecma_utils::{ExprExt, Value::Known};
 
 /// Methods related to the option `loops`.
 impl Optimizer<'_> {

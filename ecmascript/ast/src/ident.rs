@@ -1,11 +1,7 @@
 use crate::typescript::TsTypeAnn;
-use serde::Deserialize;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
-use swc_common::ast_node;
-use swc_common::EqIgnoreSpan;
-use swc_common::Span;
-use swc_common::Spanned;
+use swc_common::{ast_node, EqIgnoreSpan, Span, Spanned};
 
 /// Identifer used as a pattern.
 #[derive(Spanned, Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan, Serialize, Deserialize)]

@@ -1,21 +1,19 @@
 #![allow(unused)]
 
-use anyhow::Context;
-use anyhow::Error;
-use std::env::temp_dir;
-use std::fs;
-use std::fs::create_dir_all;
-use std::path::PathBuf;
-use std::process::Command;
-use std::process::Output;
-use std::{fs::canonicalize, sync::Arc};
+use anyhow::{Context, Error};
+use std::{
+    env::temp_dir,
+    fs,
+    fs::{canonicalize, create_dir_all},
+    path::PathBuf,
+    process::{Command, Output},
+    sync::Arc,
+};
 use swc::{
     config::{Options, SourceMapsConfig},
     Compiler,
 };
-use testing::assert_eq;
-use testing::NormalizedOutput;
-use testing::{StdErr, Tester};
+use testing::{assert_eq, NormalizedOutput, StdErr, Tester};
 use walkdir::WalkDir;
 
 fn file(f: &str) -> Result<(), StdErr> {

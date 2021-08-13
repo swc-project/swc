@@ -3,12 +3,9 @@ use swc_atoms::js_word;
 use swc_common::{BytePos, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::is_literal;
-use swc_ecma_utils::prepend_stmts;
-use swc_ecma_utils::private_ident;
-use swc_ecma_utils::quote_ident;
-use swc_ecma_utils::ExprFactory;
-use swc_ecma_utils::StmtLike;
+use swc_ecma_utils::{
+    is_literal, prepend_stmts, private_ident, quote_ident, ExprFactory, StmtLike,
+};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 pub fn template_literal() -> impl Fold {

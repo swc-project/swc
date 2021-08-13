@@ -8,8 +8,7 @@ use crate::{
 };
 use is_macro::Is;
 use string_enum::StringEnum;
-use swc_common::EqIgnoreSpan;
-use swc_common::{ast_node, Span};
+use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]

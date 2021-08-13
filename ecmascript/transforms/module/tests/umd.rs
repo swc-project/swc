@@ -1,17 +1,12 @@
-use swc_common::chain;
-use swc_common::Mark;
-use swc_ecma_parser::EsConfig;
-use swc_ecma_parser::Syntax;
-use swc_ecma_transforms_base::resolver::resolver;
-use swc_ecma_transforms_base::resolver::resolver_with_mark;
-use swc_ecma_transforms_compat::es2015::arrow;
-use swc_ecma_transforms_compat::es2015::function_name;
-use swc_ecma_transforms_compat::es2015::shorthand;
-use swc_ecma_transforms_module::umd::umd;
-use swc_ecma_transforms_module::umd::Config;
-use swc_ecma_transforms_module::util;
-use swc_ecma_transforms_testing::test;
-use swc_ecma_transforms_testing::Tester;
+use swc_common::{chain, Mark};
+use swc_ecma_parser::{EsConfig, Syntax};
+use swc_ecma_transforms_base::resolver::{resolver, resolver_with_mark};
+use swc_ecma_transforms_compat::es2015::{arrow, function_name, shorthand};
+use swc_ecma_transforms_module::{
+    umd::{umd, Config},
+    util,
+};
+use swc_ecma_transforms_testing::{test, Tester};
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
