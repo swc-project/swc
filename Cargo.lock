@@ -2488,7 +2488,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.29.2"
+version = "0.29.3"
 dependencies = [
  "arrayvec",
  "fxhash",
@@ -2622,7 +2622,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.26.1"
+version = "0.26.2"
 dependencies = [
  "ansi_term 0.12.1",
  "anyhow",
