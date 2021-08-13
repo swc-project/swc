@@ -1042,7 +1042,7 @@ fn handle_await_for(stmt: Stmt) -> Stmt {
     let iterator_error = private_ident!("_iteratorError");
     let step = private_ident!("_step");
     let did_iteration_error = private_ident!("_didIteratorError");
-    let iterator_normal_completion = private_ident!("_iteratorNormalCompletion");
+    let iterator_abrupt_completion = private_ident!("_iteratorAbruptCompletion");
     let err_param = private_ident!("err");
 
     let try_body = {
@@ -1053,6 +1053,21 @@ fn handle_await_for(stmt: Stmt) -> Stmt {
         };
 
         let mut for_loop_body = vec![];
+        {
+            // let value = _step.value;
+            let value_var = VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(value.clone().into()),
+                init: Some(Box::new(step.clone().make_member(quote_ident!("value")))),
+                definite: false,
+            };
+            for_loop_body.push(Stmt::Decl(Decl::Var(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Let,
+                declare: false,
+                decls: vec![value_var],
+            })));
+        }
 
         match s.left {
             VarDeclOrPat::VarDecl(v) => {
@@ -1113,29 +1128,19 @@ fn handle_await_for(stmt: Stmt) -> Stmt {
             init: None,
             definite: false,
         });
-        init_var_decls.push(VarDeclarator {
-            span: DUMMY_SP,
-            name: Pat::Ident(value.clone().into()),
-            init: None,
-            definite: false,
-        });
 
         let for_stmt = Stmt::For(ForStmt {
             span: s.span,
-            // var _iterator = _asyncIterator(lol()), _step, _value;
+            // var _iterator = _asyncIterator(lol()), _step;
             init: Some(VarDeclOrExpr::VarDecl(VarDecl {
                 span: DUMMY_SP,
                 kind: VarDeclKind::Var,
                 declare: false,
                 decls: init_var_decls,
             })),
-            // _step = yield _iterator.next(), _iteratorNormalCompletion = _step.done, _value =
-            // yield _step.value, !_iteratorNormalCompletion
+            // _iteratorAbruptCompletion = !(_step = yield _iterator.next()).done
             test: {
-                let mut exprs = vec![];
-
-                // _step = yield _iterator.next()
-                exprs.push(Box::new(Expr::Assign(AssignExpr {
+                let assign_to_step = Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
                     left: PatOrExpr::Pat(Box::new(Pat::Ident(step.clone().into()))),
@@ -1147,45 +1152,28 @@ fn handle_await_for(stmt: Stmt) -> Stmt {
                                 .clone()
                                 .make_member(quote_ident!("next"))
                                 .as_callee(),
-                            args: vec![],
+                            args: Default::default(),
                             type_args: Default::default(),
                         }))),
                         delegate: false,
                     })),
-                })));
+                });
 
-                // _iteratorNormalCompletion = _step.done
-                exprs.push(Box::new(Expr::Assign(AssignExpr {
-                    span: DUMMY_SP,
-                    op: op!("="),
-                    left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                        iterator_normal_completion.clone().into(),
-                    ))),
-                    right: Box::new(step.clone().make_member(quote_ident!("done"))),
-                })));
-
-                // _value = yield _step.value
-                exprs.push(Box::new(Expr::Assign(AssignExpr {
-                    span: DUMMY_SP,
-                    op: op!("="),
-                    left: PatOrExpr::Pat(Box::new(Pat::Ident(value.clone().into()))),
-                    right: Box::new(Expr::Yield(YieldExpr {
-                        span: DUMMY_SP,
-                        arg: Some(Box::new(step.clone().make_member(quote_ident!("value")))),
-                        delegate: false,
-                    })),
-                })));
-
-                // !_iteratorNormalCompletion
-                exprs.push(Box::new(Expr::Unary(UnaryExpr {
+                let right = Box::new(Expr::Unary(UnaryExpr {
                     span: DUMMY_SP,
                     op: op!("!"),
-                    arg: Box::new(Expr::Ident(iterator_normal_completion.clone())),
-                })));
+                    arg: Box::new(assign_to_step.make_member(quote_ident!("done"))),
+                }));
 
-                Some(Box::new(Expr::Seq(SeqExpr {
+                let left = PatOrExpr::Pat(Box::new(Pat::Ident(
+                    iterator_abrupt_completion.clone().into(),
+                )));
+
+                Some(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
-                    exprs,
+                    op: op!("="),
+                    left,
+                    right,
                 })))
             },
             // _iteratorNormalCompletion = true
@@ -1193,11 +1181,11 @@ fn handle_await_for(stmt: Stmt) -> Stmt {
                 span: DUMMY_SP,
                 op: op!("="),
                 left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                    iterator_normal_completion.clone().into(),
+                    iterator_abrupt_completion.clone().into(),
                 ))),
                 right: Box::new(Expr::Lit(Lit::Bool(Bool {
                     span: DUMMY_SP,
-                    value: true,
+                    value: false,
                 }))),
             }))),
             body: Box::new(Stmt::Block(for_loop_body)),
@@ -1279,16 +1267,12 @@ fn handle_await_for(stmt: Stmt) -> Stmt {
 
         let conditional_yield = Stmt::If(IfStmt {
             span: DUMMY_SP,
-            // !_iteratorNormalCompletion && _iterator.return != null
+            // _iteratorAbruptCompletion && _iterator.return != null
             test: Box::new(Expr::Bin(BinExpr {
                 span: DUMMY_SP,
                 op: op!("&&"),
-                // !_iteratorNormalCompletion
-                left: Box::new(Expr::Unary(UnaryExpr {
-                    span: DUMMY_SP,
-                    op: op!("!"),
-                    arg: Box::new(Expr::Ident(iterator_normal_completion.clone())),
-                })),
+                // _iteratorAbruptCompletion
+                left: Box::new(Expr::Ident(iterator_abrupt_completion.clone())),
                 // _iterator.return != null
                 right: Box::new(Expr::Bin(BinExpr {
                     span: DUMMY_SP,
@@ -1339,13 +1323,13 @@ fn handle_await_for(stmt: Stmt) -> Stmt {
         decls: {
             let mut decls = vec![];
 
-            // var _iteratorNormalCompletion = true;
+            // var _iteratorAbruptCompletion = false;
             decls.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(iterator_normal_completion.into()),
+                name: Pat::Ident(iterator_abrupt_completion.into()),
                 init: Some(Box::new(Expr::Lit(Lit::Bool(Bool {
                     span: DUMMY_SP,
-                    value: true,
+                    value: false,
                 })))),
                 definite: false,
             });

@@ -466,10 +466,14 @@ impl CaseHandler<'_> {
                     }
                 };
 
-                new_args.extend(args.into_iter().map(|arg| ExprOrSpread {
-                    expr: arg.expr.map(|e| self.explode_expr(e, false)),
-                    ..arg
-                }));
+                if has_leaping_args {
+                    new_args.extend(args.into_iter().map(|arg| ExprOrSpread {
+                        expr: arg.expr.map(|e| self.explode_expr(e, false)),
+                        ..arg
+                    }));
+                } else {
+                    new_args = args;
+                }
 
                 finish!(Expr::Call(CallExpr {
                     span,

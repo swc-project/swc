@@ -2460,13 +2460,13 @@ test!(
     ",
     "
     function _main() {
-        _main = _asyncToGenerator(function*() {
-            {
-                var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError;
-                try {
-                    for(var _iterator = _asyncIterator(lol()), _step, _value; _step = yield \
-     _iterator.next(), _iteratorNormalCompletion = _step.done, _value = yield _step.value, \
-     !_iteratorNormalCompletion; _iteratorNormalCompletion = true){
+      _main = _asyncToGenerator(function*() {
+          {
+              var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
+              try {
+                  for(var _iterator = _asyncIterator(lol()), _step; _iteratorAbruptCompletion = \
+     !(_step = yield _iterator.next()).done; _iteratorAbruptCompletion = false){
+                        let _value = _step.value;
                         const x = _value;
                         console.log(x);
                     }
@@ -2475,7 +2475,7 @@ test!(
                     _iteratorError = err;
                 } finally{
                     try {
-                        if (!_iteratorNormalCompletion && _iterator.return != null) {
+                        if (_iteratorAbruptCompletion && _iterator.return != null) {
                             yield _iteratorError.return();
                         }
                     } finally{
@@ -2639,5 +2639,45 @@ test_exec!(
     }
     
     printValues()
+    "
+);
+
+test_exec!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    issue_1918_1,
+    "
+    let counter = 0;
+    let resolve;
+    let promise = new Promise((r) => (resolve = r));
+    let iterable = {
+		[Symbol.asyncIterator]() {
+			return {
+				next() {
+					return promise;
+				},
+			};
+		},
+    };
+
+    const res = (async () => {
+		for await (let value of iterable) {
+			counter++;
+			console.log(value);
+		}
+
+		expect(counter).toBe(2);
+	})();
+
+
+	for (let v of [0, 1]) {
+		await null;
+		let oldresolve = resolve;
+		promise = new Promise((r) => (resolve = r));
+		oldresolve({ value: v, done: false });
+	}
+	resolve({ value: undefined, done: true });
+
+	await res;
     "
 );

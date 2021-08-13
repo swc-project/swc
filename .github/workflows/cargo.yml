@@ -189,6 +189,7 @@ jobs:
           # This does not have any effect on windows.
           npm config set prefix $HOME/npm
           yarn
+          (cd ecmascript/transforms && yarn)
           npm i -g jest
           echo $HOME
           echo $HOME/npm/bin >> $GITHUB_PATH
