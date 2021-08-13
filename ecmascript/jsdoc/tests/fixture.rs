@@ -1,4 +1,5 @@
 #![feature(test)]
+#![feature(bench_black_box)]
 
 extern crate test;
 
@@ -27,6 +28,8 @@ fn add_test<F: FnOnce() + Send + 'static>(
             ignore,
             should_panic: No,
             allow_fail: false,
+            compile_fail: false,
+            no_run: false,
         },
         testfn: DynTestFn(Box::new(f)),
     });
