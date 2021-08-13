@@ -40,6 +40,7 @@ common
 CONTRIBUTING.md
 ecmascript
 macros
+node
 node-swc
 scripts
 spack
