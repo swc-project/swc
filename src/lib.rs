@@ -82,6 +82,10 @@ pub mod resolver {
 type SwcImportResolver =
     Arc<NodeImportResolver<CachingResolver<TsConfigResolver<NodeModulesResolver>>>>;
 
+/// All methods accept [Handler], which is a storage for errors.
+///
+/// The caller should check if the handler contains any errors after calling
+/// method.
 pub struct Compiler {
     /// swc uses rustc's span interning.
     ///
