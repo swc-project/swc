@@ -14,7 +14,6 @@ pub use self::{
     diagnostic_builder::DiagnosticBuilder,
     emitter::{ColorConfig, Emitter, EmitterWriter},
 };
-#[cfg(feature = "tty-emitter")]
 use crate::sync::Lrc;
 use crate::{
     rustc_data_structures::stable_hasher::StableHasher,
