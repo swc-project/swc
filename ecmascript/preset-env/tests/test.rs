@@ -17,9 +17,7 @@ use swc_ecma_parser::{EsConfig, Parser, Syntax};
 use swc_ecma_preset_env::{preset_env, Config, FeatureOrModule, Mode, Targets, Version};
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::{as_folder, FoldWith, VisitMut};
-use test::{test_main, ShouldPanic, TestDesc, TestDescAndFn, TestFn, TestName, TestType};
 use testing::{NormalizedOutput, Tester};
-use walkdir::WalkDir;
 
 /// options.json file
 #[derive(Debug, Deserialize)]
@@ -111,59 +109,6 @@ enum Error {
     WalkDir(walkdir::Error),
     Json(serde_json::Error),
     Msg(String),
-}
-
-fn load() -> Result<Vec<TestDescAndFn>, Error> {
-    let mut tests = vec![];
-    let mut dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR")?);
-    dir.push("tests");
-    dir.push("fixtures");
-
-    for entry in WalkDir::new(&dir) {
-        let e = entry?;
-        println!("File: {}", e.path().display());
-
-        if e.metadata()?.is_file() {
-            continue;
-        }
-
-        match e.path().join("input.mjs").metadata() {
-            Ok(e) if e.is_file() => {}
-            _ => continue,
-        }
-
-        let cfg: BabelOptions = serde_json::from_reader(File::open(e.path().join("options.json"))?)
-            .map_err(|err| Error::Msg(format!("failed to parse options.json: {}", err)))?;
-        assert_eq!(cfg.presets.len(), 1);
-        let cfg = cfg.presets.into_iter().map(|v| v.1).next().unwrap();
-
-        let name = e
-            .path()
-            .strip_prefix(&dir)
-            .expect("failed to strip prefix")
-            .display()
-            .to_string();
-        tests.push(TestDescAndFn {
-            desc: TestDesc {
-                test_type: TestType::IntegrationTest,
-                ignore: e.path().to_string_lossy().contains(".")
-                    || env::var("TEST")
-                        .map(|s| !name.contains(&s))
-                        .unwrap_or(false),
-                name: TestName::DynTestName(name),
-                allow_fail: false,
-                should_panic: ShouldPanic::No,
-                compile_fail: false,
-                no_run: false,
-            },
-            testfn: TestFn::DynTestFn(Box::new(move || {
-                //
-                exec(cfg, e.path().to_path_buf()).expect("failed to run test")
-            })),
-        });
-    }
-
-    Ok(tests)
 }
 
 fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
@@ -340,12 +285,19 @@ fn read(p: &Path) -> String {
     buf
 }
 
-#[test]
-fn fixtures() {
-    let tests = load().expect("failed to load fixtures");
+#[testing::fixture("tests/fixtures/**/input.mjs")]
+fn fixture(input: PathBuf) {
+    let entry_dir = input.parent().unwrap().to_path_buf();
+    println!("File: {}", entry_dir.display());
 
-    let args: Vec<_> = env::args().collect();
-    test_main(&args, tests, Some(test::Options::new()));
+    let cfg: BabelOptions =
+        serde_json::from_reader(File::open(entry_dir.join("options.json")).unwrap())
+            .map_err(|err| Error::Msg(format!("failed to parse options.json: {}", err)))
+            .unwrap();
+    assert_eq!(cfg.presets.len(), 1);
+    let cfg = cfg.presets.into_iter().map(|v| v.1).next().unwrap();
+
+    exec(cfg, entry_dir).expect("failed to run test")
 }
 
 struct Normalizer;
