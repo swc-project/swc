@@ -15,12 +15,12 @@ pub use self::{
     emitter::{ColorConfig, Emitter, EmitterWriter},
 };
 use crate::sync::Lrc;
+use crate::sync::Send;
 use crate::{
     rustc_data_structures::stable_hasher::StableHasher,
     sync::{Lock, LockCell},
     syntax_pos::{BytePos, FileLinesResult, FileName, Loc, MultiSpan, Span, NO_EXPANSION},
 };
-use std::sync::Arc;
 use std::{
     borrow::Cow,
     cell::RefCell,
@@ -380,7 +380,7 @@ impl Handler {
     /// Calls [Self::with_emitter] with [EmitterWriter].
     pub fn with_emitter_writer(
         dst: Box<dyn Write + Send>,
-        cm: Option<Arc<SourceMapperDyn>>,
+        cm: Option<Lrc<SourceMapperDyn>>,
     ) -> Handler {
         Handler::with_emitter(
             true,
