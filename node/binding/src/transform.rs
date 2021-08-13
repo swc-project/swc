@@ -9,7 +9,7 @@ use std::{
     path::{Path, PathBuf},
     sync::Arc,
 };
-use swc::{config::Options, Compiler, TransformOutput};
+use swc::{config::Options, try_with_handler, Compiler, TransformOutput};
 use swc_common::{FileName, SourceFile};
 use swc_ecma_ast::Program;
 
@@ -35,23 +35,24 @@ impl Task for TransformTask {
     type JsValue = JsObject;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
-        self.c
-            .run(|| match self.input {
+        try_with_handler(self.c.cm.clone(), |handler| {
+            self.c.run(|| match self.input {
                 Input::Program(ref s) => {
                     let program: Program =
                         serde_json::from_str(&s).expect("failed to deserialize Program");
                     // TODO: Source map
-                    self.c.process_js(program, &self.options)
+                    self.c.process_js(&handler, program, &self.options)
                 }
 
                 Input::File(ref path) => {
-                    let fm = self.c.cm.load_file(path).context("failed to read module")?;
-                    self.c.process_js_file(fm, &self.options)
+                    let fm = self.c.cm.load_file(path).context("failed to load file")?;
+                    self.c.process_js_file(fm, &handler, &self.options)
                 }
 
-                Input::Source(ref s) => self.c.process_js_file(s.clone(), &self.options),
+                Input::Source(ref s) => self.c.process_js_file(s.clone(), &handler, &self.options),
             })
-            .convert_err()
+        })
+        .convert_err()
     }
 
     fn resolve(self, env: Env, result: Self::Output) -> napi::Result<Self::JsValue> {
@@ -85,16 +86,20 @@ where
     let is_module = cx.get::<JsBoolean>(1)?;
     let options: Options = cx.get_deserialized(2)?;
 
-    let output = c.run(|| -> napi::Result<_> {
-        if is_module.get_value()? {
-            let program: Program =
-                serde_json::from_str(s.as_str()?).expect("failed to deserialize Program");
-            c.process_js(program, &options).convert_err()
-        } else {
-            let fm = op(&c, s.as_str()?.to_string(), &options).expect("failed to create fm");
-            c.process_js_file(fm, &options).convert_err()
-        }
-    })?;
+    let output = try_with_handler(c.cm.clone(), |handler| {
+        c.run(|| {
+            if is_module.get_value()? {
+                let program: Program =
+                    serde_json::from_str(s.as_str()?).context("failed to deserialize Program")?;
+                c.process_js(&handler, program, &options)
+            } else {
+                let fm =
+                    op(&c, s.as_str()?.to_string(), &options).context("failed to load file")?;
+                c.process_js_file(fm, &handler, &options)
+            }
+        })
+    })
+    .convert_err()?;
 
     complete_output(cx.env, output)
 }

@@ -125,8 +125,8 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
         add_test(tests, name, ignore, move || {
             eprintln!("\n\n========== Running reference test {}\n", dir_name);
 
-            testing::run_test2(false, |cm, handler| {
-                let compiler = Arc::new(swc::Compiler::new(cm.clone(), Arc::new(handler)));
+            testing::run_test2(false, |cm, _handler| {
+                let compiler = Arc::new(swc::Compiler::new(cm.clone()));
 
                 GLOBALS.set(compiler.globals(), || {
                     let loader = SwcLoader::new(
