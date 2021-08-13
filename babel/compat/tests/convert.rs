@@ -74,6 +74,8 @@ fn fixtures() -> Result<(), Error> {
                 ignore: false,
                 should_panic: ShouldPanic::No,
                 allow_fail: false,
+                compile_fail: false,
+                no_run: false,
             },
             testfn: DynTestFn(Box::alloc().init(move || {
                 let syntax = if is_typescript {
