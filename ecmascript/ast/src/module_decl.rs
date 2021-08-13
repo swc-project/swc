@@ -73,7 +73,7 @@ pub struct ImportDecl {
     #[serde(rename = "source")]
     pub src: Str,
 
-    #[serde(rename = "typeOnly")]
+    #[serde(default, rename = "typeOnly")]
     pub type_only: bool,
 
     #[serde(default)]

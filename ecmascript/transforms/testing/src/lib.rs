@@ -1,4 +1,5 @@
 use ansi_term::Color;
+use anyhow::{bail, Context, Error};
 use serde::de::DeserializeOwned;
 use std::{
     env,
@@ -16,7 +17,7 @@ use swc_common::{
 };
 use swc_ecma_ast::{Pat, *};
 use swc_ecma_codegen::Emitter;
-use swc_ecma_parser::{error::Error, lexer::Lexer, Parser, StringInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_transforms_base::{
     fixer,
     helpers::{inject_helpers, HELPERS},
@@ -93,7 +94,7 @@ impl<'a> Tester<'a> {
         op: F,
     ) -> Result<T, ()>
     where
-        F: FnOnce(&mut Parser<Lexer<StringInput>>) -> Result<T, Error>,
+        F: FnOnce(&mut Parser<Lexer<StringInput>>) -> Result<T, swc_ecma_parser::error::Error>,
     {
         let fm = self
             .cm
@@ -234,7 +235,7 @@ impl VisitMut for RegeneratorHandler {
     }
 }
 
-fn make_tr<F, P>(_: &'static str, op: F, tester: &mut Tester<'_>) -> impl Fold
+fn make_tr<F, P>(op: F, tester: &mut Tester<'_>) -> impl Fold
 where
     F: FnOnce(&mut Tester<'_>) -> P,
     P: Fold,
@@ -266,7 +267,7 @@ pub fn test_transform<F, P>(
 
         println!("----- Actual -----");
 
-        let tr = make_tr("actual", tr, tester);
+        let tr = make_tr(tr, tester);
         let actual = tester.apply_transform(tr, "input.js", syntax, input)?;
 
         match ::std::env::var("PRINT_HYGIENE") {
@@ -348,13 +349,49 @@ macro_rules! test {
     };
 }
 
-pub fn exec_tr<F, P>(test_name: &'static str, syntax: Syntax, tr: F, input: &str)
+/// Execute `node` for `input` and ensure that it prints same output after
+/// transformation.
+pub fn compare_stdout<F, P>(syntax: Syntax, tr: F, input: &str)
 where
     F: FnOnce(&mut Tester<'_>) -> P,
     P: Fold,
 {
     Tester::run(|tester| {
-        let tr = make_tr(test_name, tr, tester);
+        let tr = make_tr(tr, tester);
+
+        let module = tester.apply_transform(tr, "input.js", syntax, input)?;
+
+        let mut module = module
+            .fold_with(&mut hygiene::hygiene())
+            .fold_with(&mut fixer::fixer(Some(&tester.comments)));
+
+        let src_without_helpers = tester.print(&module, &tester.comments.clone());
+        module = module.fold_with(&mut inject_helpers());
+
+        let transfomred_src = tester.print(&module, &tester.comments.clone());
+
+        println!(
+            "\t>>>>> Orig <<<<<\n{}\n\t>>>>> Code <<<<<\n{}",
+            input, src_without_helpers
+        );
+
+        let expected = stdout_of(&input).unwrap();
+        let actual = stdout_of(&transfomred_src).unwrap();
+
+        assert_eq!(expected, actual);
+
+        Ok(())
+    })
+}
+
+/// Execute `jest` after transpiling `input` using `tr`.
+pub fn exec_tr<F, P>(test_name: &str, syntax: Syntax, tr: F, input: &str)
+where
+    F: FnOnce(&mut Tester<'_>) -> P,
+    P: Fold,
+{
+    Tester::run(|tester| {
+        let tr = make_tr(tr, tester);
 
         let module = tester.apply_transform(
             tr,
@@ -440,6 +477,24 @@ where
         ::std::mem::forget(tmp_dir);
         panic!("Execution failed")
     })
+}
+
+fn stdout_of(code: &str) -> Result<String, Error> {
+    let actual_output = Command::new("node")
+        .arg("-e")
+        .arg(&code)
+        .output()
+        .context("failed to execute output of minifier")?;
+
+    if !actual_output.status.success() {
+        bail!(
+            "failed to execute:\n{}\n{}",
+            String::from_utf8_lossy(&actual_output.stdout),
+            String::from_utf8_lossy(&actual_output.stderr)
+        )
+    }
+
+    Ok(String::from_utf8_lossy(&actual_output.stdout).to_string())
 }
 
 /// Test transformation.
