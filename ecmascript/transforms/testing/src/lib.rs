@@ -1,7 +1,5 @@
 use ansi_term::Color;
-use anyhow::bail;
-use anyhow::Context;
-use anyhow::Error;
+use anyhow::{bail, Context, Error};
 use serde::de::DeserializeOwned;
 use std::{
     env,
@@ -19,7 +17,7 @@ use swc_common::{
 };
 use swc_ecma_ast::{Pat, *};
 use swc_ecma_codegen::Emitter;
-use swc_ecma_parser::{error::Error, lexer::Lexer, Parser, StringInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_transforms_base::{
     fixer,
     helpers::{inject_helpers, HELPERS},
@@ -27,19 +25,6 @@ use swc_ecma_transforms_base::{
 };
 use swc_ecma_utils::{quote_ident, quote_str, DropSpan, ExprFactory, HANDLER};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
-use swc_ecma_transforms_base::fixer;
-use swc_ecma_transforms_base::helpers::{inject_helpers, HELPERS};
-use swc_ecma_transforms_base::hygiene;
-use swc_ecma_utils::quote_ident;
-use swc_ecma_utils::quote_str;
-use swc_ecma_utils::DropSpan;
-use swc_ecma_utils::ExprFactory;
-use swc_ecma_utils::HANDLER;
-use swc_ecma_visit::noop_visit_mut_type;
-use swc_ecma_visit::VisitMut;
-use swc_ecma_visit::VisitMutWith;
-use swc_ecma_visit::{as_folder, Fold, FoldWith};
 use tempfile::tempdir_in;
 use testing::{assert_eq, find_executable, DebugUsingDisplay, NormalizedOutput};
 

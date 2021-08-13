@@ -1,12 +1,7 @@
-use std::fs::read_to_string;
-use std::path::PathBuf;
+use std::{fs::read_to_string, path::PathBuf};
 use swc_ecma_parser::{Syntax, TsConfig};
 use swc_ecma_transforms_compat::es2020::optional_chaining;
-use swc_ecma_transforms_testing::{test, test_exec};
-use swc_ecma_transforms_testing::exec_tr;
-use swc_ecma_transforms_testing::compare_stdout;
-use swc_ecma_transforms_testing::test;
-use swc_ecma_transforms_testing::test_exec;
+use swc_ecma_transforms_testing::{compare_stdout, test, test_exec};
 use swc_ecma_visit::Fold;
 
 fn tr(_: ()) -> impl Fold {
