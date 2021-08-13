@@ -25,7 +25,9 @@ use std::{
     borrow::Cow,
     cell::RefCell,
     collections::HashSet,
-    error, fmt, panic,
+    error, fmt,
+    io::Write,
+    panic,
     sync::atomic::{AtomicUsize, Ordering::SeqCst},
 };
 #[cfg(feature = "tty-emitter")]
@@ -372,6 +374,18 @@ impl Handler {
                 treat_err_as_bug,
                 ..Default::default()
             },
+        )
+    }
+
+    /// Calls [Self::with_emitter] with [EmitterWriter].
+    pub fn with_emitter_writer(
+        dst: Box<dyn Write + Send>,
+        cm: Option<Lrc<SourceMapperDyn>>,
+    ) -> Handler {
+        Handler::with_emitter(
+            true,
+            false,
+            Box::new(EmitterWriter::new(dst, cm, false, true)),
         )
     }
 
