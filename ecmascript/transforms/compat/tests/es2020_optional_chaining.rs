@@ -304,7 +304,7 @@ foo?.bar()?.()
 
 "#,
     r#"
-var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9;
+var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8, _obj, ref9;
 foo === null || foo === void 0 ? void 0 : foo(foo);
 foo === null || foo === void 0 ? void 0 : foo.bar();
 (ref = foo.bar) === null || ref === void 0 ? void 0 : ref.call(foo, foo.bar, false);
@@ -315,8 +315,7 @@ foo === null || foo === void 0 ? void 0 : (ref2 = foo()) === null || ref2 === vo
 (ref4 = foo.bar) === null || ref4 === void 0 ? void 0 : (ref5 = ref4.call(foo)) === null || ref5 === void 0 ? void 0 : ref5.baz;
 foo === null || foo === void 0 ? void 0 : (ref6 = foo.bar) === null || ref6 === void 0 ? void 0 : ref6.call(foo).baz;
 foo === null || foo === void 0 ? void 0 : (ref7 = foo.bar) === null || ref7 === void 0 ? void 0 : (ref8 = ref7.call(foo)) === null || ref8 === void 0 ? void 0 : ref8.baz;
-var _obj = foo === null || foo === void 0 ? void 0 : foo.bar();
-(ref9 = _obj) === null || ref9 === void 0 ? void 0 : ref9.call(_obj);"#
+(ref9 = _obj = foo === null || foo === void 0 ? void 0 : foo.bar()) === null || ref9 === void 0 ? void 0 : ref9.call(_obj);"#
 );
 
 // general_unary_exec
