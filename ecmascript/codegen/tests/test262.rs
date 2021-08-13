@@ -2,8 +2,8 @@
 
 use std::{
     env,
-    fs::{read_dir, read_to_string, File},
-    io::{self, Read, Write},
+    fs::read_to_string,
+    io::{self, Write},
     path::{Path, PathBuf},
     sync::{Arc, RwLock},
 };
