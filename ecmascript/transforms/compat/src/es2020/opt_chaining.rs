@@ -467,6 +467,14 @@ impl OptChaining {
                             obj
                         };
                         let i = private_ident!(obj_span, "ref");
+                        let tmp = private_ident!(obj_span, "ref$t");
+
+                        self.vars_without_init.push(VarDeclarator {
+                            span: obj_span,
+                            definite: false,
+                            name: Pat::Ident(tmp.clone().into()),
+                            init: None,
+                        });
                         self.vars_without_init.push(VarDeclarator {
                             span: obj_span,
                             definite: false,
