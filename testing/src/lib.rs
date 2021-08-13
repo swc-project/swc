@@ -1,5 +1,3 @@
-#![feature(test)]
-
 pub use self::output::{NormalizedOutput, StdErr, StdOut, TestOutput};
 use difference::Changeset;
 use once_cell::sync::Lazy;

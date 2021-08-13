@@ -2819,7 +2819,7 @@ dependencies = [
 
 [[package]]
 name = "testing"
-version = "0.12.0"
+version = "0.12.1"
 dependencies = [
  "ansi_term 0.12.1",
  "difference",
@@ -2834,7 +2834,7 @@ dependencies = [
 
 [[package]]
 name = "testing_macros"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "anyhow",
  "glob",
