@@ -724,9 +724,9 @@ test!(
     "
     function bug() {
         const arrowFn = (arg)=>{
-            var ref;
-            var _object = this.object[arg];
-            return (ref = _object) === null || ref === void 0 ? void 0 : ref.call(_object);
+            var _object, ref;
+            return (ref = (_object = this.object)[arg]) === null || ref === void 0 ? void 0 : \
+     ref.call(_object);
         };
     }
     bug();
