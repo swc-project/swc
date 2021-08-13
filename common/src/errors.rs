@@ -15,7 +15,6 @@ pub use self::{
     emitter::{ColorConfig, Emitter, EmitterWriter},
 };
 use crate::sync::Lrc;
-use crate::sync::Send;
 use crate::{
     rustc_data_structures::stable_hasher::StableHasher,
     sync::{Lock, LockCell},
@@ -365,7 +364,7 @@ impl Handler {
     pub fn with_emitter(
         can_emit_warnings: bool,
         treat_err_as_bug: bool,
-        emitter: Box<dyn Emitter + Send>,
+        emitter: Box<dyn Emitter>,
     ) -> Handler {
         Handler::with_emitter_and_flags(
             emitter,
