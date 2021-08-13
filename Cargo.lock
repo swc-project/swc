@@ -1077,7 +1077,6 @@ dependencies = [
  "path-clean",
  "serde",
  "serde_json",
- "spack",
  "swc",
  "swc_atoms",
  "swc_babel_compat",
@@ -1086,6 +1085,7 @@ dependencies = [
  "swc_ecma_ast",
  "swc_ecma_parser",
  "swc_node_base",
+ "swc_node_bundler",
 ]
 
 [[package]]
@@ -2025,39 +2025,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "spack"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "dashmap",
- "fxhash",
- "is-macro",
- "log",
- "once_cell",
- "pretty_assertions 0.6.1",
- "pretty_env_logger",
- "regex",
- "serde",
- "serde_json",
- "string_enum",
- "swc",
- "swc_atoms",
- "swc_bundler",
- "swc_common",
- "swc_ecma_ast",
- "swc_ecma_codegen",
- "swc_ecma_loader",
- "swc_ecma_parser",
- "swc_ecma_transforms",
- "swc_ecma_utils",
- "swc_ecma_visit",
- "swc_node_base",
- "tempfile",
- "testing",
- "walkdir",
-]
-
-[[package]]
 name = "st-map"
 version = "0.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2760,6 +2727,39 @@ dependencies = [
  "dashmap",
  "mimalloc-rust",
  "swc_common",
+]
+
+[[package]]
+name = "swc_node_bundler"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "dashmap",
+ "fxhash",
+ "is-macro",
+ "log",
+ "once_cell",
+ "pretty_assertions 0.6.1",
+ "pretty_env_logger",
+ "regex",
+ "serde",
+ "serde_json",
+ "string_enum",
+ "swc",
+ "swc_atoms",
+ "swc_bundler",
+ "swc_common",
+ "swc_ecma_ast",
+ "swc_ecma_codegen",
+ "swc_ecma_loader",
+ "swc_ecma_parser",
+ "swc_ecma_transforms",
+ "swc_ecma_utils",
+ "swc_ecma_visit",
+ "swc_node_base",
+ "tempfile",
+ "testing",
+ "walkdir",
 ]
 
 [[package]]
