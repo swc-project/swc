@@ -374,17 +374,7 @@ where
     Tester::run(|tester| {
         let tr = make_tr(test_name, tr, tester);
 
-        let module = tester.apply_transform(
-            tr,
-            "input.js",
-            syntax,
-            &format!(
-                "it('should work', async function () {{
-                    {}
-                }})",
-                input
-            ),
-        )?;
+        let module = tester.apply_transform(tr, "input.js", syntax, input)?;
 
         let mut module = module
             .fold_with(&mut hygiene::hygiene())
