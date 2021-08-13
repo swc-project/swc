@@ -43,3 +43,9 @@ it("should report good error", () => {
     swc.transformFileSync(__dirname + "/../tests/error/simple.js");
   }).toThrow("failed to load config for");
 });
+
+it("should report good error (handler)", () => {
+  expect(() => {
+    swc.transformFileSync(__dirname + "/../tests/legacy/octal.js");
+  }).toThrow("console.log(00017)");
+});
