@@ -23,12 +23,20 @@ impl VisitMut for PrivateInObject {
 #[cfg(test)]
 mod tests {
     use super::private_in_object;
+    use serde::Deserialize;
     use std::path::PathBuf;
-    use swc_ecma_transforms_testing::test_fixture;
+    use swc_ecma_transforms_testing::{parse_options, test_fixture};
+
+    #[derive(Debug, Clone, Deserialize)]
+    #[serde(deny_unknown_fields)]
+    struct TestOptions {}
 
     #[testing::fixture("tests/private-in-object/**/input.js")]
     fn fixture(input: PathBuf) {
         let parent = input.parent().unwrap();
+
+        let options: TestOptions = parse_options(&parent);
+
         let output = parent.join("output.js");
         test_fixture(
             Default::default(),
