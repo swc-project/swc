@@ -238,7 +238,11 @@ where
 
         expect!(self, "(");
 
-        let value = self.parse_one_value().map(Box::new)?;
+        let ctx = Ctx {
+            allow_operation_in_value: true,
+            ..self.ctx
+        };
+        let value = self.with_ctx(ctx).parse_one_value().map(Box::new)?;
 
         expect!(self, ")");
 
