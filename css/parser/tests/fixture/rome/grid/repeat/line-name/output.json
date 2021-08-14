@@ -108,7 +108,7 @@
                     "type": "ArrayValue",
                     "span": {
                       "start": 43,
-                      "end": 44,
+                      "end": 43,
                       "ctxt": 0
                     },
                     "values": [
