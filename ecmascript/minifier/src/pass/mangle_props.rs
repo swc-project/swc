@@ -4,8 +4,9 @@ use crate::{
     util::base54::incr_base54,
 };
 use once_cell::sync::Lazy;
-use std::collections::{HashMap, HashSet};
+use std::collections::HashSet;
 use swc_atoms::JsWord;
+use swc_common::collections::{AHashMap, AHashSet};
 use swc_ecma_ast::{
     CallExpr, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, Module, Prop, PropName, Str,
     StrKind,
@@ -33,11 +34,11 @@ pub static JS_ENVIRONMENT_PROPS: Lazy<HashSet<JsWord>> = Lazy::new(|| {
 struct ManglePropertiesState {
     options: ManglePropertiesOptions,
 
-    names_to_mangle: HashSet<JsWord>,
-    unmangleable: HashSet<JsWord>,
+    names_to_mangle: AHashSet<JsWord>,
+    unmangleable: AHashSet<JsWord>,
 
     // Cache of already mangled names
-    cache: HashMap<JsWord, JsWord>,
+    cache: AHashMap<JsWord, JsWord>,
 
     // Numbers to pass to base54()
     n: usize,
