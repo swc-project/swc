@@ -1,6 +1,9 @@
 use std::path::PathBuf;
 use swc_common::input::SourceFileInput;
-use swc_css_parser::{lexer::Lexer, parser::Parser};
+use swc_css_parser::{
+    lexer::Lexer,
+    parser::{Parser, ParserConfig},
+};
 use testing::NormalizedOutput;
 
 #[testing::fixture("tests/fixture/**/input.css")]
@@ -12,7 +15,7 @@ fn pass(input: PathBuf) {
 
         let fm = cm.load_file(&input).unwrap();
         let lexer = Lexer::new(SourceFileInput::from(&*fm));
-        let mut parser = Parser::new(lexer);
+        let mut parser = Parser::new(lexer, ParserConfig { parse_values: true });
 
         let stylesheet = parser.parse();
 
@@ -44,7 +47,7 @@ fn fail(input: PathBuf) {
     let stderr = testing::run_test2(false, |cm, handler| -> Result<(), _> {
         let fm = cm.load_file(&input).unwrap();
         let lexer = Lexer::new(SourceFileInput::from(&*fm));
-        let mut parser = Parser::new(lexer);
+        let mut parser = Parser::new(lexer, ParserConfig { parse_values: true });
 
         let stylesheet = parser.parse();
 

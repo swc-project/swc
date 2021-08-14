@@ -21,6 +21,11 @@ mod value;
 
 pub type PResult<T> = Result<T, Error>;
 
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub struct ParserConfig {
+    pub parse_values: bool,
+}
+
 #[derive(Debug, Default, Clone, Copy)]
 struct Ctx {
     allow_operation_in_value: bool,
@@ -31,6 +36,7 @@ pub struct Parser<I>
 where
     I: ParserInput,
 {
+    config: ParserConfig,
     input: Buffer<I>,
     ctx: Ctx,
     errors: Vec<Error>,
@@ -40,8 +46,9 @@ impl<I> Parser<I>
 where
     I: ParserInput,
 {
-    pub fn new(input: I) -> Self {
+    pub fn new(input: I, config: ParserConfig) -> Self {
         Parser {
+            config,
             input: Buffer::new(input),
             ctx: Default::default(),
             errors: Default::default(),
