@@ -14,14 +14,14 @@ use swc_ecma_ast::{
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{VisitMut, VisitMutWith};
 
-pub static JS_ENVIRONMENT_PROPS: Lazy<HashSet<JsWord>> = Lazy::new(|| {
+pub static JS_ENVIRONMENT_PROPS: Lazy<AHashSet<JsWord>> = Lazy::new(|| {
     let domprops: Vec<JsWord> = serde_json::from_str(include_str!("../lists/domprops.json"))
         .expect("failed to parse domprops.json for property mangler");
 
     let jsprops: Vec<JsWord> = serde_json::from_str(include_str!("../lists/jsprops.json"))
         .expect("Failed to parse jsprops.json for property mangler");
 
-    let mut word_set: HashSet<JsWord> = HashSet::new();
+    let mut word_set: AHashSet<JsWord> = HashSet::default();
 
     for name in domprops.iter().chain(jsprops.iter()) {
         word_set.insert(name.clone());

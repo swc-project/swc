@@ -11,7 +11,7 @@ use sha1::{Digest, Sha1};
 
 use swc_atoms::JsWord;
 use swc_common::{
-    collections::AHashMap,
+    collections::{AHashMap, AHashSet},
     comments::{Comments, CommentsExt},
     sync::Lrc,
     BytePos, SourceMap, Span, Spanned, DUMMY_SP,
@@ -56,9 +56,9 @@ fn get_persistent_id(ident: &Ident) -> Persist {
     }
 }
 
-fn hook_to_handle_map(hook_fn: Vec<FnWithHook>) -> (AHashMap<Ident, FnWithHook>, HashSet<Ident>) {
+fn hook_to_handle_map(hook_fn: Vec<FnWithHook>) -> (AHashMap<Ident, FnWithHook>, AHashSet<Ident>) {
     let mut has_ident = HashMap::default();
-    let mut ignore = HashSet::new();
+    let mut ignore = HashSet::default();
     for hook in hook_fn {
         if let Some(binding) = &hook.binding {
             has_ident.insert(binding.clone(), hook);
@@ -101,7 +101,7 @@ pub fn refresh<C: Comments>(
         comments,
         should_reset: false,
         options: options.unwrap_or(Default::default()),
-        used_in_jsx: HashSet::new(),
+        used_in_jsx: HashSet::default(),
         curr_hook_fn: Vec::new(),
         scope_binding: IndexSet::new(),
     }
@@ -112,7 +112,7 @@ struct Refresh<C: Comments> {
     options: RefreshOptions,
     cm: Lrc<SourceMap>,
     should_reset: bool,
-    used_in_jsx: HashSet<JsWord>,
+    used_in_jsx: AHashSet<JsWord>,
     comments: Option<C>,
     curr_hook_fn: Vec<FnWithHook>,
     // bindings in current and all parent scope
@@ -398,7 +398,7 @@ impl<C: Comments> Refresh<C> {
     fn get_persistent_id_from_var_decl(
         &self,
         var_decl: &mut VarDecl,
-        ignore: &HashSet<Ident>,
+        ignore: &AHashSet<Ident>,
     ) -> Persist {
         // We only handle the case when a single variable is declared
         if let [VarDeclarator {
@@ -447,7 +447,7 @@ impl<C: Comments> Refresh<C> {
         mut reg: Vec<(Ident, String)>,
         // sadly unlike orignal implent our transform for component happens before hook
         // so we should just ignore hook register
-        ignore: &HashSet<Ident>,
+        ignore: &AHashSet<Ident>,
     ) -> Persist {
         if let Some(ident) = callee_should_ignore(ignore, &call_expr.callee) {
             // there's at least one item in reg
