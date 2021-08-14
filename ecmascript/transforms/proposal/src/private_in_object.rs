@@ -29,7 +29,16 @@ mod tests {
 
     #[derive(Debug, Clone, Deserialize)]
     #[serde(deny_unknown_fields)]
-    struct TestOptions {}
+    struct TestOptions {
+        plugins: Vec<PluginConfig>,
+    }
+
+    #[derive(Debug, Clone, Deserialize)]
+    #[serde(untagged)]
+    enum PluginConfig {
+        WithOption(String, #[serde(default)] serde_json::Value),
+        Name(String),
+    }
 
     #[testing::fixture("tests/private-in-object/**/input.js")]
     fn fixture(input: PathBuf) {
