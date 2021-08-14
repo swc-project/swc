@@ -11,4 +11,4 @@ echo "Using plugins at $PLUGINS_DIR"
 
 export PATH=${PLUGINS_DIR}/target/debug/:$PATH
 
-cargo test
+(cd runner && cargo test)
