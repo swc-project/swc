@@ -2237,6 +2237,7 @@ dependencies = [
 name = "swc_common"
 version = "0.11.5"
 dependencies = [
+ "ahash",
  "arbitrary",
  "ast_node",
  "atty",
