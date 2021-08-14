@@ -13,7 +13,8 @@ pub struct SwcPlugin {
     pub get_js_ast_version: extern "C" fn() -> RString,
 
     #[sabi(last_prefix_field)]
-    pub process_js: extern "C" fn(config_str: RStr, ast_json: RStr) -> RResult<RString, RString>,
+    pub process_js:
+        Option<extern "C" fn(config_str: RStr, ast_json: RStr) -> RResult<RString, RString>>,
 }
 
 impl RootModule for SwcPluginRef {
