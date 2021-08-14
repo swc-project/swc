@@ -1,4 +1,4 @@
-use std::{path::Path, sync::Arc};
+use std::path::Path;
 use swc_common::sync::Lrc;
 use swc_common::SourceMap;
 use swc_common::{input::SourceFileInput, FileName, SourceFile};
@@ -45,7 +45,7 @@ fn print(cm: Lrc<SourceMap>, e: &Program) -> String {
     String::from_utf8(buf).unwrap()
 }
 
-fn parse(fm: Arc<SourceFile>) -> Program {
+fn parse(fm: Lrc<SourceFile>) -> Program {
     let lexer = Lexer::new(
         Default::default(),
         EsVersion::latest(),
