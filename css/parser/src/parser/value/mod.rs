@@ -1,5 +1,6 @@
 use super::{input::ParserInput, Ctx, PResult, Parser};
 use crate::token::{Token, TokenAndSpan};
+use swc_common::BytePos;
 use swc_css_ast::*;
 
 mod color;
@@ -67,7 +68,45 @@ where
 
     /// This may parse operations, depending on the context.
     fn parse_numeric_value(&mut self) -> PResult<Value> {
-        self.parse_basical_numeric_value()
+        let span = self.input.cur_span()?;
+
+        let base = self.parse_basical_numeric_value()?;
+
+        self.parse_numeric_value_with_base(span.lo, base)
+    }
+
+    fn parse_numeric_value_with_base(&mut self, start: BytePos, base: Value) -> PResult<Value> {
+        self.input.skip_ws()?;
+
+        if is_one_of!(self, "+", "-", "*", "/") {
+            let token = bump!(self);
+
+            self.input.skip_ws()?;
+
+            let op = match token {
+                tok!("+") => BinOp::Add,
+                tok!("-") => BinOp::Sub,
+                tok!("*") => BinOp::Mul,
+                tok!("/") => BinOp::Div,
+                _ => {
+                    unreachable!()
+                }
+            };
+            self.input.skip_ws()?;
+
+            let right = self.parse_basical_numeric_value()?;
+
+            let value = Value::Bin(BinValue {
+                span: span!(self, start),
+                op,
+                left: Box::new(base),
+                right: Box::new(right),
+            });
+
+            return self.parse_numeric_value_with_base(start, value);
+        }
+
+        return Ok(base);
     }
 
     fn parse_basical_numeric_value(&mut self) -> PResult<Value> {
