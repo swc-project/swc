@@ -1,4 +1,3 @@
-#![feature(test)]
 #![allow(deprecated)]
 
 use swc_common::chain;
