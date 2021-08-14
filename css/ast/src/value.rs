@@ -3,23 +3,6 @@ use string_enum::StringEnum;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 #[ast_node]
-
-pub enum LazyValues {
-    /// This variant means we didn't parsed token yet.
-    #[tag("Tokens")]
-    Tokens(Tokens),
-
-    #[tag("Values")]
-    Parsed(Values),
-}
-
-#[ast_node("Values")]
-pub struct Values {
-    pub span: Span,
-    pub values: Vec<Value>,
-}
-
-#[ast_node]
 pub enum Value {
     #[tag("ParenValue")]
     Paren(ParenValue),
@@ -47,6 +30,9 @@ pub enum Value {
 
     #[tag("BinValue")]
     Bin(BinValue),
+
+    #[tag("Tokens")]
+    Lazy(Tokens),
 }
 
 #[ast_node("BinValue")]
