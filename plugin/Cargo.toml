@@ -19,3 +19,4 @@ swc_atoms = {path = "../atoms"}
 swc_common = {path = "../common"}
 swc_ecma_ast = {path = "../ecmascript/ast"}
 swc_ecma_visit = {path = "../ecmascript/visit"}
+swc_ecmascript = {path = "../ecmascript/"}

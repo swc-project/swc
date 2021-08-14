@@ -1,3 +1,6 @@
+/// Reexported for convinience.
+pub extern crate swc_ecmascript as ecmascript;
+
 use abi_stable::{
     library::RootModule,
     package_version_strings, sabi_trait,
