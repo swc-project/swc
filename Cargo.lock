@@ -3123,6 +3123,7 @@ dependencies = [
  "swc_ecma_ast",
  "swc_ecma_parser",
  "swc_plugin_shared",
+ "testing",
 ]
 
 [[package]]
