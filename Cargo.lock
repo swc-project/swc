@@ -2263,6 +2263,40 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_css"
+version = "0.1.0"
+dependencies = [
+ "swc_css_ast",
+ "swc_css_parser",
+]
+
+[[package]]
+name = "swc_css_ast"
+version = "0.1.0"
+dependencies = [
+ "is-macro",
+ "serde",
+ "string_enum",
+ "swc_atoms",
+ "swc_common",
+]
+
+[[package]]
+name = "swc_css_parser"
+version = "0.1.0"
+dependencies = [
+ "bitflags",
+ "lexical",
+ "serde",
+ "serde_json",
+ "swc_atoms",
+ "swc_common",
+ "swc_css_ast",
+ "testing",
+ "unicode-xid",
+]
+
+[[package]]
 name = "swc_ecma_ast"
 version = "0.49.4"
 dependencies = [

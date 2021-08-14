@@ -1,0 +1,176 @@
+use std::mem::take;
+
+use self::input::{Buffer, ParserInput};
+use crate::{
+    error::{Error, ErrorKind},
+    token::Token,
+};
+use swc_common::Span;
+use swc_css_ast::*;
+
+#[macro_use]
+mod macros;
+mod at_rule;
+pub mod input;
+mod selector;
+mod style_rule;
+#[cfg(test)]
+mod tests;
+mod util;
+mod value;
+
+pub type PResult<T> = Result<T, Error>;
+
+#[derive(Debug, Default, Clone, Copy)]
+struct Ctx {
+    allow_operation_in_value: bool,
+}
+
+#[derive(Debug)]
+pub struct Parser<I>
+where
+    I: ParserInput,
+{
+    input: Buffer<I>,
+    ctx: Ctx,
+    errors: Vec<Error>,
+}
+
+impl<I> Parser<I>
+where
+    I: ParserInput,
+{
+    pub fn new(input: I) -> Self {
+        Parser {
+            input: Buffer::new(input),
+            ctx: Default::default(),
+            errors: Default::default(),
+        }
+    }
+
+    /// Take **recovered** errors.
+    pub fn take_errors(&mut self) -> Vec<Error> {
+        take(&mut self.errors)
+    }
+
+    pub fn parse(&mut self) -> PResult<Stylesheet> {
+        let start = self.input.cur_span()?;
+        let rules = self.parse_rules(RuleContext {
+            is_top_level: true,
+            parse_selectors: true,
+        })?;
+
+        let last = self.input.last_pos();
+
+        Ok(Stylesheet {
+            span: Span::new(start.lo, last, Default::default()),
+            rules,
+        })
+    }
+
+    fn parse_rules(&mut self, ctx: RuleContext) -> PResult<Vec<Rule>> {
+        let mut rules = vec![];
+        loop {
+            self.input.skip_ws()?;
+
+            if self.input.is_eof()? {
+                return Ok(rules);
+            }
+
+            match cur!(self) {
+                Token::AtKeyword(..) => {
+                    let rule = self.parse_at_rule(Default::default())?;
+                    rules.push(rule.into());
+                    continue;
+                }
+
+                tok!("<!--") | tok!("-->") => {
+                    if ctx.is_top_level {
+                        self.input.bump()?;
+                        continue;
+                    }
+                }
+
+                _ => {}
+            }
+
+            if ctx.parse_selectors {
+                rules.push(self.parse_style_rule()?.into());
+            } else {
+                rules.push(self.parse_qualified_rule()?);
+            }
+        }
+    }
+
+    fn parse_qualified_rule(&mut self) -> PResult<Rule> {
+        todo!("parse_qualified_rule: {:?}", cur!(self))
+    }
+
+    fn expect_url_or_str(&mut self) -> PResult<Str> {
+        let span = self.input.cur_span()?;
+
+        if is!(self, Str) {
+            self.parse_str()
+        } else if is!(self, Url) {
+            self.parse_url()
+        } else {
+            Err(Error::new(span, ErrorKind::Expected("URL")))
+        }
+    }
+
+    fn may_parse_str(&mut self) -> PResult<Option<Str>> {
+        if is!(self, Str) {
+            self.parse_str().map(Some)
+        } else {
+            Ok(None)
+        }
+    }
+
+    fn parse_id(&mut self) -> PResult<Text> {
+        let span = self.input.cur_span()?;
+        if !is!(self, Ident) {
+            return Err(Error::new(span, ErrorKind::Expected("Ident")));
+        }
+
+        match bump!(self) {
+            Token::Ident(value) => Ok(Text { span, value }),
+            _ => {
+                unreachable!()
+            }
+        }
+    }
+
+    fn parse_str(&mut self) -> PResult<Str> {
+        let span = self.input.cur_span()?;
+        if !is!(self, Str) {
+            return Err(Error::new(span, ErrorKind::Expected("Str")));
+        }
+
+        match bump!(self) {
+            Token::Str { value } => Ok(Str { span, value }),
+            _ => {
+                unreachable!()
+            }
+        }
+    }
+
+    fn parse_url(&mut self) -> PResult<Str> {
+        let span = self.input.cur_span()?;
+        if !is!(self, Url) {
+            return Err(Error::new(span, ErrorKind::Expected("Str")));
+        }
+
+        match bump!(self) {
+            Token::Url { value } => Ok(Str { span, value }),
+            _ => {
+                unreachable!()
+            }
+        }
+    }
+}
+
+#[derive(Clone, Copy)]
+struct RuleContext {
+    is_top_level: bool,
+    parse_selectors: bool,
+}

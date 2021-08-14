@@ -616,11 +616,13 @@ global
 if
 implements
 import
+important
 in
 infer
 instanceof
 interface
 intrinsic
+is
 is
 iterator
 key

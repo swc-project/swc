@@ -1,0 +1,320 @@
+use crate::{
+    error::{Error, ErrorKind},
+    parser::{input::ParserInput, PResult},
+    token::{Token, TokenAndSpan},
+};
+use swc_atoms::JsWord;
+use swc_common::{input::Input, BytePos, Span};
+
+#[cfg(test)]
+mod tests;
+mod value;
+
+pub(crate) type LexResult<T> = Result<T, ErrorKind>;
+
+#[derive(Debug)]
+pub struct Lexer<I>
+where
+    I: Input,
+{
+    input: I,
+}
+
+impl<I> Lexer<I>
+where
+    I: Input,
+{
+    pub fn new(input: I) -> Self {
+        Lexer { input }
+    }
+}
+
+#[derive(Debug, Clone, Copy)]
+pub struct LexerState {
+    pos: BytePos,
+}
+
+impl<I> ParserInput for Lexer<I>
+where
+    I: Input,
+{
+    type State = LexerState;
+
+    fn next(&mut self) -> PResult<TokenAndSpan> {
+        let start = self.input.cur_pos();
+
+        let token = self.read_token();
+        let end = self.input.cur_pos();
+        let span = Span::new(start, end, Default::default());
+
+        token
+            .map(|token| TokenAndSpan { span, token })
+            .map_err(|kind| Error::new(span, kind))
+    }
+
+    fn skip_whitespaces(&mut self) -> PResult<()> {
+        let start = self.input.cur_pos();
+
+        let token = self.skip_ws();
+        let end = self.input.cur_pos();
+        let span = Span::new(start, end, Default::default());
+
+        token.map_err(|kind| Error::new(span, kind))
+    }
+
+    fn start_pos(&mut self) -> swc_common::BytePos {
+        self.input.cur_pos()
+    }
+
+    fn state(&mut self) -> Self::State {
+        LexerState {
+            pos: self.input.cur_pos(),
+        }
+    }
+
+    fn reset(&mut self, state: &Self::State) {
+        self.input.reset_to(state.pos);
+    }
+}
+
+impl<I> Lexer<I>
+where
+    I: Input,
+{
+    fn read_token(&mut self) -> LexResult<Token> {
+        if self.input.cur().is_none() {
+            return Err(ErrorKind::Eof);
+        }
+
+        macro_rules! try_delim {
+            ($b:tt,$tok:tt) => {{
+                if self.input.eat_byte($b) {
+                    return Ok(tok!($tok));
+                }
+            }};
+        }
+
+        if self.input.is_byte(b'/') {
+            if self.input.peek() == Some('/') {
+                self.skip_line_comment(2)?;
+                return self.read_token();
+            } else if self.input.peek() == Some('*') {
+                self.skip_block_comment()?;
+                return self.read_token();
+            }
+        }
+
+        try_delim!(b'(', "(");
+        try_delim!(b')', ")");
+
+        try_delim!(b'[', "[");
+        try_delim!(b']', "]");
+
+        try_delim!(b'{', "{");
+        try_delim!(b'}', "}");
+
+        try_delim!(b'.', ".");
+        try_delim!(b',', ",");
+        try_delim!(b'=', "=");
+        try_delim!(b'*', "*");
+        try_delim!(b'$', "$");
+        try_delim!(b':', ":");
+        try_delim!(b';', ";");
+        try_delim!(b'^', "^");
+        try_delim!(b'%', "%");
+
+        // TODO: Plus can start a number
+        try_delim!(b'+', "+");
+        try_delim!(b'/', "/");
+
+        if self.input.eat_byte(b'@') {
+            return self.read_at_keyword();
+        }
+
+        match self.input.cur() {
+            Some(c) => match c {
+                '0'..='9' => return self.read_number().map(|value| Token::Num { value }),
+
+                ' ' | '\n' | '\t' => {
+                    self.skip_ws()?;
+                    return Ok(tok!(" "));
+                }
+
+                '-' => return self.read_minus(),
+
+                '\'' | '"' => return self.read_str().map(|value| Token::Str { value }),
+
+                _ => {
+                    if is_name_start(c) {
+                        return self.read_name().map(|str| Token::Ident(str));
+                    }
+
+                    todo!("read_token (cur = {:?})", c)
+                }
+            },
+            None => {
+                unreachable!()
+            }
+        }
+    }
+
+    fn read_at_keyword(&mut self) -> LexResult<Token> {
+        let word = self.read_name()?;
+
+        Ok(Token::AtKeyword(word))
+    }
+
+    fn read_minus(&mut self) -> LexResult<Token> {
+        assert_eq!(self.input.cur(), Some('-'));
+
+        match self.input.peek() {
+            Some('0'..='9') => {
+                return self.read_number().map(|value| Token::Num { value });
+            }
+
+            _ => {}
+        }
+
+        if self.input.peek() == Some('-') && self.input.peek_ahead() == Some('>') {
+            self.input.bump();
+            self.input.bump();
+            self.input.bump();
+            return Ok(Token::CDC);
+        }
+
+        if self.would_start_ident()? {
+            return self.read_name().map(|value| Token::Ident(value));
+        }
+
+        Ok(tok!("-"))
+    }
+
+    fn would_start_ident(&mut self) -> LexResult<bool> {
+        match self.input.cur() {
+            Some(c) => {
+                if is_name_start(c) {
+                    return Ok(true);
+                }
+
+                if c == '-' {
+                    if let Some(peeked) = self.input.peek() {
+                        if is_name_start(peeked) {
+                            return Ok(true);
+                        }
+                        match peeked {
+                            '-' => return Ok(true),
+
+                            _ => {
+                                // TODO: This is wrong
+                                return Ok(false);
+                            }
+                        }
+                    }
+                }
+
+                Ok(false)
+            }
+            None => Ok(false),
+        }
+    }
+
+    /// Ported from `consumeName` of esbuild.
+    ///
+    /// https://github.com/evanw/esbuild/blob/a9456dfbf08ab50607952eefb85f2418968c124c/internal/css_lexer/css_lexer.go#L548
+    fn read_name(&mut self) -> LexResult<JsWord> {
+        let raw = self.input.uncons_while(is_name_continue);
+
+        // TODO: Handle escape
+
+        Ok(raw.into())
+    }
+
+    fn skip_ws(&mut self) -> LexResult<()> {
+        loop {
+            if self.input.cur().is_none() {
+                break;
+            }
+
+            if self.input.eat_byte(b' ') || self.input.eat_byte(b'\n') || self.input.eat_byte(b'\t')
+            {
+                continue;
+            }
+
+            break;
+        }
+
+        Ok(())
+    }
+
+    /// Expects current char to be '/' and next char to be '*'.
+    fn skip_block_comment(&mut self) -> LexResult<()> {
+        // let start = self.input.cur_pos();
+
+        debug_assert_eq!(self.input.cur(), Some('/'));
+        debug_assert_eq!(self.input.peek(), Some('*'));
+
+        self.input.bump();
+        self.input.bump();
+
+        // let slice_start = self.input.cur_pos();
+        let mut was_star = if self.input.cur() == Some('*') {
+            self.input.bump();
+            true
+        } else {
+            false
+        };
+
+        while let Some(c) = self.input.cur() {
+            if was_star && c == '/' {
+                debug_assert_eq!(self.input.cur(), Some('/'));
+                self.input.bump(); // '/'
+
+                // let end = self.input.cur_pos();
+                return Ok(());
+            }
+
+            was_star = c == '*';
+            self.input.bump();
+        }
+
+        Err(ErrorKind::UnterminatedBlockComment)
+    }
+
+    fn skip_line_comment(&mut self, start_skip: usize) -> LexResult<()> {
+        for _ in 0..start_skip {
+            self.input.bump();
+        }
+
+        // let slice_start = self.input.cur_pos();
+
+        while let Some(c) = self.input.cur() {
+            self.input.bump();
+            match c {
+                '\n' | '\r' | '\u{2028}' | '\u{2029}' => {
+                    break;
+                }
+                _ => {
+                    // end = self.cur_pos();
+                }
+            }
+        }
+
+        Ok(())
+    }
+}
+
+pub(crate) fn is_name_start(c: char) -> bool {
+    match c {
+        'a'..='z' | 'A'..='Z' | '_' | '\x00' => true,
+
+        _ => c.len_utf8() == 1 && c as u32 >= 0x80,
+    }
+}
+
+pub(crate) fn is_name_continue(c: char) -> bool {
+    is_name_start(c)
+        || match c {
+            '0'..='9' | '-' => true,
+            _ => false,
+        }
+}
