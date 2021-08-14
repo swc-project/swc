@@ -75,7 +75,7 @@ where
     fn parse_numeric_value_with_base(&mut self, start: BytePos, base: Value) -> PResult<Value> {
         self.input.skip_ws()?;
 
-        if is_one_of!(self, "+", "-", "*", "/") {
+        if self.ctx.allow_operation_in_value && is_one_of!(self, "+", "-", "*", "/") {
             let token = bump!(self);
 
             self.input.skip_ws()?;
@@ -91,7 +91,11 @@ where
             };
             self.input.skip_ws()?;
 
-            let right = self.parse_basical_numeric_value()?;
+            let ctx = Ctx {
+                allow_operation_in_value: false,
+                ..self.ctx
+            };
+            let right = self.with_ctx(ctx).parse_one_value()?;
 
             let value = Value::Bin(BinValue {
                 span: span!(self, start),
