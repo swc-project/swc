@@ -211,38 +211,47 @@ impl NodeModulesResolver {
                             for (k, v) in map {
                                 let target_key = Path::new(k);
                                 let mut components = target_key.components();
-                                if let Some(Component::CurDir) = components.next() {
-                                    // Some packages create mappings for test files that
-                                    // are not included in the package so we must ignore
-                                    // those browser rewrite rules
-                                    if let Ok(source) = pkg_dir.join(k).canonicalize() {
-                                        match v {
-                                            StringOrBool::Str(dest) => {
-                                                let target = pkg_dir
-                                                    .join(dest)
-                                                    .canonicalize()
-                                                    .context(format!(
-                                                        "failed to canonicalize browser value {} \
-                                                         for key {} in {}",
-                                                        dest,
-                                                        k,
-                                                        pkg_dir.display()
-                                                    ))?;
 
-                                                BROWSER_REWRITES.insert(source, target);
-                                            }
-                                            StringOrBool::Bool(flag) => {
-                                                // If somebody set boolean `true` which is an
-                                                // invalid value we will jsut ignore it
-                                                if !flag {
-                                                    BROWSER_IGNORES.insert(source);
-                                                }
+                                // Relative file paths are sources for this package
+                                let source = if let Some(Component::CurDir) = components.next() {
+                                    pkg_dir.join(k).canonicalize().ok()
+                                // Resolve the referenced module relative to
+                                // this package
+                                } else {
+                                    let base_dir = FileName::Real(pkg_dir.to_path_buf());
+                                    let file_name = self.resolve(&base_dir, k)?;
+                                    if let FileName::Real(path) = file_name {
+                                        Some(path)
+                                    } else {
+                                        None
+                                    }
+                                };
+
+                                if let Some(source) = source {
+                                    match v {
+                                        StringOrBool::Str(dest) => {
+                                            let target = pkg_dir
+                                                .join(dest)
+                                                .canonicalize()
+                                                .context(format!(
+                                                    "failed to canonicalize browser value {} for \
+                                                     key {} in {}",
+                                                    dest,
+                                                    k,
+                                                    pkg_dir.display()
+                                                ))?;
+
+                                            BROWSER_REWRITES.insert(source, target);
+                                        }
+                                        StringOrBool::Bool(flag) => {
+                                            // If somebody set boolean `true` which is an
+                                            // invalid value we will just ignore it
+                                            if !flag {
+                                                BROWSER_IGNORES.insert(source);
                                             }
                                         }
                                     }
                                 }
-
-                                // TODO: Handle module keys!
                             }
                             vec![pkg.main.as_ref().clone()]
                         }
