@@ -1,4 +1,3 @@
-#![feature(test)]
 use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver::resolver;
