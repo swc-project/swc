@@ -6,3 +6,4 @@ pub use self::{
 pub mod decorators;
 mod export_default_from;
 mod import_assertions;
+pub mod private_in_object;
