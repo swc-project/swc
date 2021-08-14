@@ -7,11 +7,11 @@ pub enum LazyValues {
     #[tag("Tokens")]
     Tokens(Tokens),
 
-    #[tag("*")]
+    #[tag("Values")]
     Parsed(Values),
 }
 
-#[ast_node]
+#[ast_node("Values")]
 pub struct Values {
     pub span: Span,
     pub values: Vec<Value>,

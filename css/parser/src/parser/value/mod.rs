@@ -13,7 +13,7 @@ where
     /// Ported from `parseDeclaration` of esbuild.
     ///
     /// https://github.com/evanw/esbuild/blob/a9456dfbf08ab50607952eefb85f2418968c124c/internal/css_parser/css_parser.go#L987
-    pub(super) fn parse_property_values(&mut self) -> PResult<Vec<Value>> {
+    pub(super) fn parse_property_values(&mut self) -> PResult<LazyValues> {
         self.input.skip_ws()?;
         let start_pos = self.input.cur_span()?.lo;
 
@@ -32,7 +32,11 @@ where
             }
         }
 
-        Ok(values)
+        // TODO: Make this lazy
+        Ok(LazyValues::Parsed(Values {
+            span: span!(self, start_pos),
+            values,
+        }))
     }
 
     fn parse_one_value(&mut self) -> PResult<Value> {
