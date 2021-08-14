@@ -77,41 +77,33 @@
               },
               "value": "--fancy"
             },
-            "values": {
-              "type": "Values",
-              "span": {
-                "start": 19,
-                "end": 19,
-                "ctxt": 0
-              },
-              "values": [
-                {
-                  "type": "UnitValue",
+            "values": [
+              {
+                "type": "UnitValue",
+                "span": {
+                  "start": 19,
+                  "end": 19,
+                  "ctxt": 0
+                },
+                "value": {
+                  "type": "Number",
                   "span": {
                     "start": 19,
-                    "end": 19,
+                    "end": 20,
                     "ctxt": 0
                   },
-                  "value": {
-                    "type": "Number",
-                    "span": {
-                      "start": 19,
-                      "end": 20,
-                      "ctxt": 0
-                    },
-                    "value": 2.0
+                  "value": 2.0
+                },
+                "unit": {
+                  "span": {
+                    "start": 20,
+                    "end": 22,
+                    "ctxt": 0
                   },
-                  "unit": {
-                    "span": {
-                      "start": 20,
-                      "end": 22,
-                      "ctxt": 0
-                    },
-                    "kind": null
-                  }
+                  "kind": null
                 }
-              ]
-            },
+              }
+            ],
             "important": null
           },
           {
@@ -130,44 +122,36 @@
               },
               "value": "border"
             },
-            "values": {
-              "type": "Values",
-              "span": {
-                "start": 33,
-                "end": 33,
-                "ctxt": 0
-              },
-              "values": [
-                {
-                  "type": "FnValue",
+            "values": [
+              {
+                "type": "FnValue",
+                "span": {
+                  "start": 33,
+                  "end": 33,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Text",
                   "span": {
                     "start": 33,
-                    "end": 33,
+                    "end": 36,
                     "ctxt": 0
                   },
-                  "name": {
+                  "value": "var"
+                },
+                "args": [
+                  {
                     "type": "Text",
                     "span": {
-                      "start": 33,
-                      "end": 36,
+                      "start": 37,
+                      "end": 44,
                       "ctxt": 0
                     },
-                    "value": "var"
-                  },
-                  "args": [
-                    {
-                      "type": "Text",
-                      "span": {
-                        "start": 37,
-                        "end": 44,
-                        "ctxt": 0
-                      },
-                      "value": "--fancy"
-                    }
-                  ]
-                }
-              ]
-            },
+                    "value": "--fancy"
+                  }
+                ]
+              }
+            ],
             "important": null
           },
           {
@@ -186,94 +170,86 @@
               },
               "value": "font-size"
             },
-            "values": {
-              "type": "Values",
-              "span": {
-                "start": 59,
-                "end": 71,
-                "ctxt": 0
-              },
-              "values": [
-                {
-                  "type": "FnValue",
+            "values": [
+              {
+                "type": "FnValue",
+                "span": {
+                  "start": 59,
+                  "end": 71,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Text",
                   "span": {
                     "start": 59,
-                    "end": 71,
+                    "end": 63,
                     "ctxt": 0
                   },
-                  "name": {
-                    "type": "Text",
+                  "value": "calc"
+                },
+                "args": [
+                  {
+                    "type": "BinValue",
                     "span": {
-                      "start": 59,
-                      "end": 63,
+                      "start": 64,
+                      "end": 71,
                       "ctxt": 0
                     },
-                    "value": "calc"
-                  },
-                  "args": [
-                    {
-                      "type": "BinValue",
+                    "op": "+",
+                    "left": {
+                      "type": "UnitValue",
                       "span": {
-                        "start": 64,
+                        "start": 59,
+                        "end": 64,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 64,
+                          "end": 66,
+                          "ctxt": 0
+                        },
+                        "value": 10.0
+                      },
+                      "unit": {
+                        "span": {
+                          "start": 66,
+                          "end": 68,
+                          "ctxt": 0
+                        },
+                        "kind": null
+                      }
+                    },
+                    "right": {
+                      "type": "UnitValue",
+                      "span": {
+                        "start": 71,
                         "end": 71,
                         "ctxt": 0
                       },
-                      "op": "+",
-                      "left": {
-                        "type": "UnitValue",
-                        "span": {
-                          "start": 59,
-                          "end": 64,
-                          "ctxt": 0
-                        },
-                        "value": {
-                          "type": "Number",
-                          "span": {
-                            "start": 64,
-                            "end": 66,
-                            "ctxt": 0
-                          },
-                          "value": 10.0
-                        },
-                        "unit": {
-                          "span": {
-                            "start": 66,
-                            "end": 68,
-                            "ctxt": 0
-                          },
-                          "kind": null
-                        }
-                      },
-                      "right": {
-                        "type": "UnitValue",
+                      "value": {
+                        "type": "Number",
                         "span": {
                           "start": 71,
-                          "end": 71,
+                          "end": 72,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "Number",
-                          "span": {
-                            "start": 71,
-                            "end": 72,
-                            "ctxt": 0
-                          },
-                          "value": 5.0
+                        "value": 5.0
+                      },
+                      "unit": {
+                        "span": {
+                          "start": 72,
+                          "end": 75,
+                          "ctxt": 0
                         },
-                        "unit": {
-                          "span": {
-                            "start": 72,
-                            "end": 75,
-                            "ctxt": 0
-                          },
-                          "kind": "rem"
-                        }
+                        "kind": "rem"
                       }
                     }
-                  ]
-                }
-              ]
-            },
+                  }
+                ]
+              }
+            ],
             "important": null
           },
           {
@@ -292,44 +268,36 @@
               },
               "value": "background"
             },
-            "values": {
-              "type": "Values",
-              "span": {
-                "start": 91,
-                "end": 91,
-                "ctxt": 0
-              },
-              "values": [
-                {
-                  "type": "FnValue",
+            "values": [
+              {
+                "type": "FnValue",
+                "span": {
+                  "start": 91,
+                  "end": 91,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Text",
                   "span": {
                     "start": 91,
-                    "end": 91,
+                    "end": 94,
                     "ctxt": 0
                   },
-                  "name": {
-                    "type": "Text",
+                  "value": "url"
+                },
+                "args": [
+                  {
+                    "type": "String",
                     "span": {
-                      "start": 91,
-                      "end": 94,
+                      "start": 95,
+                      "end": 97,
                       "ctxt": 0
                     },
-                    "value": "url"
-                  },
-                  "args": [
-                    {
-                      "type": "String",
-                      "span": {
-                        "start": 95,
-                        "end": 97,
-                        "ctxt": 0
-                      },
-                      "value": ""
-                    }
-                  ]
-                }
-              ]
-            },
+                    "value": ""
+                  }
+                ]
+              }
+            ],
             "important": null
           },
           {
@@ -348,44 +316,36 @@
               },
               "value": "background"
             },
-            "values": {
-              "type": "Values",
-              "span": {
-                "start": 113,
-                "end": 113,
-                "ctxt": 0
-              },
-              "values": [
-                {
-                  "type": "FnValue",
+            "values": [
+              {
+                "type": "FnValue",
+                "span": {
+                  "start": 113,
+                  "end": 113,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Text",
                   "span": {
                     "start": 113,
-                    "end": 113,
+                    "end": 116,
                     "ctxt": 0
                   },
-                  "name": {
-                    "type": "Text",
+                  "value": "url"
+                },
+                "args": [
+                  {
+                    "type": "String",
                     "span": {
-                      "start": 113,
-                      "end": 116,
+                      "start": 117,
+                      "end": 128,
                       "ctxt": 0
                     },
-                    "value": "url"
-                  },
-                  "args": [
-                    {
-                      "type": "String",
-                      "span": {
-                        "start": 117,
-                        "end": 128,
-                        "ctxt": 0
-                      },
-                      "value": "something"
-                    }
-                  ]
-                }
-              ]
-            },
+                    "value": "something"
+                  }
+                ]
+              }
+            ],
             "important": null
           },
           {
@@ -404,44 +364,36 @@
               },
               "value": "background"
             },
-            "values": {
-              "type": "Values",
-              "span": {
-                "start": 144,
-                "end": 144,
-                "ctxt": 0
-              },
-              "values": [
-                {
-                  "type": "FnValue",
+            "values": [
+              {
+                "type": "FnValue",
+                "span": {
+                  "start": 144,
+                  "end": 144,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Text",
                   "span": {
                     "start": 144,
-                    "end": 144,
+                    "end": 147,
                     "ctxt": 0
                   },
-                  "name": {
-                    "type": "Text",
+                  "value": "url"
+                },
+                "args": [
+                  {
+                    "type": "String",
                     "span": {
-                      "start": 144,
-                      "end": 147,
+                      "start": 148,
+                      "end": 161,
                       "ctxt": 0
                     },
-                    "value": "url"
-                  },
-                  "args": [
-                    {
-                      "type": "String",
-                      "span": {
-                        "start": 148,
-                        "end": 161,
-                        "ctxt": 0
-                      },
-                      "value": "./something"
-                    }
-                  ]
-                }
-              ]
-            },
+                    "value": "./something"
+                  }
+                ]
+              }
+            ],
             "important": null
           }
         ]

@@ -77,88 +77,80 @@
               },
               "value": "grid-template-columns"
             },
-            "values": {
-              "type": "Values",
-              "span": {
-                "start": 33,
-                "end": 43,
-                "ctxt": 0
-              },
-              "values": [
-                {
-                  "type": "FnValue",
+            "values": [
+              {
+                "type": "FnValue",
+                "span": {
+                  "start": 33,
+                  "end": 43,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Text",
                   "span": {
                     "start": 33,
-                    "end": 43,
+                    "end": 39,
                     "ctxt": 0
                   },
-                  "name": {
-                    "type": "Text",
+                  "value": "repeat"
+                },
+                "args": [
+                  {
+                    "type": "Number",
                     "span": {
-                      "start": 33,
-                      "end": 39,
+                      "start": 40,
+                      "end": 41,
                       "ctxt": 0
                     },
-                    "value": "repeat"
+                    "value": 4.0
                   },
-                  "args": [
-                    {
-                      "type": "Number",
-                      "span": {
-                        "start": 40,
-                        "end": 41,
-                        "ctxt": 0
-                      },
-                      "value": 4.0
+                  {
+                    "type": "FnValue",
+                    "span": {
+                      "start": 43,
+                      "end": 43,
+                      "ctxt": 0
                     },
-                    {
-                      "type": "FnValue",
+                    "name": {
+                      "type": "Text",
                       "span": {
                         "start": 43,
-                        "end": 43,
+                        "end": 54,
                         "ctxt": 0
                       },
-                      "name": {
-                        "type": "Text",
+                      "value": "fit-content"
+                    },
+                    "args": [
+                      {
+                        "type": "UnitValue",
                         "span": {
                           "start": 43,
-                          "end": 54,
+                          "end": 55,
                           "ctxt": 0
                         },
-                        "value": "fit-content"
-                      },
-                      "args": [
-                        {
-                          "type": "UnitValue",
+                        "value": {
+                          "type": "Number",
                           "span": {
-                            "start": 43,
-                            "end": 55,
+                            "start": 55,
+                            "end": 58,
                             "ctxt": 0
                           },
-                          "value": {
-                            "type": "Number",
-                            "span": {
-                              "start": 55,
-                              "end": 58,
-                              "ctxt": 0
-                            },
-                            "value": 300.0
+                          "value": 300.0
+                        },
+                        "unit": {
+                          "span": {
+                            "start": 58,
+                            "end": 60,
+                            "ctxt": 0
                           },
-                          "unit": {
-                            "span": {
-                              "start": 58,
-                              "end": 60,
-                              "ctxt": 0
-                            },
-                            "kind": null
-                          }
+                          "kind": null
                         }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
             "important": null
           }
         ]
