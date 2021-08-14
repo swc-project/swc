@@ -1,10 +1,9 @@
 use std::{
-    collections::HashMap,
     fmt,
     sync::atomic::{AtomicU32, Ordering::SeqCst},
 };
 use swc_atoms::JsWord;
-use swc_common::{sync::Lock, FileName, Mark, SyntaxContext, DUMMY_SP};
+use swc_common::{collections::AHashMap, sync::Lock, FileName, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{Expr, Ident};
 use swc_ecma_utils::ident::IdentLike;
 
@@ -28,7 +27,7 @@ impl fmt::Debug for ModuleId {
 pub(crate) struct ModuleIdGenerator {
     v: AtomicU32,
     /// `(module_id, local_mark, export_mark)`
-    cache: Lock<HashMap<FileName, (ModuleId, Mark, Mark)>>,
+    cache: Lock<AHashMap<FileName, (ModuleId, Mark, Mark)>>,
 }
 
 impl ModuleIdGenerator {
