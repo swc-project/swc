@@ -3,7 +3,6 @@ use serde::Deserialize;
 use serde_json::Value;
 use std::{
     cmp::Ordering,
-    collections::HashMap,
     env,
     fs::File,
     io,
