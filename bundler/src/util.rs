@@ -241,9 +241,9 @@ where
     V: Clone,
 {
     #[cfg(feature = "concurrent")]
-    inner: dashmap::DashMap<K, V>,
+    inner: dashmap::DashMap<K, V, ahash::RandomState>,
     #[cfg(not(feature = "concurrent"))]
-    inner: std::cell::RefCell<std::collections::HashMap<K, V>>,
+    inner: std::cell::RefCell<swc_common::collections::AHashMap<K, V>>,
 }
 
 impl<K, V> Default for CloneMap<K, V>
