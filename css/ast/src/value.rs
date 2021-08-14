@@ -2,13 +2,19 @@ use crate::{Num, Str, Text, Tokens, Unit};
 use swc_common::{ast_node, Span};
 
 #[ast_node]
-pub enum LazyValue {
+pub enum LazyValues {
     /// This variant means we didn't parsed token yet.
     #[tag("Tokens")]
     Tokens(Tokens),
 
     #[tag("*")]
-    Parsed(Value),
+    Parsed(Values),
+}
+
+#[ast_node]
+pub struct Values {
+    pub span: Span,
+    pub values: Vec<Value>,
 }
 
 #[ast_node]
