@@ -620,13 +620,13 @@ export interface ReactConfig {
    *
    * Defaults to `React.createElement`.
    */
-  pragma: string;
+  pragma?: string;
   /**
    * Replace the component used when compiling JSX fragments.
    *
    * Defaults to `React.Fragment`
    */
-  pragmaFrag: string;
+  pragmaFrag?: string;
   /**
    * Toggles whether or not to throw an error if a XML namespaced tag name is used. For example:
    * `<f:image />`
@@ -635,7 +635,7 @@ export interface ReactConfig {
    * JSX does not currently have support for it.
    *
    */
-  throwIfNamespace: boolean;
+  throwIfNamespace?: boolean;
   /**
    * Toggles plugins that aid in development, such as @swc/plugin-transform-react-jsx-self
    * and @swc/plugin-transform-react-jsx-source.
@@ -643,26 +643,26 @@ export interface ReactConfig {
    * Defaults to `false`,
    *
    */
-  development: boolean;
+  development?: boolean;
   /**
    * Use `Object.assign()` instead of `_extends`. Defaults to false.
    */
-  useBuiltins: boolean;
+  useBuiltins?: boolean;
 
   /**
    * Enable fast refresh feature for React app
    */
-  refresh: boolean;
+  refresh?: boolean;
 
   /**
    * jsx runtime
    */
-  runtime: 'automatic' | 'classic'
+  runtime?: 'automatic' | 'classic'
 
   /**
    * Declares the module specifier to be used for importing the `jsx` and `jsxs` factory functions when using `runtime` 'automatic'
    */
-  importSource: string
+  importSource?: string
 }
 /**
  *  - `import { DEBUG } from '@ember/env-flags';`
@@ -786,7 +786,7 @@ export interface UmdConfig extends BaseModuleConfig {
 
 export interface AmdConfig extends BaseModuleConfig {
   type: "amd";
-  moduleId: string;
+  moduleId?: string;
 }
 
 export interface Output {
