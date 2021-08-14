@@ -213,10 +213,8 @@ where
     }
 
     fn parse_array_value(&mut self) -> PResult<ArrayValue> {
-        assert!(
-            matches!(cur!(self), tok!("[")),
-            "parse_array_value: Should be called only if current token is `[`"
-        );
+        expect!(self, "[");
+
         let span = self.input.cur_span()?;
 
         let ctx = Ctx {
@@ -224,6 +222,8 @@ where
             ..self.ctx
         };
         let values = self.parse_comma_separated_value()?;
+
+        expect!(self, "]");
 
         Ok(ArrayValue {
             span: span!(self, span.lo),
