@@ -34,8 +34,18 @@ pub enum Value {
     #[tag("ArrayValue")]
     Array(ArrayValue),
 
+    #[tag("Values")]
+    Values(Values),
+
     #[tag("Tokens")]
     Lazy(Tokens),
+}
+
+/// Comma separated list of values.
+#[ast_node("Values")]
+pub struct Values {
+    pub span: Span,
+    pub values: Vec<Value>,
 }
 
 #[ast_node("BinValue")]
