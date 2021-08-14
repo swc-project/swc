@@ -1,4 +1,4 @@
-use crate::{LazyValues, Text, Value};
+use crate::{LazyValues, Text};
 use swc_common::{ast_node, Span};
 
 #[ast_node("Property")]
