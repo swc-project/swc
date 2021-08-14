@@ -16,6 +16,13 @@ use std::{
 use swc_common::FileName;
 use swc_ecma_ast::TargetEnv;
 
+use dashmap::{DashMap, DashSet};
+use once_cell::sync::Lazy;
+
+static PACKAGE_CACHE: Lazy<DashMap<PathBuf, PackageJson>> = Lazy::new(Default::default);
+static BROWSER_REWRITES: Lazy<DashMap<PathBuf, PathBuf>> = Lazy::new(Default::default);
+static BROWSER_IGNORES: Lazy<DashSet<PathBuf>> = Lazy::new(Default::default);
+
 // Run `node -p "require('module').builtinModules"`
 pub(crate) fn is_core_module(s: &str) -> bool {
     match s {
@@ -102,7 +109,7 @@ enum Browser {
     Obj(FxHashMap<String, StringOrBool>),
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Clone)]
 #[serde(untagged)]
 enum StringOrBool {
     Str(String),
@@ -134,8 +141,6 @@ impl NodeModulesResolver {
     /// Resolve a path as a file. If `path` refers to a file, it is returned;
     /// otherwise the `path` + each extension is tried.
     fn resolve_as_file(&self, path: &Path) -> Result<Option<PathBuf>, Error> {
-        log::debug!("Resolve file {}", path.display());
-
         if path.is_file() {
             return Ok(Some(path.to_path_buf()));
         }
@@ -156,17 +161,13 @@ impl NodeModulesResolver {
 
     /// Resolve a path as a directory, using the "main" key from a package.json
     /// file if it exists, or resolving to the index.EXT file if it exists.
-    fn resolve_as_directory(&self, path: &PathBuf, target: &str) -> Result<Option<PathBuf>, Error> {
-        log::debug!("Resolve directory {}", path.display());
-
+    fn resolve_as_directory(&self, path: &PathBuf) -> Result<Option<PathBuf>, Error> {
         let pkg_path = path.join("package.json");
         if pkg_path.is_file() {
-            if let Some(main) = self.resolve_package_entry(path, &pkg_path, target)? {
+            if let Some(main) = self.resolve_package_entry(path, &pkg_path)? {
                 return Ok(Some(main));
             }
         }
-
-        log::debug!("Resolve using index file on {}", path.display());
 
         // Try to resolve to an index file.
         for ext in EXTENSIONS {
@@ -183,14 +184,18 @@ impl NodeModulesResolver {
         &self,
         pkg_dir: &PathBuf,
         pkg_path: &PathBuf,
-        target: &str,
     ) -> Result<Option<PathBuf>, Error> {
-        log::debug!("Resolve package entry points {:#?}", pkg_dir);
+        let pkg = if let Some(pkg) = PACKAGE_CACHE.get(pkg_dir) {
+            pkg
+        } else {
+            let file = File::open(pkg_path)?;
+            let reader = BufReader::new(file);
+            let pkg: PackageJson = serde_json::from_reader(reader)
+                .context(format!("failed to deserialize {}", pkg_path.display()))?;
 
-        let file = File::open(pkg_path)?;
-        let reader = BufReader::new(file);
-        let pkg: PackageJson = serde_json::from_reader(reader)
-            .context(format!("failed to deserialize {}", pkg_path.display()))?;
+            PACKAGE_CACHE.insert(pkg_dir.clone(), pkg);
+            PACKAGE_CACHE.get(pkg_dir).unwrap()
+        };
 
         let main_fields = match self.target_env {
             TargetEnv::Node => {
@@ -203,16 +208,43 @@ impl NodeModulesResolver {
                             vec![Some(path), pkg.main.as_ref().clone()]
                         }
                         Browser::Obj(map) => {
-                            if let Some(mapping) = map.get(target) {
-                                match mapping {
-                                    StringOrBool::Str(path) => {
-                                        vec![Some(path), pkg.main.as_ref().clone()]
+                            for (k, v) in map {
+                                let target_key = Path::new(k);
+                                let mut components = target_key.components();
+                                if let Some(Component::CurDir) = components.next() {
+                                    // Some packages create mappings for test files that
+                                    // are not included in the package so we must ignore
+                                    // those browser rewrite rules
+                                    if let Ok(source) = pkg_dir.join(k).canonicalize() {
+                                        match v {
+                                            StringOrBool::Str(dest) => {
+                                                let target = pkg_dir
+                                                    .join(dest)
+                                                    .canonicalize()
+                                                    .context(format!(
+                                                        "failed to canonicalize browser value {} \
+                                                         for key {} in {}",
+                                                        dest,
+                                                        k,
+                                                        pkg_dir.display()
+                                                    ))?;
+
+                                                BROWSER_REWRITES.insert(source, target);
+                                            }
+                                            StringOrBool::Bool(flag) => {
+                                                // If somebody set boolean `true` which is an
+                                                // invalid value we will jsut ignore it
+                                                if !flag {
+                                                    BROWSER_IGNORES.insert(source);
+                                                }
+                                            }
+                                        }
                                     }
-                                    _ => todo!("Handle boolean value for browser"),
                                 }
-                            } else {
-                                vec![pkg.main.as_ref().clone()]
+
+                                // TODO: Handle module keys!
                             }
+                            vec![pkg.main.as_ref().clone()]
                         }
                     }
                 } else {
@@ -221,14 +253,12 @@ impl NodeModulesResolver {
             }
         };
 
-        log::debug!("Resolve using main fields {:#?}", main_fields);
-
         for main in main_fields {
             if let Some(target) = main {
                 let path = pkg_dir.join(target);
                 return self
                     .resolve_as_file(&path)
-                    .or_else(|_| self.resolve_as_directory(&path, target));
+                    .or_else(|_| self.resolve_as_directory(&path));
             }
         }
 
@@ -241,17 +271,14 @@ impl NodeModulesResolver {
         base_dir: &Path,
         target: &str,
     ) -> Result<Option<PathBuf>, Error> {
-        log::debug!("Resolve node_modules {} for {}", base_dir.display(), target);
-
         let mut path = Some(base_dir);
         while let Some(dir) = path {
             let node_modules = dir.join("node_modules");
             if node_modules.is_dir() {
                 let path = node_modules.join(target);
-                log::debug!("Resolve node_modules path {}", path.display());
                 if let Some(result) = self
                     .resolve_as_file(&path)
-                    .or_else(|_| self.resolve_as_directory(&path, target))?
+                    .or_else(|_| self.resolve_as_directory(&path))?
                 {
                     return Ok(Some(result));
                 }
@@ -266,62 +293,79 @@ impl NodeModulesResolver {
 impl Resolve for NodeModulesResolver {
     fn resolve(&self, base: &FileName, target: &str) -> Result<FileName, Error> {
         log::debug!(
-            "Resolve {} from {:#?} in {:#?}",
+            "Resolve {} from {:#?} for {:#?}",
             target,
             base,
             self.target_env
         );
 
-        let target = if let Some(alias) = self.alias.get(target) {
-            &alias[..]
-        } else {
-            target
-        };
+        let file_name = {
+            let target = if let Some(alias) = self.alias.get(target) {
+                &alias[..]
+            } else {
+                target
+            };
 
-        if let TargetEnv::Node = self.target_env {
-            if is_core_module(target) {
-                return Ok(FileName::Custom(target.to_string()));
+            if let TargetEnv::Node = self.target_env {
+                if is_core_module(target) {
+                    return Ok(FileName::Custom(target.to_string()));
+                }
+            }
+
+            let base = match base {
+                FileName::Real(v) => v,
+                _ => bail!("node-resolver supports only files"),
+            };
+
+            let cwd = &Path::new(".");
+            let base_dir = base.parent().unwrap_or(&cwd);
+
+            let target_path = Path::new(target);
+
+            if target_path.is_absolute() {
+                let path = PathBuf::from(target_path);
+                self.resolve_as_file(&path)
+                    .or_else(|_| self.resolve_as_directory(&path))
+                    .and_then(|p| self.wrap(p))
+            } else {
+                let mut components = target_path.components();
+
+                if let Some(Component::CurDir | Component::ParentDir) = components.next() {
+                    #[cfg(windows)]
+                    let path = {
+                        let base_dir = BasePath::new(base_dir).unwrap();
+                        base_dir
+                            .join(target.replace('/', "\\"))
+                            .normalize_virtually()
+                            .unwrap()
+                            .into_path_buf()
+                    };
+                    #[cfg(not(windows))]
+                    let path = base_dir.join(target);
+                    self.resolve_as_file(&path)
+                        .or_else(|_| self.resolve_as_directory(&path))
+                        .and_then(|p| self.wrap(p))
+                } else {
+                    self.resolve_node_modules(base_dir, target)
+                        .and_then(|p| self.wrap(p))
+                }
             }
         }
+        .and_then(|v| {
+            if let TargetEnv::Browser = self.target_env {
+                if let FileName::Real(path) = &v {
+                    if BROWSER_IGNORES.contains(path) {
+                        return Ok(FileName::Custom("ignored path".into()));
+                    }
 
-        let base = match base {
-            FileName::Real(v) => v,
-            _ => bail!("node-resolver supports only files"),
-        };
+                    if let Some(rewrite) = BROWSER_REWRITES.get(path) {
+                        return self.wrap(Some(rewrite.to_path_buf()));
+                    }
+                }
+            }
+            Ok(v)
+        });
 
-        let target_path = Path::new(target);
-
-        if target_path.is_absolute() {
-            let path = PathBuf::from(target_path);
-            return self
-                .resolve_as_file(&path)
-                .or_else(|_| self.resolve_as_directory(&path, target))
-                .and_then(|p| self.wrap(p));
-        }
-
-        let cwd = &Path::new(".");
-        let base_dir = base.parent().unwrap_or(&cwd);
-        let mut components = target_path.components();
-
-        if let Some(Component::CurDir | Component::ParentDir) = components.next() {
-            #[cfg(windows)]
-            let path = {
-                let base_dir = BasePath::new(base_dir).unwrap();
-                base_dir
-                    .join(target.replace('/', "\\"))
-                    .normalize_virtually()
-                    .unwrap()
-                    .into_path_buf()
-            };
-            #[cfg(not(windows))]
-            let path = base_dir.join(target);
-            return self
-                .resolve_as_file(&path)
-                .or_else(|_| self.resolve_as_directory(&path, target))
-                .and_then(|p| self.wrap(p));
-        }
-
-        self.resolve_node_modules(base_dir, target)
-            .and_then(|p| self.wrap(p))
+        file_name
     }
 }
