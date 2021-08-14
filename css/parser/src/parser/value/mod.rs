@@ -59,6 +59,8 @@ where
 
             tok!("[") => return self.parse_array_value().map(From::from),
 
+            tok!("(") => return self.parse_paren_value().map(From::from),
+
             _ => {}
         }
 
@@ -213,9 +215,9 @@ where
     }
 
     fn parse_array_value(&mut self) -> PResult<ArrayValue> {
-        expect!(self, "[");
-
         let span = self.input.cur_span()?;
+
+        expect!(self, "[");
 
         let ctx = Ctx {
             allow_operation_in_value: false,
@@ -228,6 +230,21 @@ where
         Ok(ArrayValue {
             span: span!(self, span.lo),
             values,
+        })
+    }
+
+    fn parse_paren_value(&mut self) -> PResult<ParenValue> {
+        let span = self.input.cur_span()?;
+
+        expect!(self, "(");
+
+        let value = self.parse_one_value().map(Box::new)?;
+
+        expect!(self, ")");
+
+        Ok(ParenValue {
+            span: span!(self, span.lo),
+            value,
         })
     }
 
