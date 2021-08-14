@@ -19,7 +19,6 @@ use swc_ecma_ast::TargetEnv;
 use dashmap::{DashMap, DashSet};
 use once_cell::sync::Lazy;
 
-static PACKAGE_CACHE: Lazy<DashMap<PathBuf, PackageJson>> = Lazy::new(Default::default);
 static BROWSER_REWRITES: Lazy<DashMap<PathBuf, PathBuf>> = Lazy::new(Default::default);
 static BROWSER_IGNORES: Lazy<DashSet<PathBuf>> = Lazy::new(Default::default);
 
@@ -185,17 +184,10 @@ impl NodeModulesResolver {
         pkg_dir: &PathBuf,
         pkg_path: &PathBuf,
     ) -> Result<Option<PathBuf>, Error> {
-        let pkg = if let Some(pkg) = PACKAGE_CACHE.get(pkg_dir) {
-            pkg
-        } else {
-            let file = File::open(pkg_path)?;
-            let reader = BufReader::new(file);
-            let pkg: PackageJson = serde_json::from_reader(reader)
-                .context(format!("failed to deserialize {}", pkg_path.display()))?;
-
-            PACKAGE_CACHE.insert(pkg_dir.clone(), pkg);
-            PACKAGE_CACHE.get(pkg_dir).unwrap()
-        };
+        let file = File::open(pkg_path)?;
+        let reader = BufReader::new(file);
+        let pkg: PackageJson = serde_json::from_reader(reader)
+            .context(format!("failed to deserialize {}", pkg_path.display()))?;
 
         let main_fields = match self.target_env {
             TargetEnv::Node => {
