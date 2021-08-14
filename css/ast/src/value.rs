@@ -1,7 +1,9 @@
 use crate::{Num, Str, Text, Tokens, Unit};
-use swc_common::{ast_node, Span};
+use string_enum::StringEnum;
+use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 #[ast_node]
+
 pub enum LazyValues {
     /// This variant means we didn't parsed token yet.
     #[tag("Tokens")]
@@ -42,6 +44,20 @@ pub enum Value {
 
     #[tag("FnValue")]
     Fn(FnValue),
+
+    #[tag("BinValue")]
+    Bin(BinValue),
+}
+
+#[ast_node("BinValue")]
+pub struct BinValue {
+    pub span: Span,
+
+    pub op: BinOp,
+
+    pub left: Box<Value>,
+
+    pub right: Box<Value>,
 }
 
 #[ast_node("FnValue")]
@@ -81,4 +97,16 @@ pub struct UnitValue {
 pub struct PercentValue {
     pub span: Span,
     pub value: Num,
+}
+
+#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
+pub enum BinOp {
+    /// `+`
+    Add,
+    /// `-`
+    Sub,
+    /// `*`
+    Mul,
+    /// `/`
+    Div,
 }
