@@ -5,7 +5,7 @@ use abi_stable::{
 use anyhow::{anyhow, Context, Error};
 use std::path::Path;
 use swc_ecma_ast::Program;
-use swc_plugin_shared::SwcPluginRef;
+use swc_plugin::SwcPluginRef;
 
 pub fn apply_js_plugin(program: &Program, path: &Path) -> Result<Program, Error> {
     (|| -> Result<_, Error> {
