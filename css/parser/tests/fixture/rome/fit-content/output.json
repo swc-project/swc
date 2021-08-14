@@ -77,121 +77,129 @@
               },
               "value": "grid-template-columns"
             },
-            "values": [
-              {
-                "type": "FnValue",
-                "span": {
-                  "start": 33,
-                  "end": 33,
-                  "ctxt": 0
-                },
-                "name": {
-                  "type": "Text",
+            "values": {
+              "type": "Values",
+              "span": {
+                "start": 33,
+                "end": 33,
+                "ctxt": 0
+              },
+              "values": [
+                {
+                  "type": "FnValue",
                   "span": {
                     "start": 33,
-                    "end": 44,
+                    "end": 33,
                     "ctxt": 0
                   },
-                  "value": "fit-content"
-                },
-                "args": [
-                  {
-                    "type": "UnitValue",
+                  "name": {
+                    "type": "Text",
                     "span": {
                       "start": 33,
-                      "end": 45,
+                      "end": 44,
                       "ctxt": 0
                     },
-                    "value": {
-                      "type": "Number",
+                    "value": "fit-content"
+                  },
+                  "args": [
+                    {
+                      "type": "UnitValue",
                       "span": {
-                        "start": 45,
-                        "end": 46,
+                        "start": 33,
+                        "end": 45,
                         "ctxt": 0
                       },
-                      "value": 8.0
-                    },
-                    "unit": {
-                      "span": {
-                        "start": 46,
-                        "end": 48,
-                        "ctxt": 0
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 45,
+                          "end": 46,
+                          "ctxt": 0
+                        },
+                        "value": 8.0
                       },
-                      "kind": "ch"
+                      "unit": {
+                        "span": {
+                          "start": 46,
+                          "end": 48,
+                          "ctxt": 0
+                        },
+                        "kind": "ch"
+                      }
                     }
-                  }
-                ]
-              },
-              {
-                "type": "FnValue",
-                "span": {
-                  "start": 33,
-                  "end": 50,
-                  "ctxt": 0
+                  ]
                 },
-                "name": {
-                  "type": "Text",
+                {
+                  "type": "FnValue",
                   "span": {
-                    "start": 50,
-                    "end": 61,
+                    "start": 33,
+                    "end": 50,
                     "ctxt": 0
                   },
-                  "value": "fit-content"
-                },
-                "args": [
-                  {
-                    "type": "UnitValue",
+                  "name": {
+                    "type": "Text",
                     "span": {
-                      "start": 33,
-                      "end": 62,
+                      "start": 50,
+                      "end": 61,
                       "ctxt": 0
                     },
-                    "value": {
-                      "type": "Number",
+                    "value": "fit-content"
+                  },
+                  "args": [
+                    {
+                      "type": "UnitValue",
                       "span": {
-                        "start": 62,
-                        "end": 63,
+                        "start": 33,
+                        "end": 62,
                         "ctxt": 0
                       },
-                      "value": 8.0
-                    },
-                    "unit": {
-                      "span": {
-                        "start": 63,
-                        "end": 65,
-                        "ctxt": 0
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 62,
+                          "end": 63,
+                          "ctxt": 0
+                        },
+                        "value": 8.0
                       },
-                      "kind": "ch"
+                      "unit": {
+                        "span": {
+                          "start": 63,
+                          "end": 65,
+                          "ctxt": 0
+                        },
+                        "kind": "ch"
+                      }
                     }
+                  ]
+                },
+                {
+                  "type": "UnitValue",
+                  "span": {
+                    "start": 33,
+                    "end": 67,
+                    "ctxt": 0
+                  },
+                  "value": {
+                    "type": "Number",
+                    "span": {
+                      "start": 67,
+                      "end": 68,
+                      "ctxt": 0
+                    },
+                    "value": 1.0
+                  },
+                  "unit": {
+                    "span": {
+                      "start": 68,
+                      "end": 70,
+                      "ctxt": 0
+                    },
+                    "kind": "fr"
                   }
-                ]
-              },
-              {
-                "type": "UnitValue",
-                "span": {
-                  "start": 33,
-                  "end": 67,
-                  "ctxt": 0
-                },
-                "value": {
-                  "type": "Number",
-                  "span": {
-                    "start": 67,
-                    "end": 68,
-                    "ctxt": 0
-                  },
-                  "value": 1.0
-                },
-                "unit": {
-                  "span": {
-                    "start": 68,
-                    "end": 70,
-                    "ctxt": 0
-                  },
-                  "kind": "fr"
                 }
-              }
-            ],
+              ]
+            },
             "important": null
           }
         ]
