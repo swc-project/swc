@@ -53,7 +53,9 @@ where
 
                 let value = self.parse_one_value_inner()?;
 
-                values.push(value)
+                values.push(value);
+
+                self.input.skip_ws()?;
             }
 
             return Ok(Value::Values(Values {
