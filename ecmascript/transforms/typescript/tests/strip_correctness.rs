@@ -15,20 +15,8 @@ use swc_ecma_visit::{Fold, FoldWith};
 #[testing::fixture("../../parser/tests/typescript/**/*.ts")]
 #[testing::fixture("../../parser/tests/typescript/**/*.tsx")]
 fn identity(entry: PathBuf) {
-    let dir = Path::new(env!("CARGO_MANIFEST_DIR"))
-        .parent()
-        .unwrap()
-        .parent()
-        .unwrap()
-        .join("parser")
-        .join("tests")
-        .join("typescript");
-
     let file_name = entry
-        .strip_prefix(&dir)
-        .expect("failed to strip prefix")
-        .to_str()
-        .expect("to_str() failed")
+        .to_string_lossy()
         .replace("\\\\", "/")
         .replace("\\", "/");
 
