@@ -25,7 +25,11 @@ mod tests {
     use super::private_in_object;
     use serde::Deserialize;
     use std::path::PathBuf;
+    use swc_common::chain;
+    use swc_ecma_transforms_base::pass::noop;
+    use swc_ecma_transforms_compat::{es2015::classes, es2020::class_properties};
     use swc_ecma_transforms_testing::{parse_options, test_fixture};
+    use swc_ecma_visit::Fold;
 
     #[derive(Debug, Clone, Deserialize)]
     #[serde(deny_unknown_fields)]
@@ -49,7 +53,38 @@ mod tests {
         let output = parent.join("output.js");
         test_fixture(
             Default::default(),
-            &|_| private_in_object(),
+            &|t| {
+                let mut pass: Box<dyn Fold> = Box::new(noop());
+
+                for plugin in &options.plugins {
+                    let (name, _option) = match plugin {
+                        PluginConfig::WithOption(name, config) => (name, config.clone()),
+                        PluginConfig::Name(name) => (name, serde_json::Value::Null),
+                    };
+
+                    match &**name {
+                        "proposal-private-property-in-object" => {
+                            pass = Box::new(chain!(pass, private_in_object()));
+                        }
+
+                        "proposal-class-properties" => {
+                            pass = Box::new(chain!(pass, class_properties()));
+                        }
+
+                        "proposal-private-methods" => {}
+
+                        "transform-classes" => {
+                            pass = Box::new(chain!(pass, classes(Some(t.comments.clone()))));
+                        }
+
+                        _ => {
+                            panic!("unknown pass: {}", name)
+                        }
+                    }
+                }
+
+                pass
+            },
             &input,
             &output,
         )
