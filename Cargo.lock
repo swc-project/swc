@@ -3113,6 +3113,7 @@ dependencies = [
 name = "swc_plugin_runner"
 version = "0.0.0"
 dependencies = [
+ "abi_stable",
  "anyhow",
  "libloading 0.7.0",
  "serde",
