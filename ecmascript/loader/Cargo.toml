@@ -15,7 +15,7 @@ all-features = true
 default = []
 
 # Enable node js resolver
-node = ["normpath", "serde", "serde_json"]
+node = ["normpath", "serde", "serde_json", "dashmap", "once_cell"]
 # Enable support for `paths` of tsconfig.json
 tsc = ["dashmap", "once_cell", "regex"]
 
