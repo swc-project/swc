@@ -1,7 +1,6 @@
 use std::{
-    env,
     io::{self, Write},
-    path::{Path, PathBuf},
+    path::PathBuf,
     sync::{Arc, RwLock},
 };
 use swc_common::FileName;
