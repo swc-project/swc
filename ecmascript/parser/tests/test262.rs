@@ -1,3 +1,7 @@
+#![feature(test)]
+
+extern crate test;
+
 use common::Normalizer;
 use std::{
     env,
