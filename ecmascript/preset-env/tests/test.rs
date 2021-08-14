@@ -10,7 +10,9 @@ use std::{
     io::Read,
     path::{Path, PathBuf},
 };
-use swc_common::{comments::SingleThreadedComments, input::StringInput, FromVariant, Mark};
+use swc_common::{
+    collections::AHashMap, comments::SingleThreadedComments, input::StringInput, FromVariant, Mark,
+};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{EsConfig, Parser, Syntax};
@@ -64,7 +66,7 @@ struct PresetConfig {
 #[serde(untagged)]
 pub enum CoreJs {
     Ver(Version),
-    Val(HashMap<String, Value>),
+    Val(AHashMap<String, Value>),
 }
 
 impl Default for CoreJs {
