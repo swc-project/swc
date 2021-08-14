@@ -6,7 +6,7 @@ set -eu
 
 (cd plugins && cargo build && ls -al target/debug)
 
-PLUGINS_DIR=$(cd plugins && pwd)
+export PLUGINS_DIR=$(cd plugins && pwd)
 echo "Using plugins at $PLUGINS_DIR"
 
 export PATH=${PLUGINS_DIR}/target/debug/:$PATH

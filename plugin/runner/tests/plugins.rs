@@ -1,4 +1,5 @@
-use std::path::Path;
+use std::env;
+use std::path::PathBuf;
 use swc_common::sync::Lrc;
 use swc_common::SourceMap;
 use swc_common::{input::SourceFileInput, FileName, SourceFile};
@@ -14,8 +15,12 @@ fn emotion() {
         let fm = cm.new_source_file(FileName::Anon, "import foo from 'foo';".into());
 
         let program = parse(fm.clone());
+        let plugin_path = PathBuf::from(env::var("PLUGINS_DIR").unwrap())
+            .join("target")
+            .join("debug")
+            .join("libswc_plugin_emotion.dylib");
 
-        let new = apply_js_plugin(&program, Path::new("libswc_plugin_emotion")).unwrap();
+        let new = apply_js_plugin(&program, &plugin_path).unwrap();
 
         let code = print(cm.clone(), &new);
 
