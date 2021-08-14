@@ -1,7 +1,5 @@
 use crate::{id::Id, modules::Modules};
-use ahash::RandomState;
-use std::collections::HashMap;
-use swc_common::{SyntaxContext, DUMMY_SP};
+use swc_common::{collections::AHashMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Node, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -9,7 +7,7 @@ use swc_ecma_visit::{
 
 #[derive(Debug, Default)]
 pub(crate) struct InlineData {
-    ids: HashMap<Id, Id, RandomState>,
+    ids: AHashMap<Id, Id>,
 }
 
 /// Inline **injected** variables.

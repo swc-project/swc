@@ -6,13 +6,13 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_node_base"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.2.1"
+version = "0.2.2"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 dashmap = "4.0.2"
-swc_common = {version = "0.11.0", path = "../../common"}
+swc_common = {version = "0.11.6", path = "../../common"}
 
 [target.'cfg(all(target_arch = "x86_64", not(target_env = "musl")))'.dependencies]
 mimalloc-rust = "=0.1.1"
