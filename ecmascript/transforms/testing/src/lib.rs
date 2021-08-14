@@ -603,7 +603,7 @@ where
     }
 
     serde_json::from_str(&s)
-        .unwrap_or_else(|err| panic!("failed to deserialize options.json: {}", err))
+        .unwrap_or_else(|err| panic!("failed to deserialize options.json: {}\n{}", err, s))
 }
 
 pub fn test_fixture<P>(syntax: Syntax, tr: &dyn Fn(&mut Tester) -> P, input: &Path, output: &Path)
