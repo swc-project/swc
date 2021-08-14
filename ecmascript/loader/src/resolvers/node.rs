@@ -19,8 +19,25 @@ use swc_ecma_ast::TargetEnv;
 use dashmap::{DashMap, DashSet};
 use once_cell::sync::Lazy;
 
-static BROWSER_REWRITES: Lazy<DashMap<PathBuf, PathBuf>> = Lazy::new(Default::default);
-static BROWSER_IGNORES: Lazy<DashSet<PathBuf>> = Lazy::new(Default::default);
+static BROWSER_BUCKETS: Lazy<DashMap<PathBuf, BrowserCache>> = Lazy::new(Default::default);
+
+#[derive(Debug, Default)]
+struct BrowserCache {
+    rewrites: DashMap<PathBuf, PathBuf>,
+    ignores: DashSet<PathBuf>,
+}
+
+fn find_package_root(path: &PathBuf) -> Option<PathBuf> {
+    let mut parent = path.parent();
+    while let Some(p) = parent {
+        let pkg = p.join("package.json");
+        if pkg.is_file() {
+            return Some(p.to_path_buf());
+        }
+        parent = p.parent();
+    }
+    None
+}
 
 // Run `node -p "require('module').builtinModules"`
 pub(crate) fn is_core_module(s: &str) -> bool {
@@ -200,6 +217,10 @@ impl NodeModulesResolver {
                             vec![Some(path), pkg.main.as_ref().clone()]
                         }
                         Browser::Obj(map) => {
+                            let bucket = BROWSER_BUCKETS
+                                .entry(pkg_dir.to_path_buf())
+                                .or_insert(Default::default());
+
                             for (k, v) in map {
                                 let target_key = Path::new(k);
                                 let mut components = target_key.components();
@@ -207,16 +228,9 @@ impl NodeModulesResolver {
                                 // Relative file paths are sources for this package
                                 let source = if let Some(Component::CurDir) = components.next() {
                                     pkg_dir.join(k).canonicalize().ok()
-                                // Resolve the referenced module relative to
-                                // this package
                                 } else {
-                                    let base_dir = FileName::Real(pkg_dir.to_path_buf());
-                                    let file_name = self.resolve(&base_dir, k)?;
-                                    if let FileName::Real(path) = file_name {
-                                        Some(path)
-                                    } else {
-                                        None
-                                    }
+                                    // FIXME: handle this
+                                    pkg_dir.join(k).canonicalize().ok()
                                 };
 
                                 if let Some(source) = source {
@@ -233,13 +247,13 @@ impl NodeModulesResolver {
                                                     pkg_dir.display()
                                                 ))?;
 
-                                            BROWSER_REWRITES.insert(source, target);
+                                            bucket.rewrites.insert(source, target);
                                         }
                                         StringOrBool::Bool(flag) => {
                                             // If somebody set boolean `true` which is an
                                             // invalid value we will just ignore it
                                             if !flag {
-                                                BROWSER_IGNORES.insert(source);
+                                                bucket.ignores.insert(source);
                                             }
                                         }
                                     }
@@ -300,28 +314,28 @@ impl Resolve for NodeModulesResolver {
             self.target_env
         );
 
-        let file_name = {
-            let target = if let Some(alias) = self.alias.get(target) {
-                &alias[..]
-            } else {
-                target
-            };
+        let target = if let Some(alias) = self.alias.get(target) {
+            &alias[..]
+        } else {
+            target
+        };
 
+        let base = match base {
+            FileName::Real(v) => v,
+            _ => bail!("node-resolver supports only files"),
+        };
+
+        let cwd = &Path::new(".");
+        let base_dir = base.parent().unwrap_or(&cwd);
+
+        let target_path = Path::new(target);
+
+        let file_name = {
             if let TargetEnv::Node = self.target_env {
                 if is_core_module(target) {
                     return Ok(FileName::Custom(target.to_string()));
                 }
             }
-
-            let base = match base {
-                FileName::Real(v) => v,
-                _ => bail!("node-resolver supports only files"),
-            };
-
-            let cwd = &Path::new(".");
-            let base_dir = base.parent().unwrap_or(&cwd);
-
-            let target_path = Path::new(target);
 
             if target_path.is_absolute() {
                 let path = PathBuf::from(target_path);
@@ -355,12 +369,16 @@ impl Resolve for NodeModulesResolver {
         .and_then(|v| {
             if let TargetEnv::Browser = self.target_env {
                 if let FileName::Real(path) = &v {
-                    if BROWSER_IGNORES.contains(path) {
-                        return Ok(FileName::Custom("ignored path".into()));
-                    }
-
-                    if let Some(rewrite) = BROWSER_REWRITES.get(path) {
-                        return self.wrap(Some(rewrite.to_path_buf()));
+                    if let Some(pkg_base) = find_package_root(base) {
+                        if let Some(item) = BROWSER_BUCKETS.get(&pkg_base) {
+                            let value = item.value();
+                            if value.ignores.contains(path) {
+                                return Ok(FileName::Custom("ignored path".into()));
+                            }
+                            if let Some(rewrite) = value.rewrites.get(path) {
+                                return self.wrap(Some(rewrite.to_path_buf()));
+                            }
+                        }
                     }
                 }
             }
