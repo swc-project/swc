@@ -1,11 +1,7 @@
-use std::env;
-use std::path::PathBuf;
-use swc_common::sync::Lrc;
-use swc_common::SourceMap;
-use swc_common::{input::SourceFileInput, FileName, SourceFile};
+use std::{env, path::PathBuf};
+use swc_common::{input::SourceFileInput, sync::Lrc, FileName, SourceFile, SourceMap};
 use swc_ecma_ast::{EsVersion, Program};
-use swc_ecma_codegen::text_writer::JsWriter;
-use swc_ecma_codegen::Emitter;
+use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser};
 use swc_plugin_runner::apply_js_plugin;
 
