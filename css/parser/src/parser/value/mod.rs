@@ -38,6 +38,34 @@ where
     }
 
     fn parse_one_value(&mut self) -> PResult<Value> {
+        let span = self.input.cur_span()?;
+        let value = self.parse_one_value_inner()?;
+
+        if self.ctx.allow_separating_value_with_space && eat!(self, " ") {
+            self.input.skip_ws()?;
+
+            let mut values = vec![];
+            values.push(value);
+            loop {
+                if !is_one_of!(self, Str, Num, Ident, "[", "(") {
+                    break;
+                }
+
+                let value = self.parse_one_value_inner()?;
+
+                values.push(value)
+            }
+
+            return Ok(Value::Values(Values {
+                span: span!(self, span.lo),
+                values,
+            }));
+        }
+
+        Ok(value)
+    }
+
+    fn parse_one_value_inner(&mut self) -> PResult<Value> {
         self.input.skip_ws()?;
 
         let span = self.input.cur_span()?;

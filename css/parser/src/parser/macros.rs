@@ -17,6 +17,10 @@ macro_rules! tok_pat {
         crate::token::Token::Str { .. }
     };
 
+    (Num) => {
+        crate::token::Token::Num { .. }
+    };
+
     (Url) => {
         crate::token::Token::Url { .. }
     };
