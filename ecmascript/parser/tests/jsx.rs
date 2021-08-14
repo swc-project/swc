@@ -1,7 +1,6 @@
 use pretty_assertions::assert_eq;
 use serde_json;
 use std::{
-    env,
     fs::read_to_string,
     path::{Path, PathBuf},
 };
@@ -84,21 +83,8 @@ fn references(entry: PathBuf) {
 
 #[testing::fixture("tests/jsx/errors/**/*.js")]
 fn error(entry: PathBuf) {
-    let root = {
-        let mut root = Path::new(env!("CARGO_MANIFEST_DIR")).to_path_buf();
-        root.push("tests");
-        root.push("jsx");
-        root.push("errors");
-        root
-    };
-
-    let dir = root;
-
     let input = read_to_string(&entry).unwrap();
 
-    let ignore = false;
-
-    let dir = dir.clone();
     eprintln!(
         "\n\n========== Running error reporting test \nSource:\n{}\n",
         input
