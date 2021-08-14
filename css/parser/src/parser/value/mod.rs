@@ -209,6 +209,7 @@ where
         if eat!(self, "(") {
             let ctx = Ctx {
                 allow_operation_in_value: true,
+                allow_separating_value_with_space: true,
                 ..self.ctx
             };
             let args = self.with_ctx(ctx).parse_comma_separated_value()?;
