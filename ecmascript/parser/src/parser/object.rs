@@ -39,6 +39,8 @@ impl<'a, I: Tokens> Parser<I> {
 
     /// spec: 'PropertyName'
     pub(super) fn parse_prop_name(&mut self) -> PResult<PropName> {
+        trace_cur!(self, parse_prop_name);
+
         let ctx = self.ctx();
         self.with_ctx(Context {
             in_property_name: true,
