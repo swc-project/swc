@@ -31,6 +31,9 @@ pub enum Value {
     #[tag("BinValue")]
     Bin(BinValue),
 
+    #[tag("ArrayValue")]
+    Array(ArrayValue),
+
     #[tag("Tokens")]
     Lazy(Tokens),
 }
@@ -62,6 +65,14 @@ pub struct ParenValue {
     pub span: Span,
 
     pub value: Box<Value>,
+}
+
+#[ast_node("ArrayValue")]
+pub struct ArrayValue {
+    /// Includes `[` and `]`.
+    pub span: Span,
+
+    pub values: Vec<Value>,
 }
 
 #[ast_node("HashValue")]
