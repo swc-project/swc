@@ -2861,6 +2861,7 @@ dependencies = [
  "either",
  "fxhash",
  "serde",
+ "serde_json",
  "smallvec 1.6.1",
  "swc_atoms 0.2.7",
  "swc_common",
@@ -2874,6 +2875,7 @@ dependencies = [
  "swc_ecma_transforms_testing",
  "swc_ecma_utils",
  "swc_ecma_visit",
+ "testing",
 ]
 
 [[package]]
