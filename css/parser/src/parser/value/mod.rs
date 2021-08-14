@@ -57,6 +57,8 @@ where
 
             Token::Ident { .. } => return self.parse_value_ident_or_fn(),
 
+            tok!("[") => return self.parse_array_value().map(From::from),
+
             _ => {}
         }
 
@@ -175,7 +177,11 @@ where
         let name = Text { span, value };
 
         if eat!(self, "(") {
-            let args = self.parse_args_of_fn_value()?;
+            let ctx = Ctx {
+                allow_operation_in_value: true,
+                ..self.ctx
+            };
+            let args = self.with_ctx(ctx).parse_comma_separated_value()?;
 
             expect!(self, ")");
 
@@ -190,11 +196,11 @@ where
     }
 
     /// Parse comma separated values.
-    fn parse_args_of_fn_value(&mut self) -> PResult<Vec<Value>> {
+    fn parse_comma_separated_value(&mut self) -> PResult<Vec<Value>> {
         let mut args = vec![];
 
         loop {
-            let value = self.parse_arg()?;
+            let value = self.parse_one_value()?;
 
             args.push(value);
 
@@ -206,12 +212,23 @@ where
         Ok(args)
     }
 
-    fn parse_arg(&mut self) -> PResult<Value> {
+    fn parse_array_value(&mut self) -> PResult<ArrayValue> {
+        assert!(
+            matches!(cur!(self), tok!("[")),
+            "parse_array_value: Should be called only if current token is `[`"
+        );
+        let span = self.input.cur_span()?;
+
         let ctx = Ctx {
-            allow_operation_in_value: true,
+            allow_operation_in_value: false,
             ..self.ctx
         };
-        self.with_ctx(ctx).parse_one_value()
+        let values = self.parse_comma_separated_value()?;
+
+        Ok(ArrayValue {
+            span: span!(self, span.lo),
+            values,
+        })
     }
 
     /// Ported from https://github.com/evanw/esbuild/blob/a9456dfbf08ab50607952eefb85f2418968c124c/internal/css_parser/css_parser.go#L657
