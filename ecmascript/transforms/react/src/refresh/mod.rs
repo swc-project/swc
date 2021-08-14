@@ -11,6 +11,7 @@ use sha1::{Digest, Sha1};
 
 use swc_atoms::JsWord;
 use swc_common::{
+    collections::AHashMap,
     comments::{Comments, CommentsExt},
     sync::Lrc,
     BytePos, SourceMap, Span, Spanned, DUMMY_SP,
@@ -55,8 +56,8 @@ fn get_persistent_id(ident: &Ident) -> Persist {
     }
 }
 
-fn hook_to_handle_map(hook_fn: Vec<FnWithHook>) -> (HashMap<Ident, FnWithHook>, HashSet<Ident>) {
-    let mut has_ident = HashMap::new();
+fn hook_to_handle_map(hook_fn: Vec<FnWithHook>) -> (AHashMap<Ident, FnWithHook>, HashSet<Ident>) {
+    let mut has_ident = HashMap::default();
     let mut ignore = HashSet::new();
     for hook in hook_fn {
         if let Some(binding) = &hook.binding {
