@@ -2156,7 +2156,10 @@
         return hasError;
     }
     function clearCaughtError() {
-        if (hasError) return hasError = !1, caughtError = null;
+        if (hasError) {
+            var error = caughtError;
+            return hasError = !1, caughtError = null, error;
+        }
         throw Error("clearCaughtError was called but no error was captured. This error is likely caused by a bug in React. Please file an issue.");
     }
     var _ReactInternals$Sched = React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.Scheduler, unstable_cancelCallback = _ReactInternals$Sched.unstable_cancelCallback, unstable_now = _ReactInternals$Sched.unstable_now, unstable_scheduleCallback = _ReactInternals$Sched.unstable_scheduleCallback, unstable_shouldYield = _ReactInternals$Sched.unstable_shouldYield, unstable_requestPaint = _ReactInternals$Sched.unstable_requestPaint, unstable_runWithPriority = _ReactInternals$Sched.unstable_runWithPriority, unstable_getCurrentPriorityLevel = _ReactInternals$Sched.unstable_getCurrentPriorityLevel, unstable_ImmediatePriority = _ReactInternals$Sched.unstable_ImmediatePriority, unstable_UserBlockingPriority = _ReactInternals$Sched.unstable_UserBlockingPriority, unstable_NormalPriority = _ReactInternals$Sched.unstable_NormalPriority, unstable_LowPriority = _ReactInternals$Sched.unstable_LowPriority, unstable_IdlePriority = _ReactInternals$Sched.unstable_IdlePriority, unstable_flushAllWithoutAsserting = _ReactInternals$Sched.unstable_flushAllWithoutAsserting;
@@ -5064,7 +5067,7 @@
     var Scheduler_runWithPriority = unstable_runWithPriority, Scheduler_scheduleCallback = unstable_scheduleCallback, Scheduler_cancelCallback = unstable_cancelCallback, Scheduler_requestPaint = unstable_requestPaint, Scheduler_now$1 = unstable_now, Scheduler_getCurrentPriorityLevel = unstable_getCurrentPriorityLevel, Scheduler_ImmediatePriority = unstable_ImmediatePriority, Scheduler_UserBlockingPriority = unstable_UserBlockingPriority, Scheduler_NormalPriority = unstable_NormalPriority, Scheduler_LowPriority = unstable_LowPriority, Scheduler_IdlePriority = unstable_IdlePriority;
     if (!(null != __interactionsRef && null != __interactionsRef.current)) throw Error("It is not supported to run the profiling version of a renderer (for example, `react-dom/profiling`) without also replacing the `scheduler/tracing` module with `scheduler/tracing-profiling`. Your bundler might have a setting for aliasing both modules. Learn more at https://reactjs.org/link/profiling");
     var fakeCallbackNode = {
-    }, shouldYield = unstable_shouldYield, requestPaint = void 0 !== Scheduler_requestPaint ? Scheduler_requestPaint : function() {
+    }, NormalPriority$1 = 97, shouldYield = unstable_shouldYield, requestPaint = void 0 !== Scheduler_requestPaint ? Scheduler_requestPaint : function() {
     }, syncQueue = null, immediateQueueCallbackNode = null, isFlushingSyncQueue = !1, initialTimeMs$1 = Scheduler_now$1(), now = initialTimeMs$1 < 10000 ? Scheduler_now$1 : function() {
         return Scheduler_now$1() - initialTimeMs$1;
     };
@@ -5075,7 +5078,7 @@
             case Scheduler_UserBlockingPriority:
                 return 98;
             case Scheduler_NormalPriority:
-                return 97;
+                return NormalPriority$1;
             case Scheduler_LowPriority:
                 return 96;
             case Scheduler_IdlePriority:
@@ -5090,7 +5093,7 @@
                 return Scheduler_ImmediatePriority;
             case 98:
                 return Scheduler_UserBlockingPriority;
-            case 97:
+            case NormalPriority$1:
                 return Scheduler_NormalPriority;
             case 96:
                 return Scheduler_LowPriority;
@@ -5115,7 +5118,11 @@
         callbackNode !== fakeCallbackNode && Scheduler_cancelCallback(callbackNode);
     }
     function flushSyncCallbackQueue() {
-        null !== immediateQueueCallbackNode && Scheduler_cancelCallback(immediateQueueCallbackNode = null), flushSyncCallbackQueueImpl();
+        if (null !== immediateQueueCallbackNode) {
+            var node = immediateQueueCallbackNode;
+            immediateQueueCallbackNode = null, Scheduler_cancelCallback(node);
+        }
+        flushSyncCallbackQueueImpl();
     }
     function flushSyncCallbackQueueImpl() {
         if (!isFlushingSyncQueue && null !== syncQueue) {
@@ -6676,7 +6683,7 @@
         var priorityLevel = getCurrentPriorityLevel();
         runWithPriority$1(priorityLevel < 98 ? 98 : priorityLevel, function() {
             setPending(!0);
-        }), runWithPriority$1(priorityLevel > 97 ? 97 : priorityLevel, function() {
+        }), runWithPriority$1(priorityLevel > NormalPriority$1 ? NormalPriority$1 : priorityLevel, function() {
             var prevTransition = ReactCurrentBatchConfig$1.transition;
             ReactCurrentBatchConfig$1.transition = 1;
             try {
@@ -8796,9 +8803,13 @@
         return root.finishedWork = finishedWork, root.finishedLanes = lanes, commitRoot(root), ensureRootIsScheduled(root, now()), null;
     }
     function flushPendingDiscreteUpdates() {
-        null !== rootsWithPendingDiscreteUpdates && (rootsWithPendingDiscreteUpdates = null).forEach(function(root) {
-            markDiscreteUpdatesExpired(root), ensureRootIsScheduled(root, now());
-        }), flushSyncCallbackQueue();
+        if (null !== rootsWithPendingDiscreteUpdates) {
+            var roots = rootsWithPendingDiscreteUpdates;
+            rootsWithPendingDiscreteUpdates = null, roots.forEach(function(root) {
+                markDiscreteUpdatesExpired(root), ensureRootIsScheduled(root, now());
+            });
+        }
+        flushSyncCallbackQueue();
     }
     function batchedUpdates$1(fn, a) {
         var prevExecutionContext = executionContext;
@@ -9024,7 +9035,7 @@
             var current = nextEffect.alternate;
             !shouldFireAfterActiveInstanceBlur && null !== focusedInstanceHandle && ((nextEffect.flags & Deletion) !== NoFlags ? doesFiberContain(nextEffect, focusedInstanceHandle) && (shouldFireAfterActiveInstanceBlur = !0) : 13 === nextEffect.tag && isSuspenseBoundaryBeingHidden(current, nextEffect) && doesFiberContain(nextEffect, focusedInstanceHandle) && (shouldFireAfterActiveInstanceBlur = !0));
             var flags = nextEffect.flags;
-            (256 & flags) !== NoFlags && (setCurrentFiber(nextEffect), commitBeforeMutationLifeCycles(current, nextEffect), resetCurrentFiber()), (512 & flags) === NoFlags || rootDoesHavePassiveEffects || (rootDoesHavePassiveEffects = !0, scheduleCallback(97, function() {
+            (256 & flags) !== NoFlags && (setCurrentFiber(nextEffect), commitBeforeMutationLifeCycles(current, nextEffect), resetCurrentFiber()), (512 & flags) === NoFlags || rootDoesHavePassiveEffects || (rootDoesHavePassiveEffects = !0, scheduleCallback(NormalPriority$1, function() {
                 return flushPassiveEffects(), null;
             })), nextEffect = nextEffect.nextEffect;
         }
@@ -9069,17 +9080,21 @@
         }
     }
     function flushPassiveEffects() {
-        return 90 !== pendingPassiveEffectsRenderPriority && runWithPriority$1((pendingPassiveEffectsRenderPriority = 90) > 97 ? 97 : pendingPassiveEffectsRenderPriority, flushPassiveEffectsImpl);
+        if (90 !== pendingPassiveEffectsRenderPriority) {
+            var priorityLevel = pendingPassiveEffectsRenderPriority > NormalPriority$1 ? NormalPriority$1 : pendingPassiveEffectsRenderPriority;
+            return pendingPassiveEffectsRenderPriority = 90, runWithPriority$1(priorityLevel, flushPassiveEffectsImpl);
+        }
+        return !1;
     }
     function enqueuePendingPassiveHookEffectMount(fiber, effect) {
-        pendingPassiveHookEffectsMount.push(effect, fiber), rootDoesHavePassiveEffects || (rootDoesHavePassiveEffects = !0, scheduleCallback(97, function() {
+        pendingPassiveHookEffectsMount.push(effect, fiber), rootDoesHavePassiveEffects || (rootDoesHavePassiveEffects = !0, scheduleCallback(NormalPriority$1, function() {
             return flushPassiveEffects(), null;
         }));
     }
     function enqueuePendingPassiveHookEffectUnmount(fiber, effect) {
         pendingPassiveHookEffectsUnmount.push(effect, fiber), fiber.flags |= 8192;
         var alternate = fiber.alternate;
-        null !== alternate && (alternate.flags |= 8192), rootDoesHavePassiveEffects || (rootDoesHavePassiveEffects = !0, scheduleCallback(97, function() {
+        null !== alternate && (alternate.flags |= 8192), rootDoesHavePassiveEffects || (rootDoesHavePassiveEffects = !0, scheduleCallback(NormalPriority$1, function() {
             return flushPassiveEffects(), null;
         }));
     }
