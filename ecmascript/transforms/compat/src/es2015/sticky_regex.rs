@@ -3,12 +3,8 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Check;
 use swc_ecma_transforms_macros::fast_path;
-use swc_ecma_utils::quote_ident;
-use swc_ecma_utils::ExprFactory;
-use swc_ecma_visit::noop_visit_type;
-use swc_ecma_visit::Node;
-use swc_ecma_visit::Visit;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_utils::{quote_ident, ExprFactory};
+use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit};
 
 /// Compile ES2015 sticky regex to an ES5 RegExp constructor
 ///

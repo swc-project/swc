@@ -1,7 +1,7 @@
+use std::{fs::read_to_string, path::PathBuf};
 use swc_ecma_parser::{Syntax, TsConfig};
 use swc_ecma_transforms_compat::es2020::optional_chaining;
-use swc_ecma_transforms_testing::test;
-use swc_ecma_transforms_testing::test_exec;
+use swc_ecma_transforms_testing::{compare_stdout, test, test_exec};
 use swc_ecma_visit::Fold;
 
 fn tr(_: ()) -> impl Fold {
@@ -299,7 +299,7 @@ foo?.bar()?.()
 
 "#,
     r#"
-var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9;
+var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8, _obj, ref9;
 foo === null || foo === void 0 ? void 0 : foo(foo);
 foo === null || foo === void 0 ? void 0 : foo.bar();
 (ref = foo.bar) === null || ref === void 0 ? void 0 : ref.call(foo, foo.bar, false);
@@ -310,8 +310,7 @@ foo === null || foo === void 0 ? void 0 : (ref2 = foo()) === null || ref2 === vo
 (ref4 = foo.bar) === null || ref4 === void 0 ? void 0 : (ref5 = ref4.call(foo)) === null || ref5 === void 0 ? void 0 : ref5.baz;
 foo === null || foo === void 0 ? void 0 : (ref6 = foo.bar) === null || ref6 === void 0 ? void 0 : ref6.call(foo).baz;
 foo === null || foo === void 0 ? void 0 : (ref7 = foo.bar) === null || ref7 === void 0 ? void 0 : (ref8 = ref7.call(foo)) === null || ref8 === void 0 ? void 0 : ref8.baz;
-var _obj = foo === null || foo === void 0 ? void 0 : foo.bar();
-(ref9 = _obj) === null || ref9 === void 0 ? void 0 : ref9.call(_obj);"#
+(ref9 = _obj = foo === null || foo === void 0 ? void 0 : foo.bar()) === null || ref9 === void 0 ? void 0 : ref9.call(_obj);"#
 );
 
 // general_unary_exec
@@ -697,11 +696,11 @@ test!(
     const patch = PATCHES.get(ident)?.();
     ",
     "
-    var ref;
+    var _obj, ref;
     const PATCHES = new Map();
     const ident = \"foo\";
-    var _obj = PATCHES.get(ident);
-    const patch = (ref = _obj) === null || ref === void 0 ? void 0 : ref.call(_obj);
+    const patch = (ref = _obj = PATCHES.get(ident)) === null || ref === void 0 ? void 0 : \
+     ref.call(_obj);
     "
 );
 
@@ -719,11 +718,18 @@ test!(
     "
     function bug() {
         const arrowFn = (arg)=>{
-            var ref;
-            var _object = this.object[arg];
-            return (ref = _object) === null || ref === void 0 ? void 0 : ref.call(_object);
+            var _object, ref;
+            return (ref = (_object = this.object)[arg]) === null || ref === void 0 ? void 0 : \
+     ref.call(_object);
         };
     }
     bug();
     "
 );
+
+#[testing::fixture("tests/fixture/opt-chain/**/exec.js")]
+fn exec(input: PathBuf) {
+    let src = read_to_string(&input).unwrap();
+
+    compare_stdout(Default::default(), |_| optional_chaining(), &src);
+}

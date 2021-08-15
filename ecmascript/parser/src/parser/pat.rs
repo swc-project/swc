@@ -1,7 +1,9 @@
 //! 13.3.3 Destructuring Binding Patterns
 use super::{util::ExprExt, *};
-use crate::parser::class_and_fn::is_not_this;
-use crate::{parser::expr::PatOrExprOrSpread, token::AssignOpToken};
+use crate::{
+    parser::{class_and_fn::is_not_this, expr::PatOrExprOrSpread},
+    token::AssignOpToken,
+};
 use std::iter;
 use swc_atoms::js_word;
 use swc_common::Spanned;

@@ -1,7 +1,9 @@
 use anyhow::Error;
 use std::sync::Arc;
-use swc_common::sync::{Send, Sync};
-use swc_common::FileName;
+use swc_common::{
+    sync::{Send, Sync},
+    FileName,
+};
 
 pub trait Resolve: Send + Sync {
     fn resolve(&self, base: &FileName, module_specifier: &str) -> Result<FileName, Error>;

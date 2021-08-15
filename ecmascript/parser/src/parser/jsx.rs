@@ -96,7 +96,10 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             }
 
-            _ => syntax_error!(self, span!(self, start), SyntaxError::InvalidJSXValue),
+            _ => {
+                let span = self.input.cur_span();
+                syntax_error!(self, span, SyntaxError::InvalidJSXValue)
+            }
         }
     }
 

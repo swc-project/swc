@@ -14,18 +14,18 @@ pub use self::{
     diagnostic_builder::DiagnosticBuilder,
     emitter::{ColorConfig, Emitter, EmitterWriter},
 };
-#[cfg(feature = "tty-emitter")]
-use crate::sync::Lrc;
 use crate::{
+    collections::AHashSet,
     rustc_data_structures::stable_hasher::StableHasher,
-    sync::{Lock, LockCell},
+    sync::{Lock, LockCell, Lrc},
     syntax_pos::{BytePos, FileLinesResult, FileName, Loc, MultiSpan, Span, NO_EXPANSION},
 };
 use std::{
     borrow::Cow,
     cell::RefCell,
-    collections::HashSet,
-    error, fmt, panic,
+    error, fmt,
+    io::Write,
+    panic,
     sync::atomic::{AtomicUsize, Ordering::SeqCst},
 };
 #[cfg(feature = "tty-emitter")]
@@ -280,15 +280,15 @@ pub struct Handler {
     // This set contains the `DiagnosticId` of all emitted diagnostics to avoid
     // emitting the same diagnostic with extended help (`--teach`) twice, which
     // would be unnecessary repetition.
-    taught_diagnostics: Lock<HashSet<DiagnosticId>>,
+    taught_diagnostics: Lock<AHashSet<DiagnosticId>>,
 
     /// Used to suggest rustc --explain <error code>
-    emitted_diagnostic_codes: Lock<HashSet<DiagnosticId>>,
+    emitted_diagnostic_codes: Lock<AHashSet<DiagnosticId>>,
 
     // This set contains a hash of every diagnostic that has been emitted by
     // this handler. These hashes is used to avoid emitting the same error
     // twice.
-    emitted_diagnostics: Lock<HashSet<u128>>,
+    emitted_diagnostics: Lock<AHashSet<u128>>,
 }
 
 fn default_track_diagnostic(_: &Diagnostic) {}
@@ -359,18 +359,31 @@ impl Handler {
         Handler::with_emitter_and_flags(emitter, flags)
     }
 
+    /// Example implementation of [Emitter] is [EmitterWriter]
     pub fn with_emitter(
         can_emit_warnings: bool,
         treat_err_as_bug: bool,
-        e: Box<dyn Emitter + Send>,
+        emitter: Box<dyn Emitter>,
     ) -> Handler {
         Handler::with_emitter_and_flags(
-            e,
+            emitter,
             HandlerFlags {
                 can_emit_warnings,
                 treat_err_as_bug,
                 ..Default::default()
             },
+        )
+    }
+
+    /// Calls [Self::with_emitter] with [EmitterWriter].
+    pub fn with_emitter_writer(
+        dst: Box<dyn Write + Send>,
+        cm: Option<Lrc<SourceMapperDyn>>,
+    ) -> Handler {
+        Handler::with_emitter(
+            true,
+            false,
+            Box::new(EmitterWriter::new(dst, cm, false, true)),
         )
     }
 

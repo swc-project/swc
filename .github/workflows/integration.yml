@@ -115,4 +115,4 @@ jobs:
       - name: (spack) example react app
         run: |
           export PATH="$PATH:$HOME/npm/bin"
-          (cd spack/tests/integration/react && npm i && npx spack)
+          (cd node/bundler/tests/integration/react && npm i && npx spack)

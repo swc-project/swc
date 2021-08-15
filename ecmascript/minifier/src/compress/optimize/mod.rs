@@ -1,39 +1,23 @@
-use crate::analyzer::ProgramData;
-use crate::analyzer::UsageAnalyzer;
-use crate::compress::util::is_pure_undefined;
-use crate::debug::dump;
-use crate::marks::Marks;
-use crate::option::CompressOptions;
-use crate::util::contains_leaping_yield;
-use crate::util::MoudleItemExt;
+use crate::{
+    analyzer::{ProgramData, UsageAnalyzer},
+    compress::util::is_pure_undefined,
+    debug::dump,
+    marks::Marks,
+    option::CompressOptions,
+    util::{contains_leaping_yield, MoudleItemExt},
+};
 use fxhash::FxHashMap;
 use retain_mut::RetainMut;
-use std::fmt::Write;
-use std::mem::take;
-use swc_atoms::js_word;
-use swc_atoms::JsWord;
-use swc_common::iter::IdentifyLast;
-use swc_common::pass::Repeated;
-use swc_common::Mark;
-use swc_common::Spanned;
-use swc_common::SyntaxContext;
-use swc_common::DUMMY_SP;
+use std::{fmt::Write, mem::take};
+use swc_atoms::{js_word, JsWord};
+use swc_common::{iter::IdentifyLast, pass::Repeated, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_utils::undefined;
-use swc_ecma_utils::ExprExt;
-use swc_ecma_utils::ExprFactory;
-use swc_ecma_utils::Id;
-use swc_ecma_utils::IsEmpty;
-use swc_ecma_utils::ModuleItemLike;
-use swc_ecma_utils::StmtLike;
-use swc_ecma_utils::Type;
-use swc_ecma_utils::Value;
-use swc_ecma_visit::noop_visit_mut_type;
-use swc_ecma_visit::VisitMut;
-use swc_ecma_visit::VisitMutWith;
-use swc_ecma_visit::VisitWith;
+use swc_ecma_utils::{
+    ident::IdentLike, undefined, ExprExt, ExprFactory, Id, IsEmpty, ModuleItemLike, StmtLike, Type,
+    Value,
+};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use Value::Known;
 
 use self::util::replace_id_with_expr;

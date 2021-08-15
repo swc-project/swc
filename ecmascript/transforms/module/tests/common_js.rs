@@ -1,28 +1,25 @@
-use std::cell::RefCell;
-use std::rc::Rc;
+use std::{cell::RefCell, rc::Rc};
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
-use swc_ecma_transforms_base::fixer::fixer;
-use swc_ecma_transforms_base::helpers::inject_helpers;
-use swc_ecma_transforms_base::hygiene::hygiene;
-use swc_ecma_transforms_base::resolver::resolver;
-use swc_ecma_transforms_base::resolver::resolver_with_mark;
-use swc_ecma_transforms_compat::es2015::block_scoped_functions;
-use swc_ecma_transforms_compat::es2015::block_scoping;
-use swc_ecma_transforms_compat::es2015::classes;
-use swc_ecma_transforms_compat::es2015::destructuring;
-use swc_ecma_transforms_compat::es2015::for_of;
-use swc_ecma_transforms_compat::es2015::parameters;
-use swc_ecma_transforms_compat::es2015::regenerator;
-use swc_ecma_transforms_compat::es2015::spread;
-use swc_ecma_transforms_compat::es2018::object_rest_spread;
-use swc_ecma_transforms_module::common_js::common_js;
-use swc_ecma_transforms_module::import_analysis::import_analyzer;
-use swc_ecma_transforms_module::util::Config;
-use swc_ecma_transforms_module::util::Lazy;
-use swc_ecma_transforms_module::util::Scope;
-use swc_ecma_transforms_testing::test;
-use swc_ecma_transforms_testing::test_exec;
+use swc_ecma_transforms_base::{
+    fixer::fixer,
+    helpers::inject_helpers,
+    hygiene::hygiene,
+    resolver::{resolver, resolver_with_mark},
+};
+use swc_ecma_transforms_compat::{
+    es2015::{
+        block_scoped_functions, block_scoping, classes, destructuring, for_of, parameters,
+        regenerator, spread,
+    },
+    es2018::object_rest_spread,
+};
+use swc_ecma_transforms_module::{
+    common_js::common_js,
+    import_analysis::import_analyzer,
+    util::{Config, Lazy, Scope},
+};
+use swc_ecma_transforms_testing::{test, test_exec};
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {

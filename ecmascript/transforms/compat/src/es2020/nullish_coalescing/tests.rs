@@ -1,7 +1,6 @@
 use super::*;
 use swc_ecma_parser::{EsConfig, Syntax};
-use swc_ecma_transforms_testing::test;
-use swc_ecma_transforms_testing::test_exec;
+use swc_ecma_transforms_testing::{test, test_exec};
 
 fn tr(_: ()) -> impl Fold {
     nullish_coalescing()

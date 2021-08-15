@@ -1,29 +1,18 @@
 //! Copied from PeepholeIntegrationTest from the google closure compiler.
 
-use std::cell::RefCell;
-use std::rc::Rc;
-use swc_common::chain;
-use swc_common::Mark;
-use swc_ecma_parser::EsConfig;
-use swc_ecma_parser::{Syntax, TsConfig};
-use swc_ecma_transforms_base::helpers::inject_helpers;
-use swc_ecma_transforms_base::resolver::resolver;
-use swc_ecma_transforms_compat::es2015;
-use swc_ecma_transforms_compat::es2016;
-use swc_ecma_transforms_compat::es2017;
-use swc_ecma_transforms_compat::es2018;
-use swc_ecma_transforms_compat::es2020::class_properties;
-use swc_ecma_transforms_compat::es3;
-use swc_ecma_transforms_module::common_js::common_js;
-use swc_ecma_transforms_module::import_analysis::import_analyzer;
-use swc_ecma_transforms_module::util::Scope;
-use swc_ecma_transforms_optimization::simplify::dce::dce;
-use swc_ecma_transforms_optimization::simplify::expr_simplifier;
-use swc_ecma_transforms_optimization::simplify::inlining::inlining;
-use swc_ecma_transforms_optimization::simplify::simplifier;
+use std::{cell::RefCell, rc::Rc};
+use swc_common::{chain, Mark};
+use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
+use swc_ecma_transforms_base::{helpers::inject_helpers, resolver::resolver};
+use swc_ecma_transforms_compat::{es2015, es2016, es2017, es2018, es2020::class_properties, es3};
+use swc_ecma_transforms_module::{
+    common_js::common_js, import_analysis::import_analyzer, util::Scope,
+};
+use swc_ecma_transforms_optimization::simplify::{
+    dce::dce, expr_simplifier, inlining::inlining, simplifier,
+};
 use swc_ecma_transforms_proposal::decorators;
-use swc_ecma_transforms_testing::test;
-use swc_ecma_transforms_testing::test_transform;
+use swc_ecma_transforms_testing::{test, test_transform};
 use swc_ecma_transforms_typescript::strip;
 
 fn test(src: &str, expected: &str) {

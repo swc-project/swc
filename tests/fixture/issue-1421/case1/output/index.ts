@@ -12,7 +12,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
         desc.writable = true;
     }
     desc = decorators.slice().reverse().reduce(function(desc, decorator) {
-        return decorator(target, property, desc) || desc;
+        return decorator ? decorator(target, property, desc) || desc : desc;
     }, desc);
     if (context && desc.initializer !== void 0) {
         desc.value = desc.initializer ? desc.initializer.call(context) : void 0;

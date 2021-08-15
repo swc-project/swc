@@ -1,6 +1,4 @@
-use crate::fixer::fixer;
-use crate::helpers::HELPERS;
-use crate::hygiene::hygiene_with_config;
+use crate::{fixer::fixer, helpers::HELPERS, hygiene::hygiene_with_config};
 use swc_common::{
     comments::SingleThreadedComments, errors::Handler, sync::Lrc, FileName, SourceMap,
 };

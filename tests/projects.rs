@@ -2,7 +2,6 @@ use rayon::prelude::*;
 use std::{
     fs::create_dir_all,
     path::{Path, PathBuf},
-    sync::Arc,
 };
 use swc::{
     config::{
@@ -11,10 +10,8 @@ use swc::{
     Compiler, TransformOutput,
 };
 use swc_common::{chain, comments::Comment, BytePos, FileName};
-use swc_ecma_ast::EsVersion;
-use swc_ecma_ast::*;
-use swc_ecma_parser::TsConfig;
-use swc_ecma_parser::{EsConfig, Syntax};
+use swc_ecma_ast::{EsVersion, *};
+use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms::helpers::{self, Helpers};
 use swc_ecma_utils::HANDLER;
 use swc_ecma_visit::{Fold, FoldWith};
@@ -33,13 +30,14 @@ fn file(filename: &str) -> Result<NormalizedOutput, StdErr> {
 
 fn file_with_opt(filename: &str, options: Options) -> Result<NormalizedOutput, StdErr> {
     Tester::new().print_errors(|cm, handler| {
-        let c = Compiler::new(cm.clone(), Arc::new(handler));
+        let c = Compiler::new(cm.clone());
 
         let fm = cm
             .load_file(Path::new(filename))
             .expect("failed to load file");
         let s = c.process_js_file(
             fm,
+            &handler,
             &Options {
                 is_module: true,
                 ..options
@@ -48,7 +46,7 @@ fn file_with_opt(filename: &str, options: Options) -> Result<NormalizedOutput, S
 
         match s {
             Ok(v) => {
-                if c.handler.has_errors() {
+                if handler.has_errors() {
                     Err(())
                 } else {
                     Ok(v.code.into())
@@ -69,11 +67,12 @@ fn compile_str(
     options: Options,
 ) -> Result<TransformOutput, StdErr> {
     Tester::new().print_errors(|cm, handler| {
-        let c = Compiler::new(cm.clone(), Arc::new(handler));
+        let c = Compiler::new(cm.clone());
 
         let fm = cm.new_source_file(filename, content.to_string());
         let s = c.process_js_file(
             fm,
+            &handler,
             &Options {
                 is_module: true,
                 ..options
@@ -82,7 +81,7 @@ fn compile_str(
 
         match s {
             Ok(v) => {
-                if c.handler.has_errors() {
+                if handler.has_errors() {
                     Err(())
                 } else {
                     Ok(v)
@@ -96,7 +95,7 @@ fn compile_str(
 fn project(dir: &str) {
     Tester::new()
         .print_errors(|cm, handler| {
-            let c = Compiler::new(cm.clone(), Arc::new(handler));
+            let c = Compiler::new(cm.clone());
 
             for entry in WalkDir::new(dir) {
                 let entry = entry.unwrap();
@@ -115,6 +114,7 @@ fn project(dir: &str) {
                 let fm = cm.load_file(entry.path()).expect("failed to load file");
 
                 if c.config_for_file(
+                    &handler,
                     &Options {
                         swcrc: true,
                         is_module: true,
@@ -131,6 +131,7 @@ fn project(dir: &str) {
 
                 match c.process_js_file(
                     fm,
+                    &handler,
                     &Options {
                         swcrc: true,
                         is_module: true,
@@ -153,7 +154,7 @@ fn project(dir: &str) {
 fn par_project(dir: &str) {
     Tester::new()
         .print_errors(|cm, handler| {
-            let c = Compiler::new(cm.clone(), Arc::new(handler));
+            let c = Compiler::new(cm.clone());
 
             let entries = WalkDir::new(dir)
                 .into_iter()
@@ -181,6 +182,7 @@ fn par_project(dir: &str) {
                 );
                 let _ = c.process_js_file(
                     fm,
+                    &handler,
                     &Options {
                         swcrc: true,
                         is_module: true,
@@ -190,7 +192,7 @@ fn par_project(dir: &str) {
                 );
             });
 
-            if c.handler.has_errors() {
+            if handler.has_errors() {
                 Err(())
             } else {
                 Ok(())
@@ -689,7 +691,7 @@ impl Fold for Panicking {
 fn should_visit() {
     Tester::new()
         .print_errors(|cm, handler| {
-            let c = Compiler::new(cm.clone(), Arc::new(handler));
+            let c = Compiler::new(cm.clone());
 
             let fm = cm.new_source_file(
                 FileName::Anon,
@@ -701,6 +703,7 @@ fn should_visit() {
             );
             let config = c
                 .config_for_file(
+                    &handler,
                     &swc::config::Options {
                         config: swc::config::Config {
                             jsc: JscConfig {
@@ -721,7 +724,14 @@ fn should_visit() {
 
             dbg!(config.syntax);
             let program = c
-                .parse_js(fm.clone(), config.target, config.syntax, true, true)
+                .parse_js(
+                    fm.clone(),
+                    &handler,
+                    config.target,
+                    config.syntax,
+                    true,
+                    true,
+                )
                 .map_err(|_| ())?;
 
             let config = BuiltConfig {
@@ -747,7 +757,7 @@ fn should_visit() {
             }
             let mut pass = config.pass;
             let program = helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
-                HANDLER.set(&c.handler, || {
+                HANDLER.set(&handler, || {
                     // Fold module
                     program.fold_with(&mut pass)
                 })
@@ -775,7 +785,7 @@ fn tests(dir: PathBuf) {
 
     Tester::new()
         .print_errors(|cm, handler| {
-            let c = Compiler::new(cm.clone(), Arc::new(handler));
+            let c = Compiler::new(cm.clone());
 
             for entry in WalkDir::new(&dir) {
                 let entry = entry.unwrap();
@@ -794,6 +804,7 @@ fn tests(dir: PathBuf) {
                 let fm = cm.load_file(entry.path()).expect("failed to load file");
                 match c.process_js_file(
                     fm,
+                    &handler,
                     &Options {
                         swcrc: true,
                         is_module: true,
@@ -833,7 +844,7 @@ fn tests(dir: PathBuf) {
 #[test]
 fn issue_1984() {
     testing::run_test2(false, |cm, handler| {
-        let c = Compiler::new(cm.clone(), Arc::new(handler));
+        let c = Compiler::new(cm.clone());
         let fm = c.cm.new_source_file(
             FileName::Anon,
             "
@@ -847,7 +858,8 @@ fn issue_1984() {
             .into(),
         );
 
-        c.minify(fm, &serde_json::from_str("{}").unwrap()).unwrap();
+        c.minify(fm, &handler, &serde_json::from_str("{}").unwrap())
+            .unwrap();
 
         Ok(())
     })

@@ -4,6 +4,7 @@
 
 use crate::resolve::Resolve;
 use anyhow::{bail, Context, Error};
+use fxhash::FxHashMap;
 #[cfg(windows)]
 use normpath::BasePath;
 use serde::Deserialize;
@@ -97,14 +98,15 @@ struct PackageJson {
 #[derive(Debug, Default)]
 pub struct NodeModulesResolver {
     target_env: TargetEnv,
+    alias: FxHashMap<String, String>,
 }
 
 static EXTENSIONS: &[&str] = &["ts", "tsx", "js", "jsx", "json", "node"];
 
 impl NodeModulesResolver {
     /// Create a node modules resolver for the target runtime environment.
-    pub fn new(target_env: TargetEnv) -> Self {
-        Self { target_env }
+    pub fn new(target_env: TargetEnv, alias: FxHashMap<String, String>) -> Self {
+        Self { target_env, alias }
     }
 
     fn wrap(&self, path: PathBuf) -> Result<FileName, Error> {
@@ -216,6 +218,12 @@ impl NodeModulesResolver {
 
 impl Resolve for NodeModulesResolver {
     fn resolve(&self, base: &FileName, target: &str) -> Result<FileName, Error> {
+        let target = if let Some(alias) = self.alias.get(target) {
+            &alias[..]
+        } else {
+            target
+        };
+
         if let TargetEnv::Node = self.target_env {
             if is_core_module(target) {
                 return Ok(FileName::Custom(target.to_string()));

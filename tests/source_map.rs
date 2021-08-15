@@ -1,33 +1,32 @@
 #![allow(unused)]
 
-use anyhow::Context;
-use anyhow::Error;
-use std::env::temp_dir;
-use std::fs;
-use std::fs::create_dir_all;
-use std::path::PathBuf;
-use std::process::Command;
-use std::process::Output;
-use std::{fs::canonicalize, sync::Arc};
+use anyhow::{Context, Error};
+use std::{
+    env::temp_dir,
+    fs,
+    fs::{canonicalize, create_dir_all},
+    path::PathBuf,
+    process::{Command, Output},
+    sync::Arc,
+};
 use swc::{
     config::{Options, SourceMapsConfig},
     Compiler,
 };
-use testing::assert_eq;
-use testing::NormalizedOutput;
-use testing::{StdErr, Tester};
+use testing::{assert_eq, NormalizedOutput, StdErr, Tester};
 use walkdir::WalkDir;
 
 fn file(f: &str) -> Result<(), StdErr> {
     Tester::new().print_errors(|cm, handler| {
         let path = canonicalize(f).expect("failed to canonicalize");
 
-        let c = Compiler::new(cm.clone(), Arc::new(handler));
+        let c = Compiler::new(cm.clone());
 
         let fm = cm.load_file(&path).expect("failed to load file");
         let s = c
             .process_js_file(
                 fm,
+                &handler,
                 &Options {
                     swcrc: true,
                     is_module: true,
@@ -72,12 +71,13 @@ fn inline(f: &str) -> Result<(), StdErr> {
     Tester::new().print_errors(|cm, handler| {
         let path = canonicalize(f).expect("failed to canonicalize");
 
-        let c = Compiler::new(cm.clone(), Arc::new(handler));
+        let c = Compiler::new(cm.clone());
 
         let fm = cm.load_file(&path).expect("failed to load file");
         let s = c
             .process_js_file(
                 fm,
+                &handler,
                 &Options {
                     swcrc: true,
                     is_module: true,

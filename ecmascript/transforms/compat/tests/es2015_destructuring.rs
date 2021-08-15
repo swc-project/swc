@@ -1,4 +1,3 @@
-#![feature(test)]
 use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver::resolver;
@@ -11,8 +10,7 @@ use swc_ecma_transforms_compat::{
     },
     es2018::object_rest_spread,
 };
-use swc_ecma_transforms_testing::test;
-use swc_ecma_transforms_testing::test_exec;
+use swc_ecma_transforms_testing::{test, test_exec};
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {

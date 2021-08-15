@@ -4,13 +4,8 @@ use std::iter::repeat_with;
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_utils::find_ids;
-use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_utils::private_ident;
-use swc_ecma_utils::Id;
-use swc_ecma_visit::noop_visit_mut_type;
-use swc_ecma_visit::VisitMut;
-use swc_ecma_visit::VisitMutWith;
+use swc_ecma_utils::{find_ids, ident::IdentLike, private_ident, Id};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 /// Methods related to the option `arguments`.
 impl Optimizer<'_> {

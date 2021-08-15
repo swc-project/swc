@@ -3,21 +3,16 @@ use self::{
     this_in_static::ThisInStaticFolder, used_name::UsedNameCollector,
 };
 use std::{collections::HashSet, mem::take};
-use swc_common::SyntaxContext;
-use swc_common::{util::move_map::MoveMap, Mark, Spanned, DUMMY_SP};
+use swc_common::{util::move_map::MoveMap, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::helper;
-use swc_ecma_transforms_base::perf::Check;
+use swc_ecma_transforms_base::{helper, perf::Check};
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_transforms_macros::fast_path;
-use swc_ecma_utils::private_ident;
-use swc_ecma_utils::quote_ident;
 use swc_ecma_utils::{
     alias_ident_for, alias_if_required, constructor::inject_after_super, default_constructor,
-    undefined, ExprFactory, ModuleItemLike, StmtLike,
+    private_ident, quote_ident, undefined, ExprFactory, ModuleItemLike, StmtLike,
 };
-use swc_ecma_visit::noop_visit_type;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 mod class_name_tdz;
 mod private_field;

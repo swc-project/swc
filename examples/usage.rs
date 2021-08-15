@@ -13,7 +13,7 @@ fn main() {
         false,
         Some(cm.clone()),
     ));
-    let c = swc::Compiler::new(cm.clone(), handler.clone());
+    let c = swc::Compiler::new(cm.clone());
 
     let fm = cm
         .load_file(Path::new("foo.js"))
@@ -21,6 +21,7 @@ fn main() {
 
     c.process_js_file(
         fm,
+        &handler,
         &Options {
             ..Default::default()
         },

@@ -1,42 +1,32 @@
 use ansi_term::Color;
+use anyhow::{bail, Context, Error};
 use serde::de::DeserializeOwned;
-use std::env;
-use std::fs::read_to_string;
-use std::mem::replace;
-use std::mem::take;
-use std::rc::Rc;
 use std::{
-    fs::{create_dir_all, remove_dir_all, OpenOptions},
+    env,
+    fs::{create_dir_all, read_to_string, remove_dir_all, OpenOptions},
     io::{self, Write},
+    mem::{replace, take},
     path::Path,
     process::Command,
+    rc::Rc,
     sync::{Arc, RwLock},
 };
-use swc_common::chain;
-use swc_common::DUMMY_SP;
 use swc_common::{
-    comments::SingleThreadedComments, errors::Handler, sync::Lrc, FileName, SourceMap,
+    chain, comments::SingleThreadedComments, errors::Handler, sync::Lrc, FileName, SourceMap,
+    DUMMY_SP,
 };
 use swc_ecma_ast::{Pat, *};
 use swc_ecma_codegen::Emitter;
-use swc_ecma_parser::{error::Error, lexer::Lexer, Parser, StringInput, Syntax};
-use swc_ecma_transforms_base::fixer;
-use swc_ecma_transforms_base::helpers::{inject_helpers, HELPERS};
-use swc_ecma_transforms_base::hygiene;
-use swc_ecma_utils::quote_ident;
-use swc_ecma_utils::quote_str;
-use swc_ecma_utils::DropSpan;
-use swc_ecma_utils::ExprFactory;
-use swc_ecma_utils::HANDLER;
-use swc_ecma_visit::noop_visit_mut_type;
-use swc_ecma_visit::VisitMut;
-use swc_ecma_visit::VisitMutWith;
-use swc_ecma_visit::{as_folder, Fold, FoldWith};
+use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
+use swc_ecma_transforms_base::{
+    fixer,
+    helpers::{inject_helpers, HELPERS},
+    hygiene,
+};
+use swc_ecma_utils::{quote_ident, quote_str, DropSpan, ExprFactory, HANDLER};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 use tempfile::tempdir_in;
-use testing::assert_eq;
-use testing::find_executable;
-use testing::DebugUsingDisplay;
-use testing::NormalizedOutput;
+use testing::{assert_eq, find_executable, DebugUsingDisplay, NormalizedOutput};
 
 pub struct Tester<'a> {
     pub cm: Lrc<SourceMap>,
@@ -104,7 +94,7 @@ impl<'a> Tester<'a> {
         op: F,
     ) -> Result<T, ()>
     where
-        F: FnOnce(&mut Parser<Lexer<StringInput>>) -> Result<T, Error>,
+        F: FnOnce(&mut Parser<Lexer<StringInput>>) -> Result<T, swc_ecma_parser::error::Error>,
     {
         let fm = self
             .cm
@@ -245,7 +235,7 @@ impl VisitMut for RegeneratorHandler {
     }
 }
 
-fn make_tr<F, P>(_: &'static str, op: F, tester: &mut Tester<'_>) -> impl Fold
+fn make_tr<F, P>(op: F, tester: &mut Tester<'_>) -> impl Fold
 where
     F: FnOnce(&mut Tester<'_>) -> P,
     P: Fold,
@@ -277,7 +267,7 @@ pub fn test_transform<F, P>(
 
         println!("----- Actual -----");
 
-        let tr = make_tr("actual", tr, tester);
+        let tr = make_tr(tr, tester);
         let actual = tester.apply_transform(tr, "input.js", syntax, input)?;
 
         match ::std::env::var("PRINT_HYGIENE") {
@@ -359,20 +349,56 @@ macro_rules! test {
     };
 }
 
-pub fn exec_tr<F, P>(test_name: &'static str, syntax: Syntax, tr: F, input: &str)
+/// Execute `node` for `input` and ensure that it prints same output after
+/// transformation.
+pub fn compare_stdout<F, P>(syntax: Syntax, tr: F, input: &str)
 where
     F: FnOnce(&mut Tester<'_>) -> P,
     P: Fold,
 {
     Tester::run(|tester| {
-        let tr = make_tr(test_name, tr, tester);
+        let tr = make_tr(tr, tester);
+
+        let module = tester.apply_transform(tr, "input.js", syntax, input)?;
+
+        let mut module = module
+            .fold_with(&mut hygiene::hygiene())
+            .fold_with(&mut fixer::fixer(Some(&tester.comments)));
+
+        let src_without_helpers = tester.print(&module, &tester.comments.clone());
+        module = module.fold_with(&mut inject_helpers());
+
+        let transfomred_src = tester.print(&module, &tester.comments.clone());
+
+        println!(
+            "\t>>>>> Orig <<<<<\n{}\n\t>>>>> Code <<<<<\n{}",
+            input, src_without_helpers
+        );
+
+        let expected = stdout_of(&input).unwrap();
+        let actual = stdout_of(&transfomred_src).unwrap();
+
+        assert_eq!(expected, actual);
+
+        Ok(())
+    })
+}
+
+/// Execute `jest` after transpiling `input` using `tr`.
+pub fn exec_tr<F, P>(test_name: &str, syntax: Syntax, tr: F, input: &str)
+where
+    F: FnOnce(&mut Tester<'_>) -> P,
+    P: Fold,
+{
+    Tester::run(|tester| {
+        let tr = make_tr(tr, tester);
 
         let module = tester.apply_transform(
             tr,
             "input.js",
             syntax,
             &format!(
-                "it('should work', function () {{
+                "it('should work', async function () {{
                     {}
                 }})",
                 input
@@ -451,6 +477,24 @@ where
         ::std::mem::forget(tmp_dir);
         panic!("Execution failed")
     })
+}
+
+fn stdout_of(code: &str) -> Result<String, Error> {
+    let actual_output = Command::new("node")
+        .arg("-e")
+        .arg(&code)
+        .output()
+        .context("failed to execute output of minifier")?;
+
+    if !actual_output.status.success() {
+        bail!(
+            "failed to execute:\n{}\n{}",
+            String::from_utf8_lossy(&actual_output.stdout),
+            String::from_utf8_lossy(&actual_output.stderr)
+        )
+    }
+
+    Ok(String::from_utf8_lossy(&actual_output.stdout).to_string())
 }
 
 /// Test transformation.

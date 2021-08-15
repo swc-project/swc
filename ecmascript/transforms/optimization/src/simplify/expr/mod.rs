@@ -1,34 +1,21 @@
 use std::{borrow::Cow, iter, iter::once};
 use swc_atoms::{js_word, JsWord};
-use swc_common::DUMMY_SP;
 use swc_common::{
     pass::{CompilerPass, Repeated},
-    Span, Spanned,
+    Span, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::{Ident, Lit, *};
-use swc_ecma_transforms_base::ext::{ExprRefExt, MapWithMut};
-use swc_ecma_transforms_base::pass::RepeatedJsPass;
-use swc_ecma_utils::alias_ident_for;
-use swc_ecma_utils::extract_side_effects_to;
-use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_utils::is_literal;
-use swc_ecma_utils::prepend;
-use swc_ecma_utils::preserve_effects;
-use swc_ecma_utils::prop_name_eq;
-use swc_ecma_utils::to_int32;
-use swc_ecma_utils::undefined;
-use swc_ecma_utils::BoolType;
-use swc_ecma_utils::ExprExt;
-use swc_ecma_utils::NullType;
-use swc_ecma_utils::NumberType;
-use swc_ecma_utils::ObjectType;
-use swc_ecma_utils::StringType;
-use swc_ecma_utils::SymbolType;
-use swc_ecma_utils::UndefinedType;
-use swc_ecma_utils::Value;
+use swc_ecma_transforms_base::{
+    ext::{ExprRefExt, MapWithMut},
+    pass::RepeatedJsPass,
+};
+use swc_ecma_utils::{
+    alias_ident_for, extract_side_effects_to, ident::IdentLike, is_literal, prepend,
+    preserve_effects, prop_name_eq, to_int32, undefined, BoolType, ExprExt, NullType, NumberType,
+    ObjectType, StringType, SymbolType, UndefinedType, Value,
+};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith};
-use Value::Known;
-use Value::Unknown;
+use Value::{Known, Unknown};
 
 #[cfg(test)]
 mod tests;

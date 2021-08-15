@@ -1,7 +1,7 @@
 use crate::{version::should_enable, BrowserData, Version, Versions};
 use once_cell::sync::Lazy;
-use std::collections::HashMap;
 use string_enum::StringEnum;
+use swc_common::collections::AHashMap;
 
 impl Feature {
     pub fn should_enable(self, target: Versions, bugfixes: bool, default: bool) -> bool {
@@ -150,9 +150,9 @@ pub enum Feature {
     BugfixTaggedTemplateCaching,
 }
 
-pub(crate) static FEATURES: Lazy<HashMap<Feature, BrowserData<Option<Version>>>> =
+pub(crate) static FEATURES: Lazy<AHashMap<Feature, BrowserData<Option<Version>>>> =
     Lazy::new(|| {
-        let map: HashMap<Feature, BrowserData<Option<String>>> =
+        let map: AHashMap<Feature, BrowserData<Option<String>>> =
             serde_json::from_str(include_str!("transform_data.json"))
                 .expect("failed to parse json");
 
@@ -166,9 +166,9 @@ pub(crate) static FEATURES: Lazy<HashMap<Feature, BrowserData<Option<Version>>>>
             .collect()
     });
 
-pub(crate) static BUGFIX_FEATURES: Lazy<HashMap<Feature, BrowserData<Option<Version>>>> =
+pub(crate) static BUGFIX_FEATURES: Lazy<AHashMap<Feature, BrowserData<Option<Version>>>> =
     Lazy::new(|| {
-        let map: HashMap<Feature, BrowserData<Option<String>>> =
+        let map: AHashMap<Feature, BrowserData<Option<String>>> =
             serde_json::from_str(include_str!("transform_data_bugfixes.json"))
                 .expect("failed to parse json");
 

@@ -1,21 +1,13 @@
-use crate::analyzer::ProgramData;
-use crate::analyzer::UsageAnalyzer;
-use crate::util::is_hoisted_var_decl_without_init;
-use crate::util::sort::is_sorted_by_key;
-use crate::util::IsModuleItem;
+use crate::{
+    analyzer::{ProgramData, UsageAnalyzer},
+    util::{is_hoisted_var_decl_without_init, sort::is_sorted_by_key, IsModuleItem},
+};
 use fxhash::FxHashSet;
-use swc_common::pass::Repeated;
-use swc_common::DUMMY_SP;
+use swc_common::{pass::Repeated, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_utils::find_ids;
-use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_utils::Id;
-use swc_ecma_utils::StmtLike;
-use swc_ecma_visit::noop_visit_mut_type;
-use swc_ecma_visit::VisitMut;
-use swc_ecma_visit::VisitMutWith;
-use swc_ecma_visit::VisitWith;
+use swc_ecma_utils::{find_ids, ident::IdentLike, Id, StmtLike};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 
 pub(super) struct DeclHoisterConfig {
     pub hoist_fns: bool,

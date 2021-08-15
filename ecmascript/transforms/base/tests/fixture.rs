@@ -1,23 +1,15 @@
 use std::path::{Path, PathBuf};
-use swc_common::chain;
-use swc_common::sync::Lrc;
-use swc_common::Mark;
-use swc_common::SourceMap;
-use swc_common::SyntaxContext;
+use swc_common::{chain, sync::Lrc, Mark, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
-use swc_ecma_transforms_base::fixer::fixer;
-use swc_ecma_transforms_base::hygiene::hygiene;
-use swc_ecma_transforms_base::resolver::resolver;
-use swc_ecma_transforms_base::resolver::ts_resolver;
-use swc_ecma_visit::as_folder;
-use swc_ecma_visit::Fold;
-use swc_ecma_visit::FoldWith;
-use swc_ecma_visit::VisitMut;
-use swc_ecma_visit::VisitMutWith;
-use testing::NormalizedOutput;
-use testing::{fixture, run_test2};
+use swc_ecma_transforms_base::{
+    fixer::fixer,
+    hygiene::hygiene,
+    resolver::{resolver, ts_resolver},
+};
+use swc_ecma_visit::{as_folder, Fold, FoldWith, VisitMut, VisitMutWith};
+use testing::{fixture, run_test2, NormalizedOutput};
 
 pub fn print(cm: Lrc<SourceMap>, module: &Module) -> String {
     let mut buf = vec![];

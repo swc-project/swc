@@ -1,7 +1,6 @@
 use crate::babelify::{Babelify, Context};
 use copyless::BoxHelper;
-use swc_atoms::js_word;
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
 use swc_babel_ast::{
     Access, ArrayPattern, IdOrRest, IdOrString, Identifier, ObjectPattern, RestElement,
     TSAnyKeyword, TSArrayType, TSAsExpression, TSBigIntKeyword, TSBooleanKeyword,

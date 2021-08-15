@@ -1,12 +1,8 @@
-use std::borrow::Cow;
-use std::mem::take;
+use std::{borrow::Cow, mem::take};
 use swc_common::pass::CompilerPass;
 use swc_ecma_ast::*;
 use swc_ecma_transforms::pass::JsPass;
-use swc_ecma_visit::as_folder;
-use swc_ecma_visit::noop_visit_mut_type;
-use swc_ecma_visit::VisitMut;
-use swc_ecma_visit::VisitMutWith;
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith};
 
 pub fn drop_console() -> impl JsPass + VisitMut {
     as_folder(DropConsole { done: false })

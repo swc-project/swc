@@ -1,11 +1,9 @@
 #![cfg(feature = "tsc")]
 
-use anyhow::anyhow;
-use anyhow::Error;
+use anyhow::{anyhow, Error};
 use std::collections::HashMap;
-use swc_common::FileName;
-use swc_ecma_loader::resolve::Resolve;
-use swc_ecma_loader::resolvers::tsc::TsConfigResolver;
+use swc_common::{collections::AHashMap, FileName};
+use swc_ecma_loader::{resolve::Resolve, resolvers::tsc::TsConfigResolver};
 
 #[test]
 fn base_dir_exact() {}
@@ -83,7 +81,7 @@ fn pattern_1() {
     }
 }
 
-struct TestResolver(HashMap<String, String>);
+struct TestResolver(AHashMap<String, String>);
 
 impl Resolve for TestResolver {
     fn resolve(&self, _: &FileName, src: &str) -> Result<FileName, Error> {

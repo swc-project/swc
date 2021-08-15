@@ -1,22 +1,16 @@
 use smallvec::SmallVec;
-use std::mem::take;
-use std::{collections::HashMap, mem::replace};
+use std::mem::{replace, take};
 use swc_atoms::js_word;
-use swc_common::{util::map::Map, Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{collections::AHashMap, util::map::Map, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::private_ident;
-use swc_ecma_utils::quote_ident;
-use swc_ecma_utils::quote_str;
-use swc_ecma_utils::undefined;
 use swc_ecma_utils::{
-    contains_arguments, contains_this_expr, find_ids, ident::IdentLike, prepend, var::VarCollector,
-    ExprFactory, Id, StmtLike,
+    contains_arguments, contains_this_expr, find_ids, ident::IdentLike, prepend, private_ident,
+    quote_ident, quote_str, undefined, var::VarCollector, ExprFactory, Id, StmtLike,
 };
-use swc_ecma_visit::noop_visit_type;
 use swc_ecma_visit::{
-    noop_fold_type, noop_visit_mut_type, Fold, FoldWith, Node, Visit, VisitMut, VisitMutWith,
-    VisitWith,
+    noop_fold_type, noop_visit_mut_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitMut,
+    VisitMutWith, VisitWith,
 };
 
 ///
@@ -51,7 +45,7 @@ enum ScopeKind {
         /// Produced by identifier reference and consumed by for-of/in loop.
         used: Vec<Id>,
         /// Map of original identifer to modified syntax context
-        mutated: HashMap<Id, SyntaxContext>,
+        mutated: AHashMap<Id, SyntaxContext>,
     },
     Fn,
     Block,
@@ -752,7 +746,7 @@ struct FlowHelper<'a> {
     has_break: bool,
     has_return: bool,
     all: &'a Vec<Id>,
-    mutated: HashMap<Id, SyntaxContext>,
+    mutated: AHashMap<Id, SyntaxContext>,
     in_switch_case: bool,
 }
 
@@ -881,7 +875,7 @@ impl Fold for FlowHelper<'_> {
 }
 
 struct MutationHandler<'a> {
-    map: &'a mut HashMap<Id, SyntaxContext>,
+    map: &'a mut AHashMap<Id, SyntaxContext>,
     in_function: bool,
     this: Option<Ident>,
     arguments: Option<Ident>,

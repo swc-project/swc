@@ -13,9 +13,8 @@
 //! Adds methods to generate web sourcemap.
 #![deny(unused)]
 
-pub use self::eq::EqIgnoreSpan;
-pub use self::eq::TypeEq;
 pub use self::{
+    eq::{EqIgnoreSpan, TypeEq},
     errors::{SourceMapper, SourceMapperDyn},
     pos::{
         hygiene, BytePos, CharPos, FileName, Globals, Loc, LocWithOpt, Mark, MultiSpan, SourceFile,
@@ -25,13 +24,11 @@ pub use self::{
     source_map::{FileLines, FileLoader, FilePathMapping, SourceMap, SpanSnippetError},
     syntax_pos::LineCol,
 };
-pub use ast_node::ast_serde;
-pub use ast_node::{ast_node, DeserializeEnum, Spanned};
+pub use ast_node::{ast_node, ast_serde, DeserializeEnum, Spanned};
 pub use from_variant::FromVariant;
 use serde::Serialize;
 use std::fmt::Debug;
-pub use swc_eq_ignore_macros::EqIgnoreSpan;
-pub use swc_eq_ignore_macros::TypeEq;
+pub use swc_eq_ignore_macros::{EqIgnoreSpan, TypeEq};
 pub use swc_visit::chain;
 #[doc(hidden)]
 pub mod private;
@@ -41,6 +38,7 @@ pub trait AstNode: Debug + PartialEq + Clone + Spanned + Serialize {
     const TYPE: &'static str;
 }
 
+pub mod collections;
 pub mod comments;
 mod eq;
 pub mod errors;

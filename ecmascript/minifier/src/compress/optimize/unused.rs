@@ -1,17 +1,13 @@
 use super::Optimizer;
-use crate::compress::optimize::util::class_has_side_effect;
-use crate::debug::dump;
-use crate::option::PureGetterOption;
+use crate::{
+    compress::optimize::util::class_has_side_effect, debug::dump, option::PureGetterOption,
+};
 use swc_atoms::js_word;
-use swc_common::Span;
-use swc_common::DUMMY_SP;
+use swc_common::{Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_utils::contains_ident_ref;
-use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_visit::noop_visit_mut_type;
-use swc_ecma_visit::VisitMut;
-use swc_ecma_visit::VisitMutWith;
+use swc_ecma_utils::{contains_ident_ref, ident::IdentLike};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 /// Methods related to the option `unused`.
 impl Optimizer<'_> {

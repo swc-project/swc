@@ -10,9 +10,12 @@ use std::{
     panic::{catch_unwind, AssertUnwindSafe},
     sync::Arc,
 };
-use swc::{config::SourceMapsConfig, resolver::environment_resolver, Compiler, TransformOutput};
-use swc_atoms::js_word;
-use swc_atoms::JsWord;
+use swc::{
+    config::SourceMapsConfig,
+    resolver::{environment_resolver, paths_resolver},
+    Compiler, TransformOutput,
+};
+use swc_atoms::{js_word, JsWord};
 use swc_bundler::{BundleKind, Bundler, Load, ModuleRecord, Resolve};
 use swc_common::Span;
 use swc_ecma_ast::{
@@ -31,7 +34,7 @@ struct StaticConfigItem {
     #[serde(default)]
     working_dir: String,
     #[serde(flatten)]
-    config: spack::config::Config,
+    config: swc_node_bundler::config::Config,
 }
 
 struct BundleTask {
@@ -183,7 +186,7 @@ pub(crate) fn bundle(cx: CallContext) -> napi::Result<JsObject> {
 
     let static_items: StaticConfigItem = cx.get_deserialized(0)?;
 
-    let loader = Box::new(spack::loaders::swc::SwcLoader::new(
+    let loader = Box::new(swc_node_bundler::loaders::swc::SwcLoader::new(
         c.clone(),
         static_items
             .config
@@ -197,12 +200,36 @@ pub(crate) fn bundle(cx: CallContext) -> napi::Result<JsObject> {
 
     let target_env = static_items.config.target;
 
+    let paths = static_items.config.options.as_ref().map(|options| {
+        let paths: Vec<(String, Vec<String>)> = options
+            .config
+            .jsc
+            .paths
+            .iter()
+            .map(|(k, v)| (k.clone(), v.clone()))
+            .collect();
+        (options.config.jsc.base_url.clone(), paths)
+    });
+
+    let alias = static_items
+        .config
+        .alias
+        .get(&target_env)
+        .map(|a| a.clone())
+        .unwrap_or_else(|| Default::default());
+
+    let resolver: Box<dyn Resolve> = if let Some((base_url, paths)) = paths {
+        Box::new(paths_resolver(target_env, alias, base_url, paths))
+    } else {
+        Box::new(environment_resolver(target_env, alias))
+    };
+
     cx.env
         .spawn(BundleTask {
             swc: c.clone(),
             config: ConfigItem {
                 loader,
-                resolver: Box::new(environment_resolver(target_env)) as Box<_>,
+                resolver,
                 static_items,
             },
         })

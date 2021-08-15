@@ -6,16 +6,13 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_node_base"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.2.0"
+version = "0.2.2"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 dashmap = "4.0.2"
-swc_common = {version = "0.11.0", path = "../../common"}
+swc_common = {version = "0.11.6", path = "../../common"}
 
-[target.'cfg(all(unix, not(target_env = "musl"), not(target_os = "freebsd"), not(target_arch = "arm"), not(target_arch = "aarch64")))'.dependencies]
-jemallocator = {version = "0.3", features = ["disable_initial_exec_tls"]}
-
-[target.'cfg(all(windows, not(target_arch = "aarch64")))'.dependencies]
-mimalloc = {version = "0.1"}
+[target.'cfg(all(target_arch = "x86_64", not(target_env = "musl")))'.dependencies]
+mimalloc-rust = "=0.1.1"

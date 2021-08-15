@@ -11,14 +11,10 @@ use std::{
 };
 use swc::Compiler;
 use swc_babel_ast::File;
-use swc_babel_compat::babelify::normalize::normalize;
-use swc_babel_compat::babelify::{Babelify, Context};
+use swc_babel_compat::babelify::{normalize::normalize, Babelify, Context};
 use swc_common::{
     errors::{ColorConfig, Handler},
-    FileName,
-    // FilePathMapping, SourceMap, FileName, SourceFile,
-    FilePathMapping,
-    SourceMap,
+    FileName, FilePathMapping, SourceMap,
 };
 use swc_ecma_parser::{EsConfig, Syntax};
 use test::{test_main, DynTestFn, ShouldPanic, TestDesc, TestDescAndFn, TestName, TestType};
@@ -74,6 +70,8 @@ fn fixtures() -> Result<(), Error> {
                 ignore: false,
                 should_panic: ShouldPanic::No,
                 allow_fail: false,
+                compile_fail: false,
+                no_run: false,
             },
             testfn: DynTestFn(Box::alloc().init(move || {
                 let syntax = if is_typescript {
@@ -126,12 +124,13 @@ fn run_test(src: String, expected: String, syntax: Syntax, is_module: bool) {
         false,
         Some(cm.clone()),
     ));
-    let compiler = Compiler::new(cm.clone(), handler);
+    let compiler = Compiler::new(cm.clone());
     let fm = compiler.cm.new_source_file(FileName::Anon, src);
 
     let swc_ast = compiler
         .parse_js(
             fm.clone(),
+            &handler,
             Default::default(), // JscTarget (ES version)
             syntax,
             is_module,

@@ -64,10 +64,8 @@ pub use self::{
         TsTypeQuery, TsTypeQueryExpr, TsTypeRef, TsUnionOrIntersectionType, TsUnionType,
     },
 };
-use serde::Deserialize;
-use serde::Serialize;
-use swc_common::EqIgnoreSpan;
-use swc_common::{ast_node, Span};
+use serde::{Deserialize, Serialize};
+use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 #[macro_use]
 mod macros;
@@ -131,7 +129,7 @@ impl Default for EsVersion {
 }
 
 /// Target runtime environment.
-#[derive(Debug, Copy, Clone, Serialize, Deserialize)]
+#[derive(Debug, Copy, Clone, Serialize, Deserialize, Eq, PartialEq, Hash)]
 pub enum TargetEnv {
     #[serde(rename = "browser")]
     Browser,

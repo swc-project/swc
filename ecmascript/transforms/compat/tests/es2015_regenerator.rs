@@ -1,13 +1,10 @@
-use swc_common::comments::SingleThreadedComments;
-use swc_common::{chain, Mark};
+use swc_common::{chain, comments::SingleThreadedComments, Mark};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver::resolver;
 use swc_ecma_transforms_compat::{
-    es2015, es2015::regenerator, es2016, es2017, es2017::async_to_generator,
+    es2015, es2015::regenerator, es2016, es2017, es2017::async_to_generator, es2018, es2020, es2021,
 };
-use swc_ecma_transforms_compat::{es2018, es2020, es2021};
-use swc_ecma_transforms_testing::test;
-use swc_ecma_transforms_testing::test_exec;
+use swc_ecma_transforms_testing::{test, test_exec};
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
@@ -1662,5 +1659,51 @@ test!(
             }
         }, _callee);
     }))();
+    "
+);
+
+test_exec!(
+    Syntax::default(),
+    |_| {
+        let mark = Mark::fresh(Mark::root());
+        chain!(
+            async_to_generator(),
+            es2015::for_of(Default::default()),
+            regenerator(mark)
+        )
+    },
+    issue_1918_1,
+    "
+    let counter = 0;
+    let resolve;
+    let promise = new Promise((r) => (resolve = r));
+    let iterable = {
+        [Symbol.asyncIterator]() {
+            return {
+                next() {
+                    return promise;
+                },
+            };
+        },
+    };
+
+    const res = (async () => {
+        for await (let value of iterable) {
+            counter++;
+            console.log(value);
+        }
+
+        expect(counter).toBe(2);
+    })();
+
+    for (let v of [0, 1]) {
+        await null;
+        let oldresolve = resolve;
+        promise = new Promise((r) => (resolve = r));
+        oldresolve({ value: v, done: false });
+    }
+    resolve({ value: undefined, done: true });
+
+    await res;
     "
 );

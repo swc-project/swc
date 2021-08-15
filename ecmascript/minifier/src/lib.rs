@@ -12,30 +12,25 @@
 //! them something other. Don't call methods like `visit_mut_script` nor
 //! `visit_mut_module_items`.
 
-use crate::compress::compressor;
-use crate::marks::Marks;
-use crate::metadata::info_marker;
-use crate::option::ExtraOptions;
-use crate::option::MinifyOptions;
-use crate::pass::compute_char_freq::compute_char_freq;
-use crate::pass::expand_names::name_expander;
-use crate::pass::global_defs;
-use crate::pass::hygiene::hygiene_optimizer;
 pub use crate::pass::hygiene::optimize_hygiene;
-use crate::pass::mangle_names::name_mangler;
-use crate::pass::mangle_props::mangle_properties;
-use crate::pass::precompress::precompress_optimizer;
-use crate::util::now;
+use crate::{
+    compress::compressor,
+    marks::Marks,
+    metadata::info_marker,
+    option::{ExtraOptions, MinifyOptions},
+    pass::{
+        compute_char_freq::compute_char_freq, expand_names::name_expander, global_defs,
+        hygiene::hygiene_optimizer, mangle_names::name_mangler, mangle_props::mangle_properties,
+        precompress::precompress_optimizer,
+    },
+    util::now,
+};
 use analyzer::analyze;
 use pass::postcompress::postcompress_optimizer;
 use std::time::Instant;
-use swc_common::comments::Comments;
-use swc_common::sync::Lrc;
-use swc_common::SourceMap;
-use swc_common::GLOBALS;
+use swc_common::{comments::Comments, sync::Lrc, SourceMap, GLOBALS};
 use swc_ecma_ast::Module;
-use swc_ecma_visit::FoldWith;
-use swc_ecma_visit::VisitMutWith;
+use swc_ecma_visit::{FoldWith, VisitMutWith};
 use timing::Timings;
 
 mod analyzer;

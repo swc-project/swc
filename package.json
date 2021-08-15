@@ -49,7 +49,7 @@
     "dependencies": {
         "@node-rs/helper": "^1.0.0"
     },
-    "types": "./lib/index.d.ts",
+    "types": "./index.d.ts",
     "scripts": {
         "artifacts": "napi artifacts --dist scripts/npm",
         "prepublishOnly": "tsc -d && napi prepublish -p scripts/npm --tagstyle npm",

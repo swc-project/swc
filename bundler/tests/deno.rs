@@ -6,15 +6,15 @@
 use self::common::*;
 use anyhow::Error;
 use ntest::timeout;
-use std::path::PathBuf;
 use std::{
-    collections::{HashMap, HashSet},
+    collections::HashMap,
     fs::write,
+    path::PathBuf,
     process::{Command, Stdio},
 };
 use swc_atoms::js_word;
 use swc_bundler::{Bundler, Load, ModuleRecord};
-use swc_common::{FileName, Span, GLOBALS};
+use swc_common::{collections::AHashSet, FileName, Span, GLOBALS};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_utils::{find_ids, Id};
@@ -1102,7 +1102,7 @@ impl swc_bundler::Hook for Hook {
     }
 }
 
-fn collect_exports(module: &Module) -> HashSet<String> {
+fn collect_exports(module: &Module) -> AHashSet<String> {
     let mut v = ExportCollector::default();
     module.visit_with(module, &mut v);
 
@@ -1111,7 +1111,7 @@ fn collect_exports(module: &Module) -> HashSet<String> {
 
 #[derive(Default)]
 struct ExportCollector {
-    exports: HashSet<String>,
+    exports: AHashSet<String>,
 }
 
 impl Visit for ExportCollector {

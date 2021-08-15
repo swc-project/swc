@@ -17,8 +17,10 @@ use serde_json::error::Category;
 pub use sourcemap;
 use std::{
     fs::{read_to_string, File},
+    io::Write,
+    mem::take,
     path::{Path, PathBuf},
-    sync::Arc,
+    sync::{Arc, Mutex},
 };
 use swc_common::{
     chain,
@@ -26,6 +28,7 @@ use swc_common::{
     errors::Handler,
     input::StringInput,
     source_map::SourceMapGenConfig,
+    sync::Lrc,
     BytePos, FileName, Globals, Mark, SourceFile, SourceMap, Spanned, DUMMY_SP, GLOBALS,
 };
 use swc_ecma_ast::Program;
@@ -48,19 +51,90 @@ use swc_ecma_visit::FoldWith;
 mod builder;
 pub mod config;
 pub mod resolver {
+    use crate::config::CompiledPaths;
+    use fxhash::FxHashMap;
     use swc_ecma_ast::TargetEnv;
-    use swc_ecma_loader::resolvers::{lru::CachingResolver, node::NodeModulesResolver};
+    use swc_ecma_loader::resolvers::{
+        lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
+    };
 
     pub type NodeResolver = CachingResolver<NodeModulesResolver>;
 
-    pub fn environment_resolver(target_env: TargetEnv) -> NodeResolver {
-        CachingResolver::new(40, NodeModulesResolver::new(target_env))
+    pub fn paths_resolver(
+        target_env: TargetEnv,
+        alias: FxHashMap<String, String>,
+        base_url: String,
+        paths: CompiledPaths,
+    ) -> CachingResolver<TsConfigResolver<NodeModulesResolver>> {
+        let r = TsConfigResolver::new(
+            NodeModulesResolver::new(target_env, alias),
+            base_url.clone().into(),
+            paths.clone(),
+        );
+        CachingResolver::new(40, r)
+    }
+
+    pub fn environment_resolver(
+        target_env: TargetEnv,
+        alias: FxHashMap<String, String>,
+    ) -> NodeResolver {
+        CachingResolver::new(40, NodeModulesResolver::new(target_env, alias))
+    }
+}
+
+#[derive(Clone, Default)]
+struct LockedWriter(Arc<Mutex<Vec<u8>>>);
+
+impl Write for LockedWriter {
+    fn write(&mut self, buf: &[u8]) -> std::io::Result<usize> {
+        let mut lock = self
+            .0
+            .lock()
+            .expect("failed to get lock while trying to report error");
+
+        lock.extend_from_slice(buf);
+
+        Ok(buf.len())
+    }
+
+    fn flush(&mut self) -> std::io::Result<()> {
+        Ok(())
+    }
+}
+
+/// Try operation with a [Handler] and prints the errors as a [String] wrapped
+/// by [Err].
+pub fn try_with_handler<F, Ret>(cm: Lrc<SourceMap>, op: F) -> Result<Ret, Error>
+where
+    F: FnOnce(&Handler) -> Result<Ret, Error>,
+{
+    let wr = Box::new(LockedWriter::default());
+
+    let handler = Handler::with_emitter_writer(wr.clone(), Some(cm.clone()));
+
+    let ret = swc_ecma_utils::HANDLER.set(&handler, || op(&handler));
+
+    if handler.has_errors() {
+        let mut lock =
+            wr.0.lock()
+                .expect("reference to handler should not exist in this point");
+        let error = take(&mut *lock);
+
+        let msg = String::from_utf8(error).expect("error string should be utf8");
+
+        ret.context(msg)
+    } else {
+        ret
     }
 }
 
 type SwcImportResolver =
     Arc<NodeImportResolver<CachingResolver<TsConfigResolver<NodeModulesResolver>>>>;
 
+/// All methods accept [Handler], which is a storage for errors.
+///
+/// The caller should check if the handler contains any errors after calling
+/// method.
 pub struct Compiler {
     /// swc uses rustc's span interning.
     ///
@@ -68,7 +142,6 @@ pub struct Compiler {
     globals: Globals,
     /// CodeMap
     pub cm: Arc<SourceMap>,
-    pub handler: Arc<Handler>,
     comments: SwcComments,
 }
 
@@ -195,6 +268,7 @@ impl Compiler {
     pub fn parse_js(
         &self,
         fm: Arc<SourceFile>,
+        handler: &Handler,
         target: JscTarget,
         syntax: Syntax,
         is_module: bool,
@@ -217,12 +291,12 @@ impl Compiler {
                 let m = parser.parse_module();
 
                 for e in parser.take_errors() {
-                    e.into_diagnostic(&self.handler).emit();
+                    e.into_diagnostic(handler).emit();
                     error = true;
                 }
 
                 m.map_err(|e| {
-                    e.into_diagnostic(&self.handler).emit();
+                    e.into_diagnostic(handler).emit();
                     Error::msg("failed to parse module")
                 })
                 .map(Program::Module)?
@@ -230,12 +304,12 @@ impl Compiler {
                 let s = parser.parse_script();
 
                 for e in parser.take_errors() {
-                    e.into_diagnostic(&self.handler).emit();
+                    e.into_diagnostic(handler).emit();
                     error = true;
                 }
 
                 s.map_err(|e| {
-                    e.into_diagnostic(&self.handler).emit();
+                    e.into_diagnostic(handler).emit();
                     Error::msg("failed to parse module")
                 })
                 .map(Program::Script)?
@@ -398,10 +472,9 @@ impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
 
 /// High-level apis.
 impl Compiler {
-    pub fn new(cm: Arc<SourceMap>, handler: Arc<Handler>) -> Self {
+    pub fn new(cm: Arc<SourceMap>) -> Self {
         Compiler {
             cm,
-            handler,
             globals: Globals::new(),
             comments: Default::default(),
         }
@@ -488,6 +561,7 @@ impl Compiler {
     /// This method does **not** parse module.
     pub fn config_for_file<'a>(
         &'a self,
+        handler: &Handler,
         opts: &Options,
         name: &FileName,
     ) -> Result<Option<BuiltConfig<impl 'a + swc_ecma_visit::Fold>>, Error> {
@@ -503,7 +577,7 @@ impl Compiler {
                 name,
                 opts.output_path.as_deref(),
                 opts.source_file_name.clone(),
-                &self.handler,
+                &handler,
                 opts.is_module,
                 Some(config),
                 Some(&self.comments),
@@ -513,24 +587,25 @@ impl Compiler {
         .with_context(|| format!("failed to load config for file '{:?}'", name))
     }
 
-    pub fn run_transform<F, Ret>(&self, external_helpers: bool, op: F) -> Ret
+    pub fn run_transform<F, Ret>(&self, handler: &Handler, external_helpers: bool, op: F) -> Ret
     where
         F: FnOnce() -> Ret,
     {
         self.run(|| {
             helpers::HELPERS.set(&Helpers::new(external_helpers), || {
-                swc_ecma_utils::HANDLER.set(&self.handler, || op())
+                swc_ecma_utils::HANDLER.set(handler, || op())
             })
         })
     }
 
     pub fn transform(
         &self,
+        handler: &Handler,
         program: Program,
         external_helpers: bool,
         mut pass: impl swc_ecma_visit::Fold,
     ) -> Program {
-        self.run_transform(external_helpers, || {
+        self.run_transform(handler, external_helpers, || {
             // Fold module
             program.fold_with(&mut pass)
         })
@@ -540,6 +615,7 @@ impl Compiler {
     pub fn process_js_with_custom_pass<P>(
         &self,
         fm: Arc<SourceFile>,
+        handler: &Handler,
         opts: &Options,
         custom_after_pass: P,
     ) -> Result<TransformOutput, Error>
@@ -547,7 +623,7 @@ impl Compiler {
         P: swc_ecma_visit::Fold,
     {
         self.run(|| -> Result<_, Error> {
-            let config = self.run(|| self.config_for_file(opts, &fm.name))?;
+            let config = self.run(|| self.config_for_file(handler, opts, &fm.name))?;
             let config = match config {
                 Some(v) => v,
                 None => {
@@ -581,13 +657,14 @@ impl Compiler {
 
             let program = self.parse_js(
                 fm.clone(),
+                handler,
                 config.target,
                 config.syntax,
                 config.is_module,
                 true,
             )?;
 
-            self.process_js_inner(program, orig.as_ref(), config)
+            self.process_js_inner(handler, program, orig.as_ref(), config)
         })
         .context("failed to process js file")
     }
@@ -595,14 +672,16 @@ impl Compiler {
     pub fn process_js_file(
         &self,
         fm: Arc<SourceFile>,
+        handler: &Handler,
         opts: &Options,
     ) -> Result<TransformOutput, Error> {
-        self.process_js_with_custom_pass(fm, opts, noop())
+        self.process_js_with_custom_pass(fm, handler, opts, noop())
     }
 
     pub fn minify(
         &self,
         fm: Arc<SourceFile>,
+        handler: &Handler,
         opts: &JsMinifyOptions,
     ) -> Result<TransformOutput, Error> {
         self.run(|| {
@@ -627,6 +706,7 @@ impl Compiler {
             let module = self
                 .parse_js(
                     fm.clone(),
+                    handler,
                     target,
                     Syntax::Es(EsConfig {
                         jsx: true,
@@ -646,7 +726,7 @@ impl Compiler {
 
             let top_level_mark = Mark::fresh(Mark::root());
 
-            let module = self.run_transform(false, || {
+            let module = self.run_transform(handler, false, || {
                 let module = module.fold_with(&mut resolver_with_mark(top_level_mark));
 
                 let module = swc_ecma_minifier::optimize(
@@ -678,7 +758,12 @@ impl Compiler {
     /// You can use custom pass with this method.
     ///
     /// There exists a [PassBuilder] to help building custom passes.
-    pub fn process_js(&self, program: Program, opts: &Options) -> Result<TransformOutput, Error> {
+    pub fn process_js(
+        &self,
+        handler: &Handler,
+        program: Program,
+        opts: &Options,
+    ) -> Result<TransformOutput, Error> {
         self.run(|| -> Result<_, Error> {
             let loc = self.cm.lookup_char_pos(program.span().lo());
             let fm = loc.file;
@@ -695,7 +780,7 @@ impl Compiler {
                 None
             };
 
-            let config = self.run(|| self.config_for_file(opts, &fm.name))?;
+            let config = self.run(|| self.config_for_file(handler, opts, &fm.name))?;
 
             let config = match config {
                 Some(v) => v,
@@ -704,13 +789,14 @@ impl Compiler {
                 }
             };
 
-            self.process_js_inner(program, orig.as_ref(), config)
+            self.process_js_inner(handler, program, orig.as_ref(), config)
         })
         .context("failed to process js module")
     }
 
     fn process_js_inner(
         &self,
+        handler: &Handler,
         program: Program,
         orig: Option<&sourcemap::SourceMap>,
         config: BuiltConfig<impl swc_ecma_visit::Fold>,
@@ -726,7 +812,7 @@ impl Compiler {
             }
             let mut pass = config.pass;
             let program = helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
-                swc_ecma_utils::HANDLER.set(&self.handler, || {
+                swc_ecma_utils::HANDLER.set(handler, || {
                     // Fold module
                     program.fold_with(&mut pass)
                 })

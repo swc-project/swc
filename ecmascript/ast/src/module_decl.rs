@@ -7,8 +7,7 @@ use crate::{
     ObjectLit,
 };
 use is_macro::Is;
-use swc_common::EqIgnoreSpan;
-use swc_common::{ast_node, Span};
+use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
@@ -74,7 +73,7 @@ pub struct ImportDecl {
     #[serde(rename = "source")]
     pub src: Str,
 
-    #[serde(rename = "typeOnly")]
+    #[serde(default, rename = "typeOnly")]
     pub type_only: bool,
 
     #[serde(default)]

@@ -12,6 +12,8 @@ use swc_ecma_loader::resolve::Resolve;
 
 pub trait ImportResolver {
     /// Resolves `target` as a string usable by the modules pass.
+    ///
+    /// The returned string will be used as a module specifier.
     fn resolve_import(&self, base: &FileName, module_specifier: &str) -> Result<JsWord, Error>;
 }
 
@@ -52,8 +54,8 @@ where
     R: Resolve,
 {
     fn resolve_import(&self, base: &FileName, module_specifier: &str) -> Result<JsWord, Error> {
-        fn strip_ext(s: &str) -> JsWord {
-            let mut p = PathBuf::from(s);
+        fn to_specifier(target_path: &str) -> JsWord {
+            let mut p = PathBuf::from(target_path);
             p.set_extension("");
             p.display().to_string().into()
         }
@@ -66,7 +68,7 @@ where
 
         let target = match target {
             FileName::Real(v) => v,
-            FileName::Custom(s) => return Ok(strip_ext(&s)),
+            FileName::Custom(s) => return Ok(to_specifier(&s)),
             _ => {
                 unreachable!(
                     "Node path provider does not support using `{:?}` as a target file name",
@@ -132,9 +134,9 @@ where
             Cow::Owned(format!("./{}", s))
         };
         if cfg!(target_os = "windows") {
-            Ok(strip_ext(&s.replace('\\', "/")))
+            Ok(to_specifier(&s.replace('\\', "/")))
         } else {
-            Ok(strip_ext(&s))
+            Ok(to_specifier(&s))
         }
     }
 }

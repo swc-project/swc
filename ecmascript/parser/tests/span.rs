@@ -1,118 +1,53 @@
-#![feature(test)]
-
-extern crate test;
-
-use std::{
-    env,
-    io::{self},
-    path::Path,
-};
+use std::path::PathBuf;
 use swc_common::{comments::SingleThreadedComments, errors::Handler, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_visit::{Node, Visit, VisitWith};
-use test::{
-    test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
-};
-use walkdir::WalkDir;
 
-fn add_test<F: FnOnce() + Send + 'static>(
-    tests: &mut Vec<TestDescAndFn>,
-    name: String,
-    ignore: bool,
-    f: F,
-) {
-    tests.push(TestDescAndFn {
-        desc: TestDesc {
-            test_type: TestType::UnitTest,
-            name: TestName::DynTestName(name),
-            ignore,
-            should_panic: No,
-            allow_fail: false,
-        },
-        testfn: DynTestFn(Box::new(f)),
-    });
-}
+#[testing::fixture("tests/span/**/*.js")]
+#[testing::fixture("tests/span/**/*.ts")]
+#[testing::fixture("tests/span/**/*.tsx")]
+fn span(entry: PathBuf) {
+    let dir = entry.parent().unwrap().to_path_buf();
+    let file_name = entry
+        .file_name()
+        .unwrap()
+        .to_str()
+        .expect("to_str() failed")
+        .to_string();
 
-fn load_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
-    let dir = Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("tests")
-        .join("span");
+    let content = ::testing::run_test(false, |cm, handler| -> Result<(), _> {
+        let src = cm.load_file(&entry).expect("failed to load file");
 
-    eprintln!("Loading tests from {}", dir.display());
+        let comments = SingleThreadedComments::default();
+        let lexer = Lexer::new(
+            Syntax::Typescript(TsConfig {
+                tsx: true,
+                decorators: true,
+                no_early_errors: true,
+                ..Default::default()
+            }),
+            Default::default(),
+            (&*src).into(),
+            Some(&comments),
+        );
+        let mut parser: Parser<Lexer<StringInput>> = Parser::new_from(lexer);
 
-    for entry in WalkDir::new(&dir) {
-        let entry = entry?;
-        if !entry.metadata()?.is_file() {
-            continue;
+        {
+            let module = parser
+                .parse_module()
+                .map_err(|e| e.into_diagnostic(handler).emit())?;
+
+            Shower { handler }.visit_module(&module, &Invalid { span: DUMMY_SP } as _);
         }
 
-        let ext = match entry.path().extension() {
-            None => continue,
-            Some(v) => v.to_string_lossy().to_string(),
-        };
-        if ext != "js" && ext != "ts" && ext != "tsx" {
-            continue;
-        }
+        Err(())
+    })
+    .expect_err("failed to run test");
 
-        let file_name = entry
-            .path()
-            .strip_prefix(&dir)
-            .expect("failed to strip prefix")
-            .to_str()
-            .expect("to_str() failed")
-            .to_string();
+    let ref_file = format!("{}.spans", dir.join(&file_name).display());
 
-        let ignore = false;
-
-        let name = format!("span::{}", file_name);
-
-        let dir = dir.clone();
-        add_test(tests, name, ignore, move || {
-            let content = ::testing::run_test(false, |cm, handler| -> Result<(), _> {
-                let src = cm.load_file(&entry.path()).expect("failed to load file");
-
-                let comments = SingleThreadedComments::default();
-                let lexer = Lexer::new(
-                    Syntax::Typescript(TsConfig {
-                        tsx: true,
-                        decorators: true,
-                        no_early_errors: true,
-                        ..Default::default()
-                    }),
-                    Default::default(),
-                    (&*src).into(),
-                    Some(&comments),
-                );
-                let mut parser: Parser<Lexer<StringInput>> = Parser::new_from(lexer);
-
-                {
-                    let module = parser
-                        .parse_module()
-                        .map_err(|e| e.into_diagnostic(handler).emit())?;
-
-                    Shower { handler }.visit_module(&module, &Invalid { span: DUMMY_SP } as _);
-                }
-
-                Err(())
-            })
-            .expect_err("failed to run test");
-
-            let ref_file = format!("{}.spans", dir.join(&file_name).display());
-
-            content.compare_to_file(&ref_file).unwrap();
-        });
-    }
-
-    Ok(())
-}
-
-#[test]
-fn span() {
-    let args: Vec<_> = env::args().collect();
-    let mut tests = Vec::new();
-    load_tests(&mut tests).expect("failed to load testss");
-    test_main(&args, tests, Some(Options::new()));
+    content.compare_to_file(&ref_file).unwrap();
 }
 
 struct Shower<'a> {

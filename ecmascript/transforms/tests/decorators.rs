@@ -5,19 +5,17 @@
     feature = "swc_ecma_transforms_proposal",
 ))]
 
-use swc_common::chain;
-use swc_common::Mark;
+use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::resolver;
-use swc_ecma_transforms_compat::es2015::classes;
-use swc_ecma_transforms_compat::es2015::function_name;
-use swc_ecma_transforms_compat::es2020::class_properties;
+use swc_ecma_transforms_compat::{
+    es2015::{classes, function_name},
+    es2020::class_properties,
+};
 use swc_ecma_transforms_module::common_js;
 use swc_ecma_transforms_optimization::simplify::inlining;
-use swc_ecma_transforms_proposal::decorators;
-use swc_ecma_transforms_proposal::decorators::Config;
-use swc_ecma_transforms_testing::test;
-use swc_ecma_transforms_testing::test_exec;
+use swc_ecma_transforms_proposal::{decorators, decorators::Config};
+use swc_ecma_transforms_testing::{test, test_exec};
 use swc_ecma_transforms_typescript::strip;
 use swc_ecma_visit::Fold;
 
@@ -5981,6 +5979,32 @@ test!(
     }) || _class) || _class;
     function someClassDecorator(c) {
         return c;
+    }
+    "
+);
+
+test_exec!(
+    Syntax::Typescript(TsConfig {
+        decorators: true,
+        ..Default::default()
+    }),
+    |_| {
+        chain!(
+            decorators(Config {
+                legacy: true,
+                emit_metadata: true,
+                ..Default::default()
+            }),
+            strip()
+        )
+    },
+    issue_1362_1,
+    "
+    const { IsString } = require('class-validator');
+
+    class CreateUserDto {
+      @IsString()
+      id!: string;
     }
     "
 );

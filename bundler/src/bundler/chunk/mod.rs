@@ -5,8 +5,7 @@ use crate::{
 };
 use ahash::AHashMap;
 use anyhow::{Context, Error};
-use fxhash::FxHashMap;
-use fxhash::FxHashSet;
+use fxhash::{FxHashMap, FxHashSet};
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
 use std::time::Instant;
@@ -104,6 +103,8 @@ where
             .into_par_iter()
             .map(|(id, mut entry)| {
                 self.merge_into_entry(&ctx, id, &mut entry, &all);
+
+                log::debug!("Merged `{}` and it's dep into an entry", id);
 
                 (id, entry)
             })

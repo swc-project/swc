@@ -3,8 +3,7 @@ use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
-use std::iter::once;
-use std::{iter, mem};
+use std::{iter, iter::once, mem};
 use string_enum::StringEnum;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
@@ -15,20 +14,11 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_parser::{Parser, StringInput, Syntax};
-use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::drop_span;
-use swc_ecma_utils::member_expr;
-use swc_ecma_utils::prepend;
-use swc_ecma_utils::private_ident;
-use swc_ecma_utils::quote_ident;
-use swc_ecma_utils::ExprFactory;
-use swc_ecma_utils::HANDLER;
-use swc_ecma_visit::as_folder;
-use swc_ecma_visit::noop_visit_mut_type;
-use swc_ecma_visit::Fold;
-use swc_ecma_visit::VisitMut;
-use swc_ecma_visit::VisitMutWith;
+use swc_ecma_transforms_base::{ext::MapWithMut, helper};
+use swc_ecma_utils::{
+    drop_span, member_expr, prepend, private_ident, quote_ident, ExprFactory, HANDLER,
+};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 use crate::refresh::options::{deserialize_refresh, RefreshOptions};
 

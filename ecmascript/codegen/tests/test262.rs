@@ -1,20 +1,15 @@
-#![feature(test)]
-
-extern crate test;
+#![feature(bench_black_box)]
 
 use std::{
     env,
-    fs::{read_dir, File},
-    io::{self, Read, Write},
-    path::Path,
+    fs::read_to_string,
+    io::{self, Write},
+    path::{Path, PathBuf},
     sync::{Arc, RwLock},
 };
 use swc_common::comments::SingleThreadedComments;
 use swc_ecma_codegen::{self, text_writer::WriteJs, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
-use test::{
-    test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
-};
 use testing::NormalizedOutput;
 
 const IGNORED_PASS_TESTS: &[&str] = &[
@@ -71,153 +66,110 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     "c06df922631aeabc.js",
 ];
 
-fn add_test<F: FnOnce() + Send + 'static>(
-    tests: &mut Vec<TestDescAndFn>,
-    name: String,
-    ignore: bool,
-    f: F,
-) {
-    tests.push(TestDescAndFn {
-        desc: TestDesc {
-            test_type: TestType::UnitTest,
-            name: TestName::DynTestName(name),
-            ignore,
-            should_panic: No,
-            allow_fail: false,
-        },
-        testfn: DynTestFn(Box::new(f)),
-    });
+#[testing::fixture("../parser/tests/test262-parser/pass/*.js")]
+fn identity(input: PathBuf) {
+    if !cfg!(target_os = "windows") {
+        do_test(&input, true);
+    }
+    do_test(&input, false);
 }
 
-fn error_tests(tests: &mut Vec<TestDescAndFn>, minify: bool) -> Result<(), io::Error> {
+fn do_test(entry: &Path, minify: bool) {
     let ref_dir = Path::new(env!("CARGO_MANIFEST_DIR"))
         .join("tests")
         .join(if minify { "test262-min" } else { "test262" });
-    let dir = Path::new(env!("CARGO_MANIFEST_DIR"))
-        .parent()
+
+    let file_name = entry
+        .file_name()
         .unwrap()
-        .join("parser")
-        .join("tests")
-        .join("test262-parser")
-        .join("pass");
+        .to_str()
+        .expect("to_str() failed")
+        .to_string();
 
-    eprintln!("Loading tests from {}", dir.display());
+    let input = read_to_string(&entry).unwrap();
 
-    for entry in read_dir(&dir).expect("failed to read directory") {
-        let entry = entry?;
-        let file_name = entry
-            .path()
-            .strip_prefix(&dir)
-            .expect("failed to strip prefix")
-            .to_str()
-            .expect("to_str() failed")
-            .to_string();
+    let ignore = IGNORED_PASS_TESTS.contains(&&*file_name);
 
-        let input = {
-            let mut buf = String::new();
-            File::open(entry.path())?.read_to_string(&mut buf)?;
-            buf
-        };
+    if ignore {
+        return;
+    }
 
-        let ignore = IGNORED_PASS_TESTS.contains(&&*file_name);
+    let module = file_name.contains("module");
 
-        let module = file_name.contains("module");
+    let ref_dir = ref_dir.clone();
 
-        let ref_dir = ref_dir.clone();
-        let name = format!(
-            "test262::golden::{}::{}",
-            if minify { "minify" } else { "normal" },
-            file_name
+    let msg = format!(
+        "\n\n========== Running codegen test {}\nSource:\n{}\n",
+        file_name, input
+    );
+    let mut wr = Buf(Arc::new(RwLock::new(vec![])));
+
+    ::testing::run_test(false, |cm, handler| {
+        let src = cm.load_file(&entry).expect("failed to load file");
+        eprintln!(
+            "{}\nPos: {:?} ~ {:?} (L{})",
+            msg,
+            src.start_pos,
+            src.end_pos,
+            src.count_lines()
         );
 
-        add_test(tests, name, ignore, move || {
-            let msg = format!(
-                "\n\n========== Running codegen test {}\nSource:\n{}\n",
-                file_name, input
-            );
-            let mut wr = Buf(Arc::new(RwLock::new(vec![])));
+        let comments = SingleThreadedComments::default();
+        let lexer = Lexer::new(
+            Syntax::default(),
+            Default::default(),
+            (&*src).into(),
+            Some(&comments),
+        );
+        let mut parser: Parser<Lexer<StringInput>> = Parser::new_from(lexer);
 
-            ::testing::run_test(false, |cm, handler| {
-                let src = cm.load_file(&entry.path()).expect("failed to load file");
-                eprintln!(
-                    "{}\nPos: {:?} ~ {:?} (L{})",
-                    msg,
-                    src.start_pos,
-                    src.end_pos,
-                    src.count_lines()
-                );
+        {
+            let mut wr = Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
+                cm.clone(),
+                "\n",
+                &mut wr,
+                None,
+            )) as Box<dyn WriteJs>;
 
-                let comments = SingleThreadedComments::default();
-                let lexer = Lexer::new(
-                    Syntax::default(),
-                    Default::default(),
-                    (&*src).into(),
-                    Some(&comments),
-                );
-                let mut parser: Parser<Lexer<StringInput>> = Parser::new_from(lexer);
+            if minify {
+                wr = Box::new(swc_ecma_codegen::text_writer::omit_trailing_semi(wr));
+            }
 
-                {
-                    let mut wr = Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
-                        cm.clone(),
-                        "\n",
-                        &mut wr,
-                        None,
-                    )) as Box<dyn WriteJs>;
+            let mut emitter = Emitter {
+                cfg: swc_ecma_codegen::Config { minify },
+                cm: cm.clone(),
+                wr,
+                comments: if minify { None } else { Some(&comments) },
+            };
 
-                    if minify {
-                        wr = Box::new(swc_ecma_codegen::text_writer::omit_trailing_semi(wr));
-                    }
+            // Parse source
+            if module {
+                emitter
+                    .emit_module(
+                        &parser
+                            .parse_module()
+                            .map_err(|e| e.into_diagnostic(handler).emit())?,
+                    )
+                    .unwrap();
+            } else {
+                emitter
+                    .emit_script(
+                        &parser
+                            .parse_script()
+                            .map_err(|e| e.into_diagnostic(handler).emit())?,
+                    )
+                    .unwrap();
+            }
+        }
+        let ref_file = format!("{}", ref_dir.join(&file_name).display());
 
-                    let mut emitter = Emitter {
-                        cfg: swc_ecma_codegen::Config { minify },
-                        cm: cm.clone(),
-                        wr,
-                        comments: if minify { None } else { Some(&comments) },
-                    };
-
-                    // Parse source
-                    if module {
-                        emitter
-                            .emit_module(
-                                &parser
-                                    .parse_module()
-                                    .map_err(|e| e.into_diagnostic(handler).emit())?,
-                            )
-                            .unwrap();
-                    } else {
-                        emitter
-                            .emit_script(
-                                &parser
-                                    .parse_script()
-                                    .map_err(|e| e.into_diagnostic(handler).emit())?,
-                            )
-                            .unwrap();
-                    }
-                }
-                let ref_file = format!("{}", ref_dir.join(&file_name).display());
-
-                let code_output = wr.0.read().unwrap();
-                let with_srcmap =
-                    NormalizedOutput::from(String::from_utf8_lossy(&code_output).into_owned());
-                with_srcmap.compare_to_file(ref_file).unwrap();
-                Ok(())
-            })
-            .expect("failed to run test");
-        });
-    }
-
-    Ok(())
-}
-
-#[test]
-fn identity() {
-    let args: Vec<_> = env::args().collect();
-    let mut tests = Vec::new();
-    if !cfg!(target_os = "windows") {
-        error_tests(&mut tests, true).expect("failed to load testss");
-    }
-    error_tests(&mut tests, false).expect("failed to load testss");
-    test_main(&args, tests, Some(Options::new()));
+        let code_output = wr.0.read().unwrap();
+        let with_srcmap =
+            NormalizedOutput::from(String::from_utf8_lossy(&code_output).into_owned());
+        with_srcmap.compare_to_file(ref_file).unwrap();
+        Ok(())
+    })
+    .expect("failed to run test");
 }
 
 #[derive(Debug, Clone)]

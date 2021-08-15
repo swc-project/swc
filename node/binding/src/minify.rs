@@ -4,7 +4,7 @@ use crate::{
 };
 use napi::{CallContext, JsObject, JsString, Task};
 use std::sync::Arc;
-use swc::TransformOutput;
+use swc::{try_with_handler, TransformOutput};
 use swc_common::FileName;
 
 struct MinifyTask {
@@ -19,9 +19,12 @@ impl Task for MinifyTask {
     type JsValue = JsObject;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
-        let fm = self.c.cm.new_source_file(FileName::Anon, self.code.clone());
+        try_with_handler(self.c.cm.clone(), |handler| {
+            let fm = self.c.cm.new_source_file(FileName::Anon, self.code.clone());
 
-        self.c.minify(fm, &self.opts).convert_err()
+            self.c.minify(fm, &handler, &self.opts)
+        })
+        .convert_err()
     }
 
     fn resolve(self, env: napi::Env, output: Self::Output) -> napi::Result<Self::JsValue> {
@@ -48,9 +51,10 @@ pub fn minify_sync(cx: CallContext) -> napi::Result<JsObject> {
 
     let c = get_compiler(&cx);
 
-    let fm = c.cm.new_source_file(FileName::Anon, code.clone());
+    let fm = c.cm.new_source_file(FileName::Anon, code);
 
-    let output = c.minify(fm, &opts).convert_err()?;
+    let output =
+        try_with_handler(c.cm.clone(), |handler| c.minify(fm, &handler, &opts)).convert_err()?;
 
     complete_output(&cx.env, output)
 }

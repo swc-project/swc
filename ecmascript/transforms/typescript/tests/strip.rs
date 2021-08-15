@@ -1,15 +1,13 @@
 use swc_common::chain;
 use swc_ecma_parser::{Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::resolver;
-use swc_ecma_transforms_compat::es2017::async_to_generator;
-use swc_ecma_transforms_compat::es2020::class_properties;
-use swc_ecma_transforms_compat::es2020::nullish_coalescing;
-use swc_ecma_transforms_compat::es2020::optional_chaining;
+use swc_ecma_transforms_compat::{
+    es2017::async_to_generator,
+    es2020::{class_properties, nullish_coalescing, optional_chaining},
+};
 use swc_ecma_transforms_proposal::decorators;
-use swc_ecma_transforms_testing::test;
-use swc_ecma_transforms_testing::test_exec;
-use swc_ecma_transforms_typescript::strip;
-use swc_ecma_transforms_typescript::strip::strip_with_config;
+use swc_ecma_transforms_testing::{test, test_exec};
+use swc_ecma_transforms_typescript::{strip, strip::strip_with_config};
 use swc_ecma_visit::Fold;
 
 fn tr() -> impl Fold {

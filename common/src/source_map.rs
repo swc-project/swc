@@ -18,6 +18,7 @@
 //! information, source code snippets, etc.
 pub use crate::syntax_pos::*;
 use crate::{
+    collections::AHashMap,
     errors::SourceMapper,
     rustc_data_structures::stable_hasher::StableHasher,
     sync::{Lock, LockGuard, Lrc, MappedLockGuard},
@@ -28,7 +29,6 @@ use sourcemap::SourceMapBuilder;
 use std::{
     cmp,
     cmp::{max, min},
-    collections::HashMap,
     env, fs,
     hash::Hash,
     io::{self, Read},
@@ -100,7 +100,7 @@ impl StableSourceFileId {
 #[derive(Default)]
 pub(super) struct SourceMapFiles {
     pub(super) source_files: Vec<Lrc<SourceFile>>,
-    stable_id_to_source_file: HashMap<StableSourceFileId, Lrc<SourceFile>>,
+    stable_id_to_source_file: AHashMap<StableSourceFileId, Lrc<SourceFile>>,
 }
 
 /// The interner for spans.

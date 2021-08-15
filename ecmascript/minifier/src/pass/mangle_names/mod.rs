@@ -1,21 +1,17 @@
 use self::preserver::idents_to_preserve;
 use super::compute_char_freq::CharFreqInfo;
-use crate::analyzer::analyze;
-use crate::analyzer::ProgramData;
-use crate::marks::Marks;
-use crate::option::MangleOptions;
-use crate::util::base54::incr_base54;
-use fxhash::FxHashMap;
-use fxhash::FxHashSet;
-use swc_atoms::js_word;
-use swc_atoms::JsWord;
+use crate::{
+    analyzer::{analyze, ProgramData},
+    marks::Marks,
+    option::MangleOptions,
+    util::base54::incr_base54,
+};
+use fxhash::{FxHashMap, FxHashSet};
+use swc_atoms::{js_word, JsWord};
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
-use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_utils::Id;
-use swc_ecma_visit::noop_visit_mut_type;
-use swc_ecma_visit::VisitMut;
-use swc_ecma_visit::VisitMutWith;
+use swc_ecma_utils::{ident::IdentLike, Id};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 mod preserver;
 

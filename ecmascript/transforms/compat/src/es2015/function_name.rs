@@ -1,10 +1,7 @@
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::PatOrExprExt;
-use swc_ecma_utils::private_ident;
-use swc_ecma_utils::UsageFinder;
-use swc_ecma_visit::noop_fold_type;
-use swc_ecma_visit::Fold;
-use swc_ecma_visit::FoldWith;
+use swc_ecma_utils::{private_ident, UsageFinder};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 /// `@babel/plugin-transform-function-name`
 ///

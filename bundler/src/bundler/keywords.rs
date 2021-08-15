@@ -1,12 +1,9 @@
-use crate::id::Id;
-use crate::util::MapWithMut;
+use crate::{id::Id, util::MapWithMut};
 use fxhash::FxHashMap;
 use swc_atoms::js_word;
 use swc_ecma_ast::*;
 use swc_ecma_utils::private_ident;
-use swc_ecma_visit::noop_visit_mut_type;
-use swc_ecma_visit::VisitMut;
-use swc_ecma_visit::VisitMutWith;
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 #[derive(Default)]
 pub struct KeywordRenamer {
@@ -36,13 +33,6 @@ impl KeywordRenamer {
 impl VisitMut for KeywordRenamer {
     noop_visit_mut_type!();
 
-    fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
-        f.function.visit_mut_with(self);
-        if let Some(renamed) = self.renamed(&f.ident) {
-            f.ident = renamed;
-        }
-    }
-
     fn visit_mut_class_decl(&mut self, c: &mut ClassDecl) {
         c.class.visit_mut_with(self);
         if let Some(renamed) = self.renamed(&c.ident) {
@@ -50,19 +40,47 @@ impl VisitMut for KeywordRenamer {
         }
     }
 
-    fn visit_mut_prop(&mut self, n: &mut Prop) {
+    fn visit_mut_class_prop(&mut self, n: &mut ClassProp) {
+        if n.computed {
+            n.key.visit_mut_with(self);
+        }
+
+        n.decorators.visit_mut_with(self);
+        n.value.visit_mut_with(self);
+    }
+
+    fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
+        if let Some(renamed) = self.renamed(&n.orig) {
+            n.orig = renamed;
+        }
+    }
+
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
         match n {
-            Prop::Shorthand(i) => {
-                if let Some(renamed) = self.renamed(&i) {
-                    *n = Prop::KeyValue(KeyValueProp {
-                        key: PropName::Ident(i.clone()),
-                        value: Box::new(Expr::Ident(renamed)),
-                    });
+            Expr::Ident(n) => {
+                if let Some(renamed) = self.renamed(&n) {
+                    *n = renamed;
                 }
+                return;
             }
-            _ => {
-                n.visit_mut_children_with(self);
-            }
+            _ => {}
+        }
+
+        n.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
+        f.function.visit_mut_with(self);
+        if let Some(renamed) = self.renamed(&f.ident) {
+            f.ident = renamed;
+        }
+    }
+
+    fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
+        n.obj.visit_mut_with(self);
+
+        if n.computed {
+            n.prop.visit_mut_with(self)
         }
     }
 
@@ -111,43 +129,6 @@ impl VisitMut for KeywordRenamer {
         n.visit_mut_children_with(self);
     }
 
-    fn visit_mut_expr(&mut self, n: &mut Expr) {
-        match n {
-            Expr::Ident(n) => {
-                if let Some(renamed) = self.renamed(&n) {
-                    *n = renamed;
-                }
-                return;
-            }
-            _ => {}
-        }
-
-        n.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
-        n.obj.visit_mut_with(self);
-
-        if n.computed {
-            n.prop.visit_mut_with(self)
-        }
-    }
-
-    fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
-        if let Some(renamed) = self.renamed(&n.orig) {
-            n.orig = renamed;
-        }
-    }
-
-    fn visit_mut_class_prop(&mut self, n: &mut ClassProp) {
-        if n.computed {
-            n.key.visit_mut_with(self);
-        }
-
-        n.decorators.visit_mut_with(self);
-        n.value.visit_mut_with(self);
-    }
-
     fn visit_mut_private_prop(&mut self, n: &mut PrivateProp) {
         if n.computed {
             n.key.visit_mut_with(self);
@@ -155,5 +136,21 @@ impl VisitMut for KeywordRenamer {
 
         n.decorators.visit_mut_with(self);
         n.value.visit_mut_with(self);
+    }
+
+    fn visit_mut_prop(&mut self, n: &mut Prop) {
+        match n {
+            Prop::Shorthand(i) => {
+                if let Some(renamed) = self.renamed(&i) {
+                    *n = Prop::KeyValue(KeyValueProp {
+                        key: PropName::Ident(i.clone()),
+                        value: Box::new(Expr::Ident(renamed)),
+                    });
+                }
+            }
+            _ => {
+                n.visit_mut_children_with(self);
+            }
+        }
     }
 }

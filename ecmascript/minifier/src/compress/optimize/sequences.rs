@@ -1,21 +1,20 @@
 use super::{is_pure_undefined, Optimizer};
-use crate::compress::optimize::util::replace_id_with_expr;
-use crate::compress::util::{get_lhs_ident, get_lhs_ident_mut, is_directive};
-use crate::debug::dump;
-use crate::util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt};
+use crate::{
+    compress::{
+        optimize::util::replace_id_with_expr,
+        util::{get_lhs_ident, get_lhs_ident_mut, is_directive},
+    },
+    debug::dump,
+    util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt},
+};
 use retain_mut::RetainMut;
 use std::mem::take;
 use swc_atoms::js_word;
-use swc_common::Spanned;
-use swc_common::DUMMY_SP;
+use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_utils::{contains_this_expr, undefined, ExprExt, Id, StmtLike};
-use swc_ecma_visit::noop_visit_type;
-use swc_ecma_visit::Node;
-use swc_ecma_visit::Visit;
-use swc_ecma_visit::VisitWith;
+use swc_ecma_utils::{contains_this_expr, ident::IdentLike, undefined, ExprExt, Id, StmtLike};
+use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 
 /// Methods related to the option `sequences`. All methods are noop if
 /// `sequences` is false.

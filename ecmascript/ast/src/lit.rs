@@ -7,8 +7,7 @@ use std::{
     mem,
 };
 use swc_atoms::JsWord;
-use swc_common::EqIgnoreSpan;
-use swc_common::{ast_node, Span};
+use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 #[ast_node]
 #[derive(Eq, Hash, EqIgnoreSpan)]

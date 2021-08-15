@@ -1,104 +1,28 @@
 use super::Context;
 use crate::swcify::Swcify;
-use swc_babel_ast::BlockStatement;
-use swc_babel_ast::BreakStatement;
-use swc_babel_ast::ClassDeclaration;
-use swc_babel_ast::ContinueStatement;
-use swc_babel_ast::DebuggerStatement;
-use swc_babel_ast::DeclareClass;
-use swc_babel_ast::DeclareExportAllDeclaration;
-use swc_babel_ast::DeclareExportDeclaration;
-use swc_babel_ast::DeclareFunction;
-use swc_babel_ast::DeclareInterface;
-use swc_babel_ast::DeclareModule;
-use swc_babel_ast::DeclareModuleExports;
-use swc_babel_ast::DeclareTypeAlias;
-use swc_babel_ast::DeclareVariable;
-use swc_babel_ast::DoWhileStatement;
-use swc_babel_ast::EmptyStatement;
-use swc_babel_ast::ExportAllDeclaration;
-use swc_babel_ast::ExportDefaultDeclType;
-use swc_babel_ast::ExportDefaultDeclaration;
-use swc_babel_ast::ExportNamedDeclaration;
-use swc_babel_ast::ExpressionStatement;
-use swc_babel_ast::ForInStatement;
-use swc_babel_ast::ForOfStatement;
-use swc_babel_ast::ForStatement;
-use swc_babel_ast::ForStmtInit;
-use swc_babel_ast::ForStmtLeft;
-use swc_babel_ast::FunctionDeclaration;
-use swc_babel_ast::IdOrString;
-use swc_babel_ast::IfStatement;
-use swc_babel_ast::ImportAttribute;
-use swc_babel_ast::ImportDeclaration;
-use swc_babel_ast::ImportNamespaceSpecifier;
-use swc_babel_ast::ImportSpecifierType;
-use swc_babel_ast::LabeledStatement;
-use swc_babel_ast::ReturnStatement;
-use swc_babel_ast::Statement;
-use swc_babel_ast::SwitchStatement;
-use swc_babel_ast::ThrowStatement;
-use swc_babel_ast::TryStatement;
-use swc_babel_ast::VariableDeclaration;
-use swc_babel_ast::VariableDeclarationKind;
-use swc_babel_ast::VariableDeclarator;
-use swc_babel_ast::WhileStatement;
-use swc_babel_ast::WithStatement;
+use swc_babel_ast::{
+    BlockStatement, BreakStatement, ClassDeclaration, ContinueStatement, DebuggerStatement,
+    DeclareClass, DeclareExportAllDeclaration, DeclareExportDeclaration, DeclareFunction,
+    DeclareInterface, DeclareModule, DeclareModuleExports, DeclareTypeAlias, DeclareVariable,
+    DoWhileStatement, EmptyStatement, ExportAllDeclaration, ExportDefaultDeclType,
+    ExportDefaultDeclaration, ExportNamedDeclaration, ExpressionStatement, ForInStatement,
+    ForOfStatement, ForStatement, ForStmtInit, ForStmtLeft, FunctionDeclaration, IdOrString,
+    IfStatement, ImportAttribute, ImportDeclaration, ImportNamespaceSpecifier, ImportSpecifierType,
+    LabeledStatement, ReturnStatement, Statement, SwitchStatement, ThrowStatement, TryStatement,
+    VariableDeclaration, VariableDeclarationKind, VariableDeclarator, WhileStatement,
+    WithStatement,
+};
 use swc_common::DUMMY_SP;
-use swc_ecma_ast::BlockStmt;
-use swc_ecma_ast::BreakStmt;
-use swc_ecma_ast::ClassDecl;
-use swc_ecma_ast::ClassExpr;
-use swc_ecma_ast::ContinueStmt;
-use swc_ecma_ast::DebuggerStmt;
-use swc_ecma_ast::Decl;
-use swc_ecma_ast::DefaultDecl;
-use swc_ecma_ast::DoWhileStmt;
-use swc_ecma_ast::EmptyStmt;
-use swc_ecma_ast::ExportAll;
-use swc_ecma_ast::ExportDecl;
-use swc_ecma_ast::ExportDefaultDecl;
-use swc_ecma_ast::ExportDefaultExpr;
-use swc_ecma_ast::ExportNamedSpecifier;
-use swc_ecma_ast::Expr;
-use swc_ecma_ast::ExprStmt;
-use swc_ecma_ast::FnDecl;
-use swc_ecma_ast::FnExpr;
-use swc_ecma_ast::ForInStmt;
-use swc_ecma_ast::ForOfStmt;
-use swc_ecma_ast::ForStmt;
-use swc_ecma_ast::IfStmt;
-use swc_ecma_ast::ImportDecl;
-use swc_ecma_ast::ImportNamedSpecifier;
-use swc_ecma_ast::ImportSpecifier;
-use swc_ecma_ast::ImportStarAsSpecifier;
-use swc_ecma_ast::KeyValueProp;
-use swc_ecma_ast::LabeledStmt;
-use swc_ecma_ast::Lit;
-use swc_ecma_ast::ModuleDecl;
-use swc_ecma_ast::ModuleItem;
-use swc_ecma_ast::NamedExport;
-use swc_ecma_ast::ObjectLit;
-use swc_ecma_ast::Pat;
-use swc_ecma_ast::Prop;
-use swc_ecma_ast::PropName;
-use swc_ecma_ast::PropOrSpread;
-use swc_ecma_ast::ReturnStmt;
-use swc_ecma_ast::Stmt;
-use swc_ecma_ast::SwitchStmt;
-use swc_ecma_ast::ThrowStmt;
-use swc_ecma_ast::TryStmt;
-use swc_ecma_ast::TsExportAssignment;
-use swc_ecma_ast::TsInterfaceDecl;
-use swc_ecma_ast::TsModuleDecl;
-use swc_ecma_ast::TsTypeAliasDecl;
-use swc_ecma_ast::VarDecl;
-use swc_ecma_ast::VarDeclKind;
-use swc_ecma_ast::VarDeclOrExpr;
-use swc_ecma_ast::VarDeclOrPat;
-use swc_ecma_ast::VarDeclarator;
-use swc_ecma_ast::WhileStmt;
-use swc_ecma_ast::WithStmt;
+use swc_ecma_ast::{
+    BlockStmt, BreakStmt, ClassDecl, ClassExpr, ContinueStmt, DebuggerStmt, Decl, DefaultDecl,
+    DoWhileStmt, EmptyStmt, ExportAll, ExportDecl, ExportDefaultDecl, ExportDefaultExpr,
+    ExportNamedSpecifier, Expr, ExprStmt, FnDecl, FnExpr, ForInStmt, ForOfStmt, ForStmt, IfStmt,
+    ImportDecl, ImportNamedSpecifier, ImportSpecifier, ImportStarAsSpecifier, KeyValueProp,
+    LabeledStmt, Lit, ModuleDecl, ModuleItem, NamedExport, ObjectLit, Pat, Prop, PropName,
+    PropOrSpread, ReturnStmt, Stmt, SwitchStmt, ThrowStmt, TryStmt, TsExportAssignment,
+    TsInterfaceDecl, TsModuleDecl, TsTypeAliasDecl, VarDecl, VarDeclKind, VarDeclOrExpr,
+    VarDeclOrPat, VarDeclarator, WhileStmt, WithStmt,
+};
 
 impl Swcify for BlockStatement {
     type Output = BlockStmt;

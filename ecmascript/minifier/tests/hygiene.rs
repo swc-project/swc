@@ -1,17 +1,12 @@
 use std::path::PathBuf;
-use swc_common::sync::Lrc;
-use swc_common::SourceMap;
-use swc_common::{input::SourceFileInput, Mark};
-use swc_ecma_codegen::text_writer::JsWriter;
-use swc_ecma_codegen::Emitter;
+use swc_common::{input::SourceFileInput, sync::Lrc, Mark, SourceMap};
+use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_minifier::optimize_hygiene;
 use swc_ecma_parser::{lexer::Lexer, Parser};
 use swc_ecma_transforms::{fixer, hygiene, resolver_with_mark};
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::FoldWith;
-use testing::assert_eq;
-use testing::run_test2;
-use testing::DebugUsingDisplay;
+use testing::{assert_eq, run_test2, DebugUsingDisplay};
 
 #[testing::fixture("tests/hygiene/identical/**/*.js")]
 fn identical(input: PathBuf) {

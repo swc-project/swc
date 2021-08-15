@@ -1,16 +1,13 @@
 use super::Bundler;
 use crate::{load::Load, resolve::Resolve};
 use anyhow::{Context, Error};
-use fxhash::FxHashMap;
-use fxhash::FxHashSet;
+use fxhash::{FxHashMap, FxHashSet};
 use retain_mut::RetainMut;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{sync::Lrc, FileName, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
-use swc_ecma_visit::noop_visit_mut_type;
-use swc_ecma_visit::VisitMut;
-use swc_ecma_visit::VisitMutWith;
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 #[cfg(test)]
 mod tests;

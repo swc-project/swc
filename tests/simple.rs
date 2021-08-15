@@ -1,22 +1,21 @@
-use std::sync::Arc;
 use swc::{
     config::{Config, JscConfig, Options},
     Compiler,
 };
 use swc_common::FileName;
 use swc_ecma_ast::EsVersion;
-use swc_ecma_parser::TsConfig;
-use swc_ecma_parser::{EsConfig, Syntax};
+use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use testing::Tester;
 
 fn compile(src: &str, options: Options) -> String {
     Tester::new()
         .print_errors(|cm, handler| {
-            let c = Compiler::new(cm.clone(), Arc::new(handler));
+            let c = Compiler::new(cm.clone());
 
             let fm = cm.new_source_file(FileName::Real("input.js".into()), src.into());
             let s = c.process_js_file(
                 fm,
+                &handler,
                 &Options {
                     is_module: true,
                     ..options
@@ -25,7 +24,7 @@ fn compile(src: &str, options: Options) -> String {
 
             match s {
                 Ok(v) => {
-                    if c.handler.has_errors() {
+                    if handler.has_errors() {
                         Err(())
                     } else {
                         Ok(v.code.into())

@@ -1,6 +1,5 @@
 use super::*;
-use swc_common::comments::SingleThreadedComments;
-use swc_common::{sync::Lrc, FileName, SourceMap};
+use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, SourceMap};
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{Parser, StringInput};
 use swc_ecma_transforms_base::resolver;

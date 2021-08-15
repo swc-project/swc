@@ -1,28 +1,12 @@
 use super::Context;
 use crate::swcify::Swcify;
-use swc_babel_ast::BigIntLiteral;
-use swc_babel_ast::BooleanLiteral;
-use swc_babel_ast::DecimalLiteral;
-use swc_babel_ast::Literal;
-use swc_babel_ast::NullLiteral;
-use swc_babel_ast::NumberLiteral;
-use swc_babel_ast::NumericLiteral;
-use swc_babel_ast::RegExpLiteral;
-use swc_babel_ast::StringLiteral;
-use swc_babel_ast::TemplateElement;
-use swc_babel_ast::TemplateLiteral;
-use swc_babel_ast::TemplateLiteralExpr;
+use swc_babel_ast::{
+    BigIntLiteral, BooleanLiteral, DecimalLiteral, Literal, NullLiteral, NumberLiteral,
+    NumericLiteral, RegExpLiteral, StringLiteral, TemplateElement, TemplateLiteral,
+    TemplateLiteralExpr,
+};
 use swc_common::DUMMY_SP;
-use swc_ecma_ast::BigInt;
-use swc_ecma_ast::Bool;
-use swc_ecma_ast::Expr;
-use swc_ecma_ast::Lit;
-use swc_ecma_ast::Null;
-use swc_ecma_ast::Number;
-use swc_ecma_ast::Regex;
-use swc_ecma_ast::Str;
-use swc_ecma_ast::Tpl;
-use swc_ecma_ast::TplElement;
+use swc_ecma_ast::{BigInt, Bool, Expr, Lit, Null, Number, Regex, Str, Tpl, TplElement};
 
 impl Swcify for Literal {
     type Output = Lit;
