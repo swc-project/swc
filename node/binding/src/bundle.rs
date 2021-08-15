@@ -20,6 +20,7 @@ use swc_bundler::{BundleKind, Bundler, Load, ModuleRecord, Resolve};
 use swc_common::Span;
 use swc_ecma_ast::{
     Bool, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, MetaPropExpr, PropName, Str,
+    NODE_BUILTINS,
 };
 
 struct ConfigItem {
@@ -63,52 +64,19 @@ impl Task for BundleTask {
                 &self.config.resolver,
                 swc_bundler::Config {
                     require: true,
-                    external_modules: vec![
-                        "assert",
-                        "buffer",
-                        "child_process",
-                        "console",
-                        "cluster",
-                        "crypto",
-                        "dgram",
-                        "dns",
-                        "events",
-                        "fs",
-                        "http",
-                        "http2",
-                        "https",
-                        "net",
-                        "os",
-                        "path",
-                        "perf_hooks",
-                        "process",
-                        "querystring",
-                        "readline",
-                        "repl",
-                        "stream",
-                        "string_decoder",
-                        "timers",
-                        "tls",
-                        "tty",
-                        "url",
-                        "util",
-                        "v8",
-                        "vm",
-                        "wasi",
-                        "worker",
-                        "zlib",
-                    ]
-                    .into_iter()
-                    .map(JsWord::from)
-                    .chain(
-                        self.config
-                            .static_items
-                            .config
-                            .extenal_modules
-                            .iter()
-                            .cloned(),
-                    )
-                    .collect(),
+                    external_modules: NODE_BUILTINS
+                        .to_vec()
+                        .into_iter()
+                        .map(JsWord::from)
+                        .chain(
+                            self.config
+                                .static_items
+                                .config
+                                .extenal_modules
+                                .iter()
+                                .cloned(),
+                        )
+                        .collect(),
                     ..Default::default()
                 },
                 Box::new(Hook),

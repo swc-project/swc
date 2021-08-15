@@ -32,44 +32,11 @@ fn do_test(entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
             Config {
                 require: true,
                 disable_inliner: !inline,
-                external_modules: vec![
-                    "assert",
-                    "buffer",
-                    "child_process",
-                    "console",
-                    "cluster",
-                    "crypto",
-                    "dgram",
-                    "dns",
-                    "events",
-                    "fs",
-                    "http",
-                    "http2",
-                    "https",
-                    "net",
-                    "os",
-                    "path",
-                    "perf_hooks",
-                    "process",
-                    "querystring",
-                    "readline",
-                    "repl",
-                    "stream",
-                    "string_decoder",
-                    "timers",
-                    "tls",
-                    "tty",
-                    "url",
-                    "util",
-                    "v8",
-                    "vm",
-                    "wasi",
-                    "worker",
-                    "zlib",
-                ]
-                .into_iter()
-                .map(From::from)
-                .collect(),
+                external_modules: NODE_BUILTINS
+                    .to_vec()
+                    .into_iter()
+                    .map(From::from)
+                    .collect(),
                 module: Default::default(),
             },
             Box::new(Hook),

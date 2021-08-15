@@ -12,7 +12,7 @@ use swc_bundler::{BundleKind, Bundler, Config, ModuleRecord};
 use swc_common::{FileName, Span, GLOBALS};
 use swc_ecma_ast::{
     Bool, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, MetaPropExpr, PropName, Str,
-    TargetEnv,
+    TargetEnv, NODE_BUILTINS,
 };
 use swc_ecma_parser::JscTarget;
 use swc_ecma_transforms::fixer;
@@ -75,41 +75,8 @@ fn pass(input_dir: PathBuf) {
                     require: true,
                     disable_inliner: true,
                     module: Default::default(),
-                    external_modules: vec![
-                        "assert",
-                        "buffer",
-                        "child_process",
-                        "console",
-                        "cluster",
-                        "crypto",
-                        "dgram",
-                        "dns",
-                        "events",
-                        "fs",
-                        "http",
-                        "http2",
-                        "https",
-                        "net",
-                        "os",
-                        "path",
-                        "perf_hooks",
-                        "process",
-                        "querystring",
-                        "readline",
-                        "repl",
-                        "stream",
-                        "string_decoder",
-                        "timers",
-                        "tls",
-                        "tty",
-                        "url",
-                        "util",
-                        "v8",
-                        "vm",
-                        "wasi",
-                        "worker",
-                        "zlib",
-                    ]
+                    external_modules: NODE_BUILTINS
+                    .to_vec()
                     .into_iter()
                     .map(From::from)
                     .collect(),
