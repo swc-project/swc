@@ -355,7 +355,7 @@ impl Resolve for NodeModulesResolver {
                 if let Some(item) = BROWSER_CACHE.get(&pkg_base) {
                     let value = item.value();
                     if value.module_ignores.contains(target) {
-                        return Ok(FileName::Custom("ignored path".into()));
+                        return Ok(FileName::Custom(target.into()));
                     }
                     if let Some(rewrite) = value.module_rewrites.get(target) {
                         return self.wrap(Some(rewrite.to_path_buf()));
@@ -364,6 +364,15 @@ impl Resolve for NodeModulesResolver {
             }
         }
 
+        // Handle builtin modules for nodejs
+        if let TargetEnv::Node = self.target_env {
+            if is_core_module(target) {
+                return Ok(FileName::Custom(format!("node:{}", target.to_string())));
+            }
+        }
+
+        // Aliases allow browser shims to be renamed so we can
+        // map `stream` to `stream-browserify` for example
         let target = if let Some(alias) = self.alias.get(target) {
             &alias[..]
         } else {
@@ -373,12 +382,6 @@ impl Resolve for NodeModulesResolver {
         let target_path = Path::new(target);
 
         let file_name = {
-            if let TargetEnv::Node = self.target_env {
-                if is_core_module(target) {
-                    return Ok(FileName::Custom(target.to_string()));
-                }
-            }
-
             if target_path.is_absolute() {
                 let path = PathBuf::from(target_path);
                 self.resolve_as_file(&path)
@@ -416,7 +419,7 @@ impl Resolve for NodeModulesResolver {
                         if let Some(item) = BROWSER_CACHE.get(&pkg_base) {
                             let value = item.value();
                             if value.ignores.contains(path) {
-                                return Ok(FileName::Custom("ignored path".into()));
+                                return Ok(FileName::Custom(path.display().to_string().into()));
                             }
                             if let Some(rewrite) = value.rewrites.get(path) {
                                 return self.wrap(Some(rewrite.to_path_buf()));
