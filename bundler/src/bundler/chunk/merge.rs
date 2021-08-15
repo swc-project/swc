@@ -44,6 +44,10 @@ impl Ctx {
         }
 
         if let Some(v) = self.transitive_remap.get(&ctxt_to_check) {
+            if v == ctxt_to_check {
+                return false;
+            }
+
             return self.is_exported_ctxt(v, entry_export_ctxt);
         }
 
@@ -192,6 +196,9 @@ where
                     Some(v) => v,
                     _ => return,
                 };
+                if remapped == id.ctxt() {
+                    return;
+                }
                 let reexported = id.clone().with_ctxt(remapped);
 
                 add_var(
@@ -397,10 +404,14 @@ where
     }
 
     fn finalize_merging_of_entry(&self, ctx: &Ctx, id: ModuleId, entry: &mut Modules) {
-        log::debug!("All modules are merged");
+        log::trace!("All modules are merged");
+
+        log::debug!("Injecting reexports");
         self.inject_reexports(ctx, id, entry);
 
         // entry.print(&self.cm, "before inline");
+
+        log::debug!("Inlining injected variables");
 
         inline(self.injected_ctxt, entry);
 
@@ -448,6 +459,8 @@ where
             true
         });
 
+        log::debug!("Renaming keywords");
+
         entry.visit_mut_with(&mut KeywordRenamer::default());
 
         // print_hygiene(
@@ -462,6 +475,11 @@ where
 
     /// Remove exports with wrong syntax context
     fn remove_wrong_exports(&self, ctx: &Ctx, info: &TransformedModule, module: &mut Modules) {
+        log::debug!("Removing wrong exports");
+
+        let item_count = module.iter().count();
+        log::trace!("Item count = {}", item_count);
+
         module.retain_mut(|_, item| {
             match item {
                 // TODO: Handle export default
@@ -493,6 +511,8 @@ where
 
             true
         });
+
+        log::debug!("Removed wrong exports");
     }
 
     /// This method handles imports and exports.
