@@ -44,6 +44,10 @@ impl Ctx {
         }
 
         if let Some(v) = self.transitive_remap.get(&ctxt_to_check) {
+            if v == ctxt_to_check {
+                return false;
+            }
+
             return self.is_exported_ctxt(v, entry_export_ctxt);
         }
 
