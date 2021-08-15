@@ -15,11 +15,14 @@ use scoped_tls::scoped_thread_local;
 use std::{
     borrow::Cow,
     f64::{INFINITY, NAN},
+    hash::Hash,
     num::FpCategory,
     ops::Add,
 };
 use swc_atoms::{js_word, JsWord};
-use swc_common::{errors::Handler, Mark, Span, Spanned, DUMMY_SP};
+use swc_common::{
+    collections::AHashSet, errors::Handler, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Node, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -2061,4 +2064,63 @@ impl VisitMut for IdentReplacer<'_> {
             node.prop.visit_mut_with(self);
         }
     }
+}
+
+pub struct BindingCollector<I>
+where
+    I: IdentLike + Eq + Hash,
+{
+    only: Option<SyntaxContext>,
+    bindings: AHashSet<I>,
+}
+
+impl<I> BindingCollector<I>
+where
+    I: IdentLike + Eq + Hash,
+{
+    fn add(&mut self, i: &Ident) {
+        if let Some(only) = self.only {
+            if only != i.span.ctxt {
+                return;
+            }
+        }
+
+        self.bindings.insert(I::from_ident(i));
+    }
+}
+
+impl<I> Visit for BindingCollector<I>
+where
+    I: IdentLike + Eq + Hash,
+{
+    noop_visit_type!();
+}
+
+/// Collects binding identifiers.
+pub fn collect_decls<I, N>(n: &N) -> AHashSet<I>
+where
+    I: IdentLike + Eq + Hash,
+    N: VisitWith<BindingCollector<I>>,
+{
+    let mut v = BindingCollector {
+        only: None,
+        bindings: Default::default(),
+    };
+    n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+    v.bindings
+}
+
+/// Collects binding identifiers, but only if it has a context which is
+/// identical to `ctxt`.
+pub fn collect_decls_with_ctxt<I, N>(n: &N, ctxt: SyntaxContext) -> AHashSet<I>
+where
+    I: IdentLike + Eq + Hash,
+    N: VisitWith<BindingCollector<I>>,
+{
+    let mut v = BindingCollector {
+        only: Some(ctxt),
+        bindings: Default::default(),
+    };
+    n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+    v.bindings
 }
