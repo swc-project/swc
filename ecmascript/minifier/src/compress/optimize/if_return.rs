@@ -1,5 +1,9 @@
 use super::Optimizer;
-use crate::{compress::util::is_pure_undefined, debug::dump, util::ExprOptExt};
+use crate::{
+    compress::{optimize::Ctx, util::is_pure_undefined},
+    debug::dump,
+    util::ExprOptExt,
+};
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -232,7 +236,11 @@ impl Optimizer<'_> {
         }
 
         for stmt in stmts.iter_mut() {
-            self.merge_nested_if_returns(stmt)
+            let ctx = Ctx {
+                is_nested_if_return_merging: true,
+                ..self.ctx
+            };
+            self.with_ctx(ctx).merge_nested_if_returns(stmt)
         }
 
         if stmts.len() <= 1 {

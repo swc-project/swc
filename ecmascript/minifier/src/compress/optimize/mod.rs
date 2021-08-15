@@ -155,6 +155,8 @@ struct Ctx {
 
     can_inline_arguments: bool,
 
+    is_nested_if_return_merging: bool,
+
     /// Current scope.
     scope: SyntaxContext,
 }
