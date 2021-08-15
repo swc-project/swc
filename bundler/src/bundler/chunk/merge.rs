@@ -192,6 +192,9 @@ where
                     Some(v) => v,
                     _ => return,
                 };
+                if remapped == id.ctxt() {
+                    return;
+                }
                 let reexported = id.clone().with_ctxt(remapped);
 
                 add_var(
