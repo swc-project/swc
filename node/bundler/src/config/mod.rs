@@ -9,7 +9,7 @@ use serde::Deserialize;
 use std::{collections::HashMap, fmt, marker::PhantomData, path::PathBuf};
 use string_enum::StringEnum;
 use swc_atoms::JsWord;
-use swc_common::FileName;
+use swc_common::{collections::AHashMap, FileName};
 use swc_ecma_ast::TargetEnv;
 use swc_ecma_parser::JscTarget;
 
@@ -84,7 +84,7 @@ impl Default for Mode {
 pub enum EntryConfig {
     File(String),
     Multiple(Vec<String>),
-    Files(HashMap<String, PathBuf>),
+    Files(AHashMap<String, PathBuf>),
 }
 
 impl From<EntryConfig> for HashMap<String, FileName> {

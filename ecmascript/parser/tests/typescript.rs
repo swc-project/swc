@@ -1,7 +1,3 @@
-#![feature(test)]
-
-extern crate test;
-
 use crate::common::Normalizer;
 use pretty_assertions::assert_eq;
 use std::{

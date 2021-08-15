@@ -15,6 +15,8 @@
 //! and definition contexts*. J. Funct. Program. 22, 2 (March 2012), 181-216.
 //! DOI=10.1017/S0956796812000093 <https://doi.org/10.1017/S0956796812000093>
 
+use crate::collections::AHashMap;
+
 use super::GLOBALS;
 use serde::{Deserialize, Serialize};
 use std::{
@@ -143,7 +145,7 @@ impl Mark {
 pub(crate) struct HygieneData {
     marks: Vec<MarkData>,
     syntax_contexts: Vec<SyntaxContextData>,
-    markings: HashMap<(SyntaxContext, Mark), SyntaxContext>,
+    markings: AHashMap<(SyntaxContext, Mark), SyntaxContext>,
 }
 
 impl Default for HygieneData {

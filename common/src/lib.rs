@@ -38,6 +38,7 @@ pub trait AstNode: Debug + PartialEq + Clone + Spanned + Serialize {
     const TYPE: &'static str;
 }
 
+pub mod collections;
 pub mod comments;
 mod eq;
 pub mod errors;

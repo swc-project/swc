@@ -15,6 +15,7 @@ pub use self::{
     emitter::{ColorConfig, Emitter, EmitterWriter},
 };
 use crate::{
+    collections::AHashSet,
     rustc_data_structures::stable_hasher::StableHasher,
     sync::{Lock, LockCell, Lrc},
     syntax_pos::{BytePos, FileLinesResult, FileName, Loc, MultiSpan, Span, NO_EXPANSION},
@@ -22,7 +23,6 @@ use crate::{
 use std::{
     borrow::Cow,
     cell::RefCell,
-    collections::HashSet,
     error, fmt,
     io::Write,
     panic,
@@ -280,15 +280,15 @@ pub struct Handler {
     // This set contains the `DiagnosticId` of all emitted diagnostics to avoid
     // emitting the same diagnostic with extended help (`--teach`) twice, which
     // would be unnecessary repetition.
-    taught_diagnostics: Lock<HashSet<DiagnosticId>>,
+    taught_diagnostics: Lock<AHashSet<DiagnosticId>>,
 
     /// Used to suggest rustc --explain <error code>
-    emitted_diagnostic_codes: Lock<HashSet<DiagnosticId>>,
+    emitted_diagnostic_codes: Lock<AHashSet<DiagnosticId>>,
 
     // This set contains a hash of every diagnostic that has been emitted by
     // this handler. These hashes is used to avoid emitting the same error
     // twice.
-    emitted_diagnostics: Lock<HashSet<u128>>,
+    emitted_diagnostics: Lock<AHashSet<u128>>,
 }
 
 fn default_track_diagnostic(_: &Diagnostic) {}

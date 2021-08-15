@@ -1,4 +1,3 @@
-#![feature(test)]
 use crate::es2015::regenerator;
 use swc_common::{chain, Mark, Spanned};
 use swc_ecma_ast::*;

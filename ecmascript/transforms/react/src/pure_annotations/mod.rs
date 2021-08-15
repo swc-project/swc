@@ -1,6 +1,5 @@
-use std::collections::HashMap;
 use swc_atoms::{js_word, JsWord};
-use swc_common::comments::Comments;
+use swc_common::{collections::AHashMap, comments::Comments};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{id, Id};
 use swc_ecma_visit::{Fold, FoldWith};
@@ -17,7 +16,7 @@ where
     C: Comments,
 {
     PureAnnotations {
-        imports: HashMap::new(),
+        imports: Default::default(),
         comments,
     }
 }
@@ -26,7 +25,7 @@ struct PureAnnotations<C>
 where
     C: Comments,
 {
-    imports: HashMap<Id, (JsWord, JsWord)>,
+    imports: AHashMap<Id, (JsWord, JsWord)>,
     comments: Option<C>,
 }
 
