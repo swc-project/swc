@@ -397,10 +397,14 @@ where
     }
 
     fn finalize_merging_of_entry(&self, ctx: &Ctx, id: ModuleId, entry: &mut Modules) {
-        log::debug!("All modules are merged");
+        log::trace!("All modules are merged");
+
+        log::debug!("Injecting reexports");
         self.inject_reexports(ctx, id, entry);
 
         // entry.print(&self.cm, "before inline");
+
+        log::debug!("Inlining injected variables");
 
         inline(self.injected_ctxt, entry);
 
@@ -447,6 +451,8 @@ where
 
             true
         });
+
+        log::debug!("Renaming keywords");
 
         entry.visit_mut_with(&mut KeywordRenamer::default());
 
