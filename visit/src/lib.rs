@@ -87,7 +87,7 @@ pub struct Optional<V> {
 }
 
 impl<V> Optional<V> {
-    pub fn new(visitor: V, enabled: bool) -> Self {
+    pub const fn new(visitor: V, enabled: bool) -> Self {
         Self { enabled, visitor }
     }
 }
