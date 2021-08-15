@@ -104,6 +104,8 @@ where
             .map(|(id, mut entry)| {
                 self.merge_into_entry(&ctx, id, &mut entry, &all);
 
+                log::debug!("Merged `{}` and it's dep into an entry", id);
+
                 (id, entry)
             })
             .map(|(id, module)| {
