@@ -4,7 +4,8 @@ use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_utils::{ExprExt, Value};
+use swc_ecma_utils::{ExprExt, Id, UsageFinder, Value};
+use swc_ecma_visit::VisitWith;
 use unicode_xid::UnicodeXID;
 
 /// Creates `!e` where e is the expression passed as an argument.
@@ -539,6 +540,13 @@ pub(crate) fn always_terminates(s: &Stmt) -> bool {
 
         _ => false,
     }
+}
+
+pub(crate) fn is_ident_used_by<N>(id: Id, node: &N) -> bool
+where
+    N: for<'aa> VisitWith<UsageFinder<'aa>>,
+{
+    UsageFinder::find(&Ident::new(id.0, DUMMY_SP.with_ctxt(id.1)), node)
 }
 
 #[cfg(test)]

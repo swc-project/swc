@@ -2,7 +2,7 @@ use super::{is_pure_undefined, Optimizer};
 use crate::{
     compress::{
         optimize::util::replace_id_with_expr,
-        util::{get_lhs_ident, get_lhs_ident_mut, is_directive},
+        util::{get_lhs_ident, get_lhs_ident_mut, is_directive, is_ident_used_by},
     },
     debug::dump,
     option::CompressOptions,
@@ -743,8 +743,10 @@ impl Optimizer<'_> {
                     break;
                 }
 
+                let a = a1.last_mut().unwrap();
+
                 if self.merge_sequential_expr(
-                    a1.last_mut().unwrap(),
+                    a,
                     match &mut a2[j - idx] {
                         Mergable::Var(b) => match b.init.as_deref_mut() {
                             Some(v) => v,
@@ -759,7 +761,7 @@ impl Optimizer<'_> {
                 match &a2[j - idx] {
                     Mergable::Var(_) => break,
                     Mergable::Expr(e2) => {
-                        if !self.is_skippable_for_seq(&*e2) {
+                        if !self.is_skippable_for_seq(Some(a), &*e2) {
                             if cfg!(feature = "debug") && false {
                                 log::trace!("Cannot skip: {}", dump(&**e2));
                             }
@@ -778,7 +780,7 @@ impl Optimizer<'_> {
         }
     }
 
-    fn is_skippable_for_seq(&self, e: &Expr) -> bool {
+    fn is_skippable_for_seq(&self, a: Option<&Mergable>, e: &Expr) -> bool {
         if self.ctx.in_try_block {
             return false;
         }
@@ -788,15 +790,34 @@ impl Optimizer<'_> {
         }
 
         match e {
-            Expr::Ident(..) | Expr::Lit(..) => true,
+            Expr::Ident(e) => {
+                if let Some(a) = a {
+                    match a {
+                        Mergable::Var(a) => {
+                            if is_ident_used_by(e.to_id(), &**a) {
+                                return false;
+                            }
+                        }
+                        Mergable::Expr(a) => {
+                            if is_ident_used_by(e.to_id(), &**a) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+
+                true
+            }
+
+            Expr::Lit(..) => true,
             Expr::Unary(UnaryExpr {
                 op: op!("!") | op!("void") | op!("typeof"),
                 arg,
                 ..
-            }) => self.is_skippable_for_seq(&arg),
+            }) => self.is_skippable_for_seq(a, &arg),
 
             Expr::Bin(BinExpr { left, right, .. }) => {
-                self.is_skippable_for_seq(&left) && self.is_skippable_for_seq(&right)
+                self.is_skippable_for_seq(a, &left) && self.is_skippable_for_seq(a, &right)
             }
 
             Expr::Assign(e) => {
@@ -824,7 +845,7 @@ impl Optimizer<'_> {
                     return false;
                 }
 
-                self.is_skippable_for_seq(&e.right)
+                self.is_skippable_for_seq(a, &e.right)
             }
 
             Expr::Object(e) => {
@@ -853,7 +874,7 @@ impl Optimizer<'_> {
                             return true;
                         }
 
-                        if !self.is_skippable_for_seq(&a) {
+                        if !self.is_skippable_for_seq(None, &a) {
                             return false;
                         }
                     }
@@ -885,7 +906,7 @@ impl Optimizer<'_> {
                     return true;
                 }
 
-                if !self.is_skippable_for_seq(&left) {
+                if !self.is_skippable_for_seq(Some(a), &left) {
                     return false;
                 }
 
@@ -1044,7 +1065,7 @@ impl Optimizer<'_> {
                     return true;
                 }
 
-                if !self.is_skippable_for_seq(&b_callee) {
+                if !self.is_skippable_for_seq(Some(a), &b_callee) {
                     return false;
                 }
 
@@ -1054,7 +1075,7 @@ impl Optimizer<'_> {
                         return true;
                     }
 
-                    if !self.is_skippable_for_seq(&arg.expr) {
+                    if !self.is_skippable_for_seq(Some(a), &arg.expr) {
                         return false;
                     }
                 }
@@ -1081,7 +1102,7 @@ impl Optimizer<'_> {
                         return true;
                     }
 
-                    if !self.is_skippable_for_seq(&b_expr) {
+                    if !self.is_skippable_for_seq(Some(a), &b_expr) {
                         return false;
                     }
                 }
@@ -1115,7 +1136,7 @@ impl Optimizer<'_> {
                                     return true;
                                 }
 
-                                if !self.is_skippable_for_seq(&key.expr) {
+                                if !self.is_skippable_for_seq(Some(a), &key.expr) {
                                     return false;
                                 }
                             }
@@ -1126,7 +1147,7 @@ impl Optimizer<'_> {
                                         return true;
                                     }
 
-                                    if !self.is_skippable_for_seq(&prop.value) {
+                                    if !self.is_skippable_for_seq(Some(a), &prop.value) {
                                         return false;
                                     }
                                 }
@@ -1135,7 +1156,7 @@ impl Optimizer<'_> {
                                         return true;
                                     }
 
-                                    if !self.is_skippable_for_seq(&prop.value) {
+                                    if !self.is_skippable_for_seq(Some(a), &prop.value) {
                                         return false;
                                     }
                                 }
