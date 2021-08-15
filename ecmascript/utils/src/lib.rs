@@ -2098,6 +2098,8 @@ where
 
     fn visit_class_decl(&mut self, node: &ClassDecl, _: &dyn Node) {
         node.visit_children_with(self);
+
+        self.add(&node.ident);
     }
 
     fn visit_expr(&mut self, node: &Expr, _: &dyn Node) {
@@ -2109,6 +2111,20 @@ where
 
     fn visit_fn_decl(&mut self, node: &FnDecl, _: &dyn Node) {
         node.visit_children_with(self);
+
+        self.add(&node.ident);
+    }
+
+    fn visit_import_default_specifier(&mut self, node: &ImportDefaultSpecifier, _: &dyn Node) {
+        self.add(&node.local);
+    }
+
+    fn visit_import_named_specifier(&mut self, node: &ImportNamedSpecifier, _: &dyn Node) {
+        self.add(&node.local);
+    }
+
+    fn visit_import_star_as_specifier(&mut self, node: &ImportStarAsSpecifier, _: &dyn Node) {
+        self.add(&node.local);
     }
 
     fn visit_member_expr(&mut self, n: &MemberExpr, _: &dyn Node) {
