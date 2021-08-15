@@ -19,18 +19,30 @@ use swc_ecma_ast::TargetEnv;
 use dashmap::{DashMap, DashSet};
 use once_cell::sync::Lazy;
 
-static BROWSER_BUCKETS: Lazy<DashMap<PathBuf, BrowserCache>> = Lazy::new(Default::default);
+static PACKAGE: &str = "package.json";
+
+/// Map of cached `browser` fields from deserialized package.json
+/// used to determine if we need to map to alternative paths when
+/// bundling for the browser runtime environment. The key is the
+/// directory containing the package.json file which is important
+/// to ensure we only apply these `browser` rules to modules in
+/// the owning package.
+static BROWSER_CACHE: Lazy<DashMap<PathBuf, BrowserCache>> = Lazy::new(Default::default);
 
 #[derive(Debug, Default)]
 struct BrowserCache {
     rewrites: DashMap<PathBuf, PathBuf>,
     ignores: DashSet<PathBuf>,
+    module_rewrites: DashMap<String, PathBuf>,
+    module_ignores: DashSet<String>,
 }
 
+/// Helper to find the nearest `package.json` file to get
+/// the base directory for a package.
 fn find_package_root(path: &PathBuf) -> Option<PathBuf> {
     let mut parent = path.parent();
     while let Some(p) = parent {
-        let pkg = p.join("package.json");
+        let pkg = p.join(PACKAGE);
         if pkg.is_file() {
             return Some(p.to_path_buf());
         }
@@ -172,13 +184,13 @@ impl NodeModulesResolver {
             }
         }
 
-        bail!("file not found")
+        bail!("file not found: {}", path.display())
     }
 
     /// Resolve a path as a directory, using the "main" key from a package.json
     /// file if it exists, or resolving to the index.EXT file if it exists.
     fn resolve_as_directory(&self, path: &PathBuf) -> Result<Option<PathBuf>, Error> {
-        let pkg_path = path.join("package.json");
+        let pkg_path = path.join(PACKAGE);
         if pkg_path.is_file() {
             if let Some(main) = self.resolve_package_entry(path, &pkg_path)? {
                 return Ok(Some(main));
@@ -217,9 +229,7 @@ impl NodeModulesResolver {
                             vec![Some(path), pkg.main.as_ref().clone()]
                         }
                         Browser::Obj(map) => {
-                            let bucket = BROWSER_BUCKETS
-                                .entry(pkg_dir.to_path_buf())
-                                .or_insert(Default::default());
+                            let bucket = BROWSER_CACHE.entry(pkg_dir.to_path_buf()).or_default();
 
                             for (k, v) in map {
                                 let target_key = Path::new(k);
@@ -227,33 +237,49 @@ impl NodeModulesResolver {
 
                                 // Relative file paths are sources for this package
                                 let source = if let Some(Component::CurDir) = components.next() {
-                                    pkg_dir.join(k).canonicalize().ok()
+                                    let path = pkg_dir.join(k);
+                                    if let Ok(file) = self
+                                        .resolve_as_file(&path)
+                                        .or_else(|_| self.resolve_as_directory(&path))
+                                    {
+                                        file
+                                    } else {
+                                        None
+                                    }
                                 } else {
-                                    // FIXME: handle this
-                                    pkg_dir.join(k).canonicalize().ok()
+                                    None
                                 };
 
-                                if let Some(source) = source {
-                                    match v {
-                                        StringOrBool::Str(dest) => {
-                                            let target = pkg_dir
-                                                .join(dest)
-                                                .canonicalize()
-                                                .context(format!(
-                                                    "failed to canonicalize browser value {} for \
-                                                     key {} in {}",
-                                                    dest,
-                                                    k,
-                                                    pkg_dir.display()
-                                                ))?;
+                                match v {
+                                    StringOrBool::Str(dest) => {
+                                        let path = pkg_dir.join(dest);
+                                        let file = self
+                                            .resolve_as_file(&path)
+                                            .or_else(|_| self.resolve_as_directory(&path))?;
+                                        if let Some(file) = file {
+                                            let target = file.canonicalize().context(format!(
+                                                "failed to canonicalize browser value {} for key \
+                                                 {} in {}",
+                                                dest,
+                                                k,
+                                                pkg_dir.display()
+                                            ))?;
 
-                                            bucket.rewrites.insert(source, target);
+                                            if let Some(source) = source {
+                                                bucket.rewrites.insert(source, target);
+                                            } else {
+                                                bucket.module_rewrites.insert(k.clone(), target);
+                                            }
                                         }
-                                        StringOrBool::Bool(flag) => {
-                                            // If somebody set boolean `true` which is an
-                                            // invalid value we will just ignore it
-                                            if !flag {
+                                    }
+                                    StringOrBool::Bool(flag) => {
+                                        // If somebody set boolean `true` which is an
+                                        // invalid value we will just ignore it
+                                        if !flag {
+                                            if let Some(source) = source {
                                                 bucket.ignores.insert(source);
+                                            } else {
+                                                bucket.module_ignores.insert(k.clone());
                                             }
                                         }
                                     }
@@ -314,12 +340,6 @@ impl Resolve for NodeModulesResolver {
             self.target_env
         );
 
-        let target = if let Some(alias) = self.alias.get(target) {
-            &alias[..]
-        } else {
-            target
-        };
-
         let base = match base {
             FileName::Real(v) => v,
             _ => bail!("node-resolver supports only files"),
@@ -327,6 +347,28 @@ impl Resolve for NodeModulesResolver {
 
         let cwd = &Path::new(".");
         let base_dir = base.parent().unwrap_or(&cwd);
+
+        // Handle module references for the `browser` package config
+        // before we map aliases.
+        if let TargetEnv::Browser = self.target_env {
+            if let Some(pkg_base) = find_package_root(base) {
+                if let Some(item) = BROWSER_CACHE.get(&pkg_base) {
+                    let value = item.value();
+                    if value.module_ignores.contains(target) {
+                        return Ok(FileName::Custom("ignored path".into()));
+                    }
+                    if let Some(rewrite) = value.module_rewrites.get(target) {
+                        return self.wrap(Some(rewrite.to_path_buf()));
+                    }
+                }
+            }
+        }
+
+        let target = if let Some(alias) = self.alias.get(target) {
+            &alias[..]
+        } else {
+            target
+        };
 
         let target_path = Path::new(target);
 
@@ -367,10 +409,11 @@ impl Resolve for NodeModulesResolver {
             }
         }
         .and_then(|v| {
+            // Handle path references for the `browser` package config
             if let TargetEnv::Browser = self.target_env {
                 if let FileName::Real(path) = &v {
                     if let Some(pkg_base) = find_package_root(base) {
-                        if let Some(item) = BROWSER_BUCKETS.get(&pkg_base) {
+                        if let Some(item) = BROWSER_CACHE.get(&pkg_base) {
                             let value = item.value();
                             if value.ignores.contains(path) {
                                 return Ok(FileName::Custom("ignored path".into()));
