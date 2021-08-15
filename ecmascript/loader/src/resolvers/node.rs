@@ -51,7 +51,6 @@ fn find_package_root(path: &PathBuf) -> Option<PathBuf> {
     None
 }
 
-// Run `node -p "require('module').builtinModules"`
 pub(crate) fn is_core_module(s: &str) -> bool {
     NODE_BUILTINS.contains(&s)
 }

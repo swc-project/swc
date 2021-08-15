@@ -72,7 +72,7 @@ impl Task for BundleTask {
                             self.config
                                 .static_items
                                 .config
-                                .extenal_modules
+                                .external_modules
                                 .iter()
                                 .cloned(),
                         )

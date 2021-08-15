@@ -12,6 +12,7 @@ use swc_bundler::{BundleKind, Bundler, Config, ModuleRecord};
 use swc_common::{FileName, Globals, Span};
 use swc_ecma_ast::{
     Bool, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, MetaPropExpr, PropName, Str,
+    NODE_BUILTINS,
 };
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_transforms::fixer;
@@ -32,11 +33,7 @@ fn do_test(entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
             Config {
                 require: true,
                 disable_inliner: !inline,
-                external_modules: NODE_BUILTINS
-                    .to_vec()
-                    .into_iter()
-                    .map(From::from)
-                    .collect(),
+                external_modules: NODE_BUILTINS.to_vec().into_iter().map(From::from).collect(),
                 module: Default::default(),
             },
             Box::new(Hook),

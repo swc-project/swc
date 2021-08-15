@@ -75,11 +75,7 @@ fn pass(input_dir: PathBuf) {
                     require: true,
                     disable_inliner: true,
                     module: Default::default(),
-                    external_modules: NODE_BUILTINS
-                    .to_vec()
-                    .into_iter()
-                    .map(From::from)
-                    .collect(),
+                    external_modules: NODE_BUILTINS.to_vec().into_iter().map(From::from).collect(),
                 },
                 Box::new(Hook),
             );

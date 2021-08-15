@@ -144,6 +144,8 @@ impl Default for TargetEnv {
 }
 
 /// List of built in packages for latest stable node with LTS (node@16).
+///
+/// Run `node -p "require('module').builtinModules"`
 pub const NODE_BUILTINS: [&'static str; 63] = [
     "_http_agent",
     "_http_client",
