@@ -508,7 +508,14 @@ impl Optimizer<'_> {
                 let cons = Box::new(self.merge_if_returns_to(*cons, vec![]));
                 let alt = match alt {
                     Some(alt) => Box::new(self.merge_if_returns_to(*alt, vec![])),
-                    None => undefined(DUMMY_SP),
+                    None => {
+                        debug_assert!(
+                            !self.ctx.is_nested_if_return_merging,
+                            "Injecting `void 0` from recursive context of thr `if_return` pass \
+                             will break code"
+                        );
+                        undefined(DUMMY_SP)
+                    }
                 };
 
                 exprs.push(test);
@@ -556,7 +563,7 @@ impl Optimizer<'_> {
                         .alt
                         .as_deref()
                         .map(|s| self.can_merge_stmt_as_if_return(s))
-                        .unwrap_or(true)
+                        .unwrap_or(!self.ctx.is_nested_if_return_merging)
             }
             _ => false,
         };
