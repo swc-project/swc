@@ -471,7 +471,7 @@ where
 
     /// Remove exports with wrong syntax context
     fn remove_wrong_exports(&self, ctx: &Ctx, info: &TransformedModule, module: &mut Modules) {
-        log::debug!("Remving wrong exports");
+        log::debug!("Removing wrong exports");
 
         module.retain_mut(|_, item| {
             match item {
