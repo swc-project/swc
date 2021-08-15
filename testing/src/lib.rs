@@ -4,7 +4,6 @@ use once_cell::sync::Lazy;
 pub use pretty_assertions::{assert_eq, assert_ne};
 use regex::Regex;
 use std::{
-    collections::HashMap,
     env, fmt,
     fmt::{Debug, Display, Formatter},
     fs::{create_dir_all, File},
@@ -14,6 +13,7 @@ use std::{
     thread,
 };
 use swc_common::{
+    collections::AHashMap,
     errors::{Diagnostic, Handler},
     sync::Lrc,
     FilePathMapping, SourceMap,
@@ -63,7 +63,7 @@ pub fn init() {
 }
 
 pub fn find_executable(name: &str) -> Option<PathBuf> {
-    static CACHE: Lazy<RwLock<HashMap<String, PathBuf>>> = Lazy::new(|| Default::default());
+    static CACHE: Lazy<RwLock<AHashMap<String, PathBuf>>> = Lazy::new(|| Default::default());
 
     {
         let locked = CACHE.read().unwrap();

@@ -842,7 +842,7 @@ dependencies = [
 
 [[package]]
 name = "jsdoc"
-version = "0.34.0"
+version = "0.34.1"
 dependencies = [
  "anyhow",
  "dashmap",
@@ -2103,7 +2103,7 @@ checksum = "6446ced80d6c486436db5c078dde11a9f73d42b57fb273121e160b84f63d894c"
 
 [[package]]
 name = "swc"
-version = "0.40.0"
+version = "0.40.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2198,7 +2198,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.52.0"
+version = "0.52.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2235,8 +2235,9 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.11.5"
+version = "0.11.6"
 dependencies = [
+ "ahash",
  "arbitrary",
  "ast_node",
  "atty",
@@ -2263,7 +2264,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.49.3"
+version = "0.49.4"
 dependencies = [
  "arbitrary",
  "is-macro",
@@ -2277,7 +2278,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.66.2"
+version = "0.66.3"
 dependencies = [
  "bitflags",
  "num-bigint",
@@ -2303,7 +2304,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_dep_graph"
-version = "0.34.0"
+version = "0.34.1"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -2315,7 +2316,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ext_transforms"
-version = "0.24.0"
+version = "0.24.1"
 dependencies = [
  "phf",
  "swc_atoms",
@@ -2328,7 +2329,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_loader"
-version = "0.14.0"
+version = "0.14.1"
 dependencies = [
  "anyhow",
  "dashmap",
@@ -2349,7 +2350,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.20.0"
+version = "0.20.1"
 dependencies = [
  "ansi_term 0.12.1",
  "anyhow",
@@ -2381,7 +2382,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.66.3"
+version = "0.66.5"
 dependencies = [
  "either",
  "enum_kind",
@@ -2405,7 +2406,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.36.0"
+version = "0.36.1"
 dependencies = [
  "dashmap",
  "fxhash",
@@ -2431,7 +2432,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.65.0"
+version = "0.65.1"
 dependencies = [
  "pretty_assertions 0.6.1",
  "sourcemap",
@@ -2458,7 +2459,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.26.2"
+version = "0.26.3"
 dependencies = [
  "fxhash",
  "once_cell",
@@ -2477,7 +2478,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_classes"
-version = "0.12.1"
+version = "0.12.2"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -2489,7 +2490,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.29.3"
+version = "0.29.4"
 dependencies = [
  "arrayvec",
  "fxhash",
@@ -2525,7 +2526,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.32.0"
+version = "0.32.1"
 dependencies = [
  "Inflector",
  "anyhow",
@@ -2548,7 +2549,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.35.0"
+version = "0.35.1"
 dependencies = [
  "dashmap",
  "fxhash",
@@ -2575,7 +2576,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.32.0"
+version = "0.32.1"
 dependencies = [
  "either",
  "fxhash",
@@ -2597,7 +2598,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.33.0"
+version = "0.33.1"
 dependencies = [
  "base64 0.13.0",
  "dashmap",
@@ -2623,7 +2624,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.26.2"
+version = "0.26.3"
 dependencies = [
  "ansi_term 0.12.1",
  "anyhow",
@@ -2642,7 +2643,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.34.0"
+version = "0.34.1"
 dependencies = [
  "fxhash",
  "serde",
@@ -2664,7 +2665,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.41.1"
+version = "0.41.2"
 dependencies = [
  "once_cell",
  "scoped-tls",
@@ -2678,7 +2679,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "0.35.1"
+version = "0.35.2"
 dependencies = [
  "num-bigint",
  "swc_atoms",
@@ -2689,7 +2690,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.55.0"
+version = "0.55.1"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -2724,7 +2725,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_base"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "dashmap",
  "mimalloc-rust",
@@ -2820,7 +2821,7 @@ dependencies = [
 
 [[package]]
 name = "testing"
-version = "0.12.1"
+version = "0.12.2"
 dependencies = [
  "ansi_term 0.12.1",
  "difference",

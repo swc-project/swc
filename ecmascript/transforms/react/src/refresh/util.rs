@@ -1,8 +1,6 @@
 use indexmap::IndexSet;
-use std::collections::HashSet;
 use swc_atoms::JsWord;
-
-use swc_common::{Spanned, DUMMY_SP};
+use swc_common::{collections::AHashSet, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 
 pub trait CollectIdent {
@@ -201,7 +199,7 @@ pub fn is_import_or_require(expr: &Expr) -> bool {
 }
 
 pub fn callee_should_ignore<'a>(
-    ignore: &'a HashSet<Ident>,
+    ignore: &'a AHashSet<Ident>,
     callee: &ExprOrSuper,
 ) -> Option<ExprOrSuper> {
     let expr = if let ExprOrSuper::Expr(expr) = callee {

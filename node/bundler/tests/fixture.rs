@@ -1,14 +1,9 @@
-#![feature(test)]
-
-extern crate test;
-
 use anyhow::Error;
 use std::{
     collections::HashMap,
-    env,
     fs::{create_dir_all, read_dir},
     io::{self},
-    path::{Path, PathBuf},
+    path::PathBuf,
     sync::Arc,
 };
 use swc::{config::SourceMapsConfig, resolver::environment_resolver};
@@ -23,262 +18,167 @@ use swc_ecma_parser::JscTarget;
 use swc_ecma_transforms::fixer;
 use swc_ecma_visit::FoldWith;
 use swc_node_bundler::loaders::swc::SwcLoader;
-use test::{
-    test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
-};
 use testing::NormalizedOutput;
-use walkdir::WalkDir;
 
-fn add_test<F: FnOnce() + Send + 'static>(
-    tests: &mut Vec<TestDescAndFn>,
-    name: String,
-    ignore: bool,
-    f: F,
-) {
-    tests.push(TestDescAndFn {
-        desc: TestDesc {
-            test_type: TestType::UnitTest,
-            name: TestName::DynTestName(name.replace("-", "_").replace("/", "::")),
-            ignore,
-            should_panic: No,
-            allow_fail: false,
-            compile_fail: false,
-            no_run: false,
-        },
-        testfn: DynTestFn(Box::new(f)),
-    });
-}
+#[testing::fixture("tests/pass/**/input")]
+fn pass(input_dir: PathBuf) {
+    let _ = pretty_env_logger::try_init();
 
-fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), io::Error> {
-    let root = {
-        let mut root = Path::new(env!("CARGO_MANIFEST_DIR")).to_path_buf();
-        root.push("tests");
-        root.push(if errors { "error" } else { "pass" });
-        root
-    };
+    let entry = input_dir.parent().unwrap().to_path_buf();
 
-    eprintln!("Loading tests from {}", root.display());
+    let _ = create_dir_all(entry.join("output"));
 
-    let dir = root;
-
-    for entry in WalkDir::new(&dir).into_iter() {
-        let entry = entry?;
-        if !entry.path().join("input").exists() {
-            continue;
-        }
-
-        let ignore = entry
-            .path()
-            .file_name()
-            .unwrap()
-            .to_string_lossy()
-            .starts_with(".");
-
-        let dir_name = entry
-            .path()
-            .strip_prefix(&dir)
-            .expect("failed to strip prefix")
-            .to_str()
-            .unwrap()
-            .to_string();
-
-        let _ = create_dir_all(entry.path().join("output"));
-
-        let entries = read_dir(entry.path().join("input"))?
-            .filter(|e| match e {
-                Ok(e) => {
-                    if e.path()
-                        .file_name()
-                        .unwrap()
-                        .to_string_lossy()
-                        .starts_with("entry")
-                    {
-                        true
-                    } else {
-                        false
-                    }
+    let entries = read_dir(&input_dir)
+        .unwrap()
+        .filter(|e| match e {
+            Ok(e) => {
+                if e.path()
+                    .file_name()
+                    .unwrap()
+                    .to_string_lossy()
+                    .starts_with("entry")
+                {
+                    true
+                } else {
+                    false
                 }
-                _ => false,
-            })
-            .map(|e| -> Result<_, io::Error> {
-                let e = e?;
-                Ok((
-                    e.file_name().to_string_lossy().to_string(),
-                    FileName::Real(e.path()),
-                ))
-            })
-            .collect::<Result<HashMap<_, _>, _>>()?;
+            }
+            _ => false,
+        })
+        .map(|e| -> Result<_, io::Error> {
+            let e = e?;
+            Ok((
+                e.file_name().to_string_lossy().to_string(),
+                FileName::Real(e.path()),
+            ))
+        })
+        .collect::<Result<HashMap<_, _>, _>>()
+        .unwrap();
 
-        let name = format!(
-            "fixture::{}::{}",
-            if errors { "error" } else { "pass" },
-            dir_name
-        );
+    testing::run_test2(false, |cm, _handler| {
+        let compiler = Arc::new(swc::Compiler::new(cm.clone()));
 
-        let ignore = ignore
-            || !name.contains(
-                &env::var("TEST")
-                    .ok()
-                    .unwrap_or("".into())
-                    .replace("::", "/")
-                    .replace("_", "-"),
+        GLOBALS.set(compiler.globals(), || {
+            let loader = SwcLoader::new(
+                compiler.clone(),
+                swc::config::Options {
+                    swcrc: true,
+                    ..Default::default()
+                },
+            );
+            let bundler = Bundler::new(
+                compiler.globals(),
+                cm.clone(),
+                &loader,
+                environment_resolver(TargetEnv::Node, Default::default()),
+                Config {
+                    require: true,
+                    disable_inliner: true,
+                    module: Default::default(),
+                    external_modules: vec![
+                        "assert",
+                        "buffer",
+                        "child_process",
+                        "console",
+                        "cluster",
+                        "crypto",
+                        "dgram",
+                        "dns",
+                        "events",
+                        "fs",
+                        "http",
+                        "http2",
+                        "https",
+                        "net",
+                        "os",
+                        "path",
+                        "perf_hooks",
+                        "process",
+                        "querystring",
+                        "readline",
+                        "repl",
+                        "stream",
+                        "string_decoder",
+                        "timers",
+                        "tls",
+                        "tty",
+                        "url",
+                        "util",
+                        "v8",
+                        "vm",
+                        "wasi",
+                        "worker",
+                        "zlib",
+                    ]
+                    .into_iter()
+                    .map(From::from)
+                    .collect(),
+                },
+                Box::new(Hook),
             );
 
-        add_test(tests, name, ignore, move || {
-            eprintln!("\n\n========== Running reference test {}\n", dir_name);
+            let modules = bundler
+                .bundle(entries)
+                .map_err(|err| println!("{:?}", err))?;
+            println!("Bundled as {} modules", modules.len());
 
-            testing::run_test2(false, |cm, _handler| {
-                let compiler = Arc::new(swc::Compiler::new(cm.clone()));
+            let mut error = false;
 
-                GLOBALS.set(compiler.globals(), || {
-                    let loader = SwcLoader::new(
-                        compiler.clone(),
-                        swc::config::Options {
-                            swcrc: true,
-                            ..Default::default()
-                        },
-                    );
-                    let bundler = Bundler::new(
-                        compiler.globals(),
-                        cm.clone(),
-                        &loader,
-                        environment_resolver(TargetEnv::Node, Default::default()),
-                        Config {
-                            require: true,
-                            disable_inliner: true,
-                            module: Default::default(),
-                            external_modules: vec![
-                                "assert",
-                                "buffer",
-                                "child_process",
-                                "console",
-                                "cluster",
-                                "crypto",
-                                "dgram",
-                                "dns",
-                                "events",
-                                "fs",
-                                "http",
-                                "http2",
-                                "https",
-                                "net",
-                                "os",
-                                "path",
-                                "perf_hooks",
-                                "process",
-                                "querystring",
-                                "readline",
-                                "repl",
-                                "stream",
-                                "string_decoder",
-                                "timers",
-                                "tls",
-                                "tty",
-                                "url",
-                                "util",
-                                "v8",
-                                "vm",
-                                "wasi",
-                                "worker",
-                                "zlib",
-                            ]
-                            .into_iter()
-                            .map(From::from)
-                            .collect(),
-                        },
-                        Box::new(Hook),
-                    );
+            for bundled in modules {
+                let code = compiler
+                    .print(
+                        &bundled.module.fold_with(&mut fixer(None)),
+                        None,
+                        None,
+                        JscTarget::Es2020,
+                        SourceMapsConfig::Bool(false),
+                        None,
+                        false,
+                    )
+                    .expect("failed to print?")
+                    .code;
 
-                    let modules = bundler
-                        .bundle(entries)
-                        .map_err(|err| println!("{:?}", err))?;
-                    println!("Bundled as {} modules", modules.len());
+                let name = match bundled.kind {
+                    BundleKind::Named { name } | BundleKind::Lib { name } => PathBuf::from(name),
+                    BundleKind::Dynamic => format!("dynamic.{}.js", bundled.id).into(),
+                };
 
-                    let mut error = false;
+                let output_path = entry
+                    .join("output")
+                    .join(name.file_name().unwrap())
+                    .with_extension("js");
 
-                    for bundled in modules {
-                        let code = compiler
-                            .print(
-                                &bundled.module.fold_with(&mut fixer(None)),
-                                None,
-                                None,
-                                JscTarget::Es2020,
-                                SourceMapsConfig::Bool(false),
-                                None,
-                                false,
-                            )
-                            .expect("failed to print?")
-                            .code;
+                println!("Printing {}", output_path.display());
 
-                        let name = match bundled.kind {
-                            BundleKind::Named { name } | BundleKind::Lib { name } => {
-                                PathBuf::from(name)
-                            }
-                            BundleKind::Dynamic => format!("dynamic.{}.js", bundled.id).into(),
-                        };
+                // {
+                //     let status = Command::new("node")
+                //         .arg(&output_path)
+                //         .stdout(Stdio::inherit())
+                //         .stderr(Stdio::inherit())
+                //         .status()
+                //         .unwrap();
+                //     assert!(status.success());
+                // }
 
-                        let output_path = entry
-                            .path()
-                            .join("output")
-                            .join(name.file_name().unwrap())
-                            .with_extension("js");
+                let s = NormalizedOutput::from(code);
 
-                        println!("Printing {}", output_path.display());
-
-                        // {
-                        //     let status = Command::new("node")
-                        //         .arg(&output_path)
-                        //         .stdout(Stdio::inherit())
-                        //         .stderr(Stdio::inherit())
-                        //         .status()
-                        //         .unwrap();
-                        //     assert!(status.success());
-                        // }
-
-                        let s = NormalizedOutput::from(code);
-
-                        match s.compare_to_file(&output_path) {
-                            Ok(_) => {}
-                            Err(err) => {
-                                println!("Diff: {:?}", err);
-                                error = true;
-                            }
-                        }
+                match s.compare_to_file(&output_path) {
+                    Ok(_) => {}
+                    Err(err) => {
+                        println!("Diff: {:?}", err);
+                        error = true;
                     }
+                }
+            }
 
-                    if error {
-                        return Err(());
-                    }
+            if error {
+                return Err(());
+            }
 
-                    Ok(())
-                })
-            })
-            .expect("failed to process a module");
-        });
-    }
-
-    Ok(())
-}
-
-#[test]
-fn pass() {
-    let _ = pretty_env_logger::try_init();
-
-    let args: Vec<_> = env::args().collect();
-    let mut tests = Vec::new();
-    reference_tests(&mut tests, false).unwrap();
-    test_main(&args, tests, Some(Options::new()));
-}
-
-#[test]
-#[ignore]
-fn errors() {
-    let _ = pretty_env_logger::try_init();
-
-    let args: Vec<_> = env::args().collect();
-    let mut tests = Vec::new();
-    reference_tests(&mut tests, true).unwrap();
-    test_main(&args, tests, Some(Options::new()));
+            Ok(())
+        })
+    })
+    .expect("failed to process a module");
 }
 
 struct Hook;

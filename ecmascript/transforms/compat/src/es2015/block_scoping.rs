@@ -1,10 +1,7 @@
 use smallvec::SmallVec;
-use std::{
-    collections::HashMap,
-    mem::{replace, take},
-};
+use std::mem::{replace, take};
 use swc_atoms::js_word;
-use swc_common::{util::map::Map, Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{collections::AHashMap, util::map::Map, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
@@ -48,7 +45,7 @@ enum ScopeKind {
         /// Produced by identifier reference and consumed by for-of/in loop.
         used: Vec<Id>,
         /// Map of original identifer to modified syntax context
-        mutated: HashMap<Id, SyntaxContext>,
+        mutated: AHashMap<Id, SyntaxContext>,
     },
     Fn,
     Block,
@@ -749,7 +746,7 @@ struct FlowHelper<'a> {
     has_break: bool,
     has_return: bool,
     all: &'a Vec<Id>,
-    mutated: HashMap<Id, SyntaxContext>,
+    mutated: AHashMap<Id, SyntaxContext>,
     in_switch_case: bool,
 }
 
@@ -878,7 +875,7 @@ impl Fold for FlowHelper<'_> {
 }
 
 struct MutationHandler<'a> {
-    map: &'a mut HashMap<Id, SyntaxContext>,
+    map: &'a mut AHashMap<Id, SyntaxContext>,
     in_function: bool,
     this: Option<Ident>,
     arguments: Option<Ident>,
