@@ -2072,6 +2072,7 @@ where
 {
     only: Option<SyntaxContext>,
     bindings: AHashSet<I>,
+    is_pat_decl: bool,
 }
 
 impl<I> BindingCollector<I>
@@ -2094,6 +2095,56 @@ where
     I: IdentLike + Eq + Hash,
 {
     noop_visit_type!();
+
+    fn visit_class_decl(&mut self, node: &ClassDecl, _: &dyn Node) {
+        node.visit_children_with(self);
+    }
+
+    fn visit_expr(&mut self, node: &Expr, _: &dyn Node) {
+        let old = self.is_pat_decl;
+        self.is_pat_decl = false;
+        node.visit_children_with(self);
+        self.is_pat_decl = old;
+    }
+
+    fn visit_fn_decl(&mut self, node: &FnDecl, _: &dyn Node) {
+        node.visit_children_with(self);
+    }
+
+    fn visit_member_expr(&mut self, n: &MemberExpr, _: &dyn Node) {
+        n.obj.visit_with(n, self);
+        if n.computed {
+            n.prop.visit_with(n, self);
+        }
+    }
+
+    fn visit_param(&mut self, node: &Param, _: &dyn Node) {
+        let old = self.is_pat_decl;
+        self.is_pat_decl = true;
+        node.visit_children_with(self);
+        self.is_pat_decl = old;
+    }
+
+    fn visit_pat(&mut self, node: &Pat, _: &dyn Node) {
+        node.visit_children_with(self);
+
+        if self.is_pat_decl {
+            match node {
+                Pat::Ident(i) => self.add(&i.id),
+                _ => {}
+            }
+        }
+    }
+
+    fn visit_var_declarator(&mut self, node: &VarDeclarator, _: &dyn Node) {
+        let old = self.is_pat_decl;
+        self.is_pat_decl = true;
+        node.name.visit_with(node, self);
+
+        self.is_pat_decl = false;
+        node.init.visit_with(node, self);
+        self.is_pat_decl = old;
+    }
 }
 
 /// Collects binding identifiers.
@@ -2105,6 +2156,7 @@ where
     let mut v = BindingCollector {
         only: None,
         bindings: Default::default(),
+        is_pat_decl: false,
     };
     n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
     v.bindings
@@ -2120,6 +2172,7 @@ where
     let mut v = BindingCollector {
         only: Some(ctxt),
         bindings: Default::default(),
+        is_pat_decl: false,
     };
     n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
     v.bindings
