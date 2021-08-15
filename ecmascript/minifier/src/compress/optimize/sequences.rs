@@ -827,6 +827,21 @@ impl Optimizer<'_> {
                     _ => return false,
                 };
 
+                if let Some(a) = a {
+                    match a {
+                        Mergable::Var(a) => {
+                            if is_ident_used_by(left_id.to_id(), &**a) {
+                                return false;
+                            }
+                        }
+                        Mergable::Expr(a) => {
+                            if is_ident_used_by(left_id.to_id(), &**a) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+
                 match &*e.right {
                     Expr::Lit(..) => return true,
                     _ => {}
