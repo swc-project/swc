@@ -4,7 +4,16 @@
         build: "ab8ea8824dc3b24b6666867a2c4ed58ebb762cf0"
     };
     var typeOf = this.typeOf = function(item) {
-        return null == item ? "null" : null != item.$family ? item.$family() : item.nodeName ? 1 == item.nodeType ? "element" : 3 == item.nodeType ? /\S/.test(item.nodeValue) ? "textnode" : "whitespace" : void 0 : "number" == typeof item.length ? item.callee ? "arguments" : "item" in item ? "collection" : void 0 : typeof item;
+        if (null == item) return "null";
+        if (null != item.$family) return item.$family();
+        if (item.nodeName) {
+            if (1 == item.nodeType) return "element";
+            if (3 == item.nodeType) return /\S/.test(item.nodeValue) ? "textnode" : "whitespace";
+        } else if ("number" == typeof item.length) {
+            if (item.callee) return "arguments";
+            if ("item" in item) return "collection";
+        }
+        return typeof item;
     }, instanceOf = this.instanceOf = function(item, object) {
         if (null == item) return !1;
         for(var constructor = item.$constructor || item.constructor; constructor;){
@@ -1972,7 +1981,11 @@ Elements.prototype = {
         }
         return elements;
     }), null == window.$$ && Window.implement("$$", function(selector) {
-        return 1 == arguments.length ? "string" == typeof selector ? Slick.search(this.document, selector, new Elements) : Type.isEnumerable(selector) ? new Elements(selector) : void 0 : new Elements(arguments);
+        if (1 == arguments.length) {
+            if ("string" == typeof selector) return Slick.search(this.document, selector, new Elements);
+            if (Type.isEnumerable(selector)) return new Elements(selector);
+        }
+        return new Elements(arguments);
     });
     var inserters = {
         before: function(context, element) {

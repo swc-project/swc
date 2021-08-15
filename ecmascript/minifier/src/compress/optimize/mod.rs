@@ -155,6 +155,8 @@ struct Ctx {
 
     can_inline_arguments: bool,
 
+    is_nested_if_return_merging: bool,
+
     /// Current scope.
     scope: SyntaxContext,
 }
@@ -288,6 +290,8 @@ impl Optimizer<'_> {
         self.ctx.in_asm |= use_asm;
 
         self.reorder_stmts(stmts);
+
+        self.merge_sequences_in_stmts(stmts);
 
         self.merge_simillar_ifs(stmts);
         self.join_vars(stmts);
@@ -2201,8 +2205,6 @@ impl VisitMut for Optimizer<'_> {
         };
 
         self.with_ctx(ctx).inject_else(stmts);
-
-        self.with_ctx(ctx).merge_sequences_in_stmts(stmts);
 
         self.with_ctx(ctx).handle_stmt_likes(stmts);
 

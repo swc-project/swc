@@ -1182,8 +1182,10 @@
             if (!documentIsXML && !seed) {
                 if (match = rquickExpr.exec(selector)) {
                     if (m = match[1]) {
-                        if (9 === nodeType) return (elem = context.getElementById(m)) && elem.parentNode ? elem.id === m ? (results.push(elem), results) : void 0 : results;
-                        else if (context.ownerDocument && (elem = context.ownerDocument.getElementById(m)) && contains(context, elem) && elem.id === m) return results.push(elem), results;
+                        if (9 === nodeType) {
+                            if (!(elem = context.getElementById(m)) || !elem.parentNode) return results;
+                            if (elem.id === m) return results.push(elem), results;
+                        } else if (context.ownerDocument && (elem = context.ownerDocument.getElementById(m)) && contains(context, elem) && elem.id === m) return results.push(elem), results;
                     } else if (match[2]) return push.apply(results, slice.call(context.getElementsByTagName(selector), 0)), results;
                     else if ((m = match[3]) && support.getByClassName && context.getElementsByClassName) return push.apply(results, slice.call(context.getElementsByClassName(m), 0)), results;
                 }

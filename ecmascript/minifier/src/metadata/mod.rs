@@ -152,11 +152,16 @@ impl VisitMut for InfoMarker<'_> {
             && n.function
                 .params
                 .iter()
-                .any(|p| is_param_one_of(p, &["module"]))
+                .any(|p| is_param_one_of(p, &["module", "__unused_webpack_module"]))
             && n.function.params.iter().any(|p| {
                 is_param_one_of(
                     p,
-                    &["exports", "__webpack_require__", "__webpack_exports__"],
+                    &[
+                        "exports",
+                        "__webpack_require__",
+                        "__webpack_exports__",
+                        "__unused_webpack_exports",
+                    ],
                 )
             })
         {
