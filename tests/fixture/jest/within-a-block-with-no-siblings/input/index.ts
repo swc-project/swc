@@ -1,0 +1,3 @@
+beforeEach(() => {
+    jest.mock('someNode')
+})
