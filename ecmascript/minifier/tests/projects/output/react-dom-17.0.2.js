@@ -1928,11 +1928,13 @@
         if (hasOwnProperty$1.call(warnedProperties, name) && warnedProperties[name]) return !0;
         if (rARIACamel.test(name)) {
             var ariaName = "aria-" + name.slice(4).toLowerCase(), correctName = ariaProperties.hasOwnProperty(ariaName) ? ariaName : null;
-            return null == correctName ? (error("Invalid ARIA attribute `%s`. ARIA attributes follow the pattern aria-* and must be lowercase.", name), warnedProperties[name] = !0, !0) : name !== correctName ? (error("Invalid ARIA attribute `%s`. Did you mean `%s`?", name, correctName), warnedProperties[name] = !0, !0) : void 0;
+            if (null == correctName) return error("Invalid ARIA attribute `%s`. ARIA attributes follow the pattern aria-* and must be lowercase.", name), warnedProperties[name] = !0, !0;
+            if (name !== correctName) return error("Invalid ARIA attribute `%s`. Did you mean `%s`?", name, correctName), warnedProperties[name] = !0, !0;
         }
         if (rARIA.test(name)) {
             var lowerCasedName = name.toLowerCase(), standardName = ariaProperties.hasOwnProperty(lowerCasedName) ? lowerCasedName : null;
-            return null == standardName ? (warnedProperties[name] = !0, !1) : name !== standardName ? (error("Unknown ARIA attribute `%s`. Did you mean `%s`?", name, standardName), warnedProperties[name] = !0, !0) : void 0;
+            if (null == standardName) return warnedProperties[name] = !0, !1;
+            if (name !== standardName) return error("Unknown ARIA attribute `%s`. Did you mean `%s`?", name, standardName), warnedProperties[name] = !0, !0;
         }
         return !0;
     }
@@ -1963,9 +1965,9 @@
                 var registrationNameDependencies = eventRegistry.registrationNameDependencies, possibleRegistrationNames = eventRegistry.possibleRegistrationNames;
                 if (registrationNameDependencies.hasOwnProperty(name)) return !0;
                 var registrationName = possibleRegistrationNames.hasOwnProperty(lowerCasedName) ? possibleRegistrationNames[lowerCasedName] : null;
-                return null != registrationName ? (error("Invalid event handler property `%s`. Did you mean `%s`?", name, registrationName), warnedProperties$1[name] = !0, !0) : EVENT_NAME_REGEX.test(name) ? (error("Unknown event handler property `%s`. It will be ignored.", name), warnedProperties$1[name] = !0, !0) : void 0;
-            }
-            if (EVENT_NAME_REGEX.test(name)) return INVALID_EVENT_NAME_REGEX.test(name) && error("Invalid event handler property `%s`. React events use the camelCase naming convention, for example `onClick`.", name), warnedProperties$1[name] = !0, !0;
+                if (null != registrationName) return error("Invalid event handler property `%s`. Did you mean `%s`?", name, registrationName), warnedProperties$1[name] = !0, !0;
+                if (EVENT_NAME_REGEX.test(name)) return error("Unknown event handler property `%s`. It will be ignored.", name), warnedProperties$1[name] = !0, !0;
+            } else if (EVENT_NAME_REGEX.test(name)) return INVALID_EVENT_NAME_REGEX.test(name) && error("Invalid event handler property `%s`. React events use the camelCase naming convention, for example `onClick`.", name), warnedProperties$1[name] = !0, !0;
             if (rARIA$1.test(name) || rARIACamel$1.test(name)) return !0;
             if ("innerhtml" === lowerCasedName) return error("Directly setting property `innerHTML` is not permitted. For more information, lookup documentation on `dangerouslySetInnerHTML`."), warnedProperties$1[name] = !0, !0;
             if ("aria" === lowerCasedName) return error("The `aria` attribute is reserved for future use in React. Pass individual `aria-` attributes instead."), warnedProperties$1[name] = !0, !0;
@@ -4682,7 +4684,7 @@
     }
     function createInstance(type, props, rootContainerInstance, hostContext, internalInstanceHandle) {
         var hostContextDev = hostContext;
-        validateDOMNesting(type, null, hostContextDev.ancestorInfo), ("string" == typeof props.children || "number" == typeof props.children) && validateDOMNesting(null, "" + props.children, updatedAncestorInfo(hostContextDev.ancestorInfo, type));
+        validateDOMNesting(type, null, hostContextDev.ancestorInfo), ("string" == typeof props.children || "number" == typeof props.children) && validateDOMNesting(null, "" + props.children, updatedAncestorInfo(hostContextDev.ancestorInfo, type)), hostContextDev.namespace;
         var domElement = createElement(type, props, rootContainerInstance, hostContextDev.namespace);
         return precacheFiberNode(internalInstanceHandle, domElement), updateFiberProps(domElement, props), domElement;
     }
@@ -4783,7 +4785,7 @@
         return getNextHydratable(parentInstance.firstChild);
     }
     function hydrateInstance(instance, type, props, rootContainerInstance, hostContext, internalInstanceHandle) {
-        return precacheFiberNode(internalInstanceHandle, instance), updateFiberProps(instance, props), diffHydratedProperties(instance, type, props, hostContext.namespace);
+        return precacheFiberNode(internalInstanceHandle, instance), updateFiberProps(instance, props), hostContext.namespace, diffHydratedProperties(instance, type, props, hostContext.namespace);
     }
     function hydrateTextInstance(textInstance, text, internalInstanceHandle) {
         return precacheFiberNode(internalInstanceHandle, textInstance), diffHydratedText(textInstance, text);
@@ -9509,7 +9511,8 @@
         if ("function" == typeof Component) return shouldConstruct$1(Component) ? 1 : 0;
         if (null != Component) {
             var $$typeof = Component.$$typeof;
-            return $$typeof === REACT_FORWARD_REF_TYPE ? 11 : $$typeof === REACT_MEMO_TYPE ? 14 : void 0;
+            if ($$typeof === REACT_FORWARD_REF_TYPE) return 11;
+            if ($$typeof === REACT_MEMO_TYPE) return 14;
         }
         return 2;
     }
