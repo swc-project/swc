@@ -1811,7 +1811,7 @@ impl<'a> Visit for UsageFinder<'a> {
     noop_visit_type!();
 
     fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
-        if i.span.ctxt() == self.ident.span.ctxt() && i.sym == self.ident.sym {
+        if i.span.ctxt == self.ident.span.ctxt && i.sym == self.ident.sym {
             self.found = true;
         }
     }
