@@ -473,6 +473,9 @@ where
     fn remove_wrong_exports(&self, ctx: &Ctx, info: &TransformedModule, module: &mut Modules) {
         log::debug!("Removing wrong exports");
 
+        let item_count = module.iter().count();
+        log::trace!("Item count = {}", item_count);
+
         module.retain_mut(|_, item| {
             match item {
                 // TODO: Handle export default
@@ -504,6 +507,8 @@ where
 
             true
         });
+
+        log::debug!("Removed wrong exports");
     }
 
     /// This method handles imports and exports.
