@@ -90,6 +90,17 @@ where
                 }));
             }
 
+            "font-face" => {
+                self.input.skip_ws()?;
+
+                let block = self.parse_decl_block()?;
+
+                return Ok(AtRule::FontFace(FontFaceRule {
+                    span: span!(self, start),
+                    block,
+                }));
+            }
+
             _ => {}
         }
 

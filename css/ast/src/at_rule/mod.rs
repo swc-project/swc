@@ -1,5 +1,5 @@
 pub use self::keyframe::*;
-use crate::Str;
+use crate::{DeclBlock, Str};
 use is_macro::Is;
 use swc_common::{ast_node, Span};
 
@@ -45,6 +45,7 @@ pub struct ImportRule {
 #[ast_node("FontFaceRule")]
 pub struct FontFaceRule {
     pub span: Span,
+    pub block: DeclBlock,
 }
 
 #[ast_node("MediaRule")]
