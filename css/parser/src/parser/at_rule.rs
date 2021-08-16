@@ -75,9 +75,14 @@ where
 
                 let name = self.parse_id()?;
 
+                self.input.skip_ws()?;
                 expect!(self, "{");
+                self.input.skip_ws()?;
+
                 let blocks = self.parse_delimited()?;
+                self.input.skip_ws()?;
                 expect!(self, "}");
+                self.input.skip_ws()?;
 
                 return Ok(AtRule::Keyframes(KeyframesRule {
                     span: span!(self, start),
