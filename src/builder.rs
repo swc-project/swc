@@ -192,7 +192,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 ),
                 Optional::new(
                     compat::es3(syntax.dynamic_import()),
-                    self.target <= JscTarget::Es3
+                    cfg!(feature = "es3") && self.target <= JscTarget::Es3
                 )
             ))
         };

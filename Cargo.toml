@@ -9,18 +9,23 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.41.0"
+version = "0.41.1"
 
 [lib]
 name = "swc"
 
+[features]
+default = ["es3"]
+# You can disable this feautre to reduce binary size.
+es3 = []
+
 [dependencies]
 ahash = "0.7.2"
-fxhash = "0.2.1"
 anyhow = "1"
 base64 = "0.13.0"
 dashmap = "4.0.2"
 either = "1"
+fxhash = "0.2.1"
 log = {version = "0.4", features = ["release_max_level_info"]}
 lru = "0.6.1"
 once_cell = "1"
