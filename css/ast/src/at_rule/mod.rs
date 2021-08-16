@@ -19,6 +19,9 @@ pub enum AtRule {
 
     #[tag("MediaRule")]
     Media(MediaRule),
+
+    #[tag("SupportsRule")]
+    Supports(SupportsRule),
 }
 
 #[ast_node("CharsetRule")]
@@ -45,5 +48,10 @@ pub struct KeyframesRule {
 
 #[ast_node("MediaRule")]
 pub struct MediaRule {
+    pub span: Span,
+}
+
+#[ast_node("SupportsRule")]
+pub struct SupportsRule {
     pub span: Span,
 }
