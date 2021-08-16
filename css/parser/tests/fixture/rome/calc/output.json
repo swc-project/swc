@@ -390,21 +390,31 @@
                         }
                       },
                       "right": {
-                        "type": "PercentValue",
+                        "type": "Values",
                         "span": {
                           "start": 96,
-                          "end": 96,
+                          "end": 99,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "Number",
-                          "span": {
-                            "start": 96,
-                            "end": 97,
-                            "ctxt": 0
-                          },
-                          "value": 2.0
-                        }
+                        "values": [
+                          {
+                            "type": "PercentValue",
+                            "span": {
+                              "start": 96,
+                              "end": 96,
+                              "ctxt": 0
+                            },
+                            "value": {
+                              "type": "Number",
+                              "span": {
+                                "start": 96,
+                                "end": 97,
+                                "ctxt": 0
+                              },
+                              "value": 2.0
+                            }
+                          }
+                        ]
                       }
                     },
                     "right": {
@@ -514,13 +524,23 @@
                         }
                       },
                       "right": {
-                        "type": "Number",
+                        "type": "Values",
                         "span": {
                           "start": 126,
-                          "end": 127,
+                          "end": 128,
                           "ctxt": 0
                         },
-                        "value": 2.0
+                        "values": [
+                          {
+                            "type": "Number",
+                            "span": {
+                              "start": 126,
+                              "end": 127,
+                              "ctxt": 0
+                            },
+                            "value": 2.0
+                          }
+                        ]
                       }
                     },
                     "right": {
@@ -776,13 +796,23 @@
                         }
                       },
                       "right": {
-                        "type": "Number",
+                        "type": "Values",
                         "span": {
                           "start": 192,
-                          "end": 193,
+                          "end": 194,
                           "ctxt": 0
                         },
-                        "value": 2.0
+                        "values": [
+                          {
+                            "type": "Number",
+                            "span": {
+                              "start": 192,
+                              "end": 193,
+                              "ctxt": 0
+                            },
+                            "value": 2.0
+                          }
+                        ]
                       }
                     },
                     "right": {
@@ -892,49 +922,79 @@
                             }
                           },
                           "right": {
-                            "type": "Number",
+                            "type": "Values",
                             "span": {
                               "start": 219,
-                              "end": 220,
+                              "end": 221,
                               "ctxt": 0
                             },
-                            "value": 2.0
+                            "values": [
+                              {
+                                "type": "Number",
+                                "span": {
+                                  "start": 219,
+                                  "end": 220,
+                                  "ctxt": 0
+                                },
+                                "value": 2.0
+                              }
+                            ]
                           }
                         },
                         "right": {
-                          "type": "Number",
+                          "type": "Values",
                           "span": {
                             "start": 223,
-                            "end": 224,
+                            "end": 225,
                             "ctxt": 0
                           },
-                          "value": 3.0
+                          "values": [
+                            {
+                              "type": "Number",
+                              "span": {
+                                "start": 223,
+                                "end": 224,
+                                "ctxt": 0
+                              },
+                              "value": 3.0
+                            }
+                          ]
                         }
                       },
                       "right": {
-                        "type": "UnitValue",
+                        "type": "Values",
                         "span": {
                           "start": 227,
-                          "end": 227,
+                          "end": 231,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "Number",
-                          "span": {
-                            "start": 227,
-                            "end": 228,
-                            "ctxt": 0
-                          },
-                          "value": 3.0
-                        },
-                        "unit": {
-                          "span": {
-                            "start": 228,
-                            "end": 230,
-                            "ctxt": 0
-                          },
-                          "kind": "em"
-                        }
+                        "values": [
+                          {
+                            "type": "UnitValue",
+                            "span": {
+                              "start": 227,
+                              "end": 227,
+                              "ctxt": 0
+                            },
+                            "value": {
+                              "type": "Number",
+                              "span": {
+                                "start": 227,
+                                "end": 228,
+                                "ctxt": 0
+                              },
+                              "value": 3.0
+                            },
+                            "unit": {
+                              "span": {
+                                "start": 228,
+                                "end": 230,
+                                "ctxt": 0
+                              },
+                              "kind": "em"
+                            }
+                          }
+                        ]
                       }
                     },
                     "right": {
