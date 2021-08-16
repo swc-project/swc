@@ -116,4 +116,16 @@ macro_rules! tok {
     ("important") => {
         ident_tok!("important")
     };
+
+    ("not") => {
+        ident_tok!("not")
+    };
+
+    ("or") => {
+        ident_tok!("or")
+    };
+
+    ("and") => {
+        ident_tok!("and")
+    };
 }
