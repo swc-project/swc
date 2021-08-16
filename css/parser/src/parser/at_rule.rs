@@ -310,6 +310,8 @@ where
             return Err(Error::new(span, ErrorKind::InvalidMediaQuery));
         };
 
+        self.input.skip_ws()?;
+
         if eat!(self, "and") {
             let right = self.parse()?;
 
