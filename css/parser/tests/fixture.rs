@@ -17,7 +17,7 @@ fn pass(input: PathBuf) {
         let lexer = Lexer::new(SourceFileInput::from(&*fm));
         let mut parser = Parser::new(lexer, ParserConfig { parse_values: true });
 
-        let stylesheet = parser.parse();
+        let stylesheet = parser.parse_all();
 
         match stylesheet {
             Ok(stylesheet) => {
@@ -52,7 +52,7 @@ fn fail(input: PathBuf) {
         let lexer = Lexer::new(SourceFileInput::from(&*fm));
         let mut parser = Parser::new(lexer, ParserConfig { parse_values: true });
 
-        let stylesheet = parser.parse();
+        let stylesheet = parser.parse_all();
 
         match stylesheet {
             Ok(..) => {}

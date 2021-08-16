@@ -66,7 +66,7 @@ where
         take(&mut self.errors)
     }
 
-    pub fn parse(&mut self) -> PResult<Stylesheet> {
+    pub fn parse_all(&mut self) -> PResult<Stylesheet> {
         let start = self.input.cur_span()?;
         let rules = self.parse_rules(RuleContext {
             is_top_level: true,

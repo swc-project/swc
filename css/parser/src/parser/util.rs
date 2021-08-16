@@ -1,4 +1,8 @@
-use super::{input::ParserInput, Ctx, PResult, Parser};
+use super::{
+    input::ParserInput,
+    traits::{Block, Parse},
+    Ctx, PResult, Parser,
+};
 use std::ops::{Deref, DerefMut};
 use swc_common::Span;
 
@@ -10,12 +14,6 @@ pub(crate) trait ItemBlock {
         I: ParserInput;
 
     fn from_items(span: Span, items: Vec<Self::Item>) -> Self;
-}
-
-pub(crate) trait Block {
-    type Content;
-
-    fn from_content(span: Span, content: Self::Content) -> Self;
 }
 
 impl<I> Parser<I>
@@ -47,15 +45,15 @@ where
     }
 
     /// TOOD: error recovery.
-    pub(super) fn parse_block<F, Ret>(&mut self, op: F) -> PResult<Ret>
+    pub(super) fn parse_block<F, Ret>(&mut self) -> PResult<Ret>
     where
         Ret: Block,
-        F: FnOnce(&mut Parser<I>) -> PResult<Ret::Content>,
+        Self: Parse<Ret::Content>,
     {
         let span = self.input.cur_span()?;
         expect!(self, "{");
 
-        let content = op(self)?;
+        let content = self.parse()?;
 
         expect!(self, "}");
 
