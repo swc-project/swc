@@ -3,7 +3,10 @@ use super::{
     traits::{Parse, ParseDelmited},
     PResult, Parser,
 };
-use crate::token::Token;
+use crate::{
+    error::{Error, ErrorKind},
+    token::Token,
+};
 use swc_css_ast::*;
 
 #[derive(Debug, Default)]
@@ -101,6 +104,17 @@ where
                 }));
             }
 
+            "supports" => {
+                self.input.skip_ws()?;
+
+                let query = self.parse()?;
+
+                return Ok(AtRule::Supports(SupportsRule {
+                    span: span!(self, start),
+                    query,
+                }));
+            }
+
             _ => {}
         }
 
@@ -170,5 +184,54 @@ where
         } else {
             Ok(true)
         }
+    }
+}
+
+impl<I> Parse<SupportQuery> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<SupportQuery> {
+        let span = self.input.cur_span()?;
+
+        if eat!(self, "not") {
+            let query = self.parse()?;
+            return Ok(SupportQuery::Not(NotSupportQuery {
+                span: span!(self, span.lo),
+                query,
+            }));
+        }
+
+        if eat!(self, "(") {
+            let property = self.parse_property()?;
+
+            expect!(self, ")");
+
+            let query = SupportQuery::Property(property);
+
+            if eat!(self, "and") {
+                let right = self.parse()?;
+
+                return Ok(SupportQuery::And(AndSupportQuery {
+                    span: span!(self, span.lo),
+                    left: Box::new(query),
+                    right,
+                }));
+            }
+
+            if eat!(self, "or") {
+                let right = self.parse()?;
+
+                return Ok(SupportQuery::Or(OrSupportQuery {
+                    span: span!(self, span.lo),
+                    left: Box::new(query),
+                    right,
+                }));
+            }
+
+            return Ok(query);
+        }
+
+        Err(Error::new(span, ErrorKind::InvalidSupportQuery))
     }
 }
