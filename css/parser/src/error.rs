@@ -42,4 +42,5 @@ pub enum ErrorKind {
     ExpectedIdentOrStrForAttrSelectorOp,
     ExpectedNumber,
     InvalidSupportQuery,
+    InvalidMediaQuery,
 }
