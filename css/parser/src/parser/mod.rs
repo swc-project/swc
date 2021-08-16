@@ -16,6 +16,7 @@ mod selector;
 mod style_rule;
 #[cfg(test)]
 mod tests;
+mod traits;
 mod util;
 mod value;
 
