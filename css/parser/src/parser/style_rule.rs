@@ -11,27 +11,17 @@ where
     pub(crate) fn parse_style_rule(&mut self) -> PResult<Rule> {
         let start = self.input.cur_span()?.lo;
 
-        let start_state = self.input.state();
+        let selectors = self.parse_selectors()?;
 
-        let selectors = self.parse_selectors();
+        let block = self.parse_style_block()?;
 
-        match selectors {
-            Ok(selectors) => {
-                let block = self.parse_style_block()?;
+        let span = Span::new(start, self.input.last_pos(), Default::default());
 
-                let span = Span::new(start, self.input.last_pos(), Default::default());
-
-                Ok(Rule::Style(StyleRule {
-                    span,
-                    selectors,
-                    block,
-                }))
-            }
-            Err(_) => {
-                self.input.reset(&start_state);
-                self.parse_qualified_rule()
-            }
-        }
+        Ok(Rule::Style(StyleRule {
+            span,
+            selectors,
+            block,
+        }))
     }
 
     pub(crate) fn parse_style_block(&mut self) -> PResult<DeclBlock> {
