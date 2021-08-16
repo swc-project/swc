@@ -286,6 +286,12 @@ where
                 span: span!(self, span.lo),
                 query,
             })
+        } else if eat!(self, "only") {
+            let query = self.parse()?;
+            MediaQuery::Only(OnlyMediaQuery {
+                span: span!(self, span.lo),
+                query,
+            })
         } else if is!(self, Ident) {
             let text = self.parse_id()?;
             MediaQuery::Text(text)

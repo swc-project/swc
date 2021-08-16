@@ -22,6 +22,9 @@ pub enum MediaQuery {
     #[tag("NotMediaQuery")]
     Not(NotMediaQuery),
 
+    #[tag("OnlyMediaQuery")]
+    Only(OnlyMediaQuery),
+
     #[tag("Property")]
     Property(Property),
 }
@@ -35,6 +38,12 @@ pub struct AndMediaQuery {
 
 #[ast_node("NotMediaQuery")]
 pub struct NotMediaQuery {
+    pub span: Span,
+    pub query: Box<MediaQuery>,
+}
+
+#[ast_node("OnlyMediaQuery")]
+pub struct OnlyMediaQuery {
     pub span: Span,
     pub query: Box<MediaQuery>,
 }
