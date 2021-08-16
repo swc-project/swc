@@ -640,6 +640,7 @@ null
 number
 object
 of
+only
 or
 override
 package
