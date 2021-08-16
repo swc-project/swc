@@ -10,7 +10,7 @@ use swc_atoms::JsWord;
 use swc_bundler::{Load, ModuleData};
 use swc_common::{errors::Handler, FileName, DUMMY_SP};
 use swc_ecma_ast::{Expr, Lit, Module, Program, Str};
-use swc_ecma_parser::JscTarget;
+use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax};
 use swc_ecma_transforms::{
     helpers,
     optimization::{
@@ -36,21 +36,45 @@ impl SwcLoader {
         let helpers = Helpers::new(false);
 
         match name {
-            // Handle built-in modules
-            FileName::Custom(..) => {
-                let fm = self
-                    .compiler
-                    .cm
-                    .new_source_file(name.clone(), "".to_string());
-                return Ok(ModuleData {
-                    fm,
-                    module: Module {
-                        span: DUMMY_SP,
-                        body: Default::default(),
-                        shebang: Default::default(),
-                    },
-                    helpers: Default::default(),
-                });
+            FileName::Custom(id) => {
+                // Handle built-in modules
+                if id.starts_with("node:") {
+                    let fm = self
+                        .compiler
+                        .cm
+                        .new_source_file(name.clone(), "".to_string());
+                    return Ok(ModuleData {
+                        fm,
+                        module: Module {
+                            span: DUMMY_SP,
+                            body: Default::default(),
+                            shebang: Default::default(),
+                        },
+                        helpers: Default::default(),
+                    });
+                // Handle disabled modules, eg when `browser` has a field
+                // set to `false`
+                } else {
+                    // TODO: When we know the calling context is ESM
+                    // TODO: switch to `export default {}`.
+                    let fm = self
+                        .compiler
+                        .cm
+                        .new_source_file(name.clone(), "module.exports = {}".to_string());
+                    let lexer = Lexer::new(
+                        Syntax::Es(Default::default()),
+                        Default::default(),
+                        StringInput::from(&*fm),
+                        None,
+                    );
+                    let mut parser = Parser::new_from(lexer);
+                    let module = parser.parse_module().unwrap();
+                    return Ok(ModuleData {
+                        fm,
+                        module,
+                        helpers: Default::default(),
+                    });
+                }
             }
             _ => {}
         }

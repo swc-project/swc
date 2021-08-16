@@ -48,7 +48,7 @@ pub struct Config {
     pub options: Option<swc::config::Options>,
 
     #[serde(default)]
-    pub extenal_modules: Vec<JsWord>,
+    pub external_modules: Vec<JsWord>,
 
     #[serde(default)]
     pub alias: FxHashMap<TargetEnv, FxHashMap<String, String>>,
