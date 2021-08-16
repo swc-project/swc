@@ -1,10 +1,9 @@
 use super::{
     input::ParserInput,
-    traits::{Block, Parse, ParseDelmited},
+    traits::{Parse, ParseDelmited},
     PResult, Parser,
 };
 use crate::token::Token;
-use swc_common::Span;
 use swc_css_ast::*;
 
 #[derive(Debug, Default)]
@@ -79,7 +78,7 @@ where
                 expect!(self, "{");
                 self.input.skip_ws()?;
 
-                let blocks = self.parse_delimited()?;
+                let blocks = self.parse_delimited(true)?;
                 self.input.skip_ws()?;
                 expect!(self, "}");
                 self.input.skip_ws()?;

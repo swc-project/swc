@@ -41,11 +41,17 @@ where
     }
 
     /// TOOD: error recovery.
-    pub(super) fn parse_delimited<T>(&mut self) -> PResult<Vec<T>>
+    pub(super) fn parse_delimited<T>(&mut self, allow_zero: bool) -> PResult<Vec<T>>
     where
         Self: Parse<T> + ParseDelmited<T>,
     {
         let mut items = vec![];
+
+        if allow_zero {
+            if !ParseDelmited::eat_delimiter(self)? {
+                return Ok(vec![]);
+            }
+        }
 
         loop {
             let res = self.parse()?;
