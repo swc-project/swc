@@ -269,6 +269,8 @@ where
 
         expect!(self, "(");
 
+        self.input.skip_ws()?;
+
         let ctx = Ctx {
             allow_operation_in_value: true,
             ..self.ctx
