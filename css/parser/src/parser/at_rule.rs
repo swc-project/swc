@@ -47,7 +47,10 @@ where
                 let value = self.may_parse_str()?;
 
                 if let Some(v) = value {
+                    eat!(self, ";");
+
                     let span = span!(self, start);
+
                     return Ok(AtRule::Charset(CharsetRule { span, charset: v }));
                 }
             }
@@ -63,6 +66,8 @@ where
                         let import_conditin_start = self.input.cur_span()?.lo;
 
                         if !is_one_of!(self, ";", EOF) {}
+
+                        eat!(self, ";");
 
                         return Ok(AtRule::Import(ImportRule {
                             span: span!(self, start),
