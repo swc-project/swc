@@ -1,4 +1,4 @@
-pub use self::keyframe::KeyframesRule;
+pub use self::keyframe::*;
 use crate::Str;
 use is_macro::Is;
 use swc_common::{ast_node, Span};
