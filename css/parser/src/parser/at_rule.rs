@@ -73,7 +73,17 @@ where
             "keyframes" => {
                 self.input.skip_ws()?;
 
-                return self.parse_items_block().map(AtRule::Keyframes);
+                let name = self.parse_id()?;
+
+                expect!(self, "{");
+                let blocks = self.parse_delimited()?;
+                expect!(self, "}");
+
+                return Ok(AtRule::Keyframes(KeyframesRule {
+                    span: span!(self, start),
+                    id: name,
+                    blocks,
+                }));
             }
 
             _ => {}
@@ -145,13 +155,5 @@ where
         } else {
             Ok(true)
         }
-    }
-}
-
-impl Block for KeyframesRule {
-    type Content = Vec<KeyframeBlock>;
-
-    fn from_content(span: Span, blocks: Self::Content) -> Self {
-        Self { span, blocks }
     }
 }

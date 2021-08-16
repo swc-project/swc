@@ -41,6 +41,25 @@ where
     }
 
     /// TOOD: error recovery.
+    pub(super) fn parse_delimited<T>(&mut self) -> PResult<Vec<T>>
+    where
+        Self: Parse<T> + ParseDelmited<T>,
+    {
+        let mut items = vec![];
+
+        loop {
+            let res = self.parse()?;
+            items.push(res);
+
+            if !ParseDelmited::eat_delimiter(self)? {
+                break;
+            }
+        }
+
+        Ok(items)
+    }
+
+    /// TOOD: error recovery.
     pub(super) fn parse_block<Ret>(&mut self) -> PResult<Ret>
     where
         Ret: Block,
