@@ -26,6 +26,5 @@
             "mangle": true
         }
     },
-    "minify": true,
-    "sourceMaps": true
+    "minify": true
 }
