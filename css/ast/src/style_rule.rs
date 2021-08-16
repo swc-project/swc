@@ -8,7 +8,7 @@ pub struct StyleRule {
     pub block: DeclBlock,
 }
 
-#[ast_node]
+#[ast_node("DeclBlock")]
 pub struct DeclBlock {
     pub span: Span,
     pub properties: Vec<Property>,
