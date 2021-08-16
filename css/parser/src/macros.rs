@@ -132,4 +132,8 @@ macro_rules! tok {
     ("only") => {
         ident_tok!("only")
     };
+
+    ("url") => {
+        ident_tok!("url")
+    };
 }

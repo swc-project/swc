@@ -124,7 +124,7 @@ where
 
         if is!(self, Str) {
             self.parse_str()
-        } else if is!(self, Url) {
+        } else if is!(self, "url") {
             self.parse_url()
         } else {
             Err(Error::new(span, ErrorKind::Expected("URL")))
@@ -169,12 +169,12 @@ where
 
     fn parse_url(&mut self) -> PResult<Str> {
         let span = self.input.cur_span()?;
-        if !is!(self, Url) {
+        if !is!(self, "url") {
             return Err(Error::new(span, ErrorKind::Expected("Str")));
         }
 
         match bump!(self) {
-            Token::Url { value } => Ok(Str { span, value }),
+            Token::Str { value } => Ok(Str { span, value }),
             _ => {
                 unreachable!()
             }

@@ -31,10 +31,6 @@ pub enum Token {
         value: JsWord,
     },
 
-    Url {
-        value: JsWord,
-    },
-
     /// `--`
     MinusMinus,
 

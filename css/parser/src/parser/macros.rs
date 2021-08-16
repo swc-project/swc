@@ -25,10 +25,6 @@ macro_rules! tok_pat {
         crate::token::Token::Num { .. }
     };
 
-    (Url) => {
-        crate::token::Token::Url { .. }
-    };
-
     ($t:tt) => {
         tok!($t)
     };
