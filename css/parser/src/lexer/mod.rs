@@ -97,9 +97,11 @@ where
         if self.input.is_byte(b'/') {
             if self.input.peek() == Some('/') {
                 self.skip_line_comment(2)?;
+                self.skip_ws()?;
                 return self.read_token();
             } else if self.input.peek() == Some('*') {
                 self.skip_block_comment()?;
+                self.skip_ws()?;
                 return self.read_token();
             }
         }
