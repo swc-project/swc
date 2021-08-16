@@ -18,7 +18,6 @@ where
     ///
     /// https://github.com/evanw/esbuild/blob/a9456dfbf08ab50607952eefb85f2418968c124c/internal/css_parser/css_parser.go#L987
     pub(super) fn parse_property_values(&mut self) -> PResult<Vec<Value>> {
-        self.input.skip_ws()?;
         let start_pos = self.input.cur_span()?.lo;
 
         let mut ok = true;
@@ -110,6 +109,7 @@ where
     }
 
     fn parse_numeric_value_with_base(&mut self, start: BytePos, base: Value) -> PResult<Value> {
+        let start_state = self.input.state();
         self.input.skip_ws()?;
 
         if self.ctx.allow_operation_in_value && is_one_of!(self, "+", "-", "*", "/") {
@@ -143,6 +143,8 @@ where
 
             return self.parse_numeric_value_with_base(start, value);
         }
+
+        self.input.reset(&start_state);
 
         return Ok(base);
     }
