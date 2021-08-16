@@ -130,28 +130,6 @@ pub struct PropertyCollector<'a> {
 }
 
 impl VisitMut for PropertyCollector<'_> {
-    fn visit_mut_prop_name(&mut self, name: &mut PropName) {
-        name.visit_mut_children_with(self);
-
-        match name {
-            PropName::Ident(ident) => {
-                self.state.add(&ident.sym);
-            }
-            PropName::Str(s) => {
-                self.state.add(&s.value);
-            }
-            _ => {}
-        };
-    }
-
-    fn visit_mut_prop(&mut self, prop: &mut Prop) {
-        prop.visit_mut_children_with(self);
-
-        if let Prop::Shorthand(ident) = prop {
-            self.state.add(&ident.sym);
-        }
-    }
-
     fn visit_mut_call_expr(&mut self, call: &mut CallExpr) {
         call.visit_mut_children_with(self);
 
@@ -170,6 +148,28 @@ impl VisitMut for PropertyCollector<'_> {
                 self.state.add(&ident.sym);
             }
         }
+    }
+
+    fn visit_mut_prop(&mut self, prop: &mut Prop) {
+        prop.visit_mut_children_with(self);
+
+        if let Prop::Shorthand(ident) = prop {
+            self.state.add(&ident.sym);
+        }
+    }
+
+    fn visit_mut_prop_name(&mut self, name: &mut PropName) {
+        name.visit_mut_children_with(self);
+
+        match name {
+            PropName::Ident(ident) => {
+                self.state.add(&ident.sym);
+            }
+            PropName::Str(s) => {
+                self.state.add(&s.value);
+            }
+            _ => {}
+        };
     }
 }
 
