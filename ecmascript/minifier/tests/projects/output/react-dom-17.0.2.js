@@ -1928,11 +1928,13 @@
         if (hasOwnProperty$1.call(warnedProperties, name) && warnedProperties[name]) return !0;
         if (rARIACamel.test(name)) {
             var ariaName = "aria-" + name.slice(4).toLowerCase(), correctName = ariaProperties.hasOwnProperty(ariaName) ? ariaName : null;
-            return null == correctName ? (error("Invalid ARIA attribute `%s`. ARIA attributes follow the pattern aria-* and must be lowercase.", name), warnedProperties[name] = !0, !0) : name !== correctName ? (error("Invalid ARIA attribute `%s`. Did you mean `%s`?", name, correctName), warnedProperties[name] = !0, !0) : void 0;
+            if (null == correctName) return error("Invalid ARIA attribute `%s`. ARIA attributes follow the pattern aria-* and must be lowercase.", name), warnedProperties[name] = !0, !0;
+            if (name !== correctName) return error("Invalid ARIA attribute `%s`. Did you mean `%s`?", name, correctName), warnedProperties[name] = !0, !0;
         }
         if (rARIA.test(name)) {
             var lowerCasedName = name.toLowerCase(), standardName = ariaProperties.hasOwnProperty(lowerCasedName) ? lowerCasedName : null;
-            return null == standardName ? (warnedProperties[name] = !0, !1) : name !== standardName ? (error("Unknown ARIA attribute `%s`. Did you mean `%s`?", name, standardName), warnedProperties[name] = !0, !0) : void 0;
+            if (null == standardName) return warnedProperties[name] = !0, !1;
+            if (name !== standardName) return error("Unknown ARIA attribute `%s`. Did you mean `%s`?", name, standardName), warnedProperties[name] = !0, !0;
         }
         return !0;
     }
@@ -1963,9 +1965,9 @@
                 var registrationNameDependencies = eventRegistry.registrationNameDependencies, possibleRegistrationNames = eventRegistry.possibleRegistrationNames;
                 if (registrationNameDependencies.hasOwnProperty(name)) return !0;
                 var registrationName = possibleRegistrationNames.hasOwnProperty(lowerCasedName) ? possibleRegistrationNames[lowerCasedName] : null;
-                return null != registrationName ? (error("Invalid event handler property `%s`. Did you mean `%s`?", name, registrationName), warnedProperties$1[name] = !0, !0) : EVENT_NAME_REGEX.test(name) ? (error("Unknown event handler property `%s`. It will be ignored.", name), warnedProperties$1[name] = !0, !0) : void 0;
-            }
-            if (EVENT_NAME_REGEX.test(name)) return INVALID_EVENT_NAME_REGEX.test(name) && error("Invalid event handler property `%s`. React events use the camelCase naming convention, for example `onClick`.", name), warnedProperties$1[name] = !0, !0;
+                if (null != registrationName) return error("Invalid event handler property `%s`. Did you mean `%s`?", name, registrationName), warnedProperties$1[name] = !0, !0;
+                if (EVENT_NAME_REGEX.test(name)) return error("Unknown event handler property `%s`. It will be ignored.", name), warnedProperties$1[name] = !0, !0;
+            } else if (EVENT_NAME_REGEX.test(name)) return INVALID_EVENT_NAME_REGEX.test(name) && error("Invalid event handler property `%s`. React events use the camelCase naming convention, for example `onClick`.", name), warnedProperties$1[name] = !0, !0;
             if (rARIA$1.test(name) || rARIACamel$1.test(name)) return !0;
             if ("innerhtml" === lowerCasedName) return error("Directly setting property `innerHTML` is not permitted. For more information, lookup documentation on `dangerouslySetInnerHTML`."), warnedProperties$1[name] = !0, !0;
             if ("aria" === lowerCasedName) return error("The `aria` attribute is reserved for future use in React. Pass individual `aria-` attributes instead."), warnedProperties$1[name] = !0, !0;
@@ -2154,7 +2156,10 @@
         return hasError;
     }
     function clearCaughtError() {
-        if (hasError) return hasError = !1, caughtError = null;
+        if (hasError) {
+            var error = caughtError;
+            return hasError = !1, caughtError = null, error;
+        }
         throw Error("clearCaughtError was called but no error was captured. This error is likely caused by a bug in React. Please file an issue.");
     }
     var _ReactInternals$Sched = React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.Scheduler, unstable_cancelCallback = _ReactInternals$Sched.unstable_cancelCallback, unstable_now = _ReactInternals$Sched.unstable_now, unstable_scheduleCallback = _ReactInternals$Sched.unstable_scheduleCallback, unstable_shouldYield = _ReactInternals$Sched.unstable_shouldYield, unstable_requestPaint = _ReactInternals$Sched.unstable_requestPaint, unstable_runWithPriority = _ReactInternals$Sched.unstable_runWithPriority, unstable_getCurrentPriorityLevel = _ReactInternals$Sched.unstable_getCurrentPriorityLevel, unstable_ImmediatePriority = _ReactInternals$Sched.unstable_ImmediatePriority, unstable_UserBlockingPriority = _ReactInternals$Sched.unstable_UserBlockingPriority, unstable_NormalPriority = _ReactInternals$Sched.unstable_NormalPriority, unstable_LowPriority = _ReactInternals$Sched.unstable_LowPriority, unstable_IdlePriority = _ReactInternals$Sched.unstable_IdlePriority, unstable_flushAllWithoutAsserting = _ReactInternals$Sched.unstable_flushAllWithoutAsserting;
@@ -4682,7 +4687,7 @@
     }
     function createInstance(type, props, rootContainerInstance, hostContext, internalInstanceHandle) {
         var hostContextDev = hostContext;
-        validateDOMNesting(type, null, hostContextDev.ancestorInfo), ("string" == typeof props.children || "number" == typeof props.children) && validateDOMNesting(null, "" + props.children, updatedAncestorInfo(hostContextDev.ancestorInfo, type));
+        validateDOMNesting(type, null, hostContextDev.ancestorInfo), ("string" == typeof props.children || "number" == typeof props.children) && validateDOMNesting(null, "" + props.children, updatedAncestorInfo(hostContextDev.ancestorInfo, type)), hostContextDev.namespace;
         var domElement = createElement(type, props, rootContainerInstance, hostContextDev.namespace);
         return precacheFiberNode(internalInstanceHandle, domElement), updateFiberProps(domElement, props), domElement;
     }
@@ -4783,7 +4788,7 @@
         return getNextHydratable(parentInstance.firstChild);
     }
     function hydrateInstance(instance, type, props, rootContainerInstance, hostContext, internalInstanceHandle) {
-        return precacheFiberNode(internalInstanceHandle, instance), updateFiberProps(instance, props), diffHydratedProperties(instance, type, props, hostContext.namespace);
+        return precacheFiberNode(internalInstanceHandle, instance), updateFiberProps(instance, props), hostContext.namespace, diffHydratedProperties(instance, type, props, hostContext.namespace);
     }
     function hydrateTextInstance(textInstance, text, internalInstanceHandle) {
         return precacheFiberNode(internalInstanceHandle, textInstance), diffHydratedText(textInstance, text);
@@ -5062,7 +5067,7 @@
     var Scheduler_runWithPriority = unstable_runWithPriority, Scheduler_scheduleCallback = unstable_scheduleCallback, Scheduler_cancelCallback = unstable_cancelCallback, Scheduler_requestPaint = unstable_requestPaint, Scheduler_now$1 = unstable_now, Scheduler_getCurrentPriorityLevel = unstable_getCurrentPriorityLevel, Scheduler_ImmediatePriority = unstable_ImmediatePriority, Scheduler_UserBlockingPriority = unstable_UserBlockingPriority, Scheduler_NormalPriority = unstable_NormalPriority, Scheduler_LowPriority = unstable_LowPriority, Scheduler_IdlePriority = unstable_IdlePriority;
     if (!(null != __interactionsRef && null != __interactionsRef.current)) throw Error("It is not supported to run the profiling version of a renderer (for example, `react-dom/profiling`) without also replacing the `scheduler/tracing` module with `scheduler/tracing-profiling`. Your bundler might have a setting for aliasing both modules. Learn more at https://reactjs.org/link/profiling");
     var fakeCallbackNode = {
-    }, shouldYield = unstable_shouldYield, requestPaint = void 0 !== Scheduler_requestPaint ? Scheduler_requestPaint : function() {
+    }, NormalPriority$1 = 97, shouldYield = unstable_shouldYield, requestPaint = void 0 !== Scheduler_requestPaint ? Scheduler_requestPaint : function() {
     }, syncQueue = null, immediateQueueCallbackNode = null, isFlushingSyncQueue = !1, initialTimeMs$1 = Scheduler_now$1(), now = initialTimeMs$1 < 10000 ? Scheduler_now$1 : function() {
         return Scheduler_now$1() - initialTimeMs$1;
     };
@@ -5073,7 +5078,7 @@
             case Scheduler_UserBlockingPriority:
                 return 98;
             case Scheduler_NormalPriority:
-                return 97;
+                return NormalPriority$1;
             case Scheduler_LowPriority:
                 return 96;
             case Scheduler_IdlePriority:
@@ -5088,7 +5093,7 @@
                 return Scheduler_ImmediatePriority;
             case 98:
                 return Scheduler_UserBlockingPriority;
-            case 97:
+            case NormalPriority$1:
                 return Scheduler_NormalPriority;
             case 96:
                 return Scheduler_LowPriority;
@@ -5113,7 +5118,11 @@
         callbackNode !== fakeCallbackNode && Scheduler_cancelCallback(callbackNode);
     }
     function flushSyncCallbackQueue() {
-        null !== immediateQueueCallbackNode && Scheduler_cancelCallback(immediateQueueCallbackNode = null), flushSyncCallbackQueueImpl();
+        if (null !== immediateQueueCallbackNode) {
+            var node = immediateQueueCallbackNode;
+            immediateQueueCallbackNode = null, Scheduler_cancelCallback(node);
+        }
+        flushSyncCallbackQueueImpl();
     }
     function flushSyncCallbackQueueImpl() {
         if (!isFlushingSyncQueue && null !== syncQueue) {
@@ -6674,7 +6683,7 @@
         var priorityLevel = getCurrentPriorityLevel();
         runWithPriority$1(priorityLevel < 98 ? 98 : priorityLevel, function() {
             setPending(!0);
-        }), runWithPriority$1(priorityLevel > 97 ? 97 : priorityLevel, function() {
+        }), runWithPriority$1(priorityLevel > NormalPriority$1 ? NormalPriority$1 : priorityLevel, function() {
             var prevTransition = ReactCurrentBatchConfig$1.transition;
             ReactCurrentBatchConfig$1.transition = 1;
             try {
@@ -8794,9 +8803,13 @@
         return root.finishedWork = finishedWork, root.finishedLanes = lanes, commitRoot(root), ensureRootIsScheduled(root, now()), null;
     }
     function flushPendingDiscreteUpdates() {
-        null !== rootsWithPendingDiscreteUpdates && (rootsWithPendingDiscreteUpdates = null).forEach(function(root) {
-            markDiscreteUpdatesExpired(root), ensureRootIsScheduled(root, now());
-        }), flushSyncCallbackQueue();
+        if (null !== rootsWithPendingDiscreteUpdates) {
+            var roots = rootsWithPendingDiscreteUpdates;
+            rootsWithPendingDiscreteUpdates = null, roots.forEach(function(root) {
+                markDiscreteUpdatesExpired(root), ensureRootIsScheduled(root, now());
+            });
+        }
+        flushSyncCallbackQueue();
     }
     function batchedUpdates$1(fn, a) {
         var prevExecutionContext = executionContext;
@@ -9022,7 +9035,7 @@
             var current = nextEffect.alternate;
             !shouldFireAfterActiveInstanceBlur && null !== focusedInstanceHandle && ((nextEffect.flags & Deletion) !== NoFlags ? doesFiberContain(nextEffect, focusedInstanceHandle) && (shouldFireAfterActiveInstanceBlur = !0) : 13 === nextEffect.tag && isSuspenseBoundaryBeingHidden(current, nextEffect) && doesFiberContain(nextEffect, focusedInstanceHandle) && (shouldFireAfterActiveInstanceBlur = !0));
             var flags = nextEffect.flags;
-            (256 & flags) !== NoFlags && (setCurrentFiber(nextEffect), commitBeforeMutationLifeCycles(current, nextEffect), resetCurrentFiber()), (512 & flags) === NoFlags || rootDoesHavePassiveEffects || (rootDoesHavePassiveEffects = !0, scheduleCallback(97, function() {
+            (256 & flags) !== NoFlags && (setCurrentFiber(nextEffect), commitBeforeMutationLifeCycles(current, nextEffect), resetCurrentFiber()), (512 & flags) === NoFlags || rootDoesHavePassiveEffects || (rootDoesHavePassiveEffects = !0, scheduleCallback(NormalPriority$1, function() {
                 return flushPassiveEffects(), null;
             })), nextEffect = nextEffect.nextEffect;
         }
@@ -9067,17 +9080,21 @@
         }
     }
     function flushPassiveEffects() {
-        return 90 !== pendingPassiveEffectsRenderPriority && runWithPriority$1((pendingPassiveEffectsRenderPriority = 90) > 97 ? 97 : pendingPassiveEffectsRenderPriority, flushPassiveEffectsImpl);
+        if (90 !== pendingPassiveEffectsRenderPriority) {
+            var priorityLevel = pendingPassiveEffectsRenderPriority > NormalPriority$1 ? NormalPriority$1 : pendingPassiveEffectsRenderPriority;
+            return pendingPassiveEffectsRenderPriority = 90, runWithPriority$1(priorityLevel, flushPassiveEffectsImpl);
+        }
+        return !1;
     }
     function enqueuePendingPassiveHookEffectMount(fiber, effect) {
-        pendingPassiveHookEffectsMount.push(effect, fiber), rootDoesHavePassiveEffects || (rootDoesHavePassiveEffects = !0, scheduleCallback(97, function() {
+        pendingPassiveHookEffectsMount.push(effect, fiber), rootDoesHavePassiveEffects || (rootDoesHavePassiveEffects = !0, scheduleCallback(NormalPriority$1, function() {
             return flushPassiveEffects(), null;
         }));
     }
     function enqueuePendingPassiveHookEffectUnmount(fiber, effect) {
         pendingPassiveHookEffectsUnmount.push(effect, fiber), fiber.flags |= 8192;
         var alternate = fiber.alternate;
-        null !== alternate && (alternate.flags |= 8192), rootDoesHavePassiveEffects || (rootDoesHavePassiveEffects = !0, scheduleCallback(97, function() {
+        null !== alternate && (alternate.flags |= 8192), rootDoesHavePassiveEffects || (rootDoesHavePassiveEffects = !0, scheduleCallback(NormalPriority$1, function() {
             return flushPassiveEffects(), null;
         }));
     }
@@ -9509,7 +9526,8 @@
         if ("function" == typeof Component) return shouldConstruct$1(Component) ? 1 : 0;
         if (null != Component) {
             var $$typeof = Component.$$typeof;
-            return $$typeof === REACT_FORWARD_REF_TYPE ? 11 : $$typeof === REACT_MEMO_TYPE ? 14 : void 0;
+            if ($$typeof === REACT_FORWARD_REF_TYPE) return 11;
+            if ($$typeof === REACT_MEMO_TYPE) return 14;
         }
         return 2;
     }

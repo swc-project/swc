@@ -69,7 +69,8 @@ impl Optimizer<'_> {
                     if should_preserve && usage.var_kind != Some(VarDeclKind::Const) {
                         if cfg!(feature = "debug") {
                             log::trace!(
-                                "inline: Preserving non-const variable `{}` because it's top-level",
+                                "inline: [x] Preserving non-const variable `{}` because it's \
+                                 top-level",
                                 dump(&var.name)
                             );
                         }
@@ -240,7 +241,7 @@ impl Optimizer<'_> {
 
                         if usage.used_in_loop {
                             match &**init {
-                                Expr::Lit(..) | Expr::Ident(..) | Expr::Fn(..) => {}
+                                Expr::Lit(..) | Expr::Fn(..) => {}
                                 _ => {
                                     return;
                                 }

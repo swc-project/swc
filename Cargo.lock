@@ -2350,7 +2350,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.20.1"
+version = "0.20.2"
 dependencies = [
  "ansi_term 0.12.1",
  "anyhow",
@@ -2382,7 +2382,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.66.5"
+version = "0.66.6"
 dependencies = [
  "either",
  "enum_kind",
@@ -2549,7 +2549,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.35.1"
+version = "0.35.2"
 dependencies = [
  "dashmap",
  "fxhash",
@@ -2665,7 +2665,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.41.2"
+version = "0.41.3"
 dependencies = [
  "once_cell",
  "scoped-tls",
