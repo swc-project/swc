@@ -14,6 +14,7 @@ use swc_ecma_ast::{
     Bool, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, MetaPropExpr, PropName, Str,
     TargetEnv,
 };
+use swc_ecma_loader::NODE_BUILTINS;
 use swc_ecma_parser::JscTarget;
 use swc_ecma_transforms::fixer;
 use swc_ecma_visit::FoldWith;
@@ -75,44 +76,7 @@ fn pass(input_dir: PathBuf) {
                     require: true,
                     disable_inliner: true,
                     module: Default::default(),
-                    external_modules: vec![
-                        "assert",
-                        "buffer",
-                        "child_process",
-                        "console",
-                        "cluster",
-                        "crypto",
-                        "dgram",
-                        "dns",
-                        "events",
-                        "fs",
-                        "http",
-                        "http2",
-                        "https",
-                        "net",
-                        "os",
-                        "path",
-                        "perf_hooks",
-                        "process",
-                        "querystring",
-                        "readline",
-                        "repl",
-                        "stream",
-                        "string_decoder",
-                        "timers",
-                        "tls",
-                        "tty",
-                        "url",
-                        "util",
-                        "v8",
-                        "vm",
-                        "wasi",
-                        "worker",
-                        "zlib",
-                    ]
-                    .into_iter()
-                    .map(From::from)
-                    .collect(),
+                    external_modules: NODE_BUILTINS.to_vec().into_iter().map(From::from).collect(),
                 },
                 Box::new(Hook),
             );
