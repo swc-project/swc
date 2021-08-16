@@ -21,17 +21,17 @@ where
     I: ParserInput,
 {
     /// TOOD: error recovery.
-    pub(super) fn parse_items_block<F, Ret>(&mut self, mut op: F) -> PResult<Ret>
+    pub(super) fn parse_items_block<Ret>(&mut self) -> PResult<Ret>
     where
         Ret: ItemBlock,
-        F: FnMut(&mut Parser<I>) -> PResult<Ret::Item>,
+        Self: Parse<Ret::Item>,
     {
         let mut items = vec![];
         let span = self.input.cur_span()?;
         expect!(self, "{");
 
         loop {
-            let res = op(self)?;
+            let res = self.parse()?;
             items.push(res);
 
             if !Ret::eat_delimiter(self)? {
@@ -45,7 +45,7 @@ where
     }
 
     /// TOOD: error recovery.
-    pub(super) fn parse_block<F, Ret>(&mut self) -> PResult<Ret>
+    pub(super) fn parse_block<Ret>(&mut self) -> PResult<Ret>
     where
         Ret: Block,
         Self: Parse<Ret::Content>,
