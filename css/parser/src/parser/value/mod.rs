@@ -273,7 +273,14 @@ where
             allow_operation_in_value: true,
             ..self.ctx
         };
-        let value = self.with_ctx(ctx).parse_one_value().map(Box::new)?;
+        let value = if is!(self, ")") {
+            None
+        } else {
+            self.with_ctx(ctx)
+                .parse_one_value()
+                .map(Box::new)
+                .map(Some)?
+        };
 
         expect!(self, ")");
 

@@ -74,7 +74,7 @@ pub struct ParenValue {
     /// Includes `(` and `)`.
     pub span: Span,
 
-    pub value: Box<Value>,
+    pub value: Option<Box<Value>>,
 }
 
 #[ast_node("ArrayValue")]
