@@ -96,6 +96,7 @@ macro_rules! eat {
 macro_rules! expect {
     ($parser:expr, $tt:tt) => {
         if !eat!($parser, $tt) {
+            dbg!();
             let span = $parser.input.cur_span()?;
             Err(crate::error::Error::new(
                 span,
