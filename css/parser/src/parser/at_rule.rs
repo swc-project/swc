@@ -60,6 +60,11 @@ where
                         let import_conditin_start = self.input.cur_span()?.lo;
 
                         if !is_one_of!(self, ";", EOF) {}
+
+                        return Ok(AtRule::Import(ImportRule {
+                            span: span!(self, start),
+                            src: path,
+                        }));
                     }
                     _ => {}
                 }
