@@ -123,7 +123,7 @@ where
                 if eat!(self, "|") {
                     if !peeked_is!(self, Ident) && !peeked_is!(self, "&") {
                         expect!(self, Ident);
-                        return Err(Error::new(span, ErrorKind::InvalidSelector));
+                        return Err(Error::new(span, ErrorKind::InvalidTypeSelector));
                     }
 
                     ns_name_prefix = ns_name_name.take();

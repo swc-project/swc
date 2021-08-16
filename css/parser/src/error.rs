@@ -37,6 +37,7 @@ pub enum ErrorKind {
     ExpectedButGot(&'static str, String),
     ExpectedSelectorText,
     UnterminatedBlockComment,
+    InvalidTypeSelector,
     InvalidSelector,
     ExpectedIdentOrStrForAttrSelectorOp,
 }
