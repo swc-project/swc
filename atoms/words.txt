@@ -623,7 +623,6 @@ instanceof
 interface
 intrinsic
 is
-is
 iterator
 key
 keyof
@@ -635,6 +634,7 @@ module
 namespace
 never
 new
+not
 null
 number
 object
