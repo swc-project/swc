@@ -49,7 +49,7 @@ where
             }
 
             let combinator = self.parse_combinator()?;
-            if combinator != js_word!("") {
+            if combinator.is_some() {
                 self.input.skip_ws()?;
             }
 
@@ -69,8 +69,25 @@ where
         })
     }
 
-    pub(super) fn parse_combinator(&mut self) -> PResult<JsWord> {
-        todo!()
+    pub(super) fn parse_combinator(&mut self) -> PResult<Option<SelectorCombinator>> {
+        let span = self.input.cur_span()?;
+        if eat!(self, " ") {
+            return Ok(Some(SelectorCombinator::Descendant));
+        }
+
+        if eat!(self, "+") {
+            return Ok(Some(SelectorCombinator::NextSibling));
+        }
+
+        if eat!(self, ">") {
+            return Ok(Some(SelectorCombinator::Child));
+        }
+
+        if eat!(self, "~") {
+            return Ok(Some(SelectorCombinator::LaterSibling));
+        }
+
+        Err(Error::new(span, ErrorKind::Expected("selector combinator")))
     }
 
     fn parse_name_token(&mut self) -> PResult<Text> {
@@ -199,7 +216,7 @@ where
         Ok(CompoundSelector {
             span,
             has_nest_prefix,
-            combinator: js_word!(""),
+            combinator: None,
             type_selector,
             subclass_selectors,
         })

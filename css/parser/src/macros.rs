@@ -113,6 +113,14 @@ macro_rules! tok {
         crate::token::Token::Div
     };
 
+    ("~") => {
+        crate::token::Token::Tilde
+    };
+
+    (">") => {
+        crate::token::Token::GreaterThan
+    };
+
     ("important") => {
         ident_tok!("important")
     };

@@ -2,9 +2,7 @@ use crate::Text;
 use is_macro::Is;
 use string_enum::StringEnum;
 use swc_atoms::JsWord;
-use swc_common::ast_node;
-use swc_common::EqIgnoreSpan;
-use swc_common::Span;
+use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 /// A CSS selector.
 ///
@@ -58,8 +56,7 @@ pub struct CompoundSelector {
     /// "&"
     pub has_nest_prefix: bool,
 
-    /// Can be `""`.
-    pub combinator: JsWord,
+    pub combinator: Option<SelectorCombinator>,
 
     pub type_selector: Option<NamespacedName>,
 

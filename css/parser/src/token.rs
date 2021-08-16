@@ -103,6 +103,9 @@ pub enum Token {
 
     /// `/`
     Div,
+
+    /// `<`
+    GreaterThan,
 }
 
 #[derive(Debug, Clone)]

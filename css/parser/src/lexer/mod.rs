@@ -125,6 +125,7 @@ where
         try_delim!(b'^', "^");
         try_delim!(b'%', "%");
         try_delim!(b'!', "!");
+        try_delim!(b'>', ">");
 
         // TODO: Plus can start a number
         try_delim!(b'+', "+");
