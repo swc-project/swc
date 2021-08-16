@@ -124,6 +124,25 @@ where
                 }));
             }
 
+            "media" => {
+                self.input.skip_ws()?;
+
+                let query = self.parse()?;
+
+                expect!(self, "{");
+                let rules = self.parse_rules(RuleContext {
+                    is_top_level: false,
+                    parse_selectors: true,
+                })?;
+                expect!(self, "}");
+
+                return Ok(AtRule::Media(MediaRule {
+                    span: span!(self, start),
+                    query,
+                    rules,
+                }));
+            }
+
             _ => {}
         }
 
@@ -247,5 +266,46 @@ where
         }
 
         Err(Error::new(span, ErrorKind::InvalidSupportQuery))
+    }
+}
+
+impl<I> Parse<MediaQuery> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<MediaQuery> {
+        self.input.skip_ws()?;
+
+        let span = self.input.cur_span()?;
+
+        let base = if is!(self, Ident) {
+            let text = self.parse_id()?;
+            MediaQuery::Text(text)
+        } else if eat!(self, "(") {
+            if is!(self, Ident) {
+                let property = self.parse_property()?;
+                expect!(self, ")");
+                MediaQuery::Property(property)
+            } else {
+                let query: MediaQuery = self.parse()?;
+                expect!(self, ")");
+
+                query
+            }
+        } else {
+            return Err(Error::new(span, ErrorKind::InvalidMediaQuery));
+        };
+
+        if eat!(self, "and") {
+            let right = self.parse()?;
+
+            return Ok(MediaQuery::And(AndMediaQuery {
+                span: span!(self, span.lo),
+                left: Box::new(base),
+                right,
+            }));
+        }
+
+        return Err(Error::new(span, ErrorKind::InvalidMediaQuery));
     }
 }
