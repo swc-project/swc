@@ -55,6 +55,7 @@
         }
       ],
       "block": {
+        "type": "DeclBlock",
         "span": {
           "start": 7,
           "end": 57,

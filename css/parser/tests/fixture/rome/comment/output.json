@@ -54,6 +54,7 @@
         }
       ],
       "block": {
+        "type": "DeclBlock",
         "span": {
           "start": 22,
           "end": 39,
@@ -140,6 +141,7 @@
         }
       ],
       "block": {
+        "type": "DeclBlock",
         "span": {
           "start": 58,
           "end": 89,
@@ -226,6 +228,7 @@
         }
       ],
       "block": {
+        "type": "DeclBlock",
         "span": {
           "start": 94,
           "end": 125,
