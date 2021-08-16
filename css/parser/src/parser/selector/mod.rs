@@ -91,6 +91,8 @@ where
     }
 
     pub(super) fn parse_compound_selector(&mut self) -> PResult<CompoundSelector> {
+        self.input.skip_ws()?;
+
         let span = self.input.cur_span()?;
         let start_pos = span.lo;
 
