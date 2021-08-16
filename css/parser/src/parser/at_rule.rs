@@ -280,7 +280,13 @@ where
 
         let span = self.input.cur_span()?;
 
-        let base = if is!(self, Ident) {
+        let base = if is!(self, "not") {
+            let query = self.parse()?;
+            MediaQuery::Not(NotMediaQuery {
+                span: span!(self, span.lo),
+                query,
+            })
+        } else if is!(self, Ident) {
             let text = self.parse_id()?;
             MediaQuery::Text(text)
         } else if eat!(self, "(") {

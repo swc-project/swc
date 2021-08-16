@@ -15,8 +15,13 @@ pub struct MediaRule {
 pub enum MediaQuery {
     #[tag("Text")]
     Text(Text),
+
     #[tag("AndMediaQuery")]
     And(AndMediaQuery),
+
+    #[tag("NotMediaQuery")]
+    Not(NotMediaQuery),
+
     #[tag("Property")]
     Property(Property),
 }
@@ -26,4 +31,10 @@ pub struct AndMediaQuery {
     pub span: Span,
     pub left: Box<MediaQuery>,
     pub right: Box<MediaQuery>,
+}
+
+#[ast_node("NotMediaQuery")]
+pub struct NotMediaQuery {
+    pub span: Span,
+    pub query: Box<MediaQuery>,
 }
