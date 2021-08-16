@@ -56,6 +56,10 @@ where
         }
     }
 
+    pub fn dump_cur(&mut self) -> String {
+        format!("{:?}", self.input.cur())
+    }
+
     /// Take **recovered** errors.
     pub fn take_errors(&mut self) -> Vec<Error> {
         take(&mut self.errors)

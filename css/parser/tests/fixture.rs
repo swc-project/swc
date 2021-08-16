@@ -30,7 +30,10 @@ fn pass(input: PathBuf) {
                 Ok(())
             }
             Err(err) => {
-                err.to_diagnostics(&handler).emit();
+                let mut d = err.to_diagnostics(&handler);
+                d.note(&format!("current token = {}", parser.dump_cur()));
+
+                d.emit();
 
                 Err(())
             }
