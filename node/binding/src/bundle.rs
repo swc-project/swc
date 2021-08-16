@@ -20,8 +20,9 @@ use swc_bundler::{BundleKind, Bundler, Load, ModuleRecord, Resolve};
 use swc_common::Span;
 use swc_ecma_ast::{
     Bool, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, MetaPropExpr, PropName, Str,
-    TargetEnv, NODE_BUILTINS,
+    TargetEnv,
 };
+use swc_ecma_loader::NODE_BUILTINS;
 
 struct ConfigItem {
     loader: Box<dyn Load>,

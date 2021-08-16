@@ -1083,6 +1083,7 @@ dependencies = [
  "swc_bundler",
  "swc_common",
  "swc_ecma_ast",
+ "swc_ecma_loader",
  "swc_ecma_parser",
  "swc_node_base",
  "swc_node_bundler",

@@ -2,7 +2,7 @@
 //!
 //! See: https://github.com/goto-bus-stop/node-resolve
 
-use crate::resolve::Resolve;
+use crate::{resolve::Resolve, NODE_BUILTINS};
 use anyhow::{bail, Context, Error};
 use fxhash::FxHashMap;
 #[cfg(windows)]
@@ -14,7 +14,7 @@ use std::{
     path::{Component, Path, PathBuf},
 };
 use swc_common::FileName;
-use swc_ecma_ast::{TargetEnv, NODE_BUILTINS};
+use swc_ecma_ast::TargetEnv;
 
 use dashmap::{DashMap, DashSet};
 use once_cell::sync::Lazy;
