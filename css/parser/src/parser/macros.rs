@@ -99,10 +99,7 @@ macro_rules! expect {
             let span = $parser.input.cur_span()?;
             Err(crate::error::Error::new(
                 span,
-                crate::error::ErrorKind::ExpectedButGot(
-                    stringify!($tt),
-                    format!("{:?}", $parser.input.cur()),
-                ),
+                crate::error::ErrorKind::ExpectedButGot(stringify!($tt)),
             ))?
         }
     };

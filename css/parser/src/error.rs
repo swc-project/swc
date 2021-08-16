@@ -34,7 +34,7 @@ impl Error {
 pub enum ErrorKind {
     Eof,
     Expected(&'static str),
-    ExpectedButGot(&'static str, String),
+    ExpectedButGot(&'static str),
     ExpectedSelectorText,
     UnterminatedBlockComment,
     InvalidTypeSelector,
