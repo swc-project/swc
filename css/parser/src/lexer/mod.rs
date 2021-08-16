@@ -189,6 +189,7 @@ where
             return self.read_name().map(|value| Token::Ident(value));
         }
 
+        self.input.bump();
         Ok(tok!("-"))
     }
 
