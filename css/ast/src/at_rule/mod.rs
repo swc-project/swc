@@ -1,6 +1,9 @@
+pub use self::keyframe::KeyframesRule;
 use crate::Str;
 use is_macro::Is;
 use swc_common::{ast_node, Span};
+
+mod keyframe;
 
 #[ast_node]
 #[derive(Is)]
@@ -41,11 +44,6 @@ pub struct ImportRule {
 
 #[ast_node("FontFaceRule")]
 pub struct FontFaceRule {
-    pub span: Span,
-}
-
-#[ast_node("KeyframesRule")]
-pub struct KeyframesRule {
     pub span: Span,
 }
 
