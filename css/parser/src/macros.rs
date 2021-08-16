@@ -128,4 +128,8 @@ macro_rules! tok {
     ("and") => {
         ident_tok!("and")
     };
+
+    ("only") => {
+        ident_tok!("only")
+    };
 }
