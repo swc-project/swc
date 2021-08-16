@@ -1,5 +1,5 @@
 use super::PResult;
-use swc_common::{BytePos, Span};
+use swc_common::Span;
 
 pub(super) trait Parse<T> {
     fn parse(&mut self) -> PResult<T>;
