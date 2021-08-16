@@ -5,6 +5,7 @@ use super::{
 };
 use crate::{
     error::{Error, ErrorKind},
+    parser::RuleContext,
     token::Token,
 };
 use swc_css_ast::*;
@@ -109,9 +110,17 @@ where
 
                 let query = self.parse()?;
 
+                expect!(self, "{");
+                let rules = self.parse_rules(RuleContext {
+                    is_top_level: false,
+                    parse_selectors: true,
+                })?;
+                expect!(self, "}");
+
                 return Ok(AtRule::Supports(SupportsRule {
                     span: span!(self, start),
                     query,
+                    rules,
                 }));
             }
 
@@ -192,6 +201,8 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<SupportQuery> {
+        self.input.skip_ws()?;
+
         let span = self.input.cur_span()?;
 
         if eat!(self, "not") {
@@ -205,7 +216,10 @@ where
         if eat!(self, "(") {
             let property = self.parse_property()?;
 
+            self.input.skip_ws()?;
+
             expect!(self, ")");
+            self.input.skip_ws()?;
 
             let query = SupportQuery::Property(property);
 

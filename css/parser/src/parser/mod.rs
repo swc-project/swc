@@ -86,7 +86,7 @@ where
         loop {
             self.input.skip_ws()?;
 
-            if self.input.is_eof()? {
+            if self.input.is_eof()? || is!(self, "}") {
                 return Ok(rules);
             }
 
