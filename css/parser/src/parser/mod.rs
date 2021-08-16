@@ -176,6 +176,10 @@ where
         self.parse_id()?; // url
         expect!(self, "(");
 
+        if !is!(self, Str) {
+            return Err(Error::new(span, ErrorKind::Expected("Str for url()")));
+        }
+
         match bump!(self) {
             Token::Str { value } => {
                 let span = self.input.cur_span()?;
