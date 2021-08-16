@@ -9,6 +9,10 @@ macro_rules! tok_pat {
         crate::token::Token::Ident(..)
     };
 
+    (AtKeyword) => {
+        crate::token::Token::AtKeyword(..)
+    };
+
     (Function) => {
         crate::token::Token::Function { .. }
     };

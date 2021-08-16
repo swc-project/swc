@@ -5,6 +5,10 @@ pub(super) trait Parse<T> {
     fn parse(&mut self) -> PResult<T>;
 }
 
+pub(super) trait ParseDelmited<T>: Parse<T> {
+    fn eat_delimiter(&mut self) -> PResult<bool>;
+}
+
 pub(super) trait Block {
     type Content;
 

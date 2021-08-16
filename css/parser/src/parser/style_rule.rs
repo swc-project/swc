@@ -13,7 +13,7 @@ where
 
         let selectors = self.parse_selectors()?;
 
-        let block = self.parse_style_block()?;
+        let block = self.parse_decl_block()?;
 
         let span = Span::new(start, self.input.last_pos(), Default::default());
 
@@ -24,7 +24,7 @@ where
         }))
     }
 
-    pub(crate) fn parse_style_block(&mut self) -> PResult<DeclBlock> {
+    pub(crate) fn parse_decl_block(&mut self) -> PResult<DeclBlock> {
         let start = self.input.cur_span()?.lo;
 
         self.input.skip_ws()?;

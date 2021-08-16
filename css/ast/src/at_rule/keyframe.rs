@@ -11,7 +11,7 @@ pub struct KeyframesRule {
 pub struct KeyframeBlock {
     pub span: Span,
     pub selector: KeyframeSelector,
-    pub rule: KeyframeRule,
+    pub rule: KeyframeBlockRule,
 }
 
 #[ast_node]
@@ -23,7 +23,7 @@ pub enum KeyframeSelector {
 }
 
 #[ast_node]
-pub enum KeyframeRule {
+pub enum KeyframeBlockRule {
     #[tag("DeclBlock")]
     Decl(Box<DeclBlock>),
 

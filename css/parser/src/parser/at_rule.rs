@@ -1,5 +1,10 @@
-use super::{input::ParserInput, PResult, Parser};
+use super::{
+    input::ParserInput,
+    traits::{Block, Parse, ParseDelmited},
+    PResult, Parser,
+};
 use crate::token::Token;
+use swc_common::Span;
 use swc_css_ast::*;
 
 #[derive(Debug, Default)]
@@ -60,9 +65,88 @@ where
                 }
             }
 
+            "keyframes" => {
+                self.input.skip_ws()?;
+
+                return self.parse_items_block().map(AtRule::Keyframes);
+            }
+
             _ => {}
         }
 
         todo!("at rule ({})", name)
+    }
+}
+
+impl<I> Parse<KeyframeSelector> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<KeyframeSelector> {
+        if is!(self, Ident) {
+            self.parse_id().map(KeyframeSelector::Id)
+        } else {
+            todo!("parse percentage value for keyframe")
+        }
+    }
+}
+
+impl<I> Parse<KeyframeBlockRule> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<KeyframeBlockRule> {
+        if is!(self, AtKeyword) {
+            return self
+                .parse_at_rule(Default::default())
+                .map(Box::new)
+                .map(KeyframeBlockRule::AtRule);
+        }
+
+        self.parse_decl_block()
+            .map(Box::new)
+            .map(KeyframeBlockRule::Decl)
+    }
+}
+
+impl<I> Parse<KeyframeBlock> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<KeyframeBlock> {
+        let span = self.input.cur_span()?;
+
+        let selector = self.parse()?;
+
+        let rule = self.parse()?;
+
+        Ok(KeyframeBlock {
+            span: span!(self, span.lo),
+            selector,
+            rule,
+        })
+    }
+}
+
+impl<I> ParseDelmited<KeyframeBlock> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn eat_delimiter(&mut self) -> PResult<bool> {
+        self.input.skip_ws()?;
+
+        if is!(self, "}") {
+            Ok(false)
+        } else {
+            Ok(true)
+        }
+    }
+}
+
+impl Block for KeyframesRule {
+    type Content = Vec<KeyframeBlock>;
+
+    fn from_content(span: Span, blocks: Self::Content) -> Self {
+        Self { span, blocks }
     }
 }

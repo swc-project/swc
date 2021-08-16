@@ -1,6 +1,6 @@
 use super::{
     input::ParserInput,
-    traits::{Block, Parse},
+    traits::{Block, Parse, ParseDelmited},
     Ctx, PResult, Parser,
 };
 use std::ops::{Deref, DerefMut};
@@ -8,10 +8,6 @@ use swc_common::Span;
 
 pub(crate) trait ItemBlock {
     type Item;
-
-    fn eat_delimiter<I>(parser: &mut Parser<I>) -> PResult<bool>
-    where
-        I: ParserInput;
 
     fn from_items(span: Span, items: Vec<Self::Item>) -> Self;
 }
@@ -21,10 +17,10 @@ where
     I: ParserInput,
 {
     /// TOOD: error recovery.
-    pub(super) fn parse_items_block<Ret>(&mut self) -> PResult<Ret>
+    pub(super) fn parse_items_block<T, Ret>(&mut self) -> PResult<Ret>
     where
-        Ret: ItemBlock,
-        Self: Parse<Ret::Item>,
+        Ret: Block<Content = Vec<T>>,
+        Self: Parse<T> + ParseDelmited<T>,
     {
         let mut items = vec![];
         let span = self.input.cur_span()?;
@@ -34,14 +30,14 @@ where
             let res = self.parse()?;
             items.push(res);
 
-            if !Ret::eat_delimiter(self)? {
+            if !ParseDelmited::eat_delimiter(self)? {
                 break;
             }
         }
 
         expect!(self, "}");
 
-        Ok(ItemBlock::from_items(span!(self, span.lo), items))
+        Ok(Block::from_content(span!(self, span.lo), items))
     }
 
     /// TOOD: error recovery.
