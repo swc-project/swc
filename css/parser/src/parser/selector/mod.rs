@@ -192,7 +192,7 @@ where
 
         let span = span!(self, start_pos);
 
-        if !has_nest_prefix && type_selector.is_some() && subclass_selectors.len() == 0 {
+        if !has_nest_prefix && type_selector.is_none() && subclass_selectors.len() == 0 {
             return Err(Error::new(span, ErrorKind::InvalidSelector));
         }
 
