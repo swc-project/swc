@@ -129,6 +129,8 @@ where
 
                 let query = self.parse()?;
 
+                self.input.skip_ws()?;
+
                 expect!(self, "{");
                 let rules = self.parse_rules(RuleContext {
                     is_top_level: false,
@@ -306,6 +308,6 @@ where
             }));
         }
 
-        return Err(Error::new(span, ErrorKind::InvalidMediaQuery));
+        return Ok(base);
     }
 }
