@@ -86,7 +86,7 @@ where
         if is!(self, Ident) {
             self.parse_id().map(KeyframeSelector::Id)
         } else {
-            todo!("parse percentage value for keyframe")
+            self.parse().map(KeyframeSelector::Perecent)
         }
     }
 }

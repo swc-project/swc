@@ -40,4 +40,5 @@ pub enum ErrorKind {
     InvalidTypeSelector,
     InvalidSelector,
     ExpectedIdentOrStrForAttrSelectorOp,
+    ExpectedNumber,
 }

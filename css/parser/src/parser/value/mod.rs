@@ -1,5 +1,8 @@
-use super::{input::ParserInput, Ctx, PResult, Parser};
-use crate::token::{Token, TokenAndSpan};
+use super::{input::ParserInput, traits::Parse, Ctx, PResult, Parser};
+use crate::{
+    error::{Error, ErrorKind},
+    token::{Token, TokenAndSpan},
+};
 use swc_common::BytePos;
 use swc_css_ast::*;
 
@@ -298,5 +301,44 @@ where
         tokens: Vec<TokenAndSpan>,
     ) -> PResult<Vec<Text>> {
         todo!()
+    }
+}
+
+impl<I> Parse<Num> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Num> {
+        let span = self.input.cur_span()?;
+
+        if !is!(self, Num) {
+            return Err(Error::new(span, ErrorKind::ExpectedNumber));
+        }
+
+        let value = bump!(self);
+
+        match value {
+            Token::Num { value } => Ok(Num { span, value }),
+            _ => {
+                unreachable!()
+            }
+        }
+    }
+}
+
+impl<I> Parse<PercentValue> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<PercentValue> {
+        let span = self.input.cur_span()?;
+        let value = self.parse()?;
+
+        expect!(self, "%");
+
+        Ok(PercentValue {
+            span: span!(self, span.lo),
+            value,
+        })
     }
 }
