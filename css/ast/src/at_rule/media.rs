@@ -19,6 +19,9 @@ pub enum MediaQuery {
     #[tag("AndMediaQuery")]
     And(AndMediaQuery),
 
+    #[tag("OrMediaQuery")]
+    Or(OrMediaQuery),
+
     #[tag("NotMediaQuery")]
     Not(NotMediaQuery),
 
@@ -31,6 +34,13 @@ pub enum MediaQuery {
 
 #[ast_node("AndMediaQuery")]
 pub struct AndMediaQuery {
+    pub span: Span,
+    pub left: Box<MediaQuery>,
+    pub right: Box<MediaQuery>,
+}
+
+#[ast_node("OrMediaQuery")]
+pub struct OrMediaQuery {
     pub span: Span,
     pub left: Box<MediaQuery>,
     pub right: Box<MediaQuery>,

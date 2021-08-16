@@ -322,6 +322,16 @@ where
             }));
         }
 
+        if eat!(self, "or") {
+            let right = self.parse()?;
+
+            return Ok(MediaQuery::Or(OrMediaQuery {
+                span: span!(self, span.lo),
+                left: Box::new(base),
+                right,
+            }));
+        }
+
         return Ok(base);
     }
 }
