@@ -304,7 +304,11 @@ where
             if is!(self, Ident) {
                 let id = self.parse_id()?;
 
+                self.input.skip_ws()?;
+
                 if eat!(self, ":") {
+                    self.input.skip_ws()?;
+
                     let ctx = Ctx {
                         allow_operation_in_value: true,
                         ..self.ctx
@@ -320,11 +324,14 @@ where
                         important: Default::default(),
                     })
                 } else {
+                    self.input.skip_ws()?;
+
                     expect!(self, ")");
                     MediaQuery::Text(id)
                 }
             } else {
                 let query: MediaQuery = self.parse()?;
+                self.input.skip_ws()?;
                 expect!(self, ")");
 
                 query
