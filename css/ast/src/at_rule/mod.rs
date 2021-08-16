@@ -22,6 +22,9 @@ pub enum AtRule {
 
     #[tag("SupportsRule")]
     Supports(SupportsRule),
+
+    #[tag("PageRule")]
+    Page(PageRule),
 }
 
 #[ast_node("CharsetRule")]
@@ -53,5 +56,10 @@ pub struct MediaRule {
 
 #[ast_node("SupportsRule")]
 pub struct SupportsRule {
+    pub span: Span,
+}
+
+#[ast_node("PageRule")]
+pub struct PageRule {
     pub span: Span,
 }
