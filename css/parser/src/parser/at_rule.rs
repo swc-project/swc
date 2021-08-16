@@ -5,7 +5,7 @@ use super::{
 };
 use crate::{
     error::{Error, ErrorKind},
-    parser::RuleContext,
+    parser::{Ctx, RuleContext},
     token::Token,
 };
 use swc_css_ast::*;
@@ -302,9 +302,27 @@ where
             MediaQuery::Text(text)
         } else if eat!(self, "(") {
             if is!(self, Ident) {
-                let property = self.parse_property()?;
-                expect!(self, ")");
-                MediaQuery::Property(property)
+                let id = self.parse_id()?;
+
+                if eat!(self, ":") {
+                    let ctx = Ctx {
+                        allow_operation_in_value: true,
+                        ..self.ctx
+                    };
+                    let values = self.with_ctx(ctx).parse_property_values()?;
+
+                    expect!(self, ")");
+
+                    MediaQuery::Property(Property {
+                        span: span!(self, span.lo),
+                        name: id,
+                        values,
+                        important: Default::default(),
+                    })
+                } else {
+                    expect!(self, ")");
+                    MediaQuery::Text(id)
+                }
             } else {
                 let query: MediaQuery = self.parse()?;
                 expect!(self, ")");
