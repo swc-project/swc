@@ -12,7 +12,7 @@ use swc_ecma_ast::{
     StrKind,
 };
 use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_visit::{VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 pub static JS_ENVIRONMENT_PROPS: Lazy<AHashSet<JsWord>> = Lazy::new(|| {
     let domprops: Vec<JsWord> = serde_json::from_str(include_str!("../lists/domprops.json"))
@@ -248,6 +248,8 @@ impl Mangler<'_> {
 }
 
 impl VisitMut for Mangler<'_> {
+    noop_visit_mut_type!();
+
     fn visit_mut_prop_name(&mut self, name: &mut PropName) {
         name.visit_mut_children_with(self);
 
