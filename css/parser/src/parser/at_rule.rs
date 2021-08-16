@@ -362,6 +362,32 @@ where
             }));
         }
 
+        if !self.ctx.disallow_comma_in_media_query && eat!(self, ",") {
+            let mut queries = Vec::with_capacity(4);
+            queries.push(base);
+
+            loop {
+                self.input.skip_ws()?;
+
+                let ctx = Ctx {
+                    disallow_comma_in_media_query: true,
+                    ..self.ctx
+                };
+                let q = self.with_ctx(ctx).parse_with(|p| p.parse())?;
+                queries.push(q);
+
+                self.input.skip_ws()?;
+                if !eat!(self, ",") {
+                    break;
+                }
+            }
+
+            return Ok(MediaQuery::Comma(CommaMediaQuery {
+                span: span!(self, span.lo),
+                queries,
+            }));
+        }
+
         return Ok(base);
     }
 }

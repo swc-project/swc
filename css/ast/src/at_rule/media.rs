@@ -64,5 +64,5 @@ pub struct OnlyMediaQuery {
 #[ast_node("CommaMediaQuery")]
 pub struct CommaMediaQuery {
     pub span: Span,
-    pub querues: Vec<MediaQuery>,
+    pub queries: Vec<MediaQuery>,
 }
