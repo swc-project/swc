@@ -12,21 +12,25 @@ where
     I: Input,
 {
     pub(super) fn read_number(&mut self) -> LexResult<f64> {
-        if cfg!(debug_assertions) {
-            assert!(
-                self.input
-                    .cur()
-                    .expect("read_number is called without input")
-                    .is_digit(10),
-                "read_number should not be called if cur is not a digit: cur = {:?}",
-                self.input.cur()
-            );
-        }
+        let mut is_first = true;
 
         let mut had_dot = false;
         let num_str = self.input.uncons_while(|c| match c {
-            '0'..='9' => true,
+            '0'..='9' => {
+                is_first = false;
+                true
+            }
+            '-' => {
+                if is_first {
+                    is_first = false;
+                    true
+                } else {
+                    false
+                }
+            }
             '.' => {
+                is_first = false;
+
                 if had_dot {
                     false
                 } else {
@@ -34,7 +38,10 @@ where
                     true
                 }
             }
-            _ => false,
+            _ => {
+                is_first = false;
+                false
+            }
         });
 
         let parsed =
