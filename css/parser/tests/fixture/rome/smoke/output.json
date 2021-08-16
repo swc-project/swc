@@ -29,7 +29,7 @@
                 "ctxt": 0
               },
               "hasNestPrefix": false,
-              "combinator": "",
+              "combinator": null,
               "typeSelector": {
                 "type": "NamespacedName",
                 "span": {
