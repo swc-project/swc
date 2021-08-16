@@ -10,6 +10,9 @@ pub enum AtRule {
 
     #[tag("ImportRule")]
     Import(ImportRule),
+
+    #[tag("FontFaceRule")]
+    FontFace(FontFaceRule),
 }
 
 #[ast_node]
@@ -22,4 +25,9 @@ pub struct CharsetRule {
 pub struct ImportRule {
     pub span: Span,
     pub src: Str,
+}
+
+#[ast_node]
+pub struct FontFaceRule {
+    pub span: Span,
 }
