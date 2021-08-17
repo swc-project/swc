@@ -24,6 +24,9 @@ pub enum SupportQuery {
 
     #[tag("Property")]
     Property(Property),
+
+    #[tag("ParenSupportQuery")]
+    Paren(ParenSupportQuery),
 }
 
 #[ast_node("NotSupportQuery")]
@@ -44,4 +47,10 @@ pub struct OrSupportQuery {
     pub span: Span,
     pub left: Box<SupportQuery>,
     pub right: Box<SupportQuery>,
+}
+
+#[ast_node("ParenSupportQuery")]
+pub struct ParenSupportQuery {
+    pub span: Span,
+    pub query: Box<SupportQuery>,
 }

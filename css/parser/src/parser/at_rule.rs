@@ -238,9 +238,12 @@ where
             self.input.skip_ws()?;
 
             let query = if is!(self, "(") {
-                let query: SupportQuery = self.parse()?;
+                let query = self.parse()?;
 
-                query
+                SupportQuery::Paren(ParenSupportQuery {
+                    span: span!(self, span.lo),
+                    query,
+                })
             } else {
                 let property = self.parse_property()?;
 
