@@ -1,7 +1,7 @@
 //! Helper for transforming environment variables to AST nodes.
 use fxhash::FxHashMap;
 
-#[derive(Debug, Clone, Eq, PartialEq)]
+#[derive(Debug, Eq, PartialEq)]
 enum Entry {
     Leaf(String),
     Branch(FxHashMap<String, Entry>),
@@ -87,7 +87,7 @@ mod tests {
         src.insert("API".into(), "http://localhost:3000".into());
         src.insert("process.env.FOO".into(), "BAR".into());
         src.insert("process.env.BAR".into(), "QUX".into());
-        src.insert("process.else.QUX".into(), "BAZ".into());
+        src.insert("process.alt.QUX".into(), "BAZ".into());
 
         let env = EnvironmentGlobals::from(src);
         if let Entry::Branch(map) = env.root {
@@ -95,9 +95,26 @@ mod tests {
             assert!(map.contains_key("API"));
 
             assert_eq!(
-                Entry::Leaf("http://localhost:3000".into()),
-                map.get("API").unwrap().clone()
+                &Entry::Leaf("http://localhost:3000".into()),
+                map.get("API").unwrap()
             );
+
+            let process = map.get("process").unwrap();
+            let env = process.entry("env").unwrap();
+            let alt = process.entry("alt").unwrap();
+
+            if let Entry::Branch(env) = env {
+                assert_eq!(&Entry::Leaf("BAR".into()), env.get("FOO").unwrap());
+                assert_eq!(&Entry::Leaf("QUX".into()), env.get("BAR").unwrap());
+            } else {
+                panic!("process.env should be a branch");
+            }
+
+            if let Entry::Branch(alt) = alt {
+                assert_eq!(&Entry::Leaf("BAZ".into()), alt.get("QUX").unwrap());
+            } else {
+                panic!("process.alt should be a branch");
+            }
         }
     }
 }
