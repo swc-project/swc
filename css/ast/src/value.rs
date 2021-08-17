@@ -37,6 +37,9 @@ pub enum Value {
     #[tag("Values")]
     Values(Values),
 
+    #[tag("BraceValue")]
+    Brace(BraceValue),
+
     #[tag("Tokens")]
     Lazy(Tokens),
 }
@@ -116,4 +119,11 @@ pub enum BinOp {
     Mul,
     /// `/`
     Div,
+}
+
+/// Values starting with `{` and ending with `}`.
+#[ast_node("BraceValue")]
+pub struct BraceValue {
+    pub span: Span,
+    pub value: Box<Value>,
 }
