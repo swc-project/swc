@@ -25,7 +25,7 @@ where
         let mut values = vec![];
         let mut state = self.input.state();
         loop {
-            if is_one_of!(self, EOF, ";", "}", "!") {
+            if is_one_of!(self, EOF, ";", "}", "!", ")") {
                 self.input.reset(&state);
                 break;
             }
@@ -242,6 +242,9 @@ where
         let mut args = vec![];
 
         loop {
+            if is_one_of!(self, EOF, ")", "}", ";") {
+                break;
+            }
             let value = self.parse_one_value()?;
 
             args.push(value);
