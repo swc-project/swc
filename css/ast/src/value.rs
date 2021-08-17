@@ -136,5 +136,5 @@ pub struct AtTextValue {
     pub span: Span,
     /// Includes `@`.
     pub name: Text,
-    pub block: BraceValue,
+    pub block: Option<BraceValue>,
 }

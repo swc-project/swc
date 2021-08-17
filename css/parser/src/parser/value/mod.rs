@@ -102,7 +102,11 @@ where
                     }
                 };
 
-                let block = self.parse_brace_value()?;
+                let block = if is!(self, "{") {
+                    self.parse_brace_value().map(Some)?
+                } else {
+                    None
+                };
 
                 return Ok(Value::AtText(AtTextValue {
                     span: span!(self, span.lo),
@@ -170,7 +174,7 @@ where
     fn parse_brace_value(&mut self) -> PResult<BraceValue> {
         let span = self.input.cur_span()?;
 
-        bump!(self);
+        expect!(self, "{");
 
         let brace_start = self.input.cur_span()?.lo;
         let mut tokens = vec![];
