@@ -136,7 +136,7 @@ where
             return self.read_at_keyword();
         }
 
-        if self.input.eat_byte(b'<') {
+        if self.input.is_byte(b'<') {
             return self.read_less_than();
         }
 
