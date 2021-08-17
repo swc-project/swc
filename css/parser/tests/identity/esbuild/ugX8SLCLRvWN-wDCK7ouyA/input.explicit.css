@@ -1,0 +1,1 @@
+@-ms-viewport { width: 100vw }

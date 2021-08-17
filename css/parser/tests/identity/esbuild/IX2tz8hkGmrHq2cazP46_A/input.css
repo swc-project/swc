@@ -1,0 +1,1 @@
+@namespace \6es 'path';

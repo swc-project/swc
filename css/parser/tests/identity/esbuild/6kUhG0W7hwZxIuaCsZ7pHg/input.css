@@ -1,0 +1,1 @@
+a:after { content: 'a\62 c' }

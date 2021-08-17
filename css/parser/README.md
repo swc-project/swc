@@ -19,6 +19,8 @@ Error reporting test.
 These tests ensure that `input.css` and `input.explicit.css` is parsed identically.
 These are copied from `esbuild`, by modifying the test suite.
 
+The name of a test is `base64_url(md5(name))`.
+
 # License
 
 Apache 2.0 / MIT, at your option.

@@ -1,0 +1,1 @@
+@keyframes test { from {} to { color: red } }
