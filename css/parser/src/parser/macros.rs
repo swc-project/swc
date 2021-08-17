@@ -25,6 +25,10 @@ macro_rules! tok_pat {
         swc_css_ast::Token::Num { .. }
     };
 
+    (Url) => {
+        swc_css_ast::Token::Url { .. }
+    };
+
     ($t:tt) => {
         tok!($t)
     };

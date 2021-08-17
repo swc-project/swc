@@ -125,10 +125,13 @@ where
 
         if is!(self, Str) {
             self.parse_str()
-        } else if is!(self, "url") {
+        } else if is!(self, Url) {
             self.parse_url()
         } else {
-            Err(Error::new(span, ErrorKind::Expected("URL")))
+            Err(Error::new(
+                span,
+                ErrorKind::Expected("url('https://example.com') or 'https://example.com'"),
+            ))
         }
     }
 
@@ -170,7 +173,7 @@ where
 
     fn parse_url(&mut self) -> PResult<Str> {
         let span = self.input.cur_span()?;
-        if !is!(self, "url") {
+        if !is!(self, Url) {
             return Err(Error::new(span, ErrorKind::Expected("Str")));
         }
 
@@ -182,7 +185,7 @@ where
         }
 
         match bump!(self) {
-            Token::Str { value } => {
+            Token::Url { value } => {
                 let span = self.input.cur_span()?;
 
                 expect!(self, ")");
