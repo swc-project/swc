@@ -89,6 +89,43 @@ where
 
             tok!("(") => return self.parse_paren_value().map(From::from),
 
+            tok!("{") => {
+                bump!(self);
+
+                let brace_start = self.input.cur_span()?.lo;
+                let mut tokens = vec![];
+
+                let mut brace_cnt = 1;
+                loop {
+                    if is!(self, "}") {
+                        brace_cnt -= 1;
+                        if brace_cnt == 0 {
+                            break;
+                        }
+                    }
+                    if is!(self, "{") {
+                        brace_cnt += 1;
+                    }
+
+                    let token = self.input.bump()?;
+                    match token {
+                        Some(token) => tokens.push(token),
+                        None => break,
+                    }
+                }
+
+                let brace_span = span!(self, brace_start);
+                expect!(self, "}");
+
+                return Ok(Value::Brace(BraceValue {
+                    span: span!(self, span.lo),
+                    value: Box::new(Value::Lazy(Tokens {
+                        span: brace_span,
+                        tokens,
+                    })),
+                }));
+            }
+
             _ => {}
         }
 
