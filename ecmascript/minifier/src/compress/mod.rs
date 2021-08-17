@@ -180,7 +180,7 @@ impl Compressor<'_> {
                 DeclHoisterConfig {
                     hoist_fns: self.options.hoist_fns,
                     hoist_vars: self.options.hoist_vars,
-                    top_level: self.options.top_level(),
+                    _top_level: self.options.top_level(),
                 },
                 &data,
             );
