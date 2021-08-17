@@ -137,13 +137,14 @@ where
                     ns_name_name = Some(Text {
                         span: Span::new(start_pos, start_pos, Default::default()),
                         value: js_word!(""),
-                    })
+                    });
+                    bump!(self);
                     // TODO:
                     // nsName.Name.Kind = css_lexer.TIdent
                 }
 
                 if eat!(self, "|") {
-                    if !peeked_is!(self, Ident) && !peeked_is!(self, "&") {
+                    if !is!(self, Ident) && !is!(self, "&") {
                         expect!(self, Ident);
                         return Err(Error::new(span, ErrorKind::InvalidTypeSelector));
                     }
