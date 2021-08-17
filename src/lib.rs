@@ -366,6 +366,11 @@ impl Compiler {
                             return true;
                         }
 
+                        // Preserve license comments.
+                        if vc.iter().any(|c| c.text.contains("@license")) {
+                            return true;
+                        }
+
                         vc.retain(|c: &Comment| c.text.starts_with("!"));
                         !vc.is_empty()
                     };
