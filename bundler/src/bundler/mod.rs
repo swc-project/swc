@@ -8,6 +8,7 @@ use swc_common::{sync::Lrc, FileName, Globals, Mark, SourceMap, SyntaxContext, D
 use swc_ecma_ast::Module;
 
 mod chunk;
+mod env;
 mod export;
 mod finalize;
 mod helpers;
