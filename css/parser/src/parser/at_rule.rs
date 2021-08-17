@@ -248,6 +248,7 @@ where
             };
 
             expect!(self, ")");
+            self.input.skip_ws()?;
 
             if eat!(self, "and") {
                 let right = self.parse()?;
