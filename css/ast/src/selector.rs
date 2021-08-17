@@ -1,7 +1,6 @@
 use crate::Text;
 use is_macro::Is;
 use string_enum::StringEnum;
-use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 /// A CSS selector.
