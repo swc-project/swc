@@ -90,7 +90,6 @@ where
                 let blocks = self.parse_delimited(true)?;
                 self.input.skip_ws()?;
                 expect!(self, "}");
-                self.input.skip_ws()?;
 
                 return Ok(AtRule::Keyframes(KeyframesRule {
                     span: span!(self, start),
@@ -315,6 +314,7 @@ where
                     };
                     let values = self.with_ctx(ctx).parse_property_values()?;
 
+                    self.input.skip_ws()?;
                     expect!(self, ")");
 
                     MediaQuery::Property(Property {
