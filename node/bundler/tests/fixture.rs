@@ -98,6 +98,7 @@ fn pass(input_dir: PathBuf) {
                         SourceMapsConfig::Bool(false),
                         None,
                         false,
+                        Some(true.into()),
                     )
                     .expect("failed to print?")
                     .code;
