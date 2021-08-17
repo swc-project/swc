@@ -4,7 +4,7 @@ use crate::{
 };
 use swc_atoms::{js_word, JsWord};
 use swc_common::{input::Input, BytePos, Span};
-use swc_css_ast::{Token, TokenAndSpan};
+use swc_css_ast::{NumToken, Token, TokenAndSpan};
 
 #[cfg(test)]
 mod tests;
@@ -115,7 +115,6 @@ where
         try_delim!(b'{', "{");
         try_delim!(b'}', "}");
 
-        try_delim!(b'.', ".");
         try_delim!(b',', ",");
         try_delim!(b'=', "=");
         try_delim!(b'*', "*");
@@ -130,7 +129,6 @@ where
         try_delim!(b'&', "&");
 
         // TODO: Plus can start a number
-        try_delim!(b'+', "+");
         try_delim!(b'/', "/");
 
         if self.input.eat_byte(b'@') {
@@ -145,9 +143,17 @@ where
             return self.read_minus();
         }
 
+        if self.input.is_byte(b'.') {
+            return self.read_dot();
+        }
+
+        if self.input.is_byte(b'+') {
+            return self.read_plus();
+        }
+
         match self.input.cur() {
             Some(c) => match c {
-                '0'..='9' => return self.read_number().map(|value| Token::Num { value }),
+                '0'..='9' => return self.read_number().map(Token::Num),
 
                 ' ' | '\n' | '\t' => {
                     self.skip_ws()?;
@@ -192,6 +198,28 @@ where
         }
     }
 
+    fn read_dot(&mut self) -> LexResult<Token> {
+        if let Some(next) = self.input.peek() {
+            if next == '.' || next.is_digit(10) {
+                return self.read_number().map(Token::Num);
+            }
+        }
+
+        self.input.bump();
+        Ok(tok!("+"))
+    }
+
+    fn read_plus(&mut self) -> LexResult<Token> {
+        if let Some(next) = self.input.peek() {
+            if next == '.' || next.is_digit(10) {
+                return self.read_number().map(Token::Num);
+            }
+        }
+
+        self.input.bump();
+        Ok(tok!("+"))
+    }
+
     fn read_at_keyword(&mut self) -> LexResult<Token> {
         let word = self.read_name()?;
 
@@ -221,9 +249,7 @@ where
         assert_eq!(self.input.cur(), Some('-'));
 
         match self.input.peek() {
-            Some('0'..='9') => {
-                return self.read_number().map(|value| Token::Num { value });
-            }
+            Some('0'..='9') => return self.read_number().map(Token::Num),
 
             _ => {}
         }

@@ -1,8 +1,8 @@
-use crate::error::ErrorKind;
-
 use super::{LexResult, Lexer};
+use crate::error::ErrorKind;
 use swc_atoms::JsWord;
 use swc_common::input::Input;
+use swc_css_ast::NumToken;
 
 #[cfg(test)]
 mod tests;
@@ -11,7 +11,7 @@ impl<I> Lexer<I>
 where
     I: Input,
 {
-    pub(super) fn read_number(&mut self) -> LexResult<f64> {
+    pub(super) fn read_number(&mut self) -> LexResult<NumToken> {
         let mut is_first = true;
 
         let mut had_dot = false;
@@ -47,7 +47,7 @@ where
         let parsed =
             lexical::parse(&num_str.as_bytes()).expect("it should success as we filtered input");
 
-        Ok(parsed)
+        Ok(NumToken { value: parsed })
     }
 
     pub(super) fn read_str(&mut self) -> LexResult<JsWord> {

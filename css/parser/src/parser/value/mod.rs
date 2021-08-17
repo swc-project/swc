@@ -242,7 +242,7 @@ where
         let span = self.input.cur_span()?;
 
         match bump!(self) {
-            Token::Num { value } => {
+            Token::Num(NumToken { value }) => {
                 if is!(self, Ident) {
                     let unit_span = self.input.cur_span()?;
 
@@ -410,7 +410,7 @@ where
         let value = bump!(self);
 
         match value {
-            Token::Num { value } => Ok(Num { span, value }),
+            Token::Num(NumToken { value }) => Ok(Num { span, value }),
             _ => {
                 unreachable!()
             }

@@ -34,9 +34,7 @@ pub enum Token {
     /// `%`
     Percent,
 
-    Num {
-        value: f64,
-    },
+    Num(NumToken),
 
     Ident(JsWord),
 
@@ -115,4 +113,9 @@ pub enum Token {
 
     /// `<`
     GreaterThan,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct NumToken {
+    pub value: f64,
 }
