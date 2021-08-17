@@ -20,7 +20,7 @@ where
                 is_first = false;
                 true
             }
-            '-' => {
+            '-' | '+' => {
                 if is_first {
                     is_first = false;
                     true
