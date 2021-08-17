@@ -27,15 +27,11 @@ where
     pub(crate) fn parse_decl_block(&mut self) -> PResult<DeclBlock> {
         let start = self.input.cur_span()?.lo;
 
-        self.input.skip_ws()?;
-
         expect!(self, "{");
 
         self.input.skip_ws()?;
 
         let properties = self.parse_properties()?;
-
-        self.input.skip_ws()?;
 
         expect!(self, "}");
 

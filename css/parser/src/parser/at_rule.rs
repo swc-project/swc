@@ -83,12 +83,10 @@ where
 
                 let name = self.parse_id()?;
 
-                self.input.skip_ws()?;
                 expect!(self, "{");
                 self.input.skip_ws()?;
 
                 let blocks = self.parse_delimited(true)?;
-                self.input.skip_ws()?;
                 expect!(self, "}");
 
                 return Ok(AtRule::Keyframes(KeyframesRule {
@@ -132,8 +130,6 @@ where
                 self.input.skip_ws()?;
 
                 let query = self.parse()?;
-
-                self.input.skip_ws()?;
 
                 expect!(self, "{");
                 let rules = self.parse_rules(RuleContext {
@@ -241,8 +237,6 @@ where
         if eat!(self, "(") {
             let property = self.parse_property()?;
 
-            self.input.skip_ws()?;
-
             expect!(self, ")");
             self.input.skip_ws()?;
 
@@ -314,7 +308,6 @@ where
                     };
                     let values = self.with_ctx(ctx).parse_property_values()?;
 
-                    self.input.skip_ws()?;
                     expect!(self, ")");
 
                     MediaQuery::Property(Property {
@@ -324,14 +317,11 @@ where
                         important: Default::default(),
                     })
                 } else {
-                    self.input.skip_ws()?;
-
                     expect!(self, ")");
                     MediaQuery::Text(id)
                 }
             } else {
                 let query: MediaQuery = self.parse()?;
-                self.input.skip_ws()?;
                 expect!(self, ")");
 
                 query
