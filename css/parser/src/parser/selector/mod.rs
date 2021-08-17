@@ -357,7 +357,7 @@ where
         let mut matcher_value = None;
         let mut matcher_modifier = None;
 
-        if let Some(op) = attr_op {
+        if let Some(..) = attr_op {
             self.input.skip_ws()?;
 
             if !peeked_is!(self, Str) || peeked_is!(self, Ident) {

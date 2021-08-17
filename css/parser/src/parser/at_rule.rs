@@ -12,17 +12,11 @@ use swc_css_ast::*;
 #[derive(Debug, Default)]
 pub(super) struct AtRuleContext {}
 
-enum AtRuleKind {
-    Empty,
-    Declarations,
-    InheritContext,
-}
-
 impl<I> Parser<I>
 where
     I: ParserInput,
 {
-    pub(super) fn parse_at_rule(&mut self, ctx: AtRuleContext) -> PResult<AtRule> {
+    pub(super) fn parse_at_rule(&mut self, _ctx: AtRuleContext) -> PResult<AtRule> {
         let start = self.input.cur_span()?.lo;
 
         assert!(matches!(cur!(self), Token::AtKeyword(..)));
@@ -34,13 +28,8 @@ where
             }
         };
 
-        let kind;
-
-        let prelude_start = self.input.cur_span()?.lo;
         match &*name {
             "charset" => {
-                kind = AtRuleKind::Empty;
-
                 self.input.skip_ws()?;
 
                 let value = self.may_parse_str()?;
@@ -55,7 +44,6 @@ where
             }
 
             "import" => {
-                kind = AtRuleKind::Empty;
                 self.input.skip_ws()?;
 
                 let res = self.expect_url_or_str();
