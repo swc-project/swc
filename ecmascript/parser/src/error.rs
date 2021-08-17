@@ -46,6 +46,7 @@ pub enum SyntaxError {
     GetterSetterCannotBeReadonly,
 
     TopLevelAwait,
+    TopLevelAwaitInScript,
 
     LegacyDecimal,
     LegacyOctal,
@@ -239,6 +240,9 @@ impl SyntaxError {
             SyntaxError::TopLevelAwait => "top level await requires target to es2017 or higher \
                                            and topLevelAwait:true for ecmascript"
                 .into(),
+            SyntaxError::TopLevelAwaitInScript => {
+                "top level await is only allowed in module".into()
+            }
             SyntaxError::LegacyDecimal => {
                 "Legacy decimal escape is not permitted in strict mode".into()
             }

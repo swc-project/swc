@@ -103,6 +103,11 @@ impl<'a, I: Tokens> Parser<I> {
                 self.emit_err(self.input.cur_span(), SyntaxError::TopLevelAwait);
             }
 
+            self.state.found_module_item = true;
+            if !self.ctx().can_be_module {
+                self.emit_err(self.input.cur_span(), SyntaxError::TopLevelAwaitInScript);
+            }
+
             let expr = self.parse_await_expr()?;
             eat!(self, ';');
 
@@ -1829,6 +1834,33 @@ export default function waitUntil(callback, options = {}) {
                 ..Default::default()
             }),
             |p| p.parse_script(),
+        );
+    }
+
+    #[test]
+    #[should_panic(expected = "top level await is only allowed in module")]
+    fn top_level_await_in_script() {
+        let src = "await promise";
+        test_parser(
+            src,
+            Syntax::Es(EsConfig {
+                top_level_await: true,
+                ..Default::default()
+            }),
+            |p| p.parse_script(),
+        );
+    }
+
+    #[test]
+    fn top_level_await_in_program() {
+        let src = "await promise";
+        test_parser(
+            src,
+            Syntax::Es(EsConfig {
+                top_level_await: true,
+                ..Default::default()
+            }),
+            |p| p.parse_program(),
         );
     }
 }
