@@ -1,3 +1,4 @@
+use self::util::BoolOrObject;
 use crate::{builder::PassBuilder, SwcComments, SwcImportResolver};
 use anyhow::{bail, Context, Error};
 use dashmap::DashMap;
@@ -38,8 +39,6 @@ use swc_ecma_transforms::{
     react, resolver_with_mark, typescript,
 };
 use swc_ecma_visit::Fold;
-
-use self::util::BoolOrObject;
 
 #[cfg(test)]
 mod tests;
@@ -510,6 +509,9 @@ pub struct JsMinifyOptions {
     pub mangle: BoolOrObject<MangleOptions>,
 
     #[serde(default)]
+    pub format: BoolOrObject<JsMinifyFormatOptions>,
+
+    #[serde(default)]
     pub ecma: TerserEcmaVersion,
 
     #[serde(default)]
@@ -532,6 +534,28 @@ pub struct JsMinifyOptions {
 
     #[serde(default)]
     pub output_path: Option<String>,
+}
+
+/// `jsc.minify.format`.
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub struct JsMinifyFormatOptions {
+    pub comments: BoolOrObject<JsMinifyCommentOption>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum JsMinifyCommentOption {
+    #[serde(rename = "some")]
+    PreserveSomeComments,
+    #[serde(rename = "all")]
+    PreserveAllComments,
+}
+
+impl Default for JsMinifyCommentOption {
+    fn default() -> Self {
+        JsMinifyCommentOption::PreserveSomeComments
+    }
 }
 
 impl Config {
@@ -941,6 +965,7 @@ impl Merge for JsMinifyOptions {
     fn merge(&mut self, from: &Self) {
         self.compress.merge(&from.compress);
         self.mangle.merge(&from.mangle);
+        self.format.merge(&from.format);
         self.ecma.merge(&from.ecma);
         self.keep_classnames |= from.keep_classnames;
         self.keep_fnames |= from.keep_fnames;
@@ -966,6 +991,16 @@ impl Merge for MangleOptions {
         self.keep_private_props |= from.keep_private_props;
         self.safari10 |= from.safari10;
     }
+}
+
+impl Merge for JsMinifyFormatOptions {
+    fn merge(&mut self, from: &Self) {
+        self.comments.merge(&from.comments);
+    }
+}
+
+impl Merge for JsMinifyCommentOption {
+    fn merge(&mut self, _: &Self) {}
 }
 
 impl Merge for ManglePropertiesOptions {
