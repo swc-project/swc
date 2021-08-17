@@ -4,7 +4,7 @@ use crate::{
 };
 use swc_atoms::{js_word, JsWord};
 use swc_common::{input::Input, BytePos, Span};
-use swc_css_ast::{NumToken, Token, TokenAndSpan};
+use swc_css_ast::{Token, TokenAndSpan};
 
 #[cfg(test)]
 mod tests;
@@ -151,6 +151,12 @@ where
             return self.read_plus();
         }
 
+        if self.input.is_byte(b'\\') {
+            if self.is_valid_escape()? {
+                return self.read_ident_like();
+            }
+        }
+
         match self.input.cur() {
             Some(c) => match c {
                 '0'..='9' => return self.read_number().map(Token::Num),
@@ -196,6 +202,122 @@ where
                 unreachable!()
             }
         }
+    }
+
+    /// Ported from `isValidEscape` of `esbuild`
+    fn is_valid_escape(&mut self) -> LexResult<bool> {
+        let c = self.input.cur();
+
+        match c {
+            Some(c) => Ok(!is_newline(c)),
+            None => Ok(false),
+        }
+    }
+
+    /// Ported from `consumeIdentLike` of `esbuild`
+    fn read_ident_like(&mut self) -> LexResult<Token> {
+        let name = self.read_name()?;
+
+        if self.input.is_byte(b'(') {
+            if name.len() == 3 {
+                if name.to_ascii_lowercase() == js_word!("url") {
+                    self.skip_ws()?;
+
+                    if !self.input.is_byte(b'"') && self.input.is_byte(b'\'') {
+                        return self.read_url();
+                    }
+                }
+            }
+        }
+
+        Ok(Token::Ident(name))
+    }
+
+    /// Ported from `consumeURL` of `esbuild`.
+    fn read_url(&mut self) -> LexResult<Token> {
+        let mut url = String::new();
+
+        loop {
+            if self.input.eat_byte(b')') {
+                return Ok(Token::Url { value: url.into() });
+            }
+
+            if self.input.cur().is_none() {
+                return Err(ErrorKind::UnterminatedUrl);
+            }
+
+            match self.input.cur().unwrap() {
+                ' ' | '\t' | '\n' | '\r' => {
+                    // TOOD: Add `\f` of golang.
+                    self.input.bump();
+                    self.skip_ws()?;
+
+                    if !self.input.eat_byte(b')') {
+                        // TODO: break + Error recovery
+                        return Err(ErrorKind::UnterminatedUrl);
+                    }
+                    return Ok(Token::Url { value: url.into() });
+                }
+
+                '"' | '\'' | '(' => {
+                    // TODO: break + Error recovery
+                    return Err(ErrorKind::UnterminatedUrl);
+                }
+
+                '\\' => {
+                    if !self.is_valid_escape()? {
+                        // TODO: break + Error recovery
+                        return Err(ErrorKind::InvalidEscape);
+                    }
+
+                    url.push(self.read_escape()?)
+                }
+
+                c => {
+                    url.push(c);
+
+                    // TODO: Validate that c is a valid character for a URL.
+
+                    self.input.bump();
+                }
+            }
+        }
+    }
+
+    /// Ported from `consumeEscape` of `esbuild`.
+    fn read_escape(&mut self) -> LexResult<char> {
+        assert!(
+            self.input.eat_byte(b'\\'),
+            "read_escape: Expected a backslash"
+        );
+
+        let c = self.input.cur();
+        let c = match c {
+            Some(v) => v,
+            None => return Err(ErrorKind::InvalidEscape),
+        };
+
+        if c.is_digit(16) {
+            let mut hex = c.to_digit(16).unwrap();
+            self.input.bump();
+
+            for i in 0..5 {
+                let next = self.input.cur();
+                let next = match next.and_then(|c| c.to_digit(16)) {
+                    Some(v) => v,
+                    None => break,
+                };
+                self.input.bump();
+                hex = hex * 16 + next;
+            }
+
+            self.input.eat_byte(b' ');
+
+            let hex = char::from_u32(hex).ok_or_else(|| ErrorKind::InvalidEscape)?;
+            return Ok(hex);
+        }
+
+        Ok(c)
     }
 
     fn read_dot(&mut self) -> LexResult<Token> {
@@ -397,4 +519,13 @@ pub(crate) fn is_name_continue(c: char) -> bool {
             '0'..='9' | '-' => true,
             _ => false,
         }
+}
+
+fn is_newline(c: char) -> bool {
+    match c {
+        // TODO: Add `\f` of golang
+        '\n' | '\r' => true,
+
+        _ => false,
+    }
 }

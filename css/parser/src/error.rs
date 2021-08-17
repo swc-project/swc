@@ -35,6 +35,10 @@ pub enum ErrorKind {
     Eof,
     /// Lexing error.
     UnexpectedChar,
+    /// Lexing error.
+    UnterminatedUrl,
+    /// Lexing error
+    InvalidEscape,
     Expected(&'static str),
     ExpectedButGot(&'static str),
     ExpectedSelectorText,
