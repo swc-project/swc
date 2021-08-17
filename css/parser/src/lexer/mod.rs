@@ -401,17 +401,17 @@ where
     /// Ported from `wouldStartIdentifier` of `esbuild`.
     fn would_start_ident(&mut self) -> LexResult<bool> {
         match self.input.cur() {
-            Some(c) => {
-                if is_name_start(c) {
+            Some(cur) => {
+                if is_name_start(cur) {
                     return Ok(true);
                 }
 
-                if c == '-' {
-                    if let Some(peeked) = self.input.peek() {
-                        if is_name_start(peeked) {
+                if cur == '-' {
+                    if let Some(c) = self.input.peek() {
+                        if is_name_start(c) {
                             return Ok(true);
                         }
-                        match peeked {
+                        match c {
                             '-' => return Ok(true),
 
                             '\\' => match self.input.peek_ahead() {
