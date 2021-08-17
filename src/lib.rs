@@ -346,13 +346,44 @@ impl Compiler {
         T: Node,
     {
         self.run(|| {
-            if minify {
-                let preserve_excl = |_: &BytePos, vc: &mut Vec<Comment>| -> bool {
-                    vc.retain(|c: &Comment| c.text.starts_with("!"));
-                    !vc.is_empty()
-                };
-                self.comments.leading.retain(preserve_excl);
-                self.comments.trailing.retain(preserve_excl);
+            let preserve_comments = preserve_comments.unwrap_or_else(|| {
+                if minify {
+                    BoolOrObject::Obj(JsMinifyCommentOption::PreserveSomeComments)
+                } else {
+                    BoolOrObject::Obj(JsMinifyCommentOption::PreserveAllComments)
+                }
+            });
+
+            let span = node.span();
+
+            match preserve_comments {
+                BoolOrObject::Bool(true)
+                | BoolOrObject::Obj(JsMinifyCommentOption::PreserveAllComments) => {}
+
+                BoolOrObject::Obj(JsMinifyCommentOption::PreserveSomeComments) => {
+                    let preserve_excl = |pos: &BytePos, vc: &mut Vec<Comment>| -> bool {
+                        if *pos < span.lo || *pos >= span.hi {
+                            return true;
+                        }
+
+                        vc.retain(|c: &Comment| c.text.starts_with("!"));
+                        !vc.is_empty()
+                    };
+                    self.comments.leading.retain(preserve_excl);
+                    self.comments.trailing.retain(preserve_excl);
+                }
+
+                BoolOrObject::Bool(false) => {
+                    let remove_all_in_range = |pos: &BytePos, _: &mut Vec<Comment>| -> bool {
+                        if *pos < span.lo || *pos >= span.hi {
+                            return true;
+                        }
+
+                        false
+                    };
+                    self.comments.leading.retain(remove_all_in_range);
+                    self.comments.trailing.retain(remove_all_in_range);
+                }
             }
 
             let mut src_map_buf = vec![];
