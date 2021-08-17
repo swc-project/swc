@@ -206,7 +206,10 @@ where
 
     /// Ported from `isValidEscape` of `esbuild`
     fn is_valid_escape(&mut self) -> LexResult<bool> {
-        let c = self.input.cur();
+        if self.input.cur().unwrap() != '\\' {
+            return Ok(false);
+        }
+        let c = self.input.peek();
 
         match c {
             Some(c) => Ok(!is_newline(c)),
