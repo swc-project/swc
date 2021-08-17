@@ -23,12 +23,16 @@ where
         let mut ok = true;
 
         let mut values = vec![];
+        let mut state = self.input.state();
         loop {
-            if is_one_of!(self, EOF, ";", "}") {
+            if is_one_of!(self, EOF, ";", "}", "!") {
+                self.input.reset(&state);
                 break;
             }
 
             values.push(self.parse_one_value()?);
+
+            state = self.input.state();
 
             if !eat!(self, " ") {
                 break;
