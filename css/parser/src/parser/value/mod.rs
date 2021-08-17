@@ -93,6 +93,8 @@ where
                 return self.parse_brace_value().map(From::from);
             }
 
+            Token::Hash { .. } => return self.parse_hash_value().map(From::from),
+
             Token::AtKeyword(..) => {
                 let name = bump!(self);
                 let name = match name {
@@ -179,6 +181,18 @@ where
         self.input.reset(&start_state);
 
         return Ok(base);
+    }
+
+    fn parse_hash_value(&mut self) -> PResult<HashValue> {
+        let span = self.input.cur_span()?;
+
+        let token = bump!(self);
+        match token {
+            Token::Hash { value, .. } => Ok(HashValue { span, value }),
+            _ => {
+                unreachable!("parse_hash_value should not be ")
+            }
+        }
     }
 
     fn parse_brace_value(&mut self) -> PResult<BraceValue> {
