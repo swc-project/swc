@@ -398,6 +398,7 @@ where
         Ok(tok!("-"))
     }
 
+    /// Ported from `wouldStartIdentifier` of `esbuild`.
     fn would_start_ident(&mut self) -> LexResult<bool> {
         match self.input.cur() {
             Some(c) => {
@@ -412,6 +413,11 @@ where
                         }
                         match peeked {
                             '-' => return Ok(true),
+
+                            '\\' => match self.input.peek_ahead() {
+                                Some(c2) => return Ok(!is_newline(c2)),
+                                None => return Ok(false),
+                            },
 
                             _ => {
                                 // TODO: This is wrong
