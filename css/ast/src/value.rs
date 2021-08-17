@@ -42,6 +42,9 @@ pub enum Value {
 
     #[tag("Tokens")]
     Lazy(Tokens),
+
+    #[tag("AtKeywordValue")]
+    AtKeyword(AtKeywordValue),
 }
 
 /// Comma separated list of values.
@@ -126,4 +129,12 @@ pub enum BinOp {
 pub struct BraceValue {
     pub span: Span,
     pub value: Box<Value>,
+}
+
+#[ast_node("AtKeywordValue")]
+pub struct AtKeywordValue {
+    pub span: Span,
+    /// Includes `@`.
+    pub name: Text,
+    pub block: BraceValue,
 }
