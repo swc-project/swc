@@ -30,6 +30,8 @@ struct Ctx {
     allow_separating_value_with_space: bool,
 
     disallow_comma_in_media_query: bool,
+
+    is_in_delimited_value: bool,
 }
 
 #[derive(Debug)]

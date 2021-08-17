@@ -118,6 +118,16 @@ where
             _ => {}
         }
 
+        if is_one_of!(self, "<!--", "-->")
+            || (self.ctx.is_in_delimited_value && is_one_of!(self, "!", ";"))
+        {
+            let token = self.input.bump()?.unwrap();
+            return Ok(Value::Lazy(Tokens {
+                span,
+                tokens: vec![token],
+            }));
+        }
+
         Err(Error::new(span, ErrorKind::Expected("Property value")))
     }
 
@@ -320,7 +330,11 @@ where
 
         expect!(self, "[");
 
-        let values = self.parse_comma_separated_value()?;
+        let ctx = Ctx {
+            is_in_delimited_value: true,
+            ..self.ctx
+        };
+        let values = self.with_ctx(ctx).parse_comma_separated_value()?;
 
         expect!(self, "]");
 
@@ -339,6 +353,7 @@ where
 
         let ctx = Ctx {
             allow_operation_in_value: true,
+            is_in_delimited_value: true,
             ..self.ctx
         };
         let value = if is!(self, ")") {
