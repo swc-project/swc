@@ -174,7 +174,7 @@ where
                     self.input.bump();
 
                     if let Some(c) = self.input.cur() {
-                        Ok(if is_name_continue(c) {
+                        Ok(if is_name_continue(c) || self.is_valid_escape()? {
                             let is_id = self.would_start_ident()?;
 
                             let value = self.read_name()?;
