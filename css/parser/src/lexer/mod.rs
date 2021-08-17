@@ -2,7 +2,7 @@ use crate::{
     error::{Error, ErrorKind},
     parser::{input::ParserInput, PResult},
 };
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{input::Input, BytePos, Span};
 use swc_css_ast::{Token, TokenAndSpan};
 
@@ -155,10 +155,15 @@ where
                         Ok(if is_name_continue(c) {
                             let is_id = self.would_start_ident()?;
 
-                            Token::Hash { is_id }
+                            let value = self.read_name()?;
+
+                            Token::Hash { is_id, value }
                         } else {
                             // TODO: Verify if this is ok.
-                            Token::Hash { is_id: false }
+                            Token::Hash {
+                                is_id: false,
+                                value: js_word!(""),
+                            }
                         })
                     } else {
                         Err(ErrorKind::Eof)

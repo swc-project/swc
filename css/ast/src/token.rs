@@ -74,6 +74,7 @@ pub enum Token {
     /// `#`
     Hash {
         is_id: bool,
+        value: JsWord,
     },
 
     /// One or more whitespace.

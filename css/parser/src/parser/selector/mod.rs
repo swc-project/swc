@@ -55,7 +55,9 @@ where
                     sel.combinator = combinator;
                     selectors.push(sel);
                 }
-                Err(_) => todo!(),
+                Err(err) => {
+                    todo!("handle error: {:?}", err)
+                }
             }
         }
 
@@ -226,11 +228,17 @@ where
     }
 
     fn parse_id_selector(&mut self) -> PResult<IdSelector> {
-        let start = self.input.cur_span()?.lo;
-        let text = self.parse_selector_text()?;
+        let span = self.input.cur_span()?;
+
+        let text = match bump!(self) {
+            Token::Hash { value, .. } => Text { span, value },
+            _ => {
+                unreachable!()
+            }
+        };
 
         Ok(IdSelector {
-            span: span!(self, start),
+            span: span!(self, span.lo),
             text,
         })
     }
