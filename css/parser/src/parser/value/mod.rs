@@ -6,7 +6,6 @@ use crate::{
 use swc_common::BytePos;
 use swc_css_ast::*;
 
-mod color;
 #[cfg(test)]
 mod tests;
 
