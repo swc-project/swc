@@ -124,10 +124,17 @@ where
 
         match cur!(self) {
             tok!("|") | Token::Ident(..) | tok!("*") => {
-                let mut ns_name_name = None;
+                let mut ns_name_name;
                 let mut ns_name_prefix = None;
                 if !peeked_is!(self, "|") {
-                    ns_name_name = Some(self.parse_name_token()?);
+                    if eat!(self, "*") {
+                        ns_name_name = Some(Text {
+                            span,
+                            value: "*".into(),
+                        });
+                    } else {
+                        ns_name_name = Some(self.parse_name_token()?);
+                    }
                 } else {
                     ns_name_name = Some(Text {
                         span: Span::new(start_pos, start_pos, Default::default()),
