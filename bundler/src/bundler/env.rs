@@ -1,6 +1,13 @@
 //! Helper for transforming environment variables to AST nodes.
 use fxhash::FxHashMap;
 
+use swc_atoms::JsWord;
+use swc_common::DUMMY_SP;
+use swc_ecma_ast::{
+    BindingIdent, Expr, Ident, KeyValueProp, Lit, ObjectLit, Pat, Prop, PropName, PropOrSpread,
+    Str, StrKind, VarDecl, VarDeclKind, VarDeclarator,
+};
+
 #[derive(Debug, Eq, PartialEq)]
 enum Entry {
     Leaf(String),
@@ -22,6 +29,14 @@ impl Entry {
         }
         None
     }
+
+    #[cfg(test)]
+    fn entry(&self, name: &str) -> Option<&Entry> {
+        if let Entry::Branch(map) = self {
+            return map.get(name);
+        }
+        None
+    }
 }
 
 impl Default for Entry {
@@ -34,6 +49,86 @@ impl Default for Entry {
 #[derive(Debug)]
 pub struct EnvironmentGlobals {
     root: Entry,
+    kind: VarDeclKind,
+}
+
+impl EnvironmentGlobals {
+    /// Transform into AST nodes.
+    ///
+    /// Consumes the underlying collection of environment variables,
+    /// subsequent calls will return an empty vector.
+    pub fn ast(&mut self) -> Vec<VarDecl> {
+        let mut out = Vec::new();
+
+        let root = std::mem::take(&mut self.root);
+        if let Entry::Branch(root_map) = root {
+            for (k, v) in root_map {
+                out.push(VarDecl {
+                    span: DUMMY_SP,
+                    kind: self.kind,
+                    declare: false,
+                    decls: vec![VarDeclarator {
+                        span: DUMMY_SP,
+                        definite: false,
+                        name: Pat::Ident(BindingIdent {
+                            id: Ident {
+                                span: DUMMY_SP,
+                                sym: JsWord::from(k),
+                                optional: false,
+                            },
+                            type_ann: None,
+                        }),
+                        init: Some({
+                            match v {
+                                Entry::Leaf(value) => {
+                                    Box::new(Expr::Lit(Lit::Str(self.into_string(value))))
+                                }
+                                Entry::Branch(_) => Box::new(Expr::Object(self.into_object(v))),
+                            }
+                        }),
+                    }],
+                });
+            }
+        }
+
+        out
+    }
+
+    fn into_string(&self, value: String) -> Str {
+        Str {
+            span: DUMMY_SP,
+            has_escape: value.contains("\n"),
+            value: JsWord::from(value),
+            kind: StrKind::Normal {
+                contains_quote: true,
+            },
+        }
+    }
+
+    fn into_object(&self, entry: Entry) -> ObjectLit {
+        let mut target = ObjectLit {
+            span: DUMMY_SP,
+            props: vec![],
+        };
+
+        if let Entry::Branch(map) = entry {
+            for (k, v) in map {
+                let prop = PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                    key: PropName::Str(self.into_string(k)),
+                    value: {
+                        match v {
+                            Entry::Leaf(value) => {
+                                Box::new(Expr::Lit(Lit::Str(self.into_string(value))))
+                            }
+                            Entry::Branch(_) => Box::new(Expr::Object(self.into_object(v))),
+                        }
+                    },
+                })));
+                target.props.push(prop);
+            }
+        }
+        target
+    }
 }
 
 impl From<FxHashMap<String, String>> for EnvironmentGlobals {
@@ -73,7 +168,10 @@ impl From<FxHashMap<String, String>> for EnvironmentGlobals {
             acc
         });
 
-        Self { root }
+        Self {
+            root,
+            kind: VarDeclKind::Const,
+        }
     }
 }
 
@@ -90,7 +188,7 @@ mod tests {
         src.insert("process.alt.QUX".into(), "BAZ".into());
 
         let env = EnvironmentGlobals::from(src);
-        if let Entry::Branch(map) = env.root {
+        if let Entry::Branch(map) = &env.root {
             assert!(map.contains_key("process"));
             assert!(map.contains_key("API"));
 
