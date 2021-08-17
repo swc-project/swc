@@ -103,6 +103,11 @@ impl<'a, I: Tokens> Parser<I> {
                 self.emit_err(self.input.cur_span(), SyntaxError::TopLevelAwait);
             }
 
+            self.state.found_module_item = true;
+            if !self.ctx().can_be_module {
+                self.emit_err(self.input.cur_span(), SyntaxError::TopLevelAwaitInScript);
+            }
+
             let expr = self.parse_await_expr()?;
             eat!(self, ';');
 
