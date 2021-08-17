@@ -306,7 +306,7 @@ where
             let mut hex = c.to_digit(16).unwrap();
             self.input.bump();
 
-            for i in 0..5 {
+            for _ in 0..5 {
                 let next = self.input.cur();
                 let next = match next.and_then(|c| c.to_digit(16)) {
                     Some(v) => v,
@@ -321,6 +321,8 @@ where
             let hex = char::from_u32(hex).ok_or_else(|| ErrorKind::InvalidEscape)?;
             return Ok(hex);
         }
+
+        self.input.bump();
 
         Ok(c)
     }
