@@ -42,6 +42,49 @@ fn pass(input: PathBuf) {
     .unwrap();
 }
 
+#[testing::fixture("tests/identity/**/input.css")]
+fn identity(input: PathBuf) {
+    eprintln!("Input: {}", input.display());
+
+    let explicit_input = input.parent().unwrap().join("input.explicit.json");
+
+    testing::run_test2(false, |cm, handler| {
+        let actual = {
+            let fm = cm.load_file(&input).unwrap();
+            let lexer = Lexer::new(SourceFileInput::from(&*fm));
+            let mut parser = Parser::new(lexer, ParserConfig { parse_values: true });
+
+            parser.parse_all().map_err(|err| {
+                let mut d = err.to_diagnostics(&handler);
+                d.note(&format!("current token = {}", parser.dump_cur()));
+
+                d.emit();
+            })?
+        };
+
+        let expected = {
+            let fm = cm.load_file(&explicit_input).unwrap();
+            let lexer = Lexer::new(SourceFileInput::from(&*fm));
+            let mut parser = Parser::new(lexer, ParserConfig { parse_values: true });
+
+            parser.parse_all().map_err(|err| {
+                let mut d = err.to_diagnostics(&handler);
+                d.note(&format!("current token = {}", parser.dump_cur()));
+
+                d.emit();
+            })?
+        };
+
+        // TODO: Use visitor to normalize, after creating swc_css_visit
+        if false {
+            assert_eq!(actual, expected);
+        }
+
+        Ok(())
+    })
+    .unwrap();
+}
+
 #[testing::fixture("tests/fixture/**/input.css")]
 fn fail(input: PathBuf) {
     eprintln!("Input: {}", input.display());
