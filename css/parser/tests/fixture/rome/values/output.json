@@ -323,7 +323,7 @@
     {
       "span": {
         "start": 117,
-        "end": 131,
+        "end": 138,
         "ctxt": 0
       },
       "selectors": [
@@ -371,7 +371,7 @@
         "type": "DeclBlock",
         "span": {
           "start": 121,
-          "end": 131,
+          "end": 138,
           "ctxt": 0
         },
         "properties": [
@@ -410,7 +410,7 @@
     {
       "span": {
         "start": 141,
-        "end": 176,
+        "end": 181,
         "ctxt": 0
       },
       "selectors": [
@@ -458,7 +458,7 @@
         "type": "DeclBlock",
         "span": {
           "start": 145,
-          "end": 176,
+          "end": 181,
           "ctxt": 0
         },
         "properties": [
