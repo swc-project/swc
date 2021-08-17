@@ -238,18 +238,16 @@ where
             self.input.skip_ws()?;
 
             let query = if is!(self, "(") {
-                let query = self.parse()?;
-                expect!(self, ")"); // First `(`
+                let query: SupportQuery = self.parse()?;
 
                 query
             } else {
                 let property = self.parse_property()?;
 
-                expect!(self, ")");
-                self.input.skip_ws()?;
-
                 SupportQuery::Property(property)
             };
+
+            expect!(self, ")");
 
             if eat!(self, "and") {
                 let right = self.parse()?;
