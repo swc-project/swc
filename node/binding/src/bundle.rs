@@ -123,6 +123,7 @@ impl Task for BundleTask {
                             SourceMapsConfig::Bool(true),
                             None,
                             minify,
+                            None,
                         )?;
 
                         Ok((k, output))

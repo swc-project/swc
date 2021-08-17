@@ -130,6 +130,7 @@ fn bench_codegen(b: &mut Bencher, _target: JscTarget) {
                 SourceMapsConfig::Bool(false),
                 None,
                 false,
+                None,
             )
             .unwrap(),
         );
