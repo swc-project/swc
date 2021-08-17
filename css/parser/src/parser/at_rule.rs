@@ -6,7 +6,6 @@ use super::{
 use crate::{
     error::{Error, ErrorKind},
     parser::{Ctx, RuleContext},
-    token::Token,
 };
 use swc_css_ast::*;
 

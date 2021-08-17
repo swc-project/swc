@@ -6,23 +6,23 @@ macro_rules! span {
 
 macro_rules! tok_pat {
     (Ident) => {
-        crate::token::Token::Ident(..)
+        swc_css_ast::Token::Ident(..)
     };
 
     (AtKeyword) => {
-        crate::token::Token::AtKeyword(..)
+        swc_css_ast::Token::AtKeyword(..)
     };
 
     (Function) => {
-        crate::token::Token::Function { .. }
+        swc_css_ast::Token::Function { .. }
     };
 
     (Str) => {
-        crate::token::Token::Str { .. }
+        swc_css_ast::Token::Str { .. }
     };
 
     (Num) => {
-        crate::token::Token::Num { .. }
+        swc_css_ast::Token::Num { .. }
     };
 
     ($t:tt) => {

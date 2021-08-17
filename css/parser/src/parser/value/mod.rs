@@ -1,8 +1,5 @@
 use super::{input::ParserInput, traits::Parse, Ctx, PResult, Parser};
-use crate::{
-    error::{Error, ErrorKind},
-    token::{Token, TokenAndSpan},
-};
+use crate::error::{Error, ErrorKind};
 use swc_common::BytePos;
 use swc_css_ast::*;
 

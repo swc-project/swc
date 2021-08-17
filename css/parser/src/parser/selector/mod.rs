@@ -1,9 +1,5 @@
-use crate::{
-    error::{Error, ErrorKind},
-    token::{Token, TokenAndSpan},
-};
-
 use super::{input::ParserInput, PResult, Parser};
+use crate::error::{Error, ErrorKind};
 use swc_atoms::js_word;
 use swc_common::Span;
 use swc_css_ast::*;

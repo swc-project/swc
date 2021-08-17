@@ -1,5 +1,4 @@
-use serde::Deserialize;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
 use swc_common::{ast_node, Span};
 
@@ -12,10 +11,107 @@ pub struct Tokens {
 #[ast_node]
 pub struct TokenAndSpan {
     pub span: Span,
-    pub token: ValueToken,
+    pub token: Token,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-pub enum ValueToken {
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub enum Token {
+    /// `@`
+    AtKeyword(JsWord),
+
+    /// `(`
+    LParen,
+
+    /// `)`
+    RParen,
+
+    /// `[`
+    LBracket,
+
+    /// `]`
+    RBracket,
+
+    /// `%`
+    Percent,
+
+    Num {
+        value: f64,
+    },
+
     Ident(JsWord),
+
+    Str {
+        value: JsWord,
+    },
+
+    /// `--`
+    MinusMinus,
+
+    /// `,`
+    Comma,
+
+    /// `;`
+    Semi,
+
+    /// `!`
+    Bang,
+
+    /// `{`
+    LBrace,
+
+    /// `}`
+    RBrace,
+
+    /// `:``
+    Colon,
+
+    /// `*`
+    Asterisk,
+
+    /// `.`
+    Dot,
+
+    /// `#`
+    Hash {
+        is_id: bool,
+    },
+
+    /// One or more whitespace.
+    WhiteSpace,
+
+    /// `-->`
+    CDC,
+
+    /// `<!--`
+    CDO,
+
+    /// `&`
+    Ampersand,
+
+    /// `|`
+    Bar,
+
+    /// `$`
+    Dollar,
+
+    /// `^`
+    Caret,
+
+    /// `~`
+    Tilde,
+
+    /// `=`
+    Equals,
+
+    /// `+`
+    Plus,
+
+    /// `-`
+    Minus,
+
+    /// `/`
+    Div,
+
+    /// `<`
+    GreaterThan,
 }

@@ -1,10 +1,7 @@
 use std::mem::take;
 
 use self::input::{Buffer, ParserInput};
-use crate::{
-    error::{Error, ErrorKind},
-    token::Token,
-};
+use crate::error::{Error, ErrorKind};
 use swc_common::Span;
 use swc_css_ast::*;
 

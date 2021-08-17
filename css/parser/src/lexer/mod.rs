@@ -1,10 +1,10 @@
 use crate::{
     error::{Error, ErrorKind},
     parser::{input::ParserInput, PResult},
-    token::{Token, TokenAndSpan},
 };
 use swc_atoms::JsWord;
 use swc_common::{input::Input, BytePos, Span};
+use swc_css_ast::{Token, TokenAndSpan};
 
 #[cfg(test)]
 mod tests;

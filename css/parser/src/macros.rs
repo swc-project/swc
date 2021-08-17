@@ -1,124 +1,124 @@
 macro_rules! ident_tok {
     ($tt:tt) => {
-        crate::token::Token::Ident(swc_atoms::js_word!($tt))
+        swc_css_ast::Token::Ident(swc_atoms::js_word!($tt))
     };
 }
 
 macro_rules! tok {
     ("(") => {
-        crate::token::Token::LParen
+        swc_css_ast::Token::LParen
     };
 
     (")") => {
-        crate::token::Token::RParen
+        swc_css_ast::Token::RParen
     };
 
     ("%") => {
-        crate::token::Token::Percent
+        swc_css_ast::Token::Percent
     };
 
     ("--") => {
-        crate::token::Token::MinusMinus
+        swc_css_ast::Token::MinusMinus
     };
 
     (",") => {
-        crate::token::Token::Comma
+        swc_css_ast::Token::Comma
     };
 
     (";") => {
-        crate::token::Token::Semi
+        swc_css_ast::Token::Semi
     };
 
     ("!") => {
-        crate::token::Token::Bang
+        swc_css_ast::Token::Bang
     };
 
     ("{") => {
-        crate::token::Token::LBrace
+        swc_css_ast::Token::LBrace
     };
 
     ("}") => {
-        crate::token::Token::RBrace
+        swc_css_ast::Token::RBrace
     };
 
     ("[") => {
-        crate::token::Token::LBracket
+        swc_css_ast::Token::LBracket
     };
 
     ("]") => {
-        crate::token::Token::RBracket
+        swc_css_ast::Token::RBracket
     };
 
     (":") => {
-        crate::token::Token::Colon
+        swc_css_ast::Token::Colon
     };
 
     ("*") => {
-        crate::token::Token::Asterisk
+        swc_css_ast::Token::Asterisk
     };
 
     (".") => {
-        crate::token::Token::Dot
+        swc_css_ast::Token::Dot
     };
 
     ("#") => {
-        crate::token::Token::Hash
+        swc_css_ast::Token::Hash
     };
 
     ("&") => {
-        crate::token::Token::Ampersand
+        swc_css_ast::Token::Ampersand
     };
 
     ("|") => {
-        crate::token::Token::Bar
+        swc_css_ast::Token::Bar
     };
 
     ("$") => {
-        crate::token::Token::Dollar
+        swc_css_ast::Token::Dollar
     };
 
     ("^") => {
-        crate::token::Token::Caret
+        swc_css_ast::Token::Caret
     };
 
     ("~") => {
-        crate::token::Token::Tilde
+        swc_css_ast::Token::Tilde
     };
 
     ("=") => {
-        crate::token::Token::Equals
+        swc_css_ast::Token::Equals
     };
 
     (" ") => {
-        crate::token::Token::WhiteSpace
+        swc_css_ast::Token::WhiteSpace
     };
 
     ("<!--") => {
-        crate::token::Token::CDO
+        swc_css_ast::Token::CDO
     };
 
     ("-->") => {
-        crate::token::Token::CDC
+        swc_css_ast::Token::CDC
     };
 
     ("+") => {
-        crate::token::Token::Plus
+        swc_css_ast::Token::Plus
     };
 
     ("-") => {
-        crate::token::Token::Minus
+        swc_css_ast::Token::Minus
     };
 
     ("/") => {
-        crate::token::Token::Div
+        swc_css_ast::Token::Div
     };
 
     ("~") => {
-        crate::token::Token::Tilde
+        swc_css_ast::Token::Tilde
     };
 
     (">") => {
-        crate::token::Token::GreaterThan
+        swc_css_ast::Token::GreaterThan
     };
 
     ("important") => {
