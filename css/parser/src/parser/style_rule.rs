@@ -80,7 +80,7 @@ where
             self.with_ctx(ctx).parse_property_values()?
         };
 
-        let important = self.parse_bang_import()?;
+        let important = self.parse_bang_important()?;
 
         let span = span!(self, start);
 
@@ -97,7 +97,9 @@ where
         self.parse_id()
     }
 
-    fn parse_bang_import(&mut self) -> PResult<Option<Span>> {
+    fn parse_bang_important(&mut self) -> PResult<Option<Span>> {
+        self.input.skip_ws()?;
+
         let start = self.input.cur_span()?.lo;
 
         if eat!(self, "!") {
