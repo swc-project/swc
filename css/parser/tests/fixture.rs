@@ -46,7 +46,7 @@ fn pass(input: PathBuf) {
 fn identity(input: PathBuf) {
     eprintln!("Input: {}", input.display());
 
-    let explicit_input = input.parent().unwrap().join("input.explicit.json");
+    let explicit_input = input.parent().unwrap().join("input.explicit.css");
 
     testing::run_test2(false, |cm, handler| {
         let actual = {
