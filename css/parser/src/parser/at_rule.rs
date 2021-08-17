@@ -235,12 +235,21 @@ where
         }
 
         if eat!(self, "(") {
-            let property = self.parse_property()?;
-
-            expect!(self, ")");
             self.input.skip_ws()?;
 
-            let query = SupportQuery::Property(property);
+            let query = if is!(self, "(") {
+                let query = self.parse()?;
+                expect!(self, ")"); // First `(`
+
+                query
+            } else {
+                let property = self.parse_property()?;
+
+                expect!(self, ")");
+                self.input.skip_ws()?;
+
+                SupportQuery::Property(property)
+            };
 
             if eat!(self, "and") {
                 let right = self.parse()?;
