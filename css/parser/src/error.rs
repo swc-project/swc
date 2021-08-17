@@ -33,6 +33,8 @@ impl Error {
 #[derive(Debug, Clone, PartialEq)]
 pub enum ErrorKind {
     Eof,
+    /// Lexing error.
+    UnexpectedChar,
     Expected(&'static str),
     ExpectedButGot(&'static str),
     ExpectedSelectorText,

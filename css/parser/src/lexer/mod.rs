@@ -136,6 +136,14 @@ where
             return self.read_at_keyword();
         }
 
+        if self.input.eat_byte(b'<') {
+            return self.read_less_than();
+        }
+
+        if self.input.is_byte(b'-') {
+            return self.read_minus();
+        }
+
         match self.input.cur() {
             Some(c) => match c {
                 '0'..='9' => return self.read_number().map(|value| Token::Num { value }),
@@ -144,8 +152,6 @@ where
                     self.skip_ws()?;
                     return Ok(tok!(" "));
                 }
-
-                '-' => return self.read_minus(),
 
                 '\'' | '"' => return self.read_str().map(|value| Token::Str { value }),
 
@@ -189,6 +195,25 @@ where
         let word = self.read_name()?;
 
         Ok(Token::AtKeyword(word))
+    }
+
+    fn read_less_than(&mut self) -> LexResult<Token> {
+        assert_eq!(self.input.cur(), Some('<'));
+        self.input.bump(); // <
+
+        // <!--
+        if self.input.is_byte(b'!')
+            && self.input.peek() == Some('-')
+            && self.input.peek_ahead() == Some('-')
+        {
+            self.input.bump(); // !
+            self.input.bump(); // -
+            self.input.bump(); // -
+
+            return Ok(tok!("<!--"));
+        }
+
+        Err(ErrorKind::UnexpectedChar)
     }
 
     fn read_minus(&mut self) -> LexResult<Token> {
