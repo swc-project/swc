@@ -90,39 +90,24 @@ where
             tok!("(") => return self.parse_paren_value().map(From::from),
 
             tok!("{") => {
-                bump!(self);
+                return self.parse_brace_value().map(From::from);
+            }
 
-                let brace_start = self.input.cur_span()?.lo;
-                let mut tokens = vec![];
-
-                let mut brace_cnt = 1;
-                loop {
-                    if is!(self, "}") {
-                        brace_cnt -= 1;
-                        if brace_cnt == 0 {
-                            break;
-                        }
+            Token::AtKeyword(..) => {
+                let name = bump!(self);
+                let name = match name {
+                    Token::AtKeyword(name) => Text { span, value: name },
+                    _ => {
+                        unreachable!()
                     }
-                    if is!(self, "{") {
-                        brace_cnt += 1;
-                    }
+                };
 
-                    let token = self.input.bump()?;
-                    match token {
-                        Some(token) => tokens.push(token),
-                        None => break,
-                    }
-                }
+                let block = self.parse_brace_value()?;
 
-                let brace_span = span!(self, brace_start);
-                expect!(self, "}");
-
-                return Ok(Value::Brace(BraceValue {
+                return Ok(Value::AtText(AtTextValue {
                     span: span!(self, span.lo),
-                    value: Box::new(Value::Lazy(Tokens {
-                        span: brace_span,
-                        tokens,
-                    })),
+                    name,
+                    block,
                 }));
             }
 
@@ -180,6 +165,45 @@ where
         self.input.reset(&start_state);
 
         return Ok(base);
+    }
+
+    fn parse_brace_value(&mut self) -> PResult<BraceValue> {
+        let span = self.input.cur_span()?;
+
+        bump!(self);
+
+        let brace_start = self.input.cur_span()?.lo;
+        let mut tokens = vec![];
+
+        let mut brace_cnt = 1;
+        loop {
+            if is!(self, "}") {
+                brace_cnt -= 1;
+                if brace_cnt == 0 {
+                    break;
+                }
+            }
+            if is!(self, "{") {
+                brace_cnt += 1;
+            }
+
+            let token = self.input.bump()?;
+            match token {
+                Some(token) => tokens.push(token),
+                None => break,
+            }
+        }
+
+        let brace_span = span!(self, brace_start);
+        expect!(self, "}");
+
+        Ok(BraceValue {
+            span: span!(self, span.lo),
+            value: Box::new(Value::Lazy(Tokens {
+                span: brace_span,
+                tokens,
+            })),
+        })
     }
 
     fn parse_basical_numeric_value(&mut self) -> PResult<Value> {

@@ -77,14 +77,6 @@ where
         Ok(self.peeked.as_ref().map(|v| &v.token))
     }
 
-    pub fn cur_including_whitespace(&mut self) -> PResult<Option<&Token>> {
-        if self.cur.is_none() {
-            self.bump_inner(false)?;
-        }
-
-        Ok(self.cur.as_ref().map(|v| &v.token))
-    }
-
     pub fn bump(&mut self) -> PResult<Option<TokenAndSpan>> {
         debug_assert!(
             self.cur.is_some(),
