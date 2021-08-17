@@ -75,7 +75,7 @@ export interface SpackConfig {
     /**
      * Modules to exclude from bundle.
      */
-    extenalModules?: string[]
+    externalModules?: string[]
 }
 
 export interface OutputConfig {
