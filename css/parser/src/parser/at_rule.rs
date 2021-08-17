@@ -65,7 +65,8 @@ where
                 }
             }
 
-            "keyframes" | "-moz-keyframes" | "-o-keyframes" | "-webkit-keyframes" => {
+            "keyframes" | "-moz-keyframes" | "-o-keyframes" | "-webkit-keyframes"
+            | "-ms-keyframes" => {
                 self.input.skip_ws()?;
 
                 let name = self.parse_id()?;
