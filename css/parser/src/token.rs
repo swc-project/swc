@@ -90,11 +90,6 @@ pub enum Token {
     /// `=`
     Equals,
 
-    Function {
-        name: JsWord,
-        args: Vec<JsWord>,
-    },
-
     /// `+`
     Plus,
 

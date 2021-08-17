@@ -4,7 +4,7 @@ use crate::{
 };
 
 use super::{input::ParserInput, PResult, Parser};
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::js_word;
 use swc_common::Span;
 use swc_css_ast::*;
 
@@ -257,7 +257,7 @@ where
 
         bump!(self);
 
-        if peeked_is!(self, Function) {
+        if peeked_is!(self, Ident) {
             let name = self.parse_selector_text()?;
 
             let values = self.parse_any_value()?;
@@ -295,7 +295,7 @@ where
         let start_pos = self.input.cur_span()?.lo;
         expect!(self, "[");
 
-        let mut ns_name_prefix = None;
+        let mut ns_name_prefix;
         let mut ns_name_name = None;
 
         match cur!(self) {
