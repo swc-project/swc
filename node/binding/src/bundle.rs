@@ -188,9 +188,6 @@ pub(crate) fn bundle(cx: CallContext) -> napi::Result<JsObject> {
         (options.config.jsc.base_url.clone(), paths)
     });
 
-    println!("Got env {:#?}", static_items.config.env);
-    std::process::exit(1);
-
     let alias = static_items
         .config
         .alias
