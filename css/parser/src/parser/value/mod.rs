@@ -271,6 +271,7 @@ where
         let mut args = vec![];
 
         loop {
+            self.input.skip_ws()?;
             if is_one_of!(self, EOF, ")", "}", ";", "]") {
                 break;
             }
