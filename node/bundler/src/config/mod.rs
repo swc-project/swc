@@ -52,6 +52,9 @@ pub struct Config {
 
     #[serde(default)]
     pub alias: FxHashMap<TargetEnv, FxHashMap<String, String>>,
+
+    #[serde(default)]
+    pub env: FxHashMap<String, String>,
 }
 
 impl Config {

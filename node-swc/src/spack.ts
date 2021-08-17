@@ -73,6 +73,11 @@ export interface SpackConfig {
     options?: Options
 
     /**
+     *  Environment variables.
+     */
+    env?: [name: string]
+
+    /**
      * Modules to exclude from bundle.
      */
     externalModules?: string[]
