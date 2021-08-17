@@ -261,6 +261,8 @@ where
 
         bump!(self);
 
+        self.input.skip_ws()?;
+
         if peeked_is!(self, Ident) {
             let name = self.parse_selector_text()?;
 
