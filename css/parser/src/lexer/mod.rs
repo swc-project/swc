@@ -335,7 +335,7 @@ where
         }
 
         self.input.bump();
-        Ok(tok!("+"))
+        Ok(tok!("."))
     }
 
     fn read_plus(&mut self) -> LexResult<Token> {
