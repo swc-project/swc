@@ -44,8 +44,9 @@ where
             }
         });
 
-        let parsed =
-            lexical::parse(&num_str.as_bytes()).expect("it should success as we filtered input");
+        let parsed = lexical::parse(&num_str.as_bytes()).unwrap_or_else(|err| {
+            unreachable!("failed to parse `{}` using lexical: {:?}", num_str, err)
+        });
 
         Ok(NumToken { value: parsed })
     }
