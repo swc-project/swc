@@ -212,6 +212,8 @@ impl Options {
         let syntax = syntax.unwrap_or_default();
         let mut transform = transform.unwrap_or_default();
 
+        let preserve_comments = js_minify.as_ref().map(|v| v.format.comments.clone());
+
         if syntax.typescript() {
             transform.legacy_decorator = true;
         }
@@ -309,6 +311,7 @@ impl Options {
             input_source_map: self.config.input_source_map.clone(),
             output_path: output_path.map(|v| v.to_path_buf()),
             source_file_name,
+            preserve_comments,
         }
     }
 }
@@ -509,7 +512,7 @@ pub struct JsMinifyOptions {
     pub mangle: BoolOrObject<MangleOptions>,
 
     #[serde(default)]
-    pub format: BoolOrObject<JsMinifyFormatOptions>,
+    pub format: JsMinifyFormatOptions,
 
     #[serde(default)]
     pub ecma: TerserEcmaVersion,
@@ -662,6 +665,8 @@ pub struct BuiltConfig<P: swc_ecma_visit::Fold> {
     pub output_path: Option<PathBuf>,
 
     pub source_file_name: Option<String>,
+
+    pub preserve_comments: Option<BoolOrObject<JsMinifyCommentOption>>,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]

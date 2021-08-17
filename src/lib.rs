@@ -10,7 +10,7 @@ use crate::config::{
     SourceMapsConfig,
 };
 use anyhow::{bail, Context, Error};
-use config::JsMinifyOptions;
+use config::{util::BoolOrObject, JsMinifyCommentOption, JsMinifyOptions};
 use dashmap::DashMap;
 use serde::Serialize;
 use serde_json::error::Category;
@@ -340,11 +340,21 @@ impl Compiler {
         source_map: SourceMapsConfig,
         orig: Option<&sourcemap::SourceMap>,
         minify: bool,
+        preserve_comments: Option<BoolOrObject<JsMinifyCommentOption>>,
     ) -> Result<TransformOutput, Error>
     where
         T: Node,
     {
         self.run(|| {
+            if minify {
+                let preserve_excl = |_: &BytePos, vc: &mut Vec<Comment>| -> bool {
+                    vc.retain(|c: &Comment| c.text.starts_with("!"));
+                    !vc.is_empty()
+                };
+                self.comments.leading.retain(preserve_excl);
+                self.comments.trailing.retain(preserve_excl);
+            }
+
             let mut src_map_buf = vec![];
 
             let src = {
@@ -641,6 +651,7 @@ impl Compiler {
                 is_module: config.is_module,
                 output_path: config.output_path,
                 source_file_name: config.source_file_name,
+                preserve_comments: config.preserve_comments,
             };
 
             let orig = if opts
@@ -751,6 +762,7 @@ impl Compiler {
                 SourceMapsConfig::Bool(opts.source_map),
                 orig.as_ref(),
                 true,
+                Some(opts.format.comments.clone()),
             )
         })
     }
@@ -802,14 +814,6 @@ impl Compiler {
         config: BuiltConfig<impl swc_ecma_visit::Fold>,
     ) -> Result<TransformOutput, Error> {
         self.run(|| {
-            if config.minify {
-                let preserve_excl = |_: &BytePos, vc: &mut Vec<Comment>| -> bool {
-                    vc.retain(|c: &Comment| c.text.starts_with("!"));
-                    !vc.is_empty()
-                };
-                self.comments.leading.retain(preserve_excl);
-                self.comments.trailing.retain(preserve_excl);
-            }
             let mut pass = config.pass;
             let program = helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
                 swc_ecma_utils::HANDLER.set(handler, || {
@@ -826,6 +830,7 @@ impl Compiler {
                 config.source_maps,
                 orig,
                 config.minify,
+                config.preserve_comments,
             )
         })
     }
