@@ -377,7 +377,7 @@ where
 
             let _ = cur!(self);
 
-            matcher_value = Some(self.parse_selector_text()?);
+            matcher_value = Some(self.parse_id_or_str_for_attr()?);
 
             self.input.skip_ws()?;
 
@@ -423,5 +423,34 @@ where
         };
 
         Ok(Text { span, value })
+    }
+
+    fn parse_id_or_str_for_attr(&mut self) -> PResult<Text> {
+        let span = self.input.cur_span()?;
+
+        match cur!(self) {
+            Token::Ident { .. } => {
+                let value = bump!(self);
+                let value = match value {
+                    Token::Ident(value) => value,
+                    _ => unreachable!(),
+                };
+
+                Ok(Text { span, value })
+            }
+            Token::Str { .. } => {
+                let value = bump!(self);
+                let value = match value {
+                    Token::Str { value } => value,
+                    _ => unreachable!(),
+                };
+
+                Ok(Text { span, value })
+            }
+            _ => Err(Error::new(
+                span,
+                ErrorKind::ExpectedIdentOrStrForAttrSelectorOp,
+            ))?,
+        }
     }
 }
