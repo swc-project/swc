@@ -419,18 +419,15 @@ where
                                 None => return Ok(false),
                             },
 
-                            _ => {
-                                // TODO: This is wrong
-                                return Ok(false);
-                            }
+                            _ => {}
                         }
                     }
                 }
-
-                Ok(false)
             }
-            None => Ok(false),
+            None => {}
         }
+
+        Ok(self.is_valid_escape()?)
     }
 
     /// Ported from `consumeName` of esbuild.
