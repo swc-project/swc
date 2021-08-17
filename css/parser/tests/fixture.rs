@@ -49,12 +49,14 @@ fn identity(input: PathBuf) {
     let explicit_input = input.parent().unwrap().join("input.explicit.css");
 
     testing::run_test2(false, |cm, handler| {
+        let input_fm = cm.load_file(&input).unwrap();
+        let expected_fm = cm.load_file(&explicit_input).unwrap();
+
+        eprintln!("===== ===== Input ===== =====\n{}", input_fm.src);
+        eprintln!("===== ===== Expected ===== =====\n{}", expected_fm.src);
+
         let actual = {
-            let fm = cm.load_file(&input).unwrap();
-
-            eprintln!("===== ===== Input ===== =====\n{}", fm.src);
-
-            let lexer = Lexer::new(SourceFileInput::from(&*fm));
+            let lexer = Lexer::new(SourceFileInput::from(&*input_fm));
             let mut parser = Parser::new(lexer, ParserConfig { parse_values: true });
 
             parser.parse_all().map_err(|err| {
@@ -66,11 +68,7 @@ fn identity(input: PathBuf) {
         };
 
         let expected = {
-            let fm = cm.load_file(&explicit_input).unwrap();
-
-            eprintln!("===== ===== Expected ===== =====\n{}", fm.src);
-
-            let lexer = Lexer::new(SourceFileInput::from(&*fm));
+            let lexer = Lexer::new(SourceFileInput::from(&*expected_fm));
             let mut parser = Parser::new(lexer, ParserConfig { parse_values: true });
 
             parser.parse_all().map_err(|err| {
