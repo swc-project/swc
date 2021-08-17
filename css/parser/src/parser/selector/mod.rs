@@ -368,7 +368,7 @@ where
         if let Some(..) = attr_op {
             self.input.skip_ws()?;
 
-            if !peeked_is!(self, Str) || peeked_is!(self, Ident) {
+            if !peeked_is!(self, Str) && !peeked_is!(self, Ident) {
                 return Err(Error::new(
                     span!(self, start_pos),
                     ErrorKind::ExpectedIdentOrStrForAttrSelectorOp,
