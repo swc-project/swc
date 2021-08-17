@@ -427,11 +427,33 @@ where
     ///
     /// https://github.com/evanw/esbuild/blob/a9456dfbf08ab50607952eefb85f2418968c124c/internal/css_lexer/css_lexer.go#L548
     fn read_name(&mut self) -> LexResult<JsWord> {
+        let mut buf = String::new();
         let raw = self.input.uncons_while(is_name_continue);
 
-        // TODO: Handle escape
+        buf.push_str(raw);
+        if !self.is_valid_escape()? {
+            return Ok(buf.into());
+        }
 
-        Ok(raw.into())
+        buf.push(self.read_escape()?);
+
+        loop {
+            let c = self.input.cur();
+            let c = match c {
+                Some(v) => v,
+                None => break,
+            };
+            if is_name_continue(c) {
+                self.input.bump();
+                buf.push(c)
+            } else if self.is_valid_escape()? {
+                buf.push(self.read_escape()?);
+            } else {
+                break;
+            }
+        }
+
+        Ok(buf.into())
     }
 
     fn skip_ws(&mut self) -> LexResult<()> {
