@@ -378,7 +378,7 @@ where
         assert_eq!(self.input.cur(), Some('-'));
 
         match self.input.peek() {
-            Some('0'..='9') => return self.read_number().map(Token::Num),
+            Some('0'..='9') | Some('.') => return self.read_number().map(Token::Num),
 
             _ => {}
         }
