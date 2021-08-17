@@ -55,7 +55,7 @@ pub struct EnvironmentGlobals {
 impl EnvironmentGlobals {
     /// Transform into AST nodes.
     ///
-    /// Consumes the underlying collection of environment variables,
+    /// Consumes the underlying tree of variables,
     /// subsequent calls will return an empty vector.
     pub fn ast(&mut self) -> Vec<VarDecl> {
         let mut out = Vec::new();
@@ -131,6 +131,8 @@ impl EnvironmentGlobals {
     }
 }
 
+/// Convert the key/value pairs to a tree structure to handle
+/// dot-delimited key names.
 impl From<FxHashMap<String, String>> for EnvironmentGlobals {
     fn from(env: FxHashMap<String, String>) -> Self {
         let vars: Vec<(Vec<String>, String)> = env
@@ -179,13 +181,40 @@ impl From<FxHashMap<String, String>> for EnvironmentGlobals {
 mod tests {
     use super::*;
 
-    #[test]
-    fn env_globals_map() {
+    use swc_common::{sync::Lrc, SourceMap, DUMMY_SP};
+    use swc_ecma_ast::*;
+    use swc_ecma_codegen::{text_writer::JsWriter, Emitter, Node};
+
+    fn code(node: &dyn Node) -> String {
+        let mut buf = vec![];
+        let cm = Lrc::new(SourceMap::default());
+
+        {
+            let mut emitter = Emitter {
+                cfg: Default::default(),
+                cm: cm.clone(),
+                comments: None,
+                wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
+            };
+
+            node.emit_with(&mut emitter).unwrap();
+        }
+
+        String::from_utf8(buf).unwrap()
+    }
+
+    fn source() -> FxHashMap<String, String> {
         let mut src: FxHashMap<String, String> = Default::default();
         src.insert("API".into(), "http://localhost:3000".into());
         src.insert("process.env.FOO".into(), "BAR".into());
         src.insert("process.env.BAR".into(), "QUX".into());
         src.insert("process.alt.QUX".into(), "BAZ".into());
+        src
+    }
+
+    #[test]
+    fn env_globals_tree() {
+        let src = source();
 
         let env = EnvironmentGlobals::from(src);
         if let Entry::Branch(map) = &env.root {
@@ -214,5 +243,39 @@ mod tests {
                 panic!("process.alt should be a branch");
             }
         }
+    }
+
+    #[test]
+    fn env_globals_ast() {
+        let src = source();
+        let mut env = EnvironmentGlobals::from(src);
+        let nodes = env.ast();
+
+        let expected = r#"const process = {
+    "alt": {
+        "QUX": "BAZ"
+    },
+    "env": {
+        "FOO": "BAR",
+        "BAR": "QUX"
+    }
+};
+const API = "http://localhost:3000";
+"#;
+
+        let mut module = Module {
+            span: DUMMY_SP,
+            body: vec![],
+            shebang: None,
+        };
+
+        for node in nodes {
+            module
+                .body
+                .push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(node))))
+        }
+
+        let result = code(&module);
+        assert_eq!(expected, result);
     }
 }
