@@ -98,7 +98,7 @@ where
 
         let start = self.input.cur_span()?.lo;
 
-        if eat!(self, "!") {
+        if !is!(self, EOF) && eat!(self, "!") {
             expect!(self, "important");
 
             Ok(Some(span!(self, start)))
