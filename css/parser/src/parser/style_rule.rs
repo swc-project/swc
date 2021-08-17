@@ -1,6 +1,5 @@
-use crate::parser::Ctx;
-
 use super::{input::ParserInput, PResult, Parser};
+use crate::parser::Ctx;
 use swc_common::Span;
 use swc_css_ast::*;
 
