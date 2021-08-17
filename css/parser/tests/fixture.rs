@@ -51,6 +51,9 @@ fn identity(input: PathBuf) {
     testing::run_test2(false, |cm, handler| {
         let actual = {
             let fm = cm.load_file(&input).unwrap();
+
+            eprintln!("===== ===== Input ===== =====\n{}", fm.src);
+
             let lexer = Lexer::new(SourceFileInput::from(&*fm));
             let mut parser = Parser::new(lexer, ParserConfig { parse_values: true });
 
@@ -64,6 +67,9 @@ fn identity(input: PathBuf) {
 
         let expected = {
             let fm = cm.load_file(&explicit_input).unwrap();
+
+            eprintln!("===== ===== Expected ===== =====\n{}", fm.src);
+
             let lexer = Lexer::new(SourceFileInput::from(&*fm));
             let mut parser = Parser::new(lexer, ParserConfig { parse_values: true });
 
