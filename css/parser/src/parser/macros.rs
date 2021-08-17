@@ -30,6 +30,28 @@ macro_rules! tok_pat {
     };
 }
 
+macro_rules! can_ignore_ws {
+    ("{") => {
+        true
+    };
+    ("}") => {
+        true
+    };
+    ("(") => {
+        true
+    };
+    (")") => {
+        true
+    };
+    (":") => {
+        true
+    };
+
+    ($tt:tt) => {
+        false
+    };
+}
+
 macro_rules! cur {
     ($parser:expr) => {
         match $parser.input.cur()? {
@@ -95,6 +117,10 @@ macro_rules! eat {
 
 macro_rules! expect {
     ($parser:expr, $tt:tt) => {
+        if can_ignore_ws!($tt) {
+            $parser.input.skip_ws()?
+        }
+
         if !eat!($parser, $tt) {
             dbg!();
             let span = $parser.input.cur_span()?;
