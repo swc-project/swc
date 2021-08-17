@@ -144,7 +144,7 @@ where
                 }
 
                 if eat!(self, "|") {
-                    if !is!(self, Ident) && !is!(self, "&") {
+                    if !is!(self, Ident) && !is!(self, "*") {
                         expect!(self, Ident);
                         return Err(Error::new(span, ErrorKind::InvalidTypeSelector));
                     }
