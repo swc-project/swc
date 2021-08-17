@@ -100,7 +100,7 @@ where
             _ => {}
         }
 
-        todo!("parse_one_value: {:?}", cur!(self))
+        Err(Error::new(span, ErrorKind::Expected("Property value")))
     }
 
     /// This may parse operations, depending on the context.
