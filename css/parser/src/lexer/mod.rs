@@ -154,6 +154,8 @@ where
         if self.input.is_byte(b'\\') {
             if self.is_valid_escape()? {
                 return self.read_ident_like();
+            } else {
+                return Err(ErrorKind::InvalidEscape);
             }
         }
 
