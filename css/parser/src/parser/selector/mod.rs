@@ -150,7 +150,14 @@ where
                     }
 
                     ns_name_prefix = ns_name_name.take();
-                    ns_name_name = Some(self.parse_name_token()?);
+                    if eat!(self, "*") {
+                        ns_name_name = Some(Text {
+                            span,
+                            value: "*".into(),
+                        });
+                    } else {
+                        ns_name_name = Some(self.parse_name_token()?);
+                    }
                 }
 
                 type_selector = Some(NamespacedName {
