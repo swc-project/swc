@@ -244,7 +244,7 @@ impl VisitMut for Pure<'_> {
     fn visit_mut_function(&mut self, f: &mut Function) {
         {
             let ctx = Ctx {
-                in_try_block: false,
+                _in_try_block: false,
                 ..self.ctx
             };
             f.visit_mut_children_with(&mut *self.with_ctx(ctx));
@@ -383,7 +383,7 @@ impl VisitMut for Pure<'_> {
 
     fn visit_mut_try_stmt(&mut self, n: &mut TryStmt) {
         let ctx = Ctx {
-            in_try_block: true,
+            _in_try_block: true,
             ..self.ctx
         };
         n.block.visit_mut_with(&mut *self.with_ctx(ctx));

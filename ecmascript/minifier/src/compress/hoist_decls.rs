@@ -12,7 +12,7 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 pub(super) struct DeclHoisterConfig {
     pub hoist_fns: bool,
     pub hoist_vars: bool,
-    pub top_level: bool,
+    pub _top_level: bool,
 }
 
 pub(super) fn decl_hoister(config: DeclHoisterConfig, data: &ProgramData) -> Hoister {
