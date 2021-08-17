@@ -148,6 +148,23 @@ where
 
                 '\'' | '"' => return self.read_str().map(|value| Token::Str { value }),
 
+                '#' => {
+                    self.input.bump();
+
+                    if let Some(c) = self.input.cur() {
+                        Ok(if is_name_continue(c) {
+                            let is_id = self.would_start_ident()?;
+
+                            Token::Hash { is_id }
+                        } else {
+                            // TODO: Verify if this is ok.
+                            Token::Hash { is_id: false }
+                        })
+                    } else {
+                        Err(ErrorKind::Eof)
+                    }
+                }
+
                 _ => {
                     if is_name_start(c) {
                         return self.read_name().map(|str| Token::Ident(str));
