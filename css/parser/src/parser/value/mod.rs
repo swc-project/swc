@@ -271,7 +271,7 @@ where
         let mut args = vec![];
 
         loop {
-            if is_one_of!(self, EOF, ")", "}", ";") {
+            if is_one_of!(self, EOF, ")", "}", ";", "]") {
                 break;
             }
             let value = self.parse_one_value()?;
@@ -291,10 +291,6 @@ where
 
         expect!(self, "[");
 
-        let ctx = Ctx {
-            allow_operation_in_value: false,
-            ..self.ctx
-        };
         let values = self.parse_comma_separated_value()?;
 
         expect!(self, "]");
