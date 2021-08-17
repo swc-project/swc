@@ -1836,4 +1836,31 @@ export default function waitUntil(callback, options = {}) {
             |p| p.parse_script(),
         );
     }
+
+    #[test]
+    #[should_panic(expected = "top level await is only allowed in module")]
+    fn top_level_await_in_script() {
+        let src = "await promise";
+        test_parser(
+            src,
+            Syntax::Es(EsConfig {
+                top_level_await: true,
+                ..Default::default()
+            }),
+            |p| p.parse_script(),
+        );
+    }
+
+    #[test]
+    fn top_level_await_in_program() {
+        let src = "await promise";
+        test_parser(
+            src,
+            Syntax::Es(EsConfig {
+                top_level_await: true,
+                ..Default::default()
+            }),
+            |p| p.parse_program(),
+        );
+    }
 }
