@@ -1,4 +1,4 @@
-error: Expected("Property value")
+error: Expected Property value
  --> $DIR/tests/errors/rome/invalid/media/ratio/input.css:1:26
   |
 1 | @media (aspect-ratio: 12/) {}

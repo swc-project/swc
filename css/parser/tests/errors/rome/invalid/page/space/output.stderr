@@ -1,4 +1,4 @@
-error: Expected("Ident")
+error: Expected Ident
  --> $DIR/tests/errors/rome/invalid/page/space/input.css:1:12
   |
 1 | @page Page: blank {

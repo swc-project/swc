@@ -1,4 +1,4 @@
-error: InvalidMediaQuery
+error: Invalid media query
  --> $DIR/tests/errors/rome/invalid/media/feature/input.css:1:19
   |
 1 | @media screen and {}
