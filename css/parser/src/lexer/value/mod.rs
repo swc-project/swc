@@ -15,7 +15,8 @@ where
         let mut is_first = true;
 
         let mut had_dot = false;
-        let num_str = self.input.uncons_while(|c| match c {
+        let start = self.input.cur_pos();
+        self.input.uncons_while(|c| match c {
             '0'..='9' => {
                 is_first = false;
                 true
@@ -43,6 +44,9 @@ where
                 false
             }
         });
+        let end = self.input.last_pos();
+
+        let num_str = self.input.slice(start, end);
 
         let parsed = lexical::parse(&num_str.as_bytes()).unwrap_or_else(|err| {
             unreachable!("failed to parse `{}` using lexical: {:?}", num_str, err)
