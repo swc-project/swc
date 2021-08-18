@@ -10,6 +10,7 @@ use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith, VisitWith};
 
 mod analyzer;
+mod var_analyzer;
 
 /// Optimize hygiene info to get minified output.
 ///
