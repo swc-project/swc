@@ -9,6 +9,12 @@ pub enum BoolOrObject<T> {
     Obj(T),
 }
 
+impl<T> From<bool> for BoolOrObject<T> {
+    fn from(v: bool) -> Self {
+        BoolOrObject::Bool(v)
+    }
+}
+
 impl<T> Default for BoolOrObject<T> {
     fn default() -> Self {
         Self::Bool(false)
