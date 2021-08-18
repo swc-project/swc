@@ -2,6 +2,7 @@ use std::mem::take;
 
 use self::input::{Buffer, ParserInput};
 use crate::error::{Error, ErrorKind};
+use swc_atoms::js_word;
 use swc_common::Span;
 use swc_css_ast::*;
 
@@ -124,15 +125,10 @@ where
         let span = self.input.cur_span()?;
 
         if is!(self, Str) {
-            self.parse_str()
-        } else if is!(self, Url) {
-            self.parse_url()
-        } else {
-            Err(Error::new(
-                span,
-                ErrorKind::Expected("url('https://example.com') or 'https://example.com'"),
-            ))
+            return self.parse_str();
         }
+
+        self.parse_url()
     }
 
     fn may_parse_str(&mut self) -> PResult<Option<Str>> {
@@ -173,19 +169,31 @@ where
 
     fn parse_url(&mut self) -> PResult<Str> {
         let span = self.input.cur_span()?;
-        if !is!(self, Url) {
-            return Err(Error::new(span, ErrorKind::Expected("Str")));
-        }
 
-        match bump!(self) {
-            Token::Url { value } => {
-                let span = self.input.cur_span()?;
-
+        match cur!(self) {
+            Token::Ident(js_word!("url")) => {
+                bump!(self);
+                expect!(self, "(");
+                let value = self.parse_str()?.value;
+                expect!(self, ")");
                 Ok(Str { span, value })
             }
-            _ => {
-                unreachable!()
-            }
+
+            Token::Url { .. } => match bump!(self) {
+                Token::Url { value } => {
+                    let span = self.input.cur_span()?;
+
+                    Ok(Str { span, value })
+                }
+                _ => {
+                    unreachable!()
+                }
+            },
+
+            _ => Err(Error::new(
+                span,
+                ErrorKind::Expected("url('https://example.com') or 'https://example.com'"),
+            )),
         }
     }
 }
