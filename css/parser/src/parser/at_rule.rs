@@ -220,6 +220,9 @@ where
                     break;
                 }
 
+                if self.input.is_eof()? {
+                    break;
+                }
                 let token = self.input.bump()?;
                 match token {
                     Some(token) => tokens.push(token),
