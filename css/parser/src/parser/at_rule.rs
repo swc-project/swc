@@ -154,7 +154,7 @@ where
             "document" | "-moz-document" => {
                 self.input.skip_ws()?;
 
-                todo!("document rule")
+                return self.parse().map(AtRule::Document);
             }
 
             "namespace" => {
@@ -247,6 +247,39 @@ where
                 tokens,
             },
         }))
+    }
+}
+
+impl<I> Parse<DocumentRule> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<DocumentRule> {
+        let span = self.input.cur_span()?;
+
+        let selectors = {
+            let mut items = vec![];
+
+            loop {
+                let res: FnValue = self.parse()?;
+                items.push(res);
+
+                self.input.skip_ws()?;
+                if !is!(self, ",") {
+                    break;
+                }
+            }
+
+            items
+        };
+
+        let block = self.parse_decl_block()?;
+
+        Ok(DocumentRule {
+            span: span!(self, span.lo),
+            selectors,
+            block,
+        })
     }
 }
 
