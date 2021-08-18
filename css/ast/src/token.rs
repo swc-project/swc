@@ -3,6 +3,7 @@ use swc_atoms::JsWord;
 use swc_common::{ast_node, Span};
 
 #[ast_node("Tokens")]
+#[derive(Default)]
 pub struct Tokens {
     pub span: Span,
     pub tokens: Vec<TokenAndSpan>,

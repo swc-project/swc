@@ -282,8 +282,7 @@ where
 
             expect!(self, "(");
 
-            let values = self.parse_any_value()?;
-            let args = self.convert_tokens(values)?;
+            let args = self.parse_any_value()?;
 
             expect!(self, ")");
 

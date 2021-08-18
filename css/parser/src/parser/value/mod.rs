@@ -65,8 +65,57 @@ where
         Ok(value)
     }
 
-    pub(super) fn parse_any_value(&mut self) -> PResult<Vec<TokenAndSpan>> {
-        todo!()
+    /// Parse value as tokens.
+    pub(super) fn parse_any_value(&mut self) -> PResult<Tokens> {
+        let start = self.input.cur_span()?.lo;
+
+        let mut tokens = vec![];
+
+        loop {
+            if is_one_of!(self, EOF, ")", "}", "]") {
+                break;
+            }
+
+            let span = self.input.cur_span()?;
+
+            macro_rules! try_group {
+                ($start:tt,$end:tt) => {{
+                    if is!(self, $start) {
+                        tokens.push(TokenAndSpan {
+                            span,
+                            token: bump!(self),
+                        });
+
+                        tokens.extend(self.parse_any_value()?.tokens);
+
+                        if is!(self, $end) {
+                            tokens.push(TokenAndSpan {
+                                span,
+                                token: bump!(self),
+                            });
+                        } else {
+                            break;
+                        }
+                        continue;
+                    }
+                }};
+            };
+
+            try_group!("(", ")");
+            try_group!("[", "]");
+            try_group!("{", "}");
+
+            let token = self.input.bump()?;
+            match token {
+                Some(token) => tokens.push(token),
+                None => break,
+            }
+        }
+
+        Ok(Tokens {
+            span: span!(self, start),
+            tokens,
+        })
     }
 
     fn parse_one_value_inner(&mut self) -> PResult<Value> {
@@ -403,14 +452,6 @@ where
             span: span!(self, span.lo),
             value,
         })
-    }
-
-    /// Ported from https://github.com/evanw/esbuild/blob/a9456dfbf08ab50607952eefb85f2418968c124c/internal/css_parser/css_parser.go#L657
-    pub(in crate::parser) fn convert_tokens(
-        &mut self,
-        tokens: Vec<TokenAndSpan>,
-    ) -> PResult<Vec<Text>> {
-        todo!()
     }
 }
 

@@ -1,4 +1,4 @@
-use crate::Text;
+use crate::{Text, Tokens};
 use is_macro::Is;
 use string_enum::StringEnum;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
@@ -99,7 +99,7 @@ pub struct PseudoSelector {
     pub span: Span,
     pub is_element: bool,
     pub name: Text,
-    pub args: Vec<Text>,
+    pub args: Tokens,
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
