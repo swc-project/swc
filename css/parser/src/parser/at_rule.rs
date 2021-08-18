@@ -7,6 +7,8 @@ use crate::{
     error::{Error, ErrorKind},
     parser::{Ctx, RuleContext},
 };
+use swc_atoms::js_word;
+use swc_common::DUMMY_SP;
 use swc_css_ast::*;
 
 #[derive(Debug, Default)]
@@ -71,7 +73,14 @@ where
             | "-ms-keyframes" => {
                 self.input.skip_ws()?;
 
-                let name = self.parse_id()?;
+                let name = if is!(self, "{") {
+                    Text {
+                        span: DUMMY_SP,
+                        value: js_word!(""),
+                    }
+                } else {
+                    self.parse_id()?
+                };
 
                 expect!(self, "{");
                 self.input.skip_ws()?;
