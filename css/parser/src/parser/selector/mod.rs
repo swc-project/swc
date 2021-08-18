@@ -270,7 +270,7 @@ where
         })
     }
 
-    fn parse_pseudo_class_selector(&mut self) -> PResult<PseudoClassSelector> {
+    fn parse_pseudo_class_selector(&mut self) -> PResult<PseudoSelector> {
         let start = self.input.cur_span()?.lo;
 
         expect!(self, ":"); // `:`
@@ -287,7 +287,7 @@ where
 
             expect!(self, ")");
 
-            return Ok(PseudoClassSelector {
+            return Ok(PseudoSelector {
                 span: span!(self, start),
                 is_element: false,
                 name,
@@ -306,7 +306,7 @@ where
             }
         };
 
-        Ok(PseudoClassSelector {
+        Ok(PseudoSelector {
             span: span!(self, start),
             is_element: false,
             name,

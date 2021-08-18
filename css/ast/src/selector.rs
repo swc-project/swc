@@ -19,11 +19,8 @@ pub enum Selector {
     #[tag("AttrributeSelector")]
     Attr(AttrSelector),
 
-    #[tag("PseudoClassSelector")]
-    PseudoClas(PseudoClassSelector),
-
-    #[tag("PseudoElemSelector")]
-    PseudoElem(PseudoElemSelector),
+    #[tag("PseudoSelector")]
+    Pseudo(PseudoSelector),
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
@@ -85,7 +82,7 @@ pub enum SubclassSelector {
     Attr(AttrSelector),
 
     #[tag("PseudoClassSelector")]
-    PseudoClass(PseudoClassSelector),
+    PseudoClass(PseudoSelector),
 }
 
 #[ast_node("AttrributeSelector")]
@@ -97,19 +94,12 @@ pub struct AttrSelector {
     pub modifier: Option<char>,
 }
 
-#[ast_node("PseudoClassSelector")]
-pub struct PseudoClassSelector {
+#[ast_node("PseudoSelector")]
+pub struct PseudoSelector {
     pub span: Span,
     pub is_element: bool,
     pub name: Text,
     pub args: Vec<Text>,
-}
-
-/// TODO: Add argument
-#[ast_node("PseudoElementSelector")]
-pub struct PseudoElemSelector {
-    pub span: Span,
-    pub name: Text,
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
