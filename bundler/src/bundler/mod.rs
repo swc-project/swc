@@ -1,5 +1,5 @@
 use self::scope::Scope;
-use crate::{Hook, Load, ModuleId, Resolve};
+use crate::{EnvironmentGlobals, Hook, Load, ModuleId, Resolve};
 use ahash::AHashMap;
 use anyhow::{Context, Error};
 use std::collections::HashMap;
@@ -8,7 +8,6 @@ use swc_common::{sync::Lrc, FileName, Globals, Mark, SourceMap, SyntaxContext, D
 use swc_ecma_ast::Module;
 
 mod chunk;
-mod env_vars;
 mod export;
 mod finalize;
 mod helpers;
@@ -36,6 +35,9 @@ pub struct Config {
 
     /// Type of emitted module
     pub module: ModuleType,
+
+    /// Collection of global variables to include in the bundle.
+    pub env_vars: EnvironmentGlobals,
 }
 
 #[derive(Debug, PartialEq, Eq, Hash)]

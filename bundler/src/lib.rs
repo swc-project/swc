@@ -1,5 +1,6 @@
 pub use self::{
     bundler::{Bundle, BundleKind, Bundler, Config, ModuleType},
+    env_vars::EnvironmentGlobals,
     hook::{Hook, ModuleRecord},
     id::ModuleId,
     load::{Load, ModuleData},
@@ -9,6 +10,7 @@ pub use self::{
 mod bundler;
 mod debug;
 mod dep_graph;
+mod env_vars;
 mod hash;
 mod hook;
 mod id;

@@ -16,7 +16,7 @@ use swc::{
     Compiler, TransformOutput,
 };
 use swc_atoms::{js_word, JsWord};
-use swc_bundler::{BundleKind, Bundler, Load, ModuleRecord, Resolve};
+use swc_bundler::{BundleKind, Bundler, EnvironmentGlobals, Load, ModuleRecord, Resolve};
 use swc_common::Span;
 use swc_ecma_ast::{
     Bool, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, MetaPropExpr, PropName, Str,
@@ -67,6 +67,9 @@ impl Task for BundleTask {
             .codegen_target()
             .unwrap_or_default();
 
+        let env_map = std::mem::take(&mut self.config.static_items.config.env);
+        let env_vars = EnvironmentGlobals::from(env_map);
+
         let res = catch_unwind(AssertUnwindSafe(|| {
             let bundler = Bundler::new(
                 self.swc.globals(),
@@ -75,6 +78,7 @@ impl Task for BundleTask {
                 &self.config.resolver,
                 swc_bundler::Config {
                     require: true,
+                    env_vars,
                     external_modules: builtins
                         .into_iter()
                         .chain(

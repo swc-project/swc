@@ -52,6 +52,15 @@ pub struct EnvironmentGlobals {
     kind: VarDeclKind,
 }
 
+impl Default for EnvironmentGlobals {
+    fn default() -> Self {
+        Self {
+            root: Default::default(),
+            kind: VarDeclKind::Var,
+        }
+    }
+}
+
 impl EnvironmentGlobals {
     /// Transform into AST nodes.
     ///
@@ -172,7 +181,7 @@ impl From<FxHashMap<String, String>> for EnvironmentGlobals {
 
         Self {
             root,
-            kind: VarDeclKind::Const,
+            kind: VarDeclKind::Var,
         }
     }
 }
