@@ -55,9 +55,7 @@ where
                     sel.combinator = combinator;
                     selectors.push(sel);
                 }
-                Err(err) => {
-                    todo!("handle error: {:?}", err)
-                }
+                Err(err) => return Err(err),
             }
         }
 
