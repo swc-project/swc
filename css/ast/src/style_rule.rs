@@ -1,7 +1,7 @@
 use crate::{ComplexSelector, Property};
 use swc_common::{ast_node, Span};
 
-#[ast_node]
+#[ast_node("StyleRule")]
 pub struct StyleRule {
     pub span: Span,
     pub selectors: Vec<ComplexSelector>,

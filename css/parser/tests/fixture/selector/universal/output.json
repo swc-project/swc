@@ -7,6 +7,7 @@
   },
   "rules": [
     {
+      "type": "StyleRule",
       "span": {
         "start": 0,
         "end": 24,

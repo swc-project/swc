@@ -815,6 +815,7 @@
       },
       "rules": [
         {
+          "type": "StyleRule",
           "span": {
             "start": 383,
             "end": 389,
@@ -872,6 +873,7 @@
           }
         },
         {
+          "type": "StyleRule",
           "span": {
             "start": 392,
             "end": 403,

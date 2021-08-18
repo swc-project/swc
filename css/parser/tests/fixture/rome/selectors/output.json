@@ -7,6 +7,7 @@
   },
   "rules": [
     {
+      "type": "StyleRule",
       "span": {
         "start": 0,
         "end": 40,
@@ -271,6 +272,7 @@
       }
     },
     {
+      "type": "StyleRule",
       "span": {
         "start": 43,
         "end": 68,
@@ -329,6 +331,7 @@
       }
     },
     {
+      "type": "StyleRule",
       "span": {
         "start": 71,
         "end": 85,
@@ -416,6 +419,7 @@
       }
     },
     {
+      "type": "StyleRule",
       "span": {
         "start": 88,
         "end": 116,
@@ -533,6 +537,7 @@
       }
     },
     {
+      "type": "StyleRule",
       "span": {
         "start": 119,
         "end": 157,
@@ -658,6 +663,7 @@
       }
     },
     {
+      "type": "StyleRule",
       "span": {
         "start": 160,
         "end": 199,
@@ -783,6 +789,7 @@
       }
     },
     {
+      "type": "StyleRule",
       "span": {
         "start": 202,
         "end": 258,
@@ -945,6 +952,7 @@
       }
     },
     {
+      "type": "StyleRule",
       "span": {
         "start": 261,
         "end": 285,
@@ -1043,6 +1051,7 @@
       }
     },
     {
+      "type": "StyleRule",
       "span": {
         "start": 288,
         "end": 304,
@@ -1148,6 +1157,7 @@
       }
     },
     {
+      "type": "StyleRule",
       "span": {
         "start": 307,
         "end": 325,
@@ -1216,6 +1226,7 @@
       }
     },
     {
+      "type": "StyleRule",
       "span": {
         "start": 328,
         "end": 350,

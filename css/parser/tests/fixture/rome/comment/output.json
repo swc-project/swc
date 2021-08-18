@@ -7,6 +7,7 @@
   },
   "rules": [
     {
+      "type": "StyleRule",
       "span": {
         "start": 0,
         "end": 39,
@@ -94,6 +95,7 @@
       }
     },
     {
+      "type": "StyleRule",
       "span": {
         "start": 56,
         "end": 89,
@@ -181,6 +183,7 @@
       }
     },
     {
+      "type": "StyleRule",
       "span": {
         "start": 92,
         "end": 125,
