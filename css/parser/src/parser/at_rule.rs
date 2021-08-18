@@ -155,6 +155,8 @@ where
                 self.input.skip_ws()?;
                 let value = self.parse_str()?;
 
+                eat!(self, ";");
+
                 return Ok(AtRule::Namespace(NamespaceRule {
                     span: span!(self, start),
                     prefix,
