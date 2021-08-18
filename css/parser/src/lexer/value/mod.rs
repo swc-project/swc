@@ -2,7 +2,7 @@ use super::{LexResult, Lexer};
 use crate::error::ErrorKind;
 use swc_atoms::JsWord;
 use swc_common::input::Input;
-use swc_css_ast::NumToken;
+use swc_css_ast::{NumToken, Token};
 
 #[cfg(test)]
 mod tests;
@@ -11,7 +11,7 @@ impl<I> Lexer<I>
 where
     I: Input,
 {
-    pub(super) fn read_number(&mut self) -> LexResult<NumToken> {
+    pub(super) fn read_number(&mut self) -> LexResult<Token> {
         let mut is_first = true;
 
         let mut had_dot = false;
@@ -48,7 +48,7 @@ where
             unreachable!("failed to parse `{}` using lexical: {:?}", num_str, err)
         });
 
-        Ok(NumToken { value: parsed })
+        Ok(Token::Num(NumToken { value: parsed }))
     }
 
     pub(super) fn read_str(&mut self) -> LexResult<JsWord> {

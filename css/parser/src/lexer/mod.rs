@@ -162,7 +162,7 @@ where
 
         match self.input.cur() {
             Some(c) => match c {
-                '0'..='9' => return self.read_number().map(Token::Num),
+                '0'..='9' => return self.read_number(),
 
                 ' ' | '\n' | '\t' => {
                     self.skip_ws()?;
@@ -338,7 +338,7 @@ where
     fn read_dot(&mut self) -> LexResult<Token> {
         if let Some(next) = self.input.peek() {
             if next == '.' || next.is_digit(10) {
-                return self.read_number().map(Token::Num);
+                return self.read_number();
             }
         }
 
@@ -349,7 +349,7 @@ where
     fn read_plus(&mut self) -> LexResult<Token> {
         if let Some(next) = self.input.peek() {
             if next == '.' || next.is_digit(10) {
-                return self.read_number().map(Token::Num);
+                return self.read_number();
             }
         }
 
@@ -386,7 +386,7 @@ where
         assert_eq!(self.input.cur(), Some('-'));
 
         match self.input.peek() {
-            Some('0'..='9') | Some('.') => return self.read_number().map(Token::Num),
+            Some('0'..='9') | Some('.') => return self.read_number(),
 
             _ => {}
         }
