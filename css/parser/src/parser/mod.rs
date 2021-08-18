@@ -122,8 +122,6 @@ where
     }
 
     fn expect_url_or_str(&mut self) -> PResult<Str> {
-        let span = self.input.cur_span()?;
-
         if is!(self, Str) {
             return self.parse_str();
         }
