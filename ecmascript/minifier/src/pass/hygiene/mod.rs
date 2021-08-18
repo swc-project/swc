@@ -1,5 +1,5 @@
 use crate::{
-    analyzer::{analyze, ProgramData},
+    analyzer::analyze,
     pass::hygiene::analyzer::{HygieneAnalyzer, HygieneData},
     util::now,
 };
@@ -23,14 +23,12 @@ pub fn optimize_hygiene(m: &mut Module, top_level_mark: Mark) {
 /// Hygiene optimizer removes span hygiene without renaming if it's ok to do so.
 pub fn hygiene_optimizer(top_level_mark: Mark) -> impl 'static + VisitMut + Fold {
     as_folder(Optimizer {
-        data: Default::default(),
         hygiene: Default::default(),
         top_level_mark,
     })
 }
 
 struct Optimizer {
-    data: ProgramData,
     hygiene: HygieneData,
     top_level_mark: Mark,
 }
@@ -66,10 +64,10 @@ impl VisitMut for Optimizer {
         log::info!("hygiene: Analyzing span hygiene");
         let start = now();
 
-        self.data = analyze(&*n, None);
+        let data = analyze(&*n, None);
 
         let mut analyzer = HygieneAnalyzer {
-            data: &self.data,
+            data: &data,
             hygiene: Default::default(),
             top_level_mark: self.top_level_mark,
             cur_scope: None,
@@ -96,10 +94,10 @@ impl VisitMut for Optimizer {
         log::info!("hygiene: Analyzing span hygiene");
         let start = now();
 
-        self.data = analyze(&*n, None);
+        let data = analyze(&*n, None);
 
         let mut analyzer = HygieneAnalyzer {
-            data: &self.data,
+            data: &data,
             hygiene: Default::default(),
             top_level_mark: self.top_level_mark,
             cur_scope: None,
