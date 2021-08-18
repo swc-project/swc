@@ -144,10 +144,16 @@ where
                 }));
             }
 
+            "page" => {
+                self.input.skip_ws()?;
+
+                todo!("page rule")
+            }
+
             "document" | "-moz-document" => {
                 self.input.skip_ws()?;
 
-                todo!("at rule ({})", name)
+                todo!("document rule")
             }
 
             "namespace" => {
@@ -169,7 +175,7 @@ where
             "viewport" | "-ms-viewport" => {
                 self.input.skip_ws()?;
 
-                todo!("at rule ({})", name)
+                todo!("viewport rule")
             }
 
             _ => {}
