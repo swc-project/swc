@@ -148,7 +148,7 @@ where
                 self.input.skip_ws()?;
             }
 
-            "namsepace" => {
+            "namespace" => {
                 self.input.skip_ws()?;
 
                 let prefix = self.parse_id()?;
