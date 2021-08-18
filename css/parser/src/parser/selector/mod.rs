@@ -266,17 +266,20 @@ where
     fn parse_pseudo_class_selector(&mut self) -> PResult<PseudoClassSelector> {
         let start = self.input.cur_span()?.lo;
 
-        bump!(self);
+        bump!(self); // `:`
 
         self.input.skip_ws()?;
 
         if peeked_is!(self, Ident) {
             let name = self.parse_selector_text()?;
 
+            expect!(self, "(");
+
             let values = self.parse_any_value()?;
             let args = self.convert_tokens(values)?;
 
             expect!(self, ")");
+
             return Ok(PseudoClassSelector {
                 span: span!(self, start),
                 is_element: false,
