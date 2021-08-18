@@ -1,4 +1,4 @@
-pub use self::{document::*, keyframe::*, media::*, support::*};
+pub use self::{document::*, keyframe::*, media::*, page::*, support::*};
 use crate::{DeclBlock, Str, Text, Tokens};
 use is_macro::Is;
 use swc_common::{ast_node, Span};
@@ -6,6 +6,7 @@ use swc_common::{ast_node, Span};
 mod document;
 mod keyframe;
 mod media;
+mod page;
 mod support;
 
 #[ast_node]
@@ -62,11 +63,6 @@ pub struct ImportRule {
 pub struct FontFaceRule {
     pub span: Span,
     pub block: DeclBlock,
-}
-
-#[ast_node("PageRule")]
-pub struct PageRule {
-    pub span: Span,
 }
 
 #[ast_node("NamespaceRule")]
