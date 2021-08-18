@@ -43,7 +43,7 @@ fn pass(input: PathBuf) {
 }
 
 #[testing::fixture("tests/identity/**/input.css")]
-fn identity(input: PathBuf) {
+fn pass_identity(input: PathBuf) {
     eprintln!("Input: {}", input.display());
 
     let explicit_input = input.parent().unwrap().join("input.explicit.css");
