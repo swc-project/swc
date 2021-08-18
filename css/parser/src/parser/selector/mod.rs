@@ -367,7 +367,7 @@ where
 
         self.input.skip_ws()?;
 
-        let mut attr_op = if eat!(self, "=") {
+        let attr_op = if eat!(self, "=") {
             Some(AttrSelectorOp::Equals)
         } else {
             match cur!(self) {
