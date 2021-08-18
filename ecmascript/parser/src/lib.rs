@@ -378,6 +378,8 @@ pub struct EsConfig {
     #[serde(default)]
     #[serde(rename = "staticBlocks")]
     pub static_blocks: bool,
+    #[serde(rename = "privateInObject")]
+    pub private_in_object: bool,
 }
 
 /// Syntactic context.
