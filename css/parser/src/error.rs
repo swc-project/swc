@@ -49,4 +49,6 @@ pub enum ErrorKind {
     ExpectedNumber,
     InvalidSupportQuery,
     InvalidMediaQuery,
+
+    UnknownAtRuleNotTerminated,
 }

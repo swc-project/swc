@@ -211,7 +211,7 @@ where
             }
         } else {
             loop {
-                if is!(self, ";") {
+                if eat!(self, ";") {
                     break;
                 }
 
@@ -222,7 +222,12 @@ where
                 }
             }
 
-            expect!(self, ";");
+            if !is_one_of!(self, EOF, ";") {
+                return Err(Error::new(
+                    span!(self, start),
+                    ErrorKind::UnknownAtRuleNotTerminated,
+                ));
+            }
         }
 
         Ok(AtRule::Unknown(UnknownAtRule {
