@@ -282,7 +282,7 @@ where
 
             expect!(self, "(");
 
-            let args = self.parse_any_value()?;
+            let args = self.parse_any_value(false)?;
 
             expect!(self, ")");
 
