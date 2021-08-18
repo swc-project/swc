@@ -1,3 +1,5 @@
+use std::borrow::Cow;
+
 use swc_common::{
     errors::{DiagnosticBuilder, Handler},
     Span,
@@ -25,7 +27,25 @@ impl Error {
     }
 
     pub fn to_diagnostics<'a>(&self, handler: &'a Handler) -> DiagnosticBuilder<'a> {
-        let msg = format!("{:?}", self.inner.1);
+        let msg: Cow<_> = match self.inner.1 {
+            ErrorKind::Eof => "Unexpected end of file".into(),
+            ErrorKind::UnexpectedChar(c) => format!("Unexpected charcter `{:?}`", c).into(),
+            ErrorKind::UnterminatedUrl => "Unterminated url literal".into(),
+            ErrorKind::InvalidEscape => "Invalid escape".into(),
+            ErrorKind::Expected(s) => format!("Expected {}", s).into(),
+            ErrorKind::ExpectedButGot(s) => format!("Expected {}", s).into(),
+            ErrorKind::ExpectedSelectorText => "Expected a text for selector".into(),
+            ErrorKind::UnterminatedBlockComment => "Unterminated block commment".into(),
+            ErrorKind::InvalidTypeSelector => "Invalid type selector".into(),
+            ErrorKind::InvalidSelector => "Invalid selector".into(),
+            ErrorKind::ExpectedIdentOrStrForAttrSelectorOp => {
+                "Expected an identifier or a string after an attribute selector operator".into()
+            }
+            ErrorKind::ExpectedNumber => "Expected a number".into(),
+            ErrorKind::InvalidSupportQuery => "Invalid support query".into(),
+            ErrorKind::InvalidMediaQuery => "Invalid media query".into(),
+            ErrorKind::UnknownAtRuleNotTerminated => "Unknown @rule is not terminated".into(),
+        };
         handler.struct_span_err(self.inner.0, &msg)
     }
 }
@@ -34,7 +54,7 @@ impl Error {
 pub enum ErrorKind {
     Eof,
     /// Lexing error.
-    UnexpectedChar,
+    UnexpectedChar(Option<char>),
     /// Lexing error.
     UnterminatedUrl,
     /// Lexing error
