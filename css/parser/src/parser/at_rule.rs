@@ -175,7 +175,12 @@ where
             "viewport" | "-ms-viewport" => {
                 self.input.skip_ws()?;
 
-                todo!("viewport rule")
+                let block = self.parse_decl_block()?;
+
+                return Ok(AtRule::Viewport(ViewportRule {
+                    span: span!(self, start),
+                    block,
+                }));
             }
 
             _ => {}

@@ -34,6 +34,9 @@ pub enum AtRule {
     #[tag("NamespaceRule")]
     Namespace(NamespaceRule),
 
+    #[tag("ViewportRule")]
+    Viewport(ViewportRule),
+
     #[tag("UnknownAtRule")]
     Unknown(UnknownAtRule),
 }
@@ -66,6 +69,12 @@ pub struct NamespaceRule {
     pub span: Span,
     pub prefix: Text,
     pub value: Str,
+}
+
+#[ast_node("ViewportRule")]
+pub struct ViewportRule {
+    pub span: Span,
+    pub block: DeclBlock,
 }
 
 #[ast_node("UnknownAtRule")]
