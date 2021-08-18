@@ -51,6 +51,7 @@ pub struct CharsetRule {
 pub struct ImportRule {
     pub span: Span,
     pub src: Str,
+    pub condition: Option<MediaQuery>,
 }
 
 #[ast_node("FontFaceRule")]

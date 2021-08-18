@@ -49,17 +49,21 @@ where
                 match res {
                     Ok(path) => {
                         // TODO
-                        let import_conditin_start = self.input.cur_span()?.lo;
 
                         self.input.skip_ws()?;
 
-                        if !is_one_of!(self, ";", EOF) {}
+                        let condition = if !is_one_of!(self, ";", EOF) {
+                            Some(self.parse()?)
+                        } else {
+                            None
+                        };
 
                         eat!(self, ";");
 
                         return Ok(AtRule::Import(ImportRule {
                             span: span!(self, start),
                             src: path,
+                            condition,
                         }));
                     }
                     Err(err) => return Err(err),
