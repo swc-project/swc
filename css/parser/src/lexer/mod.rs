@@ -554,7 +554,7 @@ pub(crate) fn is_name_start(c: char) -> bool {
     match c {
         'a'..='z' | 'A'..='Z' | '_' | '\x00' => true,
 
-        _ => c.len_utf8() == 1 && c as u32 >= 0x80,
+        _ => c as u32 >= 0x80,
     }
 }
 
