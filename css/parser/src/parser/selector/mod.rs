@@ -408,8 +408,8 @@ where
 
             self.input.skip_ws()?;
 
-            if peeked_is!(self, Ident) {
-                match self.input.peek()? {
+            if is!(self, Ident) {
+                match self.input.cur()? {
                     Some(Token::Ident(s)) => {
                         if (&**s).eq_ignore_ascii_case("i") || (&**s).eq_ignore_ascii_case("s") {
                             matcher_modifier = s.chars().next();
