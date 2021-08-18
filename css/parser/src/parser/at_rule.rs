@@ -144,6 +144,18 @@ where
                 }));
             }
 
+            "document" | "-moz-document" => {
+                self.input.skip_ws()?;
+            }
+
+            "namsepace" => {
+                self.input.skip_ws()?;
+            }
+
+            "viewport" | "-ms-viewport" => {
+                self.input.skip_ws()?;
+            }
+
             _ => {}
         }
 
