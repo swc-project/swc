@@ -442,15 +442,18 @@ where
     ///
     /// https://github.com/evanw/esbuild/blob/a9456dfbf08ab50607952eefb85f2418968c124c/internal/css_lexer/css_lexer.go#L548
     fn read_name(&mut self) -> LexResult<JsWord> {
-        let mut buf = String::new();
-        let raw = self.input.uncons_while(is_name_continue);
+        let start = self.input.cur_pos();
+        self.input.uncons_while(is_name_continue);
+        let end = self.input.last_pos();
 
-        buf.push_str(raw);
-
-        // TODO: Perf
         if !self.is_valid_escape()? {
-            return Ok(buf.into());
+            let raw = self.input.slice(start, end);
+            return Ok(raw.into());
         }
+
+        let raw = self.input.slice(start, end);
+        let mut buf = String::new();
+        buf.push_str(raw);
 
         buf.push(self.read_escape()?);
 
