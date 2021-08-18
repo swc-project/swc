@@ -131,6 +131,7 @@ impl TestBuilder {
                     Default::default(),
                     Config {
                         require: true,
+                        env_vars: Default::default(),
                         disable_inliner: true,
                         external_modules: vec![],
                         module: Default::default(),

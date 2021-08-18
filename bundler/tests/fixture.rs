@@ -32,6 +32,7 @@ fn do_test(entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
             NodeResolver,
             Config {
                 require: true,
+                env_vars: Default::default(),
                 disable_inliner: !inline,
                 external_modules: NODE_BUILTINS.to_vec().into_iter().map(From::from).collect(),
                 module: Default::default(),

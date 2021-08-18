@@ -260,7 +260,7 @@ mod tests {
         let mut env = EnvironmentGlobals::from(src);
         let nodes = env.ast();
 
-        let expected = r#"const process = {
+        let expected = r#"var process = {
     "alt": {
         "QUX": "BAZ"
     },
@@ -269,7 +269,7 @@ mod tests {
         "BAR": "QUX"
     }
 };
-const API = "http://localhost:3000";
+var API = "http://localhost:3000";
 "#;
 
         let mut module = Module {

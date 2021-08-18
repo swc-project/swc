@@ -74,6 +74,7 @@ fn pass(input_dir: PathBuf) {
                 environment_resolver(TargetEnv::Node, Default::default()),
                 Config {
                     require: true,
+                    env_vars: Default::default(),
                     disable_inliner: true,
                     module: Default::default(),
                     external_modules: NODE_BUILTINS.to_vec().into_iter().map(From::from).collect(),
