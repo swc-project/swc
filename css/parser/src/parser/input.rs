@@ -77,6 +77,7 @@ where
         Ok(self.peeked.as_ref().map(|v| &v.token))
     }
 
+    #[track_caller]
     pub fn bump(&mut self) -> PResult<Option<TokenAndSpan>> {
         debug_assert!(
             self.cur.is_some(),
