@@ -3,26 +3,6 @@ use is_macro::Is;
 use string_enum::StringEnum;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
-/// A CSS selector.
-///
-///
-/// Designed after css ast of esbuild.
-#[ast_node]
-#[derive(Is)]
-pub enum Selector {
-    #[tag("ComplexSelector")]
-    Complex(ComplexSelector),
-
-    #[tag("CompoundSelector")]
-    Compound(CompoundSelector),
-
-    #[tag("AttrributeSelector")]
-    Attr(AttrSelector),
-
-    #[tag("PseudoSelector")]
-    Pseudo(PseudoSelector),
-}
-
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
 pub enum SelectorCombinator {
     /// ` `
@@ -83,6 +63,9 @@ pub enum SubclassSelector {
 
     #[tag("PseudoClassSelector")]
     PseudoClass(PseudoSelector),
+
+    #[tag("AtSelector")]
+    At(AtSelector),
 }
 
 #[ast_node("AttrributeSelector")]
@@ -145,6 +128,13 @@ pub struct ClassSelector {
 
 #[ast_node("TagSelector")]
 pub struct TagSelector {
+    pub span: Span,
+    pub text: Text,
+}
+
+/// Type for `@top-center`. Allowwed in only some contexts.
+#[ast_node("AtSelector")]
+pub struct AtSelector {
     pub span: Span,
     pub text: Text,
 }

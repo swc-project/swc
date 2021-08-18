@@ -220,6 +220,21 @@ where
                     subclass_selectors.push(SubclassSelector::PseudoClass(pseudo));
                 }
 
+                Token::AtKeyword(..) if self.ctx.allow_at_selctor => {
+                    let name = match bump!(self) {
+                        Token::AtKeyword(kwd) => kwd,
+                        _ => {
+                            unreachable!()
+                        }
+                    };
+
+                    subclass_selectors.push(SubclassSelector::At(AtSelector {
+                        span,
+                        text: Text { span, value: name },
+                    }));
+                    break 'subclass_selectors;
+                }
+
                 _ => {
                     break 'subclass_selectors;
                 }

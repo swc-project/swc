@@ -554,13 +554,6 @@ where
     fn parse(&mut self) -> PResult<PageRule> {
         let start = self.input.cur_span()?.lo;
 
-        match cur!(self) {
-            Token::AtKeyword(page) if &**page == "page" => {
-                bump!(self);
-            }
-            _ => {}
-        }
-
         let prelude = {
             let mut items = vec![];
             loop {
@@ -629,15 +622,18 @@ where
         self.input.skip_ws()?;
         let mut items = vec![];
 
-        loop {
-            self.input.skip_ws()?;
+        if !is!(self, "}") {
+            loop {
+                self.input.skip_ws()?;
 
-            let q = self.parse()?;
-            items.push(q);
+                let q = self.parse()?;
+                items.push(q);
 
-            self.input.skip_ws()?;
-            if is_one_of!(self, EOF, "}") {
-                break;
+                self.input.skip_ws()?;
+
+                if is_one_of!(self, EOF, "}") {
+                    break;
+                }
             }
         }
 
@@ -657,10 +653,38 @@ where
     fn parse(&mut self) -> PResult<PageRuleBlockItem> {
         match cur!(self) {
             Token::AtKeyword(..) => Ok(PageRuleBlockItem::Nested(self.parse()?)),
-            _ => self
-                .parse_decl_block()
-                .map(Box::new)
-                .map(PageRuleBlockItem::Decl),
+            _ => {
+                let p = self
+                    .parse_property()
+                    .map(Box::new)
+                    .map(PageRuleBlockItem::Property)?;
+                eat!(self, ";");
+
+                Ok(p)
+            }
         }
+    }
+}
+
+impl<I> Parse<NestedPageRule> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<NestedPageRule> {
+        let start = self.input.cur_span()?.lo;
+
+        let ctx = Ctx {
+            allow_at_selctor: true,
+            ..self.ctx
+        };
+        let prelude = self.with_ctx(ctx).parse_selectors()?;
+
+        let block = self.parse()?;
+
+        Ok(NestedPageRule {
+            span: span!(self, start),
+            prelude,
+            block,
+        })
     }
 }
