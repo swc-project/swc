@@ -181,7 +181,58 @@ where
             _ => {}
         }
 
-        todo!("at rule ({})", name)
+        let name = Text {
+            span: span!(self, start),
+            value: name,
+        };
+
+        self.input.skip_ws()?;
+
+        let mut tokens = vec![];
+
+        if eat!(self, "}") {
+            let mut brace_cnt = 1;
+            loop {
+                if is!(self, "}") {
+                    brace_cnt -= 1;
+                    if brace_cnt == 0 {
+                        break;
+                    }
+                }
+                if is!(self, "{") {
+                    brace_cnt += 1;
+                }
+
+                let token = self.input.bump()?;
+                match token {
+                    Some(token) => tokens.push(token),
+                    None => break,
+                }
+            }
+        } else {
+            loop {
+                if is!(self, ";") {
+                    break;
+                }
+
+                let token = self.input.bump()?;
+                match token {
+                    Some(token) => tokens.push(token),
+                    None => break,
+                }
+            }
+
+            expect!(self, ";");
+        }
+
+        Ok(AtRule::Unknown(UnknownAtRule {
+            span: span!(self, start),
+            name,
+            tokens: Tokens {
+                span: span!(self, start),
+                tokens,
+            },
+        }))
     }
 }
 

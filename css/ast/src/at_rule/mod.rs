@@ -1,5 +1,5 @@
 pub use self::{keyframe::*, media::*, support::*};
-use crate::{DeclBlock, Str, Text, Value};
+use crate::{DeclBlock, Str, Text, Tokens, Value};
 use is_macro::Is;
 use swc_common::{ast_node, Span};
 
@@ -72,5 +72,5 @@ pub struct NamespaceRule {
 pub struct UnknownAtRule {
     pub span: Span,
     pub name: Text,
-    pub tokens: Value,
+    pub tokens: Tokens,
 }
