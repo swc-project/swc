@@ -53,6 +53,10 @@ impl ScopeData {
 
             match kind {
                 ScopeKind::Fn => {
+                    if cfg!(feature = "debug") {
+                        log::trace!("preserving {:?}: not fn-local (from fn)", id);
+                    }
+
                     self.preserved_ids.insert(id.clone());
 
                     e.is_fn_local = false;
@@ -60,6 +64,10 @@ impl ScopeData {
                 }
                 ScopeKind::Block => {
                     if var.used_by_nested_fn {
+                        if cfg!(feature = "debug") {
+                            log::trace!("preserving {:?}: not fn-local (from block)", id);
+                        }
+
                         self.preserved_ids.insert(id.clone());
 
                         e.is_fn_local = false;
@@ -162,9 +170,23 @@ impl Visit for VarAnalyzer<'_> {
 
         if let Some(v) = self.scope.declared.get(&n.sym) {
             if v.len() >= 2 {
+                if cfg!(feature = "debug") {
+                    log::trace!(
+                        "Preserving {:?}: Multiple variable with same symbol",
+                        n.to_id()
+                    );
+                }
+
                 self.scope.preserved_ids.insert(n.to_id());
+                return;
             }
         }
+
+        if cfg!(feature = "debug") {
+            log::trace!("Candidate: {:?}", n.to_id());
+        }
+
+        self.scope.candidates.insert(n.to_id());
     }
 
     fn visit_member_expr(&mut self, n: &MemberExpr, _: &dyn Node) {
