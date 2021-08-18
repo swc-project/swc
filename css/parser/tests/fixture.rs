@@ -89,7 +89,7 @@ fn identity(input: PathBuf) {
     .unwrap();
 }
 
-#[testing::fixture("tests/fixture/**/input.css")]
+#[testing::fixture("tests/errors/**/input.css")]
 fn fail(input: PathBuf) {
     eprintln!("Input: {}", input.display());
     let stderr_path = input.parent().unwrap().join("output.stderr");
