@@ -29,19 +29,21 @@
             "end": 76,
             "ctxt": 0
           },
-          "selector": {
-            "type": "Text",
-            "span": {
-              "start": 28,
-              "end": 32,
-              "ctxt": 0
-            },
-            "value": "from"
-          },
+          "selector": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 28,
+                "end": 32,
+                "ctxt": 0
+              },
+              "value": "from"
+            }
+          ],
           "rule": {
             "type": "DeclBlock",
             "span": {
-              "start": 32,
+              "start": 33,
               "end": 76,
               "ctxt": 0
             },
@@ -104,19 +106,21 @@
             "end": 129,
             "ctxt": 0
           },
-          "selector": {
-            "type": "Text",
-            "span": {
-              "start": 82,
-              "end": 84,
-              "ctxt": 0
-            },
-            "value": "to"
-          },
+          "selector": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 82,
+                "end": 84,
+                "ctxt": 0
+              },
+              "value": "to"
+            }
+          ],
           "rule": {
             "type": "DeclBlock",
             "span": {
-              "start": 84,
+              "start": 85,
               "end": 129,
               "ctxt": 0
             },
@@ -198,19 +202,21 @@
             "end": 166,
             "ctxt": 0
           },
-          "selector": {
-            "type": "Text",
-            "span": {
-              "start": 155,
-              "end": 159,
-              "ctxt": 0
-            },
-            "value": "from"
-          },
+          "selector": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 155,
+                "end": 159,
+                "ctxt": 0
+              },
+              "value": "from"
+            }
+          ],
           "rule": {
             "type": "DeclBlock",
             "span": {
-              "start": 159,
+              "start": 160,
               "end": 166,
               "ctxt": 0
             },
@@ -223,19 +229,21 @@
             "end": 181,
             "ctxt": 0
           },
-          "selector": {
-            "type": "Text",
-            "span": {
-              "start": 172,
-              "end": 174,
-              "ctxt": 0
-            },
-            "value": "to"
-          },
+          "selector": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 172,
+                "end": 174,
+                "ctxt": 0
+              },
+              "value": "to"
+            }
+          ],
           "rule": {
             "type": "DeclBlock",
             "span": {
-              "start": 174,
+              "start": 175,
               "end": 181,
               "ctxt": 0
             },
@@ -248,27 +256,29 @@
             "end": 197,
             "ctxt": 0
           },
-          "selector": {
-            "type": "PercentValue",
-            "span": {
-              "start": 187,
-              "end": 187,
-              "ctxt": 0
-            },
-            "value": {
-              "type": "Number",
+          "selector": [
+            {
+              "type": "PercentValue",
               "span": {
                 "start": 187,
-                "end": 189,
+                "end": 187,
                 "ctxt": 0
               },
-              "value": 15.0
+              "value": {
+                "type": "Number",
+                "span": {
+                  "start": 187,
+                  "end": 189,
+                  "ctxt": 0
+                },
+                "value": 15.0
+              }
             }
-          },
+          ],
           "rule": {
             "type": "DeclBlock",
             "span": {
-              "start": 190,
+              "start": 191,
               "end": 197,
               "ctxt": 0
             },
@@ -281,27 +291,29 @@
             "end": 212,
             "ctxt": 0
           },
-          "selector": {
-            "type": "PercentValue",
-            "span": {
-              "start": 203,
-              "end": 203,
-              "ctxt": 0
-            },
-            "value": {
-              "type": "Number",
+          "selector": [
+            {
+              "type": "PercentValue",
               "span": {
                 "start": 203,
-                "end": 204,
+                "end": 203,
                 "ctxt": 0
               },
-              "value": 0.0
+              "value": {
+                "type": "Number",
+                "span": {
+                  "start": 203,
+                  "end": 204,
+                  "ctxt": 0
+                },
+                "value": 0.0
+              }
             }
-          },
+          ],
           "rule": {
             "type": "DeclBlock",
             "span": {
-              "start": 205,
+              "start": 206,
               "end": 212,
               "ctxt": 0
             },
@@ -314,27 +326,29 @@
             "end": 229,
             "ctxt": 0
           },
-          "selector": {
-            "type": "PercentValue",
-            "span": {
-              "start": 218,
-              "end": 218,
-              "ctxt": 0
-            },
-            "value": {
-              "type": "Number",
+          "selector": [
+            {
+              "type": "PercentValue",
               "span": {
                 "start": 218,
-                "end": 221,
+                "end": 218,
                 "ctxt": 0
               },
-              "value": 100.0
+              "value": {
+                "type": "Number",
+                "span": {
+                  "start": 218,
+                  "end": 221,
+                  "ctxt": 0
+                },
+                "value": 100.0
+              }
             }
-          },
+          ],
           "rule": {
             "type": "DeclBlock",
             "span": {
-              "start": 222,
+              "start": 223,
               "end": 229,
               "ctxt": 0
             },
