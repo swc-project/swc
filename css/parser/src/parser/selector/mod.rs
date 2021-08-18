@@ -29,7 +29,7 @@ where
         Ok(buf)
     }
 
-    /// Ported from https://github.com/evanw/esbuild/blob/a9456dfbf08ab50607952eefb85f2418968c124c/internal/css_parser/css_parser_selector.go#L35
+    /// Ported from `parseComplexSelector` of `esbuild`.
     pub(super) fn parse_complex_selector(&mut self) -> PResult<ComplexSelector> {
         let start_pos = self.input.cur_span()?.lo;
 
@@ -68,7 +68,6 @@ where
     }
 
     pub(super) fn parse_combinator(&mut self) -> PResult<Option<SelectorCombinator>> {
-        let span = self.input.cur_span()?;
         if eat!(self, " ") {
             return Ok(Some(SelectorCombinator::Descendant));
         }
@@ -85,7 +84,7 @@ where
             return Ok(Some(SelectorCombinator::LaterSibling));
         }
 
-        Err(Error::new(span, ErrorKind::Expected("selector combinator")))
+        Ok(None)
     }
 
     fn parse_name_token(&mut self) -> PResult<Text> {
