@@ -318,8 +318,8 @@ where
         let start_pos = self.input.cur_span()?.lo;
         expect!(self, "[");
 
-        let mut ns_name_prefix;
-        let mut ns_name_name = None;
+        let mut ns_name_prefix = None;
+        let mut ns_name_name;
 
         match cur!(self) {
             tok!("|") | tok!("*") => {
@@ -344,21 +344,26 @@ where
 
                 expect!(self, "|");
 
-                ns_name_name = self.parse_name_token().map(Some)?;
+                ns_name_name = self.parse_name_token()?;
             }
 
             _ => {
                 // "[x]"
                 // "[x|y]"
 
-                ns_name_name = self.parse_name_token().map(Some)?;
+                ns_name_name = self.parse_name_token()?;
 
                 if !peeked_is!(self, "=") && eat!(self, "|") {
-                    ns_name_prefix = ns_name_name.take();
-                    ns_name_name = self.parse_name_token().map(Some)?;
+                    ns_name_prefix = Some(ns_name_name);
+                    ns_name_name = self.parse_name_token()?;
                 }
             }
         }
+        let name = NamespacedName {
+            span: span!(self, start_pos),
+            prefix: ns_name_prefix,
+            name: ns_name_name,
+        };
 
         self.input.skip_ws()?;
 
@@ -420,6 +425,7 @@ where
 
         Ok(AttrSelector {
             span: span!(self, start_pos),
+            name,
             op: attr_op,
             value: matcher_value,
             modifier: matcher_modifier,

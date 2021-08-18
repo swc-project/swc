@@ -91,6 +91,7 @@ pub enum SubclassSelector {
 #[ast_node("AttrributeSelector")]
 pub struct AttrSelector {
     pub span: Span,
+    pub name: NamespacedName,
     pub op: Option<AttrSelectorOp>,
     pub value: Option<Text>,
     pub modifier: Option<char>,
