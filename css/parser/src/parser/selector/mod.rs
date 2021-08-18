@@ -123,7 +123,10 @@ where
             tok!("|") | Token::Ident(..) | tok!("*") => {
                 let mut ns_name_name;
                 let mut ns_name_prefix = None;
-                if !peeked_is!(self, "|") {
+
+                if !is!(self, "|") {
+                    // No namespace prefix.
+
                     if eat!(self, "*") {
                         ns_name_name = Some(Text {
                             span,
@@ -133,6 +136,10 @@ where
                         ns_name_name = Some(self.parse_name_token()?);
                     }
                 } else {
+                    // e.g.
+                    // `|*`
+                    // `|b`
+
                     ns_name_name = Some(Text {
                         span: Span::new(start_pos, start_pos, Default::default()),
                         value: js_word!(""),
