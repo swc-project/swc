@@ -52,6 +52,8 @@ where
                         // TODO
                         let import_conditin_start = self.input.cur_span()?.lo;
 
+                        self.input.skip_ws()?;
+
                         if !is_one_of!(self, ";", EOF) {}
 
                         eat!(self, ";");
