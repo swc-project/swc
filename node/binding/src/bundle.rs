@@ -20,7 +20,9 @@ use swc_bundler::{BundleKind, Bundler, Load, ModuleRecord, Resolve};
 use swc_common::Span;
 use swc_ecma_ast::{
     Bool, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, MetaPropExpr, PropName, Str,
+    TargetEnv,
 };
+use swc_ecma_loader::NODE_BUILTINS;
 
 struct ConfigItem {
     loader: Box<dyn Load>,
@@ -47,6 +49,16 @@ impl Task for BundleTask {
     type JsValue = JsObject;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
+        let builtins = if let TargetEnv::Node = self.config.static_items.config.target {
+            NODE_BUILTINS
+                .to_vec()
+                .into_iter()
+                .map(JsWord::from)
+                .collect::<Vec<_>>()
+        } else {
+            vec![]
+        };
+
         // Defaults to es3
         let codegen_target = self
             .config
@@ -63,52 +75,17 @@ impl Task for BundleTask {
                 &self.config.resolver,
                 swc_bundler::Config {
                     require: true,
-                    external_modules: vec![
-                        "assert",
-                        "buffer",
-                        "child_process",
-                        "console",
-                        "cluster",
-                        "crypto",
-                        "dgram",
-                        "dns",
-                        "events",
-                        "fs",
-                        "http",
-                        "http2",
-                        "https",
-                        "net",
-                        "os",
-                        "path",
-                        "perf_hooks",
-                        "process",
-                        "querystring",
-                        "readline",
-                        "repl",
-                        "stream",
-                        "string_decoder",
-                        "timers",
-                        "tls",
-                        "tty",
-                        "url",
-                        "util",
-                        "v8",
-                        "vm",
-                        "wasi",
-                        "worker",
-                        "zlib",
-                    ]
-                    .into_iter()
-                    .map(JsWord::from)
-                    .chain(
-                        self.config
-                            .static_items
-                            .config
-                            .extenal_modules
-                            .iter()
-                            .cloned(),
-                    )
-                    .collect(),
+                    external_modules: builtins
+                        .into_iter()
+                        .chain(
+                            self.config
+                                .static_items
+                                .config
+                                .external_modules
+                                .iter()
+                                .cloned(),
+                        )
+                        .collect(),
                     ..Default::default()
                 },
                 Box::new(Hook),
@@ -146,6 +123,7 @@ impl Task for BundleTask {
                             SourceMapsConfig::Bool(true),
                             None,
                             minify,
+                            None,
                         )?;
 
                         Ok((k, output))

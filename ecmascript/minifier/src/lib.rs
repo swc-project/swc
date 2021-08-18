@@ -12,7 +12,7 @@
 //! them something other. Don't call methods like `visit_mut_script` nor
 //! `visit_mut_module_items`.
 
-pub use crate::pass::hygiene::optimize_hygiene;
+pub use crate::pass::hygiene::{hygiene_optimizer, optimize_hygiene};
 use crate::{
     compress::compressor,
     marks::Marks,
@@ -20,12 +20,11 @@ use crate::{
     option::{ExtraOptions, MinifyOptions},
     pass::{
         compute_char_freq::compute_char_freq, expand_names::name_expander, global_defs,
-        hygiene::hygiene_optimizer, mangle_names::name_mangler, mangle_props::mangle_properties,
+        mangle_names::name_mangler, mangle_props::mangle_properties,
         precompress::precompress_optimizer,
     },
     util::now,
 };
-use analyzer::analyze;
 use pass::postcompress::postcompress_optimizer;
 use std::time::Instant;
 use swc_common::{comments::Comments, sync::Lrc, SourceMap, GLOBALS};
@@ -153,8 +152,7 @@ pub fn optimize(
     }
 
     {
-        let data = analyze(&m, None);
-        m.visit_mut_with(&mut hygiene_optimizer(data, extra.top_level_mark));
+        m.visit_mut_with(&mut hygiene_optimizer(extra.top_level_mark));
     }
 
     if let Some(ref mut t) = timings {

@@ -12,7 +12,7 @@ use swc_ecma_ast::{
     StrKind,
 };
 use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_visit::{VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 pub static JS_ENVIRONMENT_PROPS: Lazy<AHashSet<JsWord>> = Lazy::new(|| {
     let domprops: Vec<JsWord> = serde_json::from_str(include_str!("../lists/domprops.json"))
@@ -130,28 +130,6 @@ pub struct PropertyCollector<'a> {
 }
 
 impl VisitMut for PropertyCollector<'_> {
-    fn visit_mut_prop_name(&mut self, name: &mut PropName) {
-        name.visit_mut_children_with(self);
-
-        match name {
-            PropName::Ident(ident) => {
-                self.state.add(&ident.sym);
-            }
-            PropName::Str(s) => {
-                self.state.add(&s.value);
-            }
-            _ => {}
-        };
-    }
-
-    fn visit_mut_prop(&mut self, prop: &mut Prop) {
-        prop.visit_mut_children_with(self);
-
-        if let Prop::Shorthand(ident) = prop {
-            self.state.add(&ident.sym);
-        }
-    }
-
     fn visit_mut_call_expr(&mut self, call: &mut CallExpr) {
         call.visit_mut_children_with(self);
 
@@ -170,6 +148,28 @@ impl VisitMut for PropertyCollector<'_> {
                 self.state.add(&ident.sym);
             }
         }
+    }
+
+    fn visit_mut_prop(&mut self, prop: &mut Prop) {
+        prop.visit_mut_children_with(self);
+
+        if let Prop::Shorthand(ident) = prop {
+            self.state.add(&ident.sym);
+        }
+    }
+
+    fn visit_mut_prop_name(&mut self, name: &mut PropName) {
+        name.visit_mut_children_with(self);
+
+        match name {
+            PropName::Ident(ident) => {
+                self.state.add(&ident.sym);
+            }
+            PropName::Str(s) => {
+                self.state.add(&s.value);
+            }
+            _ => {}
+        };
     }
 }
 
@@ -248,6 +248,8 @@ impl Mangler<'_> {
 }
 
 impl VisitMut for Mangler<'_> {
+    noop_visit_mut_type!();
+
     fn visit_mut_prop_name(&mut self, name: &mut PropName) {
         name.visit_mut_children_with(self);
 

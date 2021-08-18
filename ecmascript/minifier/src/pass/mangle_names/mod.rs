@@ -167,8 +167,16 @@ impl VisitMut for Mangler {
 
     fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
         n.obj.visit_mut_with(self);
+
         if n.computed {
             n.prop.visit_mut_with(self);
+        } else {
+            match &*n.prop {
+                Expr::PrivateName(..) => {
+                    n.prop.visit_mut_with(self);
+                }
+                _ => {}
+            }
         }
     }
 

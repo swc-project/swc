@@ -135,7 +135,11 @@
             };
         }).sort(function(left, right) {
             var a = left.criteria, b = right.criteria;
-            return a !== b ? a > b || void 0 === a ? 1 : a < b || void 0 === b ? -1 : void 0 : left.index - right.index;
+            if (a !== b) {
+                if (a > b || void 0 === a) return 1;
+                if (a < b || void 0 === b) return -1;
+            }
+            return left.index - right.index;
         }), "value");
     };
     var group = function(behavior) {

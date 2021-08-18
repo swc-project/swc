@@ -1,7 +1,7 @@
 //! Parser for object literal.
 
 use super::*;
-use crate::parser::class_and_fn::is_not_this;
+use crate::{lexer::TokenContext, parser::class_and_fn::is_not_this, token::Keyword};
 use swc_atoms::js_word;
 use swc_common::Spanned;
 
@@ -39,6 +39,8 @@ impl<'a, I: Tokens> Parser<I> {
 
     /// spec: 'PropertyName'
     pub(super) fn parse_prop_name(&mut self) -> PResult<PropName> {
+        trace_cur!(self, parse_prop_name);
+
         let ctx = self.ctx();
         self.with_ctx(Context {
             in_property_name: true,
@@ -74,7 +76,19 @@ impl<'a, I: Tokens> Parser<I> {
                     _ => unreachable!(),
                 },
                 Word(..) => match bump!(p) {
-                    Word(w) => PropName::Ident(Ident::new(w.into(), span!(p, start))),
+                    Word(w) => {
+                        match w {
+                            Word::Keyword(Keyword::Function) => {
+                                // See https://github.com/swc-project/swc/issues/2075
+                                let ctx = p.input.token_context_mut();
+                                let token_ctx = ctx.pop();
+
+                                debug_assert_eq!(token_ctx, Some(TokenContext::FnExpr));
+                            }
+                            _ => {}
+                        }
+                        PropName::Ident(Ident::new(w.into(), span!(p, start)))
+                    }
                     _ => unreachable!(),
                 },
                 tok!('[') => {
