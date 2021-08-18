@@ -111,6 +111,9 @@ jobs:
           - swc_babel_visit
           - swc_bundler
           - swc_common
+          - swc_css
+          - swc_css_ast
+          - swc_css_parser
           - swc_ecma_ast
           - swc_ecma_codegen
           - swc_ecma_codegen_macros
