@@ -273,11 +273,11 @@ where
     fn parse_pseudo_class_selector(&mut self) -> PResult<PseudoClassSelector> {
         let start = self.input.cur_span()?.lo;
 
-        bump!(self); // `:`
+        expect!(self, ":"); // `:`
 
         self.input.skip_ws()?;
 
-        if peeked_is!(self, Ident) {
+        if is!(self, Ident) && peeked_is!(self, "(") {
             let name = self.parse_selector_text()?;
 
             expect!(self, "(");
