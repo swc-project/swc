@@ -195,7 +195,7 @@ where
 
                 _ => {
                     if is_name_start(c) {
-                        return self.read_name().map(|str| Token::Ident(str));
+                        return self.read_ident_like();
                     }
 
                     todo!("read_token (cur = {:?})", c)
