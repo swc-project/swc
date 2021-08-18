@@ -208,7 +208,12 @@ where
     fn eat_delimiter(&mut self) -> PResult<bool> {
         self.input.skip_ws()?;
 
-        Ok(eat!(self, ","))
+        if eat!(self, ",") {
+            self.input.skip_ws()?;
+            Ok(true)
+        } else {
+            Ok(false)
+        }
     }
 }
 
