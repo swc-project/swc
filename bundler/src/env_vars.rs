@@ -4,11 +4,12 @@ use fxhash::FxHashMap;
 use swc_atoms::JsWord;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::{
-    BindingIdent, Expr, Ident, KeyValueProp, Lit, ObjectLit, Pat, Prop, PropName, PropOrSpread,
-    Str, StrKind, VarDecl, VarDeclKind, VarDeclarator,
+    BindingIdent, Decl, Expr, Ident, KeyValueProp, Lit, Module, ModuleItem, ObjectLit, Pat, Prop,
+    PropName, PropOrSpread, Stmt, Str, StrKind, VarDecl, VarDeclKind, VarDeclarator,
 };
+use swc_ecma_visit::Fold;
 
-#[derive(Debug, Eq, PartialEq)]
+#[derive(Debug, Clone, Eq, PartialEq)]
 enum Entry {
     Leaf(String),
     Branch(FxHashMap<String, Entry>),
@@ -62,15 +63,11 @@ impl Default for EnvironmentGlobals {
 }
 
 impl EnvironmentGlobals {
-    /// Transform into AST nodes.
-    ///
-    /// Consumes the underlying tree of variables,
-    /// subsequent calls will return an empty vector.
-    pub fn ast(&mut self) -> Vec<VarDecl> {
+    /// Transform the tree into AST nodes.
+    pub fn ast(&self) -> Vec<VarDecl> {
         let mut out = Vec::new();
 
-        let root = std::mem::take(&mut self.root);
-        if let Entry::Branch(root_map) = root {
+        if let Entry::Branch(root_map) = &self.root {
             for (k, v) in root_map {
                 out.push(VarDecl {
                     span: DUMMY_SP,
@@ -82,7 +79,7 @@ impl EnvironmentGlobals {
                         name: Pat::Ident(BindingIdent {
                             id: Ident {
                                 span: DUMMY_SP,
-                                sym: JsWord::from(k),
+                                sym: JsWord::from(k.to_string()),
                                 optional: false,
                             },
                             type_ann: None,
@@ -90,9 +87,11 @@ impl EnvironmentGlobals {
                         init: Some({
                             match v {
                                 Entry::Leaf(value) => {
-                                    Box::new(Expr::Lit(Lit::Str(self.into_string(value))))
+                                    Box::new(Expr::Lit(Lit::Str(self.into_string(value.into()))))
                                 }
-                                Entry::Branch(_) => Box::new(Expr::Object(self.into_object(v))),
+                                Entry::Branch(_) => {
+                                    Box::new(Expr::Object(self.into_object(v.clone())))
+                                }
                             }
                         }),
                     }],
@@ -137,6 +136,11 @@ impl EnvironmentGlobals {
             }
         }
         target
+    }
+
+    /// Get a globals fold.
+    pub fn globals(&self) -> impl Fold {
+        GlobalsFold { nodes: self.ast() }
     }
 }
 
@@ -186,13 +190,28 @@ impl From<FxHashMap<String, String>> for EnvironmentGlobals {
     }
 }
 
+struct GlobalsFold {
+    nodes: Vec<VarDecl>,
+}
+
+impl Fold for GlobalsFold {
+    fn fold_module(&mut self, mut n: Module) -> Module {
+        for node in self.nodes.iter().rev() {
+            let decl = node.clone();
+            n.body
+                .insert(0, ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))));
+        }
+        n
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
 
     use swc_common::{sync::Lrc, SourceMap, DUMMY_SP};
-    use swc_ecma_ast::*;
     use swc_ecma_codegen::{text_writer::JsWriter, Emitter, Node};
+    use swc_ecma_visit::FoldWith;
 
     fn code(node: &dyn Node) -> String {
         let mut buf = vec![];
@@ -257,8 +276,7 @@ mod tests {
     #[test]
     fn env_globals_ast() {
         let src = source();
-        let mut env = EnvironmentGlobals::from(src);
-        let nodes = env.ast();
+        let env = EnvironmentGlobals::from(src);
 
         let expected = r#"var process = {
     "alt": {
@@ -278,11 +296,7 @@ var API = "http://localhost:3000";
             shebang: None,
         };
 
-        for node in nodes {
-            module
-                .body
-                .push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(node))))
-        }
+        module = module.fold_with(&mut env.globals());
 
         let result = code(&module);
         assert_eq!(expected, result);

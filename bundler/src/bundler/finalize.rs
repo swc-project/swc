@@ -28,6 +28,7 @@ where
         self.run(|| {
             let mut new = Vec::with_capacity(bundles.len());
             let mut renamed = AHashMap::default();
+            let mut globals = self.config.env_vars.globals();
 
             for mut bundle in bundles {
                 bundle.module = self.optimize(bundle.module);
@@ -37,6 +38,8 @@ where
                 bundle.module = self.may_wrap_with_iife(bundle.module);
 
                 bundle.module = bundle.module.fold_with(&mut fixer(None));
+
+                bundle.module = bundle.module.fold_with(&mut globals);
 
                 {
                     // Inject swc helpers
