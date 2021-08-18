@@ -42,53 +42,6 @@ fn pass(input: PathBuf) {
     .unwrap();
 }
 
-#[testing::fixture("tests/identity/**/input.css")]
-fn pass_identity(input: PathBuf) {
-    eprintln!("Input: {}", input.display());
-
-    let explicit_input = input.parent().unwrap().join("input.explicit.css");
-
-    testing::run_test2(false, |cm, handler| {
-        let input_fm = cm.load_file(&input).unwrap();
-        let expected_fm = cm.load_file(&explicit_input).unwrap();
-
-        eprintln!("===== ===== Input ===== =====\n{}", input_fm.src);
-        eprintln!("===== ===== Expected ===== =====\n{}", expected_fm.src);
-
-        let actual = {
-            let lexer = Lexer::new(SourceFileInput::from(&*input_fm));
-            let mut parser = Parser::new(lexer, ParserConfig { parse_values: true });
-
-            parser.parse_all().map_err(|err| {
-                let mut d = err.to_diagnostics(&handler);
-                d.note(&format!("current token = {}", parser.dump_cur()));
-
-                d.emit();
-            })?
-        };
-
-        let expected = {
-            let lexer = Lexer::new(SourceFileInput::from(&*expected_fm));
-            let mut parser = Parser::new(lexer, ParserConfig { parse_values: true });
-
-            parser.parse_all().map_err(|err| {
-                let mut d = err.to_diagnostics(&handler);
-                d.note(&format!("current token = {}", parser.dump_cur()));
-
-                d.emit();
-            })?
-        };
-
-        // TODO: Use visitor to normalize, after creating swc_css_visit
-        if false {
-            assert_eq!(actual, expected);
-        }
-
-        Ok(())
-    })
-    .unwrap();
-}
-
 #[testing::fixture("tests/errors/**/input.css")]
 fn fail(input: PathBuf) {
     eprintln!("Input: {}", input.display());
