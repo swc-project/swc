@@ -17,6 +17,7 @@ pub(super) struct HygieneData {
     /// Has higher precedence over `modified`.
     pub preserved: FxHashSet<Id>,
 
+    /// Modifiable identifiers.
     pub modified: FxHashSet<Id>,
 }
 
