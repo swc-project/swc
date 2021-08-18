@@ -53,6 +53,7 @@ pub enum Value {
 
 /// Comma separated list of values.
 #[ast_node("Values")]
+#[derive(Default)]
 pub struct Values {
     pub span: Span,
     pub values: Vec<Value>,
