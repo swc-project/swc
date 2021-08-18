@@ -178,7 +178,7 @@ where
     fn parse(&mut self) -> PResult<KeyframeBlock> {
         let span = self.input.cur_span()?;
 
-        let selector = self.parse()?;
+        let selector = self.parse_delimited(false)?;
 
         let rule = self.parse()?;
 
@@ -187,6 +187,17 @@ where
             selector,
             rule,
         })
+    }
+}
+
+impl<I> ParseDelmited<KeyframeSelector> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn eat_delimiter(&mut self) -> PResult<bool> {
+        self.input.skip_ws()?;
+
+        Ok(eat!(self, ","))
     }
 }
 

@@ -11,7 +11,7 @@ pub struct KeyframesRule {
 #[ast_node]
 pub struct KeyframeBlock {
     pub span: Span,
-    pub selector: KeyframeSelector,
+    pub selector: Vec<KeyframeSelector>,
     pub rule: KeyframeBlockRule,
 }
 
