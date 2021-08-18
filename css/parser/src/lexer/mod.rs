@@ -446,6 +446,8 @@ where
         let raw = self.input.uncons_while(is_name_continue);
 
         buf.push_str(raw);
+
+        // TODO: Perf
         if !self.is_valid_escape()? {
             return Ok(buf.into());
         }
