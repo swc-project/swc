@@ -229,8 +229,12 @@ where
                 if name.to_ascii_lowercase() == js_word!("url") {
                     self.skip_ws()?;
 
-                    if !self.input.is_byte(b'"') && self.input.is_byte(b'\'') {
-                        return self.read_url();
+                    match self.input.peek() {
+                        Some('"' | '\'') => {}
+                        _ => {
+                            self.input.bump();
+                            return self.read_url();
+                        }
                     }
                 }
             }
