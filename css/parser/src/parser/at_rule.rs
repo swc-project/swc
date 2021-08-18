@@ -61,7 +61,7 @@ where
                             src: path,
                         }));
                     }
-                    _ => {}
+                    Err(err) => return Err(err),
                 }
             }
 
