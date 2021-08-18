@@ -377,7 +377,7 @@ where
             return Ok(tok!("<!--"));
         }
 
-        Err(ErrorKind::UnexpectedChar)
+        Err(ErrorKind::UnexpectedChar(self.input.cur()))
     }
 
     fn read_minus(&mut self) -> LexResult<Token> {
