@@ -195,7 +195,7 @@ where
 
         let mut tokens = vec![];
 
-        if eat!(self, "}") {
+        if eat!(self, "{") {
             let mut brace_cnt = 1;
             loop {
                 if is!(self, "}") {
