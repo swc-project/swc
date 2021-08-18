@@ -4,9 +4,6 @@ use swc_atoms::JsWord;
 use swc_common::input::Input;
 use swc_css_ast::{NumToken, Token};
 
-#[cfg(test)]
-mod tests;
-
 impl<I> Lexer<I>
 where
     I: Input,

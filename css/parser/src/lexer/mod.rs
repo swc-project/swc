@@ -6,8 +6,6 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{input::Input, BytePos, Span};
 use swc_css_ast::{Token, TokenAndSpan};
 
-#[cfg(test)]
-mod tests;
 mod value;
 
 pub(crate) type LexResult<T> = Result<T, ErrorKind>;
