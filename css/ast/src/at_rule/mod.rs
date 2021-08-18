@@ -1,5 +1,5 @@
 pub use self::{keyframe::*, media::*, support::*};
-use crate::{DeclBlock, Str, Text};
+use crate::{DeclBlock, Str, Text, Value};
 use is_macro::Is;
 use swc_common::{ast_node, Span};
 
@@ -33,6 +33,9 @@ pub enum AtRule {
 
     #[tag("NamespaceRule")]
     Namespace(NamespaceRule),
+
+    #[tag("UnknownAtRule")]
+    Unknown(UnknownAtRule),
 }
 
 #[ast_node("CharsetRule")]
@@ -63,4 +66,11 @@ pub struct NamespaceRule {
     pub span: Span,
     pub prefix: Text,
     pub value: Str,
+}
+
+#[ast_node("UnknownAtRule")]
+pub struct UnknownAtRule {
+    pub span: Span,
+    pub name: Text,
+    pub tokens: Value,
 }

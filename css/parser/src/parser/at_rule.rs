@@ -146,6 +146,8 @@ where
 
             "document" | "-moz-document" => {
                 self.input.skip_ws()?;
+
+                todo!("at rule ({})", name)
             }
 
             "namespace" => {
@@ -166,6 +168,8 @@ where
 
             "viewport" | "-ms-viewport" => {
                 self.input.skip_ws()?;
+
+                todo!("at rule ({})", name)
             }
 
             _ => {}
