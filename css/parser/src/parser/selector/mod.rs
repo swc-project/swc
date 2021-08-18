@@ -432,10 +432,6 @@ where
         })
     }
 
-    fn parse_any_value(&mut self) -> PResult<Vec<TokenAndSpan>> {
-        todo!()
-    }
-
     fn parse_selector_text(&mut self) -> PResult<Text> {
         let span = self.input.cur_span()?;
 

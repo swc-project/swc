@@ -65,6 +65,10 @@ where
         Ok(value)
     }
 
+    pub(super) fn parse_any_value(&mut self) -> PResult<Vec<TokenAndSpan>> {
+        todo!()
+    }
+
     fn parse_one_value_inner(&mut self) -> PResult<Value> {
         self.input.skip_ws()?;
 
