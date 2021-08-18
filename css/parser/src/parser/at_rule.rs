@@ -148,7 +148,7 @@ where
             "page" => {
                 self.input.skip_ws()?;
 
-                todo!("page rule")
+                return self.parse().map(AtRule::Page);
             }
 
             "document" | "-moz-document" => {
@@ -544,5 +544,123 @@ where
         }
 
         return Ok(base);
+    }
+}
+
+impl<I> Parse<PageRule> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<PageRule> {
+        let start = self.input.cur_span()?.lo;
+
+        match cur!(self) {
+            Token::AtKeyword(page) if &**page == "page" => {
+                bump!(self);
+            }
+            _ => {}
+        }
+
+        let prelude = {
+            let mut items = vec![];
+            loop {
+                self.input.skip_ws()?;
+
+                if is!(self, "{") {
+                    break;
+                }
+
+                items.push(self.parse()?);
+
+                self.input.skip_ws()?;
+                if !eat!(self, ",") {
+                    break;
+                }
+            }
+            items
+        };
+
+        let block = self.parse()?;
+
+        Ok(PageRule {
+            span: span!(self, start),
+            prelude,
+            block,
+        })
+    }
+}
+
+impl<I> Parse<PageSelector> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<PageSelector> {
+        self.input.skip_ws()?;
+
+        let start = self.input.cur_span()?.lo;
+
+        let ident = if is!(self, Ident) {
+            Some(self.parse_id()?)
+        } else {
+            None
+        };
+
+        let pseudo = if eat!(self, ":") {
+            Some(self.parse_id()?)
+        } else {
+            None
+        };
+
+        Ok(PageSelector {
+            span: span!(self, start),
+            ident,
+            pseudo,
+        })
+    }
+}
+
+impl<I> Parse<PageRuleBlock> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<PageRuleBlock> {
+        let span = self.input.cur_span()?;
+        expect!(self, "{");
+        self.input.skip_ws()?;
+        let mut items = vec![];
+
+        loop {
+            self.input.skip_ws()?;
+
+            let q = self.parse()?;
+            items.push(q);
+
+            self.input.skip_ws()?;
+            if is_one_of!(self, EOF, "}") {
+                break;
+            }
+        }
+
+        expect!(self, "}");
+
+        Ok(PageRuleBlock {
+            span: span!(self, span.lo),
+            items,
+        })
+    }
+}
+
+impl<I> Parse<PageRuleBlockItem> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<PageRuleBlockItem> {
+        match cur!(self) {
+            Token::AtKeyword(..) => Ok(PageRuleBlockItem::Nested(self.parse()?)),
+            _ => self
+                .parse_decl_block()
+                .map(Box::new)
+                .map(PageRuleBlockItem::Decl),
+        }
     }
 }
