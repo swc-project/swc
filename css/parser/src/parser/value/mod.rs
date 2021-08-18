@@ -117,6 +117,20 @@ where
                 }));
             }
 
+            Token::Url { .. } => {
+                let url = match bump!(self) {
+                    Token::Url { value } => value,
+                    _ => {
+                        unreachable!()
+                    }
+                };
+
+                return Ok(Value::Url(UrlValue {
+                    span: span!(self, span.lo),
+                    url,
+                }));
+            }
+
             _ => {}
         }
 

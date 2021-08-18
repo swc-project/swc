@@ -46,6 +46,9 @@ pub enum Value {
 
     #[tag("AtTextValue")]
     AtText(AtTextValue),
+
+    #[tag("UrlValue")]
+    Url(UrlValue),
 }
 
 /// Comma separated list of values.
@@ -138,4 +141,11 @@ pub struct AtTextValue {
     /// Includes `@`.
     pub name: Text,
     pub block: Option<BraceValue>,
+}
+
+#[ast_node("UrlValue")]
+pub struct UrlValue {
+    pub span: Span,
+
+    pub url: JsWord,
 }
