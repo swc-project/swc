@@ -322,8 +322,13 @@ impl<'a, I: Tokens> Parser<I> {
             })));
         }
 
-        if (self.ctx().in_async || self.syntax().top_level_await()) && is!(self, "await") {
-            return self.parse_await_expr();
+        if is!(self, "await") {
+            let ctx = self.ctx();
+            if ctx.in_async {
+                return self.parse_await_expr();
+            } else if ctx.in_function {
+                syntax_error!(self, SyntaxError::AwaitInFunction);
+            }
         }
 
         // UpdateExpression
