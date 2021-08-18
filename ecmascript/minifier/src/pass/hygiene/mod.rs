@@ -1,5 +1,5 @@
+use self::var_analyzer::{analyze, ScopeData};
 use crate::{
-    analyzer::analyze,
     pass::hygiene::analyzer::{HygieneAnalyzer, HygieneData},
     util::now,
 };
@@ -30,7 +30,7 @@ pub fn hygiene_optimizer(top_level_mark: Mark) -> impl 'static + VisitMut + Fold
 }
 
 struct Optimizer {
-    hygiene: HygieneData,
+    hygiene: ScopeData,
     top_level_mark: Mark,
 }
 
@@ -44,8 +44,8 @@ impl VisitMut for Optimizer {
             return;
         }
 
-        if self.hygiene.preserved.contains(&i.to_id())
-            || !self.hygiene.modified.contains(&i.to_id())
+        if self.hygiene.preserved_ids.contains(&i.to_id())
+            || !self.hygiene.candidates.contains(&i.to_id())
         {
             return;
         }
@@ -65,16 +65,7 @@ impl VisitMut for Optimizer {
         log::info!("hygiene: Analyzing span hygiene");
         let start = now();
 
-        let data = analyze(&*n, None);
-
-        let mut analyzer = HygieneAnalyzer {
-            data: &data,
-            hygiene: Default::default(),
-            top_level_mark: self.top_level_mark,
-            cur_scope: None,
-        };
-        n.visit_with(&Invalid { span: DUMMY_SP }, &mut analyzer);
-        self.hygiene = analyzer.hygiene;
+        self.hygiene = analyze(n);
 
         if let Some(start) = start {
             let end = Instant::now();
@@ -95,16 +86,7 @@ impl VisitMut for Optimizer {
         log::info!("hygiene: Analyzing span hygiene");
         let start = now();
 
-        let data = analyze(&*n, None);
-
-        let mut analyzer = HygieneAnalyzer {
-            data: &data,
-            hygiene: Default::default(),
-            top_level_mark: self.top_level_mark,
-            cur_scope: None,
-        };
-        n.visit_with(&Invalid { span: DUMMY_SP }, &mut analyzer);
-        self.hygiene = analyzer.hygiene;
+        self.hygiene = analyze(n);
 
         if let Some(start) = start {
             let end = Instant::now();

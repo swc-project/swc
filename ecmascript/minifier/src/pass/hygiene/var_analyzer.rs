@@ -1,10 +1,25 @@
-use fxhash::FxHashMap;
+use fxhash::{FxHashMap, FxHashSet};
 use swc_atoms::JsWord;
-use swc_common::SyntaxContext;
+use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::scope::ScopeKind;
 use swc_ecma_utils::{collect_decls, ident::IdentLike, BindingCollector, Id};
 use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
+
+pub(super) fn analyze<N>(n: &N) -> ScopeData
+where
+    N: for<'aa> VisitWith<VarAnalyzer<'aa>>,
+{
+    let mut data = ScopeData::default();
+    let mut v = VarAnalyzer {
+        scope: &mut data,
+        children: Default::default(),
+        scope_depth: 0,
+    };
+    n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+
+    data
+}
 
 #[derive(Default)]
 pub(super) struct VarData {
@@ -14,7 +29,13 @@ pub(super) struct VarData {
 
 #[derive(Default)]
 pub(super) struct ScopeData {
-    pub declared: FxHashMap<JsWord, Vec<SyntaxContext>>,
+    /// Has higher precedence over `candidates`.
+    pub preserved_ids: FxHashSet<Id>,
+    /// Candidates for modification.
+    pub candidates: FxHashSet<Id>,
+
+    pub declared: FxHashMap<JsWord, FxHashSet<SyntaxContext>>,
+
     pub vars: FxHashMap<Id, VarData>,
 }
 
@@ -24,16 +45,23 @@ impl ScopeData {
             self.declared.entry(decl.0).or_default().extend(decl.1);
         }
 
+        self.preserved_ids.extend(rhs.preserved_ids);
+        self.candidates.extend(rhs.candidates);
+
         for (id, var) in rhs.vars {
-            let e = self.vars.entry(id).or_default();
+            let e = self.vars.entry(id.clone()).or_default();
 
             match kind {
                 ScopeKind::Fn => {
+                    self.preserved_ids.insert(id.clone());
+
                     e.is_fn_local = false;
                     e.used_by_nested_fn = true;
                 }
                 ScopeKind::Block => {
                     if var.used_by_nested_fn {
+                        self.preserved_ids.insert(id.clone());
+
                         e.is_fn_local = false;
                         e.used_by_nested_fn = true;
                     }
@@ -96,7 +124,7 @@ impl<'a> VarAnalyzer<'a> {
 
                 for decl_id in decls {
                     let e = data.declared.entry(decl_id.0).or_default();
-                    e.push(decl_id.1);
+                    e.insert(decl_id.1);
                 }
 
                 let mut v = VarAnalyzer {
@@ -131,6 +159,12 @@ impl Visit for VarAnalyzer<'_> {
 
     fn visit_ident(&mut self, n: &Ident, _: &dyn Node) {
         self.scope.vars.entry(n.to_id()).or_default();
+
+        if let Some(v) = self.scope.declared.get(&n.sym) {
+            if v.len() >= 2 {
+                self.scope.preserved_ids.insert(n.to_id());
+            }
+        }
     }
 
     fn visit_member_expr(&mut self, n: &MemberExpr, _: &dyn Node) {
