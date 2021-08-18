@@ -81,8 +81,8 @@ macro_rules! is {
     }};
 
     ($parser:expr, $tt:tt) => {{
-        match cur!($parser) {
-            tok_pat!($tt) => true,
+        match $parser.input.cur()? {
+            Some(tok_pat!($tt)) => true,
             _ => false,
         }
     }};
