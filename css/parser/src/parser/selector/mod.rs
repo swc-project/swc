@@ -326,8 +326,11 @@ where
                 // "[|x]"
                 // "[*|x]"
 
-                if peeked_is!(self, "*") {
-                    ns_name_prefix = self.parse_name_token().map(Some)?;
+                if eat!(self, "*") {
+                    ns_name_prefix = Some(Text {
+                        span: span!(self, start_pos),
+                        value: "*".into(),
+                    });
                 } else {
                     // "[|attr]" is equivalent to "[attr]". From the
                     // specification: "In keeping with the
