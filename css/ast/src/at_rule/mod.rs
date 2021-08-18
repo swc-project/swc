@@ -1,8 +1,9 @@
-pub use self::{keyframe::*, media::*, support::*};
+pub use self::{document::*, keyframe::*, media::*, support::*};
 use crate::{DeclBlock, Str, Text, Tokens};
 use is_macro::Is;
 use swc_common::{ast_node, Span};
 
+mod document;
 mod keyframe;
 mod media;
 mod support;
@@ -36,6 +37,9 @@ pub enum AtRule {
 
     #[tag("ViewportRule")]
     Viewport(ViewportRule),
+
+    #[tag("DocumentRule")]
+    Document(DocumentRule),
 
     #[tag("UnknownAtRule")]
     Unknown(UnknownAtRule),
