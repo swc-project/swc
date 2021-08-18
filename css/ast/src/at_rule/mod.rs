@@ -1,5 +1,5 @@
 pub use self::{keyframe::*, media::*, support::*};
-use crate::{DeclBlock, Str};
+use crate::{DeclBlock, Str, Text};
 use is_macro::Is;
 use swc_common::{ast_node, Span};
 
@@ -30,6 +30,9 @@ pub enum AtRule {
 
     #[tag("PageRule")]
     Page(PageRule),
+
+    #[tag("NamespaceRule")]
+    Namespace(NamespaceRule),
 }
 
 #[ast_node("CharsetRule")]
@@ -53,4 +56,11 @@ pub struct FontFaceRule {
 #[ast_node("PageRule")]
 pub struct PageRule {
     pub span: Span,
+}
+
+#[ast_node("NamespaceRule")]
+pub struct NamespaceRule {
+    pub span: Span,
+    pub prefix: Text,
+    pub value: Str,
 }

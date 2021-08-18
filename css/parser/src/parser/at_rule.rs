@@ -150,6 +150,16 @@ where
 
             "namsepace" => {
                 self.input.skip_ws()?;
+
+                let prefix = self.parse_id()?;
+                self.input.skip_ws()?;
+                let value = self.parse_str()?;
+
+                return Ok(AtRule::Namespace(NamespaceRule {
+                    span: span!(self, start),
+                    prefix,
+                    value,
+                }));
             }
 
             "viewport" | "-ms-viewport" => {
