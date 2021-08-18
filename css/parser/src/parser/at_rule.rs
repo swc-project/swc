@@ -273,7 +273,14 @@ where
             items
         };
 
-        let block = self.parse_decl_block()?;
+        expect!(self, "{");
+
+        let block = self.parse_rules(RuleContext {
+            is_top_level: false,
+            parse_selectors: true,
+        })?;
+
+        expect!(self, "}");
 
         Ok(DocumentRule {
             span: span!(self, span.lo),
