@@ -209,6 +209,9 @@ where
 
     /// Ported from `isValidEscape` of `esbuild`
     fn is_valid_escape(&mut self) -> LexResult<bool> {
+        if self.input.cur().is_none() {
+            return Ok(false);
+        }
         if self.input.cur().unwrap() != '\\' {
             return Ok(false);
         }
