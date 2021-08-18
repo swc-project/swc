@@ -18,16 +18,18 @@ where
     };
     n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
 
+    dbg!(&data);
+
     data
 }
 
-#[derive(Default)]
+#[derive(Debug, Default)]
 pub(super) struct VarData {
     used_by_nested_fn: bool,
-    pub is_fn_local: bool,
+    not_fn_local: bool,
 }
 
-#[derive(Default)]
+#[derive(Debug, Default)]
 pub(super) struct ScopeData {
     /// Has higher precedence over `candidates`.
     pub preserved_ids: FxHashSet<Id>,
@@ -59,7 +61,7 @@ impl ScopeData {
 
                     self.preserved_ids.insert(id.clone());
 
-                    e.is_fn_local = false;
+                    e.not_fn_local = true;
                     e.used_by_nested_fn = true;
                 }
                 ScopeKind::Block => {
@@ -70,7 +72,7 @@ impl ScopeData {
 
                         self.preserved_ids.insert(id.clone());
 
-                        e.is_fn_local = false;
+                        e.not_fn_local = true;
                         e.used_by_nested_fn = true;
                     }
                 }
@@ -109,6 +111,10 @@ impl<'a> VarAnalyzer<'a> {
                 // We are not in a leaf node, so we can just use the variable
                 // information collected from child scope.
 
+                if cfg!(feature = "debug") {
+                    log::trace!("Hanlding non-leaf scope (depth = {})", cur_depth);
+                }
+
                 let mut data = children.into_iter().fold(ScopeData::default(), |mut a, b| {
                     a.merge_child(b, kind);
                     a
@@ -125,6 +131,9 @@ impl<'a> VarAnalyzer<'a> {
             }
             None => {
                 // Leaf node.
+                if cfg!(feature = "debug") {
+                    log::trace!("Hanlding leaf scope (depth = {})", cur_depth);
+                }
 
                 let mut data = ScopeData::default();
 
