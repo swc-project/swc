@@ -1884,4 +1884,10 @@ export default function waitUntil(callback, options = {}) {
         let src = "function foo (p) { await p; }";
         test_parser(src, Syntax::Es(Default::default()), |p| p.parse_program());
     }
+
+    #[test]
+    fn top_level_await_in_block() {
+        let src = "if (true) { await promise; }";
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());
+    }
 }
