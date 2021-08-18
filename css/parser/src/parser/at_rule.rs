@@ -1,11 +1,8 @@
-use super::{
-    input::ParserInput,
-    traits::{Parse, ParseDelmited},
-    PResult, Parser,
-};
+use super::{input::ParserInput, traits::ParseDelmited, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
     parser::{Ctx, RuleContext},
+    Parse,
 };
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;

@@ -1,6 +1,8 @@
+use crate::Parse;
+
 use super::{
     input::ParserInput,
-    traits::{Block, Parse, ParseDelmited},
+    traits::{Block, ParseDelmited},
     Ctx, PResult, Parser,
 };
 use std::ops::{Deref, DerefMut};
