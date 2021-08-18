@@ -26,6 +26,7 @@ mod tests {
     use serde::Deserialize;
     use std::path::PathBuf;
     use swc_common::chain;
+    use swc_ecma_parser::{EsConfig, Syntax};
     use swc_ecma_transforms_base::pass::noop;
     use swc_ecma_transforms_compat::{es2015::classes, es2020::class_properties};
     use swc_ecma_transforms_testing::{parse_options, test_fixture};
@@ -52,7 +53,10 @@ mod tests {
 
         let output = parent.join("output.js");
         test_fixture(
-            Default::default(),
+            Syntax::Es(EsConfig {
+                private_in_object: true,
+                ..Default::default()
+            }),
             &|t| {
                 let mut pass: Box<dyn Fold> = Box::new(noop());
 
