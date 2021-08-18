@@ -1,10 +1,6 @@
 use crate::Parse;
 
-use super::{
-    input::ParserInput,
-    traits::{Block, ParseDelmited},
-    Ctx, PResult, Parser,
-};
+use super::{input::ParserInput, traits::ParseDelmited, Ctx, PResult, Parser};
 use std::ops::{Deref, DerefMut};
 use swc_common::Span;
 
@@ -18,30 +14,6 @@ impl<I> Parser<I>
 where
     I: ParserInput,
 {
-    /// TOOD: error recovery.
-    pub(super) fn parse_items_block<T, Ret>(&mut self) -> PResult<Ret>
-    where
-        Ret: Block<Content = Vec<T>>,
-        Self: Parse<T> + ParseDelmited<T>,
-    {
-        let mut items = vec![];
-        let span = self.input.cur_span()?;
-        expect!(self, "{");
-
-        loop {
-            let res = self.parse()?;
-            items.push(res);
-
-            if !ParseDelmited::eat_delimiter(self)? {
-                break;
-            }
-        }
-
-        expect!(self, "}");
-
-        Ok(Block::from_content(span!(self, span.lo), items))
-    }
-
     /// TOOD: error recovery.
     pub(super) fn parse_delimited<T>(&mut self, allow_zero: bool) -> PResult<Vec<T>>
     where
@@ -65,22 +37,6 @@ where
         }
 
         Ok(items)
-    }
-
-    /// TOOD: error recovery.
-    pub(super) fn parse_block<Ret>(&mut self) -> PResult<Ret>
-    where
-        Ret: Block,
-        Self: Parse<Ret::Content>,
-    {
-        let span = self.input.cur_span()?;
-        expect!(self, "{");
-
-        let content = self.parse()?;
-
-        expect!(self, "}");
-
-        Ok(Block::from_content(span!(self, span.lo), content))
     }
 
     /// Original context is restored when returned guard is dropped.

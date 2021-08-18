@@ -108,7 +108,7 @@ where
                         continue;
                     }
                 }};
-            };
+            }
 
             try_group!("(", ")");
             try_group!("[", "]");
