@@ -25,6 +25,17 @@ where
     }
 }
 
+impl<T, E> Emit<Box<T>> for E
+where
+    E: Emit<T>,
+    T: Spanned,
+{
+    #[inline]
+    fn emit(&mut self, node: &Box<T>) -> Result {
+        self.emit(&**node)
+    }
+}
+
 impl<T, E> Emit<Option<T>> for E
 where
     E: Emit<T>,
