@@ -1,0 +1,1 @@
+@viewport { width: 100vw }

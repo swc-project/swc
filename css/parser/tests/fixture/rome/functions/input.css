@@ -1,0 +1,8 @@
+.style {
+	--fancy: 2px;
+	border: var(--fancy);
+	font-size: calc(10px + 5rem);
+	background: url("");
+	background: url("something");
+	background: url("./something");
+}

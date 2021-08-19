@@ -1,0 +1,24 @@
+@keyframes important1 {
+    from {
+        margin-top: 50px !important;
+    }
+    to {
+        margin-top: 100px !important;
+    }
+}
+
+@keyframes foo {
+    from {
+    }
+    to {
+    }
+    15% {
+    }
+    0% {
+    }
+    100% {
+    }
+}
+
+@keyframes FOO {
+}

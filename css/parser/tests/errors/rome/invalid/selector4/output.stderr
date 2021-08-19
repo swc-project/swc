@@ -1,0 +1,6 @@
+error: Expected an identifier or a string after an attribute selector operator
+ --> $DIR/tests/errors/rome/invalid/selector4/input.css:1:7
+  |
+1 | .class[attr= {
+  |       ^^^^^^^
+
