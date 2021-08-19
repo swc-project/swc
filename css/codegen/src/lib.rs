@@ -295,6 +295,25 @@ where
         punct!(";");
     }
 
+    #[emitter]
+    fn emit_text(&mut self, n: &Text) -> Result {
+        self.wr.write_ident(Some(n.span), &n.value)?;
+    }
+
+    #[emitter]
+    fn emit_keyframe_block_rule(&mut self, n: &KeyframeBlockRule) -> Result {
+        match n {
+            KeyframeBlockRule::Decl(n) => emit!(n),
+            KeyframeBlockRule::AtRule(n) => emit!(n),
+        }
+    }
+
+    #[emitter]
+    fn emit_percent_value(&mut self, n: &PercentValue) -> Result {
+        emit!(n.value);
+        punct!("%");
+    }
+
     fn emit_list<N>(&mut self, nodes: &[N], format: ListFormat) -> Result
     where
         Self: Emit<N>,
