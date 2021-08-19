@@ -298,7 +298,7 @@ where
         if is!(self, Ident) {
             self.parse_id().map(KeyframeSelector::Id)
         } else {
-            self.parse().map(KeyframeSelector::Perecent)
+            self.parse().map(KeyframeSelector::Percent)
         }
     }
 }

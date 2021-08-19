@@ -20,7 +20,7 @@ pub enum KeyframeSelector {
     #[tag("Text")]
     Id(Text),
     #[tag("PercentValue")]
-    Perecent(PercentValue),
+    Percent(PercentValue),
 }
 
 #[ast_node]
