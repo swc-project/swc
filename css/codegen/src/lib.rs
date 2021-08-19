@@ -111,6 +111,37 @@ where
         self.emit_list(&n.blocks, ListFormat::NotDelimited)?;
     }
 
+    #[emitter]
+    fn emit_keyfram_block(&mut self, n: &KeyframeBlock) -> Result {
+        self.emit_list(&n.selector, ListFormat::CommaDelimited)?;
+
+        space!();
+
+        emit!(n.rule);
+    }
+
+    #[emitter]
+    fn emit_keyframe_selector(&mut self, n: &KeyframeSelector) -> Result {
+        match n {
+            KeyframeSelector::Id(n) => emit!(n),
+            KeyframeSelector::Percent(n) => emit!(n),
+        }
+    }
+
+    #[emitter]
+    fn emit_media_rule(&mut self, n: &MediaRule) -> Result {
+        punct!("@");
+        keyword!("media");
+
+        space!();
+
+        emit!(n.query);
+
+        space!();
+
+        self.emit_list(&n.rules, ListFormat::NotDelimited)?;
+    }
+
     fn emit_list<N>(&mut self, nodes: &[N], format: ListFormat) -> Result
     where
         Self: Emit<N>,
