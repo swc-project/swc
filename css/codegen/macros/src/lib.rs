@@ -62,7 +62,7 @@ fn (&mut self, node: Node) -> Result;
                     {
                         impl<W> crate::Emit<NodeType> for crate::CodeGenerator<W>
                         where
-                            W: crate::Write,
+                            W: crate::writer::CssWriter,
                         {
                             fn emit(&mut self, n: &NodeType) -> crate::Result {
                                 self.mtd_name(n)

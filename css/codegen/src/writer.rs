@@ -2,7 +2,7 @@ use std::fmt::Result;
 use swc_common::Span;
 
 pub trait CssWriter {
-    fn write_ident(&mut self, span: Span, s: &str) -> Result;
+    fn write_ident(&mut self, span: Option<Span>, s: &str) -> Result;
 
     fn write_punct(&mut self, span: Option<Span>, punct: &str) -> Result;
 

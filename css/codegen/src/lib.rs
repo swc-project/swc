@@ -5,6 +5,7 @@ use std::fmt::Write;
 use swc_common::Spanned;
 use swc_css_ast::*;
 use swc_css_codegen_macros::emitter;
+use writer::CssWriter;
 
 #[macro_use]
 mod macros;
@@ -19,7 +20,7 @@ pub struct CodegenConfig {
 #[derive(Debug)]
 pub struct CodeGenerator<W>
 where
-    W: Write,
+    W: CssWriter,
 {
     wr: W,
     config: CodegenConfig,
@@ -27,7 +28,7 @@ where
 
 impl<W> CodeGenerator<W>
 where
-    W: Write,
+    W: CssWriter,
 {
     pub fn new(wr: W, config: CodegenConfig) -> Self {
         CodeGenerator { wr, config }
@@ -253,7 +254,7 @@ where
     fn emit_str(&mut self, n: &Str) -> Result {
         // TODO: Handle escapes.
         punct!("'");
-        write!(self.wr, "{}", n.value);
+        self.wr.write_raw(Some(n.span), &n.value)?;
         punct!("'");
     }
 

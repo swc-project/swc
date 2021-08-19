@@ -7,25 +7,33 @@ macro_rules! emit {
 }
 
 macro_rules! punct {
+    ($g:expr,$span:expr,$n:expr) => {{
+        $g.wr.write_punct(Some($span), $n);
+    }};
+
     ($g:expr,$n:expr) => {{
-        write!($g.wr, "{}", $n)?;
+        $g.wr.write_punct(None, $n);
     }};
 }
 
 macro_rules! keyword {
+    ($g:expr,$span:expr,$n:expr) => {{
+        $g.wr.write_ident(Some($span), $n);
+    }};
+
     ($g:expr,$n:expr) => {{
-        write!($g.wr, "{}", $n)?;
+        $g.wr.write_ident(None, $n);
     }};
 }
 
 macro_rules! space {
     ($g:expr) => {{
-        write!($g.wr, " ")?;
+        $g.wr.write_space()?;
     }};
 }
 
 macro_rules! semi {
     ($g:expr) => {{
-        write!($g.wr, ";")?;
+        punct!($g, ";");
     }};
 }
