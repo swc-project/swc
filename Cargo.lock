@@ -2267,6 +2267,7 @@ name = "swc_css"
 version = "0.1.0"
 dependencies = [
  "swc_css_ast",
+ "swc_css_codegen",
  "swc_css_parser",
  "swc_css_visit",
 ]
@@ -2281,6 +2282,10 @@ dependencies = [
  "swc_atoms",
  "swc_common",
 ]
+
+[[package]]
+name = "swc_css_codegen"
+version = "0.1.0"
 
 [[package]]
 name = "swc_css_parser"
