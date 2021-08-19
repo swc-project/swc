@@ -187,6 +187,58 @@ where
         emit!(n.value);
     }
 
+    #[emitter]
+    fn emit_viewport_rule(&mut self, n: &ViewportRule) -> Result {
+        punct!("@");
+        keyword!("viewport");
+        space!();
+
+        emit!(n.block);
+    }
+
+    #[emitter]
+    fn emit_document_rule(&mut self, n: &DocumentRule) -> Result {
+        punct!("@");
+        keyword!("document");
+        space!();
+
+        self.emit_list(&n.selectors, ListFormat::CommaDelimited)?;
+
+        space!();
+
+        self.emit_list(&n.block, ListFormat::NotDelimited)?;
+    }
+
+    #[emitter]
+    fn emit_fn_value(&mut self, n: &FnValue) -> Result {
+        emit!(n.name);
+
+        punct!("(");
+        self.emit_list(&n.args, ListFormat::CommaDelimited)?;
+        punct!(")");
+    }
+
+    #[emitter]
+    fn emit_value(&mut self, n: &Value) -> Result {
+        match n {
+            Value::Paren(n) => emit!(n),
+            Value::Unit(n) => emit!(n),
+            Value::Number(n) => emit!(n),
+            Value::Percent(n) => emit!(n),
+            Value::Hash(n) => emit!(n),
+            Value::Text(n) => emit!(n),
+            Value::Str(n) => emit!(n),
+            Value::Fn(n) => emit!(n),
+            Value::Bin(n) => emit!(n),
+            Value::Array(n) => emit!(n),
+            Value::Comma(n) => emit!(n),
+            Value::Brace(n) => emit!(n),
+            Value::Lazy(n) => emit!(n),
+            Value::AtText(n) => emit!(n),
+            Value::Url(n) => emit!(n),
+        }
+    }
+
     fn emit_list<N>(&mut self, nodes: &[N], format: ListFormat) -> Result
     where
         Self: Emit<N>,
