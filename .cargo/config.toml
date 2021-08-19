@@ -4,7 +4,7 @@
 rustdocflags = []
 rustflags = [
   "-C",
-  "target-feature=+sse2,+aes",
+  "target-feature=+sse2",
 ]
 
 [target.aarch64-apple-darwin]
