@@ -132,7 +132,6 @@ where
     fn emit_media_rule(&mut self, n: &MediaRule) -> Result {
         punct!("@");
         keyword!("media");
-
         space!();
 
         emit!(n.query);
@@ -140,6 +139,52 @@ where
         space!();
 
         self.emit_list(&n.rules, ListFormat::NotDelimited)?;
+    }
+
+    #[emitter]
+    fn emit_supports_rule(&mut self, n: &SupportsRule) -> Result {
+        punct!("@");
+        keyword!("supports");
+        space!();
+
+        emit!(n.query);
+
+        space!();
+
+        self.emit_list(&n.rules, ListFormat::NotDelimited)?;
+    }
+
+    #[emitter]
+    fn emit_page_rule(&mut self, n: &PageRule) -> Result {
+        punct!("@");
+        keyword!("page");
+        space!();
+
+        self.emit_list(&n.prelude, ListFormat::CommaDelimited)?;
+
+        emit!(n.block);
+    }
+
+    #[emitter]
+    fn emit_page_selector(&mut self, n: &PageSelector) -> Result {
+        emit!(n.ident);
+        if let Some(pseudo) = &n.pseudo {
+            punct!(":");
+            emit!(pseudo);
+        }
+    }
+
+    #[emitter]
+    fn emit_namespace_rule(&mut self, n: &NamespaceRule) -> Result {
+        punct!("@");
+        keyword!("namespace");
+        space!();
+
+        emit!(n.prefix);
+
+        space!();
+
+        emit!(n.value);
     }
 
     fn emit_list<N>(&mut self, nodes: &[N], format: ListFormat) -> Result
