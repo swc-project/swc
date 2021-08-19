@@ -93,6 +93,7 @@ pub struct ArrayValue {
     /// Includes `[` and `]`.
     pub span: Span,
 
+    /// Comma separated list of values.
     pub values: Vec<Value>,
 }
 
