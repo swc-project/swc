@@ -60,9 +60,12 @@ fn (&mut self, node: Node) -> Result;
                 },
                 {
                     {
-                        impl<W> crate::Emit<T> for crate::CodeGenerator<W>where W:crate::Write{
-                            fn emit_with(&self, e: &mut crate::Emitter) -> crate::Result {
-                                e.mtd_name(self)
+                        impl<W> crate::Emit<NodeType> for crate::CodeGenerator<W>
+                        where
+                            W: crate::Write,
+                        {
+                            fn emit(&mut self, n: &NodeType) -> crate::Result {
+                                self.mtd_name(n)
                             }
                         }
 
