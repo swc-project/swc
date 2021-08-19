@@ -294,9 +294,6 @@ where
         punct!(";");
     }
 
-    #[emitter]
-    fn emit_text(&mut self, n: &Text) -> Result {}
-
     fn emit_list<N>(&mut self, nodes: &[N], format: ListFormat) -> Result
     where
         Self: Emit<N>,
