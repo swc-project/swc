@@ -12,5 +12,5 @@ pub trait CssWriter {
 
     fn increase_indent(&mut self);
 
-    fn decrease_indetn(&mut self);
+    fn decrease_indent(&mut self);
 }

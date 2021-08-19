@@ -314,6 +314,38 @@ where
         punct!("%");
     }
 
+    #[emitter]
+    fn emit_support_query(&mut self, n: &SupportQuery) -> Result {
+        match n {
+            SupportQuery::Not(n) => emit!(n),
+            SupportQuery::And(n) => emit!(n),
+            SupportQuery::Or(n) => emit!(n),
+            SupportQuery::Property(n) => emit!(n),
+            SupportQuery::Paren(n) => emit!(n),
+        }
+    }
+
+    #[emitter]
+    fn emit_page_rule_block(&mut self, n: &PageRuleBlock) -> Result {
+        punct!("{");
+
+        self.wr.increase_indent();
+
+        self.emit_list(&n.items, ListFormat::MultiLine | ListFormat::SemiDelimited)?;
+
+        self.wr.decrease_indent();
+
+        punct!("}");
+    }
+
+    #[emitter]
+    fn emit_page_rule_block_item(&mut self, n: &PageRuleBlockItem) -> Result {
+        match n {
+            PageRuleBlockItem::Property(n) => emit!(n),
+            PageRuleBlockItem::Nested(n) => emit!(n),
+        }
+    }
+
     fn emit_list<N>(&mut self, nodes: &[N], format: ListFormat) -> Result
     where
         Self: Emit<N>,
