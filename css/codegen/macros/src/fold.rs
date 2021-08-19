@@ -100,7 +100,7 @@ impl Fold for InjectSelf {
 
             "trace" | "debug" | "info" | "warn" | "error" => i,
             //TODO
-            "unimplemented" => i,
+            "unimplemented" | "todo" => i,
 
             //TODO: Collect expect and give that list to unexpected
             "keyword" | "emit" | "punct" | "semi" | "formatting_semi" | "space"

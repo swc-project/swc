@@ -36,4 +36,34 @@ where
             Rule::AtRule(n) => emit!(n),
         }
     }
+
+    #[emitter]
+    fn emit_style_rule(&mut self, n: &StyleRule) -> Result {}
+
+    #[emitter]
+    fn emit_at_rule(&mut self, n: &AtRule) -> Result {
+        match n {
+            AtRule::Charset(n) => emit!(n),
+            AtRule::Import(n) => emit!(n),
+            AtRule::FontFace(n) => emit!(n),
+            AtRule::Keyframes(n) => emit!(n),
+            AtRule::Media(n) => emit!(n),
+            AtRule::Supports(n) => emit!(n),
+            AtRule::Page(n) => emit!(n),
+            AtRule::Namespace(n) => emit!(n),
+            AtRule::Viewport(n) => emit!(n),
+            AtRule::Document(n) => emit!(n),
+            AtRule::Unknown(n) => emit!(n),
+        }
+    }
+
+    #[emitter]
+    fn emit_charset_rule(&mut self, n: &CharsetRule) -> Result {
+        punct!("@");
+        keyword!("charset");
+
+        space!();
+
+        emit!(n.charset)
+    }
 }
