@@ -1079,7 +1079,6 @@ dependencies = [
  "serde_json",
  "swc",
  "swc_atoms",
- "swc_babel_compat",
  "swc_bundler",
  "swc_common",
  "swc_ecma_ast",
@@ -2313,7 +2312,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.67.0"
+version = "0.67.1"
 dependencies = [
  "bitflags",
  "num-bigint",
