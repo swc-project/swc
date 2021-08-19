@@ -23,3 +23,9 @@ macro_rules! space {
         write!($g.wr, " ")?;
     }};
 }
+
+macro_rules! semi {
+    ($g:expr) => {{
+        write!($g.wr, ";")?;
+    }};
+}

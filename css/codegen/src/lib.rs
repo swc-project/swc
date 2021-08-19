@@ -64,6 +64,33 @@ where
 
         space!();
 
-        emit!(n.charset)
+        emit!(n.charset);
+
+        semi!();
+    }
+
+    #[emitter]
+    fn emit_import_rule(&mut self, n: &ImportRule) -> Result {
+        punct!("@");
+        keyword!("import");
+
+        space!();
+        emit!(n.src);
+
+        if let Some(query) = &n.condition {
+            space!();
+            emit!(query);
+        }
+
+        semi!();
+    }
+
+    #[emitter]
+    fn emit_font_face_rule(&mut self, n: &FontFaceRule) -> Result {
+        punct!("@");
+        keyword!("font-face");
+        space!();
+
+        emit!(n.block);
     }
 }
