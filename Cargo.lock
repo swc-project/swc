@@ -2300,6 +2300,12 @@ dependencies = [
 [[package]]
 name = "swc_css_visit"
 version = "0.1.0"
+dependencies = [
+ "swc_atoms",
+ "swc_common",
+ "swc_css_ast",
+ "swc_visit",
+]
 
 [[package]]
 name = "swc_ecma_ast"
