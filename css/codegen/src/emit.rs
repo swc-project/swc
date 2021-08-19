@@ -24,3 +24,17 @@ where
         self.emit(&**node)
     }
 }
+
+impl<T, E> Emit<Option<T>> for E
+where
+    E: Emit<T>,
+    T: Spanned,
+{
+    #[inline]
+    fn emit(&mut self, node: &Option<T>) -> Result {
+        match node {
+            Some(node) => self.emit(&*node),
+            None => Ok(()),
+        }
+    }
+}
