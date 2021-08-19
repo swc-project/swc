@@ -1,12 +1,15 @@
 pub use self::emit::*;
+use self::list::ListFormat;
 pub use std::fmt::Result;
 use std::fmt::Write;
+use swc_common::Spanned;
 use swc_css_ast::*;
 use swc_css_codegen_macros::emitter;
 
 #[macro_use]
 mod macros;
 mod emit;
+mod list;
 
 #[derive(Debug, Clone, Copy)]
 pub struct CodegenConfig {
@@ -92,5 +95,50 @@ where
         space!();
 
         emit!(n.block);
+    }
+
+    #[emitter]
+    fn emit_keyframes_rule(&mut self, n: &KeyframesRule) -> Result {
+        punct!("@");
+        keyword!("keyframes");
+        space!();
+
+        emit!(n.id);
+        if !n.id.value.is_empty() {
+            space!();
+        }
+
+        self.emit_list(&n.blocks, ListFormat::NotDelimited)?;
+    }
+
+    fn emit_list<N>(&mut self, nodes: &[N], format: ListFormat) -> Result
+    where
+        Self: Emit<N>,
+        N: Spanned,
+    {
+        for (idx, node) in nodes.iter().enumerate() {
+            if idx != 0 && idx != nodes.len() - 1 {
+                self.write_delim(format)?;
+            }
+            emit!(self, node)
+        }
+
+        Ok(())
+    }
+
+    fn write_delim(&mut self, f: ListFormat) -> Result {
+        match f & ListFormat::DelimitersMask {
+            ListFormat::None => {}
+            ListFormat::CommaDelimited => punct!(self, ","),
+            ListFormat::BarDelimited => {
+                punct!(self, "|")
+            }
+            ListFormat::AmpersandDelimited => {
+                punct!(self, "&")
+            }
+            _ => unreachable!(),
+        }
+
+        Ok(())
     }
 }
