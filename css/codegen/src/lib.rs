@@ -10,6 +10,7 @@ use swc_css_codegen_macros::emitter;
 mod macros;
 mod emit;
 mod list;
+pub mod writer;
 
 #[derive(Debug, Clone, Copy)]
 pub struct CodegenConfig {
@@ -250,10 +251,51 @@ where
 
     #[emitter]
     fn emit_str(&mut self, n: &Str) -> Result {
+        // TODO: Handle escapes.
         punct!("'");
         write!(self.wr, "{}", n.value);
         punct!("'");
     }
+
+    #[emitter]
+    fn emit_media_query(&mut self, n: &MediaQuery) -> Result {
+        match n {
+            MediaQuery::Text(n) => emit!(n),
+            MediaQuery::And(n) => emit!(n),
+            MediaQuery::Or(n) => emit!(n),
+            MediaQuery::Not(n) => emit!(n),
+            MediaQuery::Only(n) => emit!(n),
+            MediaQuery::Property(n) => emit!(n),
+            MediaQuery::Comma(n) => emit!(n),
+        }
+    }
+
+    #[emitter]
+    fn emit_decl_block(&mut self, n: &DeclBlock) -> Result {
+        punct!("{");
+
+        self.emit_list(
+            &n.properties,
+            ListFormat::SemiDelimited | ListFormat::MultiLine,
+        )?;
+
+        punct!("}");
+    }
+
+    #[emitter]
+    fn emit_property(&mut self, n: &Property) -> Result {
+        emit!(n.name);
+        punct!(":");
+        space!();
+        self.emit_list(
+            &n.values,
+            ListFormat::SpaceDelimited | ListFormat::SingleLine,
+        )?;
+        punct!(";");
+    }
+
+    #[emitter]
+    fn emit_text(&mut self, n: &Text) -> Result {}
 
     fn emit_list<N>(&mut self, nodes: &[N], format: ListFormat) -> Result
     where
@@ -274,11 +316,11 @@ where
         match f & ListFormat::DelimitersMask {
             ListFormat::None => {}
             ListFormat::CommaDelimited => punct!(self, ","),
-            ListFormat::BarDelimited => {
-                punct!(self, "|")
+            ListFormat::SpaceDelimited => {
+                space!(self)
             }
-            ListFormat::AmpersandDelimited => {
-                punct!(self, "&")
+            ListFormat::SemiDelimited => {
+                punct!(self, ";")
             }
             _ => unreachable!(),
         }

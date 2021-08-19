@@ -26,13 +26,10 @@ add_bitflags!(
     Values {
         /// There is no delimiter between list items (default).
         NotDelimited: 0,
-        /// Each list item is space-and-bar (" |") delimited.
-        BarDelimited: 1 << 2,
-        /// Each list item is space-and-ampersand (" &") delimited.
-        AmpersandDelimited: 1 << 3,
-        /// Each list item is comma (",") delimited.
+        SpaceDelimited: 1 << 2,
+        SemiDelimited: 1 << 3,
         CommaDelimited: 1 << 4,
-        DelimitersMask: BarDelimited | AmpersandDelimited | CommaDelimited,
+        DelimitersMask: SpaceDelimited | SemiDelimited | CommaDelimited,
     },
     Values {
         /// Write a trailing comma (",") if present.
