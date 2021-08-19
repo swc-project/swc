@@ -2290,7 +2290,12 @@ dependencies = [
  "swc_atoms",
  "swc_common",
  "swc_css_ast",
+ "swc_css_codegen_macros",
 ]
+
+[[package]]
+name = "swc_css_codegen_macros"
+version = "0.1.0"
 
 [[package]]
 name = "swc_css_parser"
