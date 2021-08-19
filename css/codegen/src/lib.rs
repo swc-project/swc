@@ -422,6 +422,42 @@ where
         punct!(")");
     }
 
+    #[emitter]
+    fn emit_and_media_query(&mut self, n: &AndMediaQuery) -> Result {
+        emit!(n.left);
+        space!();
+
+        keyword!("and");
+
+        space!();
+        emit!(n.right);
+    }
+
+    #[emitter]
+    fn emit_or_media_query(&mut self, n: &OrMediaQuery) -> Result {
+        emit!(n.left);
+        space!();
+
+        keyword!("or");
+
+        space!();
+        emit!(n.right);
+    }
+
+    #[emitter]
+    fn emit_not_media_query(&mut self, n: &NotMediaQuery) -> Result {
+        keyword!("not");
+        space!();
+        emit!(n.query);
+    }
+
+    #[emitter]
+    fn emit_only_media_query(&mut self, n: &OnlyMediaQuery) -> Result {
+        keyword!("only");
+        space!();
+        emit!(n.query);
+    }
+
     fn emit_list<N>(&mut self, nodes: &[N], format: ListFormat) -> Result
     where
         Self: Emit<N>,
