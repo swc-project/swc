@@ -15,12 +15,12 @@ debug = []
 [dependencies]
 bitflags = "1.2.1"
 lexical = "5.2.2"
-swc_atoms = {path = "../../atoms"}
-swc_common = {path = "../../common"}
-swc_css_ast = {path = "../ast"}
+swc_atoms = {version = "0.2.7", path = "../../atoms"}
+swc_common = {version = "0.11.6", path = "../../common"}
+swc_css_ast = {version = "0.1.0", path = "../ast"}
 unicode-xid = "0.2.2"
 
 [dev-dependencies]
 serde = "1.0.127"
 serde_json = "1.0.66"
-testing = {path = "../../testing"}
+testing = {version = "0.12.2", path = "../../testing"}
