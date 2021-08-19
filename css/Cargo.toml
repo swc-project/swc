@@ -9,5 +9,5 @@ repository = "https://github.com/swc-project/swc.git"
 version = "0.1.0"
 
 [dependencies]
-swc_css_ast = {path = "./ast"}
-swc_css_parser = {path = "./parser"}
+swc_css_ast = {path = "./ast", version = "0.1.0"}
+swc_css_parser = {path = "./parser", version = "0.1.0"}
