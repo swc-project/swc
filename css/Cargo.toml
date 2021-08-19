@@ -11,3 +11,4 @@ version = "0.1.0"
 [dependencies]
 swc_css_ast = {path = "./ast", version = "0.1.0"}
 swc_css_parser = {path = "./parser", version = "0.1.0"}
+swc_css_visit = {path = "./visit", version = "0.1.0"}

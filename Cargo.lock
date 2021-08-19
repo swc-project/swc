@@ -2268,6 +2268,7 @@ version = "0.1.0"
 dependencies = [
  "swc_css_ast",
  "swc_css_parser",
+ "swc_css_visit",
 ]
 
 [[package]]
@@ -2295,6 +2296,10 @@ dependencies = [
  "testing",
  "unicode-xid",
 ]
+
+[[package]]
+name = "swc_css_visit"
+version = "0.1.0"
 
 [[package]]
 name = "swc_ecma_ast"
