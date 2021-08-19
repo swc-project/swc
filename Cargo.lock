@@ -1079,7 +1079,6 @@ dependencies = [
  "serde_json",
  "swc",
  "swc_atoms",
- "swc_babel_compat",
  "swc_bundler",
  "swc_common",
  "swc_ecma_ast",
