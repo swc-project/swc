@@ -83,7 +83,9 @@ impl Fold for InjectSelf {
         let span = get_joined_span(&i.path);
 
         match &*name {
-            "smallvec" | "vec" | "unreachable" | "tok" | "op" | "js_word" => i,
+            "smallvec" | "write" | "writeln" | "vec" | "unreachable" | "tok" | "op" | "js_word" => {
+                i
+            }
 
             "println" | "print" | "format" | "assert" | "assert_eq" | "assert_ne"
             | "debug_assert" | "debug_assert_eq" | "debug_assert_ne" | "dbg" => {

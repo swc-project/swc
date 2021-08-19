@@ -239,6 +239,22 @@ where
         }
     }
 
+    #[emitter]
+    fn emit_unknown_at_rule(&mut self, n: &UnknownAtRule) -> Result {
+        punct!("@");
+        emit!(n.name);
+        space!();
+
+        emit!(n.tokens)
+    }
+
+    #[emitter]
+    fn emit_str(&mut self, n: &Str) -> Result {
+        punct!("'");
+        write!(self.wr, "{}", n.value);
+        punct!("'");
+    }
+
     fn emit_list<N>(&mut self, nodes: &[N], format: ListFormat) -> Result
     where
         Self: Emit<N>,
