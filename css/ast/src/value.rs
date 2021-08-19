@@ -35,8 +35,8 @@ pub enum Value {
     #[tag("ArrayValue")]
     Array(ArrayValue),
 
-    #[tag("Values")]
-    Values(Values),
+    #[tag("CommaValues")]
+    Comma(CommaValues),
 
     #[tag("BraceValue")]
     Brace(BraceValue),
@@ -52,9 +52,9 @@ pub enum Value {
 }
 
 /// Comma separated list of values.
-#[ast_node("Values")]
+#[ast_node("CommaValues")]
 #[derive(Default)]
-pub struct Values {
+pub struct CommaValues {
     pub span: Span,
     pub values: Vec<Value>,
 }

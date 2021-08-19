@@ -59,7 +59,7 @@ where
                 self.input.skip_ws()?;
             }
 
-            return Ok(Value::Values(Values {
+            return Ok(Value::Comma(CommaValues {
                 span: span!(self, span.lo),
                 values,
             }));
