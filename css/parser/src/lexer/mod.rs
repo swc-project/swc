@@ -16,6 +16,7 @@ where
     I: Input,
 {
     input: I,
+    start_pos: BytePos,
     /// Used to override last_pos
     last_pos: Option<BytePos>,
 }
@@ -25,8 +26,10 @@ where
     I: Input,
 {
     pub fn new(input: I) -> Self {
+        let start_pos = input.last_pos();
         Lexer {
             input,
+            start_pos,
             last_pos: None,
         }
     }
@@ -44,11 +47,11 @@ where
     type State = LexerState;
 
     fn next(&mut self) -> PResult<TokenAndSpan> {
-        let start = self.input.cur_pos();
+        self.start_pos = self.input.cur_pos();
 
         let token = self.read_token();
         let end = self.last_pos.take().unwrap_or_else(|| self.input.cur_pos());
-        let span = Span::new(start, end, Default::default());
+        let span = Span::new(self.start_pos, end, Default::default());
 
         token
             .map(|token| TokenAndSpan { span, token })
@@ -101,10 +104,12 @@ where
             if self.input.peek() == Some('/') {
                 self.skip_line_comment(2)?;
                 self.skip_ws()?;
+                self.start_pos = self.input.cur_pos();
                 return self.read_token();
             } else if self.input.peek() == Some('*') {
                 self.skip_block_comment()?;
                 self.skip_ws()?;
+                self.start_pos = self.input.cur_pos();
                 return self.read_token();
             }
         }
