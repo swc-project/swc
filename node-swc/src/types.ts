@@ -725,7 +725,7 @@ export interface BaseModuleConfig {
    *
    * Defaults to `true`.
    */
-  strict_mode?: boolean;
+  strictMode?: boolean;
 
   /**
    * Changes Babel's compiled import statements to be lazily evaluated when their imported bindings are used for the first time.
