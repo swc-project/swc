@@ -16,4 +16,5 @@ swc_css_ast = {version = "0.2.0", path = "../ast/"}
 swc_css_codegen_macros = {version = "0.1.0", path = "macros/"}
 
 [dev-dependencies]
+swc_css_parser = {version = "0.2.0", path = "../parser"}
 testing = {version = "0.12.2", path = "../../testing"}
