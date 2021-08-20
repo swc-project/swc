@@ -1,0 +1,54 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/0qqdP6EmNqzSa3h8c8lYUQ/input.css:1:1
+  |
+1 | #id {}
+  | ^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/0qqdP6EmNqzSa3h8c8lYUQ/input.css:1:1
+  |
+1 | #id {}
+  | ^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/esbuild/misc/0qqdP6EmNqzSa3h8c8lYUQ/input.css:1:1
+  |
+1 | #id {}
+  | ^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/0qqdP6EmNqzSa3h8c8lYUQ/input.css:1:1
+  |
+1 | #id {}
+  | ^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/0qqdP6EmNqzSa3h8c8lYUQ/input.css:1:1
+  |
+1 | #id {}
+  | ^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/esbuild/misc/0qqdP6EmNqzSa3h8c8lYUQ/input.css:1:1
+  |
+1 | #id {}
+  | ^^^
+
+error: IdSelector
+ --> $DIR/tests/fixture/esbuild/misc/0qqdP6EmNqzSa3h8c8lYUQ/input.css:1:1
+  |
+1 | #id {}
+  | ^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/0qqdP6EmNqzSa3h8c8lYUQ/input.css:1:1
+  |
+1 | #id {}
+  | ^^^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/0qqdP6EmNqzSa3h8c8lYUQ/input.css:1:5
+  |
+1 | #id {}
+  |     ^^
+
