@@ -209,13 +209,15 @@ where
         let token_start = self.input.cur_span()?.lo;
         let mut tokens = vec![];
 
-        if eat!(self, "{") {
+        if is!(self, "{") {
+            tokens.push(self.input.bump()?.unwrap());
+
             let mut brace_cnt = 1;
             loop {
                 if is!(self, "}") {
                     brace_cnt -= 1;
                     if brace_cnt == 0 {
-                        expect!(self, "}");
+                        tokens.push(self.input.bump()?.unwrap());
                         break;
                     }
                 }
