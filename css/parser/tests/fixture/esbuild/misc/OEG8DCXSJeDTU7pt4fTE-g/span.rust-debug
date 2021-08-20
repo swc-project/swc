@@ -53,16 +53,16 @@ error: Text
   |                        ^^^^^^
 
 error: MediaQuery
- --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:35
+ --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:36
   |
 1 | @import url("foo.css") screen and (orientation:landscape);
-  |                                   ^^^^^^^^^^^^^^^^^^^^^^^
+  |                                    ^^^^^^^^^^^^^^^^^^^^^^
 
 error: Property
- --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:35
+ --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:36
   |
 1 | @import url("foo.css") screen and (orientation:landscape);
-  |                                   ^^^^^^^^^^^^^^^^^^^^^^^
+  |                                    ^^^^^^^^^^^^^^^^^^^^^^
 
 error: Text
  --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:36

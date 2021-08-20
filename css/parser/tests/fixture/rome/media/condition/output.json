@@ -16,7 +16,7 @@
       "query": {
         "type": "Property",
         "span": {
-          "start": 7,
+          "start": 8,
           "end": 25,
           "ctxt": 0
         },
@@ -77,7 +77,7 @@
         "left": {
           "type": "Property",
           "span": {
-            "start": 36,
+            "start": 37,
             "end": 54,
             "ctxt": 0
           },
@@ -129,7 +129,7 @@
           "left": {
             "type": "Property",
             "span": {
-              "start": 59,
+              "start": 60,
               "end": 77,
               "ctxt": 0
             },
@@ -174,7 +174,7 @@
           "right": {
             "type": "Property",
             "span": {
-              "start": 82,
+              "start": 83,
               "end": 100,
               "ctxt": 0
             },
@@ -237,7 +237,7 @@
         "left": {
           "type": "Property",
           "span": {
-            "start": 111,
+            "start": 112,
             "end": 129,
             "ctxt": 0
           },
@@ -289,7 +289,7 @@
           "left": {
             "type": "Property",
             "span": {
-              "start": 134,
+              "start": 135,
               "end": 152,
               "ctxt": 0
             },
@@ -341,7 +341,7 @@
             "left": {
               "type": "Property",
               "span": {
-                "start": 157,
+                "start": 158,
                 "end": 175,
                 "ctxt": 0
               },
@@ -386,7 +386,7 @@
             "right": {
               "type": "Property",
               "span": {
-                "start": 180,
+                "start": 181,
                 "end": 198,
                 "ctxt": 0
               },
@@ -450,7 +450,7 @@
         "query": {
           "type": "Property",
           "span": {
-            "start": 213,
+            "start": 214,
             "end": 231,
             "ctxt": 0
           },
@@ -512,7 +512,7 @@
         "left": {
           "type": "Property",
           "span": {
-            "start": 242,
+            "start": 243,
             "end": 260,
             "ctxt": 0
           },
@@ -564,7 +564,7 @@
           "left": {
             "type": "Property",
             "span": {
-              "start": 265,
+              "start": 266,
               "end": 283,
               "ctxt": 0
             },
@@ -609,7 +609,7 @@
           "right": {
             "type": "Property",
             "span": {
-              "start": 287,
+              "start": 288,
               "end": 305,
               "ctxt": 0
             },
@@ -672,7 +672,7 @@
         "left": {
           "type": "Property",
           "span": {
-            "start": 316,
+            "start": 317,
             "end": 334,
             "ctxt": 0
           },
@@ -724,7 +724,7 @@
           "left": {
             "type": "Property",
             "span": {
-              "start": 339,
+              "start": 340,
               "end": 357,
               "ctxt": 0
             },
@@ -769,7 +769,7 @@
           "right": {
             "type": "Property",
             "span": {
-              "start": 361,
+              "start": 362,
               "end": 379,
               "ctxt": 0
             },

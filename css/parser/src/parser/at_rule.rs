@@ -474,6 +474,7 @@ where
             MediaQuery::Text(text)
         } else if eat!(self, "(") {
             if is!(self, Ident) {
+                let span = self.input.cur_span()?;
                 let id = self.parse_id()?;
 
                 self.input.skip_ws()?;

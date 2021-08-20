@@ -117,7 +117,7 @@
           "right": {
             "type": "Property",
             "span": {
-              "start": 86,
+              "start": 87,
               "end": 104,
               "ctxt": 0
             },
@@ -189,7 +189,7 @@
         "right": {
           "type": "Property",
           "span": {
-            "start": 126,
+            "start": 127,
             "end": 168,
             "ctxt": 0
           },
@@ -267,7 +267,7 @@
           "left": {
             "type": "Property",
             "span": {
-              "start": 190,
+              "start": 191,
               "end": 208,
               "ctxt": 0
             },
@@ -319,7 +319,7 @@
             "left": {
               "type": "Property",
               "span": {
-                "start": 213,
+                "start": 214,
                 "end": 231,
                 "ctxt": 0
               },
@@ -364,7 +364,7 @@
             "right": {
               "type": "Property",
               "span": {
-                "start": 236,
+                "start": 237,
                 "end": 254,
                 "ctxt": 0
               },
@@ -444,7 +444,7 @@
           "left": {
             "type": "Property",
             "span": {
-              "start": 276,
+              "start": 277,
               "end": 294,
               "ctxt": 0
             },
@@ -496,7 +496,7 @@
             "left": {
               "type": "Property",
               "span": {
-                "start": 299,
+                "start": 300,
                 "end": 317,
                 "ctxt": 0
               },
@@ -548,7 +548,7 @@
               "left": {
                 "type": "Property",
                 "span": {
-                  "start": 322,
+                  "start": 323,
                   "end": 340,
                   "ctxt": 0
                 },
@@ -593,7 +593,7 @@
               "right": {
                 "type": "Property",
                 "span": {
-                  "start": 345,
+                  "start": 346,
                   "end": 363,
                   "ctxt": 0
                 },
