@@ -826,7 +826,7 @@
               "type": "ComplexSelector",
               "span": {
                 "start": 383,
-                "end": 385,
+                "end": 384,
                 "ctxt": 0
               },
               "selectors": [
@@ -884,7 +884,7 @@
               "type": "ComplexSelector",
               "span": {
                 "start": 392,
-                "end": 399,
+                "end": 398,
                 "ctxt": 0
               },
               "selectors": [

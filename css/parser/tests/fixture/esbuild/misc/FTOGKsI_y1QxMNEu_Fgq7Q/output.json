@@ -62,7 +62,7 @@
                 "type": "ComplexSelector",
                 "span": {
                   "start": 20,
-                  "end": 30,
+                  "end": 29,
                   "ctxt": 0
                 },
                 "selectors": [

@@ -98,7 +98,7 @@
                 "type": "ComplexSelector",
                 "span": {
                   "start": 43,
-                  "end": 60,
+                  "end": 59,
                   "ctxt": 0
                 },
                 "selectors": [
@@ -186,7 +186,7 @@
                 "type": "ComplexSelector",
                 "span": {
                   "start": 82,
-                  "end": 92,
+                  "end": 91,
                   "ctxt": 0
                 },
                 "selectors": [
@@ -274,7 +274,7 @@
                 "type": "ComplexSelector",
                 "span": {
                   "start": 113,
-                  "end": 125,
+                  "end": 124,
                   "ctxt": 0
                 },
                 "selectors": [
@@ -362,7 +362,7 @@
                 "type": "ComplexSelector",
                 "span": {
                   "start": 146,
-                  "end": 157,
+                  "end": 156,
                   "ctxt": 0
                 },
                 "selectors": [
@@ -450,7 +450,7 @@
                 "type": "ComplexSelector",
                 "span": {
                   "start": 178,
-                  "end": 196,
+                  "end": 195,
                   "ctxt": 0
                 },
                 "selectors": [
@@ -538,7 +538,7 @@
                 "type": "ComplexSelector",
                 "span": {
                   "start": 218,
-                  "end": 238,
+                  "end": 237,
                   "ctxt": 0
                 },
                 "selectors": [
@@ -626,7 +626,7 @@
                 "type": "ComplexSelector",
                 "span": {
                   "start": 260,
-                  "end": 273,
+                  "end": 272,
                   "ctxt": 0
                 },
                 "selectors": [
@@ -714,7 +714,7 @@
                 "type": "ComplexSelector",
                 "span": {
                   "start": 294,
-                  "end": 309,
+                  "end": 308,
                   "ctxt": 0
                 },
                 "selectors": [
@@ -802,7 +802,7 @@
                 "type": "ComplexSelector",
                 "span": {
                   "start": 330,
-                  "end": 344,
+                  "end": 343,
                   "ctxt": 0
                 },
                 "selectors": [
@@ -890,7 +890,7 @@
                 "type": "ComplexSelector",
                 "span": {
                   "start": 365,
-                  "end": 386,
+                  "end": 385,
                   "ctxt": 0
                 },
                 "selectors": [
@@ -978,7 +978,7 @@
                 "type": "ComplexSelector",
                 "span": {
                   "start": 408,
-                  "end": 418,
+                  "end": 417,
                   "ctxt": 0
                 },
                 "selectors": [
@@ -1066,7 +1066,7 @@
                 "type": "ComplexSelector",
                 "span": {
                   "start": 439,
-                  "end": 452,
+                  "end": 451,
                   "ctxt": 0
                 },
                 "selectors": [
@@ -1154,7 +1154,7 @@
                 "type": "ComplexSelector",
                 "span": {
                   "start": 473,
-                  "end": 486,
+                  "end": 485,
                   "ctxt": 0
                 },
                 "selectors": [
@@ -1242,7 +1242,7 @@
                 "type": "ComplexSelector",
                 "span": {
                   "start": 507,
-                  "end": 518,
+                  "end": 517,
                   "ctxt": 0
                 },
                 "selectors": [
@@ -1330,7 +1330,7 @@
                 "type": "ComplexSelector",
                 "span": {
                   "start": 539,
-                  "end": 553,
+                  "end": 552,
                   "ctxt": 0
                 },
                 "selectors": [
@@ -1418,7 +1418,7 @@
                 "type": "ComplexSelector",
                 "span": {
                   "start": 574,
-                  "end": 588,
+                  "end": 587,
                   "ctxt": 0
                 },
                 "selectors": [
