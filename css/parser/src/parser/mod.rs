@@ -176,7 +176,10 @@ where
                 expect!(self, "(");
                 let value = self.parse_str()?.value;
                 expect!(self, ")");
-                Ok(Str { span, value })
+                Ok(Str {
+                    span: span!(self, span.lo),
+                    value,
+                })
             }
 
             Token::Url { .. } => match bump!(self) {
