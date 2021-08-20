@@ -86,6 +86,10 @@ where
             "bump() is called without checking current token"
         );
 
+        if let Some(cur) = &self.cur {
+            self.last_pos = cur.span.hi;
+        }
+
         let token = self.cur.take();
 
         self.bump_inner(false)?;
