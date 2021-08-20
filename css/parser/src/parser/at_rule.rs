@@ -148,13 +148,25 @@ where
             "page" => {
                 self.input.skip_ws()?;
 
-                return self.parse().map(AtRule::Page);
+                return self
+                    .parse()
+                    .map(|mut r: PageRule| {
+                        r.span.lo = start;
+                        r
+                    })
+                    .map(AtRule::Page);
             }
 
             "document" | "-moz-document" => {
                 self.input.skip_ws()?;
 
-                return self.parse().map(AtRule::Document);
+                return self
+                    .parse()
+                    .map(|mut r: DocumentRule| {
+                        r.span.lo = start;
+                        r
+                    })
+                    .map(AtRule::Document);
             }
 
             "namespace" => {
