@@ -121,7 +121,9 @@ where
             space!();
         }
 
+        punct!("{");
         self.emit_list(&n.blocks, ListFormat::NotDelimited)?;
+        punct!("}");
     }
 
     #[emitter]
