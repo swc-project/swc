@@ -1,0 +1,60 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/sNuIucY7tsVtjkcMTIXaGw/input.css:1:1
+  |
+1 | [\2c attr] {}
+  | ^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/sNuIucY7tsVtjkcMTIXaGw/input.css:1:1
+  |
+1 | [\2c attr] {}
+  | ^^^^^^^^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/esbuild/misc/sNuIucY7tsVtjkcMTIXaGw/input.css:1:1
+  |
+1 | [\2c attr] {}
+  | ^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/sNuIucY7tsVtjkcMTIXaGw/input.css:1:1
+  |
+1 | [\2c attr] {}
+  | ^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/sNuIucY7tsVtjkcMTIXaGw/input.css:1:1
+  |
+1 | [\2c attr] {}
+  | ^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/esbuild/misc/sNuIucY7tsVtjkcMTIXaGw/input.css:1:1
+  |
+1 | [\2c attr] {}
+  | ^^^^^^^^^^
+
+error: AttrSelector
+ --> $DIR/tests/fixture/esbuild/misc/sNuIucY7tsVtjkcMTIXaGw/input.css:1:1
+  |
+1 | [\2c attr] {}
+  | ^^^^^^^^^^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/esbuild/misc/sNuIucY7tsVtjkcMTIXaGw/input.css:1:2
+  |
+1 | [\2c attr] {}
+  |  ^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/sNuIucY7tsVtjkcMTIXaGw/input.css:1:2
+  |
+1 | [\2c attr] {}
+  |  ^^^^^^^^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/sNuIucY7tsVtjkcMTIXaGw/input.css:1:12
+  |
+1 | [\2c attr] {}
+  |            ^^
+
