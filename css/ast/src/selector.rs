@@ -62,7 +62,7 @@ pub enum SubclassSelector {
     Attr(AttrSelector),
 
     #[tag("PseudoClassSelector")]
-    PseudoClass(PseudoSelector),
+    Pseudo(PseudoSelector),
 
     #[tag("AtSelector")]
     At(AtSelector),

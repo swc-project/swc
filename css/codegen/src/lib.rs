@@ -670,7 +670,7 @@ where
             SubclassSelector::Id(n) => emit!(n),
             SubclassSelector::Class(n) => emit!(n),
             SubclassSelector::Attr(n) => emit!(n),
-            SubclassSelector::PseudoClass(n) => emit!(n),
+            SubclassSelector::Pseudo(n) => emit!(n),
             SubclassSelector::At(n) => emit!(n),
         }
     }

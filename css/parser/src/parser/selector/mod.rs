@@ -213,7 +213,7 @@ where
                             let mut pseudo = self.parse_pseudo_class_selector()?;
                             pseudo.span.lo = start;
                             pseudo.is_element = is_element;
-                            subclass_selectors.push(SubclassSelector::PseudoClass(pseudo));
+                            subclass_selectors.push(SubclassSelector::Pseudo(pseudo));
                         }
 
                         break 'subclass_selectors;
@@ -221,7 +221,7 @@ where
 
                     let pseudo = self.parse_pseudo_class_selector()?;
 
-                    subclass_selectors.push(SubclassSelector::PseudoClass(pseudo));
+                    subclass_selectors.push(SubclassSelector::Pseudo(pseudo));
                 }
 
                 Token::AtKeyword(..) if self.ctx.allow_at_selctor => {
