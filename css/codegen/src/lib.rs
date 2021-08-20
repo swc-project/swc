@@ -277,7 +277,11 @@ where
             MediaQuery::Or(n) => emit!(n),
             MediaQuery::Not(n) => emit!(n),
             MediaQuery::Only(n) => emit!(n),
-            MediaQuery::Property(n) => emit!(n),
+            MediaQuery::Property(n) => {
+                punct!("(");
+                emit!(n);
+                punct!(")");
+            }
             MediaQuery::Comma(n) => emit!(n),
         }
     }
