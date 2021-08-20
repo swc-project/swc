@@ -225,7 +225,9 @@ where
 
         space!();
 
+        punct!("{");
         self.emit_list(&n.block, ListFormat::NotDelimited)?;
+        punct!("}");
     }
 
     #[emitter]
