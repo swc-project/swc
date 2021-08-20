@@ -365,7 +365,7 @@ impl SyntaxError {
                 "for await syntax is valid only for for-of statement".into()
             }
 
-            SyntaxError::AwaitInFunction => "await isn't allowed in function".into(),
+            SyntaxError::AwaitInFunction => "await isn't allowed in non-async function".into(),
 
             SyntaxError::UnterminatedJSXContents => "Unterminated JSX contents".into(),
             SyntaxError::EmptyJSXAttr => {

@@ -325,7 +325,7 @@ impl<'a, I: Tokens> Parser<I> {
         if is!(self, "await") {
             let ctx = self.ctx();
             if ctx.in_function && !ctx.in_async {
-                syntax_error!(self, SyntaxError::AwaitInFunction);
+                self.emit_err(self.input.cur_span(), SyntaxError::AwaitInFunction);
             }
             return self.parse_await_expr();
         }
