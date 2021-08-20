@@ -479,7 +479,10 @@ where
     fn emit_not_support_query(&mut self, n: &NotSupportQuery) -> Result {
         keyword!("not");
         space!();
+
+        punct!("(");
         emit!(n.query);
+        punct!(")");
     }
 
     #[emitter]
