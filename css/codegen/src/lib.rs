@@ -544,6 +544,10 @@ where
 
     #[emitter]
     fn emit_compound_selector(&mut self, n: &CompoundSelector) -> Result {
+        if n.has_nest_prefix {
+            punct!("&");
+        }
+
         emit!(n.type_selector);
 
         if let Some(combinator) = &n.combinator {
