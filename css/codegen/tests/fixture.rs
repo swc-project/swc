@@ -11,6 +11,8 @@ use testing::assert_eq;
 
 #[testing::fixture("../parser/tests/fixture/**/input.css")]
 fn parse_again(input: PathBuf) {
+    eprintln!("{}", input.display());
+
     testing::run_test2(false, |cm, handler| {
         let fm = cm.load_file(&input).unwrap();
 
