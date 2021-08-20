@@ -3,7 +3,7 @@ use crate::{
     error::{Error, ErrorKind},
     Parse,
 };
-use swc_common::BytePos;
+use swc_common::{BytePos, Spanned};
 use swc_css_ast::*;
 
 #[cfg(test)]
@@ -29,8 +29,9 @@ where
                 break;
             }
 
-            values.push(self.parse_one_value()?);
-            hi = self.input.last_pos()?;
+            let v = self.parse_one_value()?;
+            hi = v.span().hi;
+            values.push(v);
 
             state = self.input.state();
 
