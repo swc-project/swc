@@ -2316,6 +2316,7 @@ dependencies = [
  "swc_atoms",
  "swc_common",
  "swc_css_ast",
+ "swc_css_visit",
  "testing",
  "unicode-xid",
 ]
