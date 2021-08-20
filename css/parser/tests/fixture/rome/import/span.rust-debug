@@ -1,0 +1,55 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/rome/import/input.css:1:1
+  |
+1 | / @import "something.css";
+2 | | @import url("something.css");
+  | |______________________________^
+
+error: Rule
+ --> $DIR/tests/fixture/rome/import/input.css:1:1
+  |
+1 | @import "something.css";
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/rome/import/input.css:1:1
+  |
+1 | @import "something.css";
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportRule
+ --> $DIR/tests/fixture/rome/import/input.css:1:1
+  |
+1 | @import "something.css";
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/rome/import/input.css:1:9
+  |
+1 | @import "something.css";
+  |         ^^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/rome/import/input.css:2:1
+  |
+2 | @import url("something.css");
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/rome/import/input.css:2:1
+  |
+2 | @import url("something.css");
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportRule
+ --> $DIR/tests/fixture/rome/import/input.css:2:1
+  |
+2 | @import url("something.css");
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/rome/import/input.css:2:9
+  |
+2 | @import url("something.css");
+  |         ^^^^^^^^^^^^^^^^^^^^
+
