@@ -336,6 +336,8 @@ where
         let start_pos = self.input.cur_span()?.lo;
         expect!(self, "[");
 
+        let name_start_pos = self.input.cur_span()?.lo;
+
         let mut ns_name_prefix = None;
         let mut ns_name_name;
 
@@ -378,7 +380,7 @@ where
             }
         }
         let name = NamespacedName {
-            span: span!(self, start_pos),
+            span: span!(self, name_start_pos),
             prefix: ns_name_prefix,
             name: ns_name_name,
         };
