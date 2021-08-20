@@ -491,9 +491,7 @@ where
         keyword!("not");
         space!();
 
-        punct!("(");
         emit!(n.query);
-        punct!(")");
     }
 
     #[emitter]
