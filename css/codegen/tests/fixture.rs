@@ -10,7 +10,7 @@ use swc_css_visit::{VisitMut, VisitMutWith};
 
 #[testing::fixture("../parser/tests/fixture/**/input.css")]
 fn parse_again(input: PathBuf) {
-    testing::run_test2(false, |cm, _handler| {
+    testing::run_test2(false, |cm, handler| {
         let fm = cm.load_file(&input).unwrap();
 
         eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
@@ -29,8 +29,10 @@ fn parse_again(input: PathBuf) {
         eprintln!("==== ==== Codegen ==== ====\n{}\n", css_str);
 
         let new_fm = cm.new_source_file(FileName::Anon, css_str);
-        let mut parsed: Stylesheet =
-            parse_file(&new_fm, ParserConfig { parse_values: true }).unwrap();
+        let mut parsed: Stylesheet = parse_file(&new_fm, ParserConfig { parse_values: true })
+            .map_err(|err| {
+                err.to_diagnostics(&handler).emit();
+            })?;
 
         stylesheet.visit_mut_with(&mut DropSpan);
         parsed.visit_mut_with(&mut DropSpan);
