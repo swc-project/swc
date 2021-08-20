@@ -431,8 +431,115 @@ where
     }
 
     #[emitter]
-    fn emit_tokens(&mut self, _n: &Tokens) -> Result {
-        todo!("emit_tokens")
+    fn emit_tokens(&mut self, n: &Tokens) -> Result {
+        for TokenAndSpan { span, token } in &n.tokens {
+            let span = *span;
+            match token {
+                Token::AtKeyword(name) => {
+                    punct!(span, "@");
+                    self.wr.write_ident(Some(span), &name)?;
+                }
+                Token::LParen => {
+                    punct!(span, "(");
+                }
+                Token::RParen => {
+                    punct!(span, ")");
+                }
+                Token::LBracket => {
+                    punct!(span, "[");
+                }
+                Token::RBracket => {
+                    punct!(span, "]");
+                }
+                Token::Percent => {
+                    punct!(span, "%");
+                }
+                Token::Num(n) => {
+                    self.wr.write_raw(Some(span), &n.value.to_string())?;
+                }
+                Token::Ident(n) => {
+                    self.wr.write_ident(Some(span), &n)?;
+                }
+                Token::Str { value } => {
+                    punct!("'");
+                    self.wr.write_raw(Some(span), &value)?;
+                    punct!("'");
+                }
+                Token::Url { value } => {
+                    self.wr.write_ident(Some(span), "url")?;
+                    punct!("(");
+                    self.wr.write_raw(None, &value)?;
+                    punct!(")");
+                }
+                Token::Comma => {
+                    punct!(span, ",");
+                }
+                Token::Semi => {
+                    punct!(span, ";");
+                }
+                Token::Bang => {
+                    punct!(span, "!");
+                }
+                Token::LBrace => {
+                    punct!(span, "{");
+                }
+                Token::RBrace => {
+                    punct!(span, "}");
+                }
+                Token::Colon => {
+                    punct!(span, ":");
+                }
+                Token::Asterisk => {
+                    punct!(span, "*");
+                }
+                Token::Dot => {
+                    punct!(span, ".");
+                }
+                Token::Hash { value, .. } => {
+                    punct!("#");
+                    self.wr.write_ident(Some(span), &value)?;
+                }
+                Token::WhiteSpace => {
+                    space!();
+                }
+                Token::CDC => {
+                    punct!(span, "-->");
+                }
+                Token::CDO => {
+                    punct!(span, "<!--");
+                }
+                Token::Ampersand => {
+                    punct!(span, "&");
+                }
+                Token::Bar => {
+                    punct!(span, "|");
+                }
+                Token::Dollar => {
+                    punct!(span, "$");
+                }
+                Token::Caret => {
+                    punct!(span, "^");
+                }
+                Token::Tilde => {
+                    punct!(span, "~");
+                }
+                Token::Equals => {
+                    punct!(span, "=");
+                }
+                Token::Plus => {
+                    punct!(span, "+");
+                }
+                Token::Minus => {
+                    punct!(span, "-");
+                }
+                Token::Div => {
+                    punct!(span, "/");
+                }
+                Token::GreaterThan => {
+                    punct!(span, ">");
+                }
+            }
+        }
     }
 
     #[emitter]
