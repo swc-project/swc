@@ -458,6 +458,59 @@ where
         emit!(n.query);
     }
 
+    #[emitter]
+    fn emit_comma_media_query(&mut self, n: &CommaMediaQuery) -> Result {
+        self.emit_list(&n.queries, ListFormat::CommaDelimited)?;
+    }
+
+    #[emitter]
+    fn emit_not_support_query(&mut self, n: &NotSupportQuery) -> Result {
+        keyword!("not");
+        space!();
+        emit!(n.query);
+    }
+
+    #[emitter]
+    fn emit_and_support_query(&mut self, n: &AndSupportQuery) -> Result {
+        emit!(n.left);
+        space!();
+
+        keyword!("and");
+
+        space!();
+        emit!(n.right);
+    }
+
+    #[emitter]
+    fn emit_or_support_query(&mut self, n: &OrSupportQuery) -> Result {
+        emit!(n.left);
+        space!();
+
+        keyword!("or");
+
+        space!();
+        emit!(n.right);
+    }
+
+    #[emitter]
+    fn emit_paren_support_query(&mut self, n: &ParenSupportQuery) -> Result {
+        punct!("(");
+        emit!(n.query);
+        punct!(")");
+    }
+
+    #[emitter]
+    fn emit_nested_page_rule(mut self, n: &NestedPageRule) -> Result {
+        self.emit_list(&n.prelude, ListFormat::CommaDelimited)?;
+
+        emit!(n.block);
+    }
+
+    #[emitter]
+    fn emit_complex_selector(&mut self, n: &ComplexSelector) -> Result {
+        self.emit_list(&n.selectors, ListFormat::NotDelimited)?;
+    }
+
     fn emit_list<N>(&mut self, nodes: &[N], format: ListFormat) -> Result
     where
         Self: Emit<N>,
