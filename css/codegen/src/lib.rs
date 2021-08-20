@@ -152,7 +152,7 @@ where
         space!();
 
         punct!("{");
-        self.emit_list(&n.rules, ListFormat::NotDelimited)?;
+        self.emit_list(&n.rules, ListFormat::NotDelimited | ListFormat::MultiLine)?;
         punct!("}");
     }
 
