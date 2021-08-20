@@ -45,6 +45,23 @@ where
 
         Ok(())
     }
+
+    fn write_escaped(&mut self, s: &str) -> Result {
+        for c in s.chars() {
+            self.col += 1;
+
+            match c {
+                ' ' | ',' => {
+                    self.w.write_char('\\');
+                }
+                _ => {}
+            }
+
+            self.w.write_char(c)?;
+        }
+
+        Ok(())
+    }
 }
 
 impl<W> CssWriter for BasicCssWriter<'_, W>
@@ -52,14 +69,8 @@ where
     W: Write,
 {
     fn write_ident(&mut self, span: Option<Span>, s: &str) -> Result {
-        debug_assert!(
-            !s.contains('\n'),
-            "An identifier should not contain newline charactters"
-        );
-
         self.apply_indent()?;
-        self.col += s.len();
-        self.w.write_str(s)?;
+        self.write_escaped(s)?;
 
         Ok(())
     }

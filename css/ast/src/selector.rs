@@ -45,7 +45,7 @@ pub struct NamespacedName {
     ///	If present, this is an identifier or "*" and is followed by a "|"
     /// character
     pub prefix: Option<Text>,
-    ///	This is an identifier or "*" or "&"
+    ///	This is an identifier or "*".
     pub name: Text,
 }
 
