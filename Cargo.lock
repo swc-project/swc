@@ -2292,6 +2292,7 @@ dependencies = [
  "swc_common",
  "swc_css_ast",
  "swc_css_codegen_macros",
+ "testing",
 ]
 
 [[package]]
