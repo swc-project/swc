@@ -313,13 +313,15 @@ where
             });
         }
 
+        let name_start = self.input.cur_span()?.lo;
+
         let name = self.parse_selector_text()?;
 
         let name = if eat!(self, Ident) {
             name
         } else {
             Text {
-                span: span!(self, start),
+                span: span!(self, name_start),
                 value: js_word!(""),
             }
         };
