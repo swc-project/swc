@@ -646,7 +646,7 @@ where
 
     #[emitter]
     fn emit_complex_selector(&mut self, n: &ComplexSelector) -> Result {
-        self.emit_list(&n.selectors, ListFormat::NotDelimited)?;
+        self.emit_list(&n.selectors, ListFormat::SpaceDelimited)?;
     }
 
     #[emitter]
