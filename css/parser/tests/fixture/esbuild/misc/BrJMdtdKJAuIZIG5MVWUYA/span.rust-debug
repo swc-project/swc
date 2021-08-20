@@ -1,0 +1,78 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:1
+  |
+1 | .selector { property: value\9; }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:1
+  |
+1 | .selector { property: value\9; }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:1
+  |
+1 | .selector { property: value\9; }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:1
+  |
+1 | .selector { property: value\9; }
+  | ^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:1
+  |
+1 | .selector { property: value\9; }
+  | ^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:1
+  |
+1 | .selector { property: value\9; }
+  | ^^^^^^^^^
+
+error: ClassSelector
+ --> $DIR/tests/fixture/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:1
+  |
+1 | .selector { property: value\9; }
+  | ^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:2
+  |
+1 | .selector { property: value\9; }
+  |  ^^^^^^^^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:11
+  |
+1 | .selector { property: value\9; }
+  |           ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:13
+  |
+1 | .selector { property: value\9; }
+  |             ^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:13
+  |
+1 | .selector { property: value\9; }
+  |             ^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:23
+  |
+1 | .selector { property: value\9; }
+  |                       ^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:23
+  |
+1 | .selector { property: value\9; }
+  |                       ^^^^^^^
+
