@@ -52,7 +52,7 @@ error: Text
 1 | [b="0c"] {}
   |  ^
 
-error: Text
+error: Str
  --> $DIR/tests/fixture/esbuild/misc/0Zlgi2sdsFfTrdnWOHUqeg/input.css:1:4
   |
 1 | [b="0c"] {}

@@ -52,7 +52,7 @@ error: Text
 1 | [b = "c" I] {}
   |  ^
 
-error: Text
+error: Str
  --> $DIR/tests/fixture/esbuild/misc/pOZgFOB3GdVvQ0hiAsWfpQ/input.css:1:6
   |
 1 | [b = "c" I] {}

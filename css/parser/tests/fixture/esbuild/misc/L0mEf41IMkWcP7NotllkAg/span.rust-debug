@@ -50,6 +50,12 @@ error: Tokens
 4 | | }
   | |_^
 
+error: LBrace
+ --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:9
+  |
+1 | @unknown{
+  |         ^
+
 error: WhiteSpace
  --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:10
   |
@@ -133,4 +139,10 @@ error: WhiteSpace
   |  ______^
 4 | | }
   | |_
+
+error: RBrace
+ --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:4:1
+  |
+4 | }
+  | ^
 

@@ -52,7 +52,7 @@ error: Text
 1 | [attr="-"] {}
   |  ^^^^
 
-error: Text
+error: Str
  --> $DIR/tests/fixture/esbuild/misc/p4k8Aj2Nw7Pd4QNaHfLCyg/input.css:1:7
   |
 1 | [attr="-"] {}

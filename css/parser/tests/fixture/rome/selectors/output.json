@@ -607,7 +607,7 @@
                   },
                   "op": "=",
                   "value": {
-                    "type": "Text",
+                    "type": "String",
                     "span": {
                       "start": 129,
                       "end": 136,
@@ -731,9 +731,9 @@
                       "value": "title"
                     }
                   },
-                  "op": "!=",
+                  "op": "~=",
                   "value": {
-                    "type": "Text",
+                    "type": "String",
                     "span": {
                       "start": 169,
                       "end": 176,
@@ -859,7 +859,7 @@
                   },
                   "op": "=",
                   "value": {
-                    "type": "Text",
+                    "type": "String",
                     "span": {
                       "start": 212,
                       "end": 219,
@@ -896,7 +896,7 @@
                   },
                   "op": "*=",
                   "value": {
-                    "type": "Text",
+                    "type": "String",
                     "span": {
                       "start": 227,
                       "end": 236,
