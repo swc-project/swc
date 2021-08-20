@@ -65,7 +65,7 @@ where
                 self.input.skip_ws()?;
             }
 
-            return Ok(Value::Comma(CommaValues {
+            return Ok(Value::Space(SpaceValues {
                 span: span!(self, span.lo),
                 values,
             }));

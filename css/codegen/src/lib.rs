@@ -239,7 +239,7 @@ where
             Value::Fn(n) => emit!(n),
             Value::Bin(n) => emit!(n),
             Value::Array(n) => emit!(n),
-            Value::Comma(n) => emit!(n),
+            Value::Space(n) => emit!(n),
             Value::Brace(n) => emit!(n),
             Value::Lazy(n) => emit!(n),
             Value::AtText(n) => emit!(n),
@@ -396,8 +396,8 @@ where
     }
 
     #[emitter]
-    fn emit_comma_values(&mut self, n: &CommaValues) -> Result {
-        self.emit_list(&n.values, ListFormat::CommaDelimited)?;
+    fn emit_space_values(&mut self, n: &SpaceValues) -> Result {
+        self.emit_list(&n.values, ListFormat::SpaceDelimited)?;
     }
 
     #[emitter]
