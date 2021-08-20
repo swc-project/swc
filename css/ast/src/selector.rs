@@ -90,7 +90,7 @@ pub enum AttrSelectorOp {
     /// `=`
     Equals,
 
-    /// `!=`
+    /// `~=`
     Tilde,
 
     /// `|=`
