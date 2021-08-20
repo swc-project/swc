@@ -1,0 +1,54 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/ISvhgCbFuiTTWo41R3UVRA/input.css:1:1
+  |
+1 | .\2c class {}
+  | ^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/ISvhgCbFuiTTWo41R3UVRA/input.css:1:1
+  |
+1 | .\2c class {}
+  | ^^^^^^^^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/esbuild/misc/ISvhgCbFuiTTWo41R3UVRA/input.css:1:1
+  |
+1 | .\2c class {}
+  | ^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/ISvhgCbFuiTTWo41R3UVRA/input.css:1:1
+  |
+1 | .\2c class {}
+  | ^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/ISvhgCbFuiTTWo41R3UVRA/input.css:1:1
+  |
+1 | .\2c class {}
+  | ^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/esbuild/misc/ISvhgCbFuiTTWo41R3UVRA/input.css:1:1
+  |
+1 | .\2c class {}
+  | ^^^^^^^^^^
+
+error: ClassSelector
+ --> $DIR/tests/fixture/esbuild/misc/ISvhgCbFuiTTWo41R3UVRA/input.css:1:1
+  |
+1 | .\2c class {}
+  | ^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/ISvhgCbFuiTTWo41R3UVRA/input.css:1:2
+  |
+1 | .\2c class {}
+  |  ^^^^^^^^^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/ISvhgCbFuiTTWo41R3UVRA/input.css:1:12
+  |
+1 | .\2c class {}
+  |            ^^
+
