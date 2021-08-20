@@ -1,0 +1,30 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/DnbMqwUX5bMs8z9L-H6IOg/input.css:1:1
+  |
+1 | @-ms-keyframes name {}
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/DnbMqwUX5bMs8z9L-H6IOg/input.css:1:1
+  |
+1 | @-ms-keyframes name {}
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/esbuild/misc/DnbMqwUX5bMs8z9L-H6IOg/input.css:1:1
+  |
+1 | @-ms-keyframes name {}
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: KeyframesRule
+ --> $DIR/tests/fixture/esbuild/misc/DnbMqwUX5bMs8z9L-H6IOg/input.css:1:1
+  |
+1 | @-ms-keyframes name {}
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/DnbMqwUX5bMs8z9L-H6IOg/input.css:1:16
+  |
+1 | @-ms-keyframes name {}
+  |                ^^^^
+
