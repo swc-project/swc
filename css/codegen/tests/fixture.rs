@@ -1,4 +1,5 @@
 use std::path::PathBuf;
+use swc_common::FileName;
 use swc_css_ast::Stylesheet;
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig},
@@ -11,6 +12,8 @@ fn parse_again(input: PathBuf) {
     testing::run_test2(false, |cm, handler| {
         let fm = cm.load_file(&input).unwrap();
 
+        eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
+
         let stylesheet: Stylesheet = parse_file(&fm, ParserConfig { parse_values: true }).unwrap();
 
         let mut css_str = String::new();
@@ -21,11 +24,12 @@ fn parse_again(input: PathBuf) {
             gen.emit(&stylesheet).unwrap();
         }
 
-        let css_str = css_str;
+        eprintln!("==== ==== Codegen ==== ====\n{}\n", css_str);
 
-        eprintln!("==== ==== CSS ==== ====\n{}\n", css_str);
+        let new_fm = cm.new_source_file(FileName::Anon, css_str);
+        let parsed: Stylesheet = parse_file(&new_fm, ParserConfig { parse_values: true }).unwrap();
 
-        panic!();
+        assert_eq!(stylesheet, parsed);
 
         Ok(())
     })
