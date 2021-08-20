@@ -469,7 +469,7 @@ where
         Ok(Text { span, value })
     }
 
-    fn parse_id_or_str_for_attr(&mut self) -> PResult<Text> {
+    fn parse_id_or_str_for_attr(&mut self) -> PResult<Str> {
         let span = self.input.cur_span()?;
 
         match cur!(self) {
@@ -480,7 +480,7 @@ where
                     _ => unreachable!(),
                 };
 
-                Ok(Text { span, value })
+                Ok(Str { span, value })
             }
             Token::Str { .. } => {
                 let value = bump!(self);
@@ -489,7 +489,7 @@ where
                     _ => unreachable!(),
                 };
 
-                Ok(Text { span, value })
+                Ok(Str { span, value })
             }
             _ => Err(Error::new(
                 span,

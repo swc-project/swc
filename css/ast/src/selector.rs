@@ -1,4 +1,4 @@
-use crate::{Text, Tokens};
+use crate::{Str, Text, Tokens};
 use is_macro::Is;
 use string_enum::StringEnum;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
@@ -73,7 +73,7 @@ pub struct AttrSelector {
     pub span: Span,
     pub name: NamespacedName,
     pub op: Option<AttrSelectorOp>,
-    pub value: Option<Text>,
+    pub value: Option<Str>,
     pub modifier: Option<char>,
 }
 
