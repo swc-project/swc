@@ -360,9 +360,13 @@ where
     fn emit_page_rule_block(&mut self, n: &PageRuleBlock) -> Result {
         punct!("{");
 
+        self.wr.write_newline()?;
+
         self.wr.increase_indent();
 
-        self.emit_list(&n.items, ListFormat::MultiLine | ListFormat::SemiDelimited)?;
+        self.emit_list(&n.items, ListFormat::MultiLine | ListFormat::NotDelimited)?;
+
+        self.wr.write_newline()?;
 
         self.wr.decrease_indent();
 
