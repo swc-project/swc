@@ -743,9 +743,11 @@ where
 
         emit!(n.name);
 
-        punct!("(");
-        emit!(n.args);
-        punct!(")");
+        if !n.args.tokens.is_empty() {
+            punct!("(");
+            emit!(n.args);
+            punct!(")");
+        }
     }
 
     #[emitter]
