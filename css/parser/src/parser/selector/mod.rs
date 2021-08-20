@@ -37,7 +37,11 @@ where
 
         let mut selectors = vec![sel];
 
+        let mut last_pos;
+
         loop {
+            last_pos = self.input.last_pos()?;
+
             self.input.skip_ws()?;
 
             if is_one_of!(self, EOF, ",", "{") {
@@ -60,7 +64,7 @@ where
         }
 
         Ok(ComplexSelector {
-            span: span!(self, start_pos),
+            span: Span::new(start_pos, last_pos, Default::default()),
             selectors,
         })
     }
