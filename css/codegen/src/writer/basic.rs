@@ -48,7 +48,7 @@ where
     fn write_escaped(&mut self, s: &str) -> Result {
         for (idx, c) in s.chars().enumerate() {
             match c {
-                ' ' | ',' | '-' | ':' | '~' | '+' | '\x00'..='\x1f' => {
+                ' ' | ',' | '-' | ':' | '~' | '+' | '.' | '#' | '\x00'..='\x1f' => {
                     self.col += 1;
                     self.w.write_char('\\')?;
                 }
