@@ -1,0 +1,79 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 0,
+    "end": 6,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "StyleRule",
+      "span": {
+        "start": 0,
+        "end": 6,
+        "ctxt": 0
+      },
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 0,
+            "end": 3,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 0,
+                "end": 3,
+                "ctxt": 0
+              },
+              "hasNestPrefix": true,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "PseudoSelector",
+                  "span": {
+                    "start": 1,
+                    "end": 3,
+                    "ctxt": 0
+                  },
+                  "isElement": false,
+                  "name": {
+                    "type": "Text",
+                    "span": {
+                      "start": 2,
+                      "end": 3,
+                      "ctxt": 0
+                    },
+                    "value": "b"
+                  },
+                  "args": {
+                    "type": "Tokens",
+                    "span": {
+                      "start": 0,
+                      "end": 0,
+                      "ctxt": 0
+                    },
+                    "tokens": []
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "block": {
+        "type": "DeclBlock",
+        "span": {
+          "start": 4,
+          "end": 6,
+          "ctxt": 0
+        },
+        "properties": []
+      }
+    }
+  ]
+}

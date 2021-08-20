@@ -1,0 +1,193 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 0,
+    "end": 53,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "KeyframesRule",
+      "span": {
+        "start": 0,
+        "end": 53,
+        "ctxt": 0
+      },
+      "id": {
+        "type": "Text",
+        "span": {
+          "start": 11,
+          "end": 15,
+          "ctxt": 0
+        },
+        "value": "name"
+      },
+      "blocks": [
+        {
+          "span": {
+            "start": 16,
+            "end": 33,
+            "ctxt": 0
+          },
+          "selector": [
+            {
+              "type": "PercentValue",
+              "span": {
+                "start": 16,
+                "end": 18,
+                "ctxt": 0
+              },
+              "value": {
+                "type": "Number",
+                "span": {
+                  "start": 16,
+                  "end": 17,
+                  "ctxt": 0
+                },
+                "value": 0.0
+              }
+            },
+            {
+              "type": "PercentValue",
+              "span": {
+                "start": 19,
+                "end": 22,
+                "ctxt": 0
+              },
+              "value": {
+                "type": "Number",
+                "span": {
+                  "start": 19,
+                  "end": 21,
+                  "ctxt": 0
+                },
+                "value": 50.0
+              }
+            }
+          ],
+          "rule": {
+            "type": "DeclBlock",
+            "span": {
+              "start": 22,
+              "end": 33,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "Property",
+                "span": {
+                  "start": 23,
+                  "end": 32,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Text",
+                  "span": {
+                    "start": 23,
+                    "end": 28,
+                    "ctxt": 0
+                  },
+                  "value": "color"
+                },
+                "values": [
+                  {
+                    "type": "Text",
+                    "span": {
+                      "start": 29,
+                      "end": 32,
+                      "ctxt": 0
+                    },
+                    "value": "red"
+                  }
+                ],
+                "important": null
+              }
+            ]
+          }
+        },
+        {
+          "span": {
+            "start": 33,
+            "end": 52,
+            "ctxt": 0
+          },
+          "selector": [
+            {
+              "type": "PercentValue",
+              "span": {
+                "start": 33,
+                "end": 36,
+                "ctxt": 0
+              },
+              "value": {
+                "type": "Number",
+                "span": {
+                  "start": 33,
+                  "end": 35,
+                  "ctxt": 0
+                },
+                "value": 25.0
+              }
+            },
+            {
+              "type": "PercentValue",
+              "span": {
+                "start": 37,
+                "end": 40,
+                "ctxt": 0
+              },
+              "value": {
+                "type": "Number",
+                "span": {
+                  "start": 37,
+                  "end": 39,
+                  "ctxt": 0
+                },
+                "value": 75.0
+              }
+            }
+          ],
+          "rule": {
+            "type": "DeclBlock",
+            "span": {
+              "start": 40,
+              "end": 52,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "Property",
+                "span": {
+                  "start": 41,
+                  "end": 51,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Text",
+                  "span": {
+                    "start": 41,
+                    "end": 46,
+                    "ctxt": 0
+                  },
+                  "value": "color"
+                },
+                "values": [
+                  {
+                    "type": "Text",
+                    "span": {
+                      "start": 47,
+                      "end": 51,
+                      "ctxt": 0
+                    },
+                    "value": "blue"
+                  }
+                ],
+                "important": null
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

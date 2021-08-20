@@ -1,0 +1,94 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 0,
+    "end": 39,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "KeyframesRule",
+      "span": {
+        "start": 0,
+        "end": 39,
+        "ctxt": 0
+      },
+      "id": {
+        "type": "Text",
+        "span": {
+          "start": 11,
+          "end": 15,
+          "ctxt": 0
+        },
+        "value": "name"
+      },
+      "blocks": [
+        {
+          "span": {
+            "start": 18,
+            "end": 37,
+            "ctxt": 0
+          },
+          "selector": [
+            {
+              "type": "PercentValue",
+              "span": {
+                "start": 18,
+                "end": 22,
+                "ctxt": 0
+              },
+              "value": {
+                "type": "Number",
+                "span": {
+                  "start": 18,
+                  "end": 21,
+                  "ctxt": 0
+                },
+                "value": 100.0
+              }
+            }
+          ],
+          "rule": {
+            "type": "DeclBlock",
+            "span": {
+              "start": 23,
+              "end": 37,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "Property",
+                "span": {
+                  "start": 25,
+                  "end": 35,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Text",
+                  "span": {
+                    "start": 25,
+                    "end": 30,
+                    "ctxt": 0
+                  },
+                  "value": "color"
+                },
+                "values": [
+                  {
+                    "type": "Text",
+                    "span": {
+                      "start": 32,
+                      "end": 35,
+                      "ctxt": 0
+                    },
+                    "value": "red"
+                  }
+                ],
+                "important": null
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
