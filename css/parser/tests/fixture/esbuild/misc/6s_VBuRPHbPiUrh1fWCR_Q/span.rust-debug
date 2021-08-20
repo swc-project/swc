@@ -1,0 +1,66 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/6s_VBuRPHbPiUrh1fWCR_Q/input.css:1:1
+  |
+1 | :pseudo(cl\,ss) {}
+  | ^^^^^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/6s_VBuRPHbPiUrh1fWCR_Q/input.css:1:1
+  |
+1 | :pseudo(cl\,ss) {}
+  | ^^^^^^^^^^^^^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/esbuild/misc/6s_VBuRPHbPiUrh1fWCR_Q/input.css:1:1
+  |
+1 | :pseudo(cl\,ss) {}
+  | ^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/6s_VBuRPHbPiUrh1fWCR_Q/input.css:1:1
+  |
+1 | :pseudo(cl\,ss) {}
+  | ^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/6s_VBuRPHbPiUrh1fWCR_Q/input.css:1:1
+  |
+1 | :pseudo(cl\,ss) {}
+  | ^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/esbuild/misc/6s_VBuRPHbPiUrh1fWCR_Q/input.css:1:1
+  |
+1 | :pseudo(cl\,ss) {}
+  | ^^^^^^^^^^^^^^^
+
+error: PseudoSelector
+ --> $DIR/tests/fixture/esbuild/misc/6s_VBuRPHbPiUrh1fWCR_Q/input.css:1:1
+  |
+1 | :pseudo(cl\,ss) {}
+  | ^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/6s_VBuRPHbPiUrh1fWCR_Q/input.css:1:2
+  |
+1 | :pseudo(cl\,ss) {}
+  |  ^^^^^^
+
+error: Tokens
+ --> $DIR/tests/fixture/esbuild/misc/6s_VBuRPHbPiUrh1fWCR_Q/input.css:1:9
+  |
+1 | :pseudo(cl\,ss) {}
+  |         ^^^^^^
+
+error: Ident(Atom('cl,ss' type=inline))
+ --> $DIR/tests/fixture/esbuild/misc/6s_VBuRPHbPiUrh1fWCR_Q/input.css:1:9
+  |
+1 | :pseudo(cl\,ss) {}
+  |         ^^^^^^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/6s_VBuRPHbPiUrh1fWCR_Q/input.css:1:17
+  |
+1 | :pseudo(cl\,ss) {}
+  |                 ^^
+
