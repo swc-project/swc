@@ -14,7 +14,7 @@ where
 
         let block = self.parse_decl_block()?;
 
-        let span = Span::new(start, self.input.last_pos(), Default::default());
+        let span = span!(self, start);
 
         Ok(Rule::Style(StyleRule {
             span,
@@ -34,7 +34,7 @@ where
 
         expect!(self, "}");
 
-        let span = Span::new(start, self.input.last_pos(), Default::default());
+        let span = span!(self, start);
 
         Ok(DeclBlock { span, properties })
     }

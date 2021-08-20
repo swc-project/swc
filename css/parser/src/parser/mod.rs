@@ -77,7 +77,7 @@ where
             parse_selectors: true,
         })?;
 
-        let last = self.input.last_pos();
+        let last = self.input.last_pos()?;
 
         Ok(Stylesheet {
             span: Span::new(start.lo, last, Default::default()),
