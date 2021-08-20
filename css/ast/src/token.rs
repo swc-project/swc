@@ -48,9 +48,6 @@ pub enum Token {
         value: JsWord,
     },
 
-    /// `--`
-    MinusMinus,
-
     /// `,`
     Comma,
 

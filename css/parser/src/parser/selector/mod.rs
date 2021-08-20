@@ -146,7 +146,6 @@ where
                         span: Span::new(start_pos, start_pos, Default::default()),
                         value: js_word!(""),
                     });
-                    bump!(self);
                     // TODO:
                     // nsName.Name.Kind = css_lexer.TIdent
                 }
@@ -213,7 +212,7 @@ where
                             let mut pseudo = self.parse_pseudo_class_selector()?;
                             pseudo.span.lo = start;
                             pseudo.is_element = is_element;
-                            subclass_selectors.push(SubclassSelector::PseudoClass(pseudo));
+                            subclass_selectors.push(SubclassSelector::Pseudo(pseudo));
                         }
 
                         break 'subclass_selectors;
@@ -221,7 +220,7 @@ where
 
                     let pseudo = self.parse_pseudo_class_selector()?;
 
-                    subclass_selectors.push(SubclassSelector::PseudoClass(pseudo));
+                    subclass_selectors.push(SubclassSelector::Pseudo(pseudo));
                 }
 
                 Token::AtKeyword(..) if self.ctx.allow_at_selctor => {
@@ -315,10 +314,8 @@ where
 
         let name_start = self.input.cur_span()?.lo;
 
-        let name = self.parse_selector_text()?;
-
-        let name = if eat!(self, Ident) {
-            name
+        let name = if is!(self, Ident) {
+            self.parse_selector_text()?
         } else {
             Text {
                 span: span!(self, name_start),
@@ -471,7 +468,7 @@ where
         Ok(Text { span, value })
     }
 
-    fn parse_id_or_str_for_attr(&mut self) -> PResult<Text> {
+    fn parse_id_or_str_for_attr(&mut self) -> PResult<Str> {
         let span = self.input.cur_span()?;
 
         match cur!(self) {
@@ -482,7 +479,7 @@ where
                     _ => unreachable!(),
                 };
 
-                Ok(Text { span, value })
+                Ok(Str { span, value })
             }
             Token::Str { .. } => {
                 let value = bump!(self);
@@ -491,7 +488,7 @@ where
                     _ => unreachable!(),
                 };
 
-                Ok(Text { span, value })
+                Ok(Str { span, value })
             }
             _ => Err(Error::new(
                 span,

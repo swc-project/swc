@@ -492,7 +492,7 @@ error: Text
 17 | a[title = "title"] {
    |   ^^^^^
 
-error: Text
+error: Str
   --> $DIR/tests/fixture/rome/selectors/input.css:17:11
    |
 17 | a[title = "title"] {
@@ -595,7 +595,7 @@ error: Text
 21 | a[title~="title" i] {
    |   ^^^^^
 
-error: Text
+error: Str
   --> $DIR/tests/fixture/rome/selectors/input.css:21:10
    |
 21 | a[title~="title" i] {
@@ -698,7 +698,7 @@ error: Text
 25 | a[title = "title"][href*="image/*" S] {
    |   ^^^^^
 
-error: Text
+error: Str
   --> $DIR/tests/fixture/rome/selectors/input.css:25:11
    |
 25 | a[title = "title"][href*="image/*" S] {
@@ -728,7 +728,7 @@ error: Text
 25 | a[title = "title"][href*="image/*" S] {
    |                    ^^^^
 
-error: Text
+error: Str
   --> $DIR/tests/fixture/rome/selectors/input.css:25:26
    |
 25 | a[title = "title"][href*="image/*" S] {

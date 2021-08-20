@@ -187,7 +187,7 @@ define!({
 
         Attr(AttrSelector),
 
-        PseudoClass(PseudoSelector),
+        Pseudo(PseudoSelector),
 
         At(AtSelector),
     }
@@ -196,7 +196,7 @@ define!({
         pub span: Span,
         pub name: NamespacedName,
         pub op: Option<AttrSelectorOp>,
-        pub value: Option<Text>,
+        pub value: Option<Str>,
         pub modifier: Option<char>,
     }
 

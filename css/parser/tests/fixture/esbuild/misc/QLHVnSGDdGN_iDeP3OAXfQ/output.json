@@ -60,7 +60,7 @@
                   },
                   "op": "=",
                   "value": {
-                    "type": "Text",
+                    "type": "String",
                     "span": {
                       "start": 6,
                       "end": 10,

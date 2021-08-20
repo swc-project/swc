@@ -68,7 +68,7 @@
                   },
                   "op": "|=",
                   "value": {
-                    "type": "Text",
+                    "type": "String",
                     "span": {
                       "start": 8,
                       "end": 11,

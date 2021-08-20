@@ -29,7 +29,24 @@
           "end": 10,
           "ctxt": 0
         },
-        "tokens": []
+        "tokens": [
+          {
+            "span": {
+              "start": 8,
+              "end": 9,
+              "ctxt": 0
+            },
+            "token": "LBrace"
+          },
+          {
+            "span": {
+              "start": 9,
+              "end": 10,
+              "ctxt": 0
+            },
+            "token": "RBrace"
+          }
+        ]
       }
     }
   ]

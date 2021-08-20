@@ -1,4 +1,4 @@
-use crate::{Text, Tokens};
+use crate::{Str, Text, Tokens};
 use is_macro::Is;
 use string_enum::StringEnum;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
@@ -45,7 +45,7 @@ pub struct NamespacedName {
     ///	If present, this is an identifier or "*" and is followed by a "|"
     /// character
     pub prefix: Option<Text>,
-    ///	This is an identifier or "*" or "&"
+    ///	This is an identifier or "*".
     pub name: Text,
 }
 
@@ -62,7 +62,7 @@ pub enum SubclassSelector {
     Attr(AttrSelector),
 
     #[tag("PseudoClassSelector")]
-    PseudoClass(PseudoSelector),
+    Pseudo(PseudoSelector),
 
     #[tag("AtSelector")]
     At(AtSelector),
@@ -73,7 +73,7 @@ pub struct AttrSelector {
     pub span: Span,
     pub name: NamespacedName,
     pub op: Option<AttrSelectorOp>,
-    pub value: Option<Text>,
+    pub value: Option<Str>,
     pub modifier: Option<char>,
 }
 
@@ -90,7 +90,7 @@ pub enum AttrSelectorOp {
     /// `=`
     Equals,
 
-    /// `!=`
+    /// `~=`
     Tilde,
 
     /// `|=`

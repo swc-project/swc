@@ -65,7 +65,7 @@
                       "end": 3,
                       "ctxt": 0
                     },
-                    "value": ""
+                    "value": "b"
                   },
                   "args": {
                     "type": "Tokens",
@@ -92,7 +92,7 @@
                       "end": 5,
                       "ctxt": 0
                     },
-                    "value": ""
+                    "value": "c"
                   },
                   "args": {
                     "type": "Tokens",

@@ -1,7 +1,10 @@
 use std::mem::take;
 
 use self::input::{Buffer, ParserInput};
-use crate::error::{Error, ErrorKind};
+use crate::{
+    error::{Error, ErrorKind},
+    Parse,
+};
 use swc_atoms::js_word;
 use swc_common::Span;
 use swc_css_ast::*;
@@ -71,18 +74,7 @@ where
     }
 
     pub fn parse_all(&mut self) -> PResult<Stylesheet> {
-        let start = self.input.cur_span()?;
-        let rules = self.parse_rules(RuleContext {
-            is_top_level: true,
-            parse_selectors: true,
-        })?;
-
-        let last = self.input.last_pos()?;
-
-        Ok(Stylesheet {
-            span: Span::new(start.lo, last, Default::default()),
-            rules,
-        })
+        self.parse()
     }
 
     fn parse_rules(&mut self, ctx: RuleContext) -> PResult<Vec<Rule>> {
@@ -201,4 +193,24 @@ where
 struct RuleContext {
     is_top_level: bool,
     parse_selectors: bool,
+}
+
+impl<I> Parse<Stylesheet> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> Result<Stylesheet, Error> {
+        let start = self.input.cur_span()?;
+        let rules = self.parse_rules(RuleContext {
+            is_top_level: true,
+            parse_selectors: true,
+        })?;
+
+        let last = self.input.last_pos()?;
+
+        Ok(Stylesheet {
+            span: Span::new(start.lo, last, Default::default()),
+            rules,
+        })
+    }
 }

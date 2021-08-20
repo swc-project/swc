@@ -65,7 +65,7 @@
                       "end": 11,
                       "ctxt": 0
                     },
-                    "value": ""
+                    "value": "before"
                   },
                   "args": {
                     "type": "Tokens",
@@ -92,7 +92,7 @@
                       "end": 18,
                       "ctxt": 0
                     },
-                    "value": ""
+                    "value": "after"
                   },
                   "args": {
                     "type": "Tokens",
@@ -119,7 +119,7 @@
                       "end": 29,
                       "ctxt": 0
                     },
-                    "value": ""
+                    "value": "selection"
                   },
                   "args": {
                     "type": "Tokens",
@@ -146,7 +146,7 @@
                       "end": 41,
                       "ctxt": 0
                     },
-                    "value": ""
+                    "value": "first-line"
                   },
                   "args": {
                     "type": "Tokens",
@@ -173,7 +173,7 @@
                       "end": 55,
                       "ctxt": 0
                     },
-                    "value": ""
+                    "value": "first-letter"
                   },
                   "args": {
                     "type": "Tokens",
