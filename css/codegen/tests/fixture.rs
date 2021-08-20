@@ -10,7 +10,7 @@ use swc_css_visit::{VisitMut, VisitMutWith};
 
 #[testing::fixture("../parser/tests/fixture/**/input.css")]
 fn parse_again(input: PathBuf) {
-    testing::run_test2(false, |cm, handler| {
+    testing::run_test2(false, |cm, _handler| {
         let fm = cm.load_file(&input).unwrap();
 
         eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
