@@ -303,7 +303,6 @@ where
             &n.values,
             ListFormat::SpaceDelimited | ListFormat::SingleLine,
         )?;
-        punct!(";");
     }
 
     #[emitter]
