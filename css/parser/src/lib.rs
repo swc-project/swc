@@ -25,6 +25,7 @@ where
     }
 }
 
+/// Parse a given string as `T`.
 pub fn parse_str<'a, T>(
     src: &'a str,
     start_pos: BytePos,
@@ -40,6 +41,7 @@ where
     parser.parse()
 }
 
+/// Parse a given file as `T`.
 pub fn parse_file<'a, T>(fm: &'a SourceFile, config: ParserConfig) -> PResult<T>
 where
     Parser<Lexer<StringInput<'a>>>: Parse<T>,
