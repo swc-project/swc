@@ -511,6 +511,24 @@ where
         self.emit_list(&n.selectors, ListFormat::NotDelimited)?;
     }
 
+    #[emitter]
+    fn emit_compound_selector(&mut self, n: &CompoundSelector) -> Result {
+        emit!(n.type_selector);
+        emit!(n.combinator);
+        self.emit_list(&n.subclass_selectors, ListFormat::NotDelimited)?;
+    }
+
+    #[emitter]
+    fn emit_subclass_selector(&mut self, n: &SubclassSelector) -> Result {
+        match n {
+            SubclassSelector::Id(n) => emit!(n),
+            SubclassSelector::Class(n) => emit!(n),
+            SubclassSelector::Attr(n) => emit!(n),
+            SubclassSelector::PseudoClass(n) => emit!(n),
+            SubclassSelector::At(n) => emit!(n),
+        }
+    }
+
     fn emit_list<N>(&mut self, nodes: &[N], format: ListFormat) -> Result
     where
         Self: Emit<N>,
