@@ -622,7 +622,7 @@ where
         N: Spanned,
     {
         for (idx, node) in nodes.iter().enumerate() {
-            if idx != 0 && idx != nodes.len() - 1 {
+            if idx != 0 {
                 self.write_delim(format)?;
 
                 match format & ListFormat::LinesMask {
