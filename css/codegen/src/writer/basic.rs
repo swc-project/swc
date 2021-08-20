@@ -47,16 +47,23 @@ where
     }
 
     fn write_escaped(&mut self, s: &str) -> Result {
-        for c in s.chars() {
-            self.col += 1;
-
+        for (idx, c) in s.chars().enumerate() {
             match c {
                 ' ' | ',' | '-' | ':' | '~' | '+' => {
+                    self.col += 1;
                     self.w.write_char('\\')?;
+                }
+
+                '0'..='9' if idx == 0 => {
+                    self.col += 3;
+                    self.w.write_char('\\')?;
+                    write!(self.w, "{:x}", c as u32)?;
+                    continue;
                 }
                 _ => {}
             }
 
+            self.col += 1;
             self.w.write_char(c)?;
         }
 
