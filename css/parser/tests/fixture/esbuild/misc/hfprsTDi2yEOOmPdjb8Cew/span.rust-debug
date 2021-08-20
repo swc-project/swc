@@ -1,0 +1,66 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/hfprsTDi2yEOOmPdjb8Cew/input.css:1:1
+  |
+1 | div#\30 {}
+  | ^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/hfprsTDi2yEOOmPdjb8Cew/input.css:1:1
+  |
+1 | div#\30 {}
+  | ^^^^^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/esbuild/misc/hfprsTDi2yEOOmPdjb8Cew/input.css:1:1
+  |
+1 | div#\30 {}
+  | ^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/hfprsTDi2yEOOmPdjb8Cew/input.css:1:1
+  |
+1 | div#\30 {}
+  | ^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/hfprsTDi2yEOOmPdjb8Cew/input.css:1:1
+  |
+1 | div#\30 {}
+  | ^^^^^^^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/esbuild/misc/hfprsTDi2yEOOmPdjb8Cew/input.css:1:1
+  |
+1 | div#\30 {}
+  | ^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/hfprsTDi2yEOOmPdjb8Cew/input.css:1:1
+  |
+1 | div#\30 {}
+  | ^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/esbuild/misc/hfprsTDi2yEOOmPdjb8Cew/input.css:1:4
+  |
+1 | div#\30 {}
+  |    ^^^^
+
+error: IdSelector
+ --> $DIR/tests/fixture/esbuild/misc/hfprsTDi2yEOOmPdjb8Cew/input.css:1:4
+  |
+1 | div#\30 {}
+  |    ^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/hfprsTDi2yEOOmPdjb8Cew/input.css:1:4
+  |
+1 | div#\30 {}
+  |    ^^^^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/hfprsTDi2yEOOmPdjb8Cew/input.css:1:9
+  |
+1 | div#\30 {}
+  |         ^^
+
