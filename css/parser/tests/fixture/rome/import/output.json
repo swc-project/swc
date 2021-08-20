@@ -35,7 +35,7 @@
         "type": "String",
         "span": {
           "start": 33,
-          "end": 36,
+          "end": 53,
           "ctxt": 0
         },
         "value": "something.css"
