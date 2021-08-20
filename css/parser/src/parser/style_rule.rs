@@ -42,7 +42,7 @@ where
     pub(crate) fn parse_properties(&mut self) -> PResult<Vec<Property>> {
         let mut props = vec![];
 
-        while is_one_of!(self, Ident, "--") {
+        while is!(self, Ident) {
             let p = self.parse_property()?;
             props.push(p);
 
