@@ -75,14 +75,14 @@ impl<W> CssWriter for BasicCssWriter<'_, W>
 where
     W: Write,
 {
-    fn write_ident(&mut self, span: Option<Span>, s: &str) -> Result {
+    fn write_ident(&mut self, _span: Option<Span>, s: &str) -> Result {
         self.apply_indent()?;
         self.write_escaped(s)?;
 
         Ok(())
     }
 
-    fn write_punct(&mut self, span: Option<Span>, punct: &str) -> Result {
+    fn write_punct(&mut self, _span: Option<Span>, punct: &str) -> Result {
         debug_assert!(
             !punct.contains('\n'),
             "punct should not contain newline charactters"
@@ -99,7 +99,7 @@ where
         self.w.write_char(' ')
     }
 
-    fn write_hash_value(&mut self, span: Option<Span>, text: &str) -> Result {
+    fn write_hash_value(&mut self, _span: Option<Span>, text: &str) -> Result {
         for c in text.chars() {
             match c {
                 ',' => {
@@ -117,7 +117,7 @@ where
         Ok(())
     }
 
-    fn write_raw(&mut self, span: Option<Span>, text: &str) -> Result {
+    fn write_raw(&mut self, _span: Option<Span>, text: &str) -> Result {
         for (idx, s) in text.split('\n').enumerate() {
             self.col += s.len();
             self.w.write_str(s)?;
@@ -130,7 +130,7 @@ where
         Ok(())
     }
 
-    fn write_raw_char(&mut self, span: Option<Span>, c: char) -> Result {
+    fn write_raw_char(&mut self, _span: Option<Span>, c: char) -> Result {
         self.col += c.len_utf8();
         self.w.write_char(c)?;
 
