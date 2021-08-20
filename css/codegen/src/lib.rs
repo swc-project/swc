@@ -1,7 +1,7 @@
 pub use self::emit::*;
 use self::list::ListFormat;
+use std::borrow::Cow;
 pub use std::fmt::Result;
-use std::fmt::Write;
 use swc_common::Spanned;
 use swc_css_ast::*;
 use swc_css_codegen_macros::emitter;
@@ -527,6 +527,15 @@ where
             SubclassSelector::PseudoClass(n) => emit!(n),
             SubclassSelector::At(n) => emit!(n),
         }
+    }
+
+    #[emitter]
+    fn emit_unit(&mut self, n: &Unit) -> Result {
+        let s: Cow<_> = match &n.kind {
+            UnitKind::Px => Cow::Owned("px".into()),
+            UnitKind::Custom(s) => Cow::Borrowed(s),
+        };
+        self.wr.write_ident(Some(n.span), &s)?;
     }
 
     fn emit_list<N>(&mut self, nodes: &[N], format: ListFormat) -> Result
