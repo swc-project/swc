@@ -29,3 +29,8 @@ pub enum Rule {
     #[tag("*")]
     AtRule(AtRule),
 }
+
+#[ast_node]
+pub struct Invalid {
+    pub span: Span,
+}

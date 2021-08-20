@@ -241,4 +241,8 @@ define!({
 
         AtRule(AtRule),
     }
+
+    pub struct Invalid {
+        pub span: Span,
+    }
 });
