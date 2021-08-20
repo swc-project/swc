@@ -1,5 +1,5 @@
 pub use self::emit::*;
-use self::list::ListFormat;
+use self::{ctx::Ctx, list::ListFormat};
 use std::borrow::Cow;
 pub use std::fmt::Result;
 use swc_common::Spanned;
@@ -9,6 +9,7 @@ use writer::CssWriter;
 
 #[macro_use]
 mod macros;
+mod ctx;
 mod emit;
 mod list;
 pub mod writer;
@@ -24,6 +25,7 @@ where
 {
     wr: W,
     config: CodegenConfig,
+    ctx: Ctx,
 }
 
 impl<W> CodeGenerator<W>
@@ -31,7 +33,11 @@ where
     W: CssWriter,
 {
     pub fn new(wr: W, config: CodegenConfig) -> Self {
-        CodeGenerator { wr, config }
+        CodeGenerator {
+            wr,
+            config,
+            ctx: Default::default(),
+        }
     }
 
     #[emitter]
@@ -320,6 +326,10 @@ where
             punct!(tok, "!");
             self.wr.write_ident(Some(tok), "important")?;
         }
+
+        if self.ctx.semi_after_property {
+            punct!(";");
+        }
     }
 
     #[emitter]
@@ -364,7 +374,12 @@ where
 
         self.wr.increase_indent();
 
-        self.emit_list(&n.items, ListFormat::MultiLine | ListFormat::NotDelimited)?;
+        let ctx = Ctx {
+            semi_after_property: true,
+            ..self.ctx
+        };
+        self.with_ctx(ctx)
+            .emit_list(&n.items, ListFormat::MultiLine | ListFormat::NotDelimited)?;
 
         self.wr.write_newline()?;
 
