@@ -33,6 +33,18 @@ where
             indent_level: 0,
         }
     }
+
+    /// Applies indents if we are at the start of a line.
+    fn apply_indent(&mut self) -> Result {
+        if self.col == 0 {
+            for _ in 0..self.indent_level {
+                self.col += self.config.indent.len();
+                self.w.write_str(self.config.indent)?;
+            }
+        }
+
+        Ok(())
+    }
 }
 
 impl<W> CssWriter for BasicCssWriter<'_, W>
@@ -45,6 +57,7 @@ where
             "An identifier should not contain newline charactters"
         );
 
+        self.apply_indent()?;
         self.col += s.len();
         self.w.write_str(s)?;
 
@@ -57,6 +70,7 @@ where
             "punct should not contain newline charactters"
         );
 
+        self.apply_indent()?;
         self.col += punct.len();
         self.w.write_str(punct)?;
 
