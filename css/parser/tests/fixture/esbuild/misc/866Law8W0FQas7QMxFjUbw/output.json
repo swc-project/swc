@@ -66,7 +66,7 @@
             "type": "Property",
             "span": {
               "start": 4,
-              "end": 18,
+              "end": 17,
               "ctxt": 0
             },
             "name": {
@@ -83,7 +83,7 @@
                 "type": "UnitValue",
                 "span": {
                   "start": 11,
-                  "end": 18,
+                  "end": 17,
                   "ctxt": 0
                 },
                 "value": {
@@ -98,7 +98,7 @@
                 "unit": {
                   "span": {
                     "start": 13,
-                    "end": 18,
+                    "end": 17,
                     "ctxt": 0
                   },
                   "kind": "x,"

@@ -66,7 +66,7 @@
             "type": "Property",
             "span": {
               "start": 4,
-              "end": 17,
+              "end": 16,
               "ctxt": 0
             },
             "name": {
@@ -83,7 +83,7 @@
                 "type": "HashValue",
                 "span": {
                   "start": 11,
-                  "end": 17,
+                  "end": 16,
                   "ctxt": 0
                 },
                 "value": "x,"
