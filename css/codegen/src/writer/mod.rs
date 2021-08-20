@@ -19,6 +19,8 @@ pub trait CssWriter {
 
     fn write_raw(&mut self, span: Option<Span>, text: &str) -> Result;
 
+    fn write_raw_char(&mut self, span: Option<Span>, c: char) -> Result;
+
     fn write_newline(&mut self) -> Result;
 
     fn increase_indent(&mut self);

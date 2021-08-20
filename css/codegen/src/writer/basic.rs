@@ -130,6 +130,13 @@ where
         Ok(())
     }
 
+    fn write_raw_char(&mut self, span: Option<Span>, c: char) -> Result {
+        self.col += c.len_utf8();
+        self.w.write_char(c)?;
+
+        Ok(())
+    }
+
     fn write_newline(&mut self) -> Result {
         self.line += 1;
         self.col = 0;
