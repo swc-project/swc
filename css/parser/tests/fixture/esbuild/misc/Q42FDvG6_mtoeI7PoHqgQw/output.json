@@ -72,7 +72,7 @@
                   "name": {
                     "type": "NamespacedName",
                     "span": {
-                      "start": 2,
+                      "start": 3,
                       "end": 4,
                       "ctxt": 0
                     },

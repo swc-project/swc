@@ -472,7 +472,7 @@
                   "name": {
                     "type": "NamespacedName",
                     "span": {
-                      "start": 89,
+                      "start": 90,
                       "end": 95,
                       "ctxt": 0
                     },
@@ -590,7 +590,7 @@
                   "name": {
                     "type": "NamespacedName",
                     "span": {
-                      "start": 120,
+                      "start": 121,
                       "end": 126,
                       "ctxt": 0
                     },
@@ -716,7 +716,7 @@
                   "name": {
                     "type": "NamespacedName",
                     "span": {
-                      "start": 161,
+                      "start": 162,
                       "end": 167,
                       "ctxt": 0
                     },
@@ -842,7 +842,7 @@
                   "name": {
                     "type": "NamespacedName",
                     "span": {
-                      "start": 203,
+                      "start": 204,
                       "end": 209,
                       "ctxt": 0
                     },
@@ -879,7 +879,7 @@
                   "name": {
                     "type": "NamespacedName",
                     "span": {
-                      "start": 220,
+                      "start": 221,
                       "end": 225,
                       "ctxt": 0
                     },
@@ -1186,7 +1186,7 @@
                 {
                   "type": "PseudoSelector",
                   "span": {
-                    "start": 308,
+                    "start": 307,
                     "end": 322,
                     "ctxt": 0
                   },
@@ -1255,7 +1255,7 @@
                 {
                   "type": "PseudoSelector",
                   "span": {
-                    "start": 329,
+                    "start": 328,
                     "end": 347,
                     "ctxt": 0
                   },

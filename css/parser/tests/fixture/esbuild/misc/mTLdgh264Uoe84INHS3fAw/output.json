@@ -36,7 +36,7 @@
                 {
                   "type": "PseudoSelector",
                   "span": {
-                    "start": 1,
+                    "start": 0,
                     "end": 3,
                     "ctxt": 0
                   },

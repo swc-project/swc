@@ -53,7 +53,7 @@
                 {
                   "type": "PseudoSelector",
                   "span": {
-                    "start": 4,
+                    "start": 3,
                     "end": 11,
                     "ctxt": 0
                   },
@@ -80,7 +80,7 @@
                 {
                   "type": "PseudoSelector",
                   "span": {
-                    "start": 12,
+                    "start": 11,
                     "end": 18,
                     "ctxt": 0
                   },
@@ -107,7 +107,7 @@
                 {
                   "type": "PseudoSelector",
                   "span": {
-                    "start": 19,
+                    "start": 18,
                     "end": 29,
                     "ctxt": 0
                   },
@@ -134,7 +134,7 @@
                 {
                   "type": "PseudoSelector",
                   "span": {
-                    "start": 30,
+                    "start": 29,
                     "end": 41,
                     "ctxt": 0
                   },
@@ -161,7 +161,7 @@
                 {
                   "type": "PseudoSelector",
                   "span": {
-                    "start": 42,
+                    "start": 41,
                     "end": 55,
                     "ctxt": 0
                   },

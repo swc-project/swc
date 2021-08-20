@@ -66,7 +66,7 @@
             "type": "Property",
             "span": {
               "start": 4,
-              "end": 15,
+              "end": 14,
               "ctxt": 0
             },
             "name": {
@@ -154,7 +154,7 @@
             "type": "Property",
             "span": {
               "start": 21,
-              "end": 34,
+              "end": 33,
               "ctxt": 0
             },
             "name": {
@@ -242,7 +242,7 @@
             "type": "Property",
             "span": {
               "start": 40,
-              "end": 51,
+              "end": 50,
               "ctxt": 0
             },
             "name": {
