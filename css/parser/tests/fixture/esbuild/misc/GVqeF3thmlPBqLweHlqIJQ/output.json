@@ -54,7 +54,7 @@
             {
               "type": "CompoundSelector",
               "span": {
-                "start": 1,
+                "start": 5,
                 "end": 6,
                 "ctxt": 0
               },
@@ -63,7 +63,7 @@
               "typeSelector": {
                 "type": "NamespacedName",
                 "span": {
-                  "start": 1,
+                  "start": 5,
                   "end": 6,
                   "ctxt": 0
                 },
@@ -71,7 +71,7 @@
                 "name": {
                   "type": "Text",
                   "span": {
-                    "start": 1,
+                    "start": 5,
                     "end": 6,
                     "ctxt": 0
                   },

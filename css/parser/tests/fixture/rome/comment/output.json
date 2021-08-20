@@ -1,7 +1,7 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 0,
+    "start": 20,
     "end": 127,
     "ctxt": 0
   },
@@ -9,7 +9,7 @@
     {
       "type": "StyleRule",
       "span": {
-        "start": 0,
+        "start": 20,
         "end": 54,
         "ctxt": 0
       },
@@ -17,7 +17,7 @@
         {
           "type": "ComplexSelector",
           "span": {
-            "start": 0,
+            "start": 20,
             "end": 21,
             "ctxt": 0
           },
@@ -25,7 +25,7 @@
             {
               "type": "CompoundSelector",
               "span": {
-                "start": 0,
+                "start": 20,
                 "end": 21,
                 "ctxt": 0
               },
@@ -34,7 +34,7 @@
               "typeSelector": {
                 "type": "NamespacedName",
                 "span": {
-                  "start": 0,
+                  "start": 20,
                   "end": 21,
                   "ctxt": 0
                 },
@@ -42,7 +42,7 @@
                 "name": {
                   "type": "Text",
                   "span": {
-                    "start": 0,
+                    "start": 20,
                     "end": 21,
                     "ctxt": 0
                   },
@@ -170,7 +170,7 @@
               {
                 "type": "Text",
                 "span": {
-                  "start": 68,
+                  "start": 82,
                   "end": 87,
                   "ctxt": 0
                 },
@@ -233,7 +233,7 @@
       "block": {
         "type": "DeclBlock",
         "span": {
-          "start": 94,
+          "start": 108,
           "end": 126,
           "ctxt": 0
         },
