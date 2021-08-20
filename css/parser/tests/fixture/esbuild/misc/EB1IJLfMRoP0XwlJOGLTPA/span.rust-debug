@@ -1,0 +1,48 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/EB1IJLfMRoP0XwlJOGLTPA/input.css:1:1
+  |
+1 | div {}
+  | ^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/EB1IJLfMRoP0XwlJOGLTPA/input.css:1:1
+  |
+1 | div {}
+  | ^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/esbuild/misc/EB1IJLfMRoP0XwlJOGLTPA/input.css:1:1
+  |
+1 | div {}
+  | ^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/EB1IJLfMRoP0XwlJOGLTPA/input.css:1:1
+  |
+1 | div {}
+  | ^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/EB1IJLfMRoP0XwlJOGLTPA/input.css:1:1
+  |
+1 | div {}
+  | ^^^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/esbuild/misc/EB1IJLfMRoP0XwlJOGLTPA/input.css:1:1
+  |
+1 | div {}
+  | ^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/EB1IJLfMRoP0XwlJOGLTPA/input.css:1:1
+  |
+1 | div {}
+  | ^^^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/EB1IJLfMRoP0XwlJOGLTPA/input.css:1:5
+  |
+1 | div {}
+  |     ^^
+
