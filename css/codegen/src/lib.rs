@@ -338,7 +338,11 @@ where
             SupportQuery::Not(n) => emit!(n),
             SupportQuery::And(n) => emit!(n),
             SupportQuery::Or(n) => emit!(n),
-            SupportQuery::Property(n) => emit!(n),
+            SupportQuery::Property(n) => {
+                punct!("(");
+                emit!(n);
+                punct!(")");
+            }
             SupportQuery::Paren(n) => emit!(n),
         }
     }
