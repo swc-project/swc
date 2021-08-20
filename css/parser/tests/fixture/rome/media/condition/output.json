@@ -71,7 +71,7 @@
         "type": "AndMediaQuery",
         "span": {
           "start": 36,
-          "end": 101,
+          "end": 100,
           "ctxt": 0
         },
         "left": {
@@ -123,7 +123,7 @@
           "type": "AndMediaQuery",
           "span": {
             "start": 59,
-            "end": 101,
+            "end": 100,
             "ctxt": 0
           },
           "left": {
@@ -231,7 +231,7 @@
         "type": "AndMediaQuery",
         "span": {
           "start": 111,
-          "end": 199,
+          "end": 198,
           "ctxt": 0
         },
         "left": {
@@ -283,7 +283,7 @@
           "type": "AndMediaQuery",
           "span": {
             "start": 134,
-            "end": 199,
+            "end": 198,
             "ctxt": 0
           },
           "left": {
@@ -335,7 +335,7 @@
             "type": "AndMediaQuery",
             "span": {
               "start": 157,
-              "end": 199,
+              "end": 198,
               "ctxt": 0
             },
             "left": {
@@ -506,7 +506,7 @@
         "type": "AndMediaQuery",
         "span": {
           "start": 242,
-          "end": 306,
+          "end": 305,
           "ctxt": 0
         },
         "left": {
@@ -558,7 +558,7 @@
           "type": "OrMediaQuery",
           "span": {
             "start": 265,
-            "end": 306,
+            "end": 305,
             "ctxt": 0
           },
           "left": {
@@ -666,7 +666,7 @@
         "type": "AndMediaQuery",
         "span": {
           "start": 316,
-          "end": 380,
+          "end": 379,
           "ctxt": 0
         },
         "left": {
@@ -718,7 +718,7 @@
           "type": "OrMediaQuery",
           "span": {
             "start": 339,
-            "end": 380,
+            "end": 379,
             "ctxt": 0
           },
           "left": {
