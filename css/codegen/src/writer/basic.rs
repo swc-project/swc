@@ -51,8 +51,8 @@ where
             self.col += 1;
 
             match c {
-                ' ' | ',' => {
-                    self.w.write_char('\\');
+                ' ' | ',' | '-' | ':' | '~' | '+' => {
+                    self.w.write_char('\\')?;
                 }
                 _ => {}
             }
