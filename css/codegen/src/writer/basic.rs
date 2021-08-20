@@ -1,7 +1,6 @@
-use swc_common::Span;
-
 use super::CssWriter;
 use std::fmt::{Result, Write};
+use swc_common::Span;
 
 pub struct BasicCssWriterConfig<'a> {
     pub indent: &'a str,
