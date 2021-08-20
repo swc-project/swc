@@ -69,7 +69,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(BinValue, visit_bin_value);
     mtd!(BraceValue, visit_brace_value);
     mtd!(ClassSelector, visit_class_selector);
-    mtd!(CommaValues, visit_comma_values);
+    mtd!(SpaceValues, visit_space_values);
     mtd!(ComplexSelector, visit_complex_selector);
     mtd!(CompoundSelector, visit_compound_selector);
     mtd!(DeclBlock, visit_decl_block);

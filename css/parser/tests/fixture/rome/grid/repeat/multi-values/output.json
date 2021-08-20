@@ -107,7 +107,7 @@
                     "value": 4.0
                   },
                   {
-                    "type": "CommaValues",
+                    "type": "SpaceValues",
                     "span": {
                       "start": 43,
                       "end": 101,

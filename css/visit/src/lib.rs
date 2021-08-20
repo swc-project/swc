@@ -78,7 +78,7 @@ define!({
 
         Array(ArrayValue),
 
-        Comma(CommaValues),
+        Space(SpaceValues),
 
         Brace(BraceValue),
 
@@ -89,7 +89,7 @@ define!({
         Url(UrlValue),
     }
 
-    pub struct CommaValues {
+    pub struct SpaceValues {
         pub span: Span,
         pub values: Vec<Value>,
     }

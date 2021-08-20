@@ -426,7 +426,7 @@
                         }
                       },
                       "right": {
-                        "type": "CommaValues",
+                        "type": "SpaceValues",
                         "span": {
                           "start": 111,
                           "end": 117,
@@ -585,7 +585,7 @@
                         }
                       },
                       "right": {
-                        "type": "CommaValues",
+                        "type": "SpaceValues",
                         "span": {
                           "start": 149,
                           "end": 155,
@@ -680,7 +680,7 @@
                         }
                       },
                       "right": {
-                        "type": "CommaValues",
+                        "type": "SpaceValues",
                         "span": {
                           "start": 167,
                           "end": 173,
@@ -775,7 +775,7 @@
                         }
                       },
                       "right": {
-                        "type": "CommaValues",
+                        "type": "SpaceValues",
                         "span": {
                           "start": 185,
                           "end": 191,
@@ -1204,7 +1204,7 @@
                         }
                       },
                       "right": {
-                        "type": "CommaValues",
+                        "type": "SpaceValues",
                         "span": {
                           "start": 301,
                           "end": 307,
@@ -1363,7 +1363,7 @@
                         }
                       },
                       "right": {
-                        "type": "CommaValues",
+                        "type": "SpaceValues",
                         "span": {
                           "start": 339,
                           "end": 345,
@@ -1458,7 +1458,7 @@
                         }
                       },
                       "right": {
-                        "type": "CommaValues",
+                        "type": "SpaceValues",
                         "span": {
                           "start": 357,
                           "end": 363,
@@ -1553,7 +1553,7 @@
                         }
                       },
                       "right": {
-                        "type": "CommaValues",
+                        "type": "SpaceValues",
                         "span": {
                           "start": 375,
                           "end": 381,

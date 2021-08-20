@@ -391,7 +391,7 @@
                         }
                       },
                       "right": {
-                        "type": "CommaValues",
+                        "type": "SpaceValues",
                         "span": {
                           "start": 96,
                           "end": 99,
@@ -525,7 +525,7 @@
                         }
                       },
                       "right": {
-                        "type": "CommaValues",
+                        "type": "SpaceValues",
                         "span": {
                           "start": 126,
                           "end": 128,
@@ -635,7 +635,7 @@
                         }
                       },
                       "right": {
-                        "type": "CommaValues",
+                        "type": "SpaceValues",
                         "span": {
                           "start": 153,
                           "end": 161,
@@ -797,7 +797,7 @@
                         }
                       },
                       "right": {
-                        "type": "CommaValues",
+                        "type": "SpaceValues",
                         "span": {
                           "start": 192,
                           "end": 194,
@@ -923,7 +923,7 @@
                             }
                           },
                           "right": {
-                            "type": "CommaValues",
+                            "type": "SpaceValues",
                             "span": {
                               "start": 219,
                               "end": 221,
@@ -943,7 +943,7 @@
                           }
                         },
                         "right": {
-                          "type": "CommaValues",
+                          "type": "SpaceValues",
                           "span": {
                             "start": 223,
                             "end": 225,
@@ -963,7 +963,7 @@
                         }
                       },
                       "right": {
-                        "type": "CommaValues",
+                        "type": "SpaceValues",
                         "span": {
                           "start": 227,
                           "end": 231,

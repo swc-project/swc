@@ -389,7 +389,7 @@ error: Value
 5 |     width: calc(2em * 2% * 3px);
   |                       ^^^
 
-error: CommaValues
+error: SpaceValues
  --> $DIR/tests/fixture/rome/calc/input.css:5:20
   |
 5 |     width: calc(2em * 2% * 3px);
@@ -521,7 +521,7 @@ error: Value
 6 |     width: calc(2em / 2 / 3);
   |                       ^^
 
-error: CommaValues
+error: SpaceValues
  --> $DIR/tests/fixture/rome/calc/input.css:6:20
   |
 6 |     width: calc(2em / 2 / 3);
@@ -635,7 +635,7 @@ error: Value
 7 |     width: calc(2em / (2 - 3) / (2 - 6));
   |                       ^^^^^^^^
 
-error: CommaValues
+error: SpaceValues
  --> $DIR/tests/fixture/rome/calc/input.css:7:20
   |
 7 |     width: calc(2em / (2 - 3) / (2 - 6));
@@ -821,7 +821,7 @@ error: Value
 8 |     width: calc(2em * 2 + 3);
   |                       ^^
 
-error: CommaValues
+error: SpaceValues
  --> $DIR/tests/fixture/rome/calc/input.css:8:20
   |
 8 |     width: calc(2em * 2 + 3);
@@ -959,7 +959,7 @@ error: Value
 9 |     width: calc(2em * 2 - 3 + 3em / 5);
   |                       ^^
 
-error: CommaValues
+error: SpaceValues
  --> $DIR/tests/fixture/rome/calc/input.css:9:20
   |
 9 |     width: calc(2em * 2 - 3 + 3em / 5);
@@ -983,7 +983,7 @@ error: Value
 9 |     width: calc(2em * 2 - 3 + 3em / 5);
   |                           ^^
 
-error: CommaValues
+error: SpaceValues
  --> $DIR/tests/fixture/rome/calc/input.css:9:24
   |
 9 |     width: calc(2em * 2 - 3 + 3em / 5);
@@ -1007,7 +1007,7 @@ error: Value
 9 |     width: calc(2em * 2 - 3 + 3em / 5);
   |                               ^^^^
 
-error: CommaValues
+error: SpaceValues
  --> $DIR/tests/fixture/rome/calc/input.css:9:28
   |
 9 |     width: calc(2em * 2 - 3 + 3em / 5);
