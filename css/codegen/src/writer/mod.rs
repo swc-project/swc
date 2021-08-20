@@ -14,11 +14,14 @@ pub trait CssWriter {
 
     fn write_space(&mut self) -> Result;
 
+    /// `text` does not contain `#`.
+    fn write_hash_value(&mut self, span: Option<Span>, text: &str) -> Result;
+
     fn write_raw(&mut self, span: Option<Span>, text: &str) -> Result;
+
+    fn write_newline(&mut self) -> Result;
 
     fn increase_indent(&mut self);
 
     fn decrease_indent(&mut self);
-
-    fn write_newline(&mut self) -> Result;
 }

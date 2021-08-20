@@ -99,6 +99,24 @@ where
         self.w.write_char(' ')
     }
 
+    fn write_hash_value(&mut self, span: Option<Span>, text: &str) -> Result {
+        for c in text.chars() {
+            match c {
+                ',' => {
+                    self.col += 1;
+                    self.w.write_char('\\')?;
+                }
+
+                _ => {}
+            }
+
+            self.col += 1;
+            self.w.write_char(c)?;
+        }
+
+        Ok(())
+    }
+
     fn write_raw(&mut self, span: Option<Span>, text: &str) -> Result {
         for (idx, s) in text.split('\n').enumerate() {
             self.col += s.len();
@@ -112,14 +130,6 @@ where
         Ok(())
     }
 
-    fn increase_indent(&mut self) {
-        self.indent_level += 1;
-    }
-
-    fn decrease_indent(&mut self) {
-        self.indent_level -= 1;
-    }
-
     fn write_newline(&mut self) -> Result {
         self.line += 1;
         self.col = 0;
@@ -127,5 +137,13 @@ where
         self.w.write_char('\n')?;
 
         Ok(())
+    }
+
+    fn increase_indent(&mut self) {
+        self.indent_level += 1;
+    }
+
+    fn decrease_indent(&mut self) {
+        self.indent_level -= 1;
     }
 }

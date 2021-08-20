@@ -397,7 +397,7 @@ where
     fn emit_hash_value(&mut self, n: &HashValue) -> Result {
         punct!("#");
 
-        self.wr.write_raw(Some(n.span), &n.value)?;
+        self.wr.write_hash_value(Some(n.span), &n.value)?;
     }
 
     #[emitter]
