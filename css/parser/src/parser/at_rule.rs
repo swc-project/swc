@@ -473,7 +473,7 @@ where
                         allow_operation_in_value: true,
                         ..self.ctx
                     };
-                    let values = self.with_ctx(ctx).parse_property_values()?;
+                    let values = self.with_ctx(ctx).parse_property_values()?.0;
 
                     expect!(self, ")");
 

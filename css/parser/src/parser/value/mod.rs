@@ -16,9 +16,13 @@ where
     /// Ported from `parseDeclaration` of esbuild.
     ///
     /// https://github.com/evanw/esbuild/blob/a9456dfbf08ab50607952eefb85f2418968c124c/internal/css_parser/css_parser.go#L987
-    pub(super) fn parse_property_values(&mut self) -> PResult<Vec<Value>> {
+    ///
+    /// Returned [BytePos] is `hi`.
+    pub(super) fn parse_property_values(&mut self) -> PResult<(Vec<Value>, BytePos)> {
         let mut values = vec![];
         let mut state = self.input.state();
+
+        let mut hi = self.input.last_pos()?;
         loop {
             if is_one_of!(self, EOF, ";", "}", "!", ")") {
                 self.input.reset(&state);
@@ -26,6 +30,7 @@ where
             }
 
             values.push(self.parse_one_value()?);
+            hi = self.input.last_pos()?;
 
             state = self.input.state();
 
@@ -35,7 +40,7 @@ where
         }
 
         // TODO: Make this lazy
-        Ok(values)
+        Ok((values, hi))
     }
 
     fn parse_one_value(&mut self) -> PResult<Value> {
