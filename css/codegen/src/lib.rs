@@ -367,7 +367,8 @@ where
     #[emitter]
     fn emit_hash_value(&mut self, n: &HashValue) -> Result {
         punct!("#");
-        emit!(n.value);
+
+        self.wr.write_ident(Some(n.span), &n.value)?;
     }
 
     #[emitter]
@@ -401,7 +402,7 @@ where
     }
 
     #[emitter]
-    fn emit_tokens(&mut self, n: &Tokens) -> Result {
+    fn emit_tokens(&mut self, _n: &Tokens) -> Result {
         todo!("emit_tokens")
     }
 
@@ -500,7 +501,7 @@ where
     }
 
     #[emitter]
-    fn emit_nested_page_rule(mut self, n: &NestedPageRule) -> Result {
+    fn emit_nested_page_rule(&mut self, n: &NestedPageRule) -> Result {
         self.emit_list(&n.prelude, ListFormat::CommaDelimited)?;
 
         emit!(n.block);
@@ -514,7 +515,11 @@ where
     #[emitter]
     fn emit_compound_selector(&mut self, n: &CompoundSelector) -> Result {
         emit!(n.type_selector);
-        emit!(n.combinator);
+
+        if let Some(combinator) = &n.combinator {
+            self.wr.write_punct(None, combinator.as_str())?;
+        }
+
         self.emit_list(&n.subclass_selectors, ListFormat::NotDelimited)?;
     }
 
@@ -536,6 +541,68 @@ where
             UnitKind::Custom(s) => Cow::Borrowed(s),
         };
         self.wr.write_ident(Some(n.span), &s)?;
+    }
+
+    #[emitter]
+    fn emit_namespaced_name(&mut self, n: &NamespacedName) -> Result {
+        if let Some(prefix) = &n.prefix {
+            emit!(prefix);
+            punct!("|");
+        }
+
+        emit!(n.name);
+    }
+
+    #[emitter]
+    fn emit_id_selector(&mut self, n: &IdSelector) -> Result {
+        punct!("#");
+        emit!(n.text);
+    }
+
+    #[emitter]
+    fn emit_class_selector(&mut self, n: &ClassSelector) -> Result {
+        punct!(".");
+        emit!(n.text);
+    }
+
+    #[emitter]
+    fn emit_attr_selector(&mut self, n: &AttrSelector) -> Result {
+        punct!("[");
+
+        emit!(n.name);
+
+        if let Some(op) = n.op {
+            self.wr.write_punct(None, op.as_str())?;
+        }
+
+        emit!(n.value);
+
+        if let Some(m) = &n.modifier {
+            space!();
+            self.wr.write_raw(None, &m.to_string())?;
+        }
+
+        punct!("]");
+    }
+
+    #[emitter]
+    fn emit_pseudo_selector(&mut self, n: &PseudoSelector) -> Result {
+        punct!(":");
+        if n.is_element {
+            punct!(":");
+        }
+
+        emit!(n.name);
+
+        punct!("(");
+        emit!(n.args);
+        punct!(")");
+    }
+
+    #[emitter]
+    fn emit_at_selector(&mut self, n: &AtSelector) -> Result {
+        punct!("@");
+        emit!(n.text);
     }
 
     fn emit_list<N>(&mut self, nodes: &[N], format: ListFormat) -> Result

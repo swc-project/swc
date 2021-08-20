@@ -12,7 +12,7 @@ macro_rules! punct {
     }};
 
     ($g:expr,$n:expr) => {{
-        $g.wr.write_punct(None, $n);
+        $g.wr.write_punct(None, $n)?;
     }};
 }
 
@@ -22,7 +22,7 @@ macro_rules! keyword {
     }};
 
     ($g:expr,$n:expr) => {{
-        $g.wr.write_ident(None, $n);
+        $g.wr.write_ident(None, $n)?;
     }};
 }
 
