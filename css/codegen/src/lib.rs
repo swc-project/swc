@@ -35,6 +35,11 @@ where
     }
 
     #[emitter]
+    fn emit_stylesheet(&mut self, n: &Stylesheet) -> Result {
+        self.emit_list(&n.rules, ListFormat::NotDelimited | ListFormat::MultiLine)?;
+    }
+
+    #[emitter]
     fn emit_rule(&mut self, n: &Rule) -> Result {
         match n {
             Rule::Style(n) => emit!(n),
@@ -619,6 +624,13 @@ where
         for (idx, node) in nodes.iter().enumerate() {
             if idx != 0 && idx != nodes.len() - 1 {
                 self.write_delim(format)?;
+
+                match format & ListFormat::LinesMask {
+                    ListFormat::MultiLine => {
+                        self.wr.write_newline()?;
+                    }
+                    _ => {}
+                }
             }
             emit!(self, node)
         }
