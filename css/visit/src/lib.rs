@@ -245,4 +245,196 @@ define!({
     pub struct Invalid {
         pub span: Span,
     }
+
+    pub enum AtRule {
+        Charset(CharsetRule),
+        Import(ImportRule),
+        FontFace(FontFaceRule),
+        Keyframes(KeyframesRule),
+        Media(MediaRule),
+        Supports(SupportsRule),
+        Page(PageRule),
+        Namespace(NamespaceRule),
+        Viewport(ViewportRule),
+        Document(DocumentRule),
+        Unknown(UnknownAtRule),
+    }
+
+    pub struct CharsetRule {
+        pub span: Span,
+        pub charset: Str,
+    }
+
+    pub struct ImportRule {
+        pub span: Span,
+        pub src: Str,
+        pub condition: Option<MediaQuery>,
+    }
+
+    pub struct FontFaceRule {
+        pub span: Span,
+        pub block: DeclBlock,
+    }
+
+    pub struct NamespaceRule {
+        pub span: Span,
+        pub prefix: Text,
+        pub value: Str,
+    }
+
+    pub struct ViewportRule {
+        pub span: Span,
+        pub block: DeclBlock,
+    }
+
+    pub struct UnknownAtRule {
+        pub span: Span,
+        pub name: Text,
+        pub tokens: Tokens,
+    }
+
+    pub struct DocumentRule {
+        pub span: Span,
+        pub selectors: Vec<FnValue>,
+        pub block: Vec<Rule>,
+    }
+
+    pub struct KeyframesRule {
+        pub span: Span,
+        pub id: Text,
+        pub blocks: Vec<KeyframeBlock>,
+    }
+
+    pub struct KeyframeBlock {
+        pub span: Span,
+        pub selector: Vec<KeyframeSelector>,
+        pub rule: KeyframeBlockRule,
+    }
+
+    pub enum KeyframeSelector {
+        Id(Text),
+        Percent(PercentValue),
+    }
+
+    pub enum KeyframeBlockRule {
+        Decl(Box<DeclBlock>),
+        AtRule(Box<AtRule>),
+    }
+
+    pub struct MediaRule {
+        pub span: Span,
+
+        pub query: Box<MediaQuery>,
+
+        pub rules: Vec<Rule>,
+    }
+
+    pub enum MediaQuery {
+        Text(Text),
+        And(AndMediaQuery),
+        Or(OrMediaQuery),
+        Not(NotMediaQuery),
+        Only(OnlyMediaQuery),
+        Property(Property),
+        Comma(CommaMediaQuery),
+    }
+
+    pub struct AndMediaQuery {
+        pub span: Span,
+        pub left: Box<MediaQuery>,
+        pub right: Box<MediaQuery>,
+    }
+
+    pub struct OrMediaQuery {
+        pub span: Span,
+        pub left: Box<MediaQuery>,
+        pub right: Box<MediaQuery>,
+    }
+
+    pub struct NotMediaQuery {
+        pub span: Span,
+        pub query: Box<MediaQuery>,
+    }
+
+    pub struct OnlyMediaQuery {
+        pub span: Span,
+        pub query: Box<MediaQuery>,
+    }
+
+    pub struct CommaMediaQuery {
+        pub span: Span,
+        pub queries: Vec<MediaQuery>,
+    }
+
+    pub struct PageRule {
+        pub span: Span,
+
+        pub prelude: Vec<PageSelector>,
+
+        pub block: PageRuleBlock,
+    }
+
+    pub struct PageSelector {
+        pub span: Span,
+
+        pub ident: Option<Text>,
+
+        pub pseudo: Option<Text>,
+    }
+
+    pub struct PageRuleBlock {
+        pub span: Span,
+        pub items: Vec<PageRuleBlockItem>,
+    }
+
+    pub enum PageRuleBlockItem {
+        Property(Box<Property>),
+        Nested(Box<NestedPageRule>),
+    }
+
+    pub struct NestedPageRule {
+        pub span: Span,
+
+        pub prelude: Vec<ComplexSelector>,
+
+        pub block: PageRuleBlock,
+    }
+
+    pub struct SupportsRule {
+        pub span: Span,
+
+        pub query: SupportQuery,
+
+        pub rules: Vec<Rule>,
+    }
+
+    pub enum SupportQuery {
+        Not(NotSupportQuery),
+        And(AndSupportQuery),
+        Or(OrSupportQuery),
+        Property(Property),
+        Paren(ParenSupportQuery),
+    }
+
+    pub struct NotSupportQuery {
+        pub span: Span,
+        pub query: Box<SupportQuery>,
+    }
+
+    pub struct AndSupportQuery {
+        pub span: Span,
+        pub left: Box<SupportQuery>,
+        pub right: Box<SupportQuery>,
+    }
+
+    pub struct OrSupportQuery {
+        pub span: Span,
+        pub left: Box<SupportQuery>,
+        pub right: Box<SupportQuery>,
+    }
+
+    pub struct ParenSupportQuery {
+        pub span: Span,
+        pub query: Box<SupportQuery>,
+    }
 });
