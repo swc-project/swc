@@ -146,7 +146,6 @@ where
                         span: Span::new(start_pos, start_pos, Default::default()),
                         value: js_word!(""),
                     });
-                    bump!(self);
                     // TODO:
                     // nsName.Name.Kind = css_lexer.TIdent
                 }
