@@ -183,11 +183,7 @@ where
             }
 
             Token::Url { .. } => match bump!(self) {
-                Token::Url { value } => {
-                    let span = self.input.cur_span()?;
-
-                    Ok(Str { span, value })
-                }
+                Token::Url { value } => Ok(Str { span, value }),
                 _ => {
                     unreachable!()
                 }
