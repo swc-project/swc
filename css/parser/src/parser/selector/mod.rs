@@ -315,10 +315,8 @@ where
 
         let name_start = self.input.cur_span()?.lo;
 
-        let name = self.parse_selector_text()?;
-
-        let name = if eat!(self, Ident) {
-            name
+        let name = if is!(self, Ident) {
+            self.parse_selector_text()?
         } else {
             Text {
                 span: span!(self, name_start),
