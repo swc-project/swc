@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 12,
+    "end": 14,
     "ctxt": 0
   },
   "rules": [
@@ -10,7 +10,7 @@
       "type": "StyleRule",
       "span": {
         "start": 0,
-        "end": 12,
+        "end": 14,
         "ctxt": 0
       },
       "selectors": [
@@ -26,7 +26,7 @@
               "type": "CompoundSelector",
               "span": {
                 "start": 0,
-                "end": 0,
+                "end": 11,
                 "ctxt": 0
               },
               "hasNestPrefix": false,
@@ -37,14 +37,14 @@
                   "type": "AttrributeSelector",
                   "span": {
                     "start": 0,
-                    "end": 0,
+                    "end": 11,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "NamespacedName",
                     "span": {
                       "start": 0,
-                      "end": 0,
+                      "end": 10,
                       "ctxt": 0
                     },
                     "prefix": {
@@ -79,7 +79,7 @@
         "type": "DeclBlock",
         "span": {
           "start": 12,
-          "end": 12,
+          "end": 14,
           "ctxt": 0
         },
         "properties": []

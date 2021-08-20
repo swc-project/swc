@@ -10,7 +10,7 @@
       "type": "StyleRule",
       "span": {
         "start": 0,
-        "end": 77,
+        "end": 78,
         "ctxt": 0
       },
       "selectors": [
@@ -26,7 +26,7 @@
               "type": "CompoundSelector",
               "span": {
                 "start": 0,
-                "end": 0,
+                "end": 26,
                 "ctxt": 0
               },
               "hasNestPrefix": false,
@@ -35,7 +35,7 @@
                 "type": "NamespacedName",
                 "span": {
                   "start": 0,
-                  "end": 0,
+                  "end": 26,
                   "ctxt": 0
                 },
                 "prefix": null,
@@ -58,7 +58,7 @@
         "type": "DeclBlock",
         "span": {
           "start": 27,
-          "end": 77,
+          "end": 78,
           "ctxt": 0
         },
         "properties": [
@@ -66,7 +66,7 @@
             "type": "Property",
             "span": {
               "start": 33,
-              "end": 45,
+              "end": 48,
               "ctxt": 0
             },
             "name": {
@@ -95,7 +95,7 @@
             "type": "Property",
             "span": {
               "start": 54,
-              "end": 72,
+              "end": 75,
               "ctxt": 0
             },
             "name": {
@@ -112,7 +112,7 @@
                 "type": "FnValue",
                 "span": {
                   "start": 61,
-                  "end": 72,
+                  "end": 75,
                   "ctxt": 0
                 },
                 "name": {
@@ -129,15 +129,15 @@
                     "type": "BinValue",
                     "span": {
                       "start": 66,
-                      "end": 72,
+                      "end": 74,
                       "ctxt": 0
                     },
                     "op": "+",
                     "left": {
                       "type": "UnitValue",
                       "span": {
-                        "start": 61,
-                        "end": 66,
+                        "start": 66,
+                        "end": 69,
                         "ctxt": 0
                       },
                       "value": {
@@ -162,7 +162,7 @@
                       "type": "PercentValue",
                       "span": {
                         "start": 72,
-                        "end": 72,
+                        "end": 74,
                         "ctxt": 0
                       },
                       "value": {

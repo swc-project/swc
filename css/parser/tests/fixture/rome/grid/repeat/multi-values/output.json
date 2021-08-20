@@ -10,7 +10,7 @@
       "type": "StyleRule",
       "span": {
         "start": 0,
-        "end": 104,
+        "end": 105,
         "ctxt": 0
       },
       "selectors": [
@@ -26,7 +26,7 @@
               "type": "CompoundSelector",
               "span": {
                 "start": 0,
-                "end": 0,
+                "end": 6,
                 "ctxt": 0
               },
               "hasNestPrefix": false,
@@ -37,7 +37,7 @@
                   "type": "ClassSelector",
                   "span": {
                     "start": 0,
-                    "end": 0,
+                    "end": 6,
                     "ctxt": 0
                   },
                   "text": {
@@ -59,7 +59,7 @@
         "type": "DeclBlock",
         "span": {
           "start": 7,
-          "end": 104,
+          "end": 105,
           "ctxt": 0
         },
         "properties": [
@@ -67,7 +67,7 @@
             "type": "Property",
             "span": {
               "start": 10,
-              "end": 92,
+              "end": 102,
               "ctxt": 0
             },
             "name": {
@@ -84,7 +84,7 @@
                 "type": "FnValue",
                 "span": {
                   "start": 33,
-                  "end": 92,
+                  "end": 102,
                   "ctxt": 0
                 },
                 "name": {
@@ -110,7 +110,7 @@
                     "type": "CommaValues",
                     "span": {
                       "start": 43,
-                      "end": 92,
+                      "end": 101,
                       "ctxt": 0
                     },
                     "values": [
@@ -118,7 +118,7 @@
                         "type": "ArrayValue",
                         "span": {
                           "start": 43,
-                          "end": 43,
+                          "end": 54,
                           "ctxt": 0
                         },
                         "values": [
@@ -146,7 +146,7 @@
                         "type": "ArrayValue",
                         "span": {
                           "start": 67,
-                          "end": 67,
+                          "end": 79,
                           "ctxt": 0
                         },
                         "values": [
@@ -174,7 +174,7 @@
                         "type": "ArrayValue",
                         "span": {
                           "start": 92,
-                          "end": 92,
+                          "end": 101,
                           "ctxt": 0
                         },
                         "values": [

@@ -10,14 +10,14 @@
       "type": "PageRule",
       "span": {
         "start": 6,
-        "end": 24,
+        "end": 25,
         "ctxt": 0
       },
       "prelude": [],
       "block": {
         "span": {
           "start": 6,
-          "end": 24,
+          "end": 25,
           "ctxt": 0
         },
         "items": [
@@ -25,7 +25,7 @@
             "type": "Property",
             "span": {
               "start": 9,
-              "end": 18,
+              "end": 22,
               "ctxt": 0
             },
             "name": {

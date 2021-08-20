@@ -10,7 +10,7 @@
       "type": "StyleRule",
       "span": {
         "start": 0,
-        "end": 40,
+        "end": 41,
         "ctxt": 0
       },
       "selectors": [
@@ -18,7 +18,7 @@
           "type": "ComplexSelector",
           "span": {
             "start": 0,
-            "end": 0,
+            "end": 3,
             "ctxt": 0
           },
           "selectors": [
@@ -26,7 +26,7 @@
               "type": "CompoundSelector",
               "span": {
                 "start": 0,
-                "end": 0,
+                "end": 3,
                 "ctxt": 0
               },
               "hasNestPrefix": false,
@@ -35,7 +35,7 @@
                 "type": "NamespacedName",
                 "span": {
                   "start": 0,
-                  "end": 0,
+                  "end": 3,
                   "ctxt": 0
                 },
                 "prefix": null,
@@ -57,7 +57,7 @@
           "type": "ComplexSelector",
           "span": {
             "start": 4,
-            "end": 11,
+            "end": 14,
             "ctxt": 0
           },
           "selectors": [
@@ -65,7 +65,7 @@
               "type": "CompoundSelector",
               "span": {
                 "start": 5,
-                "end": 5,
+                "end": 8,
                 "ctxt": 0
               },
               "hasNestPrefix": false,
@@ -74,7 +74,7 @@
                 "type": "NamespacedName",
                 "span": {
                   "start": 5,
-                  "end": 5,
+                  "end": 8,
                   "ctxt": 0
                 },
                 "prefix": null,
@@ -94,7 +94,7 @@
               "type": "CompoundSelector",
               "span": {
                 "start": 11,
-                "end": 11,
+                "end": 14,
                 "ctxt": 0
               },
               "hasNestPrefix": false,
@@ -105,7 +105,7 @@
                   "type": "IdSelector",
                   "span": {
                     "start": 11,
-                    "end": 11,
+                    "end": 14,
                     "ctxt": 0
                   },
                   "text": {
@@ -126,7 +126,7 @@
           "type": "ComplexSelector",
           "span": {
             "start": 15,
-            "end": 22,
+            "end": 25,
             "ctxt": 0
           },
           "selectors": [
@@ -134,7 +134,7 @@
               "type": "CompoundSelector",
               "span": {
                 "start": 16,
-                "end": 16,
+                "end": 19,
                 "ctxt": 0
               },
               "hasNestPrefix": false,
@@ -143,7 +143,7 @@
                 "type": "NamespacedName",
                 "span": {
                   "start": 16,
-                  "end": 16,
+                  "end": 19,
                   "ctxt": 0
                 },
                 "prefix": null,
@@ -163,7 +163,7 @@
               "type": "CompoundSelector",
               "span": {
                 "start": 22,
-                "end": 22,
+                "end": 25,
                 "ctxt": 0
               },
               "hasNestPrefix": false,
@@ -174,7 +174,7 @@
                   "type": "IdSelector",
                   "span": {
                     "start": 22,
-                    "end": 22,
+                    "end": 25,
                     "ctxt": 0
                   },
                   "text": {
@@ -203,7 +203,7 @@
               "type": "CompoundSelector",
               "span": {
                 "start": 27,
-                "end": 27,
+                "end": 30,
                 "ctxt": 0
               },
               "hasNestPrefix": false,
@@ -212,7 +212,7 @@
                 "type": "NamespacedName",
                 "span": {
                   "start": 27,
-                  "end": 27,
+                  "end": 30,
                   "ctxt": 0
                 },
                 "prefix": null,
@@ -232,7 +232,7 @@
               "type": "CompoundSelector",
               "span": {
                 "start": 33,
-                "end": 33,
+                "end": 36,
                 "ctxt": 0
               },
               "hasNestPrefix": false,
@@ -243,7 +243,7 @@
                   "type": "IdSelector",
                   "span": {
                     "start": 33,
-                    "end": 33,
+                    "end": 36,
                     "ctxt": 0
                   },
                   "text": {
@@ -265,7 +265,7 @@
         "type": "DeclBlock",
         "span": {
           "start": 37,
-          "end": 40,
+          "end": 41,
           "ctxt": 0
         },
         "properties": []
@@ -275,7 +275,7 @@
       "type": "StyleRule",
       "span": {
         "start": 43,
-        "end": 68,
+        "end": 69,
         "ctxt": 0
       },
       "selectors": [
@@ -291,7 +291,7 @@
               "type": "CompoundSelector",
               "span": {
                 "start": 43,
-                "end": 43,
+                "end": 64,
                 "ctxt": 0
               },
               "hasNestPrefix": false,
@@ -302,7 +302,7 @@
                   "type": "ClassSelector",
                   "span": {
                     "start": 43,
-                    "end": 43,
+                    "end": 64,
                     "ctxt": 0
                   },
                   "text": {
@@ -324,7 +324,7 @@
         "type": "DeclBlock",
         "span": {
           "start": 65,
-          "end": 68,
+          "end": 69,
           "ctxt": 0
         },
         "properties": []
@@ -334,7 +334,7 @@
       "type": "StyleRule",
       "span": {
         "start": 71,
-        "end": 85,
+        "end": 86,
         "ctxt": 0
       },
       "selectors": [
@@ -350,7 +350,7 @@
               "type": "CompoundSelector",
               "span": {
                 "start": 71,
-                "end": 71,
+                "end": 77,
                 "ctxt": 0
               },
               "hasNestPrefix": false,
@@ -361,7 +361,7 @@
                   "type": "ClassSelector",
                   "span": {
                     "start": 71,
-                    "end": 71,
+                    "end": 77,
                     "ctxt": 0
                   },
                   "text": {
@@ -380,7 +380,7 @@
               "type": "CompoundSelector",
               "span": {
                 "start": 80,
-                "end": 80,
+                "end": 81,
                 "ctxt": 0
               },
               "hasNestPrefix": false,
@@ -389,7 +389,7 @@
                 "type": "NamespacedName",
                 "span": {
                   "start": 80,
-                  "end": 80,
+                  "end": 81,
                   "ctxt": 0
                 },
                 "prefix": null,
@@ -412,7 +412,7 @@
         "type": "DeclBlock",
         "span": {
           "start": 82,
-          "end": 85,
+          "end": 86,
           "ctxt": 0
         },
         "properties": []
@@ -422,7 +422,7 @@
       "type": "StyleRule",
       "span": {
         "start": 88,
-        "end": 116,
+        "end": 117,
         "ctxt": 0
       },
       "selectors": [
@@ -438,7 +438,7 @@
               "type": "CompoundSelector",
               "span": {
                 "start": 88,
-                "end": 88,
+                "end": 96,
                 "ctxt": 0
               },
               "hasNestPrefix": false,
@@ -447,7 +447,7 @@
                 "type": "NamespacedName",
                 "span": {
                   "start": 88,
-                  "end": 88,
+                  "end": 89,
                   "ctxt": 0
                 },
                 "prefix": null,
@@ -465,15 +465,15 @@
                 {
                   "type": "AttrributeSelector",
                   "span": {
-                    "start": 88,
-                    "end": 89,
+                    "start": 89,
+                    "end": 96,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "NamespacedName",
                     "span": {
-                      "start": 88,
-                      "end": 89,
+                      "start": 89,
+                      "end": 95,
                       "ctxt": 0
                     },
                     "prefix": null,
@@ -500,7 +500,7 @@
         "type": "DeclBlock",
         "span": {
           "start": 97,
-          "end": 116,
+          "end": 117,
           "ctxt": 0
         },
         "properties": [
@@ -508,7 +508,7 @@
             "type": "Property",
             "span": {
               "start": 101,
-              "end": 108,
+              "end": 114,
               "ctxt": 0
             },
             "name": {
@@ -540,7 +540,7 @@
       "type": "StyleRule",
       "span": {
         "start": 119,
-        "end": 157,
+        "end": 158,
         "ctxt": 0
       },
       "selectors": [
@@ -556,7 +556,7 @@
               "type": "CompoundSelector",
               "span": {
                 "start": 119,
-                "end": 127,
+                "end": 137,
                 "ctxt": 0
               },
               "hasNestPrefix": false,
@@ -565,7 +565,7 @@
                 "type": "NamespacedName",
                 "span": {
                   "start": 119,
-                  "end": 119,
+                  "end": 120,
                   "ctxt": 0
                 },
                 "prefix": null,
@@ -584,14 +584,14 @@
                   "type": "AttrributeSelector",
                   "span": {
                     "start": 120,
-                    "end": 127,
+                    "end": 137,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "NamespacedName",
                     "span": {
-                      "start": 119,
-                      "end": 120,
+                      "start": 120,
+                      "end": 126,
                       "ctxt": 0
                     },
                     "prefix": null,
@@ -626,7 +626,7 @@
         "type": "DeclBlock",
         "span": {
           "start": 138,
-          "end": 157,
+          "end": 158,
           "ctxt": 0
         },
         "properties": [
@@ -634,7 +634,7 @@
             "type": "Property",
             "span": {
               "start": 142,
-              "end": 149,
+              "end": 155,
               "ctxt": 0
             },
             "name": {
@@ -666,7 +666,7 @@
       "type": "StyleRule",
       "span": {
         "start": 160,
-        "end": 199,
+        "end": 200,
         "ctxt": 0
       },
       "selectors": [
@@ -682,7 +682,7 @@
               "type": "CompoundSelector",
               "span": {
                 "start": 160,
-                "end": 177,
+                "end": 179,
                 "ctxt": 0
               },
               "hasNestPrefix": false,
@@ -691,7 +691,7 @@
                 "type": "NamespacedName",
                 "span": {
                   "start": 160,
-                  "end": 160,
+                  "end": 161,
                   "ctxt": 0
                 },
                 "prefix": null,
@@ -710,14 +710,14 @@
                   "type": "AttrributeSelector",
                   "span": {
                     "start": 161,
-                    "end": 177,
+                    "end": 179,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "NamespacedName",
                     "span": {
-                      "start": 160,
-                      "end": 161,
+                      "start": 161,
+                      "end": 167,
                       "ctxt": 0
                     },
                     "prefix": null,
@@ -752,7 +752,7 @@
         "type": "DeclBlock",
         "span": {
           "start": 180,
-          "end": 199,
+          "end": 200,
           "ctxt": 0
         },
         "properties": [
@@ -760,7 +760,7 @@
             "type": "Property",
             "span": {
               "start": 184,
-              "end": 191,
+              "end": 197,
               "ctxt": 0
             },
             "name": {
@@ -792,7 +792,7 @@
       "type": "StyleRule",
       "span": {
         "start": 202,
-        "end": 258,
+        "end": 259,
         "ctxt": 0
       },
       "selectors": [
@@ -808,7 +808,7 @@
               "type": "CompoundSelector",
               "span": {
                 "start": 202,
-                "end": 237,
+                "end": 239,
                 "ctxt": 0
               },
               "hasNestPrefix": false,
@@ -817,7 +817,7 @@
                 "type": "NamespacedName",
                 "span": {
                   "start": 202,
-                  "end": 202,
+                  "end": 203,
                   "ctxt": 0
                 },
                 "prefix": null,
@@ -836,14 +836,14 @@
                   "type": "AttrributeSelector",
                   "span": {
                     "start": 203,
-                    "end": 210,
+                    "end": 220,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "NamespacedName",
                     "span": {
-                      "start": 202,
-                      "end": 203,
+                      "start": 203,
+                      "end": 209,
                       "ctxt": 0
                     },
                     "prefix": null,
@@ -873,14 +873,14 @@
                   "type": "AttrributeSelector",
                   "span": {
                     "start": 220,
-                    "end": 237,
+                    "end": 239,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "NamespacedName",
                     "span": {
-                      "start": 210,
-                      "end": 220,
+                      "start": 220,
+                      "end": 225,
                       "ctxt": 0
                     },
                     "prefix": null,
@@ -915,7 +915,7 @@
         "type": "DeclBlock",
         "span": {
           "start": 240,
-          "end": 258,
+          "end": 259,
           "ctxt": 0
         },
         "properties": [
@@ -923,7 +923,7 @@
             "type": "Property",
             "span": {
               "start": 243,
-              "end": 250,
+              "end": 256,
               "ctxt": 0
             },
             "name": {
@@ -955,7 +955,7 @@
       "type": "StyleRule",
       "span": {
         "start": 261,
-        "end": 285,
+        "end": 286,
         "ctxt": 0
       },
       "selectors": [
@@ -971,7 +971,7 @@
               "type": "CompoundSelector",
               "span": {
                 "start": 261,
-                "end": 261,
+                "end": 282,
                 "ctxt": 0
               },
               "hasNestPrefix": false,
@@ -980,7 +980,7 @@
                 "type": "NamespacedName",
                 "span": {
                   "start": 261,
-                  "end": 261,
+                  "end": 262,
                   "ctxt": 0
                 },
                 "prefix": null,
@@ -998,8 +998,8 @@
                 {
                   "type": "PseudoSelector",
                   "span": {
-                    "start": 261,
-                    "end": 262,
+                    "start": 262,
+                    "end": 282,
                     "ctxt": 0
                   },
                   "isElement": false,
@@ -1015,8 +1015,8 @@
                   "args": {
                     "type": "Tokens",
                     "span": {
-                      "start": 261,
-                      "end": 280,
+                      "start": 280,
+                      "end": 281,
                       "ctxt": 0
                     },
                     "tokens": [
@@ -1044,7 +1044,7 @@
         "type": "DeclBlock",
         "span": {
           "start": 283,
-          "end": 285,
+          "end": 286,
           "ctxt": 0
         },
         "properties": []
@@ -1054,7 +1054,7 @@
       "type": "StyleRule",
       "span": {
         "start": 288,
-        "end": 304,
+        "end": 305,
         "ctxt": 0
       },
       "selectors": [
@@ -1070,7 +1070,7 @@
               "type": "CompoundSelector",
               "span": {
                 "start": 288,
-                "end": 288,
+                "end": 301,
                 "ctxt": 0
               },
               "hasNestPrefix": false,
@@ -1081,7 +1081,7 @@
                   "type": "PseudoSelector",
                   "span": {
                     "start": 288,
-                    "end": 288,
+                    "end": 301,
                     "ctxt": 0
                   },
                   "isElement": false,
@@ -1097,8 +1097,8 @@
                   "args": {
                     "type": "Tokens",
                     "span": {
-                      "start": 288,
-                      "end": 294,
+                      "start": 294,
+                      "end": 300,
                       "ctxt": 0
                     },
                     "tokens": [
@@ -1150,7 +1150,7 @@
         "type": "DeclBlock",
         "span": {
           "start": 302,
-          "end": 304,
+          "end": 305,
           "ctxt": 0
         },
         "properties": []
@@ -1160,7 +1160,7 @@
       "type": "StyleRule",
       "span": {
         "start": 307,
-        "end": 325,
+        "end": 326,
         "ctxt": 0
       },
       "selectors": [
@@ -1176,7 +1176,7 @@
               "type": "CompoundSelector",
               "span": {
                 "start": 307,
-                "end": 307,
+                "end": 322,
                 "ctxt": 0
               },
               "hasNestPrefix": false,
@@ -1186,8 +1186,8 @@
                 {
                   "type": "PseudoSelector",
                   "span": {
-                    "start": 307,
-                    "end": 308,
+                    "start": 308,
+                    "end": 322,
                     "ctxt": 0
                   },
                   "isElement": true,
@@ -1203,7 +1203,7 @@
                   "args": {
                     "type": "Tokens",
                     "span": {
-                      "start": 307,
+                      "start": 321,
                       "end": 321,
                       "ctxt": 0
                     },
@@ -1219,7 +1219,7 @@
         "type": "DeclBlock",
         "span": {
           "start": 323,
-          "end": 325,
+          "end": 326,
           "ctxt": 0
         },
         "properties": []
@@ -1229,7 +1229,7 @@
       "type": "StyleRule",
       "span": {
         "start": 328,
-        "end": 350,
+        "end": 351,
         "ctxt": 0
       },
       "selectors": [
@@ -1245,7 +1245,7 @@
               "type": "CompoundSelector",
               "span": {
                 "start": 328,
-                "end": 328,
+                "end": 347,
                 "ctxt": 0
               },
               "hasNestPrefix": false,
@@ -1255,8 +1255,8 @@
                 {
                   "type": "PseudoSelector",
                   "span": {
-                    "start": 328,
-                    "end": 329,
+                    "start": 329,
+                    "end": 347,
                     "ctxt": 0
                   },
                   "isElement": true,
@@ -1272,8 +1272,8 @@
                   "args": {
                     "type": "Tokens",
                     "span": {
-                      "start": 328,
-                      "end": 342,
+                      "start": 342,
+                      "end": 346,
                       "ctxt": 0
                     },
                     "tokens": [
@@ -1325,7 +1325,7 @@
         "type": "DeclBlock",
         "span": {
           "start": 348,
-          "end": 350,
+          "end": 351,
           "ctxt": 0
         },
         "properties": []

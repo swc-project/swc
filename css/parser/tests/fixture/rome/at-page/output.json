@@ -10,14 +10,14 @@
       "type": "PageRule",
       "span": {
         "start": 6,
-        "end": 71,
+        "end": 72,
         "ctxt": 0
       },
       "prelude": [
         {
           "span": {
             "start": 6,
-            "end": 6,
+            "end": 18,
             "ctxt": 0
           },
           "ident": {
@@ -43,7 +43,7 @@
       "block": {
         "span": {
           "start": 19,
-          "end": 71,
+          "end": 72,
           "ctxt": 0
         },
         "items": [
@@ -51,7 +51,7 @@
             "type": "NestedPageRule",
             "span": {
               "start": 22,
-              "end": 50,
+              "end": 51,
               "ctxt": 0
             },
             "prelude": [
@@ -67,7 +67,7 @@
                     "type": "CompoundSelector",
                     "span": {
                       "start": 22,
-                      "end": 22,
+                      "end": 33,
                       "ctxt": 0
                     },
                     "hasNestPrefix": false,
@@ -99,7 +99,7 @@
             "block": {
               "span": {
                 "start": 34,
-                "end": 50,
+                "end": 51,
                 "ctxt": 0
               },
               "items": [
@@ -139,7 +139,7 @@
             "type": "Property",
             "span": {
               "start": 53,
-              "end": 66,
+              "end": 69,
               "ctxt": 0
             },
             "name": {
@@ -156,7 +156,7 @@
                 "type": "UnitValue",
                 "span": {
                   "start": 66,
-                  "end": 66,
+                  "end": 69,
                   "ctxt": 0
                 },
                 "value": {
@@ -187,14 +187,14 @@
       "type": "PageRule",
       "span": {
         "start": 80,
-        "end": 139,
+        "end": 140,
         "ctxt": 0
       },
       "prelude": [
         {
           "span": {
             "start": 80,
-            "end": 80,
+            "end": 86,
             "ctxt": 0
           },
           "ident": null,
@@ -212,7 +212,7 @@
       "block": {
         "span": {
           "start": 87,
-          "end": 139,
+          "end": 140,
           "ctxt": 0
         },
         "items": [
@@ -220,7 +220,7 @@
             "type": "NestedPageRule",
             "span": {
               "start": 90,
-              "end": 118,
+              "end": 119,
               "ctxt": 0
             },
             "prelude": [
@@ -236,7 +236,7 @@
                     "type": "CompoundSelector",
                     "span": {
                       "start": 90,
-                      "end": 90,
+                      "end": 101,
                       "ctxt": 0
                     },
                     "hasNestPrefix": false,
@@ -268,7 +268,7 @@
             "block": {
               "span": {
                 "start": 102,
-                "end": 118,
+                "end": 119,
                 "ctxt": 0
               },
               "items": [
@@ -308,7 +308,7 @@
             "type": "Property",
             "span": {
               "start": 121,
-              "end": 134,
+              "end": 137,
               "ctxt": 0
             },
             "name": {
@@ -325,7 +325,7 @@
                 "type": "UnitValue",
                 "span": {
                   "start": 134,
-                  "end": 134,
+                  "end": 137,
                   "ctxt": 0
                 },
                 "value": {
@@ -356,14 +356,14 @@
       "type": "PageRule",
       "span": {
         "start": 148,
-        "end": 200,
+        "end": 201,
         "ctxt": 0
       },
       "prelude": [],
       "block": {
         "span": {
           "start": 148,
-          "end": 200,
+          "end": 201,
           "ctxt": 0
         },
         "items": [
@@ -371,7 +371,7 @@
             "type": "NestedPageRule",
             "span": {
               "start": 151,
-              "end": 179,
+              "end": 180,
               "ctxt": 0
             },
             "prelude": [
@@ -387,7 +387,7 @@
                     "type": "CompoundSelector",
                     "span": {
                       "start": 151,
-                      "end": 151,
+                      "end": 162,
                       "ctxt": 0
                     },
                     "hasNestPrefix": false,
@@ -419,7 +419,7 @@
             "block": {
               "span": {
                 "start": 163,
-                "end": 179,
+                "end": 180,
                 "ctxt": 0
               },
               "items": [
@@ -459,7 +459,7 @@
             "type": "Property",
             "span": {
               "start": 182,
-              "end": 195,
+              "end": 198,
               "ctxt": 0
             },
             "name": {
@@ -476,7 +476,7 @@
                 "type": "UnitValue",
                 "span": {
                   "start": 195,
-                  "end": 195,
+                  "end": 198,
                   "ctxt": 0
                 },
                 "value": {
@@ -507,14 +507,14 @@
       "type": "PageRule",
       "span": {
         "start": 209,
-        "end": 261,
+        "end": 262,
         "ctxt": 0
       },
       "prelude": [],
       "block": {
         "span": {
           "start": 209,
-          "end": 261,
+          "end": 262,
           "ctxt": 0
         },
         "items": [
@@ -522,7 +522,7 @@
             "type": "NestedPageRule",
             "span": {
               "start": 212,
-              "end": 240,
+              "end": 241,
               "ctxt": 0
             },
             "prelude": [
@@ -538,7 +538,7 @@
                     "type": "CompoundSelector",
                     "span": {
                       "start": 212,
-                      "end": 212,
+                      "end": 223,
                       "ctxt": 0
                     },
                     "hasNestPrefix": false,
@@ -570,7 +570,7 @@
             "block": {
               "span": {
                 "start": 224,
-                "end": 240,
+                "end": 241,
                 "ctxt": 0
               },
               "items": [
@@ -610,7 +610,7 @@
             "type": "Property",
             "span": {
               "start": 243,
-              "end": 256,
+              "end": 259,
               "ctxt": 0
             },
             "name": {
@@ -627,7 +627,7 @@
                 "type": "UnitValue",
                 "span": {
                   "start": 256,
-                  "end": 256,
+                  "end": 259,
                   "ctxt": 0
                 },
                 "value": {

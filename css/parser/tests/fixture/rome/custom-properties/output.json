@@ -10,7 +10,7 @@
       "type": "StyleRule",
       "span": {
         "start": 0,
-        "end": 539,
+        "end": 540,
         "ctxt": 0
       },
       "selectors": [
@@ -26,7 +26,7 @@
               "type": "CompoundSelector",
               "span": {
                 "start": 0,
-                "end": 0,
+                "end": 6,
                 "ctxt": 0
               },
               "hasNestPrefix": false,
@@ -37,7 +37,7 @@
                   "type": "ClassSelector",
                   "span": {
                     "start": 0,
-                    "end": 0,
+                    "end": 6,
                     "ctxt": 0
                   },
                   "text": {
@@ -59,7 +59,7 @@
         "type": "DeclBlock",
         "span": {
           "start": 7,
-          "end": 539,
+          "end": 540,
           "ctxt": 0
         },
         "properties": [
@@ -67,7 +67,7 @@
             "type": "Property",
             "span": {
               "start": 10,
-              "end": 17,
+              "end": 22,
               "ctxt": 0
             },
             "name": {
@@ -96,7 +96,7 @@
             "type": "Property",
             "span": {
               "start": 25,
-              "end": 39,
+              "end": 44,
               "ctxt": 0
             },
             "name": {
@@ -125,7 +125,7 @@
             "type": "Property",
             "span": {
               "start": 47,
-              "end": 56,
+              "end": 63,
               "ctxt": 0
             },
             "name": {
@@ -154,7 +154,7 @@
             "type": "Property",
             "span": {
               "start": 66,
-              "end": 74,
+              "end": 78,
               "ctxt": 0
             },
             "name": {
@@ -183,7 +183,7 @@
             "type": "Property",
             "span": {
               "start": 81,
-              "end": 95,
+              "end": 98,
               "ctxt": 0
             },
             "name": {
@@ -200,7 +200,7 @@
                 "type": "PercentValue",
                 "span": {
                   "start": 95,
-                  "end": 95,
+                  "end": 98,
                   "ctxt": 0
                 },
                 "value": {
@@ -220,7 +220,7 @@
             "type": "Property",
             "span": {
               "start": 101,
-              "end": 111,
+              "end": 113,
               "ctxt": 0
             },
             "name": {
@@ -249,7 +249,7 @@
             "type": "Property",
             "span": {
               "start": 116,
-              "end": 126,
+              "end": 130,
               "ctxt": 0
             },
             "name": {
@@ -266,7 +266,7 @@
                 "type": "UnitValue",
                 "span": {
                   "start": 126,
-                  "end": 126,
+                  "end": 130,
                   "ctxt": 0
                 },
                 "value": {
@@ -294,7 +294,7 @@
             "type": "Property",
             "span": {
               "start": 133,
-              "end": 141,
+              "end": 145,
               "ctxt": 0
             },
             "name": {
@@ -311,7 +311,7 @@
                 "type": "UnitValue",
                 "span": {
                   "start": 141,
-                  "end": 141,
+                  "end": 145,
                   "ctxt": 0
                 },
                 "value": {
@@ -339,7 +339,7 @@
             "type": "Property",
             "span": {
               "start": 148,
-              "end": 160,
+              "end": 165,
               "ctxt": 0
             },
             "name": {
@@ -356,7 +356,7 @@
                 "type": "FnValue",
                 "span": {
                   "start": 160,
-                  "end": 160,
+                  "end": 165,
                   "ctxt": 0
                 },
                 "name": {
@@ -377,7 +377,7 @@
             "type": "Property",
             "span": {
               "start": 168,
-              "end": 187,
+              "end": 197,
               "ctxt": 0
             },
             "name": {
@@ -394,7 +394,7 @@
                 "type": "FnValue",
                 "span": {
                   "start": 187,
-                  "end": 187,
+                  "end": 197,
                   "ctxt": 0
                 },
                 "name": {
@@ -410,8 +410,8 @@
                   {
                     "type": "FnValue",
                     "span": {
-                      "start": 187,
-                      "end": 191,
+                      "start": 191,
+                      "end": 196,
                       "ctxt": 0
                     },
                     "name": {
@@ -434,7 +434,7 @@
             "type": "Property",
             "span": {
               "start": 200,
-              "end": 217,
+              "end": 218,
               "ctxt": 0
             },
             "name": {
@@ -451,7 +451,7 @@
                 "type": "ParenValue",
                 "span": {
                   "start": 215,
-                  "end": 217,
+                  "end": 218,
                   "ctxt": 0
                 },
                 "value": null
@@ -463,7 +463,7 @@
             "type": "Property",
             "span": {
               "start": 221,
-              "end": 231,
+              "end": 234,
               "ctxt": 0
             },
             "name": {
@@ -480,14 +480,14 @@
                 "type": "BraceValue",
                 "span": {
                   "start": 231,
-                  "end": 231,
+                  "end": 234,
                   "ctxt": 0
                 },
                 "value": {
                   "type": "Tokens",
                   "span": {
-                    "start": 231,
-                    "end": 232,
+                    "start": 232,
+                    "end": 233,
                     "ctxt": 0
                   },
                   "tokens": [
@@ -509,7 +509,7 @@
             "type": "Property",
             "span": {
               "start": 237,
-              "end": 251,
+              "end": 252,
               "ctxt": 0
             },
             "name": {
@@ -526,7 +526,7 @@
                 "type": "ArrayValue",
                 "span": {
                   "start": 249,
-                  "end": 251,
+                  "end": 252,
                   "ctxt": 0
                 },
                 "values": []
@@ -538,7 +538,7 @@
             "type": "Property",
             "span": {
               "start": 255,
-              "end": 277,
+              "end": 284,
               "ctxt": 0
             },
             "name": {
@@ -555,7 +555,7 @@
                 "type": "AtTextValue",
                 "span": {
                   "start": 277,
-                  "end": 277,
+                  "end": 284,
                   "ctxt": 0
                 },
                 "name": {
@@ -576,7 +576,7 @@
             "type": "Property",
             "span": {
               "start": 287,
-              "end": 307,
+              "end": 313,
               "ctxt": 0
             },
             "name": {
@@ -593,7 +593,7 @@
                 "type": "AtTextValue",
                 "span": {
                   "start": 307,
-                  "end": 307,
+                  "end": 313,
                   "ctxt": 0
                 },
                 "name": {
@@ -614,7 +614,7 @@
             "type": "Property",
             "span": {
               "start": 316,
-              "end": 344,
+              "end": 354,
               "ctxt": 0
             },
             "name": {
@@ -631,7 +631,7 @@
                 "type": "AtTextValue",
                 "span": {
                   "start": 344,
-                  "end": 344,
+                  "end": 351,
                   "ctxt": 0
                 },
                 "name": {
@@ -648,14 +648,14 @@
               {
                 "type": "BraceValue",
                 "span": {
-                  "start": 344,
-                  "end": 352,
+                  "start": 352,
+                  "end": 354,
                   "ctxt": 0
                 },
                 "value": {
                   "type": "Tokens",
                   "span": {
-                    "start": 344,
+                    "start": 353,
                     "end": 353,
                     "ctxt": 0
                   },
@@ -669,7 +669,7 @@
             "type": "Property",
             "span": {
               "start": 357,
-              "end": 383,
+              "end": 392,
               "ctxt": 0
             },
             "name": {
@@ -686,7 +686,7 @@
                 "type": "AtTextValue",
                 "span": {
                   "start": 383,
-                  "end": 383,
+                  "end": 389,
                   "ctxt": 0
                 },
                 "name": {
@@ -703,14 +703,14 @@
               {
                 "type": "BraceValue",
                 "span": {
-                  "start": 383,
-                  "end": 390,
+                  "start": 390,
+                  "end": 392,
                   "ctxt": 0
                 },
                 "value": {
                   "type": "Tokens",
                   "span": {
-                    "start": 383,
+                    "start": 391,
                     "end": 391,
                     "ctxt": 0
                   },
@@ -724,7 +724,7 @@
             "type": "Property",
             "span": {
               "start": 395,
-              "end": 415,
+              "end": 419,
               "ctxt": 0
             },
             "name": {
@@ -762,7 +762,7 @@
             "type": "Property",
             "span": {
               "start": 422,
-              "end": 442,
+              "end": 445,
               "ctxt": 0
             },
             "name": {
@@ -800,7 +800,7 @@
             "type": "Property",
             "span": {
               "start": 448,
-              "end": 475,
+              "end": 478,
               "ctxt": 0
             },
             "name": {
@@ -817,7 +817,7 @@
                 "type": "ParenValue",
                 "span": {
                   "start": 475,
-                  "end": 475,
+                  "end": 478,
                   "ctxt": 0
                 },
                 "value": {
@@ -846,7 +846,7 @@
             "type": "Property",
             "span": {
               "start": 481,
-              "end": 502,
+              "end": 508,
               "ctxt": 0
             },
             "name": {
@@ -863,7 +863,7 @@
                 "type": "ParenValue",
                 "span": {
                   "start": 502,
-                  "end": 502,
+                  "end": 508,
                   "ctxt": 0
                 },
                 "value": {
@@ -892,7 +892,7 @@
             "type": "Property",
             "span": {
               "start": 511,
-              "end": 532,
+              "end": 537,
               "ctxt": 0
             },
             "name": {
@@ -909,7 +909,7 @@
                 "type": "ParenValue",
                 "span": {
                   "start": 532,
-                  "end": 532,
+                  "end": 537,
                   "ctxt": 0
                 },
                 "value": {

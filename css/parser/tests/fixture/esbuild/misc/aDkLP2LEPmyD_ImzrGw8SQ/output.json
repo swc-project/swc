@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 44,
+    "end": 45,
     "ctxt": 0
   },
   "rules": [
@@ -10,7 +10,7 @@
       "type": "KeyframesRule",
       "span": {
         "start": 0,
-        "end": 44,
+        "end": 45,
         "ctxt": 0
       },
       "id": {
@@ -26,7 +26,7 @@
         {
           "span": {
             "start": 18,
-            "end": 23,
+            "end": 25,
             "ctxt": 0
           },
           "selector": [
@@ -44,7 +44,7 @@
             "type": "DeclBlock",
             "span": {
               "start": 23,
-              "end": 23,
+              "end": 25,
               "ctxt": 0
             },
             "properties": []
@@ -53,7 +53,7 @@
         {
           "span": {
             "start": 26,
-            "end": 42,
+            "end": 43,
             "ctxt": 0
           },
           "selector": [
@@ -71,7 +71,7 @@
             "type": "DeclBlock",
             "span": {
               "start": 29,
-              "end": 42,
+              "end": 43,
               "ctxt": 0
             },
             "properties": [
