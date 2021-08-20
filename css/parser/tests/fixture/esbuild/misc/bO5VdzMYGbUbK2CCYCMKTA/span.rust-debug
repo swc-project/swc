@@ -1,0 +1,78 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1
+  |
+1 | .decl { a: b }
+  | ^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1
+  |
+1 | .decl { a: b }
+  | ^^^^^^^^^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1
+  |
+1 | .decl { a: b }
+  | ^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1
+  |
+1 | .decl { a: b }
+  | ^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1
+  |
+1 | .decl { a: b }
+  | ^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1
+  |
+1 | .decl { a: b }
+  | ^^^^^
+
+error: ClassSelector
+ --> $DIR/tests/fixture/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1
+  |
+1 | .decl { a: b }
+  | ^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:2
+  |
+1 | .decl { a: b }
+  |  ^^^^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:7
+  |
+1 | .decl { a: b }
+  |       ^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:9
+  |
+1 | .decl { a: b }
+  |         ^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:9
+  |
+1 | .decl { a: b }
+  |         ^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:12
+  |
+1 | .decl { a: b }
+  |            ^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:12
+  |
+1 | .decl { a: b }
+  |            ^
+
