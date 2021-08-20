@@ -203,13 +203,15 @@ where
                 tok!(":") => {
                     if peeked_is!(self, ":") {
                         while is!(self, ":") {
+                            let start = self.input.cur_span()?.lo;
+
                             let is_element = peeked_is!(self, ":");
                             if is_element {
                                 bump!(self);
                             }
 
                             let mut pseudo = self.parse_pseudo_class_selector()?;
-
+                            pseudo.span.lo = start;
                             pseudo.is_element = is_element;
                             subclass_selectors.push(SubclassSelector::PseudoClass(pseudo));
                         }
