@@ -1,0 +1,1 @@
+@-moz-document url-prefix() { h1 { color: green } }

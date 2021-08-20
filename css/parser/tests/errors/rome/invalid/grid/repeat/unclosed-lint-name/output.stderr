@@ -1,0 +1,6 @@
+error: Expected "]"
+ --> $DIR/tests/errors/rome/invalid/grid/repeat/unclosed-lint-name/input.css:2:45
+  |
+2 |     grid-template-columns: repeat(4, [col-start);
+  |                                                ^
+

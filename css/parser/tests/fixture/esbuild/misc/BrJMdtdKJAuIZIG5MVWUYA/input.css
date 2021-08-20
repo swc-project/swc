@@ -1,0 +1,1 @@
+.selector { property: value\9; }

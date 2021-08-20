@@ -1,0 +1,12 @@
+.style {
+	width: max(500px);
+	width: max(500px, 6 / 4);
+	width: max(500px, 40px + 5%);
+	width: max(500px, 5% * 400px + 2px);
+	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+	width: min(500px);
+	width: min(500px, 6 / 4);
+	width: min(500px, 40px + 5%);
+	width: min(500px, 5% * 400px + 2px);
+	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+}

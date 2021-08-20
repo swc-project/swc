@@ -1,0 +1,1 @@
+:pseudo(cl\61ss) {}

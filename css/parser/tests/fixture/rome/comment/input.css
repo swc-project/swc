@@ -1,0 +1,15 @@
+/*
+ * comments
+ */
+
+a {
+	color: white; /* comment */
+}
+
+a {
+	color: /* comment */ white;
+}
+
+a /* comment */ {
+	color: white;
+}

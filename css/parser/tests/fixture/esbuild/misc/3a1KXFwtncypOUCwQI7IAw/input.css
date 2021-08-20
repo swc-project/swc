@@ -1,0 +1,1 @@
+@keyframes name { 100% { color: red } }

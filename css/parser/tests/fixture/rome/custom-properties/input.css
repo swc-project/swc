@@ -1,0 +1,24 @@
+.style {
+	--foo: 'bar';
+	--lore-ipsum: "foo";
+	--FANCY: "abort";
+	--test: 1987;
+	--percentage: 25%;
+	--number: 37;
+	--length: 12em;
+	--time: 75ms;
+	--function: foo();
+	--nested-function: foo(bar());
+	--parentheses: ( );
+	--braces: { };
+	--brackets: [ ];
+	--at-keyword-unknown: @foobar;
+	--at-keyword-known: @media;
+	--at-keyword-unknown-block: @foobar {};
+	--at-keyword-known-block: @media {};
+	--cdo-at-top-level: <!--;
+	--cdc-at-top-level: -->;
+	--semicolon-not-top-level: (;);
+	--cdo-not-top-level: (<!--);
+	--cdc-not-top-level: (-->);
+}

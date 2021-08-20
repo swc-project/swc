@@ -1,0 +1,10 @@
+.style {
+	width: calc(2px);
+	width: calc(2px + 1px);
+	width: calc(2em + 1%);
+	width: calc(2em * 2% * 3px);
+	width: calc(2em / 2 / 3);
+	width: calc(2em / (2 - 3) / (2 - 6));
+	width: calc(2em * 2 + 3);
+	width: calc(2em * 2 - 3 + 3em / 5);
+}

@@ -1,0 +1,1 @@
+:pseudo\2c class {}

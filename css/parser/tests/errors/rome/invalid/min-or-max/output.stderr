@@ -1,0 +1,6 @@
+error: Expected ")"
+ --> $DIR/tests/errors/rome/invalid/min-or-max/input.css:2:18
+  |
+2 |     width: min(500px;
+  |                     ^
+
