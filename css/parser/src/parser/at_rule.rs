@@ -194,6 +194,7 @@ where
 
         self.input.skip_ws()?;
 
+        let token_start = self.input.cur_span()?.lo;
         let mut tokens = vec![];
 
         if eat!(self, "{") {
@@ -202,6 +203,7 @@ where
                 if is!(self, "}") {
                     brace_cnt -= 1;
                     if brace_cnt == 0 {
+                        expect!(self, "}");
                         break;
                     }
                 }
@@ -243,7 +245,7 @@ where
             span: span!(self, start),
             name,
             tokens: Tokens {
-                span: span!(self, start),
+                span: span!(self, token_start),
                 tokens,
             },
         }))
