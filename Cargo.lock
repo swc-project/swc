@@ -2267,6 +2267,7 @@ name = "swc_css"
 version = "0.2.0"
 dependencies = [
  "swc_css_ast",
+ "swc_css_codegen",
  "swc_css_parser",
  "swc_css_visit",
 ]
@@ -2280,6 +2281,28 @@ dependencies = [
  "string_enum",
  "swc_atoms",
  "swc_common",
+]
+
+[[package]]
+name = "swc_css_codegen"
+version = "0.1.0"
+dependencies = [
+ "bitflags",
+ "swc_atoms",
+ "swc_common",
+ "swc_css_ast",
+ "swc_css_codegen_macros",
+]
+
+[[package]]
+name = "swc_css_codegen_macros"
+version = "0.1.0"
+dependencies = [
+ "pmutil",
+ "proc-macro2",
+ "quote",
+ "swc_macros_common",
+ "syn",
 ]
 
 [[package]]
