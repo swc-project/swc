@@ -37,7 +37,11 @@ where
 
         let mut selectors = vec![sel];
 
+        let mut last_pos;
+
         loop {
+            last_pos = self.input.last_pos()?;
+
             self.input.skip_ws()?;
 
             if is_one_of!(self, EOF, ",", "{") {
@@ -60,7 +64,7 @@ where
         }
 
         Ok(ComplexSelector {
-            span: span!(self, start_pos),
+            span: Span::new(start_pos, last_pos, Default::default()),
             selectors,
         })
     }
@@ -199,13 +203,15 @@ where
                 tok!(":") => {
                     if peeked_is!(self, ":") {
                         while is!(self, ":") {
+                            let start = self.input.cur_span()?.lo;
+
                             let is_element = peeked_is!(self, ":");
                             if is_element {
                                 bump!(self);
                             }
 
                             let mut pseudo = self.parse_pseudo_class_selector()?;
-
+                            pseudo.span.lo = start;
                             pseudo.is_element = is_element;
                             subclass_selectors.push(SubclassSelector::PseudoClass(pseudo));
                         }
@@ -307,13 +313,15 @@ where
             });
         }
 
+        let name_start = self.input.cur_span()?.lo;
+
         let name = self.parse_selector_text()?;
 
         let name = if eat!(self, Ident) {
             name
         } else {
             Text {
-                span: span!(self, start),
+                span: span!(self, name_start),
                 value: js_word!(""),
             }
         };
@@ -330,6 +338,8 @@ where
         let start_pos = self.input.cur_span()?.lo;
         expect!(self, "[");
 
+        let name_start_pos = self.input.cur_span()?.lo;
+
         let mut ns_name_prefix = None;
         let mut ns_name_name;
 
@@ -340,7 +350,7 @@ where
 
                 if eat!(self, "*") {
                     ns_name_prefix = Some(Text {
-                        span: span!(self, start_pos),
+                        span: span!(self, name_start_pos),
                         value: "*".into(),
                     });
                 } else {
@@ -372,7 +382,7 @@ where
             }
         }
         let name = NamespacedName {
-            span: span!(self, start_pos),
+            span: span!(self, name_start_pos),
             prefix: ns_name_prefix,
             name: ns_name_name,
         };

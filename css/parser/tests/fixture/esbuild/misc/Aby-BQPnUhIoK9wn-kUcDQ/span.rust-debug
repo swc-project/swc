@@ -1,0 +1,54 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/Aby-BQPnUhIoK9wn-kUcDQ/input.css:1:1
+  |
+1 | #\,hash {}
+  | ^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/Aby-BQPnUhIoK9wn-kUcDQ/input.css:1:1
+  |
+1 | #\,hash {}
+  | ^^^^^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/esbuild/misc/Aby-BQPnUhIoK9wn-kUcDQ/input.css:1:1
+  |
+1 | #\,hash {}
+  | ^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/Aby-BQPnUhIoK9wn-kUcDQ/input.css:1:1
+  |
+1 | #\,hash {}
+  | ^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/Aby-BQPnUhIoK9wn-kUcDQ/input.css:1:1
+  |
+1 | #\,hash {}
+  | ^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/esbuild/misc/Aby-BQPnUhIoK9wn-kUcDQ/input.css:1:1
+  |
+1 | #\,hash {}
+  | ^^^^^^^
+
+error: IdSelector
+ --> $DIR/tests/fixture/esbuild/misc/Aby-BQPnUhIoK9wn-kUcDQ/input.css:1:1
+  |
+1 | #\,hash {}
+  | ^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/Aby-BQPnUhIoK9wn-kUcDQ/input.css:1:1
+  |
+1 | #\,hash {}
+  | ^^^^^^^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/Aby-BQPnUhIoK9wn-kUcDQ/input.css:1:9
+  |
+1 | #\,hash {}
+  |         ^^
+

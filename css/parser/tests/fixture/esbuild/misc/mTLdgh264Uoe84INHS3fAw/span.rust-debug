@@ -1,0 +1,56 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/mTLdgh264Uoe84INHS3fAw/input.css:1:1
+  |
+1 | ::b {}
+  | ^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/mTLdgh264Uoe84INHS3fAw/input.css:1:1
+  |
+1 | ::b {}
+  | ^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/esbuild/misc/mTLdgh264Uoe84INHS3fAw/input.css:1:1
+  |
+1 | ::b {}
+  | ^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/mTLdgh264Uoe84INHS3fAw/input.css:1:1
+  |
+1 | ::b {}
+  | ^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/mTLdgh264Uoe84INHS3fAw/input.css:1:1
+  |
+1 | ::b {}
+  | ^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/esbuild/misc/mTLdgh264Uoe84INHS3fAw/input.css:1:1
+  |
+1 | ::b {}
+  | ^^^
+
+error: PseudoSelector
+ --> $DIR/tests/fixture/esbuild/misc/mTLdgh264Uoe84INHS3fAw/input.css:1:1
+  |
+1 | ::b {}
+  | ^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/mTLdgh264Uoe84INHS3fAw/input.css:1:3
+  |
+1 | ::b {}
+  |   ^
+
+error: Tokens
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/mTLdgh264Uoe84INHS3fAw/input.css:1:5
+  |
+1 | ::b {}
+  |     ^^
+

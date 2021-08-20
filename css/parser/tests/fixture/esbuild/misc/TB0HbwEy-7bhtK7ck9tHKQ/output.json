@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 11,
+    "end": 46,
     "ctxt": 0
   },
   "rules": [
@@ -10,7 +10,7 @@
       "type": "KeyframesRule",
       "span": {
         "start": 0,
-        "end": 11,
+        "end": 46,
         "ctxt": 0
       },
       "id": {
@@ -25,8 +25,8 @@
       "blocks": [
         {
           "span": {
-            "start": 11,
-            "end": 16,
+            "start": 16,
+            "end": 31,
             "ctxt": 0
           },
           "selector": [
@@ -43,16 +43,16 @@
           "rule": {
             "type": "DeclBlock",
             "span": {
-              "start": 11,
-              "end": 20,
+              "start": 20,
+              "end": 31,
               "ctxt": 0
             },
             "properties": [
               {
                 "type": "Property",
                 "span": {
-                  "start": 11,
-                  "end": 21,
+                  "start": 21,
+                  "end": 30,
                   "ctxt": 0
                 },
                 "name": {
@@ -82,8 +82,8 @@
         },
         {
           "span": {
-            "start": 11,
-            "end": 31,
+            "start": 31,
+            "end": 45,
             "ctxt": 0
           },
           "selector": [
@@ -100,16 +100,16 @@
           "rule": {
             "type": "DeclBlock",
             "span": {
-              "start": 11,
-              "end": 33,
+              "start": 33,
+              "end": 45,
               "ctxt": 0
             },
             "properties": [
               {
                 "type": "Property",
                 "span": {
-                  "start": 11,
-                  "end": 34,
+                  "start": 34,
+                  "end": 44,
                   "ctxt": 0
                 },
                 "name": {

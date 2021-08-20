@@ -14,7 +14,7 @@ where
 
         let block = self.parse_decl_block()?;
 
-        let span = Span::new(start, self.input.last_pos(), Default::default());
+        let span = span!(self, start);
 
         Ok(Rule::Style(StyleRule {
             span,
@@ -34,7 +34,7 @@ where
 
         expect!(self, "}");
 
-        let span = Span::new(start, self.input.last_pos(), Default::default());
+        let span = span!(self, start);
 
         Ok(DeclBlock { span, properties })
     }
@@ -67,7 +67,7 @@ where
 
         expect!(self, ":");
 
-        let values = {
+        let (values, mut last_pos) = {
             let ctx = Ctx {
                 allow_operation_in_value: false,
                 ..self.ctx
@@ -76,11 +76,12 @@ where
         };
 
         let important = self.parse_bang_important()?;
-
-        let span = span!(self, start);
+        if important.is_some() {
+            last_pos = self.input.last_pos()?;
+        }
 
         Ok(Property {
-            span,
+            span: Span::new(start, last_pos, Default::default()),
             name,
             values,
             important,

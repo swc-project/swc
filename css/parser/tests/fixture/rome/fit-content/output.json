@@ -10,7 +10,7 @@
       "type": "StyleRule",
       "span": {
         "start": 0,
-        "end": 72,
+        "end": 73,
         "ctxt": 0
       },
       "selectors": [
@@ -18,7 +18,7 @@
           "type": "ComplexSelector",
           "span": {
             "start": 0,
-            "end": 7,
+            "end": 6,
             "ctxt": 0
           },
           "selectors": [
@@ -26,7 +26,7 @@
               "type": "CompoundSelector",
               "span": {
                 "start": 0,
-                "end": 0,
+                "end": 6,
                 "ctxt": 0
               },
               "hasNestPrefix": false,
@@ -37,7 +37,7 @@
                   "type": "ClassSelector",
                   "span": {
                     "start": 0,
-                    "end": 0,
+                    "end": 6,
                     "ctxt": 0
                   },
                   "text": {
@@ -59,7 +59,7 @@
         "type": "DeclBlock",
         "span": {
           "start": 7,
-          "end": 72,
+          "end": 73,
           "ctxt": 0
         },
         "properties": [
@@ -67,7 +67,7 @@
             "type": "Property",
             "span": {
               "start": 10,
-              "end": 33,
+              "end": 70,
               "ctxt": 0
             },
             "name": {
@@ -84,7 +84,7 @@
                 "type": "FnValue",
                 "span": {
                   "start": 33,
-                  "end": 33,
+                  "end": 49,
                   "ctxt": 0
                 },
                 "name": {
@@ -100,8 +100,8 @@
                   {
                     "type": "UnitValue",
                     "span": {
-                      "start": 33,
-                      "end": 45,
+                      "start": 45,
+                      "end": 48,
                       "ctxt": 0
                     },
                     "value": {
@@ -127,8 +127,8 @@
               {
                 "type": "FnValue",
                 "span": {
-                  "start": 33,
-                  "end": 50,
+                  "start": 50,
+                  "end": 66,
                   "ctxt": 0
                 },
                 "name": {
@@ -144,8 +144,8 @@
                   {
                     "type": "UnitValue",
                     "span": {
-                      "start": 33,
-                      "end": 62,
+                      "start": 62,
+                      "end": 65,
                       "ctxt": 0
                     },
                     "value": {
@@ -171,8 +171,8 @@
               {
                 "type": "UnitValue",
                 "span": {
-                  "start": 33,
-                  "end": 67,
+                  "start": 67,
+                  "end": 70,
                   "ctxt": 0
                 },
                 "value": {

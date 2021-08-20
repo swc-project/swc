@@ -1,0 +1,36 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/_PPlU8tyR27_briQT0VeOg/input.css:1:1
+  |
+1 | @\2cunknown;
+  | ^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/_PPlU8tyR27_briQT0VeOg/input.css:1:1
+  |
+1 | @\2cunknown;
+  | ^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/esbuild/misc/_PPlU8tyR27_briQT0VeOg/input.css:1:1
+  |
+1 | @\2cunknown;
+  | ^^^^^^^^^^^^
+
+error: UnknownAtRule
+ --> $DIR/tests/fixture/esbuild/misc/_PPlU8tyR27_briQT0VeOg/input.css:1:1
+  |
+1 | @\2cunknown;
+  | ^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/_PPlU8tyR27_briQT0VeOg/input.css:1:1
+  |
+1 | @\2cunknown;
+  | ^^^^^^^^^^^
+
+error: Tokens
+ --> $DIR/tests/fixture/esbuild/misc/_PPlU8tyR27_briQT0VeOg/input.css:1:12
+  |
+1 | @\2cunknown;
+  |            ^
+

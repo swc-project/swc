@@ -1,0 +1,72 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/U2nuhvtnEWZ_kMd6i7EDWA/input.css:1:1
+  |
+1 | a { color: #AABBCD }
+  | ^^^^^^^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/U2nuhvtnEWZ_kMd6i7EDWA/input.css:1:1
+  |
+1 | a { color: #AABBCD }
+  | ^^^^^^^^^^^^^^^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/esbuild/misc/U2nuhvtnEWZ_kMd6i7EDWA/input.css:1:1
+  |
+1 | a { color: #AABBCD }
+  | ^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/U2nuhvtnEWZ_kMd6i7EDWA/input.css:1:1
+  |
+1 | a { color: #AABBCD }
+  | ^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/U2nuhvtnEWZ_kMd6i7EDWA/input.css:1:1
+  |
+1 | a { color: #AABBCD }
+  | ^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/esbuild/misc/U2nuhvtnEWZ_kMd6i7EDWA/input.css:1:1
+  |
+1 | a { color: #AABBCD }
+  | ^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/U2nuhvtnEWZ_kMd6i7EDWA/input.css:1:1
+  |
+1 | a { color: #AABBCD }
+  | ^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/U2nuhvtnEWZ_kMd6i7EDWA/input.css:1:3
+  |
+1 | a { color: #AABBCD }
+  |   ^^^^^^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/esbuild/misc/U2nuhvtnEWZ_kMd6i7EDWA/input.css:1:5
+  |
+1 | a { color: #AABBCD }
+  |     ^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/U2nuhvtnEWZ_kMd6i7EDWA/input.css:1:5
+  |
+1 | a { color: #AABBCD }
+  |     ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/U2nuhvtnEWZ_kMd6i7EDWA/input.css:1:12
+  |
+1 | a { color: #AABBCD }
+  |            ^^^^^^^
+
+error: HashValue
+ --> $DIR/tests/fixture/esbuild/misc/U2nuhvtnEWZ_kMd6i7EDWA/input.css:1:12
+  |
+1 | a { color: #AABBCD }
+  |            ^^^^^^^
+

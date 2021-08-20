@@ -1,0 +1,103 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:1
+  |
+1 | / a:after { content: 'a\
+2 | | b' }
+  | |____^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:1
+  |
+1 | / a:after { content: 'a\
+2 | | b' }
+  | |____^
+
+error: StyleRule
+ --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:1
+  |
+1 | / a:after { content: 'a\
+2 | | b' }
+  | |____^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:1
+  |
+1 | a:after { content: 'a\
+  | ^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:1
+  |
+1 | a:after { content: 'a\
+  | ^^^^^^^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:1
+  |
+1 | a:after { content: 'a\
+  | ^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:1
+  |
+1 | a:after { content: 'a\
+  | ^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:2
+  |
+1 | a:after { content: 'a\
+  |  ^^^^^^
+
+error: PseudoSelector
+ --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:2
+  |
+1 | a:after { content: 'a\
+  |  ^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:3
+  |
+1 | a:after { content: 'a\
+  |   ^^^^^
+
+error: Tokens
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:9
+  |
+1 |   a:after { content: 'a\
+  |  _________^
+2 | | b' }
+  | |____^
+
+error: Property
+ --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:11
+  |
+1 |   a:after { content: 'a\
+  |  ___________^
+2 | | b' }
+  | |__^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:11
+  |
+1 | a:after { content: 'a\
+  |           ^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:20
+  |
+1 |   a:after { content: 'a\
+  |  ____________________^
+2 | | b' }
+  | |__^
+
+error: Str
+ --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:20
+  |
+1 |   a:after { content: 'a\
+  |  ____________________^
+2 | | b' }
+  | |__^
+

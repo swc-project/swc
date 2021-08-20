@@ -10,7 +10,7 @@
       "type": "StyleRule",
       "span": {
         "start": 0,
-        "end": 164,
+        "end": 165,
         "ctxt": 0
       },
       "selectors": [
@@ -18,7 +18,7 @@
           "type": "ComplexSelector",
           "span": {
             "start": 0,
-            "end": 7,
+            "end": 6,
             "ctxt": 0
           },
           "selectors": [
@@ -26,7 +26,7 @@
               "type": "CompoundSelector",
               "span": {
                 "start": 0,
-                "end": 0,
+                "end": 6,
                 "ctxt": 0
               },
               "hasNestPrefix": false,
@@ -37,7 +37,7 @@
                   "type": "ClassSelector",
                   "span": {
                     "start": 0,
-                    "end": 0,
+                    "end": 6,
                     "ctxt": 0
                   },
                   "text": {
@@ -59,7 +59,7 @@
         "type": "DeclBlock",
         "span": {
           "start": 7,
-          "end": 164,
+          "end": 165,
           "ctxt": 0
         },
         "properties": [
@@ -67,7 +67,7 @@
             "type": "Property",
             "span": {
               "start": 10,
-              "end": 19,
+              "end": 22,
               "ctxt": 0
             },
             "name": {
@@ -84,7 +84,7 @@
                 "type": "UnitValue",
                 "span": {
                   "start": 19,
-                  "end": 19,
+                  "end": 22,
                   "ctxt": 0
                 },
                 "value": {
@@ -112,7 +112,7 @@
             "type": "Property",
             "span": {
               "start": 25,
-              "end": 33,
+              "end": 45,
               "ctxt": 0
             },
             "name": {
@@ -129,7 +129,7 @@
                 "type": "FnValue",
                 "span": {
                   "start": 33,
-                  "end": 33,
+                  "end": 45,
                   "ctxt": 0
                 },
                 "name": {
@@ -160,7 +160,7 @@
             "type": "Property",
             "span": {
               "start": 48,
-              "end": 71,
+              "end": 76,
               "ctxt": 0
             },
             "name": {
@@ -177,7 +177,7 @@
                 "type": "FnValue",
                 "span": {
                   "start": 59,
-                  "end": 71,
+                  "end": 76,
                   "ctxt": 0
                 },
                 "name": {
@@ -194,15 +194,15 @@
                     "type": "BinValue",
                     "span": {
                       "start": 64,
-                      "end": 71,
+                      "end": 75,
                       "ctxt": 0
                     },
                     "op": "+",
                     "left": {
                       "type": "UnitValue",
                       "span": {
-                        "start": 59,
-                        "end": 64,
+                        "start": 64,
+                        "end": 68,
                         "ctxt": 0
                       },
                       "value": {
@@ -227,7 +227,7 @@
                       "type": "UnitValue",
                       "span": {
                         "start": 71,
-                        "end": 71,
+                        "end": 75,
                         "ctxt": 0
                       },
                       "value": {
@@ -258,7 +258,7 @@
             "type": "Property",
             "span": {
               "start": 79,
-              "end": 91,
+              "end": 98,
               "ctxt": 0
             },
             "name": {
@@ -275,7 +275,7 @@
                 "type": "FnValue",
                 "span": {
                   "start": 91,
-                  "end": 91,
+                  "end": 98,
                   "ctxt": 0
                 },
                 "name": {
@@ -306,7 +306,7 @@
             "type": "Property",
             "span": {
               "start": 101,
-              "end": 113,
+              "end": 129,
               "ctxt": 0
             },
             "name": {
@@ -323,7 +323,7 @@
                 "type": "FnValue",
                 "span": {
                   "start": 113,
-                  "end": 113,
+                  "end": 129,
                   "ctxt": 0
                 },
                 "name": {
@@ -354,7 +354,7 @@
             "type": "Property",
             "span": {
               "start": 132,
-              "end": 144,
+              "end": 162,
               "ctxt": 0
             },
             "name": {
@@ -371,7 +371,7 @@
                 "type": "FnValue",
                 "span": {
                   "start": 144,
-                  "end": 144,
+                  "end": 162,
                   "ctxt": 0
                 },
                 "name": {

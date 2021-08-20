@@ -1,0 +1,147 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:1:1
+  |
+1 | / .style {
+2 | |     grid-template-columns: repeat(4, fit-content(300px));
+3 | | }
+  | |__^
+
+error: Rule
+ --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:1:1
+  |
+1 | / .style {
+2 | |     grid-template-columns: repeat(4, fit-content(300px));
+3 | | }
+  | |_^
+
+error: StyleRule
+ --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:1:1
+  |
+1 | / .style {
+2 | |     grid-template-columns: repeat(4, fit-content(300px));
+3 | | }
+  | |_^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:1:1
+  |
+1 | .style {
+  | ^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:1:1
+  |
+1 | .style {
+  | ^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:1:1
+  |
+1 | .style {
+  | ^^^^^^
+
+error: ClassSelector
+ --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:1:1
+  |
+1 | .style {
+  | ^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:1:2
+  |
+1 | .style {
+  |  ^^^^^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:1:8
+  |
+1 |   .style {
+  |  ________^
+2 | |     grid-template-columns: repeat(4, fit-content(300px));
+3 | | }
+  | |_^
+
+error: Property
+ --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:2
+  |
+2 |     grid-template-columns: repeat(4, fit-content(300px));
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:2
+  |
+2 |     grid-template-columns: repeat(4, fit-content(300px));
+  |     ^^^^^^^^^^^^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:25
+  |
+2 |     grid-template-columns: repeat(4, fit-content(300px));
+  |                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: FnValue
+ --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:25
+  |
+2 |     grid-template-columns: repeat(4, fit-content(300px));
+  |                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:25
+  |
+2 |     grid-template-columns: repeat(4, fit-content(300px));
+  |                            ^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:32
+  |
+2 |     grid-template-columns: repeat(4, fit-content(300px));
+  |                                   ^
+
+error: Num
+ --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:32
+  |
+2 |     grid-template-columns: repeat(4, fit-content(300px));
+  |                                   ^
+
+error: Value
+ --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:35
+  |
+2 |     grid-template-columns: repeat(4, fit-content(300px));
+  |                                      ^^^^^^^^^^^^^^^^^^
+
+error: FnValue
+ --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:35
+  |
+2 |     grid-template-columns: repeat(4, fit-content(300px));
+  |                                      ^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:35
+  |
+2 |     grid-template-columns: repeat(4, fit-content(300px));
+  |                                      ^^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:47
+  |
+2 |     grid-template-columns: repeat(4, fit-content(300px));
+  |                                                  ^^^^^
+
+error: UnitValue
+ --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:47
+  |
+2 |     grid-template-columns: repeat(4, fit-content(300px));
+  |                                                  ^^^^^
+
+error: Num
+ --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:47
+  |
+2 |     grid-template-columns: repeat(4, fit-content(300px));
+  |                                                  ^^^
+
+error: Unit
+ --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:50
+  |
+2 |     grid-template-columns: repeat(4, fit-content(300px));
+  |                                                     ^^
+

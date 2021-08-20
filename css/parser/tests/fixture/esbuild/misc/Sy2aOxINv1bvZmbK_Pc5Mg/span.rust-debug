@@ -1,0 +1,48 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/Sy2aOxINv1bvZmbK_Pc5Mg/input.css:1:1
+  |
+1 | *|* {}
+  | ^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/Sy2aOxINv1bvZmbK_Pc5Mg/input.css:1:1
+  |
+1 | *|* {}
+  | ^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/esbuild/misc/Sy2aOxINv1bvZmbK_Pc5Mg/input.css:1:1
+  |
+1 | *|* {}
+  | ^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/Sy2aOxINv1bvZmbK_Pc5Mg/input.css:1:1
+  |
+1 | *|* {}
+  | ^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/Sy2aOxINv1bvZmbK_Pc5Mg/input.css:1:1
+  |
+1 | *|* {}
+  | ^^^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/esbuild/misc/Sy2aOxINv1bvZmbK_Pc5Mg/input.css:1:1
+  |
+1 | *|* {}
+  | ^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/Sy2aOxINv1bvZmbK_Pc5Mg/input.css:1:1
+  |
+1 | *|* {}
+  | ^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/Sy2aOxINv1bvZmbK_Pc5Mg/input.css:1:5
+  |
+1 | *|* {}
+  |     ^^
+

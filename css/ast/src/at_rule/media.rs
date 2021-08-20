@@ -1,6 +1,5 @@
-use swc_common::{ast_node, Span};
-
 use crate::{Property, Rule, Text};
+use swc_common::{ast_node, Span};
 
 #[ast_node("MediaRule")]
 pub struct MediaRule {

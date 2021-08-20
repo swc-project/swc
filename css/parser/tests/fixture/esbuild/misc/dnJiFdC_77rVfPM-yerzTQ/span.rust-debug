@@ -1,0 +1,60 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/dnJiFdC_77rVfPM-yerzTQ/input.css:1:1
+  |
+1 | [b] {}
+  | ^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/dnJiFdC_77rVfPM-yerzTQ/input.css:1:1
+  |
+1 | [b] {}
+  | ^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/esbuild/misc/dnJiFdC_77rVfPM-yerzTQ/input.css:1:1
+  |
+1 | [b] {}
+  | ^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/dnJiFdC_77rVfPM-yerzTQ/input.css:1:1
+  |
+1 | [b] {}
+  | ^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/dnJiFdC_77rVfPM-yerzTQ/input.css:1:1
+  |
+1 | [b] {}
+  | ^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/esbuild/misc/dnJiFdC_77rVfPM-yerzTQ/input.css:1:1
+  |
+1 | [b] {}
+  | ^^^
+
+error: AttrSelector
+ --> $DIR/tests/fixture/esbuild/misc/dnJiFdC_77rVfPM-yerzTQ/input.css:1:1
+  |
+1 | [b] {}
+  | ^^^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/esbuild/misc/dnJiFdC_77rVfPM-yerzTQ/input.css:1:2
+  |
+1 | [b] {}
+  |  ^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/dnJiFdC_77rVfPM-yerzTQ/input.css:1:2
+  |
+1 | [b] {}
+  |  ^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/dnJiFdC_77rVfPM-yerzTQ/input.css:1:5
+  |
+1 | [b] {}
+  |     ^^
+

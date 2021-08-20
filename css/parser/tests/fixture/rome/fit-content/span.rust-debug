@@ -1,0 +1,183 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/rome/fit-content/input.css:1:1
+  |
+1 | / .style {
+2 | |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+3 | | }
+  | |__^
+
+error: Rule
+ --> $DIR/tests/fixture/rome/fit-content/input.css:1:1
+  |
+1 | / .style {
+2 | |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+3 | | }
+  | |_^
+
+error: StyleRule
+ --> $DIR/tests/fixture/rome/fit-content/input.css:1:1
+  |
+1 | / .style {
+2 | |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+3 | | }
+  | |_^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/rome/fit-content/input.css:1:1
+  |
+1 | .style {
+  | ^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/rome/fit-content/input.css:1:1
+  |
+1 | .style {
+  | ^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/rome/fit-content/input.css:1:1
+  |
+1 | .style {
+  | ^^^^^^
+
+error: ClassSelector
+ --> $DIR/tests/fixture/rome/fit-content/input.css:1:1
+  |
+1 | .style {
+  | ^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/fit-content/input.css:1:2
+  |
+1 | .style {
+  |  ^^^^^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/rome/fit-content/input.css:1:8
+  |
+1 |   .style {
+  |  ________^
+2 | |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+3 | | }
+  | |_^
+
+error: Property
+ --> $DIR/tests/fixture/rome/fit-content/input.css:2:2
+  |
+2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/fit-content/input.css:2:2
+  |
+2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+  |     ^^^^^^^^^^^^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/fit-content/input.css:2:25
+  |
+2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+  |                            ^^^^^^^^^^^^^^^^
+
+error: FnValue
+ --> $DIR/tests/fixture/rome/fit-content/input.css:2:25
+  |
+2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+  |                            ^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/fit-content/input.css:2:25
+  |
+2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+  |                            ^^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/fit-content/input.css:2:37
+  |
+2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+  |                                        ^^^
+
+error: UnitValue
+ --> $DIR/tests/fixture/rome/fit-content/input.css:2:37
+  |
+2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+  |                                        ^^^
+
+error: Num
+ --> $DIR/tests/fixture/rome/fit-content/input.css:2:37
+  |
+2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+  |                                        ^
+
+error: Unit
+ --> $DIR/tests/fixture/rome/fit-content/input.css:2:38
+  |
+2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+  |                                         ^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/fit-content/input.css:2:42
+  |
+2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+  |                                             ^^^^^^^^^^^^^^^^
+
+error: FnValue
+ --> $DIR/tests/fixture/rome/fit-content/input.css:2:42
+  |
+2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+  |                                             ^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/fit-content/input.css:2:42
+  |
+2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+  |                                             ^^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/fit-content/input.css:2:54
+  |
+2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+  |                                                         ^^^
+
+error: UnitValue
+ --> $DIR/tests/fixture/rome/fit-content/input.css:2:54
+  |
+2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+  |                                                         ^^^
+
+error: Num
+ --> $DIR/tests/fixture/rome/fit-content/input.css:2:54
+  |
+2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+  |                                                         ^
+
+error: Unit
+ --> $DIR/tests/fixture/rome/fit-content/input.css:2:55
+  |
+2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+  |                                                          ^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/fit-content/input.css:2:59
+  |
+2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+  |                                                              ^^^
+
+error: UnitValue
+ --> $DIR/tests/fixture/rome/fit-content/input.css:2:59
+  |
+2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+  |                                                              ^^^
+
+error: Num
+ --> $DIR/tests/fixture/rome/fit-content/input.css:2:59
+  |
+2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+  |                                                              ^
+
+error: Unit
+ --> $DIR/tests/fixture/rome/fit-content/input.css:2:60
+  |
+2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+  |                                                               ^^
+

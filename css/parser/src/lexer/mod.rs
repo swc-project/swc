@@ -16,6 +16,9 @@ where
     I: Input,
 {
     input: I,
+    start_pos: BytePos,
+    /// Used to override last_pos
+    last_pos: Option<BytePos>,
 }
 
 impl<I> Lexer<I>
@@ -23,7 +26,12 @@ where
     I: Input,
 {
     pub fn new(input: I) -> Self {
-        Lexer { input }
+        let start_pos = input.last_pos();
+        Lexer {
+            input,
+            start_pos,
+            last_pos: None,
+        }
     }
 }
 
@@ -39,11 +47,11 @@ where
     type State = LexerState;
 
     fn next(&mut self) -> PResult<TokenAndSpan> {
-        let start = self.input.cur_pos();
+        self.start_pos = self.input.cur_pos();
 
         let token = self.read_token();
-        let end = self.input.cur_pos();
-        let span = Span::new(start, end, Default::default());
+        let end = self.last_pos.take().unwrap_or_else(|| self.input.cur_pos());
+        let span = Span::new(self.start_pos, end, Default::default());
 
         token
             .map(|token| TokenAndSpan { span, token })
@@ -96,10 +104,12 @@ where
             if self.input.peek() == Some('/') {
                 self.skip_line_comment(2)?;
                 self.skip_ws()?;
+                self.start_pos = self.input.cur_pos();
                 return self.read_token();
             } else if self.input.peek() == Some('*') {
                 self.skip_block_comment()?;
                 self.skip_ws()?;
+                self.start_pos = self.input.cur_pos();
                 return self.read_token();
             }
         }
@@ -249,6 +259,8 @@ where
         let mut url = String::new();
 
         loop {
+            self.last_pos = None;
+
             if self.input.eat_byte(b')') {
                 return Ok(Token::Url { value: url.into() });
             }
@@ -281,7 +293,7 @@ where
                         return Err(ErrorKind::InvalidEscape);
                     }
 
-                    url.push(self.read_escape()?)
+                    url.push(self.read_escape()?);
                 }
 
                 c => {
@@ -322,6 +334,7 @@ where
                 hex = hex * 16 + next;
             }
 
+            self.last_pos = Some(self.input.cur_pos());
             self.input.eat_byte(b' ');
 
             let hex = char::from_u32(hex).ok_or_else(|| ErrorKind::InvalidEscape)?;
@@ -461,7 +474,10 @@ where
                 Some(v) => v,
                 None => break,
             };
+
             if is_name_continue(c) {
+                self.last_pos = None;
+
                 self.input.bump();
                 buf.push(c)
             } else if self.is_valid_escape()? {

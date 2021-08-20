@@ -1,0 +1,66 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:1
+  |
+1 | [\2cns|attr] {}
+  | ^^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:1
+  |
+1 | [\2cns|attr] {}
+  | ^^^^^^^^^^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:1
+  |
+1 | [\2cns|attr] {}
+  | ^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:1
+  |
+1 | [\2cns|attr] {}
+  | ^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:1
+  |
+1 | [\2cns|attr] {}
+  | ^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:1
+  |
+1 | [\2cns|attr] {}
+  | ^^^^^^^^^^^^
+
+error: AttrSelector
+ --> $DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:1
+  |
+1 | [\2cns|attr] {}
+  | ^^^^^^^^^^^^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:2
+  |
+1 | [\2cns|attr] {}
+  |  ^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:2
+  |
+1 | [\2cns|attr] {}
+  |  ^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:8
+  |
+1 | [\2cns|attr] {}
+  |        ^^^^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:14
+  |
+1 | [\2cns|attr] {}
+  |              ^^
+

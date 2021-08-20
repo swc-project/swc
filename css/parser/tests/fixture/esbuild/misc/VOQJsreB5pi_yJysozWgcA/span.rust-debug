@@ -1,0 +1,1378 @@
+error: Stylesheet
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:1:1
+   |
+1  | /
+2  | |         @page :first { margin: 0 }
+3  | |         @page {
+4  | |             @top-left-corner { content: 'tlc' }
+...  |
+20 | |         }
+21 | |     
+   | |____^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:3
+  |
+2 |         @page :first { margin: 0 }
+  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:3
+  |
+2 |         @page :first { margin: 0 }
+  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PageRule
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:3
+  |
+2 |         @page :first { margin: 0 }
+  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PageSelector
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:9
+  |
+2 |         @page :first { margin: 0 }
+  |               ^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:10
+  |
+2 |         @page :first { margin: 0 }
+  |                ^^^^^
+
+error: PageRuleBlock
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:16
+  |
+2 |         @page :first { margin: 0 }
+  |                      ^^^^^^^^^^^^^
+
+error: PageRuleBlockItem
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:18
+  |
+2 |         @page :first { margin: 0 }
+  |                        ^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:18
+  |
+2 |         @page :first { margin: 0 }
+  |                        ^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:18
+  |
+2 |         @page :first { margin: 0 }
+  |                        ^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:26
+  |
+2 |         @page :first { margin: 0 }
+  |                                ^
+
+error: Num
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:26
+  |
+2 |         @page :first { margin: 0 }
+  |                                ^
+
+error: Rule
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:3:3
+   |
+3  |           @page {
+   |  _________^
+4  | |             @top-left-corner { content: 'tlc' }
+5  | |             @top-left { content: 'tl' }
+6  | |             @top-center { content: 'tc' }
+...  |
+19 | |             @right-bottom { content: 'rb' }
+20 | |         }
+   | |_________^
+
+error: AtRule
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:3:3
+   |
+3  |           @page {
+   |  _________^
+4  | |             @top-left-corner { content: 'tlc' }
+5  | |             @top-left { content: 'tl' }
+6  | |             @top-center { content: 'tc' }
+...  |
+19 | |             @right-bottom { content: 'rb' }
+20 | |         }
+   | |_________^
+
+error: PageRule
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:3:3
+   |
+3  |           @page {
+   |  _________^
+4  | |             @top-left-corner { content: 'tlc' }
+5  | |             @top-left { content: 'tl' }
+6  | |             @top-center { content: 'tc' }
+...  |
+19 | |             @right-bottom { content: 'rb' }
+20 | |         }
+   | |_________^
+
+error: PageRuleBlock
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:3:9
+   |
+3  |           @page {
+   |  _______________^
+4  | |             @top-left-corner { content: 'tlc' }
+5  | |             @top-left { content: 'tl' }
+6  | |             @top-center { content: 'tc' }
+...  |
+19 | |             @right-bottom { content: 'rb' }
+20 | |         }
+   | |_________^
+
+error: PageRuleBlockItem
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:4
+  |
+4 |             @top-left-corner { content: 'tlc' }
+  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: NestedPageRule
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:4
+  |
+4 |             @top-left-corner { content: 'tlc' }
+  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:4
+  |
+4 |             @top-left-corner { content: 'tlc' }
+  |             ^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:4
+  |
+4 |             @top-left-corner { content: 'tlc' }
+  |             ^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:4
+  |
+4 |             @top-left-corner { content: 'tlc' }
+  |             ^^^^^^^^^^^^^^^^
+
+error: AtSelector
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:4
+  |
+4 |             @top-left-corner { content: 'tlc' }
+  |             ^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:4
+  |
+4 |             @top-left-corner { content: 'tlc' }
+  |             ^^^^^^^^^^^^^^^^
+
+error: PageRuleBlock
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:21
+  |
+4 |             @top-left-corner { content: 'tlc' }
+  |                              ^^^^^^^^^^^^^^^^^^
+
+error: PageRuleBlockItem
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:23
+  |
+4 |             @top-left-corner { content: 'tlc' }
+  |                                ^^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:23
+  |
+4 |             @top-left-corner { content: 'tlc' }
+  |                                ^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:23
+  |
+4 |             @top-left-corner { content: 'tlc' }
+  |                                ^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:32
+  |
+4 |             @top-left-corner { content: 'tlc' }
+  |                                         ^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:32
+  |
+4 |             @top-left-corner { content: 'tlc' }
+  |                                         ^^^^^
+
+error: PageRuleBlockItem
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:4
+  |
+5 |             @top-left { content: 'tl' }
+  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: NestedPageRule
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:4
+  |
+5 |             @top-left { content: 'tl' }
+  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:4
+  |
+5 |             @top-left { content: 'tl' }
+  |             ^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:4
+  |
+5 |             @top-left { content: 'tl' }
+  |             ^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:4
+  |
+5 |             @top-left { content: 'tl' }
+  |             ^^^^^^^^^
+
+error: AtSelector
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:4
+  |
+5 |             @top-left { content: 'tl' }
+  |             ^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:4
+  |
+5 |             @top-left { content: 'tl' }
+  |             ^^^^^^^^^
+
+error: PageRuleBlock
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:14
+  |
+5 |             @top-left { content: 'tl' }
+  |                       ^^^^^^^^^^^^^^^^^
+
+error: PageRuleBlockItem
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:16
+  |
+5 |             @top-left { content: 'tl' }
+  |                         ^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:16
+  |
+5 |             @top-left { content: 'tl' }
+  |                         ^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:16
+  |
+5 |             @top-left { content: 'tl' }
+  |                         ^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:25
+  |
+5 |             @top-left { content: 'tl' }
+  |                                  ^^^^
+
+error: Str
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:25
+  |
+5 |             @top-left { content: 'tl' }
+  |                                  ^^^^
+
+error: PageRuleBlockItem
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:4
+  |
+6 |             @top-center { content: 'tc' }
+  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: NestedPageRule
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:4
+  |
+6 |             @top-center { content: 'tc' }
+  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:4
+  |
+6 |             @top-center { content: 'tc' }
+  |             ^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:4
+  |
+6 |             @top-center { content: 'tc' }
+  |             ^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:4
+  |
+6 |             @top-center { content: 'tc' }
+  |             ^^^^^^^^^^^
+
+error: AtSelector
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:4
+  |
+6 |             @top-center { content: 'tc' }
+  |             ^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:4
+  |
+6 |             @top-center { content: 'tc' }
+  |             ^^^^^^^^^^^
+
+error: PageRuleBlock
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:16
+  |
+6 |             @top-center { content: 'tc' }
+  |                         ^^^^^^^^^^^^^^^^^
+
+error: PageRuleBlockItem
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:18
+  |
+6 |             @top-center { content: 'tc' }
+  |                           ^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:18
+  |
+6 |             @top-center { content: 'tc' }
+  |                           ^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:18
+  |
+6 |             @top-center { content: 'tc' }
+  |                           ^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:27
+  |
+6 |             @top-center { content: 'tc' }
+  |                                    ^^^^
+
+error: Str
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:27
+  |
+6 |             @top-center { content: 'tc' }
+  |                                    ^^^^
+
+error: PageRuleBlockItem
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:4
+  |
+7 |             @top-right { content: 'tr' }
+  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: NestedPageRule
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:4
+  |
+7 |             @top-right { content: 'tr' }
+  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:4
+  |
+7 |             @top-right { content: 'tr' }
+  |             ^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:4
+  |
+7 |             @top-right { content: 'tr' }
+  |             ^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:4
+  |
+7 |             @top-right { content: 'tr' }
+  |             ^^^^^^^^^^
+
+error: AtSelector
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:4
+  |
+7 |             @top-right { content: 'tr' }
+  |             ^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:4
+  |
+7 |             @top-right { content: 'tr' }
+  |             ^^^^^^^^^^
+
+error: PageRuleBlock
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:15
+  |
+7 |             @top-right { content: 'tr' }
+  |                        ^^^^^^^^^^^^^^^^^
+
+error: PageRuleBlockItem
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:17
+  |
+7 |             @top-right { content: 'tr' }
+  |                          ^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:17
+  |
+7 |             @top-right { content: 'tr' }
+  |                          ^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:17
+  |
+7 |             @top-right { content: 'tr' }
+  |                          ^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:26
+  |
+7 |             @top-right { content: 'tr' }
+  |                                   ^^^^
+
+error: Str
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:26
+  |
+7 |             @top-right { content: 'tr' }
+  |                                   ^^^^
+
+error: PageRuleBlockItem
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:4
+  |
+8 |             @top-right-corner { content: 'trc' }
+  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: NestedPageRule
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:4
+  |
+8 |             @top-right-corner { content: 'trc' }
+  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:4
+  |
+8 |             @top-right-corner { content: 'trc' }
+  |             ^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:4
+  |
+8 |             @top-right-corner { content: 'trc' }
+  |             ^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:4
+  |
+8 |             @top-right-corner { content: 'trc' }
+  |             ^^^^^^^^^^^^^^^^^
+
+error: AtSelector
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:4
+  |
+8 |             @top-right-corner { content: 'trc' }
+  |             ^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:4
+  |
+8 |             @top-right-corner { content: 'trc' }
+  |             ^^^^^^^^^^^^^^^^^
+
+error: PageRuleBlock
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:22
+  |
+8 |             @top-right-corner { content: 'trc' }
+  |                               ^^^^^^^^^^^^^^^^^^
+
+error: PageRuleBlockItem
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:24
+  |
+8 |             @top-right-corner { content: 'trc' }
+  |                                 ^^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:24
+  |
+8 |             @top-right-corner { content: 'trc' }
+  |                                 ^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:24
+  |
+8 |             @top-right-corner { content: 'trc' }
+  |                                 ^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:33
+  |
+8 |             @top-right-corner { content: 'trc' }
+  |                                          ^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:33
+  |
+8 |             @top-right-corner { content: 'trc' }
+  |                                          ^^^^^
+
+error: PageRuleBlockItem
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:4
+  |
+9 |             @bottom-left-corner { content: 'blc' }
+  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: NestedPageRule
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:4
+  |
+9 |             @bottom-left-corner { content: 'blc' }
+  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:4
+  |
+9 |             @bottom-left-corner { content: 'blc' }
+  |             ^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:4
+  |
+9 |             @bottom-left-corner { content: 'blc' }
+  |             ^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:4
+  |
+9 |             @bottom-left-corner { content: 'blc' }
+  |             ^^^^^^^^^^^^^^^^^^^
+
+error: AtSelector
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:4
+  |
+9 |             @bottom-left-corner { content: 'blc' }
+  |             ^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:4
+  |
+9 |             @bottom-left-corner { content: 'blc' }
+  |             ^^^^^^^^^^^^^^^^^^^
+
+error: PageRuleBlock
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:24
+  |
+9 |             @bottom-left-corner { content: 'blc' }
+  |                                 ^^^^^^^^^^^^^^^^^^
+
+error: PageRuleBlockItem
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:26
+  |
+9 |             @bottom-left-corner { content: 'blc' }
+  |                                   ^^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:26
+  |
+9 |             @bottom-left-corner { content: 'blc' }
+  |                                   ^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:26
+  |
+9 |             @bottom-left-corner { content: 'blc' }
+  |                                   ^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:35
+  |
+9 |             @bottom-left-corner { content: 'blc' }
+  |                                            ^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:35
+  |
+9 |             @bottom-left-corner { content: 'blc' }
+  |                                            ^^^^^
+
+error: PageRuleBlockItem
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:4
+   |
+10 |             @bottom-left { content: 'bl' }
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: NestedPageRule
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:4
+   |
+10 |             @bottom-left { content: 'bl' }
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:4
+   |
+10 |             @bottom-left { content: 'bl' }
+   |             ^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:4
+   |
+10 |             @bottom-left { content: 'bl' }
+   |             ^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:4
+   |
+10 |             @bottom-left { content: 'bl' }
+   |             ^^^^^^^^^^^^
+
+error: AtSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:4
+   |
+10 |             @bottom-left { content: 'bl' }
+   |             ^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:4
+   |
+10 |             @bottom-left { content: 'bl' }
+   |             ^^^^^^^^^^^^
+
+error: PageRuleBlock
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:17
+   |
+10 |             @bottom-left { content: 'bl' }
+   |                          ^^^^^^^^^^^^^^^^^
+
+error: PageRuleBlockItem
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:19
+   |
+10 |             @bottom-left { content: 'bl' }
+   |                            ^^^^^^^^^^^^^
+
+error: Property
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:19
+   |
+10 |             @bottom-left { content: 'bl' }
+   |                            ^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:19
+   |
+10 |             @bottom-left { content: 'bl' }
+   |                            ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:28
+   |
+10 |             @bottom-left { content: 'bl' }
+   |                                     ^^^^
+
+error: Str
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:28
+   |
+10 |             @bottom-left { content: 'bl' }
+   |                                     ^^^^
+
+error: PageRuleBlockItem
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:4
+   |
+11 |             @bottom-center { content: 'bc' }
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: NestedPageRule
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:4
+   |
+11 |             @bottom-center { content: 'bc' }
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:4
+   |
+11 |             @bottom-center { content: 'bc' }
+   |             ^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:4
+   |
+11 |             @bottom-center { content: 'bc' }
+   |             ^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:4
+   |
+11 |             @bottom-center { content: 'bc' }
+   |             ^^^^^^^^^^^^^^
+
+error: AtSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:4
+   |
+11 |             @bottom-center { content: 'bc' }
+   |             ^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:4
+   |
+11 |             @bottom-center { content: 'bc' }
+   |             ^^^^^^^^^^^^^^
+
+error: PageRuleBlock
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:19
+   |
+11 |             @bottom-center { content: 'bc' }
+   |                            ^^^^^^^^^^^^^^^^^
+
+error: PageRuleBlockItem
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:21
+   |
+11 |             @bottom-center { content: 'bc' }
+   |                              ^^^^^^^^^^^^^
+
+error: Property
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:21
+   |
+11 |             @bottom-center { content: 'bc' }
+   |                              ^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:21
+   |
+11 |             @bottom-center { content: 'bc' }
+   |                              ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:30
+   |
+11 |             @bottom-center { content: 'bc' }
+   |                                       ^^^^
+
+error: Str
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:30
+   |
+11 |             @bottom-center { content: 'bc' }
+   |                                       ^^^^
+
+error: PageRuleBlockItem
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:4
+   |
+12 |             @bottom-right { content: 'br' }
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: NestedPageRule
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:4
+   |
+12 |             @bottom-right { content: 'br' }
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:4
+   |
+12 |             @bottom-right { content: 'br' }
+   |             ^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:4
+   |
+12 |             @bottom-right { content: 'br' }
+   |             ^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:4
+   |
+12 |             @bottom-right { content: 'br' }
+   |             ^^^^^^^^^^^^^
+
+error: AtSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:4
+   |
+12 |             @bottom-right { content: 'br' }
+   |             ^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:4
+   |
+12 |             @bottom-right { content: 'br' }
+   |             ^^^^^^^^^^^^^
+
+error: PageRuleBlock
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:18
+   |
+12 |             @bottom-right { content: 'br' }
+   |                           ^^^^^^^^^^^^^^^^^
+
+error: PageRuleBlockItem
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:20
+   |
+12 |             @bottom-right { content: 'br' }
+   |                             ^^^^^^^^^^^^^
+
+error: Property
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:20
+   |
+12 |             @bottom-right { content: 'br' }
+   |                             ^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:20
+   |
+12 |             @bottom-right { content: 'br' }
+   |                             ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:29
+   |
+12 |             @bottom-right { content: 'br' }
+   |                                      ^^^^
+
+error: Str
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:29
+   |
+12 |             @bottom-right { content: 'br' }
+   |                                      ^^^^
+
+error: PageRuleBlockItem
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:4
+   |
+13 |             @bottom-right-corner { content: 'brc' }
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: NestedPageRule
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:4
+   |
+13 |             @bottom-right-corner { content: 'brc' }
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:4
+   |
+13 |             @bottom-right-corner { content: 'brc' }
+   |             ^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:4
+   |
+13 |             @bottom-right-corner { content: 'brc' }
+   |             ^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:4
+   |
+13 |             @bottom-right-corner { content: 'brc' }
+   |             ^^^^^^^^^^^^^^^^^^^^
+
+error: AtSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:4
+   |
+13 |             @bottom-right-corner { content: 'brc' }
+   |             ^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:4
+   |
+13 |             @bottom-right-corner { content: 'brc' }
+   |             ^^^^^^^^^^^^^^^^^^^^
+
+error: PageRuleBlock
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:25
+   |
+13 |             @bottom-right-corner { content: 'brc' }
+   |                                  ^^^^^^^^^^^^^^^^^^
+
+error: PageRuleBlockItem
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:27
+   |
+13 |             @bottom-right-corner { content: 'brc' }
+   |                                    ^^^^^^^^^^^^^^
+
+error: Property
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:27
+   |
+13 |             @bottom-right-corner { content: 'brc' }
+   |                                    ^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:27
+   |
+13 |             @bottom-right-corner { content: 'brc' }
+   |                                    ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:36
+   |
+13 |             @bottom-right-corner { content: 'brc' }
+   |                                             ^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:36
+   |
+13 |             @bottom-right-corner { content: 'brc' }
+   |                                             ^^^^^
+
+error: PageRuleBlockItem
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:4
+   |
+14 |             @left-top { content: 'lt' }
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: NestedPageRule
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:4
+   |
+14 |             @left-top { content: 'lt' }
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:4
+   |
+14 |             @left-top { content: 'lt' }
+   |             ^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:4
+   |
+14 |             @left-top { content: 'lt' }
+   |             ^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:4
+   |
+14 |             @left-top { content: 'lt' }
+   |             ^^^^^^^^^
+
+error: AtSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:4
+   |
+14 |             @left-top { content: 'lt' }
+   |             ^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:4
+   |
+14 |             @left-top { content: 'lt' }
+   |             ^^^^^^^^^
+
+error: PageRuleBlock
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:14
+   |
+14 |             @left-top { content: 'lt' }
+   |                       ^^^^^^^^^^^^^^^^^
+
+error: PageRuleBlockItem
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:16
+   |
+14 |             @left-top { content: 'lt' }
+   |                         ^^^^^^^^^^^^^
+
+error: Property
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:16
+   |
+14 |             @left-top { content: 'lt' }
+   |                         ^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:16
+   |
+14 |             @left-top { content: 'lt' }
+   |                         ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:25
+   |
+14 |             @left-top { content: 'lt' }
+   |                                  ^^^^
+
+error: Str
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:25
+   |
+14 |             @left-top { content: 'lt' }
+   |                                  ^^^^
+
+error: PageRuleBlockItem
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:4
+   |
+15 |             @left-middle { content: 'lm' }
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: NestedPageRule
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:4
+   |
+15 |             @left-middle { content: 'lm' }
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:4
+   |
+15 |             @left-middle { content: 'lm' }
+   |             ^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:4
+   |
+15 |             @left-middle { content: 'lm' }
+   |             ^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:4
+   |
+15 |             @left-middle { content: 'lm' }
+   |             ^^^^^^^^^^^^
+
+error: AtSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:4
+   |
+15 |             @left-middle { content: 'lm' }
+   |             ^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:4
+   |
+15 |             @left-middle { content: 'lm' }
+   |             ^^^^^^^^^^^^
+
+error: PageRuleBlock
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:17
+   |
+15 |             @left-middle { content: 'lm' }
+   |                          ^^^^^^^^^^^^^^^^^
+
+error: PageRuleBlockItem
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:19
+   |
+15 |             @left-middle { content: 'lm' }
+   |                            ^^^^^^^^^^^^^
+
+error: Property
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:19
+   |
+15 |             @left-middle { content: 'lm' }
+   |                            ^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:19
+   |
+15 |             @left-middle { content: 'lm' }
+   |                            ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:28
+   |
+15 |             @left-middle { content: 'lm' }
+   |                                     ^^^^
+
+error: Str
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:28
+   |
+15 |             @left-middle { content: 'lm' }
+   |                                     ^^^^
+
+error: PageRuleBlockItem
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:4
+   |
+16 |             @left-bottom { content: 'lb' }
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: NestedPageRule
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:4
+   |
+16 |             @left-bottom { content: 'lb' }
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:4
+   |
+16 |             @left-bottom { content: 'lb' }
+   |             ^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:4
+   |
+16 |             @left-bottom { content: 'lb' }
+   |             ^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:4
+   |
+16 |             @left-bottom { content: 'lb' }
+   |             ^^^^^^^^^^^^
+
+error: AtSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:4
+   |
+16 |             @left-bottom { content: 'lb' }
+   |             ^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:4
+   |
+16 |             @left-bottom { content: 'lb' }
+   |             ^^^^^^^^^^^^
+
+error: PageRuleBlock
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:17
+   |
+16 |             @left-bottom { content: 'lb' }
+   |                          ^^^^^^^^^^^^^^^^^
+
+error: PageRuleBlockItem
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:19
+   |
+16 |             @left-bottom { content: 'lb' }
+   |                            ^^^^^^^^^^^^^
+
+error: Property
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:19
+   |
+16 |             @left-bottom { content: 'lb' }
+   |                            ^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:19
+   |
+16 |             @left-bottom { content: 'lb' }
+   |                            ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:28
+   |
+16 |             @left-bottom { content: 'lb' }
+   |                                     ^^^^
+
+error: Str
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:28
+   |
+16 |             @left-bottom { content: 'lb' }
+   |                                     ^^^^
+
+error: PageRuleBlockItem
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:4
+   |
+17 |             @right-top { content: 'rt' }
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: NestedPageRule
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:4
+   |
+17 |             @right-top { content: 'rt' }
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:4
+   |
+17 |             @right-top { content: 'rt' }
+   |             ^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:4
+   |
+17 |             @right-top { content: 'rt' }
+   |             ^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:4
+   |
+17 |             @right-top { content: 'rt' }
+   |             ^^^^^^^^^^
+
+error: AtSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:4
+   |
+17 |             @right-top { content: 'rt' }
+   |             ^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:4
+   |
+17 |             @right-top { content: 'rt' }
+   |             ^^^^^^^^^^
+
+error: PageRuleBlock
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:15
+   |
+17 |             @right-top { content: 'rt' }
+   |                        ^^^^^^^^^^^^^^^^^
+
+error: PageRuleBlockItem
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:17
+   |
+17 |             @right-top { content: 'rt' }
+   |                          ^^^^^^^^^^^^^
+
+error: Property
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:17
+   |
+17 |             @right-top { content: 'rt' }
+   |                          ^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:17
+   |
+17 |             @right-top { content: 'rt' }
+   |                          ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:26
+   |
+17 |             @right-top { content: 'rt' }
+   |                                   ^^^^
+
+error: Str
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:26
+   |
+17 |             @right-top { content: 'rt' }
+   |                                   ^^^^
+
+error: PageRuleBlockItem
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:4
+   |
+18 |             @right-middle { content: 'rm' }
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: NestedPageRule
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:4
+   |
+18 |             @right-middle { content: 'rm' }
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:4
+   |
+18 |             @right-middle { content: 'rm' }
+   |             ^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:4
+   |
+18 |             @right-middle { content: 'rm' }
+   |             ^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:4
+   |
+18 |             @right-middle { content: 'rm' }
+   |             ^^^^^^^^^^^^^
+
+error: AtSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:4
+   |
+18 |             @right-middle { content: 'rm' }
+   |             ^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:4
+   |
+18 |             @right-middle { content: 'rm' }
+   |             ^^^^^^^^^^^^^
+
+error: PageRuleBlock
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:18
+   |
+18 |             @right-middle { content: 'rm' }
+   |                           ^^^^^^^^^^^^^^^^^
+
+error: PageRuleBlockItem
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:20
+   |
+18 |             @right-middle { content: 'rm' }
+   |                             ^^^^^^^^^^^^^
+
+error: Property
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:20
+   |
+18 |             @right-middle { content: 'rm' }
+   |                             ^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:20
+   |
+18 |             @right-middle { content: 'rm' }
+   |                             ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:29
+   |
+18 |             @right-middle { content: 'rm' }
+   |                                      ^^^^
+
+error: Str
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:29
+   |
+18 |             @right-middle { content: 'rm' }
+   |                                      ^^^^
+
+error: PageRuleBlockItem
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:4
+   |
+19 |             @right-bottom { content: 'rb' }
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: NestedPageRule
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:4
+   |
+19 |             @right-bottom { content: 'rb' }
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:4
+   |
+19 |             @right-bottom { content: 'rb' }
+   |             ^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:4
+   |
+19 |             @right-bottom { content: 'rb' }
+   |             ^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:4
+   |
+19 |             @right-bottom { content: 'rb' }
+   |             ^^^^^^^^^^^^^
+
+error: AtSelector
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:4
+   |
+19 |             @right-bottom { content: 'rb' }
+   |             ^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:4
+   |
+19 |             @right-bottom { content: 'rb' }
+   |             ^^^^^^^^^^^^^
+
+error: PageRuleBlock
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:18
+   |
+19 |             @right-bottom { content: 'rb' }
+   |                           ^^^^^^^^^^^^^^^^^
+
+error: PageRuleBlockItem
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:20
+   |
+19 |             @right-bottom { content: 'rb' }
+   |                             ^^^^^^^^^^^^^
+
+error: Property
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:20
+   |
+19 |             @right-bottom { content: 'rb' }
+   |                             ^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:20
+   |
+19 |             @right-bottom { content: 'rb' }
+   |                             ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:29
+   |
+19 |             @right-bottom { content: 'rb' }
+   |                                      ^^^^
+
+error: Str
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:29
+   |
+19 |             @right-bottom { content: 'rb' }
+   |                                      ^^^^
+

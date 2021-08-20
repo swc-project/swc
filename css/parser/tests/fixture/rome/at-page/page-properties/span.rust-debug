@@ -1,0 +1,71 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/rome/at-page/page-properties/input.css:1:1
+  |
+1 | / @page {
+2 | |     display: none;
+3 | | }
+  | |__^
+
+error: Rule
+ --> $DIR/tests/fixture/rome/at-page/page-properties/input.css:1:1
+  |
+1 | / @page {
+2 | |     display: none;
+3 | | }
+  | |_^
+
+error: AtRule
+ --> $DIR/tests/fixture/rome/at-page/page-properties/input.css:1:1
+  |
+1 | / @page {
+2 | |     display: none;
+3 | | }
+  | |_^
+
+error: PageRule
+ --> $DIR/tests/fixture/rome/at-page/page-properties/input.css:1:1
+  |
+1 | / @page {
+2 | |     display: none;
+3 | | }
+  | |_^
+
+error: PageRuleBlock
+ --> $DIR/tests/fixture/rome/at-page/page-properties/input.css:1:7
+  |
+1 |   @page {
+  |  _______^
+2 | |     display: none;
+3 | | }
+  | |_^
+
+error: PageRuleBlockItem
+ --> $DIR/tests/fixture/rome/at-page/page-properties/input.css:2:2
+  |
+2 |     display: none;
+  |     ^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/rome/at-page/page-properties/input.css:2:2
+  |
+2 |     display: none;
+  |     ^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/at-page/page-properties/input.css:2:2
+  |
+2 |     display: none;
+  |     ^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/at-page/page-properties/input.css:2:11
+  |
+2 |     display: none;
+  |              ^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/at-page/page-properties/input.css:2:11
+  |
+2 |     display: none;
+  |              ^^^^
+

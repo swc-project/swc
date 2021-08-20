@@ -47,8 +47,10 @@ where
         Ok(self.cur()?.is_none())
     }
 
-    pub fn last_pos(&self) -> BytePos {
-        self.last_pos
+    pub fn last_pos(&mut self) -> PResult<BytePos> {
+        self.cur()?;
+
+        Ok(self.last_pos)
     }
 
     pub fn cur_span(&mut self) -> PResult<Span> {
@@ -83,6 +85,10 @@ where
             self.cur.is_some(),
             "bump() is called without checking current token"
         );
+
+        if let Some(cur) = &self.cur {
+            self.last_pos = cur.span.hi;
+        }
 
         let token = self.cur.take();
 

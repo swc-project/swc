@@ -5,7 +5,7 @@ use crate::{
     Parse,
 };
 use swc_atoms::js_word;
-use swc_common::DUMMY_SP;
+use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_css_ast::*;
 
 #[derive(Debug, Default)]
@@ -148,13 +148,25 @@ where
             "page" => {
                 self.input.skip_ws()?;
 
-                return self.parse().map(AtRule::Page);
+                return self
+                    .parse()
+                    .map(|mut r: PageRule| {
+                        r.span.lo = start;
+                        r
+                    })
+                    .map(AtRule::Page);
             }
 
             "document" | "-moz-document" => {
                 self.input.skip_ws()?;
 
-                return self.parse().map(AtRule::Document);
+                return self
+                    .parse()
+                    .map(|mut r: DocumentRule| {
+                        r.span.lo = start;
+                        r
+                    })
+                    .map(AtRule::Document);
             }
 
             "namespace" => {
@@ -194,6 +206,7 @@ where
 
         self.input.skip_ws()?;
 
+        let token_start = self.input.cur_span()?.lo;
         let mut tokens = vec![];
 
         if eat!(self, "{") {
@@ -202,6 +215,7 @@ where
                 if is!(self, "}") {
                     brace_cnt -= 1;
                     if brace_cnt == 0 {
+                        expect!(self, "}");
                         break;
                     }
                 }
@@ -243,7 +257,7 @@ where
             span: span!(self, start),
             name,
             tokens: Tokens {
-                span: span!(self, start),
+                span: span!(self, token_start),
                 tokens,
             },
         }))
@@ -298,7 +312,7 @@ where
         if is!(self, Ident) {
             self.parse_id().map(KeyframeSelector::Id)
         } else {
-            self.parse().map(KeyframeSelector::Perecent)
+            self.parse().map(KeyframeSelector::Percent)
         }
     }
 }
@@ -460,6 +474,7 @@ where
             MediaQuery::Text(text)
         } else if eat!(self, "(") {
             if is!(self, Ident) {
+                let span = self.input.cur_span()?;
                 let id = self.parse_id()?;
 
                 self.input.skip_ws()?;
@@ -471,7 +486,7 @@ where
                         allow_operation_in_value: true,
                         ..self.ctx
                     };
-                    let values = self.with_ctx(ctx).parse_property_values()?;
+                    let values = self.with_ctx(ctx).parse_property_values()?.0;
 
                     expect!(self, ")");
 
@@ -498,20 +513,20 @@ where
         self.input.skip_ws()?;
 
         if eat!(self, "and") {
-            let right = self.parse()?;
+            let right: Box<MediaQuery> = self.parse()?;
 
             return Ok(MediaQuery::And(AndMediaQuery {
-                span: span!(self, span.lo),
+                span: Span::new(span.lo, right.span().hi, Default::default()),
                 left: Box::new(base),
                 right,
             }));
         }
 
         if eat!(self, "or") {
-            let right = self.parse()?;
+            let right: Box<MediaQuery> = self.parse()?;
 
             return Ok(MediaQuery::Or(OrMediaQuery {
-                span: span!(self, span.lo),
+                span: Span::new(span.lo, right.span().hi, Default::default()),
                 left: Box::new(base),
                 right,
             }));

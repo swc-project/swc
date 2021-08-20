@@ -1,0 +1,83 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/rome/font/input.css:1:1
+  |
+1 | / @font-face {
+2 | |     src: url("");
+3 | | }
+  | |__^
+
+error: Rule
+ --> $DIR/tests/fixture/rome/font/input.css:1:1
+  |
+1 | / @font-face {
+2 | |     src: url("");
+3 | | }
+  | |_^
+
+error: AtRule
+ --> $DIR/tests/fixture/rome/font/input.css:1:1
+  |
+1 | / @font-face {
+2 | |     src: url("");
+3 | | }
+  | |_^
+
+error: FontFaceRule
+ --> $DIR/tests/fixture/rome/font/input.css:1:1
+  |
+1 | / @font-face {
+2 | |     src: url("");
+3 | | }
+  | |_^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/rome/font/input.css:1:12
+  |
+1 |   @font-face {
+  |  ____________^
+2 | |     src: url("");
+3 | | }
+  | |_^
+
+error: Property
+ --> $DIR/tests/fixture/rome/font/input.css:2:2
+  |
+2 |     src: url("");
+  |     ^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/font/input.css:2:2
+  |
+2 |     src: url("");
+  |     ^^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/font/input.css:2:7
+  |
+2 |     src: url("");
+  |          ^^^^^^^
+
+error: FnValue
+ --> $DIR/tests/fixture/rome/font/input.css:2:7
+  |
+2 |     src: url("");
+  |          ^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/font/input.css:2:7
+  |
+2 |     src: url("");
+  |          ^^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/font/input.css:2:11
+  |
+2 |     src: url("");
+  |              ^^
+
+error: Str
+ --> $DIR/tests/fixture/rome/font/input.css:2:11
+  |
+2 |     src: url("");
+  |              ^^
+

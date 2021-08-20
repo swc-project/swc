@@ -1,0 +1,108 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:1
+  |
+1 | @page { color: red; @top-left {} }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:1
+  |
+1 | @page { color: red; @top-left {} }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:1
+  |
+1 | @page { color: red; @top-left {} }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PageRule
+ --> $DIR/tests/fixture/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:1
+  |
+1 | @page { color: red; @top-left {} }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PageRuleBlock
+ --> $DIR/tests/fixture/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:7
+  |
+1 | @page { color: red; @top-left {} }
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PageRuleBlockItem
+ --> $DIR/tests/fixture/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:9
+  |
+1 | @page { color: red; @top-left {} }
+  |         ^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:9
+  |
+1 | @page { color: red; @top-left {} }
+  |         ^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:9
+  |
+1 | @page { color: red; @top-left {} }
+  |         ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:16
+  |
+1 | @page { color: red; @top-left {} }
+  |                ^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:16
+  |
+1 | @page { color: red; @top-left {} }
+  |                ^^^
+
+error: PageRuleBlockItem
+ --> $DIR/tests/fixture/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:21
+  |
+1 | @page { color: red; @top-left {} }
+  |                     ^^^^^^^^^^^^
+
+error: NestedPageRule
+ --> $DIR/tests/fixture/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:21
+  |
+1 | @page { color: red; @top-left {} }
+  |                     ^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:21
+  |
+1 | @page { color: red; @top-left {} }
+  |                     ^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:21
+  |
+1 | @page { color: red; @top-left {} }
+  |                     ^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:21
+  |
+1 | @page { color: red; @top-left {} }
+  |                     ^^^^^^^^^
+
+error: AtSelector
+ --> $DIR/tests/fixture/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:21
+  |
+1 | @page { color: red; @top-left {} }
+  |                     ^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:21
+  |
+1 | @page { color: red; @top-left {} }
+  |                     ^^^^^^^^^
+
+error: PageRuleBlock
+ --> $DIR/tests/fixture/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:31
+  |
+1 | @page { color: red; @top-left {} }
+  |                               ^^
+

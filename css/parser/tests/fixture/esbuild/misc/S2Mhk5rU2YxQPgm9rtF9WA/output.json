@@ -2,15 +2,15 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 64,
+    "end": 65,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "DocumentRule",
       "span": {
-        "start": 10,
-        "end": 64,
+        "start": 0,
+        "end": 65,
         "ctxt": 0
       },
       "selectors": [
@@ -18,7 +18,7 @@
           "type": "FnValue",
           "span": {
             "start": 10,
-            "end": 10,
+            "end": 41,
             "ctxt": 0
           },
           "name": {
@@ -48,7 +48,7 @@
           "type": "StyleRule",
           "span": {
             "start": 44,
-            "end": 62,
+            "end": 63,
             "ctxt": 0
           },
           "selectors": [
@@ -56,7 +56,7 @@
               "type": "ComplexSelector",
               "span": {
                 "start": 44,
-                "end": 47,
+                "end": 46,
                 "ctxt": 0
               },
               "selectors": [
@@ -64,7 +64,7 @@
                   "type": "CompoundSelector",
                   "span": {
                     "start": 44,
-                    "end": 44,
+                    "end": 46,
                     "ctxt": 0
                   },
                   "hasNestPrefix": false,
@@ -73,7 +73,7 @@
                     "type": "NamespacedName",
                     "span": {
                       "start": 44,
-                      "end": 44,
+                      "end": 46,
                       "ctxt": 0
                     },
                     "prefix": null,
@@ -96,7 +96,7 @@
             "type": "DeclBlock",
             "span": {
               "start": 47,
-              "end": 62,
+              "end": 63,
               "ctxt": 0
             },
             "properties": [
@@ -104,7 +104,7 @@
                 "type": "Property",
                 "span": {
                   "start": 49,
-                  "end": 62,
+                  "end": 61,
                   "ctxt": 0
                 },
                 "name": {

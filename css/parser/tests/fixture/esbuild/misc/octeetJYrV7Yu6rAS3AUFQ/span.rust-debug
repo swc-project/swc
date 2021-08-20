@@ -1,0 +1,54 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/octeetJYrV7Yu6rAS3AUFQ/input.css:1:1
+  |
+1 | .selector\ {}
+  | ^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/octeetJYrV7Yu6rAS3AUFQ/input.css:1:1
+  |
+1 | .selector\ {}
+  | ^^^^^^^^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/esbuild/misc/octeetJYrV7Yu6rAS3AUFQ/input.css:1:1
+  |
+1 | .selector\ {}
+  | ^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/octeetJYrV7Yu6rAS3AUFQ/input.css:1:1
+  |
+1 | .selector\ {}
+  | ^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/octeetJYrV7Yu6rAS3AUFQ/input.css:1:1
+  |
+1 | .selector\ {}
+  | ^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/esbuild/misc/octeetJYrV7Yu6rAS3AUFQ/input.css:1:1
+  |
+1 | .selector\ {}
+  | ^^^^^^^^^^^
+
+error: ClassSelector
+ --> $DIR/tests/fixture/esbuild/misc/octeetJYrV7Yu6rAS3AUFQ/input.css:1:1
+  |
+1 | .selector\ {}
+  | ^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/octeetJYrV7Yu6rAS3AUFQ/input.css:1:2
+  |
+1 | .selector\ {}
+  |  ^^^^^^^^^^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/octeetJYrV7Yu6rAS3AUFQ/input.css:1:12
+  |
+1 | .selector\ {}
+  |            ^^
+

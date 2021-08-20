@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 29,
+    "end": 30,
     "ctxt": 0
   },
   "rules": [
@@ -10,14 +10,14 @@
       "type": "ViewportRule",
       "span": {
         "start": 0,
-        "end": 29,
+        "end": 30,
         "ctxt": 0
       },
       "block": {
         "type": "DeclBlock",
         "span": {
           "start": 14,
-          "end": 29,
+          "end": 30,
           "ctxt": 0
         },
         "properties": [
@@ -25,7 +25,7 @@
             "type": "Property",
             "span": {
               "start": 16,
-              "end": 29,
+              "end": 28,
               "ctxt": 0
             },
             "name": {
@@ -42,7 +42,7 @@
                 "type": "UnitValue",
                 "span": {
                   "start": 23,
-                  "end": 23,
+                  "end": 28,
                   "ctxt": 0
                 },
                 "value": {

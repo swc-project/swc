@@ -1,0 +1,114 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:1
+  |
+1 | @document url("https://www.example.com/") { h1 { color: green } }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:1
+  |
+1 | @document url("https://www.example.com/") { h1 { color: green } }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:1
+  |
+1 | @document url("https://www.example.com/") { h1 { color: green } }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DocumentRule
+ --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:1
+  |
+1 | @document url("https://www.example.com/") { h1 { color: green } }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: FnValue
+ --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:11
+  |
+1 | @document url("https://www.example.com/") { h1 { color: green } }
+  |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:11
+  |
+1 | @document url("https://www.example.com/") { h1 { color: green } }
+  |           ^^^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:15
+  |
+1 | @document url("https://www.example.com/") { h1 { color: green } }
+  |               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:15
+  |
+1 | @document url("https://www.example.com/") { h1 { color: green } }
+  |               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:45
+  |
+1 | @document url("https://www.example.com/") { h1 { color: green } }
+  |                                             ^^^^^^^^^^^^^^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:45
+  |
+1 | @document url("https://www.example.com/") { h1 { color: green } }
+  |                                             ^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:45
+  |
+1 | @document url("https://www.example.com/") { h1 { color: green } }
+  |                                             ^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:45
+  |
+1 | @document url("https://www.example.com/") { h1 { color: green } }
+  |                                             ^^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:45
+  |
+1 | @document url("https://www.example.com/") { h1 { color: green } }
+  |                                             ^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:45
+  |
+1 | @document url("https://www.example.com/") { h1 { color: green } }
+  |                                             ^^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:48
+  |
+1 | @document url("https://www.example.com/") { h1 { color: green } }
+  |                                                ^^^^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:50
+  |
+1 | @document url("https://www.example.com/") { h1 { color: green } }
+  |                                                  ^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:50
+  |
+1 | @document url("https://www.example.com/") { h1 { color: green } }
+  |                                                  ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:57
+  |
+1 | @document url("https://www.example.com/") { h1 { color: green } }
+  |                                                         ^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:57
+  |
+1 | @document url("https://www.example.com/") { h1 { color: green } }
+  |                                                         ^^^^^
+

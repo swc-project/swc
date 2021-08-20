@@ -1,0 +1,72 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:1
+  |
+1 | a { value: \2cx }
+  | ^^^^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:1
+  |
+1 | a { value: \2cx }
+  | ^^^^^^^^^^^^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:1
+  |
+1 | a { value: \2cx }
+  | ^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:1
+  |
+1 | a { value: \2cx }
+  | ^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:1
+  |
+1 | a { value: \2cx }
+  | ^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:1
+  |
+1 | a { value: \2cx }
+  | ^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:1
+  |
+1 | a { value: \2cx }
+  | ^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:3
+  |
+1 | a { value: \2cx }
+  |   ^^^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:5
+  |
+1 | a { value: \2cx }
+  |     ^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:5
+  |
+1 | a { value: \2cx }
+  |     ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:12
+  |
+1 | a { value: \2cx }
+  |            ^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:12
+  |
+1 | a { value: \2cx }
+  |            ^^^^
+

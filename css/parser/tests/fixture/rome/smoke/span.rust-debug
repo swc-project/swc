@@ -1,0 +1,171 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/rome/smoke/input.css:2:1
+  |
+2 | / body {
+3 | |     background: red;
+4 | |     width: calc(1px + 2%);
+5 | | }
+6 | |
+7 | | /*@media screen and (min-width: 1337px) {*/
+  | |_
+
+error: Rule
+ --> $DIR/tests/fixture/rome/smoke/input.css:2:1
+  |
+2 | / body {
+3 | |     background: red;
+4 | |     width: calc(1px + 2%);
+5 | | }
+  | |_^
+
+error: StyleRule
+ --> $DIR/tests/fixture/rome/smoke/input.css:2:1
+  |
+2 | / body {
+3 | |     background: red;
+4 | |     width: calc(1px + 2%);
+5 | | }
+  | |_^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/rome/smoke/input.css:2:1
+  |
+2 | body {
+  | ^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/rome/smoke/input.css:2:1
+  |
+2 | body {
+  | ^^^^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/rome/smoke/input.css:2:1
+  |
+2 | body {
+  | ^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/smoke/input.css:2:1
+  |
+2 | body {
+  | ^^^^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/rome/smoke/input.css:2:6
+  |
+2 |   body {
+  |  ______^
+3 | |     background: red;
+4 | |     width: calc(1px + 2%);
+5 | | }
+  | |_^
+
+error: Property
+ --> $DIR/tests/fixture/rome/smoke/input.css:3:5
+  |
+3 |     background: red;
+  |     ^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/smoke/input.css:3:5
+  |
+3 |     background: red;
+  |     ^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/smoke/input.css:3:17
+  |
+3 |     background: red;
+  |                 ^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/smoke/input.css:3:17
+  |
+3 |     background: red;
+  |                 ^^^
+
+error: Property
+ --> $DIR/tests/fixture/rome/smoke/input.css:4:5
+  |
+4 |     width: calc(1px + 2%);
+  |     ^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/smoke/input.css:4:5
+  |
+4 |     width: calc(1px + 2%);
+  |     ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/smoke/input.css:4:12
+  |
+4 |     width: calc(1px + 2%);
+  |            ^^^^^^^^^^^^^^
+
+error: FnValue
+ --> $DIR/tests/fixture/rome/smoke/input.css:4:12
+  |
+4 |     width: calc(1px + 2%);
+  |            ^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/smoke/input.css:4:12
+  |
+4 |     width: calc(1px + 2%);
+  |            ^^^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/smoke/input.css:4:17
+  |
+4 |     width: calc(1px + 2%);
+  |                 ^^^^^^^^
+
+error: BinValue
+ --> $DIR/tests/fixture/rome/smoke/input.css:4:17
+  |
+4 |     width: calc(1px + 2%);
+  |                 ^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/smoke/input.css:4:17
+  |
+4 |     width: calc(1px + 2%);
+  |                 ^^^
+
+error: UnitValue
+ --> $DIR/tests/fixture/rome/smoke/input.css:4:17
+  |
+4 |     width: calc(1px + 2%);
+  |                 ^^^
+
+error: Num
+ --> $DIR/tests/fixture/rome/smoke/input.css:4:17
+  |
+4 |     width: calc(1px + 2%);
+  |                 ^
+
+error: Unit
+ --> $DIR/tests/fixture/rome/smoke/input.css:4:18
+  |
+4 |     width: calc(1px + 2%);
+  |                  ^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/smoke/input.css:4:23
+  |
+4 |     width: calc(1px + 2%);
+  |                       ^^
+
+error: PercentValue
+ --> $DIR/tests/fixture/rome/smoke/input.css:4:23
+  |
+4 |     width: calc(1px + 2%);
+  |                       ^^
+
+error: Num
+ --> $DIR/tests/fixture/rome/smoke/input.css:4:23
+  |
+4 |     width: calc(1px + 2%);
+  |                       ^
+

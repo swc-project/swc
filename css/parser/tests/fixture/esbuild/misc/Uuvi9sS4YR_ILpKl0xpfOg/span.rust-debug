@@ -1,0 +1,72 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:1
+  |
+1 | a { value: url(a\62 c) }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:1
+  |
+1 | a { value: url(a\62 c) }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:1
+  |
+1 | a { value: url(a\62 c) }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:1
+  |
+1 | a { value: url(a\62 c) }
+  | ^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:1
+  |
+1 | a { value: url(a\62 c) }
+  | ^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:1
+  |
+1 | a { value: url(a\62 c) }
+  | ^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:1
+  |
+1 | a { value: url(a\62 c) }
+  | ^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:3
+  |
+1 | a { value: url(a\62 c) }
+  |   ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:5
+  |
+1 | a { value: url(a\62 c) }
+  |     ^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:5
+  |
+1 | a { value: url(a\62 c) }
+  |     ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:12
+  |
+1 | a { value: url(a\62 c) }
+  |            ^^^^^^^^^^^
+
+error: UrlValue
+ --> $DIR/tests/fixture/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:12
+  |
+1 | a { value: url(a\62 c) }
+  |            ^^^^^^^^^^^
+
