@@ -43,7 +43,13 @@ where
     }
 
     #[emitter]
-    fn emit_style_rule(&mut self, n: &StyleRule) -> Result {}
+    fn emit_style_rule(&mut self, n: &StyleRule) -> Result {
+        self.emit_list(&n.selectors, ListFormat::CommaDelimited)?;
+
+        space!();
+
+        emit!(n.block);
+    }
 
     #[emitter]
     fn emit_at_rule(&mut self, n: &AtRule) -> Result {
