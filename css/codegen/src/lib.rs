@@ -655,11 +655,11 @@ where
             punct!("&");
         }
 
-        emit!(n.type_selector);
-
         if let Some(combinator) = &n.combinator {
             self.wr.write_punct(None, combinator.as_str())?;
         }
+
+        emit!(n.type_selector);
 
         self.emit_list(&n.subclass_selectors, ListFormat::NotDelimited)?;
     }
