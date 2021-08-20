@@ -313,6 +313,11 @@ where
             &n.values,
             ListFormat::SpaceDelimited | ListFormat::SingleLine,
         )?;
+
+        if let Some(tok) = n.important {
+            punct!(tok, "!");
+            self.wr.write_ident(Some(tok), "important")?;
+        }
     }
 
     #[emitter]
