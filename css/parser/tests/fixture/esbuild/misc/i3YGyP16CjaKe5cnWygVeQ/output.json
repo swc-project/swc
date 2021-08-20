@@ -16,8 +16,8 @@
       "src": {
         "type": "String",
         "span": {
-          "start": 13,
-          "end": 14,
+          "start": 8,
+          "end": 13,
           "ctxt": 0
         },
         "value": ""

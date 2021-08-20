@@ -16,8 +16,8 @@
       "src": {
         "type": "String",
         "span": {
-          "start": 20,
-          "end": 21,
+          "start": 8,
+          "end": 20,
           "ctxt": 0
         },
         "value": "foo.css"
