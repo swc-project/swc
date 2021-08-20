@@ -279,7 +279,22 @@ where
     fn emit_str(&mut self, n: &Str) -> Result {
         // TODO: Handle escapes.
         punct!("'");
-        self.wr.write_raw(Some(n.span), &n.value)?;
+
+        if n.value.chars().any(|c| c == '\n') {
+            for c in n.value.chars() {
+                match c {
+                    '\n' => {
+                        self.wr.write_raw_char(None, '\\')?;
+                        self.wr.write_raw_char(None, 'n')?;
+                    }
+                    _ => {
+                        self.wr.write_raw_char(None, c)?;
+                    }
+                }
+            }
+        } else {
+            self.wr.write_raw(Some(n.span), &n.value)?;
+        }
         punct!("'");
     }
 
@@ -743,7 +758,7 @@ where
 
         if let Some(m) = &n.modifier {
             space!();
-            self.wr.write_raw(None, &m.to_string())?;
+            self.wr.write_raw_char(None, *m)?;
         }
 
         punct!("]");
