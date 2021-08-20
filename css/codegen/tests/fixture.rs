@@ -7,6 +7,7 @@ use swc_css_codegen::{
 };
 use swc_css_parser::{parse_file, parser::ParserConfig};
 use swc_css_visit::{VisitMut, VisitMutWith};
+use testing::assert_eq;
 
 #[testing::fixture("../parser/tests/fixture/**/input.css")]
 fn parse_again(input: PathBuf) {
