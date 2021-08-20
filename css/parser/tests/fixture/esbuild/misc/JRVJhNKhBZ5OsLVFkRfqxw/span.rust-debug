@@ -1,0 +1,60 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/JRVJhNKhBZ5OsLVFkRfqxw/input.css:1:1
+  |
+1 | @keyframes a\2c c { \66rom {} }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/JRVJhNKhBZ5OsLVFkRfqxw/input.css:1:1
+  |
+1 | @keyframes a\2c c { \66rom {} }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/esbuild/misc/JRVJhNKhBZ5OsLVFkRfqxw/input.css:1:1
+  |
+1 | @keyframes a\2c c { \66rom {} }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: KeyframesRule
+ --> $DIR/tests/fixture/esbuild/misc/JRVJhNKhBZ5OsLVFkRfqxw/input.css:1:1
+  |
+1 | @keyframes a\2c c { \66rom {} }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/JRVJhNKhBZ5OsLVFkRfqxw/input.css:1:12
+  |
+1 | @keyframes a\2c c { \66rom {} }
+  |            ^^^^^^
+
+error: KeyframeBlock
+ --> $DIR/tests/fixture/esbuild/misc/JRVJhNKhBZ5OsLVFkRfqxw/input.css:1:21
+  |
+1 | @keyframes a\2c c { \66rom {} }
+  |                     ^^^^^^^^^
+
+error: KeyframeSelector
+ --> $DIR/tests/fixture/esbuild/misc/JRVJhNKhBZ5OsLVFkRfqxw/input.css:1:21
+  |
+1 | @keyframes a\2c c { \66rom {} }
+  |                     ^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/JRVJhNKhBZ5OsLVFkRfqxw/input.css:1:21
+  |
+1 | @keyframes a\2c c { \66rom {} }
+  |                     ^^^^^^
+
+error: KeyframeBlockRule
+ --> $DIR/tests/fixture/esbuild/misc/JRVJhNKhBZ5OsLVFkRfqxw/input.css:1:28
+  |
+1 | @keyframes a\2c c { \66rom {} }
+  |                            ^^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/JRVJhNKhBZ5OsLVFkRfqxw/input.css:1:28
+  |
+1 | @keyframes a\2c c { \66rom {} }
+  |                            ^^
+
