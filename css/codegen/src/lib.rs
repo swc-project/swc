@@ -151,7 +151,9 @@ where
 
         space!();
 
+        punct!("{");
         self.emit_list(&n.rules, ListFormat::NotDelimited)?;
+        punct!("}");
     }
 
     #[emitter]
