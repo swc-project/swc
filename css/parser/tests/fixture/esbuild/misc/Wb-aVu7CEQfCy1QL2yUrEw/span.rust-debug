@@ -1,0 +1,132 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:1
+  |
+1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:1
+  |
+1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:1
+  |
+1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:1
+  |
+1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
+  | ^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:1
+  |
+1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
+  | ^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:1
+  |
+1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
+  | ^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:1
+  |
+1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
+  | ^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:3
+  |
+1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
+  |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:5
+  |
+1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
+  |     ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:5
+  |
+1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
+  |     ^^^^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:20
+  |
+1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
+  |                    ^
+
+error: Num
+ --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:20
+  |
+1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
+  |                    ^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:22
+  |
+1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
+  |                      ^
+
+error: Num
+ --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:22
+  |
+1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
+  |                      ^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:24
+  |
+1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
+  |                        ^
+
+error: Num
+ --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:24
+  |
+1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
+  |                        ^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:26
+  |
+1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
+  |                          ^
+
+error: Num
+ --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:26
+  |
+1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
+  |                          ^
+
+error: Property
+ --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:29
+  |
+1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
+  |                             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:29
+  |
+1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
+  |                             ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:54
+  |
+1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
+  |                                                      ^
+
+error: Num
+ --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:54
+  |
+1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
+  |                                                      ^
+
