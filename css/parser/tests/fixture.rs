@@ -109,6 +109,10 @@ fn span(input: PathBuf) {
     let dir = input.parent().unwrap().to_path_buf();
 
     let output = testing::run_test2(false, |cm, handler| {
+        if false {
+            return Ok(());
+        }
+
         let fm = cm.load_file(&input).unwrap();
         let lexer = Lexer::new(SourceFileInput::from(&*fm));
         let mut parser = Parser::new(lexer, ParserConfig { parse_values: true });
@@ -122,7 +126,7 @@ fn span(input: PathBuf) {
                     &mut SpanVisualizer { handler: &handler },
                 );
 
-                Ok(())
+                Err(())
             }
             Err(err) => {
                 let mut d = err.to_diagnostics(&handler);
