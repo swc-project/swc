@@ -51,11 +51,11 @@ struct SpanVisualizer<'a> {
 macro_rules! mtd {
     ($T:ty,$name:ident) => {
         fn $name(&mut self, n: &$T, _: &dyn swc_css_visit::Node) {
-            n.visit_children_with(self);
-
             self.handler
                 .struct_span_err(n.span(), stringify!($T))
                 .emit();
+
+            n.visit_children_with(self);
         }
     };
 }
