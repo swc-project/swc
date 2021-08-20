@@ -5,7 +5,7 @@ use crate::{
     Parse,
 };
 use swc_atoms::js_word;
-use swc_common::DUMMY_SP;
+use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_css_ast::*;
 
 #[derive(Debug, Default)]
@@ -512,20 +512,20 @@ where
         self.input.skip_ws()?;
 
         if eat!(self, "and") {
-            let right = self.parse()?;
+            let right: Box<MediaQuery> = self.parse()?;
 
             return Ok(MediaQuery::And(AndMediaQuery {
-                span: span!(self, span.lo),
+                span: Span::new(span.lo, right.span().hi, Default::default()),
                 left: Box::new(base),
                 right,
             }));
         }
 
         if eat!(self, "or") {
-            let right = self.parse()?;
+            let right: Box<MediaQuery> = self.parse()?;
 
             return Ok(MediaQuery::Or(OrMediaQuery {
-                span: span!(self, span.lo),
+                span: Span::new(span.lo, right.span().hi, Default::default()),
                 left: Box::new(base),
                 right,
             }));
