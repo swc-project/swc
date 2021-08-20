@@ -1863,4 +1863,31 @@ export default function waitUntil(callback, options = {}) {
             |p| p.parse_program(),
         );
     }
+
+    #[test]
+    #[should_panic(expected = "await isn't allowed in non-async function")]
+    fn await_in_function_in_module() {
+        let src = "function foo (p) { await p; }";
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());
+    }
+
+    #[test]
+    #[should_panic(expected = "await isn't allowed in non-async function")]
+    fn await_in_function_in_script() {
+        let src = "function foo (p) { await p; }";
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_script());
+    }
+
+    #[test]
+    #[should_panic(expected = "await isn't allowed in non-async function")]
+    fn await_in_function_in_program() {
+        let src = "function foo (p) { await p; }";
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_program());
+    }
+
+    #[test]
+    fn top_level_await_in_block() {
+        let src = "if (true) { await promise; }";
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());
+    }
 }
