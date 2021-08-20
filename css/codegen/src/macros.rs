@@ -8,7 +8,7 @@ macro_rules! emit {
 
 macro_rules! punct {
     ($g:expr,$span:expr,$n:expr) => {{
-        $g.wr.write_punct(Some($span), $n);
+        $g.wr.write_punct(Some($span), $n)?;
     }};
 
     ($g:expr,$n:expr) => {{
@@ -18,7 +18,7 @@ macro_rules! punct {
 
 macro_rules! keyword {
     ($g:expr,$span:expr,$n:expr) => {{
-        $g.wr.write_ident(Some($span), $n);
+        $g.wr.write_ident(Some($span), $n)?;
     }};
 
     ($g:expr,$n:expr) => {{
