@@ -348,7 +348,7 @@ where
 
                 if eat!(self, "*") {
                     ns_name_prefix = Some(Text {
-                        span: span!(self, start_pos),
+                        span: span!(self, name_start_pos),
                         value: "*".into(),
                     });
                 } else {
