@@ -96,6 +96,36 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(UrlValue, visit_url_value);
     mtd!(Value, visit_value);
 
+    mtd!(AndMediaQuery, visit_and_media_query);
+    mtd!(AndSupportQuery, visit_and_support_query);
+    mtd!(CharsetRule, visit_charset_rule);
+    mtd!(CommaMediaQuery, visit_comma_media_query);
+    mtd!(DocumentRule, visit_document_rule);
+    mtd!(FontFaceRule, visit_font_face_rule);
+    mtd!(ImportRule, visit_import_rule);
+    mtd!(KeyframeBlock, visit_keyframe_block);
+    mtd!(KeyframeBlockRule, visit_keyframe_block_rule);
+    mtd!(KeyframeSelector, visit_keyframe_selector);
+    mtd!(KeyframesRule, visit_keyframes_rule);
+    mtd!(MediaQuery, visit_media_query);
+    mtd!(MediaRule, visit_media_rule);
+    mtd!(NamespaceRule, visit_namespace_rule);
+    mtd!(NestedPageRule, visit_nested_page_rule);
+    mtd!(NotMediaQuery, visit_not_media_query);
+    mtd!(NotSupportQuery, visit_not_support_query);
+    mtd!(OnlyMediaQuery, visit_only_media_query);
+    mtd!(OrMediaQuery, visit_or_media_query);
+    mtd!(OrSupportQuery, visit_or_support_query);
+    mtd!(PageRule, visit_page_rule);
+    mtd!(PageRuleBlock, visit_page_rule_block);
+    mtd!(PageRuleBlockItem, visit_page_rule_block_item);
+    mtd!(PageSelector, visit_page_selector);
+    mtd!(ParenSupportQuery, visit_paren_support_query);
+    mtd!(SupportQuery, visit_support_query);
+    mtd!(SupportsRule, visit_supports_rule);
+    mtd!(UnknownAtRule, visit_unknown_at_rule);
+    mtd!(ViewportRule, visit_viewport_rule);
+
     fn visit_token_and_span(&mut self, n: &TokenAndSpan, _parent: &dyn swc_css_visit::Node) {
         self.handler
             .struct_span_err(n.span, &format!("{:?}", n.token))
