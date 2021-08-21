@@ -53,17 +53,6 @@ impl SwcLoader {
             })
             .collect();
 
-        // Keep compatiblity with the earlier behavior of always
-        // injecting NODE_ENV
-        if !envs_map.contains_key("NODE_ENV") {
-            envs_map.insert(
-                "NODE_ENV".to_string(),
-                env::var("NODE_ENV")
-                    .ok()
-                    .unwrap_or_else(|| "development".to_string()),
-            );
-        }
-
         for (k, v) in envs_map {
             m.insert(
                 k.into(),
