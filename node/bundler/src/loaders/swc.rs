@@ -31,6 +31,43 @@ impl SwcLoader {
         SwcLoader { compiler, options }
     }
 
+    fn env_map(&self) -> HashMap<JsWord, Expr> {
+        let mut m = HashMap::default();
+
+        let envs = self
+            .options
+            .config
+            .jsc
+            .transform
+            .as_ref()
+            .and_then(|t| t.optimizer.as_ref())
+            .and_then(|o| o.globals.as_ref())
+            .and_then(|g| Some(g.envs.clone()))
+            .unwrap_or_default();
+
+        let mut envs_map: HashMap<String, String> = envs
+            .into_iter()
+            .map(|name| {
+                let value = env::var(&name).ok();
+                (name, value.unwrap_or_default())
+            })
+            .collect();
+
+        for (k, v) in envs_map {
+            m.insert(
+                k.into(),
+                Expr::Lit(Lit::Str(Str {
+                    span: DUMMY_SP,
+                    value: v.into(),
+                    has_escape: false,
+                    kind: Default::default(),
+                })),
+            );
+        }
+
+        m
+    }
+
     fn load_with_handler(&self, handler: &Handler, name: &FileName) -> Result<ModuleData, Error> {
         log::debug!("JsLoader.load({})", name);
         let helpers = Helpers::new(false);
@@ -119,7 +156,7 @@ impl SwcLoader {
             let program = helpers::HELPERS.set(&helpers, || {
                 swc_ecma_utils::HANDLER.set(&handler, || {
                     let program =
-                        program.fold_with(&mut inline_globals(env_map(), Default::default()));
+                        program.fold_with(&mut inline_globals(self.env_map(), Default::default()));
                     let program = program.fold_with(&mut expr_simplifier());
                     let program = program.fold_with(&mut dead_branch_remover());
 
@@ -209,8 +246,8 @@ impl SwcLoader {
             let program = if let Some(mut config) = config {
                 helpers::HELPERS.set(&helpers, || {
                     swc_ecma_utils::HANDLER.set(handler, || {
-                        let program =
-                            program.fold_with(&mut inline_globals(env_map(), Default::default()));
+                        let program = program
+                            .fold_with(&mut inline_globals(self.env_map(), Default::default()));
                         let program = program.fold_with(&mut expr_simplifier());
                         let program = program.fold_with(&mut dead_branch_remover());
 
@@ -245,26 +282,4 @@ impl Load for SwcLoader {
             self.load_with_handler(&handler, name)
         })
     }
-}
-
-fn env_map() -> HashMap<JsWord, Expr> {
-    let mut m = HashMap::default();
-
-    {
-        let s = env::var("NODE_ENV")
-            .map(|v| JsWord::from(v))
-            .unwrap_or_else(|_| "development".into());
-
-        m.insert(
-            "NODE_ENV".into(),
-            Expr::Lit(Lit::Str(Str {
-                span: DUMMY_SP,
-                value: s,
-                has_escape: false,
-                kind: Default::default(),
-            })),
-        );
-    }
-
-    m
 }
