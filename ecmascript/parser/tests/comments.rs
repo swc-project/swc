@@ -41,6 +41,7 @@ fn test(input: PathBuf) {
                     import_meta: true,
                     top_level_await: true,
                     import_assertions: true,
+                    static_blocks: true,
                 }),
                 "ts" | "tsx" => Syntax::Typescript(TsConfig {
                     tsx: ext == "tsx",

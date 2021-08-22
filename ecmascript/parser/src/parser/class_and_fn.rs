@@ -435,6 +435,16 @@ impl<'a, I: Tokens> Parser<I> {
         )
     }
 
+    fn parse_static_block(&mut self) -> PResult<ClassMember> {
+        let start = cur_pos!(self);
+        expect!(self, '{');
+
+        let stmts = self.parse_block_body(false, false, Some(&tok!('}')))?;
+
+        let span = span!(self, start);
+        Ok(StaticBlock { span, body: stmts }.into())
+    }
+
     #[allow(clippy::cognitive_complexity)]
     fn parse_class_member_with_is_static(
         &mut self,
@@ -445,6 +455,10 @@ impl<'a, I: Tokens> Parser<I> {
         decorators: Vec<Decorator>,
     ) -> PResult<ClassMember> {
         let mut is_static = static_token.is_some();
+
+        if self.input.syntax().static_blocks() && is_static && is!(self, '{') {
+            return self.parse_static_block();
+        }
 
         let mut is_abstract = false;
         let mut is_override = false;
