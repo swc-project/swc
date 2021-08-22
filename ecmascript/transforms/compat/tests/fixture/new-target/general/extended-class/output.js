@@ -1,23 +1,17 @@
 class Foo {
-  constructor() {
-    this.constructor;
-  }
-
+    constructor(){
+        this.constructor;
+    }
 }
-
 class Bar extends Foo {
-  constructor() {
-    // This is probably bad...
-    this.constructor;
-    super();
-  }
-
+    constructor(){
+        this.constructor;
+        super();
+    }
 }
-
 class Baz extends Foo {
-  constructor() {
-    super();
-    this.constructor;
-  }
-
+    constructor(){
+        super();
+        this.constructor;
+    }
 }
