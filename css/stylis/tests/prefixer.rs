@@ -1,3 +1,8 @@
+//! Tests ported from https://github.com/thysultan/stylis.js
+//!
+//! License is MIT, which is original license at the time of copying.
+//! Original test authors have copyright for their work.
+
 #[test]
 fn flex_box() {
     t("display:block;", "display:block;");
