@@ -10,11 +10,15 @@ use swc_ecma_visit::{
 };
 
 pub fn new_target() -> impl Fold + VisitMut + CompilerPass {
-    as_folder(NewTarget { cur: None })
+    as_folder(NewTarget::default())
 }
+
+#[derive(Clone, Default)]
 
 struct NewTarget {
     cur: Option<Ident>,
+
+    in_constructor: bool,
 }
 
 #[fast_path(ShouldWork)]
@@ -24,13 +28,25 @@ impl VisitMut for NewTarget {
     fn visit_mut_class_decl(&mut self, class: &mut ClassDecl) {
         class.visit_mut_children_with(&mut NewTarget {
             cur: Some(class.ident.clone()),
+            ..self.clone()
         });
     }
 
     fn visit_mut_class_expr(&mut self, class: &mut ClassExpr) {
         class.visit_mut_children_with(&mut NewTarget {
             cur: class.ident.clone(),
+            ..self.clone()
         });
+    }
+
+    fn visit_mut_constructor(&mut self, c: &mut Constructor) {
+        let old = self.in_constructor;
+
+        self.in_constructor = true;
+
+        c.visit_mut_children_with(self);
+
+        self.in_constructor = old;
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
@@ -50,23 +66,27 @@ impl VisitMut for NewTarget {
                     },
             }) => {
                 if let Some(cur) = self.cur.clone() {
-                    // (this instanceof Foo ? this.constructor : void 0)
-                    *e = Expr::Cond(CondExpr {
-                        span: DUMMY_SP,
-                        // this instanceof Foo
-                        test: Box::new(Expr::Bin(BinExpr {
+                    let c = ThisExpr { span: DUMMY_SP }.make_member(quote_ident!("constructor"));
+
+                    if self.in_constructor {
+                        *e = c;
+                    } else {
+                        // (this instanceof Foo ? this.constructor : void 0)
+                        *e = Expr::Cond(CondExpr {
                             span: DUMMY_SP,
-                            op: op!("instanceof"),
-                            left: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
-                            right: Box::new(Expr::Ident(cur)),
-                        })),
-                        // this.constructor
-                        cons: Box::new(
-                            ThisExpr { span: DUMMY_SP }.make_member(quote_ident!("constructor")),
-                        ),
-                        // void 0
-                        alt: undefined(DUMMY_SP),
-                    });
+                            // this instanceof Foo
+                            test: Box::new(Expr::Bin(BinExpr {
+                                span: DUMMY_SP,
+                                op: op!("instanceof"),
+                                left: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
+                                right: Box::new(Expr::Ident(cur)),
+                            })),
+                            // this.constructor
+                            cons: Box::new(c),
+                            // void 0
+                            alt: undefined(DUMMY_SP),
+                        });
+                    }
                 }
             }
 
@@ -79,6 +99,7 @@ impl VisitMut for NewTarget {
 
         f.visit_mut_children_with(&mut NewTarget {
             cur: Some(f.ident.clone()),
+            ..self.clone()
         });
     }
 
@@ -90,7 +111,10 @@ impl VisitMut for NewTarget {
             .get_or_insert_with(|| private_ident!("_target"))
             .clone();
 
-        f.visit_mut_children_with(&mut NewTarget { cur: Some(i) });
+        f.visit_mut_children_with(&mut NewTarget {
+            cur: Some(i),
+            ..self.clone()
+        });
     }
 }
 
