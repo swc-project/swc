@@ -1,15 +1,6 @@
 import { prefix } from "../index.js"
 
 describe('Prefixer', () => {
-    test('writing-mode', () => {
-        expect(prefix(`writing-mode:none;`, 12)).to.equal([`-webkit-writing-mode:none;`, `-ms-writing-mode:none;`, `writing-mode:none;`].join(''))
-        expect(prefix(`writing-mode:vertical-lr;`, 12)).to.equal([`-webkit-writing-mode:vertical-lr;`, `-ms-writing-mode:tb;`, `writing-mode:vertical-lr;`].join(''))
-        expect(prefix(`writing-mode:vertical-rl;`, 12)).to.equal([`-webkit-writing-mode:vertical-rl;`, `-ms-writing-mode:tb-rl;`, `writing-mode:vertical-rl;`].join(''))
-        expect(prefix(`writing-mode:horizontal-tb;`, 12)).to.equal([`-webkit-writing-mode:horizontal-tb;`, `-ms-writing-mode:lr;`, `writing-mode:horizontal-tb;`].join(''))
-        expect(prefix(`writing-mode:sideways-rl;`, 12)).to.equal([`-webkit-writing-mode:sideways-rl;`, `-ms-writing-mode:tb-rl;`, `writing-mode:sideways-rl;`].join(''))
-        expect(prefix(`writing-mode:sideways-lr;`, 12)).to.equal([`-webkit-writing-mode:sideways-lr;`, `-ms-writing-mode:tb;`, `writing-mode:sideways-lr;`].join(''))
-    })
-
     test('columns', () => {
         expect(prefix(`columns:auto;`, 7)).to.equal([`-webkit-columns:auto;`, `columns:auto;`].join(''))
         expect(prefix(`column-count:auto;`, 12)).to.equal([`-webkit-column-count:auto;`, `column-count:auto;`].join(''))
