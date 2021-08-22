@@ -1,13 +1,6 @@
 import { prefix } from "../index.js"
 
 describe('Prefixer', () => {
-    test('flex-box', () => {
-        expect(prefix(`justify-content:space-between;`, 15)).to.equal([`-webkit-box-pack:justify;`, `-webkit-justify-content:space-between;`, `justify-content:space-between;`].join(''))
-        expect(prefix(`justify-items:center;`, 13)).to.equal([`justify-items:center;`].join(''))
-        expect(prefix(`order:flex;`, 5)).to.equal([`-webkit-order:flex;`, `-ms-flex-order:flex;`, `order:flex;`].join(''))
-        expect(prefix(`flex-direction:column;`, 14)).to.equal([`-webkit-flex-direction:column;`, `-ms-flex-direction:column;`, `flex-direction:column;`].join(''))
-    })
-
     test('transform', () => {
         expect(prefix(`transform:rotate(30deg);`, 9)).to.equal([`-webkit-transform:rotate(30deg);`, `-moz-transform:rotate(30deg);`, `-ms-transform:rotate(30deg);`, `transform:rotate(30deg);`].join(''))
     })

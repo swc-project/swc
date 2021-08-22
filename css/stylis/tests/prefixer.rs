@@ -89,6 +89,24 @@ fn flex_box() {
         "`-webkit-box-pack:justify;`, `-ms-flex-pack:justify;`, \
          `-webkit-justify-content:justify;`, `justify-content:justify;`",
     );
+
+    t(
+        "justify-content:space-between;",
+        "`-webkit-box-pack:justify;`, `-webkit-justify-content:space-between;`, \
+         `justify-content:space-between;`",
+    );
+
+    t("justify-items:center;", "`justify-items:center;`");
+
+    t(
+        "order:flex;",
+        "`-webkit-order:flex;`, `-ms-flex-order:flex;`, `order:flex;`",
+    );
+
+    t(
+        "flex-direction:column;",
+        "`-webkit-flex-direction:column;`, `-ms-flex-direction:column;`, `flex-direction:column;`",
+    );
 }
 
 /// Test
