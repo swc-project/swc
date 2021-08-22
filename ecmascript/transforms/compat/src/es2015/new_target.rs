@@ -19,7 +19,7 @@ struct NewTarget {
     cur: Option<Ident>,
 
     in_constructor: bool,
-    in_class_method: bool,
+    in_method: bool,
 }
 
 #[fast_path(ShouldWork)]
@@ -40,6 +40,16 @@ impl VisitMut for NewTarget {
         });
     }
 
+    fn visit_mut_class_method(&mut self, c: &mut ClassMethod) {
+        let old = self.in_method;
+
+        self.in_method = true;
+
+        c.visit_mut_children_with(self);
+
+        self.in_method = old;
+    }
+
     fn visit_mut_constructor(&mut self, c: &mut Constructor) {
         let old = self.in_constructor;
 
@@ -48,16 +58,6 @@ impl VisitMut for NewTarget {
         c.visit_mut_children_with(self);
 
         self.in_constructor = old;
-    }
-
-    fn visit_mut_class_method(&mut self, c: &mut ClassMethod) {
-        let old = self.in_class_method;
-
-        self.in_class_method = true;
-
-        c.visit_mut_children_with(self);
-
-        self.in_class_method = old;
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
@@ -77,7 +77,7 @@ impl VisitMut for NewTarget {
                     },
             }) => {
                 if let Some(cur) = self.cur.clone() {
-                    if self.in_class_method {
+                    if self.in_method {
                         *e = *undefined(DUMMY_SP)
                     } else {
                         let c =
@@ -131,6 +131,16 @@ impl VisitMut for NewTarget {
             cur: Some(i),
             ..self.clone()
         });
+    }
+
+    fn visit_mut_method_prop(&mut self, m: &mut MethodProp) {
+        let old = self.in_method;
+
+        self.in_method = true;
+
+        m.visit_mut_children_with(self);
+
+        self.in_method = old;
     }
 }
 
