@@ -60,7 +60,35 @@ fn flex_box() {
          `align-content:flex-start;`",
     );
 
-    t("", "");
+    t(
+        "align-content:flex-end;",
+        "`-webkit-align-content:flex-end;`, `-ms-flex-line-pack:flex-end;`, \
+         `align-content:flex-end;`",
+    );
+
+    t(
+        "align-items:value;",
+        "`-webkit-align-items:value;`, `-webkit-box-align:value;`, `-ms-flex-align:value;`, \
+         `align-items:value;`",
+    );
+
+    t(
+        "justify-content:flex-end;",
+        "`-webkit-box-pack:end;`, `-ms-flex-pack:end;`, `-webkit-justify-content:flex-end;`, \
+         `justify-content:flex-end;`",
+    );
+
+    t(
+        "justify-content:flex-start;",
+        "`-webkit-box-pack:start;`, `-ms-flex-pack:start;`, \
+         `-webkit-justify-content:flex-start;`, `justify-content:flex-start;`",
+    );
+
+    t(
+        "justify-content:justify;",
+        "`-webkit-box-pack:justify;`, `-ms-flex-pack:justify;`, \
+         `-webkit-justify-content:justify;`, `justify-content:justify;`",
+    );
 }
 
 /// Test

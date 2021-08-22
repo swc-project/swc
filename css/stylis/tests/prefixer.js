@@ -2,11 +2,6 @@ import { prefix } from "../index.js"
 
 describe('Prefixer', () => {
     test('flex-box', () => {
-        expect(prefix(`align-content:flex-end;`, 13)).to.equal([`-webkit-align-content:flex-end;`, `-ms-flex-line-pack:flex-end;`, `align-content:flex-end;`].join(''))
-        expect(prefix(`align-items:value;`, 11)).to.equal([`-webkit-align-items:value;`, `-webkit-box-align:value;`, `-ms-flex-align:value;`, `align-items:value;`].join(''))
-        expect(prefix(`justify-content:flex-end;`, 15)).to.equal([`-webkit-box-pack:end;`, `-ms-flex-pack:end;`, `-webkit-justify-content:flex-end;`, `justify-content:flex-end;`].join(''))
-        expect(prefix(`justify-content:flex-start;`, 15)).to.equal([`-webkit-box-pack:start;`, `-ms-flex-pack:start;`, `-webkit-justify-content:flex-start;`, `justify-content:flex-start;`].join(''))
-        expect(prefix(`justify-content:justify;`, 15)).to.equal([`-webkit-box-pack:justify;`, `-ms-flex-pack:justify;`, `-webkit-justify-content:justify;`, `justify-content:justify;`].join(''))
         expect(prefix(`justify-content:space-between;`, 15)).to.equal([`-webkit-box-pack:justify;`, `-webkit-justify-content:space-between;`, `justify-content:space-between;`].join(''))
         expect(prefix(`justify-items:center;`, 13)).to.equal([`justify-items:center;`].join(''))
         expect(prefix(`order:flex;`, 5)).to.equal([`-webkit-order:flex;`, `-ms-flex-order:flex;`, `order:flex;`].join(''))
