@@ -2362,6 +2362,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_css_stylis"
+version = "0.1.0"
+dependencies = [
+ "swc_css_ast",
+ "swc_css_codegen",
+ "swc_css_parser",
+ "swc_css_visit",
+]
+
+[[package]]
 name = "swc_css_visit"
 version = "0.2.0"
 dependencies = [

@@ -1,0 +1,19 @@
+[package]
+authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "Port of stylis"
+documentation = "https://rustdoc.swc.rs/swc_css_stylis/"
+edition = "2018"
+license = "Apache-2.0/MIT"
+name = "swc_css_stylis"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.1.0"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+swc_css_ast = {version = "0.3.0", path = "../ast"}
+swc_css_visit = {version = "0.2.0", path = "../visit"}
+
+[dev-dependencies]
+swc_css_codegen = {version = "0.1.0", path = "../codegen"}
+swc_css_parser = {verison = "0.3.0", path = "../parser"}
