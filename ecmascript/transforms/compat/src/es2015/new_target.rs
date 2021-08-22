@@ -20,6 +20,7 @@ struct NewTarget {
 
     in_constructor: bool,
     in_method: bool,
+    in_arrow_expr: bool,
 
     var: Option<VarDeclarator>,
 }
@@ -27,6 +28,29 @@ struct NewTarget {
 #[fast_path(ShouldWork)]
 impl VisitMut for NewTarget {
     noop_visit_mut_type!();
+
+    fn visit_mut_arrow_expr(&mut self, e: &mut ArrowExpr) {
+        // #[fast_path] ensures that `e` contains new.target
+
+        let old = self.in_arrow_expr;
+        if self.var.is_none() {
+            let mut v = Expr::MetaProp(MetaPropExpr {
+                meta: Ident::new("new".into(), DUMMY_SP),
+                prop: Ident::new("target".into(), DUMMY_SP),
+            });
+            v.visit_mut_with(self);
+            self.var.get_or_insert_with(|| VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(private_ident!("_newtarget").into()),
+                init: Some(Box::new(v)),
+                definite: Default::default(),
+            });
+        }
+        self.in_arrow_expr = true;
+        e.visit_mut_children_with(self);
+
+        self.in_arrow_expr = old;
+    }
 
     fn visit_mut_class_decl(&mut self, class: &mut ClassDecl) {
         let old = self.cur.take();
@@ -82,7 +106,9 @@ impl VisitMut for NewTarget {
                         ..
                     },
             }) => {
-                if self.in_method {
+                if self.in_arrow_expr {
+                    *e = Expr::Ident(self.var.as_ref().unwrap().name.clone().ident().unwrap().id);
+                } else if self.in_method {
                     *e = *undefined(DUMMY_SP)
                 } else {
                     if let Some(cur) = self.cur.clone() {
@@ -172,16 +198,18 @@ impl VisitMut for NewTarget {
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
         stmts.visit_mut_children_with(self);
 
-        if let Some(var) = self.var.take() {
-            prepend(
-                stmts,
-                Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    declare: false,
-                    decls: vec![var],
-                })),
-            )
+        if !self.in_arrow_expr {
+            if let Some(var) = self.var.take() {
+                prepend(
+                    stmts,
+                    Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        declare: false,
+                        decls: vec![var],
+                    })),
+                )
+            }
         }
     }
 }
