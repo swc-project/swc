@@ -1,17 +1,6 @@
 import { prefix } from "../index.js"
 
 describe('Prefixer', () => {
-    test('backface-visibility', () => {
-        expect(prefix(`backface-visibility:hidden;`, 19)).to.equal([`-webkit-backface-visibility:hidden;`, `backface-visibility:hidden;`].join(''))
-    })
-
-    test('transition', () => {
-        expect(prefix(`transition:transform 1s,transform all 400ms,text-transform;`, 10)).to.equal([
-            `-webkit-transition:-webkit-transform 1s,-webkit-transform all 400ms,text-transform;`,
-            `transition:transform 1s,transform all 400ms,text-transform;`
-        ].join(''))
-    })
-
     test('writing-mode', () => {
         expect(prefix(`writing-mode:none;`, 12)).to.equal([`-webkit-writing-mode:none;`, `-ms-writing-mode:none;`, `writing-mode:none;`].join(''))
         expect(prefix(`writing-mode:vertical-lr;`, 12)).to.equal([`-webkit-writing-mode:vertical-lr;`, `-ms-writing-mode:tb;`, `writing-mode:vertical-lr;`].join(''))

@@ -137,5 +137,22 @@ fn cursor() {
     );
 }
 
+#[test]
+fn backface_visibility() {
+    t(
+        "backface-visibility:hidden;",
+        "`-webkit-backface-visibility:hidden;`, `backface-visibility:hidden;`",
+    );
+}
+
+#[test]
+fn transition() {
+    t(
+        "transition:transform 1s,transform all 400ms,text-transform;",
+        "`-webkit-transition:-webkit-transform 1s,-webkit-transform all \
+         400ms,text-transform;`,`transition:transform 1s,transform all 400ms,text-transform;`",
+    );
+}
+
 /// Test
 fn t(src: &str, expected: &str) {}
