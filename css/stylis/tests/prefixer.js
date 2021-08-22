@@ -2,7 +2,6 @@ import { prefix } from "../index.js"
 
 describe('Prefixer', () => {
     test('mask', () => {
-        expect(prefix(`mask:none;`, 10)).to.equal([`-webkit-mask:none;`, `mask:none;`].join(''))
         expect(prefix(`mask-image:none;`, 10)).to.equal([`-webkit-mask-image:none;`, `mask-image:none;`].join(''))
         expect(prefix(`mask-image:linear-gradient(#fff);`, 10)).to.equal([`-webkit-mask-image:linear-gradient(#fff);`, `mask-image:linear-gradient(#fff);`].join(''))
         expect(prefix(`mask-mode:none;`, 10)).to.equal([`-webkit-mask-mode:none;`, `mask-mode:none;`].join(''))

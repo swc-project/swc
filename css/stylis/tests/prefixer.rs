@@ -260,5 +260,26 @@ fn text() {
     );
 }
 
+#[test]
+fn mask() {
+    t("mask:none;", "`-webkit-mask:none;`, `mask:none;`");
+
+    t("", "");
+
+    t("", "");
+
+    t("", "");
+
+    t("", "");
+
+    t("", "");
+
+    t("", "");
+
+    t("", "");
+
+    t("", "");
+}
+
 /// Test
 fn t(src: &str, expected: &str) {}
