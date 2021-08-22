@@ -2491,7 +2491,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.67.0"
+version = "0.67.1"
 dependencies = [
  "either",
  "enum_kind",
@@ -2599,7 +2599,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.30.0"
+version = "0.30.1"
 dependencies = [
  "arrayvec",
  "fxhash",
