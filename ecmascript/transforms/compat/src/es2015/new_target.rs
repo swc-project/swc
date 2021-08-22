@@ -17,13 +17,13 @@ impl VisitMut for NewTarget {
     noop_visit_mut_type!();
 
     fn visit_mut_class_decl(&mut self, class: &mut ClassDecl) {
-        class.visit_mut_with(&mut NewTarget {
+        class.visit_mut_children_with(&mut NewTarget {
             cur: Some(class.ident.clone()),
         });
     }
 
     fn visit_mut_class_expr(&mut self, class: &mut ClassExpr) {
-        class.visit_mut_with(&mut NewTarget {
+        class.visit_mut_children_with(&mut NewTarget {
             cur: class.ident.clone(),
         });
     }
