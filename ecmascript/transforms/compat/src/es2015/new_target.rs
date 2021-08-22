@@ -1,8 +1,8 @@
 use std::borrow::Cow;
-
 use swc_atoms::js_word;
-use swc_common::pass::CompilerPass;
+use swc_common::{pass::CompilerPass, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_utils::{quote_ident, undefined, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub fn new_target() -> impl Fold + VisitMut + CompilerPass {
@@ -15,6 +15,18 @@ struct NewTarget {
 
 impl VisitMut for NewTarget {
     noop_visit_mut_type!();
+
+    fn visit_mut_class_decl(&mut self, class: &mut ClassDecl) {
+        class.visit_mut_with(&mut NewTarget {
+            cur: Some(class.ident.clone()),
+        });
+    }
+
+    fn visit_mut_class_expr(&mut self, class: &mut ClassExpr) {
+        class.visit_mut_with(&mut NewTarget {
+            cur: class.ident.clone(),
+        });
+    }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
@@ -33,7 +45,23 @@ impl VisitMut for NewTarget {
                     },
             }) => {
                 if let Some(cur) = self.cur.clone() {
-                    *e = Expr::Ident(cur);
+                    // (this instanceof Foo ? this.constructor : void 0)
+                    *e = Expr::Cond(CondExpr {
+                        span: DUMMY_SP,
+                        // this instanceof Foo
+                        test: Box::new(Expr::Bin(BinExpr {
+                            span: DUMMY_SP,
+                            op: op!("instanceof"),
+                            left: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
+                            right: Box::new(Expr::Ident(cur)),
+                        })),
+                        // this.constructor
+                        cons: Box::new(
+                            ThisExpr { span: DUMMY_SP }.make_member(quote_ident!("constructor")),
+                        ),
+                        // void 0
+                        alt: undefined(DUMMY_SP),
+                    });
                 }
             }
 
