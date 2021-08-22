@@ -1,10 +1,8 @@
 class Foo {
-  constructor() {
-    this.constructor;
-  }
-
-  test() {
-    void 0;
-  }
-
+    constructor(){
+        this.constructor;
+    }
+    test() {
+        void 0;
+    }
 }
