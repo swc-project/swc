@@ -11,6 +11,6 @@ fn exec(input: PathBuf) {
 #[testing::fixture("tests/fixture/new-target/**/input.js")]
 fn fixture(input: PathBuf) {
     let dir = input.parent().unwrap();
-    let output = dir.join("ouput.js");
+    let output = dir.join("output.js");
     test_fixture(Default::default(), &|_| new_target(), &input, &output);
 }
