@@ -19,6 +19,7 @@ struct NewTarget {
     cur: Option<Ident>,
 
     in_constructor: bool,
+    in_class_method: bool,
 }
 
 #[fast_path(ShouldWork)]
@@ -49,6 +50,16 @@ impl VisitMut for NewTarget {
         self.in_constructor = old;
     }
 
+    fn visit_mut_class_method(&mut self, c: &mut ClassMethod) {
+        let old = self.in_class_method;
+
+        self.in_class_method = true;
+
+        c.visit_mut_children_with(self);
+
+        self.in_class_method = old;
+    }
+
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
 
@@ -66,26 +77,31 @@ impl VisitMut for NewTarget {
                     },
             }) => {
                 if let Some(cur) = self.cur.clone() {
-                    let c = ThisExpr { span: DUMMY_SP }.make_member(quote_ident!("constructor"));
-
-                    if self.in_constructor {
-                        *e = c;
+                    if self.in_class_method {
+                        *e = *undefined(DUMMY_SP)
                     } else {
-                        // (this instanceof Foo ? this.constructor : void 0)
-                        *e = Expr::Cond(CondExpr {
-                            span: DUMMY_SP,
-                            // this instanceof Foo
-                            test: Box::new(Expr::Bin(BinExpr {
+                        let c =
+                            ThisExpr { span: DUMMY_SP }.make_member(quote_ident!("constructor"));
+
+                        if self.in_constructor {
+                            *e = c;
+                        } else {
+                            // (this instanceof Foo ? this.constructor : void 0)
+                            *e = Expr::Cond(CondExpr {
                                 span: DUMMY_SP,
-                                op: op!("instanceof"),
-                                left: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
-                                right: Box::new(Expr::Ident(cur)),
-                            })),
-                            // this.constructor
-                            cons: Box::new(c),
-                            // void 0
-                            alt: undefined(DUMMY_SP),
-                        });
+                                // this instanceof Foo
+                                test: Box::new(Expr::Bin(BinExpr {
+                                    span: DUMMY_SP,
+                                    op: op!("instanceof"),
+                                    left: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
+                                    right: Box::new(Expr::Ident(cur)),
+                                })),
+                                // this.constructor
+                                cons: Box::new(c),
+                                // void 0
+                                alt: undefined(DUMMY_SP),
+                            });
+                        }
                     }
                 }
             }
