@@ -238,7 +238,7 @@ jobs:
           profile: minimal
 
       - name: Create rustdoc
-        run: cargo doc
+        run: cargo doc --all
 
       - name: Create CNAME
         run: |
