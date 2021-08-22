@@ -1,19 +1,6 @@
 import { prefix } from "../index.js"
 
 describe('Prefixer', () => {
-    test('columns', () => {
-        expect(prefix(`columns:auto;`, 7)).to.equal([`-webkit-columns:auto;`, `columns:auto;`].join(''))
-        expect(prefix(`column-count:auto;`, 12)).to.equal([`-webkit-column-count:auto;`, `column-count:auto;`].join(''))
-        expect(prefix(`column-fill:auto;`, 11)).to.equal([`-webkit-column-fill:auto;`, `column-fill:auto;`].join(''))
-        expect(prefix(`column-gap:auto;`, 10)).to.equal([`-webkit-column-gap:auto;`, `column-gap:auto;`].join(''))
-        expect(prefix(`column-rule:auto;`, 11)).to.equal([`-webkit-column-rule:auto;`, `column-rule:auto;`].join(''))
-        expect(prefix(`column-rule-color:auto;`, 17)).to.equal([`-webkit-column-rule-color:auto;`, `column-rule-color:auto;`].join(''))
-        expect(prefix(`column-rule-style:auto;`, 17)).to.equal([`-webkit-column-rule-style:auto;`, `column-rule-style:auto;`].join(''))
-        expect(prefix(`column-rule-width:auto;`, 17)).to.equal([`-webkit-column-rule-width:auto;`, `column-rule-width:auto;`].join(''))
-        expect(prefix(`column-span:auto;`, 11)).to.equal([`-webkit-column-span:auto;`, `column-span:auto;`].join(''))
-        expect(prefix(`column-width:auto;`, 12)).to.equal([`-webkit-column-width:auto;`, `column-width:auto;`].join(''))
-    })
-
     test('text', () => {
         expect(prefix(`text-align:left;`, 10)).to.equal([`text-align:left;`].join(''))
         expect(prefix(`text-transform:none;`, 14)).to.equal([`text-transform:none;`].join(''))
