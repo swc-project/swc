@@ -1,23 +1,6 @@
 import { prefix } from "../index.js"
 
 describe('Prefixer', () => {
-    test('transform', () => {
-        expect(prefix(`transform:rotate(30deg);`, 9)).to.equal([`-webkit-transform:rotate(30deg);`, `-moz-transform:rotate(30deg);`, `-ms-transform:rotate(30deg);`, `transform:rotate(30deg);`].join(''))
-    })
-
-    test('cursor', () => {
-        expect(prefix(`cursor:none;`, 6)).to.equal([`cursor:none;`].join(''))
-        expect(prefix(`cursor:grab;`, 6)).to.equal([`cursor:-webkit-grab;`, `cursor:grab;`].join(''))
-        expect(prefix(`cursor:image-set(url(foo.jpg) 2x), pointer;`, 6)).to.equal([
-            `cursor:-webkit-image-set(url(foo.jpg) 2x), pointer;`,
-            `cursor:image-set(url(foo.jpg) 2x), pointer;`
-        ].join(''))
-        expect(prefix(`cursor:image-set(url(foo.jpg) 2x), grab;`, 6)).to.equal([
-            `cursor:-webkit-image-set(url(foo.jpg) 2x), -webkit-grab;`,
-            `cursor:image-set(url(foo.jpg) 2x), grab;`
-        ].join(''))
-    })
-
     test('backface-visibility', () => {
         expect(prefix(`backface-visibility:hidden;`, 19)).to.equal([`-webkit-backface-visibility:hidden;`, `backface-visibility:hidden;`].join(''))
     })

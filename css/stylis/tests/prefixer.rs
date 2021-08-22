@@ -109,5 +109,33 @@ fn flex_box() {
     );
 }
 
+#[test]
+fn transform() {
+    t(
+        "transform:rotate(30deg);",
+        "`-webkit-transform:rotate(30deg);`, `-moz-transform:rotate(30deg);`, \
+         `-ms-transform:rotate(30deg);`, `transform:rotate(30deg);`",
+    );
+}
+
+#[test]
+fn cursor() {
+    t("cursor:none;", "`cursor:none;`");
+
+    t("cursor:grab;", "`cursor:-webkit-grab;`, `cursor:grab;`");
+
+    t(
+        "cursor:image-set(url(foo.jpg) 2x), pointer;",
+        "`cursor:-webkit-image-set(url(foo.jpg) 2x), pointer;`, `cursor:image-set(url(foo.jpg) \
+         2x), pointer;`",
+    );
+
+    t(
+        "cursor:image-set(url(foo.jpg) 2x), grab;",
+        "`cursor:-webkit-image-set(url(foo.jpg) 2x), -webkit-grab;`, \
+         `cursor:image-set(url(foo.jpg) 2x), grab;`",
+    );
+}
+
 /// Test
 fn t(src: &str, expected: &str) {}
