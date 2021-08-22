@@ -1,14 +1,6 @@
 import { prefix } from "../index.js"
 
 describe('Prefixer', () => {
-    test('text', () => {
-        expect(prefix(`text-align:left;`, 10)).to.equal([`text-align:left;`].join(''))
-        expect(prefix(`text-transform:none;`, 14)).to.equal([`text-transform:none;`].join(''))
-        expect(prefix(`text-shadow:none;`, 11)).to.equal([`text-shadow:none;`].join(''))
-        expect(prefix(`text-size-adjust:none;`, 16)).to.equal([`-webkit-text-size-adjust:none;`, `-moz-text-size-adjust:none;`, `-ms-text-size-adjust:none;`, `text-size-adjust:none;`].join(''))
-        expect(prefix(`text-decoration:none;`, 15)).to.equal([`-webkit-text-decoration:none;`, `text-decoration:none;`].join(''))
-    })
-
     test('mask', () => {
         expect(prefix(`mask:none;`, 10)).to.equal([`-webkit-mask:none;`, `mask:none;`].join(''))
         expect(prefix(`mask-image:none;`, 10)).to.equal([`-webkit-mask-image:none;`, `mask-image:none;`].join(''))

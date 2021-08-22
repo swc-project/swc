@@ -240,5 +240,25 @@ fn columns() {
     );
 }
 
+#[test]
+fn text() {
+    t("text-align:left;", "`text-align:left;`");
+
+    t("text-transform:none;", "`text-transform:none;`");
+
+    t("text-shadow:none;", "`text-shadow:none;`");
+
+    t(
+        "text-size-adjust:none;",
+        "`-webkit-text-size-adjust:none;`, `-moz-text-size-adjust:none;`, \
+         `-ms-text-size-adjust:none;`, `text-size-adjust:none;`",
+    );
+
+    t(
+        "text-decoration:none;",
+        "`-webkit-text-decoration:none;`, `text-decoration:none;`",
+    );
+}
+
 /// Test
 fn t(src: &str, expected: &str) {}
