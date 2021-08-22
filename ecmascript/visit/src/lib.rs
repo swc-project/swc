@@ -476,6 +476,7 @@ define!({
         PrivateProp(PrivateProp),
         TsIndexSignature(TsIndexSignature),
         Empty(EmptyStmt),
+        StaticBlock(StaticBlock),
     }
 
     pub struct ClassProp {
@@ -542,6 +543,10 @@ define!({
     pub struct Decorator {
         pub span: Span,
         pub expr: Box<Expr>,
+    }
+    pub struct StaticBlock {
+        pub span: Span,
+        pub body: Vec<Stmt>,
     }
     pub enum MethodKind {
         Method,
