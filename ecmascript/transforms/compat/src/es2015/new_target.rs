@@ -76,10 +76,10 @@ impl VisitMut for NewTarget {
                         ..
                     },
             }) => {
-                if let Some(cur) = self.cur.clone() {
-                    if self.in_method {
-                        *e = *undefined(DUMMY_SP)
-                    } else {
+                if self.in_method {
+                    *e = *undefined(DUMMY_SP)
+                } else {
+                    if let Some(cur) = self.cur.clone() {
                         let c =
                             ThisExpr { span: DUMMY_SP }.make_member(quote_ident!("constructor"));
 
