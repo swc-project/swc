@@ -4,7 +4,7 @@ use swc_common::{pass::CompilerPass, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Check;
 use swc_ecma_transforms_macros::fast_path;
-use swc_ecma_utils::{private_ident, quote_ident, undefined, ExprFactory};
+use swc_ecma_utils::{prepend, private_ident, quote_ident, undefined, ExprFactory};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
 };
@@ -13,13 +13,15 @@ pub fn new_target() -> impl Fold + VisitMut + CompilerPass {
     as_folder(NewTarget::default())
 }
 
-#[derive(Clone, Default)]
+#[derive(Default)]
 
 struct NewTarget {
     cur: Option<Ident>,
 
     in_constructor: bool,
     in_method: bool,
+
+    var: Option<VarDeclarator>,
 }
 
 #[fast_path(ShouldWork)]
@@ -27,17 +29,21 @@ impl VisitMut for NewTarget {
     noop_visit_mut_type!();
 
     fn visit_mut_class_decl(&mut self, class: &mut ClassDecl) {
-        class.visit_mut_children_with(&mut NewTarget {
-            cur: Some(class.ident.clone()),
-            ..self.clone()
-        });
+        let old = self.cur.take();
+        self.cur = Some(class.ident.clone());
+
+        class.visit_mut_children_with(self);
+
+        self.cur = old;
     }
 
     fn visit_mut_class_expr(&mut self, class: &mut ClassExpr) {
-        class.visit_mut_children_with(&mut NewTarget {
-            cur: class.ident.clone(),
-            ..self.clone()
-        });
+        let old = self.cur.take();
+        self.cur = class.ident.clone();
+
+        class.visit_mut_children_with(self);
+
+        self.cur = old;
     }
 
     fn visit_mut_class_method(&mut self, c: &mut ClassMethod) {
@@ -113,10 +119,12 @@ impl VisitMut for NewTarget {
     fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
         // #[fast_path] ensures that `f` contains `new.target`.
 
-        f.visit_mut_children_with(&mut NewTarget {
-            cur: Some(f.ident.clone()),
-            ..self.clone()
-        });
+        let old = self.cur.take();
+        self.cur = Some(f.ident.clone());
+
+        f.visit_mut_children_with(self);
+
+        self.cur = old;
     }
 
     fn visit_mut_fn_expr(&mut self, f: &mut FnExpr) {
@@ -127,10 +135,12 @@ impl VisitMut for NewTarget {
             .get_or_insert_with(|| private_ident!("_target"))
             .clone();
 
-        f.visit_mut_children_with(&mut NewTarget {
-            cur: Some(i),
-            ..self.clone()
-        });
+        let old = self.cur.take();
+        self.cur = Some(i.clone());
+
+        f.visit_mut_children_with(self);
+
+        self.cur = old;
     }
 
     fn visit_mut_method_prop(&mut self, m: &mut MethodProp) {
@@ -141,6 +151,38 @@ impl VisitMut for NewTarget {
         m.visit_mut_children_with(self);
 
         self.in_method = old;
+    }
+
+    fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
+        stmts.visit_mut_children_with(self);
+
+        if let Some(var) = self.var.take() {
+            prepend(
+                stmts,
+                ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: vec![var],
+                }))),
+            )
+        }
+    }
+
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        stmts.visit_mut_children_with(self);
+
+        if let Some(var) = self.var.take() {
+            prepend(
+                stmts,
+                Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: vec![var],
+                })),
+            )
+        }
     }
 }
 
