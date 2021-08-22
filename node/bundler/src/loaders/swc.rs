@@ -45,7 +45,7 @@ impl SwcLoader {
             .and_then(|g| Some(g.envs.clone()))
             .unwrap_or_default();
 
-        let mut envs_map: HashMap<String, String> = envs
+        let envs_map: HashMap<String, String> = envs
             .into_iter()
             .map(|name| {
                 let value = env::var(&name).ok();
