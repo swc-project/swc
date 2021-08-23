@@ -76,6 +76,10 @@ impl VisitMut for Prefixer {
         }
 
         match &*n.name.value {
+            "clip-path" => {
+                same_content!("-webkit-clip-path");
+            }
+
             "position" => {
                 if n.values.len() == 1 {
                     match &n.values[0] {
