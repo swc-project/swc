@@ -339,9 +339,9 @@ fn size() {
         "width:-webkit-fill-available;width:-moz-available;width:fill-available;width:stretch;",
     );
     t(
-        "width:stretch !important;",
-        "width:-webkit-fill-available !important;width:-moz-available \
-         !important;width:fill-available !important;width:stretch !important;",
+        "width:stretch!important;",
+        "width:-webkit-fill-available!important;width:-moz-available \
+         !important;width:fill-available!important;width:stretch!important;",
     );
     t(
         "min-block-size:max-content;",
