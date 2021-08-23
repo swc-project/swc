@@ -138,8 +138,8 @@ fn backface_visibility() {
 fn transition() {
     t(
         "transition:transform 1s,transform all 400ms,text-transform;",
-        "-webkit-transition:-webkit-transform 1s,-webkit-transform all \
-         400ms,text-transform;transition:transform 1s,transform all 400ms,text-transform;",
+        "-webkit-transition:-webkit-transform 1s, -webkit-transform all 400ms, \
+         text-transform;transition:transform 1s, transform all 400ms, text-transform;",
     );
 }
 
