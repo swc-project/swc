@@ -25,24 +25,13 @@ impl Prefixer {
                         },
                         args: f.args.clone(),
                     });
-                    let pointer = Value::Text(Text {
-                        span: DUMMY_SP,
-                        value: "pointer".into(),
-                    });
                     self.added.push(Property {
                         span: DUMMY_SP,
                         name: Text {
                             span: DUMMY_SP,
                             value: "cursor".into(),
                         },
-                        values: {
-                            let val = Value::Comma(CommaValues {
-                                span: DUMMY_SP,
-                                values: vec![val, pointer.clone()],
-                            });
-
-                            vec![val]
-                        },
+                        values: vec![val],
                         important,
                     });
                 }
