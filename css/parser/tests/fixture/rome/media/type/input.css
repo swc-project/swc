@@ -1,0 +1,7 @@
+@media screen {}
+@media not screen {}
+@media only screen {}
+@media print, screen {}
+@media screen, all, print {}
+@media only screen, not all, only print {}
+

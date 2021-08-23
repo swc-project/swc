@@ -1,0 +1,102 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/Gt3Lw4L5Pe4aLLDPz9cxRg/input.css:1:1
+  |
+1 | .decl { a: b; c: d }
+  | ^^^^^^^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/Gt3Lw4L5Pe4aLLDPz9cxRg/input.css:1:1
+  |
+1 | .decl { a: b; c: d }
+  | ^^^^^^^^^^^^^^^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/esbuild/misc/Gt3Lw4L5Pe4aLLDPz9cxRg/input.css:1:1
+  |
+1 | .decl { a: b; c: d }
+  | ^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/Gt3Lw4L5Pe4aLLDPz9cxRg/input.css:1:1
+  |
+1 | .decl { a: b; c: d }
+  | ^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/Gt3Lw4L5Pe4aLLDPz9cxRg/input.css:1:1
+  |
+1 | .decl { a: b; c: d }
+  | ^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/esbuild/misc/Gt3Lw4L5Pe4aLLDPz9cxRg/input.css:1:1
+  |
+1 | .decl { a: b; c: d }
+  | ^^^^^
+
+error: ClassSelector
+ --> $DIR/tests/fixture/esbuild/misc/Gt3Lw4L5Pe4aLLDPz9cxRg/input.css:1:1
+  |
+1 | .decl { a: b; c: d }
+  | ^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/Gt3Lw4L5Pe4aLLDPz9cxRg/input.css:1:2
+  |
+1 | .decl { a: b; c: d }
+  |  ^^^^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/Gt3Lw4L5Pe4aLLDPz9cxRg/input.css:1:7
+  |
+1 | .decl { a: b; c: d }
+  |       ^^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/esbuild/misc/Gt3Lw4L5Pe4aLLDPz9cxRg/input.css:1:9
+  |
+1 | .decl { a: b; c: d }
+  |         ^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/Gt3Lw4L5Pe4aLLDPz9cxRg/input.css:1:9
+  |
+1 | .decl { a: b; c: d }
+  |         ^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/Gt3Lw4L5Pe4aLLDPz9cxRg/input.css:1:12
+  |
+1 | .decl { a: b; c: d }
+  |            ^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/Gt3Lw4L5Pe4aLLDPz9cxRg/input.css:1:12
+  |
+1 | .decl { a: b; c: d }
+  |            ^
+
+error: Property
+ --> $DIR/tests/fixture/esbuild/misc/Gt3Lw4L5Pe4aLLDPz9cxRg/input.css:1:15
+  |
+1 | .decl { a: b; c: d }
+  |               ^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/Gt3Lw4L5Pe4aLLDPz9cxRg/input.css:1:15
+  |
+1 | .decl { a: b; c: d }
+  |               ^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/Gt3Lw4L5Pe4aLLDPz9cxRg/input.css:1:18
+  |
+1 | .decl { a: b; c: d }
+  |                  ^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/Gt3Lw4L5Pe4aLLDPz9cxRg/input.css:1:18
+  |
+1 | .decl { a: b; c: d }
+  |                  ^
+

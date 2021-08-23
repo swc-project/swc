@@ -1,0 +1,1 @@
+div::before::after::selection::first-line::first-letter {color:red}

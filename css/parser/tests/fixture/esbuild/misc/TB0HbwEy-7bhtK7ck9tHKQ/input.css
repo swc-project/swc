@@ -1,0 +1,1 @@
+@keyframes name{from{color:red}to{color:blue}}

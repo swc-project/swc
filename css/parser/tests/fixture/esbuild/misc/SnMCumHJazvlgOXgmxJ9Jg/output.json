@@ -1,0 +1,47 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 0,
+    "end": 11,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "UnknownAtRule",
+      "span": {
+        "start": 0,
+        "end": 11,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Text",
+        "span": {
+          "start": 0,
+          "end": 8,
+          "ctxt": 0
+        },
+        "value": "unknown"
+      },
+      "tokens": {
+        "type": "Tokens",
+        "span": {
+          "start": 9,
+          "end": 11,
+          "ctxt": 0
+        },
+        "tokens": [
+          {
+            "span": {
+              "start": 9,
+              "end": 10,
+              "ctxt": 0
+            },
+            "token": {
+              "Ident": "x"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

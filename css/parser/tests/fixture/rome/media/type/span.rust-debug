@@ -1,0 +1,348 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/rome/media/type/input.css:1:1
+  |
+1 | / @media screen {}
+2 | | @media not screen {}
+3 | | @media only screen {}
+4 | | @media print, screen {}
+5 | | @media screen, all, print {}
+6 | | @media only screen, not all, only print {}
+7 | |
+  | |_^
+
+error: Rule
+ --> $DIR/tests/fixture/rome/media/type/input.css:1:1
+  |
+1 | @media screen {}
+  | ^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/rome/media/type/input.css:1:1
+  |
+1 | @media screen {}
+  | ^^^^^^^^^^^^^^^^
+
+error: MediaRule
+ --> $DIR/tests/fixture/rome/media/type/input.css:1:1
+  |
+1 | @media screen {}
+  | ^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/rome/media/type/input.css:1:8
+  |
+1 | @media screen {}
+  |        ^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/media/type/input.css:1:8
+  |
+1 | @media screen {}
+  |        ^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/rome/media/type/input.css:2:1
+  |
+2 | @media not screen {}
+  | ^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/rome/media/type/input.css:2:1
+  |
+2 | @media not screen {}
+  | ^^^^^^^^^^^^^^^^^^^^
+
+error: MediaRule
+ --> $DIR/tests/fixture/rome/media/type/input.css:2:1
+  |
+2 | @media not screen {}
+  | ^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/rome/media/type/input.css:2:8
+  |
+2 | @media not screen {}
+  |        ^^^^^^^^^^^
+
+error: NotMediaQuery
+ --> $DIR/tests/fixture/rome/media/type/input.css:2:8
+  |
+2 | @media not screen {}
+  |        ^^^^^^^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/rome/media/type/input.css:2:12
+  |
+2 | @media not screen {}
+  |            ^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/media/type/input.css:2:12
+  |
+2 | @media not screen {}
+  |            ^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/rome/media/type/input.css:3:1
+  |
+3 | @media only screen {}
+  | ^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/rome/media/type/input.css:3:1
+  |
+3 | @media only screen {}
+  | ^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaRule
+ --> $DIR/tests/fixture/rome/media/type/input.css:3:1
+  |
+3 | @media only screen {}
+  | ^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/rome/media/type/input.css:3:8
+  |
+3 | @media only screen {}
+  |        ^^^^^^^^^^^^
+
+error: OnlyMediaQuery
+ --> $DIR/tests/fixture/rome/media/type/input.css:3:8
+  |
+3 | @media only screen {}
+  |        ^^^^^^^^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/rome/media/type/input.css:3:13
+  |
+3 | @media only screen {}
+  |             ^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/media/type/input.css:3:13
+  |
+3 | @media only screen {}
+  |             ^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/rome/media/type/input.css:4:1
+  |
+4 | @media print, screen {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/rome/media/type/input.css:4:1
+  |
+4 | @media print, screen {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaRule
+ --> $DIR/tests/fixture/rome/media/type/input.css:4:1
+  |
+4 | @media print, screen {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/rome/media/type/input.css:4:8
+  |
+4 | @media print, screen {}
+  |        ^^^^^^^^^^^^^^
+
+error: CommaMediaQuery
+ --> $DIR/tests/fixture/rome/media/type/input.css:4:8
+  |
+4 | @media print, screen {}
+  |        ^^^^^^^^^^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/rome/media/type/input.css:4:8
+  |
+4 | @media print, screen {}
+  |        ^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/media/type/input.css:4:8
+  |
+4 | @media print, screen {}
+  |        ^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/rome/media/type/input.css:4:15
+  |
+4 | @media print, screen {}
+  |               ^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/media/type/input.css:4:15
+  |
+4 | @media print, screen {}
+  |               ^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/rome/media/type/input.css:5:1
+  |
+5 | @media screen, all, print {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/rome/media/type/input.css:5:1
+  |
+5 | @media screen, all, print {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaRule
+ --> $DIR/tests/fixture/rome/media/type/input.css:5:1
+  |
+5 | @media screen, all, print {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/rome/media/type/input.css:5:8
+  |
+5 | @media screen, all, print {}
+  |        ^^^^^^^^^^^^^^^^^^^
+
+error: CommaMediaQuery
+ --> $DIR/tests/fixture/rome/media/type/input.css:5:8
+  |
+5 | @media screen, all, print {}
+  |        ^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/rome/media/type/input.css:5:8
+  |
+5 | @media screen, all, print {}
+  |        ^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/media/type/input.css:5:8
+  |
+5 | @media screen, all, print {}
+  |        ^^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/rome/media/type/input.css:5:16
+  |
+5 | @media screen, all, print {}
+  |                ^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/media/type/input.css:5:16
+  |
+5 | @media screen, all, print {}
+  |                ^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/rome/media/type/input.css:5:21
+  |
+5 | @media screen, all, print {}
+  |                     ^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/media/type/input.css:5:21
+  |
+5 | @media screen, all, print {}
+  |                     ^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/rome/media/type/input.css:6:1
+  |
+6 | @media only screen, not all, only print {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/rome/media/type/input.css:6:1
+  |
+6 | @media only screen, not all, only print {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaRule
+ --> $DIR/tests/fixture/rome/media/type/input.css:6:1
+  |
+6 | @media only screen, not all, only print {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/rome/media/type/input.css:6:8
+  |
+6 | @media only screen, not all, only print {}
+  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: OnlyMediaQuery
+ --> $DIR/tests/fixture/rome/media/type/input.css:6:8
+  |
+6 | @media only screen, not all, only print {}
+  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/rome/media/type/input.css:6:13
+  |
+6 | @media only screen, not all, only print {}
+  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CommaMediaQuery
+ --> $DIR/tests/fixture/rome/media/type/input.css:6:13
+  |
+6 | @media only screen, not all, only print {}
+  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/rome/media/type/input.css:6:13
+  |
+6 | @media only screen, not all, only print {}
+  |             ^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/media/type/input.css:6:13
+  |
+6 | @media only screen, not all, only print {}
+  |             ^^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/rome/media/type/input.css:6:21
+  |
+6 | @media only screen, not all, only print {}
+  |                     ^^^^^^^
+
+error: NotMediaQuery
+ --> $DIR/tests/fixture/rome/media/type/input.css:6:21
+  |
+6 | @media only screen, not all, only print {}
+  |                     ^^^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/rome/media/type/input.css:6:25
+  |
+6 | @media only screen, not all, only print {}
+  |                         ^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/media/type/input.css:6:25
+  |
+6 | @media only screen, not all, only print {}
+  |                         ^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/rome/media/type/input.css:6:30
+  |
+6 | @media only screen, not all, only print {}
+  |                              ^^^^^^^^^^^
+
+error: OnlyMediaQuery
+ --> $DIR/tests/fixture/rome/media/type/input.css:6:30
+  |
+6 | @media only screen, not all, only print {}
+  |                              ^^^^^^^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/rome/media/type/input.css:6:35
+  |
+6 | @media only screen, not all, only print {}
+  |                                   ^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/media/type/input.css:6:35
+  |
+6 | @media only screen, not all, only print {}
+  |                                   ^^^^^
+

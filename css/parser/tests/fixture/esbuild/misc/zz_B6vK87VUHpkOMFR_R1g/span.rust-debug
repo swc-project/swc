@@ -1,0 +1,84 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1
+  |
+1 | a { value: 10e\32x }
+  | ^^^^^^^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1
+  |
+1 | a { value: 10e\32x }
+  | ^^^^^^^^^^^^^^^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1
+  |
+1 | a { value: 10e\32x }
+  | ^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1
+  |
+1 | a { value: 10e\32x }
+  | ^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1
+  |
+1 | a { value: 10e\32x }
+  | ^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1
+  |
+1 | a { value: 10e\32x }
+  | ^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1
+  |
+1 | a { value: 10e\32x }
+  | ^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:3
+  |
+1 | a { value: 10e\32x }
+  |   ^^^^^^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:5
+  |
+1 | a { value: 10e\32x }
+  |     ^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:5
+  |
+1 | a { value: 10e\32x }
+  |     ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:12
+  |
+1 | a { value: 10e\32x }
+  |            ^^^^^^^
+
+error: UnitValue
+ --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:12
+  |
+1 | a { value: 10e\32x }
+  |            ^^^^^^^
+
+error: Num
+ --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:12
+  |
+1 | a { value: 10e\32x }
+  |            ^^
+
+error: Unit
+ --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:14
+  |
+1 | a { value: 10e\32x }
+  |              ^^^^^
+

@@ -1,0 +1,1 @@
+@document url("https://www.example.com/") { h1 { color: green } }

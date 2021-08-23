@@ -1,0 +1,148 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1
+  |
+1 | / @unknown{
+2 | | a: b;
+3 | | c: d;
+4 | | }
+  | |_^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1
+  |
+1 | / @unknown{
+2 | | a: b;
+3 | | c: d;
+4 | | }
+  | |_^
+
+error: AtRule
+ --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1
+  |
+1 | / @unknown{
+2 | | a: b;
+3 | | c: d;
+4 | | }
+  | |_^
+
+error: UnknownAtRule
+ --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1
+  |
+1 | / @unknown{
+2 | | a: b;
+3 | | c: d;
+4 | | }
+  | |_^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1
+  |
+1 | @unknown{
+  | ^^^^^^^^
+
+error: Tokens
+ --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:9
+  |
+1 |   @unknown{
+  |  _________^
+2 | | a: b;
+3 | | c: d;
+4 | | }
+  | |_^
+
+error: LBrace
+ --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:9
+  |
+1 | @unknown{
+  |         ^
+
+error: WhiteSpace
+ --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:10
+  |
+1 |   @unknown{
+  |  __________^
+2 | | a: b;
+  | |_
+
+error: Ident(Atom('a' type=inline))
+ --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1
+  |
+2 | a: b;
+  | ^
+
+error: Colon
+ --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:2
+  |
+2 | a: b;
+  |  ^
+
+error: WhiteSpace
+ --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:3
+  |
+2 | a: b;
+  |   ^
+
+error: Ident(Atom('b' type=inline))
+ --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:4
+  |
+2 | a: b;
+  |    ^
+
+error: Semi
+ --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:5
+  |
+2 | a: b;
+  |     ^
+
+error: WhiteSpace
+ --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:6
+  |
+2 |   a: b;
+  |  ______^
+3 | | c: d;
+  | |_
+
+error: Ident(Atom('c' type=inline))
+ --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:1
+  |
+3 | c: d;
+  | ^
+
+error: Colon
+ --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:2
+  |
+3 | c: d;
+  |  ^
+
+error: WhiteSpace
+ --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:3
+  |
+3 | c: d;
+  |   ^
+
+error: Ident(Atom('d' type=inline))
+ --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:4
+  |
+3 | c: d;
+  |    ^
+
+error: Semi
+ --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:5
+  |
+3 | c: d;
+  |     ^
+
+error: WhiteSpace
+ --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:6
+  |
+3 |   c: d;
+  |  ______^
+4 | | }
+  | |_
+
+error: RBrace
+ --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:4:1
+  |
+4 | }
+  | ^
+

@@ -1,0 +1,78 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:1
+  |
+1 | a { value: @\6beyword }
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:1
+  |
+1 | a { value: @\6beyword }
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:1
+  |
+1 | a { value: @\6beyword }
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:1
+  |
+1 | a { value: @\6beyword }
+  | ^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:1
+  |
+1 | a { value: @\6beyword }
+  | ^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:1
+  |
+1 | a { value: @\6beyword }
+  | ^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:1
+  |
+1 | a { value: @\6beyword }
+  | ^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:3
+  |
+1 | a { value: @\6beyword }
+  |   ^^^^^^^^^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:5
+  |
+1 | a { value: @\6beyword }
+  |     ^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:5
+  |
+1 | a { value: @\6beyword }
+  |     ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:12
+  |
+1 | a { value: @\6beyword }
+  |            ^^^^^^^^^^
+
+error: AtTextValue
+ --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:12
+  |
+1 | a { value: @\6beyword }
+  |            ^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:12
+  |
+1 | a { value: @\6beyword }
+  |            ^^^^^^^^^^
+

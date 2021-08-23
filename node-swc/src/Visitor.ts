@@ -37,7 +37,7 @@ import {
   ExportDefaultExpression,
   ExportDefaultSpecifier,
   ExportNamedDeclaration,
-  ExportNamespaceSpecifer,
+  ExportNamespaceSpecifier,
   ExportSpecifier,
   Expression,
   ExpressionStatement,
@@ -287,7 +287,7 @@ export default class Visitor {
     switch (n.type) {
       case "ExportDefaultSpecifier":
         return this.visitExportDefaultSpecifier(n);
-      case "ExportNamespaceSpecifer":
+      case "ExportNamespaceSpecifier":
         return this.visitExportNamespaceSpecifier(n);
       case "ExportSpecifier":
         return this.visitNamedExportSpecifier(n);
@@ -301,7 +301,7 @@ export default class Visitor {
     return n;
   }
 
-  visitExportNamespaceSpecifier(n: ExportNamespaceSpecifer): ExportSpecifier {
+  visitExportNamespaceSpecifier(n: ExportNamespaceSpecifier): ExportSpecifier {
     n.name = this.visitBindingIdentifier(n.name);
     return n;
   }

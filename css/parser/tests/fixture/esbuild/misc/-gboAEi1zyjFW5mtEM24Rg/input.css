@@ -1,0 +1,1 @@
+a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }

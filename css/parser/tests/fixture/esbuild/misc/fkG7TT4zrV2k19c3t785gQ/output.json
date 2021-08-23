@@ -1,0 +1,28 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 0,
+    "end": 28,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 0,
+        "end": 28,
+        "ctxt": 0
+      },
+      "query": {
+        "type": "Text",
+        "span": {
+          "start": 7,
+          "end": 25,
+          "ctxt": 0
+        },
+        "value": "\u0000screen,screen\t"
+      },
+      "rules": []
+    }
+  ]
+}

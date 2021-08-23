@@ -1,0 +1,6 @@
+error: Expected ")"
+ --> $DIR/tests/errors/rome/invalid/fit-content/invalid-call/input.css:2:45
+  |
+2 |     grid-template-columns: fit-content("broken";
+  |                                                ^
+

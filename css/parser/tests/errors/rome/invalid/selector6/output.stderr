@@ -1,0 +1,6 @@
+error: Expected "]"
+ --> $DIR/tests/errors/rome/invalid/selector6/input.css:1:8
+  |
+1 | a[title%="title"] {
+  |        ^
+

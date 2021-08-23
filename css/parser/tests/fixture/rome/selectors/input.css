@@ -1,0 +1,39 @@
+div, div + #id, div ~ #id, div > #id {
+
+}
+
+.escaped\.class\.name {
+
+}
+
+.class + * {
+
+}
+
+a[title] {
+  color: purple;
+}
+
+a[title = "title"] {
+  color: purple;
+}
+
+a[title~="title" i] {
+  color: purple;
+}
+
+a[title = "title"][href*="image/*" S] {
+	color: purple;
+}
+
+p:nth-last-of-type(2) {
+}
+
+:lang(en, ko) {
+}
+
+::pseudo-elem() {
+}
+
+::pseudo-elem(a, b) {
+}

@@ -1,0 +1,186 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: KeyframesRule
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:12
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  |            ^^^^
+
+error: KeyframeBlock
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:19
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  |                   ^^^^^^^^^^^^^^^^^^^^^^
+
+error: KeyframeSelector
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:19
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  |                   ^^
+
+error: PercentValue
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:19
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  |                   ^^
+
+error: Num
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:19
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  |                   ^
+
+error: KeyframeSelector
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:23
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  |                       ^^^
+
+error: PercentValue
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:23
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  |                       ^^^
+
+error: Num
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:23
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  |                       ^^
+
+error: KeyframeBlockRule
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:27
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  |                           ^^^^^^^^^^^^^^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:27
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  |                           ^^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:29
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  |                             ^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:29
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  |                             ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:36
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  |                                    ^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:36
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  |                                    ^^^
+
+error: KeyframeBlock
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:42
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  |                                          ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: KeyframeSelector
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:42
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  |                                          ^^^
+
+error: PercentValue
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:42
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  |                                          ^^^
+
+error: Num
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:42
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  |                                          ^^
+
+error: KeyframeSelector
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:47
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  |                                               ^^^
+
+error: PercentValue
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:47
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  |                                               ^^^
+
+error: Num
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:47
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  |                                               ^^
+
+error: KeyframeBlockRule
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:51
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  |                                                   ^^^^^^^^^^^^^^^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:51
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  |                                                   ^^^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:53
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  |                                                     ^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:53
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  |                                                     ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:60
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  |                                                            ^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:60
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  |                                                            ^^^^
+

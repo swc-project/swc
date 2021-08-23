@@ -1,0 +1,4 @@
+.style {
+	grid-template-columns: repeat(auto, 1r);
+}
+

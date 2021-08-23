@@ -1,0 +1,1 @@
+@-ms-keyframes name {}

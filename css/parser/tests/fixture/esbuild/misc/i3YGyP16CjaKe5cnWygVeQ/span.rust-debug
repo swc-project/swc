@@ -1,0 +1,30 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/i3YGyP16CjaKe5cnWygVeQ/input.css:1:1
+  |
+1 | @import url();
+  | ^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/i3YGyP16CjaKe5cnWygVeQ/input.css:1:1
+  |
+1 | @import url();
+  | ^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/esbuild/misc/i3YGyP16CjaKe5cnWygVeQ/input.css:1:1
+  |
+1 | @import url();
+  | ^^^^^^^^^^^^^^
+
+error: ImportRule
+ --> $DIR/tests/fixture/esbuild/misc/i3YGyP16CjaKe5cnWygVeQ/input.css:1:1
+  |
+1 | @import url();
+  | ^^^^^^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/esbuild/misc/i3YGyP16CjaKe5cnWygVeQ/input.css:1:9
+  |
+1 | @import url();
+  |         ^^^^^
+

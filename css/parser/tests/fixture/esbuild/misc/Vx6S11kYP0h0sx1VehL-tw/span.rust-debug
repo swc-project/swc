@@ -1,0 +1,60 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/Vx6S11kYP0h0sx1VehL-tw/input.css:1:1
+  |
+1 | @keyframes a\62 c { from {} }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/Vx6S11kYP0h0sx1VehL-tw/input.css:1:1
+  |
+1 | @keyframes a\62 c { from {} }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/esbuild/misc/Vx6S11kYP0h0sx1VehL-tw/input.css:1:1
+  |
+1 | @keyframes a\62 c { from {} }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: KeyframesRule
+ --> $DIR/tests/fixture/esbuild/misc/Vx6S11kYP0h0sx1VehL-tw/input.css:1:1
+  |
+1 | @keyframes a\62 c { from {} }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/Vx6S11kYP0h0sx1VehL-tw/input.css:1:12
+  |
+1 | @keyframes a\62 c { from {} }
+  |            ^^^^^^
+
+error: KeyframeBlock
+ --> $DIR/tests/fixture/esbuild/misc/Vx6S11kYP0h0sx1VehL-tw/input.css:1:21
+  |
+1 | @keyframes a\62 c { from {} }
+  |                     ^^^^^^^
+
+error: KeyframeSelector
+ --> $DIR/tests/fixture/esbuild/misc/Vx6S11kYP0h0sx1VehL-tw/input.css:1:21
+  |
+1 | @keyframes a\62 c { from {} }
+  |                     ^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/Vx6S11kYP0h0sx1VehL-tw/input.css:1:21
+  |
+1 | @keyframes a\62 c { from {} }
+  |                     ^^^^
+
+error: KeyframeBlockRule
+ --> $DIR/tests/fixture/esbuild/misc/Vx6S11kYP0h0sx1VehL-tw/input.css:1:26
+  |
+1 | @keyframes a\62 c { from {} }
+  |                          ^^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/Vx6S11kYP0h0sx1VehL-tw/input.css:1:26
+  |
+1 | @keyframes a\62 c { from {} }
+  |                          ^^
+

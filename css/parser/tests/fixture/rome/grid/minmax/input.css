@@ -1,0 +1,3 @@
+.style {
+	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
+}

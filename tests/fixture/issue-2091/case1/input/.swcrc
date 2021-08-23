@@ -1,0 +1,15 @@
+{
+    "jsc": {
+        "loose": true,
+        "parser": {
+            "syntax": "ecmascript",
+            "classPrivateProperty": true
+        },
+        "target": "es3",
+        "minify": {
+            "compress": true,
+            "mangle": false
+        }
+    },
+    "minify": true
+}

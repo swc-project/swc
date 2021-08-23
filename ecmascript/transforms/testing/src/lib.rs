@@ -3,7 +3,7 @@ use anyhow::{bail, Context, Error};
 use serde::de::DeserializeOwned;
 use std::{
     env,
-    fs::{create_dir_all, read_to_string, remove_dir_all, OpenOptions},
+    fs::{create_dir_all, read_to_string, OpenOptions},
     io::{self, Write},
     mem::{replace, take},
     path::Path,
@@ -427,9 +427,6 @@ where
             .join("target")
             .join("testing")
             .join(test_name);
-
-        // Remove outputs from previous tests
-        let _ = remove_dir_all(&root);
 
         create_dir_all(&root).expect("failed to create parent directory for temp directory");
 

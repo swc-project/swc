@@ -573,6 +573,7 @@ _defineProperty
 _extends
 _toConsumableArray
 abstract
+and
 any
 apply
 arguments
@@ -616,6 +617,7 @@ global
 if
 implements
 import
+important
 in
 infer
 instanceof
@@ -633,10 +635,13 @@ module
 namespace
 never
 new
+not
 null
 number
 object
 of
+only
+or
 override
 package
 private

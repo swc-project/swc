@@ -1,0 +1,92 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/6kUhG0W7hwZxIuaCsZ7pHg/input.css:1:1
+  |
+1 | a:after { content: 'a\62 c' }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/6kUhG0W7hwZxIuaCsZ7pHg/input.css:1:1
+  |
+1 | a:after { content: 'a\62 c' }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/esbuild/misc/6kUhG0W7hwZxIuaCsZ7pHg/input.css:1:1
+  |
+1 | a:after { content: 'a\62 c' }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/6kUhG0W7hwZxIuaCsZ7pHg/input.css:1:1
+  |
+1 | a:after { content: 'a\62 c' }
+  | ^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/6kUhG0W7hwZxIuaCsZ7pHg/input.css:1:1
+  |
+1 | a:after { content: 'a\62 c' }
+  | ^^^^^^^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/esbuild/misc/6kUhG0W7hwZxIuaCsZ7pHg/input.css:1:1
+  |
+1 | a:after { content: 'a\62 c' }
+  | ^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/6kUhG0W7hwZxIuaCsZ7pHg/input.css:1:1
+  |
+1 | a:after { content: 'a\62 c' }
+  | ^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/esbuild/misc/6kUhG0W7hwZxIuaCsZ7pHg/input.css:1:2
+  |
+1 | a:after { content: 'a\62 c' }
+  |  ^^^^^^
+
+error: PseudoSelector
+ --> $DIR/tests/fixture/esbuild/misc/6kUhG0W7hwZxIuaCsZ7pHg/input.css:1:2
+  |
+1 | a:after { content: 'a\62 c' }
+  |  ^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/6kUhG0W7hwZxIuaCsZ7pHg/input.css:1:3
+  |
+1 | a:after { content: 'a\62 c' }
+  |   ^^^^^
+
+error: Tokens
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/6kUhG0W7hwZxIuaCsZ7pHg/input.css:1:9
+  |
+1 | a:after { content: 'a\62 c' }
+  |         ^^^^^^^^^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/esbuild/misc/6kUhG0W7hwZxIuaCsZ7pHg/input.css:1:11
+  |
+1 | a:after { content: 'a\62 c' }
+  |           ^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/6kUhG0W7hwZxIuaCsZ7pHg/input.css:1:11
+  |
+1 | a:after { content: 'a\62 c' }
+  |           ^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/6kUhG0W7hwZxIuaCsZ7pHg/input.css:1:20
+  |
+1 | a:after { content: 'a\62 c' }
+  |                    ^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/esbuild/misc/6kUhG0W7hwZxIuaCsZ7pHg/input.css:1:20
+  |
+1 | a:after { content: 'a\62 c' }
+  |                    ^^^^^^^^
+
