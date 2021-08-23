@@ -102,6 +102,10 @@ impl VisitMut for Prefixer {
                 same_content!("-webkit-animation-timing-function");
             }
 
+            "background-clip" => {
+                same_content!("-webkit-background-clip");
+            }
+
             "box-decoration-break" => {
                 same_content!("-webkit-box-decoration-break");
             }
