@@ -58,7 +58,8 @@ impl VisitMut for Prefixer {
         }
 
         match &*n.name.value {
-            "min-width" | "width" | "max-width" | "min-height" | "height" | "max-height" => {
+            "min-width" | "width" | "max-width" | "min-height" | "height" | "max-height"
+            | "min-block-size" | "min-inline-size" => {
                 if n.values.len() == 1 {
                     match &n.values[0] {
                         Value::Text(Text { value, .. }) => {
