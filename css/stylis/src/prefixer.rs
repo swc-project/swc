@@ -27,6 +27,24 @@ impl VisitMut for Prefixer {
     fn visit_mut_property(&mut self, n: &mut Property) {
         n.visit_mut_children_with(self);
 
+        macro_rules! simple {
+            ($name:expr,$val:expr) => {{
+                let val = Value::Text(Text {
+                    span: DUMMY_SP,
+                    value: $val.into(),
+                });
+                self.added.push(Property {
+                    span: n.span,
+                    name: Text {
+                        span: n.name.span,
+                        value: $name.into(),
+                    },
+                    values: vec![val],
+                    important: n.important.clone(),
+                });
+            }};
+        }
+
         macro_rules! same_content {
             ($name:expr) => {{
                 self.added.push(Property {
@@ -65,6 +83,21 @@ impl VisitMut for Prefixer {
                             "none" => {
                                 same_content!("-webkit-writing-mode");
                                 same_content!("-ms-writing-mode");
+                            }
+
+                            "vertical-lr" | "sideways-lr" => {
+                                same_content!("-webkit-writing-mode");
+                                simple!("-ms-writing-mode", "tb");
+                            }
+
+                            "vertical-rl" | "sideways-rl" => {
+                                same_content!("-webkit-writing-mode");
+                                simple!("-ms-writing-mode", "tb-rl");
+                            }
+
+                            "horizontal-tb" => {
+                                same_content!("-webkit-writing-mode");
+                                simple!("-ms-writing-mode", "lr");
                             }
 
                             _ => {}
