@@ -159,12 +159,6 @@ impl<'a> VarAnalyzer<'a> {
             }
         }
     }
-
-    fn visit_par<N>(&mut self, node: &[N])
-    where
-        N: for<'aa> VisitWith<VarAnalyzer<'aa>> + VisitWith<BindingCollector<Id>>,
-    {
-    }
 }
 
 impl Visit for VarAnalyzer<'_> {

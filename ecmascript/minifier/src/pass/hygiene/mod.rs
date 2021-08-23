@@ -1,15 +1,11 @@
 use self::var_analyzer::{analyze, ScopeData};
-use crate::{
-    pass::hygiene::analyzer::{HygieneAnalyzer, HygieneData},
-    util::now,
-};
+use crate::util::now;
 use std::time::Instant;
-use swc_common::{Mark, SyntaxContext, DUMMY_SP};
+use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
-mod analyzer;
 mod var_analyzer;
 
 /// Optimize hygiene info to get minified output.
