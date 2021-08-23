@@ -155,11 +155,43 @@ impl VisitMut for Prefixer {
             }
 
             "cursor" => {
-                if n.values.len() == 1 {
+                if n.values.len() >= 1 {
                     match &n.values[0] {
                         Value::Text(Text { value, .. }) => match &**value {
                             "grab" => {
                                 same_name!("-webkit-grab");
+                            }
+
+                            _ => {}
+                        },
+
+                        Value::Fn(f) => match &*f.name.value {
+                            "image-set" => {
+                                let val = Value::Fn(FnValue {
+                                    span: DUMMY_SP,
+                                    name: Text {
+                                        span: DUMMY_SP,
+                                        value: "-webkit-image-set".into(),
+                                    },
+                                    args: f.args.clone(),
+                                });
+                                let pointer = Value::Text(Text {
+                                    span: DUMMY_SP,
+                                    value: "pointer".into(),
+                                });
+                                self.added.push(Property {
+                                    span: n.span,
+                                    name: n.name.clone(),
+                                    values: {
+                                        let val = Value::Comma(CommaValues {
+                                            span: DUMMY_SP,
+                                            values: vec![val, pointer.clone()],
+                                        });
+
+                                        vec![val]
+                                    },
+                                    important: n.important.clone(),
+                                });
                             }
 
                             _ => {}
