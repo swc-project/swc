@@ -76,6 +76,10 @@ impl VisitMut for Prefixer {
         }
 
         match &*n.name.value {
+            "backface-visibility" => {
+                same_content!("-webkit-backface-visibility");
+            }
+
             "clip-path" => {
                 same_content!("-webkit-clip-path");
             }
