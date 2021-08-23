@@ -1,6 +1,7 @@
 use std::{iter::once, mem::take};
 use swc_common::{Span, DUMMY_SP};
 use swc_css_ast::*;
+use swc_css_utils::replace_text;
 use swc_css_visit::{VisitMut, VisitMutWith};
 
 pub fn prefixer() -> impl VisitMut {
@@ -516,6 +517,20 @@ impl VisitMut for Prefixer {
                         _ => {}
                     }
                 }
+            }
+
+            "transition" => {
+                let mut values = n.values.clone();
+                replace_text(&mut values, "transform", "-webkit-transform");
+                self.added.push(Property {
+                    span: n.span,
+                    name: Text {
+                        span: n.name.span,
+                        value: "-webkit-transition".into(),
+                    },
+                    values,
+                    important: n.important.clone(),
+                });
             }
 
             "writing-mode" => {
