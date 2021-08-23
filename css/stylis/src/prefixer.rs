@@ -76,6 +76,27 @@ impl VisitMut for Prefixer {
         }
 
         match &*n.name.value {
+            "position" => {
+                if n.values.len() == 1 {
+                    match &n.values[0] {
+                        Value::Text(Text { value, .. }) => match &**value {
+                            "sticky" => {
+                                same_name!("-webkit-sticky");
+                            }
+
+                            _ => {}
+                        },
+                        _ => {}
+                    }
+                }
+            }
+
+            "user-select" => {
+                same_content!("-webkit-user-select");
+                same_content!("-moz-user-select");
+                same_content!("-ms-user-select");
+            }
+
             "transform" => {
                 same_content!("-webkit-transform");
                 same_content!("-moz-transform");
