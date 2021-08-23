@@ -105,6 +105,10 @@ impl<'a> VarAnalyzer<'a> {
         }
 
         if !self.children.contains_key(&child_depth) {
+            if cfg!(feature = "debug") {
+                log::trace!("Hanlding leaf scope using self (depth = {})", cur_depth);
+            }
+
             self.scope_depth += 1;
             node.visit_children_with(self);
             self.scope_depth -= 1;
