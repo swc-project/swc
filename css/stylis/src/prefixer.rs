@@ -76,6 +76,18 @@ impl VisitMut for Prefixer {
         }
 
         match &*n.name.value {
+            "box-decoration-break" => {
+                same_content!("-webkit-box-decoration-break");
+            }
+
+            "margin-inline-start" => {
+                same_content!("-webkit-margin-start");
+            }
+
+            "margin-inline-end" => {
+                same_content!("-webkit-margin-end");
+            }
+
             "backface-visibility" => {
                 same_content!("-webkit-backface-visibility");
             }
