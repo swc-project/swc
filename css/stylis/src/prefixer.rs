@@ -231,6 +231,49 @@ impl VisitMut for Prefixer {
                 same_content!("-ms-flex-align");
             }
 
+            "justify-content" => {
+                if n.values.len() == 1 {
+                    match &n.values[0] {
+                        Value::Text(Text { value, .. }) => match &**value {
+                            "flex-end" => {
+                                simple!("-webkit-box-pack", "end");
+                                simple!("-ms-flex-pack", "end");
+                            }
+
+                            "flex-start" => {
+                                simple!("-webkit-box-pack", "start");
+                                simple!("-ms-flex-pack", "start");
+                            }
+
+                            "justify" => {
+                                same_content!("-webkit-box-pack");
+                                same_content!("-ms-flex-pack");
+                            }
+
+                            "space-between" => {
+                                simple!("-webkit-box-pack", "justify");
+                            }
+
+                            _ => {}
+                        },
+
+                        _ => {}
+                    }
+                }
+
+                same_content!("-webkit-justify-content");
+            }
+
+            "order" => {
+                same_content!("-webkit-order");
+                same_content!("-ms-flex-order");
+            }
+
+            "flex-direction" => {
+                same_content!("-webkit-flex-direction");
+                same_content!("-ms-flex-direction");
+            }
+
             "filter" => {
                 same_content!("-webkit-filter");
             }
