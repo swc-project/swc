@@ -58,7 +58,7 @@ impl VisitMut for Prefixer {
         }
 
         match &*n.name.value {
-            "min-width" | "width" | "max-width" => {
+            "min-width" | "width" | "max-width" | "min-height" | "height" | "max-height" => {
                 if n.values.len() == 1 {
                     match &n.values[0] {
                         Value::Text(Text { value, .. }) => {
@@ -77,6 +77,17 @@ impl VisitMut for Prefixer {
                                 "min-content" => {
                                     same_name!("-webkit-min-content");
                                     same_name!("-moz-min-content");
+                                }
+
+                                "fill-available" => {
+                                    same_name!("-webkit-fill-available");
+                                    same_name!("-moz-available");
+                                }
+
+                                "stretch" => {
+                                    same_name!("-webkit-fill-available");
+                                    same_name!("-moz-available");
+                                    same_name!("fill-available");
                                 }
 
                                 _ => {}
