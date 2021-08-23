@@ -1,4 +1,4 @@
-use std::mem::take;
+use std::{iter::once, mem::take};
 use swc_common::{Span, DUMMY_SP};
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
@@ -13,7 +13,12 @@ struct Prefixer {
 }
 
 impl Prefixer {
-    fn handle_cursor_image_set(&mut self, v: &mut Value, important: Option<Span>) {
+    fn handle_cursor_image_set(
+        &mut self,
+        v: &mut Value,
+        second: Option<Value>,
+        important: Option<Span>,
+    ) {
         match v {
             Value::Fn(f) => match &*f.name.value {
                 "image-set" => {
@@ -25,13 +30,21 @@ impl Prefixer {
                         },
                         args: f.args.clone(),
                     });
+
                     self.added.push(Property {
                         span: DUMMY_SP,
                         name: Text {
                             span: DUMMY_SP,
                             value: "cursor".into(),
                         },
-                        values: vec![val],
+                        values: {
+                            let val = Value::Comma(CommaValues {
+                                span: DUMMY_SP,
+                                values: once(val).chain(second).collect(),
+                            });
+
+                            vec![val]
+                        },
                         important,
                     });
                 }
@@ -41,7 +54,8 @@ impl Prefixer {
 
             Value::Comma(c) => {
                 if c.values.len() >= 1 {
-                    self.handle_cursor_image_set(&mut c.values[0], important);
+                    let second = c.values.get(1).cloned();
+                    self.handle_cursor_image_set(&mut c.values[0], second, important);
                 }
             }
 
@@ -262,7 +276,8 @@ impl VisitMut for Prefixer {
                         },
 
                         _ => {
-                            self.handle_cursor_image_set(&mut n.values[0], n.important);
+                            let second = n.values.get(1).cloned();
+                            self.handle_cursor_image_set(&mut n.values[0], second, n.important);
                         }
                     }
                 }
