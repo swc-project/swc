@@ -1523,15 +1523,15 @@ export interface NamedImportSpecifier extends Node, HasSpan {
 }
 
 export type ExportSpecifier =
-  | ExportNamespaceSpecifer
+  | ExportNamespaceSpecifier
   | ExportDefaultSpecifier
   | NamedExportSpecifier;
 
 /**
  * `export * as foo from 'src';`
  */
-export interface ExportNamespaceSpecifer extends Node, HasSpan {
-  type: "ExportNamespaceSpecifer";
+export interface ExportNamespaceSpecifier extends Node, HasSpan {
+  type: "ExportNamespaceSpecifier";
 
   name: Identifier;
 }
