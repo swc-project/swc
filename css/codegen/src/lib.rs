@@ -812,7 +812,10 @@ where
     fn write_delim(&mut self, f: ListFormat) -> Result {
         match f & ListFormat::DelimitersMask {
             ListFormat::None => {}
-            ListFormat::CommaDelimited => punct!(self, ","),
+            ListFormat::CommaDelimited => {
+                punct!(self, ",");
+                space!(self);
+            }
             ListFormat::SpaceDelimited => {
                 space!(self)
             }
