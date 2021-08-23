@@ -115,6 +115,8 @@ jobs:
           - swc_css_ast
           - swc_css_codegen
           - swc_css_parser
+          - swc_css_utils
+          - swc_css_visit
           - swc_ecma_ast
           - swc_ecma_codegen
           - swc_ecma_codegen_macros

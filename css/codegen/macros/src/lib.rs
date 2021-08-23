@@ -1,9 +1,7 @@
 extern crate proc_macro;
 
 use pmutil::{smart_quote, Quote, ToTokensExt};
-use syn::{fold::Fold, FnArg, ImplItemMethod, Type, TypeReference};
-
-mod fold;
+use syn::{FnArg, ImplItemMethod, Type, TypeReference};
 
 #[proc_macro_attribute]
 pub fn emitter(
@@ -11,7 +9,6 @@ pub fn emitter(
     item: proc_macro::TokenStream,
 ) -> proc_macro::TokenStream {
     let item: ImplItemMethod = syn::parse(item).expect("failed to parse input as an item");
-    let item = fold::InjectSelf { parser: None }.fold_impl_item_method(item);
     let item = expand(item);
 
     item.dump().into()
