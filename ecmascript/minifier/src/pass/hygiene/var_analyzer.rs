@@ -1,3 +1,5 @@
+use std::cmp::max;
+
 use fxhash::{FxHashMap, FxHashSet};
 use swc_atoms::JsWord;
 use swc_common::{SyntaxContext, DUMMY_SP};
@@ -15,6 +17,7 @@ where
         scope: &mut data,
         children: Default::default(),
         scope_depth: 0,
+        max_depth: 0,
     };
     n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
 
@@ -84,6 +87,7 @@ pub(super) struct VarAnalyzer<'a> {
     scope: &'a mut ScopeData,
     children: FxHashMap<u16, Vec<ScopeData>>,
     scope_depth: u16,
+    max_depth: u16,
 }
 
 impl<'a> VarAnalyzer<'a> {
@@ -93,6 +97,7 @@ impl<'a> VarAnalyzer<'a> {
     {
         let cur_depth = self.scope_depth;
         let child_depth = cur_depth + 1;
+        self.max_depth = max(self.max_depth, cur_depth);
 
         if cfg!(debug_assertions) {
             for (k, _) in self.children.iter() {
@@ -132,8 +137,11 @@ impl<'a> VarAnalyzer<'a> {
                     scope: &mut data,
                     children: Default::default(),
                     scope_depth: child_depth,
+                    max_depth: self.max_depth,
                 };
                 node.visit_children_with(&mut v);
+
+                self.max_depth = max(self.max_depth, v.max_depth);
 
                 self.children.entry(cur_depth).or_default().push(data);
             }
@@ -156,8 +164,11 @@ impl<'a> VarAnalyzer<'a> {
                     scope: &mut data,
                     children: Default::default(),
                     scope_depth: child_depth,
+                    max_depth: self.max_depth,
                 };
                 node.visit_children_with(&mut v);
+
+                self.max_depth = max(self.max_depth, v.max_depth);
 
                 self.children.entry(cur_depth).or_default().push(data);
             }
