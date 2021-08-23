@@ -1,0 +1,3 @@
+a {
+    cursor: image-set(url(foo.jpg) 2x), pointer;
+}

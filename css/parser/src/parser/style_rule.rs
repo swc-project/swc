@@ -1,5 +1,5 @@
 use super::{input::ParserInput, PResult, Parser};
-use crate::parser::Ctx;
+use crate::{parser::Ctx, Parse};
 use swc_common::Span;
 use swc_css_ast::*;
 
@@ -105,5 +105,23 @@ where
         } else {
             Ok(None)
         }
+    }
+}
+
+impl<I> Parse<Property> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Property> {
+        self.parse_property()
+    }
+}
+
+impl<I> Parse<Vec<Property>> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Vec<Property>> {
+        self.parse_properties()
     }
 }

@@ -1,3 +1,5 @@
+use std::iter::once;
+
 use super::{input::ParserInput, Ctx, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
@@ -29,7 +31,12 @@ where
                 break;
             }
 
-            let v = self.parse_one_value()?;
+            let ctx = Ctx {
+                allow_separating_value_with_comma: true,
+                allow_separating_value_with_space: false,
+                ..self.ctx
+            };
+            let v = self.with_ctx(ctx).parse_one_value()?;
             hi = v.span().hi;
             values.push(v);
 
@@ -48,7 +55,7 @@ where
         let span = self.input.cur_span()?;
         let value = self.parse_one_value_inner()?;
 
-        if self.ctx.allow_separating_value_with_space && eat!(self, " ") {
+        let val = if self.ctx.allow_separating_value_with_space && eat!(self, " ") {
             self.input.skip_ws()?;
 
             let mut values = vec![];
@@ -65,13 +72,35 @@ where
                 self.input.skip_ws()?;
             }
 
-            return Ok(Value::Space(SpaceValues {
+            let val = Value::Space(SpaceValues {
                 span: span!(self, span.lo),
                 values,
-            }));
+            });
+
+            val
+        } else {
+            value
+        };
+
+        if self.ctx.allow_separating_value_with_comma && eat!(self, ",") {
+            let next = self.parse_one_value()?;
+            match next {
+                Value::Comma(next) => {
+                    return Ok(Value::Comma(CommaValues {
+                        span: span!(self, span.lo),
+                        values: once(val).chain(next.values).collect(),
+                    }))
+                }
+                _ => {
+                    return Ok(Value::Comma(CommaValues {
+                        span: span!(self, span.lo),
+                        values: vec![val, next],
+                    }))
+                }
+            }
         }
 
-        Ok(value)
+        Ok(val)
     }
 
     /// Parse value as tokens.
@@ -384,6 +413,7 @@ where
             let ctx = Ctx {
                 allow_operation_in_value: true,
                 allow_separating_value_with_space: true,
+                allow_separating_value_with_comma: false,
                 ..self.ctx
             };
             let args = self.with_ctx(ctx).parse_comma_separated_value()?;

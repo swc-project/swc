@@ -38,6 +38,9 @@ pub enum Value {
     #[tag("SpaceValues")]
     Space(SpaceValues),
 
+    #[tag("CommaValues")]
+    Comma(CommaValues),
+
     #[tag("BraceValue")]
     Brace(BraceValue),
 
@@ -55,6 +58,14 @@ pub enum Value {
 #[ast_node("SpaceValues")]
 #[derive(Default)]
 pub struct SpaceValues {
+    pub span: Span,
+    pub values: Vec<Value>,
+}
+
+/// List of values separated by a space.
+#[ast_node("CommaValues")]
+#[derive(Default)]
+pub struct CommaValues {
     pub span: Span,
     pub values: Vec<Value>,
 }

@@ -142,6 +142,7 @@ jobs:
           - swc_macros_common
           - swc_node_base
           - swc_node_bundler
+          - swc_stylis
           - swc_visit
           - swc_visit_macros
           - testing
@@ -238,7 +239,7 @@ jobs:
           profile: minimal
 
       - name: Create rustdoc
-        run: cargo doc
+        run: cargo doc --all
 
       - name: Create CNAME
         run: |

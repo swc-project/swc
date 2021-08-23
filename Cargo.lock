@@ -2300,17 +2300,18 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
  "swc_css_parser",
+ "swc_css_utils",
  "swc_css_visit",
 ]
 
 [[package]]
 name = "swc_css_ast"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "is-macro",
  "serde",
@@ -2321,7 +2322,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -2347,7 +2348,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "bitflags",
  "lexical",
@@ -2362,8 +2363,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_css_utils"
+version = "0.1.0"
+dependencies = [
+ "swc_atoms",
+ "swc_common",
+ "swc_css_ast",
+ "swc_css_visit",
+]
+
+[[package]]
 name = "swc_css_visit"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -2872,6 +2883,20 @@ dependencies = [
  "tempfile",
  "testing",
  "walkdir",
+]
+
+[[package]]
+name = "swc_stylis"
+version = "0.1.0"
+dependencies = [
+ "swc_atoms",
+ "swc_common",
+ "swc_css_ast",
+ "swc_css_codegen",
+ "swc_css_parser",
+ "swc_css_utils",
+ "swc_css_visit",
+ "testing",
 ]
 
 [[package]]

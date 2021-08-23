@@ -18,11 +18,19 @@ macro_rules! punct {
 
 macro_rules! keyword {
     ($g:expr,$span:expr,$n:expr) => {{
-        $g.wr.write_ident(Some($span), $n)?;
+        $g.wr.write_ident(Some($span), $n, false)?;
     }};
 
     ($g:expr,$n:expr) => {{
-        $g.wr.write_ident(None, $n)?;
+        $g.wr.write_ident(None, $n, false)?;
+    }};
+}
+
+macro_rules! formatting_space {
+    ($g:expr) => {{
+        if !$g.config.minify {
+            $g.wr.write_space()?;
+        }
     }};
 }
 

@@ -80,6 +80,8 @@ define!({
 
         Space(SpaceValues),
 
+        Comma(CommaValues),
+
         Brace(BraceValue),
 
         Lazy(Tokens),
@@ -90,6 +92,11 @@ define!({
     }
 
     pub struct SpaceValues {
+        pub span: Span,
+        pub values: Vec<Value>,
+    }
+
+    pub struct CommaValues {
         pub span: Span,
         pub values: Vec<Value>,
     }
