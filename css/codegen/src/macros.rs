@@ -26,6 +26,14 @@ macro_rules! keyword {
     }};
 }
 
+macro_rules! formatting_space {
+    ($g:expr) => {{
+        if !$g.config.minify {
+            $g.wr.write_space()?;
+        }
+    }};
+}
+
 macro_rules! space {
     ($g:expr) => {{
         $g.wr.write_space()?;

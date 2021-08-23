@@ -331,7 +331,7 @@ where
     fn emit_property(&mut self, n: &Property) -> Result {
         emit!(n.name);
         punct!(":");
-        space!();
+        formatting_space!();
         self.emit_list(
             &n.values,
             ListFormat::SpaceDelimited | ListFormat::SingleLine,
