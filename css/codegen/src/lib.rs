@@ -248,22 +248,6 @@ where
     #[emitter]
     fn emit_value(&mut self, n: &Value) -> Result {
         match n {
-            Value::Paren(n) => emit!(n),
-            Value::Unit(n) => emit!(n),
-            Value::Number(n) => emit!(n),
-            Value::Percent(n) => emit!(n),
-            Value::Hash(n) => emit!(n),
-            Value::Text(n) => emit!(n),
-            Value::Str(n) => emit!(n),
-            Value::Fn(n) => emit!(n),
-            Value::Bin(n) => emit!(n),
-            Value::Array(n) => emit!(n),
-            Value::Space(n) => emit!(n),
-            Value::Brace(n) => emit!(n),
-            Value::Lazy(n) => emit!(n),
-            Value::AtText(n) => emit!(n),
-            Value::Url(n) => emit!(n),
-            Value::Comma(n) => emit!(n),
             Value::Paren(n) => emit!(self, n),
             Value::Unit(n) => emit!(self, n),
             Value::Number(n) => emit!(self, n),
@@ -346,9 +330,9 @@ where
 
     #[emitter]
     fn emit_property(&mut self, n: &Property) -> Result {
-        emit!(n.name);
-        punct!(":");
-        formatting_space!();
+        emit!(self, n.name);
+        punct!(self, ":");
+        formatting_space!(self);
         emit!(self, n.name);
         punct!(self, ":");
         formatting_space!(self);
@@ -358,8 +342,8 @@ where
         )?;
 
         if let Some(tok) = n.important {
-            formatting_space!();
-            punct!(tok, "!");
+            formatting_space!(self);
+            punct!(self, tok, "!");
             formatting_space!(self);
             punct!(self, tok, "!");
             self.wr.write_ident(Some(tok), "important", false)?;
@@ -485,11 +469,6 @@ where
     }
 
     #[emitter]
-    fn emit_comma_values(&mut self, n: &CommaValues) -> Result {
-        self.emit_list(&n.values, ListFormat::CommaDelimited)?;
-    }
-
-    #[emitter]
     fn emit_space_values(&mut self, n: &SpaceValues) -> Result {
         self.emit_list(&n.values, ListFormat::SpaceDelimited)?;
     }
@@ -507,7 +486,7 @@ where
             let span = *span;
             match token {
                 Token::AtKeyword(name) => {
-                    punct!(span, "@");
+                    punct!(self, span, "@");
                     punct!(self, span, "@");
                     self.wr.write_ident(Some(span), &name, false)?;
                 }
@@ -539,7 +518,7 @@ where
                 }
                 Token::Url { value } => {
                     self.wr.write_ident(Some(span), "url", false)?;
-                    punct!("(");
+                    punct!(self, "(");
                     punct!(self, "(");
                     self.wr.write_raw(None, &value)?;
                     punct!(self, ")");
@@ -569,7 +548,7 @@ where
                     punct!(self, span, ".");
                 }
                 Token::Hash { value, .. } => {
-                    punct!("#");
+                    punct!(self, "#");
                     punct!(self, "#");
                     self.wr.write_ident(Some(span), &value, true)?;
                 }
