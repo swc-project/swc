@@ -333,17 +333,12 @@ where
         emit!(self, n.name);
         punct!(self, ":");
         formatting_space!(self);
-        emit!(self, n.name);
-        punct!(self, ":");
-        formatting_space!(self);
         self.emit_list(
             &n.values,
             ListFormat::SpaceDelimited | ListFormat::SingleLine,
         )?;
 
         if let Some(tok) = n.important {
-            formatting_space!(self);
-            punct!(self, tok, "!");
             formatting_space!(self);
             punct!(self, tok, "!");
             self.wr.write_ident(Some(tok), "important", false)?;
