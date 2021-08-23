@@ -10,6 +10,8 @@ use swc_css_codegen::{
     CodegenConfig, Emit,
 };
 use swc_css_parser::{parse_file, parser::ParserConfig};
+use swc_css_visit::VisitMutWith;
+use swc_stylis::prefixer::prefixer;
 
 #[test]
 fn flex_box() {
@@ -450,7 +452,7 @@ fn t(src: &str, expected: &str) {
     testing::run_test2(false, |cm, _handler| {
         //
         let fm = cm.new_source_file(FileName::Anon, src.to_string());
-        let props: Vec<Property> = parse_file(
+        let mut props: Vec<Property> = parse_file(
             &fm,
             ParserConfig {
                 parse_values: true,
@@ -458,6 +460,8 @@ fn t(src: &str, expected: &str) {
             },
         )
         .unwrap();
+
+        props.visit_mut_with(&mut prefixer());
 
         let mut wr = String::new();
 
