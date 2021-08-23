@@ -1,5 +1,5 @@
 use std::mem::take;
-
+use swc_common::DUMMY_SP;
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -41,6 +41,22 @@ impl VisitMut for Prefixer {
             }};
         }
 
+        macro_rules! same_name {
+            ($name:expr) => {{
+                let val = Text {
+                    span: DUMMY_SP,
+                    value: $name.into(),
+                };
+
+                self.added.push(Property {
+                    span: n.span,
+                    name: n.name.clone(),
+                    values: vec![Value::Text(val)],
+                    important: n.important.clone(),
+                });
+            }};
+        }
+
         match &*n.name.value {
             "width" => {
                 if n.values.len() == 1 {
@@ -48,8 +64,8 @@ impl VisitMut for Prefixer {
                         Value::Text(Text { value, .. }) => {
                             //
                             if &*value == "fit-content" {
-                                same_content!("-webkit-fit-content");
-                                same_content!("-moz-fit-content");
+                                same_name!("-webkit-fit-content");
+                                same_name!("-moz-fit-content");
                             }
                         }
                         _ => {}
