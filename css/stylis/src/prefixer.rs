@@ -154,6 +154,22 @@ impl VisitMut for Prefixer {
                 same_content!("-webkit-column-width");
             }
 
+            "cursor" => {
+                if n.values.len() == 1 {
+                    match &n.values[0] {
+                        Value::Text(Text { value, .. }) => match &**value {
+                            "grab" => {
+                                same_name!("-webkit-grab");
+                            }
+
+                            _ => {}
+                        },
+
+                        _ => {}
+                    }
+                }
+            }
+
             "filter" => {
                 same_content!("-webkit-filter");
             }
