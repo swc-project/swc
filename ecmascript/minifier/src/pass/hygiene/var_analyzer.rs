@@ -105,7 +105,9 @@ impl<'a> VarAnalyzer<'a> {
         }
 
         if !self.children.contains_key(&child_depth) {
+            self.scope_depth += 1;
             node.visit_children_with(self);
+            self.scope_depth -= 1;
         }
 
         match self.children.remove(&child_depth) {
