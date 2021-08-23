@@ -170,6 +170,67 @@ impl VisitMut for Prefixer {
                 }
             }
 
+            "display" => {
+                if n.values.len() == 1 {
+                    match &n.values[0] {
+                        Value::Text(Text { value, .. }) => match &**value {
+                            "flex" => {
+                                same_name!("-webkit-box");
+                                same_name!("-webkit-flex");
+                                same_name!("-ms-flexbox");
+                            }
+
+                            "inline-flex" => {
+                                same_name!("-webkit-inline-box");
+                                same_name!("-webkit-inline-flex");
+                                same_name!("-ms-inline-flexbox");
+                            }
+
+                            _ => {}
+                        },
+
+                        _ => {}
+                    }
+                }
+            }
+
+            "flex" => {
+                same_content!("-webkit-flex");
+                same_content!("-ms-flex");
+            }
+
+            "flex-grow" => {
+                same_content!("-webkit-box-flex");
+                same_content!("-webkit-flex-grow");
+                same_content!("-ms-flex-positive");
+            }
+
+            "flex-shrink" => {
+                same_content!("-webkit-flex-shrink");
+                same_content!("-ms-flex-negative");
+            }
+
+            "flex-basis" => {
+                same_content!("-webkit-flex-basis");
+                same_content!("-ms-flex-preferred-size");
+            }
+
+            "align-self" => {
+                same_content!("-webkit-align-self");
+                same_content!("-ms-flex-item-align");
+            }
+
+            "align-content" => {
+                same_content!("-webkit-align-content");
+                same_content!("-ms-flex-line-pack");
+            }
+
+            "align-items" => {
+                same_content!("-webkit-align-items");
+                same_content!("-webkit-box-align");
+                same_content!("-ms-flex-align");
+            }
+
             "filter" => {
                 same_content!("-webkit-filter");
             }
