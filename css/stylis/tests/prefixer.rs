@@ -3,6 +3,14 @@
 //! License is MIT, which is original license at the time of copying.
 //! Original test authors have copyright for their work.
 
+use swc_common::FileName;
+use swc_css_ast::Stylesheet;
+use swc_css_codegen::{
+    writer::basic::{BasicCssWriter, BasicCssWriterConfig},
+    CodegenConfig, Emit,
+};
+use swc_css_parser::{parse_file, parser::ParserConfig};
+
 #[test]
 fn flex_box() {
     t("display:block;", "display:block;");
@@ -438,4 +446,32 @@ fn appearance() {
 }
 
 /// Test
-fn t(src: &str, expected: &str) {}
+fn t(src: &str, expected: &str) {
+    testing::run_test2(false, |cm, _handler| {
+        //
+        let fm = cm.new_source_file(FileName::Anon, src.to_string());
+        let ss: Stylesheet = parse_file(
+            &fm,
+            ParserConfig {
+                parse_values: true,
+                ..Default::default()
+            },
+        )
+        .unwrap();
+
+        let mut wr = String::new();
+
+        {
+            let mut wr = BasicCssWriter::new(&mut wr, BasicCssWriterConfig { indent: "  " });
+            let mut gen =
+                swc_css_codegen::CodeGenerator::new(&mut wr, CodegenConfig { minify: true });
+
+            gen.emit(&ss).unwrap();
+        }
+
+        assert_eq!(wr, expected);
+
+        Ok(())
+    })
+    .unwrap();
+}
