@@ -76,6 +76,12 @@ impl VisitMut for Prefixer {
         }
 
         match &*n.name.value {
+            "transform" => {
+                same_content!("-webkit-transform");
+                same_content!("-moz-transform");
+                same_content!("-ms-transform");
+            }
+
             "text-decoration" => {
                 if n.values.len() == 1 {
                     match &n.values[0] {
