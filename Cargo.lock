@@ -2362,19 +2362,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "swc_css_stylis"
-version = "0.1.0"
-dependencies = [
- "swc_atoms",
- "swc_common",
- "swc_css_ast",
- "swc_css_codegen",
- "swc_css_parser",
- "swc_css_visit",
- "testing",
-]
-
-[[package]]
 name = "swc_css_visit"
 version = "0.2.0"
 dependencies = [
@@ -2885,6 +2872,19 @@ dependencies = [
  "tempfile",
  "testing",
  "walkdir",
+]
+
+[[package]]
+name = "swc_stylis"
+version = "0.1.0"
+dependencies = [
+ "swc_atoms",
+ "swc_common",
+ "swc_css_ast",
+ "swc_css_codegen",
+ "swc_css_parser",
+ "swc_css_visit",
+ "testing",
 ]
 
 [[package]]
