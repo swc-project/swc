@@ -110,6 +110,42 @@ impl VisitMut for Prefixer {
                 same_content!("-webkit-print-color-adjust");
             }
 
+            "mask" => {
+                same_content!("-webkit-mask");
+            }
+
+            "mask-image" => {
+                same_content!("-webkit-mask-image");
+            }
+
+            "mask-mode" => {
+                same_content!("-webkit-mask-mode");
+            }
+
+            "mask-clip" => {
+                same_content!("-webkit-mask-clip");
+            }
+
+            "mask-size" => {
+                same_content!("-webkit-mask-size");
+            }
+
+            "mask-repeat" => {
+                same_content!("-webkit-mask-repeat");
+            }
+
+            "mask-origin" => {
+                same_content!("-webkit-mask-origin");
+            }
+
+            "mask-position" => {
+                same_content!("-webkit-mask-position");
+            }
+
+            "mask-composite" => {
+                same_content!("-webkit-mask-composite");
+            }
+
             "margin-inline-start" => {
                 same_content!("-webkit-margin-start");
             }
