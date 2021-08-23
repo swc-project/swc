@@ -32,6 +32,7 @@ pub struct ParserConfig {
 struct Ctx {
     allow_operation_in_value: bool,
     allow_separating_value_with_space: bool,
+    allow_separating_value_with_comma: bool,
 
     disallow_comma_in_media_query: bool,
 
