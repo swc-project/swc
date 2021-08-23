@@ -18,8 +18,6 @@ where
     };
     n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
 
-    dbg!(&data);
-
     data
 }
 
