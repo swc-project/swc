@@ -45,12 +45,12 @@ impl<I: Tokens> Parser<I> {
         };
 
         if let Some(pos) = pos {
+            if stop_on_start_of_class_static_blocks && is!(self, "static") && peeked_is!(self, '{')
+            {
+                return Ok(None);
+            }
             if self.try_parse_ts_bool(|p| p.ts_next_token_can_follow_modifier().map(Some))? {
-                let modifier = allowed_modifiers[pos];
-                return match modifier {
-                    "static" if stop_on_start_of_class_static_blocks && is!(self, '{') => Ok(None),
-                    _ => Ok(Some(modifier)),
-                };
+                return Ok(Some(allowed_modifiers[pos]));
             }
         }
 

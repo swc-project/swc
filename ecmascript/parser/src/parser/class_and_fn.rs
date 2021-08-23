@@ -525,8 +525,17 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
-        if self.input.syntax().static_blocks() && is_static && is!(self, '{') {
-            return self.parse_static_block();
+        if self.input.syntax().static_blocks() {
+            if is_static && is!(self, '{') {
+                return self.parse_static_block();
+            }
+            if is!(self, "static") && peeked_is!(self, '{') {
+                if let Some(span) = modifier_span {
+                    self.emit_err(span, SyntaxError::TS1184);
+                }
+                bump!(self); // consume "static"
+                return self.parse_static_block();
+            }
         }
 
         if self.input.syntax().typescript()

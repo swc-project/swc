@@ -1933,4 +1933,22 @@ export default function waitUntil(callback, options = {}) {
             p.parse_expr()
         });
     }
+
+    #[test]
+    #[should_panic(expected = "Modifiers cannot appear here")]
+    fn class_static_blocks_in_ts_with_invalid_modifier_01() {
+        let src = "class Foo { abstract static { 1 + 1 }; }";
+        test_parser(src, Syntax::Typescript(Default::default()), |p| {
+            p.parse_expr()
+        });
+    }
+
+    #[test]
+    #[should_panic(expected = "Modifiers cannot appear here")]
+    fn class_static_blocks_in_ts_with_invalid_modifier_02() {
+        let src = "class Foo { static static { 1 + 1 }; }";
+        test_parser(src, Syntax::Typescript(Default::default()), |p| {
+            p.parse_expr()
+        });
+    }
 }
