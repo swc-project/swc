@@ -1,5 +1,5 @@
 use std::mem::take;
-use swc_common::DUMMY_SP;
+use swc_common::{Span, DUMMY_SP};
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -10,6 +10,55 @@ pub fn prefixer() -> impl VisitMut {
 #[derive(Default)]
 struct Prefixer {
     added: Vec<Property>,
+}
+
+impl Prefixer {
+    fn handle_cursor_image_set(&mut self, v: &mut Value, important: Option<Span>) {
+        match v {
+            Value::Fn(f) => match &*f.name.value {
+                "image-set" => {
+                    let val = Value::Fn(FnValue {
+                        span: DUMMY_SP,
+                        name: Text {
+                            span: DUMMY_SP,
+                            value: "-webkit-image-set".into(),
+                        },
+                        args: f.args.clone(),
+                    });
+                    let pointer = Value::Text(Text {
+                        span: DUMMY_SP,
+                        value: "pointer".into(),
+                    });
+                    self.added.push(Property {
+                        span: DUMMY_SP,
+                        name: Text {
+                            span: DUMMY_SP,
+                            value: "cursor".into(),
+                        },
+                        values: {
+                            let val = Value::Comma(CommaValues {
+                                span: DUMMY_SP,
+                                values: vec![val, pointer.clone()],
+                            });
+
+                            vec![val]
+                        },
+                        important,
+                    });
+                }
+
+                _ => {}
+            },
+
+            Value::Comma(c) => {
+                if c.values.len() >= 1 {
+                    self.handle_cursor_image_set(&mut c.values[0], important);
+                }
+            }
+
+            _ => {}
+        }
+    }
 }
 
 impl VisitMut for Prefixer {
@@ -223,39 +272,9 @@ impl VisitMut for Prefixer {
                             _ => {}
                         },
 
-                        Value::Fn(f) => match &*f.name.value {
-                            "image-set" => {
-                                let val = Value::Fn(FnValue {
-                                    span: DUMMY_SP,
-                                    name: Text {
-                                        span: DUMMY_SP,
-                                        value: "-webkit-image-set".into(),
-                                    },
-                                    args: f.args.clone(),
-                                });
-                                let pointer = Value::Text(Text {
-                                    span: DUMMY_SP,
-                                    value: "pointer".into(),
-                                });
-                                self.added.push(Property {
-                                    span: n.span,
-                                    name: n.name.clone(),
-                                    values: {
-                                        let val = Value::Comma(CommaValues {
-                                            span: DUMMY_SP,
-                                            values: vec![val, pointer.clone()],
-                                        });
-
-                                        vec![val]
-                                    },
-                                    important: n.important.clone(),
-                                });
-                            }
-
-                            _ => {}
-                        },
-
-                        _ => {}
+                        _ => {
+                            self.handle_cursor_image_set(&mut n.values[0], n.important);
+                        }
                     }
                 }
             }
