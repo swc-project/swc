@@ -2337,7 +2337,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen_macros"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "pmutil",
  "proc-macro2",
