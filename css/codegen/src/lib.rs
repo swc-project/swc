@@ -356,7 +356,6 @@ where
 
     #[emitter]
     fn emit_text(&mut self, n: &Text) -> Result {
-        self.wr.write_ident(Some(n.span), &n.value, false)?;
         self.wr
             .write_ident(Some(n.span), &n.value, self.ctx.escape_first_dash)?;
     }
