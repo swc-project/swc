@@ -2305,6 +2305,7 @@ dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
  "swc_css_parser",
+ "swc_css_utils",
  "swc_css_visit",
 ]
 
@@ -2359,6 +2360,16 @@ dependencies = [
  "swc_css_visit",
  "testing",
  "unicode-xid",
+]
+
+[[package]]
+name = "swc_css_utils"
+version = "0.1.0"
+dependencies = [
+ "swc_atoms",
+ "swc_common",
+ "swc_css_ast",
+ "swc_css_visit",
 ]
 
 [[package]]
@@ -2883,6 +2894,7 @@ dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
  "swc_css_parser",
+ "swc_css_utils",
  "swc_css_visit",
  "testing",
 ]
