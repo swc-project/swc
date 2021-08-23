@@ -106,6 +106,10 @@ impl<'a> VarAnalyzer<'a> {
             }
         }
 
+        if !self.children.contains_key(&child_depth) {
+            node.visit_children_with(self);
+        }
+
         match self.children.remove(&child_depth) {
             Some(children) => {
                 // We are not in a leaf node, so we can just use the variable
