@@ -31,6 +31,20 @@ impl Prefixer {
                         args: f.args.clone(),
                     });
 
+                    let second = second.map(|v| match &v {
+                        Value::Text(t) => {
+                            if &*t.value == "grab" {
+                                Value::Text(Text {
+                                    span: t.span,
+                                    value: "-webkit-grab".into(),
+                                })
+                            } else {
+                                v
+                            }
+                        }
+                        _ => v,
+                    });
+
                     self.added.push(Property {
                         span: DUMMY_SP,
                         name: Text {
