@@ -76,6 +76,40 @@ impl VisitMut for Prefixer {
         }
 
         match &*n.name.value {
+            "text-decoration" => {
+                if n.values.len() == 1 {
+                    match &n.values[0] {
+                        Value::Text(Text { value, .. }) => match &**value {
+                            "none" => {
+                                same_content!("-webkit-text-decoration");
+                            }
+
+                            _ => {}
+                        },
+
+                        _ => {}
+                    }
+                }
+            }
+
+            "text-size-adjust" => {
+                if n.values.len() == 1 {
+                    match &n.values[0] {
+                        Value::Text(Text { value, .. }) => match &**value {
+                            "none" => {
+                                same_content!("-webkit-text-size-adjust");
+                                same_content!("-moz-text-size-adjust");
+                                same_content!("-ms-text-size-adjust");
+                            }
+
+                            _ => {}
+                        },
+
+                        _ => {}
+                    }
+                }
+            }
+
             "writing-mode" => {
                 if n.values.len() == 1 {
                     match &n.values[0] {
