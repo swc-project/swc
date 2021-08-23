@@ -122,7 +122,8 @@ impl<'a> VarAnalyzer<'a> {
         if cur_depth != self.max_depth {
             debug_assert!(
                 self.children.contains_key(&child_depth),
-                "Child scope should be handled at this stage"
+                "Child scope should be handled at this stage\nMax depth = {}",
+                self.max_depth
             );
         }
 
