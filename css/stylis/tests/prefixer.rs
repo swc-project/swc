@@ -4,7 +4,7 @@
 //! Original test authors have copyright for their work.
 
 use swc_common::FileName;
-use swc_css_ast::Stylesheet;
+use swc_css_ast::{Property, Stylesheet};
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig},
     CodegenConfig, Emit,
@@ -450,7 +450,7 @@ fn t(src: &str, expected: &str) {
     testing::run_test2(false, |cm, _handler| {
         //
         let fm = cm.new_source_file(FileName::Anon, src.to_string());
-        let ss: Stylesheet = parse_file(
+        let ss: Vec<Property> = parse_file(
             &fm,
             ParserConfig {
                 parse_values: true,
