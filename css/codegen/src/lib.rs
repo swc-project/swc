@@ -263,6 +263,7 @@ where
             Value::Lazy(n) => emit!(n),
             Value::AtText(n) => emit!(n),
             Value::Url(n) => emit!(n),
+            Value::Comma(n) => emit!(n),
         }
     }
 
@@ -453,6 +454,11 @@ where
         self.emit_list(&n.values, ListFormat::CommaDelimited)?;
 
         punct!("]");
+    }
+
+    #[emitter]
+    fn emit_comma_values(&mut self, n: &CommaValues) -> Result {
+        self.emit_list(&n.values, ListFormat::CommaDelimited)?;
     }
 
     #[emitter]
