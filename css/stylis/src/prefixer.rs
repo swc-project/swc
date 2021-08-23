@@ -106,6 +106,10 @@ impl VisitMut for Prefixer {
                 same_content!("-webkit-box-decoration-break");
             }
 
+            "color-adjust" => {
+                same_content!("-webkit-print-color-adjust");
+            }
+
             "margin-inline-start" => {
                 same_content!("-webkit-margin-start");
             }
