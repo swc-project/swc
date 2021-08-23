@@ -339,7 +339,7 @@ where
 
         if let Some(tok) = n.important {
             punct!(tok, "!");
-            self.wr.write_ident(Some(tok), "important")?;
+            self.wr.write_ident(Some(tok), "important", false)?;
         }
 
         if self.ctx.semi_after_property {
@@ -349,7 +349,7 @@ where
 
     #[emitter]
     fn emit_text(&mut self, n: &Text) -> Result {
-        self.wr.write_ident(Some(n.span), &n.value)?;
+        self.wr.write_ident(Some(n.span), &n.value, false)?;
     }
 
     #[emitter]
@@ -473,7 +473,7 @@ where
             match token {
                 Token::AtKeyword(name) => {
                     punct!(span, "@");
-                    self.wr.write_ident(Some(span), &name)?;
+                    self.wr.write_ident(Some(span), &name, false)?;
                 }
                 Token::LParen => {
                     punct!(span, "(");
@@ -494,7 +494,7 @@ where
                     self.wr.write_raw(Some(span), &n.value.to_string())?;
                 }
                 Token::Ident(n) => {
-                    self.wr.write_ident(Some(span), &n)?;
+                    self.wr.write_ident(Some(span), &n, true)?;
                 }
                 Token::Str { value } => {
                     punct!("'");
@@ -502,7 +502,7 @@ where
                     punct!("'");
                 }
                 Token::Url { value } => {
-                    self.wr.write_ident(Some(span), "url")?;
+                    self.wr.write_ident(Some(span), "url", false)?;
                     punct!("(");
                     self.wr.write_raw(None, &value)?;
                     punct!(")");
@@ -533,7 +533,7 @@ where
                 }
                 Token::Hash { value, .. } => {
                     punct!("#");
-                    self.wr.write_ident(Some(span), &value)?;
+                    self.wr.write_ident(Some(span), &value, true)?;
                 }
                 Token::WhiteSpace => {
                     space!();
@@ -717,7 +717,7 @@ where
             UnitKind::Px => Cow::Owned("px".into()),
             UnitKind::Custom(s) => Cow::Borrowed(s),
         };
-        self.wr.write_ident(Some(n.span), &s)?;
+        self.wr.write_ident(Some(n.span), &s, true)?;
     }
 
     #[emitter]

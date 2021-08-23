@@ -45,10 +45,15 @@ where
         Ok(())
     }
 
-    fn write_escaped(&mut self, s: &str) -> Result {
+    fn write_escaped(&mut self, s: &str, escape_dash: bool) -> Result {
         for (idx, c) in s.chars().enumerate() {
             match c {
-                ' ' | ',' | '-' | ':' | '~' | '+' | '.' | '#' | '\x00'..='\x1f' => {
+                ' ' | ',' | ':' | '~' | '+' | '.' | '#' | '\x00'..='\x1f' => {
+                    self.col += 1;
+                    self.w.write_char('\\')?;
+                }
+
+                '-' if escape_dash => {
                     self.col += 1;
                     self.w.write_char('\\')?;
                 }
@@ -75,9 +80,9 @@ impl<W> CssWriter for BasicCssWriter<'_, W>
 where
     W: Write,
 {
-    fn write_ident(&mut self, _span: Option<Span>, s: &str) -> Result {
+    fn write_ident(&mut self, _span: Option<Span>, s: &str, escape_dash: bool) -> Result {
         self.apply_indent()?;
-        self.write_escaped(s)?;
+        self.write_escaped(s, escape_dash)?;
 
         Ok(())
     }
