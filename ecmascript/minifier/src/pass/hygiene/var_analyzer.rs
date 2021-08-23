@@ -119,6 +119,13 @@ impl<'a> VarAnalyzer<'a> {
             self.scope_depth -= 1;
         }
 
+        if cur_depth != self.max_depth {
+            debug_assert!(
+                self.children.contains_key(&child_depth),
+                "Child scope should be handled at this stage"
+            );
+        }
+
         match self.children.remove(&child_depth) {
             Some(children) => {
                 // We are not in a leaf node, so we can just use the variable
