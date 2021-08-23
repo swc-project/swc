@@ -154,6 +154,64 @@ impl VisitMut for Prefixer {
                 same_content!("-webkit-column-width");
             }
 
+            "background" => {
+                if n.values.len() >= 1 {
+                    match &n.values[0] {
+                        Value::Fn(f) => match &*f.name.value {
+                            "image-set" => {
+                                let val = Value::Fn(FnValue {
+                                    span: DUMMY_SP,
+                                    name: Text {
+                                        span: DUMMY_SP,
+                                        value: "-webkit-image-set".into(),
+                                    },
+                                    args: f.args.clone(),
+                                });
+                                self.added.push(Property {
+                                    span: n.span,
+                                    name: n.name.clone(),
+                                    values: vec![val],
+                                    important: n.important.clone(),
+                                });
+                            }
+
+                            _ => {}
+                        },
+
+                        _ => {}
+                    }
+                }
+            }
+
+            "background-image" => {
+                if n.values.len() >= 1 {
+                    match &n.values[0] {
+                        Value::Fn(f) => match &*f.name.value {
+                            "image-set" => {
+                                let val = Value::Fn(FnValue {
+                                    span: DUMMY_SP,
+                                    name: Text {
+                                        span: DUMMY_SP,
+                                        value: "-webkit-image-set".into(),
+                                    },
+                                    args: f.args.clone(),
+                                });
+                                self.added.push(Property {
+                                    span: n.span,
+                                    name: n.name.clone(),
+                                    values: vec![val],
+                                    important: n.important.clone(),
+                                });
+                            }
+
+                            _ => {}
+                        },
+
+                        _ => {}
+                    }
+                }
+            }
+
             "cursor" => {
                 if n.values.len() >= 1 {
                     match &n.values[0] {
