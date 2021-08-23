@@ -76,6 +76,32 @@ impl VisitMut for Prefixer {
         }
 
         match &*n.name.value {
+            "appearance" => {
+                same_content!("-webkit-appearance");
+                same_content!("-moz-appearance");
+                same_content!("-ms-appearance");
+            }
+
+            "animation" => {
+                same_content!("-webkit-animation");
+            }
+
+            "animation-duration" => {
+                same_content!("-webkit-animation-duration");
+            }
+
+            "animation-name" => {
+                same_content!("-webkit-animation-name");
+            }
+
+            "animation-iteration-count" => {
+                same_content!("-webkit-animation-iteration-count");
+            }
+
+            "animation-timing-function" => {
+                same_content!("-webkit-animation-timing-function");
+            }
+
             "box-decoration-break" => {
                 same_content!("-webkit-box-decoration-break");
             }
