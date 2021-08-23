@@ -26,5 +26,38 @@ impl VisitMut for Prefixer {
 
     fn visit_mut_property(&mut self, n: &mut Property) {
         n.visit_mut_children_with(self);
+
+        macro_rules! same_content {
+            ($name:expr) => {{
+                self.added.push(Property {
+                    span: n.span,
+                    name: Text {
+                        span: n.name.span,
+                        value: $name.into(),
+                    },
+                    values: n.values.clone(),
+                    important: n.important.clone(),
+                });
+            }};
+        }
+
+        match &*n.name.value {
+            "width" => {
+                if n.values.len() == 1 {
+                    match &n.values[0] {
+                        Value::Text(Text { value, .. }) => {
+                            //
+                            if &*value == "fit-content" {
+                                same_content!("-webkit-fit-content");
+                                same_content!("-moz-fit-content");
+                            }
+                        }
+                        _ => {}
+                    }
+                }
+            }
+
+            _ => {}
+        }
     }
 }
