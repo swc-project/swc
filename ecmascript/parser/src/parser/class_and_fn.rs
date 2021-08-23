@@ -294,7 +294,7 @@ impl<'a, I: Tokens> Parser<I> {
 
     pub(super) fn parse_access_modifier(&mut self) -> PResult<Option<Accessibility>> {
         Ok(self
-            .parse_ts_modifier(&["public", "protected", "private"])?
+            .parse_ts_modifier(&["public", "protected", "private"], false)?
             .map(|s| match s {
                 "public" => Accessibility::Public,
                 "protected" => Accessibility::Protected,
@@ -456,17 +456,13 @@ impl<'a, I: Tokens> Parser<I> {
     ) -> PResult<ClassMember> {
         let mut is_static = static_token.is_some();
 
-        if self.input.syntax().static_blocks() && is_static && is!(self, '{') {
-            return self.parse_static_block();
-        }
-
         let mut is_abstract = false;
         let mut is_override = false;
         let mut readonly = None;
         let mut modifier_span = None;
         let declare = declare_token.is_some();
         while let Some(modifier) =
-            self.parse_ts_modifier(&["abstract", "readonly", "override", "static"])?
+            self.parse_ts_modifier(&["abstract", "readonly", "override", "static"], true)?
         {
             modifier_span = Some(self.input.prev_span());
             match modifier {
@@ -527,6 +523,10 @@ impl<'a, I: Tokens> Parser<I> {
                 }
                 _ => {}
             }
+        }
+
+        if self.input.syntax().static_blocks() && is_static && is!(self, '{') {
+            return self.parse_static_block();
         }
 
         if self.input.syntax().typescript()
@@ -739,7 +739,7 @@ impl<'a, I: Tokens> Parser<I> {
         {
             // handle async foo(){}
 
-            if self.parse_ts_modifier(&["override"])?.is_some() {
+            if self.parse_ts_modifier(&["override"], false)?.is_some() {
                 is_override = true;
                 self.emit_err(
                     self.input.prev_span(),

@@ -29,6 +29,7 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_ts_modifier(
         &mut self,
         allowed_modifiers: &[&'static str],
+        stop_on_start_of_class_static_blocks: bool,
     ) -> PResult<Option<&'static str>> {
         if !self.input.syntax().typescript() {
             return Ok(None);
@@ -45,7 +46,11 @@ impl<I: Tokens> Parser<I> {
 
         if let Some(pos) = pos {
             if self.try_parse_ts_bool(|p| p.ts_next_token_can_follow_modifier().map(Some))? {
-                return Ok(Some(allowed_modifiers[pos]));
+                let modifier = allowed_modifiers[pos];
+                return match modifier {
+                    "static" if stop_on_start_of_class_static_blocks && is!(self, '{') => Ok(None),
+                    _ => Ok(Some(modifier)),
+                };
             }
         }
 
@@ -1346,7 +1351,7 @@ impl<I: Tokens> Parser<I> {
         }
         // Instead of fullStart, we create a node here.
         let start = cur_pos!(self);
-        let readonly = self.parse_ts_modifier(&["readonly"])?.is_some();
+        let readonly = self.parse_ts_modifier(&["readonly"], false)?.is_some();
 
         let idx = self.try_parse_ts_index_signature(start, readonly, false)?;
         if let Some(idx) = idx {
@@ -1356,7 +1361,7 @@ impl<I: Tokens> Parser<I> {
         if let Some(v) = self.try_parse_ts(|p| {
             let start = p.input.cur_pos();
 
-            let reaodnly = p.parse_ts_modifier(&["readonly"])?.is_some();
+            let reaodnly = p.parse_ts_modifier(&["readonly"], false)?.is_some();
 
             let is_get = if eat!(p, "get") {
                 true
@@ -2117,7 +2122,7 @@ impl<I: Tokens> Parser<I> {
                 if is!(self, "infer") {
                     self.parse_ts_infer_type().map(TsType::from).map(Box::new)
                 } else {
-                    let readonly = self.parse_ts_modifier(&["readonly"])?.is_some();
+                    let readonly = self.parse_ts_modifier(&["readonly"], false)?.is_some();
                     self.parse_ts_array_type_or_higher(readonly)
                 }
             }

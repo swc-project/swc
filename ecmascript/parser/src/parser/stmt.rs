@@ -1925,4 +1925,12 @@ export default function waitUntil(callback, options = {}) {
             }))
         );
     }
+
+    #[test]
+    fn class_static_blocks_in_ts() {
+        let src = "class Foo { static { 1 + 1 }; }";
+        test_parser(src, Syntax::Typescript(Default::default()), |p| {
+            p.parse_expr()
+        });
+    }
 }

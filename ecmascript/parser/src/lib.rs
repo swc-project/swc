@@ -154,8 +154,12 @@ impl Syntax {
 
     pub fn static_blocks(self) -> bool {
         match self {
-            Syntax::Es(EsConfig { static_blocks, .. })
-            | Syntax::Typescript(TsConfig { static_blocks, .. }) => static_blocks,
+            Syntax::Es(EsConfig {
+                static_blocks: true,
+                ..
+            })
+            | Syntax::Typescript(..) => true,
+            _ => false,
         }
     }
 
