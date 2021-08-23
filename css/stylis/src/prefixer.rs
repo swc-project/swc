@@ -154,6 +154,10 @@ impl VisitMut for Prefixer {
                 same_content!("-webkit-column-width");
             }
 
+            "filter" => {
+                same_content!("-webkit-filter");
+            }
+
             "mask" => {
                 same_content!("-webkit-mask");
             }
