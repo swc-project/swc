@@ -338,6 +338,7 @@ where
         )?;
 
         if let Some(tok) = n.important {
+            space!();
             punct!(tok, "!");
             self.wr.write_ident(Some(tok), "important", false)?;
         }
