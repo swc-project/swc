@@ -1,0 +1,199 @@
+warning: Module
+ --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:1:1
+  |
+1 | / function foo() {
+2 | | }
+3 | |
+4 | | console.log('foo')
+5 | | function bar() {
+6 | | }
+  | |_^
+
+warning: ModuleItem
+ --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:1:1
+  |
+1 | / function foo() {
+2 | | }
+  | |_^
+
+warning: Stmt
+ --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:1:1
+  |
+1 | / function foo() {
+2 | | }
+  | |_^
+
+warning: Decl
+ --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:1:1
+  |
+1 | / function foo() {
+2 | | }
+  | |_^
+
+warning: FnDecl
+ --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:1:1
+  |
+1 | / function foo() {
+2 | | }
+  | |_^
+
+warning: Ident
+ --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:1:10
+  |
+1 | function foo() {
+  |          ^^^
+
+warning: Function
+ --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:1:1
+  |
+1 | / function foo() {
+2 | | }
+  | |_^
+
+warning: BlockStmt
+ --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:1:16
+  |
+1 |   function foo() {
+  |  ________________^
+2 | | }
+  | |_^
+
+warning: ModuleItem
+ --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:5:1
+  |
+5 | / function bar() {
+6 | | }
+  | |_^
+
+warning: Stmt
+ --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:5:1
+  |
+5 | / function bar() {
+6 | | }
+  | |_^
+
+warning: Decl
+ --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:5:1
+  |
+5 | / function bar() {
+6 | | }
+  | |_^
+
+warning: FnDecl
+ --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:5:1
+  |
+5 | / function bar() {
+6 | | }
+  | |_^
+
+warning: Ident
+ --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:5:10
+  |
+5 | function bar() {
+  |          ^^^
+
+warning: Function
+ --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:5:1
+  |
+5 | / function bar() {
+6 | | }
+  | |_^
+
+warning: BlockStmt
+ --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:5:16
+  |
+5 |   function bar() {
+  |  ________________^
+6 | | }
+  | |_^
+
+warning: ModuleItem
+
+warning: Stmt
+
+warning: ExprStmt
+
+warning: Expr
+ --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:4:1
+  |
+4 | console.log('foo')
+  | ^^^^^^^^^^^^^^^^^^
+
+warning: CallExpr
+ --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:4:1
+  |
+4 | console.log('foo')
+  | ^^^^^^^^^^^^^^^^^^
+
+warning: ExprOrSuper
+ --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:4:1
+  |
+4 | console.log('foo')
+  | ^^^^^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:4:1
+  |
+4 | console.log('foo')
+  | ^^^^^^^^^^^
+
+warning: MemberExpr
+ --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:4:1
+  |
+4 | console.log('foo')
+  | ^^^^^^^^^^^
+
+warning: ExprOrSuper
+ --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:4:1
+  |
+4 | console.log('foo')
+  | ^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:4:1
+  |
+4 | console.log('foo')
+  | ^^^^^^^
+
+warning: Ident
+ --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:4:1
+  |
+4 | console.log('foo')
+  | ^^^^^^^
+
+warning: Expr
+ --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:4:9
+  |
+4 | console.log('foo')
+  |         ^^^
+
+warning: Ident
+ --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:4:9
+  |
+4 | console.log('foo')
+  |         ^^^
+
+warning: ExprOrSpread
+ --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:4:13
+  |
+4 | console.log('foo')
+  |             ^^^^^
+
+warning: Expr
+ --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:4:13
+  |
+4 | console.log('foo')
+  |             ^^^^^
+
+warning: Lit
+ --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:4:13
+  |
+4 | console.log('foo')
+  |             ^^^^^
+
+warning: Str
+ --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:4:13
+  |
+4 | console.log('foo')
+  |             ^^^^^
+
