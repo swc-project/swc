@@ -765,13 +765,29 @@ impl ClassProperties {
                             span: DUMMY_SP,
                             props: vec![get, set],
                         };
+
+                        let obj = if statics.contains(&method.key.id.sym) {
+                            let var_name = private_ident!("static_method");
+
+                            vars.push(VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(var_name.clone().into()),
+                                init: Some(Box::new(Expr::Object(obj))),
+                                definite: Default::default(),
+                            });
+
+                            var_name.as_arg()
+                        } else {
+                            obj.as_arg()
+                        };
+
                         constructor_exprs.push(Box::new(Expr::Call(CallExpr {
                             span: prop_span,
                             callee: weak_coll_var
                                 .clone()
                                 .make_member(quote_ident!("set"))
                                 .as_callee(),
-                            args: vec![ThisExpr { span: DUMMY_SP }.as_arg(), obj.as_arg()],
+                            args: vec![ThisExpr { span: DUMMY_SP }.as_arg(), obj],
                             type_args: Default::default(),
                         })));
                     } else {
