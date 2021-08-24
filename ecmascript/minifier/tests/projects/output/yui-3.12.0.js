@@ -1358,27 +1358,27 @@ var YUI = function() {
         "skin"
     ], 0, !0), YUI.Env[VERSION] = META;
     var modulekey, NOT_FOUND = {
-    }, NO_REQUIREMENTS = [], GLOBAL_ENV = YUI.Env, GLOBAL_LOADED = GLOBAL_ENV._loaded, VERSION1 = Y.version, YObject = Y.Object, oeach = YObject.each, yArray = Y.Array, _queue = GLOBAL_ENV._loaderQueue, META1 = GLOBAL_ENV[VERSION1], L = Y.Lang, ON_PAGE = GLOBAL_ENV.mods, _path = function(dir, file, type, nomin) {
+    }, NO_REQUIREMENTS = [], GLOBAL_ENV = YUI.Env, GLOBAL_LOADED = GLOBAL_ENV._loaded, VERSION = Y.version, YObject = Y.Object, oeach = YObject.each, yArray = Y.Array, _queue = GLOBAL_ENV._loaderQueue, META = GLOBAL_ENV[VERSION], L = Y.Lang, ON_PAGE = GLOBAL_ENV.mods, _path = function(dir, file, type, nomin) {
         var path = dir + "/" + file;
         return nomin || (path += "-min"), path += "." + (type || "css");
     };
     YUI.Env._cssLoaded || (YUI.Env._cssLoaded = {
-    }), Y.Env.meta = META1, Y.Loader = function(o) {
+    }), Y.Env.meta = META, Y.Loader = function(o) {
         o = o || {
-        }, modulekey = META1.md5, this.context = Y, this.base = Y.Env.meta.base + Y.Env.meta.root, this.comboBase = Y.Env.meta.comboBase, this.combine = o.base && o.base.indexOf(this.comboBase.substr(0, 20)) > -1, this.comboSep = "&", this.maxURLLength = 1024, this.ignoreRegistered = o.ignoreRegistered, this.root = Y.Env.meta.root, this.timeout = 0, this.forceMap = {
+        }, modulekey = META.md5, this.context = Y, this.base = Y.Env.meta.base + Y.Env.meta.root, this.comboBase = Y.Env.meta.comboBase, this.combine = o.base && o.base.indexOf(this.comboBase.substr(0, 20)) > -1, this.comboSep = "&", this.maxURLLength = 1024, this.ignoreRegistered = o.ignoreRegistered, this.root = Y.Env.meta.root, this.timeout = 0, this.forceMap = {
         }, this.allowRollup = !1, this.filters = {
         }, this.required = {
         }, this.patterns = {
         }, this.moduleInfo = {
         }, this.groups = Y.merge(Y.Env.meta.groups), this.skin = Y.merge(Y.Env.meta.skin), this.conditions = {
-        }, this.config = o, this._internal = !0, this._populateCache(), this.loaded = GLOBAL_LOADED[VERSION1], this.async = !0, this._inspectPage(), this._internal = !1, this._config(o), this.forceMap = this.force ? Y.Array.hash(this.force) : {
+        }, this.config = o, this._internal = !0, this._populateCache(), this.loaded = GLOBAL_LOADED[VERSION], this.async = !0, this._inspectPage(), this._internal = !1, this._config(o), this.forceMap = this.force ? Y.Array.hash(this.force) : {
         }, this.testresults = null, Y.config.tests && (this.testresults = Y.config.tests), this.sorted = [], this.dirty = !0, this.inserted = {
         }, this.skipped = {
         }, this.tested = {
         }, this.ignoreRegistered && this._resetModules();
     }, Y.Loader.prototype = {
         _populateCache: function() {
-            var i, defaults = META1.modules, cache = GLOBAL_ENV._renderedMods;
+            var i, defaults = META.modules, cache = GLOBAL_ENV._renderedMods;
             if (cache && !this.ignoreRegistered) {
                 for(i in cache)cache.hasOwnProperty(i) && (this.moduleInfo[i] = Y.merge(cache[i]));
                 for(i in cache = GLOBAL_ENV._conditions)cache.hasOwnProperty(i) && (this.conditions[i] = Y.merge(cache[i]));

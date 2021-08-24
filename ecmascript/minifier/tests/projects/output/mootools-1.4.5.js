@@ -1146,7 +1146,7 @@ Event1.Keys = {
         if ((separator || -1 === separatorIndex) && (parsed.expressions[++separatorIndex] = [], combinatorIndex = -1, separator)) return "";
         if (combinator || combinatorChildren || -1 === combinatorIndex) {
             combinator = combinator || " ";
-            var test, regexp1, currentSeparator = parsed.expressions[separatorIndex];
+            var test, regexp, currentSeparator = parsed.expressions[separatorIndex];
             reversed && currentSeparator[combinatorIndex] && (currentSeparator[combinatorIndex].reverseCombinator = reverseCombinator(combinator)), currentSeparator[++combinatorIndex] = {
                 combinator: combinator,
                 tag: "*"
@@ -1167,16 +1167,16 @@ Event1.Keys = {
         else if (attributeKey) {
             switch(attributeKey = attributeKey.replace(reUnescape, ""), attributeValue = (attributeValue || "").replace(reUnescape, ""), attributeOperator){
                 case "^=":
-                    regexp1 = new RegExp("^" + escapeRegExp(attributeValue));
+                    regexp = new RegExp("^" + escapeRegExp(attributeValue));
                     break;
                 case "$=":
-                    regexp1 = new RegExp(escapeRegExp(attributeValue) + "$");
+                    regexp = new RegExp(escapeRegExp(attributeValue) + "$");
                     break;
                 case "~=":
-                    regexp1 = new RegExp("(^|\\s)" + escapeRegExp(attributeValue) + "(\\s|$)");
+                    regexp = new RegExp("(^|\\s)" + escapeRegExp(attributeValue) + "(\\s|$)");
                     break;
                 case "|=":
-                    regexp1 = new RegExp("^" + escapeRegExp(attributeValue) + "(-|$)");
+                    regexp = new RegExp("^" + escapeRegExp(attributeValue) + "(-|$)");
                     break;
                 case "=":
                     test = function(value) {
@@ -1201,7 +1201,7 @@ Event1.Keys = {
             "" == attributeValue && /^[*$^]=$/.test(attributeOperator) && (test = function() {
                 return !1;
             }), test || (test = function(value) {
-                return value && regexp1.test(value);
+                return value && regexp.test(value);
             }), currentParsed.attributes || (currentParsed.attributes = []), currentParsed.attributes.push({
                 key: attributeKey,
                 operator: attributeOperator,
@@ -1724,8 +1724,8 @@ Event1.Keys = {
         return pseudo ? function(argument) {
             return pseudo.call(this, argument);
         } : null;
-    }, Slick.override = function(regexp2, fn) {
-        return local.override(regexp2, fn), this;
+    }, Slick.override = function(regexp, fn) {
+        return local.override(regexp, fn), this;
     }, Slick.isXML = local.isXML, Slick.uidOf = function(node) {
         return local.getUIDHTML(node);
     }, this.Slick || (this.Slick = Slick);
@@ -1870,9 +1870,9 @@ Elements.prototype = {
             },
             element: function(el, nocash) {
                 if (Slick.uidOf(el), !nocash && !el.$family && !/^(?:object|embed)$/i.test(el.tagName)) {
-                    var fireEvent1 = el.fireEvent;
+                    var fireEvent = el.fireEvent;
                     el._fireEvent = function(type, event) {
-                        return fireEvent1(type, event);
+                        return fireEvent(type, event);
                     }, Object.append(el, Element1.Prototype);
                 }
                 return el;
@@ -2299,11 +2299,11 @@ Elements.prototype = {
             this.innerHTML = "";
         }
     };
-    var div1 = document.createElement("div");
-    div1.innerHTML = "<nav></nav>";
-    var supportsHTML5Elements = 1 == div1.childNodes.length;
+    var div = document.createElement("div");
+    div.innerHTML = "<nav></nav>";
+    var supportsHTML5Elements = 1 == div.childNodes.length;
     if (!supportsHTML5Elements) for(var tags = "abbr article aside audio canvas datalist details figcaption figure footer header hgroup mark meter nav output progress section summary time video".split(" "), fragment = document.createDocumentFragment(), l = tags.length; l--;)fragment.createElement(tags[l]);
-    div1 = null;
+    div = null;
     var supportsTableInnerHTML = Function.attempt(function() {
         return document.createElement("table").innerHTML = "<tr><td></td></tr>", !0;
     }), tr = document.createElement("tr"), html = "<td></td>";

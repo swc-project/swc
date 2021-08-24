@@ -1974,9 +1974,9 @@
     function LocationHashbangUrl(appBase, hashPrefix) {
         var appBaseNoFile = stripFile(appBase);
         parseAbsoluteUrl(appBase, this, appBase), this.$$parse = function(url) {
-            var path, url1, base, firstPathSegmentMatch, withoutBaseUrl = beginsWith(appBase, url) || beginsWith(appBaseNoFile, url), withoutHashUrl = "#" == withoutBaseUrl.charAt(0) ? beginsWith(hashPrefix, withoutBaseUrl) : this.$$html5 ? withoutBaseUrl : "";
+            var path, url, base, firstPathSegmentMatch, withoutBaseUrl = beginsWith(appBase, url) || beginsWith(appBaseNoFile, url), withoutHashUrl = "#" == withoutBaseUrl.charAt(0) ? beginsWith(hashPrefix, withoutBaseUrl) : this.$$html5 ? withoutBaseUrl : "";
             if (!isString(withoutHashUrl)) throw $locationMinErr("ihshprfx", "Invalid url \"{0}\", missing hash prefix \"{1}\".", url, hashPrefix);
-            parseAppUrl(withoutHashUrl, this, appBase), path = this.$$path, url1 = withoutHashUrl, base = appBase, 0 === url1.indexOf(base) && (url1 = url1.replace(base, "")), this.$$path = /^\/?.*?:(\/.*)/.exec(url1) ? path : (firstPathSegmentMatch = /^\/?.*?:(\/.*)/.exec(path)) ? firstPathSegmentMatch[1] : path, this.$$compose();
+            parseAppUrl(withoutHashUrl, this, appBase), path = this.$$path, url = withoutHashUrl, base = appBase, 0 === url.indexOf(base) && (url = url.replace(base, "")), this.$$path = /^\/?.*?:(\/.*)/.exec(url) ? path : (firstPathSegmentMatch = /^\/?.*?:(\/.*)/.exec(path)) ? firstPathSegmentMatch[1] : path, this.$$compose();
         }, this.$$compose = function() {
             var search = toKeyValue(this.$$search), hash = this.$$hash ? "#" + encodeUriSegment(this.$$hash) : "";
             this.$$url = encodePath(this.$$path) + (search ? "?" + search : "") + hash, this.$$absUrl = appBase + (this.$$url ? hashPrefix + this.$$url : "");
@@ -2309,9 +2309,9 @@
             };
             if (OPERATORS.hasOwnProperty(ident)) token.fn = OPERATORS[ident], token.json = OPERATORS[ident];
             else {
-                var getter1 = getterFn(ident, this.options, this.text);
+                var getter = getterFn(ident, this.options, this.text);
                 token.fn = extend(function(self, locals) {
-                    return getter1(self, locals);
+                    return getter(self, locals);
                 }, {
                     assign: function(self, value) {
                         return setter(self, ident, value, parser.text, parser.options);
@@ -2518,9 +2518,9 @@
             return this.expect("+") ? this.primary() : (token = this.expect("-")) ? this.binaryFn(Parser.ZERO, token.fn, this.unary()) : (token = this.expect("!")) ? this.unaryFn(token.fn, this.unary()) : this.primary();
         },
         fieldAccess: function(object) {
-            var parser = this, field = this.expect().text, getter2 = getterFn(field, this.options, this.text);
+            var parser = this, field = this.expect().text, getter = getterFn(field, this.options, this.text);
             return extend(function(scope, locals, self) {
-                return getter2(self || object(scope, locals), locals);
+                return getter(self || object(scope, locals), locals);
             }, {
                 assign: function(scope, value, locals) {
                     return setter(object(scope, locals), field, value, parser.text, parser.options);
@@ -4252,24 +4252,24 @@
                     }],
                 link: function(scope, element, attr, ctrls) {
                     if (ctrls[1]) {
-                        for(var scope1, selectElement, ctrl, lastView, selectElement1, ngModelCtrl, selectCtrl, emptyOption, selectCtrl1 = ctrls[0], ngModelCtrl1 = ctrls[1], multiple = attr.multiple, optionsExp = attr.ngOptions, nullOption = !1, optionTemplate = jqLite(document.createElement("option")), optGroupTemplate = jqLite(document.createElement("optgroup")), unknownOption = optionTemplate.clone(), i = 0, children = element.children(), ii = children.length; i < ii; i++)if ("" === children[i].value) {
+                        for(var scope, selectElement, ctrl, lastView, selectElement, ngModelCtrl, selectCtrl, emptyOption, selectCtrl = ctrls[0], ngModelCtrl = ctrls[1], multiple = attr.multiple, optionsExp = attr.ngOptions, nullOption = !1, optionTemplate = jqLite(document.createElement("option")), optGroupTemplate = jqLite(document.createElement("optgroup")), unknownOption = optionTemplate.clone(), i = 0, children = element.children(), ii = children.length; i < ii; i++)if ("" === children[i].value) {
                             emptyOption = nullOption = children.eq(i);
                             break;
                         }
-                        if (selectCtrl1.init(ngModelCtrl1, nullOption, unknownOption), multiple && (attr.required || attr.ngRequired)) {
+                        if (selectCtrl.init(ngModelCtrl, nullOption, unknownOption), multiple && (attr.required || attr.ngRequired)) {
                             var requiredValidator = function(value) {
-                                return ngModelCtrl1.$setValidity("required", !attr.required || value && value.length), value;
+                                return ngModelCtrl.$setValidity("required", !attr.required || value && value.length), value;
                             };
-                            ngModelCtrl1.$parsers.push(requiredValidator), ngModelCtrl1.$formatters.unshift(requiredValidator), attr.$observe("required", function() {
-                                requiredValidator(ngModelCtrl1.$viewValue);
+                            ngModelCtrl.$parsers.push(requiredValidator), ngModelCtrl.$formatters.unshift(requiredValidator), attr.$observe("required", function() {
+                                requiredValidator(ngModelCtrl.$viewValue);
                             });
                         }
-                        optionsExp ? (function(scope2, selectElement2, ctrl1) {
-                            if (!(match = optionsExp.match(NG_OPTIONS_REGEXP))) throw ngOptionsMinErr("iexp", "Expected expression in form of '_select_ (as _label_)? for (_key_,)?_value_ in _collection_' but got '{0}'. Element: {1}", optionsExp, startingTag(selectElement2));
+                        optionsExp ? (function(scope, selectElement, ctrl) {
+                            if (!(match = optionsExp.match(NG_OPTIONS_REGEXP))) throw ngOptionsMinErr("iexp", "Expected expression in form of '_select_ (as _label_)? for (_key_,)?_value_ in _collection_' but got '{0}'. Element: {1}", optionsExp, startingTag(selectElement));
                             var match, displayFn = $parse(match[2] || match[1]), valueName = match[4] || match[6], keyName = match[5], groupByFn = $parse(match[3] || ""), valueFn = $parse(match[2] ? match[1] : valueName), valuesFn = $parse(match[7]), trackFn = match[8] ? $parse(match[8]) : null, optionGroupsCache = [
                                 [
                                     {
-                                        element: selectElement2,
+                                        element: selectElement,
                                         label: ""
                                     }
                                 ]
@@ -4279,28 +4279,28 @@
                                     "": []
                                 }, optionGroupNames = [
                                     ""
-                                ], modelValue = ctrl1.$modelValue, values = valuesFn(scope2) || [], keys = keyName ? sortedKeys(values) : values, locals = {
+                                ], modelValue = ctrl.$modelValue, values = valuesFn(scope) || [], keys = keyName ? sortedKeys(values) : values, locals = {
                                 }, selectedSet = !1;
                                 if (multiple) if (trackFn && isArray(modelValue)) {
                                     selectedSet = new HashMap([]);
-                                    for(var trackIndex = 0; trackIndex < modelValue.length; trackIndex++)locals[valueName] = modelValue[trackIndex], selectedSet.put(trackFn(scope2, locals), modelValue[trackIndex]);
+                                    for(var trackIndex = 0; trackIndex < modelValue.length; trackIndex++)locals[valueName] = modelValue[trackIndex], selectedSet.put(trackFn(scope, locals), modelValue[trackIndex]);
                                 } else selectedSet = new HashMap(modelValue);
                                 for(index = 0; index < (length = keys.length); index++){
                                     if (key = index, keyName) {
                                         if ("$" === (key = keys[index]).charAt(0)) continue;
                                         locals[keyName] = key;
                                     }
-                                    if (locals[valueName] = values[key], (optionGroup = optionGroups[optionGroupName = groupByFn(scope2, locals) || ""]) || (optionGroup = optionGroups[optionGroupName] = [], optionGroupNames.push(optionGroupName)), multiple) selected = isDefined(selectedSet.remove(trackFn ? trackFn(scope2, locals) : valueFn(scope2, locals)));
+                                    if (locals[valueName] = values[key], (optionGroup = optionGroups[optionGroupName = groupByFn(scope, locals) || ""]) || (optionGroup = optionGroups[optionGroupName] = [], optionGroupNames.push(optionGroupName)), multiple) selected = isDefined(selectedSet.remove(trackFn ? trackFn(scope, locals) : valueFn(scope, locals)));
                                     else {
                                         if (trackFn) {
                                             var modelCast = {
                                             };
-                                            modelCast[valueName] = modelValue, selected = trackFn(scope2, modelCast) === trackFn(scope2, locals);
-                                        } else selected = modelValue === valueFn(scope2, locals);
+                                            modelCast[valueName] = modelValue, selected = trackFn(scope, modelCast) === trackFn(scope, locals);
+                                        } else selected = modelValue === valueFn(scope, locals);
                                         selectedSet = selectedSet || selected;
                                     }
-                                    label = isDefined(label = displayFn(scope2, locals)) ? label : "", optionGroup.push({
-                                        id: trackFn ? trackFn(scope2, locals) : keyName ? keys[index] : index,
+                                    label = isDefined(label = displayFn(scope, locals)) ? label : "", optionGroup.push({
+                                        id: trackFn ? trackFn(scope, locals) : keyName ? keys[index] : index,
                                         label: label,
                                         selected: selected
                                     });
@@ -4319,7 +4319,7 @@
                                             element: optGroupTemplate.clone().attr("label", optionGroupName),
                                             label: optionGroup.label
                                         }
-                                    ], optionGroupsCache.push(existingOptions), selectElement2.append(existingParent.element)) : (existingParent = (existingOptions = optionGroupsCache[groupIndex])[0]).label != optionGroupName && existingParent.element.attr("label", existingParent.label = optionGroupName), lastElement = null, index = 0, length = optionGroup.length; index < length; index++)option = optionGroup[index], (existingOption = existingOptions[index + 1]) ? (lastElement = existingOption.element, existingOption.label !== option.label && lastElement.text(existingOption.label = option.label), existingOption.id !== option.id && lastElement.val(existingOption.id = option.id), lastElement[0].selected !== option.selected && lastElement.prop("selected", existingOption.selected = option.selected)) : ("" === option.id && nullOption ? element = nullOption : (element = optionTemplate.clone()).val(option.id).attr("selected", option.selected).text(option.label), existingOptions.push(existingOption = {
+                                    ], optionGroupsCache.push(existingOptions), selectElement.append(existingParent.element)) : (existingParent = (existingOptions = optionGroupsCache[groupIndex])[0]).label != optionGroupName && existingParent.element.attr("label", existingParent.label = optionGroupName), lastElement = null, index = 0, length = optionGroup.length; index < length; index++)option = optionGroup[index], (existingOption = existingOptions[index + 1]) ? (lastElement = existingOption.element, existingOption.label !== option.label && lastElement.text(existingOption.label = option.label), existingOption.id !== option.id && lastElement.val(existingOption.id = option.id), lastElement[0].selected !== option.selected && lastElement.prop("selected", existingOption.selected = option.selected)) : ("" === option.id && nullOption ? element = nullOption : (element = optionTemplate.clone()).val(option.id).attr("selected", option.selected).text(option.label), existingOptions.push(existingOption = {
                                         element: element,
                                         label: option.label,
                                         id: option.id,
@@ -4329,47 +4329,47 @@
                                 }
                                 for(; optionGroupsCache.length > groupIndex;)optionGroupsCache.pop()[0].element.remove();
                             }
-                            nullOption && ($compile(nullOption)(scope2), nullOption.removeClass("ng-scope"), nullOption.remove()), selectElement2.empty(), selectElement2.on("change", function() {
-                                scope2.$apply(function() {
-                                    var optionGroup, key, value, optionElement, index, groupIndex, length, groupLength, trackIndex, collection = valuesFn(scope2) || [], locals = {
+                            nullOption && ($compile(nullOption)(scope), nullOption.removeClass("ng-scope"), nullOption.remove()), selectElement.empty(), selectElement.on("change", function() {
+                                scope.$apply(function() {
+                                    var optionGroup, key, value, optionElement, index, groupIndex, length, groupLength, trackIndex, collection = valuesFn(scope) || [], locals = {
                                     };
                                     if (multiple) {
                                         for(groupIndex = 0, value = [], groupLength = optionGroupsCache.length; groupIndex < groupLength; groupIndex++)for(index = 1, length = (optionGroup = optionGroupsCache[groupIndex]).length; index < length; index++)if ((optionElement = optionGroup[index].element)[0].selected) {
-                                            if (key = optionElement.val(), keyName && (locals[keyName] = key), trackFn) for(trackIndex = 0; trackIndex < collection.length && (locals[valueName] = collection[trackIndex], trackFn(scope2, locals) != key); trackIndex++);
+                                            if (key = optionElement.val(), keyName && (locals[keyName] = key), trackFn) for(trackIndex = 0; trackIndex < collection.length && (locals[valueName] = collection[trackIndex], trackFn(scope, locals) != key); trackIndex++);
                                             else locals[valueName] = collection[key];
-                                            value.push(valueFn(scope2, locals));
+                                            value.push(valueFn(scope, locals));
                                         }
-                                    } else if ("?" == (key = selectElement2.val())) value = undefined;
+                                    } else if ("?" == (key = selectElement.val())) value = undefined;
                                     else if ("" === key) value = null;
                                     else if (trackFn) {
-                                        for(trackIndex = 0; trackIndex < collection.length; trackIndex++)if (locals[valueName] = collection[trackIndex], trackFn(scope2, locals) == key) {
-                                            value = valueFn(scope2, locals);
+                                        for(trackIndex = 0; trackIndex < collection.length; trackIndex++)if (locals[valueName] = collection[trackIndex], trackFn(scope, locals) == key) {
+                                            value = valueFn(scope, locals);
                                             break;
                                         }
-                                    } else locals[valueName] = collection[key], keyName && (locals[keyName] = key), value = valueFn(scope2, locals);
-                                    ctrl1.$setViewValue(value);
+                                    } else locals[valueName] = collection[key], keyName && (locals[keyName] = key), value = valueFn(scope, locals);
+                                    ctrl.$setViewValue(value);
                                 });
-                            }), ctrl1.$render = render, scope2.$watch(render);
-                        })(scope, element, ngModelCtrl1) : multiple ? (scope1 = scope, selectElement = element, (ctrl = ngModelCtrl1).$render = function() {
+                            }), ctrl.$render = render, scope.$watch(render);
+                        })(scope, element, ngModelCtrl) : multiple ? (scope = scope, selectElement = element, (ctrl = ngModelCtrl).$render = function() {
                             var items = new HashMap(ctrl.$viewValue);
                             forEach(selectElement.find("option"), function(option) {
                                 option.selected = isDefined(items.get(option.value));
                             });
-                        }, scope1.$watch(function() {
+                        }, scope.$watch(function() {
                             equals(lastView, ctrl.$viewValue) || (lastView = copy(ctrl.$viewValue), ctrl.$render());
                         }), selectElement.on("change", function() {
-                            scope1.$apply(function() {
+                            scope.$apply(function() {
                                 var array = [];
                                 forEach(selectElement.find("option"), function(option) {
                                     option.selected && array.push(option.value);
                                 }), ctrl.$setViewValue(array);
                             });
-                        })) : (selectElement1 = element, ngModelCtrl = ngModelCtrl1, selectCtrl = selectCtrl1, ngModelCtrl.$render = function() {
+                        })) : (selectElement = element, ngModelCtrl = ngModelCtrl, selectCtrl = selectCtrl, ngModelCtrl.$render = function() {
                             var viewValue = ngModelCtrl.$viewValue;
-                            selectCtrl.hasOption(viewValue) ? (unknownOption.parent() && unknownOption.remove(), selectElement1.val(viewValue), "" === viewValue && emptyOption.prop("selected", !0)) : isUndefined(viewValue) && emptyOption ? selectElement1.val("") : selectCtrl.renderUnknownOption(viewValue);
-                        }, selectElement1.on("change", function() {
+                            selectCtrl.hasOption(viewValue) ? (unknownOption.parent() && unknownOption.remove(), selectElement.val(viewValue), "" === viewValue && emptyOption.prop("selected", !0)) : isUndefined(viewValue) && emptyOption ? selectElement.val("") : selectCtrl.renderUnknownOption(viewValue);
+                        }, selectElement.on("change", function() {
                             scope.$apply(function() {
-                                unknownOption.parent() && unknownOption.remove(), ngModelCtrl.$setViewValue(selectElement1.val());
+                                unknownOption.parent() && unknownOption.remove(), ngModelCtrl.$setViewValue(selectElement.val());
                             });
                         }));
                     }
@@ -4389,12 +4389,12 @@
                         var interpolateFn = $interpolate(element.text(), !0);
                         interpolateFn || attr.$set("value", element.text());
                     }
-                    return function(scope5, element, attr) {
-                        var parent = element.parent(), selectCtrl1 = parent.data("$selectController") || parent.parent().data("$selectController");
-                        selectCtrl1 && selectCtrl1.databound ? element.prop("selected", !1) : selectCtrl1 = nullSelectCtrl, interpolateFn ? scope5.$watch(interpolateFn, function(newVal, oldVal) {
-                            attr.$set("value", newVal), newVal !== oldVal && selectCtrl1.removeOption(oldVal), selectCtrl1.addOption(newVal);
-                        }) : selectCtrl1.addOption(attr.value), element.on("$destroy", function() {
-                            selectCtrl1.removeOption(attr.value);
+                    return function(scope, element, attr) {
+                        var parent = element.parent(), selectCtrl = parent.data("$selectController") || parent.parent().data("$selectController");
+                        selectCtrl && selectCtrl.databound ? element.prop("selected", !1) : selectCtrl = nullSelectCtrl, interpolateFn ? scope.$watch(interpolateFn, function(newVal, oldVal) {
+                            attr.$set("value", newVal), newVal !== oldVal && selectCtrl.removeOption(oldVal), selectCtrl.addOption(newVal);
+                        }) : selectCtrl.addOption(attr.value), element.on("$destroy", function() {
+                            selectCtrl.removeOption(attr.value);
                         });
                     };
                 }
@@ -4493,10 +4493,10 @@
                         return {
                             priority: 100,
                             compile: function(tpl, tplAttr) {
-                                return CONSTANT_VALUE_REGEXP.test(tplAttr.ngValue) ? function(scope5, elm, attr) {
-                                    attr.$set("value", scope5.$eval(attr.ngValue));
-                                } : function(scope5, elm, attr) {
-                                    scope5.$watch(attr.ngValue, function(value) {
+                                return CONSTANT_VALUE_REGEXP.test(tplAttr.ngValue) ? function(scope, elm, attr) {
+                                    attr.$set("value", scope.$eval(attr.ngValue));
+                                } : function(scope, elm, attr) {
+                                    scope.$watch(attr.ngValue, function(value) {
                                         attr.$set("value", value);
                                     });
                                 };

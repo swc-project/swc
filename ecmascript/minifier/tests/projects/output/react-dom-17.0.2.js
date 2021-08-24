@@ -9331,9 +9331,9 @@
                 var threadID = computeThreadID(root, lanes);
                 try {
                     subscriber.onWorkStarted(interactions, threadID);
-                } catch (error1) {
+                } catch (error) {
                     scheduleCallback(99, function() {
-                        throw error1;
+                        throw error;
                     });
                 }
             }
