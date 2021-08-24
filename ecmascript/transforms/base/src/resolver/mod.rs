@@ -10,7 +10,7 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = false;
+const LOG: bool = cfg!(feature = "debug-resolver");
 
 /// See [resolver_with_mark] for docs.
 pub fn resolver() -> impl 'static + Fold {

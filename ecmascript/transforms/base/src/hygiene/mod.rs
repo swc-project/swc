@@ -17,7 +17,7 @@ mod ops;
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = true;
+const LOG: bool = cfg!(feature = "debug-hygiene");
 
 #[derive(Debug, Clone, Default)]
 pub struct Config {

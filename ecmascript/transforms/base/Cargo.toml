@@ -8,6 +8,10 @@ name = "swc_ecma_transforms_base"
 repository = "https://github.com/swc-project/swc.git"
 version = "0.27.0"
 
+[features]
+debug-hygiene = []
+debug-resolver = []
+
 [dependencies]
 fxhash = "0.2.1"
 once_cell = "1.5.2"
