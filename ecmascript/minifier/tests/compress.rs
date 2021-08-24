@@ -350,7 +350,7 @@ fn span(input: PathBuf) {
     }
 
     let dir = input.parent().unwrap();
-    let config = dir.join("config.json");
+    let config = find_config(&dir);
     let config = read_to_string(&config).expect("failed to read config.json");
     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
 
