@@ -154,8 +154,8 @@ var Element1 = /*#__PURE__*/ function() {
     ]);
     return Element1;
 }();
-var CanvasElement = /*#__PURE__*/ function(Element1) {
-    _inherits(CanvasElement, Element1);
+var CanvasElement = /*#__PURE__*/ function(Element2) {
+    _inherits(CanvasElement, Element2);
     function CanvasElement() {
         _classCallCheck(this, CanvasElement);
         return _possibleConstructorReturn(this, _getPrototypeOf(CanvasElement).apply(this, arguments));
@@ -171,8 +171,8 @@ var CanvasElement = /*#__PURE__*/ function(Element1) {
     ]);
     return CanvasElement;
 }(_wrapNativeSuper(Element1));
-var ColouredCanvasElement = /*#__PURE__*/ function(CanvasElement) {
-    _inherits(ColouredCanvasElement, CanvasElement);
+var ColouredCanvasElement = /*#__PURE__*/ function(CanvasElement1) {
+    _inherits(ColouredCanvasElement, CanvasElement1);
     function ColouredCanvasElement() {
         _classCallCheck(this, ColouredCanvasElement);
         return _possibleConstructorReturn(this, _getPrototypeOf(ColouredCanvasElement).apply(this, arguments));
@@ -188,8 +188,8 @@ var ColouredCanvasElement = /*#__PURE__*/ function(CanvasElement) {
     ]);
     return ColouredCanvasElement;
 }(CanvasElement);
-var ColouredSquare = /*#__PURE__*/ function(ColouredCanvasElement) {
-    _inherits(ColouredSquare, ColouredCanvasElement);
+var ColouredSquare = /*#__PURE__*/ function(ColouredCanvasElement1) {
+    _inherits(ColouredSquare, ColouredCanvasElement1);
     function ColouredSquare() {
         _classCallCheck(this, ColouredSquare);
         return _possibleConstructorReturn(this, _getPrototypeOf(ColouredSquare).apply(this, arguments));
