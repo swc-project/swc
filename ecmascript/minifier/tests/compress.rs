@@ -354,6 +354,11 @@ fn span(input: PathBuf) {
     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
 
     let stderr = testing::run_test2(false, |cm, handler| {
+        // Type ann
+        if false {
+            return Ok(());
+        }
+
         let mangle = dir.join("mangle.json");
         let mangle = read_to_string(&mangle).ok();
         if let Some(mangle) = &mangle {
@@ -370,7 +375,7 @@ fn span(input: PathBuf) {
         let output = run(cm.clone(), &handler, &input, &config, mangle);
         let output_module = match output {
             Some(v) => v,
-            None => return Ok(()),
+            None => return Err(()),
         };
 
         output_module.visit_with(
