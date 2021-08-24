@@ -1,54 +1,46 @@
-var _foo = /*#__PURE__*/new WeakMap();
-
-var _bar = /*#__PURE__*/new WeakMap();
-
-let Foo = /*#__PURE__*/function () {
-  "use strict";
-
-  function Foo() {
-    babelHelpers.classCallCheck(this, Foo);
-
-    _foo.set(this, {
-      writable: true,
-      value: 1
-    });
-
-    _bar.set(this, {
-      writable: true,
-      value: 1
-    });
-  }
-
-  babelHelpers.createClass(Foo, [{
-    key: "test",
-    value: function test() {
-      var _bar2 = /*#__PURE__*/new WeakMap();
-
-      let Nested = /*#__PURE__*/function () {
-        function Nested() {
-          babelHelpers.classCallCheck(this, Nested);
-
-          _bar2.set(this, {
+let Foo = function() {
+    "use strict";
+    function Foo() {
+        _classCallCheck(this, Foo);
+        _foo.set(this, {
             writable: true,
-            value: 2
-          });
-        }
-
-        babelHelpers.createClass(Nested, [{
-          key: "test",
-          value: function test() {
-            _foo.has(this);
-
-            _bar2.has(this);
-          }
-        }]);
-        return Nested;
-      }();
-
-      _foo.has(this);
-
-      _bar.has(this);
+            value: 1
+        });
+        _bar.set(this, {
+            writable: true,
+            value: 1
+        });
     }
-  }]);
-  return Foo;
+    _createClass(Foo, [
+        {
+            key: "test",
+            value: function test() {
+                let Nested = function() {
+                    function Nested() {
+                        _classCallCheck(this, Nested);
+                        _bar1.set(this, {
+                            writable: true,
+                            value: 2
+                        });
+                    }
+                    _createClass(Nested, [
+                        {
+                            key: "test",
+                            value: function test() {
+                                _foo.has(this);
+                                _bar1.has(this);
+                            }
+                        }
+                    ]);
+                    return Nested;
+                }();
+                var _bar1 = new WeakMap();
+                _foo.has(this);
+                _bar.has(this);
+            }
+        }
+    ]);
+    return Foo;
 }();
+var _foo = new WeakMap();
+var _bar = new WeakMap();
