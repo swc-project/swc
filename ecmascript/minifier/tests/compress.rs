@@ -6,7 +6,7 @@ use once_cell::sync::Lazy;
 use serde::Deserialize;
 use std::{
     env,
-    fmt::Debug,
+    fmt::{self, Debug},
     fs::read_to_string,
     panic::catch_unwind,
     path::{Path, PathBuf},
@@ -526,10 +526,19 @@ struct Shower<'a> {
 }
 
 impl Shower<'_> {
-    fn show(&self, name: &str, node: &dyn Spanned) {
+    fn show<N>(&self, name: &str, node: &N)
+    where
+        N: Spanned + fmt::Debug,
+    {
         let span = node.span();
 
-        self.handler.struct_span_warn(span, name).emit();
+        if span.is_dummy() {
+            self.handler
+                .struct_span_warn(span, &format!("{:?}", node))
+                .emit();
+        } else {
+            self.handler.struct_span_warn(span, name).emit();
+        }
     }
 }
 
