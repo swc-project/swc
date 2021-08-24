@@ -375,6 +375,7 @@ impl ClassProperties {
 
         class.body.visit_mut_with(&mut BrandCheckHandler {
             mark: self.mark,
+            class_name: &ident,
             names: &mut names_used_for_brand_checks,
             methods: &private_methods,
             statics: &statics,

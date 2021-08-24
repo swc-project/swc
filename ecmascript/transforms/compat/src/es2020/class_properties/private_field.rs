@@ -14,6 +14,8 @@ pub(super) struct BrandCheckHandler<'a> {
     /// Mark for the private `WeakSet` variable.
     pub mark: Mark,
 
+    pub class_name: &'a Ident,
+
     /// Private names used for brand checks.
     pub names: &'a mut FxHashSet<JsWord>,
 
@@ -41,6 +43,23 @@ impl VisitMut for BrandCheckHandler<'_> {
                         unreachable!()
                     }
                 };
+                match &**right {
+                    Expr::Ident(right) => {
+                        if self.class_name.sym == right.sym
+                            && self.class_name.span.ctxt == right.span.ctxt
+                        {
+                            *e = Expr::Bin(BinExpr {
+                                span: *span,
+                                op: op!("==="),
+                                left: Box::new(Expr::Ident(self.class_name.clone())),
+                                right: Box::new(Expr::Ident(right.clone())),
+                            });
+                            return;
+                        }
+                    }
+                    _ => {}
+                }
+
                 self.names.insert(n.id.sym.clone());
 
                 let is_static = self.statics.contains(&n.id.sym);
