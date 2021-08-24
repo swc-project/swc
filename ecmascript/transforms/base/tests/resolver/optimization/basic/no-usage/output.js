@@ -1,4 +1,0 @@
-let foo;
-{
-    let foo;
-}
