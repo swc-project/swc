@@ -56,12 +56,6 @@ impl HygieneAnalyzer<'_> {
 
         ret
     }
-
-    /// Registers a binding ident. This is treated as [PatMode::OtherDecl].
-    ///
-    /// If it conflicts
-    #[allow(unused)]
-    fn register_binding_ident(&mut self, i: &mut Ident) {}
 }
 
 impl Visit for HygieneAnalyzer<'_> {
@@ -75,7 +69,7 @@ impl Visit for HygieneAnalyzer<'_> {
 
     fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
         if cfg!(feature = "debug") {
-            log::trace!("hygiene: Handling ({}{:?})", i.sym, i.span.ctxt);
+            log::trace!("hygiene: Handling ({})", i);
         }
 
         if i.span.ctxt == SyntaxContext::empty() {
