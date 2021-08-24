@@ -60,6 +60,8 @@ mod tests {
             &|t| {
                 let mut pass: Box<dyn Fold> = Box::new(noop());
 
+                let mut class_props = false;
+
                 for plugin in &options.plugins {
                     let (name, _option) = match plugin {
                         PluginConfig::WithOption(name, config) => (name, config.clone()),
@@ -72,10 +74,18 @@ mod tests {
                         }
 
                         "proposal-class-properties" => {
-                            pass = Box::new(chain!(pass, class_properties()));
+                            if !class_props {
+                                class_props = true;
+                                pass = Box::new(chain!(pass, class_properties()));
+                            }
                         }
 
-                        "proposal-private-methods" => {}
+                        "proposal-private-methods" => {
+                            if !class_props {
+                                class_props = true;
+                                pass = Box::new(chain!(pass, class_properties()));
+                            }
+                        }
 
                         "transform-classes" => {
                             pass = Box::new(chain!(pass, classes(Some(t.comments.clone()))));
