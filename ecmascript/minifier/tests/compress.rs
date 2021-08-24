@@ -342,7 +342,8 @@ fn base_exec(input: PathBuf) {
 }
 
 /// Tests ported from terser.
-#[testing::fixture("tests/terser/compress/**/input.js")]
+#[testing::fixture("tests/compress/fixture/issues/**/input.js")]
+#[testing::fixture("tests/compress/fixture/simple/**/input.js")]
 fn span(input: PathBuf) {
     if is_ignored(&input) {
         return;
