@@ -17,7 +17,7 @@ mod ops;
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = false;
+const LOG: bool = true;
 
 #[derive(Debug, Clone, Default)]
 pub struct Config {
@@ -38,6 +38,7 @@ impl ToBoxedStr for JsWord {
 struct Hygiene<'a> {
     config: Config,
     current: Scope<'a>,
+    /// Current type of an identifier.
     ident_type: IdentType,
     var_kind: Option<VarDeclKind>,
 }
