@@ -12,10 +12,7 @@ use swc_ecma_visit::{
 #[cfg(test)]
 mod tests;
 
-/// This pass analyzes the comment
-///
-/// - Makes all nodes except identifiers unique in aspect of span hygiene.
-/// - Convert annottatinos into [Mark].
+/// This pass analyzes the comment and convert it to a mark.
 pub(crate) fn info_marker<'a>(
     comments: Option<&'a dyn Comments>,
     marks: Marks,
