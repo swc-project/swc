@@ -718,7 +718,9 @@ impl ClassProperties {
                             .apply_mark(self.method_mark),
                     );
 
-                    let weak_set_var = Ident::new(
+                    let should_use_map = names_used_for_brand_checks.contains(&method.key.id.sym);
+
+                    let weak_coll_var = Ident::new(
                         format!("_{}", method.key.id.sym).into(),
                         // We use `self.mark` for private variables.
                         method.key.span.apply_mark(self.mark),
@@ -733,26 +735,55 @@ impl ClassProperties {
                     vars.push(VarDeclarator {
                         span: DUMMY_SP,
                         definite: false,
-                        name: Pat::Ident(weak_set_var.clone().into()),
+                        name: Pat::Ident(weak_coll_var.clone().into()),
                         init: Some(Box::new(Expr::from(NewExpr {
                             span: DUMMY_SP,
-                            callee: Box::new(Expr::Ident(quote_ident!("WeakSet"))),
+                            callee: if should_use_map {
+                                Box::new(Expr::Ident(quote_ident!("WeakMap")))
+                            } else {
+                                Box::new(Expr::Ident(quote_ident!("WeakSet")))
+                            },
                             args: Some(Default::default()),
                             type_args: Default::default(),
                         }))),
                     });
 
-                    // Add `_get.add(this);` to the constructor where `_get` is the name of the weak
-                    // set.
-                    constructor_exprs.push(Box::new(Expr::Call(CallExpr {
-                        span: prop_span,
-                        callee: weak_set_var
-                            .clone()
-                            .make_member(quote_ident!("add"))
-                            .as_callee(),
-                        args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                        type_args: Default::default(),
-                    })));
+                    if should_use_map {
+                        let get = PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                            key: PropName::Ident(quote_ident!("get")),
+                            value: Box::new(Expr::Ident(fn_name.clone())),
+                        })));
+                        let set = PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                            key: PropName::Ident(quote_ident!("set")),
+                            value: undefined(DUMMY_SP),
+                        })));
+
+                        let obj = ObjectLit {
+                            span: DUMMY_SP,
+                            props: vec![get, set],
+                        };
+                        constructor_exprs.push(Box::new(Expr::Call(CallExpr {
+                            span: prop_span,
+                            callee: weak_coll_var
+                                .clone()
+                                .make_member(quote_ident!("set"))
+                                .as_callee(),
+                            args: vec![ThisExpr { span: DUMMY_SP }.as_arg(), obj.as_arg()],
+                            type_args: Default::default(),
+                        })));
+                    } else {
+                        // Add `_get.add(this);` to the constructor where `_get` is the name of the
+                        // weak set.
+                        constructor_exprs.push(Box::new(Expr::Call(CallExpr {
+                            span: prop_span,
+                            callee: weak_coll_var
+                                .clone()
+                                .make_member(quote_ident!("add"))
+                                .as_callee(),
+                            args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                            type_args: Default::default(),
+                        })));
+                    }
 
                     private_method_fn_decls.push(Stmt::Decl(Decl::Fn(FnDecl {
                         ident: fn_name,
