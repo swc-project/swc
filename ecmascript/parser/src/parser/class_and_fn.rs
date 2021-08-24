@@ -527,7 +527,6 @@ impl<'a, I: Tokens> Parser<I> {
 
         if self.input.syntax().static_blocks() {
             if is_static && is!(self, '{') {
-                dbg!(declare_token);
                 if let Some(span) = declare_token {
                     self.emit_err(span, SyntaxError::TS1184);
                 }
