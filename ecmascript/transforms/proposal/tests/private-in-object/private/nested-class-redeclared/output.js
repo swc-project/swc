@@ -1,43 +1,39 @@
-var _foo = /*#__PURE__*/new WeakMap();
-
-let Foo = /*#__PURE__*/function () {
-  "use strict";
-
-  function Foo() {
-    babelHelpers.classCallCheck(this, Foo);
-
-    _foo.set(this, {
-      writable: true,
-      value: 1
-    });
-  }
-
-  babelHelpers.createClass(Foo, [{
-    key: "test",
-    value: function test() {
-      var _foo2 = /*#__PURE__*/new WeakMap();
-
-      let Nested = /*#__PURE__*/function () {
-        function Nested() {
-          babelHelpers.classCallCheck(this, Nested);
-
-          _foo2.set(this, {
+let Foo = function() {
+    "use strict";
+    function Foo() {
+        _classCallCheck(this, Foo);
+        _foo.set(this, {
             writable: true,
-            value: 2
-          });
-        }
-
-        babelHelpers.createClass(Nested, [{
-          key: "test",
-          value: function test() {
-            _foo2.has(this);
-          }
-        }]);
-        return Nested;
-      }();
-
-      _foo.has(this);
+            value: 1
+        });
     }
-  }]);
-  return Foo;
+    _createClass(Foo, [
+        {
+            key: "test",
+            value: function test() {
+                let Nested = function() {
+                    function Nested() {
+                        _classCallCheck(this, Nested);
+                        _foo1.set(this, {
+                            writable: true,
+                            value: 2
+                        });
+                    }
+                    _createClass(Nested, [
+                        {
+                            key: "test",
+                            value: function test() {
+                                _foo1.has(this);
+                            }
+                        }
+                    ]);
+                    return Nested;
+                }();
+                var _foo1 = new WeakMap();
+                _foo.has(this);
+            }
+        }
+    ]);
+    return Foo;
 }();
+var _foo = new WeakMap();
