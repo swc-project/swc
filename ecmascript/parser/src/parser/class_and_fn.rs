@@ -536,6 +536,7 @@ impl<'a, I: Tokens> Parser<I> {
                 return self.parse_static_block();
             }
             if is!(self, "static") && peeked_is!(self, '{') {
+                // For "readonly", "abstract" and "override"
                 if let Some(span) = modifier_span {
                     self.emit_err(span, SyntaxError::TS1184);
                 }
