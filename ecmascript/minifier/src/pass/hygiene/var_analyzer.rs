@@ -43,7 +43,7 @@ pub(super) struct ScopeData {
 }
 
 impl ScopeData {
-    fn merge_child(&mut self, rhs: Self, kind: ScopeKind) {
+    fn merge_child(&mut self, rhs: Self) {
         for decl in rhs.declared {
             self.declared.entry(decl.0).or_default().extend(decl.1);
         }
@@ -53,31 +53,6 @@ impl ScopeData {
 
         for (id, var) in rhs.vars {
             let e = self.vars.entry(id.clone()).or_default();
-
-            match kind {
-                ScopeKind::Fn => {
-                    if cfg!(feature = "debug") {
-                        log::trace!("preserving {:?}: not fn-local (from fn)", id);
-                    }
-
-                    self.preserved_ids.insert(id.clone());
-
-                    e.not_fn_local = true;
-                    e.used_by_nested_fn = true;
-                }
-                ScopeKind::Block => {
-                    if var.used_by_nested_fn {
-                        if cfg!(feature = "debug") {
-                            log::trace!("preserving {:?}: not fn-local (from block)", id);
-                        }
-
-                        self.preserved_ids.insert(id.clone());
-
-                        e.not_fn_local = true;
-                        e.used_by_nested_fn = true;
-                    }
-                }
-            }
         }
     }
 }
@@ -95,29 +70,47 @@ impl<'a> VarAnalyzer<'a> {
     where
         N: for<'aa> VisitWith<VarAnalyzer<'aa>> + VisitWith<BindingCollector<Id>>,
     {
+        node.visit_children_with(self);
+
+        let mut data = ScopeData::default();
+
+        let decls = collect_decls(node);
+
+        for decl_id in decls {
+            let e = data.declared.entry(decl_id.0).or_default();
+            e.insert(decl_id.1);
+        }
+
+        let mut v = VarAnalyzer {
+            scope: &mut data,
+            children: Default::default(),
+            scope_depth: self.scope_depth,
+            max_depth: self.max_depth,
+        };
+        node.visit_children_with(&mut v);
+    }
+
+    fn visit_nodes<N>(&mut self, nodes: &[N])
+    where
+        N: for<'aa> VisitWith<VarAnalyzer<'aa>> + VisitWith<BindingCollector<Id>>,
+    {
+        if true {
+            for node in nodes {
+                node.visit_children_with(self);
+            }
+            return;
+        }
+
         let cur_depth = self.scope_depth;
         let child_depth = cur_depth + 1;
         self.max_depth = max(self.max_depth, cur_depth);
 
-        if cfg!(debug_assertions) {
-            for (k, _) in self.children.iter() {
-                assert!(
-                    *k <= child_depth,
-                    "Nested scopes should be merged by scope handler at depth = {}",
-                    child_depth
-                );
-            }
+        // Leaf node.
+        if cfg!(feature = "debug") {
+            log::trace!("Hanlding leaf scope (depth = {})", cur_depth);
         }
 
-        if true {
-            if cfg!(feature = "debug") {
-                log::trace!("Hanlding leaf scope using self (depth = {})", cur_depth);
-            }
-
-            self.scope_depth += 1;
-            node.visit_children_with(self);
-            self.scope_depth -= 1;
-
+        for node in nodes {
             let mut data = ScopeData::default();
 
             let decls = collect_decls(node);
@@ -134,62 +127,12 @@ impl<'a> VarAnalyzer<'a> {
                 max_depth: self.max_depth,
             };
             node.visit_children_with(&mut v);
-            return;
-        }
 
-        match self.children.remove(&child_depth) {
-            Some(children) => {
-                // We are not in a leaf node, so we can just use the variable
-                // information collected from child scope.
+            self.scope.merge_child(data);
 
-                if cfg!(feature = "debug") {
-                    log::trace!("Hanlding non-leaf scope (depth = {})", cur_depth);
-                }
+            // self.max_depth = max(self.max_depth, v.max_depth);
 
-                let mut data = children.into_iter().fold(ScopeData::default(), |mut a, b| {
-                    a.merge_child(b, kind);
-                    a
-                });
-
-                let mut v = VarAnalyzer {
-                    scope: &mut data,
-                    children: Default::default(),
-                    scope_depth: child_depth,
-                    max_depth: self.max_depth,
-                };
-                node.visit_children_with(&mut v);
-
-                self.max_depth = max(self.max_depth, v.max_depth);
-
-                self.children.entry(cur_depth).or_default().push(data);
-            }
-            None => {
-                // Leaf node.
-                if cfg!(feature = "debug") {
-                    log::trace!("Hanlding leaf scope (depth = {})", cur_depth);
-                }
-
-                let mut data = ScopeData::default();
-
-                let decls = collect_decls(node);
-
-                for decl_id in decls {
-                    let e = data.declared.entry(decl_id.0).or_default();
-                    e.insert(decl_id.1);
-                }
-
-                let mut v = VarAnalyzer {
-                    scope: &mut data,
-                    children: Default::default(),
-                    scope_depth: child_depth,
-                    max_depth: self.max_depth,
-                };
-                node.visit_children_with(&mut v);
-
-                self.max_depth = max(self.max_depth, v.max_depth);
-
-                self.children.entry(cur_depth).or_default().push(data);
-            }
+            // self.children.entry(cur_depth).or_default().push(data);
         }
     }
 }
@@ -236,6 +179,7 @@ impl Visit for VarAnalyzer<'_> {
             n.prop.visit_with(n, self);
         }
     }
+
     fn visit_prop_name(&mut self, n: &PropName, _: &dyn Node) {
         match n {
             PropName::Computed(..) => {
@@ -243,5 +187,8 @@ impl Visit for VarAnalyzer<'_> {
             }
             _ => {}
         }
+    }
+    fn visit_stmts(&mut self, n: &[Stmt], _: &dyn Node) {
+        self.visit_nodes(n);
     }
 }
