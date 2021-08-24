@@ -10,33 +10,33 @@ class ServiceError extends Error {
     }
 }
 exports.ServiceError = ServiceError;
-(function(ServiceError1) {
+(function(ServiceError) {
     var Code;
-    (function(Code1) {
-        Code1[Code1["serviceNotFound"] = 404] = "serviceNotFound";
-        Code1[Code1["serviceNotCompatible"] = 426] = "serviceNotCompatible";
-        Code1[Code1["serviceGone"] = 410] = "serviceGone";
-        Code1[Code1["implementation"] = 500] = "implementation";
-        Code1[Code1["timedOut"] = 504] = "timedOut";
-        Code1[Code1["badRequest"] = 400] = "badRequest";
-        Code1[Code1["badResponse"] = 422] = "badResponse";
+    (function(Code) {
+        Code[Code["serviceNotFound"] = 404] = "serviceNotFound";
+        Code[Code["serviceNotCompatible"] = 426] = "serviceNotCompatible";
+        Code[Code["serviceGone"] = 410] = "serviceGone";
+        Code[Code["implementation"] = 500] = "implementation";
+        Code[Code["timedOut"] = 504] = "timedOut";
+        Code[Code["badRequest"] = 400] = "badRequest";
+        Code[Code["badResponse"] = 422] = "badResponse";
     })(Code || (Code = {
     }));
     class ServiceNotFound extends ServiceError {
-        constructor(...args1){
-            super(...args1);
+        constructor(...args){
+            super(...args);
             // Service was probably not registered, or using the wrong channel
             this.code = Code.serviceNotFound;
             this.name = "ServiceError.ServiceNotFound";
         }
     }
-    ServiceError1.ServiceNotFound = ServiceNotFound;
+    ServiceError.ServiceNotFound = ServiceNotFound;
     function toMessageBody(error) {
         return {
             code: ServiceError.Code.implementation
         };
     }
-    ServiceError1.toMessageBody = toMessageBody;
-    ServiceError1.Code = Code;
+    ServiceError.toMessageBody = toMessageBody;
+    ServiceError.Code = Code;
 })(ServiceError || (ServiceError = {
 }));
