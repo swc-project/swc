@@ -117,14 +117,24 @@ impl<'a> VarAnalyzer<'a> {
             self.scope_depth += 1;
             node.visit_children_with(self);
             self.scope_depth -= 1;
-        }
 
-        if cur_depth != self.max_depth {
-            debug_assert!(
-                self.children.contains_key(&child_depth),
-                "Child scope should be handled at this stage\nMax depth = {}",
-                self.max_depth
-            );
+            let mut data = ScopeData::default();
+
+            let decls = collect_decls(node);
+
+            for decl_id in decls {
+                let e = data.declared.entry(decl_id.0).or_default();
+                e.insert(decl_id.1);
+            }
+
+            let mut v = VarAnalyzer {
+                scope: &mut data,
+                children: Default::default(),
+                scope_depth: child_depth,
+                max_depth: self.max_depth,
+            };
+            node.visit_children_with(&mut v);
+            return;
         }
 
         match self.children.remove(&child_depth) {
