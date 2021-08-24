@@ -85,6 +85,7 @@ pub fn optimize(
     }
 
     m.visit_mut_with(&mut info_marker(comments, marks, extra.top_level_mark));
+    m.visit_mut_with(&mut unique_scope());
 
     if options.wrap {
         // TODO: wrap_common_js

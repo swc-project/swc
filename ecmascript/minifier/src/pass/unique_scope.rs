@@ -13,12 +13,6 @@ struct UniqueScope;
 
 impl UniqueScope {
     fn make_unique(&self, span: &mut Span) {
-        debug_assert_eq!(
-            span.ctxt,
-            SyntaxContext::empty(),
-            "Expected empty syntax context"
-        );
-
         span.ctxt = span.ctxt.apply_mark(Mark::fresh(Mark::root()));
     }
 }
