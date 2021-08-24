@@ -1,20 +1,19 @@
-let Foo = /*#__PURE__*/function () {
-  "use strict";
-
-  function Foo() {
-    babelHelpers.classCallCheck(this, Foo);
-  }
-
-  babelHelpers.createClass(Foo, [{
-    key: "test",
-    value: function test(other) {
-      return other === Foo;
+let Foo = function() {
+    "use strict";
+    function Foo() {
+        _classCallCheck(this, Foo);
     }
-  }]);
-  return Foo;
+    _createClass(Foo, [
+        {
+            key: "test",
+            value: function test(other) {
+                return other === Foo;
+            }
+        }
+    ]);
+    return Foo;
 }();
-
 var _foo = {
-  writable: true,
-  value: 1
+    writable: true,
+    value: 1
 };
