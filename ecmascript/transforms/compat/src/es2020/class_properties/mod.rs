@@ -328,7 +328,29 @@ impl ClassProperties {
         let mut constructor = None;
         let mut used_names = vec![];
         let mut used_key_names = vec![];
-        let mut statics = HashSet::default();
+        let statics = {
+            let mut s = HashSet::default();
+
+            for member in &class.body {
+                match member {
+                    ClassMember::PrivateMethod(method) => {
+                        if method.is_static {
+                            s.insert(method.key.id.sym.clone());
+                        }
+                    }
+
+                    ClassMember::PrivateProp(prop) => {
+                        if prop.is_static {
+                            s.insert(prop.key.id.sym.clone());
+                        }
+                    }
+
+                    _ => {}
+                }
+            }
+
+            s
+        };
         let mut private_methods = HashSet::default();
 
         for member in class.body {
@@ -521,9 +543,6 @@ impl ClassProperties {
                 }
                 ClassMember::PrivateProp(prop) => {
                     let prop_span = prop.span();
-                    if prop.is_static {
-                        statics.insert(prop.key.id.sym.clone());
-                    }
 
                     let ident = Ident::new(
                         format!("_{}", prop.key.id.sym).into(),
@@ -673,9 +692,6 @@ impl ClassProperties {
                             .with_ctxt(SyntaxContext::empty())
                             .apply_mark(self.method_mark),
                     );
-                    if method.is_static {
-                        statics.insert(method.key.id.sym.clone());
-                    }
 
                     let weak_set_var = Ident::new(
                         format!("_{}", method.key.id.sym).into(),
