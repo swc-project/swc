@@ -718,7 +718,9 @@ impl ClassProperties {
                             .apply_mark(self.method_mark),
                     );
 
-                    let should_use_map = names_used_for_brand_checks.contains(&method.key.id.sym);
+                    let should_use_map =
+                        matches!(method.kind, MethodKind::Getter | MethodKind::Setter)
+                            && names_used_for_brand_checks.contains(&method.key.id.sym);
 
                     let weak_coll_var = Ident::new(
                         format!("_{}", method.key.id.sym).into(),
