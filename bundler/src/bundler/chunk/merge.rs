@@ -18,6 +18,7 @@ use indexmap::IndexSet;
 use petgraph::EdgeDirection;
 #[cfg(feature = "concurrent")]
 use rayon::iter::ParallelIterator;
+use std::sync::atomic::Ordering;
 use swc_atoms::js_word;
 use swc_common::{sync::Lock, FileName, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -915,6 +916,8 @@ where
                             {
                                 let dep = self.scope.get_module(src.module_id).unwrap();
                                 if !dep.is_es6 {
+                                    dep.helpers.require.store(true, Ordering::SeqCst);
+
                                     let mut vars = vec![];
                                     let mod_var = private_ident!("_cjs_module_");
 
