@@ -1,4 +1,4 @@
-use swc_common::{Mark, Span, SyntaxContext};
+use swc_common::{Mark, Span};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
