@@ -63,14 +63,25 @@ impl VisitMut for BrandCheckHandler<'_> {
                 self.names.insert(n.id.sym.clone());
 
                 let is_static = self.statics.contains(&n.id.sym);
-                let ident = Ident::new(
+
+                if is_static {
+                    *e = Expr::Bin(BinExpr {
+                        span: *span,
+                        op: op!("==="),
+                        left: right.take(),
+                        right: Box::new(Expr::Ident(self.class_name.clone())),
+                    });
+                    return;
+                }
+
+                let weak_coll_ident = Ident::new(
                     format!("_{}", n.id.sym).into(),
                     n.id.span.apply_mark(self.mark),
                 );
 
                 *e = Expr::Call(CallExpr {
                     span: *span,
-                    callee: ident.make_member(quote_ident!("has")).as_callee(),
+                    callee: weak_coll_ident.make_member(quote_ident!("has")).as_callee(),
                     args: vec![right.take().as_arg()],
                     type_args: Default::default(),
                 });
