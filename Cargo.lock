@@ -2810,7 +2810,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.57.0"
+version = "0.57.1"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
