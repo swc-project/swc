@@ -1,6 +1,8 @@
 use self::{
-    class_name_tdz::ClassNameTdzFolder, private_field::FieldAccessFolder,
-    this_in_static::ThisInStaticFolder, used_name::UsedNameCollector,
+    class_name_tdz::ClassNameTdzFolder,
+    private_field::{BrandCheckHandler, FieldAccessFolder},
+    this_in_static::ThisInStaticFolder,
+    used_name::UsedNameCollector,
 };
 use std::{collections::HashSet, mem::take};
 use swc_common::{util::move_map::MoveMap, Mark, Spanned, SyntaxContext, DUMMY_SP};
@@ -12,7 +14,9 @@ use swc_ecma_utils::{
     alias_ident_for, alias_if_required, constructor::inject_after_super, default_constructor,
     private_ident, quote_ident, undefined, ExprFactory, ModuleItemLike, StmtLike,
 };
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{
+    noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitMutWith, VisitWith,
+};
 
 mod class_name_tdz;
 mod private_field;
@@ -310,7 +314,7 @@ impl ClassProperties {
     fn fold_class_as_decl(
         &mut self,
         ident: Ident,
-        class: Class,
+        mut class: Class,
     ) -> (Vec<VarDeclarator>, ClassDecl, Vec<Stmt>) {
         // Create one mark per class
         self.mark = Mark::fresh(Mark::root());
@@ -328,6 +332,8 @@ impl ClassProperties {
         let mut constructor = None;
         let mut used_names = vec![];
         let mut used_key_names = vec![];
+        let mut names_used_for_brand_checks = HashSet::default();
+
         let statics = {
             let mut s = HashSet::default();
 
@@ -351,7 +357,28 @@ impl ClassProperties {
 
             s
         };
-        let mut private_methods = HashSet::default();
+        let private_methods = {
+            let mut s = HashSet::default();
+
+            for member in &class.body {
+                match member {
+                    ClassMember::PrivateMethod(method) => {
+                        s.insert(method.key.id.sym.clone());
+                    }
+
+                    _ => {}
+                }
+            }
+
+            s
+        };
+
+        class.body.visit_mut_with(&mut BrandCheckHandler {
+            mark: self.mark,
+            names: &mut names_used_for_brand_checks,
+            methods: &private_methods,
+            statics: &statics,
+        });
 
         for member in class.body {
             match member {
@@ -682,8 +709,6 @@ impl ClassProperties {
                 }
 
                 ClassMember::PrivateMethod(method) => {
-                    private_methods.insert(method.key.id.sym.clone());
-
                     let prop_span = method.span;
                     let fn_name = Ident::new(
                         method.key.id.sym.clone(),

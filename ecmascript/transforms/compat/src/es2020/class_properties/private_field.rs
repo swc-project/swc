@@ -4,11 +4,63 @@ use swc_atoms::JsWord;
 use swc_common::{Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{
-    ext::{AsOptExpr, PatOrExprExt},
+    ext::{AsOptExpr, MapWithMut, PatOrExprExt},
     helper,
 };
 use swc_ecma_utils::{alias_ident_for, alias_if_required, prepend, quote_ident, ExprFactory};
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
+
+pub(super) struct BrandCheckHandler<'a> {
+    /// Mark for the private `WeakSet` variable.
+    pub mark: Mark,
+
+    /// Private names used for brand checks.
+    pub names: &'a mut FxHashSet<JsWord>,
+
+    pub methods: &'a FxHashSet<JsWord>,
+
+    pub statics: &'a FxHashSet<JsWord>,
+}
+
+impl VisitMut for BrandCheckHandler<'_> {
+    noop_visit_mut_type!();
+
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
+
+        match e {
+            Expr::Bin(BinExpr {
+                span,
+                op: op!("in"),
+                left,
+                right,
+            }) if left.is_private_name() => {
+                let n = match &**left {
+                    Expr::PrivateName(ref n) => n,
+                    _ => {
+                        unreachable!()
+                    }
+                };
+                self.names.insert(n.id.sym.clone());
+
+                let is_static = self.statics.contains(&n.id.sym);
+                let ident = Ident::new(
+                    format!("_{}", n.id.sym).into(),
+                    n.id.span.apply_mark(self.mark),
+                );
+
+                *e = Expr::Call(CallExpr {
+                    span: *span,
+                    callee: ident.make_member(quote_ident!("has")).as_callee(),
+                    args: vec![right.take().as_arg()],
+                    type_args: Default::default(),
+                });
+            }
+
+            _ => {}
+        }
+    }
+}
 
 pub(super) struct FieldAccessFolder<'a> {
     /// Mark for the private `WeakSet` variable.
@@ -58,33 +110,6 @@ impl<'a> Fold for FieldAccessFolder<'a> {
 
     fn fold_expr(&mut self, e: Expr) -> Expr {
         match e {
-            Expr::Bin(BinExpr {
-                span,
-                op: op!("in"),
-                left,
-                right,
-            }) if left.is_private_name() => {
-                let n = match &*left {
-                    Expr::PrivateName(ref n) => n,
-                    _ => {
-                        unreachable!()
-                    }
-                };
-
-                let is_static = self.statics.contains(&n.id.sym);
-                let ident = Ident::new(
-                    format!("_{}", n.id.sym).into(),
-                    n.id.span.apply_mark(self.mark),
-                );
-
-                Expr::Call(CallExpr {
-                    span,
-                    callee: ident.make_member(quote_ident!("has")).as_callee(),
-                    args: vec![right.as_arg()],
-                    type_args: Default::default(),
-                })
-            }
-
             Expr::Update(UpdateExpr {
                 span,
                 prefix,
