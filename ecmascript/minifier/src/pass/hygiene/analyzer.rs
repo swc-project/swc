@@ -109,7 +109,7 @@ impl Visit for HygieneAnalyzer<'_> {
             }
         }
 
-        if info.is_fn_local {
+        if info.is_fn_local || info.declared_as_fn_expr {
             if cfg!(feature = "debug") {
                 log::trace!(
                     "hygiene: Optimization candidate: {}{:?}",
