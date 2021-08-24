@@ -12,7 +12,10 @@
 //! them something other. Don't call methods like `visit_mut_script` nor
 //! `visit_mut_module_items`.
 
-pub use crate::pass::hygiene::{hygiene_optimizer, optimize_hygiene};
+pub use crate::pass::{
+    hygiene::{hygiene_optimizer, optimize_hygiene},
+    unique_scope::unique_scope,
+};
 use crate::{
     compress::compressor,
     marks::Marks,
@@ -82,6 +85,7 @@ pub fn optimize(
     }
 
     m.visit_mut_with(&mut info_marker(comments, marks, extra.top_level_mark));
+    m.visit_mut_with(&mut unique_scope());
 
     if options.wrap {
         // TODO: wrap_common_js
