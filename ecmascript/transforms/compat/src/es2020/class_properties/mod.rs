@@ -67,6 +67,7 @@ impl Fold for ClassProperties {
             ..p.fold_children_with(self)
         }
     }
+
     fn fold_object_pat(&mut self, p: ObjectPat) -> ObjectPat {
         ObjectPat {
             optional: false,

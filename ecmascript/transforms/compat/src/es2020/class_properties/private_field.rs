@@ -58,6 +58,33 @@ impl<'a> Fold for FieldAccessFolder<'a> {
 
     fn fold_expr(&mut self, e: Expr) -> Expr {
         match e {
+            Expr::Bin(BinExpr {
+                span,
+                op: op!("in"),
+                left,
+                right,
+            }) if left.is_private_name() => {
+                let n = match &*left {
+                    Expr::PrivateName(ref n) => n,
+                    _ => {
+                        unreachable!()
+                    }
+                };
+
+                let is_static = self.statics.contains(&n.id.sym);
+                let ident = Ident::new(
+                    format!("_{}", n.id.sym).into(),
+                    n.id.span.apply_mark(self.mark),
+                );
+
+                Expr::Call(CallExpr {
+                    span,
+                    callee: ident.make_member(quote_ident!("has")).as_callee(),
+                    args: vec![right.as_arg()],
+                    type_args: Default::default(),
+                })
+            }
+
             Expr::Update(UpdateExpr {
                 span,
                 prefix,
