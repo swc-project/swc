@@ -95,10 +95,6 @@ impl<'a> VarAnalyzer<'a> {
     where
         N: for<'aa> VisitWith<VarAnalyzer<'aa>> + VisitWith<BindingCollector<Id>>,
     {
-        if true {
-            return;
-        }
-
         let cur_depth = self.scope_depth;
         let child_depth = cur_depth + 1;
         self.max_depth = max(self.max_depth, cur_depth);
