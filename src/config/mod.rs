@@ -206,6 +206,7 @@ impl Options {
             base_url,
             paths,
             minify: js_minify,
+            experimental,
         } = config.jsc;
         let target = target.unwrap_or_default();
 
@@ -283,6 +284,7 @@ impl Options {
             } else {
                 Some(hygiene::Config { keep_class_names })
             })
+            .optimize_hygiene(experimental.optimize_hygiene)
             .fixer(!self.disable_fixer)
             .preset_env(config.env)
             .finalize(
@@ -669,6 +671,7 @@ pub struct BuiltConfig<P: swc_ecma_visit::Fold> {
     pub preserve_comments: Option<BoolOrObject<JsMinifyCommentOption>>,
 }
 
+/// `jsc` in  `.swcrc`.
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct JscConfig {
@@ -698,6 +701,23 @@ pub struct JscConfig {
 
     #[serde(default)]
     pub minify: Option<JsMinifyOptions>,
+
+    #[serde(default)]
+    pub experimental: JscExperimental,
+}
+
+/// `jsc.experimental` in `.swcrc`
+#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub struct JscExperimental {
+    #[serde(default)]
+    pub optimize_hygiene: bool,
+}
+
+impl Merge for JscExperimental {
+    fn merge(&mut self, from: &Self) {
+        self.optimize_hygiene |= from.optimize_hygiene;
+    }
 }
 
 /// `paths` sectiob of `tsconfig.json`.
@@ -1045,6 +1065,7 @@ impl Merge for JscConfig {
         self.keep_class_names.merge(&from.keep_class_names);
         self.paths.merge(&from.paths);
         self.minify.merge(&from.minify);
+        self.experimental.merge(&from.experimental);
     }
 }
 

@@ -486,6 +486,10 @@ export interface JscConfig {
    */
   keepClassNames?: boolean
 
+  experimetal?: {
+    optimizeHygiene?: boolean
+  },
+
   paths?: {
     [from: string]: [string]
   }

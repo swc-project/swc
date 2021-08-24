@@ -21,6 +21,11 @@ pub fn optimize_hygiene(m: &mut Module, top_level_mark: Mark) {
 /// Create a hygiene optimizer.
 ///
 /// Hygiene optimizer removes span hygiene without renaming if it's ok to do so.
+///
+/// # Usage
+///
+/// You have to apply [crate::unique_scope] before this. Otherwise, this will
+/// break code.
 pub fn hygiene_optimizer(top_level_mark: Mark) -> impl 'static + VisitMut + Fold {
     as_folder(Optimizer {
         data: Default::default(),

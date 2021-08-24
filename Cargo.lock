@@ -2139,7 +2139,7 @@ checksum = "6446ced80d6c486436db5c078dde11a9f73d42b57fb273121e160b84f63d894c"
 
 [[package]]
 name = "swc"
-version = "0.43.0"
+version = "0.43.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2384,7 +2384,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.49.4"
+version = "0.49.5"
 dependencies = [
  "arbitrary",
  "is-macro",
@@ -2470,7 +2470,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.22.0"
+version = "0.22.1"
 dependencies = [
  "ansi_term 0.12.1",
  "anyhow",
@@ -3189,7 +3189,7 @@ checksum = "fd6fbd9a79829dd1ad0cc20627bf1ed606756a7f77edff7b66b7064f9cb327c6"
 
 [[package]]
 name = "wasm"
-version = "1.2.80"
+version = "1.2.81"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
