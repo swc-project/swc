@@ -10,7 +10,7 @@ use swc_common::{
     chain, comments::Comments, errors::Handler, sync::Lrc, FileName, Mark, SourceMap,
 };
 use swc_ecma_ast::Module;
-use swc_ecma_minifier::option::MinifyOptions;
+use swc_ecma_minifier::{hygiene_optimizer, option::MinifyOptions, unique_scope};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
     compat, fixer, helpers, hygiene, hygiene::hygiene_with_config, modules, modules::util::Scope,
@@ -25,6 +25,7 @@ pub struct PassBuilder<'a, 'b, P: swc_ecma_visit::Fold> {
     handler: &'b Handler,
     env: Option<swc_ecma_preset_env::Config>,
     pass: P,
+    /// [Mark] for top level bindings and unresolved identifier references.
     global_mark: Mark,
     target: JscTarget,
     loose: bool,
@@ -225,7 +226,11 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 top_level_mark: self.global_mark,
             }),
             Optional::new(
-                hygiene_with_config(self.hygiene.clone().unwrap_or_default()),
+                chain!(
+                    unique_scope(),
+                    hygiene_optimizer(self.global_mark),
+                    hygiene_with_config(self.hygiene.clone().unwrap_or_default())
+                ),
                 self.hygiene.is_some()
             ),
             Optional::new(fixer(comments.map(|v| v as &dyn Comments)), self.fixer),
