@@ -380,7 +380,10 @@ fn span(input: PathBuf) {
 
         output_module.visit_with(
             &Invalid { span: DUMMY_SP },
-            &mut Shower { handler: &handler },
+            &mut Shower {
+                cm: cm.clone(),
+                handler: &handler,
+            },
         );
 
         Err(())
@@ -522,11 +525,26 @@ fn print<N: swc_ecma_codegen::Node>(cm: Lrc<SourceMap>, nodes: &[N], minify: boo
 }
 
 struct Shower<'a> {
+    cm: Lrc<SourceMap>,
     handler: &'a Handler,
 }
 
 impl Shower<'_> {
     fn show<N>(&self, name: &str, node: &N)
+    where
+        N: Spanned + fmt::Debug + swc_ecma_codegen::Node,
+    {
+        let span = node.span();
+
+        if span.is_dummy() {
+            let s = print(self.cm.clone(), &[node], false);
+            self.handler.struct_span_warn(span, &s).emit();
+        } else {
+            self.handler.struct_span_warn(span, name).emit();
+        }
+    }
+
+    fn show_name<N>(&self, name: &str, node: &N)
     where
         N: Spanned + fmt::Debug,
     {
@@ -656,7 +674,7 @@ impl Visit for Shower<'_> {
         n.visit_children_with(self)
     }
     fn visit_default_decl(&mut self, n: &DefaultDecl, _parent: &dyn Node) {
-        self.show("DefaultDecl", n);
+        self.show_name("DefaultDecl", n);
         n.visit_children_with(self)
     }
     fn visit_do_while_stmt(&mut self, n: &DoWhileStmt, _parent: &dyn Node) {
@@ -684,7 +702,7 @@ impl Visit for Shower<'_> {
         n.visit_children_with(self)
     }
     fn visit_export_default_specifier(&mut self, n: &ExportDefaultSpecifier, _parent: &dyn Node) {
-        self.show("ExportDefaultSpecifier", n);
+        self.show_name("ExportDefaultSpecifier", n);
         n.visit_children_with(self)
     }
     fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier, _parent: &dyn Node) {
@@ -760,7 +778,7 @@ impl Visit for Shower<'_> {
         n.visit_children_with(self)
     }
     fn visit_import_default_specifier(&mut self, n: &ImportDefaultSpecifier, _parent: &dyn Node) {
-        self.show("ImportDefaultSpecifier", n);
+        self.show_name("ImportDefaultSpecifier", n);
         n.visit_children_with(self)
     }
     fn visit_import_named_specifier(&mut self, n: &ImportNamedSpecifier, _parent: &dyn Node) {
@@ -768,11 +786,11 @@ impl Visit for Shower<'_> {
         n.visit_children_with(self)
     }
     fn visit_import_specifier(&mut self, n: &ImportSpecifier, _parent: &dyn Node) {
-        self.show("ImportSpecifier", n);
+        self.show_name("ImportSpecifier", n);
         n.visit_children_with(self)
     }
     fn visit_import_star_as_specifier(&mut self, n: &ImportStarAsSpecifier, _parent: &dyn Node) {
-        self.show("ImportStarAsSpecifier", n);
+        self.show_name("ImportStarAsSpecifier", n);
         n.visit_children_with(self)
     }
     fn visit_invalid(&mut self, n: &Invalid, _parent: &dyn Node) {
@@ -908,7 +926,7 @@ impl Visit for Shower<'_> {
         n.visit_children_with(self)
     }
     fn visit_null(&mut self, n: &Null, _parent: &dyn Node) {
-        self.show("Null", n);
+        self.show_name("Null", n);
         n.visit_children_with(self)
     }
     fn visit_number(&mut self, n: &Number, _parent: &dyn Node) {
@@ -980,7 +998,7 @@ impl Visit for Shower<'_> {
         n.visit_children_with(self)
     }
     fn visit_regex(&mut self, n: &Regex, _parent: &dyn Node) {
-        self.show("Regex", n);
+        self.show_name("Regex", n);
         n.visit_children_with(self)
     }
     fn visit_rest_pat(&mut self, n: &RestPat, _parent: &dyn Node) {
