@@ -2384,6 +2384,7 @@ name = "swc-dev"
 version = "0.0.0"
 dependencies = [
  "anyhow",
+ "clap",
  "structopt",
 ]
 

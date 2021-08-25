@@ -12,4 +12,5 @@ version = "0.0.0"
 
 [dependencies]
 anyhow = "1.0.41"
+clap = "2.33.3"
 structopt = "0.3.21"
