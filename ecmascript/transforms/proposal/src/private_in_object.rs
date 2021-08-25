@@ -31,6 +31,8 @@ struct ClassData {
 
     /// Name of private statics.
     statics: Vec<JsWord>,
+
+    consturctor_exprs: Vec<Expr>,
 }
 
 impl CompilerPass for PrivateInObject {
@@ -74,6 +76,8 @@ impl VisitMut for PrivateInObject {
         }
 
         n.visit_mut_children_with(self);
+
+        if !self.cls.consturctor_exprs.is_empty() {}
 
         self.cls = old_cls;
     }
