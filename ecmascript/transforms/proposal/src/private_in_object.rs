@@ -1,4 +1,5 @@
 use std::{borrow::Cow, mem::take};
+use swc_atoms::JsWord;
 use swc_common::{pass::CompilerPass, Mark};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::pass::JsPass;
@@ -18,8 +19,14 @@ struct PrivateInObject {
 struct ClassData {
     /// [Mark] for the current class.
     ///
-    /// This is modified the class visitor.
+    /// This is modified by the class visitor.
     mark: Mark,
+
+    /// Name of private methods.
+    methods: Vec<JsWord>,
+
+    /// Name of private statics.
+    statics: Vec<JsWord>,
 }
 
 impl CompilerPass for PrivateInObject {
@@ -35,6 +42,25 @@ impl VisitMut for PrivateInObject {
         let old_cls = take(&mut self.cls);
 
         self.cls.mark = Mark::fresh(Mark::root());
+        for m in &n.body {
+            match m {
+                ClassMember::PrivateMethod(m) => {
+                    self.cls.methods.push(m.key.id.sym.clone());
+
+                    if m.is_static {
+                        self.cls.statics.push(m.key.id.sym.clone());
+                    }
+                }
+
+                ClassMember::PrivateProp(m) => {
+                    if m.is_static {
+                        self.cls.statics.push(m.key.id.sym.clone());
+                    }
+                }
+
+                _ => {}
+            }
+        }
 
         n.visit_mut_children_with(self);
 
