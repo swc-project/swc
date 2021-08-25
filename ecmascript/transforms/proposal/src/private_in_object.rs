@@ -145,7 +145,7 @@ impl VisitMut for PrivateInObject {
                 left,
                 right,
             }) if left.is_private_name() => {
-                let left = left.clone().expect_private_name();
+                let left = left.take().expect_private_name();
 
                 let is_static = self.cls.statics.contains(&left.id.sym);
                 let is_method = self.cls.methods.contains(&left.id.sym);
