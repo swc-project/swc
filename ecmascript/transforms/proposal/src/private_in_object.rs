@@ -68,12 +68,9 @@ impl VisitMut for PrivateInObject {
         self.cls.mark = Mark::fresh(Mark::root());
 
         {
-            n.visit_with(
-                &Invalid { span: DUMMY_SP },
-                &mut ClassAnalyzer {
-                    brand_check_names: &mut self.cls.names_used_for_brand_checks,
-                },
-            )
+            n.visit_children_with(&mut ClassAnalyzer {
+                brand_check_names: &mut self.cls.names_used_for_brand_checks,
+            })
         }
 
         for m in &n.body {
@@ -151,10 +148,6 @@ impl VisitMut for PrivateInObject {
         n.visit_mut_children_with(self);
 
         self.cls_ident = old_cls_ident;
-    }
-
-    fn visit_mut_class_prop(&mut self, n: &mut ClassProp) {
-        n.visit_mut_children_with(self);
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
@@ -245,6 +238,33 @@ impl VisitMut for PrivateInObject {
                     decls: take(&mut self.vars),
                 }))),
             );
+        }
+    }
+
+    fn visit_mut_private_prop(&mut self, n: &mut PrivateProp) {
+        n.visit_mut_children_with(self);
+
+        if self.cls.names_used_for_brand_checks.contains(&n.key.id.sym) {
+            let var_name = self.var_name_for_brand_check(&n.key);
+
+            match &mut n.value {
+                Some(init) => {}
+                None => {
+                    n.value = Some(Box::new(Expr::Unary(UnaryExpr {
+                        span: DUMMY_SP,
+                        op: op!("void"),
+                        arg: Box::new(Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: var_name
+                                .clone()
+                                .make_member(quote_ident!("add"))
+                                .as_callee(),
+                            args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                            type_args: Default::default(),
+                        })),
+                    })))
+                }
+            }
         }
     }
 
