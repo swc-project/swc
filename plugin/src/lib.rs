@@ -1,6 +1,4 @@
 /// Reexported for convinience.
-pub extern crate swc_ecmascript as ecmascript;
-
 use abi_stable::{
     library::RootModule,
     package_version_strings, sabi_trait,
@@ -9,13 +7,17 @@ use abi_stable::{
     StableAbi,
 };
 
+pub mod ecmascript {
+    pub extern crate swc_ecma_ast as ast;
+    pub extern crate swc_ecma_utils as utils;
+    pub extern crate swc_ecma_visit as visit;
+}
+
 #[repr(C)]
 #[derive(StableAbi)]
 #[sabi(kind(Prefix(prefix_ref = "SwcPluginRef")))]
 #[sabi(missing_field(panic))]
 pub struct SwcPlugin {
-    pub get_js_ast_version: extern "C" fn() -> RString,
-
     #[sabi(last_prefix_field)]
     pub process_js:
         Option<extern "C" fn(config_str: RStr, ast_json: RString) -> RResult<RString, RString>>,

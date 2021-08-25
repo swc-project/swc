@@ -17,6 +17,6 @@ serde = "1.0.126"
 serde_json = "1.0.64"
 swc_atoms = {path = "../atoms"}
 swc_common = {path = "../common"}
-swc_ecma_ast = {path = "../ecmascript/ast"}
-swc_ecma_visit = {path = "../ecmascript/visit"}
-swc_ecmascript = {path = "../ecmascript/", features = ["utils", "visit"]}
+swc_ecma_ast = {path = "../ecmascript/ast/"}
+swc_ecma_utils = {path = "../ecmascript/utils/"}
+swc_ecma_visit = {path = "../ecmascript/visit/"}
