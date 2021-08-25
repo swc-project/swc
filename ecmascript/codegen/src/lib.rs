@@ -1263,7 +1263,7 @@ impl<'a> Emitter<'a> {
             } else {
                 Span::new(n.span().lo, n.span().lo + BytePos(8), Default::default())
             };
-            keyword!("function");
+            keyword!(span, "function");
         }
 
         if n.function.is_generator {
