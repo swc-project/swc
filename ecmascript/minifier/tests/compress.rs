@@ -735,10 +735,6 @@ impl Visit for Shower<'_> {
         self.show("ExprOrSuper", n);
         n.visit_children_with(self)
     }
-    fn visit_expr_stmt(&mut self, n: &ExprStmt, _parent: &dyn Node) {
-        self.show("ExprStmt", n);
-        n.visit_children_with(self)
-    }
     fn visit_fn_decl(&mut self, n: &FnDecl, _parent: &dyn Node) {
         self.show("FnDecl", n);
         n.visit_children_with(self)
