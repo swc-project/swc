@@ -2424,20 +2424,25 @@ impl<'a> Emitter<'a> {
     }
 
     #[emitter]
-    fn emit_throw_stmt(&mut self, node: &ThrowStmt) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        let throw_span = self.cm.span_until_char(node.span, ' ');
-
-        keyword!(throw_span, "throw");
+    fn emit_throw_stmt(&mut self, n: &ThrowStmt) -> Result {
+        self.emit_leading_comments_of_span(n.span(), false)?;
 
         {
-            if node.arg.starts_with_alpha_num() {
+            let span = if n.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(n.span.lo, n.span.lo + BytePos(5), Default::default())
+            };
+            keyword!(span, "throw");
+        }
+
+        {
+            if n.arg.starts_with_alpha_num() {
                 space!();
             } else {
                 formatting_space!();
             }
-            emit!(node.arg);
+            emit!(n.arg);
         }
         formatting_semi!();
     }
