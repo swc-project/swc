@@ -1588,7 +1588,14 @@ impl<'a> Emitter<'a> {
     fn emit_private_name(&mut self, n: &PrivateName) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        punct!("#");
+        {
+            let span = if n.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(n.span.lo, n.span.lo + BytePos(1), Default::default())
+            };
+            punct!(span, "#");
+        }
         emit!(n.id)
     }
 
