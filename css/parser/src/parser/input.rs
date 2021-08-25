@@ -225,7 +225,12 @@ impl ParserInput for TokensInput<'_> {
     }
 
     fn skip_whitespaces(&mut self) -> PResult<()> {
-        let cur = self.cur()?;
+        let cur = self.tokens.tokens.get(self.idx);
+        let cur = match cur {
+            Some(cur) => cur,
+            None => return Ok(()),
+        };
+
         match cur.token {
             tok!(" ") => {
                 self.idx += 1;
