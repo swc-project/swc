@@ -2260,28 +2260,32 @@ impl<'a> Emitter<'a> {
     }
 
     #[emitter]
-    fn emit_if_stmt(&mut self, node: &IfStmt) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+    fn emit_if_stmt(&mut self, n: &IfStmt) -> Result {
+        self.emit_leading_comments_of_span(n.span(), false)?;
 
         {
-            let span = self.cm.span_until_char(node.span, ' ');
+            let span = if n.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(n.span.lo, n.span.lo + BytePos(2), Default::default())
+            };
             keyword!(span, "if");
         }
 
         formatting_space!();
         punct!("(");
-        emit!(node.test);
+        emit!(n.test);
         punct!(")");
         formatting_space!();
 
-        let is_cons_block = match *node.cons {
+        let is_cons_block = match *n.cons {
             Stmt::Block(..) => true,
             _ => false,
         };
 
-        emit!(node.cons);
+        emit!(n.cons);
 
-        if let Some(ref alt) = node.alt {
+        if let Some(ref alt) = n.alt {
             if is_cons_block {
                 formatting_space!();
             }
