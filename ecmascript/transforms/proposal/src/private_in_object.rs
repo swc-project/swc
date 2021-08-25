@@ -5,7 +5,8 @@ use swc_common::{pass::CompilerPass, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{ext::MapWithMut, pass::JsPass};
 use swc_ecma_utils::{
-    default_constructor, ident::IdentLike, prepend, quote_ident, ExprExt, ExprFactory, Id,
+    default_constructor, ident::IdentLike, prepend, private_ident, quote_ident, ExprExt,
+    ExprFactory, Id,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith};
 
@@ -19,6 +20,8 @@ struct PrivateInObject {
     vars: Vec<VarDeclarator>,
     injected_vars: FxHashSet<Id>,
     cls: ClassData,
+
+    cls_ident: Option<Ident>,
 }
 
 #[derive(Default)]
@@ -112,6 +115,26 @@ impl VisitMut for PrivateInObject {
         self.cls = old_cls;
     }
 
+    fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
+        let old_cls_ident = take(&mut self.cls_ident);
+        self.cls_ident = Some(n.ident.clone());
+
+        n.visit_mut_children_with(self);
+
+        self.cls_ident = old_cls_ident;
+    }
+
+    fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
+        let old_cls_ident = take(&mut self.cls_ident);
+
+        let i = n.ident.get_or_insert_with(|| private_ident!("_class"));
+        self.cls_ident = Some(i.clone());
+
+        n.visit_mut_children_with(self);
+
+        self.cls_ident = old_cls_ident;
+    }
+
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
 
@@ -123,6 +146,20 @@ impl VisitMut for PrivateInObject {
                 right,
             }) if left.is_private_name() => {
                 let left = left.clone().expect_private_name();
+
+                let is_static = self.cls.statics.contains(&left.id.sym);
+
+                if let Some(cls_ident) = self.cls_ident.clone() {
+                    if is_static {
+                        *e = Expr::Bin(BinExpr {
+                            span: *span,
+                            op: op!("==="),
+                            left: Box::new(Expr::Ident(cls_ident)),
+                            right: right.take(),
+                        });
+                        return;
+                    }
+                }
 
                 let var_name = self.var_name_for_brand_check(&left);
 
