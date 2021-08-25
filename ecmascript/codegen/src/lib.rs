@@ -2388,19 +2388,26 @@ impl<'a> Emitter<'a> {
     }
 
     #[emitter]
-    fn emit_try_stmt(&mut self, node: &TryStmt) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+    fn emit_try_stmt(&mut self, n: &TryStmt) -> Result {
+        self.emit_leading_comments_of_span(n.span(), false)?;
 
-        keyword!("try");
+        {
+            let span = if n.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(n.span.lo, n.span.lo + BytePos(3), Default::default())
+            };
+            keyword!(span, "try");
+        }
         formatting_space!();
-        emit!(node.block);
+        emit!(n.block);
 
-        if let Some(ref catch) = node.handler {
+        if let Some(ref catch) = n.handler {
             formatting_space!();
             emit!(catch);
         }
 
-        if let Some(ref finally) = node.finalizer {
+        if let Some(ref finally) = n.finalizer {
             formatting_space!();
             keyword!("finally");
             // space!();
