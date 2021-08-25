@@ -1,8 +1,7 @@
 class Foo {
-  static #foo() {}
-
-  test(other) {
-    return Foo === other;
-  }
-
+    static  #foo() {
+    }
+    test(other) {
+        return Foo === other;
+    }
 }
