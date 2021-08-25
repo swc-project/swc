@@ -2123,7 +2123,7 @@ impl<'a> Emitter<'a> {
     fn emit_debugger_stmt(&mut self, node: &DebuggerStmt) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        keyword!("debugger");
+        keyword!(node.span, "debugger");
         formatting_semi!();
     }
 
