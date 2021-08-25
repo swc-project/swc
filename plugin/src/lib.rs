@@ -1,9 +1,9 @@
 /// Reexported for convinience.
 use abi_stable::{
     library::RootModule,
-    package_version_strings, sabi_trait,
+    package_version_strings,
     sabi_types::VersionStrings,
-    std_types::{RBox, RResult, RStr, RString},
+    std_types::{RResult, RStr, RString},
     StableAbi,
 };
 
