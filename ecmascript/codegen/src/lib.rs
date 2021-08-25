@@ -1433,14 +1433,21 @@ impl<'a> Emitter<'a> {
     }
 
     #[emitter]
-    fn emit_await_expr(&mut self, node: &AwaitExpr) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+    fn emit_await_expr(&mut self, n: &AwaitExpr) -> Result {
+        self.emit_leading_comments_of_span(n.span(), false)?;
 
-        keyword!("await");
+        {
+            let span = if n.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(n.span.lo, n.span.lo + BytePos(5), Default::default())
+            };
+            keyword!(span, "await");
+        }
 
         space!();
 
-        emit!(&node.arg);
+        emit!(&n.arg);
     }
 
     #[emitter]
