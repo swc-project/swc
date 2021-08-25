@@ -1,9 +1,10 @@
 use std::path::PathBuf;
-use swc_common::{errors::Handler, input::SourceFileInput, Spanned, DUMMY_SP};
+use swc_common::{errors::Handler, input::SourceFileInput, Span, Spanned, DUMMY_SP};
 use swc_css_ast::*;
 use swc_css_parser::{
     lexer::Lexer,
-    parser::{Parser, ParserConfig},
+    parse_tokens,
+    parser::{input::ParserInput, Parser, ParserConfig},
 };
 use swc_css_visit::{Visit, VisitWith};
 use testing::NormalizedOutput;
@@ -27,7 +28,29 @@ fn pass(input: PathBuf) {
                     .map(NormalizedOutput::from)
                     .expect("failed to serialize stylesheet");
 
-                actual_json.compare_to_file(&ref_json_path).unwrap();
+                actual_json.clone().compare_to_file(&ref_json_path).unwrap();
+
+                {
+                    let mut lexer = Lexer::new(SourceFileInput::from(&*fm));
+                    let mut tokens = Tokens {
+                        span: Span::new(fm.start_pos, fm.end_pos, Default::default()),
+                        tokens: vec![],
+                    };
+
+                    while let Ok(t) = lexer.next() {
+                        tokens.tokens.push(t);
+                    }
+
+                    let ss_tok: Stylesheet =
+                        parse_tokens(&tokens, ParserConfig { parse_values: true })
+                            .expect("failed to parse token");
+
+                    let json_from_tokens = serde_json::to_string_pretty(&ss_tok)
+                        .map(NormalizedOutput::from)
+                        .expect("failed to serialize stylesheet from tokens");
+
+                    assert_eq!(actual_json, json_from_tokens);
+                }
 
                 Ok(())
             }
