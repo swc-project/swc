@@ -2,6 +2,7 @@ use std::path::PathBuf;
 use swc_common::{errors::Handler, input::SourceFileInput, Span, Spanned, DUMMY_SP};
 use swc_css_ast::*;
 use swc_css_parser::{
+    error::ErrorKind,
     lexer::Lexer,
     parse_tokens,
     parser::{input::ParserInput, Parser, ParserConfig},
@@ -37,8 +38,20 @@ fn pass(input: PathBuf) {
                         tokens: vec![],
                     };
 
-                    while let Ok(t) = lexer.next() {
-                        tokens.tokens.push(t);
+                    loop {
+                        let res = lexer.next();
+                        match res {
+                            Ok(t) => {
+                                tokens.tokens.push(t);
+                            }
+
+                            Err(e) => {
+                                if matches!(e.kind(), ErrorKind::Eof) {
+                                    break;
+                                }
+                                panic!("failed to lex tokens: {:?}", e)
+                            }
+                        }
                     }
 
                     let ss_tok: Stylesheet =
