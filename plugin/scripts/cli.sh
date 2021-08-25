@@ -4,4 +4,4 @@ set -eu
 
 cargo install --path ./cli
 
-swc-dev
+(cd plugins && swc-dev $@)
