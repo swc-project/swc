@@ -15,7 +15,7 @@ use std::{
 };
 use swc_common::{
     comments::SingleThreadedComments, errors::Handler, sync::Lrc, EqIgnoreSpan, FileName, Mark,
-    SourceMap, Spanned, DUMMY_SP,
+    SourceMap, Spanned,
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
@@ -339,58 +339,6 @@ fn base_exec(input: PathBuf) {
         Ok(())
     })
     .unwrap()
-}
-
-/// Tests ported from terser.
-#[testing::fixture("tests/compress/fixture/issues/**/input.js")]
-#[testing::fixture("tests/compress/fixture/simple/**/input.js")]
-fn span(input: PathBuf) {
-    if is_ignored(&input) {
-        return;
-    }
-
-    let dir = input.parent().unwrap();
-    let config = find_config(&dir);
-    eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
-
-    let stderr = testing::run_test2(false, |cm, handler| {
-        // Type ann
-        if false {
-            return Ok(());
-        }
-
-        let mangle = dir.join("mangle.json");
-        let mangle = read_to_string(&mangle).ok();
-        if let Some(mangle) = &mangle {
-            eprintln!(
-                "---- {} -----\n{}",
-                Color::Green.paint("Mangle config"),
-                mangle
-            );
-        }
-
-        let mangle: Option<TestMangleOptions> =
-            mangle.map(|s| serde_json::from_str(&s).expect("failed to deserialize mangle.json"));
-
-        let output = run(cm.clone(), &handler, &input, &config, mangle);
-        let output_module = match output {
-            Some(v) => v,
-            None => return Err(()),
-        };
-
-        output_module.visit_with(
-            &Invalid { span: DUMMY_SP },
-            &mut Shower {
-                cm: cm.clone(),
-                handler: &handler,
-            },
-        );
-
-        Err(())
-    })
-    .unwrap_err();
-
-    stderr.compare_to_file(dir.join("span.swc-stderr")).unwrap();
 }
 
 /// Tests ported from terser.
