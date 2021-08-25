@@ -1,8 +1,9 @@
 #![deny(unused_must_use)]
 
 use lexer::Lexer;
-use parser::{PResult, Parser, ParserConfig};
+use parser::{input::TokensInput, PResult, Parser, ParserConfig};
 use swc_common::{input::StringInput, BytePos, SourceFile};
+use swc_css_ast::Tokens;
 
 #[macro_use]
 mod macros;
@@ -47,6 +48,17 @@ where
     Parser<Lexer<StringInput<'a>>>: Parse<T>,
 {
     let lexer = Lexer::new(StringInput::from(fm));
+    let mut parser = Parser::new(lexer, config);
+
+    parser.parse()
+}
+
+/// Parse a given file as `T`.
+pub fn parse_tokens<'a, T>(tokens: &'a Tokens, config: ParserConfig) -> PResult<T>
+where
+    Parser<TokensInput<'a>>: Parse<T>,
+{
+    let lexer = TokensInput::new(tokens);
     let mut parser = Parser::new(lexer, config);
 
     parser.parse()

@@ -2,7 +2,7 @@ use super::PResult;
 use crate::error::ErrorKind;
 use std::fmt::Debug;
 use swc_common::{BytePos, Span};
-use swc_css_ast::{Token, TokenAndSpan};
+use swc_css_ast::{Token, TokenAndSpan, Tokens};
 
 pub trait ParserInput {
     type State: Debug;
@@ -182,4 +182,34 @@ where
 pub(super) struct WrappedState<S> {
     cur: Option<TokenAndSpan>,
     inner: S,
+}
+
+#[derive(Debug)]
+pub struct TokensState {}
+
+pub struct TokensInput<'a> {
+    tokens: &'a Tokens,
+    idx: usize,
+}
+
+impl<'a> TokensInput<'a> {
+    pub fn new(tokens: &'a Tokens) -> Self {
+        TokensInput { tokens, idx: 0 }
+    }
+}
+
+impl ParserInput for TokensInput<'_> {
+    type State = TokensState;
+
+    fn next(&mut self) -> PResult<TokenAndSpan> {}
+
+    fn skip_whitespaces(&mut self) -> PResult<()> {}
+
+    fn start_pos(&mut self) -> BytePos {
+        self.tokens.span.lo
+    }
+
+    fn state(&mut self) -> Self::State {}
+
+    fn reset(&mut self, state: &Self::State) {}
 }
