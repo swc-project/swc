@@ -148,9 +148,10 @@ impl VisitMut for PrivateInObject {
                 let left = left.clone().expect_private_name();
 
                 let is_static = self.cls.statics.contains(&left.id.sym);
+                let is_method = self.cls.methods.contains(&left.id.sym);
 
                 if let Some(cls_ident) = self.cls_ident.clone() {
-                    if is_static {
+                    if is_static && is_method {
                         *e = Expr::Bin(BinExpr {
                             span: *span,
                             op: op!("==="),
