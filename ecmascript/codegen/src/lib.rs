@@ -1250,24 +1250,31 @@ impl<'a> Emitter<'a> {
     }
 
     #[emitter]
-    fn emit_fn_expr(&mut self, node: &FnExpr) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+    fn emit_fn_expr(&mut self, n: &FnExpr) -> Result {
+        self.emit_leading_comments_of_span(n.span(), false)?;
 
-        if node.function.is_async {
+        if n.function.is_async {
             keyword!("async");
-            space!()
+            space!();
+            keyword!("function");
+        } else {
+            let span = if n.span().is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(n.span().lo, n.span().lo + BytePos(8), Default::default())
+            };
+            keyword!("function");
         }
-        keyword!("function");
 
-        if node.function.is_generator {
+        if n.function.is_generator {
             punct!("*");
         }
-        if let Some(ref i) = node.ident {
+        if let Some(ref i) = n.ident {
             space!();
             emit!(i);
         }
 
-        self.emit_fn_trailing(&node.function)?;
+        self.emit_fn_trailing(&n.function)?;
     }
 
     /// prints `(b){}` from `function a(b){}`
