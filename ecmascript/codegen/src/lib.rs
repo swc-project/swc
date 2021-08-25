@@ -2450,30 +2450,44 @@ impl<'a> Emitter<'a> {
     }
 
     #[emitter]
-    fn emit_for_stmt(&mut self, node: &ForStmt) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+    fn emit_for_stmt(&mut self, n: &ForStmt) -> Result {
+        self.emit_leading_comments_of_span(n.span(), false)?;
 
-        keyword!("for");
+        {
+            let span = if n.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(n.span.lo, n.span.lo + BytePos(3), Default::default())
+            };
+            keyword!(span, "for");
+        }
         punct!("(");
-        opt!(node.init);
+        opt!(n.init);
         semi!();
-        opt_leading_space!(node.test);
+        opt_leading_space!(n.test);
         semi!();
-        opt_leading_space!(node.update);
+        opt_leading_space!(n.update);
         punct!(")");
 
-        emit!(node.body);
+        emit!(n.body);
     }
 
     #[emitter]
-    fn emit_for_in_stmt(&mut self, node: &ForInStmt) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+    fn emit_for_in_stmt(&mut self, n: &ForInStmt) -> Result {
+        self.emit_leading_comments_of_span(n.span(), false)?;
 
-        keyword!("for");
+        {
+            let span = if n.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(n.span.lo, n.span.lo + BytePos(3), Default::default())
+            };
+            keyword!(span, "for");
+        }
         punct!("(");
-        emit!(node.left);
+        emit!(n.left);
 
-        if node.left.ends_with_alpha_num() {
+        if n.left.ends_with_alpha_num() {
             space!();
         } else {
             formatting_space!();
@@ -2481,34 +2495,41 @@ impl<'a> Emitter<'a> {
         keyword!("in");
 
         {
-            let starts_with_alpha_num = node.right.starts_with_alpha_num();
+            let starts_with_alpha_num = n.right.starts_with_alpha_num();
 
             if starts_with_alpha_num {
                 space!();
             } else {
                 formatting_space!()
             }
-            emit!(node.right);
+            emit!(n.right);
         }
 
         punct!(")");
 
-        emit!(node.body);
+        emit!(n.body);
     }
 
     #[emitter]
-    fn emit_for_of_stmt(&mut self, node: &ForOfStmt) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+    fn emit_for_of_stmt(&mut self, n: &ForOfStmt) -> Result {
+        self.emit_leading_comments_of_span(n.span(), false)?;
 
-        keyword!("for");
-        if node.await_token.is_some() {
+        {
+            let span = if n.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(n.span.lo, n.span.lo + BytePos(3), Default::default())
+            };
+            keyword!(span, "for");
+        }
+        if n.await_token.is_some() {
             space!();
             keyword!("await");
         }
         formatting_space!();
         punct!("(");
-        emit!(node.left);
-        if node.left.ends_with_alpha_num() {
+        emit!(n.left);
+        if n.left.ends_with_alpha_num() {
             space!();
         } else {
             formatting_space!();
@@ -2516,17 +2537,17 @@ impl<'a> Emitter<'a> {
         keyword!("of");
 
         {
-            let starts_with_alpha_num = node.right.starts_with_alpha_num();
+            let starts_with_alpha_num = n.right.starts_with_alpha_num();
 
             if starts_with_alpha_num {
                 space!();
             } else {
                 formatting_space!()
             }
-            emit!(node.right);
+            emit!(n.right);
         }
         punct!(")");
-        emit!(node.body);
+        emit!(n.body);
     }
 }
 
