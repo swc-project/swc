@@ -1454,13 +1454,27 @@ impl<'a> Emitter<'a> {
     fn emit_array_lit(&mut self, node: &ArrayLit) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        punct!("[");
+        {
+            let span = if node.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(node.span.lo, node.span.lo + BytePos(1), Default::default())
+            };
+            punct!(span, "[");
+        }
         self.emit_list(
             node.span(),
             Some(&node.elems),
             ListFormat::ArrayLiteralExpressionElements,
         )?;
-        punct!("]");
+        {
+            let span = if node.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(node.span.hi - BytePos(1), node.span.hi, Default::default())
+            };
+            punct!(span, "]");
+        }
     }
 
     #[emitter]
