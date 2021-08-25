@@ -83,10 +83,10 @@ impl VisitMut for PrivateInObject {
 
         match e {
             Expr::Bin(BinExpr {
+                span,
                 op: op!("in"),
                 left,
                 right,
-                ..
             }) if left.is_private_name() => {
                 let left = left.clone().expect_private_name();
 
@@ -105,6 +105,14 @@ impl VisitMut for PrivateInObject {
                         definite: Default::default(),
                     });
                 }
+
+                *e = Expr::Call(CallExpr {
+                    span: *span,
+                    callee: var_name.make_member(quote_ident!("has")).as_callee(),
+                    args: vec![right.take().as_arg()],
+                    type_args: Default::default(),
+                });
+                return;
             }
 
             _ => {}
