@@ -1,7 +1,7 @@
 use super::PResult;
-use crate::error::ErrorKind;
+use crate::error::{Error, ErrorKind};
 use std::fmt::Debug;
-use swc_common::{BytePos, Span};
+use swc_common::{BytePos, Span, SyntaxContext};
 use swc_css_ast::{Token, TokenAndSpan, Tokens};
 
 pub trait ParserInput {
@@ -185,7 +185,9 @@ pub(super) struct WrappedState<S> {
 }
 
 #[derive(Debug)]
-pub struct TokensState {}
+pub struct TokensState {
+    idx: usize,
+}
 
 pub struct TokensInput<'a> {
     tokens: &'a Tokens,
@@ -196,20 +198,54 @@ impl<'a> TokensInput<'a> {
     pub fn new(tokens: &'a Tokens) -> Self {
         TokensInput { tokens, idx: 0 }
     }
+
+    fn cur(&mut self) -> PResult<&TokenAndSpan> {
+        let ret = self.tokens.tokens.get(self.idx);
+        let ret = match ret {
+            Some(v) => v,
+            None => {
+                let bp = self.tokens.span.hi;
+                let span = Span::new(bp, bp, SyntaxContext::empty());
+                return Err(Error::new(span, ErrorKind::Eof));
+            }
+        };
+
+        Ok(ret)
+    }
 }
 
 impl ParserInput for TokensInput<'_> {
     type State = TokensState;
 
-    fn next(&mut self) -> PResult<TokenAndSpan> {}
+    fn next(&mut self) -> PResult<TokenAndSpan> {
+        let ret = self.cur()?.clone();
+        self.idx += 1;
 
-    fn skip_whitespaces(&mut self) -> PResult<()> {}
+        Ok(ret)
+    }
+
+    fn skip_whitespaces(&mut self) -> PResult<()> {
+        let cur = self.cur()?;
+        match cur.token {
+            tok!(" ") => {
+                self.idx += 1;
+            }
+
+            _ => {}
+        }
+
+        Ok(())
+    }
 
     fn start_pos(&mut self) -> BytePos {
         self.tokens.span.lo
     }
 
-    fn state(&mut self) -> Self::State {}
+    fn state(&mut self) -> Self::State {
+        TokensState { idx: self.idx }
+    }
 
-    fn reset(&mut self, state: &Self::State) {}
+    fn reset(&mut self, state: &Self::State) {
+        self.idx = state.idx;
+    }
 }
