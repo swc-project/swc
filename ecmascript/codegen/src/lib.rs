@@ -2323,28 +2323,42 @@ impl<'a> Emitter<'a> {
     }
 
     #[emitter]
-    fn emit_switch_stmt(&mut self, node: &SwitchStmt) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+    fn emit_switch_stmt(&mut self, n: &SwitchStmt) -> Result {
+        self.emit_leading_comments_of_span(n.span(), false)?;
 
-        keyword!("switch");
+        {
+            let span = if n.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(n.span.lo, n.span.lo + BytePos(6), Default::default())
+            };
+            keyword!(span, "switch");
+        }
 
         punct!("(");
-        emit!(node.discriminant);
+        emit!(n.discriminant);
         punct!(")");
 
         punct!("{");
-        self.emit_list(node.span(), Some(&node.cases), ListFormat::CaseBlockClauses)?;
+        self.emit_list(n.span(), Some(&n.cases), ListFormat::CaseBlockClauses)?;
         punct!("}");
     }
 
     #[emitter]
-    fn emit_catch_clause(&mut self, node: &CatchClause) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+    fn emit_catch_clause(&mut self, n: &CatchClause) -> Result {
+        self.emit_leading_comments_of_span(n.span(), false)?;
 
-        keyword!("catch");
+        {
+            let span = if n.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(n.span.lo, n.span.lo + BytePos(5), Default::default())
+            };
+            keyword!(span, "catch");
+        }
         formatting_space!();
 
-        if let Some(param) = &node.param {
+        if let Some(param) = &n.param {
             punct!("(");
             emit!(param);
             punct!(")");
@@ -2352,7 +2366,7 @@ impl<'a> Emitter<'a> {
 
         formatting_space!();
 
-        emit!(node.body);
+        emit!(n.body);
     }
 
     #[emitter]
