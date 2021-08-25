@@ -99,7 +99,7 @@ impl VisitMut for PrivateInObject {
                         init: Some(Box::new(Expr::New(NewExpr {
                             span: DUMMY_SP,
                             callee: Box::new(Expr::Ident(quote_ident!("WeakSet"))),
-                            args: Default::default(),
+                            args: Some(Default::default()),
                             type_args: Default::default(),
                         }))),
                         definite: Default::default(),
