@@ -7,6 +7,7 @@ members = [
   "ecmascript/jsdoc",
   "node/binding",
   "plugin",
+  "plugin/cli",
   "plugin/runner",
   "plugin/testing",
   "wasm",
