@@ -1314,7 +1314,7 @@ impl<'a> Emitter<'a> {
     fn emit_this_expr(&mut self, node: &ThisExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        keyword!("this");
+        keyword!(node.span, "this");
     }
 
     #[emitter]
