@@ -255,7 +255,7 @@ impl VisitMut for PrivateInObject {
                     let init_span = init.span();
 
                     let tmp = private_ident!("_tmp");
-                    self.vars.push(VarDeclarator {
+                    self.cls.vars.push(VarDeclarator {
                         span: DUMMY_SP,
                         name: Pat::Ident(tmp.clone().into()),
                         init: None,
