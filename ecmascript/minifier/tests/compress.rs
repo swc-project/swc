@@ -537,8 +537,10 @@ impl Shower<'_> {
         let span = node.span();
 
         if span.is_dummy() {
-            let s = print(self.cm.clone(), &[node], false);
-            self.handler.struct_span_warn(span, &s).emit();
+            let src = print(self.cm.clone(), &[node], false);
+            self.handler
+                .struct_span_warn(span, &format!("{}: {}", name, src))
+                .emit();
         } else {
             self.handler.struct_span_warn(span, name).emit();
         }
