@@ -1,6 +1,9 @@
 {
   "jsc": {
-    "minify": true
+    "minify": {
+      "compress": true,
+      "mangle": true
+    }
   },
   "sourceMaps": true
 }
