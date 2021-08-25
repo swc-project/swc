@@ -9,20 +9,6 @@ warning: Module
 6 | | }
   | |_^
 
-warning: ModuleItem
- --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:1:1
-  |
-1 | / function foo() {
-2 | | }
-  | |_^
-
-warning: Stmt
- --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:1:1
-  |
-1 | / function foo() {
-2 | | }
-  | |_^
-
 warning: Decl
  --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:1:1
   |
@@ -56,20 +42,6 @@ warning: BlockStmt
 1 |   function foo() {
   |  ________________^
 2 | | }
-  | |_^
-
-warning: ModuleItem
- --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:5:1
-  |
-5 | / function bar() {
-6 | | }
-  | |_^
-
-warning: Stmt
- --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:5:1
-  |
-5 | / function bar() {
-6 | | }
   | |_^
 
 warning: Decl
@@ -106,12 +78,6 @@ warning: BlockStmt
   |  ________________^
 6 | | }
   | |_^
-
-warning: ModuleItem
-
-warning: Stmt
-
-warning: ExprStmt
 
 warning: Expr
  --> $DIR/tests/compress/fixture/simple/order/fn/1/input.js:4:1
