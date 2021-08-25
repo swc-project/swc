@@ -1,7 +1,7 @@
 use fxhash::FxHashSet;
 use std::{borrow::Cow, mem::take};
 use swc_atoms::JsWord;
-use swc_common::{pass::CompilerPass, Mark, DUMMY_SP};
+use swc_common::{pass::CompilerPass, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{ext::MapWithMut, pass::JsPass};
 use swc_ecma_utils::{
@@ -251,7 +251,39 @@ impl VisitMut for PrivateInObject {
             let var_name = self.var_name_for_brand_check(&n.key);
 
             match &mut n.value {
-                Some(init) => {}
+                Some(init) => {
+                    let init_span = init.span();
+
+                    let tmp = private_ident!("_tmp");
+                    self.vars.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(tmp.clone().into()),
+                        init: None,
+                        definite: Default::default(),
+                    });
+
+                    let assign = Box::new(Expr::Assign(AssignExpr {
+                        span: DUMMY_SP,
+                        op: op!("="),
+                        left: PatOrExpr::Pat(Box::new(Pat::Ident(tmp.clone().into()))),
+                        right: init.take(),
+                    }));
+
+                    let add_to_checker = Box::new(Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: var_name
+                            .clone()
+                            .make_member(quote_ident!("add"))
+                            .as_callee(),
+                        args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                        type_args: Default::default(),
+                    }));
+
+                    *init = Box::new(Expr::Seq(SeqExpr {
+                        span: init_span,
+                        exprs: vec![assign, add_to_checker, Box::new(tmp.clone().into())],
+                    }));
+                }
                 None => {
                     n.value = Some(Box::new(Expr::Unary(UnaryExpr {
                         span: DUMMY_SP,
