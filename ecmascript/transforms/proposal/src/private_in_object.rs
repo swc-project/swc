@@ -138,6 +138,17 @@ impl VisitMut for PrivateInObject {
                         }))),
                         definite: Default::default(),
                     });
+                    self.cls
+                        .consturctor_exprs
+                        .push(Box::new(Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: var_name
+                                .clone()
+                                .make_member(quote_ident!("add"))
+                                .as_callee(),
+                            args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                            type_args: Default::default(),
+                        })));
                 }
 
                 *e = Expr::Call(CallExpr {
