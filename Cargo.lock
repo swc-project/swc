@@ -3035,7 +3035,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.0.0"
+version = "0.1.0"
 dependencies = [
  "abi_stable",
  "anyhow",
@@ -3050,7 +3050,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.0.0"
+version = "0.1.0"
 dependencies = [
  "abi_stable",
  "anyhow",
@@ -3068,7 +3068,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_testing"
-version = "0.0.0"
+version = "0.1.0"
 dependencies = [
  "anyhow",
  "swc_ecma_ast",
