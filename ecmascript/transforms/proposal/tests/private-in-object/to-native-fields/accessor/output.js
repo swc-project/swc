@@ -1,14 +1,11 @@
-var _FooBrandCheck = /*#__PURE__*/new WeakSet();
-
+var _brand_check_foo = new WeakSet();
 class Foo {
-  constructor() {
-    _FooBrandCheck.add(this);
-  }
-
-  get #foo() {}
-
-  test(other) {
-    return _FooBrandCheck.has(other);
-  }
-
+    get #foo() {
+    }
+    test(other) {
+        return _brand_check_foo.has(other);
+    }
+    constructor(){
+        _brand_check_foo.add(this);
+    }
 }
