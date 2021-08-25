@@ -4,7 +4,7 @@ error: 'override' modifier cannot be used with 'declare' modifier.
 2 |   declare override m1(): any
   |           ^^^^^^^^
 
-error: `declare` modifier cannot appear on a class element
+error: `declare` modifier cannot appear on class elements of this kind
  --> $DIR/tests/typescript-errors/class/override-with-declare/input.ts:2:3
   |
 2 |   declare override m1(): any
