@@ -2248,9 +2248,17 @@ impl<'a> Emitter<'a> {
     }
 
     #[emitter]
-    fn emit_break_stmt(&mut self, node: &BreakStmt) -> Result {
-        keyword!("break");
-        if let Some(ref label) = node.label {
+    fn emit_break_stmt(&mut self, n: &BreakStmt) -> Result {
+        {
+            let span = if n.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(n.span.lo, n.span.lo + BytePos(5), Default::default())
+            };
+            keyword!("break");
+        }
+
+        if let Some(ref label) = n.label {
             space!();
             emit!(label);
         }
@@ -2258,9 +2266,16 @@ impl<'a> Emitter<'a> {
     }
 
     #[emitter]
-    fn emit_continue_stmt(&mut self, node: &ContinueStmt) -> Result {
-        keyword!("continue");
-        if let Some(ref label) = node.label {
+    fn emit_continue_stmt(&mut self, n: &ContinueStmt) -> Result {
+        {
+            let span = if n.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(n.span.lo, n.span.lo + BytePos(8), Default::default())
+            };
+            keyword!("continue");
+        }
+        if let Some(ref label) = n.label {
             space!();
             emit!(label);
         }
