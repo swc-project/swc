@@ -2370,11 +2370,18 @@ impl<'a> Emitter<'a> {
     }
 
     #[emitter]
-    fn emit_switch_case(&mut self, node: &SwitchCase) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+    fn emit_switch_case(&mut self, n: &SwitchCase) -> Result {
+        self.emit_leading_comments_of_span(n.span(), false)?;
 
-        if let Some(ref test) = node.test {
-            keyword!("case");
+        if let Some(ref test) = n.test {
+            {
+                let span = if n.span.is_dummy() {
+                    DUMMY_SP
+                } else {
+                    Span::new(n.span.lo, n.span.lo + BytePos(4), Default::default())
+                };
+                keyword!(span, "case");
+            }
 
             let starts_with_alpha_num = test.starts_with_alpha_num();
 
@@ -2389,13 +2396,13 @@ impl<'a> Emitter<'a> {
             keyword!("default");
         }
 
-        let emit_as_single_stmt = node.cons.len() == 1 && {
+        let emit_as_single_stmt = n.cons.len() == 1 && {
             // treat synthesized nodes as located on the same line for emit purposes
-            node.is_synthesized()
-                || node.cons[0].is_synthesized()
+            n.is_synthesized()
+                || n.cons[0].is_synthesized()
                 || self
                     .cm
-                    .is_on_same_line(node.span().lo(), node.cons[0].span().lo())
+                    .is_on_same_line(n.span().lo(), n.cons[0].span().lo())
         };
 
         let mut format = ListFormat::CaseOrDefaultClauseStatements;
@@ -2406,7 +2413,7 @@ impl<'a> Emitter<'a> {
         } else {
             punct!(":");
         }
-        self.emit_list(node.span(), Some(&node.cons), format)?;
+        self.emit_list(n.span(), Some(&n.cons), format)?;
     }
 
     #[emitter]
