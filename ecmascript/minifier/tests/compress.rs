@@ -915,10 +915,6 @@ impl Visit for Shower<'_> {
         self.show("ModuleDecl", n);
         n.visit_children_with(self)
     }
-    fn visit_module_item(&mut self, n: &ModuleItem, _parent: &dyn Node) {
-        self.show("ModuleItem", n);
-        n.visit_children_with(self)
-    }
     fn visit_named_export(&mut self, n: &NamedExport, _parent: &dyn Node) {
         self.show("NamedExport", n);
         n.visit_children_with(self)
@@ -1025,10 +1021,6 @@ impl Visit for Shower<'_> {
     }
     fn visit_spread_element(&mut self, n: &SpreadElement, _parent: &dyn Node) {
         self.show("SpreadElement", n);
-        n.visit_children_with(self)
-    }
-    fn visit_stmt(&mut self, n: &Stmt, _parent: &dyn Node) {
-        self.show("Stmt", n);
         n.visit_children_with(self)
     }
     fn visit_str(&mut self, n: &Str, _parent: &dyn Node) {
