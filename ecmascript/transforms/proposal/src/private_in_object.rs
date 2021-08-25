@@ -295,4 +295,7 @@ impl Visit for ClassAnalyzer<'_> {
             }
         }
     }
+
+    /// Noop
+    fn visit_class(&mut self, n: &Class, _: &dyn Node) {}
 }
