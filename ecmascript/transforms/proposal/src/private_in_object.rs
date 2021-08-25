@@ -26,6 +26,8 @@ struct PrivateInObject {
 
 #[derive(Default)]
 struct ClassData {
+    vars: Vec<VarDeclarator>,
+
     /// [Mark] for the current class.
     ///
     /// This is modified by the class visitor.
@@ -112,6 +114,8 @@ impl VisitMut for PrivateInObject {
             }
         }
 
+        self.vars.extend(take(&mut self.cls.vars));
+
         self.cls = old_cls;
     }
 
@@ -165,7 +169,7 @@ impl VisitMut for PrivateInObject {
                 let var_name = self.var_name_for_brand_check(&left);
 
                 if self.injected_vars.insert(var_name.to_id()) {
-                    self.vars.push(VarDeclarator {
+                    self.cls.vars.push(VarDeclarator {
                         span: DUMMY_SP,
                         name: Pat::Ident(var_name.clone().into()),
                         init: Some(Box::new(Expr::New(NewExpr {
@@ -236,12 +240,12 @@ impl VisitMut for PrivateInObject {
         }
     }
 
-    fn visit_mut_script(&mut self, s: &mut Script) {
+    fn visit_mut_stmts(&mut self, s: &mut Vec<Stmt>) {
         s.visit_mut_children_with(self);
 
         if !self.vars.is_empty() {
             prepend(
-                &mut s.body,
+                s,
                 Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
