@@ -4,7 +4,9 @@ use swc_atoms::JsWord;
 use swc_common::{pass::CompilerPass, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{ext::MapWithMut, pass::JsPass};
-use swc_ecma_utils::{ident::IdentLike, prepend, quote_ident, ExprExt, ExprFactory, Id};
+use swc_ecma_utils::{
+    default_constructor, ident::IdentLike, prepend, quote_ident, ExprExt, ExprFactory, Id,
+};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith};
 
 /// https://github.com/tc39/proposal-private-fields-in-in
@@ -32,7 +34,7 @@ struct ClassData {
     /// Name of private statics.
     statics: Vec<JsWord>,
 
-    consturctor_exprs: Vec<Expr>,
+    consturctor_exprs: Vec<Box<Expr>>,
 }
 
 impl CompilerPass for PrivateInObject {
@@ -77,7 +79,35 @@ impl VisitMut for PrivateInObject {
 
         n.visit_mut_children_with(self);
 
-        if !self.cls.consturctor_exprs.is_empty() {}
+        if !self.cls.consturctor_exprs.is_empty() {
+            let has_constructor = n
+                .body
+                .iter()
+                .any(|m| matches!(m, ClassMember::Constructor(_)));
+
+            if !has_constructor {
+                let has_super = n.super_class.is_some();
+                n.body
+                    .push(ClassMember::Constructor(default_constructor(has_super)));
+            }
+
+            for m in &mut n.body {
+                match m {
+                    ClassMember::Constructor(Constructor {
+                        body: Some(body), ..
+                    }) => {
+                        for expr in take(&mut self.cls.consturctor_exprs) {
+                            body.stmts.push(Stmt::Expr(ExprStmt {
+                                span: DUMMY_SP,
+                                expr,
+                            }));
+                        }
+                    }
+
+                    _ => {}
+                }
+            }
+        }
 
         self.cls = old_cls;
     }
