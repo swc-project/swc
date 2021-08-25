@@ -1,0 +1,6 @@
+{
+  "jsc": {
+    "minify": true
+  },
+  "sourceMaps": true
+}
