@@ -45,9 +45,7 @@ fn fixture(input: PathBuf) {
                 };
 
                 match &**name {
-                    "proposal-private-property-in-object" => {
-                        pass = Box::new(chain!(pass, private_in_object()));
-                    }
+                    "proposal-private-property-in-object" => {}
 
                     "proposal-class-properties" => {
                         if !class_props {
@@ -72,6 +70,8 @@ fn fixture(input: PathBuf) {
                     }
                 }
             }
+
+            pass = Box::new(chain!(pass, private_in_object()));
 
             pass
         },
