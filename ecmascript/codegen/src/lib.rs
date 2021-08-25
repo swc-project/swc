@@ -2196,14 +2196,22 @@ impl<'a> Emitter<'a> {
     }
 
     #[emitter]
-    fn emit_return_stmt(&mut self, node: &ReturnStmt) -> Result {
-        self.emit_leading_comments_of_span(node.span, false)?;
+    fn emit_return_stmt(&mut self, n: &ReturnStmt) -> Result {
+        self.emit_leading_comments_of_span(n.span, false)?;
 
-        keyword!("return");
-        if let Some(ref arg) = node.arg {
-            let need_paren = !node.arg.span().is_dummy()
+        {
+            let span = if n.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(n.span.lo, n.span.lo + BytePos(6), Default::default())
+            };
+            keyword!("return");
+        }
+
+        if let Some(ref arg) = n.arg {
+            let need_paren = !n.arg.span().is_dummy()
                 && if let Some(cmt) = self.comments {
-                    let lo = node.arg.span().lo();
+                    let lo = n.arg.span().lo();
 
                     // see #415
                     cmt.has_leading(lo)
