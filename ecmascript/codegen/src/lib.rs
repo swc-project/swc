@@ -1363,27 +1363,37 @@ impl<'a> Emitter<'a> {
     }
 
     #[emitter]
-    fn emit_unary_expr(&mut self, node: &UnaryExpr) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+    fn emit_unary_expr(&mut self, n: &UnaryExpr) -> Result {
+        self.emit_leading_comments_of_span(n.span(), false)?;
 
-        let need_formatting_space = match node.op {
+        let need_formatting_space = match n.op {
             op!("typeof") | op!("void") | op!("delete") => {
-                keyword!(node.op.as_str());
+                let span = if n.span.is_dummy() {
+                    DUMMY_SP
+                } else {
+                    Span::new(
+                        n.span.lo,
+                        n.span.lo + BytePos(n.op.as_str().len() as _),
+                        Default::default(),
+                    )
+                };
+                keyword!(span, n.op.as_str());
+
                 true
             }
             op!(unary, "+") | op!(unary, "-") | op!("!") | op!("~") => {
-                punct!(node.op.as_str());
+                punct!(n.op.as_str());
                 false
             }
         };
 
-        if should_emit_whitespace_before_operand(node) {
+        if should_emit_whitespace_before_operand(n) {
             space!();
         } else if need_formatting_space {
             formatting_space!();
         }
 
-        emit!(node.arg);
+        emit!(n.arg);
     }
 
     #[emitter]
