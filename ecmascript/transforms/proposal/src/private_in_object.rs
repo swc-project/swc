@@ -8,7 +8,9 @@ use swc_ecma_utils::{
     default_constructor, ident::IdentLike, prepend, private_ident, quote_ident, ExprExt,
     ExprFactory, Id,
 };
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{
+    as_folder, noop_visit_mut_type, noop_visit_type, Node, Visit, VisitMut, VisitMutWith, VisitWith,
+};
 
 /// https://github.com/tc39/proposal-private-fields-in-in
 pub fn private_in_object() -> impl JsPass {
@@ -40,6 +42,8 @@ struct ClassData {
     statics: Vec<JsWord>,
 
     consturctor_exprs: Vec<Box<Expr>>,
+
+    names_used_for_brand_checks: FxHashSet<JsWord>,
 }
 
 impl CompilerPass for PrivateInObject {
@@ -62,6 +66,16 @@ impl VisitMut for PrivateInObject {
         let old_cls = take(&mut self.cls);
 
         self.cls.mark = Mark::fresh(Mark::root());
+
+        {
+            n.visit_with(
+                &Invalid { span: DUMMY_SP },
+                &mut ClassAnalyzer {
+                    brand_check_names: &mut self.cls.names_used_for_brand_checks,
+                },
+            )
+        }
+
         for m in &n.body {
             match m {
                 ClassMember::PrivateMethod(m) => {
@@ -137,6 +151,10 @@ impl VisitMut for PrivateInObject {
         n.visit_mut_children_with(self);
 
         self.cls_ident = old_cls_ident;
+    }
+
+    fn visit_mut_class_prop(&mut self, n: &mut ClassProp) {
+        n.visit_mut_children_with(self);
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
@@ -253,6 +271,28 @@ impl VisitMut for PrivateInObject {
                     decls: take(&mut self.vars),
                 })),
             );
+        }
+    }
+}
+
+struct ClassAnalyzer<'a> {
+    brand_check_names: &'a mut FxHashSet<JsWord>,
+}
+
+impl Visit for ClassAnalyzer<'_> {
+    noop_visit_type!();
+
+    fn visit_bin_expr(&mut self, n: &BinExpr, _: &dyn Node) {
+        n.visit_children_with(self);
+
+        if n.op == op!("in") {
+            match &*n.left {
+                Expr::PrivateName(left) => {
+                    self.brand_check_names.insert(left.id.sym.clone());
+                }
+
+                _ => {}
+            }
         }
     }
 }
