@@ -2205,7 +2205,7 @@ impl<'a> Emitter<'a> {
             } else {
                 Span::new(n.span.lo, n.span.lo + BytePos(6), Default::default())
             };
-            keyword!("return");
+            keyword!(span, "return");
         }
 
         if let Some(ref arg) = n.arg {
@@ -2255,7 +2255,7 @@ impl<'a> Emitter<'a> {
             } else {
                 Span::new(n.span.lo, n.span.lo + BytePos(5), Default::default())
             };
-            keyword!("break");
+            keyword!(span, "break");
         }
 
         if let Some(ref label) = n.label {
@@ -2273,7 +2273,7 @@ impl<'a> Emitter<'a> {
             } else {
                 Span::new(n.span.lo, n.span.lo + BytePos(8), Default::default())
             };
-            keyword!("continue");
+            keyword!(span, "continue");
         }
         if let Some(ref label) = n.label {
             space!();
