@@ -1,12 +1,7 @@
-var _temp;
-
-var _fooBrandCheck = /*#__PURE__*/new WeakSet();
-
+var _tmp, _brand_check_foo = new WeakSet();
 class Foo {
-  static #foo = (_temp = 1, _fooBrandCheck.add(this), _temp);
-
-  test(other) {
-    return _fooBrandCheck.has(other);
-  }
-
+    static #foo = (_tmp = 1, _brand_check_foo.add(this), _tmp);
+    test(other) {
+        return _brand_check_foo.has(other);
+    }
 }
