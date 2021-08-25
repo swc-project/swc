@@ -145,12 +145,12 @@ impl VisitMut for PrivateInObject {
         }
     }
 
-    fn visit_mut_stmts(&mut self, ns: &mut Vec<Stmt>) {
-        ns.visit_mut_children_with(self);
+    fn visit_mut_script(&mut self, s: &mut Script) {
+        s.visit_mut_children_with(self);
 
         if !self.vars.is_empty() {
             prepend(
-                ns,
+                &mut s.body,
                 Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
