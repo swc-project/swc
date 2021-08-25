@@ -1,4 +1,4 @@
-use std::borrow::Cow;
+use std::{borrow::Cow, mem::take};
 use swc_common::{pass::CompilerPass, Mark};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::pass::JsPass;
@@ -6,10 +6,16 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith};
 
 /// https://github.com/tc39/proposal-private-fields-in-in
 pub fn private_in_object() -> impl JsPass {
-    as_folder(PrivateInObject { mark: Mark::root() })
+    as_folder(PrivateInObject::default())
 }
 
+#[derive(Default)]
 struct PrivateInObject {
+    cls: ClassData,
+}
+
+#[derive(Default)]
+struct ClassData {
     /// [Mark] for the current class.
     ///
     /// This is modified the class visitor.
@@ -26,13 +32,28 @@ impl VisitMut for PrivateInObject {
     noop_visit_mut_type!();
 
     fn visit_mut_class(&mut self, n: &mut Class) {
-        let old_mark = self.mark;
+        let old_cls = take(&mut self.cls);
 
-        self.mark = Mark::fresh(Mark::root());
+        self.cls.mark = Mark::fresh(Mark::root());
 
         n.visit_mut_children_with(self);
 
-        self.mark = old_mark;
+        self.cls = old_cls;
+    }
+
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
+
+        match e {
+            Expr::Bin(BinExpr {
+                op: op!("in"),
+                left,
+                right,
+                ..
+            }) if left.is_private_name() => {}
+
+            _ => {}
+        }
     }
 
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
