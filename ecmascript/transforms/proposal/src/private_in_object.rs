@@ -1,8 +1,10 @@
+use fxhash::FxHashSet;
 use std::{borrow::Cow, mem::take};
 use swc_atoms::JsWord;
-use swc_common::{pass::CompilerPass, Mark};
+use swc_common::{pass::CompilerPass, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::pass::JsPass;
+use swc_ecma_transforms_base::{ext::MapWithMut, pass::JsPass};
+use swc_ecma_utils::{ident::IdentLike, prepend, quote_ident, ExprExt, ExprFactory, Id};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith};
 
 /// https://github.com/tc39/proposal-private-fields-in-in
@@ -12,6 +14,8 @@ pub fn private_in_object() -> impl JsPass {
 
 #[derive(Default)]
 struct PrivateInObject {
+    vars: Vec<VarDeclarator>,
+    injected_vars: FxHashSet<Id>,
     cls: ClassData,
 }
 
@@ -32,6 +36,13 @@ struct ClassData {
 impl CompilerPass for PrivateInObject {
     fn name() -> Cow<'static, str> {
         Cow::Borrowed("private-in-object")
+    }
+}
+
+impl PrivateInObject {
+    fn var_name_for_brand_check(&self, n: &PrivateName) -> Ident {
+        let span = n.span.apply_mark(self.cls.mark);
+        Ident::new(format!("_brand_check_{}", n.id.sym).into(), span)
     }
 }
 
@@ -76,7 +87,25 @@ impl VisitMut for PrivateInObject {
                 left,
                 right,
                 ..
-            }) if left.is_private_name() => {}
+            }) if left.is_private_name() => {
+                let left = left.clone().expect_private_name();
+
+                let var_name = self.var_name_for_brand_check(&left);
+
+                if self.injected_vars.insert(var_name.to_id()) {
+                    self.vars.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(var_name.clone().into()),
+                        init: Some(Box::new(Expr::New(NewExpr {
+                            span: DUMMY_SP,
+                            callee: Box::new(Expr::Ident(quote_ident!("WeakSet"))),
+                            args: Default::default(),
+                            type_args: Default::default(),
+                        }))),
+                        definite: Default::default(),
+                    });
+                }
+            }
 
             _ => {}
         }
@@ -90,6 +119,22 @@ impl VisitMut for PrivateInObject {
         }
     }
 
+    fn visit_mut_module_items(&mut self, ns: &mut Vec<ModuleItem>) {
+        ns.visit_mut_children_with(self);
+
+        if !self.vars.is_empty() {
+            prepend(
+                ns,
+                ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: Default::default(),
+                    decls: take(&mut self.vars),
+                }))),
+            );
+        }
+    }
+
     fn visit_mut_prop_name(&mut self, n: &mut PropName) {
         match n {
             PropName::Computed(_) => {
@@ -97,6 +142,22 @@ impl VisitMut for PrivateInObject {
             }
 
             _ => {}
+        }
+    }
+
+    fn visit_mut_stmts(&mut self, ns: &mut Vec<Stmt>) {
+        ns.visit_mut_children_with(self);
+
+        if !self.vars.is_empty() {
+            prepend(
+                ns,
+                Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: Default::default(),
+                    decls: take(&mut self.vars),
+                })),
+            );
         }
     }
 }
