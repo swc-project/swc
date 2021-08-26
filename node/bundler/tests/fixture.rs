@@ -96,6 +96,7 @@ fn pass(input_dir: PathBuf) {
                         None,
                         JscTarget::Es2020,
                         SourceMapsConfig::Bool(false),
+                        &[],
                         None,
                         false,
                         Some(true.into()),
