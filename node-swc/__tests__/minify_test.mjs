@@ -85,7 +85,7 @@ describe('soruce map', () => {
         expect(JSON.parse(map).names).not.toEqual([])
     });
 
-    it("should not have `sourcesContent` if it has `sources`", async () => {
+    it("should not have `sourcesContent` if file name is speicified`", async () => {
         const { map } = await swc.minify({
             'foo.js': `(function(){
                             const longName = Math.random() + '_' + Math.random();
@@ -104,7 +104,7 @@ describe('soruce map', () => {
         expect(j.sourcesContent).toEqual([]);
     });
 
-    it("should not have `sources` if file name is speicified", async () => {
+    it("should have `sources` if file name is speicified", async () => {
         const { map } = await swc.minify({
             'foo.js': `(function(){
                 const longName = Math.random() + '_' + Math.random();
@@ -119,8 +119,6 @@ describe('soruce map', () => {
         });
 
         const j = JSON.parse(map);
-        expect(j).toHaveProperty("sourcesContent");
-        expect(j.sourcesContent).toEqual([]);
         expect(j).toHaveProperty("sources");
         expect(j.sources).not.toEqual([]);
     });
