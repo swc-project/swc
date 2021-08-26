@@ -7,7 +7,8 @@ pub mod ecmascript {
 }
 
 #[doc(hidden)]
-pub mod rt;
+#[path = "rt.rs"]
+pub mod __rt;
 
 #[cold]
 #[inline(never)]
