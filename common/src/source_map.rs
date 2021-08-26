@@ -1213,6 +1213,11 @@ pub trait SourceMapGenConfig {
     ///
     /// This should **not** return content of the file.
     fn file_name_to_source(&self, f: &FileName) -> String;
+
+    /// # Returns all identifiers for current module.
+    fn names(&self) -> &[&str] {
+        &[]
+    }
 }
 
 #[derive(Debug, Clone)]
