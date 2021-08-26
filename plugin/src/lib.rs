@@ -5,10 +5,10 @@ pub mod ecmascript {
     pub extern crate swc_ecma_utils as utils;
     pub extern crate swc_ecma_visit as visit;
 }
-
 #[doc(hidden)]
 #[path = "rt.rs"]
 pub mod __rt;
+mod macros;
 
 #[cold]
 #[inline(never)]

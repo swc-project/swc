@@ -11,4 +11,6 @@ crate-type = ["cdylib", "rlib"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-swc_plugin = { path = "../../" }
+serde = {version = "1.0.129", features = ["derive"]}
+swc_common = {path = "../../../common"}
+swc_plugin = {path = "../../"}
