@@ -99,7 +99,9 @@ describe('soruce map', () => {
             },
         });
 
-        expect(map).toMatchInlineSnapshot(`s`);
+        const j = JSON.parse(map);
+        expect(j).toHaveProperty("sourcesContent");
+        expect(j.sourcesContent).toEqual([]);
     });
 
     it("should not have `sources` if file name is speicified", async () => {
@@ -116,7 +118,11 @@ describe('soruce map', () => {
             },
         });
 
-        expect(map).toMatchInlineSnapshot(`s`);
+        const j = JSON.parse(map);
+        expect(j).toHaveProperty("sourcesContent");
+        expect(j.sourcesContent).toEqual([]);
+        expect(j).toHaveProperty("sources");
+        expect(j.sources).not.toEqual([]);
     });
 })
 
