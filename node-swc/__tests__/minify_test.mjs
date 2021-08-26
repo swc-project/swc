@@ -72,10 +72,6 @@ describe('soruce map', () => {
             const longName = Math.random() + '_' + Math.random();
             console.log(longName);
             console.log(longName);
-            console.log(longName);
-            console.log(longName);
-            console.log(longName);
-            console.log(longName);
         })()
         `, {
             sourceMap: true,
@@ -85,7 +81,8 @@ describe('soruce map', () => {
             },
         });
 
-        expect(map).toMatchInlineSnapshot(`s`);
+        expect(JSON.parse(map)).toHaveProperty("names");
+        expect(JSON.parse(map).names).not.toEqual([])
     });
 
     it("should not have `sourcesContent` if it has `sources`", async () => {
