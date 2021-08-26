@@ -72,7 +72,7 @@ pub fn apply_js_plugin(
             .context("failed to initialize wasi")?;
 
         let import_object = wasi_env
-            .import_object(&plugin)
+            .import_object_for_all_wasi_versions(&plugin)
             .context("failed to create import object from wasi_env")?;
 
         let instance =
