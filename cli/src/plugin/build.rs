@@ -42,7 +42,7 @@ pub async fn run_cargo_build(release: bool) -> Result<(), Error> {
         .await
         .context("`status()` for `cargo build` failed")?;
 
-    if status.success() {
+    if !status.success() {
         bail!("`cargo build` failed with status code {}", status);
     }
 
