@@ -100,8 +100,7 @@ describe('soruce map', () => {
         });
 
         const j = JSON.parse(map);
-        expect(j).toHaveProperty("sourcesContent");
-        expect(j.sourcesContent).toEqual([]);
+        expect(j.sourcesContent).toBeUndefined()
     });
 
     it("should have `sources` if file name is speicified", async () => {
