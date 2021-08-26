@@ -2287,7 +2287,7 @@ checksum = "6446ced80d6c486436db5c078dde11a9f73d42b57fb273121e160b84f63d894c"
 
 [[package]]
 name = "swc"
-version = "0.44.0"
+version = "0.45.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2429,7 +2429,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.11.6"
+version = "0.11.7"
 dependencies = [
  "ahash",
  "arbitrary",
