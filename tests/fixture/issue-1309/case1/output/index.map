@@ -6,8 +6,5 @@
   "sources": [
     "../../input/index.ts"
   ],
-  "sourcesContent": [
-    "\n\nexport const foo = 1;"
-  ],
   "version": 3
 }
