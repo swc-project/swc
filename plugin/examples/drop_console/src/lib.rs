@@ -1,1 +1,1 @@
-pub extern "C" fn alloc() {}
+extern crate swc_plugin;
