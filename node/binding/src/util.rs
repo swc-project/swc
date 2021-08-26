@@ -25,7 +25,13 @@ impl CtxtExt for CallContext<'_> {
     {
         let buffer = self.get::<JsBuffer>(index)?.into_value()?;
         let v = serde_json::from_slice(&buffer)
-            .with_context(|| format!("Argument at `{}` is not JsBuffer", index))
+            .with_context(|| {
+                format!(
+                    "Argument at `{}` is not JsBuffer\n{}",
+                    index,
+                    String::from_utf8_lossy(&buffer)
+                )
+            })
             .convert_err()?;
 
         Ok(v)
