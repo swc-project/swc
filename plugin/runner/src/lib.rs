@@ -1,34 +1,59 @@
-use abi_stable::{
-    library::RootModule,
-    std_types::{RResult, RStr, RString},
-};
 use anyhow::{anyhow, Context, Error};
-use std::path::Path;
+use dashmap::DashMap;
+use once_cell::sync::Lazy;
+use std::{
+    path::{Path, PathBuf},
+    sync::Arc,
+};
 use swc_ecma_ast::Program;
-use swc_plugin::SwcPluginRef;
 use wasmer::{Store, Universal};
 use wasmer_compiler_cranelift::Cranelift;
 
-fn apply_wasm_plugin(
-    wasm_path: &Path,
-    config_json: &str,
-    program: &Program,
-) -> Result<Program, Error> {
-    let compiler = Cranelift::new();
-    // Put it into an engine and add it to the store
-    let store = Store::new(
-        &Universal::new(compiler)
-            .features(wasmer::Features {})
-            .target((wasmer::Target {})
-            .engine(),
-    );
+fn load_wasm(path: Arc<PathBuf>) -> Result<wasmer::Module, Error> {
+    static STORE: Lazy<Store> = Lazy::new(|| {
+        let compiler = Cranelift::new();
+        let store = Store::new(
+            &Universal::new(compiler)
+                .features(wasmer::Features {
+                    threads: true,
+                    simd: true,
+                    ..Default::default()
+                })
+                .engine(),
+        );
+
+        store
+    });
+
+    static CACHE: Lazy<DashMap<Arc<PathBuf>, wasmer::Module>> = Lazy::new(|| Default::default());
+
+    (|| -> Result<_, Error> {
+        if let Some(cache) = CACHE.get(&path) {
+            return Ok((*cache).clone());
+        }
+
+        let module = wasmer::Module::from_file(&STORE, &**path)
+            .context("failed to create wasm module from file")?;
+
+        CACHE.insert(path.clone(), module.clone());
+
+        Ok(module)
+    })()
+    .with_context(|| format!("failed to load wasm file at `{}`", path.display()))
 }
 
-pub fn apply_js_plugin(program: &Program, path: &Path) -> Result<Program, Error> {
+pub fn apply_js_plugin(
+    program: &Program,
+    config_json: &str,
+    path: &Path,
+) -> Result<Program, Error> {
     (|| -> Result<_, Error> {
-        let plugin = SwcPluginRef::load_from_file(path).context("failed to load plugin")?;
+        let path = path
+            .canonicalize()
+            .context("failed to canonicalize wasm path")?;
 
-        let config_json = "{}";
+        let plugin = load_wasm(Arc::new(path))?;
+
         let ast_json =
             serde_json::to_string(&program).context("failed to serialize program as json")?;
 
