@@ -339,6 +339,7 @@ impl Compiler {
         output_path: Option<PathBuf>,
         target: JscTarget,
         source_map: SourceMapsConfig,
+        source_map_names: &[JsWord],
         orig: Option<&sourcemap::SourceMap>,
         minify: bool,
         preserve_comments: Option<BoolOrObject<JsMinifyCommentOption>>,
@@ -428,16 +429,6 @@ impl Compiler {
             };
             let (code, map) = match source_map {
                 SourceMapsConfig::Bool(v) => {
-                    let names = {
-                        let mut v = IdentCollector {
-                            names: Default::default(),
-                        };
-
-                        node.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
-
-                        v.names
-                    };
-
                     if v {
                         let mut buf = vec![];
 
@@ -448,7 +439,7 @@ impl Compiler {
                                 SwcSourceMapConfig {
                                     source_file_name,
                                     output_path: output_path.as_deref(),
-                                    names: &names,
+                                    names: source_map_names,
                                 },
                             )
                             .to_writer(&mut buf)
@@ -460,16 +451,6 @@ impl Compiler {
                     }
                 }
                 SourceMapsConfig::Str(_) => {
-                    let names = {
-                        let mut v = IdentCollector {
-                            names: Default::default(),
-                        };
-
-                        node.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
-
-                        v.names
-                    };
-
                     let mut src = src;
 
                     let mut buf = vec![];
@@ -481,7 +462,7 @@ impl Compiler {
                             SwcSourceMapConfig {
                                 source_file_name,
                                 output_path: output_path.as_deref(),
-                                names: &names,
+                                names: source_map_names,
                             },
                         )
                         .to_writer(&mut buf)
@@ -508,7 +489,7 @@ struct SwcSourceMapConfig<'a> {
     /// Output path of the `.map` file.
     output_path: Option<&'a Path>,
 
-    names: &'a Vec<JsWord>,
+    names: &'a [JsWord],
 }
 
 impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
@@ -800,6 +781,16 @@ impl Compiler {
                 .context("failed to parse input file")?
                 .expect_module();
 
+            let source_map_names = {
+                let mut v = IdentCollector {
+                    names: Default::default(),
+                };
+
+                module.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+
+                v.names
+            };
+
             let top_level_mark = Mark::fresh(Mark::root());
 
             let module = self.run_transform(handler, false, || {
@@ -825,6 +816,7 @@ impl Compiler {
                 opts.output_path.clone().map(From::from),
                 target,
                 SourceMapsConfig::Bool(opts.source_map),
+                &source_map_names,
                 orig.as_ref(),
                 true,
                 Some(opts.format.comments.clone()),
@@ -879,6 +871,16 @@ impl Compiler {
         config: BuiltConfig<impl swc_ecma_visit::Fold>,
     ) -> Result<TransformOutput, Error> {
         self.run(|| {
+            let source_map_names = {
+                let mut v = IdentCollector {
+                    names: Default::default(),
+                };
+
+                program.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+
+                v.names
+            };
+
             let mut pass = config.pass;
             let program = helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
                 swc_ecma_utils::HANDLER.set(handler, || {
@@ -893,6 +895,7 @@ impl Compiler {
                 config.output_path,
                 config.target,
                 config.source_maps,
+                &source_map_names,
                 orig,
                 config.minify,
                 config.preserve_comments,
