@@ -1,1 +1,1 @@
-pub extern "C" fn from_wasm() {}
+pub extern "C" fn alloc() {}

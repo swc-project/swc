@@ -6,26 +6,28 @@ use std::{
     sync::Arc,
 };
 use swc_ecma_ast::Program;
-use wasmer::{Array, Instance, NativeFunc, Store, Universal, WasmPtr};
+use wasmer::{Array, Instance, Memory, MemoryType, NativeFunc, Store, Universal, WasmPtr};
 use wasmer_compiler_cranelift::Cranelift;
 use wasmer_wasi::WasiState;
 
+type WasmStr = (WasmPtr<u8, Array>, u32);
+
+static STORE: Lazy<Store> = Lazy::new(|| {
+    let compiler = Cranelift::new();
+    let store = Store::new(
+        &Universal::new(compiler)
+            .features(wasmer::Features {
+                threads: true,
+                simd: true,
+                ..Default::default()
+            })
+            .engine(),
+    );
+
+    store
+});
+
 fn load_wasm(path: Arc<PathBuf>) -> Result<wasmer::Module, Error> {
-    static STORE: Lazy<Store> = Lazy::new(|| {
-        let compiler = Cranelift::new();
-        let store = Store::new(
-            &Universal::new(compiler)
-                .features(wasmer::Features {
-                    threads: true,
-                    simd: true,
-                    ..Default::default()
-                })
-                .engine(),
-        );
-
-        store
-    });
-
     static CACHE: Lazy<DashMap<Arc<PathBuf>, wasmer::Module>> = Lazy::new(|| Default::default());
 
     (|| -> Result<_, Error> {
@@ -43,14 +45,7 @@ fn load_wasm(path: Arc<PathBuf>) -> Result<wasmer::Module, Error> {
     .with_context(|| format!("failed to load wasm file at `{}`", path.display()))
 }
 
-fn set_wasm_memory(wasm: &Instance, memory_name: &str, value: &str) -> Result<(), Error> {
-    let mem = wasm
-        .exports
-        .get_memory(&memory_name)
-        .with_context(|| format!("failed to get memory `{}`", memory_name))?;
-
-    Ok(())
-}
+fn set_wasm_memory(wasm: &Instance, value: &str) -> Result<WasmStr, Error> {}
 
 pub fn apply_js_plugin(
     program: &Program,
@@ -78,20 +73,21 @@ pub fn apply_js_plugin(
         let instance =
             Instance::new(&plugin, &import_object).context("failed to instantiate a wasm file")?;
 
-        let new_ast_mem = instance
-            .exports
-            .get_memory("new_ast_str")
-            .context("failed to get memory for `new_ast_str`")?;
+        let new_ast_mem = Memory::new(&STORE, MemoryType::new(0, None, false))
+            .context("failed to create wasm memory for storing new ast")?;
 
-        set_wasm_memory(&instance, "ast_str", &ast_json)?;
-        set_wasm_memory(&instance, "config_str", &config_json)?;
+        let config = set_wasm_memory(&instance, &config_json)?;
+        let ast = set_wasm_memory(&instance, &ast_json)?;
 
-        let f: NativeFunc<(), (WasmPtr<u8, Array>, u32)> = instance
+        // (config, ast) => ast
+        let f: NativeFunc<(WasmPtr<u8, Array>, u32, WasmPtr<u8, Array>, u32), WasmStr> = instance
             .exports
             .get_native_function("process_js")
             .context("the function named `process_js` is not found")?;
 
-        let (ptr, length) = f.call().context("call to `process_js` failed")?;
+        let (ptr, length) = f
+            .call(config.0, config.1, ast.0, ast.1)
+            .context("call to `process_js` failed")?;
 
         let new_ast = ptr.get_utf8_string(&new_ast_mem, length as u32).unwrap();
 
