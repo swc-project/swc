@@ -20,6 +20,7 @@ mod duplicate_keys;
 pub mod for_of;
 mod function_name;
 mod instanceof;
+pub mod new_target;
 mod parameters;
 mod regenerator;
 mod shorthand_property;

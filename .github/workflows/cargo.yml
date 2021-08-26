@@ -115,6 +115,8 @@ jobs:
           - swc_css_ast
           - swc_css_codegen
           - swc_css_parser
+          - swc_css_utils
+          - swc_css_visit
           - swc_ecma_ast
           - swc_ecma_codegen
           - swc_ecma_codegen_macros
@@ -142,6 +144,10 @@ jobs:
           - swc_macros_common
           - swc_node_base
           - swc_node_bundler
+          - swc_plugin
+          - swc_plugin_runner
+          - swc_plugin_testing
+          - swc_stylis
           - swc_visit
           - swc_visit_macros
           - testing
@@ -238,7 +244,7 @@ jobs:
           profile: minimal
 
       - name: Create rustdoc
-        run: cargo doc
+        run: cargo doc --all
 
       - name: Create CNAME
         run: |

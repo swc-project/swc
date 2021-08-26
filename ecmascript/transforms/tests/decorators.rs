@@ -4749,7 +4749,7 @@ test!(
       }
 
       @Get('/callback')
-      callback(@Res() res: express.Response, @Session() session: express.Express.Session) {
+      async callback(@Res() res: express.Response, @Session() session: express.Express.Session) {
         const token = await this.getToken(code)
         const user = await this.getUserInfo(token.access_token)
 
@@ -4774,7 +4774,7 @@ export let AppController = _class = _dec14(_class = _dec13(_class = _dec12(((_cl
     getHello(): string {
         return this.appService.getHello();
     }
-    callback(res: express.Response, session: express.Express.Session) {
+    async callback(res: express.Response, session: express.Express.Session) {
         const token = await this.getToken(code);
         const user = await this.getUserInfo(token.access_token);
         session.oauth2Token = token;

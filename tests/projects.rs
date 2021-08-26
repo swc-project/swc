@@ -770,7 +770,9 @@ fn should_visit() {
                 config.output_path,
                 config.target,
                 config.source_maps,
-                None, // TODO: figure out sourcemaps
+                &[],
+                None,
+                // TODO: figure out sourcemaps
                 config.minify,
                 config.preserve_comments,
             )

@@ -1653,6 +1653,14 @@ impl VisitMut for Optimizer<'_> {
         };
         e.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
+        match e {
+            Expr::Seq(seq) if seq.exprs.len() == 1 => {
+                *e = *seq.exprs[0].take();
+            }
+
+            _ => {}
+        }
+
         self.remove_invalid(e);
 
         self.optimize_str_access_to_arguments(e);

@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 use crate::typescript::TsTypeAnn;
 use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
@@ -31,6 +33,12 @@ pub struct Ident {
     /// TypeScript only. Used in case of an optional parameter.
     #[serde(default)]
     pub optional: bool,
+}
+
+impl Display for Ident {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}{:?}", self.sym, self.span.ctxt)
+    }
 }
 
 #[cfg(feature = "arbitrary")]

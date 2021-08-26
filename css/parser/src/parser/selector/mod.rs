@@ -1,5 +1,8 @@
 use super::{input::ParserInput, PResult, Parser};
-use crate::error::{Error, ErrorKind};
+use crate::{
+    error::{Error, ErrorKind},
+    Parse,
+};
 use swc_atoms::js_word;
 use swc_common::Span;
 use swc_css_ast::*;
@@ -495,5 +498,14 @@ where
                 ErrorKind::ExpectedIdentOrStrForAttrSelectorOp,
             ))?,
         }
+    }
+}
+
+impl<I> Parse<CompoundSelector> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<CompoundSelector> {
+        self.parse_compound_selector()
     }
 }

@@ -140,6 +140,8 @@ pub enum SyntaxError {
 
     AwaitForStmt,
 
+    AwaitInFunction,
+
     UnterminatedJSXContents,
     EmptyJSXAttr,
     InvalidJSXValue,
@@ -363,6 +365,8 @@ impl SyntaxError {
                 "for await syntax is valid only for for-of statement".into()
             }
 
+            SyntaxError::AwaitInFunction => "await isn't allowed in non-async function".into(),
+
             SyntaxError::UnterminatedJSXContents => "Unterminated JSX contents".into(),
             SyntaxError::EmptyJSXAttr => {
                 "JSX attributes must only be assigned a non-empty expression".into()
@@ -468,7 +472,9 @@ impl SyntaxError {
                 format!("'{}' modifier must precede '{}' modifier.", left, right).into()
             }
             SyntaxError::TS1030(word) => format!("'{}' modifier already seen.", word).into(),
-            SyntaxError::TS1031 => "`declare` modifier cannot appear on a class element".into(),
+            SyntaxError::TS1031 => {
+                "`declare` modifier cannot appear on class elements of this kind".into()
+            }
             SyntaxError::TS1038 => {
                 "`declare` modifier not allowed for code already in an ambient context".into()
             }

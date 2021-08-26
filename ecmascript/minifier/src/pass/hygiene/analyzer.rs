@@ -56,12 +56,6 @@ impl HygieneAnalyzer<'_> {
 
         ret
     }
-
-    /// Registers a binding ident. This is treated as [PatMode::OtherDecl].
-    ///
-    /// If it conflicts
-    #[allow(unused)]
-    fn register_binding_ident(&mut self, i: &mut Ident) {}
 }
 
 impl Visit for HygieneAnalyzer<'_> {
@@ -74,7 +68,9 @@ impl Visit for HygieneAnalyzer<'_> {
     }
 
     fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
-        log::trace!("hygiene: Handling ({}{:?})", i.sym, i.span.ctxt);
+        if cfg!(feature = "debug") {
+            log::trace!("hygiene: Handling ({})", i);
+        }
 
         if i.span.ctxt == SyntaxContext::empty() {
             return;
@@ -89,7 +85,9 @@ impl Visit for HygieneAnalyzer<'_> {
         let info = match info {
             Some(v) => v,
             None => {
-                log::trace!("hygiene: No such var: {}{:?}", i.sym, i.span.ctxt);
+                if cfg!(feature = "debug") {
+                    log::trace!("hygiene: No such var: {}{:?}", i.sym, i.span.ctxt);
+                }
                 return;
             }
         };
@@ -98,28 +96,36 @@ impl Visit for HygieneAnalyzer<'_> {
         if let Some(decls) = self.scope().declared_symbols.get(&i.sym) {
             if decls.len() >= 2 {
                 self.hygiene.preserved.insert(i.to_id());
-                log::trace!(
-                    "hygiene: Preserving hygiene of {}{:?} because it's declared multiple times",
-                    i.sym,
-                    i.span.ctxt
-                );
+                if cfg!(feature = "debug") {
+                    log::trace!(
+                        "hygiene: Preserving hygiene of {}{:?} because it's declared multiple \
+                         times",
+                        i.sym,
+                        i.span.ctxt
+                    );
+                }
+
                 return;
             }
         }
 
-        if info.is_fn_local {
-            log::trace!(
-                "hygiene: Optimization candidate: {}{:?}",
-                i.sym,
-                i.span.ctxt
-            );
+        if info.is_fn_local || info.declared_as_fn_expr {
+            if cfg!(feature = "debug") {
+                log::trace!(
+                    "hygiene: Optimization candidate: {}{:?}",
+                    i.sym,
+                    i.span.ctxt
+                );
+            }
             self.hygiene.modified.insert(i.to_id());
         } else {
-            log::trace!(
-                "hygiene: Preserving {}{:?} as it is not fn-local",
-                i.sym,
-                i.span.ctxt
-            );
+            if cfg!(feature = "debug") {
+                log::trace!(
+                    "hygiene: Preserving {}{:?} as it is not fn-local",
+                    i.sym,
+                    i.span.ctxt
+                );
+            }
         }
     }
 
