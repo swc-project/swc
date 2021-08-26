@@ -4,6 +4,7 @@ fn build(crate_name: &str) {
     let status = Command::new("cargo")
         .arg("build")
         .arg("-p")
+        .arg(crate_name)
         .current_dir(
             env::current_dir()
                 .unwrap()
