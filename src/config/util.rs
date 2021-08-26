@@ -1,7 +1,7 @@
 use super::Merge;
 use serde::{Deserialize, Serialize};
 
-#[derive(Clone, Serialize, Deserialize, Debug)]
+#[derive(Clone, Serialize, Debug)]
 #[serde(untagged)]
 pub enum BoolOrObject<T> {
     Bool(bool),
@@ -53,6 +53,42 @@ where
                 }
                 BoolOrObject::Obj(r) => o.merge(r),
             },
+        }
+    }
+}
+
+impl<'de, T> Deserialize<'de> for BoolOrObject<T>
+where
+    T: Deserialize<'de>,
+{
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[derive(Deserialize)]
+        #[serde(untagged)]
+        enum Deser<T> {
+            Bool(bool),
+            Obj(T),
+        }
+
+        let content = swc_common::private::serde::de::Content::deserialize(deserializer)?;
+
+        let deserializer =
+            swc_common::private::serde::de::ContentRefDeserializer::<D::Error>::new(&content);
+
+        let res = Deser::deserialize(deserializer);
+
+        match res {
+            Ok(v) => Ok(match v {
+                Deser::Bool(v) => BoolOrObject::Bool(v),
+                Deser::Obj(v) => BoolOrObject::Obj(v),
+            }),
+            Err(..) => {
+                let d =
+                    swc_common::private::serde::de::ContentDeserializer::<D::Error>::new(content);
+                Ok(BoolOrObject::Obj(T::deserialize(d)?))
+            }
         }
     }
 }
