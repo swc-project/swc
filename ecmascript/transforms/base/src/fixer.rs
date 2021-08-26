@@ -1386,4 +1386,14 @@ var store = global[SHARED] || (global[SHARED] = {});
         };
         "
     );
+
+    identical!(
+        issue_2155,
+        "
+        async function main() {
+            let promise;
+            await (promise || (promise = Promise.resolve('this is a string')));
+        }
+        "
+    );
 }
