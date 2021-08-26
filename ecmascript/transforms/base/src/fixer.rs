@@ -117,7 +117,11 @@ impl VisitMut for Fixer<'_> {
         self.ctx = old;
 
         match &*expr.arg {
-            Expr::Cond(..) | Expr::Assign(..) => self.wrap(&mut expr.arg),
+            Expr::Cond(..)
+            | Expr::Assign(..)
+            | Expr::Bin(..)
+            | Expr::Unary(..)
+            | Expr::Update(..) => self.wrap(&mut expr.arg),
             _ => {}
         }
     }
