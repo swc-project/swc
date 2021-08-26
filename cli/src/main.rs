@@ -1,3 +1,4 @@
+use anyhow::Error;
 use plugin::PluginCommand;
 use structopt::StructOpt;
 
@@ -10,12 +11,14 @@ pub enum Cmd {
 }
 
 #[tokio::main]
-async fn main() {
+async fn main() -> Result<(), Error> {
     let cmd = Cmd::from_args();
 
     match cmd {
-        Cmd::Plugin(..) => {
-            todo!()
+        Cmd::Plugin(cmd) => {
+            cmd.run().await?;
         }
     }
+
+    Ok(())
 }

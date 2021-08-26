@@ -1,6 +1,7 @@
 use self::{
     build::BuildCommand, init::InitCommand, package::PackageCommand, publish::PublishCommand,
 };
+use anyhow::Error;
 use structopt::StructOpt;
 
 pub mod build;
@@ -15,4 +16,15 @@ pub enum PluginCommand {
     Build(BuildCommand),
     Package(PackageCommand),
     Publish(PublishCommand),
+}
+
+impl PluginCommand {
+    pub async fn run(self) -> Result<(), Error> {
+        match self {
+            PluginCommand::Init(_) => todo!(),
+            PluginCommand::Build(_) => todo!(),
+            PluginCommand::Package(_) => todo!(),
+            PluginCommand::Publish(_) => todo!(),
+        }
+    }
 }
