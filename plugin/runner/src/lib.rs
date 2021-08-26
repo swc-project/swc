@@ -95,14 +95,22 @@ pub fn apply_js_plugin(
         let ast = alloc_in_wasm_memory(&alloc, &ast_json)?;
 
         // (config, ast) => ast
-        let f: NativeFunc<(WasmPtr<u8, Array>, u32, WasmPtr<u8, Array>, u32), WasmStr> = instance
+        let f: NativeFunc<(WasmPtr<u8, Array>, u32, WasmPtr<u8, Array>, u32), u64> = instance
             .exports
             .get_native_function("process_js")
             .context("failed to load function named `process_js`")?;
 
-        let (ptr, length) = f
+        let ptr_and_length = f
             .call(config.0, config.1, ast.0, ast.1)
             .context("call to `process_js` failed")?;
+
+        let (ptr, length): WasmStr = {
+            if true {
+                todo!("decode u64 as ptr and len: {}", ptr_and_length);
+            } else {
+                (WasmPtr::new(0), 0)
+            }
+        };
 
         let new_ast = ptr.get_utf8_string(&new_ast_mem, length as u32).unwrap();
 
