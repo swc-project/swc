@@ -12,7 +12,8 @@ fn build(crate_name: &str) {
                 .join("examples")
                 .join(crate_name),
         )
-        .arg(crate_name)
+        .arg("--target")
+        .arg("wasm32-wasi")
         .status()
         .expect("failed to run cargo build");
 
