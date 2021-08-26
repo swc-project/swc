@@ -85,8 +85,8 @@ pub fn apply_js_plugin(
 
         let alloc = instance
             .exports
-            .get_native_function("_swc_alloc")
-            .context("the function named `_swc_alloc` is not found")?;
+            .get_native_function("__swc_malloc")
+            .context("the function named `__swc_malloc` is not found")?;
 
         let new_ast_mem = Memory::new(&STORE, MemoryType::new(0, None, false))
             .context("failed to create wasm memory for storing new ast")?;
