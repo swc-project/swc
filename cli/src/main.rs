@@ -1,28 +1,20 @@
-use build::BuildCommand;
-use init::InitCommand;
-use publish::PublishCommand;
+use plugin::PluginCommand;
 use structopt::StructOpt;
 
-mod build;
-mod init;
-mod package;
-mod publish;
+mod plugin;
 
 #[derive(Debug, StructOpt)]
-enum Cmd {
-    Init(InitCommand),
-    Build(BuildCommand),
-    Package(BuildCommand),
-    Publish(PublishCommand),
+
+pub enum Cmd {
+    Plugin(PluginCommand),
 }
 
 fn main() {
     let cmd = Cmd::from_args();
 
     match cmd {
-        Cmd::Init(_) => todo!(),
-        Cmd::Build(_) => todo!(),
-        Cmd::Package(_) => todo!(),
-        Cmd::Publish(_) => todo!(),
+        Cmd::Plugin(..) => {
+            todo!()
+        }
     }
 }
