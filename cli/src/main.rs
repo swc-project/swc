@@ -12,9 +12,10 @@ pub enum Cmd {
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
-    let fmt_subscriber = tracing_subscriber::fmt::Subscriber::new();
-    tracing::subscriber::set_global_default(fmt_subscriber)
-        .expect("setting tracing default failed");
+    tracing_subscriber::fmt::Subscriber::builder()
+        .with_target(false)
+        .pretty()
+        .init();
 
     let cmd = Cmd::from_args();
 
