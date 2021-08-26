@@ -12,6 +12,7 @@ version = "0.0.0"
 
 [dependencies]
 anyhow = "1.0.41"
+cargo_metadata = "0.14.0"
 clap = "2.33.3"
 structopt = "0.3.21"
 tokio = {version = "1.10.1", features = ["rt", "rt-multi-thread", "time", "process", "macros", "sync"]}
