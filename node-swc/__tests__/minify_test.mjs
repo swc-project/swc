@@ -89,17 +89,12 @@ describe('soruce map', () => {
     });
 
     it("should not have `sourcesContent` if it has `sources`", async () => {
-        const { map } = await swc.minify(`
-        (function(){
-            const longName = Math.random() + '_' + Math.random();
-            console.log(longName);
-            console.log(longName);
-            console.log(longName);
-            console.log(longName);
-            console.log(longName);
-            console.log(longName);
-        })()
-        `, {
+        const { map } = await swc.minify({
+            'foo.js': `(function(){
+                            const longName = Math.random() + '_' + Math.random();
+                            console.log(longName);
+                        })()`
+        }, {
             sourceMap: true,
             compress: false,
             mangle: {
@@ -111,17 +106,12 @@ describe('soruce map', () => {
     });
 
     it("should not have `sources` if file name is speicified", async () => {
-        const { map } = await swc.minify(`
-        (function(){
-            const longName = Math.random() + '_' + Math.random();
-            console.log(longName);
-            console.log(longName);
-            console.log(longName);
-            console.log(longName);
-            console.log(longName);
-            console.log(longName);
-        })()
-        `, {
+        const { map } = await swc.minify({
+            'foo.js': `(function(){
+                const longName = Math.random() + '_' + Math.random();
+                console.log(longName);
+            })()`
+        }, {
             sourceMap: true,
             compress: false,
             mangle: {
