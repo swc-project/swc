@@ -1,5 +1,6 @@
 [workspace]
 members = [
+  "cli",
   "css",
   "css/stylis",
   "ecmascript",
@@ -7,7 +8,6 @@ members = [
   "ecmascript/jsdoc",
   "node/binding",
   "plugin",
-  "plugin/cli",
   "plugin/runner",
   "plugin/testing",
   "wasm",
