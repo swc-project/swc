@@ -8,6 +8,12 @@ use std::{
     mem,
 };
 
+#[repr(C)]
+pub struct WasmSlice {
+    pub ptr: u32,
+    pub len: u32,
+}
+
 #[no_mangle]
 pub extern "C" fn __swc_malloc(size: usize) -> *mut u8 {
     let align = mem::align_of::<usize>();

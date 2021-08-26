@@ -7,7 +7,7 @@ macro_rules! define_js_processor {
             config_len: u32,
             ast_ptr: *const u8,
             ast_len: u32,
-        ) -> *mut u8 {
+        ) -> $crate::__rt::WasmSlice {
             todo!()
         }
     };

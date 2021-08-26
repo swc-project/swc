@@ -86,7 +86,7 @@ pub fn apply_js_plugin(
         let alloc = instance
             .exports
             .get_native_function("__swc_malloc")
-            .context("the function named `__swc_malloc` is not found")?;
+            .context("failed to load function named `__swc_malloc`")?;
 
         let new_ast_mem = Memory::new(&STORE, MemoryType::new(0, None, false))
             .context("failed to create wasm memory for storing new ast")?;
@@ -98,7 +98,7 @@ pub fn apply_js_plugin(
         let f: NativeFunc<(WasmPtr<u8, Array>, u32, WasmPtr<u8, Array>, u32), WasmStr> = instance
             .exports
             .get_native_function("process_js")
-            .context("the function named `process_js` is not found")?;
+            .context("failed to load function named `process_js`")?;
 
         let (ptr, length) = f
             .call(config.0, config.1, ast.0, ast.1)
