@@ -71,11 +71,17 @@ pub fn apply_js_plugin(
             .finalize()
             .context("failed to initialize wasi")?;
 
-        let import_object = wasi_env.import_object(&plugin)?;
+        let import_object = wasi_env
+            .import_object(&plugin)
+            .context("failed to create import object from wasi_env")?;
 
-        let instance = Instance::new(&plugin, &import_object)?;
+        let instance =
+            Instance::new(&plugin, &import_object).context("failed to instantiate a wasm file")?;
 
-        let new_ast_mem = instance.exports.get_memory("new_ast_str")?;
+        let new_ast_mem = instance
+            .exports
+            .get_memory("new_ast_str")
+            .context("failed to get memory for `new_ast_str`")?;
 
         set_wasm_memory(&instance, "ast_str", &ast_json)?;
         set_wasm_memory(&instance, "config_str", &config_json)?;
