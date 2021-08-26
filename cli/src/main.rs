@@ -9,7 +9,8 @@ pub enum Cmd {
     Plugin(PluginCommand),
 }
 
-fn main() {
+#[tokio::main]
+async fn main() {
     let cmd = Cmd::from_args();
 
     match cmd {
