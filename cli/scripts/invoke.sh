@@ -3,3 +3,5 @@
 set -eu
 
 cargo install --path .
+
+swc-dev $@
