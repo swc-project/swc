@@ -45,11 +45,16 @@ fn load_wasm(path: Arc<PathBuf>) -> Result<wasmer::Module, Error> {
     .with_context(|| format!("failed to load wasm file at `{}`", path.display()))
 }
 
-fn set_wasm_memory(
-    wasm: &Instance,
-    alloc: &NativeFunc<u32, u32>,
-    value: &str,
-) -> Result<WasmStr, Error> {
+fn alloc_in_wasm_memory(alloc: &NativeFunc<u32, u32>, value: &str) -> Result<WasmStr, Error> {
+    let bytes = value.as_bytes();
+
+    let ptr = alloc
+        .call(bytes.len() as _)
+        .context("failed to call `_swc_alloc`")?;
+
+    let ptr = WasmPtr::new(ptr);
+
+    Ok((ptr, bytes.len() as _))
 }
 
 pub fn apply_js_plugin(
@@ -86,8 +91,8 @@ pub fn apply_js_plugin(
         let new_ast_mem = Memory::new(&STORE, MemoryType::new(0, None, false))
             .context("failed to create wasm memory for storing new ast")?;
 
-        let config = set_wasm_memory(&instance, &alloc, &config_json)?;
-        let ast = set_wasm_memory(&instance, &alloc, &ast_json)?;
+        let config = alloc_in_wasm_memory(&alloc, &config_json)?;
+        let ast = alloc_in_wasm_memory(&alloc, &ast_json)?;
 
         // (config, ast) => ast
         let f: NativeFunc<(WasmPtr<u8, Array>, u32, WasmPtr<u8, Array>, u32), WasmStr> = instance
