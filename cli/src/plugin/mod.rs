@@ -22,7 +22,7 @@ impl PluginCommand {
     pub async fn run(self) -> Result<(), Error> {
         match self {
             PluginCommand::Init(_) => todo!(),
-            PluginCommand::Build(_) => todo!(),
+            PluginCommand::Build(cmd) => cmd.run().await,
             PluginCommand::Package(_) => todo!(),
             PluginCommand::Publish(_) => todo!(),
         }
