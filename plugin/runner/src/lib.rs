@@ -6,7 +6,7 @@ use std::{
     sync::Arc,
 };
 use swc_ecma_ast::Program;
-use wasmer::{Store, Universal};
+use wasmer::{Array, Instance, NativeFunc, Store, Universal, Value, WasmPtr};
 use wasmer_compiler_cranelift::Cranelift;
 
 fn load_wasm(path: Arc<PathBuf>) -> Result<wasmer::Module, Error> {
@@ -42,35 +42,48 @@ fn load_wasm(path: Arc<PathBuf>) -> Result<wasmer::Module, Error> {
     .with_context(|| format!("failed to load wasm file at `{}`", path.display()))
 }
 
+fn set_wasm_memory(wasm: &Instance, memory_name: &str, value: &str) -> Result<(), Error> {
+    let mem = wasm
+        .exports
+        .get_memory(&memory_name)
+        .with_context(|| format!("failed to get memory `{}`", memory_name))?;
+
+    Ok(())
+}
+
 pub fn apply_js_plugin(
     program: &Program,
     config_json: &str,
     path: &Path,
 ) -> Result<Program, Error> {
     (|| -> Result<_, Error> {
+        let ast_json =
+            serde_json::to_string(&program).context("failed to serialize program as json")?;
+
         let path = path
             .canonicalize()
             .context("failed to canonicalize wasm path")?;
 
         let plugin = load_wasm(Arc::new(path))?;
 
-        let ast_json =
-            serde_json::to_string(&program).context("failed to serialize program as json")?;
+        let instance = Instance::new(&plugin, &import_object)?;
 
-        let plugin_fn = plugin
-            .process_js()
-            .ok_or_else(|| anyhow!("the plugin does not support transforming js"))?;
+        let new_ast_mem = instance.exports.get_memory("new_ast_str")?;
 
-        let new_ast = plugin_fn(RStr::from(config_json), RString::from(ast_json));
+        set_wasm_memory(&instance, "ast_str", &ast_json)?;
+        set_wasm_memory(&instance, "config_str", &config_json)?;
 
-        let new = match new_ast {
-            RResult::ROk(v) => v,
-            RResult::RErr(err) => return Err(anyhow!("plugin returned an errror\n{}", err)),
-        };
-        let new = new.into_string();
+        let f: NativeFunc<(), (WasmPtr<u8, Array>, u32)> = instance
+            .exports
+            .get_native_function("process_js")
+            .context("the function named `process_js` is not found")?;
 
-        let new = serde_json::from_str(&new)
-            .with_context(|| format!("plugin generated invalid ast: `{}`", new))?;
+        let (ptr, length) = f.call().context("call to `process_js` failed")?;
+
+        let new_ast = ptr.get_utf8_string(&new_ast_mem, length as u32).unwrap();
+
+        let new = serde_json::from_str(&new_ast)
+            .with_context(|| format!("plugin generated invalid ast: `{}`", new_ast))?;
 
         Ok(new)
     })()
