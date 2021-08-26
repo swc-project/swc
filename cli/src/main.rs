@@ -1,6 +1,7 @@
 use anyhow::Error;
 use plugin::PluginCommand;
 use structopt::StructOpt;
+use tracing::Level;
 
 mod plugin;
 mod util;
@@ -15,6 +16,7 @@ pub enum Cmd {
 async fn main() -> Result<(), Error> {
     tracing_subscriber::fmt::Subscriber::builder()
         .with_target(false)
+        .with_max_level(Level::DEBUG)
         .pretty()
         .init();
 
