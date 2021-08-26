@@ -78,6 +78,7 @@ describe('soruce map', () => {
             console.log(longName);
         })()
         `, {
+            sourceMap: true,
             compress: false,
             mangle: {
                 topLevel: true
@@ -99,6 +100,7 @@ describe('soruce map', () => {
             console.log(longName);
         })()
         `, {
+            sourceMap: true,
             compress: false,
             mangle: {
                 topLevel: true
@@ -120,6 +122,7 @@ describe('soruce map', () => {
             console.log(longName);
         })()
         `, {
+            sourceMap: true,
             compress: false,
             mangle: {
                 topLevel: true
