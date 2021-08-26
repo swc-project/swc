@@ -1,6 +1,7 @@
 use super::Merge;
 use serde::{Deserialize, Serialize};
 
+/// Note: `{}` (empty object) is treated as `true`.
 #[derive(Clone, Serialize, Debug)]
 #[serde(untagged)]
 pub enum BoolOrObject<T> {
@@ -70,7 +71,12 @@ where
         enum Deser<T> {
             Bool(bool),
             Obj(T),
+            EmptyObject(EmptyStruct),
         }
+
+        #[derive(Deserialize)]
+        #[serde(deny_unknown_fields)]
+        struct EmptyStruct {}
 
         let content = swc_common::private::serde::de::Content::deserialize(deserializer)?;
 
@@ -83,6 +89,7 @@ where
             Ok(v) => Ok(match v {
                 Deser::Bool(v) => BoolOrObject::Bool(v),
                 Deser::Obj(v) => BoolOrObject::Obj(v),
+                Deser::EmptyObject(_) => BoolOrObject::Bool(true),
             }),
             Err(..) => {
                 let d =
