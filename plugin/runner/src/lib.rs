@@ -1,4 +1,4 @@
-use anyhow::{anyhow, Context, Error};
+use anyhow::{Context, Error};
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use std::{
@@ -6,8 +6,9 @@ use std::{
     sync::Arc,
 };
 use swc_ecma_ast::Program;
-use wasmer::{Array, Instance, NativeFunc, Store, Universal, Value, WasmPtr};
+use wasmer::{Array, Instance, NativeFunc, Store, Universal, WasmPtr};
 use wasmer_compiler_cranelift::Cranelift;
+use wasmer_wasi::WasiState;
 
 fn load_wasm(path: Arc<PathBuf>) -> Result<wasmer::Module, Error> {
     static STORE: Lazy<Store> = Lazy::new(|| {
@@ -66,6 +67,12 @@ pub fn apply_js_plugin(
 
         let plugin = load_wasm(Arc::new(path))?;
 
+        let mut wasi_env = WasiState::new("swc-plugin")
+            .finalize()
+            .context("failed to initialize wasi")?;
+
+        let import_object = wasi_env.import_object(&plugin)?;
+
         let instance = Instance::new(&plugin, &import_object)?;
 
         let new_ast_mem = instance.exports.get_memory("new_ast_str")?;
@@ -89,7 +96,7 @@ pub fn apply_js_plugin(
     })()
     .with_context(|| {
         format!(
-            "failed to invoke `{}` as js transform plugin",
+            "failed to invoke `{}` as js processor plugin",
             path.display()
         )
     })
