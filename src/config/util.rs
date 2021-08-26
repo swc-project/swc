@@ -1,6 +1,5 @@
-use serde::{Deserialize, Serialize};
-
 use super::Merge;
+use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Serialize, Deserialize, Debug)]
 #[serde(untagged)]
