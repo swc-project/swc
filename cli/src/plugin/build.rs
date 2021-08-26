@@ -1,9 +1,8 @@
+use crate::util::cargo::cargo_target_dir;
 use anyhow::{bail, Context, Error};
 use std::env;
 use structopt::StructOpt;
 use tokio::process::Command;
-
-use crate::util::cargo::cargo_target_dir;
 
 /// Build your plugin using `cargo`.
 #[derive(Debug, StructOpt)]
