@@ -10,6 +10,7 @@ members = [
   "plugin",
   "plugin/runner",
   "plugin/testing",
+  "plugin/examples/drop_console",
   "wasm",
 ]
 
