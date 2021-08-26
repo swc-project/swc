@@ -19,6 +19,11 @@ impl BuildCommand {
 }
 
 pub async fn run_cargo_build(release: bool) -> Result<(), Error> {
+    tracing::info!(
+        "Running cargo build ({})",
+        if release { "release" } else { "debug" },
+    );
+
     let mut c = Command::new("cargo");
     c.arg("build");
 
