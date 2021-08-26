@@ -952,6 +952,7 @@ impl<'a> Emitter<'a> {
             ClassMember::PrivateProp(ref n) => emit!(n),
             ClassMember::TsIndexSignature(ref n) => emit!(n),
             ClassMember::Empty(ref n) => emit!(n),
+            ClassMember::StaticBlock(ref n) => emit!(n),
         }
     }
 
@@ -1214,6 +1215,20 @@ impl<'a> Emitter<'a> {
         } else {
             formatting_semi!();
         }
+    }
+
+    #[emitter]
+    fn emit_static_block(&mut self, n: &StaticBlock) -> Result {
+        self.emit_leading_comments_of_span(n.span(), false)?;
+        keyword!("static");
+        punct!("{");
+        self.emit_list(
+            n.span(),
+            Some(&n.body),
+            ListFormat::MultiLineBlockStatements,
+        )?;
+        self.emit_leading_comments_of_span(n.span(), true)?;
+        punct!("}");
     }
 
     #[emitter]
