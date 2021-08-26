@@ -16,6 +16,7 @@ struct MinifyTask {
 }
 
 #[derive(Deserialize)]
+#[serde(untagged)]
 enum MinifyTarget {
     /// Code to minify.
     Single(String),
