@@ -177,6 +177,7 @@ impl Compiler {
         &self,
         fm: &SourceFile,
         input_src_map: &InputSourceMap,
+        is_default: bool,
     ) -> Result<Option<sourcemap::SourceMap>, Error> {
         self.run(|| -> Result<_, Error> {
             let name = &fm.name;
@@ -221,7 +222,17 @@ impl Compiler {
                                         Err(_) => Err(err),
                                     }
                                 })
-                                .context("failed to open input source map file")?;
+                                .context("failed to open input source map file");
+
+                            let file = if !is_default {
+                                file?
+                            } else {
+                                match file {
+                                    Ok(v) => v,
+                                    Err(_) => return Ok(None),
+                                }
+                            };
+
                             Ok(Some(sourcemap::SourceMap::from_reader(file).with_context(
                                 || format!("failed to read input source map from file at {}", path),
                             )?))
@@ -707,7 +718,7 @@ impl Compiler {
                 .map(|v| v.enabled())
                 .unwrap_or_default()
             {
-                self.get_orig_src_map(&fm, &opts.config.input_source_map)?
+                self.get_orig_src_map(&fm, &opts.config.input_source_map, false)?
             } else {
                 None
             };
@@ -745,7 +756,7 @@ impl Compiler {
             let target = opts.ecma.clone().into();
 
             let orig = if opts.source_map {
-                self.get_orig_src_map(&fm, &InputSourceMap::Bool(opts.source_map))?
+                self.get_orig_src_map(&fm, &InputSourceMap::Bool(true), true)?
             } else {
                 None
             };
@@ -844,7 +855,7 @@ impl Compiler {
                 .map(|v| v.enabled())
                 .unwrap_or_default()
             {
-                self.get_orig_src_map(&fm, &opts.config.input_source_map)?
+                self.get_orig_src_map(&fm, &opts.config.input_source_map, false)?
             } else {
                 None
             };
