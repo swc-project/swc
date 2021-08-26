@@ -1073,6 +1073,10 @@ impl SourceMap {
 
         let mut src_id = 0u32;
 
+        for name in config.names() {
+            builder.add_name(name);
+        }
+
         if let Some(orig) = orig {
             for src in orig.sources() {
                 let idx = builder.add_source(src);
@@ -1215,8 +1219,8 @@ pub trait SourceMapGenConfig {
     fn file_name_to_source(&self, f: &FileName) -> String;
 
     /// # Returns all identifiers for current module.
-    fn names(&self) -> &[&str] {
-        &[]
+    fn names(&self) -> Vec<&str> {
+        vec![]
     }
 }
 

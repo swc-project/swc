@@ -10,6 +10,7 @@ use crate::config::{
     SourceMapsConfig,
 };
 use anyhow::{bail, Context, Error};
+use atoms::JsWord;
 use config::{util::BoolOrObject, JsMinifyCommentOption, JsMinifyOptions};
 use dashmap::DashMap;
 use serde::Serialize;
@@ -31,7 +32,7 @@ use swc_common::{
     sync::Lrc,
     BytePos, FileName, Globals, Mark, SourceFile, SourceMap, Spanned, DUMMY_SP, GLOBALS,
 };
-use swc_ecma_ast::Program;
+use swc_ecma_ast::{Ident, Invalid, Program};
 use swc_ecma_codegen::{self, text_writer::WriteJs, Emitter, Node};
 use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
@@ -46,7 +47,7 @@ use swc_ecma_transforms::{
     pass::noop,
     resolver_with_mark,
 };
-use swc_ecma_visit::FoldWith;
+use swc_ecma_visit::{noop_visit_type, FoldWith, Visit, VisitWith};
 
 mod builder;
 pub mod config;
@@ -343,7 +344,7 @@ impl Compiler {
         preserve_comments: Option<BoolOrObject<JsMinifyCommentOption>>,
     ) -> Result<TransformOutput, Error>
     where
-        T: Node,
+        T: Node + VisitWith<IdentCollector>,
     {
         self.run(|| {
             let preserve_comments = preserve_comments.unwrap_or_else(|| {
@@ -427,6 +428,16 @@ impl Compiler {
             };
             let (code, map) = match source_map {
                 SourceMapsConfig::Bool(v) => {
+                    let names = {
+                        let mut v = IdentCollector {
+                            names: Default::default(),
+                        };
+
+                        node.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+
+                        v.names
+                    };
+
                     if v {
                         let mut buf = vec![];
 
@@ -437,6 +448,7 @@ impl Compiler {
                                 SwcSourceMapConfig {
                                     source_file_name,
                                     output_path: output_path.as_deref(),
+                                    names: &names,
                                 },
                             )
                             .to_writer(&mut buf)
@@ -448,6 +460,16 @@ impl Compiler {
                     }
                 }
                 SourceMapsConfig::Str(_) => {
+                    let names = {
+                        let mut v = IdentCollector {
+                            names: Default::default(),
+                        };
+
+                        node.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+
+                        v.names
+                    };
+
                     let mut src = src;
 
                     let mut buf = vec![];
@@ -459,6 +481,7 @@ impl Compiler {
                             SwcSourceMapConfig {
                                 source_file_name,
                                 output_path: output_path.as_deref(),
+                                names: &names,
                             },
                         )
                         .to_writer(&mut buf)
@@ -484,6 +507,8 @@ struct SwcSourceMapConfig<'a> {
     source_file_name: Option<&'a str>,
     /// Output path of the `.map` file.
     output_path: Option<&'a Path>,
+
+    names: &'a Vec<JsWord>,
 }
 
 impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
@@ -513,6 +538,10 @@ impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
             }
             None => f.to_string(),
         }
+    }
+
+    fn names(&self) -> Vec<&str> {
+        self.names.iter().map(|v| &**v).collect()
     }
 }
 
@@ -986,5 +1015,21 @@ impl Comments for SwcComments {
         if !leading.iter().any(|c| c.text == pure_comment.text) {
             leading.push(pure_comment);
         }
+    }
+}
+
+pub struct IdentCollector {
+    names: Vec<JsWord>,
+}
+
+impl Visit for IdentCollector {
+    noop_visit_type!();
+
+    fn visit_ident(&mut self, ident: &Ident, _: &dyn swc_ecma_visit::Node) {
+        if self.names.contains(&ident.sym) {
+            return;
+        }
+
+        self.names.push(ident.sym.clone());
     }
 }
