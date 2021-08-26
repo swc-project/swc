@@ -812,7 +812,7 @@ impl Compiler {
 
             self.print(
                 &module,
-                None,
+                Some(&fm.name.to_string()),
                 opts.output_path.clone().map(From::from),
                 target,
                 SourceMapsConfig::Bool(opts.source_map),
