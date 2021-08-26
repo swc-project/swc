@@ -1,6 +1,7 @@
 use anyhow::Context;
 use napi::{CallContext, JsBuffer, Status};
 use serde::de::DeserializeOwned;
+use std::any::type_name;
 
 pub trait MapErr<T>: Into<Result<T, anyhow::Error>> {
     fn convert_err(self) -> napi::Result<T> {
@@ -27,8 +28,9 @@ impl CtxtExt for CallContext<'_> {
         let v = serde_json::from_slice(&buffer)
             .with_context(|| {
                 format!(
-                    "Argument at `{}` is not JsBuffer\n{}",
+                    "Failed to deserialize argument at `{}` as {}\nJSON: {}",
                     index,
+                    type_name::<T>(),
                     String::from_utf8_lossy(&buffer)
                 )
             })
