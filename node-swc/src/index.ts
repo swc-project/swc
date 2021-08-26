@@ -32,11 +32,11 @@ export function plugins(ps: Plugin[]): Plugin {
 export class Compiler {
 
   async minify(src: string, opts?: JsMinifyOptions): Promise<Output> {
-    return bindings.minify(src, toBuffer(opts ?? {}));
+    return bindings.minify(toBuffer(src), toBuffer(opts ?? {}));
   }
 
   minifySync(src: string, opts?: JsMinifyOptions): Output {
-    return bindings.minifySync(src, toBuffer(opts ?? {}));
+    return bindings.minifySync(toBuffer(src), toBuffer(opts ?? {}));
   }
 
   parse(
