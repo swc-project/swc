@@ -4,4 +4,4 @@ set -eu
 
 cargo install --path .
 
-swc-dev $@
+(cd plugins/packages/emotion && swc-dev $@)
