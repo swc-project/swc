@@ -12,7 +12,6 @@ pub struct Node<T> {
 }
 
 #[derive(Deserialize)]
-#[deprecated = "Not used by swc, and this will be removed with next breaking change"]
 pub struct Type {
     #[serde(rename = "type")]
     pub ty: String,

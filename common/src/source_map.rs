@@ -1073,6 +1073,10 @@ impl SourceMap {
 
         let mut src_id = 0u32;
 
+        for name in config.names() {
+            builder.add_name(name);
+        }
+
         if let Some(orig) = orig {
             for src in orig.sources() {
                 let idx = builder.add_source(src);
@@ -1106,7 +1110,13 @@ impl SourceMap {
                 _ => {
                     f = self.lookup_source_file(pos);
                     src_id = builder.add_source(&config.file_name_to_source(&f.name));
-                    builder.set_source_contents(src_id, Some(&f.src));
+
+                    match f.name {
+                        FileName::Real(..) | FileName::Custom(..) => {}
+                        _ => {
+                            builder.set_source_contents(src_id, Some(&f.src));
+                        }
+                    }
                     cur_file = Some(f.clone());
                     ch_start = 0;
                     line_ch_start = 0;
@@ -1213,6 +1223,11 @@ pub trait SourceMapGenConfig {
     ///
     /// This should **not** return content of the file.
     fn file_name_to_source(&self, f: &FileName) -> String;
+
+    /// # Returns all identifiers for current module.
+    fn names(&self) -> Vec<&str> {
+        vec![]
+    }
 }
 
 #[derive(Debug, Clone)]

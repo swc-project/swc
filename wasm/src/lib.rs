@@ -78,6 +78,7 @@ pub fn print_sync(s: JsValue, opts: JsValue) -> Result<JsValue, JsValue> {
                 opts.source_maps
                     .clone()
                     .unwrap_or(SourceMapsConfig::Bool(false)),
+                &[],
                 None,
                 opts.config.minify,
                 None,
