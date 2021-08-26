@@ -1,3 +1,5 @@
+[workspace]
+
 [package]
 edition = "2018"
 name = "drop_console"
