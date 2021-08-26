@@ -1110,7 +1110,13 @@ impl SourceMap {
                 _ => {
                     f = self.lookup_source_file(pos);
                     src_id = builder.add_source(&config.file_name_to_source(&f.name));
-                    builder.set_source_contents(src_id, Some(&f.src));
+
+                    match f.name {
+                        FileName::Real(..) | FileName::Custom(..) => {}
+                        _ => {
+                            builder.set_source_contents(src_id, Some(&f.src));
+                        }
+                    }
                     cur_file = Some(f.clone());
                     ch_start = 0;
                     line_ch_start = 0;
