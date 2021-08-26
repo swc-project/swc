@@ -3,6 +3,7 @@ use plugin::PluginCommand;
 use structopt::StructOpt;
 
 mod plugin;
+mod util;
 
 #[derive(Debug, StructOpt)]
 
