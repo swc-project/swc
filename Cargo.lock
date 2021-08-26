@@ -3432,7 +3432,9 @@ name = "swc_plugin_runner"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "dashmap",
  "libloading",
+ "once_cell",
  "serde",
  "serde_json",
  "swc_atoms 0.2.7 (registry+https://github.com/rust-lang/crates.io-index)",
