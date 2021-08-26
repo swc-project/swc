@@ -1,6 +1,6 @@
-use build::BuildCommand;
-use init::InitCommand;
-use publish::PublishCommand;
+use self::{
+    build::BuildCommand, init::InitCommand, package::PackageCommand, publish::PublishCommand,
+};
 use structopt::StructOpt;
 
 pub mod build;
@@ -13,6 +13,6 @@ pub mod publish;
 pub enum PluginCommand {
     Init(InitCommand),
     Build(BuildCommand),
-    Package(BuildCommand),
+    Package(PackageCommand),
     Publish(PublishCommand),
 }
