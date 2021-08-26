@@ -8,6 +8,7 @@ pub mod init;
 pub mod package;
 pub mod publish;
 
+/// Manages the plugin. Used for developing plugins.
 #[derive(Debug, StructOpt)]
 pub enum PluginCommand {
     Init(InitCommand),
