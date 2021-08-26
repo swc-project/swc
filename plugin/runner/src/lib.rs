@@ -6,6 +6,23 @@ use anyhow::{anyhow, Context, Error};
 use std::path::Path;
 use swc_ecma_ast::Program;
 use swc_plugin::SwcPluginRef;
+use wasmer::{Store, Universal};
+use wasmer_compiler_cranelift::Cranelift;
+
+fn apply_wasm_plugin(
+    wasm_path: &Path,
+    config_json: &str,
+    program: &Program,
+) -> Result<Program, Error> {
+    let compiler = Cranelift::new();
+    // Put it into an engine and add it to the store
+    let store = Store::new(
+        &Universal::new(compiler)
+            .features(wasmer::Features {})
+            .target((wasmer::Target {})
+            .engine(),
+    );
+}
 
 pub fn apply_js_plugin(program: &Program, path: &Path) -> Result<Program, Error> {
     (|| -> Result<_, Error> {

@@ -3443,6 +3443,7 @@ dependencies = [
  "swc_plugin",
  "testing",
  "wasmer",
+ "wasmer-compiler-cranelift",
  "wasmer-wasi",
 ]
 
