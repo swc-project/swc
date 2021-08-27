@@ -525,12 +525,16 @@ impl<I: Tokens> Parser<I> {
         eat_colon: bool,
         start: BytePos,
     ) -> PResult<TsTypeAnn> {
+        trace_cur!(self, parse_ts_type_ann);
+
         debug_assert!(self.input.syntax().typescript());
 
         self.in_type().parse_with(|p| {
             if eat_colon {
                 assert_and_bump!(p, ':');
             }
+
+            trace_cur!(p, parse_ts_type_ann__after_colon);
 
             let type_ann = p.parse_ts_type()?;
 
