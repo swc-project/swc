@@ -2943,7 +2943,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.41.3"
+version = "0.41.4"
 dependencies = [
  "once_cell",
  "scoped-tls",
