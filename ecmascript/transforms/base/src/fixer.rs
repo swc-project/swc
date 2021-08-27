@@ -85,9 +85,18 @@ impl VisitMut for Fixer<'_> {
                 self.wrap(&mut **e);
             }
 
-            BlockStmtOrExpr::Expr(ref mut e) if e.is_assign() => {
-                self.wrap(&mut **e);
-            }
+            BlockStmtOrExpr::Expr(ref mut e) if e.is_assign() => match &**e {
+                Expr::Assign(assign) => match &assign.left {
+                    PatOrExpr::Pat(l) => match &**l {
+                        Pat::Ident(..) | Pat::Expr(..) => {}
+                        _ => {
+                            self.wrap(&mut **e);
+                        }
+                    },
+                    PatOrExpr::Expr(..) => {}
+                },
+                _ => {}
+            },
 
             _ => {}
         };
