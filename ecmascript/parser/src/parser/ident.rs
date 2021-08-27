@@ -53,17 +53,25 @@ impl<'a, I: Tokens> Parser<I> {
     /// Use this when spec says "IdentifierName".
     /// This allows idents like `catch`.
     pub(super) fn parse_ident_name(&mut self) -> PResult<Ident> {
+        let in_type = self.ctx().in_type;
+
         let start = cur_pos!(self);
 
         let w = match cur!(self, true) {
             Ok(&Word(..)) => match bump!(self) {
-                Word(w) => w,
+                Word(w) => w.into(),
                 _ => unreachable!(),
             },
+
+            Ok(&Token::JSXName { .. }) if in_type => match bump!(self) {
+                Token::JSXName { name } => name,
+                _ => unreachable!(),
+            },
+
             _ => syntax_error!(self, SyntaxError::ExpectedIdent),
         };
 
-        Ok(Ident::new(w.into(), span!(self, start)))
+        Ok(Ident::new(w, span!(self, start)))
     }
 
     /// Identifier

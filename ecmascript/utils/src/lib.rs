@@ -482,7 +482,12 @@ pub trait ExprExt {
 
         let val = match expr {
             Expr::Paren(ref e) => return e.expr.as_bool(),
-            Expr::Assign(AssignExpr { ref right, .. }) => {
+
+            Expr::Assign(AssignExpr {
+                ref right,
+                op: op!("="),
+                ..
+            }) => {
                 let (_, v) = right.as_bool();
                 return (MayBeImpure, v);
             }

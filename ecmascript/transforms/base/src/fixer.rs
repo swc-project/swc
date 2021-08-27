@@ -84,6 +84,20 @@ impl VisitMut for Fixer<'_> {
             BlockStmtOrExpr::Expr(ref mut e) if e.is_seq() => {
                 self.wrap(&mut **e);
             }
+
+            BlockStmtOrExpr::Expr(ref mut e) if e.is_assign() => match &**e {
+                Expr::Assign(assign) => match &assign.left {
+                    PatOrExpr::Pat(l) => match &**l {
+                        Pat::Ident(..) | Pat::Expr(..) => {}
+                        _ => {
+                            self.wrap(&mut **e);
+                        }
+                    },
+                    PatOrExpr::Expr(..) => {}
+                },
+                _ => {}
+            },
+
             _ => {}
         };
         self.ctx = old;
@@ -1396,4 +1410,8 @@ var store = global[SHARED] || (global[SHARED] = {});
         }
         "
     );
+
+    identical!(issue_2163_1, "() => ({foo} = bar());");
+
+    identical!(issue_2163_2, "() => ([foo] = bar());");
 }
