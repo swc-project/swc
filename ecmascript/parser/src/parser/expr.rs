@@ -35,44 +35,6 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_assignment_expr);
 
-        if self.input.syntax().typescript()
-            && (is_one_of!(self, '<', JSXTagStart))
-            && (peeked_is!(self, IdentName) || peeked_is!(self, JSXName))
-        {
-            let res = self.try_parse_ts(|p| {
-                if is!(p, JSXTagStart) {
-                    debug_assert_eq!(
-                        p.input.token_context().current(),
-                        Some(TokenContext::JSXOpeningTag)
-                    );
-                    p.input.token_context_mut().pop();
-                    debug_assert_eq!(
-                        p.input.token_context().current(),
-                        Some(TokenContext::JSXExpr)
-                    );
-                    p.input.token_context_mut().pop();
-                }
-
-                let type_parameters = p.parse_ts_type_params()?;
-                let mut arrow = p.parse_assignment_expr_base()?;
-                match *arrow {
-                    Expr::Arrow(ArrowExpr {
-                        ref mut span,
-                        ref mut type_params,
-                        ..
-                    }) => {
-                        *span = Span::new(type_parameters.span.lo, span.hi, Default::default());
-                        *type_params = Some(type_parameters);
-                    }
-                    _ => unexpected!(p, "("),
-                }
-                Ok(Some(arrow))
-            });
-            if let Some(res) = res {
-                return Ok(res);
-            }
-        }
-
         if self.input.syntax().typescript() {
             // Note: When the JSX plugin is on, type assertions (`<T> x`) aren't valid
             // syntax.
@@ -113,6 +75,44 @@ impl<'a, I: Tokens> Parser<I> {
     /// `parseMaybeAssign`
     fn parse_assignment_expr_base(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_assignment_expr_base);
+
+        if self.input.syntax().typescript()
+            && (is_one_of!(self, '<', JSXTagStart))
+            && (peeked_is!(self, IdentName) || peeked_is!(self, JSXName))
+        {
+            let res = self.try_parse_ts(|p| {
+                if is!(p, JSXTagStart) {
+                    debug_assert_eq!(
+                        p.input.token_context().current(),
+                        Some(TokenContext::JSXOpeningTag)
+                    );
+                    p.input.token_context_mut().pop();
+                    debug_assert_eq!(
+                        p.input.token_context().current(),
+                        Some(TokenContext::JSXExpr)
+                    );
+                    p.input.token_context_mut().pop();
+                }
+
+                let type_parameters = p.parse_ts_type_params()?;
+                let mut arrow = p.parse_assignment_expr_base()?;
+                match *arrow {
+                    Expr::Arrow(ArrowExpr {
+                        ref mut span,
+                        ref mut type_params,
+                        ..
+                    }) => {
+                        *span = Span::new(type_parameters.span.lo, span.hi, Default::default());
+                        *type_params = Some(type_parameters);
+                    }
+                    _ => unexpected!(p, "("),
+                }
+                Ok(Some(arrow))
+            });
+            if let Some(res) = res {
+                return Ok(res);
+            }
+        }
 
         if self.ctx().in_generator && is!(self, "yield") {
             return self.parse_yield_expr();
