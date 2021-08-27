@@ -84,6 +84,11 @@ impl VisitMut for Fixer<'_> {
             BlockStmtOrExpr::Expr(ref mut e) if e.is_seq() => {
                 self.wrap(&mut **e);
             }
+
+            BlockStmtOrExpr::Expr(ref mut e) if e.is_assign() => {
+                self.wrap(&mut **e);
+            }
+
             _ => {}
         };
         self.ctx = old;
