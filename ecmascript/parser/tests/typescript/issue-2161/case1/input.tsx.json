@@ -1,0 +1,93 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 119,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 0,
+        "end": 119,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 6,
+            "end": 100,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 6,
+              "end": 7,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 85,
+              "end": 100,
+              "ctxt": 0
+            },
+            "operator": "&",
+            "left": {
+              "type": "Invalid",
+              "span": {
+                "start": 85,
+                "end": 86,
+                "ctxt": 0
+              }
+            },
+            "right": {
+              "type": "ObjectExpression",
+              "span": {
+                "start": 87,
+                "end": 100,
+                "ctxt": 0
+              },
+              "properties": [
+                {
+                  "type": "KeyValueProperty",
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 89,
+                      "end": 90,
+                      "ctxt": 0
+                    },
+                    "value": "a",
+                    "optional": false
+                  },
+                  "value": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 92,
+                      "end": 98,
+                      "ctxt": 0
+                    },
+                    "value": "string",
+                    "optional": false
+                  }
+                }
+              ]
+            }
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}
