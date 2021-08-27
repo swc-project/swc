@@ -89,6 +89,13 @@ macro_rules! peeked_is {
         }
     }};
 
+    ($p:expr, JSXName) => {{
+        match peek!($p) {
+            Ok(&Token::JSXName { .. }) => true,
+            _ => false,
+        }
+    }};
+
     ($p:expr, ';') => {{
         compile_error!("peeked_is!(self, ';') is invalid");
     }};
