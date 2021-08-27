@@ -379,6 +379,8 @@ impl<'a, I: Tokens> Parser<I> {
     ///
     /// babel: `jsxParseElement`
     pub(super) fn parse_jsx_element(&mut self) -> PResult<Either<JSXFragment, JSXElement>> {
+        trace_cur!(self, parse_jsx_element);
+
         debug_assert!(self.input.syntax().jsx());
         debug_assert!({
             match *cur!(self, true)? {

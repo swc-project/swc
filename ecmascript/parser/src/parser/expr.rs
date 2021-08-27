@@ -1087,6 +1087,8 @@ impl<'a, I: Tokens> Parser<I> {
     }
     /// Parse call, dot, and `[]`-subscript expressions.
     pub(super) fn parse_lhs_expr(&mut self) -> PResult<Box<Expr>> {
+        trace_cur!(self, parse_lhs_expr);
+
         let start = cur_pos!(self);
 
         // parse jsx
