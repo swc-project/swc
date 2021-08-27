@@ -63,7 +63,7 @@ impl<'a, I: Tokens> Parser<I> {
                 _ => unreachable!(),
             },
 
-            Ok(&Token::JSXName { .. }) => match bump!(self) {
+            Ok(&Token::JSXName { .. }) if in_type => match bump!(self) {
                 Token::JSXName { name } => name,
                 _ => unreachable!(),
             },
