@@ -9,7 +9,7 @@ use swc_ecma_visit::{self, Node, Visit, VisitWith};
 
 pub fn analyze_dependencies(
     module: &ast::Module,
-    comments: &impl Comments,
+    comments: &dyn Comments,
 ) -> Vec<DependencyDescriptor> {
     let mut v = DependencyCollector {
         comments,
@@ -48,21 +48,21 @@ pub struct DependencyDescriptor {
     pub import_assertions: HashMap<String, String>,
 }
 
-struct DependencyCollector<'a, TComments: Comments> {
-    comments: &'a TComments,
+struct DependencyCollector<'a> {
+    comments: &'a dyn Comments,
     pub items: Vec<DependencyDescriptor>,
     // This field is used to determine if currently visited "require"
     // is top level and "static", or inside module body and "dynamic".
     is_top_level: bool,
 }
 
-impl<'a, TComments: Comments> DependencyCollector<'a, TComments> {
+impl<'a> DependencyCollector<'a> {
     fn get_leading_comments(&self, span: Span) -> Vec<Comment> {
         self.comments.get_leading(span.lo).unwrap_or_else(Vec::new)
     }
 }
 
-impl<'a, TComments: Comments> Visit for DependencyCollector<'a, TComments> {
+impl<'a> Visit for DependencyCollector<'a> {
     fn visit_import_decl(&mut self, node: &ast::ImportDecl, _parent: &dyn Node) {
         let specifier = node.src.value.clone();
         let leading_comments = self.get_leading_comments(node.span);
