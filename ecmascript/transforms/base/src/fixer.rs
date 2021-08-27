@@ -1396,4 +1396,8 @@ var store = global[SHARED] || (global[SHARED] = {});
         }
         "
     );
+
+    identical!(issue_2163_1, "() => ({foo} = bar());");
+
+    identical!(issue_2163_2, "() => ([foo] = bar());");
 }
