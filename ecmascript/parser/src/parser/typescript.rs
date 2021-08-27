@@ -363,7 +363,7 @@ impl<I: Tokens> Parser<I> {
 
         let start = cur_pos!(self);
 
-        let name = self.parse_ident_name()?;
+        let name = self.in_type().parse_ident_name()?;
         let constraint = self.eat_then_parse_ts_type(&tok!("extends"))?;
         let default = self.eat_then_parse_ts_type(&tok!('='))?;
 
