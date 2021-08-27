@@ -2737,7 +2737,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.27.1"
+version = "0.27.2"
 dependencies = [
  "fxhash",
  "once_cell",
