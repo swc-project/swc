@@ -40,6 +40,7 @@ mod compress;
 mod debug;
 pub mod marks;
 mod metadata;
+mod mode;
 pub mod option;
 mod pass;
 pub mod timing;
