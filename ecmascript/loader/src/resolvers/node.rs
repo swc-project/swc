@@ -339,7 +339,7 @@ impl Resolve for NodeModulesResolver {
                         .or_else(|_| self.resolve_as_directory(&path))
                         .and_then(|p| self.wrap(p))
                 } else {
-                    self.resolve_node_modules(base_dir, target)
+                    self.resolve_node_modules(base, target)
                         .and_then(|p| self.wrap(p))
                 }
             }
