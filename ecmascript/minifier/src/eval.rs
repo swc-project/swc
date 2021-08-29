@@ -1,16 +1,22 @@
 use crate::mode::Mode;
 use fxhash::FxHashMap;
+use std::sync::{Arc, Mutex};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Id};
 
 pub struct Evaluator {
     module: Module,
-    store: EvalStore,
+    data: Eval,
+}
+
+#[derive(Default)]
+struct Eval {
+    store: Arc<Mutex<EvalStore>>,
 }
 
 #[derive(Default)]
 struct EvalStore {
-    caceh: FxHashMap<Id, Lit>,
+    cache: FxHashMap<Id, Lit>,
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -19,7 +25,12 @@ pub enum EvalResult {
     Undefined,
 }
 
-impl Mode for EvalStore {}
+impl Mode for Eval {
+    fn store(&self, id: Id, value: &Lit) {
+        let w = self.store.lock().unwrap();
+        w.cache.insert(id, value.clone());
+    }
+}
 
 impl Evaluator {
     pub fn eval(&mut self, e: &Expr) -> Option<EvalResult> {
