@@ -1,3 +1,4 @@
+use self::util::replace_id_with_expr;
 use crate::{
     analyzer::{ProgramData, UsageAnalyzer},
     compress::util::is_pure_undefined,
@@ -19,8 +20,6 @@ use swc_ecma_utils::{
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use Value::Known;
-
-use self::util::replace_id_with_expr;
 
 mod arguments;
 mod bools;
