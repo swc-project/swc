@@ -1221,6 +1221,7 @@ impl<'a> Emitter<'a> {
     fn emit_static_block(&mut self, n: &StaticBlock) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
         keyword!("static");
+        formatting_space!();
         punct!("{");
         self.emit_list(
             n.span(),
