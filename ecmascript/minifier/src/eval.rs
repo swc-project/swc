@@ -1,7 +1,7 @@
 use crate::mode::Mode;
 use fxhash::FxHashMap;
 use swc_ecma_ast::*;
-use swc_ecma_utils::ExprExt;
+use swc_ecma_utils::{ExprExt, Id};
 
 pub struct Evaluator {
     module: Module,
@@ -10,7 +10,7 @@ pub struct Evaluator {
 
 #[derive(Default)]
 struct EvalStore {
-    pub caceh: FxHashMap<Box<Expr>, Lit>,
+    caceh: FxHashMap<Id, Lit>,
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -87,6 +87,16 @@ impl Evaluator {
 
         match e {
             Expr::Ident(i) => {}
+
+            _ => {}
+        }
+
+        match e {
+            Expr::Unary(UnaryExpr {
+                span,
+                op: op!("void"),
+                arg,
+            }) => return Some(EvalResult::Undefined),
 
             _ => {}
         }
