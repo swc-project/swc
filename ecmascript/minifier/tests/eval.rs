@@ -59,5 +59,5 @@ fn eval(module: &str, expr: &str) -> Option<String> {
 #[test]
 
 fn simple() {
-    assert_eq!(eval("", "tue").unwrap(), "true");
+    assert_eq!(eval("const foo = 4", "foo").unwrap(), "4");
 }
