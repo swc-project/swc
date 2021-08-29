@@ -620,6 +620,8 @@ impl<'a, I: Tokens> Parser<I> {
             _ => false,
         });
 
+        let is_direct_child_of_cond = self.ctx().is_direct_child_of_cond;
+
         // This is slow path. We handle arrow in conditional expression.
         if self.syntax().typescript() && self.ctx().in_cond_expr && is!(self, ':') {
             // TODO: Remove clone
@@ -635,6 +637,13 @@ impl<'a, I: Tokens> Parser<I> {
                     .collect();
 
                 let body: BlockStmtOrExpr = p.parse_fn_body(async_span.is_some(), false)?;
+
+                if is_direct_child_of_cond {
+                    if !is!(p, ':') {
+                        trace_cur!(p, parse_arrow_in_cond__fail);
+                        unexpected!(p, "fail")
+                    }
+                }
 
                 Ok(Some(Box::new(Expr::Arrow(ArrowExpr {
                     span: span!(p, expr_start),
