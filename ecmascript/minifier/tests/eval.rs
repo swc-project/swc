@@ -100,7 +100,7 @@ impl PartialInliner {
         .unwrap();
     }
 
-    fn test(src: &str, expected: &str) {}
+    fn expect(src: &str, expected: &str) {}
 }
 
 impl VisitMut for PartialInliner {
@@ -114,23 +114,40 @@ impl VisitMut for PartialInliner {
 
 #[test]
 fn partial_1() {
-    PartialInliner::run_test(
+    PartialInliner::expect(
         "
             const color = 'red'
-
-            export default () => (
-            <div>
-                <p>test</p>
-                <style jsx>{`
-                div.${color} {
-                    color: ${otherColor};
-                }
-                `}</style>
-            </div>
-            )
+            
+            export const foo = css`
+            div {
+                color: ${color};
+            }
+            `
+            
+            export default css`
+            div {
+                font-size: 3em;
+            }
+            p {
+                color: ${props.color};
+            }
+            `
             ",
-        |mut module, inliner| {
-            module.visit_mut_with(inliner);
-        },
+        "
+            export const foo = css`
+            div {
+                color: red;
+            }
+            `
+            
+            export default css`
+            div {
+                font-size: 3em;
+            }
+            p {
+                color: ${props.color};
+            }
+            `
+            ",
     );
 }
