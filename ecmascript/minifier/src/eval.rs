@@ -16,6 +16,17 @@ pub struct Evaluator {
     done: bool,
 }
 
+impl Evaluator {
+    pub fn new(module: Module, marks: Marks) -> Self {
+        Evaluator {
+            module,
+            marks,
+            data: Default::default(),
+            done: Default::default(),
+        }
+    }
+}
+
 #[derive(Default, Clone)]
 struct Eval {
     store: Arc<Mutex<EvalStore>>,
