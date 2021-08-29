@@ -196,6 +196,7 @@ impl<'a, I: Tokens> Parser<I> {
         if eat!(self, '?') {
             let ctx = Context {
                 in_cond_expr: true,
+                is_direct_child_of_cond: true,
                 include_in_expr: true,
                 ..self.ctx()
             };
@@ -203,6 +204,7 @@ impl<'a, I: Tokens> Parser<I> {
             expect!(self, ':');
             let ctx = Context {
                 in_cond_expr: true,
+                is_direct_child_of_cond: true,
                 ..self.ctx()
             };
             let alt = self.with_ctx(ctx).parse_assignment_expr()?;
@@ -1316,6 +1318,7 @@ impl<'a, I: Tokens> Parser<I> {
                         let test = arg.expr;
                         let ctx = Context {
                             in_cond_expr: true,
+                            is_direct_child_of_cond: true,
                             include_in_expr: true,
                             ..self.ctx()
                         };
@@ -1323,6 +1326,7 @@ impl<'a, I: Tokens> Parser<I> {
                         expect!(self, ':');
                         let ctx = Context {
                             in_cond_expr: true,
+                            is_direct_child_of_cond: true,
                             ..self.ctx()
                         };
                         let alt = self.with_ctx(ctx).parse_assignment_expr()?;
