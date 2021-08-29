@@ -8,6 +8,7 @@ use crate::{
     compress::{hoist_decls::decl_hoister, pure::pure_optimizer},
     debug::{dump, invoke},
     marks::Marks,
+    mode::Mode,
     option::CompressOptions,
     util::{now, unit::CompileUnit, Optional},
     MAX_PAR_DEPTH,
@@ -41,10 +42,11 @@ mod optimize;
 mod pure;
 mod util;
 
-pub(crate) fn compressor<'a>(
+pub(crate) fn compressor<'a, M>(
     globals: &'a Globals,
     marks: Marks,
     options: &'a CompressOptions,
+    store: &'a M,
 ) -> impl 'a + JsPass {
     let console_remover = Optional {
         enabled: options.drop_console,
@@ -64,7 +66,10 @@ pub(crate) fn compressor<'a>(
     chain!(console_remover, as_folder(compressor), expr_simplifier())
 }
 
-struct Compressor<'a> {
+struct Compressor<'a, M>
+where
+    M: Mode,
+{
     globals: &'a Globals,
     marks: Marks,
     options: &'a CompressOptions,
@@ -74,15 +79,23 @@ struct Compressor<'a> {
     optimizer_state: OptimizerState,
     /// `0` means we should not create more threads.
     left_parallel_depth: u8,
+
+    mode: &'a M,
 }
 
-impl CompilerPass for Compressor<'_> {
+impl<M> CompilerPass for Compressor<'_, M>
+where
+    M: Mode,
+{
     fn name() -> Cow<'static, str> {
         "compressor".into()
     }
 }
 
-impl Compressor<'_> {
+impl<M> Compressor<'_, M>
+where
+    M: Mode,
+{
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike,
@@ -114,7 +127,7 @@ impl Compressor<'_> {
     /// Optimize a bundle in a parallel.
     fn visit_par<N>(&mut self, nodes: &mut Vec<N>)
     where
-        N: Send + Sync + for<'aa> VisitMutWith<Compressor<'aa>>,
+        N: Send + Sync + for<'aa> VisitMutWith<Compressor<'aa, M>>,
     {
         log::debug!("visit_par(left_depth = {})", self.left_parallel_depth);
 
@@ -164,7 +177,7 @@ impl Compressor<'_> {
 
     fn optimize_unit_repeatedly<N>(&mut self, n: &mut N)
     where
-        N: CompileUnit + VisitWith<UsageAnalyzer> + for<'aa> VisitMutWith<Compressor<'aa>>,
+        N: CompileUnit + VisitWith<UsageAnalyzer> + for<'aa> VisitMutWith<Compressor<'aa, M>>,
     {
         if cfg!(feature = "debug") {
             log::debug!(
@@ -210,7 +223,7 @@ impl Compressor<'_> {
     /// Optimize a module. `N` can be [Module] or [FnExpr].
     fn optimize_unit<N>(&mut self, n: &mut N)
     where
-        N: CompileUnit + VisitWith<UsageAnalyzer> + for<'aa> VisitMutWith<Compressor<'aa>>,
+        N: CompileUnit + VisitWith<UsageAnalyzer> + for<'aa> VisitMutWith<Compressor<'aa, M>>,
     {
         self.data = Some(analyze(&*n, Some(self.marks)));
 
@@ -368,7 +381,10 @@ impl Compressor<'_> {
     }
 }
 
-impl VisitMut for Compressor<'_> {
+impl<M> VisitMut for Compressor<'_, M>
+where
+    M: Mode,
+{
     noop_visit_mut_type!();
 
     fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
