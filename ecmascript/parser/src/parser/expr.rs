@@ -82,16 +82,15 @@ impl<'a, I: Tokens> Parser<I> {
         {
             let res = self.try_parse_ts(|p| {
                 if is!(p, JSXTagStart) {
-                    debug_assert_eq!(
-                        p.input.token_context().current(),
-                        Some(TokenContext::JSXOpeningTag)
-                    );
-                    p.input.token_context_mut().pop();
-                    debug_assert_eq!(
-                        p.input.token_context().current(),
-                        Some(TokenContext::JSXExpr)
-                    );
-                    p.input.token_context_mut().pop();
+                    if let Some(TokenContext::JSXOpeningTag) = p.input.token_context().current() {
+                        p.input.token_context_mut().pop();
+
+                        debug_assert_eq!(
+                            p.input.token_context().current(),
+                            Some(TokenContext::JSXExpr)
+                        );
+                        p.input.token_context_mut().pop();
+                    }
                 }
 
                 let type_parameters = p.parse_ts_type_params()?;
