@@ -106,7 +106,7 @@ pub fn optimize(
 
     // Noop.
     // https://github.com/mishoo/UglifyJS2/issues/2794
-    if options.rename && false {
+    if options.rename && DISABLE_BUGGY_PASSES {
         // toplevel.figure_out_scope(options.mangle);
         // TODO: Pass `options.mangle` to name expander.
         m.visit_mut_with(&mut name_expander());
