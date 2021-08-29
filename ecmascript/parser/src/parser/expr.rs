@@ -655,7 +655,7 @@ impl<'a, I: Tokens> Parser<I> {
                 let body: BlockStmtOrExpr = p.parse_fn_body(async_span.is_some(), false)?;
 
                 if is_direct_child_of_cond {
-                    if !is!(p, ':') {
+                    if !is_one_of!(p, ':', ';') {
                         trace_cur!(p, parse_arrow_in_cond__fail);
                         unexpected!(p, "fail")
                     }
