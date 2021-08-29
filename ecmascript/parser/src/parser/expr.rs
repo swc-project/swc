@@ -551,36 +551,43 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_args(&mut self, is_dynamic_import: bool) -> PResult<Vec<ExprOrSpread>> {
         trace_cur!(self, parse_args);
 
-        let start = cur_pos!(self);
-        expect!(self, '(');
+        let ctx = Context {
+            is_direct_child_of_cond: false,
+            ..self.ctx()
+        };
 
-        let mut first = true;
-        let mut expr_or_spreads = vec![];
+        self.with_ctx(ctx).parse_with(|p| {
+            let start = cur_pos!(p);
+            expect!(p, '(');
 
-        while !eof!(self) && !is!(self, ')') {
-            if first {
-                first = false;
-            } else {
-                expect!(self, ',');
-                // Handle trailing comma.
-                if is!(self, ')') {
-                    if is_dynamic_import {
-                        syntax_error!(
-                            self,
-                            span!(self, start),
-                            SyntaxError::TrailingCommaInsideImport
-                        )
+            let mut first = true;
+            let mut expr_or_spreads = vec![];
+
+            while !eof!(p) && !is!(p, ')') {
+                if first {
+                    first = false;
+                } else {
+                    expect!(p, ',');
+                    // Handle trailing comma.
+                    if is!(p, ')') {
+                        if is_dynamic_import {
+                            syntax_error!(
+                                p,
+                                span!(p, start),
+                                SyntaxError::TrailingCommaInsideImport
+                            )
+                        }
+
+                        break;
                     }
-
-                    break;
                 }
+
+                expr_or_spreads.push(p.include_in_expr(true).parse_expr_or_spread()?);
             }
 
-            expr_or_spreads.push(self.include_in_expr(true).parse_expr_or_spread()?);
-        }
-
-        expect!(self, ')');
-        Ok(expr_or_spreads)
+            expect!(p, ')');
+            Ok(expr_or_spreads)
+        })
     }
 
     /// AssignmentExpression[+In, ?Yield, ?Await]
@@ -616,7 +623,14 @@ impl<'a, I: Tokens> Parser<I> {
         // But as all patterns of javascript is subset of
         // expressions, we can parse both as expression.
 
-        let paren_items = self.include_in_expr(true).parse_args_or_pats()?;
+        let ctx = Context {
+            is_direct_child_of_cond: false,
+            ..self.ctx()
+        };
+        let paren_items = self
+            .with_ctx(ctx)
+            .include_in_expr(true)
+            .parse_args_or_pats()?;
         let has_pattern = paren_items.iter().any(|item| match item {
             PatOrExprOrSpread::Pat(..) => true,
             _ => false,
