@@ -139,6 +139,13 @@ where
                             _ => {}
                         }
                     }
+
+                    if !usage.mutated {
+                        if let Expr::Lit(v) = &mut **init {
+                            self.mode.store(i.to_id(), &*v);
+                        }
+                    }
+
                     // No use => doppred
                     if usage.ref_count == 0 {
                         if init.may_have_side_effects() {
@@ -169,6 +176,10 @@ where
                             _ => false,
                         }
                     {
+                        if let Expr::Lit(v) = &mut **init {
+                            self.mode.store(i.to_id(), &*v);
+                        }
+
                         if self.options.inline != 0
                             && !should_preserve
                             && match &**init {
