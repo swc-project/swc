@@ -65,6 +65,64 @@ it("should mangle locals", async () => {
     expect(code).toMatchInlineSnapshot(`"(function(){const a=Math.random()+'_'+Math.random();console.log(a);console.log(a);console.log(a);console.log(a);console.log(a);console.log(a)})()"`);
 })
 
+describe('soruce map', () => {
+    it("should have `names`", async () => {
+        const { map } = await swc.minify(`
+        (function(){
+            const longName = Math.random() + '_' + Math.random();
+            console.log(longName);
+            console.log(longName);
+        })()
+        `, {
+            sourceMap: true,
+            compress: false,
+            mangle: {
+                topLevel: true
+            },
+        });
+
+        expect(JSON.parse(map)).toHaveProperty("names");
+        expect(JSON.parse(map).names).not.toEqual([])
+    });
+
+    it("should not have `sourcesContent` if file name is speicified`", async () => {
+        const { map } = await swc.minify({
+            'foo.js': `(function(){
+                            const longName = Math.random() + '_' + Math.random();
+                            console.log(longName);
+                        })()`
+        }, {
+            sourceMap: true,
+            compress: false,
+            mangle: {
+                topLevel: true
+            },
+        });
+
+        const j = JSON.parse(map);
+        expect(j.sourcesContent).toBeUndefined()
+    });
+
+    it("should have `sources` if file name is speicified", async () => {
+        const { map } = await swc.minify({
+            'foo.js': `(function(){
+                const longName = Math.random() + '_' + Math.random();
+                console.log(longName);
+            })()`
+        }, {
+            sourceMap: true,
+            compress: false,
+            mangle: {
+                topLevel: true
+            },
+        });
+
+        const j = JSON.parse(map);
+        expect(j).toHaveProperty("sources");
+        expect(j.sources).not.toEqual([]);
+    });
+})
+
 
 describe('transform apis', () => {
     it("handle jsc.minify", async () => {
@@ -94,3 +152,5 @@ describe('transform apis', () => {
     })
 
 })
+
+

@@ -34,6 +34,7 @@ impl Task for PrintTask {
                     .source_maps
                     .clone()
                     .unwrap_or(SourceMapsConfig::Bool(false)),
+                &[],
                 None,
                 self.options.config.clone().minify,
                 None,
@@ -91,6 +92,7 @@ pub fn print_sync(cx: CallContext) -> napi::Result<JsObject> {
                 .source_maps
                 .clone()
                 .unwrap_or(SourceMapsConfig::Bool(false)),
+            &[],
             None,
             options.config.minify,
             None,

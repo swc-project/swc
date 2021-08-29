@@ -545,7 +545,88 @@ pub struct JsMinifyOptions {
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct JsMinifyFormatOptions {
+    /// Not implemented yet.
+    #[serde(default, alias = "ascii_only")]
+    pub ascii_only: bool,
+
+    /// Not implemented yet.
+    #[serde(default)]
+    pub beautify: bool,
+
+    /// Not implemented yet.
+    #[serde(default)]
+    pub braces: bool,
+
+    #[serde(default)]
     pub comments: BoolOrObject<JsMinifyCommentOption>,
+
+    /// Not implemented yet.
+    #[serde(default)]
+    pub ecma: usize,
+
+    /// Not implemented yet.
+    #[serde(default, alias = "indent_level")]
+    pub indent_level: usize,
+
+    /// Not implemented yet.
+    #[serde(default, alias = "indent_start")]
+    pub indent_start: bool,
+
+    /// Not implemented yet.
+    #[serde(default, alias = "inline_script")]
+    pub inline_script: bool,
+
+    /// Not implemented yet.
+    #[serde(default, alias = "keep_numbers")]
+    pub keep_numbers: bool,
+
+    /// Not implemented yet.
+    #[serde(default, alias = "keep_quoted_props")]
+    pub keep_quoted_props: bool,
+
+    /// Not implemented yet.
+    #[serde(default, alias = "max_line_len")]
+    pub max_line_len: BoolOrObject<usize>,
+
+    /// Not implemented yet.
+    #[serde(default)]
+    pub preamble: String,
+
+    /// Not implemented yet.
+    #[serde(default, alias = "quote_keys")]
+    pub quote_keys: bool,
+
+    /// Not implemented yet.
+    #[serde(default, alias = "quote_style")]
+    pub quote_style: usize,
+
+    /// Not implemented yet.
+    #[serde(default, alias = "preserve_annotations")]
+    pub preserve_annotations: bool,
+
+    /// Not implemented yet.
+    #[serde(default)]
+    pub safari10: bool,
+
+    /// Not implemented yet.
+    #[serde(default)]
+    pub semicolons: bool,
+
+    /// Not implemented yet.
+    #[serde(default)]
+    pub shebang: bool,
+
+    /// Not implemented yet.
+    #[serde(default)]
+    pub webkit: bool,
+
+    /// Not implemented yet.
+    #[serde(default, alias = "warp_iife")]
+    pub wrap_iife: bool,
+
+    /// Not implemented yet.
+    #[serde(default, alias = "wrap_func_args")]
+    pub wrap_func_args: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

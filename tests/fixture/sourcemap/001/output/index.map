@@ -1,11 +1,11 @@
 {
   "mappings": ";;;;;AAEO,KAAK,CAAC,GAAG,GAAG,CAAC;IAChB,GAAG,EAAE,CAAC,CAAC;AACX,CAAC;QAFY,GAAG,GAAH,GAAG",
-  "names": [],
+  "names": [
+    "foo",
+    "arr"
+  ],
   "sources": [
     "../../input/index.ts"
-  ],
-  "sourcesContent": [
-    "\n\nexport const foo = {\n    arr: []\n};"
   ],
   "version": 3
 }

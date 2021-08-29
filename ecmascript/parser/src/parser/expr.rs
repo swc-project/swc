@@ -66,11 +66,34 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
+        self.parse_assignment_expr_base()
+    }
+
+    /// Parse an assignment expression. This includes applications of
+    /// operators like `+=`.
+    ///
+    /// `parseMaybeAssign`
+    fn parse_assignment_expr_base(&mut self) -> PResult<Box<Expr>> {
+        trace_cur!(self, parse_assignment_expr_base);
+
         if self.input.syntax().typescript()
             && (is_one_of!(self, '<', JSXTagStart))
-            && peeked_is!(self, IdentName)
+            && (peeked_is!(self, IdentName) || peeked_is!(self, JSXName))
         {
             let res = self.try_parse_ts(|p| {
+                if is!(p, JSXTagStart) {
+                    debug_assert_eq!(
+                        p.input.token_context().current(),
+                        Some(TokenContext::JSXOpeningTag)
+                    );
+                    p.input.token_context_mut().pop();
+                    debug_assert_eq!(
+                        p.input.token_context().current(),
+                        Some(TokenContext::JSXExpr)
+                    );
+                    p.input.token_context_mut().pop();
+                }
+
                 let type_parameters = p.parse_ts_type_params()?;
                 let mut arrow = p.parse_assignment_expr_base()?;
                 match *arrow {
@@ -90,16 +113,6 @@ impl<'a, I: Tokens> Parser<I> {
                 return Ok(res);
             }
         }
-
-        self.parse_assignment_expr_base()
-    }
-
-    /// Parse an assignment expression. This includes applications of
-    /// operators like `+=`.
-    ///
-    /// `parseMaybeAssign`
-    fn parse_assignment_expr_base(&mut self) -> PResult<Box<Expr>> {
-        trace_cur!(self, parse_assignment_expr_base);
 
         if self.ctx().in_generator && is!(self, "yield") {
             return self.parse_yield_expr();
@@ -1087,6 +1100,8 @@ impl<'a, I: Tokens> Parser<I> {
     }
     /// Parse call, dot, and `[]`-subscript expressions.
     pub(super) fn parse_lhs_expr(&mut self) -> PResult<Box<Expr>> {
+        trace_cur!(self, parse_lhs_expr);
+
         let start = cur_pos!(self);
 
         // parse jsx
