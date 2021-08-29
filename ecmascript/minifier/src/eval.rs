@@ -139,7 +139,6 @@ impl Evaluator {
                 self.run();
 
                 let lock = self.data.store.lock().ok()?;
-                dbg!(&lock.cache);
                 let val = lock.cache.get(&i.to_id())?;
 
                 return Some(EvalResult::Lit(val.clone()));
