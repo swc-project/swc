@@ -38,6 +38,7 @@ use timing::Timings;
 mod analyzer;
 mod compress;
 mod debug;
+pub mod eval;
 pub mod marks;
 mod metadata;
 mod mode;
