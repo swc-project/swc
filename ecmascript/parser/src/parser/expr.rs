@@ -80,7 +80,11 @@ impl<'a, I: Tokens> Parser<I> {
             && (is_one_of!(self, '<', JSXTagStart))
             && (peeked_is!(self, IdentName) || peeked_is!(self, JSXName))
         {
-            let res = self.try_parse_ts(|p| {
+            let ctx = Context {
+                is_direct_child_of_cond: false,
+                ..self.ctx()
+            };
+            let res = self.with_ctx(ctx).try_parse_ts(|p| {
                 if is!(p, JSXTagStart) {
                     if let Some(TokenContext::JSXOpeningTag) = p.input.token_context().current() {
                         p.input.token_context_mut().pop();
