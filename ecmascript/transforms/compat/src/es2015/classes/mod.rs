@@ -403,6 +403,7 @@ where
                     // We just strip this.
                 }
                 ClassMember::Empty(..) => {}
+                ClassMember::StaticBlock(..) => unimplemented!("stage 3 class static blocks"),
             }
         }
 

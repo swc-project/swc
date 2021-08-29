@@ -294,7 +294,7 @@ impl<'a, I: Tokens> Parser<I> {
 
     pub(super) fn parse_access_modifier(&mut self) -> PResult<Option<Accessibility>> {
         Ok(self
-            .parse_ts_modifier(&["public", "protected", "private"])?
+            .parse_ts_modifier(&["public", "protected", "private"], false)?
             .map(|s| match s {
                 "public" => Accessibility::Public,
                 "protected" => Accessibility::Protected,
@@ -435,6 +435,16 @@ impl<'a, I: Tokens> Parser<I> {
         )
     }
 
+    fn parse_static_block(&mut self) -> PResult<ClassMember> {
+        let start = cur_pos!(self);
+        expect!(self, '{');
+
+        let stmts = self.parse_block_body(false, false, Some(&tok!('}')))?;
+
+        let span = span!(self, start);
+        Ok(StaticBlock { span, body: stmts }.into())
+    }
+
     #[allow(clippy::cognitive_complexity)]
     fn parse_class_member_with_is_static(
         &mut self,
@@ -452,7 +462,7 @@ impl<'a, I: Tokens> Parser<I> {
         let mut modifier_span = None;
         let declare = declare_token.is_some();
         while let Some(modifier) =
-            self.parse_ts_modifier(&["abstract", "readonly", "override", "static"])?
+            self.parse_ts_modifier(&["abstract", "readonly", "override", "static"], true)?
         {
             modifier_span = Some(self.input.prev_span());
             match modifier {
@@ -512,6 +522,29 @@ impl<'a, I: Tokens> Parser<I> {
                     is_static = true;
                 }
                 _ => {}
+            }
+        }
+
+        if self.input.syntax().static_blocks() {
+            if is_static && is!(self, '{') {
+                if let Some(span) = declare_token {
+                    self.emit_err(span, SyntaxError::TS1184);
+                }
+                if accessibility.is_some() {
+                    self.emit_err(self.input.cur_span(), SyntaxError::TS1184);
+                }
+                return self.parse_static_block();
+            }
+            if is!(self, "static") && peeked_is!(self, '{') {
+                // For "readonly", "abstract" and "override"
+                if let Some(span) = modifier_span {
+                    self.emit_err(span, SyntaxError::TS1184);
+                }
+                if let Some(span) = static_token {
+                    self.emit_err(span, SyntaxError::TS1184);
+                }
+                bump!(self); // consume "static"
+                return self.parse_static_block();
             }
         }
 
@@ -725,7 +758,7 @@ impl<'a, I: Tokens> Parser<I> {
         {
             // handle async foo(){}
 
-            if self.parse_ts_modifier(&["override"])?.is_some() {
+            if self.parse_ts_modifier(&["override"], false)?.is_some() {
                 is_override = true;
                 self.emit_err(
                     self.input.prev_span(),

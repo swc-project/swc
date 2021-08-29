@@ -1890,4 +1890,83 @@ export default function waitUntil(callback, options = {}) {
         let src = "if (true) { await promise; }";
         test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());
     }
+
+    #[test]
+    fn class_static_blocks() {
+        let src = "class Foo { static { 1 + 1; } }";
+        assert_eq_ignore_span!(
+            test_parser(
+                src,
+                Syntax::Es(EsConfig {
+                    static_blocks: true,
+                    ..Default::default()
+                }),
+                |p| p.parse_expr()
+            ),
+            Box::new(Expr::Class(ClassExpr {
+                ident: Some(Ident {
+                    span,
+                    sym: "Foo".into(),
+                    optional: false,
+                }),
+                class: Class {
+                    span,
+                    decorators: Vec::new(),
+                    super_class: None,
+                    type_params: None,
+                    super_type_params: None,
+                    is_abstract: false,
+                    implements: Vec::new(),
+                    body: vec!(ClassMember::StaticBlock(StaticBlock {
+                        span,
+                        body: vec!(stmt("1 + 1;"))
+                    }))
+                }
+            }))
+        );
+    }
+
+    #[test]
+    fn class_static_blocks_in_ts() {
+        let src = "class Foo { static { 1 + 1 }; }";
+        test_parser(src, Syntax::Typescript(Default::default()), |p| {
+            p.parse_expr()
+        });
+    }
+
+    #[test]
+    #[should_panic(expected = "Modifiers cannot appear here")]
+    fn class_static_blocks_in_ts_with_invalid_modifier_01() {
+        let src = "class Foo { abstract static { 1 + 1 }; }";
+        test_parser(src, Syntax::Typescript(Default::default()), |p| {
+            p.parse_expr()
+        });
+    }
+
+    #[test]
+    #[should_panic(expected = "Modifiers cannot appear here")]
+    fn class_static_blocks_in_ts_with_invalid_modifier_02() {
+        let src = "class Foo { static static { 1 + 1 }; }";
+        test_parser(src, Syntax::Typescript(Default::default()), |p| {
+            p.parse_expr()
+        });
+    }
+
+    #[test]
+    #[should_panic(expected = "Modifiers cannot appear here")]
+    fn class_static_blocks_in_ts_with_invalid_modifier_03() {
+        let src = "class Foo { declare static { 1 + 1 }; }";
+        test_parser(src, Syntax::Typescript(Default::default()), |p| {
+            p.parse_expr()
+        });
+    }
+
+    #[test]
+    #[should_panic(expected = "Modifiers cannot appear here")]
+    fn class_static_blocks_in_ts_with_invalid_modifier_04() {
+        let src = "class Foo { private static { 1 + 1 }; }";
+        test_parser(src, Syntax::Typescript(Default::default()), |p| {
+            p.parse_expr()
+        });
+    }
 }

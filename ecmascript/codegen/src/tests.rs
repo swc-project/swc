@@ -92,7 +92,10 @@ pub(crate) fn assert_min(from: &str, to: &str) {
     let out = parse_then_emit(
         from,
         Config { minify: true },
-        Syntax::default(),
+        Syntax::Es(EsConfig {
+            static_blocks: true,
+            ..Default::default()
+        }),
         EsVersion::latest(),
     );
 

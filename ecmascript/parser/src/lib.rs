@@ -152,6 +152,17 @@ impl Syntax {
         }
     }
 
+    pub fn static_blocks(self) -> bool {
+        match self {
+            Syntax::Es(EsConfig {
+                static_blocks: true,
+                ..
+            })
+            | Syntax::Typescript(..) => true,
+            _ => false,
+        }
+    }
+
     /// Should we parse jsx?
     pub fn jsx(self) -> bool {
         match self {
@@ -295,6 +306,10 @@ pub struct TsConfig {
     /// Stage 3.
     #[serde(default)]
     pub import_assertions: bool,
+
+    #[serde(default)]
+    #[serde(rename = "staticBlocks")]
+    pub static_blocks: bool,
 }
 
 #[derive(Debug, Clone, Copy, Default, Serialize, Deserialize)]
@@ -363,6 +378,10 @@ pub struct EsConfig {
     /// Stage 3.
     #[serde(default)]
     pub import_assertions: bool,
+
+    #[serde(default)]
+    #[serde(rename = "staticBlocks")]
+    pub static_blocks: bool,
 }
 
 /// Syntactic context.

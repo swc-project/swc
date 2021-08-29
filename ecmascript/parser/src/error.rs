@@ -212,6 +212,7 @@ pub enum SyntaxError {
     TS1174,
     TS1175,
     TS1183,
+    TS1184,
     TS1093,
     TS1094,
     TS1196,
@@ -523,6 +524,7 @@ impl SyntaxError {
             SyntaxError::TS1183 => {
                 "An implementation cannot be declared in ambient contexts".into()
             }
+            SyntaxError::TS1184 => "Modifiers cannot appear here".into(),
             SyntaxError::TS1093 => {
                 "Type annotation cannot appear on a constructor declaration".into()
             }

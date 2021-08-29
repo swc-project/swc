@@ -57,6 +57,7 @@ impl Babelify for ClassMember {
                 "illegal conversion: Cannot convert {:?} to ClassBodyEl",
                 &self
             ),
+            ClassMember::StaticBlock(..) => unimplemented!("stage 3 class static blocks"),
         }
     }
 }
