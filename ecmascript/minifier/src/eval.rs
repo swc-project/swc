@@ -1,6 +1,7 @@
 use crate::mode::Mode;
 use fxhash::FxHashMap;
 use std::sync::{Arc, Mutex};
+use swc_atoms::js_word;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Id};
 
@@ -27,7 +28,7 @@ pub enum EvalResult {
 
 impl Mode for Eval {
     fn store(&self, id: Id, value: &Lit) {
-        let w = self.store.lock().unwrap();
+        let mut w = self.store.lock().unwrap();
         w.cache.insert(id, value.clone());
     }
 }
@@ -115,7 +116,21 @@ impl Evaluator {
         None
     }
 
-    fn eval_quasis(&mut self, q: &Tpl) -> Option<EvalResult> {}
+    fn eval_quasis(&mut self, q: &Tpl) -> Option<EvalResult> {
+        // TODO
+        None
+    }
 }
 
-fn is_truthy(lit: &EvalResult) -> Option<bool> {}
+fn is_truthy(lit: &EvalResult) -> Option<bool> {
+    match lit {
+        EvalResult::Lit(v) => match v {
+            Lit::Str(v) => Some(v.value != js_word!("")),
+            Lit::Bool(v) => Some(v.value),
+            Lit::Null(_) => Some(false),
+            Lit::Num(v) => Some(v.value != 0.0 && v.value != -0.0),
+            _ => None,
+        },
+        EvalResult::Undefined => Some(false),
+    }
+}

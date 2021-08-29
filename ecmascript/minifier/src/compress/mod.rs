@@ -46,8 +46,11 @@ pub(crate) fn compressor<'a, M>(
     globals: &'a Globals,
     marks: Marks,
     options: &'a CompressOptions,
-    store: &'a M,
-) -> impl 'a + JsPass {
+    mode: &'a M,
+) -> impl 'a + JsPass
+where
+    M: Mode,
+{
     let console_remover = Optional {
         enabled: options.drop_console,
         visitor: drop_console(),
@@ -61,6 +64,7 @@ pub(crate) fn compressor<'a, M>(
         data: None,
         optimizer_state: Default::default(),
         left_parallel_depth: 0,
+        mode,
     };
 
     chain!(console_remover, as_folder(compressor), expr_simplifier())
@@ -142,6 +146,7 @@ where
                     data: None,
                     optimizer_state: Default::default(),
                     left_parallel_depth: 0,
+                    mode: self.mode,
                 };
                 node.visit_mut_with(&mut v);
 
@@ -161,6 +166,7 @@ where
                             data: None,
                             optimizer_state: Default::default(),
                             left_parallel_depth: self.left_parallel_depth - 1,
+                            mode: self.mode,
                         };
                         node.visit_mut_with(&mut v);
 

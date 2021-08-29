@@ -28,6 +28,7 @@ use crate::{
     },
     util::now,
 };
+use mode::Minification;
 use pass::postcompress::postcompress_optimizer;
 use std::time::Instant;
 use swc_common::{comments::Comments, sync::Lrc, SourceMap, GLOBALS};
@@ -118,7 +119,8 @@ pub fn optimize(
     }
     if let Some(options) = &options.compress {
         let start = now();
-        m = GLOBALS.with(|globals| m.fold_with(&mut compressor(globals, marks, &options)));
+        m = GLOBALS
+            .with(|globals| m.fold_with(&mut compressor(globals, marks, &options, &Minification)));
         if let Some(start) = start {
             log::info!("compressor took {:?}", Instant::now() - start);
         }
