@@ -1,10 +1,14 @@
 use super::Optimizer;
+use crate::mode::Mode;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
 
 /// Methods related to option `dead_code`.
-impl Optimizer<'_> {
+impl<M> Optimizer<'_, M>
+where
+    M: Mode,
+{
     /// Optimize return value or argument of throw.
     ///
     /// This methods removes some useless assignments.

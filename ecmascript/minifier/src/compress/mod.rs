@@ -331,6 +331,7 @@ where
                 self.options,
                 self.data.as_ref().unwrap(),
                 &mut self.optimizer_state,
+                self.mode,
             );
             n.apply(&mut visitor);
             self.changed |= visitor.changed();

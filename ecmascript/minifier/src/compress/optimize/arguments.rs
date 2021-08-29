@@ -1,5 +1,5 @@
 use super::Optimizer;
-use crate::compress::optimize::is_left_access_to_arguments;
+use crate::{compress::optimize::is_left_access_to_arguments, mode::Mode};
 use std::iter::repeat_with;
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
@@ -8,7 +8,10 @@ use swc_ecma_utils::{find_ids, ident::IdentLike, private_ident, Id};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 /// Methods related to the option `arguments`.
-impl Optimizer<'_> {
+impl<M> Optimizer<'_, M>
+where
+    M: Mode,
+{
     ///
     /// - `arguments['foo']` => `arguments.foo`
     pub(super) fn optimize_str_access_to_arguments(&mut self, e: &mut Expr) {
