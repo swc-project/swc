@@ -2287,7 +2287,7 @@ checksum = "6446ced80d6c486436db5c078dde11a9f73d42b57fb273121e160b84f63d894c"
 
 [[package]]
 name = "swc"
-version = "0.47.0"
+version = "0.46.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2660,7 +2660,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.68.0"
+version = "0.68.1"
 dependencies = [
  "either",
  "enum_kind",
@@ -2876,7 +2876,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.36.0"
+version = "0.36.1"
 dependencies = [
  "base64 0.13.0",
  "dashmap",
