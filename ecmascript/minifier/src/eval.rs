@@ -1,4 +1,4 @@
-use crate::{compress::compressor, marks::Marks, mode::Mode, option::CompressOptions};
+use crate::{compress::compressor, marks::Marks, mode::Mode};
 use fxhash::FxHashMap;
 use std::sync::{Arc, Mutex};
 use swc_atoms::js_word;
@@ -64,9 +64,7 @@ impl Evaluator {
                     m.fold_with(&mut compressor(
                         &globals,
                         marks,
-                        &CompressOptions {
-                            ..Default::default()
-                        },
+                        &serde_json::from_str("{}").unwrap(),
                         &data,
                     ))
                 })
@@ -141,6 +139,7 @@ impl Evaluator {
                 self.run();
 
                 let lock = self.data.store.lock().ok()?;
+                dbg!(&lock.cache);
                 let val = lock.cache.get(&i.to_id())?;
 
                 return Some(EvalResult::Lit(val.clone()));
