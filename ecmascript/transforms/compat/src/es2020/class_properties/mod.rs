@@ -718,6 +718,8 @@ impl ClassProperties {
                         declare: false,
                     })))
                 }
+
+                ClassMember::StaticBlock(..) => unimplemented!("stage 3 class static blocks")
             }
         }
 
