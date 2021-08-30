@@ -6,6 +6,7 @@ use swc_ecma_minifier::{
     marks::Marks,
 };
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, Syntax};
+use swc_ecma_transforms::resolver;
 use swc_ecma_utils::undefined;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use testing::{assert_eq, DebugUsingDisplay};
@@ -80,7 +81,7 @@ impl PartialInliner {
             let fm = cm.new_source_file(FileName::Anon, src.to_string());
             let marks = Marks::new();
 
-            let module = {
+            let mut module = {
                 let lexer = Lexer::new(
                     Syntax::Es(EsConfig {
                         jsx: true,
@@ -93,6 +94,7 @@ impl PartialInliner {
                 let mut parser = Parser::new_from(lexer);
                 parser.parse_module().unwrap()
             };
+            module.visit_mut_with(&mut resolver());
 
             let mut inliner = PartialInliner {
                 marks,
