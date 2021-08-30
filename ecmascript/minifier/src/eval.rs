@@ -8,8 +8,9 @@ use std::sync::{Arc, Mutex};
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_transforms::optimization::simplify::expr_simplifier;
 use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_utils::{ident::IdentLike, undefined, ExprExt, Id};
+use swc_ecma_utils::{ident::IdentLike, undefined, ExprExt, ExprFactory, Id};
 use swc_ecma_visit::{FoldWith, VisitMutWith};
 
 pub struct Evaluator {
@@ -179,12 +180,23 @@ impl Evaluator {
 
         match e {
             Expr::Member(MemberExpr {
+                span,
                 obj: ExprOrSuper::Expr(obj),
                 prop,
                 computed: false,
                 ..
             }) => {
                 let obj = self.eval_as_expr(&obj)?;
+
+                let mut e = Expr::Member(MemberExpr {
+                    span: *span,
+                    obj: obj.as_obj(),
+                    prop: prop.clone(),
+                    computed: false,
+                });
+
+                e.visit_mut_with(&mut expr_simplifier());
+                return Some(Box::new(e));
             }
 
             _ => {}
