@@ -138,7 +138,10 @@ impl Fold for Hoister {
 
             VarDeclOrPat::VarDecl(mut var) => {
                 if var.decls.len() == 1 && var.decls[0].init.is_none() {
-                    return var.decls.remove(0).name.into();
+                    let pat = var.decls.remove(0).name;
+                    self.vars.extend(find_ids(&pat));
+
+                    return pat.into();
                 }
 
                 var.into()
@@ -153,5 +156,21 @@ impl Fold for Hoister {
             }
             _ => var.fold_children_with(self),
         }
+    }
+
+    fn fold_opt_var_decl_or_expr(&mut self, v: Option<VarDeclOrExpr>) -> Option<VarDeclOrExpr> {
+        let v = v.fold_children_with(self);
+
+        match &v {
+            Some(VarDeclOrExpr::Expr(e)) => {
+                if e.is_invalid() {
+                    return None;
+                }
+            }
+
+            _ => {}
+        }
+
+        v
     }
 }
