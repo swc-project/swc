@@ -6,7 +6,8 @@ use std::{
 use swc_atoms::JsWord;
 use swc_common::{pass::CompilerPass, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{ext::MapWithMut, pass::JsPass};
+use swc_ecma_transforms_base::{ext::MapWithMut, pass::JsPass, perf::Check};
+use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
     default_constructor, ident::IdentLike, prepend, private_ident, quote_ident, ExprExt,
     ExprFactory, Id,
@@ -114,8 +115,31 @@ impl PrivateInObject {
     }
 }
 
+#[fast_path(ShouldWork)]
 impl VisitMut for PrivateInObject {
     noop_visit_mut_type!();
+
+    fn visit_mut_block_stmt_or_expr(&mut self, e: &mut BlockStmtOrExpr) {
+        // Thanks to #[fast_path], we are sure that `e` contains a brand check.
+
+        match e {
+            BlockStmtOrExpr::BlockStmt(e) => {
+                e.visit_mut_with(self);
+            }
+            BlockStmtOrExpr::Expr(expr) => {
+                let ret = Stmt::Return(ReturnStmt {
+                    span: DUMMY_SP,
+                    arg: Some(expr.take()),
+                });
+                let mut bs = BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![ret],
+                };
+                bs.visit_mut_with(self);
+                *e = BlockStmtOrExpr::BlockStmt(bs);
+            }
+        }
+    }
 
     fn visit_mut_class(&mut self, n: &mut Class) {
         {
@@ -442,4 +466,28 @@ impl Visit for ClassAnalyzer<'_> {
 
     /// Noop
     fn visit_class(&mut self, n: &Class, _: &dyn Node) {}
+}
+
+#[derive(Default)]
+struct ShouldWork {
+    found: bool,
+}
+
+impl Check for ShouldWork {
+    fn should_handle(&self) -> bool {
+        self.found
+    }
+}
+
+impl Visit for ShouldWork {
+    noop_visit_type!();
+
+    fn visit_bin_expr(&mut self, e: &BinExpr, _: &dyn Node) {
+        if e.op == op!("in") && e.left.is_private_name() {
+            self.found = true;
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
 }
