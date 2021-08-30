@@ -53,6 +53,10 @@ impl Mode for Eval {
         let mut w = self.store.lock().unwrap();
         w.cache.insert(id, Box::new(value.clone()));
     }
+
+    fn force_str_for_tpl() -> bool {
+        true
+    }
 }
 
 impl Evaluator {
@@ -220,10 +224,14 @@ impl Evaluator {
             quasis: q.quasis.clone(),
         });
 
-        e.visit_mut_with(&mut pure_optimizer(
-            &serde_json::from_str("{}").unwrap(),
-            self.marks,
-        ));
+        {
+            let data = self.data.clone();
+            e.visit_mut_with(&mut pure_optimizer(
+                &serde_json::from_str("{}").unwrap(),
+                self.marks,
+                &data,
+            ));
+        }
 
         Some(EvalResult::Lit(e.lit()?))
     }
