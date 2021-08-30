@@ -1,4 +1,4 @@
-use swc_common::{input::SourceFileInput, sync::Lrc, FileName, SourceMap};
+use swc_common::{input::SourceFileInput, sync::Lrc, FileName, SourceMap, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_minifier::{
@@ -6,6 +6,7 @@ use swc_ecma_minifier::{
     marks::Marks,
 };
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, Syntax};
+use swc_ecma_utils::undefined;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use testing::{assert_eq, DebugUsingDisplay};
 
@@ -163,6 +164,30 @@ impl PartialInliner {
 
 impl VisitMut for PartialInliner {
     noop_visit_mut_type!();
+
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
+
+        if let Some(evaluator) = self.eval.as_mut() {
+            let res = evaluator.eval(&*e);
+
+            let res = match res {
+                Some(v) => v,
+                None => return,
+            };
+
+            match res {
+                EvalResult::Lit(v) => {
+                    *e = Expr::Lit(v);
+                }
+                EvalResult::Undefined => {
+                    let span = e.span();
+
+                    *e = *undefined(span);
+                }
+            }
+        }
+    }
 
     fn visit_mut_module(&mut self, module: &mut Module) {
         self.eval = Some(Evaluator::new(module.clone(), self.marks));
