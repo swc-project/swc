@@ -17,6 +17,56 @@ pub fn private_in_object() -> impl JsPass {
     as_folder(PrivateInObject::default())
 }
 
+#[derive(Debug)]
+enum Mode {
+    ClassExpr {
+        vars: Vec<VarDeclarator>,
+        init_exprs: Vec<Box<Expr>>,
+    },
+    ClassDecl {
+        vars: Vec<VarDeclarator>,
+    },
+}
+
+impl Default for Mode {
+    fn default() -> Self {
+        Self::ClassDecl {
+            vars: Default::default(),
+        }
+    }
+}
+
+impl Mode {
+    fn push_var(&mut self, n: Ident, init: Option<Box<Expr>>) {
+        match self {
+            Mode::ClassExpr { vars, init_exprs } => {
+                vars.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(n.clone().into()),
+                    init: None,
+                    definite: Default::default(),
+                });
+                if let Some(init) = init {
+                    init_exprs.push(Box::new(Expr::Assign(AssignExpr {
+                        span: DUMMY_SP,
+                        op: op!("="),
+                        left: PatOrExpr::Pat(Box::new(Pat::Ident(n.into()))),
+                        right: init,
+                    })));
+                }
+            }
+            Mode::ClassDecl { vars } => {
+                vars.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(n.into()),
+                    init,
+                    definite: Default::default(),
+                });
+            }
+        }
+    }
+}
+
 #[derive(Default)]
 struct PrivateInObject {
     vars: Vec<VarDeclarator>,
@@ -28,7 +78,7 @@ struct PrivateInObject {
 
 #[derive(Default)]
 struct ClassData {
-    vars: Vec<VarDeclarator>,
+    vars: Mode,
 
     /// [Mark] for the current class.
     ///
@@ -180,17 +230,15 @@ impl VisitMut for PrivateInObject {
                 let var_name = self.var_name_for_brand_check(&left);
 
                 if self.injected_vars.insert(var_name.to_id()) {
-                    self.cls.vars.push(VarDeclarator {
-                        span: DUMMY_SP,
-                        name: Pat::Ident(var_name.clone().into()),
-                        init: Some(Box::new(Expr::New(NewExpr {
+                    self.cls.vars.push_var(
+                        var_name.clone(),
+                        Some(Box::new(Expr::New(NewExpr {
                             span: DUMMY_SP,
                             callee: Box::new(Expr::Ident(quote_ident!("WeakSet"))),
                             args: Some(Default::default()),
                             type_args: Default::default(),
                         }))),
-                        definite: Default::default(),
-                    });
+                    );
 
                     if is_method {
                         self.cls
@@ -255,12 +303,8 @@ impl VisitMut for PrivateInObject {
                     let init_span = init.span();
 
                     let tmp = private_ident!("_tmp");
-                    self.cls.vars.push(VarDeclarator {
-                        span: DUMMY_SP,
-                        name: Pat::Ident(tmp.clone().into()),
-                        init: None,
-                        definite: Default::default(),
-                    });
+
+                    self.cls.vars.push_var(tmp.clone(), None);
 
                     let assign = Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
