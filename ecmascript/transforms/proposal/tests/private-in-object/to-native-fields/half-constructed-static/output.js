@@ -1,23 +1,14 @@
-var _temp, _temp2;
-
-var _xBrandCheck = /*#__PURE__*/new WeakSet();
-
-var _yBrandCheck = /*#__PURE__*/new WeakSet();
-
+var _brand_check_x = new WeakSet(), _brand_check_y = new WeakSet(), _tmp, _tmp1;
 class F {
-  static m() {
-    _xBrandCheck.has(this);
-
-    _yBrandCheck.has(this);
-
-    F === this;
-  }
-
-  static #x = (_temp = 0, _xBrandCheck.add(this), _temp);
-  static #y = (_temp2 = (() => {
-    throw 'error';
-  })(), _yBrandCheck.add(this), _temp2);
-
-  static #z() {}
-
+    static m() {
+        _brand_check_x.has(this);
+        _brand_check_y.has(this);
+        F === this;
+    }
+    static #x = (_tmp = 0, _brand_check_x.add(this), _tmp);
+    static #y = (_tmp1 = (()=>{
+        throw "error";
+    })(), _brand_check_y.add(this), _tmp1);
+    static  #z() {
+    }
 }
