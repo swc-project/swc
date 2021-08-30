@@ -1,11 +1,13 @@
-use swc_common::{input::SourceFileInput, FileName};
+use swc_common::{input::SourceFileInput, sync::Lrc, FileName, SourceMap};
 use swc_ecma_ast::*;
+use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_minifier::{
     eval::{EvalResult, Evaluator},
     marks::Marks,
 };
-use swc_ecma_parser::{lexer::Lexer, Parser};
+use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, Syntax};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use testing::assert_eq;
 
 fn eval(module: &str, expr: &str) -> Option<String> {
     testing::run_test2(false, |cm, _handler| {
@@ -71,7 +73,7 @@ struct PartialInliner {
 impl PartialInliner {
     fn run_test<F>(src: &str, op: F)
     where
-        F: FnOnce(Module, &mut PartialInliner),
+        F: FnOnce(Lrc<SourceMap>, Module, &mut PartialInliner),
     {
         testing::run_test2(false, |cm, _handler| {
             let fm = cm.new_source_file(FileName::Anon, src.to_string());
@@ -79,7 +81,10 @@ impl PartialInliner {
 
             let module = {
                 let lexer = Lexer::new(
-                    Default::default(),
+                    Syntax::Es(EsConfig {
+                        jsx: true,
+                        ..Default::default()
+                    }),
                     EsVersion::latest(),
                     SourceFileInput::from(&*fm),
                     None,
@@ -93,14 +98,36 @@ impl PartialInliner {
                 eval: Default::default(),
             };
 
-            op(module, &mut inliner);
+            op(cm.clone(), module, &mut inliner);
 
             Ok(())
         })
         .unwrap();
     }
 
-    fn expect(src: &str, expected: &str) {}
+    fn expect(src: &str, expected: &str) {
+        PartialInliner::run_test(src, |cm, mut module, inliner| {
+            //
+            module.visit_mut_with(inliner);
+
+            let mut buf = vec![];
+
+            {
+                let mut emitter = Emitter {
+                    cfg: Default::default(),
+                    cm: cm.clone(),
+                    comments: None,
+                    wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
+                };
+
+                emitter.emit_module(&module).unwrap();
+            }
+
+            let actual = String::from_utf8(buf).unwrap();
+
+            assert_eq!(expected, actual);
+        });
+    }
 }
 
 impl VisitMut for PartialInliner {
