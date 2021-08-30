@@ -38,7 +38,7 @@ struct Eval {
 
 #[derive(Default)]
 struct EvalStore {
-    cache: FxHashMap<Id, Lit>,
+    cache: FxHashMap<Id, Box<Expr>>,
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -48,9 +48,9 @@ pub enum EvalResult {
 }
 
 impl Mode for Eval {
-    fn store(&self, id: Id, value: &Lit) {
+    fn store(&self, id: Id, value: &Expr) {
         let mut w = self.store.lock().unwrap();
-        w.cache.insert(id, value.clone());
+        w.cache.insert(id, Box::new(value.clone()));
     }
 }
 
@@ -135,23 +135,6 @@ impl Evaluator {
                 ..
             }) if obj.is_lit() && prop.is_ident_ref_to("length".into()) => {}
 
-            _ => {}
-        }
-
-        match e {
-            Expr::Ident(i) => {
-                self.run();
-
-                let lock = self.data.store.lock().ok()?;
-                let val = lock.cache.get(&i.to_id())?;
-
-                return Some(EvalResult::Lit(val.clone()));
-            }
-
-            _ => {}
-        }
-
-        match e {
             Expr::Unary(UnaryExpr {
                 op: op!("void"), ..
             }) => return Some(EvalResult::Undefined),
@@ -172,6 +155,36 @@ impl Evaluator {
                         value: true,
                     })));
                 }
+            }
+
+            _ => {}
+        }
+
+        Some(EvalResult::Lit(self.eval_as_expr(e)?.lit()?))
+    }
+
+    fn eval_as_expr(&mut self, e: &Expr) -> Option<Box<Expr>> {
+        match e {
+            Expr::Ident(i) => {
+                self.run();
+
+                let lock = self.data.store.lock().ok()?;
+                let val = lock.cache.get(&i.to_id())?;
+
+                return Some(val.clone());
+            }
+
+            _ => {}
+        }
+
+        match e {
+            Expr::Member(MemberExpr {
+                obj: ExprOrSuper::Expr(obj),
+                prop,
+                computed: false,
+                ..
+            }) => {
+                let obj = self.eval_as_expr(&obj)?;
             }
 
             _ => {}

@@ -141,9 +141,7 @@ where
                     }
 
                     if !usage.mutated {
-                        if let Expr::Lit(v) = &mut **init {
-                            self.mode.store(i.to_id(), &*v);
-                        }
+                        self.mode.store(i.to_id(), &*init);
                     }
 
                     // No use => doppred
@@ -176,9 +174,7 @@ where
                             _ => false,
                         }
                     {
-                        if let Expr::Lit(v) = &mut **init {
-                            self.mode.store(i.to_id(), &*v);
-                        }
+                        self.mode.store(i.to_id(), &*init);
 
                         if self.options.inline != 0
                             && !should_preserve
