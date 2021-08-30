@@ -18,18 +18,16 @@ pub fn private_in_object() -> impl JsPass {
 }
 
 #[derive(Default)]
-struct PrivateInObject<'a> {
+struct PrivateInObject {
     vars: Vec<VarDeclarator>,
     injected_vars: FxHashSet<Id>,
-    cls: ClassData<'a>,
+    cls: ClassData,
 
     cls_ident: Option<Ident>,
 }
 
 #[derive(Default)]
-struct ClassData<'a> {
-    parent: Option<&'a ClassData<'a>>,
-
+struct ClassData {
     vars: Vec<VarDeclarator>,
 
     /// [Mark] for the current class.
@@ -48,20 +46,20 @@ struct ClassData<'a> {
     names_used_for_brand_checks: FxHashSet<JsWord>,
 }
 
-impl CompilerPass for PrivateInObject<'_> {
+impl CompilerPass for PrivateInObject {
     fn name() -> Cow<'static, str> {
         Cow::Borrowed("private-in-object")
     }
 }
 
-impl PrivateInObject<'_> {
+impl PrivateInObject {
     fn var_name_for_brand_check(&self, n: &PrivateName) -> Ident {
         let span = n.span.apply_mark(self.cls.mark);
         Ident::new(format!("_brand_check_{}", n.id.sym).into(), span)
     }
 }
 
-impl VisitMut for PrivateInObject<'_> {
+impl VisitMut for PrivateInObject {
     noop_visit_mut_type!();
 
     fn visit_mut_class(&mut self, n: &mut Class) {
