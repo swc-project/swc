@@ -1,4 +1,4 @@
-use swc_common::{input::SourceFileInput, sync::Lrc, FileName, SourceMap, Spanned};
+use swc_common::{input::SourceFileInput, sync::Lrc, FileName, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_minifier::{
@@ -7,7 +7,7 @@ use swc_ecma_minifier::{
 };
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, Syntax};
 use swc_ecma_transforms::resolver;
-use swc_ecma_utils::undefined;
+use swc_ecma_utils::ExprExt;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use testing::{assert_eq, DebugUsingDisplay};
 
@@ -171,22 +171,38 @@ impl VisitMut for PartialInliner {
         e.visit_mut_children_with(self);
 
         if let Some(evaluator) = self.eval.as_mut() {
-            let res = evaluator.eval(&*e);
+            match e {
+                Expr::TaggedTpl(tt) => {
+                    if tt.tag.is_ident_ref_to("css".into()) {
+                        let res = evaluator.eval_tpl(&tt.tpl);
 
-            let res = match res {
-                Some(v) => v,
-                None => return,
-            };
+                        let res = match res {
+                            Some(v) => v,
+                            None => return,
+                        };
 
-            match res {
-                EvalResult::Lit(v) => {
-                    *e = Expr::Lit(v);
+                        match res {
+                            EvalResult::Lit(Lit::Str(s)) => {
+                                let el = TplElement {
+                                    span: s.span,
+                                    tail: true,
+                                    cooked: Some(s.clone()),
+                                    raw: s,
+                                };
+                                tt.tpl = Tpl {
+                                    span: el.span,
+                                    exprs: Default::default(),
+                                    quasis: vec![el],
+                                };
+                            }
+                            _ => {
+                                unreachable!()
+                            }
+                        }
+                    }
                 }
-                EvalResult::Undefined => {
-                    let span = e.span();
 
-                    *e = *undefined(span);
-                }
+                _ => {}
             }
         }
     }

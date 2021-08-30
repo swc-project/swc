@@ -86,7 +86,7 @@ impl Evaluator {
             }
 
             Expr::Tpl(t) => {
-                return self.eval_quasis(&t);
+                return self.eval_tpl(&t);
             }
 
             Expr::TaggedTpl(t) => {
@@ -101,7 +101,7 @@ impl Evaluator {
                     }) if tag_obj.is_ident_ref_to("String".into())
                         && prop.is_ident_ref_to("raw".into()) =>
                     {
-                        return self.eval_quasis(&t.tpl);
+                        return self.eval_tpl(&t.tpl);
                     }
 
                     _ => {}
@@ -180,7 +180,7 @@ impl Evaluator {
         None
     }
 
-    fn eval_quasis(&mut self, q: &Tpl) -> Option<EvalResult> {
+    pub fn eval_tpl(&mut self, q: &Tpl) -> Option<EvalResult> {
         let mut e = Expr::Tpl(q.clone());
 
         e.visit_mut_with(&mut pure_optimizer(
