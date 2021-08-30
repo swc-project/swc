@@ -7,7 +7,7 @@ use swc_ecma_minifier::{
 };
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, Syntax};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
-use testing::assert_eq;
+use testing::{assert_eq, DebugUsingDisplay};
 
 fn eval(module: &str, expr: &str) -> Option<String> {
     testing::run_test2(false, |cm, _handler| {
@@ -125,7 +125,7 @@ impl PartialInliner {
 
             let actual = String::from_utf8(buf).unwrap();
 
-            assert_eq!(expected, actual);
+            assert_eq!(DebugUsingDisplay(&expected), DebugUsingDisplay(&actual));
         });
     }
 }
