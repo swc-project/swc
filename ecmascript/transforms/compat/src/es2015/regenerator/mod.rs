@@ -16,7 +16,6 @@ pub fn regenerator(global_mark: Mark) -> impl Fold {
     Regenerator {
         global_mark,
         regenerator_runtime: Default::default(),
-        outer_fn_vars: Default::default(),
         top_level_vars: Default::default(),
     }
 }
@@ -26,8 +25,6 @@ struct Regenerator {
     global_mark: Mark,
     /// [Some] if used.
     regenerator_runtime: Option<Ident>,
-    /// Variables declared in outer function.
-    outer_fn_vars: Vec<VarDeclarator>,
     /// mark
     top_level_vars: Vec<VarDeclarator>,
 }
@@ -322,28 +319,27 @@ impl Regenerator {
         f.body = f.body.fold_with(&mut FnSentVisitor { ctx: ctx.clone() });
         let uses_this = contains_this_expr(&f.body);
         let (body, hoister) = hoist(f.body.unwrap());
-        self.outer_fn_vars
-            .extend(hoister.vars.into_iter().map(|id| VarDeclarator {
+        let mut outer_fn_vars = vec![];
+        outer_fn_vars.extend(hoister.vars.into_iter().map(|id| VarDeclarator {
+            span: DUMMY_SP,
+            name: Pat::Ident(id.into()),
+            init: None,
+            definite: false,
+        }));
+        outer_fn_vars.extend(hoister.arguments.into_iter().map(|id| {
+            VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(id.into()),
-                init: None,
+                name: Pat::Ident(id.clone().into()),
+                init: Some(Box::new(
+                    Ident {
+                        sym: js_word!("arguments"),
+                        ..id
+                    }
+                    .into(),
+                )),
                 definite: false,
-            }));
-        self.outer_fn_vars
-            .extend(hoister.arguments.into_iter().map(|id| {
-                VarDeclarator {
-                    span: DUMMY_SP,
-                    name: Pat::Ident(id.clone().into()),
-                    init: Some(Box::new(
-                        Ident {
-                            sym: js_word!("arguments"),
-                            ..id
-                        }
-                        .into(),
-                    )),
-                    definite: false,
-                }
-            }));
+            }
+        }));
 
         handler.explode_stmts(body.stmts);
 
@@ -419,11 +415,11 @@ impl Regenerator {
                     span: body_span,
                     stmts: {
                         let mut buf = vec![];
-                        if !self.outer_fn_vars.is_empty() {
+                        if !outer_fn_vars.is_empty() {
                             buf.push(Stmt::Decl(Decl::Var(VarDecl {
                                 span: DUMMY_SP,
                                 kind: VarDeclKind::Var,
-                                decls: take(&mut self.outer_fn_vars),
+                                decls: outer_fn_vars,
                                 declare: false,
                             })));
                         }
