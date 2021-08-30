@@ -1,4 +1,8 @@
-use crate::{compress::compressor, marks::Marks, mode::Mode};
+use crate::{
+    compress::{compressor, pure_optimizer},
+    marks::Marks,
+    mode::Mode,
+};
 use fxhash::FxHashMap;
 use std::sync::{Arc, Mutex};
 use swc_atoms::js_word;
@@ -6,7 +10,7 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{ident::IdentLike, ExprExt, Id};
-use swc_ecma_visit::FoldWith;
+use swc_ecma_visit::{FoldWith, VisitMutWith};
 
 pub struct Evaluator {
     module: Module,
@@ -177,9 +181,14 @@ impl Evaluator {
     }
 
     fn eval_quasis(&mut self, q: &Tpl) -> Option<EvalResult> {
-        if q.exprs.is_empty() {}
-        // TODO
-        None
+        let mut e = Expr::Tpl(q.clone());
+
+        e.visit_mut_with(&mut pure_optimizer(
+            &serde_json::from_str("{}").unwrap(),
+            self.marks,
+        ));
+
+        Some(EvalResult::Lit(e.lit()?))
     }
 }
 

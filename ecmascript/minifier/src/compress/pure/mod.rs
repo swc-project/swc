@@ -20,7 +20,7 @@ mod strings;
 mod unsafes;
 mod vars;
 
-pub(super) fn pure_optimizer<'a>(
+pub(crate) fn pure_optimizer<'a>(
     options: &'a CompressOptions,
     marks: Marks,
 ) -> impl 'a + VisitMut + Repeated {

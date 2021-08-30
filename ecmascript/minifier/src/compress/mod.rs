@@ -1,3 +1,4 @@
+pub(crate) use self::pure::pure_optimizer;
 use self::{
     drop_console::drop_console,
     hoist_decls::DeclHoisterConfig,
@@ -5,7 +6,7 @@ use self::{
 };
 use crate::{
     analyzer::{analyze, ProgramData, UsageAnalyzer},
-    compress::{hoist_decls::decl_hoister, pure::pure_optimizer},
+    compress::hoist_decls::decl_hoister,
     debug::{dump, invoke},
     marks::Marks,
     mode::Mode,
