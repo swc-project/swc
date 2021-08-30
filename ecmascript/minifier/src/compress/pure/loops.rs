@@ -1,10 +1,14 @@
 use super::Pure;
+use crate::mode::Mode;
 use swc_common::Spanned;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{ExprExt, Value};
 
-impl Pure<'_> {
+impl<M> Pure<'_, M>
+where
+    M: Mode,
+{
     ///
     /// - `while(test);` => `for(;;test);
     /// - `do; while(true)` => `for(;;);

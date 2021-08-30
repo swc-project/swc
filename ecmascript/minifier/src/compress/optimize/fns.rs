@@ -1,6 +1,7 @@
 use super::Optimizer;
 use crate::{
     compress::util::is_directive,
+    mode::Mode,
     util::{sort::is_sorted_by, MoudleItemExt},
     DISABLE_BUGGY_PASSES,
 };
@@ -8,7 +9,10 @@ use std::cmp::Ordering;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 
-impl Optimizer<'_> {
+impl<M> Optimizer<'_, M>
+where
+    M: Mode,
+{
     /// Calls `reorder_stmts_inner` after splitting stmts.
     pub(super) fn reorder_stmts<T>(&mut self, stmts: &mut Vec<T>)
     where

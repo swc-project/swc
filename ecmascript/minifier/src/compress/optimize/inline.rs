@@ -2,6 +2,7 @@ use super::Optimizer;
 use crate::{
     compress::optimize::util::{class_has_side_effect, is_valid_for_lhs},
     debug::dump,
+    mode::Mode,
     util::idents_used_by,
 };
 use swc_atoms::js_word;
@@ -11,7 +12,10 @@ use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{ident::IdentLike, ExprExt, UsageFinder};
 
 /// Methods related to option `inline`.
-impl Optimizer<'_> {
+impl<M> Optimizer<'_, M>
+where
+    M: Mode,
+{
     /// Stores the value of a variable to inline it.
     ///
     /// This method may remove value of initializer. It mean that the value will
@@ -135,6 +139,11 @@ impl Optimizer<'_> {
                             _ => {}
                         }
                     }
+
+                    if !usage.mutated {
+                        self.mode.store(i.to_id(), &*init);
+                    }
+
                     // No use => doppred
                     if usage.ref_count == 0 {
                         if init.may_have_side_effects() {
@@ -165,6 +174,8 @@ impl Optimizer<'_> {
                             _ => false,
                         }
                     {
+                        self.mode.store(i.to_id(), &*init);
+
                         if self.options.inline != 0
                             && !should_preserve
                             && match &**init {

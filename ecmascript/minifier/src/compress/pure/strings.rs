@@ -1,13 +1,16 @@
-use std::mem::take;
-
 use super::Pure;
+use crate::mode::Mode;
+use std::mem::take;
 use swc_atoms::{js_word, JsWord};
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{ExprExt, Type, Value};
 
-impl Pure<'_> {
+impl<M> Pure<'_, M>
+where
+    M: Mode,
+{
     /// Converts template literals to string if `exprs` of [Tpl] is empty.
     pub(super) fn convert_tpl_to_str(&mut self, e: &mut Expr) {
         match e {
@@ -15,6 +18,7 @@ impl Pure<'_> {
                 if let Some(c) = &t.quasis[0].cooked {
                     if c.value.chars().all(|c| match c {
                         '\u{0020}'..='\u{007e}' => true,
+                        '\n' | '\r' => M::force_str_for_tpl(),
                         _ => false,
                     }) {
                         *e = Expr::Lit(Lit::Str(c.clone()));

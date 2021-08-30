@@ -1,12 +1,14 @@
-use crate::compress::util::is_directive;
-
 use super::Optimizer;
+use crate::{compress::util::is_directive, mode::Mode};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::StmtLike;
 
 /// Methods related to option `join_vars`.
-impl Optimizer<'_> {
+impl<M> Optimizer<'_, M>
+where
+    M: Mode,
+{
     /// Join variables.
     ///
     /// This method may move variables to head of for statements like

@@ -28,6 +28,7 @@ use crate::{
     },
     util::now,
 };
+use mode::Minification;
 use pass::postcompress::postcompress_optimizer;
 use std::time::Instant;
 use swc_common::{comments::Comments, sync::Lrc, SourceMap, GLOBALS};
@@ -38,8 +39,10 @@ use timing::Timings;
 mod analyzer;
 mod compress;
 mod debug;
+pub mod eval;
 pub mod marks;
 mod metadata;
+mod mode;
 pub mod option;
 mod pass;
 pub mod timing;
@@ -105,7 +108,7 @@ pub fn optimize(
 
     // Noop.
     // https://github.com/mishoo/UglifyJS2/issues/2794
-    if options.rename && false {
+    if options.rename && DISABLE_BUGGY_PASSES {
         // toplevel.figure_out_scope(options.mangle);
         // TODO: Pass `options.mangle` to name expander.
         m.visit_mut_with(&mut name_expander());
@@ -116,7 +119,8 @@ pub fn optimize(
     }
     if let Some(options) = &options.compress {
         let start = now();
-        m = GLOBALS.with(|globals| m.fold_with(&mut compressor(globals, marks, &options)));
+        m = GLOBALS
+            .with(|globals| m.fold_with(&mut compressor(globals, marks, &options, &Minification)));
         if let Some(start) = start {
             log::info!("compressor took {:?}", Instant::now() - start);
         }

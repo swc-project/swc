@@ -2,6 +2,7 @@ use super::Optimizer;
 use crate::{
     compress::{optimize::Ctx, util::is_pure_undefined},
     debug::dump,
+    mode::Mode,
     util::ExprOptExt,
 };
 use swc_common::{Spanned, DUMMY_SP};
@@ -12,7 +13,10 @@ use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 
 /// Methods related to the option `if_return`. All methods are noop if
 /// `if_return` is false.
-impl Optimizer<'_> {
+impl<M> Optimizer<'_, M>
+where
+    M: Mode,
+{
     /// # Input
     ///
     /// ```js

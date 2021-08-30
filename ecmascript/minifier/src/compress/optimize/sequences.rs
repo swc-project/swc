@@ -5,6 +5,7 @@ use crate::{
         util::{get_lhs_ident, get_lhs_ident_mut, is_directive, is_ident_used_by},
     },
     debug::dump,
+    mode::Mode,
     option::CompressOptions,
     util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt, MoudleItemExt},
 };
@@ -19,7 +20,10 @@ use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 
 /// Methods related to the option `sequences`. All methods are noop if
 /// `sequences` is false.
-impl Optimizer<'_> {
+impl<M> Optimizer<'_, M>
+where
+    M: Mode,
+{
     ///
     /// # Exmaple
     ///

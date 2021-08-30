@@ -1,11 +1,15 @@
 use super::Optimizer;
+use crate::mode::Mode;
 use fxhash::FxHashMap;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 /// Methods related to the option `collapse_vars`.
-impl Optimizer<'_> {
+impl<M> Optimizer<'_, M>
+where
+    M: Mode,
+{
     pub(super) fn collapse_assignment_to_vars(&mut self, e: &mut Expr) {
         if !self.options.collapse_vars {
             return;

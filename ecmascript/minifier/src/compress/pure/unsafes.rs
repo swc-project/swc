@@ -1,9 +1,13 @@
 use super::Pure;
+use crate::mode::Mode;
 use swc_atoms::js_word;
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprExt;
 
-impl Pure<'_> {
+impl<M> Pure<'_, M>
+where
+    M: Mode,
+{
     /// Drop arguments of `Symbol()` call.
     pub(super) fn drop_arguemtns_of_symbol_call(&mut self, e: &mut CallExpr) {
         if !self.options.unsafe_symbols {
