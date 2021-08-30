@@ -224,7 +224,23 @@ fn partial_1() {
                 color: ${color};
             }
             `
-            
+            ",
+        "
+            const color = 'red'
+
+            export const foo = css`
+            div {
+                color: red;
+            }
+            `
+            ",
+    );
+}
+
+#[test]
+fn partial_2() {
+    PartialInliner::expect(
+        "
             export default css`
             div {
                 font-size: 3em;
@@ -235,14 +251,6 @@ fn partial_1() {
             `
             ",
         "
-            const color = 'red'
-
-            export const foo = css`
-            div {
-                color: red;
-            }
-            `
-            
             export default css`
             div {
                 font-size: 3em;
