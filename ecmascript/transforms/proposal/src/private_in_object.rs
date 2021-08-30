@@ -119,28 +119,6 @@ impl PrivateInObject {
 impl VisitMut for PrivateInObject {
     noop_visit_mut_type!();
 
-    fn visit_mut_block_stmt_or_expr(&mut self, e: &mut BlockStmtOrExpr) {
-        // Thanks to #[fast_path], we are sure that `e` contains a brand check.
-
-        match e {
-            BlockStmtOrExpr::BlockStmt(e) => {
-                e.visit_mut_with(self);
-            }
-            BlockStmtOrExpr::Expr(expr) => {
-                let ret = Stmt::Return(ReturnStmt {
-                    span: DUMMY_SP,
-                    arg: Some(expr.take()),
-                });
-                let mut bs = BlockStmt {
-                    span: DUMMY_SP,
-                    stmts: vec![ret],
-                };
-                bs.visit_mut_with(self);
-                *e = BlockStmtOrExpr::BlockStmt(bs);
-            }
-        }
-    }
-
     fn visit_mut_class(&mut self, n: &mut Class) {
         {
             n.visit_children_with(&mut ClassAnalyzer {
