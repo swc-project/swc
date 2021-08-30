@@ -8,7 +8,7 @@ class Project {
 
 Project.f = async function () {
     await sleep(100)
-    console.log(this)
+    console.log(this['a'])
     return new this('a')
 }
 

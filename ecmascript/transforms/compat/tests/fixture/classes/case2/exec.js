@@ -6,7 +6,7 @@ class Project {
     }
     static async g() {
         await sleep(100)
-        console.log(this)
+        console.log(this['a'])
         return new this('a')
     }
 };
