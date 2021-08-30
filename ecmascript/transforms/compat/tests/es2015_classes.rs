@@ -1,3 +1,5 @@
+use std::{fs::read_to_string, path::PathBuf};
+
 use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver::resolver;
@@ -7,7 +9,7 @@ use swc_ecma_transforms_compat::{
     es2016, es2017, es2018, es2020,
     es2020::class_properties,
 };
-use swc_ecma_transforms_testing::{test, test_exec, Tester};
+use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, Tester};
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
@@ -6531,3 +6533,13 @@ var Extended = function(Base) {
 }(Base);
     "
 );
+
+#[testing::fixture("tests/fixture/**/exec.js")]
+fn exec(input: PathBuf) {
+    let src = read_to_string(&input).unwrap();
+    compare_stdout(
+        Default::default(),
+        |t| classes(Some(t.comments.clone())),
+        &src,
+    );
+}
