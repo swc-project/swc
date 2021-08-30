@@ -1,12 +1,10 @@
-(x = (() => {
-  var _fooBrandCheck;
-
-  return _fooBrandCheck = /*#__PURE__*/new WeakSet(), class {
-    #foo = void _fooBrandCheck.add(this);
-
-    test(other) {
-      return _fooBrandCheck.has(other);
-    }
-
-  };
-})()) => {};
+(x = (()=>{
+    var _brand_check_foo;
+    return _brand_check_foo = new WeakSet(), class {
+        #foo = void _brand_check_foo.add(this);
+        test(other) {
+            return _brand_check_foo.has(other);
+        }
+    };
+})())=>{
+};
