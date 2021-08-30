@@ -15,7 +15,7 @@ impl Pure<'_> {
                 if let Some(c) = &t.quasis[0].cooked {
                     if c.value.chars().all(|c| match c {
                         '\u{0020}'..='\u{007e}' | '\n' | '\r' => true,
-                        c => false,
+                        _ => false,
                     }) {
                         *e = Expr::Lit(Lit::Str(c.clone()));
                     }
