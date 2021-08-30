@@ -1,12 +1,9 @@
 function fn() {
-  var _privBrandCheck;
-
-  return new (_privBrandCheck = /*#__PURE__*/new WeakSet(), class {
-    #priv = void _privBrandCheck.add(this);
-
-    method(obj) {
-      return _privBrandCheck.has(obj);
-    }
-
-  })();
+    var _brand_check_priv;
+    return new (_brand_check_priv = new WeakSet(), class {
+        #priv = void _brand_check_priv.add(this);
+        method(obj) {
+            return _brand_check_priv.has(obj);
+        }
+    });
 }
