@@ -123,6 +123,7 @@ impl VisitMut for PrivateInObject {
         {
             n.visit_children_with(&mut ClassAnalyzer {
                 brand_check_names: &mut self.cls.names_used_for_brand_checks,
+                ignore_class: true,
             })
         }
 
@@ -225,6 +226,49 @@ impl VisitMut for PrivateInObject {
         }
 
         self.cls = old_cls;
+    }
+
+    fn visit_mut_assign_pat(&mut self, p: &mut AssignPat) {
+        p.left.visit_mut_with(self);
+
+        {
+            let mut buf = FxHashSet::default();
+            let mut v = ClassAnalyzer {
+                brand_check_names: &mut buf,
+                ignore_class: false,
+            };
+            p.right.visit_with(p, &mut v);
+
+            if buf.is_empty() {
+                p.right.visit_mut_with(self);
+            } else {
+                let mut bs = BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![],
+                };
+                bs.stmts.push(Stmt::Return(ReturnStmt {
+                    span: DUMMY_SP,
+                    arg: Some(p.right.take()),
+                }));
+                bs.visit_mut_with(self);
+
+                p.right = Box::new(Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: ArrowExpr {
+                        span: DUMMY_SP,
+                        params: Default::default(),
+                        body: BlockStmtOrExpr::BlockStmt(bs),
+                        is_async: false,
+                        is_generator: false,
+                        type_params: Default::default(),
+                        return_type: Default::default(),
+                    }
+                    .as_callee(),
+                    args: Default::default(),
+                    type_args: Default::default(),
+                }));
+            }
+        }
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
@@ -423,6 +467,7 @@ impl VisitMut for PrivateInObject {
 
 struct ClassAnalyzer<'a> {
     brand_check_names: &'a mut FxHashSet<JsWord>,
+    ignore_class: bool,
 }
 
 impl Visit for ClassAnalyzer<'_> {
@@ -443,7 +488,13 @@ impl Visit for ClassAnalyzer<'_> {
     }
 
     /// Noop
-    fn visit_class(&mut self, n: &Class, _: &dyn Node) {}
+    fn visit_class(&mut self, n: &Class, _: &dyn Node) {
+        if self.ignore_class {
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
 }
 
 #[derive(Default)]
