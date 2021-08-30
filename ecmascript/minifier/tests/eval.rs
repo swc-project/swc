@@ -262,3 +262,59 @@ fn partial_2() {
             ",
     );
 }
+
+#[test]
+fn partial_3() {
+    PartialInliner::expect(
+        "
+        const darken = c => c
+        const color = 'red'
+        const otherColor = 'green'
+        const mediumScreen = '680px'
+        const animationDuration = '200ms'
+        const animationName = 'my-cool-animation'
+        const obj = { display: 'block' }
+        
+        export const s1 = css`
+            p.${color} {
+                color: ${otherColor};
+                display: ${obj.display};
+            }
+        `;
+        export const s2 = css`
+            p.${color} {
+                color: ${darken(color)};
+            }
+        `;
+        export const s3 = css`
+            p.${color} {
+                color: ${darken(color) + 2};
+            }
+        `;
+
+        export const s4 = css`
+            @media (min-width: ${mediumScreen}) {
+                p {
+                    color: green;
+                }
+                p {
+                    color: ${`red`};
+                }
+                }
+                p {
+                    color: red;
+            }
+        `;
+        export default ({ display }) => (
+            css`
+                span {
+                    display: ${display ? 'block' : 'none'};
+                }
+            `
+        )
+            ",
+        "
+            
+            ",
+    );
+}
