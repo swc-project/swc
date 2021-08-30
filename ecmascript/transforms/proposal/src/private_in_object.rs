@@ -70,6 +70,8 @@ impl Mode {
 #[derive(Default)]
 struct PrivateInObject {
     vars: Vec<VarDeclarator>,
+    prepend_exprs: Vec<Box<Expr>>,
+
     injected_vars: FxHashSet<Id>,
     cls: ClassData,
 }
@@ -183,7 +185,14 @@ impl VisitMut for PrivateInObject {
 
         n.visit_mut_children_with(self);
 
-        self.vars.extend(take(&mut self.cls.vars));
+        match &mut self.cls.vars {
+            Mode::ClassDecl { vars } => {
+                self.vars.extend(take(vars));
+            }
+            _ => {
+                unreachable!()
+            }
+        }
 
         self.cls = old_cls;
     }
@@ -200,7 +209,15 @@ impl VisitMut for PrivateInObject {
 
         n.visit_mut_children_with(self);
 
-        self.vars.extend(take(&mut self.cls.vars));
+        match &mut self.cls.vars {
+            Mode::ClassExpr { vars, init_exprs } => {
+                self.vars.extend(take(vars));
+                self.prepend_exprs.extend(take(init_exprs));
+            }
+            _ => {
+                unreachable!()
+            }
+        }
 
         self.cls = old_cls;
     }
