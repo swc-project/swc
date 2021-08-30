@@ -1,9 +1,13 @@
 use super::Optimizer;
+use crate::mode::Mode;
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
 
 /// Methods related to the option `hoist_props`.
-impl Optimizer<'_> {
+impl<M> Optimizer<'_, M>
+where
+    M: Mode,
+{
     /// Store values of properties so we can replace property accesses with the
     /// values.
     pub(super) fn store_var_for_prop_hoisting(&mut self, n: &mut VarDeclarator) {

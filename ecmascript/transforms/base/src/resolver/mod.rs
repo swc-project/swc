@@ -13,7 +13,7 @@ mod tests;
 const LOG: bool = false;
 
 /// See [resolver_with_mark] for docs.
-pub fn resolver() -> impl 'static + Fold {
+pub fn resolver() -> impl 'static + Fold + VisitMut {
     resolver_with_mark(Mark::fresh(Mark::root()))
 }
 

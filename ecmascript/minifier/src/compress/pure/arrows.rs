@@ -1,11 +1,15 @@
 use super::Pure;
+use crate::mode::Mode;
 use swc_common::Spanned;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::contains_this_expr;
 
 /// Methods related to the option `arrows`.
-impl Pure<'_> {
+impl<M> Pure<'_, M>
+where
+    M: Mode,
+{
     pub(super) fn optimize_arrow_body(&mut self, b: &mut BlockStmtOrExpr) {
         if !self.options.arrows {
             return;

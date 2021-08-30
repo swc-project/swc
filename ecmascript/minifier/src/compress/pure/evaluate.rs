@@ -1,12 +1,18 @@
 use super::Pure;
-use crate::compress::util::{eval_as_number, is_pure_undefined_or_null};
+use crate::{
+    compress::util::{eval_as_number, is_pure_undefined_or_null},
+    mode::Mode,
+};
 use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{undefined, ExprExt, Value};
 
-impl Pure<'_> {
+impl<M> Pure<'_, M>
+where
+    M: Mode,
+{
     pub(super) fn eval_array_method_call(&mut self, e: &mut Expr) {
         if !self.options.evaluate {
             return;
@@ -351,7 +357,10 @@ impl Pure<'_> {
 }
 
 /// Evaluation of strings.
-impl Pure<'_> {
+impl<M> Pure<'_, M>
+where
+    M: Mode,
+{
     /// Handle calls on string literals, like `'foo'.toUpperCase()`.
     pub(super) fn eval_str_method_call(&mut self, e: &mut Expr) {
         if !self.options.evaluate {

@@ -1,8 +1,10 @@
+use self::util::replace_id_with_expr;
 use crate::{
     analyzer::{ProgramData, UsageAnalyzer},
     compress::util::is_pure_undefined,
     debug::dump,
     marks::Marks,
+    mode::Mode,
     option::CompressOptions,
     util::{contains_leaping_yield, MoudleItemExt},
 };
@@ -19,8 +21,6 @@ use swc_ecma_utils::{
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use Value::Known;
-
-use self::util::replace_id_with_expr;
 
 mod arguments;
 mod bools;
@@ -49,12 +49,16 @@ pub(super) struct OptimizerState {
 }
 
 /// This pass is simillar to `node.optimize` of terser.
-pub(super) fn optimizer<'a>(
+pub(super) fn optimizer<'a, M>(
     marks: Marks,
     options: &'a CompressOptions,
     data: &'a ProgramData,
     state: &'a mut OptimizerState,
-) -> impl 'a + VisitMut + Repeated {
+    mode: &'a M,
+) -> impl 'a + VisitMut + Repeated
+where
+    M: Mode,
+{
     assert!(
         options.top_retain.iter().all(|s| s.trim() != ""),
         "top_retain should not contain empty string"
@@ -79,6 +83,7 @@ pub(super) fn optimizer<'a>(
         done,
         done_ctxt,
         label: Default::default(),
+        mode,
     }
 }
 
@@ -178,7 +183,7 @@ impl Ctx {
     }
 }
 
-struct Optimizer<'a> {
+struct Optimizer<'a, M> {
     marks: Marks,
 
     changed: bool,
@@ -213,9 +218,11 @@ struct Optimizer<'a> {
 
     /// Closest label.
     label: Option<Id>,
+
+    mode: &'a M,
 }
 
-impl Repeated for Optimizer<'_> {
+impl<M> Repeated for Optimizer<'_, M> {
     fn changed(&self) -> bool {
         self.changed
     }
@@ -225,7 +232,10 @@ impl Repeated for Optimizer<'_> {
     }
 }
 
-impl Optimizer<'_> {
+impl<M> Optimizer<'_, M>
+where
+    M: Mode,
+{
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike + ModuleItemLike + MoudleItemExt + VisitMutWith<Self>,
@@ -1427,7 +1437,10 @@ impl Optimizer<'_> {
     }
 }
 
-impl VisitMut for Optimizer<'_> {
+impl<M> VisitMut for Optimizer<'_, M>
+where
+    M: Mode,
+{
     noop_visit_mut_type!();
 
     fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {

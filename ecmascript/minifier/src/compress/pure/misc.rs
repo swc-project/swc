@@ -1,8 +1,11 @@
 use super::Pure;
-use crate::compress::util::is_pure_undefined;
+use crate::{compress::util::is_pure_undefined, mode::Mode};
 use swc_ecma_ast::*;
 
-impl Pure<'_> {
+impl<M> Pure<'_, M>
+where
+    M: Mode,
+{
     pub(super) fn drop_undefined_from_return_arg(&mut self, s: &mut ReturnStmt) {
         match s.arg.as_deref() {
             Some(e) => {
