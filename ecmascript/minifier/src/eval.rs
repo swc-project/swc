@@ -9,7 +9,7 @@ use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_utils::{ident::IdentLike, ExprExt, Id};
+use swc_ecma_utils::{ident::IdentLike, undefined, ExprExt, Id};
 use swc_ecma_visit::{FoldWith, VisitMutWith};
 
 pub struct Evaluator {
@@ -181,7 +181,23 @@ impl Evaluator {
     }
 
     pub fn eval_tpl(&mut self, q: &Tpl) -> Option<EvalResult> {
-        let mut e = Expr::Tpl(q.clone());
+        self.run();
+
+        let mut exprs = vec![];
+
+        for expr in &q.exprs {
+            let res = self.eval(expr)?;
+            exprs.push(match res {
+                EvalResult::Lit(v) => Box::new(Expr::Lit(v)),
+                EvalResult::Undefined => undefined(DUMMY_SP),
+            });
+        }
+
+        let mut e = Expr::Tpl(Tpl {
+            span: q.span,
+            exprs,
+            quasis: q.quasis.clone(),
+        });
 
         e.visit_mut_with(&mut pure_optimizer(
             &serde_json::from_str("{}").unwrap(),
