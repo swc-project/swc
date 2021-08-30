@@ -1,5 +1,8 @@
 use fxhash::FxHashSet;
-use std::{borrow::Cow, mem::take};
+use std::{
+    borrow::Cow,
+    mem::{replace, take},
+};
 use swc_atoms::JsWord;
 use swc_common::{pass::CompilerPass, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -223,7 +226,27 @@ impl VisitMut for PrivateInObject {
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
+        let prev_prepend_exprs = take(&mut self.prepend_exprs);
+
         e.visit_mut_children_with(self);
+
+        let mut prepend_exprs = replace(&mut self.prepend_exprs, prev_prepend_exprs);
+
+        if !prepend_exprs.is_empty() {
+            match e {
+                Expr::Seq(e) => {
+                    e.exprs = prepend_exprs.into_iter().chain(e.exprs.take()).collect();
+                }
+                _ => {
+                    prepend_exprs.push(Box::new(e.take()));
+                    *e = Expr::Seq(SeqExpr {
+                        span: DUMMY_SP,
+                        exprs: prepend_exprs,
+                    });
+                }
+            }
+            return;
+        }
 
         match e {
             Expr::Bin(BinExpr {
