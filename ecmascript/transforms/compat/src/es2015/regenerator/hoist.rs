@@ -5,7 +5,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, private_ident};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
-pub(super) type Vars = SmallVec<[Ident; 32]>;
+pub(super) type Vars = SmallVec<[Ident; 12]>;
 
 pub(super) fn hoist<T>(node: T) -> (T, Hoister)
 where
