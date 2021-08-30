@@ -278,9 +278,6 @@ impl Resolve for NodeModulesResolver {
             _ => bail!("node-resolver supports only files"),
         };
 
-        let cwd = &Path::new(".");
-        let base_dir = base.parent().unwrap_or(&cwd);
-
         // Handle module references for the `browser` package config
         // before we map aliases.
         if let TargetEnv::Browser = self.target_env {
@@ -326,7 +323,7 @@ impl Resolve for NodeModulesResolver {
                 if let Some(Component::CurDir | Component::ParentDir) = components.next() {
                     #[cfg(windows)]
                     let path = {
-                        let base_dir = BasePath::new(base_dir).unwrap();
+                        let base_dir = BasePath::new(base).unwrap();
                         base_dir
                             .join(target.replace('/', "\\"))
                             .normalize_virtually()
@@ -334,7 +331,7 @@ impl Resolve for NodeModulesResolver {
                             .into_path_buf()
                     };
                     #[cfg(not(windows))]
-                    let path = base_dir.join(target);
+                    let path = base.join(target);
                     self.resolve_as_file(&path)
                         .or_else(|_| self.resolve_as_directory(&path))
                         .and_then(|p| self.wrap(p))
