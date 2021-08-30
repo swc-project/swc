@@ -1919,7 +1919,10 @@ export default function waitUntil(callback, options = {}) {
                     implements: Vec::new(),
                     body: vec!(ClassMember::StaticBlock(StaticBlock {
                         span,
-                        body: vec!(stmt("1 + 1;"))
+                        body: BlockStmt {
+                            span,
+                            stmts: vec!(stmt("1 + 1;")),
+                        }
                     }))
                 }
             }))
@@ -1955,11 +1958,17 @@ export default function waitUntil(callback, options = {}) {
                     body: vec!(
                         ClassMember::StaticBlock(StaticBlock {
                             span,
-                            body: vec!(stmt("1 + 1;"))
+                            body: BlockStmt {
+                                span,
+                                stmts: vec!(stmt("1 + 1;")),
+                            },
                         }),
                         ClassMember::StaticBlock(StaticBlock {
                             span,
-                            body: vec!(stmt("1 + 1;"))
+                            body: BlockStmt {
+                                span,
+                                stmts: vec!(stmt("1 + 1;")),
+                            },
                         })
                     )
                 }

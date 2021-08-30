@@ -546,7 +546,7 @@ define!({
     }
     pub struct StaticBlock {
         pub span: Span,
-        pub body: Vec<Stmt>,
+        pub body: BlockStmt,
     }
     pub enum MethodKind {
         Method,

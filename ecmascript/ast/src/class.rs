@@ -8,7 +8,7 @@ use crate::{
         Accessibility, TsExprWithTypeArgs, TsIndexSignature, TsTypeAnn, TsTypeParamDecl,
         TsTypeParamInstantiation,
     },
-    EmptyStmt, Stmt,
+    EmptyStmt,
 };
 use is_macro::Is;
 use serde::{Deserialize, Serialize};
@@ -246,5 +246,5 @@ pub enum MethodKind {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct StaticBlock {
     pub span: Span,
-    pub body: Vec<Stmt>,
+    pub body: BlockStmt,
 }
