@@ -110,20 +110,51 @@ impl PartialInliner {
             //
             module.visit_mut_with(inliner);
 
-            let mut buf = vec![];
+            let expected_module = {
+                let fm = cm.new_source_file(FileName::Anon, expected.to_string());
+                let lexer = Lexer::new(
+                    Syntax::Es(EsConfig {
+                        jsx: true,
+                        ..Default::default()
+                    }),
+                    EsVersion::latest(),
+                    SourceFileInput::from(&*fm),
+                    None,
+                );
+                let mut parser = Parser::new_from(lexer);
+                parser.parse_module().unwrap()
+            };
+            let expected = {
+                let mut buf = vec![];
 
-            {
-                let mut emitter = Emitter {
-                    cfg: Default::default(),
-                    cm: cm.clone(),
-                    comments: None,
-                    wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
-                };
+                {
+                    let mut emitter = Emitter {
+                        cfg: Default::default(),
+                        cm: cm.clone(),
+                        comments: None,
+                        wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
+                    };
 
-                emitter.emit_module(&module).unwrap();
-            }
+                    emitter.emit_module(&expected_module).unwrap();
+                }
+                String::from_utf8(buf).unwrap()
+            };
 
-            let actual = String::from_utf8(buf).unwrap();
+            let actual = {
+                let mut buf = vec![];
+
+                {
+                    let mut emitter = Emitter {
+                        cfg: Default::default(),
+                        cm: cm.clone(),
+                        comments: None,
+                        wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
+                    };
+
+                    emitter.emit_module(&module).unwrap();
+                }
+                String::from_utf8(buf).unwrap()
+            };
 
             assert_eq!(DebugUsingDisplay(&expected), DebugUsingDisplay(&actual));
         });
@@ -161,6 +192,8 @@ fn partial_1() {
             `
             ",
         "
+            const color = 'red'
+
             export const foo = css`
             div {
                 color: red;
