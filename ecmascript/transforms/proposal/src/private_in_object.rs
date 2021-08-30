@@ -468,4 +468,12 @@ impl Visit for ShouldWork {
 
         e.visit_children_with(self);
     }
+
+    fn visit_private_method(&mut self, _: &PrivateMethod, _: &dyn Node) {
+        self.found = true;
+    }
+
+    fn visit_private_prop(&mut self, _: &PrivateProp, _: &dyn Node) {
+        self.found = true;
+    }
 }
