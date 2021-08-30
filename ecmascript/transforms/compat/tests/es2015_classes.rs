@@ -6534,7 +6534,7 @@ var Extended = function(Base) {
     "
 );
 
-#[testing::fixture("tests/fixture/**/exec.js")]
+#[testing::fixture("tests/fixture/classes/**/exec.js")]
 fn exec(input: PathBuf) {
     let src = read_to_string(&input).unwrap();
     compare_stdout(
