@@ -444,9 +444,23 @@ fn partial_7() {
                 }
             `
         )
-            ",
+        ",
         "
-            
-            ",
+        const darken = c => c
+        const color = 'red'
+        const otherColor = 'green'
+        const mediumScreen = '680px'
+        const animationDuration = '200ms'
+        const animationName = 'my-cool-animation'
+        const obj = { display: 'block' }
+        
+        export default ({ display }) => (
+            css`
+                span {
+                    display: ${display ? 'block' : 'none'};
+                }
+            `
+        )
+        ",
     );
 }
