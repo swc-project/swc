@@ -278,8 +278,12 @@ impl Resolve for NodeModulesResolver {
             _ => bail!("node-resolver supports only files"),
         };
 
-        let cwd = &Path::new(".");
-        let base_dir = base.parent().unwrap_or(&cwd);
+        let base_dir = if base.is_file() {
+            let cwd = &Path::new(".");
+            base.parent().unwrap_or(&cwd)
+        } else {
+            base
+        };
 
         // Handle module references for the `browser` package config
         // before we map aliases.
@@ -339,7 +343,7 @@ impl Resolve for NodeModulesResolver {
                         .or_else(|_| self.resolve_as_directory(&path))
                         .and_then(|p| self.wrap(p))
                 } else {
-                    self.resolve_node_modules(base, target)
+                    self.resolve_node_modules(base_dir, target)
                         .and_then(|p| self.wrap(p))
                 }
             }
