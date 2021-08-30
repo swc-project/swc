@@ -175,10 +175,6 @@ impl Evaluator {
                 return Some(val.clone());
             }
 
-            _ => {}
-        }
-
-        match e {
             Expr::Member(MemberExpr {
                 span,
                 obj: ExprOrSuper::Expr(obj),
