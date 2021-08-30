@@ -264,6 +264,7 @@ fn partial_2() {
 }
 
 #[test]
+#[ignore]
 fn partial_3() {
     PartialInliner::expect(
         "
@@ -302,6 +303,7 @@ fn partial_3() {
 }
 
 #[test]
+#[ignore]
 fn partial_4() {
     PartialInliner::expect(
         "
