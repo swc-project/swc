@@ -1927,6 +1927,47 @@ export default function waitUntil(callback, options = {}) {
     }
 
     #[test]
+    fn multiple_class_static_blocks() {
+        let src = "class Foo { static { 1 + 1; } static { 1 + 1; } }";
+        assert_eq_ignore_span!(
+            test_parser(
+                src,
+                Syntax::Es(EsConfig {
+                    static_blocks: true,
+                    ..Default::default()
+                }),
+                |p| p.parse_expr()
+            ),
+            Box::new(Expr::Class(ClassExpr {
+                ident: Some(Ident {
+                    span,
+                    sym: "Foo".into(),
+                    optional: false,
+                }),
+                class: Class {
+                    span,
+                    decorators: Vec::new(),
+                    super_class: None,
+                    type_params: None,
+                    super_type_params: None,
+                    is_abstract: false,
+                    implements: Vec::new(),
+                    body: vec!(
+                        ClassMember::StaticBlock(StaticBlock {
+                            span,
+                            body: vec!(stmt("1 + 1;"))
+                        }),
+                        ClassMember::StaticBlock(StaticBlock {
+                            span,
+                            body: vec!(stmt("1 + 1;"))
+                        })
+                    )
+                }
+            }))
+        );
+    }
+
+    #[test]
     fn class_static_blocks_in_ts() {
         let src = "class Foo { static { 1 + 1 }; }";
         test_parser(src, Syntax::Typescript(Default::default()), |p| {
