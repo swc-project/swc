@@ -283,8 +283,21 @@ fn partial_3() {
         `;
             ",
         "
-            
-            ",
+        const darken = c => c
+        const color = 'red'
+        const otherColor = 'green'
+        const mediumScreen = '680px'
+        const animationDuration = '200ms'
+        const animationName = 'my-cool-animation'
+        const obj = { display: 'block' }
+        
+        export const s1 = css`
+            p.red {
+                color: 'green'
+                display: 'block';
+            }
+        `    
+        ",
     );
 }
 
@@ -305,10 +318,22 @@ fn partial_4() {
                 color: ${darken(color)};
             }
         `;
-            ",
+        ",
         "
-            
-            ",
+        const darken = c => c
+        const color = 'red'
+        const otherColor = 'green'
+        const mediumScreen = '680px'
+        const animationDuration = '200ms'
+        const animationName = 'my-cool-animation'
+        const obj = { display: 'block' }
+        
+        export const s2 = css`
+        p.red {
+            color: 'red';
+        }
+        `
+        ",
     );
 }
 
