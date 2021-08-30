@@ -72,12 +72,12 @@ struct PrivateInObject {
     vars: Vec<VarDeclarator>,
     injected_vars: FxHashSet<Id>,
     cls: ClassData,
-
-    cls_ident: Option<Ident>,
 }
 
 #[derive(Default)]
 struct ClassData {
+    ident: Option<Ident>,
+
     vars: Mode,
 
     /// [Mark] for the current class.
@@ -113,10 +113,6 @@ impl VisitMut for PrivateInObject {
     noop_visit_mut_type!();
 
     fn visit_mut_class(&mut self, n: &mut Class) {
-        let old_cls = take(&mut self.cls);
-
-        self.cls.mark = Mark::fresh(Mark::root());
-
         {
             n.visit_children_with(&mut ClassAnalyzer {
                 brand_check_names: &mut self.cls.names_used_for_brand_checks,
@@ -174,30 +170,39 @@ impl VisitMut for PrivateInObject {
                 }
             }
         }
+    }
+
+    fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
+        let old_cls = take(&mut self.cls);
+
+        self.cls.mark = Mark::fresh(Mark::root());
+        self.cls.ident = Some(n.ident.clone());
+        self.cls.vars = Mode::ClassDecl {
+            vars: Default::default(),
+        };
+
+        n.visit_mut_children_with(self);
 
         self.vars.extend(take(&mut self.cls.vars));
 
         self.cls = old_cls;
     }
 
-    fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
-        let old_cls_ident = take(&mut self.cls_ident);
-        self.cls_ident = Some(n.ident.clone());
-
-        n.visit_mut_children_with(self);
-
-        self.cls_ident = old_cls_ident;
-    }
-
     fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
-        let old_cls_ident = take(&mut self.cls_ident);
+        let old_cls = take(&mut self.cls);
 
-        let i = n.ident.get_or_insert_with(|| private_ident!("_class"));
-        self.cls_ident = Some(i.clone());
+        self.cls.mark = Mark::fresh(Mark::root());
+        self.cls.ident = n.ident.clone();
+        self.cls.vars = Mode::ClassExpr {
+            vars: Default::default(),
+            init_exprs: Default::default(),
+        };
 
         n.visit_mut_children_with(self);
 
-        self.cls_ident = old_cls_ident;
+        self.vars.extend(take(&mut self.cls.vars));
+
+        self.cls = old_cls;
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
@@ -215,7 +220,7 @@ impl VisitMut for PrivateInObject {
                 let is_static = self.cls.statics.contains(&left.id.sym);
                 let is_method = self.cls.methods.contains(&left.id.sym);
 
-                if let Some(cls_ident) = self.cls_ident.clone() {
+                if let Some(cls_ident) = self.cls.ident.clone() {
                     if is_static && is_method {
                         *e = Expr::Bin(BinExpr {
                             span: *span,
