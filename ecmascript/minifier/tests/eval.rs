@@ -281,17 +281,73 @@ fn partial_3() {
                 display: ${obj.display};
             }
         `;
+            ",
+        "
+            
+            ",
+    );
+}
+
+#[test]
+fn partial_4() {
+    PartialInliner::expect(
+        "
+        const darken = c => c
+        const color = 'red'
+        const otherColor = 'green'
+        const mediumScreen = '680px'
+        const animationDuration = '200ms'
+        const animationName = 'my-cool-animation'
+        const obj = { display: 'block' }
+        
         export const s2 = css`
             p.${color} {
                 color: ${darken(color)};
             }
         `;
+            ",
+        "
+            
+            ",
+    );
+}
+
+#[test]
+fn partial_5() {
+    PartialInliner::expect(
+        "
+        const darken = c => c
+        const color = 'red'
+        const otherColor = 'green'
+        const mediumScreen = '680px'
+        const animationDuration = '200ms'
+        const animationName = 'my-cool-animation'
+        const obj = { display: 'block' }
+        
         export const s3 = css`
             p.${color} {
                 color: ${darken(color) + 2};
             }
         `;
+        ",
+        "
+            
+        ",
+    );
+}
 
+#[test]
+fn partial_6() {
+    PartialInliner::expect(
+        "
+        const darken = c => c
+        const color = 'red'
+        const otherColor = 'green'
+        const mediumScreen = '680px'
+        const animationDuration = '200ms'
+        const animationName = 'my-cool-animation'
+        const obj = { display: 'block' }
+        
         export const s4 = css`
             @media (min-width: ${mediumScreen}) {
                 p {
@@ -305,6 +361,25 @@ fn partial_3() {
                     color: red;
             }
         `;
+        ",
+        "
+            
+            ",
+    );
+}
+
+#[test]
+fn partial_7() {
+    PartialInliner::expect(
+        "
+        const darken = c => c
+        const color = 'red'
+        const otherColor = 'green'
+        const mediumScreen = '680px'
+        const animationDuration = '200ms'
+        const animationName = 'my-cool-animation'
+        const obj = { display: 'block' }
+        
         export default ({ display }) => (
             css`
                 span {
