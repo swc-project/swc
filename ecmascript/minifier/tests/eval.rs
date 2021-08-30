@@ -293,7 +293,7 @@ fn partial_3() {
         
         export const s1 = css`
             p.red {
-                color: green
+                color: green;
                 display: block;
             }
         `    
