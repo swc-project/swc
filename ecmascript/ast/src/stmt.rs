@@ -103,6 +103,12 @@ pub enum Stmt {
     Expr(ExprStmt),
 }
 
+impl Take for Stmt {
+    fn dummy() -> Self {
+        Self::Empty(EmptyStmt { span: DUMMY_SP })
+    }
+}
+
 #[ast_node("ExpressionStatement")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]

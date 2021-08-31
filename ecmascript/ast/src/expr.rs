@@ -17,7 +17,7 @@ use crate::{
 };
 use is_macro::Is;
 use serde::{self, Deserialize, Serialize};
-use swc_common::{ast_node, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
 
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
@@ -150,6 +150,12 @@ pub enum Expr {
 
     #[tag("Invalid")]
     Invalid(Invalid),
+}
+
+impl Take for Expr {
+    fn dummy() -> Self {
+        Expr::Invalid(Invalid { span: DUMMY_SP })
+    }
 }
 
 #[ast_node("ThisExpression")]
