@@ -7,7 +7,6 @@ use crate::{
 };
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{prepend, undefined, StmtLike};
 use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 

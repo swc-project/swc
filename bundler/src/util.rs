@@ -1,5 +1,4 @@
-use std::{clone::Clone, cmp::Eq, hash::Hash, mem::replace};
-use swc_atoms::js_word;
+use std::{clone::Clone, cmp::Eq, hash::Hash};
 use swc_common::{Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;

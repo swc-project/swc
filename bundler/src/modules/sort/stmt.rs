@@ -1,11 +1,11 @@
 use super::graph::Required;
-use crate::{id::Id, modules::sort::graph::StmtDepGraph, util::MapWithMut};
+use crate::{id::Id, modules::sort::graph::StmtDepGraph};
 use fxhash::{FxHashMap, FxHashSet};
 use indexmap::IndexSet;
 use petgraph::EdgeDirection::{Incoming as Dependants, Outgoing as Dependancies};
 use std::{collections::VecDeque, iter::from_fn, ops::Range};
 use swc_atoms::js_word;
-use swc_common::{sync::Lrc, SourceMap, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{sync::Lrc, util::take::Take, SourceMap, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
 use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};

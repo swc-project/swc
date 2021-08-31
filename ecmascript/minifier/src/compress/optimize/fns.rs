@@ -7,7 +7,6 @@ use crate::{
 };
 use std::cmp::Ordering;
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::MapWithMut;
 
 impl<M> Optimizer<'_, M>
 where
