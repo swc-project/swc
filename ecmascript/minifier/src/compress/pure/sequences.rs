@@ -1,6 +1,6 @@
 use super::Pure;
 use crate::{compress::util::get_lhs_ident, mode::Mode};
-use swc_common::{SyntaxContext, DUMMY_SP};
+use swc_common::{util::take::Take, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, ExprFactory};
 

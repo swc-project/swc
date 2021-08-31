@@ -3,7 +3,6 @@ use std::f64;
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{ExprExt, Id, UsageFinder, Value};
 use swc_ecma_visit::VisitWith;
 use unicode_xid::UnicodeXID;

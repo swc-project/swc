@@ -2,7 +2,6 @@ use super::Pure;
 use crate::mode::Mode;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{prepend, StmtLike};
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Node, Visit, VisitMut, VisitMutWith, VisitWith,

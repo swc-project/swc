@@ -472,6 +472,17 @@ pub struct TplElement {
     pub raw: Str,
 }
 
+impl Take for TplElement {
+    fn dummy() -> Self {
+        TplElement {
+            span: DUMMY_SP,
+            tail: Default::default(),
+            cooked: Take::dummy(),
+            raw: Take::dummy(),
+        }
+    }
+}
+
 #[ast_node("ParenthesisExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
