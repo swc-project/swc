@@ -6,7 +6,7 @@ use crate::{
 use fxhash::FxHashMap;
 use std::sync::{Arc, Mutex};
 use swc_atoms::js_word;
-use swc_common::DUMMY_SP;
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::optimization::simplify::expr_simplifier;
 use swc_ecma_utils::{ident::IdentLike, undefined, ExprExt, ExprFactory, Id};

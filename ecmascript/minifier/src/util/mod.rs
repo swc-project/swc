@@ -2,6 +2,7 @@ use fxhash::FxHashSet;
 use std::time::Instant;
 use swc_common::{
     pass::{CompilerPass, Repeated},
+    util::take::Take,
     Mark, Span, DUMMY_SP,
 };
 use swc_ecma_ast::*;
