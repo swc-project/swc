@@ -266,6 +266,17 @@ pub struct JSXFragment {
     pub closing: JSXClosingFragment,
 }
 
+impl Take for JSXFragment {
+    fn dummy() -> Self {
+        JSXFragment {
+            span: DUMMY_SP,
+            opening: Take::dummy(),
+            children: Take::dummy(),
+            closing: Take::dummy(),
+        }
+    }
+}
+
 #[ast_node("JSXOpeningFragment")]
 #[derive(Eq, Hash, Copy, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -273,9 +284,21 @@ pub struct JSXOpeningFragment {
     pub span: Span,
 }
 
+impl Take for JSXOpeningFragment {
+    fn dummy() -> Self {
+        JSXOpeningFragment { span: DUMMY_SP }
+    }
+}
+
 #[ast_node("JSXClosingFragment")]
 #[derive(Eq, Hash, Copy, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct JSXClosingFragment {
     pub span: Span,
+}
+
+impl Take for JSXClosingFragment {
+    fn dummy() -> Self {
+        JSXClosingFragment { span: DUMMY_SP }
+    }
 }
