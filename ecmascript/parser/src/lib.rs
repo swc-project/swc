@@ -306,10 +306,6 @@ pub struct TsConfig {
     /// Stage 3.
     #[serde(default)]
     pub import_assertions: bool,
-
-    #[serde(default)]
-    #[serde(rename = "staticBlocks")]
-    pub static_blocks: bool,
 }
 
 #[derive(Debug, Clone, Copy, Default, Serialize, Deserialize)]
