@@ -568,6 +568,12 @@ pub enum PatOrExpr {
     Pat(Box<Pat>),
 }
 
+impl Take for PatOrExpr {
+    fn dummy() -> Self {
+        PatOrExpr::Pat(Take::dummy())
+    }
+}
+
 impl From<bool> for Expr {
     fn from(value: bool) -> Self {
         Expr::Lit(Lit::Bool(Bool {
