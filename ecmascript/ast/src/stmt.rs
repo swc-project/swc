@@ -5,7 +5,7 @@ use crate::{
     pat::Pat,
 };
 use is_macro::Is;
-use swc_common::{ast_node, EqIgnoreSpan, Span};
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 /// Use when only block statements are allowed.
 #[ast_node("BlockStatement")]
@@ -16,6 +16,15 @@ pub struct BlockStmt {
     pub span: Span,
 
     pub stmts: Vec<Stmt>,
+}
+
+impl Take for BlockStmt {
+    fn dummy() -> Self {
+        BlockStmt {
+            span: DUMMY_SP,
+            stmts: vec![],
+        }
+    }
 }
 
 #[ast_node]
