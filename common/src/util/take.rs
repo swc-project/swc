@@ -11,6 +11,7 @@ pub trait Take: Sized {
         replace(self, Self::dummy())
     }
 
+    /// Create a dummy value of this type.
     fn dummy() -> Self;
 
     /// Mutate `self` using `op`, which accepts owned data.
