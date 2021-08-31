@@ -1,4 +1,4 @@
-use crate::ext::{AsOptExpr, MapWithMut, PatOrExprExt};
+use crate::ext::{AsOptExpr, PatOrExprExt};
 use fxhash::FxHashMap;
 use swc_common::{comments::Comments, Span, Spanned};
 use swc_ecma_ast::*;
