@@ -1,7 +1,7 @@
 use crate::{module_decl::ModuleDecl, stmt::Stmt};
 use is_macro::Is;
 use swc_atoms::JsWord;
-use swc_common::{ast_node, EqIgnoreSpan, Span};
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span};
 
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
@@ -77,4 +77,10 @@ pub enum ModuleItem {
     ModuleDecl(ModuleDecl),
     #[tag("*")]
     Stmt(Stmt),
+}
+
+impl Take for ModuleItem {
+    fn dummy() -> Self {
+        ModuleItem::Stmt(Take::dummy())
+    }
 }
