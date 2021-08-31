@@ -1,3 +1,4 @@
+use crate::{Span, DUMMY_SP};
 use std::mem::replace;
 
 /// Helper for people who are working on `VisitMut`.
@@ -43,5 +44,11 @@ where
 impl<T> Take for Vec<T> {
     fn dummy() -> Self {
         vec![]
+    }
+}
+
+impl Take for Span {
+    fn dummy() -> Self {
+        DUMMY_SP
     }
 }
