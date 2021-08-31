@@ -1,6 +1,5 @@
 use self::ops::{Operations, Operator};
 use crate::{
-    ext::MapWithMut,
     native::{is_native, is_native_word},
     scope::{IdentType, ScopeKind},
 };

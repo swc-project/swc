@@ -1,9 +1,8 @@
-use std::fmt::Display;
-
 use crate::typescript::TsTypeAnn;
 use serde::{Deserialize, Serialize};
-use swc_atoms::JsWord;
-use swc_common::{ast_node, EqIgnoreSpan, Span, Spanned};
+use std::fmt::Display;
+use swc_atoms::{js_word, JsWord};
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
 
 /// Identifer used as a pattern.
 #[derive(Spanned, Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan, Serialize, Deserialize)]
@@ -33,6 +32,12 @@ pub struct Ident {
     /// TypeScript only. Used in case of an optional parameter.
     #[serde(default)]
     pub optional: bool,
+}
+
+impl Take for Ident {
+    fn dummy() -> Self {
+        Ident::new(js_word!(""), DUMMY_SP)
+    }
 }
 
 impl Display for Ident {
