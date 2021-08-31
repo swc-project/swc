@@ -1,7 +1,6 @@
 use arrayvec::ArrayVec;
-use swc_common::{Mark, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{
     contains_this_expr, member_expr, prepend, prepend_stmts, private_ident, quote_ident,
     ExprFactory,

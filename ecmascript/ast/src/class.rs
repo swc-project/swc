@@ -12,7 +12,7 @@ use crate::{
 };
 use is_macro::Is;
 use serde::{Deserialize, Serialize};
-use swc_common::{ast_node, EqIgnoreSpan, Span};
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 #[ast_node]
 #[derive(Eq, Hash, EqIgnoreSpan)]
@@ -43,6 +43,21 @@ pub struct Class {
     pub implements: Vec<TsExprWithTypeArgs>,
 }
 
+impl Take for Class {
+    fn dummy() -> Self {
+        Class {
+            span: DUMMY_SP,
+            decorators: Default::default(),
+            body: Default::default(),
+            super_class: Default::default(),
+            is_abstract: Default::default(),
+            type_params: Default::default(),
+            super_type_params: Default::default(),
+            implements: Default::default(),
+        }
+    }
+}
+
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -67,6 +82,12 @@ pub enum ClassMember {
     // Stage 3
     #[tag("StaticBlock")]
     StaticBlock(StaticBlock),
+}
+
+impl Take for ClassMember {
+    fn dummy() -> Self {
+        ClassMember::Empty(EmptyStmt { span: DUMMY_SP })
+    }
 }
 
 #[ast_node("ClassProperty")]
