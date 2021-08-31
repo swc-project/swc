@@ -545,6 +545,12 @@ pub enum BlockStmtOrExpr {
     Expr(Box<Expr>),
 }
 
+impl Take for BlockStmtOrExpr {
+    fn dummy() -> Self {
+        BlockStmtOrExpr::Expr(Take::dummy())
+    }
+}
+
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]

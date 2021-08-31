@@ -4,7 +4,6 @@ use std::mem::take;
 use swc_atoms::{js_word, JsWord};
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{ExprExt, Type, Value};
 
 impl<M> Pure<'_, M>

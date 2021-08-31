@@ -2,7 +2,6 @@ use super::Pure;
 use crate::{compress::util::get_lhs_ident, mode::Mode};
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{ExprExt, ExprFactory};
 
 impl<M> Pure<'_, M>

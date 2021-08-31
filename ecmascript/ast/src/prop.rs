@@ -8,7 +8,7 @@ use crate::{
     typescript::TsTypeAnn,
 };
 use is_macro::Is;
-use swc_common::{ast_node, EqIgnoreSpan, Span};
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span};
 
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
@@ -105,6 +105,12 @@ pub enum PropName {
     Computed(ComputedPropName),
     #[tag("BigInt")]
     BigInt(BigInt),
+}
+
+impl Take for PropName {
+    fn dummy() -> Self {
+        PropName::Ident(Take::dummy())
+    }
 }
 
 #[ast_node("Computed")]
