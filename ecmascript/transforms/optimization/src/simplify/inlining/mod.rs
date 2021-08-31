@@ -2,6 +2,7 @@ use self::scope::{Scope, ScopeKind, VarType};
 use std::borrow::Cow;
 use swc_common::{
     pass::{CompilerPass, Repeated},
+    util::take::Take,
     DUMMY_SP,
 };
 use swc_ecma_ast::*;
