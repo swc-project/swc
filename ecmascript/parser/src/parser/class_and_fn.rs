@@ -435,14 +435,11 @@ impl<'a, I: Tokens> Parser<I> {
         )
     }
 
-    fn parse_static_block(&mut self) -> PResult<ClassMember> {
-        let start = cur_pos!(self);
-        expect!(self, '{');
-
-        let stmts = self.parse_block_body(false, false, Some(&tok!('}')))?;
+    fn parse_static_block(&mut self, start: BytePos) -> PResult<ClassMember> {
+        let body = self.parse_block(false)?;
 
         let span = span!(self, start);
-        Ok(StaticBlock { span, body: stmts }.into())
+        Ok(StaticBlock { span, body }.into())
     }
 
     #[allow(clippy::cognitive_complexity)]
@@ -533,7 +530,7 @@ impl<'a, I: Tokens> Parser<I> {
                 if accessibility.is_some() {
                     self.emit_err(self.input.cur_span(), SyntaxError::TS1184);
                 }
-                return self.parse_static_block();
+                return self.parse_static_block(start);
             }
             if is!(self, "static") && peeked_is!(self, '{') {
                 // For "readonly", "abstract" and "override"
@@ -544,7 +541,7 @@ impl<'a, I: Tokens> Parser<I> {
                     self.emit_err(span, SyntaxError::TS1184);
                 }
                 bump!(self); // consume "static"
-                return self.parse_static_block();
+                return self.parse_static_block(start);
             }
         }
 
