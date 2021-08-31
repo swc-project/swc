@@ -1,7 +1,7 @@
 use super::Optimizer;
 use crate::{compress::util::is_directive, mode::Mode};
+use swc_common::util::take::Take;
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::StmtLike;
 
 /// Methods related to option `join_vars`.

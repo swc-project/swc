@@ -1,9 +1,8 @@
 use super::Pure;
 use crate::{compress::util::always_terminates, mode::Mode};
 use swc_atoms::js_word;
-use swc_common::DUMMY_SP;
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{ExprExt, StmtLike, Value};
 
 /// Methods related to option `dead_code`.

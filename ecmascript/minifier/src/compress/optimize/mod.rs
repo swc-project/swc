@@ -12,9 +12,10 @@ use fxhash::FxHashMap;
 use retain_mut::RetainMut;
 use std::{fmt::Write, mem::take};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{iter::IdentifyLast, pass::Repeated, Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{
+    iter::IdentifyLast, pass::Repeated, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP,
+};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{
     ident::IdentLike, undefined, ExprExt, ExprFactory, Id, IsEmpty, ModuleItemLike, StmtLike, Type,
     Value,

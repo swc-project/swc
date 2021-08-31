@@ -6,6 +6,7 @@ use crate::{
     DISABLE_BUGGY_PASSES,
 };
 use std::cmp::Ordering;
+use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 
 impl<M> Optimizer<'_, M>

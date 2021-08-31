@@ -2,9 +2,8 @@ use crate::{
     compress::optimize::{unused::UnreachableHandler, Optimizer},
     mode::Mode,
 };
-use swc_common::DUMMY_SP;
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{ExprExt, Value::Known};
 
 /// Methods related to the option `loops`.

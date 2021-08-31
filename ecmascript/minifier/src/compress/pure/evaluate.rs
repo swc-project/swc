@@ -6,7 +6,6 @@ use crate::{
 use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{undefined, ExprExt, Value};
 
 impl<M> Pure<'_, M>
