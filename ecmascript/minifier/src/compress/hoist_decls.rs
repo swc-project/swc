@@ -3,7 +3,7 @@ use crate::{
     util::{is_hoisted_var_decl_without_init, sort::is_sorted_by_key, IsModuleItem},
 };
 use fxhash::FxHashSet;
-use swc_common::{DUMMY_SP, pass::Repeated, util::take::Take};
+use swc_common::{pass::Repeated, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id, StmtLike};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
