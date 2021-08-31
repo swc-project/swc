@@ -340,6 +340,17 @@ pub struct CallExpr {
     // pub type_params: Option<TsTypeParamInstantiation>,
 }
 
+impl Take for CallExpr {
+    fn dummy() -> Self {
+        CallExpr {
+            span: DUMMY_SP,
+            callee: Take::dummy(),
+            args: Take::dummy(),
+            type_args: Take::dummy(),
+        }
+    }
+}
+
 #[ast_node("NewExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -484,11 +495,23 @@ pub enum ExprOrSuper {
     Expr(Box<Expr>),
 }
 
+impl Take for ExprOrSuper {
+    fn dummy() -> Self {
+        ExprOrSuper::Super(Take::dummy())
+    }
+}
+
 #[ast_node("Super")]
 #[derive(Eq, Hash, Copy, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Super {
     pub span: Span,
+}
+
+impl Take for Super {
+    fn dummy() -> Self {
+        Super { span: DUMMY_SP }
+    }
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, Eq, Hash, EqIgnoreSpan)]
