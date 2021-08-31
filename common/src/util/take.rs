@@ -3,13 +3,26 @@ use std::mem::replace;
 /// Helper for people who are working on `VisitMut`.
 ///
 ///
-/// All ast nodes should implement this trait.
+/// This trait is implemented for ast nodes. If not and you need it, please file
+/// an issue.
 pub trait Take: Sized {
     fn take(&mut self) -> Self {
         replace(self, Self::dummy())
     }
 
     fn dummy() -> Self;
+
+    /// Mutate `self` using `op`, which accepts owned data.
+    #[inline]
+    fn map_with_mut<F>(&mut self, op: F)
+    where
+        F: FnOnce(Self) -> Self,
+    {
+        let dummy = Self::dummy();
+        let cur_val = replace(self, dummy);
+        let new_val = op(cur_val);
+        let _dummy = replace(self, new_val);
+    }
 }
 
 impl<T> Take for Option<T> {
