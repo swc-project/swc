@@ -6,7 +6,7 @@ use crate::{
     Invalid,
 };
 use is_macro::Is;
-use swc_common::{ast_node, EqIgnoreSpan, Span};
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 impl From<Ident> for Pat {
     fn from(i: Ident) -> Self {
@@ -39,6 +39,12 @@ pub enum Pat {
     /// Only for for-in / for-of loops. This is *syntactically* valid.
     #[tag("*")]
     Expr(Box<Expr>),
+}
+
+impl Take for Pat {
+    fn dummy() -> Self {
+        Pat::Invalid(Invalid { span: DUMMY_SP })
+    }
 }
 
 #[ast_node("ArrayPattern")]

@@ -7,7 +7,8 @@ use either::Either;
 use std::{cell::RefCell, collections::HashMap, rc::Rc, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::{
-    chain, comments::Comments, errors::Handler, sync::Lrc, FileName, Mark, SourceMap,
+    chain, comments::Comments, errors::Handler, sync::Lrc, util::take::Take, FileName, Mark,
+    SourceMap,
 };
 use swc_ecma_ast::Module;
 use swc_ecma_minifier::{hygiene_optimizer, option::MinifyOptions, unique_scope};
@@ -16,7 +17,6 @@ use swc_ecma_transforms::{
     compat, fixer, helpers, hygiene, hygiene::hygiene_with_config, modules, modules::util::Scope,
     optimization::const_modules, pass::Optional, proposals::import_assertions, typescript,
 };
-use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut};
 
 /// Builder is used to create a high performance `Compiler`.

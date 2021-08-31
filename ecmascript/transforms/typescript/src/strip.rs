@@ -2,9 +2,11 @@ use fxhash::{FxHashMap, FxHashSet};
 use serde::{Deserialize, Serialize};
 use std::{borrow::Borrow, mem::take};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{util::move_map::MoveMap, Span, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{
+    util::{move_map::MoveMap, take::Take},
+    Span, Spanned, SyntaxContext, DUMMY_SP,
+};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{
     constructor::inject_after_super, default_constructor, ident::IdentLike, member_expr, prepend,
     private_ident, quote_ident, replace_ident, var::VarCollector, ExprFactory, Id, ModuleItemLike,

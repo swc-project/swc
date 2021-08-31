@@ -10,11 +10,12 @@ use swc_common::{
     comments::{CommentKind, Comments},
     iter::IdentifyLast,
     sync::Lrc,
+    util::take::Take,
     FileName, SourceMap, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_parser::{Parser, StringInput, Syntax};
-use swc_ecma_transforms_base::{ext::MapWithMut, helper};
+use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
     drop_span, member_expr, prepend, private_ident, quote_ident, ExprFactory, HANDLER,
 };

@@ -1,7 +1,9 @@
-use crate::ext::MapWithMut;
 use fxhash::FxHashMap;
 use swc_atoms::JsWord;
-use swc_common::{util::move_map::MoveMap, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{
+    util::{move_map::MoveMap, take::Take},
+    Spanned, SyntaxContext, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};

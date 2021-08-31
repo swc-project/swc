@@ -9,9 +9,9 @@ use crate::{
     DISABLE_BUGGY_PASSES,
 };
 use std::mem::swap;
-use swc_common::{EqIgnoreSpan, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::{AsOptExpr, ExprRefExt, MapWithMut};
+use swc_ecma_transforms_base::ext::{AsOptExpr, ExprRefExt};
 use swc_ecma_utils::{ident::IdentLike, ExprExt, ExprFactory, StmtLike};
 
 /// Methods related to the option `conditionals`. All methods are noop if

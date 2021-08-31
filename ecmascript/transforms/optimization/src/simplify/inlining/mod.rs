@@ -2,14 +2,11 @@ use self::scope::{Scope, ScopeKind, VarType};
 use std::borrow::Cow;
 use swc_common::{
     pass::{CompilerPass, Repeated},
+    util::take::Take,
     DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{
-    ext::{MapWithMut, PatOrExprExt},
-    pass::RepeatedJsPass,
-    scope::IdentType,
-};
+use swc_ecma_transforms_base::{ext::PatOrExprExt, pass::RepeatedJsPass, scope::IdentType};
 use swc_ecma_utils::{contains_this_expr, find_ids, ident::IdentLike, undefined, Id};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Node, Visit, VisitMut, VisitMutWith, VisitWith,

@@ -1,6 +1,5 @@
 use self::ops::{Operations, Operator};
 use crate::{
-    ext::MapWithMut,
     native::{is_native, is_native_word},
     scope::{IdentType, ScopeKind},
 };
@@ -8,7 +7,7 @@ use fxhash::{FxHashMap, FxHashSet};
 use smallvec::{smallvec, SmallVec};
 use std::{cell::RefCell, collections::HashMap};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{chain, SyntaxContext};
+use swc_common::{chain, util::take::Take, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};

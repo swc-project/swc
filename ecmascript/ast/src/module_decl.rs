@@ -7,7 +7,7 @@ use crate::{
     ObjectLit,
 };
 use is_macro::Is;
-use swc_common::{ast_node, EqIgnoreSpan, Span};
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
@@ -39,6 +39,12 @@ pub enum ModuleDecl {
 
     #[tag("TsNamespaceExportDeclaration")]
     TsNamespaceExport(TsNamespaceExportDecl),
+}
+
+impl Take for ModuleDecl {
+    fn dummy() -> Self {
+        ModuleDecl::Import(ImportDecl::dummy())
+    }
 }
 
 #[ast_node("ExportDefaultExpression")]
@@ -78,6 +84,18 @@ pub struct ImportDecl {
 
     #[serde(default)]
     pub asserts: Option<ObjectLit>,
+}
+
+impl Take for ImportDecl {
+    fn dummy() -> Self {
+        ImportDecl {
+            span: DUMMY_SP,
+            specifiers: Take::dummy(),
+            src: Take::dummy(),
+            type_only: Default::default(),
+            asserts: Take::dummy(),
+        }
+    }
 }
 
 /// `export * from 'mod'`

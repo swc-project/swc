@@ -1,7 +1,7 @@
 use crate::{module_decl::ModuleDecl, stmt::Stmt};
 use is_macro::Is;
 use swc_atoms::JsWord;
-use swc_common::{ast_node, EqIgnoreSpan, Span};
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
@@ -37,6 +37,16 @@ impl<'a> arbitrary::Arbitrary<'a> for Module {
     }
 }
 
+impl Take for Module {
+    fn dummy() -> Self {
+        Module {
+            span: DUMMY_SP,
+            body: Take::dummy(),
+            shebang: Take::dummy(),
+        }
+    }
+}
+
 #[ast_node("Script")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Script {
@@ -61,6 +71,16 @@ impl<'a> arbitrary::Arbitrary<'a> for Script {
     }
 }
 
+impl Take for Script {
+    fn dummy() -> Self {
+        Script {
+            span: DUMMY_SP,
+            body: Take::dummy(),
+            shebang: Take::dummy(),
+        }
+    }
+}
+
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -77,4 +97,10 @@ pub enum ModuleItem {
     ModuleDecl(ModuleDecl),
     #[tag("*")]
     Stmt(Stmt),
+}
+
+impl Take for ModuleItem {
+    fn dummy() -> Self {
+        ModuleItem::Stmt(Take::dummy())
+    }
 }

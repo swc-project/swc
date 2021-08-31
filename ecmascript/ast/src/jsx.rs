@@ -6,7 +6,7 @@ use crate::{
 };
 use is_macro::Is;
 use swc_atoms::JsWord;
-use swc_common::{ast_node, EqIgnoreSpan, Span};
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 /// Used for `obj` property of `JSXMemberExpr`.
 #[ast_node]
@@ -93,6 +93,12 @@ pub enum JSXElementName {
     JSXNamespacedName(JSXNamespacedName),
 }
 
+impl Take for JSXElementName {
+    fn dummy() -> Self {
+        JSXElementName::Ident(Take::dummy())
+    }
+}
+
 #[ast_node("JSXOpeningElement")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -111,6 +117,18 @@ pub struct JSXOpeningElement {
     /// misleading
     #[serde(default, rename = "typeArguments")]
     pub type_args: Option<TsTypeParamInstantiation>,
+}
+
+impl Take for JSXOpeningElement {
+    fn dummy() -> Self {
+        JSXOpeningElement {
+            name: Take::dummy(),
+            span: DUMMY_SP,
+            attrs: Take::dummy(),
+            self_closing: Default::default(),
+            type_args: Take::dummy(),
+        }
+    }
 }
 
 #[ast_node]
@@ -203,6 +221,17 @@ pub struct JSXElement {
     pub closing: Option<JSXClosingElement>,
 }
 
+impl Take for JSXElement {
+    fn dummy() -> Self {
+        JSXElement {
+            span: DUMMY_SP,
+            opening: Take::dummy(),
+            children: Take::dummy(),
+            closing: Take::dummy(),
+        }
+    }
+}
+
 #[ast_node]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -237,6 +266,17 @@ pub struct JSXFragment {
     pub closing: JSXClosingFragment,
 }
 
+impl Take for JSXFragment {
+    fn dummy() -> Self {
+        JSXFragment {
+            span: DUMMY_SP,
+            opening: Take::dummy(),
+            children: Take::dummy(),
+            closing: Take::dummy(),
+        }
+    }
+}
+
 #[ast_node("JSXOpeningFragment")]
 #[derive(Eq, Hash, Copy, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -244,9 +284,21 @@ pub struct JSXOpeningFragment {
     pub span: Span,
 }
 
+impl Take for JSXOpeningFragment {
+    fn dummy() -> Self {
+        JSXOpeningFragment { span: DUMMY_SP }
+    }
+}
+
 #[ast_node("JSXClosingFragment")]
 #[derive(Eq, Hash, Copy, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct JSXClosingFragment {
     pub span: Span,
+}
+
+impl Take for JSXClosingFragment {
+    fn dummy() -> Self {
+        JSXClosingFragment { span: DUMMY_SP }
+    }
 }

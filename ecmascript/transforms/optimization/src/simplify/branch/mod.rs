@@ -2,11 +2,11 @@ use std::{borrow::Cow, cmp::min, iter::once, mem::take};
 use swc_atoms::js_word;
 use swc_common::{
     pass::{CompilerPass, Repeated},
-    util::move_map::MoveMap,
+    util::{move_map::MoveMap, take::Take},
     Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{ext::MapWithMut, pass::RepeatedJsPass};
+use swc_ecma_transforms_base::pass::RepeatedJsPass;
 use swc_ecma_utils::{
     extract_var_ids, is_literal, prepend, preserve_effects, undefined, ExprExt, ExprFactory,
     Hoister, IsEmpty, StmtExt, StmtLike, Value::Known,

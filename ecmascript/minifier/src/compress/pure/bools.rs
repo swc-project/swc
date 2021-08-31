@@ -6,9 +6,8 @@ use crate::{
 };
 use std::mem::swap;
 use swc_atoms::js_word;
-use swc_common::{EqIgnoreSpan, Span, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{ExprExt, Type, Value};
 
 impl<M> Pure<'_, M>

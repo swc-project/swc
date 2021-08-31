@@ -17,7 +17,7 @@ use crate::{
 };
 use is_macro::Is;
 use serde::{self, Deserialize, Serialize};
-use swc_common::{ast_node, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
 
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
@@ -150,6 +150,12 @@ pub enum Expr {
 
     #[tag("Invalid")]
     Invalid(Invalid),
+}
+
+impl Take for Expr {
+    fn dummy() -> Self {
+        Expr::Invalid(Invalid { span: DUMMY_SP })
+    }
 }
 
 #[ast_node("ThisExpression")]
@@ -334,6 +340,17 @@ pub struct CallExpr {
     // pub type_params: Option<TsTypeParamInstantiation>,
 }
 
+impl Take for CallExpr {
+    fn dummy() -> Self {
+        CallExpr {
+            span: DUMMY_SP,
+            callee: Take::dummy(),
+            args: Take::dummy(),
+            type_args: Take::dummy(),
+        }
+    }
+}
+
 #[ast_node("NewExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -455,6 +472,17 @@ pub struct TplElement {
     pub raw: Str,
 }
 
+impl Take for TplElement {
+    fn dummy() -> Self {
+        TplElement {
+            span: DUMMY_SP,
+            tail: Default::default(),
+            cooked: Take::dummy(),
+            raw: Take::dummy(),
+        }
+    }
+}
+
 #[ast_node("ParenthesisExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -478,11 +506,23 @@ pub enum ExprOrSuper {
     Expr(Box<Expr>),
 }
 
+impl Take for ExprOrSuper {
+    fn dummy() -> Self {
+        ExprOrSuper::Super(Take::dummy())
+    }
+}
+
 #[ast_node("Super")]
 #[derive(Eq, Hash, Copy, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Super {
     pub span: Span,
+}
+
+impl Take for Super {
+    fn dummy() -> Self {
+        Super { span: DUMMY_SP }
+    }
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, Eq, Hash, EqIgnoreSpan)]
@@ -514,6 +554,12 @@ pub enum BlockStmtOrExpr {
     BlockStmt(BlockStmt),
     #[tag("*")]
     Expr(Box<Expr>),
+}
+
+impl Take for BlockStmtOrExpr {
+    fn dummy() -> Self {
+        BlockStmtOrExpr::Expr(Take::dummy())
+    }
 }
 
 #[ast_node]
@@ -560,6 +606,12 @@ pub enum PatOrExpr {
     Expr(Box<Expr>),
     #[tag("*")]
     Pat(Box<Pat>),
+}
+
+impl Take for PatOrExpr {
+    fn dummy() -> Self {
+        PatOrExpr::Pat(Take::dummy())
+    }
 }
 
 impl From<bool> for Expr {
