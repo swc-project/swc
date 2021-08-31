@@ -2,13 +2,11 @@ use std::{borrow::Cow, iter, iter::once};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     pass::{CompilerPass, Repeated},
+    util::take::Take,
     Span, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::{Ident, Lit, *};
-use swc_ecma_transforms_base::{
-    ext::{ExprRefExt, MapWithMut},
-    pass::RepeatedJsPass,
-};
+use swc_ecma_transforms_base::{ext::ExprRefExt, pass::RepeatedJsPass};
 use swc_ecma_utils::{
     alias_ident_for, extract_side_effects_to, ident::IdentLike, is_literal, prepend,
     preserve_effects, prop_name_eq, to_int32, undefined, BoolType, ExprExt, NullType, NumberType,
