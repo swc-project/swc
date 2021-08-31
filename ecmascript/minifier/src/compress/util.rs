@@ -1,7 +1,7 @@
 use crate::debug::dump;
 use std::f64;
 use swc_atoms::js_word;
-use swc_common::DUMMY_SP;
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Id, UsageFinder, Value};
 use swc_ecma_visit::VisitWith;

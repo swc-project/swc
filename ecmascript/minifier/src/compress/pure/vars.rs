@@ -1,6 +1,6 @@
 use super::Pure;
 use crate::mode::Mode;
-use swc_common::DUMMY_SP;
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend, StmtLike};
 use swc_ecma_visit::{
