@@ -282,7 +282,10 @@ impl Options {
             .hygiene(if self.disable_hygiene {
                 None
             } else {
-                Some(hygiene::Config { keep_class_names })
+                Some(hygiene::Config {
+                    keep_class_names,
+                    ..Default::default()
+                })
             })
             .fixer(!self.disable_fixer)
             .preset_env(config.env)

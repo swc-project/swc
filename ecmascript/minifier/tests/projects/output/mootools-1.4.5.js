@@ -1874,6 +1874,7 @@ Elements.prototype = {
                     el._fireEvent = function(type, event) {
                         return fireEvent(type, event);
                     }, Object.append(el, Element.Prototype);
+                    }, Object.append(el, Element1.Prototype);
                 }
                 return el;
             },

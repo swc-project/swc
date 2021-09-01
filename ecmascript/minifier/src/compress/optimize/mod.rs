@@ -6,7 +6,8 @@ use crate::{
     marks::Marks,
     mode::Mode,
     option::CompressOptions,
-    util::{contains_leaping_yield, MoudleItemExt},
+    util::{contains_leaping_yield, make_number, MoudleItemExt},
+    DISABLE_BUGGY_PASSES,
 };
 use fxhash::FxHashMap;
 use retain_mut::RetainMut;
@@ -2324,6 +2325,19 @@ where
         };
 
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+
+        if !DISABLE_BUGGY_PASSES {
+            // infinite loop
+            match n.op {
+                op!("void") => {
+                    let arg = self.ignore_return_value(&mut n.arg);
+
+                    n.arg = Box::new(arg.unwrap_or_else(|| make_number(DUMMY_SP, 0.0)));
+                }
+
+                _ => {}
+            }
+        }
     }
 
     fn visit_mut_update_expr(&mut self, n: &mut UpdateExpr) {

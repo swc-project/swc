@@ -1,9 +1,12 @@
-use super::UsageAnalyzer;
+use super::{storage::Storage, UsageAnalyzer};
 use std::ops::{Deref, DerefMut};
 use swc_ecma_ast::VarDeclKind;
 
-impl UsageAnalyzer {
-    pub(super) fn with_ctx(&mut self, ctx: Ctx) -> WithCtx {
+impl<S> UsageAnalyzer<S>
+where
+    S: Storage,
+{
+    pub(super) fn with_ctx(&mut self, ctx: Ctx) -> WithCtx<S> {
         let orig_ctx = self.ctx;
         self.ctx = ctx;
         WithCtx {
@@ -14,59 +17,71 @@ impl UsageAnalyzer {
 }
 
 #[derive(Debug, Default, Clone, Copy)]
-pub(super) struct Ctx {
+pub(crate) struct Ctx {
     /// See [crate::marks::Marks]
-    pub skip_standalone: bool,
+    pub(super) skip_standalone: bool,
 
-    pub var_decl_kind_of_pat: Option<VarDeclKind>,
+    pub(super) var_decl_kind_of_pat: Option<VarDeclKind>,
 
-    pub in_var_decl_with_no_side_effect_for_member_access: bool,
+    pub(super) in_var_decl_with_no_side_effect_for_member_access: bool,
 
-    pub in_pat_of_var_decl: bool,
-    pub in_pat_of_var_decl_with_init: bool,
-    pub in_pat_of_param: bool,
-    pub in_catch_param: bool,
+    pub(super) in_pat_of_var_decl: bool,
+    pub(super) in_pat_of_var_decl_with_init: bool,
+    pub(super) in_pat_of_param: bool,
+    pub(super) in_catch_param: bool,
     /// `true` for `foo.bar` and `false` for `foo` in `foo.bar++`
-    pub is_exact_reassignment: bool,
+    pub(super) is_exact_reassignment: bool,
 
     /// `true` for arugments of [swc_ecma_ast::Expr::Call] or
     /// [swc_ecma_ast::Expr::New]
-    pub in_call_arg: bool,
+    pub(super) in_call_arg: bool,
 
     /// `false` for `array` in `array.length.
-    pub is_exact_arg: bool,
+    pub(super) is_exact_arg: bool,
 
-    pub in_left_of_for_loop: bool,
+    pub(super) in_left_of_for_loop: bool,
 
-    pub in_loop: bool,
+    pub(super) in_loop: bool,
     /// Are we handling argument of an update exprssion.
-    pub in_update_arg: bool,
-    pub in_assign_lhs: bool,
-    pub in_cond: bool,
+    pub(super) in_update_arg: bool,
+    pub(super) in_assign_lhs: bool,
+    pub(super) in_cond: bool,
 
-    pub inline_prevented: bool,
+    pub(super) inline_prevented: bool,
 }
 
-pub(super) struct WithCtx<'a> {
-    analyzer: &'a mut UsageAnalyzer,
+pub(super) struct WithCtx<'a, S>
+where
+    S: Storage,
+{
+    analyzer: &'a mut UsageAnalyzer<S>,
     orig_ctx: Ctx,
 }
 
-impl Deref for WithCtx<'_> {
-    type Target = UsageAnalyzer;
+impl<S> Deref for WithCtx<'_, S>
+where
+    S: Storage,
+{
+    type Target = UsageAnalyzer<S>;
 
     fn deref(&self) -> &Self::Target {
         &self.analyzer
     }
 }
 
-impl DerefMut for WithCtx<'_> {
+impl<S> DerefMut for WithCtx<'_, S>
+where
+    S: Storage,
+{
     fn deref_mut(&mut self) -> &mut Self::Target {
         &mut self.analyzer
     }
 }
 
-impl Drop for WithCtx<'_> {
+impl<S> Drop for WithCtx<'_, S>
+where
+    S: Storage,
+{
     fn drop(&mut self) {
         self.analyzer.ctx = self.orig_ctx;
     }

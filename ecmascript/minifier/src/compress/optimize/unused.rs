@@ -445,7 +445,7 @@ where
                 let can_remove_ident = data
                     .vars
                     .get(&i.to_id())
-                    .map(|v| v.ref_count == 0)
+                    .map(|v| v.ref_count == 0 || v.var_kind.is_some())
                     .unwrap_or(true);
 
                 if can_remove_ident {
