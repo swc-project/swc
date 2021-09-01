@@ -3446,7 +3446,7 @@ var _myAsyncMethod1 = new WeakMap();
 (function() {
     class MyClass2 {
         constructor(){
-            _myAsyncMethod2.set(this, {
+            _myAsyncMethod.set(this, {
                 writable: true,
                 value: _asyncToGenerator((function*() {
                     console.log(this);
@@ -3454,7 +3454,7 @@ var _myAsyncMethod1 = new WeakMap();
             });
         }
     }
-    var _myAsyncMethod2 = new WeakMap();
+    var _myAsyncMethod = new WeakMap();
     return MyClass2;
 })();
 class MyClass3 {
