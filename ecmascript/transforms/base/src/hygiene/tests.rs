@@ -368,8 +368,8 @@ fn shorthand() {
         "
             let a = 1;
             function foo() {
-                let a1 = 2;
-                use({ a: a1 })
+                let a = 2;
+                use({ a })
             }
             ",
     );
@@ -1081,7 +1081,7 @@ fn issue_281_02() {
         "function foo(e) {
             e: {
                 try {
-                } catch (e1) {
+                } catch (e) {
                     o = null;
                     break e
                 }
