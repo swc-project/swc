@@ -1,7 +1,7 @@
 let badfunc = ()=>{
 };
 function f1() {
-    badfunc = function badfunc() {
+    badfunc = function badfunc1() {
     };
     badfunc();
     f2();

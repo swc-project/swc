@@ -21,7 +21,7 @@
             constructor = constructor.parent;
         }
         return !!item.hasOwnProperty && item instanceof object;
-    }, Function = this.Function, enumerables = !0;
+    }, Function1 = this.Function, enumerables = !0;
     for(var i in {
         toString: 1
     })enumerables = null;
@@ -33,7 +33,7 @@
         "toLocaleString",
         "toString",
         "constructor"
-    ]), Function.prototype.overloadSetter = function(usePlural) {
+    ]), Function1.prototype.overloadSetter = function(usePlural) {
         var self = this;
         return function(a, b) {
             if (null == a) return this;
@@ -43,7 +43,7 @@
             } else self.call(this, a, b);
             return this;
         };
-    }, Function.prototype.overloadGetter = function(usePlural) {
+    }, Function1.prototype.overloadGetter = function(usePlural) {
         var self = this;
         return function(a) {
             var args, result;
@@ -56,13 +56,13 @@
             } else result = self.call(this, a);
             return result;
         };
-    }, Function.prototype.extend = (function(key, value) {
+    }, Function1.prototype.extend = (function(key, value) {
         this[key] = value;
-    }).overloadSetter(), Function.prototype.implement = (function(key, value) {
+    }).overloadSetter(), Function1.prototype.implement = (function(key, value) {
         this.prototype[key] = value;
     }).overloadSetter();
     var slice = Array.prototype.slice;
-    Function.from = function(item) {
+    Function1.from = function(item) {
         return "function" == typeOf(item) ? item : function() {
             return item;
         };
@@ -75,7 +75,7 @@
         return isFinite(number) ? number : null;
     }, String.from = function(item) {
         return item + "";
-    }, Function.implement({
+    }, Function1.implement({
         hide: function() {
             return this.$hidden = !0, this;
         },
@@ -186,7 +186,7 @@
         "toFixed",
         "toLocaleString",
         "toPrecision"
-    ])("Function", Function, [
+    ])("Function", Function1, [
         "apply",
         "call",
         "bind"
@@ -344,7 +344,7 @@
         var args = Array.slice(arguments);
         return args.unshift({
         }), Object.merge.apply(null, args);
-    }, this.$lambda = Function.from, this.$mixin = Object.merge, this.$random = Number.random, this.$splat = Array.from, this.$time = Date.now, this.$type = function(object) {
+    }, this.$lambda = Function1.from, this.$mixin = Object.merge, this.$random = Number.random, this.$splat = Array.from, this.$time = Date.now, this.$type = function(object) {
         var type = typeOf(object);
         return "elements" == type ? "array" : "null" != type && type;
     }, this.$unlink = function(object) {
@@ -844,7 +844,7 @@ var $try = Function.attempt;
     var arrayFrom = Array.from;
     try {
         arrayFrom(document.html.childNodes);
-    } catch (e1) {
+    } catch (e) {
         Array.from = function(item) {
             if ("string" != typeof item && Type.isEnumerable(item) && "array" != typeOf(item)) {
                 for(var i = item.length, array = new Array(i); i--;)array[i] = item[i];
@@ -913,7 +913,7 @@ var $try = Function.attempt;
         for(var type = this.type = event.type, target = event.target || event.srcElement; target && 3 == target.nodeType;)target = target.parentNode;
         if (this.target = document.id(target), 0 == type.indexOf("key")) {
             var code = this.code = event.which || event.keyCode;
-            this.key = _keys[code] || Object.keyOf(Event.Keys, code), "keydown" == type && (code > 111 && code < 124 ? this.key = "f" + (code - 111) : code > 95 && code < 106 && (this.key = code - 96)), null == this.key && (this.key = String.fromCharCode(code).toLowerCase());
+            this.key = _keys[code] || Object.keyOf(Event1.Keys, code), "keydown" == type && (code > 111 && code < 124 ? this.key = "f" + (code - 111) : code > 95 && code < 106 && (this.key = code - 96)), null == this.key && (this.key = String.fromCharCode(code).toLowerCase());
         } else if ("click" == type || "dblclick" == type || "contextmenu" == type || "DOMMouseScroll" == type || 0 == type.indexOf("mouse")) {
             var doc = win.document;
             if (doc = doc.compatMode && "CSS1Compat" != doc.compatMode ? doc.body : doc.html, this.page = {
@@ -969,9 +969,9 @@ var $try = Function.attempt;
         "13": "enter"
     });
 })();
-var Event = DOMEvent;
-Event.Keys = {
-}, Event.Keys = new Hash(Event.Keys), (function() {
+var Event1 = DOMEvent;
+Event1.Keys = {
+}, Event1.Keys = new Hash(Event1.Keys), (function() {
     var Class = this.Class = new Type("Class", function(params) {
         instanceOf(params, Function) && (params = {
             initialize: params
@@ -1146,7 +1146,7 @@ Event.Keys = {
         if ((separator || -1 === separatorIndex) && (parsed.expressions[++separatorIndex] = [], combinatorIndex = -1, separator)) return "";
         if (combinator || combinatorChildren || -1 === combinatorIndex) {
             combinator = combinator || " ";
-            var test, regexp, currentSeparator = parsed.expressions[separatorIndex];
+            var test, regexp1, currentSeparator = parsed.expressions[separatorIndex];
             reversed && currentSeparator[combinatorIndex] && (currentSeparator[combinatorIndex].reverseCombinator = reverseCombinator(combinator)), currentSeparator[++combinatorIndex] = {
                 combinator: combinator,
                 tag: "*"
@@ -1167,16 +1167,16 @@ Event.Keys = {
         else if (attributeKey) {
             switch(attributeKey = attributeKey.replace(reUnescape, ""), attributeValue = (attributeValue || "").replace(reUnescape, ""), attributeOperator){
                 case "^=":
-                    regexp = new RegExp("^" + escapeRegExp(attributeValue));
+                    regexp1 = new RegExp("^" + escapeRegExp(attributeValue));
                     break;
                 case "$=":
-                    regexp = new RegExp(escapeRegExp(attributeValue) + "$");
+                    regexp1 = new RegExp(escapeRegExp(attributeValue) + "$");
                     break;
                 case "~=":
-                    regexp = new RegExp("(^|\\s)" + escapeRegExp(attributeValue) + "(\\s|$)");
+                    regexp1 = new RegExp("(^|\\s)" + escapeRegExp(attributeValue) + "(\\s|$)");
                     break;
                 case "|=":
-                    regexp = new RegExp("^" + escapeRegExp(attributeValue) + "(-|$)");
+                    regexp1 = new RegExp("^" + escapeRegExp(attributeValue) + "(-|$)");
                     break;
                 case "=":
                     test = function(value) {
@@ -1201,7 +1201,7 @@ Event.Keys = {
             "" == attributeValue && /^[*$^]=$/.test(attributeOperator) && (test = function() {
                 return !1;
             }), test || (test = function(value) {
-                return value && regexp.test(value);
+                return value && regexp1.test(value);
             }), currentParsed.attributes || (currentParsed.attributes = []), currentParsed.attributes.push({
                 key: attributeKey,
                 operator: attributeOperator,
@@ -1256,7 +1256,7 @@ Event.Keys = {
                 features.brokenStarGEBTN = starSelectsComments || starSelectsClosed;
                 try {
                     testNode.innerHTML = "<a name=\"" + id + "\"></a><b id=\"" + id + "\"></b>", features.idGetsName = document.getElementById(id) === testNode.firstChild;
-                } catch (e1) {
+                } catch (e) {
                 }
                 if (testNode.getElementsByClassName) {
                     try {
@@ -1265,7 +1265,7 @@ Event.Keys = {
                     }
                     try {
                         testNode.innerHTML = "<a class=\"a\"></a><a class=\"f b a\"></a>", brokenSecondClassNameGEBCN = 2 != testNode.getElementsByClassName("a").length;
-                    } catch (e2) {
+                    } catch (e) {
                     }
                     features.brokenGEBCN = cachedGetElementsByClassName || brokenSecondClassNameGEBCN;
                 }
@@ -1276,29 +1276,29 @@ Event.Keys = {
                     }
                     try {
                         testNode.innerHTML = "<a class=\"MiX\"></a>", features.brokenMixedCaseQSA = !testNode.querySelectorAll(".MiX").length;
-                    } catch (e2) {
+                    } catch (e) {
                     }
                     try {
                         testNode.innerHTML = "<select><option selected=\"selected\">a</option></select>", features.brokenCheckedQSA = 0 == testNode.querySelectorAll(":checked").length;
-                    } catch (e3) {
+                    } catch (e) {
                     }
                     try {
                         testNode.innerHTML = "<a class=\"\"></a>", features.brokenEmptyAttributeQSA = 0 != testNode.querySelectorAll("[class*=\"\"]").length;
-                    } catch (e4) {
+                    } catch (e) {
                     }
                 }
                 try {
                     testNode.innerHTML = "<form action=\"s\"><input id=\"action\"/></form>", brokenFormAttributeGetter = "s" != testNode.firstChild.getAttribute("action");
-                } catch (e2) {
+                } catch (e) {
                 }
                 if (features.nativeMatchesSelector = root.matchesSelector || root.mozMatchesSelector || root.webkitMatchesSelector, features.nativeMatchesSelector) try {
                     features.nativeMatchesSelector.call(root, ":slick"), features.nativeMatchesSelector = null;
-                } catch (e3) {
+                } catch (e) {
                 }
             }
             try {
                 root.slick_expando = 1, delete root.slick_expando, features.getUID = this.getUIDHTML;
-            } catch (e1) {
+            } catch (e) {
                 features.getUID = this.getUIDXML;
             }
             testRoot.removeChild(testNode), testNode = selected = testRoot = null, features.getAttribute = features.isHTMLDocument && brokenFormAttributeGetter ? function(node, name) {
@@ -1724,14 +1724,14 @@ Event.Keys = {
         return pseudo ? function(argument) {
             return pseudo.call(this, argument);
         } : null;
-    }, Slick.override = function(regexp, fn) {
-        return local.override(regexp, fn), this;
+    }, Slick.override = function(regexp2, fn) {
+        return local.override(regexp2, fn), this;
     }, Slick.isXML = local.isXML, Slick.uidOf = function(node) {
         return local.getUIDHTML(node);
     }, this.Slick || (this.Slick = Slick);
 }).apply("undefined" != typeof exports ? exports : this);
-var Element = function(tag, props) {
-    var konstructor = Element.Constructors[tag];
+var Element1 = function(tag, props) {
+    var konstructor = Element1.Constructors[tag];
     if (konstructor) return konstructor(props);
     if ("string" != typeof tag) return document.id(tag).set(props);
     if (props || (props = {
@@ -1744,9 +1744,9 @@ var Element = function(tag, props) {
     }
     return document.newElement(tag, props);
 };
-Browser.Element && (Element.prototype = Browser.Element.prototype, Element.prototype._fireEvent = function(type, event) {
-    return (fireEvent = Element.prototype.fireEvent).call(this, type, event);
-}), new Type("Element", Element).mirror(function(name) {
+Browser.Element && (Element1.prototype = Browser.Element.prototype, Element1.prototype._fireEvent = function(type, event) {
+    return (fireEvent = Element1.prototype.fireEvent).call(this, type, event);
+}), new Type("Element", Element1).mirror(function(name) {
     if (!Array.prototype[name]) {
         var obj = {
         };
@@ -1758,13 +1758,13 @@ Browser.Element && (Element.prototype = Browser.Element.prototype, Element.proto
             return elements ? new Elements(results) : results;
         }, Elements.implement(obj);
     }
-}), Browser.Element || (Element.parent = Object, Element.Prototype = {
-    "$constructor": Element,
+}), Browser.Element || (Element1.parent = Object, Element1.Prototype = {
+    "$constructor": Element1,
     "$family": Function.from("element").hide()
-}, Element.mirror(function(name, method) {
-    Element.Prototype[name] = method;
-})), Element.Constructors = {
-}, Element.Constructors = new Hash;
+}, Element1.mirror(function(name, method) {
+    Element1.Prototype[name] = method;
+})), Element1.Constructors = {
+}, Element1.Constructors = new Hash;
 var IFrame = new Type("IFrame", function() {
     var iframe, params = Array.link(arguments, {
         properties: Type.isObject,
@@ -1782,7 +1782,7 @@ var IFrame = new Type("IFrame", function() {
         iframe ? iframe.id || iframe.name : "IFrame_" + String.uniqueID()
     ].pick();
     var onLoad = function() {
-        onload.call((iframe = new Element(iframe || "iframe", props)).contentWindow);
+        onload.call((iframe = new Element1(iframe || "iframe", props)).contentWindow);
     };
     return window.frames[props.id] ? onLoad() : iframe.addListener("load", onLoad), iframe;
 }), Elements = this.Elements = function(nodes) {
@@ -1870,10 +1870,10 @@ Elements.prototype = {
             },
             element: function(el, nocash) {
                 if (Slick.uidOf(el), !nocash && !el.$family && !/^(?:object|embed)$/i.test(el.tagName)) {
-                    var fireEvent = el.fireEvent;
+                    var fireEvent1 = el.fireEvent;
                     el._fireEvent = function(type, event) {
-                        return fireEvent(type, event);
-                    }, Object.append(el, Element.Prototype);
+                        return fireEvent1(type, event);
+                    }, Object.append(el, Element1.Prototype);
                 }
                 return el;
             },
@@ -1898,7 +1898,7 @@ Elements.prototype = {
         }
     }), [
         Document,
-        Element
+        Element1
     ].invoke("implement", {
         getElements: function(expression) {
             return Slick.search(this, expression, new Elements);
@@ -1912,7 +1912,7 @@ Elements.prototype = {
             return Slick.contains(this, element);
         }
     };
-    document.contains || Document.implement(contains), document.createElement("div").contains || Element.implement(contains), Element.implement("hasChild", function(element) {
+    document.contains || Document.implement(contains), document.createElement("div").contains || Element1.implement(contains), Element1.implement("hasChild", function(element) {
         return this !== element && this.contains(element);
     }), search = Slick.search, find = Slick.find, match = Slick.match, this.Selectors = {
     }, pseudos = this.Selectors.Pseudo = new Hash(), addSlickPseudos = function() {
@@ -1934,7 +1934,7 @@ Elements.prototype = {
         getPrevious: "!~",
         getParent: "!"
     }, function(combinator, method) {
-        Element.implement(method, function(expression) {
+        Element1.implement(method, function(expression) {
             return this.getElement(injectCombinator(expression, combinator));
         });
     }), Object.forEach({
@@ -1944,10 +1944,10 @@ Elements.prototype = {
         getChildren: ">",
         getParents: "!"
     }, function(combinator, method) {
-        Element.implement(method, function(expression) {
+        Element1.implement(method, function(expression) {
             return this.getElements(injectCombinator(expression, combinator));
         });
-    }), Element.implement({
+    }), Element1.implement({
         getFirst: function(expression) {
             return document.id(Slick.search(this, injectCombinator(expression, ">"))[0]);
         },
@@ -2011,7 +2011,7 @@ Elements.prototype = {
             return inserter(this, document.id(el, !0)), this;
         }, methods["grab" + where] = function(el) {
             return inserter(document.id(el, !0), this), this;
-        }, Element.implement(methods);
+        }, Element1.implement(methods);
     });
     var propertyGetters = {
     }, propertySetters = {
@@ -2095,7 +2095,7 @@ Elements.prototype = {
         node.type = type, node.value = value;
     }), input = null;
     var div, pollutesGetAttribute = ((div = document.createElement("div")).random = "attribute", "attribute" == div.getAttribute("random"));
-    Element.implement({
+    Element1.implement({
         setProperty: function(name, value) {
             var setter = propertySetters[name.toLowerCase()];
             if (setter) setter(this, value);
@@ -2137,15 +2137,15 @@ Elements.prototype = {
             return Array.each(arguments, this.removeProperty, this), this;
         },
         set: (function(prop, value) {
-            var property = Element.Properties[prop];
+            var property = Element1.Properties[prop];
             property && property.set ? property.set.call(this, value) : this.setProperty(prop, value);
         }).overloadSetter(),
         get: (function(prop) {
-            var property = Element.Properties[prop];
+            var property = Element1.Properties[prop];
             return property && property.get ? property.get.apply(this) : this.getProperty(prop);
         }).overloadGetter(),
         erase: function(prop) {
-            var property = Element.Properties[prop];
+            var property = Element1.Properties[prop];
             return property && property.erase ? property.erase.apply(this) : this.removeProperty(prop), this;
         },
         hasClass: function(className) {
@@ -2217,13 +2217,13 @@ Elements.prototype = {
         option: "selected",
         textarea: "value"
     };
-    Element.implement({
+    Element1.implement({
         destroy: function() {
             var children = clean(this).getElementsByTagName("*");
-            return Array.each(children, clean), Element.dispose(this), null;
+            return Array.each(children, clean), Element1.dispose(this), null;
         },
         empty: function() {
-            return Array.from(this.childNodes).each(Element.dispose), this;
+            return Array.from(this.childNodes).each(Element1.dispose), this;
         },
         dispose: function() {
             return this.parentNode ? this.parentNode.removeChild(this) : this;
@@ -2248,7 +2248,7 @@ Elements.prototype = {
             return document.id(clone);
         }
     }), [
-        Element,
+        Element1,
         Window,
         Document
     ].invoke("implement", {
@@ -2276,8 +2276,8 @@ Elements.prototype = {
         }
     }), window.attachEvent && !window.addEventListener && window.addListener("unload", function() {
         Object.each(collected, clean), window.CollectGarbage && CollectGarbage();
-    }), Element.Properties = {
-    }, Element.Properties = new Hash, Element.Properties.style = {
+    }), Element1.Properties = {
+    }, Element1.Properties = new Hash, Element1.Properties.style = {
         set: function(style) {
             this.style.cssText = style;
         },
@@ -2287,11 +2287,11 @@ Elements.prototype = {
         erase: function() {
             this.style.cssText = "";
         }
-    }, Element.Properties.tag = {
+    }, Element1.Properties.tag = {
         get: function() {
             return this.tagName.toLowerCase();
         }
-    }, Element.Properties.html = {
+    }, Element1.Properties.html = {
         set: function(html) {
             null == html ? html = "" : "array" == typeOf(html) && (html = html.join("")), this.innerHTML = html;
         },
@@ -2309,7 +2309,7 @@ Elements.prototype = {
     }), tr = document.createElement("tr"), html = "<td></td>";
     tr.innerHTML = html;
     var supportsTRInnerHTML = tr.innerHTML == html;
-    tr = null, supportsTableInnerHTML && supportsTRInnerHTML && supportsHTML5Elements || (Element.Properties.html.set = (set = Element.Properties.html.set, (translations = {
+    tr = null, supportsTableInnerHTML && supportsTRInnerHTML && supportsHTML5Elements || (Element1.Properties.html.set = (set = Element1.Properties.html.set, (translations = {
         table: [
             1,
             "<table>",
@@ -2346,7 +2346,7 @@ Elements.prototype = {
         this.empty().adopt(target.childNodes), supportsHTML5Elements || fragment.removeChild(wrapper), wrapper = null;
     }));
     var testForm = document.createElement("form");
-    null.innerHTML = "<select><option>s</option></select>", "s" != null.firstChild.value && (Element.Properties.value = {
+    null.innerHTML = "<select><option>s</option></select>", "s" != null.firstChild.value && (Element1.Properties.value = {
         set: function(value) {
             if ("select" != this.get("tag")) return this.setProperty("value", value);
             for(var options = this.getElements("option"), i = 0; i < options.length; i++){
@@ -2361,7 +2361,7 @@ Elements.prototype = {
             var attr = option.getAttributeNode("value");
             return attr && attr.specified ? option.value : option.get("text");
         }
-    }), testForm = null, document.createElement("div").getAttributeNode("id") && (Element.Properties.id = {
+    }), testForm = null, document.createElement("div").getAttributeNode("id") && (Element1.Properties.id = {
         set: function(id) {
             this.id = this.getAttributeNode("id").value = id;
         },
@@ -2376,7 +2376,7 @@ Elements.prototype = {
     var html = document.html, el = document.createElement("div");
     null.style.color = "red", null.style.color = null;
     var doesNotRemoveStyles = "red" == null.style.color;
-    el = null, Element.Properties.styles = {
+    el = null, Element1.Properties.styles = {
         set: function(styles) {
             this.setStyles(styles);
         }
@@ -2400,16 +2400,16 @@ Elements.prototype = {
         var opacity = element.retrieve("$opacity");
         return null == opacity && (opacity = "hidden" == element.style.visibility ? 0 : 1), opacity;
     }, floatName = null == html.style.cssFloat ? "styleFloat" : "cssFloat";
-    Element.implement({
+    Element1.implement({
         getComputedStyle: function(property) {
             if (this.currentStyle) return this.currentStyle[property.camelCase()];
-            var defaultView = Element.getDocument(this).defaultView, computed = defaultView ? defaultView.getComputedStyle(this, null) : null;
+            var defaultView = Element1.getDocument(this).defaultView, computed = defaultView ? defaultView.getComputedStyle(this, null) : null;
             return computed ? computed.getPropertyValue(property == floatName ? "float" : property.hyphenate()) : null;
         },
         setStyle: function(property, value) {
             if ("opacity" == property) return null != value && (value = parseFloat(value)), setOpacity(this, value), this;
             if (property = ("float" == property ? floatName : property).camelCase(), "string" != typeOf(value)) {
-                var map = (Element.Styles[property] || "@").split(" ");
+                var map = (Element1.Styles[property] || "@").split(" ");
                 value = Array.from(value).map(function(val, i) {
                     return map[i] ? "number" == typeOf(val) ? map[i].replace("@", Math.round(val)) : val : "";
                 }).join(" ");
@@ -2421,8 +2421,8 @@ Elements.prototype = {
             property = ("float" == property ? floatName : property).camelCase();
             var result = this.style[property];
             if (!result || "zIndex" == property) {
-                for(var style in result = [], Element.ShortStyles)if (property == style) {
-                    for(var s in Element.ShortStyles[style])result.push(this.getStyle(s));
+                for(var style in result = [], Element1.ShortStyles)if (property == style) {
+                    for(var s in Element1.ShortStyles[style])result.push(this.getStyle(s));
                     return result.join(" ");
                 }
                 result = this.getComputedStyle(property);
@@ -2459,7 +2459,7 @@ Elements.prototype = {
                 result[key] = this.getStyle(key);
             }, this), result;
         }
-    }), Element.Styles = {
+    }), Element1.Styles = {
         left: "@px",
         top: "@px",
         bottom: "@px",
@@ -2488,21 +2488,21 @@ Elements.prototype = {
         fontWeight: "@",
         textIndent: "@px",
         opacity: "@"
-    }, Element.implement({
+    }, Element1.implement({
         setOpacity: function(value) {
             return setOpacity(this, value), this;
         },
         getOpacity: function() {
             return getOpacity(this);
         }
-    }), Element.Properties.opacity = {
+    }), Element1.Properties.opacity = {
         set: function(opacity) {
             setOpacity(this, opacity), setVisibility(this, opacity);
         },
         get: function() {
             return getOpacity(this);
         }
-    }, Element.Styles = new Hash(Element.Styles), Element.ShortStyles = {
+    }, Element1.Styles = new Hash(Element1.Styles), Element1.ShortStyles = {
         margin: {
         },
         padding: {
@@ -2521,7 +2521,7 @@ Elements.prototype = {
         "Bottom",
         "Left"
     ].each(function(direction) {
-        var Short = Element.ShortStyles, All = Element.Styles;
+        var Short = Element1.ShortStyles, All = Element1.Styles;
         [
             "margin",
             "padding"
@@ -2536,12 +2536,12 @@ Elements.prototype = {
         }, Short.borderWidth[bdw] = Short[bd][bdw] = All[bdw] = "@px", Short.borderStyle[bds] = Short[bd][bds] = All[bds] = "@", Short.borderColor[bdc] = Short[bd][bdc] = All[bdc] = "rgb(@, @, @)";
     });
 })(), (function() {
-    if (Element.Properties.events = {
+    if (Element1.Properties.events = {
         set: function(events) {
             this.addEvents(events);
         }
     }, [
-        Element,
+        Element1,
         Window,
         Document
     ].invoke("implement", {
@@ -2553,13 +2553,13 @@ Elements.prototype = {
                 values: []
             }), events[type].keys.contains(fn)) return this;
             events[type].keys.push(fn);
-            var realType = type, custom = Element.Events[type], condition = fn, self = this;
+            var realType = type, custom = Element1.Events[type], condition = fn, self = this;
             custom && (custom.onAdd && custom.onAdd.call(this, fn, type), custom.condition && (condition = function(event) {
                 return !custom.condition.call(this, event, type) || fn.call(this, event);
             }), custom.base && (realType = Function.from(custom.base).call(this, type)));
             var defn = function() {
                 return fn.call(self);
-            }, nativeEvent = Element.NativeEvents[realType];
+            }, nativeEvent = Element1.NativeEvents[realType];
             return nativeEvent && (2 == nativeEvent && (defn = function(event) {
                 event = new DOMEvent(event, self.getWindow()), !1 === condition.call(self, event) && event.stop();
             }), this.addListener(realType, defn, arguments[2])), events[type].values.push(defn), this;
@@ -2571,8 +2571,8 @@ Elements.prototype = {
             if (-1 == index) return this;
             var value = list.values[index];
             delete list.keys[index], delete list.values[index];
-            var custom = Element.Events[type];
-            return custom && (custom.onRemove && custom.onRemove.call(this, fn, type), custom.base && (type = Function.from(custom.base).call(this, type))), Element.NativeEvents[type] ? this.removeListener(type, value, arguments[2]) : this;
+            var custom = Element1.Events[type];
+            return custom && (custom.onRemove && custom.onRemove.call(this, fn, type), custom.base && (type = Function.from(custom.base).call(this, type))), Element1.NativeEvents[type] ? this.removeListener(type, value, arguments[2]) : this;
         },
         addEvents: function(events) {
             for(var event in events)this.addEvent(event, events[event]);
@@ -2610,7 +2610,7 @@ Elements.prototype = {
             else for(var eventType in events)this.cloneEvents(from, eventType);
             return this;
         }
-    }), Element.NativeEvents = {
+    }), Element1.NativeEvents = {
         click: 2,
         dblclick: 2,
         mouseup: 2,
@@ -2652,25 +2652,25 @@ Elements.prototype = {
         error: 1,
         abort: 1,
         scroll: 1
-    }, Element.Events = {
+    }, Element1.Events = {
         mousewheel: {
             base: Browser.firefox ? "DOMMouseScroll" : "mousewheel"
         }
-    }, "onmouseenter" in document.documentElement) Element.NativeEvents.mouseenter = Element.NativeEvents.mouseleave = 2;
+    }, "onmouseenter" in document.documentElement) Element1.NativeEvents.mouseenter = Element1.NativeEvents.mouseleave = 2;
     else {
         var check = function(event) {
             var related = event.relatedTarget;
             return null == related || !!related && related != this && "xul" != related.prefix && "document" != typeOf(this) && !this.contains(related);
         };
-        Element.Events.mouseenter = {
+        Element1.Events.mouseenter = {
             base: "mouseover",
             condition: check
-        }, Element.Events.mouseleave = {
+        }, Element1.Events.mouseleave = {
             base: "mouseout",
             condition: check
         };
     }
-    window.addEventListener || (Element.NativeEvents.propertychange = 2, Element.Events.change = {
+    window.addEventListener || (Element1.NativeEvents.propertychange = 2, Element1.Events.change = {
         base: function() {
             var type = this.type;
             return "input" == this.get("tag") && ("radio" == type || "checkbox" == type) ? "propertychange" : "change";
@@ -2678,10 +2678,10 @@ Elements.prototype = {
         condition: function(event) {
             return "radio" != this.type || "checked" == event.event.propertyName && this.checked;
         }
-    }), Element.Events = new Hash(Element.Events);
+    }), Element1.Events = new Hash(Element1.Events);
 })(), (function() {
     var eventListenerSupport = !!window.addEventListener;
-    Element.NativeEvents.focusin = Element.NativeEvents.focusout = 2;
+    Element1.NativeEvents.focusin = Element1.NativeEvents.focusout = 2;
     var bubbleUp = function(self, match, fn, event, target) {
         for(; target && target != self;){
             if (match(target, event)) return fn.call(target, event, target);
@@ -2749,7 +2749,7 @@ Elements.prototype = {
         change: inputObserver("change"),
         select: inputObserver("select")
     });
-    var proto = Element.prototype, addEvent = proto.addEvent, removeEvent = proto.removeEvent, relay = function(old, method) {
+    var proto = Element1.prototype, addEvent = proto.addEvent, removeEvent = proto.removeEvent, relay = function(old, method) {
         return function(type, fn, useCapture) {
             if (-1 == type.indexOf(":relay")) return old.call(this, type, fn, useCapture);
             var parsed = Slick.parse(type).expressions[0][0];
@@ -2771,7 +2771,7 @@ Elements.prototype = {
             type = _map.base || _type, match = function(target) {
                 return Slick.match(target, _match);
             };
-            var elementEvent = Element.Events[_type];
+            var elementEvent = Element1.Events[_type];
             if (elementEvent && elementEvent.condition) {
                 var __match = match, condition = elementEvent.condition;
                 match = function(target, event) {
@@ -2806,7 +2806,7 @@ Elements.prototype = {
         }
     };
     [
-        Element,
+        Element1,
         Window,
         Document
     ].invoke("implement", {
@@ -2823,7 +2823,7 @@ Elements.prototype = {
     }, isOffsetStatic = function(el) {
         return isOffset(el) || /^(?:table|td|th)$/i.test(el.tagName);
     };
-    Element.implement({
+    Element1.implement({
         scrollTo: function(x, y) {
             return isBody(this) ? this.getWindow().scrollTo(x, y) : (this.scrollLeft = x, this.scrollTop = y), this;
         },
@@ -2965,7 +2965,7 @@ Elements.prototype = {
             };
         }
     });
-    var styleString = Element.getComputedStyle;
+    var styleString = Element1.getComputedStyle;
     function styleNumber(element, style) {
         return styleString(element, style).toInt() || 0;
     }
@@ -2985,12 +2985,12 @@ Elements.prototype = {
         var doc = element.getDocument();
         return doc.compatMode && "CSS1Compat" != doc.compatMode ? doc.body : doc.html;
     }
-})(), Element.alias({
+})(), Element1.alias({
     position: "setPosition"
 }), [
     Window,
     Document,
-    Element
+    Element1
 ].invoke("implement", {
     getHeight: function() {
         return this.getSize().y;
@@ -3181,8 +3181,8 @@ Elements.prototype = {
                         var selectorText = rule.selectorText ? rule.selectorText.replace(/^\w+/, function(m) {
                             return m.toLowerCase();
                         }) : null;
-                        selectorText && selectorTest.test(selectorText) && Object.each(Element.Styles, function(value, style) {
-                            rule.style[style] && !Element.ShortStyles[style] && (value = String(rule.style[style]), to[style] = /^rgb/.test(value) ? value.rgbToHex() : value);
+                        selectorText && selectorTest.test(selectorText) && Object.each(Element1.Styles, function(value, style) {
+                            rule.style[style] && !Element1.ShortStyles[style] && (value = String(rule.style[style]), to[style] = /^rgb/.test(value) ? value.rgbToHex() : value);
                         });
                     }
                 });
@@ -3239,7 +3239,7 @@ Elements.prototype = {
         var parsed = this.prepare(this.element, this.property, args);
         return this.parent(parsed.from, parsed.to);
     }
-}), Element.Properties.tween = {
+}), Element1.Properties.tween = {
     set: function(options) {
         return this.get("tween").cancel().setOptions(options), this;
     },
@@ -3249,7 +3249,7 @@ Elements.prototype = {
             link: "cancel"
         }), this.store("tween", tween)), tween;
     }
-}, Element.implement({
+}, Element1.implement({
     tween: function(property, from, to) {
         return this.get("tween").start(property, from, to), this;
     },
@@ -3317,7 +3317,7 @@ Elements.prototype = {
         }
         return this.parent(from, to);
     }
-}), Element.Properties.morph = {
+}), Element1.Properties.morph = {
     set: function(options) {
         return this.get("morph").cancel().setOptions(options), this;
     },
@@ -3327,7 +3327,7 @@ Elements.prototype = {
             link: "cancel"
         }), this.store("morph", morph)), morph;
     }
-}, Element.implement({
+}, Element1.implement({
     morph: function(props) {
         return this.get("morph").start(props), this;
     }
@@ -3396,7 +3396,7 @@ Elements.prototype = {
     });
 }), (function() {
     var empty = function() {
-    }, progressSupport = "onprogress" in new Browser.Request, Request = this.Request = new Class({
+    }, progressSupport = "onprogress" in new Browser.Request, Request1 = this.Request = new Class({
         Implements: [
             Chain,
             Events,
@@ -3567,20 +3567,20 @@ Elements.prototype = {
             };
             return null != data && (object.data = data), this.send(object);
         };
-    }), Request.implement(methods), Element.Properties.send = {
+    }), Request1.implement(methods), Element1.Properties.send = {
         set: function(options) {
             return this.get("send").cancel().setOptions(options), this;
         },
         get: function() {
             var send = this.retrieve("send");
-            return send || (send = new Request({
+            return send || (send = new Request1({
                 data: this,
                 link: "cancel",
                 method: this.get("method") || "post",
                 url: this.get("action")
             }), this.store("send", send)), send;
         }
-    }, Element.implement({
+    }, Element1.implement({
         send: function(url) {
             var sender = this.get("send");
             return sender.send({
@@ -3607,7 +3607,7 @@ Elements.prototype = {
         });
         var match = response.html.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
         match && (response.html = match[1]);
-        var temp = new Element("div").set("html", response.html);
+        var temp = new Element1("div").set("html", response.html);
         if (response.tree = temp.childNodes, response.elements = temp.getElements(options.filter || "*"), options.filter && (response.tree = response.elements), options.update) {
             var update = document.id(options.update).empty();
             options.filter ? update.adopt(response.elements) : update.set("html", response.html);
@@ -3617,7 +3617,7 @@ Elements.prototype = {
         }
         options.evalScripts && Browser.exec(response.javascript), this.onSuccess(response.tree, response.elements, response.html, response.javascript);
     }
-}), Element.Properties.load = {
+}), Element1.Properties.load = {
     set: function(options) {
         return this.get("load").cancel().setOptions(options), this;
     },
@@ -3630,7 +3630,7 @@ Elements.prototype = {
             method: "get"
         }), this.store("load", load)), load;
     }
-}, Element.implement({
+}, Element1.implement({
     load: function() {
         return this.get("load").send(Array.link(arguments, {
             data: Type.isObject,
@@ -3766,17 +3766,17 @@ Cookie.write = function(key, value, options) {
     testElement.doScroll && !doScrollWorks() && (checks.push(doScrollWorks), shouldPoll = !0), document.readyState && checks.push(function() {
         var state = document.readyState;
         return "loaded" == state || "complete" == state;
-    }), "onreadystatechange" in document ? document.addListener("readystatechange", check) : shouldPoll = !0, shouldPoll && poll(), Element.Events.domready = {
+    }), "onreadystatechange" in document ? document.addListener("readystatechange", check) : shouldPoll = !0, shouldPoll && poll(), Element1.Events.domready = {
         onAdd: function(fn) {
             ready && fn.call(this);
         }
-    }, Element.Events.load = {
+    }, Element1.Events.load = {
         base: "load",
         onAdd: function(fn) {
             loaded && this == window && fn.call(this);
         },
         condition: function() {
-            return this == window && (domready(), delete Element.Events.load), !0;
+            return this == window && (domready(), delete Element1.Events.load), !0;
         }
     }, window.addEvent("load", function() {
         loaded = !0;
@@ -3823,7 +3823,7 @@ Cookie.write = function(key, value, options) {
             var build = "<object id=\"" + id + "\"";
             for(var property in properties)build += " " + property + "=\"" + properties[property] + "\"";
             for(var param in build += ">", params)params[param] && (build += "<param name=\"" + param + "\" value=\"" + params[param] + "\" />");
-            build += "</object>", this.object = (container ? container.empty() : new Element("div")).set("html", build).firstChild;
+            build += "</object>", this.object = (container ? container.empty() : new Element1("div")).set("html", build).firstChild;
         },
         replaces: function(element) {
             return (element = document.id(element, !0)).parentNode.replaceChild(this.toElement(), element), this;

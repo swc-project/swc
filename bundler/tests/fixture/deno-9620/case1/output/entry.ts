@@ -195,7 +195,7 @@ function isPathSeparator(code) {
 function isWindowsDeviceRoot(code) {
     return code >= CHAR_LOWERCASE_A && code <= CHAR_LOWERCASE_Z || code >= CHAR_UPPERCASE_A && code <= CHAR_UPPERCASE_Z;
 }
-function normalizeString(path, allowAboveRoot, separator, isPathSeparator) {
+function normalizeString(path, allowAboveRoot, separator, isPathSeparator1) {
     let res = "";
     let lastSegmentLength = 0;
     let lastSlash = -1;
@@ -203,9 +203,9 @@ function normalizeString(path, allowAboveRoot, separator, isPathSeparator) {
     let code;
     for(let i = 0, len = path.length; i <= len; ++i){
         if (i < len) code = path.charCodeAt(i);
-        else if (isPathSeparator(code)) break;
+        else if (isPathSeparator1(code)) break;
         else code = CHAR_FORWARD_SLASH;
-        if (isPathSeparator(code)) {
+        if (isPathSeparator1(code)) {
             if (lastSlash === i - 1 || dots === 1) {
             } else if (lastSlash !== i - 1 && dots === 2) {
                 if (res.length < 2 || lastSegmentLength !== 2 || res.charCodeAt(res.length - 1) !== CHAR_DOT || res.charCodeAt(res.length - 2) !== CHAR_DOT) {
@@ -925,12 +925,12 @@ function resolve1(...pathSegments) {
 function normalize1(path) {
     assertPath(path);
     if (path.length === 0) return ".";
-    const isAbsolute = path.charCodeAt(0) === CHAR_FORWARD_SLASH;
+    const isAbsolute1 = path.charCodeAt(0) === CHAR_FORWARD_SLASH;
     const trailingSeparator = path.charCodeAt(path.length - 1) === CHAR_FORWARD_SLASH;
-    path = normalizeString(path, !isAbsolute, "/", isPosixPathSeparator);
-    if (path.length === 0 && !isAbsolute) path = ".";
+    path = normalizeString(path, !isAbsolute1, "/", isPosixPathSeparator);
+    if (path.length === 0 && !isAbsolute1) path = ".";
     if (path.length > 0 && trailingSeparator) path += "/";
-    if (isAbsolute) return `/${path}`;
+    if (isAbsolute1) return `/${path}`;
     return path;
 }
 function isAbsolute1(path) {
@@ -1136,9 +1136,9 @@ function parse1(path) {
         name: ""
     };
     if (path.length === 0) return ret;
-    const isAbsolute = path.charCodeAt(0) === CHAR_FORWARD_SLASH;
+    const isAbsolute2 = path.charCodeAt(0) === CHAR_FORWARD_SLASH;
     let start;
-    if (isAbsolute) {
+    if (isAbsolute2) {
         ret.root = "/";
         start = 1;
     } else {
@@ -1172,14 +1172,14 @@ function parse1(path) {
     }
     if (startDot === -1 || end === -1 || preDotState === 0 || preDotState === 1 && startDot === end - 1 && startDot === startPart + 1) {
         if (end !== -1) {
-            if (startPart === 0 && isAbsolute) {
+            if (startPart === 0 && isAbsolute2) {
                 ret.base = ret.name = path.slice(1, end);
             } else {
                 ret.base = ret.name = path.slice(startPart, end);
             }
         }
     } else {
-        if (startPart === 0 && isAbsolute) {
+        if (startPart === 0 && isAbsolute2) {
             ret.name = path.slice(1, startDot);
             ret.base = path.slice(1, end);
         } else {
@@ -1189,7 +1189,7 @@ function parse1(path) {
         ret.ext = path.slice(startDot, end);
     }
     if (startPart > 0) ret.dir = path.slice(0, startPart - 1);
-    else if (isAbsolute) ret.dir = "/";
+    else if (isAbsolute2) ret.dir = "/";
     return ret;
 }
 function fromFileUrl1(url) {
@@ -1250,14 +1250,14 @@ class BufReader {
     static create(r, size = DEFAULT_BUF_SIZE) {
         return r instanceof BufReader ? r : new BufReader(r, size);
     }
-    constructor(rd, size = DEFAULT_BUF_SIZE){
+    constructor(rd1, size1 = DEFAULT_BUF_SIZE){
         this.r = 0;
         this.w = 0;
         this.eof = false;
-        if (size < MIN_BUF_SIZE) {
-            size = MIN_BUF_SIZE;
+        if (size1 < MIN_BUF_SIZE) {
+            size1 = MIN_BUF_SIZE;
         }
-        this._reset(new Uint8Array(size), rd);
+        this._reset(new Uint8Array(size1), rd1);
     }
     size() {
         return this.buf.byteLength;
@@ -1301,10 +1301,10 @@ class BufReader {
         if (p.byteLength === 0) return rr;
         if (this.r === this.w) {
             if (p.byteLength >= this.buf.byteLength) {
-                const rr = await this.rd.read(p);
-                const nread = rr ?? 0;
+                const rr1 = await this.rd.read(p);
+                const nread = rr1 ?? 0;
                 assert(nread >= 0, "negative read");
-                return rr;
+                return rr1;
             }
             this.r = 0;
             this.w = 0;
@@ -1359,18 +1359,18 @@ class BufReader {
         try {
             line = await this.readSlice(LF);
         } catch (err) {
-            let { partial  } = err;
-            assert(partial instanceof Uint8Array, "bufio: caught error from `readSlice()` without `partial` property");
+            let { partial: partial1  } = err;
+            assert(partial1 instanceof Uint8Array, "bufio: caught error from `readSlice()` without `partial` property");
             if (!(err instanceof BufferFullError)) {
                 throw err;
             }
-            if (!this.eof && partial.byteLength > 0 && partial[partial.byteLength - 1] === CR) {
+            if (!this.eof && partial1.byteLength > 0 && partial1[partial1.byteLength - 1] === CR) {
                 assert(this.r > 0, "bufio: tried to rewind past start of buffer");
                 this.r--;
-                partial = partial.subarray(0, partial.byteLength - 1);
+                partial1 = partial1.subarray(0, partial1.byteLength - 1);
             }
             return {
-                line: partial,
+                line: partial1,
                 more: !this.eof
             };
         }
@@ -1396,12 +1396,12 @@ class BufReader {
         };
     }
     async readSlice(delim) {
-        let s = 0;
+        let s1 = 0;
         let slice;
         while(true){
-            let i = this.buf.subarray(this.r + s, this.w).indexOf(delim);
+            let i = this.buf.subarray(this.r + s1, this.w).indexOf(delim);
             if (i >= 0) {
-                i += s;
+                i += s1;
                 slice = this.buf.subarray(this.r, this.r + i + 1);
                 this.r += i + 1;
                 break;
@@ -1421,7 +1421,7 @@ class BufReader {
                 this.buf = newbuf;
                 throw new BufferFullError(oldbuf);
             }
-            s = this.w - this.r;
+            s1 = this.w - this.r;
             try {
                 await this._fill();
             } catch (err) {
@@ -1474,13 +1474,13 @@ class BufWriter extends AbstractBufBase {
     static create(writer, size = DEFAULT_BUF_SIZE) {
         return writer instanceof BufWriter ? writer : new BufWriter(writer, size);
     }
-    constructor(writer, size1 = DEFAULT_BUF_SIZE){
+    constructor(writer1, size2 = DEFAULT_BUF_SIZE){
         super();
-        this.writer = writer;
-        if (size1 <= 0) {
-            size1 = DEFAULT_BUF_SIZE;
+        this.writer = writer1;
+        if (size2 <= 0) {
+            size2 = DEFAULT_BUF_SIZE;
         }
-        this.buf = new Uint8Array(size1);
+        this.buf = new Uint8Array(size2);
     }
     reset(w) {
         this.err = null;
@@ -1530,13 +1530,13 @@ class BufWriterSync extends AbstractBufBase {
     static create(writer, size = DEFAULT_BUF_SIZE) {
         return writer instanceof BufWriterSync ? writer : new BufWriterSync(writer, size);
     }
-    constructor(writer1, size2 = DEFAULT_BUF_SIZE){
+    constructor(writer2, size3 = DEFAULT_BUF_SIZE){
         super();
-        this.writer = writer1;
-        if (size2 <= 0) {
-            size2 = DEFAULT_BUF_SIZE;
+        this.writer = writer2;
+        if (size3 <= 0) {
+            size3 = DEFAULT_BUF_SIZE;
         }
-        this.buf = new Uint8Array(size2);
+        this.buf = new Uint8Array(size3);
     }
     reset(w) {
         this.err = null;
@@ -1590,17 +1590,17 @@ function str(buf) {
         return new TextDecoder().decode(buf);
     }
 }
-function charCode(s) {
-    return s.charCodeAt(0);
+function charCode(s1) {
+    return s1.charCodeAt(0);
 }
 class TextProtoReader {
     constructor(r){
         this.r = r;
     }
     async readLine() {
-        const s = await this.readLineSlice();
-        if (s === null) return null;
-        return str(s);
+        const s1 = await this.readLineSlice();
+        if (s1 === null) return null;
+        return str(s1);
     }
     async readMIMEHeader() {
         const m = new Headers();
@@ -1643,9 +1643,9 @@ class TextProtoReader {
     async readLineSlice() {
         let line;
         while(true){
-            const r = await this.r.readLine();
-            if (r === null) return null;
-            const { line: l , more  } = r;
+            const r1 = await this.r.readLine();
+            if (r1 === null) return null;
+            const { line: l , more  } = r1;
             if (!line && !more) {
                 if (this.skipSpace(l) === 0) {
                     return new Uint8Array(0);
@@ -1725,9 +1725,9 @@ function scanUntilBoundary(buf, dashBoundary, newLineDashBoundary, total, eof) {
     return buf.length;
 }
 class PartReader {
-    constructor(mr, headers){
+    constructor(mr, headers2){
         this.mr = mr;
-        this.headers = headers;
+        this.headers = headers2;
         this.n = 0;
         this.total = 0;
     }
@@ -1752,8 +1752,8 @@ class PartReader {
         }
         const nread = Math.min(p.length, this.n);
         const buf = p.subarray(0, nread);
-        const r = await br.readFull(buf);
-        assert(r === buf);
+        const r1 = await br.readFull(buf);
+        assert(r1 === buf);
         this.n -= nread;
         this.total += nread;
         return nread;
@@ -1772,9 +1772,9 @@ class PartReader {
         ).map((kv)=>{
             const [k, v] = kv.split("=");
             if (v) {
-                const s = v.charAt(0);
+                const s1 = v.charAt(0);
                 const e = v.charAt(v.length - 1);
-                if (s === e && s === '"' || s === "'") {
+                if (s1 === e && s1 === '"' || s1 === "'") {
                     params[k] = v.substr(1, v.length - 2);
                 } else {
                     params[k] = v;
@@ -1854,13 +1854,13 @@ class MultipartReader {
                     write: true
                 });
                 try {
-                    const size = await Deno.copy(new MultiReader(buf, p), file);
+                    const size4 = await Deno.copy(new MultiReader(buf, p), file);
                     file.close();
                     formFile = {
                         filename: p.fileName,
                         type: contentType,
                         tempfile: filepath,
-                        size
+                        size: size4
                     };
                 } catch (e) {
                     await Deno.remove(filepath);
@@ -1909,12 +1909,12 @@ class MultipartReader {
             }
             if (this.isBoundaryDelimiterLine(line)) {
                 this.partsRead++;
-                const r = new TextProtoReader(this.bufReader);
-                const headers = await r.readMIMEHeader();
-                if (headers === null) {
+                const r1 = new TextProtoReader(this.bufReader);
+                const headers1 = await r1.readMIMEHeader();
+                if (headers1 === null) {
                     throw new Deno.errors.UnexpectedEof();
                 }
-                const np = new PartReader(this, headers);
+                const np = new PartReader(this, headers1);
                 this.currentPart = np;
                 return np;
             }
@@ -1986,8 +1986,8 @@ function multipartFormData(fileMap, valueMap) {
     };
 }
 class PartWriter {
-    constructor(writer2, boundary1, headers1, isFirstBoundary){
-        this.writer = writer2;
+    constructor(writer3, boundary1, headers1, isFirstBoundary){
+        this.writer = writer3;
         this.boundary = boundary1;
         this.headers = headers1;
         this.closed = false;
@@ -1998,8 +1998,8 @@ class PartWriter {
         } else {
             buf += `\r\n--${boundary1}\r\n`;
         }
-        for (const [key, value] of headers1.entries()){
-            buf += `${key}: ${value}\r\n`;
+        for (const [key, value1] of headers1.entries()){
+            buf += `${key}: ${value1}\r\n`;
         }
         buf += `\r\n`;
         this.partHeader = buf;
@@ -2035,15 +2035,15 @@ class MultipartWriter {
     get boundary() {
         return this._boundary;
     }
-    constructor(writer3, boundary2){
-        this.writer = writer3;
+    constructor(writer4, boundary2){
+        this.writer = writer4;
         this.isClosed = false;
         if (boundary2 !== void 0) {
             this._boundary = checkBoundary(boundary2);
         } else {
             this._boundary = randomBoundary();
         }
-        this.bufWriter = new BufWriter(writer3);
+        this.bufWriter = new BufWriter(writer4);
     }
     formDataContentType() {
         return `multipart/form-data; boundary=${this.boundary}`;

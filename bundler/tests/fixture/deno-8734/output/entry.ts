@@ -3,17 +3,17 @@ if (!m) {
     throw new Error('b');
 }
 class Comparator1 {
-    constructor(comp, optionsOrLoose = {
+    constructor(comp1, optionsOrLoose = {
     }){
     }
     parse(comp) {
-        const m = "another";
-        if (!m) {
+        const m1 = "another";
+        if (!m1) {
             throw new TypeError("Invalid comparator: " + comp);
         }
-        const m1 = m[1];
-        console.log(m1);
-        if (!m[2]) {
+        const m11 = m1[1];
+        console.log(m11);
+        if (!m1[2]) {
             console.log('other');
         }
     }

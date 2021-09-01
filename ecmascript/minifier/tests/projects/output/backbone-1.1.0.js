@@ -615,10 +615,10 @@
             });
         }
     });
-    var History = Backbone.History = function() {
+    var History1 = Backbone.History = function() {
         this.handlers = [], _.bindAll(this, "checkUrl"), "undefined" != typeof window && (this.location = window.location, this.history = window.history);
     }, routeStripper = /^[#\/]|\s+$/g, rootStripper = /^\/+|\/+$/g, isExplorer = /msie [\w.]+/, trailingSlash = /\/$/, pathStripper = /[?#].*$/;
-    History.started = !1, _.extend(History.prototype, Events, {
+    History1.started = !1, _.extend(History1.prototype, Events, {
         interval: 50,
         getHash: function(window) {
             var match = (window || this).location.href.match(/#(.*)$/);
@@ -633,8 +633,8 @@
             return fragment.replace(routeStripper, "");
         },
         start: function(options) {
-            if (History.started) throw new Error("Backbone.history has already been started");
-            History.started = !0, this.options = _.extend({
+            if (History1.started) throw new Error("Backbone.history has already been started");
+            History1.started = !0, this.options = _.extend({
                 root: "/"
             }, this.options, options), this.root = this.options.root, this._wantsHashChange = !1 !== this.options.hashChange, this._wantsPushState = !!this.options.pushState, this._hasPushState = !!(this.options.pushState && this.history && this.history.pushState);
             var fragment = this.getFragment(), docMode = document.documentMode, oldIE = isExplorer.exec(navigator.userAgent.toLowerCase()) && (!docMode || docMode <= 7);
@@ -648,7 +648,7 @@
             if (!this.options.silent) return this.loadUrl();
         },
         stop: function() {
-            Backbone.$(window).off("popstate", this.checkUrl).off("hashchange", this.checkUrl), clearInterval(this._checkUrlInterval), History.started = !1;
+            Backbone.$(window).off("popstate", this.checkUrl).off("hashchange", this.checkUrl), clearInterval(this._checkUrlInterval), History1.started = !1;
         },
         route: function(route, callback) {
             this.handlers.unshift({
@@ -667,7 +667,7 @@
             });
         },
         navigate: function(fragment, options) {
-            if (!History.started) return !1;
+            if (!History1.started) return !1;
             options && !0 !== options || (options = {
                 trigger: !!options
             });
@@ -688,7 +688,7 @@
                 location.replace(href + "#" + fragment);
             } else location.hash = "#" + fragment;
         }
-    }), Backbone.history = new History, Model.extend = Collection.extend = Router.extend = View.extend = History.extend = function(protoProps, staticProps) {
+    }), Backbone.history = new History1, Model.extend = Collection.extend = Router.extend = View.extend = History1.extend = function(protoProps, staticProps) {
         var child, parent = this;
         child = protoProps && _.has(protoProps, "constructor") ? protoProps.constructor : function() {
             return parent.apply(this, arguments);

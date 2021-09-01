@@ -703,8 +703,8 @@ function fetchWrapper(requestOptions) {
             });
         }
         if (status >= 400) {
-            return response.text().then((message)=>{
-                const error = new RequestError(message, status, {
+            return response.text().then((message2)=>{
+                const error = new RequestError(message2, status, {
                     headers,
                     request: requestOptions
                 });

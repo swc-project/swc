@@ -1,18 +1,16 @@
 var obj = {
-    a () {
-    },
-    b () {
-    },
-    get c () {
+    a() {},
+    b() {},
+    get c() {
         return "c";
     },
-    get d () {
+    get d() {
         return "d";
     },
-    set e (a){
+    set e(a) {
         doSomething(a);
     },
-    set f (a1){
+    set f(a) {
         doSomething(b);
-    }
+    },
 };

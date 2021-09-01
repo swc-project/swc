@@ -1,20 +1,20 @@
 var tokenCodes = {
-    get instanceof () {
+    get instanceof() {
         return test0;
     },
-    set instanceof (value){
+    set instanceof(value) {
         test0 = value;
     },
-    set typeof (value1){
-        test1 = value1;
+    set typeof(value) {
+        test1 = value;
     },
-    get typeof () {
+    get typeof() {
         return test1;
     },
-    set else (value2){
-        test2 = value2;
+    set else(value) {
+        test2 = value;
     },
-    get else () {
+    get else() {
         return test2;
-    }
+    },
 };
