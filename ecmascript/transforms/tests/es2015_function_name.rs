@@ -136,7 +136,7 @@ test!(
       }) instanceof Array && function (d, b) {
         d.__proto__ = b;
   } || function (d, b) {
-    for (var p in b) if (b1.hasOwnProperty(p)) d[p] = b[p];
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
   };
 
   return extendStatics(d, b);
