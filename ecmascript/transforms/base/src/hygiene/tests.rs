@@ -1343,3 +1343,36 @@ fn opt_2() {
         ",
     );
 }
+
+#[test]
+fn opt_3() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            let stmts = tester
+                .parse_stmts(
+                    "actual1.js",
+                    "
+                    var e = 1;
+                    try {
+                        throw 2;
+                    } catch (e) {
+                        console.log(e);
+                    }
+                    ",
+                )?
+                .fold_with(&mut OnceMarker::new(&[("e", &[mark1, mark2, mark1])]));
+            Ok(stmts)
+        },
+        "
+        var e = 1;
+        try {
+            throw 2;
+        } catch (e1) {
+            console.log(e);
+        }
+        ",
+    );
+}
