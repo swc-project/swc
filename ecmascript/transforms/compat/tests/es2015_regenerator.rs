@@ -1112,16 +1112,16 @@ test!(
                         [
                             3
                         ]
-                    ].map(regeneratorRuntime.mark(function _callee1([a]) {
-                        return regeneratorRuntime.wrap(function _callee$1(_ctx1) {
-                            while(1)switch(_ctx1.prev = _ctx1.next){
+                    ].map(regeneratorRuntime.mark(function _callee([a]) {
+                        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                            while(1)switch(_ctx.prev = _ctx.next){
                                 case 0:
                                     Promise.resolve().then(()=>a * 2);
                                 case 1:
                                 case "end":
-                                    return _ctx1.stop();
+                                    return _ctx.stop();
                             }
-                        }, _callee1);
+                        }, _callee);
                     }))));
                 case 1:
                 case "end":
