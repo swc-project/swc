@@ -679,15 +679,17 @@ impl Compiler {
     }
 
     /// `custom_after_pass` is applied after swc transforms are applied.
-    pub fn process_js_with_custom_pass<P>(
+    pub fn process_js_with_custom_pass<P1, P2>(
         &self,
         fm: Arc<SourceFile>,
         handler: &Handler,
         opts: &Options,
-        custom_after_pass: P,
+        custom_before_pass: P1,
+        custom_after_pass: P2,
     ) -> Result<TransformOutput, Error>
     where
-        P: swc_ecma_visit::Fold,
+        P1: swc_ecma_visit::Fold,
+        P2: swc_ecma_visit::Fold,
     {
         self.run(|| -> Result<_, Error> {
             let config = self.run(|| self.config_for_file(handler, opts, &fm.name))?;
@@ -698,7 +700,7 @@ impl Compiler {
                 }
             };
             let config = BuiltConfig {
-                pass: chain!(config.pass, custom_after_pass),
+                pass: chain!(custom_before_pass, config.pass, custom_after_pass),
                 syntax: config.syntax,
                 target: config.target,
                 minify: config.minify,
@@ -743,7 +745,7 @@ impl Compiler {
         handler: &Handler,
         opts: &Options,
     ) -> Result<TransformOutput, Error> {
-        self.process_js_with_custom_pass(fm, handler, opts, noop())
+        self.process_js_with_custom_pass(fm, handler, opts, noop(), noop())
     }
 
     pub fn minify(
