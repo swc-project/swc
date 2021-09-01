@@ -580,9 +580,9 @@ var Hello = function Hello() {
   };
 };
 
-var Outer = function (Hello1) {
+var Outer = function (Hello) {
   'use strict';
-  _inherits(Outer, Hello1);
+  _inherits(Outer, Hello);
 
   function Outer() {
     _classCallCheck(this, Outer);
@@ -938,7 +938,7 @@ var Foo = function Foo() {
     writable: true,
     value: foo
   });
-  var foo1 = "foo";
+  var foo = "foo";
 
 };
 
@@ -1896,9 +1896,9 @@ var Hello = function () {
   return Hello;
 }();
 
-var Outer = function (Hello1) {
+var Outer = function (Hello) {
   'use strict';
-  _inherits(Outer, Hello1);
+  _inherits(Outer, Hello);
 
   function Outer() {
     _classCallCheck(this, Outer);
@@ -2863,7 +2863,7 @@ let Foo = function Foo(bar) {
     'use strict';
     _classCallCheck(this, Foo);
     _defineProperty(this, 'qux', {
-        frob: (bar1)=>{
+        frob: (bar)=>{
         }
     });
     this._bar = bar;
