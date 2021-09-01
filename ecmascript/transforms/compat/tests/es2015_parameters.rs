@@ -225,16 +225,16 @@ class X {
     this.x = x
   }
 }"#,
-    r#"var Ref = function Ref1(param) {
+    r#"var Ref = function Ref(param) {
         'use strict';
-        var ref = param === void 0 ? Ref1 : param;
-        _classCallCheck(this, Ref1);
+        var ref = param === void 0 ? Ref : param;
+        _classCallCheck(this, Ref);
         this.ref = ref;
     }
-var X = function X1(param) {
+var X = function X(param) {
         'use strict';
         var x = param === void 0 ? foo : param;
-        _classCallCheck(this, X1);
+        _classCallCheck(this, X);
         this.x = x;
     };
 "#
