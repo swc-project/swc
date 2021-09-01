@@ -6179,7 +6179,7 @@ test_exec!(
   class Foo {}
   class Test extends Foo {
     foo() {
-      return Foo;
+      return 3;
     }
   }
   Foo = 3;
