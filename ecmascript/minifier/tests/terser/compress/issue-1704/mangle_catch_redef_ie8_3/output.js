@@ -1,10 +1,10 @@
 var o = "PASS";
 try {
     throw 0;
-} catch (o) {
+} catch (o1) {
     (function() {
         function a() {
-            o = "FAIL";
+            o1 = "FAIL";
         }
         a(), a();
     })();
