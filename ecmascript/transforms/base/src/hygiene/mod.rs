@@ -1,6 +1,6 @@
 use self::ops::{Operations, Operator};
 use crate::{
-    native::{is_native, is_native_word},
+    native::is_native_word,
     scope::{IdentType, ScopeKind},
 };
 use fxhash::{FxHashMap, FxHashSet};
@@ -405,32 +405,6 @@ impl<'a> Scope<'a> {
         match self.parent {
             Some(ref parent) => parent.scope_of(sym, ctxt, var_kind),
             _ => self,
-        }
-    }
-
-    fn can_declare(&self, sym: &Box<str>, ctxt: SyntaxContext) -> bool {
-        match self.parent {
-            None => {}
-            Some(parent) => {
-                if !parent.can_declare(sym, ctxt) {
-                    return false;
-                }
-            }
-        }
-
-        if is_native(&sym) {
-            return false;
-        }
-
-        if self.renamed.contains(&(&**sym).into()) {
-            return false;
-        }
-
-        if let Some(ctxts) = self.declared_symbols.borrow().get(sym) {
-            ctxts.contains(&ctxt)
-        } else {
-            // No variable named `sym` is declared
-            true
         }
     }
 
