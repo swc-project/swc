@@ -42,7 +42,7 @@ use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, Syntax};
 use swc_ecma_transforms::{
     fixer,
     helpers::{self, Helpers},
-    hygiene::{self, hygiene_with_config},
+    hygiene,
     modules::path::NodeImportResolver,
     pass::noop,
     resolver_with_mark,
@@ -817,9 +817,7 @@ impl Compiler {
                 );
 
                 module
-                    .fold_with(&mut hygiene_with_config(hygiene::Config {
-                        ..Default::default()
-                    }))
+                    .fold_with(&mut hygiene())
                     .fold_with(&mut fixer(Some(&self.comments as &dyn Comments)))
             });
 

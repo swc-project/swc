@@ -227,15 +227,6 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             }),
             Optional::new(
                 hygiene_with_config(self.hygiene.clone().unwrap_or_default()),
-                chain!(
-                    Optional::new(
-                        chain!(unique_scope(), hygiene_optimizer(self.global_mark,)),
-                        self.optimize_hygiene
-                    ),
-                    hygiene_with_config(hygiene::Config {
-                        ..self.hygiene.clone().unwrap_or_default()
-                    })
-                ),
                 self.hygiene.is_some()
             ),
             Optional::new(fixer(comments.map(|v| v as &dyn Comments)), self.fixer),
