@@ -164,30 +164,6 @@ fn test_mark_for() {
 }
 
 to!(
-    class_nested_var,
-    "
-        var ConstructorScoping = function ConstructorScoping() {
-            _classCallCheck(this, ConstructorScoping);
-            var bar;
-            {
-                let bar;
-                use(bar);
-            }
-        }
-        ",
-    "
-        var ConstructorScoping = function ConstructorScoping1() {
-            _classCallCheck(this, ConstructorScoping1);
-            var bar;
-            {
-                let bar1;
-                use(bar1);
-            }
-        }
-        "
-);
-
-to!(
     basic,
     r#"
         {
