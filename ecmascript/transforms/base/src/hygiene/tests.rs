@@ -1268,8 +1268,8 @@ fn opt_1() {
             let mark1 = Mark::fresh(Mark::root());
             let mark2 = Mark::fresh(Mark::root());
 
-            let stmts = vec![tester
-                .parse_stmt(
+            let stmts = tester
+                .parse_stmts(
                     "actual1.js",
                     "
                     var foo = 1;
@@ -1284,7 +1284,7 @@ fn opt_1() {
                 .fold_with(&mut OnceMarker::new(&[(
                     "foo",
                     &[mark1, mark2, mark1, mark2, mark1],
-                )]))];
+                )]));
             Ok(stmts)
         },
         "
