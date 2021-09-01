@@ -1332,10 +1332,10 @@ fn opt_2() {
         },
         "
         var b = 1;
-        var b11 = 1;
+        var b11 = 2;
         {
-            const b2 = 2;
-            const b1 = 2;
+            const b2 = 3;
+            const b1 = 4;
             {
                 b11 = b2 + b + b1 + b11
             }
