@@ -4,6 +4,7 @@ use swc_common::{collections::AHashMap, hygiene::*, DUMMY_SP};
 use swc_ecma_parser::Syntax;
 use swc_ecma_utils::quote_ident;
 use swc_ecma_visit::{Fold, FoldWith};
+use testing::{assert_eq, DebugUsingDisplay};
 
 struct Marker {
     map: AHashMap<JsWord, Mark>,
@@ -94,10 +95,7 @@ where
         };
 
         if actual != expected {
-            panic!(
-                "\n>>>>> Actual <<<<<\n{}\n>>>>> Expected <<<<<\n{}",
-                actual, expected
-            );
+            assert_eq!(DebugUsingDisplay(&*actual), DebugUsingDisplay(&*expected));
         }
 
         Ok(())
