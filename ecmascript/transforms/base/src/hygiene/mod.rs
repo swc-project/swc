@@ -16,7 +16,7 @@ mod ops;
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = false;
+const LOG: bool = true;
 
 #[derive(Debug, Clone, Default)]
 pub struct Config {
@@ -422,7 +422,7 @@ impl<'a> Scope<'a> {
 
         let mut ctxts = smallvec![];
         {
-            if let Some(cxs) = self.used.get_mut().get(&*sym) {
+            if let Some(cxs) = self.declared_symbols.get_mut().get(&*sym) {
                 if cxs.len() != 1 || cxs[0] != ctxt {
                     ctxts.extend_from_slice(&cxs);
                 }
@@ -432,7 +432,7 @@ impl<'a> Scope<'a> {
         let mut cur = self.parent;
 
         while let Some(scope) = cur {
-            if let Some(cxs) = scope.used.borrow().get(&*sym) {
+            if let Some(cxs) = scope.declared_symbols.borrow().get(&*sym) {
                 if cxs.len() != 1 || cxs[0] != ctxt {
                     ctxts.extend_from_slice(&cxs);
                 }
