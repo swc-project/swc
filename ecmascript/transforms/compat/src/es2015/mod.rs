@@ -178,7 +178,7 @@ function foo(scope) {
 ",
         "
 function foo(scope) {
-    let startOperation = function startOperation1(operation) {
+    let startOperation = function startOperation(operation) {
         scope.agentOperation = operation;
     };
     scope.startOperation = startOperation;
@@ -277,9 +277,9 @@ class B extends A {
         }]);
     return A;
 }();
-var B = function(A1) {
+var B = function(A) {
     'use strict';
-    _inherits(B, A1);
+    _inherits(B, A);
     function B(num) {
         _classCallCheck(this, B);
         var _this;
