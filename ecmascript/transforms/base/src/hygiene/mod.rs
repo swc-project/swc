@@ -280,11 +280,11 @@ impl<'a> Hygiene<'a> {
 }
 
 impl<'a> Hygiene<'a> {
-    fn visit_mut_fn(&mut self, ident: Option<Ident>, node: &mut Function, is_decl: bool) {
+    fn visit_mut_fn(&mut self, ident: &mut Option<Ident>, node: &mut Function, is_decl: bool) {
         if is_decl {
             match ident.clone() {
                 Some(ident) => {
-                    self.add_decl(ident);
+                    self.add_decl(ident.clone());
                 }
                 _ => {}
             }
@@ -300,7 +300,7 @@ impl<'a> Hygiene<'a> {
         if !is_decl {
             match ident {
                 Some(ident) => {
-                    folder.add_decl(ident);
+                    folder.add_decl(ident.clone());
                 }
                 _ => {}
             }
@@ -317,7 +317,8 @@ impl<'a> Hygiene<'a> {
             .as_mut()
             .map(|stmt| stmt.visit_mut_children_with(&mut folder));
 
-        folder.apply_ops(node)
+        folder.apply_ops(ident);
+        folder.apply_ops(node);
     }
 }
 
@@ -735,11 +736,15 @@ impl<'a> VisitMut for Hygiene<'a> {
     }
 
     fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
-        self.visit_mut_fn(Some(node.ident.clone()), &mut node.function, true);
+        let mut new_id = Some(node.ident.clone());
+        self.visit_mut_fn(&mut new_id, &mut node.function, true);
+        node.ident = new_id.unwrap();
     }
 
     fn visit_mut_fn_expr(&mut self, node: &mut FnExpr) {
-        self.visit_mut_fn(node.ident.clone(), &mut node.function, false);
+        let mut new_id = node.ident.clone();
+        self.visit_mut_fn(&mut new_id, &mut node.function, false);
+        node.ident = new_id;
     }
 
     /// Invoked for `IdentifierReference` / `BindingIdentifier`
