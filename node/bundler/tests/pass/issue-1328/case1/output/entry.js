@@ -46,7 +46,7 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- */ var runtime = function(exports1) {
+ */ var runtime = function(exports) {
         var Op = Object.prototype;
         var hasOwn = Op.hasOwnProperty;
         var undefined; // More compressible than void 0.
@@ -83,7 +83,7 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
             generator._invoke = makeInvokeMethod(innerFn, self, context);
             return generator;
         }
-        exports1.wrap = wrap;
+        exports.wrap = wrap;
         // Try/catch helper to minimize deoptimizations. Returns a completion
         // record like context.tryEntries[i].completion. This interface could
         // have been (and was previously) designed to take a closure to be
@@ -155,13 +155,13 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
                 });
             });
         }
-        exports1.isGeneratorFunction = function(genFun) {
+        exports.isGeneratorFunction = function(genFun) {
             var ctor = typeof genFun === "function" && genFun.constructor;
             return ctor ? ctor === GeneratorFunction || // For the native GeneratorFunction constructor, the best we can
             // do is to check its .name property.
             (ctor.displayName || ctor.name) === "GeneratorFunction" : false;
         };
-        exports1.mark = function(genFun) {
+        exports.mark = function(genFun) {
             if (Object.setPrototypeOf) Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
             else {
                 genFun.__proto__ = GeneratorFunctionPrototype;
@@ -174,7 +174,7 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
         // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
         // `hasOwn.call(value, "__await")` to determine if the yielded value is
         // meant to be awaited.
-        exports1.awrap = function(arg) {
+        exports.awrap = function(arg) {
             return {
                 __await: arg
             };
@@ -186,8 +186,8 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
                 else {
                     var result = record.arg;
                     var value = result.value;
-                    if (value && typeof value === "object" && hasOwn.call(value, "__await")) return PromiseImpl.resolve(value.__await).then(function(value1) {
-                        invoke("next", value1, resolve, reject);
+                    if (value && typeof value === "object" && hasOwn.call(value, "__await")) return PromiseImpl.resolve(value.__await).then(function(value) {
+                        invoke("next", value, resolve, reject);
                     }, function(err) {
                         invoke("throw", err, resolve, reject);
                     });
@@ -235,14 +235,14 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
         define(AsyncIterator.prototype, asyncIteratorSymbol, function() {
             return this;
         });
-        exports1.AsyncIterator = AsyncIterator;
+        exports.AsyncIterator = AsyncIterator;
         // Note that simple async functions are implemented on top of
         // AsyncIterator objects; they just return a Promise for the value of
         // the final result produced by the iterator.
-        exports1.async = function(innerFn, outerFn, self, tryLocsList, PromiseImpl) {
+        exports.async = function(innerFn, outerFn, self, tryLocsList, PromiseImpl) {
             if (PromiseImpl === void 0) PromiseImpl = Promise;
             var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl);
-            return exports1.isGeneratorFunction(outerFn) ? iter // If outerFn is a generator, return the full iterator.
+            return exports.isGeneratorFunction(outerFn) ? iter // If outerFn is a generator, return the full iterator.
              : iter.next().then(function(result) {
                 return result.done ? result.value : iter.next();
             });
@@ -408,7 +408,7 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
             tryLocsList.forEach(pushTryEntry, this);
             this.reset(true);
         }
-        exports1.keys = function(object) {
+        exports.keys = function(object) {
             var keys = [];
             for(var key in object)keys.push(key);
             keys.reverse();
@@ -416,9 +416,9 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
             // things simple and return the next function itself.
             return function next() {
                 while(keys.length){
-                    var key1 = keys.pop();
-                    if (key1 in object) {
-                        next.value = key1;
+                    var key = keys.pop();
+                    if (key in object) {
+                        next.value = key;
                         next.done = false;
                         return next;
                     }
@@ -436,15 +436,15 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
                 if (iteratorMethod) return iteratorMethod.call(iterable);
                 if (typeof iterable.next === "function") return iterable;
                 if (!isNaN(iterable.length)) {
-                    var i = -1, next = function next1() {
+                    var i = -1, next = function next() {
                         while(++i < iterable.length)if (hasOwn.call(iterable, i)) {
-                            next1.value = iterable[i];
-                            next1.done = false;
-                            return next1;
+                            next.value = iterable[i];
+                            next.done = false;
+                            return next;
                         }
-                        next1.value = undefined;
-                        next1.done = true;
-                        return next1;
+                        next.value = undefined;
+                        next.done = true;
+                        return next;
                     };
                     return next.next = next;
                 }
@@ -454,7 +454,7 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
                 next: doneResult
             };
         }
-        exports1.values = values;
+        exports.values = values;
         function doneResult() {
             return {
                 value: undefined,
@@ -596,7 +596,7 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
         // or not, return the runtime object so that we can declare the variable
         // regeneratorRuntime in the outer scope, which allows this module to be
         // injected easily by `bin/regenerator --include-runtime script.js`.
-        return exports1;
+        return exports;
     }(// If this script is executing as a CommonJS module, use module.exports
     // as the regeneratorRuntime namespace. Otherwise create a new empty
     // object. Either way, the resulting object will be used to initialize
