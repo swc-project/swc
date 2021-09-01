@@ -164,44 +164,6 @@ fn test_mark_for() {
 }
 
 to!(
-    pass_update,
-    r#"let a = 1;
-a++;
-expect(a).toBe(2);"#,
-    "
-    let a = 1;
-    a++;
-    expect(a).toBe(2);
-    "
-);
-
-to!(
-    fn_param,
-    r#"let a = 'foo';
-    function foo(a) {
-        use(a);
-    }"#,
-    r#"let a = 'foo';
-    function foo(a1) {
-        use(a1);
-    }"#
-);
-
-to!(
-    fn_body,
-    r#"let a = 'foo';
-    function foo() {
-        let a = 'bar';
-        use(a);
-    }"#,
-    r#"let a = 'foo';
-    function foo() {
-        let a1 = 'bar';
-        use(a1);
-    }"#
-);
-
-to!(
     shorthand,
     r#"let a = 'foo';
     function foo() {
