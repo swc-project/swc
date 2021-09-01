@@ -439,15 +439,15 @@ test!(
     }));
 "#,
     r#"
-    export default _c2 = React.memo(_c1 = forwardRef(_c = function (props, ref) {
+    export default _c = React.memo(_c2 = forwardRef(_c1 = function (props, ref) {
       return <h1>Foo</h1>;
     }));
     
-    var _c, _c1, _c2;
+    var _c1, _c2, _c;
     
-    $RefreshReg$(_c, "%default%$React.memo$forwardRef");
-    $RefreshReg$(_c1, "%default%$React.memo");
-    $RefreshReg$(_c2, "%default%");
+    $RefreshReg$(_c1, "%default%$React.memo$forwardRef");
+    $RefreshReg$(_c2, "%default%$React.memo");
+    $RefreshReg$(_c, "%default%");
 "#
 );
 
@@ -464,15 +464,15 @@ test!(
     }));
 "#,
     r#"
-    export default _c2 = React.memo(_c1 = forwardRef(_c = function Named(props, ref) {
+    export default _c = React.memo(_c2 = forwardRef(_c1 = function Named(props, ref) {
       return <h1>Foo</h1>;
     }));
     
-    var _c, _c1, _c2;
+    var _c1, _c2, _c;
     
-    $RefreshReg$(_c, "%default%$React.memo$forwardRef");
-    $RefreshReg$(_c1, "%default%$React.memo");
-    $RefreshReg$(_c2, "%default%");
+    $RefreshReg$(_c1, "%default%$React.memo$forwardRef");
+    $RefreshReg$(_c2, "%default%$React.memo");
+    $RefreshReg$(_c, "%default%");
 "#
 );
 
@@ -860,7 +860,7 @@ test!(
     r#"
     var _s = $RefreshSig$(), _s1 = $RefreshSig$();
 
-    export const A = _s(React.memo(_c1 = _s(React.forwardRef(_c = _s((props, ref) => {
+    export const A = _s(React.memo(_c = _s(React.forwardRef(_c1 = _s((props, ref) => {
       _s();
     
       const [foo, setFoo] = useState(0);
@@ -878,10 +878,10 @@ test!(
     _c5 = B;
 
     function hoc() {
-      var _s2 = $RefreshSig$();
+      var _s = $RefreshSig$();
 
-      return _s2(function Inner() {
-        _s2();
+      return _s(function Inner() {
+        _s();
 
         const [foo, setFoo] = useState(0);
         React.useEffect(() => {});
@@ -891,10 +891,10 @@ test!(
 
     export let C = hoc();
 
-    var _c, _c1, _c2, _c3, _c4, _c5;
+    var _c1, _c, _c2, _c3, _c4, _c5;
 
-    $RefreshReg$(_c, "A$React.memo$React.forwardRef");
-    $RefreshReg$(_c1, "A$React.memo");
+    $RefreshReg$(_c1, "A$React.memo$React.forwardRef");
+    $RefreshReg$(_c, "A$React.memo");
     $RefreshReg$(_c2, "A");
     $RefreshReg$(_c3, "B$React.memo$React.forwardRef");
     $RefreshReg$(_c4, "B$React.memo");
