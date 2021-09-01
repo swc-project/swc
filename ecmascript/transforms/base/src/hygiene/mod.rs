@@ -63,6 +63,15 @@ impl<'a> Hygiene<'a> {
         }
 
         {
+            self.current
+                .declared_symbols
+                .borrow_mut()
+                .entry(sym.to_boxed_str())
+                .or_default()
+                .push(ctxt);
+        }
+
+        {
             let mut used = self.current.used.borrow_mut();
             let e = used.entry(sym.to_boxed_str()).or_default();
 
