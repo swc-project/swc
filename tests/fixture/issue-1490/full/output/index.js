@@ -140,11 +140,11 @@ function _wrapNativeSuper(Class) {
     };
     return _wrapNativeSuper(Class);
 }
-var Element1 = /*#__PURE__*/ function() {
-    function Element1() {
-        _classCallCheck(this, Element1);
+var Element = /*#__PURE__*/ function() {
+    function Element() {
+        _classCallCheck(this, Element);
     }
-    _createClass(Element1, [
+    _createClass(Element, [
         {
             key: "getChildElements",
             value: function getChildElements() {
@@ -152,10 +152,10 @@ var Element1 = /*#__PURE__*/ function() {
             }
         }
     ]);
-    return Element1;
+    return Element;
 }();
-var CanvasElement = /*#__PURE__*/ function(Element2) {
-    _inherits(CanvasElement, Element2);
+var CanvasElement = /*#__PURE__*/ function(Element) {
+    _inherits(CanvasElement, Element);
     function CanvasElement() {
         _classCallCheck(this, CanvasElement);
         return _possibleConstructorReturn(this, _getPrototypeOf(CanvasElement).apply(this, arguments));
@@ -170,9 +170,9 @@ var CanvasElement = /*#__PURE__*/ function(Element2) {
         }
     ]);
     return CanvasElement;
-}(_wrapNativeSuper(Element1));
-var ColouredCanvasElement = /*#__PURE__*/ function(CanvasElement1) {
-    _inherits(ColouredCanvasElement, CanvasElement1);
+}(_wrapNativeSuper(Element));
+var ColouredCanvasElement = /*#__PURE__*/ function(CanvasElement) {
+    _inherits(ColouredCanvasElement, CanvasElement);
     function ColouredCanvasElement() {
         _classCallCheck(this, ColouredCanvasElement);
         return _possibleConstructorReturn(this, _getPrototypeOf(ColouredCanvasElement).apply(this, arguments));
@@ -188,8 +188,8 @@ var ColouredCanvasElement = /*#__PURE__*/ function(CanvasElement1) {
     ]);
     return ColouredCanvasElement;
 }(CanvasElement);
-var ColouredSquare = /*#__PURE__*/ function(ColouredCanvasElement1) {
-    _inherits(ColouredSquare, ColouredCanvasElement1);
+var ColouredSquare = /*#__PURE__*/ function(ColouredCanvasElement) {
+    _inherits(ColouredSquare, ColouredCanvasElement);
     function ColouredSquare() {
         _classCallCheck(this, ColouredSquare);
         return _possibleConstructorReturn(this, _getPrototypeOf(ColouredSquare).apply(this, arguments));
