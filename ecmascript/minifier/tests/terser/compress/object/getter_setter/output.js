@@ -2,38 +2,44 @@ var get = "bar";
 var a = {
     get: get,
     set: "foo",
-    get bar() {
+    get bar () {
         return this.get;
     },
-    get 5() {
+    get 5 () {
         return "five";
     },
-    get 3925() {
+    get 3925 () {
         return "f five five";
     },
-    get five() {
+    get five () {
         return 5;
     },
-    set one(value) {
+    set one (value){
         this._one = value;
     },
-    set 9(value) {
-        this._nine = value;
+    set 9 (value1){
+        this._nine = value1;
     },
-    set 10(value) {
-        this._ten = value;
+    set 10 (value2){
+        this._ten = value2;
     },
-    set eleven(value) {
-        this._eleven = value;
-    },
+    set eleven (value3){
+        this._eleven = value3;
+    }
 };
 var b = {
-    get() {
+    get () {
         return "gift";
     },
-    set: function (code) {
+    set: function(code) {
         return "Storing code " + code;
-    },
+    }
 };
-var c = { ["get"]: "foo", ["set"]: "bar" };
-var d = { get: "foo", set: "bar" };
+var c = {
+    ["get"]: "foo",
+    ["set"]: "bar"
+};
+var d = {
+    get: "foo",
+    set: "bar"
+};
