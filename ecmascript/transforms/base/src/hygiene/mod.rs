@@ -587,29 +587,6 @@ impl<'a> VisitMut for Hygiene<'a> {
 
     track_ident_mut!();
 
-    fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
-        let old = self.ident_type;
-        self.ident_type = IdentType::Binding;
-        n.ident.visit_mut_with(self);
-        self.ident_type = old;
-
-        n.class.visit_mut_with(self);
-    }
-
-    fn visit_mut_setter_prop(&mut self, f: &mut SetterProp) {
-        let old = self.ident_type;
-        self.ident_type = IdentType::Ref;
-        f.key.visit_mut_with(self);
-        self.ident_type = old;
-
-        let old = self.ident_type;
-        self.ident_type = IdentType::Binding;
-        f.param.visit_mut_with(self);
-        self.ident_type = old;
-
-        f.body.visit_mut_with(self);
-    }
-
     fn visit_mut_arrow_expr(&mut self, node: &mut ArrowExpr) {
         let mut folder = Hygiene {
             config: self.config.clone(),
@@ -654,6 +631,15 @@ impl<'a> VisitMut for Hygiene<'a> {
         c.body.visit_mut_with(&mut folder);
 
         folder.apply_ops(c)
+    }
+
+    fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
+        let old = self.ident_type;
+        self.ident_type = IdentType::Binding;
+        n.ident.visit_mut_with(self);
+        self.ident_type = old;
+
+        n.class.visit_mut_with(self);
     }
 
     fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
@@ -739,14 +725,6 @@ impl<'a> VisitMut for Hygiene<'a> {
         self.ident_type = IdentType::Ref;
         match node {
             Expr::Ident(..) => node.visit_mut_children_with(self),
-            Expr::Member(e) => {
-                if e.computed {
-                    e.obj.visit_mut_with(self);
-                    e.prop.visit_mut_with(self);
-                } else {
-                    e.obj.visit_mut_with(self)
-                }
-            }
 
             Expr::This(..) => {}
 
@@ -787,6 +765,14 @@ impl<'a> VisitMut for Hygiene<'a> {
         }
     }
 
+    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
+        e.obj.visit_mut_with(self);
+
+        if e.computed {
+            e.prop.visit_mut_with(self);
+        }
+    }
+
     fn visit_mut_module(&mut self, module: &mut Module) {
         module.visit_mut_children_with(self);
 
@@ -806,6 +792,20 @@ impl<'a> VisitMut for Hygiene<'a> {
     }
 
     fn visit_mut_private_name(&mut self, _: &mut PrivateName) {}
+
+    fn visit_mut_setter_prop(&mut self, f: &mut SetterProp) {
+        let old = self.ident_type;
+        self.ident_type = IdentType::Ref;
+        f.key.visit_mut_with(self);
+        self.ident_type = old;
+
+        let old = self.ident_type;
+        self.ident_type = IdentType::Binding;
+        f.param.visit_mut_with(self);
+        self.ident_type = old;
+
+        f.body.visit_mut_with(self);
+    }
 
     fn visit_mut_try_stmt(&mut self, node: &mut TryStmt) {
         node.block.visit_mut_children_with(self);
