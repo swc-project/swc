@@ -44,6 +44,7 @@ macro_rules! identical {
     };
 }
 
+#[track_caller]
 fn test(src: &str, expected: &str) {
     swc_ecma_transforms_testing::test_transform(
         ::swc_ecma_parser::Syntax::default(),

@@ -243,6 +243,7 @@ where
     chain!(op(tester), as_folder(RegeneratorHandler))
 }
 
+#[track_caller]
 pub fn test_transform<F, P>(
     syntax: Syntax,
     tr: F,
