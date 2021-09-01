@@ -1260,3 +1260,41 @@ fn issue_1507() {
         },
     );
 }
+
+#[test]
+fn opt_1() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            let stmts = vec![tester
+                .parse_stmt(
+                    "actual1.js",
+                    "
+                    var foo = 1;
+                    {
+                        const foo = 2;
+                        {
+                            foo = foo + foo
+                        }
+                    }
+                    ",
+                )?
+                .fold_with(&mut OnceMarker::new(&[(
+                    "foo",
+                    &[mark1, mark2, mark1, mark2, mark1],
+                )]))];
+            Ok(stmts)
+        },
+        "
+        var foo = 1;
+        {
+            const foo1 = 2;
+            {
+                foo = foo1 + foo
+            }
+        }
+        ",
+    );
+}
