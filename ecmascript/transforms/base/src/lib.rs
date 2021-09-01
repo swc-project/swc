@@ -1,5 +1,3 @@
-#![deny(unused)]
-
 #[doc(hidden)]
 pub mod ext;
 pub mod fixer;

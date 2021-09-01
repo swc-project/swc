@@ -16,7 +16,7 @@ mod ops;
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = false;
+const LOG: bool = true;
 
 #[derive(Debug, Clone, Default)]
 pub struct Config {
@@ -44,7 +44,7 @@ struct Hygiene<'a> {
 type Contexts = SmallVec<[SyntaxContext; 32]>;
 
 impl<'a> Hygiene<'a> {
-    fn add_declared_ref(&mut self, ident: Ident) {
+    fn add_decl(&mut self, ident: Ident) {
         let ctxt = ident.span.ctxt();
 
         if cfg!(debug_assertions) && LOG {
@@ -56,24 +56,23 @@ impl<'a> Hygiene<'a> {
             );
         }
 
-        let can_declare_without_renaming =
-            self.current.can_declare(&ident.sym.to_boxed_str(), ctxt);
         let sym = self.current.change_symbol(ident.sym, ctxt);
 
         if cfg!(debug_assertions) && LOG {
-            eprintln!("Changed symbol to {}{:?} ", sym, ctxt);
+            eprintln!("\tChanged symbol to {}{:?} ", sym, ctxt);
         }
 
-        self.current
-            .declared_symbols
-            .borrow_mut()
-            .entry(sym.to_boxed_str())
-            .or_default()
-            .push(ctxt);
+        {
+            let mut used = self.current.used.borrow_mut();
+            let e = used.entry(sym.to_boxed_str()).or_default();
 
-        if can_declare_without_renaming {
-            // skip if previous symbol is declared on the same level.
-            return;
+            if !e.contains(&ctxt) {
+                e.push(ctxt);
+            }
+
+            if e.len() <= 1 {
+                return;
+            }
         }
 
         if cfg!(debug_assertions) && LOG {
@@ -94,14 +93,22 @@ impl<'a> Hygiene<'a> {
 
         let ctxt = ident.span.ctxt();
 
-        // Commented out because of https://github.com/swc-project/swc/issues/962
+        {
+            let mut used = self.current.used.borrow_mut();
+            let e = used.entry(ident.sym.to_boxed_str()).or_default();
 
-        // self.current
-        //     .declared_symbols
-        //     .borrow_mut()
-        //     .entry(ident.sym.clone())
-        //     .or_insert_with(Vec::new)
-        //     .push(ctxt);
+            if !e.contains(&ctxt) {
+                e.push(ctxt);
+            }
+
+            if e.len() <= 1 {
+                return;
+            }
+        }
+
+        if cfg!(debug_assertions) && LOG {
+            eprintln!("Renaming from decl");
+        }
 
         // We rename declaration instead of usage
         let conflicts = self.current.conflicts(ident.sym.clone(), ctxt);
@@ -267,7 +274,7 @@ impl<'a> Hygiene<'a> {
     fn visit_mut_fn(&mut self, ident: Option<Ident>, node: &mut Function) {
         match ident {
             Some(ident) => {
-                self.add_declared_ref(ident);
+                self.add_decl(ident);
             }
             _ => {}
         }
@@ -302,6 +309,8 @@ struct Scope<'a> {
     /// Kind of the scope.
     pub kind: ScopeKind,
 
+    pub used: RefCell<FxHashMap<Box<str>, Vec<SyntaxContext>>>,
+
     /// All references declared in this scope
     pub declared_symbols: RefCell<FxHashMap<Box<str>, Vec<SyntaxContext>>>,
 
@@ -331,6 +340,7 @@ impl<'a> Scope<'a> {
             // children: Default::default(),
             ops: Default::default(),
             renamed: Default::default(),
+            used: Default::default(),
         }
     }
 
@@ -449,7 +459,7 @@ impl<'a> Scope<'a> {
         while let Some(scope) = cur {
             if let Some(to) = scope.ops.borrow().rename.get(&(sym.clone(), ctxt)) {
                 if cfg!(debug_assertions) && LOG {
-                    eprintln!("Changing symbol: {}{:?} -> {}", sym, ctxt, to);
+                    eprintln!("\tChanging symbol: {}{:?} -> {}", sym, ctxt, to);
                 }
                 sym = to.clone()
             }
@@ -766,7 +776,7 @@ impl<'a> VisitMut for Hygiene<'a> {
         }
 
         match self.ident_type {
-            IdentType::Binding => self.add_declared_ref(i.clone()),
+            IdentType::Binding => self.add_decl(i.clone()),
             IdentType::Ref => {
                 // Special cases
                 if is_native_word(&i.sym) {
