@@ -12,10 +12,7 @@
 //! them something other. Don't call methods like `visit_mut_script` nor
 //! `visit_mut_module_items`.
 
-pub use crate::pass::{
-    hygiene::{hygiene_optimizer, optimize_hygiene},
-    unique_scope::unique_scope,
-};
+pub use crate::pass::unique_scope::unique_scope;
 use crate::{
     compress::compressor,
     marks::Marks,
@@ -157,11 +154,6 @@ pub fn optimize(
 
     if let Some(ref mut t) = timings {
         t.section("hygiene");
-    }
-
-    {
-        m.visit_mut_with(&mut unique_scope());
-        m.visit_mut_with(&mut hygiene_optimizer(extra.top_level_mark));
     }
 
     if let Some(ref mut t) = timings {

@@ -18,5 +18,5 @@ it("should handle es2019", () => {
       }
     })
       .code.trim()
-  ).toContain(`let Foo1 = class Foo {`);
+  ).toContain(`let Foo = class Foo {`);
 });

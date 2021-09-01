@@ -580,9 +580,9 @@ var Hello = function Hello() {
   };
 };
 
-var Outer = function (Hello1) {
+var Outer = function (Hello) {
   'use strict';
-  _inherits(Outer, Hello1);
+  _inherits(Outer, Hello);
 
   function Outer() {
     _classCallCheck(this, Outer);
@@ -890,10 +890,10 @@ function () {
 
 var B =
 /*#__PURE__*/
-function (A1) {
+function (A) {
   'use strict';
 
-  _inherits(B, A1);
+  _inherits(B, A);
 
   function B() {
     _classCallCheck(this, B);
@@ -1705,20 +1705,20 @@ var Foo = function Foo() {
 
   _classCallCheck(this, Foo);
 
-  _prop1.set(this, {
+  _prop.set(this, {
     writable: true,
     value: "foo"
   });
 };
 
-var _prop1 = new WeakMap();
+var _prop = new WeakMap();
 
 var Bar =
 /*#__PURE__*/
-function (Foo1) {
+function (Foo) {
   'use strict';  
 
-  _inherits(Bar, Foo1);
+  _inherits(Bar, Foo);
 
   function Bar() {
     _classCallCheck(this, Bar);
@@ -1726,7 +1726,7 @@ function (Foo1) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Bar).apply(this, arguments));
 
-    _prop2.set(_assertThisInitialized(_this), {
+    _prop1.set(_assertThisInitialized(_this), {
       writable: true,
       value: "bar"
     });
@@ -1737,7 +1737,7 @@ function (Foo1) {
   return Bar;
 }(Foo);
 
-var _prop2 = new WeakMap();
+var _prop1 = new WeakMap();
 
 "#
 );
@@ -1777,10 +1777,10 @@ var A = function () {
 
 var B =
 /*#__PURE__*/
-function (A1) {
+function (A) {
   'use strict';
 
-  _inherits(B, A1);
+  _inherits(B, A);
 
   function B() {
     _classCallCheck(this, B);
@@ -1896,9 +1896,9 @@ var Hello = function () {
   return Hello;
 }();
 
-var Outer = function (Hello1) {
+var Outer = function (Hello) {
   'use strict';
-  _inherits(Outer, Hello1);
+  _inherits(Outer, Hello);
 
   function Outer() {
     _classCallCheck(this, Outer);
@@ -2863,7 +2863,7 @@ let Foo = function Foo(bar) {
     'use strict';
     _classCallCheck(this, Foo);
     _defineProperty(this, 'qux', {
-        frob: (bar1)=>{
+        frob: (bar)=>{
         }
     });
     this._bar = bar;
@@ -3226,36 +3226,36 @@ class Sub2 extends Base {}
     r#"
 class Base {
   static getThis() {
-    return _classStaticPrivateFieldSpecGet(this, Base, _foo1);
+    return _classStaticPrivateFieldSpecGet(this, Base, _foo);
   }
 
   static updateThis(val) {
-    return _classStaticPrivateFieldSpecSet(this, Base, _foo1, val);
+    return _classStaticPrivateFieldSpecSet(this, Base, _foo, val);
   }
 
   static getClass() {
-    return _classStaticPrivateFieldSpecGet(Base, Base, _foo1);
+    return _classStaticPrivateFieldSpecGet(Base, Base, _foo);
   }
 
   static updateClass(val) {
-    return _classStaticPrivateFieldSpecSet(Base, Base, _foo1, val);
+    return _classStaticPrivateFieldSpecSet(Base, Base, _foo, val);
   }
 
 }
 
-var _foo1 = {
+var _foo = {
   writable: true,
   value: 1
 };
 
 class Sub1 extends Base {
   static update(val) {
-    return _classStaticPrivateFieldSpecSet(this, Sub1, _foo2, val);
+    return _classStaticPrivateFieldSpecSet(this, Sub1, _foo1, val);
   }
 
 }
 
-var _foo2 = {
+var _foo1 = {
   writable: true,
   value: 2
 };
@@ -3446,7 +3446,7 @@ var _myAsyncMethod1 = new WeakMap();
 (function() {
     class MyClass2 {
         constructor(){
-            _myAsyncMethod2.set(this, {
+            _myAsyncMethod.set(this, {
                 writable: true,
                 value: _asyncToGenerator((function*() {
                     console.log(this);
@@ -3454,7 +3454,7 @@ var _myAsyncMethod1 = new WeakMap();
             });
         }
     }
-    var _myAsyncMethod2 = new WeakMap();
+    var _myAsyncMethod = new WeakMap();
     return MyClass2;
 })();
 class MyClass3 {
@@ -4633,10 +4633,10 @@ _defineProperty(A, "prop", 1);
 
 var B =
 /*#__PURE__*/
-function (A1) {
+function (A) {
   "use strict";
 
-  _inherits(B, A1);
+  _inherits(B, A);
 
   function B() {
     _classCallCheck(this, B);

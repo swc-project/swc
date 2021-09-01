@@ -49,9 +49,9 @@ var MyClass = function MyClass() {
     _classCallCheck(this, MyClass);
 };
 export var fn = function() {
-    var _class = /*#__PURE__*/ function(MyClass1) {
+    var _class = /*#__PURE__*/ function(MyClass) {
         "use strict";
-        _inherits(_class, MyClass1);
+        _inherits(_class, MyClass);
         function _class() {
             _classCallCheck(this, _class);
             return _possibleConstructorReturn(this, _getPrototypeOf(_class).apply(this, arguments));

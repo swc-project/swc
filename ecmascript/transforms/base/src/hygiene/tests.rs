@@ -4,6 +4,7 @@ use swc_common::{collections::AHashMap, hygiene::*, DUMMY_SP};
 use swc_ecma_parser::Syntax;
 use swc_ecma_utils::quote_ident;
 use swc_ecma_visit::{Fold, FoldWith};
+use testing::{assert_eq, DebugUsingDisplay};
 
 struct Marker {
     map: AHashMap<JsWord, Mark>,
@@ -47,6 +48,13 @@ impl Fold for OnceMarker {
         }
 
         ident
+    }
+
+    fn fold_prop_name(&mut self, prop: PropName) -> PropName {
+        match prop {
+            PropName::Computed(_) => prop.fold_children_with(self),
+            _ => prop,
+        }
     }
 }
 
@@ -94,10 +102,7 @@ where
         };
 
         if actual != expected {
-            panic!(
-                "\n>>>>> Actual <<<<<\n{}\n>>>>> Expected <<<<<\n{}",
-                actual, expected
-            );
+            assert_eq!(DebugUsingDisplay(&*actual), DebugUsingDisplay(&*expected));
         }
 
         Ok(())
@@ -154,8 +159,8 @@ fn block_scoping_with_usage() {
         "
         var foo = 1;
         {
-            let foo1 = 2;
-            use(foo1);
+            let foo = 2;
+            use(foo);
         }
         use(foo);",
     );
@@ -181,7 +186,7 @@ fn block_scoping_no_usage() {
         "
         let foo;
         {
-            let foo1;
+            let foo;
         }
         ",
     );
@@ -207,7 +212,7 @@ fn fn_binding_ident() {
             ])
         },
         "var foo = function baz(){};
-            var bar = function baz1(){};
+            var bar = function baz(){};
             use(baz);",
     );
 }
@@ -236,8 +241,8 @@ fn fn_binding_ident_in_call() {
             ])
         },
         "var foo = use(function baz(){});
-            var bar1 = use(function baz1(){});
-            var bar2 = use(function baz2(){});
+            var bar1 = use(function baz(){});
+            var bar2 = use(function baz(){});
             use(baz);",
     );
 }
@@ -280,8 +285,8 @@ fn const_then_fn_param() {
             ])
         },
         "const a = 1;
-            function foo(a1) {
-                use(a1);
+            function foo(a) {
+                use(a);
             }",
     );
 }
@@ -370,8 +375,8 @@ fn shorthand() {
         "
             let a = 1;
             function foo() {
-                let a1 = 2;
-                use({ a: a1 })
+                let a = 2;
+                use({ a })
             }
             ",
     );
@@ -563,7 +568,7 @@ fn block_in_fn() {
         function Foo() {
             var bar;
             {
-                var bar1;
+                var bar;
             }
         }
         ",
@@ -727,8 +732,8 @@ fn for_x() {
             var { a } = _ref1, b = _objectWithoutProperties(_ref1, ['a']);
         }
         async function a() {
-            for await (var _ref2 of []){
-                var { a } = _ref2, b = _objectWithoutProperties(_ref2, ['a']);
+            for await (var _ref of []){
+                var { a } = _ref, b = _objectWithoutProperties(_ref, ['a']);
             }
         }
         ",
@@ -1083,7 +1088,7 @@ fn issue_281_02() {
         "function foo(e) {
             e: {
                 try {
-                } catch (e1) {
+                } catch (e) {
                     o = null;
                     break e
                 }
@@ -1220,7 +1225,7 @@ fn issue_1279() {
         "
         let Foo = class Foo {
             method() {
-                let Foo1 = class Foo {
+                let Foo = class Foo {
                 };
             }
         };
@@ -1260,5 +1265,239 @@ fn issue_1507() {
         Config {
             keep_class_names: true,
         },
+    );
+}
+
+#[test]
+fn opt_1() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            let stmts = tester
+                .parse_stmts(
+                    "actual1.js",
+                    "
+                    var foo = 1;
+                    {
+                        const foo = 2;
+                        {
+                            foo = foo + foo
+                        }
+                    }
+                    ",
+                )?
+                .fold_with(&mut OnceMarker::new(&[(
+                    "foo",
+                    &[mark1, mark2, mark1, mark2, mark1],
+                )]));
+            Ok(stmts)
+        },
+        "
+        var foo1 = 1;
+        {
+            const foo = 2;
+            {
+                foo1 = foo + foo1
+            }
+        }
+        ",
+    );
+}
+
+#[test]
+fn opt_2() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            let mark3 = Mark::fresh(Mark::root());
+            let mark4 = Mark::fresh(Mark::root());
+
+            let stmts = tester
+                .parse_stmts(
+                    "actual1.js",
+                    "
+                    var b = 1;
+                    var b1 = 2;
+                    {
+                        const b = 3;
+                        const b1 = 4;
+                        {
+                            b1 = b + b + b1 + b1
+                        }
+                    }
+                    ",
+                )?
+                .fold_with(&mut OnceMarker::new(&[
+                    ("b", &[mark1, mark2, mark2, mark1]),
+                    ("b1", &[mark3, mark4, mark3, mark4, mark3]),
+                ]));
+            Ok(stmts)
+        },
+        "
+        var b = 1;
+        var b11 = 2;
+        {
+            const b2 = 3;
+            const b1 = 4;
+            {
+                b11 = b2 + b + b1 + b11
+            }
+        }
+        ",
+    );
+}
+
+#[test]
+fn opt_3() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            let stmts = tester
+                .parse_stmts(
+                    "actual1.js",
+                    "
+                    var e = 1;
+                    try {
+                        throw 2;
+                    } catch (e) {
+                        console.log(e);
+                    }
+                    ",
+                )?
+                .fold_with(&mut OnceMarker::new(&[("e", &[mark1, mark2, mark1])]));
+            Ok(stmts)
+        },
+        "
+        var e = 1;
+        try {
+            throw 2;
+        } catch (e1) {
+            console.log(e);
+        }
+        ",
+    );
+}
+
+#[test]
+fn opt_4() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            let stmts = tester
+                .parse_stmts(
+                    "actual1.js",
+                    "
+                    const obj = {
+                        key: function a() {
+                            a()
+                        }
+                    }
+                    function a() {
+
+                    }
+                    ",
+                )?
+                .fold_with(&mut OnceMarker::new(&[("a", &[mark1, mark2, mark1])]));
+            Ok(stmts)
+        },
+        "
+        const obj = {
+            key: function a1() {
+                a()
+            }
+        }
+        function a() {
+
+        }
+        ",
+    );
+}
+
+#[test]
+fn opt_5() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            let stmts = tester
+                .parse_stmts(
+                    "actual1.js",
+                    "
+                    const obj = {
+                        a: function a() {
+                            a()
+                        }
+                    }
+                    function a() {
+
+                    }
+                    ",
+                )?
+                .fold_with(&mut OnceMarker::new(&[("a", &[mark1, mark2, mark1])]));
+            Ok(stmts)
+        },
+        "
+        const obj = {
+            a: function a1() {
+                a()
+            }
+        }
+        function a() {
+
+        }
+        ",
+    );
+}
+
+#[test]
+fn opt_6() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            let stmts = tester
+                .parse_stmts(
+                    "actual1.js",
+                    "
+                    var foo = 'bar';
+                    var Foo = function() {
+                        function Foo() {
+                            _bar.set(this, {
+                                writable: true,
+                                value: foo
+                            });
+                            var foo = 'foo';
+                        }
+
+                    }
+                    ",
+                )?
+                .fold_with(&mut OnceMarker::new(&[("foo", &[mark1, mark2, mark1])]));
+            Ok(stmts)
+        },
+        "
+        var foo = 'bar';
+        var Foo = function() {
+            function Foo() {
+                _bar.set(this, {
+                    writable: true,
+                    value: foo
+                });
+                var foo1 = 'foo';
+            }
+
+        }
+        
+        ",
     );
 }

@@ -1,6 +1,6 @@
 class Item extends Component {
-    constructor(props){
-        super(props);
+    constructor(props__2){
+        super(props__2);
     }
-    input = this.props.item;
+    input__0 = this.props.item;
 }

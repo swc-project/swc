@@ -1,6 +1,6 @@
 use self::ops::{Operations, Operator};
 use crate::{
-    native::{is_native, is_native_word},
+    native::is_native_word,
     scope::{IdentType, ScopeKind},
 };
 use fxhash::{FxHashMap, FxHashSet};
@@ -44,7 +44,7 @@ struct Hygiene<'a> {
 type Contexts = SmallVec<[SyntaxContext; 32]>;
 
 impl<'a> Hygiene<'a> {
-    fn add_declared_ref(&mut self, ident: Ident) {
+    fn add_decl(&mut self, ident: Ident) {
         let ctxt = ident.span.ctxt();
 
         if cfg!(debug_assertions) && LOG {
@@ -56,24 +56,37 @@ impl<'a> Hygiene<'a> {
             );
         }
 
-        let can_declare_without_renaming =
-            self.current.can_declare(&ident.sym.to_boxed_str(), ctxt);
         let sym = self.current.change_symbol(ident.sym, ctxt);
 
         if cfg!(debug_assertions) && LOG {
-            eprintln!("Changed symbol to {}{:?} ", sym, ctxt);
+            eprintln!("\tChanged symbol to {}{:?} ", sym, ctxt);
         }
 
-        self.current
-            .declared_symbols
-            .borrow_mut()
-            .entry(sym.to_boxed_str())
-            .or_default()
-            .push(ctxt);
+        {
+            self.current
+                .declared_symbols
+                .borrow_mut()
+                .entry(sym.to_boxed_str())
+                .or_default()
+                .push(ctxt);
+        }
 
-        if can_declare_without_renaming {
-            // skip if previous symbol is declared on the same level.
-            return;
+        {
+            let mut used = self.current.used.borrow_mut();
+            let e = used.entry(sym.to_boxed_str()).or_default();
+
+            if !e.contains(&ctxt) {
+                e.push(ctxt);
+            }
+
+            if e.len() <= 1 {
+                return;
+            }
+
+            // Preserve first one.
+            if e[0] == ctxt {
+                return;
+            }
         }
 
         if cfg!(debug_assertions) && LOG {
@@ -94,14 +107,22 @@ impl<'a> Hygiene<'a> {
 
         let ctxt = ident.span.ctxt();
 
-        // Commented out because of https://github.com/swc-project/swc/issues/962
+        {
+            let mut used = self.current.used.borrow_mut();
+            let e = used.entry(ident.sym.to_boxed_str()).or_default();
 
-        // self.current
-        //     .declared_symbols
-        //     .borrow_mut()
-        //     .entry(ident.sym.clone())
-        //     .or_insert_with(Vec::new)
-        //     .push(ctxt);
+            if !e.contains(&ctxt) {
+                e.push(ctxt);
+            }
+
+            if e.len() <= 1 {
+                return;
+            }
+        }
+
+        if cfg!(debug_assertions) && LOG {
+            eprintln!("Renaming from reference");
+        }
 
         // We rename declaration instead of usage
         let conflicts = self.current.conflicts(ident.sym.clone(), ctxt);
@@ -264,12 +285,14 @@ impl<'a> Hygiene<'a> {
 }
 
 impl<'a> Hygiene<'a> {
-    fn visit_mut_fn(&mut self, ident: Option<Ident>, node: &mut Function) {
-        match ident {
-            Some(ident) => {
-                self.add_declared_ref(ident);
+    fn visit_mut_fn(&mut self, ident: &mut Option<Ident>, node: &mut Function, is_decl: bool) {
+        if is_decl {
+            match ident.clone() {
+                Some(ident) => {
+                    self.add_decl(ident.clone());
+                }
+                _ => {}
             }
-            _ => {}
         }
 
         let mut folder = Hygiene {
@@ -278,6 +301,15 @@ impl<'a> Hygiene<'a> {
             ident_type: IdentType::Ref,
             var_kind: None,
         };
+
+        if !is_decl {
+            match ident {
+                Some(ident) => {
+                    folder.add_decl(ident.clone());
+                }
+                _ => {}
+            }
+        }
 
         folder.ident_type = IdentType::Ref;
         node.decorators.visit_mut_with(&mut folder);
@@ -290,7 +322,8 @@ impl<'a> Hygiene<'a> {
             .as_mut()
             .map(|stmt| stmt.visit_mut_children_with(&mut folder));
 
-        folder.apply_ops(node)
+        folder.apply_ops(ident);
+        folder.apply_ops(node);
     }
 }
 
@@ -301,6 +334,8 @@ struct Scope<'a> {
 
     /// Kind of the scope.
     pub kind: ScopeKind,
+
+    pub used: RefCell<FxHashMap<Box<str>, Vec<SyntaxContext>>>,
 
     /// All references declared in this scope
     pub declared_symbols: RefCell<FxHashMap<Box<str>, Vec<SyntaxContext>>>,
@@ -331,6 +366,7 @@ impl<'a> Scope<'a> {
             // children: Default::default(),
             ops: Default::default(),
             renamed: Default::default(),
+            used: Default::default(),
         }
     }
 
@@ -375,32 +411,6 @@ impl<'a> Scope<'a> {
         match self.parent {
             Some(ref parent) => parent.scope_of(sym, ctxt, var_kind),
             _ => self,
-        }
-    }
-
-    fn can_declare(&self, sym: &Box<str>, ctxt: SyntaxContext) -> bool {
-        match self.parent {
-            None => {}
-            Some(parent) => {
-                if !parent.can_declare(sym, ctxt) {
-                    return false;
-                }
-            }
-        }
-
-        if is_native(&sym) {
-            return false;
-        }
-
-        if self.renamed.contains(&(&**sym).into()) {
-            return false;
-        }
-
-        if let Some(ctxts) = self.declared_symbols.borrow().get(sym) {
-            ctxts.contains(&ctxt)
-        } else {
-            // No variable named `sym` is declared
-            true
         }
     }
 
@@ -449,7 +459,7 @@ impl<'a> Scope<'a> {
         while let Some(scope) = cur {
             if let Some(to) = scope.ops.borrow().rename.get(&(sym.clone(), ctxt)) {
                 if cfg!(debug_assertions) && LOG {
-                    eprintln!("Changing symbol: {}{:?} -> {}", sym, ctxt, to);
+                    eprintln!("\tChanging symbol: {}{:?} -> {}", sym, ctxt, to);
                 }
                 sym = to.clone()
             }
@@ -583,29 +593,6 @@ impl<'a> VisitMut for Hygiene<'a> {
 
     track_ident_mut!();
 
-    fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
-        let old = self.ident_type;
-        self.ident_type = IdentType::Binding;
-        n.ident.visit_mut_with(self);
-        self.ident_type = old;
-
-        n.class.visit_mut_with(self);
-    }
-
-    fn visit_mut_setter_prop(&mut self, f: &mut SetterProp) {
-        let old = self.ident_type;
-        self.ident_type = IdentType::Ref;
-        f.key.visit_mut_with(self);
-        self.ident_type = old;
-
-        let old = self.ident_type;
-        self.ident_type = IdentType::Binding;
-        f.param.visit_mut_with(self);
-        self.ident_type = old;
-
-        f.body.visit_mut_with(self);
-    }
-
     fn visit_mut_arrow_expr(&mut self, node: &mut ArrowExpr) {
         let mut folder = Hygiene {
             config: self.config.clone(),
@@ -636,19 +623,29 @@ impl<'a> VisitMut for Hygiene<'a> {
     }
 
     fn visit_mut_catch_clause(&mut self, c: &mut CatchClause) {
+        self.ident_type = IdentType::Binding;
+        c.param.visit_mut_with(self);
+
         let mut folder = Hygiene {
             config: self.config.clone(),
             current: Scope::new(ScopeKind::Fn, Some(&self.current)),
             ident_type: IdentType::Ref,
             var_kind: None,
         };
-        folder.ident_type = IdentType::Binding;
-        c.param.visit_mut_with(&mut folder);
         folder.ident_type = IdentType::Ref;
 
         c.body.visit_mut_with(&mut folder);
 
         folder.apply_ops(c)
+    }
+
+    fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
+        let old = self.ident_type;
+        self.ident_type = IdentType::Binding;
+        n.ident.visit_mut_with(self);
+        self.ident_type = old;
+
+        n.class.visit_mut_with(self);
     }
 
     fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
@@ -734,14 +731,6 @@ impl<'a> VisitMut for Hygiene<'a> {
         self.ident_type = IdentType::Ref;
         match node {
             Expr::Ident(..) => node.visit_mut_children_with(self),
-            Expr::Member(e) => {
-                if e.computed {
-                    e.obj.visit_mut_with(self);
-                    e.prop.visit_mut_with(self);
-                } else {
-                    e.obj.visit_mut_with(self)
-                }
-            }
 
             Expr::This(..) => {}
 
@@ -752,11 +741,15 @@ impl<'a> VisitMut for Hygiene<'a> {
     }
 
     fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
-        self.visit_mut_fn(Some(node.ident.clone()), &mut node.function);
+        let mut new_id = Some(node.ident.clone());
+        self.visit_mut_fn(&mut new_id, &mut node.function, true);
+        node.ident = new_id.unwrap();
     }
 
     fn visit_mut_fn_expr(&mut self, node: &mut FnExpr) {
-        self.visit_mut_fn(node.ident.clone(), &mut node.function);
+        let mut new_id = node.ident.clone();
+        self.visit_mut_fn(&mut new_id, &mut node.function, false);
+        node.ident = new_id;
     }
 
     /// Invoked for `IdentifierReference` / `BindingIdentifier`
@@ -766,7 +759,7 @@ impl<'a> VisitMut for Hygiene<'a> {
         }
 
         match self.ident_type {
-            IdentType::Binding => self.add_declared_ref(i.clone()),
+            IdentType::Binding => self.add_decl(i.clone()),
             IdentType::Ref => {
                 // Special cases
                 if is_native_word(&i.sym) {
@@ -782,25 +775,35 @@ impl<'a> VisitMut for Hygiene<'a> {
         }
     }
 
+    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
+        e.obj.visit_mut_with(self);
+
+        if e.computed {
+            e.prop.visit_mut_with(self);
+        }
+    }
+
     fn visit_mut_module(&mut self, module: &mut Module) {
         module.visit_mut_children_with(self);
 
         self.apply_ops(module)
     }
 
-    fn visit_mut_object_lit(&mut self, node: &mut ObjectLit) {
-        let mut folder = Hygiene {
-            config: self.config.clone(),
-            current: Scope::new(ScopeKind::Block, Some(&self.current)),
-            ident_type: IdentType::Ref,
-            var_kind: None,
-        };
-        node.visit_mut_children_with(&mut folder);
-
-        folder.apply_ops(node)
-    }
-
     fn visit_mut_private_name(&mut self, _: &mut PrivateName) {}
+
+    fn visit_mut_setter_prop(&mut self, f: &mut SetterProp) {
+        let old = self.ident_type;
+        self.ident_type = IdentType::Ref;
+        f.key.visit_mut_with(self);
+        self.ident_type = old;
+
+        let old = self.ident_type;
+        self.ident_type = IdentType::Binding;
+        f.param.visit_mut_with(self);
+        self.ident_type = old;
+
+        f.body.visit_mut_with(self);
+    }
 
     fn visit_mut_try_stmt(&mut self, node: &mut TryStmt) {
         node.block.visit_mut_children_with(self);

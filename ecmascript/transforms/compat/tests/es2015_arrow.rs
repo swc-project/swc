@@ -225,8 +225,8 @@ test!(
         console.log(_arguments[0]);
         return function() {
             console.log(arguments[0]);
-            return (function(_arguments1) {
-                console.log(_arguments1[0]);
+            return (function(_arguments) {
+                console.log(_arguments[0]);
             }).bind(this, arguments);
         };
     }).bind(this, arguments);

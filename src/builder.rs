@@ -11,7 +11,7 @@ use swc_common::{
     SourceMap,
 };
 use swc_ecma_ast::Module;
-use swc_ecma_minifier::{hygiene_optimizer, option::MinifyOptions, unique_scope};
+use swc_ecma_minifier::option::MinifyOptions;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
     compat, fixer, helpers, hygiene, hygiene::hygiene_with_config, modules, modules::util::Scope,
@@ -30,7 +30,6 @@ pub struct PassBuilder<'a, 'b, P: swc_ecma_visit::Fold> {
     target: JscTarget,
     loose: bool,
     hygiene: Option<hygiene::Config>,
-    optimize_hygiene: bool,
     fixer: bool,
     inject_helpers: bool,
     minify: Option<JsMinifyOptions>,
@@ -53,7 +52,6 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             target: JscTarget::Es5,
             loose,
             hygiene: Some(Default::default()),
-            optimize_hygiene: false,
             fixer: true,
             inject_helpers: true,
             minify: None,
@@ -74,7 +72,6 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             target: self.target,
             loose: self.loose,
             hygiene: self.hygiene,
-            optimize_hygiene: self.optimize_hygiene,
             fixer: self.fixer,
             inject_helpers: self.inject_helpers,
             minify: self.minify,
@@ -102,11 +99,6 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
     /// If you pass [None] to this method, the `hygiene` pass will be disabled.
     pub fn hygiene(mut self, config: Option<hygiene::Config>) -> Self {
         self.hygiene = config;
-        self
-    }
-
-    pub fn optimize_hygiene(mut self, enable: bool) -> Self {
-        self.optimize_hygiene = enable;
         self
     }
 
@@ -234,13 +226,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 top_level_mark: self.global_mark,
             }),
             Optional::new(
-                chain!(
-                    Optional::new(
-                        chain!(unique_scope(), hygiene_optimizer(self.global_mark)),
-                        self.optimize_hygiene
-                    ),
-                    hygiene_with_config(self.hygiene.clone().unwrap_or_default())
-                ),
+                hygiene_with_config(self.hygiene.clone().unwrap_or_default()),
                 self.hygiene.is_some()
             ),
             Optional::new(fixer(comments.map(|v| v as &dyn Comments)), self.fixer),

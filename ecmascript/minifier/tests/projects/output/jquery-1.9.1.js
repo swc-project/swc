@@ -2798,7 +2798,7 @@
             for(var collection = (tweeners[prop] || []).concat(tweeners["*"]), index = 0, length = collection.length; index < length; index++)if (collection[index].call(animation, prop, value)) return;
         });
     }
-    function Animation1(elem, properties, options) {
+    function Animation(elem, properties, options) {
         var result, stopped, index = 0, length = animationPrefilters.length, deferred = jQuery.Deferred().always(function() {
             delete tick.elem;
         }), tick = function() {
@@ -2866,7 +2866,7 @@
     function getWindow(elem) {
         return jQuery.isWindow(elem) ? elem : 9 === elem.nodeType && (elem.defaultView || elem.parentWindow);
     }
-    jQuery.Animation = jQuery.extend(Animation1, {
+    jQuery.Animation = jQuery.extend(Animation, {
         tweener: function(props, callback) {
             jQuery.isFunction(props) ? (callback = props, props = [
                 "*"
@@ -2920,7 +2920,7 @@
         },
         animate: function(prop, speed, easing, callback) {
             var empty = jQuery.isEmptyObject(prop), optall = jQuery.speed(speed, easing, callback), doAnimation = function() {
-                var anim = Animation1(this, jQuery.extend({
+                var anim = Animation(this, jQuery.extend({
                 }, prop), optall);
                 doAnimation.finish = function() {
                     anim.stop(!0);

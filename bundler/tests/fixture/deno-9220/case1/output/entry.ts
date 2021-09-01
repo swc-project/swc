@@ -1,4 +1,4 @@
-class Image1 {
+class Image {
     getPixel(x, y) {
         const index = x + y * this.width;
         const rntVal = {
@@ -950,7 +950,7 @@ const decode1 = function(jpegData, colorTransform = true) {
     const decoder = new JpegImage();
     decoder.parse(arr);
     decoder.colorTransform = colorTransform;
-    const image = new Image1();
+    const image = new Image();
     image.height = decoder.height;
     image.width = decoder.width;
     image.data = new Uint8Array(decoder.width * decoder.height * 4);
