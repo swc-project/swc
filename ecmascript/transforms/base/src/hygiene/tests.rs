@@ -1457,3 +1457,47 @@ fn opt_5() {
         ",
     );
 }
+
+#[test]
+fn opt_6() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            let stmts = tester
+                .parse_stmts(
+                    "actual1.js",
+                    "
+                    var foo = 'bar';
+                    var Foo = function() {
+                        function Foo() {
+                            _bar.set(this, {
+                                writable: true,
+                                value: foo
+                            });
+                            var foo = 'foo';
+                        }
+
+                    }
+                    ",
+                )?
+                .fold_with(&mut OnceMarker::new(&[("foo", &[mark1, mark2, mark1])]));
+            Ok(stmts)
+        },
+        "
+        var foo = 'bar';
+        var Foo = function() {
+            function Foo() {
+                _bar.set(this, {
+                    writable: true,
+                    value: foo
+                });
+                var foo1 = 'foo';
+            }
+
+        }
+        
+        ",
+    );
+}
