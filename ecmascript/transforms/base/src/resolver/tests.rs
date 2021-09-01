@@ -163,36 +163,6 @@ fn test_mark_for() {
     .unwrap();
 }
 
-to!(
-    general_assignment_patterns,
-    r#"const foo = "foo";
-
-function foobar() {
-  for (let item of [1, 2, 3]) {
-    let foo = "bar";
-    [bar, foo] = [1, 2];
-  }
-}"#,
-    r#"const foo = "foo";
-
-function foobar() {
-  for (let item of [1, 2, 3]) {
-    let foo1 = "bar";
-    [bar, foo1] = [1, 2];
-  }
-}"#
-);
-
-to!(
-    general_function,
-    r#"function test() {
-  let foo = "bar";
-}"#,
-    r#"function test() {
-  let foo = "bar";
-}"#
-);
-
 #[test]
 #[ignore]
 fn babel_issue_1051() {
