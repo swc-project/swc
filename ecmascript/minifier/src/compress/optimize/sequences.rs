@@ -616,6 +616,9 @@ where
                 Stmt::If(s) if options.sequences() => {
                     vec![Mergable::Expr(&mut *s.test)]
                 }
+                Stmt::Throw(s) if options.sequences() => {
+                    vec![Mergable::Expr(&mut *s.arg)]
+                }
 
                 _ => return None,
             })
@@ -640,7 +643,7 @@ where
 
         for stmt in stmts.iter_mut() {
             let is_end = match stmt.as_stmt() {
-                Some(Stmt::If(..)) => true,
+                Some(Stmt::If(..) | Stmt::Throw(..)) => true,
                 _ => false,
             };
 
