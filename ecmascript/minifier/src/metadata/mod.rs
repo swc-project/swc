@@ -237,7 +237,7 @@ impl Visit for TopLevelBindingCollector {
     }
 }
 
-fn is_standalone<N>(n: &mut N, top_level_mark: Mark, top_level_bindings: &[Id]) -> bool
+fn is_standalone<N>(n: &mut N, top_level_mark: Mark, external_bingdings: &[Id]) -> bool
 where
     N: VisitMutWith<IdentCollector>,
 {
@@ -274,7 +274,7 @@ where
         }
 
         if used_id.1 == top_level_ctxt {
-            if top_level_bindings.contains(&used_id) {
+            if external_bingdings.contains(&used_id) {
                 if cfg!(feature = "debug") {
                     log::debug!(
                         "Due to {}{:?} (top-level), it's not a bundle",
