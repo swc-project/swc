@@ -938,7 +938,7 @@ var Foo = function Foo() {
     writable: true,
     value: foo
   });
-  var foo = "foo";
+  var foo1 = "foo";
 
 };
 
@@ -2425,7 +2425,7 @@ class Foo {
     r#"
 var foo = "bar";
 
-var Foo = function Foo(foo) {
+var Foo = function Foo(foo1) {
   'use strict';
 
   _classCallCheck(this, Foo);
