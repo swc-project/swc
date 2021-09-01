@@ -82,10 +82,10 @@ function foo(...a) {
 }"#,
     r#"var a = 'bar';
 function foo() {
-    for(var _len = arguments.length, a1 = new Array(_len), _key = 0; _key < _len; _key++){
-        a1[_key] = arguments[_key];
+    for(var _len = arguments.length, a = new Array(_len), _key = 0; _key < _len; _key++){
+        a[_key] = arguments[_key];
     }
-    return a1;
+    return a;
 }"#
 );
 
@@ -184,10 +184,10 @@ test!(
   }
 }
 Ref.nextID = 0"#,
-    r#"var Ref = function Ref1(param) {
+    r#"var Ref = function Ref(param) {
         'use strict';
-        var id = param === void 0 ? ++Ref1.nextID : param;
-        _classCallCheck(this, Ref1);
+        var id = param === void 0 ? ++Ref.nextID : param;
+        _classCallCheck(this, Ref);
         this.id = id;
     };
 Ref.nextID = 0;"#
@@ -450,10 +450,10 @@ function foo(...args) {
 }"#,
     r#"var args = 'bar';
 function foo() {
-    for(var _len = arguments.length, args1 = new Array(_len), _key = 0; _key < _len; _key++){
-        args1[_key] = arguments[_key];
+    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
+        args[_key] = arguments[_key];
     }
-    return args1;
+    return args;
 }
 "#
 );
@@ -579,15 +579,15 @@ test!(
 };
 
 var somefun = function () {
-  let get2ndArg = (a, b, ...args1) => {
-    var _b = args1[0];
+  let get2ndArg = (a, b, ...args) => {
+    var _b = args[0];
     let somef = (x, y, z, ...args2) => {
       var _a = args2[0];
     };
     let somefg = (c, d, e, f, ...args3) => {
       var _a = args3[0];
     };
-    var _d = args1[1];
+    var _d = args[1];
   };
   let get3rdArg = (...args) => args[2];
 }
@@ -1733,13 +1733,13 @@ test!(
             args[_key] = arguments[_key];
         }
         return self, ()=>{
-            var self1 = this;
+            var self = this;
             return function() {
-                for(let _len1 = arguments.length, args = new Array(_len1), _key1 = 0; _key1 < \
-     _len1; _key1++){
-                    args[_key1] = arguments[_key1];
+                for(let _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; \
+     _key++){
+                    args[_key] = arguments[_key];
                 }
-                console.log(self1, args);
+                console.log(self, args);
             };
         };
     };
