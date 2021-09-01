@@ -1314,10 +1314,10 @@ fn opt_2() {
                     "actual1.js",
                     "
                     var b = 1;
-                    var b1 = 1;
+                    var b1 = 2;
                     {
-                        const b = 2;
-                        const b1 = 2;
+                        const b = 3;
+                        const b1 = 4;
                         {
                             b1 = b + b + b1 + b1
                         }
