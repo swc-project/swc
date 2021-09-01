@@ -286,20 +286,20 @@ where
         }
 
         if used_id.1 == top_level_ctxt {
-            if cfg!(feature = "debug") {
-                log::debug!("bundle: Ignoring {}{:?} (top level)", used_id.0, used_id.1);
-            }
+            // if cfg!(feature = "debug") {
+            //     log::debug!("bundle: Ignoring {}{:?} (top level)", used_id.0, used_id.1);
+            // }
             continue;
         }
 
         if bindings.contains(used_id) {
-            if cfg!(feature = "debug") {
-                log::debug!(
-                    "bundle: Ignoring {}{:?} (local to fn)",
-                    used_id.0,
-                    used_id.1
-                );
-            }
+            // if cfg!(feature = "debug") {
+            //     log::debug!(
+            //         "bundle: Ignoring {}{:?} (local to fn)",
+            //         used_id.0,
+            //         used_id.1
+            //     );
+            // }
             continue;
         }
 
