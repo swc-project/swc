@@ -3226,36 +3226,36 @@ class Sub2 extends Base {}
     r#"
 class Base {
   static getThis() {
-    return _classStaticPrivateFieldSpecGet(this, Base, _foo1);
+    return _classStaticPrivateFieldSpecGet(this, Base, _foo);
   }
 
   static updateThis(val) {
-    return _classStaticPrivateFieldSpecSet(this, Base, _foo1, val);
+    return _classStaticPrivateFieldSpecSet(this, Base, _foo, val);
   }
 
   static getClass() {
-    return _classStaticPrivateFieldSpecGet(Base, Base, _foo1);
+    return _classStaticPrivateFieldSpecGet(Base, Base, _foo);
   }
 
   static updateClass(val) {
-    return _classStaticPrivateFieldSpecSet(Base, Base, _foo1, val);
+    return _classStaticPrivateFieldSpecSet(Base, Base, _foo, val);
   }
 
 }
 
-var _foo1 = {
+var _foo = {
   writable: true,
   value: 1
 };
 
 class Sub1 extends Base {
   static update(val) {
-    return _classStaticPrivateFieldSpecSet(this, Sub1, _foo2, val);
+    return _classStaticPrivateFieldSpecSet(this, Sub1, _foo1, val);
   }
 
 }
 
-var _foo2 = {
+var _foo1 = {
   writable: true,
   value: 2
 };
