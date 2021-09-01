@@ -1,7 +1,3 @@
 {
-    "jsc": {
-        "experimental": {
-            "optimizeHygiene": true
-        }
-    }
+    "jsc": {}
 }
