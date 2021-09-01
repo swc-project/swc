@@ -155,47 +155,6 @@ fn test_mark_for() {
 }
 
 identical!(
-    issue_295,
-    "export var bar = {};
-class Foo {
-  constructor() {
-    bar;
-  }
-}"
-);
-
-identical!(
-    issue_308,
-    "function bar(props) {}
-var Foo = function Foo1() {
-    _classCallCheck(this, Foo1);
-    super();
-    _defineProperty(this, 'onBar', ()=>{
-        bar();
-    });
-    bar();
-};
-"
-);
-
-identical!(
-    issue_308_2,
-    "
-function wrapper(){
-    function bar(props) {}
-    var Foo = function Foo1() {
-        _classCallCheck(this, Foo1);
-        super();
-        _defineProperty(this, 'onBar', ()=>{
-            bar();
-        });
-        bar();
-    };   
-}
-"
-);
-
-identical!(
     issue_369_1,
     "export function input(name) {
     return `${name}.md?render`;
