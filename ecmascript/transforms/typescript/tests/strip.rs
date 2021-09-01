@@ -3386,18 +3386,18 @@ to!(
     ",
     "
     export var util;
-    (function (util1) {
+    (function (util) {
         function assertNever(_x) {
             throw new Error();
         }
-        util1.assertNever = assertNever;
-        util1.arrayToEnum = (items) => {
+        util.assertNever = assertNever;
+        util.arrayToEnum = (items) => {
         };
-        util1.getValidEnumValues = (obj) => {
+        util.getValidEnumValues = (obj) => {
         };
-        util1.getValues = (obj) => {
+        util.getValues = (obj) => {
         };
-        util1.objectValues = (obj) => {
+        util.objectValues = (obj) => {
         };
     })(util || (util = {}));
 
@@ -3414,9 +3414,9 @@ to!(
     ",
     "
     export var util;
-    (function (util1) {
+    (function (util) {
         const c = 3;
-        [util1.a, util1.b] = [1, 2, 3];
+        [util.a, util.b] = [1, 2, 3];
     })(util || (util = {}));
     "
 );
@@ -3437,11 +3437,11 @@ to!(
     ",
     "
     export var util;
-    (function (util1) {
+    (function (util) {
         const c = 3;
         function foo() {
         }
-        util1.foo = foo;
+        util.foo = foo;
         function bar() {
         }
     })(util || (util = {}));
@@ -3462,14 +3462,14 @@ to!(
     ",
     "
     var Test;
-    (function(Test1) {
+    (function(Test) {
         var DummyValues;
         (function(DummyValues) {
             DummyValues['A'] = 'A';
             DummyValues['B'] = 'B';
         })(DummyValues || (DummyValues = {
         }));
-        Test1.DummyValues = DummyValues;
+        Test.DummyValues = DummyValues;
     })(Test || (Test = {
     }));
     console(Test.DummyValues.A);

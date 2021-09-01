@@ -106,7 +106,7 @@ var Foo = function() {
   var Foo = function() {
    _classCallCheck(this, Foo);
   };
-  _defineProperty(Foo1, 'num', 0);
+  _defineProperty(Foo, 'num', 0);
   return Foo;
 }();
 expect(Foo.num).toBe(0);
@@ -838,14 +838,14 @@ console.log(search);
     r#"
 var obj = {
 search: function search({
-search
+search: search1
 }) {
-console.log(search);
+console.log(search1);
 }
 };
 
-function search({ search: search1 }) {
-console.log(search1);
+function search({ search }) {
+console.log(search);
 }
 
 "#
