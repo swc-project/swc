@@ -503,9 +503,9 @@ this.HTMLElement = function() {
     constructor = this.constructor;
 };
 var constructor;
-let CustomElement = function(HTMLElement1) {
+let CustomElement = function(HTMLElement) {
     'use strict';
-    _inherits(CustomElement, HTMLElement1);
+    _inherits(CustomElement, HTMLElement);
     function CustomElement() {
         _classCallCheck(this, CustomElement);
         return _possibleConstructorReturn(this, _getPrototypeOf(CustomElement).apply(this, arguments));
@@ -2130,9 +2130,9 @@ function Point() {
 
 let ColorPoint =
 /*#__PURE__*/
-function (Point1) {
+function (Point) {
   'use strict';
-_inherits(ColorPoint, Point1);
+_inherits(ColorPoint, Point);
 
   function ColorPoint() {
     _classCallCheck(this, ColorPoint);
@@ -2569,7 +2569,7 @@ var ConstructorScoping = function ConstructorScoping() {
   _classCallCheck(this, ConstructorScoping);
   var bar;
   {
-    var bar1;
+    var bar;
   }
 };
 
@@ -2770,9 +2770,9 @@ _classCallCheck(this, A);
 
 let B =
 /*#__PURE__*/
-function (A1) {
+function (A) {
   'use strict';
-_inherits(B, A1);
+_inherits(B, A);
 
   function B() {
     _classCallCheck(this, B);
