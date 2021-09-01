@@ -273,19 +273,19 @@ where
             _ => {}
         }
 
-        if used_id.1 == top_level_ctxt {
-            if external_bingdings.contains(&used_id) {
-                if cfg!(feature = "debug") {
-                    log::debug!(
-                        "Due to {}{:?} (top-level), it's not a bundle",
-                        used_id.0,
-                        used_id.1
-                    );
-                }
-
-                return false;
+        if external_bingdings.contains(&used_id) {
+            if cfg!(feature = "debug") {
+                log::debug!(
+                    "Due to {}{:?} (top-level), it's not a bundle",
+                    used_id.0,
+                    used_id.1
+                );
             }
 
+            return false;
+        }
+
+        if used_id.1 == top_level_ctxt {
             continue;
         }
 
