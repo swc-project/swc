@@ -5,7 +5,7 @@ var _dec = typeof Reflect !== "undefined" && typeof Reflect.metadata === "functi
 ]), _dec1 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec2 = function(target, key) {
     return Inject()(target, undefined, 0);
 };
-let MyClass2 = _class = _dec2(_class = _dec1(_class = _dec((_class = // work
+let MyClass = _class = _dec2(_class = _dec1(_class = _dec((_class = // work
 class MyClass1 {
     constructor(param1){
     }
@@ -19,6 +19,7 @@ var _dec3 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "funct
     return Inject()(target, undefined, 0);
 };
 let MyClass2 = _class1 = _dec6(_class1 = _dec5(_class1 = _dec4(_class1 = _dec3((_class1 = class MyClass3 {
+let MyClass = _class1 = _dec6(_class1 = _dec5(_class1 = _dec4(_class1 = _dec3((_class1 = class MyClass2 {
     constructor(param11, param2){
         this.param1 = param11;
     }
@@ -32,6 +33,7 @@ var _dec7 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "funct
     return Inject()(target, undefined, 0);
 };
 let MyClass2 = _class2 = _dec10(_class2 = _dec9(_class2 = _dec8(_class2 = _dec7((_class2 = class MyClass4 {
+let MyClass = _class2 = _dec10(_class2 = _dec9(_class2 = _dec8(_class2 = _dec7((_class2 = class MyClass3 {
     constructor(param12, param21){
         this.param2 = param21;
     }
