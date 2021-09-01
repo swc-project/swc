@@ -789,18 +789,6 @@ impl<'a> VisitMut for Hygiene<'a> {
         self.apply_ops(module)
     }
 
-    fn visit_mut_object_lit(&mut self, node: &mut ObjectLit) {
-        let mut folder = Hygiene {
-            config: self.config.clone(),
-            current: Scope::new(ScopeKind::Block, Some(&self.current)),
-            ident_type: IdentType::Ref,
-            var_kind: None,
-        };
-        node.visit_mut_children_with(&mut folder);
-
-        folder.apply_ops(node)
-    }
-
     fn visit_mut_private_name(&mut self, _: &mut PrivateName) {}
 
     fn visit_mut_setter_prop(&mut self, f: &mut SetterProp) {
