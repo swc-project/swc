@@ -528,9 +528,9 @@ test!(
                                 [
                                     3
                                 ]
-                            ].map(_asyncToGenerator(regeneratorRuntime.mark(function _callee1(param) {
+                            ].map(_asyncToGenerator(regeneratorRuntime.mark(function _callee(param) {
                                 var _param = _slicedToArray(param, 1), a = _param[0];
-                                return regeneratorRuntime.wrap(function _callee$1(_ctx) {
+                                return regeneratorRuntime.wrap(function _callee$(_ctx) {
                                     while(1)switch(_ctx.prev = _ctx.next){
                                         case 0:
                                             return _ctx.abrupt("return", Promise.resolve().then(function() {
@@ -540,7 +540,7 @@ test!(
                                         case "end":
                                             return _ctx.stop();
                                     }
-                                }, _callee1);
+                                }, _callee);
                             }))));
                         case 2:
                         case "end":
