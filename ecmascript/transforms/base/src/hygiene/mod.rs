@@ -16,7 +16,7 @@ mod ops;
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = true;
+const LOG: bool = false;
 
 #[derive(Debug, Clone, Default)]
 pub struct Config {
@@ -280,12 +280,14 @@ impl<'a> Hygiene<'a> {
 }
 
 impl<'a> Hygiene<'a> {
-    fn visit_mut_fn(&mut self, ident: Option<Ident>, node: &mut Function) {
-        match ident {
-            Some(ident) => {
-                self.add_decl(ident);
+    fn visit_mut_fn(&mut self, ident: Option<Ident>, node: &mut Function, is_decl: bool) {
+        if is_decl {
+            match ident.clone() {
+                Some(ident) => {
+                    self.add_decl(ident);
+                }
+                _ => {}
             }
-            _ => {}
         }
 
         let mut folder = Hygiene {
@@ -294,6 +296,15 @@ impl<'a> Hygiene<'a> {
             ident_type: IdentType::Ref,
             var_kind: None,
         };
+
+        if !is_decl {
+            match ident {
+                Some(ident) => {
+                    folder.add_decl(ident);
+                }
+                _ => {}
+            }
+        }
 
         folder.ident_type = IdentType::Ref;
         node.decorators.visit_mut_with(&mut folder);
@@ -771,11 +782,11 @@ impl<'a> VisitMut for Hygiene<'a> {
     }
 
     fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
-        self.visit_mut_fn(Some(node.ident.clone()), &mut node.function);
+        self.visit_mut_fn(Some(node.ident.clone()), &mut node.function, true);
     }
 
     fn visit_mut_fn_expr(&mut self, node: &mut FnExpr) {
-        self.visit_mut_fn(node.ident.clone(), &mut node.function);
+        self.visit_mut_fn(node.ident.clone(), &mut node.function, false);
     }
 
     /// Invoked for `IdentifierReference` / `BindingIdentifier`
