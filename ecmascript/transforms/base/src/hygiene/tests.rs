@@ -154,8 +154,8 @@ fn block_scoping_with_usage() {
         "
         var foo = 1;
         {
-            let foo1 = 2;
-            use(foo1);
+            let foo = 2;
+            use(foo);
         }
         use(foo);",
     );
@@ -181,7 +181,7 @@ fn block_scoping_no_usage() {
         "
         let foo;
         {
-            let foo1;
+            let foo;
         }
         ",
     );
@@ -207,7 +207,7 @@ fn fn_binding_ident() {
             ])
         },
         "var foo = function baz(){};
-            var bar = function baz1(){};
+            var bar = function baz(){};
             use(baz);",
     );
 }
@@ -280,8 +280,8 @@ fn const_then_fn_param() {
             ])
         },
         "const a = 1;
-            function foo(a1) {
-                use(a1);
+            function foo(a) {
+                use(a);
             }",
     );
 }
@@ -308,8 +308,8 @@ fn for_loop() {
         },
         "
             for(var a=1;;) {}
-            for(var a1 of foo) {}
-            for(var a2 = 3;;) {}
+            for(var a of foo) {}
+            for(var a = 3;;) {}
             ",
     );
 }
@@ -563,7 +563,7 @@ fn block_in_fn() {
         function Foo() {
             var bar;
             {
-                var bar1;
+                var bar;
             }
         }
         ",
