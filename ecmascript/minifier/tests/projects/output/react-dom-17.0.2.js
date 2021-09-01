@@ -9331,9 +9331,9 @@
                 var threadID = computeThreadID(root, lanes);
                 try {
                     subscriber.onWorkStarted(interactions, threadID);
-                } catch (error1) {
+                } catch (error) {
                     scheduleCallback(99, function() {
-                        throw error1;
+                        throw error;
                     });
                 }
             }
@@ -9505,7 +9505,7 @@
         ]), new Set([
             nonExtensibleObject
         ]);
-    } catch (e) {
+    } catch (e1) {
         hasBadMapPolyfill = !0;
     }
     var debugCounter = 1;
