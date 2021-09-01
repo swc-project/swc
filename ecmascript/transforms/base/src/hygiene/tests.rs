@@ -1288,11 +1288,11 @@ fn opt_1() {
             Ok(stmts)
         },
         "
-        var foo = 1;
+        var foo1 = 1;
         {
-            const foo1 = 2;
+            const foo = 2;
             {
-                foo = foo1 + foo
+                foo1 = foo + foo1
             }
         }
         ",
