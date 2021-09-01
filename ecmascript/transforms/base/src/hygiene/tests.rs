@@ -49,6 +49,13 @@ impl Fold for OnceMarker {
 
         ident
     }
+
+    fn fold_prop_name(&mut self, prop: PropName) -> PropName {
+        match prop {
+            PropName::Computed(_) => prop.fold_children_with(self),
+            _ => prop,
+        }
+    }
 }
 
 fn test<F>(op: F, expected: &str)
@@ -1373,6 +1380,64 @@ fn opt_3() {
         } catch (e1) {
             console.log(e);
         }
+        ",
+    );
+}
+
+#[test]
+fn opt_4() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            let stmts = tester
+                .parse_stmts(
+                    "actual1.js",
+                    "
+                    const obj = {
+                        key: function a() {
+                            a()
+                        }
+                    }
+                    function a() {
+
+                    }
+                    ",
+                )?
+                .fold_with(&mut OnceMarker::new(&[("a", &[mark1, mark2, mark1])]));
+            Ok(stmts)
+        },
+        "
+        ",
+    );
+}
+
+#[test]
+fn opt_5() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            let stmts = tester
+                .parse_stmts(
+                    "actual1.js",
+                    "
+                    const obj = {
+                        a: function a() {
+                            a()
+                        }
+                    }
+                    function a() {
+
+                    }
+                    ",
+                )?
+                .fold_with(&mut OnceMarker::new(&[("a", &[mark1, mark2, mark1])]));
+            Ok(stmts)
+        },
+        "
         ",
     );
 }
