@@ -157,7 +157,7 @@ to!(
 ",
     "let y;
     {
-        let y1;  
+        let y;  
         x;
     }
     y;"
@@ -193,8 +193,8 @@ to!(
     x;
     const g = 2;
     {
-        const g1 = 3;
-        let y1;
+        const g = 3;
+        let y;
         3;
     }
     x;
@@ -606,7 +606,7 @@ fn test_do_not_exit_try() {
         "try { var x = y; } catch (e) {} var z = y; ",
         "try { var x = y; } catch (e) {} var z = y; ",
     );
-    test_same("try { throw e; var x = 1; } catch (e) {} var z = x; ");
+    test_same("try { throw e; var x = 1; } catch (e1) {} var z = x; ");
 }
 
 #[test]
@@ -616,7 +616,7 @@ fn test_do_not_enter_catch() {
 
 #[test]
 fn test_do_not_enter_finally() {
-    test_same("try { throw e; var x = 1; } catch (e) {}  finally  { var z = x; } ");
+    test_same("try { throw e; var x = 1; } catch (e1) {}  finally  { var z = x; } ");
 }
 
 #[test]
@@ -2032,7 +2032,7 @@ fn test_let_const() {
         concat!(
             "function f(x) {",
             "  let y;",
-            "  { let y1;",
+            "  { let y;",
             "    x;",
             "  }",
             "}"
@@ -2052,7 +2052,7 @@ fn test_let_const() {
             "function f(x) {",
             "  let y; ",
             "  x; const g = 2;",
-            "  { const g1 = 3; let y1; 3;}",
+            "  { const g = 3; let y; 3;}",
             "}"
         ),
     );
@@ -2267,9 +2267,9 @@ const STATUS_TEXT = new Map([
     "#,
     r#"
     var Status;
-    (function(Status1) {
-        Status1[Status1["Continue"] = 100] = "Continue";
-        Status1[Status1["SwitchingProtocols"] = 101] = "SwitchingProtocols";
+    (function(Status) {
+        Status[Status["Continue"] = 100] = "Continue";
+        Status[Status["SwitchingProtocols"] = 101] = "SwitchingProtocols";
     })(Status || (Status = {
     }));
     const STATUS_TEXT = new Map([
