@@ -107,7 +107,7 @@ impl<'a> Hygiene<'a> {
         }
 
         if cfg!(debug_assertions) && LOG {
-            eprintln!("Renaming from decl");
+            eprintln!("Renaming from reference");
         }
 
         // We rename declaration instead of usage
