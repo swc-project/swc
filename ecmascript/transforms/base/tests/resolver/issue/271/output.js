@@ -1,6 +1,6 @@
-function foo(scope) {
-    var startOperation = function startOperation1(operation) {
-        scope.agentOperation = operation;
+function foo(scope__2) {
+    var startOperation__2 = function startOperation1__3(operation__3) {
+        scope__2.agentOperation = operation__3;
     };
-    scope.startOperation = startOperation;
+    scope__2.startOperation = startOperation__2;
 }

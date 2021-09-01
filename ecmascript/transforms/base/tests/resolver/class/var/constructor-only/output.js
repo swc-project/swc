@@ -1,2 +1,2 @@
-var Foo = function Foo1() {
+var Foo = function Foo__2() {
 };

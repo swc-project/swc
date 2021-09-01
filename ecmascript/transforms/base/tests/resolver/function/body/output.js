@@ -1,5 +1,5 @@
 let a = 'foo';
 function foo() {
-    let a1 = 'bar';
-    use(a1);
+    let a__2 = 'bar';
+    use(a__2);
 }

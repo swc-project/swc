@@ -1,12 +1,12 @@
 function wrapper() {
-    function bar(props) {
+    function bar__2(props__3) {
     }
-    var Foo = function Foo1() {
-        _classCallCheck(this, Foo1);
+    var Foo__2 = function Foo1__4() {
+        _classCallCheck(this, Foo1__4);
         super();
         _defineProperty(this, 'onBar', ()=>{
-            bar();
+            bar__2();
         });
-        bar();
+        bar__2();
     };
 }

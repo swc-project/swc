@@ -1,7 +1,7 @@
 let a = 'foo';
 function foo() {
-    let a1 = 'bar';
+    let a__2 = 'bar';
     use({
-        a: a1
+        a__2
     });
 }

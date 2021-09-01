@@ -1,10 +1,10 @@
-function broken(x) {
-    var Foo1 = function(_Bar) {
-        _inherits(Foo2, _Bar);
-        function Foo2() {
-            _classCallCheck(this, Foo2);
-            return _possibleConstructorReturn(this, _getPrototypeOf(Foo2).apply(this, arguments));
+function broken(x__2) {
+    var Foo__2 = function(_Bar__3) {
+        _inherits(Foo__3, _Bar__3);
+        function Foo__3() {
+            _classCallCheck(this, Foo__3);
+            return _possibleConstructorReturn(this, _getPrototypeOf(Foo__3).apply(this, arguments));
         }
-        return Foo2;
+        return Foo__3;
     }(Bar);
 }

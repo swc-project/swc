@@ -1,7 +1,7 @@
 function isAbsolute() {
 }
-function parse(path) {
-    const isAbsolute1 = path.charCodeAt(0) === CHAR_FORWARD_SLASH;
-    if (isAbsolute1) {
+function parse(path__2) {
+    const isAbsolute__2 = path__2.charCodeAt(0) === CHAR_FORWARD_SLASH;
+    if (isAbsolute__2) {
     }
 }

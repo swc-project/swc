@@ -1,9 +1,9 @@
-function foo(e) {
-    e: {
+function foo(e__2) {
+    e__0: {
         try {
-        } catch (e1) {
+        } catch (e1__3) {
             o = null;
-            break e;
+            break e__0;
         }
     }
 }

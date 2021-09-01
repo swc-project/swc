@@ -1,7 +1,7 @@
 ({
     foo () {
-        function bar() {
-            bar;
+        function bar__1() {
+            bar__1;
         }
     }
 });

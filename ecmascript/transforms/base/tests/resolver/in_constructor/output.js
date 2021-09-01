@@ -3,11 +3,11 @@ class C {
 class A extends C {
     constructor(){
         super();
-        class B extends C {
+        class B__2 extends C {
             constructor(){
                 super();
             }
         }
-        new B();
+        new B__2();
     }
 }

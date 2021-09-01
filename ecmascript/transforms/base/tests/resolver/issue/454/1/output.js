@@ -1,9 +1,9 @@
 var a = 2;
 function foo() {
     try {
-        var a1 = 1;
-        a1;
-    } catch (err) {
+        var a__2 = 1;
+        a__2;
+    } catch (err__3) {
     }
-    a1;
+    a__2;
 }

@@ -1,6 +1,6 @@
-var Foo1 = function(_Bar) {
-    _inherits(Foo2, _Bar);
-    function Foo2() {
+var Foo = function(_Bar__2) {
+    _inherits(Foo__2, _Bar__2);
+    function Foo__2() {
     }
-    return Foo2;
+    return Foo__2;
 }(Bar);

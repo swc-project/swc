@@ -1,8 +1,8 @@
 function foo() {
     return ()=>{
-        function Bar() {
+        function Bar__2() {
         }
-        Bar.qux = '';
-        return Bar;
+        Bar__2.qux = '';
+        return Bar__2;
     };
 }

@@ -1,6 +1,6 @@
-test(function foo() {
-    foo = function foo1(x) {
-        return x === 0 ? 1 : 1 + foo1(x - 1);
+test(function foo__2() {
+    foo__2 = function foo__3(x__3) {
+        return x__3 === 0 ? 1 : 1 + foo__3(x__3 - 1);
     };
-    return foo(10);
+    return foo__2(10);
 });

@@ -1,10 +1,10 @@
-export function input(name) {
-    return `${name}.md?render`;
+export function input(name__2) {
+    return `${name__2}.md?render`;
 }
-export default function({ name , input: inp ,  }) {
-    inp = inp || input(name);
+export default function({ name__3 , input: inp__3 ,  }) {
+    inp__3 = inp__3 || input(name__3);
     return {
-        input: inp
+        input: inp__3
     };
 };
 ;

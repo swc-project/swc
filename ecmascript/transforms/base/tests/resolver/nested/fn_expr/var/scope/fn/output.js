@@ -1,8 +1,8 @@
 var Test = function() {
-    var Test1 = function() {
-        function Test2() {
+    var Test__2 = function() {
+        function Test__3() {
         }
-        return Test2;
+        return Test__3;
     }();
-    return Test1;
+    return Test__2;
 }();

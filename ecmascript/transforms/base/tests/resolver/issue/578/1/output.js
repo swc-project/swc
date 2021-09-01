@@ -1,12 +1,12 @@
 import { myFunction } from './dep.js';
 class SomeClass {
-    constructor(properties){
-        this.props = properties;
+    constructor(properties__2){
+        this.props = properties__2;
     }
     call() {
-        const { myFunction: myFunction1  } = this.props;
-        if (myFunction1) {
-            myFunction1();
+        const { myFunction__3  } = this.props;
+        if (myFunction__3) {
+            myFunction__3();
         } else {
             console.log('DID NOT WORK!');
         }

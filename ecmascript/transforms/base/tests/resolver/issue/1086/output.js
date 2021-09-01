@@ -1,7 +1,7 @@
 const b = [];
 {
-    let a;
-    for(a in b){
-        console.log(a);
+    let a__2;
+    for(a__2 in b){
+        console.log(a__2);
     }
 }

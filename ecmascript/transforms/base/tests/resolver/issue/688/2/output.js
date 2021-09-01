@@ -1,8 +1,8 @@
 function test() {
-    if (typeof Missing == typeof EXTENDS) {
+    if (typeof Missing == typeof EXTENDS__2) {
         console.log('missing');
     }
     {
-        var EXTENDS = 'test';
+        var EXTENDS__2 = 'test';
     }
 }

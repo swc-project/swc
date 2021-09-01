@@ -1,6 +1,6 @@
 export default function foo() {
-    foo = function foo1(x) {
-        return x === 0 ? 1 : 1 + foo1(x - 1);
+    foo = function foo__2(x__2) {
+        return x__2 === 0 ? 1 : 1 + foo__2(x__2 - 1);
     };
     return foo(10);
 };

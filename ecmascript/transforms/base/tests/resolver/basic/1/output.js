@@ -1,8 +1,8 @@
 {
     var foo = 1;
     {
-        let foo1 = 2;
-        use(foo1);
+        let foo__2 = 2;
+        use(foo__2);
     }
     use(foo);
 }

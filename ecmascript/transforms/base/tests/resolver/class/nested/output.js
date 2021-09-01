@@ -1,23 +1,23 @@
-var Outer1 = function(_Hello) {
-    _inherits(Outer2, _Hello);
-    function Outer2() {
-        _classCallCheck(this, Outer2);
-        var _this = _possibleConstructorReturn(this, _getPrototypeOf(Outer2).call(this));
-        var Inner = function() {
-            function Inner1() {
-                _classCallCheck(this, Inner1);
+var Outer = function(_Hello__2) {
+    _inherits(Outer__2, _Hello__2);
+    function Outer__2() {
+        _classCallCheck(this, Outer__2);
+        var _this__3 = _possibleConstructorReturn(this, _getPrototypeOf(Outer__2).call(this));
+        var Inner__3 = function() {
+            function Inner__4() {
+                _classCallCheck(this, Inner__4);
             }
-            _createClass(Inner1, [
+            _createClass(Inner__4, [
                 {
-                    key: _get(_getPrototypeOf(Outer2.prototype), 'toString', _assertThisInitialized(_this)).call(_this),
+                    key: _get(_getPrototypeOf(Outer__2.prototype), 'toString', _assertThisInitialized(_this__3)).call(_this__3),
                     value: function() {
                         return 'hello';
                     }
                 }
             ]);
-            return Inner1;
+            return Inner__4;
         }();
-        return _possibleConstructorReturn(_this, new Inner());
+        return _possibleConstructorReturn(_this__3, new Inner__3());
     }
-    return Outer2;
+    return Outer__2;
 }(Hello);

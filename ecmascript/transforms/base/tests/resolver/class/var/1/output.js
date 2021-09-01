@@ -1,10 +1,10 @@
-var Foo1 = function(_Bar) {
-    _inherits(Foo2, _Bar);
-    function Foo2() {
-        var _this;
-        _classCallCheck(this, Foo2);
-        Foo2[_assertThisInitialized(_this)];
-        return _possibleConstructorReturn(_this);
+var Foo = function(_Bar__2) {
+    _inherits(Foo__2, _Bar__2);
+    function Foo__2() {
+        var _this__3;
+        _classCallCheck(this, Foo__2);
+        Foo__2[_assertThisInitialized(_this__3)];
+        return _possibleConstructorReturn(_this__3);
     }
-    return Foo2;
+    return Foo__2;
 }(Bar);

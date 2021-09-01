@@ -1,4 +1,4 @@
 let a = 'foo';
-function foo(a1) {
-    use(a1);
+function foo(a__2) {
+    use(a__2);
 }

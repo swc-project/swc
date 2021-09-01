@@ -1,9 +1,9 @@
 var sym = Symbol();
 var Foo = function() {
-    function Foo1() {
-        _classCallCheck(this, Foo1);
+    function Foo__2() {
+        _classCallCheck(this, Foo__2);
     }
-    _createClass(Foo1, [
+    _createClass(Foo__2, [
         {
             key: sym,
             value: function() {
@@ -11,23 +11,23 @@ var Foo = function() {
             }
         }
     ]);
-    return Foo1;
+    return Foo__2;
 }();
-var Bar1 = function(_Foo) {
-    _inherits(Bar2, _Foo);
-    function Bar2() {
-        _classCallCheck(this, Bar2);
-        return _possibleConstructorReturn(this, _getPrototypeOf(Bar2).apply(this, arguments));
+var Bar = function(_Foo__3) {
+    _inherits(Bar__3, _Foo__3);
+    function Bar__3() {
+        _classCallCheck(this, Bar__3);
+        return _possibleConstructorReturn(this, _getPrototypeOf(Bar__3).apply(this, arguments));
     }
-    _createClass(Bar2, [
+    _createClass(Bar__3, [
         {
             key: sym,
             value: function() {
-                return _get(_getPrototypeOf(Bar2.prototype), sym, this)() + 2;
+                return _get(_getPrototypeOf(Bar__3.prototype), sym, this)() + 2;
             }
         }
     ]);
-    return Bar2;
+    return Bar__3;
 }(Foo);
-var i = new Bar1();
+var i = new Bar();
 expect(i[sym]()).toBe(3);

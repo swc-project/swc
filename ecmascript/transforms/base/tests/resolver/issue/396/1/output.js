@@ -1,5 +1,5 @@
 function foo() {
-    bar;
-    function bar() {
+    bar__2;
+    function bar__2() {
     }
 }

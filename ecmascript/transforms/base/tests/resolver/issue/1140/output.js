@@ -10,10 +10,10 @@ const categories = [
     }
 ];
 const item = "some item";
-const catNames = categories.reduce((a, item1)=>{
+const catNames = categories.reduce((a__2, item__2)=>{
     return {
-        ...a,
-        [item1.key.toString()]: item1
+        ...a__2,
+        [item__2.key.toString()]: item__2
     };
 }, {
 });

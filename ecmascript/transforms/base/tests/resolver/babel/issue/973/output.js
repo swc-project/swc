@@ -1,7 +1,7 @@
 let arr = [];
-for(let i = 0; i < 10; i++){
-    for(let i1 = 0; i1 < 10; i1++){
-        arr.push(()=>i1
+for(let i__2 = 0; i__2 < 10; i__2++){
+    for(let i__3 = 0; i__3 < 10; i__3++){
+        arr.push(()=>i__3
         );
     }
 }

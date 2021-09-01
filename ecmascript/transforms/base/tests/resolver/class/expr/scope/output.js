@@ -1,7 +1,7 @@
 let Test = 2;
-test(class Test1 {
+test(class Test__2 {
     hi() {
-        console.log(Test1);
+        console.log(Test__2);
     }
 });
 Test = 4;

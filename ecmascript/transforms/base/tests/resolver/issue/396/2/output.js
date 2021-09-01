@@ -1,5 +1,5 @@
 function foo() {
-    var bar = function bar1() {
+    var bar__2 = function bar1__3() {
     };
-    bar;
+    bar__2;
 }
