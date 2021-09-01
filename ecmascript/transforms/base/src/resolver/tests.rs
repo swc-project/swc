@@ -155,44 +155,6 @@ fn test_mark_for() {
 }
 
 identical!(
-    issue_369_1,
-    "export function input(name) {
-    return `${name}.md?render`;
-}
-
-export default function({
-    name, input: inp,
-}) {
-    inp = inp || input(name);
-    return {input: inp};
-};
-"
-);
-
-to!(
-    issue_369_2,
-    "
-function a() {}
-function b() {}
-function foo({a: b}){
-	expect(b).toBe('a')
-}
-foo({a: 'a'})",
-    "
-    function a() {
-    }
-    function b() {
-    }
-    function foo({ a: b1  }) {
-        expect(b1).toBe('a');
-    }
-    foo({
-        a: 'a'
-    });
-    "
-);
-
-identical!(
     issue_396_1,
     "
 function foo() {
