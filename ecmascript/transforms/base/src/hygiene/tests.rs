@@ -1409,6 +1409,14 @@ fn opt_4() {
             Ok(stmts)
         },
         "
+        const obj = {
+            key: function a1() {
+                a()
+            }
+        }
+        function a() {
+
+        }
         ",
     );
 }
@@ -1438,6 +1446,14 @@ fn opt_5() {
             Ok(stmts)
         },
         "
+        const obj = {
+            a: function a1() {
+                a()
+            }
+        }
+        function a() {
+
+        }
         ",
     );
 }
