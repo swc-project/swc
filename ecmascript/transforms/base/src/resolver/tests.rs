@@ -1,9 +1,7 @@
-use crate::hygiene::Config;
-
 use super::*;
-use swc_common::chain;
-use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
-use swc_ecma_visit::{as_folder, Fold, VisitMut, VisitMutWith};
+use crate::hygiene::Config;
+use swc_ecma_parser::Syntax;
+use swc_ecma_visit::{Fold, VisitMut, VisitMutWith};
 
 struct TsHygiene {
     top_level_mark: Mark,
@@ -40,28 +38,6 @@ impl VisitMut for TsHygiene {
     fn visit_mut_ts_qualified_name(&mut self, q: &mut TsQualifiedName) {
         q.left.visit_mut_with(self);
     }
-}
-
-fn syntax() -> Syntax {
-    Syntax::Es(EsConfig {
-        class_props: true,
-        ..Default::default()
-    })
-}
-
-fn ts() -> Syntax {
-    Syntax::Typescript(TsConfig {
-        decorators: true,
-        ..Default::default()
-    })
-}
-
-fn run_test<F, V>(syntax: Syntax, tr: F, src: &str, to: &str)
-where
-    F: FnOnce() -> V,
-    V: Fold,
-{
-    crate::tests::test_transform(syntax, |_| tr(), src, to, true, Default::default());
 }
 
 fn run_test_with_config<F, V>(
@@ -116,72 +92,6 @@ fn test_mark_for() {
 }
 
 #[test]
-fn issue_578_1() {
-    run_test(
-        syntax(),
-        || resolver(),
-        "
-    import { myFunction } from './dep.js'
-    
-    class SomeClass {
-      constructor(properties) {
-        this.props = properties;
-      }
-      call () {
-        const {myFunction} = this.props
-        if (myFunction) {
-          myFunction()
-        } else {
-          console.log('DID NOT WORK!')
-        }
-      }
-    }
-    
-    let instance = new SomeClass({
-      myFunction: () => {
-        console.log('CORRECT FUNCTION CALLED')
-      }
-    });
-    
-    instance.call()",
-        "import { myFunction } from './dep.js';
-    class SomeClass{
-        constructor(properties){
-            this.props = properties;
-        }
-         call() {
-            const { myFunction: myFunction1  } = this.props;
-            if (myFunction1) {
-                myFunction1();
-            } else {
-                console.log('DID NOT WORK!');
-            }
-        }
-    }
-    let instance = new SomeClass({
-        myFunction: ()=>{
-            console.log('CORRECT FUNCTION CALLED');
-        }
-    });
-    instance.call()",
-    );
-}
-
-#[test]
-fn global_object() {
-    run_test(
-        syntax(),
-        || resolver(),
-        "function foo(Object) {
-        Object.defineProperty()
-    }",
-        "function foo(Object1) {
-    Object1.defineProperty();
-}",
-    );
-}
-
-#[test]
 fn issue_1279_1() {
     run_test_with_config(
         Default::default(),
@@ -232,49 +142,5 @@ fn issue_1279_2() {
         Config {
             keep_class_names: true,
         },
-    );
-}
-
-#[test]
-fn issue_1653_2() {
-    run_test(
-        ts(),
-        || {
-            let top_level_mark = Mark::fresh(Mark::root());
-
-            chain!(
-                resolver_with_mark(top_level_mark),
-                as_folder(TsHygiene { top_level_mark })
-            )
-        },
-        "
-            namespace X
-            {
-                export namespace Z
-                {
-                    export const foo = 0
-                }
-            }
-
-            namespace Y
-            {
-                export namespace Z
-                {
-                    export const bar = 1
-                }
-            }
-            ",
-        "
-            module X {
-                export module Z__0 {
-                    export const foo__0 = 0;
-                }
-            }
-            module Y {
-                export module Z__0 {
-                    export const bar__0 = 1;
-                }
-            }
-            ",
     );
 }
