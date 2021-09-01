@@ -103,11 +103,11 @@ expect(Foo.name).toBe('Foo');
 "#,
     r#"
 var Foo = function() {
-  var Foo1 = function() {
-   _classCallCheck(this, Foo1);
+  var Foo = function() {
+   _classCallCheck(this, Foo);
   };
   _defineProperty(Foo1, 'num', 0);
-  return Foo1;
+  return Foo;
 }();
 expect(Foo.num).toBe(0);
 expect(Foo.num = 1).toBe(1);
@@ -838,9 +838,9 @@ console.log(search);
     r#"
 var obj = {
 search: function search({
-search: search1
+search
 }) {
-console.log(search1);
+console.log(search);
 }
 };
 
