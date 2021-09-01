@@ -5,4 +5,4 @@ var ConstructorScoping = function ConstructorScoping1() {
         let bar1;
         use(bar1);
     }
-}
+};
