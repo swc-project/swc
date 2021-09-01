@@ -164,30 +164,6 @@ fn test_mark_for() {
 }
 
 to!(
-    basic,
-    r#"
-        {
-            var foo = 1;
-            {
-                let foo = 2;
-                use(foo);
-            }
-            use(foo)
-        }
-        "#,
-    r#"
-        {
-            var foo = 1;
-            {
-                let foo1 = 2;
-                use(foo1);
-            }
-            use(foo);
-        }
-        "#
-);
-
-to!(
     general_assignment_patterns,
     r#"const foo = "foo";
 
