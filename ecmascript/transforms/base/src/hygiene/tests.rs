@@ -306,8 +306,8 @@ fn for_loop() {
         },
         "
             for(var a=1;;) {}
-            for(var a of foo) {}
-            for(var a = 3;;) {}
+            for(var a1 of foo) {}
+            for(var a2 = 3;;) {}
             ",
     );
 }
@@ -725,8 +725,8 @@ fn for_x() {
             var { a } = _ref1, b = _objectWithoutProperties(_ref1, ['a']);
         }
         async function a() {
-            for await (var _ref2 of []){
-                var { a } = _ref2, b = _objectWithoutProperties(_ref2, ['a']);
+            for await (var _ref of []){
+                var { a } = _ref, b = _objectWithoutProperties(_ref, ['a']);
             }
         }
         ",
@@ -1218,7 +1218,7 @@ fn issue_1279() {
         "
         let Foo = class Foo {
             method() {
-                let Foo1 = class Foo {
+                let Foo = class Foo {
                 };
             }
         };
