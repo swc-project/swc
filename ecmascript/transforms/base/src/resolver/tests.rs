@@ -87,21 +87,11 @@ fn run_test_with_config<F, V>(
 }
 
 macro_rules! to_ts {
-    ($name:ident, $src:literal, $to:literal) => {
-        #[test]
-        fn $name() {
-            run_test(ts(), || ts_tr(), $src, $to);
-        }
-    };
+    ($name:ident, $src:literal, $to:literal) => {};
 }
 
 macro_rules! to {
-    ($name:ident, $src:literal, $to:literal) => {
-        #[test]
-        fn $name() {
-            run_test(syntax(), || resolver(), $src, $to);
-        }
-    };
+    ($name:ident, $src:literal, $to:literal) => {};
 }
 
 macro_rules! identical_ts {
