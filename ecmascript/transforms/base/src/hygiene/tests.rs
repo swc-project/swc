@@ -234,8 +234,8 @@ fn fn_binding_ident_in_call() {
             ])
         },
         "var foo = use(function baz(){});
-            var bar1 = use(function baz1(){});
-            var bar2 = use(function baz2(){});
+            var bar1 = use(function baz(){});
+            var bar2 = use(function baz(){});
             use(baz);",
     );
 }
@@ -1293,6 +1293,51 @@ fn opt_1() {
             const foo = 2;
             {
                 foo1 = foo + foo1
+            }
+        }
+        ",
+    );
+}
+
+#[test]
+fn opt_2() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            let mark3 = Mark::fresh(Mark::root());
+            let mark4 = Mark::fresh(Mark::root());
+
+            let stmts = tester
+                .parse_stmts(
+                    "actual1.js",
+                    "
+                    var b = 1;
+                    var b1 = 1;
+                    {
+                        const b = 2;
+                        const b1 = 2;
+                        {
+                            b1 = b + b + b1 + b1
+                        }
+                    }
+                    ",
+                )?
+                .fold_with(&mut OnceMarker::new(&[
+                    ("b", &[mark1, mark2, mark2, mark1]),
+                    ("b1", &[mark3, mark4, mark3, mark4, mark3]),
+                ]));
+            Ok(stmts)
+        },
+        "
+        var b = 1;
+        var b11 = 1;
+        {
+            const b2 = 2;
+            const b1 = 2;
+            {
+                b11 = b2 + b + b1 + b11
             }
         }
         ",
