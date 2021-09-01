@@ -890,10 +890,10 @@ function () {
 
 var B =
 /*#__PURE__*/
-function (A1) {
+function (A) {
   'use strict';
 
-  _inherits(B, A1);
+  _inherits(B, A);
 
   function B() {
     _classCallCheck(this, B);
@@ -1777,10 +1777,10 @@ var A = function () {
 
 var B =
 /*#__PURE__*/
-function (A1) {
+function (A) {
   'use strict';
 
-  _inherits(B, A1);
+  _inherits(B, A);
 
   function B() {
     _classCallCheck(this, B);
@@ -4633,10 +4633,10 @@ _defineProperty(A, "prop", 1);
 
 var B =
 /*#__PURE__*/
-function (A1) {
+function (A) {
   "use strict";
 
-  _inherits(B, A1);
+  _inherits(B, A);
 
   function B() {
     _classCallCheck(this, B);

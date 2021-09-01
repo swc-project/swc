@@ -285,11 +285,11 @@ for (var _ref1 of []) {
 }
 
 async function a() {
-  for await (var _ref2 of []) {
+  for await (var _ref of []) {
     var {
       a
-    } = _ref2,
-        b = _objectWithoutProperties(_ref2, ["a"]);
+    } = _ref,
+        b = _objectWithoutProperties(_ref, ["a"]);
   }
 } // skip
 
