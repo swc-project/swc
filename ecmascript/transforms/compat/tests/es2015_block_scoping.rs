@@ -530,15 +530,15 @@ test!(
                                 ]
                             ].map(_asyncToGenerator(regeneratorRuntime.mark(function _callee1(param) {
                                 var _param = _slicedToArray(param, 1), a = _param[0];
-                                return regeneratorRuntime.wrap(function _callee$1(_ctx1) {
-                                    while(1)switch(_ctx1.prev = _ctx1.next){
+                                return regeneratorRuntime.wrap(function _callee$1(_ctx) {
+                                    while(1)switch(_ctx.prev = _ctx.next){
                                         case 0:
-                                            return _ctx1.abrupt("return", Promise.resolve().then(function() {
+                                            return _ctx.abrupt("return", Promise.resolve().then(function() {
                                                 return a * 2;
                                             }));
                                         case 1:
                                         case "end":
-                                            return _ctx1.stop();
+                                            return _ctx.stop();
                                     }
                                 }, _callee1);
                             }))));
@@ -801,8 +801,8 @@ test!(
     "
         function test() {
             var _this = this, _arguments = arguments, _loop = function(i) {
-                console.log((function(_arguments1) {
-                    return _arguments1[i];
+                console.log((function(_arguments) {
+                    return _arguments[i];
                 }).bind(_this, _arguments)());
             };
             for(var i = 0; i < arguments.length; i++)_loop(i);
