@@ -163,57 +163,6 @@ fn test_mark_for() {
     .unwrap();
 }
 
-#[test]
-fn babel_issue_973() {
-    run_test(
-        Default::default(),
-        || resolver(),
-        r#"let arr = [];
-    for(let i = 0; i < 10; i++) {
-      for (let i = 0; i < 10; i++) {
-        arr.push(() => i);
-      }
-    }
-    "#,
-        r#"let arr = [];
-    for(let i = 0; i < 10; i++){
-        for(let i1 = 0; i1 < 10; i1++){
-            arr.push(()=>i1);
-        }
-    }"#,
-    );
-}
-
-to!(
-    pass_assignment,
-    r#"let a = 1;
-    a = 2;
-    expect(a).toBe(2);"#,
-    "
-    let a = 1;
-    a = 2;
-    expect(a).toBe(2);
-    "
-);
-
-to!(
-    pass_call,
-    r#"let a = 1;
-
-    function b() {
-        return a + 1;
-    }
-
-    expect(b()).toBe(2);"#,
-    "
-    let a = 1;
-    function b() {
-        return a + 1;
-    }
-    expect(b()).toBe(2);
-    "
-);
-
 to!(
     pass_update,
     r#"let a = 1;
