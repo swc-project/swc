@@ -82,6 +82,11 @@ impl<'a> Hygiene<'a> {
             if e.len() <= 1 {
                 return;
             }
+
+            // Preserve first one.
+            if e[0] == ctxt {
+                return;
+            }
         }
 
         if cfg!(debug_assertions) && LOG {
