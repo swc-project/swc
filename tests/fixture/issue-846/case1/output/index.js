@@ -430,13 +430,13 @@ var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 var SomeClass = _decorate([], function(_initialize) {
-    var SomeClass1 = function SomeClass1() {
+    var SomeClass = function SomeClass() {
         "use strict";
-        _classCallCheck(this, SomeClass1);
+        _classCallCheck(this, SomeClass);
         _initialize(this);
     };
     return {
-        F: SomeClass1,
+        F: SomeClass,
         d: [
             {
                 kind: "method",
@@ -451,20 +451,20 @@ var SomeClass = _decorate([], function(_initialize) {
     };
 });
 var OtherClass = _decorate([], function(_initialize, _SomeClass) {
-    var OtherClass1 = /*#__PURE__*/ function(_SomeClass1) {
+    var OtherClass = /*#__PURE__*/ function(_SomeClass) {
         "use strict";
-        _inherits(OtherClass1, _SomeClass1);
-        function OtherClass1() {
-            _classCallCheck(this, OtherClass1);
+        _inherits(OtherClass, _SomeClass);
+        function OtherClass() {
+            _classCallCheck(this, OtherClass);
             var _this;
-            _this = _possibleConstructorReturn(this, _getPrototypeOf(OtherClass1).apply(this, arguments));
+            _this = _possibleConstructorReturn(this, _getPrototypeOf(OtherClass).apply(this, arguments));
             _initialize(_assertThisInitialized(_this));
             return _this;
         }
-        return OtherClass1;
+        return OtherClass;
     }(_SomeClass);
     return {
-        F: OtherClass1,
+        F: OtherClass,
         d: [
             {
                 kind: "method",
@@ -473,7 +473,7 @@ var OtherClass = _decorate([], function(_initialize, _SomeClass) {
                 ],
                 key: "anotherMethod",
                 value: function anotherMethod() {
-                    _get(_getPrototypeOf(OtherClass1.prototype), "someMethod", this).call(this);
+                    _get(_getPrototypeOf(OtherClass.prototype), "someMethod", this).call(this);
                 }
             }
         ]
