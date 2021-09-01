@@ -308,7 +308,7 @@ let Foo = _decorate([decorator], function (_initialize) {
     d: [{
       kind: "method",
       key: "method",
-      value: function method() {
+      value: function method1() {
         return method;
       }
     }]
