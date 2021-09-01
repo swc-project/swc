@@ -640,14 +640,15 @@ impl<'a> VisitMut for Hygiene<'a> {
     }
 
     fn visit_mut_catch_clause(&mut self, c: &mut CatchClause) {
+        self.ident_type = IdentType::Binding;
+        c.param.visit_mut_with(self);
+
         let mut folder = Hygiene {
             config: self.config.clone(),
             current: Scope::new(ScopeKind::Fn, Some(&self.current)),
             ident_type: IdentType::Ref,
             var_kind: None,
         };
-        folder.ident_type = IdentType::Binding;
-        c.param.visit_mut_with(&mut folder);
         folder.ident_type = IdentType::Ref;
 
         c.body.visit_mut_with(&mut folder);
