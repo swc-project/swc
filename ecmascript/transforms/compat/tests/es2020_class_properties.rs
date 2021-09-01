@@ -1705,20 +1705,20 @@ var Foo = function Foo() {
 
   _classCallCheck(this, Foo);
 
-  _prop1.set(this, {
+  _prop.set(this, {
     writable: true,
     value: "foo"
   });
 };
 
-var _prop1 = new WeakMap();
+var _prop = new WeakMap();
 
 var Bar =
 /*#__PURE__*/
-function (Foo1) {
+function (Foo) {
   'use strict';  
 
-  _inherits(Bar, Foo1);
+  _inherits(Bar, Foo);
 
   function Bar() {
     _classCallCheck(this, Bar);
@@ -1726,7 +1726,7 @@ function (Foo1) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Bar).apply(this, arguments));
 
-    _prop2.set(_assertThisInitialized(_this), {
+    _prop1.set(_assertThisInitialized(_this), {
       writable: true,
       value: "bar"
     });
@@ -1737,7 +1737,7 @@ function (Foo1) {
   return Bar;
 }(Foo);
 
-var _prop2 = new WeakMap();
+var _prop1 = new WeakMap();
 
 "#
 );
@@ -2425,7 +2425,7 @@ class Foo {
     r#"
 var foo = "bar";
 
-var Foo = function Foo(foo1) {
+var Foo = function Foo(foo) {
   'use strict';
 
   _classCallCheck(this, Foo);
