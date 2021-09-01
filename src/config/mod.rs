@@ -206,7 +206,7 @@ impl Options {
             base_url,
             paths,
             minify: js_minify,
-            experimental,
+            ..
         } = config.jsc;
         let target = target.unwrap_or_default();
 
@@ -284,7 +284,6 @@ impl Options {
             } else {
                 Some(hygiene::Config { keep_class_names })
             })
-            .optimize_hygiene(experimental.optimize_hygiene)
             .fixer(!self.disable_fixer)
             .preset_env(config.env)
             .finalize(
@@ -790,15 +789,10 @@ pub struct JscConfig {
 /// `jsc.experimental` in `.swcrc`
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
-pub struct JscExperimental {
-    #[serde(default)]
-    pub optimize_hygiene: bool,
-}
+pub struct JscExperimental {}
 
 impl Merge for JscExperimental {
-    fn merge(&mut self, from: &Self) {
-        self.optimize_hygiene |= from.optimize_hygiene;
-    }
+    fn merge(&mut self, _from: &Self) {}
 }
 
 /// `paths` sectiob of `tsconfig.json`.
