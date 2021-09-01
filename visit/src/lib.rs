@@ -35,7 +35,7 @@
 //! # `VisitMut`
 //!
 //! `VisitMut` uses a mutable reference to AST nodes (e.g. `&mut Expr`). You can
-//! use `MapWithMut` from `swc_ecma_transforms_base` to get owned value from a
+//! use `Take` from `swc_common::util::take::Take` to get owned value from a
 //! mutable reference.
 //!
 //! You will typically use code like
