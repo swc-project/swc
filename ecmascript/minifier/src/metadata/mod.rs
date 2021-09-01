@@ -276,7 +276,7 @@ where
         if external_bingdings.contains(&used_id) {
             if cfg!(feature = "debug") {
                 log::debug!(
-                    "Due to {}{:?} (top-level), it's not a bundle",
+                    "bundle: Due to {}{:?} (top-level), it's not a bundle",
                     used_id.0,
                     used_id.1
                 );
@@ -286,15 +286,29 @@ where
         }
 
         if used_id.1 == top_level_ctxt {
+            if cfg!(feature = "debug") {
+                log::debug!("bundle: Ignoring {}{:?} (top level)", used_id.0, used_id.1);
+            }
             continue;
         }
 
         if bindings.contains(used_id) {
+            if cfg!(feature = "debug") {
+                log::debug!(
+                    "bundle: Ignoring {}{:?} (local to fn)",
+                    used_id.0,
+                    used_id.1
+                );
+            }
             continue;
         }
 
         if cfg!(feature = "debug") {
-            log::debug!("Due to {}{:?}, it's not a bundle", used_id.0, used_id.1);
+            log::debug!(
+                "bundle: Due to {}{:?}, it's not a bundle",
+                used_id.0,
+                used_id.1
+            );
         }
         return false;
     }
