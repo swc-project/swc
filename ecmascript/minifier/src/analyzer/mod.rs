@@ -109,6 +109,8 @@ pub(crate) struct VarUsageInfo {
 
     pub no_side_effect_for_member_access: bool,
 
+    pub used_as_callee: bool,
+
     /// In `c = b`, `b` inffects `c`.
     infects: Vec<Id>,
 }
@@ -272,6 +274,17 @@ where
                 ..self.ctx
             };
             n.callee.visit_with(n, &mut *self.with_ctx(ctx));
+        }
+
+        match &n.callee {
+            ExprOrSuper::Super(_) => {}
+            ExprOrSuper::Expr(callee) => match &**callee {
+                Expr::Ident(callee) => {
+                    self.data.var_or_default(callee.to_id()).mark_caleee();
+                }
+
+                _ => {}
+            },
         }
 
         {
