@@ -4,4 +4,4 @@ set -eux
 export RUST_LOG=swc_ecma_minifier=trace
 
 # To prevent regression, we run base test before real tests.
-cargo test --test compress ${1-base_exec} -q --all-features
+cargo test --test compress -q --all-features ${1-base_exec}
