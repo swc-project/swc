@@ -209,7 +209,6 @@ where
     fn visit_await_expr(&mut self, n: &AwaitExpr, _: &dyn Node) {
         let ctx = Ctx {
             in_await_arg: true,
-            inline_prevented: true,
             ..self.ctx
         };
         n.visit_children_with(&mut *self.with_ctx(ctx));
