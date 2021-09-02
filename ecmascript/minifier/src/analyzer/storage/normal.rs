@@ -67,6 +67,8 @@ impl Storage for ProgramData {
                         e.get_mut().no_side_effect_for_member_access
                             && var_info.no_side_effect_for_member_access;
 
+                    e.get_mut().used_as_callee |= var_info.used_as_callee;
+
                     match kind {
                         ScopeKind::Fn => {
                             e.get_mut().is_fn_local = false;
