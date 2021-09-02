@@ -667,6 +667,7 @@ issue_2652/insert_semicolon/input.js
 issue_2652/unary_postfix/input.js
 issue_267/issue_267/input.js
 issue_269/issue_269_dangers/input.js
+issue_269/issue_269_in_scope/input.js
 issue_281/issue_1254_negate_iife_nested/input.js
 issue_281/issue_1254_negate_iife_true/input.js
 issue_281/issue_1595_3/input.js
@@ -773,6 +774,7 @@ new/dot_parenthesis_2/input.js
 new/new_constructor_with_unary_arguments/input.js
 new/new_statement/input.js
 new/new_statements_2/input.js
+new/new_statements_3/input.js
 new/new_with_assignement_expression/input.js
 new/new_with_many_parameters/input.js
 new/new_with_rewritten_true_value/input.js
