@@ -39,6 +39,8 @@ pub(crate) struct Ctx {
     /// `false` for `array` in `array.length.
     pub(super) is_exact_arg: bool,
 
+    pub(super) in_await_arg: bool,
+
     pub(super) in_left_of_for_loop: bool,
 
     pub(super) in_loop: bool,
