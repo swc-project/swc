@@ -404,23 +404,29 @@ impl<'a, I: Tokens> Parser<I> {
             } else if self.is_class_property()? {
                 // Property named `static`
 
-                let key = Either::Right(PropName::Ident(Ident::new(
-                    js_word!("static"),
-                    static_token,
-                )));
-                let is_optional = self.input.syntax().typescript() && eat!(self, '?');
-                return self.make_property(
-                    start,
-                    decorators,
-                    accessibility,
-                    key,
-                    false,
-                    is_optional,
-                    false,
-                    declare,
-                    false,
-                    false,
-                );
+                // Avoid to parse
+                //   static
+                //   {}
+                let is_parsing_static_blocks = self.input.syntax().static_blocks() && is!(self, '{');
+                if !is_parsing_static_blocks {
+                    let key = Either::Right(PropName::Ident(Ident::new(
+                        js_word!("static"),
+                        static_token,
+                    )));
+                    let is_optional = self.input.syntax().typescript() && eat!(self, '?');
+                    return self.make_property(
+                        start,
+                        decorators,
+                        accessibility,
+                        key,
+                        false,
+                        is_optional,
+                        false,
+                        declare,
+                        false,
+                        false,
+                    );
+                }
             } else {
                 // TODO: error if static contains escape
             }
