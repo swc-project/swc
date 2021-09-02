@@ -105,6 +105,7 @@ jobs:
           - node
           - string_enum
           - swc
+          - swc-dev
           - swc_atoms
           - swc_babel_ast
           - swc_babel_compat
