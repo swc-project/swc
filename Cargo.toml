@@ -1,5 +1,6 @@
 [workspace]
 members = [
+  "cli",
   "css",
   "css/stylis",
   "ecmascript",
