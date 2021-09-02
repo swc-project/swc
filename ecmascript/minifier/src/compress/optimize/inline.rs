@@ -477,7 +477,7 @@ where
             //
             if (self.options.reduce_vars || self.options.collapse_vars || self.options.inline != 0)
                 && usage.ref_count == 1
-                && usage.is_fn_local
+                && (usage.is_fn_local || (usage.used_as_callee && !usage.used_above_decl))
                 && !usage.used_in_loop
                 && (match decl {
                     Decl::Class(..) => !usage.used_above_decl,
