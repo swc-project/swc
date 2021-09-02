@@ -209,6 +209,16 @@ where
                                         Expr::Assign(..) => true,
                                         _ => false,
                                     }) {
+                                        let ids_used_by_exprs =
+                                            idents_used_by_ignoring_nested(&exprs);
+
+                                        let ids_used_by_first_expr =
+                                            idents_used_by_ignoring_nested(&*e.first_expr_mut());
+
+                                        let has_conflict = ids_used_by_exprs
+                                            .iter()
+                                            .any(|id| ids_used_by_first_expr.contains(id));
+
                                         // I(kdy1) don't know why we need this, but terser appends
                                         // instead of prependig if initializer is (exactly)
                                         //
@@ -227,7 +237,8 @@ where
                                                 right,
                                                 ..
                                             }) => {
-                                                if get_lhs_ident_mut(left).is_some()
+                                                if !has_conflict
+                                                    && get_lhs_ident_mut(left).is_some()
                                                     && match &**right {
                                                         Expr::Lit(Lit::Regex(..)) => false,
                                                         Expr::Lit(..) => true,
