@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eu
+set -eux
 
 export RUST_LOG=swc_ecma_minifier=trace
 

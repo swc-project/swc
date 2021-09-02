@@ -9,7 +9,7 @@
 # For second invokation, arguments are passed to cargo test so the user can
 # filter tests.
 #
-set -eu
+set -eux
 
 export RUST_LOG=swc_ecma_minifier=trace
 
