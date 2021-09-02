@@ -407,7 +407,8 @@ impl<'a, I: Tokens> Parser<I> {
                 // Avoid to parse
                 //   static
                 //   {}
-                let is_parsing_static_blocks = self.input.syntax().static_blocks() && is!(self, '{');
+                let is_parsing_static_blocks =
+                    self.input.syntax().static_blocks() && is!(self, '{');
                 if !is_parsing_static_blocks {
                     let key = Either::Right(PropName::Ident(Ident::new(
                         js_word!("static"),
