@@ -47,7 +47,7 @@ pub(crate) trait VarDataLike: Sized {
 
     fn mark_has_property_access(&mut self);
 
-    fn mark_caleee(&mut self);
+    fn mark_used_as_callee(&mut self);
 
     fn add_accessed_property(&mut self, name: JsWord);
 

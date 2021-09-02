@@ -280,7 +280,9 @@ where
             ExprOrSuper::Super(_) => {}
             ExprOrSuper::Expr(callee) => match &**callee {
                 Expr::Ident(callee) => {
-                    self.data.var_or_default(callee.to_id()).mark_caleee();
+                    self.data
+                        .var_or_default(callee.to_id())
+                        .mark_used_as_callee();
                 }
 
                 _ => {}

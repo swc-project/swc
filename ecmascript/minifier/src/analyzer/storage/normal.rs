@@ -244,7 +244,7 @@ impl VarDataLike for VarUsageInfo {
         self.infects.push(other);
     }
 
-    fn mark_caleee(&mut self) {
+    fn mark_used_as_callee(&mut self) {
         self.used_as_callee = true;
     }
 }
