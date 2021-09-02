@@ -151,9 +151,9 @@ impl VisitMut for InfoMarker<'_> {
                 self.top_level_mark,
                 &self.top_level_bindings,
             ) {
-                self.state.is_bundle = true;
+                // self.state.is_bundle = true;
 
-                n.function.span = n.function.span.apply_mark(self.marks.standalone);
+                // n.function.span = n.function.span.apply_mark(self.marks.standalone);
                 return;
             }
         }
