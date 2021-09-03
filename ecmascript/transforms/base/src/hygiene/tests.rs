@@ -1553,10 +1553,10 @@ fn opt_8() {
             Ok(stmts)
         },
         "
-        const e1 = 1;
+        const e = 1;
         try {
-        } catch (e) {
-            console.log(e1);
+        } catch (e1) {
+            console.log(e);
         }
         ",
     );
