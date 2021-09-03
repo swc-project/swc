@@ -108,15 +108,6 @@ impl<'a> Hygiene<'a> {
         let ctxt = ident.span.ctxt();
 
         {
-            let mut used = self.current.used.borrow_mut();
-            let e = used.entry(ident.sym.clone()).or_default();
-
-            if !e.contains(&ctxt) {
-                e.push(ctxt);
-            }
-        }
-
-        {
             let mut all = self.current.all.borrow_mut();
             let e = all.entry(ident.sym.to_boxed_str()).or_default();
 
@@ -345,7 +336,6 @@ struct Scope<'a> {
     pub kind: ScopeKind,
 
     pub all: RefCell<FxHashMap<Box<str>, Vec<SyntaxContext>>>,
-    pub used: RefCell<FxHashMap<JsWord, Vec<SyntaxContext>>>,
 
     /// All references declared in this scope
     pub declared_symbols: RefCell<FxHashMap<Box<str>, Vec<SyntaxContext>>>,
@@ -373,7 +363,6 @@ impl<'a> Scope<'a> {
             parent,
             kind,
             all: Default::default(),
-            used: Default::default(),
             // children: Default::default(),
             declared_symbols: Default::default(),
             ops: Default::default(),
