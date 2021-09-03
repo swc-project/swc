@@ -104,6 +104,7 @@ pub enum FileName {
     MacroExpansion,
     ProcMacroSourceCode,
     Url(Url),
+    Internal(String),
     /// Custom sources for explicit parser calls from plugins and drivers
     Custom(String),
 }
@@ -118,7 +119,7 @@ impl std::fmt::Display for FileName {
             FileName::Anon => write!(fmt, "<anon>"),
             FileName::ProcMacroSourceCode => write!(fmt, "<proc-macro source code>"),
             FileName::Url(ref u) => write!(fmt, "{}", u),
-            FileName::Custom(ref s) => write!(fmt, "<{}>", s),
+            FileName::Custom(ref s) | FileName::Internal(ref s) => write!(fmt, "<{}>", s),
         }
     }
 }
@@ -146,6 +147,7 @@ impl FileName {
             | FileName::ProcMacroSourceCode
             | FileName::Custom(_)
             | FileName::QuoteExpansion
+            | FileName::Internal(_)
             | FileName::Url(_) => false,
         }
     }
@@ -158,6 +160,7 @@ impl FileName {
             | FileName::ProcMacroSourceCode
             | FileName::Custom(_)
             | FileName::QuoteExpansion
+            | FileName::Internal(_)
             | FileName::Url(_) => false,
             FileName::Macros(_) => true,
         }
