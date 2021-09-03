@@ -4,7 +4,7 @@ use swc_atoms::js_word;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Id, UsageFinder, Value};
-use swc_ecma_visit::VisitWith;
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use unicode_xid::UnicodeXID;
 
 /// Creates `!e` where e is the expression passed as an argument.
@@ -546,6 +546,34 @@ where
     N: for<'aa> VisitWith<UsageFinder<'aa>>,
 {
     UsageFinder::find(&Ident::new(id.0, DUMMY_SP.with_ctxt(id.1)), node)
+}
+
+pub struct ExprReplacer<F>
+where
+    F: FnMut(&mut Expr),
+{
+    op: F,
+}
+
+impl<F> VisitMut for ExprReplacer<F>
+where
+    F: FnMut(&mut Expr),
+{
+    noop_visit_mut_type!();
+
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
+
+        (self.op)(e);
+    }
+}
+
+pub fn replace_expr<N, F>(node: &mut N, op: F)
+where
+    N: VisitMutWith<ExprReplacer<F>>,
+    F: FnMut(&mut Expr),
+{
+    node.visit_mut_with(&mut ExprReplacer { op })
 }
 
 #[cfg(test)]
