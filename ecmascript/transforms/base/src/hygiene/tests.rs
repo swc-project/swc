@@ -1501,3 +1501,63 @@ fn opt_6() {
         ",
     );
 }
+
+#[test]
+fn opt_7() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            let stmts = tester
+                .parse_stmts(
+                    "actual1.js",
+                    "
+                    const e = 1;
+                    try {
+                    } catch (e) {
+                    }
+                    ",
+                )?
+                .fold_with(&mut OnceMarker::new(&[("e", &[mark1, mark2])]));
+            Ok(stmts)
+        },
+        "
+        const e = 1;
+        try {
+        } catch (e) {
+        }
+        ",
+    );
+}
+
+#[test]
+fn opt_8() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            let stmts = tester
+                .parse_stmts(
+                    "actual1.js",
+                    "
+                    const e = 1;
+                    try {
+                    } catch (e) {
+                        console.log(e);
+                    }
+                    ",
+                )?
+                .fold_with(&mut OnceMarker::new(&[("e", &[mark1, mark2, mark1])]));
+            Ok(stmts)
+        },
+        "
+        const e1 = 1;
+        try {
+        } catch (e) {
+            console.log(e1);
+        }
+        ",
+    );
+}
