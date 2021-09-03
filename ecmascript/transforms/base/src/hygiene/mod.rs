@@ -72,7 +72,7 @@ impl<'a> Hygiene<'a> {
         }
 
         {
-            let mut used = self.current.used.borrow_mut();
+            let mut used = self.current.all.borrow_mut();
             let e = used.entry(sym.to_boxed_str()).or_default();
 
             if !e.contains(&ctxt) {
@@ -108,7 +108,7 @@ impl<'a> Hygiene<'a> {
         let ctxt = ident.span.ctxt();
 
         {
-            let mut used = self.current.used.borrow_mut();
+            let mut used = self.current.all.borrow_mut();
             let e = used.entry(ident.sym.to_boxed_str()).or_default();
 
             if !e.contains(&ctxt) {
@@ -335,7 +335,7 @@ struct Scope<'a> {
     /// Kind of the scope.
     pub kind: ScopeKind,
 
-    pub used: RefCell<FxHashMap<Box<str>, Vec<SyntaxContext>>>,
+    pub all: RefCell<FxHashMap<Box<str>, Vec<SyntaxContext>>>,
 
     /// All references declared in this scope
     pub declared_symbols: RefCell<FxHashMap<Box<str>, Vec<SyntaxContext>>>,
@@ -366,7 +366,7 @@ impl<'a> Scope<'a> {
             // children: Default::default(),
             ops: Default::default(),
             renamed: Default::default(),
-            used: Default::default(),
+            all: Default::default(),
         }
     }
 
