@@ -72,8 +72,8 @@ impl<'a> Hygiene<'a> {
         }
 
         {
-            let mut used = self.current.all.borrow_mut();
-            let e = used.entry(sym.to_boxed_str()).or_default();
+            let mut all = self.current.all.borrow_mut();
+            let e = all.entry(sym.to_boxed_str()).or_default();
 
             if !e.contains(&ctxt) {
                 e.push(ctxt);
@@ -108,8 +108,8 @@ impl<'a> Hygiene<'a> {
         let ctxt = ident.span.ctxt();
 
         {
-            let mut used = self.current.all.borrow_mut();
-            let e = used.entry(ident.sym.to_boxed_str()).or_default();
+            let mut all = self.current.all.borrow_mut();
+            let e = all.entry(ident.sym.to_boxed_str()).or_default();
 
             if !e.contains(&ctxt) {
                 e.push(ctxt);
