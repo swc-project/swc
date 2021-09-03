@@ -9,6 +9,7 @@ use std::{
     path::PathBuf,
     sync::Mutex,
 };
+use url::Url;
 
 mod analyze_source_file;
 pub mod hygiene;
@@ -102,6 +103,7 @@ pub enum FileName {
     /// FIXME(jseyfried)
     MacroExpansion,
     ProcMacroSourceCode,
+    Url(Url),
     /// Custom sources for explicit parser calls from plugins and drivers
     Custom(String),
 }
@@ -115,6 +117,7 @@ impl std::fmt::Display for FileName {
             FileName::MacroExpansion => write!(fmt, "<macro expansion>"),
             FileName::Anon => write!(fmt, "<anon>"),
             FileName::ProcMacroSourceCode => write!(fmt, "<proc-macro source code>"),
+            FileName::Url(ref u) => write!(fmt, "{}", u),
             FileName::Custom(ref s) => write!(fmt, "<{}>", s),
         }
     }
@@ -127,6 +130,12 @@ impl From<PathBuf> for FileName {
     }
 }
 
+impl From<Url> for FileName {
+    fn from(url: Url) -> Self {
+        FileName::Url(url)
+    }
+}
+
 impl FileName {
     pub fn is_real(&self) -> bool {
         match *self {
@@ -136,7 +145,8 @@ impl FileName {
             | FileName::MacroExpansion
             | FileName::ProcMacroSourceCode
             | FileName::Custom(_)
-            | FileName::QuoteExpansion => false,
+            | FileName::QuoteExpansion
+            | FileName::Url(_) => false,
         }
     }
 
@@ -147,7 +157,8 @@ impl FileName {
             | FileName::MacroExpansion
             | FileName::ProcMacroSourceCode
             | FileName::Custom(_)
-            | FileName::QuoteExpansion => false,
+            | FileName::QuoteExpansion
+            | FileName::Url(_) => false,
             FileName::Macros(_) => true,
         }
     }

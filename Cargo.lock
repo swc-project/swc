@@ -2454,6 +2454,7 @@ dependencies = [
  "swc_visit",
  "termcolor",
  "unicode-width",
+ "url",
 ]
 
 [[package]]
