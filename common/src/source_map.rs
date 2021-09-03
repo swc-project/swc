@@ -1112,7 +1112,7 @@ impl SourceMap {
                     src_id = builder.add_source(&config.file_name_to_source(&f.name));
 
                     match f.name {
-                        FileName::Real(..) | FileName::Custom(..) => {}
+                        FileName::Real(..) | FileName::Custom(..) | FileName::Url(..) => {}
                         _ => {
                             builder.set_source_contents(src_id, Some(&f.src));
                         }

@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_plugin_runner"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.3.1"
+version = "0.4.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
@@ -16,11 +16,11 @@ libloading = "0.7.0"
 serde = {version = "1.0.126", features = ["derive"]}
 serde_json = "1.0.64"
 swc_atoms = "0.2.7"
-swc_common = {version = "0.11.9", path = "../../common"}
-swc_ecma_ast = {version = "0.51.1", path = "../../ecmascript/ast"}
-swc_ecma_parser = {version = "0.69.1", path = "../../ecmascript/parser"}
-swc_plugin = {version = "0.3.1", path = "../"}
+swc_common = {version = "0.12.0", path = "../../common"}
+swc_ecma_ast = {version = "0.52.0", path = "../../ecmascript/ast"}
+swc_ecma_parser = {version = "0.70.0", path = "../../ecmascript/parser"}
+swc_plugin = {version = "0.4.0", path = "../"}
 
 [dev-dependencies]
-swc_ecma_codegen = {version = "0.69.1", path = "../../ecmascript/codegen"}
-testing = {version = "0.12.3", path = "../../testing"}
+swc_ecma_codegen = {version = "0.70.0", path = "../../ecmascript/codegen"}
+testing = {version = "0.13.0", path = "../../testing"}
