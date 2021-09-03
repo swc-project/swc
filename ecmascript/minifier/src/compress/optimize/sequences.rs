@@ -2,7 +2,7 @@ use super::{is_pure_undefined, Optimizer};
 use crate::{
     compress::{
         optimize::util::replace_id_with_expr,
-        util::{get_lhs_ident, get_lhs_ident_mut, is_directive, is_ident_used_by},
+        util::{get_lhs_ident, get_lhs_ident_mut, is_directive, is_ident_used_by, replace_expr},
     },
     debug::dump,
     mode::Mode,
@@ -913,6 +913,7 @@ where
 
                     return false;
                 }
+
                 _ => {}
             },
         }
@@ -1213,8 +1214,6 @@ where
         // }
 
         {
-            // TODO(kdy1): Implement this.
-            //
             // This requires tracking if `b` is in an assignment pattern.
             //
             // Update experssions can be inline.
@@ -1227,7 +1226,57 @@ where
 
             match a {
                 Mergable::Var(_) => {}
-                Mergable::Expr(..) => {}
+                Mergable::Expr(a) => match *a {
+                    Expr::Update(UpdateExpr {
+                        op,
+                        prefix: true,
+                        arg,
+                        ..
+                    }) => {
+                        match &**arg {
+                            Expr::Ident(a_id) => {
+                                let mut v = UsageCoutner {
+                                    expr_usage: Default::default(),
+                                    pat_usage: Default::default(),
+                                    target: &*a_id,
+                                    in_lhs: false,
+                                };
+                                b.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+                                if v.expr_usage != 1 || v.pat_usage != 0 {
+                                    log::trace!(
+                                        "[X] sequences: Aborting merging of an update expression \
+                                         because of usage counts ({}, ref = {}, pat = {})",
+                                        a_id,
+                                        v.expr_usage,
+                                        v.pat_usage
+                                    );
+                                    return false;
+                                }
+
+                                let mut replaced = false;
+                                replace_expr(b, |e| match e {
+                                    Expr::Update(e @ UpdateExpr { prefix: true, .. }) => {
+                                        if *op == e.op && arg.is_ident_ref_to(a_id.sym.clone()) {
+                                            e.prefix = false;
+                                            replaced = true;
+                                        }
+                                    }
+                                    _ => {}
+                                });
+                                if replaced {
+                                    a.take();
+                                    return true;
+                                }
+                            }
+
+                            _ => {}
+                        }
+
+                        return false;
+                    }
+
+                    _ => {}
+                },
             }
         }
 
