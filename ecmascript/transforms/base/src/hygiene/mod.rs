@@ -239,7 +239,7 @@ impl<'a> Hygiene<'a> {
     where
         for<'o> N: VisitMutWith<Operator<'o>>,
     {
-        let ops = self.current.ops.borrow();
+        let ops = self.current.ops.get_mut();
 
         if ops.rename.is_empty() {
             return;
