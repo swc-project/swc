@@ -378,7 +378,6 @@ reduce_vars/defun_var_2/input.js
 reduce_vars/escaped_prop_1/input.js
 reduce_vars/escaped_prop_2/input.js
 reduce_vars/issue_1595_3/input.js
-reduce_vars/issue_2442/input.js
 reduce_vars/issue_2916/input.js
 reduce_vars/issue_294/input.js
 reduce_vars/issue_308/input.js

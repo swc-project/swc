@@ -963,6 +963,7 @@ reduce_vars/issue_2423_4/input.js
 reduce_vars/issue_2436/input.js
 reduce_vars/issue_2440_eval_2/input.js
 reduce_vars/issue_2440_with_2/input.js
+reduce_vars/issue_2442/input.js
 reduce_vars/issue_2450_1/input.js
 reduce_vars/issue_2450_2/input.js
 reduce_vars/issue_2450_3/input.js
