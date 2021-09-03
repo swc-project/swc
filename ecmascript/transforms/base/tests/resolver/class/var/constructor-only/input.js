@@ -1,0 +1,1 @@
+var Foo = function Foo() { }

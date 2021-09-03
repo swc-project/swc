@@ -66,11 +66,37 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
+        self.parse_assignment_expr_base()
+    }
+
+    /// Parse an assignment expression. This includes applications of
+    /// operators like `+=`.
+    ///
+    /// `parseMaybeAssign`
+    fn parse_assignment_expr_base(&mut self) -> PResult<Box<Expr>> {
+        trace_cur!(self, parse_assignment_expr_base);
+
         if self.input.syntax().typescript()
             && (is_one_of!(self, '<', JSXTagStart))
-            && peeked_is!(self, IdentName)
+            && (peeked_is!(self, IdentName) || peeked_is!(self, JSXName))
         {
-            let res = self.try_parse_ts(|p| {
+            let ctx = Context {
+                is_direct_child_of_cond: false,
+                ..self.ctx()
+            };
+            let res = self.with_ctx(ctx).try_parse_ts(|p| {
+                if is!(p, JSXTagStart) {
+                    if let Some(TokenContext::JSXOpeningTag) = p.input.token_context().current() {
+                        p.input.token_context_mut().pop();
+
+                        debug_assert_eq!(
+                            p.input.token_context().current(),
+                            Some(TokenContext::JSXExpr)
+                        );
+                        p.input.token_context_mut().pop();
+                    }
+                }
+
                 let type_parameters = p.parse_ts_type_params()?;
                 let mut arrow = p.parse_assignment_expr_base()?;
                 match *arrow {
@@ -90,16 +116,6 @@ impl<'a, I: Tokens> Parser<I> {
                 return Ok(res);
             }
         }
-
-        self.parse_assignment_expr_base()
-    }
-
-    /// Parse an assignment expression. This includes applications of
-    /// operators like `+=`.
-    ///
-    /// `parseMaybeAssign`
-    fn parse_assignment_expr_base(&mut self) -> PResult<Box<Expr>> {
-        trace_cur!(self, parse_assignment_expr_base);
 
         if self.ctx().in_generator && is!(self, "yield") {
             return self.parse_yield_expr();
@@ -184,6 +200,7 @@ impl<'a, I: Tokens> Parser<I> {
         if eat!(self, '?') {
             let ctx = Context {
                 in_cond_expr: true,
+                is_direct_child_of_cond: true,
                 include_in_expr: true,
                 ..self.ctx()
             };
@@ -191,6 +208,7 @@ impl<'a, I: Tokens> Parser<I> {
             expect!(self, ':');
             let ctx = Context {
                 in_cond_expr: true,
+                is_direct_child_of_cond: true,
                 ..self.ctx()
             };
             let alt = self.with_ctx(ctx).parse_assignment_expr()?;
@@ -537,36 +555,43 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_args(&mut self, is_dynamic_import: bool) -> PResult<Vec<ExprOrSpread>> {
         trace_cur!(self, parse_args);
 
-        let start = cur_pos!(self);
-        expect!(self, '(');
+        let ctx = Context {
+            is_direct_child_of_cond: false,
+            ..self.ctx()
+        };
 
-        let mut first = true;
-        let mut expr_or_spreads = vec![];
+        self.with_ctx(ctx).parse_with(|p| {
+            let start = cur_pos!(p);
+            expect!(p, '(');
 
-        while !eof!(self) && !is!(self, ')') {
-            if first {
-                first = false;
-            } else {
-                expect!(self, ',');
-                // Handle trailing comma.
-                if is!(self, ')') {
-                    if is_dynamic_import {
-                        syntax_error!(
-                            self,
-                            span!(self, start),
-                            SyntaxError::TrailingCommaInsideImport
-                        )
+            let mut first = true;
+            let mut expr_or_spreads = vec![];
+
+            while !eof!(p) && !is!(p, ')') {
+                if first {
+                    first = false;
+                } else {
+                    expect!(p, ',');
+                    // Handle trailing comma.
+                    if is!(p, ')') {
+                        if is_dynamic_import {
+                            syntax_error!(
+                                p,
+                                span!(p, start),
+                                SyntaxError::TrailingCommaInsideImport
+                            )
+                        }
+
+                        break;
                     }
-
-                    break;
                 }
+
+                expr_or_spreads.push(p.include_in_expr(true).parse_expr_or_spread()?);
             }
 
-            expr_or_spreads.push(self.include_in_expr(true).parse_expr_or_spread()?);
-        }
-
-        expect!(self, ')');
-        Ok(expr_or_spreads)
+            expect!(p, ')');
+            Ok(expr_or_spreads)
+        })
     }
 
     /// AssignmentExpression[+In, ?Yield, ?Await]
@@ -602,11 +627,20 @@ impl<'a, I: Tokens> Parser<I> {
         // But as all patterns of javascript is subset of
         // expressions, we can parse both as expression.
 
-        let paren_items = self.include_in_expr(true).parse_args_or_pats()?;
+        let ctx = Context {
+            is_direct_child_of_cond: false,
+            ..self.ctx()
+        };
+        let paren_items = self
+            .with_ctx(ctx)
+            .include_in_expr(true)
+            .parse_args_or_pats()?;
         let has_pattern = paren_items.iter().any(|item| match item {
             PatOrExprOrSpread::Pat(..) => true,
             _ => false,
         });
+
+        let is_direct_child_of_cond = self.ctx().is_direct_child_of_cond;
 
         // This is slow path. We handle arrow in conditional expression.
         if self.syntax().typescript() && self.ctx().in_cond_expr && is!(self, ':') {
@@ -623,6 +657,13 @@ impl<'a, I: Tokens> Parser<I> {
                     .collect();
 
                 let body: BlockStmtOrExpr = p.parse_fn_body(async_span.is_some(), false)?;
+
+                if is_direct_child_of_cond {
+                    if !is_one_of!(p, ':', ';') {
+                        trace_cur!(p, parse_arrow_in_cond__fail);
+                        unexpected!(p, "fail")
+                    }
+                }
 
                 Ok(Some(Box::new(Expr::Arrow(ArrowExpr {
                     span: span!(p, expr_start),
@@ -1087,6 +1128,8 @@ impl<'a, I: Tokens> Parser<I> {
     }
     /// Parse call, dot, and `[]`-subscript expressions.
     pub(super) fn parse_lhs_expr(&mut self) -> PResult<Box<Expr>> {
+        trace_cur!(self, parse_lhs_expr);
+
         let start = cur_pos!(self);
 
         // parse jsx
@@ -1293,6 +1336,7 @@ impl<'a, I: Tokens> Parser<I> {
                         let test = arg.expr;
                         let ctx = Context {
                             in_cond_expr: true,
+                            is_direct_child_of_cond: true,
                             include_in_expr: true,
                             ..self.ctx()
                         };
@@ -1300,6 +1344,7 @@ impl<'a, I: Tokens> Parser<I> {
                         expect!(self, ':');
                         let ctx = Context {
                             in_cond_expr: true,
+                            is_direct_child_of_cond: true,
                             ..self.ctx()
                         };
                         let alt = self.with_ctx(ctx).parse_assignment_expr()?;

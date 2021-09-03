@@ -5,8 +5,7 @@ use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_transforms_base::{
     fixer::fixer,
-    hygiene::hygiene,
-    resolver::{resolver, ts_resolver},
+    resolver::{resolver_with_mark, ts_resolver},
 };
 use swc_ecma_visit::{as_folder, Fold, FoldWith, VisitMut, VisitMutWith};
 use testing::{fixture, run_test2, NormalizedOutput};
@@ -70,7 +69,13 @@ where
 #[fixture("tests/resolver/**/input.js")]
 fn test_resolver(input: PathBuf) {
     run(Syntax::default(), &input, || {
-        chain!(resolver(), hygiene(), fixer(None))
+        let top_level_mark = Mark::fresh(Mark::root());
+
+        chain!(
+            resolver_with_mark(top_level_mark),
+            as_folder(TsHygiene { top_level_mark }),
+            fixer(None)
+        )
     });
 }
 

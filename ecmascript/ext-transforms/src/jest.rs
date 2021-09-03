@@ -1,5 +1,5 @@
-use crate::util::MapWithMut;
 use phf::phf_set;
+use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend_stmts, StmtLike};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};

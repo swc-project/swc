@@ -1,0 +1,84 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:1
+  |
+1 | a { value: 10x\, }
+  | ^^^^^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:1
+  |
+1 | a { value: 10x\, }
+  | ^^^^^^^^^^^^^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:1
+  |
+1 | a { value: 10x\, }
+  | ^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:1
+  |
+1 | a { value: 10x\, }
+  | ^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:1
+  |
+1 | a { value: 10x\, }
+  | ^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:1
+  |
+1 | a { value: 10x\, }
+  | ^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:1
+  |
+1 | a { value: 10x\, }
+  | ^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:3
+  |
+1 | a { value: 10x\, }
+  |   ^^^^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:5
+  |
+1 | a { value: 10x\, }
+  |     ^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:5
+  |
+1 | a { value: 10x\, }
+  |     ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:12
+  |
+1 | a { value: 10x\, }
+  |            ^^^^^
+
+error: UnitValue
+ --> $DIR/tests/fixture/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:12
+  |
+1 | a { value: 10x\, }
+  |            ^^^^^
+
+error: Num
+ --> $DIR/tests/fixture/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:12
+  |
+1 | a { value: 10x\, }
+  |            ^^
+
+error: Unit
+ --> $DIR/tests/fixture/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:14
+  |
+1 | a { value: 10x\, }
+  |              ^^^
+

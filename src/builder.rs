@@ -7,7 +7,8 @@ use either::Either;
 use std::{cell::RefCell, collections::HashMap, rc::Rc, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::{
-    chain, comments::Comments, errors::Handler, sync::Lrc, FileName, Mark, SourceMap,
+    chain, comments::Comments, errors::Handler, sync::Lrc, util::take::Take, FileName, Mark,
+    SourceMap,
 };
 use swc_ecma_ast::Module;
 use swc_ecma_minifier::option::MinifyOptions;
@@ -16,7 +17,6 @@ use swc_ecma_transforms::{
     compat, fixer, helpers, hygiene, hygiene::hygiene_with_config, modules, modules::util::Scope,
     optimization::const_modules, pass::Optional, proposals::import_assertions, typescript,
 };
-use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut};
 
 /// Builder is used to create a high performance `Compiler`.
@@ -25,6 +25,7 @@ pub struct PassBuilder<'a, 'b, P: swc_ecma_visit::Fold> {
     handler: &'b Handler,
     env: Option<swc_ecma_preset_env::Config>,
     pass: P,
+    /// [Mark] for top level bindings and unresolved identifier references.
     global_mark: Mark,
     target: JscTarget,
     loose: bool,
@@ -45,12 +46,12 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         PassBuilder {
             cm,
             handler,
+            env: None,
             pass,
-            target: JscTarget::Es5,
             global_mark,
+            target: JscTarget::Es5,
             loose,
             hygiene: Some(Default::default()),
-            env: None,
             fixer: true,
             inject_helpers: true,
             minify: None,
@@ -65,12 +66,12 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         PassBuilder {
             cm: self.cm,
             handler: self.handler,
+            env: self.env,
             pass,
+            global_mark: self.global_mark,
             target: self.target,
             loose: self.loose,
             hygiene: self.hygiene,
-            env: self.env,
-            global_mark: self.global_mark,
             fixer: self.fixer,
             inject_helpers: self.inject_helpers,
             minify: self.minify,
@@ -192,7 +193,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 ),
                 Optional::new(
                     compat::es3(syntax.dynamic_import()),
-                    self.target <= JscTarget::Es3
+                    cfg!(feature = "es3") && self.target <= JscTarget::Es3
                 )
             ))
         };

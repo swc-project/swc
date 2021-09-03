@@ -1,12 +1,18 @@
+use super::Merge;
 use serde::{Deserialize, Serialize};
 
-use super::Merge;
-
-#[derive(Clone, Serialize, Deserialize, Debug)]
+/// Note: `{}` (empty object) is treated as `true`.
+#[derive(Clone, Serialize, Debug)]
 #[serde(untagged)]
 pub enum BoolOrObject<T> {
     Bool(bool),
     Obj(T),
+}
+
+impl<T> From<bool> for BoolOrObject<T> {
+    fn from(v: bool) -> Self {
+        BoolOrObject::Bool(v)
+    }
 }
 
 impl<T> Default for BoolOrObject<T> {
@@ -48,6 +54,48 @@ where
                 }
                 BoolOrObject::Obj(r) => o.merge(r),
             },
+        }
+    }
+}
+
+impl<'de, T> Deserialize<'de> for BoolOrObject<T>
+where
+    T: Deserialize<'de>,
+{
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[derive(Deserialize)]
+        #[serde(untagged)]
+        enum Deser<T> {
+            Bool(bool),
+            Obj(T),
+            EmptyObject(EmptyStruct),
+        }
+
+        #[derive(Deserialize)]
+        #[serde(deny_unknown_fields)]
+        struct EmptyStruct {}
+
+        let content = swc_common::private::serde::de::Content::deserialize(deserializer)?;
+
+        let deserializer =
+            swc_common::private::serde::de::ContentRefDeserializer::<D::Error>::new(&content);
+
+        let res = Deser::deserialize(deserializer);
+
+        match res {
+            Ok(v) => Ok(match v {
+                Deser::Bool(v) => BoolOrObject::Bool(v),
+                Deser::Obj(v) => BoolOrObject::Obj(v),
+                Deser::EmptyObject(_) => BoolOrObject::Bool(true),
+            }),
+            Err(..) => {
+                let d =
+                    swc_common::private::serde::de::ContentDeserializer::<D::Error>::new(content);
+                Ok(BoolOrObject::Obj(T::deserialize(d)?))
+            }
         }
     }
 }

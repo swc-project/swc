@@ -1,0 +1,66 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/pOZgFOB3GdVvQ0hiAsWfpQ/input.css:1:1
+  |
+1 | [b = "c" I] {}
+  | ^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/pOZgFOB3GdVvQ0hiAsWfpQ/input.css:1:1
+  |
+1 | [b = "c" I] {}
+  | ^^^^^^^^^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/esbuild/misc/pOZgFOB3GdVvQ0hiAsWfpQ/input.css:1:1
+  |
+1 | [b = "c" I] {}
+  | ^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/pOZgFOB3GdVvQ0hiAsWfpQ/input.css:1:1
+  |
+1 | [b = "c" I] {}
+  | ^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/pOZgFOB3GdVvQ0hiAsWfpQ/input.css:1:1
+  |
+1 | [b = "c" I] {}
+  | ^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/esbuild/misc/pOZgFOB3GdVvQ0hiAsWfpQ/input.css:1:1
+  |
+1 | [b = "c" I] {}
+  | ^^^^^^^^^^^
+
+error: AttrSelector
+ --> $DIR/tests/fixture/esbuild/misc/pOZgFOB3GdVvQ0hiAsWfpQ/input.css:1:1
+  |
+1 | [b = "c" I] {}
+  | ^^^^^^^^^^^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/esbuild/misc/pOZgFOB3GdVvQ0hiAsWfpQ/input.css:1:2
+  |
+1 | [b = "c" I] {}
+  |  ^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/pOZgFOB3GdVvQ0hiAsWfpQ/input.css:1:2
+  |
+1 | [b = "c" I] {}
+  |  ^
+
+error: Str
+ --> $DIR/tests/fixture/esbuild/misc/pOZgFOB3GdVvQ0hiAsWfpQ/input.css:1:6
+  |
+1 | [b = "c" I] {}
+  |      ^^^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/pOZgFOB3GdVvQ0hiAsWfpQ/input.css:1:13
+  |
+1 | [b = "c" I] {}
+  |             ^^
+

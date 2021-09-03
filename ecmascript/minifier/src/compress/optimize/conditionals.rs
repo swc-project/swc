@@ -4,18 +4,22 @@ use crate::{
         optimize::Ctx,
         util::{always_terminates, negate_cost},
     },
+    mode::Mode,
     util::SpanExt,
     DISABLE_BUGGY_PASSES,
 };
 use std::mem::swap;
-use swc_common::{EqIgnoreSpan, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::{AsOptExpr, ExprRefExt, MapWithMut};
+use swc_ecma_transforms_base::ext::{AsOptExpr, ExprRefExt};
 use swc_ecma_utils::{ident::IdentLike, ExprExt, ExprFactory, StmtLike};
 
 /// Methods related to the option `conditionals`. All methods are noop if
 /// `conditionals` is false.
-impl Optimizer<'_> {
+impl<M> Optimizer<'_, M>
+where
+    M: Mode,
+{
     /// Negates the condition of a `if` statement to reduce body size.
     pub(super) fn negate_if_stmt(&mut self, stmt: &mut IfStmt) {
         let alt = match stmt.alt.as_deref_mut() {

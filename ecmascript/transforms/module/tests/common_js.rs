@@ -809,9 +809,9 @@ exports.test = test = 5;
 exports.test = test = +test + 1;
 
 (function () {
-  var test1 = 2;
-  test1 = 3;
-  test1++;
+  var test = 2;
+  test = 3;
+  test++;
 })();
 
 var a = 2;

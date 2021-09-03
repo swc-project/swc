@@ -46,6 +46,7 @@ pub enum SyntaxError {
     GetterSetterCannotBeReadonly,
 
     TopLevelAwait,
+    TopLevelAwaitInScript,
 
     LegacyDecimal,
     LegacyOctal,
@@ -139,6 +140,8 @@ pub enum SyntaxError {
 
     AwaitForStmt,
 
+    AwaitInFunction,
+
     UnterminatedJSXContents,
     EmptyJSXAttr,
     InvalidJSXValue,
@@ -209,6 +212,7 @@ pub enum SyntaxError {
     TS1174,
     TS1175,
     TS1183,
+    TS1184,
     TS1093,
     TS1094,
     TS1196,
@@ -239,6 +243,9 @@ impl SyntaxError {
             SyntaxError::TopLevelAwait => "top level await requires target to es2017 or higher \
                                            and topLevelAwait:true for ecmascript"
                 .into(),
+            SyntaxError::TopLevelAwaitInScript => {
+                "top level await is only allowed in module".into()
+            }
             SyntaxError::LegacyDecimal => {
                 "Legacy decimal escape is not permitted in strict mode".into()
             }
@@ -359,6 +366,8 @@ impl SyntaxError {
                 "for await syntax is valid only for for-of statement".into()
             }
 
+            SyntaxError::AwaitInFunction => "await isn't allowed in non-async function".into(),
+
             SyntaxError::UnterminatedJSXContents => "Unterminated JSX contents".into(),
             SyntaxError::EmptyJSXAttr => {
                 "JSX attributes must only be assigned a non-empty expression".into()
@@ -464,7 +473,9 @@ impl SyntaxError {
                 format!("'{}' modifier must precede '{}' modifier.", left, right).into()
             }
             SyntaxError::TS1030(word) => format!("'{}' modifier already seen.", word).into(),
-            SyntaxError::TS1031 => "`declare` modifier cannot appear on a class element".into(),
+            SyntaxError::TS1031 => {
+                "`declare` modifier cannot appear on class elements of this kind".into()
+            }
             SyntaxError::TS1038 => {
                 "`declare` modifier not allowed for code already in an ambient context".into()
             }
@@ -513,6 +524,7 @@ impl SyntaxError {
             SyntaxError::TS1183 => {
                 "An implementation cannot be declared in ambient contexts".into()
             }
+            SyntaxError::TS1184 => "Modifiers cannot appear here".into(),
             SyntaxError::TS1093 => {
                 "Type annotation cannot appear on a constructor declaration".into()
             }

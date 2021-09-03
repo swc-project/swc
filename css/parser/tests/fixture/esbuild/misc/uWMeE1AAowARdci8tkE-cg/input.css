@@ -1,0 +1,1 @@
+@keyframes name{0%,50%{color:red}25%,75%{color:blue}}

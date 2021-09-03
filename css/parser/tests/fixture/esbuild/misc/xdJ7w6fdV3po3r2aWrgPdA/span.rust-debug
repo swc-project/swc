@@ -1,0 +1,72 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/xdJ7w6fdV3po3r2aWrgPdA/input.css:1:1
+  |
+1 | a { color: #abbbcc }
+  | ^^^^^^^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/xdJ7w6fdV3po3r2aWrgPdA/input.css:1:1
+  |
+1 | a { color: #abbbcc }
+  | ^^^^^^^^^^^^^^^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/esbuild/misc/xdJ7w6fdV3po3r2aWrgPdA/input.css:1:1
+  |
+1 | a { color: #abbbcc }
+  | ^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/xdJ7w6fdV3po3r2aWrgPdA/input.css:1:1
+  |
+1 | a { color: #abbbcc }
+  | ^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/xdJ7w6fdV3po3r2aWrgPdA/input.css:1:1
+  |
+1 | a { color: #abbbcc }
+  | ^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/esbuild/misc/xdJ7w6fdV3po3r2aWrgPdA/input.css:1:1
+  |
+1 | a { color: #abbbcc }
+  | ^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/xdJ7w6fdV3po3r2aWrgPdA/input.css:1:1
+  |
+1 | a { color: #abbbcc }
+  | ^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/xdJ7w6fdV3po3r2aWrgPdA/input.css:1:3
+  |
+1 | a { color: #abbbcc }
+  |   ^^^^^^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/esbuild/misc/xdJ7w6fdV3po3r2aWrgPdA/input.css:1:5
+  |
+1 | a { color: #abbbcc }
+  |     ^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/xdJ7w6fdV3po3r2aWrgPdA/input.css:1:5
+  |
+1 | a { color: #abbbcc }
+  |     ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/xdJ7w6fdV3po3r2aWrgPdA/input.css:1:12
+  |
+1 | a { color: #abbbcc }
+  |            ^^^^^^^
+
+error: HashValue
+ --> $DIR/tests/fixture/esbuild/misc/xdJ7w6fdV3po3r2aWrgPdA/input.css:1:12
+  |
+1 | a { color: #abbbcc }
+  |            ^^^^^^^
+

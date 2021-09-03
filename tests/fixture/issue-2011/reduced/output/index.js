@@ -23,7 +23,7 @@ var ClassA = function ClassA() {
     _classCallCheck(this, ClassA);
 };
 module.exports = (function() {
-    var l = /*#__PURE__*/ function() {
+    var l = function() {
         "use strict";
         function l() {
             _classCallCheck(this, l);

@@ -213,7 +213,7 @@ var _queue = new WeakMap();
  * @param {Response} res The request response.
  * @param {string[]} headers The headers to fetch.
  * @return {string[]} The header values.
- */ function getHeaders(res, headers1) {
-    return headers1.map((headerName)=>res.headers.get(headerName)
+ */ function getHeaders(res, headers) {
+    return headers.map((headerName)=>res.headers.get(headerName)
     );
 }

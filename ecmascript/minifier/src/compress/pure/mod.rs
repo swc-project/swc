@@ -1,5 +1,7 @@
 use self::ctx::Ctx;
-use crate::{marks::Marks, option::CompressOptions, util::MoudleItemExt, MAX_PAR_DEPTH};
+use crate::{
+    marks::Marks, mode::Mode, option::CompressOptions, util::MoudleItemExt, MAX_PAR_DEPTH,
+};
 use rayon::prelude::*;
 use swc_common::{pass::Repeated, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -20,26 +22,32 @@ mod strings;
 mod unsafes;
 mod vars;
 
-pub(super) fn pure_optimizer<'a>(
+pub(crate) fn pure_optimizer<'a, M>(
     options: &'a CompressOptions,
     marks: Marks,
-) -> impl 'a + VisitMut + Repeated {
+    mode: &'a M,
+) -> impl 'a + VisitMut + Repeated
+where
+    M: Mode,
+{
     Pure {
         options,
         marks,
         ctx: Default::default(),
         changed: Default::default(),
+        mode,
     }
 }
 
-struct Pure<'a> {
+struct Pure<'a, M> {
     options: &'a CompressOptions,
     marks: Marks,
     ctx: Ctx,
     changed: bool,
+    mode: &'a M,
 }
 
-impl Repeated for Pure<'_> {
+impl<M> Repeated for Pure<'_, M> {
     fn changed(&self) -> bool {
         self.changed
     }
@@ -50,7 +58,10 @@ impl Repeated for Pure<'_> {
     }
 }
 
-impl Pure<'_> {
+impl<M> Pure<'_, M>
+where
+    M: Mode,
+{
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: MoudleItemExt,
@@ -70,7 +81,7 @@ impl Pure<'_> {
     /// Visit `nodes`, maybe in parallel.
     fn visit_par<N>(&mut self, nodes: &mut Vec<N>)
     where
-        N: for<'aa> VisitMutWith<Pure<'aa>> + Send + Sync,
+        N: for<'aa> VisitMutWith<Pure<'aa, M>> + Send + Sync,
     {
         if self.ctx.par_depth >= MAX_PAR_DEPTH * 2 || cfg!(target_arch = "wasm32") {
             for node in nodes {
@@ -79,6 +90,7 @@ impl Pure<'_> {
                     marks: self.marks,
                     ctx: self.ctx,
                     changed: false,
+                    mode: self.mode,
                 };
                 node.visit_mut_with(&mut v);
 
@@ -96,6 +108,7 @@ impl Pure<'_> {
                             ..self.ctx
                         },
                         changed: false,
+                        mode: self.mode,
                     };
                     node.visit_mut_with(&mut v);
 
@@ -110,7 +123,10 @@ impl Pure<'_> {
     }
 }
 
-impl VisitMut for Pure<'_> {
+impl<M> VisitMut for Pure<'_, M>
+where
+    M: Mode,
+{
     noop_visit_mut_type!();
 
     fn visit_mut_assign_expr(&mut self, e: &mut AssignExpr) {
@@ -244,7 +260,7 @@ impl VisitMut for Pure<'_> {
     fn visit_mut_function(&mut self, f: &mut Function) {
         {
             let ctx = Ctx {
-                in_try_block: false,
+                _in_try_block: false,
                 ..self.ctx
             };
             f.visit_mut_children_with(&mut *self.with_ctx(ctx));
@@ -383,7 +399,7 @@ impl VisitMut for Pure<'_> {
 
     fn visit_mut_try_stmt(&mut self, n: &mut TryStmt) {
         let ctx = Ctx {
-            in_try_block: true,
+            _in_try_block: true,
             ..self.ctx
         };
         n.block.visit_mut_with(&mut *self.with_ctx(ctx));

@@ -1,0 +1,1 @@
+@k\65yframes abc { from {} }

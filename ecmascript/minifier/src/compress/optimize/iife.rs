@@ -1,6 +1,7 @@
 use super::Optimizer;
 use crate::{
     compress::optimize::Ctx,
+    mode::Mode,
     util::{idents_used_by, make_number},
 };
 use fxhash::FxHashMap;
@@ -9,14 +10,16 @@ use std::{
     mem::{replace, swap},
 };
 use swc_atoms::js_word;
-use swc_common::{pass::Either, Spanned, DUMMY_SP};
+use swc_common::{pass::Either, util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{ident::IdentLike, undefined, ExprFactory, Id};
 use swc_ecma_visit::VisitMutWith;
 
 /// Methods related to the option `negate_iife`.
-impl Optimizer<'_> {
+impl<M> Optimizer<'_, M>
+where
+    M: Mode,
+{
     /// Negates iife, while ignore return value.
     pub(super) fn negate_iife_ignoring_ret(&mut self, e: &mut Expr) {
         if !self.options.negate_iife || self.ctx.in_bang_arg || self.ctx.dont_use_negated_iife {
@@ -116,7 +119,10 @@ impl Optimizer<'_> {
 }
 
 /// Methods related to iife.
-impl Optimizer<'_> {
+impl<M> Optimizer<'_, M>
+where
+    M: Mode,
+{
     /// # Exmaple
     ///
     /// ## Input

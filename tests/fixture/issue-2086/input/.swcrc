@@ -1,0 +1,30 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "dynamicImport": true,
+            "decorators": true,
+            "importAssertions": true
+        },
+        "transform": {
+            "legacyDecorator": true,
+            "optimizer": {
+                "jsonify": {
+                    "minCost": 0
+                }
+            }
+        },
+        "target": "es2020",
+        "loose": true,
+        "externalHelpers": false,
+        "keepClassNames": false,
+        "minify": {
+            "compress": {
+                "comparisons": false,
+                "inline": 2
+            },
+            "mangle": true
+        }
+    },
+    "minify": true
+}

@@ -12,10 +12,7 @@ use swc_ecma_visit::{
 #[cfg(test)]
 mod tests;
 
-/// This pass analyzes the comment
-///
-/// - Makes all nodes except identifiers unique in aspect of span hygiene.
-/// - Convert annottatinos into [Mark].
+/// This pass analyzes the comment and convert it to a mark.
 pub(crate) fn info_marker<'a>(
     comments: Option<&'a dyn Comments>,
     marks: Marks,
@@ -45,16 +42,6 @@ struct InfoMarker<'a> {
 }
 
 impl InfoMarker<'_> {
-    fn make_unique(&self, span: &mut Span) {
-        debug_assert_eq!(
-            span.ctxt,
-            SyntaxContext::empty(),
-            "Expected empty syntax context"
-        );
-
-        span.ctxt = span.ctxt.apply_mark(Mark::fresh(Mark::root()));
-    }
-
     /// Check for `/** @const */`.
     pub(super) fn has_const_ann(&self, span: Span) -> bool {
         self.find_comment(span, |c| {
@@ -119,12 +106,6 @@ impl InfoMarker<'_> {
 impl VisitMut for InfoMarker<'_> {
     noop_visit_mut_type!();
 
-    fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
-        n.visit_mut_children_with(self);
-
-        self.make_unique(&mut n.span);
-    }
-
     fn visit_mut_call_expr(&mut self, n: &mut CallExpr) {
         n.visit_mut_children_with(self);
 
@@ -152,11 +133,16 @@ impl VisitMut for InfoMarker<'_> {
             && n.function
                 .params
                 .iter()
-                .any(|p| is_param_one_of(p, &["module"]))
+                .any(|p| is_param_one_of(p, &["module", "__unused_webpack_module"]))
             && n.function.params.iter().any(|p| {
                 is_param_one_of(
                     p,
-                    &["exports", "__webpack_require__", "__webpack_exports__"],
+                    &[
+                        "exports",
+                        "__webpack_require__",
+                        "__webpack_exports__",
+                        "__unused_webpack_exports",
+                    ],
                 )
             })
         {
@@ -171,12 +157,6 @@ impl VisitMut for InfoMarker<'_> {
                 return;
             }
         }
-    }
-
-    fn visit_mut_function(&mut self, n: &mut Function) {
-        n.visit_mut_children_with(self);
-
-        self.make_unique(&mut n.span);
     }
 
     fn visit_mut_ident(&mut self, _: &mut Ident) {}

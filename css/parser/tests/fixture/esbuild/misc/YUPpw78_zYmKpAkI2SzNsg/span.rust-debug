@@ -1,0 +1,56 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/YUPpw78_zYmKpAkI2SzNsg/input.css:1:1
+  |
+1 | :pseudo\2c class {}
+  | ^^^^^^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/YUPpw78_zYmKpAkI2SzNsg/input.css:1:1
+  |
+1 | :pseudo\2c class {}
+  | ^^^^^^^^^^^^^^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/esbuild/misc/YUPpw78_zYmKpAkI2SzNsg/input.css:1:1
+  |
+1 | :pseudo\2c class {}
+  | ^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/YUPpw78_zYmKpAkI2SzNsg/input.css:1:1
+  |
+1 | :pseudo\2c class {}
+  | ^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/YUPpw78_zYmKpAkI2SzNsg/input.css:1:1
+  |
+1 | :pseudo\2c class {}
+  | ^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/esbuild/misc/YUPpw78_zYmKpAkI2SzNsg/input.css:1:1
+  |
+1 | :pseudo\2c class {}
+  | ^^^^^^^^^^^^^^^^
+
+error: PseudoSelector
+ --> $DIR/tests/fixture/esbuild/misc/YUPpw78_zYmKpAkI2SzNsg/input.css:1:1
+  |
+1 | :pseudo\2c class {}
+  | ^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/YUPpw78_zYmKpAkI2SzNsg/input.css:1:2
+  |
+1 | :pseudo\2c class {}
+  |  ^^^^^^^^^^^^^^^
+
+error: Tokens
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/YUPpw78_zYmKpAkI2SzNsg/input.css:1:18
+  |
+1 | :pseudo\2c class {}
+  |                  ^^
+

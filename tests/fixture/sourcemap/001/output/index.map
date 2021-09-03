@@ -1,0 +1,11 @@
+{
+  "mappings": ";;;;;AAEO,KAAK,CAAC,GAAG,GAAG,CAAC;IAChB,GAAG,EAAE,CAAC,CAAC;AACX,CAAC;QAFY,GAAG,GAAH,GAAG",
+  "names": [
+    "foo",
+    "arr"
+  ],
+  "sources": [
+    "../../input/index.ts"
+  ],
+  "version": 3
+}

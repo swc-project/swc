@@ -1,0 +1,116 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 0,
+    "end": 46,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "PageRule",
+      "span": {
+        "start": 0,
+        "end": 44,
+        "ctxt": 0
+      },
+      "prelude": [],
+      "block": {
+        "span": {
+          "start": 6,
+          "end": 44,
+          "ctxt": 0
+        },
+        "items": [
+          {
+            "type": "NestedPageRule",
+            "span": {
+              "start": 9,
+              "end": 42,
+              "ctxt": 0
+            },
+            "prelude": [
+              {
+                "type": "ComplexSelector",
+                "span": {
+                  "start": 9,
+                  "end": 20,
+                  "ctxt": 0
+                },
+                "selectors": [
+                  {
+                    "type": "CompoundSelector",
+                    "span": {
+                      "start": 9,
+                      "end": 20,
+                      "ctxt": 0
+                    },
+                    "hasNestPrefix": false,
+                    "combinator": null,
+                    "typeSelector": null,
+                    "subclassSelectors": [
+                      {
+                        "type": "AtSelector",
+                        "span": {
+                          "start": 9,
+                          "end": 20,
+                          "ctxt": 0
+                        },
+                        "text": {
+                          "type": "Text",
+                          "span": {
+                            "start": 9,
+                            "end": 20,
+                            "ctxt": 0
+                          },
+                          "value": "top-center"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "block": {
+              "span": {
+                "start": 21,
+                "end": 42,
+                "ctxt": 0
+              },
+              "items": [
+                {
+                  "type": "Property",
+                  "span": {
+                    "start": 25,
+                    "end": 38,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Text",
+                    "span": {
+                      "start": 25,
+                      "end": 32,
+                      "ctxt": 0
+                    },
+                    "value": "display"
+                  },
+                  "values": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 34,
+                        "end": 38,
+                        "ctxt": 0
+                      },
+                      "value": "none"
+                    }
+                  ],
+                  "important": null
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -14,10 +14,10 @@ use swc_common::{
     collections::{AHashMap, AHashSet},
     comments::{Comments, CommentsExt},
     sync::Lrc,
+    util::take::Take,
     BytePos, SourceMap, Span, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{private_ident, quote_ident, quote_str};
 use swc_ecma_visit::{Fold, FoldWith, Node, Visit};
 use util::{

@@ -1,0 +1,48 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/GNiHtd4OPiZDQlN5KGAmRQ/input.css:1:1
+  |
+1 | \2a {}
+  | ^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/GNiHtd4OPiZDQlN5KGAmRQ/input.css:1:1
+  |
+1 | \2a {}
+  | ^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/esbuild/misc/GNiHtd4OPiZDQlN5KGAmRQ/input.css:1:1
+  |
+1 | \2a {}
+  | ^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/GNiHtd4OPiZDQlN5KGAmRQ/input.css:1:1
+  |
+1 | \2a {}
+  | ^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/GNiHtd4OPiZDQlN5KGAmRQ/input.css:1:1
+  |
+1 | \2a {}
+  | ^^^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/esbuild/misc/GNiHtd4OPiZDQlN5KGAmRQ/input.css:1:1
+  |
+1 | \2a {}
+  | ^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/GNiHtd4OPiZDQlN5KGAmRQ/input.css:1:1
+  |
+1 | \2a {}
+  | ^^^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/GNiHtd4OPiZDQlN5KGAmRQ/input.css:1:5
+  |
+1 | \2a {}
+  |     ^^
+

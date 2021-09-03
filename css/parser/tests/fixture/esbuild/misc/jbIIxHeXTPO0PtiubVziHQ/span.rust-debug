@@ -1,0 +1,138 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1
+  |
+1 | @keyframes name { from { color: red } to { color: blue } }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1
+  |
+1 | @keyframes name { from { color: red } to { color: blue } }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1
+  |
+1 | @keyframes name { from { color: red } to { color: blue } }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: KeyframesRule
+ --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1
+  |
+1 | @keyframes name { from { color: red } to { color: blue } }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:12
+  |
+1 | @keyframes name { from { color: red } to { color: blue } }
+  |            ^^^^
+
+error: KeyframeBlock
+ --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:19
+  |
+1 | @keyframes name { from { color: red } to { color: blue } }
+  |                   ^^^^^^^^^^^^^^^^^^^
+
+error: KeyframeSelector
+ --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:19
+  |
+1 | @keyframes name { from { color: red } to { color: blue } }
+  |                   ^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:19
+  |
+1 | @keyframes name { from { color: red } to { color: blue } }
+  |                   ^^^^
+
+error: KeyframeBlockRule
+ --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:24
+  |
+1 | @keyframes name { from { color: red } to { color: blue } }
+  |                        ^^^^^^^^^^^^^^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:24
+  |
+1 | @keyframes name { from { color: red } to { color: blue } }
+  |                        ^^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:26
+  |
+1 | @keyframes name { from { color: red } to { color: blue } }
+  |                          ^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:26
+  |
+1 | @keyframes name { from { color: red } to { color: blue } }
+  |                          ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:33
+  |
+1 | @keyframes name { from { color: red } to { color: blue } }
+  |                                 ^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:33
+  |
+1 | @keyframes name { from { color: red } to { color: blue } }
+  |                                 ^^^
+
+error: KeyframeBlock
+ --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:39
+  |
+1 | @keyframes name { from { color: red } to { color: blue } }
+  |                                       ^^^^^^^^^^^^^^^^^^
+
+error: KeyframeSelector
+ --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:39
+  |
+1 | @keyframes name { from { color: red } to { color: blue } }
+  |                                       ^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:39
+  |
+1 | @keyframes name { from { color: red } to { color: blue } }
+  |                                       ^^
+
+error: KeyframeBlockRule
+ --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:42
+  |
+1 | @keyframes name { from { color: red } to { color: blue } }
+  |                                          ^^^^^^^^^^^^^^^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:42
+  |
+1 | @keyframes name { from { color: red } to { color: blue } }
+  |                                          ^^^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:44
+  |
+1 | @keyframes name { from { color: red } to { color: blue } }
+  |                                            ^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:44
+  |
+1 | @keyframes name { from { color: red } to { color: blue } }
+  |                                            ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:51
+  |
+1 | @keyframes name { from { color: red } to { color: blue } }
+  |                                                   ^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:51
+  |
+1 | @keyframes name { from { color: red } to { color: blue } }
+  |                                                   ^^^^
+

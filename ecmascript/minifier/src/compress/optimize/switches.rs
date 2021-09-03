@@ -1,15 +1,16 @@
-use std::mem::take;
-
 use super::Optimizer;
-use crate::util::ExprOptExt;
-use swc_common::{EqIgnoreSpan, DUMMY_SP};
+use crate::{mode::Mode, util::ExprOptExt};
+use std::mem::take;
+use swc_common::{util::take::Take, EqIgnoreSpan, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{ident::IdentLike, prepend, ExprExt, StmtExt, Type, Value::Known};
 use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 
 /// Methods related to option `switches`.
-impl Optimizer<'_> {
+impl<M> Optimizer<'_, M>
+where
+    M: Mode,
+{
     /// Handle switches in the case where we can know which branch will be
     /// taken.
     pub(super) fn optimize_const_switches(&mut self, s: &mut Stmt) {

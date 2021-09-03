@@ -13,7 +13,7 @@ function _defineProperty(obj, key, value) {
 }
 let Foo = class Foo {
     method() {
-        let Foo1 = class Foo {
+        let Foo = class Foo {
         };
     }
 };

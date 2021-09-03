@@ -1,0 +1,89 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 0,
+    "end": 14,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "StyleRule",
+      "span": {
+        "start": 0,
+        "end": 14,
+        "ctxt": 0
+      },
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 0,
+            "end": 11,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 0,
+                "end": 11,
+                "ctxt": 0
+              },
+              "hasNestPrefix": false,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "AttrributeSelector",
+                  "span": {
+                    "start": 0,
+                    "end": 11,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "NamespacedName",
+                    "span": {
+                      "start": 1,
+                      "end": 10,
+                      "ctxt": 0
+                    },
+                    "prefix": {
+                      "type": "Text",
+                      "span": {
+                        "start": 1,
+                        "end": 5,
+                        "ctxt": 0
+                      },
+                      "value": "ns"
+                    },
+                    "name": {
+                      "type": "Text",
+                      "span": {
+                        "start": 6,
+                        "end": 10,
+                        "ctxt": 0
+                      },
+                      "value": "attr"
+                    }
+                  },
+                  "op": null,
+                  "value": null,
+                  "modifier": null
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "block": {
+        "type": "DeclBlock",
+        "span": {
+          "start": 12,
+          "end": 14,
+          "ctxt": 0
+        },
+        "properties": []
+      }
+    }
+  ]
+}

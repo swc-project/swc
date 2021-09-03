@@ -226,3 +226,68 @@ impl TypeEq for BigInt {
         self == other
     }
 }
+
+macro_rules! tuple {
+    (
+        $num:tt: $F:ident
+    ) => {};
+
+
+    (
+        $first:tt: $F:ident,
+        $(
+            $num:tt: $N:ident
+        ),*
+    ) =>{
+        tuple!($($num: $N),*);
+
+        impl<$F: EqIgnoreSpan, $($N: EqIgnoreSpan),*> EqIgnoreSpan for ($F, $($N,)*) {
+            fn eq_ignore_span(&self,rhs: &Self) -> bool {
+                self.$first.eq_ignore_span(&rhs.$first) &&
+                $(
+                    self.$num.eq_ignore_span(&rhs.$num)
+                )
+                && *
+            }
+        }
+
+        impl<$F: TypeEq, $($N: TypeEq),*> TypeEq for ($F, $($N,)*) {
+            fn type_eq(&self,rhs: &Self) -> bool {
+                self.$first.type_eq(&rhs.$first) &&
+                $(
+                    self.$num.type_eq(&rhs.$num)
+                )
+                && *
+            }
+        }
+    };
+}
+
+tuple!(
+    25: Z,
+    24: Y,
+    23: X,
+    22: W,
+    21: V,
+    20: U,
+    19: T,
+    18: S,
+    17: R,
+    16: Q,
+    15: P,
+    14: O,
+    13: N,
+    12: M,
+    11: L,
+    10: K,
+    9: J,
+    8: I,
+    7: H,
+    6: G,
+    5: F,
+    4: E,
+    3: D,
+    2: C,
+    1: B,
+    0: A
+);

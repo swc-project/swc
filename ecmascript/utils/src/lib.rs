@@ -15,11 +15,14 @@ use scoped_tls::scoped_thread_local;
 use std::{
     borrow::Cow,
     f64::{INFINITY, NAN},
+    hash::Hash,
     num::FpCategory,
     ops::Add,
 };
 use swc_atoms::{js_word, JsWord};
-use swc_common::{errors::Handler, Mark, Span, Spanned, DUMMY_SP};
+use swc_common::{
+    collections::AHashSet, errors::Handler, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Node, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -479,7 +482,12 @@ pub trait ExprExt {
 
         let val = match expr {
             Expr::Paren(ref e) => return e.expr.as_bool(),
-            Expr::Assign(AssignExpr { ref right, .. }) => {
+
+            Expr::Assign(AssignExpr {
+                ref right,
+                op: op!("="),
+                ..
+            }) => {
                 let (_, v) = right.as_bool();
                 return (MayBeImpure, v);
             }
@@ -1811,7 +1819,7 @@ impl<'a> Visit for UsageFinder<'a> {
     noop_visit_type!();
 
     fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
-        if i.span.ctxt() == self.ident.span.ctxt() && i.sym == self.ident.sym {
+        if i.span.ctxt == self.ident.span.ctxt && i.sym == self.ident.sym {
             self.found = true;
         }
     }
@@ -2061,4 +2069,132 @@ impl VisitMut for IdentReplacer<'_> {
             node.prop.visit_mut_with(self);
         }
     }
+}
+
+pub struct BindingCollector<I>
+where
+    I: IdentLike + Eq + Hash,
+{
+    only: Option<SyntaxContext>,
+    bindings: AHashSet<I>,
+    is_pat_decl: bool,
+}
+
+impl<I> BindingCollector<I>
+where
+    I: IdentLike + Eq + Hash,
+{
+    fn add(&mut self, i: &Ident) {
+        if let Some(only) = self.only {
+            if only != i.span.ctxt {
+                return;
+            }
+        }
+
+        self.bindings.insert(I::from_ident(i));
+    }
+}
+
+impl<I> Visit for BindingCollector<I>
+where
+    I: IdentLike + Eq + Hash,
+{
+    noop_visit_type!();
+
+    fn visit_class_decl(&mut self, node: &ClassDecl, _: &dyn Node) {
+        node.visit_children_with(self);
+
+        self.add(&node.ident);
+    }
+
+    fn visit_expr(&mut self, node: &Expr, _: &dyn Node) {
+        let old = self.is_pat_decl;
+        self.is_pat_decl = false;
+        node.visit_children_with(self);
+        self.is_pat_decl = old;
+    }
+
+    fn visit_fn_decl(&mut self, node: &FnDecl, _: &dyn Node) {
+        node.visit_children_with(self);
+
+        self.add(&node.ident);
+    }
+
+    fn visit_import_default_specifier(&mut self, node: &ImportDefaultSpecifier, _: &dyn Node) {
+        self.add(&node.local);
+    }
+
+    fn visit_import_named_specifier(&mut self, node: &ImportNamedSpecifier, _: &dyn Node) {
+        self.add(&node.local);
+    }
+
+    fn visit_import_star_as_specifier(&mut self, node: &ImportStarAsSpecifier, _: &dyn Node) {
+        self.add(&node.local);
+    }
+
+    fn visit_member_expr(&mut self, n: &MemberExpr, _: &dyn Node) {
+        n.obj.visit_with(n, self);
+        if n.computed {
+            n.prop.visit_with(n, self);
+        }
+    }
+
+    fn visit_param(&mut self, node: &Param, _: &dyn Node) {
+        let old = self.is_pat_decl;
+        self.is_pat_decl = true;
+        node.visit_children_with(self);
+        self.is_pat_decl = old;
+    }
+
+    fn visit_pat(&mut self, node: &Pat, _: &dyn Node) {
+        node.visit_children_with(self);
+
+        if self.is_pat_decl {
+            match node {
+                Pat::Ident(i) => self.add(&i.id),
+                _ => {}
+            }
+        }
+    }
+
+    fn visit_var_declarator(&mut self, node: &VarDeclarator, _: &dyn Node) {
+        let old = self.is_pat_decl;
+        self.is_pat_decl = true;
+        node.name.visit_with(node, self);
+
+        self.is_pat_decl = false;
+        node.init.visit_with(node, self);
+        self.is_pat_decl = old;
+    }
+}
+
+/// Collects binding identifiers.
+pub fn collect_decls<I, N>(n: &N) -> AHashSet<I>
+where
+    I: IdentLike + Eq + Hash,
+    N: VisitWith<BindingCollector<I>>,
+{
+    let mut v = BindingCollector {
+        only: None,
+        bindings: Default::default(),
+        is_pat_decl: false,
+    };
+    n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+    v.bindings
+}
+
+/// Collects binding identifiers, but only if it has a context which is
+/// identical to `ctxt`.
+pub fn collect_decls_with_ctxt<I, N>(n: &N, ctxt: SyntaxContext) -> AHashSet<I>
+where
+    I: IdentLike + Eq + Hash,
+    N: VisitWith<BindingCollector<I>>,
+{
+    let mut v = BindingCollector {
+        only: Some(ctxt),
+        bindings: Default::default(),
+        is_pat_decl: false,
+    };
+    n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+    v.bindings
 }

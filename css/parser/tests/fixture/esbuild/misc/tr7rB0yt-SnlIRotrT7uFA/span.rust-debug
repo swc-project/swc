@@ -1,0 +1,48 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/tr7rB0yt-SnlIRotrT7uFA/input.css:1:1
+  |
+1 | \2d 123 {}
+  | ^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/tr7rB0yt-SnlIRotrT7uFA/input.css:1:1
+  |
+1 | \2d 123 {}
+  | ^^^^^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/esbuild/misc/tr7rB0yt-SnlIRotrT7uFA/input.css:1:1
+  |
+1 | \2d 123 {}
+  | ^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/tr7rB0yt-SnlIRotrT7uFA/input.css:1:1
+  |
+1 | \2d 123 {}
+  | ^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/tr7rB0yt-SnlIRotrT7uFA/input.css:1:1
+  |
+1 | \2d 123 {}
+  | ^^^^^^^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/esbuild/misc/tr7rB0yt-SnlIRotrT7uFA/input.css:1:1
+  |
+1 | \2d 123 {}
+  | ^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/tr7rB0yt-SnlIRotrT7uFA/input.css:1:1
+  |
+1 | \2d 123 {}
+  | ^^^^^^^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/tr7rB0yt-SnlIRotrT7uFA/input.css:1:9
+  |
+1 | \2d 123 {}
+  |         ^^
+

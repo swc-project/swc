@@ -576,7 +576,7 @@ where
     ///
     /// is treated as
     ///
-    ///  ```js
+    /// ```js
     /// import { readFile } from 'fs';
     /// ```
     fn visit_mut_var_declarator(&mut self, node: &mut VarDeclarator) {

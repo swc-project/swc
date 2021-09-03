@@ -6,8 +6,8 @@ use std::{
     hash::{Hash, Hasher},
     mem,
 };
-use swc_atoms::JsWord;
-use swc_common::{ast_node, EqIgnoreSpan, Span};
+use swc_atoms::{js_word, JsWord};
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 #[ast_node]
 #[derive(Eq, Hash, EqIgnoreSpan)]
@@ -65,6 +65,17 @@ pub struct Str {
 
     #[serde(default)]
     pub kind: StrKind,
+}
+
+impl Take for Str {
+    fn dummy() -> Self {
+        Str {
+            span: DUMMY_SP,
+            value: js_word!(""),
+            has_escape: Default::default(),
+            kind: Default::default(),
+        }
+    }
 }
 
 /// THis enum determines how string literal should be printed.

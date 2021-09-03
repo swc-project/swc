@@ -1182,8 +1182,10 @@
             if (!documentIsXML && !seed) {
                 if (match = rquickExpr.exec(selector)) {
                     if (m = match[1]) {
-                        if (9 === nodeType) return (elem = context.getElementById(m)) && elem.parentNode ? elem.id === m ? (results.push(elem), results) : void 0 : results;
-                        else if (context.ownerDocument && (elem = context.ownerDocument.getElementById(m)) && contains(context, elem) && elem.id === m) return results.push(elem), results;
+                        if (9 === nodeType) {
+                            if (!(elem = context.getElementById(m)) || !elem.parentNode) return results;
+                            if (elem.id === m) return results.push(elem), results;
+                        } else if (context.ownerDocument && (elem = context.ownerDocument.getElementById(m)) && contains(context, elem) && elem.id === m) return results.push(elem), results;
                     } else if (match[2]) return push.apply(results, slice.call(context.getElementsByTagName(selector), 0)), results;
                     else if ((m = match[3]) && support.getByClassName && context.getElementsByClassName) return push.apply(results, slice.call(context.getElementsByClassName(m), 0)), results;
                 }
@@ -2796,7 +2798,7 @@
             for(var collection = (tweeners[prop] || []).concat(tweeners["*"]), index = 0, length = collection.length; index < length; index++)if (collection[index].call(animation, prop, value)) return;
         });
     }
-    function Animation1(elem, properties, options) {
+    function Animation(elem, properties, options) {
         var result, stopped, index = 0, length = animationPrefilters.length, deferred = jQuery.Deferred().always(function() {
             delete tick.elem;
         }), tick = function() {
@@ -2864,7 +2866,7 @@
     function getWindow(elem) {
         return jQuery.isWindow(elem) ? elem : 9 === elem.nodeType && (elem.defaultView || elem.parentWindow);
     }
-    jQuery.Animation = jQuery.extend(Animation1, {
+    jQuery.Animation = jQuery.extend(Animation, {
         tweener: function(props, callback) {
             jQuery.isFunction(props) ? (callback = props, props = [
                 "*"
@@ -2918,7 +2920,7 @@
         },
         animate: function(prop, speed, easing, callback) {
             var empty = jQuery.isEmptyObject(prop), optall = jQuery.speed(speed, easing, callback), doAnimation = function() {
-                var anim = Animation1(this, jQuery.extend({
+                var anim = Animation(this, jQuery.extend({
                 }, prop), optall);
                 doAnimation.finish = function() {
                     anim.stop(!0);

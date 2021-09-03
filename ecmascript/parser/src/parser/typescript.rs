@@ -29,6 +29,7 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_ts_modifier(
         &mut self,
         allowed_modifiers: &[&'static str],
+        stop_on_start_of_class_static_blocks: bool,
     ) -> PResult<Option<&'static str>> {
         if !self.input.syntax().typescript() {
             return Ok(None);
@@ -44,6 +45,10 @@ impl<I: Tokens> Parser<I> {
         };
 
         if let Some(pos) = pos {
+            if stop_on_start_of_class_static_blocks && is!(self, "static") && peeked_is!(self, '{')
+            {
+                return Ok(None);
+            }
             if self.try_parse_ts_bool(|p| p.ts_next_token_can_follow_modifier().map(Some))? {
                 return Ok(Some(allowed_modifiers[pos]));
             }
@@ -363,7 +368,7 @@ impl<I: Tokens> Parser<I> {
 
         let start = cur_pos!(self);
 
-        let name = self.parse_ident_name()?;
+        let name = self.in_type().parse_ident_name()?;
         let constraint = self.eat_then_parse_ts_type(&tok!("extends"))?;
         let default = self.eat_then_parse_ts_type(&tok!('='))?;
 
@@ -525,12 +530,16 @@ impl<I: Tokens> Parser<I> {
         eat_colon: bool,
         start: BytePos,
     ) -> PResult<TsTypeAnn> {
+        trace_cur!(self, parse_ts_type_ann);
+
         debug_assert!(self.input.syntax().typescript());
 
         self.in_type().parse_with(|p| {
             if eat_colon {
                 assert_and_bump!(p, ':');
             }
+
+            trace_cur!(p, parse_ts_type_ann__after_colon);
 
             let type_ann = p.parse_ts_type()?;
 
@@ -1346,7 +1355,7 @@ impl<I: Tokens> Parser<I> {
         }
         // Instead of fullStart, we create a node here.
         let start = cur_pos!(self);
-        let readonly = self.parse_ts_modifier(&["readonly"])?.is_some();
+        let readonly = self.parse_ts_modifier(&["readonly"], false)?.is_some();
 
         let idx = self.try_parse_ts_index_signature(start, readonly, false)?;
         if let Some(idx) = idx {
@@ -1356,7 +1365,7 @@ impl<I: Tokens> Parser<I> {
         if let Some(v) = self.try_parse_ts(|p| {
             let start = p.input.cur_pos();
 
-            let reaodnly = p.parse_ts_modifier(&["readonly"])?.is_some();
+            let reaodnly = p.parse_ts_modifier(&["readonly"], false)?.is_some();
 
             let is_get = if eat!(p, "get") {
                 true
@@ -2117,7 +2126,7 @@ impl<I: Tokens> Parser<I> {
                 if is!(self, "infer") {
                     self.parse_ts_infer_type().map(TsType::from).map(Box::new)
                 } else {
-                    let readonly = self.parse_ts_modifier(&["readonly"])?.is_some();
+                    let readonly = self.parse_ts_modifier(&["readonly"], false)?.is_some();
                     self.parse_ts_array_type_or_higher(readonly)
                 }
             }

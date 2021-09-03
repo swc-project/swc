@@ -1,0 +1,213 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:1:1
+  |
+1 | / .style {
+2 | |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
+3 | | }
+  | |__^
+
+error: Rule
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:1:1
+  |
+1 | / .style {
+2 | |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
+3 | | }
+  | |_^
+
+error: StyleRule
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:1:1
+  |
+1 | / .style {
+2 | |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
+3 | | }
+  | |_^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:1:1
+  |
+1 | .style {
+  | ^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:1:1
+  |
+1 | .style {
+  | ^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:1:1
+  |
+1 | .style {
+  | ^^^^^^
+
+error: ClassSelector
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:1:1
+  |
+1 | .style {
+  | ^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:1:2
+  |
+1 | .style {
+  |  ^^^^^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:1:8
+  |
+1 |   .style {
+  |  ________^
+2 | |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
+3 | | }
+  | |_^
+
+error: Property
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:2
+  |
+2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:2
+  |
+2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
+  |     ^^^^^^^^^^^^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:25
+  |
+2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
+  |                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: FnValue
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:25
+  |
+2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
+  |                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:25
+  |
+2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
+  |                            ^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:32
+  |
+2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
+  |                                   ^
+
+error: Num
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:32
+  |
+2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
+  |                                   ^
+
+error: Value
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:35
+  |
+2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
+  |                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SpaceValues
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:35
+  |
+2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
+  |                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:35
+  |
+2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
+  |                                      ^^^^^^^^^^^
+
+error: ArrayValue
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:35
+  |
+2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
+  |                                      ^^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:36
+  |
+2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
+  |                                       ^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:36
+  |
+2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
+  |                                       ^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:47
+  |
+2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
+  |                                                  ^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:47
+  |
+2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
+  |                                                  ^^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:59
+  |
+2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
+  |                                                              ^^^^^^^^^^^^
+
+error: ArrayValue
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:59
+  |
+2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
+  |                                                              ^^^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:60
+  |
+2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
+  |                                                               ^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:60
+  |
+2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
+  |                                                               ^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:72
+  |
+2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
+  |                                                                           ^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:72
+  |
+2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
+  |                                                                           ^^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:84
+  |
+2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
+  |                                                                                       ^^^^^^^^^
+
+error: ArrayValue
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:84
+  |
+2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
+  |                                                                                       ^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:85
+  |
+2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
+  |                                                                                        ^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:85
+  |
+2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
+  |                                                                                        ^^^^^^^
+

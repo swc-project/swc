@@ -1,0 +1,84 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:1
+  |
+1 | @keyframes name { from { color: red } }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:1
+  |
+1 | @keyframes name { from { color: red } }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:1
+  |
+1 | @keyframes name { from { color: red } }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: KeyframesRule
+ --> $DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:1
+  |
+1 | @keyframes name { from { color: red } }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:12
+  |
+1 | @keyframes name { from { color: red } }
+  |            ^^^^
+
+error: KeyframeBlock
+ --> $DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:19
+  |
+1 | @keyframes name { from { color: red } }
+  |                   ^^^^^^^^^^^^^^^^^^^
+
+error: KeyframeSelector
+ --> $DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:19
+  |
+1 | @keyframes name { from { color: red } }
+  |                   ^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:19
+  |
+1 | @keyframes name { from { color: red } }
+  |                   ^^^^
+
+error: KeyframeBlockRule
+ --> $DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:24
+  |
+1 | @keyframes name { from { color: red } }
+  |                        ^^^^^^^^^^^^^^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:24
+  |
+1 | @keyframes name { from { color: red } }
+  |                        ^^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:26
+  |
+1 | @keyframes name { from { color: red } }
+  |                          ^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:26
+  |
+1 | @keyframes name { from { color: red } }
+  |                          ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:33
+  |
+1 | @keyframes name { from { color: red } }
+  |                                 ^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:33
+  |
+1 | @keyframes name { from { color: red } }
+  |                                 ^^^
+

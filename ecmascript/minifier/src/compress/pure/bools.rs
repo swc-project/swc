@@ -1,16 +1,19 @@
 use super::Pure;
 use crate::{
     compress::util::{is_pure_undefined, negate, negate_cost},
+    mode::Mode,
     util::make_bool,
 };
 use std::mem::swap;
 use swc_atoms::js_word;
-use swc_common::{EqIgnoreSpan, Span, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{ExprExt, Type, Value};
 
-impl Pure<'_> {
+impl<M> Pure<'_, M>
+where
+    M: Mode,
+{
     pub(super) fn negate_twice(&mut self, e: &mut Expr) {
         self.changed = true;
         negate(e, false);

@@ -148,4 +148,9 @@ class HogeFuga extends Hoge {};",
             "function*f(){yield({x})=>x}",
         );
     }
+
+    #[test]
+    fn class_static_block() {
+        assert_min("class Foo { static { 1 + 1; }}", "class Foo{static{1+1}}");
+    }
 }

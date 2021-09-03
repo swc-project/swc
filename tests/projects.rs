@@ -745,6 +745,7 @@ fn should_visit() {
                 is_module: config.is_module,
                 output_path: config.output_path,
                 source_file_name: config.source_file_name,
+                preserve_comments: config.preserve_comments,
             };
 
             if config.minify {
@@ -769,8 +770,11 @@ fn should_visit() {
                 config.output_path,
                 config.target,
                 config.source_maps,
-                None, // TODO: figure out sourcemaps
+                &[],
+                None,
+                // TODO: figure out sourcemaps
                 config.minify,
+                config.preserve_comments,
             )
             .unwrap()
             .code)

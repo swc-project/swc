@@ -1,11 +1,16 @@
-use crate::compress::optimize::{unused::UnreachableHandler, Optimizer};
-use swc_common::DUMMY_SP;
+use crate::{
+    compress::optimize::{unused::UnreachableHandler, Optimizer},
+    mode::Mode,
+};
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{ExprExt, Value::Known};
 
 /// Methods related to the option `loops`.
-impl Optimizer<'_> {
+impl<M> Optimizer<'_, M>
+where
+    M: Mode,
+{
     /// `for(a;b;c;) break;` => `a;b;`
     pub(super) fn optimize_loops_with_break(&mut self, s: &mut Stmt) {
         if !self.options.loops {

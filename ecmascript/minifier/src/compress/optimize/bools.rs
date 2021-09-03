@@ -2,15 +2,18 @@ use super::Optimizer;
 use crate::{
     compress::{optimize::Ctx, util::negate_cost},
     debug::dump,
+    mode::Mode,
 };
 use swc_atoms::js_word;
-use swc_common::Spanned;
+use swc_common::{util::take::Take, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{ident::IdentLike, undefined, ExprExt, Type, Value::Known};
 
 /// Methods related to the options `bools` and `bool_as_ints`.
-impl Optimizer<'_> {
+impl<M> Optimizer<'_, M>
+where
+    M: Mode,
+{
     /// **This negates bool**.
     ///
     /// Returns true if it's negated.
@@ -115,7 +118,7 @@ impl Optimizer<'_> {
     ///
     /// - `"undefined" == typeof value;` => `void 0 === value`
     pub(super) fn compress_typeof_undefined(&mut self, e: &mut BinExpr) {
-        fn opt(o: &mut Optimizer, l: &mut Expr, r: &mut Expr) -> bool {
+        fn opt<M>(o: &mut Optimizer<M>, l: &mut Expr, r: &mut Expr) -> bool {
             match (&mut *l, &mut *r) {
                 (
                     Expr::Lit(Lit::Str(Str {

@@ -1,0 +1,78 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:1
+  |
+1 | @page { @top-left {} }
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:1
+  |
+1 | @page { @top-left {} }
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:1
+  |
+1 | @page { @top-left {} }
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: PageRule
+ --> $DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:1
+  |
+1 | @page { @top-left {} }
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: PageRuleBlock
+ --> $DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:7
+  |
+1 | @page { @top-left {} }
+  |       ^^^^^^^^^^^^^^^^
+
+error: PageRuleBlockItem
+ --> $DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:9
+  |
+1 | @page { @top-left {} }
+  |         ^^^^^^^^^^^^
+
+error: NestedPageRule
+ --> $DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:9
+  |
+1 | @page { @top-left {} }
+  |         ^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:9
+  |
+1 | @page { @top-left {} }
+  |         ^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:9
+  |
+1 | @page { @top-left {} }
+  |         ^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:9
+  |
+1 | @page { @top-left {} }
+  |         ^^^^^^^^^
+
+error: AtSelector
+ --> $DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:9
+  |
+1 | @page { @top-left {} }
+  |         ^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:9
+  |
+1 | @page { @top-left {} }
+  |         ^^^^^^^^^
+
+error: PageRuleBlock
+ --> $DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:19
+  |
+1 | @page { @top-left {} }
+  |                   ^^
+

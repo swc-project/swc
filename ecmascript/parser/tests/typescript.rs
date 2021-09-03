@@ -193,6 +193,7 @@ where
 }
 
 #[testing::fixture("tests/typescript-errors/**/*.ts")]
+#[testing::fixture("tests/typescript-errors/**/*.tsx")]
 fn errors(file: PathBuf) {
     let file_name = file.display().to_string();
 

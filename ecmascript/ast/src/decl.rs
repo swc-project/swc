@@ -8,7 +8,7 @@ use crate::{
 };
 use is_macro::Is;
 use string_enum::StringEnum;
-use swc_common::{ast_node, EqIgnoreSpan, Span};
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
@@ -29,6 +29,12 @@ pub enum Decl {
     TsEnum(TsEnumDecl),
     #[tag("TsModuleDeclaration")]
     TsModule(TsModuleDecl),
+}
+
+impl Take for Decl {
+    fn dummy() -> Self {
+        Decl::Var(Take::dummy())
+    }
 }
 
 #[ast_node("FunctionDeclaration")]
@@ -76,6 +82,17 @@ pub struct VarDecl {
     pub decls: Vec<VarDeclarator>,
 }
 
+impl Take for VarDecl {
+    fn dummy() -> Self {
+        VarDecl {
+            span: DUMMY_SP,
+            kind: VarDeclKind::Var,
+            declare: Default::default(),
+            decls: Take::dummy(),
+        }
+    }
+}
+
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum VarDeclKind {
@@ -102,4 +119,15 @@ pub struct VarDeclarator {
     /// Typescript only
     #[serde(default)]
     pub definite: bool,
+}
+
+impl Take for VarDeclarator {
+    fn dummy() -> Self {
+        VarDeclarator {
+            span: DUMMY_SP,
+            name: Take::dummy(),
+            init: Take::dummy(),
+            definite: Default::default(),
+        }
+    }
 }

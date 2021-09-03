@@ -1,16 +1,19 @@
 use super::Optimizer;
 use crate::{
-    compress::optimize::util::class_has_side_effect, debug::dump, option::PureGetterOption,
+    compress::optimize::util::class_has_side_effect, debug::dump, mode::Mode,
+    option::PureGetterOption,
 };
 use swc_atoms::js_word;
-use swc_common::{Span, DUMMY_SP};
+use swc_common::{util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{contains_ident_ref, ident::IdentLike};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 /// Methods related to the option `unused`.
-impl Optimizer<'_> {
+impl<M> Optimizer<'_, M>
+where
+    M: Mode,
+{
     pub(super) fn drop_unused_var_declarator(&mut self, var: &mut VarDeclarator) {
         match &mut var.init {
             Some(init) => match &**init {

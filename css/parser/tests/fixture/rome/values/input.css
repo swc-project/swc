@@ -1,0 +1,19 @@
+p::before {
+	content: ' content ';
+}
+
+.number {
+	opacity: 1e-3;
+	line-height: 0.2;
+	width: 20%;
+	margin-top: -5%;
+}
+
+foo {
+	color: yellow
+}
+
+bar {
+	color: yellow;
+	background: none
+}

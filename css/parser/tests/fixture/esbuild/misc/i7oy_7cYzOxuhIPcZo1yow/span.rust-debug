@@ -1,0 +1,66 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/i7oy_7cYzOxuhIPcZo1yow/input.css:1:1
+  |
+1 | [attr=\2c] {}
+  | ^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/i7oy_7cYzOxuhIPcZo1yow/input.css:1:1
+  |
+1 | [attr=\2c] {}
+  | ^^^^^^^^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/esbuild/misc/i7oy_7cYzOxuhIPcZo1yow/input.css:1:1
+  |
+1 | [attr=\2c] {}
+  | ^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/i7oy_7cYzOxuhIPcZo1yow/input.css:1:1
+  |
+1 | [attr=\2c] {}
+  | ^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/i7oy_7cYzOxuhIPcZo1yow/input.css:1:1
+  |
+1 | [attr=\2c] {}
+  | ^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/esbuild/misc/i7oy_7cYzOxuhIPcZo1yow/input.css:1:1
+  |
+1 | [attr=\2c] {}
+  | ^^^^^^^^^^
+
+error: AttrSelector
+ --> $DIR/tests/fixture/esbuild/misc/i7oy_7cYzOxuhIPcZo1yow/input.css:1:1
+  |
+1 | [attr=\2c] {}
+  | ^^^^^^^^^^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/esbuild/misc/i7oy_7cYzOxuhIPcZo1yow/input.css:1:2
+  |
+1 | [attr=\2c] {}
+  |  ^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/i7oy_7cYzOxuhIPcZo1yow/input.css:1:2
+  |
+1 | [attr=\2c] {}
+  |  ^^^^
+
+error: Str
+ --> $DIR/tests/fixture/esbuild/misc/i7oy_7cYzOxuhIPcZo1yow/input.css:1:7
+  |
+1 | [attr=\2c] {}
+  |       ^^^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/i7oy_7cYzOxuhIPcZo1yow/input.css:1:12
+  |
+1 | [attr=\2c] {}
+  |            ^^
+

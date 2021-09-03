@@ -12,7 +12,7 @@ pub(super) struct Ctx {
 
     pub is_callee: bool,
 
-    pub in_try_block: bool,
+    pub _in_try_block: bool,
 
     pub is_lhs_of_assign: bool,
 
@@ -23,10 +23,10 @@ pub(super) struct Ctx {
     pub in_first_expr: bool,
 }
 
-impl<'b> Pure<'b> {
+impl<'b, M> Pure<'b, M> {
     /// RAII guard to change context temporarically
     #[inline]
-    pub(super) fn with_ctx(&mut self, ctx: Ctx) -> WithCtx<'_, 'b> {
+    pub(super) fn with_ctx(&mut self, ctx: Ctx) -> WithCtx<'_, 'b, M> {
         let orig_ctx = self.ctx;
         self.ctx = ctx;
         WithCtx {
@@ -36,26 +36,26 @@ impl<'b> Pure<'b> {
     }
 }
 
-pub(super) struct WithCtx<'a, 'b> {
-    pass: &'a mut Pure<'b>,
+pub(super) struct WithCtx<'a, 'b, M> {
+    pass: &'a mut Pure<'b, M>,
     orig_ctx: Ctx,
 }
 
-impl<'b> Deref for WithCtx<'_, 'b> {
-    type Target = Pure<'b>;
+impl<'b, M> Deref for WithCtx<'_, 'b, M> {
+    type Target = Pure<'b, M>;
 
     fn deref(&self) -> &Self::Target {
         &self.pass
     }
 }
 
-impl DerefMut for WithCtx<'_, '_> {
+impl<M> DerefMut for WithCtx<'_, '_, M> {
     fn deref_mut(&mut self) -> &mut Self::Target {
         self.pass
     }
 }
 
-impl Drop for WithCtx<'_, '_> {
+impl<M> Drop for WithCtx<'_, '_, M> {
     fn drop(&mut self) {
         self.pass.ctx = self.orig_ctx;
     }

@@ -1,8 +1,10 @@
+use self::util::replace_id_with_expr;
 use crate::{
     analyzer::{ProgramData, UsageAnalyzer},
     compress::util::is_pure_undefined,
     debug::dump,
     marks::Marks,
+    mode::Mode,
     option::CompressOptions,
     util::{contains_leaping_yield, MoudleItemExt},
 };
@@ -10,17 +12,16 @@ use fxhash::FxHashMap;
 use retain_mut::RetainMut;
 use std::{fmt::Write, mem::take};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{iter::IdentifyLast, pass::Repeated, Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{
+    iter::IdentifyLast, pass::Repeated, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP,
+};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{
     ident::IdentLike, undefined, ExprExt, ExprFactory, Id, IsEmpty, ModuleItemLike, StmtLike, Type,
     Value,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use Value::Known;
-
-use self::util::replace_id_with_expr;
 
 mod arguments;
 mod bools;
@@ -49,12 +50,16 @@ pub(super) struct OptimizerState {
 }
 
 /// This pass is simillar to `node.optimize` of terser.
-pub(super) fn optimizer<'a>(
+pub(super) fn optimizer<'a, M>(
     marks: Marks,
     options: &'a CompressOptions,
     data: &'a ProgramData,
     state: &'a mut OptimizerState,
-) -> impl 'a + VisitMut + Repeated {
+    mode: &'a M,
+) -> impl 'a + VisitMut + Repeated
+where
+    M: Mode,
+{
     assert!(
         options.top_retain.iter().all(|s| s.trim() != ""),
         "top_retain should not contain empty string"
@@ -79,6 +84,7 @@ pub(super) fn optimizer<'a>(
         done,
         done_ctxt,
         label: Default::default(),
+        mode,
     }
 }
 
@@ -155,6 +161,8 @@ struct Ctx {
 
     can_inline_arguments: bool,
 
+    is_nested_if_return_merging: bool,
+
     /// Current scope.
     scope: SyntaxContext,
 }
@@ -176,7 +184,7 @@ impl Ctx {
     }
 }
 
-struct Optimizer<'a> {
+struct Optimizer<'a, M> {
     marks: Marks,
 
     changed: bool,
@@ -211,9 +219,11 @@ struct Optimizer<'a> {
 
     /// Closest label.
     label: Option<Id>,
+
+    mode: &'a M,
 }
 
-impl Repeated for Optimizer<'_> {
+impl<M> Repeated for Optimizer<'_, M> {
     fn changed(&self) -> bool {
         self.changed
     }
@@ -223,7 +233,10 @@ impl Repeated for Optimizer<'_> {
     }
 }
 
-impl Optimizer<'_> {
+impl<M> Optimizer<'_, M>
+where
+    M: Mode,
+{
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike + ModuleItemLike + MoudleItemExt + VisitMutWith<Self>,
@@ -288,6 +301,8 @@ impl Optimizer<'_> {
         self.ctx.in_asm |= use_asm;
 
         self.reorder_stmts(stmts);
+
+        self.merge_sequences_in_stmts(stmts);
 
         self.merge_simillar_ifs(stmts);
         self.join_vars(stmts);
@@ -1423,7 +1438,10 @@ impl Optimizer<'_> {
     }
 }
 
-impl VisitMut for Optimizer<'_> {
+impl<M> VisitMut for Optimizer<'_, M>
+where
+    M: Mode,
+{
     noop_visit_mut_type!();
 
     fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
@@ -1648,6 +1666,14 @@ impl VisitMut for Optimizer<'_> {
             ..self.ctx
         };
         e.visit_mut_children_with(&mut *self.with_ctx(ctx));
+
+        match e {
+            Expr::Seq(seq) if seq.exprs.len() == 1 => {
+                *e = *seq.exprs[0].take();
+            }
+
+            _ => {}
+        }
 
         self.remove_invalid(e);
 
@@ -2201,8 +2227,6 @@ impl VisitMut for Optimizer<'_> {
         };
 
         self.with_ctx(ctx).inject_else(stmts);
-
-        self.with_ctx(ctx).merge_sequences_in_stmts(stmts);
 
         self.with_ctx(ctx).handle_stmt_likes(stmts);
 

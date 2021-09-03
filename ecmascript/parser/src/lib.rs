@@ -103,9 +103,9 @@
 //!
 //! [tc39/test262]:https://github.com/tc39/test262
 
+#![cfg_attr(test, feature(bench_black_box))]
 #![cfg_attr(test, feature(test))]
 #![deny(unused)]
-#![feature(bench_black_box)]
 
 pub use self::{
     lexer::input::{Input, StringInput},
@@ -149,6 +149,17 @@ impl Syntax {
             | Syntax::Typescript(TsConfig {
                 import_assertions, ..
             }) => import_assertions,
+        }
+    }
+
+    pub fn static_blocks(self) -> bool {
+        match self {
+            Syntax::Es(EsConfig {
+                static_blocks: true,
+                ..
+            })
+            | Syntax::Typescript(..) => true,
+            _ => false,
         }
     }
 
@@ -363,6 +374,10 @@ pub struct EsConfig {
     /// Stage 3.
     #[serde(default)]
     pub import_assertions: bool,
+
+    #[serde(default)]
+    #[serde(rename = "staticBlocks")]
+    pub static_blocks: bool,
 }
 
 /// Syntactic context.
@@ -390,6 +405,7 @@ pub struct Context {
 
     /// If true, `:` should not be treated as a type annotation.
     in_cond_expr: bool,
+    is_direct_child_of_cond: bool,
 
     in_function: bool,
 

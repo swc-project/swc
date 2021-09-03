@@ -1,11 +1,14 @@
 use super::Optimizer;
+use crate::mode::Mode;
 use swc_atoms::js_word;
-use swc_common::Spanned;
+use swc_common::{util::take::Take, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{ident::IdentLike, ExprExt, Value::Known};
 
-impl Optimizer<'_> {
+impl<M> Optimizer<'_, M>
+where
+    M: Mode,
+{
     pub(super) fn optimize_expr_in_str_ctx_unsafely(&mut self, e: &mut Expr) {
         if !self.options.unsafe_passes {
             return;

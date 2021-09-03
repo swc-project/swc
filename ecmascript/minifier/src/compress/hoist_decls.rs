@@ -3,16 +3,15 @@ use crate::{
     util::{is_hoisted_var_decl_without_init, sort::is_sorted_by_key, IsModuleItem},
 };
 use fxhash::FxHashSet;
-use swc_common::{pass::Repeated, DUMMY_SP};
+use swc_common::{pass::Repeated, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id, StmtLike};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 
 pub(super) struct DeclHoisterConfig {
     pub hoist_fns: bool,
     pub hoist_vars: bool,
-    pub top_level: bool,
+    pub _top_level: bool,
 }
 
 pub(super) fn decl_hoister(config: DeclHoisterConfig, data: &ProgramData) -> Hoister {

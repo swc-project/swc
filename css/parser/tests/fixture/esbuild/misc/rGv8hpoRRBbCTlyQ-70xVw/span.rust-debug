@@ -1,0 +1,56 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/rGv8hpoRRBbCTlyQ-70xVw/input.css:1:1
+  |
+1 | :pseudocl\61ss {}
+  | ^^^^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/rGv8hpoRRBbCTlyQ-70xVw/input.css:1:1
+  |
+1 | :pseudocl\61ss {}
+  | ^^^^^^^^^^^^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/esbuild/misc/rGv8hpoRRBbCTlyQ-70xVw/input.css:1:1
+  |
+1 | :pseudocl\61ss {}
+  | ^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/rGv8hpoRRBbCTlyQ-70xVw/input.css:1:1
+  |
+1 | :pseudocl\61ss {}
+  | ^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/rGv8hpoRRBbCTlyQ-70xVw/input.css:1:1
+  |
+1 | :pseudocl\61ss {}
+  | ^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/esbuild/misc/rGv8hpoRRBbCTlyQ-70xVw/input.css:1:1
+  |
+1 | :pseudocl\61ss {}
+  | ^^^^^^^^^^^^^^
+
+error: PseudoSelector
+ --> $DIR/tests/fixture/esbuild/misc/rGv8hpoRRBbCTlyQ-70xVw/input.css:1:1
+  |
+1 | :pseudocl\61ss {}
+  | ^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/rGv8hpoRRBbCTlyQ-70xVw/input.css:1:2
+  |
+1 | :pseudocl\61ss {}
+  |  ^^^^^^^^^^^^^
+
+error: Tokens
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/rGv8hpoRRBbCTlyQ-70xVw/input.css:1:16
+  |
+1 | :pseudocl\61ss {}
+  |                ^^
+

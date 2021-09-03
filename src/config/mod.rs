@@ -1,3 +1,4 @@
+use self::util::BoolOrObject;
 use crate::{builder::PassBuilder, SwcComments, SwcImportResolver};
 use anyhow::{bail, Context, Error};
 use dashmap::DashMap;
@@ -38,8 +39,6 @@ use swc_ecma_transforms::{
     react, resolver_with_mark, typescript,
 };
 use swc_ecma_visit::Fold;
-
-use self::util::BoolOrObject;
 
 #[cfg(test)]
 mod tests;
@@ -207,11 +206,14 @@ impl Options {
             base_url,
             paths,
             minify: js_minify,
+            ..
         } = config.jsc;
         let target = target.unwrap_or_default();
 
         let syntax = syntax.unwrap_or_default();
         let mut transform = transform.unwrap_or_default();
+
+        let preserve_comments = js_minify.as_ref().map(|v| v.format.comments.clone());
 
         if syntax.typescript() {
             transform.legacy_decorator = true;
@@ -310,6 +312,7 @@ impl Options {
             input_source_map: self.config.input_source_map.clone(),
             output_path: output_path.map(|v| v.to_path_buf()),
             source_file_name,
+            preserve_comments,
         }
     }
 }
@@ -510,6 +513,9 @@ pub struct JsMinifyOptions {
     pub mangle: BoolOrObject<MangleOptions>,
 
     #[serde(default)]
+    pub format: JsMinifyFormatOptions,
+
+    #[serde(default)]
     pub ecma: TerserEcmaVersion,
 
     #[serde(default)]
@@ -532,6 +538,108 @@ pub struct JsMinifyOptions {
 
     #[serde(default)]
     pub output_path: Option<String>,
+}
+
+/// `jsc.minify.format`.
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub struct JsMinifyFormatOptions {
+    /// Not implemented yet.
+    #[serde(default, alias = "ascii_only")]
+    pub ascii_only: bool,
+
+    /// Not implemented yet.
+    #[serde(default)]
+    pub beautify: bool,
+
+    /// Not implemented yet.
+    #[serde(default)]
+    pub braces: bool,
+
+    #[serde(default)]
+    pub comments: BoolOrObject<JsMinifyCommentOption>,
+
+    /// Not implemented yet.
+    #[serde(default)]
+    pub ecma: usize,
+
+    /// Not implemented yet.
+    #[serde(default, alias = "indent_level")]
+    pub indent_level: usize,
+
+    /// Not implemented yet.
+    #[serde(default, alias = "indent_start")]
+    pub indent_start: bool,
+
+    /// Not implemented yet.
+    #[serde(default, alias = "inline_script")]
+    pub inline_script: bool,
+
+    /// Not implemented yet.
+    #[serde(default, alias = "keep_numbers")]
+    pub keep_numbers: bool,
+
+    /// Not implemented yet.
+    #[serde(default, alias = "keep_quoted_props")]
+    pub keep_quoted_props: bool,
+
+    /// Not implemented yet.
+    #[serde(default, alias = "max_line_len")]
+    pub max_line_len: BoolOrObject<usize>,
+
+    /// Not implemented yet.
+    #[serde(default)]
+    pub preamble: String,
+
+    /// Not implemented yet.
+    #[serde(default, alias = "quote_keys")]
+    pub quote_keys: bool,
+
+    /// Not implemented yet.
+    #[serde(default, alias = "quote_style")]
+    pub quote_style: usize,
+
+    /// Not implemented yet.
+    #[serde(default, alias = "preserve_annotations")]
+    pub preserve_annotations: bool,
+
+    /// Not implemented yet.
+    #[serde(default)]
+    pub safari10: bool,
+
+    /// Not implemented yet.
+    #[serde(default)]
+    pub semicolons: bool,
+
+    /// Not implemented yet.
+    #[serde(default)]
+    pub shebang: bool,
+
+    /// Not implemented yet.
+    #[serde(default)]
+    pub webkit: bool,
+
+    /// Not implemented yet.
+    #[serde(default, alias = "warp_iife")]
+    pub wrap_iife: bool,
+
+    /// Not implemented yet.
+    #[serde(default, alias = "wrap_func_args")]
+    pub wrap_func_args: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum JsMinifyCommentOption {
+    #[serde(rename = "some")]
+    PreserveSomeComments,
+    #[serde(rename = "all")]
+    PreserveAllComments,
+}
+
+impl Default for JsMinifyCommentOption {
+    fn default() -> Self {
+        JsMinifyCommentOption::PreserveSomeComments
+    }
 }
 
 impl Config {
@@ -639,8 +747,11 @@ pub struct BuiltConfig<P: swc_ecma_visit::Fold> {
     pub output_path: Option<PathBuf>,
 
     pub source_file_name: Option<String>,
+
+    pub preserve_comments: Option<BoolOrObject<JsMinifyCommentOption>>,
 }
 
+/// `jsc` in  `.swcrc`.
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct JscConfig {
@@ -670,6 +781,18 @@ pub struct JscConfig {
 
     #[serde(default)]
     pub minify: Option<JsMinifyOptions>,
+
+    #[serde(default)]
+    pub experimental: JscExperimental,
+}
+
+/// `jsc.experimental` in `.swcrc`
+#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub struct JscExperimental {}
+
+impl Merge for JscExperimental {
+    fn merge(&mut self, _from: &Self) {}
 }
 
 /// `paths` sectiob of `tsconfig.json`.
@@ -941,6 +1064,7 @@ impl Merge for JsMinifyOptions {
     fn merge(&mut self, from: &Self) {
         self.compress.merge(&from.compress);
         self.mangle.merge(&from.mangle);
+        self.format.merge(&from.format);
         self.ecma.merge(&from.ecma);
         self.keep_classnames |= from.keep_classnames;
         self.keep_fnames |= from.keep_fnames;
@@ -966,6 +1090,16 @@ impl Merge for MangleOptions {
         self.keep_private_props |= from.keep_private_props;
         self.safari10 |= from.safari10;
     }
+}
+
+impl Merge for JsMinifyFormatOptions {
+    fn merge(&mut self, from: &Self) {
+        self.comments.merge(&from.comments);
+    }
+}
+
+impl Merge for JsMinifyCommentOption {
+    fn merge(&mut self, _: &Self) {}
 }
 
 impl Merge for ManglePropertiesOptions {
@@ -1006,6 +1140,7 @@ impl Merge for JscConfig {
         self.keep_class_names.merge(&from.keep_class_names);
         self.paths.merge(&from.paths);
         self.minify.merge(&from.minify);
+        self.experimental.merge(&from.experimental);
     }
 }
 

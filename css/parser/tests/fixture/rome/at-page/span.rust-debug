@@ -1,0 +1,670 @@
+error: Stylesheet
+  --> $DIR/tests/fixture/rome/at-page/input.css:1:1
+   |
+1  | / @page MyPage:blank {
+2  | |     @top-center { content: none }
+3  | |     margin-left: 4cm;
+4  | | }
+...  |
+18 | |     MARGIN-LEFT: 4cm;
+19 | | }
+   | |__^
+
+error: Rule
+ --> $DIR/tests/fixture/rome/at-page/input.css:1:1
+  |
+1 | / @page MyPage:blank {
+2 | |     @top-center { content: none }
+3 | |     margin-left: 4cm;
+4 | | }
+  | |_^
+
+error: AtRule
+ --> $DIR/tests/fixture/rome/at-page/input.css:1:1
+  |
+1 | / @page MyPage:blank {
+2 | |     @top-center { content: none }
+3 | |     margin-left: 4cm;
+4 | | }
+  | |_^
+
+error: PageRule
+ --> $DIR/tests/fixture/rome/at-page/input.css:1:1
+  |
+1 | / @page MyPage:blank {
+2 | |     @top-center { content: none }
+3 | |     margin-left: 4cm;
+4 | | }
+  | |_^
+
+error: PageSelector
+ --> $DIR/tests/fixture/rome/at-page/input.css:1:7
+  |
+1 | @page MyPage:blank {
+  |       ^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/at-page/input.css:1:7
+  |
+1 | @page MyPage:blank {
+  |       ^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/at-page/input.css:1:14
+  |
+1 | @page MyPage:blank {
+  |              ^^^^^
+
+error: PageRuleBlock
+ --> $DIR/tests/fixture/rome/at-page/input.css:1:20
+  |
+1 |   @page MyPage:blank {
+  |  ____________________^
+2 | |     @top-center { content: none }
+3 | |     margin-left: 4cm;
+4 | | }
+  | |_^
+
+error: PageRuleBlockItem
+ --> $DIR/tests/fixture/rome/at-page/input.css:2:2
+  |
+2 |     @top-center { content: none }
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: NestedPageRule
+ --> $DIR/tests/fixture/rome/at-page/input.css:2:2
+  |
+2 |     @top-center { content: none }
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/rome/at-page/input.css:2:2
+  |
+2 |     @top-center { content: none }
+  |     ^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/rome/at-page/input.css:2:2
+  |
+2 |     @top-center { content: none }
+  |     ^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/rome/at-page/input.css:2:2
+  |
+2 |     @top-center { content: none }
+  |     ^^^^^^^^^^^
+
+error: AtSelector
+ --> $DIR/tests/fixture/rome/at-page/input.css:2:2
+  |
+2 |     @top-center { content: none }
+  |     ^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/at-page/input.css:2:2
+  |
+2 |     @top-center { content: none }
+  |     ^^^^^^^^^^^
+
+error: PageRuleBlock
+ --> $DIR/tests/fixture/rome/at-page/input.css:2:14
+  |
+2 |     @top-center { content: none }
+  |                 ^^^^^^^^^^^^^^^^^
+
+error: PageRuleBlockItem
+ --> $DIR/tests/fixture/rome/at-page/input.css:2:16
+  |
+2 |     @top-center { content: none }
+  |                   ^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/rome/at-page/input.css:2:16
+  |
+2 |     @top-center { content: none }
+  |                   ^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/at-page/input.css:2:16
+  |
+2 |     @top-center { content: none }
+  |                   ^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/at-page/input.css:2:25
+  |
+2 |     @top-center { content: none }
+  |                            ^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/at-page/input.css:2:25
+  |
+2 |     @top-center { content: none }
+  |                            ^^^^
+
+error: PageRuleBlockItem
+ --> $DIR/tests/fixture/rome/at-page/input.css:3:2
+  |
+3 |     margin-left: 4cm;
+  |     ^^^^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/rome/at-page/input.css:3:2
+  |
+3 |     margin-left: 4cm;
+  |     ^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/at-page/input.css:3:2
+  |
+3 |     margin-left: 4cm;
+  |     ^^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/at-page/input.css:3:15
+  |
+3 |     margin-left: 4cm;
+  |                  ^^^
+
+error: UnitValue
+ --> $DIR/tests/fixture/rome/at-page/input.css:3:15
+  |
+3 |     margin-left: 4cm;
+  |                  ^^^
+
+error: Num
+ --> $DIR/tests/fixture/rome/at-page/input.css:3:15
+  |
+3 |     margin-left: 4cm;
+  |                  ^
+
+error: Unit
+ --> $DIR/tests/fixture/rome/at-page/input.css:3:16
+  |
+3 |     margin-left: 4cm;
+  |                   ^^
+
+error: Rule
+ --> $DIR/tests/fixture/rome/at-page/input.css:6:1
+  |
+6 | / @page :blank {
+7 | |     @top-center { content: none }
+8 | |     margin-left: 4cm;
+9 | | }
+  | |_^
+
+error: AtRule
+ --> $DIR/tests/fixture/rome/at-page/input.css:6:1
+  |
+6 | / @page :blank {
+7 | |     @top-center { content: none }
+8 | |     margin-left: 4cm;
+9 | | }
+  | |_^
+
+error: PageRule
+ --> $DIR/tests/fixture/rome/at-page/input.css:6:1
+  |
+6 | / @page :blank {
+7 | |     @top-center { content: none }
+8 | |     margin-left: 4cm;
+9 | | }
+  | |_^
+
+error: PageSelector
+ --> $DIR/tests/fixture/rome/at-page/input.css:6:7
+  |
+6 | @page :blank {
+  |       ^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/at-page/input.css:6:8
+  |
+6 | @page :blank {
+  |        ^^^^^
+
+error: PageRuleBlock
+ --> $DIR/tests/fixture/rome/at-page/input.css:6:14
+  |
+6 |   @page :blank {
+  |  ______________^
+7 | |     @top-center { content: none }
+8 | |     margin-left: 4cm;
+9 | | }
+  | |_^
+
+error: PageRuleBlockItem
+ --> $DIR/tests/fixture/rome/at-page/input.css:7:2
+  |
+7 |     @top-center { content: none }
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: NestedPageRule
+ --> $DIR/tests/fixture/rome/at-page/input.css:7:2
+  |
+7 |     @top-center { content: none }
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/rome/at-page/input.css:7:2
+  |
+7 |     @top-center { content: none }
+  |     ^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/rome/at-page/input.css:7:2
+  |
+7 |     @top-center { content: none }
+  |     ^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/rome/at-page/input.css:7:2
+  |
+7 |     @top-center { content: none }
+  |     ^^^^^^^^^^^
+
+error: AtSelector
+ --> $DIR/tests/fixture/rome/at-page/input.css:7:2
+  |
+7 |     @top-center { content: none }
+  |     ^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/at-page/input.css:7:2
+  |
+7 |     @top-center { content: none }
+  |     ^^^^^^^^^^^
+
+error: PageRuleBlock
+ --> $DIR/tests/fixture/rome/at-page/input.css:7:14
+  |
+7 |     @top-center { content: none }
+  |                 ^^^^^^^^^^^^^^^^^
+
+error: PageRuleBlockItem
+ --> $DIR/tests/fixture/rome/at-page/input.css:7:16
+  |
+7 |     @top-center { content: none }
+  |                   ^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/rome/at-page/input.css:7:16
+  |
+7 |     @top-center { content: none }
+  |                   ^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/at-page/input.css:7:16
+  |
+7 |     @top-center { content: none }
+  |                   ^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/at-page/input.css:7:25
+  |
+7 |     @top-center { content: none }
+  |                            ^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/at-page/input.css:7:25
+  |
+7 |     @top-center { content: none }
+  |                            ^^^^
+
+error: PageRuleBlockItem
+ --> $DIR/tests/fixture/rome/at-page/input.css:8:2
+  |
+8 |     margin-left: 4cm;
+  |     ^^^^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/rome/at-page/input.css:8:2
+  |
+8 |     margin-left: 4cm;
+  |     ^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/at-page/input.css:8:2
+  |
+8 |     margin-left: 4cm;
+  |     ^^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/at-page/input.css:8:15
+  |
+8 |     margin-left: 4cm;
+  |                  ^^^
+
+error: UnitValue
+ --> $DIR/tests/fixture/rome/at-page/input.css:8:15
+  |
+8 |     margin-left: 4cm;
+  |                  ^^^
+
+error: Num
+ --> $DIR/tests/fixture/rome/at-page/input.css:8:15
+  |
+8 |     margin-left: 4cm;
+  |                  ^
+
+error: Unit
+ --> $DIR/tests/fixture/rome/at-page/input.css:8:16
+  |
+8 |     margin-left: 4cm;
+  |                   ^^
+
+error: Rule
+  --> $DIR/tests/fixture/rome/at-page/input.css:11:1
+   |
+11 | / @page {
+12 | |     @top-center { content: none }
+13 | |     margin-left: 4cm;
+14 | | }
+   | |_^
+
+error: AtRule
+  --> $DIR/tests/fixture/rome/at-page/input.css:11:1
+   |
+11 | / @page {
+12 | |     @top-center { content: none }
+13 | |     margin-left: 4cm;
+14 | | }
+   | |_^
+
+error: PageRule
+  --> $DIR/tests/fixture/rome/at-page/input.css:11:1
+   |
+11 | / @page {
+12 | |     @top-center { content: none }
+13 | |     margin-left: 4cm;
+14 | | }
+   | |_^
+
+error: PageRuleBlock
+  --> $DIR/tests/fixture/rome/at-page/input.css:11:7
+   |
+11 |   @page {
+   |  _______^
+12 | |     @top-center { content: none }
+13 | |     margin-left: 4cm;
+14 | | }
+   | |_^
+
+error: PageRuleBlockItem
+  --> $DIR/tests/fixture/rome/at-page/input.css:12:2
+   |
+12 |     @top-center { content: none }
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: NestedPageRule
+  --> $DIR/tests/fixture/rome/at-page/input.css:12:2
+   |
+12 |     @top-center { content: none }
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/rome/at-page/input.css:12:2
+   |
+12 |     @top-center { content: none }
+   |     ^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/rome/at-page/input.css:12:2
+   |
+12 |     @top-center { content: none }
+   |     ^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/rome/at-page/input.css:12:2
+   |
+12 |     @top-center { content: none }
+   |     ^^^^^^^^^^^
+
+error: AtSelector
+  --> $DIR/tests/fixture/rome/at-page/input.css:12:2
+   |
+12 |     @top-center { content: none }
+   |     ^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/rome/at-page/input.css:12:2
+   |
+12 |     @top-center { content: none }
+   |     ^^^^^^^^^^^
+
+error: PageRuleBlock
+  --> $DIR/tests/fixture/rome/at-page/input.css:12:14
+   |
+12 |     @top-center { content: none }
+   |                 ^^^^^^^^^^^^^^^^^
+
+error: PageRuleBlockItem
+  --> $DIR/tests/fixture/rome/at-page/input.css:12:16
+   |
+12 |     @top-center { content: none }
+   |                   ^^^^^^^^^^^^^
+
+error: Property
+  --> $DIR/tests/fixture/rome/at-page/input.css:12:16
+   |
+12 |     @top-center { content: none }
+   |                   ^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/rome/at-page/input.css:12:16
+   |
+12 |     @top-center { content: none }
+   |                   ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/rome/at-page/input.css:12:25
+   |
+12 |     @top-center { content: none }
+   |                            ^^^^
+
+error: Text
+  --> $DIR/tests/fixture/rome/at-page/input.css:12:25
+   |
+12 |     @top-center { content: none }
+   |                            ^^^^
+
+error: PageRuleBlockItem
+  --> $DIR/tests/fixture/rome/at-page/input.css:13:2
+   |
+13 |     margin-left: 4cm;
+   |     ^^^^^^^^^^^^^^^^
+
+error: Property
+  --> $DIR/tests/fixture/rome/at-page/input.css:13:2
+   |
+13 |     margin-left: 4cm;
+   |     ^^^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/rome/at-page/input.css:13:2
+   |
+13 |     margin-left: 4cm;
+   |     ^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/rome/at-page/input.css:13:15
+   |
+13 |     margin-left: 4cm;
+   |                  ^^^
+
+error: UnitValue
+  --> $DIR/tests/fixture/rome/at-page/input.css:13:15
+   |
+13 |     margin-left: 4cm;
+   |                  ^^^
+
+error: Num
+  --> $DIR/tests/fixture/rome/at-page/input.css:13:15
+   |
+13 |     margin-left: 4cm;
+   |                  ^
+
+error: Unit
+  --> $DIR/tests/fixture/rome/at-page/input.css:13:16
+   |
+13 |     margin-left: 4cm;
+   |                   ^^
+
+error: Rule
+  --> $DIR/tests/fixture/rome/at-page/input.css:16:1
+   |
+16 | / @page {
+17 | |     @top-center { CONTENT: none }
+18 | |     MARGIN-LEFT: 4cm;
+19 | | }
+   | |_^
+
+error: AtRule
+  --> $DIR/tests/fixture/rome/at-page/input.css:16:1
+   |
+16 | / @page {
+17 | |     @top-center { CONTENT: none }
+18 | |     MARGIN-LEFT: 4cm;
+19 | | }
+   | |_^
+
+error: PageRule
+  --> $DIR/tests/fixture/rome/at-page/input.css:16:1
+   |
+16 | / @page {
+17 | |     @top-center { CONTENT: none }
+18 | |     MARGIN-LEFT: 4cm;
+19 | | }
+   | |_^
+
+error: PageRuleBlock
+  --> $DIR/tests/fixture/rome/at-page/input.css:16:7
+   |
+16 |   @page {
+   |  _______^
+17 | |     @top-center { CONTENT: none }
+18 | |     MARGIN-LEFT: 4cm;
+19 | | }
+   | |_^
+
+error: PageRuleBlockItem
+  --> $DIR/tests/fixture/rome/at-page/input.css:17:2
+   |
+17 |     @top-center { CONTENT: none }
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: NestedPageRule
+  --> $DIR/tests/fixture/rome/at-page/input.css:17:2
+   |
+17 |     @top-center { CONTENT: none }
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/rome/at-page/input.css:17:2
+   |
+17 |     @top-center { CONTENT: none }
+   |     ^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/rome/at-page/input.css:17:2
+   |
+17 |     @top-center { CONTENT: none }
+   |     ^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/rome/at-page/input.css:17:2
+   |
+17 |     @top-center { CONTENT: none }
+   |     ^^^^^^^^^^^
+
+error: AtSelector
+  --> $DIR/tests/fixture/rome/at-page/input.css:17:2
+   |
+17 |     @top-center { CONTENT: none }
+   |     ^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/rome/at-page/input.css:17:2
+   |
+17 |     @top-center { CONTENT: none }
+   |     ^^^^^^^^^^^
+
+error: PageRuleBlock
+  --> $DIR/tests/fixture/rome/at-page/input.css:17:14
+   |
+17 |     @top-center { CONTENT: none }
+   |                 ^^^^^^^^^^^^^^^^^
+
+error: PageRuleBlockItem
+  --> $DIR/tests/fixture/rome/at-page/input.css:17:16
+   |
+17 |     @top-center { CONTENT: none }
+   |                   ^^^^^^^^^^^^^
+
+error: Property
+  --> $DIR/tests/fixture/rome/at-page/input.css:17:16
+   |
+17 |     @top-center { CONTENT: none }
+   |                   ^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/rome/at-page/input.css:17:16
+   |
+17 |     @top-center { CONTENT: none }
+   |                   ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/rome/at-page/input.css:17:25
+   |
+17 |     @top-center { CONTENT: none }
+   |                            ^^^^
+
+error: Text
+  --> $DIR/tests/fixture/rome/at-page/input.css:17:25
+   |
+17 |     @top-center { CONTENT: none }
+   |                            ^^^^
+
+error: PageRuleBlockItem
+  --> $DIR/tests/fixture/rome/at-page/input.css:18:2
+   |
+18 |     MARGIN-LEFT: 4cm;
+   |     ^^^^^^^^^^^^^^^^
+
+error: Property
+  --> $DIR/tests/fixture/rome/at-page/input.css:18:2
+   |
+18 |     MARGIN-LEFT: 4cm;
+   |     ^^^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/rome/at-page/input.css:18:2
+   |
+18 |     MARGIN-LEFT: 4cm;
+   |     ^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/rome/at-page/input.css:18:15
+   |
+18 |     MARGIN-LEFT: 4cm;
+   |                  ^^^
+
+error: UnitValue
+  --> $DIR/tests/fixture/rome/at-page/input.css:18:15
+   |
+18 |     MARGIN-LEFT: 4cm;
+   |                  ^^^
+
+error: Num
+  --> $DIR/tests/fixture/rome/at-page/input.css:18:15
+   |
+18 |     MARGIN-LEFT: 4cm;
+   |                  ^
+
+error: Unit
+  --> $DIR/tests/fixture/rome/at-page/input.css:18:16
+   |
+18 |     MARGIN-LEFT: 4cm;
+   |                   ^^
+

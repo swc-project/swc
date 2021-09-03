@@ -1,0 +1,1 @@
+@keyframes \61 bc { from {} }

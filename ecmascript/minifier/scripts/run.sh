@@ -24,8 +24,7 @@ if [ -z "$@" ]; then
 fi
 
 # To prevent regression, we run base test before real tests.
-touch tests/compress.rs
 UPDATE=1 ./scripts/base.sh base_fixture
 ./scripts/base.sh base_exec
 
-SKIP_GOLDEN=1 cargo test --test compress --all-features $@
+SKIP_GOLDEN=1 cargo test --test compress --all-features ${1:-fixture_tests__terser__compress__}

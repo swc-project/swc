@@ -1,16 +1,19 @@
 use super::Optimizer;
 use crate::{
     compress::util::negate,
+    mode::Mode,
     util::{make_bool, ValueExt},
 };
 use swc_atoms::js_word;
-use swc_common::EqIgnoreSpan;
+use swc_common::{util::take::Take, EqIgnoreSpan};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{ident::IdentLike, ExprExt, Type, Value};
 use Value::Known;
 
-impl Optimizer<'_> {
+impl<M> Optimizer<'_, M>
+where
+    M: Mode,
+{
     ///
     /// - `'12' === `foo` => '12' == 'foo'`
     pub(super) fn optimize_bin_operator(&mut self, e: &mut BinExpr) {

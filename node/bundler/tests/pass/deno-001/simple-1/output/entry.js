@@ -165,7 +165,7 @@ async function readTrailers(headers, r) {
     );
     if (undeclared.length > 0) throw new Deno.errors.InvalidData(`Undeclared trailers: ${Deno.inspect(undeclared)}.`);
     for (const [k, v] of result)headers.append(k, v);
-    const missingTrailers = trailerNames.filter((k1)=>!result.has(k1)
+    const missingTrailers = trailerNames.filter((k)=>!result.has(k)
     );
     if (missingTrailers.length > 0) throw new Deno.errors.InvalidData(`Missing trailers: ${Deno.inspect(missingTrailers)}.`);
     headers.delete("trailer");
@@ -238,14 +238,14 @@ async function writeResponse(w, r) {
     const n = await writer.write(header);
     assert(n === header.byteLength);
     if (r.body instanceof Uint8Array) {
-        const n1 = await writer.write(r.body);
-        assert(n1 === r.body.byteLength);
+        const n = await writer.write(r.body);
+        assert(n === r.body.byteLength);
     } else if (headers.has("content-length")) {
         const contentLength = headers.get("content-length");
         assert(contentLength != null);
         const bodyLength = parseInt(contentLength);
-        const n1 = await Deno.copy(r.body, writer);
-        assert(n1 === bodyLength);
+        const n = await Deno.copy(r.body, writer);
+        assert(n === bodyLength);
     } else await writeChunkedBody(writer, r.body);
     if (r.trailers) {
         const t = await r.trailers();
@@ -476,8 +476,8 @@ function _parseAddrFromStr(addr) {
 }
 function serve(addr) {
     if (typeof addr === "string") addr = _parseAddrFromStr(addr);
-    const listener1 = Deno.listen(addr);
-    return new Server(listener1);
+    const listener = Deno.listen(addr);
+    return new Server(listener);
 }
 async function listenAndServe(addr, handler) {
     const server = serve(addr);

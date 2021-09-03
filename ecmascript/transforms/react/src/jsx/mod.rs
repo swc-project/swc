@@ -10,11 +10,12 @@ use swc_common::{
     comments::{CommentKind, Comments},
     iter::IdentifyLast,
     sync::Lrc,
+    util::take::Take,
     FileName, SourceMap, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_parser::{Parser, StringInput, Syntax};
-use swc_ecma_transforms_base::{ext::MapWithMut, helper};
+use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
     drop_span, member_expr, prepend, private_ident, quote_ident, ExprFactory, HANDLER,
 };
@@ -245,18 +246,7 @@ where
 
                 match children.len() {
                     0 => {}
-                    1 if children[0].as_ref().unwrap().spread.is_none()
-                        && match &*children[0].as_ref().unwrap().expr {
-                            Expr::Call(CallExpr {
-                                callee: ExprOrSuper::Expr(callee),
-                                ..
-                            }) => match &**callee {
-                                Expr::Ident(Ident { sym, .. }) => *sym != *"_jsx",
-                                _ => true,
-                            },
-                            _ => true,
-                        } =>
-                    {
+                    1 if children[0].as_ref().unwrap().spread.is_none() => {
                         props_obj
                             .props
                             .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {

@@ -1,0 +1,92 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1
+  |
+1 | a:after { content: '\invalid' }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1
+  |
+1 | a:after { content: '\invalid' }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1
+  |
+1 | a:after { content: '\invalid' }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1
+  |
+1 | a:after { content: '\invalid' }
+  | ^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1
+  |
+1 | a:after { content: '\invalid' }
+  | ^^^^^^^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1
+  |
+1 | a:after { content: '\invalid' }
+  | ^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1
+  |
+1 | a:after { content: '\invalid' }
+  | ^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:2
+  |
+1 | a:after { content: '\invalid' }
+  |  ^^^^^^
+
+error: PseudoSelector
+ --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:2
+  |
+1 | a:after { content: '\invalid' }
+  |  ^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:3
+  |
+1 | a:after { content: '\invalid' }
+  |   ^^^^^
+
+error: Tokens
+
+error: DeclBlock
+ --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:9
+  |
+1 | a:after { content: '\invalid' }
+  |         ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:11
+  |
+1 | a:after { content: '\invalid' }
+  |           ^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:11
+  |
+1 | a:after { content: '\invalid' }
+  |           ^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:20
+  |
+1 | a:after { content: '\invalid' }
+  |                    ^^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:20
+  |
+1 | a:after { content: '\invalid' }
+  |                    ^^^^^^^^^^
+

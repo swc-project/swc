@@ -1,41 +1,37 @@
 use std::collections::HashMap;
 use swc_atoms::{js_word, JsWord};
+use swc_common::collections::AHashSet;
 use swc_ecma_ast::*;
+use swc_ecma_utils::{collect_decls, Id};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 pub fn inline_globals(envs: HashMap<JsWord, Expr>, globals: HashMap<JsWord, Expr>) -> impl Fold {
-    InlineGlobals { envs, globals }
+    InlineGlobals {
+        envs,
+        globals,
+        bindings: Default::default(),
+    }
 }
 
 struct InlineGlobals {
     envs: HashMap<JsWord, Expr>,
     globals: HashMap<JsWord, Expr>,
+
+    bindings: AHashSet<Id>,
 }
 
 impl Fold for InlineGlobals {
     noop_fold_type!();
 
     fn fold_expr(&mut self, expr: Expr) -> Expr {
-        let expr = match expr {
-            Expr::Member(expr) => {
-                if expr.computed {
-                    Expr::Member(MemberExpr {
-                        obj: expr.obj.fold_with(self),
-                        prop: expr.prop.fold_with(self),
-                        ..expr
-                    })
-                } else {
-                    Expr::Member(MemberExpr {
-                        obj: expr.obj.fold_with(self),
-                        ..expr
-                    })
-                }
-            }
-            _ => expr.fold_children_with(self),
-        };
+        let expr = expr.fold_children_with(self);
 
         match expr {
-            Expr::Ident(Ident { ref sym, .. }) => {
+            Expr::Ident(Ident { ref sym, span, .. }) => {
+                if self.bindings.contains(&(sym.clone(), span.ctxt)) {
+                    return expr;
+                }
+
                 // It's ok because we don't recurse into member expressions.
                 return if let Some(value) = self.globals.get(sym) {
                     value.clone().fold_with(self)
@@ -79,6 +75,33 @@ impl Fold for InlineGlobals {
         }
 
         expr
+    }
+
+    fn fold_member_expr(&mut self, expr: MemberExpr) -> MemberExpr {
+        if expr.computed {
+            MemberExpr {
+                obj: expr.obj.fold_with(self),
+                prop: expr.prop.fold_with(self),
+                ..expr
+            }
+        } else {
+            MemberExpr {
+                obj: expr.obj.fold_with(self),
+                ..expr
+            }
+        }
+    }
+
+    fn fold_module(&mut self, module: Module) -> Module {
+        self.bindings.extend(collect_decls(&module));
+
+        module.fold_children_with(self)
+    }
+
+    fn fold_script(&mut self, script: Script) -> Script {
+        self.bindings.extend(collect_decls(&script));
+
+        script.fold_children_with(self)
     }
 }
 
@@ -138,6 +161,7 @@ mod tests {
         |tester| InlineGlobals {
             envs: envs(tester, &[]),
             globals: globals(tester, &[]),
+            bindings: Default::default()
         },
         issue_215,
         r#"if (process.env.x === 'development') {}"#,
@@ -149,6 +173,7 @@ mod tests {
         |tester| InlineGlobals {
             envs: envs(tester, &[("NODE_ENV", "development")]),
             globals: globals(tester, &[]),
+            bindings: Default::default()
         },
         node_env,
         r#"if (process.env.NODE_ENV === 'development') {}"#,
@@ -160,6 +185,7 @@ mod tests {
         |tester| InlineGlobals {
             envs: envs(tester, &[]),
             globals: globals(tester, &[("__DEBUG__", "true")]),
+            bindings: Default::default()
         },
         inline_globals,
         r#"if (__DEBUG__) {}"#,
@@ -171,6 +197,7 @@ mod tests {
         |tester| InlineGlobals {
             envs: envs(tester, &[]),
             globals: globals(tester, &[("debug", "true")]),
+            bindings: Default::default()
         },
         non_global,
         r#"if (foo.debug) {}"#,
@@ -182,6 +209,7 @@ mod tests {
         |tester| InlineGlobals {
             envs: envs(tester, &[]),
             globals: globals(tester, &[]),
+            bindings: Default::default()
         },
         issue_417_1,
         "const test = process.env['x']",
@@ -193,6 +221,7 @@ mod tests {
         |tester| InlineGlobals {
             envs: envs(tester, &[("x", "FOO")]),
             globals: globals(tester, &[]),
+            bindings: Default::default()
         },
         issue_417_2,
         "const test = process.env['x']",

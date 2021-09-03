@@ -15,7 +15,6 @@ collapse_vars/collapse_vars_do_while/input.js
 collapse_vars/collapse_vars_do_while_drop_assign/input.js
 collapse_vars/collapse_vars_eval_and_with/input.js
 collapse_vars/collapse_vars_if/input.js
-collapse_vars/collapse_vars_issue_721/input.js
 collapse_vars/collapse_vars_lvalues/input.js
 collapse_vars/collapse_vars_lvalues_drop_assign/input.js
 collapse_vars/collapse_vars_misc1/input.js
@@ -27,15 +26,10 @@ collapse_vars/collapse_vars_side_effects_1/input.js
 collapse_vars/collapse_vars_side_effects_2/input.js
 collapse_vars/collapse_vars_switch/input.js
 collapse_vars/collapse_vars_unary/input.js
-collapse_vars/collapse_vars_while/input.js
 collapse_vars/compound_assignment/input.js
 collapse_vars/double_def_1/input.js
 collapse_vars/double_def_2/input.js
-collapse_vars/for_init/input.js
-collapse_vars/iife_1/input.js
-collapse_vars/iife_2/input.js
 collapse_vars/issue_1537_destructuring_1/input.js
-collapse_vars/issue_1562/input.js
 collapse_vars/issue_1605_2/input.js
 collapse_vars/issue_1631_1/input.js
 collapse_vars/issue_1631_2/input.js
@@ -47,7 +41,6 @@ collapse_vars/issue_2364_5/input.js
 collapse_vars/issue_2436_1/input.js
 collapse_vars/issue_2436_10/input.js
 collapse_vars/issue_2436_11/input.js
-collapse_vars/issue_2436_12/input.js
 collapse_vars/issue_2436_2/input.js
 collapse_vars/issue_2436_3/input.js
 collapse_vars/issue_2436_4/input.js
@@ -58,7 +51,6 @@ collapse_vars/issue_2436_8/input.js
 collapse_vars/issue_2436_9/input.js
 collapse_vars/issue_2437/input.js
 collapse_vars/issue_2497/input.js
-collapse_vars/issue_27/input.js
 collapse_vars/issue_2878/input.js
 collapse_vars/issue_2931/input.js
 collapse_vars/issue_2954_2/input.js
@@ -188,7 +180,6 @@ harmony/object_rest_spread/input.js
 harmony/object_spread_of_sequence/input.js
 harmony/regression_cannot_use_of/input.js
 hoist_props/issue_851_hoist_to_conflicting_name/input.js
-identity/inline_identity_async/input.js
 identity/inline_identity_dont_lose_this_when_arg/input.js
 identity/inline_identity_higher_order/input.js
 identity/inline_identity_inline_function/input.js
@@ -202,7 +193,6 @@ inline/do_not_repeat_when_variable_larger_than_inlined_node/input.js
 inline/dont_inline_funcs_into_default_param/input.js
 inline/dont_inline_funcs_into_default_param_2/input.js
 inline/inline_annotation/input.js
-inline/inline_annotation_2/input.js
 inline/inline_into_scope_conflict/input.js
 inline/inline_within_extends_1/input.js
 inline/issue_308/input.js
@@ -229,7 +219,6 @@ issue_1443/keep_fnames/input.js
 issue_1443/unsafe_undefined/input.js
 issue_1446/undefined_redefined_mangle/input.js
 issue_1569/inner_reference/input.js
-issue_1609/chained_evaluation_1/input.js
 issue_1609/chained_evaluation_2/input.js
 issue_1673/side_effects_else/input.js
 issue_1733/function_catch_catch/input.js
@@ -273,12 +262,9 @@ issue_640/negate_iife_1/input.js
 issue_640/negate_iife_3/input.js
 issue_640/wrongly_optimized/input.js
 issue_751/negate_booleans_1/input.js
-issue_782/dont_remove_this_binding_sequence/input.js
-issue_782/remove_redundant_sequence_items/input.js
 issue_913/keep_var_for_in/input.js
 issue_973/this_binding_collapse_vars/input.js
 issue_973/this_binding_conditionals/input.js
-issue_973/this_binding_side_effects/input.js
 issue_976/eval_mangle/input.js
 issue_976/eval_unused/input.js
 issue_979/issue979_reported/input.js
@@ -394,7 +380,6 @@ reduce_vars/defun_var_2/input.js
 reduce_vars/escaped_prop_1/input.js
 reduce_vars/escaped_prop_2/input.js
 reduce_vars/issue_1595_3/input.js
-reduce_vars/issue_1606/input.js
 reduce_vars/issue_2442/input.js
 reduce_vars/issue_2916/input.js
 reduce_vars/issue_294/input.js
@@ -402,7 +387,6 @@ reduce_vars/issue_308/input.js
 reduce_vars/issue_432_1/input.js
 reduce_vars/issue_432_2/input.js
 reduce_vars/issue_639/input.js
-reduce_vars/method_2/input.js
 reduce_vars/obj_var_2/input.js
 reduce_vars/variables_collision_in_immediately_invoked_func/input.js
 regexp/unsafe_slashes/input.js
@@ -411,7 +395,6 @@ sequences/cascade_assignment_in_return/input.js
 sequences/for_sequences/input.js
 sequences/hoist_decl/input.js
 sequences/issue_1758/input.js
-sequences/issue_27/input.js
 sequences/lift_sequences_2/input.js
 sequences/side_effects_cascade_1/input.js
 sequences/side_effects_cascade_3/input.js
