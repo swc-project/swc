@@ -1229,7 +1229,7 @@ where
                 Mergable::Expr(a) => match *a {
                     Expr::Update(UpdateExpr {
                         op,
-                        prefix: true,
+                        prefix: false,
                         arg,
                         ..
                     }) => {
@@ -1255,9 +1255,9 @@ where
 
                                 let mut replaced = false;
                                 replace_expr(b, |e| match e {
-                                    Expr::Update(e @ UpdateExpr { prefix: true, .. }) => {
+                                    Expr::Update(e @ UpdateExpr { prefix: false, .. }) => {
                                         if *op == e.op && arg.is_ident_ref_to(a_id.sym.clone()) {
-                                            e.prefix = false;
+                                            e.prefix = true;
                                             replaced = true;
                                         }
                                     }
