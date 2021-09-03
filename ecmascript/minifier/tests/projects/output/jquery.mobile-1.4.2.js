@@ -988,12 +988,6 @@
             for(; event && void 0 !== event.originalEvent;)event = event.originalEvent;
             return event;
         }
-        function createVirtualEvent(event, eventType) {
-            var oe, props, ne, prop, ct, touch, i, j, len, t = event.type;
-            if ((event = $.Event(event)).type = eventType, oe = event.originalEvent, props = $.event.props, t.search(/^(mouse|click)/) > -1 && (props = mouseEventProps), oe) for(i = props.length; i;)event[prop = props[--i]] = oe[prop];
-            if (t.search(/mouse(down|up)|click/) > -1 && !event.which && (event.which = 1), -1 !== t.search(/^touch/) && (t = (ne = getNativeEvent(oe)).touches, ct = ne.changedTouches, touch = t && t.length ? t[0] : ct && ct.length ? ct[0] : void 0)) for(j = 0, len = touchEventProps.length; j < len; j++)event[prop = touchEventProps[j]] = touch[prop];
-            return event;
-        }
         function getVirtualBindingFlags(element) {
             for(var b, k, flags = {
             }; element;){
@@ -1002,28 +996,12 @@
             }
             return flags;
         }
-        function getClosestElementWithVirtualBinding(element, eventType) {
-            for(var b; element;){
-                if ((b = $.data(element, "virtualMouseBindings")) && (!eventType || b[eventType])) return element;
-                element = element.parentNode;
-            }
-            return null;
-        }
-        function enableTouchBindings() {
-            blockTouchTriggers = !1;
-        }
         function disableTouchBindings() {
             blockTouchTriggers = !0;
         }
-        function enableMouseBindings() {
-            lastTouchID = 0, clickBlockList.length = 0, blockMouseTriggers = !1, disableTouchBindings();
-        }
-        function disableMouseBindings() {
-            enableTouchBindings();
-        }
         function startResetTimer() {
             clearResetTimer(), resetTimerID = setTimeout(function() {
-                resetTimerID = 0, enableMouseBindings();
+                resetTimerID = 0, lastTouchID = 0, clickBlockList.length = 0, blockMouseTriggers = !1, disableTouchBindings();
             }, $.vmouse.resetTimerDuration);
         }
         function clearResetTimer() {
@@ -1031,7 +1009,18 @@
         }
         function triggerVirtualEvent(eventType, event, flags) {
             var ve;
-            return (flags && flags[eventType] || !flags && getClosestElementWithVirtualBinding(event.target, eventType)) && (ve = createVirtualEvent(event, eventType), $(event.target).trigger(ve)), ve;
+            return (flags && flags[eventType] || !flags && (function(element, eventType) {
+                for(var b; element;){
+                    if ((b = $.data(element, "virtualMouseBindings")) && (!eventType || b[eventType])) return element;
+                    element = element.parentNode;
+                }
+                return null;
+            })(event.target, eventType)) && (ve = (function(event, eventType1) {
+                var oe, props, ne, prop, ct, touch, i, j, len, t = event.type;
+                if ((event = $.Event(event)).type = eventType, oe = event.originalEvent, props = $.event.props, t.search(/^(mouse|click)/) > -1 && (props = mouseEventProps), oe) for(i = props.length; i;)event[prop = props[--i]] = oe[prop];
+                if (t.search(/mouse(down|up)|click/) > -1 && !event.which && (event.which = 1), -1 !== t.search(/^touch/) && (t = (ne = getNativeEvent(oe)).touches, ct = ne.changedTouches, touch = t && t.length ? t[0] : ct && ct.length ? ct[0] : void 0)) for(j = 0, len = touchEventProps.length; j < len; j++)event[prop = touchEventProps[j]] = touch[prop];
+                return event;
+            })(event, eventType), $(event.target).trigger(ve)), ve;
         }
         function mouseEventCallback(event) {
             var ve, touchID = $.data(event.target, "virtualTouchID");
@@ -1039,7 +1028,7 @@
         }
         function handleTouchStart(event) {
             var target, flags, t, touches = getNativeEvent(event).touches;
-            touches && 1 === touches.length && (flags = getVirtualBindingFlags(target = event.target)).hasVirtualBinding && (lastTouchID = nextTouchID++, $.data(target, "virtualTouchID", lastTouchID), clearResetTimer(), disableMouseBindings(), didScroll = !1, startX = (t = getNativeEvent(event).touches[0]).pageX, startY = t.pageY, triggerVirtualEvent("vmouseover", event, flags), triggerVirtualEvent("vmousedown", event, flags));
+            touches && 1 === touches.length && (flags = getVirtualBindingFlags(target = event.target)).hasVirtualBinding && (lastTouchID = nextTouchID++, $.data(target, "virtualTouchID", lastTouchID), clearResetTimer(), blockTouchTriggers = !1, didScroll = !1, startX = (t = getNativeEvent(event).touches[0]).pageX, startY = t.pageY, triggerVirtualEvent("vmouseover", event, flags), triggerVirtualEvent("vmousedown", event, flags));
         }
         function handleScroll(event) {
             blockTouchTriggers || (didScroll || triggerVirtualEvent("vmousecancel", event, getVirtualBindingFlags(event.target)), didScroll = !0, startResetTimer());
@@ -1558,7 +1547,7 @@
                 var fileUrl, dataUrl, pblEvent, triggerData, deferred = options && options.deferred || $.Deferred(), settings = $.extend({
                 }, this._loadDefaults, options), content = null, absUrl = $.mobile.path.makeUrlAbsolute(url, this._findBaseWithDefault());
                 if (settings.reload = settings.reloadPage, settings.data && "get" === settings.type && (absUrl = $.mobile.path.addSearchParams(absUrl, settings.data), settings.data = undefined), settings.data && "post" === settings.type && (settings.reload = !0), fileUrl = this._createFileUrl(absUrl), dataUrl = this._createDataUrl(absUrl), 0 === (content = this._find(absUrl)).length && $.mobile.path.isEmbeddedPage(fileUrl) && !$.mobile.path.isFirstPageUrl(fileUrl)) return void deferred.reject(absUrl, settings);
-                if (this._getBase().reset(), content.length && !settings.reload) return this._enhance(content, settings.role), deferred.resolve(absUrl, settings, content), void (!settings.prefetch && this._getBase().set(url));
+                if (this._getBase().reset(), content.length && !settings.reload) return this._enhance(content, settings.role), deferred.resolve(absUrl, settings, content), void (settings.prefetch || this._getBase().set(url));
                 if (triggerData = {
                     url: url,
                     absUrl: absUrl,
@@ -2651,11 +2640,6 @@
         }, $.mobile.behaviors.formReset));
     })(jQuery), (function($, undefined) {
         var popup;
-        function getPopup() {
-            return popup || (popup = $("<div></div>", {
-                "class": "ui-slider-popup ui-shadow ui-corner-all"
-            })), popup.clone();
-        }
         $.widget("mobile.slider", $.mobile.slider, {
             options: {
                 popupEnabled: !1,
@@ -2680,7 +2664,9 @@
                 });
             },
             _setOption: function(key, value) {
-                this._super(key, value), "showValue" === key ? this.handle.html(value && !this.options.mini ? this._value() : "") : "popupEnabled" === key && value && !this._popup && (this._popup = getPopup().addClass("ui-body-" + (this.options.theme || "a")).hide().insertBefore(this.element));
+                this._super(key, value), "showValue" === key ? this.handle.html(value && !this.options.mini ? this._value() : "") : "popupEnabled" === key && value && !this._popup && (this._popup = (popup || (popup = $("<div></div>", {
+                    "class": "ui-slider-popup ui-shadow ui-corner-all"
+                })), popup.clone()).addClass("ui-body-" + (this.options.theme || "a")).hide().insertBefore(this.element));
             },
             refresh: function() {
                 this._super.apply(this, arguments), this._refresh();
@@ -3888,15 +3874,6 @@
         });
     })(jQuery), (function($, undefined) {
         var ieHack = $.mobile.browser.oldIE && $.mobile.browser.oldIE <= 8, uiTemplate = $("<div class='ui-popup-arrow-guide'></div><div class='ui-popup-arrow-container" + (ieHack ? " ie" : "") + "'><div class='ui-popup-arrow'></div></div>");
-        function getArrow() {
-            var clone = uiTemplate.clone(), gd = clone.eq(0), ct = clone.eq(1), ar = ct.children();
-            return {
-                arEls: ct.add(gd),
-                gd: gd,
-                ct: ct,
-                ar: ar
-            };
-        }
         $.widget("mobile.popup", $.mobile.popup, {
             options: {
                 arrow: ""
@@ -3906,8 +3883,13 @@
                 return this.options.arrow && (this._ui.arrow = this._addArrow()), ret;
             },
             _addArrow: function() {
-                var theme, opts = this.options, ar = getArrow();
-                return theme = this._themeClassFromOption("ui-body-", opts.theme), ar.ar.addClass(theme + (opts.shadow ? " ui-overlay-shadow" : "")), ar.arEls.hide().appendTo(this.element), ar;
+                var clone, gd, ct, ar, theme, opts = this.options, ar1 = (gd = (clone = uiTemplate.clone()).eq(0), ar = (ct = clone.eq(1)).children(), {
+                    arEls: ct.add(gd),
+                    gd: gd,
+                    ct: ct,
+                    ar: ar
+                });
+                return theme = this._themeClassFromOption("ui-body-", opts.theme), ar1.ar.addClass(theme + (opts.shadow ? " ui-overlay-shadow" : "")), ar1.arEls.hide().appendTo(this.element), ar1;
             },
             _unenhance: function() {
                 var ar = this._ui.arrow;
@@ -4470,9 +4452,6 @@
         }
     }), (function($, undefined) {
         var tabId = 0, rhash = /#.*$/;
-        function getNextTabId() {
-            return ++tabId;
-        }
         function isLocal(anchor) {
             return anchor.hash.length > 1 && decodeURIComponent(anchor.href.replace(rhash, "")) === decodeURIComponent(location.href.replace(rhash, ""));
         }
@@ -4564,7 +4543,7 @@
                 return "active" === key ? void this._activate(value) : "disabled" === key ? void this._setupDisabled(value) : void (this._super(key, value), "collapsible" !== key || (this.element.toggleClass("ui-tabs-collapsible", value), value || !1 !== this.options.active || this._activate(0)), "event" === key && this._setupEvents(value), "heightStyle" === key && this._setupHeightStyle(value));
             },
             _tabId: function(tab) {
-                return tab.attr("aria-controls") || "ui-tabs-" + getNextTabId();
+                return tab.attr("aria-controls") || "ui-tabs-" + ++tabId;
             },
             _sanitizeSelector: function(hash) {
                 return hash ? hash.replace(/[!"$%&'()*+,.\/:;<=>?@\[\]\^`{|}~]/g, "\\$&") : "";
