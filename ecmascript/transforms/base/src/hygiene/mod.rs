@@ -7,7 +7,7 @@ use fxhash::{FxHashMap, FxHashSet};
 use smallvec::{smallvec, SmallVec};
 use std::{cell::RefCell, collections::HashMap};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{chain, util::take::Take, SyntaxContext};
+use swc_common::{util::take::Take, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
@@ -213,25 +213,12 @@ pub fn hygiene() -> impl Fold + 'static {
 /// identifier (with respect to span hygiene) becomes different identifier.
 /// (e.g. `a1` for `a#6`, `a2` for `a#23`)
 pub fn hygiene_with_config(config: Config) -> impl 'static + Fold + VisitMut {
-    chain!(
-        as_folder(Hygiene {
-            config,
-            current: Default::default(),
-            ident_type: IdentType::Ref,
-            var_kind: None,
-        }),
-        as_folder(MarkClearer)
-    )
-}
-
-#[derive(Clone, Copy)]
-struct MarkClearer;
-impl VisitMut for MarkClearer {
-    noop_visit_mut_type!();
-
-    fn visit_mut_ident(&mut self, ident: &mut Ident) {
-        ident.span.ctxt = SyntaxContext::empty();
-    }
+    as_folder(Hygiene {
+        config,
+        current: Default::default(),
+        ident_type: IdentType::Ref,
+        var_kind: None,
+    })
 }
 
 impl<'a> Hygiene<'a> {
@@ -759,20 +746,21 @@ impl<'a> VisitMut for Hygiene<'a> {
         }
 
         match self.ident_type {
-            IdentType::Binding => self.add_decl(i.clone()),
+            IdentType::Binding => {
+                self.add_decl(i.clone());
+            }
             IdentType::Ref => {
                 // Special cases
-                if is_native_word(&i.sym) {
-                    return;
+                if !is_native_word(&i.sym) {
+                    self.add_used_ref(&i);
                 }
-
-                self.add_used_ref(&i);
             }
             IdentType::Label => {
                 // We currently does not touch labels
                 return;
             }
         }
+        i.span.ctxt = SyntaxContext::empty();
     }
 
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
