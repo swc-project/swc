@@ -84,6 +84,6 @@ fn negate_cost_3() {
          cache[id] = null)",
         true,
         true,
-        2,
+        4,
     );
 }

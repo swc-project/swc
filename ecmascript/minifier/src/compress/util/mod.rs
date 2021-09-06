@@ -249,7 +249,15 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
                 right,
                 ..
             }) => {
-                let l_cost = cost(&left, in_bool_ctx, Some(*op), false);
+                let l_cost = cost(
+                    &left,
+                    in_bool_ctx,
+                    match &**right {
+                        Expr::Call(..) | Expr::Assign(..) => Some(*op),
+                        _ => None,
+                    },
+                    false,
+                );
 
                 if !is_ret_val_ignored && !is_ok_to_negate_rhs(&right) {
                     if bin_op == Some(op!("&&")) {
