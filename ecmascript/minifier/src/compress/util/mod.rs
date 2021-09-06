@@ -3,8 +3,9 @@ use std::f64;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms::fixer;
 use swc_ecma_utils::{ExprExt, Id, UsageFinder, Value};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith, VisitWith};
 use unicode_xid::UnicodeXID;
 
 #[cfg(test)]
@@ -251,11 +252,11 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
                 let l_cost = cost(&left, in_bool_ctx, Some(*op), false);
 
                 if !is_ret_val_ignored && !is_ok_to_negate_rhs(&right) {
-                    // if bin_op == Some(op!("&&")) {
-                    //     if *op == op!("||") {
-                    //         return l_cost - 3;
-                    //     }
-                    // }
+                    if bin_op == Some(op!("&&")) {
+                        if *op == op!("||") {
+                            return l_cost - 3;
+                        }
+                    }
 
                     return l_cost + 3;
                 }
@@ -311,7 +312,11 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
     let cost = cost(e, in_bool_ctx, None, is_ret_val_ignored);
 
     if cfg!(feature = "debug") {
-        log::trace!("negation cost of `{}` = {}", dump(&*e), cost);
+        log::trace!(
+            "negation cost of `{}` = {}",
+            dump(&e.clone().fold_with(&mut as_folder(fixer(None)))),
+            cost
+        );
     }
 
     Some(cost)
