@@ -82,7 +82,7 @@ fn negate_cost_3() {
             elem
         ], !0) : jQuery.support.deleteExpando || cache != cache.window ? delete cache[id] : \
          cache[id] = null)",
-        false,
+        true,
         true,
         2,
     );
