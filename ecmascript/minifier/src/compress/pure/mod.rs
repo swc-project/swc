@@ -144,7 +144,7 @@ where
     fn visit_mut_bin_expr(&mut self, e: &mut BinExpr) {
         e.visit_mut_children_with(self);
 
-        self.compress_cmp_of_typeof_with_lit(e);
+        self.compress_cmp_with_long_op(e);
 
         self.optimize_cmp_with_null_or_undefined(e);
 
