@@ -1090,6 +1090,7 @@ sequences/make_sequences_4/input.js
 sequences/negate_iife_for/input.js
 sequences/reassign_const/input.js
 sequences/side_effects/input.js
+sequences/side_effects_cascade_1/input.js
 sequences/side_effects_cascade_2/input.js
 sequences/unsafe_undefined/input.js
 string_literal/issue_1929/input.js
