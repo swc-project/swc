@@ -35,9 +35,9 @@ pub struct Tester<'a> {
 }
 
 impl<'a> Tester<'a> {
-    pub fn run<F>(op: F)
+    pub fn run<F, Ret>(op: F) -> Ret
     where
-        F: FnOnce(&mut Tester<'_>) -> Result<(), ()>,
+        F: FnOnce(&mut Tester<'_>) -> Result<Ret, ()>,
     {
         let out = ::testing::run_test(false, |cm, handler| {
             swc_ecma_utils::HANDLER.set(handler, || {
@@ -52,7 +52,7 @@ impl<'a> Tester<'a> {
         });
 
         match out {
-            Ok(()) => {}
+            Ok(ret) => ret,
             Err(stderr) => panic!("Stderr:\n{}", stderr),
         }
     }
@@ -599,13 +599,8 @@ where
     let _is_really_expected = expected.is_ok();
     let expected = expected.unwrap_or_default();
 
-    let (values, stderr) = Tester::run_captured(|tester| {
-        let input_str = read_to_string(input).unwrap();
-        println!("----- {} -----\n{}", Color::Green.paint("Input"), input_str);
-
-        let tr = tr(tester);
-
-        let expected = tester.apply_transform(
+    let expected_src = Tester::run(|tester| {
+        let expected_module = tester.apply_transform(
             as_folder(::swc_ecma_utils::DropSpan {
                 preserve_ctxt: true,
             }),
@@ -614,13 +609,22 @@ where
             &expected,
         )?;
 
-        let expected_src = tester.print(&expected, &tester.comments.clone());
+        let expected_src = tester.print(&expected_module, &tester.comments.clone());
 
         println!(
             "----- {} -----\n{}",
             Color::Green.paint("Expected"),
             expected_src
         );
+
+        Ok(expected_src)
+    });
+
+    let (actual_src, stderr) = Tester::run_captured(|tester| {
+        let input_str = read_to_string(input).unwrap();
+        println!("----- {} -----\n{}", Color::Green.paint("Input"), input_str);
+
+        let tr = tr(tester);
 
         println!("----- {} -----", Color::Green.paint("Actual"));
 
@@ -651,7 +655,7 @@ where
 
         let actual_src = tester.print(&actual, &tester.comments.clone());
 
-        Ok((actual_src, expected_src))
+        Ok(actual_src)
     });
 
     let mut results = vec![];
@@ -661,8 +665,8 @@ where
             .push(NormalizedOutput::from(stderr).compare_to_file(output.with_extension("stderr")));
     }
 
-    match values {
-        Some((actual_src, expected_src)) => {
+    match actual_src {
+        Some(actual_src) => {
             println!("{}", actual_src);
 
             if actual_src == expected_src {
