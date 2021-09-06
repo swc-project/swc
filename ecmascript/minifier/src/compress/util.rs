@@ -248,9 +248,17 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
                 let l_cost = cost(&left, in_bool_ctx, Some(*op), false);
 
                 if !is_ret_val_ignored && !is_ok_to_negate_rhs(&right) {
+                    if bin_op == Some(op!("&&")) {
+                        if *op == op!("||") {
+                            return l_cost - 3;
+                        }
+                    }
+
                     return l_cost + 3;
                 }
-                l_cost + cost(&right, in_bool_ctx, Some(*op), is_ret_val_ignored)
+                let r_cost = cost(&right, in_bool_ctx, Some(*op), is_ret_val_ignored);
+
+                l_cost + r_cost
             }
 
             Expr::Cond(CondExpr { cons, alt, .. })
