@@ -71,3 +71,17 @@ fn negate_cost_2() {
         -2,
     );
 }
+
+#[test]
+fn negate_cost_3() {
+    assert_negate_cost(
+        "(pvt || (delete cache[id].data, isEmptyDataObject(cache[id]))) && (isNode ? \
+         jQuery.cleanData([
+            elem
+        ], !0) : jQuery.support.deleteExpando || cache != cache.window ? delete cache[id] : \
+         cache[id] = null)",
+        false,
+        true,
+        2,
+    );
+}
