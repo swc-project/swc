@@ -661,13 +661,14 @@ mod tests {
     }
 
     #[test]
+    #[ignore]
     fn negate_cost_3() {
         assert_negate_cost(
-            "jQuery.support.deleteExpando || cache != cache.window ? !delete cache[id] : \
-             !cache[id] = null",
+            "(jQuery.support.deleteExpando || cache != cache.window) ? !(delete cache[id]) : \
+             !(cache[id] = null)",
             false,
             true,
-            -1,
+            -2,
         );
     }
 }
