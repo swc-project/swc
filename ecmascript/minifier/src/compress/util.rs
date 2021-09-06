@@ -641,7 +641,7 @@ mod tests {
     }
 
     #[test]
-    fn logical_1() {
+    fn negate_cost_1() {
         assert_negate_cost(
             "this[key] && !this.hasOwnProperty(key) || (this[key] = value)",
             false,
@@ -651,12 +651,23 @@ mod tests {
     }
 
     #[test]
-    fn logical_2() {
+    fn negate_cost_2() {
         assert_negate_cost(
             "(!this[key] || this.hasOwnProperty(key)) && (this[key] = value)",
             false,
             true,
             -2,
+        );
+    }
+
+    #[test]
+    fn negate_cost_3() {
+        assert_negate_cost(
+            "jQuery.support.deleteExpando || cache != cache.window ? !delete cache[id] : \
+             !cache[id] = null",
+            false,
+            true,
+            -1,
         );
     }
 }
