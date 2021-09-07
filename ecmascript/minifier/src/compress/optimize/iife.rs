@@ -237,14 +237,19 @@ where
                 }
             }
 
+            let ctx = Ctx {
+                in_fn_like: true,
+                ..self.ctx
+            };
+            let mut optimizer = self.with_ctx(ctx);
             match find_body(callee) {
                 Some(Either::Left(body)) => {
                     log::debug!("inline: Inlining arguments");
-                    self.inline_vars_in_node(body, vars);
+                    optimizer.inline_vars_in_node(body, vars);
                 }
                 Some(Either::Right(body)) => {
                     log::debug!("inline: Inlining arguments");
-                    self.inline_vars_in_node(body, vars);
+                    optimizer.inline_vars_in_node(body, vars);
                 }
                 _ => {}
             }
@@ -644,6 +649,7 @@ where
                                 right: decl.init.take().unwrap(),
                             })))
                         }
+                        decl.span = decl.span.apply_mark(self.marks.non_top_level);
                     }
 
                     self.prepend_stmts.push(stmt);
