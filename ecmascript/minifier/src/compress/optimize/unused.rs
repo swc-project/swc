@@ -111,7 +111,7 @@ where
                         if self.ctx.in_top_level() {
                             if cfg!(feature = "debug") {
                                 log::trace!(
-                                    "unused: Preserving `var` `{}` because it's top-level",
+                                    "unused: [X] Preserving `var` `{}` because it's top-level",
                                     dump(&*name)
                                 );
                             }
@@ -122,6 +122,13 @@ where
                 }
                 Some(VarDeclKind::Let) | Some(VarDeclKind::Const) => {
                     if !self.options.top_level() && self.ctx.is_top_level_for_block_level_vars() {
+                        if cfg!(feature = "debug") {
+                            log::trace!(
+                                "unused: [X] Preserving block scoped var `{}` because it's \
+                                 top-level",
+                                dump(&*name)
+                            );
+                        }
                         return;
                     }
                 }
@@ -135,6 +142,12 @@ where
             .and_then(|data| data.scopes.get(&self.ctx.scope))
         {
             if scope.has_eval_call || scope.has_with_stmt {
+                if cfg!(feature = "debug") {
+                    log::trace!(
+                        "unused: [X] Preserving `{}` because of usages",
+                        dump(&*name)
+                    );
+                }
                 return;
             }
         }
