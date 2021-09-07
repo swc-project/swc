@@ -2407,14 +2407,6 @@ where
     }
 
     fn visit_mut_var_declarators(&mut self, vars: &mut Vec<VarDeclarator>) {
-        if let Some(var) = vars.first_mut() {
-            self.drop_unused_var_declarator(var, true);
-        }
-
-        if let Some(var) = vars.last_mut() {
-            self.drop_unused_var_declarator(var, false);
-        }
-
         vars.retain_mut(|var| {
             let had_init = var.init.is_some();
 
@@ -2438,7 +2430,24 @@ where
             }
 
             true
-        })
+        });
+
+        if let Some(var) = vars.first_mut() {
+            self.drop_unused_var_declarator(var, true);
+        }
+
+        if let Some(var) = vars.last_mut() {
+            self.drop_unused_var_declarator(var, false);
+        }
+
+        vars.retain(|var| {
+            if var.name.is_invalid() {
+                self.changed = true;
+                return false;
+            }
+
+            true
+        });
     }
 
     fn visit_mut_while_stmt(&mut self, n: &mut WhileStmt) {
