@@ -239,6 +239,7 @@ where
 
             let ctx = Ctx {
                 in_fn_like: true,
+                top_level: false,
                 ..self.ctx
             };
             let mut optimizer = self.with_ctx(ctx);
