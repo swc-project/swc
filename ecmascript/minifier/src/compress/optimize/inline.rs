@@ -263,9 +263,8 @@ where
                         }
 
                         log::debug!(
-                            "inline: Decided to inline '{}{:?}' because it's used only once",
-                            i.id.sym,
-                            i.id.span.ctxt
+                            "inline: Decided to inline var '{}' because it's used only once",
+                            i.id
                         );
                         self.changed = true;
                         self.state.vars_for_inlining.insert(i.to_id(), init.take());
