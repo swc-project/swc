@@ -2404,11 +2404,17 @@ where
 
         self.store_var_for_inining(var);
         self.store_var_for_prop_hoisting(var);
-
-        self.drop_unused_var_declarator(var);
     }
 
     fn visit_mut_var_declarators(&mut self, vars: &mut Vec<VarDeclarator>) {
+        if let Some(var) = vars.first_mut() {
+            self.drop_unused_var_declarator(var, true);
+        }
+
+        if let Some(var) = vars.last_mut() {
+            self.drop_unused_var_declarator(var, false);
+        }
+
         vars.retain_mut(|var| {
             let had_init = var.init.is_some();
 

@@ -14,7 +14,7 @@ impl<M> Optimizer<'_, M>
 where
     M: Mode,
 {
-    pub(super) fn drop_unused_var_declarator(&mut self, var: &mut VarDeclarator) {
+    pub(super) fn drop_unused_var_declarator(&mut self, var: &mut VarDeclarator, prepend: bool) {
         match &mut var.init {
             Some(init) => match &**init {
                 Expr::Invalid(..) => {
@@ -31,10 +31,17 @@ where
                     if var.name.is_invalid() {
                         let side_effects = self.ignore_return_value(init);
                         if let Some(e) = side_effects {
-                            self.append_stmts.push(Stmt::Expr(ExprStmt {
-                                span: var.span,
-                                expr: Box::new(e),
-                            }))
+                            if prepend {
+                                self.prepend_stmts.push(Stmt::Expr(ExprStmt {
+                                    span: var.span,
+                                    expr: Box::new(e),
+                                }))
+                            } else {
+                                self.append_stmts.push(Stmt::Expr(ExprStmt {
+                                    span: var.span,
+                                    expr: Box::new(e),
+                                }))
+                            }
                         }
                     }
                 }
