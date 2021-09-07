@@ -2432,12 +2432,24 @@ where
             true
         });
 
-        if let Some(var) = vars.first_mut() {
-            self.drop_unused_var_declarator(var, true);
+        for idx in 0..vars.len() {
+            let v = &mut vars[idx];
+            self.drop_unused_var_declarator(v, true);
+            if v.name.is_invalid() {
+                continue;
+            }
+
+            break;
         }
 
-        if let Some(var) = vars.last_mut() {
-            self.drop_unused_var_declarator(var, false);
+        for idx in (0..vars.len()).rev() {
+            let v = &mut vars[idx];
+            self.drop_unused_var_declarator(v, false);
+            if v.name.is_invalid() {
+                continue;
+            }
+
+            break;
         }
 
         vars.retain(|var| {

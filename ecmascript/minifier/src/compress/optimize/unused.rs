@@ -41,10 +41,13 @@ where
                                     expr: Box::new(e),
                                 }))
                             } else {
-                                self.append_stmts.push(Stmt::Expr(ExprStmt {
-                                    span: var.span,
-                                    expr: Box::new(e),
-                                }))
+                                self.append_stmts.insert(
+                                    0,
+                                    Stmt::Expr(ExprStmt {
+                                        span: var.span,
+                                        expr: Box::new(e),
+                                    }),
+                                )
                             }
                         }
                     }
