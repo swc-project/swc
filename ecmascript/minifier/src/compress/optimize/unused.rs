@@ -105,7 +105,7 @@ where
             match self.ctx.var_kind {
                 Some(VarDeclKind::Var) => {
                     if !self.options.top_level() && self.options.top_retain.is_empty() {
-                        if self.ctx.in_top_level() && !has_mark {
+                        if self.ctx.in_top_level() {
                             if cfg!(feature = "debug") {
                                 log::trace!(
                                     "unused: Preserving `var` `{}` because it's top-level",
