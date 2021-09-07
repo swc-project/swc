@@ -15,6 +15,10 @@ where
     M: Mode,
 {
     pub(super) fn drop_unused_var_declarator(&mut self, var: &mut VarDeclarator, prepend: bool) {
+        if var.name.is_invalid() {
+            return;
+        }
+
         match &mut var.init {
             Some(init) => match &**init {
                 Expr::Invalid(..) => {

@@ -2418,6 +2418,11 @@ where
         vars.retain_mut(|var| {
             let had_init = var.init.is_some();
 
+            if var.name.is_invalid() {
+                self.changed = true;
+                return false;
+            }
+
             var.visit_mut_with(self);
 
             if var.name.is_invalid() {
