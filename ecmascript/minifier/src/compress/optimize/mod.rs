@@ -2434,6 +2434,17 @@ where
 
         for idx in 0..vars.len() {
             let v = &mut vars[idx];
+            if v.init
+                .as_deref()
+                .map(|e| !e.may_have_side_effects())
+                .unwrap_or(true)
+            {
+                self.drop_unused_var_declarator(v, true);
+            }
+        }
+
+        for idx in 0..vars.len() {
+            let v = &mut vars[idx];
             self.drop_unused_var_declarator(v, true);
             if v.name.is_invalid() {
                 continue;
