@@ -104,16 +104,17 @@ where
         if !has_mark {
             match self.ctx.var_kind {
                 Some(VarDeclKind::Var) => {
-                    if (!self.options.top_level() && self.options.top_retain.is_empty())
-                        && self.ctx.in_top_level()
-                    {
-                        if cfg!(feature = "debug") {
-                            log::trace!(
-                                "unused: Preserving `var` `{}` because it's top-level",
-                                dump(&*name)
-                            );
+                    if !self.options.top_level() && self.options.top_retain.is_empty() {
+                        if self.ctx.in_top_level() && !has_mark {
+                            if cfg!(feature = "debug") {
+                                log::trace!(
+                                    "unused: Preserving `var` `{}` because it's top-level",
+                                    dump(&*name)
+                                );
+                            }
+
+                            return;
                         }
-                        return;
                     }
                 }
                 Some(VarDeclKind::Let) | Some(VarDeclKind::Const) => {
