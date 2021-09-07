@@ -2458,6 +2458,10 @@ where
                 return false;
             }
 
+            if let Some(Expr::Invalid(..)) = var.init.as_deref() {
+                return false;
+            }
+
             true
         });
     }
