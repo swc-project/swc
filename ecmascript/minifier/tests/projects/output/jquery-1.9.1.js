@@ -691,7 +691,14 @@
         },
         attr: function(elem, name, value) {
             var hooks, notxml, ret, nType = elem.nodeType;
-            if (elem && 3 !== nType && 8 !== nType && 2 !== nType) return void 0 === elem.getAttribute ? jQuery.prop(elem, name, value) : ((notxml = 1 !== nType || !jQuery.isXMLDoc(elem)) && (name = name.toLowerCase(), hooks = jQuery.attrHooks[name] || (rboolean.test(name) ? boolHook : nodeHook)), value !== undefined) ? null === value ? void jQuery.removeAttr(elem, name) : hooks && notxml && "set" in hooks && undefined !== (ret = hooks.set(elem, value, name)) ? ret : (elem.setAttribute(name, value + ""), value) : hooks && notxml && "get" in hooks && null !== (ret = hooks.get(elem, name)) ? ret : (void 0 !== elem.getAttribute && (ret = elem.getAttribute(name)), null == ret ? undefined : ret);
+            if (elem && 3 !== nType && 8 !== nType && 2 !== nType) {
+                if (void 0 === elem.getAttribute) return jQuery.prop(elem, name, value);
+                if ((notxml = 1 !== nType || !jQuery.isXMLDoc(elem)) && (name = name.toLowerCase(), hooks = jQuery.attrHooks[name] || (rboolean.test(name) ? boolHook : nodeHook)), value !== undefined) if (null === value) jQuery.removeAttr(elem, name);
+                else if (hooks && notxml && "set" in hooks && undefined !== (ret = hooks.set(elem, value, name))) return ret;
+                else return elem.setAttribute(name, value + ""), value;
+                else if (hooks && notxml && "get" in hooks && null !== (ret = hooks.get(elem, name))) return ret;
+                else return void 0 !== elem.getAttribute && (ret = elem.getAttribute(name)), null == ret ? undefined : ret;
+            }
         },
         removeAttr: function(elem, value) {
             var name, propName, i = 0, attrNames = value && value.match(core_rnotwhite);
@@ -1084,11 +1091,13 @@
                 for(type in "string" != typeof selector && (data = data || selector, selector = undefined), types)this.on(type, selector, data, types[type], one);
                 return this;
             }
-            return (null == data && null == fn ? (fn = selector, data = selector = undefined) : null == fn && ("string" == typeof selector ? (fn = data, data = undefined) : (fn = data, data = selector, selector = undefined)), !1 === fn) ? void (fn = returnFalse) : fn ? (1 === one && ((fn = function(event) {
+            if (null == data && null == fn ? (fn = selector, data = selector = undefined) : null == fn && ("string" == typeof selector ? (fn = data, data = undefined) : (fn = data, data = selector, selector = undefined)), !1 === fn) fn = returnFalse;
+            else if (!fn) return this;
+            return 1 === one && ((fn = function(event) {
                 return jQuery().off(event), (origFn = fn).apply(this, arguments);
             }).guid = origFn.guid || (origFn.guid = jQuery.guid++)), this.each(function() {
                 jQuery.event.add(this, types, fn, data, selector);
-            })) : this;
+            });
         },
         one: function(types, selector, data, fn) {
             return this.on(types, selector, data, fn, 1);
@@ -1449,7 +1458,7 @@
                                 dirruns,
                                 diff
                             ]), node !== elem)););
-                            return diff -= last, diff === first || diff % first == 0 && diff / first >= 0;
+                            return (diff -= last) === first || diff % first == 0 && diff / first >= 0;
                         }
                     };
                 },

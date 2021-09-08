@@ -2,7 +2,7 @@
     "use strict";
     function minErr(module) {
         return function() {
-            var obj, message, i, code = arguments[0], template = arguments[1], templateArgs = arguments;
+            var message, i, obj, code = arguments[0], template = arguments[1], templateArgs = arguments;
             for(i = 2, message = (message = "[" + (module ? module + ":" : "") + code + "] " + template.replace(/\{\d+\}/g, function(match) {
                 var arg, index = +match.slice(1, -1);
                 return index + 2 < templateArgs.length ? "function" == typeof (arg = templateArgs[index + 2]) ? arg.toString().replace(/ ?\{[\s\S]*$/, "") : void 0 === arg ? "undefined" : "string" != typeof arg ? toJson(arg) : arg : match;
@@ -14,7 +14,7 @@
         return isString(string) ? string.toLowerCase() : string;
     }, uppercase = function(string) {
         return isString(string) ? string.toUpperCase() : string;
-    }, slice = [].slice, push = [].push, toString = Object.prototype.toString, ngMinErr = minErr("ng"), angular = window.angular || (window.angular = {
+    }, slice = [].slice, push = [].push, toString = Object.prototype.toString, ngMinErr = minErr("ng"), _angular = window.angular, angular = window.angular || (window.angular = {
     }), uid = [
         "0",
         "0",
@@ -114,7 +114,7 @@
     function isScope(obj) {
         return obj && obj.$evalAsync && obj.$watch;
     }
-    window.angular, isNaN(msie = int((/msie (\d+)/.exec(lowercase(navigator.userAgent)) || [])[1])) && (msie = int((/trident\/.*; rv:(\d+)/.exec(lowercase(navigator.userAgent)) || [])[1])), noop.$inject = [], identity.$inject = [];
+    isNaN(msie = int((/msie (\d+)/.exec(lowercase(navigator.userAgent)) || [])[1])) && (msie = int((/trident\/.*; rv:(\d+)/.exec(lowercase(navigator.userAgent)) || [])[1])), noop.$inject = [], identity.$inject = [];
     var trim = String.prototype.trim ? function(value) {
         return isString(value) ? value.trim() : value;
     } : function(value) {
@@ -399,8 +399,12 @@
     function jqLiteData(element, key, value) {
         var data = jqLiteExpandoStore(element, "data"), isSetter = isDefined(value), keyDefined = !isSetter && isDefined(key), isSimpleGetter = keyDefined && !isObject(key);
         if (data || isSimpleGetter || jqLiteExpandoStore(element, "data", data = {
-        }), !isSetter) return keyDefined ? isSimpleGetter ? data && data[key] : void extend(data, key) : data;
-        data[key] = value;
+        }), isSetter) data[key] = value;
+        else {
+            if (!keyDefined) return data;
+            if (isSimpleGetter) return data && data[key];
+            extend(data, key);
+        }
     }
     function jqLiteHasClass(element, selector) {
         return !!element.getAttribute && (" " + (element.getAttribute("class") || "") + " ").replace(/[\n\t]/g, " ").indexOf(" " + selector + " ") > -1;

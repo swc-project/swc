@@ -917,14 +917,20 @@
         },
         popstate: function(event) {
             var hash, state;
-            if ($5.event.special.navigate.isPushStateEnabled()) return this.preventHashAssignPopState ? (this.preventHashAssignPopState = !1, void event.stopImmediatePropagation()) : this.ignorePopState ? void (this.ignorePopState = !1) : !event.originalEvent.state && 1 === this.history.stack.length && this.ignoreInitialHashChange && (this.ignoreInitialHashChange = !1, location.href === initialHref) ? void event.preventDefault() : (hash = path1.parseLocation().hash, !event.originalEvent.state && hash) ? (state = this.squash(hash), this.history.add(state.url, state), void (event.historyState = state)) : void this.history.direct({
-                url: (event.originalEvent.state || {
-                }).url || hash,
-                present: function(historyEntry, direction) {
-                    event.historyState = $5.extend({
-                    }, historyEntry), event.historyState.direction = direction;
-                }
-            });
+            if ($5.event.special.navigate.isPushStateEnabled()) {
+                if (this.preventHashAssignPopState) return this.preventHashAssignPopState = !1, void event.stopImmediatePropagation();
+                if (this.ignorePopState) return void (this.ignorePopState = !1);
+                if (!event.originalEvent.state && 1 === this.history.stack.length && this.ignoreInitialHashChange && (this.ignoreInitialHashChange = !1, location.href === initialHref)) return void event.preventDefault();
+                if (hash = path1.parseLocation().hash, !event.originalEvent.state && hash) return state = this.squash(hash), this.history.add(state.url, state), void (event.historyState = state);
+                this.history.direct({
+                    url: (event.originalEvent.state || {
+                    }).url || hash,
+                    present: function(historyEntry, direction) {
+                        event.historyState = $5.extend({
+                        }, historyEntry), event.historyState.direction = direction;
+                    }
+                });
+            }
         },
         hashchange: function(event) {
             var history, hash;
@@ -1718,8 +1724,10 @@
             }), $.mobile.document.bind("vclick", function(event) {
                 var $btn, btnEls, target = event.target, needClosest = !1;
                 if (!(event.which > 1) && $.mobile.linkBindingEnabled) {
-                    if ($lastVClicked = $(target), $.data(target, "mobile-button")) !!getAjaxFormData($(target).closest("form"), !0) && target.parentNode && (target = target.parentNode);
-                    else {
+                    if ($lastVClicked = $(target), $.data(target, "mobile-button")) {
+                        if (!getAjaxFormData($(target).closest("form"), !0)) return;
+                        target.parentNode && (target = target.parentNode);
+                    } else {
                         if (!((target = findClosestLink(target)) && "#" !== $.mobile.path.parseUrl(target.getAttribute("href") || "#").hash)) return;
                         if (!$(target).jqmHijackable().length) return;
                     }
@@ -2602,13 +2610,17 @@
                 this.refresh(undefined, !1, !0);
             },
             refresh: function(val, isfromControl, preventInputUpdate) {
-                var bg, left, width, data, pxStep, percent, control, isInput, optionElements, min, max, step, newval, valModStep, alignValue, percentPerStep, handlePercent, aPercent, bPercent, valueChanged, parentTheme = $.mobile.getAttribute(this.element[0], "theme"), theme = this.options.theme || parentTheme, trackTheme = this.options.trackTheme || parentTheme, cornerClass = this.options.corners ? " ui-corner-all" : "", miniClass = this.options.mini ? " ui-mini" : "";
+                var bg, left, width, data, tol, pxStep, percent, control, isInput, optionElements, min, max, step, newval, valModStep, alignValue, percentPerStep, handlePercent, aPercent, bPercent, valueChanged, parentTheme = $.mobile.getAttribute(this.element[0], "theme"), theme = this.options.theme || parentTheme, trackTheme = this.options.trackTheme || parentTheme, cornerClass = this.options.corners ? " ui-corner-all" : "", miniClass = this.options.mini ? " ui-mini" : "";
                 if (this.slider[0].className = [
                     this.isToggleSwitch ? "ui-slider ui-slider-switch ui-slider-track ui-shadow-inset" : "ui-slider-track ui-shadow-inset",
                     trackTheme ? " ui-bar-" + trackTheme : " ui-bar-inherit",
                     cornerClass,
                     miniClass
-                ].join(""), (this.options.disabled || this.element.prop("disabled")) && this.disable(), this.value = this._value(), this.options.highlight && !this.isToggleSwitch && 0 === this.slider.find(".ui-slider-bg").length && (this.valuebg = ((bg = document.createElement("div")).className = "ui-slider-bg " + $.mobile.activeBtnClass, $(bg).prependTo(this.slider))), (this.handle.addClass("ui-btn" + (theme ? " ui-btn-" + theme : "") + " ui-shadow"), control = this.element, optionElements = (isInput = !this.isToggleSwitch) ? [] : control.find("option"), min = isInput ? parseFloat(control.attr("min")) : 0, max = isInput ? parseFloat(control.attr("max")) : optionElements.length - 1, step = isInput && parseFloat(control.attr("step")) > 0 ? parseFloat(control.attr("step")) : 1, "object" == typeof val) ? (data = val, left = this.slider.offset().left, pxStep = (width = this.slider.width()) / ((max - min) / step), !this.dragging || data.pageX < left - 8 || data.pageX > left + width + 8 || (percent = pxStep > 1 ? (data.pageX - left) / width * 100 : Math.round((data.pageX - left) / width * 100))) : (null == val && (val = isInput ? parseFloat(control.val() || 0) : control[0].selectedIndex), percent = (parseFloat(val) - min) / (max - min) * 100), !isNaN(percent) && (alignValue = newval - (valModStep = ((newval = percent / 100 * (max - min) + min) - min) % step), 2 * Math.abs(valModStep) >= step && (alignValue += valModStep > 0 ? step : -step), percentPerStep = 100 / ((max - min) / step), newval = parseFloat(alignValue.toFixed(5)), void 0 === pxStep && (pxStep = width / ((max - min) / step)), pxStep > 1 && isInput && (percent = (newval - min) * percentPerStep * (1 / step)), percent < 0 && (percent = 0), percent > 100 && (percent = 100), newval < min && (newval = min), newval > max && (newval = max), this.handle.css("left", percent + "%"), this.handle[0].setAttribute("aria-valuenow", isInput ? newval : optionElements.eq(newval).attr("value")), this.handle[0].setAttribute("aria-valuetext", isInput ? newval : optionElements.eq(newval).getEncodedText()), this.handle[0].setAttribute("title", isInput ? newval : optionElements.eq(newval).getEncodedText()), this.valuebg && this.valuebg.css("width", percent + "%"), this._labels && (handlePercent = this.handle.width() / this.slider.width() * 100, aPercent = percent && handlePercent + (100 - handlePercent) * percent / 100, bPercent = 100 === percent ? 0 : Math.min(handlePercent + 100 - aPercent, 100), this._labels.each(function() {
+                ].join(""), (this.options.disabled || this.element.prop("disabled")) && this.disable(), this.value = this._value(), this.options.highlight && !this.isToggleSwitch && 0 === this.slider.find(".ui-slider-bg").length && (this.valuebg = ((bg = document.createElement("div")).className = "ui-slider-bg " + $.mobile.activeBtnClass, $(bg).prependTo(this.slider))), this.handle.addClass("ui-btn" + (theme ? " ui-btn-" + theme : "") + " ui-shadow"), control = this.element, optionElements = (isInput = !this.isToggleSwitch) ? [] : control.find("option"), min = isInput ? parseFloat(control.attr("min")) : 0, max = isInput ? parseFloat(control.attr("max")) : optionElements.length - 1, step = isInput && parseFloat(control.attr("step")) > 0 ? parseFloat(control.attr("step")) : 1, "object" == typeof val) {
+                    if (data = val, tol = 8, left = this.slider.offset().left, pxStep = (width = this.slider.width()) / ((max - min) / step), !this.dragging || data.pageX < left - tol || data.pageX > left + width + tol) return;
+                    percent = pxStep > 1 ? (data.pageX - left) / width * 100 : Math.round((data.pageX - left) / width * 100);
+                } else null == val && (val = isInput ? parseFloat(control.val() || 0) : control[0].selectedIndex), percent = (parseFloat(val) - min) / (max - min) * 100;
+                if (!isNaN(percent) && (alignValue = newval - (valModStep = ((newval = percent / 100 * (max - min) + min) - min) % step), 2 * Math.abs(valModStep) >= step && (alignValue += valModStep > 0 ? step : -step), percentPerStep = 100 / ((max - min) / step), newval = parseFloat(alignValue.toFixed(5)), void 0 === pxStep && (pxStep = width / ((max - min) / step)), pxStep > 1 && isInput && (percent = (newval - min) * percentPerStep * (1 / step)), percent < 0 && (percent = 0), percent > 100 && (percent = 100), newval < min && (newval = min), newval > max && (newval = max), this.handle.css("left", percent + "%"), this.handle[0].setAttribute("aria-valuenow", isInput ? newval : optionElements.eq(newval).attr("value")), this.handle[0].setAttribute("aria-valuetext", isInput ? newval : optionElements.eq(newval).getEncodedText()), this.handle[0].setAttribute("title", isInput ? newval : optionElements.eq(newval).getEncodedText()), this.valuebg && this.valuebg.css("width", percent + "%"), this._labels && (handlePercent = this.handle.width() / this.slider.width() * 100, aPercent = percent && handlePercent + (100 - handlePercent) * percent / 100, bPercent = 100 === percent ? 0 : Math.min(handlePercent + 100 - aPercent, 100), this._labels.each(function() {
                     var ab = $(this).hasClass("ui-slider-label-a");
                     $(this).width((ab ? aPercent : bPercent) + "%");
                 })), !preventInputUpdate)) {
@@ -3509,7 +3521,7 @@
                 });
             },
             close: function() {
-                this.options.disabled || !this.isOpen || ("page" === this.menuType ? (this.menuPage.dialog("close"), this.list.appendTo(this.listbox)) : this.listbox.popup("close"), this._focusButton(), this.isOpen = !1);
+                !this.options.disabled && this.isOpen && ("page" === this.menuType ? (this.menuPage.dialog("close"), this.list.appendTo(this.listbox)) : this.listbox.popup("close"), this._focusButton(), this.isOpen = !1);
             },
             open: function() {
                 this.button.click();
@@ -4339,11 +4351,14 @@
             },
             _onKeyUp: function() {
                 var val, lastval, search = this._search;
-                !search || (val = search.val().toLowerCase(), (lastval = $.mobile.getAttribute(search[0], "lastval") + "") && lastval === val || (this._timer && (window.clearTimeout(this._timer), this._timer = 0), this._timer = this._delay(function() {
-                    this._trigger("beforefilter", null, {
-                        input: search
-                    }), search[0].setAttribute("data-" + $.mobile.ns + "lastval", val), this._filterItems(val), this._timer = 0;
-                }, 250)));
+                if (search) {
+                    if (val = search.val().toLowerCase(), (lastval = $.mobile.getAttribute(search[0], "lastval") + "") && lastval === val) return;
+                    this._timer && (window.clearTimeout(this._timer), this._timer = 0), this._timer = this._delay(function() {
+                        this._trigger("beforefilter", null, {
+                            input: search
+                        }), search[0].setAttribute("data-" + $.mobile.ns + "lastval", val), this._filterItems(val), this._timer = 0;
+                    }, 250);
+                }
             },
             _getFilterableItems: function() {
                 var children = this.options.children, items = children ? $.isFunction(children) ? children() : children.nodeName ? $(children) : children.jquery ? children : this.element.find(children) : {
@@ -4431,9 +4446,13 @@
         _setInput: function(selector) {
             var opts = this.options, updatePlaceholder = !0, textinputOpts = {
             };
-            selector || !this._isSearchInternal() && (updatePlaceholder = !1, selector = $16("<input data-" + $16.mobile.ns + "type='search' placeholder='" + opts.filterPlaceholder + "'></input>").jqmData("ui-filterable-" + this.uuid + "-internal", !0), $16("<form class='ui-filterable'></form>").append(selector).submit(function(evt) {
-                evt.preventDefault(), selector.blur();
-            }).insertBefore(this.element), $16.mobile.textinput && (null != this.options.filterTheme && (textinputOpts.theme = opts.filterTheme), selector.textinput(textinputOpts))), this._super(selector), this._isSearchInternal() && updatePlaceholder && this._search.attr("placeholder", this.options.filterPlaceholder);
+            if (!selector) {
+                if (this._isSearchInternal()) return;
+                updatePlaceholder = !1, selector = $16("<input data-" + $16.mobile.ns + "type='search' placeholder='" + opts.filterPlaceholder + "'></input>").jqmData("ui-filterable-" + this.uuid + "-internal", !0), $16("<form class='ui-filterable'></form>").append(selector).submit(function(evt) {
+                    evt.preventDefault(), selector.blur();
+                }).insertBefore(this.element), $16.mobile.textinput && (null != this.options.filterTheme && (textinputOpts.theme = opts.filterTheme), selector.textinput(textinputOpts));
+            }
+            this._super(selector), this._isSearchInternal() && updatePlaceholder && this._search.attr("placeholder", this.options.filterPlaceholder);
         },
         _setOptions: function(options) {
             var ret = this._super(options);

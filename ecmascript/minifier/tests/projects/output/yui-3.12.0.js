@@ -417,7 +417,7 @@ var YUI = function() {
         return Native.indexOf.call(array, value, from);
     } : function(array, value, from) {
         var len = array.length;
-        for((from = ((from = +from || 0) > 0 || -1) * Math.floor(Math.abs(from))) < 0 && (from += len, from < 0 && (from = 0)); from < len; ++from)if (from in array && array[from] === value) return from;
+        for((from = ((from = +from || 0) > 0 || -1) * Math.floor(Math.abs(from))) < 0 && (from += len) < 0 && (from = 0); from < len; ++from)if (from in array && array[from] === value) return from;
         return -1;
     }, YArray.numericSort = function(a, b) {
         return a - b;
