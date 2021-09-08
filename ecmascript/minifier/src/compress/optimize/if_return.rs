@@ -202,19 +202,22 @@ where
         }
     }
 
+    fn merge_if_return_2(&mut self, stmts: &mut Vec<Stmt>) {}
+
     fn merge_nested_if_returns(&mut self, s: &mut Stmt, terminate: bool) {
         match s {
             Stmt::Block(s) => {
-                let terminate = terminate && s.stmts.iter().any(|stmt| always_terminates(stmt));
+                let terminate = terminate || s.stmts.iter().any(|stmt| always_terminates(stmt));
 
                 if terminate {
                     self.merge_if_returns(&mut s.stmts)
                 }
             }
             Stmt::If(s) => {
-                let term_cons =
+                let terminate =
                     terminate || s.alt.as_deref().map(always_terminates).unwrap_or(false);
-                self.merge_nested_if_returns(&mut s.cons, term_cons);
+                let cons_term = always_terminates(&s.cons);
+                self.merge_nested_if_returns(&mut s.cons, terminate && cons_term);
 
                 if let Some(alt) = &mut s.alt {
                     self.merge_nested_if_returns(&mut **alt, terminate);
@@ -250,13 +253,14 @@ where
         }
 
         let is_nested = self.ctx.is_nested_if_return_merging;
+        let terminate = stmts.iter().any(|stmt| always_terminates(stmt));
 
         for stmt in stmts.iter_mut() {
             let ctx = Ctx {
                 is_nested_if_return_merging: true,
                 ..self.ctx
             };
-            self.with_ctx(ctx).merge_nested_if_returns(stmt, !is_nested);
+            self.with_ctx(ctx).merge_nested_if_returns(stmt, terminate);
         }
 
         if stmts.len() <= 1 {
