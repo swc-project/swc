@@ -596,9 +596,9 @@ where
         }
     }
 
-    fn can_merge_stmt_as_if_return(&self, s: &Stmt, is_last: bool) -> bool {
+    fn can_merge_stmt_as_if_return(&self, s: &Stmt, _is_last: bool) -> bool {
         let res = match s {
-            Stmt::Expr(..) => is_last,
+            Stmt::Expr(..) => true,
             Stmt::Return(..) => true,
             Stmt::Block(s) => {
                 s.stmts.len() == 1 && self.can_merge_stmt_as_if_return(&s.stmts[0], false)
