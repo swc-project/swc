@@ -1,6 +1,9 @@
 use super::Optimizer;
 use crate::{
-    compress::{optimize::Ctx, util::is_pure_undefined},
+    compress::{
+        optimize::Ctx,
+        util::{always_terminates, is_pure_undefined},
+    },
     debug::dump,
     mode::Mode,
     util::ExprOptExt,
@@ -199,14 +202,22 @@ where
         }
     }
 
-    fn merge_nested_if_returns(&mut self, s: &mut Stmt) {
+    fn merge_nested_if_returns(&mut self, s: &mut Stmt, terminate: bool) {
         match s {
-            Stmt::Block(s) => self.merge_if_returns(&mut s.stmts),
+            Stmt::Block(s) => {
+                let terminate = terminate && s.stmts.iter().any(|stmt| always_terminates(stmt));
+
+                if terminate {
+                    self.merge_if_returns(&mut s.stmts)
+                }
+            }
             Stmt::If(s) => {
-                self.merge_nested_if_returns(&mut s.cons);
+                let term_cons =
+                    terminate || s.alt.as_deref().map(always_terminates).unwrap_or(false);
+                self.merge_nested_if_returns(&mut s.cons, term_cons);
 
                 if let Some(alt) = &mut s.alt {
-                    self.merge_nested_if_returns(&mut **alt);
+                    self.merge_nested_if_returns(&mut **alt, terminate);
                 }
             }
             _ => {}
@@ -238,12 +249,14 @@ where
             return;
         }
 
+        let is_nested = self.ctx.is_nested_if_return_merging;
+
         for stmt in stmts.iter_mut() {
             let ctx = Ctx {
                 is_nested_if_return_merging: true,
                 ..self.ctx
             };
-            self.with_ctx(ctx).merge_nested_if_returns(stmt)
+            self.with_ctx(ctx).merge_nested_if_returns(stmt, !is_nested);
         }
 
         if stmts.len() <= 1 {
