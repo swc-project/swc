@@ -1,0 +1,3 @@
+:global(.foo + a) {
+    color: red;
+}
