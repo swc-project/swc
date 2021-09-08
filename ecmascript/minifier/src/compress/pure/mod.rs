@@ -243,6 +243,12 @@ where
         self.lift_seqs_of_cond_assign(e);
     }
 
+    fn visit_mut_expr_stmt(&mut self, s: &mut ExprStmt) {
+        s.visit_mut_children_with(self);
+
+        self.ignore_return_value(&mut s.expr);
+    }
+
     fn visit_mut_exprs(&mut self, exprs: &mut Vec<Box<Expr>>) {
         self.visit_par(exprs);
     }

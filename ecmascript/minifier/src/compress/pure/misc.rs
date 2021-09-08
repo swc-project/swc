@@ -26,4 +26,6 @@ where
             stmts.pop();
         }
     }
+
+    pub(super) fn ignore_return_value(&mut self, e: &mut Expr) {}
 }
