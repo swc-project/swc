@@ -280,10 +280,14 @@ where
             return;
         }
 
-        let idx_of_not_mergable = stmts.iter().rposition(|stmt| match stmt.as_stmt() {
-            Some(v) => !self.can_merge_stmt_as_if_return(v),
-            None => true,
-        });
+        let idx_of_not_mergable =
+            stmts
+                .iter()
+                .enumerate()
+                .rposition(|(idx, stmt)| match stmt.as_stmt() {
+                    Some(v) => !self.can_merge_stmt_as_if_return(v, stmts.len() - 1 == idx),
+                    None => true,
+                });
         let skip = idx_of_not_mergable.map(|v| v + 1).unwrap_or(0);
         log::trace!("if_return: Skip = {}", skip);
 
@@ -354,9 +358,10 @@ where
         {
             let start = stmts
                 .iter()
+                .enumerate()
                 .skip(skip)
-                .position(|stmt| match stmt.as_stmt() {
-                    Some(v) => self.can_merge_stmt_as_if_return(v),
+                .position(|(idx, stmt)| match stmt.as_stmt() {
+                    Some(v) => self.can_merge_stmt_as_if_return(v, stmts.len() - 1 == idx),
                     None => false,
                 })
                 .unwrap_or(0);
@@ -369,7 +374,7 @@ where
                     {
                         false
                     }
-                    Some(s) => self.can_merge_stmt_as_if_return(s),
+                    Some(s) => self.can_merge_stmt_as_if_return(s, true),
                     _ => false,
                 })
                 .unwrap();
@@ -378,10 +383,15 @@ where
                 return;
             }
 
-            let can_merge = stmts.iter().skip(skip).all(|stmt| match stmt.as_stmt() {
-                Some(s) => self.can_merge_stmt_as_if_return(s),
-                _ => false,
-            });
+            let can_merge =
+                stmts
+                    .iter()
+                    .enumerate()
+                    .skip(skip)
+                    .all(|(idx, stmt)| match stmt.as_stmt() {
+                        Some(s) => self.can_merge_stmt_as_if_return(s, stmts.len() - 1 == idx),
+                        _ => false,
+                    });
             if !can_merge {
                 return;
             }
@@ -400,6 +410,8 @@ where
         let mut cur: Option<Box<Expr>> = None;
         let mut new = Vec::with_capacity(stmts.len());
 
+        let len = stmts.len();
+
         for (idx, stmt) in stmts.take().into_iter().enumerate() {
             if let Some(not_mergable) = idx_of_not_mergable {
                 if idx < not_mergable {
@@ -408,7 +420,7 @@ where
                 }
             }
 
-            let stmt = if !self.can_merge_stmt_as_if_return(&stmt) {
+            let stmt = if !self.can_merge_stmt_as_if_return(&stmt, len - 1 == idx) {
                 debug_assert_eq!(cur, None);
                 new.push(stmt);
                 continue;
@@ -584,16 +596,19 @@ where
         }
     }
 
-    fn can_merge_stmt_as_if_return(&self, s: &Stmt) -> bool {
+    fn can_merge_stmt_as_if_return(&self, s: &Stmt, is_last: bool) -> bool {
         let res = match s {
-            Stmt::Expr(..) | Stmt::Return(..) => true,
-            Stmt::Block(s) => s.stmts.len() == 1 && self.can_merge_stmt_as_if_return(&s.stmts[0]),
+            Stmt::Expr(..) => is_last,
+            Stmt::Return(..) => true,
+            Stmt::Block(s) => {
+                s.stmts.len() == 1 && self.can_merge_stmt_as_if_return(&s.stmts[0], false)
+            }
             Stmt::If(stmt) => {
-                self.can_merge_stmt_as_if_return(&stmt.cons)
+                self.can_merge_stmt_as_if_return(&stmt.cons, false)
                     && stmt
                         .alt
                         .as_deref()
-                        .map(|s| self.can_merge_stmt_as_if_return(s))
+                        .map(|s| self.can_merge_stmt_as_if_return(s, false))
                         .unwrap_or(true)
             }
             _ => false,
