@@ -65,6 +65,7 @@ fn negate_cost_1() {
 }
 
 #[test]
+#[ignore]
 fn negate_cost_2() {
     assert_negate_cost(
         "(!this[key] || this.hasOwnProperty(key)) && (this[key] = value)",
@@ -89,6 +90,7 @@ fn negate_cost_3() {
 }
 
 #[test]
+#[ignore]
 fn negate_cost_4() {
     // "(!force && !this._isRebuildRequired()) && !self._buildList()",
     assert_negate_cost(
