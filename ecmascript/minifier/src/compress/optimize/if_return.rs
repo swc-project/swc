@@ -621,12 +621,11 @@ where
                 s.stmts.len() == 1 && self.can_merge_stmt_as_if_return(&s.stmts[0], false)
             }
             Stmt::If(stmt) => {
-                self.can_merge_stmt_as_if_return(&stmt.cons, false)
-                    && stmt
-                        .alt
-                        .as_deref()
-                        .map(|s| self.can_merge_stmt_as_if_return(s, false))
-                        .unwrap_or(true)
+                matches!(&*stmt.cons, Stmt::Return(..))
+                    && matches!(
+                        stmt.alt.as_deref(),
+                        None | Some(Stmt::Return(..) | Stmt::Expr(..))
+                    )
             }
             _ => false,
         };
