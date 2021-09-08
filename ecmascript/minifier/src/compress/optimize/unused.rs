@@ -191,6 +191,9 @@ where
                 if !parent_span.has_mark(self.marks.non_top_level)
                     && self.options.top_retain.contains(&i.id.sym)
                 {
+                    if cfg!(feature = "debug") {
+                        log::trace!("unused: [X] Top-retain")
+                    }
                     return;
                 }
 
