@@ -46,15 +46,17 @@ where
                 return;
             }
 
-            for s in stmts.iter_mut() {
-                match s {
-                    Stmt::If(s) => match &mut *s.cons {
-                        Stmt::Block(cons) => {
-                            self.negate_if_terminate(&mut cons.stmts, true, false);
-                        }
+            if stmts.len() == 1 {
+                for s in stmts.iter_mut() {
+                    match s {
+                        Stmt::If(s) => match &mut *s.cons {
+                            Stmt::Block(cons) => {
+                                self.negate_if_terminate(&mut cons.stmts, true, false);
+                            }
+                            _ => {}
+                        },
                         _ => {}
-                    },
-                    _ => {}
+                    }
                 }
             }
         }
@@ -212,8 +214,6 @@ where
             return;
         }
 
-        dbg!("merge_if_returns", can_work);
-
         for stmt in stmts.iter_mut() {
             self.merge_nested_if_returns(stmt, can_work);
         }
@@ -242,8 +242,6 @@ where
 
     fn merge_nested_if_returns(&mut self, s: &mut Stmt, can_work: bool) {
         let terminate = always_terminates(&*s);
-
-        dbg!("merge_nested_if_returns", terminate, can_work, &*s);
 
         match s {
             Stmt::Block(s) => {
