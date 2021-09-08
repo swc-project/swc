@@ -835,6 +835,12 @@ impl<'a> Emitter<'a> {
                     ) => false,
 
                     (_, Expr::Update(UpdateExpr { prefix: true, .. }) | Expr::Unary(..)) => true,
+
+                    (_, Expr::Bin(BinExpr { left, .. })) => match &**left {
+                        Expr::Update(UpdateExpr { prefix: true, .. }) | Expr::Unary(..) => true,
+                        _ => false,
+                    },
+
                     _ => false,
                 }
             }

@@ -655,5 +655,5 @@ impl Write for Buf {
 
 #[test]
 fn issue_2213() {
-    assert_min("a - -b * c", "a- -b*c;")
+    assert_min("a - -b * c", "a- -b*c")
 }
