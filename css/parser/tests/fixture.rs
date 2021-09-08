@@ -11,6 +11,35 @@ use swc_css_visit::{Visit, VisitWith};
 use testing::NormalizedOutput;
 
 #[testing::fixture("tests/fixture/**/input.css")]
+fn tokens_input(input: PathBuf) {
+    eprintln!("Input: {}", input.display());
+
+    testing::run_test2(false, |cm, _handler| {
+        let fm = cm.load_file(&input).unwrap();
+
+        let tokens = {
+            let mut lexer = Lexer::new(SourceFileInput::from(&*fm));
+
+            let mut tokens = vec![];
+
+            while let Ok(t) = lexer.next() {
+                tokens.push(t);
+            }
+            Tokens {
+                span: Span::new(fm.start_pos, fm.end_pos, Default::default()),
+                tokens,
+            }
+        };
+
+        let _ss: Stylesheet = parse_tokens(&tokens, ParserConfig { parse_values: true })
+            .expect("failed to parse tokens");
+
+        Ok(())
+    })
+    .unwrap();
+}
+
+#[testing::fixture("tests/fixture/**/input.css")]
 fn pass(input: PathBuf) {
     eprintln!("Input: {}", input.display());
 

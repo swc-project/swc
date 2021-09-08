@@ -1,0 +1,129 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1
+  |
+1 | / :global(.foo + a) {
+2 | |     color: red;
+3 | | }
+  | |__^
+
+error: Rule
+ --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1
+  |
+1 | / :global(.foo + a) {
+2 | |     color: red;
+3 | | }
+  | |_^
+
+error: StyleRule
+ --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1
+  |
+1 | / :global(.foo + a) {
+2 | |     color: red;
+3 | | }
+  | |_^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1
+  |
+1 | :global(.foo + a) {
+  | ^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1
+  |
+1 | :global(.foo + a) {
+  | ^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1
+  |
+1 | :global(.foo + a) {
+  | ^^^^^^^^^^^^^^^^^
+
+error: PseudoSelector
+ --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1
+  |
+1 | :global(.foo + a) {
+  | ^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:2
+  |
+1 | :global(.foo + a) {
+  |  ^^^^^^
+
+error: Tokens
+ --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:9
+  |
+1 | :global(.foo + a) {
+  |         ^^^^^^^^
+
+error: Dot
+ --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:9
+  |
+1 | :global(.foo + a) {
+  |         ^
+
+error: Ident(Atom('foo' type=inline))
+ --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:10
+  |
+1 | :global(.foo + a) {
+  |          ^^^
+
+error: WhiteSpace
+ --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:13
+  |
+1 | :global(.foo + a) {
+  |             ^
+
+error: Plus
+ --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:14
+  |
+1 | :global(.foo + a) {
+  |              ^
+
+error: WhiteSpace
+ --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:15
+  |
+1 | :global(.foo + a) {
+  |               ^
+
+error: Ident(Atom('a' type=inline))
+ --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:16
+  |
+1 | :global(.foo + a) {
+  |                ^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:19
+  |
+1 |   :global(.foo + a) {
+  |  ___________________^
+2 | |     color: red;
+3 | | }
+  | |_^
+
+error: Property
+ --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:2:5
+  |
+2 |     color: red;
+  |     ^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:2:5
+  |
+2 |     color: red;
+  |     ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:2:12
+  |
+2 |     color: red;
+  |            ^^^
+
+error: Text
+ --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:2:12
+  |
+2 |     color: red;
+  |            ^^^
+

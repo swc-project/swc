@@ -501,11 +501,20 @@ where
     }
 }
 
-impl<I> Parse<CompoundSelector> for Parser<I>
+impl<I> Parse<Vec<ComplexSelector>> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<CompoundSelector> {
-        self.parse_compound_selector()
+    fn parse(&mut self) -> PResult<Vec<ComplexSelector>> {
+        self.parse_selectors()
+    }
+}
+
+impl<I> Parse<ComplexSelector> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<ComplexSelector> {
+        self.parse_complex_selector()
     }
 }
