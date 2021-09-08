@@ -652,3 +652,8 @@ impl Write for Buf {
         self.0.write().unwrap().flush()
     }
 }
+
+#[test]
+fn issue_2213() {
+    assert_min("a - -b * c", "a- -b*c;")
+}
