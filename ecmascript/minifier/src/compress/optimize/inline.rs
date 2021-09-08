@@ -188,6 +188,10 @@ where
                                 i.id.span.ctxt
                             );
 
+                            if self.ctx.var_kind == Some(VarDeclKind::Const) {
+                                var.span = var.span.apply_mark(self.marks.non_top_level);
+                            }
+
                             self.lits.insert(i.to_id(), init.take());
                         } else {
                             log::debug!(
