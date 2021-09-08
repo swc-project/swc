@@ -212,7 +212,7 @@ where
             return;
         }
 
-        let can_work = can_work || stmts.iter().any(always_terminates);
+        dbg!("merge_if_returns", can_work);
 
         for stmt in stmts.iter_mut() {
             self.merge_nested_if_returns(stmt, can_work);
@@ -224,9 +224,20 @@ where
     }
 
     fn merge_nested_if_returns(&mut self, s: &mut Stmt, can_work: bool) {
+        let terminate = always_terminates(&*s);
+
+        dbg!("merge_nested_if_returns", terminate, can_work, &*s);
+
         match s {
             Stmt::Block(s) => {
-                self.merge_if_returns(&mut s.stmts, can_work, false);
+                self.merge_if_returns(&mut s.stmts, terminate, false);
+            }
+            Stmt::If(s) => {
+                self.merge_nested_if_returns(&mut s.cons, can_work);
+
+                if let Some(alt) = s.alt.as_deref_mut() {
+                    self.merge_nested_if_returns(alt, can_work);
+                }
             }
             _ => {}
         }
