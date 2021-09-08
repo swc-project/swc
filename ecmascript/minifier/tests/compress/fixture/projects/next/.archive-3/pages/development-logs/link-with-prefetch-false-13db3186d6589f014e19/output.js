@@ -27,9 +27,9 @@
                     ),
                     _useIntersection = __webpack_require__(
                         4770
-                    ),
-                    prefetched = {
-                    };
+                    );
+                var prefetched = {
+                };
                 function prefetch(
                     router, href, as, options
                 ) {
@@ -43,7 +43,9 @@
                         ).catch(
                             function (
                                 err
-                            ) {}
+                            ) {
+                                0;
+                            }
                         );
                         var curLocale =
                         options && void 0 !== options.locale
@@ -54,7 +56,7 @@
                         ] = !0;
                     }
                 }
-                exports.default = function (
+                var _default = function (
                     props
                 ) {
                     var child,
@@ -64,12 +66,13 @@
                         _react$default$useMem = _react.default.useMemo(
                             function (
                             ) {
-                                var _resolveHref2 = _slicedToArray(
-                                        _router.resolveHref(
-                                            router,
-                                            props.href,
-                                            !0
-                                        ),
+                                var _resolveHref = _router.resolveHref(
+                                        router,
+                                        props.href,
+                                        !0
+                                    ),
+                                    _resolveHref2 = _slicedToArray(
+                                        _resolveHref,
                                         2
                                     ),
                                     resolvedHref = _resolveHref2[0],
@@ -105,12 +108,13 @@
                         )) &&
                         "object" == typeof child &&
                         child.ref,
+                        _useIntersection2 = _useIntersection.useIntersection(
+                            {
+                                rootMargin: "200px",
+                            }
+                        ),
                         _useIntersection3 = _slicedToArray(
-                            _useIntersection.useIntersection(
-                                {
-                                    rootMargin: "200px",
-                                }
-                            ),
+                            _useIntersection2,
                             2
                         ),
                         setIntersectionRef = _useIntersection3[0],
@@ -168,53 +172,65 @@
                         onClick: function (
                             e
                         ) {
-                            if (
-                                (child.props &&
-                                "function" == typeof child.props.onClick &&
-                                child.props.onClick(
-                                    e
-                                ),
-                                !e.defaultPrevented)
-                            ) {
-                                var e1, href1, as1, scroll1, event, target;
-                                (e1 = e),
-                                (href1 = href),
-                                (as1 = as),
-                                (scroll1 = scroll),
-                                ("A" === e1.currentTarget.nodeName &&
-                                    (((target = (event = e1).currentTarget
-                                        .target) &&
-                                        "_self" !== target) ||
-                                        event.metaKey ||
-                                        event.ctrlKey ||
-                                        event.shiftKey ||
-                                        event.altKey ||
-                                        (event.nativeEvent &&
-                                            2 === event.nativeEvent.which) ||
-                                        !_router.isLocalURL(
-                                            href1
-                                        ))) ||
-                                    (e1.preventDefault(
-                                    ),
-                                    null == scroll1 &&
-                                        as1.indexOf(
-                                            "#"
-                                        ) >= 0 &&
-                                        (scroll1 = !1),
-                                    router[replace ? "replace" : "push"](
-                                        href1,
-                                        as1,
-                                        {
-                                            shallow: shallow,
-                                            locale: locale,
-                                            scroll: scroll1,
-                                        }
-                                    ));
-                            }
+                            child.props &&
+                            "function" == typeof child.props.onClick &&
+                            child.props.onClick(
+                                e
+                            ),
+                            e.defaultPrevented ||
+                                (function (
+                                    e,
+                                    router,
+                                    href,
+                                    as,
+                                    replace,
+                                    shallow,
+                                    scroll,
+                                    locale
+                                ) {
+                                    var event, target;
+                                    ("A" === e.currentTarget.nodeName &&
+                                        (((target = (event = e).currentTarget
+                                            .target) &&
+                                            "_self" !== target) ||
+                                            event.metaKey ||
+                                            event.ctrlKey ||
+                                            event.shiftKey ||
+                                            event.altKey ||
+                                            (event.nativeEvent &&
+                                                2 ===
+                                                    event.nativeEvent.which) ||
+                                            !_router.isLocalURL(
+                                                href
+                                            ))) ||
+                                        (e.preventDefault(
+                                        ),
+                                        null == scroll &&
+                                            as.indexOf(
+                                                "#"
+                                            ) >= 0 &&
+                                            (scroll = !1),
+                                        router[replace ? "replace" : "push"](
+                                            href,
+                                            as,
+                                            {
+                                                shallow: shallow,
+                                                locale: locale,
+                                                scroll: scroll,
+                                            }
+                                        ));
+                                })(
+                                    e,
+                                    router,
+                                    href,
+                                    as,
+                                    replace,
+                                    shallow,
+                                    scroll,
+                                    locale
+                                );
                         },
-                    };
-                    if (
-                        ((childProps.onMouseEnter = function (
+                        onMouseEnter: function (
                             e
                         ) {
                             _router.isLocalURL(
@@ -233,9 +249,11 @@
                                     priority: !0,
                                 }
                             ));
-                        }),
+                        },
+                    };
+                    if (
                         props.passHref ||
-                        ("a" === child.type && !("href" in child.props)))
+                    ("a" === child.type && !("href" in child.props))
                     ) {
                         var curLocale =
                             void 0 !== locale
@@ -265,6 +283,7 @@
                         childProps
                     );
                 };
+                exports.default = _default;
             },
             4770: function (
                 __unused_webpack_module, exports, __webpack_require__
@@ -287,10 +306,11 @@
                         isDisabled = _ref.disabled || !hasIntersectionObserver,
                         unobserve = _react.useRef(
                         ),
+                        _useState = _react.useState(
+                            !1
+                        ),
                         _useState2 = _slicedToArray(
-                            _react.useState(
-                                !1
-                            ),
+                            _useState,
                             2
                         ),
                         visible = _useState2[0],
@@ -299,17 +319,22 @@
                             function (
                                 el
                             ) {
-                                unobserve.current &&
+                                var element,
+                                    callback,
+                                    _createObserver,
+                                    id,
+                                    observer,
+                                    elements;
+                                (unobserve.current &&
                                     (unobserve.current(
                                     ),
                                     (unobserve.current = void 0)),
-                                !isDisabled &&
-                                        !visible &&
-                                        el &&
+                                isDisabled || visible) ||
+                                    (el &&
                                         el.tagName &&
-                                        (unobserve.current = observe(
-                                            el,
-                                            function (
+                                        (unobserve.current =
+                                            ((element = el),
+                                            (callback = function (
                                                 isVisible
                                             ) {
                                                 return (
@@ -318,11 +343,89 @@
                                                         isVisible
                                                     )
                                                 );
-                                            },
-                                            {
-                                                rootMargin: rootMargin,
-                                            }
-                                        ));
+                                            }),
+                                            (_createObserver = (function (
+                                                options
+                                            ) {
+                                                var id =
+                                                        options.rootMargin ||
+                                                        "",
+                                                    instance =
+                                                        observers.get(
+                                                            id
+                                                        );
+                                                if (instance) return instance;
+                                                var elements = new Map(
+                                                    ),
+                                                    observer =
+                                                        new IntersectionObserver(
+                                                            function (
+                                                                entries
+                                                            ) {
+                                                                entries.forEach(
+                                                                    function (
+                                                                        entry
+                                                                    ) {
+                                                                        var callback =
+                                                                                elements.get(
+                                                                                    entry.target
+                                                                                ),
+                                                                            isVisible =
+                                                                                entry.isIntersecting ||
+                                                                                entry.intersectionRatio >
+                                                                                    0;
+                                                                        callback &&
+                                                                            isVisible &&
+                                                                            callback(
+                                                                                isVisible
+                                                                            );
+                                                                    }
+                                                                );
+                                                            },
+                                                            options
+                                                        );
+                                                return (
+                                                    observers.set(
+                                                        id,
+                                                        (instance = {
+                                                            id: id,
+                                                            observer: observer,
+                                                            elements: elements,
+                                                        })
+                                                    ),
+                                                    instance
+                                                );
+                                            })(
+                                                {
+                                                    rootMargin: rootMargin,
+                                                }
+                                            )),
+                                            (id = _createObserver.id),
+                                            (observer =
+                                                _createObserver.observer),
+                                            (elements =
+                                                _createObserver.elements).set(
+                                                element,
+                                                callback
+                                            ),
+                                            observer.observe(
+                                                element
+                                            ),
+                                            function (
+                                            ) {
+                                                elements.delete(
+                                                    element
+                                                ),
+                                                observer.unobserve(
+                                                    element
+                                                ),
+                                                0 === elements.size &&
+                                                        (observer.disconnect(
+                                                        ),
+                                                        observers.delete(
+                                                            id
+                                                        ));
+                                            })));
                             },
                             [isDisabled, rootMargin, visible,]
                         );
@@ -361,85 +464,8 @@
                     ),
                     hasIntersectionObserver =
                     "undefined" != typeof IntersectionObserver;
-                function observe(
-                    element, callback, options
-                ) {
-                    var _createObserver = createObserver(
-                            options
-                        ),
-                        id = _createObserver.id,
-                        observer = _createObserver.observer,
-                        elements = _createObserver.elements;
-                    return (
-                        elements.set(
-                            element,
-                            callback
-                        ),
-                        observer.observe(
-                            element
-                        ),
-                        function (
-                        ) {
-                            elements.delete(
-                                element
-                            ),
-                            observer.unobserve(
-                                element
-                            ),
-                            0 === elements.size &&
-                                (observer.disconnect(
-                                ), observers.delete(
-                                    id
-                                ));
-                        }
-                    );
-                }
                 var observers = new Map(
                 );
-                function createObserver(
-                    options
-                ) {
-                    var id = options.rootMargin || "",
-                        instance = observers.get(
-                            id
-                        );
-                    if (instance) return instance;
-                    var elements = new Map(
-                        ),
-                        observer = new IntersectionObserver(
-                            function (
-                                entries
-                            ) {
-                                entries.forEach(
-                                    function (
-                                        entry
-                                    ) {
-                                        var callback = elements.get(
-                                                entry.target
-                                            ),
-                                            isVisible =
-                                    entry.isIntersecting ||
-                                    entry.intersectionRatio > 0;
-                                        callback && isVisible && callback(
-                                            isVisible
-                                        );
-                                    }
-                                );
-                            },
-                            options
-                        );
-                    return (
-                        observers.set(
-                            id,
-                            (instance = {
-                                id: id,
-                                observer: observer,
-                                elements: elements,
-                            })
-                        ),
-                        instance
-                    );
-                }
             },
             4592: function (
                 __unused_webpack_module,
@@ -524,13 +550,18 @@
                 [774, 888, 179,],
                 function (
                 ) {
-                    return __webpack_require__(
-                        (__webpack_require__.s = 819)
+                    return (
+                        (moduleId = 819),
+                        __webpack_require__(
+                            (__webpack_require__.s = moduleId)
+                        )
                     );
+                    var moduleId;
                 }
-            ),
-            (_N_E = __webpack_require__.O(
-            ));
+            );
+            var __webpack_exports__ = __webpack_require__.O(
+            );
+            _N_E = __webpack_exports__;
         },
     ]
 );
