@@ -917,14 +917,20 @@
         },
         popstate: function(event) {
             var hash, state;
-            if ($5.event.special.navigate.isPushStateEnabled()) return this.preventHashAssignPopState ? (this.preventHashAssignPopState = !1, void event.stopImmediatePropagation()) : this.ignorePopState ? void (this.ignorePopState = !1) : !event.originalEvent.state && 1 === this.history.stack.length && this.ignoreInitialHashChange && (this.ignoreInitialHashChange = !1, location.href === initialHref) ? void event.preventDefault() : (hash = path1.parseLocation().hash, !event.originalEvent.state && hash) ? (state = this.squash(hash), this.history.add(state.url, state), void (event.historyState = state)) : void this.history.direct({
-                url: (event.originalEvent.state || {
-                }).url || hash,
-                present: function(historyEntry, direction) {
-                    event.historyState = $5.extend({
-                    }, historyEntry), event.historyState.direction = direction;
-                }
-            });
+            if ($5.event.special.navigate.isPushStateEnabled()) {
+                if (this.preventHashAssignPopState) return this.preventHashAssignPopState = !1, void event.stopImmediatePropagation();
+                if (this.ignorePopState) return void (this.ignorePopState = !1);
+                if (!event.originalEvent.state && 1 === this.history.stack.length && this.ignoreInitialHashChange && (this.ignoreInitialHashChange = !1, location.href === initialHref)) return void event.preventDefault();
+                if (hash = path1.parseLocation().hash, !event.originalEvent.state && hash) return state = this.squash(hash), this.history.add(state.url, state), void (event.historyState = state);
+                this.history.direct({
+                    url: (event.originalEvent.state || {
+                    }).url || hash,
+                    present: function(historyEntry, direction) {
+                        event.historyState = $5.extend({
+                        }, historyEntry), event.historyState.direction = direction;
+                    }
+                });
+            }
         },
         hashchange: function(event) {
             var history, hash;
@@ -988,12 +994,6 @@
             for(; event && void 0 !== event.originalEvent;)event = event.originalEvent;
             return event;
         }
-        function createVirtualEvent(event, eventType) {
-            var oe, props, ne, prop, ct, touch, i, j, len, t = event.type;
-            if ((event = $.Event(event)).type = eventType, oe = event.originalEvent, props = $.event.props, t.search(/^(mouse|click)/) > -1 && (props = mouseEventProps), oe) for(i = props.length; i;)event[prop = props[--i]] = oe[prop];
-            if (t.search(/mouse(down|up)|click/) > -1 && !event.which && (event.which = 1), -1 !== t.search(/^touch/) && (t = (ne = getNativeEvent(oe)).touches, ct = ne.changedTouches, touch = t && t.length ? t[0] : ct && ct.length ? ct[0] : void 0)) for(j = 0, len = touchEventProps.length; j < len; j++)event[prop = touchEventProps[j]] = touch[prop];
-            return event;
-        }
         function getVirtualBindingFlags(element) {
             for(var b, k, flags = {
             }; element;){
@@ -1002,28 +1002,12 @@
             }
             return flags;
         }
-        function getClosestElementWithVirtualBinding(element, eventType) {
-            for(var b; element;){
-                if ((b = $.data(element, "virtualMouseBindings")) && (!eventType || b[eventType])) return element;
-                element = element.parentNode;
-            }
-            return null;
-        }
-        function enableTouchBindings() {
-            blockTouchTriggers = !1;
-        }
         function disableTouchBindings() {
             blockTouchTriggers = !0;
         }
-        function enableMouseBindings() {
-            lastTouchID = 0, clickBlockList.length = 0, blockMouseTriggers = !1, disableTouchBindings();
-        }
-        function disableMouseBindings() {
-            enableTouchBindings();
-        }
         function startResetTimer() {
             clearResetTimer(), resetTimerID = setTimeout(function() {
-                resetTimerID = 0, enableMouseBindings();
+                resetTimerID = 0, lastTouchID = 0, clickBlockList.length = 0, blockMouseTriggers = !1, disableTouchBindings();
             }, $.vmouse.resetTimerDuration);
         }
         function clearResetTimer() {
@@ -1031,7 +1015,18 @@
         }
         function triggerVirtualEvent(eventType, event, flags) {
             var ve;
-            return (flags && flags[eventType] || !flags && getClosestElementWithVirtualBinding(event.target, eventType)) && (ve = createVirtualEvent(event, eventType), $(event.target).trigger(ve)), ve;
+            return (flags && flags[eventType] || !flags && (function(element, eventType) {
+                for(var b; element;){
+                    if ((b = $.data(element, "virtualMouseBindings")) && (!eventType || b[eventType])) return element;
+                    element = element.parentNode;
+                }
+                return null;
+            })(event.target, eventType)) && (ve = (function(event, eventType1) {
+                var oe, props, ne, prop, ct, touch, i, j, len, t = event.type;
+                if ((event = $.Event(event)).type = eventType, oe = event.originalEvent, props = $.event.props, t.search(/^(mouse|click)/) > -1 && (props = mouseEventProps), oe) for(i = props.length; i;)event[prop = props[--i]] = oe[prop];
+                if (t.search(/mouse(down|up)|click/) > -1 && !event.which && (event.which = 1), -1 !== t.search(/^touch/) && (t = (ne = getNativeEvent(oe)).touches, ct = ne.changedTouches, touch = t && t.length ? t[0] : ct && ct.length ? ct[0] : void 0)) for(j = 0, len = touchEventProps.length; j < len; j++)event[prop = touchEventProps[j]] = touch[prop];
+                return event;
+            })(event, eventType), $(event.target).trigger(ve)), ve;
         }
         function mouseEventCallback(event) {
             var ve, touchID = $.data(event.target, "virtualTouchID");
@@ -1039,7 +1034,7 @@
         }
         function handleTouchStart(event) {
             var target, flags, t, touches = getNativeEvent(event).touches;
-            touches && 1 === touches.length && (flags = getVirtualBindingFlags(target = event.target)).hasVirtualBinding && (lastTouchID = nextTouchID++, $.data(target, "virtualTouchID", lastTouchID), clearResetTimer(), disableMouseBindings(), didScroll = !1, startX = (t = getNativeEvent(event).touches[0]).pageX, startY = t.pageY, triggerVirtualEvent("vmouseover", event, flags), triggerVirtualEvent("vmousedown", event, flags));
+            touches && 1 === touches.length && (flags = getVirtualBindingFlags(target = event.target)).hasVirtualBinding && (lastTouchID = nextTouchID++, $.data(target, "virtualTouchID", lastTouchID), clearResetTimer(), blockTouchTriggers = !1, didScroll = !1, startX = (t = getNativeEvent(event).touches[0]).pageX, startY = t.pageY, triggerVirtualEvent("vmouseover", event, flags), triggerVirtualEvent("vmousedown", event, flags));
         }
         function handleScroll(event) {
             blockTouchTriggers || (didScroll || triggerVirtualEvent("vmousecancel", event, getVirtualBindingFlags(event.target)), didScroll = !0, startResetTimer());
@@ -1558,7 +1553,7 @@
                 var fileUrl, dataUrl, pblEvent, triggerData, deferred = options && options.deferred || $.Deferred(), settings = $.extend({
                 }, this._loadDefaults, options), content = null, absUrl = $.mobile.path.makeUrlAbsolute(url, this._findBaseWithDefault());
                 if (settings.reload = settings.reloadPage, settings.data && "get" === settings.type && (absUrl = $.mobile.path.addSearchParams(absUrl, settings.data), settings.data = undefined), settings.data && "post" === settings.type && (settings.reload = !0), fileUrl = this._createFileUrl(absUrl), dataUrl = this._createDataUrl(absUrl), 0 === (content = this._find(absUrl)).length && $.mobile.path.isEmbeddedPage(fileUrl) && !$.mobile.path.isFirstPageUrl(fileUrl)) return void deferred.reject(absUrl, settings);
-                if (this._getBase().reset(), content.length && !settings.reload) return this._enhance(content, settings.role), deferred.resolve(absUrl, settings, content), void (!settings.prefetch && this._getBase().set(url));
+                if (this._getBase().reset(), content.length && !settings.reload) return this._enhance(content, settings.role), deferred.resolve(absUrl, settings, content), void (settings.prefetch || this._getBase().set(url));
                 if (triggerData = {
                     url: url,
                     absUrl: absUrl,
@@ -1729,8 +1724,10 @@
             }), $.mobile.document.bind("vclick", function(event) {
                 var $btn, btnEls, target = event.target, needClosest = !1;
                 if (!(event.which > 1) && $.mobile.linkBindingEnabled) {
-                    if ($lastVClicked = $(target), $.data(target, "mobile-button")) !!getAjaxFormData($(target).closest("form"), !0) && target.parentNode && (target = target.parentNode);
-                    else {
+                    if ($lastVClicked = $(target), $.data(target, "mobile-button")) {
+                        if (!getAjaxFormData($(target).closest("form"), !0)) return;
+                        target.parentNode && (target = target.parentNode);
+                    } else {
                         if (!((target = findClosestLink(target)) && "#" !== $.mobile.path.parseUrl(target.getAttribute("href") || "#").hash)) return;
                         if (!$(target).jqmHijackable().length) return;
                     }
@@ -2613,13 +2610,17 @@
                 this.refresh(undefined, !1, !0);
             },
             refresh: function(val, isfromControl, preventInputUpdate) {
-                var bg, left, width, data, pxStep, percent, control, isInput, optionElements, min, max, step, newval, valModStep, alignValue, percentPerStep, handlePercent, aPercent, bPercent, valueChanged, parentTheme = $.mobile.getAttribute(this.element[0], "theme"), theme = this.options.theme || parentTheme, trackTheme = this.options.trackTheme || parentTheme, cornerClass = this.options.corners ? " ui-corner-all" : "", miniClass = this.options.mini ? " ui-mini" : "";
+                var bg, left, width, data, tol, pxStep, percent, control, isInput, optionElements, min, max, step, newval, valModStep, alignValue, percentPerStep, handlePercent, aPercent, bPercent, valueChanged, parentTheme = $.mobile.getAttribute(this.element[0], "theme"), theme = this.options.theme || parentTheme, trackTheme = this.options.trackTheme || parentTheme, cornerClass = this.options.corners ? " ui-corner-all" : "", miniClass = this.options.mini ? " ui-mini" : "";
                 if (this.slider[0].className = [
                     this.isToggleSwitch ? "ui-slider ui-slider-switch ui-slider-track ui-shadow-inset" : "ui-slider-track ui-shadow-inset",
                     trackTheme ? " ui-bar-" + trackTheme : " ui-bar-inherit",
                     cornerClass,
                     miniClass
-                ].join(""), (this.options.disabled || this.element.prop("disabled")) && this.disable(), this.value = this._value(), this.options.highlight && !this.isToggleSwitch && 0 === this.slider.find(".ui-slider-bg").length && (this.valuebg = ((bg = document.createElement("div")).className = "ui-slider-bg " + $.mobile.activeBtnClass, $(bg).prependTo(this.slider))), (this.handle.addClass("ui-btn" + (theme ? " ui-btn-" + theme : "") + " ui-shadow"), control = this.element, optionElements = (isInput = !this.isToggleSwitch) ? [] : control.find("option"), min = isInput ? parseFloat(control.attr("min")) : 0, max = isInput ? parseFloat(control.attr("max")) : optionElements.length - 1, step = isInput && parseFloat(control.attr("step")) > 0 ? parseFloat(control.attr("step")) : 1, "object" == typeof val) ? (data = val, left = this.slider.offset().left, pxStep = (width = this.slider.width()) / ((max - min) / step), !this.dragging || data.pageX < left - 8 || data.pageX > left + width + 8 || (percent = pxStep > 1 ? (data.pageX - left) / width * 100 : Math.round((data.pageX - left) / width * 100))) : (null == val && (val = isInput ? parseFloat(control.val() || 0) : control[0].selectedIndex), percent = (parseFloat(val) - min) / (max - min) * 100), !isNaN(percent) && (alignValue = newval - (valModStep = ((newval = percent / 100 * (max - min) + min) - min) % step), 2 * Math.abs(valModStep) >= step && (alignValue += valModStep > 0 ? step : -step), percentPerStep = 100 / ((max - min) / step), newval = parseFloat(alignValue.toFixed(5)), void 0 === pxStep && (pxStep = width / ((max - min) / step)), pxStep > 1 && isInput && (percent = (newval - min) * percentPerStep * (1 / step)), percent < 0 && (percent = 0), percent > 100 && (percent = 100), newval < min && (newval = min), newval > max && (newval = max), this.handle.css("left", percent + "%"), this.handle[0].setAttribute("aria-valuenow", isInput ? newval : optionElements.eq(newval).attr("value")), this.handle[0].setAttribute("aria-valuetext", isInput ? newval : optionElements.eq(newval).getEncodedText()), this.handle[0].setAttribute("title", isInput ? newval : optionElements.eq(newval).getEncodedText()), this.valuebg && this.valuebg.css("width", percent + "%"), this._labels && (handlePercent = this.handle.width() / this.slider.width() * 100, aPercent = percent && handlePercent + (100 - handlePercent) * percent / 100, bPercent = 100 === percent ? 0 : Math.min(handlePercent + 100 - aPercent, 100), this._labels.each(function() {
+                ].join(""), (this.options.disabled || this.element.prop("disabled")) && this.disable(), this.value = this._value(), this.options.highlight && !this.isToggleSwitch && 0 === this.slider.find(".ui-slider-bg").length && (this.valuebg = ((bg = document.createElement("div")).className = "ui-slider-bg " + $.mobile.activeBtnClass, $(bg).prependTo(this.slider))), this.handle.addClass("ui-btn" + (theme ? " ui-btn-" + theme : "") + " ui-shadow"), control = this.element, optionElements = (isInput = !this.isToggleSwitch) ? [] : control.find("option"), min = isInput ? parseFloat(control.attr("min")) : 0, max = isInput ? parseFloat(control.attr("max")) : optionElements.length - 1, step = isInput && parseFloat(control.attr("step")) > 0 ? parseFloat(control.attr("step")) : 1, "object" == typeof val) {
+                    if (data = val, tol = 8, left = this.slider.offset().left, pxStep = (width = this.slider.width()) / ((max - min) / step), !this.dragging || data.pageX < left - tol || data.pageX > left + width + tol) return;
+                    percent = pxStep > 1 ? (data.pageX - left) / width * 100 : Math.round((data.pageX - left) / width * 100);
+                } else null == val && (val = isInput ? parseFloat(control.val() || 0) : control[0].selectedIndex), percent = (parseFloat(val) - min) / (max - min) * 100;
+                if (!isNaN(percent) && (alignValue = newval - (valModStep = ((newval = percent / 100 * (max - min) + min) - min) % step), 2 * Math.abs(valModStep) >= step && (alignValue += valModStep > 0 ? step : -step), percentPerStep = 100 / ((max - min) / step), newval = parseFloat(alignValue.toFixed(5)), void 0 === pxStep && (pxStep = width / ((max - min) / step)), pxStep > 1 && isInput && (percent = (newval - min) * percentPerStep * (1 / step)), percent < 0 && (percent = 0), percent > 100 && (percent = 100), newval < min && (newval = min), newval > max && (newval = max), this.handle.css("left", percent + "%"), this.handle[0].setAttribute("aria-valuenow", isInput ? newval : optionElements.eq(newval).attr("value")), this.handle[0].setAttribute("aria-valuetext", isInput ? newval : optionElements.eq(newval).getEncodedText()), this.handle[0].setAttribute("title", isInput ? newval : optionElements.eq(newval).getEncodedText()), this.valuebg && this.valuebg.css("width", percent + "%"), this._labels && (handlePercent = this.handle.width() / this.slider.width() * 100, aPercent = percent && handlePercent + (100 - handlePercent) * percent / 100, bPercent = 100 === percent ? 0 : Math.min(handlePercent + 100 - aPercent, 100), this._labels.each(function() {
                     var ab = $(this).hasClass("ui-slider-label-a");
                     $(this).width((ab ? aPercent : bPercent) + "%");
                 })), !preventInputUpdate)) {
@@ -2651,11 +2652,6 @@
         }, $.mobile.behaviors.formReset));
     })(jQuery), (function($, undefined) {
         var popup;
-        function getPopup() {
-            return popup || (popup = $("<div></div>", {
-                "class": "ui-slider-popup ui-shadow ui-corner-all"
-            })), popup.clone();
-        }
         $.widget("mobile.slider", $.mobile.slider, {
             options: {
                 popupEnabled: !1,
@@ -2680,7 +2676,9 @@
                 });
             },
             _setOption: function(key, value) {
-                this._super(key, value), "showValue" === key ? this.handle.html(value && !this.options.mini ? this._value() : "") : "popupEnabled" === key && value && !this._popup && (this._popup = getPopup().addClass("ui-body-" + (this.options.theme || "a")).hide().insertBefore(this.element));
+                this._super(key, value), "showValue" === key ? this.handle.html(value && !this.options.mini ? this._value() : "") : "popupEnabled" === key && value && !this._popup && (this._popup = (popup || (popup = $("<div></div>", {
+                    "class": "ui-slider-popup ui-shadow ui-corner-all"
+                })), popup.clone()).addClass("ui-body-" + (this.options.theme || "a")).hide().insertBefore(this.element));
             },
             refresh: function() {
                 this._super.apply(this, arguments), this._refresh();
@@ -3523,7 +3521,7 @@
                 });
             },
             close: function() {
-                this.options.disabled || !this.isOpen || ("page" === this.menuType ? (this.menuPage.dialog("close"), this.list.appendTo(this.listbox)) : this.listbox.popup("close"), this._focusButton(), this.isOpen = !1);
+                !this.options.disabled && this.isOpen && ("page" === this.menuType ? (this.menuPage.dialog("close"), this.list.appendTo(this.listbox)) : this.listbox.popup("close"), this._focusButton(), this.isOpen = !1);
             },
             open: function() {
                 this.button.click();
@@ -3888,15 +3886,6 @@
         });
     })(jQuery), (function($, undefined) {
         var ieHack = $.mobile.browser.oldIE && $.mobile.browser.oldIE <= 8, uiTemplate = $("<div class='ui-popup-arrow-guide'></div><div class='ui-popup-arrow-container" + (ieHack ? " ie" : "") + "'><div class='ui-popup-arrow'></div></div>");
-        function getArrow() {
-            var clone = uiTemplate.clone(), gd = clone.eq(0), ct = clone.eq(1), ar = ct.children();
-            return {
-                arEls: ct.add(gd),
-                gd: gd,
-                ct: ct,
-                ar: ar
-            };
-        }
         $.widget("mobile.popup", $.mobile.popup, {
             options: {
                 arrow: ""
@@ -3906,8 +3895,13 @@
                 return this.options.arrow && (this._ui.arrow = this._addArrow()), ret;
             },
             _addArrow: function() {
-                var theme, opts = this.options, ar = getArrow();
-                return theme = this._themeClassFromOption("ui-body-", opts.theme), ar.ar.addClass(theme + (opts.shadow ? " ui-overlay-shadow" : "")), ar.arEls.hide().appendTo(this.element), ar;
+                var clone, gd, ct, ar, theme, opts = this.options, ar1 = (gd = (clone = uiTemplate.clone()).eq(0), ar = (ct = clone.eq(1)).children(), {
+                    arEls: ct.add(gd),
+                    gd: gd,
+                    ct: ct,
+                    ar: ar
+                });
+                return theme = this._themeClassFromOption("ui-body-", opts.theme), ar1.ar.addClass(theme + (opts.shadow ? " ui-overlay-shadow" : "")), ar1.arEls.hide().appendTo(this.element), ar1;
             },
             _unenhance: function() {
                 var ar = this._ui.arrow;
@@ -4357,11 +4351,14 @@
             },
             _onKeyUp: function() {
                 var val, lastval, search = this._search;
-                !search || (val = search.val().toLowerCase(), (lastval = $.mobile.getAttribute(search[0], "lastval") + "") && lastval === val || (this._timer && (window.clearTimeout(this._timer), this._timer = 0), this._timer = this._delay(function() {
-                    this._trigger("beforefilter", null, {
-                        input: search
-                    }), search[0].setAttribute("data-" + $.mobile.ns + "lastval", val), this._filterItems(val), this._timer = 0;
-                }, 250)));
+                if (search) {
+                    if (val = search.val().toLowerCase(), (lastval = $.mobile.getAttribute(search[0], "lastval") + "") && lastval === val) return;
+                    this._timer && (window.clearTimeout(this._timer), this._timer = 0), this._timer = this._delay(function() {
+                        this._trigger("beforefilter", null, {
+                            input: search
+                        }), search[0].setAttribute("data-" + $.mobile.ns + "lastval", val), this._filterItems(val), this._timer = 0;
+                    }, 250);
+                }
             },
             _getFilterableItems: function() {
                 var children = this.options.children, items = children ? $.isFunction(children) ? children() : children.nodeName ? $(children) : children.jquery ? children : this.element.find(children) : {
@@ -4449,9 +4446,13 @@
         _setInput: function(selector) {
             var opts = this.options, updatePlaceholder = !0, textinputOpts = {
             };
-            selector || !this._isSearchInternal() && (updatePlaceholder = !1, selector = $16("<input data-" + $16.mobile.ns + "type='search' placeholder='" + opts.filterPlaceholder + "'></input>").jqmData("ui-filterable-" + this.uuid + "-internal", !0), $16("<form class='ui-filterable'></form>").append(selector).submit(function(evt) {
-                evt.preventDefault(), selector.blur();
-            }).insertBefore(this.element), $16.mobile.textinput && (null != this.options.filterTheme && (textinputOpts.theme = opts.filterTheme), selector.textinput(textinputOpts))), this._super(selector), this._isSearchInternal() && updatePlaceholder && this._search.attr("placeholder", this.options.filterPlaceholder);
+            if (!selector) {
+                if (this._isSearchInternal()) return;
+                updatePlaceholder = !1, selector = $16("<input data-" + $16.mobile.ns + "type='search' placeholder='" + opts.filterPlaceholder + "'></input>").jqmData("ui-filterable-" + this.uuid + "-internal", !0), $16("<form class='ui-filterable'></form>").append(selector).submit(function(evt) {
+                    evt.preventDefault(), selector.blur();
+                }).insertBefore(this.element), $16.mobile.textinput && (null != this.options.filterTheme && (textinputOpts.theme = opts.filterTheme), selector.textinput(textinputOpts));
+            }
+            this._super(selector), this._isSearchInternal() && updatePlaceholder && this._search.attr("placeholder", this.options.filterPlaceholder);
         },
         _setOptions: function(options) {
             var ret = this._super(options);
@@ -4470,9 +4471,6 @@
         }
     }), (function($, undefined) {
         var tabId = 0, rhash = /#.*$/;
-        function getNextTabId() {
-            return ++tabId;
-        }
         function isLocal(anchor) {
             return anchor.hash.length > 1 && decodeURIComponent(anchor.href.replace(rhash, "")) === decodeURIComponent(location.href.replace(rhash, ""));
         }
@@ -4564,7 +4562,7 @@
                 return "active" === key ? void this._activate(value) : "disabled" === key ? void this._setupDisabled(value) : void (this._super(key, value), "collapsible" !== key || (this.element.toggleClass("ui-tabs-collapsible", value), value || !1 !== this.options.active || this._activate(0)), "event" === key && this._setupEvents(value), "heightStyle" === key && this._setupHeightStyle(value));
             },
             _tabId: function(tab) {
-                return tab.attr("aria-controls") || "ui-tabs-" + getNextTabId();
+                return tab.attr("aria-controls") || "ui-tabs-" + ++tabId;
             },
             _sanitizeSelector: function(hash) {
                 return hash ? hash.replace(/[!"$%&'()*+,.\/:;<=>?@\[\]\^`{|}~]/g, "\\$&") : "";

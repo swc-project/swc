@@ -3,9 +3,13 @@ use std::f64;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms::fixer;
 use swc_ecma_utils::{ExprExt, Id, UsageFinder, Value};
-use swc_ecma_visit::VisitWith;
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith, VisitWith};
 use unicode_xid::UnicodeXID;
+
+#[cfg(test)]
+mod tests;
 
 /// Creates `!e` where e is the expression passed as an argument.
 ///
@@ -300,7 +304,13 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
     let cost = cost(e, in_bool_ctx, None, is_ret_val_ignored);
 
     if cfg!(feature = "debug") {
-        log::trace!("negation cost of `{}` = {}", dump(&*e), cost);
+        log::trace!(
+            "negation cost of `{}` = {}\nin_book_ctx={:?}\nis_ret_val_ignored={:?}",
+            dump(&e.clone().fold_with(&mut as_folder(fixer(None)))),
+            cost,
+            in_bool_ctx,
+            is_ret_val_ignored
+        );
     }
 
     Some(cost)
@@ -548,60 +558,30 @@ where
     UsageFinder::find(&Ident::new(id.0, DUMMY_SP.with_ctxt(id.1)), node)
 }
 
-#[cfg(test)]
-mod tests {
-    use super::negate_cost;
-    use swc_common::{input::SourceFileInput, FileName};
-    use swc_ecma_parser::{lexer::Lexer, Parser};
+pub struct ExprReplacer<F>
+where
+    F: FnMut(&mut Expr),
+{
+    op: F,
+}
 
-    fn assert_negate_cost(s: &str, in_bool_ctx: bool, is_ret_val_ignored: bool, expected: isize) {
-        testing::run_test2(false, |cm, _| {
-            let fm = cm.new_source_file(FileName::Anon, s.to_string());
+impl<F> VisitMut for ExprReplacer<F>
+where
+    F: FnMut(&mut Expr),
+{
+    noop_visit_mut_type!();
 
-            let lexer = Lexer::new(
-                Default::default(),
-                swc_ecma_ast::EsVersion::latest(),
-                SourceFileInput::from(&*fm),
-                None,
-            );
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
 
-            let mut parser = Parser::new_from(lexer);
-
-            let e = parser
-                .parse_expr()
-                .expect("failed to parse input as an expression");
-
-            let actual = negate_cost(&e, in_bool_ctx, is_ret_val_ignored).unwrap();
-
-            assert_eq!(
-                actual, expected,
-                "Expected negation cost of {} to be {}, but got {}",
-                s, expected, actual,
-            );
-
-            Ok(())
-        })
-        .unwrap();
+        (self.op)(e);
     }
+}
 
-    #[test]
-    fn logical_1() {
-        assert_negate_cost(
-            "this[key] && !this.hasOwnProperty(key) || (this[key] = value)",
-            false,
-            true,
-            2,
-        );
-    }
-
-    #[test]
-    #[ignore]
-    fn logical_2() {
-        assert_negate_cost(
-            "(!this[key] || this.hasOwnProperty(key)) && (this[key] = value)",
-            false,
-            true,
-            -2,
-        );
-    }
+pub fn replace_expr<N, F>(node: &mut N, op: F)
+where
+    N: VisitMutWith<ExprReplacer<F>>,
+    F: FnMut(&mut Expr),
+{
+    node.visit_mut_with(&mut ExprReplacer { op })
 }

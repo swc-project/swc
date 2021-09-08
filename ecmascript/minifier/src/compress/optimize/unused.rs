@@ -14,7 +14,11 @@ impl<M> Optimizer<'_, M>
 where
     M: Mode,
 {
-    pub(super) fn drop_unused_var_declarator(&mut self, var: &mut VarDeclarator) {
+    pub(super) fn drop_unused_var_declarator(&mut self, var: &mut VarDeclarator, prepend: bool) {
+        if var.name.is_invalid() {
+            return;
+        }
+
         match &mut var.init {
             Some(init) => match &**init {
                 Expr::Invalid(..) => {
@@ -31,10 +35,20 @@ where
                     if var.name.is_invalid() {
                         let side_effects = self.ignore_return_value(init);
                         if let Some(e) = side_effects {
-                            self.append_stmts.push(Stmt::Expr(ExprStmt {
-                                span: var.span,
-                                expr: Box::new(e),
-                            }))
+                            if prepend {
+                                self.prepend_stmts.push(Stmt::Expr(ExprStmt {
+                                    span: var.span,
+                                    expr: Box::new(e),
+                                }))
+                            } else {
+                                self.append_stmts.insert(
+                                    0,
+                                    Stmt::Expr(ExprStmt {
+                                        span: var.span,
+                                        expr: Box::new(e),
+                                    }),
+                                )
+                            }
                         }
                     }
                 }
@@ -93,20 +107,28 @@ where
         if !has_mark {
             match self.ctx.var_kind {
                 Some(VarDeclKind::Var) => {
-                    if (!self.options.top_level() && self.options.top_retain.is_empty())
-                        && self.ctx.in_top_level()
-                    {
-                        if cfg!(feature = "debug") {
-                            log::trace!(
-                                "unused: Preserving `var` `{}` because it's top-level",
-                                dump(&*name)
-                            );
+                    if !self.options.top_level() && self.options.top_retain.is_empty() {
+                        if self.ctx.in_top_level() {
+                            if cfg!(feature = "debug") {
+                                log::trace!(
+                                    "unused: [X] Preserving `var` `{}` because it's top-level",
+                                    dump(&*name)
+                                );
+                            }
+
+                            return;
                         }
-                        return;
                     }
                 }
                 Some(VarDeclKind::Let) | Some(VarDeclKind::Const) => {
                     if !self.options.top_level() && self.ctx.is_top_level_for_block_level_vars() {
+                        if cfg!(feature = "debug") {
+                            log::trace!(
+                                "unused: [X] Preserving block scoped var `{}` because it's \
+                                 top-level",
+                                dump(&*name)
+                            );
+                        }
                         return;
                     }
                 }
@@ -120,6 +142,12 @@ where
             .and_then(|data| data.scopes.get(&self.ctx.scope))
         {
             if scope.has_eval_call || scope.has_with_stmt {
+                if cfg!(feature = "debug") {
+                    log::trace!(
+                        "unused: [X] Preserving `{}` because of usages",
+                        dump(&*name)
+                    );
+                }
                 return;
             }
         }
@@ -163,6 +191,9 @@ where
                 if !parent_span.has_mark(self.marks.non_top_level)
                     && self.options.top_retain.contains(&i.id.sym)
                 {
+                    if cfg!(feature = "debug") {
+                        log::trace!("unused: [X] Top-retain")
+                    }
                     return;
                 }
 
@@ -445,7 +476,7 @@ where
                 let can_remove_ident = data
                     .vars
                     .get(&i.to_id())
-                    .map(|v| v.ref_count == 0)
+                    .map(|v| v.ref_count == 0 || v.var_kind.is_some())
                     .unwrap_or(true);
 
                 if can_remove_ident {

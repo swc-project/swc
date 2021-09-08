@@ -151,9 +151,9 @@ impl VisitMut for InfoMarker<'_> {
                 self.top_level_mark,
                 &self.top_level_bindings,
             ) {
-                self.state.is_bundle = true;
+                // self.state.is_bundle = true;
 
-                n.function.span = n.function.span.apply_mark(self.marks.standalone);
+                // n.function.span = n.function.span.apply_mark(self.marks.standalone);
                 return;
             }
         }
@@ -237,7 +237,7 @@ impl Visit for TopLevelBindingCollector {
     }
 }
 
-fn is_standalone<N>(n: &mut N, top_level_mark: Mark, top_level_bindings: &[Id]) -> bool
+fn is_standalone<N>(n: &mut N, top_level_mark: Mark, external_bingdings: &[Id]) -> bool
 where
     N: VisitMutWith<IdentCollector>,
 {
@@ -273,28 +273,42 @@ where
             _ => {}
         }
 
-        if used_id.1 == top_level_ctxt {
-            if top_level_bindings.contains(&used_id) {
-                if cfg!(feature = "debug") {
-                    log::debug!(
-                        "Due to {}{:?} (top-level), it's not a bundle",
-                        used_id.0,
-                        used_id.1
-                    );
-                }
-
-                return false;
+        if external_bingdings.contains(&used_id) {
+            if cfg!(feature = "debug") {
+                log::debug!(
+                    "bundle: Due to {}{:?} (top-level), it's not a bundle",
+                    used_id.0,
+                    used_id.1
+                );
             }
 
+            return false;
+        }
+
+        if used_id.1 == top_level_ctxt {
+            // if cfg!(feature = "debug") {
+            //     log::debug!("bundle: Ignoring {}{:?} (top level)", used_id.0, used_id.1);
+            // }
             continue;
         }
 
         if bindings.contains(used_id) {
+            // if cfg!(feature = "debug") {
+            //     log::debug!(
+            //         "bundle: Ignoring {}{:?} (local to fn)",
+            //         used_id.0,
+            //         used_id.1
+            //     );
+            // }
             continue;
         }
 
         if cfg!(feature = "debug") {
-            log::debug!("Due to {}{:?}, it's not a bundle", used_id.0, used_id.1);
+            log::debug!(
+                "bundle: Due to {}{:?}, it's not a bundle",
+                used_id.0,
+                used_id.1
+            );
         }
         return false;
     }

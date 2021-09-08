@@ -1469,7 +1469,11 @@ Event.Keys = {
             var parsed = this.cacheNTH[argument] || this.parseNTHArgument(argument);
             if (!parsed) return !1;
             var a = parsed.a, b = parsed.b, pos = this[positions][uid];
-            return 0 == a ? b == pos : a > 0 ? !(pos < b) && void 0 : !(b < pos) && (pos - b) % a == 0;
+            if (0 == a) return b == pos;
+            if (a > 0) {
+                if (pos < b) return !1;
+            } else if (b < pos) return !1;
+            return (pos - b) % a == 0;
         };
     }, local.pushArray = function(node, tag, id, classes, attributes, pseudos) {
         this.matchSelector(node, tag, id, classes, attributes, pseudos) && this.found.push(node);

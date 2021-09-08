@@ -2,6 +2,7 @@ use super::Pure;
 use crate::{
     compress::util::{is_pure_undefined, negate, negate_cost},
     mode::Mode,
+    option::CompressOptions,
     util::make_bool,
 };
 use std::mem::swap;
@@ -90,8 +91,8 @@ where
         }
     }
 
-    pub(super) fn compress_cmp_of_typeof_with_lit(&mut self, e: &mut BinExpr) {
-        fn should_optimize(l: &Expr, r: &Expr) -> bool {
+    pub(super) fn compress_cmp_with_long_op(&mut self, e: &mut BinExpr) {
+        fn should_optimize(l: &Expr, r: &Expr, opts: &CompressOptions) -> bool {
             match (l, r) {
                 (
                     Expr::Unary(UnaryExpr {
@@ -99,7 +100,17 @@ where
                     }),
                     Expr::Lit(..),
                 ) => true,
-                _ => false,
+                _ => {
+                    if opts.comparisons {
+                        match (l.get_type(), r.get_type()) {
+                            (Value::Known(lt), Value::Known(rt)) => lt == rt,
+
+                            _ => false,
+                        }
+                    } else {
+                        false
+                    }
+                }
             }
         }
 
@@ -108,7 +119,9 @@ where
             _ => return,
         }
 
-        if should_optimize(&e.left, &e.right) || should_optimize(&e.right, &e.left) {
+        if should_optimize(&e.left, &e.right, &self.options)
+            || should_optimize(&e.right, &e.left, &self.options)
+        {
             log::debug!("bools: Compressing comparison of `typeof` with literal");
             self.changed = true;
             e.op = match e.op {

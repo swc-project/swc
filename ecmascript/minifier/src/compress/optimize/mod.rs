@@ -6,7 +6,7 @@ use crate::{
     marks::Marks,
     mode::Mode,
     option::CompressOptions,
-    util::{contains_leaping_yield, MoudleItemExt},
+    util::{contains_leaping_yield, make_number, MoudleItemExt},
 };
 use fxhash::FxHashMap;
 use retain_mut::RetainMut;
@@ -1006,8 +1006,14 @@ where
             }
 
             Expr::Bin(BinExpr {
-                span, left, right, ..
+                span,
+                left,
+                right,
+                op,
+                ..
             }) => {
+                log::debug!("ignore_return_value: Reducing binary ({})", *op);
+
                 let left = self.ignore_return_value(&mut **left).map(Box::new);
                 let right = self.ignore_return_value(&mut **right).map(Box::new);
 
@@ -1019,7 +1025,7 @@ where
             }
 
             Expr::Cond(cond) => {
-                log::debug!("ignore_return_value: Cond expr");
+                log::trace!("ignore_return_value: Cond expr");
 
                 self.restore_negated_iife(cond);
 
@@ -1046,10 +1052,12 @@ where
                     span: cond.span,
                     test: cond.test.take(),
                     cons: cons.unwrap_or_else(|| {
+                        log::debug!("ignore_return_value: Dropped `cons`");
                         self.changed = true;
                         undefined(cons_span)
                     }),
                     alt: alt.unwrap_or_else(|| {
+                        log::debug!("ignore_return_value: Dropped `alt`");
                         self.changed = true;
                         undefined(alt_span)
                     }),
@@ -1095,6 +1103,8 @@ where
 
                         // Make return type undefined.
                         if let Some(last) = exprs.last_mut() {
+                            log::debug!("ignore_return_value: Shifting void");
+                            self.changed = true;
                             *last = Box::new(Expr::Unary(UnaryExpr {
                                 span: DUMMY_SP,
                                 op: op!("void"),
@@ -1104,6 +1114,7 @@ where
                     }
 
                     if exprs.is_empty() {
+                        log::debug!("ignore_return_value: Dropping empty seq");
                         return None;
                     }
 
@@ -1922,7 +1933,7 @@ where
         }
 
         if let Some(body) = &mut n.body {
-            self.merge_if_returns(&mut body.stmts);
+            self.merge_if_returns(&mut body.stmts, false, true);
             self.drop_else_token(&mut body.stmts);
         }
 
@@ -2324,6 +2335,21 @@ where
         };
 
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+
+        // infinite loop
+        match n.op {
+            op!("void") => match &*n.arg {
+                Expr::Lit(Lit::Num(..)) => {}
+
+                _ => {
+                    let arg = self.ignore_return_value(&mut n.arg);
+
+                    n.arg = Box::new(arg.unwrap_or_else(|| make_number(DUMMY_SP, 0.0)));
+                }
+            },
+
+            _ => {}
+        }
     }
 
     fn visit_mut_update_expr(&mut self, n: &mut UpdateExpr) {
@@ -2389,13 +2415,16 @@ where
 
         self.store_var_for_inining(var);
         self.store_var_for_prop_hoisting(var);
-
-        self.drop_unused_var_declarator(var);
     }
 
     fn visit_mut_var_declarators(&mut self, vars: &mut Vec<VarDeclarator>) {
         vars.retain_mut(|var| {
             let had_init = var.init.is_some();
+
+            if var.name.is_invalid() {
+                self.changed = true;
+                return false;
+            }
 
             var.visit_mut_with(self);
 
@@ -2412,7 +2441,51 @@ where
             }
 
             true
-        })
+        });
+
+        for idx in 0..vars.len() {
+            let v = &mut vars[idx];
+            if v.init
+                .as_deref()
+                .map(|e| !e.may_have_side_effects())
+                .unwrap_or(true)
+            {
+                self.drop_unused_var_declarator(v, true);
+            }
+        }
+
+        for idx in 0..vars.len() {
+            let v = &mut vars[idx];
+            self.drop_unused_var_declarator(v, true);
+            if v.name.is_invalid() {
+                continue;
+            }
+
+            break;
+        }
+
+        for idx in (0..vars.len()).rev() {
+            let v = &mut vars[idx];
+            self.drop_unused_var_declarator(v, false);
+            if v.name.is_invalid() {
+                continue;
+            }
+
+            break;
+        }
+
+        vars.retain(|var| {
+            if var.name.is_invalid() {
+                self.changed = true;
+                return false;
+            }
+
+            if let Some(Expr::Invalid(..)) = var.init.as_deref() {
+                return false;
+            }
+
+            true
+        });
     }
 
     fn visit_mut_while_stmt(&mut self, n: &mut WhileStmt) {

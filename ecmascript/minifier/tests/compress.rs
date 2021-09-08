@@ -30,7 +30,11 @@ use swc_ecma_parser::{
     lexer::{input::SourceFileInput, Lexer},
     Parser,
 };
-use swc_ecma_transforms::{fixer, hygiene, resolver_with_mark};
+use swc_ecma_transforms::{
+    fixer,
+    hygiene::{self, hygiene_with_config},
+    resolver_with_mark,
+};
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::{FoldWith, Node, Visit, VisitWith};
 use testing::{assert_eq, DebugUsingDisplay, NormalizedOutput};
@@ -196,7 +200,11 @@ fn run(
         end - optimization_start
     );
 
-    let output = output.fold_with(&mut hygiene()).fold_with(&mut fixer(None));
+    let output = output
+        .fold_with(&mut hygiene_with_config(hygiene::Config {
+            ..Default::default()
+        }))
+        .fold_with(&mut fixer(None));
 
     let end = Instant::now();
     log::info!(

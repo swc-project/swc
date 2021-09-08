@@ -20,6 +20,12 @@ impl UniqueScope {
 impl VisitMut for UniqueScope {
     noop_visit_mut_type!();
 
+    fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
+        n.visit_mut_children_with(self);
+
+        self.make_unique(&mut n.span);
+    }
+
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
         n.visit_mut_children_with(self);
 

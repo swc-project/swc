@@ -2,7 +2,7 @@ use super::{is_pure_undefined, Optimizer};
 use crate::{
     compress::{
         optimize::util::replace_id_with_expr,
-        util::{get_lhs_ident, get_lhs_ident_mut, is_directive, is_ident_used_by},
+        util::{get_lhs_ident, get_lhs_ident_mut, is_directive, is_ident_used_by, replace_expr},
     },
     debug::dump,
     mode::Mode,
@@ -209,6 +209,16 @@ where
                                         Expr::Assign(..) => true,
                                         _ => false,
                                     }) {
+                                        let ids_used_by_exprs =
+                                            idents_used_by_ignoring_nested(&exprs);
+
+                                        let ids_used_by_first_expr =
+                                            idents_used_by_ignoring_nested(&*e.first_expr_mut());
+
+                                        let has_conflict = ids_used_by_exprs
+                                            .iter()
+                                            .any(|id| ids_used_by_first_expr.contains(id));
+
                                         // I(kdy1) don't know why we need this, but terser appends
                                         // instead of prependig if initializer is (exactly)
                                         //
@@ -227,7 +237,8 @@ where
                                                 right,
                                                 ..
                                             }) => {
-                                                if get_lhs_ident_mut(left).is_some()
+                                                if !has_conflict
+                                                    && get_lhs_ident_mut(left).is_some()
                                                     && match &**right {
                                                         Expr::Lit(Lit::Regex(..)) => false,
                                                         Expr::Lit(..) => true,
@@ -616,6 +627,9 @@ where
                 Stmt::If(s) if options.sequences() => {
                     vec![Mergable::Expr(&mut *s.test)]
                 }
+                Stmt::Throw(s) if options.sequences() => {
+                    vec![Mergable::Expr(&mut *s.arg)]
+                }
 
                 _ => return None,
             })
@@ -640,7 +654,7 @@ where
 
         for stmt in stmts.iter_mut() {
             let is_end = match stmt.as_stmt() {
-                Some(Stmt::If(..)) => true,
+                Some(Stmt::If(..) | Stmt::Throw(..)) => true,
                 _ => false,
             };
 
@@ -899,6 +913,7 @@ where
 
                     return false;
                 }
+
                 _ => {}
             },
         }
@@ -1199,8 +1214,6 @@ where
         // }
 
         {
-            // TODO(kdy1): Implement this.
-            //
             // This requires tracking if `b` is in an assignment pattern.
             //
             // Update experssions can be inline.
@@ -1213,7 +1226,57 @@ where
 
             match a {
                 Mergable::Var(_) => {}
-                Mergable::Expr(..) => {}
+                Mergable::Expr(a) => match *a {
+                    Expr::Update(UpdateExpr {
+                        op,
+                        prefix: false,
+                        arg,
+                        ..
+                    }) => {
+                        match &**arg {
+                            Expr::Ident(a_id) => {
+                                let mut v = UsageCoutner {
+                                    expr_usage: Default::default(),
+                                    pat_usage: Default::default(),
+                                    target: &*a_id,
+                                    in_lhs: false,
+                                };
+                                b.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+                                if v.expr_usage != 1 || v.pat_usage != 0 {
+                                    log::trace!(
+                                        "[X] sequences: Aborting merging of an update expression \
+                                         because of usage counts ({}, ref = {}, pat = {})",
+                                        a_id,
+                                        v.expr_usage,
+                                        v.pat_usage
+                                    );
+                                    return false;
+                                }
+
+                                let mut replaced = false;
+                                replace_expr(b, |e| match e {
+                                    Expr::Update(e @ UpdateExpr { prefix: false, .. }) => {
+                                        if *op == e.op && arg.is_ident_ref_to(a_id.sym.clone()) {
+                                            e.prefix = true;
+                                            replaced = true;
+                                        }
+                                    }
+                                    _ => {}
+                                });
+                                if replaced {
+                                    a.take();
+                                    return true;
+                                }
+                            }
+
+                            _ => {}
+                        }
+
+                        return false;
+                    }
+
+                    _ => {}
+                },
             }
         }
 
@@ -1221,12 +1284,7 @@ where
         let (left_id, right) = match a {
             Mergable::Expr(a) => {
                 match a {
-                    Expr::Assign(AssignExpr {
-                        op: op!("="),
-                        left,
-                        right,
-                        ..
-                    }) => {
+                    Expr::Assign(AssignExpr { left, right, .. }) => {
                         // (a = 5, console.log(a))
                         //
                         // =>

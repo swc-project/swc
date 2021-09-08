@@ -144,7 +144,7 @@ where
     fn visit_mut_bin_expr(&mut self, e: &mut BinExpr) {
         e.visit_mut_children_with(self);
 
-        self.compress_cmp_of_typeof_with_lit(e);
+        self.compress_cmp_with_long_op(e);
 
         self.optimize_cmp_with_null_or_undefined(e);
 
@@ -241,6 +241,12 @@ where
         self.lift_seqs_of_bin(e);
 
         self.lift_seqs_of_cond_assign(e);
+    }
+
+    fn visit_mut_expr_stmt(&mut self, s: &mut ExprStmt) {
+        s.visit_mut_children_with(self);
+
+        self.ignore_return_value(&mut s.expr);
     }
 
     fn visit_mut_exprs(&mut self, exprs: &mut Vec<Box<Expr>>) {

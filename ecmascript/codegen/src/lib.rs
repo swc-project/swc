@@ -835,6 +835,12 @@ impl<'a> Emitter<'a> {
                     ) => false,
 
                     (_, Expr::Update(UpdateExpr { prefix: true, .. }) | Expr::Unary(..)) => true,
+
+                    (_, Expr::Bin(BinExpr { left, .. })) => match &**left {
+                        Expr::Update(UpdateExpr { prefix: true, .. }) | Expr::Unary(..) => true,
+                        _ => false,
+                    },
+
                     _ => false,
                 }
             }
@@ -1950,14 +1956,14 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     fn emit_pat(&mut self, node: &Pat) -> Result {
-        match *node {
+        match node {
             Pat::Array(ref n) => emit!(n),
             Pat::Assign(ref n) => emit!(n),
             Pat::Expr(ref n) => emit!(n),
             Pat::Ident(ref n) => emit!(n),
             Pat::Object(ref n) => emit!(n),
             Pat::Rest(ref n) => emit!(n),
-            Pat::Invalid(..) => invalid_pat(),
+            Pat::Invalid(n) => emit!(n),
         }
 
         self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
@@ -3101,10 +3107,4 @@ fn handle_invalid_unicodes(s: &str) -> Cow<str> {
     }
 
     Cow::Owned(s.replace("\\\0", "\\"))
-}
-
-#[cold]
-#[inline(never)]
-fn invalid_pat() -> ! {
-    unimplemented!("emit Pat::Invalid")
 }

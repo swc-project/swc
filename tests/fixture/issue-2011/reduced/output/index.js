@@ -7,35 +7,30 @@ function _defineProperties(c, d) {
         f.enumerable = f.enumerable || !1, f.configurable = !0, "value" in f && (f.writable = !0), Object.defineProperty(c, f.key, f);
     }
 }
-function _createClass(b, g, h) {
-    return g && _defineProperties(b.prototype, g), h && _defineProperties(b, h), b;
-}
-function _defineProperty(i, j, k) {
-    return j in i ? Object.defineProperty(i, j, {
-        value: k,
-        enumerable: !0,
-        configurable: !0,
-        writable: !0
-    }) : i[j] = k, i;
-}
-var ClassA = function ClassA() {
+var ClassA = function() {
     "use strict";
     _classCallCheck(this, ClassA);
 };
 module.exports = (function() {
-    var l = function() {
+    var g, h, i = function() {
         "use strict";
-        function l() {
-            _classCallCheck(this, l);
+        function i() {
+            _classCallCheck(this, i);
         }
-        return _createClass(l, [
+        var b, j, k;
+        return b = i, j = [
             {
                 key: "it",
                 value: function() {
-                    this.bb = new l.MyA();
+                    this.bb = new i.MyA();
                 }
             }
-        ]), l;
+        ], _defineProperties(b.prototype, j), k && _defineProperties(b, k), i;
     }();
-    return _defineProperty(l, "MyA", ClassA), l;
+    return g = i, h = ClassA, "MyA" in g ? Object.defineProperty(g, "MyA", {
+        value: h,
+        enumerable: !0,
+        configurable: !0,
+        writable: !0
+    }) : g.MyA = h, i;
 })();
