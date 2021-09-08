@@ -202,7 +202,12 @@ where
         }
     }
 
-    pub(super) fn merge_if_returns(&mut self, stmts: &mut Vec<Stmt>, can_work: bool) {
+    pub(super) fn merge_if_returns(
+        &mut self,
+        stmts: &mut Vec<Stmt>,
+        can_work: bool,
+        is_fn_body: bool,
+    ) {
         if !self.options.if_return {
             return;
         }
@@ -213,7 +218,7 @@ where
             self.merge_nested_if_returns(stmt, can_work);
         }
 
-        if can_work {
+        if can_work || is_fn_body {
             self.merge_if_returns_inner(stmts);
         }
     }
@@ -221,7 +226,7 @@ where
     fn merge_nested_if_returns(&mut self, s: &mut Stmt, can_work: bool) {
         match s {
             Stmt::Block(s) => {
-                self.merge_if_returns(&mut s.stmts, can_work);
+                self.merge_if_returns(&mut s.stmts, can_work, false);
             }
             _ => {}
         }

@@ -1922,7 +1922,7 @@ where
         }
 
         if let Some(body) = &mut n.body {
-            self.merge_if_returns(&mut body.stmts, false);
+            self.merge_if_returns(&mut body.stmts, false, true);
             self.drop_else_token(&mut body.stmts);
         }
 
