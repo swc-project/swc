@@ -202,7 +202,20 @@ where
         }
     }
 
-    fn merge_if_return_2(&mut self, stmts: &mut Vec<Stmt>) {}
+    pub(super) fn merge_if_return_2(&mut self, stmts: &mut Vec<Stmt>, can_work: bool) {
+        if !self.options.if_return {
+            return;
+        }
+    }
+
+    fn merge_nested_if_return_2(&mut self, s: &mut Stmt, can_work: bool) {
+        match s {
+            Stmt::Block(s) => {
+                self.merge_if_return_2(&mut s.stmts, can_work);
+            }
+            _ => {}
+        }
+    }
 
     fn merge_nested_if_returns(&mut self, s: &mut Stmt, terminate: bool) {
         match s {
