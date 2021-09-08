@@ -1103,6 +1103,8 @@ where
 
                         // Make return type undefined.
                         if let Some(last) = exprs.last_mut() {
+                            log::debug!("ignore_return_value: Shifting void");
+                            self.changed = true;
                             *last = Box::new(Expr::Unary(UnaryExpr {
                                 span: DUMMY_SP,
                                 op: op!("void"),
@@ -1112,6 +1114,7 @@ where
                     }
 
                     if exprs.is_empty() {
+                        log::debug!("ignore_return_value: Dropping empty seq");
                         return None;
                     }
 
