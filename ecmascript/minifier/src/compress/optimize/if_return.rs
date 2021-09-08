@@ -1,9 +1,6 @@
 use super::Optimizer;
 use crate::{
-    compress::{
-        optimize::Ctx,
-        util::{always_terminates, is_pure_undefined},
-    },
+    compress::util::{always_terminates, is_pure_undefined},
     debug::dump,
     mode::Mode,
     util::ExprOptExt,
@@ -219,24 +216,7 @@ where
         }
 
         if can_work || is_fn_body {
-            if cfg!(feature = "debug") {
-                let src = dump(&BlockStmt {
-                    span: DUMMY_SP,
-                    stmts: stmts.clone(),
-                });
-
-                log::trace!("if_return: [INPUT] {}", src)
-            }
             self.merge_if_returns_inner(stmts);
-
-            if cfg!(feature = "debug") {
-                let src = dump(&BlockStmt {
-                    span: DUMMY_SP,
-                    stmts: stmts.clone(),
-                });
-
-                log::trace!("if_return: [OUTPUT] {}", src)
-            }
         }
     }
 
