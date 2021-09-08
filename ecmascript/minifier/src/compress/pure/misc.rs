@@ -27,5 +27,28 @@ where
         }
     }
 
-    pub(super) fn ignore_return_value(&mut self, e: &mut Expr) {}
+    /// Removes last return statement. This should be callled only if the return
+    /// value of function is ignored.
+    fn drop_return_value(&mut self, stmts: &mut Vec<Stmt>) {}
+
+    pub(super) fn ignore_return_value(&mut self, e: &mut Expr) {
+        match e {
+            Expr::Call(CallExpr {
+                callee: ExprOrSuper::Expr(callee),
+                ..
+            }) if callee.is_fn_expr() => match &mut **callee {
+                Expr::Fn(callee) => {
+                    if let Some(body) = &mut callee.function.body {
+                        self.drop_return_value(&mut body.stmts);
+                    }
+                }
+
+                _ => {
+                    unreachable!()
+                }
+            },
+
+            _ => {}
+        }
+    }
 }
