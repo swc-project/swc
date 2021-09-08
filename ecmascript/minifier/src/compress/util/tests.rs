@@ -87,3 +87,14 @@ fn negate_cost_3() {
         4,
     );
 }
+
+#[test]
+fn negate_cost_4() {
+    // "(!force && !this._isRebuildRequired()) && !self._buildList()",
+    assert_negate_cost(
+        "!(force || this._isRebuildRequired()) || self._buildList()",
+        true,
+        true,
+        2,
+    );
+}
