@@ -1006,8 +1006,14 @@ where
             }
 
             Expr::Bin(BinExpr {
-                span, left, right, ..
+                span,
+                left,
+                right,
+                op,
+                ..
             }) => {
+                log::debug!("ignore_return_value: Reducing binary ({})", *op);
+
                 let left = self.ignore_return_value(&mut **left).map(Box::new);
                 let right = self.ignore_return_value(&mut **right).map(Box::new);
 
@@ -1019,7 +1025,7 @@ where
             }
 
             Expr::Cond(cond) => {
-                log::debug!("ignore_return_value: Cond expr");
+                log::trace!("ignore_return_value: Cond expr");
 
                 self.restore_negated_iife(cond);
 
@@ -1046,10 +1052,12 @@ where
                     span: cond.span,
                     test: cond.test.take(),
                     cons: cons.unwrap_or_else(|| {
+                        log::debug!("ignore_return_value: Dropped `cons`");
                         self.changed = true;
                         undefined(cons_span)
                     }),
                     alt: alt.unwrap_or_else(|| {
+                        log::debug!("ignore_return_value: Dropped `alt`");
                         self.changed = true;
                         undefined(alt_span)
                     }),
