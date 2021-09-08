@@ -202,39 +202,26 @@ where
         }
     }
 
-    pub(super) fn merge_if_return_2(&mut self, stmts: &mut Vec<Stmt>, can_work: bool) {
+    pub(super) fn merge_if_returns(&mut self, stmts: &mut Vec<Stmt>, can_work: bool) {
         if !self.options.if_return {
             return;
         }
-    }
 
-    fn merge_nested_if_return_2(&mut self, s: &mut Stmt, can_work: bool) {
-        match s {
-            Stmt::Block(s) => {
-                self.merge_if_return_2(&mut s.stmts, can_work);
-            }
-            _ => {}
+        let can_work = can_work || stmts.iter().any(always_terminates);
+
+        for stmt in stmts.iter_mut() {
+            self.merge_nested_if_returns(stmt, can_work);
+        }
+
+        if can_work {
+            self.merge_if_returns_inner(stmts);
         }
     }
 
-    fn merge_nested_if_returns(&mut self, s: &mut Stmt, terminate: bool) {
+    fn merge_nested_if_returns(&mut self, s: &mut Stmt, can_work: bool) {
         match s {
             Stmt::Block(s) => {
-                let terminate = terminate || s.stmts.iter().any(|stmt| always_terminates(stmt));
-
-                if terminate {
-                    self.merge_if_returns(&mut s.stmts)
-                }
-            }
-            Stmt::If(s) => {
-                let terminate =
-                    terminate || s.alt.as_deref().map(always_terminates).unwrap_or(false);
-                let cons_term = always_terminates(&s.cons);
-                self.merge_nested_if_returns(&mut s.cons, terminate && cons_term);
-
-                if let Some(alt) = &mut s.alt {
-                    self.merge_nested_if_returns(&mut **alt, terminate);
-                }
+                self.merge_if_returns(&mut s.stmts, can_work);
             }
             _ => {}
         }
@@ -260,21 +247,18 @@ where
     ///     return a ? foo() : bar();
     /// }
     /// ```
-    pub(super) fn merge_if_returns(&mut self, stmts: &mut Vec<Stmt>) {
+    fn merge_if_returns_inner(&mut self, stmts: &mut Vec<Stmt>) {
         if !self.options.if_return {
             return;
         }
 
-        let is_nested = self.ctx.is_nested_if_return_merging;
-        let terminate = stmts.iter().any(|stmt| always_terminates(stmt));
-
-        for stmt in stmts.iter_mut() {
-            let ctx = Ctx {
-                is_nested_if_return_merging: true,
-                ..self.ctx
-            };
-            self.with_ctx(ctx).merge_nested_if_returns(stmt, terminate);
-        }
+        // for stmt in stmts.iter_mut() {
+        //     let ctx = Ctx {
+        //         is_nested_if_return_merging: true,
+        //         ..self.ctx
+        //     };
+        //     self.with_ctx(ctx).merge_nested_if_returns(stmt, terminate);
+        // }
 
         if stmts.len() <= 1 {
             return;
