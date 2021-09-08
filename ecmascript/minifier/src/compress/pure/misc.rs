@@ -98,8 +98,12 @@ where
                 ..
             }) if callee.is_fn_expr() => match &mut **callee {
                 Expr::Fn(callee) => {
-                    if let Some(body) = &mut callee.function.body {
-                        self.drop_return_value(&mut body.stmts);
+                    if callee.ident.is_none() {
+                        if let Some(body) = &mut callee.function.body {
+                            if self.options.side_effects {
+                                self.drop_return_value(&mut body.stmts);
+                            }
+                        }
                     }
                 }
 
