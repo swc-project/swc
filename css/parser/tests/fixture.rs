@@ -16,9 +16,13 @@ impl Visit for AssertValid {
     fn visit_pseudo_selector(&mut self, s: &PseudoSelector, _: &dyn Node) {
         s.visit_children_with(self);
 
+        if s.args.tokens.is_empty() {
+            return;
+        }
+
         let _selectors: Vec<ComplexSelector> =
             parse_tokens(&s.args, ParserConfig { parse_values: true })
-                .expect("failed to parse tokens");
+                .unwrap_or_else(|err| panic!("failed to parse tokens: {:?}\n{:?}", err, s.args));
     }
 }
 
