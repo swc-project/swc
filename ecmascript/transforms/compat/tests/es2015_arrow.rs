@@ -176,30 +176,23 @@ function test() {
   }"#
 );
 
-test!(
+compare_stdout!(
     ::swc_ecma_parser::Syntax::default(),
     |_| arrow(),
     arguments_nested_arrow,
-    r#"
-  function test() {
-    console.log(arguments[0]);
-    return () => {
+    "
+    function test() {
       console.log(arguments[0]);
       return () => {
-        console.log(arguments[0])
-      };
-    }
-  }"#,
-    r#"
-  function test() {
-    console.log(arguments[0]);
-    return (function(_arguments) {
-        console.log(_arguments[0]);
-        return function() {
-            console.log(_arguments[0]);
+        console.log(arguments[0]);
+        return () => {
+          console.log(arguments[0])
         };
-    }).bind(this, arguments);
-  }"#
+      }
+    }
+
+    test()(1)(2);
+    "
 );
 
 compare_stdout!(
