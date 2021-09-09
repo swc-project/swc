@@ -165,6 +165,13 @@ impl VisitMut for Fixer<'_> {
                 _ => {}
             },
 
+            op!("**") => match &*expr.left {
+                Expr::Unary(..) => {
+                    self.wrap(&mut expr.left);
+                }
+                _ => {}
+            },
+
             _ => {}
         }
 
