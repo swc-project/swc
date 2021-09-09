@@ -481,7 +481,7 @@ impl<'a, I: Tokens> Parser<I> {
                 let case_start = cur_pos!(p);
                 bump!(p);
                 let ctx = Context {
-                    in_case_cond: true,
+                    dont_parse_colon_as_type_ann: true,
                     ..p.ctx()
                 };
                 let test = if is_case {

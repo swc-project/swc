@@ -443,16 +443,15 @@ fn fixture(input: PathBuf) {
             }
         }
 
+        let output_str = print(cm.clone(), &[drop_span(output_module.clone())], false);
+
         if env::var("UPDATE").map(|s| s == "1").unwrap_or(false) {
-            let output = output.clone();
             let _ = catch_unwind(|| {
-                NormalizedOutput::from(output)
+                NormalizedOutput::from(output_str.clone())
                     .compare_to_file(dir.join("output.js"))
                     .unwrap();
             });
         }
-
-        let output_str = print(cm.clone(), &[drop_span(output_module.clone())], false);
 
         assert_eq!(DebugUsingDisplay(&output_str), DebugUsingDisplay(&expected));
 

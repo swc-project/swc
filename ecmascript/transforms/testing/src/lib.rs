@@ -377,6 +377,9 @@ where
         );
 
         let expected = stdout_of(&input).unwrap();
+
+        println!("\t>>>>> Expected stdout <<<<<\n{}", expected);
+
         let actual = stdout_of(&transfomred_src).unwrap();
 
         assert_eq!(expected, actual);
@@ -514,6 +517,18 @@ macro_rules! test_exec {
             }
 
             $crate::exec_tr(stringify!($test_name), $syntax, $tr, $input)
+        }
+    };
+}
+
+/// Test transformation by invoking it using `node`. The code must print
+/// something to stdout.
+#[macro_export]
+macro_rules! compare_stdout {
+    ($syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
+        #[test]
+        fn $test_name() {
+            $crate::compare_stdout($syntax, $tr, $input)
         }
     };
 }

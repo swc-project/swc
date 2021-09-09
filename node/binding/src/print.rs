@@ -1,6 +1,6 @@
 use crate::{
     complete_output, get_compiler,
-    util::{CtxtExt, MapErr},
+    util::{deserialize_json, CtxtExt, MapErr},
 };
 use napi::{CallContext, Env, Error, JsObject, JsString, Status, Task};
 use std::sync::Arc;
@@ -51,7 +51,7 @@ impl Task for PrintTask {
 pub fn print(cx: CallContext) -> napi::Result<JsObject> {
     let c = get_compiler(&cx);
     let program = cx.get::<JsString>(0)?.into_utf8()?;
-    let program: Program = serde_json::from_str(program.as_str()?).map_err(|e| {
+    let program: Program = deserialize_json(program.as_str()?).map_err(|e| {
         Error::new(
             Status::InvalidArg,
             format!("failed to deserialize Program {}", e),
@@ -75,7 +75,7 @@ pub fn print_sync(cx: CallContext) -> napi::Result<JsObject> {
 
     let program = cx.get::<JsString>(0)?.into_utf8()?;
     let program: Program =
-        serde_json::from_str(&program.as_str()?).expect("failed to deserialize Program");
+        deserialize_json(&program.as_str()?).expect("failed to deserialize Program");
 
     let options: Options = cx.get_deserialized(1)?;
 
