@@ -3,7 +3,7 @@ use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Check;
 use swc_ecma_transforms_macros::fast_path;
-use swc_ecma_utils::{contains_this_expr, prepend, private_ident, quote_ident, ExprFactory};
+use swc_ecma_utils::{contains_this_expr, prepend, private_ident};
 use swc_ecma_visit::{
     noop_fold_type, noop_visit_mut_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitMut,
     VisitMutWith,
@@ -84,12 +84,47 @@ impl Fold for Arrow {
             Expr::Arrow(ArrowExpr {
                 span,
                 params,
-                mut body,
+                body,
                 is_async,
                 is_generator,
                 type_params,
                 return_type,
             }) => {
+                let params: Vec<Param> = params
+                    .fold_with(self)
+                    .into_iter()
+                    .map(|pat| Param {
+                        span: DUMMY_SP,
+                        decorators: Default::default(),
+                        pat,
+                    })
+                    .collect();
+
+                let mut arguments_var = None;
+
+                // If we aren't already in an arrow expression, check if there is
+                // any arguments references within this function. If so, we need to
+                // replace them so that they refer to the parent function environment.
+                let body = if !self.in_arrow {
+                    let mut arguments_replacer = ArgumentsReplacer {
+                        arguments: private_ident!("_arguments"),
+                        found: false,
+                    };
+                    let body = body.fold_with(&mut arguments_replacer);
+
+                    if arguments_replacer.found {
+                        arguments_var = Some(arguments_replacer.arguments.clone());
+                    }
+                    body
+                } else {
+                    body
+                };
+
+                let in_arrow = self.in_arrow;
+                self.in_arrow = true;
+                let mut body = body.fold_with(self);
+                self.in_arrow = in_arrow;
+
                 let used_this = contains_this_expr(&body);
 
                 let this_id = if used_this {
@@ -109,47 +144,17 @@ impl Fold for Arrow {
                     body.visit_mut_with(&mut ThisReplacer { to: &this_id })
                 }
 
-                let mut params: Vec<Param> = params
-                    .fold_with(self)
-                    .into_iter()
-                    .map(|pat| Param {
+                if let Some(id) = arguments_var.clone() {
+                    self.vars.push(VarDeclarator {
                         span: DUMMY_SP,
-                        decorators: Default::default(),
-                        pat,
-                    })
-                    .collect();
-
-                // If we aren't already in an arrow expression, check if there is
-                // any arguments references within this function. If so, we need to
-                // replace them so that they refer to the parent function environment.
-                let (body, used_arguments) = if !self.in_arrow {
-                    let mut arguments_replacer = ArgumentsReplacer {
-                        arguments: private_ident!("_arguments"),
-                        found: false,
-                    };
-                    let body = body.fold_with(&mut arguments_replacer);
-
-                    if arguments_replacer.found {
-                        params.insert(
-                            0,
-                            Param {
-                                span: DUMMY_SP,
-                                decorators: Default::default(),
-                                pat: Pat::Ident(BindingIdent::from(
-                                    arguments_replacer.arguments.clone(),
-                                )),
-                            },
-                        );
-                    }
-                    (body, arguments_replacer.found)
-                } else {
-                    (body, false)
-                };
-
-                let in_arrow = self.in_arrow;
-                self.in_arrow = true;
-                let body = body.fold_with(self);
-                self.in_arrow = in_arrow;
+                        name: Pat::Ident(id.into()),
+                        init: Some(Box::new(Expr::Ident(Ident::new(
+                            js_word!("arguments"),
+                            DUMMY_SP,
+                        )))),
+                        definite: false,
+                    });
+                }
 
                 let fn_expr = Expr::Fn(FnExpr {
                     ident: None,
@@ -174,21 +179,7 @@ impl Fold for Arrow {
                     },
                 });
 
-                if !used_this && !used_arguments {
-                    return fn_expr;
-                }
-
-                let mut args = vec![ThisExpr { span: DUMMY_SP }.as_arg()];
-                if used_arguments {
-                    args.push(quote_ident!("arguments").as_arg());
-                }
-
-                Expr::Call(CallExpr {
-                    span,
-                    callee: fn_expr.make_member(quote_ident!("bind")).as_callee(),
-                    args,
-                    type_args: Default::default(),
-                })
+                return fn_expr;
             }
             _ => e.fold_children_with(self),
         }
