@@ -682,7 +682,7 @@ impl<'a, I: Tokens> Parser<I> {
         let return_type = if !self.ctx().in_cond_expr
             && self.input.syntax().typescript()
             && is!(self, ':')
-            && !self.ctx().in_case_cond
+            && !self.ctx().dont_parse_colon_as_type_ann
         {
             Some(self.parse_ts_type_or_type_predicate_ann(&tok!(':'))?)
         } else {

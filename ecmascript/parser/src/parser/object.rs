@@ -12,7 +12,7 @@ impl<'a, I: Tokens> Parser<I> {
         Self: ParseObject<T>,
     {
         let ctx = Context {
-            in_case_cond: false,
+            dont_parse_colon_as_type_ann: false,
             ..self.ctx()
         };
         self.with_ctx(ctx).parse_with(|p| {
