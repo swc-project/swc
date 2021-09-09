@@ -1,6 +1,6 @@
 use crate::{
     complete_output, get_compiler,
-    util::{CtxtExt, MapErr},
+    util::{deserialize_json, CtxtExt, MapErr},
 };
 use anyhow::{Context as _, Error};
 use napi::{CallContext, Env, JsBoolean, JsObject, JsString, Task};
@@ -39,7 +39,7 @@ impl Task for TransformTask {
             self.c.run(|| match self.input {
                 Input::Program(ref s) => {
                     let program: Program =
-                        serde_json::from_str(&s).expect("failed to deserialize Program");
+                        deserialize_json(&s).expect("failed to deserialize Program");
                     // TODO: Source map
                     self.c.process_js(&handler, program, &self.options)
                 }
@@ -90,7 +90,7 @@ where
         c.run(|| {
             if is_module.get_value()? {
                 let program: Program =
-                    serde_json::from_str(s.as_str()?).context("failed to deserialize Program")?;
+                    deserialize_json(s.as_str()?).context("failed to deserialize Program")?;
                 c.process_js(&handler, program, &options)
             } else {
                 let fm =
