@@ -183,6 +183,10 @@ where
         let mut subclass_selectors = vec![];
 
         'subclass_selectors: loop {
+            if is!(self, EOF) {
+                break;
+            }
+
             match cur!(self) {
                 Token::Hash { is_id, .. } => {
                     if !*is_id {
