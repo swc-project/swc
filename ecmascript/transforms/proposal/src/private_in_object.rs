@@ -4,9 +4,9 @@ use std::{
     mem::{replace, take},
 };
 use swc_atoms::JsWord;
-use swc_common::{pass::CompilerPass, Mark, Spanned, DUMMY_SP};
+use swc_common::{pass::CompilerPass, util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{ext::MapWithMut, pass::JsPass, perf::Check};
+use swc_ecma_transforms_base::{pass::JsPass, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
     default_constructor, ident::IdentLike, prepend, private_ident, quote_ident, ExprExt,

@@ -1,10 +1,10 @@
 use fxhash::FxHashSet;
 use std::{iter, mem};
 use swc_atoms::JsWord;
-use swc_common::{Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{
-    ext::{AsOptExpr, MapWithMut, PatOrExprExt},
+    ext::{AsOptExpr, PatOrExprExt},
     helper,
 };
 use swc_ecma_utils::{alias_ident_for, alias_if_required, prepend, quote_ident, ExprFactory};
