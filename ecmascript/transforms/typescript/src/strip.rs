@@ -1925,9 +1925,7 @@ impl VisitMut for Strip {
                     }
                     export.specifiers.retain(|s| match *s {
                         ExportSpecifier::Named(ExportNamedSpecifier { ref orig, .. }) => {
-                            if let Some(e) =
-                                self.scope.decls.get(&(orig.sym.clone(), orig.span.ctxt()))
-                            {
+                            if let Some(e) = self.scope.decls.get(&orig.to_id()) {
                                 e.has_concrete
                             } else {
                                 true
