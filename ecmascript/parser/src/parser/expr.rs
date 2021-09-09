@@ -1578,7 +1578,7 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_lit(&mut self) -> PResult<Lit> {
         let start = cur_pos!(self);
 
-        let v = match *cur!(self, true)? {
+        let v = match cur!(self, true)? {
             Word(Word::Null) => {
                 bump!(self);
                 let span = span!(self, start);
@@ -1616,7 +1616,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }),
                 _ => unreachable!(),
             },
-            _ => unreachable!("parse_lit should not be called"),
+            token => unreachable!("parse_lit should not be called for {:?}", token),
         };
         Ok(v)
     }
