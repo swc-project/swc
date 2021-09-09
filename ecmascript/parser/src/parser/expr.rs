@@ -291,7 +291,12 @@ impl<'a, I: Tokens> Parser<I> {
                 }
 
                 tok!('[') => {
-                    return self.parse_array_lit();
+                    let ctx = Context {
+                        is_direct_child_of_cond: false,
+                        dont_parse_colon_as_type_ann: false,
+                        ..self.ctx()
+                    };
+                    return self.with_ctx(ctx).parse_array_lit();
                 }
 
                 tok!('{') => {
@@ -679,7 +684,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
-        let return_type = if !self.ctx().in_cond_expr
+        let return_type = if !(self.ctx().in_cond_expr && self.ctx().is_direct_child_of_cond)
             && self.input.syntax().typescript()
             && is!(self, ':')
             && !self.ctx().dont_parse_colon_as_type_ann
