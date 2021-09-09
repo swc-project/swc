@@ -1,6 +1,8 @@
 use crate::es2015::arrow;
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_utils::prepend;
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, InjectVars};
 
 /// Safari 10.3 had an issue where async arrow function expressions within any
 /// class method would throw. After an initial fix, any references to the
@@ -10,9 +12,10 @@ use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 pub fn async_arrows_in_class() -> impl Fold {
     AsyncArrowsInClass::default()
 }
-#[derive(Default, Clone, Copy)]
+#[derive(Default, Clone)]
 struct AsyncArrowsInClass {
     in_class_method: bool,
+    vars: Vec<VarDeclarator>,
 }
 
 impl Fold for AsyncArrowsInClass {
@@ -41,13 +44,50 @@ impl Fold for AsyncArrowsInClass {
         match n {
             Expr::Arrow(ref a) => {
                 if a.is_async {
-                    n.fold_with(&mut arrow())
+                    let mut v = arrow();
+                    let n = n.fold_with(&mut v);
+                    self.vars.extend(v.take_vars());
+                    n
                 } else {
                     n
                 }
             }
             _ => n,
         }
+    }
+
+    fn fold_module_items(&mut self, stmts: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        let mut stmts = stmts.fold_children_with(self);
+        if !self.vars.is_empty() {
+            prepend(
+                &mut stmts,
+                ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: self.vars.take(),
+                }))),
+            );
+        }
+
+        stmts
+    }
+
+    fn fold_stmts(&mut self, stmts: Vec<Stmt>) -> Vec<Stmt> {
+        let mut stmts = stmts.fold_children_with(self);
+        if !self.vars.is_empty() {
+            prepend(
+                &mut stmts,
+                Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: self.vars.take(),
+                })),
+            );
+        }
+
+        stmts
     }
 }
 

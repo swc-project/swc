@@ -5,8 +5,8 @@ use swc_ecma_transforms_base::perf::Check;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{contains_this_expr, prepend, private_ident};
 use swc_ecma_visit::{
-    noop_fold_type, noop_visit_mut_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitMut,
-    VisitMutWith,
+    noop_fold_type, noop_visit_mut_type, noop_visit_type, Fold, FoldWith, InjectVars, Node, Visit,
+    VisitMut, VisitMutWith,
 };
 
 /// Compile ES2015 arrow functions to ES5
@@ -57,7 +57,7 @@ use swc_ecma_visit::{
 /// };
 /// console.log(bob.printFriends());
 /// ```
-pub fn arrow() -> impl Fold {
+pub fn arrow() -> impl Fold + InjectVars {
     Arrow::default()
 }
 
@@ -220,6 +220,12 @@ impl Fold for Arrow {
         }
 
         stmts
+    }
+}
+
+impl InjectVars for Arrow {
+    fn take_vars(&mut self) -> Vec<VarDeclarator> {
+        self.vars.take()
     }
 }
 
