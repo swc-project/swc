@@ -135,14 +135,14 @@ macro_rules! assert_eq_ignore_span {
 /// If a pass depends on other pass which injects variables, this trait can be
 /// used to keep the varaibles.
 pub trait InjectVars {
-    fn take_vars(&mut self) -> Vec<Option<VarDeclarator>>;
+    fn take_vars(&mut self) -> Vec<VarDeclarator>;
 }
 
 impl<V> InjectVars for Folder<V>
 where
     V: VisitMut + InjectVars,
 {
-    fn take_vars(&mut self) -> Vec<Option<VarDeclarator>> {
+    fn take_vars(&mut self) -> Vec<VarDeclarator> {
         self.0.take_vars()
     }
 }
