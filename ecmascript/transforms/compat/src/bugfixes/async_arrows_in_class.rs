@@ -18,14 +18,14 @@ struct AsyncArrowsInClass {
 impl Fold for AsyncArrowsInClass {
     noop_fold_type!();
 
-    fn fold_constructor(&mut self, n: Constructor) -> Constructor {
+    fn fold_class_method(&mut self, n: ClassMethod) -> ClassMethod {
         self.in_class_method = true;
         let res = n.fold_children_with(self);
         self.in_class_method = false;
         res
     }
 
-    fn fold_class_method(&mut self, n: ClassMethod) -> ClassMethod {
+    fn fold_constructor(&mut self, n: Constructor) -> Constructor {
         self.in_class_method = true;
         let res = n.fold_children_with(self);
         self.in_class_method = false;
@@ -115,7 +115,7 @@ mod tests {
         }"#,
         r#"
         class Foo {
-            constructor() {          
+            constructor() {
               this.x = () => (async function () {
                   return await this;
               }).bind(this);
