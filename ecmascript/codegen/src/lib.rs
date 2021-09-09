@@ -1964,7 +1964,6 @@ impl<'a> Emitter<'a> {
     #[emitter]
     fn emit_pat(&mut self, node: &Pat) -> Result {
         match node {
-        match &*node {
             Pat::Array(ref n) => emit!(n),
             Pat::Assign(ref n) => emit!(n),
             Pat::Expr(ref n) => emit!(n),
