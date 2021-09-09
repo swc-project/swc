@@ -4,7 +4,10 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Check;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{contains_this_expr, prepend, private_ident, quote_ident, ExprFactory};
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit};
+use swc_ecma_visit::{
+    noop_fold_type, noop_visit_mut_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitMut,
+    VisitMutWith,
+};
 
 /// Compile ES2015 arrow functions to ES5
 ///
@@ -81,13 +84,30 @@ impl Fold for Arrow {
             Expr::Arrow(ArrowExpr {
                 span,
                 params,
-                body,
+                mut body,
                 is_async,
                 is_generator,
                 type_params,
                 return_type,
             }) => {
                 let used_this = contains_this_expr(&body);
+
+                let this_id = if used_this {
+                    Some(private_ident!("_this"))
+                } else {
+                    None
+                };
+
+                if let Some(this_id) = this_id.clone() {
+                    self.vars.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(this_id.clone().into()),
+                        init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
+                        definite: false,
+                    });
+
+                    body.visit_mut_with(&mut ThisReplacer { to: &this_id })
+                }
 
                 let mut params: Vec<Param> = params
                     .fold_with(self)
@@ -259,6 +279,32 @@ impl Fold for ArgumentsReplacer {
     fn fold_function(&mut self, f: Function) -> Function {
         f
     }
+}
+
+struct ThisReplacer<'a> {
+    to: &'a Ident,
+}
+
+impl VisitMut for ThisReplacer<'_> {
+    noop_visit_mut_type!();
+
+    fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
+
+    fn visit_mut_constructor(&mut self, _: &mut Constructor) {}
+
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
+
+        match e {
+            Expr::This(..) => {
+                *e = Expr::Ident(self.to.clone());
+            }
+
+            _ => {}
+        }
+    }
+
+    fn visit_mut_function(&mut self, _: &mut Function) {}
 }
 
 #[derive(Default)]
