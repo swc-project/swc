@@ -1149,7 +1149,7 @@ pub trait ExprExt {
             | Expr::JSXNamespacedName(..)
             | Expr::JSXEmpty(..)
             | Expr::JSXElement(..)
-            | Expr::JSXFragment(..) => unreachable!("simplifying jsx"),
+            | Expr::JSXFragment(..) => true,
 
             Expr::TsAs(TsAsExpr { ref expr, .. })
             | Expr::TsNonNull(TsNonNullExpr { ref expr, .. })
@@ -2005,7 +2005,7 @@ pub fn extract_side_effects_to(to: &mut Vec<Box<Expr>>, expr: Box<Expr>) {
         | Expr::JSXNamespacedName(..)
         | Expr::JSXEmpty(..)
         | Expr::JSXElement(..)
-        | Expr::JSXFragment(..) => unreachable!("simplifying jsx"),
+        | Expr::JSXFragment(..) => to.push(Box::new(expr)),
 
         Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
         | Expr::TsNonNull(TsNonNullExpr { expr, .. })
