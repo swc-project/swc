@@ -20,6 +20,11 @@ impl Visit for AssertValid {
             return;
         }
 
+        match &s.args.tokens[0].token {
+            Token::Colon | Token::Num(..) => return,
+            _ => {}
+        }
+
         let _selectors: Vec<ComplexSelector> =
             parse_tokens(&s.args, ParserConfig { parse_values: true })
                 .unwrap_or_else(|err| panic!("failed to parse tokens: {:?}\n{:?}", err, s.args));
