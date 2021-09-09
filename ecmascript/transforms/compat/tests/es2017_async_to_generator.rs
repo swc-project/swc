@@ -220,42 +220,46 @@ async function s(x, ...args) {
 }
 "#,
     r#"
-function _s() {
-    _s = _asyncToGenerator((function*(x) {
-        for(let _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
-            args[_key - 1] = arguments[_key];
-        }
-        let t = (function(_arguments, y, a) {
-            var _ref = _asyncToGenerator((function*(_arguments, y, a) {
-                let r = (function(z, b) {
-                    var _ref = _asyncToGenerator((function*(z, b) {
-                        for(let _len = arguments.length, innerArgs = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
-                            innerArgs[_key - 2] = arguments[_key];
-                        }
-                        yield z;
-                        console.log(this, innerArgs, _arguments);
-                        return this.x;
-                    }).bind(this));
-                    return function() {
-                        return _ref.apply(this, arguments);
-                    };
-                })().bind(this);
-                yield r();
-                console.log(this, args, _arguments);
-                return this.g(r);
-            }).bind(this));
-            return function () {
-                return _ref.apply(this, arguments);
-            };
-        })().bind(this, arguments);
-        yield t();
-        return this.h(t);
-    }).bind(this));
-    return _s.apply(this, arguments);
-}
-function s(x) {
-    return _s.apply(this, arguments);
-}
+    function _s() {
+      _s = _asyncToGenerator((function*(x) {
+          for(let _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
+              args[_key - 1] = arguments[_key];
+          }
+          var _this = this, _arguments = arguments;
+          let t = function(y, a) {
+              var _t = _asyncToGenerator(function*(y, a) {
+                  var _this1 = _this, _arguments1 = _arguments;
+                  let r = function(z, b) {
+                      var _r = _asyncToGenerator(function*(z, b) {
+                          for(let _len = arguments.length, innerArgs = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
+                              innerArgs[_key - 2] = arguments[_key];
+                          }
+                          yield z;
+                          console.log(_this1, innerArgs, _arguments1);
+                          return _this1.x;
+                      });
+                      function r() {
+                          return _r.apply(this, arguments);
+                      }
+                      return r;
+                  }();
+                  yield r();
+                  console.log(_this, args, _arguments);
+                  return _this.g(r);
+              });
+              function t() {
+                  return _t.apply(this, arguments);
+              }
+              return t;
+          }();
+          yield t();
+          return this.h(t);
+      }).bind(this));
+      return _s.apply(this, arguments);
+  }
+  function s(x) {
+      return _s.apply(this, arguments);
+  }
 "#
 );
 
@@ -372,52 +376,52 @@ class Class {
 }
 "#,
     r#"
-class Class{
-     method() {
-        return _asyncToGenerator((function*() {
-            this;
-            (function() {
-                return this;
-            }).bind(this);
-            (function() {
-                this;
-                (function() {
-                    return this;
-                }).bind(this);
-                function x() {
-                    this;
-                    (function() {
-                        this;
-                    }).bind(this);
-                    (function() {
-                        var _ref = _asyncToGenerator((function*() {
-                            this;
-                        }).bind(this));
-                        return function() {
-                            return _ref.apply(this, arguments);
-                        };
-                    })().bind(this);
-                }
-            }).bind(this);
-            function x() {
-                this;
-                (function() {
-                    this;
-                }).bind(this);
-                (function() {
-                    var _ref = _asyncToGenerator((function*() {
-                        this;
-                    }).bind(this));
-                    return function() {
-                        return _ref.apply(this, arguments);
-                    };
-                })().bind(this);
-            }
-        }).bind(this))();
-    }
-}
-
-
+    class Class {
+      method() {
+          return _asyncToGenerator((function*() {
+              this;
+              (function() {
+                  return _this;
+              });
+              (function() {
+                  _this;
+                  (function() {
+                      return _this;
+                  });
+                  function x() {
+                      var _this = this, _this1 = this, _this2 = this, _this3 = this;
+                      this;
+                      (function() {
+                          _this2;
+                      });
+                      (function() {
+                          var _ref = _asyncToGenerator(function*() {
+                              _this3;
+                          });
+                          return function() {
+                              return _ref.apply(this, arguments);
+                          };
+                      })();
+                  }
+              });
+              function x() {
+                  var _this = this, _this1 = this, _this2 = this;
+                  this;
+                  (function() {
+                      _this1;
+                  });
+                  (function() {
+                      var _ref = _asyncToGenerator(function*() {
+                          _this2;
+                      });
+                      return function() {
+                          return _ref.apply(this, arguments);
+                      };
+                  })();
+              }
+          }).bind(this))();
+      }
+  }
 "#
 );
 
