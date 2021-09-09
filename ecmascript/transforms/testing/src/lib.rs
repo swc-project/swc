@@ -377,6 +377,9 @@ where
         );
 
         let expected = stdout_of(&input).unwrap();
+
+        println!("\t>>>>> Expected stdout <<<<<\n{}", expected);
+
         let actual = stdout_of(&transfomred_src).unwrap();
 
         assert_eq!(expected, actual);
