@@ -4065,3 +4065,15 @@ to!(
     }
     "
 );
+
+to!(
+    issue_2219,
+    "
+    import type { TestInfo } from './config'
+
+    export { TestInfo }
+    ",
+    "
+    
+    "
+);
