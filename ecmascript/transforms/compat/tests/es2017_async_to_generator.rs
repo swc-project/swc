@@ -98,7 +98,7 @@ let TestClass = {
           return function() {
             return _ref.apply(this, arguments);
           };
-        })();
+        }());
       }
 };
 "#
