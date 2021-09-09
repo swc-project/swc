@@ -107,10 +107,7 @@ impl Fold for Arrow {
                 let body = body.fold_with(self);
                 self.in_arrow = in_arrow;
 
-                // If we aren't already in an arrow expression, check if there is
-                // any arguments references within this function. If so, we need to
-                // replace them so that they refer to the parent function environment.
-                let mut body = if !self.in_arrow {
+                let mut body = {
                     let mut arguments_replacer = ArgumentsReplacer {
                         arguments: private_ident!("_arguments"),
                         found: false,
@@ -120,8 +117,6 @@ impl Fold for Arrow {
                     if arguments_replacer.found {
                         arguments_var = Some(arguments_replacer.arguments.clone());
                     }
-                    body
-                } else {
                     body
                 };
 
