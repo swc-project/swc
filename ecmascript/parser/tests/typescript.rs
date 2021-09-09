@@ -94,7 +94,7 @@ fn spec(file: PathBuf) {
         );
     }
 
-    with_parser(is_backtrace_enabled(), &file, true, |p| {
+    with_parser(false, &file, true, |p| {
         let program = p.parse_program()?.fold_with(&mut Normalizer {
             drop_span: false,
             is_test262: false,
@@ -218,12 +218,5 @@ fn errors(file: PathBuf) {
         .is_err()
     {
         panic!()
-    }
-}
-
-fn is_backtrace_enabled() -> bool {
-    match ::std::env::var("RUST_BACKTRACE") {
-        Ok(val) => val == "1" || val == "full",
-        _ => false,
     }
 }
