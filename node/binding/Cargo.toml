@@ -23,7 +23,7 @@ napi = {version = "1", features = ["serde-json"]}
 napi-derive = {version = "1"}
 path-clean = "0.1"
 serde = {version = "1", features = ["derive"]}
-serde_json = "1"
+serde_json = {version = "1", features = ["unbounded_depth"]}
 swc = {path = "../../"}
 swc_atoms = {version = "0.2.4", path = "../../atoms"}
 swc_bundler = {path = "../../bundler"}
