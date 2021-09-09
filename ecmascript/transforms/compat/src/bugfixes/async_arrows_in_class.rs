@@ -156,9 +156,10 @@ mod tests {
         r#"
         class Foo {
             constructor() {
-              this.x = () => (async function () {
-                  return await this;
-              }).bind(this);
+                var _this = this;
+                this.x = () => async function () {
+                    return await _this;
+                };
             }
         }"#
     );
