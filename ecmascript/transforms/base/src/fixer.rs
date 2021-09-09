@@ -166,7 +166,7 @@ impl VisitMut for Fixer<'_> {
             },
 
             op!("**") => match &*expr.left {
-                Expr::Unary(..) | Expr::Seq(..) => {
+                Expr::Unary(..) => {
                     self.wrap(&mut expr.left);
                 }
                 Expr::Lit(Lit::Num(v)) if v.value.is_sign_negative() => {
