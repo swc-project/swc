@@ -518,6 +518,18 @@ macro_rules! test_exec {
     };
 }
 
+/// Test transformation by invoking it using `node`. The code must print
+/// something to stdout.
+#[macro_export]
+macro_rules! compare_stdout {
+    ($syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
+        #[test]
+        fn $test_name() {
+            $crate::compare_stdout($syntax, $tr, $input)
+        }
+    };
+}
+
 #[derive(Debug, Clone)]
 struct Buf(Arc<RwLock<Vec<u8>>>);
 impl Write for Buf {

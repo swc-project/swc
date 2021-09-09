@@ -1,5 +1,5 @@
 use swc_ecma_transforms_compat::es2015::arrow;
-use swc_ecma_transforms_testing::test;
+use swc_ecma_transforms_testing::{compare_stdout, test};
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
@@ -169,9 +169,10 @@ function test() {
 }"#,
     r#"
   function test() {
-    return (function(_arguments) {
+    var _arguments = arguments;
+    return function() {
       return _arguments[0];
-    }).bind(this, arguments)
+    }
   }"#
 );
 
@@ -201,36 +202,25 @@ test!(
   }"#
 );
 
-test!(
+compare_stdout!(
     ::swc_ecma_parser::Syntax::default(),
     |_| arrow(),
     arguments_nested_fn,
-    r#"
-  function test() {
-    console.log(arguments[0]);
-    return () => {
+    "
+    function test() {
       console.log(arguments[0]);
-      return function() {
+      return () => {
         console.log(arguments[0]);
-        return () => {
-          console.log(arguments[0])
-        };
-      };
-    }
-  }"#,
-    r#"
-  function test() {
-    console.log(arguments[0]);
-    return (function(_arguments) {
-        console.log(_arguments[0]);
         return function() {
-            console.log(arguments[0]);
-            return (function(_arguments) {
-                console.log(_arguments[0]);
-            }).bind(this, arguments);
+          console.log(arguments[0]);
+          return () => {
+            console.log(arguments[0])
+          };
         };
-    }).bind(this, arguments);
-  }"#
+      }
+    }
+    test()(1)(2)(3);
+    "
 );
 
 test!(
@@ -267,4 +257,40 @@ test!(
       return arguments[0];
     };
   }"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| arrow(),
+    issue_2212_1,
+    "const foo = () => this",
+    "
+    var _this = this;
+    const foo = function() {
+        return _this;
+    };
+    "
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| arrow(),
+    issue_2212_2,
+    "
+    const foo = function (){
+        () => () => () => this
+    }
+    ",
+    "
+    const foo = function() {
+      var _this = this;
+      (function() {
+          return function() {
+              return function() {
+                  return _this;
+              };
+          };
+      });
+    };
+    "
 );
