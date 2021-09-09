@@ -206,6 +206,8 @@ impl Fold for Arrow {
     }
 
     fn fold_stmts(&mut self, stmts: Vec<Stmt>) -> Vec<Stmt> {
+        let old_vars = self.vars.take();
+
         let mut stmts = stmts.fold_children_with(self);
         if !self.vars.is_empty() {
             prepend(
@@ -218,6 +220,8 @@ impl Fold for Arrow {
                 })),
             );
         }
+
+        self.vars = old_vars;
 
         stmts
     }
