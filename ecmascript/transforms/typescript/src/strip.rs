@@ -1223,6 +1223,9 @@ impl Visit for Strip {
                     .referenced_idents
                     .entry(($i.sym.clone(), $i.span.ctxt()))
                     .or_default();
+                if n.type_only {
+                    self.scope.decls.entry($i.to_id()).or_default().has_type = true;
+                }
             }};
         }
         for s in &n.specifiers {
