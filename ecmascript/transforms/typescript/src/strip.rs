@@ -1210,11 +1210,7 @@ impl Visit for Strip {
 
     fn visit_ident(&mut self, n: &Ident, _: &dyn Node) {
         let is_type_only_export = self.is_type_only_export;
-        let entry = self
-            .scope
-            .referenced_idents
-            .entry((n.sym.clone(), n.span.ctxt()))
-            .or_default();
+        let entry = self.scope.referenced_idents.entry(n.to_id()).or_default();
         entry.has_concrete |= !is_type_only_export;
 
         n.visit_children_with(self);
@@ -1249,13 +1245,16 @@ impl Visit for Strip {
         let old = self.non_top_level;
         self.non_top_level = false;
         n.iter().for_each(|n| {
-            if let ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) = n {
-                self.is_type_only_export = export.type_only;
-            }
             n.visit_with(&Invalid { span: DUMMY_SP }, self);
-            self.is_type_only_export = false;
         });
         self.non_top_level = old;
+    }
+
+    fn visit_named_export(&mut self, export: &NamedExport, _: &dyn Node) {
+        let old = self.is_type_only_export;
+        self.is_type_only_export = export.type_only;
+        export.visit_children_with(self);
+        self.is_type_only_export = old;
     }
 
     fn visit_prop_name(&mut self, n: &PropName, _: &dyn Node) {
