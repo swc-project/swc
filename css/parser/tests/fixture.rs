@@ -7,8 +7,20 @@ use swc_css_parser::{
     parse_tokens,
     parser::{input::ParserInput, Parser, ParserConfig},
 };
-use swc_css_visit::{Visit, VisitWith};
+use swc_css_visit::{Node, Visit, VisitWith};
 use testing::NormalizedOutput;
+
+struct AssertValid;
+
+impl Visit for AssertValid {
+    fn visit_pseudo_selector(&mut self, s: &PseudoSelector, _: &dyn Node) {
+        s.visit_children_with(self);
+
+        let _selectors: Vec<ComplexSelector> =
+            parse_tokens(&s.args, ParserConfig { parse_values: true })
+                .expect("failed to parse tokens");
+    }
+}
 
 #[testing::fixture("tests/fixture/**/input.css")]
 fn tokens_input(input: PathBuf) {
@@ -31,8 +43,10 @@ fn tokens_input(input: PathBuf) {
             }
         };
 
-        let _ss: Stylesheet = parse_tokens(&tokens, ParserConfig { parse_values: true })
+        let ss: Stylesheet = parse_tokens(&tokens, ParserConfig { parse_values: true })
             .expect("failed to parse tokens");
+
+        ss.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
 
         Ok(())
     })
