@@ -1,9 +1,9 @@
 use swc_atoms::js_word;
-use swc_common::{Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Check;
 use swc_ecma_transforms_macros::fast_path;
-use swc_ecma_utils::{contains_this_expr, private_ident, quote_ident, ExprFactory};
+use swc_ecma_utils::{contains_this_expr, prepend, private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit};
 
 /// Compile ES2015 arrow functions to ES5
@@ -61,11 +61,20 @@ pub fn arrow() -> impl Fold {
 #[derive(Default)]
 struct Arrow {
     in_arrow: bool,
+    vars: Vec<VarDeclarator>,
 }
 
 #[fast_path(ArrowVisitor)]
 impl Fold for Arrow {
     noop_fold_type!();
+
+    fn fold_constructor(&mut self, c: Constructor) -> Constructor {
+        let in_arrow = self.in_arrow;
+        self.in_arrow = false;
+        let res = c.fold_children_with(self);
+        self.in_arrow = in_arrow;
+        res
+    }
 
     fn fold_expr(&mut self, e: Expr) -> Expr {
         match e {
@@ -165,20 +174,46 @@ impl Fold for Arrow {
         }
     }
 
-    fn fold_constructor(&mut self, c: Constructor) -> Constructor {
-        let in_arrow = self.in_arrow;
-        self.in_arrow = false;
-        let res = c.fold_children_with(self);
-        self.in_arrow = in_arrow;
-        res
-    }
-
     fn fold_function(&mut self, f: Function) -> Function {
         let in_arrow = self.in_arrow;
         self.in_arrow = false;
         let res = f.fold_children_with(self);
         self.in_arrow = in_arrow;
         res
+    }
+
+    fn fold_module_items(&mut self, stmts: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        let mut stmts = stmts.fold_children_with(self);
+        if !self.vars.is_empty() {
+            prepend(
+                &mut stmts,
+                ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: self.vars.take(),
+                }))),
+            );
+        }
+
+        stmts
+    }
+
+    fn fold_stmts(&mut self, stmts: Vec<Stmt>) -> Vec<Stmt> {
+        let mut stmts = stmts.fold_children_with(self);
+        if !self.vars.is_empty() {
+            prepend(
+                &mut stmts,
+                Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: self.vars.take(),
+                })),
+            );
+        }
+
+        stmts
     }
 }
 
