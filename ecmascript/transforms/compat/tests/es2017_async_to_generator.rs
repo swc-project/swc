@@ -89,11 +89,12 @@ let TestClass = {
 let TestClass = {
      name: 'John Doe',
      testMethodFailure () {
+        var _this = this;
         return new Promise((function(resolve) {
-          var _ref = _asyncToGenerator((function*(resolve) {
-            console.log(this);
+          var _ref = _asyncToGenerator(function*(resolve) {
+            console.log(_this);
             setTimeout(resolve, 1000);
-          }).bind(this));
+          });
           return function() {
             return _ref.apply(this, arguments);
           };
