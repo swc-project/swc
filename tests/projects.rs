@@ -785,7 +785,6 @@ fn should_visit() {
 #[testing::fixture("tests/fixture/**/input/")]
 fn tests(input_dir: PathBuf) {
     let output = input_dir.parent().unwrap().join("output");
-    let _ = create_dir_all(&output);
 
     Tester::new()
         .print_errors(|cm, handler| {
@@ -805,6 +804,11 @@ fn tests(input_dir: PathBuf) {
                     continue;
                 }
 
+                let rel_path = entry
+                    .path()
+                    .strip_prefix(&input_dir)
+                    .expect("failed to strip prefix");
+
                 let fm = cm.load_file(entry.path()).expect("failed to load file");
                 match c.process_js_file(
                     fm,
@@ -819,8 +823,10 @@ fn tests(input_dir: PathBuf) {
                 ) {
                     Ok(v) => {
                         NormalizedOutput::from(v.code)
-                            .compare_to_file(output.join(entry.file_name()))
+                            .compare_to_file(output.join(rel_path))
                             .unwrap();
+
+                        let _ = create_dir_all(output.join(rel_path).parent().unwrap());
 
                         let map = v.map.map(|json| {
                             let json: serde_json::Value = serde_json::from_str(&json).unwrap();
@@ -829,8 +835,7 @@ fn tests(input_dir: PathBuf) {
 
                         NormalizedOutput::from(map.unwrap_or_default())
                             .compare_to_file(
-                                output
-                                    .join(entry.path().with_extension("map").file_name().unwrap()),
+                                output.join(rel_path.with_extension("map").file_name().unwrap()),
                             )
                             .unwrap();
                     }
