@@ -1,9 +1,9 @@
 {
     "jsc": {
         "parser": {
-            "topLevelAwait": true
+            "syntax": "ecmascript"
         },
         "target": "es2017",
         "externalHelpers": true
-    },
+    }
 }
