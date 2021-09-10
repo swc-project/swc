@@ -157,7 +157,6 @@ where
                             replaced = replaced.replace('/', "\\");
                         }
 
-
                         if to.len() == 1 {
                             return Ok(FileName::Real(self.base_url.join(replaced)));
                         }
