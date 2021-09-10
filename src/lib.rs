@@ -52,6 +52,8 @@ use swc_ecma_visit::{noop_visit_type, FoldWith, Visit, VisitWith};
 mod builder;
 pub mod config;
 pub mod resolver {
+    use std::path::PathBuf;
+
     use crate::config::CompiledPaths;
     use fxhash::FxHashMap;
     use swc_ecma_ast::TargetEnv;
@@ -64,14 +66,10 @@ pub mod resolver {
     pub fn paths_resolver(
         target_env: TargetEnv,
         alias: FxHashMap<String, String>,
-        base_url: String,
+        base_url: PathBuf,
         paths: CompiledPaths,
     ) -> CachingResolver<TsConfigResolver<NodeModulesResolver>> {
-        let r = TsConfigResolver::new(
-            NodeModulesResolver::new(target_env, alias),
-            base_url.clone().into(),
-            paths.clone(),
-        );
+        let r = TsConfigResolver::new(NodeModulesResolver::new(target_env, alias), base_url, paths);
         CachingResolver::new(40, r)
     }
 
