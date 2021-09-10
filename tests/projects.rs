@@ -783,15 +783,15 @@ fn should_visit() {
 }
 
 #[testing::fixture("tests/fixture/**/input/")]
-fn tests(dir: PathBuf) {
-    let output = dir.parent().unwrap().join("output");
+fn tests(input_dir: PathBuf) {
+    let output = input_dir.parent().unwrap().join("output");
     let _ = create_dir_all(&output);
 
     Tester::new()
         .print_errors(|cm, handler| {
             let c = Compiler::new(cm.clone());
 
-            for entry in WalkDir::new(&dir) {
+            for entry in WalkDir::new(&input_dir) {
                 let entry = entry.unwrap();
                 if entry.metadata().unwrap().is_dir() {
                     continue;
