@@ -151,7 +151,7 @@ where
                         });
 
                         if to.len() == 1 {
-                            return Ok(FileName::Real(PathBuf::from(replaced)));
+                            return Ok(FileName::Real(self.base_url.join(replaced)));
                         }
                     }
 
