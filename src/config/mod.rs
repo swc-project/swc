@@ -648,7 +648,7 @@ impl Config {
     ///
     ///
     /// - typescript: `tsx` will be modified if file extension is `ts`.
-    fn adjust(&mut self, file: &Path) {
+    pub fn adjust(&mut self, file: &Path) {
         match &mut self.jsc.syntax {
             Some(Syntax::Typescript(TsConfig { tsx, .. })) => {
                 let is_ts = file.extension().map(|v| v == "ts").unwrap_or(false);
