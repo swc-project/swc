@@ -1,1 +1,1 @@
-var USTAR = "ustar\x0000";
+const USTAR = "ustar\x0000";

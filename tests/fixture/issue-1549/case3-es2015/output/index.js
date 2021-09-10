@@ -1,1 +1,1 @@
-var a = "\r\n";
+const a = `\r\n`;

@@ -4,13 +4,13 @@ use crate::{
 };
 use compat::es2020::export_namespace_from;
 use either::Either;
-use std::{cell::RefCell, collections::HashMap, rc::Rc, sync::Arc};
+use std::{cell::RefCell, collections::HashMap, path::PathBuf, rc::Rc, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::{
     chain, comments::Comments, errors::Handler, sync::Lrc, util::take::Take, FileName, Mark,
     SourceMap,
 };
-use swc_ecma_ast::Module;
+use swc_ecma_ast::{EsVersion, Module};
 use swc_ecma_minifier::option::MinifyOptions;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
@@ -142,7 +142,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
     ///  - fixer if enabled
     pub fn finalize<'cmt>(
         self,
-        base_url: String,
+        base_url: PathBuf,
         paths: CompiledPaths,
         base: &FileName,
         syntax: Syntax,
@@ -169,12 +169,27 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         } else {
             Either::Right(chain!(
                 import_assertions(),
-                Optional::new(compat::es2021::es2021(), self.target < JscTarget::Es2021),
-                Optional::new(compat::es2020::es2020(), self.target < JscTarget::Es2020),
+                Optional::new(
+                    compat::es2021::es2021(),
+                    should_enable(self.target, JscTarget::Es2021)
+                ),
+                Optional::new(
+                    compat::es2020::es2020(),
+                    should_enable(self.target, JscTarget::Es2020)
+                ),
                 Optional::new(typescript::strip(), syntax.typescript()),
-                Optional::new(compat::es2018(), self.target <= JscTarget::Es2018),
-                Optional::new(compat::es2017(), self.target <= JscTarget::Es2017),
-                Optional::new(compat::es2016(), self.target <= JscTarget::Es2016),
+                Optional::new(
+                    compat::es2018(),
+                    should_enable(self.target, JscTarget::Es2018)
+                ),
+                Optional::new(
+                    compat::es2017(),
+                    should_enable(self.target, JscTarget::Es2017)
+                ),
+                Optional::new(
+                    compat::es2016(),
+                    should_enable(self.target, JscTarget::Es2016)
+                ),
                 Optional::new(
                     compat::es2015(
                         self.global_mark,
@@ -189,11 +204,11 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                             },
                         }
                     ),
-                    self.target <= JscTarget::Es2015
+                    should_enable(self.target, JscTarget::Es2015)
                 ),
                 Optional::new(
                     compat::es3(syntax.dynamic_import()),
-                    cfg!(feature = "es3") && self.target <= JscTarget::Es3
+                    cfg!(feature = "es3") && self.target == JscTarget::Es3
                 )
             ))
         };
@@ -269,5 +284,13 @@ impl VisitMut for MinifierPass {
                 )
             })
         }
+    }
+}
+
+fn should_enable(target: EsVersion, feature: EsVersion) -> bool {
+    if cfg!(feature = "wrong-target") {
+        target <= feature
+    } else {
+        target < feature
     }
 }

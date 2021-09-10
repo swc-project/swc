@@ -208,6 +208,7 @@ impl Options {
             minify: js_minify,
             ..
         } = config.jsc;
+
         let target = target.unwrap_or_default();
 
         let syntax = syntax.unwrap_or_default();
@@ -774,7 +775,7 @@ pub struct JscConfig {
     pub keep_class_names: bool,
 
     #[serde(default)]
-    pub base_url: String,
+    pub base_url: PathBuf,
 
     #[serde(default)]
     pub paths: Paths,
@@ -816,7 +817,7 @@ pub enum ModuleConfig {
 impl ModuleConfig {
     pub fn build(
         cm: Arc<SourceMap>,
-        base_url: String,
+        base_url: PathBuf,
         paths: CompiledPaths,
         base: &FileName,
         root_mark: Mark,
@@ -1224,8 +1225,8 @@ impl Merge for ConstModulesConfig {
     }
 }
 
-fn build_resolver(base_url: String, paths: CompiledPaths) -> SwcImportResolver {
-    static CACHE: Lazy<DashMap<(String, CompiledPaths), SwcImportResolver>> =
+fn build_resolver(base_url: PathBuf, paths: CompiledPaths) -> SwcImportResolver {
+    static CACHE: Lazy<DashMap<(PathBuf, CompiledPaths), SwcImportResolver>> =
         Lazy::new(|| Default::default());
 
     if let Some(cached) = CACHE.get(&(base_url.clone(), paths.clone())) {

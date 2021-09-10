@@ -1,4 +1,8 @@
 import swc from "../..";
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 it("should respect paths", async () => {
     const { code } = await swc.transform(`
@@ -13,6 +17,7 @@ it("should respect paths", async () => {
             transform: {
 
             },
+            baseUrl: __dirname,
             paths: {
                 '@src/*': ['bar/*']
             }

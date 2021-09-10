@@ -613,7 +613,7 @@ fn issue_1549() {
             is_module: true,
             config: Config {
                 jsc: JscConfig {
-                    target: Some(EsVersion::Es2015),
+                    target: Some(EsVersion::Es5),
                     ..Default::default()
                 },
                 ..Default::default()
@@ -783,15 +783,14 @@ fn should_visit() {
 }
 
 #[testing::fixture("tests/fixture/**/input/")]
-fn tests(dir: PathBuf) {
-    let output = dir.parent().unwrap().join("output");
-    let _ = create_dir_all(&output);
+fn tests(input_dir: PathBuf) {
+    let output = input_dir.parent().unwrap().join("output");
 
     Tester::new()
         .print_errors(|cm, handler| {
             let c = Compiler::new(cm.clone());
 
-            for entry in WalkDir::new(&dir) {
+            for entry in WalkDir::new(&input_dir) {
                 let entry = entry.unwrap();
                 if entry.metadata().unwrap().is_dir() {
                     continue;
@@ -804,6 +803,11 @@ fn tests(dir: PathBuf) {
                 {
                     continue;
                 }
+
+                let rel_path = entry
+                    .path()
+                    .strip_prefix(&input_dir)
+                    .expect("failed to strip prefix");
 
                 let fm = cm.load_file(entry.path()).expect("failed to load file");
                 match c.process_js_file(
@@ -819,8 +823,10 @@ fn tests(dir: PathBuf) {
                 ) {
                     Ok(v) => {
                         NormalizedOutput::from(v.code)
-                            .compare_to_file(output.join(entry.file_name()))
+                            .compare_to_file(output.join(rel_path))
                             .unwrap();
+
+                        let _ = create_dir_all(output.join(rel_path).parent().unwrap());
 
                         let map = v.map.map(|json| {
                             let json: serde_json::Value = serde_json::from_str(&json).unwrap();
@@ -829,8 +835,7 @@ fn tests(dir: PathBuf) {
 
                         NormalizedOutput::from(map.unwrap_or_default())
                             .compare_to_file(
-                                output
-                                    .join(entry.path().with_extension("map").file_name().unwrap()),
+                                output.join(rel_path.with_extension("map").file_name().unwrap()),
                             )
                             .unwrap();
                     }
