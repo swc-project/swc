@@ -1,4 +1,3 @@
-import regeneratorRuntime from "regenerator-runtime";
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     try {
         var info = gen[key](arg);
@@ -29,19 +28,10 @@ function _asyncToGenerator(fn) {
     };
 }
 function _fn() {
-    _fn = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-        var key;
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
-                case 0:
-                    for(key in {
-                    });
-                case 1:
-                case "end":
-                    return _ctx.stop();
-            }
-        }, _callee);
-    }));
+    _fn = _asyncToGenerator(function*() {
+        for(const key in {
+        });
+    });
     return _fn.apply(this, arguments);
 }
 function fn() {

@@ -1,3 +1,2 @@
-export var importSomething = function() {
-    return import('lodash');
-};
+export const importSomething = ()=>import('lodash')
+;
