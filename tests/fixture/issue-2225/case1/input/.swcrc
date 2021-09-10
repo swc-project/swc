@@ -1,0 +1,9 @@
+{
+    "jsc": {
+        "parser": {
+            "topLevelAwait": true
+        },
+        "target": "es2017",
+        "externalHelpers": true
+    },
+}
