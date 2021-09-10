@@ -588,6 +588,16 @@ impl Compiler {
                                     config.merge(&config_file.into_config(Some(path))?)
                                 }
 
+                                if let Some(c) = &mut config {
+                                    if c.jsc.base_url != PathBuf::new() {
+                                        c.jsc.base_url =
+                                            dir.join(&c.jsc.base_url).canonicalize().context(
+                                                "failed to canonicalize base url using the path \
+                                                 of .swcrc",
+                                            )?;
+                                    }
+                                }
+
                                 return Ok(config);
                             }
 
