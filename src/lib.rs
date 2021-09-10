@@ -588,17 +588,18 @@ impl Compiler {
 
                                 if let Some(c) = &mut config {
                                     if c.jsc.base_url != PathBuf::new() {
-                                        c.jsc.base_url = dir
-                                            .join(&c.jsc.base_url)
-                                            .canonicalize()
-                                            .with_context(|| {
-                                            format!(
-                                                "failed to canonicalize base url using the path \
-                                                 of .swcrc\nDir: {}\nbaseUrl: {}",
-                                                dir.display(),
-                                                c.jsc.base_url.display()
-                                            )
-                                        })?;
+                                        let joined = dir.join(&c.jsc.base_url);
+                                        c.jsc.base_url =
+                                            joined.canonicalize().with_context(|| {
+                                                format!(
+                                                    "failed to canonicalize base url using the \
+                                                     path of .swcrc\nPath: {}\nDir: {}\nbaseUrl: \
+                                                     {}",
+                                                    joined.display(),
+                                                    dir.display(),
+                                                    c.jsc.base_url.display()
+                                                )
+                                            })?;
                                     }
                                 }
 
