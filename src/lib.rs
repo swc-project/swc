@@ -589,7 +589,18 @@ impl Compiler {
                                 if let Some(c) = &mut config {
                                     if c.jsc.base_url != PathBuf::new() {
                                         let joined = dir.join(&c.jsc.base_url);
-                                        c.jsc.base_url =
+                                        c.jsc.base_url = if cfg!(target_os = "windows")
+                                            && c.jsc.base_url.as_os_str() == "."
+                                        {
+                                            dir.canonicalize().with_context(|| {
+                                                format!(
+                                                    "failed to canonicalize base url using the \
+                                                     path of .swcrc\nDir: {}\n(Used logic for \
+                                                     windows)",
+                                                    dir.display(),
+                                                )
+                                            })?
+                                        } else {
                                             joined.canonicalize().with_context(|| {
                                                 format!(
                                                     "failed to canonicalize base url using the \
@@ -599,7 +610,8 @@ impl Compiler {
                                                     dir.display(),
                                                     c.jsc.base_url.display()
                                                 )
-                                            })?;
+                                            })?
+                                        };
                                     }
                                 }
 
