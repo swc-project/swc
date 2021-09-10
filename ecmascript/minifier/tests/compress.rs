@@ -30,7 +30,11 @@ use swc_ecma_parser::{
     lexer::{input::SourceFileInput, Lexer},
     Parser,
 };
-use swc_ecma_transforms::{fixer, hygiene, resolver_with_mark};
+use swc_ecma_transforms::{
+    fixer,
+    hygiene::{self, hygiene_with_config},
+    resolver_with_mark,
+};
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::{FoldWith, Node, Visit, VisitWith};
 use testing::{assert_eq, DebugUsingDisplay, NormalizedOutput};
@@ -196,7 +200,11 @@ fn run(
         end - optimization_start
     );
 
-    let output = output.fold_with(&mut hygiene()).fold_with(&mut fixer(None));
+    let output = output
+        .fold_with(&mut hygiene_with_config(hygiene::Config {
+            ..Default::default()
+        }))
+        .fold_with(&mut fixer(None));
 
     let end = Instant::now();
     log::info!(
@@ -435,16 +443,15 @@ fn fixture(input: PathBuf) {
             }
         }
 
+        let output_str = print(cm.clone(), &[drop_span(output_module.clone())], false);
+
         if env::var("UPDATE").map(|s| s == "1").unwrap_or(false) {
-            let output = output.clone();
             let _ = catch_unwind(|| {
-                NormalizedOutput::from(output)
+                NormalizedOutput::from(output_str.clone())
                     .compare_to_file(dir.join("output.js"))
                     .unwrap();
             });
         }
-
-        let output_str = print(cm.clone(), &[drop_span(output_module.clone())], false);
 
         assert_eq!(DebugUsingDisplay(&output_str), DebugUsingDisplay(&expected));
 

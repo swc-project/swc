@@ -131,10 +131,6 @@
     }
     ComponentDummy.prototype = Component.prototype;
     var pureComponentPrototype = PureComponent.prototype = new ComponentDummy();
-    function getWrappedName(outerType, innerType, wrapperName) {
-        var functionName = innerType.displayName || innerType.name || "";
-        return outerType.displayName || ("" !== functionName ? wrapperName + "(" + functionName + ")" : wrapperName);
-    }
     function getContextName(type) {
         return type.displayName || "Context";
     }
@@ -162,13 +158,13 @@
             case REACT_PROVIDER_TYPE:
                 return getContextName(type._context) + ".Provider";
             case REACT_FORWARD_REF_TYPE:
-                return getWrappedName(type, type.render, "ForwardRef");
+                return wrapperName = "ForwardRef", functionName = (innerType = type.render).displayName || innerType.name || "", type.displayName || ("" !== functionName ? wrapperName + "(" + functionName + ")" : wrapperName);
             case REACT_MEMO_TYPE:
                 return getComponentName(type.type);
             case REACT_BLOCK_TYPE:
                 return getComponentName(type._render);
             case REACT_LAZY_TYPE:
-                var lazyComponent = type, payload = lazyComponent._payload, init = lazyComponent._init;
+                var innerType, wrapperName, functionName, lazyComponent = type, payload = lazyComponent._payload, init = lazyComponent._init;
                 try {
                     return getComponentName(init(payload));
                 } catch (x) {
@@ -197,30 +193,6 @@
             if (getter && getter.isReactWarning) return !1;
         }
         return void 0 !== config.key;
-    }
-    function defineKeyPropWarningGetter(props, displayName) {
-        var warnAboutAccessingKey = function() {
-            specialPropKeyWarningShown || (specialPropKeyWarningShown = !0, error("%s: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://reactjs.org/link/special-props)", displayName));
-        };
-        warnAboutAccessingKey.isReactWarning = !0, Object.defineProperty(props, "key", {
-            get: warnAboutAccessingKey,
-            configurable: !0
-        });
-    }
-    function defineRefPropWarningGetter(props, displayName) {
-        var warnAboutAccessingRef = function() {
-            specialPropRefWarningShown || (specialPropRefWarningShown = !0, error("%s: `ref` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://reactjs.org/link/special-props)", displayName));
-        };
-        warnAboutAccessingRef.isReactWarning = !0, Object.defineProperty(props, "ref", {
-            get: warnAboutAccessingRef,
-            configurable: !0
-        });
-    }
-    function warnIfStringRefCannotBeAutoConverted(config) {
-        if ("string" == typeof config.ref && ReactCurrentOwner.current && config.__self && ReactCurrentOwner.current.stateNode !== config.__self) {
-            var componentName = getComponentName(ReactCurrentOwner.current.type);
-            didWarnAboutStringRefs[componentName] || (error("Component \"%s\" contains the string ref \"%s\". Support for string refs will be removed in a future major release. This case cannot be automatically converted to an arrow function. We ask you to manually fix this case by using useRef() or createRef() instead. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-string-ref", componentName, config.ref), didWarnAboutStringRefs[componentName] = !0);
-        }
     }
     didWarnAboutStringRefs = {
     };
@@ -254,7 +226,12 @@
     function createElement(type, config, children) {
         var propName, props = {
         }, key = null, ref = null, self = null, source = null;
-        if (null != config) for(propName in hasValidRef(config) && (ref = config.ref, warnIfStringRefCannotBeAutoConverted(config)), hasValidKey(config) && (key = "" + config.key), self = void 0 === config.__self ? null : config.__self, source = void 0 === config.__source ? null : config.__source, config)hasOwnProperty$1.call(config, propName) && !RESERVED_PROPS.hasOwnProperty(propName) && (props[propName] = config[propName]);
+        if (null != config) for(propName in hasValidRef(config) && (ref = config.ref, (function(config) {
+            if ("string" == typeof config.ref && ReactCurrentOwner.current && config.__self && ReactCurrentOwner.current.stateNode !== config.__self) {
+                var componentName = getComponentName(ReactCurrentOwner.current.type);
+                didWarnAboutStringRefs[componentName] || (error("Component \"%s\" contains the string ref \"%s\". Support for string refs will be removed in a future major release. This case cannot be automatically converted to an arrow function. We ask you to manually fix this case by using useRef() or createRef() instead. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-string-ref", componentName, config.ref), didWarnAboutStringRefs[componentName] = !0);
+            }
+        })(config)), hasValidKey(config) && (key = "" + config.key), self = void 0 === config.__self ? null : config.__self, source = void 0 === config.__source ? null : config.__source, config)hasOwnProperty$1.call(config, propName) && !RESERVED_PROPS.hasOwnProperty(propName) && (props[propName] = config[propName]);
         var childrenLength = arguments.length - 2;
         if (1 === childrenLength) props.children = children;
         else if (childrenLength > 1) {
@@ -266,13 +243,20 @@
             for(propName in defaultProps)void 0 === props[propName] && (props[propName] = defaultProps[propName]);
         }
         if (key || ref) {
-            var displayName = "function" == typeof type ? type.displayName || type.name || "Unknown" : type;
-            key && defineKeyPropWarningGetter(props, displayName), ref && defineRefPropWarningGetter(props, displayName);
+            var warnAboutAccessingKey, warnAboutAccessingRef, displayName = "function" == typeof type ? type.displayName || type.name || "Unknown" : type;
+            key && ((warnAboutAccessingKey = function() {
+                specialPropKeyWarningShown || (specialPropKeyWarningShown = !0, error("%s: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://reactjs.org/link/special-props)", displayName));
+            }).isReactWarning = !0, Object.defineProperty(props, "key", {
+                get: warnAboutAccessingKey,
+                configurable: !0
+            })), ref && ((warnAboutAccessingRef = function() {
+                specialPropRefWarningShown || (specialPropRefWarningShown = !0, error("%s: `ref` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://reactjs.org/link/special-props)", displayName));
+            }).isReactWarning = !0, Object.defineProperty(props, "ref", {
+                get: warnAboutAccessingRef,
+                configurable: !0
+            }));
         }
         return ReactElement(type, key, ref, self, source, ReactCurrentOwner.current, props);
-    }
-    function cloneAndReplaceKey(oldElement, newKey) {
-        return ReactElement(oldElement.type, newKey, oldElement.ref, oldElement._self, oldElement._source, oldElement._owner, oldElement.props);
     }
     function cloneElement(element, config, children) {
         if (!(null != element)) throw Error("React.cloneElement(...): The argument must be a React element, but you passed " + element + ".");
@@ -290,21 +274,21 @@
     function isValidElement(object) {
         return "object" == typeof object && null !== object && object.$$typeof === REACT_ELEMENT_TYPE;
     }
-    function escape(key) {
-        var escaperLookup = {
-            "=": "=0",
-            ":": "=2"
-        };
-        return "$" + key.replace(/[=:]/g, function(match) {
-            return escaperLookup[match];
-        });
-    }
     var didWarnAboutMaps = !1, userProvidedKeyEscapeRegex = /\/+/g;
     function escapeUserProvidedKey(text) {
         return text.replace(userProvidedKeyEscapeRegex, "$&/");
     }
     function getElementKey(element, index) {
-        return "object" == typeof element && null !== element && null != element.key ? escape("" + element.key) : index.toString(36);
+        if ("object" == typeof element && null !== element && null != element.key) {
+            var escaperLookup;
+            return escaperLookup = {
+                "=": "=0",
+                ":": "=2"
+            }, "$" + ("" + element.key).replace(/[=:]/g, function(match) {
+                return escaperLookup[match];
+            });
+        }
+        return index.toString(36);
     }
     function mapIntoArray(children, array, escapedPrefix, nameSoFar, callback) {
         var type = typeof children;
@@ -324,13 +308,13 @@
                 }
         }
         if (invokeCallback) {
-            var _child = children, mappedChild = callback(_child), childKey = "" === nameSoFar ? "." + getElementKey(_child, 0) : nameSoFar;
+            var oldElement, newKey, _child = children, mappedChild = callback(_child), childKey = "" === nameSoFar ? "." + getElementKey(_child, 0) : nameSoFar;
             if (Array.isArray(mappedChild)) {
                 var escapedChildKey = "";
                 null != childKey && (escapedChildKey = escapeUserProvidedKey(childKey) + "/"), mapIntoArray(mappedChild, array, escapedChildKey, "", function(c) {
                     return c;
                 });
-            } else null != mappedChild && (isValidElement(mappedChild) && (mappedChild = cloneAndReplaceKey(mappedChild, escapedPrefix + (mappedChild.key && (!_child || _child.key !== mappedChild.key) ? escapeUserProvidedKey("" + mappedChild.key) + "/" : "") + childKey)), array.push(mappedChild));
+            } else null != mappedChild && (isValidElement(mappedChild) && (mappedChild = (oldElement = mappedChild, newKey = escapedPrefix + (mappedChild.key && (!_child || _child.key !== mappedChild.key) ? escapeUserProvidedKey("" + mappedChild.key) + "/" : "") + childKey, ReactElement(oldElement.type, newKey, oldElement.ref, oldElement._self, oldElement._source, oldElement._owner, oldElement.props))), array.push(mappedChild));
             return 1;
         }
         var subtreeCount = 0, nextNamePrefix = "" === nameSoFar ? "." : nameSoFar + ":";
@@ -386,67 +370,6 @@
     var disabledDepth = 0;
     function disabledLog() {
     }
-    function disableLogs() {
-        if (0 === disabledDepth) {
-            prevLog = console.log, prevInfo = console.info, prevWarn = console.warn, prevError = console.error, prevGroup = console.group, prevGroupCollapsed = console.groupCollapsed, prevGroupEnd = console.groupEnd;
-            var props = {
-                configurable: !0,
-                enumerable: !0,
-                value: disabledLog,
-                writable: !0
-            };
-            Object.defineProperties(console, {
-                info: props,
-                log: props,
-                warn: props,
-                error: props,
-                group: props,
-                groupCollapsed: props,
-                groupEnd: props
-            });
-        }
-        disabledDepth++;
-    }
-    function reenableLogs() {
-        if (disabledDepth--, 0 === disabledDepth) {
-            var props = {
-                configurable: !0,
-                enumerable: !0,
-                writable: !0
-            };
-            Object.defineProperties(console, {
-                log: assign({
-                }, props, {
-                    value: prevLog
-                }),
-                info: assign({
-                }, props, {
-                    value: prevInfo
-                }),
-                warn: assign({
-                }, props, {
-                    value: prevWarn
-                }),
-                error: assign({
-                }, props, {
-                    value: prevError
-                }),
-                group: assign({
-                }, props, {
-                    value: prevGroup
-                }),
-                groupCollapsed: assign({
-                }, props, {
-                    value: prevGroupCollapsed
-                }),
-                groupEnd: assign({
-                }, props, {
-                    value: prevGroupEnd
-                })
-            });
-        }
-        disabledDepth < 0 && error("disabledDepth fell below zero. This is a bug in React. Please file an issue.");
-    }
     disabledLog.__reactDisabledLog = !0;
     var ReactCurrentDispatcher$1 = ReactSharedInternals.ReactCurrentDispatcher;
     function describeBuiltInComponentFrame(name, source, ownerFn) {
@@ -465,7 +388,27 @@
         if (void 0 !== frame) return frame;
         reentry = !0;
         var previousPrepareStackTrace = Error.prepareStackTrace;
-        Error.prepareStackTrace = void 0, ReactCurrentDispatcher$1.current, ReactCurrentDispatcher$1.current = null, disableLogs();
+        Error.prepareStackTrace = void 0, ReactCurrentDispatcher$1.current, ReactCurrentDispatcher$1.current = null, (function() {
+            if (0 === disabledDepth) {
+                prevLog = console.log, prevInfo = console.info, prevWarn = console.warn, prevError = console.error, prevGroup = console.group, prevGroupCollapsed = console.groupCollapsed, prevGroupEnd = console.groupEnd;
+                var props = {
+                    configurable: !0,
+                    enumerable: !0,
+                    value: disabledLog,
+                    writable: !0
+                };
+                Object.defineProperties(console, {
+                    info: props,
+                    log: props,
+                    warn: props,
+                    error: props,
+                    group: props,
+                    groupCollapsed: props,
+                    groupEnd: props
+                });
+            }
+            disabledDepth++;
+        })();
         try {
             if (construct) {
                 var Fake = function() {
@@ -511,7 +454,46 @@
                 }
             }
         } finally{
-            reentry = !1, ReactCurrentDispatcher$1.current = ReactCurrentDispatcher$1.current, reenableLogs(), Error.prepareStackTrace = previousPrepareStackTrace;
+            reentry = !1, ReactCurrentDispatcher$1.current = ReactCurrentDispatcher$1.current, (function() {
+                if (disabledDepth--, 0 === disabledDepth) {
+                    var props = {
+                        configurable: !0,
+                        enumerable: !0,
+                        writable: !0
+                    };
+                    Object.defineProperties(console, {
+                        log: assign({
+                        }, props, {
+                            value: prevLog
+                        }),
+                        info: assign({
+                        }, props, {
+                            value: prevInfo
+                        }),
+                        warn: assign({
+                        }, props, {
+                            value: prevWarn
+                        }),
+                        error: assign({
+                        }, props, {
+                            value: prevError
+                        }),
+                        group: assign({
+                        }, props, {
+                            value: prevGroup
+                        }),
+                        groupCollapsed: assign({
+                        }, props, {
+                            value: prevGroupCollapsed
+                        }),
+                        groupEnd: assign({
+                        }, props, {
+                            value: prevGroupEnd
+                        })
+                    });
+                }
+                disabledDepth < 0 && error("disabledDepth fell below zero. This is a bug in React. Please file an issue.");
+            })(), Error.prepareStackTrace = previousPrepareStackTrace;
         }
         var name = fn ? fn.displayName || fn.name : "", syntheticFrame = name ? describeBuiltInComponentFrame(name) : "";
         return "function" == typeof fn && componentFrameCache.set(fn, syntheticFrame), syntheticFrame;
@@ -519,13 +501,12 @@
     function describeFunctionComponentFrame(fn, source, ownerFn) {
         return describeNativeComponentFrame(fn, !1);
     }
-    function shouldConstruct(Component) {
-        var prototype = Component.prototype;
-        return !!(prototype && prototype.isReactComponent);
-    }
     function describeUnknownElementTypeFrameInDEV(type, source, ownerFn) {
         if (null == type) return "";
-        if ("function" == typeof type) return describeNativeComponentFrame(type, shouldConstruct(type));
+        if ("function" == typeof type) {
+            var prototype;
+            return describeNativeComponentFrame(type, !!((prototype = type.prototype) && prototype.isReactComponent));
+        }
         if ("string" == typeof type) return describeBuiltInComponentFrame(type);
         switch(type){
             case exports.Suspense:
@@ -558,22 +539,6 @@
             ReactDebugCurrentFrame$1.setExtraStackFrame(stack);
         } else ReactDebugCurrentFrame$1.setExtraStackFrame(null);
     }
-    function checkPropTypes(typeSpecs, values, location, componentName, element) {
-        var has = Function.call.bind(Object.prototype.hasOwnProperty);
-        for(var typeSpecName in typeSpecs)if (has(typeSpecs, typeSpecName)) {
-            var error$1 = void 0;
-            try {
-                if ("function" != typeof typeSpecs[typeSpecName]) {
-                    var err = Error((componentName || "React class") + ": " + location + " type `" + typeSpecName + "` is invalid; it must be a function, usually from the `prop-types` package, but received `" + typeof typeSpecs[typeSpecName] + "`.This often happens because of typos such as `PropTypes.function` instead of `PropTypes.func`.");
-                    throw err.name = "Invariant Violation", err;
-                }
-                error$1 = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, "SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED");
-            } catch (ex) {
-                error$1 = ex;
-            }
-            !error$1 || error$1 instanceof Error || (setCurrentlyValidatingElement(element), error("%s: type specification of %s `%s` is invalid; the type checker function must return `null` or an `Error` but returned a %s. You may have forgotten to pass an argument to the type checker creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and shape all require an argument).", componentName || "React class", location, typeSpecName, typeof error$1), setCurrentlyValidatingElement(null)), error$1 instanceof Error && !(error$1.message in loggedTypeFailures) && (loggedTypeFailures[error$1.message] = !0, setCurrentlyValidatingElement(element), error("Failed %s type: %s", location, error$1.message), setCurrentlyValidatingElement(null));
-        }
-    }
     function setCurrentlyValidatingElement$1(element) {
         if (element) {
             var owner = element._owner;
@@ -587,27 +552,20 @@
         }
         return "";
     }
-    function getSourceInfoErrorAddendum(source) {
-        return void 0 !== source ? "\n\nCheck your code at " + source.fileName.replace(/^.*[\\\/]/, "") + ":" + source.lineNumber + "." : "";
-    }
-    function getSourceInfoErrorAddendumForProps(elementProps) {
-        return null != elementProps ? getSourceInfoErrorAddendum(elementProps.__source) : "";
-    }
     propTypesMisspellWarningShown = !1;
     var ownerHasKeyUseWarning = {
     };
-    function getCurrentComponentErrorInfo(parentType) {
-        var info = getDeclarationErrorAddendum();
-        if (!info) {
-            var parentName = "string" == typeof parentType ? parentType : parentType.displayName || parentType.name;
-            parentName && (info = "\n\nCheck the top-level render call using <" + parentName + ">.");
-        }
-        return info;
-    }
     function validateExplicitKey(element, parentType) {
         if (element._store && !element._store.validated && null == element.key) {
             element._store.validated = !0;
-            var currentComponentErrorInfo = getCurrentComponentErrorInfo(parentType);
+            var currentComponentErrorInfo = function(parentType) {
+                var info = getDeclarationErrorAddendum();
+                if (!info) {
+                    var parentName = "string" == typeof parentType ? parentType : parentType.displayName || parentType.name;
+                    parentName && (info = "\n\nCheck the top-level render call using <" + parentName + ">.");
+                }
+                return info;
+            }(parentType);
             if (!ownerHasKeyUseWarning[currentComponentErrorInfo]) {
                 ownerHasKeyUseWarning[currentComponentErrorInfo] = !0;
                 var childOwner = "";
@@ -638,33 +596,47 @@
             }
             if (propTypes) {
                 var name = getComponentName(type);
-                checkPropTypes(propTypes, element.props, "prop", name, element);
+                !function(typeSpecs, values, location, componentName, element) {
+                    var has = Function.call.bind(Object.prototype.hasOwnProperty);
+                    for(var typeSpecName in typeSpecs)if (has(typeSpecs, typeSpecName)) {
+                        var error$1 = void 0;
+                        try {
+                            if ("function" != typeof typeSpecs[typeSpecName]) {
+                                var err = Error((componentName || "React class") + ": " + location + " type `" + typeSpecName + "` is invalid; it must be a function, usually from the `prop-types` package, but received `" + typeof typeSpecs[typeSpecName] + "`.This often happens because of typos such as `PropTypes.function` instead of `PropTypes.func`.");
+                                throw err.name = "Invariant Violation", err;
+                            }
+                            error$1 = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, "SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED");
+                        } catch (ex) {
+                            error$1 = ex;
+                        }
+                        !error$1 || error$1 instanceof Error || (setCurrentlyValidatingElement(element), error("%s: type specification of %s `%s` is invalid; the type checker function must return `null` or an `Error` but returned a %s. You may have forgotten to pass an argument to the type checker creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and shape all require an argument).", componentName || "React class", location, typeSpecName, typeof error$1), setCurrentlyValidatingElement(null)), error$1 instanceof Error && !(error$1.message in loggedTypeFailures) && (loggedTypeFailures[error$1.message] = !0, setCurrentlyValidatingElement(element), error("Failed %s type: %s", location, error$1.message), setCurrentlyValidatingElement(null));
+                    }
+                }(propTypes, element.props, "prop", name, element);
             } else void 0 === type.PropTypes || propTypesMisspellWarningShown || (propTypesMisspellWarningShown = !0, error("Component %s declared `PropTypes` instead of `propTypes`. Did you misspell the property assignment?", getComponentName(type) || "Unknown"));
             "function" != typeof type.getDefaultProps || type.getDefaultProps.isReactClassApproved || error("getDefaultProps is only used on classic React.createClass definitions. Use a static property named `defaultProps` instead.");
         }
-    }
-    function validateFragmentProps(fragment) {
-        for(var keys = Object.keys(fragment.props), i = 0; i < keys.length; i++){
-            var key = keys[i];
-            if ("children" !== key && "key" !== key) {
-                setCurrentlyValidatingElement$1(fragment), error("Invalid prop `%s` supplied to `React.Fragment`. React.Fragment can only have `key` and `children` props.", key), setCurrentlyValidatingElement$1(null);
-                break;
-            }
-        }
-        null !== fragment.ref && (setCurrentlyValidatingElement$1(fragment), error("Invalid attribute `ref` supplied to `React.Fragment`."), setCurrentlyValidatingElement$1(null));
     }
     function createElementWithValidation(type, props, children) {
         var validType = isValidElementType(type);
         if (!validType) {
             var typeString, info = "";
             (void 0 === type || "object" == typeof type && null !== type && 0 === Object.keys(type).length) && (info += " You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.");
-            var sourceInfo = getSourceInfoErrorAddendumForProps(props);
+            var source, elementProps, sourceInfo = null != (elementProps = props) && void 0 !== (source = elementProps.__source) ? "\n\nCheck your code at " + source.fileName.replace(/^.*[\\\/]/, "") + ":" + source.lineNumber + "." : "";
             sourceInfo ? info += sourceInfo : info += getDeclarationErrorAddendum(), null === type ? typeString = "null" : Array.isArray(type) ? typeString = "array" : void 0 !== type && type.$$typeof === REACT_ELEMENT_TYPE ? (typeString = "<" + (getComponentName(type.type) || "Unknown") + " />", info = " Did you accidentally export a JSX literal instead of a component?") : typeString = typeof type, error("React.createElement: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: %s.%s", typeString, info);
         }
         var element = createElement.apply(this, arguments);
         if (null == element) return element;
         if (validType) for(var i = 2; i < arguments.length; i++)validateChildKeys(arguments[i], type);
-        return type === exports.Fragment ? validateFragmentProps(element) : validatePropTypes(element), element;
+        return type === exports.Fragment ? (function(fragment) {
+            for(var keys = Object.keys(fragment.props), i = 0; i < keys.length; i++){
+                var key = keys[i];
+                if ("children" !== key && "key" !== key) {
+                    setCurrentlyValidatingElement$1(fragment), error("Invalid prop `%s` supplied to `React.Fragment`. React.Fragment can only have `key` and `children` props.", key), setCurrentlyValidatingElement$1(null);
+                    break;
+                }
+            }
+            null !== fragment.ref && (setCurrentlyValidatingElement$1(fragment), error("Invalid attribute `ref` supplied to `React.Fragment`."), setCurrentlyValidatingElement$1(null));
+        })(element) : validatePropTypes(element), element;
     }
     var didWarnAboutDeprecatedCreateFactory = !1, enableSchedulerDebugging = !1;
     if ("object" == typeof performance && "function" == typeof performance.now) {

@@ -188,6 +188,10 @@ where
                                 i.id.span.ctxt
                             );
 
+                            if self.ctx.var_kind == Some(VarDeclKind::Const) {
+                                var.span = var.span.apply_mark(self.marks.non_top_level);
+                            }
+
                             self.lits.insert(i.to_id(), init.take());
                         } else {
                             log::debug!(
@@ -263,9 +267,8 @@ where
                         }
 
                         log::debug!(
-                            "inline: Decided to inline '{}{:?}' because it's used only once",
-                            i.id.sym,
-                            i.id.span.ctxt
+                            "inline: Decided to inline var '{}' because it's used only once",
+                            i.id
                         );
                         self.changed = true;
                         self.state.vars_for_inlining.insert(i.to_id(), init.take());
@@ -477,7 +480,7 @@ where
             //
             if (self.options.reduce_vars || self.options.collapse_vars || self.options.inline != 0)
                 && usage.ref_count == 1
-                && usage.is_fn_local
+                && (usage.is_fn_local || (usage.used_as_callee && !usage.used_above_decl))
                 && !usage.used_in_loop
                 && (match decl {
                     Decl::Class(..) => !usage.used_above_decl,

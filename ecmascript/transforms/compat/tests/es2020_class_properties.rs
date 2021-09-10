@@ -3749,9 +3749,10 @@ var qux = function() {
 (function () {
   class Foo {
     constructor() {
-      _defineProperty(this, 'fn', (function() {
-        return console.log(this);
-      }).bind(this));
+      var _this = this;
+      _defineProperty(this, 'fn', function() {
+        return console.log(_this);
+      });
     }
 
   }
@@ -3764,9 +3765,10 @@ var qux = function() {
 (function () {
   class Bar {
     constructor() {
-      _defineProperty(this, 'fn', (function() {
-        return console.log(this);
-      }).bind(this));
+      var _this = this;
+      _defineProperty(this, 'fn', function() {
+        return console.log(_this);
+      });
     }
 
   }
@@ -3779,9 +3781,10 @@ var qux = function() {
 (function () {
   class Baz {
     constructor(force){
-      _defineProperty(this, 'fn', (function() {
-        return console.log(this);
-      }).bind(this));
+      var _this = this;
+      _defineProperty(this, 'fn', function() {
+        return console.log(_this);
+      });
       _defineProperty(this, "force", force);
     }
 
@@ -3795,9 +3798,10 @@ var qux = function() {
 var qux = (function () {
   class Qux {
     constructor() {
-      _defineProperty(this, 'fn', (function() {
-        return console.log(this);
-      }).bind(this));
+      var _this = this;
+      _defineProperty(this, 'fn', function() {
+        return console.log(_this);
+      });
     }
 
   }

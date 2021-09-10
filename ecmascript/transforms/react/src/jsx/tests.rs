@@ -92,14 +92,16 @@ var bar = function () {
 "#,
     r#"
 var foo = function() {
-    return (function() {
-        return React.createElement(this, null);
-    }).bind(this);
+    var _this = this;
+    return function() {
+        return React.createElement(_this, null);
+    };
 };
 var bar = function() {
-    return (function() {
-        return React.createElement(this.foo, null);
-    }).bind(this);
+    var _this = this;
+    return function() {
+        return React.createElement(_this.foo, null);
+    };
 };
 "#
 );

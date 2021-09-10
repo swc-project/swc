@@ -1,6 +1,6 @@
 use super::Optimizer;
 use crate::{
-    compress::{optimize::Ctx, util::is_pure_undefined},
+    compress::util::{always_terminates, is_pure_undefined},
     debug::dump,
     mode::Mode,
     util::ExprOptExt,
@@ -43,15 +43,17 @@ where
                 return;
             }
 
-            for s in stmts.iter_mut() {
-                match s {
-                    Stmt::If(s) => match &mut *s.cons {
-                        Stmt::Block(cons) => {
-                            self.negate_if_terminate(&mut cons.stmts, true, false);
-                        }
+            if stmts.len() == 1 {
+                for s in stmts.iter_mut() {
+                    match s {
+                        Stmt::If(s) => match &mut *s.cons {
+                            Stmt::Block(cons) => {
+                                self.negate_if_terminate(&mut cons.stmts, true, false);
+                            }
+                            _ => {}
+                        },
                         _ => {}
-                    },
-                    _ => {}
+                    }
                 }
             }
         }
@@ -199,14 +201,37 @@ where
         }
     }
 
-    fn merge_nested_if_returns(&mut self, s: &mut Stmt) {
-        match s {
-            Stmt::Block(s) => self.merge_if_returns(&mut s.stmts),
-            Stmt::If(s) => {
-                self.merge_nested_if_returns(&mut s.cons);
+    pub(super) fn merge_if_returns(
+        &mut self,
+        stmts: &mut Vec<Stmt>,
+        can_work: bool,
+        is_fn_body: bool,
+    ) {
+        if !self.options.if_return {
+            return;
+        }
 
-                if let Some(alt) = &mut s.alt {
-                    self.merge_nested_if_returns(&mut **alt);
+        for stmt in stmts.iter_mut() {
+            self.merge_nested_if_returns(stmt, can_work);
+        }
+
+        if can_work || is_fn_body {
+            self.merge_if_returns_inner(stmts);
+        }
+    }
+
+    fn merge_nested_if_returns(&mut self, s: &mut Stmt, can_work: bool) {
+        let terminate = always_terminates(&*s);
+
+        match s {
+            Stmt::Block(s) => {
+                self.merge_if_returns(&mut s.stmts, terminate, false);
+            }
+            Stmt::If(s) => {
+                self.merge_nested_if_returns(&mut s.cons, can_work);
+
+                if let Some(alt) = s.alt.as_deref_mut() {
+                    self.merge_nested_if_returns(alt, can_work);
                 }
             }
             _ => {}
@@ -233,27 +258,31 @@ where
     ///     return a ? foo() : bar();
     /// }
     /// ```
-    pub(super) fn merge_if_returns(&mut self, stmts: &mut Vec<Stmt>) {
+    fn merge_if_returns_inner(&mut self, stmts: &mut Vec<Stmt>) {
         if !self.options.if_return {
             return;
         }
 
-        for stmt in stmts.iter_mut() {
-            let ctx = Ctx {
-                is_nested_if_return_merging: true,
-                ..self.ctx
-            };
-            self.with_ctx(ctx).merge_nested_if_returns(stmt)
-        }
+        // for stmt in stmts.iter_mut() {
+        //     let ctx = Ctx {
+        //         is_nested_if_return_merging: true,
+        //         ..self.ctx
+        //     };
+        //     self.with_ctx(ctx).merge_nested_if_returns(stmt, terminate);
+        // }
 
         if stmts.len() <= 1 {
             return;
         }
 
-        let idx_of_not_mergable = stmts.iter().rposition(|stmt| match stmt.as_stmt() {
-            Some(v) => !self.can_merge_stmt_as_if_return(v),
-            None => true,
-        });
+        let idx_of_not_mergable =
+            stmts
+                .iter()
+                .enumerate()
+                .rposition(|(idx, stmt)| match stmt.as_stmt() {
+                    Some(v) => !self.can_merge_stmt_as_if_return(v, stmts.len() - 1 == idx),
+                    None => true,
+                });
         let skip = idx_of_not_mergable.map(|v| v + 1).unwrap_or(0);
         log::trace!("if_return: Skip = {}", skip);
 
@@ -324,9 +353,10 @@ where
         {
             let start = stmts
                 .iter()
+                .enumerate()
                 .skip(skip)
-                .position(|stmt| match stmt.as_stmt() {
-                    Some(v) => self.can_merge_stmt_as_if_return(v),
+                .position(|(idx, stmt)| match stmt.as_stmt() {
+                    Some(v) => self.can_merge_stmt_as_if_return(v, stmts.len() - 1 == idx),
                     None => false,
                 })
                 .unwrap_or(0);
@@ -339,7 +369,7 @@ where
                     {
                         false
                     }
-                    Some(s) => self.can_merge_stmt_as_if_return(s),
+                    Some(s) => self.can_merge_stmt_as_if_return(s, true),
                     _ => false,
                 })
                 .unwrap();
@@ -348,10 +378,15 @@ where
                 return;
             }
 
-            let can_merge = stmts.iter().skip(skip).all(|stmt| match stmt.as_stmt() {
-                Some(s) => self.can_merge_stmt_as_if_return(s),
-                _ => false,
-            });
+            let can_merge =
+                stmts
+                    .iter()
+                    .enumerate()
+                    .skip(skip)
+                    .all(|(idx, stmt)| match stmt.as_stmt() {
+                        Some(s) => self.can_merge_stmt_as_if_return(s, stmts.len() - 1 == idx),
+                        _ => false,
+                    });
             if !can_merge {
                 return;
             }
@@ -370,6 +405,8 @@ where
         let mut cur: Option<Box<Expr>> = None;
         let mut new = Vec::with_capacity(stmts.len());
 
+        let len = stmts.len();
+
         for (idx, stmt) in stmts.take().into_iter().enumerate() {
             if let Some(not_mergable) = idx_of_not_mergable {
                 if idx < not_mergable {
@@ -378,7 +415,7 @@ where
                 }
             }
 
-            let stmt = if !self.can_merge_stmt_as_if_return(&stmt) {
+            let stmt = if !self.can_merge_stmt_as_if_return(&stmt, len - 1 == idx) {
                 debug_assert_eq!(cur, None);
                 new.push(stmt);
                 continue;
@@ -554,17 +591,19 @@ where
         }
     }
 
-    fn can_merge_stmt_as_if_return(&self, s: &Stmt) -> bool {
+    fn can_merge_stmt_as_if_return(&self, s: &Stmt, _is_last: bool) -> bool {
         let res = match s {
-            Stmt::Expr(..) | Stmt::Return(..) => true,
-            Stmt::Block(s) => s.stmts.len() == 1 && self.can_merge_stmt_as_if_return(&s.stmts[0]),
+            Stmt::Expr(..) => true,
+            Stmt::Return(..) => true,
+            Stmt::Block(s) => {
+                s.stmts.len() == 1 && self.can_merge_stmt_as_if_return(&s.stmts[0], false)
+            }
             Stmt::If(stmt) => {
-                self.can_merge_stmt_as_if_return(&stmt.cons)
-                    && stmt
-                        .alt
-                        .as_deref()
-                        .map(|s| self.can_merge_stmt_as_if_return(s))
-                        .unwrap_or(true)
+                matches!(&*stmt.cons, Stmt::Return(..))
+                    && matches!(
+                        stmt.alt.as_deref(),
+                        None | Some(Stmt::Return(..) | Stmt::Expr(..))
+                    )
             }
             _ => false,
         };

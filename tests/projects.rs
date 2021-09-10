@@ -613,7 +613,7 @@ fn issue_1549() {
             is_module: true,
             config: Config {
                 jsc: JscConfig {
-                    target: Some(EsVersion::Es2015),
+                    target: Some(EsVersion::Es5),
                     ..Default::default()
                 },
                 ..Default::default()

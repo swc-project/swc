@@ -271,15 +271,12 @@
     }), rootjQuery = jQuery(document);
     var optionsCache = {
     };
-    function createOptions(options) {
-        var object = optionsCache[options] = {
-        };
-        return jQuery.each(options.match(core_rnotwhite) || [], function(_, flag) {
-            object[flag] = !0;
-        }), object;
-    }
     jQuery.Callbacks = function(options) {
-        options = "string" == typeof options ? optionsCache[options] || createOptions(options) : jQuery.extend({
+        var options1, object;
+        options = "string" == typeof options ? optionsCache[options] || (object = optionsCache[options1 = options] = {
+        }, jQuery.each(options1.match(core_rnotwhite) || [], function(_, flag) {
+            object[flag] = !0;
+        }), object) : jQuery.extend({
         }, options);
         var firing, memory, fired, firingLength, firingIndex, firingStart, list = [], stack = !options.once && [], fire = function(data) {
             for(memory = options.memory && data, fired = !0, firingIndex = firingStart || 0, firingStart = 0, firingLength = list.length, firing = !0; list && firingIndex < firingLength; firingIndex++)if (!1 === list[firingIndex].apply(data[0], data[1]) && options.stopOnFalse) {
@@ -694,7 +691,14 @@
         },
         attr: function(elem, name, value) {
             var hooks, notxml, ret, nType = elem.nodeType;
-            if (elem && 3 !== nType && 8 !== nType && 2 !== nType) return void 0 === elem.getAttribute ? jQuery.prop(elem, name, value) : ((notxml = 1 !== nType || !jQuery.isXMLDoc(elem)) && (name = name.toLowerCase(), hooks = jQuery.attrHooks[name] || (rboolean.test(name) ? boolHook : nodeHook)), value !== undefined) ? null === value ? void jQuery.removeAttr(elem, name) : hooks && notxml && "set" in hooks && undefined !== (ret = hooks.set(elem, value, name)) ? ret : (elem.setAttribute(name, value + ""), value) : hooks && notxml && "get" in hooks && null !== (ret = hooks.get(elem, name)) ? ret : (void 0 !== elem.getAttribute && (ret = elem.getAttribute(name)), null == ret ? undefined : ret);
+            if (elem && 3 !== nType && 8 !== nType && 2 !== nType) {
+                if (void 0 === elem.getAttribute) return jQuery.prop(elem, name, value);
+                if ((notxml = 1 !== nType || !jQuery.isXMLDoc(elem)) && (name = name.toLowerCase(), hooks = jQuery.attrHooks[name] || (rboolean.test(name) ? boolHook : nodeHook)), value !== undefined) if (null === value) jQuery.removeAttr(elem, name);
+                else if (hooks && notxml && "set" in hooks && undefined !== (ret = hooks.set(elem, value, name))) return ret;
+                else return elem.setAttribute(name, value + ""), value;
+                else if (hooks && notxml && "get" in hooks && null !== (ret = hooks.get(elem, name))) return ret;
+                else return void 0 !== elem.getAttribute && (ret = elem.getAttribute(name)), null == ret ? undefined : ret;
+            }
         },
         removeAttr: function(elem, value) {
             var name, propName, i = 0, attrNames = value && value.match(core_rnotwhite);
@@ -1087,11 +1091,13 @@
                 for(type in "string" != typeof selector && (data = data || selector, selector = undefined), types)this.on(type, selector, data, types[type], one);
                 return this;
             }
-            return (null == data && null == fn ? (fn = selector, data = selector = undefined) : null == fn && ("string" == typeof selector ? (fn = data, data = undefined) : (fn = data, data = selector, selector = undefined)), !1 === fn) ? void (fn = returnFalse) : fn ? (1 === one && ((fn = function(event) {
+            if (null == data && null == fn ? (fn = selector, data = selector = undefined) : null == fn && ("string" == typeof selector ? (fn = data, data = undefined) : (fn = data, data = selector, selector = undefined)), !1 === fn) fn = returnFalse;
+            else if (!fn) return this;
+            return 1 === one && ((fn = function(event) {
                 return jQuery().off(event), (origFn = fn).apply(this, arguments);
             }).guid = origFn.guid || (origFn.guid = jQuery.guid++)), this.each(function() {
                 jQuery.event.add(this, types, fn, data, selector);
-            })) : this;
+            });
         },
         one: function(types, selector, data, fn) {
             return this.on(types, selector, data, fn, 1);
@@ -1452,7 +1458,7 @@
                                 dirruns,
                                 diff
                             ]), node !== elem)););
-                            return diff -= last, diff === first || diff % first == 0 && diff / first >= 0;
+                            return (diff -= last) === first || diff % first == 0 && diff / first >= 0;
                         }
                     };
                 },
@@ -1668,31 +1674,6 @@
             }
             return elementMatcher(matchers);
         }
-        function matcherFromGroupMatchers(elementMatchers, setMatchers) {
-            var matcherCachedRuns = 0, bySet = setMatchers.length > 0, byElement = elementMatchers.length > 0, superMatcher = function(seed, context, xml, results, expandContext) {
-                var elem, j, matcher, setMatched = [], matchedCount = 0, i = "0", unmatched = seed && [], outermost = null != expandContext, contextBackup = outermostContext, elems = seed || byElement && Expr.find.TAG("*", expandContext && context.parentNode || context), dirrunsUnique = dirruns += null == contextBackup ? 1 : Math.random() || 0.1;
-                for(outermost && (outermostContext = context !== document && context, cachedruns = matcherCachedRuns); null != (elem = elems[i]); i++){
-                    if (byElement && elem) {
-                        for(; matcher = elementMatchers[j++];)if (matcher(elem, context, xml)) {
-                            results.push(elem);
-                            break;
-                        }
-                        outermost && (dirruns = dirrunsUnique, cachedruns = ++matcherCachedRuns);
-                    }
-                    bySet && ((elem = !matcher && elem) && matchedCount--, seed && unmatched.push(elem));
-                }
-                if (matchedCount += i, bySet && i !== matchedCount) {
-                    for(; matcher = setMatchers[j++];)matcher(unmatched, setMatched, context, xml);
-                    if (seed) {
-                        if (matchedCount > 0) for(; i--;)unmatched[i] || setMatched[i] || (setMatched[i] = pop.call(results));
-                        setMatched = condense(setMatched);
-                    }
-                    push.apply(results, setMatched), outermost && !seed && setMatched.length > 0 && matchedCount + setMatchers.length > 1 && Sizzle.uniqueSort(results);
-                }
-                return outermost && (dirruns = dirrunsUnique, outermostContext = contextBackup), unmatched;
-            };
-            return bySet ? markFunction(superMatcher) : superMatcher;
-        }
         function multipleContexts(selector, contexts, results) {
             for(var i = 0, len = contexts.length; i < len; i++)Sizzle(selector, contexts[i], results);
             return results;
@@ -1717,10 +1698,31 @@
         function setFilters() {
         }
         compile = Sizzle.compile = function(selector, group) {
-            var i, setMatchers = [], elementMatchers = [], cached = compilerCache[selector + " "];
+            var elementMatchers, setMatchers, matcherCachedRuns, bySet, byElement, superMatcher, i, setMatchers1 = [], elementMatchers1 = [], cached = compilerCache[selector + " "];
             if (!cached) {
-                for(group || (group = tokenize(selector)), i = group.length; i--;)(cached = matcherFromTokens(group[i]))[expando] ? setMatchers.push(cached) : elementMatchers.push(cached);
-                cached = compilerCache(selector, matcherFromGroupMatchers(elementMatchers, setMatchers));
+                for(group || (group = tokenize(selector)), i = group.length; i--;)(cached = matcherFromTokens(group[i]))[expando] ? setMatchers1.push(cached) : elementMatchers1.push(cached);
+                cached = compilerCache(selector, (elementMatchers = elementMatchers1, matcherCachedRuns = 0, bySet = (setMatchers = setMatchers1).length > 0, byElement = elementMatchers.length > 0, superMatcher = function(seed, context, xml, results, expandContext) {
+                    var elem, j, matcher, setMatched = [], matchedCount = 0, i = "0", unmatched = seed && [], outermost = null != expandContext, contextBackup = outermostContext, elems = seed || byElement && Expr.find.TAG("*", expandContext && context.parentNode || context), dirrunsUnique = dirruns += null == contextBackup ? 1 : Math.random() || 0.1;
+                    for(outermost && (outermostContext = context !== document && context, cachedruns = matcherCachedRuns); null != (elem = elems[i]); i++){
+                        if (byElement && elem) {
+                            for(; matcher = elementMatchers[j++];)if (matcher(elem, context, xml)) {
+                                results.push(elem);
+                                break;
+                            }
+                            outermost && (dirruns = dirrunsUnique, cachedruns = ++matcherCachedRuns);
+                        }
+                        bySet && ((elem = !matcher && elem) && matchedCount--, seed && unmatched.push(elem));
+                    }
+                    if (matchedCount += i, bySet && i !== matchedCount) {
+                        for(; matcher = setMatchers[j++];)matcher(unmatched, setMatched, context, xml);
+                        if (seed) {
+                            if (matchedCount > 0) for(; i--;)unmatched[i] || setMatched[i] || (setMatched[i] = pop.call(results));
+                            setMatched = condense(setMatched);
+                        }
+                        push.apply(results, setMatched), outermost && !seed && setMatched.length > 0 && matchedCount + setMatchers.length > 1 && Sizzle.uniqueSort(results);
+                    }
+                    return outermost && (dirruns = dirrunsUnique, outermostContext = contextBackup), unmatched;
+                }, bySet ? markFunction(superMatcher) : superMatcher));
             }
             return cached;
         }, Expr.pseudos.nth = Expr.pseudos.eq, Expr.filters = setFilters.prototype = Expr.pseudos, Expr.setFilters = new setFilters(), setDocument(), Sizzle.attr = jQuery.attr, jQuery.find = Sizzle, jQuery.expr = Sizzle.selectors, jQuery.expr[":"] = jQuery.expr.pseudos, jQuery.unique = Sizzle.uniqueSort, jQuery.text = Sizzle.getText, jQuery.isXMLDoc = Sizzle.isXML, jQuery.contains = Sizzle.contains;
@@ -2410,58 +2412,6 @@
         }))[key] = src[key]);
         return deep && jQuery.extend(!0, target, deep), target;
     }
-    function ajaxHandleResponses(s, jqXHR, responses) {
-        var firstDataType, ct, finalDataType, type, contents = s.contents, dataTypes = s.dataTypes, responseFields = s.responseFields;
-        for(type in responseFields)type in responses && (jqXHR[responseFields[type]] = responses[type]);
-        for(; "*" === dataTypes[0];)dataTypes.shift(), ct === undefined && (ct = s.mimeType || jqXHR.getResponseHeader("Content-Type"));
-        if (ct) {
-            for(type in contents)if (contents[type] && contents[type].test(ct)) {
-                dataTypes.unshift(type);
-                break;
-            }
-        }
-        if (dataTypes[0] in responses) finalDataType = dataTypes[0];
-        else {
-            for(type in responses){
-                if (!dataTypes[0] || s.converters[type + " " + dataTypes[0]]) {
-                    finalDataType = type;
-                    break;
-                }
-                firstDataType || (firstDataType = type);
-            }
-            finalDataType = finalDataType || firstDataType;
-        }
-        if (finalDataType) return finalDataType !== dataTypes[0] && dataTypes.unshift(finalDataType), responses[finalDataType];
-    }
-    function ajaxConvert(s, response) {
-        var conv2, current, conv, tmp, converters = {
-        }, i = 0, dataTypes = s.dataTypes.slice(), prev = dataTypes[0];
-        if (s.dataFilter && (response = s.dataFilter(response, s.dataType)), dataTypes[1]) for(conv in s.converters)converters[conv.toLowerCase()] = s.converters[conv];
-        for(; current = dataTypes[++i];)if ("*" !== current) {
-            if ("*" !== prev && prev !== current) {
-                if (!(conv = converters[prev + " " + current] || converters["* " + current])) {
-                    for(conv2 in converters)if ((tmp = conv2.split(" "))[1] === current && (conv = converters[prev + " " + tmp[0]] || converters["* " + tmp[0]])) {
-                        !0 === conv ? conv = converters[conv2] : !0 !== converters[conv2] && (current = tmp[0], dataTypes.splice(i--, 0, current));
-                        break;
-                    }
-                }
-                if (!0 !== conv) if (conv && s.throws) response = conv(response);
-                else try {
-                    response = conv(response);
-                } catch (e) {
-                    return {
-                        state: "parsererror",
-                        error: conv ? e : "No conversion from " + prev + " to " + current
-                    };
-                }
-            }
-            prev = current;
-        }
-        return {
-            state: "success",
-            data: response
-        };
-    }
     ajaxLocParts = rurl.exec(ajaxLocation.toLowerCase()) || [], jQuery.fn.load = function(url, params, callback) {
         if ("string" != typeof url && _load) return _load.apply(this, arguments);
         var selector, response, type, self = this, off = url.indexOf(" ");
@@ -2617,7 +2567,57 @@
             } else done(-1, "No Transport");
             function done(status, nativeStatusText, responses, headers) {
                 var isSuccess, success, error, response, modified, statusText = nativeStatusText;
-                2 !== state && (state = 2, timeoutTimer && clearTimeout(timeoutTimer), transport = undefined, responseHeadersString = headers || "", jqXHR.readyState = status > 0 ? 4 : 0, responses && (response = ajaxHandleResponses(s, jqXHR, responses)), status >= 200 && status < 300 || 304 === status ? (s.ifModified && ((modified = jqXHR.getResponseHeader("Last-Modified")) && (jQuery.lastModified[cacheURL] = modified), (modified = jqXHR.getResponseHeader("etag")) && (jQuery.etag[cacheURL] = modified)), 204 === status ? (isSuccess = !0, statusText = "nocontent") : 304 === status ? (isSuccess = !0, statusText = "notmodified") : (statusText = (isSuccess = ajaxConvert(s, response)).state, success = isSuccess.data, isSuccess = !(error = isSuccess.error))) : (error = statusText, (status || !statusText) && (statusText = "error", status < 0 && (status = 0))), jqXHR.status = status, jqXHR.statusText = (nativeStatusText || statusText) + "", isSuccess ? deferred.resolveWith(callbackContext, [
+                2 !== state && (state = 2, timeoutTimer && clearTimeout(timeoutTimer), transport = undefined, responseHeadersString = headers || "", jqXHR.readyState = status > 0 ? 4 : 0, responses && (response = (function(s, jqXHR, responses) {
+                    var firstDataType, ct, finalDataType, type, contents = s.contents, dataTypes = s.dataTypes, responseFields = s.responseFields;
+                    for(type in responseFields)type in responses && (jqXHR[responseFields[type]] = responses[type]);
+                    for(; "*" === dataTypes[0];)dataTypes.shift(), ct === undefined && (ct = s.mimeType || jqXHR.getResponseHeader("Content-Type"));
+                    if (ct) {
+                        for(type in contents)if (contents[type] && contents[type].test(ct)) {
+                            dataTypes.unshift(type);
+                            break;
+                        }
+                    }
+                    if (dataTypes[0] in responses) finalDataType = dataTypes[0];
+                    else {
+                        for(type in responses){
+                            if (!dataTypes[0] || s.converters[type + " " + dataTypes[0]]) {
+                                finalDataType = type;
+                                break;
+                            }
+                            firstDataType || (firstDataType = type);
+                        }
+                        finalDataType = finalDataType || firstDataType;
+                    }
+                    if (finalDataType) return finalDataType !== dataTypes[0] && dataTypes.unshift(finalDataType), responses[finalDataType];
+                })(s, jqXHR, responses)), status >= 200 && status < 300 || 304 === status ? (s.ifModified && ((modified = jqXHR.getResponseHeader("Last-Modified")) && (jQuery.lastModified[cacheURL] = modified), (modified = jqXHR.getResponseHeader("etag")) && (jQuery.etag[cacheURL] = modified)), 204 === status ? (isSuccess = !0, statusText = "nocontent") : 304 === status ? (isSuccess = !0, statusText = "notmodified") : (statusText = (isSuccess = (function(s, response) {
+                    var conv2, current, conv, tmp, converters = {
+                    }, i = 0, dataTypes = s.dataTypes.slice(), prev = dataTypes[0];
+                    if (s.dataFilter && (response = s.dataFilter(response, s.dataType)), dataTypes[1]) for(conv in s.converters)converters[conv.toLowerCase()] = s.converters[conv];
+                    for(; current = dataTypes[++i];)if ("*" !== current) {
+                        if ("*" !== prev && prev !== current) {
+                            if (!(conv = converters[prev + " " + current] || converters["* " + current])) {
+                                for(conv2 in converters)if ((tmp = conv2.split(" "))[1] === current && (conv = converters[prev + " " + tmp[0]] || converters["* " + tmp[0]])) {
+                                    !0 === conv ? conv = converters[conv2] : !0 !== converters[conv2] && (current = tmp[0], dataTypes.splice(i--, 0, current));
+                                    break;
+                                }
+                            }
+                            if (!0 !== conv) if (conv && s.throws) response = conv(response);
+                            else try {
+                                response = conv(response);
+                            } catch (e) {
+                                return {
+                                    state: "parsererror",
+                                    error: conv ? e : "No conversion from " + prev + " to " + current
+                                };
+                            }
+                        }
+                        prev = current;
+                    }
+                    return {
+                        state: "success",
+                        data: response
+                    };
+                })(s, response)).state, success = isSuccess.data, isSuccess = !(error = isSuccess.error))) : (error = statusText, (status || !statusText) && (statusText = "error", status < 0 && (status = 0))), jqXHR.status = status, jqXHR.statusText = (nativeStatusText || statusText) + "", isSuccess ? deferred.resolveWith(callbackContext, [
                     success,
                     statusText,
                     jqXHR
@@ -2701,14 +2701,13 @@
         } catch (e) {
         }
     }
-    function createActiveXHR() {
-        try {
-            return new window.ActiveXObject("Microsoft.XMLHTTP");
-        } catch (e) {
-        }
-    }
     jQuery.ajaxSettings.xhr = window.ActiveXObject ? function() {
-        return !this.isLocal && createStandardXHR() || createActiveXHR();
+        return !this.isLocal && createStandardXHR() || (function() {
+            try {
+                return new window.ActiveXObject("Microsoft.XMLHTTP");
+            } catch (e) {
+            }
+        })();
     } : createStandardXHR, xhrSupported = jQuery.ajaxSettings.xhr(), jQuery.support.cors = !!xhrSupported && "withCredentials" in xhrSupported, (xhrSupported = jQuery.support.ajax = !!xhrSupported) && jQuery.ajaxTransport(function(s) {
         if (!s.crossDomain || jQuery.support.cors) {
             var callback;
@@ -2793,11 +2792,6 @@
             fxNow = undefined;
         }), fxNow = jQuery.now();
     }
-    function createTweens(animation, props) {
-        jQuery.each(props, function(prop, value) {
-            for(var collection = (tweeners[prop] || []).concat(tweeners["*"]), index = 0, length = collection.length; index < length; index++)if (collection[index].call(animation, prop, value)) return;
-        });
-    }
     function Animation(elem, properties, options) {
         var result, stopped, index = 0, length = animationPrefilters.length, deferred = jQuery.Deferred().always(function() {
             delete tick.elem;
@@ -2842,7 +2836,9 @@
             }
         }), props = animation.props;
         for(propFilter(props, animation.opts.specialEasing); index < length; index++)if (result = animationPrefilters[index].call(animation, elem, props, animation.opts)) return result;
-        return createTweens(animation, props), jQuery.isFunction(animation.opts.start) && animation.opts.start.call(elem, animation), jQuery.fx.timer(jQuery.extend(tick, {
+        return jQuery.each(props, function(prop, value) {
+            for(var collection = (tweeners[prop] || []).concat(tweeners["*"]), index = 0, length = collection.length; index < length; index++)if (collection[index].call(animation, prop, value)) return;
+        }), jQuery.isFunction(animation.opts.start) && animation.opts.start.call(elem, animation), jQuery.fx.timer(jQuery.extend(tick, {
             elem: elem,
             anim: animation,
             queue: animation.opts.queue

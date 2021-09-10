@@ -165,6 +165,16 @@ impl VisitMut for Fixer<'_> {
                 _ => {}
             },
 
+            op!("**") => match &*expr.left {
+                Expr::Unary(..) => {
+                    self.wrap(&mut expr.left);
+                }
+                Expr::Lit(Lit::Num(v)) if v.value.is_sign_negative() => {
+                    self.wrap(&mut expr.left);
+                }
+                _ => {}
+            },
+
             _ => {}
         }
 
@@ -1414,4 +1424,6 @@ var store = global[SHARED] || (global[SHARED] = {});
     identical!(issue_2163_1, "() => ({foo} = bar());");
 
     identical!(issue_2163_2, "() => ([foo] = bar());");
+
+    identical!(issue_2191, "(-1) ** h");
 }

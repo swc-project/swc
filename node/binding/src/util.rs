@@ -1,4 +1,4 @@
-use anyhow::Context;
+use anyhow::{Context, Error};
 use napi::{CallContext, JsBuffer, Status};
 use serde::de::DeserializeOwned;
 use std::any::type_name;
@@ -25,7 +25,10 @@ impl CtxtExt for CallContext<'_> {
         T: DeserializeOwned,
     {
         let buffer = self.get::<JsBuffer>(index)?.into_value()?;
-        let v = serde_json::from_slice(&buffer)
+        let mut deserializer = serde_json::Deserializer::from_slice(&buffer);
+        deserializer.disable_recursion_limit();
+
+        let v = T::deserialize(&mut deserializer)
             .with_context(|| {
                 format!(
                     "Failed to deserialize argument at `{}` as {}\nJSON: {}",
@@ -38,4 +41,22 @@ impl CtxtExt for CallContext<'_> {
 
         Ok(v)
     }
+}
+
+pub(crate) fn deserialize_json<T>(json: &str) -> Result<T, Error>
+where
+    T: DeserializeOwned,
+{
+    let mut deserializer = serde_json::Deserializer::from_str(&json);
+    deserializer.disable_recursion_limit();
+
+    let val = T::deserialize(&mut deserializer);
+
+    val.with_context(|| {
+        format!(
+            "Failed to deserialize {} from json string (`{}`)",
+            type_name::<T>(),
+            json
+        )
+    })
 }

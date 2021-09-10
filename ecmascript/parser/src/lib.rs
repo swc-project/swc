@@ -420,7 +420,7 @@ pub struct Context {
     in_forced_jsx_context: bool,
 
     /// If true, `:` should not be treated as a type annotation.
-    in_case_cond: bool,
+    dont_parse_colon_as_type_ann: bool,
 }
 
 #[cfg(test)]

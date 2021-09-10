@@ -5,7 +5,7 @@ use swc_ecma_transforms_compat::{
     es2015::{block_scoping, for_of::for_of},
     es2017::async_to_generator,
 };
-use swc_ecma_transforms_testing::{test, test_exec, Tester};
+use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, Tester};
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
@@ -778,7 +778,7 @@ test!(
         "
 );
 
-test!(
+compare_stdout!(
     ::swc_ecma_parser::Syntax::default(),
     |Tester { comments, .. }| {
         let mark = Mark::fresh(Mark::root());
@@ -792,22 +792,14 @@ test!(
     },
     arguments_arrow,
     "
-        function test() {
-            for (var i = 0; i < arguments.length; i++) {
-              console.log((() => arguments[i])());
-            }
+    function test() {
+        for (var i = 0; i < arguments.length; i++) {
+            console.log((() => arguments[i])());
         }
-        ",
+    }
+
+    test(1, 2, 3);
     "
-        function test() {
-            var _this = this, _arguments = arguments, _loop = function(i) {
-                console.log((function(_arguments) {
-                    return _arguments[i];
-                }).bind(_this, _arguments)());
-            };
-            for(var i = 0; i < arguments.length; i++)_loop(i);
-        }
-        "
 );
 
 test!(

@@ -304,13 +304,27 @@ impl<I: Tokens> Parser<I> {
 
         expect!(self, '(');
 
-        let lit = self.parse_lit()?;
-        let arg = match lit {
-            Lit::Str(arg) => arg,
+        let _ = cur!(self, false);
+
+        let arg_span = self.input.cur_span();
+
+        let arg = match cur!(self, true)? {
+            Token::Str { .. } => match bump!(self) {
+                Token::Str { value, has_escape } => Str {
+                    span: arg_span,
+                    value,
+                    has_escape,
+                    kind: StrKind::Normal {
+                        contains_quote: true,
+                    },
+                },
+                _ => unreachable!(),
+            },
             _ => {
-                self.emit_err(lit.span(), SyntaxError::TS1141);
+                bump!(self);
+                self.emit_err(arg_span, SyntaxError::TS1141);
                 Str {
-                    span: lit.span(),
+                    span: arg_span,
                     value: "".into(),
                     has_escape: false,
                     kind: Default::default(),

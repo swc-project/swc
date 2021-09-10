@@ -11,30 +11,37 @@ impl<'a, I: Tokens> Parser<I> {
     where
         Self: ParseObject<T>,
     {
-        trace_cur!(self, parse_object);
+        let ctx = Context {
+            is_direct_child_of_cond: false,
+            dont_parse_colon_as_type_ann: false,
+            ..self.ctx()
+        };
+        self.with_ctx(ctx).parse_with(|p| {
+            trace_cur!(p, parse_object);
 
-        let start = cur_pos!(self);
-        assert_and_bump!(self, '{');
+            let start = cur_pos!(p);
+            assert_and_bump!(p, '{');
 
-        let mut props = vec![];
+            let mut props = vec![];
 
-        let mut first = true;
-        while !eat!(self, '}') {
-            // Handle comma
-            if first {
-                first = false;
-            } else {
-                expect!(self, ',');
-                if eat!(self, '}') {
-                    break;
+            let mut first = true;
+            while !eat!(p, '}') {
+                // Handle comma
+                if first {
+                    first = false;
+                } else {
+                    expect!(p, ',');
+                    if eat!(p, '}') {
+                        break;
+                    }
                 }
+
+                let prop = p.parse_object_prop()?;
+                props.push(prop);
             }
 
-            let prop = self.parse_object_prop()?;
-            props.push(prop);
-        }
-
-        self.make_object(span!(self, start), props)
+            p.make_object(span!(p, start), props)
+        })
     }
 
     /// spec: 'PropertyName'
