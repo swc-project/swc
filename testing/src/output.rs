@@ -2,7 +2,7 @@ use crate::paths;
 use pretty_assertions::assert_eq;
 use std::{
     fmt,
-    fs::{create_dir_all, remove_file, File},
+    fs::{create_dir_all, File},
     io::Read,
     ops::Deref,
     path::Path,
@@ -78,6 +78,10 @@ impl NormalizedOutput {
                 // If xxx.stderr file does not exist, stderr should be empty.
                 String::new()
             });
+
+        if expected == self.0 {
+            return Ok(());
+        }
 
         eprintln!("Comparing output to {}", path.display());
         create_dir_all(path.parent().unwrap()).expect("failed to run `mkdir -p`");
