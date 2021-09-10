@@ -135,7 +135,7 @@ where
                     );
                     let mut errors = vec![];
                     for target in to {
-                        let replaced = target.replace('*', capture.as_str());
+                        let mut replaced = target.replace('*', capture.as_str());
                         let rel = format!("./{}", replaced);
 
                         let res = self.inner.resolve(base, &rel).with_context(|| {
@@ -150,8 +150,15 @@ where
                             Err(err) => err,
                         });
 
+                        if cfg!(target_os = "windows") {
+                            if replaced.starts_with("./") {
+                                replaced = replaced[2..].to_string();
+                            }
+                            replaced = replaced.replace('/', "\\");
+                        }
+
                         if to.len() == 1 {
-                            return Ok(FileName::Custom(replaced));
+                            return Ok(FileName::Real(self.base_url.join(replaced)));
                         }
                     }
 

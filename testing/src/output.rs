@@ -2,7 +2,7 @@ use crate::paths;
 use pretty_assertions::assert_eq;
 use std::{
     fmt,
-    fs::{create_dir_all, remove_file, File},
+    fs::{create_dir_all, File},
     io::Read,
     ops::Deref,
     path::Path,
@@ -79,22 +79,12 @@ impl NormalizedOutput {
                 String::new()
             });
 
-        let path_for_actual = paths::test_results_dir().join("ui").join(
-            path.strip_prefix(&paths::manifest_dir())
-                .unwrap_or_else(|_| {
-                    unreachable!(
-                        "failed to strip prefix: CARGO_MANIFEST_DIR\nPath: {}\nManifest dir: {}",
-                        path.display(),
-                        paths::manifest_dir().display()
-                    )
-                }),
-        );
-        eprintln!("{}:{}", path.display(), path_for_actual.display());
-        if self.0 == expected {
-            let _ = remove_file(path_for_actual);
+        if expected == self.0 {
             return Ok(());
         }
-        create_dir_all(path_for_actual.parent().unwrap()).expect("failed to run `mkdir -p`");
+
+        eprintln!("Comparing output to {}", path.display());
+        create_dir_all(path.parent().unwrap()).expect("failed to run `mkdir -p`");
 
         let diff = Diff {
             expected: NormalizedOutput(expected),
@@ -106,7 +96,7 @@ impl NormalizedOutput {
 
             eprintln!(
                 "Assertion failed: \nActual file printed to {}",
-                path_for_actual.display()
+                path.display()
             );
         }
 

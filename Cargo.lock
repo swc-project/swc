@@ -2287,7 +2287,7 @@ checksum = "6446ced80d6c486436db5c078dde11a9f73d42b57fb273121e160b84f63d894c"
 
 [[package]]
 name = "swc"
-version = "0.52.0"
+version = "0.53.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2608,7 +2608,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_loader"
-version = "0.18.1"
+version = "0.18.2"
 dependencies = [
  "anyhow",
  "dashmap",
@@ -3161,7 +3161,7 @@ dependencies = [
 
 [[package]]
 name = "testing"
-version = "0.13.0"
+version = "0.13.1"
 dependencies = [
  "ansi_term 0.12.1",
  "difference",
