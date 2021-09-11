@@ -59,9 +59,6 @@ jobs:
           name: bindings
           path: swc.*.node
 
-      - name: Test bindings
-        run: npm test
-
       - name: Test in lts docker
         if: matrix.os == 'ubuntu-18.04'
         run: docker run --rm -v $(pwd):/swc -w /swc node:lts-slim sh -c "yarn test"
