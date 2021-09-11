@@ -97,7 +97,7 @@ where
 
         let rel_path = match rel_path {
             Some(v) => v,
-            None => return Ok(module_specifier.into()),
+            None => return Ok(to_specifier(&target.display().to_string())),
         };
 
         {
