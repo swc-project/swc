@@ -130,7 +130,6 @@ evaluate/delete_expr_1/input.js
 evaluate/delete_expr_2/input.js
 evaluate/issue_2535_1/input.js
 evaluate/issue_2916_2/input.js
-evaluate/unsafe_object_accessor/input.js
 expansions/avoid_spread_getset_object/input.js
 expansions/avoid_spread_hole/input.js
 export/export_default_named_async_function/input.js
@@ -155,7 +154,6 @@ functions/issue_3016_3/input.js
 functions/issue_3018/input.js
 functions/issue_3076/input.js
 functions/issue_3166/input.js
-functions/issue_485_crashing_1530/input.js
 functions/loop_init_arg/input.js
 functions/unsafe_apply_2/input.js
 functions/unsafe_call_2/input.js
@@ -206,7 +204,6 @@ issue_1052/defun_if_return/input.js
 issue_1052/multiple_functions/input.js
 issue_1052/not_hoisted_when_already_nested/input.js
 issue_1052/single_function/input.js
-issue_12/keep_name_of_setter/input.js
 issue_1202/mangle_keep_fnames_false/input.js
 issue_1202/mangle_keep_fnames_true/input.js
 issue_1261/pure_function_calls/input.js
