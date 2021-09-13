@@ -683,13 +683,12 @@ var $try = Function.attempt;
         toQueryString: function(object, base) {
             var queryString = [];
             return Object.each(object, function(value, key) {
-                var result;
                 switch(base && (key = base + "[" + key + "]"), typeOf(value)){
                     case "object":
                         result = Object.toQueryString(value, key);
                         break;
                     case "array":
-                        var qs = {
+                        var result, qs = {
                         };
                         value.each(function(val, i) {
                             qs[i] = val;

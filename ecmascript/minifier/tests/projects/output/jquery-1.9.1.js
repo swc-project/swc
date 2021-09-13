@@ -125,13 +125,13 @@
             return null == obj ? String(obj) : "object" == typeof obj || "function" == typeof obj ? class2type[core_toString.call(obj)] || "object" : typeof obj;
         },
         isPlainObject: function(obj) {
+            var key;
             if (!obj || "object" !== jQuery.type(obj) || obj.nodeType || jQuery.isWindow(obj)) return !1;
             try {
                 if (obj.constructor && !core_hasOwn.call(obj, "constructor") && !core_hasOwn.call(obj.constructor.prototype, "isPrototypeOf")) return !1;
             } catch (e) {
                 return !1;
             }
-            var key;
             for(key in obj);
             return key === undefined || core_hasOwn.call(obj, key);
         },
