@@ -310,7 +310,7 @@ impl Options {
                 .clone()
                 .or(config.source_maps)
                 .unwrap_or(SourceMapsConfig::Bool(false)),
-            inline_source_contents: config.inline_source_contents,
+            inline_sources_contents: config.inline_sources_contents,
             input_source_map: self.config.input_source_map.clone(),
             output_path: output_path.map(|v| v.to_path_buf()),
             source_file_name,
@@ -507,7 +507,7 @@ pub struct Config {
     pub source_maps: Option<SourceMapsConfig>,
 
     #[serde(default)]
-    pub inline_source_contents: bool,
+    pub inline_sources_contents: bool,
 }
 
 /// Second argument of `minify`.
@@ -758,7 +758,7 @@ pub struct BuiltConfig<P: swc_ecma_visit::Fold> {
 
     pub preserve_comments: Option<BoolOrObject<JsMinifyCommentOption>>,
 
-    pub inline_source_contents: bool,
+    pub inline_sources_contents: bool,
 }
 
 /// `jsc` in  `.swcrc`.
@@ -1067,8 +1067,8 @@ impl Merge for Config {
         self.minify.merge(&from.minify);
         self.env.merge(&from.env);
         self.source_maps.merge(&from.source_maps);
-        self.inline_source_contents
-            .merge(&from.inline_source_contents);
+        self.inline_sources_contents
+            .merge(&from.inline_sources_contents);
     }
 }
 

@@ -346,7 +346,7 @@ impl Compiler {
         node: &T,
         source_file_name: Option<&str>,
         output_path: Option<PathBuf>,
-        inline_source_contents: bool,
+        inline_sources_contents: bool,
         target: JscTarget,
         source_map: SourceMapsConfig,
         source_map_names: &[JsWord],
@@ -450,7 +450,7 @@ impl Compiler {
                                     source_file_name,
                                     output_path: output_path.as_deref(),
                                     names: source_map_names,
-                                    inline_source_contents,
+                                    inline_sources_contents,
                                 },
                             )
                             .to_writer(&mut buf)
@@ -474,7 +474,7 @@ impl Compiler {
                                 source_file_name,
                                 output_path: output_path.as_deref(),
                                 names: source_map_names,
-                                inline_source_contents,
+                                inline_sources_contents,
                             },
                         )
                         .to_writer(&mut buf)
@@ -503,7 +503,7 @@ struct SwcSourceMapConfig<'a> {
 
     names: &'a [JsWord],
 
-    inline_source_contents: bool,
+    inline_sources_contents: bool,
 }
 
 impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
@@ -539,8 +539,8 @@ impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
         self.names.iter().map(|v| &**v).collect()
     }
 
-    fn inline_source_contents(&self, _: &FileName) -> bool {
-        self.inline_source_contents
+    fn inline_sources_contents(&self, _: &FileName) -> bool {
+        self.inline_sources_contents
     }
 }
 
@@ -747,7 +747,7 @@ impl Compiler {
                 output_path: config.output_path,
                 source_file_name: config.source_file_name,
                 preserve_comments: config.preserve_comments,
-                inline_source_contents: config.inline_source_contents,
+                inline_sources_contents: config.inline_sources_contents,
             };
 
             let orig = if opts
@@ -944,7 +944,7 @@ impl Compiler {
                 &program,
                 config.source_file_name.as_deref(),
                 config.output_path,
-                config.inline_source_contents,
+                config.inline_sources_contents,
                 config.target,
                 config.source_maps,
                 &source_map_names,
