@@ -1111,12 +1111,10 @@ impl SourceMap {
                     f = self.lookup_source_file(pos);
                     src_id = builder.add_source(&config.file_name_to_source(&f.name));
 
-                    match f.name {
-                        FileName::Real(..) | FileName::Custom(..) | FileName::Url(..) => {}
-                        _ => {
-                            builder.set_source_contents(src_id, Some(&f.src));
-                        }
+                    if config.inline_source_contents(&f.name) {
+                        builder.set_source_contents(src_id, Some(&f.src));
                     }
+
                     cur_file = Some(f.clone());
                     ch_start = 0;
                     line_ch_start = 0;
@@ -1227,6 +1225,14 @@ pub trait SourceMapGenConfig {
     /// # Returns all identifiers for current module.
     fn names(&self) -> Vec<&str> {
         vec![]
+    }
+
+    /// You can override this to control `sourceContents`.
+    fn inline_source_contents(&self, f: &FileName) -> bool {
+        match f {
+            FileName::Real(..) | FileName::Custom(..) | FileName::Url(..) => false,
+            _ => true,
+        }
     }
 }
 
