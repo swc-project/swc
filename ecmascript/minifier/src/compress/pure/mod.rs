@@ -342,9 +342,22 @@ where
     fn visit_mut_seq_expr(&mut self, e: &mut SeqExpr) {
         e.visit_mut_children_with(self);
 
+        if e.exprs.len() == 0 {
+            return;
+        }
+
         self.drop_useless_ident_ref_in_seq(e);
 
         self.merge_seq_call(e);
+
+        let len = e.exprs.len();
+        for (idx, e) in e.exprs.iter_mut().enumerate() {
+            let is_last = idx == len - 1;
+
+            if !is_last {
+                self.ignore_return_value(&mut **e);
+            }
+        }
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
