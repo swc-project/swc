@@ -1,5 +1,6 @@
 export function foo(
 ) {
+    var obj;
     return state.loading || state.error
         ? _react.default.createElement(
             opts.loading,
@@ -17,5 +18,4 @@ export function foo(
                 props
             )
             : null;
-    var obj;
 }
