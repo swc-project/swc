@@ -215,9 +215,6 @@ where
             self.merge_nested_if_returns(stmt, can_work);
         }
 
-        dbg!(can_work);
-        dbg!(is_fn_body);
-
         if can_work || is_fn_body {
             self.merge_if_returns_inner(stmts);
         }
