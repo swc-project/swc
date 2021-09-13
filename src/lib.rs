@@ -346,6 +346,7 @@ impl Compiler {
         node: &T,
         source_file_name: Option<&str>,
         output_path: Option<PathBuf>,
+        inline_source_contents: bool,
         target: JscTarget,
         source_map: SourceMapsConfig,
         source_map_names: &[JsWord],
@@ -449,6 +450,7 @@ impl Compiler {
                                     source_file_name,
                                     output_path: output_path.as_deref(),
                                     names: source_map_names,
+                                    inline_source_contents,
                                 },
                             )
                             .to_writer(&mut buf)
@@ -472,6 +474,7 @@ impl Compiler {
                                 source_file_name,
                                 output_path: output_path.as_deref(),
                                 names: source_map_names,
+                                inline_source_contents,
                             },
                         )
                         .to_writer(&mut buf)
@@ -499,6 +502,8 @@ struct SwcSourceMapConfig<'a> {
     output_path: Option<&'a Path>,
 
     names: &'a [JsWord],
+
+    inline_source_contents: bool,
 }
 
 impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
@@ -532,6 +537,10 @@ impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
 
     fn names(&self) -> Vec<&str> {
         self.names.iter().map(|v| &**v).collect()
+    }
+
+    fn inline_source_contents(&self, _: &FileName) -> bool {
+        self.inline_source_contents
     }
 }
 
@@ -738,6 +747,7 @@ impl Compiler {
                 output_path: config.output_path,
                 source_file_name: config.source_file_name,
                 preserve_comments: config.preserve_comments,
+                inline_source_contents: config.inline_source_contents,
             };
 
             let orig = if opts
@@ -854,6 +864,7 @@ impl Compiler {
                 &module,
                 Some(&fm.name.to_string()),
                 opts.output_path.clone().map(From::from),
+                true,
                 target,
                 SourceMapsConfig::Bool(opts.source_map),
                 &source_map_names,
@@ -933,6 +944,7 @@ impl Compiler {
                 &program,
                 config.source_file_name.as_deref(),
                 config.output_path,
+                config.inline_source_contents,
                 config.target,
                 config.source_maps,
                 &source_map_names,
