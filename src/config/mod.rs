@@ -129,6 +129,9 @@ pub struct Options {
     pub is_module: bool,
 
     #[serde(default)]
+    pub inline_source_contents: bool,
+
+    #[serde(default)]
     pub output_path: Option<PathBuf>,
 }
 
