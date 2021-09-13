@@ -215,6 +215,9 @@ where
             self.merge_nested_if_returns(stmt, can_work);
         }
 
+        dbg!(can_work);
+        dbg!(is_fn_body);
+
         if can_work || is_fn_body {
             self.merge_if_returns_inner(stmts);
         }
@@ -285,6 +288,7 @@ where
                 });
         let skip = idx_of_not_mergable.map(|v| v + 1).unwrap_or(0);
         log::trace!("if_return: Skip = {}", skip);
+        let last_idx = stmts.len() - 1;
 
         if stmts.len() <= skip + 1 {
             log::trace!("if_return: [x] Aborting because of skip");
@@ -292,7 +296,7 @@ where
         }
 
         {
-            let stmts = &stmts[skip..];
+            let stmts = &stmts[skip..=last_idx];
             let return_count: usize = stmts.iter().map(|v| count_leaping_returns(v)).sum();
 
             // There's no return statment so merging requires injecting unnecessary `void 0`
@@ -351,6 +355,7 @@ where
         }
 
         {
+            let stmts = &stmts[..=last_idx];
             let start = stmts
                 .iter()
                 .enumerate()
@@ -413,6 +418,10 @@ where
                     new.push(stmt);
                     continue;
                 }
+            }
+            if idx >= last_idx {
+                new.push(stmt);
+                continue;
             }
 
             let stmt = if !self.can_merge_stmt_as_if_return(&stmt, len - 1 == idx) {
