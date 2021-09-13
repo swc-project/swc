@@ -746,6 +746,7 @@ fn should_visit() {
                 output_path: config.output_path,
                 source_file_name: config.source_file_name,
                 preserve_comments: config.preserve_comments,
+                inline_source_contents: config.inline_source_contents,
             };
 
             if config.minify {
@@ -768,6 +769,7 @@ fn should_visit() {
                 &program,
                 None,
                 config.output_path,
+                false,
                 config.target,
                 config.source_maps,
                 &[],

@@ -94,6 +94,7 @@ fn pass(input_dir: PathBuf) {
                         &bundled.module.fold_with(&mut fixer(None)),
                         None,
                         None,
+                        false,
                         JscTarget::Es2020,
                         SourceMapsConfig::Bool(false),
                         &[],
