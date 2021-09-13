@@ -769,7 +769,7 @@ fn should_visit() {
                 &program,
                 None,
                 config.output_path,
-                false,
+                config.inline_source_contents,
                 config.target,
                 config.source_maps,
                 &[],
