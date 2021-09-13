@@ -46,6 +46,11 @@ where
         match s {
             Stmt::Block(s) => self.drop_return_value(&mut s.stmts),
             Stmt::Return(ret) => {
+                self.changed = true;
+                if cfg!(feature = "debug") {
+                    log::trace!("Dropping `return` token");
+                }
+
                 let span = ret.span;
                 match ret.arg.take() {
                     Some(arg) => {
