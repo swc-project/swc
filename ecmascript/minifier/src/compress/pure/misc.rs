@@ -78,18 +78,14 @@ where
 
             Stmt::Try(s) => {
                 let a = self.drop_return_value(&mut s.block.stmts);
+
                 let b = s
-                    .handler
-                    .as_mut()
-                    .map(|c| self.drop_return_value(&mut c.body.stmts))
-                    .unwrap_or_default();
-                let c = s
                     .finalizer
                     .as_mut()
                     .map(|s| self.drop_return_value(&mut s.stmts))
                     .unwrap_or_default();
 
-                a || b || c
+                a || b
             }
 
             _ => false,
