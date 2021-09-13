@@ -288,9 +288,31 @@ where
                 });
         let skip = idx_of_not_mergable.map(|v| v + 1).unwrap_or(0);
         log::trace!("if_return: Skip = {}", skip);
-        let last_idx = stmts.len() - 1;
+        let mut last_idx = stmts.len() - 1;
 
-        if stmts.len() <= skip + 1 {
+        {
+            loop {
+                let s = stmts.get(last_idx);
+                let s = match s {
+                    Some(s) => s,
+                    _ => break,
+                };
+
+                match s {
+                    Stmt::Decl(Decl::Var(v)) => {
+                        if v.decls.iter().all(|v| v.init.is_none()) {
+                            last_idx -= 1;
+                            continue;
+                        }
+                    }
+                    _ => {}
+                }
+
+                break;
+            }
+        }
+
+        if last_idx <= skip {
             log::trace!("if_return: [x] Aborting because of skip");
             return;
         }
@@ -419,7 +441,7 @@ where
                     continue;
                 }
             }
-            if idx >= last_idx {
+            if idx > last_idx {
                 new.push(stmt);
                 continue;
             }
