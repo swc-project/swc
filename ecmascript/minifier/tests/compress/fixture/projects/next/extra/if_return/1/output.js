@@ -1,7 +1,7 @@
 export function foo(
 ) {
-    if (state.loading || state.error)
-        return _react.default.createElement(
+    return state.loading || state.error
+        ? _react.default.createElement(
             opts.loading,
             {
                 isLoading: state.loading,
@@ -10,11 +10,12 @@ export function foo(
                 error: state.error,
                 retry: subscription.retry,
             }
-        );
-    if (!state.loaded) return null;
+        )
+        : state.loaded
+            ? _react.default.createElement(
+                (obj = state.loaded) && obj.__esModule ? obj.default : obj,
+                props
+            )
+            : null;
     var obj;
-    return _react.default.createElement(
-        (obj = state.loaded) && obj.__esModule ? obj.default : obj,
-        props
-    );
 }
