@@ -12,9 +12,9 @@ mod case;
 mod hoist;
 mod leap;
 
-pub fn regenerator(global_mark: Mark) -> impl Fold {
+pub fn regenerator(top_level_mark: Mark) -> impl Fold {
     Regenerator {
-        global_mark,
+        global_mark: top_level_mark,
         regenerator_runtime: Default::default(),
         top_level_vars: Default::default(),
     }
