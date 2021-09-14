@@ -158,5 +158,5 @@ it("should respect `inlineSourcesContents`", async () => {
 
     const j = JSON.parse(map);
 
-    expect(j).toHaveProperty('sourcesContents')
+    expect(j).toHaveProperty('sourcesContent')
 });
