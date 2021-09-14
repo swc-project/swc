@@ -9,7 +9,8 @@
                 try {
                     var info = gen[key](arg), value = info.value;
                 } catch (error) {
-                    return void reject(error);
+                    reject(error);
+                    return;
                 }
                 info.done ? resolve(value) : Promise.resolve(value).then(_next, _throw);
             }
