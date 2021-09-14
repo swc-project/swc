@@ -1,5 +1,10 @@
 use super::Optimizer;
-use crate::{compress::util::is_pure_undefined, debug::dump, mode::Mode, util::ExprOptExt};
+use crate::{
+    compress::util::{always_terminates, is_pure_undefined},
+    debug::dump,
+    mode::Mode,
+    util::ExprOptExt,
+};
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend, undefined, StmtLike};
@@ -689,6 +694,15 @@ fn always_terminates_with_return_arg(s: &Stmt) -> bool {
 
 fn can_merge_as_if_return(s: &Stmt) -> bool {
     fn cost(s: &Stmt) -> Option<isize> {
+        match s {
+            Stmt::Block(..) => {
+                if !always_terminates(s) {
+                    return None;
+                }
+            }
+            _ => {}
+        }
+
         match s {
             Stmt::Return(ReturnStmt { arg: Some(..), .. }) => Some(-1),
 
