@@ -149,11 +149,11 @@ it("should respect isModule = true", async () => {
 
 
 
-it("should respect `inlineSourcesContents`", async () => {
+it("should respect `inlineSourcesContent`", async () => {
     const src = '/* Comment */import foo, {bar} from "foo"';
     const { map } = await swc.transform(src, {
         sourceMaps: true,
-        inlineSourcesContents: true,
+        inlineSourcesContent: true,
     });
 
     const j = JSON.parse(map);

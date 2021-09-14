@@ -310,7 +310,7 @@ impl Options {
                 .clone()
                 .or(config.source_maps)
                 .unwrap_or(SourceMapsConfig::Bool(false)),
-            inline_sources_contents: config.inline_sources_contents,
+            inline_sources_content: config.inline_sources_content,
             input_source_map: self.config.input_source_map.clone(),
             output_path: output_path.map(|v| v.to_path_buf()),
             source_file_name,
@@ -507,7 +507,7 @@ pub struct Config {
     pub source_maps: Option<SourceMapsConfig>,
 
     #[serde(default)]
-    pub inline_sources_contents: bool,
+    pub inline_sources_content: bool,
 }
 
 /// Second argument of `minify`.
@@ -548,7 +548,7 @@ pub struct JsMinifyOptions {
     pub output_path: Option<String>,
 
     #[serde(default)]
-    pub inline_sources_contents: bool,
+    pub inline_sources_content: bool,
 }
 
 /// `jsc.minify.format`.
@@ -761,7 +761,7 @@ pub struct BuiltConfig<P: swc_ecma_visit::Fold> {
 
     pub preserve_comments: Option<BoolOrObject<JsMinifyCommentOption>>,
 
-    pub inline_sources_contents: bool,
+    pub inline_sources_content: bool,
 }
 
 /// `jsc` in  `.swcrc`.
@@ -1070,8 +1070,8 @@ impl Merge for Config {
         self.minify.merge(&from.minify);
         self.env.merge(&from.env);
         self.source_maps.merge(&from.source_maps);
-        self.inline_sources_contents
-            .merge(&from.inline_sources_contents);
+        self.inline_sources_content
+            .merge(&from.inline_sources_content);
     }
 }
 
@@ -1085,7 +1085,7 @@ impl Merge for JsMinifyOptions {
         self.keep_fnames |= from.keep_fnames;
         self.safari10 |= from.safari10;
         self.toplevel |= from.toplevel;
-        self.inline_sources_contents |= from.inline_sources_contents;
+        self.inline_sources_content |= from.inline_sources_content;
     }
 }
 

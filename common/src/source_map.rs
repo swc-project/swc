@@ -1111,7 +1111,7 @@ impl SourceMap {
                     f = self.lookup_source_file(pos);
                     src_id = builder.add_source(&config.file_name_to_source(&f.name));
 
-                    if config.inline_sources_contents(&f.name) {
+                    if config.inline_sources_content(&f.name) {
                         builder.set_source_contents(src_id, Some(&f.src));
                     }
 
@@ -1228,7 +1228,7 @@ pub trait SourceMapGenConfig {
     }
 
     /// You can override this to control `sourceContents`.
-    fn inline_sources_contents(&self, f: &FileName) -> bool {
+    fn inline_sources_content(&self, f: &FileName) -> bool {
         match f {
             FileName::Real(..) | FileName::Custom(..) | FileName::Url(..) => false,
             _ => true,
