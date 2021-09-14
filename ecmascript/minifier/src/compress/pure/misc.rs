@@ -36,8 +36,19 @@ where
 
         for s in stmts.iter_mut() {
             match s {
-                Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => {
-                    self.ignore_return_value(&mut **arg);
+                Stmt::Return(ReturnStmt {
+                    arg: arg @ Some(..),
+                    ..
+                }) => {
+                    self.ignore_return_value(arg.as_deref_mut().unwrap());
+
+                    match arg.as_deref() {
+                        Some(Expr::Invalid(..)) => {
+                            *arg = None;
+                        }
+
+                        _ => {}
+                    }
                 }
                 _ => {}
             }
