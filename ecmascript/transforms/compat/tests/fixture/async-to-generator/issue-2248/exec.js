@@ -1,4 +1,4 @@
-export const foo = async () => {
+const foo = async () => {
     try {
         console.log(1)
     } catch (err) {
