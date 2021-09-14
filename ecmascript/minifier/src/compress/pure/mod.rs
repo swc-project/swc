@@ -13,6 +13,7 @@ mod conds;
 mod ctx;
 mod dead_code;
 mod evaluate;
+mod if_return;
 mod loops;
 mod misc;
 mod numbers;
@@ -257,6 +258,36 @@ where
         self.visit_par(exprs);
     }
 
+    fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
+        n.right.visit_mut_with(self);
+
+        n.left.visit_mut_with(self);
+
+        n.body.visit_mut_with(self);
+
+        match &mut *n.body {
+            Stmt::Block(body) => {
+                self.negate_if_terminate(&mut body.stmts, false, true);
+            }
+            _ => {}
+        }
+    }
+
+    fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
+        n.right.visit_mut_with(self);
+
+        n.left.visit_mut_with(self);
+
+        n.body.visit_mut_with(self);
+
+        match &mut *n.body {
+            Stmt::Block(body) => {
+                self.negate_if_terminate(&mut body.stmts, false, true);
+            }
+            _ => {}
+        }
+    }
+
     fn visit_mut_for_stmt(&mut self, s: &mut ForStmt) {
         s.visit_mut_children_with(self);
 
@@ -264,6 +295,13 @@ where
 
         if let Some(test) = &mut s.test {
             self.optimize_expr_in_bool_ctx(&mut **test);
+        }
+
+        match &mut *s.body {
+            Stmt::Block(body) => {
+                self.negate_if_terminate(&mut body.stmts, false, true);
+            }
+            _ => {}
         }
     }
 
@@ -278,6 +316,8 @@ where
 
         if let Some(body) = &mut f.body {
             self.remove_useless_return(&mut body.stmts);
+
+            self.negate_if_terminate(&mut body.stmts, true, false);
 
             if let Some(last) = body.stmts.last_mut() {
                 self.drop_unused_stmt_at_end_of_fn(last);

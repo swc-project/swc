@@ -1842,13 +1842,6 @@ where
         n.left.visit_mut_with(&mut *self.with_ctx(ctx));
 
         n.body.visit_mut_with(self);
-
-        match &mut *n.body {
-            Stmt::Block(body) => {
-                self.negate_if_terminate(&mut body.stmts, false, true);
-            }
-            _ => {}
-        }
     }
 
     fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
@@ -1861,13 +1854,6 @@ where
         n.left.visit_mut_with(&mut *self.with_ctx(ctx));
 
         n.body.visit_mut_with(self);
-
-        match &mut *n.body {
-            Stmt::Block(body) => {
-                self.negate_if_terminate(&mut body.stmts, false, true);
-            }
-            _ => {}
-        }
     }
 
     fn visit_mut_for_stmt(&mut self, s: &mut ForStmt) {
@@ -1881,13 +1867,6 @@ where
         self.with_ctx(ctx).optimize_init_of_for_stmt(s);
 
         self.with_ctx(ctx).drop_if_break(s);
-
-        match &mut *s.body {
-            Stmt::Block(body) => {
-                self.negate_if_terminate(&mut body.stmts, false, true);
-            }
-            _ => {}
-        }
     }
 
     fn visit_mut_function(&mut self, n: &mut Function) {
@@ -1925,8 +1904,6 @@ where
                 Some(body) => {
                     // Bypass block scope handler.
                     body.visit_mut_children_with(optimizer);
-
-                    optimizer.negate_if_terminate(&mut body.stmts, true, false);
                 }
                 None => {}
             }
