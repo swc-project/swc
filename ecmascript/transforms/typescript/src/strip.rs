@@ -1887,24 +1887,25 @@ impl VisitMut for Strip {
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)) => {
-                    if !import.is_export {
-                        continue;
-                    }
-
-                    stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    let var = Decl::Var(VarDecl {
                         span: DUMMY_SP,
-                        decl: Decl::Var(VarDecl {
+                        kind: VarDeclKind::Var,
+                        decls: vec![VarDeclarator {
                             span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            decls: vec![VarDeclarator {
-                                span: DUMMY_SP,
-                                name: Pat::Ident(import.id.into()),
-                                init: Some(Box::new(module_ref_to_expr(import.module_ref))),
-                                definite: false,
-                            }],
-                            declare: false,
-                        }),
-                    })));
+                            name: Pat::Ident(import.id.into()),
+                            init: Some(Box::new(module_ref_to_expr(import.module_ref))),
+                            definite: false,
+                        }],
+                        declare: false,
+                    });
+                    if import.is_export {
+                        stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                            span: DUMMY_SP,
+                            decl: var,
+                        })));
+                    } else {
+                        stmts.push(ModuleItem::Stmt(Stmt::Decl(var)));
+                    }
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(export)) => {
