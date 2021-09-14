@@ -6539,7 +6539,7 @@ fn exec(input: PathBuf) {
     let src = read_to_string(&input).unwrap();
     compare_stdout(
         Default::default(),
-        |t| classes(Some(t.comments.clone())),
+        |t| chain!(class_properties(), classes(Some(t.comments.clone()))),
         &src,
     );
 }
