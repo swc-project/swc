@@ -864,7 +864,7 @@ impl Compiler {
                 &module,
                 Some(&fm.name.to_string()),
                 opts.output_path.clone().map(From::from),
-                true,
+                opts.inline_sources_contents,
                 target,
                 SourceMapsConfig::Bool(opts.source_map),
                 &source_map_names,

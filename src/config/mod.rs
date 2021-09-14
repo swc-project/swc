@@ -546,6 +546,9 @@ pub struct JsMinifyOptions {
 
     #[serde(default)]
     pub output_path: Option<String>,
+
+    #[serde(default)]
+    pub inline_sources_contents: bool,
 }
 
 /// `jsc.minify.format`.
@@ -1082,6 +1085,7 @@ impl Merge for JsMinifyOptions {
         self.keep_fnames |= from.keep_fnames;
         self.safari10 |= from.safari10;
         self.toplevel |= from.toplevel;
+        self.inline_sources_contents |= from.inline_sources_contents;
     }
 }
 
