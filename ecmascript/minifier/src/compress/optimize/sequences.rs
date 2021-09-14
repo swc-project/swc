@@ -81,7 +81,7 @@ where
                                 | Stmt::If(..)
                                 | Stmt::Switch(..)
                                 | Stmt::With(..)
-                                | Stmt::Return(ReturnStmt { .. })
+                                | Stmt::Return(ReturnStmt { arg: Some(..), .. })
                                 | Stmt::Throw(ThrowStmt { .. })
                                 | Stmt::For(ForStmt { init: None, .. })
                                 | Stmt::For(ForStmt {
@@ -171,7 +171,7 @@ where
                             new_stmts.push(T::from_stmt(Stmt::With(stmt)));
                         }
 
-                        Stmt::Return(mut stmt) => {
+                        Stmt::Return(mut stmt @ ReturnStmt { arg: Some(..), .. }) => {
                             match stmt.arg.as_deref_mut() {
                                 Some(e) => {
                                     e.prepend_exprs(take(&mut exprs));
