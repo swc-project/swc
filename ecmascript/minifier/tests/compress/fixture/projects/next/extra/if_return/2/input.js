@@ -39,8 +39,8 @@ export function insertRule(
             if (!isProd) {
                 console.warn(
                     "StyleSheet: illegal rule: \n\n" +
-                    rule +
-                    "\n\nSee https://stackoverflow.com/q/20007992 for more info"
+                        rule +
+                        "\n\nSee https://stackoverflow.com/q/20007992 for more info"
                 );
             }
 
@@ -59,4 +59,4 @@ export function insertRule(
     }
 
     return this._rulesCount++;
-};
+}
