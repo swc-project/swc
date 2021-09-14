@@ -1,3 +1,5 @@
+use std::path::PathBuf;
+
 use swc_common::chain;
 use swc_ecma_parser::{Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::resolver;
@@ -6,7 +8,7 @@ use swc_ecma_transforms_compat::{
     es2020::{class_properties, nullish_coalescing, optional_chaining},
 };
 use swc_ecma_transforms_proposal::decorators;
-use swc_ecma_transforms_testing::{test, test_exec};
+use swc_ecma_transforms_testing::{test, test_exec, test_fixture};
 use swc_ecma_transforms_typescript::{strip, strip::strip_with_config};
 use swc_ecma_visit::Fold;
 
@@ -4077,3 +4079,14 @@ to!(
     
     "
 );
+
+#[testing::fixture("tests/fixture/**/input.ts")]
+fn exec(input: PathBuf) {
+    let output = input.with_file_name("output.js");
+    test_fixture(
+        Syntax::Typescript(Default::default()),
+        &|_| tr(),
+        &input,
+        &output,
+    );
+}
