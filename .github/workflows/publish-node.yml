@@ -101,9 +101,6 @@ jobs:
         shell: bash
         run: yarn build --target i686-pc-windows-msvc
 
-      - name: Test bindings
-        run: npm test
-
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
