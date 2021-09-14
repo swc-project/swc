@@ -3,7 +3,7 @@ use crate::{
     marks::Marks, mode::Mode, option::CompressOptions, util::MoudleItemExt, MAX_PAR_DEPTH,
 };
 use rayon::prelude::*;
-use swc_common::{pass::Repeated, DUMMY_SP};
+use swc_common::{pass::Repeated, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 
@@ -196,6 +196,10 @@ where
                     *e = Expr::Invalid(Invalid { span: DUMMY_SP });
                     return;
                 }
+                if seq.exprs.len() == 1 {
+                    self.changed = true;
+                    *e = *seq.exprs.take().into_iter().next().unwrap();
+                }
             }
             _ => {}
         }
@@ -358,6 +362,8 @@ where
                 self.ignore_return_value(&mut **e);
             }
         }
+
+        e.exprs.retain(|e| !e.is_invalid());
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
@@ -385,6 +391,15 @@ where
         }
 
         self.loop_to_for_stmt(s);
+
+        match s {
+            Stmt::Expr(es) => {
+                if es.expr.is_invalid() {
+                    *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                }
+            }
+            _ => {}
+        }
     }
 
     fn visit_mut_stmts(&mut self, items: &mut Vec<Stmt>) {
