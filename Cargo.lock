@@ -2287,7 +2287,7 @@ checksum = "6446ced80d6c486436db5c078dde11a9f73d42b57fb273121e160b84f63d894c"
 
 [[package]]
 name = "swc"
-version = "0.53.0"
+version = "0.54.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2429,7 +2429,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.12.0"
+version = "0.12.1"
 dependencies = [
  "ahash",
  "arbitrary",
@@ -3401,7 +3401,7 @@ checksum = "fd6fbd9a79829dd1ad0cc20627bf1ed606756a7f77edff7b66b7064f9cb327c6"
 
 [[package]]
 name = "wasm"
-version = "1.2.86"
+version = "1.2.87"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",

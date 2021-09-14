@@ -119,6 +119,7 @@ impl Task for BundleTask {
                             &m,
                             None,
                             None,
+                            true,
                             codegen_target,
                             SourceMapsConfig::Bool(true),
                             // TODO

@@ -217,6 +217,7 @@ impl SwcLoader {
                     source_root: None,
                     is_module: true,
                     output_path: None,
+                    ..Default::default()
                 },
                 &fm.name,
             )?;
