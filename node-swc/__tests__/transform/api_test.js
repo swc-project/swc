@@ -146,3 +146,17 @@ it("should respect isModule = true", async () => {
     );
     expect(f).toThrowError(`failed to parse module: error was recoverable, but proceeding would result in wrong codegen`)
 });
+
+
+
+it("should respect `inlineSourcesContents`", async () => {
+    const src = '/* Comment */import foo, {bar} from "foo"';
+    const { map } = await swc.transform(src, {
+        sourceMaps: true,
+        inlineSourcesContents: true,
+    });
+
+    const j = JSON.parse(map);
+
+    expect(j).toHaveProperty('sourcesContents')
+});
