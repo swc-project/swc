@@ -69,7 +69,10 @@ where
 
     let s = cx.get::<JsString>(0)?.into_utf8()?.as_str()?.to_owned();
     let is_module = cx.get::<JsBoolean>(1)?;
-    let options: Options = cx.get_deserialized(2)?;
+    let mut options: Options = cx.get_deserialized(2)?;
+    if !options.filename.is_empty() {
+        options.config.adjust(Path::new(&options.filename));
+    }
 
     let task = op(&c, s, is_module.get_value()?, options);
 
@@ -84,7 +87,11 @@ where
 
     let s = cx.get::<JsString>(0)?.into_utf8()?;
     let is_module = cx.get::<JsBoolean>(1)?;
-    let options: Options = cx.get_deserialized(2)?;
+    let mut options: Options = cx.get_deserialized(2)?;
+
+    if !options.filename.is_empty() {
+        options.config.adjust(Path::new(&options.filename));
+    }
 
     let output = try_with_handler(c.cm.clone(), |handler| {
         c.run(|| {

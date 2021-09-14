@@ -160,8 +160,8 @@ export class Compiler {
       options.jsc.parser.syntax = options.jsc.parser.syntax ?? 'ecmascript';
     }
 
-
     const { plugin, ...newOptions } = options;
+    newOptions.filename = path;
 
     if (plugin) {
       const m = await this.parseFile(path, options?.jsc?.parser);
@@ -180,6 +180,7 @@ export class Compiler {
 
 
     const { plugin, ...newOptions } = options;
+    newOptions.filename = path;
 
     if (plugin) {
       const m = this.parseFileSync(path, options?.jsc?.parser);
