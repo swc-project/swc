@@ -1,8 +1,5 @@
 __webpack_require__.O = function (
-    result,
-    chunkIds,
-    fn,
-    priority
+    result, chunkIds, fn, priority
 ) {
     /******/ if (chunkIds) {
         /******/ priority = priority || 0;
@@ -38,25 +35,24 @@ __webpack_require__.O = function (
                 )
             ) {
                 /******/ chunkIds.splice(
-                j--,
-                1
-            );
+                    j--,
+                    1
+                );
                 /******/
             } else {
                 /******/ fulfilled = false;
-                /******/ if (priority < notFulfilled)
-                    notFulfilled = priority;
+                /******/ if (priority < notFulfilled) notFulfilled = priority;
                 /******/
             }
             /******/
         }
         /******/ if (fulfilled) {
             /******/ deferred.splice(
-            i--,
-            1
-        );
+                i--,
+                1
+            );
             /******/ var r = fn(
-        );
+            );
             /******/ if (r !== undefined) result = r;
             /******/
         }

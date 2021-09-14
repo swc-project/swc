@@ -10,8 +10,8 @@ __webpack_require__.l = function (
     /******/ var script, needAttach;
     /******/ if (key !== undefined) {
         /******/ var scripts = document.getElementsByTagName(
-        "script"
-    );
+            "script"
+        );
         /******/ for (var i = 0; i < scripts.length; i++) {
             /******/ var s = scripts[i];
             /******/ if (
@@ -20,8 +20,7 @@ __webpack_require__.l = function (
                 ) == url ||
                 s.getAttribute(
                     "data-webpack"
-                ) ==
-                dataWebpackPrefix + key
+                ) == dataWebpackPrefix + key
             ) {
                 script = s;
                 break;
@@ -33,16 +32,16 @@ __webpack_require__.l = function (
     /******/ if (!script) {
         /******/ needAttach = true;
         /******/ script = document.createElement(
-        "script"
-    );
+            "script"
+        );
         /******/
         /******/ script.charset = "utf-8";
         /******/ script.timeout = 120;
         /******/ if (__webpack_require__.nc) {
             /******/ script.setAttribute(
-        "nonce",
-        __webpack_require__.nc
-    );
+                "nonce",
+                __webpack_require__.nc
+            );
             /******/
         }
         /******/ script.setAttribute(
@@ -59,14 +58,13 @@ __webpack_require__.l = function (
         /******/ // avoid mem leaks in IE.
         /******/ script.onerror = script.onload = null;
         /******/ clearTimeout(
-        timeout
-    );
+            timeout
+        );
         /******/ var doneFns = inProgress[url];
         /******/ delete inProgress[url];
-        /******/ script.parentNode &&
-            script.parentNode.removeChild(
-                script
-            );
+        /******/ script.parentNode && script.parentNode.removeChild(
+            script
+        );
         /******/ doneFns &&
             doneFns.forEach(
                 function (
@@ -78,8 +76,8 @@ __webpack_require__.l = function (
                 }
             );
         /******/ if (prev) return prev(
-                event
-            );
+            event
+        );
         /******/
     };
     /******/ /******/ var timeout = setTimeout(
