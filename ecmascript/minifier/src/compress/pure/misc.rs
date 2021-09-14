@@ -77,7 +77,11 @@ where
             }
 
             Stmt::Try(s) => {
-                let a = self.drop_return_value(&mut s.block.stmts);
+                let a = if s.finalizer.is_none() {
+                    self.drop_return_value(&mut s.block.stmts)
+                } else {
+                    false
+                };
 
                 let b = s
                     .finalizer
