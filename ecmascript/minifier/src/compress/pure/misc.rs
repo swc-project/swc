@@ -34,6 +34,15 @@ where
     fn drop_return_value(&mut self, stmts: &mut Vec<Stmt>) -> bool {
         // TODO(kdy1): (maybe) run optimization again if it's removed.
 
+        for s in stmts.iter_mut() {
+            match s {
+                Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => {
+                    self.ignore_return_value(&mut **arg);
+                }
+                _ => {}
+            }
+        }
+
         if let Some(last) = stmts.last_mut() {
             self.drop_return_value_of_stmt(last)
         } else {
