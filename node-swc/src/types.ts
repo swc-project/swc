@@ -34,6 +34,8 @@ export interface JsMinifyOptions {
   sourceMap?: boolean
 
   outputPath?: string
+
+  inlineSourcesContent?: boolean
 }
 
 export interface TerserCompressOptions {
@@ -423,6 +425,8 @@ export interface Config {
    *  and handle the rest in your own code, depending on your use case.
    */
   sourceMaps?: boolean | "inline";
+
+  inlineSourcesContent?: boolean
 }
 
 /**
