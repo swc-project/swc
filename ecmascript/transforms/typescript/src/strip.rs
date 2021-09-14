@@ -1887,24 +1887,28 @@ impl VisitMut for Strip {
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)) => {
-                    let var = Decl::Var(VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        decls: vec![VarDeclarator {
+                    if !import.is_type_only {
+                        let var = Decl::Var(VarDecl {
                             span: DUMMY_SP,
-                            name: Pat::Ident(import.id.into()),
-                            init: Some(Box::new(module_ref_to_expr(import.module_ref))),
-                            definite: false,
-                        }],
-                        declare: false,
-                    });
-                    if import.is_export {
-                        stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                            span: DUMMY_SP,
-                            decl: var,
-                        })));
-                    } else {
-                        stmts.push(ModuleItem::Stmt(Stmt::Decl(var)));
+                            kind: VarDeclKind::Var,
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(import.id.into()),
+                                init: Some(Box::new(module_ref_to_expr(import.module_ref))),
+                                definite: false,
+                            }],
+                            declare: false,
+                        });
+                        if import.is_export {
+                            stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(
+                                ExportDecl {
+                                    span: DUMMY_SP,
+                                    decl: var,
+                                },
+                            )));
+                        } else {
+                            stmts.push(ModuleItem::Stmt(Stmt::Decl(var)));
+                        }
                     }
                 }
 
