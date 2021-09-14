@@ -98,9 +98,11 @@ where
     let pass = add!(pass, OptionalChaining, es2020::optional_chaining());
     let pass = add!(pass, ClassProperties, es2020::class_properties());
 
+    // ES2019
+    let pass = add!(pass, OptionalCatchBinding, es2019::optional_catch_binding());
+
     // ES2018
     let pass = add!(pass, ObjectRestSpread, es2018::object_rest_spread());
-    let pass = add!(pass, OptionalCatchBinding, es2018::optional_catch_binding());
 
     // ES2017
     let pass = add!(pass, AsyncToGenerator, es2017::async_to_generator());
