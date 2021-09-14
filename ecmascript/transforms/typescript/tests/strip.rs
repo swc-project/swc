@@ -462,7 +462,7 @@ to!(module_01, "module 'foo'{ }", "");
 
 to!(declare_01, "declare var env: FOO", "");
 
-to!(import_equals, "import A = B.C", "");
+to!(import_equals, "import A = B.C", "var A = B.C;");
 
 to!(
     issue_757,
