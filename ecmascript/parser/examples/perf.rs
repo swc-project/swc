@@ -1,12 +1,7 @@
 #![feature(bench_black_box)]
 
 use std::hint::black_box;
-use swc_common::{
-    self,
-    errors::{ColorConfig, Handler},
-    sync::Lrc,
-    SourceMap,
-};
+use swc_common::{self, sync::Lrc, SourceMap};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 
 fn main() {
@@ -19,7 +14,6 @@ fn main() {
         }
 
         let cm: Lrc<SourceMap> = Default::default();
-        let handler = Handler::with_tty_emitter(ColorConfig::Auto, true, false, Some(cm.clone()));
 
         let fm = cm.load_file(entry.path()).unwrap();
 
@@ -36,15 +30,8 @@ fn main() {
 
         let mut parser = Parser::new_from(lexer);
 
-        for e in parser.take_errors() {
-            e.into_diagnostic(&handler).emit();
-        }
+        let module = parser.parse_typescript_module();
 
-        let module = parser
-            .parse_typescript_module()
-            .map_err(|e| e.into_diagnostic(&handler).emit())
-            .expect("Failed to parse module.");
-
-        black_box(module);
+        let _ = black_box(module);
     }
 }
