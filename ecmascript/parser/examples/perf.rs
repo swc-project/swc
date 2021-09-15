@@ -7,7 +7,7 @@ use swc_common::{
     sync::Lrc,
     SourceMap,
 };
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 
 fn main() {
     for entry in walkdir::WalkDir::new("tests/typescript") {
@@ -24,7 +24,11 @@ fn main() {
         let fm = cm.load_file(entry.path()).unwrap();
 
         let lexer = Lexer::new(
-            Syntax::Typescript(Default::default()),
+            Syntax::Typescript(TsConfig {
+                no_early_errors: true,
+                tsx: entry.path().to_string_lossy().ends_with(".tsx"),
+                ..Default::default()
+            }),
             Default::default(),
             StringInput::from(&*fm),
             None,
