@@ -44,6 +44,10 @@ impl SuperCallFinder {
 macro_rules! ignore_return {
     ($name:ident, $T:ty) => {
         fn $name(&mut self, n: $T) -> $T {
+            if self.in_injected_define_property_call {
+                return n;
+            }
+
             let old = self.ignore_return;
             self.ignore_return = true;
             let n = n.fold_children_with(self);
@@ -164,6 +168,7 @@ pub(super) struct ConstructorFolder<'a> {
     pub is_constructor_default: bool,
     /// True when recursing into other function or class.
     pub ignore_return: bool,
+    pub in_injected_define_property_call: bool,
 }
 
 /// `None`: `return _possibleConstructorReturn`
@@ -188,6 +193,28 @@ impl Fold for ConstructorFolder<'_> {
         match self.mode {
             Some(SuperFoldingMode::Assign) => {}
             _ => return expr,
+        }
+
+        // We pretend method folding mode for while folding injected `_defineProperty`
+        // calls.
+        match expr {
+            Expr::Call(CallExpr {
+                callee: ExprOrSuper::Expr(ref callee),
+                ..
+            }) => match &**callee {
+                Expr::Ident(Ident {
+                    sym: js_word!("_defineProperty"),
+                    ..
+                }) => {
+                    let old = self.in_injected_define_property_call;
+                    self.in_injected_define_property_call = true;
+                    let n = expr.fold_children_with(self);
+                    self.in_injected_define_property_call = old;
+                    return n;
+                }
+                _ => {}
+            },
+            _ => {}
         }
 
         let expr = expr.fold_children_with(self);
