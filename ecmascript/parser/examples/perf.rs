@@ -7,7 +7,7 @@ use swc_common::{
     sync::Lrc,
     SourceMap,
 };
-use swc_ecma_parser::{lexer::Lexer, Capturing, Parser, StringInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 
 fn main() {
     for entry in walkdir::WalkDir::new("tests/typescript") {
