@@ -5,6 +5,8 @@ use swc_common::{self, sync::Lrc, SourceMap};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 
 fn main() {
+    let mut cnt = 0;
+
     for entry in walkdir::WalkDir::new("tests/typescript") {
         let entry = entry.unwrap();
         if !entry.path().to_string_lossy().ends_with(".ts")
@@ -33,5 +35,8 @@ fn main() {
         let module = parser.parse_typescript_module();
 
         let _ = black_box(module);
+        cnt += 1;
     }
+
+    eprintln!("Parsed {} files", cnt);
 }
