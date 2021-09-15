@@ -1,5 +1,6 @@
 #![allow(deprecated)]
 
+use std::{fs::read_to_string, path::PathBuf};
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::resolver;
@@ -10,7 +11,7 @@ use swc_ecma_transforms_compat::{
     es2020::{class_properties, typescript_class_properties},
     es3::reserved_words,
 };
-use swc_ecma_transforms_testing::{test, test_exec, Tester};
+use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, Tester};
 use swc_ecma_visit::Fold;
 
 fn ts() -> Syntax {
@@ -5568,3 +5569,9 @@ test!(
     }
     "
 );
+
+#[testing::fixture("tests/fixture/classes/**/exec.js")]
+fn exec(input: PathBuf) {
+    let src = read_to_string(&input).unwrap();
+    compare_stdout(Default::default(), |_| class_properties(), &src);
+}
