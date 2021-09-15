@@ -395,6 +395,7 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
         mark: Mark,
         found: bool,
         wrap_with_assertion: bool,
+        in_injected_define_property_call: bool,
     }
 
     impl Fold for Replacer {
@@ -416,6 +417,10 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
                         sym: js_word!("_defineProperty"),
                         ..
                     }) => {
+                        let old = self.in_injected_define_property_call;
+                        self.in_injected_define_property_call = true;
+                        let n = n.fold_children_with(self);
+                        self.in_injected_define_property_call = old;
                         return n;
                     }
                     _ => {}
@@ -442,6 +447,13 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
 
                 _ => n.fold_children_with(self),
             }
+        }
+
+        fn fold_function(&mut self, n: Function) -> Function {
+            if self.in_injected_define_property_call {
+                return n;
+            }
+            n.fold_children_with(self)
         }
 
         fn fold_member_expr(
@@ -473,6 +485,7 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
         found: false,
         mark,
         wrap_with_assertion: true,
+        in_injected_define_property_call: false,
     };
     let c = c.fold_with(&mut v);
 
