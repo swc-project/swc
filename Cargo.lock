@@ -2678,6 +2678,7 @@ dependencies = [
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_visit",
+ "swc_node_base",
  "testing",
  "unicode-xid",
  "walkdir",
