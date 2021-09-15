@@ -1,11 +1,12 @@
 #![feature(bench_black_box)]
 
-use std::hint::black_box;
+use std::{collections::hash_map::DefaultHasher, hash::Hash, hint::black_box};
 use swc_common::{self, sync::Lrc, SourceMap};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 
 fn main() {
     let mut cnt = 0;
+    let mut hasher = DefaultHasher::new();
 
     for entry in walkdir::WalkDir::new("tests/typescript") {
         let entry = entry.unwrap();
@@ -34,9 +35,15 @@ fn main() {
 
         let module = parser.parse_typescript_module();
 
+        if let Ok(module) = &module {
+            module.hash(&mut hasher);
+        }
+
         let _ = black_box(module);
+
         cnt += 1;
     }
 
     eprintln!("Parsed {} files", cnt);
+    eprintln!("Hash: {:?}", hasher);
 }
