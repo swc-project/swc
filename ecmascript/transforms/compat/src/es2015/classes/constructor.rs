@@ -1,5 +1,5 @@
 use std::iter;
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -404,8 +404,26 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
             n
         }
 
-        fn fold_expr(&mut self, expr: Expr) -> Expr {
-            match expr {
+        fn fold_expr(&mut self, n: Expr) -> Expr {
+            // We pretend method folding mode for while folding injected `_defineProperty`
+            // calls.
+            match n {
+                Expr::Call(CallExpr {
+                    callee: ExprOrSuper::Expr(ref callee),
+                    ..
+                }) => match &**callee {
+                    Expr::Ident(Ident {
+                        sym: js_word!("_defineProperty"),
+                        ..
+                    }) => {
+                        return n;
+                    }
+                    _ => {}
+                },
+                _ => {}
+            }
+
+            match n {
                 Expr::This(..) => {
                     self.found = true;
                     let this = quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this");
@@ -421,7 +439,8 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
                         Expr::Ident(this)
                     }
                 }
-                _ => expr.fold_children_with(self),
+
+                _ => n.fold_children_with(self),
             }
         }
 
