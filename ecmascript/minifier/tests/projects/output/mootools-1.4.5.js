@@ -1544,7 +1544,8 @@ Event.Keys = {
                         if (this.contains(this.root, node)) return;
                         break getById;
                     }
-                    return void this.push(item, tag, null, classes, attributes, pseudos);
+                    this.push(item, tag, null, classes, attributes, pseudos);
+                    return;
                 }
                 getByClass: if (classes && node.getElementsByClassName && !this.brokenGEBCN) {
                     if (!((children = node.getElementsByClassName(classList.join(" "))) && children.length)) break getByClass;
@@ -1742,7 +1743,7 @@ var Element = function(tag, props) {
         var parsed = Slick.parse(tag).expressions[0][0];
         tag = "*" == parsed.tag ? "div" : parsed.tag, parsed.id && null == props.id && (props.id = parsed.id);
         var attributes = parsed.attributes;
-        if (attributes) for(var attr, i = 0, l = attributes.length; i < l; i++)null == props[(attr = attributes[i]).key] && (null != attr.value && "=" == attr.operator ? props[attr.key] = attr.value : attr.value || attr.operator || (props[attr.key] = !0));
+        if (attributes) for(var attr, i = 0, l = attributes.length; i < l; i++)null != props[(attr = attributes[i]).key] || (null != attr.value && "=" == attr.operator ? props[attr.key] = attr.value : attr.value || attr.operator || (props[attr.key] = !0));
         parsed.classList && null == props.class && (props.class = parsed.classList.join(" "));
     }
     return document.newElement(tag, props);
@@ -3185,7 +3186,7 @@ Elements.prototype = {
                             return m.toLowerCase();
                         }) : null;
                         selectorText && selectorTest.test(selectorText) && Object.each(Element.Styles, function(value, style) {
-                            rule.style[style] && !Element.ShortStyles[style] && (value = String(rule.style[style]), to[style] = /^rgb/.test(value) ? value.rgbToHex() : value);
+                            !rule.style[style] || Element.ShortStyles[style] || (value = String(rule.style[style]), to[style] = /^rgb/.test(value) ? value.rgbToHex() : value);
                         });
                     }
                 });
@@ -3704,10 +3705,11 @@ Elements.prototype = {
         try {
             json = this.response.json = JSON.decode(text, this.options.secure);
         } catch (error) {
-            return void this.fireEvent("error", [
+            this.fireEvent("error", [
                 text,
                 error
             ]);
+            return;
         }
         null == json ? this.onFailure() : this.onSuccess(json, text);
     }
