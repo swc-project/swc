@@ -434,12 +434,12 @@ impl<'a> Emitter<'a> {
         };
 
         if single_quote {
-            punct!("'");
-            self.wr.write_str_lit(node.span, &value)?;
+            punct!(node.span, "'");
+            self.wr.write_str_lit(DUMMY_SP, &value)?;
             punct!("'");
         } else {
-            punct!("\"");
-            self.wr.write_str_lit(node.span, &value)?;
+            punct!(node.span, "\"");
+            self.wr.write_str_lit(DUMMY_SP, &value)?;
             punct!("\"");
         }
     }
