@@ -402,6 +402,7 @@ evaluate/string_charCodeAt/input.js
 evaluate/unary_prefix/input.js
 evaluate/unsafe_array_bad_index/input.js
 evaluate/unsafe_constant/input.js
+evaluate/unsafe_object_accessor/input.js
 evaluate/unsafe_string/input.js
 evaluate/unsafe_string_bad_index/input.js
 expansions/avoid_spread_holes_call/input.js
@@ -468,6 +469,7 @@ functions/issue_2663_3/input.js
 functions/issue_2737_1/input.js
 functions/issue_2737_2/input.js
 functions/issue_3054/input.js
+functions/issue_485_crashing_1530/input.js
 functions/no_webkit/input.js
 functions/recursive_inline_1/input.js
 functions/webkit/input.js
@@ -595,6 +597,7 @@ issue_1044/issue_1044/input.js
 issue_1105/Infinity_not_in_with_scope/input.js
 issue_1105/with_in_global_scope/input.js
 issue_12/keep_name_of_getter/input.js
+issue_12/keep_name_of_setter/input.js
 issue_12/setter_with_operator_keys/input.js
 issue_1212/issue_1212_debug_false/input.js
 issue_1212/issue_1212_debug_true/input.js

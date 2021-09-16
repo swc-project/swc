@@ -385,7 +385,10 @@
     function jqLiteRemoveData(element, name) {
         var expandoId = element[jqName], expandoStore = jqCache[expandoId];
         if (expandoStore) {
-            if (name) return void delete jqCache[expandoId].data[name];
+            if (name) {
+                delete jqCache[expandoId].data[name];
+                return;
+            }
             expandoStore.handle && (expandoStore.events.$destroy && expandoStore.handle({
             }, "$destroy"), jqLiteOff(element)), delete jqCache[expandoId], element[jqName] = undefined;
         }
@@ -1640,7 +1643,6 @@
                     var parts = [];
                     return (function(obj, iterator, context) {
                         for(var keys = sortedKeys(obj), i = 0; i < keys.length; i++)iterator.call(void 0, obj[keys[i]], keys[i]);
-                        return keys;
                     })(params, function(value, key) {
                         null === value || isUndefined(value) || (isArray(value) || (value = [
                             value
@@ -1918,7 +1920,10 @@
                     }
                 }), $location.absUrl() != initialUrl && $browser.url($location.absUrl(), !0), $browser.onUrlChange(function(newUrl) {
                     if ($location.absUrl() != newUrl) {
-                        if ($rootScope.$broadcast("$locationChangeStart", newUrl, $location.absUrl()).defaultPrevented) return void $browser.url($location.absUrl());
+                        if ($rootScope.$broadcast("$locationChangeStart", newUrl, $location.absUrl()).defaultPrevented) {
+                            $browser.url($location.absUrl());
+                            return;
+                        }
                         $rootScope.$evalAsync(function() {
                             var oldUrl = $location.absUrl();
                             $location.$$parse(newUrl), afterLocationChange(oldUrl);
@@ -2235,8 +2240,8 @@
                     }
                     escape = !1;
                 } else if ("\\" === ch) escape = !0;
-                else {
-                    if (ch === quote) return this.index++, void this.tokens.push({
+                else if (ch === quote) {
+                    this.index++, this.tokens.push({
                         index: start,
                         text: rawString,
                         string: string,
@@ -2245,8 +2250,8 @@
                             return string;
                         }
                     });
-                    string += ch;
-                }
+                    return;
+                } else string += ch;
                 this.index++;
             }
             this.throwError("Unterminated quote", start);
@@ -2714,7 +2719,7 @@
                 };
                 return forEach(promises, function(promise, key) {
                     counter++, ref(promise).then(function(value) {
-                        !results.hasOwnProperty(key) && (results[key] = value, --counter || deferred.resolve(results));
+                        results.hasOwnProperty(key) || (results[key] = value, --counter || deferred.resolve(results));
                     }, function(reason) {
                         results.hasOwnProperty(key) || deferred.reject(reason);
                     });
@@ -2772,10 +2777,9 @@
                         var oldValue, newValue, self = this, changeDetected = 0, objGetter = $parse(obj), internalArray = [], internalObject = {
                         }, oldLength = 0;
                         return this.$watch(function() {
-                            var newLength, key;
                             if (isObject(newValue = objGetter(self))) if (isArrayLike(newValue)) {
                                 oldValue !== internalArray && (oldLength = (oldValue = internalArray).length = 0, changeDetected++), oldLength !== (newLength = newValue.length) && (changeDetected++, oldValue.length = oldLength = newLength);
-                                for(var i = 0; i < newLength; i++)oldValue[i] !== newValue[i] && (changeDetected++, oldValue[i] = newValue[i]);
+                                for(var newLength, key, i = 0; i < newLength; i++)oldValue[i] !== newValue[i] && (changeDetected++, oldValue[i] = newValue[i]);
                             } else {
                                 for(key in oldValue !== internalObject && (oldValue = internalObject = {
                                 }, oldLength = 0, changeDetected++), newLength = 0, newValue)newValue.hasOwnProperty(key) && (newLength++, oldValue.hasOwnProperty(key) ? oldValue[key] !== newValue[key] && (changeDetected++, oldValue[key] = newValue[key]) : (oldLength++, oldValue[key] = newValue[key], changeDetected++));
@@ -3532,38 +3536,44 @@
         number: function(scope, element, attr, ctrl, $sniffer, $browser) {
             if (textInputType(scope, element, attr, ctrl, $sniffer, $browser), ctrl.$parsers.push(function(value) {
                 var empty = ctrl.$isEmpty(value);
-                return empty || NUMBER_REGEXP.test(value) ? (ctrl.$setValidity("number", !0), "" === value ? null : empty ? value : parseFloat(value)) : void ctrl.$setValidity("number", !1);
+                if (empty || NUMBER_REGEXP.test(value)) return ctrl.$setValidity("number", !0), "" === value ? null : empty ? value : parseFloat(value);
+                ctrl.$setValidity("number", !1);
             }), ctrl.$formatters.push(function(value) {
                 return ctrl.$isEmpty(value) ? "" : "" + value;
             }), attr.min) {
                 var minValidator = function(value) {
                     var min = parseFloat(attr.min);
-                    return !ctrl.$isEmpty(value) && value < min ? void ctrl.$setValidity("min", !1) : (ctrl.$setValidity("min", !0), value);
+                    if (ctrl.$isEmpty(value) || !(value < min)) return ctrl.$setValidity("min", !0), value;
+                    ctrl.$setValidity("min", !1);
                 };
                 ctrl.$parsers.push(minValidator), ctrl.$formatters.push(minValidator);
             }
             if (attr.max) {
                 var maxValidator = function(value) {
                     var max = parseFloat(attr.max);
-                    return !ctrl.$isEmpty(value) && value > max ? void ctrl.$setValidity("max", !1) : (ctrl.$setValidity("max", !0), value);
+                    if (ctrl.$isEmpty(value) || !(value > max)) return ctrl.$setValidity("max", !0), value;
+                    ctrl.$setValidity("max", !1);
                 };
                 ctrl.$parsers.push(maxValidator), ctrl.$formatters.push(maxValidator);
             }
             ctrl.$formatters.push(function(value) {
-                return ctrl.$isEmpty(value) || isNumber(value) ? (ctrl.$setValidity("number", !0), value) : void ctrl.$setValidity("number", !1);
+                if (ctrl.$isEmpty(value) || isNumber(value)) return ctrl.$setValidity("number", !0), value;
+                ctrl.$setValidity("number", !1);
             });
         },
         url: function(scope, element, attr, ctrl, $sniffer, $browser) {
             textInputType(scope, element, attr, ctrl, $sniffer, $browser);
             var urlValidator = function(value) {
-                return ctrl.$isEmpty(value) || URL_REGEXP.test(value) ? (ctrl.$setValidity("url", !0), value) : void ctrl.$setValidity("url", !1);
+                if (ctrl.$isEmpty(value) || URL_REGEXP.test(value)) return ctrl.$setValidity("url", !0), value;
+                ctrl.$setValidity("url", !1);
             };
             ctrl.$formatters.push(urlValidator), ctrl.$parsers.push(urlValidator);
         },
         email: function(scope, element, attr, ctrl, $sniffer, $browser) {
             textInputType(scope, element, attr, ctrl, $sniffer, $browser);
             var emailValidator = function(value) {
-                return ctrl.$isEmpty(value) || EMAIL_REGEXP.test(value) ? (ctrl.$setValidity("email", !0), value) : void ctrl.$setValidity("email", !1);
+                if (ctrl.$isEmpty(value) || EMAIL_REGEXP.test(value)) return ctrl.$setValidity("email", !0), value;
+                ctrl.$setValidity("email", !1);
             };
             ctrl.$formatters.push(emailValidator), ctrl.$parsers.push(emailValidator);
         },
@@ -3629,7 +3639,8 @@
             element.val(ctrl.$isEmpty(ctrl.$viewValue) ? "" : ctrl.$viewValue);
         };
         var timeout, patternValidator, match, pattern = attr.ngPattern, validate = function(regexp, value) {
-            return ctrl.$isEmpty(value) || regexp.test(value) ? (ctrl.$setValidity("pattern", !0), value) : void ctrl.$setValidity("pattern", !1);
+            if (ctrl.$isEmpty(value) || regexp.test(value)) return ctrl.$setValidity("pattern", !0), value;
+            ctrl.$setValidity("pattern", !1);
         };
         if (pattern && (patternValidator = (match = pattern.match(/^\/(.*)\/([gim]*)$/)) ? function(value) {
             return validate(pattern = new RegExp(match[1], match[2]), value);
@@ -3639,13 +3650,15 @@
             return validate(patternObj, value);
         }, ctrl.$formatters.push(patternValidator), ctrl.$parsers.push(patternValidator)), attr.ngMinlength) {
             var minlength = int(attr.ngMinlength), minLengthValidator = function(value) {
-                return !ctrl.$isEmpty(value) && value.length < minlength ? void ctrl.$setValidity("minlength", !1) : (ctrl.$setValidity("minlength", !0), value);
+                if (ctrl.$isEmpty(value) || !(value.length < minlength)) return ctrl.$setValidity("minlength", !0), value;
+                ctrl.$setValidity("minlength", !1);
             };
             ctrl.$parsers.push(minLengthValidator), ctrl.$formatters.push(minLengthValidator);
         }
         if (attr.ngMaxlength) {
             var maxlength = int(attr.ngMaxlength), maxLengthValidator = function(value) {
-                return !ctrl.$isEmpty(value) && value.length > maxlength ? void ctrl.$setValidity("maxlength", !1) : (ctrl.$setValidity("maxlength", !0), value);
+                if (ctrl.$isEmpty(value) || !(value.length > maxlength)) return ctrl.$setValidity("maxlength", !0), value;
+                ctrl.$setValidity("maxlength", !1);
             };
             ctrl.$parsers.push(maxLengthValidator), ctrl.$formatters.push(maxLengthValidator);
         }
@@ -3730,7 +3743,8 @@
                 if (ctrl) {
                     attr.required = !0;
                     var validator = function(value) {
-                        return attr.required && ctrl.$isEmpty(value) ? void ctrl.$setValidity("required", !1) : (ctrl.$setValidity("required", !0), value);
+                        if (!(attr.required && ctrl.$isEmpty(value))) return ctrl.$setValidity("required", !0), value;
+                        ctrl.$setValidity("required", !1);
                     };
                     ctrl.$formatters.push(validator), ctrl.$parsers.unshift(validator), attr.$observe("required", function() {
                         validator(ctrl.$viewValue);

@@ -16,104 +16,6 @@ impl<M> Optimizer<'_, M>
 where
     M: Mode,
 {
-    /// # Input
-    ///
-    /// ```js
-    /// function f(a, b) {
-    ///     if (a) return;
-    ///     console.log(b);
-    /// }
-    /// ```
-    ///
-    /// # Output
-    /// ```js
-    /// function f(a, b) {
-    ///     if (!a)
-    ///         console.log(b);
-    /// }
-    /// ```
-    pub(super) fn negate_if_terminate(
-        &mut self,
-        stmts: &mut Vec<Stmt>,
-        handle_return: bool,
-        handle_continue: bool,
-    ) {
-        if handle_return {
-            if !self.options.if_return || !self.options.bools {
-                return;
-            }
-
-            if stmts.len() == 1 {
-                for s in stmts.iter_mut() {
-                    match s {
-                        Stmt::If(s) => match &mut *s.cons {
-                            Stmt::Block(cons) => {
-                                self.negate_if_terminate(&mut cons.stmts, true, false);
-                            }
-                            _ => {}
-                        },
-                        _ => {}
-                    }
-                }
-            }
-        }
-
-        let len = stmts.len();
-
-        let pos_of_if = stmts.iter().enumerate().rposition(|(idx, s)| {
-            idx != len - 1
-                && match s {
-                    Stmt::If(IfStmt {
-                        cons, alt: None, ..
-                    }) => match &**cons {
-                        Stmt::Return(ReturnStmt { arg: None, .. }) => handle_return,
-
-                        Stmt::Continue(ContinueStmt { label: None, .. }) => handle_continue,
-                        _ => false,
-                    },
-                    _ => false,
-                }
-        });
-
-        let pos_of_if = match pos_of_if {
-            Some(v) => v,
-            _ => return,
-        };
-
-        self.changed = true;
-        log::debug!(
-            "if_return: Negating `foo` in `if (foo) return; bar()` to make it `if (!foo) bar()`"
-        );
-
-        let mut new = vec![];
-        new.extend(stmts.drain(..pos_of_if));
-        let cons = stmts.drain(1..).collect::<Vec<_>>();
-
-        let if_stmt = stmts.take().into_iter().next().unwrap();
-        match if_stmt {
-            Stmt::If(mut s) => {
-                assert_eq!(s.alt, None);
-                self.negate(&mut s.test);
-
-                s.cons = if cons.len() == 1 {
-                    Box::new(cons.into_iter().next().unwrap())
-                } else {
-                    Box::new(Stmt::Block(BlockStmt {
-                        span: DUMMY_SP,
-                        stmts: cons,
-                    }))
-                };
-
-                new.push(Stmt::If(s))
-            }
-            _ => {
-                unreachable!()
-            }
-        }
-
-        *stmts = new;
-    }
-
     pub(super) fn merge_nested_if(&mut self, s: &mut IfStmt) {
         if !self.options.conditionals && !self.options.bools {
             return;
@@ -221,7 +123,7 @@ where
     }
 
     fn merge_nested_if_returns(&mut self, s: &mut Stmt, can_work: bool) {
-        let terminate = always_terminates(&*s);
+        let terminate = can_merge_as_if_return(&*s);
 
         match s {
             Stmt::Block(s) => {
@@ -285,14 +187,37 @@ where
                 });
         let skip = idx_of_not_mergable.map(|v| v + 1).unwrap_or(0);
         log::trace!("if_return: Skip = {}", skip);
+        let mut last_idx = stmts.len() - 1;
 
-        if stmts.len() <= skip + 1 {
+        {
+            loop {
+                let s = stmts.get(last_idx);
+                let s = match s {
+                    Some(s) => s,
+                    _ => break,
+                };
+
+                match s {
+                    Stmt::Decl(Decl::Var(v)) => {
+                        if v.decls.iter().all(|v| v.init.is_none()) {
+                            last_idx -= 1;
+                            continue;
+                        }
+                    }
+                    _ => {}
+                }
+
+                break;
+            }
+        }
+
+        if last_idx <= skip {
             log::trace!("if_return: [x] Aborting because of skip");
             return;
         }
 
         {
-            let stmts = &stmts[skip..];
+            let stmts = &stmts[skip..=last_idx];
             let return_count: usize = stmts.iter().map(|v| count_leaping_returns(v)).sum();
 
             // There's no return statment so merging requires injecting unnecessary `void 0`
@@ -351,6 +276,7 @@ where
         }
 
         {
+            let stmts = &stmts[..=last_idx];
             let start = stmts
                 .iter()
                 .enumerate()
@@ -413,6 +339,10 @@ where
                     new.push(stmt);
                     continue;
                 }
+            }
+            if idx > last_idx {
+                new.push(stmt);
+                continue;
             }
 
             let stmt = if !self.can_merge_stmt_as_if_return(&stmt, len - 1 == idx) {
@@ -662,4 +592,55 @@ fn always_terminates_with_return_arg(s: &Stmt) -> bool {
 
         _ => false,
     }
+}
+
+fn can_merge_as_if_return(s: &Stmt) -> bool {
+    fn cost(s: &Stmt) -> Option<isize> {
+        match s {
+            Stmt::Block(..) => {
+                if !always_terminates(s) {
+                    return None;
+                }
+            }
+            _ => {}
+        }
+
+        match s {
+            Stmt::Return(ReturnStmt { arg: Some(..), .. }) => Some(-1),
+
+            Stmt::Return(ReturnStmt { arg: None, .. }) => Some(0),
+
+            Stmt::Throw(..) | Stmt::Break(..) | Stmt::Continue(..) => Some(0),
+
+            Stmt::If(IfStmt { cons, alt, .. }) => {
+                Some(cost(&cons)? + alt.as_deref().and_then(cost).unwrap_or(0))
+            }
+            Stmt::Block(s) => {
+                let mut sum = 0;
+                let mut found = false;
+                for s in s.stmts.iter().rev() {
+                    let c = cost(s);
+                    if let Some(c) = c {
+                        found = true;
+                        sum += c;
+                    }
+                }
+                if found {
+                    Some(sum)
+                } else {
+                    None
+                }
+            }
+
+            _ => None,
+        }
+    }
+
+    let c = cost(s);
+
+    if cfg!(feature = "debug") {
+        log::trace!("merging cost of `{}` = {:?}", dump(s), c);
+    }
+
+    c.unwrap_or(0) < 0
 }
