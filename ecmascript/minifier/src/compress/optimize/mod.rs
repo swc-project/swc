@@ -1161,7 +1161,7 @@ where
                         if s.value.contains(|c: char| !c.is_ascii()) {
                             return true;
                         }
-                        if s.value.contains("\\\0") || s.value.contains("//") {
+                        if s.value.contains("\\\0") || s.value.contains("/") {
                             return true;
                         }
 
