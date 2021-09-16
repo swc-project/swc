@@ -208,6 +208,7 @@ impl Options {
             minify: js_minify,
             ..
         } = config.jsc;
+
         let target = target.unwrap_or_default();
 
         let syntax = syntax.unwrap_or_default();
@@ -309,6 +310,7 @@ impl Options {
                 .clone()
                 .or(config.source_maps)
                 .unwrap_or(SourceMapsConfig::Bool(false)),
+            inline_sources_content: config.inline_sources_content,
             input_source_map: self.config.input_source_map.clone(),
             output_path: output_path.map(|v| v.to_path_buf()),
             source_file_name,
@@ -388,6 +390,7 @@ impl Default for Rc {
                 minify: false,
                 source_maps: None,
                 input_source_map: InputSourceMap::default(),
+                ..Default::default()
             },
             Config {
                 env: None,
@@ -409,6 +412,7 @@ impl Default for Rc {
                 minify: false,
                 source_maps: None,
                 input_source_map: InputSourceMap::default(),
+                ..Default::default()
             },
             Config {
                 env: None,
@@ -430,6 +434,7 @@ impl Default for Rc {
                 minify: false,
                 source_maps: None,
                 input_source_map: InputSourceMap::default(),
+                ..Default::default()
             },
         ])
     }
@@ -500,6 +505,9 @@ pub struct Config {
     /// Possible values are: `'inline'`, `true`, `false`.
     #[serde(default)]
     pub source_maps: Option<SourceMapsConfig>,
+
+    #[serde(default)]
+    pub inline_sources_content: bool,
 }
 
 /// Second argument of `minify`.
@@ -538,6 +546,9 @@ pub struct JsMinifyOptions {
 
     #[serde(default)]
     pub output_path: Option<String>,
+
+    #[serde(default)]
+    pub inline_sources_content: bool,
 }
 
 /// `jsc.minify.format`.
@@ -648,7 +659,7 @@ impl Config {
     ///
     ///
     /// - typescript: `tsx` will be modified if file extension is `ts`.
-    fn adjust(&mut self, file: &Path) {
+    pub fn adjust(&mut self, file: &Path) {
         match &mut self.jsc.syntax {
             Some(Syntax::Typescript(TsConfig { tsx, .. })) => {
                 let is_ts = file.extension().map(|v| v == "ts").unwrap_or(false);
@@ -749,6 +760,8 @@ pub struct BuiltConfig<P: swc_ecma_visit::Fold> {
     pub source_file_name: Option<String>,
 
     pub preserve_comments: Option<BoolOrObject<JsMinifyCommentOption>>,
+
+    pub inline_sources_content: bool,
 }
 
 /// `jsc` in  `.swcrc`.
@@ -774,7 +787,7 @@ pub struct JscConfig {
     pub keep_class_names: bool,
 
     #[serde(default)]
-    pub base_url: String,
+    pub base_url: PathBuf,
 
     #[serde(default)]
     pub paths: Paths,
@@ -816,7 +829,7 @@ pub enum ModuleConfig {
 impl ModuleConfig {
     pub fn build(
         cm: Arc<SourceMap>,
-        base_url: String,
+        base_url: PathBuf,
         paths: CompiledPaths,
         base: &FileName,
         root_mark: Mark,
@@ -1057,6 +1070,8 @@ impl Merge for Config {
         self.minify.merge(&from.minify);
         self.env.merge(&from.env);
         self.source_maps.merge(&from.source_maps);
+        self.inline_sources_content
+            .merge(&from.inline_sources_content);
     }
 }
 
@@ -1070,6 +1085,7 @@ impl Merge for JsMinifyOptions {
         self.keep_fnames |= from.keep_fnames;
         self.safari10 |= from.safari10;
         self.toplevel |= from.toplevel;
+        self.inline_sources_content |= from.inline_sources_content;
     }
 }
 
@@ -1224,8 +1240,8 @@ impl Merge for ConstModulesConfig {
     }
 }
 
-fn build_resolver(base_url: String, paths: CompiledPaths) -> SwcImportResolver {
-    static CACHE: Lazy<DashMap<(String, CompiledPaths), SwcImportResolver>> =
+fn build_resolver(base_url: PathBuf, paths: CompiledPaths) -> SwcImportResolver {
+    static CACHE: Lazy<DashMap<(PathBuf, CompiledPaths), SwcImportResolver>> =
         Lazy::new(|| Default::default());
 
     if let Some(cached) = CACHE.get(&(base_url.clone(), paths.clone())) {

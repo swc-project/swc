@@ -4,7 +4,7 @@ use crate::{
 };
 use compat::es2020::export_namespace_from;
 use either::Either;
-use std::{cell::RefCell, collections::HashMap, rc::Rc, sync::Arc};
+use std::{cell::RefCell, collections::HashMap, path::PathBuf, rc::Rc, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::{
     chain, comments::Comments, errors::Handler, sync::Lrc, util::take::Take, FileName, Mark,
@@ -142,7 +142,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
     ///  - fixer if enabled
     pub fn finalize<'cmt>(
         self,
-        base_url: String,
+        base_url: PathBuf,
         paths: CompiledPaths,
         base: &FileName,
         syntax: Syntax,

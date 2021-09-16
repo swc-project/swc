@@ -746,6 +746,7 @@ fn should_visit() {
                 output_path: config.output_path,
                 source_file_name: config.source_file_name,
                 preserve_comments: config.preserve_comments,
+                inline_sources_content: config.inline_sources_content,
             };
 
             if config.minify {
@@ -768,6 +769,7 @@ fn should_visit() {
                 &program,
                 None,
                 config.output_path,
+                config.inline_sources_content,
                 config.target,
                 config.source_maps,
                 &[],
@@ -783,15 +785,14 @@ fn should_visit() {
 }
 
 #[testing::fixture("tests/fixture/**/input/")]
-fn tests(dir: PathBuf) {
-    let output = dir.parent().unwrap().join("output");
-    let _ = create_dir_all(&output);
+fn tests(input_dir: PathBuf) {
+    let output = input_dir.parent().unwrap().join("output");
 
     Tester::new()
         .print_errors(|cm, handler| {
             let c = Compiler::new(cm.clone());
 
-            for entry in WalkDir::new(&dir) {
+            for entry in WalkDir::new(&input_dir) {
                 let entry = entry.unwrap();
                 if entry.metadata().unwrap().is_dir() {
                     continue;
@@ -804,6 +805,11 @@ fn tests(dir: PathBuf) {
                 {
                     continue;
                 }
+
+                let rel_path = entry
+                    .path()
+                    .strip_prefix(&input_dir)
+                    .expect("failed to strip prefix");
 
                 let fm = cm.load_file(entry.path()).expect("failed to load file");
                 match c.process_js_file(
@@ -819,8 +825,10 @@ fn tests(dir: PathBuf) {
                 ) {
                     Ok(v) => {
                         NormalizedOutput::from(v.code)
-                            .compare_to_file(output.join(entry.file_name()))
+                            .compare_to_file(output.join(rel_path))
                             .unwrap();
+
+                        let _ = create_dir_all(output.join(rel_path).parent().unwrap());
 
                         let map = v.map.map(|json| {
                             let json: serde_json::Value = serde_json::from_str(&json).unwrap();
@@ -829,8 +837,7 @@ fn tests(dir: PathBuf) {
 
                         NormalizedOutput::from(map.unwrap_or_default())
                             .compare_to_file(
-                                output
-                                    .join(entry.path().with_extension("map").file_name().unwrap()),
+                                output.join(rel_path.with_extension("map").file_name().unwrap()),
                             )
                             .unwrap();
                     }
