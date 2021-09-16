@@ -1,3 +1,5 @@
+export type Colors = 0.0 | 1.0 | 2.0;
+
 export function Colors(member: Colors.KeyType): Colors {
     return Colors.ValueFor(member);
 }
@@ -17,7 +19,7 @@ export module Colors {
         return ValueMap[member]?.value;
     }
 
-    export function LabelFor(
+    export async function LabelFor(
         member: KeyType
     ): Promise<string | undefined> {
         return ValueMap[member]?.label;
