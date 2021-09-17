@@ -1535,7 +1535,7 @@ fn issue_2211() {
             const _bar1 = ()=>(0, _bar).bar()
             ;
             return {
-                _bar1
+                _bar: _bar1
             };
         };
         ",
