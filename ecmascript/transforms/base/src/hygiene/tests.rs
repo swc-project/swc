@@ -1513,9 +1513,9 @@ fn issue_2211() {
                 .parse_stmts(
                     "actual1.js",
                     "
-                    var _bar = require#1('./bar');
+                    var _bar = require('./bar');
                     const makeX = ()=>{
-                        const _bar = ()=>(0, _bar).bar#0()
+                        const _bar = ()=>(0, _bar).bar()
                         ;
                         return {
                             _bar
@@ -1530,9 +1530,9 @@ fn issue_2211() {
             Ok(stmts)
         },
         "
-        var _bar = require#1('./bar');
+        var _bar = require('./bar');
         const makeX = ()=>{
-            const _bar1 = ()=>(0, _bar).bar#0()
+            const _bar1 = ()=>(0, _bar).bar()
             ;
             return {
                 _bar1
