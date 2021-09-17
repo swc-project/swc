@@ -62,50 +62,31 @@ impl<'a> Hygiene<'a> {
             eprintln!("\tChanged symbol to {}{:?} ", sym, ctxt);
         }
 
-        let mut need_work = false;
+        {
+            self.current
+                .declared_symbols
+                .borrow_mut()
+                .entry(sym.to_boxed_str())
+                .or_default()
+                .push(ctxt);
+        }
 
         {
-            let mut declared = self.current.declared_symbols.borrow_mut();
+            let mut used = self.current.used.borrow_mut();
+            let e = used.entry(sym.to_boxed_str()).or_default();
 
-            let e = declared.entry(sym.to_boxed_str()).or_default();
             if !e.contains(&ctxt) {
                 e.push(ctxt);
             }
 
-            if e.len() < 1 {
-            } else {
-                need_work = true;
+            if e.len() <= 1 {
+                return;
             }
 
             // Preserve first one.
             if e[0] == ctxt {
-            } else {
-                need_work = true;
+                return;
             }
-        }
-
-        {
-            let mut used = self.current.used_symbols.borrow_mut();
-            let e = used.entry(sym.to_boxed_str()).or_default();
-
-            // if !e.contains(&ctxt) {
-            //     e.push(ctxt);
-            // }
-
-            if e.len() < 1 {
-            } else {
-                need_work = true;
-            }
-
-            // Preserve first one.
-            if need_work || e[0] == ctxt {
-            } else {
-                need_work = true;
-            }
-        }
-
-        if !need_work {
-            return;
         }
 
         if cfg!(debug_assertions) && LOG {
@@ -127,20 +108,15 @@ impl<'a> Hygiene<'a> {
         let ctxt = ident.span.ctxt();
 
         {
-            let mut cur = Some(&self.current);
-            while let Some(c) = cur {
-                let mut used = c.used_symbols.borrow_mut();
-                let e = used.entry(ident.sym.to_boxed_str()).or_default();
+            let mut used = self.current.used.borrow_mut();
+            let e = used.entry(ident.sym.to_boxed_str()).or_default();
 
-                if !e.contains(&ctxt) {
-                    e.push(ctxt);
-                }
+            if !e.contains(&ctxt) {
+                e.push(ctxt);
+            }
 
-                if e.len() <= 1 {
-                    return;
-                }
-
-                cur = c.parent;
+            if e.len() <= 1 {
+                return;
             }
         }
 
@@ -359,7 +335,7 @@ struct Scope<'a> {
     /// Kind of the scope.
     pub kind: ScopeKind,
 
-    pub used_symbols: RefCell<FxHashMap<Box<str>, Vec<SyntaxContext>>>,
+    pub used: RefCell<FxHashMap<Box<str>, Vec<SyntaxContext>>>,
 
     /// All references declared in this scope
     pub declared_symbols: RefCell<FxHashMap<Box<str>, Vec<SyntaxContext>>>,
@@ -390,7 +366,7 @@ impl<'a> Scope<'a> {
             // children: Default::default(),
             ops: Default::default(),
             renamed: Default::default(),
-            used_symbols: Default::default(),
+            used: Default::default(),
         }
     }
 
@@ -844,17 +820,14 @@ impl<'a> VisitMut for Hygiene<'a> {
     }
 
     fn visit_mut_var_declarator(&mut self, decl: &mut VarDeclarator) {
-        {
-            let old = self.var_kind;
-            self.var_kind = None;
-            decl.init.visit_mut_with(self);
-            self.var_kind = old;
-        }
-        {
-            let old = self.ident_type;
-            self.ident_type = IdentType::Binding;
-            decl.name.visit_mut_with(self);
-            self.ident_type = old;
-        }
+        let old = self.ident_type;
+        self.ident_type = IdentType::Binding;
+        decl.name.visit_mut_with(self);
+        self.ident_type = old;
+
+        let old = self.var_kind;
+        self.var_kind = None;
+        decl.init.visit_mut_with(self);
+        self.var_kind = old;
     }
 }
