@@ -16,7 +16,7 @@ mod ops;
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = false;
+const LOG: bool = true;
 
 #[derive(Debug, Clone, Default)]
 pub struct Config {
@@ -108,14 +108,36 @@ impl<'a> Hygiene<'a> {
         let ctxt = ident.span.ctxt();
 
         {
+            let mut c = Some(&self.current);
+            let mut found_conflict = false;
+
+            while let Some(cur) = c {
+                let mut used = cur.used.borrow_mut();
+                let e = used.entry(ident.sym.to_boxed_str()).or_default();
+
+                if e.contains(&ctxt) {
+                    if e.len() > 1 {
+                        found_conflict = true;
+                    }
+                } else {
+                    if e.len() > 0 {
+                        found_conflict = true;
+                    }
+                }
+
+                c = cur.parent;
+            }
+
             let mut used = self.current.used.borrow_mut();
             let e = used.entry(ident.sym.to_boxed_str()).or_default();
+
+            dbg!(&*e);
 
             if !e.contains(&ctxt) {
                 e.push(ctxt);
             }
 
-            if e.len() <= 1 {
+            if !found_conflict {
                 return;
             }
         }
