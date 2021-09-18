@@ -692,6 +692,13 @@ where
             if let Ok("1") = env::var("UPDATE").as_deref() {
                 results.push(NormalizedOutput::from(actual_src.clone()).compare_to_file(output));
             }
+
+            if NormalizedOutput::from(actual_src.clone())
+                == NormalizedOutput::from(expected_src.clone())
+            {
+                return;
+            }
+
             assert_eq!(
                 DebugUsingDisplay(&actual_src),
                 DebugUsingDisplay(&expected_src)
