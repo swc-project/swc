@@ -1181,7 +1181,10 @@ impl Visit for Strip {
                 self.decl_names.insert(class.ident.to_id());
                 class.class.visit_with(class, self);
             }
-            Decl::Fn(f) => f.function.visit_with(f, self),
+            Decl::Fn(f) => {
+                self.decl_names.insert(f.ident.to_id());
+                f.function.visit_with(f, self)
+            }
             Decl::Var(ref var) => {
                 for decl in &var.decls {
                     self.in_var_pat = true;
