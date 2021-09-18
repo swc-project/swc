@@ -2557,7 +2557,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.70.3"
+version = "0.70.4"
 dependencies = [
  "bitflags",
  "num-bigint",
@@ -2922,7 +2922,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.40.3"
+version = "0.40.4"
 dependencies = [
  "fxhash",
  "serde",
