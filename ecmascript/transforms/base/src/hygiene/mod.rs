@@ -72,19 +72,32 @@ impl<'a> Hygiene<'a> {
         }
 
         {
-            let mut used = self.current.used.borrow_mut();
-            let e = used.entry(sym.to_boxed_str()).or_default();
+            let mut need_work = false;
+            let mut cur = Some(&self.current);
 
-            if !e.contains(&ctxt) {
-                e.push(ctxt);
+            while let Some(c) = cur {
+                let mut used = c.used.borrow_mut();
+                let e = used.entry(sym.to_boxed_str()).or_default();
+
+                if !e.contains(&ctxt) {
+                    e.push(ctxt);
+                }
+
+                if e.len() <= 1 {
+                } else {
+                    need_work = true;
+                }
+
+                // Preserve first one.
+                if !need_work && e[0] == ctxt {
+                } else {
+                    need_work = true;
+                }
+
+                cur = c.parent;
             }
 
-            if e.len() <= 1 {
-                return;
-            }
-
-            // Preserve first one.
-            if e[0] == ctxt {
+            if !need_work {
                 return;
             }
         }
