@@ -9,6 +9,10 @@ name = "swc_ecma_minifier"
 repository = "https://github.com/swc-project/swc.git"
 version = "0.27.3"
 
+[[bin]]
+name = "cli"
+path = "./src/cli/bin.rs"
+
 [features]
 debug = []
 
@@ -34,6 +38,8 @@ swc_ecma_transforms_base = {version = "0.31.1", path = "../transforms/base"}
 swc_ecma_utils = {version = "0.44.2", path = "../utils"}
 swc_ecma_visit = {version = "0.38.1", path = "../visit"}
 unicode-xid = "0.2.2"
+
+testing = {version = "0.13.0", path = "../../testing"}
 
 [dev-dependencies]
 ansi_term = "0.12.1"
