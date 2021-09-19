@@ -10,11 +10,6 @@
 
     const esm = index;
 
-    var createNamedContext = function createNamedContext() {
-        esm();
-    };
-
-    createNamedContext();
-    createNamedContext();
+    esm();
 })()
 
