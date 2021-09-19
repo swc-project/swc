@@ -1,11 +1,16 @@
-use std::{env::args, path::Path};
-use swc_common::{input::SourceFileInput, sync::Lrc, Mark, SourceMap};
+use std::{
+    env::args,
+    io::{self},
+    path::Path,
+};
+use swc_common::{input::SourceFileInput, sync::Lrc, FilePathMapping, Mark, SourceMap};
+use swc_ecma_ast::Module;
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_minifier::{
     optimize,
     option::{ExtraOptions, MinifyOptions},
 };
-use swc_ecma_parser::{lexer::Lexer, Parser};
+use swc_ecma_parser::{error::Error as ParseError, lexer::Lexer, Parser};
 use swc_ecma_transforms::{
     fixer,
     hygiene::{self, hygiene_with_config},
@@ -13,29 +18,42 @@ use swc_ecma_transforms::{
 };
 use swc_ecma_visit::FoldWith;
 
-fn main() {
-    let file = args().nth(1).expect("should provide a path to file");
+fn parse_js(cm: &Lrc<SourceMap>, filename: String) -> Result<Module, ParseError> {
+    let fm = cm
+        .load_file(Path::new(&filename))
+        .expect("Failed to load file");
 
-    testing::run_test2(false, |cm, handler| {
-        let fm = cm.load_file(Path::new(&file)).expect("failed to load file");
+    let lexer = Lexer::new(
+        Default::default(),
+        Default::default(),
+        SourceFileInput::from(&*fm),
+        None,
+    );
+    let mut parser = Parser::new_from(lexer);
+
+    parser.parse_module()
+}
+
+fn print_js(cm: Lrc<SourceMap>, module: &Module) {
+    let stdout = io::stdout();
+
+    let mut emitter = swc_ecma_codegen::Emitter {
+        cfg: swc_ecma_codegen::Config { minify: true },
+        cm: cm.clone(),
+        comments: None,
+        wr: Box::new(JsWriter::new(cm.clone(), "\n", &stdout, None)),
+    };
+    emitter.emit_module(module).unwrap();
+
+    print!("\n");
+}
+
+fn run_cli(file: String) -> Result<(), ParseError> {
+    swc_common::GLOBALS.set(&swc_common::Globals::new(), || {
+        let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
 
         let top_level_mark = Mark::fresh(Mark::root());
-
-        let lexer = Lexer::new(
-            Default::default(),
-            Default::default(),
-            SourceFileInput::from(&*fm),
-            None,
-        );
-
-        let mut parser = Parser::new_from(lexer);
-        let program = parser
-            .parse_module()
-            .map_err(|err| {
-                err.into_diagnostic(&handler).emit();
-            })
-            .map(|module| module.fold_with(&mut resolver_with_mark(top_level_mark)))
-            .unwrap();
+        let program = parse_js(&cm, file)?.fold_with(&mut resolver_with_mark(top_level_mark));
 
         let output = optimize(
             program,
@@ -56,26 +74,16 @@ fn main() {
             }))
             .fold_with(&mut fixer(None));
 
-        println!("{}", print(cm.clone(), &output));
+        print_js(cm.clone(), &output);
 
         Ok(())
     })
-    .unwrap();
 }
 
-fn print<N: swc_ecma_codegen::Node>(cm: Lrc<SourceMap>, node: &N) -> String {
-    let mut buf = vec![];
+fn main() {
+    let file = args().nth(1).expect("should provide a path to file");
 
-    {
-        let mut emitter = swc_ecma_codegen::Emitter {
-            cfg: swc_ecma_codegen::Config { minify: true },
-            cm: cm.clone(),
-            comments: None,
-            wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
-        };
-
-        node.emit_with(&mut emitter).unwrap();
+    if let Err(error) = run_cli(file) {
+        println!("{:?}", error);
     }
-
-    String::from_utf8(buf).unwrap()
 }

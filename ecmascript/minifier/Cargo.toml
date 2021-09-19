@@ -39,8 +39,6 @@ swc_ecma_utils = {version = "0.44.2", path = "../utils"}
 swc_ecma_visit = {version = "0.38.1", path = "../visit"}
 unicode-xid = "0.2.2"
 
-testing = {version = "0.13.0", path = "../../testing"}
-
 [dev-dependencies]
 ansi_term = "0.12.1"
 anyhow = "1"
