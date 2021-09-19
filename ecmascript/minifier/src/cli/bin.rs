@@ -1,8 +1,4 @@
-use std::{
-    env::args,
-    io::{self},
-    path::Path,
-};
+use std::{env::args, io, path::Path};
 use swc_common::{input::SourceFileInput, sync::Lrc, FilePathMapping, Mark, SourceMap};
 use swc_ecma_ast::Module;
 use swc_ecma_codegen::text_writer::JsWriter;
@@ -11,11 +7,7 @@ use swc_ecma_minifier::{
     option::{ExtraOptions, MinifyOptions},
 };
 use swc_ecma_parser::{error::Error as ParseError, lexer::Lexer, Parser};
-use swc_ecma_transforms::{
-    fixer,
-    hygiene::{self, hygiene_with_config},
-    resolver_with_mark,
-};
+use swc_ecma_transforms::{fixer, hygiene::hygiene_with_config, resolver_with_mark};
 use swc_ecma_visit::FoldWith;
 
 fn parse_js(cm: &Lrc<SourceMap>, filename: String) -> Result<Module, ParseError> {
@@ -48,12 +40,12 @@ fn print_js(cm: Lrc<SourceMap>, module: &Module) {
     print!("\n");
 }
 
-fn run_cli(file: String) -> Result<(), ParseError> {
+fn run_cli(filename: String) -> Result<(), ParseError> {
     swc_common::GLOBALS.set(&swc_common::Globals::new(), || {
         let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
 
         let top_level_mark = Mark::fresh(Mark::root());
-        let program = parse_js(&cm, file)?.fold_with(&mut resolver_with_mark(top_level_mark));
+        let program = parse_js(&cm, filename)?.fold_with(&mut resolver_with_mark(top_level_mark));
 
         let output = optimize(
             program,
@@ -69,9 +61,7 @@ fn run_cli(file: String) -> Result<(), ParseError> {
         );
 
         let output = output
-            .fold_with(&mut hygiene_with_config(hygiene::Config {
-                ..Default::default()
-            }))
+            .fold_with(&mut hygiene_with_config(Default::default()))
             .fold_with(&mut fixer(None));
 
         print_js(cm.clone(), &output);
@@ -81,9 +71,9 @@ fn run_cli(file: String) -> Result<(), ParseError> {
 }
 
 fn main() {
-    let file = args().nth(1).expect("should provide a path to file");
+    let filename = args().nth(1).expect("Usage: cargo run [filename.js]");
 
-    if let Err(error) = run_cli(file) {
+    if let Err(error) = run_cli(filename) {
         println!("{:?}", error);
     }
 }
