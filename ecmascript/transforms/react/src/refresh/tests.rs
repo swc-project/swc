@@ -264,25 +264,25 @@ test!(
       return <h1 onClick={handleClick}>Hi</h1>;
     };
 
-    _c = Hello;
+    _c1 = Hello;
 
     const Bar = () => {
       return <Hello />;
     };
 
-    _c1 = Bar;
+    _c2 = Bar;
 
     var Baz = () => <div />;
 
-    _c2 = Baz;
+    _c3 = Baz;
 
     var sum = () => {};
 
-    var _c, _c1, _c2;
+    var _c1, _c2, _c3;
 
-    $RefreshReg$(_c, "Hello");
-    $RefreshReg$(_c1, "Bar");
-    $RefreshReg$(_c2, "Baz");
+    $RefreshReg$(_c1, "Hello");
+    $RefreshReg$(_c2, "Bar");
+    $RefreshReg$(_c3, "Baz");
 "#
 );
 
