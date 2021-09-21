@@ -16,7 +16,7 @@ mod ops;
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = false;
+const LOG: bool = true;
 
 #[derive(Debug, Clone, Default)]
 pub struct Config {
@@ -63,16 +63,16 @@ impl<'a> Hygiene<'a> {
         }
 
         {
-            self.current
-                .declared_symbols
-                .borrow_mut()
-                .entry(sym.to_boxed_str())
-                .or_default()
-                .push(ctxt);
+            let mut b = self.current.declared_symbols.borrow_mut();
+            let e = b.entry(sym.to_boxed_str()).or_default();
+            if !e.contains(&ctxt) {
+                e.push(ctxt);
+            }
         }
 
         {
             let mut need_work = false;
+            let mut is_cur = true;
             let mut cur = Some(&self.current);
 
             while let Some(c) = cur {
@@ -85,15 +85,20 @@ impl<'a> Hygiene<'a> {
 
                 if e.len() <= 1 {
                 } else {
-                    need_work = true;
+                    if is_cur {
+                        need_work = true;
+                    }
                 }
 
                 // Preserve first one.
-                if !need_work && e[0] == ctxt {
+                if e.len() == 1 && e[0] == ctxt {
                 } else {
-                    need_work = true;
+                    if is_cur {
+                        need_work = true;
+                    }
                 }
 
+                is_cur = false;
                 cur = c.parent;
             }
 
