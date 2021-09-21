@@ -1533,12 +1533,12 @@ fn issue_2211() {
             Ok(stmts)
         },
         "
-        var _bar = require('./bar');
+        var _bar1 = require('./bar');
         const makeX = ()=>{
-            const _bar1 = ()=>(0, _bar).bar()
+            const _bar = ()=>(0, _bar1).bar()
             ;
             return {
-                _bar: _bar1
+                _bar
             };
         };
         ",
