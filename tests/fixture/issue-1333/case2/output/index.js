@@ -5,8 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 var _ws1 = _interopRequireDefault(require("ws"));
 var _utils = require("../../utils");
 var _connection = require("./connection");
-var _serialization1 = require("./serialization");
-var _compression1 = require("./compression");
+var _serialization = require("./serialization");
+var _compression = require("./compression");
 function _classPrivateFieldGet(receiver, privateMap) {
     if (!privateMap.has(receiver)) {
         throw new TypeError("attempted to get private field on non-instance");
@@ -66,7 +66,7 @@ class Shard extends _utils.Emitter {
                 if (++_i < _w) {
                     return;
                 }
-                const encoded = _classPrivateFieldGet(this, _serialization2).encode(data);
+                const encoded = _classPrivateFieldGet(this, _serialization1).encode(data);
                 _classPrivateFieldGet(this, _ws2).send(encoded);
             };
             if (data.op === _utils.GatewayOp.PRESENCE_UPDATE) {
@@ -141,10 +141,10 @@ class Shard extends _utils.Emitter {
         // Step 2.1 - Serialization
         const encoding = this.manager.options.useEtf ? "etf" : "json";
         qs.append("encoding", encoding);
-        _classPrivateFieldSet(this, _serialization2, _serialization1.Serialization.create(encoding));
+        _classPrivateFieldSet(this, _serialization1, _serialization.Serialization.create(encoding));
         // Step 2.2 - Compression
         if (this.manager.compression) {
-            _classPrivateFieldSet(this, _compression2, _compression1.Compression.create(this.manager.compression).on("data", (buffer)=>this._packet(buffer)
+            _classPrivateFieldSet(this, _compression1, _compression.Compression.create(this.manager.compression).on("data", (buffer)=>this._packet(buffer)
             ).on("error", (error)=>this.emit(_utils.ShardEvent.ERROR, error)
             ).on("debug", (message)=>this._debug(message)
             ));
@@ -166,7 +166,7 @@ class Shard extends _utils.Emitter {
     _packet(raw) {
         /** @type {DiscordPacket} */ let pak;
         try {
-            pak = _classPrivateFieldGet(this, _serialization2).decode(raw);
+            pak = _classPrivateFieldGet(this, _serialization1).decode(raw);
             this.manager.emit(_utils.ClientEvent.RAW_PACKET, pak, this);
         } catch (e) {
             this.manager.client.emit(_utils.ClientEvent.SHARD_ERROR, e, this);
@@ -314,7 +314,7 @@ class Shard extends _utils.Emitter {
      * @param {WebSocket.MessageEvent} evt
      * @private
      */ _message(evt) {
-        return _classPrivateFieldGet(this, _compression2) ? _classPrivateFieldGet(this, _compression2).add(evt.data) : this._packet(evt.data);
+        return _classPrivateFieldGet(this, _compression1) ? _classPrivateFieldGet(this, _compression1).add(evt.data) : this._packet(evt.data);
     }
     /**
      * Cleans up the WebSocket connection listeners.
@@ -337,14 +337,14 @@ class Shard extends _utils.Emitter {
         /**
      * The serialization handler.
      * @type {Serialization}
-     */ _serialization2.set(this, {
+     */ _serialization1.set(this, {
             writable: true,
             value: void 0
         });
         /**
      * The compression handler.
      * @type {Compression}
-     */ _compression2.set(this, {
+     */ _compression1.set(this, {
             writable: true,
             value: void 0
         });
@@ -440,8 +440,8 @@ class Shard extends _utils.Emitter {
  * @property {number} [code=1000] The code to use.
  */ 
 exports.Shard = Shard;
-var _serialization2 = new WeakMap();
-var _compression2 = new WeakMap();
+var _serialization1 = new WeakMap();
+var _compression1 = new WeakMap();
 var _seq = new WeakMap();
 var _closingSeq = new WeakMap();
 var _bucket = new WeakMap();
