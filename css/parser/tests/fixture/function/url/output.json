@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 462,
+    "end": 737,
     "ctxt": 0
   },
   "rules": [
@@ -10,7 +10,7 @@
       "type": "StyleRule",
       "span": {
         "start": 0,
-        "end": 462,
+        "end": 737,
         "ctxt": 0
       },
       "selectors": [
@@ -58,7 +58,7 @@
         "type": "DeclBlock",
         "span": {
           "start": 2,
-          "end": 462,
+          "end": 737,
           "ctxt": 0
         },
         "properties": [
@@ -453,6 +453,363 @@
                     ]
                   }
                 ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Property",
+            "span": {
+              "start": 465,
+              "end": 488,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Text",
+              "span": {
+                "start": 465,
+                "end": 481,
+                "ctxt": 0
+              },
+              "value": "background-image"
+            },
+            "values": [
+              {
+                "type": "UrlValue",
+                "span": {
+                  "start": 483,
+                  "end": 488,
+                  "ctxt": 0
+                },
+                "url": ""
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Property",
+            "span": {
+              "start": 494,
+              "end": 520,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Text",
+              "span": {
+                "start": 494,
+                "end": 510,
+                "ctxt": 0
+              },
+              "value": "background-image"
+            },
+            "values": [
+              {
+                "type": "UrlValue",
+                "span": {
+                  "start": 512,
+                  "end": 520,
+                  "ctxt": 0
+                },
+                "url": ""
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Property",
+            "span": {
+              "start": 526,
+              "end": 551,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Text",
+              "span": {
+                "start": 526,
+                "end": 542,
+                "ctxt": 0
+              },
+              "value": "background-image"
+            },
+            "values": [
+              {
+                "type": "FnValue",
+                "span": {
+                  "start": 544,
+                  "end": 551,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Text",
+                  "span": {
+                    "start": 544,
+                    "end": 547,
+                    "ctxt": 0
+                  },
+                  "value": "url"
+                },
+                "args": [
+                  {
+                    "type": "String",
+                    "span": {
+                      "start": 548,
+                      "end": 550,
+                      "ctxt": 0
+                    },
+                    "value": ""
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Property",
+            "span": {
+              "start": 557,
+              "end": 588,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Text",
+              "span": {
+                "start": 557,
+                "end": 573,
+                "ctxt": 0
+              },
+              "value": "background-image"
+            },
+            "values": [
+              {
+                "type": "FnValue",
+                "span": {
+                  "start": 575,
+                  "end": 588,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Text",
+                  "span": {
+                    "start": 575,
+                    "end": 578,
+                    "ctxt": 0
+                  },
+                  "value": "url"
+                },
+                "args": [
+                  {
+                    "type": "SpaceValues",
+                    "span": {
+                      "start": 582,
+                      "end": 587,
+                      "ctxt": 0
+                    },
+                    "values": [
+                      {
+                        "type": "String",
+                        "span": {
+                          "start": 582,
+                          "end": 584,
+                          "ctxt": 0
+                        },
+                        "value": ""
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Property",
+            "span": {
+              "start": 594,
+              "end": 619,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Text",
+              "span": {
+                "start": 594,
+                "end": 610,
+                "ctxt": 0
+              },
+              "value": "background-image"
+            },
+            "values": [
+              {
+                "type": "FnValue",
+                "span": {
+                  "start": 612,
+                  "end": 619,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Text",
+                  "span": {
+                    "start": 612,
+                    "end": 615,
+                    "ctxt": 0
+                  },
+                  "value": "url"
+                },
+                "args": [
+                  {
+                    "type": "String",
+                    "span": {
+                      "start": 616,
+                      "end": 618,
+                      "ctxt": 0
+                    },
+                    "value": ""
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Property",
+            "span": {
+              "start": 625,
+              "end": 656,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Text",
+              "span": {
+                "start": 625,
+                "end": 641,
+                "ctxt": 0
+              },
+              "value": "background-image"
+            },
+            "values": [
+              {
+                "type": "FnValue",
+                "span": {
+                  "start": 643,
+                  "end": 656,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Text",
+                  "span": {
+                    "start": 643,
+                    "end": 646,
+                    "ctxt": 0
+                  },
+                  "value": "url"
+                },
+                "args": [
+                  {
+                    "type": "SpaceValues",
+                    "span": {
+                      "start": 650,
+                      "end": 655,
+                      "ctxt": 0
+                    },
+                    "values": [
+                      {
+                        "type": "String",
+                        "span": {
+                          "start": 650,
+                          "end": 652,
+                          "ctxt": 0
+                        },
+                        "value": ""
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Property",
+            "span": {
+              "start": 662,
+              "end": 694,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Text",
+              "span": {
+                "start": 662,
+                "end": 678,
+                "ctxt": 0
+              },
+              "value": "background-image"
+            },
+            "values": [
+              {
+                "type": "FnValue",
+                "span": {
+                  "start": 680,
+                  "end": 694,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Text",
+                  "span": {
+                    "start": 680,
+                    "end": 683,
+                    "ctxt": 0
+                  },
+                  "value": "url"
+                },
+                "args": [
+                  {
+                    "type": "SpaceValues",
+                    "span": {
+                      "start": 687,
+                      "end": 693,
+                      "ctxt": 0
+                    },
+                    "values": [
+                      {
+                        "type": "String",
+                        "span": {
+                          "start": 687,
+                          "end": 690,
+                          "ctxt": 0
+                        },
+                        "value": " "
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Property",
+            "span": {
+              "start": 700,
+              "end": 734,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Text",
+              "span": {
+                "start": 700,
+                "end": 716,
+                "ctxt": 0
+              },
+              "value": "background-image"
+            },
+            "values": [
+              {
+                "type": "UrlValue",
+                "span": {
+                  "start": 718,
+                  "end": 734,
+                  "ctxt": 0
+                },
+                "url": "./image.png"
               }
             ],
             "important": null
