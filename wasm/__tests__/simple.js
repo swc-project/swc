@@ -6,7 +6,7 @@ it("should be loadable", function () {
 
 
 it("should support 'paths' and 'baseUrl'", async () => {
-  const { code } = await swc.transform(`
+  const { code } = await swc.transformSync(`
   import foo from '@src/app';
   console.log(foo)
   `, {
