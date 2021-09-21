@@ -257,6 +257,24 @@ impl<'a> Hygiene<'a> {
         if ops.rename.is_empty() {
             return;
         }
+
+        {
+            let mut cur = Some(&self.current);
+            while let Some(c) = cur {
+                let mut used = c.used.borrow_mut();
+
+                for ((sym, ctxt), _) in &ops.rename {
+                    let e = used.entry(sym.to_boxed_str()).or_default();
+
+                    if let Some(pos) = e.iter().position(|c| *c == *ctxt) {
+                        e.remove(pos);
+                    }
+                }
+
+                cur = c.parent;
+            }
+        }
+
         node.visit_mut_with(&mut Operator(&ops))
     }
 
