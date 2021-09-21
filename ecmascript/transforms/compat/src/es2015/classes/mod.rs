@@ -493,6 +493,7 @@ where
                     },
                     mark: this_mark,
                     ignore_return: false,
+                    in_injected_define_property_call: false,
                 });
 
                 insert_this |= (mode == None && !is_always_initialized)

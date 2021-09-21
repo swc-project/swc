@@ -1,5 +1,6 @@
 #![allow(deprecated)]
 
+use std::{fs::read_to_string, path::PathBuf};
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::resolver;
@@ -10,7 +11,7 @@ use swc_ecma_transforms_compat::{
     es2020::{class_properties, typescript_class_properties},
     es3::reserved_words,
 };
-use swc_ecma_transforms_testing::{test, test_exec, Tester};
+use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, Tester};
 use swc_ecma_visit::Fold;
 
 fn ts() -> Syntax {
@@ -3434,7 +3435,7 @@ export default class MyClass3 {
     r#"
 class MyClass {
     constructor(){
-        _myAsyncMethod1.set(this, {
+        _myAsyncMethod.set(this, {
             writable: true,
             value: _asyncToGenerator((function*() {
                 console.log(this);
@@ -3442,7 +3443,7 @@ class MyClass {
         });
     }
 }
-var _myAsyncMethod1 = new WeakMap();
+var _myAsyncMethod = new WeakMap();
 (function() {
     class MyClass2 {
         constructor(){
@@ -3459,7 +3460,7 @@ var _myAsyncMethod1 = new WeakMap();
 })();
 class MyClass3 {
     constructor(){
-        _myAsyncMethod2.set(this, {
+        _myAsyncMethod1.set(this, {
             writable: true,
             value: _asyncToGenerator((function*() {
                 console.log(this);
@@ -3467,7 +3468,7 @@ class MyClass3 {
         });
     }
 }
-var _myAsyncMethod2 = new WeakMap();
+var _myAsyncMethod1 = new WeakMap();
 export { MyClass3 as default };
   
 
@@ -3977,8 +3978,8 @@ new SuperClass(); // ensure ComputedKey Method is still transformed
 
 class ComputedMethod extends Obj {
   constructor() {
-    var _temp1;
-    var tmp = (_temp1 = super(), _defineProperty(this, "field", 1), _temp1);
+    var _temp;
+    var tmp = (_temp = super(), _defineProperty(this, "field", 1), _temp);
     class B extends Obj {
       [tmp]() {}
 
@@ -4000,9 +4001,9 @@ new ComputedMethod(); // ensure ComputedKey Field is still transformed
 
 class ComputedField extends Obj {
   constructor() {
-    var _temp2;
+    var _temp;
 
-    var _ref = (_temp2 = super(), _defineProperty(this, "field", 1), _temp2);
+    var _ref = (_temp = super(), _defineProperty(this, "field", 1), _temp);
 
     class B extends Obj {
       constructor() {
@@ -5568,3 +5569,9 @@ test!(
     }
     "
 );
+
+#[testing::fixture("tests/fixture/classes/**/exec.js")]
+fn exec(input: PathBuf) {
+    let src = read_to_string(&input).unwrap();
+    compare_stdout(Default::default(), |_| class_properties(), &src);
+}

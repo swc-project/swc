@@ -942,7 +942,7 @@ var YUI = function() {
             !this._pending && (item = this._queue.shift()) && (this._pending = item, item.transaction.execute(item.callback));
         },
         _purge: function(nodes) {
-            for(var index, node, purgeNodes = this._purgeNodes, isTransaction = nodes !== purgeNodes; node = nodes.pop();)node._yuiget_finished && (node.parentNode && node.parentNode.removeChild(node), isTransaction && (index = Y.Array.indexOf(purgeNodes, node)) > -1 && purgeNodes.splice(index, 1));
+            for(var index, node, purgeNodes = this._purgeNodes, isTransaction = nodes !== purgeNodes; node = nodes.pop();)!!node._yuiget_finished && (node.parentNode && node.parentNode.removeChild(node), isTransaction && (index = Y.Array.indexOf(purgeNodes, node)) > -1 && purgeNodes.splice(index, 1));
         }
     }, Get.script = Get.js, Get.Transaction = Transaction = function(requests, options) {
         this.id = Transaction._lastId += 1, this.data = options.data, this.errors = [], this.nodes = [], this.options = options, this.requests = requests, this._callbacks = [], this._queue = [], this._reqsWaiting = 0, this.tId = this.id, this.win = options.win || Y.config.win;
@@ -955,7 +955,10 @@ var YUI = function() {
         },
         execute: function(callback) {
             var i, len, queue, req, self = this, requests = self.requests, state = self._state;
-            if ("done" === state) return void (callback && callback(self.errors.length ? self.errors : null, self));
+            if ("done" === state) {
+                callback && callback(self.errors.length ? self.errors : null, self);
+                return;
+            }
             if (callback && self._callbacks.push(callback), "executing" !== state) {
                 for(self._state = "executing", self._queue = queue = [], self.options.timeout && (self._timeout = setTimeout(function() {
                     self.abort("Timeout");
@@ -1711,9 +1714,12 @@ var YUI = function() {
                     }
                     d && d.fn && (fn = d.fn, delete d.fn, fn.call(self, d));
                 }
-            }, this._loading = !0, !modules.js.length && !modules.css.length) return actions = -1, void complete({
-                fn: self._onSuccess
-            });
+            }, this._loading = !0, !modules.js.length && !modules.css.length) {
+                actions = -1, complete({
+                    fn: self._onSuccess
+                });
+                return;
+            }
             modules.css.length && Y.Get.css(modules.css, {
                 data: modules.cssMods,
                 attributes: self.cssAttributes,

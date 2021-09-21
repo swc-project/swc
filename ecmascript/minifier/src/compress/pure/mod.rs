@@ -3,7 +3,7 @@ use crate::{
     marks::Marks, mode::Mode, option::CompressOptions, util::MoudleItemExt, MAX_PAR_DEPTH,
 };
 use rayon::prelude::*;
-use swc_common::{pass::Repeated, DUMMY_SP};
+use swc_common::{pass::Repeated, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 
@@ -13,6 +13,7 @@ mod conds;
 mod ctx;
 mod dead_code;
 mod evaluate;
+mod if_return;
 mod loops;
 mod misc;
 mod numbers;
@@ -196,6 +197,10 @@ where
                     *e = Expr::Invalid(Invalid { span: DUMMY_SP });
                     return;
                 }
+                if seq.exprs.len() == 1 {
+                    self.changed = true;
+                    *e = *seq.exprs.take().into_iter().next().unwrap();
+                }
             }
             _ => {}
         }
@@ -253,6 +258,36 @@ where
         self.visit_par(exprs);
     }
 
+    fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
+        n.right.visit_mut_with(self);
+
+        n.left.visit_mut_with(self);
+
+        n.body.visit_mut_with(self);
+
+        match &mut *n.body {
+            Stmt::Block(body) => {
+                self.negate_if_terminate(&mut body.stmts, false, true);
+            }
+            _ => {}
+        }
+    }
+
+    fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
+        n.right.visit_mut_with(self);
+
+        n.left.visit_mut_with(self);
+
+        n.body.visit_mut_with(self);
+
+        match &mut *n.body {
+            Stmt::Block(body) => {
+                self.negate_if_terminate(&mut body.stmts, false, true);
+            }
+            _ => {}
+        }
+    }
+
     fn visit_mut_for_stmt(&mut self, s: &mut ForStmt) {
         s.visit_mut_children_with(self);
 
@@ -260,6 +295,13 @@ where
 
         if let Some(test) = &mut s.test {
             self.optimize_expr_in_bool_ctx(&mut **test);
+        }
+
+        match &mut *s.body {
+            Stmt::Block(body) => {
+                self.negate_if_terminate(&mut body.stmts, false, true);
+            }
+            _ => {}
         }
     }
 
@@ -274,6 +316,8 @@ where
 
         if let Some(body) = &mut f.body {
             self.remove_useless_return(&mut body.stmts);
+
+            self.negate_if_terminate(&mut body.stmts, true, false);
 
             if let Some(last) = body.stmts.last_mut() {
                 self.drop_unused_stmt_at_end_of_fn(last);
@@ -342,9 +386,24 @@ where
     fn visit_mut_seq_expr(&mut self, e: &mut SeqExpr) {
         e.visit_mut_children_with(self);
 
+        if e.exprs.len() == 0 {
+            return;
+        }
+
         self.drop_useless_ident_ref_in_seq(e);
 
         self.merge_seq_call(e);
+
+        let len = e.exprs.len();
+        for (idx, e) in e.exprs.iter_mut().enumerate() {
+            let is_last = idx == len - 1;
+
+            if !is_last {
+                self.ignore_return_value(&mut **e);
+            }
+        }
+
+        e.exprs.retain(|e| !e.is_invalid());
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
@@ -372,6 +431,15 @@ where
         }
 
         self.loop_to_for_stmt(s);
+
+        match s {
+            Stmt::Expr(es) => {
+                if es.expr.is_invalid() {
+                    *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                }
+            }
+            _ => {}
+        }
     }
 
     fn visit_mut_stmts(&mut self, items: &mut Vec<Stmt>) {

@@ -314,6 +314,11 @@ where
                     end_time - start_time,
                     self.pass
                 );
+
+                if cfg!(feature = "debug") && visitor.changed() {
+                    let start = n.dump();
+                    log::debug!("===== After pure =====\n{}", start);
+                }
             }
         }
 

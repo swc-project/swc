@@ -14,10 +14,10 @@ var ClassA = function() {
 module.exports = (function() {
     var g, h, i = function() {
         "use strict";
+        var b, j, k;
         function i() {
             _classCallCheck(this, i);
         }
-        var b, j, k;
         return b = i, j = [
             {
                 key: "it",

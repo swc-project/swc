@@ -1465,13 +1465,13 @@ class BufWriter extends AbstractBufBase {
     static create(writer, size = 4096) {
         return writer instanceof BufWriter ? writer : new BufWriter(writer, size);
     }
-    constructor(writer, size1 = 4096){
+    constructor(writer, size = 4096){
         super();
         this.writer = writer;
-        if (size1 <= 0) {
-            size1 = DEFAULT_BUF_SIZE;
+        if (size <= 0) {
+            size = DEFAULT_BUF_SIZE;
         }
-        this.buf = new Uint8Array(size1);
+        this.buf = new Uint8Array(size);
     }
     reset(w) {
         this.err = null;
@@ -1521,13 +1521,13 @@ class BufWriterSync extends AbstractBufBase {
     static create(writer, size = 4096) {
         return writer instanceof BufWriterSync ? writer : new BufWriterSync(writer, size);
     }
-    constructor(writer1, size2 = 4096){
+    constructor(writer, size = 4096){
         super();
-        this.writer = writer1;
-        if (size2 <= 0) {
-            size2 = DEFAULT_BUF_SIZE;
+        this.writer = writer;
+        if (size <= 0) {
+            size = DEFAULT_BUF_SIZE;
         }
-        this.buf = new Uint8Array(size2);
+        this.buf = new Uint8Array(size);
     }
     reset(w) {
         this.err = null;
@@ -1797,14 +1797,14 @@ function skipLWSPChar(u) {
     return ret.slice(0, j);
 }
 class MultipartReader {
-    constructor(reader1, boundary){
+    constructor(reader, boundary){
         this.boundary = boundary;
         this.newLine = encoder.encode("\r\n");
         this.newLineDashBoundary = encoder.encode(`\r\n--${this.boundary}`);
         this.dashBoundaryDash = encoder.encode(`--${this.boundary}--`);
         this.dashBoundary = encoder.encode(`--${this.boundary}`);
         this.partsRead = 0;
-        this.bufReader = new BufReader(reader1);
+        this.bufReader = new BufReader(reader);
     }
     async readForm(maxMemory = 10 << 20) {
         const fileMap = new Map();
@@ -1977,19 +1977,19 @@ function multipartFormData(fileMap, valueMap) {
     };
 }
 class PartWriter {
-    constructor(writer2, boundary1, headers1, isFirstBoundary){
-        this.writer = writer2;
-        this.boundary = boundary1;
-        this.headers = headers1;
+    constructor(writer, boundary, headers, isFirstBoundary){
+        this.writer = writer;
+        this.boundary = boundary;
+        this.headers = headers;
         this.closed = false;
         this.headersWritten = false;
         let buf = "";
         if (isFirstBoundary) {
-            buf += `--${boundary1}\r\n`;
+            buf += `--${boundary}\r\n`;
         } else {
-            buf += `\r\n--${boundary1}\r\n`;
+            buf += `\r\n--${boundary}\r\n`;
         }
-        for (const [key, value] of headers1.entries()){
+        for (const [key, value] of headers.entries()){
             buf += `${key}: ${value}\r\n`;
         }
         buf += `\r\n`;
@@ -2026,15 +2026,15 @@ class MultipartWriter {
     get boundary() {
         return this._boundary;
     }
-    constructor(writer3, boundary2){
-        this.writer = writer3;
+    constructor(writer, boundary){
+        this.writer = writer;
         this.isClosed = false;
-        if (boundary2 !== void 0) {
-            this._boundary = checkBoundary(boundary2);
+        if (boundary !== void 0) {
+            this._boundary = checkBoundary(boundary);
         } else {
             this._boundary = randomBoundary();
         }
-        this.bufWriter = new BufWriter(writer3);
+        this.bufWriter = new BufWriter(writer);
     }
     formDataContentType() {
         return `multipart/form-data; boundary=${this.boundary}`;
@@ -2092,10 +2092,10 @@ Content-Type: text/plain\r
 \r
 CONTENT\r
 --------------------------366796e1c748a2fb--`;
-const boundary3 = "------------------------366796e1c748a2fb";
+const boundary = "------------------------366796e1c748a2fb";
 const stringReader = new StringReader(content);
 console.log(content);
-const multipartReader = new MultipartReader(stringReader, boundary3);
+const multipartReader = new MultipartReader(stringReader, boundary);
 const formData = await multipartReader.readForm();
 for (const entry of formData.entries()){
     console.log("entry", entry);

@@ -1,4 +1,5 @@
 use crate::es2015::regenerator;
+use std::{fs::read_to_string, path::PathBuf};
 use swc_common::{chain, Mark, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_parser::Syntax;
@@ -9,7 +10,7 @@ use swc_ecma_transforms_compat::{
     es2017::async_to_generator,
     es2020::class_properties,
 };
-use swc_ecma_transforms_testing::{test, test_exec};
+use swc_ecma_transforms_testing::{compare_stdout, test, test_exec};
 use swc_ecma_visit::{Fold, FoldWith};
 
 struct ParenRemover;
@@ -2684,3 +2685,23 @@ test_exec!(
 	await res;
     "
 );
+
+#[testing::fixture("tests/fixture/async-to-generator/**/exec.js")]
+fn exec(input: PathBuf) {
+    let input = read_to_string(&input).unwrap();
+    compare_stdout(Default::default(), |_| async_to_generator(), &input);
+}
+
+#[testing::fixture("tests/fixture/async-to-generator/**/exec.js")]
+fn exec_regenerator(input: PathBuf) {
+    let input = read_to_string(&input).unwrap();
+    compare_stdout(
+        Default::default(),
+        |_| {
+            let top_level_mark = Mark::fresh(Mark::root());
+
+            chain!(async_to_generator(), regenerator(top_level_mark))
+        },
+        &input,
+    );
+}

@@ -131,9 +131,6 @@ pub(crate) enum ScopeKind {
 pub(crate) struct ScopeData {
     pub has_with_stmt: bool,
     pub has_eval_call: bool,
-
-    /// Variables declared in the scope.
-    pub declared_symbols: FxHashMap<JsWord, FxHashSet<SyntaxContext>>,
 }
 
 /// Analyzed info of a whole program we are working on.

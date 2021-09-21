@@ -6,13 +6,13 @@ class InvalidDateTimeError extends LuxonError {
     }
 }
 class InvalidIntervalError extends LuxonError {
-    constructor(reason1){
-        super(`Invalid Interval: ${reason1.toMessage()}`);
+    constructor(reason){
+        super(`Invalid Interval: ${reason.toMessage()}`);
     }
 }
 class InvalidDurationError extends LuxonError {
-    constructor(reason2){
-        super(`Invalid Duration: ${reason2.toMessage()}`);
+    constructor(reason){
+        super(`Invalid Duration: ${reason.toMessage()}`);
     }
 }
 class ConflictingSpecificationError extends LuxonError {
@@ -1411,8 +1411,8 @@ function normalizeZone(input, defaultZone) {
     }
 }
 class Invalid {
-    constructor(reason3, explanation){
-        this.reason = reason3;
+    constructor(reason, explanation){
+        this.reason = reason;
         this.explanation = explanation;
     }
     toMessage() {
@@ -2588,17 +2588,17 @@ function friendlyDuration(durationish) {
     }
 }
 class DateTime {
-    constructor(config1){
-        const zone = config1.zone || Settings.defaultZone;
-        let invalid = config1.invalid || (Number.isNaN(config1.ts) ? new Invalid("invalid input") : null) || (!zone.isValid ? unsupportedZone(zone) : null);
-        this.ts = isUndefined(config1.ts) ? Settings.now() : config1.ts;
+    constructor(config){
+        const zone = config.zone || Settings.defaultZone;
+        let invalid = config.invalid || (Number.isNaN(config.ts) ? new Invalid("invalid input") : null) || (!zone.isValid ? unsupportedZone(zone) : null);
+        this.ts = isUndefined(config.ts) ? Settings.now() : config.ts;
         let c = null, o = null;
         if (!invalid) {
-            const unchanged = config1.old && config1.old.ts === this.ts && config1.old.zone.equals(zone);
+            const unchanged = config.old && config.old.ts === this.ts && config.old.zone.equals(zone);
             if (unchanged) {
                 [c, o] = [
-                    config1.old.c,
-                    config1.old.o
+                    config.old.c,
+                    config.old.o
                 ];
             } else {
                 const ot = zone.offset(this.ts);
@@ -2609,7 +2609,7 @@ class DateTime {
             }
         }
         this._zone = zone;
-        this.loc = config1.loc || Locale.create();
+        this.loc = config.loc || Locale.create();
         this.invalid = invalid;
         this.weekData = null;
         this.c = c;
@@ -3474,13 +3474,13 @@ class PolyNumberFormatter {
     }
 }
 class PolyDateFormatter {
-    constructor(dt, intl1, opts1){
-        this.opts = opts1;
+    constructor(dt, intl, opts){
+        this.opts = opts;
         this.hasIntl = hasIntl();
         let z;
         if (dt.zone.universal && this.hasIntl) {
             z = "UTC";
-            if (opts1.timeZoneName) {
+            if (opts.timeZoneName) {
                 this.dt = dt;
             } else {
                 this.dt = dt.offset === 0 ? dt : DateTime.fromMillis(dt.ts + dt.offset * 60 * 1000);
@@ -3497,7 +3497,7 @@ class PolyDateFormatter {
             if (z) {
                 intlOpts.timeZone = z;
             }
-            this.dtf = getCachedDTF(intl1, intlOpts);
+            this.dtf = getCachedDTF(intl, intlOpts);
         }
     }
     format() {
@@ -3528,12 +3528,12 @@ class PolyDateFormatter {
     }
 }
 class PolyRelFormatter {
-    constructor(intl2, isEnglish, opts2){
+    constructor(intl, isEnglish, opts){
         this.opts = Object.assign({
             style: "long"
-        }, opts2);
+        }, opts);
         if (!isEnglish && hasRelative()) {
-            this.rtf = getCachedRTF(intl2, opts2);
+            this.rtf = getCachedRTF(intl, opts);
         }
     }
     format(count, unit) {
@@ -3572,8 +3572,8 @@ class Locale {
     }) {
         return Locale.create(locale, numberingSystem, outputCalendar);
     }
-    constructor(locale1, numbering, outputCalendar, specifiedLocale){
-        const [parsedLocale, parsedNumberingSystem, parsedOutputCalendar] = parseLocaleString(locale1);
+    constructor(locale, numbering, outputCalendar, specifiedLocale){
+        const [parsedLocale, parsedNumberingSystem, parsedOutputCalendar] = parseLocaleString(locale);
         this.locale = parsedLocale;
         this.numberingSystem = numbering || parsedNumberingSystem || null;
         this.outputCalendar = outputCalendar || parsedOutputCalendar || null;
@@ -3782,10 +3782,10 @@ function validateStartEnd(start, end) {
     }
 }
 class Interval {
-    constructor(config2){
-        this.s = config2.start;
-        this.e = config2.end;
-        this.invalid = config2.invalid || null;
+    constructor(config){
+        this.s = config.start;
+        this.e = config.end;
+        this.invalid = config.invalid || null;
         this.isLuxonInterval = true;
     }
     static invalid(reason, explanation = null) {
@@ -4544,6 +4544,6 @@ const mod = function() {
         Settings: Settings
     };
 }();
-const date = new Date();
-const dt1 = mod.DateTime.fromJSDate(date);
+const date1 = new Date();
+const dt1 = mod.DateTime.fromJSDate(date1);
 console.log(dt1.toISO());
