@@ -28,9 +28,9 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
      //const exporter = exports;
      //exporter.memoize = memoize;
 });
-const _cjs_module_ = load(), memoize1 = _cjs_module_.memoize;
+const _cjs_module_ = load(), memoize = _cjs_module_.memoize;
 // Import directly from `lodash` instead and the module code is
 // included in the bundle
 //import {memoize} from './lodash';
-const name = memoize1();
+const name = memoize();
 console.log(name);

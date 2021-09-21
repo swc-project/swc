@@ -25,6 +25,6 @@ class A {
         console.log(this.#c);
     }
 }
-let a1 = new A();
-a1.a();
-a1.c();
+let a2 = new A();
+a2.a();
+a2.c();

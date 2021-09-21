@@ -164,7 +164,7 @@ async function readTrailers(headers, r) {
     ].filter((k)=>!trailerNames.includes(k)
     );
     if (undeclared.length > 0) throw new Deno.errors.InvalidData(`Undeclared trailers: ${Deno.inspect(undeclared)}.`);
-    for (const [k1, v] of result)headers.append(k1, v);
+    for (const [k, v] of result)headers.append(k, v);
     const missingTrailers = trailerNames.filter((k)=>!result.has(k)
     );
     if (missingTrailers.length > 0) throw new Deno.errors.InvalidData(`Missing trailers: ${Deno.inspect(missingTrailers)}.`);

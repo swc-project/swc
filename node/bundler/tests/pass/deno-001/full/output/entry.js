@@ -350,11 +350,11 @@ class BufWriter extends AbstractBufBase {
     /** return new BufWriter unless writer is BufWriter */ static create(writer, size = DEFAULT_BUF_SIZE) {
         return writer instanceof BufWriter ? writer : new BufWriter(writer, size);
     }
-    constructor(writer, size = DEFAULT_BUF_SIZE){
+    constructor(writer, size1 = DEFAULT_BUF_SIZE){
         super();
         this.writer = writer;
-        if (size <= 0) size = DEFAULT_BUF_SIZE;
-        this.buf = new Uint8Array(size);
+        if (size1 <= 0) size1 = DEFAULT_BUF_SIZE;
+        this.buf = new Uint8Array(size1);
     }
     /** Discards any unflushed buffered data, clears any error, and
    * resets buffer to write its output to w.
@@ -413,11 +413,11 @@ class BufWriterSync extends AbstractBufBase {
     /** return new BufWriterSync unless writer is BufWriterSync */ static create(writer, size = DEFAULT_BUF_SIZE) {
         return writer instanceof BufWriterSync ? writer : new BufWriterSync(writer, size);
     }
-    constructor(writer, size = DEFAULT_BUF_SIZE){
+    constructor(writer1, size2 = DEFAULT_BUF_SIZE){
         super();
-        this.writer = writer;
-        if (size <= 0) size = DEFAULT_BUF_SIZE;
-        this.buf = new Uint8Array(size);
+        this.writer = writer1;
+        if (size2 <= 0) size2 = DEFAULT_BUF_SIZE;
+        this.buf = new Uint8Array(size2);
     }
     /** Discards any unflushed buffered data, clears any error, and
    * resets buffer to write its output to w.
@@ -493,8 +493,8 @@ class TextProtoReader {
     constructor(r){
         this.r = r;
     }
-    constructor(r){
-        this.r = r;
+    constructor(r1){
+        this.r = r1;
     }
     /** readLine() reads a single line from the TextProtoReader,
    * eliding the final \n or \r\n from the returned string.
@@ -756,7 +756,7 @@ async function readTrailers(headers, r) {
     ].filter((k)=>!trailerNames.includes(k)
     );
     if (undeclared.length > 0) throw new Deno.errors.InvalidData(`Undeclared trailers: ${Deno.inspect(undeclared)}.`);
-    for (const [k1, v] of result)headers.append(k1, v);
+    for (const [k, v] of result)headers.append(k, v);
     const missingTrailers = trailerNames.filter((k)=>!result.has(k)
     );
     if (missingTrailers.length > 0) throw new Deno.errors.InvalidData(`Missing trailers: ${Deno.inspect(missingTrailers)}.`);

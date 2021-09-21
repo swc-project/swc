@@ -20,5 +20,5 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
         };
     }();
 });
-var mod1 = load();
-console.log(mod1);
+var mod = load();
+console.log(mod);

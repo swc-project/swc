@@ -248,7 +248,7 @@ function _format(sep, pathObject) {
     if (dir === pathObject.root) return dir + base;
     return dir + sep + base;
 }
-const sep1 = "\\";
+const sep = "\\";
 const delimiter = ";";
 function resolve(...pathSegments) {
     let resolvedDevice = "";
@@ -424,7 +424,7 @@ function normalize(path) {
         return device;
     }
 }
-function isAbsolute1(path) {
+function isAbsolute(path) {
     assertPath(path);
     const len = path.length;
     if (len === 0) return false;
@@ -853,7 +853,7 @@ function fromFileUrl(url) {
     return path;
 }
 function toFileUrl(path) {
-    if (!isAbsolute1(path)) {
+    if (!isAbsolute(path)) {
         throw new TypeError("Must be an absolute path.");
     }
     const [, hostname, pathname] = path.match(/^(?:[/\\]{2}([^/\\]+)(?=[/\\][^/\\]))?(.*)/);
@@ -869,11 +869,11 @@ function toFileUrl(path) {
 }
 const mod = function() {
     return {
-        sep: sep1,
+        sep: sep,
         delimiter: delimiter,
         resolve: resolve,
         normalize: normalize,
-        isAbsolute: isAbsolute1,
+        isAbsolute: isAbsolute,
         join: join,
         relative: relative,
         toNamespacedPath: toNamespacedPath,
@@ -886,7 +886,7 @@ const mod = function() {
         toFileUrl: toFileUrl
     };
 }();
-const sep2 = "/";
+const sep1 = "/";
 const delimiter1 = ":";
 function resolve1(...pathSegments) {
     let resolvedPath = "";
@@ -925,7 +925,7 @@ function normalize1(path) {
     if (isAbsolute) return `/${path}`;
     return path;
 }
-function isAbsolute2(path) {
+function isAbsolute1(path) {
     assertPath(path);
     return path.length > 0 && path.charCodeAt(0) === 47;
 }
@@ -1192,7 +1192,7 @@ function fromFileUrl1(url) {
     return decodeURIComponent(url.pathname.replace(/%(?![0-9A-Fa-f]{2})/g, "%25"));
 }
 function toFileUrl1(path) {
-    if (!isAbsolute2(path)) {
+    if (!isAbsolute1(path)) {
         throw new TypeError("Must be an absolute path.");
     }
     const url = new URL("file:///");
@@ -1201,11 +1201,11 @@ function toFileUrl1(path) {
 }
 const mod1 = function() {
     return {
-        sep: sep2,
+        sep: sep1,
         delimiter: delimiter1,
         resolve: resolve1,
         normalize: normalize1,
-        isAbsolute: isAbsolute2,
+        isAbsolute: isAbsolute1,
         join: join1,
         relative: relative1,
         toNamespacedPath: toNamespacedPath1,
@@ -1218,8 +1218,8 @@ const mod1 = function() {
         toFileUrl: toFileUrl1
     };
 }();
-const path1 = isWindows ? mod : mod1;
-const { basename: basename2 , delimiter: delimiter2 , dirname: dirname2 , extname: extname2 , format: format2 , fromFileUrl: fromFileUrl2 , isAbsolute: isAbsolute3 , join: join2 , normalize: normalize2 , parse: parse2 , relative: relative2 , resolve: resolve2 , sep: sep3 , toFileUrl: toFileUrl2 , toNamespacedPath: toNamespacedPath2 ,  } = path1;
+const path = isWindows ? mod : mod1;
+const { basename: basename2 , delimiter: delimiter2 , dirname: dirname2 , extname: extname2 , format: format2 , fromFileUrl: fromFileUrl2 , isAbsolute: isAbsolute2 , join: join2 , normalize: normalize2 , parse: parse2 , relative: relative2 , resolve: resolve2 , sep: sep2 , toFileUrl: toFileUrl2 , toNamespacedPath: toNamespacedPath2 ,  } = path;
 const DEFAULT_BUF_SIZE = 4096;
 const MIN_BUF_SIZE = 16;
 const CR = "\r".charCodeAt(0);
@@ -1465,13 +1465,13 @@ class BufWriter extends AbstractBufBase {
     static create(writer, size = 4096) {
         return writer instanceof BufWriter ? writer : new BufWriter(writer, size);
     }
-    constructor(writer, size = 4096){
+    constructor(writer, size1 = 4096){
         super();
         this.writer = writer;
-        if (size <= 0) {
-            size = DEFAULT_BUF_SIZE;
+        if (size1 <= 0) {
+            size1 = DEFAULT_BUF_SIZE;
         }
-        this.buf = new Uint8Array(size);
+        this.buf = new Uint8Array(size1);
     }
     reset(w) {
         this.err = null;
@@ -1521,13 +1521,13 @@ class BufWriterSync extends AbstractBufBase {
     static create(writer, size = 4096) {
         return writer instanceof BufWriterSync ? writer : new BufWriterSync(writer, size);
     }
-    constructor(writer, size = 4096){
+    constructor(writer1, size2 = 4096){
         super();
-        this.writer = writer;
-        if (size <= 0) {
-            size = DEFAULT_BUF_SIZE;
+        this.writer = writer1;
+        if (size2 <= 0) {
+            size2 = DEFAULT_BUF_SIZE;
         }
-        this.buf = new Uint8Array(size);
+        this.buf = new Uint8Array(size2);
     }
     reset(w) {
         this.err = null;
@@ -1797,14 +1797,14 @@ function skipLWSPChar(u) {
     return ret.slice(0, j);
 }
 class MultipartReader {
-    constructor(reader, boundary){
+    constructor(reader1, boundary){
         this.boundary = boundary;
         this.newLine = encoder.encode("\r\n");
         this.newLineDashBoundary = encoder.encode(`\r\n--${this.boundary}`);
         this.dashBoundaryDash = encoder.encode(`--${this.boundary}--`);
         this.dashBoundary = encoder.encode(`--${this.boundary}`);
         this.partsRead = 0;
-        this.bufReader = new BufReader(reader);
+        this.bufReader = new BufReader(reader1);
     }
     async readForm(maxMemory = 10 << 20) {
         const fileMap = new Map();
@@ -1831,10 +1831,10 @@ class MultipartReader {
                 continue;
             }
             let formFile;
-            const n1 = await copyN(p, buf, maxValueBytes);
+            const n = await copyN(p, buf, maxValueBytes);
             const contentType = p.headers.get("content-type");
             assert(contentType != null, "content-type must be set");
-            if (n1 > maxMemory) {
+            if (n > maxMemory) {
                 const ext = extname2(p.fileName);
                 const filepath = await Deno.makeTempFile({
                     dir: ".",
@@ -1864,8 +1864,8 @@ class MultipartReader {
                     content: buf.bytes(),
                     size: buf.length
                 };
-                maxMemory -= n1;
-                maxValueBytes -= n1;
+                maxMemory -= n;
+                maxValueBytes -= n;
             }
             if (formFile) {
                 const mapVal = fileMap.get(p.formName);
@@ -1977,19 +1977,19 @@ function multipartFormData(fileMap, valueMap) {
     };
 }
 class PartWriter {
-    constructor(writer, boundary, headers, isFirstBoundary){
-        this.writer = writer;
-        this.boundary = boundary;
-        this.headers = headers;
+    constructor(writer2, boundary1, headers1, isFirstBoundary){
+        this.writer = writer2;
+        this.boundary = boundary1;
+        this.headers = headers1;
         this.closed = false;
         this.headersWritten = false;
         let buf = "";
         if (isFirstBoundary) {
-            buf += `--${boundary}\r\n`;
+            buf += `--${boundary1}\r\n`;
         } else {
-            buf += `\r\n--${boundary}\r\n`;
+            buf += `\r\n--${boundary1}\r\n`;
         }
-        for (const [key, value] of headers.entries()){
+        for (const [key, value] of headers1.entries()){
             buf += `${key}: ${value}\r\n`;
         }
         buf += `\r\n`;
@@ -2026,15 +2026,15 @@ class MultipartWriter {
     get boundary() {
         return this._boundary;
     }
-    constructor(writer, boundary){
-        this.writer = writer;
+    constructor(writer3, boundary2){
+        this.writer = writer3;
         this.isClosed = false;
-        if (boundary !== void 0) {
-            this._boundary = checkBoundary(boundary);
+        if (boundary2 !== void 0) {
+            this._boundary = checkBoundary(boundary2);
         } else {
             this._boundary = randomBoundary();
         }
-        this.bufWriter = new BufWriter(writer);
+        this.bufWriter = new BufWriter(writer3);
     }
     formDataContentType() {
         return `multipart/form-data; boundary=${this.boundary}`;
@@ -2092,10 +2092,10 @@ Content-Type: text/plain\r
 \r
 CONTENT\r
 --------------------------366796e1c748a2fb--`;
-const boundary1 = "------------------------366796e1c748a2fb";
+const boundary3 = "------------------------366796e1c748a2fb";
 const stringReader = new StringReader(content);
 console.log(content);
-const multipartReader = new MultipartReader(stringReader, boundary1);
+const multipartReader = new MultipartReader(stringReader, boundary3);
 const formData = await multipartReader.readForm();
 for (const entry of formData.entries()){
     console.log("entry", entry);

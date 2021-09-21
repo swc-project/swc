@@ -44,6 +44,6 @@ function _fn() {
     }));
     return _fn.apply(this, arguments);
 }
-function fn1() {
+function fn() {
     return _fn.apply(this, arguments);
 }

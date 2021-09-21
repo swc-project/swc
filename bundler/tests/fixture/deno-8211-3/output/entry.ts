@@ -244,152 +244,152 @@ function timeObject(obj) {
     ]);
 }
 const ianaRegex = /[A-Za-z_+-]{1,256}(:?\/[A-Za-z_+-]{1,256}(\/[A-Za-z_+-]{1,256})?)?/;
-const n1 = "numeric", s = "short", l = "long";
+const n = "numeric", s = "short", l = "long";
 const DATE_SHORT = {
-    year: n1,
-    month: n1,
-    day: n1
+    year: n,
+    month: n,
+    day: n
 };
 const DATE_MED = {
-    year: n1,
+    year: n,
     month: s,
-    day: n1
+    day: n
 };
 const DATE_MED_WITH_WEEKDAY = {
-    year: n1,
+    year: n,
     month: s,
-    day: n1,
+    day: n,
     weekday: s
 };
 const DATE_FULL = {
-    year: n1,
+    year: n,
     month: l,
-    day: n1
+    day: n
 };
 const DATE_HUGE = {
-    year: n1,
+    year: n,
     month: l,
-    day: n1,
+    day: n,
     weekday: l
 };
 const TIME_SIMPLE = {
-    hour: n1,
-    minute: n1
+    hour: n,
+    minute: n
 };
 const TIME_WITH_SECONDS = {
-    hour: n1,
-    minute: n1,
-    second: n1
+    hour: n,
+    minute: n,
+    second: n
 };
 const TIME_WITH_SHORT_OFFSET = {
-    hour: n1,
-    minute: n1,
-    second: n1,
+    hour: n,
+    minute: n,
+    second: n,
     timeZoneName: s
 };
 const TIME_WITH_LONG_OFFSET = {
-    hour: n1,
-    minute: n1,
-    second: n1,
+    hour: n,
+    minute: n,
+    second: n,
     timeZoneName: l
 };
 const TIME_24_SIMPLE = {
-    hour: n1,
-    minute: n1,
+    hour: n,
+    minute: n,
     hour12: false
 };
 const TIME_24_WITH_SECONDS = {
-    hour: n1,
-    minute: n1,
-    second: n1,
+    hour: n,
+    minute: n,
+    second: n,
     hour12: false
 };
 const TIME_24_WITH_SHORT_OFFSET = {
-    hour: n1,
-    minute: n1,
-    second: n1,
+    hour: n,
+    minute: n,
+    second: n,
     hour12: false,
     timeZoneName: s
 };
 const TIME_24_WITH_LONG_OFFSET = {
-    hour: n1,
-    minute: n1,
-    second: n1,
+    hour: n,
+    minute: n,
+    second: n,
     hour12: false,
     timeZoneName: l
 };
 const DATETIME_SHORT = {
-    year: n1,
-    month: n1,
-    day: n1,
-    hour: n1,
-    minute: n1
+    year: n,
+    month: n,
+    day: n,
+    hour: n,
+    minute: n
 };
 const DATETIME_SHORT_WITH_SECONDS = {
-    year: n1,
-    month: n1,
-    day: n1,
-    hour: n1,
-    minute: n1,
-    second: n1
+    year: n,
+    month: n,
+    day: n,
+    hour: n,
+    minute: n,
+    second: n
 };
 const DATETIME_MED = {
-    year: n1,
+    year: n,
     month: s,
-    day: n1,
-    hour: n1,
-    minute: n1
+    day: n,
+    hour: n,
+    minute: n
 };
 const DATETIME_MED_WITH_SECONDS = {
-    year: n1,
+    year: n,
     month: s,
-    day: n1,
-    hour: n1,
-    minute: n1,
-    second: n1
+    day: n,
+    hour: n,
+    minute: n,
+    second: n
 };
 const DATETIME_MED_WITH_WEEKDAY = {
-    year: n1,
+    year: n,
     month: s,
-    day: n1,
+    day: n,
     weekday: s,
-    hour: n1,
-    minute: n1
+    hour: n,
+    minute: n
 };
 const DATETIME_FULL = {
-    year: n1,
+    year: n,
     month: l,
-    day: n1,
-    hour: n1,
-    minute: n1,
+    day: n,
+    hour: n,
+    minute: n,
     timeZoneName: s
 };
 const DATETIME_FULL_WITH_SECONDS = {
-    year: n1,
+    year: n,
     month: l,
-    day: n1,
-    hour: n1,
-    minute: n1,
-    second: n1,
+    day: n,
+    hour: n,
+    minute: n,
+    second: n,
     timeZoneName: s
 };
 const DATETIME_HUGE = {
-    year: n1,
+    year: n,
     month: l,
-    day: n1,
+    day: n,
     weekday: l,
-    hour: n1,
-    minute: n1,
+    hour: n,
+    minute: n,
     timeZoneName: l
 };
 const DATETIME_HUGE_WITH_SECONDS = {
-    year: n1,
+    year: n,
     month: l,
-    day: n1,
+    day: n,
     weekday: l,
-    hour: n1,
-    minute: n1,
-    second: n1,
+    hour: n,
+    minute: n,
+    second: n,
     timeZoneName: l
 };
 function stringify(obj) {
@@ -765,9 +765,9 @@ class Formatter {
     static macroTokenToFormatOpts(token) {
         return macroTokenToFormatOpts[token];
     }
-    constructor(locale1, formatOpts){
+    constructor(locale, formatOpts){
         this.opts = formatOpts;
-        this.loc = locale1;
+        this.loc = locale;
         this.systemLoc = null;
     }
     formatWithSystemDefault(dt, opts) {
@@ -1075,9 +1075,9 @@ class FixedOffsetZone extends Zone {
         }
         return null;
     }
-    constructor(offset1){
+    constructor(offset){
         super();
-        this.fixed = offset1;
+        this.fixed = offset;
     }
     get type() {
         return "fixed";
@@ -1188,10 +1188,10 @@ class IANAZone extends Zone {
         }
         return null;
     }
-    constructor(name1){
+    constructor(name){
         super();
-        this.zoneName = name1;
-        this.valid = IANAZone.isValidZone(name1);
+        this.zoneName = name;
+        this.valid = IANAZone.isValidZone(name);
     }
     get type() {
         return "iana";
@@ -1841,7 +1841,7 @@ const INVALID1 = "Invalid Duration";
 let intlDTCache = {
 };
 let now = ()=>Date.now()
-, defaultZone1 = null, defaultLocale = null, defaultNumberingSystem = null, defaultOutputCalendar = null, throwOnInvalid = false;
+, defaultZone = null, defaultLocale = null, defaultNumberingSystem = null, defaultOutputCalendar = null, throwOnInvalid = false;
 const INVALID2 = "Invalid Interval";
 class Info {
     static hasDST(zone = Settings.defaultZone) {
@@ -2568,10 +2568,10 @@ function diffRelative(start, end, opts) {
     if (opts.unit) {
         return format(differ(opts.unit), opts.unit);
     }
-    for (const unit1 of opts.units){
-        const count = differ(unit1);
+    for (const unit of opts.units){
+        const count = differ(unit);
         if (Math.abs(count) >= 1) {
-            return format(count, unit1);
+            return format(count, unit);
         }
     }
     return format(0, opts.units[opts.units.length - 1]);
@@ -2589,31 +2589,31 @@ function friendlyDuration(durationish) {
 }
 class DateTime {
     constructor(config1){
-        const zone1 = config1.zone || Settings.defaultZone;
-        let invalid1 = config1.invalid || (Number.isNaN(config1.ts) ? new Invalid("invalid input") : null) || (!zone1.isValid ? unsupportedZone(zone1) : null);
+        const zone = config1.zone || Settings.defaultZone;
+        let invalid = config1.invalid || (Number.isNaN(config1.ts) ? new Invalid("invalid input") : null) || (!zone.isValid ? unsupportedZone(zone) : null);
         this.ts = isUndefined(config1.ts) ? Settings.now() : config1.ts;
-        let c1 = null, o1 = null;
-        if (!invalid1) {
-            const unchanged = config1.old && config1.old.ts === this.ts && config1.old.zone.equals(zone1);
+        let c = null, o = null;
+        if (!invalid) {
+            const unchanged = config1.old && config1.old.ts === this.ts && config1.old.zone.equals(zone);
             if (unchanged) {
-                [c1, o1] = [
+                [c, o] = [
                     config1.old.c,
                     config1.old.o
                 ];
             } else {
-                const ot = zone1.offset(this.ts);
-                c1 = tsToObj(this.ts, ot);
-                invalid1 = Number.isNaN(c1.year) ? new Invalid("invalid input") : null;
-                c1 = invalid1 ? null : c1;
-                o1 = invalid1 ? null : ot;
+                const ot = zone.offset(this.ts);
+                c = tsToObj(this.ts, ot);
+                invalid = Number.isNaN(c.year) ? new Invalid("invalid input") : null;
+                c = invalid ? null : c;
+                o = invalid ? null : ot;
             }
         }
-        this._zone = zone1;
+        this._zone = zone;
         this.loc = config1.loc || Locale.create();
-        this.invalid = invalid1;
+        this.invalid = invalid;
         this.weekData = null;
-        this.c = c1;
-        this.o = o1;
+        this.c = c;
+        this.o = o;
         this.isLuxonDateTime = true;
     }
     static local(year, month, day, hour, minute, second, millisecond) {
@@ -3452,15 +3452,15 @@ function supportsFastNumbers(loc) {
     }
 }
 class PolyNumberFormatter {
-    constructor(intl1, forceSimple, opts1){
-        this.padTo = opts1.padTo || 0;
-        this.floor = opts1.floor || false;
+    constructor(intl, forceSimple, opts){
+        this.padTo = opts.padTo || 0;
+        this.floor = opts.floor || false;
         if (!forceSimple && hasIntl()) {
             const intlOpts = {
                 useGrouping: false
             };
-            if (opts1.padTo > 0) intlOpts.minimumIntegerDigits = opts1.padTo;
-            this.inf = getCachedINF(intl1, intlOpts);
+            if (opts.padTo > 0) intlOpts.minimumIntegerDigits = opts.padTo;
+            this.inf = getCachedINF(intl, intlOpts);
         }
     }
     format(i) {
@@ -3474,22 +3474,22 @@ class PolyNumberFormatter {
     }
 }
 class PolyDateFormatter {
-    constructor(dt1, intl2, opts2){
-        this.opts = opts2;
+    constructor(dt, intl1, opts1){
+        this.opts = opts1;
         this.hasIntl = hasIntl();
         let z;
-        if (dt1.zone.universal && this.hasIntl) {
+        if (dt.zone.universal && this.hasIntl) {
             z = "UTC";
-            if (opts2.timeZoneName) {
-                this.dt = dt1;
+            if (opts1.timeZoneName) {
+                this.dt = dt;
             } else {
-                this.dt = dt1.offset === 0 ? dt1 : DateTime.fromMillis(dt1.ts + dt1.offset * 60 * 1000);
+                this.dt = dt.offset === 0 ? dt : DateTime.fromMillis(dt.ts + dt.offset * 60 * 1000);
             }
-        } else if (dt1.zone.type === "local") {
-            this.dt = dt1;
+        } else if (dt.zone.type === "local") {
+            this.dt = dt;
         } else {
-            this.dt = dt1;
-            z = dt1.zone.name;
+            this.dt = dt;
+            z = dt.zone.name;
         }
         if (this.hasIntl) {
             const intlOpts = Object.assign({
@@ -3497,7 +3497,7 @@ class PolyDateFormatter {
             if (z) {
                 intlOpts.timeZone = z;
             }
-            this.dtf = getCachedDTF(intl2, intlOpts);
+            this.dtf = getCachedDTF(intl1, intlOpts);
         }
     }
     format() {
@@ -3528,12 +3528,12 @@ class PolyDateFormatter {
     }
 }
 class PolyRelFormatter {
-    constructor(intl3, isEnglish, opts3){
+    constructor(intl2, isEnglish, opts2){
         this.opts = Object.assign({
             style: "long"
-        }, opts3);
+        }, opts2);
         if (!isEnglish && hasRelative()) {
-            this.rtf = getCachedRTF(intl3, opts3);
+            this.rtf = getCachedRTF(intl2, opts2);
         }
     }
     format(count, unit) {
@@ -3572,11 +3572,11 @@ class Locale {
     }) {
         return Locale.create(locale, numberingSystem, outputCalendar);
     }
-    constructor(locale2, numbering, outputCalendar1, specifiedLocale1){
-        const [parsedLocale, parsedNumberingSystem, parsedOutputCalendar] = parseLocaleString(locale2);
+    constructor(locale1, numbering, outputCalendar, specifiedLocale){
+        const [parsedLocale, parsedNumberingSystem, parsedOutputCalendar] = parseLocaleString(locale1);
         this.locale = parsedLocale;
         this.numberingSystem = numbering || parsedNumberingSystem || null;
-        this.outputCalendar = outputCalendar1 || parsedOutputCalendar || null;
+        this.outputCalendar = outputCalendar || parsedOutputCalendar || null;
         this.intl = intlConfigString(this.locale, this.numberingSystem, this.outputCalendar);
         this.weekdaysCache = {
             format: {
@@ -3593,7 +3593,7 @@ class Locale {
         this.meridiemCache = null;
         this.eraCache = {
         };
-        this.specifiedLocale = specifiedLocale1;
+        this.specifiedLocale = specifiedLocale;
         this.fastNumbersCached = null;
     }
     get fastNumbers() {
@@ -3733,13 +3733,13 @@ class Settings {
     }
     static set defaultZoneName(z) {
         if (!z) {
-            defaultZone1 = null;
+            defaultZone = null;
         } else {
-            defaultZone1 = normalizeZone(z);
+            defaultZone = normalizeZone(z);
         }
     }
     static get defaultZone() {
-        return defaultZone1 || LocalZone.instance;
+        return defaultZone || LocalZone.instance;
     }
     static get defaultLocale() {
         return defaultLocale;
@@ -4017,13 +4017,13 @@ class Interval {
             ]
         ), flattened = Array.prototype.concat(...ends), arr = flattened.sort((a, b)=>a.time - b.time
         );
-        for (const i1 of arr){
-            currentCount += i1.type === "s" ? 1 : -1;
+        for (const i of arr){
+            currentCount += i.type === "s" ? 1 : -1;
             if (currentCount === 1) {
-                start = i1.time;
+                start = i.time;
             } else {
-                if (start && +start !== +i1.time) {
-                    results.push(Interval.fromDateTimes(start, i1.time));
+                if (start && +start !== +i.time) {
+                    results.push(Interval.fromDateTimes(start, i.time));
                 }
                 start = null;
             }
@@ -4172,7 +4172,7 @@ function oneOf(strings, startIndex) {
         };
     }
 }
-function offset2(regex, groups) {
+function offset1(regex, groups) {
     return {
         regex,
         deser: ([, h, m])=>signedOffset(h, m)
@@ -4288,9 +4288,9 @@ function unitForToken(token, loc) {
                 return oneOf(loc.weekdays("long", true, false), 1);
             case "Z":
             case "ZZ":
-                return offset2(new RegExp(`([+-]${oneOrTwo.source})(?::(${two.source}))?`), 2);
+                return offset1(new RegExp(`([+-]${oneOrTwo.source})(?::(${two.source}))?`), 2);
             case "ZZZ":
-                return offset2(new RegExp(`([+-]${oneOrTwo.source})(${two.source})?`), 2);
+                return offset1(new RegExp(`([+-]${oneOrTwo.source})(${two.source})?`), 2);
             case "z":
                 return simple(/[a-z_+-/]{1,256}?/i);
             default:
@@ -4367,7 +4367,7 @@ function buildRegex(units) {
         units
     ];
 }
-function match1(input, regex, handlers) {
+function match(input, regex, handlers) {
     const matches = input.match(regex);
     if (matches) {
         const all = {
@@ -4504,7 +4504,7 @@ function explainFromTokens(locale, input, format) {
             invalidReason: disqualifyingUnit.invalidReason
         };
     } else {
-        const [regexString, handlers] = buildRegex(units), regex = RegExp(regexString, "i"), [rawMatches, matches] = match1(input, regex, handlers), [result, zone] = matches ? dateTimeFromMatches(matches) : [
+        const [regexString, handlers] = buildRegex(units), regex = RegExp(regexString, "i"), [rawMatches, matches] = match(input, regex, handlers), [result, zone] = matches ? dateTimeFromMatches(matches) : [
             null,
             null
         ];
@@ -4544,6 +4544,6 @@ const mod = function() {
         Settings: Settings
     };
 }();
-const date1 = new Date();
-const dt2 = mod.DateTime.fromJSDate(date1);
-console.log(dt2.toISO());
+const date = new Date();
+const dt1 = mod.DateTime.fromJSDate(date);
+console.log(dt1.toISO());
