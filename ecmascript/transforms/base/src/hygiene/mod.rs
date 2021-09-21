@@ -744,15 +744,24 @@ impl<'a> VisitMut for Hygiene<'a> {
     }
 
     fn visit_mut_constructor(&mut self, c: &mut Constructor) {
-        let old = self.ident_type;
-        self.ident_type = IdentType::Binding;
-        c.params.visit_mut_with(self);
-        self.ident_type = old;
+        let mut folder = Hygiene {
+            config: self.config.clone(),
+            current: Scope::new(ScopeKind::Fn, None),
+            ident_type: IdentType::Ref,
+            var_kind: None,
+        };
 
-        c.body.as_mut().map(|bs| bs.visit_mut_children_with(self));
-        c.key.visit_mut_with(self);
+        let old = folder.ident_type;
+        folder.ident_type = IdentType::Binding;
+        c.params.visit_mut_with(&mut folder);
+        folder.ident_type = old;
 
-        self.apply_ops(c)
+        c.body
+            .as_mut()
+            .map(|bs| bs.visit_mut_children_with(&mut folder));
+        c.key.visit_mut_with(&mut folder);
+
+        folder.apply_ops(c)
     }
 
     fn visit_mut_decl(&mut self, decl: &mut Decl) {
