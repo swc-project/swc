@@ -239,6 +239,7 @@ where
             if name.len() == 3 {
                 if name.to_ascii_lowercase() == js_word!("url") {
                     self.skip_ws()?;
+
                     match self.input.peek() {
                         // TODO: Add `\f` of golang.
                         Some('"' | '\'' | ' ' | '\t' | '\n' | '\r') => {}
