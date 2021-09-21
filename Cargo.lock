@@ -2287,7 +2287,7 @@ checksum = "6446ced80d6c486436db5c078dde11a9f73d42b57fb273121e160b84f63d894c"
 
 [[package]]
 name = "swc"
-version = "0.54.0"
+version = "0.55.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2507,7 +2507,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.6.1"
+version = "0.6.2"
 dependencies = [
  "bitflags",
  "lexical",
@@ -2557,7 +2557,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.70.3"
+version = "0.70.5"
 dependencies = [
  "bitflags",
  "num-bigint",
@@ -2629,7 +2629,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.27.3"
+version = "0.27.4"
 dependencies = [
  "ansi_term 0.12.1",
  "anyhow",
@@ -2922,7 +2922,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.40.3"
+version = "0.40.4"
 dependencies = [
  "fxhash",
  "serde",
@@ -3401,7 +3401,7 @@ checksum = "fd6fbd9a79829dd1ad0cc20627bf1ed606756a7f77edff7b66b7064f9cb327c6"
 
 [[package]]
 name = "wasm"
-version = "1.2.88"
+version = "1.2.89"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",

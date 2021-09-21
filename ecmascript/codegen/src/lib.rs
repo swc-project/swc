@@ -434,12 +434,12 @@ impl<'a> Emitter<'a> {
         };
 
         if single_quote {
-            punct!("'");
-            self.wr.write_str_lit(node.span, &value)?;
+            punct!(node.span, "'");
+            self.wr.write_str_lit(DUMMY_SP, &value)?;
             punct!("'");
         } else {
-            punct!("\"");
-            self.wr.write_str_lit(node.span, &value)?;
+            punct!(node.span, "\"");
+            self.wr.write_str_lit(DUMMY_SP, &value)?;
             punct!("\"");
         }
     }
@@ -1109,13 +1109,13 @@ impl<'a> Emitter<'a> {
 
         self.emit_accesibility(n.accessibility)?;
 
-        if n.readonly {
-            keyword!("readonly");
+        if n.is_static {
+            keyword!("static");
             space!();
         }
 
-        if n.is_static {
-            keyword!("static");
+        if n.readonly {
+            keyword!("readonly");
             space!();
         }
 
@@ -1151,14 +1151,14 @@ impl<'a> Emitter<'a> {
             self.emit_accesibility(n.accessibility)?;
         }
 
-        if n.readonly {
-            keyword!("readonly");
-            space!()
-        }
-
         if n.is_static {
             keyword!("static");
             space!();
+        }
+
+        if n.readonly {
+            keyword!("readonly");
+            space!()
         }
 
         if n.computed {
