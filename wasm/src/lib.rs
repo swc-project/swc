@@ -100,7 +100,14 @@ pub fn transform_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
     try_with_handler(c.cm.clone(), |handler| {
         let opts: Options = opts.into_serde().context("failed to parse options")?;
 
-        let fm = c.cm.new_source_file(FileName::Anon, s.into());
+        let fm = c.cm.new_source_file(
+            if opts.filename == "" {
+                FileName::Anon
+            } else {
+                FileName::Real(opts.filename.clone().into())
+            },
+            s.into(),
+        );
         let out = c
             .process_js_file(fm, &handler, &opts)
             .context("failed to process js file")?;

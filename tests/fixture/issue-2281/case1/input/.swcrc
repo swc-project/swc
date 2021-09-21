@@ -1,0 +1,16 @@
+{
+    "minify": false,
+    "module": {
+        "type": "commonjs",
+        "strict": false,
+        "strictMode": false,
+        "lazy": false,
+        "noInterop": true
+    },
+    "jsc": {
+        "target": "es2015",
+        "parser": {
+            "syntax": "typescript"
+        }
+    }
+}
