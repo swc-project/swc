@@ -78,9 +78,9 @@ swc_visit = {version = "0.2.3", path = "./visit"}
 
 [dev-dependencies]
 rayon = "1"
+swc_node_base = {version = "0.3.0", path = "./node/base"}
 testing = {version = "0.13.0", path = "./testing"}
 walkdir = "2"
-swc_node_base = {version = "0.3.0", path = "./node/base"}
 
 [[example]]
 name = "usage"
