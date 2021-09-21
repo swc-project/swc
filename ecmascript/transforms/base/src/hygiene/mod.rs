@@ -282,14 +282,22 @@ impl<'a> Hygiene<'a> {
     {
         let ops = self.current.ops.borrow();
 
-        if ops.rename.is_empty() {
-            return;
-        }
+        let ids_to_remove = self.current.declared_symbols.borrow();
 
         {
             let mut cur = Some(&self.current);
             while let Some(c) = cur {
                 let mut used = c.used.borrow_mut();
+
+                for (sym, ctxts) in ids_to_remove.iter() {
+                    let e = used.entry(sym.clone()).or_default();
+
+                    for ctxt in ctxts.iter().copied() {
+                        if let Some(pos) = e.iter().position(|&c| c == ctxt) {
+                            e.remove(pos);
+                        }
+                    }
+                }
 
                 for ((sym, ctxt), _) in &ops.rename {
                     let e = used.entry(sym.to_boxed_str()).or_default();
@@ -301,6 +309,10 @@ impl<'a> Hygiene<'a> {
 
                 cur = c.parent;
             }
+        }
+
+        if ops.rename.is_empty() {
+            return;
         }
 
         node.visit_mut_with(&mut Operator(&ops))
@@ -695,7 +707,7 @@ impl<'a> VisitMut for Hygiene<'a> {
 
         c.body.visit_mut_with(&mut folder);
 
-        folder.apply_ops(c)
+        folder.apply_ops(c);
     }
 
     fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
