@@ -1,4 +1,4 @@
-name: wasm
+name: Wasm
 
 on: [push, pull_request]
 #on:
@@ -28,6 +28,9 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
+
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
       - name: Build
         run: |
