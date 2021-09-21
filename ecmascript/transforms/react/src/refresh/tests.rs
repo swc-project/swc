@@ -81,27 +81,27 @@ test!(
 
       return <h1 onClick={handleClick}>Hi</h1>;
     }
-    _c = Hello;
+    _c1 = Hello;
     export default function Bar() {
       return <Hello />;
     }
-    _c1 = Bar;
+    _c2 = Bar;
 
     function Baz() {
       return <h1>OK</h1>;
     }
 
-    _c2 = Baz;
+    _c3 = Baz;
     const NotAComp = 'hi';
     export { Baz, NotAComp };
     export function sum() {}
     export const Bad = 42;
 
-    var _c, _c1, _c2;
+    var _c1, _c2, _c3;
 
-    $RefreshReg$(_c, "Hello");
-    $RefreshReg$(_c1, "Bar");
-    $RefreshReg$(_c2, "Baz");
+    $RefreshReg$(_c1, "Hello");
+    $RefreshReg$(_c2, "Bar");
+    $RefreshReg$(_c3, "Baz");
 "#
 );
 
@@ -130,19 +130,19 @@ test!(
 
       return <h1 onClick={handleClick}>Hi</h1>;
     };
-    _c = Hello;
+    _c1 = Hello;
     export let Bar = props => <Hello />;
-    _c1 = Bar;
+    _c2 = Bar;
     export default (() => {
       // This one should be ignored.
       // You should name your components.
       return <Hello />;
     });
 
-    var _c, _c1;
+    var _c1, _c2;
 
-    $RefreshReg$(_c, "Hello");
-    $RefreshReg$(_c1, "Bar");
+    $RefreshReg$(_c1, "Hello");
+    $RefreshReg$(_c2, "Bar");
 "#
 );
 
