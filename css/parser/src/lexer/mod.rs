@@ -244,9 +244,7 @@ where
                     self.skip_ws()?;
 
                     match self.input.cur() {
-                        Some('"' | '\'') => {
-                            self.input.reset_to(pos)
-                        }
+                        Some('"' | '\'') => self.input.reset_to(pos),
                         _ => {
                             return self.read_url();
                         }
