@@ -14,7 +14,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{chain, comments::Comments, FromVariant, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{
-    compat::{bugfixes, es2015, es2016, es2017, es2018, es2020, es2021, es3},
+    compat::{bugfixes, es2015, es2016, es2017, es2018, es2019, es2020, es2021, es3},
     pass::{noop, Optional},
 };
 use swc_ecma_utils::prepend_stmts;
@@ -98,9 +98,11 @@ where
     let pass = add!(pass, OptionalChaining, es2020::optional_chaining());
     let pass = add!(pass, ClassProperties, es2020::class_properties());
 
+    // ES2019
+    let pass = add!(pass, OptionalCatchBinding, es2019::optional_catch_binding());
+
     // ES2018
     let pass = add!(pass, ObjectRestSpread, es2018::object_rest_spread());
-    let pass = add!(pass, OptionalCatchBinding, es2018::optional_catch_binding());
 
     // ES2017
     let pass = add!(pass, AsyncToGenerator, es2017::async_to_generator());

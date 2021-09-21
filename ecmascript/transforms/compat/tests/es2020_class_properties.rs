@@ -3435,7 +3435,7 @@ export default class MyClass3 {
     r#"
 class MyClass {
     constructor(){
-        _myAsyncMethod1.set(this, {
+        _myAsyncMethod.set(this, {
             writable: true,
             value: _asyncToGenerator((function*() {
                 console.log(this);
@@ -3443,7 +3443,7 @@ class MyClass {
         });
     }
 }
-var _myAsyncMethod1 = new WeakMap();
+var _myAsyncMethod = new WeakMap();
 (function() {
     class MyClass2 {
         constructor(){
@@ -3460,7 +3460,7 @@ var _myAsyncMethod1 = new WeakMap();
 })();
 class MyClass3 {
     constructor(){
-        _myAsyncMethod2.set(this, {
+        _myAsyncMethod1.set(this, {
             writable: true,
             value: _asyncToGenerator((function*() {
                 console.log(this);
@@ -3468,7 +3468,7 @@ class MyClass3 {
         });
     }
 }
-var _myAsyncMethod2 = new WeakMap();
+var _myAsyncMethod1 = new WeakMap();
 export { MyClass3 as default };
   
 
@@ -3978,8 +3978,8 @@ new SuperClass(); // ensure ComputedKey Method is still transformed
 
 class ComputedMethod extends Obj {
   constructor() {
-    var _temp1;
-    var tmp = (_temp1 = super(), _defineProperty(this, "field", 1), _temp1);
+    var _temp;
+    var tmp = (_temp = super(), _defineProperty(this, "field", 1), _temp);
     class B extends Obj {
       [tmp]() {}
 
@@ -4001,9 +4001,9 @@ new ComputedMethod(); // ensure ComputedKey Field is still transformed
 
 class ComputedField extends Obj {
   constructor() {
-    var _temp2;
+    var _temp;
 
-    var _ref = (_temp2 = super(), _defineProperty(this, "field", 1), _temp2);
+    var _ref = (_temp = super(), _defineProperty(this, "field", 1), _temp);
 
     class B extends Obj {
       constructor() {

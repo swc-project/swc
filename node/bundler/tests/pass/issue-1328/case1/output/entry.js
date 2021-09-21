@@ -620,10 +620,10 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
         else Function("r", "regeneratorRuntime = r")(runtime);
     }
 });
-var { default: regeneratorRuntime  } = load();
+var { default: regeneratorRuntime1  } = load();
 function _foo() {
-    _foo = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+    _foo = _asyncToGenerator(regeneratorRuntime1.mark(function _callee() {
+        return regeneratorRuntime1.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
                 case "end":

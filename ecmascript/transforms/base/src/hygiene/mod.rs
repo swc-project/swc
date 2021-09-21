@@ -63,28 +63,46 @@ impl<'a> Hygiene<'a> {
         }
 
         {
-            self.current
-                .declared_symbols
-                .borrow_mut()
-                .entry(sym.to_boxed_str())
-                .or_default()
-                .push(ctxt);
-        }
-
-        {
-            let mut used = self.current.used.borrow_mut();
-            let e = used.entry(sym.to_boxed_str()).or_default();
-
+            let mut b = self.current.declared_symbols.borrow_mut();
+            let e = b.entry(sym.to_boxed_str()).or_default();
             if !e.contains(&ctxt) {
                 e.push(ctxt);
             }
+        }
 
-            if e.len() <= 1 {
-                return;
+        {
+            let mut need_work = false;
+            let mut is_cur = true;
+            let mut cur = Some(&self.current);
+
+            while let Some(c) = cur {
+                let mut used = c.used.borrow_mut();
+                let e = used.entry(sym.to_boxed_str()).or_default();
+
+                if !e.contains(&ctxt) {
+                    e.push(ctxt);
+                }
+
+                if e.len() <= 1 {
+                } else {
+                    if is_cur {
+                        need_work = true;
+                    }
+                }
+
+                // Preserve first one.
+                if e.len() == 1 && e[0] == ctxt {
+                } else {
+                    if is_cur {
+                        need_work = true;
+                    }
+                }
+
+                is_cur = false;
+                cur = c.parent;
             }
 
-            // Preserve first one.
-            if e[0] == ctxt {
+            if !need_work {
                 return;
             }
         }
@@ -108,14 +126,37 @@ impl<'a> Hygiene<'a> {
         let ctxt = ident.span.ctxt();
 
         {
-            let mut used = self.current.used.borrow_mut();
-            let e = used.entry(ident.sym.to_boxed_str()).or_default();
+            let mut need_work = false;
+            let mut is_cur = true;
+            let mut cur = Some(&self.current);
 
-            if !e.contains(&ctxt) {
-                e.push(ctxt);
+            while let Some(c) = cur {
+                let mut used = c.used.borrow_mut();
+                let e = used.entry(ident.sym.to_boxed_str()).or_default();
+
+                if !e.contains(&ctxt) {
+                    e.push(ctxt);
+                }
+
+                if e.len() <= 1 {
+                } else {
+                    if is_cur {
+                        need_work = true;
+                    }
+                }
+
+                if e.len() == 1 && e[0] == ctxt {
+                } else {
+                    if is_cur {
+                        need_work = true;
+                    }
+                }
+
+                is_cur = false;
+                cur = c.parent;
             }
 
-            if e.len() <= 1 {
+            if !need_work {
                 return;
             }
         }
@@ -241,9 +282,39 @@ impl<'a> Hygiene<'a> {
     {
         let ops = self.current.ops.borrow();
 
+        let ids_to_remove = self.current.declared_symbols.borrow();
+
+        {
+            let mut cur = Some(&self.current);
+            while let Some(c) = cur {
+                let mut used = c.used.borrow_mut();
+
+                for (sym, ctxts) in ids_to_remove.iter() {
+                    let e = used.entry(sym.clone()).or_default();
+
+                    for ctxt in ctxts.iter().copied() {
+                        if let Some(pos) = e.iter().position(|&c| c == ctxt) {
+                            e.remove(pos);
+                        }
+                    }
+                }
+
+                for ((sym, ctxt), _) in &ops.rename {
+                    let e = used.entry(sym.to_boxed_str()).or_default();
+
+                    if let Some(pos) = e.iter().position(|c| *c == *ctxt) {
+                        e.remove(pos);
+                    }
+                }
+
+                cur = c.parent;
+            }
+        }
+
         if ops.rename.is_empty() {
             return;
         }
+
         node.visit_mut_with(&mut Operator(&ops))
     }
 
@@ -636,7 +707,7 @@ impl<'a> VisitMut for Hygiene<'a> {
 
         c.body.visit_mut_with(&mut folder);
 
-        folder.apply_ops(c)
+        folder.apply_ops(c);
     }
 
     fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
@@ -685,15 +756,24 @@ impl<'a> VisitMut for Hygiene<'a> {
     }
 
     fn visit_mut_constructor(&mut self, c: &mut Constructor) {
-        let old = self.ident_type;
-        self.ident_type = IdentType::Binding;
-        c.params.visit_mut_with(self);
-        self.ident_type = old;
+        let mut folder = Hygiene {
+            config: self.config.clone(),
+            current: Scope::new(ScopeKind::Fn, None),
+            ident_type: IdentType::Ref,
+            var_kind: None,
+        };
 
-        c.body.as_mut().map(|bs| bs.visit_mut_children_with(self));
-        c.key.visit_mut_with(self);
+        let old = folder.ident_type;
+        folder.ident_type = IdentType::Binding;
+        c.params.visit_mut_with(&mut folder);
+        folder.ident_type = old;
 
-        self.apply_ops(c)
+        c.body
+            .as_mut()
+            .map(|bs| bs.visit_mut_children_with(&mut folder));
+        c.key.visit_mut_with(&mut folder);
+
+        folder.apply_ops(c)
     }
 
     fn visit_mut_decl(&mut self, decl: &mut Decl) {

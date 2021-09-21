@@ -25,20 +25,20 @@ function _taggedTemplateLiteral(strings, raw) {
         }
     }));
 }
-function _templateObject() {
-    var data = _taggedTemplateLiteral([
-        "tagged template"
-    ]);
-    _templateObject = function _templateObject() {
-        return data;
-    };
-    return data;
-}
 function _templateObject1() {
     var data = _taggedTemplateLiteral([
         "tagged template"
     ]);
     _templateObject1 = function _templateObject1() {
+        return data;
+    };
+    return data;
+}
+function _templateObject() {
+    var data = _taggedTemplateLiteral([
+        "tagged template"
+    ]);
+    _templateObject = function _templateObject() {
         return data;
     };
     return data;
@@ -52,9 +52,9 @@ var Foo = function Foo() {
         writable: true,
         value: _classPrivateMethodGet(this, _tag, tag)
     });
-    var receiver = _classPrivateMethodGet(this, _tag, tag).bind(this)(_templateObject());
+    var receiver = _classPrivateMethodGet(this, _tag, tag).bind(this)(_templateObject1());
     console.log(receiver === this);
-    var receiver2 = _classPrivateFieldGet(this, _tag2).bind(this)(_templateObject1());
+    var receiver2 = _classPrivateFieldGet(this, _tag2).bind(this)(_templateObject());
     console.log(receiver2 === this);
 };
 var _tag2 = new WeakMap();
