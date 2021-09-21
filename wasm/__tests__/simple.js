@@ -10,6 +10,7 @@ it("should support 'paths' and 'baseUrl'", async () => {
   import foo from '@src/app';
   console.log(foo)
   `, {
+    filename: 'main.js',
     jsc: {
       parser: {
         syntax: 'typescript',
