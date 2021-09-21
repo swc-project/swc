@@ -6,8 +6,8 @@ error: Stylesheet
 3  | |     background-image: url("./image (1).jpg");
 4  | |     background-image: url('./image (1).jpg');
 ...  |
-19 | |     background-image: url(./image.png);
-20 | | }
+20 | |     background-image: url(   ./image.png   );
+21 | | }
    | |_^
 
 error: Rule
@@ -18,8 +18,8 @@ error: Rule
 3  | |     background-image: url("./image (1).jpg");
 4  | |     background-image: url('./image (1).jpg');
 ...  |
-19 | |     background-image: url(./image.png);
-20 | | }
+20 | |     background-image: url(   ./image.png   );
+21 | | }
    | |_^
 
 error: StyleRule
@@ -30,8 +30,8 @@ error: StyleRule
 3  | |     background-image: url("./image (1).jpg");
 4  | |     background-image: url('./image (1).jpg');
 ...  |
-19 | |     background-image: url(./image.png);
-20 | | }
+20 | |     background-image: url(   ./image.png   );
+21 | | }
    | |_^
 
 error: ComplexSelector
@@ -67,8 +67,8 @@ error: DeclBlock
 3  | |     background-image: url("./image (1).jpg");
 4  | |     background-image: url('./image (1).jpg');
 ...  |
-19 | |     background-image: url(./image.png);
-20 | | }
+20 | |     background-image: url(   ./image.png   );
+21 | | }
    | |_^
 
 error: Property
@@ -264,226 +264,6 @@ error: Str
   |                              ^^^^^^^^^^^^^^^^^
 
 error: Property
- --> $DIR/tests/fixture/function/url/input.css:7:5
-  |
-7 |     background-image: url('./image (1).jpg'   );
-  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Text
- --> $DIR/tests/fixture/function/url/input.css:7:5
-  |
-7 |     background-image: url('./image (1).jpg'   );
-  |     ^^^^^^^^^^^^^^^^
-
-error: Value
- --> $DIR/tests/fixture/function/url/input.css:7:23
-  |
-7 |     background-image: url('./image (1).jpg'   );
-  |                       ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: FnValue
- --> $DIR/tests/fixture/function/url/input.css:7:23
-  |
-7 |     background-image: url('./image (1).jpg'   );
-  |                       ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Text
- --> $DIR/tests/fixture/function/url/input.css:7:23
-  |
-7 |     background-image: url('./image (1).jpg'   );
-  |                       ^^^
-
-error: Value
- --> $DIR/tests/fixture/function/url/input.css:7:27
-  |
-7 |     background-image: url('./image (1).jpg'   );
-  |                           ^^^^^^^^^^^^^^^^^^^^
-
-error: SpaceValues
- --> $DIR/tests/fixture/function/url/input.css:7:27
-  |
-7 |     background-image: url('./image (1).jpg'   );
-  |                           ^^^^^^^^^^^^^^^^^^^^
-
-error: Value
- --> $DIR/tests/fixture/function/url/input.css:7:27
-  |
-7 |     background-image: url('./image (1).jpg'   );
-  |                           ^^^^^^^^^^^^^^^^^
-
-error: Str
- --> $DIR/tests/fixture/function/url/input.css:7:27
-  |
-7 |     background-image: url('./image (1).jpg'   );
-  |                           ^^^^^^^^^^^^^^^^^
-
-error: Property
- --> $DIR/tests/fixture/function/url/input.css:8:5
-  |
-8 |     background-image: url(   './image (1).jpg'   );
-  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Text
- --> $DIR/tests/fixture/function/url/input.css:8:5
-  |
-8 |     background-image: url(   './image (1).jpg'   );
-  |     ^^^^^^^^^^^^^^^^
-
-error: Value
- --> $DIR/tests/fixture/function/url/input.css:8:23
-  |
-8 |     background-image: url(   './image (1).jpg'   );
-  |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: FnValue
- --> $DIR/tests/fixture/function/url/input.css:8:23
-  |
-8 |     background-image: url(   './image (1).jpg'   );
-  |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Text
- --> $DIR/tests/fixture/function/url/input.css:8:23
-  |
-8 |     background-image: url(   './image (1).jpg'   );
-  |                       ^^^
-
-error: Value
- --> $DIR/tests/fixture/function/url/input.css:8:30
-  |
-8 |     background-image: url(   './image (1).jpg'   );
-  |                              ^^^^^^^^^^^^^^^^^^^^
-
-error: SpaceValues
- --> $DIR/tests/fixture/function/url/input.css:8:30
-  |
-8 |     background-image: url(   './image (1).jpg'   );
-  |                              ^^^^^^^^^^^^^^^^^^^^
-
-error: Value
- --> $DIR/tests/fixture/function/url/input.css:8:30
-  |
-8 |     background-image: url(   './image (1).jpg'   );
-  |                              ^^^^^^^^^^^^^^^^^
-
-error: Str
- --> $DIR/tests/fixture/function/url/input.css:8:30
-  |
-8 |     background-image: url(   './image (1).jpg'   );
-  |                              ^^^^^^^^^^^^^^^^^
-
-error: Property
-  --> $DIR/tests/fixture/function/url/input.css:9:5
-   |
-9  | /     background-image: url(   
-10 | |     './image (1).jpg'   
-11 | |     );
-   | |_____^
-
-error: Text
- --> $DIR/tests/fixture/function/url/input.css:9:5
-  |
-9 |     background-image: url(   
-  |     ^^^^^^^^^^^^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/function/url/input.css:9:23
-   |
-9  |       background-image: url(   
-   |  _______________________^
-10 | |     './image (1).jpg'   
-11 | |     );
-   | |_____^
-
-error: FnValue
-  --> $DIR/tests/fixture/function/url/input.css:9:23
-   |
-9  |       background-image: url(   
-   |  _______________________^
-10 | |     './image (1).jpg'   
-11 | |     );
-   | |_____^
-
-error: Text
- --> $DIR/tests/fixture/function/url/input.css:9:23
-  |
-9 |     background-image: url(   
-  |                       ^^^
-
-error: Value
-  --> $DIR/tests/fixture/function/url/input.css:10:5
-   |
-10 | /     './image (1).jpg'   
-11 | |     );
-   | |____^
-
-error: SpaceValues
-  --> $DIR/tests/fixture/function/url/input.css:10:5
-   |
-10 | /     './image (1).jpg'   
-11 | |     );
-   | |____^
-
-error: Value
-  --> $DIR/tests/fixture/function/url/input.css:10:5
-   |
-10 |     './image (1).jpg'   
-   |     ^^^^^^^^^^^^^^^^^
-
-error: Str
-  --> $DIR/tests/fixture/function/url/input.css:10:5
-   |
-10 |     './image (1).jpg'   
-   |     ^^^^^^^^^^^^^^^^^
-
-error: Property
-  --> $DIR/tests/fixture/function/url/input.css:12:5
-   |
-12 |     background-image: url();
-   |     ^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Text
-  --> $DIR/tests/fixture/function/url/input.css:12:5
-   |
-12 |     background-image: url();
-   |     ^^^^^^^^^^^^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/function/url/input.css:12:23
-   |
-12 |     background-image: url();
-   |                       ^^^^^
-
-error: UrlValue
-  --> $DIR/tests/fixture/function/url/input.css:12:23
-   |
-12 |     background-image: url();
-   |                       ^^^^^
-
-error: Property
-  --> $DIR/tests/fixture/function/url/input.css:13:5
-   |
-13 |     background-image: url(   );
-   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Text
-  --> $DIR/tests/fixture/function/url/input.css:13:5
-   |
-13 |     background-image: url(   );
-   |     ^^^^^^^^^^^^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/function/url/input.css:13:23
-   |
-13 |     background-image: url(   );
-   |                       ^^^^^^^^
-
-error: UrlValue
-  --> $DIR/tests/fixture/function/url/input.css:13:23
-   |
-13 |     background-image: url(   );
-   |                       ^^^^^^^^
-
-error: Property
   --> $DIR/tests/fixture/function/url/input.css:14:5
    |
 14 |     background-image: url("");
@@ -526,60 +306,6 @@ error: Str
    |                           ^^
 
 error: Property
-  --> $DIR/tests/fixture/function/url/input.css:15:5
-   |
-15 |     background-image: url(   ""   );
-   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Text
-  --> $DIR/tests/fixture/function/url/input.css:15:5
-   |
-15 |     background-image: url(   ""   );
-   |     ^^^^^^^^^^^^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/function/url/input.css:15:23
-   |
-15 |     background-image: url(   ""   );
-   |                       ^^^^^^^^^^^^^
-
-error: FnValue
-  --> $DIR/tests/fixture/function/url/input.css:15:23
-   |
-15 |     background-image: url(   ""   );
-   |                       ^^^^^^^^^^^^^
-
-error: Text
-  --> $DIR/tests/fixture/function/url/input.css:15:23
-   |
-15 |     background-image: url(   ""   );
-   |                       ^^^
-
-error: Value
-  --> $DIR/tests/fixture/function/url/input.css:15:30
-   |
-15 |     background-image: url(   ""   );
-   |                              ^^^^^
-
-error: SpaceValues
-  --> $DIR/tests/fixture/function/url/input.css:15:30
-   |
-15 |     background-image: url(   ""   );
-   |                              ^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/function/url/input.css:15:30
-   |
-15 |     background-image: url(   ""   );
-   |                              ^^
-
-error: Str
-  --> $DIR/tests/fixture/function/url/input.css:15:30
-   |
-15 |     background-image: url(   ""   );
-   |                              ^^
-
-error: Property
   --> $DIR/tests/fixture/function/url/input.css:16:5
    |
 16 |     background-image: url('');
@@ -620,114 +346,6 @@ error: Str
    |
 16 |     background-image: url('');
    |                           ^^
-
-error: Property
-  --> $DIR/tests/fixture/function/url/input.css:17:5
-   |
-17 |     background-image: url(   ''   );
-   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Text
-  --> $DIR/tests/fixture/function/url/input.css:17:5
-   |
-17 |     background-image: url(   ''   );
-   |     ^^^^^^^^^^^^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/function/url/input.css:17:23
-   |
-17 |     background-image: url(   ''   );
-   |                       ^^^^^^^^^^^^^
-
-error: FnValue
-  --> $DIR/tests/fixture/function/url/input.css:17:23
-   |
-17 |     background-image: url(   ''   );
-   |                       ^^^^^^^^^^^^^
-
-error: Text
-  --> $DIR/tests/fixture/function/url/input.css:17:23
-   |
-17 |     background-image: url(   ''   );
-   |                       ^^^
-
-error: Value
-  --> $DIR/tests/fixture/function/url/input.css:17:30
-   |
-17 |     background-image: url(   ''   );
-   |                              ^^^^^
-
-error: SpaceValues
-  --> $DIR/tests/fixture/function/url/input.css:17:30
-   |
-17 |     background-image: url(   ''   );
-   |                              ^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/function/url/input.css:17:30
-   |
-17 |     background-image: url(   ''   );
-   |                              ^^
-
-error: Str
-  --> $DIR/tests/fixture/function/url/input.css:17:30
-   |
-17 |     background-image: url(   ''   );
-   |                              ^^
-
-error: Property
-  --> $DIR/tests/fixture/function/url/input.css:18:5
-   |
-18 |     background-image: url(   ' '   );
-   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Text
-  --> $DIR/tests/fixture/function/url/input.css:18:5
-   |
-18 |     background-image: url(   ' '   );
-   |     ^^^^^^^^^^^^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/function/url/input.css:18:23
-   |
-18 |     background-image: url(   ' '   );
-   |                       ^^^^^^^^^^^^^^
-
-error: FnValue
-  --> $DIR/tests/fixture/function/url/input.css:18:23
-   |
-18 |     background-image: url(   ' '   );
-   |                       ^^^^^^^^^^^^^^
-
-error: Text
-  --> $DIR/tests/fixture/function/url/input.css:18:23
-   |
-18 |     background-image: url(   ' '   );
-   |                       ^^^
-
-error: Value
-  --> $DIR/tests/fixture/function/url/input.css:18:30
-   |
-18 |     background-image: url(   ' '   );
-   |                              ^^^^^^
-
-error: SpaceValues
-  --> $DIR/tests/fixture/function/url/input.css:18:30
-   |
-18 |     background-image: url(   ' '   );
-   |                              ^^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/function/url/input.css:18:30
-   |
-18 |     background-image: url(   ' '   );
-   |                              ^^^
-
-error: Str
-  --> $DIR/tests/fixture/function/url/input.css:18:30
-   |
-18 |     background-image: url(   ' '   );
-   |                              ^^^
 
 error: Property
   --> $DIR/tests/fixture/function/url/input.css:19:5
@@ -752,4 +370,28 @@ error: UrlValue
    |
 19 |     background-image: url(./image.png);
    |                       ^^^^^^^^^^^^^^^^
+
+error: Property
+  --> $DIR/tests/fixture/function/url/input.css:20:5
+   |
+20 |     background-image: url(   ./image.png   );
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/function/url/input.css:20:5
+   |
+20 |     background-image: url(   ./image.png   );
+   |     ^^^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/url/input.css:20:23
+   |
+20 |     background-image: url(   ./image.png   );
+   |                       ^^^^^^^^^^^^^^^^^^^^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/function/url/input.css:20:23
+   |
+20 |     background-image: url(   ./image.png   );
+   |                       ^^^^^^^^^^^^^^^^^^^^^^
 
