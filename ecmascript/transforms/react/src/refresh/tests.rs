@@ -464,15 +464,15 @@ test!(
     }));
 "#,
     r#"
-    export default _c = React.memo(_c2 = forwardRef(_c1 = function Named(props, ref) {
+    export default _c3 = React.memo(_c2 = forwardRef(_c1 = function Named(props, ref) {
       return <h1>Foo</h1>;
     }));
     
-    var _c1, _c2, _c;
+    var _c1, _c2, _c3;
     
     $RefreshReg$(_c1, "%default%$React.memo$forwardRef");
     $RefreshReg$(_c2, "%default%$React.memo");
-    $RefreshReg$(_c, "%default%");
+    $RefreshReg$(_c3, "%default%");
 "#
 );
 
