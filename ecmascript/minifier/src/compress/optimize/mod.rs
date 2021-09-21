@@ -1293,8 +1293,8 @@ where
                                 upper.decls.extend(below.decls);
                                 var_decl = Some(upper);
                             }
-                            _ => {
-                                new.extend(var_decl.take().map(Decl::Var).map(Stmt::Decl));
+                            d => {
+                                new.extend(d.map(Decl::Var).map(Stmt::Decl));
                                 var_decl = Some(below);
                             }
                         }
