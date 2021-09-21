@@ -1148,14 +1148,15 @@ fn issue_295_02() {
                 )?
                 .fold_with(&mut OnceMarker::new(&[("bar", &[mark1, mark2])])))
         },
-        "const bar1 = {};
-        export { bar1 as bar };
+        "
+        export const bar = {
+        };
         class Foo {
-
-            constructor() {
+            constructor(){
                 bar;
             }
-        }",
+        }
+        ",
         Default::default(),
     );
 }
