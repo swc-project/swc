@@ -812,7 +812,7 @@ fn orig_test_do_not_cross_referencing_function() {
 fn test_do_not_cross_referencing_function() {
     test(
         "var f = function() { var z = foo(); }; var x = 1; f(); var z = x; f();",
-        "var f = function() { var z = foo(); }; var x = 1; f(); var z = x; f();",
+        "var f = function() { var z = foo(); }; var x = 1; f(); var z1 = x; f();",
     );
 }
 
