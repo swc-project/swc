@@ -968,7 +968,7 @@ test!(
 
     _s1(Foo, "useContext{}");
 
-    _c = Foo;
+    _c1 = Foo;
     module.exports = _s2(() => {
       _s2();
 
@@ -983,13 +983,13 @@ test!(
 
     _s3(Bar, "useContext{}");
 
-    _c1 = Bar;
-    const Baz = _s4(memo(_c2 = _s4(() => {
+    _c2 = Bar;
+    const Baz = _s4(memo(_c3 = _s4(() => {
       _s4();
 
       return useContext(X);
     }, "useContext{}")), "useContext{}");
-    _c3 = Baz;
+    _c4 = Baz;
 
     const Qux = () => {
       _s5();
@@ -999,15 +999,15 @@ test!(
 
     _s5(Qux, "useContext{}");
 
-    _c4 = Qux;
+    _c5 = Qux;
 
-    var _c, _c1, _c2, _c3, _c4;
+    var _c1, _c2, _c3, _c4, _c5;
 
-    $RefreshReg$(_c, "Foo");
-    $RefreshReg$(_c1, "Bar");
-    $RefreshReg$(_c2, "Baz$memo");
-    $RefreshReg$(_c3, "Baz");
-    $RefreshReg$(_c4, "Qux");
+    $RefreshReg$(_c1, "Foo");
+    $RefreshReg$(_c2, "Bar");
+    $RefreshReg$(_c3, "Baz$memo");
+    $RefreshReg$(_c4, "Baz");
+    $RefreshReg$(_c5, "Qux");
     "#
 );
 
