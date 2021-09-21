@@ -102,7 +102,7 @@ where
         };
 
         if actual != expected {
-            println!("----- Hygiene -----\n{}", actual);
+            println!("----- Actual -----\n{}", actual);
             println!("----- Diff -----");
 
             assert_eq!(DebugUsingDisplay(&*actual), DebugUsingDisplay(&*expected));
