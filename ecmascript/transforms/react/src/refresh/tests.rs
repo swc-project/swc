@@ -41,14 +41,14 @@ test!(
 
         return <h1 onClick={handleClick}>Hi</h1>;
     }
-    _c = Hello;
+    _c1 = Hello;
     function Bar() {
         return <Hello />;
     }
-    _c1 = Bar;
-    var _c, _c1;
-    $RefreshReg$(_c, "Hello");
-    $RefreshReg$(_c1, "Bar");
+    _c2 = Bar;
+    var _c1, _c2;
+    $RefreshReg$(_c1, "Hello");
+    $RefreshReg$(_c2, "Bar");
 "#
 );
 
