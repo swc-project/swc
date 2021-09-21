@@ -1,0 +1,38 @@
+name: wasm
+
+on: [push, pull_request]
+#on:
+#  push:
+#    # Ignore commits created by bors
+#    branches-ignore:
+#      - 'staging'
+#      - 'trying'
+#  pull_request:
+#    branches-ignore:
+#      - 'staging'
+#      - 'trying'
+
+env:
+  CI: 1
+  CARGO_INCREMENTAL: 0
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      # We explicitly do this to cache properly.
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+
+      - name: Build
+        run: |
+          (cd wasm && ./scripts/build.sh)
+
+      - name: Test
+        run: |
+          (cd wasm && ./scripts/test.sh)
