@@ -8,25 +8,25 @@ function _taggedTemplateLiteral(strings, raw) {
         }
     }));
 }
-function _templateObject() {
-    var data = _taggedTemplateLiteral([
-        "a\nb\nc\n"
-    ]);
-    _templateObject = function _templateObject() {
-        return data;
-    };
-    return data;
-}
 function _templateObject1() {
     var data = _taggedTemplateLiteral([
         "a\nb\nc\n"
-    ], [
-        "a\\nb\\nc\\n"
     ]);
     _templateObject1 = function _templateObject1() {
         return data;
     };
     return data;
 }
-console.log(String.raw(_templateObject()));
+function _templateObject() {
+    var data = _taggedTemplateLiteral([
+        "a\nb\nc\n"
+    ], [
+        "a\\nb\\nc\\n"
+    ]);
+    _templateObject = function _templateObject() {
+        return data;
+    };
+    return data;
+}
 console.log(String.raw(_templateObject1()));
+console.log(String.raw(_templateObject()));

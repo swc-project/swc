@@ -1703,11 +1703,11 @@ class Logger {
     #level;
     #handlers;
     #loggerName;
-    constructor(loggerName, levelName, options1 = {
+    constructor(loggerName, levelName, options = {
     }){
         this.#loggerName = loggerName;
         this.#level = getLevelByName(levelName);
-        this.#handlers = options1.handlers || [];
+        this.#handlers = options.handlers || [];
     }
     get level() {
         return this.#level;
@@ -2091,13 +2091,13 @@ class BufWriter extends AbstractBufBase {
     static create(writer, size = 4096) {
         return writer instanceof BufWriter ? writer : new BufWriter(writer, size);
     }
-    constructor(writer, size1 = 4096){
+    constructor(writer, size = 4096){
         super();
         this.writer = writer;
-        if (size1 <= 0) {
-            size1 = DEFAULT_BUF_SIZE;
+        if (size <= 0) {
+            size = DEFAULT_BUF_SIZE;
         }
-        this.buf = new Uint8Array(size1);
+        this.buf = new Uint8Array(size);
     }
     reset(w) {
         this.err = null;
@@ -2147,13 +2147,13 @@ class BufWriterSync extends AbstractBufBase {
     static create(writer, size = 4096) {
         return writer instanceof BufWriterSync ? writer : new BufWriterSync(writer, size);
     }
-    constructor(writer1, size2 = 4096){
+    constructor(writer, size = 4096){
         super();
-        this.writer = writer1;
-        if (size2 <= 0) {
-            size2 = DEFAULT_BUF_SIZE;
+        this.writer = writer;
+        if (size <= 0) {
+            size = DEFAULT_BUF_SIZE;
         }
-        this.buf = new Uint8Array(size2);
+        this.buf = new Uint8Array(size);
     }
     reset(w) {
         this.err = null;
@@ -2201,11 +2201,11 @@ class BufWriterSync extends AbstractBufBase {
 }
 const DEFAULT_FORMATTER = "{levelName} {msg}";
 class BaseHandler {
-    constructor(levelName1, options2 = {
+    constructor(levelName, options = {
     }){
-        this.level = getLevelByName(levelName1);
-        this.levelName = levelName1;
-        this.formatter = options2.formatter || DEFAULT_FORMATTER;
+        this.level = getLevelByName(levelName);
+        this.levelName = levelName;
+        this.formatter = options.formatter || DEFAULT_FORMATTER;
     }
     handle(logRecord) {
         if (this.level > logRecord.level) return;
@@ -2261,11 +2261,11 @@ class WriterHandler extends BaseHandler {
 class FileHandler extends WriterHandler {
     #unloadCallback = ()=>this.destroy()
     ;
-    constructor(levelName2, options3){
-        super(levelName2, options3);
+    constructor(levelName, options){
+        super(levelName, options);
         this._encoder = new TextEncoder();
-        this._filename = options3.filename;
-        this._mode = options3.mode ? options3.mode : "a";
+        this._filename = options.filename;
+        this._mode = options.mode ? options.mode : "a";
         this._openOptions = {
             createNew: this._mode === "x",
             create: this._mode !== "x",
@@ -2306,10 +2306,10 @@ class RotatingFileHandler extends FileHandler {
     #maxBytes;
     #maxBackupCount;
     #currentFileSize = 0;
-    constructor(levelName3, options4){
-        super(levelName3, options4);
-        this.#maxBytes = options4.maxBytes;
-        this.#maxBackupCount = options4.maxBackupCount;
+    constructor(levelName, options){
+        super(levelName, options);
+        this.#maxBytes = options.maxBytes;
+        this.#maxBackupCount = options.maxBackupCount;
     }
     async setup() {
         if (this.#maxBytes < 1) {
@@ -4118,25 +4118,25 @@ function cmp(v1, operator, v2, optionsOrLoose) {
 const ANY = {
 };
 class Comparator {
-    constructor(comp, optionsOrLoose1){
-        if (!optionsOrLoose1 || typeof optionsOrLoose1 !== "object") {
-            optionsOrLoose1 = {
-                loose: !!optionsOrLoose1,
+    constructor(comp, optionsOrLoose){
+        if (!optionsOrLoose || typeof optionsOrLoose !== "object") {
+            optionsOrLoose = {
+                loose: !!optionsOrLoose,
                 includePrerelease: false
             };
         }
         if (comp instanceof Comparator) {
-            if (comp.loose === !!optionsOrLoose1.loose) {
+            if (comp.loose === !!optionsOrLoose.loose) {
                 return comp;
             } else {
                 comp = comp.value;
             }
         }
         if (!(this instanceof Comparator)) {
-            return new Comparator(comp, optionsOrLoose1);
+            return new Comparator(comp, optionsOrLoose);
         }
-        this.options = optionsOrLoose1;
-        this.loose = !!optionsOrLoose1.loose;
+        this.options = optionsOrLoose;
+        this.loose = !!optionsOrLoose.loose;
         this.parse(comp);
         if (this.semver === ANY) {
             this.value = "";
@@ -4207,29 +4207,29 @@ class Comparator {
     }
 }
 class Range {
-    constructor(range, optionsOrLoose2){
-        if (!optionsOrLoose2 || typeof optionsOrLoose2 !== "object") {
-            optionsOrLoose2 = {
-                loose: !!optionsOrLoose2,
+    constructor(range, optionsOrLoose){
+        if (!optionsOrLoose || typeof optionsOrLoose !== "object") {
+            optionsOrLoose = {
+                loose: !!optionsOrLoose,
                 includePrerelease: false
             };
         }
         if (range instanceof Range) {
-            if (range.loose === !!optionsOrLoose2.loose && range.includePrerelease === !!optionsOrLoose2.includePrerelease) {
+            if (range.loose === !!optionsOrLoose.loose && range.includePrerelease === !!optionsOrLoose.includePrerelease) {
                 return range;
             } else {
-                return new Range(range.raw, optionsOrLoose2);
+                return new Range(range.raw, optionsOrLoose);
             }
         }
         if (range instanceof Comparator) {
-            return new Range(range.value, optionsOrLoose2);
+            return new Range(range.value, optionsOrLoose);
         }
         if (!(this instanceof Range)) {
-            return new Range(range, optionsOrLoose2);
+            return new Range(range, optionsOrLoose);
         }
-        this.options = optionsOrLoose2;
-        this.loose = !!optionsOrLoose2.loose;
-        this.includePrerelease = !!optionsOrLoose2.includePrerelease;
+        this.options = optionsOrLoose;
+        this.loose = !!optionsOrLoose.loose;
+        this.includePrerelease = !!optionsOrLoose.includePrerelease;
         this.raw = range;
         this.set = range.split(/\s*\|\|\s*/).map((range)=>this.parseRange(range.trim())
         ).filter((c)=>{
@@ -5959,13 +5959,13 @@ class Manifest {
     }
 }
 class TaskManifest {
-    constructor(data1){
+    constructor(data){
         this.lastExecution = null;
         this.trackedFiles = new ADLMap([], (k1, k2)=>k1 === k2
         );
-        this.trackedFiles = new ADLMap(data1.trackedFiles, (k1, k2)=>k1 === k2
+        this.trackedFiles = new ADLMap(data.trackedFiles, (k1, k2)=>k1 === k2
         );
-        this.lastExecution = data1.lastExecution;
+        this.lastExecution = data.lastExecution;
     }
     getFileData(fn) {
         return this.trackedFiles.get(fn);
@@ -6032,8 +6032,8 @@ class ExecContext {
         if (args["verbose"] !== undefined) {
             this.internalLogger.levelName = "INFO";
         }
-        const concurrency1 = args["concurrency"] || 4;
-        this.asyncQueue = new AsyncQueue(concurrency1);
+        const concurrency = args["concurrency"] || 4;
+        this.asyncQueue = new AsyncQueue(concurrency);
         this.internalLogger.info(`Starting ExecContext version: ${version1}`);
     }
     getTaskByName(name) {
@@ -6315,8 +6315,8 @@ async function getFileTimestamp(filename, stat) {
     return mtime?.toISOString() || "";
 }
 class StdErrPlainHandler extends mod4.handlers.BaseHandler {
-    constructor(levelName4){
-        super(levelName4, {
+    constructor(levelName){
+        super(levelName, {
             formatter: "{msg}"
         });
     }
