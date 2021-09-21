@@ -125,9 +125,9 @@ fn es2018_object_rest_spread(b: &mut Bencher) {
 }
 
 #[bench]
-fn es2018_optional_catch_binding(b: &mut Bencher) {
+fn es2019_optional_catch_binding(b: &mut Bencher) {
     run(b, || {
-        swc_ecma_transforms_compat::es2018::optional_catch_binding()
+        swc_ecma_transforms_compat::es2019::optional_catch_binding()
     });
 }
 
