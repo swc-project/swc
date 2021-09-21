@@ -45,7 +45,7 @@ var P = g((Te, k)=>{
                 o[i] = i;
             }), Object.keys(Object.assign({
             }, o)).join("") === "abcdefghijklmnopqrst";
-        } catch (i) {
+        } catch (i1) {
             return !1;
         }
     }
@@ -415,7 +415,7 @@ var ao = Bn((Rc, uo)=>{
                 l[i] = i;
             }), Object.keys(Object.assign({
             }, l)).join("") === "abcdefghijklmnopqrst";
-        } catch (i) {
+        } catch (i1) {
             return !1;
         }
     }
@@ -872,9 +872,9 @@ var ia = Bn((re)=>{
                 }
                 e();
             }
-        } catch (s) {
-            if (s && r && typeof s.stack == "string") {
-                for(var l = s.stack.split(`
+        } catch (s1) {
+            if (s1 && r && typeof s1.stack == "string") {
+                for(var l = s1.stack.split(`
 `), i = r.stack.split(`
 `), o = l.length - 1, u = i.length - 1; 1 <= o && 0 <= u && l[o] !== i[u];)u--;
                 for(; 1 <= o && 0 <= u; o--, u--)if (l[o] !== i[u]) {
@@ -1345,7 +1345,7 @@ var ia = Bn((re)=>{
                 Dl = !0;
             }
         }), window.addEventListener("test", vn, vn), window.removeEventListener("test", vn, vn);
-    } catch (e) {
+    } catch (e1) {
         Dl = !1;
     }
     var vn;
@@ -2778,8 +2778,8 @@ var ia = Bn((re)=>{
                         while (t !== null)
                     }
                 }), ke = null;
-            } catch (t) {
-                throw ke !== null && (ke = ke.slice(e + 1)), di(Sr, me), t;
+            } catch (t1) {
+                throw ke !== null && (ke = ke.slice(e + 1)), di(Sr, me), t1;
             } finally{
                 vi = !1;
             }
@@ -5147,9 +5147,9 @@ Add a <Suspense fallback=...> component higher in the tree to provide a loading 
             }, ur = !1, jt = null, Yr = !1, g = r;
             do try {
                 fc();
-            } catch (P) {
+            } catch (P1) {
                 if (g === null) throw Error(v(330));
-                Qe(g, P), g = g.nextEffect;
+                Qe(g, P1), g = g.nextEffect;
             }
             while (g !== null)
             jt = null, g = r;
@@ -5186,9 +5186,9 @@ Add a <Suspense fallback=...> component higher in the tree to provide a loading 
                     }
                     g = g.nextEffect;
                 }
-            } catch (P1) {
+            } catch (P2) {
                 if (g === null) throw Error(v(330));
-                Qe(g, P1), g = g.nextEffect;
+                Qe(g, P2), g = g.nextEffect;
             }
             while (g !== null)
             if (m = oi, p = Nu(), f = m.focusedElem, o = m.selectionRange, p !== f && f && f.ownerDocument && Cu(f.ownerDocument.documentElement, f)) {
@@ -5220,9 +5220,9 @@ Add a <Suspense fallback=...> component higher in the tree to provide a loading 
                     }
                     g = g.nextEffect;
                 }
-            } catch (P2) {
+            } catch (P3) {
                 if (g === null) throw Error(v(330));
-                Qe(g, P2), g = g.nextEffect;
+                Qe(g, P3), g = g.nextEffect;
             }
             while (g !== null)
             g = null, Hf(), x = l;
@@ -5231,7 +5231,7 @@ Add a <Suspense fallback=...> component higher in the tree to provide a loading 
         else for(g = r; g !== null;)n = g.nextEffect, g.nextEffect = null, g.flags & 8 && (w = g, w.sibling = null, w.stateNode = null), g = n;
         if (r = e.pendingLanes, r === 0 && (ge = null), r === 1 ? e === to ? Rt++ : (Rt = 0, to = e) : Rt = 0, t = t.stateNode, nn && typeof nn.onCommitFiberRoot == "function") try {
             nn.onCommitFiberRoot(ci, t, void 0, (t.current.flags & 64) == 64);
-        } catch (P) {
+        } catch (P1) {
         }
         if (se(e, $()), Wr) throw Wr = !1, e = $i, $i = null, e;
         return (x & 8) != 0 || me(), null;
@@ -5812,7 +5812,7 @@ Add a <Suspense fallback=...> component higher in the tree to provide a loading 
     };
     if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ != "undefined" && (Ut = __REACT_DEVTOOLS_GLOBAL_HOOK__, !Ut.isDisabled && Ut.supportsFiber)) try {
         ci = Ut.inject(wc), nn = Ut;
-    } catch (e1) {
+    } catch (e2) {
     }
     var Ut;
     re.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = gc;
@@ -5873,5 +5873,5 @@ var sa = Bn((Fc, oa)=>{
     ua(), oa.exports = ia();
 });
 var aa = ga(sa()), { __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED: kc , createPortal: Sc , findDOMNode: Ec , flushSync: xc , hydrate: _c , render: Cc , unmountComponentAtNode: Nc , unstable_batchedUpdates: Pc , unstable_createPortal: Tc , unstable_renderSubtreeIntoContainer: Lc , version: Oc  } = aa;
-const { document  } = window;
-Cc(Oe('p', null, 'hello world!'), document.body);
+const { document: document1  } = window;
+Cc(Oe('p', null, 'hello world!'), document1.body);

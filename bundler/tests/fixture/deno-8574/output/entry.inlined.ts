@@ -619,8 +619,8 @@ once_1.strict = strict;
 const logOnce = once_1((deprecation2)=>console.warn(deprecation2)
 );
 class RequestError extends Error {
-    constructor(message1, statusCode, options){
-        super(message1);
+    constructor(message, statusCode, options){
+        super(message);
         if (Error.captureStackTrace) {
             Error.captureStackTrace(this, this.constructor);
         }
@@ -769,11 +769,11 @@ const request = withDefaults1(endpoint, {
         "user-agent": `octokit-request.js/${VERSION1} ${getUserAgent()}`
     }
 });
-const { data  } = await request('GET /repos/{owner}/{repo}/license', {
+const { data: data1  } = await request('GET /repos/{owner}/{repo}/license', {
     headers: {
         authorization: `token ${Deno.env.get('GITHUB_TOKEN')}`
     },
     owner: 'denoland',
     repo: 'deno'
 });
-console.log(data.license.name);
+console.log(data1.license.name);

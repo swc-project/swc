@@ -25,6 +25,6 @@ var load2 = __spack_require__.bind(void 0, function(module, exports) {
     module.exports = class B extends Common {
     };
 });
-var { default: A  } = load1();
-var { default: B  } = load2();
-console.log(A, B);
+var { default: A1  } = load1();
+var { default: B1  } = load2();
+console.log(A1, B1);

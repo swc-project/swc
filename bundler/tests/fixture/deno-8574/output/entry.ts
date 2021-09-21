@@ -619,7 +619,7 @@ once_1.strict = strict;
 const logOnce = once_1((deprecation2)=>console.warn(deprecation2)
 );
 class RequestError extends Error {
-    constructor(message1, statusCode, options){
+    constructor(message1, statusCode, options1){
         super(message1);
         if (Error.captureStackTrace) {
             Error.captureStackTrace(this, this.constructor);
@@ -632,14 +632,14 @@ class RequestError extends Error {
                 return statusCode;
             }
         });
-        this.headers = options.headers || {
+        this.headers = options1.headers || {
         };
         const requestCopy = Object.assign({
-        }, options.request);
-        if (options.request.headers.authorization) {
+        }, options1.request);
+        if (options1.request.headers.authorization) {
             requestCopy.headers = Object.assign({
-            }, options.request.headers, {
-                authorization: options.request.headers.authorization.replace(/ .*$/, " [REDACTED]")
+            }, options1.request.headers, {
+                authorization: options1.request.headers.authorization.replace(/ .*$/, " [REDACTED]")
             });
         }
         requestCopy.url = requestCopy.url.replace(/\bclient_secret=\w+/g, "client_secret=[REDACTED]").replace(/\baccess_token=\w+/g, "access_token=[REDACTED]");
@@ -769,11 +769,11 @@ const request = withDefaults1(endpoint, {
         "user-agent": `octokit-request.js/${VERSION1} ${getUserAgent()}`
     }
 });
-const { data  } = await request('GET /repos/{owner}/{repo}/license', {
+const { data: data1  } = await request('GET /repos/{owner}/{repo}/license', {
     headers: {
         authorization: `token ${Deno.env.get('GITHUB_TOKEN')}`
     },
     owner: 'denoland',
     repo: 'deno'
 });
-console.log(data.license.name);
+console.log(data1.license.name);
