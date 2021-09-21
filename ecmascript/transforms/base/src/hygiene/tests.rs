@@ -1403,7 +1403,7 @@ fn opt_4() {
                     }
                     ",
                 )?
-                .fold_with(&mut OnceMarker::new(&[("a", &[mark1, mark2, mark1])]));
+                .fold_with(&mut OnceMarker::new(&[("a", &[mark1, mark2, mark2])]));
             Ok(stmts)
         },
         "
@@ -1440,7 +1440,7 @@ fn opt_5() {
                     }
                     ",
                 )?
-                .fold_with(&mut OnceMarker::new(&[("a", &[mark1, mark2, mark1])]));
+                .fold_with(&mut OnceMarker::new(&[("a", &[mark1, mark2, mark2])]));
             Ok(stmts)
         },
         "
