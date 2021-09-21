@@ -715,19 +715,19 @@ test!(
       return <h1>Hi</h1>;
     }
     
-    _c = Foo;
-    export default _c1 = hoc(Foo);
+    _c1 = Foo;
+    export default _c2 = hoc(Foo);
     export const A = hoc(Foo);
-    _c2 = A;
+    _c3 = A;
     const B = hoc(Foo);
-    _c3 = B;
+    _c4 = B;
 
-    var _c, _c1, _c2, _c3;
+    var _c1, _c2, _c3, _c4;
 
-    $RefreshReg$(_c, "Foo");
-    $RefreshReg$(_c1, "%default%");
-    $RefreshReg$(_c2, "A");
-    $RefreshReg$(_c3, "B");
+    $RefreshReg$(_c1, "Foo");
+    $RefreshReg$(_c2, "%default%");
+    $RefreshReg$(_c3, "A");
+    $RefreshReg$(_c4, "B");
 "#
 );
 
