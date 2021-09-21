@@ -1267,7 +1267,17 @@ where
             _ => false,
         }) {
             self.changed = true;
-            log::debug!("Merging variable declarations");
+
+            if cfg!(feature = "debug") {
+                log::debug!("Merging variable declarations");
+                log::trace!(
+                    "[Before]: {}",
+                    dump(&BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: stmts.clone()
+                    })
+                )
+            }
 
             let orig = take(stmts);
             let mut new = Vec::with_capacity(orig.len());
@@ -1300,6 +1310,15 @@ where
 
             new.extend(var_decl.take().map(Decl::Var).map(Stmt::Decl));
 
+            if cfg!(feature = "debug") {
+                log::trace!(
+                    "[Change] merged: {}",
+                    dump(&BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: new.clone()
+                    })
+                )
+            }
             *stmts = new
         }
     }
