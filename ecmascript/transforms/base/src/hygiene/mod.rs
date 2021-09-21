@@ -126,14 +126,37 @@ impl<'a> Hygiene<'a> {
         let ctxt = ident.span.ctxt();
 
         {
-            let mut used = self.current.used.borrow_mut();
-            let e = used.entry(ident.sym.to_boxed_str()).or_default();
+            let mut need_work = false;
+            let mut is_cur = true;
+            let mut cur = Some(&self.current);
 
-            if !e.contains(&ctxt) {
-                e.push(ctxt);
+            while let Some(c) = cur {
+                let mut used = c.used.borrow_mut();
+                let e = used.entry(ident.sym.to_boxed_str()).or_default();
+
+                if !e.contains(&ctxt) {
+                    e.push(ctxt);
+                }
+
+                if e.len() <= 1 {
+                } else {
+                    if is_cur {
+                        need_work = true;
+                    }
+                }
+
+                if e.len() == 1 && e[0] == ctxt {
+                } else {
+                    if is_cur {
+                        need_work = true;
+                    }
+                }
+
+                is_cur = false;
+                cur = c.parent;
             }
 
-            if e.len() <= 1 {
+            if !need_work {
                 return;
             }
         }
