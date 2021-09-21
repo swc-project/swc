@@ -239,9 +239,9 @@ where
             if name.len() == 3 {
                 if name.to_ascii_lowercase() == js_word!("url") {
                     self.skip_ws()?;
-
                     match self.input.peek() {
-                        Some('"' | '\'') => {}
+                        // TODO: Add `\f` of golang.
+                        Some('"' | '\'' | ' ' | '\t' | '\n' | '\r') => {}
                         _ => {
                             self.input.bump();
                             return self.read_url();
@@ -271,7 +271,7 @@ where
 
             match self.input.cur().unwrap() {
                 ' ' | '\t' | '\n' | '\r' => {
-                    // TOOD: Add `\f` of golang.
+                    // TODO: Add `\f` of golang.
                     self.input.bump();
                     self.skip_ws()?;
 

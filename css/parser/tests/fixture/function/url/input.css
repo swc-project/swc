@@ -1,0 +1,12 @@
+a {
+    background-image: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7);
+    background-image: url("./image (1).jpg");
+    background-image: url('./image (1).jpg');
+    background-image: URL('./image (1).jpg');
+    background-image: url(   './image (1).jpg');
+    background-image: url('./image (1).jpg'   );
+    background-image: url(   './image (1).jpg'   );
+    background-image: url(   
+    './image (1).jpg'   
+    );
+}
