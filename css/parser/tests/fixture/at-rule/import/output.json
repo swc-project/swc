@@ -1,0 +1,100 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 0,
+    "end": 130,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "ImportRule",
+      "span": {
+        "start": 0,
+        "end": 27,
+        "ctxt": 0
+      },
+      "src": {
+        "type": "String",
+        "span": {
+          "start": 8,
+          "end": 26,
+          "ctxt": 0
+        },
+        "value": "./style.css"
+      },
+      "condition": null
+    },
+    {
+      "type": "ImportRule",
+      "span": {
+        "start": 28,
+        "end": 55,
+        "ctxt": 0
+      },
+      "src": {
+        "type": "String",
+        "span": {
+          "start": 36,
+          "end": 54,
+          "ctxt": 0
+        },
+        "value": "./style.css"
+      },
+      "condition": null
+    },
+    {
+      "type": "ImportRule",
+      "span": {
+        "start": 56,
+        "end": 78,
+        "ctxt": 0
+      },
+      "src": {
+        "type": "String",
+        "span": {
+          "start": 64,
+          "end": 77,
+          "ctxt": 0
+        },
+        "value": "./style.css"
+      },
+      "condition": null
+    },
+    {
+      "type": "ImportRule",
+      "span": {
+        "start": 79,
+        "end": 101,
+        "ctxt": 0
+      },
+      "src": {
+        "type": "String",
+        "span": {
+          "start": 87,
+          "end": 100,
+          "ctxt": 0
+        },
+        "value": "./style.css"
+      },
+      "condition": null
+    },
+    {
+      "type": "ImportRule",
+      "span": {
+        "start": 102,
+        "end": 129,
+        "ctxt": 0
+      },
+      "src": {
+        "type": "String",
+        "span": {
+          "start": 110,
+          "end": 128,
+          "ctxt": 0
+        },
+        "value": "./style.css"
+      },
+      "condition": null
+    }
+  ]
+}
