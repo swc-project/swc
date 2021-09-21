@@ -59,11 +59,6 @@ pub struct ParseOptions {
     pub target: JscTarget,
 }
 
-#[cfg(target_arch = "wasm32")]
-fn default_as_true() -> bool {
-    true
-}
-
 #[derive(Debug, Clone, Default, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct Options {
