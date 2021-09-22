@@ -675,6 +675,9 @@ where
         match e {
             Expr::Ident(..) | Expr::This(_) | Expr::Invalid(_) | Expr::Lit(..) => {
                 tracing::debug!("ignore_return_value: Dropping unused expr");
+                if cfg!(feature = "debug") {
+                    log::debug!("ignore_return_value: Dropping unused expr: {}", dump(&*e));
+                }
                 self.changed = true;
                 return None;
             }
