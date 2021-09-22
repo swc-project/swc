@@ -269,6 +269,9 @@ where
         N: VisitMutWith<Self>,
     {
         tracing::debug!("inline: inline_vars_in_node");
+        if cfg!(feature = "debug") {
+            log::trace!("inline: inline_vars_in_node");
+        }
         let ctx = Ctx {
             inline_prevented: false,
             ..self.ctx
