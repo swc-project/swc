@@ -87,6 +87,9 @@ impl MoudleItemExt for ModuleItem {
 /// - `!0` for true
 /// - `!1` for false
 pub(crate) fn make_bool(span: Span, value: bool) -> Expr {
+    if cfg!(feature = "debug") {
+        log::debug!("Creating a boolean literal");
+    }
     Expr::Unary(UnaryExpr {
         span,
         op: op!("!"),
