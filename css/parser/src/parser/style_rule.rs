@@ -1,5 +1,9 @@
 use super::{input::ParserInput, PResult, Parser};
-use crate::{parser::Ctx, Parse};
+use crate::{
+    error::{Error, ErrorKind},
+    parser::Ctx,
+    Parse,
+};
 use swc_common::Span;
 use swc_css_ast::*;
 
@@ -99,7 +103,18 @@ where
         let start = self.input.cur_span()?.lo;
 
         if !is!(self, EOF) && eat!(self, "!") {
-            expect!(self, "important");
+            self.input.skip_ws()?;
+
+            let is_important = match bump!(self) {
+                Token::Ident(value) => &*value.to_ascii_lowercase() == "important",
+                _ => false,
+            };
+            if !is_important {
+                let span = self.input.cur_span()?;
+                return Err(Error::new(span, ErrorKind::ExpectedButGot("important")));
+            }
+
+            self.input.skip_ws()?;
 
             Ok(Some(span!(self, start)))
         } else {

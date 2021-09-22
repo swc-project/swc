@@ -1,0 +1,171 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/important/basic/input.css:1:1
+  |
+1 | / .a {
+2 | |     color: red !important;
+3 | |     color: red !   important   ;
+4 | |     color: blue !IMPORTANT;
+5 | |     color: white !   IMPORTANT   ;
+6 | | }
+  | |__^
+
+error: Rule
+ --> $DIR/tests/fixture/important/basic/input.css:1:1
+  |
+1 | / .a {
+2 | |     color: red !important;
+3 | |     color: red !   important   ;
+4 | |     color: blue !IMPORTANT;
+5 | |     color: white !   IMPORTANT   ;
+6 | | }
+  | |_^
+
+error: StyleRule
+ --> $DIR/tests/fixture/important/basic/input.css:1:1
+  |
+1 | / .a {
+2 | |     color: red !important;
+3 | |     color: red !   important   ;
+4 | |     color: blue !IMPORTANT;
+5 | |     color: white !   IMPORTANT   ;
+6 | | }
+  | |_^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/important/basic/input.css:1:1
+  |
+1 | .a {
+  | ^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/important/basic/input.css:1:1
+  |
+1 | .a {
+  | ^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/important/basic/input.css:1:1
+  |
+1 | .a {
+  | ^^
+
+error: ClassSelector
+ --> $DIR/tests/fixture/important/basic/input.css:1:1
+  |
+1 | .a {
+  | ^^
+
+error: Text
+ --> $DIR/tests/fixture/important/basic/input.css:1:2
+  |
+1 | .a {
+  |  ^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/important/basic/input.css:1:4
+  |
+1 |   .a {
+  |  ____^
+2 | |     color: red !important;
+3 | |     color: red !   important   ;
+4 | |     color: blue !IMPORTANT;
+5 | |     color: white !   IMPORTANT   ;
+6 | | }
+  | |_^
+
+error: Property
+ --> $DIR/tests/fixture/important/basic/input.css:2:5
+  |
+2 |     color: red !important;
+  |     ^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/important/basic/input.css:2:5
+  |
+2 |     color: red !important;
+  |     ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/important/basic/input.css:2:12
+  |
+2 |     color: red !important;
+  |            ^^^
+
+error: Text
+ --> $DIR/tests/fixture/important/basic/input.css:2:12
+  |
+2 |     color: red !important;
+  |            ^^^
+
+error: Property
+ --> $DIR/tests/fixture/important/basic/input.css:3:5
+  |
+3 |     color: red !   important   ;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/important/basic/input.css:3:5
+  |
+3 |     color: red !   important   ;
+  |     ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/important/basic/input.css:3:12
+  |
+3 |     color: red !   important   ;
+  |            ^^^
+
+error: Text
+ --> $DIR/tests/fixture/important/basic/input.css:3:12
+  |
+3 |     color: red !   important   ;
+  |            ^^^
+
+error: Property
+ --> $DIR/tests/fixture/important/basic/input.css:4:5
+  |
+4 |     color: blue !IMPORTANT;
+  |     ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/important/basic/input.css:4:5
+  |
+4 |     color: blue !IMPORTANT;
+  |     ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/important/basic/input.css:4:12
+  |
+4 |     color: blue !IMPORTANT;
+  |            ^^^^
+
+error: Text
+ --> $DIR/tests/fixture/important/basic/input.css:4:12
+  |
+4 |     color: blue !IMPORTANT;
+  |            ^^^^
+
+error: Property
+ --> $DIR/tests/fixture/important/basic/input.css:5:5
+  |
+5 |     color: white !   IMPORTANT   ;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/important/basic/input.css:5:5
+  |
+5 |     color: white !   IMPORTANT   ;
+  |     ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/important/basic/input.css:5:12
+  |
+5 |     color: white !   IMPORTANT   ;
+  |            ^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/important/basic/input.css:5:12
+  |
+5 |     color: white !   IMPORTANT   ;
+  |            ^^^^^
+

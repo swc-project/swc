@@ -1,0 +1,6 @@
+.a {
+    color: red !important;
+    color: red !   important   ;
+    color: blue !IMPORTANT;
+    color: white !   IMPORTANT   ;
+}

@@ -27,7 +27,7 @@ where
             }
         };
 
-        match &*name.to_lowercase() {
+        match &*name.to_ascii_lowercase() {
             "charset" => {
                 self.input.skip_ws()?;
 
