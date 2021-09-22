@@ -497,6 +497,8 @@ export interface JscConfig {
   paths?: {
     [from: string]: [string]
   }
+
+  minify?: JsMinifyOptions;
 }
 
 export type JscTarget =
