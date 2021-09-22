@@ -900,14 +900,14 @@ impl<'a> VisitMut for Hygiene<'a> {
     }
 
     fn visit_mut_var_declarator(&mut self, decl: &mut VarDeclarator) {
-        let old = self.ident_type;
-        self.ident_type = IdentType::Binding;
-        decl.name.visit_mut_with(self);
-        self.ident_type = old;
-
         let old = self.var_kind;
         self.var_kind = None;
         decl.init.visit_mut_with(self);
         self.var_kind = old;
+
+        let old = self.ident_type;
+        self.ident_type = IdentType::Binding;
+        decl.name.visit_mut_with(self);
+        self.ident_type = old;
     }
 }

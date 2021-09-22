@@ -1504,7 +1504,7 @@ fn opt_6() {
 }
 
 #[test]
-fn issue_2211() {
+fn issue_2211_1() {
     test(
         |tester| {
             let mark1 = Mark::fresh(Mark::root());
@@ -1531,13 +1531,53 @@ fn issue_2211() {
             Ok(stmts)
         },
         "
-        var _bar1 = require('./bar');
+        var _bar = require('./bar');
         const makeX = ()=>{
-            const _bar = ()=>(0, _bar1).bar()
+            const _bar1 = ()=>(0, _bar).bar()
             ;
             return {
-                _bar
+                _bar: _bar1
             };
+        };
+        ",
+    );
+}
+
+#[test]
+fn issue_2211_2() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            let stmts = tester
+                .parse_stmts(
+                    "actual1.js",
+                    "
+                    var _bar = require('./bar');
+                    const makeX = ()=>{
+                        const _bar = () => _bar();
+
+                        const alfa = () => _bar();
+                      
+                        return { alfa };
+                    };
+                    ",
+                )?
+                .fold_with(&mut OnceMarker::new(&[(
+                    "_bar",
+                    &[mark1, mark2, mark1, mark2],
+                )]));
+            Ok(stmts)
+        },
+        "
+        var _bar = require('./bar');
+        const makeX = ()=>{
+            const _bar1 = () => _bar();
+
+            const alfa = () => _bar1();
+            
+            return { alfa };
         };
         ",
     );
