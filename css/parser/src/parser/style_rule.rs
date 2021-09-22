@@ -110,7 +110,7 @@ where
                 _ => false,
             };
             if !is_important {
-                let span = self.input.cur_span()?;
+                let span = Span::new(start, self.input.cur_span()?.hi, Default::default());
                 return Err(Error::new(span, ErrorKind::ExpectedButGot("important")));
             }
 
