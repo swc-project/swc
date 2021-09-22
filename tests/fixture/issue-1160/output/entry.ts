@@ -39,7 +39,7 @@ var MyEnum;
     MyEnum["y"] = "yyy";
 })(MyEnum || (MyEnum = {
 }));
-let Xpto = ((_class = class Xpto1 {
+let Xpto1 = ((_class = class Xpto {
     constructor(){
         _initializerDefineProperty(this, "value", _descriptor, this);
     }
