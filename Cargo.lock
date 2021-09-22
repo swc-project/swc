@@ -2651,6 +2651,7 @@ version = "0.30.0"
 dependencies = [
  "ansi_term 0.12.1",
  "anyhow",
+ "backtrace",
  "indexmap",
  "once_cell",
  "pretty_assertions 0.6.1",
