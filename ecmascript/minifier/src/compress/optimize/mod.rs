@@ -1089,7 +1089,11 @@ where
                             dont_use_negated_iife: idx != 0,
                             ..self.ctx
                         };
-                        self.with_ctx(ctx).ignore_return_value(&mut **expr)
+                        let ret = self.with_ctx(ctx).ignore_return_value(&mut **expr);
+                        if cfg!(feature = "debug") && ret.is_none() {
+                            log::debug!("ignore_return_value: Dropped an element of a seq expr");
+                        }
+                        ret
                     })
                     .map(Box::new)
                     .collect::<Vec<_>>();
@@ -1822,7 +1826,12 @@ where
                 _ => {}
             }
             let expr = self.ignore_return_value(&mut n.expr);
-            n.expr = expr.map(Box::new).unwrap_or_else(|| undefined(DUMMY_SP));
+            n.expr = expr.map(Box::new).unwrap_or_else(|| {
+                if cfg!(feature = "debug") {
+                    log::debug!("visit_mut_expr_stmt: Dropped an expression statement");
+                }
+                undefined(DUMMY_SP)
+            });
         } else {
             match &mut *n.expr {
                 Expr::Seq(e) => {
@@ -2127,7 +2136,7 @@ where
                             || !self.ctx.is_this_aware_callee
                             || !should_preserve_zero);
 
-                    if can_remove {
+                    let ret = if can_remove {
                         // If negate_iife is true, it's already handled by
                         // visit_mut_children_with(self) above.
                         if !self.options.negate_iife {
@@ -2137,7 +2146,15 @@ where
                         self.ignore_return_value(&mut **expr).map(Box::new)
                     } else {
                         Some(expr.take())
+                    };
+
+                    if ret.is_none() {
+                        if cfg!(feature = "debug") {
+                            log::debug!("visit_mut_seq_expr: Dropped an element");
+                        }
                     }
+
+                    ret
                 })
                 .collect::<Vec<_>>();
             n.exprs = exprs;
