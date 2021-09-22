@@ -1,4 +1,4 @@
-error: Expected important
+error: Expected !important
  --> $DIR/tests/errors/important/basic/input.css:2:18
   |
 2 |     color: white !!important;

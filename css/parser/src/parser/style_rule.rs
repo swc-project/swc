@@ -111,7 +111,7 @@ where
             };
             if !is_important {
                 let span = Span::new(start, self.input.cur_span()?.hi, Default::default());
-                return Err(Error::new(span, ErrorKind::ExpectedButGot("important")));
+                return Err(Error::new(span, ErrorKind::ExpectedButGot("!important")));
             }
 
             self.input.skip_ws()?;
