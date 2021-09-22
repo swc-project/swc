@@ -33,6 +33,7 @@ where
                     self.drop_unused_vars(var.span, &mut var.name, Some(init));
 
                     if var.name.is_invalid() {
+                        log::debug!("unused: Removing an unused variable declarator");
                         let side_effects = self.ignore_return_value(init);
                         if let Some(e) = side_effects {
                             if prepend {
