@@ -1447,6 +1447,8 @@ impl VisitMut for SimplifyExpr {
                             span: DUMMY_SP,
                             value: 0.0,
                         }))));
+
+                        log::debug!("First zero");
                     }
                 }
 
@@ -1458,6 +1460,8 @@ impl VisitMut for SimplifyExpr {
                             span: DUMMY_SP,
                             value: 0.0,
                         }))));
+
+                        log::debug!("Injected first zero");
                     }
                 }
 
