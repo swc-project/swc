@@ -1086,6 +1086,7 @@ where
                                     value: 0.0,
                                 })));
                                 tracing::trace!("injecting zero to preserve `this` in call");
+                                log::debug!("injecting zero to preserve `this` in call");
 
                                 *b_callee = Box::new(Expr::Seq(SeqExpr {
                                     span: b_callee.span(),
