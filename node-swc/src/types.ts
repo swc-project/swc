@@ -401,11 +401,11 @@ export type Swcrc = Config | Config[];
  */
 export interface Config {
   /**
-   * Note: The type is string beacuse it follow rust's regex syntax.
+   * Note: The type is string because it follow rust's regex syntax.
    */
   test?: string | string[];
   /**
-   * Note: The type is string beacuse it follow rust's regex syntax.
+   * Note: The type is string because it follow rust's regex syntax.
    */
   exclude?: string | string[];
   env?: EnvConfig;
