@@ -620,10 +620,11 @@ impl TokenContexts {
         self.0.last().cloned()
     }
     fn push(&mut self, t: TokenContext) {
+        self.0.push(t);
+
         if cfg!(feature = "debug") {
             trace!("context.push({:?}): {:?}", t, self.0);
         }
-        self.0.push(t);
     }
 }
 
