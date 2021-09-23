@@ -84,7 +84,7 @@ where
                 // Newline
                 c if c == '\n' || c == '\r' || c == '\x0C' => {
                     self.input.bump();
-                
+
                     return Err(ErrorKind::BadString);
                 }
 
@@ -96,11 +96,15 @@ where
                     }
 
                     // Otherwise, if the next input code point is a newline, consume it.
-                    if self.input.peek() == Some('\n') || self.input.peek() == Some('\r') || self.input.peek() == Some('\x0C') {
+                    if self.input.peek() == Some('\n')
+                        || self.input.peek() == Some('\r')
+                        || self.input.peek() == Some('\x0C')
+                    {
                         self.input.bump();
                         self.input.bump();
-                    } 
-                    // Otherwise, (the stream starts with a valid escape) consume an escaped code point and append the returned code point to the <string-token>’s value.
+                    }
+                    // Otherwise, (the stream starts with a valid escape) consume an escaped code
+                    // point and append the returned code point to the <string-token>’s value.
                     else if self.is_valid_escape()? {
                         buf.push(self.read_escape()?);
                     }
