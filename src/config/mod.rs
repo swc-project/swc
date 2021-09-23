@@ -1120,14 +1120,7 @@ impl Merge for TerserEcmaVersion {
 }
 
 impl Merge for SourceMapsConfig {
-    fn merge(&mut self, from: &Self) {
-        match self {
-            SourceMapsConfig::Bool(false) => {
-                *self = from.clone();
-            }
-            _ => {}
-        }
-    }
+    fn merge(&mut self, _: &Self) {}
 }
 
 impl Merge for swc_ecma_preset_env::Config {
