@@ -611,14 +611,18 @@ impl TokenContexts {
     }
     pub fn pop(&mut self) -> Option<TokenContext> {
         let opt = self.0.pop();
-        trace!("context.pop({:?})", opt);
+        if cfg!(feature = "debug") {
+            trace!("context.pop({:?}): {:?}", opt, self.0);
+        }
         opt
     }
     pub fn current(&self) -> Option<TokenContext> {
         self.0.last().cloned()
     }
     fn push(&mut self, t: TokenContext) {
-        trace!("context.push({:?})", t);
+        if cfg!(feature = "debug") {
+            trace!("context.push({:?}): {:?}", t, self.0);
+        }
         self.0.push(t);
     }
 }
