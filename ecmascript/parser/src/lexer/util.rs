@@ -230,7 +230,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             }
         }
 
-        if !self.ctx.dont_parse_comments {
+        if !self.ctx.dont_store_comments {
             if let Some(ref comments) = self.comments {
                 let s = self.input.slice(slice_start, end);
                 let cmt = Comment {
@@ -284,7 +284,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                 let end = self.cur_pos();
 
-                if !self.ctx.dont_parse_comments {
+                if !self.ctx.dont_store_comments {
                     if let Some(ref comments) = self.comments {
                         let src = self.input.slice(slice_start, end);
                         let s = &src[..src.len() - 2];

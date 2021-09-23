@@ -631,7 +631,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         self.bump();
 
         // XML style comment. `<!--`
-        if !self.ctx.dont_parse_comments
+        if !self.ctx.dont_store_comments
             && c == '<'
             && self.is(b'!')
             && self.peek() == Some('-')
