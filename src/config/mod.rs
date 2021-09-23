@@ -187,9 +187,6 @@ impl Options {
         config.merge(&self.config);
 
         let mut source_maps = self.source_maps.clone();
-        if let Some(SourceMapsConfig::Bool(false)) = source_maps {
-            source_maps = None;
-        }
         source_maps.merge(&config.source_maps);
 
         let JscConfig {
@@ -1061,10 +1058,6 @@ impl Merge for Config {
         self.module.merge(&from.module);
         self.minify.merge(&from.minify);
         self.env.merge(&from.env);
-
-        if let Some(SourceMapsConfig::Bool(false)) = self.source_maps {
-            self.source_maps = None;
-        }
         self.source_maps.merge(&from.source_maps);
         self.inline_sources_content
             .merge(&from.inline_sources_content);
