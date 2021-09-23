@@ -186,6 +186,12 @@ impl Options {
         let mut config = config.unwrap_or_else(Default::default);
         config.merge(&self.config);
 
+        let mut source_maps = self.source_maps.clone();
+        if let Some(SourceMapsConfig::Bool(false)) = source_maps {
+            source_maps = None;
+        }
+        source_maps.merge(&config.source_maps);
+
         let JscConfig {
             transform,
             syntax,
@@ -295,11 +301,7 @@ impl Options {
             syntax,
             target,
             is_module,
-            source_maps: self
-                .source_maps
-                .clone()
-                .or(config.source_maps)
-                .unwrap_or(SourceMapsConfig::Bool(false)),
+            source_maps: source_maps.unwrap_or(SourceMapsConfig::Bool(false)),
             inline_sources_content: config.inline_sources_content,
             input_source_map: self.config.input_source_map.clone(),
             output_path: output_path.map(|v| v.to_path_buf()),
@@ -1059,6 +1061,10 @@ impl Merge for Config {
         self.module.merge(&from.module);
         self.minify.merge(&from.minify);
         self.env.merge(&from.env);
+
+        if let Some(SourceMapsConfig::Bool(false)) = self.source_maps {
+            self.source_maps = None;
+        }
         self.source_maps.merge(&from.source_maps);
         self.inline_sources_content
             .merge(&from.inline_sources_content);
