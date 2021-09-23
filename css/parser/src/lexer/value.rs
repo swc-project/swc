@@ -67,56 +67,53 @@ where
 
         self.input.bump(); // ' or "
 
-        let mut was_escape = false;
         loop {
-            if !was_escape {
-                let chunk = self.input.uncons_while(|peeked| match peeked {
-                    '\'' | '"' => peeked != quote,
-                    '\\' => false,
-                    _ => true,
-                });
+            match self.input.cur().unwrap() {
+                // Ending code point
+                c if c == quote => {
+                    self.input.bump();
+                    self.last_pos = Some(self.input.cur_pos());
 
-                buf.push_str(chunk);
-            }
-
-            let c = self.input.cur().ok_or_else(|| ErrorKind::Eof)?;
-            self.input.bump();
-
-            match c {
-                '\\' => {
-                    if was_escape {
-                        buf.push('\\');
-                    } else {
-                        was_escape = true;
-                        continue;
-                    }
+                    break;
                 }
 
-                _ if c == quote => {
-                    if was_escape {
-                        buf.push(quote);
-                    } else {
+                // EOF
+                // case charCodeCategory.Eof:
+                // This is a parse error. Return the <string-token>.
+
+                // Newline
+                c if c == '\n' || c == '\r' || c == '\x0C' => {
+                    self.input.bump();
+                
+                    return Err(ErrorKind::BadString);
+                }
+
+                // // U+005C REVERSE SOLIDUS (\)
+                '\\' => {
+                    // If the next input code point is EOF, do nothing.
+                    if self.input.peek().is_none() {
                         break;
                     }
-                }
 
-                _ => {
-                    if was_escape {
-                        match c {
-                            'n' => {
-                                buf.push('\n');
-                            }
-                            _ => {
-                                buf.push(c);
-                            }
-                        }
-                    } else {
-                        buf.push(c);
+                    // Otherwise, if the next input code point is a newline, consume it.
+                    if self.input.peek() == Some('\n') || self.input.peek() == Some('\r') || self.input.peek() == Some('\x0C') {
+                        self.input.bump();
+                        self.input.bump();
+                    } 
+                    // Otherwise, (the stream starts with a valid escape) consume an escaped code point and append the returned code point to the <string-token>’s value.
+                    else if self.is_valid_escape()? {
+                        buf.push(self.read_escape()?);
                     }
                 }
-            }
 
-            was_escape = false;
+                // Anything else
+                // Append the current input code point to the <string-token>’s value.
+                c => {
+                    buf.push(c);
+
+                    self.input.bump();
+                }
+            }
         }
 
         Ok(buf.into())

@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 746,
+    "end": 747,
     "ctxt": 0
   },
   "rules": [
@@ -10,7 +10,7 @@
       "type": "StyleRule",
       "span": {
         "start": 0,
-        "end": 745,
+        "end": 746,
         "ctxt": 0
       },
       "selectors": [
@@ -86,7 +86,7 @@
         "type": "DeclBlock",
         "span": {
           "start": 10,
-          "end": 745,
+          "end": 746,
           "ctxt": 0
         },
         "properties": [
@@ -181,7 +181,7 @@
             "type": "Property",
             "span": {
               "start": 202,
-              "end": 236,
+              "end": 262,
               "ctxt": 0
             },
             "name": {
@@ -198,7 +198,7 @@
                 "type": "String",
                 "span": {
                   "start": 211,
-                  "end": 236,
+                  "end": 262,
                   "ctxt": 0
                 },
                 "value": "This string also has \"an escaped double quote."
@@ -239,7 +239,7 @@
             "type": "Property",
             "span": {
               "start": 334,
-              "end": 368,
+              "end": 394,
               "ctxt": 0
             },
             "name": {
@@ -256,7 +256,7 @@
                 "type": "String",
                 "span": {
                   "start": 343,
-                  "end": 368,
+                  "end": 394,
                   "ctxt": 0
                 },
                 "value": "This string also has 'an escaped single quote."
@@ -297,7 +297,7 @@
             "type": "Property",
             "span": {
               "start": 463,
-              "end": 493,
+              "end": 511,
               "ctxt": 0
             },
             "name": {
@@ -314,7 +314,7 @@
                 "type": "String",
                 "span": {
                   "start": 472,
-                  "end": 493,
+                  "end": 511,
                   "ctxt": 0
                 },
                 "value": "This string has a \nline break in it."
@@ -558,7 +558,7 @@
             "type": "Property",
             "span": {
               "start": 726,
-              "end": 740,
+              "end": 743,
               "ctxt": 0
             },
             "name": {
@@ -575,7 +575,7 @@
                 "type": "String",
                 "span": {
                   "start": 735,
-                  "end": 740,
+                  "end": 743,
                   "ctxt": 0
                 },
                 "value": "abc"
