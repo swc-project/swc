@@ -177,10 +177,10 @@ impl<'a, I: Input> Lexer<'a, I> {
                 }
 
                 '/' => {
-                    if self.peek() == Some('/') && self.state.can_be_comment() {
+                    if self.peek() == Some('/') {
                         self.skip_line_comment(2);
                         continue;
-                    } else if self.peek() == Some('*') && self.state.can_be_comment() {
+                    } else if self.peek() == Some('*') {
                         self.skip_block_comment()?;
                         continue;
                     }

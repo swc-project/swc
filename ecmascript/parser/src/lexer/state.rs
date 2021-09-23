@@ -346,13 +346,6 @@ impl State {
             .unwrap_or(false)
     }
 
-    pub fn can_be_comment(&self) -> bool {
-        self.context
-            .current()
-            .map(|c| !matches!(c, TokenContext::JSXExpr))
-            .unwrap_or(true)
-    }
-
     pub fn can_have_trailing_comment(&self) -> bool {
         match self.token_type {
             Some(TokenType::Keyword(..)) => false,
@@ -373,14 +366,11 @@ impl State {
     }
 
     fn update(&mut self, start: BytePos, next: &Token) {
-        if cfg!(feature = "debug") {
-            trace!(
-                "updating state: next={:?}, had_line_break={} ",
-                next,
-                self.had_line_break
-            );
-        }
-
+        trace!(
+            "updating state: next={:?}, had_line_break={} ",
+            next,
+            self.had_line_break
+        );
         let prev = self.token_type.take();
         self.token_type = Some(TokenType::from(next));
 
