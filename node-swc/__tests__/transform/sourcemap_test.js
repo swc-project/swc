@@ -110,22 +110,20 @@ it('should handle input sourcemap correctly', async () => {
 
 })
 
-describe('should respect soruceMap: true in .swcrc', () => {
+describe('soruceMaps: true in .swcrc', () => {
 
-    it(`(default)`, async () => {
+    it(`should be respected`, async () => {
         const out = await swc.transformFile(path.join(__dirname, '..', '..', 'tests', 'issue-2120', 'input.js'));
 
 
         expect(out.map).toBeTruthy();
-        console.log(out.map);
     })
 
-    it(`(when sourceMap option is provided)`, async () => {
+    it(`should be respected when sourceMap option is provided`, async () => {
         const out = await swc.transformFile(path.join(__dirname, '..', '..', 'tests', 'issue-2120', 'input.js'), { sourceMaps: false });
 
 
         expect(out.map).toBeTruthy();
-        console.log(out.map);
     })
 
 })
