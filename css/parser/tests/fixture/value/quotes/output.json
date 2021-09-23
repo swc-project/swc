@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 611,
+    "end": 746,
     "ctxt": 0
   },
   "rules": [
@@ -10,7 +10,7 @@
       "type": "StyleRule",
       "span": {
         "start": 0,
-        "end": 610,
+        "end": 745,
         "ctxt": 0
       },
       "selectors": [
@@ -86,7 +86,7 @@
         "type": "DeclBlock",
         "span": {
           "start": 10,
-          "end": 610,
+          "end": 745,
           "ctxt": 0
         },
         "properties": [
@@ -181,7 +181,7 @@
             "type": "Property",
             "span": {
               "start": 202,
-              "end": 262,
+              "end": 236,
               "ctxt": 0
             },
             "name": {
@@ -198,10 +198,10 @@
                 "type": "String",
                 "span": {
                   "start": 211,
-                  "end": 262,
+                  "end": 236,
                   "ctxt": 0
                 },
-                "value": "This string also has 22 an escaped double quote."
+                "value": "This string also has \"an escaped double quote."
               }
             ],
             "important": null
@@ -239,7 +239,7 @@
             "type": "Property",
             "span": {
               "start": 334,
-              "end": 394,
+              "end": 368,
               "ctxt": 0
             },
             "name": {
@@ -256,10 +256,10 @@
                 "type": "String",
                 "span": {
                   "start": 343,
-                  "end": 394,
+                  "end": 368,
                   "ctxt": 0
                 },
-                "value": "This string also has 27 an escaped single quote."
+                "value": "This string also has 'an escaped single quote."
               }
             ],
             "important": null
@@ -297,7 +297,7 @@
             "type": "Property",
             "span": {
               "start": 463,
-              "end": 511,
+              "end": 493,
               "ctxt": 0
             },
             "name": {
@@ -314,10 +314,10 @@
                 "type": "String",
                 "span": {
                   "start": 472,
-                  "end": 511,
+                  "end": 493,
                   "ctxt": 0
                 },
-                "value": "This string has a Aline break in it."
+                "value": "This string has a \nline break in it."
               }
             ],
             "important": null
@@ -346,7 +346,7 @@
                   "end": 558,
                   "ctxt": 0
                 },
-                "value": "A really long \nawesome string"
+                "value": "A really long awesome string"
               }
             ],
             "important": null
@@ -405,6 +405,180 @@
                   "ctxt": 0
                 },
                 "value": "'\"\\"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Property",
+            "span": {
+              "start": 613,
+              "end": 628,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Text",
+              "span": {
+                "start": 613,
+                "end": 620,
+                "ctxt": 0
+              },
+              "value": "content"
+            },
+            "values": [
+              {
+                "type": "String",
+                "span": {
+                  "start": 622,
+                  "end": 628,
+                  "ctxt": 0
+                },
+                "value": "ab"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Property",
+            "span": {
+              "start": 634,
+              "end": 649,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Text",
+              "span": {
+                "start": 634,
+                "end": 641,
+                "ctxt": 0
+              },
+              "value": "content"
+            },
+            "values": [
+              {
+                "type": "String",
+                "span": {
+                  "start": 643,
+                  "end": 649,
+                  "ctxt": 0
+                },
+                "value": "ab"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Property",
+            "span": {
+              "start": 655,
+              "end": 670,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Text",
+              "span": {
+                "start": 655,
+                "end": 662,
+                "ctxt": 0
+              },
+              "value": "content"
+            },
+            "values": [
+              {
+                "type": "String",
+                "span": {
+                  "start": 664,
+                  "end": 670,
+                  "ctxt": 0
+                },
+                "value": "ab"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Property",
+            "span": {
+              "start": 676,
+              "end": 691,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Text",
+              "span": {
+                "start": 676,
+                "end": 683,
+                "ctxt": 0
+              },
+              "value": "content"
+            },
+            "values": [
+              {
+                "type": "String",
+                "span": {
+                  "start": 685,
+                  "end": 691,
+                  "ctxt": 0
+                },
+                "value": "ab"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Property",
+            "span": {
+              "start": 697,
+              "end": 720,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Text",
+              "span": {
+                "start": 697,
+                "end": 704,
+                "ctxt": 0
+              },
+              "value": "content"
+            },
+            "values": [
+              {
+                "type": "String",
+                "span": {
+                  "start": 706,
+                  "end": 720,
+                  "ctxt": 0
+                },
+                "value": "ab"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Property",
+            "span": {
+              "start": 726,
+              "end": 740,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Text",
+              "span": {
+                "start": 726,
+                "end": 733,
+                "ctxt": 0
+              },
+              "value": "content"
+            },
+            "values": [
+              {
+                "type": "String",
+                "span": {
+                  "start": 735,
+                  "end": 740,
+                  "ctxt": 0
+                },
+                "value": "abc"
               }
             ],
             "important": null

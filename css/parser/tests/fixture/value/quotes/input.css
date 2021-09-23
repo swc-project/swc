@@ -15,10 +15,13 @@ awesome string";
 b";
     content: "a\
 b";
-    content: "a\b";
+    content: "a\
+b";
     content: "a\b";
     content: "a\
 \
-\\\
-b"
+\
+\\
+b";
+    content: 'a\62 c'
 }
