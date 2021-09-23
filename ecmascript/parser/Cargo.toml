@@ -13,6 +13,8 @@ version = "0.70.2"
 all-features = true
 
 [features]
+# Used for debugging
+debug = []
 default = ["typescript"]
 typescript = []
 
