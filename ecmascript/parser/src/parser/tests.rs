@@ -1,5 +1,5 @@
 use super::*;
-use crate::{test_parser, TsConfig};
+use crate::{test_parser, EsConfig, TsConfig};
 use swc_common::{comments::SingleThreadedComments, BytePos};
 
 fn program(src: &'static str) -> Program {
@@ -182,7 +182,7 @@ fn issue_1878() {
 }
 
 #[test]
-fn issue_2264() {
+fn issue_2264_1() {
     // file with only comments should have the comments
     // in the leading map instead of the trailing
     {
@@ -201,6 +201,34 @@ fn issue_2264() {
                 ..Default::default()
             }),
             |p| p.parse_typescript_module(),
+        );
+
+        let (leading, trailing) = c.take_all();
+        assert!(leading.borrow().is_empty());
+        assert!(trailing.borrow().is_empty());
+    }
+}
+
+#[test]
+fn issue_2264_2() {
+    // file with only comments should have the comments
+    // in the leading map instead of the trailing
+    {
+        let c = SingleThreadedComments::default();
+        let s = "
+            const t = <Switch>
+                // 1
+                /* 2 */
+            </Switch>
+        ";
+        let _ = super::test_parser_comment(
+            &c,
+            s,
+            Syntax::Es(EsConfig {
+                jsx: true,
+                ..Default::default()
+            }),
+            |p| p.parse_module(),
         );
 
         let (leading, trailing) = c.take_all();
