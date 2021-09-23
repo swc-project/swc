@@ -2287,7 +2287,7 @@ checksum = "6446ced80d6c486436db5c078dde11a9f73d42b57fb273121e160b84f63d894c"
 
 [[package]]
 name = "swc"
-version = "0.56.0"
+version = "0.56.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2507,7 +2507,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.6.3"
+version = "0.6.4"
 dependencies = [
  "bitflags",
  "lexical",
@@ -2661,7 +2661,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.70.2"
+version = "0.70.3"
 dependencies = [
  "either",
  "enum_kind",
@@ -2678,6 +2678,7 @@ dependencies = [
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_visit",
+ "swc_node_base",
  "testing",
  "unicode-xid",
  "walkdir",

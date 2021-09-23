@@ -1,6 +1,7 @@
 const swc = require('../../../'),
     validate = require('sourcemap-validator'),
     sourceMap = require('source-map');
+const path = require('path');
 
 it('should handle sourcemap correctly', async () => {
     const raw = `
@@ -108,3 +109,22 @@ it('should handle input sourcemap correctly', async () => {
     });
 
 })
+
+describe('soruceMaps: true in .swcrc', () => {
+
+    it(`should be respected`, async () => {
+        const out = await swc.transformFile(path.join(__dirname, '..', '..', 'tests', 'issue-2120', 'input.js'));
+
+
+        expect(out.map).toBeTruthy();
+    })
+
+    it(`should be ignored if 'sourceMaps: false' is passed`, async () => {
+        const out = await swc.transformFile(path.join(__dirname, '..', '..', 'tests', 'issue-2120', 'input.js'), { sourceMaps: false });
+
+
+        expect(out.map).toBeUndefined();
+    })
+
+})
+

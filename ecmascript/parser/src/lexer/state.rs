@@ -41,6 +41,7 @@ enum TokenType {
     JSXText,
     JSXTagStart,
     JSXTagEnd,
+    Arrow,
     Other {
         before_expr: bool,
         can_have_trailing_comment: bool,
@@ -56,7 +57,12 @@ impl TokenType {
             | TokenType::Dot
             | TokenType::RParen => false,
 
-            TokenType::JSXText | TokenType::Colon | TokenType::LBrace | TokenType::Semi => true,
+            TokenType::JSXText
+            | TokenType::Colon
+            | TokenType::LBrace
+            | TokenType::Semi
+            | TokenType::Arrow => true,
+
             TokenType::BinOp(b) => b.before_expr(),
             TokenType::Keyword(k) => k.before_expr(),
             TokenType::Other { before_expr, .. } => before_expr,
@@ -78,6 +84,7 @@ impl<'a> From<&'a Token> for TokenType {
             Token::JSXText { .. } => TokenType::JSXText,
             Token::JSXName { .. } => TokenType::JSXName,
             Token::BinOp(op) => TokenType::BinOp(op),
+            Token::Arrow => TokenType::Arrow,
 
             Token::Word(Word::Keyword(k)) => TokenType::Keyword(k),
             _ => TokenType::Other {
@@ -597,6 +604,9 @@ impl TokenContexts {
 
             // `class C<T> { ... }`
             Some(TokenType::BinOp(Lt)) | Some(TokenType::BinOp(Gt)) => return true,
+
+            // () => {}
+            Some(TokenType::Arrow) => return true,
             _ => {}
         }
 
@@ -611,15 +621,20 @@ impl TokenContexts {
     }
     pub fn pop(&mut self) -> Option<TokenContext> {
         let opt = self.0.pop();
-        trace!("context.pop({:?})", opt);
+        if cfg!(feature = "debug") {
+            trace!("context.pop({:?}): {:?}", opt, self.0);
+        }
         opt
     }
     pub fn current(&self) -> Option<TokenContext> {
         self.0.last().cloned()
     }
     fn push(&mut self, t: TokenContext) {
-        trace!("context.push({:?})", t);
         self.0.push(t);
+
+        if cfg!(feature = "debug") {
+            trace!("context.push({:?}): {:?}", t, self.0);
+        }
     }
 }
 
