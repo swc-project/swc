@@ -1,0 +1,11 @@
+{
+    "env": {
+        "shippedProposals": true
+    },
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": true
+        }
+    }
+}

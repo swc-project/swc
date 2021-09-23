@@ -186,6 +186,9 @@ impl Options {
         let mut config = config.unwrap_or_else(Default::default);
         config.merge(&self.config);
 
+        let mut source_maps = self.source_maps.clone();
+        source_maps.merge(&config.source_maps);
+
         let JscConfig {
             transform,
             syntax,
@@ -295,11 +298,7 @@ impl Options {
             syntax,
             target,
             is_module,
-            source_maps: self
-                .source_maps
-                .clone()
-                .or(config.source_maps)
-                .unwrap_or(SourceMapsConfig::Bool(false)),
+            source_maps: source_maps.unwrap_or(SourceMapsConfig::Bool(false)),
             inline_sources_content: config.inline_sources_content,
             input_source_map: self.config.input_source_map.clone(),
             output_path: output_path.map(|v| v.to_path_buf()),
@@ -1121,14 +1120,7 @@ impl Merge for TerserEcmaVersion {
 }
 
 impl Merge for SourceMapsConfig {
-    fn merge(&mut self, from: &Self) {
-        match self {
-            SourceMapsConfig::Bool(false) => {
-                *self = from.clone();
-            }
-            _ => {}
-        }
-    }
+    fn merge(&mut self, _: &Self) {}
 }
 
 impl Merge for swc_ecma_preset_env::Config {
