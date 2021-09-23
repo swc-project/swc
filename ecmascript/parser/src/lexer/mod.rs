@@ -12,7 +12,7 @@ use crate::{
 };
 use either::Either::{Left, Right};
 use smallvec::{smallvec, SmallVec};
-use std::{cell::RefCell, char, iter::FusedIterator, mem::take, rc::Rc};
+use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     comments::{Comment, Comments},
@@ -117,8 +117,6 @@ pub struct Lexer<'a, I: Input> {
 
     errors: Rc<RefCell<Vec<Error>>>,
     module_errors: Rc<RefCell<Vec<Error>>>,
-
-    buf: String,
 }
 
 impl<I: Input> FusedIterator for Lexer<'_, I> {}
@@ -145,7 +143,6 @@ impl<'a, I: Input> Lexer<'a, I> {
             target,
             errors: Default::default(),
             module_errors: Default::default(),
-            buf: String::with_capacity(16),
         }
     }
 
@@ -154,12 +151,9 @@ impl<'a, I: Input> Lexer<'a, I> {
     where
         F: for<'any> FnOnce(&mut Lexer<'any, I>, &mut String) -> LexResult<Ret>,
     {
-        let mut buf = take(&mut self.buf);
-        buf.clear();
+        let mut buf = String::new();
 
         let res = op(self, &mut buf);
-
-        self.buf = buf;
 
         res
     }
