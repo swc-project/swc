@@ -11,10 +11,14 @@ a::before {
 awesome string";
     content: ";'@ /**/\"";
     content: '\'"\\';
-    content: "q\
-q";
-    content: "q\
-q";
-    content: "q\q";
-    content: "q\q";
+    content: "a\
+b";
+    content: "a\
+b";
+    content: "a\b";
+    content: "a\b";
+    content: "a\
+\
+\\\
+b"
 }
