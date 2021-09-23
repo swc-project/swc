@@ -34,6 +34,26 @@ where
     fn drop_return_value(&mut self, stmts: &mut Vec<Stmt>) -> bool {
         // TODO(kdy1): (maybe) run optimization again if it's removed.
 
+        for s in stmts.iter_mut() {
+            match s {
+                Stmt::Return(ReturnStmt {
+                    arg: arg @ Some(..),
+                    ..
+                }) => {
+                    self.ignore_return_value(arg.as_deref_mut().unwrap());
+
+                    match arg.as_deref() {
+                        Some(Expr::Invalid(..)) => {
+                            *arg = None;
+                        }
+
+                        _ => {}
+                    }
+                }
+                _ => {}
+            }
+        }
+
         if let Some(last) = stmts.last_mut() {
             self.drop_return_value_of_stmt(last)
         } else {
@@ -46,6 +66,11 @@ where
         match s {
             Stmt::Block(s) => self.drop_return_value(&mut s.stmts),
             Stmt::Return(ret) => {
+                self.changed = true;
+                if cfg!(feature = "debug") {
+                    log::trace!("Dropping `return` token");
+                }
+
                 let span = ret.span;
                 match ret.arg.take() {
                     Some(arg) => {
@@ -72,19 +97,19 @@ where
             }
 
             Stmt::Try(s) => {
-                let a = self.drop_return_value(&mut s.block.stmts);
+                let a = if s.finalizer.is_none() {
+                    self.drop_return_value(&mut s.block.stmts)
+                } else {
+                    false
+                };
+
                 let b = s
-                    .handler
-                    .as_mut()
-                    .map(|c| self.drop_return_value(&mut c.body.stmts))
-                    .unwrap_or_default();
-                let c = s
                     .finalizer
                     .as_mut()
                     .map(|s| self.drop_return_value(&mut s.stmts))
                     .unwrap_or_default();
 
-                a || b || c
+                a || b
             }
 
             _ => false,
@@ -93,6 +118,13 @@ where
 
     pub(super) fn ignore_return_value(&mut self, e: &mut Expr) {
         match e {
+            Expr::Seq(e) => {
+                if let Some(last) = e.exprs.last_mut() {
+                    // Non-last elements are already processed.
+                    self.ignore_return_value(&mut **last);
+                }
+            }
+
             Expr::Call(CallExpr {
                 callee: ExprOrSuper::Expr(callee),
                 ..

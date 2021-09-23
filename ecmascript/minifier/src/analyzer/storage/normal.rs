@@ -144,22 +144,11 @@ impl Storage for ProgramData {
 }
 
 impl ScopeDataLike for ScopeData {
-    fn add_declared_symbol(&mut self, i: &Ident) {
-        self.declared_symbols
-            .entry(i.sym.clone())
-            .or_default()
-            .insert(i.span.ctxt);
-    }
+    fn add_declared_symbol(&mut self, _: &Ident) {}
 
-    fn merge(&mut self, other: Self, is_child: bool) {
+    fn merge(&mut self, other: Self, _: bool) {
         self.has_with_stmt |= other.has_with_stmt;
         self.has_eval_call |= other.has_eval_call;
-
-        if !is_child {
-            for (k, v) in other.declared_symbols {
-                self.declared_symbols.entry(k).or_default().extend(v);
-            }
-        }
     }
 
     fn mark_eval_called(&mut self) {

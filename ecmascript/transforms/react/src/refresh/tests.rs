@@ -41,14 +41,14 @@ test!(
 
         return <h1 onClick={handleClick}>Hi</h1>;
     }
-    _c = Hello;
+    _c1 = Hello;
     function Bar() {
         return <Hello />;
     }
-    _c1 = Bar;
-    var _c, _c1;
-    $RefreshReg$(_c, "Hello");
-    $RefreshReg$(_c1, "Bar");
+    _c2 = Bar;
+    var _c1, _c2;
+    $RefreshReg$(_c1, "Hello");
+    $RefreshReg$(_c2, "Bar");
 "#
 );
 
@@ -81,27 +81,27 @@ test!(
 
       return <h1 onClick={handleClick}>Hi</h1>;
     }
-    _c = Hello;
+    _c1 = Hello;
     export default function Bar() {
       return <Hello />;
     }
-    _c1 = Bar;
+    _c2 = Bar;
 
     function Baz() {
       return <h1>OK</h1>;
     }
 
-    _c2 = Baz;
+    _c3 = Baz;
     const NotAComp = 'hi';
     export { Baz, NotAComp };
     export function sum() {}
     export const Bad = 42;
 
-    var _c, _c1, _c2;
+    var _c1, _c2, _c3;
 
-    $RefreshReg$(_c, "Hello");
-    $RefreshReg$(_c1, "Bar");
-    $RefreshReg$(_c2, "Baz");
+    $RefreshReg$(_c1, "Hello");
+    $RefreshReg$(_c2, "Bar");
+    $RefreshReg$(_c3, "Baz");
 "#
 );
 
@@ -130,19 +130,19 @@ test!(
 
       return <h1 onClick={handleClick}>Hi</h1>;
     };
-    _c = Hello;
+    _c1 = Hello;
     export let Bar = props => <Hello />;
-    _c1 = Bar;
+    _c2 = Bar;
     export default (() => {
       // This one should be ignored.
       // You should name your components.
       return <Hello />;
     });
 
-    var _c, _c1;
+    var _c1, _c2;
 
-    $RefreshReg$(_c, "Hello");
-    $RefreshReg$(_c1, "Bar");
+    $RefreshReg$(_c1, "Hello");
+    $RefreshReg$(_c2, "Bar");
 "#
 );
 
@@ -219,23 +219,23 @@ test!(
       return <h1 onClick={handleClick}>Hi</h1>;
     };
 
-    _c = Hello;
+    _c1 = Hello;
 
     const Bar = function Baz() {
       return <Hello />;
     };
 
-    _c1 = Bar;
+    _c2 = Bar;
 
     function sum() {}
 
     let Baz = 10;
     var Qux;
 
-    var _c, _c1;
+    var _c1, _c2;
 
-    $RefreshReg$(_c, "Hello");
-    $RefreshReg$(_c1, "Bar");
+    $RefreshReg$(_c1, "Hello");
+    $RefreshReg$(_c2, "Bar");
 "#
 );
 
@@ -264,25 +264,25 @@ test!(
       return <h1 onClick={handleClick}>Hi</h1>;
     };
 
-    _c = Hello;
+    _c1 = Hello;
 
     const Bar = () => {
       return <Hello />;
     };
 
-    _c1 = Bar;
+    _c2 = Bar;
 
     var Baz = () => <div />;
 
-    _c2 = Baz;
+    _c3 = Baz;
 
     var sum = () => {};
 
-    var _c, _c1, _c2;
+    var _c1, _c2, _c3;
 
-    $RefreshReg$(_c, "Hello");
-    $RefreshReg$(_c1, "Bar");
-    $RefreshReg$(_c2, "Baz");
+    $RefreshReg$(_c1, "Hello");
+    $RefreshReg$(_c2, "Bar");
+    $RefreshReg$(_c3, "Baz");
 "#
 );
 
@@ -401,28 +401,28 @@ test!(
     }));
 "#,
     r#"
-    const A = forwardRef(_c = function () {
+    const A = forwardRef(_c1 = function () {
       return <h1>Foo</h1>;
     });
-    _c1 = A;
-    export const B = memo(_c3 = React.forwardRef(_c2 = () => {
+    _c2 = A;
+    export const B = memo(_c4 = React.forwardRef(_c3 = () => {
       return <h1>Foo</h1>;
     }));
-    _c4 = B;
-    export default _c7 = React.memo(_c6 = forwardRef(_c5 = (props, ref) => {
+    _c5 = B;
+    export default _c8 = React.memo(_c7 = forwardRef(_c6 = (props, ref) => {
       return <h1>Foo</h1>;
     }));
     
-    var _c, _c1, _c2, _c3, _c4, _c5, _c6, _c7;
+    var _c1, _c2, _c3, _c4, _c5, _c6, _c7, _c8;
     
-    $RefreshReg$(_c, "A$forwardRef");
-    $RefreshReg$(_c1, "A");
-    $RefreshReg$(_c2, "B$memo$React.forwardRef");
-    $RefreshReg$(_c3, "B$memo");
-    $RefreshReg$(_c4, "B");
-    $RefreshReg$(_c5, "%default%$React.memo$forwardRef");
-    $RefreshReg$(_c6, "%default%$React.memo");
-    $RefreshReg$(_c7, "%default%");
+    $RefreshReg$(_c1, "A$forwardRef");
+    $RefreshReg$(_c2, "A");
+    $RefreshReg$(_c3, "B$memo$React.forwardRef");
+    $RefreshReg$(_c4, "B$memo");
+    $RefreshReg$(_c5, "B");
+    $RefreshReg$(_c6, "%default%$React.memo$forwardRef");
+    $RefreshReg$(_c7, "%default%$React.memo");
+    $RefreshReg$(_c8, "%default%");
 "#
 );
 
@@ -439,15 +439,15 @@ test!(
     }));
 "#,
     r#"
-    export default _c = React.memo(_c2 = forwardRef(_c1 = function (props, ref) {
+    export default _c3 = React.memo(_c2 = forwardRef(_c1 = function (props, ref) {
       return <h1>Foo</h1>;
     }));
     
-    var _c1, _c2, _c;
+    var _c1, _c2, _c3;
     
     $RefreshReg$(_c1, "%default%$React.memo$forwardRef");
     $RefreshReg$(_c2, "%default%$React.memo");
-    $RefreshReg$(_c, "%default%");
+    $RefreshReg$(_c3, "%default%");
 "#
 );
 
@@ -464,15 +464,15 @@ test!(
     }));
 "#,
     r#"
-    export default _c = React.memo(_c2 = forwardRef(_c1 = function Named(props, ref) {
+    export default _c3 = React.memo(_c2 = forwardRef(_c1 = function Named(props, ref) {
       return <h1>Foo</h1>;
     }));
     
-    var _c1, _c2, _c;
+    var _c1, _c2, _c3;
     
     $RefreshReg$(_c1, "%default%$React.memo$forwardRef");
     $RefreshReg$(_c2, "%default%$React.memo");
-    $RefreshReg$(_c, "%default%");
+    $RefreshReg$(_c3, "%default%");
 "#
 );
 
@@ -494,11 +494,11 @@ test!(
     function Foo() {
       return <div >123</div>;
     }
-    _c = Foo;
-    export default _c1 = memo(Foo);
-    var _c, _c1;
-    $RefreshReg$(_c, "Foo");
-    $RefreshReg$(_c1, "%default%");
+    _c1 = Foo;
+    export default _c2 = memo(Foo);
+    var _c1, _c2;
+    $RefreshReg$(_c1, "Foo");
+    $RefreshReg$(_c2, "%default%");
 "#
 );
 
@@ -567,17 +567,17 @@ test!(
     import Store from './Store';
     Store.subscribe();
     const Header = styled.div`color: red`;
-    _c = Header;
+    _c1 = Header;
     const StyledFactory1 = styled('div')`color: hotpink`;
-    _c1 = StyledFactory1;
+    _c2 = StyledFactory1;
     const StyledFactory2 = styled('div')({
       color: 'hotpink'
     });
-    _c2 = StyledFactory2;
+    _c3 = StyledFactory2;
     const StyledFactory3 = styled(A)({
       color: 'hotpink'
     });
-    _c3 = StyledFactory3;
+    _c4 = StyledFactory3;
     const FunnyFactory = funny.factory``;
     let Alias1 = A;
     let Alias2 = A.Foo;
@@ -587,23 +587,23 @@ test!(
       return <div><A /><B /><StyledFactory1 /><StyledFactory2 /><StyledFactory3 /><Alias1 /><Alias2 /><Header /><Dict.X /></div>;
     }
     
-    _c4 = Foo;
+    _c5 = Foo;
     const B = hoc(A); // This is currently registered as a false positive:
 
-    _c5 = B;
+    _c6 = B;
     const NotAComponent = wow(A); // We could avoid it but it also doesn't hurt.
 
-    _c6 = NotAComponent;
+    _c7 = NotAComponent;
 
-    var _c, _c1, _c2, _c3, _c4, _c5, _c6;
+    var _c1, _c2, _c3, _c4, _c5, _c6, _c7;
     
-    $RefreshReg$(_c, "Header");
-    $RefreshReg$(_c1, "StyledFactory1");
-    $RefreshReg$(_c2, "StyledFactory2");
-    $RefreshReg$(_c3, "StyledFactory3");
-    $RefreshReg$(_c4, "Foo");
-    $RefreshReg$(_c5, "B");
-    $RefreshReg$(_c6, "NotAComponent");
+    $RefreshReg$(_c1, "Header");
+    $RefreshReg$(_c2, "StyledFactory1");
+    $RefreshReg$(_c3, "StyledFactory2");
+    $RefreshReg$(_c4, "StyledFactory3");
+    $RefreshReg$(_c5, "Foo");
+    $RefreshReg$(_c6, "B");
+    $RefreshReg$(_c7, "NotAComponent");
 "#
 );
 
@@ -654,17 +654,17 @@ test!(
     import Store from './Store';
     Store.subscribe();
     const Header = styled.div`color: red`;
-    _c = Header;
+    _c1 = Header;
     const StyledFactory1 = styled('div')`color: hotpink`;
-    _c1 = StyledFactory1;
+    _c2 = StyledFactory1;
     const StyledFactory2 = styled('div')({
       color: 'hotpink'
     });
-    _c2 = StyledFactory2;
+    _c3 = StyledFactory2;
     const StyledFactory3 = styled(A)({
       color: 'hotpink'
     });
-    _c3 = StyledFactory3;
+    _c4 = StyledFactory3;
     const FunnyFactory = funny.factory``;
     let Alias1 = A;
     let Alias2 = A.Foo;
@@ -674,24 +674,24 @@ test!(
       return [React.createElement(A), React.createElement(B), React.createElement(StyledFactory1), React.createElement(StyledFactory2), React.createElement(StyledFactory3), React.createElement(Alias1), React.createElement(Alias2), jsx(Header), React.createElement(Dict.X)];
     }
     
-    _c4 = Foo;
+    _c5 = Foo;
     React.createContext(Store);
     const B = hoc(A); // This is currently registered as a false positive:
 
-    _c5 = B;
+    _c6 = B;
     const NotAComponent = wow(A); // We could avoid it but it also doesn't hurt.
 
-    _c6 = NotAComponent;
+    _c7 = NotAComponent;
     
-    var _c, _c1, _c2, _c3, _c4, _c5, _c6;
+    var _c1, _c2, _c3, _c4, _c5, _c6, _c7;
     
-    $RefreshReg$(_c, "Header");
-    $RefreshReg$(_c1, "StyledFactory1");
-    $RefreshReg$(_c2, "StyledFactory2");
-    $RefreshReg$(_c3, "StyledFactory3");
-    $RefreshReg$(_c4, "Foo");
-    $RefreshReg$(_c5, "B");
-    $RefreshReg$(_c6, "NotAComponent");
+    $RefreshReg$(_c1, "Header");
+    $RefreshReg$(_c2, "StyledFactory1");
+    $RefreshReg$(_c3, "StyledFactory2");
+    $RefreshReg$(_c4, "StyledFactory3");
+    $RefreshReg$(_c5, "Foo");
+    $RefreshReg$(_c6, "B");
+    $RefreshReg$(_c7, "NotAComponent");
 "#
 );
 
@@ -715,19 +715,19 @@ test!(
       return <h1>Hi</h1>;
     }
     
-    _c = Foo;
-    export default _c1 = hoc(Foo);
+    _c1 = Foo;
+    export default _c2 = hoc(Foo);
     export const A = hoc(Foo);
-    _c2 = A;
+    _c3 = A;
     const B = hoc(Foo);
-    _c3 = B;
+    _c4 = B;
 
-    var _c, _c1, _c2, _c3;
+    var _c1, _c2, _c3, _c4;
 
-    $RefreshReg$(_c, "Foo");
-    $RefreshReg$(_c1, "%default%");
-    $RefreshReg$(_c2, "A");
-    $RefreshReg$(_c3, "B");
+    $RefreshReg$(_c1, "Foo");
+    $RefreshReg$(_c2, "%default%");
+    $RefreshReg$(_c3, "A");
+    $RefreshReg$(_c4, "B");
 "#
 );
 
@@ -802,7 +802,7 @@ test!(
 
     _s(Foo, "useState{[foo, setFoo](0)}\nuseEffect{}");
   
-    _c = Foo;
+    _c1 = Foo;
 
     function Bar() {
       _s1();
@@ -814,7 +814,7 @@ test!(
 
     _s1(Bar, "useState{[foo, setFoo](0)}\nuseEffect{}");
   
-    _c1 = Bar;
+    _c2 = Bar;
 
     function baz() {
       _s2();
@@ -823,10 +823,10 @@ test!(
 
     _s2(baz, "useState{}\nuseState{}");
 
-    var _c, _c1;
+    var _c1, _c2;
   
-    $RefreshReg$(_c, "Foo");
-    $RefreshReg$(_c1, "Bar");
+    $RefreshReg$(_c1, "Foo");
+    $RefreshReg$(_c2, "Bar");
 "#
 );
 
@@ -860,22 +860,22 @@ test!(
     r#"
     var _s = $RefreshSig$(), _s1 = $RefreshSig$();
 
-    export const A = _s(React.memo(_c = _s(React.forwardRef(_c1 = _s((props, ref) => {
+    export const A = _s(React.memo(_c2 = _s(React.forwardRef(_c1 = _s((props, ref) => {
       _s();
     
       const [foo, setFoo] = useState(0);
       React.useEffect(() => {});
       return <h1 ref={ref}>{foo}</h1>;
     }, "useState{[foo, setFoo](0)}\nuseEffect{}")), "useState{[foo, setFoo](0)}\nuseEffect{}")), "useState{[foo, setFoo](0)}\nuseEffect{}");
-    _c2 = A;
-    export const B = _s1(React.memo(_c4 = _s1(React.forwardRef(_c3 = _s1(function (props, ref) {
+    _c3 = A;
+    export const B = _s1(React.memo(_c5 = _s1(React.forwardRef(_c4 = _s1(function (props, ref) {
       _s1();
     
       const [foo, setFoo] = useState(0);
       React.useEffect(() => {});
       return <h1 ref={ref}>{foo}</h1>;
     }, "useState{[foo, setFoo](0)}\nuseEffect{}")), "useState{[foo, setFoo](0)}\nuseEffect{}")), "useState{[foo, setFoo](0)}\nuseEffect{}");
-    _c5 = B;
+    _c6 = B;
 
     function hoc() {
       var _s = $RefreshSig$();
@@ -891,14 +891,14 @@ test!(
 
     export let C = hoc();
 
-    var _c1, _c, _c2, _c3, _c4, _c5;
+    var _c1, _c2, _c3, _c4, _c5, _c6;
 
     $RefreshReg$(_c1, "A$React.memo$React.forwardRef");
-    $RefreshReg$(_c, "A$React.memo");
-    $RefreshReg$(_c2, "A");
-    $RefreshReg$(_c3, "B$React.memo$React.forwardRef");
-    $RefreshReg$(_c4, "B$React.memo");
-    $RefreshReg$(_c5, "B");
+    $RefreshReg$(_c2, "A$React.memo");
+    $RefreshReg$(_c3, "A");
+    $RefreshReg$(_c4, "B$React.memo$React.forwardRef");
+    $RefreshReg$(_c5, "B$React.memo");
+    $RefreshReg$(_c6, "B");
 "#
 );
 
@@ -968,7 +968,7 @@ test!(
 
     _s1(Foo, "useContext{}");
 
-    _c = Foo;
+    _c1 = Foo;
     module.exports = _s2(() => {
       _s2();
 
@@ -983,13 +983,13 @@ test!(
 
     _s3(Bar, "useContext{}");
 
-    _c1 = Bar;
-    const Baz = _s4(memo(_c2 = _s4(() => {
+    _c2 = Bar;
+    const Baz = _s4(memo(_c3 = _s4(() => {
       _s4();
 
       return useContext(X);
     }, "useContext{}")), "useContext{}");
-    _c3 = Baz;
+    _c4 = Baz;
 
     const Qux = () => {
       _s5();
@@ -999,15 +999,15 @@ test!(
 
     _s5(Qux, "useContext{}");
 
-    _c4 = Qux;
+    _c5 = Qux;
 
-    var _c, _c1, _c2, _c3, _c4;
+    var _c1, _c2, _c3, _c4, _c5;
 
-    $RefreshReg$(_c, "Foo");
-    $RefreshReg$(_c1, "Bar");
-    $RefreshReg$(_c2, "Baz$memo");
-    $RefreshReg$(_c3, "Baz");
-    $RefreshReg$(_c4, "Qux");
+    $RefreshReg$(_c1, "Foo");
+    $RefreshReg$(_c2, "Bar");
+    $RefreshReg$(_c3, "Baz$memo");
+    $RefreshReg$(_c4, "Baz");
+    $RefreshReg$(_c5, "Qux");
     "#
 );
 
@@ -1283,7 +1283,7 @@ test!(
 
     _s(Foo, "useState{[foo, setFoo](0)}\nuseEffect{}", true);
 
-    _c = Foo;
+    _c1 = Foo;
 
     function Bar() {
       _s1();
@@ -1295,12 +1295,12 @@ test!(
 
     _s1(Bar, "useState{[foo, setFoo](0)}\nuseEffect{}", true);
 
-    _c1 = Bar;
+    _c2 = Bar;
 
-    var _c, _c1;
+    var _c1, _c2;
 
-    $RefreshReg$(_c, "Foo");
-    $RefreshReg$(_c1, "Bar");
+    $RefreshReg$(_c1, "Foo");
+    $RefreshReg$(_c2, "Bar");
 "#
 );
 

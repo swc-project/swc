@@ -1,4 +1,4 @@
-use std::{cell::RefCell, rc::Rc};
+use std::{cell::RefCell, path::PathBuf, rc::Rc};
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::{
@@ -19,7 +19,7 @@ use swc_ecma_transforms_module::{
     import_analysis::import_analyzer,
     util::{Config, Lazy, Scope},
 };
-use swc_ecma_transforms_testing::{test, test_exec};
+use swc_ecma_transforms_testing::{test, test_exec, test_fixture};
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
@@ -4904,3 +4904,17 @@ test!(
     }
     "
 );
+
+#[testing::fixture("tests/fixture/commonjs/**/input.js")]
+fn fixture(input: PathBuf) {
+    let dir = input.parent().unwrap().to_path_buf();
+
+    let output = dir.join("output.js");
+
+    test_fixture(
+        Default::default(),
+        &|_| tr(Default::default()),
+        &input,
+        &output,
+    );
+}

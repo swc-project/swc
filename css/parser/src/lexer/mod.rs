@@ -238,12 +238,14 @@ where
         if self.input.is_byte(b'(') {
             if name.len() == 3 {
                 if name.to_ascii_lowercase() == js_word!("url") {
+                    let pos = self.input.cur_pos();
+
+                    self.input.bump();
                     self.skip_ws()?;
 
-                    match self.input.peek() {
-                        Some('"' | '\'') => {}
+                    match self.input.cur() {
+                        Some('"' | '\'') => self.input.reset_to(pos),
                         _ => {
-                            self.input.bump();
                             return self.read_url();
                         }
                     }
@@ -271,7 +273,7 @@ where
 
             match self.input.cur().unwrap() {
                 ' ' | '\t' | '\n' | '\r' => {
-                    // TOOD: Add `\f` of golang.
+                    // TODO: Add `\f` of golang.
                     self.input.bump();
                     self.skip_ws()?;
 

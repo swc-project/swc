@@ -125,13 +125,13 @@
             return null == obj ? String(obj) : "object" == typeof obj || "function" == typeof obj ? class2type[core_toString.call(obj)] || "object" : typeof obj;
         },
         isPlainObject: function(obj) {
+            var key;
             if (!obj || "object" !== jQuery.type(obj) || obj.nodeType || jQuery.isWindow(obj)) return !1;
             try {
                 if (obj.constructor && !core_hasOwn.call(obj, "constructor") && !core_hasOwn.call(obj.constructor.prototype, "isPrototypeOf")) return !1;
             } catch (e) {
                 return !1;
             }
-            var key;
             for(key in obj);
             return key === undefined || core_hasOwn.call(obj, key);
         },
@@ -730,7 +730,7 @@
         },
         prop: function(elem, name, value) {
             var ret, hooks, nType = elem.nodeType;
-            if (elem && 3 !== nType && 8 !== nType && 2 !== nType) return (1 === nType && jQuery.isXMLDoc(elem) || (name = jQuery.propFix[name] || name, hooks = jQuery.propHooks[name]), value !== undefined) ? hooks && "set" in hooks && undefined !== (ret = hooks.set(elem, value, name)) ? ret : elem[name] = value : hooks && "get" in hooks && null !== (ret = hooks.get(elem, name)) ? ret : elem[name];
+            return elem && 3 !== nType && 8 !== nType && 2 !== nType ? (1 === nType && jQuery.isXMLDoc(elem) || (name = jQuery.propFix[name] || name, hooks = jQuery.propHooks[name]), value !== undefined) ? hooks && "set" in hooks && undefined !== (ret = hooks.set(elem, value, name)) ? ret : elem[name] = value : hooks && "get" in hooks && null !== (ret = hooks.get(elem, name)) ? ret : elem[name] : void 0;
         },
         propHooks: {
             tabIndex: {
@@ -3006,10 +3006,10 @@
             top: 0,
             left: 0
         }, elem = this[0], doc = elem && elem.ownerDocument;
-        if (doc) return (docElem = doc.documentElement, jQuery.contains(docElem, elem)) ? (void 0 !== elem.getBoundingClientRect && (box = elem.getBoundingClientRect()), win = getWindow(doc), {
+        return doc ? (docElem = doc.documentElement, jQuery.contains(docElem, elem)) ? (void 0 !== elem.getBoundingClientRect && (box = elem.getBoundingClientRect()), win = getWindow(doc), {
             top: box.top + (win.pageYOffset || docElem.scrollTop) - (docElem.clientTop || 0),
             left: box.left + (win.pageXOffset || docElem.scrollLeft) - (docElem.clientLeft || 0)
-        }) : box;
+        }) : box : void 0;
     }, jQuery.offset = {
         setOffset: function(elem, options, i) {
             var position = jQuery.css(elem, "position");

@@ -1161,7 +1161,7 @@ where
                         if s.value.contains(|c: char| !c.is_ascii()) {
                             return true;
                         }
-                        if s.value.contains("\\\0") || s.value.contains("//") {
+                        if s.value.contains("\\\0") || s.value.contains("/") {
                             return true;
                         }
 
@@ -1267,7 +1267,17 @@ where
             _ => false,
         }) {
             self.changed = true;
-            log::debug!("Merging variable declarations");
+
+            if cfg!(feature = "debug") {
+                log::debug!("Merging variable declarations");
+                log::trace!(
+                    "[Before]: {}",
+                    dump(&BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: stmts.clone()
+                    })
+                )
+            }
 
             let orig = take(stmts);
             let mut new = Vec::with_capacity(orig.len());
@@ -1283,8 +1293,8 @@ where
                                 upper.decls.extend(below.decls);
                                 var_decl = Some(upper);
                             }
-                            _ => {
-                                new.extend(var_decl.take().map(Decl::Var).map(Stmt::Decl));
+                            d => {
+                                new.extend(d.map(Decl::Var).map(Stmt::Decl));
                                 var_decl = Some(below);
                             }
                         }
@@ -1300,6 +1310,15 @@ where
 
             new.extend(var_decl.take().map(Decl::Var).map(Stmt::Decl));
 
+            if cfg!(feature = "debug") {
+                log::trace!(
+                    "[Change] merged: {}",
+                    dump(&BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: new.clone()
+                    })
+                )
+            }
             *stmts = new
         }
     }
@@ -1842,13 +1861,6 @@ where
         n.left.visit_mut_with(&mut *self.with_ctx(ctx));
 
         n.body.visit_mut_with(self);
-
-        match &mut *n.body {
-            Stmt::Block(body) => {
-                self.negate_if_terminate(&mut body.stmts, false, true);
-            }
-            _ => {}
-        }
     }
 
     fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
@@ -1861,13 +1873,6 @@ where
         n.left.visit_mut_with(&mut *self.with_ctx(ctx));
 
         n.body.visit_mut_with(self);
-
-        match &mut *n.body {
-            Stmt::Block(body) => {
-                self.negate_if_terminate(&mut body.stmts, false, true);
-            }
-            _ => {}
-        }
     }
 
     fn visit_mut_for_stmt(&mut self, s: &mut ForStmt) {
@@ -1881,13 +1886,6 @@ where
         self.with_ctx(ctx).optimize_init_of_for_stmt(s);
 
         self.with_ctx(ctx).drop_if_break(s);
-
-        match &mut *s.body {
-            Stmt::Block(body) => {
-                self.negate_if_terminate(&mut body.stmts, false, true);
-            }
-            _ => {}
-        }
     }
 
     fn visit_mut_function(&mut self, n: &mut Function) {
@@ -1925,8 +1923,6 @@ where
                 Some(body) => {
                     // Bypass block scope handler.
                     body.visit_mut_children_with(optimizer);
-
-                    optimizer.negate_if_terminate(&mut body.stmts, true, false);
                 }
                 None => {}
             }

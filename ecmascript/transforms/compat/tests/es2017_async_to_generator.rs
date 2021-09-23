@@ -386,20 +386,20 @@ class Class {
                   return _this;
               });
               (function() {
-                  var _this = _this1;
+                  var _this2 = _this1;
                   _this1;
                   (function() {
-                      return _this;
+                      return _this2;
                   });
                   function x() {
-                      var _this = this, _this2 = this;
+                      var _this = this, _this3 = this;
                       this;
                       (function() {
                           _this;
                       });
                       (function() {
                           var _ref = _asyncToGenerator(function*() {
-                              _this2;
+                              _this3;
                           });
                           return function() {
                               return _ref.apply(this, arguments);

@@ -434,12 +434,12 @@ impl<'a> Emitter<'a> {
         };
 
         if single_quote {
-            punct!("'");
-            self.wr.write_str_lit(node.span, &value)?;
+            punct!(node.span, "'");
+            self.wr.write_str_lit(DUMMY_SP, &value)?;
             punct!("'");
         } else {
-            punct!("\"");
-            self.wr.write_str_lit(node.span, &value)?;
+            punct!(node.span, "\"");
+            self.wr.write_str_lit(DUMMY_SP, &value)?;
             punct!("\"");
         }
     }
@@ -1109,13 +1109,13 @@ impl<'a> Emitter<'a> {
 
         self.emit_accesibility(n.accessibility)?;
 
-        if n.readonly {
-            keyword!("readonly");
+        if n.is_static {
+            keyword!("static");
             space!();
         }
 
-        if n.is_static {
-            keyword!("static");
+        if n.readonly {
+            keyword!("readonly");
             space!();
         }
 
@@ -1151,14 +1151,14 @@ impl<'a> Emitter<'a> {
             self.emit_accesibility(n.accessibility)?;
         }
 
-        if n.readonly {
-            keyword!("readonly");
-            space!()
-        }
-
         if n.is_static {
             keyword!("static");
             space!();
+        }
+
+        if n.readonly {
+            keyword!("readonly");
+            space!()
         }
 
         if n.computed {
@@ -1371,8 +1371,15 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     fn emit_quasi(&mut self, node: &TplElement) -> Result {
-        self.wr
-            .write_str_lit(node.span, &unescape_tpl_lit(&node.raw.value))?;
+        let is_synthesized = match node.raw.kind {
+            StrKind::Synthesized => true,
+            _ => false,
+        };
+
+        self.wr.write_str_lit(
+            node.span,
+            &unescape_tpl_lit(&node.raw.value, is_synthesized),
+        )?;
         return Ok(());
     }
 
@@ -2749,7 +2756,7 @@ where
     }
 }
 
-fn unescape_tpl_lit(s: &str) -> String {
+fn unescape_tpl_lit(s: &str, is_synthesized: bool) -> String {
     fn read_escaped(
         radix: u32,
         len: Option<usize>,
@@ -2814,6 +2821,10 @@ fn unescape_tpl_lit(s: &str) -> String {
                 }
                 '\n' => {
                     result.push_str("\n");
+                }
+
+                '`' if is_synthesized => {
+                    result.push_str("\\`");
                 }
 
                 // TODO: Handle all escapes

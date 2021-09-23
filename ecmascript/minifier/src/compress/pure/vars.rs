@@ -27,38 +27,46 @@ where
         }
 
         {
-            // let mut found_other = false;
-            // let mut need_work = false;
+            let mut found_other = false;
+            let mut need_work = false;
 
-            // for stmt in &*stmts {
-            //     match stmt.as_stmt() {
-            //         Some(Stmt::Decl(Decl::Var(
-            //             v
-            //             @
-            //             VarDecl {
-            //                 kind: VarDeclKind::Var,
-            //                 ..
-            //             },
-            //         ))) => {
-            //             if v.decls.iter().any(|v| v.init.is_none()) {
-            //                 if found_other {
-            //                     need_work = true;
-            //                 }
-            //             } else {
-            //                 found_other = true;
-            //             }
-            //         }
+            for stmt in &*stmts {
+                match stmt.as_stmt() {
+                    Some(Stmt::Decl(Decl::Var(
+                        v
+                        @
+                        VarDecl {
+                            kind: VarDeclKind::Var,
+                            ..
+                        },
+                    ))) => {
+                        if v.decls.iter().all(|v| v.init.is_none()) {
+                            if found_other {
+                                need_work = true;
+                            }
+                        } else {
+                            found_other = true;
+                        }
+                    }
 
-            //         _ => {
-            //             found_other = true;
-            //         }
-            //     }
-            // }
+                    // Directives
+                    Some(Stmt::Expr(s)) => match &*s.expr {
+                        Expr::Lit(Lit::Str(..)) => {}
+                        _ => {
+                            found_other = true;
+                        }
+                    },
+
+                    _ => {
+                        found_other = true;
+                    }
+                }
+            }
 
             // Check for nested variable declartions.
             let mut v = VarWithOutInitCounter::default();
             stmts.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
-            if !v.need_work {
+            if !need_work && !v.need_work {
                 return;
             }
         }

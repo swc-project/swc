@@ -59,11 +59,6 @@ pub struct ParseOptions {
     pub target: JscTarget,
 }
 
-#[cfg(target_arch = "wasm32")]
-fn default_as_true() -> bool {
-    true
-}
-
 #[derive(Debug, Clone, Default, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct Options {
@@ -73,12 +68,7 @@ pub struct Options {
     #[serde(skip_deserializing, default)]
     pub skip_helper_injection: bool,
 
-    #[cfg(not(target_arch = "wasm32"))]
     #[serde(skip_deserializing, default)]
-    pub disable_hygiene: bool,
-
-    #[cfg(target_arch = "wasm32")]
-    #[serde(default = "default_as_true")]
     pub disable_hygiene: bool,
 
     #[serde(skip_deserializing, default)]

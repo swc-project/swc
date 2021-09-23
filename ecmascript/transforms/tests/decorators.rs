@@ -3171,13 +3171,13 @@ export default class {
 "#,
     r#"
     var _class;
-    let _class1 = ((_class = class _class2 {
+    let _class2 = ((_class = class _class1 {
         bar() {
         }
     }) || _class, _applyDecoratedDescriptor(_class.prototype, "bar", [
         foo
     ], Object.getOwnPropertyDescriptor(_class.prototype, "bar"), _class.prototype), _class);
-    export { _class1 as default };
+    export { _class2 as default };
 "#
 );
 
