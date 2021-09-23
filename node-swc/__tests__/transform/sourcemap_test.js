@@ -119,11 +119,11 @@ describe('soruceMaps: true in .swcrc', () => {
         expect(out.map).toBeTruthy();
     })
 
-    it(`should be respected when sourceMap option is provided`, async () => {
+    it(`should be ignored if 'sourceMaps: false' is passed`, async () => {
         const out = await swc.transformFile(path.join(__dirname, '..', '..', 'tests', 'issue-2120', 'input.js'), { sourceMaps: false });
 
 
-        expect(out.map).toBeTruthy();
+        expect(out.map).toBeUndefined();
     })
 
 })
