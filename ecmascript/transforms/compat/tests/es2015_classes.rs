@@ -6151,9 +6151,9 @@ test!(
     'use strict';
     _classCallCheck(this, Foo);
   };
-  let Test = function(Foo) {
+  let Test = function(Foo1) {
     'use strict';
-    _inherits(Test, Foo);
+    _inherits(Test, Foo1);
     function Test() {
         _classCallCheck(this, Test);
         return _possibleConstructorReturn(this, _getPrototypeOf(Test).apply(this, arguments));
