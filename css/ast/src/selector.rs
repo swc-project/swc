@@ -68,7 +68,7 @@ pub enum SubclassSelector {
     At(AtSelector),
 }
 
-#[ast_node("AttrributeSelector")]
+#[ast_node("AttributeSelector")]
 pub struct AttrSelector {
     pub span: Span,
     pub name: NamespacedName,

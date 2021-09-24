@@ -63,7 +63,7 @@
               "typeSelector": null,
               "subclassSelectors": [
                 {
-                  "type": "AttrributeSelector",
+                  "type": "AttributeSelector",
                   "span": {
                     "start": 2,
                     "end": 5,

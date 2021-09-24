@@ -1,0 +1,16 @@
+[title] {}
+[title=foo] {}
+[title="foo"] {}
+[lang~="en-us"] {}
+[lang|="zh"] {}
+[href^="#"] {}
+[href$=".org"] {}
+[href*="example"] {}
+[href*="insensitive" i] {}
+[href*="insensitive" I] {}
+[href*="cAsE" s] {}
+[href*="cAsE" S] {}
+[foo|att=val] {}
+[*|att] {}
+[|att] {}
+[att] {}
