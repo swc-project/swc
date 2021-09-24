@@ -9,7 +9,7 @@ use std::{cell::RefCell, collections::HashMap};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{chain, util::take::Take, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 mod ops;
@@ -44,6 +44,9 @@ struct Hygiene<'a> {
 type Contexts = SmallVec<[SyntaxContext; 32]>;
 
 impl<'a> Hygiene<'a> {
+    /// Check `id` while exiting scope.
+    fn enqueue_check(&mut self, id: Id) {}
+
     fn add_decl(&mut self, ident: Ident) {
         let ctxt = ident.span.ctxt();
 
@@ -126,61 +129,59 @@ impl<'a> Hygiene<'a> {
         let ctxt = ident.span.ctxt();
 
         {
-            let mut need_work = false;
+            let mut decl_cnt = 0;
 
-            {
-                let mut decl_cnt = 0;
+            let mut cur = Some(&self.current);
 
-                let mut cur = Some(&self.current);
+            while let Some(c) = cur {
+                let b = c.declared_symbols.borrow();
 
-                while let Some(c) = cur {
-                    let b = c.declared_symbols.borrow();
-
-                    if let Some(ctxts) = b.get(&*ident.sym) {
-                        decl_cnt += ctxts.len();
-                    }
-
-                    cur = c.parent;
+                if let Some(ctxts) = b.get(&*ident.sym) {
+                    decl_cnt += ctxts.len();
                 }
 
-                if decl_cnt >= 2 {
-                    need_work = true;
-                }
+                cur = c.parent;
             }
 
-            {
-                let mut is_cur = true;
-                let mut cur = Some(&self.current);
+            if decl_cnt >= 2 {
+                self.enqueue_check(ident.to_id());
+            }
+        }
 
-                while let Some(c) = cur {
-                    let mut used = c.used.borrow_mut();
-                    let e = used.entry(ident.sym.to_boxed_str()).or_default();
+        {
+            let mut need_work = false;
 
-                    if !e.contains(&ctxt) {
-                        e.push(ctxt);
-                    }
+            let mut is_cur = true;
+            let mut cur = Some(&self.current);
 
-                    if e.len() <= 1 {
-                    } else {
-                        if is_cur {
-                            need_work = true;
-                        }
-                    }
+            while let Some(c) = cur {
+                let mut used = c.used.borrow_mut();
+                let e = used.entry(ident.sym.to_boxed_str()).or_default();
 
-                    if e.len() == 1 && e[0] == ctxt {
-                    } else {
-                        if is_cur {
-                            need_work = true;
-                        }
-                    }
-
-                    is_cur = false;
-                    cur = c.parent;
+                if !e.contains(&ctxt) {
+                    e.push(ctxt);
                 }
 
-                if !need_work {
-                    return;
+                if e.len() <= 1 {
+                } else {
+                    if is_cur {
+                        need_work = true;
+                    }
                 }
+
+                if e.len() == 1 && e[0] == ctxt {
+                } else {
+                    if is_cur {
+                        need_work = true;
+                    }
+                }
+
+                is_cur = false;
+                cur = c.parent;
+            }
+
+            if !need_work {
+                return;
             }
         }
 
