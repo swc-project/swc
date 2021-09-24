@@ -316,16 +316,16 @@ impl<'a> Hygiene<'a> {
         for (sym, ctxt) in self.current.check_queue.take() {
             dbg!(&sym, ctxt);
             {
-                let mut decl_cnt = 0;
+                let mut cnt = 0;
                 let mut cur = Some(&self.current);
 
                 while let Some(c) = cur {
                     let used = c.used.borrow();
 
                     if let Some(ctxts) = used.get(&*sym) {
-                        decl_cnt += ctxts.len();
+                        cnt += ctxts.len();
                         if ctxts.contains(&ctxt) {
-                            decl_cnt -= 1;
+                            cnt -= 1;
                         }
 
                         dbg!(ctxts);
@@ -334,7 +334,7 @@ impl<'a> Hygiene<'a> {
                     cur = c.parent;
                 }
 
-                if decl_cnt < 2 {
+                if cnt < 2 {
                     continue;
                 }
             }
