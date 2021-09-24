@@ -463,7 +463,7 @@
               },
               "subclassSelectors": [
                 {
-                  "type": "AttrributeSelector",
+                  "type": "AttributeSelector",
                   "span": {
                     "start": 89,
                     "end": 96,
@@ -581,7 +581,7 @@
               },
               "subclassSelectors": [
                 {
-                  "type": "AttrributeSelector",
+                  "type": "AttributeSelector",
                   "span": {
                     "start": 120,
                     "end": 137,
@@ -707,7 +707,7 @@
               },
               "subclassSelectors": [
                 {
-                  "type": "AttrributeSelector",
+                  "type": "AttributeSelector",
                   "span": {
                     "start": 161,
                     "end": 179,
@@ -833,7 +833,7 @@
               },
               "subclassSelectors": [
                 {
-                  "type": "AttrributeSelector",
+                  "type": "AttributeSelector",
                   "span": {
                     "start": 203,
                     "end": 220,
@@ -870,7 +870,7 @@
                   "modifier": null
                 },
                 {
-                  "type": "AttrributeSelector",
+                  "type": "AttributeSelector",
                   "span": {
                     "start": 220,
                     "end": 239,
