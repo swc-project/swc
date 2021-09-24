@@ -1611,12 +1611,12 @@ fn issue_2297_1() {
             Ok(stmts)
         },
         "
-        var _bar1 = require('./Bar');
+        var _bar = require('./Bar');
         var makeX = function(props) {
-            var _bar = props.bar;
-            var list = _bar.list;
+            var _bar1 = props.bar;
+            var list = _bar1.list;
             return list.map(function() {
-                return _bar1.bar;
+                return _bar.bar;
             });
         };
         ",
