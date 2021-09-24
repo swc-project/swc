@@ -1,0 +1,16 @@
+/* { } */a b {}
+/* test */a b {}
+/* { } */ a b {}
+/* test */ a b {}
+a/* { } */b {}
+a/* test */b {}
+a /* { } */ b {}
+a /* test */ b {}
+a b/* { } */ {}
+a b/* test */ {}
+a b /* { } */ {}
+a b /* test */ {}
+a b/* { } */{}
+a b/* test */{}
+a/* test */,/* test */b{}
+a /* test */ , /* test */ b {}
