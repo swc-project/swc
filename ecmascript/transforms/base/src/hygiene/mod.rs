@@ -16,7 +16,7 @@ mod ops;
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = true;
+const LOG: bool = false;
 
 #[derive(Debug, Clone, Default)]
 pub struct Config {
@@ -314,6 +314,7 @@ impl<'a> Hygiene<'a> {
         dbg!(&self.current.check_queue);
 
         for (sym, ctxt) in self.current.check_queue.take() {
+            dbg!(&sym, ctxt);
             {
                 let mut decl_cnt = 0;
                 let mut cur = Some(&self.current);
@@ -326,6 +327,8 @@ impl<'a> Hygiene<'a> {
                         if ctxts.contains(&ctxt) {
                             decl_cnt -= 1;
                         }
+
+                        dbg!(ctxts);
                     }
 
                     cur = c.parent;
@@ -336,7 +339,6 @@ impl<'a> Hygiene<'a> {
                 }
             }
 
-            dbg!(&sym, ctxt, &self.current.declared_symbols);
             self.rename(sym, ctxt);
         }
     }
