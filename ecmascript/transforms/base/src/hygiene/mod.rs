@@ -45,6 +45,8 @@ type Contexts = SmallVec<[SyntaxContext; 32]>;
 
 impl<'a> Hygiene<'a> {
     /// Check `id` while exiting scope.
+    ///
+    /// We handle this while exiting a scope. See check_enqueued for details.
     fn enqueue_check(&mut self, id: Id) {
         if self.current.check_queue.contains(&id) {
             return;
@@ -306,12 +308,20 @@ impl VisitMut for MarkClearer {
 
 impl<'a> Hygiene<'a> {
     /// Move `check_queue` to `ops`.
+    ///
+    /// # Implementation notes
+    ////
+    /// This only handles variables declared in current scope.
+    /// You may think it's possible to avoid adding an [Id] to `check_queue`
+    /// entirely, but it's not possible because declarations can come after
+    /// usages.
     fn check_enqueued(&mut self) {
         if self.current.check_queue.is_empty() {
             return;
         }
 
         for (sym, ctxt) in self.current.check_queue.take() {
+            // Check if it's in the current scope.
             if let Some(decls) = self
                 .current
                 .declared_symbols
@@ -324,6 +334,10 @@ impl<'a> Hygiene<'a> {
             }
 
             {
+                // We check for all used identifiers in current scope.
+                // If `ctxt` is the only one, it's fine.
+                // If other syntax context is used, we need to rename it.
+
                 let mut other_ctxts = vec![];
 
                 let used = self.current.used.borrow();
@@ -333,10 +347,13 @@ impl<'a> Hygiene<'a> {
                         if cx == ctxt {
                             continue;
                         }
+
+                        // Prevent duplicate
                         if other_ctxts.contains(&cx) {
                             continue;
                         }
 
+                        // If a declaration name is going to be renamed, it's not a conflict.
                         let mut cur = Some(&self.current);
                         while let Some(c) = cur {
                             let ops = c.ops.borrow();
