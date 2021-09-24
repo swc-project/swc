@@ -46,7 +46,10 @@ type Contexts = SmallVec<[SyntaxContext; 32]>;
 impl<'a> Hygiene<'a> {
     /// Check `id` while exiting scope.
     fn enqueue_check(&mut self, id: Id) {
-        self.current.check_queue.insert(id);
+        if self.current.check_queue.contains(&id) {
+            return;
+        }
+        self.current.check_queue.push(id);
     }
 
     fn add_decl(&mut self, ident: Ident) {
@@ -309,6 +312,32 @@ impl<'a> Hygiene<'a> {
         }
 
         dbg!(&self.current.check_queue);
+
+        for (sym, ctxt) in self.current.check_queue.take() {
+            {
+                let mut decl_cnt = 0;
+                let mut cur = Some(&self.current);
+
+                while let Some(c) = cur {
+                    let used = c.declared_symbols.borrow();
+
+                    if let Some(ctxts) = used.get(&*sym) {
+                        decl_cnt += ctxts.len();
+                        if ctxts.contains(&ctxt) {
+                            decl_cnt -= 1;
+                        }
+                    }
+
+                    cur = c.parent;
+                }
+
+                if decl_cnt < 2 {
+                    return;
+                }
+            }
+
+            dbg!(&sym, ctxt, &self.current.declared_symbols);
+        }
     }
 
     fn apply_ops<N>(&mut self, node: &mut N)
@@ -451,7 +480,7 @@ struct Scope<'a> {
     pub(crate) ops: RefCell<Operations>,
     pub renamed: FxHashSet<JsWord>,
 
-    check_queue: FxHashSet<Id>,
+    check_queue: Vec<Id>,
 }
 
 impl<'a> Default for Scope<'a> {
