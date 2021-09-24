@@ -3365,7 +3365,7 @@
                 isBatchingEventUpdates = !1, finishEventHandler();
             }
         }(function() {
-            var eventSystemFlags, nativeEvent6, nativeEventTarget, dispatchQueue, dispatchQueue1, domEventName, targetInst, nativeEvent1, nativeEventTarget1, eventSystemFlags1, dispatchQueue2, domEventName1, targetInst1, nativeEvent2, nativeEventTarget2;
+            var eventSystemFlags, nativeEvent8, nativeEventTarget, dispatchQueue, dispatchQueue1, domEventName, targetInst, nativeEvent1, nativeEventTarget1, eventSystemFlags1, dispatchQueue2, domEventName1, targetInst1, nativeEvent2, nativeEventTarget2;
             (function(dispatchQueue3, domEventName, targetInst, nativeEvent3, nativeEventTarget3, eventSystemFlags2, targetContainer) {
                 var reactName = topLevelEventsToReactNames.get(domEventName);
                 if (void 0 !== reactName) {
@@ -3447,14 +3447,14 @@
                     }
                     var inCapturePhase = (4 & (eventSystemFlags1 = eventSystemFlags = eventSystemFlags3)) != 0, accumulateTargetOnly = !inCapturePhase && "scroll" === domEventName, _listeners = accumulateSinglePhaseListeners(targetInst = ancestorInst, reactName, nativeEvent3.type, inCapturePhase, accumulateTargetOnly);
                     if (_listeners.length > 0) {
-                        var _event = new SyntheticEventCtor(reactName, reactEventType, null, nativeEvent3, nativeEventTarget1 = nativeEventTarget = getEventTarget(nativeEvent6 = nativeEvent4));
+                        var _event = new SyntheticEventCtor(reactName, reactEventType, null, nativeEvent3, nativeEventTarget1 = nativeEventTarget = getEventTarget(nativeEvent8 = nativeEvent4));
                         (dispatchQueue1 = dispatchQueue = []).push({
                             event: _event,
                             listeners: _listeners
                         });
                     }
                 }
-            })(dispatchQueue1, domEventName = domEventName2, targetInst, nativeEvent1 = nativeEvent6, nativeEventTarget1, eventSystemFlags1), (7 & eventSystemFlags1) == 0 && ((function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
+            })(dispatchQueue1, domEventName = domEventName2, targetInst, nativeEvent1 = nativeEvent8, nativeEventTarget1, eventSystemFlags1), (7 & eventSystemFlags1) == 0 && ((function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
                 var win, from, to, isOverEvent = "mouseover" === domEventName || "pointerover" === domEventName, isOutEvent = "mouseout" === domEventName || "pointerout" === domEventName;
                 if (isOverEvent && (16 & eventSystemFlags1) == 0) {
                     var related = nativeEvent.relatedTarget || nativeEvent.fromElement;
@@ -3540,7 +3540,7 @@
                         null !== customData && (event.data = customData);
                     }
                 }
-            })(dispatchQueue2, domEventName1 = domEventName, targetInst1, nativeEvent2 = nativeEvent1, nativeEventTarget2 = nativeEventTarget1), (function(dispatchQueue, domEventName, targetInst, nativeEvent5, nativeEventTarget) {
+            })(dispatchQueue2, domEventName1 = domEventName, targetInst1, nativeEvent2 = nativeEvent1, nativeEventTarget2 = nativeEventTarget1), (function(dispatchQueue, domEventName, targetInst, nativeEvent7, nativeEventTarget) {
                 var chars;
                 if (!(chars = canUseTextInputEvent ? function(domEventName, nativeEvent) {
                     switch(domEventName){
@@ -3556,14 +3556,14 @@
                         default:
                             return null;
                     }
-                }(domEventName, nativeEvent5) : function(domEventName, nativeEvent) {
-                    var nativeEvent3;
+                }(domEventName, nativeEvent7) : function(domEventName, nativeEvent) {
+                    var nativeEvent5;
                     if (isComposing) return "compositionend" === domEventName || !canUseCompositionEvent && isFallbackCompositionEnd(domEventName, nativeEvent) ? (root2 = null, startText = null, fallbackText = null, isComposing = !1, getData()) : null;
                     switch(domEventName){
                         case "paste":
                             return null;
                         case "keypress":
-                            if (!(((nativeEvent3 = nativeEvent).ctrlKey || nativeEvent3.altKey || nativeEvent3.metaKey) && !(nativeEvent3.ctrlKey && nativeEvent3.altKey))) {
+                            if (!(((nativeEvent5 = nativeEvent).ctrlKey || nativeEvent5.altKey || nativeEvent5.metaKey) && !(nativeEvent5.ctrlKey && nativeEvent5.altKey))) {
                                 if (nativeEvent.char && nativeEvent.char.length > 1) return nativeEvent.char;
                                 if (nativeEvent.which) return String.fromCharCode(nativeEvent.which);
                             }
@@ -3573,10 +3573,10 @@
                         default:
                             return null;
                     }
-                }(domEventName, nativeEvent5))) return null;
+                }(domEventName, nativeEvent7))) return null;
                 var listeners = accumulateTwoPhaseListeners(targetInst1, "onBeforeInput");
                 if (listeners.length > 0) {
-                    var event = new SyntheticInputEvent("onBeforeInput", "beforeinput", null, nativeEvent5, nativeEventTarget2);
+                    var event = new SyntheticInputEvent("onBeforeInput", "beforeinput", null, nativeEvent7, nativeEventTarget2);
                     dispatchQueue2.push({
                         event: event,
                         listeners: listeners
