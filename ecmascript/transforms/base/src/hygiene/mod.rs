@@ -16,7 +16,7 @@ mod ops;
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = false;
+const LOG: bool = true;
 
 #[derive(Debug, Clone, Default)]
 pub struct Config {
@@ -127,37 +127,60 @@ impl<'a> Hygiene<'a> {
 
         {
             let mut need_work = false;
-            let mut is_cur = true;
-            let mut cur = Some(&self.current);
 
-            while let Some(c) = cur {
-                let mut used = c.used.borrow_mut();
-                let e = used.entry(ident.sym.to_boxed_str()).or_default();
+            {
+                let mut decl_cnt = 0;
 
-                if !e.contains(&ctxt) {
-                    e.push(ctxt);
-                }
+                let mut cur = Some(&self.current);
 
-                if e.len() <= 1 {
-                } else {
-                    if is_cur {
-                        need_work = true;
+                while let Some(c) = cur {
+                    let b = c.declared_symbols.borrow();
+
+                    if let Some(ctxts) = b.get(&*ident.sym) {
+                        decl_cnt += ctxts.len();
                     }
+
+                    cur = c.parent;
                 }
 
-                if e.len() == 1 && e[0] == ctxt {
-                } else {
-                    if is_cur {
-                        need_work = true;
-                    }
+                if decl_cnt >= 2 {
+                    need_work = true;
                 }
-
-                is_cur = false;
-                cur = c.parent;
             }
 
-            if !need_work {
-                return;
+            {
+                let mut is_cur = true;
+                let mut cur = Some(&self.current);
+
+                while let Some(c) = cur {
+                    let mut used = c.used.borrow_mut();
+                    let e = used.entry(ident.sym.to_boxed_str()).or_default();
+
+                    if !e.contains(&ctxt) {
+                        e.push(ctxt);
+                    }
+
+                    if e.len() <= 1 {
+                    } else {
+                        if is_cur {
+                            need_work = true;
+                        }
+                    }
+
+                    if e.len() == 1 && e[0] == ctxt {
+                    } else {
+                        if is_cur {
+                            need_work = true;
+                        }
+                    }
+
+                    is_cur = false;
+                    cur = c.parent;
+                }
+
+                if !need_work {
+                    return;
+                }
             }
         }
 
