@@ -116,6 +116,12 @@ pub(super) struct SourceMapFiles {
 /// This struct should be shared. `swc_common` uses [crate::sync::Lrc], which is
 /// [std::rc::Rc] or [std::sync::Arc], depending on the compile option, for this
 /// purpose.
+///
+/// ## Note for bundler authors
+///
+/// If you are bundling modules, you should share this struct while parsing
+/// modules. Otherwise, you have to implement a code generator which accepts
+/// multiple [SourceMap].
 pub struct SourceMap {
     pub(super) files: Lock<SourceMapFiles>,
     start_pos: AtomicUsize,
