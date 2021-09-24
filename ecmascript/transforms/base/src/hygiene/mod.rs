@@ -332,7 +332,7 @@ impl<'a> Hygiene<'a> {
                 }
 
                 if decl_cnt < 2 {
-                    return;
+                    continue;
                 }
             }
 
