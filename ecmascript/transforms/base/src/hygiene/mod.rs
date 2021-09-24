@@ -74,7 +74,7 @@ impl<'a> Hygiene<'a> {
 
         {
             let mut b = self.current.declared_symbols.borrow_mut();
-            let e = b.entry(sym.to_boxed_str()).or_default();
+            let e = b.entry(sym.clone()).or_default();
             if !e.contains(&ctxt) {
                 e.push(ctxt);
             }
@@ -87,7 +87,7 @@ impl<'a> Hygiene<'a> {
 
             while let Some(c) = cur {
                 let mut used = c.used.borrow_mut();
-                let e = used.entry(sym.to_boxed_str()).or_default();
+                let e = used.entry(sym.clone()).or_default();
 
                 if !e.contains(&ctxt) {
                     e.push(ctxt);
@@ -143,7 +143,7 @@ impl<'a> Hygiene<'a> {
             while let Some(c) = cur {
                 let b = c.declared_symbols.borrow();
 
-                if let Some(ctxts) = b.get(&*ident.sym) {
+                if let Some(ctxts) = b.get(&ident.sym.clone()) {
                     decl_cnt += ctxts.len();
                 }
 
@@ -163,7 +163,7 @@ impl<'a> Hygiene<'a> {
 
             while let Some(c) = cur {
                 let mut used = c.used.borrow_mut();
-                let e = used.entry(ident.sym.to_boxed_str()).or_default();
+                let e = used.entry(ident.sym.clone()).or_default();
 
                 if !e.contains(&ctxt) {
                     e.push(ctxt);
@@ -214,7 +214,7 @@ impl<'a> Hygiene<'a> {
             let mut i = 0;
             loop {
                 i += 1;
-                let sym = format!("{}{}", sym, i);
+                let sym = format!("{}{}", sym, i).into();
 
                 if !self.current.is_declared(&sym) {
                     break sym;
@@ -227,9 +227,8 @@ impl<'a> Hygiene<'a> {
         }
 
         let sym = self.current.change_symbol(sym, ctxt);
-        let boxed_sym = sym.to_boxed_str();
         {
-            let scope = self.current.scope_of(&boxed_sym, ctxt, self.var_kind);
+            let scope = self.current.scope_of(&sym, ctxt, self.var_kind);
 
             // Update symbol list
             let mut declared_symbols = scope.declared_symbols.borrow_mut();
@@ -255,12 +254,12 @@ impl<'a> Hygiene<'a> {
                 // );
             }
 
-            let old = declared_symbols.entry(sym.to_boxed_str()).or_default();
+            let old = declared_symbols.entry(sym.clone()).or_default();
             old.retain(|c| *c != ctxt);
             //        debug_assert!(old.is_empty() || old.len() == 1);
 
             let new = declared_symbols
-                .entry(renamed.clone().into_boxed_str())
+                .entry(renamed.clone().into())
                 .or_insert_with(|| Vec::with_capacity(2));
             new.push(ctxt);
             debug_assert!(new.len() == 1);
@@ -322,12 +321,7 @@ impl<'a> Hygiene<'a> {
 
         for (sym, ctxt) in self.current.check_queue.take() {
             // Check if it's in the current scope.
-            if let Some(decls) = self
-                .current
-                .declared_symbols
-                .borrow()
-                .get(&sym.to_boxed_str())
-            {
+            if let Some(decls) = self.current.declared_symbols.borrow().get(&sym) {
                 if !decls.contains(&ctxt) {
                     continue;
                 }
@@ -342,7 +336,7 @@ impl<'a> Hygiene<'a> {
 
                 let used = self.current.used.borrow();
 
-                if let Some(ctxts) = used.get(&*sym) {
+                if let Some(ctxts) = used.get(&sym) {
                     'add_loop: for &cx in ctxts {
                         if cx == ctxt {
                             continue;
@@ -403,7 +397,7 @@ impl<'a> Hygiene<'a> {
                 }
 
                 for ((sym, ctxt), _) in &ops.rename {
-                    let e = used.entry(sym.to_boxed_str()).or_default();
+                    let e = used.entry(sym.clone()).or_default();
 
                     if let Some(pos) = e.iter().position(|c| *c == *ctxt) {
                         e.remove(pos);
@@ -509,10 +503,10 @@ struct Scope<'a> {
     /// Kind of the scope.
     pub kind: ScopeKind,
 
-    pub used: RefCell<FxHashMap<Box<str>, Vec<SyntaxContext>>>,
+    pub used: RefCell<FxHashMap<JsWord, Vec<SyntaxContext>>>,
 
     /// All references declared in this scope
-    pub declared_symbols: RefCell<FxHashMap<Box<str>, Vec<SyntaxContext>>>,
+    pub declared_symbols: RefCell<FxHashMap<JsWord, Vec<SyntaxContext>>>,
 
     pub(crate) ops: RefCell<Operations>,
     pub renamed: FxHashSet<JsWord>,
@@ -549,7 +543,7 @@ impl<'a> Scope<'a> {
 
     fn scope_of(
         &self,
-        sym: &Box<str>,
+        sym: &JsWord,
         ctxt: SyntaxContext,
         var_kind: Option<VarDeclKind>,
     ) -> &'a Scope<'_> {
@@ -605,7 +599,7 @@ impl<'a> Scope<'a> {
 
         let mut ctxts = smallvec![];
         {
-            if let Some(cxs) = self.declared_symbols.get_mut().get(&*sym) {
+            if let Some(cxs) = self.declared_symbols.get_mut().get(&sym) {
                 if cxs.len() != 1 || cxs[0] != ctxt {
                     ctxts.extend_from_slice(&cxs);
                 }
@@ -615,7 +609,7 @@ impl<'a> Scope<'a> {
         let mut cur = self.parent;
 
         while let Some(scope) = cur {
-            if let Some(cxs) = scope.declared_symbols.borrow().get(&*sym) {
+            if let Some(cxs) = scope.declared_symbols.borrow().get(&sym) {
                 if cxs.len() != 1 || cxs[0] != ctxt {
                     ctxts.extend_from_slice(&cxs);
                 }
@@ -647,7 +641,7 @@ impl<'a> Scope<'a> {
         sym
     }
 
-    fn is_declared(&self, sym: &str) -> bool {
+    fn is_declared(&self, sym: &JsWord) -> bool {
         if self.declared_symbols.borrow().contains_key(sym) {
             return true;
         }
