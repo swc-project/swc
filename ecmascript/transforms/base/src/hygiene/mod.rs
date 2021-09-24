@@ -319,7 +319,7 @@ impl<'a> Hygiene<'a> {
                 let mut cur = Some(&self.current);
 
                 while let Some(c) = cur {
-                    let used = c.declared_symbols.borrow();
+                    let used = c.used.borrow();
 
                     if let Some(ctxts) = used.get(&*sym) {
                         decl_cnt += ctxts.len();
