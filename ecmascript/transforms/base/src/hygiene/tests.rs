@@ -1582,3 +1582,43 @@ fn issue_2211_2() {
         ",
     );
 }
+
+#[test]
+fn issue_2297_1() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            let stmts = tester
+                .parse_stmts(
+                    "actual1.js",
+                    "
+                    var _bar = require('./Bar');
+                    var makeX = function(props) {
+                        var _bar = props.bar;
+                        var list = _bar.list;
+                        return list.map(function() {
+                            return _bar.bar;
+                        });
+                    };
+                    ",
+                )?
+                .fold_with(&mut OnceMarker::new(&[(
+                    "_bar",
+                    &[mark1, mark2, mark2, mark1],
+                )]));
+            Ok(stmts)
+        },
+        "
+        var _bar = require('./Bar');
+        var makeX = function(props) {
+            var _bar1 = props.bar;
+            var list = _bar1.list;
+            return list.map(function() {
+                return _bar.bar;
+            });
+        };
+        ",
+    );
+}
