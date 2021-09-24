@@ -314,27 +314,45 @@ impl<'a> Hygiene<'a> {
         dbg!(&self.current.check_queue);
 
         for (sym, ctxt) in self.current.check_queue.take() {
-            dbg!(&sym, ctxt);
+            if let Some(decls) = self
+                .current
+                .declared_symbols
+                .borrow()
+                .get(&sym.to_boxed_str())
             {
-                let mut cnt = 0;
-                let mut cur = Some(&self.current);
+                if !decls.contains(&ctxt) {
+                    continue;
+                }
+            }
+            dbg!(&sym, ctxt);
 
-                while let Some(c) = cur {
-                    let used = c.used.borrow();
+            {
+                let mut other_ctxts = vec![];
 
-                    if let Some(ctxts) = used.get(&*sym) {
-                        cnt += ctxts.len();
-                        if ctxts.contains(&ctxt) {
-                            cnt -= 1;
+                let used = self.current.used.borrow();
+
+                if let Some(ctxts) = used.get(&*sym) {
+                    for &cx in ctxts {
+                        if cx == ctxt {
+                            continue;
+                        }
+                        if other_ctxts.contains(&cx) {
+                            continue;
                         }
 
-                        dbg!(ctxts);
-                    }
+                        let ops = self.current.ops.borrow();
 
-                    cur = c.parent;
+                        if ops.rename.contains_key(&(sym.clone(), cx)) {
+                            continue;
+                        }
+
+                        dbg!(&cx);
+
+                        other_ctxts.push(cx);
+                    }
                 }
 
-                if cnt < 2 {
+                if other_ctxts.is_empty() {
                     continue;
                 }
             }
