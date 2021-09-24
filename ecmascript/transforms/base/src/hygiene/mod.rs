@@ -332,7 +332,7 @@ impl<'a> Hygiene<'a> {
                 let used = self.current.used.borrow();
 
                 if let Some(ctxts) = used.get(&*sym) {
-                    for &cx in ctxts {
+                    'add_loop: for &cx in ctxts {
                         if cx == ctxt {
                             continue;
                         }
@@ -340,13 +340,15 @@ impl<'a> Hygiene<'a> {
                             continue;
                         }
 
-                        let ops = self.current.ops.borrow();
+                        let mut cur = Some(&self.current);
+                        while let Some(c) = cur {
+                            let ops = c.ops.borrow();
 
-                        if ops.rename.contains_key(&(sym.clone(), cx)) {
-                            continue;
+                            if ops.rename.contains_key(&(sym.clone(), cx)) {
+                                continue 'add_loop;
+                            }
+                            cur = c.parent;
                         }
-
-                        dbg!(&cx);
 
                         other_ctxts.push(cx);
                     }
@@ -355,6 +357,8 @@ impl<'a> Hygiene<'a> {
                 if other_ctxts.is_empty() {
                     continue;
                 }
+
+                dbg!(&other_ctxts);
             }
 
             self.rename(sym, ctxt);
