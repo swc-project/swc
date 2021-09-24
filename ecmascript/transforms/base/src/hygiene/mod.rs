@@ -337,6 +337,7 @@ impl<'a> Hygiene<'a> {
             }
 
             dbg!(&sym, ctxt, &self.current.declared_symbols);
+            self.rename(sym, ctxt);
         }
     }
 
