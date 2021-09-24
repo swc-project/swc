@@ -45,7 +45,9 @@ type Contexts = SmallVec<[SyntaxContext; 32]>;
 
 impl<'a> Hygiene<'a> {
     /// Check `id` while exiting scope.
-    fn enqueue_check(&mut self, id: Id) {}
+    fn enqueue_check(&mut self, id: Id) {
+        self.current.check_queue.insert(id);
+    }
 
     fn add_decl(&mut self, ident: Ident) {
         let ctxt = ident.span.ctxt();
@@ -300,10 +302,21 @@ impl VisitMut for MarkClearer {
 }
 
 impl<'a> Hygiene<'a> {
+    /// Move `check_queue` to `ops`.
+    fn check_enqueued(&mut self) {
+        if self.current.check_queue.is_empty() {
+            return;
+        }
+
+        dbg!(&self.current.check_queue);
+    }
+
     fn apply_ops<N>(&mut self, node: &mut N)
     where
         for<'o> N: VisitMutWith<Operator<'o>>,
     {
+        self.check_enqueued();
+
         let ops = self.current.ops.borrow();
 
         let ids_to_remove = self.current.declared_symbols.borrow();
@@ -437,6 +450,8 @@ struct Scope<'a> {
 
     pub(crate) ops: RefCell<Operations>,
     pub renamed: FxHashSet<JsWord>,
+
+    check_queue: FxHashSet<Id>,
 }
 
 impl<'a> Default for Scope<'a> {
@@ -462,6 +477,7 @@ impl<'a> Scope<'a> {
             ops: Default::default(),
             renamed: Default::default(),
             used: Default::default(),
+            check_queue: Default::default(),
         }
     }
 
