@@ -311,8 +311,6 @@ impl<'a> Hygiene<'a> {
             return;
         }
 
-        dbg!(&self.current.check_queue);
-
         for (sym, ctxt) in self.current.check_queue.take() {
             if let Some(decls) = self
                 .current
@@ -324,7 +322,6 @@ impl<'a> Hygiene<'a> {
                     continue;
                 }
             }
-            dbg!(&sym, ctxt);
 
             {
                 let mut other_ctxts = vec![];
@@ -357,8 +354,6 @@ impl<'a> Hygiene<'a> {
                 if other_ctxts.is_empty() {
                     continue;
                 }
-
-                dbg!(&other_ctxts);
             }
 
             self.rename(sym, ctxt);
