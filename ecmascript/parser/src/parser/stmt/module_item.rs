@@ -119,7 +119,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }));
             } else if eat!(self, '{') {
                 while !eof!(self) && !is!(self, '}') {
-                    specifiers.push(self.parse_import_specifier()?);
+                    specifiers.push(self.parse_import_specifier(type_only)?);
 
                     if is!(self, '}') {
                         break;
@@ -177,7 +177,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     /// Parse `foo`, `foo2 as bar` in `import { foo, foo2 as bar }`
-    fn parse_import_specifier(&mut self) -> PResult<ImportSpecifier> {
+    fn parse_import_specifier(&mut self, is_type_only_import: bool) -> PResult<ImportSpecifier> {
         let start = cur_pos!(self);
         match cur!(self, false) {
             Ok(&Word(..)) => {
@@ -193,6 +193,8 @@ impl<'a, I: Tokens> Parser<I> {
                 if orig_name.sym == js_word!("type")
                     && is!(self, IdentName)
                     && self.syntax().typescript()
+                    // invalid: `import type { type something } from 'mod'`
+                    && !is_type_only_import
                 {
                     let possibly_orgi_name = self.parse_ident_name()?;
                     if possibly_orgi_name.sym == js_word!("as") {
