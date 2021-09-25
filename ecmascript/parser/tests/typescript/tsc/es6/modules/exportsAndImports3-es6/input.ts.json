@@ -1212,7 +1212,8 @@
             },
             "value": "v1",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         },
         {
           "type": "ImportSpecifier",
@@ -1240,7 +1241,8 @@
             },
             "value": "f1",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         },
         {
           "type": "ImportSpecifier",
@@ -1268,7 +1270,8 @@
             },
             "value": "C1",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         },
         {
           "type": "ImportSpecifier",
@@ -1296,7 +1299,8 @@
             },
             "value": "I1",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         },
         {
           "type": "ImportSpecifier",
@@ -1324,7 +1328,8 @@
             },
             "value": "E1",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         },
         {
           "type": "ImportSpecifier",
@@ -1352,7 +1357,8 @@
             },
             "value": "D1",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         },
         {
           "type": "ImportSpecifier",
@@ -1380,7 +1386,8 @@
             },
             "value": "M1",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         },
         {
           "type": "ImportSpecifier",
@@ -1408,7 +1415,8 @@
             },
             "value": "N1",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         },
         {
           "type": "ImportSpecifier",
@@ -1436,7 +1444,8 @@
             },
             "value": "T1",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         },
         {
           "type": "ImportSpecifier",
@@ -1464,7 +1473,8 @@
             },
             "value": "a1",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": {

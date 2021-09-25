@@ -307,7 +307,8 @@
             },
             "value": "as",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": {
@@ -352,7 +353,8 @@
             "value": "as",
             "optional": false
           },
-          "imported": null
+          "imported": null,
+          "isTypeOnly": false
         }
       ],
       "source": {

@@ -1036,6 +1036,7 @@ define!({
         pub span: Span,
         pub local: Ident,
         pub imported: Option<Ident>,
+        pub is_type_only: bool,
     }
     pub enum ExportSpecifier {
         Namespace(ExportNamespaceSpecifier),

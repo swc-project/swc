@@ -285,7 +285,8 @@
             },
             "value": "default",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": {
@@ -492,7 +493,8 @@
             },
             "value": "default",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": {
@@ -830,7 +832,8 @@
             },
             "value": "default",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": {
@@ -1037,7 +1040,8 @@
             },
             "value": "default",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": {

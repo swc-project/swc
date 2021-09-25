@@ -428,7 +428,8 @@
             "value": "createElement",
             "optional": false
           },
-          "imported": null
+          "imported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ImportSpecifier",
@@ -447,7 +448,8 @@
             "value": "Fragment",
             "optional": false
           },
-          "imported": null
+          "imported": null,
+          "isTypeOnly": false
         }
       ],
       "source": {
@@ -574,7 +576,8 @@
             "value": "h",
             "optional": false
           },
-          "imported": null
+          "imported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ImportSpecifier",
@@ -593,7 +596,8 @@
             "value": "Frag",
             "optional": false
           },
-          "imported": null
+          "imported": null,
+          "isTypeOnly": false
         }
       ],
       "source": {
@@ -720,7 +724,8 @@
             "value": "h",
             "optional": false
           },
-          "imported": null
+          "imported": null,
+          "isTypeOnly": false
         }
       ],
       "source": {
@@ -847,7 +852,8 @@
             "value": "h",
             "optional": false
           },
-          "imported": null
+          "imported": null,
+          "isTypeOnly": false
         }
       ],
       "source": {
@@ -892,7 +898,8 @@
             "value": "Fragment",
             "optional": false
           },
-          "imported": null
+          "imported": null,
+          "isTypeOnly": false
         }
       ],
       "source": {

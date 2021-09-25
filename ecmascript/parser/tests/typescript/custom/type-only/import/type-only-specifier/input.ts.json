@@ -1,0 +1,479 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 302,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 0,
+        "end": 26,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 9,
+            "end": 13,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 9,
+              "end": 13,
+              "ctxt": 0
+            },
+            "value": "type",
+            "optional": false
+          },
+          "imported": null,
+          "isTypeOnly": false
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 21,
+          "end": 26,
+          "ctxt": 0
+        },
+        "value": "mod",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      },
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 27,
+        "end": 57,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 36,
+            "end": 44,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 41,
+              "end": 44,
+              "ctxt": 0
+            },
+            "value": "foo",
+            "optional": false
+          },
+          "imported": null,
+          "isTypeOnly": true
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 52,
+          "end": 57,
+          "ctxt": 0
+        },
+        "value": "mod",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      },
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 58,
+        "end": 87,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 67,
+            "end": 74,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 72,
+              "end": 74,
+              "ctxt": 0
+            },
+            "value": "as",
+            "optional": false
+          },
+          "imported": null,
+          "isTypeOnly": true
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 82,
+          "end": 87,
+          "ctxt": 0
+        },
+        "value": "mod",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      },
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 88,
+        "end": 125,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 97,
+            "end": 112,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 109,
+              "end": 112,
+              "ctxt": 0
+            },
+            "value": "bar",
+            "optional": false
+          },
+          "imported": {
+            "type": "Identifier",
+            "span": {
+              "start": 102,
+              "end": 105,
+              "ctxt": 0
+            },
+            "value": "foo",
+            "optional": false
+          },
+          "isTypeOnly": true
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 120,
+          "end": 125,
+          "ctxt": 0
+        },
+        "value": "mod",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      },
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 126,
+        "end": 162,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 135,
+            "end": 149,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 147,
+              "end": 149,
+              "ctxt": 0
+            },
+            "value": "as",
+            "optional": false
+          },
+          "imported": {
+            "type": "Identifier",
+            "span": {
+              "start": 140,
+              "end": 143,
+              "ctxt": 0
+            },
+            "value": "foo",
+            "optional": false
+          },
+          "isTypeOnly": true
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 157,
+          "end": 162,
+          "ctxt": 0
+        },
+        "value": "mod",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      },
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 163,
+        "end": 195,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 172,
+            "end": 182,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 180,
+              "end": 182,
+              "ctxt": 0
+            },
+            "value": "as",
+            "optional": false
+          },
+          "imported": {
+            "type": "Identifier",
+            "span": {
+              "start": 172,
+              "end": 176,
+              "ctxt": 0
+            },
+            "value": "type",
+            "optional": false
+          },
+          "isTypeOnly": false
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 190,
+          "end": 195,
+          "ctxt": 0
+        },
+        "value": "mod",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      },
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 196,
+        "end": 229,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 205,
+            "end": 209,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 213,
+              "end": 216,
+              "ctxt": 0
+            },
+            "value": "foo",
+            "optional": false
+          },
+          "imported": {
+            "type": "Identifier",
+            "span": {
+              "start": 205,
+              "end": 209,
+              "ctxt": 0
+            },
+            "value": "type",
+            "optional": false
+          },
+          "isTypeOnly": false
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 224,
+          "end": 229,
+          "ctxt": 0
+        },
+        "value": "mod",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      },
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 230,
+        "end": 266,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 239,
+            "end": 243,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 250,
+              "end": 253,
+              "ctxt": 0
+            },
+            "value": "foo",
+            "optional": false
+          },
+          "imported": {
+            "type": "Identifier",
+            "span": {
+              "start": 244,
+              "end": 246,
+              "ctxt": 0
+            },
+            "value": "as",
+            "optional": false
+          },
+          "isTypeOnly": true
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 261,
+          "end": 266,
+          "ctxt": 0
+        },
+        "value": "mod",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      },
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 267,
+        "end": 302,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 276,
+            "end": 280,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 287,
+              "end": 289,
+              "ctxt": 0
+            },
+            "value": "as",
+            "optional": false
+          },
+          "imported": {
+            "type": "Identifier",
+            "span": {
+              "start": 281,
+              "end": 283,
+              "ctxt": 0
+            },
+            "value": "as",
+            "optional": false
+          },
+          "isTypeOnly": true
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 297,
+          "end": 302,
+          "ctxt": 0
+        },
+        "value": "mod",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      },
+      "typeOnly": false,
+      "asserts": null
+    }
+  ],
+  "interpreter": null
+}

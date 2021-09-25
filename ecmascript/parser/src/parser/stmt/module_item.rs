@@ -181,7 +181,68 @@ impl<'a, I: Tokens> Parser<I> {
         let start = cur_pos!(self);
         match cur!(self, false) {
             Ok(&Word(..)) => {
-                let orig_name = self.parse_ident_name()?;
+                let mut is_type_only = false;
+                let mut orig_name = self.parse_ident_name()?;
+
+                // Handle:
+                // `import { type xx } from 'mod'`
+                // `import { type xx as yy } from 'mod'`
+                // `import { type as } from 'mod'`
+                // `import { type as as } from 'mod'`
+                // `import { type as as as } from 'mod'`
+                if orig_name.sym == js_word!("type")
+                    && is!(self, IdentName)
+                    && self.syntax().typescript()
+                {
+                    let possibly_orgi_name = self.parse_ident_name()?;
+                    if possibly_orgi_name.sym == js_word!("as") {
+                        // `import { type as } from 'mod'`
+                        if !is!(self, IdentName) {
+                            return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
+                                span: span!(self, start),
+                                local: possibly_orgi_name,
+                                imported: None,
+                                is_type_only: true,
+                            }));
+                        }
+
+                        let maybe_as = self.parse_binding_ident()?.id;
+                        if maybe_as.sym == js_word!("as") {
+                            if is!(self, IdentName) {
+                                // `import { type as as as } from 'mod'`
+                                // `import { type as as foo } from 'mod'`
+                                let local = self.parse_binding_ident()?.id;
+                                return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
+                                    span: Span::new(start, orig_name.span.hi(), Default::default()),
+                                    local,
+                                    imported: Some(possibly_orgi_name),
+                                    is_type_only: true,
+                                }));
+                            } else {
+                                // `import { type as as } from 'mod'`
+                                return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
+                                    span: Span::new(start, maybe_as.span.hi(), Default::default()),
+                                    local: maybe_as,
+                                    imported: Some(orig_name),
+                                    is_type_only: false,
+                                }));
+                            }
+                        } else {
+                            // `import { type as xxx } from 'mod'`
+                            return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
+                                span: Span::new(start, orig_name.span.hi(), Default::default()),
+                                local: maybe_as,
+                                imported: Some(orig_name),
+                                is_type_only: false,
+                            }));
+                        }
+                    } else {
+                        // `import { type xx } from 'mod'`
+                        // `import { type xx as yy } from 'mod'`
+                        orig_name = possibly_orgi_name;
+                        is_type_only = true;
+                    }
+                }
 
                 if eat!(self, "as") {
                     let local = self.parse_binding_ident()?.id;
@@ -189,6 +250,7 @@ impl<'a, I: Tokens> Parser<I> {
                         span: Span::new(start, local.span.hi(), Default::default()),
                         local,
                         imported: Some(orig_name),
+                        is_type_only,
                     }));
                 }
 
@@ -205,6 +267,7 @@ impl<'a, I: Tokens> Parser<I> {
                     span: span!(self, start),
                     local,
                     imported: None,
+                    is_type_only,
                 }))
             }
             _ => unexpected!(self, "an identifier"),

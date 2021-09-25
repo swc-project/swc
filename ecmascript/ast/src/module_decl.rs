@@ -199,6 +199,8 @@ pub struct ImportNamedSpecifier {
 
     #[serde(default)]
     pub imported: Option<Ident>,
+
+    pub is_type_only: bool,
 }
 
 #[ast_node]

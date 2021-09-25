@@ -836,7 +836,8 @@
             "value": "_",
             "optional": false
           },
-          "imported": null
+          "imported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ImportSpecifier",
@@ -855,7 +856,8 @@
             "value": "__",
             "optional": false
           },
-          "imported": null
+          "imported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ImportSpecifier",
@@ -874,7 +876,8 @@
             "value": "___hello",
             "optional": false
           },
-          "imported": null
+          "imported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ImportSpecifier",
@@ -893,7 +896,8 @@
             "value": "__esmodule",
             "optional": false
           },
-          "imported": null
+          "imported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ImportSpecifier",
@@ -912,7 +916,8 @@
             "value": "__proto",
             "optional": false
           },
-          "imported": null
+          "imported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ImportSpecifier",
@@ -931,7 +936,8 @@
             "value": "_hi",
             "optional": false
           },
-          "imported": null
+          "imported": null,
+          "isTypeOnly": false
         }
       ],
       "source": {

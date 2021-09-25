@@ -104,7 +104,8 @@
             "value": "myTypes",
             "optional": false
           },
-          "imported": null
+          "imported": null,
+          "isTypeOnly": false
         }
       ],
       "source": {
