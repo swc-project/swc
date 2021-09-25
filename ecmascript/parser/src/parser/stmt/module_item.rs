@@ -198,6 +198,14 @@ impl<'a, I: Tokens> Parser<I> {
                     if possibly_orgi_name.sym == js_word!("as") {
                         // `import { type as } from 'mod'`
                         if !is!(self, IdentName) {
+                            if self.ctx().is_reserved_word(&possibly_orgi_name.sym) {
+                                syntax_error!(
+                                    self,
+                                    possibly_orgi_name.span,
+                                    SyntaxError::ReservedWordInImport
+                                )
+                            }
+
                             return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
                                 span: span!(self, start),
                                 local: possibly_orgi_name,
