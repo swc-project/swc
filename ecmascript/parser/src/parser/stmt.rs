@@ -1838,6 +1838,24 @@ export default function waitUntil(callback, options = {}) {
     }
 
     #[test]
+    #[should_panic(expected = "Expected ,, got b")]
+    fn import_specifiers_without_comma() {
+        test_parser(
+            "import { a b c } from 'mod'",
+            Syntax::Es(EsConfig::default()),
+            |p| p.parse_module(),
+        );
+    }
+
+    #[test]
+    #[should_panic(expected = "Expected ,, got b")]
+    fn export_specifiers_without_comma() {
+        test_parser("export { a b c }", Syntax::Es(EsConfig::default()), |p| {
+            p.parse_module()
+        });
+    }
+
+    #[test]
     #[should_panic(expected = "top level await is only allowed in module")]
     fn top_level_await_in_script() {
         let src = "await promise";
