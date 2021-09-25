@@ -1,4 +1,5 @@
 import { type } from 'mod'
+import type { type } from 'mod'
 import { type foo } from 'mod'
 import { type as } from 'mod'
 import { type foo as bar } from 'mod'
