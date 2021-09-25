@@ -118,15 +118,14 @@ impl<'a, I: Tokens> Parser<I> {
                     local,
                 }));
             } else if eat!(self, '{') {
-                let mut first = true;
                 while !eof!(self) && !is!(self, '}') {
-                    if first {
-                        first = false;
-                    } else if eat!(self, ',') && is!(self, '}') {
-                        break;
-                    }
-
                     specifiers.push(self.parse_import_specifier()?);
+
+                    if is!(self, '}') {
+                        break;
+                    } else {
+                        expect!(self, ',');
+                    }
                 }
                 expect!(self, '}');
             }
@@ -513,18 +512,17 @@ impl<'a, I: Tokens> Parser<I> {
                     exported: default,
                 }))
             }
-            let mut first = true;
-            while is_one_of!(self, ',', IdentName) {
-                if first {
-                    first = false;
-                } else if eat!(self, ',') && is!(self, '}') {
-                    break;
-                }
-
+            while !eof!(self) && !is!(self, '}') {
                 specifiers.push(
                     self.parse_named_export_specifier()
                         .map(ExportSpecifier::Named)?,
                 );
+
+                if is!(self, '}') {
+                    break;
+                } else {
+                    expect!(self, ',');
+                }
             }
             expect!(self, '}');
 
