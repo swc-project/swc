@@ -237,7 +237,8 @@
             },
             "value": "p",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": null,

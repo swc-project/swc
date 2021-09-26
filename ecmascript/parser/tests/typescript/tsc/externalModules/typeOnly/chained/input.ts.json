@@ -113,7 +113,8 @@
             },
             "value": "B",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": null,
@@ -256,7 +257,8 @@
             },
             "value": "C",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": {
@@ -356,7 +358,8 @@
             },
             "value": "D",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": null,

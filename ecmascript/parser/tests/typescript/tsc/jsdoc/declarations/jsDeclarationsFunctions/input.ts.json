@@ -794,7 +794,8 @@
             "value": "g",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         }
       ],
       "source": null,
@@ -996,7 +997,8 @@
             },
             "value": "h",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": null,
@@ -1079,7 +1081,8 @@
             },
             "value": "ii",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": null,
@@ -1120,7 +1123,8 @@
             },
             "value": "jj",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": null,

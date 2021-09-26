@@ -532,7 +532,8 @@
             "value": "v",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -551,7 +552,8 @@
             "value": "f",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -570,7 +572,8 @@
             "value": "C",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -589,7 +592,8 @@
             "value": "I",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -608,7 +612,8 @@
             "value": "E",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -627,7 +632,8 @@
             "value": "D",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -646,7 +652,8 @@
             "value": "M",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -665,7 +672,8 @@
             "value": "N",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -684,7 +692,8 @@
             "value": "T",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -703,7 +712,8 @@
             "value": "a",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         }
       ],
       "source": null,
@@ -735,7 +745,8 @@
             "value": "v",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -754,7 +765,8 @@
             "value": "f",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -773,7 +785,8 @@
             "value": "C",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -792,7 +805,8 @@
             "value": "I",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -811,7 +825,8 @@
             "value": "E",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -830,7 +845,8 @@
             "value": "D",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -849,7 +865,8 @@
             "value": "M",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -868,7 +885,8 @@
             "value": "N",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -887,7 +905,8 @@
             "value": "T",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -906,7 +925,8 @@
             "value": "a",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         }
       ],
       "source": {
@@ -1177,7 +1197,8 @@
             "value": "v",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -1196,7 +1217,8 @@
             "value": "f",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -1215,7 +1237,8 @@
             "value": "C",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -1234,7 +1257,8 @@
             "value": "I",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -1253,7 +1277,8 @@
             "value": "E",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -1272,7 +1297,8 @@
             "value": "D",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -1291,7 +1317,8 @@
             "value": "M",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -1310,7 +1337,8 @@
             "value": "N",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -1329,7 +1357,8 @@
             "value": "T",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -1348,7 +1377,8 @@
             "value": "a",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         }
       ],
       "source": null,

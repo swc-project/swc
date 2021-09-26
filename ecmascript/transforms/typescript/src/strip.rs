@@ -459,6 +459,7 @@ impl Strip {
                                                 js_word!("default"),
                                                 DUMMY_SP,
                                             )),
+                                            is_type_only: false,
                                         }
                                         .into()],
                                         src: None,

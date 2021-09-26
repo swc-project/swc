@@ -246,4 +246,6 @@ pub struct ExportNamedSpecifier {
     /// `Some(bar)` in `export { foo as bar }`
     #[serde(default)]
     pub exported: Option<Ident>,
+    /// `type` in `export { type foo as bar }`
+    pub is_type_only: bool,
 }

@@ -568,6 +568,7 @@ impl Swcify for swc_babel_ast::ExportSpecifier {
             span: ctx.span(&self.base),
             orig: self.local.swcify(ctx).id,
             exported: Some(self.exported.swcify(ctx).expect_ident()),
+            is_type_only: false, // TODO: update this once Babel supports
         }
     }
 }

@@ -587,7 +587,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
             while !eof!(self) && !is!(self, '}') {
                 specifiers.push(
-                    self.parse_named_export_specifier()
+                    self.parse_named_export_specifier(type_only)
                         .map(ExportSpecifier::Named)?,
                 );
 
@@ -631,10 +631,73 @@ impl<'a, I: Tokens> Parser<I> {
         }))
     }
 
-    fn parse_named_export_specifier(&mut self) -> PResult<ExportNamedSpecifier> {
+    fn parse_named_export_specifier(&mut self, type_only: bool) -> PResult<ExportNamedSpecifier> {
         let start = cur_pos!(self);
 
-        let orig = self.parse_ident_name()?;
+        let mut is_type_only = false;
+        let mut orig = self.parse_ident_name()?;
+
+        // Handle:
+        // `export { type xx }`
+        // `export { type xx as yy }`
+        // `export { type as }`
+        // `export { type as as }`
+        // `export { type as as as }`
+        if orig.sym == js_word!("type")
+            && is!(self, IdentName)
+            && self.syntax().typescript()
+            // invalid: `export type { type something }`
+            && !type_only
+        {
+            let possibly_orgi = self.parse_ident_name()?;
+            if possibly_orgi.sym == js_word!("as") {
+                // `export { type as }`
+                if !is!(self, IdentName) {
+                    return Ok(ExportNamedSpecifier {
+                        span: span!(self, start),
+                        orig: possibly_orgi,
+                        exported: None,
+                        is_type_only: true,
+                    });
+                }
+
+                let maybe_as = self.parse_ident_name()?;
+                if maybe_as.sym == js_word!("as") {
+                    if is!(self, IdentName) {
+                        // `export { type as as as }`
+                        // `export { type as as foo }`
+                        let exported = self.parse_ident_name()?;
+                        return Ok(ExportNamedSpecifier {
+                            span: Span::new(start, orig.span.hi(), Default::default()),
+                            orig: possibly_orgi,
+                            exported: Some(exported),
+                            is_type_only: true,
+                        });
+                    } else {
+                        // `export { type as as }`
+                        return Ok(ExportNamedSpecifier {
+                            span: Span::new(start, orig.span.hi(), Default::default()),
+                            orig,
+                            exported: Some(maybe_as),
+                            is_type_only: false,
+                        });
+                    }
+                } else {
+                    // `export { type as xxx }`
+                    return Ok(ExportNamedSpecifier {
+                        span: Span::new(start, orig.span.hi(), Default::default()),
+                        orig,
+                        exported: Some(maybe_as),
+                        is_type_only: false,
+                    });
+                }
+            } else {
+                // `export { type xx }`
+                // `export { type xx as yy }`
+                orig = possibly_orgi;
+                is_type_only = true;
+            }
+        }
 
         let exported = if eat!(self, "as") {
             Some(self.parse_ident_name()?)
@@ -646,6 +709,7 @@ impl<'a, I: Tokens> Parser<I> {
             span: span!(self, start),
             orig,
             exported,
+            is_type_only,
         })
     }
 

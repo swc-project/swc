@@ -1054,6 +1054,7 @@ define!({
         pub span: Span,
         pub orig: Ident,
         pub exported: Option<Ident>,
+        pub is_type_only: bool,
     }
     pub enum BinaryOp {
         EqEq,

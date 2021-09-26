@@ -182,6 +182,7 @@ impl Fold for Legacy {
                         span: DUMMY_SP,
                         orig: export_ident.clone(),
                         exported: Some(quote_ident!("default")),
+                        is_type_only: false,
                     }));
 
                 return ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {

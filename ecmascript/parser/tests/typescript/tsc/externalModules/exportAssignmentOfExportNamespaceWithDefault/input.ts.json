@@ -285,7 +285,8 @@
                           },
                           "value": "default",
                           "optional": false
-                        }
+                        },
+                        "isTypeOnly": false
                       }
                     ],
                     "source": null,

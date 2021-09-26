@@ -1,0 +1,6 @@
+error: Expected ',', got 'something'
+ --> $DIR/tests/typescript-errors/type-only-export-specifier/duplicated-type-only/input.ts:1:20
+  |
+1 | export type { type something }
+  |                    ^^^^^^^^^
+

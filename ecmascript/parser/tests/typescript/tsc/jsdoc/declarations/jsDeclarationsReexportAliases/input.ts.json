@@ -188,7 +188,8 @@
             },
             "value": "Foob",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": {

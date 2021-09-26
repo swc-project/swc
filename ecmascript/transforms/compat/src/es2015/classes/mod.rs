@@ -115,6 +115,7 @@ where
                                                 span: DUMMY_SP,
                                                 orig: ident,
                                                 exported: Some(quote_ident!("default")),
+                                                is_type_only: false,
                                             }
                                             .into()],
                                             src: None,

@@ -222,6 +222,7 @@ impl ClassProperties {
                                                 span: DUMMY_SP,
                                                 orig: ident,
                                                 exported: Some(private_ident!("default")),
+                                                is_type_only: false,
                                             }
                                             .into()],
                                             src: None,

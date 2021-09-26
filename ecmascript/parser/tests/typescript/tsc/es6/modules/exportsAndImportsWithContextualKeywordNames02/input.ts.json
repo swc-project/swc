@@ -81,7 +81,8 @@
             },
             "value": "return",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -100,7 +101,8 @@
             "value": "as",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         }
       ],
       "source": null,
