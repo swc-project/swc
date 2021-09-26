@@ -319,6 +319,11 @@ impl<'a> Emitter<'a> {
                     }
                     result
                 }
+                ExportSpecifier::Named(ExportNamedSpecifier { is_type_only, .. })
+                    if *is_type_only =>
+                {
+                    result
+                }
                 spec => {
                     result.has_named_specs = true;
                     result.named_specs.push(spec);
