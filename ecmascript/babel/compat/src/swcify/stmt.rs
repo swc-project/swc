@@ -7,10 +7,10 @@ use swc_babel_ast::{
     DoWhileStatement, EmptyStatement, ExportAllDeclaration, ExportDefaultDeclType,
     ExportDefaultDeclaration, ExportNamedDeclaration, ExpressionStatement, ForInStatement,
     ForOfStatement, ForStatement, ForStmtInit, ForStmtLeft, FunctionDeclaration, IdOrString,
-    IfStatement, ImportAttribute, ImportDeclaration, ImportNamespaceSpecifier, ImportSpecifierType,
-    LabeledStatement, ReturnStatement, Statement, SwitchStatement, ThrowStatement, TryStatement,
-    VariableDeclaration, VariableDeclarationKind, VariableDeclarator, WhileStatement,
-    WithStatement,
+    IfStatement, ImportAttribute, ImportDeclaration, ImportKind, ImportNamespaceSpecifier,
+    ImportSpecifierType, LabeledStatement, ReturnStatement, Statement, SwitchStatement,
+    ThrowStatement, TryStatement, VariableDeclaration, VariableDeclarationKind, VariableDeclarator,
+    WhileStatement, WithStatement,
 };
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::{
@@ -655,6 +655,7 @@ impl Swcify for swc_babel_ast::ImportSpecifier {
             span: ctx.span(&self.base),
             local: self.local.swcify(ctx).id,
             imported: Some(self.imported.swcify(ctx).expect_ident()),
+            is_type_only: matches!(self.import_kind, Some(ImportKind::Type)),
         }
     }
 }
