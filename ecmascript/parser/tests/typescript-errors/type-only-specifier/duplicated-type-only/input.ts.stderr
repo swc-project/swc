@@ -1,4 +1,4 @@
-error: Expected ,, got something
+error: Expected ',', got 'something'
  --> $DIR/tests/typescript-errors/type-only-specifier/duplicated-type-only/input.ts:1:20
   |
 1 | import type { type something } from 'mod'

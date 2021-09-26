@@ -1,4 +1,4 @@
-error: Expected ,, got bar
+error: Expected ',', got 'bar'
  --> $DIR/tests/typescript-errors/type-only-specifier/missing-as/input.ts:1:19
   |
 1 | import { type foo bar } from 'mod'
