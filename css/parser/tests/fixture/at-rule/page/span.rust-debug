@@ -1,0 +1,492 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/at-rule/page/input.css:1:1
+  |
+1 | / @page{ }
+2 | | @page{}
+3 | | @page{margin: 1cm}
+4 | | @page {margin: 1cm}
+... |
+7 | | @page :first {margin: 2cm;}
+8 | | @page :first{margin: 2cm;}
+  | |___________________________^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/page/input.css:1:1
+  |
+1 | @page{ }
+  | ^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/page/input.css:1:1
+  |
+1 | @page{ }
+  | ^^^^^^^^
+
+error: PageRule
+ --> $DIR/tests/fixture/at-rule/page/input.css:1:1
+  |
+1 | @page{ }
+  | ^^^^^^^^
+
+error: PageRuleBlock
+ --> $DIR/tests/fixture/at-rule/page/input.css:1:6
+  |
+1 | @page{ }
+  |      ^^^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/page/input.css:2:1
+  |
+2 | @page{}
+  | ^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/page/input.css:2:1
+  |
+2 | @page{}
+  | ^^^^^^^
+
+error: PageRule
+ --> $DIR/tests/fixture/at-rule/page/input.css:2:1
+  |
+2 | @page{}
+  | ^^^^^^^
+
+error: PageRuleBlock
+ --> $DIR/tests/fixture/at-rule/page/input.css:2:6
+  |
+2 | @page{}
+  |      ^^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/page/input.css:3:1
+  |
+3 | @page{margin: 1cm}
+  | ^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/page/input.css:3:1
+  |
+3 | @page{margin: 1cm}
+  | ^^^^^^^^^^^^^^^^^^
+
+error: PageRule
+ --> $DIR/tests/fixture/at-rule/page/input.css:3:1
+  |
+3 | @page{margin: 1cm}
+  | ^^^^^^^^^^^^^^^^^^
+
+error: PageRuleBlock
+ --> $DIR/tests/fixture/at-rule/page/input.css:3:6
+  |
+3 | @page{margin: 1cm}
+  |      ^^^^^^^^^^^^^
+
+error: PageRuleBlockItem
+ --> $DIR/tests/fixture/at-rule/page/input.css:3:7
+  |
+3 | @page{margin: 1cm}
+  |       ^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/at-rule/page/input.css:3:7
+  |
+3 | @page{margin: 1cm}
+  |       ^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/at-rule/page/input.css:3:7
+  |
+3 | @page{margin: 1cm}
+  |       ^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/page/input.css:3:15
+  |
+3 | @page{margin: 1cm}
+  |               ^^^
+
+error: UnitValue
+ --> $DIR/tests/fixture/at-rule/page/input.css:3:15
+  |
+3 | @page{margin: 1cm}
+  |               ^^^
+
+error: Num
+ --> $DIR/tests/fixture/at-rule/page/input.css:3:15
+  |
+3 | @page{margin: 1cm}
+  |               ^
+
+error: Unit
+ --> $DIR/tests/fixture/at-rule/page/input.css:3:16
+  |
+3 | @page{margin: 1cm}
+  |                ^^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/page/input.css:4:1
+  |
+4 | @page {margin: 1cm}
+  | ^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/page/input.css:4:1
+  |
+4 | @page {margin: 1cm}
+  | ^^^^^^^^^^^^^^^^^^^
+
+error: PageRule
+ --> $DIR/tests/fixture/at-rule/page/input.css:4:1
+  |
+4 | @page {margin: 1cm}
+  | ^^^^^^^^^^^^^^^^^^^
+
+error: PageRuleBlock
+ --> $DIR/tests/fixture/at-rule/page/input.css:4:7
+  |
+4 | @page {margin: 1cm}
+  |       ^^^^^^^^^^^^^
+
+error: PageRuleBlockItem
+ --> $DIR/tests/fixture/at-rule/page/input.css:4:8
+  |
+4 | @page {margin: 1cm}
+  |        ^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/at-rule/page/input.css:4:8
+  |
+4 | @page {margin: 1cm}
+  |        ^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/at-rule/page/input.css:4:8
+  |
+4 | @page {margin: 1cm}
+  |        ^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/page/input.css:4:16
+  |
+4 | @page {margin: 1cm}
+  |                ^^^
+
+error: UnitValue
+ --> $DIR/tests/fixture/at-rule/page/input.css:4:16
+  |
+4 | @page {margin: 1cm}
+  |                ^^^
+
+error: Num
+ --> $DIR/tests/fixture/at-rule/page/input.css:4:16
+  |
+4 | @page {margin: 1cm}
+  |                ^
+
+error: Unit
+ --> $DIR/tests/fixture/at-rule/page/input.css:4:17
+  |
+4 | @page {margin: 1cm}
+  |                 ^^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/page/input.css:5:1
+  |
+5 | @page {margin: 1cm;}
+  | ^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/page/input.css:5:1
+  |
+5 | @page {margin: 1cm;}
+  | ^^^^^^^^^^^^^^^^^^^^
+
+error: PageRule
+ --> $DIR/tests/fixture/at-rule/page/input.css:5:1
+  |
+5 | @page {margin: 1cm;}
+  | ^^^^^^^^^^^^^^^^^^^^
+
+error: PageRuleBlock
+ --> $DIR/tests/fixture/at-rule/page/input.css:5:7
+  |
+5 | @page {margin: 1cm;}
+  |       ^^^^^^^^^^^^^^
+
+error: PageRuleBlockItem
+ --> $DIR/tests/fixture/at-rule/page/input.css:5:8
+  |
+5 | @page {margin: 1cm;}
+  |        ^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/at-rule/page/input.css:5:8
+  |
+5 | @page {margin: 1cm;}
+  |        ^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/at-rule/page/input.css:5:8
+  |
+5 | @page {margin: 1cm;}
+  |        ^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/page/input.css:5:16
+  |
+5 | @page {margin: 1cm;}
+  |                ^^^
+
+error: UnitValue
+ --> $DIR/tests/fixture/at-rule/page/input.css:5:16
+  |
+5 | @page {margin: 1cm;}
+  |                ^^^
+
+error: Num
+ --> $DIR/tests/fixture/at-rule/page/input.css:5:16
+  |
+5 | @page {margin: 1cm;}
+  |                ^
+
+error: Unit
+ --> $DIR/tests/fixture/at-rule/page/input.css:5:17
+  |
+5 | @page {margin: 1cm;}
+  |                 ^^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/page/input.css:6:1
+  |
+6 | @page :first {margin: 2cm}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/page/input.css:6:1
+  |
+6 | @page :first {margin: 2cm}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PageRule
+ --> $DIR/tests/fixture/at-rule/page/input.css:6:1
+  |
+6 | @page :first {margin: 2cm}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PageSelector
+ --> $DIR/tests/fixture/at-rule/page/input.css:6:7
+  |
+6 | @page :first {margin: 2cm}
+  |       ^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/at-rule/page/input.css:6:8
+  |
+6 | @page :first {margin: 2cm}
+  |        ^^^^^
+
+error: PageRuleBlock
+ --> $DIR/tests/fixture/at-rule/page/input.css:6:14
+  |
+6 | @page :first {margin: 2cm}
+  |              ^^^^^^^^^^^^^
+
+error: PageRuleBlockItem
+ --> $DIR/tests/fixture/at-rule/page/input.css:6:15
+  |
+6 | @page :first {margin: 2cm}
+  |               ^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/at-rule/page/input.css:6:15
+  |
+6 | @page :first {margin: 2cm}
+  |               ^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/at-rule/page/input.css:6:15
+  |
+6 | @page :first {margin: 2cm}
+  |               ^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/page/input.css:6:23
+  |
+6 | @page :first {margin: 2cm}
+  |                       ^^^
+
+error: UnitValue
+ --> $DIR/tests/fixture/at-rule/page/input.css:6:23
+  |
+6 | @page :first {margin: 2cm}
+  |                       ^^^
+
+error: Num
+ --> $DIR/tests/fixture/at-rule/page/input.css:6:23
+  |
+6 | @page :first {margin: 2cm}
+  |                       ^
+
+error: Unit
+ --> $DIR/tests/fixture/at-rule/page/input.css:6:24
+  |
+6 | @page :first {margin: 2cm}
+  |                        ^^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/page/input.css:7:1
+  |
+7 | @page :first {margin: 2cm;}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/page/input.css:7:1
+  |
+7 | @page :first {margin: 2cm;}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PageRule
+ --> $DIR/tests/fixture/at-rule/page/input.css:7:1
+  |
+7 | @page :first {margin: 2cm;}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PageSelector
+ --> $DIR/tests/fixture/at-rule/page/input.css:7:7
+  |
+7 | @page :first {margin: 2cm;}
+  |       ^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/at-rule/page/input.css:7:8
+  |
+7 | @page :first {margin: 2cm;}
+  |        ^^^^^
+
+error: PageRuleBlock
+ --> $DIR/tests/fixture/at-rule/page/input.css:7:14
+  |
+7 | @page :first {margin: 2cm;}
+  |              ^^^^^^^^^^^^^^
+
+error: PageRuleBlockItem
+ --> $DIR/tests/fixture/at-rule/page/input.css:7:15
+  |
+7 | @page :first {margin: 2cm;}
+  |               ^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/at-rule/page/input.css:7:15
+  |
+7 | @page :first {margin: 2cm;}
+  |               ^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/at-rule/page/input.css:7:15
+  |
+7 | @page :first {margin: 2cm;}
+  |               ^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/page/input.css:7:23
+  |
+7 | @page :first {margin: 2cm;}
+  |                       ^^^
+
+error: UnitValue
+ --> $DIR/tests/fixture/at-rule/page/input.css:7:23
+  |
+7 | @page :first {margin: 2cm;}
+  |                       ^^^
+
+error: Num
+ --> $DIR/tests/fixture/at-rule/page/input.css:7:23
+  |
+7 | @page :first {margin: 2cm;}
+  |                       ^
+
+error: Unit
+ --> $DIR/tests/fixture/at-rule/page/input.css:7:24
+  |
+7 | @page :first {margin: 2cm;}
+  |                        ^^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/page/input.css:8:1
+  |
+8 | @page :first{margin: 2cm;}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/page/input.css:8:1
+  |
+8 | @page :first{margin: 2cm;}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PageRule
+ --> $DIR/tests/fixture/at-rule/page/input.css:8:1
+  |
+8 | @page :first{margin: 2cm;}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PageSelector
+ --> $DIR/tests/fixture/at-rule/page/input.css:8:7
+  |
+8 | @page :first{margin: 2cm;}
+  |       ^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/at-rule/page/input.css:8:8
+  |
+8 | @page :first{margin: 2cm;}
+  |        ^^^^^
+
+error: PageRuleBlock
+ --> $DIR/tests/fixture/at-rule/page/input.css:8:13
+  |
+8 | @page :first{margin: 2cm;}
+  |             ^^^^^^^^^^^^^^
+
+error: PageRuleBlockItem
+ --> $DIR/tests/fixture/at-rule/page/input.css:8:14
+  |
+8 | @page :first{margin: 2cm;}
+  |              ^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/at-rule/page/input.css:8:14
+  |
+8 | @page :first{margin: 2cm;}
+  |              ^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/at-rule/page/input.css:8:14
+  |
+8 | @page :first{margin: 2cm;}
+  |              ^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/page/input.css:8:22
+  |
+8 | @page :first{margin: 2cm;}
+  |                      ^^^
+
+error: UnitValue
+ --> $DIR/tests/fixture/at-rule/page/input.css:8:22
+  |
+8 | @page :first{margin: 2cm;}
+  |                      ^^^
+
+error: Num
+ --> $DIR/tests/fixture/at-rule/page/input.css:8:22
+  |
+8 | @page :first{margin: 2cm;}
+  |                      ^
+
+error: Unit
+ --> $DIR/tests/fixture/at-rule/page/input.css:8:23
+  |
+8 | @page :first{margin: 2cm;}
+  |                       ^^
+

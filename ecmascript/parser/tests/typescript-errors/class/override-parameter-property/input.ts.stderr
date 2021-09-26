@@ -1,4 +1,4 @@
-error: Expected ,, got v
+error: Expected ',', got 'v'
  --> $DIR/tests/typescript-errors/class/override-parameter-property/input.ts:3:33
   |
 3 |   constructor(readonly override v: boolean)

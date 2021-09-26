@@ -9,7 +9,7 @@ use std::{cell::RefCell, collections::HashMap};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{chain, util::take::Take, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 mod ops;
@@ -44,6 +44,16 @@ struct Hygiene<'a> {
 type Contexts = SmallVec<[SyntaxContext; 32]>;
 
 impl<'a> Hygiene<'a> {
+    /// Check `id` while exiting scope.
+    ///
+    /// We handle this while exiting a scope. See check_enqueued for details.
+    fn enqueue_check(&mut self, id: Id) {
+        if self.current.check_queue.contains(&id) {
+            return;
+        }
+        self.current.check_queue.push(id);
+    }
+
     fn add_decl(&mut self, ident: Ident) {
         let ctxt = ident.span.ctxt();
 
@@ -64,7 +74,7 @@ impl<'a> Hygiene<'a> {
 
         {
             let mut b = self.current.declared_symbols.borrow_mut();
-            let e = b.entry(sym.to_boxed_str()).or_default();
+            let e = b.entry(sym.clone()).or_default();
             if !e.contains(&ctxt) {
                 e.push(ctxt);
             }
@@ -77,7 +87,7 @@ impl<'a> Hygiene<'a> {
 
             while let Some(c) = cur {
                 let mut used = c.used.borrow_mut();
-                let e = used.entry(sym.to_boxed_str()).or_default();
+                let e = used.entry(sym.clone()).or_default();
 
                 if !e.contains(&ctxt) {
                     e.push(ctxt);
@@ -126,13 +136,34 @@ impl<'a> Hygiene<'a> {
         let ctxt = ident.span.ctxt();
 
         {
+            let mut decl_cnt = 0;
+
+            let mut cur = Some(&self.current);
+
+            while let Some(c) = cur {
+                let b = c.declared_symbols.borrow();
+
+                if let Some(ctxts) = b.get(&ident.sym.clone()) {
+                    decl_cnt += ctxts.len();
+                }
+
+                cur = c.parent;
+            }
+
+            if decl_cnt >= 2 {
+                self.enqueue_check(ident.to_id());
+            }
+        }
+
+        {
             let mut need_work = false;
+
             let mut is_cur = true;
             let mut cur = Some(&self.current);
 
             while let Some(c) = cur {
                 let mut used = c.used.borrow_mut();
-                let e = used.entry(ident.sym.to_boxed_str()).or_default();
+                let e = used.entry(ident.sym.clone()).or_default();
 
                 if !e.contains(&ctxt) {
                     e.push(ctxt);
@@ -183,7 +214,7 @@ impl<'a> Hygiene<'a> {
             let mut i = 0;
             loop {
                 i += 1;
-                let sym = format!("{}{}", sym, i);
+                let sym = format!("{}{}", sym, i).into();
 
                 if !self.current.is_declared(&sym) {
                     break sym;
@@ -196,9 +227,8 @@ impl<'a> Hygiene<'a> {
         }
 
         let sym = self.current.change_symbol(sym, ctxt);
-        let boxed_sym = sym.to_boxed_str();
         {
-            let scope = self.current.scope_of(&boxed_sym, ctxt, self.var_kind);
+            let scope = self.current.scope_of(&sym, ctxt, self.var_kind);
 
             // Update symbol list
             let mut declared_symbols = scope.declared_symbols.borrow_mut();
@@ -224,12 +254,12 @@ impl<'a> Hygiene<'a> {
                 // );
             }
 
-            let old = declared_symbols.entry(sym.to_boxed_str()).or_default();
+            let old = declared_symbols.entry(sym.clone()).or_default();
             old.retain(|c| *c != ctxt);
             //        debug_assert!(old.is_empty() || old.len() == 1);
 
             let new = declared_symbols
-                .entry(renamed.clone().into_boxed_str())
+                .entry(renamed.clone().into())
                 .or_insert_with(|| Vec::with_capacity(2));
             new.push(ctxt);
             debug_assert!(new.len() == 1);
@@ -276,10 +306,77 @@ impl VisitMut for MarkClearer {
 }
 
 impl<'a> Hygiene<'a> {
+    /// Move `check_queue` to `ops`.
+    ///
+    /// # Implementation notes
+    ////
+    /// This only handles variables declared in current scope.
+    /// You may think it's possible to avoid adding an [Id] to `check_queue`
+    /// entirely, but it's not possible because declarations can come after
+    /// usages.
+    fn check_enqueued(&mut self) {
+        if self.current.check_queue.is_empty() {
+            return;
+        }
+
+        for (sym, ctxt) in self.current.check_queue.take() {
+            // Check if it's in the current scope.
+            if let Some(decls) = self.current.declared_symbols.borrow().get(&sym) {
+                if !decls.contains(&ctxt) {
+                    continue;
+                }
+            }
+
+            {
+                // We check for all used identifiers in current scope.
+                // If `ctxt` is the only one, it's fine.
+                // If other syntax context is used, we need to rename it.
+
+                let mut other_ctxts = vec![];
+
+                let used = self.current.used.borrow();
+
+                if let Some(ctxts) = used.get(&sym) {
+                    'add_loop: for &cx in ctxts {
+                        if cx == ctxt {
+                            continue;
+                        }
+
+                        // Prevent duplicate
+                        if other_ctxts.contains(&cx) {
+                            continue;
+                        }
+
+                        // If a declaration name is going to be renamed, it's not a conflict.
+                        let mut cur = Some(&self.current);
+                        while let Some(c) = cur {
+                            let ops = c.ops.borrow();
+
+                            if ops.rename.contains_key(&(sym.clone(), cx)) {
+                                continue 'add_loop;
+                            }
+                            cur = c.parent;
+                        }
+
+                        other_ctxts.push(cx);
+                    }
+                }
+
+                if other_ctxts.is_empty() {
+                    continue;
+                }
+            }
+
+            self.rename(sym, ctxt);
+        }
+    }
+
     fn apply_ops<N>(&mut self, node: &mut N)
     where
         for<'o> N: VisitMutWith<Operator<'o>>,
     {
+        self.check_enqueued();
+
         let ops = self.current.ops.borrow();
 
         let ids_to_remove = self.current.declared_symbols.borrow();
@@ -300,7 +397,7 @@ impl<'a> Hygiene<'a> {
                 }
 
                 for ((sym, ctxt), _) in &ops.rename {
-                    let e = used.entry(sym.to_boxed_str()).or_default();
+                    let e = used.entry(sym.clone()).or_default();
 
                     if let Some(pos) = e.iter().position(|c| *c == *ctxt) {
                         e.remove(pos);
@@ -406,13 +503,15 @@ struct Scope<'a> {
     /// Kind of the scope.
     pub kind: ScopeKind,
 
-    pub used: RefCell<FxHashMap<Box<str>, Vec<SyntaxContext>>>,
+    pub used: RefCell<FxHashMap<JsWord, Vec<SyntaxContext>>>,
 
     /// All references declared in this scope
-    pub declared_symbols: RefCell<FxHashMap<Box<str>, Vec<SyntaxContext>>>,
+    pub declared_symbols: RefCell<FxHashMap<JsWord, Vec<SyntaxContext>>>,
 
     pub(crate) ops: RefCell<Operations>,
     pub renamed: FxHashSet<JsWord>,
+
+    check_queue: Vec<Id>,
 }
 
 impl<'a> Default for Scope<'a> {
@@ -438,12 +537,13 @@ impl<'a> Scope<'a> {
             ops: Default::default(),
             renamed: Default::default(),
             used: Default::default(),
+            check_queue: Default::default(),
         }
     }
 
     fn scope_of(
         &self,
-        sym: &Box<str>,
+        sym: &JsWord,
         ctxt: SyntaxContext,
         var_kind: Option<VarDeclKind>,
     ) -> &'a Scope<'_> {
@@ -499,7 +599,7 @@ impl<'a> Scope<'a> {
 
         let mut ctxts = smallvec![];
         {
-            if let Some(cxs) = self.declared_symbols.get_mut().get(&*sym) {
+            if let Some(cxs) = self.declared_symbols.get_mut().get(&sym) {
                 if cxs.len() != 1 || cxs[0] != ctxt {
                     ctxts.extend_from_slice(&cxs);
                 }
@@ -509,7 +609,7 @@ impl<'a> Scope<'a> {
         let mut cur = self.parent;
 
         while let Some(scope) = cur {
-            if let Some(cxs) = scope.declared_symbols.borrow().get(&*sym) {
+            if let Some(cxs) = scope.declared_symbols.borrow().get(&sym) {
                 if cxs.len() != 1 || cxs[0] != ctxt {
                     ctxts.extend_from_slice(&cxs);
                 }
@@ -541,7 +641,7 @@ impl<'a> Scope<'a> {
         sym
     }
 
-    fn is_declared(&self, sym: &str) -> bool {
+    fn is_declared(&self, sym: &JsWord) -> bool {
         if self.declared_symbols.borrow().contains_key(sym) {
             return true;
         }

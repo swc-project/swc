@@ -1,6 +1,6 @@
-use crate::test_parser;
-use swc_common::BytePos;
-use swc_ecma_ast::*;
+use super::*;
+use crate::{test_parser, EsConfig, TsConfig};
+use swc_common::{comments::SingleThreadedComments, BytePos};
 
 fn program(src: &'static str) -> Program {
     test_parser(src, Default::default(), |p| p.parse_program())
@@ -136,10 +136,6 @@ fn parse_module_export_default_class_span() {
 
 #[test]
 fn issue_1878() {
-    use super::*;
-    use crate::TsConfig;
-    use swc_common::comments::SingleThreadedComments;
-
     // file with only comments should have the comments
     // in the leading map instead of the trailing
     {
@@ -182,5 +178,61 @@ fn issue_1878() {
         assert!(leading.borrow().is_empty());
         assert_eq!(trailing.borrow().len(), 1);
         assert!(trailing.borrow().get(&BytePos(10)).is_some());
+    }
+}
+
+#[test]
+fn issue_2264_1() {
+    // file with only comments should have the comments
+    // in the leading map instead of the trailing
+    {
+        let c = SingleThreadedComments::default();
+        let s = "
+            const t = <Switch>
+                // 1
+                /* 2 */
+            </Switch>
+        ";
+        let _ = super::test_parser_comment(
+            &c,
+            s,
+            Syntax::Typescript(TsConfig {
+                tsx: true,
+                ..Default::default()
+            }),
+            |p| p.parse_typescript_module(),
+        );
+
+        let (leading, trailing) = c.take_all();
+        assert!(leading.borrow().is_empty());
+        assert!(trailing.borrow().is_empty());
+    }
+}
+
+#[test]
+fn issue_2264_2() {
+    // file with only comments should have the comments
+    // in the leading map instead of the trailing
+    {
+        let c = SingleThreadedComments::default();
+        let s = "
+            const t = <Switch>
+                // 1
+                /* 2 */
+            </Switch>
+        ";
+        let _ = super::test_parser_comment(
+            &c,
+            s,
+            Syntax::Es(EsConfig {
+                jsx: true,
+                ..Default::default()
+            }),
+            |p| p.parse_module(),
+        );
+
+        let (leading, trailing) = c.take_all();
+        assert!(leading.borrow().is_empty());
+        assert!(trailing.borrow().is_empty());
     }
 }

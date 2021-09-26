@@ -1,4 +1,4 @@
-error: Expected from, got =
+error: Expected 'from', got '='
  --> $DIR/tests/typescript-errors/type-only-import-equals-decl/namespace/input.ts:1:25
   |
 1 | import type * as MyType = require('commonjs-package')
