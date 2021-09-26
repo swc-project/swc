@@ -184,7 +184,9 @@ impl<'a> Emitter<'a> {
         for specifier in &node.specifiers {
             match specifier {
                 ImportSpecifier::Named(ref s) => {
-                    specifiers.push(s);
+                    if !s.is_type_only {
+                        specifiers.push(s);
+                    }
                 }
                 ImportSpecifier::Default(ref s) => {
                     emit!(s.local);
