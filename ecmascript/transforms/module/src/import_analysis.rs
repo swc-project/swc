@@ -109,6 +109,8 @@ impl Visit for ImportAnalyzer {
                             .entry(import.src.value.clone())
                             .or_insert(false);
                     }
+                    ImportSpecifier::Named(ImportNamedSpecifier { is_type_only, .. })
+                        if is_type_only => {}
                     ImportSpecifier::Named(ref i) => {
                         let ImportNamedSpecifier {
                             ref local,
@@ -155,7 +157,7 @@ impl Visit for ImportAnalyzer {
         let mut scope = self.scope.borrow_mut();
         for &ExportNamedSpecifier { ref orig, .. } in
             export.specifiers.iter().filter_map(|e| match *e {
-                ExportSpecifier::Named(ref e) => Some(e),
+                ExportSpecifier::Named(ref e) if !e.is_type_only => Some(e),
                 _ => None,
             })
         {
