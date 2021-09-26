@@ -160,7 +160,7 @@ import {
   TsConstAssertion,
 } from "./types";
 
-export default class Visitor {
+export class Visitor {
   visitProgram(n: Program): Program {
     switch (n.type) {
       case "Module":
@@ -1723,3 +1723,5 @@ export default class Visitor {
     return n;
   }
 }
+
+export default Visitor;
