@@ -2197,7 +2197,7 @@ where
             let text = dump(&*s);
 
             if text.lines().count() < 10 {
-                tracing::debug!("after_children: {}", text);
+                tracing::debug!("after: visit_mut_children_with: {}", text);
             }
         }
 
@@ -2268,6 +2268,14 @@ where
         self.optimize_const_switches(s);
 
         self.optimize_switches(s);
+
+        if cfg!(feature = "debug") && self.debug_inifinite_loop {
+            let text = dump(&*s);
+
+            if text.lines().count() < 10 {
+                tracing::debug!("after: visit_mut_stmt: {}", text);
+            }
+        }
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
