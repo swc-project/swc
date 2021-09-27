@@ -2647,7 +2647,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.30.0"
+version = "0.30.1"
 dependencies = [
  "ansi_term 0.12.1",
  "anyhow",
@@ -3492,7 +3492,6 @@ version = "1.2.92"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
- "log",
  "once_cell",
  "path-clean",
  "serde",
@@ -3500,6 +3499,7 @@ dependencies = [
  "swc",
  "swc_common",
  "swc_ecmascript",
+ "tracing",
  "wasm-bindgen",
  "wasm-bindgen-futures",
 ]
