@@ -276,7 +276,7 @@ impl Syntax {
         }
     }
 
-    pub(crate) fn private_in_object(self) -> bool {
+    pub fn private_in_object(self) -> bool {
         match self {
             Syntax::Es(EsConfig {
                 private_in_object, ..
