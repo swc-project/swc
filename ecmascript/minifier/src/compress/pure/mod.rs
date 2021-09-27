@@ -423,7 +423,7 @@ where
                 Stmt::Debugger(..) => {
                     self.changed = true;
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                    log::debug!("drop_debugger: Dropped a debugger statement");
+                    tracing::debug!("drop_debugger: Dropped a debugger statement");
                     return;
                 }
                 _ => {}

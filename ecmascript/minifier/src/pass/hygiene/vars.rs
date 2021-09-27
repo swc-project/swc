@@ -100,7 +100,7 @@ impl Visit for VarAnalyzer<'_> {
     }
 
     fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
-        log::trace!("hygiene/vars: Found {}", i);
+        tracing::trace!("hygiene/vars: Found {}", i);
 
         self.cur.add(i);
     }

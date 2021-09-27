@@ -70,7 +70,7 @@ impl<M> Pure<'_, M> {
         };
 
         self.changed = true;
-        log::debug!(
+        tracing::debug!(
             "if_return: Negating `foo` in `if (foo) return; bar()` to make it `if (!foo) bar()`"
         );
 

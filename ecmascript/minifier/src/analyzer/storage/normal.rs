@@ -2,7 +2,7 @@ use std::collections::hash_map::Entry;
 
 use super::{ScopeDataLike, Storage, VarDataLike};
 use crate::analyzer::{ctx::Ctx, ProgramData, ScopeData, ScopeKind, VarUsageInfo};
-use fxhash::FxHashSet;
+use rustc_hash::FxHashSet;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 
@@ -31,7 +31,7 @@ impl Storage for ProgramData {
         }
 
         for (id, mut var_info) in child.vars {
-            // log::trace!("merge({:?},{}{:?})", kind, id.0, id.1);
+            // tracing::trace!("merge({:?},{}{:?})", kind, id.0, id.1);
             match self.vars.entry(id) {
                 Entry::Occupied(mut e) => {
                     e.get_mut().inline_prevented |= var_info.inline_prevented;
@@ -106,7 +106,7 @@ impl Storage for ProgramData {
         has_init: bool,
         kind: Option<VarDeclKind>,
     ) -> &mut VarUsageInfo {
-        // log::trace!("declare_decl({}{:?})", i.sym, i.span.ctxt);
+        // tracing::trace!("declare_decl({}{:?})", i.sym, i.span.ctxt);
 
         let v = self
             .vars
@@ -162,7 +162,7 @@ impl ScopeDataLike for ScopeData {
 
 impl ProgramData {
     fn report(&mut self, i: Id, ctx: Ctx, is_modify: bool, dejavu: &mut FxHashSet<Id>) {
-        // log::trace!("report({}{:?})", i.0, i.1);
+        // tracing::trace!("report({}{:?})", i.0, i.1);
 
         let is_first = dejavu.is_empty();
 
@@ -171,7 +171,7 @@ impl ProgramData {
         }
 
         let e = self.vars.entry(i.clone()).or_insert_with(|| {
-            // log::trace!("insert({}{:?})", i.0, i.1);
+            // tracing::trace!("insert({}{:?})", i.0, i.1);
 
             VarUsageInfo {
                 is_fn_local: true,

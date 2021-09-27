@@ -100,7 +100,7 @@ where
         }
 
         if cfg!(feature = "debug") {
-            log::trace!("unused: drop_unused_vars({})", dump(&*name));
+            tracing::trace!("unused: drop_unused_vars({})", dump(&*name));
         }
 
         // Top-level
@@ -110,7 +110,7 @@ where
                     if !self.options.top_level() && self.options.top_retain.is_empty() {
                         if self.ctx.in_top_level() {
                             if cfg!(feature = "debug") {
-                                log::trace!(
+                                tracing::trace!(
                                     "unused: [X] Preserving `var` `{}` because it's top-level",
                                     dump(&*name)
                                 );
@@ -123,7 +123,7 @@ where
                 Some(VarDeclKind::Let) | Some(VarDeclKind::Const) => {
                     if !self.options.top_level() && self.ctx.is_top_level_for_block_level_vars() {
                         if cfg!(feature = "debug") {
-                            log::trace!(
+                            tracing::trace!(
                                 "unused: [X] Preserving block scoped var `{}` because it's \
                                  top-level",
                                 dump(&*name)
@@ -143,7 +143,7 @@ where
         {
             if scope.has_eval_call || scope.has_with_stmt {
                 if cfg!(feature = "debug") {
-                    log::trace!(
+                    tracing::trace!(
                         "unused: [X] Preserving `{}` because of usages",
                         dump(&*name)
                     );
@@ -192,7 +192,7 @@ where
                     && self.options.top_retain.contains(&i.id.sym)
                 {
                     if cfg!(feature = "debug") {
-                        log::trace!("unused: [X] Top-retain")
+                        tracing::trace!("unused: [X] Top-retain")
                     }
                     return;
                 }
@@ -205,7 +205,7 @@ where
                     .unwrap_or(false)
                 {
                     self.changed = true;
-                    log::debug!(
+                    tracing::debug!(
                         "unused: Dropping a variable '{}{:?}' because it is not used",
                         i.id.sym,
                         i.id.span.ctxt
@@ -215,7 +215,7 @@ where
                     return;
                 } else {
                     if cfg!(feature = "debug") {
-                        log::trace!("unused: Cannot drop ({}) becaue it's used", dump(&*i));
+                        tracing::trace!("unused: Cannot drop ({}) becaue it's used", dump(&*i));
                     }
                 }
             }
@@ -347,7 +347,7 @@ where
                     .unwrap_or(false)
                 {
                     self.changed = true;
-                    log::debug!(
+                    tracing::debug!(
                         "unused: Dropping a decl '{}{:?}' because it is not used",
                         ident.sym,
                         ident.span.ctxt
@@ -396,7 +396,7 @@ where
         }
 
         if cfg!(feature = "debug") {
-            log::trace!(
+            tracing::trace!(
                 "unused: drop_unused_assignments: Target: `{}`",
                 dump(&assign.left)
             )
@@ -407,7 +407,7 @@ where
             && self.ctx.in_top_level()
         {
             if cfg!(feature = "debug") {
-                log::trace!(
+                tracing::trace!(
                     "unused: Preserving assignment to `{}` because it's top-level",
                     dump(&assign.left)
                 )
@@ -418,7 +418,7 @@ where
         match &mut assign.left {
             PatOrExpr::Expr(_) => {
                 if cfg!(feature = "debug") {
-                    log::trace!(
+                    tracing::trace!(
                         "unused: Preserving assignment to `{}` because it's an expression",
                         dump(&assign.left)
                     )
@@ -437,7 +437,7 @@ where
                         .and_then(|data| data.vars.get(&i.to_id()))
                     {
                         if var.is_fn_local && var.usage_count == 0 && var.declared {
-                            log::debug!(
+                            tracing::debug!(
                                 "unused: Dropping assignment to var '{}{:?}', which is never used",
                                 i.id.sym,
                                 i.id.span.ctxt
@@ -447,7 +447,7 @@ where
                             return;
                         } else {
                             if cfg!(feature = "debug") {
-                                log::trace!(
+                                tracing::trace!(
                                     "unused: Preserving assignment to `{}` because of usage: {:?}",
                                     dump(&assign.left),
                                     var
@@ -481,7 +481,7 @@ where
 
                 if can_remove_ident {
                     self.changed = true;
-                    log::debug!("Removing ident of an class / function expression");
+                    tracing::debug!("Removing ident of an class / function expression");
                     *name = None;
                 }
             }
@@ -505,7 +505,7 @@ where
                 }
 
                 self.changed = true;
-                log::debug!(
+                tracing::debug!(
                     "unused: Removing the name of a function expression because it's not used by \
                      it'"
                 );

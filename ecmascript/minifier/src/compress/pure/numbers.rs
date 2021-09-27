@@ -13,7 +13,7 @@ where
                 let value = if value.is_empty() { 0f64 } else { 1f64 };
 
                 self.changed = true;
-                log::debug!("numbers: Converting a string literal to {:?}", value);
+                tracing::debug!("numbers: Converting a string literal to {:?}", value);
                 *e = Expr::Lit(Lit::Num(Number { span: *span, value }));
                 return;
             }
@@ -41,7 +41,7 @@ where
                         ..
                     }) => {
                         self.changed = true;
-                        log::debug!("numbers: Lifting `-`");
+                        tracing::debug!("numbers: Lifting `-`");
 
                         *e = Expr::Unary(UnaryExpr {
                             span: arg.span,
@@ -59,7 +59,7 @@ where
                     Expr::Lit(Lit::Num(Number { span, value, .. })) => {
                         if value.is_sign_negative() {
                             self.changed = true;
-                            log::debug!("numbers: Lifting `-` in a literal");
+                            tracing::debug!("numbers: Lifting `-` in a literal");
 
                             *e = Expr::Unary(UnaryExpr {
                                 span: arg.span,

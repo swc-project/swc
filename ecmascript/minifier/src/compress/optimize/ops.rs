@@ -47,7 +47,7 @@ where
         if e.op == op!("===") || e.op == op!("!==") {
             if (e.left.is_ident() || e.left.is_member()) && e.left.eq_ignore_span(&e.right) {
                 self.changed = true;
-                log::debug!("Reducing comparison of same variable ({})", e.op);
+                tracing::debug!("Reducing comparison of same variable ({})", e.op);
 
                 e.op = if e.op == op!("===") {
                     op!("==")
@@ -67,7 +67,7 @@ where
                     if lt == rt {
                         e.op = op!("==");
                         self.changed = true;
-                        log::debug!("Reduced `===` to `==` because types of operands are identical")
+                        tracing::debug!("Reduced `===` to `==` because types of operands are identical")
                     }
                 }
             }
@@ -89,7 +89,7 @@ where
 
                 let value = if n.op == op!("==") { l == r } else { l != r };
 
-                log::debug!("Optimizing: literal comparison => bool");
+                tracing::debug!("Optimizing: literal comparison => bool");
                 self.changed = true;
                 return Some(Expr::Lit(Lit::Bool(Bool {
                     span: n.span,
@@ -129,7 +129,7 @@ where
                     | Expr::Bin(BinExpr { op: op!(">"), .. }) => {
                         if let Known(Type::Bool) = arg.get_type() {
                             self.changed = true;
-                            log::debug!("Optimizing: `!!expr` => `expr`");
+                            tracing::debug!("Optimizing: `!!expr` => `expr`");
                             *e = *arg.take();
                         }
 
@@ -212,7 +212,7 @@ where
             _ => return,
         };
 
-        log::debug!("Compressing: `e = 3 & e` => `e &= 3`");
+        tracing::debug!("Compressing: `e = 3 & e` => `e &= 3`");
 
         self.changed = true;
         e.op = op;
@@ -272,13 +272,13 @@ where
 
                 if rb {
                     self.changed = true;
-                    log::debug!("Optimizing: e && true => !!e");
+                    tracing::debug!("Optimizing: e && true => !!e");
 
                     self.negate_twice(&mut bin.left);
                     *e = *bin.left.take();
                 } else {
                     self.changed = true;
-                    log::debug!("Optimizing: e && false => e");
+                    tracing::debug!("Optimizing: e && false => e");
 
                     *e = *bin.left.take();
                 }
@@ -292,7 +292,7 @@ where
 
                 if !rb {
                     self.changed = true;
-                    log::debug!("Optimizing: e || false => !!e");
+                    tracing::debug!("Optimizing: e || false => !!e");
 
                     self.negate_twice(&mut bin.left);
                     *e = *bin.left.take();
@@ -352,7 +352,7 @@ where
 
         match l {
             Expr::Lit(Lit::Null(..)) => {
-                log::debug!("Removing null from lhs of ??");
+                tracing::debug!("Removing null from lhs of ??");
                 self.changed = true;
                 *e = r.take();
                 return;
@@ -362,7 +362,7 @@ where
             | Expr::Lit(Lit::BigInt(..))
             | Expr::Lit(Lit::Bool(..))
             | Expr::Lit(Lit::Regex(..)) => {
-                log::debug!("Removing rhs of ?? as lhs cannot be null nor undefined");
+                tracing::debug!("Removing rhs of ?? as lhs cannot be null nor undefined");
                 self.changed = true;
                 *e = l.take();
                 return;
@@ -386,7 +386,7 @@ where
             }) => match &**arg {
                 Expr::Ident(arg) => {
                     if let Some(value) = self.typeofs.get(&arg.to_id()).cloned() {
-                        log::debug!(
+                        tracing::debug!(
                             "Converting typeof of variable to literal as we know the value"
                         );
                         self.changed = true;
@@ -401,7 +401,7 @@ where
                 }
 
                 Expr::Arrow(..) | Expr::Fn(..) => {
-                    log::debug!("Converting typeof to 'function' as we know the value");
+                    tracing::debug!("Converting typeof to 'function' as we know the value");
                     self.changed = true;
                     *e = Expr::Lit(Lit::Str(Str {
                         span: *span,
@@ -413,7 +413,7 @@ where
                 }
 
                 Expr::Array(..) | Expr::Object(..) => {
-                    log::debug!("Converting typeof to 'object' as we know the value");
+                    tracing::debug!("Converting typeof to 'object' as we know the value");
                     self.changed = true;
                     *e = Expr::Lit(Lit::Str(Str {
                         span: *span,

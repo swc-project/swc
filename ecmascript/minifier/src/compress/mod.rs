@@ -134,7 +134,7 @@ where
     where
         N: Send + Sync + for<'aa> VisitMutWith<Compressor<'aa, M>>,
     {
-        log::debug!("visit_par(left_depth = {})", self.left_parallel_depth);
+        tracing::debug!("visit_par(left_depth = {})", self.left_parallel_depth);
 
         if self.left_parallel_depth == 0 || cfg!(target_arch = "wasm32") {
             for node in nodes {
@@ -187,7 +187,7 @@ where
         N: CompileUnit + VisitWith<UsageAnalyzer> + for<'aa> VisitMutWith<Compressor<'aa, M>>,
     {
         if cfg!(feature = "debug") {
-            log::debug!(
+            tracing::debug!(
                 "Optimizing a compile unit within `{:?}`",
                 thread::current().name()
             );
@@ -236,7 +236,7 @@ where
 
         if self.options.passes != 0 && self.options.passes + 1 <= self.pass {
             let done = dump(&*n);
-            log::debug!("===== Done =====\n{}", done);
+            tracing::debug!("===== Done =====\n{}", done);
             return;
         }
 
@@ -247,14 +247,14 @@ where
 
         let start = if cfg!(feature = "debug") {
             let start = n.dump();
-            log::debug!("===== Start =====\n{}", start);
+            tracing::debug!("===== Start =====\n{}", start);
             start
         } else {
             String::new()
         };
 
         {
-            log::info!(
+            tracing::info!(
                 "compress: Running expression simplifier (pass = {})",
                 self.pass
             );
@@ -265,16 +265,16 @@ where
             n.apply(&mut visitor);
             self.changed |= visitor.changed();
             if visitor.changed() {
-                log::debug!("compressor: Simplified expressions");
+                tracing::debug!("compressor: Simplified expressions");
                 if cfg!(feature = "debug") {
-                    log::debug!("===== Simplified =====\n{}", dump(&*n));
+                    tracing::debug!("===== Simplified =====\n{}", dump(&*n));
                 }
             }
 
             if let Some(start_time) = start_time {
                 let end_time = Instant::now();
 
-                log::info!(
+                tracing::info!(
                     "compress: expr_simplifier took {:?} (pass = {})",
                     end_time - start_time,
                     self.pass
@@ -295,7 +295,7 @@ where
         }
 
         {
-            log::info!(
+            tracing::info!(
                 "compress/pure: Running pure optimizer (pass = {})",
                 self.pass
             );
@@ -309,7 +309,7 @@ where
             if let Some(start_time) = start_time {
                 let end_time = Instant::now();
 
-                log::info!(
+                tracing::info!(
                     "compress/pure: Pure optimizer took {:?} (pass = {})",
                     end_time - start_time,
                     self.pass
@@ -317,13 +317,13 @@ where
 
                 if cfg!(feature = "debug") && visitor.changed() {
                     let start = n.dump();
-                    log::debug!("===== After pure =====\n{}", start);
+                    tracing::debug!("===== After pure =====\n{}", start);
                 }
             }
         }
 
         {
-            log::info!("compress: Running optimizer (pass = {})", self.pass);
+            tracing::info!("compress: Running optimizer (pass = {})", self.pass);
 
             let start_time = now();
             // TODO: reset_opt_flags
@@ -345,14 +345,14 @@ where
             if let Some(start_time) = start_time {
                 let end_time = Instant::now();
 
-                log::info!(
+                tracing::info!(
                     "compress: Optimizer took {:?} (pass = {})",
                     end_time - start_time,
                     self.pass
                 );
             }
             // let done = dump(&*n);
-            // log::debug!("===== Result =====\n{}", done);
+            // tracing::debug!("===== Result =====\n{}", done);
         }
 
         if self.options.conditionals || self.options.dead_code {
@@ -370,7 +370,7 @@ where
             if let Some(start_time) = start_time {
                 let end_time = Instant::now();
 
-                log::info!(
+                tracing::info!(
                     "compress: dead_branch_remover took {:?} (pass = {})",
                     end_time - start_time,
                     self.pass
@@ -381,7 +381,7 @@ where
                 let simplified = dump(&*n);
 
                 if start != simplified {
-                    log::debug!(
+                    tracing::debug!(
                         "===== Removed dead branches =====\n{}\n==== ===== ===== ===== ======\n{}",
                         start,
                         simplified

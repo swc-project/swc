@@ -55,7 +55,7 @@ where
         //  =>
         //
         // `_ || 'undefined' == typeof require`
-        log::debug!(
+        tracing::debug!(
             "bools: Negating: (!a && !b) => !(a || b) (because both expression are good for \
              negation)",
         );
@@ -77,7 +77,7 @@ where
         self.with_ctx(ctx).negate(&mut e.right);
 
         if cfg!(feature = "debug") {
-            log::trace!("[Change] {} => {}", start, dump(&*e));
+            tracing::trace!("[Change] {} => {}", start, dump(&*e));
         }
 
         true
@@ -98,7 +98,7 @@ where
             None => match &mut *stmt.cons {
                 Stmt::Expr(cons) => {
                     self.changed = true;
-                    log::debug!("conditionals: `if (foo) bar;` => `foo && bar`");
+                    tracing::debug!("conditionals: `if (foo) bar;` => `foo && bar`");
                     *s = Stmt::Expr(ExprStmt {
                         span: stmt.span,
                         expr: Box::new(Expr::Bin(BinExpr {

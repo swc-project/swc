@@ -1,5 +1,5 @@
-use fxhash::FxHashMap;
 use regex::Regex;
+use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
 use swc_common::Mark;

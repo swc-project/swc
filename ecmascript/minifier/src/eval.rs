@@ -3,7 +3,7 @@ use crate::{
     marks::Marks,
     mode::Mode,
 };
-use fxhash::FxHashMap;
+use rustc_hash::FxHashMap;
 use std::sync::{Arc, Mutex};
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, DUMMY_SP};

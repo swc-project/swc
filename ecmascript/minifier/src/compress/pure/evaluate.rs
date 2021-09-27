@@ -78,7 +78,7 @@ where
                         match call.args.len() {
                             0 => {
                                 self.changed = true;
-                                log::debug!("evaluate: Dropping array.slice call");
+                                tracing::debug!("evaluate: Dropping array.slice call");
                                 *e = *obj.take();
                                 return;
                             }
@@ -87,7 +87,10 @@ where
                                     let start = start.floor() as usize;
 
                                     self.changed = true;
-                                    log::debug!("evaluate: Reducing array.slice({}) call", start);
+                                    tracing::debug!(
+                                        "evaluate: Reducing array.slice({}) call",
+                                        start
+                                    );
 
                                     if start >= arr.elems.len() {
                                         *e = Expr::Array(ArrayLit {
@@ -112,7 +115,7 @@ where
                                     if let Value::Known(end) = end {
                                         let end = end.floor() as usize;
                                         self.changed = true;
-                                        log::debug!(
+                                        tracing::debug!(
                                             "evaluate: Reducing array.slice({}, {}) call",
                                             start,
                                             end
@@ -198,7 +201,7 @@ where
                         }
 
                         self.changed = true;
-                        log::debug!(
+                        tracing::debug!(
                             "evaludate: Reduced `funtion.valueOf()` into a function expression"
                         );
 
@@ -229,7 +232,7 @@ where
                                 ..
                             }) => {
                                 self.changed = true;
-                                log::debug!(
+                                tracing::debug!(
                                     "evaluate: Reducing a call to `Number` into an unary operation"
                                 );
 
@@ -289,7 +292,7 @@ where
                     let value = num_to_fixed(num.value, precision + 1);
 
                     self.changed = true;
-                    log::debug!(
+                    tracing::debug!(
                         "evaluate: Evaluating `{}.toFixed({})` as `{}`",
                         num,
                         precision,
@@ -323,7 +326,7 @@ where
                 //
                 if is_pure_undefined_or_null(&obj) {
                     self.changed = true;
-                    log::debug!(
+                    tracing::debug!(
                         "evaluate: Reduced an optioanl chaining operation because object is \
                          always null or undefined"
                     );
@@ -340,7 +343,7 @@ where
             }) => {
                 if is_pure_undefined_or_null(&callee) {
                     self.changed = true;
-                    log::debug!(
+                    tracing::debug!(
                         "evaluate: Reduced a call expression with optioanl chaining operation \
                          because object is always null or undefined"
                     );
@@ -408,7 +411,7 @@ where
                     match c {
                         Some(v) => {
                             self.changed = true;
-                            log::debug!(
+                            tracing::debug!(
                                 "evaluate: Evaluated `charCodeAt` of a string literal as `{}`",
                                 v
                             );
@@ -419,7 +422,7 @@ where
                         }
                         None => {
                             self.changed = true;
-                            log::debug!(
+                            tracing::debug!(
                                 "evaluate: Evaluated `charCodeAt` of a string literal as `NaN`",
                             );
                             *e = Expr::Ident(Ident::new(
@@ -435,7 +438,7 @@ where
         };
 
         self.changed = true;
-        log::debug!("evaluate: Evaluated `{}` of a string literal", method);
+        tracing::debug!("evaluate: Evaluated `{}` of a string literal", method);
         *e = Expr::Lit(Lit::Str(Str {
             value: new_val.into(),
             ..s
