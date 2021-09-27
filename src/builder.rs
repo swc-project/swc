@@ -175,7 +175,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                     should_enable(self.target, JscTarget::Es2021)
                 ),
                 Optional::new(
-                    compat::es2020::es2020(),
+                    compat::es2020::es2020(compat::es2020::Config { loose: self.loose }),
                     should_enable(self.target, JscTarget::Es2020)
                 ),
                 Optional::new(

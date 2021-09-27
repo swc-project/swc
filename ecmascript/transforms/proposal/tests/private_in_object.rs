@@ -50,14 +50,20 @@ fn fixture(input: PathBuf) {
                     "proposal-class-properties" => {
                         if !class_props {
                             class_props = true;
-                            pass = Box::new(chain!(pass, class_properties()));
+                            pass = Box::new(chain!(
+                                pass,
+                                class_properties(class_properties::Config { loose: false })
+                            ));
                         }
                     }
 
                     "proposal-private-methods" => {
                         if !class_props {
                             class_props = true;
-                            pass = Box::new(chain!(pass, class_properties()));
+                            pass = Box::new(chain!(
+                                pass,
+                                class_properties(class_properties::Config { loose: false })
+                            ));
                         }
                     }
 

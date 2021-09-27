@@ -5,7 +5,7 @@ use swc_ecma_parser::{Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::resolver;
 use swc_ecma_transforms_compat::{
     es2017::async_to_generator,
-    es2020::{class_properties, nullish_coalescing, optional_chaining},
+    es2020::{nullish_coalescing, optional_chaining},
 };
 use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_testing::{test, test_exec, test_fixture};
@@ -3252,14 +3252,11 @@ test!(
     Syntax::Typescript(TsConfig {
         ..Default::default()
     }),
-    |_| chain!(
-        strip_with_config(strip::Config {
-            use_define_for_class_fields: true,
-            no_empty_export: true,
-            ..Default::default()
-        }),
-        class_properties()
-    ),
+    |_| strip_with_config(strip::Config {
+        use_define_for_class_fields: true,
+        no_empty_export: true,
+        ..Default::default()
+    }),
     compile_to_class_constructor_collision_ignores_types,
     r#"
 class C {
@@ -4078,6 +4075,100 @@ to!(
     "
     
     "
+);
+
+to!(
+    issue_1122_1,
+    "
+const identifier = 'bar';
+
+class Foo {
+  [identifier] = 5;
+}
+
+
+",
+    "
+const identifier = \"bar\";
+class Foo {
+    constructor(){
+        this[identifier] = 5;
+    }
+}
+    "
+);
+
+to!(
+    issue_1122_2,
+    "
+const identifier = 'bar';
+
+class Foo {
+  identifier = 5;
+}
+",
+    "
+    const identifier = \"bar\";
+    class Foo {
+        constructor(){
+            this.identifier = 5;
+        }
+    }
+    "
+);
+
+to!(
+    issue_1122_3,
+    "
+const identifier = 'bar';
+
+class Foo {
+  ['identifier'] = 5;
+}
+    ",
+    "
+const identifier = \"bar\";
+class Foo {
+    constructor(){
+        this[\"identifier\"] = 5;
+    }
+}
+    "
+);
+
+to!(
+    issue_1122_4,
+    "
+const identifier = 'bar';
+
+class Foo {
+  static [identifier] = 5;
+}
+  ",
+    "
+const identifier = \"bar\";
+class Foo {
+}
+Foo[identifier] = 5;
+
+    "
+);
+
+to!(
+    issue_1122_5,
+    "
+const identifier = 'bar';
+
+class Foo {
+  static identifier = 5;
+}
+  ",
+    "
+const identifier = \"bar\";
+class Foo {
+}
+Foo.identifier = 5;
+  "
 );
 
 #[testing::fixture("tests/fixture/**/input.ts")]
