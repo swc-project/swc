@@ -3269,10 +3269,10 @@ class C {
 "#,
     r#"
 class C {
+    x;
+    y = 0;
   // Output should not use `_initialiseProps`
   constructor(T) {
-    _defineProperty(this, "x", void 0);
-    _defineProperty(this, "y", 0);
   }
 
 }
@@ -4078,27 +4078,6 @@ to!(
 );
 
 to!(
-    issue_1122_1,
-    "
-const identifier = 'bar';
-
-class Foo {
-  [identifier] = 5;
-}
-
-
-",
-    "
-const identifier = \"bar\";
-class Foo {
-    constructor(){
-        this[identifier] = 5;
-    }
-}
-    "
-);
-
-to!(
     issue_1122_2,
     "
 const identifier = 'bar';
@@ -4114,43 +4093,6 @@ class Foo {
             this.identifier = 5;
         }
     }
-    "
-);
-
-to!(
-    issue_1122_3,
-    "
-const identifier = 'bar';
-
-class Foo {
-  ['identifier'] = 5;
-}
-    ",
-    "
-const identifier = \"bar\";
-class Foo {
-    constructor(){
-        this[\"identifier\"] = 5;
-    }
-}
-    "
-);
-
-to!(
-    issue_1122_4,
-    "
-const identifier = 'bar';
-
-class Foo {
-  static [identifier] = 5;
-}
-  ",
-    "
-const identifier = \"bar\";
-class Foo {
-}
-Foo[identifier] = 5;
-
     "
 );
 
