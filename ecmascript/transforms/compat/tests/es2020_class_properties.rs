@@ -5264,10 +5264,8 @@ class MyClass {
 }
 ",
     "
-  var _get = new WeakSet();
   class MyClass {
       constructor(){
-          _get.add(this);
           _classStaticPrivateMethodGet(MyClass, MyClass, get).call(MyClass, foo);
       }
   }
