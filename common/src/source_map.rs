@@ -23,7 +23,6 @@ use crate::{
     rustc_data_structures::stable_hasher::StableHasher,
     sync::{Lock, LockGuard, Lrc, MappedLockGuard},
 };
-use log::debug;
 #[cfg(feature = "sourcemap")]
 use sourcemap::SourceMapBuilder;
 use std::{
@@ -35,6 +34,7 @@ use std::{
     path::{Path, PathBuf},
     sync::atomic::{AtomicUsize, Ordering::SeqCst},
 };
+use tracing::debug;
 
 // _____________________________________________________________________________
 // SourceFile, MultiByteChar, FileName, FileLines
@@ -311,15 +311,17 @@ impl SourceMap {
                         .sum();
                     col.0 - special_chars + non_narrow
                 };
-                debug!(
-                    "byte pos {:?} is on the line at byte pos {:?}",
-                    pos, linebpos
-                );
-                debug!(
-                    "char pos {:?} is on the line at char pos {:?}",
-                    chpos, linechpos
-                );
-                debug!("byte is on line: {}", line);
+                if cfg!(feature = "debug") {
+                    debug!(
+                        "byte pos {:?} is on the line at byte pos {:?}",
+                        pos, linebpos
+                    );
+                    debug!(
+                        "char pos {:?} is on the line at char pos {:?}",
+                        chpos, linechpos
+                    );
+                    debug!("byte is on line: {}", line);
+                }
                 //                assert!(chpos >= linechpos);
                 Loc {
                     file: f,
@@ -457,16 +459,22 @@ impl SourceMap {
     }
 
     pub fn span_to_lines(&self, sp: Span) -> FileLinesResult {
-        debug!("span_to_lines(sp={:?})", sp);
+        if cfg!(feature = "debug") {
+            debug!("span_to_lines(sp={:?})", sp);
+        }
 
         if sp.lo() > sp.hi() {
             return Err(SpanLinesError::IllFormedSpan(sp));
         }
 
         let lo = self.lookup_char_pos(sp.lo());
-        debug!("span_to_lines: lo={:?}", lo);
+        if cfg!(feature = "debug") {
+            debug!("span_to_lines: lo={:?}", lo);
+        }
         let hi = self.lookup_char_pos(sp.hi());
-        debug!("span_to_lines: hi={:?}", hi);
+        if cfg!(feature = "debug") {
+            debug!("span_to_lines: hi={:?}", hi);
+        }
 
         if lo.file.start_pos != hi.file.start_pos {
             return Err(SpanLinesError::DistinctSources(DistinctSources {
