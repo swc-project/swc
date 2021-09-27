@@ -9,8 +9,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{pass::JsPass, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
-    default_constructor, ident::IdentLike, prepend, private_ident, quote_ident, ExprExt,
-    ExprFactory, Id,
+    default_constructor, ident::IdentLike, prepend, private_ident, quote_ident, ExprFactory, Id,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Node, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -112,7 +111,16 @@ impl CompilerPass for PrivateInObject {
 
 impl PrivateInObject {
     fn var_name_for_brand_check(&self, n: &PrivateName) -> Ident {
+        let is_static = self.cls.statics.contains(&n.id.sym);
+
         let span = n.span.apply_mark(self.cls.mark);
+
+        if !is_static && self.cls.methods.contains(&n.id.sym) {
+            if let Some(cls_name) = &self.cls.ident {
+                return Ident::new(format!("_brand_check_{}", cls_name.sym).into(), span);
+            }
+        }
+
         Ident::new(format!("_brand_check_{}", n.id.sym).into(), span)
     }
 }
