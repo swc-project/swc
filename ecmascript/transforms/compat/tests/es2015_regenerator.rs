@@ -1410,7 +1410,7 @@ test!(
         let mark = Mark::fresh(Mark::root());
         chain!(
             es2021(),
-            es2020(),
+            es2020(es2020::Config { loose: false }),
             es2018(),
             es2017(),
             es2016(),
