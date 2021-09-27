@@ -1,29 +1,20 @@
-var _temp, _temp2;
-
-var _FBrandCheck = /*#__PURE__*/new WeakSet();
-
-var _xBrandCheck = /*#__PURE__*/new WeakSet();
-
-var _yBrandCheck = /*#__PURE__*/new WeakSet();
-
+var _brand_check_F = new WeakSet(), _brand_check_x = new WeakSet(), _brand_check_y = new WeakSet(), _tmp, _tmp1;
 class F {
-  m() {
-    _FBrandCheck.has(this);
-
-    _xBrandCheck.has(this);
-
-    _yBrandCheck.has(this);
-
-    _FBrandCheck.has(this);
-  }
-
-  get #w() {}
-
-  #x = (_temp = (_FBrandCheck.add(this), 0), _xBrandCheck.add(this), _temp);
-  #y = (_temp2 = (() => {
-    throw 'error';
-  })(), _yBrandCheck.add(this), _temp2);
-
-  #z() {}
-
+    m() {
+        _brand_check_F.has(this);
+        _brand_check_x.has(this);
+        _brand_check_y.has(this);
+        _brand_check_F.has(this);
+    }
+    get #w() {
+    }
+    #x = (_tmp = 0, _brand_check_x.add(this), _tmp);
+    #y = (_tmp1 = (()=>{
+        throw "error";
+    })(), _brand_check_y.add(this), _tmp1);
+     #z() {
+    }
+    constructor(){
+        _brand_check_F.add(this);
+    }
 }
