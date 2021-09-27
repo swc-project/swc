@@ -4,8 +4,8 @@ use self::{
     this_in_static::ThisInStaticFolder,
     used_name::UsedNameCollector,
 };
-use std::{collections::HashSet, mem::take};
-use swc_common::{util::move_map::MoveMap, Mark, Spanned, SyntaxContext, DUMMY_SP};
+use std::collections::HashSet;
+use swc_common::{Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Check};
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
@@ -30,27 +30,22 @@ mod used_name;
 /// # Impl note
 ///
 /// We use custom helper to handle export default class
-pub fn class_properties() -> impl Fold {
+pub fn class_properties(config: Config) -> impl Fold {
     ClassProperties {
-        typescript: false,
+        config,
         mark: Mark::root(),
         method_mark: Mark::root(),
     }
 }
 
-/// Class properties pass for the typescript.
-#[deprecated = "The logic is merged into typescript::strip"]
-pub fn typescript_class_properties() -> impl Fold {
-    ClassProperties {
-        typescript: true,
-        mark: Mark::root(),
-        method_mark: Mark::root(),
-    }
+#[derive(Debug, Clone, Default)]
+pub struct Config {
+    pub loose: bool,
 }
 
 #[derive(Clone)]
 struct ClassProperties {
-    typescript: bool,
+    config: Config,
     mark: Mark,
     method_mark: Mark,
 }
@@ -433,55 +428,42 @@ impl ClassProperties {
                         );
                     }
 
-                    let key = if self.typescript {
-                        // `b` in
-                        //
-                        // class A {
-                        //     b = 'foo';
-                        // }
-                        prop.key
-                    } else {
-                        match *prop.key {
-                            Expr::Ident(ref i) if !prop.computed => {
-                                Box::new(Expr::from(Lit::Str(Str {
-                                    span: i.span,
-                                    value: i.sym.clone(),
-                                    has_escape: false,
-                                    kind: StrKind::Normal {
-                                        contains_quote: false,
-                                    },
-                                })))
-                            }
-                            Expr::Lit(ref lit) if !prop.computed => {
-                                Box::new(Expr::from(lit.clone()))
-                            }
+                    let key = match *prop.key {
+                        Expr::Ident(ref i) if !prop.computed => {
+                            Box::new(Expr::from(Lit::Str(Str {
+                                span: i.span,
+                                value: i.sym.clone(),
+                                has_escape: false,
+                                kind: StrKind::Normal {
+                                    contains_quote: false,
+                                },
+                            })))
+                        }
+                        Expr::Lit(ref lit) if !prop.computed => Box::new(Expr::from(lit.clone())),
 
-                            _ => {
-                                let (ident, aliased) = if let Expr::Ident(ref i) = *prop.key {
-                                    if used_key_names.contains(&i.sym) {
-                                        (alias_ident_for(&prop.key, "_ref"), true)
-                                    } else {
-                                        alias_if_required(&prop.key, "_ref")
-                                    }
+                        _ => {
+                            let (ident, aliased) = if let Expr::Ident(ref i) = *prop.key {
+                                if used_key_names.contains(&i.sym) {
+                                    (alias_ident_for(&prop.key, "_ref"), true)
                                 } else {
                                     alias_if_required(&prop.key, "_ref")
-                                };
-                                // ident.span = ident.span.apply_mark(Mark::fresh(Mark::root()));
-                                if aliased {
-                                    // Handle computed property
-                                    vars.push(VarDeclarator {
-                                        span: DUMMY_SP,
-                                        name: Pat::Ident(ident.clone().into()),
-                                        init: Some(prop.key),
-                                        definite: false,
-                                    });
                                 }
-                                Box::new(Expr::from(ident))
+                            } else {
+                                alias_if_required(&prop.key, "_ref")
+                            };
+                            // ident.span = ident.span.apply_mark(Mark::fresh(Mark::root()));
+                            if aliased {
+                                // Handle computed property
+                                vars.push(VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: Pat::Ident(ident.clone().into()),
+                                    init: Some(prop.key),
+                                    definite: false,
+                                });
                             }
+                            Box::new(Expr::from(ident))
                         }
                     };
-
-                    let assigned_value = prop.value.is_some();
 
                     let value = prop.value.unwrap_or_else(|| undefined(prop_span));
                     let value = if prop.is_static {
@@ -503,70 +485,29 @@ impl ClassProperties {
                         value
                     };
 
-                    if self.typescript {
-                        if prop.is_static {
-                            extra_stmts.push(
-                                AssignExpr {
-                                    span: DUMMY_SP,
-                                    left: PatOrExpr::Expr(Box::new(
-                                        MemberExpr {
-                                            span: DUMMY_SP,
-                                            obj: ident.clone().as_obj(),
-                                            computed: prop.computed,
-                                            prop: key,
-                                        }
-                                        .into(),
-                                    )),
-                                    op: op!("="),
-                                    right: value,
-                                }
-                                .into_stmt(),
-                            );
-                        } else if assigned_value {
-                            constructor_exprs.push(Box::new(Expr::Assign(AssignExpr {
-                                span: DUMMY_SP,
-                                left: (PatOrExpr::Expr(Box::new(
-                                    MemberExpr {
-                                        span: DUMMY_SP,
-                                        obj: ThisExpr { span: DUMMY_SP }.as_obj(),
-                                        computed: prop.computed,
-                                        prop: key,
-                                    }
-                                    .into(),
-                                ))),
-                                op: op!("="),
-                                right: value,
-                            })));
-                        }
-                    } else {
-                        let callee = helper!(define_property, "defineProperty");
+                    let callee = helper!(define_property, "defineProperty");
 
-                        if prop.is_static {
-                            extra_stmts.push(
-                                CallExpr {
-                                    span: DUMMY_SP,
-                                    callee,
-                                    args: vec![
-                                        ident.clone().as_arg(),
-                                        key.as_arg(),
-                                        value.as_arg(),
-                                    ],
-                                    type_args: Default::default(),
-                                }
-                                .into_stmt(),
-                            )
-                        } else {
-                            constructor_exprs.push(Box::new(Expr::Call(CallExpr {
+                    if prop.is_static {
+                        extra_stmts.push(
+                            CallExpr {
                                 span: DUMMY_SP,
                                 callee,
-                                args: vec![
-                                    ThisExpr { span: DUMMY_SP }.as_arg(),
-                                    key.as_arg(),
-                                    value.as_arg(),
-                                ],
+                                args: vec![ident.clone().as_arg(), key.as_arg(), value.as_arg()],
                                 type_args: Default::default(),
-                            })));
-                        }
+                            }
+                            .into_stmt(),
+                        )
+                    } else {
+                        constructor_exprs.push(Box::new(Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee,
+                            args: vec![
+                                ThisExpr { span: DUMMY_SP }.as_arg(),
+                                key.as_arg(),
+                                value.as_arg(),
+                            ],
+                            type_args: Default::default(),
+                        })));
                     }
                 }
                 ClassMember::PrivateProp(prop) => {
@@ -656,56 +597,7 @@ impl ClassProperties {
                     })));
                 }
 
-                ClassMember::Constructor(mut c) => {
-                    if self.typescript {
-                        let store = |i: &Ident| {
-                            Box::new(
-                                AssignExpr {
-                                    span: DUMMY_SP,
-                                    left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
-                                        span: DUMMY_SP,
-                                        obj: ThisExpr { span: DUMMY_SP }.as_obj(),
-                                        computed: false,
-                                        prop: Box::new(i.clone().into()),
-                                    }))),
-                                    op: op!("="),
-                                    right: Box::new(i.clone().into()),
-                                }
-                                .into(),
-                            )
-                        };
-
-                        c.params = c.params.move_map(|mut param| match &mut param {
-                            ParamOrTsParamProp::TsParamProp(p) => match &p.param {
-                                TsParamPropParam::Ident(i) => {
-                                    typescript_constructor_properties.push(store(&i.id));
-                                    ParamOrTsParamProp::Param(Param {
-                                        span: p.span,
-                                        decorators: take(&mut p.decorators),
-                                        pat: Pat::Ident(i.clone().into()),
-                                    })
-                                }
-                                TsParamPropParam::Assign(pat) => match &*pat.left {
-                                    Pat::Ident(i) => {
-                                        typescript_constructor_properties.push(store(&i.id));
-                                        ParamOrTsParamProp::Param(Param {
-                                            span: p.span,
-                                            decorators: take(&mut p.decorators),
-                                            pat: Pat::Assign(AssignPat {
-                                                span: DUMMY_SP,
-                                                left: pat.left.clone(),
-                                                right: pat.right.clone(),
-                                                type_ann: None,
-                                            }),
-                                        })
-                                    }
-                                    _ => param,
-                                },
-                            },
-                            ParamOrTsParamProp::Param(_) => param,
-                        });
-                    }
-
+                ClassMember::Constructor(c) => {
                     constructor = Some(c);
                 }
 
