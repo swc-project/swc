@@ -7,7 +7,7 @@ include = ["Cargo.toml", "src/**/*.rs", "examples/**/*.rs"]
 license = "Apache-2.0/MIT"
 name = "swc_ecma_parser"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.71.0"
+version = "0.72.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -21,24 +21,24 @@ typescript = []
 [dependencies]
 either = {version = "1.4"}
 enum_kind = {version = "0.2.1", path = "../../macros/enum_kind"}
-fxhash = "0.2.1"
 lexical = {version = "5.2.2", features = ["radix"]}
-log = "0.4"
 num-bigint = "0.2"
+rustc-hash = "1.1.0"
 serde = {version = "1", features = ["derive"]}
 smallvec = "1"
 swc_atoms = {version = "0.2.3", path = "../../atoms"}
-swc_common = {version = "0.12.0", path = "../../common"}
-swc_ecma_ast = {version = "0.52.0", path = "../ast"}
-swc_ecma_visit = {version = "0.38.1", path = "../visit"}
+swc_common = {version = "0.13.0", path = "../../common"}
+swc_ecma_ast = {version = "0.53.0", path = "../ast"}
+swc_ecma_visit = {version = "0.39.0", path = "../visit"}
+tracing = "0.1.28"
 unicode-xid = "0.2"
 
 [dev-dependencies]
 env_logger = "0.7"
 pretty_assertions = "0.6"
 serde_json = "1"
-swc_node_base = {version = "0.3.0", path = "../../node/base"}
-testing = {version = "0.13.0", path = "../../testing"}
+swc_node_base = {version = "0.4.0", path = "../../node/base"}
+testing = {version = "0.14.0", path = "../../testing"}
 walkdir = "2"
 
 [[example]]

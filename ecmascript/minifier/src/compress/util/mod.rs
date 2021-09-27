@@ -43,7 +43,7 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool) {
                     unreachable!()
                 }
             };
-            log::debug!("negate: binary");
+            tracing::debug!("negate: binary");
             return;
         }
 
@@ -53,7 +53,7 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool) {
             op: op @ op!("&&"),
             ..
         }) if is_ok_to_negate_rhs(&right) => {
-            log::debug!("negate: a && b => !a || !b");
+            tracing::debug!("negate: a && b => !a || !b");
 
             negate(&mut **left, in_bool_ctx);
             negate(&mut **right, in_bool_ctx);
@@ -67,7 +67,7 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool) {
             op: op @ op!("||"),
             ..
         }) if is_ok_to_negate_rhs(&right) => {
-            log::debug!("negate: a || b => !a && !b");
+            tracing::debug!("negate: a || b => !a && !b");
 
             negate(&mut **left, in_bool_ctx);
             negate(&mut **right, in_bool_ctx);
@@ -78,7 +78,7 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool) {
         Expr::Cond(CondExpr { cons, alt, .. })
             if is_ok_to_negate_for_cond(&cons) && is_ok_to_negate_for_cond(&alt) =>
         {
-            log::debug!("negate: cond");
+            tracing::debug!("negate: cond");
 
             negate(&mut **cons, in_bool_ctx);
             negate(&mut **alt, in_bool_ctx);
@@ -87,7 +87,7 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool) {
 
         Expr::Seq(SeqExpr { exprs, .. }) => {
             if let Some(last) = exprs.last_mut() {
-                log::debug!("negate: seq");
+                tracing::debug!("negate: seq");
 
                 negate(&mut **last, in_bool_ctx);
                 return;
@@ -104,7 +104,7 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool) {
             op: op!("!"), arg, ..
         }) => match &mut **arg {
             Expr::Unary(UnaryExpr { op: op!("!"), .. }) => {
-                log::debug!("negate: !!bool => !bool");
+                tracing::debug!("negate: !!bool => !bool");
                 *e = *arg.take();
                 return;
             }
@@ -113,13 +113,13 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool) {
                 op: op!("instanceof"),
                 ..
             }) => {
-                log::debug!("negate: !bool => bool");
+                tracing::debug!("negate: !bool => bool");
                 *e = *arg.take();
                 return;
             }
             _ => {
                 if in_bool_ctx {
-                    log::debug!("negate: !expr => expr (in bool context)");
+                    tracing::debug!("negate: !expr => expr (in bool context)");
                     *e = *arg.take();
                     return;
                 }
@@ -129,7 +129,7 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool) {
         _ => {}
     }
 
-    log::debug!("negate: e => !e");
+    tracing::debug!("negate: e => !e");
 
     *e = Expr::Unary(UnaryExpr {
         span: DUMMY_SP,
@@ -138,7 +138,7 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool) {
     });
 
     if cfg!(feature = "debug") {
-        log::trace!("[Change] Negated `{}` as `{}`", start_str, dump(&*e));
+        tracing::trace!("[Change] Negated `{}` as `{}`", start_str, dump(&*e));
     }
 }
 
@@ -195,7 +195,7 @@ pub(crate) fn is_ok_to_negate_rhs(rhs: &Expr) -> bool {
             }
 
             if cfg!(feature = "debug") {
-                log::warn!("unimplemented: is_ok_to_negate_rhs: `{}`", dump(&*rhs));
+                tracing::warn!("unimplemented: is_ok_to_negate_rhs: `{}`", dump(&*rhs));
             }
 
             false
@@ -304,7 +304,7 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
     let cost = cost(e, in_bool_ctx, None, is_ret_val_ignored);
 
     if cfg!(feature = "debug") {
-        log::trace!(
+        tracing::trace!(
             "negation cost of `{}` = {}\nin_book_ctx={:?}\nis_ret_val_ignored={:?}",
             dump(&e.clone().fold_with(&mut as_folder(fixer(None)))),
             cost,

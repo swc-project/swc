@@ -5,9 +5,9 @@ use crate::{
 };
 use ahash::AHashMap;
 use anyhow::{Context, Error};
-use fxhash::{FxHashMap, FxHashSet};
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
+use rustc_hash::{FxHashMap, FxHashSet};
 use std::time::Instant;
 
 mod cjs;
@@ -47,7 +47,7 @@ where
         let start = Instant::now();
         let (plan, graph, cycles) = self.determine_entries(entries).context("failed to plan")?;
         let dur = Instant::now() - start;
-        log::debug!("Dependency analysis took {:?}", dur);
+        tracing::debug!("Dependency analysis took {:?}", dur);
 
         if cfg!(debug_assertions) {
             for (i, id1) in plan.all.iter().enumerate() {
@@ -87,7 +87,7 @@ where
             .collect::<Result<FxHashMap<_, _>, _>>()?;
 
         let dur = Instant::now() - start;
-        log::debug!("Module preparation took {:?}", dur);
+        tracing::debug!("Module preparation took {:?}", dur);
 
         let entries = all
             .iter()
@@ -104,7 +104,7 @@ where
             .map(|(id, mut entry)| {
                 self.merge_into_entry(&ctx, id, &mut entry, &all);
 
-                log::debug!("Merged `{}` and it's dep into an entry", id);
+                tracing::debug!("Merged `{}` and it's dep into an entry", id);
 
                 (id, entry)
             })

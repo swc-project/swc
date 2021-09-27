@@ -1,4 +1,4 @@
-use fxhash::FxHashSet;
+use rustc_hash::FxHashSet;
 use std::{
     borrow::Cow,
     mem::{replace, take},

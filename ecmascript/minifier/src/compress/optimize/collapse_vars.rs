@@ -1,6 +1,6 @@
 use super::Optimizer;
 use crate::mode::Mode;
-use fxhash::FxHashMap;
+use rustc_hash::FxHashMap;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -66,7 +66,7 @@ where
                     _ => return,
                 };
 
-                log::debug!(
+                tracing::debug!(
                     "collpase_vars: Decided to inline {}{:?}",
                     left.id.sym,
                     left.id.span.ctxt
@@ -92,7 +92,7 @@ impl VisitMut for Inliner<'_> {
         match e {
             Expr::Ident(i) => {
                 if let Some(value) = self.values.remove(&i.to_id()) {
-                    log::debug!("collapse_vars: Inlining {}{:?}", i.sym, i.span.ctxt);
+                    tracing::debug!("collapse_vars: Inlining {}{:?}", i.sym, i.span.ctxt);
 
                     *e = *value.expect("should be used only once");
                 }

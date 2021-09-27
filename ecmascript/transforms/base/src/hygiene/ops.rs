@@ -1,4 +1,4 @@
-use fxhash::FxHashMap;
+use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
 use swc_common::{
     util::{move_map::MoveMap, take::Take},

@@ -1,6 +1,6 @@
 use self::side_effect::{ImportDetector, SideEffectVisitor};
-use fxhash::FxHashSet;
 use retain_mut::RetainMut;
+use rustc_hash::FxHashSet;
 use std::{any::type_name, borrow::Cow, fmt::Debug, mem::take};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
@@ -158,9 +158,9 @@ macro_rules! normal {
         [$($array_like_props:ident),*]
     ) => {
         fn $name(&mut self, node: &mut $T) {
-            log::trace!("Visit<{}>: marking = {}; {:?}", stringify!($T), self.marking_phase, node);
+            tracing::trace!("Visit<{}>: marking = {}; {:?}", stringify!($T), self.marking_phase, node);
             if self.is_marked(node.span()) {
-                log::trace!("Visit<{}>: Already marked", stringify!($T));
+                tracing::trace!("Visit<{}>: Already marked", stringify!($T));
                 return;
             }
 
@@ -180,7 +180,7 @@ macro_rules! normal {
                     || self.has_marked_elem(&node.$array_like_props)
                 )*
             {
-                log::trace!("Visit<{}>: Marking", stringify!($T));
+                tracing::trace!("Visit<{}>: Marking", stringify!($T));
                 node.span = node.span.apply_mark(self.config.used_mark);
 
                 $(
@@ -364,13 +364,13 @@ impl VisitMut for Dce<'_> {
     }
 
     fn visit_mut_expr_stmt(&mut self, node: &mut ExprStmt) {
-        log::trace!("ExprStmt ->");
+        tracing::trace!("ExprStmt ->");
         if self.is_marked(node.span) {
             return;
         }
 
         if self.should_include(&node.expr) {
-            log::trace!("\tIncluded");
+            tracing::trace!("\tIncluded");
             node.span = node.span.apply_mark(self.config.used_mark);
             self.mark(&mut node.expr);
             return;
@@ -476,7 +476,7 @@ impl VisitMut for Dce<'_> {
             }
 
             if self.included.insert(id) {
-                log::debug!("{} is used", i.sym);
+                tracing::debug!("{} is used", i.sym);
                 self.changed = true;
             }
         }
@@ -519,7 +519,7 @@ impl VisitMut for Dce<'_> {
         }
 
         // Drop unused imports.
-        log::trace!("Removing unused import specifiers");
+        tracing::trace!("Removing unused import specifiers");
         import.specifiers.retain(|s| self.should_include(s));
 
         if !import.specifiers.is_empty() {
@@ -834,7 +834,7 @@ impl Dce<'_> {
         preserved.reserve(items.len());
 
         loop {
-            log::debug!("loop start");
+            tracing::debug!("loop start");
 
             self.changed = false;
             let mut idx = 0u32;
@@ -878,7 +878,7 @@ impl Dce<'_> {
                 };
 
                 if !preserved.contains(&idx) {
-                    log::trace!("Dropping {}: {:?}", idx, item);
+                    tracing::trace!("Dropping {}: {:?}", idx, item);
                     self.dropped = true;
                     idx += 1;
                     return None;
@@ -965,7 +965,7 @@ impl Dce<'_> {
     {
         let old = self.marking_phase;
         self.marking_phase = true;
-        log::debug!("Marking: {}", type_name::<T>());
+        tracing::debug!("Marking: {}", type_name::<T>());
         node.visit_mut_with(self);
         self.marking_phase = old;
     }

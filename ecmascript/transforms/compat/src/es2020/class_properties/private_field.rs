@@ -1,4 +1,4 @@
-use fxhash::FxHashSet;
+use rustc_hash::FxHashSet;
 use std::{iter, mem};
 use swc_atoms::JsWord;
 use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};

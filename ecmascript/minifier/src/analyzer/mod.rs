@@ -6,7 +6,7 @@ use crate::{
     marks::Marks,
     util::{can_end_conditionally, idents_used_by, now},
 };
-use fxhash::{FxHashMap, FxHashSet};
+use rustc_hash::{FxHashMap, FxHashSet};
 use std::time::Instant;
 use swc_atoms::JsWord;
 use swc_common::{SyntaxContext, DUMMY_SP};
@@ -48,7 +48,7 @@ where
     if let Some(start_time) = start_time {
         let end_time = Instant::now();
 
-        log::debug!("Scope analysis took {:?}", end_time - start_time);
+        tracing::debug!("Scope analysis took {:?}", end_time - start_time);
     }
 
     v.data

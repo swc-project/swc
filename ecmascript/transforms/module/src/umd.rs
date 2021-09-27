@@ -7,7 +7,7 @@ use super::util::{
     local_name_for_src, make_descriptor, make_require_call, use_strict, Exports, ModulePass, Scope,
 };
 use crate::path::{ImportResolver, NoopImportResolver};
-use fxhash::FxHashSet;
+use rustc_hash::FxHashSet;
 use swc_atoms::js_word;
 use swc_common::{sync::Lrc, FileName, Mark, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;

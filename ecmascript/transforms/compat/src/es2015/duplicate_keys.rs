@@ -1,4 +1,4 @@
-use fxhash::FxHashSet;
+use rustc_hash::FxHashSet;
 use swc_atoms::JsWord;
 use swc_common::Spanned;
 use swc_ecma_ast::*;

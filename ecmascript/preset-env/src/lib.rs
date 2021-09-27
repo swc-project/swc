@@ -2,8 +2,8 @@
 
 pub use self::{transform_data::Feature, version::Version};
 use dashmap::DashMap;
-use fxhash::{FxHashMap, FxHashSet};
 use once_cell::sync::Lazy;
+use rustc_hash::{FxHashMap, FxHashSet};
 use serde::{Deserialize, Serialize};
 use st_map::StaticMap;
 use std::{

@@ -114,7 +114,7 @@ impl VisitMut for Inlining<'_> {
     }
 
     fn visit_mut_assign_expr(&mut self, e: &mut AssignExpr) {
-        log::trace!("{:?}; Fold<AssignExpr>", self.phase);
+        tracing::trace!("{:?}; Fold<AssignExpr>", self.phase);
         self.pat_mode = PatFoldingMode::Assign;
 
         e.left.map_with_mut(|n| n.normalize_expr());
@@ -124,7 +124,7 @@ impl VisitMut for Inlining<'_> {
                 //
                 match &**left {
                     Expr::Member(ref left) => {
-                        log::trace!("Assign to member expression!");
+                        tracing::trace!("Assign to member expression!");
                         let mut v = IdentListVisitor {
                             scope: &mut self.scope,
                         };
@@ -311,9 +311,9 @@ impl VisitMut for Inlining<'_> {
                         self.scope.add_read(&id);
                     }
                     Phase::Inlining => {
-                        log::trace!("Trying to inline: {:?}", id);
+                        tracing::trace!("Trying to inline: {:?}", id);
                         let expr = if let Some(var) = self.scope.find_binding(&id) {
-                            log::trace!("VarInfo: {:?}", var);
+                            tracing::trace!("VarInfo: {:?}", var);
                             if !var.is_inline_prevented() {
                                 let expr = var.value.borrow();
 
@@ -328,12 +328,12 @@ impl VisitMut for Inlining<'_> {
                                         *node = *undefined(i.span);
                                         return;
                                     } else {
-                                        log::trace!("Not a cheap expression");
+                                        tracing::trace!("Not a cheap expression");
                                         None
                                     }
                                 }
                             } else {
-                                log::trace!("Inlining is prevented");
+                                tracing::trace!("Inlining is prevented");
                                 None
                             }
                         } else {
@@ -642,7 +642,7 @@ impl VisitMut for Inlining<'_> {
                         if self.var_decl_kind != VarDeclKind::Const {
                             let id = name.to_id();
 
-                            log::trace!("Trying to optimize variable declaration: {:?}", id);
+                            tracing::trace!("Trying to optimize variable declaration: {:?}", id);
 
                             if self
                                 .scope
@@ -651,13 +651,13 @@ impl VisitMut for Inlining<'_> {
                                     .scope
                                     .has_same_this(&id, node.init.as_ref().map(|v| &**v))
                             {
-                                log::trace!("Inline is prevented for {:?}", id);
+                                tracing::trace!("Inline is prevented for {:?}", id);
                                 return;
                             }
 
                             let mut init = node.init.take();
                             init.visit_mut_with(self);
-                            log::trace!("\tInit: {:?}", init);
+                            tracing::trace!("\tInit: {:?}", init);
 
                             if let Some(init) = &init {
                                 if let Expr::Ident(ri) = &**init {
@@ -673,7 +673,7 @@ impl VisitMut for Inlining<'_> {
                             match init {
                                 Some(ref e) => {
                                     if self.scope.is_inline_prevented(&e) {
-                                        log::trace!(
+                                        tracing::trace!(
                                             "Inlining is not possible as inline of the \
                                              initialization was prevented"
                                         );
@@ -712,7 +712,7 @@ impl VisitMut for Inlining<'_> {
                                 }
                             };
 
-                            // log::trace!("({}): Inserting {:?}", self.scope.depth(),
+                            // tracing::trace!("({}): Inserting {:?}", self.scope.depth(),
                             // name.to_id());
 
                             self.declare(name.to_id(), e.map(|e| Cow::Owned(*e)), false, kind);
@@ -748,7 +748,7 @@ impl VisitMut for Inlining<'_> {
         self.phase = Phase::Analysis;
         items.visit_mut_children_with(self);
 
-        log::trace!("Switching to Inlining phase");
+        tracing::trace!("Switching to Inlining phase");
 
         // Inline
         self.phase = Phase::Inlining;

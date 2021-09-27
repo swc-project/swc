@@ -51,7 +51,7 @@ where
                     {
                         return;
                     }
-                    log::debug!("bools: Optimizing `!(a && b)` as `!a || !b`");
+                    tracing::debug!("bools: Optimizing `!(a && b)` as `!a || !b`");
                     self.changed = true;
                     self.negate(arg, false);
                     *e = *arg.take();
@@ -75,7 +75,7 @@ where
                         {
                             return;
                         }
-                        log::debug!("bools: Optimizing `!!(a || b)` as `!a && !b`");
+                        tracing::debug!("bools: Optimizing `!!(a || b)` as `!a && !b`");
                         self.negate(arg_of_arg, false);
                         *e = *arg.take();
 
@@ -122,7 +122,7 @@ where
         if should_optimize(&e.left, &e.right, &self.options)
             || should_optimize(&e.right, &e.left, &self.options)
         {
-            log::debug!("bools: Compressing comparison of `typeof` with literal");
+            tracing::debug!("bools: Compressing comparison of `typeof` with literal");
             self.changed = true;
             e.op = match e.op {
                 op!("===") => {
@@ -176,9 +176,9 @@ where
 
                         if can_remove {
                             if *op == op!("&&") {
-                                log::debug!("booleans: Compressing `!foo && true` as `!foo`");
+                                tracing::debug!("booleans: Compressing `!foo && true` as `!foo`");
                             } else {
-                                log::debug!("booleans: Compressing `!foo || false` as `!foo`");
+                                tracing::debug!("booleans: Compressing `!foo || false` as `!foo`");
                             }
                             self.changed = true;
                             *e = *left.take();
@@ -256,7 +256,7 @@ where
                 } else {
                     self.changed = true;
                     let span = delete.arg.span();
-                    log::debug!("booleans: Compressing `delete` as sequence expression");
+                    tracing::debug!("booleans: Compressing `delete` as sequence expression");
                     *e = Expr::Seq(SeqExpr {
                         span,
                         exprs: vec![delete.arg.take(), Box::new(make_bool(span, true))],
@@ -271,7 +271,7 @@ where
         if convert_to_true {
             self.changed = true;
             let span = delete.arg.span();
-            log::debug!("booleans: Compressing `delete` => true");
+            tracing::debug!("booleans: Compressing `delete` => true");
             *e = make_bool(span, true);
             return;
         }
@@ -290,7 +290,7 @@ where
                         if exprs.is_empty() {
                             return;
                         }
-                        log::debug!("bools: Optimizing negated sequences");
+                        tracing::debug!("bools: Optimizing negated sequences");
 
                         {
                             let last = exprs.last_mut().unwrap();
@@ -344,7 +344,7 @@ where
                 arg,
             }) => match &mut **arg {
                 Expr::Lit(Lit::Num(Number { value, .. })) => {
-                    log::debug!("Optimizing: number => number (in bool context)");
+                    tracing::debug!("Optimizing: number => number (in bool context)");
 
                     self.changed = true;
                     *n = Expr::Lit(Lit::Num(Number {
@@ -356,7 +356,7 @@ where
                 Expr::Unary(UnaryExpr {
                     op: op!("!"), arg, ..
                 }) => {
-                    log::debug!("bools: !!expr => expr (in bool ctx)");
+                    tracing::debug!("bools: !!expr => expr (in bool ctx)");
                     self.changed = true;
                     *n = *arg.take();
                     return;
@@ -369,7 +369,7 @@ where
                 op: op!("typeof"),
                 arg,
             }) => {
-                log::debug!("Optimizing: typeof => true (in bool context)");
+                tracing::debug!("Optimizing: typeof => true (in bool context)");
                 self.changed = true;
 
                 match &**arg {
@@ -394,7 +394,7 @@ where
             }
 
             Expr::Lit(Lit::Str(s)) => {
-                log::debug!("Converting string as boolean expressions");
+                tracing::debug!("Converting string as boolean expressions");
                 self.changed = true;
                 *n = Expr::Lit(Lit::Num(Number {
                     span: s.span,
@@ -407,7 +407,7 @@ where
                     return;
                 }
                 if self.options.bools {
-                    log::debug!("booleans: Converting number as boolean expressions");
+                    tracing::debug!("booleans: Converting number as boolean expressions");
                     self.changed = true;
                     *n = Expr::Lit(Lit::Num(Number {
                         span: num.span,
@@ -424,7 +424,7 @@ where
             }) => {
                 // Optimize if (a ?? false); as if (a);
                 if let Value::Known(false) = right.as_pure_bool() {
-                    log::debug!(
+                    tracing::debug!(
                         "Dropping right operand of `??` as it's always false (in bool context)"
                     );
                     self.changed = true;
@@ -441,7 +441,7 @@ where
                 // `a || false` => `a` (as it will be casted to boolean anyway)
 
                 if let Value::Known(false) = right.as_pure_bool() {
-                    log::debug!("bools: `expr || false` => `expr` (in bool context)");
+                    tracing::debug!("bools: `expr || false` => `expr` (in bool context)");
                     self.changed = true;
                     *n = *left.take();
                     return;
@@ -452,7 +452,7 @@ where
                 let span = n.span();
                 let v = n.as_pure_bool();
                 if let Value::Known(v) = v {
-                    log::debug!("Optimizing expr as {} (in bool context)", v);
+                    tracing::debug!("Optimizing expr as {} (in bool context)", v);
                     *n = make_bool(span, v);
                     return;
                 }
@@ -541,7 +541,7 @@ where
         }
 
         if self.can_swap_bin_operands(&left, &right, false) {
-            log::debug!("Swapping operands of binary exprssion");
+            tracing::debug!("Swapping operands of binary exprssion");
             swap(left, right);
             return true;
         }
@@ -556,7 +556,7 @@ where
             | Expr::Bin(e @ BinExpr { op: op!("<"), .. }) => {
                 if self.options.comparisons && self.can_swap_bin_operands(&e.left, &e.right, true) {
                     self.changed = true;
-                    log::debug!("comparisons: Swapping operands of {}", e.op);
+                    tracing::debug!("comparisons: Swapping operands of {}", e.op);
 
                     e.op = if e.op == op!("<=") {
                         op!(">=")
@@ -635,7 +635,7 @@ where
                     match (lt, rt) {
                         (Type::Undefined, Type::Null) | (Type::Null, Type::Undefined) => {
                             if op == op!("===") {
-                                log::debug!(
+                                tracing::debug!(
                                     "Reducing `!== null || !== undefined` check to `!= null`"
                                 );
                                 return Some(BinExpr {
@@ -645,7 +645,7 @@ where
                                     right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
                                 });
                             } else {
-                                log::debug!(
+                                tracing::debug!(
                                     "Reducing `=== null || === undefined` check to `== null`"
                                 );
                                 return Some(BinExpr {

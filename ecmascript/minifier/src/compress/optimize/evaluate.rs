@@ -53,7 +53,7 @@ where
                 sym: js_word!("undefined"),
                 ..
             }) => {
-                log::debug!("evaluate: `undefined` -> `void 0`");
+                tracing::debug!("evaluate: `undefined` -> `void 0`");
                 self.changed = true;
                 *e = *undefined(*span);
                 return;
@@ -64,7 +64,7 @@ where
                 sym: js_word!("Infinity"),
                 ..
             }) => {
-                log::debug!("evaluate: `Infinity` -> `1 / 0`");
+                tracing::debug!("evaluate: `Infinity` -> `1 / 0`");
                 self.changed = true;
                 *e = Expr::Bin(BinExpr {
                     span: span.with_ctxt(self.done_ctxt),
@@ -137,7 +137,7 @@ where
                     1 => match &*args[0].expr {
                         Expr::Lit(Lit::Str(exp)) => {
                             self.changed = true;
-                            log::debug!(
+                            tracing::debug!(
                                 "evaluate: Converting RegExpr call into a regexp literal `/{}/`",
                                 exp.value
                             );
@@ -153,7 +153,7 @@ where
                     _ => match (&*args[0].expr, &*args[1].expr) {
                         (Expr::Lit(Lit::Str(exp)), Expr::Lit(Lit::Str(flags))) => {
                             self.changed = true;
-                            log::debug!(
+                            tracing::debug!(
                                 "evaluate: Converting RegExpr call into a regexp literal `/{}/{}`",
                                 exp.value,
                                 flags.value
@@ -197,7 +197,7 @@ where
                                 match char::from_u32(v) {
                                     Some(v) => {
                                         self.changed = true;
-                                        log::debug!(
+                                        tracing::debug!(
                                             "evanluate: Evaluated `String.charCodeAt({})` as `{}`",
                                             char_code,
                                             v
@@ -315,7 +315,7 @@ where
             Expr::Call(..) => {
                 if let Some(value) = eval_as_number(&e) {
                     self.changed = true;
-                    log::debug!("evaluate: Evaluated an expression as `{}`", value);
+                    tracing::debug!("evaluate: Evaluated an expression as `{}`", value);
 
                     *e = Expr::Lit(Lit::Num(Number {
                         span: e.span(),
@@ -335,7 +335,7 @@ where
                 if let Known(l) = l {
                     if let Known(r) = r {
                         self.changed = true;
-                        log::debug!("evaluate: Evaulated `{:?} ** {:?}`", l, r);
+                        tracing::debug!("evaluate: Evaulated `{:?} ** {:?}`", l, r);
 
                         let value = l.powf(r);
                         *e = Expr::Lit(Lit::Num(Number {
@@ -380,7 +380,7 @@ where
                                 }
 
                                 self.changed = true;
-                                log::debug!("evaluate: `0 / 0` => `NaN`");
+                                tracing::debug!("evaluate: `0 / 0` => `NaN`");
 
                                 // Sign does not matter for NaN
                                 *e = Expr::Ident(Ident::new(
@@ -391,7 +391,7 @@ where
                             }
                             (FpCategory::Normal, FpCategory::Zero) => {
                                 self.changed = true;
-                                log::debug!("evaluate: `constant / 0` => `Infinity`");
+                                tracing::debug!("evaluate: `constant / 0` => `Infinity`");
 
                                 // Sign does not matter for NaN
                                 *e = if ln.is_sign_positive() == rn.is_sign_positive() {
@@ -450,7 +450,9 @@ where
                     // As we used as_pure_bool, we can drop it.
                     if v && e.op == op!("&&") {
                         self.changed = true;
-                        log::debug!("Removing `b` from `a && b && c` because b is always truthy");
+                        tracing::debug!(
+                            "Removing `b` from `a && b && c` because b is always truthy"
+                        );
 
                         left.right.take();
                         return;
@@ -458,7 +460,9 @@ where
 
                     if !v && e.op == op!("||") {
                         self.changed = true;
-                        log::debug!("Removing `b` from `a || b || c` because b is always falsy");
+                        tracing::debug!(
+                            "Removing `b` from `a || b || c` because b is always falsy"
+                        );
 
                         left.right.take();
                         return;

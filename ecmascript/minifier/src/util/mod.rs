@@ -1,4 +1,4 @@
-use fxhash::FxHashSet;
+use rustc_hash::FxHashSet;
 use std::time::Instant;
 use swc_common::{
     pass::{CompilerPass, Repeated},

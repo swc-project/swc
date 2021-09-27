@@ -1,5 +1,5 @@
 use crate::option::MangleOptions;
-use fxhash::FxHashSet;
+use rustc_hash::FxHashSet;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id};

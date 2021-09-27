@@ -11,7 +11,7 @@ where
             Some(e) => {
                 if is_pure_undefined(e) {
                     self.changed = true;
-                    log::debug!("Dropped `undefined` from `return undefined`");
+                    tracing::debug!("Dropped `undefined` from `return undefined`");
                     s.arg.take();
                 }
             }
@@ -22,7 +22,7 @@ where
     pub(super) fn remove_useless_return(&mut self, stmts: &mut Vec<Stmt>) {
         if let Some(Stmt::Return(ReturnStmt { arg: None, .. })) = stmts.last() {
             self.changed = true;
-            log::debug!("misc: Removing useless return");
+            tracing::debug!("misc: Removing useless return");
             stmts.pop();
         }
     }
@@ -68,7 +68,7 @@ where
             Stmt::Return(ret) => {
                 self.changed = true;
                 if cfg!(feature = "debug") {
-                    log::trace!("Dropping `return` token");
+                    tracing::trace!("Dropping `return` token");
                 }
 
                 let span = ret.span;

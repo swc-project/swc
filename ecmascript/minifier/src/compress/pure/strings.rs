@@ -119,7 +119,7 @@ where
                 if let Some(l_last) = l.quasis.last_mut() {
                     self.changed = true;
 
-                    log::debug!(
+                    tracing::debug!(
                         "template: Concatted a string (`{}`) on rhs of `+` to a template literal",
                         rs.value
                     );
@@ -139,7 +139,7 @@ where
                 if let Some(r_first) = r.quasis.first_mut() {
                     self.changed = true;
 
-                    log::debug!(
+                    tracing::debug!(
                         "template: Prepended a string (`{}`) on lhs of `+` to a template literal",
                         ls.value
                     );
@@ -177,7 +177,7 @@ where
 
                 debug_assert!(l.quasis.len() == l.exprs.len() + 1, "{:?} is invalid", l);
                 self.changed = true;
-                log::debug!("strings: Merged to template literals");
+                tracing::debug!("strings: Merged to template literals");
             }
 
             _ => {}
@@ -210,7 +210,7 @@ where
                                     let left_span = left.span;
 
                                     self.changed = true;
-                                    log::debug!(
+                                    tracing::debug!(
                                         "strings: Concatting `{} + {}` to `{}`",
                                         second_str,
                                         third_str,
@@ -258,7 +258,7 @@ where
                                 ..
                             })) => {
                                 self.changed = true;
-                                log::debug!(
+                                tracing::debug!(
                                     "string: Dropping empty string literal (in lhs) because it \
                                      does not changes type"
                                 );
@@ -275,7 +275,7 @@ where
                                 ..
                             })) => {
                                 self.changed = true;
-                                log::debug!(
+                                tracing::debug!(
                                     "string: Dropping empty string literal (in rhs) because it \
                                      does not changes type"
                                 );
