@@ -2171,7 +2171,12 @@ where
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         let _tracing = if cfg!(feature = "debug") && self.debug_inifinite_loop {
             let text = dump(&*s);
-            Some(span!(Level::ERROR, "visit_mut_stmt", "start" = &*text).entered())
+
+            if text.lines().count() < 10 {
+                Some(span!(Level::ERROR, "visit_mut_stmt", "start" = &*text).entered())
+            } else {
+                None
+            }
         } else {
             None
         };
