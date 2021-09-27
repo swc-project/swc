@@ -10,12 +10,12 @@
 
 use super::{Applicability, Diagnostic, DiagnosticId, DiagnosticStyledString, Handler, Level};
 use crate::syntax_pos::{MultiSpan, Span};
-use log::debug;
 use std::{
     fmt::{self, Debug},
     ops::{Deref, DerefMut},
     thread::panicking,
 };
+use tracing::debug;
 
 /// Used for emitting structured error messages and other diagnostic
 /// information.
@@ -114,7 +114,9 @@ impl<'a> DiagnosticBuilder<'a> {
         };
         // Logging here is useful to help track down where in logs an error was
         // actually emitted.
-        debug!("buffer: diagnostic={:?}", diagnostic);
+        if cfg!(feature = "debug") {
+            debug!("buffer: diagnostic={:?}", diagnostic);
+        }
         buffered_diagnostics.push(*diagnostic);
     }
 
