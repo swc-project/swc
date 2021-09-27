@@ -10,6 +10,7 @@ version = "0.12.2"
 
 [features]
 concurrent = ["parking_lot"]
+debug = []
 default = []
 tty-emitter = ["atty", "termcolor"]
 
