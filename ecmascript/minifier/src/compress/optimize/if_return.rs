@@ -448,6 +448,10 @@ where
                             span: DUMMY_SP,
                             expr: Box::new(cur),
                         }))
+                    } else {
+                        if cfg!(feature = "debug") {
+                            tracing::debug!("if_return: Ignoring return value");
+                        }
                     }
                 }
                 _ => {

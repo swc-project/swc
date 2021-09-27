@@ -21,6 +21,7 @@ use swc_ecma_utils::{
     Value,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
+use tracing::{span, Level};
 use Value::Known;
 
 mod arguments;
@@ -56,6 +57,7 @@ pub(super) fn optimizer<'a, M>(
     data: &'a ProgramData,
     state: &'a mut OptimizerState,
     mode: &'a M,
+    debug_inifinite_loop: bool,
 ) -> impl 'a + VisitMut + Repeated
 where
     M: Mode,
@@ -85,6 +87,7 @@ where
         done_ctxt,
         label: Default::default(),
         mode,
+        debug_inifinite_loop,
     }
 }
 
@@ -221,6 +224,8 @@ struct Optimizer<'a, M> {
     label: Option<Id>,
 
     mode: &'a M,
+
+    debug_inifinite_loop: bool,
 }
 
 impl<M> Repeated for Optimizer<'_, M> {
@@ -667,6 +672,7 @@ where
 
     /// Returns [None] if expression is side-effect-free.
     /// If an expression has a side effect, only side effects are returned.
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, e)))]
     fn ignore_return_value(&mut self, e: &mut Expr) -> Option<Expr> {
         self.optimize_bang_within_logical_ops(e, true);
 
@@ -674,7 +680,9 @@ where
 
         match e {
             Expr::Ident(..) | Expr::This(_) | Expr::Invalid(_) | Expr::Lit(..) => {
-                tracing::debug!("ignore_return_value: Dropping unused expr");
+                if cfg!(feature = "debug") {
+                    tracing::debug!("ignore_return_value: Dropping unused expr: {}", dump(&*e));
+                }
                 self.changed = true;
                 return None;
             }
@@ -1586,7 +1594,8 @@ where
                             span: DUMMY_SP,
                             value: 0.0,
                         })));
-                        tracing::trace!("injecting zero to preserve `this` in call");
+                        self.changed = true;
+                        tracing::debug!("injecting zero to preserve `this` in call");
 
                         *callee = Box::new(Expr::Seq(SeqExpr {
                             span: callee.span(),
@@ -1819,7 +1828,12 @@ where
                 _ => {}
             }
             let expr = self.ignore_return_value(&mut n.expr);
-            n.expr = expr.map(Box::new).unwrap_or_else(|| undefined(DUMMY_SP));
+            n.expr = expr.map(Box::new).unwrap_or_else(|| {
+                if cfg!(feature = "debug") {
+                    tracing::debug!("visit_mut_expr_stmt: Dropped an expression statement");
+                }
+                undefined(DUMMY_SP)
+            });
         } else {
             match &mut *n.expr {
                 Expr::Seq(e) => {
@@ -2083,6 +2097,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_mut_seq_expr(&mut self, n: &mut SeqExpr) {
         {
             let ctx = Ctx {
@@ -2124,7 +2139,7 @@ where
                             || !self.ctx.is_this_aware_callee
                             || !should_preserve_zero);
 
-                    if can_remove {
+                    let ret = if can_remove {
                         // If negate_iife is true, it's already handled by
                         // visit_mut_children_with(self) above.
                         if !self.options.negate_iife {
@@ -2134,7 +2149,9 @@ where
                         self.ignore_return_value(&mut **expr).map(Box::new)
                     } else {
                         Some(expr.take())
-                    }
+                    };
+
+                    ret
                 })
                 .collect::<Vec<_>>();
             n.exprs = exprs;
@@ -2146,6 +2163,18 @@ where
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
+        let _tracing = if cfg!(feature = "debug") && self.debug_inifinite_loop {
+            let text = dump(&*s);
+
+            if text.lines().count() < 10 {
+                Some(span!(Level::ERROR, "visit_mut_stmt", "start" = &*text).entered())
+            } else {
+                None
+            }
+        } else {
+            None
+        };
+
         let ctx = Ctx {
             is_callee: false,
             is_delete_arg: false,
@@ -2157,6 +2186,14 @@ where
             ..self.ctx
         };
         s.visit_mut_children_with(&mut *self.with_ctx(ctx));
+
+        if cfg!(feature = "debug") && self.debug_inifinite_loop {
+            let text = dump(&*s);
+
+            if text.lines().count() < 10 {
+                tracing::debug!("after: visit_mut_children_with: {}", text);
+            }
+        }
 
         match s {
             Stmt::Expr(ExprStmt { expr, .. }) => {
@@ -2225,6 +2262,14 @@ where
         self.optimize_const_switches(s);
 
         self.optimize_switches(s);
+
+        if cfg!(feature = "debug") && self.debug_inifinite_loop {
+            let text = dump(&*s);
+
+            if text.lines().count() < 10 {
+                tracing::debug!("after: visit_mut_stmt: {}", text);
+            }
+        }
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {

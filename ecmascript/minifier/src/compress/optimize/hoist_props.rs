@@ -92,7 +92,7 @@ where
 
                                     match &p.key {
                                         PropName::Str(s) => {
-                                            tracing::debug!(
+                                            tracing::trace!(
                                                 "hoist_props: Storing a varaible to inline \
                                                  properties"
                                             );
@@ -100,7 +100,7 @@ where
                                                 .insert((name.to_id(), s.value.clone()), value);
                                         }
                                         PropName::Ident(i) => {
-                                            tracing::debug!(
+                                            tracing::trace!(
                                                 "hoist_props: Storing a varaible to inline \
                                                  properties"
                                             );

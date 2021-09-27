@@ -218,7 +218,7 @@ where
 
                         let should_be_inlined = self.can_be_inlined_for_iife(arg);
                         if should_be_inlined {
-                            tracing::debug!(
+                            tracing::trace!(
                                 "iife: Trying to inline argument ({}{:?})",
                                 param.id.sym,
                                 param.id.span.ctxt
@@ -226,7 +226,7 @@ where
                             vars.insert(param.to_id(), arg.clone());
                         }
                     } else {
-                        tracing::debug!(
+                        tracing::trace!(
                             "iife: Trying to inline argument ({}{:?}) (undefined)",
                             param.id.sym,
                             param.id.span.ctxt
@@ -245,11 +245,11 @@ where
             let mut optimizer = self.with_ctx(ctx);
             match find_body(callee) {
                 Some(Either::Left(body)) => {
-                    tracing::debug!("inline: Inlining arguments");
+                    tracing::trace!("inline: Inlining arguments");
                     optimizer.inline_vars_in_node(body, vars);
                 }
                 Some(Either::Right(body)) => {
-                    tracing::debug!("inline: Inlining arguments");
+                    tracing::trace!("inline: Inlining arguments");
                     optimizer.inline_vars_in_node(body, vars);
                 }
                 _ => {}
@@ -261,7 +261,9 @@ where
     where
         N: VisitMutWith<Self>,
     {
-        tracing::debug!("inline: inline_vars_in_node");
+        if cfg!(feature = "debug") {
+            tracing::trace!("inline: inline_vars_in_node");
+        }
         let ctx = Ctx {
             inline_prevented: false,
             ..self.ctx

@@ -36,6 +36,7 @@ use swc_ecma_transforms::{
 };
 use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
+use tracing::{span, Level};
 
 mod drop_console;
 mod hoist_decls;
@@ -234,6 +235,12 @@ where
     {
         self.data = Some(analyze(&*n, Some(self.marks)));
 
+        let _tracing = if cfg!(feature = "debug") {
+            Some(span!(Level::ERROR, "compressor", "pass" = self.pass).entered())
+        } else {
+            None
+        };
+
         if self.options.passes != 0 && self.options.passes + 1 <= self.pass {
             let done = dump(&*n);
             tracing::debug!("===== Done =====\n{}", done);
@@ -302,7 +309,7 @@ where
 
             let start_time = now();
 
-            let mut visitor = pure_optimizer(&self.options, self.marks, self.mode);
+            let mut visitor = pure_optimizer(&self.options, self.marks, self.mode, self.pass >= 20);
             n.apply(&mut visitor);
             self.changed |= visitor.changed();
 
@@ -338,6 +345,7 @@ where
                 self.data.as_ref().unwrap(),
                 &mut self.optimizer_state,
                 self.mode,
+                self.pass >= 20,
             );
             n.apply(&mut visitor);
             self.changed |= visitor.changed();

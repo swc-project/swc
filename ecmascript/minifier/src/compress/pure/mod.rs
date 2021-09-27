@@ -1,11 +1,13 @@
 use self::ctx::Ctx;
 use crate::{
-    marks::Marks, mode::Mode, option::CompressOptions, util::MoudleItemExt, MAX_PAR_DEPTH,
+    debug::dump, marks::Marks, mode::Mode, option::CompressOptions, util::MoudleItemExt,
+    MAX_PAR_DEPTH,
 };
 use rayon::prelude::*;
 use swc_common::{pass::Repeated, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
+use tracing::{span, Level};
 
 mod arrows;
 mod bools;
@@ -27,6 +29,7 @@ pub(crate) fn pure_optimizer<'a, M>(
     options: &'a CompressOptions,
     marks: Marks,
     mode: &'a M,
+    debug_inifinite_loop: bool,
 ) -> impl 'a + VisitMut + Repeated
 where
     M: Mode,
@@ -37,6 +40,7 @@ where
         ctx: Default::default(),
         changed: Default::default(),
         mode,
+        debug_inifinite_loop,
     }
 }
 
@@ -46,6 +50,8 @@ struct Pure<'a, M> {
     ctx: Ctx,
     changed: bool,
     mode: &'a M,
+
+    debug_inifinite_loop: bool,
 }
 
 impl<M> Repeated for Pure<'_, M> {
@@ -92,6 +98,7 @@ where
                     ctx: self.ctx,
                     changed: false,
                     mode: self.mode,
+                    debug_inifinite_loop: self.debug_inifinite_loop,
                 };
                 node.visit_mut_with(&mut v);
 
@@ -110,6 +117,7 @@ where
                         },
                         changed: false,
                         mode: self.mode,
+                        debug_inifinite_loop: self.debug_inifinite_loop,
                     };
                     node.visit_mut_with(&mut v);
 
@@ -407,6 +415,18 @@ where
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
+        let _tracing = if cfg!(feature = "debug") && self.debug_inifinite_loop {
+            let text = dump(&*s);
+
+            if text.lines().count() < 10 {
+                Some(span!(Level::ERROR, "visit_mut_stmt", "start" = &*text).entered())
+            } else {
+                None
+            }
+        } else {
+            None
+        };
+
         {
             let ctx = Ctx {
                 is_update_arg: false,
@@ -416,6 +436,14 @@ where
                 ..self.ctx
             };
             s.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        }
+
+        if cfg!(feature = "debug") && self.debug_inifinite_loop {
+            let text = dump(&*s);
+
+            if text.lines().count() < 10 {
+                tracing::debug!("after: visit_mut_children_with: {}", text);
+            }
         }
 
         if self.options.drop_debugger {
@@ -439,6 +467,14 @@ where
                 }
             }
             _ => {}
+        }
+
+        if cfg!(feature = "debug") && self.debug_inifinite_loop {
+            let text = dump(&*s);
+
+            if text.lines().count() < 10 {
+                tracing::debug!("after: visit_mut_stmt: {}", text);
+            }
         }
     }
 

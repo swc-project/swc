@@ -11,7 +11,7 @@
 #
 set -eux
 
-export RUST_LOG=swc_ecma_minifier=trace
+export RUST_LOG=debug,swc_ecma_minifier=trace
 
 # Run unit tests.
 cargo test --all-features --lib

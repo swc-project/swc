@@ -2647,10 +2647,11 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.30.0"
+version = "0.30.1"
 dependencies = [
  "ansi_term 0.12.1",
  "anyhow",
+ "backtrace",
  "indexmap",
  "once_cell",
  "pretty_assertions 0.6.1",
@@ -2847,7 +2848,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.44.0"
+version = "0.44.1"
 dependencies = [
  "dashmap",
  "indexmap",
@@ -3498,6 +3499,7 @@ dependencies = [
  "swc",
  "swc_common",
  "swc_ecmascript",
+ "tracing",
  "wasm-bindgen",
  "wasm-bindgen-futures",
 ]
