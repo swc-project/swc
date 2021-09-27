@@ -1448,7 +1448,7 @@ impl VisitMut for SimplifyExpr {
                             value: 0.0,
                         }))));
 
-                        log::trace!("expr_simplifier: Preserving first zero");
+                        tracing::trace!("expr_simplifier: Preserving first zero");
                     }
                 }
 
@@ -1461,7 +1461,7 @@ impl VisitMut for SimplifyExpr {
                             value: 0.0,
                         }))));
 
-                        log::debug!("expr_simplifier: Injected first zero");
+                        tracing::debug!("expr_simplifier: Injected first zero");
                     }
                 }
 
