@@ -89,6 +89,3 @@ fn fixture(input: PathBuf) {
         &output,
     )
 }
-
-#[testing::fixture("tests/private-in-object/**/exec.js")]
-fn exec(input: PathBuf) {}

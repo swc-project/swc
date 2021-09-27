@@ -19,8 +19,6 @@ pub(super) struct BrandCheckHandler<'a> {
     /// Private names used for brand checks.
     pub names: &'a mut FxHashSet<JsWord>,
 
-    pub methods: &'a FxHashSet<JsWord>,
-
     pub statics: &'a FxHashSet<JsWord>,
 }
 

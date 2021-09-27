@@ -372,7 +372,6 @@ impl ClassProperties {
             mark: self.mark,
             class_name: &ident,
             names: &mut names_used_for_brand_checks,
-            methods: &private_methods,
             statics: &statics,
         });
 
