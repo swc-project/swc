@@ -218,7 +218,7 @@ where
 
                         let should_be_inlined = self.can_be_inlined_for_iife(arg);
                         if should_be_inlined {
-                            tracing::debug!(
+                            tracing::trace!(
                                 "iife: Trying to inline argument ({}{:?})",
                                 param.id.sym,
                                 param.id.span.ctxt
@@ -226,7 +226,7 @@ where
                             vars.insert(param.to_id(), arg.clone());
                         }
                     } else {
-                        tracing::debug!(
+                        tracing::trace!(
                             "iife: Trying to inline argument ({}{:?}) (undefined)",
                             param.id.sym,
                             param.id.span.ctxt
