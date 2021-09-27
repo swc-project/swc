@@ -667,6 +667,7 @@ where
 
     /// Returns [None] if expression is side-effect-free.
     /// If an expression has a side effect, only side effects are returned.
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, e)))]
     fn ignore_return_value(&mut self, e: &mut Expr) -> Option<Expr> {
         self.optimize_bang_within_logical_ops(e, true);
 
@@ -2097,6 +2098,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_mut_seq_expr(&mut self, n: &mut SeqExpr) {
         {
             let ctx = Ctx {
@@ -2149,12 +2151,6 @@ where
                     } else {
                         Some(expr.take())
                     };
-
-                    if ret.is_none() {
-                        if cfg!(feature = "debug") {
-                            tracing::debug!("visit_mut_seq_expr: Dropped an element");
-                        }
-                    }
 
                     ret
                 })
