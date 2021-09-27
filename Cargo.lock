@@ -1196,7 +1196,6 @@ dependencies = [
  "anyhow",
  "backtrace",
  "fxhash",
- "log",
  "napi",
  "napi-build",
  "napi-derive",
@@ -1212,6 +1211,7 @@ dependencies = [
  "swc_ecma_parser",
  "swc_node_base",
  "swc_node_bundler",
+ "tracing",
 ]
 
 [[package]]
@@ -2295,7 +2295,6 @@ dependencies = [
  "dashmap",
  "either",
  "fxhash",
- "log",
  "lru",
  "once_cell",
  "pathdiff",
@@ -2322,6 +2321,7 @@ dependencies = [
  "swc_node_base",
  "swc_visit",
  "testing",
+ "tracing",
  "walkdir",
 ]
 
@@ -2402,7 +2402,6 @@ dependencies = [
  "hex",
  "indexmap",
  "is-macro",
- "log",
  "ntest",
  "once_cell",
  "petgraph",
@@ -2423,6 +2422,7 @@ dependencies = [
  "swc_ecma_visit",
  "tempfile",
  "testing",
+ "tracing",
  "url",
  "walkdir",
 ]
@@ -2439,7 +2439,6 @@ dependencies = [
  "either",
  "from_variant",
  "fxhash",
- "log",
  "num-bigint",
  "once_cell",
  "owning_ref",
@@ -2453,6 +2452,7 @@ dependencies = [
  "swc_eq_ignore_macros",
  "swc_visit",
  "termcolor",
+ "tracing",
  "unicode-width",
  "url",
 ]
@@ -2613,7 +2613,6 @@ dependencies = [
  "anyhow",
  "dashmap",
  "fxhash",
- "log",
  "lru",
  "normpath",
  "once_cell",
@@ -2625,6 +2624,7 @@ dependencies = [
  "swc_ecma_ast",
  "swc_ecma_visit",
  "testing",
+ "tracing",
 ]
 
 [[package]]
@@ -2635,7 +2635,6 @@ dependencies = [
  "anyhow",
  "fxhash",
  "indexmap",
- "log",
  "once_cell",
  "pretty_assertions 0.6.1",
  "rayon",
@@ -2655,6 +2654,7 @@ dependencies = [
  "swc_ecma_visit",
  "swc_node_base",
  "testing",
+ "tracing",
  "unicode-xid",
  "walkdir",
 ]
@@ -2668,7 +2668,6 @@ dependencies = [
  "env_logger 0.7.1",
  "fxhash",
  "lexical",
- "log",
  "num-bigint",
  "pretty_assertions 0.6.1",
  "serde",
@@ -2680,6 +2679,7 @@ dependencies = [
  "swc_ecma_visit",
  "swc_node_base",
  "testing",
+ "tracing",
  "unicode-xid",
  "walkdir",
 ]
@@ -2834,7 +2834,6 @@ dependencies = [
  "dashmap",
  "fxhash",
  "indexmap",
- "log",
  "once_cell",
  "retain_mut",
  "serde_json",
@@ -2852,6 +2851,7 @@ dependencies = [
  "swc_ecma_utils",
  "swc_ecma_visit",
  "testing",
+ "tracing",
 ]
 
 [[package]]
@@ -3023,7 +3023,6 @@ dependencies = [
  "dashmap",
  "fxhash",
  "is-macro",
- "log",
  "once_cell",
  "pretty_assertions 0.6.1",
  "pretty_env_logger",
@@ -3045,6 +3044,7 @@ dependencies = [
  "swc_node_base",
  "tempfile",
  "testing",
+ "tracing",
  "walkdir",
 ]
 
@@ -3170,12 +3170,12 @@ dependencies = [
  "ansi_term 0.12.1",
  "difference",
  "env_logger 0.7.1",
- "log",
  "once_cell",
  "pretty_assertions 0.7.2",
  "regex",
  "swc_common",
  "testing_macros",
+ "tracing",
 ]
 
 [[package]]
@@ -3283,20 +3283,32 @@ checksum = "360dfd1d6d30e05fda32ace2c8c70e9c0a9da713275777f5a4dbb8a1893930c6"
 
 [[package]]
 name = "tracing"
-version = "0.1.26"
+version = "0.1.28"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "09adeb8c97449311ccd28a427f96fb563e7fd31aabf994189879d9da2394b89d"
+checksum = "84f96e095c0c82419687c20ddf5cb3eadb61f4e1405923c9dc8e53a1adacbda8"
 dependencies = [
  "cfg-if 1.0.0",
  "pin-project-lite",
+ "tracing-attributes",
  "tracing-core",
 ]
 
 [[package]]
-name = "tracing-core"
-version = "0.1.18"
+name = "tracing-attributes"
+version = "0.1.16"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a9ff14f98b1a4b289c6248a023c1c2fa1491062964e9fed67ab29c4e4da4a052"
+checksum = "98863d0dd09fa59a1b79c6750ad80dbda6b75f4e71c437a6a1a8cb91a8bcbd77"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
+name = "tracing-core"
+version = "0.1.20"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "46125608c26121c81b0c6d693eab5a420e416da7e43c426d2e8f7df8da8a3acf"
 dependencies = [
  "lazy_static",
 ]
