@@ -3,7 +3,6 @@
 
 #![allow(dead_code)] // We don't want to modify copied source code.
 
-use fxhash::{FxBuildHasher, FxHashSet};
 use indexmap::{
     map::{Iter as IndexMapIter, IterMut as IndexMapIterMut, Keys},
     IndexMap,
@@ -13,10 +12,11 @@ use petgraph::{
     visit::{GraphBase, IntoNeighbors, IntoNeighborsDirected, NodeCount, Visitable},
     Directed, Direction, EdgeType, Incoming, IntoWeightedEdge, Outgoing, Undirected,
 };
+use rustc_hash::{FxHashSet, FxHasher};
 use std::{
     cmp::Ordering,
     fmt,
-    hash::{self, Hash},
+    hash::{self, BuildHasherDefault, Hash},
     iter::{Cloned, DoubleEndedIterator, FromIterator},
     marker::PhantomData,
     ops::Deref,
@@ -55,8 +55,8 @@ pub type FastDiGraphMap<N, E> = FastGraphMap<N, E, Directed>;
 /// Depends on crate feature `graphmap` (default).
 #[derive(Clone)]
 pub struct FastGraphMap<N, E, Ty> {
-    nodes: IndexMap<N, Vec<(N, CompactDirection)>, FxBuildHasher>,
-    edges: IndexMap<(N, N), E, FxBuildHasher>,
+    nodes: IndexMap<N, Vec<(N, CompactDirection)>, BuildHasherDefault<FxHasher>>,
+    edges: IndexMap<(N, N), E, BuildHasherDefault<FxHasher>>,
     ty: PhantomData<Ty>,
 }
 
@@ -578,7 +578,7 @@ where
     Ty: EdgeType,
 {
     from: N,
-    edges: &'a IndexMap<(N, N), E, FxBuildHasher>,
+    edges: &'a IndexMap<(N, N), E, BuildHasherDefault<FxHasher>>,
     iter: Neighbors<'a, N, Ty>,
 }
 

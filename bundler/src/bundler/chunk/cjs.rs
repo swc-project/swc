@@ -55,7 +55,7 @@ where
             return Ok(module);
         }
 
-        log::debug!("Merging as a common js module: {}", info.fm.name);
+        tracing::debug!("Merging as a common js module: {}", info.fm.name);
 
         let load_var = self.make_cjs_load_var(info, DUMMY_SP);
 
@@ -81,7 +81,7 @@ where
             self.injected_ctxt,
         );
 
-        log::debug!("Injected a variable named `load` for a common js module");
+        tracing::debug!("Injected a variable named `load` for a common js module");
 
         Ok(wrapped)
     }
@@ -198,7 +198,7 @@ where
                                     self.replaced = true;
                                     *node = load.clone();
 
-                                    log::trace!("Found, and replacing require");
+                                    tracing::trace!("Found, and replacing require");
                                 }
                                 _ => {}
                             }

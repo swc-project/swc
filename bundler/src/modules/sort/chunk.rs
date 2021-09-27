@@ -1,8 +1,8 @@
 use super::stmt::sort_stmts;
 use crate::{dep_graph::ModuleGraph, modules::Modules, ModuleId};
-use fxhash::FxHashSet;
 use indexmap::IndexSet;
 use petgraph::EdgeDirection::Outgoing;
+use rustc_hash::FxHashSet;
 use std::{collections::VecDeque, iter::from_fn, mem::take, time::Instant};
 use swc_common::{sync::Lrc, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
@@ -65,7 +65,7 @@ fn toposort_real_modules<'a>(
 
     let mut chunks = vec![];
 
-    log::debug!(
+    tracing::debug!(
         "Topologically sorting modules based on the dependency graph: ({} items)",
         modules.len()
     );
@@ -73,7 +73,7 @@ fn toposort_real_modules<'a>(
     let start = Instant::now();
     let sorted_ids = toposort_real_module_ids(queue, graph, &cycles).collect::<Vec<_>>();
     let end = Instant::now();
-    log::debug!("Toposort of module ids took {:?}", end - start);
+    tracing::debug!("Toposort of module ids took {:?}", end - start);
     for ids in sorted_ids {
         if ids.is_empty() {
             continue;
@@ -223,7 +223,7 @@ fn toposort_real_module_ids<'a>(
 
                     continue;
                 }
-                log::info!("Using slow, fallback logic for topological sorting");
+                tracing::info!("Using slow, fallback logic for topological sorting");
                 all_modules_in_circle.extend(deps_of_circle);
             }
 
