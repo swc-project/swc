@@ -1177,7 +1177,14 @@ impl VisitMut for SimplifyExpr {
                         expr.visit_mut_with(self);
                         *e = expr;
                     } else {
-                        if let Some(Expr::Member(..)) = seq.exprs.last().map(|v| &**v) {
+                        if let Some(
+                            Expr::Member(..)
+                            | Expr::Ident(Ident {
+                                sym: js_word!("eval"),
+                                ..
+                            }),
+                        ) = seq.exprs.last().map(|v| &**v)
+                        {
                             match seq.exprs.get(0).map(|v| &**v) {
                                 Some(Expr::Lit(..) | Expr::Ident(..)) => {}
                                 _ => {
