@@ -28,7 +28,7 @@ mod paths;
 mod string_errors;
 
 /// Configures logger
-pub fn init() {
+pub fn init() -> tracing::subscriber::DefaultGuard {
     use ansi_term::Color;
 
     struct Padded<T> {
