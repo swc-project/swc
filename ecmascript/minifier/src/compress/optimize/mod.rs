@@ -21,6 +21,7 @@ use swc_ecma_utils::{
     Value,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
+use tracing::{span, Level};
 use Value::Known;
 
 mod arguments;
@@ -56,6 +57,7 @@ pub(super) fn optimizer<'a, M>(
     data: &'a ProgramData,
     state: &'a mut OptimizerState,
     mode: &'a M,
+    debug_inifinite_loop: bool,
 ) -> impl 'a + VisitMut + Repeated
 where
     M: Mode,
@@ -85,6 +87,7 @@ where
         done_ctxt,
         label: Default::default(),
         mode,
+        debug_inifinite_loop,
     }
 }
 
@@ -221,6 +224,8 @@ struct Optimizer<'a, M> {
     label: Option<Id>,
 
     mode: &'a M,
+
+    debug_inifinite_loop: bool,
 }
 
 impl<M> Repeated for Optimizer<'_, M> {
@@ -2164,6 +2169,13 @@ where
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
+        let _tracing = if cfg!(feature = "debug") && self.debug_inifinite_loop {
+            let text = dump(&*s);
+            Some(span!(Level::ERROR, "visit_mut_stmt", "start" = &*text).entered())
+        } else {
+            None
+        };
+
         let ctx = Ctx {
             is_callee: false,
             is_delete_arg: false,
