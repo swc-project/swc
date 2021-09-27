@@ -384,10 +384,10 @@ pub struct EsConfig {
     #[serde(default)]
     pub import_assertions: bool,
 
-    #[serde(default)]
-    #[serde(rename = "staticBlocks")]
+    #[serde(default, rename = "staticBlocks")]
     pub static_blocks: bool,
-    #[serde(rename = "privateInObject")]
+
+    #[serde(default, rename = "privateInObject")]
     pub private_in_object: bool,
 }
 
