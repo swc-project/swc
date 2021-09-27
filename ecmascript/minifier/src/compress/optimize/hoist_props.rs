@@ -93,7 +93,6 @@ where
                                     match &p.key {
                                         PropName::Str(s) => {
                                             tracing::debug!(
-                                            log::trace!(
                                                 "hoist_props: Storing a varaible to inline \
                                                  properties"
                                             );
@@ -102,7 +101,6 @@ where
                                         }
                                         PropName::Ident(i) => {
                                             tracing::debug!(
-                                            log::trace!(
                                                 "hoist_props: Storing a varaible to inline \
                                                  properties"
                                             );

@@ -450,7 +450,7 @@ where
                         }))
                     } else {
                         if cfg!(feature = "debug") {
-                            log::debug!("if_return: Ignoring return value");
+                            tracing::debug!("if_return: Ignoring return value");
                         }
                     }
                 }

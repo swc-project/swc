@@ -498,7 +498,7 @@ fn value_to_expr(v: Value) -> Box<Expr> {
         }))),
         Value::Number(v) => {
             if cfg!(feature = "debug") {
-                log::debug!("Creating a numeric literal from value");
+                tracing::debug!("Creating a numeric literal from value");
             }
 
             Box::new(Expr::Lit(Lit::Num(Number {

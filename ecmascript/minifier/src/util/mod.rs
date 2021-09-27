@@ -16,7 +16,7 @@ pub(crate) mod unit;
 ///
 pub(crate) fn make_number(span: Span, value: f64) -> Expr {
     if cfg!(feature = "debug") {
-        log::debug!("Creating a numeric literal");
+        tracing::debug!("Creating a numeric literal");
     }
     Expr::Lit(Lit::Num(Number { span, value }))
 }
@@ -88,7 +88,7 @@ impl MoudleItemExt for ModuleItem {
 /// - `!1` for false
 pub(crate) fn make_bool(span: Span, value: bool) -> Expr {
     if cfg!(feature = "debug") {
-        log::debug!("Creating a boolean literal");
+        tracing::debug!("Creating a boolean literal");
     }
     Expr::Unary(UnaryExpr {
         span,

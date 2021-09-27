@@ -674,9 +674,8 @@ where
 
         match e {
             Expr::Ident(..) | Expr::This(_) | Expr::Invalid(_) | Expr::Lit(..) => {
-                tracing::debug!("ignore_return_value: Dropping unused expr");
                 if cfg!(feature = "debug") {
-                    log::debug!("ignore_return_value: Dropping unused expr: {}", dump(&*e));
+                    tracing::debug!("ignore_return_value: Dropping unused expr: {}", dump(&*e));
                 }
                 self.changed = true;
                 return None;
@@ -1091,7 +1090,9 @@ where
                         };
                         let ret = self.with_ctx(ctx).ignore_return_value(&mut **expr);
                         if cfg!(feature = "debug") && ret.is_none() {
-                            log::debug!("ignore_return_value: Dropped an element of a seq expr");
+                            tracing::debug!(
+                                "ignore_return_value: Dropped an element of a seq expr"
+                            );
                         }
                         ret
                     })
@@ -1593,9 +1594,8 @@ where
                             span: DUMMY_SP,
                             value: 0.0,
                         })));
-                        tracing::trace!("injecting zero to preserve `this` in call");
                         self.changed = true;
-                        log::debug!("injecting zero to preserve `this` in call");
+                        tracing::debug!("injecting zero to preserve `this` in call");
 
                         *callee = Box::new(Expr::Seq(SeqExpr {
                             span: callee.span(),
@@ -1830,7 +1830,7 @@ where
             let expr = self.ignore_return_value(&mut n.expr);
             n.expr = expr.map(Box::new).unwrap_or_else(|| {
                 if cfg!(feature = "debug") {
-                    log::debug!("visit_mut_expr_stmt: Dropped an expression statement");
+                    tracing::debug!("visit_mut_expr_stmt: Dropped an expression statement");
                 }
                 undefined(DUMMY_SP)
             });
@@ -2152,7 +2152,7 @@ where
 
                     if ret.is_none() {
                         if cfg!(feature = "debug") {
-                            log::debug!("visit_mut_seq_expr: Dropped an element");
+                            tracing::debug!("visit_mut_seq_expr: Dropped an element");
                         }
                     }
 
