@@ -67,7 +67,9 @@ where
                     if lt == rt {
                         e.op = op!("==");
                         self.changed = true;
-                        tracing::debug!("Reduced `===` to `==` because types of operands are identical")
+                        tracing::debug!(
+                            "Reduced `===` to `==` because types of operands are identical"
+                        )
                     }
                 }
             }

@@ -189,7 +189,10 @@ where
                     Prop::Shorthand(_) => {}
                     Prop::KeyValue(p) => {
                         if prop_name_eq(&p.key, &key.sym) {
-                            tracing::debug!("properties: Inlining a key-value property `{}`", key.sym);
+                            tracing::debug!(
+                                "properties: Inlining a key-value property `{}`",
+                                key.sym
+                            );
                             self.changed = true;
                             *e = *p.value.clone();
                             return;

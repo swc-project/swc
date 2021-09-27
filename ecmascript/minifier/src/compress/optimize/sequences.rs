@@ -414,7 +414,9 @@ where
             }
         }
         self.changed = true;
-        tracing::debug!("sequences: Splitted a sequence exprssion to multiple expression statements");
+        tracing::debug!(
+            "sequences: Splitted a sequence exprssion to multiple expression statements"
+        );
         *stmts = new_stmts;
     }
 

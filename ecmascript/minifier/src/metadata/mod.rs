@@ -287,8 +287,8 @@ where
 
         if used_id.1 == top_level_ctxt {
             // if cfg!(feature = "debug") {
-            //     tracing::debug!("bundle: Ignoring {}{:?} (top level)", used_id.0, used_id.1);
-            // }
+            //     tracing::debug!("bundle: Ignoring {}{:?} (top level)", used_id.0,
+            // used_id.1); }
             continue;
         }
 

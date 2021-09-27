@@ -84,7 +84,9 @@ where
                         let changed = UnreachableHandler::preserve_vars(&mut w.body);
                         self.changed |= changed;
                         if changed {
-                            tracing::debug!("loops: Removing unreachable body of a while statement");
+                            tracing::debug!(
+                                "loops: Removing unreachable body of a while statement"
+                            );
                         }
                     }
                 }
