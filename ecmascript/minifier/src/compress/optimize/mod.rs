@@ -2193,6 +2193,14 @@ where
         };
         s.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
+        if cfg!(feature = "debug") && self.debug_inifinite_loop {
+            let text = dump(&*s);
+
+            if text.lines().count() < 10 {
+                tracing::debug!("after_children: {}", text);
+            }
+        }
+
         match s {
             Stmt::Expr(ExprStmt { expr, .. }) => {
                 if is_pure_undefined(expr) {
