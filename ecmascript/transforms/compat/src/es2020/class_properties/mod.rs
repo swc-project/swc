@@ -735,21 +735,23 @@ impl ClassProperties {
                         },
                     );
 
-                    vars.push(VarDeclarator {
-                        span: DUMMY_SP,
-                        definite: false,
-                        name: Pat::Ident(weak_coll_var.clone().into()),
-                        init: Some(Box::new(Expr::from(NewExpr {
+                    if should_use_map || !statics.contains(&method.key.id.sym) {
+                        vars.push(VarDeclarator {
                             span: DUMMY_SP,
-                            callee: if should_use_map {
-                                Box::new(Expr::Ident(quote_ident!("WeakMap")))
-                            } else {
-                                Box::new(Expr::Ident(quote_ident!("WeakSet")))
-                            },
-                            args: Some(Default::default()),
-                            type_args: Default::default(),
-                        }))),
-                    });
+                            definite: false,
+                            name: Pat::Ident(weak_coll_var.clone().into()),
+                            init: Some(Box::new(Expr::from(NewExpr {
+                                span: DUMMY_SP,
+                                callee: if should_use_map {
+                                    Box::new(Expr::Ident(quote_ident!("WeakMap")))
+                                } else {
+                                    Box::new(Expr::Ident(quote_ident!("WeakSet")))
+                                },
+                                args: Some(Default::default()),
+                                type_args: Default::default(),
+                            }))),
+                        });
+                    }
 
                     if should_use_map {
                         let get = PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
@@ -790,7 +792,7 @@ impl ClassProperties {
                             args: vec![ThisExpr { span: DUMMY_SP }.as_arg(), obj],
                             type_args: Default::default(),
                         })));
-                    } else {
+                    } else if !statics.contains(&method.key.id.sym) {
                         // Add `_get.add(this);` to the constructor where `_get` is the name of the
                         // weak set.
                         constructor_exprs.push(Box::new(Expr::Call(CallExpr {
