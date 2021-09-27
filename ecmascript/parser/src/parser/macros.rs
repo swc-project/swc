@@ -146,7 +146,9 @@ macro_rules! assert_and_bump {
 ///     if token has data like string.
 macro_rules! eat {
     ($p:expr, ';') => {{
-        log::trace!("eat(';'): cur={:?}", cur!($p, false));
+        if cfg!(feature = "debug") {
+            tracing::trace!("eat(';'): cur={:?}", cur!($p, false));
+        }
         match $p.input.cur() {
             Some(&Token::Semi) => {
                 $p.input.bump();
@@ -317,7 +319,7 @@ macro_rules! return_if_arrow {
 macro_rules! trace_cur {
     ($p:expr, $name:ident) => {{
         if cfg!(feature = "debug") {
-            log::debug!("{}: {:?}", stringify!($name), $p.input.cur());
+            tracing::debug!("{}: {:?}", stringify!($name), $p.input.cur());
         }
     }};
 }
