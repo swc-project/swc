@@ -1491,10 +1491,7 @@ impl VisitMut for SimplifyExpr {
 
         self.changed |= len != exprs.len();
 
-        *e = SeqExpr {
-            exprs,
-            span: e.span,
-        }
+        e.exprs = exprs;
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
