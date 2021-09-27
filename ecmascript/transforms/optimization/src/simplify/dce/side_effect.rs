@@ -1,5 +1,5 @@
 use super::Dce;
-use fxhash::FxHashSet;
+use rustc_hash::FxHashSet;
 use swc_atoms::JsWord;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -85,8 +85,6 @@ impl Visit for SideEffectVisitor<'_> {
     noop_visit_type!();
 
     fn visit_expr(&mut self, node: &Expr, _: &dyn Node) {
-        log::trace!("Visit<Expr>");
-
         if self.found || node.is_pure_callee() {
             return;
         }
