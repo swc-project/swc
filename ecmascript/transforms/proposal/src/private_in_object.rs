@@ -91,6 +91,8 @@ struct ClassData {
     /// This is modified by the class visitor.
     mark: Mark,
 
+    privates: FxHashSet<JsWord>,
+
     /// Name of private methods.
     methods: Vec<JsWord>,
 
@@ -130,6 +132,8 @@ impl VisitMut for PrivateInObject {
         for m in &n.body {
             match m {
                 ClassMember::PrivateMethod(m) => {
+                    self.cls.privates.insert(m.key.id.sym.clone());
+
                     self.cls.methods.push(m.key.id.sym.clone());
 
                     if m.is_static {
@@ -138,6 +142,8 @@ impl VisitMut for PrivateInObject {
                 }
 
                 ClassMember::PrivateProp(m) => {
+                    self.cls.privates.insert(m.key.id.sym.clone());
+
                     if m.is_static {
                         self.cls.statics.push(m.key.id.sym.clone());
                     }
@@ -320,7 +326,9 @@ impl VisitMut for PrivateInObject {
 
                 let var_name = self.var_name_for_brand_check(&left);
 
-                if self.injected_vars.insert(var_name.to_id()) {
+                if self.cls.privates.contains(&left.id.sym)
+                    && self.injected_vars.insert(var_name.to_id())
+                {
                     self.cls.vars.push_var(
                         var_name.clone(),
                         Some(Box::new(Expr::New(NewExpr {
