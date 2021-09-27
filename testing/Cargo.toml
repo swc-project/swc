@@ -17,4 +17,4 @@ regex = "1"
 swc_common = {version = "0.12.0", path = "../common", features = ["tty-emitter"]}
 testing_macros = {version = "0.2.0", path = "./macros"}
 tracing = "0.1.28"
-tracing-subscriber = "0.2.24"
+tracing-subscriber = {version = "0.2.24", features = ["env-filter"]}
