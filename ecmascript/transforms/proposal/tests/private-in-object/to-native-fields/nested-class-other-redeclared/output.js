@@ -1,32 +1,17 @@
-var _temp, _temp3;
-
-var _fooBrandCheck = /*#__PURE__*/new WeakSet();
-
-var _barBrandCheck2 = /*#__PURE__*/new WeakSet();
-
+var _tmp, _tmp1, _brand_check_foo = new WeakSet(), _brand_check_bar = new WeakSet();
 class Foo {
-  #foo = (_temp = 1, _fooBrandCheck.add(this), _temp);
-  #bar = (_temp3 = 1, _barBrandCheck2.add(this), _temp3);
-
-  test() {
-    var _temp2;
-
-    var _barBrandCheck = /*#__PURE__*/new WeakSet();
-
-    class Nested {
-      #bar = (_temp2 = 2, _barBrandCheck.add(this), _temp2);
-
-      test() {
-        _fooBrandCheck.has(this);
-
-        _barBrandCheck.has(this);
-      }
-
+    #foo = (_tmp = 1, _brand_check_foo.add(this), _tmp);
+    #bar = (_tmp1 = 1, _brand_check_bar.add(this), _tmp1);
+    test() {
+        var _tmp, _brand_check_bar1 = new WeakSet();
+        class Nested {
+            #bar = (_tmp = 2, _brand_check_bar1.add(this), _tmp);
+            test() {
+                _brand_check_foo.has(this);
+                _brand_check_bar1.has(this);
+            }
+        }
+        _brand_check_foo.has(this);
+        _brand_check_bar.has(this);
     }
-
-    _fooBrandCheck.has(this);
-
-    _barBrandCheck2.has(this);
-  }
-
 }
