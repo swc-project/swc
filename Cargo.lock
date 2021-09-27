@@ -247,12 +247,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9c59e7af012c713f529e7a3ee57ce9b31ddd858d4b512923602f74608b009631"
 
 [[package]]
-name = "byteorder"
-version = "1.4.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "14c189c53d098945499cdfa7ecc63567cf3886b3332b312a5b4585d8d3a6a610"
-
-[[package]]
 name = "bytes"
 version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -673,15 +667,6 @@ dependencies = [
  "pin-project-lite",
  "pin-utils",
  "slab",
-]
-
-[[package]]
-name = "fxhash"
-version = "0.2.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c31b6d751ae2c7f11320402d34e41349dd1016f8d5d45e48c4312bc8625af50c"
-dependencies = [
- "byteorder",
 ]
 
 [[package]]
@@ -1195,11 +1180,11 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "backtrace",
- "fxhash",
  "napi",
  "napi-build",
  "napi-derive",
  "path-clean",
+ "rustc-hash",
  "serde",
  "serde_json",
  "swc",
@@ -1999,6 +1984,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "dead70b0b5e03e9c814bcb6b01e03e68f7c57a80aa48c72ec92152ab3e818d49"
 
 [[package]]
+name = "rustc-hash"
+version = "1.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "08d43f7aa6b08d49f382cde6a7982047c3426db949b1424bc4b7ec9ae12c6ce2"
+
+[[package]]
 name = "rustc_version"
 version = "0.2.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2294,12 +2285,12 @@ dependencies = [
  "base64 0.13.0",
  "dashmap",
  "either",
- "fxhash",
  "lru",
  "once_cell",
  "pathdiff",
  "rayon",
  "regex",
+ "rustc-hash",
  "serde",
  "serde_json",
  "sourcemap",
@@ -2398,7 +2389,6 @@ dependencies = [
  "anyhow",
  "crc",
  "dashmap",
- "fxhash",
  "hex",
  "indexmap",
  "is-macro",
@@ -2410,6 +2400,7 @@ dependencies = [
  "relative-path",
  "reqwest",
  "retain_mut",
+ "rustc-hash",
  "sha-1",
  "swc_atoms 0.2.7",
  "swc_common",
@@ -2438,12 +2429,12 @@ dependencies = [
  "cfg-if 0.1.10",
  "either",
  "from_variant",
- "fxhash",
  "num-bigint",
  "once_cell",
  "owning_ref",
  "parking_lot 0.7.1",
  "rayon",
+ "rustc-hash",
  "scoped-tls",
  "serde",
  "serde_json",
@@ -2612,11 +2603,11 @@ version = "0.18.2"
 dependencies = [
  "anyhow",
  "dashmap",
- "fxhash",
  "lru",
  "normpath",
  "once_cell",
  "regex",
+ "rustc-hash",
  "serde",
  "serde_json",
  "swc_atoms 0.2.7",
@@ -2633,13 +2624,13 @@ version = "0.29.0"
 dependencies = [
  "ansi_term 0.12.1",
  "anyhow",
- "fxhash",
  "indexmap",
  "once_cell",
  "pretty_assertions 0.6.1",
  "rayon",
  "regex",
  "retain_mut",
+ "rustc-hash",
  "serde",
  "serde_json",
  "serde_regex",
@@ -2666,10 +2657,10 @@ dependencies = [
  "either",
  "enum_kind",
  "env_logger 0.7.1",
- "fxhash",
  "lexical",
  "num-bigint",
  "pretty_assertions 0.6.1",
+ "rustc-hash",
  "serde",
  "serde_json",
  "smallvec 1.6.1",
@@ -2689,10 +2680,10 @@ name = "swc_ecma_preset_env"
 version = "0.44.0"
 dependencies = [
  "dashmap",
- "fxhash",
  "indexmap",
  "once_cell",
  "pretty_assertions 0.6.1",
+ "rustc-hash",
  "semver",
  "serde",
  "serde_json",
@@ -2741,9 +2732,9 @@ dependencies = [
 name = "swc_ecma_transforms_base"
 version = "0.32.0"
 dependencies = [
- "fxhash",
  "once_cell",
  "phf",
+ "rustc-hash",
  "scoped-tls",
  "smallvec 1.6.1",
  "swc_atoms 0.2.7",
@@ -2773,11 +2764,11 @@ name = "swc_ecma_transforms_compat"
 version = "0.36.0"
 dependencies = [
  "arrayvec",
- "fxhash",
  "indexmap",
  "is-macro",
  "num-bigint",
  "ordered-float",
+ "rustc-hash",
  "serde",
  "smallvec 1.6.1",
  "swc_atoms 0.2.7",
@@ -2810,9 +2801,9 @@ version = "0.40.0"
 dependencies = [
  "Inflector",
  "anyhow",
- "fxhash",
  "indexmap",
  "pathdiff",
+ "rustc-hash",
  "serde",
  "swc_atoms 0.2.7",
  "swc_common",
@@ -2832,10 +2823,10 @@ name = "swc_ecma_transforms_optimization"
 version = "0.43.0"
 dependencies = [
  "dashmap",
- "fxhash",
  "indexmap",
  "once_cell",
  "retain_mut",
+ "rustc-hash",
  "serde_json",
  "swc_atoms 0.2.7",
  "swc_common",
@@ -2859,7 +2850,7 @@ name = "swc_ecma_transforms_proposal"
 version = "0.40.0"
 dependencies = [
  "either",
- "fxhash",
+ "rustc-hash",
  "serde",
  "serde_json",
  "smallvec 1.6.1",
@@ -2928,7 +2919,7 @@ dependencies = [
 name = "swc_ecma_transforms_typescript"
 version = "0.42.0"
 dependencies = [
- "fxhash",
+ "rustc-hash",
  "serde",
  "swc_atoms 0.2.7",
  "swc_common",
@@ -3021,12 +3012,12 @@ version = "0.0.0"
 dependencies = [
  "anyhow",
  "dashmap",
- "fxhash",
  "is-macro",
  "once_cell",
  "pretty_assertions 0.6.1",
  "pretty_env_logger",
  "regex",
+ "rustc-hash",
  "serde",
  "serde_json",
  "string_enum",

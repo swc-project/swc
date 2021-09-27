@@ -11,11 +11,11 @@ version = "0.36.0"
 
 [dependencies]
 arrayvec = "0.5.2"
-fxhash = "0.2.1"
 indexmap = "1.6.1"
 is-macro = "0.1.8"
 num-bigint = "0.2"
 ordered-float = "2.0.1"
+rustc-hash = "1.1.0"
 serde = {version = "1.0.118", features = ["derive"]}
 smallvec = "1.6.0"
 swc_atoms = {version = "0.2.5", path = "../../../atoms"}

@@ -22,11 +22,11 @@ atty = {version = "0.2", optional = true}
 cfg-if = "0.1.2"
 either = "1.5"
 from_variant = {version = "0.1.3", path = "../macros/from_variant"}
-fxhash = "0.2.1"
 num-bigint = "0.2"
 once_cell = "1"
 owning_ref = "0.4"
 parking_lot = {version = "0.7.1", optional = true}
+rustc-hash = "1.1.0"
 scoped-tls = {version = "1"}
 serde = {version = "1.0.119", features = ["derive"]}
 sourcemap = {version = "6", optional = true}

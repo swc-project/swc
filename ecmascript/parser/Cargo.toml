@@ -21,9 +21,9 @@ typescript = []
 [dependencies]
 either = {version = "1.4"}
 enum_kind = {version = "0.2.1", path = "../../macros/enum_kind"}
-fxhash = "0.2.1"
 lexical = {version = "5.2.2", features = ["radix"]}
 num-bigint = "0.2"
+rustc-hash = "1.1.0"
 serde = {version = "1", features = ["derive"]}
 smallvec = "1"
 swc_atoms = {version = "0.2.3", path = "../../atoms"}

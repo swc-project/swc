@@ -16,7 +16,7 @@ multi-module = ["swc_ecma_loader"]
 
 [dependencies]
 either = "1.6.1"
-fxhash = "0.2.1"
+rustc-hash = "1.1.0"
 serde = {version = "1.0.118", features = ["derive"]}
 smallvec = "1.6.0"
 swc_atoms = {version = "0.2", path = "../../../atoms"}
