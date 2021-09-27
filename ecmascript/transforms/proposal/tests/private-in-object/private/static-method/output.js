@@ -1,17 +1,17 @@
-let Foo = /*#__PURE__*/function () {
-  "use strict";
-
-  function Foo() {
-    babelHelpers.classCallCheck(this, Foo);
-  }
-
-  babelHelpers.createClass(Foo, [{
-    key: "test",
-    value: function test(other) {
-      return other === Foo;
+let Foo = function() {
+    "use strict";
+    function Foo() {
+        _classCallCheck(this, Foo);
     }
-  }]);
-  return Foo;
+    _createClass(Foo, [
+        {
+            key: "test",
+            value: function test(other) {
+                return other === Foo;
+            }
+        }
+    ]);
+    return Foo;
 }();
-
-function _foo() {}
+function foo() {
+}
