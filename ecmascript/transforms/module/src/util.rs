@@ -1,12 +1,13 @@
 use crate::path::ImportResolver;
 use anyhow::Context;
-use fxhash::{FxBuildHasher, FxHashMap, FxHashSet};
 use indexmap::IndexMap;
 use inflector::Inflector;
+use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
 use serde::{Deserialize, Serialize};
 use std::{
     cell::{Ref, RefMut},
     collections::hash_map::Entry,
+    hash::BuildHasherDefault,
     iter,
 };
 use swc_atoms::{js_word, JsWord};
@@ -95,7 +96,7 @@ pub struct Scope {
     ///
     ///  - `import * as bar1 from 'bar';`
     ///   -> `{'bar': Some(bar1)}`
-    pub(crate) imports: IndexMap<JsWord, Option<(JsWord, Span)>, FxBuildHasher>,
+    pub(crate) imports: IndexMap<JsWord, Option<(JsWord, Span)>, BuildHasherDefault<FxHasher>>,
     ///
     /// - `true` is wildcard (`_interopRequireWildcard`)
     /// - `false` is default (`_interopRequireDefault`)

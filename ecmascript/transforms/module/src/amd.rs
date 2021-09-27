@@ -4,7 +4,7 @@ use super::util::{
 };
 use crate::path::{ImportResolver, NoopImportResolver};
 use anyhow::Context;
-use fxhash::FxHashSet;
+use rustc_hash::FxHashSet;
 use serde::{Deserialize, Serialize};
 use std::{
     cell::{Ref, RefCell, RefMut},
