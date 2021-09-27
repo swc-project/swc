@@ -2,8 +2,8 @@ use crate::{
     complete_output, get_compiler,
     util::{CtxtExt, MapErr},
 };
-use fxhash::FxHashMap;
 use napi::{CallContext, JsObject, Task};
+use rustc_hash::FxHashMap;
 use serde::Deserialize;
 use std::sync::Arc;
 use swc::{try_with_handler, TransformOutput};

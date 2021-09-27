@@ -69,7 +69,7 @@ impl SwcLoader {
     }
 
     fn load_with_handler(&self, handler: &Handler, name: &FileName) -> Result<ModuleData, Error> {
-        log::debug!("JsLoader.load({})", name);
+        tracing::debug!("JsLoader.load({})", name);
         let helpers = Helpers::new(false);
 
         match name {
@@ -142,7 +142,7 @@ impl SwcLoader {
             _ => {}
         }
 
-        log::trace!("JsLoader.load: loaded");
+        tracing::trace!("JsLoader.load: loaded");
 
         let program = if fm.name.to_string().contains("node_modules") {
             let program = self.compiler.parse_js(
@@ -222,7 +222,7 @@ impl SwcLoader {
                 &fm.name,
             )?;
 
-            log::trace!("JsLoader.load: loaded config");
+            tracing::trace!("JsLoader.load: loaded config");
 
             // We run transform at this phase to strip out unused dependencies.
             //
@@ -241,7 +241,7 @@ impl SwcLoader {
                 program.context("tried to parse as ecmascript as it's excluded by .swcrc")?
             };
 
-            log::trace!("JsLoader.load: parsed");
+            tracing::trace!("JsLoader.load: parsed");
 
             // Fold module
             let program = if let Some(mut config) = config {
@@ -261,7 +261,7 @@ impl SwcLoader {
                 program
             };
 
-            log::trace!("JsLoader.load: applied transforms");
+            tracing::trace!("JsLoader.load: applied transforms");
 
             program
         };

@@ -52,10 +52,9 @@ use swc_ecma_visit::{noop_visit_type, FoldWith, Visit, VisitWith};
 mod builder;
 pub mod config;
 pub mod resolver {
-    use std::path::PathBuf;
-
     use crate::config::CompiledPaths;
-    use fxhash::FxHashMap;
+    use rustc_hash::FxHashMap;
+    use std::path::PathBuf;
     use swc_ecma_ast::TargetEnv;
     use swc_ecma_loader::resolvers::{
         lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
@@ -236,7 +235,7 @@ impl Compiler {
                             )?))
                         }
                         _ => {
-                            log::error!("Failed to load source map for non-file input");
+                            tracing::error!("Failed to load source map for non-file input");
                             return Ok(None);
                         }
                     }
