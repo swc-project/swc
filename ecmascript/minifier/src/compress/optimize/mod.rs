@@ -1094,13 +1094,7 @@ where
                             dont_use_negated_iife: idx != 0,
                             ..self.ctx
                         };
-                        let ret = self.with_ctx(ctx).ignore_return_value(&mut **expr);
-                        if cfg!(feature = "debug") && ret.is_none() {
-                            tracing::debug!(
-                                "ignore_return_value: Dropped an element of a seq expr"
-                            );
-                        }
-                        ret
+                        self.with_ctx(ctx).ignore_return_value(&mut **expr)
                     })
                     .map(Box::new)
                     .collect::<Vec<_>>();
