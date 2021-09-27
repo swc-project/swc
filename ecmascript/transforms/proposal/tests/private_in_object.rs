@@ -52,7 +52,9 @@ fn fixture(input: PathBuf) {
                             class_props = true;
                             pass = Box::new(chain!(
                                 pass,
-                                class_properties(class_properties::Config { loose: false })
+                                class_properties(class_properties::Config {
+                                    loose: input.to_string_lossy().contains("private-loose")
+                                })
                             ));
                         }
                     }
@@ -62,7 +64,9 @@ fn fixture(input: PathBuf) {
                             class_props = true;
                             pass = Box::new(chain!(
                                 pass,
-                                class_properties(class_properties::Config { loose: false })
+                                class_properties(class_properties::Config {
+                                    loose: input.to_string_lossy().contains("private-loose")
+                                })
                             ));
                         }
                     }
