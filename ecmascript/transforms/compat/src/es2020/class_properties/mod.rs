@@ -1,9 +1,11 @@
 use self::{
-    class_name_tdz::ClassNameTdzFolder, private_field::FieldAccessFolder,
-    this_in_static::ThisInStaticFolder, used_name::UsedNameCollector,
+    class_name_tdz::ClassNameTdzFolder,
+    private_field::{BrandCheckHandler, FieldAccessFolder},
+    this_in_static::ThisInStaticFolder,
+    used_name::UsedNameCollector,
 };
-use std::{collections::HashSet, mem::take};
-use swc_common::{util::move_map::MoveMap, Mark, Spanned, SyntaxContext, DUMMY_SP};
+use std::collections::HashSet;
+use swc_common::{Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Check};
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
@@ -12,7 +14,9 @@ use swc_ecma_utils::{
     alias_ident_for, alias_if_required, constructor::inject_after_super, default_constructor,
     private_ident, quote_ident, undefined, ExprFactory, ModuleItemLike, StmtLike,
 };
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{
+    noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitMutWith, VisitWith,
+};
 
 mod class_name_tdz;
 mod private_field;
@@ -26,27 +30,22 @@ mod used_name;
 /// # Impl note
 ///
 /// We use custom helper to handle export default class
-pub fn class_properties() -> impl Fold {
+pub fn class_properties(config: Config) -> impl Fold {
     ClassProperties {
-        typescript: false,
+        config,
         mark: Mark::root(),
         method_mark: Mark::root(),
     }
 }
 
-/// Class properties pass for the typescript.
-#[deprecated = "The logic is merged into typescript::strip"]
-pub fn typescript_class_properties() -> impl Fold {
-    ClassProperties {
-        typescript: true,
-        mark: Mark::root(),
-        method_mark: Mark::root(),
-    }
+#[derive(Debug, Clone, Default)]
+pub struct Config {
+    pub loose: bool,
 }
 
 #[derive(Clone)]
 struct ClassProperties {
-    typescript: bool,
+    config: Config,
     mark: Mark,
     method_mark: Mark,
 }
@@ -67,6 +66,7 @@ impl Fold for ClassProperties {
             ..p.fold_children_with(self)
         }
     }
+
     fn fold_object_pat(&mut self, p: ObjectPat) -> ObjectPat {
         ObjectPat {
             optional: false,
@@ -309,7 +309,7 @@ impl ClassProperties {
     fn fold_class_as_decl(
         &mut self,
         ident: Ident,
-        class: Class,
+        mut class: Class,
     ) -> (Vec<VarDeclarator>, ClassDecl, Vec<Stmt>) {
         // Create one mark per class
         self.mark = Mark::fresh(Mark::root());
@@ -327,8 +327,53 @@ impl ClassProperties {
         let mut constructor = None;
         let mut used_names = vec![];
         let mut used_key_names = vec![];
-        let mut statics = HashSet::default();
-        let mut private_methods = HashSet::default();
+        let mut names_used_for_brand_checks = HashSet::default();
+
+        let statics = {
+            let mut s = HashSet::default();
+
+            for member in &class.body {
+                match member {
+                    ClassMember::PrivateMethod(method) => {
+                        if method.is_static {
+                            s.insert(method.key.id.sym.clone());
+                        }
+                    }
+
+                    ClassMember::PrivateProp(prop) => {
+                        if prop.is_static {
+                            s.insert(prop.key.id.sym.clone());
+                        }
+                    }
+
+                    _ => {}
+                }
+            }
+
+            s
+        };
+        let private_methods = {
+            let mut s = HashSet::default();
+
+            for member in &class.body {
+                match member {
+                    ClassMember::PrivateMethod(method) => {
+                        s.insert(method.key.id.sym.clone());
+                    }
+
+                    _ => {}
+                }
+            }
+
+            s
+        };
+
+        class.body.visit_mut_with(&mut BrandCheckHandler {
+            mark: self.mark,
+            class_name: &ident,
+            names: &mut names_used_for_brand_checks,
+            statics: &statics,
+        });
 
         for member in class.body {
             match member {
@@ -382,55 +427,42 @@ impl ClassProperties {
                         );
                     }
 
-                    let key = if self.typescript {
-                        // `b` in
-                        //
-                        // class A {
-                        //     b = 'foo';
-                        // }
-                        prop.key
-                    } else {
-                        match *prop.key {
-                            Expr::Ident(ref i) if !prop.computed => {
-                                Box::new(Expr::from(Lit::Str(Str {
-                                    span: i.span,
-                                    value: i.sym.clone(),
-                                    has_escape: false,
-                                    kind: StrKind::Normal {
-                                        contains_quote: false,
-                                    },
-                                })))
-                            }
-                            Expr::Lit(ref lit) if !prop.computed => {
-                                Box::new(Expr::from(lit.clone()))
-                            }
+                    let key = match *prop.key {
+                        Expr::Ident(ref i) if !prop.computed => {
+                            Box::new(Expr::from(Lit::Str(Str {
+                                span: i.span,
+                                value: i.sym.clone(),
+                                has_escape: false,
+                                kind: StrKind::Normal {
+                                    contains_quote: false,
+                                },
+                            })))
+                        }
+                        Expr::Lit(ref lit) if !prop.computed => Box::new(Expr::from(lit.clone())),
 
-                            _ => {
-                                let (ident, aliased) = if let Expr::Ident(ref i) = *prop.key {
-                                    if used_key_names.contains(&i.sym) {
-                                        (alias_ident_for(&prop.key, "_ref"), true)
-                                    } else {
-                                        alias_if_required(&prop.key, "_ref")
-                                    }
+                        _ => {
+                            let (ident, aliased) = if let Expr::Ident(ref i) = *prop.key {
+                                if used_key_names.contains(&i.sym) {
+                                    (alias_ident_for(&prop.key, "_ref"), true)
                                 } else {
                                     alias_if_required(&prop.key, "_ref")
-                                };
-                                // ident.span = ident.span.apply_mark(Mark::fresh(Mark::root()));
-                                if aliased {
-                                    // Handle computed property
-                                    vars.push(VarDeclarator {
-                                        span: DUMMY_SP,
-                                        name: Pat::Ident(ident.clone().into()),
-                                        init: Some(prop.key),
-                                        definite: false,
-                                    });
                                 }
-                                Box::new(Expr::from(ident))
+                            } else {
+                                alias_if_required(&prop.key, "_ref")
+                            };
+                            // ident.span = ident.span.apply_mark(Mark::fresh(Mark::root()));
+                            if aliased {
+                                // Handle computed property
+                                vars.push(VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: Pat::Ident(ident.clone().into()),
+                                    init: Some(prop.key),
+                                    definite: false,
+                                });
                             }
+                            Box::new(Expr::from(ident))
                         }
                     };
-
-                    let assigned_value = prop.value.is_some();
 
                     let value = prop.value.unwrap_or_else(|| undefined(prop_span));
                     let value = if prop.is_static {
@@ -452,77 +484,33 @@ impl ClassProperties {
                         value
                     };
 
-                    if self.typescript {
-                        if prop.is_static {
-                            extra_stmts.push(
-                                AssignExpr {
-                                    span: DUMMY_SP,
-                                    left: PatOrExpr::Expr(Box::new(
-                                        MemberExpr {
-                                            span: DUMMY_SP,
-                                            obj: ident.clone().as_obj(),
-                                            computed: prop.computed,
-                                            prop: key,
-                                        }
-                                        .into(),
-                                    )),
-                                    op: op!("="),
-                                    right: value,
-                                }
-                                .into_stmt(),
-                            );
-                        } else if assigned_value {
-                            constructor_exprs.push(Box::new(Expr::Assign(AssignExpr {
-                                span: DUMMY_SP,
-                                left: (PatOrExpr::Expr(Box::new(
-                                    MemberExpr {
-                                        span: DUMMY_SP,
-                                        obj: ThisExpr { span: DUMMY_SP }.as_obj(),
-                                        computed: prop.computed,
-                                        prop: key,
-                                    }
-                                    .into(),
-                                ))),
-                                op: op!("="),
-                                right: value,
-                            })));
-                        }
-                    } else {
-                        let callee = helper!(define_property, "defineProperty");
+                    let callee = helper!(define_property, "defineProperty");
 
-                        if prop.is_static {
-                            extra_stmts.push(
-                                CallExpr {
-                                    span: DUMMY_SP,
-                                    callee,
-                                    args: vec![
-                                        ident.clone().as_arg(),
-                                        key.as_arg(),
-                                        value.as_arg(),
-                                    ],
-                                    type_args: Default::default(),
-                                }
-                                .into_stmt(),
-                            )
-                        } else {
-                            constructor_exprs.push(Box::new(Expr::Call(CallExpr {
+                    if prop.is_static {
+                        extra_stmts.push(
+                            CallExpr {
                                 span: DUMMY_SP,
                                 callee,
-                                args: vec![
-                                    ThisExpr { span: DUMMY_SP }.as_arg(),
-                                    key.as_arg(),
-                                    value.as_arg(),
-                                ],
+                                args: vec![ident.clone().as_arg(), key.as_arg(), value.as_arg()],
                                 type_args: Default::default(),
-                            })));
-                        }
+                            }
+                            .into_stmt(),
+                        )
+                    } else {
+                        constructor_exprs.push(Box::new(Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee,
+                            args: vec![
+                                ThisExpr { span: DUMMY_SP }.as_arg(),
+                                key.as_arg(),
+                                value.as_arg(),
+                            ],
+                            type_args: Default::default(),
+                        })));
                     }
                 }
                 ClassMember::PrivateProp(prop) => {
                     let prop_span = prop.span();
-                    if prop.is_static {
-                        statics.insert(prop.key.id.sym.clone());
-                    }
 
                     let ident = Ident::new(
                         format!("_{}", prop.key.id.sym).into(),
@@ -608,62 +596,11 @@ impl ClassProperties {
                     })));
                 }
 
-                ClassMember::Constructor(mut c) => {
-                    if self.typescript {
-                        let store = |i: &Ident| {
-                            Box::new(
-                                AssignExpr {
-                                    span: DUMMY_SP,
-                                    left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
-                                        span: DUMMY_SP,
-                                        obj: ThisExpr { span: DUMMY_SP }.as_obj(),
-                                        computed: false,
-                                        prop: Box::new(i.clone().into()),
-                                    }))),
-                                    op: op!("="),
-                                    right: Box::new(i.clone().into()),
-                                }
-                                .into(),
-                            )
-                        };
-
-                        c.params = c.params.move_map(|mut param| match &mut param {
-                            ParamOrTsParamProp::TsParamProp(p) => match &p.param {
-                                TsParamPropParam::Ident(i) => {
-                                    typescript_constructor_properties.push(store(&i.id));
-                                    ParamOrTsParamProp::Param(Param {
-                                        span: p.span,
-                                        decorators: take(&mut p.decorators),
-                                        pat: Pat::Ident(i.clone().into()),
-                                    })
-                                }
-                                TsParamPropParam::Assign(pat) => match &*pat.left {
-                                    Pat::Ident(i) => {
-                                        typescript_constructor_properties.push(store(&i.id));
-                                        ParamOrTsParamProp::Param(Param {
-                                            span: p.span,
-                                            decorators: take(&mut p.decorators),
-                                            pat: Pat::Assign(AssignPat {
-                                                span: DUMMY_SP,
-                                                left: pat.left.clone(),
-                                                right: pat.right.clone(),
-                                                type_ann: None,
-                                            }),
-                                        })
-                                    }
-                                    _ => param,
-                                },
-                            },
-                            ParamOrTsParamProp::Param(_) => param,
-                        });
-                    }
-
+                ClassMember::Constructor(c) => {
                     constructor = Some(c);
                 }
 
                 ClassMember::PrivateMethod(method) => {
-                    private_methods.insert(method.key.id.sym.clone());
-
                     let prop_span = method.span;
                     let fn_name = Ident::new(
                         method.key.id.sym.clone(),
@@ -672,11 +609,13 @@ impl ClassProperties {
                             .with_ctxt(SyntaxContext::empty())
                             .apply_mark(self.method_mark),
                     );
-                    if method.is_static {
-                        statics.insert(method.key.id.sym.clone());
-                    }
 
-                    let weak_set_var = Ident::new(
+                    let should_use_map =
+                        matches!(method.kind, MethodKind::Getter | MethodKind::Setter)
+                            && names_used_for_brand_checks.contains(&method.key.id.sym)
+                            && !statics.contains(&method.key.id.sym);
+
+                    let weak_coll_var = Ident::new(
                         format!("_{}", method.key.id.sym).into(),
                         // We use `self.mark` for private variables.
                         method.key.span.apply_mark(self.mark),
@@ -688,29 +627,76 @@ impl ClassProperties {
                         },
                     );
 
-                    vars.push(VarDeclarator {
-                        span: DUMMY_SP,
-                        definite: false,
-                        name: Pat::Ident(weak_set_var.clone().into()),
-                        init: Some(Box::new(Expr::from(NewExpr {
+                    if should_use_map || !statics.contains(&method.key.id.sym) {
+                        vars.push(VarDeclarator {
                             span: DUMMY_SP,
-                            callee: Box::new(Expr::Ident(quote_ident!("WeakSet"))),
-                            args: Some(Default::default()),
-                            type_args: Default::default(),
-                        }))),
-                    });
+                            definite: false,
+                            name: Pat::Ident(weak_coll_var.clone().into()),
+                            init: Some(Box::new(Expr::from(NewExpr {
+                                span: DUMMY_SP,
+                                callee: if should_use_map {
+                                    Box::new(Expr::Ident(quote_ident!("WeakMap")))
+                                } else {
+                                    Box::new(Expr::Ident(quote_ident!("WeakSet")))
+                                },
+                                args: Some(Default::default()),
+                                type_args: Default::default(),
+                            }))),
+                        });
+                    }
 
-                    // Add `_get.add(this);` to the constructor where `_get` is the name of the weak
-                    // set.
-                    constructor_exprs.push(Box::new(Expr::Call(CallExpr {
-                        span: prop_span,
-                        callee: weak_set_var
-                            .clone()
-                            .make_member(quote_ident!("add"))
-                            .as_callee(),
-                        args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                        type_args: Default::default(),
-                    })));
+                    if should_use_map {
+                        let get = PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                            key: PropName::Ident(quote_ident!("get")),
+                            value: Box::new(Expr::Ident(fn_name.clone())),
+                        })));
+                        let set = PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                            key: PropName::Ident(quote_ident!("set")),
+                            value: undefined(DUMMY_SP),
+                        })));
+
+                        let obj = ObjectLit {
+                            span: DUMMY_SP,
+                            props: vec![get, set],
+                        };
+
+                        let obj = if statics.contains(&method.key.id.sym) {
+                            let var_name = private_ident!("static_method");
+
+                            vars.push(VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(var_name.clone().into()),
+                                init: Some(Box::new(Expr::Object(obj))),
+                                definite: Default::default(),
+                            });
+
+                            var_name.as_arg()
+                        } else {
+                            obj.as_arg()
+                        };
+
+                        constructor_exprs.push(Box::new(Expr::Call(CallExpr {
+                            span: prop_span,
+                            callee: weak_coll_var
+                                .clone()
+                                .make_member(quote_ident!("set"))
+                                .as_callee(),
+                            args: vec![ThisExpr { span: DUMMY_SP }.as_arg(), obj],
+                            type_args: Default::default(),
+                        })));
+                    } else if !statics.contains(&method.key.id.sym) {
+                        // Add `_get.add(this);` to the constructor where `_get` is the name of the
+                        // weak set.
+                        constructor_exprs.push(Box::new(Expr::Call(CallExpr {
+                            span: prop_span,
+                            callee: weak_coll_var
+                                .clone()
+                                .make_member(quote_ident!("add"))
+                                .as_callee(),
+                            args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                            type_args: Default::default(),
+                        })));
+                    }
 
                     private_method_fn_decls.push(Stmt::Decl(Decl::Fn(FnDecl {
                         ident: fn_name,

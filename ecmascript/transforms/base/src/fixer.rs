@@ -115,6 +115,17 @@ impl VisitMut for Fixer<'_> {
         }
     }
 
+    fn visit_mut_assign_pat(&mut self, node: &mut AssignPat) {
+        node.visit_mut_children_with(self);
+
+        match &*node.right {
+            Expr::Seq(..) => {
+                self.wrap(&mut *node.right);
+            }
+            _ => {}
+        }
+    }
+
     fn visit_mut_assign_pat_prop(&mut self, node: &mut AssignPatProp) {
         node.key.visit_mut_children_with(self);
 

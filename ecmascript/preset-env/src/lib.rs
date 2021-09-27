@@ -96,7 +96,11 @@ where
     let pass = add!(pass, NullishCoalescing, es2020::nullish_coalescing());
 
     let pass = add!(pass, OptionalChaining, es2020::optional_chaining());
-    let pass = add!(pass, ClassProperties, es2020::class_properties());
+    let pass = add!(
+        pass,
+        ClassProperties,
+        es2020::class_properties(es2020::class_properties::Config { loose })
+    );
 
     // ES2019
     let pass = add!(pass, OptionalCatchBinding, es2019::optional_catch_binding());

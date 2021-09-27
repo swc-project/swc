@@ -414,6 +414,16 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
+        if self.input.syntax().private_in_object() {
+            if eat!(self, '#') {
+                let id = self.parse_ident_name()?;
+                return Ok(Box::new(Expr::PrivateName(PrivateName {
+                    span: span!(self, start),
+                    id,
+                })));
+            }
+        }
+
         unexpected!(
             self,
             "this, import, async, function, [ for array literal, { for object literal, @ for \

@@ -14,8 +14,14 @@ use swc_ecma_ast::{EsVersion, Module};
 use swc_ecma_minifier::option::MinifyOptions;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
-    compat, fixer, helpers, hygiene, hygiene::hygiene_with_config, modules, modules::util::Scope,
-    optimization::const_modules, pass::Optional, proposals::import_assertions, typescript,
+    compat, fixer, helpers, hygiene,
+    hygiene::hygiene_with_config,
+    modules,
+    modules::util::Scope,
+    optimization::const_modules,
+    pass::Optional,
+    proposals::{import_assertions, private_in_object},
+    typescript,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut};
 
@@ -175,7 +181,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                     should_enable(self.target, JscTarget::Es2021)
                 ),
                 Optional::new(
-                    compat::es2020::es2020(),
+                    compat::es2020::es2020(compat::es2020::Config { loose: self.loose }),
                     should_enable(self.target, JscTarget::Es2020)
                 ),
                 Optional::new(
@@ -220,6 +226,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         let module_scope = Rc::new(RefCell::new(Scope::default()));
         chain!(
             self.pass,
+            Optional::new(private_in_object(), syntax.private_in_object()),
             compat_pass,
             // module / helper
             Optional::new(
