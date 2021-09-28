@@ -67,7 +67,7 @@ where
     pub cfg: config::Config,
     pub cm: Lrc<SourceMap>,
     pub comments: Option<&'a dyn Comments>,
-    pub wr: Box<(dyn 'a + WriteJs)>,
+    pub wr: W,
 }
 
 impl<'a, W> Emitter<'a, W>
@@ -1966,7 +1966,10 @@ where
 }
 
 /// Patterns
-impl<'a> Emitter<'a> {
+impl<'a, W> Emitter<'a, W>
+where
+    W: WriteJs,
+{
     #[emitter]
     fn emit_param(&mut self, node: &Param) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
@@ -2151,7 +2154,10 @@ impl<'a> Emitter<'a> {
 }
 
 /// Statements
-impl<'a> Emitter<'a> {
+impl<'a, W> Emitter<'a, W>
+where
+    W: WriteJs,
+{
     #[emitter]
     fn emit_stmt(&mut self, node: &Stmt) -> Result {
         match *node {
@@ -2657,7 +2663,10 @@ impl<'a> Emitter<'a> {
     }
 }
 
-impl<'a> Emitter<'a> {
+impl<'a, W> Emitter<'a, W>
+where
+    W: WriteJs,
+{
     fn write_delim(&mut self, f: ListFormat) -> Result {
         match f & ListFormat::DelimitersMask {
             ListFormat::None => {}
@@ -2763,7 +2772,10 @@ impl<N> Node for Option<N>
 where
     N: Node,
 {
-    fn emit_with(&self, e: &mut Emitter<'_>) -> Result {
+    fn emit_with<W>(&self, e: &mut Emitter<'_, W>) -> Result
+    where
+        W: WriteJs,
+    {
         match *self {
             Some(ref n) => n.emit_with(e),
             None => Ok(()),

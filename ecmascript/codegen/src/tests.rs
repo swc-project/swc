@@ -20,7 +20,7 @@ struct Builder {
 impl Builder {
     pub fn with<F, Ret>(self, src: &str, s: &mut Vec<u8>, op: F) -> Ret
     where
-        F: FnOnce(&mut Emitter<'_>) -> Ret,
+        F: FnOnce(&mut Emitter<'_, Box<dyn WriteJs>>) -> Ret,
     {
         let writer =
             text_writer::JsWriter::with_target(self.cm.clone(), "\n", s, None, self.target);
@@ -44,7 +44,7 @@ impl Builder {
 
     pub fn text<F>(self, src: &str, op: F) -> String
     where
-        F: FnOnce(&mut Emitter<'_>),
+        F: FnOnce(&mut Emitter<'_, Box<dyn WriteJs>>),
     {
         let mut buf = vec![];
 
