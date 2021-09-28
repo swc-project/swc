@@ -447,6 +447,33 @@ fn appearance() {
     );
 }
 
+#[test]
+fn error_recovery_1() {
+    // This behavior is wrong, but it's what `stylis@3` does.
+    t(
+        "h3 {
+            __styled-jsx-placeholder__1
+            animation: slide 3s ease infinite;
+        }",
+        "h3 {
+            __styled-jsx-placeholder__1
+            animation: slide 3s ease infinite;
+        }",
+    );
+
+    t(
+        "h3 {
+            animation: slide 3s ease infinite;
+            __styled-jsx-placeholder__1
+        }",
+        "h3 {
+            animation: slide 3s ease infinite;
+            -webkit-animation: slide 3s ease infinite;
+            __styled-jsx-placeholder__1
+        }",
+    );
+}
+
 /// Test
 fn t(src: &str, expected: &str) {
     testing::run_test2(false, |cm, handler| {
