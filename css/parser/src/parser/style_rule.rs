@@ -34,14 +34,16 @@ where
 
         self.input.skip_ws()?;
 
-        let properties = self.parse_properties()?;
+        let items = self.parse_decl_block_items()?;
 
         expect!(self, "}");
 
         let span = span!(self, start);
 
-        Ok(DeclBlock { span, properties })
+        Ok(DeclBlock { span, items })
     }
+
+    fn parse_decl_block_items(&mut self) -> PResult<Vec<DeclBlockItem>> {}
 
     pub(crate) fn parse_properties(&mut self) -> PResult<Vec<Property>> {
         let mut props = vec![];
@@ -139,4 +141,11 @@ where
     fn parse(&mut self) -> PResult<Vec<Property>> {
         self.parse_properties()
     }
+}
+
+impl<I> Parse<DeclBlockItem> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<DeclBlockItem> {}
 }
