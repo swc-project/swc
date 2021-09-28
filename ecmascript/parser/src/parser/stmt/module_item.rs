@@ -196,21 +196,21 @@ impl<'a, I: Tokens> Parser<I> {
                     // invalid: `import type { type something } from 'mod'`
                     && !is_type_only_import
                 {
-                    let possibly_orgi_name = self.parse_ident_name()?;
-                    if possibly_orgi_name.sym == js_word!("as") {
+                    let possibly_orig_name = self.parse_ident_name()?;
+                    if possibly_orig_name.sym == js_word!("as") {
                         // `import { type as } from 'mod'`
                         if !is!(self, IdentName) {
-                            if self.ctx().is_reserved_word(&possibly_orgi_name.sym) {
+                            if self.ctx().is_reserved_word(&possibly_orig_name.sym) {
                                 syntax_error!(
                                     self,
-                                    possibly_orgi_name.span,
+                                    possibly_orig_name.span,
                                     SyntaxError::ReservedWordInImport
                                 )
                             }
 
                             return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
                                 span: span!(self, start),
-                                local: possibly_orgi_name,
+                                local: possibly_orig_name,
                                 imported: None,
                                 is_type_only: true,
                             }));
@@ -225,7 +225,7 @@ impl<'a, I: Tokens> Parser<I> {
                                 return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
                                     span: Span::new(start, orig_name.span.hi(), Default::default()),
                                     local,
-                                    imported: Some(possibly_orgi_name),
+                                    imported: Some(possibly_orig_name),
                                     is_type_only: true,
                                 }));
                             } else {
@@ -249,7 +249,7 @@ impl<'a, I: Tokens> Parser<I> {
                     } else {
                         // `import { type xx } from 'mod'`
                         // `import { type xx as yy } from 'mod'`
-                        orig_name = possibly_orgi_name;
+                        orig_name = possibly_orig_name;
                         is_type_only = true;
                     }
                 }
@@ -649,13 +649,13 @@ impl<'a, I: Tokens> Parser<I> {
             // invalid: `export type { type something }`
             && !type_only
         {
-            let possibly_orgi = self.parse_ident_name()?;
-            if possibly_orgi.sym == js_word!("as") {
+            let possibly_orig = self.parse_ident_name()?;
+            if possibly_orig.sym == js_word!("as") {
                 // `export { type as }`
                 if !is!(self, IdentName) {
                     return Ok(ExportNamedSpecifier {
                         span: span!(self, start),
-                        orig: possibly_orgi,
+                        orig: possibly_orig,
                         exported: None,
                         is_type_only: true,
                     });
@@ -669,7 +669,7 @@ impl<'a, I: Tokens> Parser<I> {
                         let exported = self.parse_ident_name()?;
                         return Ok(ExportNamedSpecifier {
                             span: Span::new(start, orig.span.hi(), Default::default()),
-                            orig: possibly_orgi,
+                            orig: possibly_orig,
                             exported: Some(exported),
                             is_type_only: true,
                         });
@@ -694,7 +694,7 @@ impl<'a, I: Tokens> Parser<I> {
             } else {
                 // `export { type xx }`
                 // `export { type xx as yy }`
-                orig = possibly_orgi;
+                orig = possibly_orig;
                 is_type_only = true;
             }
         }
