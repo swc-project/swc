@@ -11,6 +11,7 @@ version = "0.72.0"
 
 [dependencies]
 bitflags = "1"
+memchr = "2.4.1"
 num-bigint = {version = "0.2", features = ["serde"]}
 sourcemap = "6"
 swc_atoms = {version = "0.2", path = "../../atoms"}

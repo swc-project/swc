@@ -1053,9 +1053,9 @@ checksum = "60302e4db3a61da70c0cb7991976248362f30319e88850c487b9b95bbf059e00"
 
 [[package]]
 name = "memchr"
-version = "2.4.0"
+version = "2.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b16bd47d9e329435e309c58469fe0791c2d0d1ba96ec0954152a5ae2b04387dc"
+checksum = "308cc39be01b73d0d18f82a0e7b2a3df85245f84af96fdddc5d202d27e47b86a"
 
 [[package]]
 name = "memoffset"
@@ -2578,6 +2578,7 @@ name = "swc_ecma_codegen"
 version = "0.72.0"
 dependencies = [
  "bitflags",
+ "memchr",
  "num-bigint",
  "sourcemap",
  "swc_atoms 0.2.7",
