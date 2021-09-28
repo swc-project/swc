@@ -2477,7 +2477,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.8.0"
+version = "0.8.1"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
