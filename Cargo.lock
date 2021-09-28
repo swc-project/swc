@@ -2580,6 +2580,7 @@ dependencies = [
  "bitflags",
  "memchr",
  "num-bigint",
+ "once_cell",
  "sourcemap",
  "swc_atoms 0.2.7",
  "swc_common",
