@@ -16,16 +16,13 @@ fn mk() -> swc::Compiler {
     c
 }
 
-#[bench]
-fn bugs_1(b: &mut Bencher) {
+fn bench_file(b: &mut Bencher, path: &Path) {
     let c = mk();
 
     b.iter(|| {
         let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
 
-        let fm =
-            c.cm.load_file(Path::new("benches/bugs/1/input.tsx"))
-                .unwrap();
+        let fm = c.cm.load_file(path).unwrap();
 
         let result = {
             c.process_js_file(
@@ -40,4 +37,9 @@ fn bugs_1(b: &mut Bencher) {
         };
         black_box(result);
     });
+}
+
+#[bench]
+fn bugs_1(b: &mut Bencher) {
+    bench_file(b, Path::new("benches/bugs/1/input.tsx"));
 }
