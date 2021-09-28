@@ -190,9 +190,8 @@ impl<'a, I: Tokens> Parser<I> {
                 // `import { type as } from 'mod'`
                 // `import { type as as } from 'mod'`
                 // `import { type as as as } from 'mod'`
-                if orig_name.sym == js_word!("type")
+                if self.syntax().typescript() && orig_name.sym == js_word!("type")
                     && is!(self, IdentName)
-                    && self.syntax().typescript()
                     // invalid: `import type { type something } from 'mod'`
                     && !is_type_only_import
                 {
@@ -643,9 +642,8 @@ impl<'a, I: Tokens> Parser<I> {
         // `export { type as }`
         // `export { type as as }`
         // `export { type as as as }`
-        if orig.sym == js_word!("type")
+        if self.syntax().typescript() && orig.sym == js_word!("type")
             && is!(self, IdentName)
-            && self.syntax().typescript()
             // invalid: `export type { type something }`
             && !type_only
         {
