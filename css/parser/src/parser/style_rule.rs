@@ -157,6 +157,15 @@ where
     }
 }
 
+impl<I> Parse<Vec<DeclBlockItem>> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Vec<DeclBlockItem>> {
+        self.parse_decl_block_items()
+    }
+}
+
 impl<I> Parse<DeclBlockItem> for Parser<I>
 where
     I: ParserInput,

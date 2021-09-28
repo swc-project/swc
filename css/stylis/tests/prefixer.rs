@@ -4,7 +4,7 @@
 //! Original test authors have copyright for their work.
 
 use swc_common::FileName;
-use swc_css_ast::Property;
+use swc_css_ast::DeclBlockItem;
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig},
     CodegenConfig, Emit,
@@ -449,17 +449,26 @@ fn appearance() {
 
 /// Test
 fn t(src: &str, expected: &str) {
-    testing::run_test2(false, |cm, _handler| {
+    testing::run_test2(false, |cm, handler| {
         //
         let fm = cm.new_source_file(FileName::Anon, src.to_string());
-        let mut props: Vec<Property> = parse_file(
+        let mut errors = vec![];
+        let mut props: Vec<DeclBlockItem> = parse_file(
             &fm,
             ParserConfig {
                 parse_values: true,
                 ..Default::default()
             },
+            &mut errors,
         )
         .unwrap();
+        for err in errors {
+            err.to_diagnostics(&handler).emit();
+        }
+
+        if handler.has_errors() {
+            return Err(());
+        }
 
         props.visit_mut_with(&mut prefixer());
 
