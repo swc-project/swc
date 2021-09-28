@@ -451,26 +451,18 @@ fn appearance() {
 fn error_recovery_1() {
     // This behavior is wrong, but it's what `stylis@3` does.
     t(
-        "h3 {
-            __styled-jsx-placeholder__1
+        "__styled-jsx-placeholder__1
             animation: slide 3s ease infinite;
-        }",
-        "h3 {
-            __styled-jsx-placeholder__1
-            animation: slide 3s ease infinite;
-        }",
+        ",
+        "__styled-jsx-placeholder__1 animation: slide 3s ease infinite;",
     );
 
     t(
-        "h3 {
-            animation: slide 3s ease infinite;
+        "animation: slide 3s ease infinite;
             __styled-jsx-placeholder__1
-        }",
-        "h3 {
-            animation: slide 3s ease infinite;
-            -webkit-animation: slide 3s ease infinite;
-            __styled-jsx-placeholder__1
-        }",
+        ",
+        "-webkit-animation:slide 3s ease infinite;animation:slide 3s ease \
+         infinite;__styled-jsx-placeholder__1 ;",
     );
 }
 
@@ -491,10 +483,6 @@ fn t(src: &str, expected: &str) {
         .unwrap();
         for err in errors {
             err.to_diagnostics(&handler).emit();
-        }
-
-        if handler.has_errors() {
-            return Err(());
         }
 
         props.visit_mut_with(&mut prefixer());
