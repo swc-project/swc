@@ -89,7 +89,7 @@
           "end": 36,
           "ctxt": 0
         },
-        "properties": [
+        "items": [
           {
             "type": "Property",
             "span": {
@@ -178,7 +178,7 @@
           "end": 115,
           "ctxt": 0
         },
-        "properties": [
+        "items": [
           {
             "type": "Property",
             "span": {
@@ -385,7 +385,7 @@
           "end": 139,
           "ctxt": 0
         },
-        "properties": [
+        "items": [
           {
             "type": "Property",
             "span": {
@@ -473,7 +473,7 @@
           "end": 182,
           "ctxt": 0
         },
-        "properties": [
+        "items": [
           {
             "type": "Property",
             "span": {
