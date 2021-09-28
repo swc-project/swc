@@ -8,6 +8,8 @@ use self::{
     util::{SourceMapperExt, SpanExt, StartsWithAlphaNum},
 };
 use crate::util::EndsWithAlphaNum;
+use memchr::memmem::Finder;
+use once_cell::sync::Lazy;
 use std::{borrow::Cow, fmt::Write, io, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::{
@@ -3112,7 +3114,8 @@ fn is_single_quote(cm: &SourceMap, span: Span) -> Option<bool> {
 }
 
 fn handle_invalid_unicodes(s: &str) -> Cow<str> {
-    if !s.contains("\\\0") {
+    static NEEDLE: Lazy<Finder> = Lazy::new(|| Finder::new("\\\0"));
+    if NEEDLE.find(s.as_bytes()).is_none() {
         return Cow::Borrowed(s);
     }
 
