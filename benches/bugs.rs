@@ -21,24 +21,22 @@ fn bench_file(b: &mut Bencher, path: &Path) {
     let c = mk();
 
     b.iter(|| {
-        for _ in 0..10000 {
-            let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
+        let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
 
-            let fm = c.cm.load_file(path).unwrap();
+        let fm = c.cm.load_file(path).unwrap();
 
-            let result = {
-                c.process_js_file(
-                    fm.clone(),
-                    &handler,
-                    &Options {
-                        is_module: true,
-                        ..Default::default()
-                    },
-                )
-                .unwrap()
-            };
-            println!("{}", result.code);
-        }
+        let result = {
+            c.process_js_file(
+                fm.clone(),
+                &handler,
+                &Options {
+                    is_module: true,
+                    ..Default::default()
+                },
+            )
+            .unwrap()
+        };
+        println!("{}", result.code);
     });
 }
 
