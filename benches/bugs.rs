@@ -1,9 +1,10 @@
 #![feature(test)]
 #![feature(bench_black_box)]
 
+extern crate swc_node_base;
 extern crate test;
 
-use std::{hint::black_box, io::stderr, path::Path};
+use std::{io::stderr, path::Path};
 use swc::config::Options;
 use swc_common::{errors::Handler, sync::Lrc, FilePathMapping, SourceMap};
 use test::Bencher;
@@ -20,22 +21,24 @@ fn bench_file(b: &mut Bencher, path: &Path) {
     let c = mk();
 
     b.iter(|| {
-        let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
+        for _ in 0..10000 {
+            let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
 
-        let fm = c.cm.load_file(path).unwrap();
+            let fm = c.cm.load_file(path).unwrap();
 
-        let result = {
-            c.process_js_file(
-                fm.clone(),
-                &handler,
-                &Options {
-                    is_module: true,
-                    ..Default::default()
-                },
-            )
-            .unwrap()
-        };
-        black_box(result);
+            let result = {
+                c.process_js_file(
+                    fm.clone(),
+                    &handler,
+                    &Options {
+                        is_module: true,
+                        ..Default::default()
+                    },
+                )
+                .unwrap()
+            };
+            println!("{}", result.code);
+        }
     });
 }
 
