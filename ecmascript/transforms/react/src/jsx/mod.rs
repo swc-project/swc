@@ -797,6 +797,7 @@ where
                     span: DUMMY_SP,
                     local,
                     imported: Some(Ident::new("createElement".into(), DUMMY_SP)),
+                    is_type_only: false,
                 });
                 prepend(
                     &mut module.body,
@@ -822,12 +823,14 @@ where
                     span: DUMMY_SP,
                     local,
                     imported: Some(quote_ident!("jsx")),
+                    is_type_only: false,
                 })
                 .into_iter()
                 .chain(self.import_jsxs.take().map(|local| ImportNamedSpecifier {
                     span: DUMMY_SP,
                     local,
                     imported: Some(quote_ident!("jsxs")),
+                    is_type_only: false,
                 }))
                 .chain(
                     self.import_fragment
@@ -836,6 +839,7 @@ where
                             span: DUMMY_SP,
                             local,
                             imported: Some(quote_ident!("Fragment")),
+                            is_type_only: false,
                         }),
                 )
                 .map(ImportSpecifier::Named)

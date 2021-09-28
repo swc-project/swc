@@ -72,7 +72,8 @@
             "value": "myTypes",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         }
       ],
       "source": null,
@@ -104,7 +105,8 @@
             "value": "myTypes",
             "optional": false
           },
-          "imported": null
+          "imported": null,
+          "isTypeOnly": false
         }
       ],
       "source": {
@@ -368,7 +370,8 @@
             "value": "testFn",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -387,7 +390,8 @@
             "value": "testFnTypes",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         }
       ],
       "source": null,

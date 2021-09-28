@@ -218,6 +218,8 @@ pub enum SyntaxError {
     TS1196,
     TS1242,
     TS1243(JsWord, JsWord),
+    TS2206,
+    TS2207,
     TS2369,
     TS2371,
     TS2406,
@@ -540,6 +542,12 @@ impl SyntaxError {
                 left, right
             )
             .into(),
+            SyntaxError::TS2206 => "The 'type' modifier cannot be used on a named import when \
+                                    'import type' is used on its import statement."
+                .into(),
+            SyntaxError::TS2207 => "The 'type' modifier cannot be used on a named export when \
+                                    'export type' is used on its export statement."
+                .into(),
             SyntaxError::TS2369 => {
                 "A parameter property is only allowed in a constructor implementation".into()
             }

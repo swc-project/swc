@@ -459,6 +459,7 @@ impl Strip {
                                                 js_word!("default"),
                                                 DUMMY_SP,
                                             )),
+                                            is_type_only: false,
                                         }
                                         .into()],
                                         src: None,
@@ -1446,6 +1447,9 @@ impl VisitMut for Strip {
         self.is_side_effect_import = import.specifiers.is_empty();
 
         import.specifiers.retain(|s| match *s {
+            ImportSpecifier::Named(ImportNamedSpecifier {
+                ref is_type_only, ..
+            }) if *is_type_only => false,
             ImportSpecifier::Default(ImportDefaultSpecifier { ref local, .. })
             | ImportSpecifier::Named(ImportNamedSpecifier { ref local, .. })
             | ImportSpecifier::Namespace(ImportStarAsSpecifier { ref local, .. }) => {
@@ -1934,8 +1938,14 @@ impl VisitMut for Strip {
                         export.specifiers.clear();
                     }
                     export.specifiers.retain(|s| match *s {
-                        ExportSpecifier::Named(ExportNamedSpecifier { ref orig, .. }) => {
-                            if let Some(e) = self.scope.decls.get(&orig.to_id()) {
+                        ExportSpecifier::Named(ExportNamedSpecifier {
+                            ref orig,
+                            ref is_type_only,
+                            ..
+                        }) => {
+                            if *is_type_only {
+                                false
+                            } else if let Some(e) = self.scope.decls.get(&orig.to_id()) {
                                 e.has_concrete
                             } else {
                                 true

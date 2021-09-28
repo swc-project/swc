@@ -285,7 +285,8 @@
                           },
                           "value": "default",
                           "optional": false
-                        }
+                        },
+                        "isTypeOnly": false
                       }
                     ],
                     "source": null,
@@ -373,7 +374,8 @@
                   "value": "a",
                   "optional": false
                 },
-                "imported": null
+                "imported": null,
+                "isTypeOnly": false
               }
             ],
             "source": {

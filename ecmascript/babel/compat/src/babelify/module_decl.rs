@@ -265,7 +265,11 @@ impl Babelify for ImportNamedSpecifier {
             base: ctx.base(self.span),
             local: self.local.clone().babelify(ctx),
             imported: IdOrString::Id(self.imported.unwrap_or(self.local).babelify(ctx)),
-            import_kind: None,
+            import_kind: if self.is_type_only {
+                Some(ImportKind::Type)
+            } else {
+                None
+            },
         }
     }
 }
