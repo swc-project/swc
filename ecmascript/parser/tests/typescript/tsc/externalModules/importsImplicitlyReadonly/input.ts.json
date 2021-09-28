@@ -121,7 +121,8 @@
             "value": "y",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         }
       ],
       "source": null,
@@ -153,7 +154,8 @@
             "value": "x",
             "optional": false
           },
-          "imported": null
+          "imported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ImportSpecifier",
@@ -172,7 +174,8 @@
             "value": "y",
             "optional": false
           },
-          "imported": null
+          "imported": null,
+          "isTypeOnly": false
         }
       ],
       "source": {

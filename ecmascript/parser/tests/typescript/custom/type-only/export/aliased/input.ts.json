@@ -40,7 +40,8 @@
             },
             "value": "Bar",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": null,

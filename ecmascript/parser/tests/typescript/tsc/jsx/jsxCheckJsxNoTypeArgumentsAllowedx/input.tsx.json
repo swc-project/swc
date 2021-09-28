@@ -381,7 +381,8 @@
             "value": "MyComp",
             "optional": false
           },
-          "imported": null
+          "imported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ImportSpecifier",
@@ -400,7 +401,8 @@
             "value": "Prop",
             "optional": false
           },
-          "imported": null
+          "imported": null,
+          "isTypeOnly": false
         }
       ],
       "source": {

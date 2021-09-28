@@ -167,7 +167,8 @@
             },
             "value": "bar",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": null,
@@ -345,7 +346,8 @@
             },
             "value": "Bar",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": null,

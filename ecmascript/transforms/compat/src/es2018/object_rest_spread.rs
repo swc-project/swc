@@ -232,6 +232,7 @@ impl Fold for RestFolder {
                             span: DUMMY_SP,
                             orig: Ident::new(sym, DUMMY_SP.with_ctxt(ctxt)),
                             exported: None,
+                            is_type_only: false,
                         })
                         .map(ExportSpecifier::Named)
                         .collect()

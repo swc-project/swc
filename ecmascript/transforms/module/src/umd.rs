@@ -343,8 +343,10 @@ where
 
                             stmts.reserve(export.specifiers.len());
 
-                            for ExportNamedSpecifier { orig, exported, .. } in
-                                export.specifiers.into_iter().map(|e| match e {
+                            for ExportNamedSpecifier { orig, exported, .. } in export
+                                .specifiers
+                                .into_iter()
+                                .map(|e| match e {
                                     ExportSpecifier::Named(e) => e,
                                     ExportSpecifier::Default(..) => unreachable!(
                                         "export default from 'foo'; should be removed by previous \
@@ -355,6 +357,7 @@ where
                                          previous pass"
                                     ),
                                 })
+                                .filter(|e| !e.is_type_only)
                             {
                                 let is_import_default = orig.sym == js_word!("default");
 

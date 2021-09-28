@@ -31,7 +31,8 @@
             "value": "ns2",
             "optional": false
           },
-          "imported": null
+          "imported": null,
+          "isTypeOnly": false
         }
       ],
       "source": {
@@ -225,7 +226,8 @@
             "value": "ns1",
             "optional": false
           },
-          "imported": null
+          "imported": null,
+          "isTypeOnly": false
         }
       ],
       "source": {

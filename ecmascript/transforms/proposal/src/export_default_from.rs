@@ -58,6 +58,7 @@ impl Fold for ExportDefaultFrom {
                                             span: DUMMY_SP,
                                             orig: local,
                                             exported: Some(default),
+                                            is_type_only: false,
                                         },
                                     )],
                                     src: None,
