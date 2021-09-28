@@ -1,8 +1,10 @@
 #![deny(unused_must_use)]
 
-use error::Error;
-use lexer::Lexer;
-use parser::{input::TokensInput, PResult, Parser, ParserConfig};
+use crate::{
+    error::Error,
+    lexer::Lexer,
+    parser::{input::TokensInput, PResult, Parser, ParserConfig},
+};
 use swc_common::{input::StringInput, BytePos, SourceFile};
 use swc_css_ast::Tokens;
 
