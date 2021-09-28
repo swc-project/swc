@@ -39,7 +39,17 @@ define!({
 
     pub struct DeclBlock {
         pub span: Span,
-        pub properties: Vec<Property>,
+        pub body: DeclBlockBody,
+    }
+
+    pub enum DeclBlockBody {
+        Invalid(Tokens),
+        Properties(Props),
+    }
+
+    pub struct Props {
+        pub span: Span,
+        pub props: Vec<Property>,
     }
 
     pub struct Tokens {
