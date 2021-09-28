@@ -25,9 +25,15 @@ impl Visit for AssertValid {
             _ => {}
         }
 
+        let mut errors = vec![];
+
         let _selectors: Vec<ComplexSelector> =
-            parse_tokens(&s.args, ParserConfig { parse_values: true })
+            parse_tokens(&s.args, ParserConfig { parse_values: true }, &mut errors)
                 .unwrap_or_else(|err| panic!("failed to parse tokens: {:?}\n{:?}", err, s.args));
+
+        for err in errors {
+            panic!("{:?}", err);
+        }
     }
 }
 
@@ -35,7 +41,7 @@ impl Visit for AssertValid {
 fn tokens_input(input: PathBuf) {
     eprintln!("Input: {}", input.display());
 
-    testing::run_test2(false, |cm, _handler| {
+    testing::run_test2(false, |cm, handler| {
         let fm = cm.load_file(&input).unwrap();
 
         let tokens = {
@@ -52,10 +58,20 @@ fn tokens_input(input: PathBuf) {
             }
         };
 
-        let ss: Stylesheet = parse_tokens(&tokens, ParserConfig { parse_values: true })
-            .expect("failed to parse tokens");
+        let mut errors = vec![];
+        let ss: Stylesheet =
+            parse_tokens(&tokens, ParserConfig { parse_values: true }, &mut errors)
+                .expect("failed to parse tokens");
+
+        for err in errors {
+            err.to_diagnostics(&handler).emit();
+        }
 
         ss.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+
+        if handler.has_errors() {
+            return Err(());
+        }
 
         Ok(())
     })
@@ -106,9 +122,14 @@ fn pass(input: PathBuf) {
                         }
                     }
 
+                    let mut errors = vec![];
                     let ss_tok: Stylesheet =
-                        parse_tokens(&tokens, ParserConfig { parse_values: true })
+                        parse_tokens(&tokens, ParserConfig { parse_values: true }, &mut errors)
                             .expect("failed to parse token");
+
+                    for err in errors {
+                        err.to_diagnostics(&handler).emit();
+                    }
 
                     let json_from_tokens = serde_json::to_string_pretty(&ss_tok)
                         .map(NormalizedOutput::from)
