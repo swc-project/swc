@@ -200,6 +200,7 @@ pub struct ImportNamedSpecifier {
     #[serde(default)]
     pub imported: Option<Ident>,
 
+    #[serde(default)]
     pub is_type_only: bool,
 }
 
@@ -247,5 +248,6 @@ pub struct ExportNamedSpecifier {
     #[serde(default)]
     pub exported: Option<Ident>,
     /// `type` in `export { type foo as bar }`
+    #[serde(default)]
     pub is_type_only: bool,
 }
