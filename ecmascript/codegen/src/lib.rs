@@ -37,29 +37,43 @@ pub mod util;
 pub type Result = io::Result<()>;
 
 pub trait Node: Spanned {
-    fn emit_with(&self, e: &mut Emitter<'_>) -> Result;
+    fn emit_with<W>(&self, e: &mut Emitter<'_, W>) -> Result
+    where
+        W: WriteJs;
 }
 impl<N: Node> Node for Box<N> {
-    #[inline(always)]
-    fn emit_with(&self, e: &mut Emitter<'_>) -> Result {
+    #[inline]
+    fn emit_with<W>(&self, e: &mut Emitter<'_, W>) -> Result
+    where
+        W: WriteJs,
+    {
         (**self).emit_with(e)
     }
 }
 impl<'a, N: Node> Node for &'a N {
-    #[inline(always)]
-    fn emit_with(&self, e: &mut Emitter<'_>) -> Result {
+    #[inline]
+    fn emit_with<W>(&self, e: &mut Emitter<'_, W>) -> Result
+    where
+        W: WriteJs,
+    {
         (**self).emit_with(e)
     }
 }
 
-pub struct Emitter<'a> {
+pub struct Emitter<'a, W>
+where
+    W: WriteJs,
+{
     pub cfg: config::Config,
     pub cm: Lrc<SourceMap>,
     pub comments: Option<&'a dyn Comments>,
     pub wr: Box<(dyn 'a + WriteJs)>,
 }
 
-impl<'a> Emitter<'a> {
+impl<'a, W> Emitter<'a, W>
+where
+    W: WriteJs,
+{
     #[emitter]
     pub fn emit_program(&mut self, node: &Program) -> Result {
         match *node {
