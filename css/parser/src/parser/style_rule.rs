@@ -43,7 +43,21 @@ where
         Ok(DeclBlock { span, items })
     }
 
-    fn parse_decl_block_items(&mut self) -> PResult<Vec<DeclBlockItem>> {}
+    fn parse_decl_block_items(&mut self) -> PResult<Vec<DeclBlockItem>> {
+        let mut items = vec![];
+
+        while is!(self, Ident) {
+            items.push(self.parse()?);
+
+            if !eat!(self, ";") {
+                break;
+            }
+
+            self.input.skip_ws()?;
+        }
+
+        Ok(items)
+    }
 
     pub(crate) fn parse_properties(&mut self) -> PResult<Vec<Property>> {
         let mut props = vec![];
@@ -147,5 +161,28 @@ impl<I> Parse<DeclBlockItem> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<DeclBlockItem> {}
+    fn parse(&mut self) -> PResult<DeclBlockItem> {
+        let start = self.input.state();
+        let start_pos = self.input.cur_span()?.lo;
+
+        let prop = self.parse().map(DeclBlockItem::Property);
+
+        match prop {
+            Ok(v) => return Ok(v),
+            Err(err) => {
+                self.errors.push(err);
+            }
+        }
+
+        self.input.reset(&start);
+        let mut tokens = vec![];
+        while !is_one_of!(self, EOF, ";", "}") {
+            tokens.extend(self.input.bump()?);
+        }
+
+        Ok(DeclBlockItem::Invalid(Tokens {
+            span: span!(self, start_pos),
+            tokens,
+        }))
+    }
 }
