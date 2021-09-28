@@ -2,7 +2,7 @@
 
 use super::{true_by_default, CompressOptions, TopLevelOptions};
 use crate::option::PureGetterOption;
-use fxhash::FxHashMap;
+use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use swc_atoms::JsWord;
@@ -496,10 +496,16 @@ fn value_to_expr(v: Value) -> Box<Expr> {
             span: DUMMY_SP,
             value,
         }))),
-        Value::Number(v) => Box::new(Expr::Lit(Lit::Num(Number {
-            span: DUMMY_SP,
-            value: v.as_f64().unwrap(),
-        }))),
+        Value::Number(v) => {
+            if cfg!(feature = "debug") {
+                tracing::debug!("Creating a numeric literal from value");
+            }
+
+            Box::new(Expr::Lit(Lit::Num(Number {
+                span: DUMMY_SP,
+                value: v.as_f64().unwrap(),
+            })))
+        }
         Value::String(v) => Box::new(Expr::Lit(Lit::Str(Str {
             span: DUMMY_SP,
             value: v.into(),

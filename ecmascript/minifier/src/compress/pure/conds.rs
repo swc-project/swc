@@ -23,7 +23,7 @@ where
         if let Value::Known(Type::Bool) = lt {
             let lb = cond.cons.as_pure_bool();
             if let Value::Known(true) = lb {
-                log::debug!("conditionals: `foo ? true : bar` => `!!foo || bar`");
+                tracing::debug!("conditionals: `foo ? true : bar` => `!!foo || bar`");
 
                 // Negate twice to convert `test` to boolean.
                 self.negate_twice(&mut cond.test);
@@ -40,7 +40,7 @@ where
 
             // TODO: Verify this rule.
             if let Value::Known(false) = lb {
-                log::debug!("conditionals: `foo ? false : bar` => `!foo && bar`");
+                tracing::debug!("conditionals: `foo ? false : bar` => `!foo && bar`");
 
                 self.changed = true;
                 self.negate(&mut cond.test, false);
@@ -59,7 +59,7 @@ where
         if let Value::Known(Type::Bool) = rt {
             let rb = cond.alt.as_pure_bool();
             if let Value::Known(false) = rb {
-                log::debug!("conditionals: `foo ? bar : false` => `!!foo && bar`");
+                tracing::debug!("conditionals: `foo ? bar : false` => `!!foo && bar`");
                 self.changed = true;
 
                 // Negate twice to convert `test` to boolean.
@@ -75,7 +75,7 @@ where
             }
 
             if let Value::Known(true) = rb {
-                log::debug!("conditionals: `foo ? bar : true` => `!foo || bar");
+                tracing::debug!("conditionals: `foo ? bar : true` => `!foo || bar");
                 self.changed = true;
 
                 self.negate(&mut cond.test, false);
@@ -107,7 +107,7 @@ where
             (Expr::Bin(cons @ BinExpr { op: op!("||"), .. }), alt)
                 if (*cons.right).eq_ignore_span(&*alt) =>
             {
-                log::debug!("conditionals: `x ? y || z : z` => `x || y && z`");
+                tracing::debug!("conditionals: `x ? y || z : z` => `x || y && z`");
                 self.changed = true;
 
                 *e = Expr::Bin(BinExpr {
@@ -133,14 +133,14 @@ where
         }
 
         self.changed = true;
-        log::debug!("conditionals: `a ? foo : bar` => `!a ? bar : foo` (considered cost)");
+        tracing::debug!("conditionals: `a ? foo : bar` => `!a ? bar : foo` (considered cost)");
         let start_str = dump(&*cond);
 
         self.negate(&mut cond.test, true);
         swap(&mut cond.cons, &mut cond.alt);
 
         if cfg!(feature = "debug") {
-            log::trace!(
+            tracing::trace!(
                 "[Change] Negated cond: `{}` => `{}`",
                 start_str,
                 dump(&*cond)
@@ -177,7 +177,7 @@ where
             // `!!b || true` => true
             if let Value::Known(true) = rb {
                 self.changed = true;
-                log::debug!("conditionals: `!!foo || true` => `true`");
+                tracing::debug!("conditionals: `!!foo || true` => `true`");
                 *e = make_bool(bin.span, true);
                 return;
             }

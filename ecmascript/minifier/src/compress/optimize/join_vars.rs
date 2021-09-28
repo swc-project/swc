@@ -50,7 +50,7 @@ where
             }
         }
 
-        log::debug!("join_vars: Joining variables");
+        tracing::debug!("join_vars: Joining variables");
         self.changed = true;
 
         let mut cur: Option<VarDecl> = None;

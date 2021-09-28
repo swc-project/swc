@@ -7,7 +7,7 @@ use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
 
 fn main() {
-    testing::init();
+    let _log = testing::init();
 
     let globals = Globals::new();
     let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));

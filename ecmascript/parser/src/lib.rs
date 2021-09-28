@@ -276,6 +276,15 @@ impl Syntax {
         }
     }
 
+    pub fn private_in_object(self) -> bool {
+        match self {
+            Syntax::Es(EsConfig {
+                private_in_object, ..
+            }) => private_in_object,
+            _ => false,
+        }
+    }
+
     pub(crate) fn early_errors(self) -> bool {
         match self {
             Syntax::Typescript(t) => !t.no_early_errors,
@@ -375,9 +384,11 @@ pub struct EsConfig {
     #[serde(default)]
     pub import_assertions: bool,
 
-    #[serde(default)]
-    #[serde(rename = "staticBlocks")]
+    #[serde(default, rename = "staticBlocks")]
     pub static_blocks: bool,
+
+    #[serde(default, rename = "privateInObject")]
+    pub private_in_object: bool,
 }
 
 /// Syntactic context.

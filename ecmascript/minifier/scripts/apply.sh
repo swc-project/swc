@@ -6,7 +6,7 @@ set -eux
 ./scripts/run.sh
 
 export RUST_BACKTRACE=1
-export RUST_LOG=swc_ecma_minifier=trace
+export RUST_LOG=debug,swc_ecma_minifier=trace
 
 UPDATE=1 cargo test -q --test compress projects__files --all-features || true
 

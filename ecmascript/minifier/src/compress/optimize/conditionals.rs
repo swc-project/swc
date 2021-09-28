@@ -34,7 +34,7 @@ where
 
         if negate_cost(&stmt.test, true, false).unwrap_or(isize::MAX) < 0 {
             self.changed = true;
-            log::debug!("if_return: Negating `cond` of an if statement which has cons and alt");
+            tracing::debug!("if_return: Negating `cond` of an if statement which has cons and alt");
             let ctx = Ctx {
                 in_bool_ctx: true,
                 ..self.ctx
@@ -47,7 +47,7 @@ where
         match &*alt {
             Stmt::Return(..) | Stmt::Continue(ContinueStmt { label: None, .. }) => {
                 self.changed = true;
-                log::debug!(
+                tracing::debug!(
                     "if_return: Negating an if statement because the alt is return / continue"
                 );
                 self.negate(&mut stmt.test);
@@ -67,7 +67,7 @@ where
 
         if !cond.cons.may_have_side_effects() {
             self.changed = true;
-            log::debug!("conditionals: `cond ? useless : alt` => `cond || alt`");
+            tracing::debug!("conditionals: `cond ? useless : alt` => `cond || alt`");
             *e = Expr::Bin(BinExpr {
                 span: cond.span,
                 op: op!("||"),
@@ -79,7 +79,7 @@ where
 
         if !cond.alt.may_have_side_effects() {
             self.changed = true;
-            log::debug!("conditionals: `cond ? cons : useless` => `cond && cons`");
+            tracing::debug!("conditionals: `cond ? cons : useless` => `cond && cons`");
             *e = Expr::Bin(BinExpr {
                 span: cond.span,
                 op: op!("&&"),
@@ -127,7 +127,7 @@ where
         }
 
         self.changed = true;
-        log::debug!("conditionals: Merging if statements with same `cons`");
+        tracing::debug!("conditionals: Merging if statements with same `cons`");
 
         let mut cur: Option<IfStmt> = None;
         let mut new = Vec::with_capacity(stmts.len());
@@ -214,7 +214,7 @@ where
                             expr: stmt.test.take(),
                         });
                         self.changed = true;
-                        log::debug!("conditionals: `if (foo);` => `foo` ");
+                        tracing::debug!("conditionals: `if (foo);` => `foo` ");
                         return;
                     }
                 }
@@ -244,7 +244,7 @@ where
                     Expr::Unary(UnaryExpr {
                         op: op!("!"), arg, ..
                     }) => {
-                        log::debug!("Optimizing `if (!foo); else bar();` as `foo && bar();`");
+                        tracing::debug!("Optimizing `if (!foo); else bar();` as `foo && bar();`");
 
                         let mut expr = Box::new(Expr::Bin(BinExpr {
                             span: DUMMY_SP,
@@ -259,7 +259,7 @@ where
                         });
                     }
                     _ => {
-                        log::debug!("Optimizing `if (foo); else bar();` as `foo || bar();`");
+                        tracing::debug!("Optimizing `if (foo); else bar();` as `foo || bar();`");
 
                         let mut expr = Box::new(Expr::Bin(BinExpr {
                             span: DUMMY_SP,
@@ -299,7 +299,7 @@ where
 
         if self.options.conditionals || self.options.bools {
             // if (a) b(); else c(); => a ? b() : c()
-            log::debug!(
+            tracing::debug!(
                 "Compressing if statement as conditional expression (even though cons and alt is \
                  not compressable)"
             );
@@ -337,7 +337,7 @@ where
 
         // x ? x : y => x || y
         if cond.test.is_ident() && cond.test.eq_ignore_span(&cond.cons) {
-            log::debug!("Compressing `x ? x : y` as `x || y`");
+            tracing::debug!("Compressing `x ? x : y` as `x || y`");
             self.changed = true;
             *e = Expr::Bin(BinExpr {
                 span: cond.span,
@@ -362,7 +362,7 @@ where
                 _ => true,
             }
         {
-            log::debug!("conditionals: cons is same as alt");
+            tracing::debug!("conditionals: cons is same as alt");
             return Some(Expr::Seq(SeqExpr {
                 span: DUMMY_SP,
                 exprs: vec![test.take(), Box::new(cons.take())],
@@ -398,7 +398,7 @@ where
                         .count();
 
                     if diff_count == 1 {
-                        log::debug!(
+                        tracing::debug!(
                             "conditionals: Merging cons and alt as only one argument differs"
                         );
                         self.changed = true;
@@ -464,7 +464,7 @@ where
                         })),
                     });
 
-                    log::debug!(
+                    tracing::debug!(
                         "Compreessing if into cond as there's no side effect and the number of \
                          arguments is 1"
                     );
@@ -477,7 +477,7 @@ where
                 }
 
                 if !side_effect_free && is_for_if_stmt {
-                    log::debug!("Compreessing if into cond while preserving side effects");
+                    tracing::debug!("Compreessing if into cond while preserving side effects");
                     return Some(Expr::Cond(CondExpr {
                         span: DUMMY_SP.with_ctxt(self.done_ctxt),
                         test: test.take(),
@@ -526,7 +526,7 @@ where
                             });
                         }
 
-                        log::debug!(
+                        tracing::debug!(
                             "Compreessing if statement into a condiotnal expression of `new` as \
                              there's no side effect and the number of arguments is 1"
                         );
@@ -548,7 +548,7 @@ where
                     && cons.left.eq_ignore_span(&alt.left)
                     && is_simple_lhs(&cons.left) =>
             {
-                log::debug!("Merging assignments in cons and alt of if statement");
+                tracing::debug!("Merging assignments in cons and alt of if statement");
                 Some(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: cons.op,
@@ -564,7 +564,7 @@ where
 
             // a ? b ? c() : d() : d() => a && b ? c() : d()
             (Expr::Cond(cons), alt) if (*cons.alt).eq_ignore_span(&*alt) => {
-                log::debug!("conditionals: a ? b ? c() : d() : d() => a && b ? c() : d()");
+                tracing::debug!("conditionals: a ? b ? c() : d() : d() => a && b ? c() : d()");
                 return Some(Expr::Cond(CondExpr {
                     span: DUMMY_SP.with_ctxt(self.done_ctxt),
                     test: Box::new(Expr::Bin(BinExpr {
@@ -583,7 +583,7 @@ where
             // (z || condition(), "fuji");
             (cons, Expr::Seq(alt)) if (**alt.exprs.last().unwrap()).eq_ignore_span(&*cons) => {
                 self.changed = true;
-                log::debug!("conditionals: Reducing seq expr in alt");
+                tracing::debug!("conditionals: Reducing seq expr in alt");
                 //
                 alt.exprs.pop();
                 let first = Box::new(Expr::Bin(BinExpr {
@@ -606,7 +606,7 @@ where
             // (z && condition(), "fuji");
             (Expr::Seq(cons), alt) if (**cons.exprs.last().unwrap()).eq_ignore_span(&*alt) => {
                 self.changed = true;
-                log::debug!("conditionals: Reducing seq expr in cons");
+                tracing::debug!("conditionals: Reducing seq expr in cons");
                 //
                 cons.exprs.pop();
                 let first = Box::new(Expr::Bin(BinExpr {
@@ -665,7 +665,7 @@ where
         };
 
         self.changed = true;
-        log::debug!("if_return: Injecting else because it's shorter");
+        tracing::debug!("if_return: Injecting else because it's shorter");
 
         let mut new = vec![];
         new.reserve(pos_of_if + 1);
@@ -756,7 +756,7 @@ where
         }
 
         self.changed = true;
-        log::debug!("conditionals: Dropped useless `else` token");
+        tracing::debug!("conditionals: Dropped useless `else` token");
         *stmts = new_stmts;
     }
 }

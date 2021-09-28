@@ -4,7 +4,7 @@ use crate::{
 };
 use ahash::AHashMap;
 use anyhow::{bail, Error};
-use fxhash::{FxHashMap, FxHashSet};
+use rustc_hash::{FxHashMap, FxHashSet};
 
 #[cfg(test)]
 mod tests;
@@ -68,7 +68,7 @@ where
         path: &mut Vec<ModuleId>,
     ) {
         if cfg!(test) {
-            log::debug!("Adding {:?} to the graph (path = {:?})", module_id, path);
+            tracing::debug!("Adding {:?} to the graph (path = {:?})", module_id, path);
         }
         let visited = builder.all.contains(&module_id);
         // dbg!(visited);
@@ -81,7 +81,7 @@ where
 
         if let Some(rpos) = cycle_rpos {
             let cycle = path[rpos..].to_vec();
-            log::debug!("Found cycle: {:?}", cycle);
+            tracing::debug!("Found cycle: {:?}", cycle);
             builder.cycles.push(cycle);
         }
 
@@ -109,7 +109,7 @@ where
             .iter()
             .chain(m.exports.reexports.iter())
         {
-            log::debug!("Dep: {} -> {}", module_id, src.module_id);
+            tracing::debug!("Dep: {} -> {}", module_id, src.module_id);
 
             builder.graph.add_edge(module_id, src.module_id, ());
 

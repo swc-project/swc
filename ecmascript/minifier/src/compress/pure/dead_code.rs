@@ -45,7 +45,7 @@ where
         }
 
         self.changed = true;
-        log::debug!("Dropping useless block");
+        tracing::debug!("Dropping useless block");
 
         let mut new = vec![];
         for stmt in stmts.take() {
@@ -73,7 +73,7 @@ where
                     op: op!("void"),
                     arg,
                 })) => {
-                    log::debug!("unused: Removing `return void` in end of a function");
+                    tracing::debug!("unused: Removing `return void` in end of a function");
                     self.changed = true;
                     *s = Stmt::Expr(ExprStmt {
                         span: *span,
@@ -103,7 +103,7 @@ where
         }
 
         self.changed = true;
-        log::debug!("dead_code: Removing dead codes");
+        tracing::debug!("dead_code: Removing dead codes");
 
         let mut new = vec![];
 
@@ -170,7 +170,7 @@ where
             }
 
             self.changed = true;
-            log::debug!("dead_code: Removing unreachable statements");
+            tracing::debug!("dead_code: Removing unreachable statements");
 
             let extras = stmts.drain(last..).collect::<Vec<_>>();
 

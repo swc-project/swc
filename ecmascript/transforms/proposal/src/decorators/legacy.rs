@@ -1,6 +1,6 @@
 use self::metadata::{Metadata, ParamMetadata};
 use super::{contains_decorator, DecoratorFinder};
-use fxhash::FxHashMap;
+use rustc_hash::FxHashMap;
 use smallvec::SmallVec;
 use std::mem::{replace, take};
 use swc_common::{util::move_map::MoveMap, DUMMY_SP};

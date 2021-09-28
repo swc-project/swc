@@ -194,7 +194,7 @@ fn run(
         &ExtraOptions { top_level_mark },
     );
     let end = Instant::now();
-    log::info!(
+    tracing::info!(
         "optimize({}) took {:?}",
         input.display(),
         end - optimization_start
@@ -207,7 +207,7 @@ fn run(
         .fold_with(&mut fixer(None));
 
     let end = Instant::now();
-    log::info!(
+    tracing::info!(
         "process({}) took {:?}",
         input.display(),
         end - minification_start

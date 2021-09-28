@@ -4,8 +4,9 @@ use self::{
     data::{BUILTIN_TYPES, INSTANCE_PROPERTIES, STATIC_PROPERTIES},
 };
 use crate::{util::DataMapExt, version::should_enable, Versions};
-use fxhash::FxBuildHasher;
 use indexmap::IndexSet;
+use rustc_hash::FxHasher;
+use std::hash::BuildHasherDefault;
 use swc_atoms::{js_word, JsWord};
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -18,7 +19,7 @@ mod entry;
 pub(crate) struct UsageVisitor {
     is_any_target: bool,
     target: Versions,
-    pub required: IndexSet<&'static str, FxBuildHasher>,
+    pub required: IndexSet<&'static str, BuildHasherDefault<FxHasher>>,
 }
 
 impl UsageVisitor {

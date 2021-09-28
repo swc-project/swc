@@ -1177,20 +1177,30 @@ impl VisitMut for SimplifyExpr {
                         expr.visit_mut_with(self);
                         *e = expr;
                     } else {
-                        match seq.exprs.get(0).map(|v| &**v) {
-                            Some(Expr::Lit(..) | Expr::Ident(..)) => {}
-                            _ => {
-                                seq.exprs.insert(
-                                    0,
-                                    Box::new(Expr::Lit(Lit::Num(Number {
-                                        span: DUMMY_SP,
-                                        value: 0.0,
-                                    }))),
-                                );
+                        if let Some(
+                            Expr::Member(..)
+                            | Expr::Ident(Ident {
+                                sym: js_word!("eval"),
+                                ..
+                            }),
+                        ) = seq.exprs.last().map(|v| &**v)
+                        {
+                            match seq.exprs.get(0).map(|v| &**v) {
+                                Some(Expr::Lit(..) | Expr::Ident(..)) => {}
+                                _ => {
+                                    tracing::debug!("Injecting `0` to preserve `this = undefined`");
+                                    seq.exprs.insert(
+                                        0,
+                                        Box::new(Expr::Lit(Lit::Num(Number {
+                                            span: DUMMY_SP,
+                                            value: 0.0,
+                                        }))),
+                                    );
+                                }
                             }
-                        }
 
-                        seq.visit_mut_with(self);
+                            seq.visit_mut_with(self);
+                        }
                     }
                 }
                 _ => {
@@ -1447,6 +1457,8 @@ impl VisitMut for SimplifyExpr {
                             span: DUMMY_SP,
                             value: 0.0,
                         }))));
+
+                        tracing::trace!("expr_simplifier: Preserving first zero");
                     }
                 }
 
@@ -1458,6 +1470,8 @@ impl VisitMut for SimplifyExpr {
                             span: DUMMY_SP,
                             value: 0.0,
                         }))));
+
+                        tracing::debug!("expr_simplifier: Injected first zero");
                     }
                 }
 
@@ -1487,10 +1501,7 @@ impl VisitMut for SimplifyExpr {
 
         self.changed |= len != exprs.len();
 
-        *e = SeqExpr {
-            exprs,
-            span: e.span,
-        }
+        e.exprs = exprs;
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {

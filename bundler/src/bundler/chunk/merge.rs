@@ -13,12 +13,12 @@ use crate::{
     Bundler, Hook, ModuleRecord,
 };
 use anyhow::Error;
-use fxhash::{FxBuildHasher, FxHashMap, FxHashSet};
 use indexmap::IndexSet;
 use petgraph::EdgeDirection;
 #[cfg(feature = "concurrent")]
 use rayon::iter::ParallelIterator;
-use std::sync::atomic::Ordering;
+use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
+use std::{hash::BuildHasherDefault, sync::atomic::Ordering};
 use swc_atoms::js_word;
 use swc_common::{sync::Lock, FileName, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -100,7 +100,7 @@ where
             let all_deps_of_entry =
                 self.collect_all_deps(&ctx.graph, entry_id, &mut Default::default());
 
-            log::debug!("Merging dependenciess: {:?}", all_deps_of_entry);
+            tracing::debug!("Merging dependenciess: {:?}", all_deps_of_entry);
 
             let deps = all_deps_of_entry.iter().map(|id| {
                 let dep_info = self.scope.get_module(*id).unwrap();
@@ -134,7 +134,7 @@ where
         graph: &ModuleGraph,
         start: ModuleId,
         dejavu: &mut FxHashSet<ModuleId>,
-    ) -> IndexSet<ModuleId, FxBuildHasher> {
+    ) -> IndexSet<ModuleId, BuildHasherDefault<FxHasher>> {
         let mut set = IndexSet::default();
 
         for dep in graph.neighbors_directed(start, Outgoing) {
@@ -405,14 +405,14 @@ where
     }
 
     fn finalize_merging_of_entry(&self, ctx: &Ctx, id: ModuleId, entry: &mut Modules) {
-        log::trace!("All modules are merged");
+        tracing::trace!("All modules are merged");
 
-        log::debug!("Injecting reexports");
+        tracing::debug!("Injecting reexports");
         self.inject_reexports(ctx, id, entry);
 
         // entry.print(&self.cm, "before inline");
 
-        log::debug!("Inlining injected variables");
+        tracing::debug!("Inlining injected variables");
 
         inline(self.injected_ctxt, entry);
 
@@ -460,7 +460,7 @@ where
             true
         });
 
-        log::debug!("Renaming keywords");
+        tracing::debug!("Renaming keywords");
 
         entry.visit_mut_with(&mut KeywordRenamer::default());
 
@@ -476,10 +476,10 @@ where
 
     /// Remove exports with wrong syntax context
     fn remove_wrong_exports(&self, ctx: &Ctx, info: &TransformedModule, module: &mut Modules) {
-        log::debug!("Removing wrong exports");
+        tracing::debug!("Removing wrong exports");
 
         let item_count = module.iter().count();
-        log::trace!("Item count = {}", item_count);
+        tracing::trace!("Item count = {}", item_count);
 
         module.retain_mut(|_, item| {
             match item {
@@ -513,7 +513,7 @@ where
             true
         });
 
-        log::debug!("Removed wrong exports");
+        tracing::debug!("Removed wrong exports");
     }
 
     /// This method handles imports and exports.
@@ -720,7 +720,7 @@ where
                         }
 
                         // Create `export { local_default as default }`
-                        log::trace!(
+                        tracing::trace!(
                             "Exporting `default` with `export default decl` ({})",
                             local.sym
                         );
@@ -788,7 +788,7 @@ where
                             exported: Some(exported),
                             is_type_only: false,
                         });
-                        log::trace!("Exporting `default` with `export default expr`");
+                        tracing::trace!("Exporting `default` with `export default expr`");
                         extra.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                             NamedExport {
                                 span: export.span.with_ctxt(injected_ctxt),
@@ -834,7 +834,7 @@ where
                                                     id.span.with_ctxt(info.export_ctxt()),
                                                 );
 
-                                                log::trace!(
+                                                tracing::trace!(
                                                     "Exporting `{}{:?}` with `export decl`",
                                                     id.sym,
                                                     id.span.ctxt
@@ -872,7 +872,7 @@ where
                             | Decl::TsModule(_) => continue,
                         };
 
-                        log::trace!(
+                        tracing::trace!(
                             "Exporting `default` with `export default decl` ({})",
                             local.sym
                         );

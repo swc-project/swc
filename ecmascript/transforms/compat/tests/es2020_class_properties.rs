@@ -8,7 +8,7 @@ use swc_ecma_transforms_compat::{
     es2015::{arrow, block_scoping, classes, function_name, template_literal},
     es2016::exponentation,
     es2017::async_to_generator,
-    es2020::{class_properties, typescript_class_properties},
+    es2020::class_properties,
     es3::reserved_words,
 };
 use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, Tester};
@@ -32,7 +32,7 @@ fn tr(t: &Tester) -> impl Fold {
     chain!(
         resolver(),
         function_name(),
-        class_properties(),
+        class_properties(class_properties::Config { loose: false }),
         classes(Some(t.comments.clone())),
         block_scoping(),
         reserved_words(false),
@@ -2816,7 +2816,10 @@ var _x = {
 
 test!(
     syntax(),
-    |_| chain!(resolver(), class_properties()),
+    |_| chain!(
+        resolver(),
+        class_properties(class_properties::Config { loose: false })
+    ),
     issue_308,
     "function bar(props) {}
 class Foo {
@@ -2846,7 +2849,7 @@ test!(
     syntax(),
     |t| chain!(
         resolver(),
-        class_properties(),
+        class_properties(class_properties::Config { loose: false }),
         classes(Some(t.comments.clone()))
     ),
     issue_342,
@@ -2873,7 +2876,11 @@ let Foo = function Foo(bar) {
 
 test!(
     syntax(),
-    |_| chain!(resolver(), class_properties(), block_scoping()),
+    |_| chain!(
+        resolver(),
+        class_properties(class_properties::Config { loose: false }),
+        block_scoping()
+    ),
     issue_443,
     "
 const MODE = 1;
@@ -2898,7 +2905,10 @@ _defineProperty(foo, 'MODE', MODE);"
 // public_regression_t7364
 test!(
     syntax(),
-    |_| chain!(class_properties(), async_to_generator()),
+    |_| chain!(
+        class_properties(class_properties::Config { loose: false }),
+        async_to_generator()
+    ),
     public_regression_t7364,
     r#"
 class MyClass {
@@ -2951,7 +2961,10 @@ export default class MyClass3 {
 // private_regression_t6719
 test!(
     syntax(),
-    |_| chain!(class_properties(), block_scoping()),
+    |_| chain!(
+        class_properties(class_properties::Config { loose: false }),
+        block_scoping()
+    ),
     private_regression_t6719,
     r#"
 function withContext(ComposedComponent) {
@@ -3037,7 +3050,10 @@ function withContext(ComposedComponent) {
 // private_reevaluated
 test!(
     syntax(),
-    |_| chain!(class_properties(), block_scoping()),
+    |_| chain!(
+        class_properties(class_properties::Config { loose: false }),
+        block_scoping()
+    ),
     private_reevaluated,
     r#"
 function classFactory() {
@@ -3101,7 +3117,10 @@ function classFactory() {
 // private_static
 test!(
     syntax(),
-    |_| chain!(class_properties(), block_scoping()),
+    |_| chain!(
+        class_properties(class_properties::Config { loose: false }),
+        block_scoping()
+    ),
     private_static,
     r#"
 class Foo {
@@ -3148,7 +3167,7 @@ expect(Foo.test()).toBe("foo");
 test!(
     syntax(),
     |t| chain!(
-        class_properties(),
+        class_properties(class_properties::Config { loose: false }),
         classes(Some(t.comments.clone())),
         block_scoping()
     ),
@@ -3190,7 +3209,10 @@ var _client = new WeakMap();
 // private_static_inherited
 test!(
     syntax(),
-    |_| chain!(class_properties(), block_scoping()),
+    |_| chain!(
+        class_properties(class_properties::Config { loose: false }),
+        block_scoping()
+    ),
     private_static_inherited,
     r#"
 class Base {
@@ -3269,7 +3291,7 @@ class Sub2 extends Base {}
 // private_destructuring_object_pattern_1_exec
 test_exec!(
     syntax(),
-    |_| class_properties(),
+    |_| class_properties(class_properties::Config { loose: false }),
     private_destructuring_object_pattern_1_exec,
     r#"
 class Foo {
@@ -3296,7 +3318,10 @@ expect(foo.z).toBe('bar');
 // private_static_undefined
 test!(
     syntax(),
-    |_| chain!(class_properties(), block_scoping()),
+    |_| chain!(
+        class_properties(class_properties::Config { loose: false }),
+        block_scoping()
+    ),
     private_static_undefined,
     r#"
 class Foo {
@@ -3336,7 +3361,7 @@ var _bar = {
 test!(
     syntax(),
     |t| chain!(
-        class_properties(),
+        class_properties(class_properties::Config { loose: false }),
         classes(Some(t.comments.clone())),
         block_scoping()
     ),
@@ -3373,7 +3398,10 @@ var _client = new WeakMap();
 // private_regression_t2983
 test!(
     syntax(),
-    |_| chain!(class_properties(), block_scoping()),
+    |_| chain!(
+        class_properties(class_properties::Config { loose: false }),
+        block_scoping()
+    ),
     private_regression_t2983,
     r#"
 call(class {
@@ -3410,7 +3438,11 @@ export { _class as default }
 // private_regression_t7364
 test!(
     syntax(),
-    |_| chain!(class_properties(), async_to_generator(), block_scoping()),
+    |_| chain!(
+        class_properties(class_properties::Config { loose: false }),
+        async_to_generator(),
+        block_scoping()
+    ),
     private_regression_t7364,
     r#"
 class MyClass {
@@ -3479,7 +3511,7 @@ export { MyClass3 as default };
 test!(
     syntax(),
     |t| chain!(
-        class_properties(),
+        class_properties(class_properties::Config { loose: false }),
         classes(Some(t.comments.clone())),
         block_scoping()
     ),
@@ -3517,7 +3549,7 @@ var _client = new WeakMap();
 // regression_8882_exec
 test_exec!(
     syntax(),
-    |_| class_properties(),
+    |_| class_properties(class_properties::Config { loose: false }),
     regression_8882_exec,
     r#"
 const classes = [];
@@ -3549,7 +3581,7 @@ for(let i=0; i<= 10; ++i) {
 //// regression_6154
 //test!(syntax(),|_| tr("{
 //  "presets": ["env"],
-//  "plugins": class_properties()
+//  "plugins": class_properties(class_properties::Config { loose: false })
 //}
 //"), regression_6154, r#"
 //class Test {
@@ -3655,7 +3687,10 @@ for(let i=0; i<= 10; ++i) {
 // private_static_export
 test!(
     syntax(),
-    |_| chain!(class_properties(), block_scoping()),
+    |_| chain!(
+        class_properties(class_properties::Config { loose: false }),
+        block_scoping()
+    ),
     private_static_export,
     r#"
 export class MyClass {
@@ -3686,7 +3721,10 @@ export { MyClass2 as default }
 // static_property_tdz_edgest_case
 test!(
     syntax(),
-    |t| chain!(class_properties(), classes(Some(t.comments.clone()))),
+    |t| chain!(
+        class_properties(class_properties::Config { loose: false }),
+        classes(Some(t.comments.clone()))
+    ),
     static_property_tdz_edgest_case,
     r#"
 class A {
@@ -3713,7 +3751,10 @@ _defineProperty(A, _x, void 0);
 // regression_6153
 test!(
     syntax(),
-    |_| chain!(class_properties(), arrow()),
+    |_| chain!(
+        class_properties(class_properties::Config { loose: false }),
+        arrow()
+    ),
     regression_6153,
     r#"
 () => {
@@ -3818,7 +3859,10 @@ var qux = (function () {
 // regression_7371
 test!(
     syntax(),
-    |_| chain!(class_properties(), arrow()),
+    |_| chain!(
+        class_properties(class_properties::Config { loose: false }),
+        arrow()
+    ),
     regression_7371,
     r#"
 "use strict";
@@ -4029,7 +4073,7 @@ new ComputedField();
 test!(
     syntax(),
     |t| chain!(
-        class_properties(),
+        class_properties(class_properties::Config { loose: false }),
         classes(Some(t.comments.clone())),
         block_scoping()
     ),
@@ -4120,7 +4164,7 @@ var _y = new WeakMap();
 // regression_8882
 test!(
     syntax(),
-    |_| class_properties(),
+    |_| class_properties(class_properties::Config { loose: false }),
     regression_8882,
     r#"
 const classes = [];
@@ -4173,7 +4217,7 @@ for(let i = 0; i <= 10; ++i){
 test!(
     syntax(),
     |t| chain!(
-        class_properties(),
+        class_properties(class_properties::Config { loose: false }),
         classes(Some(t.comments.clone())),
         block_scoping()
     ),
@@ -4209,7 +4253,7 @@ var _client = new WeakMap();
 // public_static_super_exec
 test_exec!(
     syntax(),
-    |_| class_properties(),
+    |_| class_properties(class_properties::Config { loose: false }),
     public_static_super_exec,
     r#"
 class A {
@@ -4235,7 +4279,7 @@ expect(getPropA()).toBe(1);
 test!(
     syntax(),
     |t| chain!(
-        class_properties(),
+        class_properties(class_properties::Config { loose: false }),
         classes(Some(t.comments.clone())),
         block_scoping()
     ),
@@ -4271,7 +4315,10 @@ var _client = new WeakMap();
 // private_non_block_arrow_func
 test!(
     syntax(),
-    |_| chain!(class_properties(), block_scoping()),
+    |_| chain!(
+        class_properties(class_properties::Config { loose: false }),
+        block_scoping()
+    ),
     private_non_block_arrow_func,
     r#"
 export default param =>
@@ -4311,7 +4358,7 @@ export default ((param)=>{
 // regression_8110
 test!(
     syntax(),
-    |_| class_properties(),
+    |_| class_properties(class_properties::Config { loose: false }),
     regression_8110,
     r#"
 const field = Symbol('field');
@@ -4337,7 +4384,7 @@ class A{
 // public_computed_without_block_exec
 test_exec!(
     syntax(),
-    |_| class_properties(),
+    |_| class_properties(class_properties::Config { loose: false }),
     public_computed_without_block_exec,
     r#"
 const createClass = (k) => class { [k()] = 2 };
@@ -4352,7 +4399,7 @@ expect(instance.foo).toBe(2);
 test!(
     syntax(),
     |t| chain!(
-        class_properties(),
+        class_properties(class_properties::Config { loose: false }),
         exponentation(),
         classes(Some(t.comments.clone())),
         block_scoping(),
@@ -4384,7 +4431,10 @@ var _bar = new WeakMap();
 // static_property_tdz_general
 test!(
     syntax(),
-    |t| chain!(class_properties(), classes(Some(t.comments.clone()))),
+    |t| chain!(
+        class_properties(class_properties::Config { loose: false }),
+        classes(Some(t.comments.clone()))
+    ),
     static_property_tdz_general,
     r#"
 class C {
@@ -4409,7 +4459,10 @@ _defineProperty(C, _ref, 3);
 // public_native_classes
 test!(
     syntax(),
-    |_| chain!(class_properties(), block_scoping()),
+    |_| chain!(
+        class_properties(class_properties::Config { loose: false }),
+        block_scoping()
+    ),
     public_native_classes,
     r#"
 class Foo {
@@ -4461,7 +4514,10 @@ test!(
     // Seems useless, while being hard to implement.
     ignore,
     syntax(),
-    |_| chain!(class_properties(), block_scoping()),
+    |_| chain!(
+        class_properties(class_properties::Config { loose: false }),
+        block_scoping()
+    ),
     private_static_infer_name,
     r#"
 var Foo = class {
@@ -4483,7 +4539,10 @@ var Foo = (_temp = _class = class Foo {}, _num = {
 // regression_7951
 test!(
     syntax(),
-    |_| chain!(resolver(), class_properties()),
+    |_| chain!(
+        resolver(),
+        class_properties(class_properties::Config { loose: false })
+    ),
     regression_7951,
     r#"
 export class Foo extends Bar {
@@ -4509,7 +4568,10 @@ _defineProperty(Foo, "foo", {});
 // private_native_classes
 test!(
     syntax(),
-    |_| chain!(class_properties(), block_scoping()),
+    |_| chain!(
+        class_properties(class_properties::Config { loose: false }),
+        block_scoping()
+    ),
     private_native_classes,
     r#"
 class Foo {
@@ -4558,7 +4620,7 @@ var _bar = new WeakMap();
 test!(
     syntax(),
     |t| chain!(
-        class_properties(),
+        class_properties(class_properties::Config { loose: false }),
         classes(Some(t.comments.clone())),
         block_scoping()
     ),
@@ -4584,7 +4646,7 @@ var createClass = (k)=>{
 // private_destructuring_array_pattern_2_exec
 test_exec!(
     syntax(),
-    |_| class_properties(),
+    |_| class_properties(class_properties::Config { loose: false }),
     private_destructuring_array_pattern_2_exec,
     r#"
 class Foo {
@@ -4610,7 +4672,7 @@ expect(foo.getClient()).toEqual(['bar', 'baz', 'quu']);
 test!(
     syntax(),
     |t| chain!(
-        class_properties(),
+        class_properties(class_properties::Config { loose: false }),
         classes(Some(t.comments.clone())),
         block_scoping()
     ),
@@ -4661,7 +4723,7 @@ _defineProperty(B, "getPropA", () => _get(_getPrototypeOf(B), "prop", B));
 // private_destructuring_array_pattern_exec
 test_exec!(
     syntax(),
-    |_| class_properties(),
+    |_| class_properties(class_properties::Config { loose: false }),
     private_destructuring_array_pattern_exec,
     r#"
 class Foo {
@@ -4685,7 +4747,7 @@ expect(foo.getClient()).toBe('bar');
 // private_destructuring_array_pattern_1_exec
 test_exec!(
     syntax(),
-    |_| class_properties(),
+    |_| class_properties(class_properties::Config { loose: false }),
     private_destructuring_array_pattern_1_exec,
     r#"
 class Foo {
@@ -4710,112 +4772,11 @@ expect(foo.y).toBe('bar');
 );
 
 test!(
-    syntax(),
-    |_| typescript_class_properties(),
-    issue_1122_1,
-    "
-const identifier = 'bar';
-
-class Foo {
-  [identifier] = 5;
-}
-
-
-",
-    "
-const identifier = \"bar\";
-class Foo {
-    constructor(){
-        this[identifier] = 5;
-    }
-}
-    "
-);
-
-test!(
-    syntax(),
-    |_| typescript_class_properties(),
-    issue_1122_2,
-    "
-const identifier = 'bar';
-
-class Foo {
-  identifier = 5;
-}
-",
-    "
-    const identifier = \"bar\";
-    class Foo {
-        constructor(){
-            this.identifier = 5;
-        }
-    }
-    "
-);
-
-test!(
-    syntax(),
-    |_| typescript_class_properties(),
-    issue_1122_3,
-    "
-const identifier = 'bar';
-
-class Foo {
-  ['identifier'] = 5;
-}
-    ",
-    "
-const identifier = \"bar\";
-class Foo {
-    constructor(){
-        this[\"identifier\"] = 5;
-    }
-}
-    "
-);
-
-test!(
-    syntax(),
-    |_| typescript_class_properties(),
-    issue_1122_4,
-    "
-const identifier = 'bar';
-
-class Foo {
-  static [identifier] = 5;
-}
-  ",
-    "
-const identifier = \"bar\";
-class Foo {
-}
-Foo[identifier] = 5;
-
-    "
-);
-
-test!(
-    syntax(),
-    |_| typescript_class_properties(),
-    issue_1122_5,
-    "
-const identifier = 'bar';
-
-class Foo {
-  static identifier = 5;
-}
-  ",
-    "
-const identifier = \"bar\";
-class Foo {
-}
-Foo.identifier = 5;
-  "
-);
-
-test!(
     ts(),
-    |_| chain!(resolver(), class_properties()),
+    |_| chain!(
+        resolver(),
+        class_properties(class_properties::Config { loose: false })
+    ),
     issue_890_1,
     "const DURATION = 1000
 
@@ -4845,7 +4806,7 @@ export class HygieneTest {
 
 test!(
     syntax(),
-    |_| class_properties(),
+    |_| class_properties(class_properties::Config { loose: false }),
     issue_1306_1,
     r#"
   class Animal {
@@ -4879,7 +4840,7 @@ test!(
 
 test!(
     syntax(),
-    |_| class_properties(),
+    |_| class_properties(class_properties::Config { loose: false }),
     issue_1306_2,
     r#"
 class Animal {
@@ -4913,7 +4874,7 @@ var _name = new WeakMap();
 
 test!(
     syntax(),
-    |_| class_properties(),
+    |_| class_properties(class_properties::Config { loose: false }),
     issue_1333_1,
     "
   class Foo {
@@ -4934,7 +4895,7 @@ test!(
 
 test!(
     syntax(),
-    |_| class_properties(),
+    |_| class_properties(class_properties::Config { loose: false }),
     issue_1333_2,
     "
   class Test {
@@ -5107,7 +5068,7 @@ test!(
 
 test!(
     syntax(),
-    |_| class_properties(),
+    |_| class_properties(class_properties::Config { loose: false }),
     issue_1333_3,
     "
     class Test {
@@ -5161,7 +5122,7 @@ test!(
 
 test!(
     syntax(),
-    |_| class_properties(),
+    |_| class_properties(class_properties::Config { loose: false }),
     issue_1333_4,
     "
   class Test {
@@ -5201,7 +5162,7 @@ test!(
 
 test!(
     syntax(),
-    |_| class_properties(),
+    |_| class_properties(class_properties::Config { loose: false }),
     issue_1333_5,
     "
     class Test {
@@ -5221,7 +5182,7 @@ test!(
 
 test!(
     syntax(),
-    |_| class_properties(),
+    |_| class_properties(class_properties::Config { loose: false }),
     issue_1333_6,
     "
     class Test {
@@ -5241,7 +5202,7 @@ test!(
 
 test!(
     syntax(),
-    |_| { class_properties() },
+    |_| { class_properties(class_properties::Config { loose: false }) },
     issue_1660_1,
     "
     console.log(class { run() { } });
@@ -5256,7 +5217,10 @@ test!(
 
 test!(
     syntax(),
-    |_| chain!(class_properties(), async_to_generator()),
+    |_| chain!(
+        class_properties(class_properties::Config { loose: false }),
+        async_to_generator()
+    ),
     issue_1694_1,
     "
     class MyClass {
@@ -5284,7 +5248,10 @@ test!(
 
 test!(
     syntax(),
-    |_| chain!(class_properties(), async_to_generator()),
+    |_| chain!(
+        class_properties(class_properties::Config { loose: false }),
+        async_to_generator()
+    ),
     issue_1694_2,
     "
 class MyClass {
@@ -5297,10 +5264,8 @@ class MyClass {
 }
 ",
     "
-  var _get = new WeakSet();
   class MyClass {
       constructor(){
-          _get.add(this);
           _classStaticPrivateMethodGet(MyClass, MyClass, get).call(MyClass, foo);
       }
   }
@@ -5312,7 +5277,10 @@ class MyClass {
 
 test!(
     syntax(),
-    |_| chain!(class_properties(), async_to_generator()),
+    |_| chain!(
+        class_properties(class_properties::Config { loose: false }),
+        async_to_generator()
+    ),
     issue_1702_1,
     "
     class Foo {
@@ -5361,7 +5329,7 @@ test!(
 
 test!(
     syntax(),
-    |_| class_properties(),
+    |_| class_properties(class_properties::Config { loose: false }),
     issue_1711_1,
     "
     class Foo {
@@ -5393,7 +5361,7 @@ test!(
 
 test_exec!(
     syntax(),
-    |_| class_properties(),
+    |_| class_properties(class_properties::Config { loose: false }),
     issue_1742_1,
     "
     class Foo {
@@ -5417,7 +5385,10 @@ test_exec!(
 
 test_exec!(
     syntax(),
-    |_| chain!(class_properties(), template_literal()),
+    |_| chain!(
+        class_properties(class_properties::Config { loose: false }),
+        template_literal()
+    ),
     issue_1742_2,
     "
   class Foo {
@@ -5441,7 +5412,7 @@ test_exec!(
 
 test!(
     syntax(),
-    |_| class_properties(),
+    |_| class_properties(class_properties::Config { loose: false }),
     issue_1742_3,
     "
     class Foo {
@@ -5486,7 +5457,7 @@ test!(
 
 test!(
     syntax(),
-    |_| class_properties(),
+    |_| class_properties(class_properties::Config { loose: false }),
     issue_1869_1,
     "
     class TestClass {
@@ -5516,7 +5487,7 @@ test!(
 
 test!(
     syntax(),
-    |_| class_properties(),
+    |_| class_properties(class_properties::Config { loose: false }),
     issue_1869_2,
     "
     var _class;
@@ -5549,7 +5520,7 @@ test!(
 
 test!(
     syntax(),
-    |_| class_properties(),
+    |_| class_properties(class_properties::Config { loose: false }),
     issue_2021_1,
     "
     class Item extends Component {
@@ -5573,5 +5544,9 @@ test!(
 #[testing::fixture("tests/fixture/classes/**/exec.js")]
 fn exec(input: PathBuf) {
     let src = read_to_string(&input).unwrap();
-    compare_stdout(Default::default(), |_| class_properties(), &src);
+    compare_stdout(
+        Default::default(),
+        |_| class_properties(class_properties::Config { loose: false }),
+        &src,
+    );
 }

@@ -44,7 +44,7 @@ impl PostcompressOptimizer<'_> {
                             op!("&&")
                         };
 
-                        log::debug!(
+                        tracing::debug!(
                             "bools: `(a {} !b)` => `(a {} b)` (in bool context)",
                             *op,
                             new_op

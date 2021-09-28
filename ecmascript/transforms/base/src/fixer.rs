@@ -1,5 +1,5 @@
 use crate::ext::{AsOptExpr, PatOrExprExt};
-use fxhash::FxHashMap;
+use rustc_hash::FxHashMap;
 use swc_common::{comments::Comments, util::take::Take, Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
@@ -111,6 +111,17 @@ impl VisitMut for Fixer<'_> {
             Expr::Assign(AssignExpr { ref left, .. }) if left.as_ident().is_some() => {}
 
             Expr::Seq(..) => self.wrap(&mut expr.right),
+            _ => {}
+        }
+    }
+
+    fn visit_mut_assign_pat(&mut self, node: &mut AssignPat) {
+        node.visit_mut_children_with(self);
+
+        match &*node.right {
+            Expr::Seq(..) => {
+                self.wrap(&mut *node.right);
+            }
             _ => {}
         }
     }

@@ -29,7 +29,7 @@ where
             Expr::Lit(Lit::Str(s)) => {
                 if is_valid_identifier(&s.value, true) {
                     self.changed = true;
-                    log::debug!(
+                    tracing::debug!(
                         "properties: Computed member => member expr with identifier as a prop"
                     );
 
@@ -92,7 +92,7 @@ where
 
                 if is_valid_identifier(&s.value, false) {
                     self.changed = true;
-                    log::debug!("misc: Optimizing string property name");
+                    tracing::debug!("misc: Optimizing string property name");
                     *name = PropName::Ident(Ident {
                         span: s.span,
                         sym: s.value.clone(),
@@ -189,7 +189,10 @@ where
                     Prop::Shorthand(_) => {}
                     Prop::KeyValue(p) => {
                         if prop_name_eq(&p.key, &key.sym) {
-                            log::debug!("properties: Inlining a key-value property `{}`", key.sym);
+                            tracing::debug!(
+                                "properties: Inlining a key-value property `{}`",
+                                key.sym
+                            );
                             self.changed = true;
                             *e = *p.value.clone();
                             return;

@@ -5,10 +5,10 @@
 use super::*;
 use crate::error::SyntaxError;
 use either::Either;
-use log::trace;
 use num_bigint::BigInt as BigIntValue;
 use std::fmt::Write;
 use swc_common::SyntaxContext;
+use tracing::trace;
 
 impl<'a, I: Input> Lexer<'a, I> {
     /// Reads an integer, octal integer, or floating-point number
@@ -337,7 +337,9 @@ impl<'a, I: Input> Lexer<'a, I> {
             "radix for read_int should be one of 2, 8, 10, 16, but got {}",
             radix
         );
-        trace!("read_digits(radix = {}), cur = {:?}", radix, self.cur());
+        if cfg!(feature = "debug") {
+            trace!("read_digits(radix = {}), cur = {:?}", radix, self.cur());
+        }
 
         let start = self.cur_pos();
 

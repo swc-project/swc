@@ -1,10 +1,9 @@
-use std::mem::take;
-
 use self::input::{Buffer, ParserInput};
 use crate::{
     error::{Error, ErrorKind},
     Parse,
 };
+use std::mem::take;
 use swc_atoms::js_word;
 use swc_common::Span;
 use swc_css_ast::*;

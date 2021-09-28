@@ -47,7 +47,7 @@
               "end": 77,
               "ctxt": 0
             },
-            "properties": [
+            "items": [
               {
                 "type": "Property",
                 "span": {
@@ -124,7 +124,7 @@
               "end": 130,
               "ctxt": 0
             },
-            "properties": [
+            "items": [
               {
                 "type": "Property",
                 "span": {
@@ -220,7 +220,7 @@
               "end": 167,
               "ctxt": 0
             },
-            "properties": []
+            "items": []
           }
         },
         {
@@ -247,7 +247,7 @@
               "end": 182,
               "ctxt": 0
             },
-            "properties": []
+            "items": []
           }
         },
         {
@@ -282,7 +282,7 @@
               "end": 198,
               "ctxt": 0
             },
-            "properties": []
+            "items": []
           }
         },
         {
@@ -317,7 +317,7 @@
               "end": 213,
               "ctxt": 0
             },
-            "properties": []
+            "items": []
           }
         },
         {
@@ -352,7 +352,7 @@
               "end": 230,
               "ctxt": 0
             },
-            "properties": []
+            "items": []
           }
         }
       ]

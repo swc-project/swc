@@ -1,9 +1,9 @@
 use crate::util::fast_graph::FastDiGraphMap;
-use fxhash::FxHashSet;
 use petgraph::{
     EdgeDirection,
     EdgeDirection::{Incoming, Outgoing},
 };
+use rustc_hash::FxHashSet;
 use std::{collections::VecDeque, iter::repeat};
 
 /// Is dependancy between nodes hard?

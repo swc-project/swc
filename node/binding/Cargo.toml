@@ -17,11 +17,10 @@ napi-build = {version = "1"}
 [dependencies]
 anyhow = "1"
 backtrace = "0.3"
-fxhash = "0.2"
-log = {version = "0.4.14", features = ["release_max_level_off"]}
 napi = {version = "1", features = ["serde-json"]}
 napi-derive = {version = "1"}
 path-clean = "0.1"
+rustc-hash = "1.1.0"
 serde = {version = "1", features = ["derive"]}
 serde_json = {version = "1", features = ["unbounded_depth"]}
 swc = {path = "../../", features = ["wrong-target"]}
@@ -33,3 +32,4 @@ swc_ecma_loader = {path = "../../ecmascript/loader"}
 swc_ecma_parser = {path = "../../ecmascript/parser"}
 swc_node_base = {path = "../base"}
 swc_node_bundler = {path = "../bundler"}
+tracing = {version = "0.1.28", features = ["release_max_level_off"]}

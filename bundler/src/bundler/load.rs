@@ -66,11 +66,11 @@ where
         file_name: &FileName,
     ) -> Result<Option<TransformedModule>, Error> {
         self.run(|| {
-            log::trace!("load_transformed: ({})", file_name);
+            tracing::trace!("load_transformed: ({})", file_name);
 
             // In case of common module
             if let Some(cached) = self.scope.get_module_by_path(&file_name) {
-                log::debug!("Cached: {}", file_name);
+                tracing::debug!("Cached: {}", file_name);
                 return Ok(Some(cached));
             }
 
@@ -80,7 +80,7 @@ where
                 .context("failed to analyze module")?;
             files.dedup_by_key(|v| v.1.clone());
 
-            log::debug!(
+            tracing::debug!(
                 "({:?}, {:?}, {:?}) Storing module: {}",
                 v.id,
                 v.local_ctxt(),
@@ -93,7 +93,7 @@ where
             let results = files
                 .into_par_iter()
                 .map(|(_src, path)| {
-                    log::trace!("loading dependency: {}", path);
+                    tracing::trace!("loading dependency: {}", path);
                     self.load_transformed(&path)
                 })
                 .collect::<Vec<_>>();
@@ -127,7 +127,7 @@ where
         data: ModuleData,
     ) -> Result<(TransformedModule, Vec<(Source, Lrc<FileName>)>), Error> {
         self.run(|| {
-            log::trace!("transform_module({})", data.fm.name);
+            tracing::trace!("transform_module({})", data.fm.name);
             let (id, local_mark, export_mark) = self.scope.module_id_gen.gen(file_name);
 
             let mut module = data.module.fold_with(&mut resolver_with_mark(local_mark));
@@ -216,7 +216,7 @@ where
         raw: RawExports,
     ) -> Result<(Exports, Vec<(Source, Lrc<FileName>)>), Error> {
         self.run(|| {
-            log::trace!("resolve_exports({})", base);
+            tracing::trace!("resolve_exports({})", base);
             let mut files = vec![];
 
             let mut exports = Exports::default();
@@ -273,7 +273,7 @@ where
         info: RawImports,
     ) -> Result<(Imports, Vec<(Source, Lrc<FileName>)>), Error> {
         self.run(|| {
-            log::trace!("resolve_imports({})", base);
+            tracing::trace!("resolve_imports({})", base);
             let mut files = vec![];
 
             let mut merged = Imports::default();

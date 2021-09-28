@@ -2289,7 +2289,10 @@ test!(
 
 test_exec!(
     Syntax::default(),
-    |_| chain!(class_properties(), async_to_generator()),
+    |_| chain!(
+        class_properties(class_properties::Config { loose: false }),
+        async_to_generator()
+    ),
     issue_1341_1_exec,
     "
     class A {
@@ -2336,7 +2339,10 @@ test!(
 
 test_exec!(
     Syntax::default(),
-    |_| chain!(class_properties(), async_to_generator()),
+    |_| chain!(
+        class_properties(class_properties::Config { loose: false }),
+        async_to_generator()
+    ),
     issue_1341_2_exec,
     "
   class A {

@@ -1,9 +1,9 @@
 use super::{Context, Input, Lexer};
 use crate::{error::Error, input::Tokens, lexer::util::CharExt, token::*, JscTarget, Syntax};
 use enum_kind::Kind;
-use log::trace;
 use std::{mem, mem::take};
 use swc_common::BytePos;
+use tracing::trace;
 
 /// State of lexer.
 ///
@@ -366,11 +366,14 @@ impl State {
     }
 
     fn update(&mut self, start: BytePos, next: &Token) {
-        trace!(
-            "updating state: next={:?}, had_line_break={} ",
-            next,
-            self.had_line_break
-        );
+        if cfg!(feature = "debug") {
+            trace!(
+                "updating state: next={:?}, had_line_break={} ",
+                next,
+                self.had_line_break
+            );
+        }
+
         let prev = self.token_type.take();
         self.token_type = Some(TokenType::from(next));
 

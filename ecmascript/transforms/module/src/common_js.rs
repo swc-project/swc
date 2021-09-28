@@ -4,7 +4,7 @@ use super::util::{
     make_require_call, use_strict, ModulePass, Scope,
 };
 use crate::path::{ImportResolver, NoopImportResolver};
-use fxhash::FxHashSet;
+use rustc_hash::FxHashSet;
 use std::{
     cell::{Ref, RefCell, RefMut},
     rc::Rc,

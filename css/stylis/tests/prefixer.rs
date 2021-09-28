@@ -4,7 +4,7 @@
 //! Original test authors have copyright for their work.
 
 use swc_common::FileName;
-use swc_css_ast::Property;
+use swc_css_ast::DeclBlockItem;
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig},
     CodegenConfig, Emit,
@@ -447,19 +447,43 @@ fn appearance() {
     );
 }
 
+#[test]
+fn error_recovery_1() {
+    // This behavior is wrong, but it's what `stylis@3` does.
+    t(
+        "__styled-jsx-placeholder__1
+            animation: slide 3s ease infinite;
+        ",
+        "__styled-jsx-placeholder__1 animation: slide 3s ease infinite;",
+    );
+
+    t(
+        "animation: slide 3s ease infinite;
+            __styled-jsx-placeholder__1
+        ",
+        "-webkit-animation:slide 3s ease infinite;animation:slide 3s ease \
+         infinite;__styled-jsx-placeholder__1 ;",
+    );
+}
+
 /// Test
 fn t(src: &str, expected: &str) {
-    testing::run_test2(false, |cm, _handler| {
+    testing::run_test2(false, |cm, handler| {
         //
         let fm = cm.new_source_file(FileName::Anon, src.to_string());
-        let mut props: Vec<Property> = parse_file(
+        let mut errors = vec![];
+        let mut props: Vec<DeclBlockItem> = parse_file(
             &fm,
             ParserConfig {
                 parse_values: true,
                 ..Default::default()
             },
+            &mut errors,
         )
         .unwrap();
+        for err in errors {
+            err.to_diagnostics(&handler).emit();
+        }
 
         props.visit_mut_with(&mut prefixer());
 

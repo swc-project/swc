@@ -6,7 +6,7 @@ use crate::{
     option::MangleOptions,
     util::base54::incr_base54,
 };
-use fxhash::{FxHashMap, FxHashSet};
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{js_word, JsWord};
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
