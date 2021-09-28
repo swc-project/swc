@@ -46,7 +46,9 @@ where
     let lexer = Lexer::new(StringInput::new(src, start_pos, end_pos));
     let mut parser = Parser::new(lexer, config);
 
-    parser.parse()
+    let res = parser.parse();
+    errors.extend(parser.take_errors());
+    res
 }
 
 /// Parse a given file as `T`.
@@ -64,7 +66,9 @@ where
     let lexer = Lexer::new(StringInput::from(fm));
     let mut parser = Parser::new(lexer, config);
 
-    parser.parse()
+    let res = parser.parse();
+    errors.extend(parser.take_errors());
+    res
 }
 
 /// Parse a given file as `T`.
@@ -82,5 +86,7 @@ where
     let lexer = TokensInput::new(tokens);
     let mut parser = Parser::new(lexer, config);
 
-    parser.parse()
+    let res = parser.parse();
+    errors.extend(parser.take_errors());
+    res
 }
