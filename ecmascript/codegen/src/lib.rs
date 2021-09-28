@@ -1,14 +1,13 @@
 #![recursion_limit = "1024"]
 #![allow(unused_variables)]
 
-use crate::util::EndsWithAlphaNum;
-
 pub use self::config::Config;
 use self::{
     list::ListFormat,
     text_writer::WriteJs,
     util::{SourceMapperExt, SpanExt, StartsWithAlphaNum},
 };
+use crate::util::EndsWithAlphaNum;
 use std::{borrow::Cow, fmt::Write, io, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::{
