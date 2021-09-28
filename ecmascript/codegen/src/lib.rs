@@ -184,9 +184,7 @@ impl<'a> Emitter<'a> {
         for specifier in &node.specifiers {
             match specifier {
                 ImportSpecifier::Named(ref s) => {
-                    if !s.is_type_only {
-                        specifiers.push(s);
-                    }
+                    specifiers.push(s);
                 }
                 ImportSpecifier::Default(ref s) => {
                     emit!(s.local);
@@ -317,11 +315,6 @@ impl<'a> Emitter<'a> {
                     if let None = result.namespace_spec {
                         result.namespace_spec = Some(spec)
                     }
-                    result
-                }
-                ExportSpecifier::Named(ExportNamedSpecifier { is_type_only, .. })
-                    if *is_type_only =>
-                {
                     result
                 }
                 spec => {
