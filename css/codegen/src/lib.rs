@@ -320,12 +320,17 @@ where
     fn emit_decl_block(&mut self, n: &DeclBlock) -> Result {
         punct!(self, "{");
 
-        self.emit_list(
-            &n.properties,
-            ListFormat::SemiDelimited | ListFormat::MultiLine,
-        )?;
+        self.emit_list(&n.items, ListFormat::SemiDelimited | ListFormat::MultiLine)?;
 
         punct!(self, "}");
+    }
+
+    #[emitter]
+    fn emit_decl_block_item(&mut self, n: &DeclBlockItem) -> Result {
+        match n {
+            DeclBlockItem::Invalid(n) => emit!(self, n),
+            DeclBlockItem::Property(n) => emit!(self, n),
+        }
     }
 
     #[emitter]
