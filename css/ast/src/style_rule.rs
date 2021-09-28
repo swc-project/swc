@@ -11,19 +11,13 @@ pub struct StyleRule {
 #[ast_node("DeclBlock")]
 pub struct DeclBlock {
     pub span: Span,
-    pub body: DeclBlockBody,
+    pub items: Vec<DeclBlockItem>,
 }
 
 #[ast_node]
-pub enum DeclBlockBody {
+pub enum DeclBlockItem {
     #[tag("Tokens")]
     Invalid(Tokens),
-    #[tag("Properties")]
-    Properties(Props),
-}
-
-#[ast_node("Properties")]
-pub struct Props {
-    pub span: Span,
-    pub props: Vec<Property>,
+    #[tag("Property")]
+    Property(Property),
 }
