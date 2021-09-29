@@ -90,6 +90,7 @@ where
         let (values, mut last_pos) = {
             let ctx = Ctx {
                 allow_operation_in_value: false,
+                recover_from_property_value: true,
                 ..self.ctx
             };
             self.with_ctx(ctx).parse_property_values()?

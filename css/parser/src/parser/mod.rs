@@ -38,6 +38,8 @@ struct Ctx {
     is_in_delimited_value: bool,
 
     allow_at_selctor: bool,
+
+    recover_from_property_value: bool,
 }
 
 #[derive(Debug)]
