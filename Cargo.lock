@@ -2593,7 +2593,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen_macros"
-version = "0.5.2"
+version = "0.6.0"
 dependencies = [
  "pmutil",
  "proc-macro2",
