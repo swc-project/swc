@@ -1,14 +1,15 @@
 #![recursion_limit = "1024"]
 #![allow(unused_variables)]
 
-use crate::util::EndsWithAlphaNum;
-
 pub use self::config::Config;
 use self::{
     list::ListFormat,
     text_writer::WriteJs,
     util::{SourceMapperExt, SpanExt, StartsWithAlphaNum},
 };
+use crate::util::EndsWithAlphaNum;
+use memchr::memmem::Finder;
+use once_cell::sync::Lazy;
 use std::{borrow::Cow, fmt::Write, io, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::{
@@ -36,29 +37,43 @@ pub mod util;
 pub type Result = io::Result<()>;
 
 pub trait Node: Spanned {
-    fn emit_with(&self, e: &mut Emitter<'_>) -> Result;
+    fn emit_with<W>(&self, e: &mut Emitter<'_, W>) -> Result
+    where
+        W: WriteJs;
 }
 impl<N: Node> Node for Box<N> {
-    #[inline(always)]
-    fn emit_with(&self, e: &mut Emitter<'_>) -> Result {
+    #[inline]
+    fn emit_with<W>(&self, e: &mut Emitter<'_, W>) -> Result
+    where
+        W: WriteJs,
+    {
         (**self).emit_with(e)
     }
 }
 impl<'a, N: Node> Node for &'a N {
-    #[inline(always)]
-    fn emit_with(&self, e: &mut Emitter<'_>) -> Result {
+    #[inline]
+    fn emit_with<W>(&self, e: &mut Emitter<'_, W>) -> Result
+    where
+        W: WriteJs,
+    {
         (**self).emit_with(e)
     }
 }
 
-pub struct Emitter<'a> {
+pub struct Emitter<'a, W>
+where
+    W: WriteJs,
+{
     pub cfg: config::Config,
     pub cm: Lrc<SourceMap>,
     pub comments: Option<&'a dyn Comments>,
-    pub wr: Box<(dyn 'a + WriteJs)>,
+    pub wr: W,
 }
 
-impl<'a> Emitter<'a> {
+impl<'a, W> Emitter<'a, W>
+where
+    W: WriteJs,
+{
     #[emitter]
     pub fn emit_program(&mut self, node: &Program) -> Result {
         match *node {
@@ -1951,7 +1966,10 @@ impl<'a> Emitter<'a> {
 }
 
 /// Patterns
-impl<'a> Emitter<'a> {
+impl<'a, W> Emitter<'a, W>
+where
+    W: WriteJs,
+{
     #[emitter]
     fn emit_param(&mut self, node: &Param) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
@@ -2136,7 +2154,10 @@ impl<'a> Emitter<'a> {
 }
 
 /// Statements
-impl<'a> Emitter<'a> {
+impl<'a, W> Emitter<'a, W>
+where
+    W: WriteJs,
+{
     #[emitter]
     fn emit_stmt(&mut self, node: &Stmt) -> Result {
         match *node {
@@ -2642,7 +2663,10 @@ impl<'a> Emitter<'a> {
     }
 }
 
-impl<'a> Emitter<'a> {
+impl<'a, W> Emitter<'a, W>
+where
+    W: WriteJs,
+{
     fn write_delim(&mut self, f: ListFormat) -> Result {
         match f & ListFormat::DelimitersMask {
             ListFormat::None => {}
@@ -2748,7 +2772,10 @@ impl<N> Node for Option<N>
 where
     N: Node,
 {
-    fn emit_with(&self, e: &mut Emitter<'_>) -> Result {
+    fn emit_with<W>(&self, e: &mut Emitter<'_, W>) -> Result
+    where
+        W: WriteJs,
+    {
         match *self {
             Some(ref n) => n.emit_with(e),
             None => Ok(()),
@@ -3113,7 +3140,8 @@ fn is_single_quote(cm: &SourceMap, span: Span) -> Option<bool> {
 }
 
 fn handle_invalid_unicodes(s: &str) -> Cow<str> {
-    if !s.contains("\\\0") {
+    static NEEDLE: Lazy<Finder> = Lazy::new(|| Finder::new("\\\0"));
+    if NEEDLE.find(s.as_bytes()).is_none() {
         return Cow::Borrowed(s);
     }
 

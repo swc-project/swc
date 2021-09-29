@@ -1,9 +1,13 @@
 use super::{list::ListFormat, Emitter, Result};
+use crate::text_writer::WriteJs;
 use swc_common::Spanned;
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::emitter;
 
-impl<'a> Emitter<'a> {
+impl<'a, W> Emitter<'a, W>
+where
+    W: WriteJs,
+{
     #[emitter]
     fn emit_decl(&mut self, node: &Decl) -> Result {
         match *node {

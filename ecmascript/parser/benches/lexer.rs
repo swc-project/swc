@@ -1,6 +1,7 @@
 #![feature(test)]
 #![feature(bench_black_box)]
 
+extern crate swc_node_base;
 extern crate test;
 
 use std::hint::black_box;

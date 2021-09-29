@@ -117,6 +117,8 @@ pub struct Lexer<'a, I: Input> {
 
     errors: Rc<RefCell<Vec<Error>>>,
     module_errors: Rc<RefCell<Vec<Error>>>,
+
+    buf: Rc<RefCell<String>>,
 }
 
 impl<I: Input> FusedIterator for Lexer<'_, I> {}
@@ -143,6 +145,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             target,
             errors: Default::default(),
             module_errors: Default::default(),
+            buf: Rc::new(RefCell::new(String::with_capacity(256))),
         }
     }
 
@@ -151,8 +154,9 @@ impl<'a, I: Input> Lexer<'a, I> {
     where
         F: for<'any> FnOnce(&mut Lexer<'any, I>, &mut String) -> LexResult<Ret>,
     {
-        let mut buf = String::new();
-
+        let b = self.buf.clone();
+        let mut buf = b.borrow_mut();
+        buf.clear();
         let res = op(self, &mut buf);
 
         res
