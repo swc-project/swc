@@ -475,8 +475,8 @@ where
             } else {
                 let mut s = num.value.to_string();
                 if self.cfg.minify {
-                    if !s.contains('.') && !s.contains('e') && s.ends_with("000") {
-                        let cnt = s.as_bytes().iter().rev().filter(|&&v| v == b'0').count();
+                    if !s.contains('.') && !s.contains('e') && s.ends_with("0000") {
+                        let cnt = s.as_bytes().iter().rev().filter(|&&v| v == b'0').count() - 1;
 
                         s.truncate(s.len() - cnt);
                         s.push('e');

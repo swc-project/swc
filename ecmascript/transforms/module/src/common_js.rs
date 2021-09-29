@@ -361,14 +361,17 @@ where
 
                             drop(scope);
 
-                            for ExportNamedSpecifier { orig, exported, .. } in
-                                export.specifiers.into_iter().map(|e| match e {
+                            for ExportNamedSpecifier { orig, exported, .. } in export
+                                .specifiers
+                                .into_iter()
+                                .map(|e| match e {
                                     ExportSpecifier::Named(e) => e,
                                     _ => unreachable!(
                                         "export default from 'foo'; should be removed by previous \
                                          pass"
                                     ),
                                 })
+                                .filter(|e| !e.is_type_only)
                             {
                                 let mut scope = self.scope.borrow_mut();
                                 let is_import_default = orig.sym == js_word!("default");

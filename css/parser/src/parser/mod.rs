@@ -1,10 +1,9 @@
-use std::mem::take;
-
 use self::input::{Buffer, ParserInput};
 use crate::{
     error::{Error, ErrorKind},
     Parse,
 };
+use std::mem::take;
 use swc_atoms::js_word;
 use swc_common::Span;
 use swc_css_ast::*;
@@ -39,6 +38,8 @@ struct Ctx {
     is_in_delimited_value: bool,
 
     allow_at_selctor: bool,
+
+    recover_from_property_value: bool,
 }
 
 #[derive(Debug)]

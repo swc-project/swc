@@ -739,6 +739,7 @@ where
                             span: DUMMY_SP,
                             orig: local,
                             exported: Some(exported),
+                            is_type_only: false,
                         });
                         extra.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                             NamedExport {
@@ -785,6 +786,7 @@ where
                             span: DUMMY_SP,
                             orig: local,
                             exported: Some(exported),
+                            is_type_only: false,
                         });
                         tracing::trace!("Exporting `default` with `export default expr`");
                         extra.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
@@ -851,6 +853,7 @@ where
                                                     span: DUMMY_SP,
                                                     orig: id,
                                                     exported: Some(exported),
+                                                    is_type_only: false,
                                                 }
                                             })
                                             .map(ExportSpecifier::Named)
@@ -889,6 +892,7 @@ where
                             span: DUMMY_SP,
                             orig: local,
                             exported: Some(exported),
+                            is_type_only: false,
                         });
 
                         extra.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
@@ -1053,6 +1057,7 @@ where
                                                         span: ns.span,
                                                         orig: module_var.into(),
                                                         exported: Some(ns.name.clone()),
+                                                        is_type_only: false,
                                                     });
                                                 extra.push(ModuleItem::ModuleDecl(
                                                     ModuleDecl::ExportNamed(NamedExport {

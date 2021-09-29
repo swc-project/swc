@@ -31,7 +31,8 @@
             "value": "Rhum",
             "optional": false
           },
-          "imported": null
+          "imported": null,
+          "isTypeOnly": false
         }
       ],
       "source": {
@@ -120,7 +121,8 @@
             "value": "Drash",
             "optional": false
           },
-          "imported": null
+          "imported": null,
+          "isTypeOnly": false
         }
       ],
       "source": {

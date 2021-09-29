@@ -113,7 +113,8 @@
             },
             "value": "B",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": null,
@@ -201,7 +202,8 @@
             },
             "value": "Z",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": {
@@ -255,7 +257,8 @@
             },
             "value": "C",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": {
@@ -300,7 +303,8 @@
             "value": "C",
             "optional": false
           },
-          "imported": null
+          "imported": null,
+          "isTypeOnly": false
         }
       ],
       "source": {
@@ -354,7 +358,8 @@
             },
             "value": "D",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": null,
@@ -386,7 +391,8 @@
             "value": "D",
             "optional": false
           },
-          "imported": null
+          "imported": null,
+          "isTypeOnly": false
         }
       ],
       "source": {

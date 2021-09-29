@@ -475,6 +475,7 @@ where
                                         span: DUMMY_SP,
                                         local: Ident::new(id.0, DUMMY_SP.with_ctxt(id.1)),
                                         imported: None,
+                                        is_type_only: false,
                                     })
                                 })
                                 .collect();
@@ -634,6 +635,7 @@ where
                                     span,
                                     local: ident,
                                     imported: None,
+                                    is_type_only: false,
                                 })
                             })
                             .collect(),

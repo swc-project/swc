@@ -34,13 +34,29 @@ where
 
         self.input.skip_ws()?;
 
-        let properties = self.parse_properties()?;
+        let items = self.parse_decl_block_items()?;
 
         expect!(self, "}");
 
         let span = span!(self, start);
 
-        Ok(DeclBlock { span, properties })
+        Ok(DeclBlock { span, items })
+    }
+
+    fn parse_decl_block_items(&mut self) -> PResult<Vec<DeclBlockItem>> {
+        let mut items = vec![];
+
+        while is!(self, Ident) {
+            items.push(self.parse()?);
+
+            if !eat!(self, ";") {
+                break;
+            }
+
+            self.input.skip_ws()?;
+        }
+
+        Ok(items)
     }
 
     pub(crate) fn parse_properties(&mut self) -> PResult<Vec<Property>> {
@@ -74,6 +90,7 @@ where
         let (values, mut last_pos) = {
             let ctx = Ctx {
                 allow_operation_in_value: false,
+                recover_from_property_value: true,
                 ..self.ctx
             };
             self.with_ctx(ctx).parse_property_values()?
@@ -138,5 +155,44 @@ where
 {
     fn parse(&mut self) -> PResult<Vec<Property>> {
         self.parse_properties()
+    }
+}
+
+impl<I> Parse<Vec<DeclBlockItem>> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Vec<DeclBlockItem>> {
+        self.parse_decl_block_items()
+    }
+}
+
+impl<I> Parse<DeclBlockItem> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<DeclBlockItem> {
+        let start = self.input.state();
+        let start_pos = self.input.cur_span()?.lo;
+
+        let prop = self.parse().map(DeclBlockItem::Property);
+
+        match prop {
+            Ok(v) => return Ok(v),
+            Err(err) => {
+                self.errors.push(err);
+            }
+        }
+
+        self.input.reset(&start);
+        let mut tokens = vec![];
+        while !is_one_of!(self, EOF, ";", "}") {
+            tokens.extend(self.input.bump()?);
+        }
+
+        Ok(DeclBlockItem::Invalid(Tokens {
+            span: span!(self, start_pos),
+            tokens,
+        }))
     }
 }

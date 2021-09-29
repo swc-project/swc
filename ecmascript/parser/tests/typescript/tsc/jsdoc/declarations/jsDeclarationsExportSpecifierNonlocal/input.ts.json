@@ -99,7 +99,8 @@
             "value": "Thing",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -127,7 +128,8 @@
             },
             "value": "default",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": {

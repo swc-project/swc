@@ -178,7 +178,8 @@
             "value": "a",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -197,7 +198,8 @@
             "value": "b",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -216,7 +218,8 @@
             "value": "c",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         }
       ],
       "source": {
@@ -261,7 +264,8 @@
             "value": "a",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         }
       ],
       "source": {
@@ -306,7 +310,8 @@
             "value": "b",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -325,7 +330,8 @@
             "value": "c",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         }
       ],
       "source": {
@@ -370,7 +376,8 @@
             "value": "a",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -389,7 +396,8 @@
             "value": "b",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         }
       ],
       "source": {
@@ -443,7 +451,8 @@
             },
             "value": "aa",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": {
@@ -497,7 +506,8 @@
             },
             "value": "bb",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": {
@@ -542,7 +552,8 @@
             "value": "c",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         }
       ],
       "source": {
@@ -596,7 +607,8 @@
             },
             "value": "cc",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": {
