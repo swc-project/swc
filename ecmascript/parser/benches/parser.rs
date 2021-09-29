@@ -1,7 +1,7 @@
 #![feature(test)]
 
-extern crate test;
 extern crate swc_node_base;
+extern crate test;
 
 use swc_common::{comments::SingleThreadedComments, FileName};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
