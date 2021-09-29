@@ -808,6 +808,10 @@ export interface Output {
    * Sourcemap (**not** base64 encoded)
    */
   map?: string;
+  /**
+   * Ranges for wallaby.js
+   */
+  ranges?: number[][];
 }
 
 export interface MatchPattern { }

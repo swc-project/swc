@@ -48,6 +48,8 @@ use swc_ecma_transforms::{
     resolver_with_mark,
 };
 use swc_ecma_visit::{noop_visit_type, FoldWith, Visit, VisitWith};
+use crate::ecmascript::ast::Expr;
+use common::source_map::Pos;
 
 mod builder;
 pub mod config;
@@ -151,6 +153,8 @@ pub struct TransformOutput {
     pub code: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub map: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ranges: Option<String>,
 }
 
 /// These are **low-level** apis.
@@ -355,9 +359,10 @@ impl Compiler {
         orig: Option<&sourcemap::SourceMap>,
         minify: bool,
         preserve_comments: Option<BoolOrObject<JsMinifyCommentOption>>,
+        _ranges: Option<Ranges>,
     ) -> Result<TransformOutput, Error>
     where
-        T: Node + VisitWith<IdentCollector>,
+        T: Node + VisitWith<IdentCollector> + VisitWith<RangeCollector>,
     {
         self.run(|| {
             let preserve_comments = preserve_comments.unwrap_or_else(|| {
@@ -493,7 +498,24 @@ impl Compiler {
                 }
             };
 
-            Ok(TransformOutput { code, map })
+            // Create Wallaby ranges.
+            // See: https://wallabyjs.com/docs/config/compilers.html#writing-a-custom-compiler
+            let ranges = {
+                let width = 4;
+                let height = 1;
+                let ranges: Ranges = vec![vec![0; width]; height];
+                //let mut visitor = RangeCollector { ranges: ranges, cm: &self.cm };
+                let mut visitor = RangeCollector { ranges: ranges };
+                node.visit_with(&Invalid { span: DUMMY_SP }, &mut visitor);
+                Some(visitor.ranges)
+            };
+            dbg!(&ranges);
+
+
+
+            let ranges_str = Some(format!("{:?}", &ranges));
+
+            Ok(TransformOutput { code, map, ranges: ranges_str })
         })
     }
 }
@@ -843,6 +865,8 @@ impl Compiler {
                 v.names
             };
 
+            let ranges = None;
+
             let top_level_mark = Mark::fresh(Mark::root());
 
             let module = self.run_transform(handler, false, || {
@@ -873,6 +897,7 @@ impl Compiler {
                 orig.as_ref(),
                 true,
                 Some(opts.format.comments.clone()),
+                ranges,
             )
         })
     }
@@ -934,6 +959,8 @@ impl Compiler {
                 v.names
             };
 
+            let ranges = None;
+
             let mut pass = config.pass;
             let program = helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
                 swc_ecma_utils::HANDLER.set(handler, || {
@@ -953,6 +980,7 @@ impl Compiler {
                 orig,
                 config.minify,
                 config.preserve_comments,
+                ranges,
             )
         })
     }
@@ -1090,3 +1118,27 @@ impl Visit for IdentCollector {
         self.names.push(ident.sym.clone());
     }
 }
+
+pub struct RangeCollector {
+    ranges: Ranges,
+}
+
+impl Visit for RangeCollector {
+    noop_visit_type!();
+
+    fn visit_module(&mut self, n: &swc_ecma_ast::Module, _parent: &dyn swc_ecma_visit::Node) {
+        let span = n.span;
+        let new_range = vec![0, span.lo().to_u32(), 0, span.hi().to_u32()];
+        self.ranges.push(new_range);
+        n.visit_children_with(self)
+    }
+
+    fn visit_expr(&mut self, n: &Expr, _: &dyn swc_ecma_visit::Node) {
+        n.visit_children_with(self);
+        let span = n.span();
+        let new_range = vec![0, span.lo().to_u32(), 0, span.hi().to_u32()];
+        self.ranges.push(new_range)
+    }
+}
+
+type Ranges = Vec<Vec<u32>>;

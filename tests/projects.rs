@@ -777,6 +777,7 @@ fn should_visit() {
                 // TODO: figure out sourcemaps
                 config.minify,
                 config.preserve_comments,
+                None,
             )
             .unwrap()
             .code)
@@ -896,4 +897,24 @@ fn opt_source_file_name_1() {
     println!("{}", map);
 
     assert!(map.contains("entry-foo"));
+}
+
+#[test]
+fn ranges() {
+    let ranges = compile_str(
+        FileName::Real(PathBuf::from("not-unique.js")),
+        "var a = b ? c() : d();",
+        Options {
+            filename: "unique.js".into(),
+            source_maps: Some(SourceMapsConfig::Bool(true)),
+            ..Default::default()
+        },
+    )
+    .unwrap()
+    .ranges
+    .unwrap();
+
+    println!("{}", ranges);
+
+    //assert!(map.contains("entry-foo"));
 }
