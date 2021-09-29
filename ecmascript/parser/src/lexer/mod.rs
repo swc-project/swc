@@ -155,8 +155,8 @@ impl<'a, I: Input> Lexer<'a, I> {
         F: for<'any> FnOnce(&mut Lexer<'any, I>, &mut String) -> LexResult<Ret>,
     {
         let mut buf = take(&mut self.buf);
-        buf.clear();
         let res = op(self, &mut buf);
+        buf.clear();
         self.buf = buf;
 
         res
