@@ -360,7 +360,11 @@ impl<I: Tokens> Buffer<I> {
         if self.cur.is_none() {
             self.bump_inner();
         }
-        self.cur.as_ref().map(|item| &item.token)
+
+        match &self.cur {
+            Some(v) => Some(&v.token),
+            None => None,
+        }
     }
 
     #[inline]
