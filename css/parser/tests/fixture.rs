@@ -153,6 +153,97 @@ fn pass(input: PathBuf) {
     .unwrap();
 }
 
+#[testing::fixture("tests/recovery/**/input.css")]
+fn recovery(input: PathBuf) {
+    eprintln!("Input: {}", input.display());
+    let stderr_path = input.parent().unwrap().join("output.swc-stderr");
+
+    let mut errored = false;
+
+    let stderr = testing::run_test2(false, |cm, handler| {
+        if false {
+            // For type inference
+            return Ok(());
+        }
+
+        let ref_json_path = input.parent().unwrap().join("output.json");
+
+        let fm = cm.load_file(&input).unwrap();
+        let lexer = Lexer::new(SourceFileInput::from(&*fm));
+        let mut parser = Parser::new(lexer, ParserConfig { parse_values: true });
+
+        let stylesheet = parser.parse_all();
+
+        match stylesheet {
+            Ok(stylesheet) => {
+                let actual_json = serde_json::to_string_pretty(&stylesheet)
+                    .map(NormalizedOutput::from)
+                    .expect("failed to serialize stylesheet");
+
+                actual_json.clone().compare_to_file(&ref_json_path).unwrap();
+
+                {
+                    let mut lexer = Lexer::new(SourceFileInput::from(&*fm));
+                    let mut tokens = Tokens {
+                        span: Span::new(fm.start_pos, fm.end_pos, Default::default()),
+                        tokens: vec![],
+                    };
+
+                    loop {
+                        let res = lexer.next();
+                        match res {
+                            Ok(t) => {
+                                tokens.tokens.push(t);
+                            }
+
+                            Err(e) => {
+                                if matches!(e.kind(), ErrorKind::Eof) {
+                                    break;
+                                }
+                                panic!("failed to lex tokens: {:?}", e)
+                            }
+                        }
+                    }
+
+                    let mut errors = vec![];
+                    let ss_tok: Stylesheet =
+                        parse_tokens(&tokens, ParserConfig { parse_values: true }, &mut errors)
+                            .expect("failed to parse token");
+
+                    for err in errors {
+                        err.to_diagnostics(&handler).emit();
+                    }
+
+                    let json_from_tokens = serde_json::to_string_pretty(&ss_tok)
+                        .map(NormalizedOutput::from)
+                        .expect("failed to serialize stylesheet from tokens");
+
+                    assert_eq!(actual_json, json_from_tokens);
+                }
+
+                Err(())
+            }
+            Err(err) => {
+                let mut d = err.to_diagnostics(&handler);
+                d.note(&format!("current token = {}", parser.dump_cur()));
+
+                d.emit();
+
+                errored = true;
+
+                Err(())
+            }
+        }
+    })
+    .unwrap_err();
+
+    if errored {
+        panic!("Parser should recover, but failed with {}", stderr);
+    }
+
+    stderr.compare_to_file(&stderr_path).unwrap();
+}
+
 struct SpanVisualizer<'a> {
     handler: &'a Handler,
 }
