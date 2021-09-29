@@ -83,7 +83,6 @@ module.exports = {
 "#;
 
 const LARGE_PARTIAL_JS: &str = include_str!("large-partial.js");
-const THREE_BUNDLE: &str = include_str!("three-bundle.js");
 
 fn bench_emitter(b: &mut Bencher, s: &str) {
     b.bytes = s.len() as _;
@@ -137,9 +136,4 @@ fn emit_colors(b: &mut Bencher) {
 #[bench]
 fn emit_large(b: &mut Bencher) {
     bench_emitter(b, LARGE_PARTIAL_JS)
-}
-
-#[bench]
-fn three_bundle(b: &mut Bencher) {
-    bench_emitter(b, THREE_BUNDLE)
 }
