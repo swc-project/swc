@@ -145,7 +145,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             target,
             errors: Default::default(),
             module_errors: Default::default(),
-            buf: Default::default(),
+            buf: Rc::new(RefCell::new(String::with_capacity(256))),
         }
     }
 
