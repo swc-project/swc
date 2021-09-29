@@ -662,16 +662,17 @@ impl SourceMap {
             return sp;
         }
 
-        match self.span_to_snippet(sp) {
-            Ok(snippet) => {
-                let snippet = snippet.split(c).nth(0).unwrap_or("").trim_end();
-                if !snippet.is_empty() && !snippet.contains('\n') {
-                    sp.with_hi(BytePos(sp.lo().0 + snippet.len() as u32))
-                } else {
-                    sp
-                }
+        match self.span_to_source(sp, |src, start_index, end_index| {
+            let snippet = &src[start_index..end_index];
+            let snippet = snippet.split(c).nth(0).unwrap_or("").trim_end();
+            if !snippet.is_empty() && !snippet.contains('\n') {
+                sp.with_hi(BytePos(sp.lo().0 + snippet.len() as u32))
+            } else {
+                sp
             }
-            _ => sp,
+        }) {
+            Ok(v) => v,
+            Err(_) => sp,
         }
     }
 
