@@ -2587,6 +2587,7 @@ dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen_macros",
  "swc_ecma_parser",
+ "swc_node_base",
  "testing",
 ]
 

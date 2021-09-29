@@ -23,4 +23,5 @@ swc_ecma_parser = {version = "0.72.0", path = "../parser"}
 
 [dev-dependencies]
 swc_common = {version = "0.13.0", path = "../../common", features = ["sourcemap"]}
+swc_node_base = {version = "0.4.0", path = "../../node/base"}
 testing = {version = "0.14.0", path = "../../testing"}

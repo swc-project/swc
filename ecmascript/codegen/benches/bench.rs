@@ -1,6 +1,7 @@
 #![feature(test)]
 #![feature(bench_black_box)]
 
+extern crate swc_node_base;
 extern crate test;
 
 use std::hint::black_box;
@@ -110,12 +111,12 @@ fn bench_emitter(b: &mut Bencher, s: &str) {
                     },
                     comments: None,
                     cm: cm.clone(),
-                    wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
+                    wr: swc_ecma_codegen::text_writer::JsWriter::new(
                         cm.clone(),
                         "\n",
                         &mut buf,
                         Some(&mut src_map_buf),
-                    )),
+                    ),
                 };
 
                 let _ = emitter.emit_module(&module);
