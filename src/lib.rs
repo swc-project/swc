@@ -120,7 +120,10 @@ where
 
         let msg = String::from_utf8(error).expect("error string should be utf8");
 
-        ret.context(msg)
+        match ret {
+            Ok(_) => Err(anyhow::anyhow!(msg)),
+            Err(err) => Err(err.context(msg)),
+        }
     } else {
         ret
     }
