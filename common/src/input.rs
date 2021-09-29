@@ -74,12 +74,6 @@ impl<'a> Input for StringInput<'a> {
     }
 
     #[inline]
-    fn bump_byte(&mut self) {
-        self.last_pos = self.last_pos + BytePos(1);
-        self.iter = self.iter.as_str()[1..].char_indices();
-    }
-
-    #[inline]
     fn is_at_start(&self) -> bool {
         self.orig_start == self.last_pos
     }
@@ -188,20 +182,6 @@ pub trait Input: Clone {
     fn peek_ahead(&mut self) -> Option<char>;
     fn bump(&mut self);
 
-    /// Should be called only if `cur` is byte.
-    #[inline]
-    fn bump_byte(&mut self) {
-        if cfg!(debug_assertions) {
-            assert!(self.cur().is_some());
-            assert_eq!(
-                self.cur().unwrap().len_utf8(),
-                1,
-                "bump_byte() should not be called for non-byte characters"
-            );
-        }
-        self.bump()
-    }
-
     fn is_at_start(&self) -> bool;
 
     fn cur_pos(&mut self) -> BytePos;
@@ -236,7 +216,7 @@ pub trait Input: Clone {
     #[inline]
     fn eat_byte(&mut self, c: u8) -> bool {
         if self.is_byte(c) {
-            self.bump_byte();
+            self.bump();
             true
         } else {
             false
