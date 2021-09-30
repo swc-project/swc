@@ -30,7 +30,7 @@ use std::{
     cmp::{max, min},
     env, fs,
     hash::Hash,
-    io::{self, Read},
+    io,
     path::{Path, PathBuf},
     sync::atomic::{AtomicUsize, Ordering::SeqCst},
 };
@@ -69,9 +69,7 @@ impl FileLoader for RealFileLoader {
     }
 
     fn read_file(&self, path: &Path) -> io::Result<String> {
-        let mut src = String::new();
-        fs::File::open(path)?.read_to_string(&mut src)?;
-        Ok(src)
+        fs::read_to_string(path)
     }
 }
 
