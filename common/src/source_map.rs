@@ -23,6 +23,7 @@ use crate::{
     rustc_data_structures::stable_hasher::StableHasher,
     sync::{Lock, LockGuard, Lrc, MappedLockGuard},
 };
+use once_cell::sync::Lazy;
 #[cfg(feature = "sourcemap")]
 use sourcemap::SourceMapBuilder;
 use std::{
@@ -35,6 +36,8 @@ use std::{
     sync::atomic::{AtomicUsize, Ordering::SeqCst},
 };
 use tracing::debug;
+
+static CURRENT_DIR: Lazy<Option<PathBuf>> = Lazy::new(|| env::current_dir().ok());
 
 // _____________________________________________________________________________
 // SourceFile, MultiByteChar, FileName, FileLines
@@ -64,7 +67,7 @@ impl FileLoader for RealFileLoader {
         if path.is_absolute() {
             Some(path.to_path_buf())
         } else {
-            env::current_dir().ok().map(|cwd| cwd.join(path))
+            CURRENT_DIR.as_ref().map(|cwd| cwd.join(path))
         }
     }
 
