@@ -39,6 +39,7 @@ impl Task for PrintTask {
                 None,
                 self.options.config.clone().minify,
                 None,
+                None,
             )
             .convert_err()
     }
@@ -97,6 +98,7 @@ pub fn print_sync(cx: CallContext) -> napi::Result<JsObject> {
             &[],
             None,
             options.config.minify,
+            None,
             None,
         )
     }

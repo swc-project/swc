@@ -359,7 +359,7 @@ impl Compiler {
         orig: Option<&sourcemap::SourceMap>,
         minify: bool,
         preserve_comments: Option<BoolOrObject<JsMinifyCommentOption>>,
-        _ranges: Option<Ranges>,
+        ranges: Option<Ranges>,
     ) -> Result<TransformOutput, Error>
     where
         T: Node + VisitWith<IdentCollector> + VisitWith<RangeCollector>,
@@ -498,22 +498,7 @@ impl Compiler {
                 }
             };
 
-            // Create Wallaby ranges.
-            // See: https://wallabyjs.com/docs/config/compilers.html#writing-a-custom-compiler
-            let ranges = {
-                let width = 4;
-                let height = 1;
-                let ranges: Ranges = vec![vec![0; width]; height];
-                //let mut visitor = RangeCollector { ranges: ranges, cm: &self.cm };
-                let mut visitor = RangeCollector { ranges: ranges };
-                node.visit_with(&Invalid { span: DUMMY_SP }, &mut visitor);
-                Some(visitor.ranges)
-            };
-            dbg!(&ranges);
-
-
-
-            let ranges_str = Some(format!("{:?}", &ranges));
+            let ranges_str = Some(format!("{:?}", &ranges.unwrap()));
 
             Ok(TransformOutput { code, map, ranges: ranges_str })
         })
@@ -865,8 +850,6 @@ impl Compiler {
                 v.names
             };
 
-            let ranges = None;
-
             let top_level_mark = Mark::fresh(Mark::root());
 
             let module = self.run_transform(handler, false, || {
@@ -897,7 +880,7 @@ impl Compiler {
                 orig.as_ref(),
                 true,
                 Some(opts.format.comments.clone()),
-                ranges,
+                None,
             )
         })
     }
@@ -959,7 +942,18 @@ impl Compiler {
                 v.names
             };
 
-            let ranges = None;
+            // Create Wallaby ranges.
+            // See: https://wallabyjs.com/docs/config/compilers.html#writing-a-custom-compiler
+            let ranges = {
+                let width = 4;
+                let height = 1;
+                let ranges: Ranges = vec![vec![0; width]; height];
+                //let mut visitor = RangeCollector { ranges: ranges, cm: &self.cm };
+                let mut visitor = RangeCollector { ranges: ranges };
+                program.visit_with(&Invalid { span: DUMMY_SP }, &mut visitor);
+                Some(visitor.ranges)
+            };
+            //dbg!(&ranges);
 
             let mut pass = config.pass;
             let program = helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {

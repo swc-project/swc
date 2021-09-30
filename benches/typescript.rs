@@ -133,6 +133,7 @@ fn bench_codegen(b: &mut Bencher, _target: JscTarget) {
                 None,
                 false,
                 None,
+                None,
             )
             .unwrap(),
         );

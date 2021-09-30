@@ -83,6 +83,7 @@ pub fn print_sync(s: JsValue, opts: JsValue) -> Result<JsValue, JsValue> {
                 None,
                 opts.config.minify,
                 None,
+                None,
             )
             .context("failed to print code")?;
 

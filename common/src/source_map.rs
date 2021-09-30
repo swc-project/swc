@@ -193,6 +193,7 @@ impl SourceMap {
             .cloned()
     }
 
+    #[allow(unused)]
     fn next_start_pos(&self, len: usize) -> usize {
         // Add one so there is some space between files. This lets us distinguish
         // positions in the source_map, even in the presence of zero-length files.
@@ -222,6 +223,7 @@ impl SourceMap {
         let mut files = self.files.borrow_mut();
 
         let start_pos = self.next_start_pos(src.len());
+        //let start_pos = usize::MIN;
 
         let source_file = Lrc::new(SourceFile::new(
             filename,

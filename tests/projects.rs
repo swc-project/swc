@@ -918,3 +918,25 @@ fn ranges() {
 
     //assert!(map.contains("entry-foo"));
 }
+
+#[test]
+fn ranges_multiple() {
+    testing::run_test2(false, |cm, handler| {
+        let c = Compiler::new(cm.clone());
+        let fm = c.cm.new_source_file(
+            FileName::Anon,
+            "var a = b ? c() : d();"
+            .into(),
+        );
+
+        let out1 = c.process_js_file(fm.clone(), &handler, &serde_json::from_str("{}").unwrap()).unwrap();
+
+        let out2 = c.process_js_file(fm.clone(), &handler, &serde_json::from_str("{}").unwrap()).unwrap();
+
+        println!("{}", out1.ranges.unwrap());
+        println!("{}", out2.ranges.unwrap());
+
+        Ok(())
+    })
+    .unwrap()
+}
