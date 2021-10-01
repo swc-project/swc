@@ -3,6 +3,8 @@ use cargo_metadata::MetadataCommand;
 use std::path::{Path, PathBuf};
 use tokio::task::spawn_blocking;
 
+pub mod upgrade;
+
 pub async fn cargo_metadata(
     mut cmd: MetadataCommand,
     from: &Path,
