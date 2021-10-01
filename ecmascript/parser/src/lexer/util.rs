@@ -268,7 +268,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         // jsdoc
         let slice_start = self.cur_pos();
-        let mut was_star = if self.cur() == Some('*') {
+        let mut was_star = if self.input.is_byte(b'*') {
             self.bump();
             true
         } else {
