@@ -2,7 +2,7 @@
 
 set -eu
 
-cargo install --path .
+cargo install --path . --debug
 export RUST_LOG=debug
 
 (cd plugins/packages/emotion && swc-dev $@)
