@@ -3,6 +3,7 @@ use anyhow::Error;
 use structopt::StructOpt;
 use tracing::info;
 
+/// Upgrade dependencies related to `swc`.
 #[derive(Debug, StructOpt)]
 pub struct UpgradeDepsCommand {}
 
