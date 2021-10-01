@@ -14,8 +14,6 @@ impl InitCommand {
         c.arg("init").stderr(Stdio::inherit());
 
         let status = c
-            .arg("--vcs")
-            .arg("git")
             .arg("--lib")
             .status()
             .await
