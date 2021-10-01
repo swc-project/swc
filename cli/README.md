@@ -3,6 +3,8 @@
 # Usage
 
 ```sh
+# Dependency
+cargo install cargo-edit
 cargo install swc-dev
 ```
 
