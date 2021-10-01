@@ -25,6 +25,7 @@ impl InitCommand {
             bail!("failed to initialize a cargo project")
         }
 
+        run_cargo_add("abi_stable").await?;
         run_cargo_add("swc_atoms").await?;
         run_cargo_add("swc_common").await?;
         run_cargo_add("swc_plugin").await?;
