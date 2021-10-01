@@ -5,4 +5,4 @@ set -eu
 cargo install --path . --debug
 export RUST_LOG=debug
 
-(cd plugins/packages/emotion && swc-dev $@)
+(cd plugins/packages/jest && swc-dev $@)
