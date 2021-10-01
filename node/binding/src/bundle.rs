@@ -33,8 +33,6 @@ struct ConfigItem {
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 struct StaticConfigItem {
-    #[serde(default)]
-    working_dir: String,
     #[serde(flatten)]
     config: swc_node_bundler::config::Config,
 }

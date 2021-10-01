@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use super::*;
 use crate::display_name;
 use std::path::PathBuf;

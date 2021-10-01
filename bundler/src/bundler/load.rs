@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use super::{export::Exports, helpers::Helpers, Bundler};
 use crate::{
     bundler::{export::RawExports, import::RawImports},

@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use self::util::replace_id_with_expr;
 use crate::{
     analyzer::{ProgramData, UsageAnalyzer},
