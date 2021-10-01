@@ -103,11 +103,6 @@ pub(crate) struct VarUsageInfo {
 
     pub declared_as_catch_param: bool,
 
-    /// TODO: Implement this.
-    ///
-    /// Indicates a variable or function is overrided without using it.
-    pub overriden_without_used: bool,
-
     pub no_side_effect_for_member_access: bool,
 
     pub used_as_callee: bool,

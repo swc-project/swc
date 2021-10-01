@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use super::{Inlining, Phase};
 use indexmap::map::{Entry, IndexMap};
 use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
