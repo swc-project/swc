@@ -12,6 +12,7 @@ version = "0.0.0"
 
 [dependencies]
 anyhow = "1.0.41"
+cargo-edit = "0.8.0"
 cargo_metadata = "0.14.0"
 clap = "2.33.3"
 structopt = "0.3.21"
