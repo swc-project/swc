@@ -160,7 +160,10 @@ where
 
                     // Mutation of properties are ok
                     if is_inline_enabled
-                        && (!usage.mutated || (usage.assign_count == 0 && !usage.reassigned))
+                        && (!usage.mutated
+                            || (usage.assign_count == 0
+                                && !usage.reassigned
+                                && !usage.has_property_mutation))
                         && match &**init {
                             Expr::Lit(lit) => match lit {
                                 Lit::Str(_) => true,

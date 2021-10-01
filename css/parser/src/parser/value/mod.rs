@@ -21,6 +21,7 @@ where
     ///
     /// Returned [BytePos] is `hi`.
     pub(super) fn parse_property_values(&mut self) -> PResult<(Vec<Value>, BytePos)> {
+        let start = self.input.state();
         let mut values = vec![];
         let mut state = self.input.state();
         let start_pos = self.input.cur_span()?.lo;
@@ -47,7 +48,7 @@ where
                 if self.ctx.recover_from_property_value
                     && !is_one_of!(self, EOF, ";", "}", "!", ")")
                 {
-                    self.input.reset(&state);
+                    self.input.reset(&start);
 
                     let mut tokens = vec![];
                     while !is_one_of!(self, EOF, ";", "}", "!", ")") {

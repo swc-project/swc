@@ -83,6 +83,7 @@ pub(crate) struct VarUsageInfo {
     pub mutated: bool,
 
     pub has_property_access: bool,
+    pub has_property_mutation: bool,
     pub accessed_props: FxHashSet<JsWord>,
 
     pub exported: bool,
@@ -527,6 +528,11 @@ where
                 Expr::Ident(obj) => {
                     let v = self.data.var_or_default(obj.to_id());
                     v.mark_has_property_access();
+
+                    if self.ctx.in_assign_lhs {
+                        v.mark_has_property_mutation();
+                    }
+
                     if !e.computed {
                         match &*e.prop {
                             Expr::Ident(prop) => {

@@ -1,0 +1,3 @@
+.a :global(> .b) {
+    flex-basis: __styled-jsx-placeholder__0%;
+}

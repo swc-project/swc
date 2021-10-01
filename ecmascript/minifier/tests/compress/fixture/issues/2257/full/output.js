@@ -3262,8 +3262,8 @@
                     };
                     return redefineAll(C.prototype, {
                         clear: function() {
-                            for(var state = getInternalState(this), data = state.index, entry = state.first; entry;)entry.removed = !0, entry.previous && (entry.previous = entry.previous.next = void 0), delete data[entry.index], entry = entry.next;
-                            state.first = state.last = void 0, DESCRIPTORS ? state.size = 0 : this.size = 0;
+                            for(var that = this, state = getInternalState(that), data = state.index, entry = state.first; entry;)entry.removed = !0, entry.previous && (entry.previous = entry.previous.next = void 0), delete data[entry.index], entry = entry.next;
+                            state.first = state.last = void 0, DESCRIPTORS ? state.size = 0 : that.size = 0;
                         },
                         "delete": function(key) {
                             var state = getInternalState(this), entry = getEntry(this, key);
