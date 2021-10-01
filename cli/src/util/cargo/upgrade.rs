@@ -1,10 +1,11 @@
-use crate::util::CargoEditResultExt;
+use crate::util::{cargo::cargo_metadata, CargoEditResultExt};
 use anyhow::{anyhow, Context, Error};
 use cargo_edit::{
     find, get_latest_dependency, manifest_from_pkgid, CrateName, Dependency, LocalManifest,
 };
 use std::{
     collections::HashMap,
+    env,
     path::{Path, PathBuf},
 };
 use url::Url;
@@ -25,15 +26,16 @@ fn is_version_dep(dependency: &cargo_metadata::Dependency) -> bool {
 
 impl Manifests {
     /// Get all manifests in the workspace.
-    fn get_all(manifest_path: &Option<PathBuf>) -> Result<Self, Error> {
+    async fn get_all(manifest_path: &Option<PathBuf>) -> Result<Self, Error> {
+        let cur_dir = env::current_dir().context("failed to get current directory")?;
+
         let mut cmd = cargo_metadata::MetadataCommand::new();
         cmd.no_deps();
         if let Some(path) = manifest_path {
             cmd.manifest_path(path);
         }
-        let result = cmd
-            .exec()
-            .with_context(|| "Failed to get workspace metadata")?;
+        let result = cargo_metadata(cmd, &cur_dir).await?;
+
         result
             .packages
             .into_iter()
@@ -58,7 +60,9 @@ impl Manifests {
 
     /// Get the manifest specified by the manifest path. Try to make an educated
     /// guess if no path is provided.
-    fn get_local_one(manifest_path: &Option<PathBuf>) -> Result<Self, Error> {
+    async fn get_local_one(manifest_path: &Option<PathBuf>) -> Result<Self, Error> {
+        let cur_dir = env::current_dir().context("failed to get current directory")?;
+
         let resolved_manifest_path: String = find(manifest_path)
             .map_err_op("invoke cargo_edit::find")?
             .to_string_lossy()
@@ -72,7 +76,8 @@ impl Manifests {
         if let Some(path) = manifest_path {
             cmd.manifest_path(path);
         }
-        let result = cmd.exec().context("Invalid manifest")?;
+        let result = cargo_metadata(cmd, &cur_dir).await?;
+
         let packages = result.packages;
         let package = packages
             .iter()
@@ -321,9 +326,9 @@ struct ActualUpgrades(HashMap<Dependency, String>);
 
 pub async fn upgrade_dep(crate_name: &str, workspace: bool) -> Result<(), Error> {
     let manifests = if workspace {
-        Manifests::get_all(&None)
+        Manifests::get_all(&None).await
     } else {
-        Manifests::get_local_one(&None)
+        Manifests::get_local_one(&None).await
     }
     .context("failed to fetch manifest for `cargo-edit`")?;
 
