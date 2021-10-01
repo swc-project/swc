@@ -5,7 +5,11 @@ use tracing::info;
 
 /// Upgrade dependencies related to `swc`.
 #[derive(Debug, StructOpt)]
-pub struct UpgradeDepsCommand {}
+pub struct UpgradeDepsCommand {
+    /// Run upgrade command for all crates in the current workspace.
+    #[structopt(long)]
+    pub workspace: bool,
+}
 
 impl UpgradeDepsCommand {
     pub async fn run(self) -> Result<(), Error> {
