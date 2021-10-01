@@ -27,7 +27,7 @@ impl PluginCommand {
             PluginCommand::Init(cmd) => {
                 cmd.run()
                     .await
-                    .context("failed to initialize a plugin projecy")?;
+                    .context("failed to initialize a plugin project")?;
             }
             PluginCommand::Build(cmd) => {
                 cmd.run()
