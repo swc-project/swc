@@ -370,6 +370,24 @@
                 "tokens": [
                   {
                     "span": {
+                      "start": 236,
+                      "end": 237,
+                      "ctxt": 0
+                    },
+                    "token": "WhiteSpace"
+                  },
+                  {
+                    "span": {
+                      "start": 237,
+                      "end": 264,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Ident": "__styled-jsx-placeholder__2"
+                    }
+                  },
+                  {
+                    "span": {
                       "start": 264,
                       "end": 265,
                       "ctxt": 0
@@ -589,6 +607,24 @@
                     "tokens": [
                       {
                         "span": {
+                          "start": 377,
+                          "end": 378,
+                          "ctxt": 0
+                        },
+                        "token": "WhiteSpace"
+                      },
+                      {
+                        "span": {
+                          "start": 378,
+                          "end": 405,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Ident": "__styled-jsx-placeholder__3"
+                        }
+                      },
+                      {
+                        "span": {
                           "start": 405,
                           "end": 406,
                           "ctxt": 0
@@ -779,6 +815,24 @@
                       "ctxt": 0
                     },
                     "tokens": [
+                      {
+                        "span": {
+                          "start": 506,
+                          "end": 507,
+                          "ctxt": 0
+                        },
+                        "token": "WhiteSpace"
+                      },
+                      {
+                        "span": {
+                          "start": 507,
+                          "end": 534,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Ident": "__styled-jsx-placeholder__4"
+                        }
+                      },
                       {
                         "span": {
                           "start": 534,
