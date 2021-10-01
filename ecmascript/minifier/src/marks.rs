@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use swc_common::Mark;
 
 #[derive(Debug, Clone, Copy)]
@@ -26,10 +28,6 @@ pub struct Marks {
     //// Appied to [swc_ecma_ast::Module].
     pub(crate) bundle_of_standalones: Mark,
 
-    /// Optimization is finished. This mark is only applied if both of the
-    /// stateful optimizer and the pure optimizer cannot optimize anymore.
-    pub(crate) done: Mark,
-
     ///  `/** @const */`.
     pub(crate) const_ann: Mark,
 
@@ -50,7 +48,6 @@ impl Marks {
             non_top_level: m(),
             standalone: m(),
             bundle_of_standalones: m(),
-            done: m(),
             const_ann: m(),
             noinline: m(),
             pure: m(),

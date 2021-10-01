@@ -670,11 +670,7 @@ impl<'a, I: Tokens> Parser<I> {
                     self.emit_err(type_ann.type_ann.span(), SyntaxError::TS1093);
                 }
 
-                let ctx = Context {
-                    span_of_fn_name: Some(key.span()),
-                    ..self.ctx()
-                };
-                let body: Option<_> = self.with_ctx(ctx).parse_fn_body(false, false)?;
+                let body: Option<_> = self.parse_fn_body(false, false)?;
 
                 if self.syntax().typescript() && body.is_none() {
                     // Declare constructors cannot have assignment pattern in parameters
@@ -907,8 +903,6 @@ impl<'a, I: Tokens> Parser<I> {
         let type_ann = self.try_parse_ts_type_ann()?;
 
         let ctx = Context {
-            in_class_prop: true,
-            in_method: false,
             include_in_expr: true,
             ..self.ctx()
         };
@@ -1031,13 +1025,9 @@ impl<'a, I: Tokens> Parser<I> {
             // function declaration does not change context for `BindingIdentifier`.
             self.parse_maybe_opt_binding_ident()?
         };
-        let ctx = Context {
-            span_of_fn_name: Some(ident.span()),
-            ..ctx
-        };
         let is_constructor = T::is_constructor(&ident);
 
-        self.with_ctx(ctx).parse_with(|p| {
+        self.parse_with(|p| {
             let f = p.parse_fn_args_body(
                 decorators,
                 start,
@@ -1222,11 +1212,7 @@ impl<'a, I: Tokens> Parser<I> {
         trace_cur!(self, make_method);
 
         let is_static = static_token.is_some();
-        let ctx = Context {
-            span_of_fn_name: Some(key.span()),
-            ..self.ctx()
-        };
-        let function = self.with_ctx(ctx).parse_with(|p| {
+        let function = self.parse_with(|p| {
             p.parse_fn_args_body(decorators, start, parse_args, is_async, is_generator)
         })?;
 

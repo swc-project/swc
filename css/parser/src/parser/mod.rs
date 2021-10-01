@@ -47,6 +47,7 @@ pub struct Parser<I>
 where
     I: ParserInput,
 {
+    #[allow(dead_code)]
     config: ParserConfig,
     input: Buffer<I>,
     ctx: Ctx,
