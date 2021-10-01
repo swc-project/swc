@@ -259,6 +259,7 @@ impl DesiredUpgrades {
 /// the dependency names to the new versions.
 struct ActualUpgrades(HashMap<Dependency, String>);
 
+/// `cargo upgrade`, from `cargo-edit`.
 pub async fn upgrade_dep(crate_name: &str, workspace: bool) -> Result<(), Error> {
     let manifests = if workspace {
         Manifests::get_all(&None).await
