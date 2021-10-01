@@ -1,8 +1,6 @@
 use crate::util::{cargo::cargo_metadata, CargoEditResultExt};
 use anyhow::{anyhow, Context, Error};
-use cargo_edit::{
-    find, get_latest_dependency, manifest_from_pkgid, CrateName, Dependency, LocalManifest,
-};
+use cargo_edit::{find, get_latest_dependency, CrateName, Dependency, LocalManifest};
 use std::{
     collections::HashMap,
     env,
@@ -48,14 +46,6 @@ impl Manifests {
             })
             .collect::<Result<Vec<_>, Error>>()
             .map(Manifests)
-    }
-
-    fn get_pkgid(manifest_path: Option<&Path>, pkgid: &str) -> Result<Self, Error> {
-        let package = manifest_from_pkgid(manifest_path, pkgid)
-            .map_err(|err| anyhow!("failed to get pkgid from manifest: {}", err))?;
-        let manifest = LocalManifest::try_new(Path::new(&package.manifest_path))
-            .map_err(|err| anyhow!("failed to get local manifest: {}", err))?;
-        Ok(Manifests(vec![(manifest, package)]))
     }
 
     /// Get the manifest specified by the manifest path. Try to make an educated
@@ -192,63 +182,6 @@ impl Manifests {
 
         Ok(())
     }
-
-    /// Update dependencies in Cargo.toml file(s) to match the corresponding
-    /// version in Cargo.lock.
-    fn sync_to_lockfile(self, dry_run: bool, skip_compatible: bool) -> Result<(), Error> {
-        // Get locked dependencies. For workspaces with multiple Cargo.toml
-        // files, there is only a single lockfile, so it suffices to get
-        // metadata for any one of Cargo.toml files.
-        let (manifest, _package) = self
-            .0
-            .get(0)
-            .ok_or_else(|| anyhow!("failed to get lockfile"))?;
-        let mut cmd = cargo_metadata::MetadataCommand::new();
-        cmd.manifest_path(manifest.path.clone());
-        cmd.features(cargo_metadata::CargoOpt::AllFeatures);
-        cmd.other_options(vec!["--locked".to_string()]);
-
-        let result = cmd.exec().with_context(|| "Invalid manifest")?;
-
-        let locked = result
-            .packages
-            .into_iter()
-            .filter(|p| p.source.is_some()) // Source is none for local packages
-            .collect::<Vec<_>>();
-
-        for (mut manifest, package) in self.0 {
-            println!("{}:", package.name);
-
-            // Upgrade the manifests one at a time, as multiple manifests may
-            // request the same dependency at differing versions.
-            for (name, version) in package
-                .dependencies
-                .clone()
-                .into_iter()
-                .filter(is_version_dep)
-                .filter_map(|d| {
-                    for p in &locked {
-                        // The requested dependency may be present in the lock file with different
-                        // versions, but only one will be semver-compatible
-                        // with the requested version.
-                        if d.name == p.name && d.req.matches(&p.version) {
-                            return Some((d.name, p.version.to_string()));
-                        }
-                    }
-                    None
-                })
-            {
-                manifest
-                    .upgrade(
-                        &Dependency::new(&name).set_version(&version),
-                        dry_run,
-                        skip_compatible,
-                    )
-                    .map_err_op("invoke Manifest::find")?;
-            }
-        }
-        Ok(())
-    }
 }
 
 // Some metadata about the dependency
@@ -284,6 +217,8 @@ impl DesiredUpgrades {
                         is_prerelease,
                     },
                 )| {
+                    let name = dep.name.clone();
+
                     if let Some(v) = version {
                         Ok((dep, v))
                     } else {
@@ -311,7 +246,7 @@ impl DesiredUpgrades {
                             )
                         })
                         .map_err_op("invoke cargo_edit::get_latest_dependency")
-                        .with_context(|| format!("failed to get new version of {}", dep.name))
+                        .with_context(|| format!("failed to get new version of {}", name))
                     }
                 },
             )

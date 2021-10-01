@@ -28,7 +28,7 @@ impl PluginCommand {
             PluginCommand::Build(cmd) => cmd.run().await,
             PluginCommand::Package(_) => todo!(),
             PluginCommand::Publish(_) => todo!(),
-            PluginCommand::UpgradeDeps(_) => todo!(),
+            PluginCommand::UpgradeDeps(cmd) => cmd.run().await,
         }
     }
 }
