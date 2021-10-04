@@ -5,6 +5,17 @@ use swc_ecma_ast::*;
 
 /// Extension methods for [Expr].
 pub trait ExprFactory: Into<Expr> {
+    /// ```rust
+    /// use swc_common::DUMMY_SP;
+    /// use swc_ecma_ast::*;
+    /// use swc_ecma_utils::ExprFactory;
+    ///
+    /// let first = Lit::Num(Number {
+    ///     span: DUMMY_SP,
+    ///     value: 0.0
+    /// });
+    /// let _args = vec![first.as_arg()];
+    /// ```
     #[inline]
     fn as_arg(self) -> ExprOrSpread {
         ExprOrSpread {
