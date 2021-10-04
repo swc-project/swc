@@ -563,7 +563,7 @@ _foo.default.bar = true;
 
 test!(
     Syntax::default(),
-    |_| expr_simplifier(),
+    |_| expr_simplifier(Default::default()),
     issue_1619_1,
     r#"
     "use strict";

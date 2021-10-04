@@ -27,15 +27,29 @@ macro_rules! try_val {
     }};
 }
 
+/// All [bool] fields defaults to [false].
+#[derive(Debug, Clone, Copy, Default, Hash)]
+pub struct Config {
+    pub preserve_string_call: bool,
+}
+
 /// Not intended for general use. Use [simplifier] instead.
 ///
 /// Ported from `PeepholeFoldConstants` of google closure compiler.
-pub fn expr_simplifier() -> impl RepeatedJsPass + VisitMut + 'static {
-    as_folder(SimplifyExpr::default())
+pub fn expr_simplifier(config: Config) -> impl RepeatedJsPass + VisitMut + 'static {
+    as_folder(SimplifyExpr {
+        config,
+        changed: false,
+        vars: Default::default(),
+        is_arg_of_update: false,
+        is_modifying: false,
+        in_callee: false,
+    })
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug)]
 struct SimplifyExpr {
+    config: Config,
     changed: bool,
     /// Uninitializd variables.
     vars: Vec<VarDeclarator>,
@@ -1344,7 +1358,8 @@ impl VisitMut for SimplifyExpr {
                 }
 
                 Expr::New(e) => {
-                    if e.callee.is_ident_ref_to(js_word!("String"))
+                    if !self.config.preserve_string_call
+                        && e.callee.is_ident_ref_to(js_word!("String"))
                         && e.args.is_some()
                         && e.args.as_ref().unwrap().len() == 1
                         && e.args.as_ref().unwrap()[0].spread.is_none()
@@ -1374,7 +1389,14 @@ impl VisitMut for SimplifyExpr {
     }
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        let mut child = Self::default();
+        let mut child = SimplifyExpr {
+            config: self.config,
+            changed: Default::default(),
+            vars: Default::default(),
+            is_arg_of_update: Default::default(),
+            is_modifying: Default::default(),
+            in_callee: Default::default(),
+        };
 
         n.visit_mut_children_with(&mut child);
         self.changed |= child.changed;
@@ -1515,7 +1537,14 @@ impl VisitMut for SimplifyExpr {
     }
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
-        let mut child = Self::default();
+        let mut child = SimplifyExpr {
+            config: self.config,
+            changed: Default::default(),
+            vars: Default::default(),
+            is_arg_of_update: Default::default(),
+            is_modifying: Default::default(),
+            in_callee: Default::default(),
+        };
 
         n.visit_mut_children_with(&mut child);
         self.changed |= child.changed;
@@ -1572,7 +1601,7 @@ fn nth_char(s: &str, mut idx: usize) -> Cow<str> {
                 return Cow::Owned(buf);
             } else {
                 for _ in 0..6 {
-                    dbg!(iter.next());
+                    iter.next();
                 }
             }
         }

@@ -157,7 +157,7 @@ impl SwcLoader {
                 swc_ecma_utils::HANDLER.set(&handler, || {
                     let program =
                         program.fold_with(&mut inline_globals(self.env_map(), Default::default()));
-                    let program = program.fold_with(&mut expr_simplifier());
+                    let program = program.fold_with(&mut expr_simplifier(Default::default()));
                     let program = program.fold_with(&mut dead_branch_remover());
 
                     program
@@ -249,7 +249,7 @@ impl SwcLoader {
                     swc_ecma_utils::HANDLER.set(handler, || {
                         let program = program
                             .fold_with(&mut inline_globals(self.env_map(), Default::default()));
-                        let program = program.fold_with(&mut expr_simplifier());
+                        let program = program.fold_with(&mut expr_simplifier(Default::default()));
                         let program = program.fold_with(&mut dead_branch_remover());
 
                         let program = program.fold_with(&mut config.pass);
