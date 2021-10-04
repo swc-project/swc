@@ -68,18 +68,21 @@ impl NormalizedOutput {
             path.to_path_buf()
         });
 
-        let expected = File::open(&path)
-            .map(|mut file| {
-                let mut buf = String::new();
-                file.read_to_string(&mut buf).unwrap();
-                buf
-            })
-            .unwrap_or_else(|_| {
-                // If xxx.stderr file does not exist, stderr should be empty.
-                String::new()
-            });
+        let expected: NormalizedOutput = NormalizedOutput(
+            File::open(&path)
+                .map(|mut file| {
+                    let mut buf = String::new();
+                    file.read_to_string(&mut buf).unwrap();
+                    buf
+                })
+                .unwrap_or_else(|_| {
+                    // If xxx.stderr file does not exist, stderr should be empty.
+                    String::new()
+                })
+                .replace("\r\n", "\n"),
+        );
 
-        if expected == self.0 {
+        if expected == self {
             return Ok(());
         }
 
@@ -87,12 +90,12 @@ impl NormalizedOutput {
         create_dir_all(path.parent().unwrap()).expect("failed to run `mkdir -p`");
 
         let diff = Diff {
-            expected: NormalizedOutput(expected),
-            actual: self.clone(),
+            expected,
+            actual: self,
         };
         if std::env::var("UPDATE").unwrap_or(String::from("0")) == "1" {
             // ::write_to_file(&path_for_actual, &self.0);
-            crate::write_to_file(&path, &self.0);
+            crate::write_to_file(&path, &diff.actual.0);
 
             eprintln!(
                 "Assertion failed: \nActual file printed to {}",
