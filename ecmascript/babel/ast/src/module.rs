@@ -112,6 +112,7 @@ pub struct ExportSpecifier {
     pub base: BaseNode,
     pub local: Identifier,
     pub exported: IdOrString,
+    pub export_kind: ExportKind,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
