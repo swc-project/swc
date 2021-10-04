@@ -3187,7 +3187,7 @@ dependencies = [
 
 [[package]]
 name = "testing"
-version = "0.14.0"
+version = "0.14.1"
 dependencies = [
  "ansi_term 0.12.1",
  "difference",
