@@ -39,11 +39,15 @@ pub struct Config {
 pub fn expr_simplifier(config: Config) -> impl RepeatedJsPass + VisitMut + 'static {
     as_folder(SimplifyExpr {
         config,
-        ..Default::default()
+        changed: false,
+        vars: Default::default(),
+        is_arg_of_update: false,
+        is_modifying: false,
+        in_callee: false,
     })
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug)]
 struct SimplifyExpr {
     config: Config,
     changed: bool,
@@ -1385,7 +1389,14 @@ impl VisitMut for SimplifyExpr {
     }
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        let mut child = Self::default();
+        let mut child = SimplifyExpr {
+            config: self.config,
+            changed: Default::default(),
+            vars: Default::default(),
+            is_arg_of_update: Default::default(),
+            is_modifying: Default::default(),
+            in_callee: Default::default(),
+        };
 
         n.visit_mut_children_with(&mut child);
         self.changed |= child.changed;
@@ -1526,7 +1537,14 @@ impl VisitMut for SimplifyExpr {
     }
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
-        let mut child = Self::default();
+        let mut child = SimplifyExpr {
+            config: self.config,
+            changed: Default::default(),
+            vars: Default::default(),
+            is_arg_of_update: Default::default(),
+            is_modifying: Default::default(),
+            in_callee: Default::default(),
+        };
 
         n.visit_mut_children_with(&mut child);
         self.changed |= child.changed;
@@ -1583,7 +1601,7 @@ fn nth_char(s: &str, mut idx: usize) -> Cow<str> {
                 return Cow::Owned(buf);
             } else {
                 for _ in 0..6 {
-                    dbg!(iter.next());
+                    iter.next();
                 }
             }
         }
