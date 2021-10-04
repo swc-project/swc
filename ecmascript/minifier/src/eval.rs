@@ -195,7 +195,7 @@ impl Evaluator {
                 });
 
                 e.visit_mut_with(&mut expr_simplifier(ExprSimplifierConfig {
-                    preserve_string: true,
+                    preserve_string_call: true,
                 }));
                 return Some(Box::new(e));
             }

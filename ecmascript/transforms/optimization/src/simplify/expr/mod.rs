@@ -30,7 +30,7 @@ macro_rules! try_val {
 /// All [bool] fields defaults to [false].
 #[derive(Debug, Clone, Copy, Default, Hash)]
 pub struct Config {
-    pub preserve_string: bool,
+    pub preserve_string_call: bool,
 }
 
 /// Not intended for general use. Use [simplifier] instead.
@@ -1358,7 +1358,7 @@ impl VisitMut for SimplifyExpr {
                 }
 
                 Expr::New(e) => {
-                    if !self.config.preserve_string
+                    if !self.config.preserve_string_call
                         && e.callee.is_ident_ref_to(js_word!("String"))
                         && e.args.is_some()
                         && e.args.as_ref().unwrap().len() == 1

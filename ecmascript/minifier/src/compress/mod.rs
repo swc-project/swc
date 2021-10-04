@@ -73,7 +73,7 @@ where
         console_remover,
         as_folder(compressor),
         expr_simplifier(ExprSimplifierConfig {
-            preserve_string: true,
+            preserve_string_call: true,
             ..Default::default()
         })
     )
@@ -276,7 +276,7 @@ where
             let start_time = now();
 
             let mut visitor = expr_simplifier(ExprSimplifierConfig {
-                preserve_string: true,
+                preserve_string_call: true,
             });
             n.apply(&mut visitor);
             self.changed |= visitor.changed();
