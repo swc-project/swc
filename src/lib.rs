@@ -9,6 +9,16 @@
 //! ## Custom javascript transforms
 //!
 //!
+//! ### What is [JsWord](swc_atoms::JsWord)
+//!
+//! It's basically an interned string. See [swc_atoms].
+//!
+//! ### Choosing between [JsWord](swc_atoms::JsWord) vs String
+//!
+//! You should  prefer [JsWord](swc_atoms::JsWord) over [String] if it's going
+//! to be stored in an AST node.
+//!
+//! See [swc_atoms] for detailed description.
 //!
 //! ### Improving readability
 //!
