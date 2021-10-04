@@ -1,3 +1,36 @@
+//! The main crate of the swc project.
+//!
+//!
+//!
+//! # Cutomizing
+//!
+//! This is documentation for building custom build tools on top of swc.
+//!
+//! ## Custom javascript transforms
+//!
+//!
+//!
+//! ### Improving readability
+//!
+//! Each stuffs are documented at itself.
+//!
+//!  - If you are creating or binding an [swc_ecma_ast::Expr] with operator, you
+//!    can use [swc_ecma_ast::op].
+//!
+//!  - If you want to create [swc_ecma_ast::CallExpr], you can use
+//!    [swc_ecma_utils::ExprFactory::as_callee] to create `callee`.
+//!
+//!  - If you want to create [swc_ecma_ast::CallExpr] or
+//!    [swc_ecma_ast::NewExpr], you can use
+//!    [swc_ecma_utils::ExprFactory::as_arg] to create arguments.
+//!
+//!
+//!  - If you want to create [swc_ecma_ast::MemberExpr] where all identifiers
+//!    are static (e.g. `Object.prototype.hasOwnProperty`), you can use
+//!    [swc_ecma_utils::member_expr].
+//!
+//!  - If you want to create [swc_ecma_ast::MemberExpr], you can use
+//!    [swc_ecma_utils::ExprFactory::as_obj] to create object field.
 #![deny(unused)]
 
 pub extern crate swc_atoms as atoms;
