@@ -2305,7 +2305,7 @@ checksum = "6446ced80d6c486436db5c078dde11a9f73d42b57fb273121e160b84f63d894c"
 
 [[package]]
 name = "swc"
-version = "0.60.0"
+version = "0.60.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2561,7 +2561,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.54.0"
+version = "0.54.1"
 dependencies = [
  "arbitrary",
  "is-macro",
@@ -2970,7 +2970,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.46.0"
+version = "0.46.1"
 dependencies = [
  "once_cell",
  "scoped-tls",
