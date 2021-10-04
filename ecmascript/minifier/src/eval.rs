@@ -8,7 +8,7 @@ use std::sync::{Arc, Mutex};
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms::optimization::simplify::expr_simplifier;
+use swc_ecma_transforms::optimization::simplify::{expr_simplifier, ExprSimplifierConfig};
 use swc_ecma_utils::{ident::IdentLike, undefined, ExprExt, ExprFactory, Id};
 use swc_ecma_visit::{FoldWith, VisitMutWith};
 
@@ -194,7 +194,9 @@ impl Evaluator {
                     computed: false,
                 });
 
-                e.visit_mut_with(&mut expr_simplifier());
+                e.visit_mut_with(&mut expr_simplifier(ExprSimplifierConfig {
+                    preserve_string: true,
+                }));
                 return Some(Box::new(e));
             }
 

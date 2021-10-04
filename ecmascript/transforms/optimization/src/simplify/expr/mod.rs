@@ -27,15 +27,25 @@ macro_rules! try_val {
     }};
 }
 
+/// All [bool] fields defaults to [false].
+#[derive(Debug, Clone, Copy, Default, Hash)]
+pub struct Config {
+    pub preserve_string: bool,
+}
+
 /// Not intended for general use. Use [simplifier] instead.
 ///
 /// Ported from `PeepholeFoldConstants` of google closure compiler.
-pub fn expr_simplifier() -> impl RepeatedJsPass + VisitMut + 'static {
-    as_folder(SimplifyExpr::default())
+pub fn expr_simplifier(config: Config) -> impl RepeatedJsPass + VisitMut + 'static {
+    as_folder(SimplifyExpr {
+        config,
+        ..Default::default()
+    })
 }
 
 #[derive(Debug, Default)]
 struct SimplifyExpr {
+    config: Config,
     changed: bool,
     /// Uninitializd variables.
     vars: Vec<VarDeclarator>,
@@ -1344,7 +1354,8 @@ impl VisitMut for SimplifyExpr {
                 }
 
                 Expr::New(e) => {
-                    if e.callee.is_ident_ref_to(js_word!("String"))
+                    if !self.config.preserve_string
+                        && e.callee.is_ident_ref_to(js_word!("String"))
                         && e.args.is_some()
                         && e.args.as_ref().unwrap().len() == 1
                         && e.args.as_ref().unwrap()[0].spread.is_none()
