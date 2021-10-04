@@ -4,12 +4,21 @@
 //!
 //! # Cutomizing
 //!
+//!
 //! This is documentation for building custom build tools on top of swc.
+//!
+//! ## Dependency version management
+//!
+//! `swc` has [swc_emcascript](https://docs.rs/swc_emcascript) and [swc_css](https://docs.rs/swc_css), which re-exports required modules.
+//!
+//! ## Teating
+//!
+//! See [testing] and [swc_ecmc_transform_testing](https://docs.rs/swc_ecmc_transform_testing).
 //!
 //! ## Custom javascript transforms
 //!
 //!
-//! ### What is [JsWord](swc_atoms::JsWord)
+//! ### What is [JsWord](swc_atoms::JsWord)?
 //!
 //! It's basically an interned string. See [swc_atoms].
 //!
@@ -20,7 +29,25 @@
 //!
 //! See [swc_atoms] for detailed description.
 //!
-//! ### Prepending statements
+//! ### [Fold](swc_ecma_visit::Fold) vs [VisitMut](swc_ecma_visit::VisitMut) vs
+//! [Visit](swc_ecma_visit::Visit)
+//!
+//! See [swc_visit] for detailed description.
+//!
+//! ### Variable management (Scoping)
+//!
+//! See [swc_ecma_transforms_base::resolver::resolver_with_mark].
+//!
+//! #### Comparing two identifiers
+//!
+//! See [swc_ecma_utils::Id]. You can use [swc_ecma_utils::IdentLike::to_id] to
+//! extract important parts of an [swc_ecma_ast::Ident].
+//!
+//! #### Creating a unique identifier
+//!
+//! See [swc_ecma_utils::private_ident].
+//!
+//! #### Prepending statements
 //!
 //! If you want to prepend statements to the beginning of a file, you can use
 //! [swc_ecma_utils::prepend_stmts] or [swc_ecma_utils::prepend] if `len == 1`.
