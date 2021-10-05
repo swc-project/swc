@@ -1470,6 +1470,7 @@ define!({
         pub base: BaseNode,
         pub local: Identifier,
         pub exported: IdOrString,
+        pub export_kind: ExportKind,
     }
     pub struct ExportDefaultSpecifier {
         pub base: BaseNode,

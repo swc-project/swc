@@ -317,6 +317,11 @@ impl Babelify for ExportNamedSpecifier {
             base: ctx.base(self.span),
             local: self.orig.clone().babelify(ctx),
             exported: IdOrString::Id(self.exported.unwrap_or(self.orig).babelify(ctx)),
+            export_kind: if self.is_type_only {
+                ExportKind::Type
+            } else {
+                ExportKind::Value
+            },
         }
     }
 }
