@@ -5,7 +5,7 @@ use crate::{
     error::{Error, ErrorKind},
     Parse,
 };
-use swc_atoms::{js_word};
+use swc_atoms::js_word;
 use swc_common::{BytePos, Spanned};
 use swc_css_ast::*;
 
