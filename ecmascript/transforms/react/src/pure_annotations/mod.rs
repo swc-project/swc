@@ -2,7 +2,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, comments::Comments};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{id, Id};
-use swc_ecma_visit::{as_folder, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 #[cfg(test)]
 mod tests;
@@ -33,6 +33,8 @@ impl<C> VisitMut for PureAnnotations<C>
 where
     C: Comments,
 {
+    noop_visit_mut_type!();
+
     fn visit_mut_module(&mut self, module: &mut Module) {
         // Pass 1: collect imports
         for item in &module.body {
@@ -85,8 +87,7 @@ where
                     ExprOrSuper::Expr(expr) => match &**expr {
                         Expr::Ident(ident) => {
                             if let Some((src, specifier)) = self.imports.get(&id(&ident)) {
-                                let specifier_str = specifier.to_string();
-                                if specifier_str == "default" || specifier_str == "*" {
+                                if &**specifier == "default" || &**specifier == "*" {
                                     match &*member.prop {
                                         Expr::Ident(ident) => is_pure(src, &ident.sym),
                                         _ => false,
