@@ -1,7 +1,8 @@
+use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::PatOrExprExt;
 use swc_ecma_utils::{private_ident, UsageFinder};
-use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 /// `@babel/plugin-transform-function-name`
 ///
@@ -20,8 +21,8 @@ use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitM
 /// }
 /// var Foo = (class Foo {});
 /// ```
-pub fn function_name() -> impl Fold {
-    FnName
+pub fn function_name() -> impl 'static + Copy + Fold + VisitMut {
+    as_folder(FnName)
 }
 
 #[derive(Clone, Copy)]
@@ -40,14 +41,14 @@ fn prepare(i: Ident) -> Ident {
     i
 }
 
-impl Fold for FnName {
-    noop_fold_type!();
+impl VisitMut for FnName {
+    noop_visit_mut_type!();
 
-    fn fold_assign_expr(&mut self, expr: AssignExpr) -> AssignExpr {
-        let mut expr = expr.fold_children_with(self);
+    fn visit_mut_assign_expr(&mut self, expr: &mut AssignExpr) {
+        expr.visit_mut_children_with(self);
 
         if expr.op != op!("=") {
-            return expr;
+            return;
         }
 
         if let Some(ident) = expr.left.as_ident_mut() {
@@ -57,35 +58,31 @@ impl Fold for FnName {
 
             expr.right.visit_mut_with(&mut folder);
 
-            return expr;
+            return;
         }
-
-        expr
     }
 
-    fn fold_key_value_prop(&mut self, p: KeyValueProp) -> KeyValueProp {
-        let mut p = p.fold_children_with(self);
+    fn visit_mut_key_value_prop(&mut self, p: &mut KeyValueProp) {
+        p.visit_mut_children_with(self);
 
-        p.value = match *p.value {
+        match &mut *p.value {
             Expr::Fn(expr @ FnExpr { ident: None, .. }) => {
                 //
-                if let PropName::Ident(ref i) = p.key {
+                p.value = if let PropName::Ident(ref i) = p.key {
                     Box::new(Expr::Fn(FnExpr {
                         ident: Some(prepare(i.clone())),
-                        ..expr
+                        ..expr.take()
                     }))
                 } else {
-                    Box::new(Expr::Fn(expr))
-                }
+                    Box::new(Expr::Fn(expr.take()))
+                };
             }
-            _ => p.value,
+            _ => {}
         };
-
-        p
     }
 
-    fn fold_var_declarator(&mut self, decl: VarDeclarator) -> VarDeclarator {
-        let mut decl = decl.fold_children_with(self);
+    fn visit_mut_var_declarator(&mut self, decl: &mut VarDeclarator) {
+        decl.visit_mut_children_with(self);
 
         match decl.name {
             Pat::Ident(ref mut ident) => {
@@ -96,8 +93,6 @@ impl Fold for FnName {
             }
             _ => {}
         }
-
-        decl
     }
 }
 
