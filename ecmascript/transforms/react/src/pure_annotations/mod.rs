@@ -118,13 +118,13 @@ where
 }
 
 fn is_pure(src: &JsWord, specifier: &JsWord) -> bool {
-    match src.to_string().as_str() {
-        "react" => match specifier.to_string().as_str() {
+    match &**src {
+        "react" => match &**specifier {
             "cloneElement" | "createContext" | "createElement" | "createFactory" | "createRef"
             | "forwardRef" | "isValidElement" | "memo" | "lazy" => true,
             _ => false,
         },
-        "react-dom" => match specifier.to_string().as_str() {
+        "react-dom" => match &**specifier {
             "createPortal" => true,
             _ => false,
         },
