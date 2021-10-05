@@ -13,7 +13,7 @@ use swc::config::{Config, JscConfig, Options, SourceMapsConfig};
 use swc_common::{errors::Handler, FileName, FilePathMapping, SourceMap};
 use swc_ecma_ast::Program;
 use swc_ecma_parser::{JscTarget, Syntax, TsConfig};
-use swc_ecma_transforms::{fixer, hygiene, resolver, typescript};
+use swc_ecma_transforms::{fixer, hygiene, pass::noop, resolver, typescript};
 use swc_ecma_visit::FoldWith;
 use test::Bencher;
 
@@ -109,6 +109,7 @@ fn config_for_file(b: &mut Bencher) {
                 ..Default::default()
             },
             &FileName::Real("rxjs/src/internal/observable/dom/AjaxObservable.ts".into()),
+            noop(),
         ))
     });
 }
@@ -243,6 +244,7 @@ macro_rules! tr_only {
                         &FileName::Real(
                             "rxjs/src/internal/observable/dom/AjaxObservable.ts".into(),
                         ),
+                        noop(),
                     )
                     .unwrap()
                     .unwrap();
