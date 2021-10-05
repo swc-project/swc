@@ -6,7 +6,7 @@ use crate::{
     util::idents_used_by,
 };
 use swc_atoms::js_word;
-use swc_common::{util::take::Take, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, ExprExt, UsageFinder};
 
@@ -208,13 +208,6 @@ where
                         return;
                     }
 
-                    if self.ctx.inline_as_assignment {
-                        if cfg!(feature = "debug") {
-                            tracing::trace!("inline: [x] inline_as_assignment is true");
-                        }
-                        return;
-                    }
-
                     // Single use => inlined
                     if is_inline_enabled
                         && !should_preserve
@@ -393,13 +386,6 @@ where
         if self.ctx.is_exported {
             if cfg!(feature = "debug") {
                 tracing::trace!("inline: [x] exported");
-            }
-            return;
-        }
-
-        if self.ctx.inline_as_assignment {
-            if cfg!(feature = "debug") {
-                tracing::trace!("inline: [x] inline_as_assignment=true");
             }
             return;
         }
@@ -603,29 +589,6 @@ where
                             }
                         }
                         _ => {}
-                    }
-                }
-
-                if self.ctx.inline_as_assignment {
-                    if let Some(value) = self.state.vars_for_inlining.remove(&i.to_id()) {
-                        self.changed = true;
-                        tracing::debug!(
-                            "inline: Inlining '{}{:?}' using assignment",
-                            i.sym,
-                            i.span.ctxt
-                        );
-
-                        *e = Expr::Assign(AssignExpr {
-                            span: DUMMY_SP,
-                            op: op!("="),
-                            left: PatOrExpr::Pat(Box::new(Pat::Ident(i.clone().into()))),
-                            right: value,
-                        });
-
-                        if cfg!(feature = "debug") {
-                            tracing::trace!("inline: [Change] {}", dump(&*e))
-                        }
-                        return;
                     }
                 }
 

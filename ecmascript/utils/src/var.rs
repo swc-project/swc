@@ -1,10 +1,11 @@
-use swc_atoms::JsWord;
-use swc_common::SyntaxContext;
+use crate::Id;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 
+/// This collects variables bindings while ignoring if it's nested in
+/// expression.
 pub struct VarCollector<'a> {
-    pub to: &'a mut Vec<(JsWord, SyntaxContext)>,
+    pub to: &'a mut Vec<Id>,
 }
 
 impl Visit for VarCollector<'_> {

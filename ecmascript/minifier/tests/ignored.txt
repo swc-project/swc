@@ -355,9 +355,7 @@ pure_getters/collapse_vars_2_true/input.js
 pure_getters/issue_2265_1/input.js
 pure_getters/issue_2265_3/input.js
 pure_getters/issue_2313_6/input.js
-pure_getters/set_immutable_2/input.js
 pure_getters/set_immutable_3/input.js
-pure_getters/set_immutable_4/input.js
 pure_getters/set_immutable_5/input.js
 pure_getters/strict/input.js
 pure_getters/strict_reduce_vars/input.js
