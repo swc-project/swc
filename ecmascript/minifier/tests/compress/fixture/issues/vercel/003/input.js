@@ -53,13 +53,13 @@ const manager = (function makeManager() {
     }
 
     return {
-        e1: d,
-        e2: l,
-        e3: q,
+        d,
+        l,
+        q,
     };
 })();
 
 export default manager;
-export const { e1 } = manager;
-export const { e2 } = manager;
-export const { e3 } = manager;
+export const { d } = manager;
+export const { l } = manager;
+export const { q } = manager;
