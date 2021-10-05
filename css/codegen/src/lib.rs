@@ -501,7 +501,6 @@ where
                     self.wr.write_raw(Some(n.span), &raw)?;
                 }
                 Token::Str { raw, .. } => {
-                    punct!(self, "(");
                     self.wr.write_raw(Some(span), &raw)?;
                 }
                 Token::Url { value } => {

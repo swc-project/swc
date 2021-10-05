@@ -171,7 +171,11 @@ where
 
             Token::Url { .. } => match bump!(self) {
                 // TODO: we need raw for url too
-                Token::Url { value } => Ok(Str { span, value, raw: "".into() }),
+                Token::Url { value } => {
+                    let raw = value.clone();
+                    
+                    Ok(Str { span, value, raw })
+                },
                 _ => {
                     unreachable!()
                 }
