@@ -1,3 +1,6 @@
+#[doc(hidden)]
+pub extern crate swc_ecma_ast;
+
 pub use self::{
     factory::ExprFactory,
     ident::{id, Id},
