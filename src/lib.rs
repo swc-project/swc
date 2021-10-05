@@ -765,6 +765,7 @@ impl Compiler {
         handler: &Handler,
         opts: &Options,
         name: &FileName,
+        before_pass: impl 'a + swc_ecma_visit::Fold,
     ) -> Result<Option<BuiltConfig<impl 'a + swc_ecma_visit::Fold>>, Error> {
         self.run(|| -> Result<_, Error> {
             let config = self.read_config(opts, name)?;
@@ -782,6 +783,7 @@ impl Compiler {
                 opts.is_module,
                 Some(config),
                 Some(&self.comments),
+                before_pass,
             );
             Ok(Some(built))
         })
@@ -826,7 +828,8 @@ impl Compiler {
         P2: swc_ecma_visit::Fold,
     {
         self.run(|| -> Result<_, Error> {
-            let config = self.run(|| self.config_for_file(handler, opts, &fm.name))?;
+            let config =
+                self.run(|| self.config_for_file(handler, opts, &fm.name, custom_before_pass))?;
             let config = match config {
                 Some(v) => v,
                 None => {
@@ -834,7 +837,7 @@ impl Compiler {
                 }
             };
             let config = BuiltConfig {
-                pass: chain!(custom_before_pass, config.pass, custom_after_pass),
+                pass: chain!(config.pass, custom_after_pass),
                 syntax: config.syntax,
                 target: config.target,
                 minify: config.minify,
@@ -998,7 +1001,7 @@ impl Compiler {
                 None
             };
 
-            let config = self.run(|| self.config_for_file(handler, opts, &fm.name))?;
+            let config = self.run(|| self.config_for_file(handler, opts, &fm.name, noop()))?;
 
             let config = match config {
                 Some(v) => v,
