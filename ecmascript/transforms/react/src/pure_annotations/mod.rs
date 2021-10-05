@@ -38,7 +38,7 @@ where
         for item in &module.body {
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
-                    let src_str = import.src.value.to_string();
+                    let src_str = &*import.src.value;
                     if src_str != "react" && src_str != "react-dom" {
                         continue;
                     }
