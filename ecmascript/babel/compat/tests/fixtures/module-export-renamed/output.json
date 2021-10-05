@@ -162,7 +162,8 @@
                                 "identifierName": "y"
                             },
                             "name": "y"
-                        }
+                        },
+                        "exportKind": "value"
                     }
                 ],
                 "source": null,
