@@ -288,25 +288,7 @@ where
 
     #[emitter]
     fn emit_str(&mut self, n: &Str) -> Result {
-        // TODO: Handle escapes.
-        punct!(self, "'");
-
-        if n.value.chars().any(|c| c == '\n') {
-            for c in n.value.chars() {
-                match c {
-                    '\n' => {
-                        self.wr.write_raw_char(None, '\\')?;
-                        self.wr.write_raw_char(None, 'n')?;
-                    }
-                    _ => {
-                        self.wr.write_raw_char(None, c)?;
-                    }
-                }
-            }
-        } else {
-            self.wr.write_raw(Some(n.span), &n.value)?;
-        }
-        punct!(self, "'");
+        self.wr.write_raw(Some(n.span), &n.raw)?;
     }
 
     #[emitter]
@@ -518,10 +500,9 @@ where
                 Token::Ident { raw, .. } => {
                     self.wr.write_raw(Some(n.span), &raw)?;
                 }
-                Token::Str { value } => {
-                    punct!(self, "'");
-                    self.wr.write_raw(Some(span), &value)?;
-                    punct!(self, "'");
+                Token::Str { raw, .. } => {
+                    punct!(self, "(");
+                    self.wr.write_raw(Some(span), &raw)?;
                 }
                 Token::Url { value } => {
                     self.wr.write_ident(Some(span), "url", false)?;

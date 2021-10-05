@@ -499,9 +499,10 @@ where
                     Token::Ident { value, .. } => value,
                     _ => unreachable!(),
                 };
+                // TODO: ident can have raw value
+                let raw = value.clone();
 
-                // TODO: string can have raw value
-                Ok(Str { span, value, raw: "".into() })
+                Ok(Str { span, value, raw })
             }
             Token::Str { .. } => {
                 let value = bump!(self);

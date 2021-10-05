@@ -90,7 +90,7 @@ where
     fn write_punct(&mut self, _span: Option<Span>, punct: &str) -> Result {
         debug_assert!(
             !punct.contains('\n'),
-            "punct should not contain newline charactters"
+            "punct should not contain newline characters"
         );
 
         self.apply_indent()?;
