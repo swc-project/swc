@@ -111,9 +111,6 @@ struct Ctx {
     is_callee: bool,
     in_call_arg: bool,
 
-    /// If this is `true`, the first usage will be inlined as an assignment.
-    inline_as_assignment: bool,
-
     var_kind: Option<VarDeclKind>,
 
     /// `true` if we should not inline values.
