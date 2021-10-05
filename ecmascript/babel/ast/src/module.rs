@@ -106,12 +106,14 @@ pub enum ExportKind {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct ExportSpecifier {
     #[serde(flatten)]
     pub base: BaseNode,
     pub local: Identifier,
     pub exported: IdOrString,
+    pub export_kind: ExportKind,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
