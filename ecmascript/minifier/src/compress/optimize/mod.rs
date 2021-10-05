@@ -2088,6 +2088,27 @@ where
         n.retain(|p| !p.pat.is_invalid());
     }
 
+    fn visit_mut_prop(&mut self, n: &mut Prop) {
+        n.visit_mut_children_with(self);
+
+        match n {
+            Prop::Shorthand(i) => {
+                if self.lits.contains_key(&i.to_id())
+                    || self.state.vars_for_inlining.contains_key(&i.to_id())
+                {
+                    let mut e = Box::new(Expr::Ident(i.clone()));
+                    e.visit_mut_with(self);
+
+                    *n = Prop::KeyValue(KeyValueProp {
+                        key: PropName::Ident(i.clone()),
+                        value: e,
+                    });
+                }
+            }
+            _ => {}
+        }
+    }
+
     fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {
         n.visit_mut_children_with(self);
 
