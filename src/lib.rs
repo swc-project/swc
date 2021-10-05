@@ -91,6 +91,10 @@
 //!  - [noop_fold_type](swc_ecma_visit::noop_fold_type)
 //!  - [noop_visit_mut_type](swc_ecma_visit::noop_visit_mut_type)
 //!  - [noop_visit_type](swc_ecma_visit::noop_visit_type)
+//!
+//! Note that this will make typescript-related nodes not processed, but it's
+//! typically fine as `typescript::strip` is invoked at the start and it removes
+//! typescript-specific nodes.
 #![deny(unused)]
 
 pub extern crate swc_atoms as atoms;
