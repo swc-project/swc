@@ -4,6 +4,7 @@ use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{Parser, StringInput};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_testing::Tester;
+use swc_ecma_visit::FoldWith;
 
 fn parse(
     tester: &mut Tester,

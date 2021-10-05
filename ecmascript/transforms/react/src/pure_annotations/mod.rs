@@ -2,7 +2,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, comments::Comments};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{id, Id};
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{as_folder, Fold, VisitMut, VisitMutWith};
 
 #[cfg(test)]
 mod tests;
@@ -11,14 +11,14 @@ mod tests;
 /// React methods, so that terser and other minifiers can safely remove them
 /// during dead code elimination.
 /// See https://reactjs.org/docs/react-api.html
-pub fn pure_annotations<C>(comments: Option<C>) -> impl Fold
+pub fn pure_annotations<C>(comments: Option<C>) -> impl Fold + VisitMut
 where
     C: Comments,
 {
-    PureAnnotations {
+    as_folder(PureAnnotations {
         imports: Default::default(),
         comments,
-    }
+    })
 }
 
 struct PureAnnotations<C>
@@ -29,11 +29,11 @@ where
     comments: Option<C>,
 }
 
-impl<C> Fold for PureAnnotations<C>
+impl<C> VisitMut for PureAnnotations<C>
 where
     C: Comments,
 {
-    fn fold_module(&mut self, module: Module) -> Module {
+    fn visit_mut_module(&mut self, module: &mut Module) {
         // Pass 1: collect imports
         for item in &module.body {
             match item {
@@ -68,10 +68,10 @@ where
         }
 
         // Pass 2: add pure annotations.
-        module.fold_children_with(self)
+        module.visit_mut_children_with(self);
     }
 
-    fn fold_call_expr(&mut self, call: CallExpr) -> CallExpr {
+    fn visit_mut_call_expr(&mut self, call: &mut CallExpr) {
         let is_react_call = match &call.callee {
             ExprOrSuper::Expr(expr) => match &**expr {
                 Expr::Ident(ident) => {
@@ -113,7 +113,7 @@ where
             }
         }
 
-        call.fold_children_with(self)
+        call.visit_mut_children_with(self);
     }
 }
 
