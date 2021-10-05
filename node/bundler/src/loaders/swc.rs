@@ -18,6 +18,7 @@ use swc_ecma_transforms::{
         inline_globals,
         simplify::{dead_branch_remover, expr_simplifier},
     },
+    pass::noop,
 };
 use swc_ecma_visit::FoldWith;
 
@@ -221,6 +222,7 @@ impl SwcLoader {
                     ..Default::default()
                 },
                 &fm.name,
+                noop(),
             )?;
 
             tracing::trace!("JsLoader.load: loaded config");

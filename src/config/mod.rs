@@ -183,6 +183,7 @@ impl Options {
         is_module: bool,
         config: Option<Config>,
         comments: Option<&'a SwcComments>,
+        custom_before_pass: impl 'a + swc_ecma_visit::Fold,
     ) -> BuiltConfig<impl 'a + swc_ecma_visit::Fold> {
         let mut config = config.unwrap_or_else(Default::default);
         config.merge(&self.config);
@@ -288,6 +289,7 @@ impl Options {
                 syntax,
                 config.module,
                 comments,
+                custom_before_pass,
             );
 
         let pass = chain!(pass, Optional::new(jest::jest(), transform.hidden.jest));

@@ -154,6 +154,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         syntax: Syntax,
         module: Option<ModuleConfig>,
         comments: Option<&'cmt SwcComments>,
+        custom_before_pass: impl 'cmt + swc_ecma_visit::Fold,
     ) -> impl 'cmt + swc_ecma_visit::Fold
     where
         P: 'cmt,
@@ -170,12 +171,14 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             Either::Left(chain!(
                 import_assertions(),
                 Optional::new(typescript::strip(), syntax.typescript()),
+                custom_before_pass,
                 swc_ecma_preset_env::preset_env(self.global_mark, comments.clone(), env)
             ))
         } else {
             Either::Right(chain!(
                 import_assertions(),
                 Optional::new(typescript::strip(), syntax.typescript()),
+                custom_before_pass,
                 Optional::new(
                     compat::es2021::es2021(),
                     should_enable(self.target, JscTarget::Es2021)

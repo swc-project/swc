@@ -18,6 +18,7 @@
 //! ## Custom javascript transforms
 //!
 //!
+//!
 //! ### What is [JsWord](swc_atoms::JsWord)?
 //!
 //! It's basically an interned string. See [swc_atoms].
@@ -29,10 +30,15 @@
 //!
 //! See [swc_atoms] for detailed description.
 //!
-//! ### [Fold](swc_ecma_visit::Fold) vs [VisitMut](swc_ecma_visit::VisitMut) vs
-//! [Visit](swc_ecma_visit::Visit)
+//! ### Fold vs VisitMut vs Visit
 //!
 //! See [swc_visit] for detailed description.
+//!
+//!
+//!  - [Fold](swc_ecma_visit::Fold)
+//!  - [VisitMut](swc_ecma_visit::VisitMut)
+//!  - [Visit](swc_ecma_visit::Visit)
+//!
 //!
 //! ### Variable management (Scoping)
 //!
@@ -76,6 +82,19 @@
 //!
 //!  - If you want to create [swc_ecma_ast::MemberExpr], you can use
 //!    [swc_ecma_utils::ExprFactory::as_obj] to create object field.
+//!
+//!
+//! ### Reducing binary size
+//!
+//! The visitor expands to a lot of code. You can reduce it by using macros like
+//!
+//!  - [noop_fold_type](swc_ecma_visit::noop_fold_type)
+//!  - [noop_visit_mut_type](swc_ecma_visit::noop_visit_mut_type)
+//!  - [noop_visit_type](swc_ecma_visit::noop_visit_type)
+//!
+//! Note that this will make typescript-related nodes not processed, but it's
+//! typically fine as `typescript::strip` is invoked at the start and it removes
+//! typescript-specific nodes.
 #![deny(unused)]
 
 pub extern crate swc_atoms as atoms;
@@ -750,6 +769,7 @@ impl Compiler {
         handler: &Handler,
         opts: &Options,
         name: &FileName,
+        before_pass: impl 'a + swc_ecma_visit::Fold,
     ) -> Result<Option<BuiltConfig<impl 'a + swc_ecma_visit::Fold>>, Error> {
         self.run(|| -> Result<_, Error> {
             let config = self.read_config(opts, name)?;
@@ -767,6 +787,7 @@ impl Compiler {
                 opts.is_module,
                 Some(config),
                 Some(&self.comments),
+                before_pass,
             );
             Ok(Some(built))
         })
@@ -811,7 +832,8 @@ impl Compiler {
         P2: swc_ecma_visit::Fold,
     {
         self.run(|| -> Result<_, Error> {
-            let config = self.run(|| self.config_for_file(handler, opts, &fm.name))?;
+            let config =
+                self.run(|| self.config_for_file(handler, opts, &fm.name, custom_before_pass))?;
             let config = match config {
                 Some(v) => v,
                 None => {
@@ -819,7 +841,7 @@ impl Compiler {
                 }
             };
             let config = BuiltConfig {
-                pass: chain!(custom_before_pass, config.pass, custom_after_pass),
+                pass: chain!(config.pass, custom_after_pass),
                 syntax: config.syntax,
                 target: config.target,
                 minify: config.minify,
@@ -983,7 +1005,7 @@ impl Compiler {
                 None
             };
 
-            let config = self.run(|| self.config_for_file(handler, opts, &fm.name))?;
+            let config = self.run(|| self.config_for_file(handler, opts, &fm.name, noop()))?;
 
             let config = match config {
                 Some(v) => v,
