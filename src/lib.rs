@@ -91,6 +91,7 @@ use anyhow::{bail, Context, Error};
 use atoms::JsWord;
 use config::{util::BoolOrObject, JsMinifyCommentOption, JsMinifyOptions};
 use dashmap::DashMap;
+use once_cell::sync::Lazy;
 use serde::Serialize;
 use serde_json::error::Category;
 pub use sourcemap;
@@ -635,6 +636,14 @@ impl Compiler {
     }
 
     pub fn read_config(&self, opts: &Options, name: &FileName) -> Result<Option<Config>, Error> {
+        static CUR_DIR: Lazy<PathBuf> = Lazy::new(|| {
+            if cfg!(target_arch = "wasm32") {
+                PathBuf::new()
+            } else {
+                ::std::env::current_dir().unwrap()
+            }
+        });
+
         self.run(|| -> Result<_, Error> {
             let Options {
                 ref root,
@@ -644,13 +653,7 @@ impl Compiler {
                 ..
             } = opts;
 
-            let root = root.clone().unwrap_or_else(|| {
-                if cfg!(target_arch = "wasm32") {
-                    PathBuf::new()
-                } else {
-                    ::std::env::current_dir().unwrap()
-                }
-            });
+            let root = root.as_ref().unwrap_or_else(|| &CUR_DIR);
 
             let config_file = match config_file {
                 Some(ConfigFile::Str(ref s)) => Some(load_swcrc(Path::new(&s))?),

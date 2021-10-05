@@ -18,7 +18,10 @@ impl VisitMut for EsReservedWord {
 
     fn visit_mut_export_specifier(&mut self, _n: &mut ExportSpecifier) {}
 
-    fn visit_mut_meta_prop_expr(&mut self, _n: &mut MetaPropExpr) {}
+    /// For #[fast_path]
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
+    }
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         rename_ident(&mut i.sym, true);
@@ -50,7 +53,14 @@ impl VisitMut for EsReservedWord {
         }
     }
 
+    fn visit_mut_meta_prop_expr(&mut self, _n: &mut MetaPropExpr) {}
+
     fn visit_mut_prop_name(&mut self, _n: &mut PropName) {}
+
+    /// For #[fast_path]
+    fn visit_mut_stmt(&mut self, s: &mut Stmt) {
+        s.visit_mut_children_with(self);
+    }
 }
 
 fn is_reserved(sym: &JsWord) -> bool {

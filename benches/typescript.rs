@@ -1,6 +1,7 @@
 #![feature(test)]
 #![feature(bench_black_box)]
 
+extern crate swc_node_base;
 extern crate test;
 
 use std::{
@@ -161,13 +162,15 @@ fn bench_full(b: &mut Bencher, opts: &Options) {
     let c = mk();
 
     b.iter(|| {
-        let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
+        for _ in 0..100 {
+            let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
 
-        let fm = c.cm.new_source_file(
-            FileName::Real("rxjs/src/internal/observable/dom/AjaxObservable.ts".into()),
-            SOURCE.to_string(),
-        );
-        c.process_js_file(fm, &handler, opts)
+            let fm = c.cm.new_source_file(
+                FileName::Real("rxjs/src/internal/observable/dom/AjaxObservable.ts".into()),
+                SOURCE.to_string(),
+            );
+            let _ = c.process_js_file(fm, &handler, opts).unwrap();
+        }
     });
 }
 
