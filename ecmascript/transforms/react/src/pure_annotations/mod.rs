@@ -69,6 +69,10 @@ where
             }
         }
 
+        if self.imports.is_empty() {
+            return;
+        }
+
         // Pass 2: add pure annotations.
         module.visit_mut_children_with(self);
     }
