@@ -18,6 +18,7 @@
 //! ## Custom javascript transforms
 //!
 //!
+//!
 //! ### What is [JsWord](swc_atoms::JsWord)?
 //!
 //! It's basically an interned string. See [swc_atoms].
@@ -29,10 +30,15 @@
 //!
 //! See [swc_atoms] for detailed description.
 //!
-//! ### [Fold](swc_ecma_visit::Fold) vs [VisitMut](swc_ecma_visit::VisitMut) vs
-//! [Visit](swc_ecma_visit::Visit)
+//! ### Fold vs VisitMut vs Visit
 //!
 //! See [swc_visit] for detailed description.
+//!
+//!
+//!  - [Fold](swc_ecma_visit::Fold)
+//!  - [VisitMut](swc_ecma_visit::VisitMut)
+//!  - [Visit](swc_ecma_visit::Visit)
+//!
 //!
 //! ### Variable management (Scoping)
 //!
@@ -76,6 +82,15 @@
 //!
 //!  - If you want to create [swc_ecma_ast::MemberExpr], you can use
 //!    [swc_ecma_utils::ExprFactory::as_obj] to create object field.
+//!
+//!
+//! ### Reducing binary size
+//!
+//! The visitor expands to a lot of code. You can reduce it by using macros like
+//!
+//!  - [noop_fold_type](swc_ecma_visit::noop_fold_type)
+//!  - [noop_visit_mut_type](swc_ecma_visit::noop_visit_mut_type)
+//!  - [noop_visit_type](swc_ecma_visit::noop_visit_type)
 #![deny(unused)]
 
 pub extern crate swc_atoms as atoms;
