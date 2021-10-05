@@ -1005,8 +1005,25 @@ impl GlobalPassOption {
             Arc::new(m)
         }
 
-        let env_map = {
+        let env_map = if cfg!(target_arch = "wasm32") {
+            Arc::new(Default::default())
+        } else {
             static CACHE: Lazy<DashMap<Vec<String>, ValuesMap>> = Lazy::new(|| Default::default());
+
+            let cache_key = self.envs.iter().cloned().collect::<Vec<_>>();
+            if let Some(v) = CACHE.get(&cache_key).as_deref().cloned() {
+                v
+            } else {
+                let envs = self.envs;
+                let map = mk_map(
+                    cm,
+                    handler,
+                    env::vars().filter(|(k, _)| envs.contains(&*k)),
+                    true,
+                );
+                CACHE.insert(cache_key, map.clone());
+                map
+            }
         };
 
         let global_map = {
@@ -1027,21 +1044,7 @@ impl GlobalPassOption {
             }
         };
 
-        let envs = self.envs;
-
-        inline_globals(
-            if cfg!(target_arch = "wasm32") {
-                Arc::new(Default::default())
-            } else {
-                mk_map(
-                    cm,
-                    handler,
-                    env::vars().filter(|(k, _)| envs.contains(&*k)),
-                    true,
-                )
-            },
-            global_map,
-        )
+        inline_globals(env_map, global_map)
     }
 }
 
