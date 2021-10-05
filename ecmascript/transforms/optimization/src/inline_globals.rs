@@ -1,13 +1,13 @@
-use std::collections::HashMap;
+use rustc_hash::FxHashMap;
 use swc_atoms::{js_word, JsWord};
-use swc_common::collections::AHashSet;
+use swc_common::{collections::AHashSet, sync::Lrc};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{collect_decls, Id};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub fn inline_globals(
-    envs: HashMap<JsWord, Expr>,
-    globals: HashMap<JsWord, Expr>,
+    envs: Lrc<FxHashMap<JsWord, Expr>>,
+    globals: Lrc<FxHashMap<JsWord, Expr>>,
 ) -> impl Fold + VisitMut {
     as_folder(InlineGlobals {
         envs,
@@ -17,8 +17,8 @@ pub fn inline_globals(
 }
 
 struct InlineGlobals {
-    envs: HashMap<JsWord, Expr>,
-    globals: HashMap<JsWord, Expr>,
+    envs: Lrc<FxHashMap<JsWord, Expr>>,
+    globals: Lrc<FxHashMap<JsWord, Expr>>,
 
     bindings: AHashSet<Id>,
 }
@@ -114,8 +114,8 @@ mod tests {
         tester: &mut Tester<'_>,
         values: &[(&str, &str)],
         is_env: bool,
-    ) -> HashMap<JsWord, Expr> {
-        let mut m = HashMap::default();
+    ) -> FxHashMap<JsWord, Expr> {
+        let mut m = FxHashMap::default();
 
         for (k, v) in values {
             let v = if is_env {
@@ -146,12 +146,12 @@ mod tests {
         m
     }
 
-    fn envs(tester: &mut Tester<'_>, values: &[(&str, &str)]) -> HashMap<JsWord, Expr> {
-        mk_map(tester, values, true)
+    fn envs(tester: &mut Tester<'_>, values: &[(&str, &str)]) -> Lrc<FxHashMap<JsWord, Expr>> {
+        Lrc::new(mk_map(tester, values, true))
     }
 
-    fn globals(tester: &mut Tester<'_>, values: &[(&str, &str)]) -> HashMap<JsWord, Expr> {
-        mk_map(tester, values, false)
+    fn globals(tester: &mut Tester<'_>, values: &[(&str, &str)]) -> Lrc<FxHashMap<JsWord, Expr>> {
+        Lrc::new(mk_map(tester, values, false))
     }
 
     test!(
