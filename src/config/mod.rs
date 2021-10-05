@@ -5,6 +5,7 @@ use dashmap::DashMap;
 use either::Either;
 use once_cell::sync::Lazy;
 use regex::Regex;
+use rustc_hash::{FxHashMap, FxHashSet};
 use serde::{Deserialize, Serialize};
 use std::{
     cell::RefCell,
@@ -938,12 +939,12 @@ fn default_jsonify_min_cost() -> usize {
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct GlobalPassOption {
     #[serde(default)]
-    pub vars: HashMap<String, String>,
+    pub vars: FxHashMap<String, String>,
     #[serde(default = "default_envs")]
-    pub envs: HashSet<String>,
+    pub envs: FxHashSet<String>,
 }
 
-fn default_envs() -> HashSet<String> {
+fn default_envs() -> FxHashSet<String> {
     let mut v = HashSet::default();
     v.insert(String::from("NODE_ENV"));
     v.insert(String::from("SWC_ENV"));
@@ -952,12 +953,14 @@ fn default_envs() -> HashSet<String> {
 
 impl GlobalPassOption {
     pub fn build(self, cm: &SourceMap, handler: &Handler) -> impl 'static + Fold {
+        type ValuesMap = Arc<FxHashMap<JsWord, Expr>>;
+
         fn mk_map(
             cm: &SourceMap,
             handler: &Handler,
             values: impl Iterator<Item = (String, String)>,
             is_env: bool,
-        ) -> HashMap<JsWord, Expr> {
+        ) -> ValuesMap {
             let mut m = HashMap::default();
 
             for (k, v) in values {
@@ -999,13 +1002,36 @@ impl GlobalPassOption {
                 m.insert((*k).into(), expr);
             }
 
-            m
+            Arc::new(m)
         }
 
+        let env_map = {
+            static CACHE: Lazy<DashMap<Vec<String>, ValuesMap>> = Lazy::new(|| Default::default());
+        };
+
+        let global_map = {
+            static CACHE: Lazy<DashMap<Vec<(String, String)>, ValuesMap>> =
+                Lazy::new(|| Default::default());
+
+            let cache_key = self
+                .vars
+                .iter()
+                .map(|(k, v)| (k.clone(), v.clone()))
+                .collect::<Vec<_>>();
+            if let Some(v) = CACHE.get(&cache_key) {
+                (*v).clone()
+            } else {
+                let map = mk_map(cm, handler, self.vars.into_iter(), false);
+                CACHE.insert(cache_key, map.clone());
+                map
+            }
+        };
+
         let envs = self.envs;
+
         inline_globals(
             if cfg!(target_arch = "wasm32") {
-                mk_map(cm, handler, vec![].into_iter(), true)
+                Arc::new(Default::default())
             } else {
                 mk_map(
                     cm,
@@ -1014,7 +1040,7 @@ impl GlobalPassOption {
                     true,
                 )
             },
-            mk_map(cm, handler, self.vars.into_iter(), false),
+            global_map,
         )
     }
 }
