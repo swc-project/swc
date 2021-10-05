@@ -10207,7 +10207,7 @@
             module.exports = !function() {
                 try {
                     if (!Object.assign) return !1;
-                    var test1 = "abc";
+                    var test1 = new String("abc");
                     if (test1[5] = "de", "5" === Object.getOwnPropertyNames(test1)[0]) return !1;
                     for(var test2 = {
                     }, i = 0; i < 10; i++)test2["_" + String.fromCharCode(i)] = i;

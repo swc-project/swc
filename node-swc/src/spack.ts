@@ -22,7 +22,11 @@ export async function compileBundleOptions(config: BundleInput | string | undefi
             }
             return configFromFile;
         }
-        return Object.assign({}, configFromFile, config);
+
+        return {
+            ...configFromFile,
+            ...(typeof config === 'string') ? {} : config
+        };
     } catch (e) {
         if (typeof f === 'string') {
             throw new Error(`Error occurred while loading config file at ${config}: ${e}`);
