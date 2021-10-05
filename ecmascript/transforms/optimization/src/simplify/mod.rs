@@ -1,5 +1,8 @@
 //! Ported from closure compiler.
-pub use self::{branch::dead_branch_remover, expr::expr_simplifier};
+pub use self::{
+    branch::dead_branch_remover,
+    expr::{expr_simplifier, Config as ExprSimplifierConfig},
+};
 use swc_common::{chain, pass::Repeat};
 use swc_ecma_transforms_base::pass::RepeatedJsPass;
 
@@ -13,13 +16,14 @@ pub mod inlining;
 pub struct Config<'a> {
     pub dce: dce::Config<'a>,
     pub inlining: inlining::Config,
+    pub expr: ExprSimplifierConfig,
 }
 
 /// Performs simplify-expr, inlining, remove-dead-branch and dce until nothing
 /// changes.
 pub fn simplifier<'a>(c: Config<'a>) -> impl RepeatedJsPass + 'a {
     Repeat::new(chain!(
-        expr_simplifier(),
+        expr_simplifier(c.expr),
         inlining::inlining(c.inlining),
         dead_branch_remover(),
         dce::dce(c.dce)

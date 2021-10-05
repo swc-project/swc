@@ -56,7 +56,7 @@ macro_rules! quote_expr {
 /// member_expr!(span, Function.bind.apply);
 /// ```
 ///
-/// Returns Box<Expr>
+/// Returns Box<[Expr](swc_ecma_ast::Expr)>.
 #[macro_export]
 macro_rules! member_expr {
     ($span:expr, $first:ident) => {{

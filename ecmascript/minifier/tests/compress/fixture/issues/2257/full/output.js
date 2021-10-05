@@ -3262,8 +3262,8 @@
                     };
                     return redefineAll(C.prototype, {
                         clear: function() {
-                            for(var state = getInternalState(this), data = state.index, entry = state.first; entry;)entry.removed = !0, entry.previous && (entry.previous = entry.previous.next = void 0), delete data[entry.index], entry = entry.next;
-                            state.first = state.last = void 0, DESCRIPTORS ? state.size = 0 : this.size = 0;
+                            for(var that = this, state = getInternalState(that), data = state.index, entry = state.first; entry;)entry.removed = !0, entry.previous && (entry.previous = entry.previous.next = void 0), delete data[entry.index], entry = entry.next;
+                            state.first = state.last = void 0, DESCRIPTORS ? state.size = 0 : that.size = 0;
                         },
                         "delete": function(key) {
                             var state = getInternalState(this), entry = getEntry(this, key);
@@ -10207,7 +10207,7 @@
             module.exports = !function() {
                 try {
                     if (!Object.assign) return !1;
-                    var test1 = "abc";
+                    var test1 = new String("abc");
                     if (test1[5] = "de", "5" === Object.getOwnPropertyNames(test1)[0]) return !1;
                     for(var test2 = {
                     }, i = 0; i < 10; i++)test2["_" + String.fromCharCode(i)] = i;

@@ -21,8 +21,10 @@ where
     ///
     /// Returned [BytePos] is `hi`.
     pub(super) fn parse_property_values(&mut self) -> PResult<(Vec<Value>, BytePos)> {
+        let start = self.input.state();
         let mut values = vec![];
         let mut state = self.input.state();
+        let start_pos = self.input.cur_span()?.lo;
 
         let mut hi = self.input.last_pos()?;
         loop {
@@ -43,6 +45,23 @@ where
             state = self.input.state();
 
             if !eat!(self, " ") {
+                if self.ctx.recover_from_property_value
+                    && !is_one_of!(self, EOF, ";", "}", "!", ")")
+                {
+                    self.input.reset(&start);
+
+                    let mut tokens = vec![];
+                    while !is_one_of!(self, EOF, ";", "}", "!", ")") {
+                        tokens.extend(self.input.bump()?);
+                    }
+
+                    let v = Value::Lazy(Tokens {
+                        span: span!(self, start_pos),
+                        tokens,
+                    });
+                    return Ok((vec![v], hi));
+                }
+
                 break;
             }
         }

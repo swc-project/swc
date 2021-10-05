@@ -4,7 +4,10 @@ use swc_common::Spanned;
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::emitter;
 
-impl<'a> Emitter<'a> {
+impl<'a, W> Emitter<'a, W>
+where
+    W: WriteJs,
+{
     #[emitter]
     fn emit_pat_or_ts_param_prop(&mut self, n: &ParamOrTsParamProp) -> Result {
         match *n {

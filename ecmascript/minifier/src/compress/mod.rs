@@ -31,7 +31,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{
-    optimization::simplify::{dead_branch_remover, expr_simplifier},
+    optimization::simplify::{dead_branch_remover, expr_simplifier, ExprSimplifierConfig},
     pass::JsPass,
 };
 use swc_ecma_utils::StmtLike;
@@ -69,7 +69,14 @@ where
         mode,
     };
 
-    chain!(console_remover, as_folder(compressor), expr_simplifier())
+    chain!(
+        console_remover,
+        as_folder(compressor),
+        expr_simplifier(ExprSimplifierConfig {
+            preserve_string_call: true,
+            ..Default::default()
+        })
+    )
 }
 
 struct Compressor<'a, M>
@@ -268,7 +275,9 @@ where
 
             let start_time = now();
 
-            let mut visitor = expr_simplifier();
+            let mut visitor = expr_simplifier(ExprSimplifierConfig {
+                preserve_string_call: true,
+            });
             n.apply(&mut visitor);
             self.changed |= visitor.changed();
             if visitor.changed() {

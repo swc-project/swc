@@ -1,13 +1,12 @@
 use super::{load::TransformedModule, Bundler};
 use crate::{
-    bundler::chunk::merge::Ctx, id::ModuleId, load::Load, resolve::Resolve,
-    util::IntoParallelIterator, Bundle,
+    bundler::chunk::merge::Ctx, load::Load, resolve::Resolve, util::IntoParallelIterator, Bundle,
 };
 use ahash::AHashMap;
 use anyhow::{Context, Error};
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
-use rustc_hash::{FxHashMap, FxHashSet};
+use rustc_hash::FxHashMap;
 use std::time::Instant;
 
 mod cjs;
@@ -16,19 +15,10 @@ mod merge;
 mod plan;
 
 #[derive(Debug)]
-struct InternalEntry {
-    basename: String,
-    main: TransformedModule,
-    included: Vec<ModuleId>,
-    dynamic: bool,
-}
+struct InternalEntry {}
 
 #[derive(Debug, Default)]
-struct State {
-    synchronously_included: FxHashSet<ModuleId>,
-    dynamic_entries: FxHashSet<ModuleId>,
-    common_libs: FxHashSet<ModuleId>,
-}
+struct State {}
 
 impl<L, R> Bundler<'_, L, R>
 where

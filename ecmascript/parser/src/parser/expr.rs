@@ -581,7 +581,7 @@ impl<'a, I: Tokens> Parser<I> {
             expect!(p, '(');
 
             let mut first = true;
-            let mut expr_or_spreads = vec![];
+            let mut expr_or_spreads = Vec::with_capacity(8);
 
             while !eof!(p) && !is!(p, ')') {
                 if first {
