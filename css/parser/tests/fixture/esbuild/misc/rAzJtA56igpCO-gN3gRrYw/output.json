@@ -88,7 +88,8 @@
                   "end": 18,
                   "ctxt": 0
                 },
-                "value": "aج"
+                "value": "aج",
+                "raw": "'a\\62c'"
               }
             ],
             "important": null

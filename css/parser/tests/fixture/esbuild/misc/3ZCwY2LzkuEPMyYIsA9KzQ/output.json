@@ -20,7 +20,8 @@
           "end": 16,
           "ctxt": 0
         },
-        "value": "UTF-8"
+        "value": "UTF-8",
+        "raw": "'UTF-8'"
       }
     }
   ]

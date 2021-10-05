@@ -177,7 +177,7 @@ where
                     return Ok(tok!(" "));
                 }
 
-                '\'' | '"' => return self.read_str().map(|value| Token::Str { value }),
+                '\'' | '"' => return self.read_str(None),
 
                 '#' => {
                     self.input.bump();
@@ -263,6 +263,87 @@ where
             raw: name.1,
         })
     }
+    
+    fn read_str(&mut self, mut ending_code_point: Option<char>) -> LexResult<Token> {
+        if ending_code_point.is_none() {
+            ending_code_point = self.input.cur();
+        }
+
+        let mut value = String::new();
+        let mut raw = String::new();
+
+        raw.push(ending_code_point.unwrap());
+
+        self.input.bump();
+
+        loop {
+            match self.input.cur() {
+                Some(c) => match c {
+                    // Ending code point
+                    c if c == ending_code_point.unwrap() => {
+                        raw.push(c);
+                        self.input.bump();
+                        self.last_pos = Some(self.input.cur_pos());
+
+                        break;
+                    }
+
+                    // Newline
+                    c if c == '\n' || c == '\r' || c == '\x0C' => {
+                        raw.push(c);
+                        self.input.bump();
+
+                        return Err(ErrorKind::BadString);
+                    }
+
+                    // // U+005C REVERSE SOLIDUS (\)
+                    c if c == '\\' => {
+                        raw.push(c);
+
+                        // If the next input code point is EOF, do nothing.
+                        if self.input.peek().is_none() {
+                            break;
+                        }
+
+                        // Otherwise, if the next input code point is a newline, consume it.
+                        if self.input.peek() == Some('\n')
+                            || self.input.peek() == Some('\r')
+                            || self.input.peek() == Some('\x0C')
+                        {
+                            self.input.bump();
+                            raw.push(self.input.cur().unwrap());
+                            self.input.bump();
+                        }
+                        // Otherwise, (the stream starts with a valid escape) consume an escaped code
+                        // point and append the returned code point to the <string-token>’s value.
+                        else if self.is_valid_escape()? {
+                            let escape = self.read_escape()?;
+
+                            value.push(escape.0);
+                            raw.push_str(&escape.1);
+                        }
+                    }
+
+                    // Anything else
+                    // Append the current input code point to the <string-token>’s value.
+                    c => {
+                        value.push(c);
+                        raw.push(c);
+
+                        self.input.bump();
+                    }
+                }
+
+                // EOF
+                // This is a parse error. Return the <string-token>.
+                None => {
+                    return Err(ErrorKind::Eof);
+                }
+            }
+        }
+
+        Ok(Token::Str { value: value.into(), raw: raw.into() })
+    }
 
     /// Ported from `consumeURL` of `esbuild`.
     fn read_url(&mut self) -> LexResult<Token> {
@@ -304,6 +385,7 @@ where
                     }
 
                     // TODO raw url
+                    // TODO: url can have raw
                     url.push(self.read_escape()?.0);
                 }
 
@@ -320,6 +402,8 @@ where
 
     fn read_escape(&mut self) -> LexResult<(char, String)> {
         // TODO: from spec - `\` should be consumed before run this https://www.w3.org/TR/css-syntax-3/#consume-escaped-code-point
+    /// Ported from `consumeEscape` of `esbuild`.
+    fn read_escape(&mut self) -> LexResult<(char, String)> {
         assert!(
             self.input.eat_byte(b'\\'),
             "read_escape: Expected a backslash"
@@ -340,6 +424,8 @@ where
 
             raw.push(self.input.cur().unwrap());
 
+            let mut raw = String::new();
+            raw.push(self.input.cur().unwrap());
             self.input.bump();
 
             // Consume as many hex digits as possible, but no more than 5.
@@ -355,6 +441,8 @@ where
 
                 self.input.bump();
 
+                raw.push(next.unwrap());
+                self.input.bump();
                 hex = hex * 16 + digit;
             }
 
@@ -364,6 +452,10 @@ where
             if self.input.is_byte(b' ') {
                 raw.push(self.input.cur().unwrap());
 
+            
+            // TODO: is_white_space
+            if self.input.is_byte(b' ') {
+                raw.push(self.input.cur().unwrap());
                 self.input.bump();
             }
 
@@ -377,6 +469,7 @@ where
         self.input.bump();
 
         Ok((c, raw))
+        Ok((c, c.to_string()))
     }
 
     fn read_dot(&mut self) -> LexResult<Token> {
@@ -512,6 +605,8 @@ where
 
         buf.push(escaped.0);
         raw.push_str(&escaped.1);
+        // TODO: name can be raw
+        buf.push(self.read_escape()?.0);
 
         loop {
             let c = self.input.cur();
@@ -531,6 +626,8 @@ where
 
                 buf.push(escaped.0);
                 raw.push_str(&escaped.1);
+                // TODO: name can be raw
+                buf.push(self.read_escape()?.0);
             } else {
                 break;
             }

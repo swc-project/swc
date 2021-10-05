@@ -136,7 +136,8 @@
                       "end": 154,
                       "ctxt": 0
                     },
-                    "value": "./image (1).jpg"
+                    "value": "./image (1).jpg",
+                    "raw": "\"./image (1).jpg\""
                   }
                 ]
               }
@@ -186,7 +187,8 @@
                       "end": 200,
                       "ctxt": 0
                     },
-                    "value": "./image (1).jpg"
+                    "value": "./image (1).jpg",
+                    "raw": "'./image (1).jpg'"
                   }
                 ]
               }
@@ -236,7 +238,8 @@
                       "end": 246,
                       "ctxt": 0
                     },
-                    "value": "./image (1).jpg"
+                    "value": "./image (1).jpg",
+                    "raw": "'./image (1).jpg'"
                   }
                 ]
               }
@@ -286,7 +289,8 @@
                       "end": 295,
                       "ctxt": 0
                     },
-                    "value": "./image (1).jpg"
+                    "value": "./image (1).jpg",
+                    "raw": "'./image (1).jpg'"
                   }
                 ]
               }
@@ -546,7 +550,8 @@
                       "end": 550,
                       "ctxt": 0
                     },
-                    "value": ""
+                    "value": "",
+                    "raw": "\"\""
                   }
                 ]
               }
@@ -596,7 +601,8 @@
                       "end": 584,
                       "ctxt": 0
                     },
-                    "value": ""
+                    "value": "",
+                    "raw": "''"
                   }
                 ]
               }

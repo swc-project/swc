@@ -41,6 +41,8 @@
             "value": "./style.css"
           }
         ]
+        "value": "./style.css",
+        "raw": "\"./style.css\""
       },
       "condition": null
     },
@@ -79,6 +81,8 @@
             "value": "./style.css"
           }
         ]
+        "value": "./style.css",
+        "raw": "'./style.css'"
       },
       "condition": null
     },
@@ -97,6 +101,8 @@
           "ctxt": 0
         },
         "url": "./style.css"
+        "value": "./style.css",
+        "raw": "'./style.css'"
       },
       "condition": null
     },
@@ -114,7 +120,8 @@
           "end": 103,
           "ctxt": 0
         },
-        "value": "./style.css"
+        "value": "./style.css",
+        "raw": "\"./style.css\""
       },
       "condition": null
     },
@@ -132,7 +139,8 @@
           "end": 126,
           "ctxt": 0
         },
-        "value": "./style.css"
+        "value": "./style.css",
+        "raw": "\"./style.css\""
       },
       "condition": null
     },

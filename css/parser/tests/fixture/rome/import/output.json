@@ -20,7 +20,8 @@
           "end": 23,
           "ctxt": 0
         },
-        "value": "something.css"
+        "value": "something.css",
+        "raw": "\"something.css\""
       },
       "condition": null
     },
@@ -59,6 +60,8 @@
             "value": "something.css"
           }
         ]
+        "value": "something.css",
+        "raw": "\"something.css\""
       },
       "condition": null
     }

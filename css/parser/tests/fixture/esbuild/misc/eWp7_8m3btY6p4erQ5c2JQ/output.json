@@ -88,7 +88,8 @@
                   "end": 18,
                   "ctxt": 0
                 },
-                "value": "憼"
+                "value": "憼",
+                "raw": "'\\61bc'"
               }
             ],
             "important": null

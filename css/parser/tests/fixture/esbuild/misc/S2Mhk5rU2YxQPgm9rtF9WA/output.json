@@ -39,7 +39,8 @@
                 "end": 40,
                 "ctxt": 0
               },
-              "value": "https://www.example.com/"
+              "value": "https://www.example.com/",
+              "raw": "\"https://www.example.com/\""
             }
           ]
         }

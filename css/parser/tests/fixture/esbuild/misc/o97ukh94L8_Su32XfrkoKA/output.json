@@ -41,6 +41,8 @@
             "value": "foo.css"
           }
         ]
+        "value": "foo.css",
+        "raw": "\"foo.css\""
       },
       "condition": null
     }

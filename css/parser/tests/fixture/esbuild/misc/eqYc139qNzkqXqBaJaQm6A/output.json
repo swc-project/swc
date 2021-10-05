@@ -21,6 +21,8 @@
           "ctxt": 0
         },
         "url": "foo.css"
+        "value": "foo.css",
+        "raw": ""
       },
       "condition": null
     }

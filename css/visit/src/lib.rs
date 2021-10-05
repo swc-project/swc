@@ -18,6 +18,7 @@ define!({
     pub struct Str {
         pub span: Span,
         pub value: JsWord,
+        pub raw: JsWord,
     }
 
     pub struct Num {

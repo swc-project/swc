@@ -500,16 +500,17 @@ where
                     _ => unreachable!(),
                 };
 
-                Ok(Str { span, value })
+                // TODO: string can have raw value
+                Ok(Str { span, value, raw: "".into() })
             }
             Token::Str { .. } => {
                 let value = bump!(self);
-                let value = match value {
-                    Token::Str { value } => value,
+                let str = match value {
+                    Token::Str { value, raw } => (value, raw),
                     _ => unreachable!(),
                 };
 
-                Ok(Str { span, value })
+                Ok(Str { span, value: str.0, raw: str.1 })
             }
             _ => Err(Error::new(
                 span,
