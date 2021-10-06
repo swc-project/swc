@@ -11,7 +11,7 @@
 //!
 //! `swc` has [swc_emcascript](https://docs.rs/swc_emcascript) and [swc_css](https://docs.rs/swc_css), which re-exports required modules.
 //!
-//! ## Teating
+//! ## Testing
 //!
 //! See [testing] and [swc_ecmc_transform_testing](https://docs.rs/swc_ecmc_transform_testing).
 //!
@@ -95,6 +95,10 @@
 //! Note that this will make typescript-related nodes not processed, but it's
 //! typically fine as `typescript::strip` is invoked at the start and it removes
 //! typescript-specific nodes.
+//!
+//! ### Porting `expr.evaluate()` of babel
+//!
+//! See [swc_ecma_minifier::eval::Evaluator].
 #![deny(unused)]
 
 pub extern crate swc_atoms as atoms;
