@@ -6,9 +6,9 @@ error: Stylesheet
 3 | | @import url(./style.css);
 4 | | @import './style.css';
 ... |
-7 | | @import URL(./style.css);
 8 | | @import URL("./style.css");
-  | |____________________________^
+9 | | @import"test.css";
+  | |__________________^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/import/input.css:1:1
@@ -321,4 +321,34 @@ error: Str
   |
 8 | @import URL("./style.css");
   |             ^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/import/input.css:9:1
+  |
+9 | @import"test.css";
+  | ^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/import/input.css:9:1
+  |
+9 | @import"test.css";
+  | ^^^^^^^^^^^^^^^^^^
+
+error: ImportRule
+ --> $DIR/tests/fixture/at-rule/import/input.css:9:1
+  |
+9 | @import"test.css";
+  | ^^^^^^^^^^^^^^^^^^
+
+error: ImportSource
+ --> $DIR/tests/fixture/at-rule/import/input.css:9:8
+  |
+9 | @import"test.css";
+  |        ^^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/at-rule/import/input.css:9:8
+  |
+9 | @import"test.css";
+  |        ^^^^^^^^^^
 

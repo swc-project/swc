@@ -6,3 +6,4 @@
 @IMPORT url("./style.css");
 @import URL(./style.css);
 @import URL("./style.css");
+@import"test.css";
