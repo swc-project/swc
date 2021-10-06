@@ -1,0 +1,81 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/property/escaped/input.css:1:1
+  |
+1 | / table {
+2 | |     colo\r: \red;
+3 | | }
+  | |__^
+
+error: Rule
+ --> $DIR/tests/fixture/property/escaped/input.css:1:1
+  |
+1 | / table {
+2 | |     colo\r: \red;
+3 | | }
+  | |_^
+
+error: StyleRule
+ --> $DIR/tests/fixture/property/escaped/input.css:1:1
+  |
+1 | / table {
+2 | |     colo\r: \red;
+3 | | }
+  | |_^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/property/escaped/input.css:1:1
+  |
+1 | table {
+  | ^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/property/escaped/input.css:1:1
+  |
+1 | table {
+  | ^^^^^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/property/escaped/input.css:1:1
+  |
+1 | table {
+  | ^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/property/escaped/input.css:1:1
+  |
+1 | table {
+  | ^^^^^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/property/escaped/input.css:1:7
+  |
+1 |   table {
+  |  _______^
+2 | |     colo\r: \red;
+3 | | }
+  | |_^
+
+error: Property
+ --> $DIR/tests/fixture/property/escaped/input.css:2:5
+  |
+2 |     colo\r: \red;
+  |     ^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/property/escaped/input.css:2:5
+  |
+2 |     colo\r: \red;
+  |     ^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/property/escaped/input.css:2:13
+  |
+2 |     colo\r: \red;
+  |             ^^^^
+
+error: Text
+ --> $DIR/tests/fixture/property/escaped/input.css:2:13
+  |
+2 |     colo\r: \red;
+  |             ^^^^
+

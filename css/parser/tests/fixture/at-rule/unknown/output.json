@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 13,
+    "end": 25,
     "ctxt": 0
   },
   "rules": [
@@ -10,14 +10,58 @@
       "type": "UnknownAtRule",
       "span": {
         "start": 0,
-        "end": 12,
+        "end": 11,
         "ctxt": 0
       },
       "name": {
         "type": "Text",
         "span": {
           "start": 0,
-          "end": 9,
+          "end": 8,
+          "ctxt": 0
+        },
+        "value": "unknown",
+        "raw": "unknown"
+      },
+      "tokens": {
+        "type": "Tokens",
+        "span": {
+          "start": 9,
+          "end": 11,
+          "ctxt": 0
+        },
+        "tokens": [
+          {
+            "span": {
+              "start": 9,
+              "end": 10,
+              "ctxt": 0
+            },
+            "token": "LBrace"
+          },
+          {
+            "span": {
+              "start": 10,
+              "end": 11,
+              "ctxt": 0
+            },
+            "token": "RBrace"
+          }
+        ]
+      }
+    },
+    {
+      "type": "UnknownAtRule",
+      "span": {
+        "start": 12,
+        "end": 24,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Text",
+        "span": {
+          "start": 12,
+          "end": 21,
           "ctxt": 0
         },
         "value": "unknown",
@@ -26,23 +70,23 @@
       "tokens": {
         "type": "Tokens",
         "span": {
-          "start": 10,
-          "end": 12,
+          "start": 22,
+          "end": 24,
           "ctxt": 0
         },
         "tokens": [
           {
             "span": {
-              "start": 10,
-              "end": 11,
+              "start": 22,
+              "end": 23,
               "ctxt": 0
             },
             "token": "LBrace"
           },
           {
             "span": {
-              "start": 11,
-              "end": 12,
+              "start": 23,
+              "end": 24,
               "ctxt": 0
             },
             "token": "RBrace"

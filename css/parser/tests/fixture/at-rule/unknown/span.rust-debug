@@ -1,48 +1,91 @@
 error: Stylesheet
  --> $DIR/tests/fixture/at-rule/unknown/input.css:1:1
   |
-1 | @\unknown {}
-  | ^^^^^^^^^^^^^
+1 | / @unknown {}
+2 | | @\unknown {}
+  | |_____________^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/unknown/input.css:1:1
   |
-1 | @\unknown {}
-  | ^^^^^^^^^^^^
+1 | @unknown {}
+  | ^^^^^^^^^^^
 
 error: AtRule
  --> $DIR/tests/fixture/at-rule/unknown/input.css:1:1
   |
-1 | @\unknown {}
-  | ^^^^^^^^^^^^
+1 | @unknown {}
+  | ^^^^^^^^^^^
 
 error: UnknownAtRule
  --> $DIR/tests/fixture/at-rule/unknown/input.css:1:1
   |
-1 | @\unknown {}
-  | ^^^^^^^^^^^^
+1 | @unknown {}
+  | ^^^^^^^^^^^
 
 error: Text
  --> $DIR/tests/fixture/at-rule/unknown/input.css:1:1
   |
-1 | @\unknown {}
+1 | @unknown {}
+  | ^^^^^^^^
+
+error: Tokens
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:1:10
+  |
+1 | @unknown {}
+  |          ^^
+
+error: LBrace
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:1:10
+  |
+1 | @unknown {}
+  |          ^
+
+error: RBrace
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:1:11
+  |
+1 | @unknown {}
+  |           ^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:2:1
+  |
+2 | @\unknown {}
+  | ^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:2:1
+  |
+2 | @\unknown {}
+  | ^^^^^^^^^^^^
+
+error: UnknownAtRule
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:2:1
+  |
+2 | @\unknown {}
+  | ^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:2:1
+  |
+2 | @\unknown {}
   | ^^^^^^^^^
 
 error: Tokens
- --> $DIR/tests/fixture/at-rule/unknown/input.css:1:11
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:2:11
   |
-1 | @\unknown {}
+2 | @\unknown {}
   |           ^^
 
 error: LBrace
- --> $DIR/tests/fixture/at-rule/unknown/input.css:1:11
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:2:11
   |
-1 | @\unknown {}
+2 | @\unknown {}
   |           ^
 
 error: RBrace
- --> $DIR/tests/fixture/at-rule/unknown/input.css:1:12
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:2:12
   |
-1 | @\unknown {}
+2 | @\unknown {}
   |            ^
 
