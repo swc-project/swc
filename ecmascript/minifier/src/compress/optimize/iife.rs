@@ -212,7 +212,7 @@ where
                         // This function is misdesigned and should be removed.
                         // This is wrong because the order of execution is not guaranteed.
                         match &**arg {
-                            Expr::Ident(..) | Expr::Lit(..) => {}
+                            Expr::Lit(..) => {}
                             _ => continue,
                         }
 
@@ -402,7 +402,7 @@ where
 
                             if !vars.is_empty() {
                                 self.prepend_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                                    span: DUMMY_SP,
+                                    span: DUMMY_SP.apply_mark(self.marks.non_top_level),
                                     kind: VarDeclKind::Var,
                                     declare: Default::default(),
                                     decls: vars,
@@ -550,7 +550,7 @@ where
 
                 // TODO: Check if paramter is used and inline if call is not related to parameters.
                 Expr::Call(e) => {
-                    let used = idents_used_by(e);
+                    let used = idents_used_by(&e.callee);
                     param_ids.iter().all(|param| !used.contains(&param.to_id()))
                 }
 
@@ -615,7 +615,7 @@ where
 
             if !vars.is_empty() {
                 self.prepend_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
+                    span: DUMMY_SP.apply_mark(self.marks.non_top_level),
                     kind: VarDeclKind::Var,
                     declare: Default::default(),
                     decls: vars,
@@ -668,7 +668,7 @@ where
                     exprs.push(Box::new(val));
 
                     return Some(Expr::Seq(SeqExpr {
-                        span: DUMMY_SP,
+                        span: DUMMY_SP.apply_mark(self.marks.synthesized_seq),
                         exprs,
                     }));
                 }
@@ -687,7 +687,7 @@ where
         }
 
         Some(Expr::Seq(SeqExpr {
-            span: DUMMY_SP,
+            span: DUMMY_SP.apply_mark(self.marks.synthesized_seq),
             exprs,
         }))
     }

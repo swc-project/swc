@@ -581,13 +581,13 @@
             case REACT_PROVIDER_TYPE:
                 return getContextName(type._context) + ".Provider";
             case REACT_FORWARD_REF_TYPE:
-                return wrapperName = "ForwardRef", functionName = (innerType = type.render).displayName || innerType.name || "", type.displayName || ("" !== functionName ? wrapperName + "(" + functionName + ")" : wrapperName);
+                return outerType = type, wrapperName = "ForwardRef", functionName = (innerType = type.render).displayName || innerType.name || "", outerType.displayName || ("" !== functionName ? wrapperName + "(" + functionName + ")" : wrapperName);
             case REACT_MEMO_TYPE:
                 return getComponentName(type.type);
             case REACT_BLOCK_TYPE:
                 return getComponentName(type._render);
             case REACT_LAZY_TYPE:
-                var innerType, wrapperName, functionName, lazyComponent = type, payload = lazyComponent._payload, init = lazyComponent._init;
+                var outerType, innerType, wrapperName, functionName, lazyComponent = type, payload = lazyComponent._payload, init = lazyComponent._init;
                 try {
                     return getComponentName(init(payload));
                 } catch (x) {
@@ -1943,7 +1943,7 @@
         var props = getFiberCurrentPropsFromNode(stateNode);
         if (null === props) return null;
         var listener = props[registrationName];
-        if ((function(name, type, props1) {
+        if ((function(name, type, props) {
             switch(name){
                 case "onClick":
                 case "onClickCapture":
@@ -2495,7 +2495,7 @@
             var prevIsInsideEventHandler = isInsideEventHandler;
             isInsideEventHandler = !0;
             try {
-                return discreteUpdatesImpl(dispatchEvent, domEventName, eventSystemFlags, container, nativeEvent);
+                return discreteUpdatesImpl(fn, a, b, c, d);
             } finally{
                 (isInsideEventHandler = prevIsInsideEventHandler) || finishEventHandler();
             }
@@ -2887,7 +2887,10 @@
         }
     }
     function handleEventsForInputEventPolyfill(domEventName, target, targetInst) {
-        "focusin" === domEventName ? (stopWatchingForValueChange(), activeElement = target, activeElementInst = targetInst, activeElement.attachEvent("onpropertychange", handlePropertyChange)) : "focusout" === domEventName && stopWatchingForValueChange();
+        if ("focusin" === domEventName) {
+            var target1, targetInst1;
+            stopWatchingForValueChange(), target1 = target, targetInst1 = targetInst, activeElement = target1, activeElementInst = targetInst1, activeElement.attachEvent("onpropertychange", handlePropertyChange);
+        } else "focusout" === domEventName && stopWatchingForValueChange();
     }
     function getTargetInstForInputEventPolyfill(domEventName, targetInst) {
         if ("selectionchange" === domEventName || "keyup" === domEventName || "keydown" === domEventName) return getInstIfValueChanged(activeElementInst);
@@ -3297,9 +3300,9 @@
         var listenerSet = getEventListenerSet(target), listenerSetKey = getListenerSetKey(domEventName, isCapturePhaseListener);
         listenerSet.has(listenerSetKey) || (isCapturePhaseListener && (eventSystemFlags |= 4), addTrappedEventListener(target, domEventName, eventSystemFlags, isCapturePhaseListener), listenerSet.add(listenerSetKey));
     }
-    function addTrappedEventListener(targetContainer, domEventName, eventSystemFlags, isCapturePhaseListener, isDeferredListenerForLegacyFBSupport) {
-        var listener, listener1, listener2, listener3, listener4 = function(targetContainer1, domEventName, eventSystemFlags1) {
-            var priority, listenerWrapper, eventPriority = void 0 === (priority = eventPriorities.get(domEventName)) ? 2 : priority;
+    function addTrappedEventListener(targetContainer, domEventName2, eventSystemFlags, isCapturePhaseListener, isDeferredListenerForLegacyFBSupport) {
+        var target, eventType, listener, passive, target1, eventType1, listener1, target2, eventType2, listener2, passive1, target3, eventType3, listener3, listener4 = function(targetContainer, domEventName, eventSystemFlags) {
+            var domEventName1, priority, listenerWrapper, eventPriority = (domEventName1 = domEventName, void 0 === (priority = eventPriorities.get(domEventName1)) ? 2 : priority);
             switch(eventPriority){
                 case 0:
                     listenerWrapper = dispatchDiscreteEvent;
@@ -3313,23 +3316,23 @@
                     break;
             }
             return listenerWrapper.bind(null, domEventName, eventSystemFlags, targetContainer);
-        }(targetContainer, domEventName, eventSystemFlags), isPassiveListener = void 0;
-        (passiveBrowserEventsSupported && ("touchstart" === domEventName || "touchmove" === domEventName || "wheel" === domEventName) && (isPassiveListener = !0), targetContainer = targetContainer, isCapturePhaseListener) ? void 0 !== isPassiveListener ? (listener = listener4, targetContainer.addEventListener(domEventName, listener, {
+        }(targetContainer, domEventName2, eventSystemFlags), isPassiveListener = void 0;
+        (passiveBrowserEventsSupported && ("touchstart" === domEventName2 || "touchmove" === domEventName2 || "wheel" === domEventName2) && (isPassiveListener = !0), targetContainer = targetContainer, isCapturePhaseListener) ? void 0 !== isPassiveListener ? (target = targetContainer, eventType = domEventName2, listener = listener4, passive = isPassiveListener, target.addEventListener(eventType, listener, {
             capture: !0,
-            passive: isPassiveListener
-        })) : (listener1 = listener4, targetContainer.addEventListener(domEventName, listener1, !0)) : void 0 !== isPassiveListener ? (listener2 = listener4, targetContainer.addEventListener(domEventName, listener2, {
-            passive: isPassiveListener
-        })) : (listener3 = listener4, targetContainer.addEventListener(domEventName, listener3, !1));
+            passive: passive
+        })) : (target1 = targetContainer, eventType1 = domEventName2, listener1 = listener4, target1.addEventListener(eventType1, listener1, !0)) : void 0 !== isPassiveListener ? (target2 = targetContainer, eventType2 = domEventName2, listener2 = listener4, passive1 = isPassiveListener, target2.addEventListener(eventType2, listener2, {
+            passive: passive1
+        })) : (target3 = targetContainer, eventType3 = domEventName2, listener3 = listener4, target3.addEventListener(eventType3, listener3, !1));
     }
     function isMatchingRootContainer(grandContainer, targetContainer) {
         return grandContainer === targetContainer || 8 === grandContainer.nodeType && grandContainer.parentNode === targetContainer;
     }
-    function dispatchEventForPluginEventSystem(domEventName2, eventSystemFlags3, nativeEvent4, targetInst2, targetContainer) {
-        var ancestorInst = targetInst2;
-        if ((1 & eventSystemFlags3) == 0 && (2 & eventSystemFlags3) == 0) {
+    function dispatchEventForPluginEventSystem(domEventName3, eventSystemFlags2, nativeEvent3, targetInst3, targetContainer) {
+        var ancestorInst = targetInst3;
+        if ((1 & eventSystemFlags2) == 0 && (2 & eventSystemFlags2) == 0) {
             var targetContainerNode = targetContainer;
-            if (null !== targetInst2) {
-                var node = targetInst2;
+            if (null !== targetInst3) {
+                var node = targetInst3;
                 mainLoop: for(;;){
                     if (null === node) return;
                     var nodeTag = node.tag;
@@ -3365,14 +3368,14 @@
                 isBatchingEventUpdates = !1, finishEventHandler();
             }
         }(function() {
-            var eventSystemFlags, nativeEvent8, nativeEventTarget, dispatchQueue, dispatchQueue1, domEventName, targetInst, nativeEvent1, nativeEventTarget1, eventSystemFlags1, dispatchQueue2, domEventName1, targetInst1, nativeEvent2, nativeEventTarget2;
-            (function(dispatchQueue3, domEventName, targetInst, nativeEvent3, nativeEventTarget3, eventSystemFlags2, targetContainer) {
+            var domEventName5, eventSystemFlags, nativeEvent5, targetInst, nativeEventTarget, dispatchQueue, dispatchQueue1, domEventName1, targetInst1, nativeEvent1, nativeEventTarget1, eventSystemFlags1, dispatchQueue2, domEventName2, targetInst2, nativeEvent2, nativeEventTarget2;
+            return domEventName5 = domEventName3, eventSystemFlags = eventSystemFlags2, nativeEvent5 = nativeEvent3, targetInst = ancestorInst, nativeEventTarget = getEventTarget(nativeEvent5), void (function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
                 var reactName = topLevelEventsToReactNames.get(domEventName);
                 if (void 0 !== reactName) {
                     var SyntheticEventCtor = SyntheticEvent, reactEventType = domEventName;
                     switch(domEventName){
                         case "keypress":
-                            if (0 === getEventCharCode(nativeEvent3)) return;
+                            if (0 === getEventCharCode(nativeEvent)) return;
                         case "keydown":
                         case "keyup":
                             SyntheticEventCtor = SyntheticKeyboardEvent;
@@ -3388,7 +3391,7 @@
                             SyntheticEventCtor = SyntheticFocusEvent;
                             break;
                         case "click":
-                            if (2 === nativeEvent3.button) return;
+                            if (2 === nativeEvent.button) return;
                         case "auxclick":
                         case "dblclick":
                         case "mousedown":
@@ -3445,18 +3448,18 @@
                             SyntheticEventCtor = SyntheticPointerEvent;
                             break;
                     }
-                    var inCapturePhase = (4 & (eventSystemFlags1 = eventSystemFlags = eventSystemFlags3)) != 0, accumulateTargetOnly = !inCapturePhase && "scroll" === domEventName, _listeners = accumulateSinglePhaseListeners(targetInst = ancestorInst, reactName, nativeEvent3.type, inCapturePhase, accumulateTargetOnly);
+                    var inCapturePhase = (4 & eventSystemFlags) != 0, accumulateTargetOnly = !inCapturePhase && "scroll" === domEventName, _listeners = accumulateSinglePhaseListeners(targetInst, reactName, nativeEvent.type, inCapturePhase, accumulateTargetOnly);
                     if (_listeners.length > 0) {
-                        var _event = new SyntheticEventCtor(reactName, reactEventType, null, nativeEvent3, nativeEventTarget1 = nativeEventTarget = getEventTarget(nativeEvent8 = nativeEvent4));
-                        (dispatchQueue1 = dispatchQueue = []).push({
+                        var _event = new SyntheticEventCtor(reactName, reactEventType, null, nativeEvent, nativeEventTarget);
+                        dispatchQueue.push({
                             event: _event,
                             listeners: _listeners
                         });
                     }
                 }
-            })(dispatchQueue1, domEventName = domEventName2, targetInst, nativeEvent1 = nativeEvent8, nativeEventTarget1, eventSystemFlags1), (7 & eventSystemFlags1) == 0 && ((function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
+            }(dispatchQueue1 = dispatchQueue = [], domEventName1 = domEventName5, targetInst1 = targetInst, nativeEvent1 = nativeEvent5, nativeEventTarget1 = nativeEventTarget, eventSystemFlags1 = eventSystemFlags), (7 & eventSystemFlags1) == 0 && (function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
                 var win, from, to, isOverEvent = "mouseover" === domEventName || "pointerover" === domEventName, isOutEvent = "mouseout" === domEventName || "pointerout" === domEventName;
-                if (isOverEvent && (16 & eventSystemFlags1) == 0) {
+                if (isOverEvent && (16 & eventSystemFlags) == 0) {
                     var related = nativeEvent.relatedTarget || nativeEvent.fromElement;
                     if (related && (getClosestInstanceFromNode(related) || isContainerMarkedAsRoot(related))) return;
                 }
@@ -3480,20 +3483,20 @@
                             var enterEvent = new SyntheticEventCtor(enterEventType, eventTypePrefix + "enter", to, nativeEvent, nativeEventTarget);
                             enterEvent.target = toNode, enterEvent.relatedTarget = fromNode, enter = enterEvent;
                         }
-                        accumulateEnterLeaveTwoPhaseListeners(dispatchQueue1, leave, enter, from, to);
+                        accumulateEnterLeaveTwoPhaseListeners(dispatchQueue, leave, enter, from, to);
                     }
                 }
-            })(dispatchQueue1, domEventName, targetInst, nativeEvent1, nativeEventTarget1, eventSystemFlags1), (function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
+            }(dispatchQueue1, domEventName1, targetInst1, nativeEvent1, nativeEventTarget1, eventSystemFlags1), function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
                 var node, state, getTargetInstFunc, handleEventFunc, elem, nodeName, elem1, nodeName1, targetNode = targetInst ? getNodeFromInstance(targetInst) : window;
                 if ("select" === (nodeName = (elem = targetNode).nodeName && elem.nodeName.toLowerCase()) || "input" === nodeName && "file" === elem.type ? getTargetInstFunc = getTargetInstForChangeEvent : isTextInputElement(targetNode) ? isInputEventSupported ? getTargetInstFunc = getTargetInstForInputOrChangeEvent : (getTargetInstFunc = getTargetInstForInputEventPolyfill, handleEventFunc = handleEventsForInputEventPolyfill) : (nodeName1 = (elem1 = targetNode).nodeName) && "input" === nodeName1.toLowerCase() && ("checkbox" === elem1.type || "radio" === elem1.type) && (getTargetInstFunc = getTargetInstForClickEvent), getTargetInstFunc) {
                     var inst = getTargetInstFunc(domEventName, targetInst);
                     if (inst) {
-                        createAndAccumulateChangeEvent(dispatchQueue1, inst, nativeEvent1, nativeEventTarget1);
+                        createAndAccumulateChangeEvent(dispatchQueue, inst, nativeEvent, nativeEventTarget);
                         return;
                     }
                 }
                 handleEventFunc && handleEventFunc(domEventName, targetNode, targetInst), "focusout" === domEventName && (state = (node = targetNode)._wrapperState) && state.controlled && "number" === node.type && setDefaultValue(node, "number", node.value);
-            })(dispatchQueue1, domEventName, targetInst, nativeEvent1, nativeEventTarget1), (function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
+            }(dispatchQueue1, domEventName1, targetInst1, nativeEvent1, nativeEventTarget1), function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
                 var targetNode = targetInst ? getNodeFromInstance(targetInst) : window;
                 switch(domEventName){
                     case "focusin":
@@ -3516,7 +3519,7 @@
                     case "keyup":
                         constructSelectEvent(dispatchQueue, nativeEvent, nativeEventTarget);
                 }
-            })(dispatchQueue1, domEventName, targetInst, nativeEvent1, nativeEventTarget1), (function(dispatchQueue, domEventName, targetInst3, nativeEvent, nativeEventTarget) {
+            }(dispatchQueue1, domEventName1, targetInst1, nativeEvent1, nativeEventTarget1), function(dispatchQueue, domEventName4, targetInst, nativeEvent4, nativeEventTarget) {
                 if (canUseCompositionEvent ? eventType = (function(domEventName) {
                     switch(domEventName){
                         case "compositionstart":
@@ -3526,21 +3529,21 @@
                         case "compositionupdate":
                             return "onCompositionUpdate";
                     }
-                })(domEventName) : isComposing ? isFallbackCompositionEnd(domEventName, nativeEvent) && (eventType = "onCompositionEnd") : "keydown" === domEventName && 229 === nativeEvent.keyCode && (eventType = "onCompositionStart"), !eventType) return null;
-                useFallbackCompositionData && !isUsingKoreanIME(nativeEvent) && (isComposing || "onCompositionStart" !== eventType ? "onCompositionEnd" === eventType && isComposing && (fallbackData = getData()) : isComposing = (root2 = nativeEventTarget, startText = getText(), !0));
-                var eventType, fallbackData, listeners = accumulateTwoPhaseListeners(targetInst1 = targetInst, eventType);
+                })(domEventName4) : isComposing ? isFallbackCompositionEnd(domEventName4, nativeEvent4) && (eventType = "onCompositionEnd") : (domEventName6 = domEventName4, nativeEvent6 = nativeEvent4, "keydown" === domEventName6 && 229 === nativeEvent6.keyCode && (eventType = "onCompositionStart")), !eventType) return null;
+                useFallbackCompositionData && !isUsingKoreanIME(nativeEvent4) && (isComposing || "onCompositionStart" !== eventType ? "onCompositionEnd" === eventType && isComposing && (fallbackData = getData()) : isComposing = (root2 = nativeEventTarget, startText = getText(), !0));
+                var domEventName6, nativeEvent6, eventType, fallbackData, listeners = accumulateTwoPhaseListeners(targetInst, eventType);
                 if (listeners.length > 0) {
-                    var event = new SyntheticCompositionEvent(eventType, domEventName, null, nativeEvent, nativeEventTarget);
-                    if ((dispatchQueue2 = dispatchQueue1).push({
+                    var event = new SyntheticCompositionEvent(eventType, domEventName4, null, nativeEvent4, nativeEventTarget);
+                    if (dispatchQueue.push({
                         event: event,
                         listeners: listeners
                     }), fallbackData) event.data = fallbackData;
                     else {
-                        var customData = getDataFromCustomEvent(nativeEvent);
+                        var customData = getDataFromCustomEvent(nativeEvent4);
                         null !== customData && (event.data = customData);
                     }
                 }
-            })(dispatchQueue2, domEventName1 = domEventName, targetInst1, nativeEvent2 = nativeEvent1, nativeEventTarget2 = nativeEventTarget1), (function(dispatchQueue, domEventName, targetInst, nativeEvent7, nativeEventTarget) {
+            }(dispatchQueue2 = dispatchQueue1, domEventName2 = domEventName1, targetInst2 = targetInst1, nativeEvent2 = nativeEvent1, nativeEventTarget2 = nativeEventTarget1), function(dispatchQueue, domEventName, targetInst, nativeEvent6, nativeEventTarget) {
                 var chars;
                 if (!(chars = canUseTextInputEvent ? function(domEventName, nativeEvent) {
                     switch(domEventName){
@@ -3556,14 +3559,14 @@
                         default:
                             return null;
                     }
-                }(domEventName, nativeEvent7) : function(domEventName, nativeEvent) {
-                    var nativeEvent5;
+                }(domEventName, nativeEvent6) : function(domEventName, nativeEvent) {
+                    var nativeEvent4;
                     if (isComposing) return "compositionend" === domEventName || !canUseCompositionEvent && isFallbackCompositionEnd(domEventName, nativeEvent) ? (root2 = null, startText = null, fallbackText = null, isComposing = !1, getData()) : null;
                     switch(domEventName){
                         case "paste":
                             return null;
                         case "keypress":
-                            if (!(((nativeEvent5 = nativeEvent).ctrlKey || nativeEvent5.altKey || nativeEvent5.metaKey) && !(nativeEvent5.ctrlKey && nativeEvent5.altKey))) {
+                            if (!(((nativeEvent4 = nativeEvent).ctrlKey || nativeEvent4.altKey || nativeEvent4.metaKey) && !(nativeEvent4.ctrlKey && nativeEvent4.altKey))) {
                                 if (nativeEvent.char && nativeEvent.char.length > 1) return nativeEvent.char;
                                 if (nativeEvent.which) return String.fromCharCode(nativeEvent.which);
                             }
@@ -3573,16 +3576,16 @@
                         default:
                             return null;
                     }
-                }(domEventName, nativeEvent7))) return null;
-                var listeners = accumulateTwoPhaseListeners(targetInst1, "onBeforeInput");
+                }(domEventName, nativeEvent6))) return null;
+                var listeners = accumulateTwoPhaseListeners(targetInst, "onBeforeInput");
                 if (listeners.length > 0) {
-                    var event = new SyntheticInputEvent("onBeforeInput", "beforeinput", null, nativeEvent7, nativeEventTarget2);
-                    dispatchQueue2.push({
+                    var event = new SyntheticInputEvent("onBeforeInput", "beforeinput", null, nativeEvent6, nativeEventTarget);
+                    dispatchQueue.push({
                         event: event,
                         listeners: listeners
                     }), event.data = chars;
                 }
-            })(dispatchQueue2, domEventName1, targetInst1, nativeEvent2, nativeEventTarget2)), processDispatchQueue(dispatchQueue, eventSystemFlags);
+            }(dispatchQueue2, domEventName2, targetInst2, nativeEvent2, nativeEventTarget2)), processDispatchQueue(dispatchQueue, eventSystemFlags));
         });
     }
     function createDispatchListener(instance, listener, currentTarget) {
@@ -3647,7 +3650,7 @@
     }
     function accumulateEnterLeaveTwoPhaseListeners(dispatchQueue, leaveEvent, enterEvent, from, to) {
         var common = from && to ? function(instA, instB) {
-            for(var nodeA = from, nodeB = to, depthA = 0, tempA = nodeA; tempA; tempA = getParent(tempA))depthA++;
+            for(var nodeA = instA, nodeB = instB, depthA = 0, tempA = nodeA; tempA; tempA = getParent(tempA))depthA++;
             for(var depthB = 0, tempB = nodeB; tempB; tempB = getParent(tempB))depthB++;
             for(; depthA - depthB > 0;)nodeA = getParent(nodeA), depthA--;
             for(; depthB - depthA > 0;)nodeB = getParent(nodeB), depthB--;
@@ -4722,7 +4725,8 @@
         return !ctor.prototype || !ctor.prototype.isPureReactComponent || !shallowEqual(oldProps, newProps) || !shallowEqual(oldState, newState);
     }
     function adoptClassInstance(workInProgress, instance) {
-        instance.updater = classComponentUpdater, workInProgress.stateNode = instance, instance._reactInternals = workInProgress, instance._reactInternalInstance = fakeInternalInstance;
+        var key, value;
+        instance.updater = classComponentUpdater, workInProgress.stateNode = instance, key = instance, value = workInProgress, key._reactInternals = value, instance._reactInternalInstance = fakeInternalInstance;
     }
     function constructClassInstance(workInProgress, ctor, props) {
         var isLegacyContextConsumer = !1, unmaskedContext = emptyContextObject, context = emptyContextObject, contextType = ctor.contextType;
@@ -4760,23 +4764,23 @@
             didWarnAboutStateAssignmentForComponent.has(componentName) || (didWarnAboutStateAssignmentForComponent.add(componentName), error("%s.componentWillReceiveProps(): Assigning directly to this.state is deprecated (except inside a component's constructor). Use setState instead.", componentName)), classComponentUpdater.enqueueReplaceState(instance, instance.state, null);
         }
     }
-    function mountClassInstance(workInProgress, ctor1, newProps, renderLanes) {
-        ctor2 = ctor1, instance = workInProgress.stateNode, name = getComponentName(ctor2) || "Component", instance.render || (ctor2.prototype && "function" == typeof ctor2.prototype.render ? error("%s(...): No `render` method found on the returned component instance: did you accidentally return an object from the constructor?", name) : error("%s(...): No `render` method found on the returned component instance: you may have forgotten to define `render`.", name)), !instance.getInitialState || instance.getInitialState.isReactClassApproved || instance.state || error("getInitialState was defined on %s, a plain JavaScript class. This is only supported for classes created using React.createClass. Did you mean to define a state property instead?", name), instance.getDefaultProps && !instance.getDefaultProps.isReactClassApproved && error("getDefaultProps was defined on %s, a plain JavaScript class. This is only supported for classes created using React.createClass. Use a static property to define defaultProps instead.", name), instance.propTypes && error("propTypes was defined as an instance property on %s. Use a static property to define propTypes instead.", name), instance.contextType && error("contextType was defined as an instance property on %s. Use a static property to define contextType instead.", name), instance.contextTypes && error("contextTypes was defined as an instance property on %s. Use a static property to define contextTypes instead.", name), ctor2.contextType && ctor2.contextTypes && !didWarnAboutContextTypeAndContextTypes.has(ctor2) && (didWarnAboutContextTypeAndContextTypes.add(ctor2), error("%s declares both contextTypes and contextType static properties. The legacy contextTypes property will be ignored.", name)), "function" == typeof instance.componentShouldUpdate && error("%s has a method called componentShouldUpdate(). Did you mean shouldComponentUpdate()? The name is phrased as a question because the function is expected to return a value.", name), ctor2.prototype && ctor2.prototype.isPureReactComponent && void 0 !== instance.shouldComponentUpdate && error("%s has a method called shouldComponentUpdate(). shouldComponentUpdate should not be used when extending React.PureComponent. Please extend React.Component if shouldComponentUpdate is used.", getComponentName(ctor2) || "A pure component"), "function" == typeof instance.componentDidUnmount && error("%s has a method called componentDidUnmount(). But there is no such lifecycle method. Did you mean componentWillUnmount()?", name), "function" == typeof instance.componentDidReceiveProps && error("%s has a method called componentDidReceiveProps(). But there is no such lifecycle method. If you meant to update the state in response to changing props, use componentWillReceiveProps(). If you meant to fetch data or run side-effects or mutations after React has updated the UI, use componentDidUpdate().", name), "function" == typeof instance.componentWillRecieveProps && error("%s has a method called componentWillRecieveProps(). Did you mean componentWillReceiveProps()?", name), "function" == typeof instance.UNSAFE_componentWillRecieveProps && error("%s has a method called UNSAFE_componentWillRecieveProps(). Did you mean UNSAFE_componentWillReceiveProps()?", name), hasMutatedProps = instance.props !== newProps, void 0 !== instance.props && hasMutatedProps && error("%s(...): When calling super() in `%s`, make sure to pass up the same props that your component's constructor was passed.", name, name), instance.defaultProps && error("Setting defaultProps as an instance property on %s is not supported and will be ignored. Instead, define defaultProps as a static property on %s.", name, name), "function" != typeof instance.getSnapshotBeforeUpdate || "function" == typeof instance.componentDidUpdate || didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate.has(ctor2) || (didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate.add(ctor2), error("%s: getSnapshotBeforeUpdate() should be used with componentDidUpdate(). This component defines getSnapshotBeforeUpdate() only.", getComponentName(ctor2))), "function" == typeof instance.getDerivedStateFromProps && error("%s: getDerivedStateFromProps() is defined as an instance method and will be ignored. Instead, declare it as a static method.", name), "function" == typeof instance.getDerivedStateFromError && error("%s: getDerivedStateFromError() is defined as an instance method and will be ignored. Instead, declare it as a static method.", name), "function" == typeof ctor2.getSnapshotBeforeUpdate && error("%s: getSnapshotBeforeUpdate() is defined as a static method and will be ignored. Instead, declare it as an instance method.", name), (_state = instance.state) && ("object" != typeof _state || isArray(_state)) && error("%s.state: must be set to an object or null", name), "function" == typeof instance.getChildContext && "object" != typeof ctor2.childContextTypes && error("%s.getChildContext(): childContextTypes must be defined in order to use getChildContext().", name);
-        var ctor2, instance, name, hasMutatedProps, _state, instance1, oldState, instance2 = workInProgress.stateNode;
-        instance2.props = newProps, instance2.state = workInProgress.memoizedState, instance2.refs = emptyRefsObject, initializeUpdateQueue(workInProgress);
+    function mountClassInstance(workInProgress1, ctor1, newProps1, renderLanes) {
+        workInProgress2 = workInProgress1, ctor2 = ctor1, newProps2 = newProps1, instance = workInProgress2.stateNode, name = getComponentName(ctor2) || "Component", instance.render || (ctor2.prototype && "function" == typeof ctor2.prototype.render ? error("%s(...): No `render` method found on the returned component instance: did you accidentally return an object from the constructor?", name) : error("%s(...): No `render` method found on the returned component instance: you may have forgotten to define `render`.", name)), !instance.getInitialState || instance.getInitialState.isReactClassApproved || instance.state || error("getInitialState was defined on %s, a plain JavaScript class. This is only supported for classes created using React.createClass. Did you mean to define a state property instead?", name), instance.getDefaultProps && !instance.getDefaultProps.isReactClassApproved && error("getDefaultProps was defined on %s, a plain JavaScript class. This is only supported for classes created using React.createClass. Use a static property to define defaultProps instead.", name), instance.propTypes && error("propTypes was defined as an instance property on %s. Use a static property to define propTypes instead.", name), instance.contextType && error("contextType was defined as an instance property on %s. Use a static property to define contextType instead.", name), instance.contextTypes && error("contextTypes was defined as an instance property on %s. Use a static property to define contextTypes instead.", name), ctor2.contextType && ctor2.contextTypes && !didWarnAboutContextTypeAndContextTypes.has(ctor2) && (didWarnAboutContextTypeAndContextTypes.add(ctor2), error("%s declares both contextTypes and contextType static properties. The legacy contextTypes property will be ignored.", name)), "function" == typeof instance.componentShouldUpdate && error("%s has a method called componentShouldUpdate(). Did you mean shouldComponentUpdate()? The name is phrased as a question because the function is expected to return a value.", name), ctor2.prototype && ctor2.prototype.isPureReactComponent && void 0 !== instance.shouldComponentUpdate && error("%s has a method called shouldComponentUpdate(). shouldComponentUpdate should not be used when extending React.PureComponent. Please extend React.Component if shouldComponentUpdate is used.", getComponentName(ctor2) || "A pure component"), "function" == typeof instance.componentDidUnmount && error("%s has a method called componentDidUnmount(). But there is no such lifecycle method. Did you mean componentWillUnmount()?", name), "function" == typeof instance.componentDidReceiveProps && error("%s has a method called componentDidReceiveProps(). But there is no such lifecycle method. If you meant to update the state in response to changing props, use componentWillReceiveProps(). If you meant to fetch data or run side-effects or mutations after React has updated the UI, use componentDidUpdate().", name), "function" == typeof instance.componentWillRecieveProps && error("%s has a method called componentWillRecieveProps(). Did you mean componentWillReceiveProps()?", name), "function" == typeof instance.UNSAFE_componentWillRecieveProps && error("%s has a method called UNSAFE_componentWillRecieveProps(). Did you mean UNSAFE_componentWillReceiveProps()?", name), hasMutatedProps = instance.props !== newProps2, void 0 !== instance.props && hasMutatedProps && error("%s(...): When calling super() in `%s`, make sure to pass up the same props that your component's constructor was passed.", name, name), instance.defaultProps && error("Setting defaultProps as an instance property on %s is not supported and will be ignored. Instead, define defaultProps as a static property on %s.", name, name), "function" != typeof instance.getSnapshotBeforeUpdate || "function" == typeof instance.componentDidUpdate || didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate.has(ctor2) || (didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate.add(ctor2), error("%s: getSnapshotBeforeUpdate() should be used with componentDidUpdate(). This component defines getSnapshotBeforeUpdate() only.", getComponentName(ctor2))), "function" == typeof instance.getDerivedStateFromProps && error("%s: getDerivedStateFromProps() is defined as an instance method and will be ignored. Instead, declare it as a static method.", name), "function" == typeof instance.getDerivedStateFromError && error("%s: getDerivedStateFromError() is defined as an instance method and will be ignored. Instead, declare it as a static method.", name), "function" == typeof ctor2.getSnapshotBeforeUpdate && error("%s: getSnapshotBeforeUpdate() is defined as a static method and will be ignored. Instead, declare it as an instance method.", name), (_state = instance.state) && ("object" != typeof _state || isArray(_state)) && error("%s.state: must be set to an object or null", name), "function" == typeof instance.getChildContext && "object" != typeof ctor2.childContextTypes && error("%s.getChildContext(): childContextTypes must be defined in order to use getChildContext().", name);
+        var workInProgress2, ctor2, newProps2, instance, name, hasMutatedProps, _state, workInProgress3, instance1, oldState, instance2 = workInProgress1.stateNode;
+        instance2.props = newProps1, instance2.state = workInProgress1.memoizedState, instance2.refs = emptyRefsObject, initializeUpdateQueue(workInProgress1);
         var contextType = ctor1.contextType;
         if ("object" == typeof contextType && null !== contextType) instance2.context = readContext(contextType);
         else {
-            var unmaskedContext = getUnmaskedContext(workInProgress, ctor1, !0);
-            instance2.context = getMaskedContext(workInProgress, unmaskedContext);
+            var unmaskedContext = getUnmaskedContext(workInProgress1, ctor1, !0);
+            instance2.context = getMaskedContext(workInProgress1, unmaskedContext);
         }
-        if (instance2.state === newProps) {
+        if (instance2.state === newProps1) {
             var componentName = getComponentName(ctor1) || "Component";
             didWarnAboutDirectlyAssigningPropsToState.has(componentName) || (didWarnAboutDirectlyAssigningPropsToState.add(componentName), error("%s: It is not recommended to assign props directly to state because updates to props won't be reflected in state. In most cases, it is better to use props directly.", componentName));
         }
-        1 & workInProgress.mode && ReactStrictModeWarnings.recordLegacyContextWarning(workInProgress, instance2), ReactStrictModeWarnings.recordUnsafeLifecycleWarnings(workInProgress, instance2), processUpdateQueue(workInProgress, newProps, instance2, renderLanes), instance2.state = workInProgress.memoizedState;
+        1 & workInProgress1.mode && ReactStrictModeWarnings.recordLegacyContextWarning(workInProgress1, instance2), ReactStrictModeWarnings.recordUnsafeLifecycleWarnings(workInProgress1, instance2), processUpdateQueue(workInProgress1, newProps1, instance2, renderLanes), instance2.state = workInProgress1.memoizedState;
         var getDerivedStateFromProps = ctor1.getDerivedStateFromProps;
-        "function" == typeof getDerivedStateFromProps && (applyDerivedStateFromProps(workInProgress, ctor1, getDerivedStateFromProps, newProps), instance2.state = workInProgress.memoizedState), "function" != typeof ctor1.getDerivedStateFromProps && "function" != typeof instance2.getSnapshotBeforeUpdate && ("function" == typeof instance2.UNSAFE_componentWillMount || "function" == typeof instance2.componentWillMount) && (oldState = (instance1 = instance2).state, "function" == typeof instance1.componentWillMount && instance1.componentWillMount(), "function" == typeof instance1.UNSAFE_componentWillMount && instance1.UNSAFE_componentWillMount(), oldState !== instance1.state && (error("%s.componentWillMount(): Assigning directly to this.state is deprecated (except inside a component's constructor). Use setState instead.", getComponentName(workInProgress.type) || "Component"), classComponentUpdater.enqueueReplaceState(instance1, instance1.state, null)), processUpdateQueue(workInProgress, newProps, instance2, renderLanes), instance2.state = workInProgress.memoizedState), "function" == typeof instance2.componentDidMount && (workInProgress.flags |= Update);
+        "function" == typeof getDerivedStateFromProps && (applyDerivedStateFromProps(workInProgress1, ctor1, getDerivedStateFromProps, newProps1), instance2.state = workInProgress1.memoizedState), "function" != typeof ctor1.getDerivedStateFromProps && "function" != typeof instance2.getSnapshotBeforeUpdate && ("function" == typeof instance2.UNSAFE_componentWillMount || "function" == typeof instance2.componentWillMount) && (workInProgress3 = workInProgress1, oldState = (instance1 = instance2).state, "function" == typeof instance1.componentWillMount && instance1.componentWillMount(), "function" == typeof instance1.UNSAFE_componentWillMount && instance1.UNSAFE_componentWillMount(), oldState !== instance1.state && (error("%s.componentWillMount(): Assigning directly to this.state is deprecated (except inside a component's constructor). Use setState instead.", getComponentName(workInProgress3.type) || "Component"), classComponentUpdater.enqueueReplaceState(instance1, instance1.state, null)), processUpdateQueue(workInProgress1, newProps1, instance2, renderLanes), instance2.state = workInProgress1.memoizedState), "function" == typeof instance2.componentDidMount && (workInProgress1.flags |= Update);
     }
     var warnForMissingKey = function(child, returnFiber) {
     };
@@ -5006,7 +5010,7 @@
                         return _created4.ref = coerceRef(returnFiber, currentFirstChild, element), _created4.return = returnFiber, _created4;
                     }(returnFiber, currentFirstChild, newChild, lanes));
                 case REACT_PORTAL_TYPE:
-                    return placeSingleChild(function(returnFiber, currentFirstChild1, portal, lanes1) {
+                    return placeSingleChild(function(returnFiber, currentFirstChild, portal, lanes) {
                         for(var key = portal.key, child = currentFirstChild; null !== child;){
                             if (child.key === key) {
                                 if (4 === child.tag && child.stateNode.containerInfo === portal.containerInfo && child.stateNode.implementation === portal.implementation) {
@@ -5023,7 +5027,7 @@
                         return created.return = returnFiber, created;
                     }(returnFiber, currentFirstChild, newChild, lanes));
             }
-            if ("string" == typeof newChild || "number" == typeof newChild) return placeSingleChild(function(returnFiber, currentFirstChild, textContent, lanes1) {
+            if ("string" == typeof newChild || "number" == typeof newChild) return placeSingleChild(function(returnFiber, currentFirstChild, textContent, lanes) {
                 if (null !== currentFirstChild && 6 === currentFirstChild.tag) {
                     deleteRemainingChildren(returnFiber, currentFirstChild.sibling);
                     var existing = useFiber(currentFirstChild, textContent);
@@ -5033,7 +5037,7 @@
                 var created = createFiberFromText(textContent, returnFiber.mode, lanes);
                 return created.return = returnFiber, created;
             }(returnFiber, currentFirstChild, "" + newChild, lanes));
-            if (isArray$1(newChild)) return (function(returnFiber, currentFirstChild1, newChildren, lanes) {
+            if (isArray$1(newChild)) return (function(returnFiber, currentFirstChild, newChildren, lanes) {
                 for(var knownKeys = null, i = 0; i < newChildren.length; i++)knownKeys = warnOnInvalidKey(newChildren[i], knownKeys, returnFiber);
                 for(var resultingFirstChild = null, previousNewFiber = null, oldFiber = currentFirstChild, lastPlacedIndex = 0, newIdx = 0, nextOldFiber = null; null !== oldFiber && newIdx < newChildren.length; newIdx++){
                     oldFiber.index > newIdx ? (nextOldFiber = oldFiber, oldFiber = null) : nextOldFiber = oldFiber.sibling;
@@ -5060,7 +5064,7 @@
                     return deleteChild(returnFiber, child);
                 }), resultingFirstChild;
             })(returnFiber, currentFirstChild, newChild, lanes);
-            if (getIteratorFn(newChild)) return (function(returnFiber, currentFirstChild1, newChildrenIterable, lanes) {
+            if (getIteratorFn(newChild)) return (function(returnFiber, currentFirstChild, newChildrenIterable, lanes) {
                 var iteratorFn = getIteratorFn(newChildrenIterable);
                 if ("function" != typeof iteratorFn) throw Error("An object is not an iterable. This error is likely caused by a bug in React. Please file an issue.");
                 "function" == typeof Symbol && "Generator" === newChildrenIterable[Symbol.toStringTag] && (didWarnAboutGenerators || error("Using Generators as children is unsupported and will likely yield unexpected results because enumerating a generator mutates it. You may convert it to an array with `Array.from()` or the `[...spread]` operator before rendering. Keep in mind you might need to polyfill these features for older browsers."), didWarnAboutGenerators = !0), newChildrenIterable.entries === iteratorFn && (didWarnAboutMaps || error("Using Maps as children is not supported. Use an array of keyed ReactElements instead."), didWarnAboutMaps = !0);
@@ -5149,8 +5153,8 @@
     }
     function pushHostContext(fiber) {
         requiredContext(rootInstanceStackCursor.current);
-        var type, parentHostContextDev, context = requiredContext(contextStackCursor$1.current), nextContext = (type = fiber.type, {
-            namespace: getChildNamespace((parentHostContextDev = context).namespace, type),
+        var parentHostContext, type, parentHostContextDev, context = requiredContext(contextStackCursor$1.current), nextContext = (parentHostContext = context, type = fiber.type, {
+            namespace: getChildNamespace((parentHostContextDev = parentHostContext).namespace, type),
             ancestorInfo: updatedAncestorInfo(parentHostContextDev.ancestorInfo, type)
         });
         context !== nextContext && (push(contextFiberStackCursor, fiber, fiber), push(contextStackCursor$1, nextContext, fiber));
@@ -5235,12 +5239,12 @@
                 var parentProps = returnFiber.memoizedProps, parentInstance = returnFiber.stateNode;
                 switch(fiber.tag){
                     case 5:
-                        var _type = fiber.type;
-                        fiber.pendingProps, !0 !== parentProps[SUPPRESS_HYDRATION_WARNING$1] && warnForInsertedHydratedElement(parentInstance, _type);
+                        var parentProps1, parentInstance1, type1, _type = fiber.type;
+                        fiber.pendingProps, parentProps1 = parentProps, parentInstance1 = parentInstance, type1 = _type, !0 !== parentProps1[SUPPRESS_HYDRATION_WARNING$1] && warnForInsertedHydratedElement(parentInstance1, type1);
                         break;
                     case 6:
-                        var _text = fiber.pendingProps;
-                        !0 !== parentProps[SUPPRESS_HYDRATION_WARNING$1] && warnForInsertedHydratedText(parentInstance, _text);
+                        var parentProps2, parentInstance2, text, _text = fiber.pendingProps;
+                        parentProps2 = parentProps, parentInstance2 = parentInstance, text = _text, !0 !== parentProps2[SUPPRESS_HYDRATION_WARNING$1] && warnForInsertedHydratedText(parentInstance2, text);
                         break;
                     case 13:
                         !0 !== parentProps[SUPPRESS_HYDRATION_WARNING$1];
@@ -5256,7 +5260,7 @@
             case 5:
                 var type = fiber.type;
                 fiber.pendingProps;
-                var instance, instance1 = 1 !== (instance = nextInstance).nodeType || type.toLowerCase() !== instance.nodeName.toLowerCase() ? null : instance;
+                var instance, type1, instance1 = (instance = nextInstance, type1 = type, 1 !== instance.nodeType || type1.toLowerCase() !== instance.nodeName.toLowerCase() ? null : instance);
                 if (null !== instance1) return fiber.stateNode = instance1, !0;
                 return !1;
             case 6:
@@ -5296,10 +5300,10 @@
         if (!isHydrating) return popToNextHostParent(fiber), isHydrating = !0, !1;
         var type = fiber.type;
         if (5 !== fiber.tag || "head" !== type && "body" !== type && !shouldSetTextContent(type, fiber.memoizedProps)) for(var nextInstance = nextHydratableInstance; nextInstance;)deleteHydratableInstance(fiber, nextInstance), nextInstance = getNextHydratableSibling(nextInstance);
-        return popToNextHostParent(fiber), nextHydratableInstance = 13 === fiber.tag ? (function(fiber1) {
+        return popToNextHostParent(fiber), nextHydratableInstance = 13 === fiber.tag ? (function(fiber) {
             var suspenseState = fiber.memoizedState, suspenseInstance = null !== suspenseState ? suspenseState.dehydrated : null;
             if (!suspenseInstance) throw Error("Expected to have a hydrated suspense instance. This error is likely caused by a bug in React. Please file an issue.");
-            return (function(suspenseInstance1) {
+            return (function(suspenseInstance) {
                 for(var node = suspenseInstance.nextSibling, depth = 0; node;){
                     if (8 === node.nodeType) {
                         var data = node.data;
@@ -5507,13 +5511,13 @@
         ];
     }
     function readFromUnsubcribedMutableSource(root, source, getSnapshot) {
-        null == (mutableSource = source)._currentPrimaryRenderer ? mutableSource._currentPrimaryRenderer = rendererSigil$1 : mutableSource._currentPrimaryRenderer !== rendererSigil$1 && error("Detected multiple renderers concurrently rendering the same mutable source. This is currently unsupported.");
-        var mutableSource, version = (0, source._getVersion)(source._source), isSafeToReadFromSource = !1, currentRenderVersion = source._workInProgressVersionPrimary;
+        null == (mutableSource2 = source)._currentPrimaryRenderer ? mutableSource2._currentPrimaryRenderer = rendererSigil$1 : mutableSource2._currentPrimaryRenderer !== rendererSigil$1 && error("Detected multiple renderers concurrently rendering the same mutable source. This is currently unsupported.");
+        var mutableSource1, mutableSource2, version = (0, source._getVersion)(source._source), isSafeToReadFromSource = !1, currentRenderVersion = source._workInProgressVersionPrimary;
         if (null !== currentRenderVersion ? isSafeToReadFromSource = currentRenderVersion === version : (isSafeToReadFromSource = isSubsetOfLanes(renderLanes2, root.mutableReadLanes)) && setWorkInProgressVersion(source, version), isSafeToReadFromSource) {
             var snapshot = getSnapshot(source._source);
             return "function" == typeof snapshot && error("Mutable source should not return a function as the snapshot value. Functions may close over mutable values and cause tearing."), snapshot;
         }
-        throw workInProgressSources.push(source), Error("Cannot read from mutable source during the current render without tearing. This is a bug in React. Please file an issue.");
+        throw mutableSource1 = source, workInProgressSources.push(mutableSource1), Error("Cannot read from mutable source during the current render without tearing. This is a bug in React. Please file an issue.");
     }
     function useMutableSource(hook, source, getSnapshot, subscribe) {
         var root = getWorkInProgressRoot();
@@ -6491,7 +6495,7 @@
             var hasContext, shouldUpdate, innerPropTypes = Component.propTypes;
             innerPropTypes && checkPropTypes(innerPropTypes, nextProps, "prop", getComponentName(Component));
         }
-        isContextProvider(Component) ? (hasContext = !0, pushContextProvider(workInProgress)) : hasContext = !1, prepareToReadContext(workInProgress, renderLanes), null === workInProgress.stateNode ? (null !== current && (current.alternate = null, workInProgress.alternate = null, workInProgress.flags |= Placement), constructClassInstance(workInProgress, Component, nextProps), mountClassInstance(workInProgress, Component, nextProps, renderLanes), shouldUpdate = !0) : shouldUpdate = null === current ? (function(workInProgress, ctor, newProps, renderLanes1) {
+        isContextProvider(Component) ? (hasContext = !0, pushContextProvider(workInProgress)) : hasContext = !1, prepareToReadContext(workInProgress, renderLanes), null === workInProgress.stateNode ? (null !== current && (current.alternate = null, workInProgress.alternate = null, workInProgress.flags |= Placement), constructClassInstance(workInProgress, Component, nextProps), mountClassInstance(workInProgress, Component, nextProps, renderLanes), shouldUpdate = !0) : shouldUpdate = null === current ? (function(workInProgress, ctor, newProps, renderLanes) {
             var instance = workInProgress.stateNode, oldProps = workInProgress.memoizedProps;
             instance.props = oldProps;
             var oldContext = instance.context, contextType = ctor.contextType, nextContext = emptyContextObject;
@@ -6503,7 +6507,7 @@
             "function" == typeof getDerivedStateFromProps && (applyDerivedStateFromProps(workInProgress, ctor, getDerivedStateFromProps, newProps), newState = workInProgress.memoizedState);
             var shouldUpdate = checkHasForceUpdateAfterProcessing() || checkShouldComponentUpdate(workInProgress, ctor, oldProps, newProps, oldState, newState, nextContext);
             return shouldUpdate ? (hasNewLifecycles || "function" != typeof instance.UNSAFE_componentWillMount && "function" != typeof instance.componentWillMount || ("function" == typeof instance.componentWillMount && instance.componentWillMount(), "function" == typeof instance.UNSAFE_componentWillMount && instance.UNSAFE_componentWillMount()), "function" == typeof instance.componentDidMount && (workInProgress.flags |= Update)) : ("function" == typeof instance.componentDidMount && (workInProgress.flags |= Update), workInProgress.memoizedProps = newProps, workInProgress.memoizedState = newState), instance.props = newProps, instance.state = newState, instance.context = nextContext, shouldUpdate;
-        })(workInProgress, Component, nextProps, renderLanes) : (function(current, workInProgress, ctor, newProps, renderLanes1) {
+        })(workInProgress, Component, nextProps, renderLanes) : (function(current, workInProgress, ctor, newProps, renderLanes) {
             var instance = workInProgress.stateNode;
             cloneUpdateQueue(current, workInProgress);
             var unresolvedOldProps = workInProgress.memoizedProps, oldProps = workInProgress.type === workInProgress.elementType ? unresolvedOldProps : resolveDefaultProps(workInProgress.type, unresolvedOldProps);
@@ -6523,12 +6527,12 @@
     }
     function finishClassComponent(current, workInProgress, Component, shouldUpdate, hasContext, renderLanes) {
         markRef(current, workInProgress);
-        var workInProgress1, renderLanes1, nextChildren, didCaptureError = (workInProgress.flags & DidCapture) !== NoFlags;
+        var current1, workInProgress1, nextChildren, renderLanes1, nextChildren1, didCaptureError = (workInProgress.flags & DidCapture) !== NoFlags;
         if (!shouldUpdate && !didCaptureError) return hasContext && invalidateContextProvider(workInProgress, Component, !1), bailoutOnAlreadyFinishedWork(current, workInProgress, renderLanes);
         var instance = workInProgress.stateNode;
-        if (ReactCurrentOwner$1.current = workInProgress, didCaptureError && "function" != typeof Component.getDerivedStateFromError) nextChildren = null, stopProfilerTimerIfRunning();
+        if (ReactCurrentOwner$1.current = workInProgress, didCaptureError && "function" != typeof Component.getDerivedStateFromError) nextChildren1 = null, stopProfilerTimerIfRunning();
         else {
-            if (setIsRendering(!0), nextChildren = instance.render(), 1 & workInProgress.mode) {
+            if (setIsRendering(!0), nextChildren1 = instance.render(), 1 & workInProgress.mode) {
                 disableLogs();
                 try {
                     instance.render();
@@ -6538,7 +6542,7 @@
             }
             setIsRendering(!1);
         }
-        return (workInProgress.flags |= 1, null !== current && didCaptureError) ? (workInProgress1 = workInProgress, renderLanes1 = renderLanes, workInProgress1.child = reconcileChildFibers(workInProgress1, current.child, null, renderLanes1), workInProgress1.child = reconcileChildFibers(workInProgress1, null, nextChildren, renderLanes1)) : reconcileChildren(current, workInProgress, nextChildren, renderLanes), workInProgress.memoizedState = instance.state, hasContext && invalidateContextProvider(workInProgress, Component, !0), workInProgress.child;
+        return (workInProgress.flags |= 1, null !== current && didCaptureError) ? (current1 = current, workInProgress1 = workInProgress, nextChildren = nextChildren1, renderLanes1 = renderLanes, workInProgress1.child = reconcileChildFibers(workInProgress1, current1.child, null, renderLanes1), workInProgress1.child = reconcileChildFibers(workInProgress1, null, nextChildren, renderLanes1)) : reconcileChildren(current, workInProgress, nextChildren1, renderLanes), workInProgress.memoizedState = instance.state, hasContext && invalidateContextProvider(workInProgress, Component, !0), workInProgress.child;
     }
     function pushHostRootContext(workInProgress) {
         var root = workInProgress.stateNode;
@@ -6580,8 +6584,8 @@
     function updateSuspenseComponent(current, workInProgress, renderLanes) {
         var nextProps = workInProgress.pendingProps;
         shouldSuspend(workInProgress) && (workInProgress.flags |= DidCapture);
-        var current1, suspenseContext = suspenseStackCursor.current, showFallback = !1;
-        if ((workInProgress.flags & DidCapture) !== NoFlags || (null === (current1 = current) || null !== current1.memoizedState) && hasSuspenseContext(suspenseContext, 2) ? (showFallback = !0, workInProgress.flags &= ~DidCapture) : (null === current || null !== current.memoizedState) && void 0 !== nextProps.fallback && !0 !== nextProps.unstable_avoidThisFallback && (suspenseContext |= 1), pushSuspenseContext(workInProgress, suspenseContext = setDefaultShallowSuspenseContext(suspenseContext)), null === current) {
+        var suspenseContext, current1, suspenseContext1 = suspenseStackCursor.current, showFallback = !1;
+        if ((workInProgress.flags & DidCapture) !== NoFlags || (suspenseContext = suspenseContext1, (null === (current1 = current) || null !== current1.memoizedState) && hasSuspenseContext(suspenseContext, 2)) ? (showFallback = !0, workInProgress.flags &= ~DidCapture) : (null === current || null !== current.memoizedState) && void 0 !== nextProps.fallback && !0 !== nextProps.unstable_avoidThisFallback && (suspenseContext1 |= 1), pushSuspenseContext(workInProgress, suspenseContext1 = setDefaultShallowSuspenseContext(suspenseContext1)), null === current) {
             void 0 !== nextProps.fallback && tryToClaimNextHydratableInstance(workInProgress);
             var nextPrimaryChildren = nextProps.children, nextFallbackChildren = nextProps.fallback;
             if (showFallback) {
@@ -6860,30 +6864,30 @@
                     return reconcileChildren(null, workInProgress, value, renderLanes), validateFunctionComponentInDev(workInProgress, Component), workInProgress.child;
                 })(current1, workInProgress1, workInProgress1.type, renderLanes1);
             case 16:
-                return (function(_current, workInProgress1, elementType, updateLanes1, renderLanes) {
-                    null !== _current && (_current.alternate = null, workInProgress1.alternate = null, workInProgress1.flags |= Placement);
-                    var props = workInProgress1.pendingProps, lazyComponent = workInProgress1.elementType, payload = lazyComponent._payload, Component = (0, lazyComponent._init)(payload);
-                    workInProgress1.type = Component;
-                    var resolvedTag = workInProgress1.tag = resolveLazyComponentTag(Component), resolvedProps = resolveDefaultProps(Component, props);
+                return (function(_current, workInProgress, elementType, updateLanes, renderLanes) {
+                    null !== _current && (_current.alternate = null, workInProgress.alternate = null, workInProgress.flags |= Placement);
+                    var props = workInProgress.pendingProps, lazyComponent = elementType, payload = lazyComponent._payload, Component = (0, lazyComponent._init)(payload);
+                    workInProgress.type = Component;
+                    var resolvedTag = workInProgress.tag = resolveLazyComponentTag(Component), resolvedProps = resolveDefaultProps(Component, props);
                     switch(resolvedTag){
                         case 0:
-                            return validateFunctionComponentInDev(workInProgress1, Component), workInProgress1.type = Component = resolveFunctionForHotReloading(Component), updateFunctionComponent(null, workInProgress1, Component, resolvedProps, renderLanes);
+                            return validateFunctionComponentInDev(workInProgress, Component), workInProgress.type = Component = resolveFunctionForHotReloading(Component), updateFunctionComponent(null, workInProgress, Component, resolvedProps, renderLanes);
                         case 1:
-                            return workInProgress1.type = Component = resolveClassForHotReloading(Component), updateClassComponent(null, workInProgress1, Component, resolvedProps, renderLanes);
+                            return workInProgress.type = Component = resolveClassForHotReloading(Component), updateClassComponent(null, workInProgress, Component, resolvedProps, renderLanes);
                         case 11:
-                            return workInProgress1.type = Component = resolveForwardRefForHotReloading(Component), updateForwardRef(null, workInProgress1, Component, resolvedProps, renderLanes);
+                            return workInProgress.type = Component = resolveForwardRefForHotReloading(Component), updateForwardRef(null, workInProgress, Component, resolvedProps, renderLanes);
                         case 14:
-                            if (workInProgress1.type !== workInProgress1.elementType) {
+                            if (workInProgress.type !== workInProgress.elementType) {
                                 var outerPropTypes = Component.propTypes;
                                 outerPropTypes && checkPropTypes(outerPropTypes, resolvedProps, "prop", getComponentName(Component));
                             }
-                            return updateMemoComponent(null, workInProgress1, Component, resolveDefaultProps(Component.type, resolvedProps), updateLanes, renderLanes);
+                            return updateMemoComponent(null, workInProgress, Component, resolveDefaultProps(Component.type, resolvedProps), updateLanes, renderLanes);
                     }
                     var hint = "";
                     throw null !== Component && "object" == typeof Component && Component.$$typeof === REACT_LAZY_TYPE && (hint = " Did you wrap a component in React.lazy() more than once?"), Error("Element type is invalid. Received a promise that resolves to: " + Component + ". Lazy element type must resolve to a class or function." + hint);
-                })(current1, workInProgress1, elementType, updateLanes, renderLanes1);
+                })(current1, workInProgress1, workInProgress1.elementType, updateLanes, renderLanes1);
             case 0:
-                var elementType, _Component = workInProgress1.type, unresolvedProps = workInProgress1.pendingProps;
+                var _Component = workInProgress1.type, unresolvedProps = workInProgress1.pendingProps;
                 return updateFunctionComponent(current1, workInProgress1, _Component, workInProgress1.elementType === _Component ? unresolvedProps : resolveDefaultProps(_Component, unresolvedProps), renderLanes1);
             case 1:
                 var _Component2 = workInProgress1.type, _unresolvedProps = workInProgress1.pendingProps;
@@ -6908,26 +6912,22 @@
                     return workInProgress.child;
                 })(current1, workInProgress1, renderLanes1);
             case 5:
-                return current3 = current1, pushHostContext(workInProgress2 = workInProgress1), null === current3 && tryToClaimNextHydratableInstance(workInProgress2), type = workInProgress2.type, prevProps = null !== current3 ? current3.memoizedProps : null, shouldSetTextContent(type, workInProgress2.pendingProps) || null !== prevProps && shouldSetTextContent(type, prevProps) && (workInProgress2.flags |= 16), markRef(current3, workInProgress2), reconcileChildren(current3, workInProgress2, null, renderLanes1), workInProgress2.child;
+                return current3 = current1, workInProgress2 = workInProgress1, renderLanes3 = renderLanes1, pushHostContext(workInProgress2), null === current3 && tryToClaimNextHydratableInstance(workInProgress2), type = workInProgress2.type, prevProps = null !== current3 ? current3.memoizedProps : null, shouldSetTextContent(type, workInProgress2.pendingProps) || null !== prevProps && shouldSetTextContent(type, prevProps) && (workInProgress2.flags |= 16), markRef(current3, workInProgress2), reconcileChildren(current3, workInProgress2, null, renderLanes3), workInProgress2.child;
             case 6:
-                return null === current1 && tryToClaimNextHydratableInstance(workInProgress1), null;
+                return current4 = current1, workInProgress3 = workInProgress1, null === current4 && tryToClaimNextHydratableInstance(workInProgress3), null;
             case 13:
                 return updateSuspenseComponent(current1, workInProgress1, renderLanes1);
             case 4:
-                return (function(current, workInProgress, renderLanes) {
-                    pushHostContainer(workInProgress, workInProgress.stateNode.containerInfo);
-                    var nextChildren = workInProgress.pendingProps;
-                    return null === current ? workInProgress.child = reconcileChildFibers(workInProgress, null, nextChildren, renderLanes) : reconcileChildren(current, workInProgress, nextChildren, renderLanes), workInProgress.child;
-                })(current1, workInProgress1, renderLanes1);
+                return current5 = current1, workInProgress4 = workInProgress1, renderLanes4 = renderLanes1, pushHostContainer(workInProgress4, workInProgress4.stateNode.containerInfo), nextChildren = workInProgress4.pendingProps, null === current5 ? workInProgress4.child = reconcileChildFibers(workInProgress4, null, nextChildren, renderLanes4) : reconcileChildren(current5, workInProgress4, nextChildren, renderLanes4), workInProgress4.child;
             case 11:
-                var current3, workInProgress2, type, prevProps, type1 = workInProgress1.type, _unresolvedProps2 = workInProgress1.pendingProps;
+                var current3, workInProgress2, renderLanes3, type, prevProps, current4, workInProgress3, current5, workInProgress4, renderLanes4, nextChildren, type1 = workInProgress1.type, _unresolvedProps2 = workInProgress1.pendingProps;
                 return updateForwardRef(current1, workInProgress1, type1, workInProgress1.elementType === type1 ? _unresolvedProps2 : resolveDefaultProps(type1, _unresolvedProps2), renderLanes1);
             case 7:
-                return reconcileChildren(current1, workInProgress3 = workInProgress1, workInProgress3.pendingProps, renderLanes1), workInProgress3.child;
+                return current6 = current1, workInProgress5 = workInProgress1, renderLanes5 = renderLanes1, reconcileChildren(current6, workInProgress5, workInProgress5.pendingProps, renderLanes5), workInProgress5.child;
             case 8:
-                return reconcileChildren(current1, workInProgress4 = workInProgress1, workInProgress4.pendingProps.children, renderLanes1), workInProgress4.child;
+                return current7 = current1, workInProgress6 = workInProgress1, renderLanes6 = renderLanes1, reconcileChildren(current7, workInProgress6, workInProgress6.pendingProps.children, renderLanes6), workInProgress6.child;
             case 12:
-                return workInProgress5 = workInProgress1, workInProgress5.flags |= Update, workInProgress5.stateNode.effectDuration = 0, workInProgress5.stateNode.passiveEffectDuration = 0, reconcileChildren(current1, workInProgress5, workInProgress5.pendingProps.children, renderLanes1), workInProgress5.child;
+                return current8 = current1, workInProgress7 = workInProgress1, renderLanes7 = renderLanes1, workInProgress7.flags |= Update, workInProgress7.stateNode.effectDuration = 0, workInProgress7.stateNode.passiveEffectDuration = 0, reconcileChildren(current8, workInProgress7, workInProgress7.pendingProps.children, renderLanes7), workInProgress7.child;
             case 10:
                 return (function(current, workInProgress, renderLanes) {
                     var context = workInProgress.type._context, newProps = workInProgress.pendingProps, oldProps = workInProgress.memoizedProps, newValue = newProps.value;
@@ -6981,9 +6981,9 @@
                     return reconcileChildren(current, workInProgress, newProps.children, renderLanes), workInProgress.child;
                 })(current1, workInProgress1, renderLanes1);
             case 9:
-                return workInProgress6 = workInProgress1, renderLanes3 = renderLanes1, void 0 === (context = workInProgress6.type)._context ? context === context.Consumer || hasWarnedAboutUsingContextAsConsumer || (hasWarnedAboutUsingContextAsConsumer = !0, error("Rendering <Context> directly is not supported and will be removed in a future major release. Did you mean to render <Context.Consumer> instead?")) : context = context._context, "function" != typeof (render = (newProps = workInProgress6.pendingProps).children) && error("A context consumer was rendered with multiple children, or a child that isn't a function. A context consumer expects a single child that is a function. If you did pass a function, make sure there is no trailing or leading whitespace around it."), prepareToReadContext(workInProgress6, renderLanes3), newValue = readContext(context, newProps.unstable_observedBits), ReactCurrentOwner$1.current = workInProgress6, setIsRendering(!0), newChildren = render(newValue), setIsRendering(!1), workInProgress6.flags |= 1, reconcileChildren(current1, workInProgress6, newChildren, renderLanes3), workInProgress6.child;
+                return current9 = current1, workInProgress8 = workInProgress1, renderLanes8 = renderLanes1, void 0 === (context = workInProgress8.type)._context ? context === context.Consumer || hasWarnedAboutUsingContextAsConsumer || (hasWarnedAboutUsingContextAsConsumer = !0, error("Rendering <Context> directly is not supported and will be removed in a future major release. Did you mean to render <Context.Consumer> instead?")) : context = context._context, "function" != typeof (render = (newProps = workInProgress8.pendingProps).children) && error("A context consumer was rendered with multiple children, or a child that isn't a function. A context consumer expects a single child that is a function. If you did pass a function, make sure there is no trailing or leading whitespace around it."), prepareToReadContext(workInProgress8, renderLanes8), newValue = readContext(context, newProps.unstable_observedBits), ReactCurrentOwner$1.current = workInProgress8, setIsRendering(!0), newChildren = render(newValue), setIsRendering(!1), workInProgress8.flags |= 1, reconcileChildren(current9, workInProgress8, newChildren, renderLanes8), workInProgress8.child;
             case 14:
-                var workInProgress3, workInProgress4, workInProgress5, workInProgress6, renderLanes3, newChildren, context, newProps, render, newValue, _type2 = workInProgress1.type, _resolvedProps3 = resolveDefaultProps(_type2, workInProgress1.pendingProps);
+                var current6, workInProgress5, renderLanes5, current7, workInProgress6, renderLanes6, current8, workInProgress7, renderLanes7, current9, workInProgress8, renderLanes8, newChildren, context, newProps, render, newValue, _type2 = workInProgress1.type, _resolvedProps3 = resolveDefaultProps(_type2, workInProgress1.pendingProps);
                 if (workInProgress1.type !== workInProgress1.elementType) {
                     var outerPropTypes = _type2.propTypes;
                     outerPropTypes && checkPropTypes(outerPropTypes, _resolvedProps3, "prop", getComponentName(_type2));
@@ -6992,8 +6992,8 @@
             case 15:
                 return updateSimpleMemoComponent(current1, workInProgress1, workInProgress1.type, workInProgress1.pendingProps, updateLanes, renderLanes1);
             case 17:
-                var _current, workInProgress7, Component, nextProps, renderLanes4, hasContext, _Component3 = workInProgress1.type, _unresolvedProps4 = workInProgress1.pendingProps, _resolvedProps4 = workInProgress1.elementType === _Component3 ? _unresolvedProps4 : resolveDefaultProps(_Component3, _unresolvedProps4);
-                return _current = current1, workInProgress7 = workInProgress1, Component = _Component3, nextProps = _resolvedProps4, renderLanes4 = renderLanes1, null !== _current && (_current.alternate = null, workInProgress7.alternate = null, workInProgress7.flags |= Placement), workInProgress7.tag = 1, isContextProvider(Component) ? (hasContext = !0, pushContextProvider(workInProgress7)) : hasContext = !1, prepareToReadContext(workInProgress7, renderLanes4), constructClassInstance(workInProgress7, Component, nextProps), mountClassInstance(workInProgress7, Component, nextProps, renderLanes4), finishClassComponent(null, workInProgress7, Component, !0, hasContext, renderLanes4);
+                var _current, workInProgress9, Component, nextProps, renderLanes9, hasContext, _Component3 = workInProgress1.type, _unresolvedProps4 = workInProgress1.pendingProps, _resolvedProps4 = workInProgress1.elementType === _Component3 ? _unresolvedProps4 : resolveDefaultProps(_Component3, _unresolvedProps4);
+                return _current = current1, workInProgress9 = workInProgress1, Component = _Component3, nextProps = _resolvedProps4, renderLanes9 = renderLanes1, null !== _current && (_current.alternate = null, workInProgress9.alternate = null, workInProgress9.flags |= Placement), workInProgress9.tag = 1, isContextProvider(Component) ? (hasContext = !0, pushContextProvider(workInProgress9)) : hasContext = !1, prepareToReadContext(workInProgress9, renderLanes9), constructClassInstance(workInProgress9, Component, nextProps), mountClassInstance(workInProgress9, Component, nextProps, renderLanes9), finishClassComponent(null, workInProgress9, Component, !0, hasContext, renderLanes9);
             case 19:
                 return updateSuspenseListComponent(current1, workInProgress1, renderLanes1);
             case 20:
@@ -7057,7 +7057,7 @@
                         return null;
                     }
                     var currentHostContext = getHostContext();
-                    if (popHydrationState(workInProgress)) instance = (fiber = workInProgress).stateNode, type1 = fiber.type, props1 = fiber.memoizedProps, precacheFiberNode(fiber, instance), updateFiberProps(instance, props1), currentHostContext.namespace, updatePayload = (function(domElement, tag, rawProps, parentNamespace, rootContainerElement) {
+                    if (popHydrationState(workInProgress)) fiber = workInProgress, hostContext1 = currentHostContext, instance = fiber.stateNode, type1 = fiber.type, props1 = fiber.memoizedProps, hostContext2 = hostContext1, precacheFiberNode(fiber, instance), updateFiberProps(instance, props1), updatePayload = (function(domElement, tag, rawProps, parentNamespace, rootContainerElement) {
                         switch(suppressHydrationWarning = !0 === rawProps.suppressHydrationWarning, isCustomComponentTag = isCustomComponent(tag, rawProps), validatePropertiesInDevelopment(tag, rawProps), tag){
                             case "dialog":
                                 listenToNonDelegatedEvent("cancel", domElement), listenToNonDelegatedEvent("close", domElement);
@@ -7169,10 +7169,10 @@
                                 break;
                         }
                         return updatePayload;
-                    })(instance, type1, props1, currentHostContext.namespace), fiber.updateQueue = updatePayload, null !== updatePayload && markUpdate(workInProgress);
+                    })(instance, type1, props1, hostContext2.namespace), fiber.updateQueue = updatePayload, null !== updatePayload && markUpdate(workInProgress);
                     else {
-                        var type, props17, hostContextDev, domElement, fiber, instance, type1, props1, updatePayload, type2, props2, instance1 = (type = type5, props17 = newProps, validateDOMNesting(type, null, (hostContextDev = currentHostContext).ancestorInfo), ("string" == typeof props17.children || "number" == typeof props17.children) && validateDOMNesting(null, "" + props17.children, updatedAncestorInfo(hostContextDev.ancestorInfo, type)), hostContextDev.namespace, precacheFiberNode(workInProgress, domElement = function(type, props, rootContainerElement, parentNamespace) {
-                            var isCustomComponentTag, domElement, ownerDocument = getOwnerDocumentFromRootContainer(rootContainerInstance), namespaceURI = parentNamespace;
+                        var type, props17, rootContainerInstance1, hostContext, internalInstanceHandle, hostContextDev, domElement, fiber, hostContext1, instance, type1, props1, hostContext2, updatePayload, type2, props2, instance1 = (type = type5, props17 = newProps, rootContainerInstance1 = rootContainerInstance, hostContext = currentHostContext, internalInstanceHandle = workInProgress, validateDOMNesting(type, null, (hostContextDev = hostContext).ancestorInfo), ("string" == typeof props17.children || "number" == typeof props17.children) && validateDOMNesting(null, "" + props17.children, updatedAncestorInfo(hostContextDev.ancestorInfo, type)), hostContextDev.namespace, precacheFiberNode(internalInstanceHandle, domElement = function(type, props, rootContainerElement, parentNamespace) {
+                            var isCustomComponentTag, domElement, ownerDocument = getOwnerDocumentFromRootContainer(rootContainerElement), namespaceURI = parentNamespace;
                             if ("http://www.w3.org/1999/xhtml" === namespaceURI && (namespaceURI = getIntrinsicNamespace(type)), "http://www.w3.org/1999/xhtml" === namespaceURI) {
                                 if ((isCustomComponentTag = isCustomComponent(type, props)) || type === type.toLowerCase() || error("<%s /> is using incorrect casing. Use PascalCase for React components, or lowercase for HTML elements.", type), "script" === type) {
                                     var div = ownerDocument.createElement("div");
@@ -7188,9 +7188,9 @@
                                 }
                             } else domElement = ownerDocument.createElementNS(namespaceURI, type);
                             return "http://www.w3.org/1999/xhtml" !== namespaceURI || isCustomComponentTag || "[object HTMLUnknownElement]" !== Object.prototype.toString.call(domElement) || Object.prototype.hasOwnProperty.call(warnedUnknownTags, type) || (warnedUnknownTags[type] = !0, error("The tag <%s> is unrecognized in this browser. If you meant to render a React component, start its name with an uppercase letter.", type)), domElement;
-                        }(type, props17, rootContainerInstance, hostContextDev.namespace)), updateFiberProps(domElement, props17), domElement);
+                        }(type, props17, rootContainerInstance1, hostContextDev.namespace)), updateFiberProps(domElement, props17), domElement);
                         appendAllChildren(instance1, workInProgress, !1, !1), workInProgress.stateNode = instance1, (function(domElement, tag, rawProps, rootContainerElement) {
-                            var props, props15, node, value, props16, isCustomComponentTag = isCustomComponent(tag, rawProps);
+                            var element, props, element1, props15, node, value, props16, isCustomComponentTag = isCustomComponent(tag, rawProps);
                             switch(validatePropertiesInDevelopment(tag, rawProps), tag){
                                 case "dialog":
                                     listenToNonDelegatedEvent("cancel", domElement), listenToNonDelegatedEvent("close", domElement), props16 = rawProps;
@@ -7248,10 +7248,10 @@
                                     track(domElement), postMountWrapper$3(domElement);
                                     break;
                                 case "option":
-                                    null != (props = rawProps).value && domElement.setAttribute("value", toString(getToStringValue(props.value)));
+                                    element = domElement, null != (props = rawProps).value && element.setAttribute("value", toString(getToStringValue(props.value)));
                                     break;
                                 case "select":
-                                    props15 = rawProps, (node = domElement).multiple = !!props15.multiple, null != (value = props15.value) ? updateOptions(node, !!props15.multiple, value, !1) : null != props15.defaultValue && updateOptions(node, !!props15.multiple, props15.defaultValue, !0);
+                                    element1 = domElement, props15 = rawProps, (node = element1).multiple = !!props15.multiple, null != (value = props15.value) ? updateOptions(node, !!props15.multiple, value, !1) : null != props15.defaultValue && updateOptions(node, !!props15.multiple, props15.defaultValue, !0);
                                     break;
                                 default:
                                     "function" == typeof props16.onClick && trapClickOnNonInteractiveElement(domElement);
@@ -7267,9 +7267,9 @@
                 if (current && null != workInProgress.stateNode) updateHostText$1(current, workInProgress, current.memoizedProps, newText);
                 else {
                     if ("string" != typeof newText && !(null !== workInProgress.stateNode)) throw Error("We must have new props for new mounts. This error is likely caused by a bug in React. Please file an issue.");
-                    var _rootContainerInstance = getRootHostContainer(), _currentHostContext = getHostContext();
+                    var text3, rootContainerInstance, hostContext, internalInstanceHandle, text1, textNode, _rootContainerInstance = getRootHostContainer(), _currentHostContext = getHostContext();
                     popHydrationState(workInProgress) ? (function(fiber) {
-                        var textInstance, textInstance1 = fiber.stateNode, textContent = fiber.memoizedProps, shouldUpdate = (precacheFiberNode(fiber, textInstance = textInstance1), textInstance.nodeValue !== textContent);
+                        var textInstance, text, textNode, text2, textInstance1 = fiber.stateNode, textContent = fiber.memoizedProps, shouldUpdate = (textInstance = textInstance1, text = textContent, precacheFiberNode(fiber, textInstance), textNode = textInstance, text2 = text, textNode.nodeValue !== text2);
                         if (shouldUpdate) {
                             var returnFiber = hydrationParentFiber;
                             if (null !== returnFiber) switch(returnFiber.tag){
@@ -7277,16 +7277,13 @@
                                     returnFiber.stateNode.containerInfo, warnForUnmatchedText(textInstance1, textContent);
                                     break;
                                 case 5:
-                                    returnFiber.type, returnFiber.stateNode, !0 !== returnFiber.memoizedProps[SUPPRESS_HYDRATION_WARNING$1] && warnForUnmatchedText(textInstance1, textContent);
+                                    var parentProps, textInstance2, text, parentType = returnFiber.type, parentProps1 = returnFiber.memoizedProps;
+                                    returnFiber.stateNode, parentProps = parentProps1, textInstance2 = textInstance1, text = textContent, !0 !== parentProps[SUPPRESS_HYDRATION_WARNING$1] && warnForUnmatchedText(textInstance2, text);
                                     break;
                             }
                         }
                         return shouldUpdate;
-                    })(workInProgress) && markUpdate(workInProgress) : workInProgress.stateNode = (function(text, rootContainerInstance, hostContext, internalInstanceHandle) {
-                        validateDOMNesting(null, text, _currentHostContext.ancestorInfo);
-                        var textNode = getOwnerDocumentFromRootContainer(_rootContainerInstance).createTextNode(text);
-                        return precacheFiberNode(workInProgress, textNode), textNode;
-                    })(newText, _rootContainerInstance, _currentHostContext, workInProgress);
+                    })(workInProgress) && markUpdate(workInProgress) : workInProgress.stateNode = (text3 = newText, rootContainerInstance = _rootContainerInstance, hostContext = _currentHostContext, internalInstanceHandle = workInProgress, validateDOMNesting(null, text3, hostContext.ancestorInfo), precacheFiberNode(internalInstanceHandle, textNode = (text1 = text3, getOwnerDocumentFromRootContainer(rootContainerInstance).createTextNode(text1))), textNode);
                 }
                 return null;
             case 13:
@@ -7296,9 +7293,7 @@
                 var nextDidTimeout = null !== nextState, prevDidTimeout = !1;
                 return null === current ? void 0 !== workInProgress.memoizedProps.fallback && popHydrationState(workInProgress) : prevDidTimeout = null !== current.memoizedState, nextDidTimeout && !prevDidTimeout && (2 & workInProgress.mode) != 0 && (null === current && !0 !== workInProgress.memoizedProps.unstable_avoidThisFallback || hasSuspenseContext(suspenseStackCursor.current, 1) ? renderDidSuspend() : renderDidSuspendDelayIfPossible()), (nextDidTimeout || prevDidTimeout) && (workInProgress.flags |= Update), null;
             case 4:
-                return popHostContainer(workInProgress), updateHostContainer(workInProgress), null === current && (function(portalInstance) {
-                    listenToAllSupportedEvents(portalInstance);
-                })(workInProgress.stateNode.containerInfo), null;
+                return popHostContainer(workInProgress), updateHostContainer(workInProgress), null === current && listenToAllSupportedEvents(workInProgress.stateNode.containerInfo), null;
             case 10:
                 return popProvider(workInProgress), null;
             case 17:
@@ -7468,7 +7463,7 @@
     }, updateHostComponent$1 = function(current, workInProgress, type, newProps, rootContainerInstance) {
         var oldProps = current.memoizedProps;
         if (oldProps !== newProps) {
-            var type5, oldProps1, newProps1, instance = workInProgress.stateNode, updatePayload = (type5 = type, oldProps1 = oldProps, typeof (newProps1 = newProps).children != typeof oldProps1.children && ("string" == typeof newProps1.children || "number" == typeof newProps1.children) && validateDOMNesting(null, "" + newProps1.children, updatedAncestorInfo(getHostContext().ancestorInfo, type5)), function(domElement, tag, lastRawProps, nextRawProps, rootContainerElement) {
+            var domElement, type5, oldProps1, newProps1, hostContext, updatePayload = (domElement = workInProgress.stateNode, type5 = type, oldProps1 = oldProps, newProps1 = newProps, hostContext = getHostContext(), typeof newProps1.children != typeof oldProps1.children && ("string" == typeof newProps1.children || "number" == typeof newProps1.children) && validateDOMNesting(null, "" + newProps1.children, updatedAncestorInfo(hostContext.ancestorInfo, type5)), function(domElement, tag, lastRawProps, nextRawProps, rootContainerElement) {
                 validatePropertiesInDevelopment(tag, nextRawProps);
                 var lastProps, nextProps, propKey, styleName, updatePayload = null;
                 switch(tag){
@@ -7522,7 +7517,7 @@
                         }
                     }
                 })(styleUpdates, nextProps.style), (updatePayload = updatePayload || []).push("style", styleUpdates)), updatePayload;
-            }(instance, type5, oldProps1, newProps1));
+            }(domElement, type5, oldProps1, newProps1));
             workInProgress.updateQueue = updatePayload, updatePayload && markUpdate(workInProgress);
         }
     }, updateHostText$1 = function(current, workInProgress, oldText, newText) {
@@ -7666,7 +7661,7 @@
             case 11:
             case 15:
             case 22:
-                !function(tag, finishedWork1) {
+                !function(tag, finishedWork) {
                     var updateQueue = finishedWork.updateQueue, lastEffect = null !== updateQueue ? updateQueue.lastEffect : null;
                     if (null !== lastEffect) {
                         var firstEffect = lastEffect.next, effect = firstEffect;
@@ -7717,7 +7712,11 @@
                 }
                 return;
             case 5:
-                null === current && finishedWork.flags & Update && shouldAutoFocusHostComponent(finishedWork.type, finishedWork.memoizedProps) && finishedWork.stateNode.focus();
+                var _instance2 = finishedWork.stateNode;
+                if (null === current && finishedWork.flags & Update) {
+                    var domElement, type = finishedWork.type, props = finishedWork.memoizedProps;
+                    domElement = _instance2, shouldAutoFocusHostComponent(type, props) && domElement.focus();
+                }
                 return;
             case 6:
                 return;
@@ -7784,7 +7783,7 @@
     function commitUnmount(finishedRoot, current, renderPriorityLevel) {
         switch(!function(fiber) {
             if (injectedHook && "function" == typeof injectedHook.onCommitFiberUnmount) try {
-                injectedHook.onCommitFiberUnmount(rendererID, current);
+                injectedHook.onCommitFiberUnmount(rendererID, fiber);
             } catch (err) {
                 hasLoggedError || (hasLoggedError = !0, error("React instrumentation encountered an error: %s", err));
             }
@@ -7847,7 +7846,7 @@
     }
     function commitPlacement(finishedWork) {
         var parent, isContainer, parentFiber = function(fiber) {
-            for(var parent = finishedWork.return; null !== parent;){
+            for(var parent = fiber.return; null !== parent;){
                 if (isHostParent(parent)) return parent;
                 parent = parent.return;
             }
@@ -7869,7 +7868,7 @@
         }
         16 & parentFiber.flags && (resetTextContent(parent), parentFiber.flags &= -17);
         var before = function(fiber) {
-            var node = finishedWork;
+            var node = fiber;
             siblings: for(;;){
                 for(; null === node.sibling;){
                     if (null === node.return || isHostParent(node.return)) return null;
@@ -7903,7 +7902,11 @@
         var tag = node.tag, isHost = 5 === tag || 6 === tag;
         if (isHost || enableFundamentalAPI) {
             var stateNode = isHost ? node.stateNode : node.stateNode.instance;
-            before ? parent.insertBefore(stateNode, before) : parent.appendChild(stateNode);
+            before ? (function(parentInstance, child, beforeChild) {
+                parentInstance.insertBefore(child, beforeChild);
+            })(parent, stateNode, before) : (function(parentInstance, child) {
+                parentInstance.appendChild(child);
+            })(parent, stateNode);
         } else if (4 === tag) ;
         else {
             var child = node.child;
@@ -7965,7 +7968,7 @@
             case 14:
             case 15:
             case 22:
-                !function(tag, finishedWork1) {
+                !function(tag, finishedWork) {
                     var updateQueue = finishedWork.updateQueue, lastEffect = null !== updateQueue ? updateQueue.lastEffect : null;
                     if (null !== lastEffect) {
                         var firstEffect = lastEffect.next, effect = firstEffect;
@@ -7984,16 +7987,16 @@
             case 5:
                 var instance = finishedWork.stateNode;
                 if (null != instance) {
-                    var domElement, newProps, newProps1 = finishedWork.memoizedProps, oldProps = null !== current ? current.memoizedProps : newProps1, type = finishedWork.type, updatePayload = finishedWork.updateQueue;
-                    finishedWork.updateQueue = null, null !== updatePayload && (updateFiberProps(domElement = instance, newProps = newProps1), (function(domElement, updatePayload, tag, lastRawProps, nextRawProps) {
+                    var domElement, updatePayload, type, oldProps, newProps, newProps1 = finishedWork.memoizedProps, oldProps1 = null !== current ? current.memoizedProps : newProps1, type5 = finishedWork.type, updatePayload1 = finishedWork.updateQueue;
+                    finishedWork.updateQueue = null, null !== updatePayload1 && (domElement = instance, updatePayload = updatePayload1, type = type5, oldProps = oldProps1, updateFiberProps(domElement, newProps = newProps1), (function(domElement, updatePayload, tag, lastRawProps, nextRawProps) {
                         "input" === tag && "radio" === nextRawProps.type && null != nextRawProps.name && updateChecked(domElement, nextRawProps);
-                        var props, node, wasMultiple, value, isCustomComponentTag, wasCustomComponentTag = isCustomComponent(tag, oldProps);
+                        var element, props, node, wasMultiple, value, wasCustomComponentTag = isCustomComponent(tag, lastRawProps);
                         switch((function(domElement, updatePayload, wasCustomComponentTag, isCustomComponentTag) {
                             for(var i = 0; i < updatePayload.length; i += 2){
                                 var propKey = updatePayload[i], propValue = updatePayload[i + 1];
-                                "style" === propKey ? setValueForStyles(domElement, propValue) : "dangerouslySetInnerHTML" === propKey ? setInnerHTML(domElement, propValue) : "children" === propKey ? setTextContent(domElement, propValue) : setValueForProperty(domElement, propKey, propValue, isCustomComponent(tag, nextRawProps));
+                                "style" === propKey ? setValueForStyles(domElement, propValue) : "dangerouslySetInnerHTML" === propKey ? setInnerHTML(domElement, propValue) : "children" === propKey ? setTextContent(domElement, propValue) : setValueForProperty(domElement, propKey, propValue, isCustomComponentTag);
                             }
-                        })(domElement, updatePayload, wasCustomComponentTag, isCustomComponentTag), tag){
+                        })(domElement, updatePayload, wasCustomComponentTag, isCustomComponent(tag, nextRawProps)), tag){
                             case "input":
                                 updateWrapper(domElement, nextRawProps);
                                 break;
@@ -8001,7 +8004,7 @@
                                 updateWrapper$1(domElement, nextRawProps);
                                 break;
                             case "select":
-                                props = nextRawProps, wasMultiple = (node = domElement)._wrapperState.wasMultiple, node._wrapperState.wasMultiple = !!props.multiple, null != (value = props.value) ? updateOptions(node, !!props.multiple, value, !1) : !!props.multiple !== wasMultiple && (null != props.defaultValue ? updateOptions(node, !!props.multiple, props.defaultValue, !0) : updateOptions(node, !!props.multiple, props.multiple ? [] : "", !1));
+                                element = domElement, props = nextRawProps, wasMultiple = (node = element)._wrapperState.wasMultiple, node._wrapperState.wasMultiple = !!props.multiple, null != (value = props.value) ? updateOptions(node, !!props.multiple, value, !1) : !!props.multiple !== wasMultiple && (null != props.defaultValue ? updateOptions(node, !!props.multiple, props.defaultValue, !0) : updateOptions(node, !!props.multiple, props.multiple ? [] : "", !1));
                                 break;
                         }
                     })(domElement, updatePayload, type, oldProps, newProps));
@@ -8009,14 +8012,12 @@
                 return;
             case 6:
                 if (!(null !== finishedWork.stateNode)) throw Error("This should have a text node initialized. This error is likely caused by a bug in React. Please file an issue.");
-                var textInstance = finishedWork.stateNode, newText = finishedWork.memoizedProps;
-                null !== current && current.memoizedProps, textInstance.nodeValue = newText;
+                var textInstance, newText, textInstance1 = finishedWork.stateNode, newText1 = finishedWork.memoizedProps;
+                null !== current && current.memoizedProps, textInstance = textInstance1, newText = newText1, textInstance.nodeValue = newText;
                 return;
             case 3:
                 var _root = finishedWork.stateNode;
-                _root.hydrate && (_root.hydrate = !1, (function(container) {
-                    retryIfBlockedOn(container);
-                })(_root.containerInfo));
+                _root.hydrate && (_root.hydrate = !1, retryIfBlockedOn(_root.containerInfo));
                 return;
             case 12:
                 return;
@@ -8097,10 +8098,10 @@
         return (48 & executionContext) != 0 ? now() : -1 !== currentEventTime ? currentEventTime : currentEventTime = now();
     }
     function requestUpdateLane(fiber) {
-        var lane, mode = fiber.mode;
+        var wipLanes, lane, mode = fiber.mode;
         if ((2 & mode) == 0) return SyncLane;
         if ((4 & mode) == 0) return 99 === getCurrentPriorityLevel() ? SyncLane : 2;
-        if (currentEventWipLanes === NoLanes && (currentEventWipLanes = workInProgressRootIncludedLanes), 0 !== ReactCurrentBatchConfig.transition) return currentEventPendingLanes !== NoLanes && (currentEventPendingLanes = null !== mostRecentlyUpdatedRoot ? mostRecentlyUpdatedRoot.pendingLanes : NoLanes), (lane = pickArbitraryLane(4186112 & ~currentEventPendingLanes)) === NoLane && (lane = pickArbitraryLane(4186112 & ~currentEventWipLanes)) === NoLane && (lane = pickArbitraryLane(4186112)), lane;
+        if (currentEventWipLanes === NoLanes && (currentEventWipLanes = workInProgressRootIncludedLanes), 0 !== ReactCurrentBatchConfig.transition) return currentEventPendingLanes !== NoLanes && (currentEventPendingLanes = null !== mostRecentlyUpdatedRoot ? mostRecentlyUpdatedRoot.pendingLanes : NoLanes), wipLanes = currentEventWipLanes, (lane = pickArbitraryLane(4186112 & ~currentEventPendingLanes)) === NoLane && (lane = pickArbitraryLane(4186112 & ~wipLanes)) === NoLane && (lane = pickArbitraryLane(4186112)), lane;
         var schedulerPriority = getCurrentPriorityLevel();
         return (4 & executionContext) != 0 && 98 === schedulerPriority ? findUpdateLane(12, currentEventWipLanes) : findUpdateLane(function(schedulerPriorityLevel) {
             switch(schedulerPriorityLevel){
@@ -8227,7 +8228,7 @@
             case 4:
                 if (markRootSuspended$1(root, lanes1), (4186112 & (lanes = lanes1)) === lanes) break;
                 if (!shouldForceFlushFallbacksInDEV()) {
-                    var lanes, eventTimeMs = function(root1, lanes) {
+                    var lanes, eventTimeMs = function(root, lanes) {
                         for(var eventTimes = root.eventTimes, mostRecentEventTime = -1; lanes > 0;){
                             var index = pickArbitraryLaneIndex(lanes), lane = 1 << index, eventTime = eventTimes[index];
                             eventTime > mostRecentEventTime && (mostRecentEventTime = eventTime), lanes &= ~lane;
@@ -8567,7 +8568,7 @@
         if (rootDoesHavePassiveEffects || finishPendingInteractions(root, lanes), remainingLanes === SyncLane ? root === rootWithNestedUpdates ? nestedUpdateCount++ : (nestedUpdateCount = 0, rootWithNestedUpdates = root) : nestedUpdateCount = 0, !function(root, priorityLevel) {
             if (injectedHook && "function" == typeof injectedHook.onCommitFiberRoot) try {
                 var didError = (root.current.flags & DidCapture) === DidCapture;
-                enableProfilerTimer ? injectedHook.onCommitFiberRoot(rendererID, root, renderPriorityLevel, didError) : injectedHook.onCommitFiberRoot(rendererID, root, void 0, didError);
+                enableProfilerTimer ? injectedHook.onCommitFiberRoot(rendererID, root, priorityLevel, didError) : injectedHook.onCommitFiberRoot(rendererID, root, void 0, didError);
             } catch (err) {
                 hasLoggedError || (hasLoggedError = !0, error("React instrumentation encountered an error: %s", err));
             }
@@ -9250,7 +9251,7 @@
     function updateContainer(element, container, parentComponent, callback) {
         !function(root, children) {
             if (injectedHook && "function" == typeof injectedHook.onScheduleFiberRoot) try {
-                injectedHook.onScheduleFiberRoot(rendererID, container, element);
+                injectedHook.onScheduleFiberRoot(rendererID, root, children);
             } catch (err) {
                 hasLoggedError || (hasLoggedError = !0, error("React instrumentation encountered an error: %s", err));
             }
@@ -9307,7 +9308,7 @@
     }
     function findHostInstanceWithNoPortals(fiber) {
         var hostFiber = function(parent) {
-            var currentParent = findCurrentFiberUsingSlowPath(fiber);
+            var currentParent = findCurrentFiberUsingSlowPath(parent);
             if (!currentParent) return null;
             for(var node = currentParent;;){
                 if (5 === node.tag || 6 === node.tag || enableFundamentalAPI) return node;
@@ -9374,7 +9375,7 @@
     function createRootImpl(container, tag, options) {
         var hydrate = null != options && !0 === options.hydrate;
         null != options && options.hydrationOptions;
-        var tag1, root, tag2, mode, uninitializedFiber, mutableSources = null != options && null != options.hydrationOptions && options.hydrationOptions.mutableSources || null, root1 = (tag1 = tag, root = new FiberRootNode(container, tag1, hydrate), mode = 2 === (tag2 = tag1) ? 7 : 1 === tag2 ? 3 : 0, isDevToolsPresent && (mode |= 8), uninitializedFiber = createFiber(3, null, null, mode), root.current = uninitializedFiber, uninitializedFiber.stateNode = root, initializeUpdateQueue(uninitializedFiber), root);
+        var containerInfo, tag1, hydrate1, containerInfo1, tag2, hydrate2, root, tag3, mode, uninitializedFiber, mutableSources = null != options && null != options.hydrationOptions && options.hydrationOptions.mutableSources || null, root1 = (containerInfo = container, tag1 = tag, hydrate1 = hydrate, containerInfo1 = containerInfo, tag2 = tag1, hydrate2 = hydrate1, root = new FiberRootNode(containerInfo1, tag2, hydrate2), mode = 2 === (tag3 = tag2) ? 7 : 1 === tag3 ? 3 : 0, isDevToolsPresent && (mode |= 8), uninitializedFiber = createFiber(3, null, null, mode), root.current = uninitializedFiber, uninitializedFiber.stateNode = root, initializeUpdateQueue(uninitializedFiber), root);
         if (root1.current, container[internalContainerInstanceKey] = root1.current, container.nodeType, listenToAllSupportedEvents(8 === container.nodeType ? container.parentNode : container), mutableSources) for(var i = 0; i < mutableSources.length; i++)registerMutableSourceForHydration(root1, mutableSources[i]);
         return root1;
     }
@@ -9432,10 +9433,10 @@
     function getReactRootElementInContainer(container) {
         return container ? 9 === container.nodeType ? container.documentElement : container.firstChild : null;
     }
-    function legacyRenderSubtreeIntoContainer(parentComponent, children, container, forceHydrate, callback) {
+    function legacyRenderSubtreeIntoContainer(parentComponent, children, container8, forceHydrate, callback) {
         var callback1;
-        topLevelUpdateWarnings(container), null !== (callback1 = void 0 === callback ? null : callback) && "function" != typeof callback1 && error("%s(...): Expected the last optional `callback` argument to be a function. Instead received: %s.", "render", callback1);
-        var fiberRoot, root = container._reactRootContainer;
+        topLevelUpdateWarnings(container8), null !== (callback1 = void 0 === callback ? null : callback) && "function" != typeof callback1 && error("%s(...): Expected the last optional `callback` argument to be a function. Instead received: %s.", "render", callback1);
+        var fiberRoot, root = container8._reactRootContainer;
         if (root) {
             if (fiberRoot = root._internalRoot, "function" == typeof callback) {
                 var _originalCallback = callback;
@@ -9446,13 +9447,13 @@
             }
             updateContainer(children, fiberRoot, parentComponent, callback);
         } else {
-            if (fiberRoot = (root = container._reactRootContainer = (function(container, forceHydrate) {
-                var options, rootElement, shouldHydrate = forceHydrate || !!((rootElement = getReactRootElementInContainer(container)) && 1 === rootElement.nodeType && rootElement.hasAttribute("data-reactroot"));
+            if (fiberRoot = (root = container8._reactRootContainer = (function(container, forceHydrate) {
+                var container7, options, rootElement, shouldHydrate = forceHydrate || !!((rootElement = getReactRootElementInContainer(container)) && 1 === rootElement.nodeType && rootElement.hasAttribute("data-reactroot"));
                 if (!shouldHydrate) for(var rootSibling, warned = !1; rootSibling = container.lastChild;)!warned && 1 === rootSibling.nodeType && rootSibling.hasAttribute("data-reactroot") && (warned = !0, error("render(): Target node has markup rendered by React, but there are unrelated nodes as well. This is most commonly caused by white-space inserted around server-rendered markup.")), container.removeChild(rootSibling);
-                return !shouldHydrate || forceHydrate || warnedAboutHydrateAPI || (warnedAboutHydrateAPI = !0, warn("render(): Calling ReactDOM.render() to hydrate server-rendered markup will stop working in React v18. Replace the ReactDOM.render() call with ReactDOM.hydrate() if you want React to attach to the server HTML.")), options = shouldHydrate ? {
+                return !shouldHydrate || forceHydrate || warnedAboutHydrateAPI || (warnedAboutHydrateAPI = !0, warn("render(): Calling ReactDOM.render() to hydrate server-rendered markup will stop working in React v18. Replace the ReactDOM.render() call with ReactDOM.hydrate() if you want React to attach to the server HTML.")), container7 = container, options = shouldHydrate ? {
                     hydrate: !0
-                } : void 0, new ReactDOMBlockingRoot(container, 0, options);
-            })(container, forceHydrate))._internalRoot, "function" == typeof callback) {
+                } : void 0, new ReactDOMBlockingRoot(container7, 0, options);
+            })(container8, forceHydrate))._internalRoot, "function" == typeof callback) {
                 var originalCallback = callback;
                 callback = function() {
                     var instance = getPublicRootInstance(fiberRoot);
@@ -9499,13 +9500,13 @@
     function createPortal$1(children, container) {
         var key = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : null;
         if (!isValidContainer(container)) throw Error("Target container is not a DOM element.");
-        return (function(children1, containerInfo, implementation) {
+        return (function(children, containerInfo, implementation) {
             var key = arguments.length > 3 && void 0 !== arguments[3] ? arguments[3] : null;
             return {
                 $$typeof: REACT_PORTAL_TYPE,
                 key: null == key ? null : "" + key,
                 children: children,
-                containerInfo: container,
+                containerInfo: containerInfo,
                 implementation: null
             };
         })(children, container, null, key);
@@ -9513,10 +9514,10 @@
     if (("function" != typeof Map || null == Map.prototype || "function" != typeof Map.prototype.forEach || "function" != typeof Set || null == Set.prototype || "function" != typeof Set.prototype.clear || "function" != typeof Set.prototype.forEach) && error("React depends on Map and Set built-in types. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills"), (function(impl) {
         restoreImpl = impl;
     })(function(domElement, tag, props) {
-        var props15, node, props16, value;
+        var element, props15, node, element1, props16, value;
         switch(tag){
             case "input":
-                props15 = props, updateWrapper(node = domElement, props15), (function(rootNode, props) {
+                element = domElement, props15 = props, updateWrapper(node = element, props15), (function(rootNode, props) {
                     var name = props.name;
                     if ("radio" === props.type && null != name) {
                         for(var queryRoot = rootNode; queryRoot.parentNode;)queryRoot = queryRoot.parentNode;
@@ -9535,11 +9536,11 @@
                 updateWrapper$1(domElement, props);
                 return;
             case "select":
-                null != (value = (props16 = props).value) && updateOptions(domElement, !!props16.multiple, value, !1);
+                element1 = domElement, null != (value = (props16 = props).value) && updateOptions(element1, !!props16.multiple, value, !1);
                 return;
         }
     }), (function(_batchedUpdatesImpl, _discreteUpdatesImpl, _flushDiscreteUpdatesImpl, _batchedEventUpdatesImpl) {
-        batchedUpdatesImpl = batchedUpdates$1, discreteUpdatesImpl = _discreteUpdatesImpl, flushDiscreteUpdatesImpl = _flushDiscreteUpdatesImpl, batchedEventUpdatesImpl = _batchedEventUpdatesImpl;
+        batchedUpdatesImpl = _batchedUpdatesImpl, discreteUpdatesImpl = _discreteUpdatesImpl, flushDiscreteUpdatesImpl = _flushDiscreteUpdatesImpl, batchedEventUpdatesImpl = _batchedEventUpdatesImpl;
     })(batchedUpdates$1, function(fn, a, b, c, d) {
         var prevExecutionContext = executionContext;
         executionContext |= 4;
@@ -9693,7 +9694,7 @@
         var key = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : null;
         return didWarnAboutUnstableCreatePortal || (didWarnAboutUnstableCreatePortal = !0, warn("The ReactDOM.unstable_createPortal() alias has been deprecated, and will be removed in React 18+. Update your code to use ReactDOM.createPortal() instead. It has the exact same API, but without the \"unstable_\" prefix.")), createPortal$1(children, container, key);
     }, exports.unstable_renderSubtreeIntoContainer = function(parentComponent, element, containerNode, callback) {
-        return (function(parentComponent, element1, containerNode, callback1) {
+        return (function(parentComponent, element, containerNode, callback) {
             if (!isValidContainer(containerNode)) throw Error("Target container is not a DOM element.");
             if (!(null != parentComponent && void 0 !== parentComponent._reactInternals)) throw Error("parentComponent must be a valid React Component");
             return legacyRenderSubtreeIntoContainer(parentComponent, element, containerNode, !1, callback);
