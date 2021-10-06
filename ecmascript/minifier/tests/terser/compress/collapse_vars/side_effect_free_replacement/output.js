@@ -1,2 +1,2 @@
 var b;
-x(void 0);
+x(b);
