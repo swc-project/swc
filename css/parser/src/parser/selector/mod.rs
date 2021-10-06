@@ -162,7 +162,7 @@ where
 
                     ns_name_prefix = ns_name_name.take();
                     if eat!(self, "*") {
-                        let value = "*".into();
+                        let value: JsWord = "*".into();
                         let raw = value.clone();
 
                         ns_name_name = Some(Text { span, value, raw });
