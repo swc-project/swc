@@ -56,10 +56,12 @@ where
                         tokens.extend(self.input.bump()?);
                     }
 
-                    let v = Value::Lazy(Tokens {
-                        span: span!(self, start_pos),
-                        tokens,
-                    });
+                    let span = span!(self, start_pos);
+                    let v = Value::Lazy(Tokens { span, tokens });
+
+                    self.errors
+                        .push(Error::new(span, ErrorKind::InvalidPropertyValue));
+
                     return Ok((vec![v], hi));
                 }
 
