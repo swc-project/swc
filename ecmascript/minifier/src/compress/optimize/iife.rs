@@ -402,7 +402,7 @@ where
 
                             if !vars.is_empty() {
                                 self.prepend_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                                    span: DUMMY_SP,
+                                    span: DUMMY_SP.apply_mark(self.marks.non_top_level),
                                     kind: VarDeclKind::Var,
                                     declare: Default::default(),
                                     decls: vars,
@@ -615,7 +615,7 @@ where
 
             if !vars.is_empty() {
                 self.prepend_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
+                    span: DUMMY_SP.apply_mark(self.marks.non_top_level),
                     kind: VarDeclKind::Var,
                     declare: Default::default(),
                     decls: vars,
