@@ -1,0 +1,81 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/value/escaped/input.css:1:1
+  |
+1 | / table {
+2 | |     color: \red;
+3 | | }
+  | |__^
+
+error: Rule
+ --> $DIR/tests/fixture/value/escaped/input.css:1:1
+  |
+1 | / table {
+2 | |     color: \red;
+3 | | }
+  | |_^
+
+error: StyleRule
+ --> $DIR/tests/fixture/value/escaped/input.css:1:1
+  |
+1 | / table {
+2 | |     color: \red;
+3 | | }
+  | |_^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/value/escaped/input.css:1:1
+  |
+1 | table {
+  | ^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/value/escaped/input.css:1:1
+  |
+1 | table {
+  | ^^^^^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/value/escaped/input.css:1:1
+  |
+1 | table {
+  | ^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/value/escaped/input.css:1:1
+  |
+1 | table {
+  | ^^^^^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/value/escaped/input.css:1:7
+  |
+1 |   table {
+  |  _______^
+2 | |     color: \red;
+3 | | }
+  | |_^
+
+error: Property
+ --> $DIR/tests/fixture/value/escaped/input.css:2:5
+  |
+2 |     color: \red;
+  |     ^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/value/escaped/input.css:2:5
+  |
+2 |     color: \red;
+  |     ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/escaped/input.css:2:12
+  |
+2 |     color: \red;
+  |            ^^^^
+
+error: Text
+ --> $DIR/tests/fixture/value/escaped/input.css:2:12
+  |
+2 |     color: \red;
+  |            ^^^^
+
