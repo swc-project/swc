@@ -14,6 +14,10 @@ jobs:
         run: |
           cargo install cargo-mono
 
+      - name: Login
+        run: |
+          cargo login ${{ secrets.CARGO_TOKEN }}
+
       - name: Publish crates
         run: |
           cargo mono publish
