@@ -90,7 +90,7 @@ where
         ctx: &Ctx,
         entry_id: ModuleId,
         entry: &mut Modules,
-        all: &FxHashMap<ModuleId, Modules>,
+        all: &mut FxHashMap<ModuleId, Modules>,
     ) {
         self.run(|| {
             let injected_ctxt = self.injected_ctxt;
@@ -111,7 +111,7 @@ where
                     return Modules::empty(injected_ctxt);
                 }
 
-                all.get(id).cloned().unwrap_or_else(|| {
+                all.remove(id).unwrap_or_else(|| {
                     unreachable!(
                         "failed to merge into {}: module {} does not exist in the map",
                         entry_id, id
