@@ -279,7 +279,7 @@ define!({
         pub span: Span,
         pub charset: Str,
     }
-    
+
     pub enum ImportSource {
         Fn(FnValue),
         Url(UrlValue),
