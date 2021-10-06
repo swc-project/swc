@@ -767,7 +767,7 @@ where
             None
         };
 
-        if !self.options.sequences() {
+        if !self.options.sequences() && !e.span.has_mark(self.marks.synthesized_seq) {
             return;
         }
 
