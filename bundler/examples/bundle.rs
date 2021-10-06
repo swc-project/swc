@@ -69,22 +69,7 @@ fn do_test(entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
                 BundleKind::Dynamic => format!("dynamic.{}.js", bundled.id).into(),
             };
 
-            let output_dir = entry.join("output");
-
-            let output_path = if inline {
-                output_dir
-                    .join(name.file_name().unwrap())
-                    .with_file_name(format!(
-                        "{}.inlined.{}",
-                        name.file_stem().unwrap().to_string_lossy(),
-                        name.extension().unwrap().to_string_lossy()
-                    ))
-            } else {
-                output_dir.join(name.file_name().unwrap())
-            };
-
-            println!("Printing {}", output_path.display());
-            fs::write(&output_path, &code).unwrap();
+            fs::write("output.js", &code).unwrap();
         }
 
         if error {
