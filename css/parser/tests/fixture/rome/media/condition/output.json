@@ -27,7 +27,8 @@
             "end": 17,
             "ctxt": 0
           },
-          "value": "min-width"
+          "value": "min-width",
+          "raw": "min-width"
         },
         "values": [
           {
@@ -88,7 +89,8 @@
               "end": 46,
               "ctxt": 0
             },
-            "value": "min-width"
+            "value": "min-width",
+            "raw": "min-width"
           },
           "values": [
             {
@@ -140,7 +142,8 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "value": "min-width"
+              "value": "min-width",
+              "raw": "min-width"
             },
             "values": [
               {
@@ -185,7 +188,8 @@
                 "end": 92,
                 "ctxt": 0
               },
-              "value": "min-width"
+              "value": "min-width",
+              "raw": "min-width"
             },
             "values": [
               {
@@ -248,7 +252,8 @@
               "end": 121,
               "ctxt": 0
             },
-            "value": "min-width"
+            "value": "min-width",
+            "raw": "min-width"
           },
           "values": [
             {
@@ -300,7 +305,8 @@
                 "end": 144,
                 "ctxt": 0
               },
-              "value": "min-width"
+              "value": "min-width",
+              "raw": "min-width"
             },
             "values": [
               {
@@ -352,7 +358,8 @@
                   "end": 167,
                   "ctxt": 0
                 },
-                "value": "min-width"
+                "value": "min-width",
+                "raw": "min-width"
               },
               "values": [
                 {
@@ -397,7 +404,8 @@
                   "end": 190,
                   "ctxt": 0
                 },
-                "value": "min-width"
+                "value": "min-width",
+                "raw": "min-width"
               },
               "values": [
                 {
@@ -461,7 +469,8 @@
               "end": 223,
               "ctxt": 0
             },
-            "value": "min-width"
+            "value": "min-width",
+            "raw": "min-width"
           },
           "values": [
             {
@@ -523,7 +532,8 @@
               "end": 252,
               "ctxt": 0
             },
-            "value": "min-width"
+            "value": "min-width",
+            "raw": "min-width"
           },
           "values": [
             {
@@ -575,7 +585,8 @@
                 "end": 275,
                 "ctxt": 0
               },
-              "value": "min-width"
+              "value": "min-width",
+              "raw": "min-width"
             },
             "values": [
               {
@@ -620,7 +631,8 @@
                 "end": 297,
                 "ctxt": 0
               },
-              "value": "min-width"
+              "value": "min-width",
+              "raw": "min-width"
             },
             "values": [
               {
@@ -683,7 +695,8 @@
               "end": 326,
               "ctxt": 0
             },
-            "value": "min-width"
+            "value": "min-width",
+            "raw": "min-width"
           },
           "values": [
             {
@@ -735,7 +748,8 @@
                 "end": 349,
                 "ctxt": 0
               },
-              "value": "min-width"
+              "value": "min-width",
+              "raw": "min-width"
             },
             "values": [
               {
@@ -780,7 +794,8 @@
                 "end": 371,
                 "ctxt": 0
               },
-              "value": "min-width"
+              "value": "min-width",
+              "raw": "min-width"
             },
             "values": [
               {
@@ -854,7 +869,8 @@
                         "end": 384,
                         "ctxt": 0
                       },
-                      "value": "a"
+                      "value": "a",
+                      "raw": "a"
                     }
                   },
                   "subclassSelectors": []
@@ -913,7 +929,8 @@
                           "end": 398,
                           "ctxt": 0
                         },
-                        "value": "style"
+                        "value": "style",
+                        "raw": "style"
                       }
                     }
                   ]

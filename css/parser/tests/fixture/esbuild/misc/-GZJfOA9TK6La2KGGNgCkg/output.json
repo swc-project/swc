@@ -46,7 +46,8 @@
                     "end": 3,
                     "ctxt": 0
                   },
-                  "value": "div"
+                  "value": "div",
+                  "raw": "div"
                 }
               },
               "subclassSelectors": [
@@ -65,7 +66,8 @@
                       "end": 11,
                       "ctxt": 0
                     },
-                    "value": "before"
+                    "value": "before",
+                    "raw": "before"
                   },
                   "args": {
                     "type": "Tokens",
@@ -92,7 +94,8 @@
                       "end": 18,
                       "ctxt": 0
                     },
-                    "value": "after"
+                    "value": "after",
+                    "raw": "after"
                   },
                   "args": {
                     "type": "Tokens",
@@ -119,7 +122,8 @@
                       "end": 29,
                       "ctxt": 0
                     },
-                    "value": "selection"
+                    "value": "selection",
+                    "raw": "selection"
                   },
                   "args": {
                     "type": "Tokens",
@@ -146,7 +150,8 @@
                       "end": 41,
                       "ctxt": 0
                     },
-                    "value": "first-line"
+                    "value": "first-line",
+                    "raw": "first-line"
                   },
                   "args": {
                     "type": "Tokens",
@@ -173,7 +178,8 @@
                       "end": 55,
                       "ctxt": 0
                     },
-                    "value": "first-letter"
+                    "value": "first-letter",
+                    "raw": "first-letter"
                   },
                   "args": {
                     "type": "Tokens",
@@ -212,7 +218,8 @@
                 "end": 62,
                 "ctxt": 0
               },
-              "value": "color"
+              "value": "color",
+              "raw": "color"
             },
             "values": [
               {
@@ -222,7 +229,8 @@
                   "end": 66,
                   "ctxt": 0
                 },
-                "value": "red"
+                "value": "red",
+                "raw": "red"
               }
             ],
             "important": null

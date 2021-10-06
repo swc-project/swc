@@ -46,7 +46,8 @@
                     "end": 7,
                     "ctxt": 0
                   },
-                  "value": "-123"
+                  "value": "-123",
+                  "raw": "2d 123"
                 }
               },
               "subclassSelectors": []

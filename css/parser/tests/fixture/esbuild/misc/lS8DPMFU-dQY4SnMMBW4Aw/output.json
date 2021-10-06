@@ -20,7 +20,8 @@
           "end": 15,
           "ctxt": 0
         },
-        "value": "test"
+        "value": "test",
+        "raw": "test"
       },
       "blocks": [
         {
@@ -37,7 +38,8 @@
                 "end": 22,
                 "ctxt": 0
               },
-              "value": "from"
+              "value": "from",
+              "raw": "from"
             }
           ],
           "rule": {
@@ -64,7 +66,8 @@
                 "end": 28,
                 "ctxt": 0
               },
-              "value": "to"
+              "value": "to",
+              "raw": "to"
             }
           ],
           "rule": {

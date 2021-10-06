@@ -35,7 +35,8 @@
                 "end": 13,
                 "ctxt": 0
               },
-              "value": "color"
+              "value": "color",
+              "raw": "color"
             },
             "values": [
               {
@@ -45,7 +46,8 @@
                   "end": 18,
                   "ctxt": 0
                 },
-                "value": "red"
+                "value": "red",
+                "raw": "red"
               }
             ],
             "important": null
@@ -91,7 +93,8 @@
                             "end": 29,
                             "ctxt": 0
                           },
-                          "value": "top-left"
+                          "value": "top-left",
+                          "raw": "top-left"
                         }
                       }
                     ]

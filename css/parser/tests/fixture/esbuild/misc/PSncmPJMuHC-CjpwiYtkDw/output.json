@@ -46,7 +46,8 @@
                     "end": 1,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "value": "a",
+                  "raw": "a"
                 }
               },
               "subclassSelectors": []
@@ -76,7 +77,8 @@
                 "end": 26,
                 "ctxt": 0
               },
-              "value": "border-top-left-radius"
+              "value": "border-top-left-radius",
+              "raw": "border-top-left-radius"
             },
             "values": [
               {

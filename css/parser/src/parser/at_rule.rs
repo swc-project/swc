@@ -78,6 +78,7 @@ where
                     Text {
                         span: DUMMY_SP,
                         value: js_word!(""),
+                        raw: js_word!(""),
                     }
                 } else {
                     self.parse_id()?
@@ -199,9 +200,11 @@ where
             _ => {}
         }
 
+        let raw = name.clone();
         let name = Text {
             span: span!(self, start),
             value: name,
+            raw,
         };
 
         self.input.skip_ws()?;

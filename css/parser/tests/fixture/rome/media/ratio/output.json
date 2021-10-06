@@ -27,7 +27,8 @@
             "end": 20,
             "ctxt": 0
           },
-          "value": "aspect-ratio"
+          "value": "aspect-ratio",
+          "raw": "aspect-ratio"
         },
         "values": [
           {

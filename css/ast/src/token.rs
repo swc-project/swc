@@ -37,7 +37,10 @@ pub enum Token {
 
     Num(NumToken),
 
-    Ident(JsWord),
+    Ident {
+        value: JsWord,
+        raw: JsWord
+    },
 
     Str {
         value: JsWord,

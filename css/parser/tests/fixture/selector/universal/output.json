@@ -46,7 +46,8 @@
                     "end": 1,
                     "ctxt": 0
                   },
-                  "value": "*"
+                  "value": "*",
+                  "raw": "*"
                 }
               },
               "subclassSelectors": []
@@ -76,7 +77,8 @@
                 "end": 15,
                 "ctxt": 0
               },
-              "value": "display"
+              "value": "display",
+              "raw": "display"
             },
             "values": [
               {
@@ -86,7 +88,8 @@
                   "end": 22,
                   "ctxt": 0
                 },
-                "value": "block"
+                "value": "block",
+                "raw": "block"
               }
             ],
             "important": null

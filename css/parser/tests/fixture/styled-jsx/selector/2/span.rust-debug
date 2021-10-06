@@ -76,7 +76,7 @@ error: Tokens
 1 | p :global(span:not(.test)) {
   |           ^^^^^^^^^^^^^^^
 
-error: Ident(Atom('span' type=inline))
+error: Ident { value: Atom('span' type=inline), raw: Atom('span' type=inline) }
  --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:11
   |
 1 | p :global(span:not(.test)) {
@@ -88,7 +88,7 @@ error: Colon
 1 | p :global(span:not(.test)) {
   |               ^
 
-error: Ident(Atom('not' type=static))
+error: Ident { value: Atom('not' type=static), raw: Atom('not' type=static) }
  --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:16
   |
 1 | p :global(span:not(.test)) {
@@ -106,7 +106,7 @@ error: Dot
 1 | p :global(span:not(.test)) {
   |                    ^
 
-error: Ident(Atom('test' type=inline))
+error: Ident { value: Atom('test' type=inline), raw: Atom('test' type=inline) }
  --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:21
   |
 1 | p :global(span:not(.test)) {

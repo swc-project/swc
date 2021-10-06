@@ -54,7 +54,8 @@
                         "end": 3,
                         "ctxt": 0
                       },
-                      "value": "ns"
+                      "value": "ns",
+                      "raw": "ns"
                     },
                     "name": {
                       "type": "Text",
@@ -63,7 +64,8 @@
                         "end": 12,
                         "ctxt": 0
                       },
-                      "value": ",attr"
+                      "value": ",attr",
+                      "raw": "2c attr"
                     }
                   },
                   "op": null,

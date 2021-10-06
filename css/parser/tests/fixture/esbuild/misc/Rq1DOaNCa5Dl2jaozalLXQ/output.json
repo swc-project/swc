@@ -46,7 +46,8 @@
                     "end": 1,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "value": "a",
+                  "raw": "a"
                 }
               },
               "subclassSelectors": []
@@ -76,7 +77,8 @@
                 "end": 14,
                 "ctxt": 0
               },
-              "value": "box-shadow"
+              "value": "box-shadow",
+              "raw": "box-shadow"
             },
             "values": [
               {
@@ -86,7 +88,8 @@
                   "end": 21,
                   "ctxt": 0
                 },
-                "value": "inset"
+                "value": "inset",
+                "raw": "inset"
               },
               {
                 "type": "UnitValue",
@@ -195,7 +198,8 @@
                   "end": 43,
                   "ctxt": 0
                 },
-                "value": "black"
+                "value": "black",
+                "raw": "black"
               }
             ],
             "important": null

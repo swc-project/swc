@@ -27,7 +27,8 @@
             "end": 17,
             "ctxt": 0
           },
-          "value": "min-width"
+          "value": "min-width",
+          "raw": "min-width"
         },
         "values": [
           {
@@ -100,7 +101,8 @@
                           "end": 38,
                           "ctxt": 0
                         },
-                        "value": "video"
+                        "value": "video",
+                        "raw": "video"
                       }
                     },
                     {
@@ -118,7 +120,8 @@
                           "end": 48,
                           "ctxt": 0
                         },
-                        "value": "nth-child"
+                        "value": "nth-child",
+                        "raw": "nth-child"
                       },
                       "args": {
                         "type": "Tokens",
@@ -147,7 +150,10 @@
                               "ctxt": 0
                             },
                             "token": {
-                              "Ident": "n"
+                              "Ident": {
+                                "value": "n",
+                                "raw": "n"
+                              }
                             }
                           }
                         ]
@@ -180,7 +186,8 @@
                     "end": 75,
                     "ctxt": 0
                   },
-                  "value": "margin-right"
+                  "value": "margin-right",
+                  "raw": "margin-right"
                 },
                 "values": [
                   {

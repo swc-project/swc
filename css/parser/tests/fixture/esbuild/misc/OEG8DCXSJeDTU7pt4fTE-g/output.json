@@ -36,7 +36,8 @@
             "end": 29,
             "ctxt": 0
           },
-          "value": "screen"
+          "value": "screen",
+          "raw": "screen"
         },
         "right": {
           "type": "Property",
@@ -52,7 +53,8 @@
               "end": 46,
               "ctxt": 0
             },
-            "value": "orientation"
+            "value": "orientation",
+            "raw": "orientation"
           },
           "values": [
             {
@@ -62,7 +64,8 @@
                 "end": 56,
                 "ctxt": 0
               },
-              "value": "landscape"
+              "value": "landscape",
+              "raw": "landscape"
             }
           ],
           "important": null

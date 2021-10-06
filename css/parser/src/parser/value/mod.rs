@@ -217,7 +217,11 @@ where
             Token::AtKeyword(..) => {
                 let name = bump!(self);
                 let name = match name {
-                    Token::AtKeyword(name) => Text { span, value: name },
+                    Token::AtKeyword(name) => {
+                        let raw = name.clone();
+
+                        Text { span, value: name, raw }
+                    },
                     _ => {
                         unreachable!()
                     }
@@ -382,7 +386,7 @@ where
                     // Unit
                     let value = Num { span, value };
                     match bump!(self) {
-                        Token::Ident(unit) => {
+                        Token::Ident { value: unit, .. } => {
                             let kind = UnitKind::from(unit);
                             return Ok(Value::Unit(UnitValue {
                                 span: span!(self, span.lo),
@@ -423,13 +427,13 @@ where
         );
         let span = self.input.cur_span()?;
 
-        let value = match bump!(self) {
-            Token::Ident(value) => value,
+        let values = match bump!(self) {
+            Token::Ident { value, raw } => (value, raw),
             _ => {
                 unreachable!()
             }
         };
-        let name = Text { span, value };
+        let name = Text { span, value: values.0, raw: values.1 };
 
         if eat!(self, "(") {
             let is_url = name.value.to_ascii_lowercase() == js_word!("url");
@@ -569,13 +573,13 @@ where
     fn parse(&mut self) -> PResult<FnValue> {
         let span = self.input.cur_span()?;
 
-        let value = match bump!(self) {
-            Token::Ident(value) => value,
+        let values = match bump!(self) {
+            Token::Ident { value, raw } => (value, raw),
             _ => {
                 unreachable!()
             }
         };
-        let name = Text { span, value };
+        let name = Text { span, value: values.0, raw: values.1 };
 
         expect!(self, "(");
 

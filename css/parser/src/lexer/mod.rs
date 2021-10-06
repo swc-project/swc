@@ -186,9 +186,10 @@ where
                         Ok(if is_name_continue(c) || self.is_valid_escape()? {
                             let is_id = self.would_start_ident()?;
 
-                            let value = self.read_name()?;
+                            let name = self.read_name()?;
 
-                            Token::Hash { is_id, value }
+                            // TODO raw hash
+                            Token::Hash { is_id, value: name.0 }
                         } else {
                             // TODO: Verify if this is ok.
                             Token::Hash {
@@ -236,8 +237,8 @@ where
         let name = self.read_name()?;
 
         if self.input.is_byte(b'(') {
-            if name.len() == 3 {
-                if name.to_ascii_lowercase() == js_word!("url") {
+            if name.0.len() == 3 {
+                if name.0.to_ascii_lowercase() == js_word!("url") {
                     let pos = self.input.cur_pos();
 
                     self.input.bump();
@@ -253,7 +254,7 @@ where
             }
         }
 
-        Ok(Token::Ident(name))
+        Ok(Token::Ident { value: name.0, raw: name.1 })
     }
 
     /// Ported from `consumeURL` of `esbuild`.
@@ -295,7 +296,8 @@ where
                         return Err(ErrorKind::InvalidEscape);
                     }
 
-                    url.push(self.read_escape()?);
+                    // TODO raw url
+                    url.push(self.read_escape()?.0);
                 }
 
                 c => {
@@ -309,8 +311,7 @@ where
         }
     }
 
-    /// Ported from `consumeEscape` of `esbuild`.
-    fn read_escape(&mut self) -> LexResult<char> {
+    fn read_escape(&mut self) -> LexResult<(char, String)> {
         assert!(
             self.input.eat_byte(b'\\'),
             "read_escape: Expected a backslash"
@@ -324,28 +325,38 @@ where
 
         if c.is_digit(16) {
             let mut hex = c.to_digit(16).unwrap();
+            let mut raw = String::new();
+            raw.push(self.input.cur().unwrap());
             self.input.bump();
 
+            // Consume as many hex digits as possible, but no more than 5.
+            // Note that this means 1-6 hex digits have been consumed in total.
             for _ in 0..5 {
                 let next = self.input.cur();
-                let next = match next.and_then(|c| c.to_digit(16)) {
+                let digit = match next.and_then(|c| c.to_digit(16)) {
                     Some(v) => v,
                     None => break,
                 };
+                raw.push(next.unwrap());
                 self.input.bump();
-                hex = hex * 16 + next;
+                hex = hex * 16 + digit;
             }
 
             self.last_pos = Some(self.input.cur_pos());
-            self.input.eat_byte(b' ');
+
+            // TODO: is_white_space
+            if self.input.is_byte(b' ') {
+                raw.push(self.input.cur().unwrap());
+                self.input.bump();
+            }
 
             let hex = char::from_u32(hex).ok_or_else(|| ErrorKind::InvalidEscape)?;
-            return Ok(hex);
+            return Ok((hex, raw));
         }
 
         self.input.bump();
 
-        Ok(c)
+        Ok((c, c.to_string()))
     }
 
     fn read_dot(&mut self) -> LexResult<Token> {
@@ -371,9 +382,9 @@ where
     }
 
     fn read_at_keyword(&mut self) -> LexResult<Token> {
-        let word = self.read_name()?;
+        let name = self.read_name()?;
 
-        Ok(Token::AtKeyword(word))
+        Ok(Token::AtKeyword(name.0))
     }
 
     fn read_less_than(&mut self) -> LexResult<Token> {
@@ -412,7 +423,7 @@ where
         }
 
         if self.would_start_ident()? {
-            return self.read_name().map(|value| Token::Ident(value));
+            return self.read_name().map(|(value, raw)| Token::Ident { value, raw });
         }
 
         self.input.bump();
@@ -454,21 +465,28 @@ where
     /// Ported from `consumeName` of esbuild.
     ///
     /// https://github.com/evanw/esbuild/blob/a9456dfbf08ab50607952eefb85f2418968c124c/internal/css_lexer/css_lexer.go#L548
-    fn read_name(&mut self) -> LexResult<JsWord> {
+    fn read_name(&mut self) -> LexResult<(JsWord, JsWord)> {
         let start = self.input.cur_pos();
         self.input.uncons_while(is_name_continue);
         let end = self.input.last_pos();
 
         if !self.is_valid_escape()? {
-            let raw = self.input.slice(start, end);
-            return Ok(raw.into());
+            let first = self.input.slice(start, end);
+            return Ok((first.into(), first.into()));
         }
 
-        let raw = self.input.slice(start, end);
+        let mut raw= String::new(); 
         let mut buf = String::new();
-        buf.push_str(raw);
 
-        buf.push(self.read_escape()?);
+        let first = self.input.slice(start, end);
+
+        buf.push_str(first);
+        raw.push_str(first);
+        
+        let escaped = self.read_escape()?;
+
+        buf.push(escaped.0);
+        raw.push_str(&escaped.1);
 
         loop {
             let c = self.input.cur();
@@ -481,15 +499,19 @@ where
                 self.last_pos = None;
 
                 self.input.bump();
-                buf.push(c)
+                buf.push(c);
+                raw.push(c)
             } else if self.is_valid_escape()? {
-                buf.push(self.read_escape()?);
+                let escaped = self.read_escape()?;
+                
+                buf.push(escaped.0);
+                raw.push_str(&escaped.1);
             } else {
                 break;
             }
         }
 
-        Ok(buf.into())
+        Ok((buf.into(), raw.into()))
     }
 
     fn skip_ws(&mut self) -> LexResult<()> {
