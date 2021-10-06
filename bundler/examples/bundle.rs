@@ -3,9 +3,10 @@ use std::{
     collections::HashMap,
     env, fs,
     path::{Path, PathBuf},
+    time::Instant,
 };
 use swc_atoms::js_word;
-use swc_bundler::{BundleKind, Bundler, Load, ModuleData, ModuleRecord, Resolve};
+use swc_bundler::{Bundler, Load, ModuleData, ModuleRecord, Resolve};
 use swc_common::{
     comments::SingleThreadedComments,
     errors::{ColorConfig, Handler},
@@ -18,7 +19,7 @@ use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::{fixer, react, typescript::strip};
 use swc_ecma_visit::FoldWith;
 
-fn do_test(entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
+fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
     testing::run_test2(false, |cm, _| {
         let globals = Globals::default();
         let bundler = Bundler::new(
@@ -64,11 +65,6 @@ fn do_test(entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
                 String::from_utf8_lossy(&buf).to_string()
             };
 
-            let name = match bundled.kind {
-                BundleKind::Named { name } | BundleKind::Lib { name } => PathBuf::from(name),
-                BundleKind::Dynamic => format!("dynamic.{}.js", bundled.id).into(),
-            };
-
             fs::write("output.js", &code).unwrap();
         }
 
@@ -86,7 +82,10 @@ fn main() -> Result<(), Error> {
     let mut entries = HashMap::default();
     entries.insert("main".to_string(), FileName::Real(main_file.clone().into()));
 
+    let start = Instant::now();
     do_test(Path::new(&main_file), entries, false);
+    let dur = start.elapsed();
+    println!("Took {:?}", dur);
 
     Ok(())
 }
