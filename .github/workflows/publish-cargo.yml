@@ -1,0 +1,19 @@
+on: workflow_dispatch
+
+name: Publish crates
+
+jobs:
+  publish-all:
+    name: Publish
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install cargo-mono
+        run: |
+          cargo install cargo-mono
+
+      - name: Publish crates
+        run: |
+          cargo mono publish
