@@ -251,6 +251,8 @@ define!({
     pub enum Rule {
         Style(StyleRule),
 
+        Invalid(Tokens),
+
         AtRule(AtRule),
     }
 

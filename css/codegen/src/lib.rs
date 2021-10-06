@@ -50,6 +50,7 @@ where
         match n {
             Rule::Style(n) => emit!(self, n),
             Rule::AtRule(n) => emit!(self, n),
+            Rule::Invalid(n) => emit!(self, n),
         }
     }
 
