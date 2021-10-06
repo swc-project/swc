@@ -276,11 +276,7 @@ where
         let span = self.input.cur_span()?;
 
         let text = match bump!(self) {
-            Token::Hash { value, .. } => {
-                let raw = value.clone();
-
-                Text { span, value, raw }
-            },
+            Token::Hash { value, raw, .. } => Text { span, value, raw },
             _ => {
                 unreachable!()
             }

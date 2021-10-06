@@ -188,13 +188,13 @@ where
 
                             let name = self.read_name()?;
 
-                            // TODO raw hash
-                            Token::Hash { is_id, value: name.0 }
+                            Token::Hash { is_id, value: name.0, raw: name.1 }
                         } else {
                             // TODO: Verify if this is ok.
                             Token::Hash {
                                 is_id: false,
                                 value: js_word!(""),
+                                raw: js_word!(""),
                             }
                         })
                     } else {
