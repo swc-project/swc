@@ -1,0 +1,15 @@
+@media (min-width: 935px) {
+    .video:nth-child(4n) {
+        margin-right: 0;
+    }
+    .video:last-child {
+        margin-right: 0;
+    }
+    .video:first-child,
+    .video:nth-child(5),
+    .video:nth-child(9),
+    .video:nth-child(13) {
+        margin-left: 0;
+    }
+    __styled-jsx-placeholder__7
+}
