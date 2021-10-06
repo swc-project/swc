@@ -16,6 +16,7 @@ use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_this_expr, ident::IdentLike, undefined, ExprExt, Id, StmtLike};
 use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
+use tracing::{span, Level};
 
 /// Methods related to the option `sequences`. All methods are noop if
 /// `sequences` is false.
@@ -608,35 +609,40 @@ where
         }
     }
 
+    fn seq_exprs_of<'a>(
+        &mut self,
+        s: &'a mut Stmt,
+        options: &CompressOptions,
+    ) -> Option<Vec<Mergable<'a>>> {
+        Some(match s {
+            Stmt::Expr(e) => vec![Mergable::Expr(&mut *e.expr)],
+            Stmt::Decl(Decl::Var(
+                v
+                @
+                VarDecl {
+                    kind: VarDeclKind::Var | VarDeclKind::Let,
+                    ..
+                },
+            )) => v.decls.iter_mut().map(Mergable::Var).collect(),
+            Stmt::Return(ReturnStmt { arg: Some(arg), .. }) if options.sequences() => {
+                vec![Mergable::Expr(&mut **arg)]
+            }
+            Stmt::If(s) if options.sequences() => {
+                vec![Mergable::Expr(&mut *s.test)]
+            }
+            Stmt::Throw(s) if options.sequences() => {
+                vec![Mergable::Expr(&mut *s.arg)]
+            }
+
+            _ => return None,
+        })
+    }
+
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, stmts)))]
     pub(super) fn merge_sequences_in_stmts<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: MoudleItemExt,
     {
-        fn exprs_of<'a>(s: &'a mut Stmt, options: &CompressOptions) -> Option<Vec<Mergable<'a>>> {
-            Some(match s {
-                Stmt::Expr(e) => vec![Mergable::Expr(&mut *e.expr)],
-                Stmt::Decl(Decl::Var(
-                    v
-                    @
-                    VarDecl {
-                        kind: VarDeclKind::Var | VarDeclKind::Let,
-                        ..
-                    },
-                )) => v.decls.iter_mut().map(Mergable::Var).collect(),
-                Stmt::Return(ReturnStmt { arg: Some(arg), .. }) if options.sequences() => {
-                    vec![Mergable::Expr(&mut **arg)]
-                }
-                Stmt::If(s) if options.sequences() => {
-                    vec![Mergable::Expr(&mut *s.test)]
-                }
-                Stmt::Throw(s) if options.sequences() => {
-                    vec![Mergable::Expr(&mut *s.arg)]
-                }
-
-                _ => return None,
-            })
-        }
-
         if !self.options.sequences() && !self.options.collapse_vars {
             if cfg!(feature = "debug") {
                 tracing::trace!("sequences: [x] Disabled");
@@ -661,7 +667,7 @@ where
             };
 
             let items = if let Some(stmt) = stmt.as_stmt_mut() {
-                exprs_of(stmt, self.options)
+                self.seq_exprs_of(stmt, self.options)
             } else {
                 None
             };
@@ -732,7 +738,22 @@ where
     pub(super) fn merge_sequences_in_seq_expr(&mut self, e: &mut SeqExpr) {
         self.normalize_sequences(e);
 
-        if !self.options.sequences() {
+        let _tracing = if cfg!(feature = "debug") {
+            let e_str = dump(&*e);
+
+            Some(
+                span!(
+                    Level::ERROR,
+                    "merge_sequences_in_seq_expr",
+                    seq_expr = &*e_str
+                )
+                .entered(),
+            )
+        } else {
+            None
+        };
+
+        if !self.options.sequences() && !e.span.has_mark(self.marks.synthesized_seq) {
             return;
         }
 
@@ -898,6 +919,14 @@ where
 
     /// Returns true if something is modified.
     fn merge_sequential_expr(&mut self, a: &mut Mergable, b: &mut Expr) -> bool {
+        let _tracing = if cfg!(feature = "debug") {
+            let b_str = dump(&*b);
+
+            Some(span!(Level::ERROR, "merge_sequential_expr", b = &*b_str).entered())
+        } else {
+            None
+        };
+
         match a {
             Mergable::Var(..) => {}
             Mergable::Expr(a) => match a {

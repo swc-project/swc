@@ -117,13 +117,11 @@
             "Refactor your code to use setState instead (see https://github.com/facebook/react/issues/3236)."
         ]
     };
-    for(var fnName in deprecatedAPIs)deprecatedAPIs.hasOwnProperty(fnName) && (function(methodName, info) {
-        Object.defineProperty(Component.prototype, fnName, {
-            get: function() {
-                warn("%s(...) is deprecated in plain JavaScript React classes. %s", info[0], info[1]);
-            }
-        });
-    })(fnName, deprecatedAPIs[fnName]);
+    for(var fnName in deprecatedAPIs)deprecatedAPIs.hasOwnProperty(fnName) && (methodName = fnName, info = deprecatedAPIs[fnName], Object.defineProperty(Component.prototype, methodName, {
+        get: function() {
+            warn("%s(...) is deprecated in plain JavaScript React classes. %s", info[0], info[1]);
+        }
+    }));
     function ComponentDummy() {
     }
     function PureComponent(props, context, updater) {
@@ -158,13 +156,13 @@
             case REACT_PROVIDER_TYPE:
                 return getContextName(type._context) + ".Provider";
             case REACT_FORWARD_REF_TYPE:
-                return wrapperName = "ForwardRef", functionName = (innerType = type.render).displayName || innerType.name || "", type.displayName || ("" !== functionName ? wrapperName + "(" + functionName + ")" : wrapperName);
+                return outerType = type, wrapperName = "ForwardRef", functionName = (innerType = type.render).displayName || innerType.name || "", outerType.displayName || ("" !== functionName ? wrapperName + "(" + functionName + ")" : wrapperName);
             case REACT_MEMO_TYPE:
                 return getComponentName(type.type);
             case REACT_BLOCK_TYPE:
                 return getComponentName(type._render);
             case REACT_LAZY_TYPE:
-                var innerType, wrapperName, functionName, lazyComponent = type, payload = lazyComponent._payload, init = lazyComponent._init;
+                var outerType, innerType, wrapperName, functionName, lazyComponent = type, payload = lazyComponent._payload, init = lazyComponent._init;
                 try {
                     return getComponentName(init(payload));
                 } catch (x) {
@@ -224,39 +222,39 @@
         }), Object.freeze && (Object.freeze(element.props), Object.freeze(element)), element;
     };
     function createElement(type, config, children) {
-        var propName, props = {
+        var propName, props3 = {
         }, key = null, ref = null, self = null, source = null;
         if (null != config) for(propName in hasValidRef(config) && (ref = config.ref, (function(config) {
             if ("string" == typeof config.ref && ReactCurrentOwner.current && config.__self && ReactCurrentOwner.current.stateNode !== config.__self) {
                 var componentName = getComponentName(ReactCurrentOwner.current.type);
                 didWarnAboutStringRefs[componentName] || (error("Component \"%s\" contains the string ref \"%s\". Support for string refs will be removed in a future major release. This case cannot be automatically converted to an arrow function. We ask you to manually fix this case by using useRef() or createRef() instead. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-string-ref", componentName, config.ref), didWarnAboutStringRefs[componentName] = !0);
             }
-        })(config)), hasValidKey(config) && (key = "" + config.key), self = void 0 === config.__self ? null : config.__self, source = void 0 === config.__source ? null : config.__source, config)hasOwnProperty$1.call(config, propName) && !RESERVED_PROPS.hasOwnProperty(propName) && (props[propName] = config[propName]);
+        })(config)), hasValidKey(config) && (key = "" + config.key), self = void 0 === config.__self ? null : config.__self, source = void 0 === config.__source ? null : config.__source, config)hasOwnProperty$1.call(config, propName) && !RESERVED_PROPS.hasOwnProperty(propName) && (props3[propName] = config[propName]);
         var childrenLength = arguments.length - 2;
-        if (1 === childrenLength) props.children = children;
+        if (1 === childrenLength) props3.children = children;
         else if (childrenLength > 1) {
             for(var childArray = Array(childrenLength), i = 0; i < childrenLength; i++)childArray[i] = arguments[i + 2];
-            Object.freeze && Object.freeze(childArray), props.children = childArray;
+            Object.freeze && Object.freeze(childArray), props3.children = childArray;
         }
         if (type && type.defaultProps) {
             var defaultProps = type.defaultProps;
-            for(propName in defaultProps)void 0 === props[propName] && (props[propName] = defaultProps[propName]);
+            for(propName in defaultProps)void 0 === props3[propName] && (props3[propName] = defaultProps[propName]);
         }
         if (key || ref) {
-            var warnAboutAccessingKey, warnAboutAccessingRef, displayName = "function" == typeof type ? type.displayName || type.name || "Unknown" : type;
-            key && ((warnAboutAccessingKey = function() {
-                specialPropKeyWarningShown || (specialPropKeyWarningShown = !0, error("%s: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://reactjs.org/link/special-props)", displayName));
+            var props, displayName, warnAboutAccessingKey, props1, displayName1, warnAboutAccessingRef, displayName2 = "function" == typeof type ? type.displayName || type.name || "Unknown" : type;
+            key && (props = props3, (warnAboutAccessingKey = function() {
+                specialPropKeyWarningShown || (specialPropKeyWarningShown = !0, error("%s: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://reactjs.org/link/special-props)", displayName = displayName2));
             }).isReactWarning = !0, Object.defineProperty(props, "key", {
                 get: warnAboutAccessingKey,
                 configurable: !0
-            })), ref && ((warnAboutAccessingRef = function() {
-                specialPropRefWarningShown || (specialPropRefWarningShown = !0, error("%s: `ref` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://reactjs.org/link/special-props)", displayName));
-            }).isReactWarning = !0, Object.defineProperty(props, "ref", {
+            })), ref && (props1 = props3, (warnAboutAccessingRef = function() {
+                specialPropRefWarningShown || (specialPropRefWarningShown = !0, error("%s: `ref` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://reactjs.org/link/special-props)", displayName1 = displayName2));
+            }).isReactWarning = !0, Object.defineProperty(props1, "ref", {
                 get: warnAboutAccessingRef,
                 configurable: !0
             }));
         }
-        return ReactElement(type, key, ref, self, source, ReactCurrentOwner.current, props);
+        return ReactElement(type, key, ref, self, source, ReactCurrentOwner.current, props3);
     }
     function cloneElement(element, config, children) {
         if (!(null != element)) throw Error("React.cloneElement(...): The argument must be a React element, but you passed " + element + ".");
@@ -274,7 +272,7 @@
     function isValidElement(object) {
         return "object" == typeof object && null !== object && object.$$typeof === REACT_ELEMENT_TYPE;
     }
-    var didWarnAboutMaps = !1, userProvidedKeyEscapeRegex = /\/+/g;
+    var methodName, info, didWarnAboutMaps = !1, userProvidedKeyEscapeRegex = /\/+/g;
     function escapeUserProvidedKey(text) {
         return text.replace(userProvidedKeyEscapeRegex, "$&/");
     }
