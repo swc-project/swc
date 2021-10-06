@@ -1,7 +1,7 @@
 use anyhow::{bail, Context, Error};
 use std::{
     collections::HashMap,
-    fs,
+    env, fs,
     path::{Path, PathBuf},
 };
 use swc_atoms::js_word;
@@ -40,7 +40,7 @@ fn do_test(entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
             .map_err(|err| println!("{:?}", err))?;
         println!("Bundled as {} modules", modules.len());
 
-        let mut error = false;
+        let error = false;
 
         for bundled in modules {
             let code = {
@@ -96,7 +96,15 @@ fn do_test(entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
     .expect("failed to process a module");
 }
 
-fn main() -> Result<(), Error> {}
+fn main() -> Result<(), Error> {
+    let main_file = env::args().nth(1).unwrap();
+    let mut entries = HashMap::default();
+    entries.insert("main".to_string(), FileName::Real(main_file.clone().into()));
+
+    do_test(Path::new(&main_file), entries, false);
+
+    Ok(())
+}
 
 struct Hook;
 
