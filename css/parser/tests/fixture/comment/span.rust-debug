@@ -9,7 +9,7 @@ error: Stylesheet
 ...  |
 23 | | @media/* comment */screen/* comment */{}
 24 | | @media /* comment */ screen /* comment */ {}
-   | |____________________________________________^
+   | |_____________________________________________^
 
 error: Rule
  --> $DIR/tests/fixture/comment/input.css:1:14
