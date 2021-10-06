@@ -1,5 +1,8 @@
 @import url("./style.css");
 @import url('./style.css');
+@import url(./style.css);
 @import './style.css';
 @import "./style.css";
 @IMPORT url("./style.css");
+@import URL(./style.css);
+@import URL("./style.css");

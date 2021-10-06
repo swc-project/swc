@@ -23,6 +23,12 @@ error: ImportRule
 1 | @import "something.css";
   | ^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: ImportSource
+ --> $DIR/tests/fixture/rome/import/input.css:1:9
+  |
+1 | @import "something.css";
+  |         ^^^^^^^^^^^^^^^
+
 error: Str
  --> $DIR/tests/fixture/rome/import/input.css:1:9
   |
@@ -47,9 +53,33 @@ error: ImportRule
 2 | @import url("something.css");
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Str
+error: ImportSource
  --> $DIR/tests/fixture/rome/import/input.css:2:9
   |
 2 | @import url("something.css");
   |         ^^^^^^^^^^^^^^^^^^^^
+
+error: FnValue
+ --> $DIR/tests/fixture/rome/import/input.css:2:9
+  |
+2 | @import url("something.css");
+  |         ^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/rome/import/input.css:2:9
+  |
+2 | @import url("something.css");
+  |         ^^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/import/input.css:2:13
+  |
+2 | @import url("something.css");
+  |             ^^^^^^^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/rome/import/input.css:2:13
+  |
+2 | @import url("something.css");
+  |             ^^^^^^^^^^^^^^^
 

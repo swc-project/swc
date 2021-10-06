@@ -4,7 +4,6 @@ use crate::{
     Parse,
 };
 use std::mem::take;
-use swc_atoms::js_word;
 use swc_common::Span;
 use swc_css_ast::*;
 
@@ -116,14 +115,6 @@ where
 
     fn parse_qualified_rule(&mut self) -> PResult<Rule> {
         todo!("parse_qualified_rule: {:?}", cur!(self))
-    }
-
-    fn expect_url_or_str(&mut self) -> PResult<Str> {
-        if is!(self, Str) {
-            return self.parse_str();
-        }
-
-        self.parse_url()
     }
 
     fn may_parse_str(&mut self) -> PResult<Option<Str>> {

@@ -93,6 +93,15 @@ where
     }
 
     #[emitter]
+    fn emit_import_source(&mut self, n: &ImportSource) -> Result {
+        match n {
+            ImportSource::Fn(n) => emit!(self, n),
+            ImportSource::Url(n) => emit!(self, n),
+            ImportSource::Str(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
     fn emit_import_rule(&mut self, n: &ImportRule) -> Result {
         punct!(self, "@");
         keyword!(self, "import");
