@@ -767,9 +767,7 @@ where
         emit!(self, n.name);
 
         if let Some(op) = n.op {
-            space!(self);
             self.wr.write_punct(None, op.as_str())?;
-            space!(self);
         }
 
         emit!(self, n.value);
