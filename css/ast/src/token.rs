@@ -20,7 +20,7 @@ pub enum Token {
     /// `@`
     AtKeyword {
         value: JsWord,
-        raw: JsWord
+        raw: JsWord,
     },
 
     /// `(`
@@ -42,7 +42,7 @@ pub enum Token {
 
     Ident {
         value: JsWord,
-        raw: JsWord
+        raw: JsWord,
     },
 
     Str {

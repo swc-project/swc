@@ -479,7 +479,6 @@ where
         punct!(self, "}");
     }
 
-    
     #[emitter]
     fn emit_tokens(&mut self, n: &Tokens) -> Result {
         for TokenAndSpan { span, token } in &n.tokens {
@@ -711,9 +710,7 @@ where
             self.wr.write_punct(None, combinator.as_str())?;
         }
 
-        let ctx = Ctx {
-            ..self.ctx
-        };
+        let ctx = Ctx { ..self.ctx };
         emit!(&mut *self.with_ctx(ctx), n.type_selector);
 
         self.emit_list(&n.subclass_selectors, ListFormat::NotDelimited)?;
@@ -752,18 +749,14 @@ where
     #[emitter]
     fn emit_id_selector(&mut self, n: &IdSelector) -> Result {
         punct!(self, "#");
-        let ctx = Ctx {
-            ..self.ctx
-        };
+        let ctx = Ctx { ..self.ctx };
         emit!(&mut *self.with_ctx(ctx), n.text);
     }
 
     #[emitter]
     fn emit_class_selector(&mut self, n: &ClassSelector) -> Result {
         punct!(self, ".");
-        let ctx = Ctx {
-            ..self.ctx
-        };
+        let ctx = Ctx { ..self.ctx };
         emit!(&mut *self.with_ctx(ctx), n.text);
     }
 
