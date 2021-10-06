@@ -188,7 +188,11 @@ where
 
                             let name = self.read_name()?;
 
-                            Token::Hash { is_id, value: name.0, raw: name.1 }
+                            Token::Hash {
+                                is_id,
+                                value: name.0,
+                                raw: name.1,
+                            }
                         } else {
                             // TODO: Verify if this is ok.
                             Token::Hash {
@@ -254,7 +258,10 @@ where
             }
         }
 
-        Ok(Token::Ident { value: name.0, raw: name.1 })
+        Ok(Token::Ident {
+            value: name.0,
+            raw: name.1,
+        })
     }
 
     /// Ported from `consumeURL` of `esbuild`.
@@ -347,7 +354,7 @@ where
                 raw.push(next.unwrap());
 
                 self.input.bump();
-                
+
                 hex = hex * 16 + digit;
             }
 
@@ -361,7 +368,7 @@ where
             }
 
             let hex = char::from_u32(hex).ok_or_else(|| ErrorKind::InvalidEscape)?;
- 
+
             return Ok((hex, raw));
         }
 
@@ -397,7 +404,10 @@ where
     fn read_at_keyword(&mut self) -> LexResult<Token> {
         let name = self.read_name()?;
 
-        Ok(Token::AtKeyword { value: name.0, raw: name.1 })
+        Ok(Token::AtKeyword {
+            value: name.0,
+            raw: name.1,
+        })
     }
 
     fn read_less_than(&mut self) -> LexResult<Token> {
@@ -436,7 +446,9 @@ where
         }
 
         if self.would_start_ident()? {
-            return self.read_name().map(|(value, raw)| Token::Ident { value, raw });
+            return self
+                .read_name()
+                .map(|(value, raw)| Token::Ident { value, raw });
         }
 
         self.input.bump();
@@ -488,14 +500,14 @@ where
             return Ok((first.into(), first.into()));
         }
 
-        let mut raw= String::new(); 
+        let mut raw = String::new();
         let mut buf = String::new();
 
         let first = self.input.slice(start, end);
 
         buf.push_str(first);
         raw.push_str(first);
-        
+
         let escaped = self.read_escape()?;
 
         buf.push(escaped.0);
@@ -511,12 +523,12 @@ where
             if is_name_continue(c) {
                 self.last_pos = None;
                 self.input.bump();
-                
+
                 buf.push(c);
                 raw.push(c)
             } else if self.is_valid_escape()? {
                 let escaped = self.read_escape()?;
-                
+
                 buf.push(escaped.0);
                 raw.push_str(&escaped.1);
             } else {

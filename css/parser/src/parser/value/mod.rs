@@ -429,7 +429,11 @@ where
                 unreachable!()
             }
         };
-        let name = Text { span, value: values.0, raw: values.1 };
+        let name = Text {
+            span,
+            value: values.0,
+            raw: values.1,
+        };
 
         if eat!(self, "(") {
             let is_url = name.value.to_ascii_lowercase() == js_word!("url");
@@ -575,7 +579,11 @@ where
                 unreachable!()
             }
         };
-        let name = Text { span, value: values.0, raw: values.1 };
+        let name = Text {
+            span,
+            value: values.0,
+            raw: values.1,
+        };
 
         expect!(self, "(");
 

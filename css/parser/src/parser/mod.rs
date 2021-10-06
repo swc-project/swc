@@ -166,7 +166,10 @@ where
         let span = self.input.cur_span()?;
 
         match cur!(self) {
-            Token::Ident { value: js_word!("url"), ..  } => {
+            Token::Ident {
+                value: js_word!("url"),
+                ..
+            } => {
                 bump!(self);
                 expect!(self, "(");
                 let value = self.parse_str()?.value;

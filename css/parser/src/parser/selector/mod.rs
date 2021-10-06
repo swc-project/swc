@@ -3,7 +3,7 @@ use crate::{
     error::{Error, ErrorKind},
     Parse,
 };
-use swc_atoms::{ js_word, JsWord };
+use swc_atoms::{js_word, JsWord};
 use swc_common::Span;
 use swc_css_ast::*;
 
@@ -135,7 +135,7 @@ where
                     if eat!(self, "*") {
                         let value: JsWord = "*".into();
                         let raw = value.clone();
-                        
+
                         ns_name_name = Some(Text { span, value, raw });
                     } else {
                         ns_name_name = Some(self.parse_name_token()?);
@@ -164,12 +164,8 @@ where
                     if eat!(self, "*") {
                         let value = "*".into();
                         let raw = "*".into();
-                        
-                        ns_name_name = Some(Text {
-                            span,
-                            value,
-                            raw,
-                        });
+
+                        ns_name_name = Some(Text { span, value, raw });
                     } else {
                         ns_name_name = Some(self.parse_name_token()?);
                     }
@@ -245,7 +241,11 @@ where
 
                     subclass_selectors.push(SubclassSelector::At(AtSelector {
                         span,
-                        text: Text { span, value: values.0, raw: values.1 },
+                        text: Text {
+                            span,
+                            value: values.0,
+                            raw: values.1,
+                        },
                     }));
                     break 'subclass_selectors;
                 }
@@ -361,7 +361,7 @@ where
                 if eat!(self, "*") {
                     let value: JsWord = "*".into();
                     let raw = value.clone();
-                    
+
                     ns_name_prefix = Some(Text {
                         span: span!(self, name_start_pos),
                         value,
@@ -478,11 +478,15 @@ where
 
         let value = bump!(self);
         let values = match value {
-            Token::Ident{ value, raw } => (value, raw),
+            Token::Ident { value, raw } => (value, raw),
             _ => unreachable!(),
         };
 
-        Ok(Text { span, value: values.0, raw: values.1 })
+        Ok(Text {
+            span,
+            value: values.0,
+            raw: values.1,
+        })
     }
 
     fn parse_id_or_str_for_attr(&mut self) -> PResult<Str> {

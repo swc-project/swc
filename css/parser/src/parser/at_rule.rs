@@ -199,7 +199,7 @@ where
 
             _ => {}
         }
-        
+
         let name = Text {
             span: span!(self, start),
             value: name.0,
