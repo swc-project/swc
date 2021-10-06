@@ -608,45 +608,52 @@ where
         }
     }
 
+    fn seq_exprs_of<'a>(
+        &mut self,
+        s: &'a mut Stmt,
+        options: &CompressOptions,
+    ) -> Option<Vec<Mergable<'a>>> {
+        if self.ctx.in_top_level()
+            && !self.options.top_level()
+            && !s.span().has_mark(self.marks.non_top_level)
+        {
+            if cfg!(feature = "debug") {
+                tracing::trace!("sequences: [x] Top level");
+            }
+            return None;
+        }
+
+        Some(match s {
+            Stmt::Expr(e) => vec![Mergable::Expr(&mut *e.expr)],
+            Stmt::Decl(Decl::Var(
+                v
+                @
+                VarDecl {
+                    kind: VarDeclKind::Var | VarDeclKind::Let,
+                    ..
+                },
+            )) => v.decls.iter_mut().map(Mergable::Var).collect(),
+            Stmt::Return(ReturnStmt { arg: Some(arg), .. }) if options.sequences() => {
+                vec![Mergable::Expr(&mut **arg)]
+            }
+            Stmt::If(s) if options.sequences() => {
+                vec![Mergable::Expr(&mut *s.test)]
+            }
+            Stmt::Throw(s) if options.sequences() => {
+                vec![Mergable::Expr(&mut *s.arg)]
+            }
+
+            _ => return None,
+        })
+    }
+
     pub(super) fn merge_sequences_in_stmts<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: MoudleItemExt,
     {
-        fn exprs_of<'a>(s: &'a mut Stmt, options: &CompressOptions) -> Option<Vec<Mergable<'a>>> {
-            Some(match s {
-                Stmt::Expr(e) => vec![Mergable::Expr(&mut *e.expr)],
-                Stmt::Decl(Decl::Var(
-                    v
-                    @
-                    VarDecl {
-                        kind: VarDeclKind::Var | VarDeclKind::Let,
-                        ..
-                    },
-                )) => v.decls.iter_mut().map(Mergable::Var).collect(),
-                Stmt::Return(ReturnStmt { arg: Some(arg), .. }) if options.sequences() => {
-                    vec![Mergable::Expr(&mut **arg)]
-                }
-                Stmt::If(s) if options.sequences() => {
-                    vec![Mergable::Expr(&mut *s.test)]
-                }
-                Stmt::Throw(s) if options.sequences() => {
-                    vec![Mergable::Expr(&mut *s.arg)]
-                }
-
-                _ => return None,
-            })
-        }
-
         if !self.options.sequences() && !self.options.collapse_vars {
             if cfg!(feature = "debug") {
                 tracing::trace!("sequences: [x] Disabled");
-            }
-            return;
-        }
-
-        if self.ctx.in_top_level() && !self.options.top_level() {
-            if cfg!(feature = "debug") {
-                tracing::trace!("sequences: [x] Top level");
             }
             return;
         }
@@ -661,7 +668,7 @@ where
             };
 
             let items = if let Some(stmt) = stmt.as_stmt_mut() {
-                exprs_of(stmt, self.options)
+                self.seq_exprs_of(stmt, self.options)
             } else {
                 None
             };
