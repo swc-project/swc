@@ -83,6 +83,11 @@ where
         self.drop_useless_blocks(stmts);
 
         self.collapse_vars_without_init(stmts);
+
+        stmts.retain(|s| match s.as_stmt() {
+            Some(Stmt::Empty(..)) => false,
+            _ => true,
+        });
     }
 
     /// Visit `nodes`, maybe in parallel.
