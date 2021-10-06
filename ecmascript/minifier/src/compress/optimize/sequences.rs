@@ -16,6 +16,7 @@ use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_this_expr, ident::IdentLike, undefined, ExprExt, Id, StmtLike};
 use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
+use tracing::{span, Level};
 
 /// Methods related to the option `sequences`. All methods are noop if
 /// `sequences` is false.
@@ -916,8 +917,15 @@ where
     }
 
     /// Returns true if something is modified.
-    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, a, b)))]
     fn merge_sequential_expr(&mut self, a: &mut Mergable, b: &mut Expr) -> bool {
+        let _tracing = if cfg!(feature = "debug") {
+            let b_str = dump(&*b);
+
+            Some(span!(Level::ERROR, "merge_sequential_expr", b = &*b_str).entered())
+        } else {
+            None
+        };
+
         match a {
             Mergable::Var(..) => {}
             Mergable::Expr(a) => match a {
