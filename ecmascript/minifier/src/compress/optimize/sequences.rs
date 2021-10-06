@@ -613,16 +613,6 @@ where
         s: &'a mut Stmt,
         options: &CompressOptions,
     ) -> Option<Vec<Mergable<'a>>> {
-        if self.ctx.in_top_level()
-            && !self.options.top_level()
-            && !s.span().has_mark(self.marks.non_top_level)
-        {
-            if cfg!(feature = "debug") {
-                tracing::trace!("sequences: [x] Top level");
-            }
-            return None;
-        }
-
         Some(match s {
             Stmt::Expr(e) => vec![Mergable::Expr(&mut *e.expr)],
             Stmt::Decl(Decl::Var(
@@ -660,8 +650,29 @@ where
 
         let mut exprs = vec![];
         let mut buf = vec![];
+        let mut ignore_top_level = false;
 
         for stmt in stmts.iter_mut() {
+            if !ignore_top_level && self.ctx.in_top_level() && !self.options.top_level() {
+                if match stmt.as_stmt() {
+                    Some(Stmt::Decl(Decl::Var(v))) => {
+                        if let Some(var) = v.decls.last() {
+                            var.span.has_mark(self.marks.non_top_level)
+                        } else {
+                            false
+                        }
+                    }
+                    _ => false,
+                } {
+                    ignore_top_level = true;
+                } else {
+                    if cfg!(feature = "debug") {
+                        tracing::trace!("sequences: [x] Top level");
+                    }
+                    return;
+                }
+            }
+
             let is_end = match stmt.as_stmt() {
                 Some(Stmt::If(..) | Stmt::Throw(..)) => true,
                 _ => false,
