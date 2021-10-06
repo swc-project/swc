@@ -28,6 +28,7 @@ impl Prefixer {
                         name: Text {
                             span: DUMMY_SP,
                             value: "-webkit-image-set".into(),
+                            raw: "-webkit-image-set".into(),
                         },
                         args: f.args.clone(),
                     });
@@ -38,6 +39,7 @@ impl Prefixer {
                                 Value::Text(Text {
                                     span: t.span,
                                     value: "-webkit-grab".into(),
+                                    raw: "-webkit-grab".into(),
                                 })
                             } else {
                                 v
@@ -51,6 +53,7 @@ impl Prefixer {
                         name: Text {
                             span: DUMMY_SP,
                             value: "cursor".into(),
+                            raw: "cursor".into(),
                         },
                         values: {
                             let val = Value::Comma(CommaValues {
@@ -99,12 +102,14 @@ impl VisitMut for Prefixer {
                 let val = Value::Text(Text {
                     span: DUMMY_SP,
                     value: $val.into(),
+                    raw: $val.into(),
                 });
                 self.added.push(Property {
                     span: n.span,
                     name: Text {
                         span: n.name.span,
                         value: $name.into(),
+                        raw: $name.into(),
                     },
                     values: vec![val],
                     important: n.important.clone(),
@@ -119,6 +124,7 @@ impl VisitMut for Prefixer {
                     name: Text {
                         span: n.name.span,
                         value: $name.into(),
+                        raw: $name.into(),
                     },
                     values: n.values.clone(),
                     important: n.important.clone(),
@@ -131,6 +137,7 @@ impl VisitMut for Prefixer {
                 let val = Text {
                     span: DUMMY_SP,
                     value: $name.into(),
+                    raw: $name.into(),
                 };
 
                 self.added.push(Property {
@@ -231,6 +238,7 @@ impl VisitMut for Prefixer {
                                     name: Text {
                                         span: DUMMY_SP,
                                         value: "-webkit-image-set".into(),
+                                        raw: "-webkit-image-set".into(),
                                     },
                                     args: f.args.clone(),
                                 });
@@ -260,6 +268,7 @@ impl VisitMut for Prefixer {
                                     name: Text {
                                         span: DUMMY_SP,
                                         value: "-webkit-image-set".into(),
+                                        raw: "-webkit-image-set".into(),
                                     },
                                     args: f.args.clone(),
                                 });
@@ -527,6 +536,7 @@ impl VisitMut for Prefixer {
                     name: Text {
                         span: n.name.span,
                         value: "-webkit-transition".into(),
+                        raw: "-webkit-transition".into(),
                     },
                     values,
                     important: n.important.clone(),
