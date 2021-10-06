@@ -18,8 +18,6 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
-use swc_ecma_transforms::fixer;
-use swc_ecma_visit::FoldWith;
 
 fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
     testing::run_test2(false, |cm, _| {
@@ -59,9 +57,7 @@ fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
                         wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
                     };
 
-                    emitter
-                        .emit_module(&bundled.module.fold_with(&mut fixer(None)))
-                        .unwrap();
+                    emitter.emit_module(&bundled.module).unwrap();
                 }
 
                 String::from_utf8_lossy(&buf).to_string()
