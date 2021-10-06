@@ -668,7 +668,7 @@ where
                     exprs.push(Box::new(val));
 
                     return Some(Expr::Seq(SeqExpr {
-                        span: DUMMY_SP,
+                        span: DUMMY_SP.apply_mark(self.marks.synthesized_seq),
                         exprs,
                     }));
                 }
@@ -687,7 +687,7 @@ where
         }
 
         Some(Expr::Seq(SeqExpr {
-            span: DUMMY_SP,
+            span: DUMMY_SP.apply_mark(self.marks.synthesized_seq),
             exprs,
         }))
     }
