@@ -229,6 +229,11 @@ jobs:
           jest -v
           cargo test --color always -p ${{ matrix.crate }}
 
+      - name: Run cargo test (concurrent)
+        if: matrix.crate == 'swc_bundler'
+        run: |
+          cargo test --color always -p ${{ matrix.crate }} --features concurrent
+
   deploy-docs:
     name: Docs
     runs-on: ubuntu-latest
