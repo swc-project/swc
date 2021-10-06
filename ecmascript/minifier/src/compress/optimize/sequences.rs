@@ -638,6 +638,7 @@ where
         })
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, stmts)))]
     pub(super) fn merge_sequences_in_stmts<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: MoudleItemExt,
@@ -751,6 +752,21 @@ where
     pub(super) fn merge_sequences_in_seq_expr(&mut self, e: &mut SeqExpr) {
         self.normalize_sequences(e);
 
+        let _tracing = if cfg!(feature = "debug") {
+            let e_str = dump(&*e);
+
+            Some(
+                span!(
+                    Level::ERROR,
+                    "merge_sequences_in_seq_expr",
+                    seq_expr = &*e_str
+                )
+                .entered(),
+            )
+        } else {
+            None
+        };
+
         if !self.options.sequences() {
             return;
         }
@@ -772,7 +788,6 @@ where
     ///
     /// TODO(kdy1): Check for side effects and call merge_sequential_expr more
     /// if expressions between a and b are side-effect-free.
-    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, exprs)))]
     fn merge_sequences_in_exprs(&mut self, exprs: &mut Vec<Mergable>) {
         for idx in 0..exprs.len() {
             for j in idx..exprs.len() {
