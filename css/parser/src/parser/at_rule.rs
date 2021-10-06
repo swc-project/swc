@@ -18,16 +18,16 @@ where
     pub(super) fn parse_at_rule(&mut self, _ctx: AtRuleContext) -> PResult<AtRule> {
         let start = self.input.cur_span()?.lo;
 
-        assert!(matches!(cur!(self), Token::AtKeyword(..)));
+        assert!(matches!(cur!(self), Token::AtKeyword { .. }));
 
-        let name = match bump!(self) {
-            Token::AtKeyword(word) => word,
+        let names = match bump!(self) {
+            Token::AtKeyword { value, raw } => (value, raw),
             _ => {
                 unreachable!()
             }
         };
 
-        match &*name.to_ascii_lowercase() {
+        match &*names.0.to_ascii_lowercase() {
             "charset" => {
                 self.input.skip_ws()?;
 
@@ -199,12 +199,11 @@ where
 
             _ => {}
         }
-
-        let raw = name.clone();
+        
         let name = Text {
             span: span!(self, start),
-            value: name,
-            raw,
+            value: names.0,
+            raw: names.1,
         };
 
         self.input.skip_ws()?;
@@ -672,7 +671,7 @@ where
 {
     fn parse(&mut self) -> PResult<PageRuleBlockItem> {
         match cur!(self) {
-            Token::AtKeyword(..) => Ok(PageRuleBlockItem::Nested(self.parse()?)),
+            Token::AtKeyword { .. } => Ok(PageRuleBlockItem::Nested(self.parse()?)),
             _ => {
                 let p = self
                     .parse_property()

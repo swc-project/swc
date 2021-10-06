@@ -90,7 +90,7 @@ where
             }
 
             match cur!(self) {
-                Token::AtKeyword(..) => {
+                Token::AtKeyword { .. } => {
                     let rule = self.parse_at_rule(Default::default())?;
                     rules.push(rule.into());
                     continue;

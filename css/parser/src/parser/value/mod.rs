@@ -214,14 +214,10 @@ where
 
             Token::Hash { .. } => return self.parse_hash_value().map(From::from),
 
-            Token::AtKeyword(..) => {
+            Token::AtKeyword { .. } => {
                 let name = bump!(self);
                 let name = match name {
-                    Token::AtKeyword(name) => {
-                        let raw = name.clone();
-
-                        Text { span, value: name, raw }
-                    },
+                    Token::AtKeyword { value, raw } => Text { span, value, raw },
                     _ => {
                         unreachable!()
                     }

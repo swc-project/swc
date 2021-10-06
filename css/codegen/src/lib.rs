@@ -357,8 +357,7 @@ where
 
     #[emitter]
     fn emit_text(&mut self, n: &Text) -> Result {
-        self.wr
-            .write_ident(Some(n.span), &n.value, self.ctx.escape_first_dash)?;
+        self.wr.write_raw(Some(n.span), &n.raw)?;
     }
 
     #[emitter]
@@ -480,15 +479,15 @@ where
         punct!(self, "}");
     }
 
+    
     #[emitter]
     fn emit_tokens(&mut self, n: &Tokens) -> Result {
         for TokenAndSpan { span, token } in &n.tokens {
             let span = *span;
             match token {
-                Token::AtKeyword(name) => {
+                Token::AtKeyword { raw, .. } => {
                     punct!(self, span, "@");
-                    punct!(self, span, "@");
-                    self.wr.write_ident(Some(span), &name, false)?;
+                    self.wr.write_raw(Some(n.span), &raw)?;
                 }
                 Token::LParen => {
                     punct!(self, span, "(");
@@ -508,8 +507,8 @@ where
                 Token::Num(n) => {
                     self.wr.write_raw(Some(span), &n.value.to_string())?;
                 }
-                Token::Ident(n) => {
-                    self.wr.write_ident(Some(span), &n, true)?;
+                Token::Ident { raw, .. } => {
+                    self.wr.write_raw(Some(n.span), &raw)?;
                 }
                 Token::Str { value } => {
                     punct!(self, "'");
@@ -713,7 +712,6 @@ where
         }
 
         let ctx = Ctx {
-            escape_first_dash: true,
             ..self.ctx
         };
         emit!(&mut *self.with_ctx(ctx), n.type_selector);
@@ -755,7 +753,6 @@ where
     fn emit_id_selector(&mut self, n: &IdSelector) -> Result {
         punct!(self, "#");
         let ctx = Ctx {
-            escape_first_dash: true,
             ..self.ctx
         };
         emit!(&mut *self.with_ctx(ctx), n.text);
@@ -765,7 +762,6 @@ where
     fn emit_class_selector(&mut self, n: &ClassSelector) -> Result {
         punct!(self, ".");
         let ctx = Ctx {
-            escape_first_dash: true,
             ..self.ctx
         };
         emit!(&mut *self.with_ctx(ctx), n.text);

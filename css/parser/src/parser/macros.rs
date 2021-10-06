@@ -11,7 +11,7 @@ macro_rules! tok_pat {
     };
 
     (AtKeyword) => {
-        swc_css_ast::Token::AtKeyword(..)
+        swc_css_ast::Token::AtKeyword { .. }
     };
 
     (Function) => {

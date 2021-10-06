@@ -18,7 +18,10 @@ pub struct TokenAndSpan {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub enum Token {
     /// `@`
-    AtKeyword(JsWord),
+    AtKeyword {
+        value: JsWord,
+        raw: JsWord
+    },
 
     /// `(`
     LParen,

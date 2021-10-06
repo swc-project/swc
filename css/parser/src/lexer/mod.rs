@@ -397,7 +397,7 @@ where
     fn read_at_keyword(&mut self) -> LexResult<Token> {
         let name = self.read_name()?;
 
-        Ok(Token::AtKeyword(name.0))
+        Ok(Token::AtKeyword { value: name.0, raw: name.1 })
     }
 
     fn read_less_than(&mut self) -> LexResult<Token> {

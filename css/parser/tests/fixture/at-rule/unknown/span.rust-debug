@@ -1,0 +1,48 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:1:1
+  |
+1 | @\unknown {}
+  | ^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:1:1
+  |
+1 | @\unknown {}
+  | ^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:1:1
+  |
+1 | @\unknown {}
+  | ^^^^^^^^^^^^
+
+error: UnknownAtRule
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:1:1
+  |
+1 | @\unknown {}
+  | ^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:1:1
+  |
+1 | @\unknown {}
+  | ^^^^^^^^^
+
+error: Tokens
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:1:11
+  |
+1 | @\unknown {}
+  |           ^^
+
+error: LBrace
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:1:11
+  |
+1 | @\unknown {}
+  |           ^
+
+error: RBrace
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:1:12
+  |
+1 | @\unknown {}
+  |            ^
+
