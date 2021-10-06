@@ -212,7 +212,7 @@ where
                         // This function is misdesigned and should be removed.
                         // This is wrong because the order of execution is not guaranteed.
                         match &**arg {
-                            Expr::Ident(..) | Expr::Lit(..) => {}
+                            Expr::Lit(..) => {}
                             _ => continue,
                         }
 
@@ -550,7 +550,7 @@ where
 
                 // TODO: Check if paramter is used and inline if call is not related to parameters.
                 Expr::Call(e) => {
-                    let used = idents_used_by(e);
+                    let used = idents_used_by(&e.callee);
                     param_ids.iter().all(|param| !used.contains(&param.to_id()))
                 }
 
