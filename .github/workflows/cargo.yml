@@ -232,7 +232,7 @@ jobs:
       - name: Run cargo test (concurrent)
         if: matrix.crate == 'swc_bundler'
         run: |
-          cargo test --color always -p ${{ matrix.crate }} --features concurrent
+          cargo test --color always -p ${{ matrix.crate }} --all-features
 
   deploy-docs:
     name: Docs
