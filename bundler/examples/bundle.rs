@@ -9,7 +9,7 @@ use std::{
     time::Instant,
 };
 use swc_atoms::js_word;
-use swc_bundler::{Bundler, Load, ModuleData, ModuleRecord, Resolve};
+use swc_bundler::{Bundle, Bundler, Load, ModuleData, ModuleRecord, Resolve};
 use swc_common::{
     errors::{ColorConfig, Handler},
     sync::Lrc,
@@ -18,6 +18,31 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
+
+fn print_bundles(cm: Lrc<SourceMap>, modules: Vec<Bundle>) {
+    for bundled in modules {
+        let code = {
+            let mut buf = vec![];
+
+            {
+                let mut emitter = Emitter {
+                    cfg: swc_ecma_codegen::Config {
+                        ..Default::default()
+                    },
+                    cm: cm.clone(),
+                    comments: None,
+                    wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
+                };
+
+                emitter.emit_module(&bundled.module).unwrap();
+            }
+
+            String::from_utf8_lossy(&buf).to_string()
+        };
+
+        fs::write("output.js", &code).unwrap();
+    }
+}
 
 fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
     testing::run_test2(false, |cm, _| {
@@ -43,28 +68,19 @@ fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
 
         let error = false;
 
-        for bundled in modules {
-            let code = {
-                let mut buf = vec![];
+        #[cfg(feature = "rayon")]
+        rayon::scope(|s| {
+            s.spawn(move |_| {
+                print_bundles(cm.clone(), modules);
+            });
 
-                {
-                    let mut emitter = Emitter {
-                        cfg: swc_ecma_codegen::Config {
-                            ..Default::default()
-                        },
-                        cm: cm.clone(),
-                        comments: None,
-                        wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
-                    };
+            s.spawn(move |_| {
+                drop(bundler);
+            });
+        });
 
-                    emitter.emit_module(&bundled.module).unwrap();
-                }
-
-                String::from_utf8_lossy(&buf).to_string()
-            };
-
-            fs::write("output.js", &code).unwrap();
-        }
+        #[cfg(not(feature = "rayon"))]
+        print_bundles(cm.clone(), modules);
 
         if error {
             return Err(());
