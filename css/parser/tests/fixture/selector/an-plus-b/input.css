@@ -1,0 +1,19 @@
+li:nth-child(2n+1) {}
+li:Nth-Child(2n+1) {}
+li:Nth-Child(2N+1) {}
+li:nth-Child(+3n-2) {}
+li:nth-child(10) {}
+li:nth-child(2n) {}
+li:nth-child(odd) {}
+li:nth-child(OdD) {}
+li:nth-child(even) {}
+li:nth-child(eVen) {}
+li:nth-child(n) {}
+li:nth-child(-n) {}
+li:nth-child(/*test*/2n/*test*/+/*test*/1/*test*/) {}
+li:nth-last-child(/*test*/+3n/*test*/-/*test*/2/*test*/) {}
+/* TODO buggy */
+/*li:nth-child(  2n  +  1  ) {}*/
+/*li:nth-last-child(  +3n  -  2  ) {}*/
+/*li:nth-last-child(+n - 2) {}*/
+/*li:nth-last-child(123456n-12345678) {}*/
