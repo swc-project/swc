@@ -96,7 +96,7 @@
                     "ctxt": 0
                   },
                   "value": "x,",
-                  "raw": "x2c"
+                  "raw": "x\\2c"
                 },
                 "args": []
               }

@@ -21,7 +21,7 @@
           "ctxt": 0
         },
         "value": "\u0000screen,screen\t",
-        "raw": "0screen,screen9 "
+        "raw": "\\0screen\\,screen\\9 "
       },
       "rules": []
     }

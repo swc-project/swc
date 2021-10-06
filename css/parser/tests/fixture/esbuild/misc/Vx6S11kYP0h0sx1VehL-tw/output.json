@@ -21,7 +21,7 @@
           "ctxt": 0
         },
         "value": "abc",
-        "raw": "a62 c"
+        "raw": "a\\62 c"
       },
       "blocks": [
         {

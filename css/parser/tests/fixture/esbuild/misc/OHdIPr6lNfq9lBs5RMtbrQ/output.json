@@ -21,7 +21,7 @@
           "ctxt": 0
         },
         "value": "abc",
-        "raw": "61 bc"
+        "raw": "\\61 bc"
       },
       "blocks": [
         {

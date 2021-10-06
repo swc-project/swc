@@ -56,7 +56,7 @@
                         "ctxt": 0
                       },
                       "value": ",attr",
-                      "raw": ",attr"
+                      "raw": "\\,attr"
                     }
                   },
                   "op": null,

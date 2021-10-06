@@ -55,7 +55,7 @@
                         "ctxt": 0
                       },
                       "value": ",ns",
-                      "raw": "2cns"
+                      "raw": "\\2cns"
                     },
                     "name": {
                       "type": "Text",

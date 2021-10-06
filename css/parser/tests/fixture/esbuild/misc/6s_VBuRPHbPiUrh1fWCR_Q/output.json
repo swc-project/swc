@@ -68,7 +68,7 @@
                         "token": {
                           "Ident": {
                             "value": "cl,ss",
-                            "raw": "cl,ss"
+                            "raw": "cl\\,ss"
                           }
                         }
                       }

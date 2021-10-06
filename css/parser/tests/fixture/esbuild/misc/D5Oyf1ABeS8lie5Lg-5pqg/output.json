@@ -89,7 +89,7 @@
                   "ctxt": 0
                 },
                 "value": "x\u0000",
-                "raw": "x0 "
+                "raw": "x\\0 "
               }
             ],
             "important": null

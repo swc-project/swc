@@ -47,7 +47,7 @@
                     "ctxt": 0
                   },
                   "value": "*",
-                  "raw": "2a "
+                  "raw": "\\2a "
                 }
               },
               "subclassSelectors": []

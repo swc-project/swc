@@ -312,10 +312,15 @@ where
     }
 
     fn read_escape(&mut self) -> LexResult<(char, String)> {
+        // TODO: from spec - `\` should be consumed before run this https://www.w3.org/TR/css-syntax-3/#consume-escaped-code-point
         assert!(
             self.input.eat_byte(b'\\'),
             "read_escape: Expected a backslash"
         );
+
+        let mut raw = String::new();
+
+        raw.push('\\');
 
         let c = self.input.cur();
         let c = match c {
@@ -325,8 +330,9 @@ where
 
         if c.is_digit(16) {
             let mut hex = c.to_digit(16).unwrap();
-            let mut raw = String::new();
+
             raw.push(self.input.cur().unwrap());
+
             self.input.bump();
 
             // Consume as many hex digits as possible, but no more than 5.
@@ -337,8 +343,11 @@ where
                     Some(v) => v,
                     None => break,
                 };
+
                 raw.push(next.unwrap());
+
                 self.input.bump();
+                
                 hex = hex * 16 + digit;
             }
 
@@ -347,16 +356,20 @@ where
             // TODO: is_white_space
             if self.input.is_byte(b' ') {
                 raw.push(self.input.cur().unwrap());
+
                 self.input.bump();
             }
 
             let hex = char::from_u32(hex).ok_or_else(|| ErrorKind::InvalidEscape)?;
+ 
             return Ok((hex, raw));
         }
 
+        raw.push(c);
+
         self.input.bump();
 
-        Ok((c, c.to_string()))
+        Ok((c, raw))
     }
 
     fn read_dot(&mut self) -> LexResult<Token> {
@@ -497,8 +510,8 @@ where
 
             if is_name_continue(c) {
                 self.last_pos = None;
-
                 self.input.bump();
+                
                 buf.push(c);
                 raw.push(c)
             } else if self.is_valid_escape()? {
@@ -510,6 +523,8 @@ where
                 break;
             }
         }
+
+        println!("{:?}", raw);
 
         Ok((buf.into(), raw.into()))
     }

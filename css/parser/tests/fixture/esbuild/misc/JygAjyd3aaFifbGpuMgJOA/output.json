@@ -21,7 +21,7 @@
           "ctxt": 0
         },
         "value": ",s",
-        "raw": ",s"
+        "raw": "\\,s"
       },
       "value": {
         "type": "String",

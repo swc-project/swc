@@ -320,7 +320,7 @@
                       "ctxt": 0
                     },
                     "value": "escaped.class.name",
-                    "raw": "escaped.class.name"
+                    "raw": "escaped\\.class\\.name"
                   }
                 }
               ]

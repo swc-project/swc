@@ -49,7 +49,7 @@
                       "ctxt": 0
                     },
                     "value": "pseudo,class",
-                    "raw": "pseudo,class"
+                    "raw": "pseudo\\,class"
                   },
                   "args": {
                     "type": "Tokens",
