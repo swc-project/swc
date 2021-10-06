@@ -20,14 +20,14 @@ where
 
         assert!(matches!(cur!(self), Token::AtKeyword { .. }));
 
-        let names = match bump!(self) {
+        let name = match bump!(self) {
             Token::AtKeyword { value, raw } => (value, raw),
             _ => {
                 unreachable!()
             }
         };
 
-        match &*names.0.to_ascii_lowercase() {
+        match &*name.0.to_ascii_lowercase() {
             "charset" => {
                 self.input.skip_ws()?;
 
@@ -202,8 +202,8 @@ where
         
         let name = Text {
             span: span!(self, start),
-            value: names.0,
-            raw: names.1,
+            value: name.0,
+            raw: name.1,
         };
 
         self.input.skip_ws()?;
