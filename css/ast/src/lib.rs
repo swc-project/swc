@@ -26,6 +26,9 @@ pub enum Rule {
     #[tag("StyleRule")]
     Style(StyleRule),
 
+    #[tag("Tokens")]
+    Invalid(Tokens),
+
     #[tag("*")]
     AtRule(AtRule),
 }
