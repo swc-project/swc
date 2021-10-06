@@ -229,10 +229,10 @@
                         timeout: null,
                         webpack: null,
                         modules: null
-                    }, opts1), subscription = null;
+                    }, options), subscription = null;
                     function init() {
                         if (!subscription) {
-                            var sub = new LoadableSubscription(load, opts);
+                            var sub = new LoadableSubscription(loadFn, opts);
                             subscription = {
                                 getCurrentValue: sub.getCurrentValue.bind(sub),
                                 subscribe: sub.subscribe.bind(sub),
