@@ -1,3 +1,6 @@
+/// Use memory allocator
+extern crate swc_node_base;
+
 use anyhow::{bail, Context, Error};
 use std::{
     collections::HashMap,
