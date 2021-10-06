@@ -771,6 +771,7 @@ where
     ///
     /// TODO(kdy1): Check for side effects and call merge_sequential_expr more
     /// if expressions between a and b are side-effect-free.
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, exprs)))]
     fn merge_sequences_in_exprs(&mut self, exprs: &mut Vec<Mergable>) {
         for idx in 0..exprs.len() {
             for j in idx..exprs.len() {
@@ -915,6 +916,7 @@ where
     }
 
     /// Returns true if something is modified.
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, a, b)))]
     fn merge_sequential_expr(&mut self, a: &mut Mergable, b: &mut Expr) -> bool {
         match a {
             Mergable::Var(..) => {}
