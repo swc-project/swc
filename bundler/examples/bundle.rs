@@ -8,15 +8,14 @@ use std::{
 use swc_atoms::js_word;
 use swc_bundler::{Bundler, Load, ModuleData, ModuleRecord, Resolve};
 use swc_common::{
-    comments::SingleThreadedComments,
     errors::{ColorConfig, Handler},
     sync::Lrc,
     FileName, Globals, SourceMap, Span,
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
-use swc_ecma_transforms::{fixer, react, typescript::strip};
+use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
+use swc_ecma_transforms::fixer;
 use swc_ecma_visit::FoldWith;
 
 fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
@@ -134,22 +133,13 @@ pub struct Loader {
 
 impl Load for Loader {
     fn load(&self, f: &FileName) -> Result<ModuleData, Error> {
-        eprintln!("load: {}", f);
-
-        let tsx;
         let fm = match f {
-            FileName::Real(path) => {
-                tsx = path.to_string_lossy().ends_with(".tsx");
-                self.cm.load_file(&path)?
-            }
+            FileName::Real(path) => self.cm.load_file(&path)?,
             _ => unreachable!(),
         };
 
         let lexer = Lexer::new(
-            Syntax::Typescript(TsConfig {
-                decorators: true,
-                tsx,
-                dynamic_import: true,
+            Syntax::Es(EsConfig {
                 ..Default::default()
             }),
             EsVersion::Es2020,
@@ -164,13 +154,6 @@ impl Load for Loader {
             err.into_diagnostic(&handler).emit();
             panic!("failed to parse")
         });
-        let module = module
-            .fold_with(&mut strip())
-            .fold_with(&mut react::react::<SingleThreadedComments>(
-                self.cm.clone(),
-                None,
-                Default::default(),
-            ));
 
         Ok(ModuleData {
             fm,
