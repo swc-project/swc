@@ -46,8 +46,21 @@ jobs:
         run: |
           cargo metadata
 
-      - name: Push back
+      - name: Configure git
+        run: |
+          git config --local user.email "bot@swc.rs"
+          git config --local user.name "swc[bot]"
+
+      - name: Add files
         run: |
           git add -A
+
+      - name: Commit files
+        run: |
           git commit -m 'Bump version'
-          git push
+
+      - name: Push back
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
