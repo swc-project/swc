@@ -1,0 +1,44 @@
+on:
+  workflow_dispatch:
+    inputs:
+      crate:
+        description: "Crate to bump version"
+        required: true
+      breaking:
+        description: "`1` if this is a breaking change"
+        required: true
+        default: "0"
+
+name: Managment
+
+jobs:
+  bump:
+    name: Bump version
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: cargo-bump-version
+
+      - name: Install cargo-mono
+        continue-on-error: true
+        run: |
+          cargo install cargo-mono
+
+      - name: Bump version
+        run: |
+          if [ "${{ github.event.inputs.breaking }}" == "1" ]; then
+              cargo mono bump ${{ github.event.inputs.crate }}"
+          else
+              cargo mono bump ${{ github.event.inputs.crate }}"
+          fi
+          cargo metadata
