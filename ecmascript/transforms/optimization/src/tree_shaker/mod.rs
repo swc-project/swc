@@ -1,6 +1,5 @@
-use retain_mut::RetainMut;
 use rustc_hash::FxHashSet;
-use swc_common::{pass::Repeated, Mark, DUMMY_SP};
+use swc_common::{pass::Repeated, util::take::Take, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, ExprExt, Id};
 use swc_ecma_visit::{
@@ -91,6 +90,7 @@ impl VisitMut for TreeShaker {
             };
             m.visit_with(&Invalid { span: DUMMY_SP }, &mut analyzer);
         }
+        tracing::debug!("Used = {:?}", self.data.used_names);
 
         m.visit_mut_children_with(self);
     }
@@ -103,7 +103,7 @@ impl VisitMut for TreeShaker {
                 match &v.name {
                     Pat::Ident(i) => {
                         if !self.data.used_names.contains(&i.id.to_id()) {
-                            v.init.take();
+                            v.name.take();
                         }
                     }
 
