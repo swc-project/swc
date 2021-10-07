@@ -93,10 +93,35 @@ impl TreeShaker {
             _ => true,
         });
     }
+
+    fn can_drop_binding(&self, name: Id) -> bool {
+        !self.data.used_names.contains(&name)
+    }
 }
 
 impl VisitMut for TreeShaker {
     noop_visit_mut_type!();
+
+    fn visit_mut_import_specifiers(&mut self, ss: &mut Vec<ImportSpecifier>) {
+        ss.retain(|s| {
+            let local = match s {
+                ImportSpecifier::Named(l) => &l.local,
+                ImportSpecifier::Default(l) => &l.local,
+                ImportSpecifier::Namespace(l) => &l.local,
+            };
+
+            if self.can_drop_binding(local.to_id()) {
+                debug!(
+                    "Dropping import specifier `{}` because it's not used",
+                    local
+                );
+                self.changed = true;
+                return false;
+            }
+
+            true
+        });
+    }
 
     fn visit_mut_module(&mut self, m: &mut Module) {
         {
@@ -163,7 +188,7 @@ impl VisitMut for TreeShaker {
             if !init.may_have_side_effects() {
                 match &v.name {
                     Pat::Ident(i) => {
-                        if !self.data.used_names.contains(&i.id.to_id()) {
+                        if self.can_drop_binding(i.id.to_id()) {
                             self.changed = true;
                             debug!("Dropping {} because it's not used", i.id);
                             v.name.take();
