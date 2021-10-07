@@ -3040,7 +3040,8 @@ class DateTime {
             case "seconds":
                 o.millisecond = 0;
                 break;
-            case "milliseconds": break;
+            case "milliseconds":
+                break;
         }
         if (normalizedUnit === "weeks") {
             o.weekday = 1;
