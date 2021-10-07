@@ -24,6 +24,9 @@ pub fn tree_shaker(config: Config) -> impl Fold + VisitMut + Repeated {
 pub struct Config {
     /// If this [Mark] is applied to a function expression, it's treated as a
     /// separate module.
+    ///
+    /// **Note**: This is hack to make operation parallel while allowing invalid
+    /// module produced by the `swc_bundler`.
     pub module_mark: Option<Mark>,
 }
 
