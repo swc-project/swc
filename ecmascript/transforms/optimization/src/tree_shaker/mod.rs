@@ -58,6 +58,28 @@ struct Analyzer<'a> {
 impl Visit for Analyzer<'_> {
     noop_visit_type!();
 
+    fn visit_class_decl(&mut self, n: &ClassDecl, _: &dyn Node) {
+        n.visit_children_with(self);
+
+        if !n.class.decorators.is_empty() {
+            self.data
+                .used_names
+                .entry(n.ident.to_id())
+                .or_default()
+                .usage += 1;
+        }
+    }
+
+    fn visit_class_expr(&mut self, n: &ClassExpr, _: &dyn Node) {
+        n.visit_children_with(self);
+
+        if !n.class.decorators.is_empty() {
+            if let Some(i) = &n.ident {
+                self.data.used_names.entry(i.to_id()).or_default().usage += 1;
+            }
+        }
+    }
+
     fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier, _: &dyn Node) {
         self.data
             .used_names
