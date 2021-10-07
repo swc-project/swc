@@ -7,4 +7,3 @@ mod const_modules;
 mod inline_globals;
 mod json_parse;
 pub mod simplify;
-pub mod tree_shaker;
