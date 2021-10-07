@@ -12,8 +12,7 @@ use swc_ecma_transforms_compat::{
 use swc_ecma_transforms_module::common_js::common_js;
 use swc_ecma_transforms_testing::{parse_options, test, test_fixture, Tester};
 
-fn tr(t: &mut Tester, options: Options) -> impl Fold {
-    let top_level_mark = Mark::fresh(Mark::root());
+fn tr(t: &mut Tester, options: Options, top_level_mark: Mark) -> impl Fold {
     chain!(
         jsx(
             t.cm.clone(),
@@ -75,7 +74,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_add_appropriate_newlines,
     r#"
 <Component
@@ -94,7 +93,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_arrow_functions,
     r#"
 var foo = function () {
@@ -126,7 +125,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_concatenates_adjacent_string_literals,
     r#"
 var x =
@@ -163,7 +162,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_display_name_assignment_expression,
     r#"var Component;
 Component = React.createClass({
@@ -186,7 +185,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_display_name_export_default,
     r#"
 export default React.createClass({
@@ -210,7 +209,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_display_name_if_missing,
     r#"
 var Whateva = React.createClass({
@@ -248,7 +247,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_display_name_object_declaration,
     r#"
 exports = {
@@ -274,7 +273,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_display_name_property_assignment,
     r#"
 exports.Component = React.createClass({
@@ -298,7 +297,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_display_name_variable_declaration,
     r#"
 var Component = React.createClass({
@@ -322,7 +321,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_dont_coerce_expression_containers,
     r#"
 <Text>
@@ -345,7 +344,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_honor_custom_jsx_comment_if_jsx_pragma_option_set,
     r#"/** @jsx dom */
 
@@ -369,7 +368,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_honor_custom_jsx_comment,
     r#"
 /** @jsx dom */
@@ -401,7 +400,8 @@ test!(
         Options {
             pragma: "dom".into(),
             ..Default::default()
-        }
+        },
+        Mark::fresh(Mark::root())
     ),
     react_honor_custom_jsx_pragma_option,
     r#"
@@ -425,7 +425,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_jsx_with_retainlines_option,
     r#"var div = <div>test</div>;"#,
     r#"var div = React.createElement("div", null, "test");"#
@@ -436,7 +436,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_jsx_without_retainlines_option,
     r#"var div = <div>test</div>;"#,
     r#"var div = React.createElement("div", null, "test");"#
@@ -449,7 +449,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_optimisation_react_constant_elements,
     r#"
 class App extends React.Component {
@@ -513,7 +513,10 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| chain!(tr(t, Default::default()), property_literals()),
+    |t| chain!(
+        tr(t, Default::default(), Mark::fresh(Mark::root())),
+        property_literals(),
+    ),
     react_should_add_quotes_es3,
     r#"var es3 = <F aaa new const var default foo-bar/>;"#,
     r#"
@@ -533,7 +536,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_allow_constructor_as_prop,
     r#"<Component constructor="foo" />;"#,
     r#"
@@ -548,7 +551,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_allow_deeper_js_namespacing,
     r#"<Namespace.DeepNamespace.Component />;"#,
     r#"React.createElement(Namespace.DeepNamespace.Component, null);"#
@@ -559,7 +562,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_allow_elements_as_attributes,
     r#"<div attr=<div /> />"#,
     r#"
@@ -573,7 +576,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_allow_js_namespacing,
     r#"<Namespace.Component />;"#,
     r#"React.createElement(Namespace.Component, null);"#
@@ -584,7 +587,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_allow_nested_fragments,
     r#"
 <div>
@@ -619,7 +622,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_allow_no_pragmafrag_if_frag_unused,
     r#"
 /** @jsx dom */
@@ -637,7 +640,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_allow_pragmafrag_and_frag,
     r#"
 /** @jsx dom */
@@ -658,7 +661,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_avoid_wrapping_in_extra_parens_if_not_needed,
     r#"
 var x = <div>
@@ -690,7 +693,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_convert_simple_tags,
     r#"var x = <div></div>;"#,
     r#"var x = React.createElement("div", null);"#
@@ -701,7 +704,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_convert_simple_text,
     r#"var x = <div>text</div>;"#,
     r#"var x = React.createElement("div", null, "text");"#
@@ -712,7 +715,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_escape_xhtml_jsxattribute,
     r#"
 <div id="wôw" />;
@@ -738,7 +741,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_escape_xhtml_jsxtext_1,
     r#"
 <div>wow</div>;
@@ -769,7 +772,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_escape_xhtml_jsxtext_2,
     r#"
 <div>this should not parse as unicode: \u00a0</div>;
@@ -785,7 +788,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_escape_unicode_chars_in_attribute,
     r#"<Bla title="Ú"/>"#,
     r#"React.createElement(Bla, {
@@ -800,7 +803,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_escape_xhtml_jsxtext_3,
     r#"
 <div>this should parse as nbsp:   </div>;
@@ -815,7 +818,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_handle_attributed_elements,
     r#"
 var HelloMessage = React.createClass({
@@ -851,7 +854,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_handle_has_own_property_correctly,
     r#"<hasOwnProperty>testing</hasOwnProperty>;"#,
     r#"React.createElement("hasOwnProperty", null, "testing");"#
@@ -862,7 +865,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_have_correct_comma_in_nested_children,
     r#"
 var x = <div>
@@ -886,7 +889,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_insert_commas_after_expressions_before_whitespace,
     r#"
 var x =
@@ -921,7 +924,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_not_add_quotes_to_identifier_names,
     r#"var e = <F aaa new const var default foo-bar/>;"#,
     r#"
@@ -941,7 +944,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_not_mangle_expressioncontainer_attribute_values,
     r#"<button data-value={"a value\n  with\nnewlines\n   and spaces"}>Button</button>;"#,
     r#"
@@ -956,7 +959,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_not_strip_nbsp_even_coupled_with_other_whitespace,
     r#"<div>&nbsp; </div>;"#,
     r#"React.createElement("div", null, "\xA0 ");"#,
@@ -968,7 +971,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_not_strip_tags_with_a_single_child_of_nbsp,
     r#"<div>&nbsp;</div>;"#,
     r#"React.createElement("div", null, "\xA0");"#,
@@ -981,7 +984,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_properly_handle_comments_between_props,
     r#"
 var x = (
@@ -1012,7 +1015,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_quote_jsx_attributes,
     r#"<button data-value='a value'>Button</button>;"#,
     r#"
@@ -1034,6 +1037,7 @@ test!(
             throw_if_namespace: false,
             ..Default::default()
         },
+        Mark::fresh(Mark::root())
     ),
     react_should_support_xml_namespaces_if_flag,
     r#"<f:image n:attr />;"#,
@@ -1047,7 +1051,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_transform_known_hyphenated_tags,
     r#"<font-face />;"#,
     r#"React.createElement("font-face", null);"#
@@ -1058,7 +1062,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_wraps_props_in_react_spread_for_first_spread_attributes,
     r#"
 <Component { ... x } y
@@ -1077,7 +1081,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_wraps_props_in_react_spread_for_last_spread_attributes,
     r#"<Component y={2} z { ... x } />"#,
     r#"
@@ -1093,7 +1097,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default()),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_wraps_props_in_react_spread_for_middle_spread_attributes,
     r#"<Component y={2} { ... x } z />"#,
     r#"
@@ -1115,6 +1119,7 @@ test!(
             use_builtins: true,
             ..Default::default()
         },
+        Mark::fresh(Mark::root())
     ),
     use_builtins_assignment,
     r#"var div = <Component {...props} foo="bar" />"#,
@@ -1136,6 +1141,7 @@ test!(
             use_spread: true,
             ..Default::default()
         },
+        Mark::fresh(Mark::root())
     ),
     use_spread_assignment,
     r#"<Component y={2} { ...x } z />"#,
@@ -1154,6 +1160,7 @@ test!(
             use_builtins: true,
             ..Default::default()
         },
+        Mark::fresh(Mark::root())
     ),
     issue_229,
     "const a = <>test</>
@@ -1167,16 +1174,20 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| chain!(
-        tr(
-            t,
-            Options {
-                use_builtins: true,
-                ..Default::default()
-            }
-        ),
-        common_js(Mark::fresh(Mark::root()), Default::default(), None)
-    ),
+    |t| {
+        let top_level_mark = Mark::fresh(Mark::root());
+        chain!(
+            tr(
+                t,
+                Options {
+                    use_builtins: true,
+                    ..Default::default()
+                },
+                top_level_mark
+            ),
+            common_js(top_level_mark, Default::default(), None)
+        )
+    },
     issue_351,
     "import React from 'react';
 
@@ -1196,7 +1207,8 @@ test!(
         Options {
             use_builtins: true,
             ..Default::default()
-        }
+        },
+        Mark::fresh(Mark::root())
     ),
     issue_481,
     "<span> {foo}</span>;",
@@ -1209,16 +1221,20 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| chain!(
-        tr(
-            t,
-            Options {
-                use_builtins: true,
-                ..Default::default()
-            }
-        ),
-        common_js(Mark::fresh(Mark::root()), Default::default(), None)
-    ),
+    |t| {
+        let top_level_mark = Mark::fresh(Mark::root());
+        chain!(
+            tr(
+                t,
+                Options {
+                    use_builtins: true,
+                    ..Default::default()
+                },
+                top_level_mark
+            ),
+            common_js(Mark::fresh(Mark::root()), Default::default(), None)
+        )
+    },
     issue_517,
     "import React from 'react';
 <div style='white-space: pre'>Hello World</div>;",
@@ -1247,7 +1263,8 @@ test!(
         Options {
             use_builtins: true,
             ..Default::default()
-        }
+        },
+        Mark::fresh(Mark::root())
     ),
     issue_542,
     "let page = <p>Click <em>New melody</em> listen to a randomly generated melody</p>",
