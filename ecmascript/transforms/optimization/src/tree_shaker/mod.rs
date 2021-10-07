@@ -221,10 +221,36 @@ impl VisitMut for TreeShaker {
         }
     }
 
-    fn visit_mut_var_declarators(&mut self, v: &mut Vec<VarDeclarator>) {
-        v.visit_mut_children_with(self);
+    fn visit_mut_decl(&mut self, n: &mut Decl) {
+        n.visit_mut_children_with(self);
 
-        v.retain(|v| {
+        match n {
+            Decl::Fn(f) => {
+                if self.can_drop_binding(f.ident.to_id()) {
+                    debug!("Dropping function `{}` as it's not used", f.ident);
+                    self.changed = true;
+
+                    n.take();
+                    return;
+                }
+            }
+            Decl::Class(c) => {
+                if self.can_drop_binding(c.ident.to_id()) {
+                    debug!("Dropping class `{}` as it's not used", c.ident);
+                    self.changed = true;
+
+                    n.take();
+                    return;
+                }
+            }
+            _ => {}
+        }
+    }
+
+    fn visit_mut_var_declarators(&mut self, n: &mut Vec<VarDeclarator>) {
+        n.visit_mut_children_with(self);
+
+        n.retain(|v| {
             if v.name.is_invalid() {
                 return false;
             }
