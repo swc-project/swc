@@ -146,7 +146,7 @@ where
             self.input.skip_ws()?;
 
             let is_important = match bump!(self) {
-                Token::Ident(value) => &*value.to_ascii_lowercase() == "important",
+                Token::Ident { value, .. } => &*value.to_ascii_lowercase() == "important",
                 _ => false,
             };
             if !is_important {

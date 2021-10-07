@@ -47,7 +47,8 @@
                       "end": 2,
                       "ctxt": 0
                     },
-                    "value": "a"
+                    "value": "a",
+                    "raw": "a"
                   }
                 }
               ]
@@ -78,7 +79,8 @@
                       "end": 10,
                       "ctxt": 0
                     },
-                    "value": "global"
+                    "value": "global",
+                    "raw": "global"
                   },
                   "args": {
                     "type": "Tokens",
@@ -119,7 +121,10 @@
                           "ctxt": 0
                         },
                         "token": {
-                          "Ident": "b"
+                          "Ident": {
+                            "value": "b",
+                            "raw": "b"
+                          }
                         }
                       }
                     ]
@@ -152,7 +157,8 @@
                 "end": 33,
                 "ctxt": 0
               },
-              "value": "flex-basis"
+              "value": "flex-basis",
+              "raw": "flex-basis"
             },
             "values": [
               {
@@ -178,7 +184,10 @@
                       "ctxt": 0
                     },
                     "token": {
-                      "Ident": "__styled-jsx-placeholder__0"
+                      "Ident": {
+                        "value": "__styled-jsx-placeholder__0",
+                        "raw": "__styled-jsx-placeholder__0"
+                      }
                     }
                   },
                   {

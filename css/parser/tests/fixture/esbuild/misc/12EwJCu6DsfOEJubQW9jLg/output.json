@@ -46,7 +46,8 @@
                     "end": 1,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "value": "a",
+                  "raw": "a"
                 }
               },
               "subclassSelectors": []
@@ -76,7 +77,8 @@
                 "end": 17,
                 "ctxt": 0
               },
-              "value": "border-radius"
+              "value": "border-radius",
+              "raw": "border-radius"
             },
             "values": [
               {
@@ -132,7 +134,8 @@
                 "end": 51,
                 "ctxt": 0
               },
-              "value": "border-top-right-radius"
+              "value": "border-top-right-radius",
+              "raw": "border-top-right-radius"
             },
             "values": [
               {

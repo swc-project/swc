@@ -90,7 +90,7 @@ where
             }
 
             match cur!(self) {
-                Token::AtKeyword(..) => {
+                Token::AtKeyword { .. } => {
                     let rule = self.parse_at_rule(Default::default())?;
                     rules.push(rule.into());
                     continue;
@@ -141,7 +141,7 @@ where
         }
 
         match bump!(self) {
-            Token::Ident(value) => Ok(Text { span, value }),
+            Token::Ident { value, raw } => Ok(Text { span, value, raw }),
             _ => {
                 unreachable!()
             }
@@ -166,7 +166,10 @@ where
         let span = self.input.cur_span()?;
 
         match cur!(self) {
-            Token::Ident(js_word!("url")) => {
+            Token::Ident {
+                value: js_word!("url"),
+                ..
+            } => {
                 bump!(self);
                 expect!(self, "(");
                 let value = self.parse_str()?.value;

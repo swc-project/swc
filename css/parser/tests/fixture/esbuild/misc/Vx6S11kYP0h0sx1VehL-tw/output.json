@@ -20,7 +20,8 @@
           "end": 17,
           "ctxt": 0
         },
-        "value": "abc"
+        "value": "abc",
+        "raw": "a\\62 c"
       },
       "blocks": [
         {
@@ -37,7 +38,8 @@
                 "end": 24,
                 "ctxt": 0
               },
-              "value": "from"
+              "value": "from",
+              "raw": "from"
             }
           ],
           "rule": {

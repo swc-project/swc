@@ -46,7 +46,8 @@
                     "end": 1,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "value": "a",
+                  "raw": "a"
                 }
               },
               "subclassSelectors": []
@@ -76,7 +77,8 @@
                 "end": 24,
                 "ctxt": 0
               },
-              "value": "background-image"
+              "value": "background-image",
+              "raw": "background-image"
             },
             "values": [
               {
@@ -105,7 +107,8 @@
                 "end": 131,
                 "ctxt": 0
               },
-              "value": "background-image"
+              "value": "background-image",
+              "raw": "background-image"
             },
             "values": [
               {
@@ -122,7 +125,8 @@
                     "end": 136,
                     "ctxt": 0
                   },
-                  "value": "url"
+                  "value": "url",
+                  "raw": "url"
                 },
                 "args": [
                   {
@@ -153,7 +157,8 @@
                 "end": 177,
                 "ctxt": 0
               },
-              "value": "background-image"
+              "value": "background-image",
+              "raw": "background-image"
             },
             "values": [
               {
@@ -170,7 +175,8 @@
                     "end": 182,
                     "ctxt": 0
                   },
-                  "value": "url"
+                  "value": "url",
+                  "raw": "url"
                 },
                 "args": [
                   {
@@ -201,7 +207,8 @@
                 "end": 223,
                 "ctxt": 0
               },
-              "value": "background-image"
+              "value": "background-image",
+              "raw": "background-image"
             },
             "values": [
               {
@@ -218,7 +225,8 @@
                     "end": 228,
                     "ctxt": 0
                   },
-                  "value": "URL"
+                  "value": "URL",
+                  "raw": "URL"
                 },
                 "args": [
                   {
@@ -249,7 +257,8 @@
                 "end": 269,
                 "ctxt": 0
               },
-              "value": "background-image"
+              "value": "background-image",
+              "raw": "background-image"
             },
             "values": [
               {
@@ -266,7 +275,8 @@
                     "end": 274,
                     "ctxt": 0
                   },
-                  "value": "url"
+                  "value": "url",
+                  "raw": "url"
                 },
                 "args": [
                   {
@@ -297,7 +307,8 @@
                 "end": 318,
                 "ctxt": 0
               },
-              "value": "background-image"
+              "value": "background-image",
+              "raw": "background-image"
             },
             "values": [
               {
@@ -314,7 +325,8 @@
                     "end": 323,
                     "ctxt": 0
                   },
-                  "value": "url"
+                  "value": "url",
+                  "raw": "url"
                 },
                 "args": [
                   {
@@ -345,7 +357,8 @@
                 "end": 367,
                 "ctxt": 0
               },
-              "value": "background-image"
+              "value": "background-image",
+              "raw": "background-image"
             },
             "values": [
               {
@@ -362,7 +375,8 @@
                     "end": 372,
                     "ctxt": 0
                   },
-                  "value": "url"
+                  "value": "url",
+                  "raw": "url"
                 },
                 "args": [
                   {
@@ -393,7 +407,8 @@
                 "end": 419,
                 "ctxt": 0
               },
-              "value": "background-image"
+              "value": "background-image",
+              "raw": "background-image"
             },
             "values": [
               {
@@ -410,7 +425,8 @@
                     "end": 424,
                     "ctxt": 0
                   },
-                  "value": "url"
+                  "value": "url",
+                  "raw": "url"
                 },
                 "args": [
                   {
@@ -441,7 +457,8 @@
                 "end": 481,
                 "ctxt": 0
               },
-              "value": "background-image"
+              "value": "background-image",
+              "raw": "background-image"
             },
             "values": [
               {
@@ -470,7 +487,8 @@
                 "end": 510,
                 "ctxt": 0
               },
-              "value": "background-image"
+              "value": "background-image",
+              "raw": "background-image"
             },
             "values": [
               {
@@ -499,7 +517,8 @@
                 "end": 542,
                 "ctxt": 0
               },
-              "value": "background-image"
+              "value": "background-image",
+              "raw": "background-image"
             },
             "values": [
               {
@@ -516,7 +535,8 @@
                     "end": 547,
                     "ctxt": 0
                   },
-                  "value": "url"
+                  "value": "url",
+                  "raw": "url"
                 },
                 "args": [
                   {
@@ -547,7 +567,8 @@
                 "end": 573,
                 "ctxt": 0
               },
-              "value": "background-image"
+              "value": "background-image",
+              "raw": "background-image"
             },
             "values": [
               {
@@ -564,7 +585,8 @@
                     "end": 578,
                     "ctxt": 0
                   },
-                  "value": "url"
+                  "value": "url",
+                  "raw": "url"
                 },
                 "args": [
                   {
@@ -595,7 +617,8 @@
                 "end": 610,
                 "ctxt": 0
               },
-              "value": "background-image"
+              "value": "background-image",
+              "raw": "background-image"
             },
             "values": [
               {
@@ -612,7 +635,8 @@
                     "end": 615,
                     "ctxt": 0
                   },
-                  "value": "url"
+                  "value": "url",
+                  "raw": "url"
                 },
                 "args": [
                   {
@@ -643,7 +667,8 @@
                 "end": 641,
                 "ctxt": 0
               },
-              "value": "background-image"
+              "value": "background-image",
+              "raw": "background-image"
             },
             "values": [
               {
@@ -660,7 +685,8 @@
                     "end": 646,
                     "ctxt": 0
                   },
-                  "value": "url"
+                  "value": "url",
+                  "raw": "url"
                 },
                 "args": [
                   {
@@ -691,7 +717,8 @@
                 "end": 678,
                 "ctxt": 0
               },
-              "value": "background-image"
+              "value": "background-image",
+              "raw": "background-image"
             },
             "values": [
               {
@@ -708,7 +735,8 @@
                     "end": 683,
                     "ctxt": 0
                   },
-                  "value": "url"
+                  "value": "url",
+                  "raw": "url"
                 },
                 "args": [
                   {
@@ -739,7 +767,8 @@
                 "end": 716,
                 "ctxt": 0
               },
-              "value": "background-image"
+              "value": "background-image",
+              "raw": "background-image"
             },
             "values": [
               {
@@ -768,7 +797,8 @@
                 "end": 756,
                 "ctxt": 0
               },
-              "value": "background-image"
+              "value": "background-image",
+              "raw": "background-image"
             },
             "values": [
               {

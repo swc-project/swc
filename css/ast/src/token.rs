@@ -18,7 +18,10 @@ pub struct TokenAndSpan {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub enum Token {
     /// `@`
-    AtKeyword(JsWord),
+    AtKeyword {
+        value: JsWord,
+        raw: JsWord,
+    },
 
     /// `(`
     LParen,
@@ -37,7 +40,10 @@ pub enum Token {
 
     Num(NumToken),
 
-    Ident(JsWord),
+    Ident {
+        value: JsWord,
+        raw: JsWord,
+    },
 
     Str {
         value: JsWord,
@@ -76,6 +82,7 @@ pub enum Token {
     Hash {
         is_id: bool,
         value: JsWord,
+        raw: JsWord,
     },
 
     /// One or more whitespace.

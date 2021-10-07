@@ -27,7 +27,8 @@
             "end": 13,
             "ctxt": 0
           },
-          "value": "screen"
+          "value": "screen",
+          "raw": "screen"
         },
         "right": {
           "type": "Text",
@@ -36,7 +37,8 @@
             "end": 24,
             "ctxt": 0
           },
-          "value": "color"
+          "value": "color",
+          "raw": "color"
         }
       },
       "rules": []
@@ -69,7 +71,8 @@
               "end": 47,
               "ctxt": 0
             },
-            "value": "screen"
+            "value": "screen",
+            "raw": "screen"
           },
           "right": {
             "type": "Text",
@@ -78,7 +81,8 @@
               "end": 58,
               "ctxt": 0
             },
-            "value": "color"
+            "value": "color",
+            "raw": "color"
           }
         }
       },
@@ -112,7 +116,8 @@
               "end": 81,
               "ctxt": 0
             },
-            "value": "screen"
+            "value": "screen",
+            "raw": "screen"
           },
           "right": {
             "type": "Property",
@@ -128,7 +133,8 @@
                 "end": 96,
                 "ctxt": 0
               },
-              "value": "min-width"
+              "value": "min-width",
+              "raw": "min-width"
             },
             "values": [
               {
@@ -184,7 +190,8 @@
             "end": 121,
             "ctxt": 0
           },
-          "value": "screen"
+          "value": "screen",
+          "raw": "screen"
         },
         "right": {
           "type": "Property",
@@ -200,7 +207,8 @@
               "end": 136,
               "ctxt": 0
             },
-            "value": "min-width"
+            "value": "min-width",
+            "raw": "min-width"
           },
           "values": [
             {
@@ -255,7 +263,8 @@
             "end": 185,
             "ctxt": 0
           },
-          "value": "screen"
+          "value": "screen",
+          "raw": "screen"
         },
         "right": {
           "type": "AndMediaQuery",
@@ -278,7 +287,8 @@
                 "end": 200,
                 "ctxt": 0
               },
-              "value": "min-width"
+              "value": "min-width",
+              "raw": "min-width"
             },
             "values": [
               {
@@ -330,7 +340,8 @@
                   "end": 223,
                   "ctxt": 0
                 },
-                "value": "min-width"
+                "value": "min-width",
+                "raw": "min-width"
               },
               "values": [
                 {
@@ -375,7 +386,8 @@
                   "end": 246,
                   "ctxt": 0
                 },
-                "value": "min-width"
+                "value": "min-width",
+                "raw": "min-width"
               },
               "values": [
                 {
@@ -432,7 +444,8 @@
             "end": 271,
             "ctxt": 0
           },
-          "value": "screen"
+          "value": "screen",
+          "raw": "screen"
         },
         "right": {
           "type": "AndMediaQuery",
@@ -455,7 +468,8 @@
                 "end": 286,
                 "ctxt": 0
               },
-              "value": "min-width"
+              "value": "min-width",
+              "raw": "min-width"
             },
             "values": [
               {
@@ -507,7 +521,8 @@
                   "end": 309,
                   "ctxt": 0
                 },
-                "value": "min-width"
+                "value": "min-width",
+                "raw": "min-width"
               },
               "values": [
                 {
@@ -559,7 +574,8 @@
                     "end": 332,
                     "ctxt": 0
                   },
-                  "value": "min-width"
+                  "value": "min-width",
+                  "raw": "min-width"
                 },
                 "values": [
                   {
@@ -604,7 +620,8 @@
                     "end": 355,
                     "ctxt": 0
                   },
-                  "value": "min-width"
+                  "value": "min-width",
+                  "raw": "min-width"
                 },
                 "values": [
                   {
