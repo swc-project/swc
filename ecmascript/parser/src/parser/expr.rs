@@ -451,7 +451,7 @@ impl<'a, I: Tokens> Parser<I> {
                     .parse_expr_or_spread()
                     .map(Some)?,
             );
-            if is!(self, ',') {
+            if !is!(self, ']') {
                 expect!(self, ',');
             }
         }
