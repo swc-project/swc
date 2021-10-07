@@ -168,13 +168,17 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
 
         // compat
         let compat_pass = if let Some(env) = self.env {
-            Either::Left(swc_ecma_preset_env::preset_env(
-                self.global_mark,
-                comments.clone(),
-                env,
+            Either::Left(chain!(
+                import_assertions(),
+                Optional::new(typescript::strip(), syntax.typescript()),
+                custom_before_pass,
+                swc_ecma_preset_env::preset_env(self.global_mark, comments.clone(), env)
             ))
         } else {
             Either::Right(chain!(
+                import_assertions(),
+                Optional::new(typescript::strip(), syntax.typescript()),
+                custom_before_pass,
                 Optional::new(
                     compat::es2021::es2021(),
                     should_enable(self.target, JscTarget::Es2021)
@@ -224,9 +228,6 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
 
         let module_scope = Rc::new(RefCell::new(Scope::default()));
         chain!(
-            import_assertions(),
-            Optional::new(typescript::strip(), syntax.typescript()),
-            custom_before_pass,
             self.pass,
             Optional::new(private_in_object(), syntax.private_in_object()),
             compat_pass,
