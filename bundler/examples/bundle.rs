@@ -68,18 +68,6 @@ fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
 
         let error = false;
 
-        #[cfg(feature = "rayon")]
-        rayon::scope(|s| {
-            s.spawn(move |_| {
-                print_bundles(cm.clone(), modules);
-            });
-
-            s.spawn(move |_| {
-                drop(bundler);
-            });
-        });
-
-        #[cfg(not(feature = "rayon"))]
         print_bundles(cm.clone(), modules);
 
         if error {
