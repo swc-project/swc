@@ -6,12 +6,13 @@ use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
     VisitWith,
 };
-use tracing::{debug, trace};
+use tracing::{debug, span, trace, Level};
 
 pub fn tree_shaker(config: Config) -> impl Fold + VisitMut + Repeated {
     as_folder(TreeShaker {
         config,
         changed: false,
+        pass: 0,
         data: Default::default(),
     })
 }
@@ -26,6 +27,7 @@ pub struct Config {
 struct TreeShaker {
     config: Config,
     changed: bool,
+    pass: u16,
     data: Data,
 }
 
@@ -75,6 +77,7 @@ impl Repeated for TreeShaker {
     }
 
     fn reset(&mut self) {
+        self.pass += 1;
         self.changed = false;
         self.data = Default::default();
     }
@@ -129,7 +132,7 @@ impl VisitMut for TreeShaker {
     }
 
     /// Noop.
-    fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {}
+    fn visit_mut_export_decl(&mut self, _: &mut ExportDecl) {}
 
     /// Noop.
     fn visit_mut_export_default_decl(&mut self, _: &mut ExportDefaultDecl) {}
@@ -156,6 +159,8 @@ impl VisitMut for TreeShaker {
     }
 
     fn visit_mut_module(&mut self, m: &mut Module) {
+        let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
+
         {
             let mut analyzer = Analyzer {
                 config: &self.config,
