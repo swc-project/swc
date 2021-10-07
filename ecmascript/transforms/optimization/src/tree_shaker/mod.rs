@@ -1,7 +1,7 @@
 use rustc_hash::FxHashSet;
 use swc_common::{pass::Repeated, util::take::Take, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, ExprExt, Id, ModuleItemLike, StmtLike};
+use swc_ecma_utils::{ident::IdentLike, ExprExt, Id, IsEmpty, ModuleItemLike, StmtLike};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
     VisitWith,
@@ -119,6 +119,18 @@ impl VisitMut for TreeShaker {
         s.visit_mut_children_with(self);
 
         match s {
+            Stmt::If(if_stmt) => {
+                if if_stmt.alt.is_empty() && if_stmt.cons.is_empty() {
+                    if !if_stmt.test.may_have_side_effects() {
+                        *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                        return;
+                    }
+                }
+            }
+            _ => {}
+        }
+
+        match s {
             Stmt::Decl(Decl::Var(v)) => {
                 if v.decls.is_empty() {
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
@@ -141,6 +153,7 @@ impl VisitMut for TreeShaker {
             if !init.may_have_side_effects() {
                 match &v.name {
                     Pat::Ident(i) => {
+                        self.changed = true;
                         if !self.data.used_names.contains(&i.id.to_id()) {
                             trace!("Dropping {} because it's not used", i.id);
                             v.name.take();
