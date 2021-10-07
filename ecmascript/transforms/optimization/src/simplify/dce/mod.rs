@@ -181,6 +181,10 @@ impl TreeShaker {
 
         stmts.retain(|s| match s.as_stmt() {
             Some(Stmt::Empty(..)) => false,
+            Some(Stmt::Block(s)) if s.is_empty() => {
+                debug!("Dropping an empty block statement");
+                false
+            }
             _ => true,
         });
     }
@@ -407,14 +411,6 @@ impl VisitMut for TreeShaker {
                     debug!("Dropping an expression without side effect");
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                     self.changed = true;
-                    return;
-                }
-            }
-
-            Stmt::Block(bs) => {
-                if bs.is_empty() {
-                    debug!("Dropping an empty block statement");
-                    *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                     return;
                 }
             }
