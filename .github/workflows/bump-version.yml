@@ -41,4 +41,13 @@ jobs:
           else
               cargo mono bump ${{ github.event.inputs.crate }}"
           fi
+
+      - name: Update lockfile
+        run: |
           cargo metadata
+
+      - name: Push back
+        run: |
+          git add -A
+          git commit -m 'Bump version'
+          git push
