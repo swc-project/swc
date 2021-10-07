@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 use swc_common::pass::Repeat;
 use swc_ecma_parser::{EsConfig, Syntax};
-use swc_ecma_transforms_optimization::{simplify::expr_simplifier, tree_shaker::tree_shaker};
+use swc_ecma_transforms_optimization::simplify::{dce::dce, expr_simplifier};
 use swc_ecma_transforms_testing::test_fixture;
 
 #[testing::fixture("tests/dce/**/input.js")]
@@ -14,7 +14,7 @@ fn dce_single_pass(input: PathBuf) {
             dynamic_import: true,
             ..Default::default()
         }),
-        &|_| tree_shaker(Default::default()),
+        &|_| dce(Default::default()),
         &input,
         &output,
     );
@@ -30,7 +30,7 @@ fn dce_repeated(input: PathBuf) {
             dynamic_import: true,
             ..Default::default()
         }),
-        &|_| Repeat::new(tree_shaker(Default::default())),
+        &|_| Repeat::new(dce(Default::default())),
         &input,
         &output,
     );
