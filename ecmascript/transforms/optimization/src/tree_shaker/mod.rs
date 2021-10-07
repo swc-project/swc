@@ -122,6 +122,8 @@ impl VisitMut for TreeShaker {
             Stmt::If(if_stmt) => {
                 if if_stmt.alt.is_empty() && if_stmt.cons.is_empty() {
                     if !if_stmt.test.may_have_side_effects() {
+                        trace!("Dropping an if statement");
+                        self.changed = true;
                         *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                         return;
                     }
