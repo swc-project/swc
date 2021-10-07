@@ -11,7 +11,7 @@ use swc_ecma_transforms_compat::{
     es3::property_literals,
 };
 use swc_ecma_transforms_module::common_js::common_js;
-use swc_ecma_transforms_testing::{parse_options, test, test_fixture, Tester};
+use swc_ecma_transforms_testing::{parse_options, test, test_fixture_allowing_error, Tester};
 
 fn tr(t: &mut Tester, options: Options, top_level_mark: Mark) -> impl Fold {
     chain!(
@@ -1357,7 +1357,7 @@ fn fixture(input: PathBuf) {
         output = input.with_file_name("output.mjs");
     }
 
-    test_fixture(
+    test_fixture_allowing_error(
         Syntax::Es(EsConfig {
             jsx: true,
             ..Default::default()

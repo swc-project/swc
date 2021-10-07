@@ -610,6 +610,31 @@ pub fn test_fixture<P>(syntax: Syntax, tr: &dyn Fn(&mut Tester) -> P, input: &Pa
 where
     P: Fold,
 {
+    test_fixture_inner(syntax, tr, input, output, false)
+}
+
+pub fn test_fixture_allowing_error<P>(
+    syntax: Syntax,
+    tr: &dyn Fn(&mut Tester) -> P,
+    input: &Path,
+    output: &Path,
+) where
+    P: Fold,
+{
+    test_fixture_inner(syntax, tr, input, output, true)
+}
+
+fn test_fixture_inner<P>(
+    syntax: Syntax,
+    tr: &dyn Fn(&mut Tester) -> P,
+    input: &Path,
+    output: &Path,
+    allow_error: bool,
+) where
+    P: Fold,
+{
+    let _logger = testing::init();
+
     let expected = read_to_string(output);
     let _is_really_expected = expected.is_ok();
     let expected = expected.unwrap_or_default();
@@ -675,9 +700,14 @@ where
 
     let mut results = vec![];
 
-    if !stderr.is_empty() {
-        results
-            .push(NormalizedOutput::from(stderr).compare_to_file(output.with_extension("stderr")));
+    if allow_error {
+        NormalizedOutput::from(stderr)
+            .compare_to_file(output.with_extension("stderr"))
+            .unwrap();
+    } else {
+        if !stderr.is_empty() {
+            panic!("stderr: {}", stderr);
+        }
     }
 
     match actual_src {
