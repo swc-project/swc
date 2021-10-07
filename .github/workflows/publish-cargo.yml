@@ -10,7 +10,18 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: cargo-publish-crates
+
       - name: Install cargo-mono
+        continue-on-error: true
         run: |
           cargo install cargo-mono
 
