@@ -1,10 +1,10 @@
 on: workflow_dispatch
 
-name: Publish crates
+name: Managment
 
 jobs:
-  publish-all:
-    name: Publish
+  publish-crates:
+    name: Publish crates
     runs-on: ubuntu-latest
 
     steps:
