@@ -21,7 +21,45 @@ impl From<Ident> for BindingIdent {
     }
 }
 
-/// Ident with span.
+/// A complete identifier with span.
+///
+/// Identifier of swc consists of two parts. The first one is symbol, which is
+/// stored using an interned string, [JsWord] . The second
+/// one is [SyntaxContext][swc_common::SyntaxContext], which can be
+/// used to distinguish identifier with same symbol.
+///
+/// Let me explain this with an example.
+///
+/// ```ts
+/// let a = 5
+/// {
+///     let a = 3;
+/// }
+/// ```
+/// In the code above, there are two variables with the symbol a.
+///
+///
+/// Other compilers typically uses type like `Scope`, and store them nested, but
+/// in rust, type like `Scope`  requires [Arc<Mutex<Scope>>] so swc uses
+/// different approach. Instead of passing scopes, swc annotates two variables
+/// with different tag, which is named
+/// [SyntaxContext][swc_common::SyntaxContext]. The notation for the syntax
+/// context is #n where n is a number. e.g. `foo#1`
+///
+/// For the example above, after applying resolver pass, it becomes.
+///
+/// ```ts
+/// let a#1 = 5
+/// {
+///     let a#2 = 3;
+/// }
+/// ```
+///
+/// Thanks to the `tag` we attached, we can now distinguish them.
+///
+/// ([JsWord], [SyntaxContext][swc_common::SyntaxContext])
+///
+/// This can be used to store all variables in a module to single hash map.
 #[ast_node("Identifier")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Ident {

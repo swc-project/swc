@@ -44,6 +44,11 @@
 //!
 //! See [swc_ecma_transforms_base::resolver::resolver_with_mark].
 //!
+//! #### How identifiers work
+//!
+//! See the doc on [swc_ecma_ast::Ident] or on
+//! [swc_ecma_transforms_base::resolver::resolver_with_mark].
+//!
 //! #### Comparing two identifiers
 //!
 //! See [swc_ecma_utils::Id]. You can use [swc_ecma_utils::IdentLike::to_id] to
