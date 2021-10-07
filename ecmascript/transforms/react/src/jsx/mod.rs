@@ -121,11 +121,11 @@ fn parse_classic_option(
     src: String,
     top_level_mark: Mark,
 ) -> Box<Expr> {
-    static CACHE: Lazy<DashMap<(Lrc<String>, Mark), Box<Expr>>> =
+    static CACHE: Lazy<DashMap<(String, Mark), Box<Expr>>> =
         Lazy::new(|| DashMap::with_capacity(2));
 
     let fm = cm.new_source_file(FileName::Custom(format!("<jsx-config-{}.js>", name)), src);
-    if let Some(expr) = CACHE.get(&(fm.src.clone(), top_level_mark)) {
+    if let Some(expr) = CACHE.get(&((*fm.src).clone(), top_level_mark)) {
         return expr.clone();
     }
 
@@ -145,7 +145,7 @@ fn parse_classic_option(
         });
 
     apply_mark(&mut expr, top_level_mark);
-    CACHE.insert((fm.src.clone(), top_level_mark), expr.clone());
+    CACHE.insert(((*fm.src).clone(), top_level_mark), expr.clone());
 
     expr
 }
