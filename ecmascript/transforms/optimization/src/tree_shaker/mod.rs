@@ -106,7 +106,7 @@ impl VisitMut for TreeShaker {
             };
             m.visit_with(&Invalid { span: DUMMY_SP }, &mut analyzer);
         }
-        debug!("Used = {:?}", self.data.used_names);
+        trace!("Used = {:?}", self.data.used_names);
 
         m.visit_mut_children_with(self);
     }
@@ -122,7 +122,7 @@ impl VisitMut for TreeShaker {
             Stmt::If(if_stmt) => {
                 if if_stmt.alt.is_empty() && if_stmt.cons.is_empty() {
                     if !if_stmt.test.may_have_side_effects() {
-                        trace!("Dropping an if statement");
+                        debug!("Dropping an if statement");
                         self.changed = true;
                         *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                         return;
@@ -155,9 +155,9 @@ impl VisitMut for TreeShaker {
             if !init.may_have_side_effects() {
                 match &v.name {
                     Pat::Ident(i) => {
-                        self.changed = true;
                         if !self.data.used_names.contains(&i.id.to_id()) {
-                            trace!("Dropping {} because it's not used", i.id);
+                            self.changed = true;
+                            debug!("Dropping {} because it's not used", i.id);
                             v.name.take();
                         }
                     }
