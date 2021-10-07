@@ -12,7 +12,7 @@ use swc_common::{
     comments::SingleThreadedComments,
     errors::{ColorConfig, Handler},
     sync::Lrc,
-    FileName, SourceMap,
+    FileName, Mark, SourceMap,
 };
 use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::{react, typescript::strip};
@@ -83,6 +83,8 @@ impl Load for Loader {
     fn load(&self, f: &FileName) -> Result<ModuleData, Error> {
         eprintln!("load: {}", f);
 
+        let top_level_mark = Mark::fresh(Mark::root());
+
         let tsx;
         let fm = match f {
             FileName::Real(path) => {
@@ -129,6 +131,7 @@ impl Load for Loader {
                 self.cm.clone(),
                 None,
                 Default::default(),
+                top_level_mark,
             ));
 
         Ok(ModuleData {

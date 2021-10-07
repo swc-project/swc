@@ -1,5 +1,5 @@
 use super::*;
-use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, SourceMap};
+use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, Mark, SourceMap};
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{Parser, StringInput};
 use swc_ecma_transforms_base::resolver;
@@ -63,6 +63,8 @@ fn emit(
 
 fn run_test(input: &str, expected: &str) {
     Tester::run(|tester| {
+        let top_level_mark = Mark::fresh(Mark::root());
+
         let (actual, actual_sm, actual_comments) = parse(tester, input)?;
         let actual = actual
             .fold_with(&mut resolver::resolver())
@@ -70,6 +72,7 @@ fn run_test(input: &str, expected: &str) {
                 actual_sm.clone(),
                 Some(&actual_comments),
                 Default::default(),
+                top_level_mark,
             ));
 
         let actual_src = emit(actual_sm, actual_comments, &actual);

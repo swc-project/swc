@@ -14,12 +14,12 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
     util::take::Take,
-    FileName, Mark, Span, SyntaxContext, DUMMY_SP,
+    FileName, Mark, Span, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     ident::IdentLike, member_expr, private_ident, quote_ident, quote_str, undefined,
-    DestructuringFinder, ExprFactory,
+    DestructuringFinder, ExprFactory, Id,
 };
 use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 
@@ -115,10 +115,10 @@ pub struct Scope {
     ///
     ///  - `import foo from 'bar';`
     ///   -> `{foo: ('bar', default)}`
-    pub(crate) idents: FxHashMap<(JsWord, SyntaxContext), (JsWord, JsWord)>,
+    pub(crate) idents: FxHashMap<Id, (JsWord, JsWord)>,
 
     /// Declared variables except const.
-    pub(crate) declared_vars: Vec<(JsWord, SyntaxContext)>,
+    pub(crate) declared_vars: Vec<Id>,
 
     /// Maps of exported variables.
     ///
@@ -129,7 +129,7 @@ pub struct Scope {
     ///
     ///  - `export { a as b }`
     ///   -> `{ a: [b] }`
-    pub(crate) exported_vars: AHashMap<(JsWord, SyntaxContext), Vec<(JsWord, SyntaxContext)>>,
+    pub(crate) exported_vars: AHashMap<Id, Vec<Id>>,
 
     /// This is required to handle
     /// `export * from 'foo';`
