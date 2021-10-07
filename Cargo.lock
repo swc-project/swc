@@ -2857,6 +2857,7 @@ dependencies = [
  "dashmap",
  "indexmap",
  "once_cell",
+ "rayon",
  "retain_mut",
  "rustc-hash",
  "serde_json",
@@ -2974,6 +2975,7 @@ name = "swc_ecma_utils"
 version = "0.46.2"
 dependencies = [
  "once_cell",
+ "rayon",
  "scoped-tls",
  "swc_atoms 0.2.7",
  "swc_common",
