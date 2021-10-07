@@ -102,6 +102,38 @@ impl TreeShaker {
 impl VisitMut for TreeShaker {
     noop_visit_mut_type!();
 
+    fn visit_mut_decl(&mut self, n: &mut Decl) {
+        n.visit_mut_children_with(self);
+
+        match n {
+            Decl::Fn(f) => {
+                if self.can_drop_binding(f.ident.to_id()) {
+                    debug!("Dropping function `{}` as it's not used", f.ident);
+                    self.changed = true;
+
+                    n.take();
+                    return;
+                }
+            }
+            Decl::Class(c) => {
+                if self.can_drop_binding(c.ident.to_id()) {
+                    debug!("Dropping class `{}` as it's not used", c.ident);
+                    self.changed = true;
+
+                    n.take();
+                    return;
+                }
+            }
+            _ => {}
+        }
+    }
+
+    /// Noop.
+    fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {}
+
+    /// Noop.
+    fn visit_mut_export_default_decl(&mut self, _: &mut ExportDefaultDecl) {}
+
     fn visit_mut_import_specifiers(&mut self, ss: &mut Vec<ImportSpecifier>) {
         ss.retain(|s| {
             let local = match s {
@@ -220,33 +252,6 @@ impl VisitMut for TreeShaker {
             }
         }
     }
-
-    fn visit_mut_decl(&mut self, n: &mut Decl) {
-        n.visit_mut_children_with(self);
-
-        match n {
-            Decl::Fn(f) => {
-                if self.can_drop_binding(f.ident.to_id()) {
-                    debug!("Dropping function `{}` as it's not used", f.ident);
-                    self.changed = true;
-
-                    n.take();
-                    return;
-                }
-            }
-            Decl::Class(c) => {
-                if self.can_drop_binding(c.ident.to_id()) {
-                    debug!("Dropping class `{}` as it's not used", c.ident);
-                    self.changed = true;
-
-                    n.take();
-                    return;
-                }
-            }
-            _ => {}
-        }
-    }
-
     fn visit_mut_var_declarators(&mut self, n: &mut Vec<VarDeclarator>) {
         n.visit_mut_children_with(self);
 
