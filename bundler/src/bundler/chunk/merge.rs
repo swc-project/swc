@@ -15,8 +15,6 @@ use crate::{
 use anyhow::Error;
 use indexmap::IndexSet;
 use petgraph::EdgeDirection;
-#[cfg(feature = "concurrent")]
-use rayon::iter::ParallelIterator;
 use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
 use std::{hash::BuildHasherDefault, sync::atomic::Ordering};
 use swc_atoms::js_word;
