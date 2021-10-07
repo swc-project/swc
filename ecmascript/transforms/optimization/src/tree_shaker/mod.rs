@@ -133,6 +133,14 @@ impl VisitMut for TreeShaker {
         }
 
         match s {
+            Stmt::Block(bs) => {
+                if bs.is_empty() {
+                    debug!("Dropping an empty block statement");
+                    *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                    return;
+                }
+            }
+
             Stmt::Decl(Decl::Var(v)) => {
                 if v.decls.is_empty() {
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
