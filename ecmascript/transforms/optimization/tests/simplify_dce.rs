@@ -8,6 +8,11 @@ use swc_ecma_transforms_optimization::{
 use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_testing::{test, test_transform};
 use swc_ecma_transforms_typescript::strip;
+use swc_ecma_visit::Fold;
+
+fn tr() -> impl Fold {
+    Repeat::new(tree_shaker(Default::default()))
+}
 
 macro_rules! to {
     ($name:ident, $src:expr, $expected:expr) => {
@@ -16,7 +21,7 @@ macro_rules! to {
                 decorators: true,
                 ..Default::default()
             }),
-            |_| chain!(resolver(), Repeat::new(tree_shaker(Default::default()))),
+            |_| chain!(resolver(), tr()),
             $name,
             $src,
             $expected
@@ -487,7 +492,7 @@ test!(
             legacy: true,
             emit_metadata: false
         }),
-        dce(Default::default())
+        tr()
     ),
     issue_898_2,
     "export default class X {
@@ -534,7 +539,7 @@ test!(
             legacy: true,
             emit_metadata: false
         }),
-        dce(Default::default())
+        tr()
     ),
     issue_1111,
     "
@@ -554,7 +559,7 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(resolver(), dce(Default::default())),
+    |_| chain!(resolver(), tr()),
     issue_1150_1,
     "
 class A {
@@ -601,7 +606,7 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(strip(), resolver(), dce(Default::default())),
+    |_| chain!(strip(), resolver(), tr()),
     issue_1156_1,
     "
     export interface D {
@@ -636,7 +641,7 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(strip(), resolver(), dce(Default::default()),),
+    |_| chain!(strip(), resolver(), tr(),),
     issue_1156_2,
     "
     interface D {
@@ -697,7 +702,7 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(strip(), resolver(), dce(Default::default()),),
+    |_| chain!(strip(), resolver(), tr(),),
     issue_1156_3,
     "
     function d() {
@@ -730,7 +735,7 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(strip(), resolver(), dce(Default::default()),),
+    |_| chain!(strip(), resolver(), tr(),),
     issue_1156_4,
     "
     interface D {
