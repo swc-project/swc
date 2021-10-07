@@ -1,4 +1,4 @@
-use rustc_hash::FxHashSet;
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_common::{pass::Repeated, util::take::Take, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, ExprExt, Id, IsEmpty, ModuleItemLike, StmtLike};
@@ -33,7 +33,12 @@ struct TreeShaker {
 
 #[derive(Default)]
 struct Data {
-    used_names: FxHashSet<Id>,
+    used_names: FxHashMap<Id, VarInfo>,
+}
+#[derive(Debug, Default)]
+struct VarInfo {
+    pub usage: usize,
+    pub assign: usize,
 }
 
 struct Analyzer<'a> {
@@ -45,7 +50,11 @@ impl Visit for Analyzer<'_> {
     noop_visit_type!();
 
     fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier, _: &dyn Node) {
-        self.data.used_names.insert(n.orig.to_id());
+        self.data
+            .used_names
+            .entry(n.orig.to_id())
+            .or_default()
+            .usage += 1;
     }
 
     fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
@@ -53,7 +62,7 @@ impl Visit for Analyzer<'_> {
 
         match e {
             Expr::Ident(i) => {
-                self.data.used_names.insert(i.to_id());
+                self.data.used_names.entry(i.to_id()).or_default().usage += 1;
             }
             _ => {}
         }
@@ -64,7 +73,7 @@ impl Visit for Analyzer<'_> {
 
         match p {
             Pat::Ident(i) => {
-                self.data.used_names.insert(i.id.to_id());
+                self.data.used_names.entry(i.id.to_id()).or_default().assign += 1;
             }
             _ => {}
         }
@@ -75,7 +84,7 @@ impl Visit for Analyzer<'_> {
 
         match p {
             Prop::Shorthand(i) => {
-                self.data.used_names.insert(i.to_id());
+                self.data.used_names.entry(i.to_id()).or_default().usage += 1;
             }
             _ => {}
         }
@@ -113,7 +122,7 @@ impl TreeShaker {
     }
 
     fn can_drop_binding(&self, name: Id) -> bool {
-        !self.data.used_names.contains(&name)
+        !self.data.used_names.contains_key(&name)
     }
 }
 
