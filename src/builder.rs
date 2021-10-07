@@ -14,14 +14,8 @@ use swc_ecma_ast::{EsVersion, Module};
 use swc_ecma_minifier::option::MinifyOptions;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
-    compat, fixer, helpers, hygiene,
-    hygiene::hygiene_with_config,
-    modules,
-    modules::util::Scope,
-    optimization::const_modules,
-    pass::Optional,
-    proposals::{import_assertions, private_in_object},
-    typescript,
+    compat, fixer, helpers, hygiene, hygiene::hygiene_with_config, modules, modules::util::Scope,
+    optimization::const_modules, pass::Optional, proposals::private_in_object,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut};
 
@@ -154,7 +148,6 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         syntax: Syntax,
         module: Option<ModuleConfig>,
         comments: Option<&'cmt SwcComments>,
-        custom_before_pass: impl 'cmt + swc_ecma_visit::Fold,
     ) -> impl 'cmt + swc_ecma_visit::Fold
     where
         P: 'cmt,
@@ -224,9 +217,6 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
 
         let module_scope = Rc::new(RefCell::new(Scope::default()));
         chain!(
-            import_assertions(),
-            Optional::new(typescript::strip(), syntax.typescript()),
-            custom_before_pass,
             self.pass,
             Optional::new(private_in_object(), syntax.private_in_object()),
             compat_pass,

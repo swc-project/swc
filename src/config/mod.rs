@@ -31,14 +31,7 @@ use swc_ecma_minifier::option::{
 };
 pub use swc_ecma_parser::JscTarget;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
-use swc_ecma_transforms::{
-    hygiene, modules,
-    modules::{hoist::import_hoister, path::NodeImportResolver, util::Scope},
-    optimization::{const_modules, inline_globals, json_parse, simplifier},
-    pass::{noop, Optional},
-    proposals::{decorators, export_default_from},
-    react, resolver_with_mark,
-};
+use swc_ecma_transforms::{hygiene, modules, modules::{hoist::import_hoister, path::NodeImportResolver, util::Scope}, optimization::{const_modules, inline_globals, json_parse, simplifier}, pass::{noop, Optional}, proposals::{decorators, export_default_from, import_assertions}, react, resolver_with_mark, typescript};
 use swc_ecma_visit::Fold;
 
 #[cfg(test)]
@@ -280,7 +273,6 @@ impl Options {
                 syntax,
                 config.module,
                 comments,
-                custom_before_pass,
             );
 
         let pass = chain!(
@@ -292,6 +284,9 @@ impl Options {
                 }),
                 syntax.decorators()
             ),
+            import_assertions(),
+            Optional::new(typescript::strip(), syntax.typescript()),
+            custom_before_pass,
             pass,
             Optional::new(jest::jest(), transform.hidden.jest)
         );
