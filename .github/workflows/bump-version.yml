@@ -1,3 +1,5 @@
+name: Managment
+
 on:
   workflow_dispatch:
     inputs:
@@ -8,8 +10,6 @@ on:
         description: "`1` if this is a breaking change"
         required: true
         default: "0"
-
-name: Managment
 
 jobs:
   bump:
