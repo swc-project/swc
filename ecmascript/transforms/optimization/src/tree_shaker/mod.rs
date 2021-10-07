@@ -66,6 +66,17 @@ impl Visit for Analyzer<'_> {
         }
     }
 
+    fn visit_prop(&mut self, p: &Prop, _: &dyn Node) {
+        p.visit_children_with(self);
+
+        match p {
+            Prop::Shorthand(i) => {
+                self.data.used_names.insert(i.to_id());
+            }
+            _ => {}
+        }
+    }
+
     fn visit_var_declarator(&mut self, v: &VarDeclarator, _: &dyn Node) {
         v.init.visit_with(v, self);
     }
