@@ -182,6 +182,22 @@ impl TreeShaker {
 impl VisitMut for TreeShaker {
     noop_visit_mut_type!();
 
+    fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
+        n.visit_mut_children_with(self);
+
+        if !n.right.may_have_side_effects() {
+            if let Some(id) = n.left.as_ident() {
+                if self.can_drop_assignment_to(id.to_id()) {
+                    self.changed = true;
+                    debug!("Dropping an assignment to `{}` because it's not used", id);
+
+                    n.left.take();
+                    return;
+                }
+            }
+        }
+    }
+
     fn visit_mut_decl(&mut self, n: &mut Decl) {
         n.visit_mut_children_with(self);
 
@@ -213,6 +229,23 @@ impl VisitMut for TreeShaker {
 
     /// Noop.
     fn visit_mut_export_default_decl(&mut self, _: &mut ExportDefaultDecl) {}
+
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
+        n.visit_mut_children_with(self);
+
+        match n {
+            Expr::Assign(a) => {
+                if match &a.left {
+                    PatOrExpr::Expr(l) => l.is_invalid(),
+                    PatOrExpr::Pat(l) => l.is_invalid(),
+                } {
+                    *n = *a.right.take();
+                    return;
+                }
+            }
+            _ => {}
+        }
+    }
 
     fn visit_mut_import_specifiers(&mut self, ss: &mut Vec<ImportSpecifier>) {
         ss.retain(|s| {
@@ -326,6 +359,24 @@ impl VisitMut for TreeShaker {
         self.visit_mut_stmt_likes(s);
     }
 
+    fn visit_mut_var_decl_or_expr(&mut self, n: &mut VarDeclOrExpr) {
+        match n {
+            VarDeclOrExpr::VarDecl(..) => {}
+            VarDeclOrExpr::Expr(v) => {
+                v.visit_mut_with(self);
+            }
+        }
+    }
+
+    fn visit_mut_var_decl_or_pat(&mut self, n: &mut VarDeclOrPat) {
+        match n {
+            VarDeclOrPat::VarDecl(..) => {}
+            VarDeclOrPat::Pat(v) => {
+                v.visit_mut_with(self);
+            }
+        }
+    }
+
     fn visit_mut_var_declarator(&mut self, v: &mut VarDeclarator) {
         v.visit_mut_children_with(self);
 
@@ -347,39 +398,6 @@ impl VisitMut for TreeShaker {
 
                 _ => {}
             }
-        }
-    }
-
-    fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
-        n.visit_mut_children_with(self);
-
-        if !n.right.may_have_side_effects() {
-            if let Some(id) = n.left.as_ident() {
-                if self.can_drop_assignment_to(id.to_id()) {
-                    self.changed = true;
-                    debug!("Dropping an assignment to `{}` because it's not used", id);
-
-                    n.left.take();
-                    return;
-                }
-            }
-        }
-    }
-
-    fn visit_mut_expr(&mut self, n: &mut Expr) {
-        n.visit_mut_children_with(self);
-
-        match n {
-            Expr::Assign(a) => {
-                if match &a.left {
-                    PatOrExpr::Expr(l) => l.is_invalid(),
-                    PatOrExpr::Pat(l) => l.is_invalid(),
-                } {
-                    *n = *a.right.take();
-                    return;
-                }
-            }
-            _ => {}
         }
     }
 
