@@ -1,4 +1,5 @@
 use self::static_check::should_use_create_element;
+use crate::refresh::options::{deserialize_refresh, RefreshOptions};
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use regex::Regex;
@@ -20,8 +21,6 @@ use swc_ecma_utils::{
     drop_span, member_expr, prepend, private_ident, quote_ident, ExprFactory, HANDLER,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
-
-use crate::refresh::options::{deserialize_refresh, RefreshOptions};
 
 mod static_check;
 #[cfg(test)]
