@@ -350,7 +350,10 @@ impl VisitMut for TreeShaker {
 
         match s {
             Stmt::Expr(es) => {
-                if !es.expr.may_have_side_effects() {
+                if match &*es.expr {
+                    Expr::Lit(Lit::Str(..)) => false,
+                    _ => !es.expr.may_have_side_effects(),
+                } {
                     debug!("Dropping an expression without side effect");
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                     self.changed = true;
