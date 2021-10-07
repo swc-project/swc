@@ -64,6 +64,7 @@ struct VarInfo {
 
 struct Analyzer<'a> {
     config: &'a Config,
+    in_var_decl: bool,
     data: &'a mut Data,
 }
 
@@ -124,11 +125,13 @@ impl Visit for Analyzer<'_> {
     fn visit_pat(&mut self, p: &Pat, _: &dyn Node) {
         p.visit_children_with(self);
 
-        match p {
-            Pat::Ident(i) => {
-                self.data.used_names.entry(i.id.to_id()).or_default().assign += 1;
+        if !self.in_var_decl {
+            match p {
+                Pat::Ident(i) => {
+                    self.data.used_names.entry(i.id.to_id()).or_default().assign += 1;
+                }
+                _ => {}
             }
-            _ => {}
         }
     }
 
@@ -144,7 +147,15 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_var_declarator(&mut self, v: &VarDeclarator, _: &dyn Node) {
+        let old = self.in_var_decl;
+
+        self.in_var_decl = true;
+        v.name.visit_with(v, self);
+
+        self.in_var_decl = false;
         v.init.visit_with(v, self);
+
+        self.in_var_decl = old;
     }
 }
 
@@ -287,6 +298,7 @@ impl VisitMut for TreeShaker {
             let mut analyzer = Analyzer {
                 config: &self.config,
                 data: &mut self.data,
+                in_var_decl: false,
             };
             m.visit_with(&Invalid { span: DUMMY_SP }, &mut analyzer);
         }
