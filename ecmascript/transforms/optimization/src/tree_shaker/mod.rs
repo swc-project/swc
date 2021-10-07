@@ -44,6 +44,10 @@ struct Analyzer<'a> {
 impl Visit for Analyzer<'_> {
     noop_visit_type!();
 
+    fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier, _: &dyn Node) {
+        self.data.used_names.insert(n.orig.to_id());
+    }
+
     fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
         e.visit_children_with(self);
 
