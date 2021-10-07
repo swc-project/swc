@@ -70,6 +70,16 @@ struct Analyzer<'a> {
 impl Visit for Analyzer<'_> {
     noop_visit_type!();
 
+    fn visit_assign_pat_prop(&mut self, n: &AssignPatProp, _: &dyn Node) {
+        n.visit_children_with(self);
+
+        self.data
+            .used_names
+            .entry(n.key.to_id())
+            .or_default()
+            .assign += 1;
+    }
+
     fn visit_class_decl(&mut self, n: &ClassDecl, _: &dyn Node) {
         n.visit_children_with(self);
 
