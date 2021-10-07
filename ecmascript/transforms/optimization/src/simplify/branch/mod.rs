@@ -602,6 +602,10 @@ impl VisitMut for Remover {
                                         &Expr::Lit(Lit::Num(Number { value: test, .. })),
                                         &Expr::Lit(Lit::Num(Number { value: d, .. })),
                                     ) => (test - d).abs() < 1e-10,
+                                    (
+                                        &Expr::Lit(Lit::Bool(Bool { value: test, .. })),
+                                        &Expr::Lit(Lit::Bool(Bool { value: d, .. })),
+                                    ) => test == d,
                                     (&Expr::Lit(Lit::Null(..)), &Expr::Lit(Lit::Null(..))) => true,
                                     (&Expr::Ident(ref test), &Expr::Ident(ref d)) => {
                                         test.sym == d.sym && test.span.ctxt() == d.span.ctxt()
