@@ -36,7 +36,7 @@ use swc_ecma_transforms::{
     modules::{hoist::import_hoister, path::NodeImportResolver, util::Scope},
     optimization::{const_modules, inline_globals, json_parse, simplifier},
     pass::{noop, Optional},
-    proposals::{decorators, export_default_from},
+    proposals::{decorators, export_default_from, import_assertions},
     react, resolver_with_mark, typescript,
 };
 use swc_ecma_visit::Fold;
@@ -249,21 +249,6 @@ impl Options {
             .unwrap_or_else(|| Mark::fresh(Mark::root()));
 
         let pass = chain!(
-            // handle jsx
-            Optional::new(
-                react::react(cm.clone(), comments.clone(), transform.react),
-                syntax.jsx()
-            ),
-            // Decorators may use type information
-            Optional::new(
-                decorators(decorators::Config {
-                    legacy: transform.legacy_decorator,
-                    emit_metadata: transform.decorator_metadata,
-                }),
-                syntax.decorators()
-            ),
-            Optional::new(typescript::strip(), syntax.typescript()),
-            resolver_with_mark(top_level_mark),
             const_modules,
             optimization,
             Optional::new(export_default_from(), syntax.export_default_from()),
@@ -289,10 +274,34 @@ impl Options {
                 syntax,
                 config.module,
                 comments,
-                custom_before_pass,
             );
 
-        let pass = chain!(pass, Optional::new(jest::jest(), transform.hidden.jest));
+        let pass = chain!(
+            // Decorators may use type information
+            Optional::new(
+                decorators(decorators::Config {
+                    legacy: transform.legacy_decorator,
+                    emit_metadata: transform.decorator_metadata,
+                }),
+                syntax.decorators()
+            ),
+            import_assertions(),
+            Optional::new(typescript::strip(), syntax.typescript()),
+            resolver_with_mark(top_level_mark),
+            custom_before_pass,
+            // handle jsx
+            Optional::new(
+                react::react(
+                    cm.clone(),
+                    comments.clone(),
+                    transform.react,
+                    top_level_mark
+                ),
+                syntax.jsx()
+            ),
+            pass,
+            Optional::new(jest::jest(), transform.hidden.jest)
+        );
 
         BuiltConfig {
             minify: config.minify,
