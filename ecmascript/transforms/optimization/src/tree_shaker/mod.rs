@@ -14,6 +14,7 @@ pub fn tree_shaker(config: Config) -> impl Fold + VisitMut + Repeated {
     })
 }
 
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct Config {
     /// If this [Mark] is applied to a function expression, it's treated as a
     /// separate module.
