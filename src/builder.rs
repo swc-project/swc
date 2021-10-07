@@ -224,11 +224,11 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
 
         let module_scope = Rc::new(RefCell::new(Scope::default()));
         chain!(
+            import_assertions(),
+            Optional::new(typescript::strip(), syntax.typescript()),
             custom_before_pass,
             self.pass,
             Optional::new(private_in_object(), syntax.private_in_object()),
-            import_assertions(),
-            Optional::new(typescript::strip(), syntax.typescript()),
             compat_pass,
             // module / helper
             Optional::new(

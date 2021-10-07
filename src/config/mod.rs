@@ -37,7 +37,7 @@ use swc_ecma_transforms::{
     optimization::{const_modules, inline_globals, json_parse, simplifier},
     pass::{noop, Optional},
     proposals::{decorators, export_default_from},
-    react, resolver_with_mark, typescript,
+    react, resolver_with_mark,
 };
 use swc_ecma_visit::Fold;
 
@@ -254,15 +254,6 @@ impl Options {
                 react::react(cm.clone(), comments.clone(), transform.react),
                 syntax.jsx()
             ),
-            // Decorators may use type information
-            Optional::new(
-                decorators(decorators::Config {
-                    legacy: transform.legacy_decorator,
-                    emit_metadata: transform.decorator_metadata,
-                }),
-                syntax.decorators()
-            ),
-            Optional::new(typescript::strip(), syntax.typescript()),
             resolver_with_mark(top_level_mark),
             const_modules,
             optimization,
@@ -292,7 +283,18 @@ impl Options {
                 custom_before_pass,
             );
 
-        let pass = chain!(pass, Optional::new(jest::jest(), transform.hidden.jest));
+        let pass = chain!(
+            // Decorators may use type information
+            Optional::new(
+                decorators(decorators::Config {
+                    legacy: transform.legacy_decorator,
+                    emit_metadata: transform.decorator_metadata,
+                }),
+                syntax.decorators()
+            ),
+            pass,
+            Optional::new(jest::jest(), transform.hidden.jest)
+        );
 
         BuiltConfig {
             minify: config.minify,
