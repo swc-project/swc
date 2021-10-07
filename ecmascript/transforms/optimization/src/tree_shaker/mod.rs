@@ -132,11 +132,13 @@ impl TreeShaker {
     }
 
     fn can_drop_assignment_to(&self, name: Id) -> bool {
-        self.data
-            .used_names
-            .get(&name)
-            .map(|v| v.usage == 0)
-            .unwrap_or_default()
+        self.data.bindings.contains(&name)
+            && self
+                .data
+                .used_names
+                .get(&name)
+                .map(|v| v.usage == 0)
+                .unwrap_or_default()
     }
 }
 
