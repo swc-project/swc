@@ -1,8 +1,10 @@
 use rustc_hash::FxHashMap;
-use swc_common::{pass::Repeated, util::take::Take, Mark, DUMMY_SP};
+use swc_common::{collections::AHashSet, pass::Repeated, util::take::Take, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::PatOrExprExt;
-use swc_ecma_utils::{ident::IdentLike, ExprExt, Id, IsEmpty, ModuleItemLike, StmtLike};
+use swc_ecma_utils::{
+    collect_decls, ident::IdentLike, ExprExt, Id, IsEmpty, ModuleItemLike, StmtLike,
+};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
     VisitWith,
@@ -34,6 +36,9 @@ struct TreeShaker {
 
 #[derive(Default)]
 struct Data {
+    /// Bindings in the module.
+    bindings: AHashSet<Id>,
+
     used_names: FxHashMap<Id, VarInfo>,
 }
 #[derive(Debug, Default)]
@@ -193,6 +198,8 @@ impl VisitMut for TreeShaker {
 
     fn visit_mut_module(&mut self, m: &mut Module) {
         let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
+
+        self.data.bindings = collect_decls(&*m);
 
         {
             let mut analyzer = Analyzer {
