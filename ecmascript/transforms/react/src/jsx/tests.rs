@@ -5,6 +5,7 @@ use crate::display_name;
 use std::path::PathBuf;
 use swc_common::{chain, Mark};
 use swc_ecma_parser::EsConfig;
+use swc_ecma_transforms_base::resolver::resolver_with_mark;
 use swc_ecma_transforms_compat::{
     es2015::{arrow, classes},
     es3::property_literals,
@@ -14,6 +15,7 @@ use swc_ecma_transforms_testing::{parse_options, test, test_fixture, Tester};
 
 fn tr(t: &mut Tester, options: Options, top_level_mark: Mark) -> impl Fold {
     chain!(
+        resolver_with_mark(top_level_mark),
         jsx(
             t.cm.clone(),
             Some(t.comments.clone()),
