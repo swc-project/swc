@@ -1,6 +1,7 @@
-use rustc_hash::{FxHashMap, FxHashSet};
+use rustc_hash::FxHashMap;
 use swc_common::{pass::Repeated, util::take::Take, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::ext::PatOrExprExt;
 use swc_ecma_utils::{ident::IdentLike, ExprExt, Id, IsEmpty, ModuleItemLike, StmtLike};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
@@ -124,6 +125,14 @@ impl TreeShaker {
     fn can_drop_binding(&self, name: Id) -> bool {
         !self.data.used_names.contains_key(&name)
     }
+
+    fn can_drop_assignment_to(&self, name: Id) -> bool {
+        self.data
+            .used_names
+            .get(&name)
+            .map(|v| v.usage == 0)
+            .unwrap_or_default()
+    }
 }
 
 impl VisitMut for TreeShaker {
@@ -239,6 +248,15 @@ impl VisitMut for TreeShaker {
         }
 
         match s {
+            Stmt::Expr(es) => {
+                if !es.expr.may_have_side_effects() {
+                    debug!("Dropping an expression without side effect");
+                    *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                    self.changed = true;
+                    return;
+                }
+            }
+
             Stmt::Block(bs) => {
                 if bs.is_empty() {
                     debug!("Dropping an empty block statement");
@@ -285,6 +303,40 @@ impl VisitMut for TreeShaker {
             }
         }
     }
+
+    fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
+        n.visit_mut_children_with(self);
+
+        if !n.right.may_have_side_effects() {
+            if let Some(id) = n.left.as_ident() {
+                if self.can_drop_assignment_to(id.to_id()) {
+                    self.changed = true;
+                    debug!("Dropping an assignment to `{}` because it's not used", id);
+
+                    n.left.take();
+                    return;
+                }
+            }
+        }
+    }
+
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
+        n.visit_mut_children_with(self);
+
+        match n {
+            Expr::Assign(a) => {
+                if match &a.left {
+                    PatOrExpr::Expr(l) => l.is_invalid(),
+                    PatOrExpr::Pat(l) => l.is_invalid(),
+                } {
+                    *n = *a.right.take();
+                    return;
+                }
+            }
+            _ => {}
+        }
+    }
+
     fn visit_mut_var_declarators(&mut self, n: &mut Vec<VarDeclarator>) {
         n.visit_mut_children_with(self);
 
