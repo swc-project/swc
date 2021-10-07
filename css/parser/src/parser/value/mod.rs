@@ -5,6 +5,7 @@ use crate::{
     error::{Error, ErrorKind},
     Parse,
 };
+use swc_atoms::js_word;
 use swc_common::{BytePos, Spanned};
 use swc_css_ast::*;
 
@@ -21,8 +22,10 @@ where
     ///
     /// Returned [BytePos] is `hi`.
     pub(super) fn parse_property_values(&mut self) -> PResult<(Vec<Value>, BytePos)> {
+        let start = self.input.state();
         let mut values = vec![];
         let mut state = self.input.state();
+        let start_pos = self.input.cur_span()?.lo;
 
         let mut hi = self.input.last_pos()?;
         loop {
@@ -43,6 +46,25 @@ where
             state = self.input.state();
 
             if !eat!(self, " ") {
+                if self.ctx.recover_from_property_value
+                    && !is_one_of!(self, EOF, ";", "}", "!", ")")
+                {
+                    self.input.reset(&start);
+
+                    let mut tokens = vec![];
+                    while !is_one_of!(self, EOF, ";", "}", "!", ")") {
+                        tokens.extend(self.input.bump()?);
+                    }
+
+                    let span = span!(self, start_pos);
+                    let v = Value::Lazy(Tokens { span, tokens });
+
+                    self.errors
+                        .push(Error::new(span, ErrorKind::InvalidPropertyValue));
+
+                    return Ok((vec![v], hi));
+                }
+
                 break;
             }
         }
@@ -410,9 +432,10 @@ where
         let name = Text { span, value };
 
         if eat!(self, "(") {
+            let is_url = name.value.to_ascii_lowercase() == js_word!("url");
             let ctx = Ctx {
-                allow_operation_in_value: true,
-                allow_separating_value_with_space: true,
+                allow_operation_in_value: if is_url { false } else { true },
+                allow_separating_value_with_space: if is_url { false } else { true },
                 allow_separating_value_with_comma: false,
                 ..self.ctx
             };

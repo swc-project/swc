@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use self::util::replace_id_with_expr;
 use crate::{
     analyzer::{ProgramData, UsageAnalyzer},
@@ -108,9 +110,6 @@ struct Ctx {
 
     is_callee: bool,
     in_call_arg: bool,
-
-    /// If this is `true`, the first usage will be inlined as an assignment.
-    inline_as_assignment: bool,
 
     var_kind: Option<VarDeclKind>,
 
@@ -2087,6 +2086,27 @@ where
         n.visit_mut_children_with(self);
 
         n.retain(|p| !p.pat.is_invalid());
+    }
+
+    fn visit_mut_prop(&mut self, n: &mut Prop) {
+        n.visit_mut_children_with(self);
+
+        match n {
+            Prop::Shorthand(i) => {
+                if self.lits.contains_key(&i.to_id())
+                    || self.state.vars_for_inlining.contains_key(&i.to_id())
+                {
+                    let mut e = Box::new(Expr::Ident(i.clone()));
+                    e.visit_mut_with(self);
+
+                    *n = Prop::KeyValue(KeyValueProp {
+                        key: PropName::Ident(i.clone()),
+                        value: e,
+                    });
+                }
+            }
+            _ => {}
+        }
     }
 
     fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {

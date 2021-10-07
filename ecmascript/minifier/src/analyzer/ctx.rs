@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use super::{storage::Storage, UsageAnalyzer};
 use std::ops::{Deref, DerefMut};
 use swc_ecma_ast::VarDeclKind;

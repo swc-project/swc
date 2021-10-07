@@ -572,7 +572,7 @@ impl Fold for BlockScoping {
     }
 
     fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        self.fold_stmt_like(n)
+        self.fold_stmt_likes(n)
     }
 
     fn fold_setter_prop(&mut self, f: SetterProp) -> SetterProp {
@@ -585,7 +585,7 @@ impl Fold for BlockScoping {
     }
 
     fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
-        self.fold_stmt_like(n)
+        self.fold_stmt_likes(n)
     }
 
     fn fold_var_decl(&mut self, var: VarDecl) -> VarDecl {
@@ -627,7 +627,7 @@ impl Fold for BlockScoping {
 }
 
 impl BlockScoping {
-    fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
+    fn fold_stmt_likes<T>(&mut self, stmts: Vec<T>) -> Vec<T>
     where
         T: StmtLike,
         Vec<T>: FoldWith<Self>,

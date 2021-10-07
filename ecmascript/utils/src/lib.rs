@@ -1,3 +1,6 @@
+#[doc(hidden)]
+pub extern crate swc_ecma_ast;
+
 pub use self::{
     factory::ExprFactory,
     ident::{id, Id},
@@ -182,41 +185,49 @@ pub trait StmtLike: Sized + 'static {
 impl ModuleItemLike for Stmt {}
 
 impl StmtLike for Stmt {
+    #[inline]
     fn try_into_stmt(self) -> Result<Stmt, Self> {
         Ok(self)
     }
+    #[inline]
     fn as_stmt(&self) -> Option<&Stmt> {
         Some(&self)
     }
+    #[inline]
     fn from_stmt(stmt: Stmt) -> Self {
         stmt
     }
 }
 
 impl ModuleItemLike for ModuleItem {
+    #[inline]
     fn try_into_module_decl(self) -> Result<ModuleDecl, Self> {
         match self {
             ModuleItem::ModuleDecl(decl) => Ok(decl),
             _ => Err(self),
         }
     }
+    #[inline]
     fn try_from_module_decl(decl: ModuleDecl) -> Result<Self, ModuleDecl> {
         Ok(ModuleItem::ModuleDecl(decl))
     }
 }
 impl StmtLike for ModuleItem {
+    #[inline]
     fn try_into_stmt(self) -> Result<Stmt, Self> {
         match self {
             ModuleItem::Stmt(stmt) => Ok(stmt),
             _ => Err(self),
         }
     }
+    #[inline]
     fn as_stmt(&self) -> Option<&Stmt> {
         match *self {
             ModuleItem::Stmt(ref stmt) => Some(stmt),
             _ => None,
         }
     }
+    #[inline]
     fn from_stmt(stmt: Stmt) -> Self {
         ModuleItem::Stmt(stmt)
     }

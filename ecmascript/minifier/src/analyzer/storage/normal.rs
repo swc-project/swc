@@ -219,6 +219,10 @@ impl VarDataLike for VarUsageInfo {
         self.has_property_access = true;
     }
 
+    fn mark_has_property_mutation(&mut self) {
+        self.has_property_mutation = true;
+    }
+
     fn add_accessed_property(&mut self, name: swc_atoms::JsWord) {
         self.accessed_props.insert(name);
     }

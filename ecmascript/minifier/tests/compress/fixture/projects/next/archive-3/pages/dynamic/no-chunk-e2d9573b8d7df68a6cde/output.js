@@ -308,10 +308,10 @@
                         timeout: null,
                         webpack: null,
                         modules: null
-                    }, opts1), subscription = null;
+                    }, options), subscription = null;
                     function init() {
                         if (!subscription) {
-                            var sub = new LoadableSubscription(load, opts);
+                            var sub = new LoadableSubscription(loadFn, opts);
                             subscription = {
                                 getCurrentValue: sub.getCurrentValue.bind(sub),
                                 subscribe: sub.subscribe.bind(sub),
@@ -461,7 +461,7 @@
                         }
                     }();
                     return function() {
-                        var result, Super = (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_1__.Z)(Welcome);
+                        var result, Super = (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_1__.Z)(Derived);
                         if (hasNativeReflectConstruct) {
                             var NewTarget = (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_1__.Z)(this).constructor;
                             result = Reflect.construct(Super, arguments, NewTarget);

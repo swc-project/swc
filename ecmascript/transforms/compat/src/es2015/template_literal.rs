@@ -1,28 +1,28 @@
 use std::{iter, mem};
 use swc_atoms::js_word;
-use swc_common::{BytePos, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, BytePos, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
     is_literal, prepend_stmts, private_ident, quote_ident, ExprFactory, StmtLike,
 };
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
-pub fn template_literal() -> impl Fold {
-    TemplateLiteral {
+pub fn template_literal() -> impl Fold + VisitMut {
+    as_folder(TemplateLiteral {
         added: Default::default(),
-    }
+    })
 }
 
 struct TemplateLiteral {
     added: Vec<Stmt>,
 }
 
-impl Fold for TemplateLiteral {
-    noop_fold_type!();
+impl VisitMut for TemplateLiteral {
+    noop_visit_mut_type!();
 
-    fn fold_expr(&mut self, e: Expr) -> Expr {
-        let e = e.fold_children_with(self);
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
 
         match e {
             Expr::Tpl(Tpl {
@@ -64,7 +64,7 @@ impl Fold for TemplateLiteral {
 
                 let mut args = vec![];
                 let mut quasis = quasis.into_iter();
-                let mut exprs = exprs.into_iter();
+                let mut exprs = exprs.take().into_iter();
 
                 for i in 0..len {
                     if i == 0 {
@@ -80,7 +80,7 @@ impl Fold for TemplateLiteral {
                             Some(TplElement { cooked, raw, .. }) => {
                                 let should_remove_kind =
                                     raw.value.contains('\r') || raw.value.contains('`');
-                                let mut s = cooked.unwrap_or_else(|| raw);
+                                let mut s = cooked.clone().unwrap_or_else(|| raw.clone());
                                 // See https://github.com/swc-project/swc/issues/1488
                                 //
                                 // This is hack to prevent '\\`'. Hack is used to avoid breaking
@@ -213,7 +213,7 @@ impl Fold for TemplateLiteral {
                 //                    }));
                 //                }
 
-                *obj
+                *e = *obj
             }
 
             Expr::TaggedTpl(TaggedTpl {
@@ -272,6 +272,7 @@ impl Fold for TemplateLiteral {
                                             ArrayLit {
                                                 span: DUMMY_SP,
                                                 elems: quasis
+                                                    .take()
                                                     .into_iter()
                                                     .map(|elem| {
                                                         Lit::Str(elem.cooked.unwrap_or(elem.raw))
@@ -343,9 +344,9 @@ impl Fold for TemplateLiteral {
                     function: f,
                 })));
 
-                Expr::Call(CallExpr {
+                *e = Expr::Call(CallExpr {
                     span: DUMMY_SP,
-                    callee: tag.as_callee(),
+                    callee: tag.take().as_callee(),
                     args: iter::once(
                         Expr::Call(CallExpr {
                             span: DUMMY_SP,
@@ -355,29 +356,25 @@ impl Fold for TemplateLiteral {
                         })
                         .as_arg(),
                     )
-                    .chain(exprs.into_iter().map(|e| e.as_arg()))
+                    .chain(exprs.take().into_iter().map(|e| e.as_arg()))
                     .collect(),
                     type_args: Default::default(),
                 })
             }
 
-            _ => e,
+            _ => {}
         }
     }
 
-    fn fold_module(&mut self, m: Module) -> Module {
-        let mut body = m.body.fold_children_with(self);
+    fn visit_mut_module(&mut self, m: &mut Module) {
+        m.visit_mut_children_with(self);
 
-        prepend_stmts(&mut body, self.added.drain(..).map(ModuleItem::from_stmt));
-
-        Module { body, ..m }
+        prepend_stmts(&mut m.body, self.added.drain(..).map(ModuleItem::from_stmt));
     }
 
-    fn fold_script(&mut self, m: Script) -> Script {
-        let mut body = m.body.fold_children_with(self);
+    fn visit_mut_script(&mut self, m: &mut Script) {
+        m.visit_mut_children_with(self);
 
-        prepend_stmts(&mut body, self.added.drain(..));
-
-        Script { body, ..m }
+        prepend_stmts(&mut m.body, self.added.drain(..));
     }
 }

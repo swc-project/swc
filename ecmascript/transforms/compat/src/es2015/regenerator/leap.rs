@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use super::case::Loc;
 use is_macro::Is;
 use smallvec::SmallVec;

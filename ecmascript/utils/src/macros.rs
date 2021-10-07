@@ -8,7 +8,7 @@ macro_rules! private_ident {
         use swc_common::Mark;
         let mark = Mark::fresh(Mark::root());
         let span = $span.apply_mark(mark);
-        ::swc_ecma_ast::Ident::new($s.into(), span)
+        $crate::swc_ecma_ast::Ident::new($s.into(), span)
     }};
 }
 
@@ -18,7 +18,7 @@ macro_rules! quote_ident {
         quote_ident!(::swc_common::DUMMY_SP, $s)
     };
     ($span:expr, $s:expr) => {{
-        ::swc_ecma_ast::Ident::new($s.into(), $span)
+        $crate::swc_ecma_ast::Ident::new($s.into(), $span)
     }};
 }
 
@@ -28,7 +28,7 @@ macro_rules! quote_str {
         quote_str!(::swc_common::DUMMY_SP, $s)
     };
     ($span:expr, $s:expr) => {{
-        ::swc_ecma_ast::Str {
+        $crate::swc_ecma_ast::Str {
             span: $span,
             value: $s.into(),
             has_escape: false,
@@ -40,7 +40,7 @@ macro_rules! quote_str {
 #[macro_export]
 macro_rules! quote_expr {
     ($span:expr, null) => {{
-        use swc_ecma_ast::*;
+        use $crate::swc_ecma_ast::*;
         Expr::Lit(Lit::Null(Null { span: $span }))
     }};
 
@@ -56,11 +56,11 @@ macro_rules! quote_expr {
 /// member_expr!(span, Function.bind.apply);
 /// ```
 ///
-/// Returns Box<Expr>
+/// Returns Box<[Expr](swc_ecma_ast::Expr)>.
 #[macro_export]
 macro_rules! member_expr {
     ($span:expr, $first:ident) => {{
-        use swc_ecma_ast::Expr;
+        use $crate::swc_ecma_ast::Expr;
         Box::new(Expr::Ident($crate::quote_ident!($span, stringify!($first))))
     }};
 
@@ -75,14 +75,14 @@ macro_rules! member_expr {
 
         member_expr!(@EXT, $span, Box::new(Expr::Member(MemberExpr{
             span: ::swc_common::DUMMY_SP,
-            obj: ExprOrSuper::Expr($obj),
+            obj: $crate::swc_ecma_ast::ExprOrSuper::Expr($obj),
             computed: false,
             prop,
         })), $($rest)*)
     }};
 
     (@EXT, $span:expr, $obj:expr,  $first:ident) => {{
-        use swc_ecma_ast::*;
+        use $crate::swc_ecma_ast::*;
         let prop = member_expr!($span, $first);
 
         Box::new(Expr::Member(MemberExpr{

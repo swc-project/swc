@@ -60,7 +60,10 @@ fn (&mut self, node: Node) -> Result;
                 {
                     {
                         impl crate::Node for NodeType {
-                            fn emit_with(&self, e: &mut crate::Emitter) -> Result {
+                            fn emit_with<W>(&self, e: &mut crate::Emitter<'_, W>) -> Result
+                            where
+                                W: crate::text_writer::WriteJs,
+                            {
                                 e.mtd_name(self)
                             }
                         }

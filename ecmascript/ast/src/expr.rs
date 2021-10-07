@@ -267,6 +267,15 @@ pub struct FnExpr {
     pub function: Function,
 }
 
+impl Take for FnExpr {
+    fn dummy() -> Self {
+        FnExpr {
+            ident: None,
+            function: Take::dummy(),
+        }
+    }
+}
+
 /// Class expression.
 #[ast_node("ClassExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
@@ -280,6 +289,14 @@ pub struct ClassExpr {
     pub class: Class,
 }
 
+impl Take for ClassExpr {
+    fn dummy() -> Self {
+        ClassExpr {
+            ident: None,
+            class: Take::dummy(),
+        }
+    }
+}
 #[ast_node("AssignmentExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
