@@ -46,7 +46,8 @@
                     "end": 3,
                     "ctxt": 0
                   },
-                  "value": "div"
+                  "value": "div",
+                  "raw": "div"
                 }
               },
               "subclassSelectors": []

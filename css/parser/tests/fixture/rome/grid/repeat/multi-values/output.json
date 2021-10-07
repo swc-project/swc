@@ -47,7 +47,8 @@
                       "end": 6,
                       "ctxt": 0
                     },
-                    "value": "style"
+                    "value": "style",
+                    "raw": "style"
                   }
                 }
               ]
@@ -77,7 +78,8 @@
                 "end": 31,
                 "ctxt": 0
               },
-              "value": "grid-template-columns"
+              "value": "grid-template-columns",
+              "raw": "grid-template-columns"
             },
             "values": [
               {
@@ -94,7 +96,8 @@
                     "end": 39,
                     "ctxt": 0
                   },
-                  "value": "repeat"
+                  "value": "repeat",
+                  "raw": "repeat"
                 },
                 "args": [
                   {
@@ -129,7 +132,8 @@
                               "end": 53,
                               "ctxt": 0
                             },
-                            "value": "col-start"
+                            "value": "col-start",
+                            "raw": "col-start"
                           }
                         ]
                       },
@@ -140,7 +144,8 @@
                           "end": 66,
                           "ctxt": 0
                         },
-                        "value": "min-content"
+                        "value": "min-content",
+                        "raw": "min-content"
                       },
                       {
                         "type": "ArrayValue",
@@ -157,7 +162,8 @@
                               "end": 78,
                               "ctxt": 0
                             },
-                            "value": "col-middle"
+                            "value": "col-middle",
+                            "raw": "col-middle"
                           }
                         ]
                       },
@@ -168,7 +174,8 @@
                           "end": 91,
                           "ctxt": 0
                         },
-                        "value": "max-content"
+                        "value": "max-content",
+                        "raw": "max-content"
                       },
                       {
                         "type": "ArrayValue",
@@ -185,7 +192,8 @@
                               "end": 100,
                               "ctxt": 0
                             },
-                            "value": "col-end"
+                            "value": "col-end",
+                            "raw": "col-end"
                           }
                         ]
                       }

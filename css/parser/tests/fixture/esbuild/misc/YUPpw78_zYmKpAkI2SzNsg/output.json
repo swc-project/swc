@@ -48,7 +48,8 @@
                       "end": 16,
                       "ctxt": 0
                     },
-                    "value": "pseudo,class"
+                    "value": "pseudo,class",
+                    "raw": "pseudo\\2c class"
                   },
                   "args": {
                     "type": "Tokens",

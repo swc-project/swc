@@ -20,7 +20,8 @@
           "end": 15,
           "ctxt": 0
         },
-        "value": "name"
+        "value": "name",
+        "raw": "name"
       },
       "blocks": [
         {
@@ -37,7 +38,8 @@
                 "end": 20,
                 "ctxt": 0
               },
-              "value": "from"
+              "value": "from",
+              "raw": "from"
             }
           ],
           "rule": {
@@ -62,7 +64,8 @@
                     "end": 26,
                     "ctxt": 0
                   },
-                  "value": "color"
+                  "value": "color",
+                  "raw": "color"
                 },
                 "values": [
                   {
@@ -72,7 +75,8 @@
                       "end": 30,
                       "ctxt": 0
                     },
-                    "value": "red"
+                    "value": "red",
+                    "raw": "red"
                   }
                 ],
                 "important": null
@@ -94,7 +98,8 @@
                 "end": 33,
                 "ctxt": 0
               },
-              "value": "to"
+              "value": "to",
+              "raw": "to"
             }
           ],
           "rule": {
@@ -119,7 +124,8 @@
                     "end": 39,
                     "ctxt": 0
                   },
-                  "value": "color"
+                  "value": "color",
+                  "raw": "color"
                 },
                 "values": [
                   {
@@ -129,7 +135,8 @@
                       "end": 44,
                       "ctxt": 0
                     },
-                    "value": "blue"
+                    "value": "blue",
+                    "raw": "blue"
                   }
                 ],
                 "important": null

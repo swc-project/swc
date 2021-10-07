@@ -52,7 +52,7 @@ error: Tokens
 1 | ::b(c) {}
   |     ^
 
-error: Ident(Atom('c' type=inline))
+error: Ident { value: Atom('c' type=inline), raw: Atom('c' type=inline) }
  --> $DIR/tests/fixture/esbuild/misc/MvD7ThpMVIxU3dzF71Gpcg/input.css:1:5
   |
 1 | ::b(c) {}

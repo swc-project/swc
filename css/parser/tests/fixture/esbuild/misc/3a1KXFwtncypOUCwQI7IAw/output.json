@@ -20,7 +20,8 @@
           "end": 15,
           "ctxt": 0
         },
-        "value": "name"
+        "value": "name",
+        "raw": "name"
       },
       "blocks": [
         {
@@ -70,7 +71,8 @@
                     "end": 30,
                     "ctxt": 0
                   },
-                  "value": "color"
+                  "value": "color",
+                  "raw": "color"
                 },
                 "values": [
                   {
@@ -80,7 +82,8 @@
                       "end": 35,
                       "ctxt": 0
                     },
-                    "value": "red"
+                    "value": "red",
+                    "raw": "red"
                   }
                 ],
                 "important": null

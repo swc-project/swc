@@ -1,6 +1,9 @@
 macro_rules! ident_tok {
     ($tt:tt) => {
-        swc_css_ast::Token::Ident(swc_atoms::js_word!($tt))
+        swc_css_ast::Token::Ident {
+            value: swc_atoms::js_word!($tt),
+            ..
+        }
     };
 }
 

@@ -46,7 +46,8 @@
                     "end": 26,
                     "ctxt": 0
                   },
-                  "value": "body"
+                  "value": "body",
+                  "raw": "body"
                 }
               },
               "subclassSelectors": []
@@ -76,7 +77,8 @@
                 "end": 43,
                 "ctxt": 0
               },
-              "value": "background"
+              "value": "background",
+              "raw": "background"
             },
             "values": [
               {
@@ -86,7 +88,8 @@
                   "end": 48,
                   "ctxt": 0
                 },
-                "value": "red"
+                "value": "red",
+                "raw": "red"
               }
             ],
             "important": null
@@ -105,7 +108,8 @@
                 "end": 59,
                 "ctxt": 0
               },
-              "value": "width"
+              "value": "width",
+              "raw": "width"
             },
             "values": [
               {
@@ -122,7 +126,8 @@
                     "end": 65,
                     "ctxt": 0
                   },
-                  "value": "calc"
+                  "value": "calc",
+                  "raw": "calc"
                 },
                 "args": [
                   {

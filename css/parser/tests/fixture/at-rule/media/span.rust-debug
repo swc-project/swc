@@ -1,0 +1,67 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/at-rule/media/input.css:1:1
+  |
+1 | / @\media screen {}
+2 | | @\media \screen {}
+  | |___________________^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/media/input.css:1:1
+  |
+1 | @\media screen {}
+  | ^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/media/input.css:1:1
+  |
+1 | @\media screen {}
+  | ^^^^^^^^^^^^^^^^^
+
+error: MediaRule
+ --> $DIR/tests/fixture/at-rule/media/input.css:1:1
+  |
+1 | @\media screen {}
+  | ^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/at-rule/media/input.css:1:9
+  |
+1 | @\media screen {}
+  |         ^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/at-rule/media/input.css:1:9
+  |
+1 | @\media screen {}
+  |         ^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/media/input.css:2:1
+  |
+2 | @\media \screen {}
+  | ^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/media/input.css:2:1
+  |
+2 | @\media \screen {}
+  | ^^^^^^^^^^^^^^^^^^
+
+error: MediaRule
+ --> $DIR/tests/fixture/at-rule/media/input.css:2:1
+  |
+2 | @\media \screen {}
+  | ^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/at-rule/media/input.css:2:9
+  |
+2 | @\media \screen {}
+  |         ^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/at-rule/media/input.css:2:9
+  |
+2 | @\media \screen {}
+  |         ^^^^^^^
+

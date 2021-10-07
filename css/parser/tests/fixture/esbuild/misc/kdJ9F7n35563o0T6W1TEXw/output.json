@@ -62,7 +62,8 @@
                             "end": 17,
                             "ctxt": 0
                           },
-                          "value": "top-left"
+                          "value": "top-left",
+                          "raw": "top-left"
                         }
                       }
                     ]
