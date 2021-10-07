@@ -13,8 +13,14 @@ use swc_ecma_transforms_module::common_js::common_js;
 use swc_ecma_transforms_testing::{parse_options, test, test_fixture, Tester};
 
 fn tr(t: &mut Tester, options: Options) -> impl Fold {
+    let top_level_mark = Mark::fresh(Mark::root());
     chain!(
-        jsx(t.cm.clone(), Some(t.comments.clone()), options),
+        jsx(
+            t.cm.clone(),
+            Some(t.comments.clone()),
+            options,
+            top_level_mark
+        ),
         display_name(),
         classes(Some(t.comments.clone())),
         arrow(),
@@ -45,6 +51,8 @@ fn true_by_default() -> bool {
 }
 
 fn fixture_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Fold {
+    let top_level_mark = Mark::fresh(Mark::root());
+
     options.options.next = options.babel_8_breaking || options.options.runtime.is_some();
 
     if !options.babel_8_breaking && options.options.runtime.is_none() {
@@ -53,7 +61,12 @@ fn fixture_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Fold {
 
     options.options.use_builtins |= options.use_builtins;
     chain!(
-        jsx(t.cm.clone(), Some(t.comments.clone()), options.options),
+        jsx(
+            t.cm.clone(),
+            Some(t.comments.clone()),
+            options.options,
+            top_level_mark
+        ),
         display_name(),
     )
 }
@@ -1250,10 +1263,19 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| chain!(
-        classes(Some(t.comments.clone())),
-        jsx(t.cm.clone(), Some(t.comments.clone()), Default::default())
-    ),
+    |t| {
+        let top_level_mark = Mark::fresh(Mark::root());
+
+        chain!(
+            classes(Some(t.comments.clone())),
+            jsx(
+                t.cm.clone(),
+                Some(t.comments.clone()),
+                Default::default(),
+                top_level_mark
+            )
+        )
+    },
     regression_2775,
     r#"
 import React, {Component} from 'react';
