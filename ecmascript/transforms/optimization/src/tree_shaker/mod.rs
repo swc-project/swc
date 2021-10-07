@@ -1,7 +1,7 @@
 use rustc_hash::FxHashSet;
 use swc_common::{pass::Repeated, util::take::Take, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, ExprExt, Id};
+use swc_ecma_utils::{ident::IdentLike, ExprExt, Id, ModuleItemLike, StmtLike};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
     VisitWith,
@@ -80,6 +80,21 @@ impl Repeated for TreeShaker {
     }
 }
 
+impl TreeShaker {
+    fn visit_mut_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
+    where
+        T: StmtLike + ModuleItemLike,
+        Vec<T>: VisitMutWith<Self>,
+    {
+        stmts.visit_mut_children_with(self);
+
+        stmts.retain(|s| match s.as_stmt() {
+            Some(Stmt::Empty(..)) => false,
+            _ => true,
+        });
+    }
+}
+
 impl VisitMut for TreeShaker {
     noop_visit_mut_type!();
 
@@ -96,6 +111,10 @@ impl VisitMut for TreeShaker {
         m.visit_mut_children_with(self);
     }
 
+    fn visit_mut_module_items(&mut self, s: &mut Vec<ModuleItem>) {
+        self.visit_mut_stmt_likes(s);
+    }
+
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         s.visit_mut_children_with(self);
 
@@ -109,6 +128,10 @@ impl VisitMut for TreeShaker {
 
             _ => {}
         }
+    }
+
+    fn visit_mut_stmts(&mut self, s: &mut Vec<Stmt>) {
+        self.visit_mut_stmt_likes(s);
     }
 
     fn visit_mut_var_declarator(&mut self, v: &mut VarDeclarator) {
