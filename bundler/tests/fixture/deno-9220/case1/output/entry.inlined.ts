@@ -599,9 +599,10 @@ const JpegImage = function jpegImage() {
             }
             fileMarker = readUint16();
             while(fileMarker != 65497){
-                let i, j, l;
+                let i, j;
                 switch(fileMarker){
-                    case 65280: break;
+                    case 65280:
+                        break;
                     case 65504:
                     case 65505:
                     case 65506:

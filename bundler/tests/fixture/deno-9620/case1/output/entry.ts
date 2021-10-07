@@ -120,6 +120,7 @@ async function copyN(r, dest, size) {
     }
     return bytesRead;
 }
+BigInt(Number.MAX_SAFE_INTEGER);
 class StringReader extends Deno.Buffer {
     constructor(s){
         super(new TextEncoder().encode(s).buffer);
@@ -139,26 +140,6 @@ class MultiReader {
             return 0;
         }
         return result;
-    }
-}
-class LimitedReader {
-    constructor(reader, limit){
-        this.reader = reader;
-        this.limit = limit;
-    }
-    async read(p) {
-        if (this.limit <= 0) {
-            return null;
-        }
-        if (p.length > this.limit) {
-            p = p.subarray(0, this.limit);
-        }
-        const n = await this.reader.read(p);
-        if (n == null) {
-            return null;
-        }
-        this.limit -= n;
-        return n;
     }
 }
 const osType = (()=>{
@@ -1670,13 +1651,6 @@ class TextProtoReader {
         return n;
     }
 }
-function randomBoundary() {
-    let boundary = "--------------------------";
-    for(let i = 0; i < 24; i++){
-        boundary += Math.floor(Math.random() * 16).toString(16);
-    }
-    return boundary;
-}
 const encoder = new TextEncoder();
 function matchAfterPrefix(buf, prefix, eof) {
     if (buf.length === prefix.length) {
@@ -1984,116 +1958,6 @@ function multipartFormData(fileMap, valueMap) {
             return entries();
         }
     };
-}
-class PartWriter {
-    constructor(writer, boundary, headers, isFirstBoundary){
-        this.writer = writer;
-        this.boundary = boundary;
-        this.headers = headers;
-        this.closed = false;
-        this.headersWritten = false;
-        let buf = "";
-        if (isFirstBoundary) {
-            buf += `--${boundary}\r\n`;
-        } else {
-            buf += `\r\n--${boundary}\r\n`;
-        }
-        for (const [key, value] of headers.entries()){
-            buf += `${key}: ${value}\r\n`;
-        }
-        buf += `\r\n`;
-        this.partHeader = buf;
-    }
-    close() {
-        this.closed = true;
-    }
-    async write(p) {
-        if (this.closed) {
-            throw new Error("part is closed");
-        }
-        if (!this.headersWritten) {
-            await this.writer.write(encoder.encode(this.partHeader));
-            this.headersWritten = true;
-        }
-        return this.writer.write(p);
-    }
-}
-function checkBoundary(b) {
-    if (b.length < 1 || b.length > 70) {
-        throw new Error(`invalid boundary length: ${b.length}`);
-    }
-    const end = b.length - 1;
-    for(let i = 0; i < end; i++){
-        const c = b.charAt(i);
-        if (!c.match(/[a-zA-Z0-9'()+_,\-./:=?]/) || c === " " && i !== end) {
-            throw new Error("invalid boundary character: " + c);
-        }
-    }
-    return b;
-}
-class MultipartWriter {
-    get boundary() {
-        return this._boundary;
-    }
-    constructor(writer, boundary){
-        this.writer = writer;
-        this.isClosed = false;
-        if (boundary !== void 0) {
-            this._boundary = checkBoundary(boundary);
-        } else {
-            this._boundary = randomBoundary();
-        }
-        this.bufWriter = new BufWriter(writer);
-    }
-    formDataContentType() {
-        return `multipart/form-data; boundary=${this.boundary}`;
-    }
-    createPart(headers) {
-        if (this.isClosed) {
-            throw new Error("multipart: writer is closed");
-        }
-        if (this.lastPart) {
-            this.lastPart.close();
-        }
-        const part = new PartWriter(this.writer, this.boundary, headers, !this.lastPart);
-        this.lastPart = part;
-        return part;
-    }
-    createFormFile(field, filename) {
-        const h = new Headers();
-        h.set("Content-Disposition", `form-data; name="${field}"; filename="${filename}"`);
-        h.set("Content-Type", "application/octet-stream");
-        return this.createPart(h);
-    }
-    createFormField(field) {
-        const h = new Headers();
-        h.set("Content-Disposition", `form-data; name="${field}"`);
-        h.set("Content-Type", "application/octet-stream");
-        return this.createPart(h);
-    }
-    async writeField(field, value) {
-        const f = await this.createFormField(field);
-        await f.write(encoder.encode(value));
-    }
-    async writeFile(field, filename, file) {
-        const f = await this.createFormFile(field, filename);
-        await Deno.copy(file, f);
-    }
-    flush() {
-        return this.bufWriter.flush();
-    }
-    async close() {
-        if (this.isClosed) {
-            throw new Error("multipart: writer is closed");
-        }
-        if (this.lastPart) {
-            this.lastPart.close();
-            this.lastPart = void 0;
-        }
-        await this.writer.write(encoder.encode(`\r\n--${this.boundary}--\r\n`));
-        await this.flush();
-        this.isClosed = true;
-    }
 }
 const content = `--------------------------366796e1c748a2fb\r
 Content-Disposition: form-data; name="payload"\r
