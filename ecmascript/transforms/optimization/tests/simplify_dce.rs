@@ -1,4 +1,4 @@
-use swc_common::{chain, Mark, SyntaxContext};
+use swc_common::{chain, pass::Repeat, Mark, SyntaxContext};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::resolver;
 use swc_ecma_transforms_optimization::{
@@ -16,7 +16,7 @@ macro_rules! to {
                 decorators: true,
                 ..Default::default()
             }),
-            |_| chain!(resolver(), tree_shaker(Default::default())),
+            |_| chain!(resolver(), Repeat::new(tree_shaker(Default::default()))),
             $name,
             $src,
             $expected
