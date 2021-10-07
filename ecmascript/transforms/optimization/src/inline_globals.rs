@@ -1,44 +1,50 @@
-use std::collections::HashMap;
+use rustc_hash::FxHashMap;
 use swc_atoms::{js_word, JsWord};
-use swc_common::collections::AHashSet;
+use swc_common::{collections::AHashSet, sync::Lrc};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{collect_decls, Id};
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
-pub fn inline_globals(envs: HashMap<JsWord, Expr>, globals: HashMap<JsWord, Expr>) -> impl Fold {
-    InlineGlobals {
+pub fn inline_globals(
+    envs: Lrc<FxHashMap<JsWord, Expr>>,
+    globals: Lrc<FxHashMap<JsWord, Expr>>,
+) -> impl Fold + VisitMut {
+    as_folder(InlineGlobals {
         envs,
         globals,
         bindings: Default::default(),
-    }
+    })
 }
 
 struct InlineGlobals {
-    envs: HashMap<JsWord, Expr>,
-    globals: HashMap<JsWord, Expr>,
+    envs: Lrc<FxHashMap<JsWord, Expr>>,
+    globals: Lrc<FxHashMap<JsWord, Expr>>,
 
     bindings: AHashSet<Id>,
 }
 
-impl Fold for InlineGlobals {
-    noop_fold_type!();
+impl VisitMut for InlineGlobals {
+    noop_visit_mut_type!();
 
-    fn fold_expr(&mut self, expr: Expr) -> Expr {
-        let expr = expr.fold_children_with(self);
+    fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        expr.visit_mut_children_with(self);
 
         match expr {
             Expr::Ident(Ident { ref sym, span, .. }) => {
                 if self.bindings.contains(&(sym.clone(), span.ctxt)) {
-                    return expr;
+                    return;
                 }
 
                 // It's ok because we don't recurse into member expressions.
-                return if let Some(value) = self.globals.get(sym) {
-                    value.clone().fold_with(self)
-                } else {
-                    expr
-                };
+                if let Some(value) = self.globals.get(sym) {
+                    let mut value = value.clone();
+                    value.visit_mut_with(self);
+                    *expr = value;
+                }
+
+                return;
             }
+
             Expr::Member(MemberExpr {
                 obj: ExprOrSuper::Expr(ref obj),
                 ref prop,
@@ -60,7 +66,8 @@ impl Fold for InlineGlobals {
                             Expr::Lit(Lit::Str(Str { value: ref sym, .. }))
                             | Expr::Ident(Ident { ref sym, .. }) => {
                                 if let Some(env) = self.envs.get(sym) {
-                                    return env.clone();
+                                    *expr = env.clone();
+                                    return;
                                 }
                             }
                             _ => {}
@@ -73,35 +80,26 @@ impl Fold for InlineGlobals {
             },
             _ => {}
         }
-
-        expr
     }
 
-    fn fold_member_expr(&mut self, expr: MemberExpr) -> MemberExpr {
+    fn visit_mut_member_expr(&mut self, expr: &mut MemberExpr) {
+        expr.obj.visit_mut_with(self);
+
         if expr.computed {
-            MemberExpr {
-                obj: expr.obj.fold_with(self),
-                prop: expr.prop.fold_with(self),
-                ..expr
-            }
-        } else {
-            MemberExpr {
-                obj: expr.obj.fold_with(self),
-                ..expr
-            }
+            expr.prop.visit_mut_with(self);
         }
     }
 
-    fn fold_module(&mut self, module: Module) -> Module {
-        self.bindings.extend(collect_decls(&module));
+    fn visit_mut_module(&mut self, module: &mut Module) {
+        self.bindings.extend(collect_decls(&*module));
 
-        module.fold_children_with(self)
+        module.visit_mut_children_with(self);
     }
 
-    fn fold_script(&mut self, script: Script) -> Script {
-        self.bindings.extend(collect_decls(&script));
+    fn visit_mut_script(&mut self, script: &mut Script) {
+        self.bindings.extend(collect_decls(&*script));
 
-        script.fold_children_with(self)
+        script.visit_mut_children_with(self);
     }
 }
 
@@ -116,8 +114,8 @@ mod tests {
         tester: &mut Tester<'_>,
         values: &[(&str, &str)],
         is_env: bool,
-    ) -> HashMap<JsWord, Expr> {
-        let mut m = HashMap::default();
+    ) -> FxHashMap<JsWord, Expr> {
+        let mut m = FxHashMap::default();
 
         for (k, v) in values {
             let v = if is_env {
@@ -148,21 +146,21 @@ mod tests {
         m
     }
 
-    fn envs(tester: &mut Tester<'_>, values: &[(&str, &str)]) -> HashMap<JsWord, Expr> {
-        mk_map(tester, values, true)
+    fn envs(tester: &mut Tester<'_>, values: &[(&str, &str)]) -> Lrc<FxHashMap<JsWord, Expr>> {
+        Lrc::new(mk_map(tester, values, true))
     }
 
-    fn globals(tester: &mut Tester<'_>, values: &[(&str, &str)]) -> HashMap<JsWord, Expr> {
-        mk_map(tester, values, false)
+    fn globals(tester: &mut Tester<'_>, values: &[(&str, &str)]) -> Lrc<FxHashMap<JsWord, Expr>> {
+        Lrc::new(mk_map(tester, values, false))
     }
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |tester| InlineGlobals {
+        |tester| as_folder(InlineGlobals {
             envs: envs(tester, &[]),
             globals: globals(tester, &[]),
             bindings: Default::default()
-        },
+        }),
         issue_215,
         r#"if (process.env.x === 'development') {}"#,
         r#"if (process.env.x === 'development') {}"#
@@ -170,11 +168,11 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |tester| InlineGlobals {
+        |tester| as_folder(InlineGlobals {
             envs: envs(tester, &[("NODE_ENV", "development")]),
             globals: globals(tester, &[]),
             bindings: Default::default()
-        },
+        }),
         node_env,
         r#"if (process.env.NODE_ENV === 'development') {}"#,
         r#"if ('development' === 'development') {}"#
@@ -182,11 +180,11 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |tester| InlineGlobals {
+        |tester| as_folder(InlineGlobals {
             envs: envs(tester, &[]),
             globals: globals(tester, &[("__DEBUG__", "true")]),
             bindings: Default::default()
-        },
+        }),
         inline_globals,
         r#"if (__DEBUG__) {}"#,
         r#"if (true) {}"#
@@ -194,11 +192,11 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |tester| InlineGlobals {
+        |tester| as_folder(InlineGlobals {
             envs: envs(tester, &[]),
             globals: globals(tester, &[("debug", "true")]),
             bindings: Default::default()
-        },
+        }),
         non_global,
         r#"if (foo.debug) {}"#,
         r#"if (foo.debug) {}"#
@@ -206,11 +204,11 @@ mod tests {
 
     test!(
         Default::default(),
-        |tester| InlineGlobals {
+        |tester| as_folder(InlineGlobals {
             envs: envs(tester, &[]),
             globals: globals(tester, &[]),
             bindings: Default::default()
-        },
+        }),
         issue_417_1,
         "const test = process.env['x']",
         "const test = process.env['x']"
@@ -218,11 +216,11 @@ mod tests {
 
     test!(
         Default::default(),
-        |tester| InlineGlobals {
+        |tester| as_folder(InlineGlobals {
             envs: envs(tester, &[("x", "FOO")]),
             globals: globals(tester, &[]),
             bindings: Default::default()
-        },
+        }),
         issue_417_2,
         "const test = process.env['x']",
         "const test = 'FOO'"

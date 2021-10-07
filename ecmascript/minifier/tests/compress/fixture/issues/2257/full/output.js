@@ -72,10 +72,10 @@
                 color: "#ed3131"
             };
             exports.default = function(param) {
-                var componentStack = param.componentStack, error = param.error;
+                var error, componentStack, componentStack1 = param.componentStack, error1 = param.error;
                 return _jsxRuntime.jsxs("div", {
                     style: style,
-                    title: "".concat(error.toString(), "\n\nThis is located at:").concat(componentStack),
+                    title: (error = error1, componentStack = componentStack1, "".concat(error.toString(), "\n\nThis is located at:").concat(componentStack)),
                     children: [
                         _jsxRuntime.jsxs("svg", {
                             viewBox: "0 0 1024 1024",
@@ -459,7 +459,7 @@
             }
             function parseRoutes(routes, fallback) {
                 return routes.map(function(route) {
-                    var component, routerWrappers, route1, ref, __LAZY__, dynamicImport, children = route.children, component1 = route.component, routeWrappers = route.routeWrappers, wrappers = route.wrappers, others = swcHelpers.objectWithoutProperties(route, [
+                    var component, routerWrappers, route1, fallback1, ref, __LAZY__, dynamicImport, children = route.children, component1 = route.component, routeWrappers = route.routeWrappers, wrappers = route.wrappers, others = swcHelpers.objectWithoutProperties(route, [
                         "children",
                         "component",
                         "routeWrappers",
@@ -468,13 +468,13 @@
                     wrappers && wrappers.length && (mergedRouteWrappers = mergedRouteWrappers.concat(wrappers));
                     var parsedRoute = swcHelpers.objectSpread({
                     }, others);
-                    return component1 && (parsedRoute.component = (component = component1, routerWrappers = mergedRouteWrappers, route1 = route, __LAZY__ = (ref = component || {
+                    return component1 && (parsedRoute.component = (component = component1, routerWrappers = mergedRouteWrappers, route1 = route, fallback1 = fallback, __LAZY__ = (ref = component || {
                     }).__LAZY__, dynamicImport = ref.dynamicImport, ref.__LOADABLE__ ? _component.default(dynamicImport, {
                         resolveComponent: function(mod) {
                             var comp = mod.default;
                             return setComponentAttr(comp, route1), wrapperRoute(comp, routerWrappers);
                         },
-                        fallback: fallback
+                        fallback: fallback1
                     }) : __LAZY__ ? _react.lazy(function() {
                         return dynamicImport().then(function(mod) {
                             if (routerWrappers && routerWrappers.length) {
@@ -3262,8 +3262,8 @@
                     };
                     return redefineAll(C.prototype, {
                         clear: function() {
-                            for(var state = getInternalState(this), data = state.index, entry = state.first; entry;)entry.removed = !0, entry.previous && (entry.previous = entry.previous.next = void 0), delete data[entry.index], entry = entry.next;
-                            state.first = state.last = void 0, DESCRIPTORS ? state.size = 0 : this.size = 0;
+                            for(var that = this, state = getInternalState(that), data = state.index, entry = state.first; entry;)entry.removed = !0, entry.previous && (entry.previous = entry.previous.next = void 0), delete data[entry.index], entry = entry.next;
+                            state.first = state.last = void 0, DESCRIPTORS ? state.size = 0 : that.size = 0;
                         },
                         "delete": function(key) {
                             var state = getInternalState(this), entry = getEntry(this, key);
@@ -9387,7 +9387,7 @@
             function setHistory(customHistory) {
                 storage.history = customHistory;
             }
-            var storage_history = storage.history, __assign = function() {
+            var createHistory, storage_history = storage.history, __assign = function() {
                 return (__assign = Object.assign || function(t) {
                     for(var s, i = 1, n = arguments.length; i < n; i++)for(var p in s = arguments[i])Object.prototype.hasOwnProperty.call(s, p) && (t[p] = s[p]);
                     return t;
@@ -9404,7 +9404,7 @@
                         visibilityState: !0
                     }, lib_router.prev.visibiltyState = !1, pageLifeCycles_emit("hide", lib_router.prev.pathname), pageLifeCycles_emit("show", lib_router.current.pathname));
                 });
-            }, esm_history = __webpack_require__(91520), process = __webpack_require__(97671), createHistory = function(_a) {
+            }, esm_history = __webpack_require__(91520), process = __webpack_require__(97671), createHistory1 = function(_a) {
                 var type = _a.type, basename = _a.basename, location = _a.location;
                 return process.env.__IS_SERVER__ && ((0, esm_history.createMemoryHistory)().location = location), "hash" === type ? (0, esm_history.createHashHistory)({
                     basename: basename
@@ -9413,14 +9413,14 @@
                 }) : (0, esm_history.createMemoryHistory)();
             }, initHistory = function(appConfig, initialContext) {
                 void 0 === initialContext && (initialContext = null), appConfig.router || (appConfig.router = DEFAULT_APP_CONFIG.router);
-                var router = appConfig.router, _a = router.type, type = void 0 === _a ? DEFAULT_APP_CONFIG.router.type : _a, basename = router.basename, customHistory = router.history, newHistory = createHistory({
+                var router = appConfig.router, _a = router.type, type = void 0 === _a ? DEFAULT_APP_CONFIG.router.type : _a, basename = router.basename, customHistory = router.history, newHistory = (createHistory = createHistory1)({
                     type: type,
                     basename: basename,
                     location: initialContext ? initialContext.location : null,
                     customHistory: customHistory
                 });
                 appConfig.router.history = newHistory, setHistory(newHistory);
-            }, web_history = createHistory, web_initAppLifeCycles = function() {
+            }, web_history = createHistory1, web_initAppLifeCycles = function() {
                 "undefined" != typeof document && "undefined" != typeof window && (document.addEventListener("visibilitychange", function() {
                     var history = getHistory();
                     (history ? history.location.pathname : lib_router.current.pathname) === lib_router.current.pathname && (lib_router.current.visibilityState = !lib_router.current.visibilityState, lib_router.current.visibilityState ? (emit("show"), pageLifeCycles_emit("show", lib_router.current.pathname)) : (pageLifeCycles_emit("hide", lib_router.current.pathname), emit("hide")));
@@ -9979,8 +9979,8 @@
                     var delta = toIndex - fromIndex;
                     delta && (forceNextPop = !0, go(delta));
                 }
-                var path = getHashPath(), encodedPath = encodePath(path);
-                path !== encodedPath && replaceHashPath(encodedPath);
+                var path4 = getHashPath(), encodedPath = encodePath(path4);
+                path4 !== encodedPath && replaceHashPath(encodedPath);
                 var initialLocation = getDOMLocation(), allPaths = [
                     createPath(initialLocation)
                 ];
@@ -9999,15 +9999,15 @@
                         var baseTag = document.querySelector("base"), href = "";
                         return baseTag && baseTag.getAttribute("href") && (href = stripHash(window.location.href)), href + "#" + encodePath(basename + createPath(location));
                     },
-                    push: function(path, state) {
-                        var location = createLocation(path, void 0, void 0, history.location);
+                    push: function(path3, state) {
+                        var location = createLocation(path3, void 0, void 0, history.location);
                         transitionManager.confirmTransitionTo(location, "PUSH", getUserConfirmation, function(ok) {
                             if (ok) {
-                                var path = createPath(location), encodedPath = encodePath(basename + path);
+                                var path, path1 = createPath(location), encodedPath = encodePath(basename + path1);
                                 if (getHashPath() !== encodedPath) {
-                                    ignorePath = path, window.location.hash = encodedPath;
+                                    ignorePath = path1, path = encodedPath, window.location.hash = path;
                                     var prevIndex = allPaths.lastIndexOf(createPath(history.location)), nextPaths = allPaths.slice(0, prevIndex + 1);
-                                    nextPaths.push(path), allPaths = nextPaths, setState({
+                                    nextPaths.push(path1), allPaths = nextPaths, setState({
                                         action: "PUSH",
                                         location: location
                                     });
@@ -10207,7 +10207,7 @@
             module.exports = !function() {
                 try {
                     if (!Object.assign) return !1;
-                    var test1 = "abc";
+                    var test1 = new String("abc");
                     if (test1[5] = "de", "5" === Object.getOwnPropertyNames(test1)[0]) return !1;
                     for(var test2 = {
                     }, i = 0; i < 10; i++)test2["_" + String.fromCharCode(i)] = i;
@@ -10342,7 +10342,7 @@
                 return strict || (route = (endsWithDelimiter ? route.slice(0, -delimiter.length) : route) + "(?:" + delimiter + "(?=$))?"), end ? route += "$" : route += strict && endsWithDelimiter ? "" : "(?=" + delimiter + "|$)", attachKeys(new RegExp("^" + route, flags(options)), keys);
             }
             function pathToRegexp(path, keys, options) {
-                var options1;
+                var path3, keys1, options1;
                 return (isarray(keys) || (options = keys || options, keys = []), options = options || {
                 }, path instanceof RegExp) ? (function(path, keys) {
                     var groups = path.source.match(/\((?!\?)/g);
@@ -10360,7 +10360,7 @@
                 })(path, keys) : isarray(path) ? (function(path, keys, options) {
                     for(var parts = [], i = 0; i < path.length; i++)parts.push(pathToRegexp(path[i], keys, options).source);
                     return attachKeys(new RegExp("(?:" + parts.join("|") + ")", flags(options)), keys);
-                })(path, keys, options) : tokensToRegExp(parse(path, options1 = options), keys, options1);
+                })(path, keys, options) : (path3 = path, keys1 = keys, tokensToRegExp(parse(path3, options1 = options), keys1, options1));
             }
         },
         97671: function(module) {
@@ -10947,8 +10947,8 @@
                                 return runtime = (_e = createBaseApp(appConfig, buildConfig, context)).runtime, modifiedAppConfig = _e.appConfig, initAppLifeCycles(), setInitialData(context.initialData), emitLifeCycles(), [
                                     2,
                                     function(runtime, options) {
-                                        var _a, _b = options.appConfig, _c = (void 0 === _b ? {
-                                        } : _b).app, rootId = _c.rootId, mountNode = _c.mountNode, App = getRenderApp(runtime, options), appMountNode = mountNode || document.getElementById(rootId) || document.getElementById("ice-container");
+                                        var mountNode, rootId, _a, _b = options.appConfig, _c = (void 0 === _b ? {
+                                        } : _b).app, rootId1 = _c.rootId, mountNode1 = _c.mountNode, App = getRenderApp(runtime, options), appMountNode = (mountNode = mountNode1, rootId = rootId1, mountNode || document.getElementById(rootId) || document.getElementById("ice-container"));
                                         if (null == runtime ? void 0 : runtime.modifyDOMRender) return null === (_a = null == runtime ? void 0 : runtime.modifyDOMRender) || void 0 === _a ? void 0 : _a.call(runtime, {
                                             App: App,
                                             appMountNode: appMountNode
@@ -11057,10 +11057,10 @@
             function pa(a) {
                 return a[1].toUpperCase();
             }
-            function qa(a, b, c, d2) {
+            function qa(a, b, c, d) {
                 var a1, e = D.hasOwnProperty(b) ? D[b] : null;
-                (null !== e ? 0 !== e.type : d2 || (!(2 < b.length) || "o" !== b[0] && "O" !== b[0] || "n" !== b[1] && "N" !== b[1]) && 1) && ((function(a, b1, c, d) {
-                    if (null == b1 || (function(a, b, c, d1) {
+                (null !== e ? 0 !== e.type : d || (!(2 < b.length) || "o" !== b[0] && "O" !== b[0] || "n" !== b[1] && "N" !== b[1]) && 1) && ((function(a, b, c, d) {
+                    if (null == b || (function(a, b, c, d) {
                         if (null !== c && 0 === c.type) return !1;
                         switch(typeof b){
                             case "function":
@@ -11073,20 +11073,20 @@
                             default:
                                 return !1;
                         }
-                    })(b, b1, c, d)) return !0;
+                    })(a, b, c, d)) return !0;
                     if (d) return !1;
                     if (null !== c) switch(c.type){
                         case 3:
-                            return !b1;
+                            return !b;
                         case 4:
-                            return !1 === b1;
+                            return !1 === b;
                         case 5:
-                            return isNaN(b1);
+                            return isNaN(b);
                         case 6:
-                            return isNaN(b1) || 1 > b1;
+                            return isNaN(b) || 1 > b;
                     }
                     return !1;
-                })(b, c, e, d2) && (c = null), d2 || null === e ? (a1 = b, (!!ia.call(ka, a1) || !ia.call(ja, a1) && (ha.test(a1) ? ka[a1] = !0 : (ja[a1] = !0, !1))) && (null === c ? a.removeAttribute(b) : a.setAttribute(b, "" + c))) : e.mustUseProperty ? a[e.propertyName] = null === c ? 3 !== e.type && "" : c : (b = e.attributeName, d2 = e.attributeNamespace, null === c ? a.removeAttribute(b) : (c = 3 === (e = e.type) || 4 === e && !0 === c ? "" : "" + c, d2 ? a.setAttributeNS(d2, b, c) : a.setAttribute(b, c))));
+                })(b, c, e, d) && (c = null), d || null === e ? (a1 = b, (!!ia.call(ka, a1) || !ia.call(ja, a1) && (ha.test(a1) ? ka[a1] = !0 : (ja[a1] = !0, !1))) && (null === c ? a.removeAttribute(b) : a.setAttribute(b, "" + c))) : e.mustUseProperty ? a[e.propertyName] = null === c ? 3 !== e.type && "" : c : (b = e.attributeName, d = e.attributeNamespace, null === c ? a.removeAttribute(b) : (c = 3 === (e = e.type) || 4 === e && !0 === c ? "" : "" + c, d ? a.setAttributeNS(d, b, c) : a.setAttribute(b, c))));
             }
             "accent-height alignment-baseline arabic-form baseline-shift cap-height clip-path clip-rule color-interpolation color-interpolation-filters color-profile color-rendering dominant-baseline enable-background fill-opacity fill-rule flood-color flood-opacity font-family font-size font-size-adjust font-stretch font-style font-variant font-weight glyph-name glyph-orientation-horizontal glyph-orientation-vertical horiz-adv-x horiz-origin-x image-rendering letter-spacing lighting-color marker-end marker-mid marker-start overline-position overline-thickness paint-order panose-1 pointer-events rendering-intent shape-rendering stop-color stop-opacity strikethrough-position strikethrough-thickness stroke-dasharray stroke-dashoffset stroke-linecap stroke-linejoin stroke-miterlimit stroke-opacity stroke-width text-anchor text-decoration text-rendering underline-position underline-thickness unicode-bidi unicode-range units-per-em v-alphabetic v-hanging v-ideographic v-mathematical vector-effect vert-adv-y vert-origin-x vert-origin-y word-spacing writing-mode xmlns:xlink x-height".split(" ").forEach(function(a) {
                 var b = a.replace(oa, pa);
@@ -15736,7 +15736,7 @@
             function uk(a, b) {
                 var c = 2 < arguments.length && void 0 !== arguments[2] ? arguments[2] : null;
                 if (!rk(b)) throw Error(y(200));
-                return (function(a1, b1, c) {
+                return (function(a, b, c) {
                     var d = 3 < arguments.length && void 0 !== arguments[3] ? arguments[3] : null;
                     return {
                         $$typeof: ta,
@@ -16669,14 +16669,14 @@
                     var _this = this;
                     return _react_17_0_2_react.createElement(context.Consumer, null, function(context$1) {
                         context$1 || (0, tiny_invariant_esm.default)(!1);
-                        var location = _this.props.location || context$1.location, match = _this.props.computedMatch ? _this.props.computedMatch : _this.props.path ? matchPath(location.pathname, _this.props) : context$1.match, props = (0, esm_extends.Z)({
+                        var children, location = _this.props.location || context$1.location, match = _this.props.computedMatch ? _this.props.computedMatch : _this.props.path ? matchPath(location.pathname, _this.props) : context$1.match, props = (0, esm_extends.Z)({
                         }, context$1, {
                             location: location,
                             match: match
-                        }), _this$props = _this.props, children = _this$props.children, component = _this$props.component, render = _this$props.render;
-                        return Array.isArray(children) && 0 === _react_17_0_2_react.Children.count(children) && (children = null), _react_17_0_2_react.createElement(context.Provider, {
+                        }), _this$props = _this.props, children1 = _this$props.children, component = _this$props.component, render = _this$props.render;
+                        return Array.isArray(children1) && (children = children1, 0 === _react_17_0_2_react.Children.count(children)) && (children1 = null), _react_17_0_2_react.createElement(context.Provider, {
                             value: props
-                        }, props.match ? children ? "function" == typeof children ? children(props) : children : component ? _react_17_0_2_react.createElement(component, props) : render ? render(props) : null : "function" == typeof children ? children(props) : null);
+                        }, props.match ? children1 ? "function" == typeof children1 ? children1(props) : children1 : component ? _react_17_0_2_react.createElement(component, props) : render ? render(props) : null : "function" == typeof children1 ? children1(props) : null);
                     });
                 }, Route;
             }(_react_17_0_2_react.Component);

@@ -12,7 +12,10 @@ use swc::{
 use swc_common::{chain, comments::Comment, BytePos, FileName};
 use swc_ecma_ast::{EsVersion, *};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
-use swc_ecma_transforms::helpers::{self, Helpers};
+use swc_ecma_transforms::{
+    helpers::{self, Helpers},
+    pass::noop,
+};
 use swc_ecma_utils::HANDLER;
 use swc_ecma_visit::{Fold, FoldWith};
 use testing::{NormalizedOutput, StdErr, Tester};
@@ -122,6 +125,7 @@ fn project(dir: &str) {
                         ..Default::default()
                     },
                     &fm.name,
+                    noop(),
                 )
                 .expect("failed to read config")
                 .is_none()
@@ -718,6 +722,7 @@ fn should_visit() {
                         ..Default::default()
                     },
                     &fm.name,
+                    noop(),
                 )
                 .unwrap()
                 .unwrap();

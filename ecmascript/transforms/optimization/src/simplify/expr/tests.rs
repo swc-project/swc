@@ -4,7 +4,7 @@ use swc_ecma_transforms_testing::test_transform;
 fn fold(src: &str, expected: &str) {
     test_transform(
         ::swc_ecma_parser::Syntax::default(),
-        |_| expr_simplifier(),
+        |_| expr_simplifier(Default::default()),
         src,
         expected,
         true,

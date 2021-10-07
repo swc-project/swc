@@ -1,6 +1,7 @@
 #![feature(test)]
 #![feature(bench_black_box)]
 
+extern crate swc_node_base;
 extern crate test;
 
 use std::{
@@ -12,7 +13,7 @@ use swc::config::{Config, JscConfig, Options, SourceMapsConfig};
 use swc_common::{errors::Handler, FileName, FilePathMapping, SourceMap};
 use swc_ecma_ast::Program;
 use swc_ecma_parser::{JscTarget, Syntax, TsConfig};
-use swc_ecma_transforms::{fixer, hygiene, resolver, typescript};
+use swc_ecma_transforms::{fixer, hygiene, pass::noop, resolver, typescript};
 use swc_ecma_visit::FoldWith;
 use test::Bencher;
 
@@ -108,6 +109,7 @@ fn config_for_file(b: &mut Bencher) {
                 ..Default::default()
             },
             &FileName::Real("rxjs/src/internal/observable/dom/AjaxObservable.ts".into()),
+            noop(),
         ))
     });
 }
@@ -161,13 +163,15 @@ fn bench_full(b: &mut Bencher, opts: &Options) {
     let c = mk();
 
     b.iter(|| {
-        let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
+        for _ in 0..100 {
+            let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
 
-        let fm = c.cm.new_source_file(
-            FileName::Real("rxjs/src/internal/observable/dom/AjaxObservable.ts".into()),
-            SOURCE.to_string(),
-        );
-        c.process_js_file(fm, &handler, opts)
+            let fm = c.cm.new_source_file(
+                FileName::Real("rxjs/src/internal/observable/dom/AjaxObservable.ts".into()),
+                SOURCE.to_string(),
+            );
+            let _ = c.process_js_file(fm, &handler, opts).unwrap();
+        }
     });
 }
 
@@ -240,6 +244,7 @@ macro_rules! tr_only {
                         &FileName::Real(
                             "rxjs/src/internal/observable/dom/AjaxObservable.ts".into(),
                         ),
+                        noop(),
                     )
                     .unwrap()
                     .unwrap();

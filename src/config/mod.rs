@@ -5,6 +5,7 @@ use dashmap::DashMap;
 use either::Either;
 use once_cell::sync::Lazy;
 use regex::Regex;
+use rustc_hash::{FxHashMap, FxHashSet};
 use serde::{Deserialize, Serialize};
 use std::{
     cell::RefCell,
@@ -35,7 +36,7 @@ use swc_ecma_transforms::{
     modules::{hoist::import_hoister, path::NodeImportResolver, util::Scope},
     optimization::{const_modules, inline_globals, json_parse, simplifier},
     pass::{noop, Optional},
-    proposals::{decorators, export_default_from},
+    proposals::{decorators, export_default_from, import_assertions},
     react, resolver_with_mark, typescript,
 };
 use swc_ecma_visit::Fold;
@@ -182,6 +183,7 @@ impl Options {
         is_module: bool,
         config: Option<Config>,
         comments: Option<&'a SwcComments>,
+        custom_before_pass: impl 'a + swc_ecma_visit::Fold,
     ) -> BuiltConfig<impl 'a + swc_ecma_visit::Fold> {
         let mut config = config.unwrap_or_else(Default::default);
         config.merge(&self.config);
@@ -247,21 +249,6 @@ impl Options {
             .unwrap_or_else(|| Mark::fresh(Mark::root()));
 
         let pass = chain!(
-            // handle jsx
-            Optional::new(
-                react::react(cm.clone(), comments.clone(), transform.react),
-                syntax.jsx()
-            ),
-            // Decorators may use type information
-            Optional::new(
-                decorators(decorators::Config {
-                    legacy: transform.legacy_decorator,
-                    emit_metadata: transform.decorator_metadata,
-                }),
-                syntax.decorators()
-            ),
-            Optional::new(typescript::strip(), syntax.typescript()),
-            resolver_with_mark(top_level_mark),
             const_modules,
             optimization,
             Optional::new(export_default_from(), syntax.export_default_from()),
@@ -289,7 +276,32 @@ impl Options {
                 comments,
             );
 
-        let pass = chain!(pass, Optional::new(jest::jest(), transform.hidden.jest));
+        let pass = chain!(
+            // Decorators may use type information
+            Optional::new(
+                decorators(decorators::Config {
+                    legacy: transform.legacy_decorator,
+                    emit_metadata: transform.decorator_metadata,
+                }),
+                syntax.decorators()
+            ),
+            import_assertions(),
+            Optional::new(typescript::strip(), syntax.typescript()),
+            resolver_with_mark(top_level_mark),
+            custom_before_pass,
+            // handle jsx
+            Optional::new(
+                react::react(
+                    cm.clone(),
+                    comments.clone(),
+                    transform.react,
+                    top_level_mark
+                ),
+                syntax.jsx()
+            ),
+            pass,
+            Optional::new(jest::jest(), transform.hidden.jest)
+        );
 
         BuiltConfig {
             minify: config.minify,
@@ -826,7 +838,7 @@ impl ModuleConfig {
         scope: RustRc<RefCell<Scope>>,
     ) -> Box<dyn swc_ecma_visit::Fold> {
         let base = match base {
-            FileName::Real(v) => {
+            FileName::Real(v) if !paths.is_empty() => {
                 FileName::Real(v.canonicalize().unwrap_or_else(|_| v.to_path_buf()))
             }
             _ => base.clone(),
@@ -938,12 +950,12 @@ fn default_jsonify_min_cost() -> usize {
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct GlobalPassOption {
     #[serde(default)]
-    pub vars: HashMap<String, String>,
+    pub vars: FxHashMap<String, String>,
     #[serde(default = "default_envs")]
-    pub envs: HashSet<String>,
+    pub envs: FxHashSet<String>,
 }
 
-fn default_envs() -> HashSet<String> {
+fn default_envs() -> FxHashSet<String> {
     let mut v = HashSet::default();
     v.insert(String::from("NODE_ENV"));
     v.insert(String::from("SWC_ENV"));
@@ -952,12 +964,14 @@ fn default_envs() -> HashSet<String> {
 
 impl GlobalPassOption {
     pub fn build(self, cm: &SourceMap, handler: &Handler) -> impl 'static + Fold {
+        type ValuesMap = Arc<FxHashMap<JsWord, Expr>>;
+
         fn mk_map(
             cm: &SourceMap,
             handler: &Handler,
             values: impl Iterator<Item = (String, String)>,
             is_env: bool,
-        ) -> HashMap<JsWord, Expr> {
+        ) -> ValuesMap {
             let mut m = HashMap::default();
 
             for (k, v) in values {
@@ -999,23 +1013,49 @@ impl GlobalPassOption {
                 m.insert((*k).into(), expr);
             }
 
-            m
+            Arc::new(m)
         }
 
-        let envs = self.envs;
-        inline_globals(
-            if cfg!(target_arch = "wasm32") {
-                mk_map(cm, handler, vec![].into_iter(), true)
+        let env_map = if cfg!(target_arch = "wasm32") {
+            Arc::new(Default::default())
+        } else {
+            static CACHE: Lazy<DashMap<Vec<String>, ValuesMap>> = Lazy::new(|| Default::default());
+
+            let cache_key = self.envs.iter().cloned().collect::<Vec<_>>();
+            if let Some(v) = CACHE.get(&cache_key).as_deref().cloned() {
+                v
             } else {
-                mk_map(
+                let envs = self.envs;
+                let map = mk_map(
                     cm,
                     handler,
                     env::vars().filter(|(k, _)| envs.contains(&*k)),
                     true,
-                )
-            },
-            mk_map(cm, handler, self.vars.into_iter(), false),
-        )
+                );
+                CACHE.insert(cache_key, map.clone());
+                map
+            }
+        };
+
+        let global_map = {
+            static CACHE: Lazy<DashMap<Vec<(String, String)>, ValuesMap>> =
+                Lazy::new(|| Default::default());
+
+            let cache_key = self
+                .vars
+                .iter()
+                .map(|(k, v)| (k.clone(), v.clone()))
+                .collect::<Vec<_>>();
+            if let Some(v) = CACHE.get(&cache_key) {
+                (*v).clone()
+            } else {
+                let map = mk_map(cm, handler, self.vars.into_iter(), false);
+                CACHE.insert(cache_key, map.clone());
+                map
+            }
+        };
+
+        inline_globals(env_map, global_map)
     }
 }
 

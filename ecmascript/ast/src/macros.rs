@@ -1,8 +1,22 @@
 /// Creates a corresponding operator.
 ///
-/// Unary +,- is `op!(unary, "+")`, `op!(unary, "-")`.
+/// This can used to represent [UnaryOp](crate::UnaryOp),
+/// [BinaryOp](crate::BinaryOp), or [AssignOp](crate::AssignOp).
 ///
-/// Binary +,- is `op!(bin, "+")`, `op!(bin, "-")`.
+/// Actual type is determined by the input.
+///
+/// # Note about `+` and `-`
+///
+/// As this macro is intended to be used in anywhere, including pattern
+/// bindings, this macro cannot use trick to determine type for `+` and `-`.
+///
+/// So we have to use some special syntax for `+` and `-`:
+///
+///  - If you need [UnaryOp](crate::UnaryOp), use `op!(unary, "+")` and
+///    `op!(unary, "-")`.
+///
+///  - If you need [BinaryOp](crate::BinaryOp), use `op!(bin, "+")` and
+///    `op!(bin, "-")`.
 #[macro_export]
 macro_rules! op {
     (unary,"-") => {

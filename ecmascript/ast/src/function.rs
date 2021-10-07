@@ -5,7 +5,7 @@ use crate::{
     typescript::{TsParamProp, TsTypeAnn, TsTypeParamDecl},
 };
 use is_macro::Is;
-use swc_common::{ast_node, EqIgnoreSpan, Span};
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 /// Common parts of function and method.
 #[ast_node]
@@ -35,6 +35,21 @@ pub struct Function {
 
     #[serde(default)]
     pub return_type: Option<TsTypeAnn>,
+}
+
+impl Take for Function {
+    fn dummy() -> Self {
+        Function {
+            params: Take::dummy(),
+            decorators: Take::dummy(),
+            span: DUMMY_SP,
+            body: Take::dummy(),
+            is_generator: false,
+            is_async: false,
+            type_params: Take::dummy(),
+            return_type: Take::dummy(),
+        }
+    }
 }
 
 #[ast_node("Parameter")]

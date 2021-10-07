@@ -451,7 +451,7 @@ impl<'a, I: Tokens> Parser<I> {
                     .parse_expr_or_spread()
                     .map(Some)?,
             );
-            if is!(self, ',') {
+            if !is!(self, ']') {
                 expect!(self, ',');
             }
         }
@@ -581,7 +581,7 @@ impl<'a, I: Tokens> Parser<I> {
             expect!(p, '(');
 
             let mut first = true;
-            let mut expr_or_spreads = vec![];
+            let mut expr_or_spreads = Vec::with_capacity(8);
 
             while !eof!(p) && !is!(p, ')') {
                 if first {

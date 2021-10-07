@@ -12,13 +12,36 @@ where
     I: ParserInput,
 {
     pub(crate) fn parse_style_rule(&mut self) -> PResult<Rule> {
-        let start = self.input.cur_span()?.lo;
+        let start_pos = self.input.cur_span()?.lo;
+        let start_state = self.input.state();
 
-        let selectors = self.parse_selectors()?;
+        let selectors = self.parse_selectors();
+        let selectors = match selectors {
+            Ok(v) => v,
+            Err(err) => {
+                self.input.skip_ws()?;
+                if is!(self, "}") {
+                    self.errors.push(err);
+                    self.input.reset(&start_state);
+
+                    let mut tokens = vec![];
+                    while !is_one_of!(self, EOF, "}") {
+                        tokens.extend(self.input.bump()?);
+                    }
+
+                    return Ok(Rule::Invalid(Tokens {
+                        span: span!(self, start_pos),
+                        tokens,
+                    }));
+                } else {
+                    return Err(err);
+                }
+            }
+        };
 
         let block = self.parse_decl_block()?;
 
-        let span = span!(self, start);
+        let span = span!(self, start_pos);
 
         Ok(Rule::Style(StyleRule {
             span,
@@ -90,6 +113,7 @@ where
         let (values, mut last_pos) = {
             let ctx = Ctx {
                 allow_operation_in_value: false,
+                recover_from_property_value: true,
                 ..self.ctx
             };
             self.with_ctx(ctx).parse_property_values()?

@@ -4,7 +4,7 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::{AsOptExpr, PatOrExprExt};
 use swc_ecma_utils::quote_ident;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 #[cfg(test)]
 mod tests;
@@ -12,20 +12,20 @@ mod tests;
 /// `@babel/plugin-transform-react-display-name`
 ///
 /// Add displayName to React.createClass calls
-pub fn display_name() -> impl Fold {
-    DisplayName
+pub fn display_name() -> impl Fold + VisitMut {
+    as_folder(DisplayName)
 }
 
 struct DisplayName;
 
-impl Fold for DisplayName {
-    noop_fold_type!();
+impl VisitMut for DisplayName {
+    noop_visit_mut_type!();
 
-    fn fold_assign_expr(&mut self, expr: AssignExpr) -> AssignExpr {
-        let expr = expr.fold_children_with(self);
+    fn visit_mut_assign_expr(&mut self, expr: &mut AssignExpr) {
+        expr.visit_mut_children_with(self);
 
         if expr.op != op!("=") {
-            return expr;
+            return;
         }
 
         if let Some(Expr::Member(MemberExpr {
@@ -35,7 +35,7 @@ impl Fold for DisplayName {
         })) = expr.left.as_expr()
         {
             if let Expr::Ident(ref prop) = &**prop {
-                let right = expr.right.fold_with(&mut Folder {
+                expr.right.visit_mut_with(&mut Folder {
                     name: Some(Box::new(Expr::Lit(Lit::Str(Str {
                         span: prop.span,
                         value: prop.sym.clone(),
@@ -43,12 +43,12 @@ impl Fold for DisplayName {
                         kind: Default::default(),
                     })))),
                 });
-                return AssignExpr { right, ..expr };
+                return;
             }
         }
 
         if let Some(ident) = expr.left.as_ident() {
-            let right = expr.right.fold_with(&mut Folder {
+            expr.right.visit_mut_with(&mut Folder {
                 name: Some(Box::new(Expr::Lit(Lit::Str(Str {
                     span: ident.span,
                     value: ident.sym.clone(),
@@ -56,37 +56,33 @@ impl Fold for DisplayName {
                     kind: Default::default(),
                 })))),
             });
-
-            return AssignExpr { right, ..expr };
         }
-
-        expr
     }
 
-    fn fold_module_decl(&mut self, decl: ModuleDecl) -> ModuleDecl {
-        let decl = decl.fold_children_with(self);
+    fn visit_mut_module_decl(&mut self, decl: &mut ModuleDecl) {
+        decl.visit_mut_children_with(self);
 
         match decl {
             ModuleDecl::ExportDefaultExpr(e) => {
-                ModuleDecl::ExportDefaultExpr(e.fold_with(&mut Folder {
+                e.visit_mut_with(&mut Folder {
                     name: Some(Box::new(Expr::Lit(Lit::Str(Str {
                         span: DUMMY_SP,
                         value: "input".into(),
                         has_escape: false,
                         kind: Default::default(),
                     })))),
-                }))
+                });
             }
-            _ => decl,
+            _ => {}
         }
     }
 
-    fn fold_prop(&mut self, prop: Prop) -> Prop {
-        let prop = prop.fold_children_with(self);
+    fn visit_mut_prop(&mut self, prop: &mut Prop) {
+        prop.visit_mut_children_with(self);
 
         match prop {
             Prop::KeyValue(KeyValueProp { key, value }) => {
-                let value = value.fold_with(&mut Folder {
+                value.visit_mut_with(&mut Folder {
                     name: Some(match key {
                         PropName::Ident(ref i) => Box::new(Expr::Lit(Lit::Str(Str {
                             span: i.span,
@@ -97,21 +93,20 @@ impl Fold for DisplayName {
                             },
                         }))),
                         PropName::Str(ref s) => Box::new(Expr::Lit(Lit::Str(s.clone()))),
-                        PropName::Num(n) => Box::new(Expr::Lit(Lit::Num(n))),
+                        PropName::Num(n) => Box::new(Expr::Lit(Lit::Num(*n))),
                         PropName::BigInt(ref b) => Box::new(Expr::Lit(Lit::BigInt(b.clone()))),
                         PropName::Computed(ref c) => c.expr.clone(),
                     }),
                 });
-
-                Prop::KeyValue(KeyValueProp { key, value })
             }
-            _ => prop,
+            _ => {}
         }
     }
-    fn fold_var_declarator(&mut self, decl: VarDeclarator) -> VarDeclarator {
+
+    fn visit_mut_var_declarator(&mut self, decl: &mut VarDeclarator) {
         match decl.name {
             Pat::Ident(ref ident) => {
-                let init = decl.init.fold_with(&mut Folder {
+                decl.init.visit_mut_with(&mut Folder {
                     name: Some(Box::new(Expr::Lit(Lit::Str(Str {
                         span: ident.id.span,
                         value: ident.id.sym.clone(),
@@ -121,10 +116,8 @@ impl Fold for DisplayName {
                         },
                     })))),
                 });
-
-                VarDeclarator { init, ..decl }
             }
-            _ => decl,
+            _ => {}
         }
     }
 }
@@ -133,31 +126,25 @@ struct Folder {
     name: Option<Box<Expr>>,
 }
 
-impl Fold for Folder {
-    noop_fold_type!();
+impl VisitMut for Folder {
+    noop_visit_mut_type!();
 
     /// Don't recurse into array.
-    fn fold_array_lit(&mut self, node: ArrayLit) -> ArrayLit {
-        node
-    }
+    fn visit_mut_array_lit(&mut self, _: &mut ArrayLit) {}
 
-    fn fold_call_expr(&mut self, expr: CallExpr) -> CallExpr {
-        let expr = expr.fold_children_with(self);
+    fn visit_mut_call_expr(&mut self, expr: &mut CallExpr) {
+        expr.visit_mut_children_with(self);
 
         if is_create_class_call(&expr) {
             let name = match self.name.take() {
                 Some(name) => name,
-                None => return expr,
+                None => return,
             };
             add_display_name(expr, name)
-        } else {
-            expr
         }
     }
     /// Don't recurse into object.
-    fn fold_object_lit(&mut self, node: ObjectLit) -> ObjectLit {
-        node
-    }
+    fn visit_mut_object_lit(&mut self, _: &mut ObjectLit) {}
 }
 
 fn is_create_class_call(call: &CallExpr) -> bool {
@@ -195,18 +182,18 @@ fn is_create_class_call(call: &CallExpr) -> bool {
     false
 }
 
-fn add_display_name(mut call: CallExpr, name: Box<Expr>) -> CallExpr {
+fn add_display_name(call: &mut CallExpr, name: Box<Expr>) {
     let props = match call.args.first_mut() {
         Some(&mut ExprOrSpread { ref mut expr, .. }) => match expr.deref_mut() {
             Expr::Object(ObjectLit { ref mut props, .. }) => props,
-            _ => return call,
+            _ => return,
         },
-        _ => return call,
+        _ => return,
     };
 
     for prop in &*props {
         if is_key_display_name(&*prop) {
-            return call;
+            return;
         }
     }
 
@@ -214,8 +201,6 @@ fn add_display_name(mut call: CallExpr, name: Box<Expr>) -> CallExpr {
         key: PropName::Ident(quote_ident!("displayName")),
         value: name,
     }))));
-
-    call
 }
 
 fn is_key_display_name(prop: &PropOrSpread) -> bool {

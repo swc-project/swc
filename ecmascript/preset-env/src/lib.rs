@@ -1,3 +1,4 @@
+#![allow(dead_code)]
 #![recursion_limit = "256"]
 
 pub use self::{transform_data::Feature, version::Version};

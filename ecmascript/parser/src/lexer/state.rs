@@ -11,7 +11,6 @@ use tracing::trace;
 #[derive(Clone)]
 pub(super) struct State {
     pub is_expr_allowed: bool,
-    pub octal_pos: Option<BytePos>,
     /// if line break exists between previous token and new token?
     pub had_line_break: bool,
     /// TODO: Remove this field.
@@ -323,7 +322,6 @@ impl State {
     pub fn new(syntax: Syntax) -> Self {
         State {
             is_expr_allowed: true,
-            octal_pos: None,
             is_first: true,
             had_line_break: false,
             prev_hi: BytePos(0),
