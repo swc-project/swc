@@ -6,6 +6,7 @@ use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
     VisitWith,
 };
+use tracing::{debug, trace};
 
 pub fn tree_shaker(config: Config) -> impl Fold + VisitMut + Repeated {
     as_folder(TreeShaker {
@@ -90,9 +91,24 @@ impl VisitMut for TreeShaker {
             };
             m.visit_with(&Invalid { span: DUMMY_SP }, &mut analyzer);
         }
-        tracing::debug!("Used = {:?}", self.data.used_names);
+        debug!("Used = {:?}", self.data.used_names);
 
         m.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_stmt(&mut self, s: &mut Stmt) {
+        s.visit_mut_children_with(self);
+
+        match s {
+            Stmt::Decl(Decl::Var(v)) => {
+                if v.decls.is_empty() {
+                    *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                    return;
+                }
+            }
+
+            _ => {}
+        }
     }
 
     fn visit_mut_var_declarator(&mut self, v: &mut VarDeclarator) {
@@ -103,6 +119,7 @@ impl VisitMut for TreeShaker {
                 match &v.name {
                     Pat::Ident(i) => {
                         if !self.data.used_names.contains(&i.id.to_id()) {
+                            trace!("Dropping {} because it's not used", i.id);
                             v.name.take();
                         }
                     }
