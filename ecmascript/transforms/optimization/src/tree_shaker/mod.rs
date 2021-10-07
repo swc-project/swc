@@ -136,6 +136,26 @@ impl VisitMut for TreeShaker {
         m.visit_mut_children_with(self);
     }
 
+    fn visit_mut_module_item(&mut self, n: &mut ModuleItem) {
+        match n {
+            ModuleItem::ModuleDecl(ModuleDecl::Import(i)) => {
+                let is_for_side_effect = i.specifiers.is_empty();
+
+                i.visit_mut_with(self);
+
+                if !is_for_side_effect && i.specifiers.is_empty() {
+                    debug!("Dropping an import because it's not used");
+                    self.changed = true;
+                    *n = ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }));
+                    return;
+                }
+            }
+            _ => {
+                n.visit_mut_children_with(self);
+            }
+        }
+    }
+
     fn visit_mut_module_items(&mut self, s: &mut Vec<ModuleItem>) {
         self.visit_mut_stmt_likes(s);
     }
