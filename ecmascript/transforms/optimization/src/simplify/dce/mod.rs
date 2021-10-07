@@ -335,6 +335,56 @@ impl VisitMut for TreeShaker {
         s.visit_mut_children_with(self);
 
         match s {
+            Stmt::Decl(Decl::Var(v)) => {
+                let span = v.span;
+                let cnt = v.decls.len();
+
+                // If all name is droppable, do so.
+                if cnt != 0
+                    && v.decls.iter().all(|vd| match &vd.name {
+                        Pat::Ident(i) => self.can_drop_binding(i.to_id()),
+                        _ => false,
+                    })
+                {
+                    let exprs = v
+                        .decls
+                        .take()
+                        .into_iter()
+                        .filter_map(|v| v.init)
+                        .collect::<Vec<_>>();
+
+                    debug!(
+                        count = cnt,
+                        "Dropping names of variables as they are not used",
+                    );
+                    self.changed = true;
+
+                    if exprs.is_empty() {
+                        *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                        return;
+                    } else {
+                        if exprs.len() == 1 {
+                            *s = Stmt::Expr(ExprStmt {
+                                span,
+                                expr: exprs.into_iter().next().unwrap(),
+                            });
+                        } else {
+                            *s = Stmt::Expr(ExprStmt {
+                                span,
+                                expr: Box::new(Expr::Seq(SeqExpr {
+                                    span: DUMMY_SP,
+                                    exprs,
+                                })),
+                            });
+                        }
+                    }
+                }
+            }
+
+            _ => {}
+        }
+
+        match s {
             Stmt::If(if_stmt) => {
                 if if_stmt.alt.is_empty() && if_stmt.cons.is_empty() {
                     if !if_stmt.test.may_have_side_effects() {
