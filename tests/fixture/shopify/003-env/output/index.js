@@ -42,7 +42,6 @@ function _slicedToArray(arr, i) {
     return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
 }
 function App() {
-    var notused = _react.default.version;
     var ref = _slicedToArray((0, _reactI18N).useI18n(), 1), i18n = ref[0];
     return(/*#__PURE__*/ _react.default.createElement("h1", null, i18n.translate("foo")));
 }

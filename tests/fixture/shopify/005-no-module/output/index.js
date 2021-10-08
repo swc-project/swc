@@ -1,17 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.App = App;
-var _react = _interopRequireDefault(require("react"));
-var _reactI18N = require("@shopify/react-i18n");
+import React from "react";
+import { useI18n } from "@shopify/react-i18n";
 function _arrayWithHoles(arr) {
     if (Array.isArray(arr)) return arr;
-}
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : {
-        default: obj
-    };
 }
 function _iterableToArrayLimit(arr, i) {
     var _arr = [];
@@ -41,7 +31,7 @@ function _nonIterableRest() {
 function _slicedToArray(arr, i) {
     return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
 }
-function App() {
-    var ref = _slicedToArray((0, _reactI18N).useI18n(), 1), i18n = ref[0];
-    return(/*#__PURE__*/ _react.default.createElement("h1", null, i18n.translate("foo")));
+export function App() {
+    var ref = _slicedToArray(useI18n(), 1), i18n = ref[0];
+    return(/*#__PURE__*/ React.createElement("h1", null, i18n.translate("foo")));
 }
