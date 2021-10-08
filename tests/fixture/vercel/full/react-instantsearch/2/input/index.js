@@ -5,27 +5,6 @@ import { hasMultipleIndices } from './indexUtils';
 import { version as ReactVersion } from 'react';
 import version from './version';
 
-function createStore(initialState) {
-    let state = initialState;
-    const listeners = [];
-    return {
-        getState() {
-            return state;
-        },
-        setState(nextState) {
-            state = nextState;
-            listeners.forEach(listener => listener());
-        },
-        subscribe(listener) {
-            listeners.push(listener);
-            return function unsubscribe() {
-                listeners.splice(listeners.indexOf(listener), 1);
-            };
-        },
-    };
-}
-
-
 
 function addAlgoliaAgents(searchClient) {
     if (typeof searchClient.addAlgoliaAgent === 'function') {
@@ -103,6 +82,28 @@ export default function createInstantSearchManager({
     resultsState,
     stalledSearchDelay,
 }) {
+
+    function createStore(initialState) {
+        let state = initialState;
+        const listeners = [];
+        return {
+            getState() {
+                return state;
+            },
+            setState(nextState) {
+                state = nextState;
+                listeners.forEach(listener => listener());
+            },
+            subscribe(listener) {
+                listeners.push(listener);
+                return function unsubscribe() {
+                    listeners.splice(listeners.indexOf(listener), 1);
+                };
+            },
+        };
+    }
+
+
     const helper = algoliasearchHelper(searchClient, indexName, {
         ...HIGHLIGHT_TAGS,
     });
