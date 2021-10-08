@@ -304,13 +304,22 @@ fn test_minimize_expr() {
 
 #[test]
 fn test_bug_issue3() {
-    test_same(concat!(
-        "function foo() {",
-        "  if(sections.length != 1) children[i] = 0;",
-        "  else var selectedid = children[i]",
-        "}",
-        "foo()"
-    ));
+    test(
+        concat!(
+            "function foo() {",
+            "  if(sections.length != 1) children[i] = 0;",
+            "  else var selectedid = children[i]",
+            "}",
+            "foo()"
+        ),
+        concat!(
+            "function foo() {",
+            "  if(sections.length != 1) children[i] = 0;",
+            "  else children[i]",
+            "}",
+            "foo()"
+        ),
+    );
 }
 
 #[test]
