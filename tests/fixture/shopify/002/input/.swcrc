@@ -1,4 +1,10 @@
 {
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": true
+        }
+    },
     "module": {
         "type": "commonjs"
     }
