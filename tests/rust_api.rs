@@ -252,3 +252,59 @@ fn shopify_3_reduce_defaults() {
     })
     .unwrap()
 }
+
+#[test]
+fn shopify_4_reduce_more() {
+    testing::run_test2(false, |cm, handler| {
+        let c = Compiler::new(cm.clone());
+
+        let opts = Options {
+            config: Config {
+                jsc: JscConfig {
+                    syntax: Some(Syntax::Es(EsConfig {
+                        jsx: true,
+                        ..Default::default()
+                    })),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            cwd: "/Users/kdy1/projects/example-swcify".into(),
+            filename: "/Users/kdy1/projects/example-swcify/src/App/App.tsx".into(),
+            env_name: "development".into(),
+            source_maps: Some(SourceMapsConfig::Bool(false)),
+            source_file_name: Some("/Users/kdy1/projects/example-swcify/src/App/App.tsx".into()),
+            is_module: true,
+            ..Default::default()
+        };
+
+        let fm = cm.new_source_file(
+            FileName::Real("/Users/kdy1/projects/example-swcify/src/App/App.tsx".into()),
+            "
+            import React from 'react';
+            import { useI18n } from '@shopify/react-i18n';
+            
+            export function App() {
+                const [i18n] = useI18n();
+                return <h1>{i18n.translate('foo')}</h1>
+            }
+            "
+            .into(),
+        );
+
+        let res = c.process_js_with_custom_pass(fm, &handler, &opts, noop(), noop());
+
+        if res.is_err() {
+            return Err(());
+        }
+
+        let res = res.unwrap();
+        eprintln!("{}", res.code);
+
+        assert!(res.code.contains("React.createElement"));
+        assert!(res.code.contains("import React"));
+
+        Ok(())
+    })
+    .unwrap()
+}
