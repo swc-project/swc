@@ -263,7 +263,7 @@ where
             raw: name.1,
         })
     }
-    
+
     fn read_str(&mut self, mut ending_code_point: Option<char>) -> LexResult<Token> {
         if ending_code_point.is_none() {
             ending_code_point = self.input.cur();
@@ -293,7 +293,10 @@ where
                         raw.push(c);
                         self.input.bump();
 
-                        return Ok(Token::BadStr { value: value.into(), raw: raw.into() });
+                        return Ok(Token::BadStr {
+                            value: value.into(),
+                            raw: raw.into(),
+                        });
                     }
 
                     // // U+005C REVERSE SOLIDUS (\)
@@ -313,8 +316,9 @@ where
                             raw.push(self.input.cur().unwrap());
                             self.input.bump();
                         }
-                        // Otherwise, (the stream starts with a valid escape) consume an escaped code
-                        // point and append the returned code point to the <string-token>’s value.
+                        // Otherwise, (the stream starts with a valid escape) consume an escaped
+                        // code point and append the returned code point to
+                        // the <string-token>’s value.
                         else if self.is_valid_escape()? {
                             let escape = self.read_escape()?;
 
@@ -331,7 +335,7 @@ where
 
                         self.input.bump();
                     }
-                }
+                },
 
                 // EOF
                 // This is a parse error. Return the <string-token>.
@@ -341,7 +345,10 @@ where
             }
         }
 
-        Ok(Token::Str { value: value.into(), raw: raw.into() })
+        Ok(Token::Str {
+            value: value.into(),
+            raw: raw.into(),
+        })
     }
 
     /// Ported from `consumeURL` of `esbuild`.
