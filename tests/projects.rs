@@ -790,6 +790,7 @@ fn should_visit() {
 }
 
 #[testing::fixture("tests/fixture/**/input/")]
+#[testing::fixture("tests/vecel/**/input/")]
 fn tests(input_dir: PathBuf) {
     let output = input_dir.parent().unwrap().join("output");
 
