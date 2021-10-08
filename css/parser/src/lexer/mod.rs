@@ -172,7 +172,7 @@ where
             Some(c) => match c {
                 '0'..='9' => return self.read_number(),
 
-                ' ' | '\n' | '\t' => {
+                c if is_whitespace(c) => {
                     self.skip_ws()?;
                     return Ok(tok!(" "));
                 }
@@ -289,7 +289,7 @@ where
                     }
 
                     // Newline
-                    c if c == '\n' || c == '\r' || c == '\x0C' => {
+                    c if is_newline(c) => {
                         raw.push(c);
                         self.input.bump();
 
@@ -299,7 +299,7 @@ where
                         });
                     }
 
-                    // // U+005C REVERSE SOLIDUS (\)
+                    // U+005C REVERSE SOLIDUS (\)
                     c if c == '\\' => {
                         // If the next input code point is EOF, do nothing.
                         if self.input.peek().is_none() {
@@ -307,10 +307,7 @@ where
                         }
 
                         // Otherwise, if the next input code point is a newline, consume it.
-                        if self.input.peek() == Some('\n')
-                            || self.input.peek() == Some('\r')
-                            || self.input.peek() == Some('\x0C')
-                        {
+                        if is_newline(self.input.peek().unwrap()) {
                             raw.push(c);
                             self.input.bump();
                             raw.push(self.input.cur().unwrap());
@@ -367,9 +364,7 @@ where
             }
 
             match self.input.cur().unwrap() {
-                ' ' | '\t' | '\n' | '\r' => {
-                    // TODO: Add `\f` of golang.
-                    self.input.bump();
+                c if is_whitespace(c) => {
                     self.skip_ws()?;
 
                     if !self.input.eat_byte(b')') {
@@ -447,8 +442,7 @@ where
 
             self.last_pos = Some(self.input.cur_pos());
 
-            // TODO: is_white_space
-            if self.input.is_byte(b' ') {
+            if is_whitespace(self.input.cur().unwrap()) {
                 raw.push(self.input.cur().unwrap());
 
                 self.input.bump();
@@ -632,8 +626,8 @@ where
                 break;
             }
 
-            if self.input.eat_byte(b' ') || self.input.eat_byte(b'\n') || self.input.eat_byte(b'\t')
-            {
+            if is_whitespace(self.input.cur().unwrap()) {
+                self.input.bump();
                 continue;
             }
 
@@ -718,8 +712,15 @@ pub(crate) fn is_name_continue(c: char) -> bool {
 
 fn is_newline(c: char) -> bool {
     match c {
-        // TODO: Add `\f` of golang
-        '\n' | '\r' => true,
+        '\n' | '\r' | '\x0C' => true,
+
+        _ => false,
+    }
+}
+
+fn is_whitespace(c: char) -> bool {
+    match c {
+        c if c == ' ' || c == '\t' || is_newline(c) => true,
 
         _ => false,
     }
