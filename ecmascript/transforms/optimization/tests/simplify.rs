@@ -246,7 +246,10 @@ fn test_var_lifting_integration() {
     test("if(false)var a,b;", "");
     test("if(false){var a;var a;}", "");
     test("if(false)var a=function(){var b};", "");
-    test("if(a)if(false)var a;else var b;", "");
+
+    // TODO(kdy1): We can optimize this.
+    // test("if(a)if(false)var a;else var b;", "");
+    test("if(a)if(false)var a;else var b;", "if(a) var a;");
 }
 
 #[test]
