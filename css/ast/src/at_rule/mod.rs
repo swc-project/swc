@@ -1,5 +1,5 @@
 pub use self::{document::*, keyframe::*, media::*, page::*, support::*};
-use crate::{DeclBlock, Str, Text, Tokens};
+use crate::{DeclBlock, FnValue, Str, Text, Tokens, UrlValue};
 use is_macro::Is;
 use swc_common::{ast_node, Span};
 
@@ -52,10 +52,22 @@ pub struct CharsetRule {
     pub charset: Str,
 }
 
+#[ast_node]
+pub enum ImportSource {
+    #[tag("FnValue")]
+    Fn(FnValue),
+
+    #[tag("UrlValue")]
+    Url(UrlValue),
+
+    #[tag("Str")]
+    Str(Str),
+}
+
 #[ast_node("ImportRule")]
 pub struct ImportRule {
     pub span: Span,
-    pub src: Str,
+    pub src: ImportSource,
     pub condition: Option<MediaQuery>,
 }
 

@@ -22,9 +22,33 @@ error: ImportRule
 1 | @import url("foo.css");
   | ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Str
+error: ImportSource
  --> $DIR/tests/fixture/esbuild/misc/o97ukh94L8_Su32XfrkoKA/input.css:1:9
   |
 1 | @import url("foo.css");
   |         ^^^^^^^^^^^^^^
+
+error: FnValue
+ --> $DIR/tests/fixture/esbuild/misc/o97ukh94L8_Su32XfrkoKA/input.css:1:9
+  |
+1 | @import url("foo.css");
+  |         ^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/o97ukh94L8_Su32XfrkoKA/input.css:1:9
+  |
+1 | @import url("foo.css");
+  |         ^^^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/o97ukh94L8_Su32XfrkoKA/input.css:1:13
+  |
+1 | @import url("foo.css");
+  |             ^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/esbuild/misc/o97ukh94L8_Su32XfrkoKA/input.css:1:13
+  |
+1 | @import url("foo.css");
+  |             ^^^^^^^^^
 

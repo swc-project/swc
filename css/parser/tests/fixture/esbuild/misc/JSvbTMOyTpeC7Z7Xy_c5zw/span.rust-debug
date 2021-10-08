@@ -22,6 +22,12 @@ error: ImportRule
 1 | @import"foo.css";
   | ^^^^^^^^^^^^^^^^^
 
+error: ImportSource
+ --> $DIR/tests/fixture/esbuild/misc/JSvbTMOyTpeC7Z7Xy_c5zw/input.css:1:8
+  |
+1 | @import"foo.css";
+  |        ^^^^^^^^^
+
 error: Str
  --> $DIR/tests/fixture/esbuild/misc/JSvbTMOyTpeC7Z7Xy_c5zw/input.css:1:8
   |

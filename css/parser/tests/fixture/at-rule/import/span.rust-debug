@@ -3,10 +3,12 @@ error: Stylesheet
   |
 1 | / @import url("./style.css");
 2 | | @import url('./style.css');
-3 | | @import './style.css';
-4 | | @import "./style.css";
-5 | | @IMPORT url("./style.css");
-  | |____________________________^
+3 | | @import url(./style.css);
+4 | | @import './style.css';
+... |
+8 | | @import URL("./style.css");
+9 | | @import"test.css";
+  | |__________________^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/import/input.css:1:1
@@ -26,12 +28,36 @@ error: ImportRule
 1 | @import url("./style.css");
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Str
+error: ImportSource
  --> $DIR/tests/fixture/at-rule/import/input.css:1:9
   |
 1 | @import url("./style.css");
   |         ^^^^^^^^^^^^^^^^^^
 
+error: FnValue
+ --> $DIR/tests/fixture/at-rule/import/input.css:1:9
+  |
+1 | @import url("./style.css");
+  |         ^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/at-rule/import/input.css:1:9
+  |
+1 | @import url("./style.css");
+  |         ^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/import/input.css:1:13
+  |
+1 | @import url("./style.css");
+  |             ^^^^^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/at-rule/import/input.css:1:13
+  |
+1 | @import url("./style.css");
+  |             ^^^^^^^^^^^^^
+
 error: Rule
  --> $DIR/tests/fixture/at-rule/import/input.css:2:1
   |
@@ -50,81 +76,279 @@ error: ImportRule
 2 | @import url('./style.css');
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Str
+error: ImportSource
  --> $DIR/tests/fixture/at-rule/import/input.css:2:9
   |
 2 | @import url('./style.css');
   |         ^^^^^^^^^^^^^^^^^^
 
-error: Rule
- --> $DIR/tests/fixture/at-rule/import/input.css:3:1
+error: FnValue
+ --> $DIR/tests/fixture/at-rule/import/input.css:2:9
   |
-3 | @import './style.css';
-  | ^^^^^^^^^^^^^^^^^^^^^^
+2 | @import url('./style.css');
+  |         ^^^^^^^^^^^^^^^^^^
 
-error: AtRule
- --> $DIR/tests/fixture/at-rule/import/input.css:3:1
+error: Text
+ --> $DIR/tests/fixture/at-rule/import/input.css:2:9
   |
-3 | @import './style.css';
-  | ^^^^^^^^^^^^^^^^^^^^^^
+2 | @import url('./style.css');
+  |         ^^^
 
-error: ImportRule
- --> $DIR/tests/fixture/at-rule/import/input.css:3:1
+error: Value
+ --> $DIR/tests/fixture/at-rule/import/input.css:2:13
   |
-3 | @import './style.css';
-  | ^^^^^^^^^^^^^^^^^^^^^^
+2 | @import url('./style.css');
+  |             ^^^^^^^^^^^^^
 
 error: Str
+ --> $DIR/tests/fixture/at-rule/import/input.css:2:13
+  |
+2 | @import url('./style.css');
+  |             ^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/import/input.css:3:1
+  |
+3 | @import url(./style.css);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/import/input.css:3:1
+  |
+3 | @import url(./style.css);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportRule
+ --> $DIR/tests/fixture/at-rule/import/input.css:3:1
+  |
+3 | @import url(./style.css);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportSource
  --> $DIR/tests/fixture/at-rule/import/input.css:3:9
   |
-3 | @import './style.css';
-  |         ^^^^^^^^^^^^^
+3 | @import url(./style.css);
+  |         ^^^^^^^^^^^^^^^^
+
+error: UrlValue
+ --> $DIR/tests/fixture/at-rule/import/input.css:3:9
+  |
+3 | @import url(./style.css);
+  |         ^^^^^^^^^^^^^^^^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/import/input.css:4:1
   |
-4 | @import "./style.css";
+4 | @import './style.css';
   | ^^^^^^^^^^^^^^^^^^^^^^
 
 error: AtRule
  --> $DIR/tests/fixture/at-rule/import/input.css:4:1
   |
-4 | @import "./style.css";
+4 | @import './style.css';
   | ^^^^^^^^^^^^^^^^^^^^^^
 
 error: ImportRule
  --> $DIR/tests/fixture/at-rule/import/input.css:4:1
   |
-4 | @import "./style.css";
+4 | @import './style.css';
   | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportSource
+ --> $DIR/tests/fixture/at-rule/import/input.css:4:9
+  |
+4 | @import './style.css';
+  |         ^^^^^^^^^^^^^
 
 error: Str
  --> $DIR/tests/fixture/at-rule/import/input.css:4:9
   |
-4 | @import "./style.css";
+4 | @import './style.css';
   |         ^^^^^^^^^^^^^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/import/input.css:5:1
   |
-5 | @IMPORT url("./style.css");
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+5 | @import "./style.css";
+  | ^^^^^^^^^^^^^^^^^^^^^^
 
 error: AtRule
  --> $DIR/tests/fixture/at-rule/import/input.css:5:1
   |
-5 | @IMPORT url("./style.css");
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+5 | @import "./style.css";
+  | ^^^^^^^^^^^^^^^^^^^^^^
 
 error: ImportRule
  --> $DIR/tests/fixture/at-rule/import/input.css:5:1
   |
-5 | @IMPORT url("./style.css");
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+5 | @import "./style.css";
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportSource
+ --> $DIR/tests/fixture/at-rule/import/input.css:5:9
+  |
+5 | @import "./style.css";
+  |         ^^^^^^^^^^^^^
 
 error: Str
  --> $DIR/tests/fixture/at-rule/import/input.css:5:9
   |
-5 | @IMPORT url("./style.css");
+5 | @import "./style.css";
+  |         ^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/import/input.css:6:1
+  |
+6 | @IMPORT url("./style.css");
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/import/input.css:6:1
+  |
+6 | @IMPORT url("./style.css");
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportRule
+ --> $DIR/tests/fixture/at-rule/import/input.css:6:1
+  |
+6 | @IMPORT url("./style.css");
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportSource
+ --> $DIR/tests/fixture/at-rule/import/input.css:6:9
+  |
+6 | @IMPORT url("./style.css");
   |         ^^^^^^^^^^^^^^^^^^
+
+error: FnValue
+ --> $DIR/tests/fixture/at-rule/import/input.css:6:9
+  |
+6 | @IMPORT url("./style.css");
+  |         ^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/at-rule/import/input.css:6:9
+  |
+6 | @IMPORT url("./style.css");
+  |         ^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/import/input.css:6:13
+  |
+6 | @IMPORT url("./style.css");
+  |             ^^^^^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/at-rule/import/input.css:6:13
+  |
+6 | @IMPORT url("./style.css");
+  |             ^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/import/input.css:7:1
+  |
+7 | @import URL(./style.css);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/import/input.css:7:1
+  |
+7 | @import URL(./style.css);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportRule
+ --> $DIR/tests/fixture/at-rule/import/input.css:7:1
+  |
+7 | @import URL(./style.css);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportSource
+ --> $DIR/tests/fixture/at-rule/import/input.css:7:9
+  |
+7 | @import URL(./style.css);
+  |         ^^^^^^^^^^^^^^^^
+
+error: UrlValue
+ --> $DIR/tests/fixture/at-rule/import/input.css:7:9
+  |
+7 | @import URL(./style.css);
+  |         ^^^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/import/input.css:8:1
+  |
+8 | @import URL("./style.css");
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/import/input.css:8:1
+  |
+8 | @import URL("./style.css");
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportRule
+ --> $DIR/tests/fixture/at-rule/import/input.css:8:1
+  |
+8 | @import URL("./style.css");
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportSource
+ --> $DIR/tests/fixture/at-rule/import/input.css:8:9
+  |
+8 | @import URL("./style.css");
+  |         ^^^^^^^^^^^^^^^^^^
+
+error: FnValue
+ --> $DIR/tests/fixture/at-rule/import/input.css:8:9
+  |
+8 | @import URL("./style.css");
+  |         ^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/at-rule/import/input.css:8:9
+  |
+8 | @import URL("./style.css");
+  |         ^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/import/input.css:8:13
+  |
+8 | @import URL("./style.css");
+  |             ^^^^^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/at-rule/import/input.css:8:13
+  |
+8 | @import URL("./style.css");
+  |             ^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/import/input.css:9:1
+  |
+9 | @import"test.css";
+  | ^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/import/input.css:9:1
+  |
+9 | @import"test.css";
+  | ^^^^^^^^^^^^^^^^^^
+
+error: ImportRule
+ --> $DIR/tests/fixture/at-rule/import/input.css:9:1
+  |
+9 | @import"test.css";
+  | ^^^^^^^^^^^^^^^^^^
+
+error: ImportSource
+ --> $DIR/tests/fixture/at-rule/import/input.css:9:8
+  |
+9 | @import"test.css";
+  |        ^^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/at-rule/import/input.css:9:8
+  |
+9 | @import"test.css";
+  |        ^^^^^^^^^^
 

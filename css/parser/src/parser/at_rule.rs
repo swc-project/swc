@@ -15,6 +15,34 @@ impl<I> Parser<I>
 where
     I: ParserInput,
 {
+    fn parse_import_url(&mut self) -> PResult<ImportSource> {
+        if is!(self, Str) {
+            return self.parse_str().map(ImportSource::Str);
+        }
+
+        let span = self.input.cur_span()?;
+
+        match cur!(self) {
+            Token::Ident { value, .. } if *value.to_ascii_lowercase() == js_word!("url") => {
+                let func = self.parse()?;
+
+                Ok(ImportSource::Fn(func))
+            }
+
+            Token::Url { .. } => match bump!(self) {
+                Token::Url { value } => Ok(ImportSource::Url(UrlValue { span, url: value })),
+                _ => {
+                    unreachable!()
+                }
+            },
+
+            _ => Err(Error::new(
+                span,
+                ErrorKind::Expected("url('https://example.com') or 'https://example.com'"),
+            )),
+        }
+    }
+
     pub(super) fn parse_at_rule(&mut self, _ctx: AtRuleContext) -> PResult<AtRule> {
         let start = self.input.cur_span()?.lo;
 
@@ -45,9 +73,9 @@ where
             "import" => {
                 self.input.skip_ws()?;
 
-                let res = self.expect_url_or_str();
+                let res = self.parse_import_url();
                 match res {
-                    Ok(path) => {
+                    Ok(src) => {
                         // TODO
 
                         self.input.skip_ws()?;
@@ -62,7 +90,7 @@ where
 
                         return Ok(AtRule::Import(ImportRule {
                             span: span!(self, start),
-                            src: path,
+                            src,
                             condition,
                         }));
                     }
