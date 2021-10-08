@@ -58,7 +58,9 @@ struct Data {
 }
 #[derive(Debug, Default)]
 struct VarInfo {
+    /// This does not include self-references in a function.
     pub usage: usize,
+    /// This does not include self-references in a function.
     pub assign: usize,
 }
 
@@ -70,28 +72,36 @@ struct Analyzer<'a> {
     cur_fn_id: Option<Id>,
 }
 
+impl Analyzer<'_> {
+    fn add(&mut self, id: Id, assign: bool) {
+        if let Some(f) = &self.cur_fn_id {
+            if id == *f {
+                return;
+            }
+        }
+
+        if assign {
+            self.data.used_names.entry(id).or_default().assign += 1;
+        } else {
+            self.data.used_names.entry(id).or_default().usage += 1;
+        }
+    }
+}
+
 impl Visit for Analyzer<'_> {
     noop_visit_type!();
 
     fn visit_assign_pat_prop(&mut self, n: &AssignPatProp, _: &dyn Node) {
         n.visit_children_with(self);
 
-        self.data
-            .used_names
-            .entry(n.key.to_id())
-            .or_default()
-            .assign += 1;
+        self.add(n.key.to_id(), true);
     }
 
     fn visit_class_decl(&mut self, n: &ClassDecl, _: &dyn Node) {
         n.visit_children_with(self);
 
         if !n.class.decorators.is_empty() {
-            self.data
-                .used_names
-                .entry(n.ident.to_id())
-                .or_default()
-                .usage += 1;
+            self.add(n.ident.to_id(), false);
         }
     }
 
@@ -100,17 +110,13 @@ impl Visit for Analyzer<'_> {
 
         if !n.class.decorators.is_empty() {
             if let Some(i) = &n.ident {
-                self.data.used_names.entry(i.to_id()).or_default().usage += 1;
+                self.add(i.to_id(), false);
             }
         }
     }
 
     fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier, _: &dyn Node) {
-        self.data
-            .used_names
-            .entry(n.orig.to_id())
-            .or_default()
-            .usage += 1;
+        self.add(n.orig.to_id(), false);
     }
 
     fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
@@ -118,7 +124,7 @@ impl Visit for Analyzer<'_> {
 
         match e {
             Expr::Ident(i) => {
-                self.data.used_names.entry(i.to_id()).or_default().usage += 1;
+                self.add(i.to_id(), false);
             }
             _ => {}
         }
@@ -131,11 +137,7 @@ impl Visit for Analyzer<'_> {
         self.cur_fn_id = old;
 
         if !n.function.decorators.is_empty() {
-            self.data
-                .used_names
-                .entry(n.ident.to_id())
-                .or_default()
-                .usage += 1;
+            self.add(n.ident.to_id(), false);
         }
     }
 
@@ -144,7 +146,7 @@ impl Visit for Analyzer<'_> {
 
         if !n.function.decorators.is_empty() {
             if let Some(i) = &n.ident {
-                self.data.used_names.entry(i.to_id()).or_default().usage += 1;
+                self.add(i.to_id(), false);
             }
         }
     }
@@ -155,7 +157,7 @@ impl Visit for Analyzer<'_> {
         if !self.in_var_decl {
             match p {
                 Pat::Ident(i) => {
-                    self.data.used_names.entry(i.id.to_id()).or_default().assign += 1;
+                    self.add(i.id.to_id(), true);
                 }
                 _ => {}
             }
@@ -167,7 +169,7 @@ impl Visit for Analyzer<'_> {
 
         match p {
             Prop::Shorthand(i) => {
-                self.data.used_names.entry(i.to_id()).or_default().usage += 1;
+                self.add(i.to_id(), false);
             }
             _ => {}
         }
