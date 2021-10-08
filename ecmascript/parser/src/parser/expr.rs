@@ -414,6 +414,16 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
+        if self.input.syntax().private_in_object() {
+            if eat!(self, '#') {
+                let id = self.parse_ident_name()?;
+                return Ok(Box::new(Expr::PrivateName(PrivateName {
+                    span: span!(self, start),
+                    id,
+                })));
+            }
+        }
+
         unexpected!(
             self,
             "this, import, async, function, [ for array literal, { for object literal, @ for \
@@ -441,7 +451,7 @@ impl<'a, I: Tokens> Parser<I> {
                     .parse_expr_or_spread()
                     .map(Some)?,
             );
-            if is!(self, ',') {
+            if !is!(self, ']') {
                 expect!(self, ',');
             }
         }
@@ -571,7 +581,7 @@ impl<'a, I: Tokens> Parser<I> {
             expect!(p, '(');
 
             let mut first = true;
-            let mut expr_or_spreads = vec![];
+            let mut expr_or_spreads = Vec::with_capacity(8);
 
             while !eof!(p) && !is!(p, ')') {
                 if first {

@@ -1,6 +1,6 @@
 use crate::ModuleId;
-use fxhash::FxHashMap;
 use retain_mut::RetainMut;
+use rustc_hash::FxHashMap;
 use std::mem::take;
 use swc_common::{SourceMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;

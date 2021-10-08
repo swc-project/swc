@@ -1,9 +1,9 @@
-use fxhash::FxHashSet;
+use rustc_hash::FxHashSet;
 use std::time::Instant;
 use swc_common::{
     pass::{CompilerPass, Repeated},
     util::take::Take,
-    Mark, Span, DUMMY_SP,
+    Mark, Span, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, ModuleItemLike, StmtLike, Value};
@@ -15,10 +15,15 @@ pub(crate) mod unit;
 
 ///
 pub(crate) fn make_number(span: Span, value: f64) -> Expr {
+    if cfg!(feature = "debug") {
+        tracing::debug!("Creating a numeric literal");
+    }
     Expr::Lit(Lit::Num(Number { span, value }))
 }
 
-pub trait MoudleItemExt: StmtLike + ModuleItemLike + From<Stmt> {
+pub trait MoudleItemExt:
+    StmtLike + ModuleItemLike + From<Stmt> + Spanned + std::fmt::Debug
+{
     fn as_module_decl(&self) -> Result<&ModuleDecl, &Stmt>;
 
     fn from_module_item(item: ModuleItem) -> Self;
@@ -84,6 +89,9 @@ impl MoudleItemExt for ModuleItem {
 /// - `!0` for true
 /// - `!1` for false
 pub(crate) fn make_bool(span: Span, value: bool) -> Expr {
+    if cfg!(feature = "debug") {
+        tracing::debug!("Creating a boolean literal");
+    }
     Expr::Unary(UnaryExpr {
         span,
         op: op!("!"),

@@ -3,8 +3,8 @@ use crate::{
     util::{CtxtExt, MapErr},
 };
 use anyhow::{bail, Error};
-use fxhash::FxHashMap;
 use napi::{CallContext, Env, JsObject, Status, Task};
+use rustc_hash::FxHashMap;
 use serde::Deserialize;
 use std::{
     panic::{catch_unwind, AssertUnwindSafe},
@@ -33,8 +33,6 @@ struct ConfigItem {
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 struct StaticConfigItem {
-    #[serde(default)]
-    working_dir: String,
     #[serde(flatten)]
     config: swc_node_bundler::config::Config,
 }

@@ -1,5 +1,5 @@
 use crate::scope::{IdentType, ScopeKind};
-use fxhash::FxHashSet;
+use rustc_hash::FxHashSet;
 use std::cell::RefCell;
 use swc_atoms::JsWord;
 use swc_common::{Mark, SyntaxContext};

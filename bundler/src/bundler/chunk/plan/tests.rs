@@ -1,6 +1,6 @@
 use crate::bundler::tests::suite;
 use ahash::AHashMap;
-use fxhash::{FxHashMap, FxHashSet};
+use rustc_hash::{FxHashMap, FxHashSet};
 use std::collections::HashMap;
 
 fn assert_cycles(map: FxHashMap<String, String>, cycle_entries: Vec<&str>) {

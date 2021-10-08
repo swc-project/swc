@@ -70,7 +70,7 @@ where
         }
 
         self.changed = true;
-        log::debug!("fns: Reordering statements");
+        tracing::debug!("fns: Reordering statements");
         let mut fns = vec![];
         let mut other = vec![];
 

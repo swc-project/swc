@@ -6324,7 +6324,7 @@ test!(
         let global_mark = Mark::fresh(Mark::root());
 
         chain!(
-            es2020::es2020(),
+            es2020::es2020(es2020::Config { loose: false }),
             es2018::es2018(),
             es2017::es2017(),
             es2016::es2016(),
@@ -6365,7 +6365,7 @@ test!(
         let global_mark = Mark::fresh(Mark::root());
 
         chain!(
-            class_properties(),
+            class_properties(class_properties::Config { loose: false }),
             es2015::es2015(
                 global_mark,
                 Some(t.comments.clone()),
@@ -6448,7 +6448,7 @@ test!(
         let global_mark = Mark::fresh(Mark::root());
 
         chain!(
-            class_properties(),
+            class_properties(class_properties::Config { loose: false }),
             es2015::es2015(
                 global_mark,
                 Some(t.comments.clone()),
@@ -6494,7 +6494,7 @@ test!(
         let global_mark = Mark::fresh(Mark::root());
 
         chain!(
-            class_properties(),
+            class_properties(class_properties::Config { loose: false }),
             es2015::es2015(
                 global_mark,
                 Some(t.comments.clone()),
@@ -6539,7 +6539,12 @@ fn exec(input: PathBuf) {
     let src = read_to_string(&input).unwrap();
     compare_stdout(
         Default::default(),
-        |t| chain!(class_properties(), classes(Some(t.comments.clone()))),
+        |t| {
+            chain!(
+                class_properties(class_properties::Config { loose: false }),
+                classes(Some(t.comments.clone()))
+            )
+        },
         &src,
     );
 }

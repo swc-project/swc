@@ -38,7 +38,7 @@ where
                         match &*args[0].expr {
                             Expr::Lit(Lit::Str(..)) => {
                                 self.changed = true;
-                                log::debug!(
+                                tracing::debug!(
                                     "strings: Unsafely reduced `RegExp` call in a string context"
                                 );
 
@@ -67,7 +67,7 @@ where
                     Expr::Lit(Lit::Str(..)) => {
                         *n = *e.expr.take();
                         self.changed = true;
-                        log::debug!("string: Removed a paren in a string context");
+                        tracing::debug!("string: Removed a paren in a string context");
                     }
                     _ => {}
                 }
@@ -81,7 +81,7 @@ where
         let value = n.as_string();
         if let Known(value) = value {
             self.changed = true;
-            log::debug!(
+            tracing::debug!(
                 "strings: Converted an expression into a string literal (in string context)"
             );
             *n = Expr::Lit(Lit::Str(Str {
@@ -96,7 +96,7 @@ where
         match n {
             Expr::Lit(Lit::Num(v)) => {
                 self.changed = true;
-                log::debug!(
+                tracing::debug!(
                     "strings: Converted a numeric literal ({}) into a string literal (in string \
                      context)",
                     v.value
@@ -116,7 +116,7 @@ where
                     return;
                 }
                 self.changed = true;
-                log::debug!(
+                tracing::debug!(
                     "strings: Converted a regex (/{}/{}) into a string literal (in string context)",
                     v.exp,
                     v.flags
@@ -143,7 +143,7 @@ where
                     .unwrap_or(false)
                 {
                     self.changed = true;
-                    log::debug!(
+                    tracing::debug!(
                         "strings: Converting a reference ({}{:?}) into `undefined` (in string \
                          context)",
                         i.sym,

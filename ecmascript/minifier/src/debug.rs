@@ -102,5 +102,5 @@ pub(crate) fn invoke(module: &Module) {
         );
     }
 
-    log::info!("[SWC_RUN]\n{}", String::from_utf8_lossy(&output.stdout))
+    tracing::info!("[SWC_RUN]\n{}", String::from_utf8_lossy(&output.stdout))
 }

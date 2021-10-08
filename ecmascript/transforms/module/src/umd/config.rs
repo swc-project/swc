@@ -53,6 +53,7 @@ impl Config {
 }
 #[derive(Clone)]
 pub(super) struct BuiltConfig {
+    #[allow(dead_code)]
     pub globals: HashMap<String, Box<Expr>>,
     pub config: util::Config,
 }

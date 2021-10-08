@@ -5,8 +5,8 @@ use self::{
     },
     prop_name::HashKey,
 };
-use fxhash::FxBuildHasher;
-use std::iter;
+use rustc_hash::FxHasher;
+use std::{hash::BuildHasherDefault, iter};
 use swc_common::{comments::Comments, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, native::is_native, perf::Check};
@@ -31,7 +31,7 @@ where
     }
 }
 
-type IndexMap<K, V> = indexmap::IndexMap<K, V, FxBuildHasher>;
+type IndexMap<K, V> = indexmap::IndexMap<K, V, BuildHasherDefault<FxHasher>>;
 
 /// `@babel/plugin-transform-classes`
 ///
@@ -115,6 +115,7 @@ where
                                                 span: DUMMY_SP,
                                                 orig: ident,
                                                 exported: Some(quote_ident!("default")),
+                                                is_type_only: false,
                                             }
                                             .into()],
                                             src: None,

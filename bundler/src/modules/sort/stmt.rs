@@ -1,8 +1,8 @@
 use super::graph::Required;
 use crate::{id::Id, modules::sort::graph::StmtDepGraph};
-use fxhash::{FxHashMap, FxHashSet};
 use indexmap::IndexSet;
 use petgraph::EdgeDirection::{Incoming as Dependants, Outgoing as Dependancies};
+use rustc_hash::{FxHashMap, FxHashSet};
 use std::{collections::VecDeque, iter::from_fn, ops::Range};
 use swc_atoms::js_word;
 use swc_common::{sync::Lrc, util::take::Take, SourceMap, Spanned, SyntaxContext, DUMMY_SP};
@@ -54,7 +54,7 @@ pub(super) fn sort_stmts(
 
     let mut id_graph = calc_deps(&stmts);
 
-    log::debug!("Analyzed dependencies between statements");
+    tracing::debug!("Analyzed dependencies between statements");
 
     let orders = iter(
         &mut id_graph,
@@ -65,7 +65,7 @@ pub(super) fn sort_stmts(
     )
     .collect::<Vec<_>>();
 
-    log::debug!("Sorted statements");
+    tracing::debug!("Sorted statements");
 
     debug_assert_eq!(total_len, orders.len());
 
@@ -627,7 +627,7 @@ impl Visit for RequirementCalculartor {
 }
 
 fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
-    log::debug!("Analyzing dependencies between statements");
+    tracing::debug!("Analyzing dependencies between statements");
     let mut graph = StmtDepGraph::default();
 
     let mut declared_by = FxHashMap::<Id, Vec<usize>>::default();

@@ -31,7 +31,8 @@
             "value": "x",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         }
       ],
       "source": null,
@@ -72,7 +73,8 @@
             },
             "value": "xx",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": null,
@@ -177,7 +179,8 @@
             },
             "value": "Z",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": null,
@@ -235,7 +238,8 @@
             "value": "y",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         }
       ],
       "source": null,
@@ -276,7 +280,8 @@
             },
             "value": "yy",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": null,

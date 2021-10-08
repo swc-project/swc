@@ -4,7 +4,7 @@ use crate::{
     option::CompressOptions,
     util::MoudleItemExt,
 };
-use fxhash::FxHashMap;
+use rustc_hash::FxHashMap;
 use swc_atoms::js_word;
 use swc_common::util::take::Take;
 use swc_ecma_ast::*;

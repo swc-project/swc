@@ -1,3 +1,109 @@
+//! The main crate of the swc project.
+//!
+//!
+//!
+//! # Cutomizing
+//!
+//!
+//! This is documentation for building custom build tools on top of swc.
+//!
+//! ## Dependency version management
+//!
+//! `swc` has [swc_emcascript](https://docs.rs/swc_emcascript) and [swc_css](https://docs.rs/swc_css), which re-exports required modules.
+//!
+//! ## Testing
+//!
+//! See [testing] and [swc_ecmc_transform_testing](https://docs.rs/swc_ecmc_transform_testing).
+//!
+//! ## Custom javascript transforms
+//!
+//!
+//!
+//! ### What is [JsWord](swc_atoms::JsWord)?
+//!
+//! It's basically an interned string. See [swc_atoms].
+//!
+//! ### Choosing between [JsWord](swc_atoms::JsWord) vs String
+//!
+//! You should  prefer [JsWord](swc_atoms::JsWord) over [String] if it's going
+//! to be stored in an AST node.
+//!
+//! See [swc_atoms] for detailed description.
+//!
+//! ### Fold vs VisitMut vs Visit
+//!
+//! See [swc_visit] for detailed description.
+//!
+//!
+//!  - [Fold](swc_ecma_visit::Fold)
+//!  - [VisitMut](swc_ecma_visit::VisitMut)
+//!  - [Visit](swc_ecma_visit::Visit)
+//!
+//!
+//! ### Variable management (Scoping)
+//!
+//! See [swc_ecma_transforms_base::resolver::resolver_with_mark].
+//!
+//! #### How identifiers work
+//!
+//! See the doc on [swc_ecma_ast::Ident] or on
+//! [swc_ecma_transforms_base::resolver::resolver_with_mark].
+//!
+//! #### Comparing two identifiers
+//!
+//! See [swc_ecma_utils::Id]. You can use [swc_ecma_utils::IdentLike::to_id] to
+//! extract important parts of an [swc_ecma_ast::Ident].
+//!
+//! #### Creating a unique identifier
+//!
+//! See [swc_ecma_utils::private_ident].
+//!
+//! #### Prepending statements
+//!
+//! If you want to prepend statements to the beginning of a file, you can use
+//! [swc_ecma_utils::prepend_stmts] or [swc_ecma_utils::prepend] if `len == 1`.
+//!
+//! These methods are aware of the fact that `"use strict"` directive should be
+//! first in a file, and insert statements after directives.
+//!
+//! ### Improving readability
+//!
+//! Each stuffs are documented at itself.
+//!
+//!  - If you are creating or binding an [swc_ecma_ast::Expr] with operator, you
+//!    can use [swc_ecma_ast::op].
+//!
+//!  - If you want to create [swc_ecma_ast::CallExpr], you can use
+//!    [swc_ecma_utils::ExprFactory::as_callee] to create `callee`.
+//!
+//!  - If you want to create [swc_ecma_ast::CallExpr] or
+//!    [swc_ecma_ast::NewExpr], you can use
+//!    [swc_ecma_utils::ExprFactory::as_arg] to create arguments.
+//!
+//!
+//!  - If you want to create [swc_ecma_ast::MemberExpr] where all identifiers
+//!    are static (e.g. `Object.prototype.hasOwnProperty`), you can use
+//!    [swc_ecma_utils::member_expr].
+//!
+//!  - If you want to create [swc_ecma_ast::MemberExpr], you can use
+//!    [swc_ecma_utils::ExprFactory::as_obj] to create object field.
+//!
+//!
+//! ### Reducing binary size
+//!
+//! The visitor expands to a lot of code. You can reduce it by using macros like
+//!
+//!  - [noop_fold_type](swc_ecma_visit::noop_fold_type)
+//!  - [noop_visit_mut_type](swc_ecma_visit::noop_visit_mut_type)
+//!  - [noop_visit_type](swc_ecma_visit::noop_visit_type)
+//!
+//! Note that this will make typescript-related nodes not processed, but it's
+//! typically fine as `typescript::strip` is invoked at the start and it removes
+//! typescript-specific nodes.
+//!
+//! ### Porting `expr.evaluate()` of babel
+//!
+//! See [swc_ecma_minifier::eval::Evaluator].
 #![deny(unused)]
 
 pub extern crate swc_atoms as atoms;
@@ -13,6 +119,7 @@ use anyhow::{bail, Context, Error};
 use atoms::JsWord;
 use config::{util::BoolOrObject, JsMinifyCommentOption, JsMinifyOptions};
 use dashmap::DashMap;
+use once_cell::sync::Lazy;
 use serde::Serialize;
 use serde_json::error::Category;
 pub use sourcemap;
@@ -52,10 +159,9 @@ use swc_ecma_visit::{noop_visit_type, FoldWith, Visit, VisitWith};
 mod builder;
 pub mod config;
 pub mod resolver {
-    use std::path::PathBuf;
-
     use crate::config::CompiledPaths;
-    use fxhash::FxHashMap;
+    use rustc_hash::FxHashMap;
+    use std::path::PathBuf;
     use swc_ecma_ast::TargetEnv;
     use swc_ecma_loader::resolvers::{
         lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
@@ -121,7 +227,10 @@ where
 
         let msg = String::from_utf8(error).expect("error string should be utf8");
 
-        ret.context(msg)
+        match ret {
+            Ok(_) => Err(anyhow::anyhow!(msg)),
+            Err(err) => Err(err.context(msg)),
+        }
     } else {
         ret
     }
@@ -236,7 +345,7 @@ impl Compiler {
                             )?))
                         }
                         _ => {
-                            log::error!("Failed to load source map for non-file input");
+                            tracing::error!("Failed to load source map for non-file input");
                             return Ok(None);
                         }
                     }
@@ -555,6 +664,14 @@ impl Compiler {
     }
 
     pub fn read_config(&self, opts: &Options, name: &FileName) -> Result<Option<Config>, Error> {
+        static CUR_DIR: Lazy<PathBuf> = Lazy::new(|| {
+            if cfg!(target_arch = "wasm32") {
+                PathBuf::new()
+            } else {
+                ::std::env::current_dir().unwrap()
+            }
+        });
+
         self.run(|| -> Result<_, Error> {
             let Options {
                 ref root,
@@ -564,13 +681,7 @@ impl Compiler {
                 ..
             } = opts;
 
-            let root = root.clone().unwrap_or_else(|| {
-                if cfg!(target_arch = "wasm32") {
-                    PathBuf::new()
-                } else {
-                    ::std::env::current_dir().unwrap()
-                }
-            });
+            let root = root.as_ref().unwrap_or_else(|| &CUR_DIR);
 
             let config_file = match config_file {
                 Some(ConfigFile::Str(ref s)) => Some(load_swcrc(Path::new(&s))?),
@@ -667,6 +778,7 @@ impl Compiler {
         handler: &Handler,
         opts: &Options,
         name: &FileName,
+        before_pass: impl 'a + swc_ecma_visit::Fold,
     ) -> Result<Option<BuiltConfig<impl 'a + swc_ecma_visit::Fold>>, Error> {
         self.run(|| -> Result<_, Error> {
             let config = self.read_config(opts, name)?;
@@ -684,6 +796,7 @@ impl Compiler {
                 opts.is_module,
                 Some(config),
                 Some(&self.comments),
+                before_pass,
             );
             Ok(Some(built))
         })
@@ -728,7 +841,8 @@ impl Compiler {
         P2: swc_ecma_visit::Fold,
     {
         self.run(|| -> Result<_, Error> {
-            let config = self.run(|| self.config_for_file(handler, opts, &fm.name))?;
+            let config =
+                self.run(|| self.config_for_file(handler, opts, &fm.name, custom_before_pass))?;
             let config = match config {
                 Some(v) => v,
                 None => {
@@ -736,7 +850,7 @@ impl Compiler {
                 }
             };
             let config = BuiltConfig {
-                pass: chain!(custom_before_pass, config.pass, custom_after_pass),
+                pass: chain!(config.pass, custom_after_pass),
                 syntax: config.syntax,
                 target: config.target,
                 minify: config.minify,
@@ -900,7 +1014,7 @@ impl Compiler {
                 None
             };
 
-            let config = self.run(|| self.config_for_file(handler, opts, &fm.name))?;
+            let config = self.run(|| self.config_for_file(handler, opts, &fm.name, noop()))?;
 
             let config = match config {
                 Some(v) => v,

@@ -46,7 +46,8 @@
                     "end": 1,
                     "ctxt": 0
                   },
-                  "value": "p"
+                  "value": "p",
+                  "raw": "p"
                 }
               },
               "subclassSelectors": []
@@ -77,7 +78,8 @@
                       "end": 9,
                       "ctxt": 0
                     },
-                    "value": "global"
+                    "value": "global",
+                    "raw": "global"
                   },
                   "args": {
                     "type": "Tokens",
@@ -94,7 +96,10 @@
                           "ctxt": 0
                         },
                         "token": {
-                          "Ident": "span"
+                          "Ident": {
+                            "value": "span",
+                            "raw": "span"
+                          }
                         }
                       },
                       {
@@ -112,7 +117,10 @@
                           "ctxt": 0
                         },
                         "token": {
-                          "Ident": "not"
+                          "Ident": {
+                            "value": "not",
+                            "raw": "not"
+                          }
                         }
                       },
                       {
@@ -138,7 +146,10 @@
                           "ctxt": 0
                         },
                         "token": {
-                          "Ident": "test"
+                          "Ident": {
+                            "value": "test",
+                            "raw": "test"
+                          }
                         }
                       },
                       {
@@ -164,7 +175,7 @@
           "end": 48,
           "ctxt": 0
         },
-        "properties": [
+        "items": [
           {
             "type": "Property",
             "span": {
@@ -179,7 +190,8 @@
                 "end": 38,
                 "ctxt": 0
               },
-              "value": "color"
+              "value": "color",
+              "raw": "color"
             },
             "values": [
               {
@@ -189,7 +201,8 @@
                   "end": 45,
                   "ctxt": 0
                 },
-                "value": "green"
+                "value": "green",
+                "raw": "green"
               }
             ],
             "important": null

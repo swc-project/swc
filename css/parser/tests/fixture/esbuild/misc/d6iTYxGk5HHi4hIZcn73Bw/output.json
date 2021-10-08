@@ -46,7 +46,8 @@
                     "end": 1,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "value": "a",
+                  "raw": "a"
                 }
               },
               "subclassSelectors": [
@@ -65,7 +66,8 @@
                       "end": 7,
                       "ctxt": 0
                     },
-                    "value": "after"
+                    "value": "after",
+                    "raw": "after"
                   },
                   "args": {
                     "type": "Tokens",
@@ -89,7 +91,7 @@
           "end": 27,
           "ctxt": 0
         },
-        "properties": [
+        "items": [
           {
             "type": "Property",
             "span": {
@@ -104,7 +106,8 @@
                 "end": 17,
                 "ctxt": 0
               },
-              "value": "content"
+              "value": "content",
+              "raw": "content"
             },
             "values": [
               {

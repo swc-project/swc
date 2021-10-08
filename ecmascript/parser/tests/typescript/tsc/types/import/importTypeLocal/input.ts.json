@@ -658,7 +658,8 @@
             "value": "Bar",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         }
       ],
       "source": null,

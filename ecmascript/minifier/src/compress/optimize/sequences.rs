@@ -16,6 +16,7 @@ use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_this_expr, ident::IdentLike, undefined, ExprExt, Id, StmtLike};
 use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
+use tracing::{span, Level};
 
 /// Methods related to the option `sequences`. All methods are noop if
 /// `sequences` is false.
@@ -134,7 +135,7 @@ where
             }
         }
 
-        log::debug!("sequences: Compressing statements as a sequences");
+        tracing::debug!("sequences: Compressing statements as a sequences");
 
         self.changed = true;
         let mut exprs = vec![];
@@ -414,7 +415,9 @@ where
             }
         }
         self.changed = true;
-        log::debug!("sequences: Splitted a sequence exprssion to multiple expression statements");
+        tracing::debug!(
+            "sequences: Splitted a sequence exprssion to multiple expression statements"
+        );
         *stmts = new_stmts;
     }
 
@@ -448,7 +451,7 @@ where
             if !can_work {
                 return;
             }
-            log::debug!("sequences: Lifting");
+            tracing::debug!("sequences: Lifting");
             self.changed = true;
         }
 
@@ -522,7 +525,7 @@ where
                                     continue;
                                 }
                                 self.changed = true;
-                                log::debug!("sequences: Hoisting `var` without init");
+                                tracing::debug!("sequences: Hoisting `var` without init");
                                 let s = Stmt::Decl(Decl::Var(VarDecl {
                                     span: v.span,
                                     kind: VarDeclKind::Var,
@@ -567,7 +570,7 @@ where
                         if lhs.sym == last_id.sym && lhs.span.ctxt == last_id.span.ctxt {
                             e.exprs.pop();
                             self.changed = true;
-                            log::debug!("sequences: Shifting assignment");
+                            tracing::debug!("sequences: Shifting assignment");
                             return;
                         }
                     };
@@ -592,7 +595,7 @@ where
         if let Some(last) = e.exprs.last() {
             if is_pure_undefined(&last) {
                 self.changed = true;
-                log::debug!("sequences: Shifting void");
+                tracing::debug!("sequences: Shifting void");
 
                 e.exprs.pop();
                 let last = e.exprs.last_mut().unwrap();
@@ -606,45 +609,50 @@ where
         }
     }
 
+    fn seq_exprs_of<'a>(
+        &mut self,
+        s: &'a mut Stmt,
+        options: &CompressOptions,
+    ) -> Option<Vec<Mergable<'a>>> {
+        Some(match s {
+            Stmt::Expr(e) => vec![Mergable::Expr(&mut *e.expr)],
+            Stmt::Decl(Decl::Var(
+                v
+                @
+                VarDecl {
+                    kind: VarDeclKind::Var | VarDeclKind::Let,
+                    ..
+                },
+            )) => v.decls.iter_mut().map(Mergable::Var).collect(),
+            Stmt::Return(ReturnStmt { arg: Some(arg), .. }) if options.sequences() => {
+                vec![Mergable::Expr(&mut **arg)]
+            }
+            Stmt::If(s) if options.sequences() => {
+                vec![Mergable::Expr(&mut *s.test)]
+            }
+            Stmt::Throw(s) if options.sequences() => {
+                vec![Mergable::Expr(&mut *s.arg)]
+            }
+
+            _ => return None,
+        })
+    }
+
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, stmts)))]
     pub(super) fn merge_sequences_in_stmts<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: MoudleItemExt,
     {
-        fn exprs_of<'a>(s: &'a mut Stmt, options: &CompressOptions) -> Option<Vec<Mergable<'a>>> {
-            Some(match s {
-                Stmt::Expr(e) => vec![Mergable::Expr(&mut *e.expr)],
-                Stmt::Decl(Decl::Var(
-                    v
-                    @
-                    VarDecl {
-                        kind: VarDeclKind::Var | VarDeclKind::Let,
-                        ..
-                    },
-                )) => v.decls.iter_mut().map(Mergable::Var).collect(),
-                Stmt::Return(ReturnStmt { arg: Some(arg), .. }) if options.sequences() => {
-                    vec![Mergable::Expr(&mut **arg)]
-                }
-                Stmt::If(s) if options.sequences() => {
-                    vec![Mergable::Expr(&mut *s.test)]
-                }
-                Stmt::Throw(s) if options.sequences() => {
-                    vec![Mergable::Expr(&mut *s.arg)]
-                }
-
-                _ => return None,
-            })
-        }
-
         if !self.options.sequences() && !self.options.collapse_vars {
             if cfg!(feature = "debug") {
-                log::trace!("sequences: [x] Disabled");
+                tracing::trace!("sequences: [x] Disabled");
             }
             return;
         }
 
         if self.ctx.in_top_level() && !self.options.top_level() {
             if cfg!(feature = "debug") {
-                log::trace!("sequences: [x] Top level");
+                tracing::trace!("sequences: [x] Top level");
             }
             return;
         }
@@ -659,7 +667,7 @@ where
             };
 
             let items = if let Some(stmt) = stmt.as_stmt_mut() {
-                exprs_of(stmt, self.options)
+                self.seq_exprs_of(stmt, self.options)
             } else {
                 None
             };
@@ -677,7 +685,7 @@ where
         exprs.push(buf);
 
         if cfg!(feature = "debug") {
-            log::trace!(
+            tracing::trace!(
                 "sequences: Merging statements: {:?}",
                 exprs.iter().map(|v| v.len()).collect::<Vec<_>>()
             );
@@ -730,7 +738,22 @@ where
     pub(super) fn merge_sequences_in_seq_expr(&mut self, e: &mut SeqExpr) {
         self.normalize_sequences(e);
 
-        if !self.options.sequences() {
+        let _tracing = if cfg!(feature = "debug") {
+            let e_str = dump(&*e);
+
+            Some(
+                span!(
+                    Level::ERROR,
+                    "merge_sequences_in_seq_expr",
+                    seq_expr = &*e_str
+                )
+                .entered(),
+            )
+        } else {
+            None
+        };
+
+        if !self.options.sequences() && !e.span.has_mark(self.marks.synthesized_seq) {
             return;
         }
 
@@ -780,7 +803,7 @@ where
                     Mergable::Expr(e2) => {
                         if !self.is_skippable_for_seq(Some(a), &*e2) {
                             if cfg!(feature = "debug") && false {
-                                log::trace!("Cannot skip: {}", dump(&**e2));
+                                tracing::trace!("Cannot skip: {}", dump(&**e2));
                             }
 
                             break;
@@ -896,6 +919,14 @@ where
 
     /// Returns true if something is modified.
     fn merge_sequential_expr(&mut self, a: &mut Mergable, b: &mut Expr) -> bool {
+        let _tracing = if cfg!(feature = "debug") {
+            let b_str = dump(&*b);
+
+            Some(span!(Level::ERROR, "merge_sequential_expr", b = &*b_str).entered())
+        } else {
+            None
+        };
+
         match a {
             Mergable::Var(..) => {}
             Mergable::Expr(a) => match a {
@@ -922,19 +953,19 @@ where
             Expr::Update(..) => return false,
 
             Expr::Cond(b) => {
-                log::trace!("seq: Try test of cond");
+                tracing::trace!("seq: Try test of cond");
                 return self.merge_sequential_expr(a, &mut *b.test);
             }
 
             Expr::Unary(b) => {
-                log::trace!("seq: Try arg of unary");
+                tracing::trace!("seq: Try arg of unary");
                 return self.merge_sequential_expr(a, &mut b.arg);
             }
 
             Expr::Bin(BinExpr {
                 op, left, right, ..
             }) => {
-                log::trace!("seq: Try left of bin");
+                tracing::trace!("seq: Try left of bin");
                 if self.merge_sequential_expr(a, &mut **left) {
                     return true;
                 }
@@ -948,7 +979,7 @@ where
                     _ => {}
                 }
 
-                log::trace!("seq: Try right of bin");
+                tracing::trace!("seq: Try right of bin");
                 return self.merge_sequential_expr(a, &mut **right);
             }
 
@@ -957,7 +988,7 @@ where
                 computed: false,
                 ..
             }) => {
-                log::trace!("seq: Try object of member");
+                tracing::trace!("seq: Try object of member");
                 return self.merge_sequential_expr(a, &mut **obj);
             }
 
@@ -967,7 +998,7 @@ where
                 computed: true,
                 ..
             }) => {
-                log::trace!("seq: Try object of member (computed)");
+                tracing::trace!("seq: Try object of member (computed)");
                 if self.merge_sequential_expr(a, &mut **obj) {
                     return true;
                 }
@@ -976,14 +1007,14 @@ where
                     return false;
                 }
 
-                log::trace!("seq: Try prop of member (computed)");
+                tracing::trace!("seq: Try prop of member (computed)");
                 return self.merge_sequential_expr(a, &mut **prop);
             }
 
             Expr::Assign(b @ AssignExpr { op: op!("="), .. }) => {
                 match &mut b.left {
                     PatOrExpr::Expr(b) => {
-                        log::trace!("seq: Try lhs of assign");
+                        tracing::trace!("seq: Try lhs of assign");
                         if self.merge_sequential_expr(a, &mut **b) {
                             return true;
                         }
@@ -998,7 +1029,7 @@ where
                     }
                     PatOrExpr::Pat(b) => match &mut **b {
                         Pat::Expr(b) => {
-                            log::trace!("seq: Try lhs of assign");
+                            tracing::trace!("seq: Try lhs of assign");
                             if self.merge_sequential_expr(a, &mut **b) {
                                 return true;
                             }
@@ -1015,7 +1046,7 @@ where
                     },
                 }
 
-                log::trace!("seq: Try rhs of assign");
+                tracing::trace!("seq: Try rhs of assign");
                 return self.merge_sequential_expr(a, &mut b.right);
             }
 
@@ -1040,7 +1071,7 @@ where
                     },
                 }
 
-                log::trace!("seq: Try rhs of assign with op");
+                tracing::trace!("seq: Try rhs of assign with op");
                 return self.merge_sequential_expr(a, &mut b.right);
             }
 
@@ -1048,7 +1079,7 @@ where
                 for elem in &mut b.elems {
                     match elem {
                         Some(elem) => {
-                            log::trace!("seq: Try element of array");
+                            tracing::trace!("seq: Try element of array");
                             if self.merge_sequential_expr(a, &mut elem.expr) {
                                 return true;
                             }
@@ -1074,7 +1105,7 @@ where
                 ..
             }) => {
                 let is_this_undefined = b_callee.is_ident();
-                log::trace!("seq: Try callee of call");
+                tracing::trace!("seq: Try callee of call");
                 if self.merge_sequential_expr(a, &mut **b_callee) {
                     if is_this_undefined {
                         match &**b_callee {
@@ -1083,7 +1114,7 @@ where
                                     span: DUMMY_SP,
                                     value: 0.0,
                                 })));
-                                log::trace!("injecting zero to preserve `this` in call");
+                                tracing::debug!("injecting zero to preserve `this` in call");
 
                                 *b_callee = Box::new(Expr::Seq(SeqExpr {
                                     span: b_callee.span(),
@@ -1103,7 +1134,7 @@ where
                 }
 
                 for arg in b_args {
-                    log::trace!("seq: Try arg of call");
+                    tracing::trace!("seq: Try arg of call");
                     if self.merge_sequential_expr(a, &mut arg.expr) {
                         return true;
                     }
@@ -1119,7 +1150,7 @@ where
             Expr::New(NewExpr {
                 callee: b_callee, ..
             }) => {
-                log::trace!("seq: Try callee of new");
+                tracing::trace!("seq: Try callee of new");
                 if self.merge_sequential_expr(a, &mut **b_callee) {
                     return true;
                 }
@@ -1129,7 +1160,7 @@ where
 
             Expr::Seq(SeqExpr { exprs: b_exprs, .. }) => {
                 for b_expr in b_exprs {
-                    log::trace!("seq: Try elem of seq");
+                    tracing::trace!("seq: Try elem of seq");
 
                     if self.merge_sequential_expr(a, &mut **b_expr) {
                         return true;
@@ -1206,7 +1237,7 @@ where
         }
 
         // if cfg!(feature = "debug") && false {
-        //     log::trace!(
+        //     tracing::trace!(
         //         "sequences: Trying to merge `{}` => `{}`",
         //         dump(&*a),
         //         dump(&*b)
@@ -1243,7 +1274,7 @@ where
                                 };
                                 b.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
                                 if v.expr_usage != 1 || v.pat_usage != 0 {
-                                    log::trace!(
+                                    tracing::trace!(
                                         "[X] sequences: Aborting merging of an update expression \
                                          because of usage counts ({}, ref = {}, pat = {})",
                                         a_id,
@@ -1294,7 +1325,7 @@ where
                         let left_id = match get_lhs_ident(left) {
                             Some(v) => v,
                             None => {
-                                log::trace!("[X] sequences: Aborting because lhs is not an id");
+                                tracing::trace!("[X] sequences: Aborting because lhs is not an id");
                                 return false;
                             }
                         };
@@ -1305,7 +1336,7 @@ where
                             .and_then(|data| data.vars.get(&left_id.to_id()))
                         {
                             if usage.declared_as_fn_expr {
-                                log::trace!(
+                                tracing::trace!(
                                     "sequences: [X] Declared as fn expr ({}, {:?})",
                                     left_id.sym,
                                     left_id.span.ctxt
@@ -1387,7 +1418,7 @@ where
                 }
 
                 if used_by_b.contains(id) {
-                    log::trace!("[X] sequences: Aborting because of deps");
+                    tracing::trace!("[X] sequences: Aborting because of deps");
                     return false;
                 }
             }
@@ -1402,7 +1433,7 @@ where
             };
             b.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
             if v.expr_usage != 1 || v.pat_usage != 0 {
-                log::trace!(
+                tracing::trace!(
                     "[X] sequences: Aborting because of usage counts ({}{:?}, ref = {}, pat = {})",
                     left_id.sym,
                     left_id.span.ctxt,
@@ -1414,7 +1445,7 @@ where
         }
 
         self.changed = true;
-        log::debug!(
+        tracing::debug!(
             "sequences: Inlining sequential expressions (`{}{:?}`)",
             left_id.sym,
             left_id.span.ctxt

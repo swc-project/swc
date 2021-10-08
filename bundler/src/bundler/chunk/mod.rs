@@ -1,13 +1,12 @@
 use super::{load::TransformedModule, Bundler};
 use crate::{
-    bundler::chunk::merge::Ctx, id::ModuleId, load::Load, resolve::Resolve,
-    util::IntoParallelIterator, Bundle,
+    bundler::chunk::merge::Ctx, load::Load, resolve::Resolve, util::IntoParallelIterator, Bundle,
 };
 use ahash::AHashMap;
 use anyhow::{Context, Error};
-use fxhash::{FxHashMap, FxHashSet};
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
+use rustc_hash::FxHashMap;
 use std::time::Instant;
 
 mod cjs;
@@ -16,19 +15,10 @@ mod merge;
 mod plan;
 
 #[derive(Debug)]
-struct InternalEntry {
-    basename: String,
-    main: TransformedModule,
-    included: Vec<ModuleId>,
-    dynamic: bool,
-}
+struct InternalEntry {}
 
 #[derive(Debug, Default)]
-struct State {
-    synchronously_included: FxHashSet<ModuleId>,
-    dynamic_entries: FxHashSet<ModuleId>,
-    common_libs: FxHashSet<ModuleId>,
-}
+struct State {}
 
 impl<L, R> Bundler<'_, L, R>
 where
@@ -47,7 +37,7 @@ where
         let start = Instant::now();
         let (plan, graph, cycles) = self.determine_entries(entries).context("failed to plan")?;
         let dur = Instant::now() - start;
-        log::debug!("Dependency analysis took {:?}", dur);
+        tracing::debug!("Dependency analysis took {:?}", dur);
 
         if cfg!(debug_assertions) {
             for (i, id1) in plan.all.iter().enumerate() {
@@ -87,7 +77,7 @@ where
             .collect::<Result<FxHashMap<_, _>, _>>()?;
 
         let dur = Instant::now() - start;
-        log::debug!("Module preparation took {:?}", dur);
+        tracing::debug!("Module preparation took {:?}", dur);
 
         let entries = all
             .iter()
@@ -104,7 +94,7 @@ where
             .map(|(id, mut entry)| {
                 self.merge_into_entry(&ctx, id, &mut entry, &all);
 
-                log::debug!("Merged `{}` and it's dep into an entry", id);
+                tracing::debug!("Merged `{}` and it's dep into an entry", id);
 
                 (id, entry)
             })

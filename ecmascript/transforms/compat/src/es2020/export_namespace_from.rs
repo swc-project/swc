@@ -58,6 +58,7 @@ impl Fold for ExportNamespaceFrom {
                                             span: DUMMY_SP,
                                             orig: local,
                                             exported: Some(ns.name),
+                                            is_type_only: false,
                                         },
                                     )],
                                     src: None,

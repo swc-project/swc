@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use darling::FromField;
 use pmutil::{smart_quote, Quote, ToTokensExt};
 use swc_macros_common::prelude::*;

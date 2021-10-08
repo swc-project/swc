@@ -265,7 +265,11 @@ impl Babelify for ImportNamedSpecifier {
             base: ctx.base(self.span),
             local: self.local.clone().babelify(ctx),
             imported: IdOrString::Id(self.imported.unwrap_or(self.local).babelify(ctx)),
-            import_kind: None,
+            import_kind: if self.is_type_only {
+                Some(ImportKind::Type)
+            } else {
+                None
+            },
         }
     }
 }
@@ -313,6 +317,11 @@ impl Babelify for ExportNamedSpecifier {
             base: ctx.base(self.span),
             local: self.orig.clone().babelify(ctx),
             exported: IdOrString::Id(self.exported.unwrap_or(self.orig).babelify(ctx)),
+            export_kind: if self.is_type_only {
+                ExportKind::Type
+            } else {
+                ExportKind::Value
+            },
         }
     }
 }

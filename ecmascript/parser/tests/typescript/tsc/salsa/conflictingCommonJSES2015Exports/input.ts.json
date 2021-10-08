@@ -218,7 +218,8 @@
             "value": "abc",
             "optional": false
           },
-          "imported": null
+          "imported": null,
+          "isTypeOnly": false
         }
       ],
       "source": {

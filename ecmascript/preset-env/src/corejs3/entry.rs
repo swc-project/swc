@@ -1,8 +1,10 @@
+use std::hash::BuildHasherDefault;
+
 use super::compat::DATA as CORE_JS_COMPAT_DATA;
 use crate::{version::should_enable, Version, Versions};
-use fxhash::{FxBuildHasher, FxHashMap};
 use indexmap::IndexSet;
 use once_cell::sync::Lazy;
+use rustc_hash::{FxHashMap, FxHasher};
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -43,7 +45,7 @@ pub struct Entry {
     is_any_target: bool,
     target: Versions,
     corejs_version: Version,
-    pub imports: IndexSet<&'static str, FxBuildHasher>,
+    pub imports: IndexSet<&'static str, BuildHasherDefault<FxHasher>>,
     remove_regenerator: bool,
 }
 

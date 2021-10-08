@@ -35,7 +35,8 @@
                 "end": 16,
                 "ctxt": 0
               },
-              "value": "DISPLAY"
+              "value": "DISPLAY",
+              "raw": "DISPLAY"
             },
             "values": [
               {
@@ -45,7 +46,8 @@
                   "end": 22,
                   "ctxt": 0
                 },
-                "value": "none"
+                "value": "none",
+                "raw": "none"
               }
             ],
             "important": null

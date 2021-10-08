@@ -12,6 +12,7 @@ define!({
     pub struct Text {
         pub span: Span,
         pub value: JsWord,
+        pub raw: JsWord,
     }
 
     pub struct Str {
@@ -39,7 +40,12 @@ define!({
 
     pub struct DeclBlock {
         pub span: Span,
-        pub properties: Vec<Property>,
+        pub items: Vec<DeclBlockItem>,
+    }
+
+    pub enum DeclBlockItem {
+        Invalid(Tokens),
+        Property(Property),
     }
 
     pub struct Tokens {
@@ -245,6 +251,8 @@ define!({
 
     pub enum Rule {
         Style(StyleRule),
+
+        Invalid(Tokens),
 
         AtRule(AtRule),
     }

@@ -4,7 +4,7 @@ use super::util::{
 };
 use crate::path::{ImportResolver, NoopImportResolver};
 use anyhow::Context;
-use fxhash::FxHashSet;
+use rustc_hash::FxHashSet;
 use serde::{Deserialize, Serialize};
 use std::{
     cell::{Ref, RefCell, RefMut},
@@ -338,8 +338,10 @@ where
 
                             stmts.reserve(export.specifiers.len());
 
-                            for ExportNamedSpecifier { orig, exported, .. } in
-                                export.specifiers.into_iter().map(|e| match e {
+                            for ExportNamedSpecifier { orig, exported, .. } in export
+                                .specifiers
+                                .into_iter()
+                                .map(|e| match e {
                                     ExportSpecifier::Named(e) => e,
                                     ExportSpecifier::Default(..) => unreachable!(
                                         "export default from 'foo'; should be removed by previous \
@@ -350,6 +352,7 @@ where
                                          previous pass"
                                     ),
                                 })
+                                .filter(|e| !e.is_type_only)
                             {
                                 let mut scope_ref_mut = self.scope.borrow_mut();
                                 let scope = &mut *scope_ref_mut;

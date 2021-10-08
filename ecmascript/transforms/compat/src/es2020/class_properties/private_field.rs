@@ -1,14 +1,94 @@
-use fxhash::FxHashSet;
+use rustc_hash::FxHashSet;
 use std::{iter, mem};
 use swc_atoms::JsWord;
-use swc_common::{Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{
     ext::{AsOptExpr, PatOrExprExt},
     helper,
 };
 use swc_ecma_utils::{alias_ident_for, alias_if_required, prepend, quote_ident, ExprFactory};
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
+
+pub(super) struct BrandCheckHandler<'a> {
+    /// Mark for the private `WeakSet` variable.
+    pub mark: Mark,
+
+    pub class_name: &'a Ident,
+
+    /// Private names used for brand checks.
+    pub names: &'a mut FxHashSet<JsWord>,
+
+    pub statics: &'a FxHashSet<JsWord>,
+}
+
+impl VisitMut for BrandCheckHandler<'_> {
+    noop_visit_mut_type!();
+
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
+
+        match e {
+            Expr::Bin(BinExpr {
+                span,
+                op: op!("in"),
+                left,
+                right,
+            }) if left.is_private_name() => {
+                let n = match &**left {
+                    Expr::PrivateName(ref n) => n,
+                    _ => {
+                        unreachable!()
+                    }
+                };
+                match &**right {
+                    Expr::Ident(right) => {
+                        if self.class_name.sym == right.sym
+                            && self.class_name.span.ctxt == right.span.ctxt
+                        {
+                            *e = Expr::Bin(BinExpr {
+                                span: *span,
+                                op: op!("==="),
+                                left: Box::new(Expr::Ident(self.class_name.clone())),
+                                right: Box::new(Expr::Ident(right.clone())),
+                            });
+                            return;
+                        }
+                    }
+                    _ => {}
+                }
+
+                self.names.insert(n.id.sym.clone());
+
+                let is_static = self.statics.contains(&n.id.sym);
+
+                if is_static {
+                    *e = Expr::Bin(BinExpr {
+                        span: *span,
+                        op: op!("==="),
+                        left: right.take(),
+                        right: Box::new(Expr::Ident(self.class_name.clone())),
+                    });
+                    return;
+                }
+
+                let weak_coll_ident = Ident::new(
+                    format!("_{}", n.id.sym).into(),
+                    n.id.span.apply_mark(self.mark),
+                );
+
+                *e = Expr::Call(CallExpr {
+                    span: *span,
+                    callee: weak_coll_ident.make_member(quote_ident!("has")).as_callee(),
+                    args: vec![right.take().as_arg()],
+                    type_args: Default::default(),
+                });
+            }
+
+            _ => {}
+        }
+    }
+}
 
 pub(super) struct FieldAccessFolder<'a> {
     /// Mark for the private `WeakSet` variable.

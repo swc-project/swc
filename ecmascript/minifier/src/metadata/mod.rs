@@ -176,10 +176,10 @@ impl VisitMut for InfoMarker<'_> {
         m.visit_mut_children_with(self);
 
         if self.state.is_bundle {
-            log::info!("Running minifier in the bundle mode");
+            tracing::info!("Running minifier in the bundle mode");
             m.span = m.span.apply_mark(self.marks.bundle_of_standalones);
         } else {
-            log::info!("Running minifier in the normal mode");
+            tracing::info!("Running minifier in the normal mode");
         }
     }
 
@@ -275,7 +275,7 @@ where
 
         if external_bingdings.contains(&used_id) {
             if cfg!(feature = "debug") {
-                log::debug!(
+                tracing::debug!(
                     "bundle: Due to {}{:?} (top-level), it's not a bundle",
                     used_id.0,
                     used_id.1
@@ -287,14 +287,14 @@ where
 
         if used_id.1 == top_level_ctxt {
             // if cfg!(feature = "debug") {
-            //     log::debug!("bundle: Ignoring {}{:?} (top level)", used_id.0, used_id.1);
-            // }
+            //     tracing::debug!("bundle: Ignoring {}{:?} (top level)", used_id.0,
+            // used_id.1); }
             continue;
         }
 
         if bindings.contains(used_id) {
             // if cfg!(feature = "debug") {
-            //     log::debug!(
+            //     tracing::debug!(
             //         "bundle: Ignoring {}{:?} (local to fn)",
             //         used_id.0,
             //         used_id.1
@@ -304,7 +304,7 @@ where
         }
 
         if cfg!(feature = "debug") {
-            log::debug!(
+            tracing::debug!(
                 "bundle: Due to {}{:?}, it's not a bundle",
                 used_id.0,
                 used_id.1

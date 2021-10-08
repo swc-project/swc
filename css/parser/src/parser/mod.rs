@@ -1,10 +1,9 @@
-use std::mem::take;
-
 use self::input::{Buffer, ParserInput};
 use crate::{
     error::{Error, ErrorKind},
     Parse,
 };
+use std::mem::take;
 use swc_atoms::js_word;
 use swc_common::Span;
 use swc_css_ast::*;
@@ -39,6 +38,8 @@ struct Ctx {
     is_in_delimited_value: bool,
 
     allow_at_selctor: bool,
+
+    recover_from_property_value: bool,
 }
 
 #[derive(Debug)]
@@ -46,6 +47,7 @@ pub struct Parser<I>
 where
     I: ParserInput,
 {
+    #[allow(dead_code)]
     config: ParserConfig,
     input: Buffer<I>,
     ctx: Ctx,
@@ -88,7 +90,7 @@ where
             }
 
             match cur!(self) {
-                Token::AtKeyword(..) => {
+                Token::AtKeyword { .. } => {
                     let rule = self.parse_at_rule(Default::default())?;
                     rules.push(rule.into());
                     continue;
@@ -139,7 +141,7 @@ where
         }
 
         match bump!(self) {
-            Token::Ident(value) => Ok(Text { span, value }),
+            Token::Ident { value, raw } => Ok(Text { span, value, raw }),
             _ => {
                 unreachable!()
             }
@@ -164,7 +166,10 @@ where
         let span = self.input.cur_span()?;
 
         match cur!(self) {
-            Token::Ident(js_word!("url")) => {
+            Token::Ident {
+                value: js_word!("url"),
+                ..
+            } => {
                 bump!(self);
                 expect!(self, "(");
                 let value = self.parse_str()?.value;

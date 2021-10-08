@@ -4,7 +4,7 @@ use crate::{
     mode::Mode,
     util::{idents_used_by, make_number},
 };
-use fxhash::FxHashMap;
+use rustc_hash::FxHashMap;
 use std::{
     collections::HashMap,
     mem::{replace, swap},
@@ -38,7 +38,7 @@ where
 
         match callee {
             Expr::Fn(..) => {
-                log::debug!("negate_iife: Negating iife");
+                tracing::debug!("negate_iife: Negating iife");
                 *e = Expr::Unary(UnaryExpr {
                     span: DUMMY_SP,
                     op: op!("!"),
@@ -72,7 +72,7 @@ where
 
         match callee {
             Expr::Fn(..) => {
-                log::debug!("negate_iife: Swapping cons and alt");
+                tracing::debug!("negate_iife: Swapping cons and alt");
                 cond.test = Box::new(Expr::Unary(UnaryExpr {
                     span: DUMMY_SP,
                     op: op!("!"),
@@ -212,13 +212,13 @@ where
                         // This function is misdesigned and should be removed.
                         // This is wrong because the order of execution is not guaranteed.
                         match &**arg {
-                            Expr::Ident(..) | Expr::Lit(..) => {}
+                            Expr::Lit(..) => {}
                             _ => continue,
                         }
 
                         let should_be_inlined = self.can_be_inlined_for_iife(arg);
                         if should_be_inlined {
-                            log::debug!(
+                            tracing::trace!(
                                 "iife: Trying to inline argument ({}{:?})",
                                 param.id.sym,
                                 param.id.span.ctxt
@@ -226,7 +226,7 @@ where
                             vars.insert(param.to_id(), arg.clone());
                         }
                     } else {
-                        log::debug!(
+                        tracing::trace!(
                             "iife: Trying to inline argument ({}{:?}) (undefined)",
                             param.id.sym,
                             param.id.span.ctxt
@@ -245,11 +245,11 @@ where
             let mut optimizer = self.with_ctx(ctx);
             match find_body(callee) {
                 Some(Either::Left(body)) => {
-                    log::debug!("inline: Inlining arguments");
+                    tracing::trace!("inline: Inlining arguments");
                     optimizer.inline_vars_in_node(body, vars);
                 }
                 Some(Either::Right(body)) => {
-                    log::debug!("inline: Inlining arguments");
+                    tracing::trace!("inline: Inlining arguments");
                     optimizer.inline_vars_in_node(body, vars);
                 }
                 _ => {}
@@ -261,7 +261,9 @@ where
     where
         N: VisitMutWith<Self>,
     {
-        log::debug!("inline: inline_vars_in_node");
+        if cfg!(feature = "debug") {
+            tracing::trace!("inline: inline_vars_in_node");
+        }
         let ctx = Ctx {
             inline_prevented: false,
             ..self.ctx
@@ -316,19 +318,19 @@ where
         };
 
         if self.ctx.inline_prevented {
-            log::trace!("iife: [x] Inline is prevented");
+            tracing::trace!("iife: [x] Inline is prevented");
             return;
         }
 
         match callee {
             Expr::Arrow(f) => {
                 if f.is_async {
-                    log::trace!("iife: [x] Cannot inline async fn");
+                    tracing::trace!("iife: [x] Cannot inline async fn");
                     return;
                 }
 
                 if f.is_generator {
-                    log::trace!("iife: [x] Cannot inline generator");
+                    tracing::trace!("iife: [x] Cannot inline generator");
                     return;
                 }
 
@@ -362,7 +364,7 @@ where
                         let new = self.inline_fn_like(&param_ids, body, &mut call.args);
                         if let Some(new) = new {
                             self.changed = true;
-                            log::debug!("inline: Inlining a function call (arrow)");
+                            tracing::debug!("inline: Inlining a function call (arrow)");
 
                             *e = new;
                         }
@@ -400,7 +402,7 @@ where
 
                             if !vars.is_empty() {
                                 self.prepend_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                                    span: DUMMY_SP,
+                                    span: DUMMY_SP.apply_mark(self.marks.non_top_level),
                                     kind: VarDeclKind::Var,
                                     declare: Default::default(),
                                     decls: vars,
@@ -428,7 +430,7 @@ where
                         }
                         exprs.push(body.take());
 
-                        log::debug!("inline: Inlining a call to an arrow function");
+                        tracing::debug!("inline: Inlining a call to an arrow function");
                         *e = Expr::Seq(SeqExpr {
                             span: DUMMY_SP,
                             exprs,
@@ -445,18 +447,18 @@ where
                         _ => false,
                     });
                     if has_decl {
-                        log::trace!("iife: [x] Found decl");
+                        tracing::trace!("iife: [x] Found decl");
                         return;
                     }
                 }
 
                 if f.function.is_async {
-                    log::trace!("iife: [x] Cannot inline async fn");
+                    tracing::trace!("iife: [x] Cannot inline async fn");
                     return;
                 }
 
                 if f.function.is_generator {
-                    log::trace!("iife: [x] Cannot inline generator");
+                    tracing::trace!("iife: [x] Cannot inline generator");
                     return;
                 }
 
@@ -465,25 +467,25 @@ where
                     Pat::Object(..) | Pat::Array(..) | Pat::Assign(..) | Pat::Rest(..) => true,
                     _ => false,
                 }) {
-                    log::trace!("iife: [x] Found complex pattern");
+                    tracing::trace!("iife: [x] Found complex pattern");
                     return;
                 }
 
                 if let Some(i) = &f.ident {
                     if idents_used_by(&f.function.body).contains(&i.to_id()) {
-                        log::trace!("iife: [x] Recursive?");
+                        tracing::trace!("iife: [x] Recursive?");
                         return;
                     }
                 }
 
                 for arg in &call.args {
                     if arg.spread.is_some() {
-                        log::trace!("iife: [x] Found spread argument");
+                        tracing::trace!("iife: [x] Found spread argument");
                         return;
                     }
                     match &*arg.expr {
                         Expr::Fn(..) | Expr::Arrow(..) => {
-                            log::trace!("iife: [x] Found callable argument");
+                            tracing::trace!("iife: [x] Found callable argument");
                             return;
                         }
                         _ => {}
@@ -504,14 +506,14 @@ where
                     .collect::<Vec<_>>();
 
                 if !self.can_inline_fn_like(&param_ids, body) {
-                    log::trace!("iife: [x] Body is not inliable");
+                    tracing::trace!("iife: [x] Body is not inliable");
                     return;
                 }
 
                 let new = self.inline_fn_like(&param_ids, body, &mut call.args);
                 if let Some(new) = new {
                     self.changed = true;
-                    log::debug!("inline: Inlining a function call");
+                    tracing::debug!("inline: Inlining a function call");
 
                     *e = new;
                 }
@@ -548,7 +550,7 @@ where
 
                 // TODO: Check if paramter is used and inline if call is not related to parameters.
                 Expr::Call(e) => {
-                    let used = idents_used_by(e);
+                    let used = idents_used_by(&e.callee);
                     param_ids.iter().all(|param| !used.contains(&param.to_id()))
                 }
 
@@ -593,7 +595,7 @@ where
         }
 
         self.changed = true;
-        log::debug!("inline: Inling an iife");
+        tracing::debug!("inline: Inling an iife");
 
         let mut exprs = vec![];
 
@@ -613,7 +615,7 @@ where
 
             if !vars.is_empty() {
                 self.prepend_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
+                    span: DUMMY_SP.apply_mark(self.marks.non_top_level),
                     kind: VarDeclKind::Var,
                     declare: Default::default(),
                     decls: vars,
@@ -666,7 +668,7 @@ where
                     exprs.push(Box::new(val));
 
                     return Some(Expr::Seq(SeqExpr {
-                        span: DUMMY_SP,
+                        span: DUMMY_SP.apply_mark(self.marks.synthesized_seq),
                         exprs,
                     }));
                 }
@@ -685,7 +687,7 @@ where
         }
 
         Some(Expr::Seq(SeqExpr {
-            span: DUMMY_SP,
+            span: DUMMY_SP.apply_mark(self.marks.synthesized_seq),
             exprs,
         }))
     }

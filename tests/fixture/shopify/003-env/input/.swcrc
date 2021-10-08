@@ -1,0 +1,14 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": true
+        }
+    },
+    "module": {
+        "type": "commonjs"
+    },
+    "env": {
+        "chrome": "50"
+    }
+}

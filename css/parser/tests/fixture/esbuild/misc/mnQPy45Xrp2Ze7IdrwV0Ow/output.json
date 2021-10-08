@@ -46,7 +46,8 @@
                     "end": 1,
                     "ctxt": 0
                   },
-                  "value": "*"
+                  "value": "*",
+                  "raw": "*"
                 }
               },
               "subclassSelectors": [
@@ -65,7 +66,8 @@
                       "end": 4,
                       "ctxt": 0
                     },
-                    "value": "b"
+                    "value": "b",
+                    "raw": "b"
                   },
                   "args": {
                     "type": "Tokens",
@@ -89,7 +91,7 @@
           "end": 7,
           "ctxt": 0
         },
-        "properties": []
+        "items": []
       }
     }
   ]

@@ -112,7 +112,6 @@ pub use self::{
     parser::*,
 };
 use serde::{Deserialize, Serialize};
-use swc_common::Span;
 pub use swc_ecma_ast::EsVersion as JscTarget;
 
 #[macro_use]
@@ -276,6 +275,15 @@ impl Syntax {
         }
     }
 
+    pub fn private_in_object(self) -> bool {
+        match self {
+            Syntax::Es(EsConfig {
+                private_in_object, ..
+            }) => private_in_object,
+            _ => false,
+        }
+    }
+
     pub(crate) fn early_errors(self) -> bool {
         match self {
             Syntax::Typescript(t) => !t.no_early_errors,
@@ -375,9 +383,11 @@ pub struct EsConfig {
     #[serde(default)]
     pub import_assertions: bool,
 
-    #[serde(default)]
-    #[serde(rename = "staticBlocks")]
+    #[serde(default, rename = "staticBlocks")]
     pub static_blocks: bool,
+
+    #[serde(default, rename = "privateInObject")]
+    pub private_in_object: bool,
 }
 
 /// Syntactic context.
@@ -401,7 +411,6 @@ pub struct Context {
     in_type: bool,
     /// Typescript extension.
     in_declare: bool,
-    span_of_fn_name: Option<Span>,
 
     /// If true, `:` should not be treated as a type annotation.
     in_cond_expr: bool,
@@ -412,8 +421,6 @@ pub struct Context {
     in_parameters: bool,
 
     has_super_class: bool,
-    in_method: bool,
-    in_class_prop: bool,
 
     in_property_name: bool,
 

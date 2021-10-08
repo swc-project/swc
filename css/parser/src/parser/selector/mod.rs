@@ -3,7 +3,7 @@ use crate::{
     error::{Error, ErrorKind},
     Parse,
 };
-use swc_atoms::js_word;
+use swc_atoms::{js_word, JsWord};
 use swc_common::Span;
 use swc_css_ast::*;
 
@@ -95,11 +95,11 @@ where
     fn parse_name_token(&mut self) -> PResult<Text> {
         let span = self.input.cur_span()?;
         match cur!(self) {
-            Token::Ident(..) => {
+            Token::Ident { .. } => {
                 let token = bump!(self);
 
                 match token {
-                    Token::Ident(value) => return Ok(Text { span, value }),
+                    Token::Ident { value, raw } => return Ok(Text { span, value, raw }),
                     _ => {
                         unreachable!()
                     }
@@ -125,7 +125,7 @@ where
         let mut type_selector = None;
 
         match cur!(self) {
-            tok!("|") | Token::Ident(..) | tok!("*") => {
+            tok!("|") | Token::Ident { .. } | tok!("*") => {
                 let mut ns_name_name;
                 let mut ns_name_prefix = None;
 
@@ -133,10 +133,10 @@ where
                     // No namespace prefix.
 
                     if eat!(self, "*") {
-                        ns_name_name = Some(Text {
-                            span,
-                            value: "*".into(),
-                        });
+                        let value: JsWord = "*".into();
+                        let raw = value.clone();
+
+                        ns_name_name = Some(Text { span, value, raw });
                     } else {
                         ns_name_name = Some(self.parse_name_token()?);
                     }
@@ -148,6 +148,7 @@ where
                     ns_name_name = Some(Text {
                         span: Span::new(start_pos, start_pos, Default::default()),
                         value: js_word!(""),
+                        raw: js_word!(""),
                     });
                     // TODO:
                     // nsName.Name.Kind = css_lexer.TIdent
@@ -161,10 +162,10 @@ where
 
                     ns_name_prefix = ns_name_name.take();
                     if eat!(self, "*") {
-                        ns_name_name = Some(Text {
-                            span,
-                            value: "*".into(),
-                        });
+                        let value: JsWord = "*".into();
+                        let raw = value.clone();
+
+                        ns_name_name = Some(Text { span, value, raw });
                     } else {
                         ns_name_name = Some(self.parse_name_token()?);
                     }
@@ -230,9 +231,9 @@ where
                     subclass_selectors.push(SubclassSelector::Pseudo(pseudo));
                 }
 
-                Token::AtKeyword(..) if self.ctx.allow_at_selctor => {
-                    let name = match bump!(self) {
-                        Token::AtKeyword(kwd) => kwd,
+                Token::AtKeyword { .. } if self.ctx.allow_at_selctor => {
+                    let values = match bump!(self) {
+                        Token::AtKeyword { value, raw } => (value, raw),
                         _ => {
                             unreachable!()
                         }
@@ -240,7 +241,11 @@ where
 
                     subclass_selectors.push(SubclassSelector::At(AtSelector {
                         span,
-                        text: Text { span, value: name },
+                        text: Text {
+                            span,
+                            value: values.0,
+                            raw: values.1,
+                        },
                     }));
                     break 'subclass_selectors;
                 }
@@ -270,7 +275,7 @@ where
         let span = self.input.cur_span()?;
 
         let text = match bump!(self) {
-            Token::Hash { value, .. } => Text { span, value },
+            Token::Hash { value, raw, .. } => Text { span, value, raw },
             _ => {
                 unreachable!()
             }
@@ -327,6 +332,7 @@ where
             Text {
                 span: span!(self, name_start),
                 value: js_word!(""),
+                raw: js_word!(""),
             }
         };
 
@@ -353,9 +359,13 @@ where
                 // "[*|x]"
 
                 if eat!(self, "*") {
+                    let value: JsWord = "*".into();
+                    let raw = value.clone();
+
                     ns_name_prefix = Some(Text {
                         span: span!(self, name_start_pos),
-                        value: "*".into(),
+                        value,
+                        raw,
                     });
                 } else {
                     // "[|attr]" is equivalent to "[attr]". From the
@@ -436,7 +446,7 @@ where
 
             if is!(self, Ident) {
                 match self.input.cur()? {
-                    Some(Token::Ident(s)) => {
+                    Some(Token::Ident { value: s, .. }) => {
                         if (&**s).eq_ignore_ascii_case("i") || (&**s).eq_ignore_ascii_case("s") {
                             matcher_modifier = s.chars().next();
                             bump!(self);
@@ -467,12 +477,16 @@ where
         }
 
         let value = bump!(self);
-        let value = match value {
-            Token::Ident(value) => value,
+        let values = match value {
+            Token::Ident { value, raw } => (value, raw),
             _ => unreachable!(),
         };
 
-        Ok(Text { span, value })
+        Ok(Text {
+            span,
+            value: values.0,
+            raw: values.1,
+        })
     }
 
     fn parse_id_or_str_for_attr(&mut self) -> PResult<Str> {
@@ -482,7 +496,7 @@ where
             Token::Ident { .. } => {
                 let value = bump!(self);
                 let value = match value {
-                    Token::Ident(value) => value,
+                    Token::Ident { value, .. } => value,
                     _ => unreachable!(),
                 };
 

@@ -69,7 +69,8 @@
                 "end": 29,
                 "ctxt": 0
               },
-              "value": "margin"
+              "value": "margin",
+              "raw": "margin"
             },
             "values": [
               {
@@ -132,7 +133,8 @@
                 "end": 49,
                 "ctxt": 0
               },
-              "value": "margin"
+              "value": "margin",
+              "raw": "margin"
             },
             "values": [
               {
@@ -195,7 +197,8 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "value": "margin"
+              "value": "margin",
+              "raw": "margin"
             },
             "values": [
               {
@@ -251,7 +254,8 @@
               "end": 89,
               "ctxt": 0
             },
-            "value": "first"
+            "value": "first",
+            "raw": "first"
           }
         }
       ],
@@ -276,7 +280,8 @@
                 "end": 97,
                 "ctxt": 0
               },
-              "value": "margin"
+              "value": "margin",
+              "raw": "margin"
             },
             "values": [
               {
@@ -332,7 +337,8 @@
               "end": 116,
               "ctxt": 0
             },
-            "value": "first"
+            "value": "first",
+            "raw": "first"
           }
         }
       ],
@@ -357,7 +363,8 @@
                 "end": 124,
                 "ctxt": 0
               },
-              "value": "margin"
+              "value": "margin",
+              "raw": "margin"
             },
             "values": [
               {
@@ -413,7 +420,8 @@
               "end": 144,
               "ctxt": 0
             },
-            "value": "first"
+            "value": "first",
+            "raw": "first"
           }
         }
       ],
@@ -438,7 +446,8 @@
                 "end": 151,
                 "ctxt": 0
               },
-              "value": "margin"
+              "value": "margin",
+              "raw": "margin"
             },
             "values": [
               {

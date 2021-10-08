@@ -47,7 +47,8 @@
                       "end": 4,
                       "ctxt": 0
                     },
-                    "value": "--0"
+                    "value": "--0",
+                    "raw": "--0"
                   }
                 }
               ]
@@ -62,7 +63,7 @@
           "end": 7,
           "ctxt": 0
         },
-        "properties": []
+        "items": []
       }
     }
   ]

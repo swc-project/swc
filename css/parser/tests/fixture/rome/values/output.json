@@ -46,7 +46,8 @@
                     "end": 1,
                     "ctxt": 0
                   },
-                  "value": "p"
+                  "value": "p",
+                  "raw": "p"
                 }
               },
               "subclassSelectors": [
@@ -65,7 +66,8 @@
                       "end": 9,
                       "ctxt": 0
                     },
-                    "value": "before"
+                    "value": "before",
+                    "raw": "before"
                   },
                   "args": {
                     "type": "Tokens",
@@ -89,7 +91,7 @@
           "end": 36,
           "ctxt": 0
         },
-        "properties": [
+        "items": [
           {
             "type": "Property",
             "span": {
@@ -104,7 +106,8 @@
                 "end": 20,
                 "ctxt": 0
               },
-              "value": "content"
+              "value": "content",
+              "raw": "content"
             },
             "values": [
               {
@@ -163,7 +166,8 @@
                       "end": 45,
                       "ctxt": 0
                     },
-                    "value": "number"
+                    "value": "number",
+                    "raw": "number"
                   }
                 }
               ]
@@ -178,7 +182,7 @@
           "end": 115,
           "ctxt": 0
         },
-        "properties": [
+        "items": [
           {
             "type": "Property",
             "span": {
@@ -193,7 +197,8 @@
                 "end": 56,
                 "ctxt": 0
               },
-              "value": "opacity"
+              "value": "opacity",
+              "raw": "opacity"
             },
             "values": [
               {
@@ -238,7 +243,8 @@
                 "end": 76,
                 "ctxt": 0
               },
-              "value": "line-height"
+              "value": "line-height",
+              "raw": "line-height"
             },
             "values": [
               {
@@ -267,7 +273,8 @@
                 "end": 89,
                 "ctxt": 0
               },
-              "value": "width"
+              "value": "width",
+              "raw": "width"
             },
             "values": [
               {
@@ -304,7 +311,8 @@
                 "end": 107,
                 "ctxt": 0
               },
-              "value": "margin-top"
+              "value": "margin-top",
+              "raw": "margin-top"
             },
             "values": [
               {
@@ -370,7 +378,8 @@
                     "end": 120,
                     "ctxt": 0
                   },
-                  "value": "foo"
+                  "value": "foo",
+                  "raw": "foo"
                 }
               },
               "subclassSelectors": []
@@ -385,7 +394,7 @@
           "end": 139,
           "ctxt": 0
         },
-        "properties": [
+        "items": [
           {
             "type": "Property",
             "span": {
@@ -400,7 +409,8 @@
                 "end": 129,
                 "ctxt": 0
               },
-              "value": "color"
+              "value": "color",
+              "raw": "color"
             },
             "values": [
               {
@@ -410,7 +420,8 @@
                   "end": 137,
                   "ctxt": 0
                 },
-                "value": "yellow"
+                "value": "yellow",
+                "raw": "yellow"
               }
             ],
             "important": null
@@ -458,7 +469,8 @@
                     "end": 144,
                     "ctxt": 0
                   },
-                  "value": "bar"
+                  "value": "bar",
+                  "raw": "bar"
                 }
               },
               "subclassSelectors": []
@@ -473,7 +485,7 @@
           "end": 182,
           "ctxt": 0
         },
-        "properties": [
+        "items": [
           {
             "type": "Property",
             "span": {
@@ -488,7 +500,8 @@
                 "end": 153,
                 "ctxt": 0
               },
-              "value": "color"
+              "value": "color",
+              "raw": "color"
             },
             "values": [
               {
@@ -498,7 +511,8 @@
                   "end": 161,
                   "ctxt": 0
                 },
-                "value": "yellow"
+                "value": "yellow",
+                "raw": "yellow"
               }
             ],
             "important": null
@@ -517,7 +531,8 @@
                 "end": 174,
                 "ctxt": 0
               },
-              "value": "background"
+              "value": "background",
+              "raw": "background"
             },
             "values": [
               {
@@ -527,7 +542,8 @@
                   "end": 180,
                   "ctxt": 0
                 },
-                "value": "none"
+                "value": "none",
+                "raw": "none"
               }
             ],
             "important": null

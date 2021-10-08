@@ -1,9 +1,9 @@
 use super::{Context, Input, Lexer};
 use crate::{error::Error, input::Tokens, lexer::util::CharExt, token::*, JscTarget, Syntax};
 use enum_kind::Kind;
-use log::trace;
 use std::{mem, mem::take};
 use swc_common::BytePos;
+use tracing::trace;
 
 /// State of lexer.
 ///
@@ -11,7 +11,6 @@ use swc_common::BytePos;
 #[derive(Clone)]
 pub(super) struct State {
     pub is_expr_allowed: bool,
-    pub octal_pos: Option<BytePos>,
     /// if line break exists between previous token and new token?
     pub had_line_break: bool,
     /// TODO: Remove this field.
@@ -323,7 +322,6 @@ impl State {
     pub fn new(syntax: Syntax) -> Self {
         State {
             is_expr_allowed: true,
-            octal_pos: None,
             is_first: true,
             had_line_break: false,
             prev_hi: BytePos(0),
@@ -366,11 +364,14 @@ impl State {
     }
 
     fn update(&mut self, start: BytePos, next: &Token) {
-        trace!(
-            "updating state: next={:?}, had_line_break={} ",
-            next,
-            self.had_line_break
-        );
+        if cfg!(feature = "debug") {
+            trace!(
+                "updating state: next={:?}, had_line_break={} ",
+                next,
+                self.had_line_break
+            );
+        }
+
         let prev = self.token_type.take();
         self.token_type = Some(TokenType::from(next));
 

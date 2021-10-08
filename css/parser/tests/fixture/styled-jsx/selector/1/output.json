@@ -48,7 +48,8 @@
                       "end": 7,
                       "ctxt": 0
                     },
-                    "value": "global"
+                    "value": "global",
+                    "raw": "global"
                   },
                   "args": {
                     "type": "Tokens",
@@ -73,7 +74,10 @@
                           "ctxt": 0
                         },
                         "token": {
-                          "Ident": "foo"
+                          "Ident": {
+                            "value": "foo",
+                            "raw": "foo"
+                          }
                         }
                       },
                       {
@@ -107,7 +111,10 @@
                           "ctxt": 0
                         },
                         "token": {
-                          "Ident": "a"
+                          "Ident": {
+                            "value": "a",
+                            "raw": "a"
+                          }
                         }
                       }
                     ]
@@ -125,7 +132,7 @@
           "end": 37,
           "ctxt": 0
         },
-        "properties": [
+        "items": [
           {
             "type": "Property",
             "span": {
@@ -140,7 +147,8 @@
                 "end": 29,
                 "ctxt": 0
               },
-              "value": "color"
+              "value": "color",
+              "raw": "color"
             },
             "values": [
               {
@@ -150,7 +158,8 @@
                   "end": 34,
                   "ctxt": 0
                 },
-                "value": "red"
+                "value": "red",
+                "raw": "red"
               }
             ],
             "important": null

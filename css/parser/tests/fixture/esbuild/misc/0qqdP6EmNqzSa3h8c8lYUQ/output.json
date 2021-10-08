@@ -47,7 +47,8 @@
                       "end": 3,
                       "ctxt": 0
                     },
-                    "value": "id"
+                    "value": "id",
+                    "raw": "id"
                   }
                 }
               ]
@@ -62,7 +63,7 @@
           "end": 6,
           "ctxt": 0
         },
-        "properties": []
+        "items": []
       }
     }
   ]

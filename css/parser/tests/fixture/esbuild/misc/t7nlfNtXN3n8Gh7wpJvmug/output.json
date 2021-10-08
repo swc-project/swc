@@ -20,7 +20,8 @@
           "end": 8,
           "ctxt": 0
         },
-        "value": "unknown"
+        "value": "unknown",
+        "raw": "unknown"
       },
       "tokens": {
         "type": "Tokens",

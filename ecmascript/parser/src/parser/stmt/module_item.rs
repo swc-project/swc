@@ -118,15 +118,14 @@ impl<'a, I: Tokens> Parser<I> {
                     local,
                 }));
             } else if eat!(self, '{') {
-                let mut first = true;
                 while !eof!(self) && !is!(self, '}') {
-                    if first {
-                        first = false;
-                    } else if eat!(self, ',') && is!(self, '}') {
-                        break;
-                    }
+                    specifiers.push(self.parse_import_specifier(type_only)?);
 
-                    specifiers.push(self.parse_import_specifier()?);
+                    if is!(self, '}') {
+                        break;
+                    } else {
+                        expect!(self, ',');
+                    }
                 }
                 expect!(self, '}');
             }
@@ -178,11 +177,93 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     /// Parse `foo`, `foo2 as bar` in `import { foo, foo2 as bar }`
-    fn parse_import_specifier(&mut self) -> PResult<ImportSpecifier> {
+    fn parse_import_specifier(&mut self, type_only: bool) -> PResult<ImportSpecifier> {
         let start = cur_pos!(self);
         match cur!(self, false) {
             Ok(&Word(..)) => {
-                let orig_name = self.parse_ident_name()?;
+                let mut is_type_only = false;
+                let mut orig_name = self.parse_ident_name()?;
+
+                // Handle:
+                // `import { type xx } from 'mod'`
+                // `import { type xx as yy } from 'mod'`
+                // `import { type as } from 'mod'`
+                // `import { type as as } from 'mod'`
+                // `import { type as as as } from 'mod'`
+                if self.syntax().typescript()
+                    && orig_name.sym == js_word!("type")
+                    && is!(self, IdentName)
+                {
+                    let possibly_orig_name = self.parse_ident_name()?;
+                    if possibly_orig_name.sym == js_word!("as") {
+                        // `import { type as } from 'mod'`
+                        if !is!(self, IdentName) {
+                            if self.ctx().is_reserved_word(&possibly_orig_name.sym) {
+                                syntax_error!(
+                                    self,
+                                    possibly_orig_name.span,
+                                    SyntaxError::ReservedWordInImport
+                                )
+                            }
+
+                            if type_only {
+                                self.emit_err(orig_name.span, SyntaxError::TS2206);
+                            }
+
+                            return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
+                                span: span!(self, start),
+                                local: possibly_orig_name,
+                                imported: None,
+                                is_type_only: true,
+                            }));
+                        }
+
+                        let maybe_as = self.parse_binding_ident()?.id;
+                        if maybe_as.sym == js_word!("as") {
+                            if is!(self, IdentName) {
+                                // `import { type as as as } from 'mod'`
+                                // `import { type as as foo } from 'mod'`
+                                let local = self.parse_binding_ident()?.id;
+
+                                if type_only {
+                                    self.emit_err(orig_name.span, SyntaxError::TS2206);
+                                }
+
+                                return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
+                                    span: Span::new(start, orig_name.span.hi(), Default::default()),
+                                    local,
+                                    imported: Some(possibly_orig_name),
+                                    is_type_only: true,
+                                }));
+                            } else {
+                                // `import { type as as } from 'mod'`
+                                return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
+                                    span: Span::new(start, maybe_as.span.hi(), Default::default()),
+                                    local: maybe_as,
+                                    imported: Some(orig_name),
+                                    is_type_only: false,
+                                }));
+                            }
+                        } else {
+                            // `import { type as xxx } from 'mod'`
+                            return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
+                                span: Span::new(start, orig_name.span.hi(), Default::default()),
+                                local: maybe_as,
+                                imported: Some(orig_name),
+                                is_type_only: false,
+                            }));
+                        }
+                    } else {
+                        // `import { type xx } from 'mod'`
+                        // `import { type xx as yy } from 'mod'`
+                        if type_only {
+                            self.emit_err(orig_name.span, SyntaxError::TS2206);
+                        }
+
+                        orig_name = possibly_orig_name;
+                        is_type_only = true;
+                    }
+                }
 
                 if eat!(self, "as") {
                     let local = self.parse_binding_ident()?.id;
@@ -190,6 +271,7 @@ impl<'a, I: Tokens> Parser<I> {
                         span: Span::new(start, local.span.hi(), Default::default()),
                         local,
                         imported: Some(orig_name),
+                        is_type_only,
                     }));
                 }
 
@@ -206,6 +288,7 @@ impl<'a, I: Tokens> Parser<I> {
                     span: span!(self, start),
                     local,
                     imported: None,
+                    is_type_only,
                 }))
             }
             _ => unexpected!(self, "an identifier"),
@@ -513,18 +596,17 @@ impl<'a, I: Tokens> Parser<I> {
                     exported: default,
                 }))
             }
-            let mut first = true;
-            while is_one_of!(self, ',', IdentName) {
-                if first {
-                    first = false;
-                } else if eat!(self, ',') && is!(self, '}') {
-                    break;
-                }
-
+            while !eof!(self) && !is!(self, '}') {
                 specifiers.push(
-                    self.parse_named_export_specifier()
+                    self.parse_named_export_specifier(type_only)
                         .map(ExportSpecifier::Named)?,
                 );
+
+                if is!(self, '}') {
+                    break;
+                } else {
+                    expect!(self, ',');
+                }
             }
             expect!(self, '}');
 
@@ -560,10 +642,81 @@ impl<'a, I: Tokens> Parser<I> {
         }))
     }
 
-    fn parse_named_export_specifier(&mut self) -> PResult<ExportNamedSpecifier> {
+    fn parse_named_export_specifier(&mut self, type_only: bool) -> PResult<ExportNamedSpecifier> {
         let start = cur_pos!(self);
 
-        let orig = self.parse_ident_name()?;
+        let mut is_type_only = false;
+        let mut orig = self.parse_ident_name()?;
+
+        // Handle:
+        // `export { type xx }`
+        // `export { type xx as yy }`
+        // `export { type as }`
+        // `export { type as as }`
+        // `export { type as as as }`
+        if self.syntax().typescript() && orig.sym == js_word!("type") && is!(self, IdentName) {
+            let possibly_orig = self.parse_ident_name()?;
+            if possibly_orig.sym == js_word!("as") {
+                // `export { type as }`
+                if !is!(self, IdentName) {
+                    if type_only {
+                        self.emit_err(orig.span, SyntaxError::TS2207);
+                    }
+
+                    return Ok(ExportNamedSpecifier {
+                        span: span!(self, start),
+                        orig: possibly_orig,
+                        exported: None,
+                        is_type_only: true,
+                    });
+                }
+
+                let maybe_as = self.parse_ident_name()?;
+                if maybe_as.sym == js_word!("as") {
+                    if is!(self, IdentName) {
+                        // `export { type as as as }`
+                        // `export { type as as foo }`
+                        let exported = self.parse_ident_name()?;
+
+                        if type_only {
+                            self.emit_err(orig.span, SyntaxError::TS2207);
+                        }
+
+                        return Ok(ExportNamedSpecifier {
+                            span: Span::new(start, orig.span.hi(), Default::default()),
+                            orig: possibly_orig,
+                            exported: Some(exported),
+                            is_type_only: true,
+                        });
+                    } else {
+                        // `export { type as as }`
+                        return Ok(ExportNamedSpecifier {
+                            span: Span::new(start, orig.span.hi(), Default::default()),
+                            orig,
+                            exported: Some(maybe_as),
+                            is_type_only: false,
+                        });
+                    }
+                } else {
+                    // `export { type as xxx }`
+                    return Ok(ExportNamedSpecifier {
+                        span: Span::new(start, orig.span.hi(), Default::default()),
+                        orig,
+                        exported: Some(maybe_as),
+                        is_type_only: false,
+                    });
+                }
+            } else {
+                // `export { type xx }`
+                // `export { type xx as yy }`
+                if type_only {
+                    self.emit_err(orig.span, SyntaxError::TS2207);
+                }
+
+                orig = possibly_orig;
+                is_type_only = true;
+            }
+        }
 
         let exported = if eat!(self, "as") {
             Some(self.parse_ident_name()?)
@@ -575,6 +728,7 @@ impl<'a, I: Tokens> Parser<I> {
             span: span!(self, start),
             orig,
             exported,
+            is_type_only,
         })
     }
 

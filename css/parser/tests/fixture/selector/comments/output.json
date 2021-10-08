@@ -46,7 +46,8 @@
                     "end": 10,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "value": "a",
+                  "raw": "a"
                 }
               },
               "subclassSelectors": []
@@ -75,7 +76,8 @@
                     "end": 12,
                     "ctxt": 0
                   },
-                  "value": "b"
+                  "value": "b",
+                  "raw": "b"
                 }
               },
               "subclassSelectors": []
@@ -90,7 +92,7 @@
           "end": 15,
           "ctxt": 0
         },
-        "properties": []
+        "items": []
       }
     },
     {
@@ -133,7 +135,8 @@
                     "end": 27,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "value": "a",
+                  "raw": "a"
                 }
               },
               "subclassSelectors": []
@@ -162,7 +165,8 @@
                     "end": 29,
                     "ctxt": 0
                   },
-                  "value": "b"
+                  "value": "b",
+                  "raw": "b"
                 }
               },
               "subclassSelectors": []
@@ -177,7 +181,7 @@
           "end": 32,
           "ctxt": 0
         },
-        "properties": []
+        "items": []
       }
     },
     {
@@ -220,7 +224,8 @@
                     "end": 44,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "value": "a",
+                  "raw": "a"
                 }
               },
               "subclassSelectors": []
@@ -249,7 +254,8 @@
                     "end": 46,
                     "ctxt": 0
                   },
-                  "value": "b"
+                  "value": "b",
+                  "raw": "b"
                 }
               },
               "subclassSelectors": []
@@ -264,7 +270,7 @@
           "end": 49,
           "ctxt": 0
         },
-        "properties": []
+        "items": []
       }
     },
     {
@@ -307,7 +313,8 @@
                     "end": 62,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "value": "a",
+                  "raw": "a"
                 }
               },
               "subclassSelectors": []
@@ -336,7 +343,8 @@
                     "end": 64,
                     "ctxt": 0
                   },
-                  "value": "b"
+                  "value": "b",
+                  "raw": "b"
                 }
               },
               "subclassSelectors": []
@@ -351,7 +359,7 @@
           "end": 67,
           "ctxt": 0
         },
-        "properties": []
+        "items": []
       }
     },
     {
@@ -394,7 +402,8 @@
                     "end": 69,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "value": "a",
+                  "raw": "a"
                 }
               },
               "subclassSelectors": []
@@ -423,7 +432,8 @@
                     "end": 79,
                     "ctxt": 0
                   },
-                  "value": "b"
+                  "value": "b",
+                  "raw": "b"
                 }
               },
               "subclassSelectors": []
@@ -438,7 +448,7 @@
           "end": 82,
           "ctxt": 0
         },
-        "properties": []
+        "items": []
       }
     },
     {
@@ -481,7 +491,8 @@
                     "end": 84,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "value": "a",
+                  "raw": "a"
                 }
               },
               "subclassSelectors": []
@@ -510,7 +521,8 @@
                     "end": 95,
                     "ctxt": 0
                   },
-                  "value": "b"
+                  "value": "b",
+                  "raw": "b"
                 }
               },
               "subclassSelectors": []
@@ -525,7 +537,7 @@
           "end": 98,
           "ctxt": 0
         },
-        "properties": []
+        "items": []
       }
     },
     {
@@ -568,7 +580,8 @@
                     "end": 100,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "value": "a",
+                  "raw": "a"
                 }
               },
               "subclassSelectors": []
@@ -597,7 +610,8 @@
                     "end": 112,
                     "ctxt": 0
                   },
-                  "value": "b"
+                  "value": "b",
+                  "raw": "b"
                 }
               },
               "subclassSelectors": []
@@ -612,7 +626,7 @@
           "end": 115,
           "ctxt": 0
         },
-        "properties": []
+        "items": []
       }
     },
     {
@@ -655,7 +669,8 @@
                     "end": 117,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "value": "a",
+                  "raw": "a"
                 }
               },
               "subclassSelectors": []
@@ -684,7 +699,8 @@
                     "end": 130,
                     "ctxt": 0
                   },
-                  "value": "b"
+                  "value": "b",
+                  "raw": "b"
                 }
               },
               "subclassSelectors": []
@@ -699,7 +715,7 @@
           "end": 133,
           "ctxt": 0
         },
-        "properties": []
+        "items": []
       }
     },
     {
@@ -742,7 +758,8 @@
                     "end": 135,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "value": "a",
+                  "raw": "a"
                 }
               },
               "subclassSelectors": []
@@ -771,7 +788,8 @@
                     "end": 137,
                     "ctxt": 0
                   },
-                  "value": "b"
+                  "value": "b",
+                  "raw": "b"
                 }
               },
               "subclassSelectors": []
@@ -786,7 +804,7 @@
           "end": 149,
           "ctxt": 0
         },
-        "properties": []
+        "items": []
       }
     },
     {
@@ -829,7 +847,8 @@
                     "end": 151,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "value": "a",
+                  "raw": "a"
                 }
               },
               "subclassSelectors": []
@@ -858,7 +877,8 @@
                     "end": 153,
                     "ctxt": 0
                   },
-                  "value": "b"
+                  "value": "b",
+                  "raw": "b"
                 }
               },
               "subclassSelectors": []
@@ -873,7 +893,7 @@
           "end": 166,
           "ctxt": 0
         },
-        "properties": []
+        "items": []
       }
     },
     {
@@ -916,7 +936,8 @@
                     "end": 168,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "value": "a",
+                  "raw": "a"
                 }
               },
               "subclassSelectors": []
@@ -945,7 +966,8 @@
                     "end": 170,
                     "ctxt": 0
                   },
-                  "value": "b"
+                  "value": "b",
+                  "raw": "b"
                 }
               },
               "subclassSelectors": []
@@ -960,7 +982,7 @@
           "end": 183,
           "ctxt": 0
         },
-        "properties": []
+        "items": []
       }
     },
     {
@@ -1003,7 +1025,8 @@
                     "end": 185,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "value": "a",
+                  "raw": "a"
                 }
               },
               "subclassSelectors": []
@@ -1032,7 +1055,8 @@
                     "end": 187,
                     "ctxt": 0
                   },
-                  "value": "b"
+                  "value": "b",
+                  "raw": "b"
                 }
               },
               "subclassSelectors": []
@@ -1047,7 +1071,7 @@
           "end": 201,
           "ctxt": 0
         },
-        "properties": []
+        "items": []
       }
     },
     {
@@ -1090,7 +1114,8 @@
                     "end": 203,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "value": "a",
+                  "raw": "a"
                 }
               },
               "subclassSelectors": []
@@ -1119,7 +1144,8 @@
                     "end": 205,
                     "ctxt": 0
                   },
-                  "value": "b"
+                  "value": "b",
+                  "raw": "b"
                 }
               },
               "subclassSelectors": []
@@ -1134,7 +1160,7 @@
           "end": 216,
           "ctxt": 0
         },
-        "properties": []
+        "items": []
       }
     },
     {
@@ -1177,7 +1203,8 @@
                     "end": 218,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "value": "a",
+                  "raw": "a"
                 }
               },
               "subclassSelectors": []
@@ -1206,7 +1233,8 @@
                     "end": 220,
                     "ctxt": 0
                   },
-                  "value": "b"
+                  "value": "b",
+                  "raw": "b"
                 }
               },
               "subclassSelectors": []
@@ -1221,7 +1249,7 @@
           "end": 232,
           "ctxt": 0
         },
-        "properties": []
+        "items": []
       }
     },
     {
@@ -1264,7 +1292,8 @@
                     "end": 234,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "value": "a",
+                  "raw": "a"
                 }
               },
               "subclassSelectors": []
@@ -1303,7 +1332,8 @@
                     "end": 256,
                     "ctxt": 0
                   },
-                  "value": "b"
+                  "value": "b",
+                  "raw": "b"
                 }
               },
               "subclassSelectors": []
@@ -1318,7 +1348,7 @@
           "end": 258,
           "ctxt": 0
         },
-        "properties": []
+        "items": []
       }
     },
     {
@@ -1361,7 +1391,8 @@
                     "end": 260,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "value": "a",
+                  "raw": "a"
                 }
               },
               "subclassSelectors": []
@@ -1400,7 +1431,8 @@
                     "end": 286,
                     "ctxt": 0
                   },
-                  "value": "b"
+                  "value": "b",
+                  "raw": "b"
                 }
               },
               "subclassSelectors": []
@@ -1415,7 +1447,7 @@
           "end": 289,
           "ctxt": 0
         },
-        "properties": []
+        "items": []
       }
     }
   ]

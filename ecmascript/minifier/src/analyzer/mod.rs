@@ -6,7 +6,7 @@ use crate::{
     marks::Marks,
     util::{can_end_conditionally, idents_used_by, now},
 };
-use fxhash::{FxHashMap, FxHashSet};
+use rustc_hash::{FxHashMap, FxHashSet};
 use std::time::Instant;
 use swc_atoms::JsWord;
 use swc_common::{SyntaxContext, DUMMY_SP};
@@ -48,7 +48,7 @@ where
     if let Some(start_time) = start_time {
         let end_time = Instant::now();
 
-        log::debug!("Scope analysis took {:?}", end_time - start_time);
+        tracing::debug!("Scope analysis took {:?}", end_time - start_time);
     }
 
     v.data
@@ -83,6 +83,7 @@ pub(crate) struct VarUsageInfo {
     pub mutated: bool,
 
     pub has_property_access: bool,
+    pub has_property_mutation: bool,
     pub accessed_props: FxHashSet<JsWord>,
 
     pub exported: bool,
@@ -101,11 +102,6 @@ pub(crate) struct VarUsageInfo {
     pub var_initialized: bool,
 
     pub declared_as_catch_param: bool,
-
-    /// TODO: Implement this.
-    ///
-    /// Indicates a variable or function is overrided without using it.
-    pub overriden_without_used: bool,
 
     pub no_side_effect_for_member_access: bool,
 
@@ -527,6 +523,11 @@ where
                 Expr::Ident(obj) => {
                     let v = self.data.var_or_default(obj.to_id());
                     v.mark_has_property_access();
+
+                    if self.ctx.in_assign_lhs {
+                        v.mark_has_property_mutation();
+                    }
+
                     if !e.computed {
                         match &*e.prop {
                             Expr::Ident(prop) => {

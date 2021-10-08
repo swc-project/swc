@@ -3,7 +3,7 @@ use crate::{
     native::is_native_word,
     scope::{IdentType, ScopeKind},
 };
-use fxhash::{FxHashMap, FxHashSet};
+use rustc_hash::{FxHashMap, FxHashSet};
 use smallvec::{smallvec, SmallVec};
 use std::{cell::RefCell, collections::HashMap};
 use swc_atoms::{js_word, JsWord};

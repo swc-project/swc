@@ -47,7 +47,8 @@
                       "end": 7,
                       "ctxt": 0
                     },
-                    "value": "hash"
+                    "value": "hash",
+                    "raw": "h\\61sh"
                   }
                 }
               ]
@@ -62,7 +63,7 @@
           "end": 10,
           "ctxt": 0
         },
-        "properties": []
+        "items": []
       }
     }
   ]

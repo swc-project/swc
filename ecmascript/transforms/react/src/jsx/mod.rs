@@ -1,4 +1,5 @@
 use self::static_check::should_use_create_element;
+use crate::refresh::options::{deserialize_refresh, RefreshOptions};
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use regex::Regex;
@@ -11,7 +12,7 @@ use swc_common::{
     iter::IdentifyLast,
     sync::Lrc,
     util::take::Take,
-    FileName, SourceMap, Spanned, DUMMY_SP,
+    FileName, Mark, SourceMap, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_parser::{Parser, StringInput, Syntax};
@@ -20,8 +21,6 @@ use swc_ecma_utils::{
     drop_span, member_expr, prepend, private_ident, quote_ident, ExprFactory, HANDLER,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
-
-use crate::refresh::options::{deserialize_refresh, RefreshOptions};
 
 mod static_check;
 #[cfg(test)]
@@ -116,15 +115,21 @@ fn default_throw_if_namespace() -> bool {
     true
 }
 
-fn parse_classic_option(cm: &SourceMap, name: &str, src: String) -> Box<Expr> {
-    static CACHE: Lazy<DashMap<String, Box<Expr>>> = Lazy::new(|| DashMap::with_capacity(2));
+fn parse_classic_option(
+    cm: &SourceMap,
+    name: &str,
+    src: String,
+    top_level_mark: Mark,
+) -> Box<Expr> {
+    static CACHE: Lazy<DashMap<(String, Mark), Box<Expr>>> =
+        Lazy::new(|| DashMap::with_capacity(2));
 
     let fm = cm.new_source_file(FileName::Custom(format!("<jsx-config-{}.js>", name)), src);
-    if let Some(expr) = CACHE.get(&**fm.src) {
+    if let Some(expr) = CACHE.get(&((*fm.src).clone(), top_level_mark)) {
         return expr.clone();
     }
 
-    let expr = Parser::new(Syntax::default(), StringInput::from(&*fm), None)
+    let mut expr = Parser::new(Syntax::default(), StringInput::from(&*fm), None)
         .parse_expr()
         .map_err(|e| {
             if HANDLER.is_set() {
@@ -139,20 +144,46 @@ fn parse_classic_option(cm: &SourceMap, name: &str, src: String) -> Box<Expr> {
             )
         });
 
-    CACHE.insert((*fm.src).clone(), expr.clone());
+    apply_mark(&mut expr, top_level_mark);
+    CACHE.insert(((*fm.src).clone(), top_level_mark), expr.clone());
 
     expr
+}
+
+fn apply_mark(e: &mut Expr, mark: Mark) {
+    match e {
+        Expr::Ident(i) => {
+            i.span = i.span.apply_mark(mark);
+        }
+        Expr::Member(MemberExpr {
+            obj: ExprOrSuper::Expr(obj),
+            ..
+        }) => {
+            apply_mark(&mut **obj, mark);
+        }
+        _ => {}
+    }
 }
 
 /// `@babel/plugin-transform-react-jsx`
 ///
 /// Turn JSX into React function calls
-pub fn jsx<C>(cm: Lrc<SourceMap>, comments: Option<C>, options: Options) -> impl Fold + VisitMut
+///
+///
+/// `top_level_mark` should be [Mark] passed to
+/// [swc_ecma_transforms_base::resolver::resolver_with_mark].
+pub fn jsx<C>(
+    cm: Lrc<SourceMap>,
+    comments: Option<C>,
+    options: Options,
+    top_level_mark: Mark,
+) -> impl Fold + VisitMut
 where
     C: Comments,
 {
     as_folder(Jsx {
         cm: cm.clone(),
+        top_level_mark,
         next: options.next,
         runtime: options.runtime.unwrap_or_default(),
         import_source: options.import_source.into(),
@@ -161,11 +192,16 @@ where
         import_fragment: None,
         import_create_element: None,
 
-        pragma: ExprOrSuper::Expr(parse_classic_option(&cm, "pragma", options.pragma)),
+        pragma: ExprOrSuper::Expr(parse_classic_option(
+            &cm,
+            "pragma",
+            options.pragma,
+            top_level_mark,
+        )),
         comments,
         pragma_frag: ExprOrSpread {
             spread: None,
-            expr: parse_classic_option(&cm, "pragmaFrag", options.pragma_frag),
+            expr: parse_classic_option(&cm, "pragmaFrag", options.pragma_frag, top_level_mark),
         },
         use_builtins: options.use_builtins,
         use_spread: options.use_spread,
@@ -179,6 +215,8 @@ where
     C: Comments,
 {
     cm: Lrc<SourceMap>,
+
+    top_level_mark: Mark,
 
     next: bool,
     runtime: Runtime,
@@ -750,7 +788,12 @@ where
 
                             let src = line.replace("@jsxFrag", "").trim().to_string();
                             self.pragma_frag = ExprOrSpread {
-                                expr: parse_classic_option(&self.cm, "module-jsx-pragma-frag", src),
+                                expr: parse_classic_option(
+                                    &self.cm,
+                                    "module-jsx-pragma-frag",
+                                    src,
+                                    self.top_level_mark,
+                                ),
                                 spread: None,
                             };
                         } else if line.starts_with("@jsx ") {
@@ -772,6 +815,7 @@ where
                                 &self.cm,
                                 "module-jsx-pragma",
                                 src,
+                                self.top_level_mark,
                             ));
                         }
                     }
@@ -797,6 +841,7 @@ where
                     span: DUMMY_SP,
                     local,
                     imported: Some(Ident::new("createElement".into(), DUMMY_SP)),
+                    is_type_only: false,
                 });
                 prepend(
                     &mut module.body,
@@ -822,12 +867,14 @@ where
                     span: DUMMY_SP,
                     local,
                     imported: Some(quote_ident!("jsx")),
+                    is_type_only: false,
                 })
                 .into_iter()
                 .chain(self.import_jsxs.take().map(|local| ImportNamedSpecifier {
                     span: DUMMY_SP,
                     local,
                     imported: Some(quote_ident!("jsxs")),
+                    is_type_only: false,
                 }))
                 .chain(
                     self.import_fragment
@@ -836,6 +883,7 @@ where
                             span: DUMMY_SP,
                             local,
                             imported: Some(quote_ident!("Fragment")),
+                            is_type_only: false,
                         }),
                 )
                 .map(ImportSpecifier::Named)

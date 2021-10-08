@@ -73,14 +73,14 @@ pub fn optimize(
         }
     }
     if let Some(start) = start {
-        log::info!("global_defs took {:?}", Instant::now() - start);
+        tracing::info!("global_defs took {:?}", Instant::now() - start);
     }
 
     if let Some(options) = &options.compress {
         let start = now();
         m.visit_mut_with(&mut precompress_optimizer(options, marks));
         if let Some(start) = start {
-            log::info!("precompress took {:?}", Instant::now() - start);
+            tracing::info!("precompress took {:?}", Instant::now() - start);
         }
     }
 
@@ -119,14 +119,14 @@ pub fn optimize(
         m = GLOBALS
             .with(|globals| m.fold_with(&mut compressor(globals, marks, &options, &Minification)));
         if let Some(start) = start {
-            log::info!("compressor took {:?}", Instant::now() - start);
+            tracing::info!("compressor took {:?}", Instant::now() - start);
         }
         // Again, we don't need to validate ast
 
         let start = now();
         m.visit_mut_with(&mut postcompress_optimizer(options));
         if let Some(start) = start {
-            log::info!("postcompressor took {:?}", Instant::now() - start);
+            tracing::info!("postcompressor took {:?}", Instant::now() - start);
         }
     }
 

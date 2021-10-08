@@ -29,7 +29,8 @@
           "end": 28,
           "ctxt": 0
         },
-        "value": "print"
+        "value": "print",
+        "raw": "print"
       }
     }
   ]

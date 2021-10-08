@@ -6,7 +6,7 @@ use crate::{
     option::MangleOptions,
     util::base54::incr_base54,
 };
-use fxhash::{FxHashMap, FxHashSet};
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{js_word, JsWord};
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
@@ -18,7 +18,7 @@ mod preserver;
 pub(crate) fn name_mangler(
     options: MangleOptions,
     _char_freq_info: CharFreqInfo,
-    marks: Marks,
+    _marks: Marks,
 ) -> impl VisitMut {
     Mangler {
         options,
@@ -29,7 +29,6 @@ pub(crate) fn name_mangler(
         renamed: Default::default(),
         renamed_private: Default::default(),
         data: Default::default(),
-        marks,
     }
 }
 
@@ -44,8 +43,6 @@ struct Mangler {
     renamed: FxHashMap<Id, JsWord>,
     renamed_private: FxHashMap<Id, JsWord>,
     data: Option<ProgramData>,
-
-    marks: Marks,
 }
 
 impl Mangler {

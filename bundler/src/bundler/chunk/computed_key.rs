@@ -71,6 +71,7 @@ where
                                         span: DUMMY_SP,
                                         orig: orig.clone(),
                                         exported: Some(exported.clone()),
+                                        is_type_only: false,
                                     });
                                     addtional_items.push((
                                         module_id,

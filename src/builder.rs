@@ -15,7 +15,7 @@ use swc_ecma_minifier::option::MinifyOptions;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
     compat, fixer, helpers, hygiene, hygiene::hygiene_with_config, modules, modules::util::Scope,
-    optimization::const_modules, pass::Optional, proposals::import_assertions, typescript,
+    optimization::const_modules, pass::Optional, proposals::private_in_object,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut};
 
@@ -26,7 +26,7 @@ pub struct PassBuilder<'a, 'b, P: swc_ecma_visit::Fold> {
     env: Option<swc_ecma_preset_env::Config>,
     pass: P,
     /// [Mark] for top level bindings and unresolved identifier references.
-    global_mark: Mark,
+    top_level_mark: Mark,
     target: JscTarget,
     loose: bool,
     hygiene: Option<hygiene::Config>,
@@ -40,7 +40,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         cm: &'a Arc<SourceMap>,
         handler: &'b Handler,
         loose: bool,
-        global_mark: Mark,
+        top_level_mark: Mark,
         pass: P,
     ) -> Self {
         PassBuilder {
@@ -48,7 +48,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             handler,
             env: None,
             pass,
-            global_mark,
+            top_level_mark,
             target: JscTarget::Es5,
             loose,
             hygiene: Some(Default::default()),
@@ -68,7 +68,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             handler: self.handler,
             env: self.env,
             pass,
-            global_mark: self.global_mark,
+            top_level_mark: self.top_level_mark,
             target: self.target,
             loose: self.loose,
             hygiene: self.hygiene,
@@ -161,21 +161,19 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
 
         // compat
         let compat_pass = if let Some(env) = self.env {
-            Either::Left(chain!(
-                import_assertions(),
-                Optional::new(typescript::strip(), syntax.typescript()),
-                swc_ecma_preset_env::preset_env(self.global_mark, comments.clone(), env)
+            Either::Left(swc_ecma_preset_env::preset_env(
+                self.top_level_mark,
+                comments.clone(),
+                env,
             ))
         } else {
             Either::Right(chain!(
-                import_assertions(),
-                Optional::new(typescript::strip(), syntax.typescript()),
                 Optional::new(
                     compat::es2021::es2021(),
                     should_enable(self.target, JscTarget::Es2021)
                 ),
                 Optional::new(
-                    compat::es2020::es2020(),
+                    compat::es2020::es2020(compat::es2020::Config { loose: self.loose }),
                     should_enable(self.target, JscTarget::Es2020)
                 ),
                 Optional::new(
@@ -196,7 +194,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 ),
                 Optional::new(
                     compat::es2015(
-                        self.global_mark,
+                        self.top_level_mark,
                         comments.clone(),
                         compat::es2015::Config {
                             for_of: compat::es2015::for_of::Config {
@@ -220,6 +218,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         let module_scope = Rc::new(RefCell::new(Scope::default()));
         chain!(
             self.pass,
+            Optional::new(private_in_object(), syntax.private_in_object()),
             compat_pass,
             // module / helper
             Optional::new(
@@ -234,7 +233,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 base_url,
                 paths,
                 base,
-                self.global_mark,
+                self.top_level_mark,
                 module,
                 Rc::clone(&module_scope)
             ),
@@ -242,7 +241,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 options: self.minify,
                 cm: self.cm.clone(),
                 comments: comments.cloned(),
-                top_level_mark: self.global_mark,
+                top_level_mark: self.top_level_mark,
             }),
             Optional::new(
                 hygiene_with_config(self.hygiene.clone().unwrap_or_default()),

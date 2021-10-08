@@ -148,7 +148,8 @@
             },
             "value": "y",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -176,7 +177,8 @@
             },
             "value": "x",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": {
@@ -221,7 +223,8 @@
             "value": "x",
             "optional": false
           },
-          "imported": null
+          "imported": null,
+          "isTypeOnly": false
         },
         {
           "type": "ImportSpecifier",
@@ -240,7 +243,8 @@
             "value": "y",
             "optional": false
           },
-          "imported": null
+          "imported": null,
+          "isTypeOnly": false
         }
       ],
       "source": {
@@ -294,7 +298,8 @@
             },
             "value": "y",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         },
         {
           "type": "ExportSpecifier",
@@ -322,7 +327,8 @@
             },
             "value": "x",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": null,

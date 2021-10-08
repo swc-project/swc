@@ -73,7 +73,8 @@
             },
             "value": "default",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": {
@@ -187,7 +188,8 @@
             },
             "value": "Foob",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": {

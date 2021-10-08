@@ -1,7 +1,7 @@
 //! Parser for unary operations and binary operations.
 use super::*;
-use log::trace;
 use swc_common::Spanned;
+use tracing::trace;
 
 impl<'a, I: Tokens> Parser<I> {
     /// Name from spec: 'LogicalORExpression'
@@ -136,24 +136,27 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         if op.precedence() <= min_prec {
-            trace!(
-                "returning {:?} without parsing {:?} because min_prec={}, prec={}",
-                left,
-                op,
-                min_prec,
-                op.precedence()
-            );
+            if cfg!(feature = "debug") {
+                trace!(
+                    "returning {:?} without parsing {:?} because min_prec={}, prec={}",
+                    left,
+                    op,
+                    min_prec,
+                    op.precedence()
+                );
+            }
 
             return Ok((left, None));
         }
         bump!(self);
-        trace!(
-            "parsing binary op {:?} min_prec={}, prec={}",
-            op,
-            min_prec,
-            op.precedence()
-        );
-
+        if cfg!(feature = "debug") {
+            trace!(
+                "parsing binary op {:?} min_prec={}, prec={}",
+                op,
+                min_prec,
+                op.precedence()
+            );
+        }
         match *left {
             // This is invalid syntax.
             Expr::Unary { .. } if op == op!("**") => {

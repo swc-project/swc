@@ -65,7 +65,8 @@
             "value": "A",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         }
       ],
       "source": {
@@ -110,7 +111,8 @@
             "value": "A",
             "optional": false
           },
-          "imported": null
+          "imported": null,
+          "isTypeOnly": false
         }
       ],
       "source": {

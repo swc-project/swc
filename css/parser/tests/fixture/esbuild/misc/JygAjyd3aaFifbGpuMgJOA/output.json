@@ -20,7 +20,8 @@
           "end": 14,
           "ctxt": 0
         },
-        "value": ",s"
+        "value": ",s",
+        "raw": "\\,s"
       },
       "value": {
         "type": "String",

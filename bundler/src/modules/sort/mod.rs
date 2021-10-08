@@ -23,13 +23,13 @@ impl Modules {
         cycles: &Vec<Vec<ModuleId>>,
         cm: &Lrc<SourceMap>,
     ) {
-        log::debug!("Sorting {:?}", entry_id);
+        tracing::debug!("Sorting {:?}", entry_id);
 
         let injected_ctxt = self.injected_ctxt;
         let start = Instant::now();
         let chunks = self.take_chunks(entry_id, module_graph, cycles, cm);
         let dur = Instant::now() - start;
-        log::debug!("Sorting took {:?}", dur);
+        tracing::debug!("Sorting took {:?}", dur);
 
         let buf = chunks
             .into_iter()
@@ -45,6 +45,6 @@ impl Modules {
         // print_hygiene("after sort", cm, &module);
 
         *self = Modules::from(entry_id, module, injected_ctxt);
-        log::debug!("Sorted {:?}", entry_id);
+        tracing::debug!("Sorted {:?}", entry_id);
     }
 }

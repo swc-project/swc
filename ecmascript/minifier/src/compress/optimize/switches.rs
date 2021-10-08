@@ -57,9 +57,9 @@ where
                     return;
                 }
 
-                log::debug!("switches: Removing unreachable cases from a constant switch");
+                tracing::debug!("switches: Removing unreachable cases from a constant switch");
             } else {
-                log::debug!("switches: Removing a constant switch");
+                tracing::debug!("switches: Removing a constant switch");
             }
 
             self.changed = true;
@@ -217,7 +217,7 @@ where
         if !preserve_cases {
             if let Some(last_non_empty) = last_non_empty {
                 if last_non_empty + 1 != cases.len() {
-                    log::debug!("switches: Removing empty cases at the end");
+                    tracing::debug!("switches: Removing empty cases at the end");
                     self.changed = true;
                     cases.drain(last_non_empty + 1..);
                 }
@@ -227,7 +227,7 @@ where
         if let Some(last) = cases.last_mut() {
             match last.cons.last() {
                 Some(Stmt::Break(BreakStmt { label: None, .. })) => {
-                    log::debug!("switches: Removing `break` at the end");
+                    tracing::debug!("switches: Removing `break` at the end");
                     self.changed = true;
                     last.cons.pop();
                 }
@@ -288,7 +288,7 @@ where
 
         if let Some(idx) = found {
             self.changed = true;
-            log::debug!("switches: Merging cases with same cons");
+            tracing::debug!("switches: Merging cases with same cons");
             cases[idx].cons.clear();
         }
     }

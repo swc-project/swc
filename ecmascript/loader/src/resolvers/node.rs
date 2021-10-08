@@ -4,9 +4,9 @@
 
 use crate::{resolve::Resolve, NODE_BUILTINS};
 use anyhow::{bail, Context, Error};
-use fxhash::FxHashMap;
 #[cfg(windows)]
 use normpath::BasePath;
+use rustc_hash::FxHashMap;
 use serde::Deserialize;
 use std::{
     fs::File,
@@ -15,6 +15,7 @@ use std::{
 };
 use swc_common::FileName;
 use swc_ecma_ast::TargetEnv;
+use tracing::debug;
 
 use dashmap::{DashMap, DashSet};
 use once_cell::sync::Lazy;
@@ -266,11 +267,9 @@ impl NodeModulesResolver {
 
 impl Resolve for NodeModulesResolver {
     fn resolve(&self, base: &FileName, target: &str) -> Result<FileName, Error> {
-        log::debug!(
+        debug!(
             "Resolve {} from {:#?} for {:#?}",
-            target,
-            base,
-            self.target_env
+            target, base, self.target_env
         );
 
         let base = match base {

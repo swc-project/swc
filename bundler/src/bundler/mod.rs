@@ -112,13 +112,13 @@ where
     ) -> Self {
         GLOBALS.set(&globals, || {
             let used_mark = Mark::fresh(Mark::root());
-            log::debug!("Used mark: {:?}", DUMMY_SP.apply_mark(used_mark).ctxt());
+            tracing::debug!("Used mark: {:?}", DUMMY_SP.apply_mark(used_mark).ctxt());
             let helper_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
-            log::debug!("Helper ctxt: {:?}", helper_ctxt);
+            tracing::debug!("Helper ctxt: {:?}", helper_ctxt);
             let synthesized_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
-            log::debug!("Synthesized ctxt: {:?}", synthesized_ctxt);
+            tracing::debug!("Synthesized ctxt: {:?}", synthesized_ctxt);
             let injected_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
-            log::debug!("Injected ctxt: {:?}", injected_ctxt);
+            tracing::debug!("Injected ctxt: {:?}", injected_ctxt);
 
             Bundler {
                 config,

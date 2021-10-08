@@ -1,0 +1,24 @@
+.removed-214123 {
+    flex-wrap: wrap;
+    margin: __styled-jsx-placeholder__0;
+    box-sizing: border-box;
+}
+
+.removed-214123 :global(> .removed-214123-item) {
+    padding: __styled-jsx-placeholder__1;
+    flex-grow: 0;
+    flex-basis: __styled-jsx-placeholder__2%;
+    min-width: 0;
+}
+
+@media screen {
+    .removed-214123 :global(> .removed-214123-item) {
+        flex-basis: __styled-jsx-placeholder__3%;
+    }
+}
+
+@media screen {
+    .removed-214123 :global(> .removed-214123-item) {
+        flex-basis: __styled-jsx-placeholder__4%;
+    }
+  }

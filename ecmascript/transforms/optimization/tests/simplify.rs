@@ -528,7 +528,7 @@ test!(
         chain!(
             strip(),
             decorators(Default::default()),
-            class_properties(),
+            class_properties(class_properties::Config { loose: false }),
             simplifier(Default::default()),
             es2018(),
             es2017(),
@@ -563,7 +563,7 @@ _foo.default.bar = true;
 
 test!(
     Syntax::default(),
-    |_| expr_simplifier(),
+    |_| expr_simplifier(Default::default()),
     issue_1619_1,
     r#"
     "use strict";

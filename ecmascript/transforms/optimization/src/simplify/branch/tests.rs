@@ -5,7 +5,7 @@ macro_rules! test_stmt {
     ($l:expr, $r:expr) => {
         swc_ecma_transforms_testing::test_transform(
             ::swc_ecma_parser::Syntax::default(),
-            |_| chain!(expr_simplifier(), dead_branch_remover()),
+            |_| chain!(expr_simplifier(Default::default()), dead_branch_remover()),
             $l,
             $r,
             true,
@@ -538,6 +538,11 @@ fn test_optimize_switch_4() {
     );
     test(
         "switch (1) {\ncase 1:\n  foo();\n  break;\ncase 2:\n  bar();\n  break;\n}",
+        "foo();",
+    );
+    test(
+        "switch (true) {\ncase true:\n  foo();\n  break;\ncase false:\n  bar();\n break; 
+            default: foobar(); break; \n}",
         "foo();",
     );
     test(

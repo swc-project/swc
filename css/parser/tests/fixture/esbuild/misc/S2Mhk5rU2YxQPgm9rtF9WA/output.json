@@ -28,7 +28,8 @@
               "end": 13,
               "ctxt": 0
             },
-            "value": "url"
+            "value": "url",
+            "raw": "url"
           },
           "args": [
             {
@@ -84,7 +85,8 @@
                         "end": 46,
                         "ctxt": 0
                       },
-                      "value": "h1"
+                      "value": "h1",
+                      "raw": "h1"
                     }
                   },
                   "subclassSelectors": []
@@ -99,7 +101,7 @@
               "end": 63,
               "ctxt": 0
             },
-            "properties": [
+            "items": [
               {
                 "type": "Property",
                 "span": {
@@ -114,7 +116,8 @@
                     "end": 54,
                     "ctxt": 0
                   },
-                  "value": "color"
+                  "value": "color",
+                  "raw": "color"
                 },
                 "values": [
                   {
@@ -124,7 +127,8 @@
                       "end": 61,
                       "ctxt": 0
                     },
-                    "value": "green"
+                    "value": "green",
+                    "raw": "green"
                   }
                 ],
                 "important": null

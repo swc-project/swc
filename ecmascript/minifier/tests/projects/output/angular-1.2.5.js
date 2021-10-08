@@ -582,8 +582,8 @@
         dealoc: jqLiteDealoc,
         on: function onFn(element, type, fn, unsupported) {
             if (isDefined(unsupported)) throw jqLiteMinErr("onargs", "jqLite#on() does not support the `selector` or `eventData` parameters");
-            var element1, eventHandler, events = jqLiteExpandoStore(element, "events"), handle = jqLiteExpandoStore(element, "handle");
-            events || jqLiteExpandoStore(element, "events", events = {
+            var element1, events, eventHandler, events1 = jqLiteExpandoStore(element, "events"), handle = jqLiteExpandoStore(element, "handle");
+            events1 || jqLiteExpandoStore(element, "events", events1 = {
             }), handle || jqLiteExpandoStore(element, "handle", handle = ((eventHandler = function(event, type) {
                 if (event.preventDefault || (event.preventDefault = function() {
                     event.returnValue = !1;
@@ -597,11 +597,11 @@
                 }
                 event.isDefaultPrevented = function() {
                     return event.defaultPrevented || !1 === event.returnValue;
-                }, forEach(events[type || event.type], function(fn) {
+                }, forEach((events = events1)[type || event.type], function(fn) {
                     fn.call(element1 = element, event);
                 }), msie <= 8 ? (event.preventDefault = null, event.stopPropagation = null, event.isDefaultPrevented = null) : (delete event.preventDefault, delete event.stopPropagation, delete event.isDefaultPrevented);
             }).elem = element1, eventHandler)), forEach(type.split(" "), function(type) {
-                var eventFns = events[type];
+                var eventFns = events1[type];
                 if (!eventFns) {
                     if ("mouseenter" == type || "mouseleave" == type) {
                         var contains = document.body.contains || document.body.compareDocumentPosition ? function(a, b) {
@@ -613,15 +613,15 @@
                             }
                             return !1;
                         };
-                        events[type] = [], onFn(element, {
+                        events1[type] = [], onFn(element, {
                             mouseleave: "mouseout",
                             mouseenter: "mouseover"
                         }[type], function(event) {
                             var target = this, related = event.relatedTarget;
                             related && (related === target || contains(target, related)) || handle(event, type);
                         });
-                    } else addEventListenerFn(element, type, handle), events[type] = [];
-                    eventFns = events[type];
+                    } else addEventListenerFn(element, type, handle), events1[type] = [];
+                    eventFns = events1[type];
                 }
                 eventFns.push(fn);
             });
@@ -914,10 +914,11 @@
         };
         var pollTimeout, pollFns = [];
         self.addPollFn = function(fn) {
+            var setTimeout1;
             return isUndefined(pollTimeout) && (function check() {
                 forEach(pollFns, function(pollFn) {
                     pollFn();
-                }), pollTimeout = setTimeout(check, 100);
+                }), pollTimeout = (setTimeout1 = setTimeout)(check, 100);
             })(), pollFns.push(fn), fn;
         };
         var lastBrowserUrl = location.href, baseElement = document.find("base"), newLocation = null;
@@ -1385,7 +1386,7 @@
                                         var $$observers = attr.$$observers || (attr.$$observers = {
                                         });
                                         if (EVENT_HANDLER_ATTR_REGEXP.test(name)) throw $compileMinErr("nodomevents", "Interpolations for HTML DOM event attributes are disallowed.  Please use the ng- versions (such as ng-click instead of onclick) instead.");
-                                        (interpolateFn = $interpolate(attr[name], !0, function(node1, attrNormalizedName) {
+                                        (interpolateFn = $interpolate(attr[name], !0, function(node, attrNormalizedName) {
                                             if ("srcdoc" == attrNormalizedName) return $sce.HTML;
                                             var tag = nodeName_(node);
                                             if ("xlinkHref" == attrNormalizedName || "FORM" == tag && "action" == attrNormalizedName || "IMG" != tag && ("src" == attrNormalizedName || "ngSrc" == attrNormalizedName)) return $sce.RESOURCE_URL;
@@ -1501,7 +1502,8 @@
                     return isString(data) && (data = data.replace(PROTECTION_PREFIX, ""), JSON_START.test(data) && JSON_END.test(data) && (data = fromJson(data))), data;
                 }],
             transformRequest: [function(d) {
-                    return isObject(d) && "[object File]" !== toString.call(d) ? toJson(d) : d;
+                    var obj;
+                    return isObject(d) && (obj = d, "[object File]" !== toString.call(obj)) ? toJson(d) : d;
                 }],
             headers: {
                 common: {
@@ -3020,7 +3022,7 @@
                         if (constructor && maybeTrusted instanceof constructor) return maybeTrusted.$$unwrapTrustedValue();
                         if (type === SCE_CONTEXTS.RESOURCE_URL) {
                             if ((function(url) {
-                                var i, n, parsedUrl = urlResolve(maybeTrusted.toString()), allowed = !1;
+                                var i, n, parsedUrl = urlResolve(url.toString()), allowed = !1;
                                 for(i = 0, n = resourceUrlWhitelist.length; i < n; i++)if (matchUrl(resourceUrlWhitelist[i], parsedUrl)) {
                                     allowed = !0;
                                     break;
@@ -3379,12 +3381,12 @@
             if (!sortPredicate) return array;
             sortPredicate = (function(obj, iterator, context) {
                 var results = [];
-                return forEach(sortPredicate = isArray(sortPredicate) ? sortPredicate : [
-                    sortPredicate
-                ], function(value, index, list) {
+                return forEach(obj, function(value, index, list) {
                     results.push(iterator.call(void 0, value, index, list));
                 }), results;
-            })(sortPredicate, function(predicate) {
+            })(sortPredicate = isArray(sortPredicate) ? sortPredicate : [
+                sortPredicate
+            ], function(predicate) {
                 var descending = !1, get = predicate || identity;
                 return isString(predicate) && (("+" == predicate.charAt(0) || "-" == predicate.charAt(0)) && (descending = "-" == predicate.charAt(0), predicate = predicate.substring(1)), get = $parse(predicate)), reverseComparator(function(a, b) {
                     return compare(get(a), get(b));
@@ -4157,7 +4159,7 @@
                     }],
                 link: function(scope, element, attr, ctrls) {
                     if (ctrls[1]) {
-                        for(var scope1, selectElement, ctrl, lastView, selectElement1, ngModelCtrl, selectCtrl, emptyOption, selectCtrl1 = ctrls[0], ngModelCtrl1 = ctrls[1], multiple = attr.multiple, optionsExp = attr.ngOptions, nullOption = !1, optionTemplate = jqLite(document.createElement("option")), optGroupTemplate = jqLite(document.createElement("optgroup")), unknownOption = optionTemplate.clone(), i = 0, children = element.children(), ii = children.length; i < ii; i++)if ("" === children[i].value) {
+                        for(var scope2, selectElement, ctrl, lastView, scope1, selectElement1, ngModelCtrl, selectCtrl, emptyOption, selectCtrl1 = ctrls[0], ngModelCtrl1 = ctrls[1], multiple = attr.multiple, optionsExp = attr.ngOptions, nullOption = !1, optionTemplate = jqLite(document.createElement("option")), optGroupTemplate = jqLite(document.createElement("optgroup")), unknownOption = optionTemplate.clone(), i = 0, children = element.children(), ii = children.length; i < ii; i++)if ("" === children[i].value) {
                             emptyOption = nullOption = children.eq(i);
                             break;
                         }
@@ -4255,25 +4257,25 @@
                                     ctrl.$setViewValue(value);
                                 });
                             }), ctrl.$render = render, scope.$watch(render);
-                        })(scope, element, ngModelCtrl1) : multiple ? (scope1 = scope, selectElement = element, (ctrl = ngModelCtrl1).$render = function() {
+                        })(scope, element, ngModelCtrl1) : multiple ? (scope2 = scope, selectElement = element, (ctrl = ngModelCtrl1).$render = function() {
                             var items = new HashMap(ctrl.$viewValue);
                             forEach(selectElement.find("option"), function(option) {
                                 option.selected = isDefined(items.get(option.value));
                             });
-                        }, scope1.$watch(function() {
+                        }, scope2.$watch(function() {
                             equals(lastView, ctrl.$viewValue) || (lastView = copy(ctrl.$viewValue), ctrl.$render());
                         }), selectElement.on("change", function() {
-                            scope1.$apply(function() {
+                            scope2.$apply(function() {
                                 var array = [];
                                 forEach(selectElement.find("option"), function(option) {
                                     option.selected && array.push(option.value);
                                 }), ctrl.$setViewValue(array);
                             });
-                        })) : (selectElement1 = element, ngModelCtrl = ngModelCtrl1, selectCtrl = selectCtrl1, ngModelCtrl.$render = function() {
+                        })) : (scope1 = scope, selectElement1 = element, ngModelCtrl = ngModelCtrl1, selectCtrl = selectCtrl1, ngModelCtrl.$render = function() {
                             var viewValue = ngModelCtrl.$viewValue;
                             selectCtrl.hasOption(viewValue) ? (unknownOption.parent() && unknownOption.remove(), selectElement1.val(viewValue), "" === viewValue && emptyOption.prop("selected", !0)) : isUndefined(viewValue) && emptyOption ? selectElement1.val("") : selectCtrl.renderUnknownOption(viewValue);
                         }, selectElement1.on("change", function() {
-                            scope.$apply(function() {
+                            scope1.$apply(function() {
                                 unknownOption.parent() && unknownOption.remove(), ngModelCtrl.$setViewValue(selectElement1.val());
                             });
                         }));
@@ -4314,7 +4316,7 @@
         controller: JQLitePrototype.controller,
         injector: JQLitePrototype.injector,
         inheritedData: JQLitePrototype.inheritedData
-    }), jqLitePatchJQueryRemove("remove", !0, !0, !1), jqLitePatchJQueryRemove("empty", !1, !1, !1), jqLitePatchJQueryRemove("html", !1, !1, !0)) : jqLite = JQLite, angular.element = jqLite, (function(angular1) {
+    }), jqLitePatchJQueryRemove("remove", !0, !0, !1), jqLitePatchJQueryRemove("empty", !1, !1, !1), jqLitePatchJQueryRemove("html", !1, !1, !0)) : jqLite = JQLite, angular.element = jqLite, (function(angular) {
         extend(angular, {
             bootstrap: bootstrap,
             copy: copy,
@@ -4345,7 +4347,7 @@
             },
             "$$minErr": minErr,
             "$$csp": csp
-        }), angularModule = (function(window1) {
+        }), angularModule = (function(window) {
             var $injectorMinErr = minErr("$injector"), ngMinErr = minErr("ng");
             function ensure(obj, name, factory) {
                 return obj[name] || (obj[name] = factory());
@@ -4355,7 +4357,7 @@
                 var modules = {
                 };
                 return function(name, requires, configFn) {
-                    return (function(name1, context) {
+                    return (function(name, context) {
                         if ("hasOwnProperty" === name) throw ngMinErr("badname", "hasOwnProperty is not a valid {0} name", "module");
                     })(name, "module"), requires && modules.hasOwnProperty(name) && (modules[name] = null), ensure(modules, name, function() {
                         if (!requires) throw $injectorMinErr("nomod", "Module '{0}' is not available! You either misspelled the module name or forgot to load it. If registering a module ensure that you specify the dependencies as the second argument.", name);
@@ -4483,7 +4485,7 @@
                 });
             }]);
     })(angular), jqLite(document).ready(function() {
-        !function(element, bootstrap1) {
+        !function(element, bootstrap) {
             var appElement, module, elements = [
                 element
             ], names = [

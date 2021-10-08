@@ -1,4 +1,4 @@
-use std::path::PathBuf;
+use std::{mem::take, path::PathBuf};
 use swc_common::{FileName, Span};
 use swc_css_ast::Stylesheet;
 use swc_css_codegen::{
@@ -18,8 +18,13 @@ fn parse_again(input: PathBuf) {
 
         eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
 
+        let mut errors = vec![];
         let mut stylesheet: Stylesheet =
-            parse_file(&fm, ParserConfig { parse_values: true }).unwrap();
+            parse_file(&fm, ParserConfig { parse_values: true }, &mut errors).unwrap();
+
+        for err in take(&mut errors) {
+            err.to_diagnostics(&handler).emit();
+        }
 
         let mut css_str = String::new();
         {
@@ -32,10 +37,16 @@ fn parse_again(input: PathBuf) {
         eprintln!("==== ==== Codegen ==== ====\n{}\n", css_str);
 
         let new_fm = cm.new_source_file(FileName::Anon, css_str);
-        let mut parsed: Stylesheet = parse_file(&new_fm, ParserConfig { parse_values: true })
-            .map_err(|err| {
-                err.to_diagnostics(&handler).emit();
-            })?;
+        let mut parsed: Stylesheet =
+            parse_file(&new_fm, ParserConfig { parse_values: true }, &mut errors).map_err(
+                |err| {
+                    err.to_diagnostics(&handler).emit();
+                },
+            )?;
+
+        for err in errors {
+            err.to_diagnostics(&handler).emit();
+        }
 
         stylesheet.visit_mut_with(&mut DropSpan);
         parsed.visit_mut_with(&mut DropSpan);

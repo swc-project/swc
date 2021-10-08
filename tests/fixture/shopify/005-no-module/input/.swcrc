@@ -1,0 +1,16 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": true
+        },
+        "transform": {
+            "hidden": {
+                "jest": true
+            }
+        }
+    },
+    "env": {
+        "chrome": "50"
+    }
+}

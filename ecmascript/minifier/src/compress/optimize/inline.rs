@@ -6,7 +6,7 @@ use crate::{
     util::idents_used_by,
 };
 use swc_atoms::js_word;
-use swc_common::{util::take::Take, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, ExprExt, UsageFinder};
 
@@ -30,7 +30,7 @@ where
             && self.ctx.in_top_level();
 
         if cfg!(feature = "debug") {
-            log::trace!(
+            tracing::trace!(
                 "inline: store_var_for_inining({}, should_preserve = {:?})",
                 dump(&var.name),
                 should_preserve
@@ -71,7 +71,7 @@ where
 
                     if should_preserve && usage.var_kind != Some(VarDeclKind::Const) {
                         if cfg!(feature = "debug") {
-                            log::trace!(
+                            tracing::trace!(
                                 "inline: [x] Preserving non-const variable `{}` because it's \
                                  top-level",
                                 dump(&var.name)
@@ -82,7 +82,7 @@ where
 
                     if usage.cond_init || usage.used_above_decl {
                         if cfg!(feature = "debug") {
-                            log::trace!("inline: [x] It's cond init or used before decl",);
+                            tracing::trace!("inline: [x] It's cond init or used before decl",);
                         }
                         return;
                     }
@@ -113,14 +113,14 @@ where
                                 {
                                 } else {
                                     if cfg!(feature = "debug") {
-                                        log::trace!("inline: [x] It's not fn-local");
+                                        tracing::trace!("inline: [x] It's not fn-local");
                                     }
                                     return;
                                 }
                             }
                             _ => {
                                 if cfg!(feature = "debug") {
-                                    log::trace!("inline: [x] It's not fn-local");
+                                    tracing::trace!("inline: [x] It's not fn-local");
                                 }
                                 return;
                             }
@@ -160,7 +160,10 @@ where
 
                     // Mutation of properties are ok
                     if is_inline_enabled
-                        && (!usage.mutated || (usage.assign_count == 0 && !usage.reassigned))
+                        && (!usage.mutated
+                            || (usage.assign_count == 0
+                                && !usage.reassigned
+                                && !usage.has_property_mutation))
                         && match &**init {
                             Expr::Lit(lit) => match lit {
                                 Lit::Str(_) => true,
@@ -182,7 +185,7 @@ where
                                 _ => true,
                             }
                         {
-                            log::debug!(
+                            tracing::debug!(
                                 "inline: Decided to inline '{}{:?}' because it's simple",
                                 i.id.sym,
                                 i.id.span.ctxt
@@ -194,20 +197,13 @@ where
 
                             self.lits.insert(i.to_id(), init.take());
                         } else {
-                            log::debug!(
+                            tracing::debug!(
                                 "inline: Decided to copy '{}{:?}' because it's simple",
                                 i.id.sym,
                                 i.id.span.ctxt
                             );
 
                             self.lits.insert(i.to_id(), init.clone());
-                        }
-                        return;
-                    }
-
-                    if self.ctx.inline_as_assignment {
-                        if cfg!(feature = "debug") {
-                            log::trace!("inline: [x] inline_as_assignment is true");
                         }
                         return;
                     }
@@ -266,7 +262,7 @@ where
                             return;
                         }
 
-                        log::debug!(
+                        tracing::debug!(
                             "inline: Decided to inline var '{}' because it's used only once",
                             i.id
                         );
@@ -323,7 +319,7 @@ where
             .and_then(|data| data.vars.get(&i.to_id()))
         {
             if !usage.reassigned {
-                log::trace!("typeofs: Storing typeof `{}{:?}`", i.sym, i.span.ctxt);
+                tracing::trace!("typeofs: Storing typeof `{}{:?}`", i.sym, i.span.ctxt);
                 match &*decl {
                     Decl::Fn(..) => {
                         self.typeofs.insert(i.to_id(), js_word!("function"));
@@ -353,12 +349,12 @@ where
         };
 
         if cfg!(feature = "debug") {
-            log::trace!("inline: Trying to inline decl ({}{:?})", i.sym, i.span.ctxt);
+            tracing::trace!("inline: Trying to inline decl ({}{:?})", i.sym, i.span.ctxt);
         }
 
         if self.options.inline == 0 && !self.options.reduce_vars {
             if cfg!(feature = "debug") {
-                log::trace!("inline: [x] Inline disabled");
+                tracing::trace!("inline: [x] Inline disabled");
             }
             return;
         }
@@ -367,14 +363,14 @@ where
             && self.ctx.in_top_level()
         {
             if cfg!(feature = "debug") {
-                log::trace!("inline: [x] Top level");
+                tracing::trace!("inline: [x] Top level");
             }
             return;
         }
 
         if self.has_noinline(decl.span()) {
             if cfg!(feature = "debug") {
-                log::trace!("inline: [x] Has noinline");
+                tracing::trace!("inline: [x] Has noinline");
             }
             return;
         }
@@ -382,21 +378,14 @@ where
         // Respect `top_retain`
         if self.ctx.in_top_level() && self.options.top_retain.contains(&i.sym) {
             if cfg!(feature = "debug") {
-                log::trace!("inline: [x] top_retain");
+                tracing::trace!("inline: [x] top_retain");
             }
             return;
         }
 
         if self.ctx.is_exported {
             if cfg!(feature = "debug") {
-                log::trace!("inline: [x] exported");
-            }
-            return;
-        }
-
-        if self.ctx.inline_as_assignment {
-            if cfg!(feature = "debug") {
-                log::trace!("inline: [x] inline_as_assignment=true");
+                tracing::trace!("inline: [x] exported");
             }
             return;
         }
@@ -417,14 +406,14 @@ where
         {
             if usage.declared_as_catch_param {
                 if cfg!(feature = "debug") {
-                    log::trace!("inline: [x] Declared as a catch paramter");
+                    tracing::trace!("inline: [x] Declared as a catch paramter");
                 }
                 return;
             }
 
             if usage.reassigned || usage.inline_prevented {
                 if cfg!(feature = "debug") {
-                    log::trace!(
+                    tracing::trace!(
                         "inline: [x] reassigned = {}, inline_prevented = {}",
                         usage.reassigned,
                         usage.inline_prevented
@@ -441,7 +430,7 @@ where
                             if !UsageFinder::find(&i, body)
                                 && self.is_fn_body_simple_enough_to_inline(body)
                             {
-                                log::debug!(
+                                tracing::debug!(
                                     "inline: Decided to inline function '{}{:?}' as it's very \
                                      simple",
                                     f.ident.sym,
@@ -500,14 +489,14 @@ where
                 self.changed = true;
                 match &decl {
                     Decl::Class(c) => {
-                        log::debug!(
+                        tracing::debug!(
                             "inline: Decided to inline class '{}{:?}' as it's used only once",
                             c.ident.sym,
                             c.ident.span.ctxt
                         );
                     }
                     Decl::Fn(f) => {
-                        log::debug!(
+                        tracing::debug!(
                             "inline: Decided to inline function '{}{:?}' as it's used only once",
                             f.ident.sym,
                             f.ident.span.ctxt
@@ -538,7 +527,7 @@ where
                 return;
             } else {
                 if cfg!(feature = "debug") {
-                    log::trace!("inline: [x] Usage: {:?}", usage);
+                    tracing::trace!("inline: [x] Usage: {:?}", usage);
                 }
             }
         }
@@ -582,7 +571,7 @@ where
                     }
 
                     self.changed = true;
-                    log::debug!("inline: Replacing a variable with cheap expression");
+                    tracing::debug!("inline: Replacing a variable with cheap expression");
 
                     *e = *value;
                     return;
@@ -603,32 +592,9 @@ where
                     }
                 }
 
-                if self.ctx.inline_as_assignment {
-                    if let Some(value) = self.state.vars_for_inlining.remove(&i.to_id()) {
-                        self.changed = true;
-                        log::debug!(
-                            "inline: Inlining '{}{:?}' using assignment",
-                            i.sym,
-                            i.span.ctxt
-                        );
-
-                        *e = Expr::Assign(AssignExpr {
-                            span: DUMMY_SP,
-                            op: op!("="),
-                            left: PatOrExpr::Pat(Box::new(Pat::Ident(i.clone().into()))),
-                            right: value,
-                        });
-
-                        if cfg!(feature = "debug") {
-                            log::trace!("inline: [Change] {}", dump(&*e))
-                        }
-                        return;
-                    }
-                }
-
                 if let Some(value) = self.state.vars_for_inlining.get(&i.to_id()) {
                     self.changed = true;
-                    log::debug!(
+                    tracing::debug!(
                         "inline: Replacing '{}{:?}' with an expression",
                         i.sym,
                         i.span.ctxt
@@ -637,7 +603,7 @@ where
                     *e = *value.clone();
 
                     if cfg!(feature = "debug") {
-                        log::trace!("inline: [Change] {}", dump(&*e))
+                        tracing::trace!("inline: [Change] {}", dump(&*e))
                     }
                 }
             }

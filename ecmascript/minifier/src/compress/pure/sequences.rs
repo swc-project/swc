@@ -54,7 +54,7 @@ where
                 }
 
                 self.changed = true;
-                log::debug!("sequences: Lifting sequence in a binary expression");
+                tracing::debug!("sequences: Lifting sequence in a binary expression");
 
                 let left_last = left.exprs.pop().unwrap();
 
@@ -102,7 +102,7 @@ where
                     new_seq.extend(test.exprs.drain(..test.exprs.len() - 1));
 
                     self.changed = true;
-                    log::debug!("sequences: Lifting sequences in a assignment with cond expr");
+                    tracing::debug!("sequences: Lifting sequences in a assignment with cond expr");
                     let new_cond = CondExpr {
                         span: cond.span,
                         test: test.exprs.pop().unwrap(),
@@ -202,7 +202,7 @@ where
                             });
                             b.take();
                             self.changed = true;
-                            log::debug!(
+                            tracing::debug!(
                                 "sequences: Reducing `(a = foo, a.call())` to `((a = foo).call())`"
                             );
 

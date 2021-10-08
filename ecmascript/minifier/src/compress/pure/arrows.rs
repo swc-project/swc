@@ -19,7 +19,7 @@ where
                 if s.stmts.len() == 1 {
                     if let Stmt::Return(s) = &mut s.stmts[0] {
                         if let Some(arg) = &mut s.arg {
-                            log::debug!("arrows: Optimizing the body of an arrow");
+                            tracing::debug!("arrows: Optimizing the body of an arrow");
                             *b = BlockStmtOrExpr::Expr(arg.take());
                             return;
                         }

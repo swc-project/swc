@@ -1,5 +1,6 @@
 #![feature(test)]
 
+extern crate swc_node_base;
 extern crate test;
 
 use swc_common::{comments::SingleThreadedComments, FileName};

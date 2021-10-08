@@ -18,9 +18,10 @@ struct Builder {
 }
 
 impl Builder {
-    pub fn with<F, Ret>(self, src: &str, s: &mut Vec<u8>, op: F) -> Ret
+    pub fn with<'a, F, Ret>(self, src: &str, s: &'a mut Vec<u8>, op: F) -> Ret
     where
-        F: FnOnce(&mut Emitter<'_>) -> Ret,
+        F: for<'aa> FnOnce(&mut Emitter<'aa, Box<(dyn WriteJs + 'aa)>>) -> Ret,
+        Ret: 'static,
     {
         let writer =
             text_writer::JsWriter::with_target(self.cm.clone(), "\n", s, None, self.target);
@@ -30,21 +31,23 @@ impl Builder {
             Box::new(writer)
         };
 
-        let mut e = Emitter {
-            cfg: self.cfg,
-            cm: self.cm.clone(),
-            wr: writer,
-            comments: Some(&self.comments),
-        };
+        let ret = {
+            let mut e = Emitter {
+                cfg: self.cfg,
+                cm: self.cm.clone(),
+                wr: writer,
+                comments: Some(&self.comments),
+            };
 
-        let ret = op(&mut e);
+            op(&mut e)
+        };
 
         ret
     }
 
     pub fn text<F>(self, src: &str, op: F) -> String
     where
-        F: FnOnce(&mut Emitter<'_>),
+        F: for<'aa> FnOnce(&mut Emitter<'aa, Box<(dyn WriteJs + 'aa)>>),
     {
         let mut buf = vec![];
 

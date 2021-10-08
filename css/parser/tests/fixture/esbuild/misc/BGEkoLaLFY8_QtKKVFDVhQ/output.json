@@ -20,7 +20,8 @@
           "end": 15,
           "ctxt": 0
         },
-        "value": "a,c"
+        "value": "a,c",
+        "raw": "a\\,c"
       },
       "blocks": [
         {
@@ -37,7 +38,8 @@
                 "end": 24,
                 "ctxt": 0
               },
-              "value": "from"
+              "value": "from",
+              "raw": "\\66rom"
             }
           ],
           "rule": {
@@ -47,7 +49,7 @@
               "end": 27,
               "ctxt": 0
             },
-            "properties": []
+            "items": []
           }
         }
       ]

@@ -176,7 +176,8 @@
             "value": "Foo",
             "optional": false
           },
-          "imported": null
+          "imported": null,
+          "isTypeOnly": false
         }
       ],
       "source": {
@@ -221,7 +222,8 @@
             "value": "Foo",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         }
       ],
       "source": null,
@@ -359,7 +361,8 @@
             "value": "ns",
             "optional": false
           },
-          "exported": null
+          "exported": null,
+          "isTypeOnly": false
         }
       ],
       "source": null,
@@ -444,7 +447,8 @@
             },
             "value": "classContainer",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": null,

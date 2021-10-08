@@ -20,7 +20,8 @@
           "end": 15,
           "ctxt": 0
         },
-        "value": "test"
+        "value": "test",
+        "raw": "test"
       },
       "blocks": [
         {
@@ -37,7 +38,8 @@
                 "end": 22,
                 "ctxt": 0
               },
-              "value": "from"
+              "value": "from",
+              "raw": "from"
             }
           ],
           "rule": {
@@ -47,7 +49,7 @@
               "end": 25,
               "ctxt": 0
             },
-            "properties": []
+            "items": []
           }
         },
         {
@@ -64,7 +66,8 @@
                 "end": 28,
                 "ctxt": 0
               },
-              "value": "to"
+              "value": "to",
+              "raw": "to"
             }
           ],
           "rule": {
@@ -74,7 +77,7 @@
               "end": 43,
               "ctxt": 0
             },
-            "properties": [
+            "items": [
               {
                 "type": "Property",
                 "span": {
@@ -89,7 +92,8 @@
                     "end": 36,
                     "ctxt": 0
                   },
-                  "value": "color"
+                  "value": "color",
+                  "raw": "color"
                 },
                 "values": [
                   {
@@ -99,7 +103,8 @@
                       "end": 41,
                       "ctxt": 0
                     },
-                    "value": "red"
+                    "value": "red",
+                    "raw": "red"
                   }
                 ],
                 "important": null

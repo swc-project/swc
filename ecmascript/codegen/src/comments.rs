@@ -34,7 +34,10 @@ macro_rules! write_comments {
     }};
 }
 
-impl<'a> Emitter<'a> {
+impl<'a, W> Emitter<'a, W>
+where
+    W: WriteJs,
+{
     pub(super) fn emit_trailing_comments_of_pos(
         &mut self,
         pos: BytePos,

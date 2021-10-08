@@ -337,7 +337,8 @@
             },
             "value": "Foo",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": {
@@ -391,7 +392,8 @@
             },
             "value": "Foo",
             "optional": false
-          }
+          },
+          "isTypeOnly": false
         }
       ],
       "source": {

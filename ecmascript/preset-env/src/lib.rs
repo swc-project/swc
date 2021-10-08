@@ -1,9 +1,10 @@
+#![allow(dead_code)]
 #![recursion_limit = "256"]
 
 pub use self::{transform_data::Feature, version::Version};
 use dashmap::DashMap;
-use fxhash::{FxHashMap, FxHashSet};
 use once_cell::sync::Lazy;
+use rustc_hash::{FxHashMap, FxHashSet};
 use serde::{Deserialize, Serialize};
 use st_map::StaticMap;
 use std::{
@@ -96,7 +97,11 @@ where
     let pass = add!(pass, NullishCoalescing, es2020::nullish_coalescing());
 
     let pass = add!(pass, OptionalChaining, es2020::optional_chaining());
-    let pass = add!(pass, ClassProperties, es2020::class_properties());
+    let pass = add!(
+        pass,
+        ClassProperties,
+        es2020::class_properties(es2020::class_properties::Config { loose })
+    );
 
     // ES2019
     let pass = add!(pass, OptionalCatchBinding, es2019::optional_catch_binding());

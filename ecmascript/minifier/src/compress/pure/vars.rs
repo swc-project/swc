@@ -72,7 +72,7 @@ where
         }
 
         self.changed = true;
-        log::debug!("collapse_vars: Collapsing variables without an initializer");
+        tracing::debug!("collapse_vars: Collapsing variables without an initializer");
 
         let vars = {
             let mut v = VarMover {

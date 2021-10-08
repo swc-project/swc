@@ -7,11 +7,11 @@ macro_rules! span {
 
 macro_rules! tok_pat {
     (Ident) => {
-        swc_css_ast::Token::Ident(..)
+        swc_css_ast::Token::Ident { .. }
     };
 
     (AtKeyword) => {
-        swc_css_ast::Token::AtKeyword(..)
+        swc_css_ast::Token::AtKeyword { .. }
     };
 
     (Function) => {

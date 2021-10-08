@@ -92,7 +92,7 @@ where
 
                                     match &p.key {
                                         PropName::Str(s) => {
-                                            log::debug!(
+                                            tracing::trace!(
                                                 "hoist_props: Storing a varaible to inline \
                                                  properties"
                                             );
@@ -100,7 +100,7 @@ where
                                                 .insert((name.to_id(), s.value.clone()), value);
                                         }
                                         PropName::Ident(i) => {
-                                            log::debug!(
+                                            tracing::trace!(
                                                 "hoist_props: Storing a varaible to inline \
                                                  properties"
                                             );
@@ -157,7 +157,7 @@ where
                         );
                     }
                     None => {
-                        log::debug!(
+                        tracing::debug!(
                             "hoist_props: Stored {}{:?} to inline property access",
                             name.id.sym,
                             name.id.span.ctxt
@@ -183,7 +183,7 @@ where
                     if let Some(value) = self.vars_for_prop_hoisting.remove(&obj.to_id()) {
                         member.obj = ExprOrSuper::Expr(value);
                         self.changed = true;
-                        log::debug!("hoist_props: Inlined a property");
+                        tracing::debug!("hoist_props: Inlined a property");
                         return;
                     }
 
@@ -196,7 +196,7 @@ where
                             if let Some(value) =
                                 self.simple_props.get(&(obj.to_id(), prop.sym.clone()))
                             {
-                                log::debug!("hoist_props: Inlining `{}.{}`", obj.sym, prop.sym);
+                                tracing::debug!("hoist_props: Inlining `{}.{}`", obj.sym, prop.sym);
                                 self.changed = true;
                                 *e = *value.clone()
                             }

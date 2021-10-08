@@ -55,7 +55,8 @@
                         "end": 8,
                         "ctxt": 0
                       },
-                      "value": "attr~"
+                      "value": "attr~",
+                      "raw": "attr\\7e"
                     }
                   },
                   "op": "=",
@@ -82,7 +83,7 @@
           "end": 14,
           "ctxt": 0
         },
-        "properties": []
+        "items": []
       }
     }
   ]

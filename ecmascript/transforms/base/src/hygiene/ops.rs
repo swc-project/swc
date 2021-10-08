@@ -1,4 +1,4 @@
-use fxhash::FxHashMap;
+use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
 use swc_common::{
     util::{move_map::MoveMap, take::Take},
@@ -32,6 +32,7 @@ impl<'a> VisitMut for Operator<'a> {
                                 span: DUMMY_SP,
                                 orig: $ident,
                                 exported: Some($orig),
+                                is_type_only: false,
                             })],
                             src: None,
                             type_only: false,
@@ -300,6 +301,7 @@ impl VisitMut for VarFolder<'_, '_> {
                         span: i.span,
                         exported: Some(orig),
                         orig: i.clone(),
+                        is_type_only: false,
                     }));
             }
             Err(..) => {}
