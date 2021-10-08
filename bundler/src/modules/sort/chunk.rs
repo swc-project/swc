@@ -2,8 +2,10 @@ use super::stmt::sort_stmts;
 use crate::{dep_graph::ModuleGraph, modules::Modules, ModuleId};
 use indexmap::IndexSet;
 use petgraph::EdgeDirection::Outgoing;
-use rustc_hash::FxHashSet;
-use std::{collections::VecDeque, iter::from_fn, mem::take, time::Instant};
+use rustc_hash::{FxHashSet, FxHasher};
+use std::{
+    collections::VecDeque, hash::BuildHasherDefault, iter::from_fn, mem::take, time::Instant,
+};
 use swc_common::{sync::Lrc, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::prepend_stmts;
@@ -131,14 +133,14 @@ fn cycles_for(
     cycles: &Vec<Vec<ModuleId>>,
     id: ModuleId,
     checked: &mut Vec<ModuleId>,
-) -> IndexSet<ModuleId> {
+) -> IndexSet<ModuleId, BuildHasherDefault<FxHasher>> {
     checked.push(id);
     let mut v = cycles
         .iter()
         .filter(|v| v.contains(&id))
         .flatten()
         .copied()
-        .collect::<IndexSet<_>>();
+        .collect::<IndexSet<_, _>>();
 
     let ids = v.clone();
 

@@ -3,9 +3,7 @@ const [a, b, c] = [
     2,
     3
 ];
-const mod = function() {
-    return {
-        b: b
-    };
-}();
+const mod = {
+    b: b
+};
 console.log(mod);

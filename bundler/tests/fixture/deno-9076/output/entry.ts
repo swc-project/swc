@@ -3,4 +3,4 @@ class App {
         console.log('Hello from app');
     }
 }
-const app = new App;
+new App;

@@ -245,11 +245,9 @@ function parse(args, { "--": doubleDash = false , alias ={
     }
     return argv;
 }
-const mod = function() {
-    return {
-        parse: parse
-    };
-}();
+const mod = {
+    parse: parse
+};
 const CHAR_UPPERCASE_A = 65;
 const CHAR_LOWERCASE_A = 97;
 const CHAR_UPPERCASE_Z = 90;
@@ -963,25 +961,23 @@ function toFileUrl(path) {
     }
     return url;
 }
-const mod1 = function() {
-    return {
-        sep: sep3,
-        delimiter: delimiter,
-        resolve: resolve,
-        normalize: normalize,
-        isAbsolute: isAbsolute,
-        join: join,
-        relative: relative,
-        toNamespacedPath: toNamespacedPath,
-        dirname: dirname,
-        basename: basename,
-        extname: extname,
-        format: format,
-        parse: parse1,
-        fromFileUrl: fromFileUrl,
-        toFileUrl: toFileUrl
-    };
-}();
+const mod1 = {
+    sep: sep3,
+    delimiter: delimiter,
+    resolve: resolve,
+    normalize: normalize,
+    isAbsolute: isAbsolute,
+    join: join,
+    relative: relative,
+    toNamespacedPath: toNamespacedPath,
+    dirname: dirname,
+    basename: basename,
+    extname: extname,
+    format: format,
+    parse: parse1,
+    fromFileUrl: fromFileUrl,
+    toFileUrl: toFileUrl
+};
 const sep1 = "/";
 const delimiter1 = ":";
 function resolve1(...pathSegments) {
@@ -1295,25 +1291,23 @@ function toFileUrl1(path) {
     url.pathname = path.replace(/%/g, "%25").replace(/\\/g, "%5C");
     return url;
 }
-const mod2 = function() {
-    return {
-        sep: sep1,
-        delimiter: delimiter1,
-        resolve: resolve1,
-        normalize: normalize1,
-        isAbsolute: isAbsolute1,
-        join: join1,
-        relative: relative1,
-        toNamespacedPath: toNamespacedPath1,
-        dirname: dirname1,
-        basename: basename1,
-        extname: extname1,
-        format: format1,
-        parse: parse2,
-        fromFileUrl: fromFileUrl1,
-        toFileUrl: toFileUrl1
-    };
-}();
+const mod2 = {
+    sep: sep1,
+    delimiter: delimiter1,
+    resolve: resolve1,
+    normalize: normalize1,
+    isAbsolute: isAbsolute1,
+    join: join1,
+    relative: relative1,
+    toNamespacedPath: toNamespacedPath1,
+    dirname: dirname1,
+    basename: basename1,
+    extname: extname1,
+    format: format1,
+    parse: parse2,
+    fromFileUrl: fromFileUrl1,
+    toFileUrl: toFileUrl1
+};
 function common(paths, sep = SEP) {
     const [first = "", ...remaining] = paths;
     if (first === "" || remaining.length === 0) {
@@ -1616,34 +1610,32 @@ function joinGlobs(globs, { extended =false , globstar =false  } = {
         globstar
     });
 }
-const mod3 = function() {
-    return {
-        SEP: SEP,
-        SEP_PATTERN: SEP_PATTERN,
-        win32: win32,
-        posix: posix,
-        basename: basename2,
-        delimiter: delimiter2,
-        dirname: dirname2,
-        extname: extname2,
-        format: format2,
-        fromFileUrl: fromFileUrl2,
-        isAbsolute: isAbsolute2,
-        join: join2,
-        normalize: normalize2,
-        parse: parse3,
-        relative: relative2,
-        resolve: resolve2,
-        sep: sep2,
-        toFileUrl: toFileUrl2,
-        toNamespacedPath: toNamespacedPath2,
-        common,
-        globToRegExp,
-        isGlob,
-        normalizeGlob,
-        joinGlobs
-    };
-}();
+const mod3 = {
+    SEP: SEP,
+    SEP_PATTERN: SEP_PATTERN,
+    win32: win32,
+    posix: posix,
+    basename: basename2,
+    delimiter: delimiter2,
+    dirname: dirname2,
+    extname: extname2,
+    format: format2,
+    fromFileUrl: fromFileUrl2,
+    isAbsolute: isAbsolute2,
+    join: join2,
+    normalize: normalize2,
+    parse: parse3,
+    relative: relative2,
+    resolve: resolve2,
+    sep: sep2,
+    toFileUrl: toFileUrl2,
+    toNamespacedPath: toNamespacedPath2,
+    common,
+    globToRegExp,
+    isGlob,
+    normalizeGlob,
+    joinGlobs
+};
 var LogLevels;
 (function(LogLevels) {
     LogLevels[LogLevels["NOTSET"] = 0] = "NOTSET";
@@ -1654,6 +1646,8 @@ var LogLevels;
     LogLevels[LogLevels["CRITICAL"] = 50] = "CRITICAL";
 })(LogLevels || (LogLevels = {
 }));
+Object.keys(LogLevels).filter((key)=>isNaN(Number(key))
+);
 const byLevel = {
     [String(LogLevels.NOTSET)]: "NOTSET",
     [String(LogLevels.DEBUG)]: "DEBUG",
@@ -1821,7 +1815,7 @@ function blue(str) {
         34
     ], 39));
 }
-const ANSI_PATTERN = new RegExp([
+new RegExp([
     "[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:[a-zA-Z\\d]*(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)",
     "(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-ntqry=><~]))", 
 ].join("|"), "g");
@@ -2258,7 +2252,8 @@ class ConsoleHandler extends BaseHandler {
             case LogLevels.CRITICAL:
                 msg = bold(red(msg));
                 break;
-            default: break;
+            default:
+                break;
         }
         return msg;
     }
@@ -3262,35 +3257,33 @@ function detect(content) {
 function format3(content, eol) {
     return content.replace(regDetect, eol);
 }
-const mod5 = function() {
-    return {
-        exists,
-        existsSync,
-        emptyDir,
-        emptyDirSync,
-        ensureDir,
-        ensureDirSync,
-        ensureFile,
-        ensureFileSync,
-        ensureLink,
-        ensureLinkSync,
-        ensureSymlink,
-        ensureSymlinkSync,
-        expandGlob,
-        expandGlobSync,
-        _createWalkEntrySync,
-        _createWalkEntry,
-        walk,
-        walkSync,
-        move,
-        moveSync,
-        copy,
-        copySync,
-        EOL,
-        detect,
-        format: format3
-    };
-}();
+const mod5 = {
+    exists,
+    existsSync,
+    emptyDir,
+    emptyDirSync,
+    ensureDir,
+    ensureDirSync,
+    ensureFile,
+    ensureFileSync,
+    ensureLink,
+    ensureLinkSync,
+    ensureSymlink,
+    ensureSymlinkSync,
+    expandGlob,
+    expandGlobSync,
+    _createWalkEntrySync,
+    _createWalkEntry,
+    walk,
+    walkSync,
+    move,
+    moveSync,
+    copy,
+    copySync,
+    EOL,
+    detect,
+    format: format3
+};
 const base64abc = [
     "A",
     "B",
@@ -3649,11 +3642,9 @@ class Hash {
 function createHash(algorithm) {
     return new Hash(algorithm);
 }
-const mod6 = function() {
-    return {
-        createHash: createHash
-    };
-}();
+const mod6 = {
+    createHash: createHash
+};
 const SEMVER_SPEC_VERSION = "2.0.0";
 const MAX_LENGTH = 256;
 const MAX_SAFE_COMPONENT_LENGTH = 16;
@@ -4573,7 +4564,8 @@ function minVersion(range, optionsOrLoose) {
                     }
                     break;
                 case "<":
-                case "<=": break;
+                case "<=":
+                    break;
                 default:
                     throw new Error("Unexpected operation: " + comparator.operator);
             }
@@ -4677,50 +4669,48 @@ function coerce(version, optionsOrLoose) {
     }
     return parse4(match[1] + "." + (match[2] || "0") + "." + (match[3] || "0"), optionsOrLoose);
 }
-const mod7 = function() {
-    return {
-        SEMVER_SPEC_VERSION: SEMVER_SPEC_VERSION,
-        parse: parse4,
-        valid: valid,
-        clean: clean,
-        SemVer: SemVer,
-        inc: inc,
-        diff: diff,
-        compareIdentifiers: compareIdentifiers,
-        rcompareIdentifiers: rcompareIdentifiers,
-        major: major,
-        minor: minor,
-        patch: patch,
-        compare: compare,
-        compareLoose: compareLoose,
-        compareBuild: compareBuild,
-        rcompare: rcompare,
-        sort: sort,
-        rsort: rsort,
-        gt: gt,
-        lt: lt,
-        eq: eq,
-        neq: neq,
-        gte: gte,
-        lte: lte,
-        cmp: cmp,
-        Comparator: Comparator,
-        Range: Range,
-        toComparators: toComparators,
-        satisfies: satisfies,
-        maxSatisfying: maxSatisfying,
-        minSatisfying: minSatisfying,
-        minVersion: minVersion,
-        validRange: validRange,
-        ltr: ltr,
-        gtr: gtr,
-        outside: outside,
-        prerelease: prerelease,
-        intersects: intersects,
-        coerce: coerce,
-        default: SemVer
-    };
-}();
+const mod7 = {
+    SEMVER_SPEC_VERSION: SEMVER_SPEC_VERSION,
+    parse: parse4,
+    valid: valid,
+    clean: clean,
+    SemVer: SemVer,
+    inc: inc,
+    diff: diff,
+    compareIdentifiers: compareIdentifiers,
+    rcompareIdentifiers: rcompareIdentifiers,
+    major: major,
+    minor: minor,
+    patch: patch,
+    compare: compare,
+    compareLoose: compareLoose,
+    compareBuild: compareBuild,
+    rcompare: rcompare,
+    sort: sort,
+    rsort: rsort,
+    gt: gt,
+    lt: lt,
+    eq: eq,
+    neq: neq,
+    gte: gte,
+    lte: lte,
+    cmp: cmp,
+    Comparator: Comparator,
+    Range: Range,
+    toComparators: toComparators,
+    satisfies: satisfies,
+    maxSatisfying: maxSatisfying,
+    minSatisfying: minSatisfying,
+    minVersion: minVersion,
+    validRange: validRange,
+    ltr: ltr,
+    gtr: gtr,
+    outside: outside,
+    prerelease: prerelease,
+    intersects: intersects,
+    coerce: coerce,
+    default: SemVer
+};
 const version1 = "1.11.0";
 const TaskName_AST = {
     "moduleName": "dnit.manifest",
@@ -5022,21 +5012,6 @@ const Manifest_AST = {
         }
     }
 };
-const snManifest = {
-    moduleName: "dnit.manifest",
-    name: "Manifest"
-};
-function texprManifest() {
-    return {
-        value: {
-            typeRef: {
-                kind: "reference",
-                value: snManifest
-            },
-            parameters: []
-        }
-    };
-}
 const _AST_MAP = {
     "dnit.manifest.TaskName": TaskName_AST,
     "dnit.manifest.TrackedFileName": TrackedFileName_AST,
@@ -5060,6 +5035,10 @@ function isVoid(texpr) {
     }
     return false;
 }
+Symbol();
+Symbol();
+Symbol();
+Symbol();
 function asJsonObject(jv) {
     if (jv instanceof Object && !(jv instanceof Array)) {
         return jv;
@@ -5071,31 +5050,6 @@ function asJsonArray(jv) {
         return jv;
     }
     return undefined;
-}
-function createJsonBinding(dresolver, texpr) {
-    const jb0 = buildJsonBinding(dresolver, texpr.value, {
-    });
-    function fromJsonE(json) {
-        try {
-            return jb0.fromJson(json);
-        } catch (e) {
-            throw mapJsonException(e);
-        }
-    }
-    return {
-        typeExpr: texpr.value,
-        toJson: jb0.toJson,
-        fromJson: jb0.fromJson,
-        fromJsonE
-    };
-}
-function mapJsonException(exception) {
-    if (exception && exception['kind'] == "JsonParseException") {
-        const jserr = exception;
-        return new Error(jserr.getMessage());
-    } else {
-        return exception;
-    }
 }
 function jsonParseException(message) {
     const context = [];
@@ -5877,7 +5831,7 @@ const ADL = {
     ..._AST_MAP,
     ..._AST_MAP1
 };
-const RESOLVER = declResolver(ADL);
+declResolver(ADL);
 class ADLMap {
     constructor(data, isEqual){
         this.data = data;
@@ -5938,38 +5892,6 @@ class ADLMap {
         );
     }
 }
-class Manifest {
-    constructor(dir, filename = ".manifest.json"){
-        this.jsonBinding = createJsonBinding(RESOLVER, texprManifest());
-        this.tasks = new ADLMap([], (k1, k2)=>k1 === k2
-        );
-        this.filename = mod3.join(dir, filename);
-    }
-    async load() {
-        if (await mod5.exists(this.filename)) {
-            const json = JSON.parse(await Deno.readTextFile(this.filename));
-            const mdata = this.jsonBinding.fromJson(json);
-            for (const p of mdata.tasks){
-                const taskName = p.v1;
-                const taskData = p.v2;
-                this.tasks.set(taskName, new TaskManifest(taskData));
-            }
-        }
-    }
-    async save() {
-        if (!await mod5.exists(mod3.dirname(this.filename))) {
-        }
-        const mdata = {
-            tasks: this.tasks.entries().map((p)=>({
-                    v1: p[0],
-                    v2: p[1].toData()
-                })
-            )
-        };
-        const jsonval = this.jsonBinding.toJson(mdata);
-        await Deno.writeTextFile(this.filename, JSON.stringify(jsonval, null, 2));
-    }
-}
 class TaskManifest {
     constructor(data){
         this.lastExecution = null;
@@ -5993,63 +5915,6 @@ class TaskManifest {
             lastExecution: this.lastExecution,
             trackedFiles: this.trackedFiles.toData()
         };
-    }
-}
-class AsyncQueue {
-    constructor(concurrency){
-        this.inProgress = 0;
-        this.queue = [];
-        this.concurrency = concurrency;
-    }
-    async schedule(t) {
-        return new Promise((resolve, reject)=>{
-            this.queue.push({
-                action: t,
-                resolve,
-                reject
-            });
-            this.startQueuedItem();
-        });
-    }
-    startQueuedItem() {
-        if (this.inProgress >= this.concurrency) {
-            return;
-        }
-        const item = this.queue.shift();
-        if (item === undefined) {
-            return;
-        }
-        this.inProgress += 1;
-        item.action().then((val)=>{
-            item.resolve(val);
-        }).catch((err)=>{
-            item.reject(err);
-        }).finally(()=>{
-            this.inProgress -= 1;
-            this.startQueuedItem();
-        });
-    }
-}
-class ExecContext {
-    constructor(manifest, args){
-        this.manifest = manifest;
-        this.args = args;
-        this.taskRegister = new Map();
-        this.targetRegister = new Map();
-        this.doneTasks = new Set();
-        this.inprogressTasks = new Set();
-        this.internalLogger = mod4.getLogger("internal");
-        this.taskLogger = mod4.getLogger("task");
-        this.userLogger = mod4.getLogger("user");
-        if (args["verbose"] !== undefined) {
-            this.internalLogger.levelName = "INFO";
-        }
-        const concurrency = args["concurrency"] || 4;
-        this.asyncQueue = new AsyncQueue(concurrency);
-        this.internalLogger.info(`Starting ExecContext version: ${version1}`);
-    }
-    getTaskByName(name) {
-        return this.taskRegister.get(name);
     }
 }
 function taskContext(ctx, task) {
@@ -6370,7 +6235,7 @@ async function setupLogging() {
     });
 }
 function findUserSourceContext(dir) {
-    const pathParts = dir.split(mod3.SEP);
+    dir.split(mod3.SEP);
     return {
         path: dir,
         stat: Deno.lstatSync(dir)

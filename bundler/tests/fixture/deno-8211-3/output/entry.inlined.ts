@@ -3039,7 +3039,8 @@ class DateTime {
             case "seconds":
                 o.millisecond = 0;
                 break;
-            case "milliseconds": break;
+            case "milliseconds":
+                break;
         }
         if (normalizedUnit === "weeks") {
             o.weekday = 1;
@@ -4529,20 +4530,18 @@ function parseFromTokens(locale, input, format) {
         invalidReason
     ];
 }
-const mod = function() {
-    return {
-        DateTime: DateTime,
-        Duration: Duration,
-        Interval: Interval,
-        Info: Info,
-        Zone: Zone,
-        FixedOffsetZone: FixedOffsetZone,
-        IANAZone: IANAZone,
-        InvalidZone: InvalidZone,
-        LocalZone: LocalZone,
-        Settings: Settings
-    };
-}();
+const mod = {
+    DateTime: DateTime,
+    Duration: Duration,
+    Interval: Interval,
+    Info: Info,
+    Zone: Zone,
+    FixedOffsetZone: FixedOffsetZone,
+    IANAZone: IANAZone,
+    InvalidZone: InvalidZone,
+    LocalZone: LocalZone,
+    Settings: Settings
+};
 const date1 = new Date();
 const dt1 = mod.DateTime.fromJSDate(date1);
 console.log(dt1.toISO());

@@ -1,120 +1,152 @@
-use anyhow::{bail, Context, Error};
+/// Use memory allocator
+extern crate swc_node_base;
+
+use anyhow::{bail, Error};
 use path_clean::PathClean;
-use reqwest::Url;
-use sha1::{Digest, Sha1};
 use std::{
-    env::current_dir,
-    fs::{create_dir_all, read_to_string, write},
-    io::Write,
+    collections::HashMap,
+    env, fs,
     path::{Path, PathBuf},
+    time::Instant,
 };
-use swc_bundler::{Load, ModuleData, Resolve};
+use swc_atoms::js_word;
+use swc_bundler::{Bundle, Bundler, Load, ModuleData, ModuleRecord, Resolve};
 use swc_common::{
-    comments::SingleThreadedComments,
     errors::{ColorConfig, Handler},
     sync::Lrc,
-    FileName, Mark, SourceMap,
+    FileName, Globals, SourceMap, Span,
 };
-use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax, TsConfig};
-use swc_ecma_transforms::{react, typescript::strip};
-use swc_ecma_visit::FoldWith;
+use swc_ecma_ast::*;
+use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
+use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
+
+fn print_bundles(cm: Lrc<SourceMap>, modules: Vec<Bundle>) {
+    for bundled in modules {
+        let code = {
+            let mut buf = vec![];
+
+            {
+                let mut emitter = Emitter {
+                    cfg: swc_ecma_codegen::Config {
+                        ..Default::default()
+                    },
+                    cm: cm.clone(),
+                    comments: None,
+                    wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
+                };
+
+                emitter.emit_module(&bundled.module).unwrap();
+            }
+
+            String::from_utf8_lossy(&buf).to_string()
+        };
+
+        fs::write("output.js", &code).unwrap();
+    }
+}
+
+fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
+    testing::run_test2(false, |cm, _| {
+        let globals = Globals::default();
+        let bundler = Bundler::new(
+            &globals,
+            cm.clone(),
+            Loader { cm: cm.clone() },
+            NodeResolver,
+            swc_bundler::Config {
+                require: true,
+                disable_inliner: !inline,
+                external_modules: Default::default(),
+                module: Default::default(),
+            },
+            Box::new(Hook),
+        );
+
+        let modules = bundler
+            .bundle(entries)
+            .map_err(|err| println!("{:?}", err))?;
+        println!("Bundled as {} modules", modules.len());
+
+        let error = false;
+
+        print_bundles(cm.clone(), modules);
+
+        if error {
+            return Err(());
+        }
+
+        Ok(())
+    })
+    .expect("failed to process a module");
+}
+
+fn main() -> Result<(), Error> {
+    let main_file = env::args().nth(1).unwrap();
+    let mut entries = HashMap::default();
+    entries.insert("main".to_string(), FileName::Real(main_file.clone().into()));
+
+    let start = Instant::now();
+    do_test(Path::new(&main_file), entries, false);
+    let dur = start.elapsed();
+    println!("Took {:?}", dur);
+
+    Ok(())
+}
+
+struct Hook;
+
+impl swc_bundler::Hook for Hook {
+    fn get_import_meta_props(
+        &self,
+        span: Span,
+        module_record: &ModuleRecord,
+    ) -> Result<Vec<KeyValueProp>, Error> {
+        Ok(vec![
+            KeyValueProp {
+                key: PropName::Ident(Ident::new(js_word!("url"), span)),
+                value: Box::new(Expr::Lit(Lit::Str(Str {
+                    span,
+                    value: module_record.file_name.to_string().into(),
+                    has_escape: false,
+                    kind: Default::default(),
+                }))),
+            },
+            KeyValueProp {
+                key: PropName::Ident(Ident::new(js_word!("main"), span)),
+                value: Box::new(if module_record.is_entry {
+                    Expr::Member(MemberExpr {
+                        span,
+                        obj: ExprOrSuper::Expr(Box::new(Expr::MetaProp(MetaPropExpr {
+                            meta: Ident::new(js_word!("import"), span),
+                            prop: Ident::new(js_word!("meta"), span),
+                        }))),
+                        prop: Box::new(Expr::Ident(Ident::new(js_word!("main"), span))),
+                        computed: false,
+                    })
+                } else {
+                    Expr::Lit(Lit::Bool(Bool { span, value: false }))
+                }),
+            },
+        ])
+    }
+}
+
 pub struct Loader {
     pub cm: Lrc<SourceMap>,
 }
 
-fn calc_hash(s: &str) -> String {
-    let mut hasher = Sha1::new();
-    hasher.update(s.as_bytes());
-    let sum = hasher.finalize();
-
-    hex::encode(sum)
-}
-
-fn calc_cache_path(cache_dir: &Path, url: &Url) -> PathBuf {
-    let hash = calc_hash(&url.to_string());
-    let s = url.to_string();
-    if s.starts_with("https://deno.land/") {
-        return cache_dir.join("deno").join(&hash);
-    }
-
-    cache_dir.join("untrusted").join(hash)
-}
-
-/// Load url. This method does caching.
-fn load_url(url: Url) -> Result<String, Error> {
-    let cache_dir = PathBuf::from(
-        current_dir()
-            .expect("the test requires an environment variable named `CARGO_MANIFEST_DIR`"),
-    )
-    .join("tests")
-    .join(".cache");
-
-    let cache_path = calc_cache_path(&cache_dir, &url).with_extension("ts");
-
-    create_dir_all(cache_path.parent().unwrap()).context("failed to create cache dir")?;
-
-    match read_to_string(&cache_path) {
-        Ok(v) => return Ok(v),
-        _ => {}
-    }
-
-    if let Ok("1") = std::env::var("CI").as_deref() {
-        panic!("The bundler test suite should not download files from CI")
-    }
-
-    eprintln!("Storing `{}` at `{}`", url, cache_path.display());
-
-    let resp = reqwest::blocking::get(url.clone())
-        .with_context(|| format!("failed to fetch `{}`", url))?;
-
-    let bytes = resp
-        .bytes()
-        .with_context(|| format!("failed to read data from `{}`", url))?;
-
-    let mut content = vec![];
-    write!(content, "// Loaded from {}\n\n\n", url).unwrap();
-    content.extend_from_slice(&bytes);
-
-    write(&cache_path, &content)?;
-
-    return Ok(String::from_utf8_lossy(&bytes).to_string());
-}
-
 impl Load for Loader {
     fn load(&self, f: &FileName) -> Result<ModuleData, Error> {
-        eprintln!("load: {}", f);
-
-        let top_level_mark = Mark::fresh(Mark::root());
-
-        let tsx;
         let fm = match f {
-            FileName::Real(path) => {
-                tsx = path.to_string_lossy().ends_with(".tsx");
-                self.cm.load_file(&path)?
-            }
-            FileName::Custom(url) => {
-                tsx = url.ends_with(".tsx");
-                // Hack for jszip, which depends on invalid url.
-                let url = url.replace("https://deno.land/std@v", "https://deno.land/std@");
-
-                let url = Url::parse(&url).context("failed to parse url")?;
-
-                let src = load_url(url.clone())?;
-
-                self.cm
-                    .new_source_file(FileName::Custom(url.to_string()), src.to_string())
-            }
+            FileName::Real(path) => self.cm.load_file(&path)?,
             _ => unreachable!(),
         };
 
         let lexer = Lexer::new(
-            Syntax::Typescript(TsConfig {
-                decorators: true,
-                tsx,
-                dynamic_import: true,
+            Syntax::Es(EsConfig {
                 ..Default::default()
             }),
-            JscTarget::Es2020,
+            EsVersion::Es2020,
             StringInput::from(&*fm),
             None,
         );
@@ -126,14 +158,6 @@ impl Load for Loader {
             err.into_diagnostic(&handler).emit();
             panic!("failed to parse")
         });
-        let module = module
-            .fold_with(&mut strip())
-            .fold_with(&mut react::react::<SingleThreadedComments>(
-                self.cm.clone(),
-                None,
-                Default::default(),
-                top_level_mark,
-            ));
 
         Ok(ModuleData {
             fm,
@@ -230,24 +254,8 @@ impl NodeResolver {
 
 impl Resolve for NodeResolver {
     fn resolve(&self, base: &FileName, target: &str) -> Result<FileName, Error> {
-        match Url::parse(target) {
-            Ok(v) => return Ok(FileName::Custom(v.to_string())),
-            Err(_) => {}
-        }
-
         let base = match base {
             FileName::Real(v) => v,
-            FileName::Custom(base_url) => {
-                let base_url = Url::parse(&base_url).context("failed to parse url")?;
-
-                let options = Url::options();
-                let base_url = options.base_url(Some(&base_url));
-                let url = base_url
-                    .parse(target)
-                    .with_context(|| format!("failed to resolve `{}`", target))?;
-
-                return Ok(FileName::Custom(url.to_string()));
-            }
             _ => bail!("node-resolver supports only files"),
         };
 

@@ -21,10 +21,6 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
     lodash.memoize = memoize;
     module.exports = lodash;
     exports.memoize = memoize;
-    const mod = function() {
-        return {
-        };
-    }();
 });
 const _cjs_module_ = load(), util = _cjs_module_;
 const name = util.memoize();

@@ -4,9 +4,7 @@ const arr = [
     2,
     3
 ];
-const mod = function() {
-    return {
-        arr: arr
-    };
-}();
+const mod = {
+    arr: arr
+};
 console.log(mod[foo()]);

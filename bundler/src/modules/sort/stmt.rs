@@ -2,8 +2,8 @@ use super::graph::Required;
 use crate::{id::Id, modules::sort::graph::StmtDepGraph};
 use indexmap::IndexSet;
 use petgraph::EdgeDirection::{Incoming as Dependants, Outgoing as Dependancies};
-use rustc_hash::{FxHashMap, FxHashSet};
-use std::{collections::VecDeque, iter::from_fn, ops::Range};
+use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
+use std::{collections::VecDeque, hash::BuildHasherDefault, iter::from_fn, ops::Range};
 use swc_atoms::js_word;
 use swc_common::{sync::Lrc, util::take::Take, SourceMap, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -503,11 +503,11 @@ impl Visit for InitializerFinder {
 /// But we care about modifications.
 #[derive(Default)]
 struct RequirementCalculartor {
-    required_ids: IndexSet<(Id, Required)>,
+    required_ids: IndexSet<(Id, Required), BuildHasherDefault<FxHasher>>,
     /// While bundling, there can be two bindings with same name and syntax
     /// context, in case of wrapped es modules. We exclude them from dependency
     /// graph.
-    excluded: IndexSet<Id>,
+    excluded: IndexSet<Id, BuildHasherDefault<FxHasher>>,
 
     in_weak: bool,
     in_var_decl: bool,

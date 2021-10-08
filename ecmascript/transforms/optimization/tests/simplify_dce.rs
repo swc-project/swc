@@ -1,10 +1,15 @@
-use swc_common::{chain, Mark, SyntaxContext};
+use swc_common::{chain, pass::Repeat};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::resolver;
-use swc_ecma_transforms_optimization::simplify::{dce, dce::dce};
+use swc_ecma_transforms_optimization::simplify::dce::dce;
 use swc_ecma_transforms_proposal::decorators;
-use swc_ecma_transforms_testing::{test, test_transform};
+use swc_ecma_transforms_testing::test;
 use swc_ecma_transforms_typescript::strip;
+use swc_ecma_visit::Fold;
+
+fn tr() -> impl Fold {
+    Repeat::new(dce(Default::default()))
+}
 
 macro_rules! to {
     ($name:ident, $src:expr, $expected:expr) => {
@@ -13,37 +18,12 @@ macro_rules! to {
                 decorators: true,
                 ..Default::default()
             }),
-            |_| chain!(resolver(), dce(Default::default())),
+            |_| chain!(resolver(), tr()),
             $name,
             $src,
             $expected
         );
     };
-}
-
-fn used(ids: &[&str], src: &str, expected: &str) {
-    test_transform(
-        Default::default(),
-        |_| {
-            let mark = Mark::fresh(Mark::root());
-
-            chain!(
-                resolver(),
-                dce(dce::Config {
-                    used: Some(
-                        ids.into_iter()
-                            .map(|&v| { (v.into(), SyntaxContext::empty().apply_mark(mark)) })
-                            .collect()
-                    ),
-                    used_mark: mark,
-                    ..Default::default()
-                })
-            )
-        },
-        src,
-        expected,
-        false,
-    );
 }
 
 macro_rules! optimized_out {
@@ -150,21 +130,6 @@ to!(
     "import foo, { bar } from 'src'; export { foo }; ",
     "import foo from 'src'; export { foo }; "
 );
-
-#[test]
-fn export_named_unused() {
-    used(&["foo"], "export { foo, bat }", "export { foo }");
-}
-
-#[test]
-fn export_default_expr_unused() {
-    used(&[], "export default 5;", "");
-}
-
-#[test]
-fn export_default_expr_used() {
-    used(&["default"], "export default 5;", "export default 5;");
-}
 
 noop!(
     issue_760_1,
@@ -363,35 +328,6 @@ noop!(
 "
 );
 
-#[test]
-fn spack_issue_001() {
-    used(
-        &["FOO"],
-        "export const FOO = 'foo';",
-        "export const FOO = 'foo';",
-    );
-}
-
-#[test]
-fn spack_issue_002() {
-    used(
-        &["FOO"],
-        "export const FOO = 'foo', BAR = 'bar';",
-        "export const FOO = 'foo';",
-    );
-}
-
-#[test]
-fn spack_issue_003() {
-    used(
-        &["default"],
-        "export const FOO = 'foo', BAR = 'bar';
-        export default BAR;",
-        "export const BAR = 'bar';
-        export default BAR;",
-    );
-}
-
 to!(
     spack_issue_004,
     "const FOO = 'foo', BAR = 'bar';
@@ -484,7 +420,7 @@ test!(
             legacy: true,
             emit_metadata: false
         }),
-        dce(Default::default())
+        tr()
     ),
     issue_898_2,
     "export default class X {
@@ -531,7 +467,7 @@ test!(
             legacy: true,
             emit_metadata: false
         }),
-        dce(Default::default())
+        tr()
     ),
     issue_1111,
     "
@@ -551,7 +487,7 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(resolver(), dce(Default::default())),
+    |_| chain!(resolver(), tr()),
     issue_1150_1,
     "
 class A {
@@ -598,7 +534,7 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(strip(), resolver(), dce(Default::default())),
+    |_| chain!(strip(), resolver(), tr()),
     issue_1156_1,
     "
     export interface D {
@@ -633,7 +569,7 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(strip(), resolver(), dce(Default::default()),),
+    |_| chain!(strip(), resolver(), tr(),),
     issue_1156_2,
     "
     interface D {
@@ -694,7 +630,7 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(strip(), resolver(), dce(Default::default()),),
+    |_| chain!(strip(), resolver(), tr(),),
     issue_1156_3,
     "
     function d() {
@@ -727,7 +663,7 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(strip(), resolver(), dce(Default::default()),),
+    |_| chain!(strip(), resolver(), tr(),),
     issue_1156_4,
     "
     interface D {
@@ -848,7 +784,7 @@ noop!(
         }
     }
 
-    const app = new App;
+    new App;
     "
 );
 

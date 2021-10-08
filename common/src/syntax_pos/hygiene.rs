@@ -15,9 +15,8 @@
 //! and definition contexts*. J. Funct. Program. 22, 2 (March 2012), 181-216.
 //! DOI=10.1017/S0956796812000093 <https://doi.org/10.1017/S0956796812000093>
 
-use crate::collections::AHashMap;
-
 use super::GLOBALS;
+use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
 use std::{
     collections::{HashMap, HashSet},
@@ -145,7 +144,7 @@ impl Mark {
 pub(crate) struct HygieneData {
     marks: Vec<MarkData>,
     syntax_contexts: Vec<SyntaxContextData>,
-    markings: AHashMap<(SyntaxContext, Mark), SyntaxContext>,
+    markings: FxHashMap<(SyntaxContext, Mark), SyntaxContext>,
 }
 
 impl Default for HygieneData {
@@ -174,7 +173,13 @@ impl HygieneData {
     }
 
     fn with<T, F: FnOnce(&mut HygieneData) -> T>(f: F) -> T {
-        GLOBALS.with(|globals| f(&mut *globals.hygiene_data.lock().unwrap()))
+        GLOBALS.with(|globals| {
+            #[cfg(feature = "parking_lot")]
+            return f(&mut *globals.hygiene_data.lock());
+
+            #[cfg(not(feature = "parking_lot"))]
+            return f(&mut *globals.hygiene_data.lock().unwrap());
+        })
     }
 }
 

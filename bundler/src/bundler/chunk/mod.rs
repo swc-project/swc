@@ -63,7 +63,7 @@ where
         };
 
         let start = Instant::now();
-        let all = (&*plan.all)
+        let mut all = (&*plan.all)
             .into_par_iter()
             .map(|id| -> Result<_, Error> {
                 self.run(|| {
@@ -89,30 +89,58 @@ where
             })
             .collect::<Vec<_>>();
 
-        let merged = entries
-            .into_par_iter()
-            .map(|(id, mut entry)| {
-                self.merge_into_entry(&ctx, id, &mut entry, &all);
+        let merged: Vec<_> = if entries.len() == 1 {
+            entries
+                .into_iter()
+                .map(|(id, mut entry)| {
+                    self.merge_into_entry(&ctx, id, &mut entry, &mut all);
 
-                tracing::debug!("Merged `{}` and it's dep into an entry", id);
+                    tracing::debug!("Merged `{}` and it's dep into an entry", id);
 
-                (id, entry)
-            })
-            .map(|(id, module)| {
-                let kind = plan
-                    .entries
-                    .get(&id)
-                    .unwrap_or_else(|| {
-                        unreachable!("Plan does not contain bundle kind for {:?}", id)
-                    })
-                    .clone();
-                Bundle {
-                    kind,
-                    id,
-                    module: module.into(),
-                }
-            })
-            .collect();
+                    (id, entry)
+                })
+                .map(|(id, module)| {
+                    let kind = plan
+                        .entries
+                        .get(&id)
+                        .unwrap_or_else(|| {
+                            unreachable!("Plan does not contain bundle kind for {:?}", id)
+                        })
+                        .clone();
+                    Bundle {
+                        kind,
+                        id,
+                        module: module.into(),
+                    }
+                })
+                .collect()
+        } else {
+            entries
+                .into_iter()
+                .map(|(id, mut entry)| {
+                    let mut a = all.clone();
+                    self.merge_into_entry(&ctx, id, &mut entry, &mut a);
+
+                    tracing::debug!("Merged `{}` and it's dep into an entry", id);
+
+                    (id, entry)
+                })
+                .map(|(id, module)| {
+                    let kind = plan
+                        .entries
+                        .get(&id)
+                        .unwrap_or_else(|| {
+                            unreachable!("Plan does not contain bundle kind for {:?}", id)
+                        })
+                        .clone();
+                    Bundle {
+                        kind,
+                        id,
+                        module: module.into(),
+                    }
+                })
+                .collect()
+        };
 
         Ok(merged)
     }

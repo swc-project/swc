@@ -599,7 +599,8 @@ var vo = Bn((L)=>{
             case 2:
             case 3:
             case 4:
-            case 5: break;
+            case 5:
+                break;
             default:
                 e = 3;
         }
@@ -4187,7 +4188,8 @@ var ia = Bn((re)=>{
                                 Zt(r), Mo(r);
                                 break;
                             case "select":
-                            case "option": break;
+                            case "option":
+                                break;
                             default:
                                 typeof i.onClick == "function" && (r.onclick = vr);
                         }

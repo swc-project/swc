@@ -20,8 +20,8 @@ where
             }
 
             node = node.fold_with(&mut Repeat::new(dce::dce(dce::Config {
-                used: None,
-                used_mark: self.used_mark,
+                // TODO(kdy1): Apply mark to wrapped esms and use it at here.
+                module_mark: None,
             })));
 
             node

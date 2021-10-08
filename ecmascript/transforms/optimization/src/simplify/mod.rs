@@ -13,15 +13,15 @@ mod expr;
 pub mod inlining;
 
 #[derive(Debug, Default)]
-pub struct Config<'a> {
-    pub dce: dce::Config<'a>,
+pub struct Config {
+    pub dce: dce::Config,
     pub inlining: inlining::Config,
     pub expr: ExprSimplifierConfig,
 }
 
 /// Performs simplify-expr, inlining, remove-dead-branch and dce until nothing
 /// changes.
-pub fn simplifier<'a>(c: Config<'a>) -> impl RepeatedJsPass + 'a {
+pub fn simplifier(c: Config) -> impl RepeatedJsPass {
     Repeat::new(chain!(
         expr_simplifier(c.expr),
         inlining::inlining(c.inlining),
