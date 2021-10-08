@@ -18,6 +18,7 @@
             "compress": true,
             "mangle": true,
             "toplevel": true
-        }
+        },
+        "externalHelpers": true
     }
 }
