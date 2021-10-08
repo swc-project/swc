@@ -1,11 +1,11 @@
 use swc::{
-    config::{Config, JscConfig, Options},
+    config::{Config, JscConfig, ModuleConfig, Options},
     Compiler,
 };
 use swc_common::FileName;
 use swc_ecma_ast::*;
 use swc_ecma_parser::{EsConfig, Syntax};
-use swc_ecma_transforms::pass::noop;
+use swc_ecma_transforms::{modules::common_js, pass::noop};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut};
 
 struct NoopType;
@@ -69,7 +69,6 @@ fn shopify_check_filename() {
             import { useI18n } from '@shopify/react-i18n';
             
             export function App() {
-                const notused = React.version;
                 const [i18n] = useI18n();
                 return <h1>{i18n.translate('foo')}</h1>
             }
@@ -89,16 +88,26 @@ fn shopify_check_filename() {
                         })),
                         ..Default::default()
                     },
+                    module: Some(ModuleConfig::CommonJs(common_js::Config {
+                        ..Default::default()
+                    })),
                     ..Default::default()
                 },
-
+                is_module: true,
                 ..Default::default()
             },
             as_folder(NoopType),
             noop(),
         );
 
-        assert_eq!(res.unwrap().code, "console.log(5 as const)");
+        if res.is_err() {
+            return Err(());
+        }
+
+        let res = res.unwrap();
+        eprintln!("{}", res.code);
+
+        assert!(res.code.contains("_react.default.createElement"));
 
         Ok(())
     })
