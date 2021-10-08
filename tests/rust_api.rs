@@ -184,29 +184,7 @@ fn shopify_2_same_opt() {
             .into(),
         );
 
-        let res = c.process_js_with_custom_pass(
-            fm,
-            &handler,
-            &Options {
-                config: Config {
-                    jsc: JscConfig {
-                        syntax: Some(Syntax::Es(EsConfig {
-                            jsx: true,
-                            ..Default::default()
-                        })),
-                        ..Default::default()
-                    },
-                    module: Some(ModuleConfig::CommonJs(common_js::Config {
-                        ..Default::default()
-                    })),
-                    ..Default::default()
-                },
-                is_module: true,
-                ..Default::default()
-            },
-            as_folder(NoopType),
-            noop(),
-        );
+        let res = c.process_js_with_custom_pass(fm, &handler, opts, as_folder(NoopType), noop());
 
         if res.is_err() {
             return Err(());
