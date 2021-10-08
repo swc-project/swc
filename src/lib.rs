@@ -908,10 +908,20 @@ impl Compiler {
         self.run(|| {
             let target = opts.ecma.clone().into();
 
-            let orig = if opts.source_map {
-                self.get_orig_src_map(&fm, &InputSourceMap::Bool(true), true)?
-            } else {
-                None
+            let (source_map, orig) = match &opts.source_map {
+                BoolOrObject::Bool(false) => (SourceMapsConfig::Bool(false), None),
+                BoolOrObject::Bool(true) => (SourceMapsConfig::Bool(true), None),
+                BoolOrObject::Obj(obj) => {
+                    let orig = obj
+                        .content
+                        .as_ref()
+                        .map(|s| sourcemap::SourceMap::from_slice(s.as_bytes()));
+                    let orig = match orig {
+                        Some(v) => Some(v?),
+                        None => None,
+                    };
+                    (SourceMapsConfig::Bool(true), orig)
+                }
             };
 
             let min_opts = MinifyOptions {
@@ -980,7 +990,7 @@ impl Compiler {
                 opts.output_path.clone().map(From::from),
                 opts.inline_sources_content,
                 target,
-                SourceMapsConfig::Bool(opts.source_map),
+                source_map,
                 &source_map_names,
                 orig.as_ref(),
                 true,
