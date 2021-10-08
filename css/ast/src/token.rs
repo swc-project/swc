@@ -36,6 +36,33 @@ pub enum Token {
     /// `#`
     Hash {
         is_id: bool,
+    /// `(`
+    LParen,
+
+    /// `)`
+    RParen,
+
+    /// `[`
+    LBracket,
+
+    /// `]`
+    RBracket,
+
+    Percent {
+        value: f64,
+    },
+
+    Dimension {
+        value: f64,
+        unit: JsWord
+    },
+
+    // TODO name to `Number`
+    Num {
+        value: f64,
+    },
+
+    Ident {
         value: JsWord,
         raw: JsWord,
     },

@@ -203,7 +203,60 @@ where
                 }
             }
 
-            Token::Num { .. } => return self.parse_numeric_value(),
+            Token::Num { value } => {
+                let token = bump!(self);
+
+                match token {
+                    Token::Num { value } => return Ok(Value::Number(Num { span, value })),
+                    _ => {
+                        unreachable!()
+                    }
+                }
+            }
+
+            Token::Percent { value } => {
+                let token = bump!(self);
+
+                match token {
+                    Token::Percent { value } => {
+                        return Ok(Value::Percent(PercentValue {
+                            span,
+                            value: Num {
+                                value,
+                                span: span!(self, span.lo),
+                            },
+                        }))
+                    }
+                    _ => {
+                        unreachable!()
+                    }
+                }
+            }
+
+            Token::Dimension { value, unit } => {
+                let token = bump!(self);
+
+                match token {
+                    Token::Dimension { value, unit } => {
+                        let unit_span = self.input.cur_span()?;
+                        let kind = UnitKind::from(unit);
+                        return Ok(Value::Unit(UnitValue {
+                            span: span!(self, span.lo),
+                            value: Num {
+                                value,
+                                span: span!(self, span.lo),
+                            },
+                            unit: Unit {
+                                span: unit_span,
+                                kind,
+                            },
+                        }));
+                    }
+                    _ => {
+                        unreachable!()
+                    }
+                }
+            }
 
             Token::Function { .. } => return self.parse_value_ident_or_fn(),
 
@@ -339,6 +392,16 @@ where
         self.input.reset(&start_state);
 
         return Ok(base);
+    fn parse_hash_value(&mut self) -> PResult<HashValue> {
+        let span = self.input.cur_span()?;
+
+        let token = bump!(self);
+        match token {
+            Token::Hash { value, .. } => Ok(HashValue { span, value }),
+            _ => {
+                unreachable!("parse_hash_value should not be ")
+            }
+        }
     }
 
     fn parse_brace_value(&mut self) -> PResult<BraceValue> {
@@ -570,6 +633,7 @@ where
 
         match value {
             Token::Num { value, raw, .. } => Ok(Num { span, value, raw }),
+            Token::Num { value } => Ok(Num { span, value }),
             _ => {
                 unreachable!()
             }
@@ -587,6 +651,7 @@ where
         if !is!(self, Percent) {
             return Err(Error::new(span, ErrorKind::Expected("Percent")));
         }
+        // expect!(self, Percent);
 
         match bump!(self) {
             Token::Percent { value, raw } => {

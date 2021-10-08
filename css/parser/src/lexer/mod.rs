@@ -207,6 +207,20 @@ where
                     // Return the <hash-token>.
                     return Ok(hash_token);
                 }
+            if self.would_start_number()? {
+                self.input.reset_to(pos);
+        try_delim!(b',', ",");
+        try_delim!(b'=', "=");
+        try_delim!(b'*', "*");
+        try_delim!(b'$', "$");
+        try_delim!(b':', ":");
+        try_delim!(b';', ";");
+        try_delim!(b'^', "^");
+        try_delim!(b'!', "!");
+        try_delim!(b'>', ">");
+        try_delim!(b'~', "~");
+        try_delim!(b'&', "&");
+        try_delim!(b'|', "|");
 
                 return Ok(Token::Delim { value: c });
             }
@@ -232,6 +246,13 @@ where
             // U+002B PLUS SIGN (+)
             Some(c) if c == '+' => {
                 self.input.bump();
+        if self.input.is_byte(b'+') {
+            return self.read_plus();
+        }
+
+        if self.input.is_byte(b'-') {
+            let pos = self.input.cur_pos();
+            let c = self.input.cur().unwrap();
 
                 // If the input stream starts with a number, reconsume the current input code
                 // point, consume a numeric token and return it.
@@ -393,6 +414,10 @@ where
             // Return a <{-token>.
             Some(c) if c == '{' => {
                 self.input.bump();
+        try_delim!(b']', "]");
+        match self.input.cur() {
+            Some(c) => match c {
+                '0'..='9' => return self.read_numeric(),
 
                 return Ok(tok!("{"));
             }
@@ -476,6 +501,146 @@ where
 
             // Return the <dimension-token>.
             return Ok(token);
+    fn would_start_number(&mut self) -> LexResult<bool> {
+        let first = self.input.cur();
+
+        if first.is_none() {
+            return Ok(false);
+        }
+
+        match first {
+            Some('+') | Some('-') => {
+                if let Some(second) = self.input.peek() {
+                    return match second {
+                        second if second.is_digit(10) => Ok(true),
+                        '.' => {
+                            if let Some(third) = self.input.peek_ahead() {
+                                if third.is_digit(10) {
+                                    return Ok(true);
+                                }
+                            }
+
+                            Ok(false)
+                        }
+                        _ => Ok(false),
+                    };
+                }
+
+                Ok(false)
+            }
+            Some('.') => {
+                if let Some(second) = self.input.peek() {
+                    if second.is_digit(10) {
+                        return Ok(true);
+                    }
+                }
+
+                Ok(false)
+            }
+            Some(first) if first.is_digit(10) => Ok(true),
+            _ => Ok(false),
+        }
+    }
+
+    fn read_digits(&mut self) -> JsWord {
+        let mut digits = String::new(); 
+        
+        loop {
+            let code = self.input.cur().unwrap();
+
+            if code.is_digit(10) {
+                self.input.bump();
+                digits.push(code);
+            } else {
+                break;
+            }
+        }
+
+        digits.into()
+    }
+
+    // TODO: need `raw`
+    fn read_number(&mut self) -> f64 {
+        let mut repr = String::new();
+        let code = self.input.cur().unwrap();
+
+        if code == '+' || code == '-' {
+            self.input.bump();
+            repr.push(code);
+        }
+
+        repr.push_str(&self.read_digits());
+
+        let code = self.input.cur().unwrap();
+
+        if code == '.' {
+            let next = self.input.peek().unwrap();
+
+            if next.is_digit(10) {
+                self.input.bump();
+                self.input.bump();
+                repr.push(code);
+                repr.push(next);
+                repr.push_str(&self.read_digits());
+            }
+        }
+
+        let code = self.input.cur().unwrap();
+
+        if code == 'E' || code == 'e' {
+            let next = self.input.peek().unwrap();
+
+            if next == '-' || next == '+' {
+                let next_next = self.input.peek_ahead().unwrap();
+
+                if next_next.is_digit(10) {
+                    self.input.bump();
+                    self.input.bump();
+                    repr.push(code);
+                    repr.push(next);
+                    repr.push(next_next);
+                    repr.push_str(&self.read_digits());
+                }
+            } else if next.is_digit(10) {
+                self.input.bump();
+                self.input.bump();
+                repr.push(code);
+                repr.push(next);
+                repr.push_str(&self.read_digits());
+            }
+        }
+
+        let parsed = lexical::parse(&repr.as_bytes()).unwrap_or_else(|err| {
+            unreachable!("failed to parse `{}` using lexical: {:?}", repr, err)
+        });
+
+        parsed
+    }
+
+    fn read_numeric(&mut self) -> LexResult<Token> {
+        let number = self.read_number();
+
+        if self.would_start_ident()? {
+            let name = self.read_name()?;
+            let unit = name.0;
+
+            return Ok(Token::Dimension {
+                value: number,
+                unit,
+            });
+        } else if self.input.cur().unwrap() == '%' {
+            self.input.bump();
+
+            return Ok(Token::Percent { value: number });
+        }
+
+        Ok(Token::Num { value: number })
+    }
+
+    /// Ported from `isValidEscape` of `esbuild`
+    fn is_valid_escape(&mut self) -> LexResult<bool> {
+        if self.input.cur() != Some('\\') {
+            return Ok(false);
         }
         // Otherwise, if the next input code point is U+0025 PERCENTAGE SIGN (%), consume it. Create
         // a <percentage-token> with the same value as number, and return it.
@@ -981,6 +1146,26 @@ where
     ) -> LexResult<bool> {
         // Look at the first code point:
         let first = maybe_first.or(self.input.cur());
+    fn read_dot(&mut self) -> LexResult<Token> {
+        if self.would_start_number()? {
+            return self.read_numeric();
+        }
+
+        self.input.bump();
+        Ok(tok!("."))
+    }
+
+    fn read_plus(&mut self) -> LexResult<Token> {
+        if self.would_start_number()? {
+            return self.read_numeric();
+        }
+
+        self.input.bump();
+        Ok(tok!("+"))
+    }
+
+    fn read_at_keyword(&mut self) -> LexResult<Token> {
+        let name = self.read_name()?;
 
         match first {
             // U+002B PLUS SIGN (+)
@@ -1054,6 +1239,55 @@ where
 
                     value.push(c);
                     raw.push(c);
+    fn read_less_than(&mut self) -> LexResult<Token> {
+        assert_eq!(self.input.cur(), Some('<'));
+        self.input.bump(); // <
+
+        // <!--
+        if self.input.is_byte(b'!')
+            && self.input.peek() == Some('-')
+            && self.input.peek_ahead() == Some('-')
+        {
+            self.input.bump(); // !
+            self.input.bump(); // -
+            self.input.bump(); // -
+
+            return Ok(tok!("<!--"));
+        }
+
+        Err(ErrorKind::UnexpectedChar(self.input.cur()))
+    }
+
+    fn read_minus(&mut self) -> LexResult<Token> {
+        assert_eq!(self.input.cur(), Some('-'));
+
+        if self.would_start_number()? {
+            return self.read_numeric();
+        }
+
+        if self.input.peek() == Some('-') && self.input.peek_ahead() == Some('>') {
+            self.input.bump();
+            self.input.bump();
+            self.input.bump();
+            return Ok(Token::CDC);
+        }
+
+        if self.would_start_ident()? {
+            return self
+                .read_name()
+                .map(|(value, raw)| Token::Ident { value, raw });
+        }
+
+        self.input.bump();
+        Ok(tok!("-"))
+    }
+
+    /// Ported from `wouldStartIdentifier` of `esbuild`.
+    fn would_start_ident(&mut self) -> LexResult<bool> {
+        match self.input.cur() {
+            Some(cur) => {
+                if is_name_start(cur) {
+                    return Ok(true);
                 }
                 // the stream starts with a valid escape
                 // Consume an escaped code point. Append the returned code point to result.
