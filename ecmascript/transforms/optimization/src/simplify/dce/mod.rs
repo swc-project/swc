@@ -63,6 +63,7 @@ struct VarInfo {
 }
 
 struct Analyzer<'a> {
+    #[allow(dead_code)]
     config: &'a Config,
     in_var_decl: bool,
     data: &'a mut Data,
