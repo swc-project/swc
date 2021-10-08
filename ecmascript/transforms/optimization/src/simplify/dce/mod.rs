@@ -67,6 +67,7 @@ struct Analyzer<'a> {
     config: &'a Config,
     in_var_decl: bool,
     data: &'a mut Data,
+    cur_fn_id: Option<Id>,
 }
 
 impl Visit for Analyzer<'_> {
@@ -120,6 +121,31 @@ impl Visit for Analyzer<'_> {
                 self.data.used_names.entry(i.to_id()).or_default().usage += 1;
             }
             _ => {}
+        }
+    }
+
+    fn visit_fn_decl(&mut self, n: &FnDecl, _: &dyn Node) {
+        let old = self.cur_fn_id.take();
+        self.cur_fn_id = Some(n.ident.to_id());
+        n.visit_children_with(self);
+        self.cur_fn_id = old;
+
+        if !n.function.decorators.is_empty() {
+            self.data
+                .used_names
+                .entry(n.ident.to_id())
+                .or_default()
+                .usage += 1;
+        }
+    }
+
+    fn visit_fn_expr(&mut self, n: &FnExpr, _: &dyn Node) {
+        n.visit_children_with(self);
+
+        if !n.function.decorators.is_empty() {
+            if let Some(i) = &n.ident {
+                self.data.used_names.entry(i.to_id()).or_default().usage += 1;
+            }
         }
     }
 
@@ -304,6 +330,7 @@ impl VisitMut for TreeShaker {
                 config: &self.config,
                 data: &mut self.data,
                 in_var_decl: false,
+                cur_fn_id: Default::default(),
             };
             m.visit_with(&Invalid { span: DUMMY_SP }, &mut analyzer);
         }
