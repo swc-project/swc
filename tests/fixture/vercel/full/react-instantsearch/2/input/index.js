@@ -5,24 +5,26 @@ import { hasMultipleIndices } from './indexUtils';
 import { version as ReactVersion } from 'react';
 import version from './version';
 
-function createStore(a) {
-    var b = a, c = [];
+function createStore(initialState) {
+    let state = initialState;
+    const listeners = [];
     return {
-        getState: function () {
-            return b;
+        getState() {
+            return state;
         },
-        setState: function (d) {
-            b = d, c.forEach(function (e) {
-                return e();
-            });
+        setState(nextState) {
+            state = nextState;
+            listeners.forEach(listener => listener());
         },
-        subscribe: function (f) {
-            return c.push(f), function () {
-                c.splice(c.indexOf(f), 1);
+        subscribe(listener) {
+            listeners.push(listener);
+            return function unsubscribe() {
+                listeners.splice(listeners.indexOf(listener), 1);
             };
-        }
+        },
     };
-};
+}
+
 
 
 function addAlgoliaAgents(searchClient) {
