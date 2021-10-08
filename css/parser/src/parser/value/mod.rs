@@ -86,6 +86,7 @@ where
 
             loop {
                 if !is_one_of!(self, Str, Num, Ident, Function, Dimension, "[", "(") {
+                if !is_one_of!(self, Str, Number, Ident, "[", "(") {
                     break;
                 }
 
@@ -203,18 +204,18 @@ where
                 }
             }
 
-            Token::Num { value } => {
+            Token::Number { .. } => {
                 let token = bump!(self);
 
                 match token {
-                    Token::Num { value } => return Ok(Value::Number(Num { span, value })),
+                    Token::Number { value } => return Ok(Value::Number(Num { span, value })),
                     _ => {
                         unreachable!()
                     }
                 }
             }
 
-            Token::Percent { value } => {
+            Token::Percent { .. } => {
                 let token = bump!(self);
 
                 match token {
@@ -233,7 +234,7 @@ where
                 }
             }
 
-            Token::Dimension { value, unit } => {
+            Token::Dimension { .. } => {
                 let token = bump!(self);
 
                 match token {
@@ -625,7 +626,7 @@ where
     fn parse(&mut self) -> PResult<Num> {
         let span = self.input.cur_span()?;
 
-        if !is!(self, Num) {
+        if !is!(self, Number) {
             return Err(Error::new(span, ErrorKind::ExpectedNumber));
         }
 
@@ -634,6 +635,7 @@ where
         match value {
             Token::Num { value, raw, .. } => Ok(Num { span, value, raw }),
             Token::Num { value } => Ok(Num { span, value }),
+            Token::Number { value } => Ok(Num { span, value }),
             _ => {
                 unreachable!()
             }

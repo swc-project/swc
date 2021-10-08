@@ -57,8 +57,7 @@ pub enum Token {
         unit: JsWord
     },
 
-    // TODO name to `Number`
-    Num {
+    Number {
         value: f64,
     },
 

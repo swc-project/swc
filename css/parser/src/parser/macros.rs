@@ -30,8 +30,8 @@ macro_rules! tok_pat {
         swc_css_ast::Token::Str { .. }
     };
 
-    (Num) => {
-        swc_css_ast::Token::Num { .. }
+    (Number) => {
+        swc_css_ast::Token::Number { .. }
     };
 
     (Url) => {

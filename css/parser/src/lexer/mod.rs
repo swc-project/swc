@@ -634,7 +634,7 @@ where
             return Ok(Token::Percent { value: number });
         }
 
-        Ok(Token::Num { value: number })
+        Ok(Token::Number { value: number })
     }
 
     /// Ported from `isValidEscape` of `esbuild`
