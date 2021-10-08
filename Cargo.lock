@@ -2638,6 +2638,7 @@ dependencies = [
  "lru",
  "normpath",
  "once_cell",
+ "path-clean",
  "regex",
  "rustc-hash",
  "serde",
