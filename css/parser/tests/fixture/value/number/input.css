@@ -6,6 +6,8 @@ div {
     property: 0.1;
     property: 1.0;
     property: 0.0;
+    property: +0.0;
+    property: -0.0;
     property: .0;
     property: 1.200000;
     property: 1.2e2;
@@ -23,5 +25,4 @@ div {
     property: 1.75;
     property: +1.75;
     property: 1e;
-    property: 1e+;
 }
