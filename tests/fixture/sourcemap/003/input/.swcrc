@@ -18,6 +18,7 @@
       "mangle": true
     }
   },
+  "minify": true,
   "sourceMaps": true,
   "inlineSourcesContent": true
 }
