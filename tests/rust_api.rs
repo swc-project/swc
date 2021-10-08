@@ -6,7 +6,7 @@ use swc_common::FileName;
 use swc_ecma_ast::*;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms::{modules::common_js, pass::noop};
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut};
 
 struct NoopType;
 
@@ -46,7 +46,7 @@ fn test_visit_mut() {
 
                 ..Default::default()
             },
-            as_folder(NoopType),
+            noop(),
             noop(),
         );
 
@@ -96,7 +96,7 @@ fn shopify_1_check_filename() {
                 is_module: true,
                 ..Default::default()
             },
-            as_folder(NoopType),
+            noop(),
             noop(),
         );
 
@@ -175,7 +175,7 @@ fn shopify_2_same_opt() {
             .into(),
         );
 
-        let res = c.process_js_with_custom_pass(fm, &handler, &opts, as_folder(NoopType), noop());
+        let res = c.process_js_with_custom_pass(fm, &handler, &opts, noop(), noop());
 
         if res.is_err() {
             return Err(());
