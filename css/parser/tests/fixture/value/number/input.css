@@ -22,4 +22,6 @@ div {
     property: -1.2e3;
     property: 1.75;
     property: +1.75;
+    property: 1e;
+    property: 1e+;
 }

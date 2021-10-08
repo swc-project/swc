@@ -6,9 +6,9 @@ error: Stylesheet
 3  | |     property: 10;
 4  | |     property: .10;
 ...  |
-24 | |     property: +1.75;
-25 | | }
-   | |_^
+26 | |     property: 1e+;
+27 | | }
+   | |__^
 
 error: Rule
   --> $DIR/tests/fixture/value/number/input.css:1:1
@@ -18,8 +18,8 @@ error: Rule
 3  | |     property: 10;
 4  | |     property: .10;
 ...  |
-24 | |     property: +1.75;
-25 | | }
+26 | |     property: 1e+;
+27 | | }
    | |_^
 
 error: StyleRule
@@ -30,8 +30,8 @@ error: StyleRule
 3  | |     property: 10;
 4  | |     property: .10;
 ...  |
-24 | |     property: +1.75;
-25 | | }
+26 | |     property: 1e+;
+27 | | }
    | |_^
 
 error: ComplexSelector
@@ -67,8 +67,8 @@ error: DeclBlock
 3  | |     property: 10;
 4  | |     property: .10;
 ...  |
-24 | |     property: +1.75;
-25 | | }
+26 | |     property: 1e+;
+27 | | }
    | |_^
 
 error: Property
@@ -718,4 +718,88 @@ error: Num
    |
 24 |     property: +1.75;
    |               ^^^^^
+
+error: Property
+  --> $DIR/tests/fixture/value/number/input.css:25:5
+   |
+25 |     property: 1e;
+   |     ^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/value/number/input.css:25:5
+   |
+25 |     property: 1e;
+   |     ^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/number/input.css:25:15
+   |
+25 |     property: 1e;
+   |               ^^
+
+error: UnitValue
+  --> $DIR/tests/fixture/value/number/input.css:25:15
+   |
+25 |     property: 1e;
+   |               ^^
+
+error: Num
+  --> $DIR/tests/fixture/value/number/input.css:25:15
+   |
+25 |     property: 1e;
+   |               ^
+
+error: Unit
+  --> $DIR/tests/fixture/value/number/input.css:25:16
+   |
+25 |     property: 1e;
+   |                ^
+
+error: Property
+  --> $DIR/tests/fixture/value/number/input.css:26:5
+   |
+26 |     property: 1e+;
+   |     ^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/value/number/input.css:26:5
+   |
+26 |     property: 1e+;
+   |     ^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/number/input.css:26:14
+   |
+26 |     property: 1e+;
+   |              ^^^^
+
+error: Tokens
+  --> $DIR/tests/fixture/value/number/input.css:26:14
+   |
+26 |     property: 1e+;
+   |              ^^^^
+
+error: WhiteSpace
+  --> $DIR/tests/fixture/value/number/input.css:26:14
+   |
+26 |     property: 1e+;
+   |              ^
+
+error: Num(NumToken { value: 1.0 })
+  --> $DIR/tests/fixture/value/number/input.css:26:15
+   |
+26 |     property: 1e+;
+   |               ^
+
+error: Ident { value: Atom('e' type=inline), raw: Atom('e' type=inline) }
+  --> $DIR/tests/fixture/value/number/input.css:26:16
+   |
+26 |     property: 1e+;
+   |                ^
+
+error: Plus
+  --> $DIR/tests/fixture/value/number/input.css:26:17
+   |
+26 |     property: 1e+;
+   |                 ^
 
