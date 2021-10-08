@@ -193,7 +193,7 @@ fn shopify_2_same_opt() {
         let res = res.unwrap();
         eprintln!("{}", res.code);
 
-        panic!("WTF?");
+        assert!(res.code.contains("_react.default.createElement"));
 
         Ok(())
     })
