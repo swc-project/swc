@@ -5,7 +5,7 @@
             "syntax": "typescript",
             "tsx": true
         },
-        "minify": true
+        "minify": {}
     },
     "minify": true
 }
