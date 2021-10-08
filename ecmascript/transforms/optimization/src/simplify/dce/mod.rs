@@ -300,6 +300,8 @@ impl VisitMut for TreeShaker {
                             ident: None,
                             function:
                                 Function {
+                                    is_async: false,
+                                    is_generator: false,
                                     params,
                                     body: Some(BlockStmt { stmts: body, .. }),
                                     ..
