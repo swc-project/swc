@@ -2305,7 +2305,7 @@ checksum = "6446ced80d6c486436db5c078dde11a9f73d42b57fb273121e160b84f63d894c"
 
 [[package]]
 name = "swc"
-version = "0.64.2"
+version = "0.65.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2410,7 +2410,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.66.1"
+version = "0.67.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2449,7 +2449,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.13.2"
+version = "0.13.3"
 dependencies = [
  "ahash",
  "arbitrary",
@@ -2631,7 +2631,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_loader"
-version = "0.20.0"
+version = "0.20.1"
 dependencies = [
  "anyhow",
  "dashmap",
@@ -2653,7 +2653,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.35.1"
+version = "0.36.0"
 dependencies = [
  "ansi_term 0.12.1",
  "anyhow",
@@ -2711,7 +2711,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.50.1"
+version = "0.51.0"
 dependencies = [
  "dashmap",
  "indexmap",
@@ -2737,7 +2737,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.79.1"
+version = "0.80.0"
 dependencies = [
  "pretty_assertions 0.6.1",
  "sourcemap",
@@ -2854,7 +2854,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.49.1"
+version = "0.50.0"
 dependencies = [
  "dashmap",
  "indexmap",
@@ -3000,7 +3000,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.71.1"
+version = "0.72.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
