@@ -1,0 +1,721 @@
+error: Stylesheet
+  --> $DIR/tests/fixture/value/number/input.css:1:1
+   |
+1  | / div {
+2  | |     property: 0;
+3  | |     property: 10;
+4  | |     property: .10;
+...  |
+24 | |     property: +1.75;
+25 | | }
+   | |_^
+
+error: Rule
+  --> $DIR/tests/fixture/value/number/input.css:1:1
+   |
+1  | / div {
+2  | |     property: 0;
+3  | |     property: 10;
+4  | |     property: .10;
+...  |
+24 | |     property: +1.75;
+25 | | }
+   | |_^
+
+error: StyleRule
+  --> $DIR/tests/fixture/value/number/input.css:1:1
+   |
+1  | / div {
+2  | |     property: 0;
+3  | |     property: 10;
+4  | |     property: .10;
+...  |
+24 | |     property: +1.75;
+25 | | }
+   | |_^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/value/number/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/value/number/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/value/number/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: Text
+ --> $DIR/tests/fixture/value/number/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: DeclBlock
+  --> $DIR/tests/fixture/value/number/input.css:1:5
+   |
+1  |   div {
+   |  _____^
+2  | |     property: 0;
+3  | |     property: 10;
+4  | |     property: .10;
+...  |
+24 | |     property: +1.75;
+25 | | }
+   | |_^
+
+error: Property
+ --> $DIR/tests/fixture/value/number/input.css:2:5
+  |
+2 |     property: 0;
+  |     ^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/value/number/input.css:2:5
+  |
+2 |     property: 0;
+  |     ^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/number/input.css:2:15
+  |
+2 |     property: 0;
+  |               ^
+
+error: Num
+ --> $DIR/tests/fixture/value/number/input.css:2:15
+  |
+2 |     property: 0;
+  |               ^
+
+error: Property
+ --> $DIR/tests/fixture/value/number/input.css:3:5
+  |
+3 |     property: 10;
+  |     ^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/value/number/input.css:3:5
+  |
+3 |     property: 10;
+  |     ^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/number/input.css:3:15
+  |
+3 |     property: 10;
+  |               ^^
+
+error: Num
+ --> $DIR/tests/fixture/value/number/input.css:3:15
+  |
+3 |     property: 10;
+  |               ^^
+
+error: Property
+ --> $DIR/tests/fixture/value/number/input.css:4:5
+  |
+4 |     property: .10;
+  |     ^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/value/number/input.css:4:5
+  |
+4 |     property: .10;
+  |     ^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/number/input.css:4:15
+  |
+4 |     property: .10;
+  |               ^^^
+
+error: Num
+ --> $DIR/tests/fixture/value/number/input.css:4:15
+  |
+4 |     property: .10;
+  |               ^^^
+
+error: Property
+ --> $DIR/tests/fixture/value/number/input.css:5:5
+  |
+5 |     property: 12.34;
+  |     ^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/value/number/input.css:5:5
+  |
+5 |     property: 12.34;
+  |     ^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/number/input.css:5:15
+  |
+5 |     property: 12.34;
+  |               ^^^^^
+
+error: Num
+ --> $DIR/tests/fixture/value/number/input.css:5:15
+  |
+5 |     property: 12.34;
+  |               ^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/value/number/input.css:6:5
+  |
+6 |     property: 0.1;
+  |     ^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/value/number/input.css:6:5
+  |
+6 |     property: 0.1;
+  |     ^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/number/input.css:6:15
+  |
+6 |     property: 0.1;
+  |               ^^^
+
+error: Num
+ --> $DIR/tests/fixture/value/number/input.css:6:15
+  |
+6 |     property: 0.1;
+  |               ^^^
+
+error: Property
+ --> $DIR/tests/fixture/value/number/input.css:7:5
+  |
+7 |     property: 1.0;
+  |     ^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/value/number/input.css:7:5
+  |
+7 |     property: 1.0;
+  |     ^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/number/input.css:7:15
+  |
+7 |     property: 1.0;
+  |               ^^^
+
+error: Num
+ --> $DIR/tests/fixture/value/number/input.css:7:15
+  |
+7 |     property: 1.0;
+  |               ^^^
+
+error: Property
+ --> $DIR/tests/fixture/value/number/input.css:8:5
+  |
+8 |     property: 0.0;
+  |     ^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/value/number/input.css:8:5
+  |
+8 |     property: 0.0;
+  |     ^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/number/input.css:8:15
+  |
+8 |     property: 0.0;
+  |               ^^^
+
+error: Num
+ --> $DIR/tests/fixture/value/number/input.css:8:15
+  |
+8 |     property: 0.0;
+  |               ^^^
+
+error: Property
+ --> $DIR/tests/fixture/value/number/input.css:9:5
+  |
+9 |     property: .0;
+  |     ^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/value/number/input.css:9:5
+  |
+9 |     property: .0;
+  |     ^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/number/input.css:9:15
+  |
+9 |     property: .0;
+  |               ^^
+
+error: Num
+ --> $DIR/tests/fixture/value/number/input.css:9:15
+  |
+9 |     property: .0;
+  |               ^^
+
+error: Property
+  --> $DIR/tests/fixture/value/number/input.css:10:5
+   |
+10 |     property: 1.200000;
+   |     ^^^^^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/value/number/input.css:10:5
+   |
+10 |     property: 1.200000;
+   |     ^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/number/input.css:10:15
+   |
+10 |     property: 1.200000;
+   |               ^^^^^^^^
+
+error: Num
+  --> $DIR/tests/fixture/value/number/input.css:10:15
+   |
+10 |     property: 1.200000;
+   |               ^^^^^^^^
+
+error: Property
+  --> $DIR/tests/fixture/value/number/input.css:11:5
+   |
+11 |     property: 1.2e2;
+   |     ^^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/value/number/input.css:11:5
+   |
+11 |     property: 1.2e2;
+   |     ^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/number/input.css:11:15
+   |
+11 |     property: 1.2e2;
+   |               ^^^^^
+
+error: UnitValue
+  --> $DIR/tests/fixture/value/number/input.css:11:15
+   |
+11 |     property: 1.2e2;
+   |               ^^^^^
+
+error: Num
+  --> $DIR/tests/fixture/value/number/input.css:11:15
+   |
+11 |     property: 1.2e2;
+   |               ^^^
+
+error: Unit
+  --> $DIR/tests/fixture/value/number/input.css:11:18
+   |
+11 |     property: 1.2e2;
+   |                  ^^
+
+error: Property
+  --> $DIR/tests/fixture/value/number/input.css:12:5
+   |
+12 |     property: 1e2;
+   |     ^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/value/number/input.css:12:5
+   |
+12 |     property: 1e2;
+   |     ^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/number/input.css:12:15
+   |
+12 |     property: 1e2;
+   |               ^^^
+
+error: UnitValue
+  --> $DIR/tests/fixture/value/number/input.css:12:15
+   |
+12 |     property: 1e2;
+   |               ^^^
+
+error: Num
+  --> $DIR/tests/fixture/value/number/input.css:12:15
+   |
+12 |     property: 1e2;
+   |               ^
+
+error: Unit
+  --> $DIR/tests/fixture/value/number/input.css:12:16
+   |
+12 |     property: 1e2;
+   |                ^^
+
+error: Property
+  --> $DIR/tests/fixture/value/number/input.css:13:5
+   |
+13 |     property: .2e2;
+   |     ^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/value/number/input.css:13:5
+   |
+13 |     property: .2e2;
+   |     ^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/number/input.css:13:15
+   |
+13 |     property: .2e2;
+   |               ^^^^
+
+error: UnitValue
+  --> $DIR/tests/fixture/value/number/input.css:13:15
+   |
+13 |     property: .2e2;
+   |               ^^^^
+
+error: Num
+  --> $DIR/tests/fixture/value/number/input.css:13:15
+   |
+13 |     property: .2e2;
+   |               ^^
+
+error: Unit
+  --> $DIR/tests/fixture/value/number/input.css:13:17
+   |
+13 |     property: .2e2;
+   |                 ^^
+
+error: Property
+  --> $DIR/tests/fixture/value/number/input.css:14:5
+   |
+14 |     property: 1.2E2;
+   |     ^^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/value/number/input.css:14:5
+   |
+14 |     property: 1.2E2;
+   |     ^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/number/input.css:14:15
+   |
+14 |     property: 1.2E2;
+   |               ^^^^^
+
+error: UnitValue
+  --> $DIR/tests/fixture/value/number/input.css:14:15
+   |
+14 |     property: 1.2E2;
+   |               ^^^^^
+
+error: Num
+  --> $DIR/tests/fixture/value/number/input.css:14:15
+   |
+14 |     property: 1.2E2;
+   |               ^^^
+
+error: Unit
+  --> $DIR/tests/fixture/value/number/input.css:14:18
+   |
+14 |     property: 1.2E2;
+   |                  ^^
+
+error: Property
+  --> $DIR/tests/fixture/value/number/input.css:15:5
+   |
+15 |     property: 1.2e+2;
+   |     ^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/value/number/input.css:15:5
+   |
+15 |     property: 1.2e+2;
+   |     ^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/number/input.css:15:14
+   |
+15 |     property: 1.2e+2;
+   |              ^^^^^^^
+
+error: Tokens
+  --> $DIR/tests/fixture/value/number/input.css:15:14
+   |
+15 |     property: 1.2e+2;
+   |              ^^^^^^^
+
+error: WhiteSpace
+  --> $DIR/tests/fixture/value/number/input.css:15:14
+   |
+15 |     property: 1.2e+2;
+   |              ^
+
+error: Num(NumToken { value: 1.2 })
+  --> $DIR/tests/fixture/value/number/input.css:15:15
+   |
+15 |     property: 1.2e+2;
+   |               ^^^
+
+error: Ident { value: Atom('e' type=inline), raw: Atom('e' type=inline) }
+  --> $DIR/tests/fixture/value/number/input.css:15:18
+   |
+15 |     property: 1.2e+2;
+   |                  ^
+
+error: Num(NumToken { value: 2.0 })
+  --> $DIR/tests/fixture/value/number/input.css:15:19
+   |
+15 |     property: 1.2e+2;
+   |                   ^^
+
+error: Property
+  --> $DIR/tests/fixture/value/number/input.css:16:5
+   |
+16 |     property: 1.2e-2;
+   |     ^^^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/value/number/input.css:16:5
+   |
+16 |     property: 1.2e-2;
+   |     ^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/number/input.css:16:15
+   |
+16 |     property: 1.2e-2;
+   |               ^^^^^^
+
+error: UnitValue
+  --> $DIR/tests/fixture/value/number/input.css:16:15
+   |
+16 |     property: 1.2e-2;
+   |               ^^^^^^
+
+error: Num
+  --> $DIR/tests/fixture/value/number/input.css:16:15
+   |
+16 |     property: 1.2e-2;
+   |               ^^^
+
+error: Unit
+  --> $DIR/tests/fixture/value/number/input.css:16:18
+   |
+16 |     property: 1.2e-2;
+   |                  ^^^
+
+error: Property
+  --> $DIR/tests/fixture/value/number/input.css:17:5
+   |
+17 |     property: -1;
+   |     ^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/value/number/input.css:17:5
+   |
+17 |     property: -1;
+   |     ^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/number/input.css:17:15
+   |
+17 |     property: -1;
+   |               ^^
+
+error: Num
+  --> $DIR/tests/fixture/value/number/input.css:17:15
+   |
+17 |     property: -1;
+   |               ^^
+
+error: Property
+  --> $DIR/tests/fixture/value/number/input.css:18:5
+   |
+18 |     property: -1.2;
+   |     ^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/value/number/input.css:18:5
+   |
+18 |     property: -1.2;
+   |     ^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/number/input.css:18:15
+   |
+18 |     property: -1.2;
+   |               ^^^^
+
+error: Num
+  --> $DIR/tests/fixture/value/number/input.css:18:15
+   |
+18 |     property: -1.2;
+   |               ^^^^
+
+error: Property
+  --> $DIR/tests/fixture/value/number/input.css:19:5
+   |
+19 |     property: -.2;
+   |     ^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/value/number/input.css:19:5
+   |
+19 |     property: -.2;
+   |     ^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/number/input.css:19:15
+   |
+19 |     property: -.2;
+   |               ^^^
+
+error: Num
+  --> $DIR/tests/fixture/value/number/input.css:19:15
+   |
+19 |     property: -.2;
+   |               ^^^
+
+error: Property
+  --> $DIR/tests/fixture/value/number/input.css:20:5
+   |
+20 |     property: -.2;
+   |     ^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/value/number/input.css:20:5
+   |
+20 |     property: -.2;
+   |     ^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/number/input.css:20:15
+   |
+20 |     property: -.2;
+   |               ^^^
+
+error: Num
+  --> $DIR/tests/fixture/value/number/input.css:20:15
+   |
+20 |     property: -.2;
+   |               ^^^
+
+error: Property
+  --> $DIR/tests/fixture/value/number/input.css:21:5
+   |
+21 |     property: +.2;
+   |     ^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/value/number/input.css:21:5
+   |
+21 |     property: +.2;
+   |     ^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/number/input.css:21:15
+   |
+21 |     property: +.2;
+   |               ^^^
+
+error: Num
+  --> $DIR/tests/fixture/value/number/input.css:21:15
+   |
+21 |     property: +.2;
+   |               ^^^
+
+error: Property
+  --> $DIR/tests/fixture/value/number/input.css:22:5
+   |
+22 |     property: -1.2e3;
+   |     ^^^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/value/number/input.css:22:5
+   |
+22 |     property: -1.2e3;
+   |     ^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/number/input.css:22:15
+   |
+22 |     property: -1.2e3;
+   |               ^^^^^^
+
+error: UnitValue
+  --> $DIR/tests/fixture/value/number/input.css:22:15
+   |
+22 |     property: -1.2e3;
+   |               ^^^^^^
+
+error: Num
+  --> $DIR/tests/fixture/value/number/input.css:22:15
+   |
+22 |     property: -1.2e3;
+   |               ^^^^
+
+error: Unit
+  --> $DIR/tests/fixture/value/number/input.css:22:19
+   |
+22 |     property: -1.2e3;
+   |                   ^^
+
+error: Property
+  --> $DIR/tests/fixture/value/number/input.css:23:5
+   |
+23 |     property: 1.75;
+   |     ^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/value/number/input.css:23:5
+   |
+23 |     property: 1.75;
+   |     ^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/number/input.css:23:15
+   |
+23 |     property: 1.75;
+   |               ^^^^
+
+error: Num
+  --> $DIR/tests/fixture/value/number/input.css:23:15
+   |
+23 |     property: 1.75;
+   |               ^^^^
+
+error: Property
+  --> $DIR/tests/fixture/value/number/input.css:24:5
+   |
+24 |     property: +1.75;
+   |     ^^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/value/number/input.css:24:5
+   |
+24 |     property: +1.75;
+   |     ^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/number/input.css:24:15
+   |
+24 |     property: +1.75;
+   |               ^^^^^
+
+error: Num
+  --> $DIR/tests/fixture/value/number/input.css:24:15
+   |
+24 |     property: +1.75;
+   |               ^^^^^
+
