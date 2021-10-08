@@ -1,4 +1,5 @@
 use anyhow::{bail, Context, Error};
+use path_clean::PathClean;
 use reqwest::Url;
 use sha1::{Digest, Sha1};
 use std::{
@@ -148,9 +149,8 @@ static EXTENSIONS: &[&str] = &["ts", "tsx", "js", "jsx", "json", "node"];
 
 impl NodeResolver {
     fn wrap(&self, path: PathBuf) -> Result<FileName, Error> {
-        Ok(FileName::Real(
-            path.canonicalize().context("failaed to canonicalize")?,
-        ))
+        let path = path.clean();
+        Ok(FileName::Real(path))
     }
 
     /// Resolve a path as a file. If `path` refers to a file, it is
