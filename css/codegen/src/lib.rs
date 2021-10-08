@@ -500,6 +500,9 @@ where
                 Token::Ident { raw, .. } => {
                     self.wr.write_raw(Some(n.span), &raw)?;
                 }
+                Token::BadStr { raw, .. } => {
+                    self.wr.write_raw(Some(span), &raw)?;
+                }
                 Token::Str { raw, .. } => {
                     self.wr.write_raw(Some(span), &raw)?;
                 }
