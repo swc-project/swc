@@ -32,7 +32,6 @@ impl Error {
             ErrorKind::UnexpectedChar(c) => format!("Unexpected charcter `{:?}`", c).into(),
             ErrorKind::UnterminatedUrl => "Unterminated url literal".into(),
             ErrorKind::InvalidEscape => "Invalid escape".into(),
-            ErrorKind::BadString => "Bad string".into(),
             ErrorKind::Expected(s) => format!("Expected {}", s).into(),
             ErrorKind::ExpectedButGot(s) => format!("Expected {}", s).into(),
             ErrorKind::ExpectedSelectorText => "Expected a text for selector".into(),
@@ -62,8 +61,6 @@ pub enum ErrorKind {
     UnterminatedUrl,
     /// Lexing error
     InvalidEscape,
-    // Lexing error
-    BadString,
     Expected(&'static str),
     ExpectedButGot(&'static str),
     ExpectedSelectorText,

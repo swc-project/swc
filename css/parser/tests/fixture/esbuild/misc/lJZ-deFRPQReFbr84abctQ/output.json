@@ -38,11 +38,10 @@
               "end": 21,
               "ctxt": 0
             },
-            "value": "foo.css"
+            "value": "foo.css",
+            "raw": "\"foo.css\""
           }
         ]
-        "value": "foo.css",
-        "raw": "\"foo.css\""
       },
       "condition": null
     }

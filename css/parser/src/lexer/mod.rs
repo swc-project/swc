@@ -293,13 +293,11 @@ where
                         raw.push(c);
                         self.input.bump();
 
-                        return Err(ErrorKind::BadString);
+                        return Ok(Token::BadStr { value: value.into(), raw: raw.into() });
                     }
 
                     // // U+005C REVERSE SOLIDUS (\)
                     c if c == '\\' => {
-                        raw.push(c);
-
                         // If the next input code point is EOF, do nothing.
                         if self.input.peek().is_none() {
                             break;
@@ -310,6 +308,7 @@ where
                             || self.input.peek() == Some('\r')
                             || self.input.peek() == Some('\x0C')
                         {
+                            raw.push(c);
                             self.input.bump();
                             raw.push(self.input.cur().unwrap());
                             self.input.bump();
@@ -385,7 +384,6 @@ where
                     }
 
                     // TODO raw url
-                    // TODO: url can have raw
                     url.push(self.read_escape()?.0);
                 }
 
@@ -402,8 +400,6 @@ where
 
     fn read_escape(&mut self) -> LexResult<(char, String)> {
         // TODO: from spec - `\` should be consumed before run this https://www.w3.org/TR/css-syntax-3/#consume-escaped-code-point
-    /// Ported from `consumeEscape` of `esbuild`.
-    fn read_escape(&mut self) -> LexResult<(char, String)> {
         assert!(
             self.input.eat_byte(b'\\'),
             "read_escape: Expected a backslash"
@@ -424,8 +420,6 @@ where
 
             raw.push(self.input.cur().unwrap());
 
-            let mut raw = String::new();
-            raw.push(self.input.cur().unwrap());
             self.input.bump();
 
             // Consume as many hex digits as possible, but no more than 5.
@@ -441,8 +435,6 @@ where
 
                 self.input.bump();
 
-                raw.push(next.unwrap());
-                self.input.bump();
                 hex = hex * 16 + digit;
             }
 
@@ -452,10 +444,6 @@ where
             if self.input.is_byte(b' ') {
                 raw.push(self.input.cur().unwrap());
 
-            
-            // TODO: is_white_space
-            if self.input.is_byte(b' ') {
-                raw.push(self.input.cur().unwrap());
                 self.input.bump();
             }
 
@@ -469,7 +457,6 @@ where
         self.input.bump();
 
         Ok((c, raw))
-        Ok((c, c.to_string()))
     }
 
     fn read_dot(&mut self) -> LexResult<Token> {
@@ -605,8 +592,6 @@ where
 
         buf.push(escaped.0);
         raw.push_str(&escaped.1);
-        // TODO: name can be raw
-        buf.push(self.read_escape()?.0);
 
         loop {
             let c = self.input.cur();
@@ -626,8 +611,6 @@ where
 
                 buf.push(escaped.0);
                 raw.push_str(&escaped.1);
-                // TODO: name can be raw
-                buf.push(self.read_escape()?.0);
             } else {
                 break;
             }

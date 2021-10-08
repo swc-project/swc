@@ -57,11 +57,10 @@
               "end": 52,
               "ctxt": 0
             },
-            "value": "something.css"
+            "value": "something.css",
+            "raw": "\"something.css\""
           }
         ]
-        "value": "something.css",
-        "raw": "\"something.css\""
       },
       "condition": null
     }

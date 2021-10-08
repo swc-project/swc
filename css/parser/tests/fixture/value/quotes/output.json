@@ -46,7 +46,8 @@
                     "end": 1,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "value": "a",
+                  "raw": "a"
                 }
               },
               "subclassSelectors": [
@@ -65,7 +66,8 @@
                       "end": 9,
                       "ctxt": 0
                     },
-                    "value": "before"
+                    "value": "before",
+                    "raw": "before"
                   },
                   "args": {
                     "type": "Tokens",
@@ -89,7 +91,7 @@
           "end": 878,
           "ctxt": 0
         },
-        "properties": [
+        "items": [
           {
             "type": "Property",
             "span": {
@@ -104,7 +106,8 @@
                 "end": 23,
                 "ctxt": 0
               },
-              "value": "content"
+              "value": "content",
+              "raw": "content"
             },
             "values": [
               {
@@ -134,7 +137,8 @@
                 "end": 83,
                 "ctxt": 0
               },
-              "value": "content"
+              "value": "content",
+              "raw": "content"
             },
             "values": [
               {
@@ -164,7 +168,8 @@
                 "end": 143,
                 "ctxt": 0
               },
-              "value": "content"
+              "value": "content",
+              "raw": "content"
             },
             "values": [
               {
@@ -194,7 +199,8 @@
                 "end": 209,
                 "ctxt": 0
               },
-              "value": "content"
+              "value": "content",
+              "raw": "content"
             },
             "values": [
               {
@@ -224,7 +230,8 @@
                 "end": 275,
                 "ctxt": 0
               },
-              "value": "content"
+              "value": "content",
+              "raw": "content"
             },
             "values": [
               {
@@ -254,7 +261,8 @@
                 "end": 341,
                 "ctxt": 0
               },
-              "value": "content"
+              "value": "content",
+              "raw": "content"
             },
             "values": [
               {
@@ -284,7 +292,8 @@
                 "end": 407,
                 "ctxt": 0
               },
-              "value": "content"
+              "value": "content",
+              "raw": "content"
             },
             "values": [
               {
@@ -314,7 +323,8 @@
                 "end": 470,
                 "ctxt": 0
               },
-              "value": "content"
+              "value": "content",
+              "raw": "content"
             },
             "values": [
               {
@@ -344,7 +354,8 @@
                 "end": 535,
                 "ctxt": 0
               },
-              "value": "content"
+              "value": "content",
+              "raw": "content"
             },
             "values": [
               {
@@ -374,7 +385,8 @@
                 "end": 602,
                 "ctxt": 0
               },
-              "value": "content"
+              "value": "content",
+              "raw": "content"
             },
             "values": [
               {
@@ -404,7 +416,8 @@
                 "end": 656,
                 "ctxt": 0
               },
-              "value": "content"
+              "value": "content",
+              "raw": "content"
             },
             "values": [
               {
@@ -434,7 +447,8 @@
                 "end": 703,
                 "ctxt": 0
               },
-              "value": "content"
+              "value": "content",
+              "raw": "content"
             },
             "values": [
               {
@@ -464,7 +478,8 @@
                 "end": 730,
                 "ctxt": 0
               },
-              "value": "content"
+              "value": "content",
+              "raw": "content"
             },
             "values": [
               {
@@ -494,7 +509,8 @@
                 "end": 752,
                 "ctxt": 0
               },
-              "value": "content"
+              "value": "content",
+              "raw": "content"
             },
             "values": [
               {
@@ -524,7 +540,8 @@
                 "end": 773,
                 "ctxt": 0
               },
-              "value": "content"
+              "value": "content",
+              "raw": "content"
             },
             "values": [
               {
@@ -554,7 +571,8 @@
                 "end": 794,
                 "ctxt": 0
               },
-              "value": "content"
+              "value": "content",
+              "raw": "content"
             },
             "values": [
               {
@@ -584,7 +602,8 @@
                 "end": 815,
                 "ctxt": 0
               },
-              "value": "content"
+              "value": "content",
+              "raw": "content"
             },
             "values": [
               {
@@ -614,7 +633,8 @@
                 "end": 836,
                 "ctxt": 0
               },
-              "value": "content"
+              "value": "content",
+              "raw": "content"
             },
             "values": [
               {
@@ -644,7 +664,8 @@
                 "end": 865,
                 "ctxt": 0
               },
-              "value": "content"
+              "value": "content",
+              "raw": "content"
             },
             "values": [
               {
@@ -703,12 +724,13 @@
                     "end": 881,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "value": "a",
+                  "raw": "a"
                 }
               },
               "subclassSelectors": [
                 {
-                  "type": "AttrributeSelector",
+                  "type": "AttributeSelector",
                   "span": {
                     "start": 881,
                     "end": 917,
@@ -729,7 +751,8 @@
                         "end": 887,
                         "ctxt": 0
                       },
-                      "value": "title"
+                      "value": "title",
+                      "raw": "title"
                     }
                   },
                   "op": "=",
@@ -757,7 +780,7 @@
           "end": 937,
           "ctxt": 0
         },
-        "properties": [
+        "items": [
           {
             "type": "Property",
             "span": {
@@ -772,7 +795,8 @@
                 "end": 929,
                 "ctxt": 0
               },
-              "value": "color"
+              "value": "color",
+              "raw": "color"
             },
             "values": [
               {
@@ -782,7 +806,8 @@
                   "end": 934,
                   "ctxt": 0
                 },
-                "value": "red"
+                "value": "red",
+                "raw": "red"
               }
             ],
             "important": null
@@ -830,12 +855,13 @@
                     "end": 939,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "value": "a",
+                  "raw": "a"
                 }
               },
               "subclassSelectors": [
                 {
-                  "type": "AttrributeSelector",
+                  "type": "AttributeSelector",
                   "span": {
                     "start": 939,
                     "end": 973,
@@ -856,7 +882,8 @@
                         "end": 945,
                         "ctxt": 0
                       },
-                      "value": "title"
+                      "value": "title",
+                      "raw": "title"
                     }
                   },
                   "op": "=",
@@ -884,7 +911,7 @@
           "end": 993,
           "ctxt": 0
         },
-        "properties": [
+        "items": [
           {
             "type": "Property",
             "span": {
@@ -899,7 +926,8 @@
                 "end": 985,
                 "ctxt": 0
               },
-              "value": "color"
+              "value": "color",
+              "raw": "color"
             },
             "values": [
               {
@@ -909,7 +937,8 @@
                   "end": 990,
                   "ctxt": 0
                 },
-                "value": "red"
+                "value": "red",
+                "raw": "red"
               }
             ],
             "important": null

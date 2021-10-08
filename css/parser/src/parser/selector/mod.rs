@@ -495,14 +495,12 @@ where
         match cur!(self) {
             Token::Ident { .. } => {
                 let value = bump!(self);
-                let value = match value {
-                    Token::Ident { value, .. } => value,
+                let ident = match value {
+                    Token::Ident { value, raw } => (value, raw),
                     _ => unreachable!(),
                 };
-                // TODO: ident can have raw value
-                let raw = value.clone();
 
-                Ok(Str { span, value, raw })
+                Ok(Str { span, value: ident.0, raw: ident.1 })
             }
             Token::Str { .. } => {
                 let value = bump!(self);
