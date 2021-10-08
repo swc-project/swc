@@ -288,6 +288,58 @@ impl VisitMut for TreeShaker {
         n.visit_mut_children_with(self);
 
         match n {
+            Expr::Call(CallExpr {
+                callee: ExprOrSuper::Expr(callee),
+                args,
+                ..
+            }) => {
+                //
+                if args.is_empty() {
+                    match &mut **callee {
+                        Expr::Fn(FnExpr {
+                            ident: None,
+                            function:
+                                Function {
+                                    params,
+                                    body: Some(BlockStmt { stmts: body, .. }),
+                                    ..
+                                },
+                        }) => {
+                            if params.is_empty() && body.len() == 1 {
+                                match &mut body[0] {
+                                    Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => match &**arg
+                                    {
+                                        Expr::Object(ObjectLit { props, .. }) => {
+                                            if props.iter().all(|p| match p {
+                                                PropOrSpread::Spread(_) => false,
+                                                PropOrSpread::Prop(p) => match &**p {
+                                                    Prop::Shorthand(_) => true,
+                                                    Prop::KeyValue(p) => p.value.is_ident(),
+                                                    _ => false,
+                                                },
+                                            }) {
+                                                self.changed = true;
+                                                debug!("Dropping a wrapped esm");
+                                                *n = *arg.take();
+                                                return;
+                                            }
+                                        }
+
+                                        _ => {}
+                                    },
+                                    _ => {}
+                                }
+                            }
+                        }
+                        _ => {}
+                    }
+                }
+            }
+
+            _ => {}
+        }
+
+        match n {
             Expr::Assign(a) => {
                 if match &a.left {
                     PatOrExpr::Expr(l) => l.is_invalid(),
