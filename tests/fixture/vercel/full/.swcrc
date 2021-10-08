@@ -16,7 +16,8 @@
         },
         "minify": {
             "compress": true,
-            "mangle": true
+            "mangle": true,
+            "toplevel": true
         }
     }
 }
