@@ -1748,8 +1748,8 @@ var Element = function(tag, props) {
     }
     return document.newElement(tag, props);
 };
-Browser.Element && (Element.prototype = Browser.Element.prototype, Element.prototype._fireEvent = function(type, event) {
-    return (fireEvent = Element.prototype.fireEvent).call(this, type, event);
+Browser.Element && (Element.prototype = Browser.Element.prototype, fireEvent = Element.prototype.fireEvent, Element.prototype._fireEvent = function(type, event) {
+    return fireEvent.call(this, type, event);
 }), new Type("Element", Element).mirror(function(name) {
     if (!Array.prototype[name]) {
         var obj = {
@@ -1784,9 +1784,9 @@ var IFrame = new Type("IFrame", function() {
         props.id,
         props.name,
         iframe ? iframe.id || iframe.name : "IFrame_" + String.uniqueID()
-    ].pick();
+    ].pick(), iframe = new Element(iframe || "iframe", props);
     var onLoad = function() {
-        onload.call((iframe = new Element(iframe || "iframe", props)).contentWindow);
+        onload.call(iframe.contentWindow);
     };
     return window.frames[props.id] ? onLoad() : iframe.addListener("load", onLoad), iframe;
 }), Elements = this.Elements = function(nodes) {
@@ -3345,8 +3345,9 @@ Elements.prototype = {
         return trans;
     }
 }), Fx.Transition = function(transition, params) {
+    params = Array.from(params);
     var easeIn = function(pos) {
-        return transition(pos, params = Array.from(params));
+        return transition(pos, params);
     };
     return Object.append(easeIn, {
         easeIn: easeIn,
