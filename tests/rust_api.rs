@@ -185,7 +185,8 @@ fn shopify_2_same_opt() {
         let res = res.unwrap();
         eprintln!("{}", res.code);
 
-        assert!(res.code.contains("_react.default.createElement"));
+        assert!(res.code.contains("React.createElement"));
+        assert!(res.code.contains("import React"));
 
         Ok(())
     })
@@ -246,7 +247,8 @@ fn shopify_3_reduce_defaults() {
         let res = res.unwrap();
         eprintln!("{}", res.code);
 
-        assert!(res.code.contains("_react.default.createElement"));
+        assert!(res.code.contains("React.createElement"));
+        assert!(res.code.contains("import React"));
 
         Ok(())
     })
