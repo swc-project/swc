@@ -1,5 +1,6 @@
 {
     "jsc": {
+        "target": "es5",
         "parser": {
             "syntaax": "typescript",
             "tsx": true
