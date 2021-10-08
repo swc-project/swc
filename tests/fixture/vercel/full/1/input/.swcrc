@@ -1,0 +1,10 @@
+{
+    "jsc": {
+        "parser": {
+            "syntaax": "typescript",
+            "tsx": true
+        },
+        "minify": true
+    },
+    "minify": true
+}
