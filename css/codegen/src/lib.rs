@@ -509,7 +509,6 @@ where
                 Token::Url { value } => {
                     self.wr.write_ident(Some(span), "url", false)?;
                     punct!(self, "(");
-                    punct!(self, "(");
                     self.wr.write_raw(None, &value)?;
                     punct!(self, ")");
                 }
@@ -538,7 +537,6 @@ where
                     punct!(self, span, ".");
                 }
                 Token::Hash { value, .. } => {
-                    punct!(self, "#");
                     punct!(self, "#");
                     self.wr.write_ident(Some(span), &value, true)?;
                 }

@@ -123,13 +123,9 @@ where
     }
 
     fn write_raw(&mut self, _span: Option<Span>, text: &str) -> Result {
-        for (idx, s) in text.split('\n').enumerate() {
-            self.col += s.len();
-            self.w.write_str(s)?;
-
-            if idx != 0 {
-                self.write_newline()?;
-            }
+        for (_, s) in text.chars().enumerate() {
+            self.col += 1;
+            self.w.write_char(s)?;
         }
 
         Ok(())
