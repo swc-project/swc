@@ -245,11 +245,9 @@ function parse(args, { "--": doubleDash = false , alias ={
     }
     return argv;
 }
-const mod = function() {
-    return {
-        parse: parse
-    };
-}();
+const mod = {
+    parse: parse
+};
 const CHAR_FORWARD_SLASH = 47;
 let NATIVE_OS = "linux";
 const navigator = globalThis.navigator;
@@ -955,25 +953,23 @@ function toFileUrl(path) {
     }
     return url;
 }
-const mod1 = function() {
-    return {
-        sep: sep3,
-        delimiter: delimiter,
-        resolve: resolve,
-        normalize: normalize,
-        isAbsolute: isAbsolute,
-        join: join,
-        relative: relative,
-        toNamespacedPath: toNamespacedPath,
-        dirname: dirname,
-        basename: basename,
-        extname: extname,
-        format: format,
-        parse: parse1,
-        fromFileUrl: fromFileUrl,
-        toFileUrl: toFileUrl
-    };
-}();
+const mod1 = {
+    sep: sep3,
+    delimiter: delimiter,
+    resolve: resolve,
+    normalize: normalize,
+    isAbsolute: isAbsolute,
+    join: join,
+    relative: relative,
+    toNamespacedPath: toNamespacedPath,
+    dirname: dirname,
+    basename: basename,
+    extname: extname,
+    format: format,
+    parse: parse1,
+    fromFileUrl: fromFileUrl,
+    toFileUrl: toFileUrl
+};
 const sep1 = "/";
 const delimiter1 = ":";
 function resolve1(...pathSegments) {
@@ -1287,25 +1283,23 @@ function toFileUrl1(path) {
     url.pathname = path.replace(/%/g, "%25").replace(/\\/g, "%5C");
     return url;
 }
-const mod2 = function() {
-    return {
-        sep: sep1,
-        delimiter: delimiter1,
-        resolve: resolve1,
-        normalize: normalize1,
-        isAbsolute: isAbsolute1,
-        join: join1,
-        relative: relative1,
-        toNamespacedPath: toNamespacedPath1,
-        dirname: dirname1,
-        basename: basename1,
-        extname: extname1,
-        format: format1,
-        parse: parse2,
-        fromFileUrl: fromFileUrl1,
-        toFileUrl: toFileUrl1
-    };
-}();
+const mod2 = {
+    sep: sep1,
+    delimiter: delimiter1,
+    resolve: resolve1,
+    normalize: normalize1,
+    isAbsolute: isAbsolute1,
+    join: join1,
+    relative: relative1,
+    toNamespacedPath: toNamespacedPath1,
+    dirname: dirname1,
+    basename: basename1,
+    extname: extname1,
+    format: format1,
+    parse: parse2,
+    fromFileUrl: fromFileUrl1,
+    toFileUrl: toFileUrl1
+};
 function common(paths, sep = SEP) {
     const [first = "", ...remaining] = paths;
     if (first === "" || remaining.length === 0) {
@@ -1606,34 +1600,32 @@ function joinGlobs(globs, { extended =false , globstar =false  } = {
         globstar
     });
 }
-const mod3 = function() {
-    return {
-        SEP: SEP,
-        SEP_PATTERN: SEP_PATTERN,
-        win32: mod1,
-        posix: mod2,
-        basename: basename2,
-        delimiter: delimiter2,
-        dirname: dirname2,
-        extname: extname2,
-        format: format2,
-        fromFileUrl: fromFileUrl2,
-        isAbsolute: isAbsolute2,
-        join: join2,
-        normalize: normalize2,
-        parse: parse3,
-        relative: relative2,
-        resolve: resolve2,
-        sep: sep2,
-        toFileUrl: toFileUrl2,
-        toNamespacedPath: toNamespacedPath2,
-        common,
-        globToRegExp,
-        isGlob,
-        normalizeGlob,
-        joinGlobs
-    };
-}();
+const mod3 = {
+    SEP: SEP,
+    SEP_PATTERN: SEP_PATTERN,
+    win32: mod1,
+    posix: mod2,
+    basename: basename2,
+    delimiter: delimiter2,
+    dirname: dirname2,
+    extname: extname2,
+    format: format2,
+    fromFileUrl: fromFileUrl2,
+    isAbsolute: isAbsolute2,
+    join: join2,
+    normalize: normalize2,
+    parse: parse3,
+    relative: relative2,
+    resolve: resolve2,
+    sep: sep2,
+    toFileUrl: toFileUrl2,
+    toNamespacedPath: toNamespacedPath2,
+    common,
+    globToRegExp,
+    isGlob,
+    normalizeGlob,
+    joinGlobs
+};
 var LogLevels;
 (function(LogLevels) {
     LogLevels[LogLevels["NOTSET"] = 0] = "NOTSET";
@@ -3254,35 +3246,33 @@ function detect(content) {
 function format3(content, eol) {
     return content.replace(regDetect, eol);
 }
-const mod5 = function() {
-    return {
-        exists,
-        existsSync,
-        emptyDir,
-        emptyDirSync,
-        ensureDir,
-        ensureDirSync,
-        ensureFile,
-        ensureFileSync,
-        ensureLink,
-        ensureLinkSync,
-        ensureSymlink,
-        ensureSymlinkSync,
-        expandGlob,
-        expandGlobSync,
-        _createWalkEntrySync,
-        _createWalkEntry,
-        walk,
-        walkSync,
-        move,
-        moveSync,
-        copy,
-        copySync,
-        EOL,
-        detect,
-        format: format3
-    };
-}();
+const mod5 = {
+    exists,
+    existsSync,
+    emptyDir,
+    emptyDirSync,
+    ensureDir,
+    ensureDirSync,
+    ensureFile,
+    ensureFileSync,
+    ensureLink,
+    ensureLinkSync,
+    ensureSymlink,
+    ensureSymlinkSync,
+    expandGlob,
+    expandGlobSync,
+    _createWalkEntrySync,
+    _createWalkEntry,
+    walk,
+    walkSync,
+    move,
+    moveSync,
+    copy,
+    copySync,
+    EOL,
+    detect,
+    format: format3
+};
 const base64abc = [
     "A",
     "B",
@@ -3641,11 +3631,9 @@ class Hash {
 function createHash(algorithm) {
     return new Hash(algorithm);
 }
-const mod6 = function() {
-    return {
-        createHash: createHash
-    };
-}();
+const mod6 = {
+    createHash: createHash
+};
 const SEMVER_SPEC_VERSION = "2.0.0";
 const MAX_SAFE_COMPONENT_LENGTH = 16;
 const re = [];
@@ -4669,50 +4657,48 @@ function coerce(version, optionsOrLoose) {
     }
     return parse4(match[1] + "." + (match[2] || "0") + "." + (match[3] || "0"), optionsOrLoose);
 }
-const mod7 = function() {
-    return {
-        SEMVER_SPEC_VERSION: SEMVER_SPEC_VERSION,
-        parse: parse4,
-        valid: valid,
-        clean: clean,
-        SemVer: SemVer,
-        inc: inc,
-        diff: diff,
-        compareIdentifiers: compareIdentifiers,
-        rcompareIdentifiers: rcompareIdentifiers,
-        major: major,
-        minor: minor,
-        patch: patch,
-        compare: compare,
-        compareLoose: compareLoose,
-        compareBuild: compareBuild,
-        rcompare: rcompare,
-        sort: sort,
-        rsort: rsort,
-        gt: gt,
-        lt: lt,
-        eq: eq,
-        neq: neq,
-        gte: gte,
-        lte: lte,
-        cmp: cmp,
-        Comparator: Comparator,
-        Range: Range,
-        toComparators: toComparators,
-        satisfies: satisfies,
-        maxSatisfying: maxSatisfying,
-        minSatisfying: minSatisfying,
-        minVersion: minVersion,
-        validRange: validRange,
-        ltr: ltr,
-        gtr: gtr,
-        outside: outside,
-        prerelease: prerelease,
-        intersects: intersects,
-        coerce: coerce,
-        default: SemVer
-    };
-}();
+const mod7 = {
+    SEMVER_SPEC_VERSION: SEMVER_SPEC_VERSION,
+    parse: parse4,
+    valid: valid,
+    clean: clean,
+    SemVer: SemVer,
+    inc: inc,
+    diff: diff,
+    compareIdentifiers: compareIdentifiers,
+    rcompareIdentifiers: rcompareIdentifiers,
+    major: major,
+    minor: minor,
+    patch: patch,
+    compare: compare,
+    compareLoose: compareLoose,
+    compareBuild: compareBuild,
+    rcompare: rcompare,
+    sort: sort,
+    rsort: rsort,
+    gt: gt,
+    lt: lt,
+    eq: eq,
+    neq: neq,
+    gte: gte,
+    lte: lte,
+    cmp: cmp,
+    Comparator: Comparator,
+    Range: Range,
+    toComparators: toComparators,
+    satisfies: satisfies,
+    maxSatisfying: maxSatisfying,
+    minSatisfying: minSatisfying,
+    minVersion: minVersion,
+    validRange: validRange,
+    ltr: ltr,
+    gtr: gtr,
+    outside: outside,
+    prerelease: prerelease,
+    intersects: intersects,
+    coerce: coerce,
+    default: SemVer
+};
 const version1 = "1.11.0";
 const TaskName_AST = {
     "moduleName": "dnit.manifest",

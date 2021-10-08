@@ -856,25 +856,23 @@ function toFileUrl(path) {
     }
     return url;
 }
-const mod = function() {
-    return {
-        sep: sep,
-        delimiter: delimiter,
-        resolve: resolve,
-        normalize: normalize,
-        isAbsolute: isAbsolute,
-        join: join,
-        relative: relative,
-        toNamespacedPath: toNamespacedPath,
-        dirname: dirname,
-        basename: basename,
-        extname: extname,
-        format: format,
-        parse: parse,
-        fromFileUrl: fromFileUrl,
-        toFileUrl: toFileUrl
-    };
-}();
+const mod = {
+    sep: sep,
+    delimiter: delimiter,
+    resolve: resolve,
+    normalize: normalize,
+    isAbsolute: isAbsolute,
+    join: join,
+    relative: relative,
+    toNamespacedPath: toNamespacedPath,
+    dirname: dirname,
+    basename: basename,
+    extname: extname,
+    format: format,
+    parse: parse,
+    fromFileUrl: fromFileUrl,
+    toFileUrl: toFileUrl
+};
 const sep1 = "/";
 const delimiter1 = ":";
 function resolve1(...pathSegments) {
@@ -1188,25 +1186,23 @@ function toFileUrl1(path) {
     url.pathname = path.replace(/%/g, "%25").replace(/\\/g, "%5C");
     return url;
 }
-const mod1 = function() {
-    return {
-        sep: sep1,
-        delimiter: delimiter1,
-        resolve: resolve1,
-        normalize: normalize1,
-        isAbsolute: isAbsolute1,
-        join: join1,
-        relative: relative1,
-        toNamespacedPath: toNamespacedPath1,
-        dirname: dirname1,
-        basename: basename1,
-        extname: extname1,
-        format: format1,
-        parse: parse1,
-        fromFileUrl: fromFileUrl1,
-        toFileUrl: toFileUrl1
-    };
-}();
+const mod1 = {
+    sep: sep1,
+    delimiter: delimiter1,
+    resolve: resolve1,
+    normalize: normalize1,
+    isAbsolute: isAbsolute1,
+    join: join1,
+    relative: relative1,
+    toNamespacedPath: toNamespacedPath1,
+    dirname: dirname1,
+    basename: basename1,
+    extname: extname1,
+    format: format1,
+    parse: parse1,
+    fromFileUrl: fromFileUrl1,
+    toFileUrl: toFileUrl1
+};
 const path = isWindows ? mod : mod1;
 const { basename: basename2 , delimiter: delimiter2 , dirname: dirname2 , extname: extname2 , format: format2 , fromFileUrl: fromFileUrl2 , isAbsolute: isAbsolute2 , join: join2 , normalize: normalize2 , parse: parse2 , relative: relative2 , resolve: resolve2 , sep: sep2 , toFileUrl: toFileUrl2 , toNamespacedPath: toNamespacedPath2 ,  } = path;
 const DEFAULT_BUF_SIZE = 4096;
