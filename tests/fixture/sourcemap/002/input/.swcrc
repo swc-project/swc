@@ -14,5 +14,6 @@
     "loose": false,
     "externalHelpers": true
   },
-  "sourceMaps": true
+  "sourceMaps": true,
+  "inlineSourcesContent": true
 }
