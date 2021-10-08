@@ -500,7 +500,11 @@ where
                     _ => unreachable!(),
                 };
 
-                Ok(Str { span, value: ident.0, raw: ident.1 })
+                Ok(Str {
+                    span,
+                    value: ident.0,
+                    raw: ident.1,
+                })
             }
             Token::Str { .. } => {
                 let value = bump!(self);
@@ -509,7 +513,11 @@ where
                     _ => unreachable!(),
                 };
 
-                Ok(Str { span, value: str.0, raw: str.1 })
+                Ok(Str {
+                    span,
+                    value: str.0,
+                    raw: str.1,
+                })
             }
             _ => Err(Error::new(
                 span,
