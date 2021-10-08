@@ -6,11 +6,11 @@ use swc_common::FileName;
 use swc_ecma_ast::*;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms::{modules::common_js, pass::noop};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut};
 
-struct NoopType;
+struct PanicOnVisit;
 
-impl VisitMut for NoopType {
+impl VisitMut for PanicOnVisit {
     noop_visit_mut_type!();
 
     fn visit_mut_number(&mut self, n: &mut Number) {
@@ -18,6 +18,7 @@ impl VisitMut for NoopType {
     }
 }
 
+/// We ensure that typescript is stripped out before applying custom transforms.
 #[test]
 #[should_panic(expected = "Expected 5.0")]
 fn test_visit_mut() {
@@ -46,7 +47,7 @@ fn test_visit_mut() {
 
                 ..Default::default()
             },
-            noop(),
+            as_folder(PanicOnVisit),
             noop(),
         );
 
@@ -152,6 +153,67 @@ fn shopify_2_same_opt() {
             disable_hygiene: false,
             disable_fixer: false,
             global_mark: None,
+            cwd: "/Users/kdy1/projects/example-swcify".into(),
+            filename: "/Users/kdy1/projects/example-swcify/src/App/App.tsx".into(),
+            env_name: "development".into(),
+            source_maps: Some(SourceMapsConfig::Bool(false)),
+            source_file_name: Some("/Users/kdy1/projects/example-swcify/src/App/App.tsx".into()),
+            is_module: true,
+            ..Default::default()
+        };
+
+        let fm = cm.new_source_file(
+            FileName::Real("/Users/kdy1/projects/example-swcify/src/App/App.tsx".into()),
+            "
+            import React from 'react';
+            import { useI18n } from '@shopify/react-i18n';
+            
+            export function App() {
+                const [i18n] = useI18n();
+                return <h1>{i18n.translate('foo')}</h1>
+            }
+            "
+            .into(),
+        );
+
+        let res = c.process_js_with_custom_pass(fm, &handler, &opts, noop(), noop());
+
+        if res.is_err() {
+            return Err(());
+        }
+
+        let res = res.unwrap();
+        eprintln!("{}", res.code);
+
+        assert!(res.code.contains("_react.default.createElement"));
+
+        Ok(())
+    })
+    .unwrap()
+}
+
+#[test]
+fn shopify_3_reduce_defaults() {
+    testing::run_test2(false, |cm, handler| {
+        let c = Compiler::new(cm.clone());
+
+        let opts = Options {
+            config: Config {
+                jsc: JscConfig {
+                    syntax: Some(Syntax::Typescript(TsConfig {
+                        tsx: true,
+                        dynamic_import: true,
+                        ..Default::default()
+                    })),
+                    ..Default::default()
+                },
+                module: None,
+                minify: false,
+                input_source_map: InputSourceMap::Bool(false),
+                source_maps: None,
+                inline_sources_content: false,
+                ..Default::default()
+            },
             cwd: "/Users/kdy1/projects/example-swcify".into(),
             filename: "/Users/kdy1/projects/example-swcify/src/App/App.tsx".into(),
             env_name: "development".into(),
