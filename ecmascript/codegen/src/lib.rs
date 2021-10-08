@@ -92,7 +92,7 @@ impl<'a> Emitter<'a> {
     }
 
     #[emitter]
-    fn emit_module_item(&mut self, node: &ModuleItem) -> Result {
+    pub fn emit_module_item(&mut self, node: &ModuleItem) -> Result {
         match *node {
             ModuleItem::Stmt(ref stmt) => emit!(stmt),
             ModuleItem::ModuleDecl(ref decl) => emit!(decl),
