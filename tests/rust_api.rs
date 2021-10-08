@@ -184,7 +184,7 @@ fn shopify_2_same_opt() {
             .into(),
         );
 
-        let res = c.process_js_with_custom_pass(fm, &handler, opts, as_folder(NoopType), noop());
+        let res = c.process_js_with_custom_pass(fm, &handler, &opts, as_folder(NoopType), noop());
 
         if res.is_err() {
             return Err(());
