@@ -152,38 +152,6 @@ where
             }
         }
     }
-
-    fn parse_url(&mut self) -> PResult<Str> {
-        let span = self.input.cur_span()?;
-
-        match cur!(self) {
-            Token::Ident {
-                value: js_word!("url"),
-                ..
-            } => {
-                bump!(self);
-                expect!(self, "(");
-                let value = self.parse_str()?.value;
-                expect!(self, ")");
-                Ok(Str {
-                    span: span!(self, span.lo),
-                    value,
-                })
-            }
-
-            Token::Url { .. } => match bump!(self) {
-                Token::Url { value } => Ok(Str { span, value }),
-                _ => {
-                    unreachable!()
-                }
-            },
-
-            _ => Err(Error::new(
-                span,
-                ErrorKind::Expected("url('https://example.com') or 'https://example.com'"),
-            )),
-        }
-    }
 }
 
 #[derive(Clone, Copy)]

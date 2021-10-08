@@ -27,7 +27,8 @@
             "end": 11,
             "ctxt": 0
           },
-          "value": "url"
+          "value": "url",
+          "raw": "url"
         },
         "args": [
           {
@@ -64,7 +65,8 @@
             "end": 39,
             "ctxt": 0
           },
-          "value": "url"
+          "value": "url",
+          "raw": "url"
         },
         "args": [
           {
@@ -155,7 +157,8 @@
             "end": 139,
             "ctxt": 0
           },
-          "value": "url"
+          "value": "url",
+          "raw": "url"
         },
         "args": [
           {
@@ -210,7 +213,8 @@
             "end": 193,
             "ctxt": 0
           },
-          "value": "URL"
+          "value": "URL",
+          "raw": "URL"
         },
         "args": [
           {
