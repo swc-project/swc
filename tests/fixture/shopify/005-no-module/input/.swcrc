@@ -10,9 +10,6 @@
             }
         }
     },
-    "module": {
-        "type": "commonjs"
-    },
     "env": {
         "chrome": "50"
     }
