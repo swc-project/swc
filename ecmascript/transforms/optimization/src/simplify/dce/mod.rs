@@ -392,14 +392,17 @@ impl VisitMut for TreeShaker {
         match s {
             Stmt::If(if_stmt) => {
                 if let Value::Known(v) = if_stmt.test.as_pure_bool() {
-                    self.changed = true;
-
                     if v {
+                        if if_stmt.alt.is_some() {
+                            self.changed = true;
+                        }
+
                         if_stmt.alt = None;
                         debug!(
                             "Dropping `alt` of an if statement because condition is always true"
                         );
                     } else {
+                        self.changed = true;
                         if let Some(alt) = if_stmt.alt.take() {
                             *s = *alt;
                             debug!(
