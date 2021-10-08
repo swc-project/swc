@@ -6,6 +6,7 @@ use crate::{resolve::Resolve, NODE_BUILTINS};
 use anyhow::{bail, Context, Error};
 #[cfg(windows)]
 use normpath::BasePath;
+use path_clean::PathClean;
 use rustc_hash::FxHashMap;
 use serde::Deserialize;
 use std::{
@@ -94,7 +95,7 @@ impl NodeModulesResolver {
 
     fn wrap(&self, path: Option<PathBuf>) -> Result<FileName, Error> {
         if let Some(path) = path {
-            let path = path.canonicalize().context("failed to canonicalize")?;
+            let path = path.clean();
             return Ok(FileName::Real(path));
         }
         bail!("index not found")
@@ -191,13 +192,7 @@ impl NodeModulesResolver {
                                             .resolve_as_file(&path)
                                             .or_else(|_| self.resolve_as_directory(&path))?;
                                         if let Some(file) = file {
-                                            let target = file.canonicalize().context(format!(
-                                                "failed to canonicalize browser value {} for key \
-                                                 {} in {}",
-                                                dest,
-                                                k,
-                                                pkg_dir.display()
-                                            ))?;
+                                            let target = file.clean();
 
                                             if let Some(source) = source {
                                                 bucket.rewrites.insert(source, target);
