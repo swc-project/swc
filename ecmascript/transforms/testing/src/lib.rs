@@ -708,8 +708,6 @@ fn test_fixture_inner<P>(
         if !stderr.is_empty() {
             panic!("stderr: {}", stderr);
         }
-    if !stderr.is_empty() {
-        panic!("stderr: {}", stderr);
     }
 
     match actual_src {
