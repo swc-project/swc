@@ -6,6 +6,5 @@
             "tsx": true
         },
         "minify": {}
-    },
-    "minify": true
+    }
 }
