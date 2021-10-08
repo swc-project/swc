@@ -1,5 +1,3 @@
-use std::hash::BuildHasherDefault;
-
 use super::{
     load::{Source, Specifier},
     Bundler,
@@ -7,6 +5,7 @@ use super::{
 use crate::{id::Id, load::Load, resolve::Resolve};
 use indexmap::IndexMap;
 use rustc_hash::FxHasher;
+use std::hash::BuildHasherDefault;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{FileName, SyntaxContext};
 use swc_ecma_ast::*;
