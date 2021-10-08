@@ -950,7 +950,7 @@ where
         }
 
         match b {
-            Expr::Update(..) => return false,
+            Expr::Update(..) | Expr::Arrow(..) | Expr::Fn(..) => return false,
 
             Expr::Cond(b) => {
                 tracing::trace!("seq: Try test of cond");
