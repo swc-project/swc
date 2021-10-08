@@ -324,7 +324,7 @@ fn test_bug_issue3() {
 
 #[test]
 fn test_bug_issue43() {
-    test_same("function foo() {\n  if (a) var b = bar(); else a.b = 1; \n} use(foo);");
+    test_same("function foo() {\n  if (a) bar(); else a.b = 1; \n} use(foo);");
 }
 
 #[test]
