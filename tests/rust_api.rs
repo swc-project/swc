@@ -1,7 +1,5 @@
 use swc::{
-    config::{
-        Config, InputSourceMap, JscConfig, ModuleConfig, Options, RootMode, SourceMapsConfig,
-    },
+    config::{Config, InputSourceMap, JscConfig, ModuleConfig, Options, SourceMapsConfig},
     Compiler,
 };
 use swc_common::FileName;
@@ -155,19 +153,12 @@ fn shopify_2_same_opt() {
             disable_fixer: false,
             global_mark: None,
             cwd: "/Users/kdy1/projects/example-swcify".into(),
-            caller: None,
             filename: "/Users/kdy1/projects/example-swcify/src/App/App.tsx".into(),
-            config_file: None,
-            root: None,
-            root_mode: RootMode::Root,
-            swcrc: true,
-            swcrc_roots: None,
             env_name: "development".into(),
             source_maps: Some(SourceMapsConfig::Bool(false)),
             source_file_name: Some("/Users/kdy1/projects/example-swcify/src/App/App.tsx".into()),
-            source_root: None,
             is_module: true,
-            output_path: None,
+            ..Default::default()
         };
 
         let fm = cm.new_source_file(
