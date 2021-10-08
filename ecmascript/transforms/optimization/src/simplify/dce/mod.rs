@@ -9,7 +9,7 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::PatOrExprExt;
 use swc_ecma_utils::{
-    collect_decls, ident::IdentLike, ExprExt, Id, IsEmpty, ModuleItemLike, StmtLike,
+    collect_decls, ident::IdentLike, ExprExt, Id, IsEmpty, ModuleItemLike, StmtLike, Value,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
@@ -391,6 +391,29 @@ impl VisitMut for TreeShaker {
 
         match s {
             Stmt::If(if_stmt) => {
+                if let Value::Known(v) = if_stmt.test.as_pure_bool() {
+                    self.changed = true;
+
+                    if v {
+                        if_stmt.alt = None;
+                        debug!(
+                            "Dropping `alt` of an if statement because condition is always true"
+                        );
+                    } else {
+                        if let Some(alt) = if_stmt.alt.take() {
+                            *s = *alt;
+                            debug!(
+                                "Dropping `cons` of an if statement because condition is always \
+                                 false"
+                            );
+                        } else {
+                            debug!("Dropping an if statement because condition is always false");
+                            *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                        }
+                        return;
+                    }
+                }
+
                 if if_stmt.alt.is_empty() && if_stmt.cons.is_empty() {
                     if !if_stmt.test.may_have_side_effects() {
                         debug!("Dropping an if statement");
