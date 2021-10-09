@@ -1,7 +1,5 @@
-use std::sync::Arc;
-
 #[cfg(feature = "concurrent")]
-pub(crate) type Readonly<T> = Arc<T>;
+pub(crate) type Readonly<T> = std::sync::Arc<T>;
 
 #[cfg(not(feature = "concurrent"))]
 pub(crate) type Readonly<T> = T;

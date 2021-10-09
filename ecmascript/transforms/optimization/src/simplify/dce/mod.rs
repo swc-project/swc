@@ -48,6 +48,7 @@ struct TreeShaker {
     pass: u16,
     data: Readonly<Data>,
 
+    #[cfg_attr(not(feature = "concurrent"), allow(dead_code))]
     /// Used to avoid cost of being overly parallel.
     par_depth: u16,
 }
