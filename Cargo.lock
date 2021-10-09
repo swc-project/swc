@@ -3137,22 +3137,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "swc-dev"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "cargo",
- "cargo-edit",
- "cargo_metadata",
- "clap",
- "structopt",
- "tokio",
- "tracing",
- "tracing-subscriber",
- "url",
-]
-
-[[package]]
 name = "swc_atoms"
 version = "0.2.7"
 dependencies = [
@@ -3963,6 +3947,22 @@ dependencies = [
  "quote",
  "swc_macros_common",
  "syn",
+]
+
+[[package]]
+name = "swd"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "cargo",
+ "cargo-edit",
+ "cargo_metadata",
+ "clap",
+ "structopt",
+ "tokio",
+ "tracing",
+ "tracing-subscriber",
+ "url",
 ]
 
 [[package]]

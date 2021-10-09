@@ -4,7 +4,7 @@ description = "Command line for writting swc plugins in rust"
 documentation = "https://rustdoc.swc.rs/swc_plugin/"
 edition = "2018"
 license = "Apache-2.0/MIT"
-name = "swc-dev"
+name = "swd"
 repository = "https://github.com/swc-project/swc.git"
 version = "0.0.0"
 
