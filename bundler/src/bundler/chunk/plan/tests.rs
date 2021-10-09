@@ -1,9 +1,8 @@
 use crate::bundler::tests::suite;
-use ahash::AHashMap;
-use rustc_hash::{FxHashMap, FxHashSet};
 use std::collections::HashMap;
+use swc_common::collections::{AHashMap, AHashSet};
 
-fn assert_cycles(map: FxHashMap<String, String>, cycle_entries: Vec<&str>) {
+fn assert_cycles(map: AHashMap<String, String>, cycle_entries: Vec<&str>) {
     let mut tester = suite();
 
     for (k, v) in map {
@@ -17,9 +16,9 @@ fn assert_cycles(map: FxHashMap<String, String>, cycle_entries: Vec<&str>) {
 
         dbg!(&cycles);
 
-        let actual: FxHashSet<_> = cycles.into_iter().flatten().collect();
+        let actual: AHashSet<_> = cycles.into_iter().flatten().collect();
 
-        let expected: FxHashSet<_> = cycle_entries
+        let expected: AHashSet<_> = cycle_entries
             .iter()
             .map(|name| tester.module(&name).id)
             .collect();

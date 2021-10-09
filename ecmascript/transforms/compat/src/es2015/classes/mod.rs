@@ -5,8 +5,7 @@ use self::{
     },
     prop_name::HashKey,
 };
-use rustc_hash::FxHasher;
-use std::{hash::BuildHasherDefault, iter};
+use std::iter;
 use swc_common::{comments::Comments, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, native::is_native, perf::Check};
@@ -31,7 +30,7 @@ where
     }
 }
 
-type IndexMap<K, V> = indexmap::IndexMap<K, V, BuildHasherDefault<FxHasher>>;
+type IndexMap<K, V> = indexmap::IndexMap<K, V, ahash::RandomState>;
 
 /// `@babel/plugin-transform-classes`
 ///

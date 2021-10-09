@@ -1,7 +1,11 @@
-use rustc_hash::FxHashMap;
+use crate::util::Readonly;
+#[cfg(feature = "concurrent")]
+use rayon::prelude::*;
 use std::borrow::Cow;
+#[cfg(feature = "concurrent")]
+use std::sync::Arc;
 use swc_common::{
-    collections::AHashSet,
+    collections::{AHashMap, AHashSet},
     pass::{CompilerPass, Repeated},
     util::take::Take,
     Mark, DUMMY_SP,
@@ -17,12 +21,14 @@ use swc_ecma_visit::{
 };
 use tracing::{debug, span, trace, Level};
 
+/// Note: This becomes parallel if `concurrent` feature is enabled.
 pub fn dce(config: Config) -> impl Fold + VisitMut + Repeated + CompilerPass {
     as_folder(TreeShaker {
         config,
         changed: false,
         pass: 0,
         data: Default::default(),
+        par_depth: 0,
     })
 }
 
@@ -40,7 +46,11 @@ struct TreeShaker {
     config: Config,
     changed: bool,
     pass: u16,
-    data: Data,
+    data: Readonly<Data>,
+
+    #[cfg_attr(not(feature = "concurrent"), allow(dead_code))]
+    /// Used to avoid cost of being overly parallel.
+    par_depth: u16,
 }
 
 impl CompilerPass for TreeShaker {
@@ -54,7 +64,7 @@ struct Data {
     /// Bindings in the module.
     bindings: AHashSet<Id>,
 
-    used_names: FxHashMap<Id, VarInfo>,
+    used_names: AHashMap<Id, VarInfo>,
 }
 #[derive(Debug, Default)]
 struct VarInfo {
@@ -201,12 +211,41 @@ impl Repeated for TreeShaker {
 }
 
 impl TreeShaker {
-    fn visit_mut_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
+    fn visit_maybe_par_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: StmtLike + ModuleItemLike,
+        T: StmtLike + ModuleItemLike + VisitMutWith<Self> + Send + Sync,
         Vec<T>: VisitMutWith<Self>,
     {
+        #[cfg(feature = "concurrent")]
+        if self.par_depth < 2 {
+            let changed = stmts
+                .par_iter_mut()
+                .map(|s| {
+                    let mut v = TreeShaker {
+                        config: self.config,
+                        changed: false,
+                        pass: self.pass,
+                        data: Arc::clone(&self.data),
+                        par_depth: self.par_depth + 1,
+                    };
+                    s.visit_mut_with(&mut v);
+
+                    v.changed
+                })
+                .reduce(|| false, |a, b| a || b);
+            self.changed |= changed;
+            return;
+        }
+
         stmts.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
+    where
+        T: StmtLike + ModuleItemLike + VisitMutWith<Self> + Send + Sync,
+        Vec<T>: VisitMutWith<Self>,
+    {
+        self.visit_maybe_par_stmt_likes(stmts);
 
         stmts.retain(|s| match s.as_stmt() {
             Some(Stmt::Empty(..)) => false,
@@ -379,17 +418,21 @@ impl VisitMut for TreeShaker {
     fn visit_mut_module(&mut self, m: &mut Module) {
         let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
 
-        self.data.bindings = collect_decls(&*m);
+        let mut data = Data {
+            bindings: collect_decls(&*m),
+            ..Default::default()
+        };
 
         {
             let mut analyzer = Analyzer {
                 config: &self.config,
-                data: &mut self.data,
+                data: &mut data,
                 in_var_decl: false,
                 cur_fn_id: Default::default(),
             };
             m.visit_with(&Invalid { span: DUMMY_SP }, &mut analyzer);
         }
+        self.data = data.into();
         trace!("Used = {:?}", self.data.used_names);
 
         m.visit_mut_children_with(self);

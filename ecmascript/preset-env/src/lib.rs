@@ -4,7 +4,6 @@
 pub use self::{transform_data::Feature, version::Version};
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
-use rustc_hash::{FxHashMap, FxHashSet};
 use serde::{Deserialize, Serialize};
 use st_map::StaticMap;
 use std::{
@@ -12,7 +11,12 @@ use std::{
     process::Command,
 };
 use swc_atoms::{js_word, JsWord};
-use swc_common::{chain, comments::Comments, FromVariant, Mark, DUMMY_SP};
+use swc_common::{
+    chain,
+    collections::{AHashMap, AHashSet},
+    comments::Comments,
+    FromVariant, Mark, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{
     compat::{bugfixes, es2015, es2016, es2017, es2018, es2019, es2020, es2021, es3},
@@ -245,8 +249,8 @@ struct Polyfills {
     shipped_proposals: bool,
     corejs: Version,
     regenerator: bool,
-    includes: FxHashSet<String>,
-    excludes: FxHashSet<String>,
+    includes: AHashSet<String>,
+    excludes: AHashSet<String>,
 }
 
 impl Fold for Polyfills {
@@ -499,9 +503,9 @@ pub enum FeatureOrModule {
 }
 
 impl FeatureOrModule {
-    pub fn split(vec: Vec<FeatureOrModule>) -> (Vec<Feature>, FxHashSet<String>) {
+    pub fn split(vec: Vec<FeatureOrModule>) -> (Vec<Feature>, AHashSet<String>) {
         let mut features: Vec<_> = Default::default();
-        let mut modules: FxHashSet<_> = Default::default();
+        let mut modules: AHashSet<_> = Default::default();
 
         for v in vec {
             match v {
@@ -522,7 +526,7 @@ pub enum Targets {
     Query(Query),
     EsModules(EsModules),
     Versions(Versions),
-    HashMap(FxHashMap<String, QueryOrVersion>),
+    HashMap(AHashMap<String, QueryOrVersion>),
 }
 
 #[derive(Debug, Clone, Copy, Deserialize)]
@@ -581,7 +585,8 @@ impl Query {
             Ok(versions)
         }
 
-        static CACHE: Lazy<DashMap<Query, QueryResult>> = Lazy::new(Default::default);
+        static CACHE: Lazy<DashMap<Query, QueryResult, ahash::RandomState>> =
+            Lazy::new(Default::default);
 
         if let Some(v) = CACHE.get(self) {
             return match &*v {

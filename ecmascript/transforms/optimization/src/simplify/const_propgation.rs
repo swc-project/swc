@@ -1,5 +1,4 @@
-use rustc_hash::FxHashMap;
-use swc_common::util::take::Take;
+use swc_common::{collections::AHashMap, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
@@ -17,7 +16,7 @@ struct ConstPropagation<'a> {
 struct Scope<'a> {
     parent: Option<&'a Scope<'a>>,
     /// Stores only inlinable constant variables.
-    vars: FxHashMap<Id, Box<Expr>>,
+    vars: AHashMap<Id, Box<Expr>>,
 }
 
 impl<'a> Scope<'a> {

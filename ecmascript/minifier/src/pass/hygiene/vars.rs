@@ -1,4 +1,4 @@
-use fxhash::{FxHashMap, FxHashSet};
+use fxhash::{AHashMap, AHashSet};
 use std::cell::RefCell;
 use swc_atoms::JsWord;
 use swc_common::{SyntaxContext, DUMMY_SP};
@@ -7,7 +7,7 @@ use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 
 #[derive(Default)]
 pub(super) struct All {
-    pub scopes: FxHashMap<SyntaxContext, VarHygieneData>,
+    pub scopes: AHashMap<SyntaxContext, VarHygieneData>,
 }
 
 pub(super) fn analyze<N>(node: &N) -> All
@@ -26,7 +26,7 @@ where
 
 #[derive(Debug, Default)]
 pub(super) struct VarHygieneData {
-    pub decls: FxHashMap<JsWord, FxHashSet<SyntaxContext>>,
+    pub decls: AHashMap<JsWord, AHashSet<SyntaxContext>>,
 }
 
 #[derive(Default)]

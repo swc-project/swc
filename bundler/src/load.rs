@@ -1,7 +1,7 @@
 use anyhow::Error;
 use swc_common::{sync::Lrc, FileName, SourceFile};
 use swc_ecma_ast::Module;
-use swc_ecma_transforms::helpers::Helpers;
+use swc_ecma_transforms_base::helpers::Helpers;
 
 #[derive(Debug)]
 pub struct ModuleData {

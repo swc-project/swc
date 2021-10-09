@@ -1,7 +1,6 @@
-use rustc_hash::FxHashSet;
 use std::{iter, mem};
 use swc_atoms::JsWord;
-use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{collections::AHashSet, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{
     ext::{AsOptExpr, PatOrExprExt},
@@ -17,9 +16,9 @@ pub(super) struct BrandCheckHandler<'a> {
     pub class_name: &'a Ident,
 
     /// Private names used for brand checks.
-    pub names: &'a mut FxHashSet<JsWord>,
+    pub names: &'a mut AHashSet<JsWord>,
 
-    pub statics: &'a FxHashSet<JsWord>,
+    pub statics: &'a AHashSet<JsWord>,
 }
 
 impl VisitMut for BrandCheckHandler<'_> {
@@ -96,9 +95,9 @@ pub(super) struct FieldAccessFolder<'a> {
     pub method_mark: Mark,
 
     pub class_name: &'a Ident,
-    pub private_methods: &'a FxHashSet<JsWord>,
+    pub private_methods: &'a AHashSet<JsWord>,
     pub vars: Vec<VarDeclarator>,
-    pub statics: &'a FxHashSet<JsWord>,
+    pub statics: &'a AHashSet<JsWord>,
     pub in_assign_pat: bool,
 }
 

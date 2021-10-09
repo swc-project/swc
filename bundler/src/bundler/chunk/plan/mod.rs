@@ -2,9 +2,8 @@ use crate::{
     bundler::load::TransformedModule, dep_graph::ModuleGraph, BundleKind, Bundler, Load, ModuleId,
     Resolve,
 };
-use ahash::AHashMap;
 use anyhow::{bail, Error};
-use rustc_hash::{FxHashMap, FxHashSet};
+use swc_common::collections::{AHashMap, AHashSet};
 
 #[cfg(test)]
 mod tests;
@@ -12,18 +11,18 @@ mod tests;
 #[derive(Debug, Default)]
 struct PlanBuilder {
     /// `(src, dst)`
-    tracked: FxHashSet<(ModuleId, ModuleId)>,
+    tracked: AHashSet<(ModuleId, ModuleId)>,
 
     graph: ModuleGraph,
     cycles: Vec<Vec<ModuleId>>,
     all: Vec<ModuleId>,
 
-    kinds: FxHashMap<ModuleId, BundleKind>,
+    kinds: AHashMap<ModuleId, BundleKind>,
 }
 
 #[derive(Debug, Default)]
 pub(super) struct Plan {
-    pub entries: FxHashMap<ModuleId, BundleKind>,
+    pub entries: AHashMap<ModuleId, BundleKind>,
 
     /// Id of all modules.
     pub all: Vec<ModuleId>,

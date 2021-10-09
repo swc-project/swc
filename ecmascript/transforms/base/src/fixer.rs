@@ -1,6 +1,5 @@
 use crate::ext::{AsOptExpr, PatOrExprExt};
-use rustc_hash::FxHashMap;
-use swc_common::{comments::Comments, util::take::Take, Span, Spanned};
+use swc_common::{collections::AHashMap, comments::Comments, util::take::Take, Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -26,7 +25,7 @@ struct Fixer<'a> {
     ///
     /// Key is span of inner expression, and value is span of the paren
     /// expression.
-    span_map: FxHashMap<Span, Span>,
+    span_map: AHashMap<Span, Span>,
 
     in_for_stmt_head: bool,
 }

@@ -2,9 +2,12 @@ use super::Bundler;
 use crate::{load::Load, resolve::Resolve};
 use anyhow::{Context, Error};
 use retain_mut::RetainMut;
-use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{sync::Lrc, FileName, Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{
+    collections::{AHashMap, AHashSet},
+    sync::Lrc,
+    FileName, Mark, Spanned, SyntaxContext, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -91,7 +94,7 @@ pub(super) struct RawImports {
     /// function bar() {}
     /// foo[bar()]
     /// ```
-    pub forced_ns: FxHashSet<JsWord>,
+    pub forced_ns: AHashSet<JsWord>,
 }
 
 /// This type implements two operation (analysis, deglobbing) to reduce binary
@@ -111,13 +114,13 @@ where
 
     /// HashMap from the local identifier of a namespace import to used
     /// properties.
-    usages: FxHashMap<Id, Vec<Id>>,
+    usages: AHashMap<Id, Vec<Id>>,
 
     /// While deglobbing, we also marks imported identifiers.
-    imported_idents: FxHashMap<Id, SyntaxContext>,
+    imported_idents: AHashMap<Id, SyntaxContext>,
 
     deglob_phase: bool,
-    idents_to_deglob: FxHashSet<Id>,
+    idents_to_deglob: AHashSet<Id>,
 
     /// `true` while folding objects of a member expression.
     ///
