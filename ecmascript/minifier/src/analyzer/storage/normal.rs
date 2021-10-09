@@ -2,7 +2,7 @@ use std::collections::hash_map::Entry;
 
 use super::{ScopeDataLike, Storage, VarDataLike};
 use crate::analyzer::{ctx::Ctx, ProgramData, ScopeData, ScopeKind, VarUsageInfo};
-use rustc_hash::FxHashSet;
+use rustc_hash::AHashSet;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 
@@ -161,7 +161,7 @@ impl ScopeDataLike for ScopeData {
 }
 
 impl ProgramData {
-    fn report(&mut self, i: Id, ctx: Ctx, is_modify: bool, dejavu: &mut FxHashSet<Id>) {
+    fn report(&mut self, i: Id, ctx: Ctx, is_modify: bool, dejavu: &mut AHashSet<Id>) {
         // tracing::trace!("report({}{:?})", i.0, i.1);
 
         let is_first = dejavu.is_empty();

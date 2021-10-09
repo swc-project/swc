@@ -1,11 +1,11 @@
 use crate::option::MangleOptions;
-use rustc_hash::FxHashSet;
+use rustc_hash::AHashSet;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 
-pub(super) fn idents_to_preserve<N>(options: MangleOptions, n: &N) -> FxHashSet<Id>
+pub(super) fn idents_to_preserve<N>(options: MangleOptions, n: &N) -> AHashSet<Id>
 where
     N: VisitWith<Preserver>,
 {
@@ -20,7 +20,7 @@ where
 }
 pub(super) struct Preserver {
     options: MangleOptions,
-    preserved: FxHashSet<Id>,
+    preserved: AHashSet<Id>,
     should_preserve: bool,
     in_top_level: bool,
 }

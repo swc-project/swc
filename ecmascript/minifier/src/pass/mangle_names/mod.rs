@@ -6,7 +6,7 @@ use crate::{
     option::MangleOptions,
     util::base54::incr_base54,
 };
-use rustc_hash::{FxHashMap, FxHashSet};
+use rustc_hash::{AHashMap, AHashSet};
 use swc_atoms::{js_word, JsWord};
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
@@ -38,10 +38,10 @@ struct Mangler {
     n: usize,
     private_n: usize,
 
-    preserved: FxHashSet<Id>,
-    preserved_symbols: FxHashSet<JsWord>,
-    renamed: FxHashMap<Id, JsWord>,
-    renamed_private: FxHashMap<Id, JsWord>,
+    preserved: AHashSet<Id>,
+    preserved_symbols: AHashSet<JsWord>,
+    renamed: AHashMap<Id, JsWord>,
+    renamed_private: AHashMap<Id, JsWord>,
     data: Option<ProgramData>,
 }
 

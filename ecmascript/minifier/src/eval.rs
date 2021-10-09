@@ -3,7 +3,7 @@ use crate::{
     marks::Marks,
     mode::Mode,
 };
-use rustc_hash::FxHashMap;
+use rustc_hash::AHashMap;
 use std::sync::{Arc, Mutex};
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, DUMMY_SP};
@@ -38,7 +38,7 @@ struct Eval {
 
 #[derive(Default)]
 struct EvalStore {
-    cache: FxHashMap<Id, Box<Expr>>,
+    cache: AHashMap<Id, Box<Expr>>,
 }
 
 #[derive(Debug, Clone, PartialEq)]

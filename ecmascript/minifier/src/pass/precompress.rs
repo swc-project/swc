@@ -4,7 +4,7 @@ use crate::{
     option::CompressOptions,
     util::MoudleItemExt,
 };
-use rustc_hash::FxHashMap;
+use rustc_hash::AHashMap;
 use swc_atoms::js_word;
 use swc_common::util::take::Take;
 use swc_ecma_ast::*;
@@ -33,7 +33,7 @@ struct PrecompressOptimizer<'a> {
     marks: Marks,
 
     data: Option<ProgramData>,
-    fn_decl_count: FxHashMap<Id, usize>,
+    fn_decl_count: AHashMap<Id, usize>,
     ctx: Ctx,
 }
 

@@ -4,7 +4,7 @@ use crate::{
     mode::Mode,
     util::{idents_used_by, make_number},
 };
-use rustc_hash::FxHashMap;
+use rustc_hash::AHashMap;
 use std::{
     collections::HashMap,
     mem::{replace, swap},
@@ -257,7 +257,7 @@ where
         }
     }
 
-    pub(super) fn inline_vars_in_node<N>(&mut self, n: &mut N, vars: FxHashMap<Id, Box<Expr>>)
+    pub(super) fn inline_vars_in_node<N>(&mut self, n: &mut N, vars: AHashMap<Id, Box<Expr>>)
     where
         N: VisitMutWith<Self>,
     {

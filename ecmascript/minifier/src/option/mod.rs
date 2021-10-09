@@ -1,5 +1,5 @@
 use regex::Regex;
-use rustc_hash::FxHashMap;
+use rustc_hash::AHashMap;
 use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
 use swc_common::Mark;
@@ -158,7 +158,7 @@ pub struct CompressOptions {
     /// to remove spans.
     #[serde(skip)]
     #[serde(alias = "global_defs")]
-    pub global_defs: FxHashMap<Box<Expr>, Box<Expr>>,
+    pub global_defs: AHashMap<Box<Expr>, Box<Expr>>,
 
     #[serde(default)]
     #[serde(alias = "hoist_funs")]

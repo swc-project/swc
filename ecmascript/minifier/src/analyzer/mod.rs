@@ -6,7 +6,7 @@ use crate::{
     marks::Marks,
     util::{can_end_conditionally, idents_used_by, now},
 };
-use rustc_hash::{FxHashMap, FxHashSet};
+use rustc_hash::{AHashMap, AHashSet};
 use std::time::Instant;
 use swc_atoms::JsWord;
 use swc_common::{SyntaxContext, DUMMY_SP};
@@ -84,7 +84,7 @@ pub(crate) struct VarUsageInfo {
 
     pub has_property_access: bool,
     pub has_property_mutation: bool,
-    pub accessed_props: FxHashSet<JsWord>,
+    pub accessed_props: AHashSet<JsWord>,
 
     pub exported: bool,
     /// True if used **above** the declaration. (Not eval order).
@@ -132,11 +132,11 @@ pub(crate) struct ScopeData {
 /// Analyzed info of a whole program we are working on.
 #[derive(Debug, Default)]
 pub(crate) struct ProgramData {
-    pub vars: FxHashMap<Id, VarUsageInfo>,
+    pub vars: AHashMap<Id, VarUsageInfo>,
 
     pub top: ScopeData,
 
-    pub scopes: FxHashMap<SyntaxContext, ScopeData>,
+    pub scopes: AHashMap<SyntaxContext, ScopeData>,
 }
 
 /// This assumes there are no two variable with same name and same span hygiene.
