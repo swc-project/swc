@@ -232,7 +232,7 @@ jobs:
       - name: Run cargo test (concurrent)
         shell: bash
         run: |
-          ./scripts/ci/success-if-no-concurrent.sh || cargo test --color always -p ${{ matrix.crate }} --features "${{ matrix.crate }}/concurrent"
+          ./scripts/ci/test-concurrent.sh ${{ matrix.crate }}
 
   deploy-docs:
     name: Docs

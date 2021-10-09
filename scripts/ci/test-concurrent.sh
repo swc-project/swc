@@ -10,7 +10,5 @@ CRATES=$(./scripts/cargo/list-crates.sh | \
 
 
 if [[ $CRATES == *"$1"* ]]; then
-    # We have a feature named `concurrent`
-    echo "Crate '$1' has feature 'concurrent'"
-    exit 1
+    cargo test --color always -p $1 --features "$1}/concurrent"
 fi
