@@ -830,7 +830,7 @@ impl Merge for JscExperimental {
 }
 
 /// `paths` sectiob of `tsconfig.json`.
-pub type Paths = HashMap<String, Vec<String>, ahash::RandomState>;
+pub type Paths = AHashMap<String, Vec<String>>;
 pub(crate) type CompiledPaths = Vec<(String, Vec<String>)>;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
