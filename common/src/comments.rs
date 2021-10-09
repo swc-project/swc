@@ -2,6 +2,7 @@ use crate::{
     pos::Spanned,
     syntax_pos::{BytePos, Span, DUMMY_SP},
 };
+use rustc_hash::FxHashMap;
 use std::{
     cell::{Ref, RefCell},
     rc::Rc,
