@@ -121,7 +121,7 @@ fn parse_classic_option(
     src: String,
     top_level_mark: Mark,
 ) -> Box<Expr> {
-    static CACHE: Lazy<DashMap<(String, Mark), Box<Expr>>> =
+    static CACHE: Lazy<DashMap<(String, Mark), Box<Expr>, ahash::RandomState>> =
         Lazy::new(|| DashMap::with_capacity(2));
 
     let fm = cm.new_source_file(FileName::Custom(format!("<jsx-config-{}.js>", name)), src);

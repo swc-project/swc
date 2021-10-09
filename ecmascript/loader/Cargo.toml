@@ -20,6 +20,7 @@ node = ["normpath", "serde", "serde_json", "dashmap", "once_cell", "path-clean"]
 tsc = ["dashmap", "once_cell", "regex"]
 
 [dependencies]
+ahash = "0.7.4"
 anyhow = "1.0.41"
 dashmap = {version = "4.0.2", optional = true}
 lru = {version = "0.6.5", optional = true}

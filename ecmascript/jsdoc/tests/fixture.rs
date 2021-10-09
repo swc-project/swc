@@ -70,7 +70,7 @@ fn fixture(path: PathBuf) {
     .unwrap();
 }
 
-type CommentMap = DashMap<BytePos, Vec<Comment>>;
+type CommentMap = DashMap<BytePos, Vec<Comment>, ahash::RandomState>;
 
 /// Multi-threaded implementation of [Comments]
 #[derive(Clone, Default)]

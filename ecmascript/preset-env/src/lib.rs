@@ -585,7 +585,8 @@ impl Query {
             Ok(versions)
         }
 
-        static CACHE: Lazy<DashMap<Query, QueryResult>> = Lazy::new(Default::default);
+        static CACHE: Lazy<DashMap<Query, QueryResult, ahash::RandomState>> =
+            Lazy::new(Default::default);
 
         if let Some(v) = CACHE.get(self) {
             return match &*v {

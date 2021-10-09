@@ -11,6 +11,7 @@ version = "0.46.1"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+ahash = "0.7.4"
 base64 = "0.13.0"
 dashmap = "4.0.2"
 indexmap = "1.6.1"

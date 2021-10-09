@@ -2634,6 +2634,7 @@ dependencies = [
 name = "swc_ecma_loader"
 version = "0.20.1"
 dependencies = [
+ "ahash",
  "anyhow",
  "dashmap",
  "lru",
@@ -2905,6 +2906,7 @@ dependencies = [
 name = "swc_ecma_transforms_react"
 version = "0.46.1"
 dependencies = [
+ "ahash",
  "base64 0.13.0",
  "dashmap",
  "indexmap",

@@ -38,7 +38,7 @@ es3 = []
 wrong-target = []
 
 [dependencies]
-ahash = "0.7.2"
+ahash = "0.7.4"
 anyhow = "1"
 base64 = "0.13.0"
 dashmap = "4.0.2"

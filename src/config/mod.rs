@@ -707,7 +707,8 @@ impl Default for FileMatcher {
 
 impl FileMatcher {
     pub fn matches(&self, filename: &Path) -> Result<bool, Error> {
-        static CACHE: Lazy<DashMap<String, Regex>> = Lazy::new(Default::default);
+        static CACHE: Lazy<DashMap<String, Regex, ahash::RandomState>> =
+            Lazy::new(Default::default);
 
         match self {
             FileMatcher::Regex(ref s) => {
@@ -1038,7 +1039,8 @@ impl GlobalPassOption {
         let env_map = if cfg!(target_arch = "wasm32") {
             Arc::new(Default::default())
         } else {
-            static CACHE: Lazy<DashMap<Vec<String>, ValuesMap>> = Lazy::new(|| Default::default());
+            static CACHE: Lazy<DashMap<Vec<String>, ValuesMap, ahash::RandomState>> =
+                Lazy::new(|| Default::default());
 
             let cache_key = self.envs.iter().cloned().collect::<Vec<_>>();
             if let Some(v) = CACHE.get(&cache_key).as_deref().cloned() {
@@ -1057,7 +1059,7 @@ impl GlobalPassOption {
         };
 
         let global_map = {
-            static CACHE: Lazy<DashMap<Vec<(String, String)>, ValuesMap>> =
+            static CACHE: Lazy<DashMap<Vec<(String, String)>, ValuesMap, ahash::RandomState>> =
                 Lazy::new(|| Default::default());
 
             let cache_key = self
@@ -1282,7 +1284,7 @@ impl Merge for ConstModulesConfig {
 }
 
 fn build_resolver(base_url: PathBuf, paths: CompiledPaths) -> SwcImportResolver {
-    static CACHE: Lazy<DashMap<(PathBuf, CompiledPaths), SwcImportResolver>> =
+    static CACHE: Lazy<DashMap<(PathBuf, CompiledPaths), SwcImportResolver, ahash::RandomState>> =
         Lazy::new(|| Default::default());
 
     if let Some(cached) = CACHE.get(&(base_url.clone(), paths.clone())) {
