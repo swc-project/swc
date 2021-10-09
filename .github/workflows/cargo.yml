@@ -105,7 +105,6 @@ jobs:
           - node
           - string_enum
           - swc
-          - swc-dev
           - swc_atoms
           - swc_babel_ast
           - swc_babel_compat
@@ -151,6 +150,7 @@ jobs:
           - swc_stylis
           - swc_visit
           - swc_visit_macros
+          - swd
           - testing
           - testing_macros
           - wasm
