@@ -1,6 +1,6 @@
 use crate::path::ImportResolver;
 use anyhow::Context;
-use indexmap::IndexMap;
+use indexmap::{IndexMap, IndexSet};
 use inflector::Inflector;
 use serde::{Deserialize, Serialize};
 use std::{
@@ -902,7 +902,10 @@ pub(super) fn use_strict() -> Stmt {
 /// ```js
 /// exports.default = exports.foo = void 0;
 /// ```
-pub(super) fn initialize_to_undefined(exports: Ident, initialized: AHashSet<JsWord>) -> Box<Expr> {
+pub(super) fn initialize_to_undefined(
+    exports: Ident,
+    initialized: IndexSet<JsWord, ahash::RandomState>,
+) -> Box<Expr> {
     let mut rhs = undefined(DUMMY_SP);
 
     for name in initialized.into_iter() {
