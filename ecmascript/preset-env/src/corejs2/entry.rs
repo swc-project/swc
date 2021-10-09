@@ -1,7 +1,6 @@
 use super::builtin::BUILTINS;
 use crate::{version::should_enable, Versions};
 use indexmap::IndexSet;
-use std::hash::BuildHasherDefault;
 use swc_atoms::js_word;
 use swc_common::{util::move_map::MoveMap, DUMMY_SP};
 use swc_ecma_ast::*;

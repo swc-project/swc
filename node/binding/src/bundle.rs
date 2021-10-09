@@ -4,7 +4,6 @@ use crate::{
 };
 use anyhow::{bail, Error};
 use napi::{CallContext, Env, JsObject, Status, Task};
-use rustc_hash::AHashMap;
 use serde::Deserialize;
 use std::{
     panic::{catch_unwind, AssertUnwindSafe},
@@ -17,7 +16,7 @@ use swc::{
 };
 use swc_atoms::{js_word, JsWord};
 use swc_bundler::{BundleKind, Bundler, Load, ModuleRecord, Resolve};
-use swc_common::Span;
+use swc_common::{collections::AHashMap, Span};
 use swc_ecma_ast::{
     Bool, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, MetaPropExpr, PropName, Str,
     TargetEnv,

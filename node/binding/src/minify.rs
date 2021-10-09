@@ -3,11 +3,10 @@ use crate::{
     util::{CtxtExt, MapErr},
 };
 use napi::{CallContext, JsObject, Task};
-use rustc_hash::AHashMap;
 use serde::Deserialize;
 use std::sync::Arc;
 use swc::{try_with_handler, TransformOutput};
-use swc_common::{sync::Lrc, FileName, SourceFile, SourceMap};
+use swc_common::{collections::AHashMap, sync::Lrc, FileName, SourceFile, SourceMap};
 
 struct MinifyTask {
     c: Arc<swc::Compiler>,

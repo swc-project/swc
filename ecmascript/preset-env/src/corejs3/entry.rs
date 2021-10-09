@@ -1,5 +1,3 @@
-use std::hash::BuildHasherDefault;
-
 use super::compat::DATA as CORE_JS_COMPAT_DATA;
 use crate::{version::should_enable, Version, Versions};
 use indexmap::IndexSet;

@@ -4,7 +4,6 @@ pub use self::{
     output::OutputConfig,
     resolve::{AliasConfig, ResolveConfig},
 };
-use rustc_hash::AHashMap;
 use serde::Deserialize;
 use std::{collections::HashMap, fmt, marker::PhantomData, path::PathBuf};
 use string_enum::StringEnum;

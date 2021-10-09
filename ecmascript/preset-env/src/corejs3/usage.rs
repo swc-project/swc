@@ -12,7 +12,6 @@ use crate::{
     Versions,
 };
 use indexmap::IndexSet;
-use std::hash::BuildHasherDefault;
 use swc_atoms::{js_word, JsWord};
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;

@@ -160,8 +160,8 @@ mod builder;
 pub mod config;
 pub mod resolver {
     use crate::config::CompiledPaths;
-    use rustc_hash::AHashMap;
     use std::path::PathBuf;
+    use swc_common::collections::AHashMap;
     use swc_ecma_ast::TargetEnv;
     use swc_ecma_loader::resolvers::{
         lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,

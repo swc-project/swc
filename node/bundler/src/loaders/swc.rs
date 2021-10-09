@@ -1,7 +1,6 @@
 use crate::loaders::json::load_json_as_module;
 use anyhow::{bail, Context, Error};
 use helpers::Helpers;
-use rustc_hash::AHashMap;
 use std::{collections::HashMap, env, sync::Arc};
 use swc::{
     config::{InputSourceMap, JscConfig, TransformConfig},
@@ -9,7 +8,7 @@ use swc::{
 };
 use swc_atoms::JsWord;
 use swc_bundler::{Load, ModuleData};
-use swc_common::{errors::Handler, sync::Lrc, FileName, DUMMY_SP};
+use swc_common::{collections::AHashMap, errors::Handler, sync::Lrc, FileName, DUMMY_SP};
 use swc_ecma_ast::{Expr, Lit, Module, Program, Str};
 use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax};
 use swc_ecma_transforms::{

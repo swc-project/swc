@@ -5,7 +5,6 @@ use dashmap::DashMap;
 use either::Either;
 use once_cell::sync::Lazy;
 use regex::Regex;
-use rustc_hash::{AHashMap, AHashSet};
 use serde::{Deserialize, Serialize};
 use std::{
     cell::RefCell,
@@ -19,7 +18,11 @@ use std::{
 };
 use swc_atoms::JsWord;
 pub use swc_common::chain;
-use swc_common::{errors::Handler, FileName, Mark, SourceMap};
+use swc_common::{
+    collections::{AHashMap, AHashSet},
+    errors::Handler,
+    FileName, Mark, SourceMap,
+};
 use swc_ecma_ast::{Expr, ExprStmt, ModuleItem, Stmt};
 use swc_ecma_ext_transforms::jest;
 use swc_ecma_loader::resolvers::{
