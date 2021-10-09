@@ -1,6 +1,5 @@
-use rustc_hash::FxHashSet;
 use std::borrow::Cow;
-use swc_common::{pass::CompilerPass, EqIgnoreSpan, Mark, SyntaxContext};
+use swc_common::{collections::AHashSet, pass::CompilerPass, EqIgnoreSpan, Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith};
@@ -23,7 +22,7 @@ struct GlobalDefs {
     /// constant.
     ///
     /// Non-top level bindings are filtered using `top_level_mark`.
-    top_level_bindings: FxHashSet<Id>,
+    top_level_bindings: AHashSet<Id>,
     in_lhs_of_assign: bool,
 }
 

@@ -1448,7 +1448,7 @@ dependencies = [
 
 [[package]]
 name = "jsdoc"
-version = "0.41.0"
+version = "0.42.0"
 dependencies = [
  "anyhow",
  "dashmap",
@@ -1763,7 +1763,6 @@ dependencies = [
  "napi-build",
  "napi-derive",
  "path-clean",
- "rustc-hash",
  "serde",
  "serde_json",
  "swc",
@@ -3098,7 +3097,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.66.1"
+version = "0.67.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3110,7 +3109,6 @@ dependencies = [
  "pathdiff",
  "rayon",
  "regex",
- "rustc-hash",
  "serde",
  "serde_json",
  "sourcemap",
@@ -3203,7 +3201,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.67.1"
+version = "0.68.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3221,7 +3219,6 @@ dependencies = [
  "relative-path",
  "reqwest",
  "retain_mut",
- "rustc-hash",
  "sha-1",
  "swc_atoms 0.2.7",
  "swc_common",
@@ -3229,7 +3226,10 @@ dependencies = [
  "swc_ecma_codegen",
  "swc_ecma_loader",
  "swc_ecma_parser",
- "swc_ecma_transforms",
+ "swc_ecma_transforms_base",
+ "swc_ecma_transforms_optimization",
+ "swc_ecma_transforms_react",
+ "swc_ecma_transforms_typescript",
  "swc_ecma_utils",
  "swc_ecma_visit",
  "swc_node_base",
@@ -3242,7 +3242,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.13.3"
+version = "0.13.4"
 dependencies = [
  "ahash",
  "arbitrary",
@@ -3424,8 +3424,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_loader"
-version = "0.20.1"
+version = "0.21.0"
 dependencies = [
+ "ahash",
  "anyhow",
  "dashmap",
  "lru",
@@ -3433,7 +3434,6 @@ dependencies = [
  "once_cell",
  "path-clean",
  "regex",
- "rustc-hash",
  "serde",
  "serde_json",
  "swc_atoms 0.2.7",
@@ -3446,7 +3446,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.36.1"
+version = "0.37.0"
 dependencies = [
  "ansi_term 0.12.1",
  "anyhow",
@@ -3457,7 +3457,6 @@ dependencies = [
  "rayon",
  "regex",
  "retain_mut",
- "rustc-hash",
  "serde",
  "serde_json",
  "serde_regex",
@@ -3479,7 +3478,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.73.4"
+version = "0.73.5"
 dependencies = [
  "either",
  "enum_kind",
@@ -3487,7 +3486,6 @@ dependencies = [
  "lexical",
  "num-bigint",
  "pretty_assertions 0.6.1",
- "rustc-hash",
  "serde",
  "serde_json",
  "smallvec 1.6.1",
@@ -3504,13 +3502,13 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.51.1"
+version = "0.52.0"
 dependencies = [
+ "ahash",
  "dashmap",
  "indexmap",
  "once_cell",
  "pretty_assertions 0.6.1",
- "rustc-hash",
  "semver 0.9.0",
  "serde",
  "serde_json",
@@ -3530,7 +3528,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.80.1"
+version = "0.81.0"
 dependencies = [
  "pretty_assertions 0.6.1",
  "sourcemap",
@@ -3557,11 +3555,10 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.35.0"
+version = "0.36.0"
 dependencies = [
  "once_cell",
  "phf",
- "rustc-hash",
  "scoped-tls",
  "smallvec 1.6.1",
  "swc_atoms 0.2.7",
@@ -3576,7 +3573,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_classes"
-version = "0.21.0"
+version = "0.22.0"
 dependencies = [
  "swc_atoms 0.2.7",
  "swc_common",
@@ -3588,14 +3585,14 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.40.0"
+version = "0.41.0"
 dependencies = [
+ "ahash",
  "arrayvec",
  "indexmap",
  "is-macro",
  "num-bigint",
  "ordered-float",
- "rustc-hash",
  "serde",
  "smallvec 1.6.1",
  "swc_atoms 0.2.7",
@@ -3624,13 +3621,13 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.44.0"
+version = "0.45.0"
 dependencies = [
  "Inflector",
+ "ahash",
  "anyhow",
  "indexmap",
  "pathdiff",
- "rustc-hash",
  "serde",
  "swc_atoms 0.2.7",
  "swc_common",
@@ -3647,14 +3644,14 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.50.1"
+version = "0.51.0"
 dependencies = [
+ "ahash",
  "dashmap",
  "indexmap",
  "once_cell",
  "rayon",
  "retain_mut",
- "rustc-hash",
  "serde_json",
  "swc_atoms 0.2.7",
  "swc_common",
@@ -3675,10 +3672,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.44.0"
+version = "0.45.0"
 dependencies = [
  "either",
- "rustc-hash",
  "serde",
  "serde_json",
  "smallvec 1.6.1",
@@ -3700,8 +3696,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.46.1"
+version = "0.47.0"
 dependencies = [
+ "ahash",
  "base64 0.13.0",
  "dashmap",
  "indexmap",
@@ -3726,7 +3723,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.36.1"
+version = "0.37.0"
 dependencies = [
  "ansi_term 0.12.1",
  "anyhow",
@@ -3745,9 +3742,8 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.46.2"
+version = "0.47.0"
 dependencies = [
- "rustc-hash",
  "serde",
  "swc_atoms 0.2.7",
  "swc_common",
@@ -3793,7 +3789,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.72.1"
+version = "0.73.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3846,7 +3842,6 @@ dependencies = [
  "pretty_assertions 0.6.1",
  "pretty_env_logger",
  "regex",
- "rustc-hash",
  "serde",
  "serde_json",
  "string_enum",
@@ -4447,7 +4442,7 @@ checksum = "fd6fbd9a79829dd1ad0cc20627bf1ed606756a7f77edff7b66b7064f9cb327c6"
 
 [[package]]
 name = "wasm"
-version = "1.2.95"
+version = "1.2.96"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",

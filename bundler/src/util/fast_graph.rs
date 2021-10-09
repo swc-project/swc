@@ -12,16 +12,16 @@ use petgraph::{
     visit::{GraphBase, IntoNeighbors, IntoNeighborsDirected, NodeCount, Visitable},
     Directed, Direction, EdgeType, Incoming, IntoWeightedEdge, Outgoing, Undirected,
 };
-use rustc_hash::{FxHashSet, FxHasher};
 use std::{
     cmp::Ordering,
     fmt,
-    hash::{self, BuildHasherDefault, Hash},
+    hash::{self, Hash},
     iter::{Cloned, DoubleEndedIterator, FromIterator},
     marker::PhantomData,
     ops::Deref,
     slice::Iter,
 };
+use swc_common::collections::AHashSet;
 
 /// A `GraphMap` with directed edges.
 ///
@@ -55,8 +55,8 @@ pub type FastDiGraphMap<N, E> = FastGraphMap<N, E, Directed>;
 /// Depends on crate feature `graphmap` (default).
 #[derive(Clone)]
 pub struct FastGraphMap<N, E, Ty> {
-    nodes: IndexMap<N, Vec<(N, CompactDirection)>, BuildHasherDefault<FxHasher>>,
-    edges: IndexMap<(N, N), E, BuildHasherDefault<FxHasher>>,
+    nodes: IndexMap<N, Vec<(N, CompactDirection)>, ahash::RandomState>,
+    edges: IndexMap<(N, N), E, ahash::RandomState>,
     ty: PhantomData<Ty>,
 }
 
@@ -578,7 +578,7 @@ where
     Ty: EdgeType,
 {
     from: N,
-    edges: &'a IndexMap<(N, N), E, BuildHasherDefault<FxHasher>>,
+    edges: &'a IndexMap<(N, N), E, ahash::RandomState>,
     iter: Neighbors<'a, N, Ty>,
 }
 
@@ -854,9 +854,9 @@ where
     N: Copy + Ord + Hash,
     Ty: EdgeType,
 {
-    type Map = FxHashSet<N>;
-    fn visit_map(&self) -> FxHashSet<N> {
-        FxHashSet::with_capacity_and_hasher(self.node_count(), Default::default())
+    type Map = AHashSet<N>;
+    fn visit_map(&self) -> AHashSet<N> {
+        AHashSet::with_capacity_and_hasher(self.node_count(), Default::default())
     }
     fn reset_map(&self, map: &mut Self::Map) {
         map.clear();

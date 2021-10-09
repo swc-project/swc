@@ -1,6 +1,6 @@
 use super::Optimizer;
 use crate::mode::Mode;
-use rustc_hash::FxHashMap;
+use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -80,7 +80,7 @@ where
 }
 
 struct Inliner<'a> {
-    values: &'a mut FxHashMap<Id, Option<Box<Expr>>>,
+    values: &'a mut AHashMap<Id, Option<Box<Expr>>>,
 }
 
 impl VisitMut for Inliner<'_> {

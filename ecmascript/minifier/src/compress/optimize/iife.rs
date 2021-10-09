@@ -4,13 +4,12 @@ use crate::{
     mode::Mode,
     util::{idents_used_by, make_number},
 };
-use rustc_hash::FxHashMap;
 use std::{
     collections::HashMap,
     mem::{replace, swap},
 };
 use swc_atoms::js_word;
-use swc_common::{pass::Either, util::take::Take, Spanned, DUMMY_SP};
+use swc_common::{collections::AHashMap, pass::Either, util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, undefined, ExprFactory, Id};
 use swc_ecma_visit::VisitMutWith;
@@ -257,7 +256,7 @@ where
         }
     }
 
-    pub(super) fn inline_vars_in_node<N>(&mut self, n: &mut N, vars: FxHashMap<Id, Box<Expr>>)
+    pub(super) fn inline_vars_in_node<N>(&mut self, n: &mut N, vars: AHashMap<Id, Box<Expr>>)
     where
         N: VisitMutWith<Self>,
     {

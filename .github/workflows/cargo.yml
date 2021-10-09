@@ -231,10 +231,9 @@ jobs:
           cargo test --color always -p ${{ matrix.crate }}
 
       - name: Run cargo test (concurrent)
-        if: matrix.crate == 'swc_bundler'
+        shell: bash
         run: |
-          cd bundler
-          cargo test --color always -p ${{ matrix.crate }} --all-features
+          ./scripts/ci/test-concurrent.sh ${{ matrix.crate }}
 
   deploy-docs:
     name: Docs

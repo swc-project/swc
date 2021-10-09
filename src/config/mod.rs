@@ -5,7 +5,6 @@ use dashmap::DashMap;
 use either::Either;
 use once_cell::sync::Lazy;
 use regex::Regex;
-use rustc_hash::{FxHashMap, FxHashSet};
 use serde::{Deserialize, Serialize};
 use std::{
     cell::RefCell,
@@ -19,7 +18,11 @@ use std::{
 };
 use swc_atoms::JsWord;
 pub use swc_common::chain;
-use swc_common::{errors::Handler, FileName, Mark, SourceMap};
+use swc_common::{
+    collections::{AHashMap, AHashSet},
+    errors::Handler,
+    FileName, Mark, SourceMap,
+};
 use swc_ecma_ast::{Expr, ExprStmt, ModuleItem, Stmt};
 use swc_ecma_ext_transforms::jest;
 use swc_ecma_loader::resolvers::{
@@ -704,7 +707,8 @@ impl Default for FileMatcher {
 
 impl FileMatcher {
     pub fn matches(&self, filename: &Path) -> Result<bool, Error> {
-        static CACHE: Lazy<DashMap<String, Regex>> = Lazy::new(Default::default);
+        static CACHE: Lazy<DashMap<String, Regex, ahash::RandomState>> =
+            Lazy::new(Default::default);
 
         match self {
             FileMatcher::Regex(ref s) => {
@@ -826,7 +830,7 @@ impl Merge for JscExperimental {
 }
 
 /// `paths` sectiob of `tsconfig.json`.
-pub type Paths = HashMap<String, Vec<String>, ahash::RandomState>;
+pub type Paths = AHashMap<String, Vec<String>>;
 pub(crate) type CompiledPaths = Vec<(String, Vec<String>)>;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -966,12 +970,12 @@ fn default_jsonify_min_cost() -> usize {
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct GlobalPassOption {
     #[serde(default)]
-    pub vars: FxHashMap<String, String>,
+    pub vars: AHashMap<String, String>,
     #[serde(default = "default_envs")]
-    pub envs: FxHashSet<String>,
+    pub envs: AHashSet<String>,
 }
 
-fn default_envs() -> FxHashSet<String> {
+fn default_envs() -> AHashSet<String> {
     let mut v = HashSet::default();
     v.insert(String::from("NODE_ENV"));
     v.insert(String::from("SWC_ENV"));
@@ -980,7 +984,7 @@ fn default_envs() -> FxHashSet<String> {
 
 impl GlobalPassOption {
     pub fn build(self, cm: &SourceMap, handler: &Handler) -> impl 'static + Fold {
-        type ValuesMap = Arc<FxHashMap<JsWord, Expr>>;
+        type ValuesMap = Arc<AHashMap<JsWord, Expr>>;
 
         fn mk_map(
             cm: &SourceMap,
@@ -1035,7 +1039,8 @@ impl GlobalPassOption {
         let env_map = if cfg!(target_arch = "wasm32") {
             Arc::new(Default::default())
         } else {
-            static CACHE: Lazy<DashMap<Vec<String>, ValuesMap>> = Lazy::new(|| Default::default());
+            static CACHE: Lazy<DashMap<Vec<String>, ValuesMap, ahash::RandomState>> =
+                Lazy::new(|| Default::default());
 
             let cache_key = self.envs.iter().cloned().collect::<Vec<_>>();
             if let Some(v) = CACHE.get(&cache_key).as_deref().cloned() {
@@ -1054,7 +1059,7 @@ impl GlobalPassOption {
         };
 
         let global_map = {
-            static CACHE: Lazy<DashMap<Vec<(String, String)>, ValuesMap>> =
+            static CACHE: Lazy<DashMap<Vec<(String, String)>, ValuesMap, ahash::RandomState>> =
                 Lazy::new(|| Default::default());
 
             let cache_key = self
@@ -1279,7 +1284,7 @@ impl Merge for ConstModulesConfig {
 }
 
 fn build_resolver(base_url: PathBuf, paths: CompiledPaths) -> SwcImportResolver {
-    static CACHE: Lazy<DashMap<(PathBuf, CompiledPaths), SwcImportResolver>> =
+    static CACHE: Lazy<DashMap<(PathBuf, CompiledPaths), SwcImportResolver, ahash::RandomState>> =
         Lazy::new(|| Default::default());
 
     if let Some(cached) = CACHE.get(&(base_url.clone(), paths.clone())) {

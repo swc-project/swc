@@ -191,7 +191,8 @@ where
 }
 
 fn compile_regex(src: String) -> Regex {
-    static CACHE: Lazy<DashMap<String, Regex>> = Lazy::new(|| Default::default());
+    static CACHE: Lazy<DashMap<String, Regex, ahash::RandomState>> =
+        Lazy::new(|| Default::default());
 
     if !CACHE.contains_key(&*src) {
         // Create capture group

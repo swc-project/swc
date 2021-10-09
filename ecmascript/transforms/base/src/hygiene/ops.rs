@@ -1,6 +1,6 @@
-use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
 use swc_common::{
+    collections::AHashMap,
     util::{move_map::MoveMap, take::Take},
     Spanned, SyntaxContext, DUMMY_SP,
 };
@@ -9,7 +9,7 @@ use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 #[derive(Debug, Default)]
 pub(super) struct Operations {
-    pub rename: FxHashMap<Id, JsWord>,
+    pub rename: AHashMap<Id, JsWord>,
 }
 
 pub(super) struct Operator<'a>(pub &'a Operations);

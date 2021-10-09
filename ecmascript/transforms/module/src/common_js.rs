@@ -4,7 +4,7 @@ use super::util::{
     make_require_call, use_strict, ModulePass, Scope,
 };
 use crate::path::{ImportResolver, NoopImportResolver};
-use rustc_hash::FxHashSet;
+use indexmap::IndexSet;
 use std::{
     cell::{Ref, RefCell, RefMut},
     rc::Rc,
@@ -82,7 +82,7 @@ where
         }
 
         let mut exports = vec![];
-        let mut initialized = FxHashSet::default();
+        let mut initialized = IndexSet::default();
         let mut export_alls = vec![];
 
         for item in items {

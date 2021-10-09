@@ -4,7 +4,7 @@ use super::util::{
 };
 use crate::path::{ImportResolver, NoopImportResolver};
 use anyhow::Context;
-use rustc_hash::FxHashSet;
+use indexmap::IndexSet;
 use serde::{Deserialize, Serialize};
 use std::{
     cell::{Ref, RefCell, RefMut},
@@ -91,7 +91,7 @@ where
         }
 
         let mut exports = vec![];
-        let mut initialized = FxHashSet::default();
+        let mut initialized = IndexSet::default();
         let mut export_alls = vec![];
         let mut emitted_esmodule = false;
         let mut has_export = false;

@@ -1,8 +1,7 @@
 use crate::scope::{IdentType, ScopeKind};
-use rustc_hash::FxHashSet;
 use std::cell::RefCell;
 use swc_atoms::JsWord;
-use swc_common::{Mark, SyntaxContext};
+use swc_common::{collections::AHashSet, Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, Id};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
@@ -99,11 +98,11 @@ struct Scope<'a> {
     kind: ScopeKind,
 
     /// All declarations in the scope
-    declared_symbols: FxHashSet<JsWord>,
-    hoisted_symbols: RefCell<FxHashSet<JsWord>>,
+    declared_symbols: AHashSet<JsWord>,
+    hoisted_symbols: RefCell<AHashSet<JsWord>>,
 
     /// All types declared in the scope
-    declared_types: FxHashSet<JsWord>,
+    declared_types: AHashSet<JsWord>,
 }
 
 impl<'a> Default for Scope<'a> {
@@ -1281,7 +1280,7 @@ struct Hoister<'a, 'b> {
     kind: Option<VarDeclKind>,
     /// Hoister should not touch let / const in the block.
     in_block: bool,
-    catch_param_decls: FxHashSet<JsWord>,
+    catch_param_decls: AHashSet<JsWord>,
 }
 
 impl VisitMut for Hoister<'_, '_> {

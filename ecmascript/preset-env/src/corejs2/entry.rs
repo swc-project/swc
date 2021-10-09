@@ -1,8 +1,6 @@
 use super::builtin::BUILTINS;
 use crate::{version::should_enable, Versions};
 use indexmap::IndexSet;
-use rustc_hash::FxHasher;
-use std::hash::BuildHasherDefault;
 use swc_atoms::js_word;
 use swc_common::{util::move_map::MoveMap, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -12,7 +10,7 @@ use swc_ecma_visit::{Fold, FoldWith};
 pub struct Entry {
     is_any_target: bool,
     target: Versions,
-    pub imports: IndexSet<&'static str, BuildHasherDefault<FxHasher>>,
+    pub imports: IndexSet<&'static str, ahash::RandomState>,
 }
 
 impl Entry {

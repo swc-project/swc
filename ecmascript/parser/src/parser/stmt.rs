@@ -20,7 +20,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let old_ctx = self.ctx();
 
-        let mut stmts = Vec::with_capacity(32);
+        let mut stmts = Vec::with_capacity(16);
         while {
             let c = cur!(self, false).ok();
             c != end
