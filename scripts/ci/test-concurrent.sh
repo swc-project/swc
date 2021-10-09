@@ -10,5 +10,5 @@ CRATES=$(./scripts/cargo/list-crates.sh | \
 
 
 if [[ $CRATES == *"$1"* ]]; then
-    cargo test --color always -p $1 --features "$1}/concurrent"
+    cargo test --color always -p $1 --features "$1/concurrent"
 fi
