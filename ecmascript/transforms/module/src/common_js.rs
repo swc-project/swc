@@ -4,13 +4,12 @@ use super::util::{
     make_require_call, use_strict, ModulePass, Scope,
 };
 use crate::path::{ImportResolver, NoopImportResolver};
-use rustc_hash::FxHashSet;
 use std::{
     cell::{Ref, RefCell, RefMut},
     rc::Rc,
 };
 use swc_atoms::js_word;
-use swc_common::{FileName, Mark, Span, DUMMY_SP};
+use swc_common::{DUMMY_SP, FileName, Mark, Span, collections::AHashSet};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
@@ -82,7 +81,7 @@ where
         }
 
         let mut exports = vec![];
-        let mut initialized = FxHashSet::default();
+        let mut initialized = AHashSet::default();
         let mut export_alls = vec![];
 
         for item in items {

@@ -7,9 +7,8 @@ use super::util::{
     local_name_for_src, make_descriptor, make_require_call, use_strict, Exports, ModulePass, Scope,
 };
 use crate::path::{ImportResolver, NoopImportResolver};
-use rustc_hash::FxHashSet;
 use swc_atoms::js_word;
-use swc_common::{sync::Lrc, FileName, Mark, SourceMap, DUMMY_SP};
+use swc_common::{collections::AHashSet, sync::Lrc, FileName, Mark, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
@@ -99,7 +98,7 @@ where
         }
 
         let mut exports = vec![];
-        let mut initialized = FxHashSet::default();
+        let mut initialized = AHashSet::default();
         let mut export_alls = vec![];
         let mut emitted_esmodule = false;
         let mut has_export = false;

@@ -11,11 +11,11 @@ use crate::{
     util::{contains_leaping_yield, make_number, MoudleItemExt},
 };
 use retain_mut::RetainMut;
-use rustc_hash::AHashMap;
 use std::{fmt::Write, mem::take};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
-    iter::IdentifyLast, pass::Repeated, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP,
+    collections::AHashMap, iter::IdentifyLast, pass::Repeated, util::take::Take, Mark, Spanned,
+    SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{

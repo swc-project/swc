@@ -6,10 +6,12 @@ use crate::{
     marks::Marks,
     util::{can_end_conditionally, idents_used_by, now},
 };
-use rustc_hash::{AHashMap, AHashSet};
 use std::time::Instant;
 use swc_atoms::JsWord;
-use swc_common::{SyntaxContext, DUMMY_SP};
+use swc_common::{
+    collections::{AHashMap, AHashSet},
+    SyntaxContext, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};

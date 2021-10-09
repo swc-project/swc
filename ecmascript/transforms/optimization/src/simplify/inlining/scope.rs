@@ -2,14 +2,13 @@
 
 use super::{Inlining, Phase};
 use indexmap::map::{Entry, IndexMap};
-use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
 use std::{
     borrow::Cow,
     cell::{Cell, RefCell},
     collections::VecDeque,
-    hash::BuildHasherDefault,
 };
 use swc_atoms::js_word;
+use swc_common::collections::{AHashMap, AHashSet};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::ExprRefExt;
 use swc_ecma_utils::{ident::IdentLike, Id};
@@ -244,11 +243,11 @@ pub(super) struct Scope<'a> {
     pub kind: ScopeKind,
 
     inline_barriers: RefCell<VecDeque<usize>>,
-    bindings: IndexMap<Id, VarInfo, BuildHasherDefault<FxHasher>>,
-    unresolved_usages: FxHashSet<Id>,
+    bindings: IndexMap<Id, VarInfo, ahash::RandomState>,
+    unresolved_usages: AHashSet<Id>,
 
     /// Simple optimization. We don't need complex scope analysis.
-    pub constants: FxHashMap<Id, Option<Expr>>,
+    pub constants: AHashMap<Id, Option<Expr>>,
 }
 
 impl<'a> Scope<'a> {

@@ -1,8 +1,7 @@
 use regex::Regex;
-use rustc_hash::AHashMap;
 use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
-use swc_common::Mark;
+use swc_common::{collections::AHashMap, Mark};
 use swc_ecma_ast::{EsVersion, Expr};
 
 pub mod terser;

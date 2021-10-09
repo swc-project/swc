@@ -6,9 +6,11 @@ use crate::{
     option::MangleOptions,
     util::base54::incr_base54,
 };
-use rustc_hash::{AHashMap, AHashSet};
 use swc_atoms::{js_word, JsWord};
-use swc_common::SyntaxContext;
+use swc_common::{
+    collections::{AHashMap, AHashSet},
+    SyntaxContext,
+};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};

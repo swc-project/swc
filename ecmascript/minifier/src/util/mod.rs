@@ -1,6 +1,6 @@
-use rustc_hash::AHashSet;
 use std::time::Instant;
 use swc_common::{
+    collections::AHashSet,
     pass::{CompilerPass, Repeated},
     util::take::Take,
     Mark, Span, Spanned, DUMMY_SP,

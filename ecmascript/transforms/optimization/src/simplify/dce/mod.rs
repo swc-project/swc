@@ -1,12 +1,11 @@
 use crate::util::Readonly;
 #[cfg(feature = "concurrent")]
 use rayon::prelude::*;
-use rustc_hash::FxHashMap;
 use std::borrow::Cow;
 #[cfg(feature = "concurrent")]
 use std::sync::Arc;
 use swc_common::{
-    collections::AHashSet,
+    collections::{AHashMap, AHashSet},
     pass::{CompilerPass, Repeated},
     util::take::Take,
     Mark, DUMMY_SP,
@@ -64,7 +63,7 @@ struct Data {
     /// Bindings in the module.
     bindings: AHashSet<Id>,
 
-    used_names: FxHashMap<Id, VarInfo>,
+    used_names: AHashMap<Id, VarInfo>,
 }
 #[derive(Debug, Default)]
 struct VarInfo {

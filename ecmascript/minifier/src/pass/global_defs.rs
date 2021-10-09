@@ -1,6 +1,5 @@
-use rustc_hash::AHashSet;
 use std::borrow::Cow;
-use swc_common::{pass::CompilerPass, EqIgnoreSpan, Mark, SyntaxContext};
+use swc_common::{collections::AHashSet, pass::CompilerPass, EqIgnoreSpan, Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith};
