@@ -563,8 +563,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.foo8 = foo8;
-exports.foo2 = exports.foo7 = exports.foo3 = exports.foo4 = exports.bar =
-  exports.foo = exports.foo5 = exports.foo6 = void 0;
+exports.foo7 = exports.foo6 = exports.foo5 = exports.foo4 = exports.foo3 = exports.bar = exports.foo2 = exports.foo = void 0;
 
 var foo = 1;
 exports.foo = foo;
@@ -802,7 +801,7 @@ d = 4;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.e = exports.c = exports.a = exports.test = exports.f = void 0;
+exports.f = exports.e = exports.c = exports.a = exports.test = void 0;
 var test = 2;
 exports.test = test;
 exports.test = test = 5;
