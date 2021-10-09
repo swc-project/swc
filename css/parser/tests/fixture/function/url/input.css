@@ -18,4 +18,8 @@ a {
     background-image: url(   ' '   );
     background-image: url(./image.png);
     background-image: url(   ./image.png   );
+    background-image: url(   ./image\32.png   );
+    background-image: url(   
+    ./image\32.png   
+    );
 }

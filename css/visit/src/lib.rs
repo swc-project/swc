@@ -167,8 +167,8 @@ define!({
 
     pub struct UrlValue {
         pub span: Span,
-
         pub url: JsWord,
+        pub raw: JsWord,
     }
 
     pub struct ComplexSelector {

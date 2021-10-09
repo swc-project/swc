@@ -350,49 +350,78 @@ where
 
     /// Ported from `consumeURL` of `esbuild`.
     fn read_url(&mut self) -> LexResult<Token> {
-        let mut url = String::new();
+        let mut value = String::new();
+        let mut raw = String::new();
+
+        self.skip_ws()?;
 
         loop {
             self.last_pos = None;
 
-            if self.input.eat_byte(b')') {
-                return Ok(Token::Url { value: url.into() });
-            }
+            match self.input.cur() {
+                Some(c) if c == ')' => {
+                    self.input.bump();
 
-            if self.input.cur().is_none() {
-                return Err(ErrorKind::UnterminatedUrl);
-            }
+                    return Ok(Token::Url {
+                        value: value.into(),
+                        raw: raw.into(),
+                    });
+                }
+
+                None => {
+                    // TODO: This is a parse error. Return the <url-token>.
+                    return Err(ErrorKind::Eof);
+                }
 
             match self.input.cur().unwrap() {
                 c if is_whitespace(c) => {
+                // TODO: Add `\f` of golang.
+                Some(c) if c == ' ' || c == '\t' || c == '\n' || c == '\r' => {
+                    self.input.bump();
                     self.skip_ws()?;
 
-                    if !self.input.eat_byte(b')') {
-                        // TODO: break + Error recovery
-                        return Err(ErrorKind::UnterminatedUrl);
-                    }
-                    return Ok(Token::Url { value: url.into() });
-                }
+                    let c = self.input.cur();
 
-                '"' | '\'' | '(' => {
-                    // TODO: break + Error recovery
+                    match c {
+                        Some(c) if c == ')' => {
+                            self.input.bump();
+
+                            return Ok(Token::Url {
+                                value: value.into(),
+                                raw: raw.into(),
+                            });
+                        }
+                        None => {
+                            // TODO: This is a parse error. Return the <url-token>.
+                            return Err(ErrorKind::Eof);
+                        }
+                        _ => {}
+                    }
+
+                    // TODO: break + Error recovery + 4.3.14. Consume the remnants of a bad url
                     return Err(ErrorKind::UnterminatedUrl);
                 }
 
-                '\\' => {
+                Some(c) if c == '"' || c == '\'' || c == '(' || is_non_printable(c) => {
+                    // TODO: break + Error recovery + 4.3.14. Consume the remnants of a bad url
+                    return Err(ErrorKind::UnterminatedUrl);
+                }
+
+                Some('\\') => {
                     if !self.is_valid_escape()? {
-                        // TODO: break + Error recovery
+                        // TODO: break + Error recovery + 4.3.14. Consume the remnants of a bad url
                         return Err(ErrorKind::InvalidEscape);
                     }
 
-                    // TODO raw url
-                    url.push(self.read_escape()?.0);
+                    let escaped = self.read_escape()?;
+
+                    value.push(escaped.0);
+                    raw.push_str(&escaped.1);
                 }
 
-                c => {
-                    url.push(c);
-
-                    // TODO: Validate that c is a valid character for a URL.
+                Some(c) => {
+                    value.push(c);
+                    raw.push(c);
 
                     self.input.bump();
                 }
@@ -620,6 +649,7 @@ where
         Ok((buf.into(), raw.into()))
     }
 
+    // TODO adding whitespaces to raw too
     fn skip_ws(&mut self) -> LexResult<()> {
         loop {
             if self.input.cur().is_none() {
@@ -722,6 +752,13 @@ fn is_whitespace(c: char) -> bool {
     match c {
         c if c == ' ' || c == '\t' || is_newline(c) => true,
 
+        _ => false,
+    }
+}
+
+fn is_non_printable(c: char) -> bool {
+    match c {
+        '\x00'..='\x08' | '\x0B' | '\x0E'..='\x1F' | '\x7F' => true,
         _ => false,
     }
 }

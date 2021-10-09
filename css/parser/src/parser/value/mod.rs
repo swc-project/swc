@@ -240,6 +240,7 @@ where
                 let url = match bump!(self) {
                     // TODO fix me
                     Token::Url { value, .. } => value,
+                    Token::Url { value, raw } => (value, raw),
                     _ => {
                         unreachable!()
                     }
@@ -247,7 +248,8 @@ where
 
                 return Ok(Value::Url(UrlValue {
                     span: span!(self, span.lo),
-                    url,
+                    url: url.0,
+                    raw: url.1,
                 }));
             }
 
