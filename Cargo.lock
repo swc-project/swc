@@ -2306,7 +2306,7 @@ checksum = "6446ced80d6c486436db5c078dde11a9f73d42b57fb273121e160b84f63d894c"
 
 [[package]]
 name = "swc"
-version = "0.66.0"
+version = "0.66.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2411,7 +2411,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.67.0"
+version = "0.67.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2578,7 +2578,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.74.1"
+version = "0.74.2"
 dependencies = [
  "bitflags",
  "memchr",
@@ -2654,7 +2654,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.36.0"
+version = "0.36.1"
 dependencies = [
  "ansi_term 0.12.1",
  "anyhow",
@@ -2687,7 +2687,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.73.3"
+version = "0.73.4"
 dependencies = [
  "either",
  "enum_kind",
@@ -2712,7 +2712,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.51.0"
+version = "0.51.1"
 dependencies = [
  "dashmap",
  "indexmap",
@@ -2738,7 +2738,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.80.0"
+version = "0.80.1"
 dependencies = [
  "pretty_assertions 0.6.1",
  "sourcemap",
@@ -2855,7 +2855,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.50.0"
+version = "0.50.1"
 dependencies = [
  "dashmap",
  "indexmap",
@@ -2953,7 +2953,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.46.1"
+version = "0.46.2"
 dependencies = [
  "rustc-hash",
  "serde",
@@ -3001,7 +3001,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.72.0"
+version = "0.72.1"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3512,7 +3512,7 @@ checksum = "fd6fbd9a79829dd1ad0cc20627bf1ed606756a7f77edff7b66b7064f9cb327c6"
 
 [[package]]
 name = "wasm"
-version = "1.2.94"
+version = "1.2.95"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",

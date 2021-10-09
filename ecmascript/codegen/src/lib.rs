@@ -178,12 +178,19 @@ where
     }
 
     #[emitter]
-    fn emit_import(&mut self, node: &ImportDecl) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+    fn emit_import(&mut self, n: &ImportDecl) -> Result {
+        self.emit_leading_comments_of_span(n.span(), false)?;
 
-        keyword!("import");
-        let starts_with_ident = !node.specifiers.is_empty()
-            && match &node.specifiers[0] {
+        {
+            let span = if n.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(n.span.lo, n.span.lo + BytePos(6), Default::default())
+            };
+            keyword!(span, "import");
+        }
+        let starts_with_ident = !n.specifiers.is_empty()
+            && match &n.specifiers[0] {
                 ImportSpecifier::Default(_) => true,
                 _ => false,
             };
@@ -196,7 +203,7 @@ where
         let mut specifiers = vec![];
         let mut emitted_default = false;
         let mut emitted_ns = false;
-        for specifier in &node.specifiers {
+        for specifier in &n.specifiers {
             match specifier {
                 ImportSpecifier::Named(ref s) => {
                     specifiers.push(s);
@@ -213,7 +220,7 @@ where
 
                     emitted_ns = true;
 
-                    assert!(node.specifiers.len() <= 2);
+                    assert!(n.specifiers.len() <= 2);
                     punct!("*");
                     formatting_space!();
                     keyword!("as");
@@ -237,7 +244,7 @@ where
 
             punct!("{");
             self.emit_list(
-                node.span(),
+                n.span(),
                 Some(&specifiers),
                 ListFormat::NamedImportsOrExportsElements,
             )?;
@@ -248,7 +255,7 @@ where
             formatting_space!();
         }
 
-        emit!(node.src);
+        emit!(n.src);
         formatting_semi!();
     }
 
