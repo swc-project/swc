@@ -28,9 +28,13 @@ impl RootModule for SwcPluginRef {
 #[doc(hidden)]
 pub fn invoke_js_plugin<C, F>(
     op: fn(C) -> F,
-    config_json: &str,
-    ast_json: &str,
-) -> RResult<RString, RString> {
+    config_json: RStr,
+    ast_json: RString,
+) -> RResult<RString, RString>
+where
+    F: swc_ecma_visit::Fold,
+{
+    todo!()
 }
 
 #[macro_export]
