@@ -86,7 +86,7 @@ name = "usage"
 
 [profile.release]
 codegen-units = 1
-# lto = true
+lto = true
 # debug = true
 # opt-level = 'z'
 
@@ -101,6 +101,3 @@ opt-level = 3
 
 [profile.test.package.pretty_assertions]
 opt-level = 3
-
-[patch.crates-io]
-string_cache = {path = "../string-cache"}
