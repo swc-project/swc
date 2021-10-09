@@ -86,7 +86,7 @@ name = "usage"
 
 [profile.release]
 codegen-units = 1
-lto = true
+lto = "fat"
 # debug = true
 # opt-level = 'z'
 
