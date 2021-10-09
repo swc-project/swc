@@ -4,7 +4,7 @@
 pub use self::{transform_data::Feature, version::Version};
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
-use rustc_hash::{FxHashMap, FxHashSet};
+use rustc_hash::{AHashMap, AHashSet};
 use serde::{Deserialize, Serialize};
 use st_map::StaticMap;
 use std::{
@@ -245,8 +245,8 @@ struct Polyfills {
     shipped_proposals: bool,
     corejs: Version,
     regenerator: bool,
-    includes: FxHashSet<String>,
-    excludes: FxHashSet<String>,
+    includes: AHashSet<String>,
+    excludes: AHashSet<String>,
 }
 
 impl Fold for Polyfills {
@@ -499,9 +499,9 @@ pub enum FeatureOrModule {
 }
 
 impl FeatureOrModule {
-    pub fn split(vec: Vec<FeatureOrModule>) -> (Vec<Feature>, FxHashSet<String>) {
+    pub fn split(vec: Vec<FeatureOrModule>) -> (Vec<Feature>, AHashSet<String>) {
         let mut features: Vec<_> = Default::default();
-        let mut modules: FxHashSet<_> = Default::default();
+        let mut modules: AHashSet<_> = Default::default();
 
         for v in vec {
             match v {
@@ -522,7 +522,7 @@ pub enum Targets {
     Query(Query),
     EsModules(EsModules),
     Versions(Versions),
-    HashMap(FxHashMap<String, QueryOrVersion>),
+    HashMap(AHashMap<String, QueryOrVersion>),
 }
 
 #[derive(Debug, Clone, Copy, Deserialize)]
