@@ -24,3 +24,29 @@ impl RootModule for SwcPluginRef {
     const NAME: &'static str = "swc_plugin";
     const VERSION_STRINGS: VersionStrings = package_version_strings!();
 }
+
+#[doc(hidden)]
+pub fn invoke_js_plugin<C, F>(op: fn(C) -> F, config_json: &str, ast_json: &str) {}
+
+#[macro_export]
+macro_rules! define_js_plugin {
+    ($fn_name:ident) => {
+        #[export_root_module]
+        pub fn swc_library() -> SwcPluginRef {
+            extern "C" fn swc_js_plugin(
+                config_json: abi_stable::std_types::RStr,
+                ast_json: abi_stable::std_types::RString,
+            ) -> abi_stable::std_types::RResult<
+                abi_stable::std_types::RString,
+                abi_stable::std_types::RString,
+            > {
+                $crate::invoke_js_plugin($fn_name, config_json, ast_json)
+            }
+
+            SwcPlugin {
+                process_js: Some(swc_js_plugin),
+            }
+            .leak_into_prefix()
+        }
+    };
+}
