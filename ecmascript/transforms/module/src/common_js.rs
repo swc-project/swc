@@ -9,7 +9,7 @@ use std::{
     rc::Rc,
 };
 use swc_atoms::js_word;
-use swc_common::{DUMMY_SP, FileName, Mark, Span, collections::AHashSet};
+use swc_common::{collections::AHashSet, FileName, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
