@@ -122,7 +122,7 @@ fn parse_classic_option(
     top_level_mark: Mark,
 ) -> Box<Expr> {
     static CACHE: Lazy<DashMap<(String, Mark), Box<Expr>, ahash::RandomState>> =
-        Lazy::new(|| DashMap::with_capacity(2));
+        Lazy::new(|| DashMap::with_capacity_and_hasher(2, Default::default()));
 
     let fm = cm.new_source_file(FileName::Custom(format!("<jsx-config-{}.js>", name)), src);
     if let Some(expr) = CACHE.get(&((*fm.src).clone(), top_level_mark)) {
