@@ -230,6 +230,7 @@ jobs:
           cargo test --color always -p ${{ matrix.crate }}
 
       - name: Run cargo test (concurrent)
+        shell: bash
         run: |
           ./scripts/ci/success-if-no-concurrent.sh || cargo test --color always -p ${{ matrix.crate }} --all-features
 
