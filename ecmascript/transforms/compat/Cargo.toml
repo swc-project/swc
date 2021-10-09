@@ -10,6 +10,7 @@ version = "0.40.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+ahash = "0.7.4"
 arrayvec = "0.5.2"
 indexmap = "1.6.1"
 is-macro = "0.1.8"

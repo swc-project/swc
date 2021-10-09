@@ -11,6 +11,7 @@ version = "0.44.0"
 
 [dependencies]
 Inflector = "0.11.4"
+ahash = "0.7.4"
 anyhow = "1.0.41"
 indexmap = "1.6.1"
 pathdiff = "0.2.0"
