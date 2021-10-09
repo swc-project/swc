@@ -1,0 +1,23 @@
+[package]
+authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "Command line for writting swc plugins in rust"
+documentation = "https://rustdoc.swc.rs/swc_plugin/"
+edition = "2018"
+license = "Apache-2.0/MIT"
+name = "swd"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.0.0"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0.41"
+cargo = "0.56.0"
+cargo-edit = "0.8.0"
+cargo_metadata = "0.14.0"
+clap = "2.33.3"
+structopt = "0.3.21"
+tokio = {version = "1.10.1", features = ["rt", "rt-multi-thread", "time", "process", "macros", "sync"]}
+tracing = "0.1.26"
+tracing-subscriber = "0.2.20"
+url = "2"

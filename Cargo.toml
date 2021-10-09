@@ -2,6 +2,7 @@
 members = [
   "css",
   "css/stylis",
+  "dev/cli",
   "ecmascript",
   "ecmascript/babel/compat",
   "ecmascript/jsdoc",
