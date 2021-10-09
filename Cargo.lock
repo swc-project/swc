@@ -2429,7 +2429,6 @@ dependencies = [
  "relative-path",
  "reqwest",
  "retain_mut",
- "rustc-hash",
  "sha-1",
  "swc_atoms 0.2.7",
  "swc_common",
