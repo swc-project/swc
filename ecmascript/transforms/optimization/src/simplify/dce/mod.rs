@@ -218,7 +218,7 @@ impl TreeShaker {
     {
         #[cfg(feature = "concurrent")]
         if self.par_depth < 2 {
-            stmts
+            let changed = stmts
                 .par_iter_mut()
                 .map(|s| {
                     let mut v = TreeShaker {
@@ -233,6 +233,7 @@ impl TreeShaker {
                     v.changed
                 })
                 .reduce(|| false, |a, b| a || b);
+            self.changed |= changed;
             return;
         }
 
