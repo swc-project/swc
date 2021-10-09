@@ -543,13 +543,29 @@ pub struct JsMinifyOptions {
     pub toplevel: bool,
 
     #[serde(default)]
-    pub source_map: bool,
+    pub source_map: BoolOrObject<TerserSourceMapOption>,
 
     #[serde(default)]
     pub output_path: Option<String>,
 
     #[serde(default)]
     pub inline_sources_content: bool,
+}
+/// `jsc.minify.sourceMap`
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub struct TerserSourceMapOption {
+    #[serde(default)]
+    pub filename: Option<String>,
+
+    #[serde(default)]
+    pub url: Option<String>,
+
+    #[serde(default)]
+    pub root: Option<String>,
+
+    #[serde(default)]
+    pub content: Option<String>,
 }
 
 /// `jsc.minify.format`.

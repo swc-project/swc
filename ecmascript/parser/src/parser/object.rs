@@ -24,20 +24,12 @@ impl<'a, I: Tokens> Parser<I> {
 
             let mut props = vec![];
 
-            let mut first = true;
             while !eat!(p, '}') {
-                // Handle comma
-                if first {
-                    first = false;
-                } else {
-                    expect!(p, ',');
-                    if eat!(p, '}') {
-                        break;
-                    }
-                }
+                props.push(p.parse_object_prop()?);
 
-                let prop = p.parse_object_prop()?;
-                props.push(prop);
+                if !is!(p, '}') {
+                    expect!(p, ',');
+                }
             }
 
             p.make_object(span!(p, start), props)
