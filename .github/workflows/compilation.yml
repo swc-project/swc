@@ -52,9 +52,9 @@ jobs:
         run: |
           (cd ecmascript/transforms && cargo hack check --feature-powerset --no-dev-deps)
 
-      - name: Check swc_ecma_transforms_optimiåtion
+      - name: Check swc_ecma_transforms_optimization
         run: |
-          (cd ecmascript/transforms/optimiåtion && cargo hack check --feature-powerset --no-dev-deps)
+          (cd ecmascript/transforms/optimization && cargo hack check --feature-powerset --no-dev-deps)
 
       - name: Check swc_ecma_utils
         run: |
