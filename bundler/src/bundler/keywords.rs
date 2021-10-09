@@ -1,14 +1,13 @@
 use crate::id::Id;
-use rustc_hash::FxHashMap;
 use swc_atoms::js_word;
-use swc_common::util::take::Take;
+use swc_common::{collections::AHashMap, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_utils::private_ident;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 #[derive(Default)]
 pub struct KeywordRenamer {
-    renamed: FxHashMap<Id, Ident>,
+    renamed: AHashMap<Id, Ident>,
 }
 
 impl KeywordRenamer {

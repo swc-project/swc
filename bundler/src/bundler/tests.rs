@@ -3,8 +3,7 @@ use super::{load::TransformedModule, Bundler, Config};
 use crate::{load::ModuleData, util::HygieneRemover, Load, ModuleRecord, Resolve};
 use anyhow::Error;
 use indexmap::IndexMap;
-use rustc_hash::FxHasher;
-use std::{hash::BuildHasherDefault, path::PathBuf};
+use std::path::PathBuf;
 use swc_common::{sync::Lrc, FileName, SourceMap, Span, GLOBALS};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput};
@@ -18,7 +17,7 @@ pub(crate) struct Tester<'a> {
 
 pub struct Loader {
     cm: Lrc<SourceMap>,
-    files: IndexMap<String, String, BuildHasherDefault<FxHasher>>,
+    files: IndexMap<String, String, ahash::RandomState>,
 }
 
 impl Load for Loader {
@@ -107,7 +106,7 @@ pub(crate) fn suite() -> TestBuilder {
 
 #[derive(Default)]
 pub(crate) struct TestBuilder {
-    files: IndexMap<String, String, BuildHasherDefault<FxHasher>>,
+    files: IndexMap<String, String, ahash::RandomState>,
 }
 
 impl TestBuilder {

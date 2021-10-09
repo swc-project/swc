@@ -1,8 +1,7 @@
 use crate::ModuleId;
 use retain_mut::RetainMut;
-use rustc_hash::FxHashMap;
 use std::mem::take;
-use swc_common::{SourceMap, SyntaxContext, DUMMY_SP};
+use swc_common::{collections::AHashMap, SourceMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, FoldWith, Visit, VisitMut, VisitMutWith, VisitWith};
 
@@ -17,8 +16,8 @@ pub struct Modules {
 
     // We will change this into `Vec<Module>`.
     modules: Vec<(ModuleId, Module)>,
-    prepended_stmts: FxHashMap<ModuleId, Vec<ModuleItem>>,
-    appended_stmts: FxHashMap<ModuleId, Vec<ModuleItem>>,
+    prepended_stmts: AHashMap<ModuleId, Vec<ModuleItem>>,
+    appended_stmts: AHashMap<ModuleId, Vec<ModuleItem>>,
 }
 
 impl Modules {

@@ -2,12 +2,11 @@ use super::{load::TransformedModule, Bundler};
 use crate::{
     bundler::chunk::merge::Ctx, load::Load, resolve::Resolve, util::IntoParallelIterator, Bundle,
 };
-use ahash::AHashMap;
 use anyhow::{Context, Error};
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
-use rustc_hash::FxHashMap;
 use std::time::Instant;
+use swc_common::collections::AHashMap;
 
 mod cjs;
 mod computed_key;
@@ -74,7 +73,7 @@ where
                     Ok((*id, module))
                 })
             })
-            .collect::<Result<FxHashMap<_, _>, _>>()?;
+            .collect::<Result<AHashMap<_, _>, _>>()?;
 
         let dur = Instant::now() - start;
         tracing::debug!("Module preparation took {:?}", dur);
