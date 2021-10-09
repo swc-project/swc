@@ -1,5 +1,10 @@
+use crate::util::Readonly;
+#[cfg(feature = "concurrent")]
+use rayon::prelude::*;
 use rustc_hash::FxHashMap;
 use std::borrow::Cow;
+#[cfg(feature = "concurrent")]
+use std::sync::Arc;
 use swc_common::{
     collections::AHashSet,
     pass::{CompilerPass, Repeated},
@@ -17,14 +22,14 @@ use swc_ecma_visit::{
 };
 use tracing::{debug, span, trace, Level};
 
-use crate::util::Readonly;
-
+/// Note: This becomes parallel if `concurrent` feature is enabled.
 pub fn dce(config: Config) -> impl Fold + VisitMut + Repeated + CompilerPass {
     as_folder(TreeShaker {
         config,
         changed: false,
         pass: 0,
         data: Default::default(),
+        par_depth: 0,
     })
 }
 
@@ -43,6 +48,9 @@ struct TreeShaker {
     changed: bool,
     pass: u16,
     data: Readonly<Data>,
+
+    /// Used to avoid cost of being overly parallel.
+    par_depth: u16,
 }
 
 impl CompilerPass for TreeShaker {
@@ -203,12 +211,40 @@ impl Repeated for TreeShaker {
 }
 
 impl TreeShaker {
-    fn visit_mut_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
+    fn visit_maybe_par_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: StmtLike + ModuleItemLike,
+        T: StmtLike + ModuleItemLike + VisitMutWith<Self> + Send + Sync,
         Vec<T>: VisitMutWith<Self>,
     {
+        #[cfg(feature = "concurrent")]
+        if self.par_depth < 2 {
+            stmts
+                .par_iter_mut()
+                .map(|s| {
+                    let mut v = TreeShaker {
+                        config: self.config,
+                        changed: false,
+                        pass: self.pass,
+                        data: Arc::clone(&self.data),
+                        par_depth: self.par_depth + 1,
+                    };
+                    s.visit_mut_with(&mut v);
+
+                    v.changed
+                })
+                .reduce(|| false, |a, b| a || b);
+            return;
+        }
+
         stmts.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
+    where
+        T: StmtLike + ModuleItemLike + VisitMutWith<Self> + Send + Sync,
+        Vec<T>: VisitMutWith<Self>,
+    {
+        self.visit_maybe_par_stmt_likes(stmts);
 
         stmts.retain(|s| match s.as_stmt() {
             Some(Stmt::Empty(..)) => false,
