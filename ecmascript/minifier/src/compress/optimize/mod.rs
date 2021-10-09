@@ -11,11 +11,11 @@ use crate::{
     util::{contains_leaping_yield, make_number, MoudleItemExt},
 };
 use retain_mut::RetainMut;
-use rustc_hash::FxHashMap;
 use std::{fmt::Write, mem::take};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
-    iter::IdentifyLast, pass::Repeated, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP,
+    collections::AHashMap, iter::IdentifyLast, pass::Repeated, util::take::Take, Mark, Spanned,
+    SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
@@ -48,8 +48,8 @@ mod util;
 
 #[derive(Debug, Default)]
 pub(super) struct OptimizerState {
-    vars_for_inlining: FxHashMap<Id, Box<Expr>>,
-    inlined_vars: FxHashMap<Id, Box<Expr>>,
+    vars_for_inlining: AHashMap<Id, Box<Expr>>,
+    inlined_vars: AHashMap<Id, Box<Expr>>,
 }
 
 /// This pass is simillar to `node.optimize` of terser.
@@ -200,15 +200,15 @@ struct Optimizer<'a, M> {
     /// Cheap to clone.
     ///
     /// Used for inlining.
-    lits: FxHashMap<Id, Box<Expr>>,
+    lits: AHashMap<Id, Box<Expr>>,
 
     state: &'a mut OptimizerState,
 
-    vars_for_prop_hoisting: FxHashMap<Id, Box<Expr>>,
+    vars_for_prop_hoisting: AHashMap<Id, Box<Expr>>,
     /// Used for `hoist_props`.
-    simple_props: FxHashMap<(Id, JsWord), Box<Expr>>,
-    _simple_array_values: FxHashMap<(Id, usize), Box<Expr>>,
-    typeofs: FxHashMap<Id, JsWord>,
+    simple_props: AHashMap<(Id, JsWord), Box<Expr>>,
+    _simple_array_values: AHashMap<(Id, usize), Box<Expr>>,
+    typeofs: AHashMap<Id, JsWord>,
     /// This information is created by analyzing identifier usages.
     ///
     /// This is calculated multiple time, but only once per one

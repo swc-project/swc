@@ -3,11 +3,15 @@ use crate::{
     native::is_native_word,
     scope::{IdentType, ScopeKind},
 };
-use rustc_hash::{FxHashMap, FxHashSet};
 use smallvec::{smallvec, SmallVec};
 use std::{cell::RefCell, collections::HashMap};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{chain, util::take::Take, SyntaxContext};
+use swc_common::{
+    chain,
+    collections::{AHashMap, AHashSet},
+    util::take::Take,
+    SyntaxContext,
+};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
@@ -503,13 +507,13 @@ struct Scope<'a> {
     /// Kind of the scope.
     pub kind: ScopeKind,
 
-    pub used: RefCell<FxHashMap<JsWord, Vec<SyntaxContext>>>,
+    pub used: RefCell<AHashMap<JsWord, Vec<SyntaxContext>>>,
 
     /// All references declared in this scope
-    pub declared_symbols: RefCell<FxHashMap<JsWord, Vec<SyntaxContext>>>,
+    pub declared_symbols: RefCell<AHashMap<JsWord, Vec<SyntaxContext>>>,
 
     pub(crate) ops: RefCell<Operations>,
-    pub renamed: FxHashSet<JsWord>,
+    pub renamed: AHashSet<JsWord>,
 
     check_queue: Vec<Id>,
 }

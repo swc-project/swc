@@ -2,10 +2,14 @@ use super::graph::Required;
 use crate::{id::Id, modules::sort::graph::StmtDepGraph};
 use indexmap::IndexSet;
 use petgraph::EdgeDirection::{Incoming as Dependants, Outgoing as Dependancies};
-use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
-use std::{collections::VecDeque, hash::BuildHasherDefault, iter::from_fn, ops::Range};
+use std::{collections::VecDeque, iter::from_fn, ops::Range};
 use swc_atoms::js_word;
-use swc_common::{sync::Lrc, util::take::Take, SourceMap, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{
+    collections::{AHashMap, AHashSet},
+    sync::Lrc,
+    util::take::Take,
+    SourceMap, Spanned, SyntaxContext, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
 use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
@@ -90,8 +94,8 @@ fn iter<'a>(
     // dbg!(&free);
     // dbg!(&module_starts);
 
-    let mut moves = FxHashSet::default();
-    let mut done = FxHashSet::default();
+    let mut moves = AHashSet::default();
+    let mut done = AHashSet::default();
     let mut stack = VecDeque::new();
     stack.extend(module_starts.iter().copied());
 
@@ -330,7 +334,7 @@ fn iter<'a>(
 struct FieldInitFinter {
     in_object_assign: bool,
     in_rhs: bool,
-    accessed: FxHashSet<Id>,
+    accessed: AHashSet<Id>,
 }
 
 impl FieldInitFinter {
@@ -503,11 +507,11 @@ impl Visit for InitializerFinder {
 /// But we care about modifications.
 #[derive(Default)]
 struct RequirementCalculartor {
-    required_ids: IndexSet<(Id, Required), BuildHasherDefault<FxHasher>>,
+    required_ids: IndexSet<(Id, Required), ahash::RandomState>,
     /// While bundling, there can be two bindings with same name and syntax
     /// context, in case of wrapped es modules. We exclude them from dependency
     /// graph.
-    excluded: IndexSet<Id, BuildHasherDefault<FxHasher>>,
+    excluded: IndexSet<Id, ahash::RandomState>,
 
     in_weak: bool,
     in_var_decl: bool,
@@ -630,8 +634,8 @@ fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
     tracing::debug!("Analyzing dependencies between statements");
     let mut graph = StmtDepGraph::default();
 
-    let mut declared_by = FxHashMap::<Id, Vec<usize>>::default();
-    let mut uninitialized_ids = FxHashMap::<Id, usize>::default();
+    let mut declared_by = AHashMap::<Id, Vec<usize>>::default();
+    let mut uninitialized_ids = AHashMap::<Id, usize>::default();
 
     for (idx, item) in new.iter().enumerate() {
         graph.add_node(idx);

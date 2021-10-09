@@ -5,8 +5,6 @@ use self::{
 };
 use crate::{util::DataMapExt, version::should_enable, Versions};
 use indexmap::IndexSet;
-use rustc_hash::FxHasher;
-use std::hash::BuildHasherDefault;
 use swc_atoms::{js_word, JsWord};
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -19,7 +17,7 @@ mod entry;
 pub(crate) struct UsageVisitor {
     is_any_target: bool,
     target: Versions,
-    pub required: IndexSet<&'static str, BuildHasherDefault<FxHasher>>,
+    pub required: IndexSet<&'static str, ahash::RandomState>,
 }
 
 impl UsageVisitor {

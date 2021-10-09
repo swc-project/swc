@@ -16,8 +16,10 @@ use swc_common::{
     FileName, Mark, SourceMap,
 };
 use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax, TsConfig};
-use swc_ecma_transforms::{react, typescript::strip};
+use swc_ecma_transforms_react::react;
+use swc_ecma_transforms_typescript::strip;
 use swc_ecma_visit::FoldWith;
+
 pub struct Loader {
     pub cm: Lrc<SourceMap>,
 }
@@ -126,14 +128,15 @@ impl Load for Loader {
             err.into_diagnostic(&handler).emit();
             panic!("failed to parse")
         });
-        let module = module
-            .fold_with(&mut strip())
-            .fold_with(&mut react::react::<SingleThreadedComments>(
-                self.cm.clone(),
-                None,
-                Default::default(),
-                top_level_mark,
-            ));
+        let module =
+            module
+                .fold_with(&mut strip())
+                .fold_with(&mut react::<SingleThreadedComments>(
+                    self.cm.clone(),
+                    None,
+                    Default::default(),
+                    top_level_mark,
+                ));
 
         Ok(ModuleData {
             fm,

@@ -2,11 +2,12 @@
 
 use super::{true_by_default, CompressOptions, TopLevelOptions};
 use crate::option::PureGetterOption;
-use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use swc_atoms::JsWord;
-use swc_common::{input::SourceFileInput, sync::Lrc, FileName, SourceMap, DUMMY_SP};
+use swc_common::{
+    collections::AHashMap, input::SourceFileInput, sync::Lrc, FileName, SourceMap, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser};
 use swc_ecma_utils::drop_span;
@@ -125,7 +126,7 @@ pub struct TerserCompressorOptions {
     pub expression: bool,
 
     #[serde(default)]
-    pub global_defs: FxHashMap<JsWord, Value>,
+    pub global_defs: AHashMap<JsWord, Value>,
 
     #[serde(default)]
     pub hoist_funs: bool,

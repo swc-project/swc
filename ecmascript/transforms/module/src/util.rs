@@ -1,13 +1,11 @@
 use crate::path::ImportResolver;
 use anyhow::Context;
-use indexmap::IndexMap;
+use indexmap::{IndexMap, IndexSet};
 use inflector::Inflector;
-use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
 use serde::{Deserialize, Serialize};
 use std::{
     cell::{Ref, RefMut},
     collections::hash_map::Entry,
-    hash::BuildHasherDefault,
     iter,
 };
 use swc_atoms::{js_word, JsWord};
@@ -96,11 +94,11 @@ pub struct Scope {
     ///
     ///  - `import * as bar1 from 'bar';`
     ///   -> `{'bar': Some(bar1)}`
-    pub(crate) imports: IndexMap<JsWord, Option<(JsWord, Span)>, BuildHasherDefault<FxHasher>>,
+    pub(crate) imports: IndexMap<JsWord, Option<(JsWord, Span)>, ahash::RandomState>,
     ///
     /// - `true` is wildcard (`_interopRequireWildcard`)
     /// - `false` is default (`_interopRequireDefault`)
-    pub(crate) import_types: FxHashMap<JsWord, bool>,
+    pub(crate) import_types: AHashMap<JsWord, bool>,
 
     /// This fields tracks if a helper should be injected.
     ///
@@ -115,7 +113,7 @@ pub struct Scope {
     ///
     ///  - `import foo from 'bar';`
     ///   -> `{foo: ('bar', default)}`
-    pub(crate) idents: FxHashMap<Id, (JsWord, JsWord)>,
+    pub(crate) idents: AHashMap<Id, (JsWord, JsWord)>,
 
     /// Declared variables except const.
     pub(crate) declared_vars: Vec<Id>,
@@ -904,7 +902,10 @@ pub(super) fn use_strict() -> Stmt {
 /// ```js
 /// exports.default = exports.foo = void 0;
 /// ```
-pub(super) fn initialize_to_undefined(exports: Ident, initialized: FxHashSet<JsWord>) -> Box<Expr> {
+pub(super) fn initialize_to_undefined(
+    exports: Ident,
+    initialized: IndexSet<JsWord, ahash::RandomState>,
+) -> Box<Expr> {
     let mut rhs = undefined(DUMMY_SP);
 
     for name in initialized.into_iter() {
