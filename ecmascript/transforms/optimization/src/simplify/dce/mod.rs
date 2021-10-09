@@ -17,6 +17,8 @@ use swc_ecma_visit::{
 };
 use tracing::{debug, span, trace, Level};
 
+use crate::util::Readonly;
+
 pub fn dce(config: Config) -> impl Fold + VisitMut + Repeated + CompilerPass {
     as_folder(TreeShaker {
         config,
@@ -40,7 +42,7 @@ struct TreeShaker {
     config: Config,
     changed: bool,
     pass: u16,
-    data: Data,
+    data: Readonly<Data>,
 }
 
 impl CompilerPass for TreeShaker {
@@ -379,17 +381,21 @@ impl VisitMut for TreeShaker {
     fn visit_mut_module(&mut self, m: &mut Module) {
         let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
 
-        self.data.bindings = collect_decls(&*m);
+        let mut data = Data {
+            bindings: collect_decls(&*m),
+            ..Default::default()
+        };
 
         {
             let mut analyzer = Analyzer {
                 config: &self.config,
-                data: &mut self.data,
+                data: &mut data,
                 in_var_decl: false,
                 cur_fn_id: Default::default(),
             };
             m.visit_with(&Invalid { span: DUMMY_SP }, &mut analyzer);
         }
+        self.data = data.into();
         trace!("Used = {:?}", self.data.used_names);
 
         m.visit_mut_children_with(self);
