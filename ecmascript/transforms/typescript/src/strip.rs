@@ -1444,16 +1444,18 @@ impl VisitMut for Strip {
     }
 
     fn visit_mut_import_decl(&mut self, import: &mut ImportDecl) {
-        if &*import.src.value == "react" {
-            return;
-        }
-
         self.is_side_effect_import = import.specifiers.is_empty();
 
+        let src = &import.src;
         import.specifiers.retain(|s| match *s {
             ImportSpecifier::Named(ImportNamedSpecifier {
                 ref is_type_only, ..
             }) if *is_type_only => false,
+
+            ImportSpecifier::Default(..) if &*src.value == "react" => {
+                return true;
+            }
+
             ImportSpecifier::Default(ImportDefaultSpecifier { ref local, .. })
             | ImportSpecifier::Named(ImportNamedSpecifier { ref local, .. })
             | ImportSpecifier::Namespace(ImportStarAsSpecifier { ref local, .. }) => {
