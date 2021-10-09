@@ -2492,7 +2492,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_ast"
-version = "0.10.0"
+version = "0.10.1"
 dependencies = [
  "is-macro",
  "serde",
@@ -2503,7 +2503,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.9.0"
+version = "0.9.1"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -2529,7 +2529,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.11.0"
+version = "0.11.1"
 dependencies = [
  "bitflags",
  "lexical",
