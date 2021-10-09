@@ -16,7 +16,6 @@
 //! DOI=10.1017/S0956796812000093 <https://doi.org/10.1017/S0956796812000093>
 
 use super::GLOBALS;
-use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
 use std::{
     collections::{HashMap, HashSet},
