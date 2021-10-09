@@ -26,7 +26,12 @@ impl RootModule for SwcPluginRef {
 }
 
 #[doc(hidden)]
-pub fn invoke_js_plugin<C, F>(op: fn(C) -> F, config_json: &str, ast_json: &str) {}
+pub fn invoke_js_plugin<C, F>(
+    op: fn(C) -> F,
+    config_json: &str,
+    ast_json: &str,
+) -> RResult<RString, RString> {
+}
 
 #[macro_export]
 macro_rules! define_js_plugin {
