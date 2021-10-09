@@ -7,12 +7,6 @@ use abi_stable::{
     StableAbi,
 };
 
-pub mod ecmascript {
-    pub extern crate swc_ecma_ast as ast;
-    pub extern crate swc_ecma_utils as utils;
-    pub extern crate swc_ecma_visit as visit;
-}
-
 #[repr(C)]
 #[derive(StableAbi)]
 #[sabi(kind(Prefix(prefix_ref = "SwcPluginRef")))]
