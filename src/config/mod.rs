@@ -5,7 +5,7 @@ use dashmap::DashMap;
 use either::Either;
 use once_cell::sync::Lazy;
 use regex::Regex;
-use rustc_hash::{FxHashMap, FxHashSet};
+use rustc_hash::{AHashMap, AHashSet};
 use serde::{Deserialize, Serialize};
 use std::{
     cell::RefCell,
@@ -966,12 +966,12 @@ fn default_jsonify_min_cost() -> usize {
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct GlobalPassOption {
     #[serde(default)]
-    pub vars: FxHashMap<String, String>,
+    pub vars: AHashMap<String, String>,
     #[serde(default = "default_envs")]
-    pub envs: FxHashSet<String>,
+    pub envs: AHashSet<String>,
 }
 
-fn default_envs() -> FxHashSet<String> {
+fn default_envs() -> AHashSet<String> {
     let mut v = HashSet::default();
     v.insert(String::from("NODE_ENV"));
     v.insert(String::from("SWC_ENV"));
@@ -980,7 +980,7 @@ fn default_envs() -> FxHashSet<String> {
 
 impl GlobalPassOption {
     pub fn build(self, cm: &SourceMap, handler: &Handler) -> impl 'static + Fold {
-        type ValuesMap = Arc<FxHashMap<JsWord, Expr>>;
+        type ValuesMap = Arc<AHashMap<JsWord, Expr>>;
 
         fn mk_map(
             cm: &SourceMap,

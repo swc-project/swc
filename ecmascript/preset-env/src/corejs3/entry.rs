@@ -4,9 +4,8 @@ use super::compat::DATA as CORE_JS_COMPAT_DATA;
 use crate::{version::should_enable, Version, Versions};
 use indexmap::IndexSet;
 use once_cell::sync::Lazy;
-use rustc_hash::{AHashMap, FxHasher};
 use swc_atoms::js_word;
-use swc_common::DUMMY_SP;
+use swc_common::{collections::AHashMap, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, FoldWith};
 
@@ -45,7 +44,7 @@ pub struct Entry {
     is_any_target: bool,
     target: Versions,
     corejs_version: Version,
-    pub imports: IndexSet<&'static str, BuildHasherDefault<FxHasher>>,
+    pub imports: IndexSet<&'static str, ahash::RandomState>,
     remove_regenerator: bool,
 }
 

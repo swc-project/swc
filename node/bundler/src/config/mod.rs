@@ -4,7 +4,7 @@ pub use self::{
     output::OutputConfig,
     resolve::{AliasConfig, ResolveConfig},
 };
-use rustc_hash::FxHashMap;
+use rustc_hash::AHashMap;
 use serde::Deserialize;
 use std::{collections::HashMap, fmt, marker::PhantomData, path::PathBuf};
 use string_enum::StringEnum;
@@ -51,7 +51,7 @@ pub struct Config {
     pub external_modules: Vec<JsWord>,
 
     #[serde(default)]
-    pub alias: FxHashMap<TargetEnv, FxHashMap<String, String>>,
+    pub alias: AHashMap<TargetEnv, AHashMap<String, String>>,
 }
 
 impl Config {

@@ -4,7 +4,7 @@ use crate::{
 };
 use anyhow::{bail, Error};
 use napi::{CallContext, Env, JsObject, Status, Task};
-use rustc_hash::FxHashMap;
+use rustc_hash::AHashMap;
 use serde::Deserialize;
 use std::{
     panic::{catch_unwind, AssertUnwindSafe},
@@ -43,7 +43,7 @@ struct BundleTask {
 }
 
 impl Task for BundleTask {
-    type Output = FxHashMap<String, TransformOutput>;
+    type Output = AHashMap<String, TransformOutput>;
     type JsValue = JsObject;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {

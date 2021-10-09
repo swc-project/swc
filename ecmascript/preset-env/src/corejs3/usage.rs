@@ -12,7 +12,6 @@ use crate::{
     Versions,
 };
 use indexmap::IndexSet;
-use rustc_hash::FxHasher;
 use std::hash::BuildHasherDefault;
 use swc_atoms::{js_word, JsWord};
 use swc_common::DUMMY_SP;
@@ -23,7 +22,7 @@ pub(crate) struct UsageVisitor {
     shipped_proposals: bool,
     is_any_target: bool,
     target: Versions,
-    pub required: IndexSet<&'static str, BuildHasherDefault<FxHasher>>,
+    pub required: IndexSet<&'static str, ahash::RandomState>,
 }
 
 impl UsageVisitor {

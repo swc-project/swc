@@ -4,7 +4,6 @@
 pub use self::{transform_data::Feature, version::Version};
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
-use rustc_hash::{AHashMap, AHashSet};
 use serde::{Deserialize, Serialize};
 use st_map::StaticMap;
 use std::{
