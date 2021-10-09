@@ -8,6 +8,10 @@ echo "Checking if '$1' has feature 'concurrent'"
 CRATES=$(./scripts/cargo/list-crates.sh | \
     jq -r 'select(.features.concurrent != null) | .name')
 
+if [[ "swc" == "$1" ]]; then
+    echo "Skipping swc itslef"
+    exit 0
+fi
 
 if [[ $CRATES == *"$1"* ]]; then
     cargo test --color always -p $1 --features "$1/concurrent"
