@@ -129,11 +129,18 @@ where
         // TODO: Plus can start a number
         try_delim!(b'/', "/");
 
-        // TODO U+0022 QUOTATION MARK (")
+        if self.input.is_byte(b'"') {
+            return self.read_str(None)
+        }
 
+        if self.input.is_byte(b'#') {
+            
+        }
         // TODO U+0023 NUMBER SIGN (#)
 
-        // TODO U+0027 APOSTROPHE (')
+        if self.input.is_byte(b'\'') {
+            return self.read_str(None)
+        }
 
         try_delim!(b'(', "(");
 
@@ -173,13 +180,12 @@ where
 
         try_delim!(b'[', "[");
 
-        // TODO
         if self.input.is_byte(b'\\') {
             if self.is_valid_escape()? {
                 return self.read_ident_like();
-            } else {
-                return Err(ErrorKind::InvalidEscape);
             }
+
+            return Ok(Token::Delim { value: "\\".into() });
         }
 
         try_delim!(b']', "]");
@@ -196,8 +202,6 @@ where
                     self.skip_ws()?;
                     return Ok(tok!(" "));
                 }
-
-                '\'' | '"' => return self.read_str(None),
 
                 '#' => {
                     self.input.bump();
