@@ -237,14 +237,11 @@ where
         return Ok(Token::Delim { value: c });
     }
 
-    /// Ported from `isValidEscape` of `esbuild`
     fn is_valid_escape(&mut self) -> LexResult<bool> {
-        if self.input.cur().is_none() {
+        if self.input.cur() != Some('\\') {
             return Ok(false);
         }
-        if self.input.cur().unwrap() != '\\' {
-            return Ok(false);
-        }
+
         let c = self.input.peek();
 
         match c {
