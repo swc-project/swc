@@ -1498,6 +1498,10 @@ where
                     prepend_stmts(&mut v.stmts, stmts.into_iter());
                 }
                 BlockStmtOrExpr::Expr(v) => {
+                    self.changed = true;
+                    if cfg!(feature = "debug") {
+                        tracing::debug!("Convertng a body of an arrow expression to BlockStmt");
+                    }
                     stmts.push(Stmt::Return(ReturnStmt {
                         span: DUMMY_SP,
                         arg: Some(v.take()),
