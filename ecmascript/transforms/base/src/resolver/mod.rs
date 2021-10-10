@@ -194,7 +194,10 @@ impl<'a> Resolver<'a> {
                 }
                 return Some(mark);
             }
-            mark = mark.parent();
+
+            if let Some(parent) = &cur.parent {
+                mark = parent.mark;
+            }
             scope = cur.parent;
         }
 
