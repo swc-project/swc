@@ -1591,6 +1591,18 @@ where
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
+    fn visit_mut_block_stmt_or_expr(&mut self, n: &mut BlockStmtOrExpr) {
+        n.visit_mut_children_with(self);
+
+        match n {
+            BlockStmtOrExpr::BlockStmt(n) => {
+                self.merge_if_returns(&mut n.stmts, false, true);
+                self.drop_else_token(&mut n.stmts);
+            }
+            BlockStmtOrExpr::Expr(_) => {}
+        }
+    }
+
     fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
         let inline_prevented = self.ctx.inline_prevented || self.has_noinline(e.span);
 
