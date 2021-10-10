@@ -3272,7 +3272,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.11.0"
+version = "0.12.0"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -3283,7 +3283,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_ast"
-version = "0.10.1"
+version = "0.11.0"
 dependencies = [
  "is-macro",
  "serde",
@@ -3294,7 +3294,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.9.1"
+version = "0.10.0"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -3320,7 +3320,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.11.1"
+version = "0.12.0"
 dependencies = [
  "bitflags",
  "lexical",
@@ -3336,7 +3336,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_utils"
-version = "0.7.0"
+version = "0.8.0"
 dependencies = [
  "swc_atoms 0.2.7",
  "swc_common",
@@ -3346,7 +3346,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_visit"
-version = "0.9.0"
+version = "0.10.0"
 dependencies = [
  "swc_atoms 0.2.7",
  "swc_common",
@@ -3411,7 +3411,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ext_transforms"
-version = "0.31.0"
+version = "0.32.0"
 dependencies = [
  "phf",
  "swc_atoms 0.2.7",
@@ -3555,7 +3555,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.36.0"
+version = "0.37.0"
 dependencies = [
  "once_cell",
  "phf",
@@ -3573,7 +3573,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_classes"
-version = "0.22.0"
+version = "0.23.0"
 dependencies = [
  "swc_atoms 0.2.7",
  "swc_common",
@@ -3585,7 +3585,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.41.0"
+version = "0.42.0"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -3621,7 +3621,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.45.0"
+version = "0.46.0"
 dependencies = [
  "Inflector",
  "ahash",
@@ -3672,7 +3672,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.45.0"
+version = "0.46.0"
 dependencies = [
  "either",
  "serde",
@@ -3696,7 +3696,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.47.0"
+version = "0.48.0"
 dependencies = [
  "ahash",
  "base64 0.13.0",
@@ -3723,7 +3723,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.37.0"
+version = "0.38.0"
 dependencies = [
  "ansi_term 0.12.1",
  "anyhow",
@@ -3742,7 +3742,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.47.0"
+version = "0.48.0"
 dependencies = [
  "serde",
  "swc_atoms 0.2.7",
@@ -3763,7 +3763,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.46.2"
+version = "0.47.0"
 dependencies = [
  "once_cell",
  "rayon",
@@ -3897,7 +3897,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_testing"
-version = "0.8.0"
+version = "0.9.0"
 dependencies = [
  "anyhow",
  "swc_atoms 0.2.7",
@@ -3911,7 +3911,7 @@ dependencies = [
 
 [[package]]
 name = "swc_stylis"
-version = "0.8.0"
+version = "0.9.0"
 dependencies = [
  "swc_atoms 0.2.7",
  "swc_common",
