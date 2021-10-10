@@ -1266,7 +1266,12 @@ impl<'a, I: Tokens> Parser<I> {
         // as a pattern instead of reparsing)
         while !eof!(self) && !is!(self, ')') {
             if first {
-                if is!(self, "async") && !peeked_is!(self, ',') {
+                if is!(self, "async")
+                    && matches!(
+                        peek!(self),
+                        Ok(tok!('(') | tok!("function") | Token::Word(..))
+                    )
+                {
                     // https://github.com/swc-project/swc/issues/410
                     self.state.potential_arrow_start = Some(cur_pos!(self));
                     let expr = self.parse_assignment_expr()?;
