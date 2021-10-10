@@ -90,6 +90,16 @@ where
         });
     }
 
+    fn optimize_fn_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        self.remove_useless_return(stmts);
+
+        self.negate_if_terminate(stmts, true, false);
+
+        if let Some(last) = stmts.last_mut() {
+            self.drop_unused_stmt_at_end_of_fn(last);
+        }
+    }
+
     /// Visit `nodes`, maybe in parallel.
     fn visit_par<N>(&mut self, nodes: &mut Vec<N>)
     where
@@ -169,6 +179,11 @@ where
 
     fn visit_mut_block_stmt_or_expr(&mut self, body: &mut BlockStmtOrExpr) {
         body.visit_mut_children_with(self);
+
+        match body {
+            BlockStmtOrExpr::BlockStmt(b) => self.optimize_fn_stmts(&mut b.stmts),
+            BlockStmtOrExpr::Expr(_) => {}
+        }
 
         self.optimize_arrow_body(body);
     }
@@ -328,13 +343,7 @@ where
         }
 
         if let Some(body) = &mut f.body {
-            self.remove_useless_return(&mut body.stmts);
-
-            self.negate_if_terminate(&mut body.stmts, true, false);
-
-            if let Some(last) = body.stmts.last_mut() {
-                self.drop_unused_stmt_at_end_of_fn(last);
-            }
+            self.optimize_fn_stmts(&mut body.stmts)
         }
     }
 

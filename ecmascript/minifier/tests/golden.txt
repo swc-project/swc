@@ -585,6 +585,7 @@ inline/inline_annotation_2/input.js
 inline/inline_func_with_name_existing_in_block_scope/input.js
 inline/inline_into_scope_conflict_enclosed/input.js
 inline/inline_into_scope_conflict_enclosed_2/input.js
+inline/issue_308/input.js
 inline/noinline_annotation/input.js
 inline/noinline_annotation_2/input.js
 inline/noinline_annotation_3/input.js

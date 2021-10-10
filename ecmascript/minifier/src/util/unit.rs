@@ -18,6 +18,8 @@ pub(crate) trait CompileUnit:
         V: VisitMut;
 
     fn remove_mark(&mut self) -> Mark;
+
+    fn invoke(&self);
 }
 
 impl CompileUnit for Module {
@@ -38,6 +40,10 @@ impl CompileUnit for Module {
 
     fn remove_mark(&mut self) -> Mark {
         Mark::root()
+    }
+
+    fn invoke(&self) {
+        crate::debug::invoke(self)
     }
 }
 
@@ -60,4 +66,6 @@ impl CompileUnit for FnExpr {
     fn remove_mark(&mut self) -> Mark {
         self.function.span.remove_mark()
     }
+
+    fn invoke(&self) {}
 }

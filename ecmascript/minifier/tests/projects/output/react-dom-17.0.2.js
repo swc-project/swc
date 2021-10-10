@@ -1871,31 +1871,33 @@
     }
     var didWarnValueNull = !1, validateProperty$1 = function() {
     }, warnedProperties$1 = {
-    }, _hasOwnProperty = Object.prototype.hasOwnProperty, EVENT_NAME_REGEX = /^on./, INVALID_EVENT_NAME_REGEX = /^on[^A-Z]/, rARIA$1 = /^(aria)-[:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\-.0-9\u00B7\u0300-\u036F\u203F-\u2040]*$/, rARIACamel$1 = /^(aria)[A-Z][:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\-.0-9\u00B7\u0300-\u036F\u203F-\u2040]*$/, warnUnknownProperties = function(type, props, eventRegistry) {
+    }, _hasOwnProperty = Object.prototype.hasOwnProperty, EVENT_NAME_REGEX = /^on./, INVALID_EVENT_NAME_REGEX = /^on[^A-Z]/, rARIA$1 = /^(aria)-[:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\-.0-9\u00B7\u0300-\u036F\u203F-\u2040]*$/, rARIACamel$1 = /^(aria)[A-Z][:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\-.0-9\u00B7\u0300-\u036F\u203F-\u2040]*$/;
+    validateProperty$1 = function(tagName, name, value, eventRegistry) {
+        if (_hasOwnProperty.call(warnedProperties$1, name) && warnedProperties$1[name]) return !0;
+        var lowerCasedName = name.toLowerCase();
+        if ("onfocusin" === lowerCasedName || "onfocusout" === lowerCasedName) return error("React uses onFocus and onBlur instead of onFocusIn and onFocusOut. All React events are normalized to bubble, so onFocusIn and onFocusOut are not needed/supported by React."), warnedProperties$1[name] = !0, !0;
+        if (null != eventRegistry) {
+            var registrationNameDependencies = eventRegistry.registrationNameDependencies, possibleRegistrationNames = eventRegistry.possibleRegistrationNames;
+            if (registrationNameDependencies.hasOwnProperty(name)) return !0;
+            var registrationName = possibleRegistrationNames.hasOwnProperty(lowerCasedName) ? possibleRegistrationNames[lowerCasedName] : null;
+            if (null != registrationName) return error("Invalid event handler property `%s`. Did you mean `%s`?", name, registrationName), warnedProperties$1[name] = !0, !0;
+            if (EVENT_NAME_REGEX.test(name)) return error("Unknown event handler property `%s`. It will be ignored.", name), warnedProperties$1[name] = !0, !0;
+        } else if (EVENT_NAME_REGEX.test(name)) return INVALID_EVENT_NAME_REGEX.test(name) && error("Invalid event handler property `%s`. React events use the camelCase naming convention, for example `onClick`.", name), warnedProperties$1[name] = !0, !0;
+        if (rARIA$1.test(name) || rARIACamel$1.test(name)) return !0;
+        if ("innerhtml" === lowerCasedName) return error("Directly setting property `innerHTML` is not permitted. For more information, lookup documentation on `dangerouslySetInnerHTML`."), warnedProperties$1[name] = !0, !0;
+        if ("aria" === lowerCasedName) return error("The `aria` attribute is reserved for future use in React. Pass individual `aria-` attributes instead."), warnedProperties$1[name] = !0, !0;
+        if ("is" === lowerCasedName && null != value && "string" != typeof value) return error("Received a `%s` for a string attribute `is`. If this is expected, cast the value to a string.", typeof value), warnedProperties$1[name] = !0, !0;
+        if ("number" == typeof value && isNaN(value)) return error("Received NaN for the `%s` attribute. If this is expected, cast the value to a string.", name), warnedProperties$1[name] = !0, !0;
+        var propertyInfo = getPropertyInfo(name), isReserved = null !== propertyInfo && 0 === propertyInfo.type;
+        if (possibleStandardNames.hasOwnProperty(lowerCasedName)) {
+            var standardName = possibleStandardNames[lowerCasedName];
+            if (standardName !== name) return error("Invalid DOM property `%s`. Did you mean `%s`?", name, standardName), warnedProperties$1[name] = !0, !0;
+        } else if (!isReserved && name !== lowerCasedName) return error("React does not recognize the `%s` prop on a DOM element. If you intentionally want it to appear in the DOM as a custom attribute, spell it as lowercase `%s` instead. If you accidentally passed it from a parent component, remove it from the DOM element.", name, lowerCasedName), warnedProperties$1[name] = !0, !0;
+        return "boolean" == typeof value && shouldRemoveAttributeWithWarning(name, value, propertyInfo, !1) ? (value ? error("Received `%s` for a non-boolean attribute `%s`.\n\nIf you want to write it to the DOM, pass a string instead: %s=\"%s\" or %s={value.toString()}.", value, name, name, value, name) : error("Received `%s` for a non-boolean attribute `%s`.\n\nIf you want to write it to the DOM, pass a string instead: %s=\"%s\" or %s={value.toString()}.\n\nIf you used to conditionally omit it with %s={condition && value}, pass %s={condition ? value : undefined} instead.", value, name, name, value, name, name, name), warnedProperties$1[name] = !0, !0) : !!isReserved || (shouldRemoveAttributeWithWarning(name, value, propertyInfo, !1) ? (warnedProperties$1[name] = !0, !1) : "false" !== value && "true" !== value || null === propertyInfo || 3 !== propertyInfo.type || (error("Received the string `%s` for the boolean attribute `%s`. %s Did you mean %s={%s}?", value, name, "false" === value ? "The browser will interpret it as a truthy value." : "Although this works, it will not work as expected if you pass the string \"false\".", name, value), warnedProperties$1[name] = !0, !0));
+    };
+    var warnUnknownProperties = function(type, props, eventRegistry) {
         var unknownProps = [];
-        for(var key in props)(validateProperty$1 = function(tagName, name, value, eventRegistry) {
-            if (_hasOwnProperty.call(warnedProperties$1, name) && warnedProperties$1[name]) return !0;
-            var lowerCasedName = name.toLowerCase();
-            if ("onfocusin" === lowerCasedName || "onfocusout" === lowerCasedName) return error("React uses onFocus and onBlur instead of onFocusIn and onFocusOut. All React events are normalized to bubble, so onFocusIn and onFocusOut are not needed/supported by React."), warnedProperties$1[name] = !0, !0;
-            if (null != eventRegistry) {
-                var registrationNameDependencies = eventRegistry.registrationNameDependencies, possibleRegistrationNames = eventRegistry.possibleRegistrationNames;
-                if (registrationNameDependencies.hasOwnProperty(name)) return !0;
-                var registrationName = possibleRegistrationNames.hasOwnProperty(lowerCasedName) ? possibleRegistrationNames[lowerCasedName] : null;
-                if (null != registrationName) return error("Invalid event handler property `%s`. Did you mean `%s`?", name, registrationName), warnedProperties$1[name] = !0, !0;
-                if (EVENT_NAME_REGEX.test(name)) return error("Unknown event handler property `%s`. It will be ignored.", name), warnedProperties$1[name] = !0, !0;
-            } else if (EVENT_NAME_REGEX.test(name)) return INVALID_EVENT_NAME_REGEX.test(name) && error("Invalid event handler property `%s`. React events use the camelCase naming convention, for example `onClick`.", name), warnedProperties$1[name] = !0, !0;
-            if (rARIA$1.test(name) || rARIACamel$1.test(name)) return !0;
-            if ("innerhtml" === lowerCasedName) return error("Directly setting property `innerHTML` is not permitted. For more information, lookup documentation on `dangerouslySetInnerHTML`."), warnedProperties$1[name] = !0, !0;
-            if ("aria" === lowerCasedName) return error("The `aria` attribute is reserved for future use in React. Pass individual `aria-` attributes instead."), warnedProperties$1[name] = !0, !0;
-            if ("is" === lowerCasedName && null != value && "string" != typeof value) return error("Received a `%s` for a string attribute `is`. If this is expected, cast the value to a string.", typeof value), warnedProperties$1[name] = !0, !0;
-            if ("number" == typeof value && isNaN(value)) return error("Received NaN for the `%s` attribute. If this is expected, cast the value to a string.", name), warnedProperties$1[name] = !0, !0;
-            var propertyInfo = getPropertyInfo(name), isReserved = null !== propertyInfo && 0 === propertyInfo.type;
-            if (possibleStandardNames.hasOwnProperty(lowerCasedName)) {
-                var standardName = possibleStandardNames[lowerCasedName];
-                if (standardName !== name) return error("Invalid DOM property `%s`. Did you mean `%s`?", name, standardName), warnedProperties$1[name] = !0, !0;
-            } else if (!isReserved && name !== lowerCasedName) return error("React does not recognize the `%s` prop on a DOM element. If you intentionally want it to appear in the DOM as a custom attribute, spell it as lowercase `%s` instead. If you accidentally passed it from a parent component, remove it from the DOM element.", name, lowerCasedName), warnedProperties$1[name] = !0, !0;
-            return "boolean" == typeof value && shouldRemoveAttributeWithWarning(name, value, propertyInfo, !1) ? (value ? error("Received `%s` for a non-boolean attribute `%s`.\n\nIf you want to write it to the DOM, pass a string instead: %s=\"%s\" or %s={value.toString()}.", value, name, name, value, name) : error("Received `%s` for a non-boolean attribute `%s`.\n\nIf you want to write it to the DOM, pass a string instead: %s=\"%s\" or %s={value.toString()}.\n\nIf you used to conditionally omit it with %s={condition && value}, pass %s={condition ? value : undefined} instead.", value, name, name, value, name, name, name), warnedProperties$1[name] = !0, !0) : !!isReserved || (shouldRemoveAttributeWithWarning(name, value, propertyInfo, !1) ? (warnedProperties$1[name] = !0, !1) : "false" !== value && "true" !== value || null === propertyInfo || 3 !== propertyInfo.type || (error("Received the string `%s` for the boolean attribute `%s`. %s Did you mean %s={%s}?", value, name, "false" === value ? "The browser will interpret it as a truthy value." : "Although this works, it will not work as expected if you pass the string \"false\".", name, value), warnedProperties$1[name] = !0, !0));
-        })(type, key, props[key], eventRegistry) || unknownProps.push(key);
+        for(var key in props)validateProperty$1(type, key, props[key], eventRegistry) || unknownProps.push(key);
         var unknownPropString = unknownProps.map(function(prop) {
             return "`" + prop + "`";
         }).join(", ");
@@ -6221,6 +6223,74 @@
             return currentHookNameInDev = "useOpaqueIdentifier", warnInvalidHookAccess(), mountHookTypesDev(), mountOpaqueIdentifier();
         },
         unstable_isNewReconciler: enableNewReconciler
+    }, InvalidNestedHooksDispatcherOnUpdateInDEV = {
+        readContext: function(context, observedBits) {
+            return warnInvalidContextAccess(), readContext(context, observedBits);
+        },
+        useCallback: function(callback, deps) {
+            return currentHookNameInDev = "useCallback", warnInvalidHookAccess(), updateHookTypesDev(), updateCallback(callback, deps);
+        },
+        useContext: function(context, observedBits) {
+            return currentHookNameInDev = "useContext", warnInvalidHookAccess(), updateHookTypesDev(), readContext(context, observedBits);
+        },
+        useEffect: function(create, deps) {
+            return currentHookNameInDev = "useEffect", warnInvalidHookAccess(), updateHookTypesDev(), updateEffect(create, deps);
+        },
+        useImperativeHandle: function(ref, create, deps) {
+            return currentHookNameInDev = "useImperativeHandle", warnInvalidHookAccess(), updateHookTypesDev(), updateImperativeHandle(ref, create, deps);
+        },
+        useLayoutEffect: function(create, deps) {
+            return currentHookNameInDev = "useLayoutEffect", warnInvalidHookAccess(), updateHookTypesDev(), updateLayoutEffect(create, deps);
+        },
+        useMemo: function(create, deps) {
+            currentHookNameInDev = "useMemo", warnInvalidHookAccess(), updateHookTypesDev();
+            var prevDispatcher = ReactCurrentDispatcher$1.current;
+            ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnUpdateInDEV;
+            try {
+                return updateMemo(create, deps);
+            } finally{
+                ReactCurrentDispatcher$1.current = prevDispatcher;
+            }
+        },
+        useReducer: function(reducer, initialArg, init) {
+            currentHookNameInDev = "useReducer", warnInvalidHookAccess(), updateHookTypesDev();
+            var prevDispatcher = ReactCurrentDispatcher$1.current;
+            ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnUpdateInDEV;
+            try {
+                return updateReducer(reducer, initialArg, init);
+            } finally{
+                ReactCurrentDispatcher$1.current = prevDispatcher;
+            }
+        },
+        useRef: function(initialValue) {
+            return currentHookNameInDev = "useRef", warnInvalidHookAccess(), updateHookTypesDev(), updateRef();
+        },
+        useState: function(initialState) {
+            currentHookNameInDev = "useState", warnInvalidHookAccess(), updateHookTypesDev();
+            var prevDispatcher = ReactCurrentDispatcher$1.current;
+            ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnUpdateInDEV;
+            try {
+                return updateState(initialState);
+            } finally{
+                ReactCurrentDispatcher$1.current = prevDispatcher;
+            }
+        },
+        useDebugValue: function(value, formatterFn) {
+            return currentHookNameInDev = "useDebugValue", warnInvalidHookAccess(), updateHookTypesDev(), updateDebugValue();
+        },
+        useDeferredValue: function(value) {
+            return currentHookNameInDev = "useDeferredValue", warnInvalidHookAccess(), updateHookTypesDev(), updateDeferredValue(value);
+        },
+        useTransition: function() {
+            return currentHookNameInDev = "useTransition", warnInvalidHookAccess(), updateHookTypesDev(), updateTransition();
+        },
+        useMutableSource: function(source, getSnapshot, subscribe) {
+            return currentHookNameInDev = "useMutableSource", warnInvalidHookAccess(), updateHookTypesDev(), updateMutableSource(source, getSnapshot, subscribe);
+        },
+        useOpaqueIdentifier: function() {
+            return currentHookNameInDev = "useOpaqueIdentifier", warnInvalidHookAccess(), updateHookTypesDev(), updateOpaqueIdentifier();
+        },
+        unstable_isNewReconciler: enableNewReconciler
     }, InvalidNestedHooksDispatcherOnRerenderInDEV = {
         readContext: function(context, observedBits) {
             return warnInvalidContextAccess(), readContext(context, observedBits);
@@ -6243,75 +6313,7 @@
         useMemo: function(create, deps) {
             currentHookNameInDev = "useMemo", warnInvalidHookAccess(), updateHookTypesDev();
             var prevDispatcher = ReactCurrentDispatcher$1.current;
-            ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnUpdateInDEV = {
-                readContext: function(context, observedBits) {
-                    return warnInvalidContextAccess(), readContext(context, observedBits);
-                },
-                useCallback: function(callback, deps) {
-                    return currentHookNameInDev = "useCallback", warnInvalidHookAccess(), updateHookTypesDev(), updateCallback(callback, deps);
-                },
-                useContext: function(context, observedBits) {
-                    return currentHookNameInDev = "useContext", warnInvalidHookAccess(), updateHookTypesDev(), readContext(context, observedBits);
-                },
-                useEffect: function(create, deps) {
-                    return currentHookNameInDev = "useEffect", warnInvalidHookAccess(), updateHookTypesDev(), updateEffect(create, deps);
-                },
-                useImperativeHandle: function(ref, create, deps) {
-                    return currentHookNameInDev = "useImperativeHandle", warnInvalidHookAccess(), updateHookTypesDev(), updateImperativeHandle(ref, create, deps);
-                },
-                useLayoutEffect: function(create, deps) {
-                    return currentHookNameInDev = "useLayoutEffect", warnInvalidHookAccess(), updateHookTypesDev(), updateLayoutEffect(create, deps);
-                },
-                useMemo: function(create, deps) {
-                    currentHookNameInDev = "useMemo", warnInvalidHookAccess(), updateHookTypesDev();
-                    var prevDispatcher = ReactCurrentDispatcher$1.current;
-                    ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnUpdateInDEV;
-                    try {
-                        return updateMemo(create, deps);
-                    } finally{
-                        ReactCurrentDispatcher$1.current = prevDispatcher;
-                    }
-                },
-                useReducer: function(reducer, initialArg, init) {
-                    currentHookNameInDev = "useReducer", warnInvalidHookAccess(), updateHookTypesDev();
-                    var prevDispatcher = ReactCurrentDispatcher$1.current;
-                    ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnUpdateInDEV;
-                    try {
-                        return updateReducer(reducer, initialArg, init);
-                    } finally{
-                        ReactCurrentDispatcher$1.current = prevDispatcher;
-                    }
-                },
-                useRef: function(initialValue) {
-                    return currentHookNameInDev = "useRef", warnInvalidHookAccess(), updateHookTypesDev(), updateRef();
-                },
-                useState: function(initialState) {
-                    currentHookNameInDev = "useState", warnInvalidHookAccess(), updateHookTypesDev();
-                    var prevDispatcher = ReactCurrentDispatcher$1.current;
-                    ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnUpdateInDEV;
-                    try {
-                        return updateState(initialState);
-                    } finally{
-                        ReactCurrentDispatcher$1.current = prevDispatcher;
-                    }
-                },
-                useDebugValue: function(value, formatterFn) {
-                    return currentHookNameInDev = "useDebugValue", warnInvalidHookAccess(), updateHookTypesDev(), updateDebugValue();
-                },
-                useDeferredValue: function(value) {
-                    return currentHookNameInDev = "useDeferredValue", warnInvalidHookAccess(), updateHookTypesDev(), updateDeferredValue(value);
-                },
-                useTransition: function() {
-                    return currentHookNameInDev = "useTransition", warnInvalidHookAccess(), updateHookTypesDev(), updateTransition();
-                },
-                useMutableSource: function(source, getSnapshot, subscribe) {
-                    return currentHookNameInDev = "useMutableSource", warnInvalidHookAccess(), updateHookTypesDev(), updateMutableSource(source, getSnapshot, subscribe);
-                },
-                useOpaqueIdentifier: function() {
-                    return currentHookNameInDev = "useOpaqueIdentifier", warnInvalidHookAccess(), updateHookTypesDev(), updateOpaqueIdentifier();
-                },
-                unstable_isNewReconciler: enableNewReconciler
-            };
+            ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnUpdateInDEV;
             try {
                 return updateMemo(create, deps);
             } finally{

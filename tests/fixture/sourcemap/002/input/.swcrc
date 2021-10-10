@@ -10,16 +10,9 @@
       "legacyDecorator": true,
       "decoratorMetadata": true
     },
-    "target": "es2016",
+    "target": "es5",
     "loose": false,
     "externalHelpers": true
-  },
-  "module": {
-    "type": "commonjs",
-    "strict": false,
-    "strictMode": true,
-    "lazy": false,
-    "noInterop": false
   },
   "sourceMaps": true,
   "inlineSourcesContent": true
