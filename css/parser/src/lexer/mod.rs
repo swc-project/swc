@@ -129,10 +129,12 @@ where
         // TODO: Plus can start a number
         try_delim!(b'/', "/");
 
-        if is_whitespace(self.input.cur().unwrap()) {
-            self.skip_ws()?;
+        if let Some(c) = self.input.cur() {
+            if is_whitespace(c) {
+                self.skip_ws()?;
 
-            return Ok(tok!(" "));
+                return Ok(tok!(" "));
+            }
         }
 
         if self.input.is_byte(b'"') {
@@ -221,8 +223,10 @@ where
             return self.read_number();
         }
 
-        if is_name_start(self.input.cur().unwrap()) {
-            return self.read_ident_like();
+        if let Some(c) = self.input.cur() {
+            if is_name_start(c) {
+                return self.read_ident_like();
+            }
         }
 
         // TODO: Return an <EOF-token>.
@@ -767,10 +771,15 @@ fn is_letter(c: char) -> bool {
     }
 }
 
+fn is_non_ascii(c: char) -> bool {
+    c as u32 >= 0x80
+}
+
 pub(crate) fn is_name_start(c: char) -> bool {
     match c {
-        c if is_letter(c) || c == '_' || c == '\x00' => true,
-        _ => c as u32 >= 0x80,
+        // TODO: `\x00` is not valid
+        c if is_letter(c) || is_non_ascii(c) || c == '_' || c == '\x00' => true,
+        _ => false,
     }
 }
 
