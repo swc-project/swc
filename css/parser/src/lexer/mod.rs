@@ -139,8 +139,24 @@ where
             return self.read_str(None);
         }
 
-        if self.input.is_byte(b'#') {}
-        // TODO U+0023 NUMBER SIGN (#)
+        if self.input.is_byte(b'#') {
+            let c = self.input.cur().unwrap();
+
+            self.input.bump();
+
+            if is_name_continue(self.input.cur().unwrap()) || self.is_valid_escape()? {
+                let is_id = self.would_start_ident()?;
+                let name = self.read_name()?;
+
+                return Ok(Token::Hash {
+                    is_id,
+                    value: name.0,
+                    raw: name.1,
+                });
+            }
+
+            return Ok(Token::Delim { value: c });
+        }
 
         if self.input.is_byte(b'\'') {
             return self.read_str(None);
@@ -213,33 +229,6 @@ where
 
         match self.input.cur() {
             Some(c) => match c {
-                '#' => {
-                    self.input.bump();
-
-                    if let Some(c) = self.input.cur() {
-                        Ok(if is_name_continue(c) || self.is_valid_escape()? {
-                            let is_id = self.would_start_ident()?;
-
-                            let name = self.read_name()?;
-
-                            Token::Hash {
-                                is_id,
-                                value: name.0,
-                                raw: name.1,
-                            }
-                        } else {
-                            // TODO: Verify if this is ok.
-                            Token::Hash {
-                                is_id: false,
-                                value: js_word!(""),
-                                raw: js_word!(""),
-                            }
-                        })
-                    } else {
-                        Err(ErrorKind::Eof)
-                    }
-                }
-
                 _ => {
                     return Ok(Token::Delim { value: c });
                 }
