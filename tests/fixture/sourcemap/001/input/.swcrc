@@ -21,5 +21,6 @@
     "lazy": false,
     "noInterop": false
   },
-  "sourceMaps": true
+  "sourceMaps": true,
+  "inlineSourcesContent": true
 }

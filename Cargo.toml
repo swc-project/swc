@@ -2,6 +2,7 @@
 members = [
   "css",
   "css/stylis",
+  "dev/cli",
   "ecmascript",
   "ecmascript/babel/compat",
   "ecmascript/jsdoc",
@@ -55,7 +56,7 @@ swc_bundler = {version = "0.68.0", path = "./bundler"}
 swc_common = {version = "0.13.0", path = "./common", features = ["sourcemap", "concurrent"]}
 swc_ecma_ast = {version = "0.54.0", path = "./ecmascript/ast"}
 swc_ecma_codegen = {version = "0.74.0", path = "./ecmascript/codegen"}
-swc_ecma_ext_transforms = {version = "0.31.0", path = "./ecmascript/ext-transforms"}
+swc_ecma_ext_transforms = {version = "0.32.0", path = "./ecmascript/ext-transforms"}
 swc_ecma_loader = {version = "0.21.0", path = "./ecmascript/loader", features = ["lru", "node", "tsc"]}
 swc_ecma_minifier = {version = "0.37.0", path = "./ecmascript/minifier"}
 swc_ecma_parser = {version = "0.73.0", path = "./ecmascript/parser"}
@@ -68,8 +69,8 @@ swc_ecma_transforms = {version = "0.81.0", path = "./ecmascript/transforms", fea
   "react",
   "typescript",
 ]}
-swc_ecma_transforms_base = {version = "0.36.0", path = "./ecmascript/transforms/base"}
-swc_ecma_utils = {version = "0.46.0", path = "./ecmascript/utils"}
+swc_ecma_transforms_base = {version = "0.37.0", path = "./ecmascript/transforms/base"}
+swc_ecma_utils = {version = "0.47.0", path = "./ecmascript/utils"}
 swc_ecma_visit = {version = "0.40.0", path = "./ecmascript/visit"}
 swc_ecmascript = {version = "0.73.0", path = "./ecmascript"}
 swc_visit = {version = "0.2.3", path = "./visit"}

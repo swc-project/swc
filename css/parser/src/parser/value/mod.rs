@@ -193,7 +193,7 @@ where
                 let token = bump!(self);
 
                 match token {
-                    Token::Str { value } => return Ok(Value::Str(Str { span, value })),
+                    Token::Str { value, raw } => return Ok(Value::Str(Str { span, value, raw })),
                     _ => {
                         unreachable!()
                     }
@@ -238,7 +238,8 @@ where
 
             Token::Url { .. } => {
                 let url = match bump!(self) {
-                    Token::Url { value } => value,
+                    // TODO fix me
+                    Token::Url { value, .. } => value,
                     _ => {
                         unreachable!()
                     }

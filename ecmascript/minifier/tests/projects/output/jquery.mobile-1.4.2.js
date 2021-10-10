@@ -4496,8 +4496,8 @@
         _setWidget: function(widget) {
             if (!this._widget && widget) {
                 var self, orig;
-                this._widget = widget, self = this, this._widget._setOptions = function(options) {
-                    (orig = this._widget._setOptions).call(this, options), self._syncTextInputOptions(options);
+                this._widget = widget, self = this, orig = this._widget._setOptions, this._widget._setOptions = function(options) {
+                    orig.call(this, options), self._syncTextInputOptions(options);
                 };
             }
             return this._widget && (this._syncTextInputOptions(this._widget.options), "listview" === this._widget.widgetName && (this._widget.options.hideDividers = !0, this._widget.element.listview("refresh"))), !!this._widget;

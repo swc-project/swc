@@ -150,6 +150,7 @@ jobs:
           - swc_stylis
           - swc_visit
           - swc_visit_macros
+          - swd
           - testing
           - testing_macros
           - wasm

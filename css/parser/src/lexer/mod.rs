@@ -172,12 +172,12 @@ where
             Some(c) => match c {
                 '0'..='9' => return self.read_number(),
 
-                ' ' | '\n' | '\t' => {
+                c if is_whitespace(c) => {
                     self.skip_ws()?;
                     return Ok(tok!(" "));
                 }
 
-                '\'' | '"' => return self.read_str().map(|value| Token::Str { value }),
+                '\'' | '"' => return self.read_str(None),
 
                 '#' => {
                     self.input.bump();
@@ -264,6 +264,90 @@ where
         })
     }
 
+    fn read_str(&mut self, mut ending_code_point: Option<char>) -> LexResult<Token> {
+        if ending_code_point.is_none() {
+            ending_code_point = self.input.cur();
+        }
+
+        let mut value = String::new();
+        let mut raw = String::new();
+
+        raw.push(ending_code_point.unwrap());
+
+        self.input.bump();
+
+        loop {
+            match self.input.cur() {
+                Some(c) => match c {
+                    // Ending code point
+                    c if c == ending_code_point.unwrap() => {
+                        raw.push(c);
+                        self.input.bump();
+                        self.last_pos = Some(self.input.cur_pos());
+
+                        break;
+                    }
+
+                    // Newline
+                    c if is_newline(c) => {
+                        raw.push(c);
+                        self.input.bump();
+
+                        return Ok(Token::BadStr {
+                            value: value.into(),
+                            raw: raw.into(),
+                        });
+                    }
+
+                    // U+005C REVERSE SOLIDUS (\)
+                    c if c == '\\' => {
+                        // If the next input code point is EOF, do nothing.
+                        if self.input.peek().is_none() {
+                            break;
+                        }
+
+                        // Otherwise, if the next input code point is a newline, consume it.
+                        if is_newline(self.input.peek().unwrap()) {
+                            raw.push(c);
+                            self.input.bump();
+                            raw.push(self.input.cur().unwrap());
+                            self.input.bump();
+                        }
+                        // Otherwise, (the stream starts with a valid escape) consume an escaped
+                        // code point and append the returned code point to
+                        // the <string-token>’s value.
+                        else if self.is_valid_escape()? {
+                            let escape = self.read_escape()?;
+
+                            value.push(escape.0);
+                            raw.push_str(&escape.1);
+                        }
+                    }
+
+                    // Anything else
+                    // Append the current input code point to the <string-token>’s value.
+                    c => {
+                        value.push(c);
+                        raw.push(c);
+
+                        self.input.bump();
+                    }
+                },
+
+                // EOF
+                // This is a parse error. Return the <string-token>.
+                None => {
+                    return Err(ErrorKind::Eof);
+                }
+            }
+        }
+
+        Ok(Token::Str {
+            value: value.into(),
+            raw: raw.into(),
+        })
+    }
+
     /// Ported from `consumeURL` of `esbuild`.
     fn read_url(&mut self) -> LexResult<Token> {
         let mut url = String::new();
@@ -280,9 +364,7 @@ where
             }
 
             match self.input.cur().unwrap() {
-                ' ' | '\t' | '\n' | '\r' => {
-                    // TODO: Add `\f` of golang.
-                    self.input.bump();
+                c if is_whitespace(c) => {
                     self.skip_ws()?;
 
                     if !self.input.eat_byte(b')') {
@@ -360,8 +442,7 @@ where
 
             self.last_pos = Some(self.input.cur_pos());
 
-            // TODO: is_white_space
-            if self.input.is_byte(b' ') {
+            if is_whitespace(self.input.cur().unwrap()) {
                 raw.push(self.input.cur().unwrap());
 
                 self.input.bump();
@@ -545,8 +626,8 @@ where
                 break;
             }
 
-            if self.input.eat_byte(b' ') || self.input.eat_byte(b'\n') || self.input.eat_byte(b'\t')
-            {
+            if is_whitespace(self.input.cur().unwrap()) {
+                self.input.bump();
                 continue;
             }
 
@@ -631,8 +712,15 @@ pub(crate) fn is_name_continue(c: char) -> bool {
 
 fn is_newline(c: char) -> bool {
     match c {
-        // TODO: Add `\f` of golang
-        '\n' | '\r' => true,
+        '\n' | '\r' | '\x0C' => true,
+
+        _ => false,
+    }
+}
+
+fn is_whitespace(c: char) -> bool {
+    match c {
+        c if c == ' ' || c == '\t' || is_newline(c) => true,
 
         _ => false,
     }

@@ -39,7 +39,7 @@ swc_ecma_minifier = {version = "0.37.0", path = "./minifier", optional = true}
 swc_ecma_parser = {version = "0.73.0", path = "./parser", optional = true, default-features = false}
 swc_ecma_preset_env = {version = "0.52.0", path = "./preset-env", optional = true}
 swc_ecma_transforms = {version = "0.81.0", path = "./transforms", optional = true}
-swc_ecma_utils = {version = "0.46.0", path = "./utils", optional = true}
+swc_ecma_utils = {version = "0.47.0", path = "./utils", optional = true}
 swc_ecma_visit = {version = "0.40.0", path = "./visit", optional = true}
 
 [dev-dependencies]

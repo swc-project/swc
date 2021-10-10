@@ -88,7 +88,8 @@
                   "end": 14,
                   "ctxt": 0
                 },
-                "value": "\u0001"
+                "value": "\u0001",
+                "raw": "'\u0001'"
               }
             ],
             "important": null

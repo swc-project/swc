@@ -90,7 +90,7 @@ where
     fn write_punct(&mut self, _span: Option<Span>, punct: &str) -> Result {
         debug_assert!(
             !punct.contains('\n'),
-            "punct should not contain newline charactters"
+            "punct should not contain newline characters"
         );
 
         self.apply_indent()?;
@@ -123,13 +123,9 @@ where
     }
 
     fn write_raw(&mut self, _span: Option<Span>, text: &str) -> Result {
-        for (idx, s) in text.split('\n').enumerate() {
-            self.col += s.len();
-            self.w.write_str(s)?;
-
-            if idx != 0 {
-                self.write_newline()?;
-            }
+        for (_, s) in text.chars().enumerate() {
+            self.col += 1;
+            self.w.write_char(s)?;
         }
 
         Ok(())

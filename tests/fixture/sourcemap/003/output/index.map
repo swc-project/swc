@@ -1,0 +1,18 @@
+{
+  "mappings": "iFAAe,QAAQ,CAAC,UAAU,CAAC,CAAQ,CAAE,CAAC,IAAT,CAAI,CAAN,CAAQ,CAAN,IAAI,CACrC,MAAM,qBAAE,CAAG,UAAE,CAAI,CAAC,GAAG,CACzB,CAAC,UAEqB,eAAc,UAAd,eAAc,2BAA7B,QAAQ,UAAwB,CAAC,uFAC7B,CAAC,AACJ,KAAK,CAAE,CAAC,AACJ,IAAI,CAAE,CAAC,AACH,GAAG,CAAE,CAAK,IACd,CAAC,AACL,CAAC,AACL,CAAC,6CACL,CAAC,0CARqB,cAAc,UAAd,eAAc",
+  "names": [
+    "StaticPage",
+    "data",
+    "div",
+    "foo",
+    "getStaticProps",
+    "props"
+  ],
+  "sources": [
+    "../../input/index.js"
+  ],
+  "sourcesContent": [
+    "export default function StaticPage({ data }) {\n    return <div>{data.foo}</div>\n}\n\nexport async function getStaticProps() {\n    return {\n        props: {\n            data: {\n                foo: 'bar',\n            },\n        },\n    }\n}"
+  ],
+  "version": 3
+}
