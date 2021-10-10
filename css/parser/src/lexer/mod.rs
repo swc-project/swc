@@ -140,12 +140,20 @@ where
         // TODO: Plus can start a number
         try_delim!(b'/', "/");
 
-        if self.input.eat_byte(b'@') {
-            return self.read_at_keyword();
-        }
-
         if self.input.is_byte(b'<') {
             return self.read_less_than();
+        }
+
+        if self.input.is_byte(b'@') {
+            self.input.bump();
+
+            if self.would_start_ident()? {
+                return self.read_at_keyword();
+            }
+
+            return Ok(Token::Delim {
+                value: "@".into(),
+            });
         }
 
         if self.input.is_byte(b'-') {
