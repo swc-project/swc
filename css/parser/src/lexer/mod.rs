@@ -92,14 +92,6 @@ where
             return Err(ErrorKind::Eof);
         }
 
-        macro_rules! try_delim {
-            ($b:tt,$tok:tt) => {{
-                if self.input.eat_byte($b) {
-                    return Ok(tok!($tok));
-                }
-            }};
-        }
-
         if self.input.is_byte(b'/') {
             if self.input.peek() == Some('/') {
                 self.skip_line_comment(2)?;
@@ -112,6 +104,14 @@ where
                 self.start_pos = self.input.cur_pos();
                 return self.read_token();
             }
+        }
+
+        macro_rules! try_delim {
+            ($b:tt,$tok:tt) => {{
+                if self.input.eat_byte($b) {
+                    return Ok(tok!($tok));
+                }
+            }};
         }
 
         // TODO: it is delim tokens
