@@ -739,10 +739,37 @@ where
     }
 }
 
+fn is_digit(c: char) -> bool {
+    match c {
+        '0'..='9' => true,
+        _ => false,
+    }
+}
+
+fn is_uppercase_letter(c: char) -> bool {
+    match c {
+        'A'..='Z' => true,
+        _ => false,
+    }
+}
+
+fn is_lowercase_letter(c: char) -> bool {
+    match c {
+        'a'..='z' => true,
+        _ => false,
+    }
+}
+
+fn is_letter(c: char) -> bool {
+    match c {
+        c if is_uppercase_letter(c) || is_lowercase_letter(c) => true,
+        _ => false,
+    }
+}
+
 pub(crate) fn is_name_start(c: char) -> bool {
     match c {
-        'a'..='z' | 'A'..='Z' | '_' | '\x00' => true,
-
+        c if is_letter(c) || c == '_' || c == '\x00' => true,
         _ => c as u32 >= 0x80,
     }
 }
@@ -750,7 +777,7 @@ pub(crate) fn is_name_start(c: char) -> bool {
 pub(crate) fn is_name_continue(c: char) -> bool {
     is_name_start(c)
         || match c {
-            '0'..='9' | '-' => true,
+            c if is_digit(c) || c == '-' => true,
             _ => false,
         }
 }
