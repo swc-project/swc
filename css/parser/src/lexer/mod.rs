@@ -114,21 +114,10 @@ where
             }
         }
 
-        try_delim!(b'(', "(");
-        try_delim!(b')', ")");
-
-        try_delim!(b'[', "[");
-        try_delim!(b']', "]");
-
-        try_delim!(b'{', "{");
-        try_delim!(b'}', "}");
-
-        try_delim!(b',', ",");
+        // TODO: it is delim tokens
         try_delim!(b'=', "=");
         try_delim!(b'*', "*");
         try_delim!(b'$', "$");
-        try_delim!(b':', ":");
-        try_delim!(b';', ";");
         try_delim!(b'^', "^");
         try_delim!(b'%', "%");
         try_delim!(b'!', "!");
@@ -139,6 +128,34 @@ where
 
         // TODO: Plus can start a number
         try_delim!(b'/', "/");
+
+        // TODO U+0022 QUOTATION MARK (")
+
+        // TODO U+0023 NUMBER SIGN (#)
+
+        // TODO U+0027 APOSTROPHE (')
+
+        try_delim!(b'(', "(");
+
+        try_delim!(b')', ")");
+
+        if self.input.is_byte(b'+') {
+            return self.read_plus();
+        }
+
+        try_delim!(b',', ",");
+
+        if self.input.is_byte(b'-') {
+            return self.read_minus();
+        }
+
+        if self.input.is_byte(b'.') {
+            return self.read_dot();
+        }
+
+        try_delim!(b':', ":");
+
+        try_delim!(b';', ";");
 
         if self.input.is_byte(b'<') {
             return self.read_less_than();
@@ -151,23 +168,12 @@ where
                 return self.read_at_keyword();
             }
 
-            return Ok(Token::Delim {
-                value: "@".into(),
-            });
+            return Ok(Token::Delim { value: "@".into() });
         }
 
-        if self.input.is_byte(b'-') {
-            return self.read_minus();
-        }
+        try_delim!(b'[', "[");
 
-        if self.input.is_byte(b'.') {
-            return self.read_dot();
-        }
-
-        if self.input.is_byte(b'+') {
-            return self.read_plus();
-        }
-
+        // TODO
         if self.input.is_byte(b'\\') {
             if self.is_valid_escape()? {
                 return self.read_ident_like();
@@ -175,6 +181,12 @@ where
                 return Err(ErrorKind::InvalidEscape);
             }
         }
+
+        try_delim!(b']', "]");
+
+        try_delim!(b'{', "{");
+
+        try_delim!(b'}', "}");
 
         match self.input.cur() {
             Some(c) => match c {
