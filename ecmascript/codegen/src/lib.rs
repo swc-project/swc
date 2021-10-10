@@ -2261,6 +2261,57 @@ where
         emit!(node.body);
     }
 
+    fn has_leading_comment(&self, arg: &Expr) -> bool {
+        if let Some(cmt) = self.comments {
+            let lo = arg.span().lo;
+
+            // see #415
+            if cmt.has_leading(lo) {
+                return true;
+            }
+        }
+
+        match arg {
+            Expr::Call(c) => match &c.callee {
+                ExprOrSuper::Super(callee) => {
+                    if let Some(cmt) = self.comments {
+                        let lo = callee.span.lo;
+
+                        if cmt.has_leading(lo) {
+                            return true;
+                        }
+                    }
+                }
+                ExprOrSuper::Expr(callee) => {
+                    if self.has_leading_comment(&callee) {
+                        return true;
+                    }
+                }
+            },
+
+            Expr::Member(m) => match &m.obj {
+                ExprOrSuper::Super(obj) => {
+                    if let Some(cmt) = self.comments {
+                        let lo = obj.span.lo;
+
+                        if cmt.has_leading(lo) {
+                            return true;
+                        }
+                    }
+                }
+                ExprOrSuper::Expr(obj) => {
+                    if self.has_leading_comment(&obj) {
+                        return true;
+                    }
+                }
+            },
+
+            _ => {}
+        }
+
+        false
+    }
+
     #[emitter]
     fn emit_return_stmt(&mut self, n: &ReturnStmt) -> Result {
         self.emit_leading_comments_of_span(n.span, false)?;
@@ -2276,14 +2327,10 @@ where
 
         if let Some(ref arg) = n.arg {
             let need_paren = !n.arg.span().is_dummy()
-                && if let Some(cmt) = self.comments {
-                    let lo = n.arg.span().lo();
-
-                    // see #415
-                    cmt.has_leading(lo)
-                } else {
-                    false
-                };
+                && n.arg
+                    .as_deref()
+                    .map(|expr| self.has_leading_comment(expr))
+                    .unwrap_or(false);
             if need_paren {
                 punct!("(");
             } else {
