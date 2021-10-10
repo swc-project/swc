@@ -187,7 +187,23 @@ where
         try_delim!(b';', ";");
 
         if self.input.is_byte(b'<') {
-            return self.read_less_than();
+            let c = self.input.cur().unwrap();
+
+            self.input.bump();
+
+            // <!--
+            if self.input.is_byte(b'!')
+                && self.input.peek() == Some('-')
+                && self.input.peek_ahead() == Some('-')
+            {
+                self.input.bump(); // !
+                self.input.bump(); // -
+                self.input.bump(); // -
+
+                return Ok(tok!("<!--"));
+            }
+
+            return Ok(Token::Delim { value: c });
         }
 
         if self.input.is_byte(b'@') {
@@ -538,25 +554,6 @@ where
             value: name.0,
             raw: name.1,
         })
-    }
-
-    fn read_less_than(&mut self) -> LexResult<Token> {
-        assert_eq!(self.input.cur(), Some('<'));
-        self.input.bump(); // <
-
-        // <!--
-        if self.input.is_byte(b'!')
-            && self.input.peek() == Some('-')
-            && self.input.peek_ahead() == Some('-')
-        {
-            self.input.bump(); // !
-            self.input.bump(); // -
-            self.input.bump(); // -
-
-            return Ok(tok!("<!--"));
-        }
-
-        Err(ErrorKind::UnexpectedChar(self.input.cur()))
     }
 
     fn read_minus(&mut self) -> LexResult<Token> {
