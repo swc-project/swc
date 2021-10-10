@@ -379,8 +379,21 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             if can_be_arrow && id.sym == js_word!("async") && is!(self, BindingIdent) {
+                let ident = self.parse_binding_ident()?;
+                if self.input.syntax().typescript()
+                    && ident.id.sym == js_word!("as")
+                    && !is!(self, "=>")
+                {
+                    // async as type
+                    let type_ann = self.in_type().parse_with(|p| p.parse_ts_type())?;
+                    return Ok(Box::new(Expr::TsAs(TsAsExpr {
+                        span: span!(self, start),
+                        expr: Box::new(Expr::Ident(id)),
+                        type_ann,
+                    })));
+                }
                 // async a => body
-                let arg = self.parse_binding_ident().map(Pat::from)?;
+                let arg = Pat::from(ident);
                 let params = vec![arg];
                 expect!(self, "=>");
                 let body = self.parse_fn_body(true, false)?;
