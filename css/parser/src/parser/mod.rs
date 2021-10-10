@@ -146,7 +146,7 @@ where
         }
 
         match bump!(self) {
-            Token::Str { value } => Ok(Str { span, value }),
+            Token::Str { value, raw } => Ok(Str { span, value, raw }),
             _ => {
                 unreachable!()
             }

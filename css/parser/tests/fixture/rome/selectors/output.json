@@ -629,7 +629,8 @@
                       "end": 136,
                       "ctxt": 0
                     },
-                    "value": "title"
+                    "value": "title",
+                    "raw": "\"title\""
                   },
                   "modifier": null
                 }
@@ -759,7 +760,8 @@
                       "end": 176,
                       "ctxt": 0
                     },
-                    "value": "title"
+                    "value": "title",
+                    "raw": "\"title\""
                   },
                   "modifier": "i"
                 }
@@ -889,7 +891,8 @@
                       "end": 219,
                       "ctxt": 0
                     },
-                    "value": "title"
+                    "value": "title",
+                    "raw": "\"title\""
                   },
                   "modifier": null
                 },
@@ -927,7 +930,8 @@
                       "end": 236,
                       "ctxt": 0
                     },
-                    "value": "image/*"
+                    "value": "image/*",
+                    "raw": "\"image/*\""
                   },
                   "modifier": "S"
                 }

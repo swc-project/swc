@@ -1,0 +1,8 @@
+error: Expected Property value
+ --> $DIR/tests/recovery/value/quotes/input.css:2:14
+  |
+2 |       content: "tes
+  |  ______________^
+3 | |     t";
+  | |_
+

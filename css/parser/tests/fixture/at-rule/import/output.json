@@ -38,7 +38,8 @@
               "end": 25,
               "ctxt": 0
             },
-            "value": "./style.css"
+            "value": "./style.css",
+            "raw": "\"./style.css\""
           }
         ]
       },
@@ -76,7 +77,8 @@
               "end": 53,
               "ctxt": 0
             },
-            "value": "./style.css"
+            "value": "./style.css",
+            "raw": "'./style.css'"
           }
         ]
       },
@@ -114,7 +116,8 @@
           "end": 103,
           "ctxt": 0
         },
-        "value": "./style.css"
+        "value": "./style.css",
+        "raw": "'./style.css'"
       },
       "condition": null
     },
@@ -132,7 +135,8 @@
           "end": 126,
           "ctxt": 0
         },
-        "value": "./style.css"
+        "value": "./style.css",
+        "raw": "\"./style.css\""
       },
       "condition": null
     },
@@ -168,7 +172,8 @@
               "end": 153,
               "ctxt": 0
             },
-            "value": "./style.css"
+            "value": "./style.css",
+            "raw": "\"./style.css\""
           }
         ]
       },
@@ -224,7 +229,8 @@
               "end": 207,
               "ctxt": 0
             },
-            "value": "./style.css"
+            "value": "./style.css",
+            "raw": "\"./style.css\""
           }
         ]
       },
@@ -244,7 +250,8 @@
           "end": 227,
           "ctxt": 0
         },
-        "value": "test.css"
+        "value": "test.css",
+        "raw": "\"test.css\""
       },
       "condition": null
     }

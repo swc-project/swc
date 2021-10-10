@@ -13,6 +13,7 @@ pub struct Text {
 pub struct Str {
     pub span: Span,
     pub value: JsWord,
+    pub raw: JsWord,
 }
 
 #[ast_node("Number")]

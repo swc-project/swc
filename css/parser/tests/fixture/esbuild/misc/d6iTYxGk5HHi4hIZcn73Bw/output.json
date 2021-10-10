@@ -117,7 +117,8 @@
                   "end": 25,
                   "ctxt": 0
                 },
-                "value": "a\rb"
+                "value": "ab",
+                "raw": "'a\\\rb'"
               }
             ],
             "important": null

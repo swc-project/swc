@@ -117,7 +117,8 @@
                   "end": 27,
                   "ctxt": 0
                 },
-                "value": "a62 c"
+                "value": "abc",
+                "raw": "'a\\62 c'"
               }
             ],
             "important": null

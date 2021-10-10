@@ -636,7 +636,8 @@
                   "end": 444,
                   "ctxt": 0
                 },
-                "value": ""
+                "value": "",
+                "raw": "\"\""
               }
             ],
             "important": {
