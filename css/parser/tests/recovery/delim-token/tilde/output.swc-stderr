@@ -1,5 +1,5 @@
 error: Expected Property value
- --> $DIR/tests/recovery/delim-token/unknown/input.css:2:12
+ --> $DIR/tests/recovery/delim-token/tilde/input.css:2:12
   |
 2 |     color: ~;
   |            ^
