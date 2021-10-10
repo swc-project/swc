@@ -1,24 +1,14 @@
-use crate::util::cargo::cargo_target_dir;
-use anyhow::{bail, Context, Error};
+use anyhow::{Context, Error};
 use cargo::{
-    core::{
-        compiler::{BuildConfig, CompileMode},
-        Workspace,
-    },
+    core::{compiler::CompileMode, shell::Verbosity, Workspace},
     ops::{CompileFilter, CompileOptions, Packages},
-    util::{command_prelude::AppExt, important_paths, interning::InternedString},
+    util::{important_paths, interning::InternedString},
     Config,
 };
-use std::{
-    env,
-    path::{Path, PathBuf},
-};
+use std::path::PathBuf;
 use structopt::StructOpt;
-use tokio::{process::Command, task::spawn_blocking};
-use tracing::{
-    info,
-    subscriber::{set_default, with_default, NoSubscriber},
-};
+use tokio::task::spawn_blocking;
+use tracing::{info, subscriber::with_default};
 
 /// Used for commands involving `cargo build`
 
@@ -81,6 +71,8 @@ impl BaseCargoCommand {
                     .context("failed to find root manifest for working directory")?;
                 let workspace = Workspace::new(&manifest_path, &cargo_config)
                     .context("failed to create cargo workspace")?;
+
+                workspace.config().shell().set_verbosity(Verbosity::Normal);
 
                 let compile_opts = self.to_compile_opts(&cargo_config)?;
 
