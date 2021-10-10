@@ -236,9 +236,9 @@
         access: function(elems, fn, key, value, chainable, emptyGet, raw) {
             var i = 0, length = elems.length, bulk = null == key;
             if ("object" === jQuery.type(key)) for(i in chainable = !0, key)jQuery.access(elems, fn, i, key[i], !0, emptyGet, raw);
-            else if (value !== undefined && (chainable = !0, jQuery.isFunction(value) || (raw = !0), bulk && (raw ? (fn.call(elems, value), fn = null) : fn = function(elem, key, value) {
-                return (bulk = fn).call(jQuery(elem), value);
-            }), fn)) for(; i < length; i++)fn(elems[i], key, raw ? value : value.call(elems[i], i, fn(elems[i], key)));
+            else if (value !== undefined && (chainable = !0, jQuery.isFunction(value) || (raw = !0), bulk && (raw ? (fn.call(elems, value), fn = null) : (bulk = fn, fn = function(elem, key, value) {
+                return bulk.call(jQuery(elem), value);
+            })), fn)) for(; i < length; i++)fn(elems[i], key, raw ? value : value.call(elems[i], i, fn(elems[i], key)));
             return chainable ? elems : bulk ? fn.call(elems) : length ? fn(elems[0], key) : emptyGet;
         },
         now: function() {
@@ -1093,8 +1093,8 @@
             }
             if (null == data && null == fn ? (fn = selector, data = selector = undefined) : null == fn && ("string" == typeof selector ? (fn = data, data = undefined) : (fn = data, data = selector, selector = undefined)), !1 === fn) fn = returnFalse;
             else if (!fn) return this;
-            return 1 === one && ((fn = function(event) {
-                return jQuery().off(event), (origFn = fn).apply(this, arguments);
+            return 1 === one && (origFn = fn, (fn = function(event) {
+                return jQuery().off(event), origFn.apply(this, arguments);
             }).guid = origFn.guid || (origFn.guid = jQuery.guid++)), this.each(function() {
                 jQuery.event.add(this, types, fn, data, selector);
             });
@@ -1231,8 +1231,8 @@
         }
         function createPositionalPseudo(fn) {
             return markFunction(function(argument) {
-                return markFunction(function(seed, matches) {
-                    for(var j, matchIndexes = fn([], seed.length, argument = +argument), i = matchIndexes.length; i--;)seed[j = matchIndexes[i]] && (seed[j] = !(matches[j] = seed[j]));
+                return argument = +argument, markFunction(function(seed, matches) {
+                    for(var j, matchIndexes = fn([], seed.length, argument), i = matchIndexes.length; i--;)seed[j = matchIndexes[i]] && (seed[j] = !(matches[j] = seed[j]));
                 });
             });
         }
@@ -1409,15 +1409,15 @@
                 TAG: function(nodeName) {
                     return "*" === nodeName ? function() {
                         return !0;
-                    } : function(elem) {
-                        return elem.nodeName && elem.nodeName.toLowerCase() === (nodeName = nodeName.replace(runescape, funescape).toLowerCase());
-                    };
+                    } : (nodeName = nodeName.replace(runescape, funescape).toLowerCase(), function(elem) {
+                        return elem.nodeName && elem.nodeName.toLowerCase() === nodeName;
+                    });
                 },
                 CLASS: function(className) {
                     var pattern = classCache[className + " "];
-                    return pattern || classCache(className, function(elem) {
-                        return (pattern = new RegExp("(^|" + whitespace + ")" + className + "(" + whitespace + "|$)")).test(elem.className || void 0 !== elem.getAttribute && elem.getAttribute("class") || "");
-                    });
+                    return pattern || (pattern = new RegExp("(^|" + whitespace + ")" + className + "(" + whitespace + "|$)"), classCache(className, function(elem) {
+                        return pattern.test(elem.className || void 0 !== elem.getAttribute && elem.getAttribute("class") || "");
+                    }));
                 },
                 ATTR: function(name, operator, check) {
                     return function(elem) {
@@ -2257,15 +2257,15 @@
             for(name in ret = callback.apply(elem, args || []), options)elem.style[name] = old[name];
             return ret;
         }
-    }), window.getComputedStyle ? curCSS = function(elem, name, _computed) {
-        var width, minWidth, maxWidth, computed = _computed || (getStyles = function(elem) {
-            return window.getComputedStyle(elem, null);
-        })(elem), ret = computed ? computed.getPropertyValue(name) || computed[name] : undefined, style = elem.style;
+    }), window.getComputedStyle ? (getStyles = function(elem) {
+        return window.getComputedStyle(elem, null);
+    }, curCSS = function(elem, name, _computed) {
+        var width, minWidth, maxWidth, computed = _computed || getStyles(elem), ret = computed ? computed.getPropertyValue(name) || computed[name] : undefined, style = elem.style;
         return computed && ("" !== ret || jQuery.contains(elem.ownerDocument, elem) || (ret = jQuery.style(elem, name)), rnumnonpx.test(ret) && rmargin.test(name) && (width = style.width, minWidth = style.minWidth, maxWidth = style.maxWidth, style.minWidth = style.maxWidth = style.width = ret, ret = computed.width, style.width = width, style.minWidth = minWidth, style.maxWidth = maxWidth)), ret;
-    } : document.documentElement.currentStyle && (curCSS = function(elem, name, _computed) {
-        var left, rs, rsLeft, computed = _computed || (getStyles = function(elem) {
-            return elem.currentStyle;
-        })(elem), ret = computed ? computed[name] : undefined, style = elem.style;
+    }) : document.documentElement.currentStyle && (getStyles = function(elem) {
+        return elem.currentStyle;
+    }, curCSS = function(elem, name, _computed) {
+        var left, rs, rsLeft, computed = _computed || getStyles(elem), ret = computed ? computed[name] : undefined, style = elem.style;
         return null == ret && style && style[name] && (ret = style[name]), rnumnonpx.test(ret) && !rposition.test(name) && (left = style.left, (rsLeft = (rs = elem.runtimeStyle) && rs.left) && (rs.left = elem.currentStyle.left), style.left = "fontSize" === name ? "1em" : ret, ret = style.pixelLeft + "px", style.left = left, rsLeft && (rs.left = rsLeft)), "" === ret ? "auto" : ret;
     }), jQuery.each([
         "height",

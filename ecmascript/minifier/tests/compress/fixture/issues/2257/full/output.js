@@ -2897,15 +2897,15 @@
                 }, {
                     unsafe: !0
                 });
-            } else $DataView = function(buffer, byteOffset, byteLength) {
-                anInstance(this, $DataView, "DataView"), anInstance(buffer, $ArrayBuffer = function(length) {
-                    anInstance(this, $ArrayBuffer, "ArrayBuffer");
-                    var byteLength = toIndex(length);
-                    setInternalState(this, {
-                        bytes: arrayFill.call(new Array(byteLength), 0),
-                        byteLength: byteLength
-                    }), DESCRIPTORS || (this.byteLength = byteLength);
-                }, "DataView");
+            } else $ArrayBuffer = function(length) {
+                anInstance(this, $ArrayBuffer, "ArrayBuffer");
+                var byteLength = toIndex(length);
+                setInternalState(this, {
+                    bytes: arrayFill.call(new Array(byteLength), 0),
+                    byteLength: byteLength
+                }), DESCRIPTORS || (this.byteLength = byteLength);
+            }, $DataView = function(buffer, byteOffset, byteLength) {
+                anInstance(this, $DataView, "DataView"), anInstance(buffer, $ArrayBuffer, "DataView");
                 var bufferLength = getInternalState(buffer).byteLength, offset = toInteger(byteOffset);
                 if (offset < 0 || offset > bufferLength) throw RangeError("Wrong offset");
                 if (offset + (byteLength = void 0 === byteLength ? bufferLength - offset : toLength(byteLength)) > bufferLength) throw RangeError("Wrong length");
@@ -7678,23 +7678,23 @@
             var fixRegExpWellKnownSymbolLogic = __webpack_require__(29045), isRegExp = __webpack_require__(78202), anObject = __webpack_require__(83941), requireObjectCoercible = __webpack_require__(79602), speciesConstructor = __webpack_require__(94850), advanceStringIndex = __webpack_require__(88770), toLength = __webpack_require__(31998), toString = __webpack_require__(72729), getMethod = __webpack_require__(84316), callRegExpExec = __webpack_require__(21135), regexpExec = __webpack_require__(72384), stickyHelpers = __webpack_require__(44725), fails = __webpack_require__(60232), UNSUPPORTED_Y = stickyHelpers.UNSUPPORTED_Y, arrayPush = [].push, min = Math.min;
             fixRegExpWellKnownSymbolLogic("split", function(SPLIT, nativeSplit, maybeCallNative) {
                 var internalSplit;
-                return [function(separator, limit) {
+                return internalSplit = "c" == "abbc".split(/(b)*/)[1] || 4 != "test".split(/(?:)/, -1).length || 2 != "ab".split(/(?:ab)*/).length || 4 != ".".split(/(.?)(.?)/).length || ".".split(/()()/).length > 1 || "".split(/.?/).length ? function(separator, limit) {
+                    var match, lastIndex, lastLength, string = toString(requireObjectCoercible(this)), lim = void 0 === limit ? 4294967295 : limit >>> 0;
+                    if (0 === lim) return [];
+                    if (void 0 === separator) return [
+                        string
+                    ];
+                    if (!isRegExp(separator)) return nativeSplit.call(string, separator, lim);
+                    for(var output = [], flags = (separator.ignoreCase ? "i" : "") + (separator.multiline ? "m" : "") + (separator.unicode ? "u" : "") + (separator.sticky ? "y" : ""), lastLastIndex = 0, separatorCopy = new RegExp(separator.source, flags + "g"); match = regexpExec.call(separatorCopy, string);){
+                        if ((lastIndex = separatorCopy.lastIndex) > lastLastIndex && (output.push(string.slice(lastLastIndex, match.index)), match.length > 1 && match.index < string.length && arrayPush.apply(output, match.slice(1)), lastLength = match[0].length, lastLastIndex = lastIndex, output.length >= lim)) break;
+                        separatorCopy.lastIndex === match.index && separatorCopy.lastIndex++;
+                    }
+                    return lastLastIndex === string.length ? (lastLength || !separatorCopy.test("")) && output.push("") : output.push(string.slice(lastLastIndex)), output.length > lim ? output.slice(0, lim) : output;
+                } : "0".split(void 0, 0).length ? function(separator, limit) {
+                    return void 0 === separator && 0 === limit ? [] : nativeSplit.call(this, separator, limit);
+                } : nativeSplit, [function(separator, limit) {
                         var O = requireObjectCoercible(this), splitter = void 0 == separator ? void 0 : getMethod(separator, SPLIT);
-                        return splitter ? splitter.call(separator, O, limit) : (internalSplit = "c" == "abbc".split(/(b)*/)[1] || 4 != "test".split(/(?:)/, -1).length || 2 != "ab".split(/(?:ab)*/).length || 4 != ".".split(/(.?)(.?)/).length || ".".split(/()()/).length > 1 || "".split(/.?/).length ? function(separator, limit) {
-                            var match, lastIndex, lastLength, string = toString(requireObjectCoercible(this)), lim = void 0 === limit ? 4294967295 : limit >>> 0;
-                            if (0 === lim) return [];
-                            if (void 0 === separator) return [
-                                string
-                            ];
-                            if (!isRegExp(separator)) return nativeSplit.call(string, separator, lim);
-                            for(var output = [], flags = (separator.ignoreCase ? "i" : "") + (separator.multiline ? "m" : "") + (separator.unicode ? "u" : "") + (separator.sticky ? "y" : ""), lastLastIndex = 0, separatorCopy = new RegExp(separator.source, flags + "g"); match = regexpExec.call(separatorCopy, string);){
-                                if ((lastIndex = separatorCopy.lastIndex) > lastLastIndex && (output.push(string.slice(lastLastIndex, match.index)), match.length > 1 && match.index < string.length && arrayPush.apply(output, match.slice(1)), lastLength = match[0].length, lastLastIndex = lastIndex, output.length >= lim)) break;
-                                separatorCopy.lastIndex === match.index && separatorCopy.lastIndex++;
-                            }
-                            return lastLastIndex === string.length ? (lastLength || !separatorCopy.test("")) && output.push("") : output.push(string.slice(lastLastIndex)), output.length > lim ? output.slice(0, lim) : output;
-                        } : "0".split(void 0, 0).length ? function(separator, limit) {
-                            return void 0 === separator && 0 === limit ? [] : nativeSplit.call(this, separator, limit);
-                        } : nativeSplit).call(toString(O), separator, limit);
+                        return splitter ? splitter.call(separator, O, limit) : internalSplit.call(toString(O), separator, limit);
                     }, function(string, limit) {
                         var rx = anObject(this), S = toString(string), res = maybeCallNative(internalSplit, rx, S, limit, internalSplit !== nativeSplit);
                         if (res.done) return res.value;
@@ -9315,21 +9315,21 @@
                     Object.assign(current, value);
                 }
             });
-            var extendStatics, lib_router = router, __extends = function(d, b) {
+            var extendStatics, lib_router = router, __extends = (extendStatics = function(d, b) {
+                return (extendStatics = Object.setPrototypeOf || ({
+                    __proto__: []
+                }) instanceof Array && function(d, b) {
+                    d.__proto__ = b;
+                } || function(d, b) {
+                    for(var p in b)Object.prototype.hasOwnProperty.call(b, p) && (d[p] = b[p]);
+                })(d, b);
+            }, function(d, b) {
                 if ("function" != typeof b && null !== b) throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
                 function __() {
                     this.constructor = d;
                 }
-                (extendStatics = function(d, b) {
-                    return (extendStatics = Object.setPrototypeOf || ({
-                        __proto__: []
-                    }) instanceof Array && function(d, b) {
-                        d.__proto__ = b;
-                    } || function(d, b) {
-                        for(var p in b)Object.prototype.hasOwnProperty.call(b, p) && (d[p] = b[p]);
-                    })(d, b);
-                })(d, b), d.prototype = null === b ? Object.create(b) : (__.prototype = b.prototype, new __());
-            }, visibleListeners = {
+                extendStatics(d, b), d.prototype = null === b ? Object.create(b) : (__.prototype = b.prototype, new __());
+            }), visibleListeners = {
             };
             function addPageLifeCycle(cycle, callback) {
                 var _a, pathname = lib_router.current.pathname;
@@ -9411,16 +9411,16 @@
                 }) : "browser" === type ? (0, esm_history.createBrowserHistory)({
                     basename: basename
                 }) : (0, esm_history.createMemoryHistory)();
-            }, initHistory = function(appConfig, initialContext) {
+            }, initHistory = (createHistory = createHistory1, function(appConfig, initialContext) {
                 void 0 === initialContext && (initialContext = null), appConfig.router || (appConfig.router = DEFAULT_APP_CONFIG.router);
-                var router = appConfig.router, _a = router.type, type = void 0 === _a ? DEFAULT_APP_CONFIG.router.type : _a, basename = router.basename, customHistory = router.history, newHistory = (createHistory = createHistory1)({
+                var router = appConfig.router, _a = router.type, type = void 0 === _a ? DEFAULT_APP_CONFIG.router.type : _a, basename = router.basename, customHistory = router.history, newHistory = createHistory({
                     type: type,
                     basename: basename,
                     location: initialContext ? initialContext.location : null,
                     customHistory: customHistory
                 });
                 appConfig.router.history = newHistory, setHistory(newHistory);
-            }, web_history = createHistory1, web_initAppLifeCycles = function() {
+            }), web_history = createHistory1, web_initAppLifeCycles = function() {
                 "undefined" != typeof document && "undefined" != typeof window && (document.addEventListener("visibilitychange", function() {
                     var history = getHistory();
                     (history ? history.location.pathname : lib_router.current.pathname) === lib_router.current.pathname && (lib_router.current.visibilityState = !lib_router.current.visibilityState, lib_router.current.visibilityState ? (emit("show"), pageLifeCycles_emit("show", lib_router.current.pathname)) : (pageLifeCycles_emit("hide", lib_router.current.pathname), emit("hide")));
@@ -10616,8 +10616,7 @@
                         case "index":
                             return (key)=>(result, value)=>{
                                     const index = result.length;
-                                    if (void 0 === value || options.skipNull && null === value || options.skipEmptyString && "" === value) return result;
-                                    if (null === value) return [
+                                    return void 0 === value || options.skipNull && null === value || options.skipEmptyString && "" === value ? result : null === value ? [
                                         ...result,
                                         [
                                             encode(key, options),
@@ -10625,8 +10624,7 @@
                                             index,
                                             "]"
                                         ].join("")
-                                    ];
-                                    return [
+                                    ] : [
                                         ...result,
                                         [
                                             encode(key, options),
@@ -10639,60 +10637,48 @@
                                 }
                             ;
                         case "bracket":
-                            return (key)=>(result, value)=>{
-                                    if (void 0 === value || options.skipNull && null === value || options.skipEmptyString && "" === value) return result;
-                                    if (null === value) return [
+                            return (key)=>(result, value)=>void 0 === value || options.skipNull && null === value || options.skipEmptyString && "" === value ? result : null === value ? [
                                         ...result,
                                         [
                                             encode(key, options),
                                             "[]"
                                         ].join("")
-                                    ];
-                                    return [
+                                    ] : [
                                         ...result,
                                         [
                                             encode(key, options),
                                             "[]=",
                                             encode(value, options)
                                         ].join("")
-                                    ];
-                                }
+                                    ]
                             ;
                         case "comma":
                         case "separator":
-                            return (key)=>(result, value)=>{
-                                    if (null == value || 0 === value.length) return result;
-                                    if (0 === result.length) return [
+                            return (key)=>(result, value)=>null == value || 0 === value.length ? result : 0 === result.length ? [
                                         [
                                             encode(key, options),
                                             "=",
                                             encode(value, options)
                                         ].join("")
-                                    ];
-                                    return [
+                                    ] : [
                                         [
                                             result,
                                             encode(value, options)
                                         ].join(options.arrayFormatSeparator)
-                                    ];
-                                }
+                                    ]
                             ;
                         default:
-                            return (key)=>(result, value)=>{
-                                    if (void 0 === value || options.skipNull && null === value || options.skipEmptyString && "" === value) return result;
-                                    if (null === value) return [
+                            return (key)=>(result, value)=>void 0 === value || options.skipNull && null === value || options.skipEmptyString && "" === value ? result : null === value ? [
                                         ...result,
                                         encode(key, options)
-                                    ];
-                                    return [
+                                    ] : [
                                         ...result,
                                         [
                                             encode(key, options),
                                             "=",
                                             encode(value, options)
                                         ].join("")
-                                    ];
-                                }
+                                    ]
                             ;
                     }
                 }(options), objectCopy = {
@@ -10701,10 +10687,7 @@
                 const keys = Object.keys(objectCopy);
                 return !1 !== options.sort && keys.sort(options.sort), keys.map((key)=>{
                     const value = object[key];
-                    if (void 0 === value) return "";
-                    if (null === value) return encode(key, options);
-                    if (Array.isArray(value)) return value.reduce(formatter(key), []).join("&");
-                    return encode(key, options) + "=" + encode(value, options);
+                    return void 0 === value ? "" : null === value ? encode(key, options) : Array.isArray(value) ? value.reduce(formatter(key), []).join("&") : encode(key, options) + "=" + encode(value, options);
                 }).filter((x)=>x.length > 0
                 ).join("&");
             }, exports.parseUrl = (url, options)=>{
@@ -16425,9 +16408,9 @@
                 var _Provider$childContex, _Consumer$contextType, contextProp = "__create-react-context-" + (commonjsGlobal["__global_unique_id__"] = (commonjsGlobal["__global_unique_id__"] || 0) + 1) + "__", Provider = function(_Component) {
                     function Provider() {
                         var _this, value, handlers;
-                        return _this = _Component.apply(this, arguments) || this, _this.emitter = {
+                        return _this = _Component.apply(this, arguments) || this, value = _this.props.value, handlers = [], _this.emitter = {
                             on: function(handler) {
-                                (handlers = []).push(handler);
+                                handlers.push(handler);
                             },
                             off: function(handler) {
                                 handlers = handlers.filter(function(h) {
@@ -16435,7 +16418,7 @@
                                 });
                             },
                             get: function() {
-                                return value = _this.props.value;
+                                return value;
                             },
                             set: function(newValue, changedBits) {
                                 value = newValue, handlers.forEach(function(handler) {
@@ -17637,10 +17620,9 @@
                     string
                 ];
                 const separatorIndex = string.indexOf(separator);
-                if (-1 === separatorIndex) return [
+                return -1 === separatorIndex ? [
                     string
-                ];
-                return [
+                ] : [
                     string.slice(0, separatorIndex),
                     string.slice(separatorIndex + separator.length)
                 ];

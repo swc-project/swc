@@ -37,9 +37,7 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
 , isIndexWidgetEqualIndex = (widget, indexId)=>widget.props.indexId === indexId
 , sortIndexWidgetsFirst = (firstWidget, secondWidget)=>{
     const isFirstWidgetIndex = isIndexWidget(firstWidget), isSecondWidgetIndex = isIndexWidget(secondWidget);
-    if (isFirstWidgetIndex && !isSecondWidgetIndex) return -1;
-    if (!isFirstWidgetIndex && isSecondWidgetIndex) return 1;
-    return 0;
+    return isFirstWidgetIndex && !isSecondWidgetIndex ? -1 : !isFirstWidgetIndex && isSecondWidgetIndex ? 1 : 0;
 };
 function serializeQueryParameters(parameters) {
     const isObjectOrArray = (value)=>"[object Object]" === Object.prototype.toString.call(value) || "[object Array]" === Object.prototype.toString.call(value)

@@ -584,7 +584,7 @@
             if (isDefined(unsupported)) throw jqLiteMinErr("onargs", "jqLite#on() does not support the `selector` or `eventData` parameters");
             var element1, events, eventHandler, events1 = jqLiteExpandoStore(element, "events"), handle = jqLiteExpandoStore(element, "handle");
             events1 || jqLiteExpandoStore(element, "events", events1 = {
-            }), handle || jqLiteExpandoStore(element, "handle", handle = ((eventHandler = function(event, type) {
+            }), handle || jqLiteExpandoStore(element, "handle", handle = (element1 = element, events = events1, (eventHandler = function(event, type) {
                 if (event.preventDefault || (event.preventDefault = function() {
                     event.returnValue = !1;
                 }), event.stopPropagation || (event.stopPropagation = function() {
@@ -597,8 +597,8 @@
                 }
                 event.isDefaultPrevented = function() {
                     return event.defaultPrevented || !1 === event.returnValue;
-                }, forEach((events = events1)[type || event.type], function(fn) {
-                    fn.call(element1 = element, event);
+                }, forEach(events[type || event.type], function(fn) {
+                    fn.call(element1, event);
                 }), msie <= 8 ? (event.preventDefault = null, event.stopPropagation = null, event.isDefaultPrevented = null) : (delete event.preventDefault, delete event.stopPropagation, delete event.isDefaultPrevented);
             }).elem = element1, eventHandler)), forEach(type.split(" "), function(type) {
                 var eventFns = events1[type];
@@ -876,13 +876,13 @@
                             this.enter(element, parent, after, done);
                         },
                         addClass: function(element, className, done) {
-                            forEach(element, function(element) {
-                                jqLiteAddClass(element, className = isString(className) ? className : isArray(className) ? className.join(" ") : "");
+                            className = isString(className) ? className : isArray(className) ? className.join(" ") : "", forEach(element, function(element) {
+                                jqLiteAddClass(element, className);
                             }), done && $timeout(done, 0, !1);
                         },
                         removeClass: function(element, className, done) {
-                            forEach(element, function(element) {
-                                jqLiteRemoveClass(element, className = isString(className) ? className : isArray(className) ? className.join(" ") : "");
+                            className = isString(className) ? className : isArray(className) ? className.join(" ") : "", forEach(element, function(element) {
+                                jqLiteRemoveClass(element, className);
                             }), done && $timeout(done, 0, !1);
                         },
                         enabled: noop
@@ -915,11 +915,11 @@
         var pollTimeout, pollFns = [];
         self.addPollFn = function(fn) {
             var setTimeout1;
-            return isUndefined(pollTimeout) && (function check() {
+            return isUndefined(pollTimeout) && (setTimeout1 = setTimeout, (function check() {
                 forEach(pollFns, function(pollFn) {
                     pollFn();
-                }), pollTimeout = (setTimeout1 = setTimeout)(check, 100);
-            })(), pollFns.push(fn), fn;
+                }), pollTimeout = setTimeout1(check, 100);
+            })()), pollFns.push(fn), fn;
         };
         var lastBrowserUrl = location.href, baseElement = document.find("base"), newLocation = null;
         self.url = function(url, replace) {
@@ -1229,9 +1229,9 @@
                             if (value = null, elementControllers && "data" === retrievalMethod && (value = elementControllers[require]), !(value = value || $element[retrievalMethod]("$" + require + "Controller")) && !optional) throw $compileMinErr("ctreq", "Controller '{0}', required by directive '{1}', can't be found!", require, directiveName);
                             return value;
                         }
-                        return isArray(require) && forEach(require, function(require) {
-                            (value = []).push(getControllers(require, $element, elementControllers));
-                        }), value;
+                        return isArray(require) && (value = [], forEach(require, function(require) {
+                            value.push(getControllers(require, $element, elementControllers));
+                        })), value;
                     }
                     function nodeLinkFn(childLinkFn, scope, linkNode, $rootElement, boundTranscludeFn) {
                         var attrs, $element, i, ii, linkFn, controller, isolateScope, transcludeFn, elementControllers = {
@@ -2378,8 +2378,8 @@
         },
         assignment: function() {
             var right, token, left = this.ternary();
-            return (token = this.expect("=")) ? (left.assign || this.throwError("implies assignment but [" + this.text.substring(0, token.index) + "] can not be assigned to", token), function(scope, locals) {
-                return left.assign(scope, (right = this.ternary())(scope, locals), locals);
+            return (token = this.expect("=")) ? (left.assign || this.throwError("implies assignment but [" + this.text.substring(0, token.index) + "] can not be assigned to", token), right = this.ternary(), function(scope, locals) {
+                return left.assign(scope, right(scope, locals), locals);
             }) : left;
         },
         ternary: function() {
@@ -3644,9 +3644,9 @@
             if (ctrl.$isEmpty(value) || regexp.test(value)) return ctrl.$setValidity("pattern", !0), value;
             ctrl.$setValidity("pattern", !1);
         };
-        if (pattern && (patternValidator = (match = pattern.match(/^\/(.*)\/([gim]*)$/)) ? function(value) {
-            return validate(pattern = new RegExp(match[1], match[2]), value);
-        } : function(value) {
+        if (pattern && ((match = pattern.match(/^\/(.*)\/([gim]*)$/)) ? (pattern = new RegExp(match[1], match[2]), patternValidator = function(value) {
+            return validate(pattern, value);
+        }) : patternValidator = function(value) {
             var patternObj = scope.$eval(pattern);
             if (!patternObj || !patternObj.test) throw minErr("ngPattern")("noregexp", "Expected {0} to be a RegExp but was {1}. Element: {2}", pattern, patternObj, startingTag(element));
             return validate(patternObj, value);
@@ -3983,9 +3983,9 @@
                         $id: hashKey
                     };
                     if (!match) throw ngRepeatMinErr("iexp", "Expected expression in form of '_item_ in _collection_[ track by _id_]' but got '{0}'.", expression);
-                    if (lhs = match[1], rhs = match[2], (trackByExp = match[4]) ? trackByIdExpFn = function(key, value, index) {
-                        return keyIdentifier && (hashFnLocals[keyIdentifier] = key), hashFnLocals[valueIdentifier] = value, hashFnLocals.$index = index, (trackByExpGetter = $parse(trackByExp))($scope, hashFnLocals);
-                    } : (trackByIdArrayFn = function(key, value) {
+                    if (lhs = match[1], rhs = match[2], (trackByExp = match[4]) ? (trackByExpGetter = $parse(trackByExp), trackByIdExpFn = function(key, value, index) {
+                        return keyIdentifier && (hashFnLocals[keyIdentifier] = key), hashFnLocals[valueIdentifier] = value, hashFnLocals.$index = index, trackByExpGetter($scope, hashFnLocals);
+                    }) : (trackByIdArrayFn = function(key, value) {
                         return hashKey(value);
                     }, trackByIdObjFn = function(key) {
                         return key;

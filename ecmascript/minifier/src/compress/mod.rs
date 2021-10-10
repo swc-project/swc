@@ -7,7 +7,7 @@ use self::{
 use crate::{
     analyzer::{analyze, ProgramData, UsageAnalyzer},
     compress::hoist_decls::decl_hoister,
-    debug::{dump, invoke},
+    debug::dump,
     marks::Marks,
     mode::Mode,
     option::CompressOptions,
@@ -217,6 +217,8 @@ where
         }
 
         loop {
+            n.invoke();
+
             self.changed = false;
             self.optimize_unit(n);
             self.pass += 1;
@@ -439,8 +441,6 @@ where
         n.visit_mut_children_with(self);
 
         self.optimize_unit_repeatedly(n);
-
-        invoke(&*n);
     }
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
