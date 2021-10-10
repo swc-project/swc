@@ -22,11 +22,35 @@ error: ImportRule
 1 | @import url("foo.css") screen and (orientation:landscape);
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Str
+error: ImportSource
  --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:9
   |
 1 | @import url("foo.css") screen and (orientation:landscape);
   |         ^^^^^^^^^^^^^^
+
+error: FnValue
+ --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:9
+  |
+1 | @import url("foo.css") screen and (orientation:landscape);
+  |         ^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:9
+  |
+1 | @import url("foo.css") screen and (orientation:landscape);
+  |         ^^^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:13
+  |
+1 | @import url("foo.css") screen and (orientation:landscape);
+  |             ^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:13
+  |
+1 | @import url("foo.css") screen and (orientation:landscape);
+  |             ^^^^^^^^^
 
 error: MediaQuery
  --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:24

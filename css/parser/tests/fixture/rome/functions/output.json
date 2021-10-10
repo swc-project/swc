@@ -304,7 +304,8 @@
                       "end": 97,
                       "ctxt": 0
                     },
-                    "value": ""
+                    "value": "",
+                    "raw": "\"\""
                   }
                 ]
               }
@@ -354,7 +355,8 @@
                       "end": 128,
                       "ctxt": 0
                     },
-                    "value": "something"
+                    "value": "something",
+                    "raw": "\"something\""
                   }
                 ]
               }
@@ -404,7 +406,8 @@
                       "end": 161,
                       "ctxt": 0
                     },
-                    "value": "./something"
+                    "value": "./something",
+                    "raw": "\"./something\""
                   }
                 ]
               }

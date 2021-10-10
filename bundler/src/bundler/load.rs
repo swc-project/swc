@@ -19,7 +19,7 @@ use swc_ecma_ast::{
     CallExpr, Expr, ExprOrSuper, Ident, ImportDecl, ImportSpecifier, Invalid, MemberExpr, Module,
     ModuleDecl, Str,
 };
-use swc_ecma_transforms::resolver_with_mark;
+use swc_ecma_transforms_base::resolver::resolver_with_mark;
 use swc_ecma_visit::{noop_visit_type, FoldWith, Node, Visit, VisitWith};
 /// Module after applying transformations.
 #[derive(Debug, Clone)]
@@ -36,7 +36,7 @@ pub(crate) struct TransformedModule {
     /// Used helpers
     pub helpers: Lrc<Helpers>,
 
-    pub swc_helpers: Lrc<swc_ecma_transforms::helpers::Helpers>,
+    pub swc_helpers: Lrc<swc_ecma_transforms_base::helpers::Helpers>,
 
     local_ctxt: SyntaxContext,
     export_ctxt: SyntaxContext,

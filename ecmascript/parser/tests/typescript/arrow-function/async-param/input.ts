@@ -1,0 +1,1 @@
+let fn = (async, x) => {};

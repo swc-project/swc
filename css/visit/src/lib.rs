@@ -18,6 +18,7 @@ define!({
     pub struct Str {
         pub span: Span,
         pub value: JsWord,
+        pub raw: JsWord,
     }
 
     pub struct Num {
@@ -280,9 +281,15 @@ define!({
         pub charset: Str,
     }
 
+    pub enum ImportSource {
+        Fn(FnValue),
+        Url(UrlValue),
+        Str(Str),
+    }
+
     pub struct ImportRule {
         pub span: Span,
-        pub src: Str,
+        pub src: ImportSource,
         pub condition: Option<MediaQuery>,
     }
 

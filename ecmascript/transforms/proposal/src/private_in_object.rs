@@ -1,10 +1,11 @@
-use rustc_hash::FxHashSet;
 use std::{
     borrow::Cow,
     mem::{replace, take},
 };
 use swc_atoms::JsWord;
-use swc_common::{pass::CompilerPass, util::take::Take, Mark, Spanned, DUMMY_SP};
+use swc_common::{
+    collections::AHashSet, pass::CompilerPass, util::take::Take, Mark, Spanned, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{pass::JsPass, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
@@ -75,7 +76,7 @@ struct PrivateInObject {
     vars: Vec<VarDeclarator>,
     prepend_exprs: Vec<Box<Expr>>,
 
-    injected_vars: FxHashSet<Id>,
+    injected_vars: AHashSet<Id>,
     cls: ClassData,
 }
 
@@ -90,7 +91,7 @@ struct ClassData {
     /// This is modified by the class visitor.
     mark: Mark,
 
-    privates: FxHashSet<JsWord>,
+    privates: AHashSet<JsWord>,
 
     /// Name of private methods.
     methods: Vec<JsWord>,
@@ -100,7 +101,7 @@ struct ClassData {
 
     consturctor_exprs: Vec<Box<Expr>>,
 
-    names_used_for_brand_checks: FxHashSet<JsWord>,
+    names_used_for_brand_checks: AHashSet<JsWord>,
 }
 
 impl CompilerPass for PrivateInObject {
@@ -246,7 +247,7 @@ impl VisitMut for PrivateInObject {
         p.left.visit_mut_with(self);
 
         {
-            let mut buf = FxHashSet::default();
+            let mut buf = AHashSet::default();
             let mut v = ClassAnalyzer {
                 brand_check_names: &mut buf,
                 ignore_class: false,
@@ -482,7 +483,7 @@ impl VisitMut for PrivateInObject {
 }
 
 struct ClassAnalyzer<'a> {
-    brand_check_names: &'a mut FxHashSet<JsWord>,
+    brand_check_names: &'a mut AHashSet<JsWord>,
     ignore_class: bool,
 }
 

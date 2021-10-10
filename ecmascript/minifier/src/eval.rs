@@ -3,10 +3,9 @@ use crate::{
     marks::Marks,
     mode::Mode,
 };
-use rustc_hash::FxHashMap;
 use std::sync::{Arc, Mutex};
 use swc_atoms::js_word;
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_common::{collections::AHashMap, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::optimization::simplify::{expr_simplifier, ExprSimplifierConfig};
 use swc_ecma_utils::{ident::IdentLike, undefined, ExprExt, ExprFactory, Id};
@@ -38,7 +37,7 @@ struct Eval {
 
 #[derive(Default)]
 struct EvalStore {
-    cache: FxHashMap<Id, Box<Expr>>,
+    cache: AHashMap<Id, Box<Expr>>,
 }
 
 #[derive(Debug, Clone, PartialEq)]

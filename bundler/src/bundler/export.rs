@@ -4,8 +4,6 @@ use super::{
 };
 use crate::{id::Id, load::Load, resolve::Resolve};
 use indexmap::IndexMap;
-use rustc_hash::FxHasher;
-use std::hash::BuildHasherDefault;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{FileName, SyntaxContext};
 use swc_ecma_ast::*;
@@ -43,7 +41,7 @@ where
 #[derive(Debug, Default)]
 pub(super) struct RawExports {
     /// Key is None if it's exported from the module itself.
-    pub items: IndexMap<Option<Str>, Vec<Specifier>, BuildHasherDefault<FxHasher>>,
+    pub items: IndexMap<Option<Str>, Vec<Specifier>, ahash::RandomState>,
 }
 
 #[derive(Debug, Default)]

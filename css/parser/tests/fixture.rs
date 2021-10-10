@@ -302,6 +302,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(CommaMediaQuery, visit_comma_media_query);
     mtd!(DocumentRule, visit_document_rule);
     mtd!(FontFaceRule, visit_font_face_rule);
+    mtd!(ImportSource, visit_import_source);
     mtd!(ImportRule, visit_import_rule);
     mtd!(KeyframeBlock, visit_keyframe_block);
     mtd!(KeyframeBlockRule, visit_keyframe_block_rule);

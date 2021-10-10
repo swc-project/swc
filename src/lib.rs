@@ -160,8 +160,8 @@ mod builder;
 pub mod config;
 pub mod resolver {
     use crate::config::CompiledPaths;
-    use rustc_hash::FxHashMap;
     use std::path::PathBuf;
+    use swc_common::collections::AHashMap;
     use swc_ecma_ast::TargetEnv;
     use swc_ecma_loader::resolvers::{
         lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
@@ -171,7 +171,7 @@ pub mod resolver {
 
     pub fn paths_resolver(
         target_env: TargetEnv,
-        alias: FxHashMap<String, String>,
+        alias: AHashMap<String, String>,
         base_url: PathBuf,
         paths: CompiledPaths,
     ) -> CachingResolver<TsConfigResolver<NodeModulesResolver>> {
@@ -181,7 +181,7 @@ pub mod resolver {
 
     pub fn environment_resolver(
         target_env: TargetEnv,
-        alias: FxHashMap<String, String>,
+        alias: AHashMap<String, String>,
     ) -> NodeResolver {
         CachingResolver::new(40, NodeModulesResolver::new(target_env, alias))
     }
@@ -908,10 +908,20 @@ impl Compiler {
         self.run(|| {
             let target = opts.ecma.clone().into();
 
-            let orig = if opts.source_map {
-                self.get_orig_src_map(&fm, &InputSourceMap::Bool(true), true)?
-            } else {
-                None
+            let (source_map, orig) = match &opts.source_map {
+                BoolOrObject::Bool(false) => (SourceMapsConfig::Bool(false), None),
+                BoolOrObject::Bool(true) => (SourceMapsConfig::Bool(true), None),
+                BoolOrObject::Obj(obj) => {
+                    let orig = obj
+                        .content
+                        .as_ref()
+                        .map(|s| sourcemap::SourceMap::from_slice(s.as_bytes()));
+                    let orig = match orig {
+                        Some(v) => Some(v?),
+                        None => None,
+                    };
+                    (SourceMapsConfig::Bool(true), orig)
+                }
             };
 
             let min_opts = MinifyOptions {
@@ -980,7 +990,7 @@ impl Compiler {
                 opts.output_path.clone().map(From::from),
                 opts.inline_sources_content,
                 target,
-                SourceMapsConfig::Bool(opts.source_map),
+                source_map,
                 &source_map_names,
                 orig.as_ref(),
                 true,

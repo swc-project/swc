@@ -1,6 +1,5 @@
-use rustc_hash::FxHashSet;
 use swc_atoms::JsWord;
-use swc_common::Spanned;
+use swc_common::{collections::AHashSet, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_utils::quote_str;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
@@ -29,8 +28,8 @@ impl VisitMut for DuplicateKeys {
 
 #[derive(Default)]
 struct PropFolder {
-    getter_props: FxHashSet<JsWord>,
-    setter_props: FxHashSet<JsWord>,
+    getter_props: AHashSet<JsWord>,
+    setter_props: AHashSet<JsWord>,
 }
 
 impl VisitMut for PropFolder {
@@ -77,7 +76,7 @@ impl VisitMut for PropFolder {
 }
 
 struct PropNameFolder<'a> {
-    props: &'a mut FxHashSet<JsWord>,
+    props: &'a mut AHashSet<JsWord>,
 }
 
 impl<'a> VisitMut for PropNameFolder<'a> {

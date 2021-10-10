@@ -1,6 +1,6 @@
-use rustc_hash::FxHashSet;
 use std::time::Instant;
 use swc_common::{
+    collections::AHashSet,
     pass::{CompilerPass, Repeated},
     util::take::Take,
     Mark, Span, Spanned, DUMMY_SP,
@@ -352,7 +352,7 @@ where
 
 #[derive(Default)]
 pub(crate) struct IdentUsageCollector {
-    ids: FxHashSet<Id>,
+    ids: AHashSet<Id>,
     ignore_nested: bool,
 }
 
@@ -405,7 +405,7 @@ impl Visit for IdentUsageCollector {
     }
 }
 
-pub(crate) fn idents_used_by<N>(n: &N) -> FxHashSet<Id>
+pub(crate) fn idents_used_by<N>(n: &N) -> AHashSet<Id>
 where
     N: VisitWith<IdentUsageCollector>,
 {
@@ -417,7 +417,7 @@ where
     v.ids
 }
 
-pub(crate) fn idents_used_by_ignoring_nested<N>(n: &N) -> FxHashSet<Id>
+pub(crate) fn idents_used_by_ignoring_nested<N>(n: &N) -> AHashSet<Id>
 where
     N: VisitWith<IdentUsageCollector>,
 {

@@ -1,8 +1,8 @@
-use rustc_hash::{FxHashMap, FxHashSet};
 use serde::{Deserialize, Serialize};
 use std::{borrow::Borrow, mem::take};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
+    collections::{AHashMap, AHashSet},
     util::{move_map::MoveMap, take::Take},
     Span, Spanned, SyntaxContext, DUMMY_SP,
 };
@@ -15,7 +15,7 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{as_folder, Fold, Node, Visit, VisitMut, VisitMutWith, VisitWith};
 
 /// Value does not contain TsLit::Bool
-type EnumValues = FxHashMap<Id, TsLit>;
+type EnumValues = AHashMap<Id, TsLit>;
 
 #[derive(Debug, Serialize, Deserialize)]
 #[non_exhaustive]
@@ -97,7 +97,7 @@ struct Strip {
     /// varaible with it.
     ///
     /// This field is filled by [Visit] impl and [VisitMut] impl.
-    decl_names: FxHashSet<Id>,
+    decl_names: AHashSet<Id>,
     in_var_pat: bool,
 }
 
@@ -122,8 +122,8 @@ impl Strip {
 
 #[derive(Default)]
 struct Scope {
-    decls: FxHashMap<Id, DeclInfo>,
-    referenced_idents: FxHashMap<Id, DeclInfo>,
+    decls: AHashMap<Id, DeclInfo>,
+    referenced_idents: AHashMap<Id, DeclInfo>,
 }
 
 #[derive(Debug, Default)]
@@ -1444,16 +1444,18 @@ impl VisitMut for Strip {
     }
 
     fn visit_mut_import_decl(&mut self, import: &mut ImportDecl) {
-        if &*import.src.value == "react" {
-            return;
-        }
-
         self.is_side_effect_import = import.specifiers.is_empty();
 
+        let src = &import.src;
         import.specifiers.retain(|s| match *s {
             ImportSpecifier::Named(ImportNamedSpecifier {
                 ref is_type_only, ..
             }) if *is_type_only => false,
+
+            ImportSpecifier::Default(..) if &*src.value == "react" => {
+                return true;
+            }
+
             ImportSpecifier::Default(ImportDefaultSpecifier { ref local, .. })
             | ImportSpecifier::Named(ImportNamedSpecifier { ref local, .. })
             | ImportSpecifier::Namespace(ImportStarAsSpecifier { ref local, .. }) => {

@@ -16,7 +16,7 @@
 //! DOI=10.1017/S0956796812000093 <https://doi.org/10.1017/S0956796812000093>
 
 use super::GLOBALS;
-use rustc_hash::FxHashMap;
+use crate::collections::AHashMap;
 use serde::{Deserialize, Serialize};
 use std::{
     collections::{HashMap, HashSet},
@@ -144,7 +144,7 @@ impl Mark {
 pub(crate) struct HygieneData {
     marks: Vec<MarkData>,
     syntax_contexts: Vec<SyntaxContextData>,
-    markings: FxHashMap<(SyntaxContext, Mark), SyntaxContext>,
+    markings: AHashMap<(SyntaxContext, Mark), SyntaxContext>,
 }
 
 impl Default for HygieneData {

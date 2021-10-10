@@ -93,6 +93,15 @@ where
     }
 
     #[emitter]
+    fn emit_import_source(&mut self, n: &ImportSource) -> Result {
+        match n {
+            ImportSource::Fn(n) => emit!(self, n),
+            ImportSource::Url(n) => emit!(self, n),
+            ImportSource::Str(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
     fn emit_import_rule(&mut self, n: &ImportRule) -> Result {
         punct!(self, "@");
         keyword!(self, "import");
@@ -279,25 +288,7 @@ where
 
     #[emitter]
     fn emit_str(&mut self, n: &Str) -> Result {
-        // TODO: Handle escapes.
-        punct!(self, "'");
-
-        if n.value.chars().any(|c| c == '\n') {
-            for c in n.value.chars() {
-                match c {
-                    '\n' => {
-                        self.wr.write_raw_char(None, '\\')?;
-                        self.wr.write_raw_char(None, 'n')?;
-                    }
-                    _ => {
-                        self.wr.write_raw_char(None, c)?;
-                    }
-                }
-            }
-        } else {
-            self.wr.write_raw(Some(n.span), &n.value)?;
-        }
-        punct!(self, "'");
+        self.wr.write_raw(Some(n.span), &n.raw)?;
     }
 
     #[emitter]
@@ -509,14 +500,14 @@ where
                 Token::Ident { raw, .. } => {
                     self.wr.write_raw(Some(n.span), &raw)?;
                 }
-                Token::Str { value } => {
-                    punct!(self, "'");
-                    self.wr.write_raw(Some(span), &value)?;
-                    punct!(self, "'");
+                Token::BadStr { raw, .. } => {
+                    self.wr.write_raw(Some(span), &raw)?;
+                }
+                Token::Str { raw, .. } => {
+                    self.wr.write_raw(Some(span), &raw)?;
                 }
                 Token::Url { value } => {
                     self.wr.write_ident(Some(span), "url", false)?;
-                    punct!(self, "(");
                     punct!(self, "(");
                     self.wr.write_raw(None, &value)?;
                     punct!(self, ")");
@@ -546,7 +537,6 @@ where
                     punct!(self, span, ".");
                 }
                 Token::Hash { value, .. } => {
-                    punct!(self, "#");
                     punct!(self, "#");
                     self.wr.write_ident(Some(span), &value, true)?;
                 }

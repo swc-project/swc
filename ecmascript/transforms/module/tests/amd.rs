@@ -562,7 +562,7 @@ define(["exports"], function (_exports) {
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.e = _exports.c = _exports.a = _exports.test = _exports.f = void 0;
+  _exports.f = _exports.e = _exports.c = _exports.a = _exports.test = void 0;
   var test = 2;
   _exports.test = test;
   _exports.test = test = 5;
@@ -998,8 +998,7 @@ define(["exports"], function (_exports) {
     value: true
   });
   _exports.foo8 = foo8;
-  _exports.foo2 = _exports.foo7 = _exports.foo3 = _exports.foo4 =
-    _exports.bar = _exports.foo = _exports.foo5 = _exports.foo6 = void 0;
+  _exports.foo7 = _exports.foo6 = _exports.foo5 = _exports.foo4 = _exports.foo3 = _exports.bar = _exports.foo2 = _exports.foo = void 0;
  var foo = 1;
   _exports.foo = foo;
   var foo2 = 1,

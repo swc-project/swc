@@ -15,10 +15,13 @@ use crate::{
 use anyhow::Error;
 use indexmap::IndexSet;
 use petgraph::EdgeDirection;
-use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
-use std::{hash::BuildHasherDefault, sync::atomic::Ordering};
+use std::sync::atomic::Ordering;
 use swc_atoms::js_word;
-use swc_common::{sync::Lock, FileName, SyntaxContext, DUMMY_SP};
+use swc_common::{
+    collections::{AHashMap, AHashSet},
+    sync::Lock,
+    FileName, SyntaxContext, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, prepend, private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
@@ -29,7 +32,7 @@ pub(super) struct Ctx {
     pub graph: ModuleGraph,
     pub cycles: Vec<Vec<ModuleId>>,
     pub transitive_remap: CloneMap<SyntaxContext, SyntaxContext>,
-    pub export_stars_in_wrapped: Lock<FxHashMap<ModuleId, Vec<SyntaxContext>>>,
+    pub export_stars_in_wrapped: Lock<AHashMap<ModuleId, Vec<SyntaxContext>>>,
 }
 
 impl Ctx {
@@ -88,7 +91,7 @@ where
         ctx: &Ctx,
         entry_id: ModuleId,
         entry: &mut Modules,
-        all: &mut FxHashMap<ModuleId, Modules>,
+        all: &mut AHashMap<ModuleId, Modules>,
     ) {
         self.run(|| {
             let injected_ctxt = self.injected_ctxt;
@@ -131,8 +134,8 @@ where
         &self,
         graph: &ModuleGraph,
         start: ModuleId,
-        dejavu: &mut FxHashSet<ModuleId>,
-    ) -> IndexSet<ModuleId, BuildHasherDefault<FxHasher>> {
+        dejavu: &mut AHashSet<ModuleId>,
+    ) -> IndexSet<ModuleId, ahash::RandomState> {
         let mut set = IndexSet::default();
 
         for dep in graph.neighbors_directed(start, Outgoing) {
@@ -186,7 +189,7 @@ where
             fn add_var(
                 injected_ctxt: SyntaxContext,
                 vars: &mut Vec<(ModuleId, ModuleItem)>,
-                declared: &mut FxHashSet<Id>,
+                declared: &mut AHashSet<Id>,
                 map: &CloneMap<SyntaxContext, SyntaxContext>,
                 module_id: ModuleId,
                 id: Id,
@@ -227,7 +230,7 @@ where
             // If an user import and export from D, the transitive syntax context map
             // contains a entry from D to foo because it's reexported and
             // the variable (reexported from D) exist because it's imported.
-            let mut declared_ids = FxHashSet::<_>::default();
+            let mut declared_ids = AHashSet::<_>::default();
 
             for (_, stmt) in entry.iter() {
                 match stmt {
@@ -301,7 +304,7 @@ where
 
         {
             let mut map = ctx.export_stars_in_wrapped.lock();
-            let mut additional_props = FxHashMap::<_, Vec<_>>::default();
+            let mut additional_props = AHashMap::<_, Vec<_>>::default();
             // Handle `export *` for wrapped modules.
             for (module_id, ctxts) in map.drain() {
                 for (_, stmt) in entry.iter() {

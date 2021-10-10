@@ -1,5 +1,3 @@
-use std::cell::{Ref, RefCell, RefMut};
-
 use self::config::BuiltConfig;
 pub use self::config::Config;
 use super::util::{
@@ -7,7 +5,8 @@ use super::util::{
     local_name_for_src, make_descriptor, make_require_call, use_strict, Exports, ModulePass, Scope,
 };
 use crate::path::{ImportResolver, NoopImportResolver};
-use rustc_hash::FxHashSet;
+use indexmap::IndexSet;
+use std::cell::{Ref, RefCell, RefMut};
 use swc_atoms::js_word;
 use swc_common::{sync::Lrc, FileName, Mark, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -99,7 +98,7 @@ where
         }
 
         let mut exports = vec![];
-        let mut initialized = FxHashSet::default();
+        let mut initialized = IndexSet::default();
         let mut export_alls = vec![];
         let mut emitted_esmodule = false;
         let mut has_export = false;

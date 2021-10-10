@@ -20,7 +20,8 @@
           "end": 23,
           "ctxt": 0
         },
-        "value": "something.css"
+        "value": "something.css",
+        "raw": "\"something.css\""
       },
       "condition": null
     },
@@ -32,13 +33,34 @@
         "ctxt": 0
       },
       "src": {
-        "type": "String",
+        "type": "FnValue",
         "span": {
           "start": 33,
           "end": 53,
           "ctxt": 0
         },
-        "value": "something.css"
+        "name": {
+          "type": "Text",
+          "span": {
+            "start": 33,
+            "end": 36,
+            "ctxt": 0
+          },
+          "value": "url",
+          "raw": "url"
+        },
+        "args": [
+          {
+            "type": "String",
+            "span": {
+              "start": 37,
+              "end": 52,
+              "ctxt": 0
+            },
+            "value": "something.css",
+            "raw": "\"something.css\""
+          }
+        ]
       },
       "condition": null
     }

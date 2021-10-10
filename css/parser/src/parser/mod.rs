@@ -4,7 +4,6 @@ use crate::{
     Parse,
 };
 use std::mem::take;
-use swc_atoms::js_word;
 use swc_common::Span;
 use swc_css_ast::*;
 
@@ -118,14 +117,6 @@ where
         todo!("parse_qualified_rule: {:?}", cur!(self))
     }
 
-    fn expect_url_or_str(&mut self) -> PResult<Str> {
-        if is!(self, Str) {
-            return self.parse_str();
-        }
-
-        self.parse_url()
-    }
-
     fn may_parse_str(&mut self) -> PResult<Option<Str>> {
         if is!(self, Str) {
             self.parse_str().map(Some)
@@ -155,42 +146,10 @@ where
         }
 
         match bump!(self) {
-            Token::Str { value } => Ok(Str { span, value }),
+            Token::Str { value, raw } => Ok(Str { span, value, raw }),
             _ => {
                 unreachable!()
             }
-        }
-    }
-
-    fn parse_url(&mut self) -> PResult<Str> {
-        let span = self.input.cur_span()?;
-
-        match cur!(self) {
-            Token::Ident {
-                value: js_word!("url"),
-                ..
-            } => {
-                bump!(self);
-                expect!(self, "(");
-                let value = self.parse_str()?.value;
-                expect!(self, ")");
-                Ok(Str {
-                    span: span!(self, span.lo),
-                    value,
-                })
-            }
-
-            Token::Url { .. } => match bump!(self) {
-                Token::Url { value } => Ok(Str { span, value }),
-                _ => {
-                    unreachable!()
-                }
-            },
-
-            _ => Err(Error::new(
-                span,
-                ErrorKind::Expected("url('https://example.com') or 'https://example.com'"),
-            )),
         }
     }
 }

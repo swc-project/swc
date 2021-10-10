@@ -1,0 +1,37 @@
+a::before {
+    content: "This string is demarcated by double quotes.";
+    content: 'This string is demarcated by single quotes.';
+    content: "This is a string with \" an escaped double quote.";
+    content: "This string also has \22 an escaped double quote.";
+    content: 'This is a string with \' an escaped single quote.';
+    content: 'This string also has \27 an escaped single quote.';
+    content: "This is a string with \\ an escaped backslash.";
+    content: "This string also has \22an escaped double quote.";
+    content: "This string also has \22  an escaped double quote.";
+    content: "This string has a \Aline break in it.";
+    content: "A really long \
+awesome string";
+    content: ";'@ /**/\"";
+    content: '\'"\\';
+    content: "a\
+b";
+    content: "a\
+b";
+    content: "a\
+b";
+    content: "a\b";
+    content: "a\
+\
+\
+\\
+b";
+    content: 'a\62 c';
+}
+
+a[title="a not s\
+o very long title"] {
+    color: red;
+}
+a[title="a not so very long title"] {
+    color: red;
+}

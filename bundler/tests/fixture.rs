@@ -15,7 +15,7 @@ use swc_ecma_ast::{
 };
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_loader::NODE_BUILTINS;
-use swc_ecma_transforms::fixer;
+use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_visit::FoldWith;
 use testing::NormalizedOutput;
 

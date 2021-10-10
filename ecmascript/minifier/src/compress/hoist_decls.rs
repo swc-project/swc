@@ -2,8 +2,7 @@ use crate::{
     analyzer::{ProgramData, UsageAnalyzer},
     util::{is_hoisted_var_decl_without_init, sort::is_sorted_by_key, IsModuleItem},
 };
-use rustc_hash::FxHashSet;
-use swc_common::{pass::Repeated, util::take::Take, DUMMY_SP};
+use swc_common::{collections::AHashSet, pass::Repeated, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id, StmtLike};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
@@ -81,7 +80,7 @@ impl Hoister<'_> {
         let mut var_decls = vec![];
         let mut fn_decls = Vec::with_capacity(stmts.len());
         let mut new_stmts = Vec::with_capacity(stmts.len());
-        let mut done = FxHashSet::default();
+        let mut done = AHashSet::default();
 
         let mut found_non_var_decl = false;
         for stmt in stmts.take() {
