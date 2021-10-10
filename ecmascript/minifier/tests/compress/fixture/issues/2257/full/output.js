@@ -10616,8 +10616,7 @@
                         case "index":
                             return (key)=>(result, value)=>{
                                     const index = result.length;
-                                    if (void 0 === value || options.skipNull && null === value || options.skipEmptyString && "" === value) return result;
-                                    if (null === value) return [
+                                    return void 0 === value || options.skipNull && null === value || options.skipEmptyString && "" === value ? result : null === value ? [
                                         ...result,
                                         [
                                             encode(key, options),
@@ -10625,8 +10624,7 @@
                                             index,
                                             "]"
                                         ].join("")
-                                    ];
-                                    return [
+                                    ] : [
                                         ...result,
                                         [
                                             encode(key, options),
@@ -10639,60 +10637,48 @@
                                 }
                             ;
                         case "bracket":
-                            return (key)=>(result, value)=>{
-                                    if (void 0 === value || options.skipNull && null === value || options.skipEmptyString && "" === value) return result;
-                                    if (null === value) return [
+                            return (key)=>(result, value)=>void 0 === value || options.skipNull && null === value || options.skipEmptyString && "" === value ? result : null === value ? [
                                         ...result,
                                         [
                                             encode(key, options),
                                             "[]"
                                         ].join("")
-                                    ];
-                                    return [
+                                    ] : [
                                         ...result,
                                         [
                                             encode(key, options),
                                             "[]=",
                                             encode(value, options)
                                         ].join("")
-                                    ];
-                                }
+                                    ]
                             ;
                         case "comma":
                         case "separator":
-                            return (key)=>(result, value)=>{
-                                    if (null == value || 0 === value.length) return result;
-                                    if (0 === result.length) return [
+                            return (key)=>(result, value)=>null == value || 0 === value.length ? result : 0 === result.length ? [
                                         [
                                             encode(key, options),
                                             "=",
                                             encode(value, options)
                                         ].join("")
-                                    ];
-                                    return [
+                                    ] : [
                                         [
                                             result,
                                             encode(value, options)
                                         ].join(options.arrayFormatSeparator)
-                                    ];
-                                }
+                                    ]
                             ;
                         default:
-                            return (key)=>(result, value)=>{
-                                    if (void 0 === value || options.skipNull && null === value || options.skipEmptyString && "" === value) return result;
-                                    if (null === value) return [
+                            return (key)=>(result, value)=>void 0 === value || options.skipNull && null === value || options.skipEmptyString && "" === value ? result : null === value ? [
                                         ...result,
                                         encode(key, options)
-                                    ];
-                                    return [
+                                    ] : [
                                         ...result,
                                         [
                                             encode(key, options),
                                             "=",
                                             encode(value, options)
                                         ].join("")
-                                    ];
-                                }
+                                    ]
                             ;
                     }
                 }(options), objectCopy = {
@@ -10701,10 +10687,7 @@
                 const keys = Object.keys(objectCopy);
                 return !1 !== options.sort && keys.sort(options.sort), keys.map((key)=>{
                     const value = object[key];
-                    if (void 0 === value) return "";
-                    if (null === value) return encode(key, options);
-                    if (Array.isArray(value)) return value.reduce(formatter(key), []).join("&");
-                    return encode(key, options) + "=" + encode(value, options);
+                    return void 0 === value ? "" : null === value ? encode(key, options) : Array.isArray(value) ? value.reduce(formatter(key), []).join("&") : encode(key, options) + "=" + encode(value, options);
                 }).filter((x)=>x.length > 0
                 ).join("&");
             }, exports.parseUrl = (url, options)=>{
@@ -17637,10 +17620,9 @@
                     string
                 ];
                 const separatorIndex = string.indexOf(separator);
-                if (-1 === separatorIndex) return [
+                return -1 === separatorIndex ? [
                     string
-                ];
-                return [
+                ] : [
                     string.slice(0, separatorIndex),
                     string.slice(separatorIndex + separator.length)
                 ];
