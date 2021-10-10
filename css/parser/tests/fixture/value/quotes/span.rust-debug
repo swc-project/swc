@@ -1,0 +1,799 @@
+error: Stylesheet
+  --> $DIR/tests/fixture/value/quotes/input.css:1:1
+   |
+1  | / a::before {
+2  | |     content: "This string is demarcated by double quotes.";
+3  | |     content: 'This string is demarcated by single quotes.';
+4  | |     content: "This is a string with \" an escaped double quote.";
+...  |
+36 | |     color: red;
+37 | | }
+   | |_^
+
+error: Rule
+  --> $DIR/tests/fixture/value/quotes/input.css:1:1
+   |
+1  | / a::before {
+2  | |     content: "This string is demarcated by double quotes.";
+3  | |     content: 'This string is demarcated by single quotes.';
+4  | |     content: "This is a string with \" an escaped double quote.";
+...  |
+28 | |     content: 'a\62 c';
+29 | | }
+   | |_^
+
+error: StyleRule
+  --> $DIR/tests/fixture/value/quotes/input.css:1:1
+   |
+1  | / a::before {
+2  | |     content: "This string is demarcated by double quotes.";
+3  | |     content: 'This string is demarcated by single quotes.';
+4  | |     content: "This is a string with \" an escaped double quote.";
+...  |
+28 | |     content: 'a\62 c';
+29 | | }
+   | |_^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/value/quotes/input.css:1:1
+  |
+1 | a::before {
+  | ^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/value/quotes/input.css:1:1
+  |
+1 | a::before {
+  | ^^^^^^^^^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/value/quotes/input.css:1:1
+  |
+1 | a::before {
+  | ^
+
+error: Text
+ --> $DIR/tests/fixture/value/quotes/input.css:1:1
+  |
+1 | a::before {
+  | ^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/value/quotes/input.css:1:2
+  |
+1 | a::before {
+  |  ^^^^^^^^
+
+error: PseudoSelector
+ --> $DIR/tests/fixture/value/quotes/input.css:1:2
+  |
+1 | a::before {
+  |  ^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/value/quotes/input.css:1:4
+  |
+1 | a::before {
+  |    ^^^^^^
+
+error: Tokens
+
+error: DeclBlock
+  --> $DIR/tests/fixture/value/quotes/input.css:1:11
+   |
+1  |   a::before {
+   |  ___________^
+2  | |     content: "This string is demarcated by double quotes.";
+3  | |     content: 'This string is demarcated by single quotes.';
+4  | |     content: "This is a string with \" an escaped double quote.";
+...  |
+28 | |     content: 'a\62 c';
+29 | | }
+   | |_^
+
+error: Property
+ --> $DIR/tests/fixture/value/quotes/input.css:2:5
+  |
+2 |     content: "This string is demarcated by double quotes.";
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/value/quotes/input.css:2:5
+  |
+2 |     content: "This string is demarcated by double quotes.";
+  |     ^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/quotes/input.css:2:14
+  |
+2 |     content: "This string is demarcated by double quotes.";
+  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/value/quotes/input.css:2:14
+  |
+2 |     content: "This string is demarcated by double quotes.";
+  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/value/quotes/input.css:3:5
+  |
+3 |     content: 'This string is demarcated by single quotes.';
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/value/quotes/input.css:3:5
+  |
+3 |     content: 'This string is demarcated by single quotes.';
+  |     ^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/quotes/input.css:3:14
+  |
+3 |     content: 'This string is demarcated by single quotes.';
+  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/value/quotes/input.css:3:14
+  |
+3 |     content: 'This string is demarcated by single quotes.';
+  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/value/quotes/input.css:4:5
+  |
+4 |     content: "This is a string with \" an escaped double quote.";
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/value/quotes/input.css:4:5
+  |
+4 |     content: "This is a string with \" an escaped double quote.";
+  |     ^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/quotes/input.css:4:14
+  |
+4 |     content: "This is a string with \" an escaped double quote.";
+  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/value/quotes/input.css:4:14
+  |
+4 |     content: "This is a string with \" an escaped double quote.";
+  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/value/quotes/input.css:5:5
+  |
+5 |     content: "This string also has \22 an escaped double quote.";
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/value/quotes/input.css:5:5
+  |
+5 |     content: "This string also has \22 an escaped double quote.";
+  |     ^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/quotes/input.css:5:14
+  |
+5 |     content: "This string also has \22 an escaped double quote.";
+  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/value/quotes/input.css:5:14
+  |
+5 |     content: "This string also has \22 an escaped double quote.";
+  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/value/quotes/input.css:6:5
+  |
+6 |     content: 'This is a string with \' an escaped single quote.';
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/value/quotes/input.css:6:5
+  |
+6 |     content: 'This is a string with \' an escaped single quote.';
+  |     ^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/quotes/input.css:6:14
+  |
+6 |     content: 'This is a string with \' an escaped single quote.';
+  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/value/quotes/input.css:6:14
+  |
+6 |     content: 'This is a string with \' an escaped single quote.';
+  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/value/quotes/input.css:7:5
+  |
+7 |     content: 'This string also has \27 an escaped single quote.';
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/value/quotes/input.css:7:5
+  |
+7 |     content: 'This string also has \27 an escaped single quote.';
+  |     ^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/quotes/input.css:7:14
+  |
+7 |     content: 'This string also has \27 an escaped single quote.';
+  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/value/quotes/input.css:7:14
+  |
+7 |     content: 'This string also has \27 an escaped single quote.';
+  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/value/quotes/input.css:8:5
+  |
+8 |     content: "This is a string with \\ an escaped backslash.";
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/value/quotes/input.css:8:5
+  |
+8 |     content: "This is a string with \\ an escaped backslash.";
+  |     ^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/quotes/input.css:8:14
+  |
+8 |     content: "This is a string with \\ an escaped backslash.";
+  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/value/quotes/input.css:8:14
+  |
+8 |     content: "This is a string with \\ an escaped backslash.";
+  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Property
+ --> $DIR/tests/fixture/value/quotes/input.css:9:5
+  |
+9 |     content: "This string also has \22an escaped double quote.";
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/value/quotes/input.css:9:5
+  |
+9 |     content: "This string also has \22an escaped double quote.";
+  |     ^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/quotes/input.css:9:14
+  |
+9 |     content: "This string also has \22an escaped double quote.";
+  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/value/quotes/input.css:9:14
+  |
+9 |     content: "This string also has \22an escaped double quote.";
+  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Property
+  --> $DIR/tests/fixture/value/quotes/input.css:10:5
+   |
+10 |     content: "This string also has \22  an escaped double quote.";
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/value/quotes/input.css:10:5
+   |
+10 |     content: "This string also has \22  an escaped double quote.";
+   |     ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/quotes/input.css:10:14
+   |
+10 |     content: "This string also has \22  an escaped double quote.";
+   |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/value/quotes/input.css:10:14
+   |
+10 |     content: "This string also has \22  an escaped double quote.";
+   |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Property
+  --> $DIR/tests/fixture/value/quotes/input.css:11:5
+   |
+11 |     content: "This string has a \Aline break in it.";
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/value/quotes/input.css:11:5
+   |
+11 |     content: "This string has a \Aline break in it.";
+   |     ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/quotes/input.css:11:14
+   |
+11 |     content: "This string has a \Aline break in it.";
+   |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/value/quotes/input.css:11:14
+   |
+11 |     content: "This string has a \Aline break in it.";
+   |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Property
+  --> $DIR/tests/fixture/value/quotes/input.css:12:5
+   |
+12 | /     content: "A really long \
+13 | | awesome string";
+   | |_______________^
+
+error: Text
+  --> $DIR/tests/fixture/value/quotes/input.css:12:5
+   |
+12 |     content: "A really long \
+   |     ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/quotes/input.css:12:14
+   |
+12 |       content: "A really long \
+   |  ______________^
+13 | | awesome string";
+   | |_______________^
+
+error: Str
+  --> $DIR/tests/fixture/value/quotes/input.css:12:14
+   |
+12 |       content: "A really long \
+   |  ______________^
+13 | | awesome string";
+   | |_______________^
+
+error: Property
+  --> $DIR/tests/fixture/value/quotes/input.css:14:5
+   |
+14 |     content: ";'@ /**/\"";
+   |     ^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/value/quotes/input.css:14:5
+   |
+14 |     content: ";'@ /**/\"";
+   |     ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/quotes/input.css:14:14
+   |
+14 |     content: ";'@ /**/\"";
+   |              ^^^^^^^^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/value/quotes/input.css:14:14
+   |
+14 |     content: ";'@ /**/\"";
+   |              ^^^^^^^^^^^^
+
+error: Property
+  --> $DIR/tests/fixture/value/quotes/input.css:15:5
+   |
+15 |     content: '\'"\\';
+   |     ^^^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/value/quotes/input.css:15:5
+   |
+15 |     content: '\'"\\';
+   |     ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/quotes/input.css:15:14
+   |
+15 |     content: '\'"\\';
+   |              ^^^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/value/quotes/input.css:15:14
+   |
+15 |     content: '\'"\\';
+   |              ^^^^^^^
+
+error: Property
+  --> $DIR/tests/fixture/value/quotes/input.css:16:5
+   |
+16 | /     content: "a\
+17 | | b";
+   | |__^
+
+error: Text
+  --> $DIR/tests/fixture/value/quotes/input.css:16:5
+   |
+16 |     content: "a\
+   |     ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/quotes/input.css:16:14
+   |
+16 |       content: "a\
+   |  ______________^
+17 | | b";
+   | |__^
+
+error: Str
+  --> $DIR/tests/fixture/value/quotes/input.css:16:14
+   |
+16 |       content: "a\
+   |  ______________^
+17 | | b";
+   | |__^
+
+error: Property
+  --> $DIR/tests/fixture/value/quotes/input.css:18:5
+   |
+18 | /     content: "a\
+19 | | b";
+   | |__^
+
+error: Text
+  --> $DIR/tests/fixture/value/quotes/input.css:18:5
+   |
+18 |     content: "a\
+   |     ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/quotes/input.css:18:14
+   |
+18 |       content: "a\
+   |  ______________^
+19 | | b";
+   | |__^
+
+error: Str
+  --> $DIR/tests/fixture/value/quotes/input.css:18:14
+   |
+18 |       content: "a\
+   |  ______________^
+19 | | b";
+   | |__^
+
+error: Property
+  --> $DIR/tests/fixture/value/quotes/input.css:20:5
+   |
+20 | /     content: "a\
+21 | | b";
+   | |__^
+
+error: Text
+  --> $DIR/tests/fixture/value/quotes/input.css:20:5
+   |
+20 |     content: "a\
+   |     ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/quotes/input.css:20:14
+   |
+20 |       content: "a\
+   |  ______________^
+21 | | b";
+   | |__^
+
+error: Str
+  --> $DIR/tests/fixture/value/quotes/input.css:20:14
+   |
+20 |       content: "a\
+   |  ______________^
+21 | | b";
+   | |__^
+
+error: Property
+  --> $DIR/tests/fixture/value/quotes/input.css:22:5
+   |
+22 |     content: "a\b";
+   |     ^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/value/quotes/input.css:22:5
+   |
+22 |     content: "a\b";
+   |     ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/quotes/input.css:22:14
+   |
+22 |     content: "a\b";
+   |              ^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/value/quotes/input.css:22:14
+   |
+22 |     content: "a\b";
+   |              ^^^^^
+
+error: Property
+  --> $DIR/tests/fixture/value/quotes/input.css:23:5
+   |
+23 | /     content: "a\
+24 | | \
+25 | | \
+26 | | \\
+27 | | b";
+   | |__^
+
+error: Text
+  --> $DIR/tests/fixture/value/quotes/input.css:23:5
+   |
+23 |     content: "a\
+   |     ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/quotes/input.css:23:14
+   |
+23 |       content: "a\
+   |  ______________^
+24 | | \
+25 | | \
+26 | | \\
+27 | | b";
+   | |__^
+
+error: Str
+  --> $DIR/tests/fixture/value/quotes/input.css:23:14
+   |
+23 |       content: "a\
+   |  ______________^
+24 | | \
+25 | | \
+26 | | \\
+27 | | b";
+   | |__^
+
+error: Property
+  --> $DIR/tests/fixture/value/quotes/input.css:28:5
+   |
+28 |     content: 'a\62 c';
+   |     ^^^^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/value/quotes/input.css:28:5
+   |
+28 |     content: 'a\62 c';
+   |     ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/quotes/input.css:28:14
+   |
+28 |     content: 'a\62 c';
+   |              ^^^^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/value/quotes/input.css:28:14
+   |
+28 |     content: 'a\62 c';
+   |              ^^^^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/value/quotes/input.css:31:1
+   |
+31 | / a[title="a not s\
+32 | | o very long title"] {
+33 | |     color: red;
+34 | | }
+   | |_^
+
+error: StyleRule
+  --> $DIR/tests/fixture/value/quotes/input.css:31:1
+   |
+31 | / a[title="a not s\
+32 | | o very long title"] {
+33 | |     color: red;
+34 | | }
+   | |_^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/value/quotes/input.css:31:1
+   |
+31 | / a[title="a not s\
+32 | | o very long title"] {
+   | |___________________^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/value/quotes/input.css:31:1
+   |
+31 | / a[title="a not s\
+32 | | o very long title"] {
+   | |___________________^
+
+error: NamespacedName
+  --> $DIR/tests/fixture/value/quotes/input.css:31:1
+   |
+31 | a[title="a not s\
+   | ^
+
+error: Text
+  --> $DIR/tests/fixture/value/quotes/input.css:31:1
+   |
+31 | a[title="a not s\
+   | ^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/value/quotes/input.css:31:2
+   |
+31 |   a[title="a not s\
+   |  __^
+32 | | o very long title"] {
+   | |___________________^
+
+error: AttrSelector
+  --> $DIR/tests/fixture/value/quotes/input.css:31:2
+   |
+31 |   a[title="a not s\
+   |  __^
+32 | | o very long title"] {
+   | |___________________^
+
+error: NamespacedName
+  --> $DIR/tests/fixture/value/quotes/input.css:31:3
+   |
+31 | a[title="a not s\
+   |   ^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/value/quotes/input.css:31:3
+   |
+31 | a[title="a not s\
+   |   ^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/value/quotes/input.css:31:9
+   |
+31 |   a[title="a not s\
+   |  _________^
+32 | | o very long title"] {
+   | |__________________^
+
+error: DeclBlock
+  --> $DIR/tests/fixture/value/quotes/input.css:32:21
+   |
+32 |   o very long title"] {
+   |  _____________________^
+33 | |     color: red;
+34 | | }
+   | |_^
+
+error: Property
+  --> $DIR/tests/fixture/value/quotes/input.css:33:5
+   |
+33 |     color: red;
+   |     ^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/value/quotes/input.css:33:5
+   |
+33 |     color: red;
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/quotes/input.css:33:12
+   |
+33 |     color: red;
+   |            ^^^
+
+error: Text
+  --> $DIR/tests/fixture/value/quotes/input.css:33:12
+   |
+33 |     color: red;
+   |            ^^^
+
+error: Rule
+  --> $DIR/tests/fixture/value/quotes/input.css:35:1
+   |
+35 | / a[title="a not so very long title"] {
+36 | |     color: red;
+37 | | }
+   | |_^
+
+error: StyleRule
+  --> $DIR/tests/fixture/value/quotes/input.css:35:1
+   |
+35 | / a[title="a not so very long title"] {
+36 | |     color: red;
+37 | | }
+   | |_^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/value/quotes/input.css:35:1
+   |
+35 | a[title="a not so very long title"] {
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/value/quotes/input.css:35:1
+   |
+35 | a[title="a not so very long title"] {
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: NamespacedName
+  --> $DIR/tests/fixture/value/quotes/input.css:35:1
+   |
+35 | a[title="a not so very long title"] {
+   | ^
+
+error: Text
+  --> $DIR/tests/fixture/value/quotes/input.css:35:1
+   |
+35 | a[title="a not so very long title"] {
+   | ^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/value/quotes/input.css:35:2
+   |
+35 | a[title="a not so very long title"] {
+   |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AttrSelector
+  --> $DIR/tests/fixture/value/quotes/input.css:35:2
+   |
+35 | a[title="a not so very long title"] {
+   |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: NamespacedName
+  --> $DIR/tests/fixture/value/quotes/input.css:35:3
+   |
+35 | a[title="a not so very long title"] {
+   |   ^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/value/quotes/input.css:35:3
+   |
+35 | a[title="a not so very long title"] {
+   |   ^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/value/quotes/input.css:35:9
+   |
+35 | a[title="a not so very long title"] {
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclBlock
+  --> $DIR/tests/fixture/value/quotes/input.css:35:37
+   |
+35 |   a[title="a not so very long title"] {
+   |  _____________________________________^
+36 | |     color: red;
+37 | | }
+   | |_^
+
+error: Property
+  --> $DIR/tests/fixture/value/quotes/input.css:36:5
+   |
+36 |     color: red;
+   |     ^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/value/quotes/input.css:36:5
+   |
+36 |     color: red;
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/quotes/input.css:36:12
+   |
+36 |     color: red;
+   |            ^^^
+
+error: Text
+  --> $DIR/tests/fixture/value/quotes/input.css:36:12
+   |
+36 |     color: red;
+   |            ^^^
+

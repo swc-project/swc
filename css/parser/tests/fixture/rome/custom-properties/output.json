@@ -89,7 +89,8 @@
                   "end": 22,
                   "ctxt": 0
                 },
-                "value": "bar"
+                "value": "bar",
+                "raw": "'bar'"
               }
             ],
             "important": null
@@ -119,7 +120,8 @@
                   "end": 44,
                   "ctxt": 0
                 },
-                "value": "foo"
+                "value": "foo",
+                "raw": "\"foo\""
               }
             ],
             "important": null
@@ -149,7 +151,8 @@
                   "end": 63,
                   "ctxt": 0
                 },
-                "value": "abort"
+                "value": "abort",
+                "raw": "\"abort\""
               }
             ],
             "important": null

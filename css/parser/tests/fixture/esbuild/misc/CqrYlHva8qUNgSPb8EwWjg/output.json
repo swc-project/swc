@@ -88,7 +88,8 @@
                   "end": 19,
                   "ctxt": 0
                 },
-                "value": "a62 c"
+                "value": "abc",
+                "raw": "'a\\62 c'"
               }
             ],
             "important": null

@@ -495,21 +495,29 @@ where
         match cur!(self) {
             Token::Ident { .. } => {
                 let value = bump!(self);
-                let value = match value {
-                    Token::Ident { value, .. } => value,
+                let ident = match value {
+                    Token::Ident { value, raw } => (value, raw),
                     _ => unreachable!(),
                 };
 
-                Ok(Str { span, value })
+                Ok(Str {
+                    span,
+                    value: ident.0,
+                    raw: ident.1,
+                })
             }
             Token::Str { .. } => {
                 let value = bump!(self);
-                let value = match value {
-                    Token::Str { value } => value,
+                let str = match value {
+                    Token::Str { value, raw } => (value, raw),
                     _ => unreachable!(),
                 };
 
-                Ok(Str { span, value })
+                Ok(Str {
+                    span,
+                    value: str.0,
+                    raw: str.1,
+                })
             }
             _ => Err(Error::new(
                 span,

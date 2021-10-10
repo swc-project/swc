@@ -67,7 +67,8 @@
                       "end": 7,
                       "ctxt": 0
                     },
-                    "value": "0c"
+                    "value": "0c",
+                    "raw": "\"0c\""
                   },
                   "modifier": null
                 }
