@@ -226,17 +226,11 @@ where
         }
 
         // TODO: Return an <EOF-token>.
-
-        match self.input.cur() {
-            Some(c) => match c {
-                _ => {
-                    return Ok(Token::Delim { value: c });
-                }
-            },
-            None => {
-                unreachable!()
-            }
+        if self.input.cur().is_none() {
+            unreachable!()
         }
+
+        return Ok(Token::Delim { value: self.input.cur().unwrap() });
     }
 
     /// Ported from `isValidEscape` of `esbuild`
