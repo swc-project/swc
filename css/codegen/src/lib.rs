@@ -480,7 +480,7 @@ where
                     self.wr.write_raw(Some(n.span), &raw)?;
                 }
                 Token::Delim { value } => {
-                    punct!(self, span, value);
+                    self.wr.write_raw_char(Some(n.span), *value)?;
                 }
                 Token::LParen => {
                     punct!(self, span, "(");
