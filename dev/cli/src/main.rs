@@ -3,7 +3,7 @@ extern crate swc_node_base;
 use anyhow::Error;
 use plugin::PluginCommand;
 use structopt::StructOpt;
-use tracing::Level;
+use tracing_subscriber::EnvFilter;
 
 mod plugin;
 mod util;
@@ -16,11 +16,15 @@ pub enum Cmd {
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
-    tracing_subscriber::fmt::Subscriber::builder()
+    let logger = tracing_subscriber::FmtSubscriber::builder()
+        .without_time()
         .with_target(false)
-        .with_max_level(Level::DEBUG)
+        .with_ansi(true)
+        .with_env_filter(EnvFilter::from_default_env())
         .pretty()
-        .init();
+        .finish();
+
+    let _tracing = tracing::subscriber::set_default(logger);
 
     let cmd = Cmd::from_args();
 

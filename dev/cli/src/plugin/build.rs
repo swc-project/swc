@@ -17,7 +17,7 @@ use structopt::StructOpt;
 use tokio::{process::Command, task::spawn_blocking};
 use tracing::{
     info,
-    subscriber::{set_default, NoSubscriber},
+    subscriber::{set_default, with_default, NoSubscriber},
 };
 
 /// Used for commands involving `cargo build`
@@ -72,22 +72,30 @@ impl BaseCargoCommand {
     }
 
     fn run_sync(&self) -> Result<Vec<PathBuf>, Error> {
-        let cargo_config = Config::default().context("failed to create default cargo config")?;
-        let manifest_path = important_paths::find_root_manifest_for_wd(cargo_config.cwd())
-            .context("failed to find root manifest for working directory")?;
-        let workspace = Workspace::new(&manifest_path, &cargo_config)
-            .context("failed to create cargo workspace")?;
+        let dylibs = with_default(
+            tracing::subscriber::NoSubscriber::default(),
+            || -> Result<_, Error> {
+                let cargo_config =
+                    Config::default().context("failed to create default cargo config")?;
+                let manifest_path = important_paths::find_root_manifest_for_wd(cargo_config.cwd())
+                    .context("failed to find root manifest for working directory")?;
+                let workspace = Workspace::new(&manifest_path, &cargo_config)
+                    .context("failed to create cargo workspace")?;
 
-        let compile_opts = self.to_compile_opts(&cargo_config)?;
+                let compile_opts = self.to_compile_opts(&cargo_config)?;
 
-        let compilation = cargo::ops::compile(&workspace, &compile_opts)
-            .context("failed to compile using cargo")?;
+                let compilation = cargo::ops::compile(&workspace, &compile_opts)
+                    .context("failed to compile using cargo")?;
 
-        let dylibs = compilation
-            .cdylibs
-            .into_iter()
-            .map(|v| v.path)
-            .collect::<Vec<_>>();
+                let dylibs = compilation
+                    .cdylibs
+                    .into_iter()
+                    .map(|v| v.path)
+                    .collect::<Vec<_>>();
+
+                Ok(dylibs)
+            },
+        )?;
 
         info!("Built {:?}", dylibs);
 
