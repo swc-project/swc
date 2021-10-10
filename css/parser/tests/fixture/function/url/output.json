@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 892,
+    "end": 978,
     "ctxt": 0
   },
   "rules": [
@@ -10,7 +10,7 @@
       "type": "StyleRule",
       "span": {
         "start": 0,
-        "end": 891,
+        "end": 977,
         "ctxt": 0
       },
       "selectors": [
@@ -59,7 +59,7 @@
         "type": "DeclBlock",
         "span": {
           "start": 2,
-          "end": 891,
+          "end": 977,
           "ctxt": 0
         },
         "items": [
@@ -825,7 +825,7 @@
                   "ctxt": 0
                 },
                 "url": "./image.png",
-                "raw": "./image.png"
+                "raw": "./image.png   "
               }
             ],
             "important": null
@@ -856,7 +856,7 @@
                   "ctxt": 0
                 },
                 "url": "./image2.png",
-                "raw": "./image\\32.png"
+                "raw": "./image\\32.png   "
               }
             ],
             "important": null
@@ -887,7 +887,38 @@
                   "ctxt": 0
                 },
                 "url": "./image2.png",
-                "raw": "./image\\32.png"
+                "raw": "./image\\32.png   \n    "
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Property",
+            "span": {
+              "start": 894,
+              "end": 974,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Text",
+              "span": {
+                "start": 894,
+                "end": 910,
+                "ctxt": 0
+              },
+              "value": "background-image",
+              "raw": "background-image"
+            },
+            "values": [
+              {
+                "type": "UrlValue",
+                "span": {
+                  "start": 912,
+                  "end": 974,
+                  "ctxt": 0
+                },
+                "url": "./image2.png",
+                "raw": "./image\\32.png\n    \n    \n    \n    "
               }
             ],
             "important": null

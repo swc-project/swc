@@ -6,8 +6,8 @@ error: Stylesheet
 3  | |     background-image: url("./image (1).jpg");
 4  | |     background-image: url('./image (1).jpg');
 ...  |
-24 | |     );
-25 | | }
+33 | |     );
+34 | | }
    | |__^
 
 error: Rule
@@ -18,8 +18,8 @@ error: Rule
 3  | |     background-image: url("./image (1).jpg");
 4  | |     background-image: url('./image (1).jpg');
 ...  |
-24 | |     );
-25 | | }
+33 | |     );
+34 | | }
    | |_^
 
 error: StyleRule
@@ -30,8 +30,8 @@ error: StyleRule
 3  | |     background-image: url("./image (1).jpg");
 4  | |     background-image: url('./image (1).jpg');
 ...  |
-24 | |     );
-25 | | }
+33 | |     );
+34 | | }
    | |_^
 
 error: ComplexSelector
@@ -67,8 +67,8 @@ error: DeclBlock
 3  | |     background-image: url("./image (1).jpg");
 4  | |     background-image: url('./image (1).jpg');
 ...  |
-24 | |     );
-25 | | }
+33 | |     );
+34 | | }
    | |_^
 
 error: Property
@@ -757,5 +757,49 @@ error: UrlValue
    |  _______________________^
 23 | |     ./image\32.png   
 24 | |     );
+   | |_____^
+
+error: Property
+  --> $DIR/tests/fixture/function/url/input.css:25:5
+   |
+25 | /     background-image: url(
+26 | |     
+27 | |     
+28 | |     
+...  |
+32 | |     
+33 | |     );
+   | |_____^
+
+error: Text
+  --> $DIR/tests/fixture/function/url/input.css:25:5
+   |
+25 |     background-image: url(
+   |     ^^^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/function/url/input.css:25:23
+   |
+25 |       background-image: url(
+   |  _______________________^
+26 | |     
+27 | |     
+28 | |     
+...  |
+32 | |     
+33 | |     );
+   | |_____^
+
+error: UrlValue
+  --> $DIR/tests/fixture/function/url/input.css:25:23
+   |
+25 |       background-image: url(
+   |  _______________________^
+26 | |     
+27 | |     
+28 | |     
+...  |
+32 | |     
+33 | |     );
    | |_____^
 

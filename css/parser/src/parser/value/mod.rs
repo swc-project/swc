@@ -238,8 +238,6 @@ where
 
             Token::Url { .. } => {
                 let url = match bump!(self) {
-                    // TODO fix me
-                    Token::Url { value, .. } => value,
                     Token::Url { value, raw } => (value, raw),
                     _ => {
                         unreachable!()

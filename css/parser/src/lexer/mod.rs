@@ -348,12 +348,13 @@ where
         })
     }
 
-    /// Ported from `consumeURL` of `esbuild`.
     fn read_url(&mut self) -> LexResult<Token> {
         let mut value = String::new();
         let mut raw = String::new();
-
+        let start_pos = self.input.cur_pos();
         self.skip_ws()?;
+        let end_pos = self.input.cur_pos();
+        raw.push_str(&self.input.slice(start_pos, end_pos));
 
         loop {
             self.last_pos = None;
@@ -373,12 +374,14 @@ where
                     return Err(ErrorKind::Eof);
                 }
 
-            match self.input.cur().unwrap() {
-                c if is_whitespace(c) => {
-                // TODO: Add `\f` of golang.
-                Some(c) if c == ' ' || c == '\t' || c == '\n' || c == '\r' => {
+                Some(c) if is_whitespace(c) => {
+                    raw.push(c);
                     self.input.bump();
+                    let start_pos = self.input.cur_pos();
                     self.skip_ws()?;
+                    let end_pos = self.input.cur_pos();
+
+                    raw.push_str(&self.input.slice(start_pos, end_pos));
 
                     let c = self.input.cur();
 

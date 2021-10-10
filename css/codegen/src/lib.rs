@@ -509,7 +509,6 @@ where
                 Token::Url { raw, .. } => {
                     self.wr.write_ident(Some(span), "url", false)?;
                     punct!(self, "(");
-                    self.wr.write_raw(None, &value)?;
                     self.wr.write_raw(None, &raw)?;
                     punct!(self, ")");
                 }
