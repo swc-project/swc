@@ -24,7 +24,7 @@ pub enum Token {
     },
 
     Delim {
-        value: JsWord,
+        value: char,
     },
 
     /// `(`

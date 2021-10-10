@@ -129,17 +129,21 @@ where
         // TODO: Plus can start a number
         try_delim!(b'/', "/");
 
-        if self.input.is_byte(b'"') {
-            return self.read_str(None)
+        if is_whitespace(self.input.cur().unwrap()) {
+            self.skip_ws()?;
+
+            return Ok(tok!(" "));
         }
 
-        if self.input.is_byte(b'#') {
-            
+        if self.input.is_byte(b'"') {
+            return self.read_str(None);
         }
+
+        if self.input.is_byte(b'#') {}
         // TODO U+0023 NUMBER SIGN (#)
 
         if self.input.is_byte(b'\'') {
-            return self.read_str(None)
+            return self.read_str(None);
         }
 
         try_delim!(b'(', "(");
@@ -169,23 +173,26 @@ where
         }
 
         if self.input.is_byte(b'@') {
+            let value = self.input.cur().unwrap();
+            
             self.input.bump();
-
+            
             if self.would_start_ident()? {
                 return self.read_at_keyword();
             }
 
-            return Ok(Token::Delim { value: "@".into() });
+            return Ok(Token::Delim { value });
         }
 
         try_delim!(b'[', "[");
 
+        // TODO: rewrite
         if self.input.is_byte(b'\\') {
             if self.is_valid_escape()? {
                 return self.read_ident_like();
             }
 
-            return Ok(Token::Delim { value: "\\".into() });
+            return Ok(Token::Delim { value: '\\' });
         }
 
         try_delim!(b']', "]");
@@ -195,16 +202,17 @@ where
         try_delim!(b'}', "}");
 
         if let Some('0'..='9') = self.input.cur() {
-            return self.read_number()
+            return self.read_number();
         }
+
+        if is_name_start(self.input.cur().unwrap()) {
+            return self.read_ident_like();
+        }
+
+        // TODO: Return an <EOF-token>.
 
         match self.input.cur() {
             Some(c) => match c {
-                c if is_whitespace(c) => {
-                    self.skip_ws()?;
-                    return Ok(tok!(" "));
-                }
-
                 '#' => {
                     self.input.bump();
 
@@ -233,11 +241,7 @@ where
                 }
 
                 _ => {
-                    if is_name_start(c) {
-                        return self.read_ident_like();
-                    }
-
-                    todo!("read_token (cur = {:?})", c)
+                    return Ok(Token::Delim { value: c });
                 }
             },
             None => {
