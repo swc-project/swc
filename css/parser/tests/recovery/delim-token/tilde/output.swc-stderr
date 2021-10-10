@@ -1,0 +1,6 @@
+error: Expected Property value
+ --> $DIR/tests/recovery/delim-token/unknown/input.css:2:12
+  |
+2 |     color: ~;
+  |            ^
+

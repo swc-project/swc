@@ -174,9 +174,9 @@ where
 
         if self.input.is_byte(b'@') {
             let c = self.input.cur().unwrap();
-            
+
             self.input.bump();
-            
+
             if self.would_start_ident()? {
                 return self.read_at_keyword();
             }
