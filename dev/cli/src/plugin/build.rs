@@ -1,8 +1,24 @@
 use crate::util::cargo::cargo_target_dir;
 use anyhow::{bail, Context, Error};
-use std::env;
+use cargo::{
+    core::{
+        compiler::{BuildConfig, CompileMode},
+        Workspace,
+    },
+    ops::{CompileFilter, CompileOptions, Packages},
+    util::{command_prelude::AppExt, important_paths, interning::InternedString},
+    Config,
+};
+use std::{
+    env,
+    path::{Path, PathBuf},
+};
 use structopt::StructOpt;
-use tokio::process::Command;
+use tokio::{process::Command, task::spawn_blocking};
+use tracing::{
+    info,
+    subscriber::{set_default, NoSubscriber},
+};
 
 /// Used for commands involving `cargo build`
 
@@ -14,7 +30,7 @@ pub struct BaseCargoCommand {
 
     /// Build one crate
     #[structopt(long)]
-    pub crate_name: Option<String>,
+    pub crate_name: Vec<String>,
 
     /// Build all crates in a workspace.
     #[structopt(long)]
@@ -29,6 +45,62 @@ pub struct BaseCargoCommand {
     pub cargo_flags: Option<String>,
 }
 
+impl BaseCargoCommand {
+    fn to_compile_opts(&self, config: &Config) -> Result<CompileOptions, Error> {
+        let profile = if self.release { "release" } else { "dev" };
+
+        let mut opts = CompileOptions::new(&config, CompileMode::Build)
+            .context("failed to create default compile options")?;
+        opts.build_config.requested_profile = InternedString::new(profile);
+
+        opts.spec = Packages::from_flags(self.all, Default::default(), self.crate_name.clone())?;
+
+        opts.filter = CompileFilter::from_raw_arguments(
+            true,
+            Default::default(),
+            false,
+            Default::default(),
+            false,
+            Default::default(),
+            false,
+            Default::default(),
+            false,
+            false,
+        );
+
+        Ok(opts)
+    }
+
+    fn run_sync(&self) -> Result<Vec<PathBuf>, Error> {
+        let cargo_config = Config::default().context("failed to create default cargo config")?;
+        let manifest_path = important_paths::find_root_manifest_for_wd(cargo_config.cwd())
+            .context("failed to find root manifest for working directory")?;
+        let workspace = Workspace::new(&manifest_path, &cargo_config)
+            .context("failed to create cargo workspace")?;
+
+        let compile_opts = self.to_compile_opts(&cargo_config)?;
+
+        let compilation = cargo::ops::compile(&workspace, &compile_opts)
+            .context("failed to compile using cargo")?;
+
+        let dylibs = compilation
+            .cdylibs
+            .into_iter()
+            .map(|v| v.path)
+            .collect::<Vec<_>>();
+
+        info!("Built {:?}", dylibs);
+
+        Ok(dylibs)
+    }
+
+    pub async fn run(self) -> Result<Vec<PathBuf>, Error> {
+        spawn_blocking(move || self.run_sync())
+            .await
+            .context("failed to await")?
+    }
+}
+
 /// Build your plugin using `cargo`.
 #[derive(Debug, StructOpt)]
 pub struct BuildCommand {
@@ -38,37 +110,8 @@ pub struct BuildCommand {
 
 impl BuildCommand {
     pub async fn run(self) -> Result<(), Error> {
-        run_cargo_build(self.cargo.release).await?;
-        let path = env::current_dir().context("failed to get current directory")?;
-
-        let target_dir = cargo_target_dir(&path).await?;
-        tracing::debug!("Cargo target directory: {}", target_dir.display());
+        let libs = self.cargo.run().await?;
 
         Ok(())
     }
-}
-
-pub async fn run_cargo_build(release: bool) -> Result<(), Error> {
-    tracing::info!(
-        "Running cargo build ({})",
-        if release { "release" } else { "debug" },
-    );
-
-    let mut c = Command::new("cargo");
-    c.arg("build");
-
-    if release {
-        c.arg("--release");
-    }
-
-    let status = c
-        .status()
-        .await
-        .context("`status()` for `cargo build` failed")?;
-
-    if !status.success() {
-        bail!("`cargo build` failed with status code {}", status);
-    }
-
-    Ok(())
 }
