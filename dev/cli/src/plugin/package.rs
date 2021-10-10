@@ -1,8 +1,8 @@
+use super::build::BaseCargoCommand;
 use structopt::StructOpt;
 
 #[derive(Debug, StructOpt)]
 pub struct PackageCommand {
-    /// Build for production.
-    #[structopt(long)]
-    pub release: bool,
+    #[structopt(flatten)]
+    pub cargo: BaseCargoCommand,
 }

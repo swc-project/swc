@@ -4,17 +4,41 @@ use std::env;
 use structopt::StructOpt;
 use tokio::process::Command;
 
-/// Build your plugin using `cargo`.
+/// Used for commands involving `cargo build`
+
 #[derive(Debug, StructOpt)]
-pub struct BuildCommand {
+pub struct BaseCargoCommand {
     /// Build for production.
     #[structopt(long)]
     pub release: bool,
+
+    /// Build one crate
+    #[structopt(long)]
+    pub crate_name: Option<String>,
+
+    /// Build all crates in a workspace.
+    #[structopt(long)]
+    pub all: bool,
+
+    /// Target triple.
+    #[structopt(long)]
+    pub target: Option<String>,
+
+    /// Flags to pass to cargo.
+    #[structopt(long)]
+    pub cargo_flags: Option<String>,
+}
+
+/// Build your plugin using `cargo`.
+#[derive(Debug, StructOpt)]
+pub struct BuildCommand {
+    #[structopt(flatten)]
+    pub cargo: BaseCargoCommand,
 }
 
 impl BuildCommand {
     pub async fn run(self) -> Result<(), Error> {
-        run_cargo_build(self.release).await?;
+        run_cargo_build(self.cargo.release).await?;
         let path = env::current_dir().context("failed to get current directory")?;
 
         let target_dir = cargo_target_dir(&path).await?;
