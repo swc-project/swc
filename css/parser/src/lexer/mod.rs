@@ -236,24 +236,23 @@ where
         }
     }
 
-    /// Ported from `consumeIdentLike` of `esbuild`
     fn read_ident_like(&mut self) -> LexResult<Token> {
         let name = self.read_name()?;
 
-        if self.input.is_byte(b'(') {
-            if name.0.len() == 3 {
-                if name.0.to_ascii_lowercase() == js_word!("url") {
-                    let pos = self.input.cur_pos();
+        // TODO: rewrite https://www.w3.org/TR/css-syntax-3/#consume-ident-like-token
+        if name.0.to_ascii_lowercase() == js_word!("url") && self.input.is_byte(b'(') {
+            let pos = self.input.cur_pos();
 
-                    self.input.bump();
-                    self.skip_ws()?;
+            self.input.bump();
+            let pos_whitespace = self.input.cur_pos();
+            self.skip_ws()?;
 
-                    match self.input.cur() {
-                        Some('"' | '\'') => self.input.reset_to(pos),
-                        _ => {
-                            return self.read_url();
-                        }
-                    }
+            match self.input.cur() {
+                Some('"' | '\'') => self.input.reset_to(pos),
+                _ => {
+                    self.input.reset_to(pos_whitespace);
+
+                    return self.read_url();
                 }
             }
         }
@@ -652,7 +651,6 @@ where
         Ok((buf.into(), raw.into()))
     }
 
-    // TODO adding whitespaces to raw too
     fn skip_ws(&mut self) -> LexResult<()> {
         loop {
             if self.input.cur().is_none() {
