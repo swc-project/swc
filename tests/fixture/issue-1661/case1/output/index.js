@@ -1,4 +1,3 @@
-
-console.log( /*#__PURE__*/React.createElement("h1", {
-    value: "abc\\nas"
+console.log(/*#__PURE__*/ React.createElement("h1", {
+    value: "abc as"
 }, "s"));
