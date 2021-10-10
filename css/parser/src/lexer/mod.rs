@@ -194,10 +194,12 @@ where
 
         try_delim!(b'}', "}");
 
+        if let Some('0'..='9') = self.input.cur() {
+            return self.read_number()
+        }
+
         match self.input.cur() {
             Some(c) => match c {
-                '0'..='9' => return self.read_number(),
-
                 c if is_whitespace(c) => {
                     self.skip_ws()?;
                     return Ok(tok!(" "));
