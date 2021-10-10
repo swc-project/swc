@@ -19,8 +19,8 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    ident::IdentLike, undefined, ExprExt, ExprFactory, Id, IsEmpty, ModuleItemLike, StmtLike, Type,
-    Value,
+    ident::IdentLike, prepend_stmts, undefined, ExprExt, ExprFactory, Id, IsEmpty, ModuleItemLike,
+    StmtLike, Type, Value,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use tracing::{span, Level};
@@ -1482,12 +1482,35 @@ where
     noop_visit_mut_type!();
 
     fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
+        let prepend = self.prepend_stmts.take();
+
         let ctx = Ctx {
             can_inline_arguments: true,
             ..self.ctx
         };
 
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+
+        if !self.prepend_stmts.is_empty() {
+            let mut stmts = self.prepend_stmts.take();
+            match &mut n.body {
+                BlockStmtOrExpr::BlockStmt(v) => {
+                    prepend_stmts(&mut v.stmts, stmts.into_iter());
+                }
+                BlockStmtOrExpr::Expr(v) => {
+                    stmts.push(Stmt::Return(ReturnStmt {
+                        span: DUMMY_SP,
+                        arg: Some(v.take()),
+                    }));
+                    n.body = BlockStmtOrExpr::BlockStmt(BlockStmt {
+                        span: DUMMY_SP,
+                        stmts,
+                    });
+                }
+            }
+        }
+
+        self.prepend_stmts = prepend;
     }
 
     fn visit_mut_assign_expr(&mut self, e: &mut AssignExpr) {
