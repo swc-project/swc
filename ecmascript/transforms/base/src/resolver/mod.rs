@@ -484,12 +484,11 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_catch_clause(&mut self, c: &mut CatchClause) {
-        let child_mark = Mark::fresh(self.mark);
+        let child_mark = Mark::fresh(self.current.mark);
 
         // Child folder
         let mut folder = Resolver::new(
-            child_mark,
-            Scope::new(ScopeKind::Fn, Some(&self.current)),
+            Scope::new(ScopeKind::Fn, child_mark, Some(&self.current)),
             self.handle_types,
         );
 
@@ -504,11 +503,10 @@ impl<'a> VisitMut for Resolver<'a> {
         self.modify(&mut n.ident, None);
 
         // Create a child scope. The class name is only accessible within the class.
-        let child_mark = Mark::fresh(self.mark);
+        let child_mark = Mark::fresh(self.current.mark);
 
         let mut folder = Resolver::new(
-            child_mark,
-            Scope::new(ScopeKind::Fn, Some(&self.current)),
+            Scope::new(ScopeKind::Fn, child_mark, Some(&self.current)),
             self.handle_types,
         );
 
@@ -519,11 +517,10 @@ impl<'a> VisitMut for Resolver<'a> {
 
     fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
         // Create a child scope. The class name is only accessible within the class.
-        let child_mark = Mark::fresh(self.mark);
+        let child_mark = Mark::fresh(self.current.mark);
 
         let mut folder = Resolver::new(
-            child_mark,
-            Scope::new(ScopeKind::Fn, Some(&self.current)),
+            Scope::new(ScopeKind::Fn, child_mark, Some(&self.current)),
             self.handle_types,
         );
 
@@ -538,12 +535,11 @@ impl<'a> VisitMut for Resolver<'a> {
         m.key.visit_mut_with(self);
 
         {
-            let child_mark = Mark::fresh(self.mark);
+            let child_mark = Mark::fresh(self.current.mark);
 
             // Child folder
             let mut child = Resolver::new(
-                child_mark,
-                Scope::new(ScopeKind::Fn, Some(&self.current)),
+                Scope::new(ScopeKind::Fn, child_mark, Some(&self.current)),
                 self.handle_types,
             );
 
@@ -570,12 +566,11 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_constructor(&mut self, c: &mut Constructor) {
-        let child_mark = Mark::fresh(self.mark);
+        let child_mark = Mark::fresh(self.current.mark);
 
         // Child folder
         let mut folder = Resolver::new(
-            child_mark,
-            Scope::new(ScopeKind::Fn, Some(&self.current)),
+            Scope::new(ScopeKind::Fn, child_mark, Some(&self.current)),
             self.handle_types,
         );
 
@@ -603,12 +598,11 @@ impl<'a> VisitMut for Resolver<'a> {
         match &mut e.decl {
             DefaultDecl::Fn(f) => {
                 if f.ident.is_some() {
-                    let child_mark = Mark::fresh(self.mark);
+                    let child_mark = Mark::fresh(self.current.mark);
 
                     // Child folder
                     let mut folder = Resolver::new(
-                        child_mark,
-                        Scope::new(ScopeKind::Fn, Some(&self.current)),
+                        Scope::new(ScopeKind::Fn, child_mark, Some(&self.current)),
                         self.handle_types,
                     );
                     f.function.visit_mut_with(&mut folder)
@@ -636,12 +630,11 @@ impl<'a> VisitMut for Resolver<'a> {
         // We don't fold this as Hoister handles this.
 
         {
-            let child_mark = Mark::fresh(self.mark);
+            let child_mark = Mark::fresh(self.current.mark);
 
             // Child folder
             let mut folder = Resolver::new(
-                child_mark,
-                Scope::new(ScopeKind::Fn, Some(&self.current)),
+                Scope::new(ScopeKind::Fn, child_mark, Some(&self.current)),
                 self.handle_types,
             );
 
@@ -650,12 +643,11 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
-        let child_mark = Mark::fresh(self.mark);
+        let child_mark = Mark::fresh(self.current.mark);
 
         // Child folder
         let mut folder = Resolver::new(
-            child_mark,
-            Scope::new(ScopeKind::Fn, Some(&self.current)),
+            Scope::new(ScopeKind::Fn, child_mark, Some(&self.current)),
             self.handle_types,
         );
 
@@ -667,10 +659,9 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
-        let child_mark = Mark::fresh(self.mark);
+        let child_mark = Mark::fresh(self.current.mark);
         let mut child = Resolver::new(
-            child_mark,
-            Scope::new(ScopeKind::Block, Some(&self.current)),
+            Scope::new(ScopeKind::Block, child_mark, Some(&self.current)),
             self.handle_types,
         );
 
@@ -681,10 +672,9 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
-        let child_mark = Mark::fresh(self.mark);
+        let child_mark = Mark::fresh(self.current.mark);
         let mut child = Resolver::new(
-            child_mark,
-            Scope::new(ScopeKind::Block, Some(&self.current)),
+            Scope::new(ScopeKind::Block, child_mark, Some(&self.current)),
             self.handle_types,
         );
 
@@ -695,10 +685,9 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_for_stmt(&mut self, n: &mut ForStmt) {
-        let child_mark = Mark::fresh(self.mark);
+        let child_mark = Mark::fresh(self.current.mark);
         let mut child = Resolver::new(
-            child_mark,
-            Scope::new(ScopeKind::Block, Some(&self.current)),
+            Scope::new(ScopeKind::Block, child_mark, Some(&self.current)),
             self.handle_types,
         );
 
@@ -766,7 +755,7 @@ impl<'a> VisitMut for Resolver<'a> {
                     }
 
                     let mark = {
-                        let mut mark = self.mark;
+                        let mut mark = self.current.mark;
                         let mut cur = Some(&self.current);
                         while let Some(scope) = cur {
                             cur = scope.parent;
@@ -821,12 +810,11 @@ impl<'a> VisitMut for Resolver<'a> {
         m.key.visit_mut_with(self);
 
         {
-            let child_mark = Mark::fresh(self.mark);
+            let child_mark = Mark::fresh(self.current.mark);
 
             // Child folder
             let mut child = Resolver::new(
-                child_mark,
-                Scope::new(ScopeKind::Fn, Some(&self.current)),
+                Scope::new(ScopeKind::Fn, child_mark, Some(&self.current)),
                 self.handle_types,
             );
 
@@ -855,11 +843,10 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_object_lit(&mut self, o: &mut ObjectLit) {
-        let child_mark = Mark::fresh(self.mark);
+        let child_mark = Mark::fresh(self.current.mark);
 
         let mut child_folder = Resolver::new(
-            child_mark,
-            Scope::new(ScopeKind::Block, Some(&self.current)),
+            Scope::new(ScopeKind::Block, child_mark, Some(&self.current)),
             self.handle_types,
         );
 
@@ -881,12 +868,11 @@ impl<'a> VisitMut for Resolver<'a> {
         m.key.visit_mut_with(self);
 
         {
-            let child_mark = Mark::fresh(self.mark);
+            let child_mark = Mark::fresh(self.current.mark);
 
             // Child folder
             let mut child = Resolver::new(
-                child_mark,
-                Scope::new(ScopeKind::Fn, Some(&self.current)),
+                Scope::new(ScopeKind::Fn, child_mark, Some(&self.current)),
                 self.handle_types,
             );
 
@@ -900,12 +886,11 @@ impl<'a> VisitMut for Resolver<'a> {
         n.key.visit_mut_with(self);
 
         {
-            let child_mark = Mark::fresh(self.mark);
+            let child_mark = Mark::fresh(self.current.mark);
 
             // Child folder
             let mut child = Resolver::new(
-                child_mark,
-                Scope::new(ScopeKind::Fn, Some(&self.current)),
+                Scope::new(ScopeKind::Fn, child_mark, Some(&self.current)),
                 self.handle_types,
             );
 
@@ -938,12 +923,11 @@ impl<'a> VisitMut for Resolver<'a> {
         }
 
         self.in_type = true;
-        let child_mark = Mark::fresh(self.mark);
+        let child_mark = Mark::fresh(self.current.mark);
 
         // Child folder
         let mut child = Resolver::new(
-            child_mark,
-            Scope::new(ScopeKind::Fn, Some(&self.current)),
+            Scope::new(ScopeKind::Fn, child_mark, Some(&self.current)),
             self.handle_types,
         );
         child.in_type = true;
@@ -958,7 +942,7 @@ impl<'a> VisitMut for Resolver<'a> {
             return;
         }
         self.in_type = true;
-        let child_mark = Mark::fresh(self.mark);
+        let child_mark = Mark::fresh(self.current.mark);
 
         // Child folder
         let mut child = Resolver::new(
@@ -980,7 +964,7 @@ impl<'a> VisitMut for Resolver<'a> {
         }
 
         self.in_type = true;
-        let child_mark = Mark::fresh(self.mark);
+        let child_mark = Mark::fresh(self.current.mark);
 
         // Child folder
         let mut child = Resolver::new(
@@ -1011,7 +995,7 @@ impl<'a> VisitMut for Resolver<'a> {
         }
 
         self.in_type = true;
-        let child_mark = Mark::fresh(self.mark);
+        let child_mark = Mark::fresh(self.current.mark);
 
         // Child folder
         let mut child = Resolver::new(
@@ -1052,7 +1036,7 @@ impl<'a> VisitMut for Resolver<'a> {
 
         self.in_type = true;
         self.modify(&mut n.id, None);
-        let child_mark = Mark::fresh(self.mark);
+        let child_mark = Mark::fresh(self.current.mark);
         // Child folder
         let mut child = Resolver::new(
             child_mark,
@@ -1090,7 +1074,7 @@ impl<'a> VisitMut for Resolver<'a> {
         }
 
         self.in_type = true;
-        let child_mark = Mark::fresh(self.mark);
+        let child_mark = Mark::fresh(self.current.mark);
 
         // Child folder
         let mut child = Resolver::new(
@@ -1116,7 +1100,7 @@ impl<'a> VisitMut for Resolver<'a> {
             TsModuleName::Str(_) => {}
         }
 
-        let child_mark = Mark::fresh(self.mark);
+        let child_mark = Mark::fresh(self.current.mark);
 
         let mut child_folder = Resolver::new(
             child_mark,
@@ -1158,7 +1142,7 @@ impl<'a> VisitMut for Resolver<'a> {
         if n.computed {
             n.key.visit_mut_with(self);
         }
-        let child_mark = Mark::fresh(self.mark);
+        let child_mark = Mark::fresh(self.current.mark);
         // Child folder
         let mut child = Resolver::new(
             child_mark,
@@ -1207,7 +1191,7 @@ impl<'a> VisitMut for Resolver<'a> {
 
         self.in_type = true;
         self.modify(&mut n.id, None);
-        let child_mark = Mark::fresh(self.mark);
+        let child_mark = Mark::fresh(self.current.mark);
         // Child folder
         let mut child = Resolver::new(
             child_mark,
