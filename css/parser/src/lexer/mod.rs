@@ -173,7 +173,7 @@ where
         }
 
         if self.input.is_byte(b'@') {
-            let value = self.input.cur().unwrap();
+            let c = self.input.cur().unwrap();
             
             self.input.bump();
             
@@ -181,7 +181,7 @@ where
                 return self.read_at_keyword();
             }
 
-            return Ok(Token::Delim { value });
+            return Ok(Token::Delim { value: c });
         }
 
         try_delim!(b'[', "[");
