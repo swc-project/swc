@@ -259,7 +259,11 @@ impl<'a> Resolver<'a> {
                         return None;
                     }
                     cursor = c.parent;
-                    let m = mark.parent();
+                    let m = if let Some(parent) = &c.parent {
+                        parent.mark
+                    } else {
+                        Mark::root()
+                    };
                     if m == Mark::root() {
                         return Some(mark);
                     }
