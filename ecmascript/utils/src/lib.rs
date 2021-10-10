@@ -2113,7 +2113,7 @@ where
     noop_visit_type!();
 
     fn visit_module_items(&mut self, nodes: &[ModuleItem], _: &dyn Node) {
-        if cfg!(feature = "concurrent") {
+        if cfg!(feature = "concurrent") && nodes.len() > 128 {
             use rayon::prelude::*;
             let set = nodes
                 .par_iter()
