@@ -220,13 +220,16 @@ where
 
         try_delim!(b'[', "[");
 
-        // TODO: rewrite
         if self.input.is_byte(b'\\') {
+            let c = self.input.cur().unwrap();
+
             if self.is_valid_escape()? {
                 return self.read_ident_like();
             }
 
-            return Ok(Token::Delim { value: '\\' });
+            self.input.bump();
+
+            return Ok(Token::Delim { value: c });
         }
 
         try_delim!(b']', "]");
@@ -270,6 +273,8 @@ where
         }
     }
 
+    /// Ported from `consumeIdentLike` of `esbuild`
+    // TODO: rewrite https://www.w3.org/TR/css-syntax-3/#consume-an-ident-like-token
     fn read_ident_like(&mut self) -> LexResult<Token> {
         let name = self.read_name()?;
 
