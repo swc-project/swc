@@ -775,7 +775,10 @@ impl<'a> VisitMut for Resolver<'a> {
                             if cur.is_none() {
                                 break;
                             }
-                            mark = mark.parent();
+
+                            if let Some(cur) = &cur {
+                                mark = cur.mark;
+                            }
                         }
 
                         mark
