@@ -55,3 +55,26 @@ impl NodeArch {
         }
     }
 }
+
+#[derive(Clone, Copy, StringEnum)]
+pub enum NodePlatform {
+    /// `linux`
+    Linux,
+    /// `freebsd`
+    Freebsd,
+    /// `darwin`
+    Darwin,
+    /// `win32`
+    Windows,
+}
+
+//// https://github.com/napi-rs/napi-rs/blob/main/cli/src/parse-triple.ts
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub struct PlatformDetail {
+    pub platform: NodePlatform,
+    pub platform_arch_abi: String,
+    pub arch: NodeArch,
+
+    pub raw: String,
+    pub abi: Option<String>,
+}
