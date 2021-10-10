@@ -1,5 +1,6 @@
+
 function Component() {
-    return(/*#__PURE__*/ React.createElement("div", {
-        name: "A\\n\\n      B"
-    }));
+    return /*#__PURE__*/React.createElement("div", {
+        name: "A B"
+    });
 }
