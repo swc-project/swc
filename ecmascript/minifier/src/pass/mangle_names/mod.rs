@@ -117,6 +117,7 @@ impl VisitMut for Mangler {
 
         n.class.visit_mut_with(self);
     }
+
     fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
         if n.exported.is_none() {
             n.exported = Some(n.orig.clone());
