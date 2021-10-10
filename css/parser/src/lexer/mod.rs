@@ -230,7 +230,11 @@ where
             unreachable!()
         }
 
-        return Ok(Token::Delim { value: self.input.cur().unwrap() });
+        let c = self.input.cur().unwrap();
+
+        self.input.bump();
+
+        return Ok(Token::Delim { value: c });
     }
 
     /// Ported from `isValidEscape` of `esbuild`
