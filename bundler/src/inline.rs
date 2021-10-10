@@ -15,11 +15,17 @@ pub(crate) fn inline(injected_ctxt: SyntaxContext, module: &mut Modules) {
     tracing::debug!("Inlining injected variables");
 
     let mut v = Inliner {
-        injected_ctxt,
         data: Default::default(),
     };
 
-    module.visit_with(&mut v);
+    {
+        let mut analyzer = Analyzer {
+            injected_ctxt,
+            data: &mut v.data,
+        };
+
+        module.visit_with(&mut analyzer);
+    }
     module.visit_mut_with(&mut v);
     module.retain_mut(|_, s| match s {
         ModuleItem::Stmt(Stmt::Empty(..)) => false,
@@ -29,11 +35,15 @@ pub(crate) fn inline(injected_ctxt: SyntaxContext, module: &mut Modules) {
 
 #[derive(Debug)]
 struct Inliner {
-    injected_ctxt: SyntaxContext,
     data: InlineData,
 }
 
-impl Inliner {
+struct Analyzer<'a> {
+    injected_ctxt: SyntaxContext,
+    data: &'a mut InlineData,
+}
+
+impl Analyzer<'_> {
     fn store(&mut self, from: Id, to: Id) {
         if let Some(prev) = self.data.ids.insert(from.clone(), to.clone()) {
             unreachable!(
@@ -45,7 +55,7 @@ impl Inliner {
     }
 }
 
-impl Visit for Inliner {
+impl Visit for Analyzer<'_> {
     noop_visit_type!();
 
     /// Noop
