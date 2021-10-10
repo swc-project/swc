@@ -1,3 +1,5 @@
+extern crate swc_node_base;
+
 use anyhow::Error;
 use plugin::PluginCommand;
 use structopt::StructOpt;

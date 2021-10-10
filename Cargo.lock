@@ -3823,6 +3823,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_node_arch"
+version = "0.1.0"
+
+[[package]]
 name = "swc_node_base"
 version = "0.4.0"
 dependencies = [
@@ -3953,6 +3957,8 @@ dependencies = [
  "cargo_metadata",
  "clap",
  "structopt",
+ "swc_node_arch",
+ "swc_node_base",
  "tokio",
  "tracing",
  "tracing-subscriber",
