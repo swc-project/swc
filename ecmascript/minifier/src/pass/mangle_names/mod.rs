@@ -213,6 +213,8 @@ impl VisitMut for Mangler {
             }
 
             ObjectPatProp::Assign(p) => {
+                p.value.visit_mut_with(self);
+
                 let key_span = p.key.span.with_ctxt(SyntaxContext::empty());
                 let orig = p.key.sym.clone();
 
