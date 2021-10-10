@@ -179,7 +179,9 @@ impl<'a> Resolver<'a> {
                     }
                     return Some(mark);
                 }
-                mark = mark.parent();
+                if let Some(parent) = &cur.parent {
+                    mark = parent.mark;
+                }
                 scope = cur.parent;
             }
         }
@@ -291,7 +293,10 @@ impl<'a> Resolver<'a> {
                             break;
                         }
                         cursor = c.parent;
-                        mark = mark.parent();
+
+                        if let Some(parent) = &c.parent {
+                            mark = parent.mark;
+                        }
                     }
                 }
                 Some(VarDeclKind::Let) | Some(VarDeclKind::Const) => {
