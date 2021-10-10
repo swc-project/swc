@@ -201,8 +201,6 @@ where
             );
         }
 
-        n.invoke();
-
         {
             let data = analyze(&*n, Some(self.marks));
 
@@ -219,6 +217,8 @@ where
         }
 
         loop {
+            n.invoke();
+
             self.changed = false;
             self.optimize_unit(n);
             self.pass += 1;
