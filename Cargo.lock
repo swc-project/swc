@@ -2579,7 +2579,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.74.2"
+version = "0.74.3"
 dependencies = [
  "bitflags",
  "memchr",
@@ -2764,7 +2764,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.37.0"
+version = "0.37.1"
 dependencies = [
  "once_cell",
  "phf",
@@ -2905,7 +2905,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.48.0"
+version = "0.48.1"
 dependencies = [
  "ahash",
  "base64 0.13.0",
