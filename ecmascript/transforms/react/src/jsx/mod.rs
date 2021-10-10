@@ -1178,9 +1178,12 @@ fn transform_jsx_attr_str(v: &str) -> String {
         match c {
             '\u{0008}' => buf.push_str("\\b"),
             '\u{000c}' => buf.push_str("\\f"),
-            '\n' => buf.push_str("\\n"),
-            '\r' => buf.push_str("\\r"),
-            '\t' => buf.push_str("\\t"),
+            ' ' | '\n' | '\r' | '\t' => {
+                if buf.ends_with(' ') {
+                } else {
+                    buf.push(' ')
+                }
+            }
             '\u{000b}' => buf.push_str("\\v"),
             '\0' => buf.push_str("\\x00"),
 
