@@ -1,4 +1,4 @@
-use crate::{id::Id, modules::Modules};
+use crate::{id::Id, modules::Modules, util::Readonly};
 use swc_common::{collections::AHashMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{
@@ -14,19 +14,19 @@ pub(crate) struct InlineData {
 pub(crate) fn inline(injected_ctxt: SyntaxContext, module: &mut Modules) {
     tracing::debug!("Inlining injected variables");
 
-    let mut v = Inliner {
-        data: Default::default(),
-    };
+    let mut data = Default::default();
 
     {
         let mut analyzer = Analyzer {
             injected_ctxt,
-            data: &mut v.data,
+            data: &mut data,
         };
 
         module.visit_with(&mut analyzer);
     }
-    module.visit_mut_with(&mut v);
+
+    let mut v = Inliner { data: data.into() };
+    module.par_visit_mut_with(&mut v);
     module.retain_mut(|_, s| match s {
         ModuleItem::Stmt(Stmt::Empty(..)) => false,
         _ => true,
@@ -34,8 +34,9 @@ pub(crate) fn inline(injected_ctxt: SyntaxContext, module: &mut Modules) {
 }
 
 #[derive(Debug)]
+#[cfg_attr(feature = "concurrent", derive(Clone))]
 struct Inliner {
-    data: InlineData,
+    data: Readonly<InlineData>,
 }
 
 struct Analyzer<'a> {

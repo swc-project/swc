@@ -152,6 +152,39 @@ impl Modules {
             .push(item);
     }
 
+    pub(crate) fn par_visit_mut_with<V>(&mut self, v: &mut V)
+    where
+        V: Clone + VisitMut + Send + Sync,
+    {
+        if cfg!(feature = "concurrent") {
+            use rayon::prelude::*;
+
+            let pre = &mut self.prepended_stmts;
+            let modules = &mut self.modules;
+            let app = &mut self.appended_stmts;
+
+            rayon::scope(|s| {
+                s.spawn(|_| {
+                    pre.par_iter_mut()
+                        .for_each(|(_, stmts)| stmts.visit_mut_with(&mut v.clone()));
+                });
+
+                s.spawn(|_| {
+                    modules
+                        .par_iter_mut()
+                        .for_each(|(_, stmts)| stmts.visit_mut_with(&mut v.clone()));
+                });
+
+                s.spawn(|_| {
+                    app.par_iter_mut()
+                        .for_each(|(_, stmts)| stmts.visit_mut_with(&mut v.clone()));
+                });
+            });
+        } else {
+            self.visit_mut_with(v)
+        }
+    }
+
     pub fn visit_mut_with<V>(&mut self, v: &mut V)
     where
         V: VisitMut,
