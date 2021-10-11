@@ -100,7 +100,21 @@ impl Visit for Analyzer<'_> {
     noop_visit_type!();
 
     fn visit_arrow_expr(&mut self, f: &ArrowExpr, _: &dyn Node) {
-        self.visit_with_scope(f.span.ctxt, ScopeKind::Fn, |v| f.visit_children_with(v))
+        self.visit_with_scope(f.span.ctxt, ScopeKind::Fn, |v| {
+            f.visit_children_with(v);
+
+            f.params.visit_with(f, v);
+
+            match &f.body {
+                BlockStmtOrExpr::BlockStmt(body) => {
+                    // Bypass
+                    body.visit_children_with(v);
+                }
+                BlockStmtOrExpr::Expr(body) => {
+                    body.visit_with(f, v);
+                }
+            }
+        })
     }
 
     fn visit_block_stmt(&mut self, f: &BlockStmt, _: &dyn Node) {
@@ -119,7 +133,18 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_function(&mut self, f: &Function, _: &dyn Node) {
-        self.visit_with_scope(f.span.ctxt, ScopeKind::Fn, |v| f.visit_children_with(v))
+        f.decorators.visit_with(f, self);
+
+        self.visit_with_scope(f.span.ctxt, ScopeKind::Fn, |v| {
+            f.params.visit_with(f, v);
+
+            match f.body.as_ref() {
+                Some(body) => {
+                    body.visit_children_with(v);
+                }
+                None => {}
+            }
+        })
     }
 
     fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
