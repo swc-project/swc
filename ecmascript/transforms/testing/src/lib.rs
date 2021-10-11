@@ -698,8 +698,6 @@ fn test_fixture_inner<P>(
         Ok(actual_src)
     });
 
-    let mut results = vec![];
-
     if allow_error {
         NormalizedOutput::from(stderr)
             .compare_to_file(output.with_extension("stderr"))
@@ -719,25 +717,12 @@ fn test_fixture_inner<P>(
                 return;
             }
 
-            if let Ok("1") = env::var("UPDATE").as_deref() {
-                results.push(NormalizedOutput::from(actual_src.clone()).compare_to_file(output));
-            }
-
-            if NormalizedOutput::from(actual_src.clone())
-                == NormalizedOutput::from(expected_src.clone())
-            {
-                return;
-            }
-
-            assert_eq!(
-                DebugUsingDisplay(&actual_src),
-                DebugUsingDisplay(&expected_src)
-            );
+            NormalizedOutput::from(actual_src.clone())
+                .compare_to_file(output)
+                .unwrap();
         }
         _ => {}
     }
 
-    for result in results {
-        result.unwrap();
-    }
+    Ok(())
 }
