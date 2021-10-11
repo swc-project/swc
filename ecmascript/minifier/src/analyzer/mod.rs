@@ -7,7 +7,7 @@ use crate::{
     util::{can_end_conditionally, idents_used_by, now},
 };
 use std::time::Instant;
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
     SyntaxContext, DUMMY_SP,
@@ -733,18 +733,40 @@ where
     }
 
     fn visit_var_declarator(&mut self, e: &VarDeclarator, _: &dyn Node) {
-        let ctx = Ctx {
-            in_pat_of_var_decl: true,
-            in_pat_of_var_decl_with_init: e.init.is_some(),
-            in_var_decl_with_no_side_effect_for_member_access: match e.init.as_deref() {
-                Some(Expr::Array(..) | Expr::Lit(..)) => true,
-                _ => false,
-            },
-            ..self.ctx
+        let prevent_inline = match &e.name {
+            Pat::Ident(BindingIdent {
+                id:
+                    Ident {
+                        sym: js_word!("arguments"),
+                        ..
+                    },
+                ..
+            }) => true,
+            _ => false,
         };
-        e.name.visit_with(e, &mut *self.with_ctx(ctx));
+        {
+            let ctx = Ctx {
+                inline_prevented: self.ctx.inline_prevented || prevent_inline,
+                in_pat_of_var_decl: true,
+                in_pat_of_var_decl_with_init: e.init.is_some(),
+                in_var_decl_with_no_side_effect_for_member_access: match e.init.as_deref() {
+                    Some(Expr::Array(..) | Expr::Lit(..)) => true,
+                    _ => false,
+                },
+                ..self.ctx
+            };
+            e.name.visit_with(e, &mut *self.with_ctx(ctx));
+        }
 
-        e.init.visit_with(e, self);
+        {
+            let ctx = Ctx {
+                inline_prevented: self.ctx.inline_prevented || prevent_inline,
+                in_pat_of_var_decl: false,
+                ..self.ctx
+            };
+
+            e.init.visit_with(e, &mut *self.with_ctx(ctx));
+        }
     }
 
     fn visit_while_stmt(&mut self, n: &WhileStmt, _: &dyn Node) {

@@ -24,5 +24,6 @@
             "toplevel": true
         },
         "externalHelpers": true
-    }
+    },
+    "minify": true
 }
