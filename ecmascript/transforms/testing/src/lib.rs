@@ -26,7 +26,7 @@ use swc_ecma_transforms_base::{
 use swc_ecma_utils::{quote_ident, quote_str, DropSpan, ExprFactory, HANDLER};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 use tempfile::tempdir_in;
-use testing::{assert_eq, find_executable, DebugUsingDisplay, NormalizedOutput};
+use testing::{assert_eq, find_executable, NormalizedOutput};
 
 pub struct Tester<'a> {
     pub cm: Lrc<SourceMap>,
@@ -723,6 +723,4 @@ fn test_fixture_inner<P>(
         }
         _ => {}
     }
-
-    Ok(())
 }
