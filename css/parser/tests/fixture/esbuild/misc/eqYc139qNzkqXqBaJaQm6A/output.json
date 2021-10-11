@@ -20,7 +20,8 @@
           "end": 20,
           "ctxt": 0
         },
-        "url": "foo.css"
+        "url": "foo.css",
+        "raw": "foo.css"
       },
       "condition": null
     }

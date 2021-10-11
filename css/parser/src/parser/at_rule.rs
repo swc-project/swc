@@ -30,7 +30,11 @@ where
             }
 
             Token::Url { .. } => match bump!(self) {
-                Token::Url { value } => Ok(ImportSource::Url(UrlValue { span, url: value })),
+                Token::Url { value, raw } => Ok(ImportSource::Url(UrlValue {
+                    span,
+                    url: value,
+                    raw,
+                })),
                 _ => {
                     unreachable!()
                 }

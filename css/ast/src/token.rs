@@ -58,6 +58,7 @@ pub enum Token {
     /// `url(value)`
     Url {
         value: JsWord,
+        raw: JsWord,
     },
 
     /// `,`
