@@ -1,10 +1,10 @@
 //! ECMAScript lexer.
 
+use self::{comments_buffer::CommentsBuffer, state::State, util::*};
 pub use self::{
     input::Input,
     state::{TokenContext, TokenContexts},
 };
-use self::{state::State, util::*};
 use crate::{
     error::{Error, SyntaxError},
     token::*,
@@ -14,12 +14,10 @@ use either::Either::{Left, Right};
 use smallvec::{smallvec, SmallVec};
 use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{
-    comments::{Comment, Comments},
-    BytePos, Span,
-};
+use swc_common::{comments::Comments, BytePos, Span};
 use swc_ecma_ast::op;
 
+mod comments_buffer;
 pub mod input;
 mod jsx;
 mod number;
@@ -97,23 +95,11 @@ impl Iterator for CharIter {
 
 impl FusedIterator for CharIter {}
 
-pub(super) enum BufferedCommentKind {
-    Leading,
-    Trailing,
-}
-
-pub(super) struct BufferedComment {
-    pub kind: BufferedCommentKind,
-    pub pos: BytePos,
-    pub comment: Comment,
-}
-
 #[derive(Clone)]
 pub struct Lexer<'a, I: Input> {
     comments: Option<&'a dyn Comments>,
-    comments_buffer: Option<Rc<RefCell<Vec<BufferedComment>>>>,
     /// [Some] if comment comment parsing is enabled. Otherwise [None]
-    leading_comments_buffer: Option<Rc<RefCell<Vec<Comment>>>>,
+    comments_buffer: Option<CommentsBuffer>,
 
     pub(crate) ctx: Context,
     input: I,
@@ -139,8 +125,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     ) -> Self {
         Lexer {
             comments,
-            leading_comments_buffer: comments.is_some().then(Default::default),
-            comments_buffer: comments.is_some().then(Default::default),
+            comments_buffer: comments.is_some().then(CommentsBuffer::new),
             ctx: Default::default(),
             input,
             state: State::new(syntax),

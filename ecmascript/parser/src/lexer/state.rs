@@ -1,4 +1,4 @@
-use super::{BufferedComment, BufferedCommentKind, Context, Input, Lexer};
+use super::{comments_buffer::BufferedComment, Context, Input, Lexer};
 use crate::{error::Error, input::Tokens, lexer::util::CharExt, token::*, JscTarget, Syntax};
 use enum_kind::Kind;
 use std::mem::take;
@@ -182,55 +182,34 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                 Some(c) => c,
                 // End of input.
                 None => {
-                    if self
-                        .leading_comments_buffer
-                        .as_ref()
-                        .map(|v| !v.borrow().is_empty())
-                        .unwrap_or(false)
-                    {
+                    if let Some(comments) = self.comments.as_mut() {
+                        let comments_buffer = self.comments_buffer.as_mut().unwrap();
                         let last = self.state.prev_hi;
 
-                        for c in self
-                            .leading_comments_buffer
-                            .as_ref()
-                            .map(|v| v.borrow_mut())
-                            .unwrap()
-                            .drain(..)
-                        {
-                            let mut comments = self.comments_buffer.as_ref().unwrap().borrow_mut();
-
+                        // move the pending to the leading or trailing
+                        for c in comments_buffer.take_pending_leading() {
                             // if the file had no tokens and no shebang, then treat any
                             // comments in the leading comments buffer as leading.
                             // Otherwise treat them as trailing.
                             if last == BytePos(0) {
-                                comments.push(BufferedComment {
-                                    kind: BufferedCommentKind::Leading,
+                                comments_buffer.push_leading(BufferedComment {
                                     pos: last,
                                     comment: c,
                                 });
                             } else {
-                                comments.push(BufferedComment {
-                                    kind: BufferedCommentKind::Trailing,
+                                comments_buffer.push_trailing(BufferedComment {
                                     pos: last,
                                     comment: c,
                                 });
                             }
                         }
-                    }
 
-                    // now fill the user's passed in comments
-                    if let Some(ref comments) = self.comments {
-                        let mut comments_buffer =
-                            self.comments_buffer.as_ref().unwrap().borrow_mut();
-                        for comment in comments_buffer.drain(..) {
-                            match comment.kind {
-                                BufferedCommentKind::Leading => {
-                                    comments.add_leading(comment.pos, comment.comment);
-                                }
-                                BufferedCommentKind::Trailing => {
-                                    comments.add_trailing(comment.pos, comment.comment);
-                                }
-                            }
+                        // now fill the user's passed in comments
+                        for comment in comments_buffer.take_leading() {
+                            comments.add_leading(comment.pos, comment.comment);
+                        }
+                        for comment in comments_buffer.take_trailing() {
+                            comments.add_trailing(comment.pos, comment.comment);
                         }
                     }
 
@@ -307,36 +286,12 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
 
         let span = self.span(start);
         if let Some(ref token) = token {
-            if self.leading_comments_buffer.is_some()
-                && !self
-                    .leading_comments_buffer
-                    .as_ref()
-                    .unwrap()
-                    .borrow()
-                    .is_empty()
-            {
-                for comment in self
-                    .leading_comments_buffer
-                    .as_mut()
-                    .unwrap()
-                    .borrow_mut()
-                    .drain(..)
-                {
-                    let mut comments = self.comments_buffer.as_ref().unwrap().borrow_mut();
-                    let insert_pos = match comments
-                        .binary_search_by_key(&comment.span.lo, |c| c.comment.span.lo)
-                    {
-                        Ok(insert_pos) => insert_pos,
-                        Err(insert_pos) => insert_pos,
-                    };
-                    comments.insert(
-                        insert_pos,
-                        BufferedComment {
-                            kind: BufferedCommentKind::Leading,
-                            pos: start,
-                            comment,
-                        },
-                    );
+            if let Some(comments) = self.comments_buffer.as_mut() {
+                for comment in comments.take_pending_leading() {
+                    comments.push_leading(BufferedComment {
+                        pos: start,
+                        comment,
+                    });
                 }
             }
             self.state.update(start, &token);

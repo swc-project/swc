@@ -5,10 +5,9 @@
 //!
 //!
 //! [babylon/util/identifier.js]:https://github.com/babel/babel/blob/master/packages/babylon/src/util/identifier.js
-use super::{input::Input, Char, LexResult, Lexer};
+use super::{comments_buffer::BufferedComment, input::Input, Char, LexResult, Lexer};
 use crate::{
     error::{Error, SyntaxError},
-    lexer::{BufferedComment, BufferedCommentKind},
     Tokens,
 };
 use std::char;
@@ -231,8 +230,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             }
         }
 
-        if let Some(comments) = self.comments_buffer.as_ref() {
-            let mut comments = comments.borrow_mut();
+        if let Some(comments) = self.comments_buffer.as_mut() {
             let s = self.input.slice(slice_start, end);
             let cmt = Comment {
                 kind: CommentKind::Line,
@@ -240,14 +238,12 @@ impl<'a, I: Input> Lexer<'a, I> {
                 text: s.into(),
             };
 
-            if comments.is_empty() || start >= comments.last().unwrap().comment.span.lo {
+            let last_pos = comments.last_pos();
+            if last_pos.is_none() || start >= last_pos.unwrap() {
                 if is_for_next {
-                    if let Some(buf) = &self.leading_comments_buffer {
-                        buf.borrow_mut().push(cmt);
-                    }
+                    comments.push_pending_leading(cmt);
                 } else {
-                    comments.push(BufferedComment {
-                        kind: BufferedCommentKind::Trailing,
+                    comments.push_trailing(BufferedComment {
                         pos: self.state.prev_hi,
                         comment: cmt,
                     });
@@ -287,7 +283,6 @@ impl<'a, I: Input> Lexer<'a, I> {
                 let end = self.cur_pos();
 
                 if let Some(comments) = self.comments_buffer.as_mut() {
-                    let mut comments = comments.borrow_mut();
                     let src = self.input.slice(slice_start, end);
                     let s = &src[..src.len() - 2];
                     let cmt = Comment {
@@ -297,14 +292,12 @@ impl<'a, I: Input> Lexer<'a, I> {
                     };
 
                     let _ = self.input.peek();
-                    if comments.is_empty() || start >= comments.last().unwrap().comment.span.lo {
+                    let last_pos = comments.last_pos();
+                    if last_pos.is_none() || start >= last_pos.unwrap() {
                         if is_for_next {
-                            if let Some(buf) = &self.leading_comments_buffer {
-                                buf.borrow_mut().push(cmt);
-                            }
+                            comments.push_pending_leading(cmt);
                         } else {
-                            comments.push(BufferedComment {
-                                kind: BufferedCommentKind::Trailing,
+                            comments.push_trailing(BufferedComment {
                                 pos: self.state.prev_hi,
                                 comment: cmt,
                             });
@@ -327,24 +320,29 @@ impl<'a, I: Input> Lexer<'a, I> {
 
     pub(super) fn clear_future_comments(&mut self) {
         let cur_pos = self.cur_pos();
-        if let Some(comments) = self.comments_buffer.as_ref() {
-            let mut comments = comments.borrow_mut();
-            let mut leading_comments_buffer =
-                self.leading_comments_buffer.as_ref().unwrap().borrow_mut();
-            while leading_comments_buffer
-                .last()
-                .map(|c| c.span.lo >= cur_pos)
-                .unwrap_or(false)
-            {
-                leading_comments_buffer.pop();
-            }
-
+        if let Some(comments) = self.comments_buffer.as_mut() {
             while comments
-                .last()
+                .last_leading()
                 .map(|c| c.comment.span.lo >= cur_pos)
                 .unwrap_or(false)
             {
-                comments.pop();
+                comments.pop_leading();
+            }
+
+            while comments
+                .last_trailing()
+                .map(|c| c.comment.span.lo >= cur_pos)
+                .unwrap_or(false)
+            {
+                comments.pop_trailing();
+            }
+
+            while comments
+                .last_pending_leading()
+                .map(|c| c.span.lo >= cur_pos)
+                .unwrap_or(false)
+            {
+                comments.pop_pending_leading();
             }
         }
     }
