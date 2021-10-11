@@ -7,14 +7,13 @@ use smallvec::{smallvec, SmallVec};
 use std::{cell::RefCell, collections::HashMap};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
-    chain,
     collections::{AHashMap, AHashSet},
     util::take::Take,
     SyntaxContext,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub mod hygiene3;
 mod ops;
@@ -299,15 +298,7 @@ pub fn hygiene() -> impl Fold + 'static {
 /// identifier (with respect to span hygiene) becomes different identifier.
 /// (e.g. `a1` for `a#6`, `a2` for `a#23`)
 pub fn hygiene_with_config(config: Config) -> impl 'static + Fold + VisitMut {
-    chain!(
-        as_folder(Hygiene {
-            config,
-            current: Default::default(),
-            ident_type: IdentType::Ref,
-            var_kind: None,
-        }),
-        as_folder(MarkClearer)
-    )
+    self::hygiene3::hygiene3()
 }
 
 #[derive(Clone, Copy)]
