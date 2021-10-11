@@ -792,7 +792,9 @@ where
 
     #[emitter]
     fn emit_meta_prop_expr(&mut self, node: &MetaPropExpr) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        if self.comments.is_some() {
+            self.emit_leading_comments_of_span(node.span(), false)?;
+        }
 
         emit!(node.meta);
         punct!(".");
@@ -2060,7 +2062,9 @@ where
 
     #[emitter]
     fn emit_spread_element(&mut self, node: &SpreadElement) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        if self.comments.is_some() {
+            self.emit_leading_comments_of_span(node.span(), false)?;
+        }
 
         punct!("...");
         emit!(node.expr)
