@@ -12,7 +12,7 @@ use crate::{
 };
 use std::char;
 use swc_common::{
-    comments::{Comment, CommentKind, CommentsExt},
+    comments::{Comment, CommentKind},
     BytePos, Span, SyntaxContext,
 };
 use unicode_xid::UnicodeXID;
@@ -351,18 +351,13 @@ impl<'a, I: Input> Lexer<'a, I> {
                 .chain(trailing_positions.iter())
                 .max();
             if let Some(max_pos) = max_pos.copied() {
-                if comments.has_leading(max_pos) {
-                    comments.with_leading(max_pos, |comments| {
-                        if let Some(last_comment) = comments.last() {
-                            *last_comment_pos = last_comment.span.lo;
-                        }
-                    });
-                } else {
-                    comments.with_trailing(max_pos, |comments| {
-                        if let Some(last_comment) = comments.last() {
-                            *last_comment_pos = last_comment.span.lo;
-                        }
-                    });
+                let new_pos = comments
+                    .get_leading(max_pos)
+                    .or_else(|| comments.get_trailing(max_pos))
+                    .map(|c| c.last().map(|c| c.span.lo))
+                    .flatten();
+                if let Some(new_pos) = new_pos {
+                    *last_comment_pos = new_pos;
                 }
             }
         }
