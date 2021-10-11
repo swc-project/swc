@@ -26,7 +26,7 @@ use swc_ecma_transforms_base::{
 use swc_ecma_utils::{quote_ident, quote_str, DropSpan, ExprFactory, HANDLER};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 use tempfile::tempdir_in;
-use testing::{assert_eq, find_executable, DebugUsingDisplay, NormalizedOutput};
+use testing::{assert_eq, find_executable, NormalizedOutput};
 
 pub struct Tester<'a> {
     pub cm: Lrc<SourceMap>,
@@ -698,8 +698,6 @@ fn test_fixture_inner<P>(
         Ok(actual_src)
     });
 
-    let mut results = vec![];
-
     if allow_error {
         NormalizedOutput::from(stderr)
             .compare_to_file(output.with_extension("stderr"))
@@ -719,25 +717,10 @@ fn test_fixture_inner<P>(
                 return;
             }
 
-            if let Ok("1") = env::var("UPDATE").as_deref() {
-                results.push(NormalizedOutput::from(actual_src.clone()).compare_to_file(output));
-            }
-
-            if NormalizedOutput::from(actual_src.clone())
-                == NormalizedOutput::from(expected_src.clone())
-            {
-                return;
-            }
-
-            assert_eq!(
-                DebugUsingDisplay(&actual_src),
-                DebugUsingDisplay(&expected_src)
-            );
+            NormalizedOutput::from(actual_src.clone())
+                .compare_to_file(output)
+                .unwrap();
         }
         _ => {}
-    }
-
-    for result in results {
-        result.unwrap();
     }
 }

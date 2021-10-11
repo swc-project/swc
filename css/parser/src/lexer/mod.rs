@@ -236,24 +236,23 @@ where
         }
     }
 
-    /// Ported from `consumeIdentLike` of `esbuild`
     fn read_ident_like(&mut self) -> LexResult<Token> {
         let name = self.read_name()?;
 
-        if self.input.is_byte(b'(') {
-            if name.0.len() == 3 {
-                if name.0.to_ascii_lowercase() == js_word!("url") {
-                    let pos = self.input.cur_pos();
+        // TODO: rewrite https://www.w3.org/TR/css-syntax-3/#consume-ident-like-token
+        if name.0.to_ascii_lowercase() == js_word!("url") && self.input.is_byte(b'(') {
+            let pos = self.input.cur_pos();
 
-                    self.input.bump();
-                    self.skip_ws()?;
+            self.input.bump();
+            let pos_whitespace = self.input.cur_pos();
+            self.skip_ws()?;
 
-                    match self.input.cur() {
-                        Some('"' | '\'') => self.input.reset_to(pos),
-                        _ => {
-                            return self.read_url();
-                        }
-                    }
+            match self.input.cur() {
+                Some('"' | '\'') => self.input.reset_to(pos),
+                _ => {
+                    self.input.reset_to(pos_whitespace);
+
+                    return self.read_url();
                 }
             }
         }
@@ -348,51 +347,83 @@ where
         })
     }
 
-    /// Ported from `consumeURL` of `esbuild`.
     fn read_url(&mut self) -> LexResult<Token> {
-        let mut url = String::new();
+        let mut value = String::new();
+        let mut raw = String::new();
+        let start_pos = self.input.cur_pos();
+        self.skip_ws()?;
+        let end_pos = self.input.cur_pos();
+        raw.push_str(&self.input.slice(start_pos, end_pos));
 
         loop {
             self.last_pos = None;
 
-            if self.input.eat_byte(b')') {
-                return Ok(Token::Url { value: url.into() });
-            }
+            match self.input.cur() {
+                Some(c) if c == ')' => {
+                    self.input.bump();
 
-            if self.input.cur().is_none() {
-                return Err(ErrorKind::UnterminatedUrl);
-            }
-
-            match self.input.cur().unwrap() {
-                c if is_whitespace(c) => {
-                    self.skip_ws()?;
-
-                    if !self.input.eat_byte(b')') {
-                        // TODO: break + Error recovery
-                        return Err(ErrorKind::UnterminatedUrl);
-                    }
-                    return Ok(Token::Url { value: url.into() });
+                    return Ok(Token::Url {
+                        value: value.into(),
+                        raw: raw.into(),
+                    });
                 }
 
-                '"' | '\'' | '(' => {
-                    // TODO: break + Error recovery
+                None => {
+                    // TODO: This is a parse error. Return the <url-token>.
+                    return Err(ErrorKind::Eof);
+                }
+
+                Some(c) if is_whitespace(c) => {
+                    raw.push(c);
+                    self.input.bump();
+                    let start_pos = self.input.cur_pos();
+                    self.skip_ws()?;
+                    let end_pos = self.input.cur_pos();
+
+                    raw.push_str(&self.input.slice(start_pos, end_pos));
+
+                    let c = self.input.cur();
+
+                    match c {
+                        Some(c) if c == ')' => {
+                            self.input.bump();
+
+                            return Ok(Token::Url {
+                                value: value.into(),
+                                raw: raw.into(),
+                            });
+                        }
+                        None => {
+                            // TODO: This is a parse error. Return the <url-token>.
+                            return Err(ErrorKind::Eof);
+                        }
+                        _ => {}
+                    }
+
+                    // TODO: break + Error recovery + 4.3.14. Consume the remnants of a bad url
                     return Err(ErrorKind::UnterminatedUrl);
                 }
 
-                '\\' => {
+                Some(c) if c == '"' || c == '\'' || c == '(' || is_non_printable(c) => {
+                    // TODO: break + Error recovery + 4.3.14. Consume the remnants of a bad url
+                    return Err(ErrorKind::UnterminatedUrl);
+                }
+
+                Some('\\') => {
                     if !self.is_valid_escape()? {
-                        // TODO: break + Error recovery
+                        // TODO: break + Error recovery + 4.3.14. Consume the remnants of a bad url
                         return Err(ErrorKind::InvalidEscape);
                     }
 
-                    // TODO raw url
-                    url.push(self.read_escape()?.0);
+                    let escaped = self.read_escape()?;
+
+                    value.push(escaped.0);
+                    raw.push_str(&escaped.1);
                 }
 
-                c => {
-                    url.push(c);
-
-                    // TODO: Validate that c is a valid character for a URL.
+                Some(c) => {
+                    value.push(c);
+                    raw.push(c);
 
                     self.input.bump();
                 }
@@ -722,6 +753,13 @@ fn is_whitespace(c: char) -> bool {
     match c {
         c if c == ' ' || c == '\t' || is_newline(c) => true,
 
+        _ => false,
+    }
+}
+
+fn is_non_printable(c: char) -> bool {
+    match c {
+        '\x00'..='\x08' | '\x0B' | '\x0E'..='\x1F' | '\x7F' => true,
         _ => false,
     }
 }

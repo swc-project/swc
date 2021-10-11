@@ -551,9 +551,14 @@ pub struct JsMinifyOptions {
     #[serde(default)]
     pub output_path: Option<String>,
 
-    #[serde(default)]
+    #[serde(default = "true_by_default")]
     pub inline_sources_content: bool,
 }
+
+fn true_by_default() -> bool {
+    true
+}
+
 /// `jsc.minify.sourceMap`
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]

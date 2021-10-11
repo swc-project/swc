@@ -506,10 +506,10 @@ where
                 Token::Str { raw, .. } => {
                     self.wr.write_raw(Some(span), &raw)?;
                 }
-                Token::Url { value } => {
+                Token::Url { raw, .. } => {
                     self.wr.write_ident(Some(span), "url", false)?;
                     punct!(self, "(");
-                    self.wr.write_raw(None, &value)?;
+                    self.wr.write_raw(None, &raw)?;
                     punct!(self, ")");
                 }
                 Token::Comma => {
@@ -596,7 +596,7 @@ where
     fn emit_url_value(&mut self, n: &UrlValue) -> Result {
         keyword!(self, "url");
         punct!(self, "(");
-        self.wr.write_raw(Some(n.span), &n.url)?;
+        self.wr.write_raw(Some(n.span), &n.raw)?;
         punct!(self, ")");
     }
 

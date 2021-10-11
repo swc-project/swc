@@ -25,7 +25,7 @@ use swc_ecma_transforms::{
     resolver_with_mark,
 };
 use swc_ecma_visit::FoldWith;
-use testing::DebugUsingDisplay;
+use testing::{DebugUsingDisplay, NormalizedOutput};
 
 fn print(cm: Lrc<SourceMap>, m: &Module, minify: bool) -> String {
     let mut buf = vec![];
@@ -184,6 +184,49 @@ fn compressed(compressed_file: PathBuf) {
 
         parse_fm(cm.new_source_file(FileName::Anon, mangled));
         parse_fm(cm.new_source_file(FileName::Anon, minified));
+
+        Ok(())
+    })
+    .unwrap();
+}
+
+#[testing::fixture("tests/mangle/**/input.js")]
+fn fixture(input: PathBuf) {
+    testing::run_test2(false, |cm, _handler| {
+        let m = parse(cm.clone(), &input);
+
+        let top_level_mark = Mark::fresh(Mark::root());
+
+        let m = optimize(
+            m,
+            cm.clone(),
+            None,
+            None,
+            &MinifyOptions {
+                mangle: Some(MangleOptions {
+                    props: Some(ManglePropertiesOptions {
+                        reserved: Default::default(),
+                        undeclared: false,
+                        regex: Default::default(),
+                    }),
+                    top_level: true,
+                    keep_class_names: false,
+                    keep_fn_names: false,
+                    keep_private_props: false,
+                    ie8: false,
+                    safari10: false,
+                }),
+                compress: None,
+                ..Default::default()
+            },
+            &ExtraOptions { top_level_mark },
+        );
+
+        let mangled = print(cm.clone(), &m, false);
+
+        NormalizedOutput::from(mangled)
+            .compare_to_file(input.parent().unwrap().join("output.js"))
+            .unwrap();
 
         Ok(())
     })

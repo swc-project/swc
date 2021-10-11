@@ -379,8 +379,21 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             if can_be_arrow && id.sym == js_word!("async") && is!(self, BindingIdent) {
+                let ident = self.parse_binding_ident()?;
+                if self.input.syntax().typescript()
+                    && ident.id.sym == js_word!("as")
+                    && !is!(self, "=>")
+                {
+                    // async as type
+                    let type_ann = self.in_type().parse_with(|p| p.parse_ts_type())?;
+                    return Ok(Box::new(Expr::TsAs(TsAsExpr {
+                        span: span!(self, start),
+                        expr: Box::new(Expr::Ident(id)),
+                        type_ann,
+                    })));
+                }
                 // async a => body
-                let arg = self.parse_binding_ident().map(Pat::from)?;
+                let arg = Pat::from(ident);
                 let params = vec![arg];
                 expect!(self, "=>");
                 let body = self.parse_fn_body(true, false)?;
@@ -1265,6 +1278,8 @@ impl<'a, I: Tokens> Parser<I> {
         // TODO(kdy1): optimize (once we parsed a pattern, we can parse everything else
         // as a pattern instead of reparsing)
         while !eof!(self) && !is!(self, ')') {
+            let mut is_async = false;
+
             if first {
                 if is!(self, "async")
                     && matches!(
@@ -1274,18 +1289,7 @@ impl<'a, I: Tokens> Parser<I> {
                 {
                     // https://github.com/swc-project/swc/issues/410
                     self.state.potential_arrow_start = Some(cur_pos!(self));
-                    let expr = self.parse_assignment_expr()?;
-                    expect!(self, ')');
-                    return Ok(vec![PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
-                        expr,
-                        spread: None,
-                    })]);
-                }
-            } else {
-                expect!(self, ',');
-                // Handle trailing comma.
-                if is!(self, ')') {
-                    break;
+                    is_async = true;
                 }
             }
 
@@ -1504,20 +1508,19 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             } {
                 let params = self
-                    .parse_paren_items_as_params(items)?
+                    .parse_paren_items_as_params(items.clone())?
                     .into_iter()
                     .collect();
 
                 let body: BlockStmtOrExpr = self.parse_fn_body(false, false)?;
-                expect!(self, ')');
                 let span = span!(self, start);
 
-                return Ok(vec![PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
+                items.push(PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
                     expr: Box::new(
                         ArrowExpr {
                             span,
                             body,
-                            is_async: false,
+                            is_async,
                             is_generator: false,
                             params,
                             type_params: None,
@@ -1526,10 +1529,14 @@ impl<'a, I: Tokens> Parser<I> {
                         .into(),
                     ),
                     spread: None,
-                })]);
+                }));
             }
 
-            first = false;
+            first = true;
+
+            if !is!(self, ')') {
+                expect!(self, ',');
+            }
         }
 
         expect!(self, ')');
