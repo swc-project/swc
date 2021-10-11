@@ -528,6 +528,14 @@ where
                 ..
             })) => {
                 if decls.iter().any(|decl| match decl.name {
+                    Pat::Ident(BindingIdent {
+                        id:
+                            Ident {
+                                sym: js_word!("arguments"),
+                                ..
+                            },
+                        ..
+                    }) => true,
                     Pat::Ident(..) => false,
                     _ => true,
                 }) {
