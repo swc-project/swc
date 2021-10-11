@@ -313,6 +313,11 @@ where
             ExprOrSuper::Expr(e) => &mut **e,
         };
 
+        if self.ctx.dont_invoke_iife {
+            tracing::trace!("iife: [x] Inline is prevented");
+            return;
+        }
+
         match callee {
             Expr::Arrow(f) => {
                 if f.is_async {

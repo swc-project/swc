@@ -163,6 +163,8 @@ struct Ctx {
 
     is_nested_if_return_merging: bool,
 
+    dont_invoke_iife: bool,
+
     /// Current scope.
     scope: SyntaxContext,
 }
@@ -1657,7 +1659,13 @@ where
     fn visit_mut_class(&mut self, n: &mut Class) {
         n.decorators.visit_mut_with(self);
 
-        n.super_class.visit_mut_with(self);
+        {
+            let ctx = Ctx {
+                dont_invoke_iife: true,
+                ..self.ctx
+            };
+            n.super_class.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
 
         {
             let ctx = Ctx {
