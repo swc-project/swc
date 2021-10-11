@@ -1270,27 +1270,18 @@ impl<'a, I: Tokens> Parser<I> {
 
         expect!(self, '(');
 
-        let mut first = true;
         let mut items = vec![];
         let mut rest_span = None;
 
         // TODO(kdy1): optimize (once we parsed a pattern, we can parse everything else
         // as a pattern instead of reparsing)
         while !eof!(self) && !is!(self, ')') {
-            let mut is_async = false;
-
-            if first {
-                if is!(self, "async")
-                    && matches!(
-                        peek!(self),
-                        Ok(tok!('(') | tok!("function") | Token::Word(..))
-                    )
-                {
-                    // https://github.com/swc-project/swc/issues/410
-                    self.state.potential_arrow_start = Some(cur_pos!(self));
-                    is_async = true;
-                }
-            }
+            // https://github.com/swc-project/swc/issues/410
+            let is_async = is!(self, "async")
+                && matches!(
+                    peek!(self),
+                    Ok(tok!('(') | tok!("function") | Token::Word(..))
+                );
 
             let start = cur_pos!(self);
             self.state.potential_arrow_start = Some(start);
@@ -1494,7 +1485,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             // https://github.com/swc-project/swc/issues/433
-            if first && eat!(self, "=>") && {
+            if eat!(self, "=>") && {
                 debug_assert_eq!(items.len(), 1);
                 match items[0] {
                     PatOrExprOrSpread::ExprOrSpread(ExprOrSpread { ref expr, .. })
@@ -1530,8 +1521,6 @@ impl<'a, I: Tokens> Parser<I> {
                     spread: None,
                 }));
             }
-
-            first = true;
 
             if !is!(self, ')') {
                 expect!(self, ',');

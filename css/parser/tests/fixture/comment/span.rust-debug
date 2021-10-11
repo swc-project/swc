@@ -1,0 +1,334 @@
+error: Stylesheet
+  --> $DIR/tests/fixture/comment/input.css:1:14
+   |
+1  |   /* comment */a/* comment */
+   |  ______________^
+2  | | {
+3  | | /* comment */color/* comment */:/* comment */red/* comment */;
+4  | | }
+...  |
+23 | | @media/* comment */screen/* comment */{}
+24 | | @media /* comment */ screen /* comment */ {}
+   | |_____________________________________________^
+
+error: Rule
+ --> $DIR/tests/fixture/comment/input.css:1:14
+  |
+1 |   /* comment */a/* comment */
+  |  ______________^
+2 | | {
+3 | | /* comment */color/* comment */:/* comment */red/* comment */;
+4 | | }
+  | |_^
+
+error: StyleRule
+ --> $DIR/tests/fixture/comment/input.css:1:14
+  |
+1 |   /* comment */a/* comment */
+  |  ______________^
+2 | | {
+3 | | /* comment */color/* comment */:/* comment */red/* comment */;
+4 | | }
+  | |_^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/comment/input.css:1:14
+  |
+1 | /* comment */a/* comment */
+  |              ^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/comment/input.css:1:14
+  |
+1 | /* comment */a/* comment */
+  |              ^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/comment/input.css:1:14
+  |
+1 | /* comment */a/* comment */
+  |              ^
+
+error: Text
+ --> $DIR/tests/fixture/comment/input.css:1:14
+  |
+1 | /* comment */a/* comment */
+  |              ^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/comment/input.css:2:1
+  |
+2 | / {
+3 | | /* comment */color/* comment */:/* comment */red/* comment */;
+4 | | }
+  | |_^
+
+error: Property
+ --> $DIR/tests/fixture/comment/input.css:3:14
+  |
+3 | /* comment */color/* comment */:/* comment */red/* comment */;
+  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/comment/input.css:3:14
+  |
+3 | /* comment */color/* comment */:/* comment */red/* comment */;
+  |              ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/comment/input.css:3:46
+  |
+3 | /* comment */color/* comment */:/* comment */red/* comment */;
+  |                                              ^^^
+
+error: Text
+ --> $DIR/tests/fixture/comment/input.css:3:46
+  |
+3 | /* comment */color/* comment */:/* comment */red/* comment */;
+  |                                              ^^^
+
+error: Rule
+  --> $DIR/tests/fixture/comment/input.css:9:1
+   |
+9  | / div {
+10 | |     /* inside */
+11 | |     color: black;
+12 | |     /* between */
+13 | |     background: red;
+14 | |     /* end */
+15 | | }
+   | |_^
+
+error: StyleRule
+  --> $DIR/tests/fixture/comment/input.css:9:1
+   |
+9  | / div {
+10 | |     /* inside */
+11 | |     color: black;
+12 | |     /* between */
+13 | |     background: red;
+14 | |     /* end */
+15 | | }
+   | |_^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/comment/input.css:9:1
+  |
+9 | div {
+  | ^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/comment/input.css:9:1
+  |
+9 | div {
+  | ^^^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/comment/input.css:9:1
+  |
+9 | div {
+  | ^^^
+
+error: Text
+ --> $DIR/tests/fixture/comment/input.css:9:1
+  |
+9 | div {
+  | ^^^
+
+error: DeclBlock
+  --> $DIR/tests/fixture/comment/input.css:9:5
+   |
+9  |   div {
+   |  _____^
+10 | |     /* inside */
+11 | |     color: black;
+12 | |     /* between */
+13 | |     background: red;
+14 | |     /* end */
+15 | | }
+   | |_^
+
+error: Property
+  --> $DIR/tests/fixture/comment/input.css:11:5
+   |
+11 |     color: black;
+   |     ^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/comment/input.css:11:5
+   |
+11 |     color: black;
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/comment/input.css:11:12
+   |
+11 |     color: black;
+   |            ^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/comment/input.css:11:12
+   |
+11 |     color: black;
+   |            ^^^^^
+
+error: Property
+  --> $DIR/tests/fixture/comment/input.css:13:5
+   |
+13 |     background: red;
+   |     ^^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/comment/input.css:13:5
+   |
+13 |     background: red;
+   |     ^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/comment/input.css:13:17
+   |
+13 |     background: red;
+   |                 ^^^
+
+error: Text
+  --> $DIR/tests/fixture/comment/input.css:13:17
+   |
+13 |     background: red;
+   |                 ^^^
+
+error: Rule
+  --> $DIR/tests/fixture/comment/input.css:18:1
+   |
+18 | / a {
+19 | |     color: black;
+20 | |     /* c */
+21 | | }
+   | |_^
+
+error: StyleRule
+  --> $DIR/tests/fixture/comment/input.css:18:1
+   |
+18 | / a {
+19 | |     color: black;
+20 | |     /* c */
+21 | | }
+   | |_^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/comment/input.css:18:1
+   |
+18 | a {
+   | ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/comment/input.css:18:1
+   |
+18 | a {
+   | ^
+
+error: NamespacedName
+  --> $DIR/tests/fixture/comment/input.css:18:1
+   |
+18 | a {
+   | ^
+
+error: Text
+  --> $DIR/tests/fixture/comment/input.css:18:1
+   |
+18 | a {
+   | ^
+
+error: DeclBlock
+  --> $DIR/tests/fixture/comment/input.css:18:3
+   |
+18 |   a {
+   |  ___^
+19 | |     color: black;
+20 | |     /* c */
+21 | | }
+   | |_^
+
+error: Property
+  --> $DIR/tests/fixture/comment/input.css:19:5
+   |
+19 |     color: black;
+   |     ^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/comment/input.css:19:5
+   |
+19 |     color: black;
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/comment/input.css:19:12
+   |
+19 |     color: black;
+   |            ^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/comment/input.css:19:12
+   |
+19 |     color: black;
+   |            ^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/comment/input.css:23:1
+   |
+23 | @media/* comment */screen/* comment */{}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/comment/input.css:23:1
+   |
+23 | @media/* comment */screen/* comment */{}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaRule
+  --> $DIR/tests/fixture/comment/input.css:23:1
+   |
+23 | @media/* comment */screen/* comment */{}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+  --> $DIR/tests/fixture/comment/input.css:23:20
+   |
+23 | @media/* comment */screen/* comment */{}
+   |                    ^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/comment/input.css:23:20
+   |
+23 | @media/* comment */screen/* comment */{}
+   |                    ^^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/comment/input.css:24:1
+   |
+24 | @media /* comment */ screen /* comment */ {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/comment/input.css:24:1
+   |
+24 | @media /* comment */ screen /* comment */ {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaRule
+  --> $DIR/tests/fixture/comment/input.css:24:1
+   |
+24 | @media /* comment */ screen /* comment */ {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+  --> $DIR/tests/fixture/comment/input.css:24:22
+   |
+24 | @media /* comment */ screen /* comment */ {}
+   |                      ^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/comment/input.css:24:22
+   |
+24 | @media /* comment */ screen /* comment */ {}
+   |                      ^^^^^^
+
