@@ -2829,7 +2829,7 @@ fn should_emit_whitespace_before_operand(node: &UnaryExpr) -> bool {
         _ => {}
     }
 
-    match *node.arg {
+    match &*node.arg {
         Expr::Update(UpdateExpr {
             op: op!("++"),
             prefix: true,
@@ -2848,6 +2848,9 @@ fn should_emit_whitespace_before_operand(node: &UnaryExpr) -> bool {
             op: op!(unary, "-"),
             ..
         }) if node.op == op!(unary, "-") => true,
+
+        Expr::Lit(Lit::Num(v)) if v.value.is_sign_negative() && node.op == op!(unary, "-") => true,
+
         _ => false,
     }
 }
