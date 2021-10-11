@@ -1,5 +1,5 @@
 use crate::scope::ScopeKind;
-use std::cell::RefCell;
+use std::{cell::RefCell, mem::take};
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, SyntaxContext};
 use swc_ecma_ast::*;
@@ -70,10 +70,42 @@ pub struct Analyzer<'a> {
     pub is_pat_decl: bool,
 }
 
-impl Analyzer<'_> {}
+impl Analyzer<'_> {
+    fn visit_with_scope<F>(&mut self, scope_ctxt: SyntaxContext, kind: ScopeKind, op: F)
+    where
+        F: for<'aa> FnOnce(&mut Analyzer<'aa>),
+    {
+        let mut child = Analyzer {
+            data: self.data,
+            cur: CurScope {
+                parent: Some(&self.cur),
+                scope_ctxt,
+                data: ScopeData {
+                    kind,
+                    ..Default::default()
+                },
+            },
+            is_pat_decl: self.is_pat_decl,
+        };
+
+        op(&mut child);
+
+        let v = take(&mut child.cur.data);
+
+        *self.data.scopes.entry(scope_ctxt).or_default() = v;
+    }
+}
 
 impl Visit for Analyzer<'_> {
     noop_visit_type!();
+
+    fn visit_arrow_expr(&mut self, f: &ArrowExpr, _: &dyn Node) {
+        self.visit_with_scope(f.span.ctxt, ScopeKind::Fn, |v| f.visit_children_with(v))
+    }
+
+    fn visit_block_stmt(&mut self, f: &BlockStmt, _: &dyn Node) {
+        self.visit_with_scope(f.span.ctxt, ScopeKind::Block, |v| f.visit_children_with(v))
+    }
 
     fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
         e.visit_children_with(self);
@@ -84,6 +116,10 @@ impl Visit for Analyzer<'_> {
             }
             _ => {}
         }
+    }
+
+    fn visit_function(&mut self, f: &Function, _: &dyn Node) {
+        self.visit_with_scope(f.span.ctxt, ScopeKind::Fn, |v| f.visit_children_with(v))
     }
 
     fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
