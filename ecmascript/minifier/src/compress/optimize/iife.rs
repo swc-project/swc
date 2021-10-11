@@ -263,12 +263,9 @@ where
         if cfg!(feature = "debug") {
             tracing::trace!("inline: inline_vars_in_node");
         }
-        let ctx = Ctx {
-            inline_prevented: false,
-            ..self.ctx
-        };
+
         let orig_vars = replace(&mut self.state.vars_for_inlining, vars);
-        n.visit_mut_with(&mut *self.with_ctx(ctx));
+        n.visit_mut_with(self);
         self.state.vars_for_inlining = orig_vars;
     }
 
@@ -315,11 +312,6 @@ where
             ExprOrSuper::Super(_) => return,
             ExprOrSuper::Expr(e) => &mut **e,
         };
-
-        if self.ctx.inline_prevented {
-            tracing::trace!("iife: [x] Inline is prevented");
-            return;
-        }
 
         match callee {
             Expr::Arrow(f) => {
