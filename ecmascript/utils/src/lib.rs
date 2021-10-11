@@ -2084,7 +2084,7 @@ impl VisitMut for IdentReplacer<'_> {
 
 pub struct BindingCollector<I>
 where
-    I: IdentLike + Eq + Hash,
+    I: IdentLike + Eq + Hash + Send + Sync,
 {
     only: Option<SyntaxContext>,
     bindings: AHashSet<I>,
@@ -2093,7 +2093,7 @@ where
 
 impl<I> BindingCollector<I>
 where
-    I: IdentLike + Eq + Hash,
+    I: IdentLike + Eq + Hash + Send + Sync,
 {
     fn add(&mut self, i: &Ident) {
         if let Some(only) = self.only {
@@ -2108,9 +2108,37 @@ where
 
 impl<I> Visit for BindingCollector<I>
 where
-    I: IdentLike + Eq + Hash,
+    I: IdentLike + Eq + Hash + Send + Sync,
 {
     noop_visit_type!();
+
+    fn visit_module_items(&mut self, nodes: &[ModuleItem], _: &dyn Node) {
+        #[cfg(feature = "concurrent")]
+        if nodes.len() > 128 {
+            use rayon::prelude::*;
+            let set = nodes
+                .par_iter()
+                .map(|node| {
+                    let mut v = BindingCollector {
+                        only: self.only,
+                        bindings: Default::default(),
+                        is_pat_decl: self.is_pat_decl,
+                    };
+                    node.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+                    v.bindings
+                })
+                .reduce(AHashSet::default, |mut a, b| {
+                    a.extend(b);
+                    a
+                });
+            self.bindings.extend(set);
+            return;
+        }
+
+        for node in nodes {
+            node.visit_children_with(self)
+        }
+    }
 
     fn visit_class_decl(&mut self, node: &ClassDecl, _: &dyn Node) {
         node.visit_children_with(self);
@@ -2182,7 +2210,7 @@ where
 /// Collects binding identifiers.
 pub fn collect_decls<I, N>(n: &N) -> AHashSet<I>
 where
-    I: IdentLike + Eq + Hash,
+    I: IdentLike + Eq + Hash + Send + Sync,
     N: VisitWith<BindingCollector<I>>,
 {
     let mut v = BindingCollector {
@@ -2198,7 +2226,7 @@ where
 /// identical to `ctxt`.
 pub fn collect_decls_with_ctxt<I, N>(n: &N, ctxt: SyntaxContext) -> AHashSet<I>
 where
-    I: IdentLike + Eq + Hash,
+    I: IdentLike + Eq + Hash + Send + Sync,
     N: VisitWith<BindingCollector<I>>,
 {
     let mut v = BindingCollector {

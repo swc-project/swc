@@ -1,4 +1,4 @@
-use crate::{id::Id, modules::Modules};
+use crate::{id::Id, modules::Modules, util::Readonly};
 use swc_common::{collections::AHashMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{
@@ -14,13 +14,19 @@ pub(crate) struct InlineData {
 pub(crate) fn inline(injected_ctxt: SyntaxContext, module: &mut Modules) {
     tracing::debug!("Inlining injected variables");
 
-    let mut v = Inliner {
-        injected_ctxt,
-        data: Default::default(),
-    };
+    let mut data = Default::default();
 
-    module.visit_with(&mut v);
-    module.visit_mut_with(&mut v);
+    {
+        let mut analyzer = Analyzer {
+            injected_ctxt,
+            data: &mut data,
+        };
+
+        module.visit_with(&mut analyzer);
+    }
+
+    let mut v = Inliner { data: data.into() };
+    module.par_visit_mut_with(&mut v);
     module.retain_mut(|_, s| match s {
         ModuleItem::Stmt(Stmt::Empty(..)) => false,
         _ => true,
@@ -28,12 +34,17 @@ pub(crate) fn inline(injected_ctxt: SyntaxContext, module: &mut Modules) {
 }
 
 #[derive(Debug)]
+#[cfg_attr(feature = "concurrent", derive(Clone))]
 struct Inliner {
-    injected_ctxt: SyntaxContext,
-    data: InlineData,
+    data: Readonly<InlineData>,
 }
 
-impl Inliner {
+struct Analyzer<'a> {
+    injected_ctxt: SyntaxContext,
+    data: &'a mut InlineData,
+}
+
+impl Analyzer<'_> {
     fn store(&mut self, from: Id, to: Id) {
         if let Some(prev) = self.data.ids.insert(from.clone(), to.clone()) {
             unreachable!(
@@ -45,7 +56,7 @@ impl Inliner {
     }
 }
 
-impl Visit for Inliner {
+impl Visit for Analyzer<'_> {
     noop_visit_type!();
 
     /// Noop
