@@ -169,4 +169,16 @@ impl Visit for Analyzer<'_> {
             _ => {}
         }
     }
+
+    fn visit_var_declarator(&mut self, v: &VarDeclarator, _: &dyn Node) {
+        let old = self.is_pat_decl;
+
+        self.is_pat_decl = true;
+        v.name.visit_with(v, self);
+
+        self.is_pat_decl = false;
+        v.init.visit_with(v, self);
+
+        self.is_pat_decl = old;
+    }
 }
