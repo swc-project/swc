@@ -238,16 +238,13 @@ impl<'a, I: Input> Lexer<'a, I> {
                 text: s.into(),
             };
 
-            let last_pos = comments.last_pos();
-            if last_pos.is_none() || start >= last_pos.unwrap() {
-                if is_for_next {
-                    comments.push_pending_leading(cmt);
-                } else {
-                    comments.push_trailing(BufferedComment {
-                        pos: self.state.prev_hi,
-                        comment: cmt,
-                    });
-                }
+            if is_for_next {
+                comments.push_pending_leading(cmt);
+            } else {
+                comments.push_trailing(BufferedComment {
+                    pos: self.state.prev_hi,
+                    comment: cmt,
+                });
             }
         }
 
@@ -292,16 +289,13 @@ impl<'a, I: Input> Lexer<'a, I> {
                     };
 
                     let _ = self.input.peek();
-                    let last_pos = comments.last_pos();
-                    if last_pos.is_none() || start >= last_pos.unwrap() {
-                        if is_for_next {
-                            comments.push_pending_leading(cmt);
-                        } else {
-                            comments.push_trailing(BufferedComment {
-                                pos: self.state.prev_hi,
-                                comment: cmt,
-                            });
-                        }
+                    if is_for_next {
+                        comments.push_pending_leading(cmt);
+                    } else {
+                        comments.push_trailing(BufferedComment {
+                            pos: self.state.prev_hi,
+                            comment: cmt,
+                        });
                     }
                 }
 
@@ -316,35 +310,6 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
 
         self.error(start, SyntaxError::UnterminatedBlockComment)?
-    }
-
-    pub(super) fn clear_future_comments(&mut self) {
-        let cur_pos = self.cur_pos();
-        if let Some(comments) = self.comments_buffer.as_mut() {
-            while comments
-                .last_leading()
-                .map(|c| c.comment.span.lo >= cur_pos)
-                .unwrap_or(false)
-            {
-                comments.pop_leading();
-            }
-
-            while comments
-                .last_trailing()
-                .map(|c| c.comment.span.lo >= cur_pos)
-                .unwrap_or(false)
-            {
-                comments.pop_trailing();
-            }
-
-            while comments
-                .last_pending_leading()
-                .map(|c| c.span.lo >= cur_pos)
-                .unwrap_or(false)
-            {
-                comments.pop_pending_leading();
-            }
-        }
     }
 }
 

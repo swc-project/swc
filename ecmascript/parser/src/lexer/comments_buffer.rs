@@ -36,30 +36,6 @@ impl CommentsBuffer {
         self.pending_leading.push(comment);
     }
 
-    pub fn last_leading(&self) -> Option<&BufferedComment> {
-        self.leading.last()
-    }
-
-    pub fn last_trailing(&self) -> Option<&BufferedComment> {
-        self.trailing.last()
-    }
-
-    pub fn last_pending_leading(&self) -> Option<&Comment> {
-        self.pending_leading.last()
-    }
-
-    pub fn pop_leading(&mut self) -> Option<BufferedComment> {
-        self.leading.pop()
-    }
-
-    pub fn pop_trailing(&mut self) -> Option<BufferedComment> {
-        self.trailing.pop()
-    }
-
-    pub fn pop_pending_leading(&mut self) -> Option<Comment> {
-        self.pending_leading.pop()
-    }
-
     pub fn take_leading(&mut self) -> Vec<BufferedComment> {
         self.leading.take_all()
     }
@@ -70,16 +46,6 @@ impl CommentsBuffer {
 
     pub fn take_pending_leading(&mut self) -> Vec<Comment> {
         self.pending_leading.take_all()
-    }
-
-    pub fn last_pos(&self) -> Option<BytePos> {
-        std::cmp::max(
-            std::cmp::max(
-                self.leading.last().map(|c| c.comment.span.lo),
-                self.trailing.last().map(|c| c.comment.span.lo),
-            ),
-            self.pending_leading.last().map(|c| c.span.lo),
-        )
     }
 }
 
@@ -117,10 +83,6 @@ impl<T: Clone> OneDirectionalList<T> {
         }
     }
 
-    pub fn last(&self) -> Option<&T> {
-        self.last_item.as_ref().map(|i| &i.item)
-    }
-
     pub fn push(&mut self, item: T) {
         let previous = self.last_item.take().map(Rc::new);
         let depth = previous.as_ref().map(|p| p.depth + 1).unwrap_or(0);
@@ -130,18 +92,6 @@ impl<T: Clone> OneDirectionalList<T> {
             depth,
         };
         self.last_item = Some(new_item);
-    }
-
-    pub fn pop(&mut self) -> Option<T> {
-        if let Some(last_item) = self.last_item.take() {
-            self.last_item = last_item.previous.map(|p| match Rc::try_unwrap(p) {
-                Ok(p) => p,
-                Err(p) => p.as_ref().clone(),
-            });
-            Some(last_item.item)
-        } else {
-            None
-        }
     }
 }
 
