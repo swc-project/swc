@@ -22,26 +22,28 @@ fn do_test(entry: &Path) {
             .parse_module()
             .expect("failed to parse input as a module");
 
-        let code = {
-            let mut buf = vec![];
+        for _ in 0..100 {
+            let code = {
+                let mut buf = vec![];
 
-            {
-                let mut emitter = Emitter {
-                    cfg: swc_ecma_codegen::Config {
-                        ..Default::default()
-                    },
-                    cm: cm.clone(),
-                    comments: None,
-                    wr: JsWriter::new(cm.clone(), "\n", &mut buf, None),
-                };
+                {
+                    let mut emitter = Emitter {
+                        cfg: swc_ecma_codegen::Config {
+                            ..Default::default()
+                        },
+                        cm: cm.clone(),
+                        comments: None,
+                        wr: JsWriter::new(cm.clone(), "\n", &mut buf, None),
+                    };
 
-                emitter.emit_module(&m).unwrap();
-            }
+                    emitter.emit_module(&m).unwrap();
+                }
 
-            String::from_utf8_lossy(&buf).to_string()
-        };
+                String::from_utf8_lossy(&buf).to_string()
+            };
 
-        fs::write("output.js", &code).unwrap();
+            fs::write("output.js", &code).unwrap();
+        }
 
         Ok(())
     })
