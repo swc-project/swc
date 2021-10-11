@@ -53,7 +53,7 @@ impl CommentsBuffer {
 /// cloned with the clone maintaining its position in the list.
 #[derive(Clone)]
 struct OneDirectionalList<T: Clone> {
-    last_item: Option<OneDirectionalListNode<T>>,
+    last_item: Option<OneDirectionalListRootNode<T>>,
 }
 
 impl<T: Clone> OneDirectionalList<T> {
@@ -63,8 +63,7 @@ impl<T: Clone> OneDirectionalList<T> {
 
     pub fn take_all(&mut self) -> Vec<T> {
         if let Some(last_item) = self.last_item.take() {
-            let capacity = last_item.depth + 1;
-            let mut items = Vec::with_capacity(capacity);
+            let mut items = Vec::with_capacity(last_item.len());
             items.push(last_item.item);
             let mut previous = last_item.previous;
             while let Some(item) = previous {
@@ -84,20 +83,34 @@ impl<T: Clone> OneDirectionalList<T> {
     }
 
     pub fn push(&mut self, item: T) {
-        let previous = self.last_item.take().map(Rc::new);
-        let depth = previous.as_ref().map(|p| p.depth + 1).unwrap_or(0);
-        let new_item = OneDirectionalListNode {
-            item,
-            previous,
-            depth,
-        };
+        let previous = self.last_item.take().map(|root_node| {
+            Rc::new(OneDirectionalListNode {
+                length: root_node.len(),
+                item: root_node.item,
+                previous: root_node.previous,
+            })
+        });
+        let new_item = OneDirectionalListRootNode { item, previous };
         self.last_item = Some(new_item);
     }
 }
 
 #[derive(Clone)]
-struct OneDirectionalListNode<T: Clone> {
-    pub item: T,
+struct OneDirectionalListRootNode<T: Clone> {
+    // no length stored here in order to reduce memory needed to clone
+    item: T,
     previous: Option<Rc<OneDirectionalListNode<T>>>,
-    depth: usize,
+}
+
+impl<T: Clone> OneDirectionalListRootNode<T> {
+    pub fn len(&self) -> usize {
+        self.previous.as_ref().map(|p| p.length + 1).unwrap_or(1)
+    }
+}
+
+#[derive(Clone)]
+struct OneDirectionalListNode<T: Clone> {
+    item: T,
+    previous: Option<Rc<OneDirectionalListNode<T>>>,
+    length: usize,
 }
