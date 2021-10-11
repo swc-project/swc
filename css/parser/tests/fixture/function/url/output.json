@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 783,
+    "end": 1043,
     "ctxt": 0
   },
   "rules": [
@@ -10,7 +10,7 @@
       "type": "StyleRule",
       "span": {
         "start": 0,
-        "end": 783,
+        "end": 1042,
         "ctxt": 0
       },
       "selectors": [
@@ -59,7 +59,7 @@
         "type": "DeclBlock",
         "span": {
           "start": 2,
-          "end": 783,
+          "end": 1042,
           "ctxt": 0
         },
         "items": [
@@ -88,7 +88,8 @@
                   "end": 109,
                   "ctxt": 0
                 },
-                "url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                "url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+                "raw": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
               }
             ],
             "important": null
@@ -475,7 +476,8 @@
                   "end": 488,
                   "ctxt": 0
                 },
-                "url": ""
+                "url": "",
+                "raw": ""
               }
             ],
             "important": null
@@ -505,7 +507,8 @@
                   "end": 520,
                   "ctxt": 0
                 },
-                "url": ""
+                "url": "",
+                "raw": "   "
               }
             ],
             "important": null
@@ -790,7 +793,8 @@
                   "end": 734,
                   "ctxt": 0
                 },
-                "url": "./image.png"
+                "url": "./image.png",
+                "raw": "./image.png"
               }
             ],
             "important": null
@@ -820,7 +824,132 @@
                   "end": 780,
                   "ctxt": 0
                 },
-                "url": "./image.png"
+                "url": "./image.png",
+                "raw": "   ./image.png   "
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Property",
+            "span": {
+              "start": 786,
+              "end": 829,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Text",
+              "span": {
+                "start": 786,
+                "end": 802,
+                "ctxt": 0
+              },
+              "value": "background-image",
+              "raw": "background-image"
+            },
+            "values": [
+              {
+                "type": "UrlValue",
+                "span": {
+                  "start": 804,
+                  "end": 829,
+                  "ctxt": 0
+                },
+                "url": "./image2.png",
+                "raw": "   ./image\\32.png   "
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Property",
+            "span": {
+              "start": 835,
+              "end": 888,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Text",
+              "span": {
+                "start": 835,
+                "end": 851,
+                "ctxt": 0
+              },
+              "value": "background-image",
+              "raw": "background-image"
+            },
+            "values": [
+              {
+                "type": "UrlValue",
+                "span": {
+                  "start": 853,
+                  "end": 888,
+                  "ctxt": 0
+                },
+                "url": "./image2.png",
+                "raw": "   \n    ./image\\32.png   \n    "
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Property",
+            "span": {
+              "start": 894,
+              "end": 974,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Text",
+              "span": {
+                "start": 894,
+                "end": 910,
+                "ctxt": 0
+              },
+              "value": "background-image",
+              "raw": "background-image"
+            },
+            "values": [
+              {
+                "type": "UrlValue",
+                "span": {
+                  "start": 912,
+                  "end": 974,
+                  "ctxt": 0
+                },
+                "url": "./image2.png",
+                "raw": "\n    \n    \n    \n       ./image\\32.png\n    \n    \n    \n    "
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Property",
+            "span": {
+              "start": 980,
+              "end": 1039,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Text",
+              "span": {
+                "start": 980,
+                "end": 996,
+                "ctxt": 0
+              },
+              "value": "background-image",
+              "raw": "background-image"
+            },
+            "values": [
+              {
+                "type": "UrlValue",
+                "span": {
+                  "start": 998,
+                  "end": 1039,
+                  "ctxt": 0
+                },
+                "url": "./image2.png",
+                "raw": "   \n\n\n\n    ./image\\32.png\n\n\n\n       "
               }
             ],
             "important": null
