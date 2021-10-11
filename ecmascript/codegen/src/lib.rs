@@ -1508,7 +1508,9 @@ where
 
     #[emitter]
     fn emit_expr_or_spread(&mut self, node: &ExprOrSpread) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        if self.comments.is_some() {
+            self.emit_leading_comments_of_span(node.span(), false)?;
+        }
 
         if node.spread.is_some() {
             punct!("...");
@@ -1857,9 +1859,11 @@ where
                     // -> this comment isn't considered to be trailing comment of parameter "a" due
                     // to newline ,
                     if format.contains(ListFormat::DelimitersMask)
-                        && previous_sibling.span().hi() != parent_node.hi()
+                        && previous_sibling.hi != parent_node.hi()
                     {
-                        self.emit_leading_comments(previous_sibling.span().hi(), true)?;
+                        if self.comments.is_some() {
+                            self.emit_leading_comments(previous_sibling.span().hi(), true)?;
+                        }
                     }
 
                     self.write_delim(format)?;
@@ -1894,8 +1898,10 @@ where
 
                 // Emit this child.
                 if should_emit_intervening_comments {
-                    let comment_range = child.comment_range();
-                    self.emit_trailing_comments_of_pos(comment_range.hi(), false, true)?;
+                    if self.comments.is_some() {
+                        let comment_range = child.comment_range();
+                        self.emit_trailing_comments_of_pos(comment_range.hi(), false, true)?;
+                    }
                 } else {
                     should_emit_intervening_comments = may_emit_intervening_comments;
                 }
@@ -1954,7 +1960,9 @@ where
                         && previous_sibling.span().hi() != parent_node.hi()
                         && emit_trailing_comments
                     {
-                        self.emit_leading_comments(previous_sibling.span().hi(), true)?;
+                        if self.comments.is_some() {
+                            self.emit_leading_comments(previous_sibling.span().hi(), true)?;
+                        }
                     }
                 }
             }
