@@ -32,7 +32,7 @@ fn print_bundles(cm: Lrc<SourceMap>, modules: Vec<Bundle>) {
                     },
                     cm: cm.clone(),
                     comments: None,
-                    wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
+                    wr: JsWriter::new(cm.clone(), "\n", &mut buf, None),
                 };
 
                 emitter.emit_module(&bundled.module).unwrap();
