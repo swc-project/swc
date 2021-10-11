@@ -136,6 +136,14 @@ impl Comments for SwcComments {
         self.trailing.get(&pos).map(|v| v.to_owned())
     }
 
+    fn leading_positions(&self) -> Vec<BytePos> {
+        self.leading.iter().map(|item| *item.key()).collect()
+    }
+
+    fn trailing_positions(&self) -> Vec<BytePos> {
+        self.trailing.iter().map(|item| *item.key()).collect()
+    }
+
     fn add_pure_comment(&self, pos: BytePos) {
         let mut leading = self.leading.entry(pos).or_default();
         let pure_comment = Comment {
