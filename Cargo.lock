@@ -2612,6 +2612,7 @@ dependencies = [
  "swc_ecma_parser",
  "swc_node_base",
  "testing",
+ "tracing",
 ]
 
 [[package]]
