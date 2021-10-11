@@ -2411,7 +2411,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.68.0"
+version = "0.68.1"
 dependencies = [
  "ahash",
  "anyhow",
