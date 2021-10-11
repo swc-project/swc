@@ -156,7 +156,8 @@ impl Modules {
     where
         V: Clone + VisitMut + Send + Sync,
     {
-        if cfg!(feature = "concurrent") {
+        #[cfg(feature = "concurrent")]
+        {
             use rayon::prelude::*;
 
             let pre = &mut self.prepended_stmts;
@@ -180,9 +181,10 @@ impl Modules {
                         .for_each(|(_, stmts)| stmts.visit_mut_with(&mut v.clone()));
                 });
             });
-        } else {
-            self.visit_mut_with(v)
+            return;
         }
+
+        self.visit_mut_with(v)
     }
 
     pub fn visit_mut_with<V>(&mut self, v: &mut V)
