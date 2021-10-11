@@ -19,7 +19,6 @@ pub struct JsWriter<'a, W: Write> {
     new_line: &'a str,
     srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
     wr: W,
-    written_bytes: usize,
     target: JscTarget,
 }
 
@@ -49,7 +48,6 @@ impl<'a, W: Write> JsWriter<'a, W> {
             new_line,
             srcmap,
             wr,
-            written_bytes: 0,
             target,
         }
     }
@@ -67,7 +65,6 @@ impl<'a, W: Write> JsWriter<'a, W> {
 
     fn raw_write(&mut self, data: &[u8]) -> io::Result<usize> {
         let written = self.wr.write(data)?;
-        self.written_bytes += written;
         self.line_pos += written;
         Ok(written)
     }
