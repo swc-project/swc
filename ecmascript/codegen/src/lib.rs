@@ -10,11 +10,9 @@ use self::{
 use crate::util::EndsWithAlphaNum;
 use memchr::memmem::Finder;
 use once_cell::sync::Lazy;
-use std::{borrow::Cow, fmt::Write, io, sync::Arc};
+use std::{borrow::Cow, fmt::Write, io};
 use swc_atoms::JsWord;
-use swc_common::{
-    comments::Comments, sync::Lrc, BytePos, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP,
-};
+use swc_common::{comments::Comments, sync::Lrc, BytePos, SourceMap, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::emitter;
 use swc_ecma_parser::JscTarget;
@@ -2775,25 +2773,6 @@ where
             VarDeclOrExpr::VarDecl(ref node) => emit!(node),
         }
     }
-}
-
-#[allow(dead_code)]
-fn get_text_of_node<T: Spanned>(
-    cm: &Arc<SourceMap>,
-    node: &T,
-    _include_travia: bool,
-) -> Option<String> {
-    let span = node.span();
-    if span.is_dummy() || span.ctxt() != SyntaxContext::empty() {
-        // This node is transformed so we shoukld not use original source code.
-        return None;
-    }
-
-    let s = cm.span_to_snippet(span).unwrap();
-    if s == "" {
-        return None;
-    }
-    Some(s)
 }
 
 /// In some cases, we need to emit a space between the operator and the operand.
