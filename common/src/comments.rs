@@ -40,9 +40,6 @@ pub trait Comments {
     fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>>;
     fn get_trailing(&self, pos: BytePos) -> Option<Vec<Comment>>;
 
-    fn leading_positions(&self) -> Vec<BytePos>;
-    fn trailing_positions(&self) -> Vec<BytePos>;
-
     fn add_pure_comment(&self, pos: BytePos);
 }
 
@@ -94,14 +91,6 @@ macro_rules! delegate {
 
         fn get_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
             (**self).get_trailing(pos)
-        }
-
-        fn leading_positions(&self) -> Vec<BytePos> {
-            (**self).leading_positions()
-        }
-
-        fn trailing_positions(&self) -> Vec<BytePos> {
-            (**self).trailing_positions()
         }
 
         fn add_pure_comment(&self, pos: BytePos) {
@@ -223,14 +212,6 @@ impl Comments for SingleThreadedComments {
 
     fn get_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
         self.trailing.borrow().get(&pos).map(|c| c.to_owned())
-    }
-
-    fn leading_positions(&self) -> Vec<BytePos> {
-        self.leading.borrow().keys().copied().collect()
-    }
-
-    fn trailing_positions(&self) -> Vec<BytePos> {
-        self.trailing.borrow().keys().copied().collect()
     }
 
     fn add_pure_comment(&self, pos: BytePos) {

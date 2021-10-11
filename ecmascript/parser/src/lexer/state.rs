@@ -1,7 +1,7 @@
-use super::{Context, Input, Lexer};
+use super::{BufferedComment, BufferedCommentKind, Context, Input, Lexer};
 use crate::{error::Error, input::Tokens, lexer::util::CharExt, token::*, JscTarget, Syntax};
 use enum_kind::Kind;
-use std::{mem, mem::take};
+use std::mem::take;
 use swc_common::BytePos;
 use tracing::trace;
 
@@ -197,15 +197,38 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                             .unwrap()
                             .drain(..)
                         {
-                            let comments = self.comments.as_mut().unwrap();
+                            let comments = self.comments_buffer.as_mut().unwrap();
 
                             // if the file had no tokens and no shebang, then treat any
                             // comments in the leading comments buffer as leading.
                             // Otherwise treat them as trailing.
                             if last == BytePos(0) {
-                                comments.add_leading(last, c);
+                                comments.push(BufferedComment {
+                                    kind: BufferedCommentKind::Leading,
+                                    pos: last,
+                                    comment: c,
+                                });
                             } else {
-                                comments.add_trailing(last, c);
+                                comments.push(BufferedComment {
+                                    kind: BufferedCommentKind::Trailing,
+                                    pos: last,
+                                    comment: c,
+                                });
+                            }
+                        }
+                    }
+
+                    // now fill the user's passed in comments
+                    if let Some(ref comments) = self.comments {
+                        let comments_buffer = self.comments_buffer.as_mut().unwrap();
+                        for comment in comments_buffer.drain(..) {
+                            match comment.kind {
+                                BufferedCommentKind::Leading => {
+                                    comments.add_leading(comment.pos, comment.comment);
+                                }
+                                BufferedCommentKind::Trailing => {
+                                    comments.add_trailing(comment.pos, comment.comment);
+                                }
                             }
                         }
                     }
@@ -291,17 +314,29 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                     .borrow()
                     .is_empty()
             {
-                self.comments.as_ref().unwrap().add_leading_comments(
-                    start,
-                    mem::replace(
-                        &mut *self
-                            .leading_comments_buffer
-                            .as_ref()
-                            .map(|v| v.borrow_mut())
-                            .unwrap(),
-                        vec![],
-                    ),
-                );
+                for comment in self
+                    .leading_comments_buffer
+                    .as_mut()
+                    .unwrap()
+                    .borrow_mut()
+                    .drain(..)
+                {
+                    let comments = self.comments_buffer.as_mut().unwrap();
+                    let insert_pos = match comments
+                        .binary_search_by_key(&comment.span.lo, |c| c.comment.span.lo)
+                    {
+                        Ok(insert_pos) => insert_pos,
+                        Err(insert_pos) => insert_pos,
+                    };
+                    comments.insert(
+                        insert_pos,
+                        BufferedComment {
+                            kind: BufferedCommentKind::Leading,
+                            pos: start,
+                            comment,
+                        },
+                    );
+                }
             }
             self.state.update(start, &token);
             self.state.prev_hi = self.last_pos();

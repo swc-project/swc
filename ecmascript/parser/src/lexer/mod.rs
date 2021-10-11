@@ -98,18 +98,27 @@ impl Iterator for CharIter {
 impl FusedIterator for CharIter {}
 
 #[derive(Clone)]
+pub(super) enum BufferedCommentKind {
+    Leading,
+    Trailing,
+}
+
+#[derive(Clone)]
+pub(super) struct BufferedComment {
+    pub kind: BufferedCommentKind,
+    pub pos: BytePos,
+    pub comment: Comment,
+}
+
+#[derive(Clone)]
 pub struct Lexer<'a, I: Input> {
     comments: Option<&'a dyn Comments>,
+    comments_buffer: Option<Vec<BufferedComment>>,
     /// [Some] if comment comment parsing is enabled. Otherwise [None]
     leading_comments_buffer: Option<Rc<RefCell<Vec<Comment>>>>,
 
     pub(crate) ctx: Context,
     input: I,
-    /// Stores last position of the last comment.
-    ///
-    /// [Rc] and [RefCell] is used because this value should always increment,
-    /// even if backtracking fails.
-    last_comment_pos: Rc<RefCell<BytePos>>,
 
     state: State,
     pub(crate) syntax: Syntax,
@@ -132,14 +141,10 @@ impl<'a, I: Input> Lexer<'a, I> {
     ) -> Self {
         Lexer {
             comments,
-            leading_comments_buffer: if comments.is_some() {
-                Some(Default::default())
-            } else {
-                None
-            },
+            leading_comments_buffer: comments.is_some().then(Default::default),
+            comments_buffer: comments.is_some().then(Default::default),
             ctx: Default::default(),
             input,
-            last_comment_pos: Rc::new(RefCell::new(BytePos(0))),
             state: State::new(syntax),
             syntax,
             target,

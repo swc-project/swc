@@ -8,6 +8,7 @@
 use super::{input::Input, Char, LexResult, Lexer};
 use crate::{
     error::{Error, SyntaxError},
+    lexer::{BufferedComment, BufferedCommentKind},
     Tokens,
 };
 use std::char;
@@ -230,7 +231,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             }
         }
 
-        if let Some(ref comments) = self.comments {
+        if let Some(comments) = self.comments_buffer.as_mut() {
             let s = self.input.slice(slice_start, end);
             let cmt = Comment {
                 kind: CommentKind::Line,
@@ -238,15 +239,22 @@ impl<'a, I: Input> Lexer<'a, I> {
                 text: s.into(),
             };
 
-            if start >= *self.last_comment_pos.borrow() {
-                *self.last_comment_pos.borrow_mut() = end;
-
+            if start
+                >= comments
+                    .last()
+                    .map(|c| c.comment.span.lo)
+                    .unwrap_or(BytePos(0))
+            {
                 if is_for_next {
                     if let Some(buf) = &self.leading_comments_buffer {
                         buf.borrow_mut().push(cmt);
                     }
                 } else {
-                    comments.add_trailing(self.state.prev_hi, cmt);
+                    comments.push(BufferedComment {
+                        kind: BufferedCommentKind::Trailing,
+                        pos: self.state.prev_hi,
+                        comment: cmt,
+                    });
                 }
             }
         }
@@ -282,7 +290,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                 let end = self.cur_pos();
 
-                if let Some(ref comments) = self.comments {
+                if let Some(comments) = self.comments_buffer.as_mut() {
                     let src = self.input.slice(slice_start, end);
                     let s = &src[..src.len() - 2];
                     let cmt = Comment {
@@ -292,15 +300,22 @@ impl<'a, I: Input> Lexer<'a, I> {
                     };
 
                     let _ = self.input.peek();
-                    if start >= *self.last_comment_pos.borrow() {
-                        *self.last_comment_pos.borrow_mut() = end;
-
+                    if start
+                        >= comments
+                            .last()
+                            .map(|c| c.comment.span.lo)
+                            .unwrap_or(BytePos(0))
+                    {
                         if is_for_next {
                             if let Some(buf) = &self.leading_comments_buffer {
                                 buf.borrow_mut().push(cmt);
                             }
                         } else {
-                            comments.add_trailing(self.state.prev_hi, cmt);
+                            comments.push(BufferedComment {
+                                kind: BufferedCommentKind::Trailing,
+                                pos: self.state.prev_hi,
+                                comment: cmt,
+                            });
                         }
                     }
                 }
@@ -320,7 +335,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
     pub(super) fn clear_future_comments(&mut self) {
         let cur_pos = self.cur_pos();
-        if let Some(ref comments) = self.comments {
+        if let Some(comments) = self.comments_buffer.as_mut() {
             if let Some(buf) = &self.leading_comments_buffer {
                 let mut buf = buf.borrow_mut();
                 for i in (0..buf.len()).rev() {
@@ -330,37 +345,12 @@ impl<'a, I: Input> Lexer<'a, I> {
                 }
             }
 
-            let leading_positions = comments.leading_positions();
-            let trailing_positions = comments.trailing_positions();
-
-            for pos in leading_positions.iter().copied() {
-                if pos > cur_pos {
-                    comments.take_leading(pos);
-                }
-            }
-
-            for pos in trailing_positions.iter().copied() {
-                if pos >= cur_pos {
-                    comments.take_trailing(pos);
-                }
-            }
-
-            let mut last_comment_pos = self.last_comment_pos.borrow_mut();
-            let max_pos = leading_positions
-                .iter()
-                .chain(trailing_positions.iter())
-                .max();
-            if let Some(max_pos) = max_pos.copied() {
-                let new_pos = comments
-                    .get_leading(max_pos)
-                    .or_else(|| comments.get_trailing(max_pos))
-                    .map(|c| c.last().map(|c| c.span.lo))
-                    .flatten();
-                if let Some(new_pos) = new_pos {
-                    *last_comment_pos = new_pos;
-                }
-            } else {
-                *last_comment_pos = BytePos(0);
+            while comments
+                .last()
+                .map(|c| c.comment.span.lo >= cur_pos)
+                .unwrap_or(false)
+            {
+                comments.pop();
             }
         }
     }
