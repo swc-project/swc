@@ -1,5 +1,21 @@
-import define, { extend } from "./define.js";
-import { Color, rgbConvert, Rgb, darker, brighter } from "./color.js";
+import { Color, rgbConvert, Rgb, } from "./color.js";
+
+
+var darker = 0.7;
+var brighter = 1 / darker;
+
+
+function define(constructor, factory, prototype) {
+    constructor.prototype = factory.prototype = prototype;
+    prototype.constructor = constructor;
+}
+
+function extend(parent, definition) {
+    var prototype = Object.create(parent.prototype);
+    for (var key in definition) prototype[key] = definition[key];
+    return prototype;
+}
+
 
 var deg2rad = Math.PI / 180;
 var rad2deg = 180 / Math.PI;
