@@ -138,38 +138,60 @@ where
     }
 
     #[emitter]
-    fn emit_export_decl(&mut self, node: &ExportDecl) -> Result {
-        keyword!("export");
+    fn emit_export_decl(&mut self, n: &ExportDecl) -> Result {
+        {
+            let span = if n.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(n.span.lo, n.span.lo + BytePos(6), Default::default())
+            };
+            keyword!(span, "export");
+        }
         space!();
-        emit!(node.decl);
+        emit!(n.decl);
     }
 
     #[emitter]
-    fn emit_export_default_expr(&mut self, node: &ExportDefaultExpr) -> Result {
-        keyword!("export");
+    fn emit_export_default_expr(&mut self, n: &ExportDefaultExpr) -> Result {
+        {
+            let span = if n.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(n.span.lo, n.span.lo + BytePos(6), Default::default())
+            };
+            keyword!(span, "export");
+        }
+
         space!();
         keyword!("default");
         {
-            let starts_with_alpha_num = node.expr.starts_with_alpha_num();
+            let starts_with_alpha_num = n.expr.starts_with_alpha_num();
             if starts_with_alpha_num {
                 space!();
             } else {
                 formatting_space!();
             }
-            emit!(node.expr);
+            emit!(n.expr);
         }
         formatting_semi!();
     }
 
     #[emitter]
-    fn emit_export_default_decl(&mut self, node: &ExportDefaultDecl) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+    fn emit_export_default_decl(&mut self, n: &ExportDefaultDecl) -> Result {
+        self.emit_leading_comments_of_span(n.span(), false)?;
 
-        keyword!("export");
+        {
+            let span = if n.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(n.span.lo, n.span.lo + BytePos(6), Default::default())
+            };
+            keyword!(span, "export");
+        }
         space!();
         keyword!("default");
         space!();
-        match node.decl {
+        match n.decl {
             DefaultDecl::Class(ref n) => emit!(n),
             DefaultDecl::Fn(ref n) => emit!(n),
             DefaultDecl::TsInterfaceDecl(ref n) => emit!(n),
@@ -347,7 +369,15 @@ where
             },
         );
 
-        keyword!("export");
+        {
+            let span = if node.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(node.span.lo, node.span.lo + BytePos(6), Default::default())
+            };
+            keyword!(span, "export");
+        }
+
         formatting_space!();
         if let Some(spec) = namespace_spec {
             emit!(spec);
