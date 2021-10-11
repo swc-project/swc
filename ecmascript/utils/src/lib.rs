@@ -2113,8 +2113,8 @@ where
     noop_visit_type!();
 
     fn visit_module_items(&mut self, nodes: &[ModuleItem], _: &dyn Node) {
-        if cfg!(feature = "concurrent") && nodes.len() > 128 {
-            #[cfg(feature = "concurrent")]
+        #[cfg(feature = "concurrent")]
+        if nodes.len() > 128 {
             use rayon::prelude::*;
             let set = nodes
                 .par_iter()
@@ -2132,10 +2132,11 @@ where
                     a
                 });
             self.bindings.extend(set);
-        } else {
-            for node in nodes {
-                node.visit_children_with(self)
-            }
+            return;
+        }
+
+        for node in nodes {
+            node.visit_children_with(self)
         }
     }
 
