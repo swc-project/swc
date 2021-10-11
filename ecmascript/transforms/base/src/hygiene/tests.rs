@@ -1626,6 +1626,8 @@ fn issue_2297_1() {
 /// `var` has strnage scoping rule.
 #[test]
 fn var_awareness_1() {
+#[test]
+fn next_js_0001() {
     test(
         |tester| {
             let mark1 = Mark::fresh(Mark::root());
@@ -1638,6 +1640,11 @@ fn var_awareness_1() {
                     for (var i of [1, 2, 3]) {
                         for (var i of [4, 5, 6]) {
                             console.log(i)
+                    for (var i of []) {
+                        for (var keys in keys) {
+                            for (var i of []) {
+                                console.log(i)
+                            }
                         }
                     }
                     ",
@@ -1649,6 +1656,11 @@ fn var_awareness_1() {
         for (var i of [1, 2, 3]) {
             for (var i1 of [4, 5, 6]) {
                 console.log(i1)
+        for (var i of []) {
+            for (var keys in keys) {
+                for (var i1 of []) {
+                    console.log(i1)
+                }
             }
         }
         ",
