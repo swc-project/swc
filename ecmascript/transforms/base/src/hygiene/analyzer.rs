@@ -36,13 +36,6 @@ impl CurScope<'_> {
                 v.push(id.1);
             }
         }
-
-        match self.parent {
-            Some(v) => {
-                v.add_decl(id);
-            }
-            None => {}
-        }
     }
 
     fn add_usage(&self, id: Id) {
