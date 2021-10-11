@@ -15789,7 +15789,14 @@
                     case 16:
                         e = b.elementType;
                         a: {
-                            switch(null !== a && (a.alternate = null, b.alternate = null, b.flags |= 2), a = b.pendingProps, e = (f = e._init)(e._payload), b.type = e, f = b.tag = hk(e), a = lg(e, a), f){
+                            switch(null !== a && (a.alternate = null, b.alternate = null, b.flags |= 2), a = b.pendingProps, e = (f = e._init)(e._payload), b.type = e, f = b.tag = (function(a) {
+                                if ("function" == typeof a) return ji(a) ? 1 : 0;
+                                if (null != a) {
+                                    if ((a = a.$$typeof) === Aa) return 11;
+                                    if (a === Da) return 14;
+                                }
+                                return 2;
+                            })(e), a = lg(e, a), f){
                                 case 0:
                                     b = li(null, b, e, a, c);
                                     break a;
@@ -17552,7 +17559,7 @@
                 }
             }, exports.unstable_pauseExecution = function() {
             }, exports.unstable_requestPaint = k, exports.unstable_runWithPriority = function(a, b) {
-                switch(a){
+                switch(3){
                     case 1:
                     case 2:
                     case 3:
@@ -17560,7 +17567,6 @@
                     case 5:
                         break;
                     default:
-                        a = 3;
                 }
                 var c = P;
                 P = 3;

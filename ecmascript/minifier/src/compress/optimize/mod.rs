@@ -113,8 +113,6 @@ struct Ctx {
 
     var_kind: Option<VarDeclKind>,
 
-    /// `true` if we should not inline values.
-    inline_prevented: bool,
     /// `true` if we are in the strict mode. This will be set to `true` for
     /// statements **after** `'use strict'`
     in_strict: bool,
@@ -164,6 +162,8 @@ struct Ctx {
     can_inline_arguments: bool,
 
     is_nested_if_return_merging: bool,
+
+    dont_invoke_iife: bool,
 
     /// Current scope.
     scope: SyntaxContext,
@@ -1604,8 +1604,6 @@ where
     }
 
     fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
-        let inline_prevented = self.ctx.inline_prevented || self.has_noinline(e.span);
-
         let is_this_undefined = match &e.callee {
             ExprOrSuper::Super(_) => false,
             ExprOrSuper::Expr(e) => e.is_ident(),
@@ -1613,7 +1611,6 @@ where
         {
             let ctx = Ctx {
                 is_callee: true,
-                inline_prevented,
                 is_this_aware_callee: is_this_undefined
                     || match &e.callee {
                         ExprOrSuper::Super(_) => false,
@@ -1649,7 +1646,6 @@ where
         {
             let ctx = Ctx {
                 in_call_arg: true,
-                inline_prevented,
                 is_this_aware_callee: false,
                 ..self.ctx
             };
@@ -1665,7 +1661,7 @@ where
 
         {
             let ctx = Ctx {
-                inline_prevented: true,
+                dont_invoke_iife: true,
                 ..self.ctx
             };
             n.super_class.visit_mut_with(&mut *self.with_ctx(ctx));
@@ -2376,11 +2372,7 @@ where
     }
 
     fn visit_mut_switch_stmt(&mut self, n: &mut SwitchStmt) {
-        let ctx = Ctx {
-            inline_prevented: !self.options.switches,
-            ..self.ctx
-        };
-        n.discriminant.visit_mut_with(&mut *self.with_ctx(ctx));
+        n.discriminant.visit_mut_with(self);
 
         self.drop_unreachable_cases(n);
 
@@ -2490,28 +2482,9 @@ where
     }
 
     fn visit_mut_var_declarator(&mut self, var: &mut VarDeclarator) {
-        {
-            let prevent_inline = match &var.name {
-                Pat::Ident(BindingIdent {
-                    id:
-                        Ident {
-                            sym: js_word!("arguments"),
-                            ..
-                        },
-                    ..
-                }) => true,
-                _ => false,
-            };
+        var.name.visit_mut_with(self);
 
-            let ctx = Ctx {
-                inline_prevented: self.ctx.inline_prevented || prevent_inline,
-                ..self.ctx
-            };
-
-            var.name.visit_mut_with(&mut *self.with_ctx(ctx));
-
-            var.init.visit_mut_with(&mut *self.with_ctx(ctx));
-        }
+        var.init.visit_mut_with(self);
 
         self.remove_duplicate_names(var);
 

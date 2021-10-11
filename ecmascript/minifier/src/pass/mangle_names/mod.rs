@@ -117,6 +117,7 @@ impl VisitMut for Mangler {
 
         n.class.visit_mut_with(self);
     }
+
     fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
         if n.exported.is_none() {
             n.exported = Some(n.orig.clone());
@@ -212,6 +213,8 @@ impl VisitMut for Mangler {
             }
 
             ObjectPatProp::Assign(p) => {
+                p.value.visit_mut_with(self);
+
                 let key_span = p.key.span.with_ctxt(SyntaxContext::empty());
                 let orig = p.key.sym.clone();
 
