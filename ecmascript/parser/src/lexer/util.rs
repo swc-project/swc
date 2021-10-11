@@ -12,7 +12,7 @@ use crate::{
 };
 use std::char;
 use swc_common::{
-    comments::{Comment, CommentKind},
+    comments::{Comment, CommentKind, CommentsExt},
     BytePos, Span, SyntaxContext,
 };
 use unicode_xid::UnicodeXID;
@@ -230,25 +230,23 @@ impl<'a, I: Input> Lexer<'a, I> {
             }
         }
 
-        if !self.ctx.dont_store_comments {
-            if let Some(ref comments) = self.comments {
-                let s = self.input.slice(slice_start, end);
-                let cmt = Comment {
-                    kind: CommentKind::Line,
-                    span: Span::new(start, end, SyntaxContext::empty()),
-                    text: s.into(),
-                };
+        if let Some(ref comments) = self.comments {
+            let s = self.input.slice(slice_start, end);
+            let cmt = Comment {
+                kind: CommentKind::Line,
+                span: Span::new(start, end, SyntaxContext::empty()),
+                text: s.into(),
+            };
 
-                if start >= *self.last_comment_pos.borrow() {
-                    *self.last_comment_pos.borrow_mut() = end;
+            if start >= *self.last_comment_pos.borrow() {
+                *self.last_comment_pos.borrow_mut() = end;
 
-                    if is_for_next {
-                        if let Some(buf) = &self.leading_comments_buffer {
-                            buf.borrow_mut().push(cmt);
-                        }
-                    } else {
-                        comments.add_trailing(self.state.prev_hi, cmt);
+                if is_for_next {
+                    if let Some(buf) = &self.leading_comments_buffer {
+                        buf.borrow_mut().push(cmt);
                     }
+                } else {
+                    comments.add_trailing(self.state.prev_hi, cmt);
                 }
             }
         }
@@ -284,27 +282,25 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                 let end = self.cur_pos();
 
-                if !self.ctx.dont_store_comments {
-                    if let Some(ref comments) = self.comments {
-                        let src = self.input.slice(slice_start, end);
-                        let s = &src[..src.len() - 2];
-                        let cmt = Comment {
-                            kind: CommentKind::Block,
-                            span: Span::new(start, end, SyntaxContext::empty()),
-                            text: s.into(),
-                        };
+                if let Some(ref comments) = self.comments {
+                    let src = self.input.slice(slice_start, end);
+                    let s = &src[..src.len() - 2];
+                    let cmt = Comment {
+                        kind: CommentKind::Block,
+                        span: Span::new(start, end, SyntaxContext::empty()),
+                        text: s.into(),
+                    };
 
-                        let _ = self.input.peek();
-                        if start >= *self.last_comment_pos.borrow() {
-                            *self.last_comment_pos.borrow_mut() = end;
+                    let _ = self.input.peek();
+                    if start >= *self.last_comment_pos.borrow() {
+                        *self.last_comment_pos.borrow_mut() = end;
 
-                            if is_for_next {
-                                if let Some(buf) = &self.leading_comments_buffer {
-                                    buf.borrow_mut().push(cmt);
-                                }
-                            } else {
-                                comments.add_trailing(self.state.prev_hi, cmt);
+                        if is_for_next {
+                            if let Some(buf) = &self.leading_comments_buffer {
+                                buf.borrow_mut().push(cmt);
                             }
+                        } else {
+                            comments.add_trailing(self.state.prev_hi, cmt);
                         }
                     }
                 }
@@ -320,6 +316,56 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
 
         self.error(start, SyntaxError::UnterminatedBlockComment)?
+    }
+
+    pub(super) fn clear_future_comments(&mut self) {
+        let cur_pos = self.cur_pos();
+        if let Some(ref comments) = self.comments {
+            if let Some(buf) = &self.leading_comments_buffer {
+                let mut buf = buf.borrow_mut();
+                for i in (0..buf.len()).rev() {
+                    if buf[i].span.hi > cur_pos {
+                        buf.remove(i);
+                    }
+                }
+            }
+
+            let leading_positions = comments.leading_positions();
+            let trailing_positions = comments.trailing_positions();
+
+            for pos in leading_positions.iter().copied() {
+                if pos > cur_pos {
+                    comments.take_leading(pos);
+                }
+            }
+
+            for pos in trailing_positions.iter().copied() {
+                if pos >= cur_pos {
+                    comments.take_trailing(pos);
+                }
+            }
+
+            let mut last_comment_pos = self.last_comment_pos.borrow_mut();
+            let max_pos = leading_positions
+                .iter()
+                .chain(trailing_positions.iter())
+                .max();
+            if let Some(max_pos) = max_pos.copied() {
+                if comments.has_leading(max_pos) {
+                    comments.with_leading(max_pos, |comments| {
+                        if let Some(last_comment) = comments.last() {
+                            *last_comment_pos = last_comment.span.lo;
+                        }
+                    });
+                } else {
+                    comments.with_trailing(max_pos, |comments| {
+                        if let Some(last_comment) = comments.last() {
+                            *last_comment_pos = last_comment.span.lo;
+                        }
+                    });
+                }
+            }
+        }
     }
 }
 

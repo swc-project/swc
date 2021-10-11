@@ -225,6 +225,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
             if self.syntax.jsx() && !self.ctx.in_property_name && !self.ctx.in_type {
                 //jsx
                 if self.state.context.current() == Some(TokenContext::JSXExpr) {
+                    self.clear_future_comments();
                     return self.read_jsx_token();
                 }
 

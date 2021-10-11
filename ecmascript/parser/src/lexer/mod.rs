@@ -635,12 +635,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         self.bump();
 
         // XML style comment. `<!--`
-        if !self.ctx.dont_store_comments
-            && c == '<'
-            && self.is(b'!')
-            && self.peek() == Some('-')
-            && self.peek_ahead() == Some('-')
-        {
+        if c == '<' && self.is(b'!') && self.peek() == Some('-') && self.peek_ahead() == Some('-') {
             self.skip_line_comment(3);
             self.skip_space()?;
             self.emit_module_mode_error(start, SyntaxError::LegacyCommentInModule);
