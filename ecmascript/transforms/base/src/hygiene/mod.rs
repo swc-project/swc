@@ -19,6 +19,7 @@ pub mod hygiene3;
 mod ops;
 #[cfg(test)]
 mod tests;
+mod unique_scope;
 
 const LOG: bool = false;
 
