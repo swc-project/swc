@@ -1,0 +1,4 @@
+.navigation-item :global(a)::after {
+  content: attr(data-text);
+  content: attr(data-text) / '';
+}
