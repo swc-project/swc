@@ -5,6 +5,10 @@ impl<'a, I: Input> Lexer<'a, I> {
     pub(super) fn read_jsx_token(&mut self) -> LexResult<Option<Token>> {
         debug_assert!(self.syntax.jsx());
 
+        // clear out any comment-like jsx text that might have been parsed
+        // within this jsx text in the past
+        self.clear_future_comments();
+
         let mut chunk_start = self.input.cur_pos();
         let mut out = String::new();
 

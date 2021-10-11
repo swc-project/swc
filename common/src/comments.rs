@@ -230,7 +230,7 @@ impl Comments for SingleThreadedComments {
     }
 
     fn trailing_positions(&self) -> Vec<BytePos> {
-        self.leading.borrow().keys().copied().collect()
+        self.trailing.borrow().keys().copied().collect()
     }
 
     fn add_pure_comment(&self, pos: BytePos) {

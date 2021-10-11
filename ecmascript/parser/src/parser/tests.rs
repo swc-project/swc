@@ -230,7 +230,30 @@ fn issue_2264_2() {
 }
 
 #[test]
-fn issue_2339() {
+fn issue_2264_3() {
+    let c = SingleThreadedComments::default();
+    let s = "const foo = <h1>/* no */{/* 1 */ bar /* 2 */}/* no */</h1>;";
+    let _ = super::test_parser_comment(
+        &c,
+        s,
+        Syntax::Typescript(TsConfig {
+            tsx: true,
+            ..Default::default()
+        }),
+        |p| p.parse_typescript_module(),
+    );
+
+    let (leading, trailing) = c.take_all();
+    println!("{:?}", leading);
+    println!("{:?}", trailing);
+    assert!(leading.borrow().is_empty());
+    assert_eq!(trailing.borrow().len(), 2);
+    assert_eq!(trailing.borrow().get(&BytePos(25)).unwrap().len(), 1);
+    assert_eq!(trailing.borrow().get(&BytePos(36)).unwrap().len(), 1);
+}
+
+#[test]
+fn issue_2339_1() {
     let c = SingleThreadedComments::default();
     let s = "
         const t = <T>() => {

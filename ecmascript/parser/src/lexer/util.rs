@@ -359,6 +359,8 @@ impl<'a, I: Input> Lexer<'a, I> {
                 if let Some(new_pos) = new_pos {
                     *last_comment_pos = new_pos;
                 }
+            } else {
+                *last_comment_pos = BytePos(0);
             }
         }
     }
