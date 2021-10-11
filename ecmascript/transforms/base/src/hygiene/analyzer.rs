@@ -36,6 +36,18 @@ impl CurScope<'_> {
                 v.push(id.1);
             }
         }
+
+        if let ScopeKind::Fn = self.data.kind {
+            return;
+        }
+
+        // TODO: Consider `var` / `let` / `const`.
+        match self.parent {
+            Some(v) => {
+                v.add_decl(id);
+            }
+            None => {}
+        }
     }
 
     fn add_usage(&self, id: Id) {
