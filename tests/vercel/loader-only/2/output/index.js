@@ -12,3 +12,12 @@ export default function MyComp() {
     return(/*#__PURE__*/ _jsx(_Fragment, {
     }));
 };
+for(var i = 0; i < points.length; i++){
+    var point = points[i];
+    for(var key_ in keys){
+        for(var i1 = 0; i1 < keys[key].length; i1++){
+            console.log(i1);
+        }
+        console.log(i);
+    }
+}
