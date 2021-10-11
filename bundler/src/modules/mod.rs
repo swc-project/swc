@@ -152,39 +152,42 @@ impl Modules {
             .push(item);
     }
 
+    #[cfg(not(feature = "concurrent"))]
+    pub(crate) fn par_visit_mut_with<V>(&mut self, v: &mut V)
+    where
+        V: VisitMut + Send + Sync,
+    {
+        self.visit_mut_with(v)
+    }
+
+    #[cfg(feature = "concurrent")]
     pub(crate) fn par_visit_mut_with<V>(&mut self, v: &mut V)
     where
         V: Clone + VisitMut + Send + Sync,
     {
-        #[cfg(feature = "concurrent")]
-        {
-            use rayon::prelude::*;
+        use rayon::prelude::*;
 
-            let pre = &mut self.prepended_stmts;
-            let modules = &mut self.modules;
-            let app = &mut self.appended_stmts;
+        let pre = &mut self.prepended_stmts;
+        let modules = &mut self.modules;
+        let app = &mut self.appended_stmts;
 
-            rayon::scope(|s| {
-                s.spawn(|_| {
-                    pre.par_iter_mut()
-                        .for_each(|(_, stmts)| stmts.visit_mut_with(&mut v.clone()));
-                });
-
-                s.spawn(|_| {
-                    modules
-                        .par_iter_mut()
-                        .for_each(|(_, stmts)| stmts.visit_mut_with(&mut v.clone()));
-                });
-
-                s.spawn(|_| {
-                    app.par_iter_mut()
-                        .for_each(|(_, stmts)| stmts.visit_mut_with(&mut v.clone()));
-                });
+        rayon::scope(|s| {
+            s.spawn(|_| {
+                pre.par_iter_mut()
+                    .for_each(|(_, stmts)| stmts.visit_mut_with(&mut v.clone()));
             });
-            return;
-        }
 
-        self.visit_mut_with(v)
+            s.spawn(|_| {
+                modules
+                    .par_iter_mut()
+                    .for_each(|(_, stmts)| stmts.visit_mut_with(&mut v.clone()));
+            });
+
+            s.spawn(|_| {
+                app.par_iter_mut()
+                    .for_each(|(_, stmts)| stmts.visit_mut_with(&mut v.clone()));
+            });
+        });
     }
 
     pub fn visit_mut_with<V>(&mut self, v: &mut V)
