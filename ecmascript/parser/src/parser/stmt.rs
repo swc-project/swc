@@ -1136,6 +1136,15 @@ pub(super) trait IsDirective {
     }
 }
 
+impl<T> IsDirective for Box<T>
+where
+    T: IsDirective,
+{
+    fn as_ref(&self) -> Option<&Stmt> {
+        T::as_ref(&**self)
+    }
+}
+
 impl IsDirective for Stmt {
     fn as_ref(&self) -> Option<&Stmt> {
         Some(self)
@@ -1148,6 +1157,20 @@ pub(super) trait StmtLikeParser<'a, Type: IsDirective> {
         top_level: bool,
         decorators: Vec<Decorator>,
     ) -> PResult<Type>;
+}
+
+impl<'a, I: Tokens, T> StmtLikeParser<'a, Box<T>> for Parser<I>
+where
+    T: IsDirective,
+    Self: StmtLikeParser<'a, T>,
+{
+    fn handle_import_export(
+        &mut self,
+        top_level: bool,
+        decorators: Vec<Decorator>,
+    ) -> PResult<Box<T>> {
+        <Self as StmtLikeParser<T>>::handle_import_export(self, top_level, decorators).map(Box::new)
+    }
 }
 
 impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<I> {
