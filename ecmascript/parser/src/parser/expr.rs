@@ -1278,6 +1278,8 @@ impl<'a, I: Tokens> Parser<I> {
         // TODO(kdy1): optimize (once we parsed a pattern, we can parse everything else
         // as a pattern instead of reparsing)
         while !eof!(self) && !is!(self, ')') {
+            let mut is_async = false;
+
             if first {
                 if is!(self, "async")
                     && matches!(
@@ -1287,18 +1289,7 @@ impl<'a, I: Tokens> Parser<I> {
                 {
                     // https://github.com/swc-project/swc/issues/410
                     self.state.potential_arrow_start = Some(cur_pos!(self));
-                    let expr = self.parse_assignment_expr()?;
-                    expect!(self, ')');
-                    return Ok(vec![PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
-                        expr,
-                        spread: None,
-                    })]);
-                }
-            } else {
-                expect!(self, ',');
-                // Handle trailing comma.
-                if is!(self, ')') {
-                    break;
+                    is_async = true;
                 }
             }
 
@@ -1517,20 +1508,19 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             } {
                 let params = self
-                    .parse_paren_items_as_params(items)?
+                    .parse_paren_items_as_params(items.clone())?
                     .into_iter()
                     .collect();
 
                 let body: BlockStmtOrExpr = self.parse_fn_body(false, false)?;
-                expect!(self, ')');
                 let span = span!(self, start);
 
-                return Ok(vec![PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
+                items.push(PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
                     expr: Box::new(
                         ArrowExpr {
                             span,
                             body,
-                            is_async: false,
+                            is_async,
                             is_generator: false,
                             params,
                             type_params: None,
@@ -1539,10 +1529,14 @@ impl<'a, I: Tokens> Parser<I> {
                         .into(),
                     ),
                     spread: None,
-                })]);
+                }));
             }
 
-            first = false;
+            first = true;
+
+            if !is!(self, ')') {
+                expect!(self, ',');
+            }
         }
 
         expect!(self, ')');
