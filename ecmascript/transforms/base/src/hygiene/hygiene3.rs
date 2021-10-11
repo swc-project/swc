@@ -22,19 +22,21 @@ impl Renaming {
         for<'aa> N: VisitWith<Analyzer<'aa>>,
     {
         let mut data = Default::default();
-        let mut v = Analyzer {
-            data: &mut data,
-            cur: CurScope {
-                parent: None,
-                scope_ctxt: SyntaxContext::empty(),
-                data: Default::default(),
-            },
-            is_pat_decl: false,
-        };
+        {
+            let mut v = Analyzer {
+                data: &mut data,
+                cur: CurScope {
+                    parent: None,
+                    scope_ctxt: SyntaxContext::empty(),
+                    data: Default::default(),
+                },
+                is_pat_decl: false,
+            };
+
+            n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+        }
 
         dbg!(&data);
-
-        n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
     }
 }
 
