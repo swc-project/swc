@@ -1,6 +1,8 @@
 import define, { extend } from "./define.js";
 import { Color, rgbConvert, Rgb, darker, brighter } from "./color.js";
-import { deg2rad, rad2deg } from "./math.js";
+
+var deg2rad = Math.PI / 180;
+var rad2deg = 180 / Math.PI;
 
 var A = -0.14861,
     B = +1.78277,
