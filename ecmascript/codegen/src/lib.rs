@@ -610,7 +610,9 @@ where
             Expr::Invalid(ref n) => emit!(n),
         }
 
-        self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
+        if self.comments.is_some() {
+            self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
+        }
     }
 
     #[emitter]
@@ -2021,7 +2023,9 @@ where
             Pat::Invalid(n) => emit!(n),
         }
 
-        self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
+        if self.comments.is_some() {
+            self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
+        }
     }
 
     #[emitter]
@@ -2214,7 +2218,9 @@ where
             Stmt::ForOf(ref e) => emit!(e),
             Stmt::Decl(ref e) => emit!(e),
         }
-        self.emit_trailing_comments_of_pos(node.span().hi(), true, true)?;
+        if self.comments.is_some() {
+            self.emit_trailing_comments_of_pos(node.span().hi(), true, true)?;
+        }
 
         if !self.cfg.minify {
             self.wr.write_line()?;
