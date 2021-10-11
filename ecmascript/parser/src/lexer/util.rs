@@ -336,13 +336,14 @@ impl<'a, I: Input> Lexer<'a, I> {
     pub(super) fn clear_future_comments(&mut self) {
         let cur_pos = self.cur_pos();
         if let Some(comments) = self.comments_buffer.as_mut() {
-            if let Some(buf) = &self.leading_comments_buffer {
-                let mut buf = buf.borrow_mut();
-                for i in (0..buf.len()).rev() {
-                    if buf[i].span.hi > cur_pos {
-                        buf.remove(i);
-                    }
-                }
+            let mut leading_comments_buffer =
+                self.leading_comments_buffer.as_ref().unwrap().borrow_mut();
+            while leading_comments_buffer
+                .last()
+                .map(|c| c.span.lo >= cur_pos)
+                .unwrap_or(false)
+            {
+                leading_comments_buffer.pop();
             }
 
             while comments
