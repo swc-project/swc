@@ -97,13 +97,11 @@ impl Iterator for CharIter {
 
 impl FusedIterator for CharIter {}
 
-#[derive(Clone)]
 pub(super) enum BufferedCommentKind {
     Leading,
     Trailing,
 }
 
-#[derive(Clone)]
 pub(super) struct BufferedComment {
     pub kind: BufferedCommentKind,
     pub pos: BytePos,
@@ -113,7 +111,7 @@ pub(super) struct BufferedComment {
 #[derive(Clone)]
 pub struct Lexer<'a, I: Input> {
     comments: Option<&'a dyn Comments>,
-    comments_buffer: Option<Vec<BufferedComment>>,
+    comments_buffer: Option<Rc<RefCell<Vec<BufferedComment>>>>,
     /// [Some] if comment comment parsing is enabled. Otherwise [None]
     leading_comments_buffer: Option<Rc<RefCell<Vec<Comment>>>>,
 

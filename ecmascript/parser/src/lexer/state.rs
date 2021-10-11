@@ -197,7 +197,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                             .unwrap()
                             .drain(..)
                         {
-                            let comments = self.comments_buffer.as_mut().unwrap();
+                            let mut comments = self.comments_buffer.as_ref().unwrap().borrow_mut();
 
                             // if the file had no tokens and no shebang, then treat any
                             // comments in the leading comments buffer as leading.
@@ -220,7 +220,8 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
 
                     // now fill the user's passed in comments
                     if let Some(ref comments) = self.comments {
-                        let comments_buffer = self.comments_buffer.as_mut().unwrap();
+                        let mut comments_buffer =
+                            self.comments_buffer.as_ref().unwrap().borrow_mut();
                         for comment in comments_buffer.drain(..) {
                             match comment.kind {
                                 BufferedCommentKind::Leading => {
@@ -321,7 +322,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                     .borrow_mut()
                     .drain(..)
                 {
-                    let comments = self.comments_buffer.as_mut().unwrap();
+                    let mut comments = self.comments_buffer.as_ref().unwrap().borrow_mut();
                     let insert_pos = match comments
                         .binary_search_by_key(&comment.span.lo, |c| c.comment.span.lo)
                     {

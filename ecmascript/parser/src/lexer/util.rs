@@ -231,7 +231,8 @@ impl<'a, I: Input> Lexer<'a, I> {
             }
         }
 
-        if let Some(comments) = self.comments_buffer.as_mut() {
+        if let Some(comments) = self.comments_buffer.as_ref() {
+            let mut comments = comments.borrow_mut();
             let s = self.input.slice(slice_start, end);
             let cmt = Comment {
                 kind: CommentKind::Line,
@@ -239,12 +240,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 text: s.into(),
             };
 
-            if start
-                >= comments
-                    .last()
-                    .map(|c| c.comment.span.lo)
-                    .unwrap_or(BytePos(0))
-            {
+            if comments.is_empty() || start >= comments.last().unwrap().comment.span.lo {
                 if is_for_next {
                     if let Some(buf) = &self.leading_comments_buffer {
                         buf.borrow_mut().push(cmt);
@@ -291,6 +287,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 let end = self.cur_pos();
 
                 if let Some(comments) = self.comments_buffer.as_mut() {
+                    let mut comments = comments.borrow_mut();
                     let src = self.input.slice(slice_start, end);
                     let s = &src[..src.len() - 2];
                     let cmt = Comment {
@@ -300,12 +297,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     };
 
                     let _ = self.input.peek();
-                    if start
-                        >= comments
-                            .last()
-                            .map(|c| c.comment.span.lo)
-                            .unwrap_or(BytePos(0))
-                    {
+                    if comments.is_empty() || start >= comments.last().unwrap().comment.span.lo {
                         if is_for_next {
                             if let Some(buf) = &self.leading_comments_buffer {
                                 buf.borrow_mut().push(cmt);
@@ -335,7 +327,8 @@ impl<'a, I: Input> Lexer<'a, I> {
 
     pub(super) fn clear_future_comments(&mut self) {
         let cur_pos = self.cur_pos();
-        if let Some(comments) = self.comments_buffer.as_mut() {
+        if let Some(comments) = self.comments_buffer.as_ref() {
+            let mut comments = comments.borrow_mut();
             let mut leading_comments_buffer =
                 self.leading_comments_buffer.as_ref().unwrap().borrow_mut();
             while leading_comments_buffer
