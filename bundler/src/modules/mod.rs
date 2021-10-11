@@ -155,7 +155,7 @@ impl Modules {
     #[cfg(not(feature = "concurrent"))]
     pub(crate) fn par_visit_mut_with<V>(&mut self, v: &mut V)
     where
-        V: VisitMut + Send + Sync,
+        V: VisitMut,
     {
         self.visit_mut_with(v)
     }
