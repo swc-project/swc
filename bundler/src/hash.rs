@@ -114,4 +114,9 @@ impl WriteJs for &mut Hasher {
         self.w(s);
         Ok(())
     }
+
+    #[inline]
+    fn care_about_srcmap(&self) -> bool {
+        false
+    }
 }

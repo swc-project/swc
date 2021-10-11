@@ -113,19 +113,23 @@ impl<'a, W: Write> JsWriter<'a, W> {
 }
 
 impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
+    fn target(&self) -> JscTarget {
+        self.target
+    }
     fn increase_indent(&mut self) -> Result {
         self.indent += 1;
         Ok(())
     }
+
     fn decrease_indent(&mut self) -> Result {
         self.indent -= 1;
         Ok(())
     }
-
     fn write_semi(&mut self, span: Option<Span>) -> Result {
         self.write(span, ";")?;
         Ok(())
     }
+
     fn write_space(&mut self) -> Result {
         self.write(None, " ")?;
         Ok(())
@@ -209,8 +213,8 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
         Ok(())
     }
 
-    fn target(&self) -> JscTarget {
-        self.target
+    fn care_about_srcmap(&self) -> bool {
+        self.srcmap.is_some()
     }
 }
 
