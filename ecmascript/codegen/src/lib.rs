@@ -886,12 +886,7 @@ where
                         }),
                     ) => false,
 
-                    (_, Expr::Update(UpdateExpr { prefix: true, .. }) | Expr::Unary(..)) => true,
-
-                    (_, Expr::Bin(BinExpr { left, .. })) => match &**left {
-                        Expr::Update(UpdateExpr { prefix: true, .. }) | Expr::Unary(..) => true,
-                        _ => false,
-                    },
+                    (_, r) if is_space_require_before_rhs(r) => true,
 
                     _ => false,
                 }
@@ -3233,4 +3228,16 @@ fn handle_invalid_unicodes(s: &str) -> Cow<str> {
     }
 
     Cow::Owned(s.replace("\\\0", "\\"))
+}
+
+fn is_space_require_before_rhs(rhs: &Expr) -> bool {
+    match rhs {
+        Expr::Lit(Lit::Num(v)) if v.value.is_sign_negative() => true,
+
+        Expr::Update(UpdateExpr { prefix: true, .. }) | Expr::Unary(..) => true,
+
+        Expr::Bin(BinExpr { left, .. }) => is_space_require_before_rhs(&left),
+
+        _ => false,
+    }
 }
