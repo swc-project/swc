@@ -149,13 +149,34 @@ impl Visit for Analyzer<'_> {
         }
     }
 
-    fn visit_function(&mut self, f: &Function, _: &dyn Node) {
-        f.decorators.visit_with(f, self);
+    fn visit_fn_decl(&mut self, f: &FnDecl, _: &dyn Node) {
+        f.function.decorators.visit_with(f, self);
 
-        self.visit_with_scope(f.span.ctxt, ScopeKind::Fn, |v| {
-            f.params.visit_with(f, v);
+        self.cur.add_decl(f.ident.to_id());
 
-            match f.body.as_ref() {
+        self.visit_with_scope(f.function.span.ctxt, ScopeKind::Fn, |v| {
+            f.function.params.visit_with(f, v);
+
+            match f.function.body.as_ref() {
+                Some(body) => {
+                    body.visit_children_with(v);
+                }
+                None => {}
+            }
+        })
+    }
+
+    fn visit_fn_expr(&mut self, f: &FnExpr, _: &dyn Node) {
+        f.function.decorators.visit_with(f, self);
+
+        self.visit_with_scope(f.function.span.ctxt, ScopeKind::Fn, |v| {
+            f.function.params.visit_with(f, v);
+
+            if let Some(i) = &f.ident {
+                v.cur.add_decl(i.to_id());
+            }
+
+            match f.function.body.as_ref() {
                 Some(body) => {
                     body.visit_children_with(v);
                 }
