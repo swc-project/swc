@@ -1,6 +1,6 @@
 //! Third one
 
-use super::usage_analyzer::Analyzer;
+use super::usage_analyzer::UsageAnalyzer;
 use crate::hygiene::{unique_scope::unique_scope, usage_analyzer::CurScope};
 use swc_common::{chain, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -20,11 +20,11 @@ struct Renaming {
 impl Renaming {
     fn analyze<N>(&mut self, n: &N)
     where
-        for<'aa> N: VisitWith<Analyzer<'aa>>,
+        for<'aa> N: VisitWith<UsageAnalyzer<'aa>>,
     {
         let mut data = Default::default();
         {
-            let mut v = Analyzer {
+            let mut v = UsageAnalyzer {
                 data: &mut data,
                 cur: CurScope {
                     parent: None,

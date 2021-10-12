@@ -68,19 +68,19 @@ impl CurScope<'_> {
     }
 }
 
-pub struct Analyzer<'a> {
+pub struct UsageAnalyzer<'a> {
     pub data: &'a mut Data,
     pub cur: CurScope<'a>,
 
     pub is_pat_decl: bool,
 }
 
-impl Analyzer<'_> {
+impl UsageAnalyzer<'_> {
     fn visit_with_scope<F>(&mut self, scope_ctxt: SyntaxContext, kind: ScopeKind, op: F)
     where
-        F: for<'aa> FnOnce(&mut Analyzer<'aa>),
+        F: for<'aa> FnOnce(&mut UsageAnalyzer<'aa>),
     {
-        let mut child = Analyzer {
+        let mut child = UsageAnalyzer {
             data: self.data,
             cur: CurScope {
                 parent: Some(&self.cur),
@@ -101,7 +101,7 @@ impl Analyzer<'_> {
     }
 }
 
-impl Visit for Analyzer<'_> {
+impl Visit for UsageAnalyzer<'_> {
     noop_visit_type!();
 
     fn visit_arrow_expr(&mut self, f: &ArrowExpr, _: &dyn Node) {
