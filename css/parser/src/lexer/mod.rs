@@ -201,7 +201,18 @@ where
         }
 
         if self.input.is_byte(b'.') {
-            return self.read_dot();
+            let pos = self.input.cur_pos();
+            let c = self.input.cur().unwrap();
+
+            self.input.bump();
+
+            if self.would_start_number()? {
+                self.input.reset_to(pos);
+
+                return self.read_number();
+            }
+
+            return Ok(Token::Delim { value: c });
         }
 
         try_delim!(b':', ":");
@@ -591,17 +602,6 @@ where
         self.input.bump();
 
         Ok((c, raw))
-    }
-
-    fn read_dot(&mut self) -> LexResult<Token> {
-        if let Some(next) = self.input.peek() {
-            if next == '.' || next.is_digit(10) {
-                return self.read_number();
-            }
-        }
-
-        self.input.bump();
-        Ok(tok!("."))
     }
 
     fn read_at_keyword(&mut self) -> LexResult<Token> {

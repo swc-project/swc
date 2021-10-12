@@ -86,9 +86,6 @@ pub enum Token {
     /// `*`
     Asterisk,
 
-    /// `.`
-    Dot,
-
     /// `#`
     Hash {
         is_id: bool,

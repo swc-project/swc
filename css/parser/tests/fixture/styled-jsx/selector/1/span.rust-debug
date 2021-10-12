@@ -58,7 +58,7 @@ error: Tokens
 1 | :global(.foo + a) {
   |         ^^^^^^^^
 
-error: Dot
+error: Delim { value: '.' }
  --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:9
   |
 1 | :global(.foo + a) {
