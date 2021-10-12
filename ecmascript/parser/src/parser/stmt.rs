@@ -2,6 +2,7 @@ use super::{pat::PatType, *};
 use crate::error::SyntaxError;
 use swc_atoms::js_word;
 use swc_common::Spanned;
+use typed_arena::Arena;
 
 mod module_item;
 
@@ -20,7 +21,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let old_ctx = self.ctx();
 
-        let mut stmts = Vec::with_capacity(16);
+        let stmts = Arena::new();
         while {
             let c = cur!(self, false).ok();
             c != end
@@ -45,7 +46,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             }
 
-            stmts.push(stmt);
+            stmts.alloc(stmt);
         }
 
         if end.is_some() {
@@ -54,7 +55,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         self.set_ctx(old_ctx);
 
-        Ok(stmts)
+        Ok(stmts.into_vec())
     }
 
     pub fn parse_stmt(&mut self, top_level: bool) -> PResult<Stmt> {
