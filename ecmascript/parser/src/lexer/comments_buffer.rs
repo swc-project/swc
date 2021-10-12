@@ -37,12 +37,12 @@ impl CommentsBuffer {
         self.pending_leading.push(comment);
     }
 
-    pub fn take_comments(&mut self) -> OneDirectionalListIterator<BufferedComment> {
-        self.comments.into_iter()
+    pub fn take_comments_reversed(&mut self) -> Vec<BufferedComment> {
+        self.comments.take_all_reversed()
     }
 
-    pub fn take_pending_leading(&mut self) -> OneDirectionalListIterator<Comment> {
-        self.pending_leading.into_iter()
+    pub fn take_pending_leading_reversed(&mut self) -> Vec<Comment> {
+        self.pending_leading.take_all_reversed()
     }
 }
 
@@ -50,24 +50,38 @@ impl CommentsBuffer {
 /// cloned with the clone maintaining its position in the list.
 #[derive(Clone)]
 struct OneDirectionalList<T: Clone> {
-    last_item: Option<Rc<OneDirectionalListNode<T>>>,
+    last_node: Option<Rc<OneDirectionalListNode<T>>>,
 }
 
 impl<T: Clone> OneDirectionalList<T> {
     pub fn new() -> Self {
-        Self { last_item: None }
+        Self { last_node: None }
     }
 
-    pub fn into_iter(&mut self) -> OneDirectionalListIterator<T> {
-        OneDirectionalListIterator {
-            node: self.last_item.take(),
+    pub fn len(&self) -> usize {
+        self.last_node.as_ref().map(|i| i.length).unwrap_or(0)
+    }
+
+    pub fn take_all_reversed(&mut self) -> Vec<T> {
+        // these are stored in reverse, so we need to reverse them back
+        let mut items = Vec::with_capacity(self.len());
+        let mut current_node = self.last_node.take();
+        while let Some(node) = current_node {
+            let mut node = match Rc::try_unwrap(node) {
+                Ok(n) => n,
+                Err(n) => n.as_ref().clone(),
+            };
+            items.push(node.item);
+            current_node = node.previous.take();
         }
+        items
     }
 
     pub fn push(&mut self, item: T) {
-        let previous = self.last_item.take();
-        let new_item = OneDirectionalListNode { item, previous };
-        self.last_item = Some(Rc::new(new_item));
+        let previous = self.last_node.take();
+        let length = previous.as_ref().map(|p| p.length + 1).unwrap_or(1);
+        let new_item = OneDirectionalListNode { item, previous, length };
+        self.last_node = Some(Rc::new(new_item));
     }
 }
 
@@ -75,26 +89,5 @@ impl<T: Clone> OneDirectionalList<T> {
 struct OneDirectionalListNode<T: Clone> {
     item: T,
     previous: Option<Rc<OneDirectionalListNode<T>>>,
-}
-
-pub struct OneDirectionalListIterator<T: Clone> {
-    node: Option<Rc<OneDirectionalListNode<T>>>,
-}
-
-impl<T: Clone> Iterator for OneDirectionalListIterator<T> {
-    type Item = T;
-
-    fn next(&mut self) -> Option<T> {
-        match self.node.take() {
-            Some(node) => {
-                let node = match Rc::try_unwrap(node) {
-                    Ok(n) => n,
-                    Err(n) => n.as_ref().clone(),
-                };
-                self.node = node.previous;
-                Some(node.item)
-            }
-            None => None,
-        }
-    }
+    length: usize,
 }

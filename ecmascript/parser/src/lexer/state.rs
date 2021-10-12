@@ -190,7 +190,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                         let last = self.state.prev_hi;
 
                         // move the pending to the leading or trailing
-                        for c in comments_buffer.take_pending_leading() {
+                        for c in comments_buffer.take_pending_leading_reversed().into_iter().rev() {
                             // if the file had no tokens and no shebang, then treat any
                             // comments in the leading comments buffer as leading.
                             // Otherwise treat them as trailing.
@@ -210,7 +210,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                         }
 
                         // now fill the user's passed in comments
-                        for comment in comments_buffer.take_comments() {
+                        for comment in comments_buffer.take_comments_reversed().into_iter().rev() {
                             match comment.kind {
                                 BufferedCommentKind::Leading => {
                                     comments.add_leading(comment.pos, comment.comment);
@@ -296,7 +296,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
         let span = self.span(start);
         if let Some(ref token) = token {
             if let Some(comments) = self.comments_buffer.as_mut() {
-                for comment in comments.take_pending_leading() {
+                for comment in comments.take_pending_leading_reversed() {
                     comments.push(BufferedComment {
                         kind: BufferedCommentKind::Leading,
                         pos: start,
