@@ -3,10 +3,11 @@ use crate::mode::Mode;
 use super::{Ctx, Optimizer};
 use std::ops::{Deref, DerefMut};
 use swc_atoms::JsWord;
-use swc_common::Span;
+use swc_common::{collections::AHashMap, Span};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{prop_name_eq, ExprExt, Id};
+use swc_ecma_utils::{ident::IdentLike, prop_name_eq, ExprExt, Id};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use tracing::debug;
 
 impl<'b, M> Optimizer<'b, M>
 where
@@ -170,11 +171,68 @@ pub(crate) fn is_valid_for_lhs(e: &Expr) -> bool {
     }
 }
 
-pub(crate) fn replace_id_with_expr<N>(node: &mut N, from: Id, to: Box<Expr>)
+pub(crate) struct MultiReplacer {
+    pub vars: AHashMap<Id, Box<Expr>>,
+    pub changed: bool,
+}
+
+impl VisitMut for MultiReplacer {
+    noop_visit_mut_type!();
+
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
+
+        match e {
+            Expr::Ident(i) => {
+                if let Some(new) = self.vars.remove(&i.to_id()) {
+                    debug!("multi-replacer: Replaced `{}`", i);
+                    *e = *new;
+                    self.changed = true;
+                }
+            }
+            _ => {}
+        }
+    }
+
+    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
+        e.obj.visit_mut_with(self);
+
+        if e.computed {
+            e.prop.visit_mut_with(self);
+        }
+    }
+
+    fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
+        loop {
+            self.changed = false;
+            if self.vars.is_empty() {
+                break;
+            }
+            items.visit_mut_children_with(self);
+
+            if self.changed {
+                continue;
+            }
+
+            if cfg!(feature = "debug") {
+                let keys = self.vars.iter().map(|(k, _)| k.clone()).collect::<Vec<_>>();
+                debug!("Left: {:?}", keys);
+            }
+        }
+    }
+}
+
+pub(crate) fn replace_id_with_expr<N>(node: &mut N, from: Id, to: Box<Expr>) -> Option<Box<Expr>>
 where
     N: VisitMutWith<ExprReplacer>,
 {
-    node.visit_mut_with(&mut ExprReplacer { from, to: Some(to) })
+    let mut v = ExprReplacer {
+        from: from.clone(),
+        to: Some(to),
+    };
+    node.visit_mut_with(&mut v);
+
+    v.to
 }
 
 pub(crate) struct ExprReplacer {
@@ -193,10 +251,20 @@ impl VisitMut for ExprReplacer {
                 if self.from.0 == i.sym && self.from.1 == i.span.ctxt {
                     if let Some(new) = self.to.take() {
                         *e = *new;
+                    } else {
+                        unreachable!("`{}` is already taken", i)
                     }
                 }
             }
             _ => {}
+        }
+    }
+
+    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
+        e.obj.visit_mut_with(self);
+
+        if e.computed {
+            e.prop.visit_mut_with(self);
         }
     }
 }

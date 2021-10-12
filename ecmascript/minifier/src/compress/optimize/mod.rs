@@ -1,6 +1,6 @@
 #![allow(dead_code)]
 
-use self::util::replace_id_with_expr;
+use self::util::MultiReplacer;
 use crate::{
     analyzer::{ProgramData, UsageAnalyzer},
     compress::util::is_pure_undefined,
@@ -2048,10 +2048,10 @@ where
         };
         self.with_ctx(ctx).handle_stmt_likes(stmts);
 
-        for (from, to) in self.state.inlined_vars.drain() {
-            tracing::debug!("inline: Inlining `{}{:?}`", from.0, from.1);
-            replace_id_with_expr(stmts, from, to);
-        }
+        stmts.visit_mut_with(&mut MultiReplacer {
+            vars: take(&mut self.state.inlined_vars),
+            changed: false,
+        });
 
         stmts.retain(|s| match s {
             ModuleItem::Stmt(Stmt::Empty(..)) => false,
