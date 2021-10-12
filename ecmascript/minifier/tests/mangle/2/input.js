@@ -1,3 +1,5 @@
+const formatShortWeekday = 1234123;
+
 
 var nn = mn.dateTime
     , on = mn.date
