@@ -143,8 +143,6 @@ impl Visit for UsageAnalyzer<'_> {
 
     fn visit_arrow_expr(&mut self, f: &ArrowExpr, _: &dyn Node) {
         self.visit_with_scope(f.span.ctxt, ScopeKind::Fn, |v| {
-            f.visit_children_with(v);
-
             f.params.visit_with(f, v);
 
             match &f.body {
