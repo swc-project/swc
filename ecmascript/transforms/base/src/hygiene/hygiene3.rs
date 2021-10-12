@@ -1,26 +1,27 @@
 //! Third one
 
-use super::usage_analyzer::UsageAnalyzer;
+use super::{rename::RenameAnalyzer, usage_analyzer::UsageAnalyzer};
 use crate::hygiene::{unique_scope::unique_scope, usage_analyzer::CurScope};
 use swc_common::{chain, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith, VisitWith};
 
 pub fn hygiene3() -> impl Fold + VisitMut {
-    as_folder(chain!(unique_scope(), Renaming::default()))
+    as_folder(chain!(unique_scope(), Renamer::default()))
 }
 
 /// While visiing identifiers, we check if it will be resolved as a correct
 /// variable, and skip if it's the case.
 #[derive(Debug, Default)]
-struct Renaming {
+struct Renamer {
     cur_scope: SyntaxContext,
 }
 
-impl Renaming {
+impl Renamer {
     fn analyze<N>(&mut self, n: &N)
     where
-        for<'aa> N: VisitWith<UsageAnalyzer<'aa>>,
+        N: for<'aa> VisitWith<UsageAnalyzer<'aa>>,
+        N: for<'aa> VisitWith<RenameAnalyzer<'aa>>,
     {
         let mut data = Default::default();
         {
@@ -37,11 +38,22 @@ impl Renaming {
             n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
         }
 
+        let mut ops = {
+            let mut v = RenameAnalyzer {
+                data: &data,
+                ops: Default::default(),
+            };
+
+            n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+            v.ops
+        };
+
         dbg!(&data);
+        dbg!(&ops);
     }
 }
 
-impl VisitMut for Renaming {
+impl VisitMut for Renamer {
     noop_visit_mut_type!();
 
     fn visit_mut_module(&mut self, n: &mut Module) {
