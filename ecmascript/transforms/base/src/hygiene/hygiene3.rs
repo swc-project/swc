@@ -38,10 +38,14 @@ impl Renamer {
             n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
         }
 
+        let data = data.freeze();
+
         let mut ops = {
             let mut v = RenameAnalyzer {
                 data: &data,
                 ops: Default::default(),
+                scope_ctxt: Default::default(),
+                par_depth: 0,
             };
 
             n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);

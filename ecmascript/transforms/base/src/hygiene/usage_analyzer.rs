@@ -6,10 +6,37 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 
+#[derive(Debug)]
+pub struct FreezedData {
+    /// Top level scope uses [SyntaxContext::empty].
+    pub scopes: AHashMap<SyntaxContext, FreezedScopeData>,
+}
+
+#[derive(Debug)]
+pub struct FreezedScopeData {
+    pub kind: ScopeKind,
+
+    pub decls: AHashMap<JsWord, Vec<SyntaxContext>>,
+
+    pub usages: AHashMap<JsWord, Vec<SyntaxContext>>,
+}
 #[derive(Debug, Default)]
+
 pub struct Data {
     /// Top level scope uses [SyntaxContext::empty].
-    pub scopes: AHashMap<SyntaxContext, ScopeData>,
+    scopes: AHashMap<SyntaxContext, ScopeData>,
+}
+
+impl Data {
+    pub fn freeze(self) -> FreezedData {
+        FreezedData {
+            scopes: self
+                .scopes
+                .into_iter()
+                .map(|(k, v)| (k, v.freeze()))
+                .collect(),
+        }
+    }
 }
 
 #[derive(Debug, Default)]
@@ -19,6 +46,16 @@ pub struct ScopeData {
     pub decls: RefCell<AHashMap<JsWord, Vec<SyntaxContext>>>,
 
     pub usages: RefCell<AHashMap<JsWord, Vec<SyntaxContext>>>,
+}
+
+impl ScopeData {
+    pub fn freeze(self) -> FreezedScopeData {
+        FreezedScopeData {
+            kind: self.kind,
+            decls: self.decls.into_inner(),
+            usages: self.usages.into_inner(),
+        }
+    }
 }
 
 pub struct CurScope<'a> {
