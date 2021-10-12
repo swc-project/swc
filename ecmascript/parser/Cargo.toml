@@ -30,6 +30,7 @@ swc_common = {version = "0.13.0", path = "../../common"}
 swc_ecma_ast = {version = "0.54.0", path = "../ast"}
 swc_ecma_visit = {version = "0.40.0", path = "../visit"}
 tracing = "0.1.28"
+typed-arena = "2.0.1"
 unicode-xid = "0.2"
 
 [dev-dependencies]

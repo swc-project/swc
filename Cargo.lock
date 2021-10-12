@@ -2725,6 +2725,7 @@ dependencies = [
  "swc_node_base",
  "testing",
  "tracing",
+ "typed-arena",
  "unicode-xid",
  "walkdir",
 ]
