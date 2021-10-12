@@ -299,6 +299,31 @@ pub fn hygiene() -> impl Fold + 'static {
 /// The pass actually modifies the identifiers in the way that different
 /// identifier (with respect to span hygiene) becomes different identifier.
 /// (e.g. `a1` for `a#6`, `a2` for `a#23`)
+///
+/// # Implementation details
+///
+/// This document exists For curous people and potential contributores.
+///
+/// `hygiene` consists of three phases.
+///
+/// At first phase, we mark (using [swc_common::Mark]) nodes which can be
+/// considered as a `scope`. e.g. [Function], [BlockStmt], [ArrowExpr]
+///
+/// ---
+///
+/// At seocnd phase, we collect all declarations and references of identifiers.
+/// We also collect kind of the variable declaration, like `var`, `let` and
+/// `const`. This is done to determine whether we should rename or not in the
+/// third phase.
+///
+/// Note that we store scoping information for each node, using the fact that
+/// [SyntaxContext] of all `scope` nodes are unique, thanks to the first phase.
+///
+/// ---
+///
+/// At third phase, we check if identifier will be correctly if we skip
+/// renaming, accoarding to the context. If it's the case, we don't have to
+/// rename it so we skip it.
 pub fn hygiene_with_config(config: Config) -> impl 'static + Fold + VisitMut {
     self::hygiene3::hygiene3()
 }
