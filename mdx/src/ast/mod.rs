@@ -14,7 +14,11 @@ pub enum BlockNode {
     JsxEl(JSXElement),
     JsxFrag(JSXFragment),
 
-    Header(Vec<TextNode>, usize),
+    Header {
+        span: Span,
+        hash_cnt: usize,
+        content: Vec<TextNode>,
+    },
     Paragraph(Vec<TextNode>),
     Blockquote(Vec<BlockNode>),
     CodeBlock(Option<String>, String),

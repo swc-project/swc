@@ -1,4 +1,4 @@
-use swc_common::input::Input;
+use swc_common::{input::Input, BytePos, Span};
 
 pub use self::errors::{Error, ErrorKind};
 use crate::ast::*;
@@ -19,12 +19,20 @@ impl<I> Parser<I>
 where
     I: Input,
 {
+    fn span(&mut self, start: BytePos) -> Span {
+        Span::new(start, self.i.last_pos(), Default::default())
+    }
+
     fn read_exact_text(&mut self, expected: &'static str, skip_ws: bool) -> PResult<bool> {
         let start = self.i.cur_pos();
 
         if skip_ws {
             loop {
-                if self.i.eat_byte(b' ') || self.i.eat_byte(b'\t') {
+                if self.i.eat_byte(b' ')
+                    || self.i.eat_byte(b'\t')
+                    || self.i.eat_byte(b'\n')
+                    || self.i.eat_byte(b'\r')
+                {
                     continue;
                 }
 
@@ -57,12 +65,38 @@ where
     pub fn parse_block_node(&mut self) -> PResult<BlockNode> {
         let start = self.i.cur_pos();
 
-        if self.read_exact_text("import", true)? {}
+        // import / export
+        if self.read_exact_text("import", true)? || self.read_exact_text("export", true)? {}
+
+        // jsx elem / jsx frag
+        if self.read_exact_text("<", true)? {}
+
+        if self.read_exact_text("#", true)? {
+            let mut cnt = 1;
+
+            while self.i.eat_byte(b'#') {
+                cnt += 1;
+            }
+
+            let content = self.parse_text_nodes()?;
+
+            let span = self.span(start);
+
+            return Ok(BlockNode::Header {
+                span,
+                hash_cnt: cnt,
+                content,
+            });
+        }
 
         todo!()
     }
 
     pub fn parse_text_node(&mut self) -> PResult<TextNode> {
+        todo!()
+    }
+
+    pub fn parse_text_nodes(&mut self) -> PResult<Vec<TextNode>> {
         todo!()
     }
 
