@@ -174,7 +174,15 @@ pub(crate) fn replace_id_with_expr<N>(node: &mut N, from: Id, to: Box<Expr>)
 where
     N: VisitMutWith<ExprReplacer>,
 {
-    node.visit_mut_with(&mut ExprReplacer { from, to: Some(to) })
+    let mut v = ExprReplacer {
+        from: from.clone(),
+        to: Some(to),
+    };
+    node.visit_mut_with(&mut v);
+
+    if v.to.is_some() {
+        unreachable!("failed to inline `{}{:?}`", from.0, from.1)
+    }
 }
 
 pub(crate) struct ExprReplacer {
