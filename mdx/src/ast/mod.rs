@@ -4,6 +4,7 @@ use swc_ecma_ast::*;
 #[derive(Debug, Clone, PartialEq, Spanned)]
 pub struct MdxFile {
     pub span: Span,
+    pub content: Vec<BlockNode>,
 }
 
 #[derive(Debug, Clone, PartialEq)]
