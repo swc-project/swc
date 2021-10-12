@@ -226,7 +226,7 @@ impl VisitMut for MultiReplacer {
 
             if cfg!(feature = "debug") {
                 let keys = self.vars.iter().map(|(k, _)| k.clone()).collect::<Vec<_>>();
-                dbg!(&keys);
+                debug!("Left: {:?}", keys);
             }
         }
     }
