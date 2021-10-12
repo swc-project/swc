@@ -1,11 +1,10 @@
 //! Third one
 
-use crate::hygiene::{analyzer::CurScope, unique_scope::unique_scope};
+use super::usage_analyzer::Analyzer;
+use crate::hygiene::{unique_scope::unique_scope, usage_analyzer::CurScope};
 use swc_common::{chain, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith, VisitWith};
-
-use super::analyzer::Analyzer;
 
 pub fn hygiene3() -> impl Fold + VisitMut {
     as_folder(chain!(unique_scope(), Renaming::default()))

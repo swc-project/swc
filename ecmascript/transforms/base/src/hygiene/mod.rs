@@ -15,12 +15,12 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
-mod analyzer;
 pub mod hygiene3;
 mod ops;
 #[cfg(test)]
 mod tests;
 mod unique_scope;
+mod usage_analyzer;
 
 const LOG: bool = false;
 
