@@ -10,8 +10,6 @@ use swc_ecma_parser::JscTarget;
 ///
 /// https://github.com/Microsoft/TypeScript/blob/45eaf42006/src/compiler/utilities.ts#L2548
 pub struct JsWriter<'a, W: Write> {
-    /// We may use this in future...
-    _cm: Lrc<SourceMap>,
     indent: usize,
     line_start: bool,
     line_count: usize,
@@ -33,14 +31,13 @@ impl<'a, W: Write> JsWriter<'a, W> {
     }
 
     pub fn with_target(
-        cm: Lrc<SourceMap>,
+        _: Lrc<SourceMap>,
         new_line: &'a str,
         wr: W,
         srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
         target: JscTarget,
     ) -> Self {
         JsWriter {
-            _cm: cm,
             indent: Default::default(),
             line_start: true,
             line_count: 0,
