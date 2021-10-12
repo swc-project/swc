@@ -702,6 +702,7 @@ where
         Ok(())
     }
 
+    /// Expects current char to be '/' and next char to be '*'.
     fn skip_block_comment(&mut self) -> LexResult<()> {
         debug_assert_eq!(self.input.cur(), Some('/'));
         debug_assert_eq!(self.input.peek(), Some('*'));
