@@ -75,10 +75,7 @@ impl<T: Clone> OneDirectionalList<T> {
 
     pub fn push(&mut self, item: T) {
         let previous = self.last_node.take();
-        let new_item = OneDirectionalListNode {
-            item,
-            previous,
-        };
+        let new_item = OneDirectionalListNode { item, previous };
         self.last_node = Some(Rc::new(new_item));
     }
 }
