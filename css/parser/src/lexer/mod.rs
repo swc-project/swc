@@ -92,26 +92,6 @@ where
             return Err(ErrorKind::Eof);
         }
 
-        if self.input.is_byte(b'/') {
-            if self.input.peek() == Some('/') {
-                self.skip_line_comment(2)?;
-                self.skip_ws()?;
-                self.start_pos = self.input.cur_pos();
-                return self.read_token();
-            } else if self.input.peek() == Some('*') {
-                self.skip_block_comment()?;
-                self.skip_ws()?;
-                self.start_pos = self.input.cur_pos();
-                return self.read_token();
-            }
-        macro_rules! try_delim {
-            ($b:tt,$tok:tt) => {{
-                if self.input.eat_byte($b) {
-                    return Ok(tok!($tok));
-                }
-            }};
-        }
-
         if self.input.is_byte(b'/') && self.input.peek() == Some('*') {
             self.skip_block_comment()?;
             self.skip_ws()?;
