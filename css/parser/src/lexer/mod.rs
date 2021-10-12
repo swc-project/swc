@@ -92,14 +92,6 @@ where
             return Err(ErrorKind::Eof);
         }
 
-        macro_rules! try_delim {
-            ($b:tt,$tok:tt) => {{
-                if self.input.eat_byte($b) {
-                    return Ok(tok!($tok));
-                }
-            }};
-        }
-
         if self.input.is_byte(b'/') {
             if self.input.peek() == Some('/') {
                 self.skip_line_comment(2)?;
@@ -114,21 +106,18 @@ where
             }
         }
 
-        try_delim!(b'(', "(");
-        try_delim!(b')', ")");
+        macro_rules! try_delim {
+            ($b:tt,$tok:tt) => {{
+                if self.input.eat_byte($b) {
+                    return Ok(tok!($tok));
+                }
+            }};
+        }
 
-        try_delim!(b'[', "[");
-        try_delim!(b']', "]");
-
-        try_delim!(b'{', "{");
-        try_delim!(b'}', "}");
-
-        try_delim!(b',', ",");
+        // TODO: it is delim tokens
         try_delim!(b'=', "=");
         try_delim!(b'*', "*");
         try_delim!(b'$', "$");
-        try_delim!(b':', ":");
-        try_delim!(b';', ";");
         try_delim!(b'^', "^");
         try_delim!(b'%', "%");
         try_delim!(b'!', "!");
@@ -140,13 +129,50 @@ where
         // TODO: Plus can start a number
         try_delim!(b'/', "/");
 
-        if self.input.eat_byte(b'@') {
-            return self.read_at_keyword();
+        if let Some(c) = self.input.cur() {
+            if is_whitespace(c) {
+                self.skip_ws()?;
+
+                return Ok(tok!(" "));
+            }
         }
 
-        if self.input.is_byte(b'<') {
-            return self.read_less_than();
+        if self.input.is_byte(b'"') {
+            return self.read_str(None);
         }
+
+        if self.input.is_byte(b'#') {
+            let c = self.input.cur().unwrap();
+
+            self.input.bump();
+
+            if is_name_continue(self.input.cur().unwrap()) || self.is_valid_escape()? {
+                let is_id = self.would_start_ident()?;
+                let name = self.read_name()?;
+
+                return Ok(Token::Hash {
+                    is_id,
+                    value: name.0,
+                    raw: name.1,
+                });
+            }
+
+            return Ok(Token::Delim { value: c });
+        }
+
+        if self.input.is_byte(b'\'') {
+            return self.read_str(None);
+        }
+
+        try_delim!(b'(', "(");
+
+        try_delim!(b')', ")");
+
+        if self.input.is_byte(b'+') {
+            return self.read_plus();
+        }
+
+        try_delim!(b',', ",");
 
         if self.input.is_byte(b'-') {
             return self.read_minus();
@@ -156,78 +182,89 @@ where
             return self.read_dot();
         }
 
-        if self.input.is_byte(b'+') {
-            return self.read_plus();
+        try_delim!(b':', ":");
+
+        try_delim!(b';', ";");
+
+        if self.input.is_byte(b'<') {
+            let c = self.input.cur().unwrap();
+
+            self.input.bump();
+
+            // <!--
+            if self.input.is_byte(b'!')
+                && self.input.peek() == Some('-')
+                && self.input.peek_ahead() == Some('-')
+            {
+                self.input.bump(); // !
+                self.input.bump(); // -
+                self.input.bump(); // -
+
+                return Ok(tok!("<!--"));
+            }
+
+            return Ok(Token::Delim { value: c });
         }
+
+        if self.input.is_byte(b'@') {
+            let c = self.input.cur().unwrap();
+
+            self.input.bump();
+
+            if self.would_start_ident()? {
+                return self.read_at_keyword();
+            }
+
+            return Ok(Token::Delim { value: c });
+        }
+
+        try_delim!(b'[', "[");
 
         if self.input.is_byte(b'\\') {
+            let c = self.input.cur().unwrap();
+
             if self.is_valid_escape()? {
                 return self.read_ident_like();
-            } else {
-                return Err(ErrorKind::InvalidEscape);
+            }
+
+            self.input.bump();
+
+            return Ok(Token::Delim { value: c });
+        }
+
+        try_delim!(b']', "]");
+
+        try_delim!(b'{', "{");
+
+        try_delim!(b'}', "}");
+
+        if let Some('0'..='9') = self.input.cur() {
+            return self.read_number();
+        }
+
+        if let Some(c) = self.input.cur() {
+            if is_name_start(c) {
+                return self.read_ident_like();
             }
         }
 
-        match self.input.cur() {
-            Some(c) => match c {
-                '0'..='9' => return self.read_number(),
-
-                c if is_whitespace(c) => {
-                    self.skip_ws()?;
-                    return Ok(tok!(" "));
-                }
-
-                '\'' | '"' => return self.read_str(None),
-
-                '#' => {
-                    self.input.bump();
-
-                    if let Some(c) = self.input.cur() {
-                        Ok(if is_name_continue(c) || self.is_valid_escape()? {
-                            let is_id = self.would_start_ident()?;
-
-                            let name = self.read_name()?;
-
-                            Token::Hash {
-                                is_id,
-                                value: name.0,
-                                raw: name.1,
-                            }
-                        } else {
-                            // TODO: Verify if this is ok.
-                            Token::Hash {
-                                is_id: false,
-                                value: js_word!(""),
-                                raw: js_word!(""),
-                            }
-                        })
-                    } else {
-                        Err(ErrorKind::Eof)
-                    }
-                }
-
-                _ => {
-                    if is_name_start(c) {
-                        return self.read_ident_like();
-                    }
-
-                    todo!("read_token (cur = {:?})", c)
-                }
-            },
-            None => {
-                unreachable!()
-            }
+        // TODO: Return an <EOF-token>.
+        if self.input.cur().is_none() {
+            unreachable!()
         }
+
+        let c = self.input.cur().unwrap();
+
+        self.input.bump();
+
+        return Ok(Token::Delim { value: c });
     }
 
-    /// Ported from `isValidEscape` of `esbuild`
     fn is_valid_escape(&mut self) -> LexResult<bool> {
-        if self.input.cur().is_none() {
+        if self.input.cur() != Some('\\') {
             return Ok(false);
         }
-        if self.input.cur().unwrap() != '\\' {
-            return Ok(false);
-        }
+
         let c = self.input.peek();
 
         match c {
@@ -236,6 +273,8 @@ where
         }
     }
 
+    /// Ported from `consumeIdentLike` of `esbuild`
+    // TODO: rewrite https://www.w3.org/TR/css-syntax-3/#consume-an-ident-like-token
     fn read_ident_like(&mut self) -> LexResult<Token> {
         let name = self.read_name()?;
 
@@ -522,25 +561,6 @@ where
         })
     }
 
-    fn read_less_than(&mut self) -> LexResult<Token> {
-        assert_eq!(self.input.cur(), Some('<'));
-        self.input.bump(); // <
-
-        // <!--
-        if self.input.is_byte(b'!')
-            && self.input.peek() == Some('-')
-            && self.input.peek_ahead() == Some('-')
-        {
-            self.input.bump(); // !
-            self.input.bump(); // -
-            self.input.bump(); // -
-
-            return Ok(tok!("<!--"));
-        }
-
-        Err(ErrorKind::UnexpectedChar(self.input.cur()))
-    }
-
     fn read_minus(&mut self) -> LexResult<Token> {
         assert_eq!(self.input.cur(), Some('-'));
 
@@ -725,18 +745,52 @@ where
     }
 }
 
+#[inline(always)]
+fn is_digit(c: char) -> bool {
+    match c {
+        '0'..='9' => true,
+        _ => false,
+    }
+}
+
+#[inline(always)]
+fn is_uppercase_letter(c: char) -> bool {
+    match c {
+        'A'..='Z' => true,
+        _ => false,
+    }
+}
+
+#[inline(always)]
+fn is_lowercase_letter(c: char) -> bool {
+    match c {
+        'a'..='z' => true,
+        _ => false,
+    }
+}
+
+#[inline(always)]
+fn is_letter(c: char) -> bool {
+    is_uppercase_letter(c) || is_lowercase_letter(c)
+}
+
+#[inline(always)]
+fn is_non_ascii(c: char) -> bool {
+    c as u32 >= 0x80
+}
+
 pub(crate) fn is_name_start(c: char) -> bool {
     match c {
-        'a'..='z' | 'A'..='Z' | '_' | '\x00' => true,
-
-        _ => c as u32 >= 0x80,
+        // TODO: `\x00` is not valid
+        c if is_letter(c) || is_non_ascii(c) || c == '_' || c == '\x00' => true,
+        _ => false,
     }
 }
 
 pub(crate) fn is_name_continue(c: char) -> bool {
     is_name_start(c)
         || match c {
-            '0'..='9' | '-' => true,
+            c if is_digit(c) || c == '-' => true,
             _ => false,
         }
 }

@@ -23,6 +23,10 @@ pub enum Token {
         raw: JsWord,
     },
 
+    Delim {
+        value: char,
+    },
+
     /// `(`
     LParen,
 
