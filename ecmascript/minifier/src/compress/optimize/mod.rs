@@ -1,6 +1,6 @@
 #![allow(dead_code)]
 
-use self::util::replace_id_with_expr;
+use self::util::MultiReplacer;
 use crate::{
     analyzer::{ProgramData, UsageAnalyzer},
     compress::util::is_pure_undefined,
@@ -14,15 +14,18 @@ use retain_mut::RetainMut;
 use std::{fmt::Write, mem::take};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
-    collections::AHashMap, iter::IdentifyLast, pass::Repeated, util::take::Take, Mark, Spanned,
-    SyntaxContext, DUMMY_SP,
+    collections::AHashMap,
+    iter::IdentifyLast,
+    pass::{Repeat, Repeated},
+    util::take::Take,
+    Mark, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     ident::IdentLike, prepend_stmts, undefined, ExprExt, ExprFactory, Id, IsEmpty, ModuleItemLike,
     StmtLike, Type, Value,
 };
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith, VisitWith};
 use tracing::{span, Level};
 use Value::Known;
 
@@ -2048,23 +2051,12 @@ where
         };
         self.with_ctx(ctx).handle_stmt_likes(stmts);
 
-        for (from, to) in self.state.inlined_vars.drain() {
-            tracing::debug!("inline: Inlining `{}{:?}`", from.0, from.1);
-            let expr = replace_id_with_expr(stmts, from.clone(), to);
-
-            if expr.is_some() {
-                unreachable!(
-                    "failed to inline `{}{:?}`\n\n{}",
-                    from.0,
-                    from.1,
-                    dump(&Module {
-                        span: DUMMY_SP,
-                        shebang: Default::default(),
-                        body: stmts.clone()
-                    })
-                );
-            }
-        }
+        stmts.map_with_mut(|v| {
+            v.fold_with(&mut Repeat::new(as_folder(MultiReplacer {
+                vars: take(&mut self.state.inlined_vars),
+                changed: false,
+            })))
+        });
 
         stmts.retain(|s| match s {
             ModuleItem::Stmt(Stmt::Empty(..)) => false,
