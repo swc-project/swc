@@ -19,9 +19,16 @@ pub enum BlockNode {
         hash_cnt: usize,
         content: Vec<TextNode>,
     },
-    Paragraph(Vec<TextNode>),
-    Blockquote(Vec<BlockNode>),
-    CodeBlock(Option<String>, String),
+    Paragraph {
+        content: Vec<TextNode>,
+    },
+    Blockquote {
+        content: Vec<BlockNode>,
+    },
+    CodeBlock {
+        lang: Option<String>,
+        content: String,
+    },
     OrderedList {
         span: Span,
         items: Vec<ListItem>,
