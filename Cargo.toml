@@ -11,6 +11,7 @@ members = [
   "crates/swc_plugin_testing",
   "crates/swc_stylis",
   "crates/wasm",
+  "mdx",
 ]
 
 [profile.release]

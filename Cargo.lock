@@ -3166,6 +3166,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_mdx"
+version = "0.1.0"
+dependencies = [
+ "swc_atoms 0.2.8",
+ "swc_common",
+]
+
+[[package]]
 name = "swc_node_base"
 version = "0.5.1"
 dependencies = [
