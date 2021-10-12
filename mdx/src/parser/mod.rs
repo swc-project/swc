@@ -19,6 +19,29 @@ impl<I> Parser<I>
 where
     I: Input,
 {
+    fn read_exact_text(&mut self, expected: &'static str, skip_ws: bool) -> PResult<bool> {
+        let start = self.i.cur_pos();
+
+        if skip_ws {
+            loop {
+                if self.i.eat_byte(b' ') || self.i.eat_byte(b'\t') {
+                    continue;
+                }
+
+                break;
+            }
+        }
+
+        for chars in expected.chars() {
+            if self.i.cur() != Some(chars) {
+                self.i.reset_to(start);
+                return Ok(false);
+            }
+        }
+
+        Ok(true)
+    }
+
     pub fn parse_block_nodes(&mut self) -> PResult<Vec<BlockNode>> {
         let mut buf = vec![];
 
@@ -32,6 +55,10 @@ where
     }
 
     pub fn parse_block_node(&mut self) -> PResult<BlockNode> {
+        let start = self.i.cur_pos();
+
+        if self.read_exact_text("import", true)? {}
+
         todo!()
     }
 
