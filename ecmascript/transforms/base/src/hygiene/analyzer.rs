@@ -126,6 +126,18 @@ impl Visit for Analyzer<'_> {
         self.visit_with_scope(f.span.ctxt, ScopeKind::Block, |v| f.visit_children_with(v))
     }
 
+    fn visit_catch_clause(&mut self, c: &CatchClause, _: &dyn Node) {
+        let old = self.is_pat_decl;
+
+        self.is_pat_decl = true;
+        c.param.visit_with(c, self);
+
+        self.is_pat_decl = false;
+        c.body.visit_with(c, self);
+
+        self.is_pat_decl = old;
+    }
+
     fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
         e.visit_children_with(self);
 
