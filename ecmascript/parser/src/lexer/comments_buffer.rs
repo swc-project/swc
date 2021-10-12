@@ -58,13 +58,9 @@ impl<T: Clone> OneDirectionalList<T> {
         Self { last_node: None }
     }
 
-    pub fn len(&self) -> usize {
-        self.last_node.as_ref().map(|i| i.length).unwrap_or(0)
-    }
-
     pub fn take_all(&mut self) -> Rev<IntoIter<T>> {
         // these are stored in reverse, so we need to reverse them back
-        let mut items = Vec::with_capacity(self.len());
+        let mut items = Vec::new();
         let mut current_node = self.last_node.take();
         while let Some(node) = current_node {
             let mut node = match Rc::try_unwrap(node) {
@@ -79,11 +75,9 @@ impl<T: Clone> OneDirectionalList<T> {
 
     pub fn push(&mut self, item: T) {
         let previous = self.last_node.take();
-        let length = previous.as_ref().map(|p| p.length + 1).unwrap_or(1);
         let new_item = OneDirectionalListNode {
             item,
             previous,
-            length,
         };
         self.last_node = Some(Rc::new(new_item));
     }
@@ -93,5 +87,4 @@ impl<T: Clone> OneDirectionalList<T> {
 struct OneDirectionalListNode<T: Clone> {
     item: T,
     previous: Option<Rc<OneDirectionalListNode<T>>>,
-    length: usize,
 }
