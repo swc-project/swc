@@ -14,18 +14,15 @@ use retain_mut::RetainMut;
 use std::{fmt::Write, mem::take};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
-    collections::AHashMap,
-    iter::IdentifyLast,
-    pass::{Repeat, Repeated},
-    util::take::Take,
-    Mark, Spanned, SyntaxContext, DUMMY_SP,
+    collections::AHashMap, iter::IdentifyLast, pass::Repeated, util::take::Take, Mark, Spanned,
+    SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     ident::IdentLike, prepend_stmts, undefined, ExprExt, ExprFactory, Id, IsEmpty, ModuleItemLike,
     StmtLike, Type, Value,
 };
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use tracing::{span, Level};
 use Value::Known;
 
@@ -2051,11 +2048,9 @@ where
         };
         self.with_ctx(ctx).handle_stmt_likes(stmts);
 
-        stmts.map_with_mut(|v| {
-            v.fold_with(&mut Repeat::new(as_folder(MultiReplacer {
-                vars: take(&mut self.state.inlined_vars),
-                changed: false,
-            })))
+        stmts.visit_mut_with(&mut MultiReplacer {
+            vars: take(&mut self.state.inlined_vars),
+            changed: false,
         });
 
         stmts.retain(|s| match s {

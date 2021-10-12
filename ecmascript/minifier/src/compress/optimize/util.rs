@@ -7,6 +7,7 @@ use swc_common::{collections::AHashMap, pass::Repeated, Span};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, prop_name_eq, ExprExt, Id};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use tracing::debug;
 
 impl<'b, M> Optimizer<'b, M>
 where
@@ -194,6 +195,7 @@ impl VisitMut for MultiReplacer {
         match e {
             Expr::Ident(i) => {
                 if let Some(new) = self.vars.remove(&i.to_id()) {
+                    debug!("multi-replacer: Replaced `{}`", i);
                     *e = *new;
                     self.changed = true;
                 }
@@ -207,6 +209,25 @@ impl VisitMut for MultiReplacer {
 
         if e.computed {
             e.prop.visit_mut_with(self);
+        }
+    }
+
+    fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
+        loop {
+            self.changed = false;
+            if self.vars.is_empty() {
+                break;
+            }
+            items.visit_mut_children_with(self);
+
+            if self.changed {
+                continue;
+            }
+
+            if cfg!(feature = "debug") {
+                let keys = self.vars.iter().map(|(k, _)| k.clone()).collect::<Vec<_>>();
+                dbg!(&keys);
+            }
         }
     }
 }
