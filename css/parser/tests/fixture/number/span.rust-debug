@@ -1,38 +1,38 @@
 error: Stylesheet
- --> $DIR/tests/fixture/number/input.css:1:1
-  |
-1 | / div {
-2 | |     property: 10;
-3 | |     property: +10;
-4 | |     property: -10;
-... |
-7 | |     property: -0.1;
-8 | | }
-  | |__^
+  --> $DIR/tests/fixture/number/input.css:1:1
+   |
+1  | / div {
+2  | |     property: 10;
+3  | |     property: +10;
+4  | |     property: -10;
+...  |
+9  | |     property: +.1;
+10 | | }
+   | |__^
 
 error: Rule
- --> $DIR/tests/fixture/number/input.css:1:1
-  |
-1 | / div {
-2 | |     property: 10;
-3 | |     property: +10;
-4 | |     property: -10;
-... |
-7 | |     property: -0.1;
-8 | | }
-  | |_^
+  --> $DIR/tests/fixture/number/input.css:1:1
+   |
+1  | / div {
+2  | |     property: 10;
+3  | |     property: +10;
+4  | |     property: -10;
+...  |
+9  | |     property: +.1;
+10 | | }
+   | |_^
 
 error: StyleRule
- --> $DIR/tests/fixture/number/input.css:1:1
-  |
-1 | / div {
-2 | |     property: 10;
-3 | |     property: +10;
-4 | |     property: -10;
-... |
-7 | |     property: -0.1;
-8 | | }
-  | |_^
+  --> $DIR/tests/fixture/number/input.css:1:1
+   |
+1  | / div {
+2  | |     property: 10;
+3  | |     property: +10;
+4  | |     property: -10;
+...  |
+9  | |     property: +.1;
+10 | | }
+   | |_^
 
 error: ComplexSelector
  --> $DIR/tests/fixture/number/input.css:1:1
@@ -59,17 +59,17 @@ error: Text
   | ^^^
 
 error: DeclBlock
- --> $DIR/tests/fixture/number/input.css:1:5
-  |
-1 |   div {
-  |  _____^
-2 | |     property: 10;
-3 | |     property: +10;
-4 | |     property: -10;
-... |
-7 | |     property: -0.1;
-8 | | }
-  | |_^
+  --> $DIR/tests/fixture/number/input.css:1:5
+   |
+1  |   div {
+   |  _____^
+2  | |     property: 10;
+3  | |     property: +10;
+4  | |     property: -10;
+...  |
+9  | |     property: +.1;
+10 | | }
+   | |_^
 
 error: Property
  --> $DIR/tests/fixture/number/input.css:2:5
@@ -214,4 +214,52 @@ error: Num
   |
 7 |     property: -0.1;
   |               ^^^^
+
+error: Property
+ --> $DIR/tests/fixture/number/input.css:8:5
+  |
+8 |     property: -.1;
+  |     ^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/number/input.css:8:5
+  |
+8 |     property: -.1;
+  |     ^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/number/input.css:8:15
+  |
+8 |     property: -.1;
+  |               ^^^
+
+error: Num
+ --> $DIR/tests/fixture/number/input.css:8:15
+  |
+8 |     property: -.1;
+  |               ^^^
+
+error: Property
+ --> $DIR/tests/fixture/number/input.css:9:5
+  |
+9 |     property: +.1;
+  |     ^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/number/input.css:9:5
+  |
+9 |     property: +.1;
+  |     ^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/number/input.css:9:15
+  |
+9 |     property: +.1;
+  |               ^^^
+
+error: Num
+ --> $DIR/tests/fixture/number/input.css:9:15
+  |
+9 |     property: +.1;
+  |               ^^^
 
