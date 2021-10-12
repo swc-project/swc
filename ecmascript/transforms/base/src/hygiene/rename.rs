@@ -1,3 +1,5 @@
+use std::mem::take;
+
 use super::usage_analyzer::FreezedData;
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, SyntaxContext, DUMMY_SP};
@@ -58,20 +60,70 @@ impl RenameAnalyzer<'_> {
             n.visit_with(&Invalid { span: DUMMY_SP }, self);
         }
     }
+
+    fn visit_with_scope<F>(&mut self, scope_ctxt: SyntaxContext, op: F)
+    where
+        F: for<'aa> FnOnce(&mut RenameAnalyzer<'aa>),
+    {
+        let ops = take(&mut self.ops);
+        let mut v = RenameAnalyzer {
+            data: &self.data,
+            scope_ctxt,
+            ops,
+            par_depth: self.par_depth,
+        };
+        op(&mut v);
+        self.ops = v.ops;
+    }
 }
 
 impl Visit for RenameAnalyzer<'_> {
     noop_visit_type!();
 
+    fn visit_arrow_expr(&mut self, f: &ArrowExpr, _: &dyn Node) {
+        self.visit_with_scope(f.span.ctxt, |v| {
+            f.params.visit_with(f, v);
+
+            match &f.body {
+                BlockStmtOrExpr::BlockStmt(body) => {
+                    // Bypass
+                    body.visit_children_with(v);
+                }
+                BlockStmtOrExpr::Expr(body) => {
+                    body.visit_with(f, v);
+                }
+            }
+        })
+    }
+
+    fn visit_block_stmt(&mut self, n: &BlockStmt, _: &dyn Node) {
+        self.visit_with_scope(n.span.ctxt, |v| n.visit_children_with(v))
+    }
+
     fn visit_exprs(&mut self, items: &[Box<Expr>], _: &dyn Node) {
         self.visit_par(items, 4);
     }
 
-    fn visit_stmts(&mut self, items: &[Stmt], _: &dyn Node) {
-        self.visit_par(items, 128);
+    fn visit_function(&mut self, f: &Function, _: &dyn Node) {
+        f.decorators.visit_with(f, self);
+
+        self.visit_with_scope(f.span.ctxt, |v| {
+            f.params.visit_with(f, v);
+
+            match f.body.as_ref() {
+                Some(body) => {
+                    body.visit_children_with(v);
+                }
+                None => {}
+            }
+        });
     }
 
     fn visit_module_items(&mut self, items: &[ModuleItem], _: &dyn Node) {
         self.visit_par(items, 64);
+    }
+
+    fn visit_stmts(&mut self, items: &[Stmt], _: &dyn Node) {
+        self.visit_par(items, 128);
     }
 }
