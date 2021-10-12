@@ -1,4 +1,4 @@
-use std::rc::Rc;
+use std::{iter::Rev, rc::Rc, vec::IntoIter};
 
 use swc_common::{comments::Comment, BytePos};
 
@@ -37,12 +37,12 @@ impl CommentsBuffer {
         self.pending_leading.push(comment);
     }
 
-    pub fn take_comments_reversed(&mut self) -> Vec<BufferedComment> {
-        self.comments.take_all_reversed()
+    pub fn take_comments(&mut self) -> Rev<IntoIter<BufferedComment>> {
+        self.comments.take_all()
     }
 
-    pub fn take_pending_leading_reversed(&mut self) -> Vec<Comment> {
-        self.pending_leading.take_all_reversed()
+    pub fn take_pending_leading(&mut self) -> Rev<IntoIter<Comment>> {
+        self.pending_leading.take_all()
     }
 }
 
@@ -62,7 +62,7 @@ impl<T: Clone> OneDirectionalList<T> {
         self.last_node.as_ref().map(|i| i.length).unwrap_or(0)
     }
 
-    pub fn take_all_reversed(&mut self) -> Vec<T> {
+    pub fn take_all(&mut self) -> Rev<IntoIter<T>> {
         // these are stored in reverse, so we need to reverse them back
         let mut items = Vec::with_capacity(self.len());
         let mut current_node = self.last_node.take();
@@ -74,13 +74,17 @@ impl<T: Clone> OneDirectionalList<T> {
             items.push(node.item);
             current_node = node.previous.take();
         }
-        items
+        items.into_iter().rev()
     }
 
     pub fn push(&mut self, item: T) {
         let previous = self.last_node.take();
         let length = previous.as_ref().map(|p| p.length + 1).unwrap_or(1);
-        let new_item = OneDirectionalListNode { item, previous, length };
+        let new_item = OneDirectionalListNode {
+            item,
+            previous,
+            length,
+        };
         self.last_node = Some(Rc::new(new_item));
     }
 }
