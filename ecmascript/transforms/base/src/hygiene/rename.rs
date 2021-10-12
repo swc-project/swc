@@ -75,6 +75,8 @@ impl RenameAnalyzer<'_> {
         op(&mut v);
         self.ops = v.ops;
     }
+
+    fn rename_usage(&mut self, i: &Ident) {}
 }
 
 impl Visit for RenameAnalyzer<'_> {
@@ -98,6 +100,17 @@ impl Visit for RenameAnalyzer<'_> {
 
     fn visit_block_stmt(&mut self, n: &BlockStmt, _: &dyn Node) {
         self.visit_with_scope(n.span.ctxt, |v| n.visit_children_with(v))
+    }
+
+    fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
+        e.visit_children_with(self);
+
+        match e {
+            Expr::Ident(i) => {
+                self.rename_usage(&i);
+            }
+            _ => {}
+        }
     }
 
     fn visit_exprs(&mut self, items: &[Box<Expr>], _: &dyn Node) {
