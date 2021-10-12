@@ -7,10 +7,10 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_atoms"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.2.7"
+version = "0.2.8"
 
 [dependencies]
-string_cache = "0.8"
+string_cache = "0.8.2"
 
 [build-dependencies]
 string_cache_codegen = "0.5"
