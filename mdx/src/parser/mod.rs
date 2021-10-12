@@ -23,9 +23,20 @@ where
         Span::new(start, self.i.last_pos(), Default::default())
     }
 
-    fn read_exact_text(&mut self, expected: &'static str, skip_ws: bool) -> PResult<bool> {
+    fn skip_ws(&mut self) -> PResult<()> {
+        loop {
+            if self.i.eat_byte(b' ') || self.i.eat_byte(b'\t') {
+                continue;
+            }
+
+            return Ok(());
+        }
+    }
+
+    fn read_exact_at_line_start(&mut self, expected: &'static str, skip_ws: bool) -> PResult<bool> {
         let start = self.i.cur_pos();
 
+        // TODO: Line start
         if skip_ws {
             loop {
                 if self.i.eat_byte(b' ')
@@ -66,17 +77,21 @@ where
         let start = self.i.cur_pos();
 
         // import / export
-        if self.read_exact_text("import", true)? || self.read_exact_text("export", true)? {}
+        if self.read_exact_at_line_start("import", true)?
+            || self.read_exact_at_line_start("export", true)?
+        {}
 
         // jsx elem / jsx frag
-        if self.read_exact_text("<", true)? {}
+        if self.read_exact_at_line_start("<", true)? {}
 
-        if self.read_exact_text("#", true)? {
+        if self.read_exact_at_line_start("#", true)? {
             let mut cnt = 1;
 
             while self.i.eat_byte(b'#') {
                 cnt += 1;
             }
+
+            self.skip_ws()?;
 
             let content = self.parse_text_nodes()?;
 
@@ -88,6 +103,8 @@ where
                 content,
             });
         }
+
+        if self.read_exact_at_line_start("```", true)? {}
 
         todo!()
     }
