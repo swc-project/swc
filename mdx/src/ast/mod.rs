@@ -20,12 +20,15 @@ pub enum BlockNode {
         content: Vec<TextNode>,
     },
     Paragraph {
+        span: Span,
         content: Vec<TextNode>,
     },
     Blockquote {
+        span: Span,
         content: Vec<BlockNode>,
     },
     CodeBlock {
+        span: Span,
         lang: Option<String>,
         content: String,
     },
@@ -39,7 +42,9 @@ pub enum BlockNode {
         items: Vec<ListItem>,
     },
     Raw(Text),
-    Hr,
+    Hr {
+        span: Span,
+    },
 }
 
 #[derive(Debug, Clone, PartialEq)]
