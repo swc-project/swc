@@ -47,6 +47,8 @@ fn print_bundles(cm: Lrc<SourceMap>, modules: Vec<Bundle>) {
 
 fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
     testing::run_test2(false, |cm, _| {
+        let start = Instant::now();
+
         let globals = Globals::default();
         let bundler = Bundler::new(
             &globals,
@@ -66,6 +68,11 @@ fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
             .bundle(entries)
             .map_err(|err| println!("{:?}", err))?;
         println!("Bundled as {} modules", modules.len());
+
+        {
+            let dur = start.elapsed();
+            println!("Bundler.bundle() took {:?}", dur);
+        }
 
         let error = false;
 
