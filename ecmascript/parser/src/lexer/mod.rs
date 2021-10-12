@@ -1,10 +1,10 @@
 //! ECMAScript lexer.
 
+use self::{comments_buffer::CommentsBuffer, state::State, util::*};
 pub use self::{
     input::Input,
     state::{TokenContext, TokenContexts},
 };
-use self::{state::State, util::*};
 use crate::{
     error::{Error, SyntaxError},
     token::*,
@@ -14,12 +14,10 @@ use either::Either::{Left, Right};
 use smallvec::{smallvec, SmallVec};
 use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{
-    comments::{Comment, Comments},
-    BytePos, Span,
-};
+use swc_common::{comments::Comments, BytePos, Span};
 use swc_ecma_ast::op;
 
+mod comments_buffer;
 pub mod input;
 mod jsx;
 mod number;
@@ -101,15 +99,10 @@ impl FusedIterator for CharIter {}
 pub struct Lexer<'a, I: Input> {
     comments: Option<&'a dyn Comments>,
     /// [Some] if comment comment parsing is enabled. Otherwise [None]
-    leading_comments_buffer: Option<Rc<RefCell<Vec<Comment>>>>,
+    comments_buffer: Option<CommentsBuffer>,
 
     pub(crate) ctx: Context,
     input: I,
-    /// Stores last position of the last comment.
-    ///
-    /// [Rc] and [RefCell] is used because this value should always increment,
-    /// even if backtracking fails.
-    last_comment_pos: Rc<RefCell<BytePos>>,
 
     state: State,
     pub(crate) syntax: Syntax,
@@ -132,14 +125,9 @@ impl<'a, I: Input> Lexer<'a, I> {
     ) -> Self {
         Lexer {
             comments,
-            leading_comments_buffer: if comments.is_some() {
-                Some(Default::default())
-            } else {
-                None
-            },
+            comments_buffer: comments.is_some().then(CommentsBuffer::new),
             ctx: Default::default(),
             input,
-            last_comment_pos: Rc::new(RefCell::new(BytePos(0))),
             state: State::new(syntax),
             syntax,
             target,
@@ -635,12 +623,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         self.bump();
 
         // XML style comment. `<!--`
-        if !self.ctx.dont_store_comments
-            && c == '<'
-            && self.is(b'!')
-            && self.peek() == Some('-')
-            && self.peek_ahead() == Some('-')
-        {
+        if c == '<' && self.is(b'!') && self.peek() == Some('-') && self.peek_ahead() == Some('-') {
             self.skip_line_comment(3);
             self.skip_space()?;
             self.emit_module_mode_error(start, SyntaxError::LegacyCommentInModule);

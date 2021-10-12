@@ -183,56 +183,95 @@ fn issue_1878() {
 
 #[test]
 fn issue_2264_1() {
-    // file with only comments should have the comments
-    // in the leading map instead of the trailing
-    {
-        let c = SingleThreadedComments::default();
-        let s = "
-            const t = <Switch>
-                // 1
-                /* 2 */
-            </Switch>
-        ";
-        let _ = super::test_parser_comment(
-            &c,
-            s,
-            Syntax::Typescript(TsConfig {
-                tsx: true,
-                ..Default::default()
-            }),
-            |p| p.parse_typescript_module(),
-        );
+    let c = SingleThreadedComments::default();
+    let s = "
+        const t = <Switch>
+            // 1
+            /* 2 */
+        </Switch>
+    ";
+    let _ = super::test_parser_comment(
+        &c,
+        s,
+        Syntax::Typescript(TsConfig {
+            tsx: true,
+            ..Default::default()
+        }),
+        |p| p.parse_typescript_module(),
+    );
 
-        let (leading, trailing) = c.take_all();
-        assert!(leading.borrow().is_empty());
-        assert!(trailing.borrow().is_empty());
-    }
+    let (leading, trailing) = c.take_all();
+    assert!(leading.borrow().is_empty());
+    assert!(trailing.borrow().is_empty());
 }
 
 #[test]
 fn issue_2264_2() {
-    // file with only comments should have the comments
-    // in the leading map instead of the trailing
-    {
-        let c = SingleThreadedComments::default();
-        let s = "
-            const t = <Switch>
-                // 1
-                /* 2 */
-            </Switch>
-        ";
-        let _ = super::test_parser_comment(
-            &c,
-            s,
-            Syntax::Es(EsConfig {
-                jsx: true,
-                ..Default::default()
-            }),
-            |p| p.parse_module(),
-        );
+    let c = SingleThreadedComments::default();
+    let s = "
+        const t = <Switch>
+            // 1
+            /* 2 */
+        </Switch>
+    ";
+    let _ = super::test_parser_comment(
+        &c,
+        s,
+        Syntax::Es(EsConfig {
+            jsx: true,
+            ..Default::default()
+        }),
+        |p| p.parse_module(),
+    );
 
-        let (leading, trailing) = c.take_all();
-        assert!(leading.borrow().is_empty());
-        assert!(trailing.borrow().is_empty());
-    }
+    let (leading, trailing) = c.take_all();
+    assert!(leading.borrow().is_empty());
+    assert!(trailing.borrow().is_empty());
+}
+
+#[test]
+fn issue_2264_3() {
+    let c = SingleThreadedComments::default();
+    let s = "const foo = <h1>/* no */{/* 1 */ bar /* 2 */}/* no */</h1>;";
+    let _ = super::test_parser_comment(
+        &c,
+        s,
+        Syntax::Typescript(TsConfig {
+            tsx: true,
+            ..Default::default()
+        }),
+        |p| p.parse_typescript_module(),
+    );
+
+    let (leading, trailing) = c.take_all();
+    assert!(leading.borrow().is_empty());
+    assert_eq!(trailing.borrow().len(), 2);
+    assert_eq!(trailing.borrow().get(&BytePos(25)).unwrap().len(), 1);
+    assert_eq!(trailing.borrow().get(&BytePos(36)).unwrap().len(), 1);
+}
+
+#[test]
+fn issue_2339_1() {
+    let c = SingleThreadedComments::default();
+    let s = "
+        const t = <T>() => {
+            // 1
+            /* 2 */
+            test;
+        };
+    ";
+    let _ = super::test_parser_comment(
+        &c,
+        s,
+        Syntax::Typescript(TsConfig {
+            tsx: true,
+            ..Default::default()
+        }),
+        |p| p.parse_typescript_module(),
+    );
+
+    let (leading, trailing) = c.take_all();
+    assert_eq!(leading.borrow().len(), 1);
+    assert_eq!(leading.borrow().get(&BytePos(79)).unwrap().len(), 2);
+    assert!(trailing.borrow().is_empty());
 }

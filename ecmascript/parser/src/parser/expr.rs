@@ -82,7 +82,6 @@ impl<'a, I: Tokens> Parser<I> {
         {
             let ctx = Context {
                 is_direct_child_of_cond: false,
-                dont_store_comments: true,
                 ..self.ctx()
             };
             let res = self.with_ctx(ctx).try_parse_ts(|p| {

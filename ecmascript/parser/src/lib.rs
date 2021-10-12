@@ -428,9 +428,6 @@ pub struct Context {
 
     /// If true, `:` should not be treated as a type annotation.
     dont_parse_colon_as_type_ann: bool,
-
-    /// See: https://github.com/swc-project/swc/issues/2264
-    dont_store_comments: bool,
 }
 
 #[cfg(test)]
