@@ -190,9 +190,11 @@ where
                     .map(|(value, raw)| Token::Ident { value, raw });
             }
 
+            let c = self.input.cur().unwrap();
+
             self.input.bump();
 
-            return Ok(tok!("-"));
+            return Ok(Token::Delim { value: c });
         }
 
         if self.input.is_byte(b'.') {
