@@ -193,10 +193,20 @@ impl VisitMut for ExprReplacer {
                 if self.from.0 == i.sym && self.from.1 == i.span.ctxt {
                     if let Some(new) = self.to.take() {
                         *e = *new;
+                    } else {
+                        unreachable!("`{}` is already taken", i)
                     }
                 }
             }
             _ => {}
+        }
+    }
+
+    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
+        e.obj.visit_mut_with(self);
+
+        if e.computed {
+            e.prop.visit_mut_with(self);
         }
     }
 }
