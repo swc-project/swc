@@ -323,7 +323,8 @@ pub fn hygiene() -> impl Fold + 'static {
 ///
 /// At third phase, we check if identifier will be correctly if we skip
 /// renaming, accoarding to the context. If it's the case, we don't have to
-/// rename it so we skip it.
+/// rename it so we skip it. If we decide to rename it, we update the scoping
+/// information, too.
 pub fn hygiene_with_config(config: Config) -> impl 'static + Fold + VisitMut {
     self::hygiene3::hygiene3()
 }
