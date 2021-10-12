@@ -570,9 +570,6 @@ where
                 Token::Equals => {
                     punct!(self, span, "=");
                 }
-                Token::Plus => {
-                    punct!(self, span, "+");
-                }
                 Token::Minus => {
                     punct!(self, span, "-");
                 }

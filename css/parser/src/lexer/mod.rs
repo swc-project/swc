@@ -163,7 +163,15 @@ where
         try_delim!(b')', ")");
 
         if self.input.is_byte(b'+') {
-            return self.read_plus();
+            if self.would_start_number()? {
+                return self.read_number();
+            }
+
+            let c = self.input.cur().unwrap();
+
+            self.input.bump();
+
+            return Ok(Token::Delim { value: c });
         }
 
         try_delim!(b',', ",");
@@ -252,6 +260,47 @@ where
         self.input.bump();
 
         return Ok(Token::Delim { value: c });
+    }
+
+    fn would_start_number(&mut self) -> LexResult<bool> {
+        let first = self.input.cur();
+
+        if first.is_none() {
+            return Ok(false);
+        }
+
+        match first {
+            Some('+') | Some('-') => {
+                if let Some(second) = self.input.peek() {
+                    return match second {
+                        second if second.is_digit(10) => Ok(true),
+                        '.' => {
+                            if let Some(third) = self.input.peek_ahead() {
+                                if third.is_digit(10) {
+                                    return Ok(true);
+                                }
+                            }
+
+                            Ok(false)
+                        }
+                        _ => Ok(false),
+                    };
+                }
+
+                Ok(false)
+            }
+            Some('.') => {
+                if let Some(second) = self.input.peek() {
+                    if second.is_digit(10) {
+                        return Ok(true);
+                    }
+                }
+
+                Ok(false)
+            }
+            Some(first) if first.is_digit(10) => Ok(true),
+            _ => Ok(false),
+        }
     }
 
     fn is_valid_escape(&mut self) -> LexResult<bool> {
@@ -535,17 +584,6 @@ where
         Ok(tok!("."))
     }
 
-    fn read_plus(&mut self) -> LexResult<Token> {
-        if let Some(next) = self.input.peek() {
-            if next == '.' || next.is_digit(10) {
-                return self.read_number();
-            }
-        }
-
-        self.input.bump();
-        Ok(tok!("+"))
-    }
-
     fn read_at_keyword(&mut self) -> LexResult<Token> {
         let name = self.read_name()?;
 
@@ -715,14 +753,6 @@ where
 }
 
 #[inline(always)]
-fn is_digit(c: char) -> bool {
-    match c {
-        '0'..='9' => true,
-        _ => false,
-    }
-}
-
-#[inline(always)]
 fn is_uppercase_letter(c: char) -> bool {
     match c {
         'A'..='Z' => true,
@@ -759,7 +789,7 @@ pub(crate) fn is_name_start(c: char) -> bool {
 pub(crate) fn is_name_continue(c: char) -> bool {
     is_name_start(c)
         || match c {
-            c if is_digit(c) || c == '-' => true,
+            c if c.is_digit(10) || c == '-' => true,
             _ => false,
         }
 }

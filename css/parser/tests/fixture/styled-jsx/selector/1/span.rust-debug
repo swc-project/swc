@@ -76,7 +76,7 @@ error: WhiteSpace
 1 | :global(.foo + a) {
   |             ^
 
-error: Plus
+error: Delim { value: '+' }
  --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:14
   |
 1 | :global(.foo + a) {

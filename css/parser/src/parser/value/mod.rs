@@ -286,7 +286,7 @@ where
             self.input.skip_ws()?;
 
             let op = match token {
-                tok!("+") => BinOp::Add,
+                delim_tok!('+') => BinOp::Add,
                 tok!("-") => BinOp::Sub,
                 tok!("*") => BinOp::Mul,
                 tok!("/") => BinOp::Div,

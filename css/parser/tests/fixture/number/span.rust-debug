@@ -1,0 +1,109 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/number/input.css:1:1
+  |
+1 | / div {
+2 | |     property: 10;
+3 | |     property: +10;
+4 | | }
+  | |__^
+
+error: Rule
+ --> $DIR/tests/fixture/number/input.css:1:1
+  |
+1 | / div {
+2 | |     property: 10;
+3 | |     property: +10;
+4 | | }
+  | |_^
+
+error: StyleRule
+ --> $DIR/tests/fixture/number/input.css:1:1
+  |
+1 | / div {
+2 | |     property: 10;
+3 | |     property: +10;
+4 | | }
+  | |_^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/number/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/number/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/number/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: Text
+ --> $DIR/tests/fixture/number/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/number/input.css:1:5
+  |
+1 |   div {
+  |  _____^
+2 | |     property: 10;
+3 | |     property: +10;
+4 | | }
+  | |_^
+
+error: Property
+ --> $DIR/tests/fixture/number/input.css:2:5
+  |
+2 |     property: 10;
+  |     ^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/number/input.css:2:5
+  |
+2 |     property: 10;
+  |     ^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/number/input.css:2:15
+  |
+2 |     property: 10;
+  |               ^^
+
+error: Num
+ --> $DIR/tests/fixture/number/input.css:2:15
+  |
+2 |     property: 10;
+  |               ^^
+
+error: Property
+ --> $DIR/tests/fixture/number/input.css:3:5
+  |
+3 |     property: +10;
+  |     ^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/number/input.css:3:5
+  |
+3 |     property: +10;
+  |     ^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/number/input.css:3:15
+  |
+3 |     property: +10;
+  |               ^^^
+
+error: Num
+ --> $DIR/tests/fixture/number/input.css:3:15
+  |
+3 |     property: +10;
+  |               ^^^
+

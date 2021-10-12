@@ -94,7 +94,11 @@
                           "end": 14,
                           "ctxt": 0
                         },
-                        "token": "Plus"
+                        "token": {
+                          "Delim": {
+                            "value": "+"
+                          }
+                        }
                       },
                       {
                         "span": {

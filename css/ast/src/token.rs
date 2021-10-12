@@ -123,9 +123,6 @@ pub enum Token {
     /// `=`
     Equals,
 
-    /// `+`
-    Plus,
-
     /// `-`
     Minus,
 

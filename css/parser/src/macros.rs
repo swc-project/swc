@@ -7,6 +7,12 @@ macro_rules! ident_tok {
     };
 }
 
+macro_rules! delim_tok {
+    ($tt:tt) => {
+        swc_css_ast::Token::Delim { value: $tt, .. }
+    };
+}
+
 macro_rules! tok {
     ("(") => {
         swc_css_ast::Token::LParen
@@ -105,7 +111,10 @@ macro_rules! tok {
     };
 
     ("+") => {
-        swc_css_ast::Token::Plus
+        swc_css_ast::Token::Delim {
+            value: '+',
+            ..
+        }
     };
 
     ("-") => {
