@@ -2050,7 +2050,20 @@ where
 
         for (from, to) in self.state.inlined_vars.drain() {
             tracing::debug!("inline: Inlining `{}{:?}`", from.0, from.1);
-            replace_id_with_expr(stmts, from, to);
+            let expr = replace_id_with_expr(stmts, from.clone(), to);
+
+            if expr.is_some() {
+                unreachable!(
+                    "failed to inline `{}{:?}`\n\n{}",
+                    from.0,
+                    from.1,
+                    dump(&Module {
+                        span: DUMMY_SP,
+                        shebang: Default::default(),
+                        body: stmts.clone()
+                    })
+                );
+            }
         }
 
         stmts.retain(|s| match s {

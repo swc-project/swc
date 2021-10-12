@@ -170,7 +170,7 @@ pub(crate) fn is_valid_for_lhs(e: &Expr) -> bool {
     }
 }
 
-pub(crate) fn replace_id_with_expr<N>(node: &mut N, from: Id, to: Box<Expr>)
+pub(crate) fn replace_id_with_expr<N>(node: &mut N, from: Id, to: Box<Expr>) -> Option<Box<Expr>>
 where
     N: VisitMutWith<ExprReplacer>,
 {
@@ -180,9 +180,7 @@ where
     };
     node.visit_mut_with(&mut v);
 
-    if v.to.is_some() {
-        unreachable!("failed to inline `{}{:?}`", from.0, from.1)
-    }
+    v.to
 }
 
 pub(crate) struct ExprReplacer {

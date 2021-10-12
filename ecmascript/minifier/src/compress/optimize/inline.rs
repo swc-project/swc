@@ -490,14 +490,14 @@ where
                 match &decl {
                     Decl::Class(c) => {
                         tracing::debug!(
-                            "inline: Decided to inline class '{}{:?}' as it's used only once",
+                            "inline: Decided to inline class `{}{:?}` as it's used only once",
                             c.ident.sym,
                             c.ident.span.ctxt
                         );
                     }
                     Decl::Fn(f) => {
                         tracing::debug!(
-                            "inline: Decided to inline function '{}{:?}' as it's used only once",
+                            "inline: Decided to inline function `{}{:?}` as it's used only once",
                             f.ident.sym,
                             f.ident.span.ctxt
                         );
