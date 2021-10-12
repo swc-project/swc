@@ -745,6 +745,7 @@ where
     }
 }
 
+#[inline(always)]
 fn is_digit(c: char) -> bool {
     match c {
         '0'..='9' => true,
@@ -752,6 +753,7 @@ fn is_digit(c: char) -> bool {
     }
 }
 
+#[inline(always)]
 fn is_uppercase_letter(c: char) -> bool {
     match c {
         'A'..='Z' => true,
@@ -759,6 +761,7 @@ fn is_uppercase_letter(c: char) -> bool {
     }
 }
 
+#[inline(always)]
 fn is_lowercase_letter(c: char) -> bool {
     match c {
         'a'..='z' => true,
@@ -766,13 +769,12 @@ fn is_lowercase_letter(c: char) -> bool {
     }
 }
 
+#[inline(always)]
 fn is_letter(c: char) -> bool {
-    match c {
-        c if is_uppercase_letter(c) || is_lowercase_letter(c) => true,
-        _ => false,
-    }
+    is_uppercase_letter(c) || is_lowercase_letter(c)
 }
 
+#[inline(always)]
 fn is_non_ascii(c: char) -> bool {
     c as u32 >= 0x80
 }
