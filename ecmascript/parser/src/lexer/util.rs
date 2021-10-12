@@ -8,6 +8,7 @@
 use super::{comments_buffer::BufferedComment, input::Input, Char, LexResult, Lexer};
 use crate::{
     error::{Error, SyntaxError},
+    lexer::comments_buffer::BufferedCommentKind,
     Tokens,
 };
 use std::char;
@@ -241,7 +242,8 @@ impl<'a, I: Input> Lexer<'a, I> {
             if is_for_next {
                 comments.push_pending_leading(cmt);
             } else {
-                comments.push_trailing(BufferedComment {
+                comments.push(BufferedComment {
+                    kind: BufferedCommentKind::Trailing,
                     pos: self.state.prev_hi,
                     comment: cmt,
                 });
@@ -292,7 +294,8 @@ impl<'a, I: Input> Lexer<'a, I> {
                     if is_for_next {
                         comments.push_pending_leading(cmt);
                     } else {
-                        comments.push_trailing(BufferedComment {
+                        comments.push(BufferedComment {
+                            kind: BufferedCommentKind::Trailing,
                             pos: self.state.prev_hi,
                             comment: cmt,
                         });

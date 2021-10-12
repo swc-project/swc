@@ -1,4 +1,7 @@
-use super::{comments_buffer::BufferedComment, Context, Input, Lexer};
+use super::{
+    comments_buffer::{BufferedComment, BufferedCommentKind},
+    Context, Input, Lexer,
+};
 use crate::{error::Error, input::Tokens, lexer::util::CharExt, token::*, JscTarget, Syntax};
 use enum_kind::Kind;
 use std::mem::take;
@@ -192,12 +195,14 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                             // comments in the leading comments buffer as leading.
                             // Otherwise treat them as trailing.
                             if last == BytePos(0) {
-                                comments_buffer.push_leading(BufferedComment {
+                                comments_buffer.push(BufferedComment {
+                                    kind: BufferedCommentKind::Leading,
                                     pos: last,
                                     comment: c,
                                 });
                             } else {
-                                comments_buffer.push_trailing(BufferedComment {
+                                comments_buffer.push(BufferedComment {
+                                    kind: BufferedCommentKind::Trailing,
                                     pos: last,
                                     comment: c,
                                 });
@@ -205,11 +210,15 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                         }
 
                         // now fill the user's passed in comments
-                        for comment in comments_buffer.take_leading() {
-                            comments.add_leading(comment.pos, comment.comment);
-                        }
-                        for comment in comments_buffer.take_trailing() {
-                            comments.add_trailing(comment.pos, comment.comment);
+                        for comment in comments_buffer.take_comments() {
+                            match comment.kind {
+                                BufferedCommentKind::Leading => {
+                                    comments.add_leading(comment.pos, comment.comment);
+                                }
+                                BufferedCommentKind::Trailing => {
+                                    comments.add_trailing(comment.pos, comment.comment);
+                                }
+                            }
                         }
                     }
 
@@ -288,7 +297,8 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
         if let Some(ref token) = token {
             if let Some(comments) = self.comments_buffer.as_mut() {
                 for comment in comments.take_pending_leading() {
-                    comments.push_leading(BufferedComment {
+                    comments.push(BufferedComment {
+                        kind: BufferedCommentKind::Leading,
                         pos: start,
                         comment,
                     });
