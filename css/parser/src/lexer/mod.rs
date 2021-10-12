@@ -177,7 +177,22 @@ where
         try_delim!(b',', ",");
 
         if self.input.is_byte(b'-') {
-            return self.read_minus();
+            if self.would_start_number()? {
+                return self.read_number();
+            } else if self.input.peek() == Some('-') && self.input.peek_ahead() == Some('>') {
+                self.input.bump();
+                self.input.bump();
+                self.input.bump();
+                return Ok(Token::CDC);
+            } else if self.would_start_ident()? {
+                return self
+                    .read_name()
+                    .map(|(value, raw)| Token::Ident { value, raw });
+            }
+
+            self.input.bump();
+
+            return Ok(tok!("-"));
         }
 
         if self.input.is_byte(b'.') {
@@ -591,32 +606,6 @@ where
             value: name.0,
             raw: name.1,
         })
-    }
-
-    fn read_minus(&mut self) -> LexResult<Token> {
-        assert_eq!(self.input.cur(), Some('-'));
-
-        match self.input.peek() {
-            Some('0'..='9') | Some('.') => return self.read_number(),
-
-            _ => {}
-        }
-
-        if self.input.peek() == Some('-') && self.input.peek_ahead() == Some('>') {
-            self.input.bump();
-            self.input.bump();
-            self.input.bump();
-            return Ok(Token::CDC);
-        }
-
-        if self.would_start_ident()? {
-            return self
-                .read_name()
-                .map(|(value, raw)| Token::Ident { value, raw });
-        }
-
-        self.input.bump();
-        Ok(tok!("-"))
     }
 
     /// Ported from `wouldStartIdentifier` of `esbuild`.
