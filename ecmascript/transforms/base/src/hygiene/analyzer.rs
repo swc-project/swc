@@ -172,6 +172,10 @@ impl Visit for Analyzer<'_> {
         }
     }
 
+    fn visit_module(&mut self, m: &Module, _: &dyn Node) {
+        self.visit_with_scope(m.span.ctxt, ScopeKind::Fn, |v| m.visit_children_with(v))
+    }
+
     fn visit_pat(&mut self, p: &Pat, _: &dyn Node) {
         p.visit_children_with(self);
 
@@ -185,6 +189,10 @@ impl Visit for Analyzer<'_> {
             }
             _ => {}
         }
+    }
+
+    fn visit_script(&mut self, s: &Script, _: &dyn Node) {
+        self.visit_with_scope(s.span.ctxt, ScopeKind::Fn, |v| s.visit_children_with(v))
     }
 
     fn visit_var_declarator(&mut self, v: &VarDeclarator, _: &dyn Node) {
