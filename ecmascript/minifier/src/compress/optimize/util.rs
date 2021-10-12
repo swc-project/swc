@@ -3,9 +3,9 @@ use crate::mode::Mode;
 use super::{Ctx, Optimizer};
 use std::ops::{Deref, DerefMut};
 use swc_atoms::JsWord;
-use swc_common::Span;
+use swc_common::{collections::AHashMap, pass::Repeated, Span};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{prop_name_eq, ExprExt, Id};
+use swc_ecma_utils::{ident::IdentLike, prop_name_eq, ExprExt, Id};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 impl<'b, M> Optimizer<'b, M>
@@ -167,6 +167,47 @@ pub(crate) fn is_valid_for_lhs(e: &Expr) -> bool {
         Expr::Lit(..) => return false,
         Expr::Unary(..) => return false,
         _ => true,
+    }
+}
+
+pub(crate) struct MultiReplacer {
+    pub vars: AHashMap<Id, Box<Expr>>,
+    pub changed: bool,
+}
+
+impl Repeated for MultiReplacer {
+    fn changed(&self) -> bool {
+        self.changed && !self.vars.is_empty()
+    }
+
+    fn reset(&mut self) {
+        self.changed = false;
+    }
+}
+
+impl VisitMut for MultiReplacer {
+    noop_visit_mut_type!();
+
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
+
+        match e {
+            Expr::Ident(i) => {
+                if let Some(new) = self.vars.remove(&i.to_id()) {
+                    *e = *new;
+                    self.changed = true;
+                }
+            }
+            _ => {}
+        }
+    }
+
+    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
+        e.obj.visit_mut_with(self);
+
+        if e.computed {
+            e.prop.visit_mut_with(self);
+        }
     }
 }
 
