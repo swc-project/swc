@@ -18,6 +18,8 @@ pub struct FreezedScopeData {
 
     pub decls: AHashMap<JsWord, Vec<SyntaxContext>>,
 
+    pub direct_usages: AHashMap<JsWord, Vec<SyntaxContext>>,
+
     pub usages: AHashMap<JsWord, Vec<SyntaxContext>>,
 }
 #[derive(Debug, Default)]
@@ -45,6 +47,7 @@ pub struct ScopeData {
 
     pub decls: RefCell<AHashMap<JsWord, Vec<SyntaxContext>>>,
 
+    pub direct_usages: RefCell<AHashMap<JsWord, Vec<SyntaxContext>>>,
     pub usages: RefCell<AHashMap<JsWord, Vec<SyntaxContext>>>,
 }
 
@@ -53,6 +56,7 @@ impl ScopeData {
         FreezedScopeData {
             kind: self.kind,
             decls: self.decls.into_inner(),
+            direct_usages: self.direct_usages.into_inner(),
             usages: self.usages.into_inner(),
         }
     }
@@ -88,6 +92,18 @@ impl CurScope<'_> {
     }
 
     fn add_usage(&self, id: Id) {
+        self.add_usage_inner(id, true);
+    }
+
+    fn add_usage_inner(&self, id: Id, direct: bool) {
+        if direct {
+            let mut b = self.data.direct_usages.borrow_mut();
+            let v = b.entry(id.0.clone()).or_default();
+            if !v.contains(&id.1) {
+                v.push(id.1);
+            }
+        }
+
         {
             let mut b = self.data.usages.borrow_mut();
             let v = b.entry(id.0.clone()).or_default();
@@ -98,7 +114,7 @@ impl CurScope<'_> {
 
         match self.parent {
             Some(v) => {
-                v.add_usage(id);
+                v.add_usage_inner(id, false);
             }
             None => {}
         }
