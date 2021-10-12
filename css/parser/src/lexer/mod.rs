@@ -104,6 +104,20 @@ where
                 self.start_pos = self.input.cur_pos();
                 return self.read_token();
             }
+        macro_rules! try_delim {
+            ($b:tt,$tok:tt) => {{
+                if self.input.eat_byte($b) {
+                    return Ok(tok!($tok));
+                }
+            }};
+        }
+
+        if self.input.is_byte(b'/') && self.input.peek() == Some('*') {
+            self.skip_block_comment()?;
+            self.skip_ws()?;
+            self.start_pos = self.input.cur_pos();
+
+            return self.read_token();
         }
 
         macro_rules! try_delim {
@@ -688,10 +702,7 @@ where
         Ok(())
     }
 
-    /// Expects current char to be '/' and next char to be '*'.
     fn skip_block_comment(&mut self) -> LexResult<()> {
-        // let start = self.input.cur_pos();
-
         debug_assert_eq!(self.input.cur(), Some('/'));
         debug_assert_eq!(self.input.peek(), Some('*'));
 
@@ -699,7 +710,7 @@ where
         self.input.bump();
 
         // let slice_start = self.input.cur_pos();
-        let mut was_star = if self.input.cur() == Some('*') {
+        let mut was_star = if self.input.is_byte(b'*') {
             self.input.bump();
             true
         } else {
@@ -711,7 +722,6 @@ where
                 debug_assert_eq!(self.input.cur(), Some('/'));
                 self.input.bump(); // '/'
 
-                // let end = self.input.cur_pos();
                 return Ok(());
             }
 
@@ -720,28 +730,6 @@ where
         }
 
         Err(ErrorKind::UnterminatedBlockComment)
-    }
-
-    fn skip_line_comment(&mut self, start_skip: usize) -> LexResult<()> {
-        for _ in 0..start_skip {
-            self.input.bump();
-        }
-
-        // let slice_start = self.input.cur_pos();
-
-        while let Some(c) = self.input.cur() {
-            self.input.bump();
-            match c {
-                '\n' | '\r' | '\u{2028}' | '\u{2029}' => {
-                    break;
-                }
-                _ => {
-                    // end = self.cur_pos();
-                }
-            }
-        }
-
-        Ok(())
     }
 }
 

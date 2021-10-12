@@ -35,7 +35,7 @@ impl Error {
             ErrorKind::Expected(s) => format!("Expected {}", s).into(),
             ErrorKind::ExpectedButGot(s) => format!("Expected {}", s).into(),
             ErrorKind::ExpectedSelectorText => "Expected a text for selector".into(),
-            ErrorKind::UnterminatedBlockComment => "Unterminated block commment".into(),
+            ErrorKind::UnterminatedBlockComment => "Unterminated block comment".into(),
             ErrorKind::InvalidTypeSelector => "Invalid type selector".into(),
             ErrorKind::InvalidSelector => "Invalid selector".into(),
             ErrorKind::ExpectedIdentOrStrForAttrSelectorOp => {
