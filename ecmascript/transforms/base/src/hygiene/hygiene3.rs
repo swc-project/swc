@@ -13,9 +13,7 @@ pub fn hygiene3() -> impl Fold + VisitMut {
 /// While visiing identifiers, we check if it will be resolved as a correct
 /// variable, and skip if it's the case.
 #[derive(Debug, Default)]
-struct Renamer {
-    cur_scope: SyntaxContext,
-}
+struct Renamer {}
 
 impl Renamer {
     fn analyze<N>(&mut self, n: &N)
@@ -40,7 +38,7 @@ impl Renamer {
 
         let data = data.freeze();
 
-        let mut ops = {
+        let ops = {
             let mut v = RenameAnalyzer {
                 data: &data,
                 ops: Default::default(),

@@ -1,4 +1,4 @@
-use super::usage_analyzer::{Data, FreezedData};
+use super::usage_analyzer::FreezedData;
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
