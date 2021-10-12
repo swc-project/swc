@@ -3,7 +3,7 @@ use crate::mode::Mode;
 use super::{Ctx, Optimizer};
 use std::ops::{Deref, DerefMut};
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashMap, pass::Repeated, Span};
+use swc_common::{collections::AHashMap, Span};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, prop_name_eq, ExprExt, Id};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -174,16 +174,6 @@ pub(crate) fn is_valid_for_lhs(e: &Expr) -> bool {
 pub(crate) struct MultiReplacer {
     pub vars: AHashMap<Id, Box<Expr>>,
     pub changed: bool,
-}
-
-impl Repeated for MultiReplacer {
-    fn changed(&self) -> bool {
-        self.changed && !self.vars.is_empty()
-    }
-
-    fn reset(&mut self) {
-        self.changed = false;
-    }
 }
 
 impl VisitMut for MultiReplacer {
