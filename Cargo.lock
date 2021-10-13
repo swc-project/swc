@@ -2199,9 +2199,9 @@ checksum = "533494a8f9b724d33625ab53c6c4800f7cc445895924a8ef649222dcb76e938b"
 
 [[package]]
 name = "slab"
-version = "0.4.4"
+version = "0.4.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c307a32c1c5c437f38c7fd45d753050587732ba8628319fbdf12a7e289ccc590"
+checksum = "9def91fd1e018fe007022791f865d0ccc9b3a0d5001e01aabb8b40e46000afb5"
 
 [[package]]
 name = "smallvec"
@@ -2324,7 +2324,7 @@ checksum = "6446ced80d6c486436db5c078dde11a9f73d42b57fb273121e160b84f63d894c"
 
 [[package]]
 name = "swc"
-version = "0.67.1"
+version = "0.67.2"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2470,7 +2470,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.13.4"
+version = "0.13.5"
 dependencies = [
  "ahash",
  "arbitrary",
@@ -2783,7 +2783,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.37.3"
+version = "0.37.4"
 dependencies = [
  "once_cell",
  "phf",
@@ -2924,7 +2924,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.48.2"
+version = "0.48.3"
 dependencies = [
  "ahash",
  "base64 0.13.0",
@@ -2970,7 +2970,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.48.0"
+version = "0.48.1"
 dependencies = [
  "serde",
  "swc_atoms 0.2.8",
