@@ -82,9 +82,7 @@ fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
 
         {
             let cm = cm.clone();
-            rayon::spawn(move || {
-                print_bundles(cm, modules);
-            });
+            print_bundles(cm, modules);
         }
 
         if error {
