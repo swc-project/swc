@@ -23,7 +23,8 @@ mod refresh;
 ///
 ///
 /// `top_level_mark` should be [Mark] passed to
-/// [swc_ecma_transforms_base::resolver::resolver_with_mark].
+/// [swc_ecma_transforms_base::resolver::resolver_with_mark] or
+/// [[swc_ecma_transforms_base::resolver::ts_resolver]] when using TypeScript.
 pub fn react<C>(
     cm: Lrc<SourceMap>,
     comments: Option<C>,
