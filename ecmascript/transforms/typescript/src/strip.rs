@@ -1603,19 +1603,20 @@ where
     fn visit_mut_import_decl(&mut self, import: &mut ImportDecl) {
         self.is_side_effect_import = import.specifiers.is_empty();
 
-        let src = &import.src;
         import.specifiers.retain(|s| match *s {
             ImportSpecifier::Named(ImportNamedSpecifier {
                 ref is_type_only, ..
             }) if *is_type_only => false,
 
-            ImportSpecifier::Default(..) if &*src.value == "react" => {
-                return true;
-            }
-
             ImportSpecifier::Default(ImportDefaultSpecifier { ref local, .. })
             | ImportSpecifier::Named(ImportNamedSpecifier { ref local, .. })
             | ImportSpecifier::Namespace(ImportStarAsSpecifier { ref local, .. }) => {
+                if let Some(jsx) = &self.jsx {
+                    if local.to_id() == jsx.pragma_id || local.to_id() == jsx.pragma_frag_id {
+                        return true;
+                    }
+                }
+
                 // If the import is shadowed by a concrete local declaration, TSC
                 // assumes the import is a type and removes it.
                 let decl = self.scope.decls.get(&local.to_id());
