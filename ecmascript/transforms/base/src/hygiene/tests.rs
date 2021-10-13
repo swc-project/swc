@@ -1483,11 +1483,11 @@ fn opt_6() {
                     }
                     ",
                 )?
-                .fold_with(&mut OnceMarker::new(&[("foo", &[mark1, mark2, mark1])]));
+                .fold_with(&mut OnceMarker::new(&[("foo", &[mark1, mark1, mark2])]));
             Ok(stmts)
         },
         "
-        var foo1 = 'bar';
+        var foo = 'bar';
         var Foo = function() {
             function Foo() {
                 _bar.set(this, {
