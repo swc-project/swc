@@ -1,6 +1,6 @@
 pub use self::{
     display_name::display_name,
-    jsx::{jsx, Options, Runtime},
+    jsx::{jsx, JsxDirectives, Options, Runtime},
     jsx_self::jsx_self,
     jsx_src::jsx_src,
     pure_annotations::pure_annotations,
@@ -24,6 +24,12 @@ mod refresh;
 ///
 /// `top_level_mark` should be [Mark] passed to
 /// [swc_ecma_transforms_base::resolver::resolver_with_mark].
+///
+///
+///
+/// # Note
+///
+/// This pass uses [swc_ecma_utils::HANDLER].
 pub fn react<C>(
     cm: Lrc<SourceMap>,
     comments: Option<C>,

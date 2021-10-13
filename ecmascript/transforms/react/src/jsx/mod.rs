@@ -240,6 +240,109 @@ where
     throw_if_namespace: bool,
 }
 
+#[derive(Debug, Default, Clone, PartialEq, Eq)]
+pub struct JsxDirectives {
+    pub runtime: Option<Runtime>,
+
+    /// For automatic runtime.
+    pub import_source: Option<JsWord>,
+
+    /// Parsed from `@jsx`
+    pub pragma: Option<Arc<Box<Expr>>>,
+
+    /// Parsed from `@jsxFrag`
+    pub pragma_frag: Option<Arc<Box<Expr>>>,
+}
+
+impl JsxDirectives {
+    pub fn from_comments(
+        cm: &SourceMap,
+        span: Span,
+        comments: &[Comment],
+        top_level_mark: Mark,
+    ) -> Self {
+        let mut res = JsxDirectives::default();
+
+        for cmt in comments {
+            if cmt.kind != CommentKind::Block {
+                continue;
+            }
+
+            for line in cmt.text.lines() {
+                let mut line = line.trim();
+                if line.starts_with('*') {
+                    line = line[1..].trim();
+                }
+
+                if !line.starts_with("@jsx") {
+                    continue;
+                }
+
+                if line.starts_with("@jsxRuntime ") {
+                    let src = line.replace("@jsxRuntime ", "").trim().to_string();
+                    if src == "classic" {
+                        res.runtime = Some(Runtime::Classic);
+                    } else if src == "automatic" {
+                        res.runtime = Some(Runtime::Automatic);
+                    } else {
+                        todo!("proper error reporting for wrong `@jsxRuntime`")
+                    }
+                    continue;
+                }
+
+                if line.starts_with("@jsxImportSource") {
+                    let src = line.replace("@jsxImportSource", "").trim().to_string();
+                    res.runtime = Some(Runtime::Automatic);
+                    res.import_source = Some(src.into());
+                }
+
+                if line.starts_with("@jsxFrag") {
+                    if let Some(Runtime::Automatic) = res.runtime {
+                        HANDLER.with(|handler| {
+                            handler
+                                .struct_span_err(
+                                    span,
+                                    "pragma and pragmaFrag cannot be set when runtime is automatic",
+                                )
+                                .emit()
+                        });
+                    }
+
+                    let src = line.replace("@jsxFrag", "").trim().to_string();
+                    res.pragma_frag = Some(parse_classic_option(
+                        &cm,
+                        "module-jsx-pragma-frag",
+                        src,
+                        top_level_mark,
+                    ));
+                } else if line.starts_with("@jsx ") {
+                    if let Some(Runtime::Automatic) = res.runtime {
+                        HANDLER.with(|handler| {
+                            handler
+                                .struct_span_err(
+                                    span,
+                                    "pragma and pragmaFrag cannot be set when runtime is automatic",
+                                )
+                                .emit()
+                        });
+                    }
+
+                    let src = line.replace("@jsx", "").trim().to_string();
+
+                    res.pragma = Some(parse_classic_option(
+                        &cm,
+                        "module-jsx-pragma",
+                        src,
+                        top_level_mark,
+                    ));
+                }
+            }
+        }
+
+        res
+    }
+}
+
 impl<C> Jsx<C>
 where
     C: Comments,
@@ -761,86 +864,33 @@ where
     fn parse_comment_contents(&mut self, span: Span, leading: &[Comment]) -> bool {
         let mut found = false;
 
-        for cmt in leading {
-            if cmt.kind != CommentKind::Block {
-                continue;
-            }
+        let directives = JsxDirectives::from_comments(&self.cm, span, leading, self.top_level_mark);
 
-            for line in cmt.text.lines() {
-                let mut line = line.trim();
-                if line.starts_with('*') {
-                    line = line[1..].trim();
-                }
+        let JsxDirectives {
+            runtime,
+            import_source,
+            pragma,
+            pragma_frag,
+        } = directives;
 
-                if !line.starts_with("@jsx") {
-                    continue;
-                }
+        if let Some(runtime) = runtime {
+            found = true;
+            self.runtime = runtime;
+        }
 
-                if line.starts_with("@jsxRuntime ") {
-                    let src = line.replace("@jsxRuntime ", "").trim().to_string();
-                    found = true;
-                    if src == "classic" {
-                        self.runtime = Runtime::Classic;
-                    } else if src == "automatic" {
-                        self.runtime = Runtime::Automatic;
-                    } else {
-                        todo!("proper error reporting for wrong `@jsxRuntime`")
-                    }
-                    continue;
-                }
+        if let Some(import_source) = import_source {
+            found = true;
+            self.import_source = import_source;
+        }
 
-                if line.starts_with("@jsxImportSource") {
-                    let src = line.replace("@jsxImportSource", "").trim().to_string();
-                    self.runtime = Runtime::Automatic;
-                    self.import_source = src.into();
-                    found = true;
-                }
+        if let Some(pragma) = pragma {
+            found = true;
+            self.pragma = pragma;
+        }
 
-                if line.starts_with("@jsxFrag") {
-                    found = true;
-
-                    if self.runtime == Runtime::Automatic {
-                        HANDLER.with(|handler| {
-                            handler
-                                .struct_span_err(
-                                    span,
-                                    "pragma and pragmaFrag cannot be set when runtime is automatic",
-                                )
-                                .emit()
-                        });
-                    }
-
-                    let src = line.replace("@jsxFrag", "").trim().to_string();
-                    self.pragma_frag = parse_classic_option(
-                        &self.cm,
-                        "module-jsx-pragma-frag",
-                        src,
-                        self.top_level_mark,
-                    );
-                } else if line.starts_with("@jsx ") {
-                    found = true;
-
-                    if self.runtime == Runtime::Automatic {
-                        HANDLER.with(|handler| {
-                            handler
-                                .struct_span_err(
-                                    span,
-                                    "pragma and pragmaFrag cannot be set when runtime is automatic",
-                                )
-                                .emit()
-                        });
-                    }
-
-                    let src = line.replace("@jsx", "").trim().to_string();
-
-                    self.pragma = parse_classic_option(
-                        &self.cm,
-                        "module-jsx-pragma",
-                        src,
-                        self.top_level_mark,
-                    );
-                }
-            }
+        if let Some(pragma_frag) = pragma_frag {
+            found = true;
+            self.pragma_frag = pragma_frag;
         }
 
         found
