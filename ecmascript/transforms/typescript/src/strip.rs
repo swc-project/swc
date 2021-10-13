@@ -209,7 +209,7 @@ where
     C: Comments,
 {
     /// If we found required jsx directives, we returns true.
-    fn parse_directives(&mut self, span: Span) -> bool {
+    fn parse_jsx_directives(&mut self, span: Span) -> bool {
         let jsx_data = match &mut self.jsx {
             Some(v) => v,
             None => return false,
@@ -1807,6 +1807,15 @@ where
             _ => false,
         });
 
+        self.parse_jsx_directives(module.span);
+
+        for item in &module.body {
+            let span = item.span();
+            if self.parse_jsx_directives(span) {
+                break;
+            }
+        }
+
         module.visit_mut_children_with(self);
         if !self.uninitialized_vars.is_empty() {
             prepend(
@@ -1852,7 +1861,17 @@ where
     }
 
     fn visit_mut_script(&mut self, n: &mut Script) {
+        self.parse_jsx_directives(n.span);
+
+        for item in &n.body {
+            let span = item.span();
+            if self.parse_jsx_directives(span) {
+                break;
+            }
+        }
+
         n.visit_mut_children_with(self);
+
         if !self.uninitialized_vars.is_empty() {
             prepend(
                 &mut n.body,
