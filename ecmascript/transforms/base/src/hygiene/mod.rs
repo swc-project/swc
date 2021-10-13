@@ -217,19 +217,22 @@ impl<'a> Hygiene<'a> {
         }
     }
 
+    fn get_renamed_symbol(&mut self, sym: &JsWord) -> JsWord {
+        let mut b = self.current.rename_idx.borrow_mut();
+        let i = b.entry(sym.clone()).or_default();
+        loop {
+            *i += 1;
+            let sym = format!("{}{}", sym, i).into();
+
+            if !self.current.is_declared(&sym) {
+                break sym;
+            }
+        }
+    }
+
     fn rename(&mut self, sym: JsWord, ctxt: SyntaxContext) {
         // symbol conflicts
-        let renamed = {
-            let mut i = 0;
-            loop {
-                i += 1;
-                let sym = format!("{}{}", sym, i).into();
-
-                if !self.current.is_declared(&sym) {
-                    break sym;
-                }
-            }
-        };
+        let renamed = self.get_renamed_symbol(&sym);
 
         if cfg!(debug_assertions) && LOG {
             eprintln!("\t{}{:?} -> {}", sym, ctxt, renamed);
@@ -545,6 +548,8 @@ struct Scope<'a> {
     pub(crate) ops: RefCell<Operations>,
     pub renamed: AHashSet<JsWord>,
 
+    rename_idx: RefCell<AHashMap<JsWord, usize>>,
+
     check_queue: Vec<Id>,
 }
 
@@ -572,6 +577,7 @@ impl<'a> Scope<'a> {
             used: Default::default(),
             check_queue: Default::default(),
             vars: Default::default(),
+            rename_idx: Default::default(),
         }
     }
 
