@@ -1190,7 +1190,7 @@ fn transform_jsx_attr_str(v: &str) -> String {
             '\\' => buf.push_str("\\\\"),
 
             '\'' if single_quote => buf.push_str("\\'"),
-            '"' if !single_quote => buf.push_str("\\\""),
+            '"' if !single_quote => buf.push_str("\""),
 
             '\x01'..='\x0f' | '\x10'..='\x1f' => {
                 buf.push(c);

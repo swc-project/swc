@@ -216,7 +216,7 @@ test!(
     empty,
     r#"var [, a, [b], [c], d] = ["foo", "hello", [", ", "junk"], ["world"]];"#,
     r#"var ref = ['foo', 'hello', [', ', 'junk'], ['world']], a = ref[1], ref1 = ref[2],
-     b = ref1[0], ref2 = ref[3], c = ref2[0], d = ref[4];
+     b = ref1[0], ref3 = ref[3], c = ref3[0], d = ref[4];
 "#
 );
 
@@ -590,8 +590,8 @@ test!(
 }",
     "
 function foo(bar) {
-    var foo = bar.foo;
-    return foo;
+    var foo1 = bar.foo;
+    return foo1;
 }"
 );
 

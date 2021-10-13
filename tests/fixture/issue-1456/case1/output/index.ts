@@ -11,55 +11,55 @@ class MyClass1 {
         this.param1 = param1;
     }
 }) || _class) || _class) || _class) || _class;
-var _dec3 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
+var _dec5 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
     typeof Injected === "undefined" ? Object : Injected
-]), _dec4 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec5 = function(target, key) {
+]), _dec6 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec7 = function(target, key) {
     return Inject()(target, undefined, 0);
 };
-let MyClass21 = _class1 = _dec5(_class1 = _dec4(_class1 = _dec3((_class1 = class MyClass2 {
+let MyClass21 = _class1 = _dec7(_class1 = _dec6(_class1 = _dec5((_class1 = class MyClass2 {
     constructor(param1){
         this.param1 = param1;
     }
 }) || _class1) || _class1) || _class1) || _class1;
-var _dec6 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
+var _dec8 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
     typeof Injected === "undefined" ? Object : Injected
-]), _dec7 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec8 = function(target, key) {
+]), _dec9 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec10 = function(target, key) {
     return Inject()(target, undefined, 0);
 };
-let MyClass31 = _class2 = _dec8(_class2 = _dec7(_class2 = _dec6((_class2 = class MyClass3 {
+let MyClass31 = _class2 = _dec10(_class2 = _dec9(_class2 = _dec8((_class2 = class MyClass3 {
     constructor(param1){
         this.param1 = param1;
     }
 }) || _class2) || _class2) || _class2) || _class2;
-var _dec9 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
+var _dec11 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
     typeof Injected === "undefined" ? Object : Injected
-]), _dec10 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec11 = function(target, key) {
+]), _dec12 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec13 = function(target, key) {
     return Inject()(target, undefined, 0);
 };
-let MyClass41 = _class3 = _dec11(_class3 = _dec10(_class3 = _dec9((_class3 = class MyClass4 {
+let MyClass41 = _class3 = _dec13(_class3 = _dec12(_class3 = _dec11((_class3 = class MyClass4 {
     constructor(param1){
         this.param1 = param1;
     }
 }) || _class3) || _class3) || _class3) || _class3;
-var _dec12 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
+var _dec14 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
     typeof Injected === "undefined" ? Object : Injected
-]), _dec13 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec14 = function(target, key) {
+]), _dec15 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec16 = function(target, key) {
     return Inject()(target, undefined, 0);
 };
-let MyClass51 = _class4 = _dec14(_class4 = _dec13(_class4 = _dec12((_class4 = class MyClass5 {
+let MyClass51 = _class4 = _dec16(_class4 = _dec15(_class4 = _dec14((_class4 = class MyClass5 {
     constructor(param1){
         this.param1 = param1;
     }
 }) || _class4) || _class4) || _class4) || _class4;
-var _dec15 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
+var _dec17 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
     typeof Injected === "undefined" ? Object : Injected,
     typeof Injected === "undefined" ? Object : Injected
-]), _dec16 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec17 = function(target, key) {
+]), _dec18 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec19 = function(target, key) {
     return Inject()(target, undefined, 1);
-}, _dec18 = function(target, key) {
+}, _dec20 = function(target, key) {
     return Inject()(target, undefined, 0);
 };
-let MyClass61 = _class5 = _dec18(_class5 = _dec17(_class5 = _dec16(_class5 = _dec15((_class5 = class MyClass6 {
+let MyClass61 = _class5 = _dec20(_class5 = _dec19(_class5 = _dec18(_class5 = _dec17((_class5 = class MyClass6 {
     constructor(param1, param2){
         this.param1 = param1;
         this.param2 = param2;

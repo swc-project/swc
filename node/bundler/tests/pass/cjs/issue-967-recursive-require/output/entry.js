@@ -27,7 +27,7 @@ var load3 = __spack_require__.bind(void 0, function(module, exports) {
     console.log('b');
     module.exports = 'b';
 });
-var load4 = __spack_require__.bind(void 0, function(module, exports) {
+var load7 = __spack_require__.bind(void 0, function(module, exports) {
     var aa = load1();
     var bb = load2();
     load3();
@@ -36,10 +36,10 @@ var load4 = __spack_require__.bind(void 0, function(module, exports) {
         bb: bb
     };
 });
-var load5 = __spack_require__.bind(void 0, function(module, exports) {
+var load8 = __spack_require__.bind(void 0, function(module, exports) {
     console.log('c');
 });
-load4();
+load7();
 var b = load3();
-load5();
+load8();
 console.log(b);

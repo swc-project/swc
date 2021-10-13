@@ -1483,7 +1483,7 @@ fn opt_6() {
                     }
                     ",
                 )?
-                .fold_with(&mut OnceMarker::new(&[("foo", &[mark1, mark2, mark1])]));
+                .fold_with(&mut OnceMarker::new(&[("foo", &[mark1, mark1, mark2])]));
             Ok(stmts)
         },
         "
@@ -1611,14 +1611,80 @@ fn issue_2297_1() {
             Ok(stmts)
         },
         "
-        var _bar = require('./Bar');
+        var _bar1 = require('./Bar');
         var makeX = function(props) {
-            var _bar1 = props.bar;
-            var list = _bar1.list;
+            var _bar = props.bar;
+            var list = _bar.list;
             return list.map(function() {
-                return _bar.bar;
+                return _bar1.bar;
             });
         };
+        ",
+    );
+}
+
+/// `var` has strnage scoping rule.
+#[test]
+fn var_awareness_1() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            let stmts = tester
+                .parse_stmts(
+                    "actual1.js",
+                    "
+                    for (var i of [1, 2, 3]) {
+                        for (var i of [4, 5, 6]) {
+                            console.log(i)
+                        }
+                    }
+                    ",
+                )?
+                .fold_with(&mut OnceMarker::new(&[("i", &[mark1, mark2, mark2])]));
+            Ok(stmts)
+        },
+        "
+        for (var i of [1, 2, 3]) {
+            for (var i1 of [4, 5, 6]) {
+                console.log(i1)
+            }
+        }
+        ",
+    );
+}
+
+/// `var` has strnage scoping rule.
+#[test]
+fn var_awareness_2() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            let stmts = tester
+                .parse_stmts(
+                    "actual1.js",
+                    "
+                    for (var i of [1, 2, 3]) {
+                    }
+                    for (var i of [4, 5, 6]) {
+                        console.log(i)
+                    }
+                    ",
+                )?
+                .fold_with(&mut OnceMarker::new(&[("i", &[mark1, mark2, mark2])]));
+            Ok(stmts)
+        },
+        "
+        for (var i of [1, 2, 3]) {
+            
+        }
+
+        for (var i1 of [4, 5, 6]) {
+            console.log(i1)
+        }
         ",
     );
 }

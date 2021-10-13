@@ -4272,8 +4272,8 @@ class Range {
         if (typeof version === "string") {
             version = new SemVer(version, this.options);
         }
-        for(var i = 0; i < this.set.length; i++){
-            if (testSet(this.set[i], version, this.options)) {
+        for(var i1 = 0; i1 < this.set.length; i1++){
+            if (testSet(this.set[i1], version, this.options)) {
                 return true;
             }
         }
@@ -4545,8 +4545,8 @@ function minVersion(range, optionsOrLoose) {
         return minver;
     }
     minver = null;
-    for(var i = 0; i < range.set.length; ++i){
-        var comparators = range.set[i];
+    for(var i1 = 0; i1 < range.set.length; ++i1){
+        var comparators = range.set[i1];
         comparators.forEach((comparator)=>{
             var compver = new SemVer(comparator.semver.version);
             switch(comparator.operator){
