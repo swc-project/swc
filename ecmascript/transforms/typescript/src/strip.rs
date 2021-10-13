@@ -75,7 +75,7 @@ pub fn strip_with_config(config: Config) -> impl Fold + VisitMut {
 }
 
 /// Strips type annotations out.
-pub fn strip() -> impl Fold {
+pub fn strip() -> impl Fold + VisitMut {
     strip_with_config(Default::default())
 }
 
