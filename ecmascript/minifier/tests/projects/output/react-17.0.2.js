@@ -626,8 +626,8 @@
         if (null == element) return element;
         if (validType) for(var i = 2; i < arguments.length; i++)validateChildKeys(arguments[i], type);
         return type === exports.Fragment ? (function(fragment) {
-            for(var keys = Object.keys(fragment.props), i = 0; i < keys.length; i++){
-                var key = keys[i];
+            for(var keys = Object.keys(fragment.props), i1 = 0; i1 < keys.length; i1++){
+                var key = keys[i1];
                 if ("children" !== key && "key" !== key) {
                     setCurrentlyValidatingElement$1(fragment), error("Invalid prop `%s` supplied to `React.Fragment`. React.Fragment can only have `key` and `children` props.", key), setCurrentlyValidatingElement$1(null);
                     break;

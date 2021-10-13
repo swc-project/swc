@@ -1133,9 +1133,9 @@
                 function compileNodes(nodeList, transcludeFn, $rootElement, maxPriority, ignoreDirective, previousCompileContext) {
                     for(var nodeLinkFn, childLinkFn, directives, attrs, linkFnFound, linkFns = [], i = 0; i < nodeList.length; i++)attrs = new Attributes(), childLinkFn = (nodeLinkFn = (directives = collectDirectives(nodeList[i], [], attrs, 0 === i ? maxPriority : undefined, ignoreDirective)).length ? applyDirectivesToNode(directives, nodeList[i], attrs, transcludeFn, $rootElement, null, [], [], previousCompileContext) : null) && nodeLinkFn.terminal || !nodeList[i].childNodes || !nodeList[i].childNodes.length ? null : compileNodes(nodeList[i].childNodes, nodeLinkFn ? nodeLinkFn.transclude : transcludeFn), linkFns.push(nodeLinkFn), linkFns.push(childLinkFn), linkFnFound = linkFnFound || nodeLinkFn || childLinkFn, previousCompileContext = null;
                     return linkFnFound ? function(scope, nodeList, $rootElement, boundTranscludeFn) {
-                        var nodeLinkFn, childLinkFn, node, $node, childScope, childTranscludeFn, i, ii, n, stableNodeList = [];
-                        for(i = 0, ii = nodeList.length; i < ii; i++)stableNodeList.push(nodeList[i]);
-                        for(i = 0, n = 0, ii = linkFns.length; i < ii; n++)node = stableNodeList[n], nodeLinkFn = linkFns[i++], childLinkFn = linkFns[i++], $node = jqLite(node), nodeLinkFn ? (nodeLinkFn.scope ? (childScope = scope.$new(), $node.data("$scope", childScope), safeAddClass($node, "ng-scope")) : childScope = scope, nodeLinkFn(childLinkFn, childScope, node, $rootElement, (childTranscludeFn = nodeLinkFn.transclude) || !boundTranscludeFn && transcludeFn ? createBoundTranscludeFn(scope, childTranscludeFn || transcludeFn) : boundTranscludeFn)) : childLinkFn && childLinkFn(scope, node.childNodes, undefined, boundTranscludeFn);
+                        var nodeLinkFn1, childLinkFn1, node, $node, childScope, childTranscludeFn, i1, ii, n, stableNodeList = [];
+                        for(i1 = 0, ii = nodeList.length; i1 < ii; i1++)stableNodeList.push(nodeList[i1]);
+                        for(i1 = 0, n = 0, ii = linkFns.length; i1 < ii; n++)node = stableNodeList[n], nodeLinkFn1 = linkFns[i1++], childLinkFn1 = linkFns[i1++], $node = jqLite(node), nodeLinkFn1 ? (nodeLinkFn1.scope ? (childScope = scope.$new(), $node.data("$scope", childScope), safeAddClass($node, "ng-scope")) : childScope = scope, nodeLinkFn1(childLinkFn1, childScope, node, $rootElement, (childTranscludeFn = nodeLinkFn1.transclude) || !boundTranscludeFn && transcludeFn ? createBoundTranscludeFn(scope, childTranscludeFn || transcludeFn) : boundTranscludeFn)) : childLinkFn1 && childLinkFn1(scope, node.childNodes, undefined, boundTranscludeFn);
                     } : null;
                 }
                 function createBoundTranscludeFn(scope, transcludeFn) {
@@ -1234,7 +1234,7 @@
                         })), value;
                     }
                     function nodeLinkFn(childLinkFn, scope, linkNode, $rootElement, boundTranscludeFn) {
-                        var attrs, $element, i, ii, linkFn, controller, isolateScope, transcludeFn, elementControllers = {
+                        var attrs, $element, i1, ii1, linkFn1, controller, isolateScope, transcludeFn1, elementControllers = {
                         };
                         if ($element = (attrs = compileNode === linkNode ? templateAttrs : (function(src, dst) {
                             for(var key in dst = dst || {
@@ -1271,7 +1271,7 @@
                                 }
                             });
                         }
-                        for(transcludeFn = boundTranscludeFn && function(scope, cloneAttachFn) {
+                        for(transcludeFn1 = boundTranscludeFn && function(scope, cloneAttachFn) {
                             var transcludeControllers;
                             return arguments.length < 2 && (cloneAttachFn = scope, scope = undefined), hasElementTranscludeDirective && (transcludeControllers = elementControllers), boundTranscludeFn(scope, cloneAttachFn, transcludeControllers);
                         }, controllerDirectives && forEach(controllerDirectives, function(directive) {
@@ -1279,17 +1279,17 @@
                                 $scope: directive === newIsolateScopeDirective || directive.$$isolateScope ? isolateScope : scope,
                                 $element: $element,
                                 $attrs: attrs,
-                                $transclude: transcludeFn
+                                $transclude: transcludeFn1
                             };
                             "@" == (controller = directive.controller) && (controller = attrs[directive.name]), controllerInstance = $controller(controller, locals), elementControllers[directive.name] = controllerInstance, hasElementTranscludeDirective || $element.data("$" + directive.name + "Controller", controllerInstance), directive.controllerAs && (locals.$scope[directive.controllerAs] = controllerInstance);
-                        }), i = 0, ii = preLinkFns.length; i < ii; i++)try {
-                            (linkFn = preLinkFns[i])(linkFn.isolateScope ? isolateScope : scope, $element, attrs, linkFn.require && getControllers(linkFn.require, $element, elementControllers), transcludeFn);
+                        }), i1 = 0, ii1 = preLinkFns.length; i1 < ii1; i1++)try {
+                            (linkFn1 = preLinkFns[i1])(linkFn1.isolateScope ? isolateScope : scope, $element, attrs, linkFn1.require && getControllers(linkFn1.require, $element, elementControllers), transcludeFn1);
                         } catch (e) {
                             $exceptionHandler(e, startingTag($element));
                         }
                         var scopeToChild = scope;
-                        for(newIsolateScopeDirective && (newIsolateScopeDirective.template || null === newIsolateScopeDirective.templateUrl) && (scopeToChild = isolateScope), childLinkFn && childLinkFn(scopeToChild, linkNode.childNodes, undefined, boundTranscludeFn), i = postLinkFns.length - 1; i >= 0; i--)try {
-                            (linkFn = postLinkFns[i])(linkFn.isolateScope ? isolateScope : scope, $element, attrs, linkFn.require && getControllers(linkFn.require, $element, elementControllers), transcludeFn);
+                        for(newIsolateScopeDirective && (newIsolateScopeDirective.template || null === newIsolateScopeDirective.templateUrl) && (scopeToChild = isolateScope), childLinkFn && childLinkFn(scopeToChild, linkNode.childNodes, undefined, boundTranscludeFn), i1 = postLinkFns.length - 1; i1 >= 0; i1--)try {
+                            (linkFn1 = postLinkFns[i1])(linkFn1.isolateScope ? isolateScope : scope, $element, attrs, linkFn1.require && getControllers(linkFn1.require, $element, elementControllers), transcludeFn1);
                         } catch (e1) {
                             $exceptionHandler(e1, startingTag($element));
                         }
@@ -3342,11 +3342,11 @@
         return function(date, format) {
             var fn, match, text = "", parts = [];
             if (format = format || "mediumDate", format = $locale.DATETIME_FORMATS[format] || format, isString(date) && (date = NUMBER_STRING.test(date) ? int(date) : (function(string) {
-                var match;
-                if (match = string.match(R_ISO8601_STR)) {
-                    var date = new Date(0), tzHour = 0, tzMin = 0, dateSetter = match[8] ? date.setUTCFullYear : date.setFullYear, timeSetter = match[8] ? date.setUTCHours : date.setHours;
-                    match[9] && (tzHour = int(match[9] + match[10]), tzMin = int(match[9] + match[11])), dateSetter.call(date, int(match[1]), int(match[2]) - 1, int(match[3]));
-                    var h = int(match[4] || 0) - tzHour, m = int(match[5] || 0) - tzMin, s = int(match[6] || 0), ms = Math.round(1000 * parseFloat("0." + (match[7] || 0)));
+                var match1;
+                if (match1 = string.match(R_ISO8601_STR)) {
+                    var date = new Date(0), tzHour = 0, tzMin = 0, dateSetter = match1[8] ? date.setUTCFullYear : date.setFullYear, timeSetter = match1[8] ? date.setUTCHours : date.setHours;
+                    match1[9] && (tzHour = int(match1[9] + match1[10]), tzMin = int(match1[9] + match1[11])), dateSetter.call(date, int(match1[1]), int(match1[2]) - 1, int(match1[3]));
+                    var h = int(match1[4] || 0) - tzHour, m = int(match1[5] || 0) - tzMin, s = int(match1[6] || 0), ms = Math.round(1000 * parseFloat("0." + (match1[7] || 0)));
                     return timeSetter.call(date, h, m, s, ms), date;
                 }
                 return string;
@@ -3394,8 +3394,8 @@
             });
             for(var arrayCopy = [], i = 0; i < array.length; i++)arrayCopy.push(array[i]);
             return arrayCopy.sort(reverseComparator(function(o1, o2) {
-                for(var i = 0; i < sortPredicate.length; i++){
-                    var comp = sortPredicate[i](o1, o2);
+                for(var i1 = 0; i1 < sortPredicate.length; i1++){
+                    var comp = sortPredicate[i1](o1, o2);
                     if (0 !== comp) return comp;
                 }
                 return 0;
@@ -4352,8 +4352,8 @@
             function ensure(obj, name, factory) {
                 return obj[name] || (obj[name] = factory());
             }
-            var angular = ensure(window, "angular", Object);
-            return angular.$$minErr = angular.$$minErr || minErr, ensure(angular, "module", function() {
+            var angular1 = ensure(window, "angular", Object);
+            return angular1.$$minErr = angular1.$$minErr || minErr, ensure(angular1, "module", function() {
                 var modules = {
                 };
                 return function(name, requires, configFn) {

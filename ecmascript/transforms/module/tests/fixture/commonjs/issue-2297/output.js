@@ -1,8 +1,8 @@
 "use strict";
-var _bar = require("./Bar");
+var _bar1 = require("./Bar");
 const makeX = (props)=>{
-    const _bar1 = props.bar;
-    const { list  } = _bar1;
-    return list.map(()=>_bar.bar
+    const _bar = props.bar;
+    const { list  } = _bar;
+    return list.map(()=>_bar1.bar
     );
 };

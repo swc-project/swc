@@ -1137,7 +1137,7 @@
     }), (function(window, undefined) {
         var i, cachedruns, Expr, getText, isXML, compile, hasDuplicate, outermostContext, setDocument, document, docElem, documentIsXML, rbuggyQSA, rbuggyMatches, matches, contains, sortOrder, expando = "sizzle" + -new Date(), preferredDoc = window.document, support = {
         }, dirruns = 0, done = 0, classCache = createCache(), tokenCache = createCache(), compilerCache = createCache(), arr = [], pop = arr.pop, push = arr.push, slice = arr.slice, indexOf = arr.indexOf || function(elem) {
-            for(var i = 0, len = this.length; i < len; i++)if (this[i] === elem) return i;
+            for(var i1 = 0, len = this.length; i1 < len; i1++)if (this[i1] === elem) return i1;
             return -1;
         }, whitespace = "[\\x20\\t\\r\\n\\f]", characterEncoding = "(?:\\\\.|[\\w-]|[^\\x00-\\xa0])+", identifier = characterEncoding.replace("w", "w#"), attributes = "\\[" + whitespace + "*(" + characterEncoding + ")" + whitespace + "*(?:([*^$|!~]?=)" + whitespace + "*(?:(['\"])((?:\\\\.|[^\\\\])*?)\\3|(" + identifier + ")|)|)" + whitespace + "*\\]", pseudos = ":(" + characterEncoding + ")(?:\\(((['\"])((?:\\\\.|[^\\\\])*?)\\3|((?:\\\\.|[^\\\\()[\\]]|" + attributes.replace(3, 8) + ")*)|.*)\\)|)", rtrim = new RegExp("^" + whitespace + "+|((?:^|[^\\\\])(?:\\\\.)*)" + whitespace + "+$", "g"), rcomma = new RegExp("^" + whitespace + "*," + whitespace + "*"), rcombinators = new RegExp("^" + whitespace + "*([\\x20\\t\\r\\n\\f>+~])" + whitespace + "*"), rpseudo = new RegExp(pseudos), ridentifier = new RegExp("^" + identifier + "$"), matchExpr = {
             ID: new RegExp("^#(" + characterEncoding + ")"),
@@ -1363,13 +1363,13 @@
             }
             return results;
         }, getText = Sizzle.getText = function(elem) {
-            var node, ret = "", i = 0, nodeType = elem.nodeType;
+            var node, ret = "", i1 = 0, nodeType = elem.nodeType;
             if (nodeType) {
                 if (1 === nodeType || 9 === nodeType || 11 === nodeType) {
                     if ("string" == typeof elem.textContent) return elem.textContent;
                     for(elem = elem.firstChild; elem; elem = elem.nextSibling)ret += getText(elem);
                 } else if (3 === nodeType || 4 === nodeType) return elem.nodeValue;
-            } else for(; node = elem[i]; i++)ret += getText(node);
+            } else for(; node = elem[i1]; i1++)ret += getText(node);
             return ret;
         }, Expr = Sizzle.selectors = {
             cacheLength: 50,
@@ -1563,19 +1563,19 @@
                     ];
                 }),
                 even: createPositionalPseudo(function(matchIndexes, length) {
-                    for(var i = 0; i < length; i += 2)matchIndexes.push(i);
+                    for(var i1 = 0; i1 < length; i1 += 2)matchIndexes.push(i1);
                     return matchIndexes;
                 }),
                 odd: createPositionalPseudo(function(matchIndexes, length) {
-                    for(var i = 1; i < length; i += 2)matchIndexes.push(i);
+                    for(var i1 = 1; i1 < length; i1 += 2)matchIndexes.push(i1);
                     return matchIndexes;
                 }),
                 lt: createPositionalPseudo(function(matchIndexes, length, argument) {
-                    for(var i = argument < 0 ? argument + length : argument; --i >= 0;)matchIndexes.push(i);
+                    for(var i1 = argument < 0 ? argument + length : argument; --i1 >= 0;)matchIndexes.push(i1);
                     return matchIndexes;
                 }),
                 gt: createPositionalPseudo(function(matchIndexes, length, argument) {
-                    for(var i = argument < 0 ? argument + length : argument; ++i < length;)matchIndexes.push(i);
+                    for(var i1 = argument < 0 ? argument + length : argument; ++i1 < length;)matchIndexes.push(i1);
                     return matchIndexes;
                 })
             }
@@ -1607,7 +1607,7 @@
             return parseOnly ? soFar.length : soFar ? Sizzle.error(selector) : tokenCache(selector, groups).slice(0);
         }
         function toSelector(tokens) {
-            for(var i = 0, len = tokens.length, selector = ""; i < len; i++)selector += tokens[i].value;
+            for(var i1 = 0, len = tokens.length, selector = ""; i1 < len; i1++)selector += tokens[i1].value;
             return selector;
         }
         function addCombinator(matcher, combinator, base) {
@@ -1635,7 +1635,7 @@
             } : matchers[0];
         }
         function condense(unmatched, map, filter, context, xml) {
-            for(var elem, newUnmatched = [], i = 0, len = unmatched.length, mapped = null != map; i < len; i++)(elem = unmatched[i]) && (!filter || filter(elem, context, xml)) && (newUnmatched.push(elem), mapped && map.push(i));
+            for(var elem, newUnmatched = [], i1 = 0, len = unmatched.length, mapped = null != map; i1 < len; i1++)(elem = unmatched[i1]) && (!filter || filter(elem, context, xml)) && (newUnmatched.push(elem), mapped && map.push(i1));
             return newUnmatched;
         }
         function setMatcher(preFilter, selector, matcher, postFilter, postFinder, postSelector) {
@@ -1656,26 +1656,26 @@
             });
         }
         function matcherFromTokens(tokens) {
-            for(var checkContext, matcher, j, len = tokens.length, leadingRelative = Expr.relative[tokens[0].type], implicitRelative = leadingRelative || Expr.relative[" "], i = leadingRelative ? 1 : 0, matchContext = addCombinator(function(elem) {
+            for(var checkContext, matcher, j, len = tokens.length, leadingRelative = Expr.relative[tokens[0].type], implicitRelative = leadingRelative || Expr.relative[" "], i1 = leadingRelative ? 1 : 0, matchContext = addCombinator(function(elem) {
                 return elem === checkContext;
             }, implicitRelative, !0), matchAnyContext = addCombinator(function(elem) {
                 return indexOf.call(checkContext, elem) > -1;
             }, implicitRelative, !0), matchers = [function(elem, context, xml) {
                     return !leadingRelative && (xml || context !== outermostContext) || ((checkContext = context).nodeType ? matchContext(elem, context, xml) : matchAnyContext(elem, context, xml));
-                }]; i < len; i++)if (matcher = Expr.relative[tokens[i].type]) matchers = [
+                }]; i1 < len; i1++)if (matcher = Expr.relative[tokens[i1].type]) matchers = [
                 addCombinator(elementMatcher(matchers), matcher)
             ];
             else {
-                if ((matcher = Expr.filter[tokens[i].type].apply(null, tokens[i].matches))[expando]) {
-                    for(j = ++i; j < len && !Expr.relative[tokens[j].type]; j++);
-                    return setMatcher(i > 1 && elementMatcher(matchers), i > 1 && toSelector(tokens.slice(0, i - 1)).replace(rtrim, "$1"), matcher, i < j && matcherFromTokens(tokens.slice(i, j)), j < len && matcherFromTokens(tokens = tokens.slice(j)), j < len && toSelector(tokens));
+                if ((matcher = Expr.filter[tokens[i1].type].apply(null, tokens[i1].matches))[expando]) {
+                    for(j = ++i1; j < len && !Expr.relative[tokens[j].type]; j++);
+                    return setMatcher(i1 > 1 && elementMatcher(matchers), i1 > 1 && toSelector(tokens.slice(0, i1 - 1)).replace(rtrim, "$1"), matcher, i1 < j && matcherFromTokens(tokens.slice(i1, j)), j < len && matcherFromTokens(tokens = tokens.slice(j)), j < len && toSelector(tokens));
                 }
                 matchers.push(matcher);
             }
             return elementMatcher(matchers);
         }
         function multipleContexts(selector, contexts, results) {
-            for(var i = 0, len = contexts.length; i < len; i++)Sizzle(selector, contexts[i], results);
+            for(var i1 = 0, len = contexts.length; i1 < len; i1++)Sizzle(selector, contexts[i1], results);
             return results;
         }
         function select(selector, context, results, seed) {
@@ -1702,8 +1702,8 @@
             if (!cached) {
                 for(group || (group = tokenize(selector)), i = group.length; i--;)(cached = matcherFromTokens(group[i]))[expando] ? setMatchers1.push(cached) : elementMatchers1.push(cached);
                 cached = compilerCache(selector, (elementMatchers = elementMatchers1, matcherCachedRuns = 0, bySet = (setMatchers = setMatchers1).length > 0, byElement = elementMatchers.length > 0, superMatcher = function(seed, context, xml, results, expandContext) {
-                    var elem, j, matcher, setMatched = [], matchedCount = 0, i = "0", unmatched = seed && [], outermost = null != expandContext, contextBackup = outermostContext, elems = seed || byElement && Expr.find.TAG("*", expandContext && context.parentNode || context), dirrunsUnique = dirruns += null == contextBackup ? 1 : Math.random() || 0.1;
-                    for(outermost && (outermostContext = context !== document && context, cachedruns = matcherCachedRuns); null != (elem = elems[i]); i++){
+                    var elem, j, matcher, setMatched = [], matchedCount = 0, i1 = "0", unmatched = seed && [], outermost = null != expandContext, contextBackup = outermostContext, elems = seed || byElement && Expr.find.TAG("*", expandContext && context.parentNode || context), dirrunsUnique = dirruns += null == contextBackup ? 1 : Math.random() || 0.1;
+                    for(outermost && (outermostContext = context !== document && context, cachedruns = matcherCachedRuns); null != (elem = elems[i1]); i1++){
                         if (byElement && elem) {
                             for(; matcher = elementMatchers[j++];)if (matcher(elem, context, xml)) {
                                 results.push(elem);
@@ -1713,10 +1713,10 @@
                         }
                         bySet && ((elem = !matcher && elem) && matchedCount--, seed && unmatched.push(elem));
                     }
-                    if (matchedCount += i, bySet && i !== matchedCount) {
+                    if (matchedCount += i1, bySet && i1 !== matchedCount) {
                         for(; matcher = setMatchers[j++];)matcher(unmatched, setMatched, context, xml);
                         if (seed) {
-                            if (matchedCount > 0) for(; i--;)unmatched[i] || setMatched[i] || (setMatched[i] = pop.call(results));
+                            if (matchedCount > 0) for(; i1--;)unmatched[i1] || setMatched[i1] || (setMatched[i1] = pop.call(results));
                             setMatched = condense(setMatched);
                         }
                         push.apply(results, setMatched), outermost && !seed && setMatched.length > 0 && matchedCount + setMatchers.length > 1 && Sizzle.uniqueSort(results);
@@ -2770,8 +2770,8 @@
             }))) && (hidden = dataShow.hidden), toggle && (dataShow.hidden = !hidden), hidden ? jQuery(elem).show() : anim.done(function() {
                 jQuery(elem).hide();
             }), anim.done(function() {
-                var prop;
-                for(prop in jQuery._removeData(elem, "fxshow"), orig)jQuery.style(elem, prop, orig[prop]);
+                var prop1;
+                for(prop1 in jQuery._removeData(elem, "fxshow"), orig)jQuery.style(elem, prop1, orig[prop1]);
             }), index = 0; index < length; index++)prop = handled[index], tween = anim.createTween(prop, hidden ? dataShow[prop] : 0), orig[prop] = dataShow[prop] || jQuery.style(elem, prop), prop in dataShow || (dataShow[prop] = tween.start, hidden && (tween.end = tween.start, tween.start = "width" === prop || "height" === prop ? 1 : 0));
         }], tweeners = {
         "*": [function(prop, value) {
@@ -2797,12 +2797,12 @@
             delete tick.elem;
         }), tick = function() {
             if (stopped) return !1;
-            for(var currentTime = fxNow || createFxNow(), remaining = Math.max(0, animation1.startTime + animation1.duration - currentTime), percent = 1 - (remaining / animation1.duration || 0), index = 0, length = animation1.tweens.length; index < length; index++)animation1.tweens[index].run(percent);
+            for(var currentTime = fxNow || createFxNow(), remaining = Math.max(0, animation1.startTime + animation1.duration - currentTime), percent = 1 - (remaining / animation1.duration || 0), index1 = 0, length1 = animation1.tweens.length; index1 < length1; index1++)animation1.tweens[index1].run(percent);
             return (deferred.notifyWith(elem, [
                 animation1,
                 percent,
                 remaining
-            ]), percent < 1 && length) ? remaining : (deferred.resolveWith(elem, [
+            ]), percent < 1 && length1) ? remaining : (deferred.resolveWith(elem, [
                 animation1
             ]), !1);
         }, animation1 = deferred.promise({
@@ -2823,9 +2823,9 @@
                 return animation1.tweens.push(tween), tween;
             },
             stop: function(gotoEnd) {
-                var index = 0, length = gotoEnd ? animation1.tweens.length : 0;
+                var index1 = 0, length1 = gotoEnd ? animation1.tweens.length : 0;
                 if (stopped) return this;
-                for(stopped = !0; index < length; index++)animation1.tweens[index].run(1);
+                for(stopped = !0; index1 < length1; index1++)animation1.tweens[index1].run(1);
                 return gotoEnd ? deferred.resolveWith(elem, [
                     animation1,
                     gotoEnd
@@ -2837,7 +2837,7 @@
         }), props1 = animation1.props;
         for(propFilter(props1, animation1.opts.specialEasing); index < length; index++)if (result = animationPrefilters[index].call(animation1, elem, props1, animation1.opts)) return result;
         return animation = animation1, props = props1, jQuery.each(props, function(prop, value) {
-            for(var collection = (tweeners[prop] || []).concat(tweeners["*"]), index = 0, length = collection.length; index < length; index++)if (collection[index].call(animation, prop, value)) return;
+            for(var collection = (tweeners[prop] || []).concat(tweeners["*"]), index1 = 0, length1 = collection.length; index1 < length1; index1++)if (collection[index1].call(animation, prop, value)) return;
         }), jQuery.isFunction(animation1.opts.start) && animation1.opts.start.call(elem, animation1), jQuery.fx.timer(jQuery.extend(tick, {
             elem: elem,
             anim: animation1,

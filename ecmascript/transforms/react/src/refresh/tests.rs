@@ -878,10 +878,10 @@ test!(
     _c6 = B;
 
     function hoc() {
-      var _s = $RefreshSig$();
+      var _s6 = $RefreshSig$();
 
-      return _s(function Inner() {
-        _s();
+      return _s6(function Inner() {
+        _s6();
 
         const [foo, setFoo] = useState(0);
         React.useEffect(() => {});

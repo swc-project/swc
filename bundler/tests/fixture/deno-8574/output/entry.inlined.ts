@@ -579,12 +579,12 @@ function wrappy(fn, cb) {
         return ret;
     }
 }
-var once_1 = wrappy_1(once2);
+var once_1 = wrappy_1(once4);
 var strict = wrappy_1(onceStrict);
-once2.proto = once2(function() {
+once4.proto = once4(function() {
     Object.defineProperty(Function.prototype, "once", {
         value: function() {
-            return once2(this);
+            return once4(this);
         },
         configurable: true
     });
@@ -595,7 +595,7 @@ once2.proto = once2(function() {
         configurable: true
     });
 });
-function once2(fn) {
+function once4(fn) {
     var f = function() {
         if (f.called) return f.value;
         f.called = true;

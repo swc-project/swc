@@ -83,9 +83,9 @@ var YUI = function() {
                     },
                     _BASE_RE: /(?:\?(?:[^&]*&)*([^&]*))?\b(simpleyui|yui(?:-\w+)?)\/\2(?:-(min|debug))?\.js/,
                     parseBasePath: function(src, pattern) {
-                        var path, filter, match = src.match(pattern);
-                        return match && (path = RegExp.leftContext || src.slice(0, src.indexOf(match[0])), filter = match[3], match[1] && (path += "?" + match[1]), path = {
-                            filter: filter,
+                        var path, filter1, match = src.match(pattern);
+                        return match && (path = RegExp.leftContext || src.slice(0, src.indexOf(match[0])), filter1 = match[3], match[1] && (path += "?" + match[1]), path = {
+                            filter: filter1,
                             path: path
                         }), path;
                     },
@@ -247,10 +247,10 @@ var YUI = function() {
                 var redo, origMissing, response = fromLoader || {
                     success: !0,
                     msg: "not dynamic"
-                }, ret = !0, data = response.data;
+                }, ret1 = !0, data = response.data;
                 Y._loading = !1, data && (origMissing = missing, missing = [], r = [], process(data), (redo = missing.length) && [].concat(missing).sort().join() == origMissing.sort().join() && (redo = !1)), redo && data ? (Y._loading = !0, Y._use(missing, function() {
                     Y._attach(data) && Y._notify(callback, response, data);
-                })) : (data && (ret = Y._attach(data)), ret && Y._notify(callback, response, args)), Y._useQueue && Y._useQueue.size() && !Y._loading && Y._use.apply(Y, Y._useQueue.next());
+                })) : (data && (ret1 = Y._attach(data)), ret1 && Y._notify(callback, response, args)), Y._useQueue && Y._useQueue.size() && !Y._loading && Y._use.apply(Y, Y._useQueue.next());
             };
             if ("*" === firstArg) {
                 for(i in args = [], mods)mods.hasOwnProperty(i) && args.push(i);
@@ -1242,8 +1242,8 @@ var YUI = function() {
         lookupBestLang: function(preferredLanguages, availableLanguages) {
             var i, language, result, index;
             function scan(language) {
-                var i;
-                for(i = 0; i < availableLanguages.length; i += 1)if (language.toLowerCase() === availableLanguages[i].toLowerCase()) return availableLanguages[i];
+                var i1;
+                for(i1 = 0; i1 < availableLanguages.length; i1 += 1)if (language.toLowerCase() === availableLanguages[i1].toLowerCase()) return availableLanguages[i1];
             }
             for(Y.Lang.isString(preferredLanguages) && (preferredLanguages = preferredLanguages.split(SPLIT_REGEX)), i = 0; i < preferredLanguages.length; i += 1)if ((language = preferredLanguages[i]) && "*" !== language) for(; language.length > 0;){
                 if (result = scan(language)) return result;
@@ -1265,14 +1265,14 @@ var YUI = function() {
         error: 8
     };
     INSTANCE.log = function(msg, cat, src, silent) {
-        var bail, excl, incl, m, minlevel, Y = INSTANCE, c = Y.config, publisher = Y.fire ? Y : YUI.Env.globalEvents;
-        return c.debug && (void 0 !== (src = src || "") && (excl = c.logExclude, !(incl = c.logInclude) || src in incl ? incl && src in incl ? bail = !incl[src] : excl && src in excl && (bail = excl[src]) : bail = 1, Y.config.logLevel = Y.config.logLevel || "debug", minlevel = LEVELS[Y.config.logLevel.toLowerCase()], cat in LEVELS && LEVELS[cat] < minlevel && (bail = 1)), bail || (c.useBrowserConsole && (m = src ? src + ": " + msg : msg, Y.Lang.isFunction(c.logFn) ? c.logFn.call(Y, msg, cat, src) : "undefined" != typeof console && console.log ? console[cat && console[cat] && cat in LEVELS ? cat : "log"](m) : "undefined" != typeof opera && opera.postError(m)), publisher && !silent && (publisher !== Y || publisher.getEvent("yui:log") || publisher.publish("yui:log", {
+        var bail, excl, incl, m, minlevel, Y1 = INSTANCE, c = Y1.config, publisher = Y1.fire ? Y1 : YUI.Env.globalEvents;
+        return c.debug && (void 0 !== (src = src || "") && (excl = c.logExclude, !(incl = c.logInclude) || src in incl ? incl && src in incl ? bail = !incl[src] : excl && src in excl && (bail = excl[src]) : bail = 1, Y1.config.logLevel = Y1.config.logLevel || "debug", minlevel = LEVELS[Y1.config.logLevel.toLowerCase()], cat in LEVELS && LEVELS[cat] < minlevel && (bail = 1)), bail || (c.useBrowserConsole && (m = src ? src + ": " + msg : msg, Y1.Lang.isFunction(c.logFn) ? c.logFn.call(Y1, msg, cat, src) : "undefined" != typeof console && console.log ? console[cat && console[cat] && cat in LEVELS ? cat : "log"](m) : "undefined" != typeof opera && opera.postError(m)), publisher && !silent && (publisher !== Y1 || publisher.getEvent("yui:log") || publisher.publish("yui:log", {
             broadcast: 2
         }), publisher.fire("yui:log", {
             msg: msg,
             cat: cat,
             src: src
-        })))), Y;
+        })))), Y1;
     }, INSTANCE.message = function() {
         return INSTANCE.log.apply(INSTANCE, arguments);
     };
