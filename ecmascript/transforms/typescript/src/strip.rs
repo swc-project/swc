@@ -3,8 +3,9 @@ use std::{borrow::Borrow, mem::take};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
+    comments::{Comments, NoopComments},
     util::{move_map::MoveMap, take::Take},
-    Span, Spanned, SyntaxContext, DUMMY_SP,
+    Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
@@ -70,7 +71,15 @@ pub struct Config {
 pub fn strip_with_config(config: Config) -> impl Fold + VisitMut {
     as_folder(Strip {
         config,
-        ..Default::default()
+        comments: NoopComments,
+        top_level_mark: None,
+        non_top_level: Default::default(),
+        scope: Default::default(),
+        is_side_effect_import: Default::default(),
+        is_type_only_export: Default::default(),
+        uninitialized_vars: Default::default(),
+        decl_names: Default::default(),
+        in_var_pat: Default::default(),
     })
 }
 
@@ -79,9 +88,36 @@ pub fn strip() -> impl Fold + VisitMut {
     strip_with_config(Default::default())
 }
 
-#[derive(Default)]
-struct Strip {
+/// [strip], but aware of jsx.
+///
+/// If you are using jsx, you should use this before jsx pass.
+pub fn strip_with_jsx<C>(config: Config, comments: C, top_level_mark: Mark) -> impl Fold + VisitMut
+where
+    C: Comments,
+{
+    as_folder(Strip {
+        config,
+        comments,
+        top_level_mark: Some(top_level_mark),
+        non_top_level: Default::default(),
+        scope: Default::default(),
+        is_side_effect_import: Default::default(),
+        is_type_only_export: Default::default(),
+        uninitialized_vars: Default::default(),
+        decl_names: Default::default(),
+        in_var_pat: Default::default(),
+    })
+}
+
+struct Strip<C>
+where
+    C: Comments,
+{
     config: Config,
+
+    comments: C,
+    top_level_mark: Option<Mark>,
+
     non_top_level: bool,
     scope: Scope,
 
@@ -101,7 +137,10 @@ struct Strip {
     in_var_pat: bool,
 }
 
-impl Strip {
+impl<C> Strip<C>
+where
+    C: Comments,
+{
     /// Creates an uninitialized variable if `name` is not in scope.
     fn create_uninit_var(&mut self, span: Span, name: Id) -> Option<VarDeclarator> {
         if !self.decl_names.insert(name.clone()) {
@@ -134,7 +173,10 @@ struct DeclInfo {
     has_concrete: bool,
 }
 
-impl Strip {
+impl<C> Strip<C>
+where
+    C: Comments,
+{
     fn store(&mut self, sym: JsWord, ctxt: SyntaxContext, concrete: bool) {
         let entry = self.scope.decls.entry((sym, ctxt)).or_default();
 
@@ -194,7 +236,10 @@ impl Strip {
     }
 }
 
-impl Strip {
+impl<C> Strip<C>
+where
+    C: Comments,
+{
     fn fold_class_as_decl(
         &mut self,
         ident: Ident,
@@ -1151,7 +1196,10 @@ impl Strip {
     }
 }
 
-impl Visit for Strip {
+impl<C> Visit for Strip<C>
+where
+    C: Comments,
+{
     fn visit_assign_pat_prop(&mut self, n: &AssignPatProp, _: &dyn Node) {
         if !self.in_var_pat {
             n.key.visit_with(n, self);
@@ -1302,7 +1350,10 @@ macro_rules! type_to_none {
     };
 }
 
-impl VisitMut for Strip {
+impl<C> VisitMut for Strip<C>
+where
+    C: Comments,
+{
     fn visit_mut_block_stmt_or_expr(&mut self, n: &mut BlockStmtOrExpr) {
         match n {
             BlockStmtOrExpr::Expr(expr) if expr.is_class() => {
