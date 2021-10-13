@@ -127,6 +127,63 @@ where
     delegate!();
 }
 
+/// Implementation of [Comments] which does not store any comments.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Hash)]
+pub struct NoopComments;
+
+impl Comments for NoopComments {
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn add_leading(&self, _: BytePos, _: Comment) {}
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn add_leading_comments(&self, _: BytePos, _: Vec<Comment>) {}
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn has_leading(&self, _: BytePos) -> bool {
+        false
+    }
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn move_leading(&self, _: BytePos, _: BytePos) {}
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn take_leading(&self, _: BytePos) -> Option<Vec<Comment>> {
+        None
+    }
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn get_leading(&self, _: BytePos) -> Option<Vec<Comment>> {
+        None
+    }
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn add_trailing(&self, _: BytePos, _: Comment) {}
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn add_trailing_comments(&self, _: BytePos, _: Vec<Comment>) {}
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn has_trailing(&self, _: BytePos) -> bool {
+        false
+    }
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn move_trailing(&self, _: BytePos, _: BytePos) {}
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn take_trailing(&self, _: BytePos) -> Option<Vec<Comment>> {
+        None
+    }
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn get_trailing(&self, _: BytePos) -> Option<Vec<Comment>> {
+        None
+    }
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn add_pure_comment(&self, _: BytePos) {}
+}
+
 pub type SingleThreadedCommentsMapInner = FxHashMap<BytePos, Vec<Comment>>;
 pub type SingleThreadedCommentsMap = Rc<RefCell<SingleThreadedCommentsMapInner>>;
 
