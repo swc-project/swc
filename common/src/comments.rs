@@ -547,6 +547,10 @@ pub enum CommentKind {
     Block,
 }
 
+#[deprecated(
+    since = "0.13.5",
+    note = "helper methods are merged into Comments itself"
+)]
 pub trait CommentsExt: Comments {
     fn with_leading<F, Ret>(&self, pos: BytePos, op: F) -> Ret
     where
@@ -571,4 +575,5 @@ pub trait CommentsExt: Comments {
     }
 }
 
+#[allow(deprecated)]
 impl<C> CommentsExt for C where C: Comments {}
