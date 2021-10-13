@@ -371,6 +371,17 @@ where
 
         let transfomred_src = tester.print(&module, &tester.comments.clone());
 
+        match ::std::env::var("PRINT_HYGIENE") {
+            Ok(ref s) if s == "1" => {
+                let hygiene_src = tester.print(
+                    &module.clone().fold_with(&mut HygieneVisualizer),
+                    &tester.comments.clone(),
+                );
+                println!("----- Hygiene -----\n{}", hygiene_src);
+            }
+            _ => {}
+        }
+
         println!(
             "\t>>>>> Orig <<<<<\n{}\n\t>>>>> Code <<<<<\n{}",
             input, src_without_helpers
