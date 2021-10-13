@@ -1612,7 +1612,7 @@ where
             | ImportSpecifier::Named(ImportNamedSpecifier { ref local, .. })
             | ImportSpecifier::Namespace(ImportStarAsSpecifier { ref local, .. }) => {
                 if let Some(jsx) = &self.jsx {
-                    if local.to_id() == jsx.pragma_id || local.to_id() == jsx.pragma_frag_id {
+                    if local.sym == jsx.pragma_id.0 || local.sym == jsx.pragma_frag_id.0 {
                         return true;
                     }
                 }

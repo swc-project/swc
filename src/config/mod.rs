@@ -280,7 +280,6 @@ impl Options {
             );
 
         let pass = chain!(
-            resolver_with_mark(top_level_mark),
             // Decorators may use type information
             Optional::new(
                 decorators(decorators::Config {
@@ -303,6 +302,7 @@ impl Options {
                 ),
                 syntax.typescript()
             ),
+            resolver_with_mark(top_level_mark),
             custom_before_pass,
             // handle jsx
             Optional::new(

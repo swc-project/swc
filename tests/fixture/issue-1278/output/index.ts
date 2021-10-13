@@ -39,7 +39,7 @@ function MyDecorator(klass) {
         console.log(klass);
     };
 }
-let MyClass = ((_class = class MyClass {
+let MyClass1 = ((_class = class MyClass {
     constructor(){
         _initializerDefineProperty(this, "prop", _descriptor, this);
     }
@@ -52,4 +52,4 @@ let MyClass = ((_class = class MyClass {
     writable: true,
     initializer: void 0
 }), _class);
-console.log(new MyClass());
+console.log(new MyClass1());
