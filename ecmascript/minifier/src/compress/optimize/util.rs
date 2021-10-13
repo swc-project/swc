@@ -210,13 +210,12 @@ impl VisitMut for MultiReplacer {
             }
             items.visit_mut_children_with(self);
 
-            if self.changed {
-                continue;
-            }
-
-            if cfg!(feature = "debug") {
-                let keys = self.vars.iter().map(|(k, _)| k.clone()).collect::<Vec<_>>();
-                debug!("Left: {:?}", keys);
+            if !self.changed {
+                if cfg!(feature = "debug") {
+                    let keys = self.vars.iter().map(|(k, _)| k.clone()).collect::<Vec<_>>();
+                    debug!("Dropping {:?}", keys);
+                }
+                break;
             }
         }
     }
