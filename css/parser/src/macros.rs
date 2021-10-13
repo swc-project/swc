@@ -69,7 +69,7 @@ macro_rules! tok {
     };
 
     ("|") => {
-        swc_css_ast::Token::Bar
+        swc_css_ast::Token::Delim { value: '|', .. }
     };
 
     ("$") => {

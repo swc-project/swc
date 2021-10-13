@@ -549,9 +549,6 @@ where
                 Token::Ampersand => {
                     punct!(self, span, "&");
                 }
-                Token::Bar => {
-                    punct!(self, span, "|");
-                }
                 Token::Caret => {
                     punct!(self, span, "^");
                 }

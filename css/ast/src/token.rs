@@ -102,9 +102,6 @@ pub enum Token {
     /// `&`
     Ampersand,
 
-    /// `|`
-    Bar,
-
     /// `^`
     Caret,
 
