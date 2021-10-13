@@ -69,11 +69,9 @@ fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
             .map_err(|err| println!("{:?}", err))?;
         println!("Bundled as {} modules", modules.len());
 
-        if cfg!(feature = "concurrent") {
-            rayon::spawn(move || {
-                drop(bundler);
-            });
-        }
+        rayon::spawn(move || {
+            drop(bundler);
+        });
 
         {
             let dur = start.elapsed();
@@ -82,7 +80,12 @@ fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
 
         let error = false;
 
-        print_bundles(cm.clone(), modules);
+        {
+            let cm = cm.clone();
+            rayon::spawn(move || {
+                print_bundles(cm, modules);
+            });
+        }
 
         if error {
             return Err(());
