@@ -111,7 +111,6 @@ where
         // TODO: it is delim tokens
         try_delim!(b'=', "=");
         try_delim!(b'*', "*");
-        try_delim!(b'$', "$");
         try_delim!(b'^', "^");
         try_delim!(b'%', "%");
         try_delim!(b'!', "!");

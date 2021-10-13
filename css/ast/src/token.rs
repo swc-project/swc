@@ -108,9 +108,6 @@ pub enum Token {
     /// `|`
     Bar,
 
-    /// `$`
-    Dollar,
-
     /// `^`
     Caret,
 

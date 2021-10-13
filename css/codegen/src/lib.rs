@@ -555,9 +555,6 @@ where
                 Token::Bar => {
                     punct!(self, span, "|");
                 }
-                Token::Dollar => {
-                    punct!(self, span, "$");
-                }
                 Token::Caret => {
                     punct!(self, span, "^");
                 }

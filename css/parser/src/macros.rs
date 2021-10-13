@@ -73,7 +73,7 @@ macro_rules! tok {
     };
 
     ("$") => {
-        swc_css_ast::Token::Dollar
+       swc_css_ast::Token::Delim { value: '$', .. }
     };
 
     ("^") => {
