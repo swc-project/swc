@@ -354,13 +354,11 @@ impl<'a> Hygiene<'a> {
                     if let Some(ctxts) = used.get(&sym) {
                         'add_loop: for &cx in ctxts {
                             if cx == ctxt {
-                                dbg!();
                                 continue;
                             }
 
                             // Prevent duplicate
                             if other_ctxts.contains(&cx) {
-                                dbg!();
                                 continue;
                             }
 
@@ -370,7 +368,6 @@ impl<'a> Hygiene<'a> {
                                 let ops = c.ops.borrow();
 
                                 if ops.rename.contains_key(&(sym.clone(), cx)) {
-                                    dbg!();
                                     continue 'add_loop;
                                 }
                                 cur = c.parent;
@@ -398,7 +395,6 @@ impl<'a> Hygiene<'a> {
                 }
 
                 if other_ctxts.is_empty() {
-                    dbg!();
                     continue;
                 }
             }
