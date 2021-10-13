@@ -46,6 +46,7 @@ impl Renamer {
                 data: &mut data,
                 ops: Default::default(),
                 scope_ctxt: Default::default(),
+                is_pat_decl: false,
             };
 
             n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);

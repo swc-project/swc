@@ -28,6 +28,7 @@ pub struct RenameAnalyzer<'a> {
     pub data: &'a mut Data,
     pub scope_ctxt: SyntaxContext,
     pub ops: RenameOps,
+    pub is_pat_decl: bool,
 }
 
 impl RenameAnalyzer<'_> {
@@ -40,6 +41,7 @@ impl RenameAnalyzer<'_> {
             data: self.data,
             scope_ctxt,
             ops,
+            is_pat_decl: self.is_pat_decl,
         };
         op(&mut v);
         self.ops = v.ops;
@@ -116,6 +118,8 @@ impl RenameAnalyzer<'_> {
         self.ops.rename.insert(id, renamed);
     }
 
+    fn rename_decl(&mut self, i: &Ident) {}
+
     fn rename_usage(&mut self, i: &Ident) {
         let i = i.to_id();
         let i = self.apply_ops(i);
@@ -172,6 +176,32 @@ impl Visit for RenameAnalyzer<'_> {
 
         match e {
             Expr::Ident(i) => {
+                self.rename_usage(&i);
+            }
+            _ => {}
+        }
+    }
+
+    fn visit_pat(&mut self, p: &Pat, _: &dyn Node) {
+        p.visit_children_with(self);
+
+        match p {
+            Pat::Ident(i) => {
+                if self.is_pat_decl {
+                    self.rename_decl(&i.id);
+                } else {
+                    self.rename_usage(&i.id);
+                }
+            }
+            _ => {}
+        }
+    }
+
+    fn visit_prop(&mut self, p: &Prop, _: &dyn Node) {
+        p.visit_children_with(self);
+
+        match p {
+            Prop::Shorthand(i) => {
                 self.rename_usage(&i);
             }
             _ => {}
