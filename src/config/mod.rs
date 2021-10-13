@@ -280,6 +280,7 @@ impl Options {
             );
 
         let pass = chain!(
+            resolver_with_mark(top_level_mark),
             // Decorators may use type information
             Optional::new(
                 decorators(decorators::Config {
@@ -289,8 +290,19 @@ impl Options {
                 syntax.decorators()
             ),
             import_assertions(),
-            Optional::new(typescript::strip(), syntax.typescript()),
-            resolver_with_mark(top_level_mark),
+            Optional::new(
+                typescript::strip_with_jsx(
+                    cm.clone(),
+                    typescript::Config {
+                        pragma: Some(transform.react.pragma.clone()),
+                        pragma_frag: Some(transform.react.pragma_frag.clone()),
+                        ..Default::default()
+                    },
+                    comments.clone(),
+                    top_level_mark
+                ),
+                syntax.typescript()
+            ),
             custom_before_pass,
             // handle jsx
             Optional::new(

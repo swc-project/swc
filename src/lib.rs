@@ -1195,6 +1195,34 @@ impl Comments for SwcComments {
             leading.push(pure_comment);
         }
     }
+
+    fn with_leading<F, Ret>(&self, pos: BytePos, f: F) -> Ret
+    where
+        Self: Sized,
+        F: FnOnce(&[Comment]) -> Ret,
+    {
+        let ret = if let Some(cmts) = self.leading.get(&pos) {
+            f(&cmts)
+        } else {
+            f(&[])
+        };
+
+        ret
+    }
+
+    fn with_trailing<F, Ret>(&self, pos: BytePos, f: F) -> Ret
+    where
+        Self: Sized,
+        F: FnOnce(&[Comment]) -> Ret,
+    {
+        let ret = if let Some(cmts) = &self.trailing.get(&pos) {
+            f(&cmts)
+        } else {
+            f(&[])
+        };
+
+        ret
+    }
 }
 
 pub struct IdentCollector {

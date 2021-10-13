@@ -3,10 +3,13 @@ use std::{borrow::Borrow, mem::take};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
+    comments::{Comments, NoopComments},
+    sync::Lrc,
     util::{move_map::MoveMap, take::Take},
-    Span, Spanned, SyntaxContext, DUMMY_SP,
+    Mark, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
+use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
 use swc_ecma_utils::{
     constructor::inject_after_super, default_constructor, ident::IdentLike, member_expr, prepend,
     private_ident, quote_ident, replace_ident, var::VarCollector, ExprFactory, Id, ModuleItemLike,
@@ -65,23 +68,123 @@ pub struct Config {
     /// https://github.com/swc-project/swc/issues/1698
     #[serde(default)]
     pub no_empty_export: bool,
+
+    /// Note: this pass handle jsx directives in comments
+    #[serde(default)]
+    pub pragma: Option<String>,
+
+    /// Note: this pass handle jsx directives in comments
+    #[serde(default)]
+    pub pragma_frag: Option<String>,
 }
 
 pub fn strip_with_config(config: Config) -> impl Fold + VisitMut {
     as_folder(Strip {
         config,
-        ..Default::default()
+        comments: NoopComments,
+        jsx: None,
+        non_top_level: Default::default(),
+        scope: Default::default(),
+        is_side_effect_import: Default::default(),
+        is_type_only_export: Default::default(),
+        uninitialized_vars: Default::default(),
+        decl_names: Default::default(),
+        in_var_pat: Default::default(),
     })
 }
 
 /// Strips type annotations out.
-pub fn strip() -> impl Fold {
+pub fn strip() -> impl Fold + VisitMut {
     strip_with_config(Default::default())
 }
 
-#[derive(Default)]
-struct Strip {
+/// [strip], but aware of jsx.
+///
+/// If you are using jsx, you should use this before jsx pass.
+pub fn strip_with_jsx<C>(
+    cm: Lrc<SourceMap>,
     config: Config,
+    comments: C,
+    top_level_mark: Mark,
+) -> impl Fold + VisitMut
+where
+    C: Comments,
+{
+    let pragma = parse_expr_for_jsx(
+        &cm,
+        "pragma",
+        config
+            .pragma
+            .clone()
+            .unwrap_or_else(|| "React.createElement".to_string()),
+        top_level_mark,
+    );
+
+    let pragma_frag = parse_expr_for_jsx(
+        &cm,
+        "pragma",
+        config
+            .pragma_frag
+            .clone()
+            .unwrap_or_else(|| "React.Fragment".to_string()),
+        top_level_mark,
+    );
+
+    let pragma_id = id_for_jsx(&pragma);
+    let pragma_frag_id = id_for_jsx(&pragma_frag);
+
+    as_folder(Strip {
+        config,
+        comments,
+        jsx: Some(JsxData {
+            cm,
+            top_level_mark,
+            pragma_id,
+            pragma_frag_id,
+        }),
+        non_top_level: Default::default(),
+        scope: Default::default(),
+        is_side_effect_import: Default::default(),
+        is_type_only_export: Default::default(),
+        uninitialized_vars: Default::default(),
+        decl_names: Default::default(),
+        in_var_pat: Default::default(),
+    })
+}
+
+/// Get an [Id] which will used by expression.
+///
+/// For `React#1.createElemnnt`, this returns `React#1`.
+fn id_for_jsx(e: &Expr) -> Id {
+    match e {
+        Expr::Ident(i) => i.to_id(),
+        Expr::Member(MemberExpr {
+            obj: ExprOrSuper::Expr(obj),
+            ..
+        }) => id_for_jsx(&obj),
+        _ => {
+            panic!("failed to determine top-level Id for jsx expression")
+        }
+    }
+}
+
+struct JsxData {
+    cm: Lrc<SourceMap>,
+    top_level_mark: Mark,
+
+    pragma_id: Id,
+    pragma_frag_id: Id,
+}
+
+struct Strip<C>
+where
+    C: Comments,
+{
+    config: Config,
+
+    comments: C,
+    jsx: Option<JsxData>,
+
     non_top_level: bool,
     scope: Scope,
 
@@ -101,7 +204,49 @@ struct Strip {
     in_var_pat: bool,
 }
 
-impl Strip {
+impl<C> Strip<C>
+where
+    C: Comments,
+{
+    /// If we found required jsx directives, we returns true.
+    fn parse_jsx_directives(&mut self, span: Span) -> bool {
+        let jsx_data = match &mut self.jsx {
+            Some(v) => v,
+            None => return false,
+        };
+        let cm = jsx_data.cm.clone();
+        let top_level_mark = jsx_data.top_level_mark;
+
+        let mut found = false;
+
+        let directives = self.comments.with_leading(span.lo, |comments| {
+            JsxDirectives::from_comments(&cm, span, comments, top_level_mark)
+        });
+
+        let JsxDirectives {
+            pragma,
+            pragma_frag,
+            ..
+        } = directives;
+
+        if let Some(pragma) = pragma {
+            found = true;
+            jsx_data.pragma_id = id_for_jsx(&pragma);
+        }
+
+        if let Some(pragma_frag) = pragma_frag {
+            found = true;
+            jsx_data.pragma_frag_id = id_for_jsx(&pragma_frag);
+        }
+
+        found
+    }
+}
+
+impl<C> Strip<C>
+where
+    C: Comments,
+{
     /// Creates an uninitialized variable if `name` is not in scope.
     fn create_uninit_var(&mut self, span: Span, name: Id) -> Option<VarDeclarator> {
         if !self.decl_names.insert(name.clone()) {
@@ -134,7 +279,10 @@ struct DeclInfo {
     has_concrete: bool,
 }
 
-impl Strip {
+impl<C> Strip<C>
+where
+    C: Comments,
+{
     fn store(&mut self, sym: JsWord, ctxt: SyntaxContext, concrete: bool) {
         let entry = self.scope.decls.entry((sym, ctxt)).or_default();
 
@@ -194,7 +342,10 @@ impl Strip {
     }
 }
 
-impl Strip {
+impl<C> Strip<C>
+where
+    C: Comments,
+{
     fn fold_class_as_decl(
         &mut self,
         ident: Ident,
@@ -1151,7 +1302,10 @@ impl Strip {
     }
 }
 
-impl Visit for Strip {
+impl<C> Visit for Strip<C>
+where
+    C: Comments,
+{
     fn visit_assign_pat_prop(&mut self, n: &AssignPatProp, _: &dyn Node) {
         if !self.in_var_pat {
             n.key.visit_with(n, self);
@@ -1302,7 +1456,10 @@ macro_rules! type_to_none {
     };
 }
 
-impl VisitMut for Strip {
+impl<C> VisitMut for Strip<C>
+where
+    C: Comments,
+{
     fn visit_mut_block_stmt_or_expr(&mut self, n: &mut BlockStmtOrExpr) {
         match n {
             BlockStmtOrExpr::Expr(expr) if expr.is_class() => {
@@ -1446,19 +1603,20 @@ impl VisitMut for Strip {
     fn visit_mut_import_decl(&mut self, import: &mut ImportDecl) {
         self.is_side_effect_import = import.specifiers.is_empty();
 
-        let src = &import.src;
         import.specifiers.retain(|s| match *s {
             ImportSpecifier::Named(ImportNamedSpecifier {
                 ref is_type_only, ..
             }) if *is_type_only => false,
 
-            ImportSpecifier::Default(..) if &*src.value == "react" => {
-                return true;
-            }
-
             ImportSpecifier::Default(ImportDefaultSpecifier { ref local, .. })
             | ImportSpecifier::Named(ImportNamedSpecifier { ref local, .. })
             | ImportSpecifier::Namespace(ImportStarAsSpecifier { ref local, .. }) => {
+                if let Some(jsx) = &self.jsx {
+                    if local.to_id() == jsx.pragma_id || local.to_id() == jsx.pragma_frag_id {
+                        return true;
+                    }
+                }
+
                 // If the import is shadowed by a concrete local declaration, TSC
                 // assumes the import is a type and removes it.
                 let decl = self.scope.decls.get(&local.to_id());
@@ -1650,6 +1808,15 @@ impl VisitMut for Strip {
             _ => false,
         });
 
+        self.parse_jsx_directives(module.span);
+
+        for item in &module.body {
+            let span = item.span();
+            if self.parse_jsx_directives(span) {
+                break;
+            }
+        }
+
         module.visit_mut_children_with(self);
         if !self.uninitialized_vars.is_empty() {
             prepend(
@@ -1695,7 +1862,17 @@ impl VisitMut for Strip {
     }
 
     fn visit_mut_script(&mut self, n: &mut Script) {
+        self.parse_jsx_directives(n.span);
+
+        for item in &n.body {
+            let span = item.span();
+            if self.parse_jsx_directives(span) {
+                break;
+            }
+        }
+
         n.visit_mut_children_with(self);
+
         if !self.uninitialized_vars.is_empty() {
             prepend(
                 &mut n.body,

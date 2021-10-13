@@ -1,6 +1,5 @@
 import { Entity, BaseEntity } from 'typeorm';
 var _class;
 var _dec = Entity();
-let Location1 = _class = _dec((_class = class Location extends BaseEntity {
+export let Location = _class = _dec((_class = class Location extends BaseEntity {
 }) || _class) || _class;
-export { Location1 as Location };
