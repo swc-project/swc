@@ -1,3 +1,4 @@
+use std::collections::hash_map::Entry;
 use swc_atoms::JsWord;
 use swc_common::{
     collections::{AHashMap, AHashSet},
@@ -29,8 +30,13 @@ impl Operations {
 
     #[inline]
     pub fn rename(&mut self, from: Id, to: JsWord) {
-        self.rename.insert(from, to.clone());
-        self.symbols.insert(to);
+        match self.rename.entry(from) {
+            Entry::Occupied(..) => {}
+            Entry::Vacant(e) => {
+                e.insert(to.clone());
+                self.symbols.insert(to);
+            }
+        }
     }
 
     #[inline]
