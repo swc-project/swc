@@ -26,19 +26,7 @@ pub struct FreezedScopeData {
 
 pub struct Data {
     /// Top level scope uses [SyntaxContext::empty].
-    scopes: AHashMap<SyntaxContext, ScopeData>,
-}
-
-impl Data {
-    pub fn freeze(self) -> FreezedData {
-        FreezedData {
-            scopes: self
-                .scopes
-                .into_iter()
-                .map(|(k, v)| (k, v.freeze()))
-                .collect(),
-        }
-    }
+    pub scopes: AHashMap<SyntaxContext, ScopeData>,
 }
 
 #[derive(Debug, Default)]
@@ -47,19 +35,9 @@ pub struct ScopeData {
 
     pub decls: RefCell<AHashMap<JsWord, Vec<SyntaxContext>>>,
 
+    /// Usages in current scope.
     pub direct_usages: RefCell<AHashMap<JsWord, Vec<SyntaxContext>>>,
     pub usages: RefCell<AHashMap<JsWord, Vec<SyntaxContext>>>,
-}
-
-impl ScopeData {
-    pub fn freeze(self) -> FreezedScopeData {
-        FreezedScopeData {
-            kind: self.kind,
-            decls: self.decls.into_inner(),
-            direct_usages: self.direct_usages.into_inner(),
-            usages: self.usages.into_inner(),
-        }
-    }
 }
 
 pub struct CurScope<'a> {
