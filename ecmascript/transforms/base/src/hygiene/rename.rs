@@ -25,7 +25,7 @@ impl RenameOps {
 }
 
 pub struct RenameAnalyzer<'a> {
-    pub data: &'a Data,
+    pub data: &'a mut Data,
     pub scope_ctxt: SyntaxContext,
     pub ops: RenameOps,
 }
@@ -37,7 +37,7 @@ impl RenameAnalyzer<'_> {
     {
         let ops = take(&mut self.ops);
         let mut v = RenameAnalyzer {
-            data: &self.data,
+            data: self.data,
             scope_ctxt,
             ops,
         };
@@ -84,6 +84,30 @@ impl RenameAnalyzer<'_> {
             }
         };
 
+        // Udpate scoping info
+
+        if let Some(scope) = self.data.scopes.get_mut(&self.scope_ctxt) {
+            if let Some(ctxts) = scope.usages.get_mut().get_mut(&id.0) {
+                if let Some(pos) = ctxts.iter().position(|&v| v == id.1) {
+                    ctxts.remove(pos);
+                }
+            }
+
+            if let Some(ctxts) = scope.direct_usages.get_mut().get_mut(&id.0) {
+                if let Some(pos) = ctxts.iter().position(|&v| v == id.1) {
+                    ctxts.remove(pos);
+                }
+            }
+
+            if let Some(ctxts) = scope.decls.get_mut().get_mut(&id.0) {
+                if let Some(pos) = ctxts.iter().position(|&v| v == id.1) {
+                    ctxts.remove(pos);
+                }
+            }
+        }
+
+        // Enqueue renaming
+
         self.ops
             .used_symbols
             .entry(self.scope_ctxt)
@@ -96,12 +120,26 @@ impl RenameAnalyzer<'_> {
         let i = i.to_id();
         let i = self.apply_ops(i);
 
-        if let Some(scope) = self.data.scopes.get(&self.scope_ctxt) {
+        if i.1 == SyntaxContext::empty() {
+            return;
+        }
+
+        let rename = if let Some(scope) = self.data.scopes.get(&self.scope_ctxt) {
             if let Some(usages) = scope.direct_usages.borrow().get(&i.0) {
                 if usages.len() >= 2 {
-                    self.rename(i)
+                    true
+                } else {
+                    false
                 }
+            } else {
+                false
             }
+        } else {
+            false
+        };
+
+        if rename {
+            self.rename(i)
         }
     }
 }
