@@ -99,9 +99,6 @@ pub enum Token {
     /// `<!--`
     CDO,
 
-    /// `&`
-    Ampersand,
-
     /// `^`
     Caret,
 

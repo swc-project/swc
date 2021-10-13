@@ -546,9 +546,6 @@ where
                 Token::CDO => {
                     punct!(self, span, "<!--");
                 }
-                Token::Ampersand => {
-                    punct!(self, span, "&");
-                }
                 Token::Caret => {
                     punct!(self, span, "^");
                 }

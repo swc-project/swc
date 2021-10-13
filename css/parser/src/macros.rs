@@ -65,7 +65,7 @@ macro_rules! tok {
     };
 
     ("&") => {
-        swc_css_ast::Token::Ampersand
+        swc_css_ast::Token::Delim { value: '&', .. }
     };
 
     ("|") => {
