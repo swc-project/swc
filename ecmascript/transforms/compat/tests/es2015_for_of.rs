@@ -1,6 +1,7 @@
+use std::{fs::read_to_string, path::PathBuf};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_compat::es2015::for_of::{for_of, Config};
-use swc_ecma_transforms_testing::{test, test_exec};
+use swc_ecma_transforms_testing::{compare_stdout, test, test_exec};
 
 fn syntax() -> Syntax {
     Default::default()
@@ -569,3 +570,18 @@ if (true) loop: for(let _i = 0, _iter = []; _i < _iter.length; _i++){
 
 "#
 );
+
+#[testing::fixture("tests/fixture/for-of/**/exec.js")]
+fn fixture(input: PathBuf) {
+    let input = read_to_string(&input).unwrap();
+
+    compare_stdout(
+        Syntax::default(),
+        |_| {
+            for_of(Config {
+                assume_array: false,
+            })
+        },
+        &input,
+    );
+}
