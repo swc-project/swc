@@ -279,8 +279,7 @@ impl<'a> Hygiene<'a> {
             scope
                 .ops
                 .borrow_mut()
-                .rename
-                .insert((sym, ctxt), renamed.clone().into());
+                .rename((sym, ctxt), renamed.clone().into());
         }
         self.current.renamed.insert(renamed.into());
     }
@@ -367,7 +366,7 @@ impl<'a> Hygiene<'a> {
                             while let Some(c) = cur {
                                 let ops = c.ops.borrow();
 
-                                if ops.rename.contains_key(&(sym.clone(), cx)) {
+                                if ops.will_be_renamed(&(sym.clone(), cx)) {
                                     continue 'add_loop;
                                 }
                                 cur = c.parent;
@@ -428,7 +427,7 @@ impl<'a> Hygiene<'a> {
                     }
                 }
 
-                for ((sym, ctxt), _) in &ops.rename {
+                for ((sym, ctxt), _) in ops.iter() {
                     let e = used.entry(sym.clone()).or_default();
 
                     if let Some(pos) = e.iter().position(|c| *c == *ctxt) {
@@ -440,7 +439,7 @@ impl<'a> Hygiene<'a> {
             }
         }
 
-        if ops.rename.is_empty() {
+        if ops.is_empty() {
             return;
         }
 
@@ -461,7 +460,7 @@ impl<'a> Hygiene<'a> {
 
             rename.insert(ident.to_id(), orig_name.sym.clone());
 
-            let ops = Operations { rename };
+            let ops = Operations::for_operator(rename);
             let mut operator = Operator(&ops);
 
             class.visit_mut_with(&mut operator);
@@ -674,7 +673,7 @@ impl<'a> Scope<'a> {
         let mut cur = Some(self);
 
         while let Some(scope) = cur {
-            if let Some(to) = scope.ops.borrow().rename.get(&(sym.clone(), ctxt)) {
+            if let Some(to) = scope.ops.borrow().get_renamed(&(sym.clone(), ctxt)) {
                 if cfg!(debug_assertions) && LOG {
                     eprintln!("\tChanging symbol: {}{:?} -> {}", sym, ctxt, to);
                 }
@@ -691,11 +690,11 @@ impl<'a> Scope<'a> {
         if self.declared_symbols.borrow().contains_key(sym) {
             return true;
         }
-        for (_, to) in &self.ops.borrow().rename {
-            if to == sym {
-                return true;
-            }
+
+        if self.ops.borrow().is_used_as_rename_target(sym) {
+            return true;
         }
+
         match self.parent {
             Some(parent) => parent.is_declared(sym),
             _ => false,
