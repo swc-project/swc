@@ -565,7 +565,7 @@
         });
     })(jQuery, this), (function($, window, undefined) {
         "$:nomunge";
-        var fake_onhashchange, doc = document, special = $.event.special, doc_mode = doc.documentMode, supports_onhashchange = "onhashchange" in window && (doc_mode === undefined || doc_mode > 7);
+        var fake_onhashchange, doc1 = document, special = $.event.special, doc_mode = doc1.documentMode, supports_onhashchange = "onhashchange" in window && (doc_mode === undefined || doc_mode > 7);
         function get_fragment(url) {
             return "#" + (url = url || location.href).replace(/^[^#]*#?(.*)$/, "$1");
         }
@@ -596,9 +596,9 @@
             }, !window.attachEvent || window.addEventListener || supports_onhashchange || (self.start = function() {
                 iframe || (iframe_src = (iframe_src = $.fn.hashchange.src) && iframe_src + get_fragment(), iframe = $("<iframe tabindex=\"-1\" title=\"empty\"/>").hide().one("load", function() {
                     iframe_src || history_set(get_fragment()), poll();
-                }).attr("src", iframe_src || "javascript:0").insertAfter("body")[0].contentWindow, doc.onpropertychange = function() {
+                }).attr("src", iframe_src || "javascript:0").insertAfter("body")[0].contentWindow, doc1.onpropertychange = function() {
                     try {
-                        "title" === event.propertyName && (iframe.document.title = doc.title);
+                        "title" === event.propertyName && (iframe.document.title = doc1.title);
                     } catch (e) {
                     }
                 });
@@ -606,7 +606,7 @@
                 return get_fragment(iframe.location.href);
             }, history_set = function(hash, history_hash) {
                 var iframe_doc = iframe.document, domain = $.fn.hashchange.domain;
-                hash !== history_hash && (iframe_doc.title = doc.title, iframe_doc.open(), domain && iframe_doc.write("<script>document.domain=\"" + domain + "\"</script>"), iframe_doc.close(), iframe.location.hash = hash);
+                hash !== history_hash && (iframe_doc.title = doc1.title, iframe_doc.open(), domain && iframe_doc.write("<script>document.domain=\"" + domain + "\"</script>"), iframe_doc.close(), iframe.location.hash = hash);
             }), self;
         })();
     })(jQuery, this), $1 = jQuery, window.matchMedia = window.matchMedia || (refNode = (docElem = (doc = document).documentElement).firstElementChild || docElem.firstChild, fakeBody = doc.createElement("body"), (div = doc.createElement("div")).id = "mq-test-1", div.style.cssText = "position:absolute;top:-100em", fakeBody.style.background = "none", fakeBody.appendChild(div), function(q) {
@@ -628,7 +628,7 @@
             var v, uc_prop = prop.charAt(0).toUpperCase() + prop.substr(1), props = (prop + " " + vendors.join(uc_prop + " ") + uc_prop).split(" ");
             for(v in props)if (undefined !== fbCSS[props[v]]) return !0;
         }
-        var nokiaLTE7_3, w, ua, platform, wkmatch, wkversion, ffmatch, ffversion, operammobilematch, omversion, link, fauxBase, base, supports, element, documentElement, getComputedStyle, ua1, fakeBody = $("<body>").prependTo("html"), fbCSS = fakeBody[0].style, vendors = [
+        var nokiaLTE7_3, w, ua, platform, wkmatch, wkversion, ffmatch, ffversion, operammobilematch, omversion, link, fauxBase, base1, supports, element, documentElement, getComputedStyle, ua1, fakeBody1 = $("<body>").prependTo("html"), fbCSS = fakeBody1[0].style, vendors = [
             "Webkit",
             "Moz",
             "O"
@@ -653,29 +653,29 @@
                 for(t in el = document.createElement("div"), transforms = {
                     MozTransform: "-moz-transform",
                     transform: "transform"
-                }, fakeBody.append(el), transforms)undefined !== el.style[t] && (el.style[t] = "translate3d( 100px, 1px, 1px )", ret = window.getComputedStyle(el).getPropertyValue(transforms[t]));
+                }, fakeBody1.append(el), transforms)undefined !== el.style[t] && (el.style[t] = "translate3d( 100px, 1px, 1px )", ret = window.getComputedStyle(el).getPropertyValue(transforms[t]));
                 return !!ret && "none" !== ret;
             }(),
             boxShadow: !!propExists("boxShadow") && !bb,
             fixedPosition: (w = window, ua = navigator.userAgent, platform = navigator.platform, wkversion = !!(wkmatch = ua.match(/AppleWebKit\/([0-9]+)/)) && wkmatch[1], ffversion = !!(ffmatch = ua.match(/Fennec\/([0-9]+)/)) && ffmatch[1], omversion = !!(operammobilematch = ua.match(/Opera Mobi\/([0-9]+)/)) && operammobilematch[1], !((platform.indexOf("iPhone") > -1 || platform.indexOf("iPad") > -1 || platform.indexOf("iPod") > -1) && wkversion && wkversion < 534 || w.operamini && "[object OperaMini]" === ({
             }).toString.call(w.operamini) || operammobilematch && omversion < 7458 || ua.indexOf("Android") > -1 && wkversion && wkversion < 533 || ffversion && ffversion < 6 || "palmGetResource" in window && wkversion && wkversion < 534 || ua.indexOf("MeeGo") > -1 && ua.indexOf("NokiaBrowser/8.5.0") > -1)),
-            scrollTop: ("pageXOffset" in window || "scrollTop" in document.documentElement || "scrollTop" in fakeBody[0]) && !("palmGetResource" in window) && !operamini,
-            dynamicBaseTag: (fauxBase = location.protocol + "//" + location.host + location.pathname + "ui-dir/", (base = $("head base")).length ? base.attr("href") : base = $("<base>", {
+            scrollTop: ("pageXOffset" in window || "scrollTop" in document.documentElement || "scrollTop" in fakeBody1[0]) && !("palmGetResource" in window) && !operamini,
+            dynamicBaseTag: (fauxBase = location.protocol + "//" + location.host + location.pathname + "ui-dir/", (base1 = $("head base")).length ? base1.attr("href") : base1 = $("<base>", {
                 href: fauxBase
-            }).appendTo("head"), (link = $("<a href='testurl' />").prependTo(fakeBody))[0].href, base[0].href = location.pathname, 0 === link[0].href.indexOf(fauxBase)),
+            }).appendTo("head"), (link = $("<a href='testurl' />").prependTo(fakeBody1))[0].href, base1[0].href = location.pathname, 0 === link[0].href.indexOf(fauxBase)),
             cssPointerEvents: (element = document.createElement("x"), documentElement = document.documentElement, getComputedStyle = window.getComputedStyle, "pointerEvents" in element.style && (element.style.pointerEvents = "auto", element.style.pointerEvents = "x", documentElement.appendChild(element), supports = getComputedStyle && "auto" === getComputedStyle(element, "").pointerEvents, documentElement.removeChild(element), !!supports)),
             boundingRect: void 0 !== document.createElement("div").getBoundingClientRect,
             inlineSVG: function() {
-                var w = window, svg = !!w.document.createElementNS && !!w.document.createElementNS("http://www.w3.org/2000/svg", "svg").createSVGRect && !(w.opera && -1 === navigator.userAgent.indexOf("Chrome")), support = function(data) {
+                var w1 = window, svg = !!w1.document.createElementNS && !!w1.document.createElementNS("http://www.w3.org/2000/svg", "svg").createSVGRect && !(w1.opera && -1 === navigator.userAgent.indexOf("Chrome")), support = function(data) {
                     data && svg || $("html").addClass("ui-nosvg");
-                }, img = new w.Image();
+                }, img = new w1.Image();
                 img.onerror = function() {
                     support(!1);
                 }, img.onload = function() {
                     support(1 === img.width && 1 === img.height);
                 }, img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
             }
-        }), fakeBody.remove(), nokiaLTE7_3 = (ua1 = window.navigator.userAgent).indexOf("Nokia") > -1 && (ua1.indexOf("Symbian/3") > -1 || ua1.indexOf("Series60/5") > -1) && ua1.indexOf("AppleWebKit") > -1 && ua1.match(/(BrowserNG|NokiaBrowser)\/7\.[0-3]/), $.mobile.gradeA = function() {
+        }), fakeBody1.remove(), nokiaLTE7_3 = (ua1 = window.navigator.userAgent).indexOf("Nokia") > -1 && (ua1.indexOf("Symbian/3") > -1 || ua1.indexOf("Series60/5") > -1) && ua1.indexOf("AppleWebKit") > -1 && ua1.match(/(BrowserNG|NokiaBrowser)\/7\.[0-3]/), $.mobile.gradeA = function() {
             return ($.support.mediaquery && $.support.cssPseudoElement || $.mobile.browser.oldIE && $.mobile.browser.oldIE >= 8) && ($.support.boundingRect || null !== $.fn.jquery.match(/1\.[0-7+]\.[0-9+]?/));
         }, $.mobile.ajaxBlacklist = window.blackberry && !window.WebKitPoint || operamini || nokiaLTE7_3, nokiaLTE7_3 && $(function() {
             $("head link[rel='stylesheet']").attr("rel", "alternate stylesheet").attr("rel", "stylesheet");
