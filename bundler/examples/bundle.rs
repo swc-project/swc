@@ -41,6 +41,9 @@ fn print_bundles(cm: Lrc<SourceMap>, modules: Vec<Bundle>) {
             String::from_utf8_lossy(&buf).to_string()
         };
 
+        #[cfg(feature = "concurrent")]
+        rayon::spawn(move || drop(bundled));
+
         fs::write("output.js", &code).unwrap();
     }
 }
