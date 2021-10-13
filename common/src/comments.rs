@@ -184,6 +184,102 @@ impl Comments for NoopComments {
     fn add_pure_comment(&self, _: BytePos) {}
 }
 
+/// This implementation behaves like [NoopComments] if it's [None].
+impl<C> Comments for Option<C>
+where
+    C: Comments,
+{
+    fn add_leading(&self, pos: BytePos, cmt: Comment) {
+        if let Some(c) = self {
+            c.add_leading(pos, cmt)
+        }
+    }
+
+    fn add_leading_comments(&self, pos: BytePos, comments: Vec<Comment>) {
+        if let Some(c) = self {
+            c.add_leading_comments(pos, comments)
+        }
+    }
+
+    fn has_leading(&self, pos: BytePos) -> bool {
+        if let Some(c) = self {
+            c.has_leading(pos)
+        } else {
+            false
+        }
+    }
+
+    fn move_leading(&self, from: BytePos, to: BytePos) {
+        if let Some(c) = self {
+            c.move_leading(from, to)
+        }
+    }
+
+    fn take_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        if let Some(c) = self {
+            c.take_leading(pos)
+        } else {
+            None
+        }
+    }
+
+    fn get_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        if let Some(c) = self {
+            c.get_leading(pos)
+        } else {
+            None
+        }
+    }
+
+    fn add_trailing(&self, pos: BytePos, cmt: Comment) {
+        if let Some(c) = self {
+            c.add_trailing(pos, cmt)
+        }
+    }
+
+    fn add_trailing_comments(&self, pos: BytePos, comments: Vec<Comment>) {
+        if let Some(c) = self {
+            c.add_trailing_comments(pos, comments)
+        }
+    }
+
+    fn has_trailing(&self, pos: BytePos) -> bool {
+        if let Some(c) = self {
+            c.has_trailing(pos)
+        } else {
+            false
+        }
+    }
+
+    fn move_trailing(&self, from: BytePos, to: BytePos) {
+        if let Some(c) = self {
+            c.move_trailing(from, to)
+        }
+    }
+
+    fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        if let Some(c) = self {
+            c.take_trailing(pos)
+        } else {
+            None
+        }
+    }
+
+    fn get_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        if let Some(c) = self {
+            c.get_trailing(pos)
+        } else {
+            None
+        }
+    }
+
+    fn add_pure_comment(&self, pos: BytePos) {
+        if let Some(c) = self {
+            c.add_pure_comment(pos)
+        }
+    }
+}
+
 pub type SingleThreadedCommentsMapInner = FxHashMap<BytePos, Vec<Comment>>;
 pub type SingleThreadedCommentsMap = Rc<RefCell<SingleThreadedCommentsMapInner>>;
 
