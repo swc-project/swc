@@ -293,7 +293,11 @@ impl Options {
             Optional::new(
                 typescript::strip_with_jsx(
                     cm.clone(),
-                    Default::default(),
+                    typescript::Config {
+                        pragma: Some(transform.react.pragma.clone()),
+                        pragma_frag: Some(transform.react.pragma_frag.clone()),
+                        ..Default::default()
+                    },
                     comments.clone(),
                     top_level_mark
                 ),
