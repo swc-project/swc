@@ -4,7 +4,7 @@ use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
-use std::{iter, iter::once, mem};
+use std::{iter, iter::once, mem, sync::Arc};
 use string_enum::StringEnum;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
@@ -120,8 +120,8 @@ fn parse_classic_option(
     name: &str,
     src: String,
     top_level_mark: Mark,
-) -> Box<Expr> {
-    static CACHE: Lazy<DashMap<(String, Mark), Box<Expr>, ahash::RandomState>> =
+) -> Arc<Box<Expr>> {
+    static CACHE: Lazy<DashMap<(String, Mark), Arc<Box<Expr>>, ahash::RandomState>> =
         Lazy::new(|| DashMap::with_capacity_and_hasher(2, Default::default()));
 
     let fm = cm.new_source_file(FileName::Custom(format!("<jsx-config-{}.js>", name)), src);
@@ -129,14 +129,23 @@ fn parse_classic_option(
         return expr.clone();
     }
 
-    let mut expr = Parser::new(Syntax::default(), StringInput::from(&*fm), None)
+    let expr = Parser::new(Syntax::default(), StringInput::from(&*fm), None)
         .parse_expr()
         .map_err(|e| {
             if HANDLER.is_set() {
-                HANDLER.with(|h| e.into_diagnostic(h).emit())
+                HANDLER.with(|h| {
+                    e.into_diagnostic(h)
+                        .note("error detected while parsing option for classic jsx transform")
+                        .emit()
+                })
             }
         })
         .map(drop_span)
+        .map(|mut expr| {
+            apply_mark(&mut expr, top_level_mark);
+            expr
+        })
+        .map(Arc::new)
         .unwrap_or_else(|()| {
             panic!(
                 "failed to parse jsx option {}: '{}' is not an expression",
@@ -144,7 +153,6 @@ fn parse_classic_option(
             )
         });
 
-    apply_mark(&mut expr, top_level_mark);
     CACHE.insert(((*fm.src).clone(), top_level_mark), expr.clone());
 
     expr
@@ -192,17 +200,9 @@ where
         import_fragment: None,
         import_create_element: None,
 
-        pragma: ExprOrSuper::Expr(parse_classic_option(
-            &cm,
-            "pragma",
-            options.pragma,
-            top_level_mark,
-        )),
+        pragma: parse_classic_option(&cm, "pragma", options.pragma, top_level_mark),
         comments,
-        pragma_frag: ExprOrSpread {
-            spread: None,
-            expr: parse_classic_option(&cm, "pragmaFrag", options.pragma_frag, top_level_mark),
-        },
+        pragma_frag: parse_classic_option(&cm, "pragmaFrag", options.pragma_frag, top_level_mark),
         use_builtins: options.use_builtins,
         use_spread: options.use_spread,
         throw_if_namespace: options.throw_if_namespace,
@@ -232,9 +232,9 @@ where
     import_fragment: Option<Ident>,
     top_level_node: bool,
 
-    pragma: ExprOrSuper,
+    pragma: Arc<Box<Expr>>,
     comments: Option<C>,
-    pragma_frag: ExprOrSpread,
+    pragma_frag: Arc<Box<Expr>>,
     use_builtins: bool,
     use_spread: bool,
     throw_if_namespace: bool,
@@ -315,8 +315,8 @@ where
             Runtime::Classic => {
                 Expr::Call(CallExpr {
                     span,
-                    callee: self.pragma.clone(),
-                    args: iter::once(self.pragma_frag.clone())
+                    callee: (*self.pragma).clone().as_callee(),
+                    args: iter::once((*self.pragma_frag).clone().as_arg())
                         // attribute: null
                         .chain(iter::once(Lit::Null(Null { span: DUMMY_SP }).as_arg()))
                         .chain({
@@ -518,7 +518,7 @@ where
             Runtime::Classic => {
                 Expr::Call(CallExpr {
                     span,
-                    callee: self.pragma.clone(),
+                    callee: (*self.pragma).clone().as_callee(),
                     args: iter::once(name.as_arg())
                         .chain(iter::once({
                             // Attributes
@@ -811,15 +811,12 @@ where
                     }
 
                     let src = line.replace("@jsxFrag", "").trim().to_string();
-                    self.pragma_frag = ExprOrSpread {
-                        expr: parse_classic_option(
-                            &self.cm,
-                            "module-jsx-pragma-frag",
-                            src,
-                            self.top_level_mark,
-                        ),
-                        spread: None,
-                    };
+                    self.pragma_frag = parse_classic_option(
+                        &self.cm,
+                        "module-jsx-pragma-frag",
+                        src,
+                        self.top_level_mark,
+                    );
                 } else if line.starts_with("@jsx ") {
                     found = true;
 
@@ -836,12 +833,12 @@ where
 
                     let src = line.replace("@jsx", "").trim().to_string();
 
-                    self.pragma = ExprOrSuper::Expr(parse_classic_option(
+                    self.pragma = parse_classic_option(
                         &self.cm,
                         "module-jsx-pragma",
                         src,
                         self.top_level_mark,
-                    ));
+                    );
                 }
             }
         }
