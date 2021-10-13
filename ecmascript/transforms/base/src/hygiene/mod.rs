@@ -79,6 +79,11 @@ impl<'a> Hygiene<'a> {
         {
             let mut b = self.current.declared_symbols.borrow_mut();
             let e = b.entry(sym.clone()).or_default();
+
+            if let Some(VarDeclKind::Var) = self.var_kind {
+                self.current.vars.get_mut().insert((sym.clone(), ctxt));
+            }
+
             if !e.contains(&ctxt) {
                 e.push(ctxt);
             }
@@ -212,19 +217,22 @@ impl<'a> Hygiene<'a> {
         }
     }
 
+    fn get_renamed_symbol(&self, sym: &JsWord) -> JsWord {
+        let mut b = self.current.rename_idx.borrow_mut();
+        let i = b.entry(sym.clone()).or_default();
+        loop {
+            *i += 1;
+            let sym = format!("{}{}", sym, i).into();
+
+            if !self.current.is_declared(&sym) {
+                break sym;
+            }
+        }
+    }
+
     fn rename(&mut self, sym: JsWord, ctxt: SyntaxContext) {
         // symbol conflicts
-        let renamed = {
-            let mut i = 0;
-            loop {
-                i += 1;
-                let sym = format!("{}{}", sym, i).into();
-
-                if !self.current.is_declared(&sym) {
-                    break sym;
-                }
-            }
-        };
+        let renamed = self.get_renamed_symbol(&sym);
 
         if cfg!(debug_assertions) && LOG {
             eprintln!("\t{}{:?} -> {}", sym, ctxt, renamed);
@@ -236,6 +244,7 @@ impl<'a> Hygiene<'a> {
 
             // Update symbol list
             let mut declared_symbols = scope.declared_symbols.borrow_mut();
+            let is_var = self.current.is_declared_using_var(&(sym.clone(), ctxt));
 
             {
                 // This assertion was correct in old time, but bundler creates
@@ -259,7 +268,9 @@ impl<'a> Hygiene<'a> {
             }
 
             let old = declared_symbols.entry(sym.clone()).or_default();
-            old.retain(|c| *c != ctxt);
+            if !is_var {
+                old.retain(|c| *c != ctxt);
+            }
             //        debug_assert!(old.is_empty() || old.len() == 1);
 
             let new = declared_symbols
@@ -271,8 +282,7 @@ impl<'a> Hygiene<'a> {
             scope
                 .ops
                 .borrow_mut()
-                .rename
-                .insert((sym, ctxt), renamed.clone().into());
+                .rename((sym, ctxt), renamed.clone().into());
         }
         self.current.renamed.insert(renamed.into());
     }
@@ -324,6 +334,8 @@ impl<'a> Hygiene<'a> {
         }
 
         for (sym, ctxt) in self.current.check_queue.take() {
+            let is_var = self.current.is_declared_using_var(&(sym.clone(), ctxt));
+
             // Check if it's in the current scope.
             if let Some(decls) = self.current.declared_symbols.borrow().get(&sym) {
                 if !decls.contains(&ctxt) {
@@ -338,31 +350,49 @@ impl<'a> Hygiene<'a> {
 
                 let mut other_ctxts = vec![];
 
-                let used = self.current.used.borrow();
+                let mut add = |s: &Scope| {
+                    let used = s.used.borrow();
 
-                if let Some(ctxts) = used.get(&sym) {
-                    'add_loop: for &cx in ctxts {
-                        if cx == ctxt {
-                            continue;
-                        }
-
-                        // Prevent duplicate
-                        if other_ctxts.contains(&cx) {
-                            continue;
-                        }
-
-                        // If a declaration name is going to be renamed, it's not a conflict.
-                        let mut cur = Some(&self.current);
-                        while let Some(c) = cur {
-                            let ops = c.ops.borrow();
-
-                            if ops.rename.contains_key(&(sym.clone(), cx)) {
-                                continue 'add_loop;
+                    if let Some(ctxts) = used.get(&sym) {
+                        'add_loop: for &cx in ctxts {
+                            if cx == ctxt {
+                                continue;
                             }
-                            cur = c.parent;
+
+                            // Prevent duplicate
+                            if other_ctxts.contains(&cx) {
+                                continue;
+                            }
+
+                            // If a declaration name is going to be renamed, it's not a conflict.
+                            let mut cur = Some(&self.current);
+                            while let Some(c) = cur {
+                                let ops = c.ops.borrow();
+
+                                if ops.will_be_renamed(&(sym.clone(), cx)) {
+                                    continue 'add_loop;
+                                }
+                                cur = c.parent;
+                            }
+
+                            other_ctxts.push(cx);
+                        }
+                    }
+                };
+
+                add(&self.current);
+
+                if is_var {
+                    let mut scope = self.current.parent;
+
+                    while let Some(s) = scope {
+                        add(s);
+
+                        if s.kind == ScopeKind::Fn {
+                            break;
                         }
 
-                        other_ctxts.push(cx);
+                        scope = s.parent;
                     }
                 }
 
@@ -400,7 +430,7 @@ impl<'a> Hygiene<'a> {
                     }
                 }
 
-                for ((sym, ctxt), _) in &ops.rename {
+                for ((sym, ctxt), _) in ops.iter() {
                     let e = used.entry(sym.clone()).or_default();
 
                     if let Some(pos) = e.iter().position(|c| *c == *ctxt) {
@@ -412,7 +442,7 @@ impl<'a> Hygiene<'a> {
             }
         }
 
-        if ops.rename.is_empty() {
+        if ops.is_empty() {
             return;
         }
 
@@ -433,7 +463,7 @@ impl<'a> Hygiene<'a> {
 
             rename.insert(ident.to_id(), orig_name.sym.clone());
 
-            let ops = Operations { rename };
+            let ops = Operations::for_operator(rename);
             let mut operator = Operator(&ops);
 
             class.visit_mut_with(&mut operator);
@@ -507,6 +537,9 @@ struct Scope<'a> {
     /// Kind of the scope.
     pub kind: ScopeKind,
 
+    /// Bindings which is declared using `var` keyword.
+    pub vars: RefCell<AHashSet<Id>>,
+
     pub used: RefCell<AHashMap<JsWord, Vec<SyntaxContext>>>,
 
     /// All references declared in this scope
@@ -514,6 +547,8 @@ struct Scope<'a> {
 
     pub(crate) ops: RefCell<Operations>,
     pub renamed: AHashSet<JsWord>,
+
+    rename_idx: RefCell<AHashMap<JsWord, usize>>,
 
     check_queue: Vec<Id>,
 }
@@ -537,11 +572,23 @@ impl<'a> Scope<'a> {
             parent,
             kind,
             declared_symbols: Default::default(),
-            // children: Default::default(),
             ops: Default::default(),
             renamed: Default::default(),
             used: Default::default(),
             check_queue: Default::default(),
+            vars: Default::default(),
+            rename_idx: Default::default(),
+        }
+    }
+
+    fn is_declared_using_var(&self, id: &Id) -> bool {
+        if self.vars.borrow().contains(id) {
+            return true;
+        }
+
+        match self.parent {
+            Some(p) => p.is_declared_using_var(id),
+            None => false,
         }
     }
 
@@ -632,7 +679,7 @@ impl<'a> Scope<'a> {
         let mut cur = Some(self);
 
         while let Some(scope) = cur {
-            if let Some(to) = scope.ops.borrow().rename.get(&(sym.clone(), ctxt)) {
+            if let Some(to) = scope.ops.borrow().get_renamed(&(sym.clone(), ctxt)) {
                 if cfg!(debug_assertions) && LOG {
                     eprintln!("\tChanging symbol: {}{:?} -> {}", sym, ctxt, to);
                 }
@@ -649,11 +696,11 @@ impl<'a> Scope<'a> {
         if self.declared_symbols.borrow().contains_key(sym) {
             return true;
         }
-        for (_, to) in &self.ops.borrow().rename {
-            if to == sym {
-                return true;
-            }
+
+        if self.ops.borrow().is_used_as_rename_target(sym) {
+            return true;
         }
+
         match self.parent {
             Some(parent) => parent.is_declared(sym),
             _ => false,

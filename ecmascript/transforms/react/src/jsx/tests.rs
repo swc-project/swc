@@ -1115,6 +1115,20 @@ test!(
         jsx: true,
         ..Default::default()
     }),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    react_attribute_html_entity_quote,
+    r#"<Component text="Hello &quot;World&quot;" />"#,
+    r#"
+React.createElement(Component, {
+  text: "Hello \"World\""
+});"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
     |t| tr(
         t,
         Options {

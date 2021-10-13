@@ -1,6 +1,7 @@
+use std::collections::hash_map::Entry;
 use swc_atoms::JsWord;
 use swc_common::{
-    collections::AHashMap,
+    collections::{AHashMap, AHashSet},
     util::{move_map::MoveMap, take::Take},
     Spanned, SyntaxContext, DUMMY_SP,
 };
@@ -9,7 +10,54 @@ use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 #[derive(Debug, Default)]
 pub(super) struct Operations {
-    pub rename: AHashMap<Id, JsWord>,
+    rename: AHashMap<Id, JsWord>,
+    symbols: AHashSet<JsWord>,
+}
+
+impl Operations {
+    #[inline]
+    pub fn for_operator(rename: AHashMap<Id, JsWord>) -> Self {
+        Self {
+            rename,
+            symbols: Default::default(),
+        }
+    }
+
+    #[inline]
+    pub fn is_empty(&self) -> bool {
+        self.rename.is_empty()
+    }
+
+    #[inline]
+    pub fn rename(&mut self, from: Id, to: JsWord) {
+        match self.rename.entry(from) {
+            Entry::Occupied(..) => {}
+            Entry::Vacant(e) => {
+                e.insert(to.clone());
+                self.symbols.insert(to);
+            }
+        }
+    }
+
+    #[inline]
+    pub fn will_be_renamed(&self, i: &Id) -> bool {
+        self.rename.contains_key(i)
+    }
+
+    #[inline]
+    pub fn get_renamed(&self, i: &Id) -> Option<JsWord> {
+        self.rename.get(i).cloned()
+    }
+
+    #[inline]
+    pub fn is_used_as_rename_target(&self, symbol: &JsWord) -> bool {
+        self.symbols.contains(symbol)
+    }
+
+    #[inline]
+    pub fn iter(&self) -> impl Iterator<Item = (&Id, &JsWord)> {
+        self.rename.iter()
+    }
 }
 
 pub(super) struct Operator<'a>(pub &'a Operations);

@@ -87,8 +87,6 @@ jobs:
         run: cargo check --color always --all --all-targets
   test:
     name: Test
-    needs:
-      - check
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
