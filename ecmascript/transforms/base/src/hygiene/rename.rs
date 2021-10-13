@@ -13,6 +13,9 @@ use super::usage_analyzer::Data;
 #[derive(Debug, Default)]
 pub struct RenameOps {
     pub rename: AHashMap<Id, JsWord>,
+
+    /// Symbols used by **renaming**
+    pub used_symbols: AHashMap<SyntaxContext, Vec<JsWord>>,
 }
 
 impl RenameOps {
@@ -51,7 +54,21 @@ impl RenameAnalyzer<'_> {
             }
         }
 
+        if let Some(used) = self.ops.used_symbols.get(&self.scope_ctxt) {
+            if used.contains(sym) {
+                return true;
+            }
+        }
+
         false
+    }
+
+    fn apply_ops(&self, id: Id) -> Id {
+        if let Some(rename) = self.ops.rename.get(&id) {
+            return (rename.clone(), SyntaxContext::empty());
+        }
+
+        id
     }
 
     fn rename(&mut self, id: Id) {
@@ -67,11 +84,17 @@ impl RenameAnalyzer<'_> {
             }
         };
 
+        self.ops
+            .used_symbols
+            .entry(self.scope_ctxt)
+            .or_default()
+            .push(renamed.clone());
         self.ops.rename.insert(id, renamed);
     }
 
     fn rename_usage(&mut self, i: &Ident) {
         let i = i.to_id();
+        let i = self.apply_ops(i);
 
         if let Some(scope) = self.data.scopes.get(&self.scope_ctxt) {
             if let Some(usages) = scope.direct_usages.borrow().get(&i.0) {
