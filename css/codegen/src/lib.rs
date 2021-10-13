@@ -559,9 +559,6 @@ where
                 Token::Div => {
                     punct!(self, span, "/");
                 }
-                Token::GreaterThan => {
-                    punct!(self, span, ">");
-                }
             }
         }
     }

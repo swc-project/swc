@@ -121,7 +121,7 @@ macro_rules! tok {
     };
 
     (">") => {
-        swc_css_ast::Token::GreaterThan
+        swc_css_ast::Token::Delim { value: '>', .. }
     };
 
     ("important") => {

@@ -108,9 +108,6 @@ where
             }};
         }
 
-        // TODO: it is delim tokens
-        try_delim!(b'>', ">");
-
         // TODO: Plus can start a number
         try_delim!(b'/', "/");
 

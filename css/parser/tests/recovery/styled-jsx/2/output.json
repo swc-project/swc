@@ -96,7 +96,11 @@
                           "end": 12,
                           "ctxt": 0
                         },
-                        "token": "GreaterThan"
+                        "token": {
+                          "Delim": {
+                            "value": ">"
+                          }
+                        }
                       },
                       {
                         "span": {

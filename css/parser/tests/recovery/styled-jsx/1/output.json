@@ -250,7 +250,11 @@
                           "end": 136,
                           "ctxt": 0
                         },
-                        "token": "GreaterThan"
+                        "token": {
+                          "Delim": {
+                            "value": ">"
+                          }
+                        }
                       },
                       {
                         "span": {
@@ -567,7 +571,11 @@
                               "end": 333,
                               "ctxt": 0
                             },
-                            "token": "GreaterThan"
+                            "token": {
+                              "Delim": {
+                                "value": ">"
+                              }
+                            }
                           },
                           {
                             "span": {
@@ -795,7 +803,11 @@
                               "end": 462,
                               "ctxt": 0
                             },
-                            "token": "GreaterThan"
+                            "token": {
+                              "Delim": {
+                                "value": ">"
+                              }
+                            }
                           },
                           {
                             "span": {
