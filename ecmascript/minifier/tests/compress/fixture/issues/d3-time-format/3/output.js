@@ -476,15 +476,15 @@
                 return pad(d.getSeconds(), p, 2);
             }
             function formatWeekdayNumberMonday(d) {
-                var day = d.getDay();
-                return 0 === day ? 7 : day;
+                var day1 = d.getDay();
+                return 0 === day1 ? 7 : day1;
             }
             function formatWeekNumberSunday(d, p) {
                 return pad(sunday.count(src_year(d) - 1, d), p, 2);
             }
             function dISO(d) {
-                var day = d.getDay();
-                return day >= 4 || 0 === day ? thursday(d) : thursday.ceil(d);
+                var day1 = d.getDay();
+                return day1 >= 4 || 0 === day1 ? thursday(d) : thursday.ceil(d);
             }
             function formatWeekNumberISO(d, p) {
                 return d = dISO(d), pad(thursday.count(src_year(d), d) + (4 === src_year(d).getDay()), p, 2);
@@ -505,8 +505,8 @@
                 return pad(d.getFullYear() % 10000, p, 4);
             }
             function formatFullYearISO(d, p) {
-                var day = d.getDay();
-                return pad((d = day >= 4 || 0 === day ? thursday(d) : thursday.ceil(d)).getFullYear() % 10000, p, 4);
+                var day1 = d.getDay();
+                return pad((d = day1 >= 4 || 0 === day1 ? thursday(d) : thursday.ceil(d)).getFullYear() % 10000, p, 4);
             }
             function formatZone(d) {
                 var z = d.getTimezoneOffset();
@@ -547,8 +547,8 @@
                 return pad(utcSunday.count(src_utcYear(d) - 1, d), p, 2);
             }
             function UTCdISO(d) {
-                var day = d.getUTCDay();
-                return day >= 4 || 0 === day ? utcThursday(d) : utcThursday.ceil(d);
+                var day1 = d.getUTCDay();
+                return day1 >= 4 || 0 === day1 ? utcThursday(d) : utcThursday.ceil(d);
             }
             function formatUTCWeekNumberISO(d, p) {
                 return d = UTCdISO(d), pad(utcThursday.count(src_utcYear(d), d) + (4 === src_utcYear(d).getUTCDay()), p, 2);
@@ -569,8 +569,8 @@
                 return pad(d.getUTCFullYear() % 10000, p, 4);
             }
             function formatUTCFullYearISO(d, p) {
-                var day = d.getUTCDay();
-                return pad((d = day >= 4 || 0 === day ? utcThursday(d) : utcThursday.ceil(d)).getUTCFullYear() % 10000, p, 4);
+                var day1 = d.getUTCDay();
+                return pad((d = day1 >= 4 || 0 === day1 ? utcThursday(d) : utcThursday.ceil(d)).getUTCFullYear() % 10000, p, 4);
             }
             function formatUTCZone() {
                 return "+0000";

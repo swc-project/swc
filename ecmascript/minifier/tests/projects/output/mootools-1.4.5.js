@@ -131,14 +131,14 @@
     var force = function(name, object, methods) {
         var isType = object != Object, prototype = object.prototype;
         isType && (object = new Type(name, object));
-        for(var i = 0, l = methods.length; i < l; i++){
-            var key = methods[i], generic = object[key], proto = prototype[key];
+        for(var i1 = 0, l = methods.length; i1 < l; i1++){
+            var key = methods[i1], generic = object[key], proto = prototype[key];
             generic && generic.protect(), isType && proto && object.implement(key, proto.protect());
         }
         if (isType) {
             var methodsEnumerable = prototype.propertyIsEnumerable(methods[0]);
             object.forEachMethod = function(fn) {
-                if (!methodsEnumerable) for(var i = 0, l = methods.length; i < l; i++)fn.call(prototype, prototype[methods[i]], methods[i]);
+                if (!methodsEnumerable) for(var i1 = 0, l1 = methods.length; i1 < l1; i1++)fn.call(prototype, prototype[methods[i1]], methods[i1]);
                 for(var key in prototype)fn.call(prototype, prototype[key], key);
             };
         }
@@ -221,7 +221,7 @@
         for(var key in object)hasOwnProperty.call(object, key) && fn.call(bind, object[key], key, object);
     }), Object.each = Object.forEach, Array.implement({
         forEach: function(fn, bind) {
-            for(var i = 0, l = this.length; i < l; i++)i in this && fn.call(bind, this[i], i, this);
+            for(var i1 = 0, l = this.length; i1 < l; i1++)i1 in this && fn.call(bind, this[i1], i1, this);
         },
         each: function(fn, bind) {
             return Array.forEach(this, fn, bind), this;
@@ -238,7 +238,7 @@
         }
     };
     Array.implement("clone", function() {
-        for(var i = this.length, clone = new Array(i); i--;)clone[i] = cloneOf(this[i]);
+        for(var i1 = this.length, clone = new Array(i1); i1--;)clone[i1] = cloneOf(this[i1]);
         return clone;
     });
     var mergeOne = function(source, key, current) {
@@ -257,8 +257,8 @@
     Object.extend({
         merge: function(source, k, v) {
             if ("string" == typeOf(k)) return mergeOne(source, k, v);
-            for(var i = 1, l = arguments.length; i < l; i++){
-                var object = arguments[i];
+            for(var i1 = 1, l = arguments.length; i1 < l; i1++){
+                var object = arguments[i1];
                 for(var key in object)mergeOne(source, key, object[key]);
             }
             return source;
@@ -270,8 +270,8 @@
             return clone;
         },
         append: function(original) {
-            for(var i = 1, l = arguments.length; i < l; i++){
-                var extended = arguments[i] || {
+            for(var i1 = 1, l = arguments.length; i1 < l; i1++){
+                var extended = arguments[i1] || {
                 };
                 for(var key in extended)original[key] = extended[key];
             }
@@ -314,7 +314,7 @@
         return new Type(properties.name, properties.initialize);
     };
     Native.type = Type.type, Native.implement = function(objects, methods) {
-        for(var i = 0; i < objects.length; i++)objects[i].implement(methods);
+        for(var i1 = 0; i1 < objects.length; i1++)objects[i1].implement(methods);
         return Native;
     };
     var arrayType = Array.type;
@@ -2269,8 +2269,8 @@ Elements.prototype = {
             return this.removeEventListener ? this.removeEventListener(type, fn, !!arguments[2]) : this.detachEvent("on" + type, fn), this;
         },
         retrieve: function(property, dflt) {
-            var storage = get(Slick.uidOf(this)), prop = storage[property];
-            return null != dflt && null == prop && (prop = storage[property] = dflt), null != prop ? prop : null;
+            var storage1 = get(Slick.uidOf(this)), prop = storage1[property];
+            return null != dflt && null == prop && (prop = storage1[property] = dflt), null != prop ? prop : null;
         },
         store: function(property, value) {
             return get(Slick.uidOf(this))[property] = value, this;
@@ -2850,22 +2850,22 @@ Elements.prototype = {
             };
         },
         getScrolls: function() {
-            for(var element = this.parentNode, position = {
+            for(var element1 = this.parentNode, position = {
                 x: 0,
                 y: 0
-            }; element && !isBody(element);)position.x += element.scrollLeft, position.y += element.scrollTop, element = element.parentNode;
+            }; element1 && !isBody(element1);)position.x += element1.scrollLeft, position.y += element1.scrollTop, element1 = element1.parentNode;
             return position;
         },
         getOffsetParent: brokenOffsetParent ? function() {
-            var element = this;
-            if (isBody(element) || "fixed" == styleString(element, "position")) return null;
-            for(var isOffsetCheck = "static" == styleString(element, "position") ? isOffsetStatic : isOffset; element = element.parentNode;)if (isOffsetCheck(element)) return element;
+            var element1 = this;
+            if (isBody(element1) || "fixed" == styleString(element1, "position")) return null;
+            for(var isOffsetCheck = "static" == styleString(element1, "position") ? isOffsetStatic : isOffset; element1 = element1.parentNode;)if (isOffsetCheck(element1)) return element1;
             return null;
         } : function() {
-            var element = this;
-            if (isBody(element) || "fixed" == styleString(element, "position")) return null;
+            var element1 = this;
+            if (isBody(element1) || "fixed" == styleString(element1, "position")) return null;
             try {
-                return element.offsetParent;
+                return element1.offsetParent;
             } catch (e) {
             }
             return null;
@@ -2878,18 +2878,18 @@ Elements.prototype = {
                     y: bound.top.toInt() + elemScrolls.y + (isFixed ? 0 : htmlScroll.y) - html.clientTop
                 };
             }
-            var element = this, position = {
+            var element1 = this, position = {
                 x: 0,
                 y: 0
             };
             if (isBody(this)) return position;
-            for(; element && !isBody(element);){
-                if (position.x += element.offsetLeft, position.y += element.offsetTop, Browser.firefox) {
-                    borderBox(element) || (position.x += leftBorder(element), position.y += topBorder(element));
-                    var parent = element.parentNode;
+            for(; element1 && !isBody(element1);){
+                if (position.x += element1.offsetLeft, position.y += element1.offsetTop, Browser.firefox) {
+                    borderBox(element1) || (position.x += leftBorder(element1), position.y += topBorder(element1));
+                    var parent = element1.parentNode;
                     parent && "visible" != styleString(parent, "overflow") && (position.x += leftBorder(parent), position.y += topBorder(parent));
-                } else element != this && Browser.safari && (position.x += leftBorder(element), position.y += topBorder(element));
-                element = element.offsetParent;
+                } else element1 != this && Browser.safari && (position.x += leftBorder(element1), position.y += topBorder(element1));
+                element1 = element1.offsetParent;
             }
             return Browser.firefox && !borderBox(this) && (position.x -= leftBorder(this), position.y -= topBorder(this)), position;
         },

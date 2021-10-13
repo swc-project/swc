@@ -82,10 +82,10 @@ function foo(...a) {
 }"#,
     r#"var a = 'bar';
 function foo() {
-    for(var _len = arguments.length, a = new Array(_len), _key = 0; _key < _len; _key++){
-        a[_key] = arguments[_key];
+    for(var _len = arguments.length, a1 = new Array(_len), _key = 0; _key < _len; _key++){
+        a1[_key] = arguments[_key];
     }
-    return a;
+    return a1;
 }"#
 );
 
@@ -450,10 +450,10 @@ function foo(...args) {
 }"#,
     r#"var args = 'bar';
 function foo() {
-    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
-        args[_key] = arguments[_key];
+    for(var _len = arguments.length, args1 = new Array(_len), _key = 0; _key < _len; _key++){
+        args1[_key] = arguments[_key];
     }
-    return args;
+    return args1;
 }
 "#
 );
