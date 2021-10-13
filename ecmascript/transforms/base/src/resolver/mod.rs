@@ -993,6 +993,10 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_ts_enum_decl(&mut self, decl: &mut TsEnumDecl) {
+        if !self.handle_types {
+            return;
+        }
+
         self.in_type = false;
         self.modify(&mut decl.id, None);
         decl.members.visit_mut_with(self);
@@ -1114,12 +1118,13 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_ts_namespace_decl(&mut self, n: &mut TsNamespaceDecl) {
-        self.in_type = true;
-        self.modify(&mut n.id, None);
-
         if !self.handle_types {
             return;
         }
+
+        self.in_type = true;
+        self.modify(&mut n.id, None);
+
         n.body.visit_mut_with(self);
     }
 
