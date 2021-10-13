@@ -50,7 +50,7 @@ fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
         let start = Instant::now();
 
         let globals = Globals::default();
-        let bundler = Bundler::new(
+        let mut bundler = Bundler::new(
             &globals,
             cm.clone(),
             Loader { cm: cm.clone() },

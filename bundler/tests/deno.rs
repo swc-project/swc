@@ -1020,7 +1020,7 @@ fn run(url: &str, exports: &[&str]) {
 fn bundle(url: &str) -> String {
     let result = testing::run_test2(false, |cm, _handler| {
         GLOBALS.with(|globals| {
-            let bundler = Bundler::new(
+            let mut bundler = Bundler::new(
                 globals,
                 cm.clone(),
                 Loader { cm: cm.clone() },

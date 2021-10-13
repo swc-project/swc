@@ -13,7 +13,7 @@ fn main() {
     let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
     // This example does not use core modules.
     let external_modules = vec![];
-    let bundler = Bundler::new(
+    let mut bundler = Bundler::new(
         &globals,
         cm.clone(),
         PathLoader { cm: cm.clone() },
