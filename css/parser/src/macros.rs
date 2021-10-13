@@ -31,7 +31,7 @@ macro_rules! tok {
     (";") => {
         swc_css_ast::Token::Semi
     };
-    
+
     ("!") => {
        swc_css_ast::Token::Delim { value: '!', .. }
     };
@@ -80,12 +80,12 @@ macro_rules! tok {
         swc_css_ast::Token::Caret
     };
 
-   ("~") => {
+    ("~") => {
         swc_css_ast::Token::Delim { value: '~', .. }
     };
 
     ("=") => {
-        swc_css_ast::Token::Equals
+       swc_css_ast::Token::Delim { value: '=', .. }
     };
 
     (" ") => {
