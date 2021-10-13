@@ -22,3 +22,14 @@ a {
 
 @media/* comment */screen/* comment */{}
 @media /* comment */ screen /* comment */ {}
+
+/*!test*/
+/*!te
+st*/
+/*!te
+
+
+st*/
+/*!te**st*/
+/****************************/
+/*************** FOO *****************/
