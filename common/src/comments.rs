@@ -41,6 +41,46 @@ pub trait Comments {
     fn get_trailing(&self, pos: BytePos) -> Option<Vec<Comment>>;
 
     fn add_pure_comment(&self, pos: BytePos);
+
+    fn with_leading<F, Ret>(&self, pos: BytePos, f: F) -> Ret
+    where
+        Self: Sized,
+        F: FnOnce(&[Comment]) -> Ret,
+    {
+        let cmts = self.take_leading(pos);
+
+        let ret = if let Some(cmts) = &cmts {
+            f(&cmts)
+        } else {
+            f(&[])
+        };
+
+        if let Some(cmts) = cmts {
+            self.add_leading_comments(pos, cmts);
+        }
+
+        ret
+    }
+
+    fn with_trailing<F, Ret>(&self, pos: BytePos, f: F) -> Ret
+    where
+        Self: Sized,
+        F: FnOnce(&[Comment]) -> Ret,
+    {
+        let cmts = self.take_trailing(pos);
+
+        let ret = if let Some(cmts) = &cmts {
+            f(&cmts)
+        } else {
+            f(&[])
+        };
+
+        if let Some(cmts) = cmts {
+            self.add_trailing_comments(pos, cmts);
+        }
+
+        ret
+    }
 }
 
 macro_rules! delegate {
@@ -278,6 +318,30 @@ where
             c.add_pure_comment(pos)
         }
     }
+
+    fn with_leading<F, Ret>(&self, pos: BytePos, f: F) -> Ret
+    where
+        Self: Sized,
+        F: FnOnce(&[Comment]) -> Ret,
+    {
+        if let Some(c) = self {
+            c.with_leading(pos, f)
+        } else {
+            f(&[])
+        }
+    }
+
+    fn with_trailing<F, Ret>(&self, pos: BytePos, f: F) -> Ret
+    where
+        Self: Sized,
+        F: FnOnce(&[Comment]) -> Ret,
+    {
+        if let Some(c) = self {
+            c.with_trailing(pos, f)
+        } else {
+            f(&[])
+        }
+    }
 }
 
 pub type SingleThreadedCommentsMapInner = FxHashMap<BytePos, Vec<Comment>>;
@@ -379,6 +443,40 @@ impl Comments for SingleThreadedComments {
         if !leading.iter().any(|c| c.text == pure_comment.text) {
             leading.push(pure_comment);
         }
+    }
+
+    fn with_leading<F, Ret>(&self, pos: BytePos, f: F) -> Ret
+    where
+        Self: Sized,
+        F: FnOnce(&[Comment]) -> Ret,
+    {
+        let b = self.leading.borrow();
+        let cmts = b.get(&pos);
+
+        let ret = if let Some(cmts) = &cmts {
+            f(&cmts)
+        } else {
+            f(&[])
+        };
+
+        ret
+    }
+
+    fn with_trailing<F, Ret>(&self, pos: BytePos, f: F) -> Ret
+    where
+        Self: Sized,
+        F: FnOnce(&[Comment]) -> Ret,
+    {
+        let b = self.trailing.borrow();
+        let cmts = b.get(&pos);
+
+        let ret = if let Some(cmts) = &cmts {
+            f(&cmts)
+        } else {
+            f(&[])
+        };
+
+        ret
     }
 }
 
