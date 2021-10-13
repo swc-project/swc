@@ -2,14 +2,14 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-class ServiceError extends Error {
+class ServiceError2 extends Error {
     constructor(...args){
         super(...args);
-        this.code = ServiceError.Code.badResponse;
+        this.code = ServiceError2.Code.badResponse;
         this.name = "ServiceError.BadResponse";
     }
 }
-exports.ServiceError = ServiceError;
+exports.ServiceError = ServiceError2;
 (function(ServiceError1) {
     var Code;
     (function(Code) {
@@ -38,5 +38,5 @@ exports.ServiceError = ServiceError;
     }
     ServiceError1.toMessageBody = toMessageBody;
     ServiceError1.Code = Code;
-})(ServiceError || (ServiceError = {
+})(ServiceError2 || (ServiceError2 = {
 }));
