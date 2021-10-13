@@ -20,7 +20,7 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.68.0"
+version = "0.68.1"
 
 [lib]
 name = "swc"
