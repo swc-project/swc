@@ -39,9 +39,6 @@ pub enum Token {
     /// `]`
     RBracket,
 
-    /// `%`
-    Percent,
-
     Num(NumToken),
 
     Ident {

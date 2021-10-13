@@ -200,7 +200,11 @@
                       "end": 63,
                       "ctxt": 0
                     },
-                    "token": "Percent"
+                    "token": {
+                      "Delim": {
+                        "value": "%"
+                      }
+                    }
                   }
                 ]
               }

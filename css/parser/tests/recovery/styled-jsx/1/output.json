@@ -415,7 +415,11 @@
                       "end": 265,
                       "ctxt": 0
                     },
-                    "token": "Percent"
+                    "token": {
+                      "Delim": {
+                        "value": "%"
+                      }
+                    }
                   }
                 ]
               }
@@ -667,7 +671,11 @@
                           "end": 406,
                           "ctxt": 0
                         },
-                        "token": "Percent"
+                        "token": {
+                          "Delim": {
+                            "value": "%"
+                          }
+                        }
                       }
                     ]
                   }
@@ -891,7 +899,11 @@
                           "end": 535,
                           "ctxt": 0
                         },
-                        "token": "Percent"
+                        "token": {
+                          "Delim": {
+                            "value": "%"
+                          }
+                        }
                       }
                     ]
                   }

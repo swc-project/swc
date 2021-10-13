@@ -494,9 +494,6 @@ where
                 Token::RBracket => {
                     punct!(self, span, "]");
                 }
-                Token::Percent => {
-                    punct!(self, span, "%");
-                }
                 Token::Num(n) => {
                     self.wr.write_raw(Some(span), &n.value.to_string())?;
                 }
