@@ -217,7 +217,7 @@ impl<'a> Hygiene<'a> {
         }
     }
 
-    fn get_renamed_symbol(&mut self, sym: &JsWord) -> JsWord {
+    fn get_renamed_symbol(&self, sym: &JsWord) -> JsWord {
         let mut b = self.current.rename_idx.borrow_mut();
         let i = b.entry(sym.clone()).or_default();
         loop {
