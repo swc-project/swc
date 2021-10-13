@@ -1682,8 +1682,8 @@ fn var_awareness_2() {
             
         }
 
-        for (var i2 of [4, 5, 6]) {
-            console.log(i2)
+        for (var i1 of [4, 5, 6]) {
+            console.log(i1)
         }
         ",
     );
