@@ -1622,3 +1622,69 @@ fn issue_2297_1() {
         ",
     );
 }
+
+/// `var` has strnage scoping rule.
+#[test]
+fn var_awareness_1() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            let stmts = tester
+                .parse_stmts(
+                    "actual1.js",
+                    "
+                    for (var i of [1, 2, 3]) {
+                        for (var i of [4, 5, 6]) {
+                            console.log(i)
+                        }
+                    }
+                    ",
+                )?
+                .fold_with(&mut OnceMarker::new(&[("i", &[mark1, mark2, mark2])]));
+            Ok(stmts)
+        },
+        "
+        for (var i of [1, 2, 3]) {
+            for (var i2 of [4, 5, 6]) {
+                console.log(i2)
+            }
+        }
+        ",
+    );
+}
+
+/// `var` has strnage scoping rule.
+#[test]
+fn var_awareness_2() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            let stmts = tester
+                .parse_stmts(
+                    "actual1.js",
+                    "
+                    for (var i of [1, 2, 3]) {
+                    }
+                    for (var i of [4, 5, 6]) {
+                        console.log(i)
+                    }
+                    ",
+                )?
+                .fold_with(&mut OnceMarker::new(&[("i", &[mark1, mark2, mark2])]));
+            Ok(stmts)
+        },
+        "
+        for (var i of [1, 2, 3]) {
+            
+        }
+
+        for (var i2 of [4, 5, 6]) {
+            console.log(i2)
+        }
+        ",
+    );
+}
