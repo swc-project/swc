@@ -290,7 +290,12 @@ impl Options {
             ),
             import_assertions(),
             Optional::new(
-                typescript::strip_with_jsx(Default::default(), comments.clone(), top_level_mark),
+                typescript::strip_with_jsx(
+                    cm.clone(),
+                    Default::default(),
+                    comments.clone(),
+                    top_level_mark
+                ),
                 syntax.typescript()
             ),
             resolver_with_mark(top_level_mark),

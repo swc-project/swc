@@ -4,10 +4,12 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
     comments::{Comments, NoopComments},
+    sync::Lrc,
     util::{move_map::MoveMap, take::Take},
-    Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
+    Mark, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
+use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
 use swc_ecma_utils::{
     constructor::inject_after_super, default_constructor, ident::IdentLike, member_expr, prepend,
     private_ident, quote_ident, replace_ident, var::VarCollector, ExprFactory, Id, ModuleItemLike,
@@ -66,13 +68,21 @@ pub struct Config {
     /// https://github.com/swc-project/swc/issues/1698
     #[serde(default)]
     pub no_empty_export: bool,
+
+    /// Note: this pass handle jsx directives in comments
+    #[serde(default)]
+    pub pragma: Option<String>,
+
+    /// Note: this pass handle jsx directives in comments
+    #[serde(default)]
+    pub pragma_frag: Option<String>,
 }
 
 pub fn strip_with_config(config: Config) -> impl Fold + VisitMut {
     as_folder(Strip {
         config,
         comments: NoopComments,
-        top_level_mark: None,
+        jsx: None,
         non_top_level: Default::default(),
         scope: Default::default(),
         is_side_effect_import: Default::default(),
@@ -91,14 +101,47 @@ pub fn strip() -> impl Fold + VisitMut {
 /// [strip], but aware of jsx.
 ///
 /// If you are using jsx, you should use this before jsx pass.
-pub fn strip_with_jsx<C>(config: Config, comments: C, top_level_mark: Mark) -> impl Fold + VisitMut
+pub fn strip_with_jsx<C>(
+    cm: Lrc<SourceMap>,
+    config: Config,
+    comments: C,
+    top_level_mark: Mark,
+) -> impl Fold + VisitMut
 where
     C: Comments,
 {
+    let pragma = parse_expr_for_jsx(
+        &cm,
+        "pragma",
+        config
+            .pragma
+            .clone()
+            .unwrap_or_else(|| "React.createElement".to_string()),
+        top_level_mark,
+    );
+
+    let pragma_frag = parse_expr_for_jsx(
+        &cm,
+        "pragma",
+        config
+            .pragma_frag
+            .clone()
+            .unwrap_or_else(|| "React.Fragment".to_string()),
+        top_level_mark,
+    );
+
+    let pragma_id = id_for_jsx(&pragma);
+    let pragma_frag_id = id_for_jsx(&pragma_frag);
+
     as_folder(Strip {
         config,
         comments,
-        top_level_mark: Some(top_level_mark),
+        jsx: Some(JsxData {
+            cm,
+            top_level_mark,
+            pragma_id,
+            pragma_frag_id,
+        }),
         non_top_level: Default::default(),
         scope: Default::default(),
         is_side_effect_import: Default::default(),
@@ -109,6 +152,30 @@ where
     })
 }
 
+/// Get an [Id] which will used by expression.
+///
+/// For `React#1.createElemnnt`, this returns `React#1`.
+fn id_for_jsx(e: &Expr) -> Id {
+    match e {
+        Expr::Ident(i) => i.to_id(),
+        Expr::Member(MemberExpr {
+            obj: ExprOrSuper::Expr(obj),
+            ..
+        }) => id_for_jsx(&obj),
+        _ => {
+            panic!("failed to determine top-level Id for jsx expression")
+        }
+    }
+}
+
+struct JsxData {
+    cm: Lrc<SourceMap>,
+    top_level_mark: Mark,
+
+    pragma_id: Id,
+    pragma_frag_id: Id,
+}
+
 struct Strip<C>
 where
     C: Comments,
@@ -116,7 +183,7 @@ where
     config: Config,
 
     comments: C,
-    top_level_mark: Option<Mark>,
+    jsx: Option<JsxData>,
 
     non_top_level: bool,
     scope: Scope,
@@ -135,6 +202,45 @@ where
     /// This field is filled by [Visit] impl and [VisitMut] impl.
     decl_names: AHashSet<Id>,
     in_var_pat: bool,
+}
+
+impl<C> Strip<C>
+where
+    C: Comments,
+{
+    /// If we found required jsx directives, we returns true.
+    fn parse_directives(&mut self, span: Span) -> bool {
+        let jsx_data = match &mut self.jsx {
+            Some(v) => v,
+            None => return false,
+        };
+        let cm = jsx_data.cm.clone();
+        let top_level_mark = jsx_data.top_level_mark;
+
+        let mut found = false;
+
+        let directives = self.comments.with_leading(span.lo, |comments| {
+            JsxDirectives::from_comments(&cm, span, comments, top_level_mark)
+        });
+
+        let JsxDirectives {
+            pragma,
+            pragma_frag,
+            ..
+        } = directives;
+
+        if let Some(pragma) = pragma {
+            found = true;
+            jsx_data.pragma_id = id_for_jsx(&pragma);
+        }
+
+        if let Some(pragma_frag) = pragma_frag {
+            found = true;
+            jsx_data.pragma_frag_id = id_for_jsx(&pragma_frag);
+        }
+
+        found
+    }
 }
 
 impl<C> Strip<C>

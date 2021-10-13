@@ -115,7 +115,8 @@ fn default_throw_if_namespace() -> bool {
     true
 }
 
-fn parse_classic_option(
+/// Parse `src` to use as a `pragma` or `pragmaFrag` in jsx.
+pub fn parse_expr_for_jsx(
     cm: &SourceMap,
     name: &str,
     src: String,
@@ -200,9 +201,9 @@ where
         import_fragment: None,
         import_create_element: None,
 
-        pragma: parse_classic_option(&cm, "pragma", options.pragma, top_level_mark),
+        pragma: parse_expr_for_jsx(&cm, "pragma", options.pragma, top_level_mark),
         comments,
-        pragma_frag: parse_classic_option(&cm, "pragmaFrag", options.pragma_frag, top_level_mark),
+        pragma_frag: parse_expr_for_jsx(&cm, "pragmaFrag", options.pragma_frag, top_level_mark),
         use_builtins: options.use_builtins,
         use_spread: options.use_spread,
         throw_if_namespace: options.throw_if_namespace,
@@ -309,7 +310,7 @@ impl JsxDirectives {
                     }
 
                     let src = line.replace("@jsxFrag", "").trim().to_string();
-                    res.pragma_frag = Some(parse_classic_option(
+                    res.pragma_frag = Some(parse_expr_for_jsx(
                         &cm,
                         "module-jsx-pragma-frag",
                         src,
@@ -329,7 +330,7 @@ impl JsxDirectives {
 
                     let src = line.replace("@jsx", "").trim().to_string();
 
-                    res.pragma = Some(parse_classic_option(
+                    res.pragma = Some(parse_expr_for_jsx(
                         &cm,
                         "module-jsx-pragma",
                         src,
