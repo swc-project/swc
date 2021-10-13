@@ -182,6 +182,21 @@ impl Visit for RenameAnalyzer<'_> {
         }
     }
 
+    fn visit_function(&mut self, f: &Function, _: &dyn Node) {
+        f.decorators.visit_with(f, self);
+
+        self.visit_with_scope(f.span.ctxt, |v| {
+            f.params.visit_with(f, v);
+
+            match f.body.as_ref() {
+                Some(body) => {
+                    body.visit_children_with(v);
+                }
+                None => {}
+            }
+        });
+    }
+
     fn visit_pat(&mut self, p: &Pat, _: &dyn Node) {
         p.visit_children_with(self);
 
@@ -208,18 +223,15 @@ impl Visit for RenameAnalyzer<'_> {
         }
     }
 
-    fn visit_function(&mut self, f: &Function, _: &dyn Node) {
-        f.decorators.visit_with(f, self);
+    fn visit_var_declarator(&mut self, v: &VarDeclarator, _: &dyn Node) {
+        let old = self.is_pat_decl;
 
-        self.visit_with_scope(f.span.ctxt, |v| {
-            f.params.visit_with(f, v);
+        self.is_pat_decl = true;
+        v.name.visit_with(v, self);
 
-            match f.body.as_ref() {
-                Some(body) => {
-                    body.visit_children_with(v);
-                }
-                None => {}
-            }
-        });
+        self.is_pat_decl = false;
+        v.init.visit_with(v, self);
+
+        self.is_pat_decl = old;
     }
 }
