@@ -79,6 +79,11 @@ impl<'a> Hygiene<'a> {
         {
             let mut b = self.current.declared_symbols.borrow_mut();
             let e = b.entry(sym.clone()).or_default();
+
+            if let Some(VarDeclKind::Var) = self.var_kind {
+                self.current.vars.get_mut().insert((sym.clone(), ctxt));
+            }
+
             if !e.contains(&ctxt) {
                 e.push(ctxt);
             }
@@ -236,6 +241,7 @@ impl<'a> Hygiene<'a> {
 
             // Update symbol list
             let mut declared_symbols = scope.declared_symbols.borrow_mut();
+            let mut vars = scope.vars.borrow();
 
             {
                 // This assertion was correct in old time, but bundler creates
@@ -259,7 +265,12 @@ impl<'a> Hygiene<'a> {
             }
 
             let old = declared_symbols.entry(sym.clone()).or_default();
-            old.retain(|c| *c != ctxt);
+            if !vars.contains(&(sym.clone(), ctxt)) {
+                dbg!(self.current.kind);
+                old.retain(|c| *c != ctxt);
+            } else {
+                dbg!(&vars)
+            }
             //        debug_assert!(old.is_empty() || old.len() == 1);
 
             let new = declared_symbols
@@ -507,6 +518,9 @@ struct Scope<'a> {
     /// Kind of the scope.
     pub kind: ScopeKind,
 
+    /// Bindings which is declared using `var` keyword.
+    pub vars: RefCell<AHashSet<Id>>,
+
     pub used: RefCell<AHashMap<JsWord, Vec<SyntaxContext>>>,
 
     /// All references declared in this scope
@@ -537,11 +551,11 @@ impl<'a> Scope<'a> {
             parent,
             kind,
             declared_symbols: Default::default(),
-            // children: Default::default(),
             ops: Default::default(),
             renamed: Default::default(),
             used: Default::default(),
             check_queue: Default::default(),
+            vars: Default::default(),
         }
     }
 
