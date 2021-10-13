@@ -1,7 +1,7 @@
 use self::scope::Scope;
 use crate::{Hook, Load, ModuleId, Resolve};
 use anyhow::{Context, Error};
-use std::collections::HashMap;
+use std::{collections::HashMap, mem::take};
 use swc_atoms::JsWord;
 use swc_common::{
     collections::AHashMap, sync::Lrc, FileName, Globals, Mark, SourceMap, SyntaxContext, GLOBALS,
@@ -182,6 +182,12 @@ where
         let bundles = self.chunk(local)?;
 
         let bundles = self.finalize(bundles)?;
+
+        if cfg!(feature = "concurrent") {
+            let scope = take(&mut self.scope);
+            rayon::spawn(move || drop(scope))
+        }
+
         Ok(bundles)
     }
 
