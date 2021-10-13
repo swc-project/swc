@@ -57,7 +57,7 @@ macro_rules! tok {
     };
 
     ("*") => {
-        swc_css_ast::Token::Asterisk
+       swc_css_ast::Token::Delim { value: '*', .. }
     };
 
     ("#") => {

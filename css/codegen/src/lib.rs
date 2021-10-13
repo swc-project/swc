@@ -532,6 +532,8 @@ where
                 }
                 Token::Asterisk => {
                     punct!(self, span, "*");
+                Token::Dot => {
+                    punct!(self, span, ".");
                 }
                 Token::Hash { value, .. } => {
                     punct!(self, "#");

@@ -82,6 +82,8 @@ pub enum Token {
 
     /// `*`
     Asterisk,
+    /// `.`
+    Dot,
 
     /// `#`
     Hash {
