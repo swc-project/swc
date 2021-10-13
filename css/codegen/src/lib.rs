@@ -556,9 +556,6 @@ where
                 Token::Minus => {
                     punct!(self, span, "-");
                 }
-                Token::Div => {
-                    punct!(self, span, "/");
-                }
             }
         }
     }

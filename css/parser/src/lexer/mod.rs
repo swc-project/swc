@@ -108,9 +108,6 @@ where
             }};
         }
 
-        // TODO: Plus can start a number
-        try_delim!(b'/', "/");
-
         if let Some(c) = self.input.cur() {
             if is_whitespace(c) {
                 self.skip_ws()?;

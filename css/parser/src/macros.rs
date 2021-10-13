@@ -113,7 +113,7 @@ macro_rules! tok {
     };
 
     ("/") => {
-        swc_css_ast::Token::Div
+       swc_css_ast::Token::Delim { value: '/', .. }
     };
 
     ("~") => {

@@ -108,9 +108,6 @@ pub enum Token {
 
     /// `-`
     Minus,
-
-    /// `/`
-    Div,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
