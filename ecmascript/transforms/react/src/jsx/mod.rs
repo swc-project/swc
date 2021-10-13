@@ -258,7 +258,7 @@ pub struct JsxDirectives {
 impl JsxDirectives {
     pub fn from_comments(
         cm: &SourceMap,
-        span: Span,
+        _: Span,
         comments: &[Comment],
         top_level_mark: Mark,
     ) -> Self {
@@ -298,17 +298,6 @@ impl JsxDirectives {
                 }
 
                 if line.starts_with("@jsxFrag") {
-                    if let Some(Runtime::Automatic) = res.runtime {
-                        HANDLER.with(|handler| {
-                            handler
-                                .struct_span_err(
-                                    span,
-                                    "pragma and pragmaFrag cannot be set when runtime is automatic",
-                                )
-                                .emit()
-                        });
-                    }
-
                     let src = line.replace("@jsxFrag", "").trim().to_string();
                     res.pragma_frag = Some(parse_expr_for_jsx(
                         &cm,
@@ -317,17 +306,6 @@ impl JsxDirectives {
                         top_level_mark,
                     ));
                 } else if line.starts_with("@jsx ") {
-                    if let Some(Runtime::Automatic) = res.runtime {
-                        HANDLER.with(|handler| {
-                            handler
-                                .struct_span_err(
-                                    span,
-                                    "pragma and pragmaFrag cannot be set when runtime is automatic",
-                                )
-                                .emit()
-                        });
-                    }
-
                     let src = line.replace("@jsx", "").trim().to_string();
 
                     res.pragma = Some(parse_expr_for_jsx(
@@ -863,11 +841,33 @@ where
         }
 
         if let Some(pragma) = pragma {
+            if let Runtime::Automatic = self.runtime {
+                HANDLER.with(|handler| {
+                    handler
+                        .struct_span_err(
+                            span,
+                            "pragma and pragmaFrag cannot be set when runtime is automatic",
+                        )
+                        .emit()
+                });
+            }
+
             found = true;
             self.pragma = pragma;
         }
 
         if let Some(pragma_frag) = pragma_frag {
+            if let Runtime::Automatic = self.runtime {
+                HANDLER.with(|handler| {
+                    handler
+                        .struct_span_err(
+                            span,
+                            "pragma and pragmaFrag cannot be set when runtime is automatic",
+                        )
+                        .emit()
+                });
+            }
+
             found = true;
             self.pragma_frag = pragma_frag;
         }
