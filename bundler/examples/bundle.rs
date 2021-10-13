@@ -49,9 +49,9 @@ fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
     testing::run_test2(false, |cm, _| {
         let start = Instant::now();
 
-        let globals = Globals::default();
+        let globals = Box::leak(Box::new(Globals::default()));
         let mut bundler = Bundler::new(
-            &globals,
+            globals,
             cm.clone(),
             Loader { cm: cm.clone() },
             NodeResolver,
@@ -68,6 +68,12 @@ fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
             .bundle(entries)
             .map_err(|err| println!("{:?}", err))?;
         println!("Bundled as {} modules", modules.len());
+
+        if cfg!(feature = "concurrent") {
+            rayon::spawn(move || {
+                drop(bundler);
+            });
+        }
 
         {
             let dur = start.elapsed();
