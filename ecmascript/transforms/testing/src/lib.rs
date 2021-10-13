@@ -362,15 +362,6 @@ where
 
         let module = tester.apply_transform(tr, "input.js", syntax, input)?;
 
-        let mut module = module
-            .fold_with(&mut hygiene::hygiene())
-            .fold_with(&mut fixer::fixer(Some(&tester.comments)));
-
-        let src_without_helpers = tester.print(&module, &tester.comments.clone());
-        module = module.fold_with(&mut inject_helpers());
-
-        let transfomred_src = tester.print(&module, &tester.comments.clone());
-
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {
                 let hygiene_src = tester.print(
@@ -381,6 +372,15 @@ where
             }
             _ => {}
         }
+
+        let mut module = module
+            .fold_with(&mut hygiene::hygiene())
+            .fold_with(&mut fixer::fixer(Some(&tester.comments)));
+
+        let src_without_helpers = tester.print(&module, &tester.comments.clone());
+        module = module.fold_with(&mut inject_helpers());
+
+        let transfomred_src = tester.print(&module, &tester.comments.clone());
 
         println!(
             "\t>>>>> Orig <<<<<\n{}\n\t>>>>> Code <<<<<\n{}",
