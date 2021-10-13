@@ -56,6 +56,31 @@ pub enum Token {
     Delim {
         value: char,
     },
+    BadUrl {
+        value: JsWord,
+        raw: JsWord,
+    },
+
+    /// `,`
+    Comma,
+
+    /// `;`
+    Semi,
+
+    /// `!`
+    Bang,
+
+    /// `{`
+    LBrace,
+
+    /// `}`
+    RBrace,
+
+    /// `:``
+    Colon,
+
+    /// `*`
+    Asterisk,
 
     Num(NumToken),
 
