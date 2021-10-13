@@ -241,7 +241,7 @@ impl<'a> Hygiene<'a> {
 
             // Update symbol list
             let mut declared_symbols = scope.declared_symbols.borrow_mut();
-            let mut vars = scope.vars.borrow();
+            let is_var = self.current.is_declared_using_var(&(sym.clone(), ctxt));
 
             {
                 // This assertion was correct in old time, but bundler creates
@@ -265,11 +265,8 @@ impl<'a> Hygiene<'a> {
             }
 
             let old = declared_symbols.entry(sym.clone()).or_default();
-            if !vars.contains(&(sym.clone(), ctxt)) {
-                dbg!(self.current.kind);
+            if !is_var {
                 old.retain(|c| *c != ctxt);
-            } else {
-                dbg!(&vars)
             }
             //        debug_assert!(old.is_empty() || old.len() == 1);
 
@@ -335,6 +332,8 @@ impl<'a> Hygiene<'a> {
         }
 
         for (sym, ctxt) in self.current.check_queue.take() {
+            let is_var = self.current.is_declared_using_var(&(sym.clone(), ctxt));
+
             // Check if it's in the current scope.
             if let Some(decls) = self.current.declared_symbols.borrow().get(&sym) {
                 if !decls.contains(&ctxt) {
@@ -349,35 +348,57 @@ impl<'a> Hygiene<'a> {
 
                 let mut other_ctxts = vec![];
 
-                let used = self.current.used.borrow();
+                let mut add = |s: &Scope| {
+                    let used = s.used.borrow();
 
-                if let Some(ctxts) = used.get(&sym) {
-                    'add_loop: for &cx in ctxts {
-                        if cx == ctxt {
-                            continue;
-                        }
-
-                        // Prevent duplicate
-                        if other_ctxts.contains(&cx) {
-                            continue;
-                        }
-
-                        // If a declaration name is going to be renamed, it's not a conflict.
-                        let mut cur = Some(&self.current);
-                        while let Some(c) = cur {
-                            let ops = c.ops.borrow();
-
-                            if ops.rename.contains_key(&(sym.clone(), cx)) {
-                                continue 'add_loop;
+                    if let Some(ctxts) = used.get(&sym) {
+                        'add_loop: for &cx in ctxts {
+                            if cx == ctxt {
+                                dbg!();
+                                continue;
                             }
-                            cur = c.parent;
+
+                            // Prevent duplicate
+                            if other_ctxts.contains(&cx) {
+                                dbg!();
+                                continue;
+                            }
+
+                            // If a declaration name is going to be renamed, it's not a conflict.
+                            let mut cur = Some(&self.current);
+                            while let Some(c) = cur {
+                                let ops = c.ops.borrow();
+
+                                if ops.rename.contains_key(&(sym.clone(), cx)) {
+                                    dbg!();
+                                    continue 'add_loop;
+                                }
+                                cur = c.parent;
+                            }
+
+                            other_ctxts.push(cx);
+                        }
+                    }
+                };
+
+                add(&self.current);
+
+                if is_var {
+                    let mut scope = self.current.parent;
+
+                    while let Some(s) = scope {
+                        add(s);
+
+                        if s.kind == ScopeKind::Fn {
+                            break;
                         }
 
-                        other_ctxts.push(cx);
+                        scope = s.parent;
                     }
                 }
 
                 if other_ctxts.is_empty() {
+                    dbg!();
                     continue;
                 }
             }
@@ -556,6 +577,17 @@ impl<'a> Scope<'a> {
             used: Default::default(),
             check_queue: Default::default(),
             vars: Default::default(),
+        }
+    }
+
+    fn is_declared_using_var(&self, id: &Id) -> bool {
+        if self.vars.borrow().contains(id) {
+            return true;
+        }
+
+        match self.parent {
+            Some(p) => p.is_declared_using_var(id),
+            None => false,
         }
     }
 
