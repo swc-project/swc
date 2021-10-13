@@ -549,9 +549,6 @@ where
                 Token::Caret => {
                     punct!(self, span, "^");
                 }
-                Token::Tilde => {
-                    punct!(self, span, "~");
-                }
                 Token::Equals => {
                     punct!(self, span, "=");
                 }

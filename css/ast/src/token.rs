@@ -102,9 +102,6 @@ pub enum Token {
     /// `^`
     Caret,
 
-    /// `~`
-    Tilde,
-
     /// `=`
     Equals,
 

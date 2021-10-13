@@ -106,7 +106,11 @@
                   "end": 16,
                   "ctxt": 0
                 },
-                "token": "Tilde"
+                "token": {
+                  "Delim": {
+                    "value": "~"
+                  }
+                }
               }
             ]
           }
