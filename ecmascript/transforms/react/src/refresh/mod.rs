@@ -12,7 +12,7 @@ use sha1::{Digest, Sha1};
 use swc_atoms::JsWord;
 use swc_common::{
     collections::{AHashMap, AHashSet},
-    comments::{Comments, CommentsExt},
+    comments::Comments,
     sync::Lrc,
     util::take::Take,
     BytePos, SourceMap, Span, Spanned, DUMMY_SP,

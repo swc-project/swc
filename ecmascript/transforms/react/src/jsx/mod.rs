@@ -836,35 +836,13 @@ impl<C> Jsx<C>
 where
     C: Comments,
 {
+    /// If we found required jsx directives, we returns true.
     fn parse_directives(&mut self, span: Span) -> bool {
         let mut found = false;
 
-        let leading = if let Some(comments) = &self.comments {
-            let leading = comments.take_leading(span.lo);
-
-            if let Some(leading) = &leading {
-                found |= self.parse_comment_contents(span, &leading);
-            }
-
-            leading
-        } else {
-            None
-        };
-
-        if let Some(leading) = leading {
-            if let Some(comments) = &self.comments {
-                comments.add_leading_comments(span.lo, leading);
-            }
-        }
-
-        found
-    }
-
-    /// If we found required jsx directives, we returns true.
-    fn parse_comment_contents(&mut self, span: Span, leading: &[Comment]) -> bool {
-        let mut found = false;
-
-        let directives = JsxDirectives::from_comments(&self.cm, span, leading, self.top_level_mark);
+        let directives = self.comments.with_leading(span.lo, |comments| {
+            JsxDirectives::from_comments(&self.cm, span, comments, self.top_level_mark)
+        });
 
         let JsxDirectives {
             runtime,
