@@ -113,7 +113,6 @@ where
         try_delim!(b'*', "*");
         try_delim!(b'^', "^");
         try_delim!(b'%', "%");
-        try_delim!(b'!', "!");
         try_delim!(b'>', ">");
         try_delim!(b'~', "~");
         try_delim!(b'&', "&");

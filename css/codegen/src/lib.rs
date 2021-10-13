@@ -521,9 +521,6 @@ where
                 Token::Semi => {
                     punct!(self, span, ";");
                 }
-                Token::Bang => {
-                    punct!(self, span, "!");
-                }
                 Token::LBrace => {
                     punct!(self, span, "{");
                 }

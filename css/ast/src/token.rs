@@ -71,9 +71,6 @@ pub enum Token {
     /// `;`
     Semi,
 
-    /// `!`
-    Bang,
-
     /// `{`
     LBrace,
 

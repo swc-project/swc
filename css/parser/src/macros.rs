@@ -31,9 +31,9 @@ macro_rules! tok {
     (";") => {
         swc_css_ast::Token::Semi
     };
-
+    
     ("!") => {
-        swc_css_ast::Token::Bang
+       swc_css_ast::Token::Delim { value: '!', .. }
     };
 
     ("{") => {
