@@ -600,7 +600,9 @@ fn get_type_ann_of_pat(p: &Pat) -> Option<&TsTypeAnn> {
         Pat::Array(p) => &p.type_ann,
         Pat::Rest(p) => &p.type_ann,
         Pat::Object(p) => &p.type_ann,
-        Pat::Assign(p) => &p.type_ann,
+        Pat::Assign(p) => {
+            return p.type_ann.as_ref().or_else(|| get_type_ann_of_pat(&p.left));
+        }
         Pat::Invalid(_) => return None,
         Pat::Expr(_) => return None,
     }
