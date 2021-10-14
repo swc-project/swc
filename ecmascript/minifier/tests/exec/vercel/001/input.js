@@ -25,3 +25,4 @@ function ItemsList() {
 
 
 new ItemsList();
+console.log('PASS')
