@@ -5268,7 +5268,7 @@ var load1908 = __spack_require__.bind(void 0, function(module, exports) {
                     });
                     while(index < length)addElement(that, index++);
                 });
-                TypedArrayPrototype = TypedArray[PROTOTYPE] = create($TypedArrayPrototype$);
+                TypedArrayPrototype = (TypedArray[PROTOTYPE] = create($TypedArrayPrototype$));
                 hide(TypedArrayPrototype, 'constructor', TypedArray);
             } else if (!fails(function() {
                 TypedArray(1);
