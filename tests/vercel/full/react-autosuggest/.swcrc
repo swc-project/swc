@@ -18,9 +18,7 @@
             "compress": {
                 "toplevel": true
             },
-            "mangle": {
-                "toplevel": true
-            },
+            "mangle": false,
             "toplevel": true
         }
     },
