@@ -1,4 +1,4 @@
-use crate::ext::{AsOptExpr, PatOrExprExt};
+use crate::ext::AsOptExpr;
 use swc_common::{collections::AHashMap, comments::Comments, util::take::Take, Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
@@ -105,12 +105,18 @@ impl VisitMut for Fixer<'_> {
     fn visit_mut_assign_expr(&mut self, expr: &mut AssignExpr) {
         expr.visit_mut_children_with(self);
 
-        match &mut *expr.right {
-            // `foo = (bar = baz)` => foo = bar = baz
-            Expr::Assign(AssignExpr { ref left, .. }) if left.as_ident().is_some() => {}
+        fn rhs_need_paren(e: &Expr) -> bool {
+            match e {
+                Expr::Assign(e) => {
+                    e.right.is_call() || e.right.is_new() || rhs_need_paren(&e.right)
+                }
+                Expr::Seq(..) => true,
+                _ => false,
+            }
+        }
 
-            Expr::Seq(..) => self.wrap(&mut expr.right),
-            _ => {}
+        if rhs_need_paren(&expr.right) {
+            self.wrap(&mut expr.right);
         }
     }
 
@@ -963,7 +969,7 @@ mod tests {
 
     identical!(iife, r#"(function(){})()"#);
 
-    identical!(paren_seq_arg, "foo(( _temp = _this = init(), _temp));");
+    identical!(paren_seq_arg, "foo(( _temp = (_this = init()), _temp));");
 
     identical!(
         regression_01,
