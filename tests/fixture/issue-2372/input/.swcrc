@@ -1,0 +1,40 @@
+[
+    {
+        "env": {
+            "targets": {
+                "node": "12.19.0"
+            }
+        },
+        "jsc": {
+            "parser": {
+                "dynamicImport": true,
+                "syntax": "typescript",
+                "tsx": false
+            },
+            "target": "es2015"
+        },
+        "module": {
+            "type": "commonjs"
+        },
+        "sourceMaps": true,
+        "test": ".*.ts$"
+    },
+    {
+        "env": {
+            "targets": {
+                "node": "12.19.0"
+            }
+        },
+        "jsc": {
+            "parser": {
+                "dynamicImport": true,
+                "syntax": "ecmascript"
+            },
+            "target": "es2015"
+        },
+        "module": {
+            "type": "commonjs"
+        },
+        "test": ".*.js$"
+    }
+]
