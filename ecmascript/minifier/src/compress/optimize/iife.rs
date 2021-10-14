@@ -348,14 +348,13 @@ where
                 if f.params.iter().any(|param| !param.is_ident()) {
                     return;
                 }
-
                 for arg in &call.args {
                     if arg.spread.is_some() {
                         tracing::trace!("iife: [x] Found spread argument");
                         return;
                     }
                     match &*arg.expr {
-                        Expr::Fn(..) | Expr::This(..) | Expr::Arrow(..) => {
+                        Expr::Fn(..) | Expr::Arrow(..) => {
                             tracing::trace!("iife: [x] Found callable argument");
                             return;
                         }
@@ -494,7 +493,7 @@ where
                         return;
                     }
                     match &*arg.expr {
-                        Expr::Fn(..) | Expr::This(..) | Expr::Arrow(..) => {
+                        Expr::Fn(..) | Expr::Arrow(..) => {
                             tracing::trace!("iife: [x] Found callable argument");
                             return;
                         }
