@@ -1480,4 +1480,15 @@ var store = global[SHARED] || (global[SHARED] = {});
         }
         "
     );
+
+    identical!(
+        minifier_013,
+        "_possibleConstructorReturn(_this, (_temp = (_this = _possibleConstructorReturn(this, \
+         (_ref = ItemsList.__proto__ || Object.getPrototypeOf(ItemsList)).call.apply(_ref, [
+            this
+        ].concat(args)))), _this.storeHighlightedItemReference = function(highlightedItem) {
+            _this.props.onHighlightedItemChange(null === highlightedItem ? null : \
+         highlightedItem.item);
+        }, _temp));"
+    );
 }
