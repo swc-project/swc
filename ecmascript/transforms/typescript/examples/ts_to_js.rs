@@ -8,10 +8,10 @@ use swc_common::{
     comments::SingleThreadedComments,
     errors::{ColorConfig, Handler},
     sync::Lrc,
-    FileName, SourceMap,
+    SourceMap,
 };
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
-use swc_ecma_parser::{lexer::Lexer, Capturing, Parser, StringInput, Syntax, TsConfig};
+use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms_typescript::strip;
 use swc_ecma_visit::FoldWith;
 
