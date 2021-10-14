@@ -12,6 +12,7 @@ use swc_common::{
 };
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
+use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_transforms_typescript::strip;
 use swc_ecma_visit::FoldWith;
 
@@ -57,8 +58,10 @@ fn main() {
         .expect("failed to parse module.");
 
     // Remove typescript types
+    let module = module.fold_with(&mut strip());
 
-    let js_module = module.fold_with(&mut strip());
+    // Ensure that we have eenough parenthesis.
+    let module = module.fold_with(&mut fixer(Some(&comments)));
 
     let mut buf = vec![];
     {
@@ -69,7 +72,7 @@ fn main() {
             wr: JsWriter::new(cm.clone(), "\n", &mut buf, None),
         };
 
-        emitter.emit_module(&js_module).unwrap();
+        emitter.emit_module(&module).unwrap();
     }
 
     println!("{}", String::from_utf8(buf).expect("non-utf8?"));
