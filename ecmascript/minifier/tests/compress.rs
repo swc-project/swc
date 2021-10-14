@@ -316,8 +316,8 @@ fn projects(input: PathBuf) {
 #[testing::fixture("tests/exec/**/input.js")]
 fn base_exec(input: PathBuf) {
     let dir = input.parent().unwrap();
-    let config = dir.join("config.json");
-    let config = read_to_string(&config).expect("failed to read config.json");
+
+    let config = find_config(&dir);
     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
 
     testing::run_test2(false, |cm, handler| {
