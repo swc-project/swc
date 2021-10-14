@@ -516,7 +516,7 @@ String.implement({
         return Math.min(max, Math.max(min, this));
     },
     round: function(precision) {
-        return Math.round(this * (precision = Math.pow(10, precision || 0).toFixed(precision < 0 ? -precision : 0))) / precision;
+        return precision = Math.pow(10, precision || 0).toFixed(precision < 0 ? -precision : 0), Math.round(this * precision) / precision;
     },
     times: function(fn, bind) {
         for(var i = 0; i < this; i++)fn.call(bind, i, this);
@@ -824,11 +824,11 @@ var $try = Function.attempt;
         Window: this.Window,
         Element: this.Element,
         Event: this.Event
-    }), this.Window = (this.$constructor = new Type("Window", function() {
-    })), this.$family = Function.from("window").hide(), Window.mirror(function(name, method) {
+    }), this.Window = this.$constructor = new Type("Window", function() {
+    }), this.$family = Function.from("window").hide(), Window.mirror(function(name, method) {
         window[name] = method;
-    }), this.Document = (document.$constructor = new Type("Document", function() {
-    })), document.$family = Function.from("document").hide(), Document.mirror(function(name, method) {
+    }), this.Document = document.$constructor = new Type("Document", function() {
+    }), document.$family = Function.from("document").hide(), Document.mirror(function(name, method) {
         document[name] = method;
     }), document.html = document.documentElement, document.head || (document.head = document.getElementsByTagName("head")[0]), document.execCommand) try {
         document.execCommand("BackgroundImageCache", !1, !0);
@@ -1780,11 +1780,11 @@ var IFrame = new Type("IFrame", function() {
     params.iframe && (iframe = document.id(params.iframe));
     var onload = props.onload || function() {
     };
-    delete props.onload, props.id = (props.name = [
+    delete props.onload, props.id = props.name = [
         props.id,
         props.name,
         iframe ? iframe.id || iframe.name : "IFrame_" + String.uniqueID()
-    ].pick()), iframe = new Element(iframe || "iframe", props);
+    ].pick(), iframe = new Element(iframe || "iframe", props);
     var onLoad = function() {
         onload.call(iframe.contentWindow);
     };
@@ -1919,7 +1919,7 @@ Elements.prototype = {
     document.contains || Document.implement(contains), document.createElement("div").contains || Element.implement(contains), Element.implement("hasChild", function(element) {
         return this !== element && this.contains(element);
     }), search = Slick.search, find = Slick.find, match = Slick.match, this.Selectors = {
-    }, pseudos = (this.Selectors.Pseudo = new Hash()), addSlickPseudos = function() {
+    }, pseudos = this.Selectors.Pseudo = new Hash(), addSlickPseudos = function() {
         for(var name in pseudos)pseudos.hasOwnProperty(name) && (Slick.definePseudo(name, pseudos[name]), delete pseudos[name]);
     }, Slick.search = function(context, expression, append) {
         return addSlickPseudos(), search.call(this, context, expression, append);
@@ -2166,7 +2166,7 @@ Elements.prototype = {
         },
         adopt: function() {
             var fragment, parent = this, elements = Array.flatten(arguments), length = elements.length;
-            length > 1 && (parent = (fragment = document.createDocumentFragment()));
+            length > 1 && (parent = fragment = document.createDocumentFragment());
             for(var i = 0; i < length; i++){
                 var element = document.id(elements[i], !0);
                 element && parent.appendChild(element);
@@ -3231,7 +3231,7 @@ Elements.prototype = {
 }, Fx.CSS.Parsers = new Hash(Fx.CSS.Parsers), Fx.Tween = new Class({
     Extends: Fx.CSS,
     initialize: function(element, options) {
-        this.element = (this.subject = document.id(element)), this.parent(options);
+        this.element = this.subject = document.id(element), this.parent(options);
     },
     set: function(property, now) {
         return 1 == arguments.length && (now = property, property = this.property || this.options.property), this.render(this.element, property, now, this.options.unit), this;
@@ -3297,7 +3297,7 @@ Elements.prototype = {
 }), Fx.Morph = new Class({
     Extends: Fx.CSS,
     initialize: function(element, options) {
-        this.element = (this.subject = document.id(element)), this.parent(options);
+        this.element = this.subject = document.id(element), this.parent(options);
     },
     set: function(now) {
         for(var p in "string" == typeof now && (now = this.search(now)), now)this.render(this.element, p, now[p], this.options.unit);
@@ -3704,7 +3704,7 @@ Elements.prototype = {
     success: function(text) {
         var json;
         try {
-            json = (this.response.json = JSON.decode(text, this.options.secure));
+            json = this.response.json = JSON.decode(text, this.options.secure);
         } catch (error) {
             this.fireEvent("error", [
                 text,

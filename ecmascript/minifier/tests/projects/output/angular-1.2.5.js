@@ -483,7 +483,7 @@
     }
     function hashKey(obj) {
         var key, objType = typeof obj;
-        return "object" == objType && null !== obj ? "function" == typeof (key = obj.$$hashKey) ? key = obj.$$hashKey() : key === undefined && (key = (obj.$$hashKey = nextUid())) : key = obj, objType + ":" + key;
+        return "object" == objType && null !== obj ? "function" == typeof (key = obj.$$hashKey) ? key = obj.$$hashKey() : key === undefined && (key = obj.$$hashKey = nextUid()) : key = obj, objType + ":" + key;
     }
     function HashMap(array) {
         forEach(array, this.put, this);
@@ -727,7 +727,7 @@
             arg.replace(FN_ARG, function(all, underscore, name) {
                 $inject.push(name);
             });
-        }), fn.$inject = $inject) : isArray(fn) ? (assertArgFn(fn[last = fn.length - 1], "fn"), $inject = fn.slice(0, last)) : assertArgFn(fn, "fn", !0), $inject;
+        }), fn.$inject = $inject) : isArray(fn) ? (last = fn.length - 1, assertArgFn(fn[last], "fn"), $inject = fn.slice(0, last)) : assertArgFn(fn, "fn", !0), $inject;
     }
     function createInjector(modulesToLoad) {
         var INSTANTIATING = {
@@ -1084,7 +1084,7 @@
                     },
                     $set: function(key, value, writeAttr, attrName) {
                         var nodeName, booleanKey = getBooleanAttrName(this.$$element[0], key);
-                        booleanKey && (this.$$element.prop(key, value), attrName = booleanKey), this[key] = value, attrName ? this.$attr[key] = attrName : (attrName = this.$attr[key]) || (this.$attr[key] = (attrName = snake_case(key, "-"))), ("A" === (nodeName = nodeName_(this.$$element)) && "href" === key || "IMG" === nodeName && "src" === key) && (this[key] = (value = $$sanitizeUri(value, "src" === key))), !1 !== writeAttr && (null === value || value === undefined ? this.$$element.removeAttr(attrName) : this.$$element.attr(attrName, value));
+                        booleanKey && (this.$$element.prop(key, value), attrName = booleanKey), this[key] = value, attrName ? this.$attr[key] = attrName : (attrName = this.$attr[key]) || (this.$attr[key] = attrName = snake_case(key, "-")), ("A" === (nodeName = nodeName_(this.$$element)) && "href" === key || "IMG" === nodeName && "src" === key) && (this[key] = value = $$sanitizeUri(value, "src" === key)), !1 !== writeAttr && (null === value || value === undefined ? this.$$element.removeAttr(attrName) : this.$$element.attr(attrName, value));
                         var $$observers = this.$$observers;
                         $$observers && forEach($$observers[key], function(fn) {
                             try {
@@ -1135,7 +1135,7 @@
                     return linkFnFound ? function(scope, nodeList, $rootElement, boundTranscludeFn) {
                         var nodeLinkFn1, childLinkFn1, node, $node, childScope, childTranscludeFn, i1, ii, n, stableNodeList = [];
                         for(i1 = 0, ii = nodeList.length; i1 < ii; i1++)stableNodeList.push(nodeList[i1]);
-                        for(i1 = 0, n = 0, ii = linkFns.length; i1 < ii; n++)node = stableNodeList[n], nodeLinkFn1 = linkFns[i1++], childLinkFn1 = linkFns[i1++], $node = jqLite(node), nodeLinkFn1 ? (nodeLinkFn1.scope ? (childScope = scope.$new(), $node.data("$scope", childScope), safeAddClass($node, "ng-scope")) : childScope = scope, nodeLinkFn1(childLinkFn1, childScope, node, $rootElement, (childTranscludeFn = nodeLinkFn1.transclude) || !boundTranscludeFn && transcludeFn ? createBoundTranscludeFn(scope, childTranscludeFn || transcludeFn) : boundTranscludeFn)) : childLinkFn1 && childLinkFn1(scope, node.childNodes, undefined, boundTranscludeFn);
+                        for(i1 = 0, n = 0, ii = linkFns.length; i1 < ii; n++)node = stableNodeList[n], nodeLinkFn1 = linkFns[i1++], childLinkFn1 = linkFns[i1++], $node = jqLite(node), nodeLinkFn1 ? (nodeLinkFn1.scope ? (childScope = scope.$new(), $node.data("$scope", childScope), safeAddClass($node, "ng-scope")) : childScope = scope, childTranscludeFn = nodeLinkFn1.transclude, nodeLinkFn1(childLinkFn1, childScope, node, $rootElement, childTranscludeFn || !boundTranscludeFn && transcludeFn ? createBoundTranscludeFn(scope, childTranscludeFn || transcludeFn) : boundTranscludeFn)) : childLinkFn1 && childLinkFn1(scope, node.childNodes, undefined, boundTranscludeFn);
                     } : null;
                 }
                 function createBoundTranscludeFn(scope, transcludeFn) {
@@ -1153,7 +1153,11 @@
                             addDirective(directives, directiveNormalize(nodeName_(node).toLowerCase()), "E", maxPriority, ignoreDirective);
                             for(var attr, name, nName, ngAttrName, value, nAttrs = node.attributes, j = 0, jj = nAttrs && nAttrs.length; j < jj; j++){
                                 var attrStartName = !1, attrEndName = !1;
-                                attr = nAttrs[j], (!msie || msie >= 8 || attr.specified) && (ngAttrName = directiveNormalize(name = attr.name), NG_ATTR_BINDING.test(ngAttrName) && (name = snake_case(ngAttrName.substr(6), "-")), ngAttrName === ngAttrName.replace(/(Start|End)$/, "") + "Start" && (attrStartName = name, attrEndName = name.substr(0, name.length - 5) + "end", name = name.substr(0, name.length - 6)), attrsMap[nName = directiveNormalize(name.toLowerCase())] = name, attrs[nName] = (value = trim(msie && "href" == name ? decodeURIComponent(node.getAttribute(name, 2)) : attr.value)), getBooleanAttrName(node, nName) && (attrs[nName] = !0), addAttrInterpolateDirective(node, directives, value, nName), addDirective(directives, nName, "A", maxPriority, ignoreDirective, attrStartName, attrEndName));
+                                if (attr = nAttrs[j], !msie || msie >= 8 || attr.specified) {
+                                    ngAttrName = directiveNormalize(name = attr.name), NG_ATTR_BINDING.test(ngAttrName) && (name = snake_case(ngAttrName.substr(6), "-"));
+                                    var directiveNName = ngAttrName.replace(/(Start|End)$/, "");
+                                    ngAttrName === directiveNName + "Start" && (attrStartName = name, attrEndName = name.substr(0, name.length - 5) + "end", name = name.substr(0, name.length - 6)), attrsMap[nName = directiveNormalize(name.toLowerCase())] = name, attrs[nName] = value = trim(msie && "href" == name ? decodeURIComponent(node.getAttribute(name, 2)) : attr.value), getBooleanAttrName(node, nName) && (attrs[nName] = !0), addAttrInterpolateDirective(node, directives, value, nName), addDirective(directives, nName, "A", maxPriority, ignoreDirective, attrStartName, attrEndName);
+                                }
                             }
                             if (isString(className = node.className) && "" !== className) for(; match = CLASS_DIRECTIVE_REGEXP.exec(className);)addDirective(directives, nName = directiveNormalize(match[2]), "C", maxPriority, ignoreDirective) && (attrs[nName] = trim(match[3])), className = className.substr(match.index + match[0].length);
                             break;
@@ -1190,9 +1194,9 @@
                         var attrStart = (directive = directives[i]).$$start, attrEnd = directive.$$end;
                         if (attrStart && ($compileNode = groupScan(compileNode, attrStart, attrEnd)), $template = undefined, terminalPriority > directive.priority) break;
                         if ((directiveValue = directive.scope) && (newScopeDirective = newScopeDirective || directive, !directive.templateUrl && (assertNoDuplicate("new/isolated scope", newIsolateScopeDirective, directive, $compileNode), isObject(directiveValue) && (newIsolateScopeDirective = directive))), directiveName = directive.name, !directive.templateUrl && directive.controller && (directiveValue = directive.controller, assertNoDuplicate("'" + directiveName + "' controller", (controllerDirectives = controllerDirectives || {
-                        })[directiveName], directive, $compileNode), controllerDirectives[directiveName] = directive), (directiveValue = directive.transclude) && (hasTranscludeDirective = !0, directive.$$tlb || (assertNoDuplicate("transclusion", nonTlbTranscludeDirective, directive, $compileNode), nonTlbTranscludeDirective = directive), "element" == directiveValue ? (hasElementTranscludeDirective = !0, terminalPriority = directive.priority, $template = groupScan(compileNode, attrStart, attrEnd), compileNode = ($compileNode = (templateAttrs.$$element = jqLite(document.createComment(" " + directiveName + ": " + templateAttrs[directiveName] + " "))))[0], replaceWith(jqCollection, jqLite(sliceArgs($template)), compileNode), childTranscludeFn = compile($template, transcludeFn, terminalPriority, replaceDirective && replaceDirective.name, {
+                        })[directiveName], directive, $compileNode), controllerDirectives[directiveName] = directive), (directiveValue = directive.transclude) && (hasTranscludeDirective = !0, directive.$$tlb || (assertNoDuplicate("transclusion", nonTlbTranscludeDirective, directive, $compileNode), nonTlbTranscludeDirective = directive), "element" == directiveValue ? (hasElementTranscludeDirective = !0, terminalPriority = directive.priority, $template = groupScan(compileNode, attrStart, attrEnd), compileNode = ($compileNode = templateAttrs.$$element = jqLite(document.createComment(" " + directiveName + ": " + templateAttrs[directiveName] + " ")))[0], replaceWith(jqCollection, jqLite(sliceArgs($template)), compileNode), childTranscludeFn = compile($template, transcludeFn, terminalPriority, replaceDirective && replaceDirective.name, {
                             nonTlbTranscludeDirective: nonTlbTranscludeDirective
-                        })) : ($template = jqLite(jqLiteClone(compileNode)).contents(), $compileNode.empty(), childTranscludeFn = compile($template, transcludeFn))), directive.template) if (assertNoDuplicate("template", templateDirective, directive, $compileNode), templateDirective = directive, directiveValue = denormalizeTemplate(directiveValue = isFunction(directive.template) ? directive.template($compileNode, templateAttrs) : directive.template), directive.replace) {
+                        })) : ($template = jqLite(jqLiteClone(compileNode)).contents(), $compileNode.empty(), childTranscludeFn = compile($template, transcludeFn))), directive.template) if (assertNoDuplicate("template", templateDirective, directive, $compileNode), templateDirective = directive, directiveValue = isFunction(directive.template) ? directive.template($compileNode, templateAttrs) : directive.template, directiveValue = denormalizeTemplate(directiveValue), directive.replace) {
                             if (replaceDirective = directive, compileNode = ($template = jqLite("<div>" + trim(directiveValue) + "</div>").contents())[0], 1 != $template.length || 1 !== compileNode.nodeType) throw $compileMinErr("tplrt", "Template for directive '{0}' must have exactly one root element. {1}", directiveName, "");
                             replaceWith(jqCollection, $compileNode, compileNode);
                             var newTemplateAttrs = {
@@ -1255,8 +1259,8 @@
                                         compare = (parentGet = $parse(attrs[attrName])).literal ? equals : function(a, b) {
                                             return a === b;
                                         }, parentSet = parentGet.assign || function() {
-                                            throw lastValue = (isolateScope[scopeName] = parentGet(scope)), $compileMinErr("nonassign", "Expression '{0}' used with directive '{1}' is non-assignable!", attrs[attrName], newIsolateScopeDirective.name);
-                                        }, lastValue = (isolateScope[scopeName] = parentGet(scope)), isolateScope.$watch(function() {
+                                            throw lastValue = isolateScope[scopeName] = parentGet(scope), $compileMinErr("nonassign", "Expression '{0}' used with directive '{1}' is non-assignable!", attrs[attrName], newIsolateScopeDirective.name);
+                                        }, lastValue = isolateScope[scopeName] = parentGet(scope), isolateScope.$watch(function() {
                                             var parentValue = parentGet(scope);
                                             return compare(parentValue, isolateScope[scopeName]) || (compare(parentValue, lastValue) ? parentSet(scope, parentValue = isolateScope[scopeName]) : isolateScope[scopeName] = parentValue), lastValue = parentValue;
                                         }, null, parentGet.literal);
@@ -1332,7 +1336,7 @@
                     return $compileNode.empty(), $http.get($sce.getTrustedResourceUrl(templateUrl), {
                         cache: $templateCache
                     }).success(function(content) {
-                        var compileNode, tempTemplateAttrs, $template;
+                        var compileNode, tempTemplateAttrs, $template, childBoundTranscludeFn;
                         if (content = denormalizeTemplate(content), origAsyncDirective.replace) {
                             if (compileNode = ($template = jqLite("<div>" + trim(content) + "</div>").contents())[0], 1 != $template.length || 1 !== compileNode.nodeType) throw $compileMinErr("tplrt", "Template for directive '{0}' must have exactly one root element. {1}", origAsyncDirective.name, templateUrl);
                             tempTemplateAttrs = {
@@ -1346,7 +1350,7 @@
                             node == compileNode && ($rootElement[i] = $compileNode[0]);
                         }), afterTemplateChildLinkFn = compileNodes($compileNode[0].childNodes, childTranscludeFn); linkQueue.length;){
                             var scope = linkQueue.shift(), beforeTemplateLinkNode = linkQueue.shift(), linkRootElement = linkQueue.shift(), boundTranscludeFn = linkQueue.shift(), linkNode = $compileNode[0];
-                            beforeTemplateLinkNode !== beforeTemplateCompileNode && (linkNode = jqLiteClone(compileNode), replaceWith(linkRootElement, jqLite(beforeTemplateLinkNode), linkNode)), afterTemplateNodeLinkFn(afterTemplateChildLinkFn, scope, linkNode, $rootElement, afterTemplateNodeLinkFn.transclude ? createBoundTranscludeFn(scope, afterTemplateNodeLinkFn.transclude) : boundTranscludeFn);
+                            beforeTemplateLinkNode !== beforeTemplateCompileNode && (linkNode = jqLiteClone(compileNode), replaceWith(linkRootElement, jqLite(beforeTemplateLinkNode), linkNode)), childBoundTranscludeFn = afterTemplateNodeLinkFn.transclude ? createBoundTranscludeFn(scope, afterTemplateNodeLinkFn.transclude) : boundTranscludeFn, afterTemplateNodeLinkFn(afterTemplateChildLinkFn, scope, linkNode, $rootElement, childBoundTranscludeFn);
                         }
                         linkQueue = null;
                     }).error(function(response, code, headers, config) {
@@ -2435,8 +2439,8 @@
                 })), v = v.$$v), v;
             }, {
                 assign: function(self, value, locals) {
-                    var key = indexFn(self, locals);
-                    return ensureSafeObject(obj(self, locals), parser.text)[key] = value;
+                    var key = indexFn(self, locals), safe = ensureSafeObject(obj(self, locals), parser.text);
+                    return safe[key] = value;
                 }
             });
         },
@@ -3983,13 +3987,13 @@
                         $id: hashKey
                     };
                     if (!match) throw ngRepeatMinErr("iexp", "Expected expression in form of '_item_ in _collection_[ track by _id_]' but got '{0}'.", expression);
-                    if (lhs = match[1], rhs = match[2], (trackByExp = match[4]) ? (trackByExpGetter = $parse(trackByExp), trackByIdExpFn = function(key, value, index) {
+                    if (lhs = match[1], rhs = match[2], trackByExp = match[4], trackByExp ? (trackByExpGetter = $parse(trackByExp), trackByIdExpFn = function(key, value, index) {
                         return keyIdentifier && (hashFnLocals[keyIdentifier] = key), hashFnLocals[valueIdentifier] = value, hashFnLocals.$index = index, trackByExpGetter($scope, hashFnLocals);
                     }) : (trackByIdArrayFn = function(key, value) {
                         return hashKey(value);
                     }, trackByIdObjFn = function(key) {
                         return key;
-                    }), !(match = lhs.match(/^(?:([\$\w]+)|\(([\$\w]+)\s*,\s*([\$\w]+)\))$/))) throw ngRepeatMinErr("iidexp", "'_item_' in '_item_ in _collection_' should be an identifier or '(_key_, _value_)' expression, but got '{0}'.", lhs);
+                    }), match = lhs.match(/^(?:([\$\w]+)|\(([\$\w]+)\s*,\s*([\$\w]+)\))$/), !match) throw ngRepeatMinErr("iidexp", "'_item_' in '_item_ in _collection_' should be an identifier or '(_key_, _value_)' expression, but got '{0}'.", lhs);
                     valueIdentifier = match[3] || match[1], keyIdentifier = match[2];
                     var lastBlockMap = {
                     };
@@ -4001,7 +4005,7 @@
                             for(key in trackByIdFn = trackByIdExpFn || trackByIdObjFn, collectionKeys = [], collection)collection.hasOwnProperty(key) && "$" != key.charAt(0) && collectionKeys.push(key);
                             collectionKeys.sort();
                         }
-                        for(index = 0, arrayLength = collectionKeys.length, length = nextBlockOrder.length = collectionKeys.length; index < length; index++)if (assertNotHasOwnProperty(trackById = trackByIdFn(key, value = collection[key = collection === collectionKeys ? index : collectionKeys[index]], index), "`track by` id"), lastBlockMap.hasOwnProperty(trackById)) block = lastBlockMap[trackById], delete lastBlockMap[trackById], nextBlockMap[trackById] = block, nextBlockOrder[index] = block;
+                        for(index = 0, arrayLength = collectionKeys.length, length = nextBlockOrder.length = collectionKeys.length; index < length; index++)if (key = collection === collectionKeys ? index : collectionKeys[index], value = collection[key], trackById = trackByIdFn(key, value, index), assertNotHasOwnProperty(trackById, "`track by` id"), lastBlockMap.hasOwnProperty(trackById)) block = lastBlockMap[trackById], delete lastBlockMap[trackById], nextBlockMap[trackById] = block, nextBlockOrder[index] = block;
                         else if (nextBlockMap.hasOwnProperty(trackById)) throw forEach(nextBlockOrder, function(block) {
                             block && block.scope && (lastBlockMap[block.id] = block);
                         }), ngRepeatMinErr("dupes", "Duplicates in a repeater are not allowed. Use 'track by' expression to specify unique keys. Repeater: {0}, Duplicate key: {1}", expression, trackById);
@@ -4012,7 +4016,7 @@
                             element["$$NG_REMOVED"] = !0;
                         }), block.scope.$destroy());
                         for(index = 0, length = collectionKeys.length; index < length; index++){
-                            if (value = collection[key = collection === collectionKeys ? index : collectionKeys[index]], block = nextBlockOrder[index], nextBlockOrder[index - 1] && (previousNode = getBlockEnd(nextBlockOrder[index - 1])), block.scope) {
+                            if (key = collection === collectionKeys ? index : collectionKeys[index], value = collection[key], block = nextBlockOrder[index], nextBlockOrder[index - 1] && (previousNode = getBlockEnd(nextBlockOrder[index - 1])), block.scope) {
                                 childScope = block.scope, nextNode = previousNode;
                                 do nextNode = nextNode.nextSibling;
                                 while (nextNode && nextNode["$$NG_REMOVED"])
@@ -4160,7 +4164,7 @@
                 link: function(scope, element, attr, ctrls) {
                     if (ctrls[1]) {
                         for(var scope2, selectElement, ctrl, lastView, scope1, selectElement1, ngModelCtrl, selectCtrl, emptyOption, selectCtrl1 = ctrls[0], ngModelCtrl1 = ctrls[1], multiple = attr.multiple, optionsExp = attr.ngOptions, nullOption = !1, optionTemplate = jqLite(document.createElement("option")), optGroupTemplate = jqLite(document.createElement("optgroup")), unknownOption = optionTemplate.clone(), i = 0, children = element.children(), ii = children.length; i < ii; i++)if ("" === children[i].value) {
-                            emptyOption = (nullOption = children.eq(i));
+                            emptyOption = nullOption = children.eq(i);
                             break;
                         }
                         if (selectCtrl1.init(ngModelCtrl1, nullOption, unknownOption), multiple && (attr.required || attr.ngRequired)) {

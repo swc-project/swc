@@ -299,7 +299,7 @@
             for(options || (options = {
             }), i = 0, l = (models = singular ? [
                 models
-            ] : _.clone(models)).length; i < l; i++)(model = (models[i] = this.get(models[i]))) && (delete this._byId[model.id], delete this._byId[model.cid], index = this.indexOf(model), this.models.splice(index, 1), this.length--, options.silent || (options.index = index, model.trigger("remove", model, this, options)), this._removeReference(model));
+            ] : _.clone(models)).length; i < l; i++)(model = models[i] = this.get(models[i])) && (delete this._byId[model.id], delete this._byId[model.cid], index = this.indexOf(model), this.models.splice(index, 1), this.length--, options.silent || (options.index = index, model.trigger("remove", model, this, options)), this._removeReference(model));
             return singular ? models[0] : models;
         },
         set: function(models, options) {
@@ -314,7 +314,7 @@
             for(i = 0, l = models.length; i < l; i++){
                 if (id = (attrs = models[i]) instanceof Model ? model = attrs : attrs[targetModel.prototype.idAttribute], existing = this.get(id)) remove && (modelMap[existing.cid] = !0), merge && (attrs = attrs === model ? model.attributes : attrs, options.parse && (attrs = existing.parse(attrs, options)), existing.set(attrs, options), sortable && !sort && existing.hasChanged(sortAttr) && (sort = !0)), models[i] = existing;
                 else if (add) {
-                    if (!(model = (models[i] = this._prepareModel(attrs, options)))) continue;
+                    if (!(model = models[i] = this._prepareModel(attrs, options))) continue;
                     toAdd.push(model), model.on("all", this._onModelEvent, this), this._byId[model.cid] = model, null != model.id && (this._byId[model.id] = model);
                 }
                 order && order.push(existing || model);
@@ -662,7 +662,7 @@
             this.iframe && this.navigate(current), this.loadUrl();
         },
         loadUrl: function(fragment) {
-            return fragment = (this.fragment = this.getFragment(fragment)), _.any(this.handlers, function(handler) {
+            return fragment = this.fragment = this.getFragment(fragment), _.any(this.handlers, function(handler) {
                 if (handler.route.test(fragment)) return handler.callback(fragment), !0;
             });
         },

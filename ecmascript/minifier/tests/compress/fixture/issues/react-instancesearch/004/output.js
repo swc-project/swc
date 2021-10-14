@@ -68,17 +68,17 @@ export default function createInstantSearchManager(param) {
             }, indices, swcHelpers.defineProperty({
             }, indexId, widgets.concat(widget)));
         }, {
+        }), derivedParameters = Object.keys(derivedIndices).map(function(indexId) {
+            return {
+                parameters: derivedIndices[indexId].reduce(function(res, widget) {
+                    return widget.getSearchParameters(res);
+                }, sharedParameters),
+                indexId: indexId
+            };
         });
         return {
             mainParameters: mainParameters,
-            derivedParameters: Object.keys(derivedIndices).map(function(indexId) {
-                return {
-                    parameters: derivedIndices[indexId].reduce(function(res, widget) {
-                        return widget.getSearchParameters(res);
-                    }, sharedParameters),
-                    indexId: indexId
-                };
-            })
+            derivedParameters: derivedParameters
         };
     }, search = function() {
         if (!skip) {
@@ -86,10 +86,10 @@ export default function createInstantSearchManager(param) {
             helper.derivedHelpers.slice().forEach(function(derivedHelper) {
                 derivedHelper.detach();
             }), derivedParameters.forEach(function(param) {
-                var indexId = param.indexId, parameters = param.parameters;
-                helper.derive(function() {
+                var indexId = param.indexId, parameters = param.parameters, derivedHelper = helper.derive(function() {
                     return parameters;
-                }).on("result", handleSearchSuccess({
+                });
+                derivedHelper.on("result", handleSearchSuccess({
                     indexId: indexId
                 })).on("error", handleSearchError);
             }), helper.setState(mainParameters), helper.search();

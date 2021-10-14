@@ -89,7 +89,7 @@
         }, i = 1, length = arguments.length, deep = !1;
         for("boolean" == typeof target && (deep = target, target = arguments[1] || {
         }, i = 2), "object" == typeof target || jQuery.isFunction(target) || (target = {
-        }), length === i && (target = this, --i); i < length; i++)if (null != (options = arguments[i])) for(name in options)src = target[name], target !== (copy = options[name]) && (deep && copy && (jQuery.isPlainObject(copy) || (copyIsArray = jQuery.isArray(copy))) ? (copyIsArray ? (copyIsArray = !1, clone = src && jQuery.isArray(src) ? src : []) : clone = src && jQuery.isPlainObject(src) ? src : {
+        }), length === i && (target = this, --i); i < length; i++)if (null != (options = arguments[i])) for(name in options)src = target[name], copy = options[name], target !== copy && (deep && copy && (jQuery.isPlainObject(copy) || (copyIsArray = jQuery.isArray(copy))) ? (copyIsArray ? (copyIsArray = !1, clone = src && jQuery.isArray(src) ? src : []) : clone = src && jQuery.isPlainObject(src) ? src : {
         }, target[name] = jQuery.extend(deep, clone, copy)) : copy !== undefined && (target[name] = copy));
         return target;
     }, jQuery.extend({
@@ -648,7 +648,7 @@
             return jQuery.isFunction(value) ? this.each(function(i) {
                 jQuery(this).toggleClass(value.call(this, i, this.className, stateVal), stateVal);
             }) : this.each(function() {
-                if ("string" === type) for(var className, i = 0, self = jQuery(this), state = stateVal, classNames = value.match(core_rnotwhite) || []; className = classNames[i++];)self[(state = isBool ? state : !self.hasClass(className)) ? "addClass" : "removeClass"](className);
+                if ("string" === type) for(var className, i = 0, self = jQuery(this), state = stateVal, classNames = value.match(core_rnotwhite) || []; className = classNames[i++];)state = isBool ? state : !self.hasClass(className), self[state ? "addClass" : "removeClass"](className);
                 else ("undefined" === type || "boolean" === type) && (this.className && jQuery._data(this, "__className__", this.className), this.className = this.className || !1 === value ? "" : jQuery._data(this, "__className__") || "");
             });
         },
@@ -1470,7 +1470,7 @@
                         "",
                         argument
                     ], Expr.setFilters.hasOwnProperty(pseudo.toLowerCase()) ? markFunction(function(seed, matches) {
-                        for(var idx, matched = fn(seed, argument), i = matched.length; i--;)seed[idx = indexOf.call(seed, matched[i])] = !(matches[idx] = matched[i]);
+                        for(var idx, matched = fn(seed, argument), i = matched.length; i--;)idx = indexOf.call(seed, matched[i]), seed[idx] = !(matches[idx] = matched[i]);
                     }) : function(elem) {
                         return fn(elem, 0, args);
                     }) : fn;
@@ -1681,7 +1681,7 @@
         function select(selector, context, results, seed) {
             var i, tokens, token, type, find, match = tokenize(selector);
             if (!seed && 1 === match.length) {
-                if ((tokens = (match[0] = match[0].slice(0))).length > 2 && "ID" === (token = tokens[0]).type && 9 === context.nodeType && !documentIsXML && Expr.relative[tokens[1].type]) {
+                if ((tokens = match[0] = match[0].slice(0)).length > 2 && "ID" === (token = tokens[0]).type && 9 === context.nodeType && !documentIsXML && Expr.relative[tokens[1].type]) {
                     if (!(context = Expr.find.ID(token.matches[0].replace(runescape, funescape), context)[0])) return results;
                     selector = selector.slice(tokens.shift().value.length);
                 }
@@ -2075,7 +2075,7 @@
                 isFunction && (args[0] = value.call(this, index, table ? self.html() : undefined)), self.domManip(args, table, callback);
             });
             if (l && (first = (fragment = jQuery.buildFragment(args, this[0].ownerDocument, !1, this)).firstChild, 1 === fragment.childNodes.length && (fragment = first), first)) {
-                for(table = table && jQuery.nodeName(first, "tr"), hasScripts = (scripts = jQuery.map(getAll(fragment, "script"), disableScript)).length; i < l; i++)node = fragment, i !== iNoClone && (node = jQuery.clone(node, !0, !0), hasScripts && jQuery.merge(scripts, getAll(node, "script"))), callback.call(table && jQuery.nodeName(this[i], "table") ? findOrAppend(this[i], "tbody") : this[i], node, i);
+                for(table = table && jQuery.nodeName(first, "tr"), scripts = jQuery.map(getAll(fragment, "script"), disableScript), hasScripts = scripts.length; i < l; i++)node = fragment, i !== iNoClone && (node = jQuery.clone(node, !0, !0), hasScripts && jQuery.merge(scripts, getAll(node, "script"))), callback.call(table && jQuery.nodeName(this[i], "table") ? findOrAppend(this[i], "tbody") : this[i], node, i);
                 if (hasScripts) for(doc = scripts[scripts.length - 1].ownerDocument, jQuery.map(scripts, restoreScript), i = 0; i < hasScripts; i++)node = scripts[i], rscriptType.test(node.type || "") && !jQuery._data(node, "globalEval") && jQuery.contains(doc, node) && (node.src ? jQuery.ajax({
                     url: node.src,
                     type: "GET",
@@ -2248,7 +2248,7 @@
         },
         css: function(elem, name, extra, styles) {
             var num, val, hooks, origName = jQuery.camelCase(name);
-            return (name = jQuery.cssProps[origName] || (jQuery.cssProps[origName] = vendorPropName(elem.style, origName)), (hooks = jQuery.cssHooks[name] || jQuery.cssHooks[origName]) && "get" in hooks && (val = hooks.get(elem, !0, extra)), val === undefined && (val = curCSS(elem, name, styles)), "normal" === val && name in cssNormalTransform && (val = cssNormalTransform[name]), "" === extra || extra) ? (num = parseFloat(val), !0 === extra || jQuery.isNumeric(num) ? num || 0 : val) : val;
+            return (name = jQuery.cssProps[origName] || (jQuery.cssProps[origName] = vendorPropName(elem.style, origName)), hooks = jQuery.cssHooks[name] || jQuery.cssHooks[origName], hooks && "get" in hooks && (val = hooks.get(elem, !0, extra)), val === undefined && (val = curCSS(elem, name, styles)), "normal" === val && name in cssNormalTransform && (val = cssNormalTransform[name]), "" === extra || extra) ? (num = parseFloat(val), !0 === extra || jQuery.isNumeric(num) ? num || 0 : val) : val;
         },
         swap: function(elem, options, callback, args) {
             var ret, name, old = {
@@ -2617,7 +2617,7 @@
                         state: "success",
                         data: response
                     };
-                })(s, response)).state, success = isSuccess.data, isSuccess = !(error = isSuccess.error))) : (error = statusText, (status || !statusText) && (statusText = "error", status < 0 && (status = 0))), jqXHR.status = status, jqXHR.statusText = (nativeStatusText || statusText) + "", isSuccess ? deferred.resolveWith(callbackContext, [
+                })(s, response)).state, success = isSuccess.data, error = isSuccess.error, isSuccess = !error)) : (error = statusText, (status || !statusText) && (statusText = "error", status < 0 && (status = 0))), jqXHR.status = status, jqXHR.statusText = (nativeStatusText || statusText) + "", isSuccess ? deferred.resolveWith(callbackContext, [
                     success,
                     statusText,
                     jqXHR
@@ -2708,7 +2708,7 @@
             } catch (e) {
             }
         })();
-    } : createStandardXHR, xhrSupported = jQuery.ajaxSettings.xhr(), jQuery.support.cors = !!xhrSupported && "withCredentials" in xhrSupported, (xhrSupported = jQuery.support.ajax = !!xhrSupported) && jQuery.ajaxTransport(function(s) {
+    } : createStandardXHR, xhrSupported = jQuery.ajaxSettings.xhr(), jQuery.support.cors = !!xhrSupported && "withCredentials" in xhrSupported, xhrSupported = jQuery.support.ajax = !!xhrSupported, xhrSupported && jQuery.ajaxTransport(function(s) {
         if (!s.crossDomain || jQuery.support.cors) {
             var callback;
             return {
@@ -2777,7 +2777,7 @@
         "*": [function(prop, value) {
                 var end, unit, tween = this.createTween(prop, value), parts = rfxnum.exec(value), target = tween.cur(), start = +target || 0, scale = 1, maxIterations = 20;
                 if (parts) {
-                    if (end = +parts[2], "px" !== (unit = parts[3] || (jQuery.cssNumber[prop] ? "" : "px")) && start) {
+                    if (end = +parts[2], unit = parts[3] || (jQuery.cssNumber[prop] ? "" : "px"), "px" !== unit && start) {
                         start = jQuery.css(tween.elem, prop, !0) || end || 1;
                         do start /= scale = scale || ".5", jQuery.style(tween.elem, prop, start + unit);
                         while (scale !== (scale = tween.cur() / target) && 1 !== scale && --maxIterations)
@@ -2846,7 +2846,7 @@
     }
     function propFilter(props, specialEasing) {
         var value, name, index, easing, hooks;
-        for(index in props)if (easing = specialEasing[name = jQuery.camelCase(index)], value = props[index], jQuery.isArray(value) && (easing = value[1], value = props[index] = value[0]), index !== name && (props[name] = value, delete props[index]), (hooks = jQuery.cssHooks[name]) && "expand" in hooks) for(index in value = hooks.expand(value), delete props[name], value)index in props || (props[index] = value[index], specialEasing[index] = easing);
+        for(index in props)if (easing = specialEasing[name = jQuery.camelCase(index)], value = props[index], jQuery.isArray(value) && (easing = value[1], value = props[index] = value[0]), index !== name && (props[name] = value, delete props[index]), hooks = jQuery.cssHooks[name], hooks && "expand" in hooks) for(index in value = hooks.expand(value), delete props[name], value)index in props || (props[index] = value[index], specialEasing[index] = easing);
         else specialEasing[name] = easing;
     }
     function Tween(elem, options, prop, end, easing) {
@@ -2875,7 +2875,7 @@
     }), jQuery.Tween = Tween, Tween.prototype = {
         constructor: Tween,
         init: function(elem, options, prop, end, easing, unit) {
-            this.elem = elem, this.prop = prop, this.easing = easing || "swing", this.options = options, this.start = (this.now = this.cur()), this.end = end, this.unit = unit || (jQuery.cssNumber[prop] ? "" : "px");
+            this.elem = elem, this.prop = prop, this.easing = easing || "swing", this.options = options, this.start = this.now = this.cur(), this.end = end, this.unit = unit || (jQuery.cssNumber[prop] ? "" : "px");
         },
         cur: function() {
             var hooks = Tween.propHooks[this.prop];
@@ -2883,7 +2883,7 @@
         },
         run: function(percent) {
             var eased, hooks = Tween.propHooks[this.prop];
-            return this.options.duration ? this.pos = (eased = jQuery.easing[this.easing](percent, this.options.duration * percent, 0, 1, this.options.duration)) : this.pos = eased = percent, this.now = (this.end - this.start) * eased + this.start, this.options.step && this.options.step.call(this.elem, this.now, this), hooks && hooks.set ? hooks.set(this) : Tween.propHooks._default.set(this), this;
+            return this.options.duration ? this.pos = eased = jQuery.easing[this.easing](percent, this.options.duration * percent, 0, 1, this.options.duration) : this.pos = eased = percent, this.now = (this.end - this.start) * eased + this.start, this.options.step && this.options.step.call(this.elem, this.now, this), hooks && hooks.set ? hooks.set(this) : Tween.propHooks._default.set(this), this;
         }
     }, Tween.prototype.init.prototype = Tween.prototype, Tween.propHooks = {
         _default: {
