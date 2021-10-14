@@ -266,7 +266,11 @@
                           "end": 138,
                           "ctxt": 0
                         },
-                        "token": "Dot"
+                        "token": {
+                          "Delim": {
+                            "value": "."
+                          }
+                        }
                       },
                       {
                         "span": {
@@ -575,7 +579,11 @@
                               "end": 335,
                               "ctxt": 0
                             },
-                            "token": "Dot"
+                            "token": {
+                              "Delim": {
+                                "value": "."
+                              }
+                            }
                           },
                           {
                             "span": {
@@ -795,7 +803,11 @@
                               "end": 464,
                               "ctxt": 0
                             },
-                            "token": "Dot"
+                            "token": {
+                              "Delim": {
+                                "value": "."
+                              }
+                            }
                           },
                           {
                             "span": {

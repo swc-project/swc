@@ -289,7 +289,6 @@ where
 
     fn parse_class_selector(&mut self) -> PResult<ClassSelector> {
         let start = self.input.cur_span()?.lo;
-        assert_eq!(*cur!(self), tok!("."));
         bump!(self);
 
         let text = self.parse_selector_text()?;
