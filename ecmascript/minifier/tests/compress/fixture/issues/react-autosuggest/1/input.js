@@ -150,4 +150,4 @@ _defineProperty(ItemsList, "propTypes", {
 
 _defineProperty(ItemsList, "defaultProps", {
     sectionIndex: null
-});⏎
+});
