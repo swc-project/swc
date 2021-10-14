@@ -1461,4 +1461,23 @@ var store = global[SHARED] || (global[SHARED] = {});
           }
         "
     );
+
+    identical!(
+        minifier_012,
+        "
+        function ItemsList() {
+            for(var _ref, _temp, _this, _len = arguments.length, args = Array(_len), _key = 0; \
+         _key < _len; _key++)args[_key] = arguments[_key];
+            return _possibleConstructorReturn(_this, (_temp = (_this = \
+         _possibleConstructorReturn(this, (_ref = ItemsList.__proto__ || \
+         Object.getPrototypeOf(ItemsList)).call.apply(_ref, [
+                this
+            ].concat(args))), _this), _this.storeHighlightedItemReference = \
+         function(highlightedItem) {
+                _this.props.onHighlightedItemChange(null === highlightedItem ? null : \
+         highlightedItem.item);
+            }, _temp));
+        }
+        "
+    );
 }
