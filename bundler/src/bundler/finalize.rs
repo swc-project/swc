@@ -32,7 +32,7 @@ where
             for mut bundle in bundles {
                 bundle.module = self.optimize(bundle.module);
 
-                bundle.module = bundle.module.fold_with(&mut hygiene());
+                // bundle.module = bundle.module.fold_with(&mut hygiene());
 
                 bundle.module = self.may_wrap_with_iife(bundle.module);
 
