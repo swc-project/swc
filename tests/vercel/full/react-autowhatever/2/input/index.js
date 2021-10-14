@@ -10,4 +10,4 @@ export class A extends B {
 
 
 const a = new A();
-console.log(aa.field)
+console.log(a.field)
