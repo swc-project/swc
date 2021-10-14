@@ -1681,7 +1681,7 @@
         function select(selector, context, results, seed) {
             var i, tokens, token, type, find, match = tokenize(selector);
             if (!seed && 1 === match.length) {
-                if ((tokens = match[0] = match[0].slice(0)).length > 2 && "ID" === (token = tokens[0]).type && 9 === context.nodeType && !documentIsXML && Expr.relative[tokens[1].type]) {
+                if ((tokens = (match[0] = match[0].slice(0))).length > 2 && "ID" === (token = tokens[0]).type && 9 === context.nodeType && !documentIsXML && Expr.relative[tokens[1].type]) {
                     if (!(context = Expr.find.ID(token.matches[0].replace(runescape, funescape), context)[0])) return results;
                     selector = selector.slice(tokens.shift().value.length);
                 }
@@ -2875,7 +2875,7 @@
     }), jQuery.Tween = Tween, Tween.prototype = {
         constructor: Tween,
         init: function(elem, options, prop, end, easing, unit) {
-            this.elem = elem, this.prop = prop, this.easing = easing || "swing", this.options = options, this.start = this.now = this.cur(), this.end = end, this.unit = unit || (jQuery.cssNumber[prop] ? "" : "px");
+            this.elem = elem, this.prop = prop, this.easing = easing || "swing", this.options = options, this.start = (this.now = this.cur()), this.end = end, this.unit = unit || (jQuery.cssNumber[prop] ? "" : "px");
         },
         cur: function() {
             var hooks = Tween.propHooks[this.prop];
@@ -2883,7 +2883,7 @@
         },
         run: function(percent) {
             var eased, hooks = Tween.propHooks[this.prop];
-            return this.options.duration ? this.pos = eased = jQuery.easing[this.easing](percent, this.options.duration * percent, 0, 1, this.options.duration) : this.pos = eased = percent, this.now = (this.end - this.start) * eased + this.start, this.options.step && this.options.step.call(this.elem, this.now, this), hooks && hooks.set ? hooks.set(this) : Tween.propHooks._default.set(this), this;
+            return this.options.duration ? this.pos = (eased = jQuery.easing[this.easing](percent, this.options.duration * percent, 0, 1, this.options.duration)) : this.pos = eased = percent, this.now = (this.end - this.start) * eased + this.start, this.options.step && this.options.step.call(this.elem, this.now, this), hooks && hooks.set ? hooks.set(this) : Tween.propHooks._default.set(this), this;
         }
     }, Tween.prototype.init.prototype = Tween.prototype, Tween.propHooks = {
         _default: {

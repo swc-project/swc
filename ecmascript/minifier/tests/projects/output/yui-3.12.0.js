@@ -1007,7 +1007,7 @@ var YUI = function() {
             function onLoad() {
                 cssTimeout && clearTimeout(cssTimeout), self._progress(null, req);
             }
-            node || (nodeType = isScript ? "script" : !env.cssLoad && ua.gecko ? "style" : "link", node = req.node = this._createNode(nodeType, req.attributes, req.doc)), isScript ? (node.setAttribute("src", req.url), req.async ? node.async = !0 : (env.async && (node.async = !1), env.preservesScriptOrder || (this._pending = req))) : !env.cssLoad && ua.gecko ? node.innerHTML = (req.attributes.charset ? "@charset \"" + req.attributes.charset + "\";" : "") + "@import \"" + req.url + "\";" : node.setAttribute("href", req.url), isScript && ua.ie && (ua.ie < 9 || document.documentMode && document.documentMode < 9) ? node.onreadystatechange = function() {
+            node || (nodeType = isScript ? "script" : !env.cssLoad && ua.gecko ? "style" : "link", node = (req.node = this._createNode(nodeType, req.attributes, req.doc))), isScript ? (node.setAttribute("src", req.url), req.async ? node.async = !0 : (env.async && (node.async = !1), env.preservesScriptOrder || (this._pending = req))) : !env.cssLoad && ua.gecko ? node.innerHTML = (req.attributes.charset ? "@charset \"" + req.attributes.charset + "\";" : "") + "@import \"" + req.url + "\";" : node.setAttribute("href", req.url), isScript && ua.ie && (ua.ie < 9 || document.documentMode && document.documentMode < 9) ? node.onreadystatechange = function() {
                 /loaded|complete/.test(node.readyState) && (node.onreadystatechange = null, onLoad());
             } : isScript || env.cssLoad ? (ua.ie >= 10 ? (node.onerror = function() {
                 setTimeout(onError, 0);

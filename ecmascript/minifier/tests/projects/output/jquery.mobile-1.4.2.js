@@ -428,8 +428,8 @@
                 }, this.options);
                 if ("string" == typeof key) if (options = {
                 }, key = (parts = key.split(".")).shift(), parts.length) {
-                    for(i = 0, curOption = options[key] = $.widget.extend({
-                    }, this.options[key]); i < parts.length - 1; i++)curOption[parts[i]] = curOption[parts[i]] || {
+                    for(i = 0, curOption = (options[key] = $.widget.extend({
+                    }, this.options[key])); i < parts.length - 1; i++)curOption[parts[i]] = curOption[parts[i]] || {
                     }, curOption = curOption[parts[i]];
                     if (key = parts.pop(), value === undefined) return undefined === curOption[key] ? null : curOption[key];
                     curOption[key] = value;
@@ -459,7 +459,7 @@
             },
             _on: function(suppressDisabledCheck, element, handlers) {
                 var delegateElement, instance = this;
-                "boolean" != typeof suppressDisabledCheck && (handlers = element, element = suppressDisabledCheck, suppressDisabledCheck = !1), handlers ? (element = delegateElement = $(element), this.bindings = this.bindings.add(element)) : (handlers = element, element = this.element, delegateElement = this.widget()), $.each(handlers, function(event, handler) {
+                "boolean" != typeof suppressDisabledCheck && (handlers = element, element = suppressDisabledCheck, suppressDisabledCheck = !1), handlers ? (element = (delegateElement = $(element)), this.bindings = this.bindings.add(element)) : (handlers = element, element = this.element, delegateElement = this.widget()), $.each(handlers, function(event, handler) {
                     function handlerProxy() {
                         if (!(!suppressDisabledCheck && (!0 === instance.options.disabled || $(this).hasClass("ui-state-disabled")))) return ("string" == typeof handler ? instance[handler] : handler).apply(instance, arguments);
                     }
@@ -2056,7 +2056,7 @@
         _getOptions: function(options) {
             var key, accordion = this._ui.accordion, accordionWidget = this._ui.accordionWidget;
             for(key in options = $12.extend({
-            }, options), accordion.length && !accordionWidget && (this._ui.accordionWidget = accordionWidget = accordion.data("mobile-collapsibleset")), options)options[key] = null != options[key] ? options[key] : accordionWidget ? accordionWidget.options[key] : accordion.length ? $12.mobile.getAttribute(accordion[0], key.replace(rInitialLetter, "-$1").toLowerCase()) : null, null == options[key] && (options[key] = $12.mobile.collapsible.defaults[key]);
+            }, options), accordion.length && !accordionWidget && (this._ui.accordionWidget = (accordionWidget = accordion.data("mobile-collapsibleset"))), options)options[key] = null != options[key] ? options[key] : accordionWidget ? accordionWidget.options[key] : accordion.length ? $12.mobile.getAttribute(accordion[0], key.replace(rInitialLetter, "-$1").toLowerCase()) : null, null == options[key] && (options[key] = $12.mobile.collapsible.defaults[key]);
             return options;
         },
         _themeClassFromOption: function(prefix, value) {

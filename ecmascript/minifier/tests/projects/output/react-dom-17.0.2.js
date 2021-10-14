@@ -4134,7 +4134,7 @@
     }
     function getEventListenerSet(node) {
         var elementListenerSet = node[internalEventHandlersKey];
-        return void 0 === elementListenerSet && (elementListenerSet = node[internalEventHandlersKey] = new Set()), elementListenerSet;
+        return void 0 === elementListenerSet && (elementListenerSet = (node[internalEventHandlersKey] = new Set())), elementListenerSet;
     }
     var loggedTypeFailures = {
     }, ReactDebugCurrentFrame$1 = ReactSharedInternals.ReactDebugCurrentFrame;
@@ -5570,7 +5570,7 @@
                 lastRenderedReducer: basicStateReducer,
                 lastRenderedState: snapshot
             };
-            newQueue.dispatch = setSnapshot = dispatchAction.bind(null, currentlyRenderingFiber$1, newQueue), stateHook.queue = newQueue, stateHook.baseQueue = null, snapshot = readFromUnsubcribedMutableSource(root1, source, getSnapshot), stateHook.memoizedState = stateHook.baseState = snapshot;
+            newQueue.dispatch = (setSnapshot = dispatchAction.bind(null, currentlyRenderingFiber$1, newQueue)), stateHook.queue = newQueue, stateHook.baseQueue = null, snapshot = readFromUnsubcribedMutableSource(root1, source, getSnapshot), stateHook.memoizedState = stateHook.baseState = snapshot;
         }
         return snapshot;
     }
@@ -6764,7 +6764,7 @@
             if (!(null === current || workInProgress.child === current.child)) throw Error("Resuming work not yet implemented.");
             if (null !== workInProgress.child) {
                 var currentChild = workInProgress.child, newChild = createWorkInProgress(currentChild, currentChild.pendingProps);
-                for(workInProgress.child = newChild, newChild.return = workInProgress; null !== currentChild.sibling;)currentChild = currentChild.sibling, (newChild = newChild.sibling = createWorkInProgress(currentChild, currentChild.pendingProps)).return = workInProgress;
+                for(workInProgress.child = newChild, newChild.return = workInProgress; null !== currentChild.sibling;)currentChild = currentChild.sibling, (newChild = (newChild.sibling = createWorkInProgress(currentChild, currentChild.pendingProps))).return = workInProgress;
                 newChild.sibling = null;
             }
         })(current, workInProgress), workInProgress.child) : null;
@@ -6873,11 +6873,11 @@
                     var resolvedTag = workInProgress.tag = resolveLazyComponentTag(Component), resolvedProps = resolveDefaultProps(Component, props);
                     switch(resolvedTag){
                         case 0:
-                            return validateFunctionComponentInDev(workInProgress, Component), workInProgress.type = Component = resolveFunctionForHotReloading(Component), updateFunctionComponent(null, workInProgress, Component, resolvedProps, renderLanes);
+                            return validateFunctionComponentInDev(workInProgress, Component), workInProgress.type = (Component = resolveFunctionForHotReloading(Component)), updateFunctionComponent(null, workInProgress, Component, resolvedProps, renderLanes);
                         case 1:
-                            return workInProgress.type = Component = resolveClassForHotReloading(Component), updateClassComponent(null, workInProgress, Component, resolvedProps, renderLanes);
+                            return workInProgress.type = (Component = resolveClassForHotReloading(Component)), updateClassComponent(null, workInProgress, Component, resolvedProps, renderLanes);
                         case 11:
-                            return workInProgress.type = Component = resolveForwardRefForHotReloading(Component), updateForwardRef(null, workInProgress, Component, resolvedProps, renderLanes);
+                            return workInProgress.type = (Component = resolveForwardRefForHotReloading(Component)), updateForwardRef(null, workInProgress, Component, resolvedProps, renderLanes);
                         case 14:
                             if (workInProgress.type !== workInProgress.elementType) {
                                 var outerPropTypes = Component.propTypes;
@@ -7559,7 +7559,7 @@
     }
     function attachPingListener(root, wakeable, lanes) {
         var threadIDs, pingCache = root.pingCache;
-        if (null === pingCache ? (pingCache = root.pingCache = new PossiblyWeakMap$1(), threadIDs = new Set(), pingCache.set(wakeable, threadIDs)) : void 0 === (threadIDs = pingCache.get(wakeable)) && (threadIDs = new Set(), pingCache.set(wakeable, threadIDs)), !threadIDs.has(lanes)) {
+        if (null === pingCache ? (pingCache = (root.pingCache = new PossiblyWeakMap$1()), threadIDs = new Set(), pingCache.set(wakeable, threadIDs)) : void 0 === (threadIDs = pingCache.get(wakeable)) && (threadIDs = new Set(), pingCache.set(wakeable, threadIDs)), !threadIDs.has(lanes)) {
             threadIDs.add(lanes);
             var ping = pingSuspendedRoot.bind(null, root, wakeable, lanes);
             wakeable.then(ping, ping);
@@ -8062,7 +8062,7 @@
         if (null !== wakeables) {
             finishedWork.updateQueue = null;
             var retryCache = finishedWork.stateNode;
-            null === retryCache && (retryCache = finishedWork.stateNode = new PossiblyWeakSet()), wakeables.forEach(function(wakeable) {
+            null === retryCache && (retryCache = (finishedWork.stateNode = new PossiblyWeakSet())), wakeables.forEach(function(wakeable) {
                 var retry = resolveRetryWakeable.bind(null, finishedWork, wakeable);
                 retryCache.has(wakeable) || (!0 !== wakeable.__reactDoNotTraceInteractions && (retry = unstable_wrap(retry)), retryCache.add(wakeable), wakeable.then(retry, retry));
             });
@@ -9449,13 +9449,13 @@
             }
             updateContainer(children, fiberRoot, parentComponent, callback);
         } else {
-            if (fiberRoot = (root1 = container9._reactRootContainer = (function(container, forceHydrate) {
+            if (fiberRoot = (root1 = (container9._reactRootContainer = (function(container, forceHydrate) {
                 var container7, options, rootElement, shouldHydrate = forceHydrate || !!((rootElement = getReactRootElementInContainer(container)) && 1 === rootElement.nodeType && rootElement.hasAttribute("data-reactroot"));
                 if (!shouldHydrate) for(var rootSibling, warned = !1; rootSibling = container.lastChild;)!warned && 1 === rootSibling.nodeType && rootSibling.hasAttribute("data-reactroot") && (warned = !0, error("render(): Target node has markup rendered by React, but there are unrelated nodes as well. This is most commonly caused by white-space inserted around server-rendered markup.")), container.removeChild(rootSibling);
                 return !shouldHydrate || forceHydrate || warnedAboutHydrateAPI || (warnedAboutHydrateAPI = !0, warn("render(): Calling ReactDOM.render() to hydrate server-rendered markup will stop working in React v18. Replace the ReactDOM.render() call with ReactDOM.hydrate() if you want React to attach to the server HTML.")), container7 = container, options = shouldHydrate ? {
                     hydrate: !0
                 } : void 0, new ReactDOMBlockingRoot(container7, 0, options);
-            })(container9, forceHydrate))._internalRoot, "function" == typeof callback) {
+            })(container9, forceHydrate)))._internalRoot, "function" == typeof callback) {
                 var originalCallback = callback;
                 callback = function() {
                     var instance = getPublicRootInstance(fiberRoot);
