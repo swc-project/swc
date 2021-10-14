@@ -349,6 +349,20 @@ where
                     return;
                 }
 
+                for arg in &call.args {
+                    if arg.spread.is_some() {
+                        tracing::trace!("iife: [x] Found spread argument");
+                        return;
+                    }
+                    match &*arg.expr {
+                        Expr::Fn(..) | Expr::This(..) | Expr::Arrow(..) => {
+                            tracing::trace!("iife: [x] Found callable argument");
+                            return;
+                        }
+                        _ => {}
+                    }
+                }
+
                 let param_ids = f
                     .params
                     .iter()
@@ -480,7 +494,7 @@ where
                         return;
                     }
                     match &*arg.expr {
-                        Expr::Fn(..) | Expr::Arrow(..) => {
+                        Expr::Fn(..) | Expr::This(..) | Expr::Arrow(..) => {
                             tracing::trace!("iife: [x] Found callable argument");
                             return;
                         }
