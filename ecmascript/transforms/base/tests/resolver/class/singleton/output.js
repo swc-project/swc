@@ -7,7 +7,7 @@ var Sub = function(_Foo__2) {
         if (singleton) {
             return _possibleConstructorReturn(_this__3, singleton);
         }
-        singleton = (_this__3 = _possibleConstructorReturn(this, _getPrototypeOf(Sub__2).call(this)));
+        singleton = _this__3 = _possibleConstructorReturn(this, _getPrototypeOf(Sub__2).call(this));
         return _possibleConstructorReturn(_this__3);
     }
     return Sub__2;
