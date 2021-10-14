@@ -65,7 +65,11 @@
                           "end": 9,
                           "ctxt": 0
                         },
-                        "token": "Dot"
+                        "token": {
+                          "Delim": {
+                            "value": "."
+                          }
+                        }
                       },
                       {
                         "span": {
@@ -94,7 +98,11 @@
                           "end": 14,
                           "ctxt": 0
                         },
-                        "token": "Plus"
+                        "token": {
+                          "Delim": {
+                            "value": "+"
+                          }
+                        }
                       },
                       {
                         "span": {

@@ -536,9 +536,6 @@ where
                 Token::Asterisk => {
                     punct!(self, span, "*");
                 }
-                Token::Dot => {
-                    punct!(self, span, ".");
-                }
                 Token::Hash { value, .. } => {
                     punct!(self, "#");
                     self.wr.write_ident(Some(span), &value, true)?;
@@ -569,12 +566,6 @@ where
                 }
                 Token::Equals => {
                     punct!(self, span, "=");
-                }
-                Token::Plus => {
-                    punct!(self, span, "+");
-                }
-                Token::Minus => {
-                    punct!(self, span, "-");
                 }
                 Token::Div => {
                     punct!(self, span, "/");

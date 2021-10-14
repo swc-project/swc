@@ -60,10 +60,6 @@ macro_rules! tok {
         swc_css_ast::Token::Asterisk
     };
 
-    (".") => {
-        swc_css_ast::Token::Dot
-    };
-
     ("#") => {
         swc_css_ast::Token::Hash
     };
@@ -105,11 +101,15 @@ macro_rules! tok {
     };
 
     ("+") => {
-        swc_css_ast::Token::Plus
+        swc_css_ast::Token::Delim { value: '+', .. }
     };
 
     ("-") => {
-        swc_css_ast::Token::Minus
+        swc_css_ast::Token::Delim { value: '-', .. }
+    };
+
+    (".") => {
+        swc_css_ast::Token::Delim { value: '.', .. }
     };
 
     ("/") => {
