@@ -945,6 +945,10 @@ where
                     return false;
                 }
 
+                Expr::Assign(..) => {
+                    return false;
+                }
+
                 _ => {}
             },
         }
