@@ -107,9 +107,7 @@ impl VisitMut for Fixer<'_> {
 
         fn rhs_need_paren(e: &Expr) -> bool {
             match e {
-                Expr::Assign(e) => {
-                    e.right.is_call() || e.right.is_new() || rhs_need_paren(&e.right)
-                }
+                Expr::Assign(e) => rhs_need_paren(&e.right),
                 Expr::Seq(..) => true,
                 _ => false,
             }
