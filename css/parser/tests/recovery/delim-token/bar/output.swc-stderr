@@ -1,0 +1,6 @@
+error: Expected Property value
+ --> $DIR/tests/recovery/delim-token/bar/input.css:2:11
+  |
+2 |     prop: |;
+  |           ^
+

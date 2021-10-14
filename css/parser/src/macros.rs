@@ -17,7 +17,7 @@ macro_rules! tok {
     };
 
     ("%") => {
-        swc_css_ast::Token::Percent
+        swc_css_ast::Token::Delim { value: '%', .. }
     };
 
     ("--") => {
@@ -33,7 +33,7 @@ macro_rules! tok {
     };
 
     ("!") => {
-        swc_css_ast::Token::Bang
+       swc_css_ast::Token::Delim { value: '!', .. }
     };
 
     ("{") => {
@@ -57,7 +57,7 @@ macro_rules! tok {
     };
 
     ("*") => {
-        swc_css_ast::Token::Asterisk
+       swc_css_ast::Token::Delim { value: '*', .. }
     };
 
     ("#") => {
@@ -65,27 +65,27 @@ macro_rules! tok {
     };
 
     ("&") => {
-        swc_css_ast::Token::Ampersand
+        swc_css_ast::Token::Delim { value: '&', .. }
     };
 
     ("|") => {
-        swc_css_ast::Token::Bar
+        swc_css_ast::Token::Delim { value: '|', .. }
     };
 
     ("$") => {
-        swc_css_ast::Token::Dollar
+       swc_css_ast::Token::Delim { value: '$', .. }
     };
 
     ("^") => {
-        swc_css_ast::Token::Caret
+       swc_css_ast::Token::Delim { value: '^', .. }
     };
 
     ("~") => {
-        swc_css_ast::Token::Tilde
+        swc_css_ast::Token::Delim { value: '~', .. }
     };
 
     ("=") => {
-        swc_css_ast::Token::Equals
+       swc_css_ast::Token::Delim { value: '=', .. }
     };
 
     (" ") => {
@@ -113,15 +113,11 @@ macro_rules! tok {
     };
 
     ("/") => {
-        swc_css_ast::Token::Div
-    };
-
-    ("~") => {
-        swc_css_ast::Token::Tilde
+       swc_css_ast::Token::Delim { value: '/', .. }
     };
 
     (">") => {
-        swc_css_ast::Token::GreaterThan
+        swc_css_ast::Token::Delim { value: '>', .. }
     };
 
     ("important") => {

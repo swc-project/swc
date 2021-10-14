@@ -108,21 +108,6 @@ where
             }};
         }
 
-        // TODO: it is delim tokens
-        try_delim!(b'=', "=");
-        try_delim!(b'*', "*");
-        try_delim!(b'$', "$");
-        try_delim!(b'^', "^");
-        try_delim!(b'%', "%");
-        try_delim!(b'!', "!");
-        try_delim!(b'>', ">");
-        try_delim!(b'~', "~");
-        try_delim!(b'&', "&");
-        try_delim!(b'|', "|");
-
-        // TODO: Plus can start a number
-        try_delim!(b'/', "/");
-
         if let Some(c) = self.input.cur() {
             if is_whitespace(c) {
                 self.skip_ws()?;

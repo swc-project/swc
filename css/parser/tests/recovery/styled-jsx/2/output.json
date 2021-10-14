@@ -96,7 +96,11 @@
                           "end": 12,
                           "ctxt": 0
                         },
-                        "token": "GreaterThan"
+                        "token": {
+                          "Delim": {
+                            "value": ">"
+                          }
+                        }
                       },
                       {
                         "span": {
@@ -200,7 +204,11 @@
                       "end": 63,
                       "ctxt": 0
                     },
-                    "token": "Percent"
+                    "token": {
+                      "Delim": {
+                        "value": "%"
+                      }
+                    }
                   }
                 ]
               }

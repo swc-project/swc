@@ -494,9 +494,6 @@ where
                 Token::RBracket => {
                     punct!(self, span, "]");
                 }
-                Token::Percent => {
-                    punct!(self, span, "%");
-                }
                 Token::Num(n) => {
                     self.wr.write_raw(Some(span), &n.value.to_string())?;
                 }
@@ -521,9 +518,6 @@ where
                 Token::Semi => {
                     punct!(self, span, ";");
                 }
-                Token::Bang => {
-                    punct!(self, span, "!");
-                }
                 Token::LBrace => {
                     punct!(self, span, "{");
                 }
@@ -532,9 +526,6 @@ where
                 }
                 Token::Colon => {
                     punct!(self, span, ":");
-                }
-                Token::Asterisk => {
-                    punct!(self, span, "*");
                 }
                 Token::Hash { value, .. } => {
                     punct!(self, "#");
@@ -548,30 +539,6 @@ where
                 }
                 Token::CDO => {
                     punct!(self, span, "<!--");
-                }
-                Token::Ampersand => {
-                    punct!(self, span, "&");
-                }
-                Token::Bar => {
-                    punct!(self, span, "|");
-                }
-                Token::Dollar => {
-                    punct!(self, span, "$");
-                }
-                Token::Caret => {
-                    punct!(self, span, "^");
-                }
-                Token::Tilde => {
-                    punct!(self, span, "~");
-                }
-                Token::Equals => {
-                    punct!(self, span, "=");
-                }
-                Token::Div => {
-                    punct!(self, span, "/");
-                }
-                Token::GreaterThan => {
-                    punct!(self, span, ">");
                 }
             }
         }
