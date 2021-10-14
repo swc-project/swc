@@ -558,6 +558,10 @@ where
             return;
         }
 
+        if true {
+            return;
+        }
+
         if let Some(last) = e.exprs.last() {
             let last_id = match &**last {
                 Expr::Ident(i) => i,
