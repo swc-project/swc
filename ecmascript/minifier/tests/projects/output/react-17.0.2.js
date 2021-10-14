@@ -156,7 +156,7 @@
             case REACT_PROVIDER_TYPE:
                 return getContextName(type._context) + ".Provider";
             case REACT_FORWARD_REF_TYPE:
-                return outerType = type, wrapperName = "ForwardRef", functionName = (innerType = type.render).displayName || innerType.name || "", outerType.displayName || ("" !== functionName ? wrapperName + "(" + functionName + ")" : wrapperName);
+                return outerType = type, innerType = type.render, wrapperName = "ForwardRef", functionName = innerType.displayName || innerType.name || "", outerType.displayName || ("" !== functionName ? wrapperName + "(" + functionName + ")" : wrapperName);
             case REACT_MEMO_TYPE:
                 return getComponentName(type.type);
             case REACT_BLOCK_TYPE:
@@ -316,13 +316,13 @@
             return 1;
         }
         var subtreeCount = 0, nextNamePrefix = "" === nameSoFar ? "." : nameSoFar + ":";
-        if (Array.isArray(children)) for(var i = 0; i < children.length; i++)subtreeCount += mapIntoArray(child, array, escapedPrefix, nextNamePrefix + getElementKey(child = children[i], i), callback);
+        if (Array.isArray(children)) for(var i = 0; i < children.length; i++)nextName = nextNamePrefix + getElementKey(child = children[i], i), subtreeCount += mapIntoArray(child, array, escapedPrefix, nextName, callback);
         else {
             var iteratorFn = getIteratorFn(children);
             if ("function" == typeof iteratorFn) {
-                var child, step, iterableChildren = children;
+                var child, nextName, step, iterableChildren = children;
                 iteratorFn === iterableChildren.entries && (didWarnAboutMaps || warn("Using Maps as children is not supported. Use an array of keyed ReactElements instead."), didWarnAboutMaps = !0);
-                for(var iterator = iteratorFn.call(iterableChildren), ii = 0; !(step = iterator.next()).done;)subtreeCount += mapIntoArray(child, array, escapedPrefix, nextNamePrefix + getElementKey(child = step.value, ii++), callback);
+                for(var iterator = iteratorFn.call(iterableChildren), ii = 0; !(step = iterator.next()).done;)nextName = nextNamePrefix + getElementKey(child = step.value, ii++), subtreeCount += mapIntoArray(child, array, escapedPrefix, nextName, callback);
             } else if ("object" === type) {
                 var childrenString = "" + children;
                 throw Error("Objects are not valid as a React child (found: " + ("[object Object]" === childrenString ? "object with keys {" + Object.keys(children).join(", ") + "}" : childrenString) + "). If you meant to render a collection of children, use an array instead.");
@@ -619,7 +619,13 @@
         if (!validType) {
             var typeString, info = "";
             (void 0 === type || "object" == typeof type && null !== type && 0 === Object.keys(type).length) && (info += " You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.");
-            var source, elementProps, sourceInfo = null != (elementProps = props) && void 0 !== (source = elementProps.__source) ? "\n\nCheck your code at " + source.fileName.replace(/^.*[\\\/]/, "") + ":" + source.lineNumber + "." : "";
+            var elementProps, sourceInfo = null != (elementProps = props) ? function(source) {
+                if (void 0 !== source) {
+                    var fileName = source.fileName.replace(/^.*[\\\/]/, ""), lineNumber = source.lineNumber;
+                    return "\n\nCheck your code at " + fileName + ":" + lineNumber + ".";
+                }
+                return "";
+            }(elementProps.__source) : "";
             sourceInfo ? info += sourceInfo : info += getDeclarationErrorAddendum(), null === type ? typeString = "null" : Array.isArray(type) ? typeString = "array" : void 0 !== type && type.$$typeof === REACT_ELEMENT_TYPE ? (typeString = "<" + (getComponentName(type.type) || "Unknown") + " />", info = " Did you accidentally export a JSX literal instead of a component?") : typeString = typeof type, error("React.createElement: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: %s.%s", typeString, info);
         }
         var element = createElement.apply(this, arguments);
@@ -774,7 +780,7 @@
             var callback = currentTask.callback;
             if ("function" == typeof callback) {
                 currentTask.callback = null, currentPriorityLevel = currentTask.priorityLevel;
-                var continuationCallback = callback(currentTask.expirationTime <= currentTime);
+                var didUserCallbackTimeout = currentTask.expirationTime <= currentTime, continuationCallback = callback(didUserCallbackTimeout);
                 currentTime = getCurrentTime(), "function" == typeof continuationCallback ? currentTask.callback = continuationCallback : currentTask === peek(taskQueue) && pop(taskQueue), advanceTimers(currentTime);
             } else pop(taskQueue);
             currentTask = peek(taskQueue);

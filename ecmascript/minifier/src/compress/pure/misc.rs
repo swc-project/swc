@@ -119,6 +119,8 @@ where
     pub(super) fn ignore_return_value(&mut self, e: &mut Expr) {
         match e {
             Expr::Seq(e) => {
+                self.drop_useless_ident_ref_in_seq(e);
+
                 if let Some(last) = e.exprs.last_mut() {
                     // Non-last elements are already processed.
                     self.ignore_return_value(&mut **last);

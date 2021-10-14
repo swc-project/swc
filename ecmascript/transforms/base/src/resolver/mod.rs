@@ -1031,10 +1031,6 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_ts_import_equals_decl(&mut self, n: &mut TsImportEqualsDecl) {
-        if !self.handle_types {
-            return;
-        }
-
         self.in_type = false;
         self.modify(&mut n.id, None);
 

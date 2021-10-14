@@ -434,7 +434,7 @@ jobs:
   build-freebsd:
     if: ${{ startsWith(github.ref, 'refs/tags/v') }}
 
-    runs-on: macos-latest
+    runs-on: macos-10.15
     name: Build FreeBSD
     steps:
       - uses: actions/checkout@v2
@@ -454,7 +454,7 @@ jobs:
             pkg install -y curl node yarn npm
             curl https://sh.rustup.rs -sSf --output rustup.sh
             sh rustup.sh -y --profile minimal --default-toolchain stable
-            export PATH="/usr/local/cargo/bin:$PATH"
+            source /usr/local/cargo/env
             echo "~~~~ rustc --version ~~~~"
             rustc --version
             echo "~~~~ node -v ~~~~"
@@ -498,7 +498,7 @@ jobs:
       - build-linux-aarch64
       - build-apple-silicon
       - build-android-aarch64
-      - build-freebsd
+      # - build-freebsd
       - build-linux-aarch64-musl
     steps:
       - uses: actions/checkout@v2

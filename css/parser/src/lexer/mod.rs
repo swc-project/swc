@@ -92,18 +92,12 @@ where
             return Err(ErrorKind::Eof);
         }
 
-        if self.input.is_byte(b'/') {
-            if self.input.peek() == Some('/') {
-                self.skip_line_comment(2)?;
-                self.skip_ws()?;
-                self.start_pos = self.input.cur_pos();
-                return self.read_token();
-            } else if self.input.peek() == Some('*') {
-                self.skip_block_comment()?;
-                self.skip_ws()?;
-                self.start_pos = self.input.cur_pos();
-                return self.read_token();
-            }
+        if self.input.is_byte(b'/') && self.input.peek() == Some('*') {
+            self.skip_block_comment()?;
+            self.skip_ws()?;
+            self.start_pos = self.input.cur_pos();
+
+            return self.read_token();
         }
 
         macro_rules! try_delim {
@@ -169,17 +163,61 @@ where
         try_delim!(b')', ")");
 
         if self.input.is_byte(b'+') {
-            return self.read_plus();
+            let pos = self.input.cur_pos();
+            let c = self.input.cur().unwrap();
+
+            self.input.bump();
+
+            if self.would_start_number()? {
+                self.input.reset_to(pos);
+
+                return self.read_number();
+            }
+
+            return Ok(Token::Delim { value: c });
         }
 
         try_delim!(b',', ",");
 
         if self.input.is_byte(b'-') {
-            return self.read_minus();
+            let pos = self.input.cur_pos();
+            let c = self.input.cur().unwrap();
+
+            self.input.bump();
+
+            if self.would_start_number()? {
+                self.input.reset_to(pos);
+
+                return self.read_number();
+            } else if self.input.cur() == Some('-') && self.input.peek() == Some('>') {
+                self.input.bump();
+                self.input.bump();
+
+                return Ok(Token::CDC);
+            } else if self.would_start_ident()? {
+                self.input.reset_to(pos);
+
+                return self
+                    .read_name()
+                    .map(|(value, raw)| Token::Ident { value, raw });
+            }
+
+            return Ok(Token::Delim { value: c });
         }
 
         if self.input.is_byte(b'.') {
-            return self.read_dot();
+            let pos = self.input.cur_pos();
+            let c = self.input.cur().unwrap();
+
+            self.input.bump();
+
+            if self.would_start_number()? {
+                self.input.reset_to(pos);
+
+                return self.read_number();
+            }
+
+            return Ok(Token::Delim { value: c });
         }
 
         try_delim!(b':', ":");
@@ -258,6 +296,47 @@ where
         self.input.bump();
 
         return Ok(Token::Delim { value: c });
+    }
+
+    fn would_start_number(&mut self) -> LexResult<bool> {
+        let first = self.input.cur();
+
+        if first.is_none() {
+            return Ok(false);
+        }
+
+        match first {
+            Some('+') | Some('-') => {
+                if let Some(second) = self.input.peek() {
+                    return match second {
+                        second if second.is_digit(10) => Ok(true),
+                        '.' => {
+                            if let Some(third) = self.input.peek_ahead() {
+                                if third.is_digit(10) {
+                                    return Ok(true);
+                                }
+                            }
+
+                            Ok(false)
+                        }
+                        _ => Ok(false),
+                    };
+                }
+
+                Ok(false)
+            }
+            Some('.') => {
+                if let Some(second) = self.input.peek() {
+                    if second.is_digit(10) {
+                        return Ok(true);
+                    }
+                }
+
+                Ok(false)
+            }
+            Some(first) if first.is_digit(10) => Ok(true),
+            _ => Ok(false),
+        }
     }
 
     fn is_valid_escape(&mut self) -> LexResult<bool> {
@@ -530,28 +609,6 @@ where
         Ok((c, raw))
     }
 
-    fn read_dot(&mut self) -> LexResult<Token> {
-        if let Some(next) = self.input.peek() {
-            if next == '.' || next.is_digit(10) {
-                return self.read_number();
-            }
-        }
-
-        self.input.bump();
-        Ok(tok!("."))
-    }
-
-    fn read_plus(&mut self) -> LexResult<Token> {
-        if let Some(next) = self.input.peek() {
-            if next == '.' || next.is_digit(10) {
-                return self.read_number();
-            }
-        }
-
-        self.input.bump();
-        Ok(tok!("+"))
-    }
-
     fn read_at_keyword(&mut self) -> LexResult<Token> {
         let name = self.read_name()?;
 
@@ -559,32 +616,6 @@ where
             value: name.0,
             raw: name.1,
         })
-    }
-
-    fn read_minus(&mut self) -> LexResult<Token> {
-        assert_eq!(self.input.cur(), Some('-'));
-
-        match self.input.peek() {
-            Some('0'..='9') | Some('.') => return self.read_number(),
-
-            _ => {}
-        }
-
-        if self.input.peek() == Some('-') && self.input.peek_ahead() == Some('>') {
-            self.input.bump();
-            self.input.bump();
-            self.input.bump();
-            return Ok(Token::CDC);
-        }
-
-        if self.would_start_ident()? {
-            return self
-                .read_name()
-                .map(|(value, raw)| Token::Ident { value, raw });
-        }
-
-        self.input.bump();
-        Ok(tok!("-"))
     }
 
     /// Ported from `wouldStartIdentifier` of `esbuild`.
@@ -690,8 +721,6 @@ where
 
     /// Expects current char to be '/' and next char to be '*'.
     fn skip_block_comment(&mut self) -> LexResult<()> {
-        // let start = self.input.cur_pos();
-
         debug_assert_eq!(self.input.cur(), Some('/'));
         debug_assert_eq!(self.input.peek(), Some('*'));
 
@@ -699,7 +728,7 @@ where
         self.input.bump();
 
         // let slice_start = self.input.cur_pos();
-        let mut was_star = if self.input.cur() == Some('*') {
+        let mut was_star = if self.input.is_byte(b'*') {
             self.input.bump();
             true
         } else {
@@ -711,7 +740,6 @@ where
                 debug_assert_eq!(self.input.cur(), Some('/'));
                 self.input.bump(); // '/'
 
-                // let end = self.input.cur_pos();
                 return Ok(());
             }
 
@@ -720,36 +748,6 @@ where
         }
 
         Err(ErrorKind::UnterminatedBlockComment)
-    }
-
-    fn skip_line_comment(&mut self, start_skip: usize) -> LexResult<()> {
-        for _ in 0..start_skip {
-            self.input.bump();
-        }
-
-        // let slice_start = self.input.cur_pos();
-
-        while let Some(c) = self.input.cur() {
-            self.input.bump();
-            match c {
-                '\n' | '\r' | '\u{2028}' | '\u{2029}' => {
-                    break;
-                }
-                _ => {
-                    // end = self.cur_pos();
-                }
-            }
-        }
-
-        Ok(())
-    }
-}
-
-#[inline(always)]
-fn is_digit(c: char) -> bool {
-    match c {
-        '0'..='9' => true,
-        _ => false,
     }
 }
 
@@ -790,7 +788,7 @@ pub(crate) fn is_name_start(c: char) -> bool {
 pub(crate) fn is_name_continue(c: char) -> bool {
     is_name_start(c)
         || match c {
-            c if is_digit(c) || c == '-' => true,
+            c if c.is_digit(10) || c == '-' => true,
             _ => false,
         }
 }

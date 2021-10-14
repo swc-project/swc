@@ -100,7 +100,7 @@ error: LParen
 1 | p :global(span:not(.test)) {
   |                   ^
 
-error: Dot
+error: Delim { value: '.' }
  --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:20
   |
 1 | p :global(span:not(.test)) {

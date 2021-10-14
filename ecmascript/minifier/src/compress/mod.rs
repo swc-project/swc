@@ -283,6 +283,8 @@ where
             n.apply(&mut visitor);
             self.changed |= visitor.changed();
             if visitor.changed() {
+                n.invoke();
+
                 tracing::debug!("compressor: Simplified expressions");
                 if cfg!(feature = "debug") {
                     tracing::debug!("===== Simplified =====\n{}", dump(&*n));
@@ -334,6 +336,8 @@ where
                 );
 
                 if cfg!(feature = "debug") && visitor.changed() {
+                    n.invoke();
+
                     let start = n.dump();
                     tracing::debug!("===== After pure =====\n{}", start);
                 }

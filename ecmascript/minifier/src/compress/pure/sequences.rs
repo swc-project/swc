@@ -28,6 +28,11 @@ where
                     PatOrExpr::Pat(left) => match &**left {
                         Pat::Ident(left) => {
                             if left.id.sym == ident.sym && left.id.span.ctxt == ident.span.ctxt {
+                                tracing::debug!(
+                                    "drop_useless_ident_ref_in_seq: Dropping `{}` as it's useless",
+                                    left.id
+                                );
+                                self.changed = true;
                                 seq.exprs.pop();
                             }
                         }
