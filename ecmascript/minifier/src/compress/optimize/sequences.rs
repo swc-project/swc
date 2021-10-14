@@ -945,20 +945,6 @@ where
                     return false;
                 }
 
-                Expr::Assign(a) => {
-                    if let Some(l) = get_lhs_ident(&a.left) {
-                        match b {
-                            Expr::Ident(b) => {
-                                if l.to_id() == b.to_id() {
-                                    return false;
-                                }
-                            }
-                            _ => {}
-                        }
-                    }
-                    return false;
-                }
-
                 _ => {}
             },
         }
