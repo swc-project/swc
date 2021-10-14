@@ -137,7 +137,7 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
         if (NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) // This environment has a native %IteratorPrototype%; use it instead
         // of the polyfill.
         IteratorPrototype = NativeIteratorPrototype;
-        var Gp = GeneratorFunctionPrototype.prototype = (Generator.prototype = Object.create(IteratorPrototype));
+        var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype);
         GeneratorFunction.prototype = GeneratorFunctionPrototype;
         define(Gp, "constructor", GeneratorFunctionPrototype);
         define(GeneratorFunctionPrototype, "constructor", GeneratorFunction);
