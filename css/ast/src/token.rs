@@ -97,44 +97,6 @@ pub enum Token {
 
     /// `}`
     RBrace,
-
-    /// `:``
-    Colon,
-
-    /// `*`
-    Asterisk,
-    /// `.`
-    Dot,
-
-    /// `#`
-    Hash {
-        is_id: bool,
-        value: JsWord,
-        raw: JsWord,
-    },
-
-    /// One or more whitespace.
-    WhiteSpace,
-
-    /// `-->`
-    CDC,
-
-    /// `<!--`
-    CDO,
-
-    /// `^`
-    Caret,
-
-    /// `=`
-    Equals,
-    /// `.`
-    Dot,
-
-    /// `+`
-    Plus,
-
-    /// `-`
-    Minus,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

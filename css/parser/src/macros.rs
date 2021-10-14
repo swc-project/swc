@@ -116,10 +116,6 @@ macro_rules! tok {
        swc_css_ast::Token::Delim { value: '/', .. }
     };
 
-    ("~") => {
-        swc_css_ast::Token::Tilde
-    };
-
     (">") => {
         swc_css_ast::Token::Delim { value: '>', .. }
     };

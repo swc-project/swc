@@ -527,11 +527,6 @@ where
                 Token::Colon => {
                     punct!(self, span, ":");
                 }
-                Token::Asterisk => {
-                    punct!(self, span, "*");
-                Token::Dot => {
-                    punct!(self, span, ".");
-                }
                 Token::Hash { value, .. } => {
                     punct!(self, "#");
                     self.wr.write_ident(Some(span), &value, true)?;
@@ -544,17 +539,6 @@ where
                 }
                 Token::CDO => {
                     punct!(self, span, "<!--");
-                }
-                Token::Caret => {
-                    punct!(self, span, "^");
-                }
-                Token::Equals => {
-                    punct!(self, span, "=");
-                Token::Plus => {
-                    punct!(self, span, "+");
-                }
-                Token::Minus => {
-                    punct!(self, span, "-");
                 }
             }
         }
