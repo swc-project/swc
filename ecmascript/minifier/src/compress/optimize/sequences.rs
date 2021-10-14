@@ -565,7 +565,7 @@ where
             };
 
             match &*e.exprs[e.exprs.len() - 2] {
-                Expr::Assign(assign) => {
+                Expr::Assign(assign @ AssignExpr { op: op!("="), .. }) => {
                     if let Some(lhs) = get_lhs_ident(&assign.left) {
                         if lhs.sym == last_id.sym && lhs.span.ctxt == last_id.span.ctxt {
                             e.exprs.pop();
@@ -1457,6 +1457,10 @@ where
         };
 
         replace_id_with_expr(b, left_id.to_id(), to);
+
+        if cfg!(feature = "debug") {
+            tracing::debug!("sequences: [Chanded] {}", dump(&*b));
+        }
 
         true
     }
