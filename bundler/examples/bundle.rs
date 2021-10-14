@@ -18,6 +18,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
+use swc_ecma_loader::resolvers::{lru::CachingResolver, node::NodeModulesResolver};
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
 
 fn print_bundles(cm: Lrc<SourceMap>, modules: Vec<Bundle>) {
@@ -57,7 +58,10 @@ fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
             globals,
             cm.clone(),
             Loader { cm: cm.clone() },
-            NodeResolver,
+            CachingResolver::new(
+                4096,
+                NodeModulesResolver::new(TargetEnv::Node, Default::default()),
+            ),
             swc_bundler::Config {
                 require: true,
                 disable_inliner: !inline,
