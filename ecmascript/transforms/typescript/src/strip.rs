@@ -94,6 +94,9 @@ pub fn strip_with_config(config: Config) -> impl Fold + VisitMut {
 }
 
 /// Strips type annotations out.
+///
+/// See the `examples` directory of the crate to see how you can transpile a
+/// typescript file to a javascript file.
 pub fn strip() -> impl Fold + VisitMut {
     strip_with_config(Default::default())
 }
