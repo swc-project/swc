@@ -1,4 +1,4 @@
-use crate::ext::{AsOptExpr, PatOrExprExt};
+use crate::ext::AsOptExpr;
 use swc_common::{collections::AHashMap, comments::Comments, util::take::Take, Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
@@ -105,12 +105,16 @@ impl VisitMut for Fixer<'_> {
     fn visit_mut_assign_expr(&mut self, expr: &mut AssignExpr) {
         expr.visit_mut_children_with(self);
 
-        match &mut *expr.right {
-            // `foo = (bar = baz)` => foo = bar = baz
-            Expr::Assign(AssignExpr { ref left, .. }) if left.as_ident().is_some() => {}
+        fn rhs_need_paren(e: &Expr) -> bool {
+            match e {
+                Expr::Assign(e) => rhs_need_paren(&e.right),
+                Expr::Seq(..) => true,
+                _ => false,
+            }
+        }
 
-            Expr::Seq(..) => self.wrap(&mut expr.right),
-            _ => {}
+        if rhs_need_paren(&expr.right) {
+            self.wrap(&mut expr.right);
         }
     }
 
@@ -1436,4 +1440,48 @@ var store = global[SHARED] || (global[SHARED] = {});
     identical!(issue_2163_2, "() => ([foo] = bar());");
 
     identical!(issue_2191, "(-1) ** h");
+
+    identical!(
+        minifier_011,
+        "
+        function ItemsList() {
+            var _ref;
+        
+            var _temp, _this, _ret;
+        
+            _classCallCheck(this, ItemsList);
+        
+            for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+              args[_key] = arguments[_key];
+            }
+        
+            return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = \
+         ItemsList.__proto__ || Object.getPrototypeOf(ItemsList)).call.apply(_ref, \
+         [this].concat(args))), _this), _this.storeHighlightedItemReference = function \
+         (highlightedItem) {
+              _this.props.onHighlightedItemChange(highlightedItem === null ? null : \
+         highlightedItem.item);
+            }, _temp), _possibleConstructorReturn(_this, _ret);
+          }
+        "
+    );
+
+    identical!(
+        minifier_012,
+        "
+        function ItemsList() {
+            for(var _ref, _temp, _this, _len = arguments.length, args = Array(_len), _key = 0; \
+         _key < _len; _key++)args[_key] = arguments[_key];
+            return _possibleConstructorReturn(_this, (_temp = (_this = \
+         _possibleConstructorReturn(this, (_ref = ItemsList.__proto__ || \
+         Object.getPrototypeOf(ItemsList)).call.apply(_ref, [
+                this
+            ].concat(args))), _this), _this.storeHighlightedItemReference = \
+         function(highlightedItem) {
+                _this.props.onHighlightedItemChange(null === highlightedItem ? null : \
+         highlightedItem.item);
+            }, _temp));
+        }
+        "
+    );
 }

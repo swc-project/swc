@@ -412,8 +412,6 @@ where
             return;
         }
 
-        self.drop_useless_ident_ref_in_seq(e);
-
         self.merge_seq_call(e);
 
         let len = e.exprs.len();
