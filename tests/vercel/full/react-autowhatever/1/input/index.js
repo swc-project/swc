@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Item from './Item';
-import compareObjects from './compareObjects';
 
 export default class ItemsList extends Component {
     static propTypes = {
@@ -25,7 +23,7 @@ export default class ItemsList extends Component {
     };
 
     shouldComponentUpdate(nextProps) {
-        return compareObjects(nextProps, this.props, ['itemProps']);
+        return true
     }
 
     storeHighlightedItemReference = highlightedItem => {
@@ -79,3 +77,5 @@ export default class ItemsList extends Component {
         );
     }
 }
+
+const a = new ItemsList()
