@@ -2707,7 +2707,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.73.12"
+version = "0.73.13"
 dependencies = [
  "either",
  "enum_kind",
