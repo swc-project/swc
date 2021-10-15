@@ -94,7 +94,7 @@ fn spec(file: PathBuf) {
         );
     }
 
-    with_parser(false, &file, true, |p| {
+    with_parser(false, &file, true, false, |p| {
         let program = p.parse_program()?.fold_with(&mut Normalizer {
             drop_span: false,
             is_test262: false,
@@ -142,12 +142,17 @@ fn spec(file: PathBuf) {
         Ok(())
     })
     .unwrap();
+
+    // Ensure that parsing success even if skip_types is used
+    with_parser(false, &file, true, true, |p| p.parse_program())
+        .expect("Parsing failed because of skip_type");
 }
 
 fn with_parser<F, Ret>(
     treat_error_as_bug: bool,
     file_name: &Path,
     no_early_errors: bool,
+    skip_types: bool,
     f: F,
 ) -> Result<Ret, StdErr>
 where
@@ -161,12 +166,13 @@ where
 
         let lexer = Lexer::new(
             Syntax::Typescript(TsConfig {
-                dts: fname.ends_with(".d.ts"),
                 tsx: fname.contains("tsx"),
-                dynamic_import: true,
                 decorators: true,
-                import_assertions: true,
+                dynamic_import: true,
+                dts: fname.ends_with(".d.ts"),
                 no_early_errors,
+                import_assertions: true,
+                skip_types,
                 ..Default::default()
             }),
             EsVersion::Es2015,
@@ -210,7 +216,7 @@ fn errors(file: PathBuf) {
         );
     }
 
-    let module = with_parser(false, &file, false, |p| p.parse_typescript_module());
+    let module = with_parser(false, &file, false, false, |p| p.parse_typescript_module());
 
     let err = module.expect_err("should fail, but parsed as");
     if err
