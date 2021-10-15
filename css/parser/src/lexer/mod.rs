@@ -223,6 +223,8 @@ where
         try_delim!(b'|', "|");
 
                 return Ok(Token::Delim { value: c });
+
+                return self.read_numeric();
             }
             // U+0027 APOSTROPHE (')
             // Consume a string token and return it.
@@ -272,6 +274,19 @@ where
                 self.input.bump();
 
                 return Ok(tok!(","));
+                return self.read_numeric();
+            } else if self.input.cur() == Some('-') && self.input.peek() == Some('>') {
+                self.input.bump();
+                self.input.bump();
+
+                return Ok(Token::CDC);
+            } else if self.would_start_ident()? {
+                self.input.reset_to(pos);
+
+                // TODO:  consume an ident-like token
+                return self
+                    .read_name()
+                    .map(|(value, raw)| Token::Ident { value, raw });
             }
             // U+002D HYPHEN-MINUS (-)
             Some(c) if c == '-' => {
@@ -305,6 +320,7 @@ where
                 // Otherwise, return a <delim-token> with its value set to the current input
                 // code point.
                 return Ok(Token::Delim { value: c });
+                return self.read_numeric();
             }
             // U+002E FULL STOP (.)
             Some(c) if c == '.' => {
@@ -415,9 +431,6 @@ where
             Some(c) if c == '{' => {
                 self.input.bump();
         try_delim!(b']', "]");
-        match self.input.cur() {
-            Some(c) => match c {
-                '0'..='9' => return self.read_numeric(),
 
                 return Ok(tok!("{"));
             }
@@ -441,6 +454,9 @@ where
             Some(c) if is_name_start(c) => {
                 self.input.bump();
                 self.input.reset_to(start);
+        if let Some('0'..='9') = self.input.cur() {
+            return self.read_numeric();
+        }
 
                 return self.read_ident_like();
             }
@@ -543,8 +559,8 @@ where
     }
 
     fn read_digits(&mut self) -> JsWord {
-        let mut digits = String::new(); 
-        
+        let mut digits = String::new();
+
         loop {
             let code = self.input.cur().unwrap();
 
@@ -634,10 +650,9 @@ where
             return Ok(Token::Percent { value: number });
         }
 
-        Ok(Token::Number { value: number })
+        Ok(Token::Num { value: number })
     }
 
-    /// Ported from `isValidEscape` of `esbuild`
     fn is_valid_escape(&mut self) -> LexResult<bool> {
         if self.input.cur() != Some('\\') {
             return Ok(false);

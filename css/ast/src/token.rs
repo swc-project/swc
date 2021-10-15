@@ -36,32 +36,6 @@ pub enum Token {
     /// `#`
     Hash {
         is_id: bool,
-    /// `(`
-    LParen,
-
-    /// `)`
-    RParen,
-
-    /// `[`
-    LBracket,
-
-    /// `]`
-    RBracket,
-
-    Percent {
-        value: f64,
-    },
-
-    Dimension {
-        value: f64,
-        unit: JsWord
-    },
-
-    Number {
-        value: f64,
-    },
-
-    Ident {
         value: JsWord,
         raw: JsWord,
     },
@@ -106,6 +80,7 @@ pub enum Token {
         raw_value: JsWord,
         unit: JsWord,
         raw_unit: JsWord,
+        unit: JsWord
     },
 
     /// One or more whitespace.

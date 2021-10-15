@@ -87,6 +87,7 @@ where
             loop {
                 if !is_one_of!(self, Str, Num, Ident, Function, Dimension, "[", "(") {
                 if !is_one_of!(self, Str, Number, Ident, "[", "(") {
+                if !is_one_of!(self, Str, Num, Ident, "[", "(") {
                     break;
                 }
 
@@ -204,60 +205,7 @@ where
                 }
             }
 
-            Token::Number { .. } => {
-                let token = bump!(self);
-
-                match token {
-                    Token::Number { value } => return Ok(Value::Number(Num { span, value })),
-                    _ => {
-                        unreachable!()
-                    }
-                }
-            }
-
-            Token::Percent { .. } => {
-                let token = bump!(self);
-
-                match token {
-                    Token::Percent { value } => {
-                        return Ok(Value::Percent(PercentValue {
-                            span,
-                            value: Num {
-                                value,
-                                span: span!(self, span.lo),
-                            },
-                        }))
-                    }
-                    _ => {
-                        unreachable!()
-                    }
-                }
-            }
-
-            Token::Dimension { .. } => {
-                let token = bump!(self);
-
-                match token {
-                    Token::Dimension { value, unit } => {
-                        let unit_span = self.input.cur_span()?;
-                        let kind = UnitKind::from(unit);
-                        return Ok(Value::Unit(UnitValue {
-                            span: span!(self, span.lo),
-                            value: Num {
-                                value,
-                                span: span!(self, span.lo),
-                            },
-                            unit: Unit {
-                                span: unit_span,
-                                kind,
-                            },
-                        }));
-                    }
-                    _ => {
-                        unreachable!()
-                    }
-                }
-            }
+            Token::Num { .. } => return self.parse_numeric_value(),
 
             Token::Function { .. } => return self.parse_value_ident_or_fn(),
 
@@ -354,6 +302,15 @@ where
         self.parse_numeric_value_with_base(span.lo, base)
     }
 
+    /// This may parse operations, depending on the context.
+    fn parse_numeric_value(&mut self) -> PResult<Value> {
+        let span = self.input.cur_span()?;
+
+        let base = self.parse_basical_numeric_value()?;
+
+        self.parse_numeric_value_with_base(span.lo, base)
+    }
+
     fn parse_numeric_value_with_base(&mut self, start: BytePos, base: Value) -> PResult<Value> {
         let start_state = self.input.state();
         self.input.skip_ws()?;
@@ -393,6 +350,8 @@ where
         self.input.reset(&start_state);
 
         return Ok(base);
+    }
+
     fn parse_hash_value(&mut self) -> PResult<HashValue> {
         let span = self.input.cur_span()?;
 
@@ -489,6 +448,48 @@ where
                 }));
             }
             Token::Num { value, raw, .. } => Ok(Value::Number(Num { span, value, raw })),
+        assert!(
+            matches!(cur!(self), Token::Num { .. }),
+            "parse_numeric_value: Should be called only if current token is Token::Num"
+        );
+        let span = self.input.cur_span()?;
+
+        match bump!(self) {
+            Token::Num{ value } => {
+                if is!(self, Ident) {
+                    let unit_span = self.input.cur_span()?;
+
+                    // Unit
+                    let value = Num { span, value };
+                    match bump!(self) {
+                        Token::Ident { value: unit, .. } => {
+                            let kind = UnitKind::from(unit);
+                            return Ok(Value::Unit(UnitValue {
+                                span: span!(self, span.lo),
+                                value,
+                                unit: Unit {
+                                    span: unit_span,
+                                    kind,
+                                },
+                            }));
+                        }
+                        _ => {
+                            unreachable!()
+                        }
+                    }
+                }
+
+                if eat!(self, "%") {
+                    let value = Num { span, value };
+
+                    return Ok(Value::Percent(PercentValue {
+                        span: span!(self, span.lo),
+                        value,
+                    }));
+                }
+
+                Ok(Value::Number(Num { span, value }))
+            }
             _ => {
                 unreachable!()
             }
@@ -626,7 +627,7 @@ where
     fn parse(&mut self) -> PResult<Num> {
         let span = self.input.cur_span()?;
 
-        if !is!(self, Number) {
+        if !is!(self, Num) {
             return Err(Error::new(span, ErrorKind::ExpectedNumber));
         }
 
@@ -636,6 +637,7 @@ where
             Token::Num { value, raw, .. } => Ok(Num { span, value, raw }),
             Token::Num { value } => Ok(Num { span, value }),
             Token::Number { value } => Ok(Num { span, value }),
+            Token::Num{ value } => Ok(Num { span, value }),
             _ => {
                 unreachable!()
             }
@@ -654,6 +656,7 @@ where
             return Err(Error::new(span, ErrorKind::Expected("Percent")));
         }
         // expect!(self, Percent);
+        expect!(self, "%");
 
         match bump!(self) {
             Token::Percent { value, raw } => {
