@@ -519,7 +519,8 @@ impl Scope {
                 callee: ExprOrSuper::Expr(callee),
                 args,
                 ..
-            }) if args.len() == 1
+            }) if !folder.config().ignore_dynamic
+                && args.len() == 1
                 && match *callee {
                     Expr::Ident(Ident {
                         sym: js_word!("import"),
