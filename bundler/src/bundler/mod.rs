@@ -183,7 +183,8 @@ where
 
         let bundles = self.finalize(bundles)?;
 
-        if cfg!(feature = "concurrent") {
+        #[cfg(feature = "concurrent")]
+        {
             let scope = take(&mut self.scope);
             rayon::spawn(move || drop(scope))
         }
