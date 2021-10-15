@@ -1,8 +1,4 @@
-use std::{
-    io::{self, Write},
-    path::PathBuf,
-    sync::{Arc, RwLock},
-};
+use std::path::PathBuf;
 use swc_common::FileName;
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{self, Emitter};
@@ -10,6 +6,7 @@ use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax, TsCon
 use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_transforms_typescript::{strip, strip::strip_with_config};
 use swc_ecma_visit::{Fold, FoldWith};
+use testing::DebugUsingDisplay;
 
 #[testing::fixture("../../parser/tests/typescript/**/*.ts")]
 #[testing::fixture("../../parser/tests/typescript/**/*.tsx")]
@@ -99,12 +96,13 @@ fn identity(entry: PathBuf) {
                 dts: false,
                 no_early_errors: false,
                 import_assertions: true,
+                skip_types: false,
             }),
             (&*src).into(),
             None,
         );
 
-        let mut wr = Buf(Arc::new(RwLock::new(vec![])));
+        let mut wr = vec![];
 
         {
             let mut emitter = Emitter {
@@ -137,11 +135,68 @@ fn identity(entry: PathBuf) {
             emitter.emit_module(&module).unwrap();
         }
 
-        let js_content = String::from_utf8_lossy(&*wr.0.read().unwrap()).to_string();
+        let js_content = String::from_utf8_lossy(&wr).to_string();
 
         println!("---------------- JS ----------------\n\n{}", js_content);
 
         let js_fm = cm.new_source_file(FileName::Anon, js_content.clone());
+
+        let skip_types_output = {
+            // Verify that `skip_types` of parser is working properly.
+
+            let mut parser = Parser::new(
+                Syntax::Typescript(TsConfig {
+                    tsx: file_name.contains("tsx"),
+                    decorators: true,
+                    dynamic_import: true,
+                    dts: false,
+                    no_early_errors: false,
+                    import_assertions: true,
+                    skip_types: true,
+                }),
+                StringInput::from(&*src),
+                None,
+            );
+
+            let mut skip_types_buf = vec![];
+
+            {
+                let mut emitter = Emitter {
+                    cfg: swc_ecma_codegen::Config { minify: false },
+                    cm: cm.clone(),
+                    wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
+                        cm.clone(),
+                        "\n",
+                        &mut skip_types_buf,
+                        None,
+                    )),
+                    comments: None,
+                };
+
+                let module = parser
+                    .parse_typescript_module()
+                    .map(|p| {
+                        p.fold_with(&mut strip_with_config(strip::Config {
+                            no_empty_export: true,
+                            ..Default::default()
+                        }))
+                        .fold_with(&mut fixer(None))
+                    })
+                    .map_err(|e| {
+                        eprintln!("failed to parse as typescript module");
+                        e.into_diagnostic(handler).emit();
+                    })?;
+
+                emitter.emit_module(&module).unwrap();
+            }
+
+            String::from_utf8_lossy(&skip_types_buf).to_string()
+        };
+
+        assert_eq!(
+            DebugUsingDisplay(&js_content),
+            DebugUsingDisplay(&skip_types_output)
+        );
 
         let mut parser: Parser<Lexer<StringInput>> = Parser::new(
             Syntax::Es(EsConfig {
@@ -180,18 +235,6 @@ fn identity(entry: PathBuf) {
         Ok(())
     })
     .expect("failed to run test");
-}
-
-#[derive(Debug, Clone)]
-struct Buf(Arc<RwLock<Vec<u8>>>);
-impl Write for Buf {
-    fn write(&mut self, data: &[u8]) -> io::Result<usize> {
-        self.0.write().unwrap().write(data)
-    }
-
-    fn flush(&mut self) -> io::Result<()> {
-        self.0.write().unwrap().flush()
-    }
 }
 
 struct Normalizer;
