@@ -11,6 +11,7 @@ version = "0.43.1"
 
 [features]
 concurrent = [
+  "rayon",
   "swc_ecma_utils/concurrent",
 ]
 
@@ -21,6 +22,7 @@ indexmap = "1.6.1"
 is-macro = "0.1.8"
 num-bigint = "0.2"
 ordered-float = "2.0.1"
+rayon = {version = "1.5.1", optional = true}
 serde = {version = "1.0.118", features = ["derive"]}
 smallvec = "1.6.0"
 swc_atoms = {version = "0.2.5", path = "../../../atoms"}
