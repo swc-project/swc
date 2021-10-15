@@ -1867,7 +1867,7 @@ impl<I: Tokens> Parser<I> {
         if is!(self, ':') {
             let pos = cur_pos!(self);
             let ty = self.parse_ts_type_ann(/* eat_colon */ true, pos)?;
-            return Ok(if self.input.syntax().skip_types() {
+            return Ok(if self.input.syntax().will_strip_types() {
                 None
             } else {
                 Some(ty)

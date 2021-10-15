@@ -399,7 +399,7 @@ impl Compiler {
         self.run(|| {
             match &mut syntax {
                 Syntax::Typescript(ts) => {
-                    ts.skip_types = true;
+                    ts.will_strip_types = true;
                 }
                 _ => {}
             }

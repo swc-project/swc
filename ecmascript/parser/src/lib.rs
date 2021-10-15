@@ -291,9 +291,9 @@ impl Syntax {
         }
     }
 
-    pub(crate) fn skip_types(self) -> bool {
+    pub(crate) fn will_strip_types(self) -> bool {
         match self {
-            Syntax::Typescript(t) => t.skip_types,
+            Syntax::Typescript(t) => t.will_strip_types,
             Syntax::Es(..) => false,
         }
     }
@@ -322,10 +322,11 @@ pub struct TsConfig {
     #[serde(default)]
     pub import_assertions: bool,
 
-    /// If this is true, typescript nodes are parsed but will not be stored in
+    /// If this is true, typescript things which will be removed by `strip` of
+    /// `swc_ecma_transforms_typescript` are parsed but will not be stored in
     /// returned ast.
     #[serde(default)]
-    pub skip_types: bool,
+    pub will_strip_types: bool,
 }
 
 #[derive(Debug, Clone, Copy, Default, Serialize, Deserialize)]

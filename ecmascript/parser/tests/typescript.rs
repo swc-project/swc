@@ -152,7 +152,7 @@ fn with_parser<F, Ret>(
     treat_error_as_bug: bool,
     file_name: &Path,
     no_early_errors: bool,
-    skip_types: bool,
+    will_strip_types: bool,
     f: F,
 ) -> Result<Ret, StdErr>
 where
@@ -172,7 +172,7 @@ where
                 dts: fname.ends_with(".d.ts"),
                 no_early_errors,
                 import_assertions: true,
-                skip_types,
+                will_strip_types,
                 ..Default::default()
             }),
             EsVersion::Es2015,
