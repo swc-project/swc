@@ -1,13 +1,9 @@
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{helper, perf::Check};
-use swc_ecma_transforms_macros::fast_path;
+use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{quote_str, ExprFactory};
-use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
-    VisitWith,
-};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub fn typeof_symbol() -> impl VisitMut + Fold {
     as_folder(TypeOfSymbol)
@@ -16,7 +12,6 @@ pub fn typeof_symbol() -> impl VisitMut + Fold {
 #[derive(Clone)]
 struct TypeOfSymbol;
 
-#[fast_path(TypeOfFinder)]
 impl VisitMut for TypeOfSymbol {
     noop_visit_mut_type!();
 
@@ -106,29 +101,6 @@ impl VisitMut for TypeOfSymbol {
         }
 
         expr.visit_mut_children_with(self)
-    }
-}
-
-#[derive(Default)]
-struct TypeOfFinder {
-    found: bool,
-}
-
-impl Visit for TypeOfFinder {
-    noop_visit_type!();
-
-    fn visit_unary_expr(&mut self, e: &UnaryExpr, _: &dyn Node) {
-        e.visit_children_with(self);
-
-        if e.op == op!("typeof") {
-            self.found = true
-        }
-    }
-}
-
-impl Check for TypeOfFinder {
-    fn should_handle(&self) -> bool {
-        self.found
     }
 }
 
