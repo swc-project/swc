@@ -2929,10 +2929,6 @@ fn unescape_tpl_lit(s: &str, is_synthesized: bool) -> String {
                     result.push_str("\n");
                 }
 
-                '`' if is_synthesized => {
-                    result.push_str("\\`");
-                }
-
                 // TODO: Handle all escapes
                 _ => {
                     result.push(c);
