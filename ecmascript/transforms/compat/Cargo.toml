@@ -9,6 +9,11 @@ repository = "https://github.com/swc-project/swc.git"
 version = "0.43.1"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[features]
+concurrent = [
+  "swc_ecma_utils/concurrent",
+]
+
 [dependencies]
 ahash = "0.7.4"
 arrayvec = "0.5.2"
