@@ -150,7 +150,7 @@ error: Tokens
 2 |     .video:nth-child(4n) {
   |                      ^^
 
-error: Num(NumToken { value: 4.0, raw: Atom('4' type=inline) })
+error: Num { value: 4.0, raw: Atom('4' type=inline) }
  --> $DIR/tests/fixture/vercel/001/input.css:2:22
   |
 2 |     .video:nth-child(4n) {

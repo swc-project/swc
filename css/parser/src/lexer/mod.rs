@@ -426,7 +426,7 @@ where
         //     return Ok(Token::Percent { value: number });
         // }
 
-        Ok(Token::Num(swc_css_ast::NumToken { value: number.0, raw: number.1.into()  }))
+        Ok(Token::Num { value: number.0, raw: number.1.into() })
     }
 
     fn is_valid_escape(&mut self) -> LexResult<bool> {

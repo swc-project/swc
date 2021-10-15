@@ -377,7 +377,7 @@ where
 
         match bump!(self) {
             // TODO: need `raw`
-            Token::Num(NumToken { value, .. }) => {
+            Token::Num{ value, .. } => {
                 if is!(self, Ident) {
                     let unit_span = self.input.cur_span()?;
 
@@ -544,7 +544,7 @@ where
 
         match value {
             // TODO: need `raw`
-            Token::Num(NumToken { value, .. }) => Ok(Num { span, value }),
+            Token::Num{ value, .. } => Ok(Num { span, value }),
             _ => {
                 unreachable!()
             }

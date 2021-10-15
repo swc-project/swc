@@ -61,7 +61,10 @@ pub enum Token {
         value: char,
     },
 
-    Num(NumToken),
+    Num {
+        value: f64,
+        raw: JsWord,
+    },
 
     // TODO Percentage
 
@@ -101,10 +104,4 @@ pub enum Token {
 
     /// `}`
     RBrace,
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct NumToken {
-    pub value: f64,
-    pub raw: JsWord,
 }
