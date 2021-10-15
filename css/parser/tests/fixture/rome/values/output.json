@@ -229,6 +229,24 @@
                 }
                 "value": 0.001,
                 "raw": "1e-3"
+                "value": {
+                  "type": "Number",
+                  "span": {
+                    "start": 58,
+                    "end": 59,
+                    "ctxt": 0
+                  },
+                  "value": 1.0
+                },
+                "unit": {
+                  "span": {
+                    "start": 59,
+                    "end": 62,
+                    "ctxt": 0
+                  },
+                  "value": "e-3",
+                  "raw": "e-3"
+                }
               }
             ],
             "important": null

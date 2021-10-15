@@ -691,6 +691,7 @@ where
             UnitKind::Custom(s) => Cow::Borrowed(s),
         };
         self.wr.write_raw(Some(n.span), &s)?;
+        self.wr.write_raw(Some(n.span), &n.raw)?;
     }
 
     #[emitter]
