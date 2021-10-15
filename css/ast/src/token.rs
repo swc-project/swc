@@ -52,35 +52,14 @@ pub enum Token {
         raw: JsWord,
     },
 
-    // TODO BadUrl
-    Delim {
-        value: char,
-    },
     BadUrl {
         value: JsWord,
         raw: JsWord,
     },
 
-    /// `,`
-    Comma,
-
-    /// `;`
-    Semi,
-
-    /// `!`
-    Bang,
-
-    /// `{`
-    LBrace,
-
-    /// `}`
-    RBrace,
-
-    /// `:``
-    Colon,
-
-    /// `*`
-    Asterisk,
+    Delim {
+        value: char,
+    },
 
     Num(NumToken),
 
