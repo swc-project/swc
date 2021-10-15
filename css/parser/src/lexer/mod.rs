@@ -1,6 +1,6 @@
 use crate::{
     error::{Error, ErrorKind},
-    parser::{input::ParserInput, PResult},
+    parser::{input::ParserInput, PResult, ParserConfig},
 };
 use swc_atoms::{js_word, JsWord};
 use swc_common::{input::Input, BytePos, Span};
@@ -19,18 +19,20 @@ where
     start_pos: BytePos,
     /// Used to override last_pos
     last_pos: Option<BytePos>,
+    config: ParserConfig,
 }
 
 impl<I> Lexer<I>
 where
     I: Input,
 {
-    pub fn new(input: I) -> Self {
+    pub fn new(input: I, config: ParserConfig) -> Self {
         let start_pos = input.last_pos();
         Lexer {
             input,
             start_pos,
             last_pos: None,
+            config,
         }
     }
 }
@@ -98,6 +100,15 @@ where
             self.start_pos = self.input.cur_pos();
 
             return self.read_token();
+        }
+
+        if self.config.allow_wrong_line_comments {
+            if self.input.is_byte(b'/') && self.input.peek() == Some('/') {
+                self.skip_line_comment()?;
+                self.start_pos = self.input.cur_pos();
+
+                return self.read_token();
+            }
         }
 
         macro_rules! try_delim {
@@ -755,6 +766,15 @@ where
             break;
         }
 
+        if self.config.allow_wrong_line_comments {
+            if self.input.is_byte(b'/') && self.input.peek() == Some('/') {
+                self.skip_line_comment()?;
+                self.start_pos = self.input.cur_pos();
+
+                return Ok(());
+            }
+        }
+
         Ok(())
     }
 
@@ -787,6 +807,29 @@ where
         }
 
         Err(ErrorKind::UnterminatedBlockComment)
+    }
+
+    fn skip_line_comment(&mut self) -> LexResult<()> {
+        debug_assert_eq!(self.input.cur(), Some('/'));
+        debug_assert_eq!(self.input.peek(), Some('/'));
+
+        self.input.bump();
+        self.input.bump();
+
+        debug_assert!(
+            self.config.allow_wrong_line_comments,
+            "Line comments are wrong and should be lexed only if it's explicitly requested"
+        );
+
+        while let Some(c) = self.input.cur() {
+            if is_newline(c) {
+                break;
+            }
+
+            self.input.bump();
+        }
+
+        Ok(())
     }
 }
 

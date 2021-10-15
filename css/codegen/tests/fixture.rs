@@ -19,8 +19,15 @@ fn parse_again(input: PathBuf) {
         eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
 
         let mut errors = vec![];
-        let mut stylesheet: Stylesheet =
-            parse_file(&fm, ParserConfig { parse_values: true }, &mut errors).unwrap();
+        let mut stylesheet: Stylesheet = parse_file(
+            &fm,
+            ParserConfig {
+                parse_values: true,
+                ..Default::default()
+            },
+            &mut errors,
+        )
+        .unwrap();
 
         for err in take(&mut errors) {
             err.to_diagnostics(&handler).emit();
@@ -37,12 +44,17 @@ fn parse_again(input: PathBuf) {
         eprintln!("==== ==== Codegen ==== ====\n{}\n", css_str);
 
         let new_fm = cm.new_source_file(FileName::Anon, css_str);
-        let mut parsed: Stylesheet =
-            parse_file(&new_fm, ParserConfig { parse_values: true }, &mut errors).map_err(
-                |err| {
-                    err.to_diagnostics(&handler).emit();
-                },
-            )?;
+        let mut parsed: Stylesheet = parse_file(
+            &new_fm,
+            ParserConfig {
+                parse_values: true,
+                ..Default::default()
+            },
+            &mut errors,
+        )
+        .map_err(|err| {
+            err.to_diagnostics(&handler).emit();
+        })?;
 
         for err in errors {
             err.to_diagnostics(&handler).emit();
