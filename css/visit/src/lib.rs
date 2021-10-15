@@ -61,7 +61,8 @@ define!({
 
     pub struct Unit {
         pub span: Span,
-        pub kind: UnitKind,
+        pub value: JsWord,
+        pub raw: JsWord,
     }
 
     pub enum Value {

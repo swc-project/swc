@@ -122,7 +122,8 @@
                         "end": 48,
                         "ctxt": 0
                       },
-                      "kind": "ch"
+                      "value": "ch",
+                      "raw": "ch"
                     }
                   }
                 ]
@@ -167,7 +168,8 @@
                         "end": 65,
                         "ctxt": 0
                       },
-                      "kind": "ch"
+                      "value": "ch",
+                      "raw": "ch"
                     }
                   }
                 ]
@@ -194,7 +196,8 @@
                     "end": 70,
                     "ctxt": 0
                   },
-                  "kind": "fr"
+                  "value": "fr",
+                  "raw": "fr"
                 }
               }
             ],

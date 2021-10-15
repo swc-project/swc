@@ -90,7 +90,8 @@
                         "end": 59,
                         "ctxt": 0
                       },
-                      "kind": null
+                      "value": "px",
+                      "raw": "px"
                     }
                   }
                 ],
@@ -169,7 +170,8 @@
                         "end": 112,
                         "ctxt": 0
                       },
-                      "kind": null
+                      "value": "px",
+                      "raw": "px"
                     }
                   }
                 ],

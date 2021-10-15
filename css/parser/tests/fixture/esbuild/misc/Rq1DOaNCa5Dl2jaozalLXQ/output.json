@@ -113,7 +113,8 @@
                     "end": 25,
                     "ctxt": 0
                   },
-                  "kind": null
+                  "value": "px",
+                  "raw": "px"
                 }
               },
               {
@@ -138,7 +139,8 @@
                     "end": 29,
                     "ctxt": 0
                   },
-                  "kind": null
+                  "value": "px",
+                  "raw": "px"
                 }
               },
               {
@@ -163,7 +165,8 @@
                     "end": 33,
                     "ctxt": 0
                   },
-                  "kind": null
+                  "value": "px",
+                  "raw": "px"
                 }
               },
               {
@@ -188,7 +191,8 @@
                     "end": 37,
                     "ctxt": 0
                   },
-                  "kind": null
+                  "value": "px",
+                  "raw": "px"
                 }
               },
               {
