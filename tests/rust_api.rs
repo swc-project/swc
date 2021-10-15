@@ -132,6 +132,7 @@ fn shopify_2_same_opt() {
                         dts: false,
                         no_early_errors: false,
                         import_assertions: false,
+                        ..Default::default()
                     })),
                     transform: None,
                     external_helpers: false,
