@@ -76,6 +76,7 @@ fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
             .map_err(|err| println!("{:?}", err))?;
         println!("Bundled as {} modules", modules.len());
 
+        #[cfg(feature = "concurrent")]
         rayon::spawn(move || {
             drop(bundler);
         });
