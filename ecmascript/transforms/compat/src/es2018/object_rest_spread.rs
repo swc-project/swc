@@ -17,13 +17,11 @@ use swc_ecma_visit::{
 
 /// `@babel/plugin-proposal-object-rest-spread`
 pub fn object_rest_spread() -> impl Fold {
-    chain!(ObjectRest, as_folder(ObjectSpread))
+    chain!(ObjectRest::default(), as_folder(ObjectSpread))
 }
 
-struct ObjectRest;
-
-#[allow(clippy::vec_box)]
-struct RestFolder {
+#[derive(Default)]
+struct ObjectRest {
     /// Injected before the original statement.
     vars: Vec<VarDeclarator>,
     /// Variables which should be declared using `var`
@@ -147,8 +145,32 @@ macro_rules! impl_for_for_stmt {
     };
 }
 
+struct RestVisitor {
+    found: bool,
+}
+
+impl Visit for RestVisitor {
+    noop_visit_type!();
+
+    fn visit_object_pat_prop(&mut self, prop: &ObjectPatProp, _: &dyn Node) {
+        match *prop {
+            ObjectPatProp::Rest(..) => self.found = true,
+            _ => prop.visit_children_with(self),
+        }
+    }
+}
+
+fn contains_rest<N>(node: &N) -> bool
+where
+    N: VisitWith<RestVisitor>,
+{
+    let mut v = RestVisitor { found: false };
+    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+    v.found
+}
+
 /// TODO: VisitMut
-impl Fold for RestFolder {
+impl Fold for ObjectRest {
     noop_fold_type!();
 
     impl_for_for_stmt!(fold_for_in_stmt, ForInStmt);
@@ -260,6 +282,14 @@ impl Fold for RestFolder {
             }
             _ => decl.fold_children_with(self),
         }
+    }
+
+    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        self.fold_stmt_like(n)
+    }
+
+    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
+        self.fold_stmt_like(n)
     }
 
     fn fold_var_declarators(&mut self, decls: Vec<VarDeclarator>) -> Vec<VarDeclarator> {
@@ -386,61 +416,20 @@ impl Fold for RestFolder {
     }
 }
 
-struct RestVisitor {
-    found: bool,
-}
-
-impl Visit for RestVisitor {
-    noop_visit_type!();
-
-    fn visit_object_pat_prop(&mut self, prop: &ObjectPatProp, _: &dyn Node) {
-        match *prop {
-            ObjectPatProp::Rest(..) => self.found = true,
-            _ => prop.visit_children_with(self),
-        }
-    }
-}
-
-fn contains_rest<N>(node: &N) -> bool
-where
-    N: VisitWith<RestVisitor>,
-{
-    let mut v = RestVisitor { found: false };
-    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
-    v.found
-}
-
-/// TODO: VisitMut
-impl Fold for ObjectRest {
-    noop_fold_type!();
-    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        self.fold_stmt_like(n)
-    }
-
-    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
-        self.fold_stmt_like(n)
-    }
-}
-
 impl ObjectRest {
     fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
     where
-        T: StmtLike + VisitWith<RestVisitor> + FoldWith<RestFolder>,
+        T: StmtLike + VisitWith<RestVisitor> + FoldWith<ObjectRest>,
         Vec<T>: FoldWith<Self> + VisitWith<RestVisitor>,
     {
         if !contains_rest(&stmts) {
             return stmts;
         }
-        let stmts = stmts.fold_children_with(self);
 
         let mut buf = vec![];
 
         for stmt in stmts {
-            let mut folder = RestFolder {
-                vars: vec![],
-                mutable_vars: vec![],
-                exprs: vec![],
-            };
+            let mut folder = ObjectRest::default();
             let stmt = stmt.fold_with(&mut folder);
 
             // Add variable declaration
@@ -478,86 +467,7 @@ impl ObjectRest {
     }
 }
 
-// impl Fold for RestFolder {
-//     fn fold(&mut self, f: ArrowExpr) -> ArrowExpr {
-//         let body_span = f.body.span();
-//         let (params, stmts) = self.fold_fn_like(
-//             f.params,
-//             match f.body {
-//                 BlockStmtOrExpr::BlockStmt(block) => block.stmts,
-//                 BlockStmtOrExpr::Expr(expr) => vec![Stmt::Return(ReturnStmt {
-//                     span: DUMMY_SP,
-//                     arg: Some(expr),
-//                 })],
-//             },
-//         );
-//         ArrowExpr {
-//             params,
-//             body: BlockStmtOrExpr::BlockStmt(BlockStmt {
-//                 span: body_span,
-//                 stmts,
-//             }),
-//             ..f
-//         }
-//     }
-// }
-
-// impl Fold for RestFolder {
-//     fn fold(&mut self, f: Function) -> Function {
-//         if f.body.is_none() {
-//             return f;
-//         }
-//         let body = f.body.unwrap();
-
-//         let (params, stmts) = self.fold_fn_like(f.params, body.stmts);
-//         Function {
-//             params,
-//             body: Some(BlockStmt { stmts, ..body }),
-//             ..f
-//         }
-//     }
-// }
-
-// impl Fold for RestFolder {
-//     fn fold(&mut self, mut c: CatchClause) -> CatchClause {
-//         if !contains_rest(&c.param) {
-//             // fast path
-//             return c;
-//         }
-
-//         let pat = match c.param {
-//             Some(pat) => pat,
-//             _ => return c,
-//         };
-
-//         ;
-//         let var_ident = private_ident!("_err");
-//         let param = self.fold_rest(pat, box Expr::Ident(var_ident.clone()),
-// false, true);         // initialize (or destructure)
-//         self.push_var_if_not_empty(VarDeclarator {
-//             span: DUMMY_SP,
-//             name: param,
-//             init: Some(box Expr::Ident(var_ident.clone())),
-//             definite: false,
-//         });
-//         c.body.stmts = iter::once(Stmt::Decl(Decl::Var(VarDecl {
-//             span: DUMMY_SP,
-//             kind: VarDeclKind::Let,
-//             decls: mem::replace(&mut self.vars, vec![]),
-//             declare: false,
-//         })))
-//         .chain(c.body.stmts)
-//         .collect();
-
-//         CatchClause {
-//             // catch (_err) {}
-//             param: Some(Pat::Ident(var_ident)),
-//             ..c
-//         }
-//     }
-// }
-
-impl RestFolder {
+impl ObjectRest {
     fn insert_var_if_not_empty(&mut self, idx: usize, mut decl: VarDeclarator) {
         if let Some(e1) = decl.init {
             if let Expr::Ident(ref i1) = *e1 {
