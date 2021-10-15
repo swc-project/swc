@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 set -eu
 
-cargo instruments --release -t time --bench typescript --features tracing/release_max_level_off,swc_ecma_parser/will-strip-types $@
+cargo instruments --release -t time --bench typescript --features tracing/release_max_level_off $@
