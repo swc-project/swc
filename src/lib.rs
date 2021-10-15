@@ -1250,3 +1250,9 @@ impl Visit for IdentCollector {
         self.names.push(ident.sym.clone());
     }
 }
+
+#[test]
+#[cfg(feature = "wrong-target")]
+fn fails_if_wrong_target() {
+    panic!("You can't run test with `wrong-target`");
+}

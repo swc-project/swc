@@ -462,3 +462,9 @@ where
         f(handler, (&*fm).into())
     })
 }
+
+#[test]
+#[cfg(feature = "will-strip-types")]
+fn fails_if_will_strip_types() {
+    panic!("You can't run test with `will-strip-types`");
+}
