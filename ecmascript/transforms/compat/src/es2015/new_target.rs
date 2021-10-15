@@ -3,7 +3,6 @@ use swc_atoms::js_word;
 use swc_common::{pass::CompilerPass, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{should_work, Check};
-use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{prepend, private_ident, quote_ident, undefined, ExprFactory};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
