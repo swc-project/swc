@@ -173,19 +173,10 @@ fn identity(entry: PathBuf) {
                     comments: None,
                 };
 
-                let module = parser
-                    .parse_typescript_module()
-                    .map(|p| {
-                        p.fold_with(&mut strip_with_config(strip::Config {
-                            no_empty_export: true,
-                            ..Default::default()
-                        }))
-                        .fold_with(&mut fixer(None))
-                    })
-                    .map_err(|e| {
-                        eprintln!("failed to parse as typescript module");
-                        e.into_diagnostic(handler).emit();
-                    })?;
+                let module = parser.parse_typescript_module().map_err(|e| {
+                    eprintln!("failed to parse as typescript module");
+                    e.into_diagnostic(handler).emit();
+                })?;
 
                 emitter.emit_module(&module).unwrap();
             }
