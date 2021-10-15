@@ -5,6 +5,7 @@ pub(super) struct ThisInStaticFolder {
     pub ident: Ident,
 }
 
+/// TODO: VisitMut
 impl Fold for ThisInStaticFolder {
     noop_fold_type!();
 

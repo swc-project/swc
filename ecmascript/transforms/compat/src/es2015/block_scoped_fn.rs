@@ -12,6 +12,7 @@ pub fn block_scoped_functions() -> impl Fold {
 #[derive(Clone, Copy)]
 struct BlockScopedFns;
 
+/// TODO: VisitMut
 #[fast_path(BlockScopedFnFinder)]
 impl Fold for BlockScopedFns {
     noop_fold_type!();

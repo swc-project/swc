@@ -40,6 +40,7 @@ struct Actual {
     extra_stmts: Vec<Stmt>,
 }
 
+/// TODO: VisitMut
 #[fast_path(ShouldWork)]
 impl Fold for AsyncToGenerator {
     noop_fold_type!();
@@ -78,6 +79,7 @@ impl AsyncToGenerator {
     }
 }
 
+/// TODO: VisitMut
 #[fast_path(ShouldWork)]
 impl Fold for Actual {
     noop_fold_type!();
@@ -497,6 +499,7 @@ impl MethodFolder {
     }
 }
 
+/// TODO: VisitMut
 impl Fold for MethodFolder {
     noop_fold_type!();
 
@@ -910,6 +913,7 @@ macro_rules! noop {
     };
 }
 
+/// TODO: VisitMut
 impl Fold for AsyncFnBodyHandler {
     noop_fold_type!();
 

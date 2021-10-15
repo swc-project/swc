@@ -1,18 +1,20 @@
 use serde::Deserialize;
 use std::mem;
 use swc_atoms::js_word;
-use swc_common::{util::move_map::MoveMap, Span, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{ext::ExprRefExt, helper, perf::Check};
-use swc_ecma_transforms_macros::fast_path;
+use swc_ecma_transforms_base::{ext::ExprRefExt, helper};
 use swc_ecma_utils::{
     alias_ident_for, is_literal, member_expr, prepend, quote_ident, undefined, ExprFactory,
     StmtLike,
 };
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 pub fn spread(c: Config) -> impl Fold {
-    Spread { c }
+    Spread {
+        c,
+        vars: Default::default(),
+    }
 }
 
 #[derive(Debug, Clone, Copy, Default, Deserialize)]
@@ -25,15 +27,10 @@ pub struct Config {
 #[derive(Default)]
 struct Spread {
     c: Config,
-}
-
-#[derive(Default)]
-struct ActualFolder {
-    c: Config,
     vars: Vec<VarDeclarator>,
 }
 
-#[fast_path(SpreadFinder)]
+/// TODO: VisitMut
 impl Fold for Spread {
     noop_fold_type!();
 
@@ -44,37 +41,6 @@ impl Fold for Spread {
     fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
         self.fold_stmt_like(n)
     }
-}
-
-impl Spread {
-    fn fold_stmt_like<T>(&mut self, items: Vec<T>) -> Vec<T>
-    where
-        T: StmtLike + FoldWith<ActualFolder> + FoldWith<Self>,
-    {
-        let mut folder = ActualFolder {
-            c: self.c,
-            vars: vec![],
-        };
-        let mut items = items.move_map(|item| item.fold_with(&mut folder));
-        if !folder.vars.is_empty() {
-            prepend(
-                &mut items,
-                T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    declare: false,
-                    decls: mem::replace(&mut folder.vars, vec![]),
-                }))),
-            );
-        }
-
-        items
-    }
-}
-
-#[fast_path(SpreadFinder)]
-impl Fold for ActualFolder {
-    noop_fold_type!();
 
     fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = e.fold_children_with(self);
@@ -230,7 +196,34 @@ impl Fold for ActualFolder {
     }
 }
 
-impl ActualFolder {
+impl Spread {
+    fn fold_stmt_like<T>(&mut self, items: Vec<T>) -> Vec<T>
+    where
+        T: StmtLike,
+        Vec<T>: FoldWith<Self>,
+    {
+        let orig = self.vars.take();
+
+        let mut items = items.fold_children_with(self);
+        if !self.vars.is_empty() {
+            prepend(
+                &mut items,
+                T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: self.vars.take(),
+                }))),
+            );
+        }
+
+        self.vars = orig;
+
+        items
+    }
+}
+
+impl Spread {
     fn concat_args(
         &self,
         span: Span,
@@ -452,25 +445,4 @@ fn expand_literal_args(
     let mut buf = Vec::with_capacity(args.len() + 4);
     expand(&mut buf, args);
     buf
-}
-
-#[derive(Default)]
-struct SpreadFinder {
-    found: bool,
-}
-
-impl Visit for SpreadFinder {
-    noop_visit_type!();
-
-    fn visit_expr_or_spread(&mut self, n: &ExprOrSpread, _: &dyn Node) {
-        n.visit_children_with(self);
-
-        self.found |= n.spread.is_some();
-    }
-}
-
-impl Check for SpreadFinder {
-    fn should_handle(&self) -> bool {
-        self.found
-    }
 }

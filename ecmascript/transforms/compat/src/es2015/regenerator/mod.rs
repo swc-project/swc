@@ -82,6 +82,7 @@ impl Regenerator {
     }
 }
 
+/// TODO: VisitMut
 impl Fold for Regenerator {
     noop_fold_type!();
 
@@ -500,6 +501,7 @@ struct FnSentVisitor {
     ctx: Ident,
 }
 
+/// TODO: VisitMut
 impl Fold for FnSentVisitor {
     noop_fold_type!();
 

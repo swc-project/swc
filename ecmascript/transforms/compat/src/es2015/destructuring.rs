@@ -448,6 +448,7 @@ impl AssignFolder {
     }
 }
 
+/// TODO: VisitMut
 #[fast_path(DestructuringVisitor)]
 impl Fold for Destructuring {
     noop_fold_type!();
@@ -522,6 +523,7 @@ struct AssignFolder {
     ignore_return_value: Option<()>,
 }
 
+/// TODO: VisitMut
 #[fast_path(DestructuringVisitor)]
 impl Fold for AssignFolder {
     noop_fold_type!();

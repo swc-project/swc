@@ -16,6 +16,7 @@ struct OptChaining {
     vars_with_init: Vec<VarDeclarator>,
 }
 
+/// TODO: VisitMut
 #[fast_path(ShouldWork)]
 impl Fold for OptChaining {
     noop_fold_type!();
@@ -76,8 +77,8 @@ impl OptChaining {
         Vec<T>: FoldWith<Self>,
     {
         // This is to support nested block statements
-        let old_no_init = mem::replace(&mut self.vars_without_init, vec![]);
-        let old_init = mem::replace(&mut self.vars_with_init, vec![]);
+        let old_no_init = mem::take(&mut self.vars_without_init);
+        let old_init = mem::take(&mut self.vars_with_init);
 
         let mut new: Vec<T> = vec![];
 
