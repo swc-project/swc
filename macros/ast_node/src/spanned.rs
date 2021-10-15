@@ -66,6 +66,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
             },
             {
                 impl swc_common::Spanned for Type {
+                    #[inline]
                     fn span(&self) -> swc_common::Span {
                         body
                     }

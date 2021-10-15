@@ -18,6 +18,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
+use swc_ecma_loader::resolvers::{lru::CachingResolver, node::NodeModulesResolver};
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
 
 fn print_bundles(cm: Lrc<SourceMap>, modules: Vec<Bundle>) {
@@ -32,7 +33,7 @@ fn print_bundles(cm: Lrc<SourceMap>, modules: Vec<Bundle>) {
                     },
                     cm: cm.clone(),
                     comments: None,
-                    wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
+                    wr: JsWriter::new(cm.clone(), "\n", &mut buf, None),
                 };
 
                 emitter.emit_module(&bundled.module).unwrap();
@@ -41,18 +42,26 @@ fn print_bundles(cm: Lrc<SourceMap>, modules: Vec<Bundle>) {
             String::from_utf8_lossy(&buf).to_string()
         };
 
+        #[cfg(feature = "concurrent")]
+        rayon::spawn(move || drop(bundled));
+
         fs::write("output.js", &code).unwrap();
     }
 }
 
 fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
     testing::run_test2(false, |cm, _| {
-        let globals = Globals::default();
-        let bundler = Bundler::new(
-            &globals,
+        let start = Instant::now();
+
+        let globals = Box::leak(Box::new(Globals::default()));
+        let mut bundler = Bundler::new(
+            globals,
             cm.clone(),
             Loader { cm: cm.clone() },
-            NodeResolver,
+            CachingResolver::new(
+                4096,
+                NodeModulesResolver::new(TargetEnv::Node, Default::default()),
+            ),
             swc_bundler::Config {
                 require: true,
                 disable_inliner: !inline,
@@ -67,9 +76,22 @@ fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
             .map_err(|err| println!("{:?}", err))?;
         println!("Bundled as {} modules", modules.len());
 
+        #[cfg(feature = "concurrent")]
+        rayon::spawn(move || {
+            drop(bundler);
+        });
+
+        {
+            let dur = start.elapsed();
+            println!("Bundler.bundle() took {:?}", dur);
+        }
+
         let error = false;
 
-        print_bundles(cm.clone(), modules);
+        {
+            let cm = cm.clone();
+            print_bundles(cm, modules);
+        }
 
         if error {
             return Err(());

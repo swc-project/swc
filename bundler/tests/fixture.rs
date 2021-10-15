@@ -25,7 +25,7 @@ mod common;
 fn do_test(entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
     testing::run_test2(false, |cm, _| {
         let globals = Globals::default();
-        let bundler = Bundler::new(
+        let mut bundler = Bundler::new(
             &globals,
             cm.clone(),
             Loader { cm: cm.clone() },

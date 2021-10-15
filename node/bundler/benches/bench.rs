@@ -37,7 +37,7 @@ fn run_bench(b: &mut Bencher, entry: &Path) {
     ::testing::run_test2(false, |cm, _| {
         b.iter(|| {
             GLOBALS.with(|globals| {
-                let bundler = Bundler::new(
+                let mut bundler = Bundler::new(
                     globals,
                     cm.clone(),
                     Loader { cm: cm.clone() },

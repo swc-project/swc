@@ -17,7 +17,7 @@ use swc_ecma_transforms::{fixer, hygiene, pass::noop, resolver, typescript};
 use swc_ecma_visit::FoldWith;
 use test::Bencher;
 
-static SOURCE: &str = include_str!("assets/AjaxObservable.ts");
+static SOURCE: &str = include_str!("assets/Observable.ts");
 
 fn mk() -> swc::Compiler {
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
@@ -29,7 +29,7 @@ fn mk() -> swc::Compiler {
 
 fn parse(c: &swc::Compiler) -> Program {
     let fm = c.cm.new_source_file(
-        FileName::Real("rxjs/src/internal/observable/dom/AjaxObservable.ts".into()),
+        FileName::Real("rxjs/src/internal/Observable.ts".into()),
         SOURCE.to_string(),
     );
     let handler = Handler::with_emitter_writer(Box::new(io::stderr()), Some(c.cm.clone()));
@@ -108,7 +108,7 @@ fn config_for_file(b: &mut Bencher) {
                 is_module: true,
                 ..Default::default()
             },
-            &FileName::Real("rxjs/src/internal/observable/dom/AjaxObservable.ts".into()),
+            &FileName::Real("rxjs/src/internal/Observable.ts".into()),
             noop(),
         ))
     });
@@ -167,7 +167,7 @@ fn bench_full(b: &mut Bencher, opts: &Options) {
             let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
 
             let fm = c.cm.new_source_file(
-                FileName::Real("rxjs/src/internal/observable/dom/AjaxObservable.ts".into()),
+                FileName::Real("rxjs/src/internal/Observable.ts".into()),
                 SOURCE.to_string(),
             );
             let _ = c.process_js_file(fm, &handler, opts).unwrap();
@@ -241,9 +241,7 @@ macro_rules! tr_only {
                             is_module: true,
                             ..Default::default()
                         },
-                        &FileName::Real(
-                            "rxjs/src/internal/observable/dom/AjaxObservable.ts".into(),
-                        ),
+                        &FileName::Real("rxjs/src/internal/Observable.ts".into()),
                         noop(),
                     )
                     .unwrap()

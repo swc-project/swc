@@ -65,7 +65,7 @@ impl Task for BundleTask {
             .unwrap_or_default();
 
         let res = catch_unwind(AssertUnwindSafe(|| {
-            let bundler = Bundler::new(
+            let mut bundler = Bundler::new(
                 self.swc.globals(),
                 self.swc.cm.clone(),
                 &self.config.loader,
