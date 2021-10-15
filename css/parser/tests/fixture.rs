@@ -112,7 +112,7 @@ fn test_pass(input: PathBuf, config: ParserConfig) {
 
                 actual_json.clone().compare_to_file(&ref_json_path).unwrap();
 
-                {
+                if !config.allow_wrong_line_comments {
                     let mut lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
                     let mut tokens = Tokens {
                         span: Span::new(fm.start_pos, fm.end_pos, Default::default()),
