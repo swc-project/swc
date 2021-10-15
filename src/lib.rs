@@ -392,18 +392,11 @@ impl Compiler {
         fm: Arc<SourceFile>,
         handler: &Handler,
         target: JscTarget,
-        mut syntax: Syntax,
+        syntax: Syntax,
         is_module: bool,
         parse_comments: bool,
     ) -> Result<Program, Error> {
         self.run(|| {
-            match &mut syntax {
-                Syntax::Typescript(ts) => {
-                    ts.will_strip_types = true;
-                }
-                _ => {}
-            }
-
             let lexer = Lexer::new(
                 syntax,
                 target,
@@ -859,7 +852,7 @@ impl Compiler {
                     bail!("cannot process file because it's ignored by .swcrc")
                 }
             };
-            let config = BuiltConfig {
+            let mut config = BuiltConfig {
                 pass: chain!(config.pass, custom_after_pass),
                 syntax: config.syntax,
                 target: config.target,
@@ -885,6 +878,13 @@ impl Compiler {
             } else {
                 None
             };
+
+            match &mut config.syntax {
+                Syntax::Typescript(ts) => {
+                    ts.will_strip_types = true;
+                }
+                _ => {}
+            }
 
             let program = self.parse_js(
                 fm.clone(),
