@@ -494,7 +494,7 @@ where
                 Token::RBracket => {
                     punct!(self, span, "]");
                 }
-                Token::Num{ raw, ..} => {
+                Token::Num { raw, .. } => {
                     self.wr.write_raw(Some(span), raw)?;
                 }
                 Token::Ident { raw, .. } => {

@@ -413,7 +413,7 @@ where
         // TODO: need improve
         // if self.would_start_ident()? {
         //     let name = self.read_name()?;
-        // 
+        //
         //     return Ok(Token::Dimension {
         //         value: number,
         //         unit: name.0,
@@ -421,11 +421,14 @@ where
         //     });
         // } else if self.input.cur().unwrap() == '%' {
         //     self.input.bump();
-        // 
+        //
         //     return Ok(Token::Percent { value: number });
         // }
 
-        Ok(Token::Num { value: number.0, raw: number.1.into() })
+        Ok(Token::Num {
+            value: number.0,
+            raw: number.1.into(),
+        })
     }
 
     fn is_valid_escape(&mut self) -> LexResult<bool> {
