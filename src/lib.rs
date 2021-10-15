@@ -383,17 +383,27 @@ impl Compiler {
         })
     }
 
-    /// This method parses a javascript / typescript file
+    /// This method parses a javascript / typescript file.
+    ///
+    ///
+    /// Note: Returned [Program] does not contain any typescript-related nodes.
     pub fn parse_js(
         &self,
         fm: Arc<SourceFile>,
         handler: &Handler,
         target: JscTarget,
-        syntax: Syntax,
+        mut syntax: Syntax,
         is_module: bool,
         parse_comments: bool,
     ) -> Result<Program, Error> {
         self.run(|| {
+            match &mut syntax {
+                Syntax::Typescript(ts) => {
+                    ts.skip_types = true;
+                }
+                _ => {}
+            }
+
             let lexer = Lexer::new(
                 syntax,
                 target,

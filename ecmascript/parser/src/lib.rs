@@ -314,6 +314,11 @@ pub struct TsConfig {
     /// Stage 3.
     #[serde(default)]
     pub import_assertions: bool,
+
+    /// If this is true, typescript nodes are parsed but will not be stored in
+    /// returned ast.
+    #[serde(default)]
+    pub skip_types: bool,
 }
 
 #[derive(Debug, Clone, Copy, Default, Serialize, Deserialize)]
