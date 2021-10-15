@@ -105,7 +105,6 @@ where
         if self.config.allow_wrong_line_comments {
             if self.input.is_byte(b'/') && self.input.peek() == Some('/') {
                 self.skip_line_comment()?;
-                self.skip_ws()?;
                 self.start_pos = self.input.cur_pos();
 
                 return self.read_token();
