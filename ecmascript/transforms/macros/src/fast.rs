@@ -4,11 +4,9 @@ use swc_macros_common::call_site;
 use syn::{FnArg, Ident, ImplItem, ImplItemMethod, ItemImpl, Pat, Path, Stmt};
 
 pub fn expand(attr: TokenStream, item: ItemImpl) -> ItemImpl {
-    let mode = detect_mode(&item);
-
     let expander = Expander {
         handler: syn::parse2(attr).expect("Usage should be like #[fast_path(ArrowVisitor)]"),
-        mode,
+        mode: detect_mode(&item),
     };
     let items = expander.inject_default_methods(item.items);
 
@@ -120,13 +118,6 @@ impl Expander {
             FnArg::Receiver(_) => unreachable!(),
             FnArg::Typed(ty) => ty,
         };
-
-        if !m.sig.ident.to_string().ends_with("_module")
-            && !m.sig.ident.to_string().ends_with("_script")
-        {
-            return m;
-        }
-
         if m.sig.ident == "visit_mut_ident" || m.sig.ident == "fold_ident" {
             return m;
         }
