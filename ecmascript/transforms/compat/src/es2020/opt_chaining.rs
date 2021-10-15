@@ -1,5 +1,5 @@
 use std::{iter::once, mem};
-use swc_common::{Spanned, DUMMY_SP};
+use swc_common::{Spanned, DUMMY_SP, GLOBALS};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{should_work, Check};
 use swc_ecma_utils::{alias_if_required, prepend, private_ident, undefined, ExprFactory, StmtLike};
@@ -73,25 +73,71 @@ impl Fold for OptChaining {
 }
 
 impl OptChaining {
-    fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
+    /// Returned statemetns are variable declarations without initializer
+    fn fold_one_stmt_to<T>(&mut self, stmt: T, new: &mut Vec<T>)
     where
         T: StmtLike + FoldWith<Self>,
+    {
+        let stmt = stmt.fold_with(self);
+        if !self.vars_with_init.is_empty() {
+            new.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                span: DUMMY_SP,
+                declare: false,
+                kind: VarDeclKind::Var,
+                decls: mem::replace(&mut self.vars_with_init, vec![]),
+            }))));
+        }
+        new.push(stmt);
+    }
+
+    fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
+    where
+        T: Send + Sync + StmtLike + FoldWith<Self>,
         Vec<T>: FoldWith<Self>,
     {
+        #[cfg(feature = "rayon")]
+        if stmts.len() > 4 {
+            use rayon::prelude::*;
+
+            let (mut stmts, mut vars_without_init) = GLOBALS.with(|globals| {
+                stmts
+                    .into_par_iter()
+                    .map(|stmt| {
+                        GLOBALS.set(&globals, || {
+                            let mut visitor = Self::default();
+                            let mut stmts = Vec::with_capacity(3);
+                            visitor.fold_one_stmt_to(stmt, &mut stmts);
+
+                            (stmts, visitor.vars_without_init)
+                        })
+                    })
+                    .reduce(Default::default, |mut a, b| {
+                        a.0.extend(b.0);
+                        a.1.extend(b.1);
+
+                        a
+                    })
+            });
+
+            if !vars_without_init.is_empty() {
+                prepend(
+                    &mut stmts,
+                    T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        declare: false,
+                        kind: VarDeclKind::Var,
+                        decls: mem::take(&mut vars_without_init),
+                    }))),
+                );
+            }
+            return stmts;
+        }
+
         let mut new: Vec<T> = vec![];
 
         let mut v = Self::default();
         for stmt in stmts {
-            let stmt = stmt.fold_with(&mut v);
-            if !v.vars_with_init.is_empty() {
-                new.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    declare: false,
-                    kind: VarDeclKind::Var,
-                    decls: mem::replace(&mut v.vars_with_init, vec![]),
-                }))));
-            }
-            new.push(stmt);
+            v.fold_one_stmt_to(stmt, &mut new);
         }
 
         if !v.vars_without_init.is_empty() {
