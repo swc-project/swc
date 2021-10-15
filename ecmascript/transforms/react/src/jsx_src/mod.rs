@@ -1,14 +1,14 @@
 use swc_common::{sync::Lrc, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::quote_ident;
-use swc_ecma_visit::{noop_fold_type, Fold};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut};
 
 #[cfg(test)]
 mod tests;
 
 /// `@babel/plugin-transform-react-jsx-source`
-pub fn jsx_src(dev: bool, cm: Lrc<SourceMap>) -> impl Fold {
-    JsxSrc { cm, dev }
+pub fn jsx_src(dev: bool, cm: Lrc<SourceMap>) -> impl Fold + VisitMut {
+    as_folder(JsxSrc { cm, dev })
 }
 
 struct JsxSrc {
@@ -17,17 +17,17 @@ struct JsxSrc {
 }
 
 /// TODO: VisitMut
-impl Fold for JsxSrc {
-    noop_fold_type!();
+impl VisitMut for JsxSrc {
+    noop_visit_mut_type!();
 
-    fn fold_jsx_opening_element(&mut self, mut e: JSXOpeningElement) -> JSXOpeningElement {
+    fn visit_mut_jsx_opening_element(&mut self, e: &mut JSXOpeningElement) {
         if !self.dev || e.span == DUMMY_SP {
-            return e;
+            return;
         }
 
         let file_lines = match self.cm.span_to_lines(e.span) {
             Ok(v) => v,
-            _ => return e,
+            _ => return,
         };
 
         e.attrs.push(JSXAttrOrSpread::JSXAttr(JSXAttr {
@@ -61,7 +61,5 @@ impl Fold for JsxSrc {
                 )),
             })),
         }));
-
-        e
     }
 }
