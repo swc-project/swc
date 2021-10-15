@@ -52,7 +52,11 @@ pub enum Token {
         raw: JsWord,
     },
 
-    // TODO BadUrl
+    BadUrl {
+        value: JsWord,
+        raw: JsWord,
+    },
+
     Delim {
         value: char,
     },
