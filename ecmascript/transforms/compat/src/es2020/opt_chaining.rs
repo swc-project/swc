@@ -76,39 +76,34 @@ impl OptChaining {
         T: StmtLike + FoldWith<Self>,
         Vec<T>: FoldWith<Self>,
     {
-        // This is to support nested block statements
-        let old_no_init = mem::take(&mut self.vars_without_init);
-        let old_init = mem::take(&mut self.vars_with_init);
-
         let mut new: Vec<T> = vec![];
 
+        let mut v = Self::default();
         for stmt in stmts {
-            let stmt = stmt.fold_with(self);
-            if !self.vars_with_init.is_empty() {
+            let stmt = stmt.fold_with(&mut v);
+            if !v.vars_with_init.is_empty() {
                 new.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
                     declare: false,
                     kind: VarDeclKind::Var,
-                    decls: mem::replace(&mut self.vars_with_init, vec![]),
+                    decls: mem::replace(&mut v.vars_with_init, vec![]),
                 }))));
             }
             new.push(stmt);
         }
 
-        if !self.vars_without_init.is_empty() {
+        if !v.vars_without_init.is_empty() {
             prepend(
                 &mut new,
                 T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
                     declare: false,
                     kind: VarDeclKind::Var,
-                    decls: mem::replace(&mut self.vars_without_init, vec![]),
+                    decls: mem::replace(&mut v.vars_without_init, vec![]),
                 }))),
             );
         }
 
-        self.vars_without_init = old_no_init;
-        self.vars_with_init = old_init;
         new
     }
 }
