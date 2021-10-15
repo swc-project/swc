@@ -290,19 +290,6 @@ impl Syntax {
             Syntax::Es(..) => true,
         }
     }
-
-    #[cfg(feature = "will-strip-types")]
-    pub(crate) const fn will_strip_types(self) -> bool {
-        true
-    }
-
-    #[cfg(not(feature = "will-strip-types"))]
-    pub(crate) fn will_strip_types(self) -> bool {
-        match self {
-            Syntax::Typescript(t) => t.will_strip_types,
-            Syntax::Es(..) => false,
-        }
-    }
 }
 
 #[derive(Debug, Clone, Copy, Default, Serialize, Deserialize)]
