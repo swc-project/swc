@@ -1,17 +1,23 @@
 use std::{iter, mem};
-use swc_common::{chain, util::move_map::MoveMap, Mark, Spanned, DUMMY_SP};
+use swc_common::{
+    chain,
+    util::{move_map::MoveMap, take::Take},
+    Mark, Spanned, DUMMY_SP,
+};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{helper, helper_expr, perf::Check};
-use swc_ecma_transforms_macros::fast_path;
+use swc_ecma_transforms_base::{helper, helper_expr};
 use swc_ecma_utils::{
     alias_ident_for, alias_if_required, is_literal, private_ident, quote_ident, var::VarCollector,
     ExprFactory, StmtLike,
 };
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{
+    as_folder, noop_fold_type, noop_visit_mut_type, noop_visit_type, Fold, FoldWith, Node, Visit,
+    VisitMut, VisitMutWith, VisitWith,
+};
 
 /// `@babel/plugin-proposal-object-rest-spread`
 pub fn object_rest_spread() -> impl Fold {
-    chain!(ObjectRest, ObjectSpread)
+    chain!(ObjectRest, as_folder(ObjectSpread))
 }
 
 struct ObjectRest;
@@ -1096,13 +1102,11 @@ fn simplify_pat(pat: Pat) -> Pat {
 
 struct ObjectSpread;
 
-/// TODO: VisitMut
-#[fast_path(SpreadVisitor)]
-impl Fold for ObjectSpread {
-    noop_fold_type!();
+impl VisitMut for ObjectSpread {
+    noop_visit_mut_type!();
 
-    fn fold_expr(&mut self, expr: Expr) -> Expr {
-        let expr = expr.fold_children_with(self);
+    fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        expr.visit_mut_children_with(self);
 
         match expr {
             Expr::Object(ObjectLit { span, props }) => {
@@ -1111,7 +1115,7 @@ impl Fold for ObjectSpread {
                     _ => false,
                 });
                 if !has_spread {
-                    return Expr::Object(ObjectLit { span, props });
+                    return;
                 }
 
                 let mut first = true;
@@ -1123,7 +1127,7 @@ impl Fold for ObjectSpread {
                         span: DUMMY_SP,
                         props: vec![],
                     };
-                    for prop in props {
+                    for prop in props.take() {
                         match prop {
                             PropOrSpread::Prop(..) => obj.props.push(prop),
                             PropOrSpread::Spread(SpreadElement { expr, .. }) => {
@@ -1152,32 +1156,14 @@ impl Fold for ObjectSpread {
                     buf
                 };
 
-                Expr::Call(CallExpr {
-                    span,
+                *expr = Expr::Call(CallExpr {
+                    span: *span,
                     callee: helper!(object_spread, "objectSpread"),
                     args,
                     type_args: Default::default(),
-                })
+                });
             }
-            _ => expr,
+            _ => {}
         }
-    }
-}
-#[derive(Default)]
-struct SpreadVisitor {
-    found: bool,
-}
-
-impl Visit for SpreadVisitor {
-    noop_visit_type!();
-
-    fn visit_spread_element(&mut self, _: &SpreadElement, _: &dyn Node) {
-        self.found = true;
-    }
-}
-
-impl Check for SpreadVisitor {
-    fn should_handle(&self) -> bool {
-        self.found
     }
 }
