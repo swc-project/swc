@@ -766,6 +766,15 @@ where
             break;
         }
 
+        if self.config.allow_wrong_line_comments {
+            if self.input.is_byte(b'/') && self.input.peek() == Some('/') {
+                self.skip_line_comment()?;
+                self.start_pos = self.input.cur_pos();
+
+                return Ok(());
+            }
+        }
+
         Ok(())
     }
 
