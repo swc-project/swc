@@ -35,7 +35,7 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_assignment_expr);
 
-        if self.input.syntax().typescript() {
+        if self.input.syntax().typescript() && self.input.syntax().jsx() {
             // Note: When the JSX plugin is on, type assertions (`<T> x`) aren't valid
             // syntax.
 
@@ -77,7 +77,6 @@ impl<'a, I: Tokens> Parser<I> {
         trace_cur!(self, parse_assignment_expr_base);
 
         if self.input.syntax().typescript()
-            && self.input.syntax().jsx()
             && (is_one_of!(self, '<', JSXTagStart))
             && (peeked_is!(self, IdentName) || peeked_is!(self, JSXName))
         {
