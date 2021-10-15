@@ -1,6 +1,6 @@
 use crate::{
     error::{Error, ErrorKind},
-    parser::{input::ParserInput, PResult},
+    parser::{input::ParserInput, PResult, ParserConfig},
 };
 use swc_atoms::{js_word, JsWord};
 use swc_common::{input::Input, BytePos, Span};
@@ -19,18 +19,20 @@ where
     start_pos: BytePos,
     /// Used to override last_pos
     last_pos: Option<BytePos>,
+    config: ParserConfig,
 }
 
 impl<I> Lexer<I>
 where
     I: Input,
 {
-    pub fn new(input: I) -> Self {
+    pub fn new(input: I, config: ParserConfig) -> Self {
         let start_pos = input.last_pos();
         Lexer {
             input,
             start_pos,
             last_pos: None,
+            config,
         }
     }
 }
@@ -98,6 +100,15 @@ where
             self.start_pos = self.input.cur_pos();
 
             return self.read_token();
+        }
+
+        if self.config.allow_wrong_line_comments {
+            if self.input.is_byte(b'/') && self.input.peek() == Some('/') {
+                self.skip_line_comment()?;
+                self.start_pos = self.input.cur_pos();
+
+                return self.read_token();
+            }
         }
 
         macro_rules! try_delim {
@@ -450,6 +461,39 @@ where
         })
     }
 
+    fn read_bad_url_remnants(&mut self) -> LexResult<(String, String)> {
+        let mut value = String::new();
+        let mut raw = String::new();
+
+        loop {
+            match self.input.cur() {
+                Some(c) if c == ')' => {
+                    self.input.bump();
+
+                    break;
+                }
+                Some(c) => {
+                    if self.is_valid_escape().unwrap() {
+                        let escaped = self.read_escape()?;
+
+                        value.push(escaped.0);
+                        raw.push_str(&escaped.1);
+                    } else {
+                        value.push(c);
+                        raw.push(c);
+
+                        self.input.bump();
+                    }
+                }
+                None => {
+                    break;
+                }
+            }
+        }
+
+        return Ok((value, raw));
+    }
+
     fn read_url(&mut self) -> LexResult<Token> {
         let mut value = String::new();
         let mut raw = String::new();
@@ -503,25 +547,46 @@ where
                         _ => {}
                     }
 
-                    // TODO: break + Error recovery + 4.3.14. Consume the remnants of a bad url
-                    return Err(ErrorKind::UnterminatedUrl);
+                    let remnants = self.read_bad_url_remnants()?;
+
+                    value.push_str(&remnants.0);
+                    raw.push_str(&remnants.1);
+
+                    return Ok(Token::BadUrl {
+                        value: value.into(),
+                        raw: raw.into(),
+                    });
                 }
 
                 Some(c) if c == '"' || c == '\'' || c == '(' || is_non_printable(c) => {
-                    // TODO: break + Error recovery + 4.3.14. Consume the remnants of a bad url
-                    return Err(ErrorKind::UnterminatedUrl);
+                    let remnants = self.read_bad_url_remnants()?;
+
+                    value.push_str(&remnants.0);
+                    raw.push_str(&remnants.1);
+
+                    return Ok(Token::BadUrl {
+                        value: value.into(),
+                        raw: raw.into(),
+                    });
                 }
 
                 Some('\\') => {
-                    if !self.is_valid_escape()? {
-                        // TODO: break + Error recovery + 4.3.14. Consume the remnants of a bad url
-                        return Err(ErrorKind::InvalidEscape);
+                    if self.is_valid_escape()? {
+                        let escaped = self.read_escape()?;
+
+                        value.push(escaped.0);
+                        raw.push_str(&escaped.1);
+                    } else {
+                        let remnants = self.read_bad_url_remnants()?;
+
+                        value.push_str(&remnants.0);
+                        raw.push_str(&remnants.1);
+
+                        return Ok(Token::BadUrl {
+                            value: value.into(),
+                            raw: raw.into(),
+                        });
                     }
-
-                    let escaped = self.read_escape()?;
-
-                    value.push(escaped.0);
-                    raw.push_str(&escaped.1);
                 }
 
                 Some(c) => {
@@ -701,6 +766,15 @@ where
             break;
         }
 
+        if self.config.allow_wrong_line_comments {
+            if self.input.is_byte(b'/') && self.input.peek() == Some('/') {
+                self.skip_line_comment()?;
+                self.start_pos = self.input.cur_pos();
+
+                return Ok(());
+            }
+        }
+
         Ok(())
     }
 
@@ -733,6 +807,29 @@ where
         }
 
         Err(ErrorKind::UnterminatedBlockComment)
+    }
+
+    fn skip_line_comment(&mut self) -> LexResult<()> {
+        debug_assert_eq!(self.input.cur(), Some('/'));
+        debug_assert_eq!(self.input.peek(), Some('/'));
+
+        self.input.bump();
+        self.input.bump();
+
+        debug_assert!(
+            self.config.allow_wrong_line_comments,
+            "Line comments are wrong and should be lexed only if it's explicitly requested"
+        );
+
+        while let Some(c) = self.input.cur() {
+            if is_newline(c) {
+                break;
+            }
+
+            self.input.bump();
+        }
+
+        Ok(())
     }
 }
 

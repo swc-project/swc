@@ -512,6 +512,12 @@ where
                     self.wr.write_raw(None, &raw)?;
                     punct!(self, ")");
                 }
+                Token::BadUrl { raw, .. } => {
+                    self.wr.write_ident(Some(span), "url", false)?;
+                    punct!(self, "(");
+                    self.wr.write_raw(None, &raw)?;
+                    punct!(self, ")");
+                }
                 Token::Comma => {
                     punct!(self, span, ",");
                 }

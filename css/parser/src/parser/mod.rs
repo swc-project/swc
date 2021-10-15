@@ -24,6 +24,13 @@ pub type PResult<T> = Result<T, Error>;
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct ParserConfig {
     pub parse_values: bool,
+
+    /// If this is `true`, **wrong** comments starting with `//` will be treated
+    /// as a comment.
+    ///
+    /// This option exists because there are so many css-in-js tools and people
+    /// use `//` as a comment because it's javascript file.
+    pub allow_wrong_line_comments: bool,
 }
 
 #[derive(Debug, Default, Clone, Copy)]
