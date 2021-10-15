@@ -82,6 +82,7 @@ struct Decorators {
     vars: Vec<VarDeclarator>,
 }
 
+/// TODO: VisitMut
 impl Fold for Decorators {
     noop_fold_type!();
 

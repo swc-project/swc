@@ -55,6 +55,7 @@ impl TemplateLiteralCaching {
     }
 }
 
+/// TODO: VisitMut
 impl Fold for TemplateLiteralCaching {
     noop_fold_type!();
 

@@ -9,6 +9,7 @@ pub fn export_namespace_from() -> impl Fold {
 
 struct ExportNamespaceFrom;
 
+/// TODO: VisitMut
 impl Fold for ExportNamespaceFrom {
     noop_fold_type!();
 

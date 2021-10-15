@@ -8,6 +8,7 @@ use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 /// https://github.com/leonardfactory/babel-plugin-transform-typescript-metadata/blob/master/src/parameter/parameterVisitor.ts
 pub(super) struct ParamMetadata;
 
+/// TODO: VisitMut
 impl Fold for ParamMetadata {
     noop_fold_type!();
 
@@ -125,6 +126,7 @@ pub(super) struct Metadata<'a> {
     pub(super) class_name: Option<&'a Ident>,
 }
 
+/// TODO: VisitMut
 impl Fold for Metadata<'_> {
     noop_fold_type!();
 

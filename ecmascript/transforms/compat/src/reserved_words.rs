@@ -1,10 +1,6 @@
 use swc_atoms::{js_word, JsWord};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::Check;
-use swc_ecma_transforms_macros::fast_path;
-use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
-};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub fn reserved_words() -> impl 'static + Fold + VisitMut {
     as_folder(EsReservedWord)
@@ -12,16 +8,10 @@ pub fn reserved_words() -> impl 'static + Fold + VisitMut {
 
 struct EsReservedWord;
 
-#[fast_path(ShouldWork)]
 impl VisitMut for EsReservedWord {
     noop_visit_mut_type!();
 
     fn visit_mut_export_specifier(&mut self, _n: &mut ExportSpecifier) {}
-
-    /// For #[fast_path]
-    fn visit_mut_expr(&mut self, e: &mut Expr) {
-        e.visit_mut_children_with(self);
-    }
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         rename_ident(&mut i.sym, true);
@@ -56,11 +46,6 @@ impl VisitMut for EsReservedWord {
     fn visit_mut_meta_prop_expr(&mut self, _n: &mut MetaPropExpr) {}
 
     fn visit_mut_prop_name(&mut self, _n: &mut PropName) {}
-
-    /// For #[fast_path]
-    fn visit_mut_stmt(&mut self, s: &mut Stmt) {
-        s.visit_mut_children_with(self);
-    }
 }
 
 fn is_reserved(sym: &JsWord) -> bool {
@@ -115,26 +100,5 @@ fn rename_ident(sym: &mut JsWord, _strict: bool) {
     if is_reserved(&*sym) {
         let s = format!("_{}", sym).into();
         *sym = s;
-    }
-}
-#[derive(Default)]
-struct ShouldWork {
-    found: bool,
-}
-
-impl Visit for ShouldWork {
-    noop_visit_type!();
-
-    fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
-        if is_reserved(&i.sym) {
-            self.found = true;
-            return;
-        }
-    }
-}
-
-impl Check for ShouldWork {
-    fn should_handle(&self) -> bool {
-        self.found
     }
 }

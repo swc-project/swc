@@ -66,6 +66,7 @@ where
     resolver: Option<(P, FileName)>,
 }
 
+/// TODO: VisitMut
 impl<P> Fold for CommonJs<P>
 where
     P: ImportResolver,

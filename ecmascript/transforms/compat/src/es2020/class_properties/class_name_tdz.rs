@@ -8,6 +8,7 @@ pub(super) struct ClassNameTdzFolder<'a> {
     pub class_name: &'a Ident,
 }
 
+/// TODO: VisitMut
 impl<'a> Fold for ClassNameTdzFolder<'a> {
     noop_fold_type!();
 

@@ -180,6 +180,7 @@ pub(super) enum SuperFoldingMode {
     Var,
 }
 
+/// TODO: VisitMut
 impl Fold for ConstructorFolder<'_> {
     noop_fold_type!();
     fold_only_key!();
@@ -425,6 +426,7 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
         in_injected_define_property_call: bool,
     }
 
+    /// TODO: VisitMut
     impl Fold for Replacer {
         noop_fold_type!();
 
@@ -543,6 +545,7 @@ pub(super) struct VarRenamer<'a> {
     pub class_name: &'a JsWord,
 }
 
+/// TODO: VisitMut
 impl<'a> Fold for VarRenamer<'a> {
     noop_fold_type!();
 
