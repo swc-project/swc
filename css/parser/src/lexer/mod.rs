@@ -462,6 +462,39 @@ where
         })
     }
 
+    fn read_bad_url_remnants(&mut self) -> LexResult<(String, String)> {
+        let mut value = String::new();
+        let mut raw = String::new();
+
+        loop {
+            match self.input.cur() {
+                Some(c) if c == ')' => {
+                    self.input.bump();
+
+                    break;
+                }
+                Some(c) => {
+                    if self.is_valid_escape().unwrap() {
+                        let escaped = self.read_escape()?;
+
+                        value.push(escaped.0);
+                        raw.push_str(&escaped.1);
+                    } else {
+                        value.push(c);
+                        raw.push(c);
+
+                        self.input.bump();
+                    }
+                }
+                None => {
+                    break;
+                }
+            }
+        }
+
+        return Ok((value, raw));
+    }
+
     fn read_url(&mut self) -> LexResult<Token> {
         let mut value = String::new();
         let mut raw = String::new();
@@ -515,25 +548,46 @@ where
                         _ => {}
                     }
 
-                    // TODO: break + Error recovery + 4.3.14. Consume the remnants of a bad url
-                    return Err(ErrorKind::UnterminatedUrl);
+                    let remnants = self.read_bad_url_remnants()?;
+
+                    value.push_str(&remnants.0);
+                    raw.push_str(&remnants.1);
+
+                    return Ok(Token::BadUrl {
+                        value: value.into(),
+                        raw: raw.into(),
+                    });
                 }
 
                 Some(c) if c == '"' || c == '\'' || c == '(' || is_non_printable(c) => {
-                    // TODO: break + Error recovery + 4.3.14. Consume the remnants of a bad url
-                    return Err(ErrorKind::UnterminatedUrl);
+                    let remnants = self.read_bad_url_remnants()?;
+
+                    value.push_str(&remnants.0);
+                    raw.push_str(&remnants.1);
+
+                    return Ok(Token::BadUrl {
+                        value: value.into(),
+                        raw: raw.into(),
+                    });
                 }
 
                 Some('\\') => {
-                    if !self.is_valid_escape()? {
-                        // TODO: break + Error recovery + 4.3.14. Consume the remnants of a bad url
-                        return Err(ErrorKind::InvalidEscape);
+                    if self.is_valid_escape()? {
+                        let escaped = self.read_escape()?;
+
+                        value.push(escaped.0);
+                        raw.push_str(&escaped.1);
+                    } else {
+                        let remnants = self.read_bad_url_remnants()?;
+
+                        value.push_str(&remnants.0);
+                        raw.push_str(&remnants.1);
+
+                        return Ok(Token::BadUrl {
+                            value: value.into(),
+                            raw: raw.into(),
+                        });
                     }
-
-                    let escaped = self.read_escape()?;
-
-                    value.push(escaped.0);
-                    raw.push_str(&escaped.1);
                 }
 
                 Some(c) => {

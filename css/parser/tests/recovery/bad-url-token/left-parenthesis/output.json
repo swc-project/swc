@@ -1,0 +1,153 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 0,
+    "end": 57,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "StyleRule",
+      "span": {
+        "start": 0,
+        "end": 56,
+        "ctxt": 0
+      },
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 0,
+            "end": 3,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 0,
+                "end": 3,
+                "ctxt": 0
+              },
+              "hasNestPrefix": false,
+              "combinator": null,
+              "typeSelector": {
+                "type": "NamespacedName",
+                "span": {
+                  "start": 0,
+                  "end": 3,
+                  "ctxt": 0
+                },
+                "prefix": null,
+                "name": {
+                  "type": "Text",
+                  "span": {
+                    "start": 0,
+                    "end": 3,
+                    "ctxt": 0
+                  },
+                  "value": "div",
+                  "raw": "div"
+                }
+              },
+              "subclassSelectors": []
+            }
+          ]
+        }
+      ],
+      "block": {
+        "type": "DeclBlock",
+        "span": {
+          "start": 4,
+          "end": 56,
+          "ctxt": 0
+        },
+        "items": [
+          {
+            "type": "Tokens",
+            "span": {
+              "start": 10,
+              "end": 37,
+              "ctxt": 0
+            },
+            "tokens": [
+              {
+                "span": {
+                  "start": 10,
+                  "end": 20,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "background",
+                    "raw": "background"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 20,
+                  "end": 21,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "span": {
+                  "start": 21,
+                  "end": 22,
+                  "ctxt": 0
+                },
+                "token": "WhiteSpace"
+              },
+              {
+                "span": {
+                  "start": 22,
+                  "end": 37,
+                  "ctxt": 0
+                },
+                "token": {
+                  "BadUrl": {
+                    "value": "image(.png",
+                    "raw": "image(.png"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "Property",
+            "span": {
+              "start": 43,
+              "end": 53,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Text",
+              "span": {
+                "start": 43,
+                "end": 48,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "values": [
+              {
+                "type": "Text",
+                "span": {
+                  "start": 50,
+                  "end": 53,
+                  "ctxt": 0
+                },
+                "value": "red",
+                "raw": "red"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    }
+  ]
+}
