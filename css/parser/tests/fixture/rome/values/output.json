@@ -203,29 +203,13 @@
             },
             "values": [
               {
-                "type": "UnitValue",
+                "type": "Number",
                 "span": {
                   "start": 58,
                   "end": 62,
                   "ctxt": 0
                 },
-                "value": {
-                  "type": "Number",
-                  "span": {
-                    "start": 58,
-                    "end": 59,
-                    "ctxt": 0
-                  },
-                  "value": 1.0
-                },
-                "unit": {
-                  "span": {
-                    "start": 59,
-                    "end": 62,
-                    "ctxt": 0
-                  },
-                  "kind": "e-3"
-                }
+                "value": 1e-33
               }
             ],
             "important": null

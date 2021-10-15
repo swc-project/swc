@@ -690,7 +690,7 @@ where
             UnitKind::Px => Cow::Owned("px".into()),
             UnitKind::Custom(s) => Cow::Borrowed(s),
         };
-        self.wr.write_ident(Some(n.span), &s, true)?;
+        self.wr.write_raw(Some(n.span), &s)?;
     }
 
     #[emitter]
