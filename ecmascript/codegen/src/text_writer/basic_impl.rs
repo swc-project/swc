@@ -10,8 +10,6 @@ use swc_ecma_parser::JscTarget;
 ///
 /// https://github.com/Microsoft/TypeScript/blob/45eaf42006/src/compiler/utilities.ts#L2548
 pub struct JsWriter<'a, W: Write> {
-    /// We may use this in future...
-    _cm: Lrc<SourceMap>,
     indent: usize,
     line_start: bool,
     line_count: usize,
@@ -19,7 +17,6 @@ pub struct JsWriter<'a, W: Write> {
     new_line: &'a str,
     srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
     wr: W,
-    written_bytes: usize,
     target: JscTarget,
 }
 
@@ -34,14 +31,13 @@ impl<'a, W: Write> JsWriter<'a, W> {
     }
 
     pub fn with_target(
-        cm: Lrc<SourceMap>,
+        _: Lrc<SourceMap>,
         new_line: &'a str,
         wr: W,
         srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
         target: JscTarget,
     ) -> Self {
         JsWriter {
-            _cm: cm,
             indent: Default::default(),
             line_start: true,
             line_count: 0,
@@ -49,7 +45,6 @@ impl<'a, W: Write> JsWriter<'a, W> {
             new_line,
             srcmap,
             wr,
-            written_bytes: 0,
             target,
         }
     }
@@ -67,7 +62,6 @@ impl<'a, W: Write> JsWriter<'a, W> {
 
     fn raw_write(&mut self, data: &[u8]) -> io::Result<usize> {
         let written = self.wr.write(data)?;
-        self.written_bytes += written;
         self.line_pos += written;
         Ok(written)
     }
@@ -113,19 +107,23 @@ impl<'a, W: Write> JsWriter<'a, W> {
 }
 
 impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
+    fn target(&self) -> JscTarget {
+        self.target
+    }
     fn increase_indent(&mut self) -> Result {
         self.indent += 1;
         Ok(())
     }
+
     fn decrease_indent(&mut self) -> Result {
         self.indent -= 1;
         Ok(())
     }
-
     fn write_semi(&mut self, span: Option<Span>) -> Result {
         self.write(span, ";")?;
         Ok(())
     }
+
     fn write_space(&mut self) -> Result {
         self.write(None, " ")?;
         Ok(())
@@ -209,8 +207,8 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
         Ok(())
     }
 
-    fn target(&self) -> JscTarget {
-        self.target
+    fn care_about_srcmap(&self) -> bool {
+        self.srcmap.is_some()
     }
 }
 

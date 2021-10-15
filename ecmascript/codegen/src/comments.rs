@@ -59,14 +59,14 @@ where
     }
 
     pub(super) fn emit_leading_comments(&mut self, mut pos: BytePos, is_hi: bool) -> Result {
-        if is_hi {
-            pos = pos - BytePos(1)
-        }
-
         let comments = match self.comments {
             Some(ref comments) => comments,
             None => return Ok(()),
         };
+
+        if is_hi {
+            pos = pos - BytePos(1)
+        }
 
         write_comments!(self, false, comments.take_leading(pos))
     }

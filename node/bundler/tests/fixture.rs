@@ -67,7 +67,7 @@ fn pass(input_dir: PathBuf) {
                     ..Default::default()
                 },
             );
-            let bundler = Bundler::new(
+            let mut bundler = Bundler::new(
                 compiler.globals(),
                 cm.clone(),
                 &loader,

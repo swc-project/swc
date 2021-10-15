@@ -147,7 +147,7 @@ dependencies = [
 
 [[package]]
 name = "ast_node"
-version = "0.7.3"
+version = "0.7.4"
 dependencies = [
  "darling",
  "pmutil",
@@ -2324,7 +2324,7 @@ checksum = "6446ced80d6c486436db5c078dde11a9f73d42b57fb273121e160b84f63d894c"
 
 [[package]]
 name = "swc"
-version = "0.68.1"
+version = "0.69.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2428,7 +2428,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.69.0"
+version = "0.70.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2500,7 +2500,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.15.0"
+version = "0.16.0"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -2511,7 +2511,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_ast"
-version = "0.14.0"
+version = "0.15.0"
 dependencies = [
  "is-macro",
  "serde",
@@ -2522,7 +2522,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.13.0"
+version = "0.14.0"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -2548,7 +2548,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.15.0"
+version = "0.16.0"
 dependencies = [
  "bitflags",
  "lexical",
@@ -2564,7 +2564,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_utils"
-version = "0.11.0"
+version = "0.12.0"
 dependencies = [
  "swc_atoms 0.2.8",
  "swc_common",
@@ -2574,7 +2574,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_visit"
-version = "0.13.0"
+version = "0.14.0"
 dependencies = [
  "swc_atoms 0.2.8",
  "swc_common",
@@ -2598,7 +2598,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.74.4"
+version = "0.75.0"
 dependencies = [
  "bitflags",
  "memchr",
@@ -2612,6 +2612,7 @@ dependencies = [
  "swc_ecma_parser",
  "swc_node_base",
  "testing",
+ "tracing",
 ]
 
 [[package]]
@@ -2674,7 +2675,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.38.1"
+version = "0.39.0"
 dependencies = [
  "ansi_term 0.12.1",
  "anyhow",
@@ -2706,7 +2707,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.73.12"
+version = "0.73.13"
 dependencies = [
  "either",
  "enum_kind",
@@ -2724,13 +2725,14 @@ dependencies = [
  "swc_node_base",
  "testing",
  "tracing",
+ "typed-arena",
  "unicode-xid",
  "walkdir",
 ]
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.53.0"
+version = "0.54.0"
 dependencies = [
  "ahash",
  "dashmap",
@@ -2756,7 +2758,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.82.0"
+version = "0.83.0"
 dependencies = [
  "pretty_assertions 0.6.1",
  "sourcemap",
@@ -2783,7 +2785,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.37.5"
+version = "0.38.0"
 dependencies = [
  "once_cell",
  "phf",
@@ -2801,7 +2803,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_classes"
-version = "0.23.0"
+version = "0.24.0"
 dependencies = [
  "swc_atoms 0.2.8",
  "swc_common",
@@ -2813,7 +2815,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.42.0"
+version = "0.43.0"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -2849,7 +2851,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.46.0"
+version = "0.47.0"
 dependencies = [
  "Inflector",
  "ahash",
@@ -2872,7 +2874,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.52.0"
+version = "0.53.0"
 dependencies = [
  "ahash",
  "dashmap",
@@ -2900,7 +2902,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.46.1"
+version = "0.47.0"
 dependencies = [
  "either",
  "serde",
@@ -2924,7 +2926,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.48.3"
+version = "0.49.0"
 dependencies = [
  "ahash",
  "base64 0.13.0",
@@ -2951,7 +2953,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.38.1"
+version = "0.39.0"
 dependencies = [
  "ansi_term 0.12.1",
  "anyhow",
@@ -2970,7 +2972,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.49.1"
+version = "0.50.0"
 dependencies = [
  "serde",
  "swc_atoms 0.2.8",
@@ -3018,7 +3020,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.74.0"
+version = "0.75.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3108,7 +3110,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.9.0"
+version = "0.10.0"
 dependencies = [
  "abi_stable",
  "anyhow",
@@ -3126,7 +3128,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_testing"
-version = "0.10.0"
+version = "0.11.0"
 dependencies = [
  "anyhow",
  "swc_atoms 0.2.8",
@@ -3140,7 +3142,7 @@ dependencies = [
 
 [[package]]
 name = "swc_stylis"
-version = "0.12.0"
+version = "0.13.0"
 dependencies = [
  "swc_atoms 0.2.8",
  "swc_common",
