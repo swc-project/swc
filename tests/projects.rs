@@ -848,6 +848,9 @@ fn tests(input_dir: PathBuf) {
                             .unwrap();
                     }
                     Err(ref err) if format!("{:?}", err).contains("not matched") => {}
+                    Err(ref err) if format!("{:?}", err).contains("failed to parse module") => {
+                        return Err(())
+                    }
                     Err(err) => panic!("Error: {:?}", err),
                 }
             }
