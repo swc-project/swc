@@ -290,6 +290,13 @@ impl Syntax {
             Syntax::Es(..) => true,
         }
     }
+
+    pub(crate) fn skip_types(self) -> bool {
+        match self {
+            Syntax::Typescript(t) => t.skip_types,
+            Syntax::Es(..) => false,
+        }
+    }
 }
 
 #[derive(Debug, Clone, Copy, Default, Serialize, Deserialize)]
