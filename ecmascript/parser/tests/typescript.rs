@@ -10,6 +10,12 @@ use swc_ecma_parser::{lexer::Lexer, PResult, Parser, StringInput, Syntax, TsConf
 use swc_ecma_visit::FoldWith;
 use testing::StdErr;
 
+#[test]
+#[cfg(feature = "will-strip-types")]
+fn fail() {
+    panic!("You can't run typescript test with `will-strip-types`");
+}
+
 #[path = "common/mod.rs"]
 mod common;
 
