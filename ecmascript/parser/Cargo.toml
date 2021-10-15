@@ -17,6 +17,9 @@ all-features = true
 debug = []
 default = ["typescript"]
 typescript = []
+# Performance optimization. If you are going to apply `strip`
+# pass to all `Module` or `Script` produced by the parser, you can enable this.
+will-strip-types = ["typescript"]
 
 [dependencies]
 either = {version = "1.4"}
