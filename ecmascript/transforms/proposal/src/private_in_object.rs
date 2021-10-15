@@ -7,8 +7,7 @@ use swc_common::{
     collections::AHashSet, pass::CompilerPass, util::take::Take, Mark, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{pass::JsPass, perf::Check};
-use swc_ecma_transforms_macros::fast_path;
+use swc_ecma_transforms_base::pass::JsPass;
 use swc_ecma_utils::{
     default_constructor, ident::IdentLike, prepend, private_ident, quote_ident, ExprFactory, Id,
 };
@@ -126,7 +125,6 @@ impl PrivateInObject {
     }
 }
 
-#[fast_path(ShouldWork)]
 impl VisitMut for PrivateInObject {
     noop_visit_mut_type!();
 
@@ -511,37 +509,5 @@ impl Visit for ClassAnalyzer<'_> {
         }
 
         n.visit_children_with(self);
-    }
-}
-
-#[derive(Default)]
-struct ShouldWork {
-    found: bool,
-}
-
-impl Check for ShouldWork {
-    fn should_handle(&self) -> bool {
-        self.found
-    }
-}
-
-impl Visit for ShouldWork {
-    noop_visit_type!();
-
-    fn visit_bin_expr(&mut self, e: &BinExpr, _: &dyn Node) {
-        if e.op == op!("in") && e.left.is_private_name() {
-            self.found = true;
-            return;
-        }
-
-        e.visit_children_with(self);
-    }
-
-    fn visit_private_method(&mut self, _: &PrivateMethod, _: &dyn Node) {
-        self.found = true;
-    }
-
-    fn visit_private_prop(&mut self, _: &PrivateProp, _: &dyn Node) {
-        self.found = true;
     }
 }
