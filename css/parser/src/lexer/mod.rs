@@ -638,11 +638,11 @@ where
 
         if self.would_start_ident()? {
             let name = self.read_name()?;
-            let unit = name.0;
 
             return Ok(Token::Dimension {
                 value: number,
-                unit,
+                unit: name.0,
+                raw_unit: name.1
             });
         } else if self.input.cur().unwrap() == '%' {
             self.input.bump();

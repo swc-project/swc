@@ -719,7 +719,6 @@ where
                     self.input.skip_ws()?;
 
                     let ctx = Ctx {
-                        allow_operation_in_value: true,
                         ..self.ctx
                     };
                     let value = self.with_ctx(ctx).parse_property_values()?.0;

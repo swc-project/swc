@@ -81,6 +81,8 @@ pub enum Token {
         unit: JsWord,
         raw_unit: JsWord,
         unit: JsWord
+        unit: JsWord,
+        raw_unit: JsWord,
     },
 
     /// One or more whitespace.

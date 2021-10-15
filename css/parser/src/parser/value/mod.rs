@@ -193,6 +193,7 @@ where
         self.input.skip_ws()?;
 
         let span = self.input.cur_span()?;
+        
         match cur!(self) {
             Token::Str { .. } => {
                 let token = bump!(self);
@@ -205,7 +206,61 @@ where
                 }
             }
 
-            Token::Num { .. } => return self.parse_numeric_value(),
+            Token::Num { .. } => {
+                let token = bump!(self);
+
+                match token {
+                    Token::Num { value } => return Ok(Value::Number(Num { span: span!(self, span.lo), value })),
+                    _ => {
+                        unreachable!()
+                    }
+                }
+            }
+
+            Token::Percent { .. } => {
+                let token = bump!(self);
+
+                match token {
+                    Token::Percent { value } => {
+                        return Ok(Value::Percent(PercentValue {
+                            span,
+                            value: Num {
+                                value,
+                                span: swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default())
+                            },
+                        }))
+                    }
+                    _ => {
+                        unreachable!()
+                    }
+                }
+            }
+
+            Token::Dimension { .. } => {
+                let token = bump!(self);
+
+                match token {
+                    Token::Dimension { value, unit, raw_unit } => {
+                        let unit_len = raw_unit.len() as u32;
+                        let kind = UnitKind::from(unit);
+
+                        return Ok(Value::Unit(UnitValue {
+                            span,
+                            value: Num {
+                                value,
+                                span: swc_common::Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
+                            },
+                            unit: Unit {
+                                span: swc_common::Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
+                                kind,
+                            },
+                        }));
+                    }
+                    _ => {
+                        unreachable!()
+                    }
+                }
+            }
 
             Token::Function { .. } => return self.parse_value_ident_or_fn(),
 
@@ -222,6 +277,22 @@ where
             tok!("{") => {
                 return self.parse_brace_value().map(From::from);
             }
+            
+            tok!("+") => {
+                bump!(self);
+            },
+            
+            tok!("-") => {
+                bump!(self);
+            },
+            
+            tok!("*") => {
+                bump!(self);
+            },
+            
+            tok!("/") => {
+                bump!(self);
+            },
 
             Token::Hash { .. } => {
                 let token = bump!(self);
@@ -300,56 +371,6 @@ where
         let base = self.parse_basical_numeric_value()?;
 
         self.parse_numeric_value_with_base(span.lo, base)
-    }
-
-    /// This may parse operations, depending on the context.
-    fn parse_numeric_value(&mut self) -> PResult<Value> {
-        let span = self.input.cur_span()?;
-
-        let base = self.parse_basical_numeric_value()?;
-
-        self.parse_numeric_value_with_base(span.lo, base)
-    }
-
-    fn parse_numeric_value_with_base(&mut self, start: BytePos, base: Value) -> PResult<Value> {
-        let start_state = self.input.state();
-        self.input.skip_ws()?;
-
-        if self.ctx.allow_operation_in_value && is_one_of!(self, "+", "-", "*", "/") {
-            let token = bump!(self);
-
-            self.input.skip_ws()?;
-
-            let op = match token {
-                tok!("+") => BinOp::Add,
-                tok!("-") => BinOp::Sub,
-                tok!("*") => BinOp::Mul,
-                tok!("/") => BinOp::Div,
-                _ => {
-                    unreachable!()
-                }
-            };
-            self.input.skip_ws()?;
-
-            let ctx = Ctx {
-                allow_operation_in_value: false,
-                ..self.ctx
-            };
-            let right = self.with_ctx(ctx).parse_one_value()?;
-
-            let value = Value::Bin(BinValue {
-                span: span!(self, start),
-                op,
-                left: Box::new(base),
-                right: Box::new(right),
-            });
-
-            return self.parse_numeric_value_with_base(start, value);
-        }
-
-        self.input.reset(&start_state);
-
-        return Ok(base);
     }
 
     fn parse_hash_value(&mut self) -> PResult<HashValue> {
@@ -525,7 +546,6 @@ where
         if eat!(self, "(") || is_fn {
             let is_url = name.value.to_ascii_lowercase() == js_word!("url");
             let ctx = Ctx {
-                allow_operation_in_value: if is_url { false } else { true },
                 allow_separating_value_with_space: if is_url { false } else { true },
                 allow_separating_value_with_comma: false,
                 ..self.ctx
@@ -598,7 +618,6 @@ where
         self.input.skip_ws()?;
 
         let ctx = Ctx {
-            allow_operation_in_value: true,
             is_in_delimited_value: true,
             ..self.ctx
         };
@@ -638,6 +657,7 @@ where
             Token::Num { value } => Ok(Num { span, value }),
             Token::Number { value } => Ok(Num { span, value }),
             Token::Num{ value } => Ok(Num { span, value }),
+            Token::Num { value } => Ok(Num { span, value }),
             _ => {
                 unreachable!()
             }
@@ -739,7 +759,6 @@ where
         };
 
         let ctx = Ctx {
-            allow_operation_in_value: true,
             allow_separating_value_with_space: true,
             ..self.ctx
         };

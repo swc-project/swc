@@ -168,7 +168,6 @@ where
 
         if !self.input.is_eof()? {
             let ctx = Ctx {
-                allow_operation_in_value: false,
                 recover_from_property_value: true,
                 ..self.ctx
             };
