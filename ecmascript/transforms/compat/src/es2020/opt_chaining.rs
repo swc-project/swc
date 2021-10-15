@@ -1,8 +1,7 @@
 use std::{iter::once, mem};
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::Check;
-use swc_ecma_transforms_macros::fast_path;
+use swc_ecma_transforms_base::perf::{should_work, Check};
 use swc_ecma_utils::{alias_if_required, prepend, private_ident, undefined, ExprFactory, StmtLike};
 use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit};
 
@@ -17,7 +16,6 @@ struct OptChaining {
 }
 
 /// TODO: VisitMut
-#[fast_path(ShouldWork)]
 impl Fold for OptChaining {
     noop_fold_type!();
 
@@ -44,6 +42,10 @@ impl Fold for OptChaining {
     }
 
     fn fold_expr(&mut self, e: Expr) -> Expr {
+        if !should_work::<ShouldWork, _>(&e) {
+            return e;
+        }
+
         let e = match e {
             Expr::OptChain(e) => Expr::Cond(self.unwrap(e)),
             Expr::Unary(e) => self.handle_unary(e),
