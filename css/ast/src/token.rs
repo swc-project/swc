@@ -17,44 +17,31 @@ pub struct TokenAndSpan {
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub enum Token {
+    Ident {
+        value: JsWord,
+        raw: JsWord,
+    },
+
+    // TODO: Function
     /// `@`
     AtKeyword {
         value: JsWord,
         raw: JsWord,
     },
 
-    Delim {
-        value: char,
-    },
-
-    /// `(`
-    LParen,
-
-    /// `)`
-    RParen,
-
-    /// `[`
-    LBracket,
-
-    /// `]`
-    RBracket,
-
-    /// `%`
-    Percent,
-
-    Num(NumToken),
-
-    Ident {
-        value: JsWord,
-        raw: JsWord,
-    },
-
-    BadStr {
+    /// `#`
+    Hash {
+        is_id: bool,
         value: JsWord,
         raw: JsWord,
     },
 
     Str {
+        value: JsWord,
+        raw: JsWord,
+    },
+
+    BadStr {
         value: JsWord,
         raw: JsWord,
     },
@@ -65,66 +52,51 @@ pub enum Token {
         raw: JsWord,
     },
 
-    /// `,`
-    Comma,
+    // TODO BadUrl
+    Delim {
+        value: char,
+    },
+
+    Num(NumToken),
+
+    // TODO Percentage
+
+    // TODO dimension
+    /// One or more whitespace.
+    WhiteSpace,
+
+    /// `<!--`
+    CDO,
+
+    /// `-->`
+    CDC,
+
+    /// `:``
+    Colon,
 
     /// `;`
     Semi,
 
-    /// `!`
-    Bang,
+    /// `,`
+    Comma,
+
+    /// `[`
+    LBracket,
+
+    /// `]`
+    RBracket,
+
+    /// `(`
+    LParen,
+
+    /// `)`
+    RParen,
 
     /// `{`
     LBrace,
 
     /// `}`
     RBrace,
-
-    /// `:``
-    Colon,
-
-    /// `*`
-    Asterisk,
-
-    /// `#`
-    Hash {
-        is_id: bool,
-        value: JsWord,
-        raw: JsWord,
-    },
-
-    /// One or more whitespace.
-    WhiteSpace,
-
-    /// `-->`
-    CDC,
-
-    /// `<!--`
-    CDO,
-
-    /// `&`
-    Ampersand,
-
-    /// `|`
-    Bar,
-
-    /// `$`
-    Dollar,
-
-    /// `^`
-    Caret,
-
-    /// `~`
-    Tilde,
-
-    /// `=`
-    Equals,
-
-    /// `/`
-    Div,
-
-    /// `<`
-    GreaterThan,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

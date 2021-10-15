@@ -250,7 +250,11 @@
                           "end": 136,
                           "ctxt": 0
                         },
-                        "token": "GreaterThan"
+                        "token": {
+                          "Delim": {
+                            "value": ">"
+                          }
+                        }
                       },
                       {
                         "span": {
@@ -415,7 +419,11 @@
                       "end": 265,
                       "ctxt": 0
                     },
-                    "token": "Percent"
+                    "token": {
+                      "Delim": {
+                        "value": "%"
+                      }
+                    }
                   }
                 ]
               }
@@ -563,7 +571,11 @@
                               "end": 333,
                               "ctxt": 0
                             },
-                            "token": "GreaterThan"
+                            "token": {
+                              "Delim": {
+                                "value": ">"
+                              }
+                            }
                           },
                           {
                             "span": {
@@ -667,7 +679,11 @@
                           "end": 406,
                           "ctxt": 0
                         },
-                        "token": "Percent"
+                        "token": {
+                          "Delim": {
+                            "value": "%"
+                          }
+                        }
                       }
                     ]
                   }
@@ -787,7 +803,11 @@
                               "end": 462,
                               "ctxt": 0
                             },
-                            "token": "GreaterThan"
+                            "token": {
+                              "Delim": {
+                                "value": ">"
+                              }
+                            }
                           },
                           {
                             "span": {
@@ -891,7 +911,11 @@
                           "end": 535,
                           "ctxt": 0
                         },
-                        "token": "Percent"
+                        "token": {
+                          "Delim": {
+                            "value": "%"
+                          }
+                        }
                       }
                     ]
                   }
