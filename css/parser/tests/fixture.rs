@@ -52,7 +52,7 @@ fn tokens_input(input: PathBuf) {
         let fm = cm.load_file(&input).unwrap();
 
         let tokens = {
-            let mut lexer = Lexer::new(SourceFileInput::from(&*fm));
+            let mut lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
 
             let mut tokens = vec![];
 
@@ -100,7 +100,7 @@ fn pass(input: PathBuf) {
         let ref_json_path = input.parent().unwrap().join("output.json");
 
         let fm = cm.load_file(&input).unwrap();
-        let lexer = Lexer::new(SourceFileInput::from(&*fm));
+        let lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
         let mut parser = Parser::new(
             lexer,
             ParserConfig {
@@ -121,7 +121,7 @@ fn pass(input: PathBuf) {
                 actual_json.clone().compare_to_file(&ref_json_path).unwrap();
 
                 {
-                    let mut lexer = Lexer::new(SourceFileInput::from(&*fm));
+                    let mut lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
                     let mut tokens = Tokens {
                         span: Span::new(fm.start_pos, fm.end_pos, Default::default()),
                         tokens: vec![],
@@ -196,16 +196,13 @@ fn recovery(input: PathBuf) {
 
         let ref_json_path = input.parent().unwrap().join("output.json");
 
+        let config = ParserConfig {
+            parse_values: true,
+            allow_wrong_line_comments: true,
+        };
         let fm = cm.load_file(&input).unwrap();
-        let lexer = Lexer::new(SourceFileInput::from(&*fm));
-        let mut parser = Parser::new(
-            lexer,
-            ParserConfig {
-                parse_values: true,
-
-                ..Default::default()
-            },
-        );
+        let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
+        let mut parser = Parser::new(lexer, config);
 
         let stylesheet = parser.parse_all();
 
@@ -218,7 +215,7 @@ fn recovery(input: PathBuf) {
                 actual_json.clone().compare_to_file(&ref_json_path).unwrap();
 
                 {
-                    let mut lexer = Lexer::new(SourceFileInput::from(&*fm));
+                    let mut lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
                     let mut tokens = Tokens {
                         span: Span::new(fm.start_pos, fm.end_pos, Default::default()),
                         tokens: vec![],
@@ -381,19 +378,19 @@ fn span(input: PathBuf) {
     let dir = input.parent().unwrap().to_path_buf();
 
     let output = testing::run_test2(false, |cm, handler| {
+        // Type annotation
         if false {
             return Ok(());
         }
 
+        let config = ParserConfig {
+            parse_values: true,
+            ..Default::default()
+        };
+
         let fm = cm.load_file(&input).unwrap();
-        let lexer = Lexer::new(SourceFileInput::from(&*fm));
-        let mut parser = Parser::new(
-            lexer,
-            ParserConfig {
-                parse_values: true,
-                ..Default::default()
-            },
-        );
+        let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
+        let mut parser = Parser::new(lexer, config);
 
         let stylesheet = parser.parse_all();
 
@@ -429,16 +426,15 @@ fn fail(input: PathBuf) {
     let stderr_path = input.parent().unwrap().join("output.stderr");
 
     let stderr = testing::run_test2(false, |cm, handler| -> Result<(), _> {
-        let fm = cm.load_file(&input).unwrap();
-        let lexer = Lexer::new(SourceFileInput::from(&*fm));
-        let mut parser = Parser::new(
-            lexer,
-            ParserConfig {
-                parse_values: true,
+        let config = ParserConfig {
+            parse_values: true,
 
-                ..Default::default()
-            },
-        );
+            ..Default::default()
+        };
+
+        let fm = cm.load_file(&input).unwrap();
+        let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
+        let mut parser = Parser::new(lexer, config);
 
         let stylesheet = parser.parse_all();
 

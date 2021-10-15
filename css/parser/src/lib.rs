@@ -43,7 +43,7 @@ pub fn parse_str<'a, T>(
 where
     Parser<Lexer<StringInput<'a>>>: Parse<T>,
 {
-    let lexer = Lexer::new(StringInput::new(src, start_pos, end_pos));
+    let lexer = Lexer::new(StringInput::new(src, start_pos, end_pos), config);
     let mut parser = Parser::new(lexer, config);
 
     let res = parser.parse();
@@ -63,7 +63,7 @@ pub fn parse_file<'a, T>(
 where
     Parser<Lexer<StringInput<'a>>>: Parse<T>,
 {
-    let lexer = Lexer::new(StringInput::from(fm));
+    let lexer = Lexer::new(StringInput::from(fm), config);
     let mut parser = Parser::new(lexer, config);
 
     let res = parser.parse();
