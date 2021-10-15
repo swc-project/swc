@@ -27,9 +27,16 @@ impl Visit for AssertValid {
 
         let mut errors = vec![];
 
-        let _selectors: Vec<ComplexSelector> =
-            parse_tokens(&s.args, ParserConfig { parse_values: true }, &mut errors)
-                .unwrap_or_else(|err| panic!("failed to parse tokens: {:?}\n{:?}", err, s.args));
+        let _selectors: Vec<ComplexSelector> = parse_tokens(
+            &s.args,
+            ParserConfig {
+                parse_values: true,
+
+                ..Default::default()
+            },
+            &mut errors,
+        )
+        .unwrap_or_else(|err| panic!("failed to parse tokens: {:?}\n{:?}", err, s.args));
 
         for err in errors {
             panic!("{:?}", err);
@@ -59,9 +66,16 @@ fn tokens_input(input: PathBuf) {
         };
 
         let mut errors = vec![];
-        let ss: Stylesheet =
-            parse_tokens(&tokens, ParserConfig { parse_values: true }, &mut errors)
-                .expect("failed to parse tokens");
+        let ss: Stylesheet = parse_tokens(
+            &tokens,
+            ParserConfig {
+                parse_values: true,
+
+                ..Default::default()
+            },
+            &mut errors,
+        )
+        .expect("failed to parse tokens");
 
         for err in errors {
             err.to_diagnostics(&handler).emit();
@@ -87,7 +101,14 @@ fn pass(input: PathBuf) {
 
         let fm = cm.load_file(&input).unwrap();
         let lexer = Lexer::new(SourceFileInput::from(&*fm));
-        let mut parser = Parser::new(lexer, ParserConfig { parse_values: true });
+        let mut parser = Parser::new(
+            lexer,
+            ParserConfig {
+                parse_values: true,
+
+                ..Default::default()
+            },
+        );
 
         let stylesheet = parser.parse_all();
 
@@ -123,9 +144,16 @@ fn pass(input: PathBuf) {
                     }
 
                     let mut errors = vec![];
-                    let ss_tok: Stylesheet =
-                        parse_tokens(&tokens, ParserConfig { parse_values: true }, &mut errors)
-                            .expect("failed to parse token");
+                    let ss_tok: Stylesheet = parse_tokens(
+                        &tokens,
+                        ParserConfig {
+                            parse_values: true,
+
+                            ..Default::default()
+                        },
+                        &mut errors,
+                    )
+                    .expect("failed to parse token");
 
                     for err in errors {
                         err.to_diagnostics(&handler).emit();
@@ -170,7 +198,14 @@ fn recovery(input: PathBuf) {
 
         let fm = cm.load_file(&input).unwrap();
         let lexer = Lexer::new(SourceFileInput::from(&*fm));
-        let mut parser = Parser::new(lexer, ParserConfig { parse_values: true });
+        let mut parser = Parser::new(
+            lexer,
+            ParserConfig {
+                parse_values: true,
+
+                ..Default::default()
+            },
+        );
 
         let stylesheet = parser.parse_all();
 
@@ -206,9 +241,15 @@ fn recovery(input: PathBuf) {
                     }
 
                     let mut errors = vec![];
-                    let ss_tok: Stylesheet =
-                        parse_tokens(&tokens, ParserConfig { parse_values: true }, &mut errors)
-                            .expect("failed to parse token");
+                    let ss_tok: Stylesheet = parse_tokens(
+                        &tokens,
+                        ParserConfig {
+                            parse_values: true,
+                            ..Default::default()
+                        },
+                        &mut errors,
+                    )
+                    .expect("failed to parse token");
 
                     for err in errors {
                         err.to_diagnostics(&handler).emit();
@@ -346,7 +387,13 @@ fn span(input: PathBuf) {
 
         let fm = cm.load_file(&input).unwrap();
         let lexer = Lexer::new(SourceFileInput::from(&*fm));
-        let mut parser = Parser::new(lexer, ParserConfig { parse_values: true });
+        let mut parser = Parser::new(
+            lexer,
+            ParserConfig {
+                parse_values: true,
+                ..Default::default()
+            },
+        );
 
         let stylesheet = parser.parse_all();
 
@@ -384,7 +431,14 @@ fn fail(input: PathBuf) {
     let stderr = testing::run_test2(false, |cm, handler| -> Result<(), _> {
         let fm = cm.load_file(&input).unwrap();
         let lexer = Lexer::new(SourceFileInput::from(&*fm));
-        let mut parser = Parser::new(lexer, ParserConfig { parse_values: true });
+        let mut parser = Parser::new(
+            lexer,
+            ParserConfig {
+                parse_values: true,
+
+                ..Default::default()
+            },
+        );
 
         let stylesheet = parser.parse_all();
 
