@@ -52,6 +52,7 @@ struct ClassProperties {
     method_mark: Mark,
 }
 
+/// TODO: VisitMut
 #[fast_path(ShouldWork)]
 impl Fold for ClassProperties {
     noop_fold_type!();

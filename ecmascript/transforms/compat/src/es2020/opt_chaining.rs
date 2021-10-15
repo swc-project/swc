@@ -16,6 +16,7 @@ struct OptChaining {
     vars_with_init: Vec<VarDeclarator>,
 }
 
+/// TODO: VisitMut
 #[fast_path(ShouldWork)]
 impl Fold for OptChaining {
     noop_fold_type!();

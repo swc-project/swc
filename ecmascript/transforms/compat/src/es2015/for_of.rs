@@ -398,6 +398,7 @@ impl Actual {
     }
 }
 
+/// TODO: VisitMut
 impl Fold for Actual {
     noop_fold_type!();
 
@@ -503,6 +504,7 @@ fn make_finally_block(
     })
 }
 
+/// TODO: VisitMut
 impl Fold for ForOf {
     noop_fold_type!();
 

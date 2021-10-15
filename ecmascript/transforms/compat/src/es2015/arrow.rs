@@ -67,6 +67,7 @@ struct Arrow {
     vars: Vec<VarDeclarator>,
 }
 
+/// TODO: VisitMut
 #[fast_path(ArrowVisitor)]
 impl Fold for Arrow {
     noop_fold_type!();
@@ -238,6 +239,7 @@ struct ArgumentsReplacer {
     found: bool,
 }
 
+/// TODO: VisitMut
 impl Fold for ArgumentsReplacer {
     noop_fold_type!();
 

@@ -10,6 +10,7 @@ pub fn export_default_from() -> impl Fold {
 
 struct ExportDefaultFrom;
 
+/// TODO: VisitMut
 impl Fold for ExportDefaultFrom {
     noop_fold_type!();
 

@@ -33,6 +33,7 @@ struct ActualFolder {
     vars: Vec<VarDeclarator>,
 }
 
+/// TODO: VisitMut
 #[fast_path(SpreadFinder)]
 impl Fold for Spread {
     noop_fold_type!();
@@ -72,6 +73,7 @@ impl Spread {
     }
 }
 
+/// TODO: VisitMut
 #[fast_path(SpreadFinder)]
 impl Fold for ActualFolder {
     noop_fold_type!();

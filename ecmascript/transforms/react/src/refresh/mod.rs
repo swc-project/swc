@@ -565,7 +565,9 @@ where
     }
 }
 
-// We let user do /* @refresh reset */ to reset state in the whole file.
+/// We let user do /* @refresh reset */ to reset state in the whole file.
+///
+/// TODO: VisitMut
 impl<C: Comments> Fold for Refresh<C> {
     fn fold_jsx_opening_element(&mut self, n: JSXOpeningElement) -> JSXOpeningElement {
         if let JSXElementName::Ident(ident) = &n.name {

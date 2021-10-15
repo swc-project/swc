@@ -81,6 +81,7 @@ impl Visit for Legacy {
     }
 }
 
+/// TODO: VisitMut
 impl Fold for Legacy {
     noop_fold_type!();
 

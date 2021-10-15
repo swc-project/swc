@@ -18,6 +18,7 @@ struct AsyncArrowsInClass {
     vars: Vec<VarDeclarator>,
 }
 
+/// TODO: VisitMut
 impl Fold for AsyncArrowsInClass {
     noop_fold_type!();
 

@@ -13,7 +13,10 @@ pub fn import_analyzer(scope: Rc<RefCell<Scope>>) -> ImportAnalyzer {
 pub struct ImportAnalyzer {
     scope: Rc<RefCell<Scope>>,
 }
+
 /// Inject required helpers methods **for** module transform passes.
+///
+/// TODO: VisitMut
 impl Fold for ImportAnalyzer {
     noop_fold_type!();
 

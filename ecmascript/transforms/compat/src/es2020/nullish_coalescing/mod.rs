@@ -44,6 +44,7 @@ impl NullishCoalescing {
     }
 }
 
+/// TODO: VisitMut
 #[fast_path(ShouldWork)]
 impl Fold for NullishCoalescing {
     noop_fold_type!();

@@ -16,6 +16,7 @@ struct JsxSelf {
     dev: bool,
 }
 
+/// TODO: VisitMut
 impl Fold for JsxSelf {
     noop_fold_type!();
 

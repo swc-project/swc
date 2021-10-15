@@ -47,6 +47,7 @@ struct ObjectLitFolder {
     used_define_enum_props: bool,
 }
 
+/// TODO: VisitMut
 impl Fold for ObjectLitFolder {
     noop_fold_type!();
 
@@ -288,6 +289,7 @@ impl Visit for ComplexVisitor {
     }
 }
 
+/// TODO: VisitMut
 impl Fold for ComputedProps {
     noop_fold_type!();
 

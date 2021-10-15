@@ -141,6 +141,7 @@ macro_rules! impl_for_for_stmt {
     };
 }
 
+/// TODO: VisitMut
 impl Fold for RestFolder {
     noop_fold_type!();
 
@@ -403,6 +404,7 @@ where
     v.found
 }
 
+/// TODO: VisitMut
 impl Fold for ObjectRest {
     noop_fold_type!();
     fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
@@ -1050,6 +1052,8 @@ fn excluded_props(props: &[ObjectPatProp]) -> Vec<Option<ExprOrSpread>> {
 ///  - `{ x4: {}  }` -> `{}`
 fn simplify_pat(pat: Pat) -> Pat {
     struct PatSimplifier;
+
+    /// TODO: VisitMut
     impl Fold for PatSimplifier {
         noop_fold_type!();
 
@@ -1092,6 +1096,7 @@ fn simplify_pat(pat: Pat) -> Pat {
 
 struct ObjectSpread;
 
+/// TODO: VisitMut
 #[fast_path(SpreadVisitor)]
 impl Fold for ObjectSpread {
     noop_fold_type!();
