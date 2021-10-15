@@ -99,15 +99,8 @@ fn test_pass(input: PathBuf, config: ParserConfig) {
         let ref_json_path = input.parent().unwrap().join("output.json");
 
         let fm = cm.load_file(&input).unwrap();
-        let lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
-        let mut parser = Parser::new(
-            lexer,
-            ParserConfig {
-                parse_values: true,
-
-                ..Default::default()
-            },
-        );
+        let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
+        let mut parser = Parser::new(lexer, config);
 
         let stylesheet = parser.parse_all();
 
