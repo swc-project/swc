@@ -388,7 +388,6 @@ where
                     self.input.bump();
                     repr.push(code);
                     repr.push(next);
-                    repr.push(next_next);
                     repr.push_str(&self.read_digits());
                 }
             } else if next.is_digit(10) {

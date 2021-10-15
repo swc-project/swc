@@ -45,7 +45,8 @@
                 "end": 22,
                 "ctxt": 0
               },
-              "value": 935.0
+              "value": 935.0,
+              "raw": "935"
             },
             "unit": {
               "span": {
@@ -198,7 +199,8 @@
                       "end": 78,
                       "ctxt": 0
                     },
-                    "value": 0.0
+                    "value": 0.0,
+                    "raw": "0"
                   }
                 ],
                 "important": null
@@ -317,7 +319,8 @@
                       "end": 133,
                       "ctxt": 0
                     },
-                    "value": 0.0
+                    "value": 0.0,
+                    "raw": "0"
                   }
                 ],
                 "important": null
@@ -685,7 +688,8 @@
                       "end": 264,
                       "ctxt": 0
                     },
-                    "value": 0.0
+                    "value": 0.0,
+                    "raw": "0"
                   }
                 ],
                 "important": null

@@ -425,7 +425,7 @@ where
 
     #[emitter]
     fn emit_num(&mut self, n: &Num) -> Result {
-        self.wr.write_raw(Some(n.span), &n.value.to_string())?;
+        self.wr.write_raw(Some(n.span), &n.raw)?;
     }
 
     #[emitter]
@@ -494,8 +494,8 @@ where
                 Token::RBracket => {
                     punct!(self, span, "]");
                 }
-                Token::Num(n) => {
-                    self.wr.write_raw(Some(span), &n.value.to_string())?;
+                Token::Num{ raw, ..} => {
+                    self.wr.write_raw(Some(span), raw)?;
                 }
                 Token::Ident { raw, .. } => {
                     self.wr.write_raw(Some(n.span), &raw)?;

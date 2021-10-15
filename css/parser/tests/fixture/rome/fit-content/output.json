@@ -114,7 +114,8 @@
                         "end": 46,
                         "ctxt": 0
                       },
-                      "value": 8.0
+                      "value": 8.0,
+                      "raw": "8"
                     },
                     "unit": {
                       "span": {
@@ -159,7 +160,8 @@
                         "end": 63,
                         "ctxt": 0
                       },
-                      "value": 8.0
+                      "value": 8.0,
+                      "raw": "8"
                     },
                     "unit": {
                       "span": {
@@ -186,7 +188,8 @@
                     "end": 68,
                     "ctxt": 0
                   },
-                  "value": 1.0
+                  "value": 1.0,
+                  "raw": "1"
                 },
                 "unit": {
                   "span": {

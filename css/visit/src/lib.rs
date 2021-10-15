@@ -24,6 +24,7 @@ define!({
     pub struct Num {
         pub span: Span,
         pub value: f64,
+        pub raw: JsWord,
     }
 
     pub struct Property {
