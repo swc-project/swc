@@ -1,12 +1,8 @@
 use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{ext::PatOrExprExt, perf::Check};
-use swc_ecma_transforms_macros::fast_path;
+use swc_ecma_transforms_base::ext::PatOrExprExt;
 use swc_ecma_utils::{member_expr, private_ident, ExprFactory, StmtLike};
-use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
-    VisitWith,
-};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 /// `@babel/plugin-transform-exponentiation-operator`
 ///
@@ -36,7 +32,6 @@ struct Exponentation {
     vars: Vec<VarDeclarator>,
 }
 
-#[fast_path(ShouldFold)]
 impl VisitMut for Exponentation {
     noop_visit_mut_type!();
 
@@ -55,7 +50,7 @@ impl VisitMut for Exponentation {
             Expr::Assign(AssignExpr {
                 span,
                 left,
-                op: op!("**="),
+                op: op @ op!("**="),
                 right,
             }) => {
                 let lhs: Ident = match left {
@@ -85,6 +80,7 @@ impl VisitMut for Exponentation {
                     }
                 };
 
+                *op = op!("=");
                 *right = Box::new(mk_call(*span, Box::new(lhs.into()), right.take()));
             }
             Expr::Bin(BinExpr {
@@ -103,8 +99,8 @@ impl VisitMut for Exponentation {
 impl Exponentation {
     fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: StmtLike + VisitWith<ShouldFold> + VisitMutWith<Self>,
-        Vec<T>: VisitMutWith<Self> + VisitWith<ShouldFold>,
+        T: StmtLike + VisitMutWith<Self>,
+        Vec<T>: VisitMutWith<Self>,
     {
         let orig = self.vars.take();
 
@@ -142,37 +138,6 @@ fn mk_call(span: Span, left: Box<Expr>, right: Box<Expr>) -> Expr {
         args: vec![left.as_arg(), right.as_arg()],
         type_args: Default::default(),
     })
-}
-
-#[derive(Default)]
-struct ShouldFold {
-    found: bool,
-}
-impl Visit for ShouldFold {
-    noop_visit_type!();
-
-    fn visit_bin_expr(&mut self, e: &BinExpr, _: &dyn Node) {
-        if e.op == op!("**") {
-            self.found = true;
-        }
-    }
-
-    fn visit_assign_expr(&mut self, e: &AssignExpr, _: &dyn Node) {
-        if e.op == op!("**=") {
-            self.found = true;
-        }
-
-        if !self.found {
-            e.left.visit_with(e as _, self);
-            e.right.visit_with(e as _, self);
-        }
-    }
-}
-
-impl Check for ShouldFold {
-    fn should_handle(&self) -> bool {
-        self.found
-    }
 }
 
 #[cfg(test)]
