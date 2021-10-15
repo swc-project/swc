@@ -350,8 +350,7 @@ where
         digits.into()
     }
 
-    // TODO: need `raw`
-    fn read_number(&mut self) -> f64 {
+    fn read_number(&mut self) -> (f64, String) {
         let mut repr = String::new();
         let code = self.input.cur().unwrap();
 
@@ -401,11 +400,12 @@ where
             }
         }
 
+        let raw = repr.clone();
         let parsed = lexical::parse(&repr.as_bytes()).unwrap_or_else(|err| {
             unreachable!("failed to parse `{}` using lexical: {:?}", repr, err)
         });
 
-        parsed
+        (parsed, raw)
     }
 
     fn read_numeric(&mut self) -> LexResult<Token> {
@@ -426,7 +426,7 @@ where
         //     return Ok(Token::Percent { value: number });
         // }
 
-        Ok(Token::Num(swc_css_ast::NumToken { value: number }))
+        Ok(Token::Num(swc_css_ast::NumToken { value: number.0, raw: number.1.into()  }))
     }
 
     fn is_valid_escape(&mut self) -> LexResult<bool> {

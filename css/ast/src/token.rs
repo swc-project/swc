@@ -106,4 +106,5 @@ pub enum Token {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct NumToken {
     pub value: f64,
+    pub raw: JsWord,
 }
