@@ -391,6 +391,11 @@ where
                         Token::Ident { raw: unit, .. } => {
                             let kind = UnitKind::from(unit);
                         Token::Ident { value: unit_value, raw: unit_raw, .. } => {
+                        Token::Ident {
+                            value: unit_value,
+                            raw: unit_raw,
+                            ..
+                        } => {
                             return Ok(Value::Unit(UnitValue {
                                 span: span!(self, span.lo),
                                 value,
