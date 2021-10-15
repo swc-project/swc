@@ -235,7 +235,6 @@ switch (true){
 
 "#,
     r#"
-var _obj;
 
 function fn() {}
 
@@ -248,6 +247,7 @@ var obj = {
 
 switch (true) {
   case true:
+    var _obj;
     (_obj = obj.obj).fn.apply(_obj, _toConsumableArray(args));
 
     break;
