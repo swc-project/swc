@@ -1,7 +1,7 @@
 import foo from 'foo';
 
 
-function foo() {
+async function foo() {
     await import('foo');
 
     callback(() => import('foo'));
