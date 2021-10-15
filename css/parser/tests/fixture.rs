@@ -92,8 +92,7 @@ fn tokens_input(input: PathBuf) {
     .unwrap();
 }
 
-#[testing::fixture("tests/fixture/**/input.css")]
-fn pass(input: PathBuf) {
+fn test_pass(input: PathBuf, config: ParserConfig) {
     eprintln!("Input: {}", input.display());
 
     testing::run_test2(false, |cm, handler| {
@@ -181,6 +180,29 @@ fn pass(input: PathBuf) {
     .unwrap();
 }
 
+#[testing::fixture("tests/fixture/**/input.css")]
+fn pass(input: PathBuf) {
+    test_pass(
+        input,
+        ParserConfig {
+            parse_values: true,
+            ..Default::default()
+        },
+    )
+}
+
+#[testing::fixture("tests/line-comment/**/input.css")]
+fn line_commetns(input: PathBuf) {
+    test_pass(
+        input,
+        ParserConfig {
+            parse_values: true,
+            allow_wrong_line_comments: true,
+            ..Default::default()
+        },
+    )
+}
+
 #[testing::fixture("tests/recovery/**/input.css")]
 fn recovery(input: PathBuf) {
     eprintln!("Input: {}", input.display());
@@ -198,7 +220,7 @@ fn recovery(input: PathBuf) {
 
         let config = ParserConfig {
             parse_values: true,
-            allow_wrong_line_comments: true,
+            allow_wrong_line_comments: false,
         };
         let fm = cm.load_file(&input).unwrap();
         let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
