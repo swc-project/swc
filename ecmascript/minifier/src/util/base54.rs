@@ -30,7 +30,7 @@ pub(crate) fn incr_base54(init: &mut usize) -> String {
         base = 64;
     }
 
-    if ret.is_reserved() {
+    if ret.is_reserved() || ret == "let" {
         return incr_base54(init);
     }
 
