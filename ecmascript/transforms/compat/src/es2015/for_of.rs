@@ -493,7 +493,11 @@ impl Fold for ForOf {
             Stmt::Labeled(LabeledStmt { span, label, body }) => {
                 // Handle label
                 match *body {
-                    Stmt::ForOf(stmt) => self.fold_for_stmt(Some(label), stmt),
+                    Stmt::ForOf(stmt) => {
+                        let stmt = stmt.fold_children_with(self);
+
+                        self.fold_for_stmt(Some(label), stmt)
+                    }
                     _ => Stmt::Labeled(LabeledStmt {
                         span,
                         label,
@@ -501,7 +505,11 @@ impl Fold for ForOf {
                     }),
                 }
             }
-            Stmt::ForOf(stmt) => self.fold_for_stmt(None, stmt),
+            Stmt::ForOf(stmt) => {
+                let stmt = stmt.fold_children_with(self);
+
+                self.fold_for_stmt(None, stmt)
+            }
             _ => stmt.fold_children_with(self),
         }
     }
