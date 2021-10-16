@@ -11,8 +11,8 @@ use swc_ecma_utils::{
     ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith,
-    VisitWith,
+    as_folder, noop_fold_type, noop_visit_mut_type, noop_visit_type, Fold, FoldWith, Node, Visit,
+    VisitMut, VisitMutWith, VisitWith,
 };
 
 /// `@babel/plugin-proposal-object-rest-spread`
@@ -33,6 +33,10 @@ struct ObjectRest {
 macro_rules! impl_for_for_stmt {
     ($name:ident, $T:tt) => {
         fn $name(&mut self, mut for_stmt: $T) -> $T {
+            if !contains_rest(&for_stmt) {
+                return for_stmt;
+            }
+
             let left = match for_stmt.left {
                 VarDeclOrPat::VarDecl(var_decl) => {
                     let ref_ident = private_ident!("_ref");
@@ -121,7 +125,7 @@ macro_rules! impl_for_for_stmt {
             let stmt = Stmt::Decl(Decl::Var(VarDecl {
                 span: DUMMY_SP,
                 kind: VarDeclKind::Var,
-                decls: mem::replace(&mut self.vars, vec![]),
+                decls: mem::take(&mut self.vars),
                 declare: false,
             }));
 
@@ -141,6 +145,30 @@ macro_rules! impl_for_for_stmt {
     };
 }
 
+struct RestVisitor {
+    found: bool,
+}
+
+impl Visit for RestVisitor {
+    noop_visit_type!();
+
+    fn visit_object_pat_prop(&mut self, prop: &ObjectPatProp, _: &dyn Node) {
+        match *prop {
+            ObjectPatProp::Rest(..) => self.found = true,
+            _ => prop.visit_children_with(self),
+        }
+    }
+}
+
+fn contains_rest<N>(node: &N) -> bool
+where
+    N: VisitWith<RestVisitor>,
+{
+    let mut v = RestVisitor { found: false };
+    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+    v.found
+}
+
 /// TODO: VisitMut
 impl Fold for ObjectRest {
     noop_fold_type!();
@@ -151,6 +179,11 @@ impl Fold for ObjectRest {
 
     /// Handles assign expression
     fn fold_expr(&mut self, expr: Expr) -> Expr {
+        // fast path
+        if !contains_rest(&expr) {
+            return expr;
+        }
+
         let expr = expr.fold_children_with(self);
 
         match expr {
@@ -198,7 +231,7 @@ impl Fold for ObjectRest {
                 self.exprs.push(Box::new(var_ident.into()));
                 Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
-                    exprs: mem::replace(&mut self.exprs, vec![]),
+                    exprs: mem::take(&mut self.exprs),
                 })
             }
             _ => expr,
@@ -207,6 +240,11 @@ impl Fold for ObjectRest {
 
     /// export var { b, ...c } = asdf2;
     fn fold_module_decl(&mut self, decl: ModuleDecl) -> ModuleDecl {
+        if !contains_rest(&decl) {
+            // fast path
+            return decl;
+        }
+
         match decl {
             ModuleDecl::ExportDecl(ExportDecl {
                 span,
@@ -255,7 +293,19 @@ impl Fold for ObjectRest {
     }
 
     fn fold_var_declarators(&mut self, decls: Vec<VarDeclarator>) -> Vec<VarDeclarator> {
+        // fast path
+        if !contains_rest(&decls) {
+            return decls;
+        }
+
         for decl in decls {
+            // fast path
+            if !contains_rest(&decl) {
+                // println!("Var: no rest",);
+                self.vars.push(decl);
+                continue;
+            }
+
             let decl = decl.fold_children_with(self);
 
             //            if !contains_rest(&decl.name) {
@@ -362,16 +412,20 @@ impl Fold for ObjectRest {
             }
         }
 
-        mem::replace(&mut self.vars, vec![])
+        mem::take(&mut self.vars)
     }
 }
 
 impl ObjectRest {
     fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
     where
-        T: StmtLike + FoldWith<ObjectRest>,
-        Vec<T>: FoldWith<Self>,
+        T: StmtLike + VisitWith<RestVisitor> + FoldWith<ObjectRest>,
+        Vec<T>: FoldWith<Self> + VisitWith<RestVisitor>,
     {
+        if !contains_rest(&stmts) {
+            return stmts;
+        }
+
         let mut buf = Vec::with_capacity(stmts.len());
 
         for stmt in stmts {
@@ -455,6 +509,11 @@ impl ObjectRest {
     }
 
     fn fold_fn_like(&mut self, params: Vec<Param>, body: BlockStmt) -> (Vec<Param>, BlockStmt) {
+        if !contains_rest(&params) {
+            // fast-path
+            return (params, body);
+        }
+
         let params = params
             .into_iter()
             .map(|mut param| {
@@ -557,7 +616,7 @@ impl ObjectRest {
                     Some(Stmt::Decl(Decl::Var(VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
-                        decls: mem::replace(&mut self.vars, vec![]),
+                        decls: mem::take(&mut self.vars),
                         declare: false,
                     })))
                 }
@@ -984,13 +1043,7 @@ impl VisitMut for ObjectSpread {
                             PropOrSpread::Spread(SpreadElement { expr, .. }) => {
                                 // Push object if it's not empty
                                 if first || !obj.props.is_empty() {
-                                    let obj = mem::replace(
-                                        &mut obj,
-                                        ObjectLit {
-                                            span: DUMMY_SP,
-                                            props: vec![],
-                                        },
-                                    );
+                                    let obj = obj.take();
                                     buf.push(obj.as_arg());
                                     first = false;
                                 }
