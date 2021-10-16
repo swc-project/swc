@@ -52,22 +52,28 @@ fn make_par_visit_method(mode: Mode, suffix: &str, threshold: usize) -> ImplItem
                     if nodes.len() >= threshold {
                         use rayon::prelude::*;
 
-                        let (visitor, nodes) = nodes
-                            .into_par_iter()
-                            .map(|node| {
-                                let mut visitor = Self::default();
-                                let node = node.fold_with(&mut visitor);
+                        let (visitor, nodes) = ::swc_common::GLOBALS.with(|globals| {
+                            nodes
+                                .into_par_iter()
+                                .map(|node| {
+                                    ::swc_common::GLOBALS.set(&globals, || {
+                                        let mut visitor = Self::default();
+                                        let node = node.fold_with(&mut visitor);
 
-                                (visitor, node)
-                            })
-                            .fold(
-                                || (Self::default(), vec![]),
-                                |mut a, b| {
-                                    swc_ecma_transforms_base::perf::Parallel::merge(&mut a.0, b.0);
-                                    a.1.push(b.1);
-                                    a
-                                },
-                            );
+                                        (visitor, node)
+                                    })
+                                })
+                                .fold(
+                                    || (Self::default(), vec![]),
+                                    |mut a, b| {
+                                        swc_ecma_transforms_base::perf::Parallel::merge(
+                                            &mut a.0, b.0,
+                                        );
+                                        a.1.push(b.1);
+                                        a
+                                    },
+                                )
+                        });
                         swc_ecma_transforms_base::perf::Parallel::merge(self, visitor);
 
                         return nodes;
@@ -88,26 +94,30 @@ fn make_par_visit_method(mode: Mode, suffix: &str, threshold: usize) -> ImplItem
                 fn method_name(&mut self, nodes: &mut Vec<NodeType>) {
                     #[cfg(feature = "rayon")]
                     if nodes.len() >= threshold {
-                        use rayon::prelude::*;
+                        ::swc_common::GLOBALS.with(|globals| {
+                            use rayon::prelude::*;
 
-                        let visitor = nodes
-                            .into_par_iter()
-                            .map(|node| {
-                                let mut visitor = Self::default();
-                                node.visit_mut_with(&mut visitor);
+                            let visitor = nodes
+                                .into_par_iter()
+                                .map(|node| {
+                                    ::swc_common::GLOBALS.set(&globals, || {
+                                        let mut visitor = Self::default();
+                                        node.visit_mut_with(&mut visitor);
 
-                                visitor
-                            })
-                            .reduce(
-                                || Self::default(),
-                                |mut a, b| {
-                                    swc_ecma_transforms_base::perf::Parallel::merge(&mut a, b);
+                                        visitor
+                                    })
+                                })
+                                .reduce(
+                                    || Self::default(),
+                                    |mut a, b| {
+                                        swc_ecma_transforms_base::perf::Parallel::merge(&mut a, b);
 
-                                    a
-                                },
-                            );
+                                        a
+                                    },
+                                );
 
-                        swc_ecma_transforms_base::perf::Parallel::merge(self, visitor);
+                            swc_ecma_transforms_base::perf::Parallel::merge(self, visitor);
+                        });
 
                         return;
                     }
