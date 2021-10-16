@@ -53,26 +53,37 @@ fn make_par_visit_method(mode: Mode, suffix: &str, threshold: usize) -> ImplItem
                         use rayon::prelude::*;
 
                         let (visitor, nodes) = ::swc_common::GLOBALS.with(|globals| {
-                            nodes
-                                .into_par_iter()
-                                .map(|node| {
-                                    ::swc_common::GLOBALS.set(&globals, || {
-                                        let mut visitor = Self::default();
-                                        let node = node.fold_with(&mut visitor);
+                            HELPERS.with(|helpers| {
+                                HANDLER.with(|handler| {
+                                    nodes
+                                        .into_par_iter()
+                                        .map(|node| {
+                                            ::swc_common::GLOBALS.set(&globals, || {
+                                                swc_ecma_transforms_base::helpers::HELPERS.set(
+                                                    helpers,
+                                                    || {
+                                                        swc_ecma_utils::HANDLER.set(handler, || {
+                                                            let mut visitor = Self::default();
+                                                            let node = node.fold_with(&mut visitor);
 
-                                        (visitor, node)
-                                    })
+                                                            (visitor, node)
+                                                        })
+                                                    },
+                                                )
+                                            })
+                                        })
+                                        .fold(
+                                            || (Self::default(), vec![]),
+                                            |mut a, b| {
+                                                swc_ecma_transforms_base::perf::Parallel::merge(
+                                                    &mut a.0, b.0,
+                                                );
+                                                a.1.push(b.1);
+                                                a
+                                            },
+                                        )
                                 })
-                                .fold(
-                                    || (Self::default(), vec![]),
-                                    |mut a, b| {
-                                        swc_ecma_transforms_base::perf::Parallel::merge(
-                                            &mut a.0, b.0,
-                                        );
-                                        a.1.push(b.1);
-                                        a
-                                    },
-                                )
+                            })
                         });
                         swc_ecma_transforms_base::perf::Parallel::merge(self, visitor);
 
@@ -92,31 +103,46 @@ fn make_par_visit_method(mode: Mode, suffix: &str, threshold: usize) -> ImplItem
             },
             {
                 fn method_name(&mut self, nodes: &mut Vec<NodeType>) {
+                    use swc_ecma_visit::VisitMutWith;
+
                     #[cfg(feature = "rayon")]
                     if nodes.len() >= threshold {
                         ::swc_common::GLOBALS.with(|globals| {
-                            use rayon::prelude::*;
+                            swc_ecma_transforms_base::helpers::HELPERS.with(|helpers| {
+                                swc_ecma_utils::HANDLER.with(|handler| {
+                                    use rayon::prelude::*;
 
-                            let visitor = nodes
-                                .into_par_iter()
-                                .map(|node| {
-                                    ::swc_common::GLOBALS.set(&globals, || {
-                                        let mut visitor = Self::default();
-                                        node.visit_mut_with(&mut visitor);
+                                    let visitor = nodes
+                                        .into_par_iter()
+                                        .map(|node| {
+                                            ::swc_common::GLOBALS.set(&globals, || {
+                                                swc_ecma_transforms_base::helpers::HELPERS.set(
+                                                    helpers,
+                                                    || {
+                                                        swc_ecma_utils::HANDLER.set(handler, || {
+                                                            let mut visitor = Self::default();
+                                                            node.visit_mut_with(&mut visitor);
 
-                                        visitor
-                                    })
+                                                            visitor
+                                                        })
+                                                    },
+                                                )
+                                            })
+                                        })
+                                        .reduce(
+                                            || Self::default(),
+                                            |mut a, b| {
+                                                swc_ecma_transforms_base::perf::Parallel::merge(
+                                                    &mut a, b,
+                                                );
+
+                                                a
+                                            },
+                                        );
+
+                                    swc_ecma_transforms_base::perf::Parallel::merge(self, visitor);
                                 })
-                                .reduce(
-                                    || Self::default(),
-                                    |mut a, b| {
-                                        swc_ecma_transforms_base::perf::Parallel::merge(&mut a, b);
-
-                                        a
-                                    },
-                                );
-
-                            swc_ecma_transforms_base::perf::Parallel::merge(self, visitor);
+                            })
                         });
 
                         return;
