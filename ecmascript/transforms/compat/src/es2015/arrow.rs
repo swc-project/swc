@@ -68,7 +68,6 @@ struct Arrow {
 }
 
 /// TODO: VisitMut
-#[fast_path(ArrowVisitor)]
 impl Fold for Arrow {
     noop_fold_type!();
 
