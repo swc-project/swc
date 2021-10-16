@@ -2707,7 +2707,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.73.13"
+version = "0.73.14"
 dependencies = [
  "either",
  "enum_kind",
@@ -2926,7 +2926,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.50.0"
+version = "0.50.1"
 dependencies = [
  "ahash",
  "base64 0.13.0",
