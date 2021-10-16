@@ -1,3 +1,5 @@
+#![recursion_limit = "2048"]
+
 use pmutil::ToTokensExt;
 use proc_macro::TokenStream;
 use swc_macros_common::print;
