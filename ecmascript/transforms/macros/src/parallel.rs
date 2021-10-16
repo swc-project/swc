@@ -63,14 +63,12 @@ fn make_par_visit_method(mode: Mode, suffix: &str, threshold: usize) -> ImplItem
                             .fold(
                                 || (Self::default(), vec![]),
                                 |mut a, b| {
-                                    swc_ecma_transforms_base::parallel::Parallel::merge(
-                                        &mut a.0, b.0,
-                                    );
+                                    swc_ecma_transforms_base::perf::Parallel::merge(&mut a.0, b.0);
                                     a.1.push(b.1);
                                     a
                                 },
                             );
-                        swc_ecma_transforms_base::parallel::Parallel::merge(self, visitor);
+                        swc_ecma_transforms_base::perf::Parallel::merge(self, visitor);
 
                         return nodes;
                     }
@@ -103,11 +101,13 @@ fn make_par_visit_method(mode: Mode, suffix: &str, threshold: usize) -> ImplItem
                             .reduce(
                                 || Self::default(),
                                 |mut a, b| {
-                                    swc_ecma_transforms_base::parallel::Parallel::merge(a, b);
+                                    swc_ecma_transforms_base::perf::Parallel::merge(&mut a, b);
+
+                                    a
                                 },
                             );
 
-                        swc_ecma_transforms_base::parallel::Parallel::merge(self, visitor);
+                        swc_ecma_transforms_base::perf::Parallel::merge(self, visitor);
 
                         return;
                     }
