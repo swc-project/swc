@@ -939,7 +939,7 @@ fn issue_299_01() {
             Token::JSXName { name: "num".into() },
             tok!('='),
             Token::Str {
-                value: " ".into(),
+                value: "\\ ".into(),
                 has_escape: true
             },
             Token::JSXTagEnd,
@@ -963,40 +963,6 @@ fn issue_299_02() {
                 jsx: true,
                 ..Default::default()
             }),
-            "<Page num='\\''>ABC</Page>;"
-        ),
-        vec![
-            Token::JSXTagStart,
-            Token::JSXName {
-                name: "Page".into()
-            },
-            Token::JSXName { name: "num".into() },
-            tok!('='),
-            Token::Str {
-                value: "'".into(),
-                has_escape: true
-            },
-            Token::JSXTagEnd,
-            JSXText { raw: "ABC".into() },
-            JSXTagStart,
-            tok!('/'),
-            JSXName {
-                name: "Page".into()
-            },
-            JSXTagEnd,
-            Semi,
-        ]
-    );
-}
-
-#[test]
-fn issue_299_03() {
-    assert_eq!(
-        lex_tokens(
-            crate::Syntax::Es(crate::EsConfig {
-                jsx: true,
-                ..Default::default()
-            }),
             "<Page num='\\\\'>ABC</Page>;"
         ),
         vec![
@@ -1007,7 +973,7 @@ fn issue_299_03() {
             Token::JSXName { name: "num".into() },
             tok!('='),
             Token::Str {
-                value: "\\".into(),
+                value: "\\\\".into(),
                 has_escape: true
             },
             Token::JSXTagEnd,
