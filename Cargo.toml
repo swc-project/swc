@@ -38,6 +38,7 @@ es3 = []
 wrong-target = []
 
 concurrent = [
+  "swc_ecma_utils/concurrent",
   "swc_ecma_transforms_compat/concurrent",
 ]
 
