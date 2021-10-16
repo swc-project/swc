@@ -2790,6 +2790,7 @@ version = "0.38.1"
 dependencies = [
  "once_cell",
  "phf",
+ "rayon",
  "scoped-tls",
  "smallvec 1.7.0",
  "swc_atoms 0.2.8",
