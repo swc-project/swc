@@ -27,3 +27,12 @@ where
 
     nodes.visit_mut_with(&mut visitor())
 }
+
+#[macro_export]
+macro_rules! simple_visit_mut_par {
+    ($name:ident, $T:ty, $threshold:expr) => {
+        fn $name(&mut self, nodes: &mut Vec<$T>) {
+            $cate::parallel::visit_mut_par(nodes, $threshold, || *self);
+        }
+    };
+}
