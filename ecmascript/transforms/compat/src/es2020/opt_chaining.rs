@@ -1,5 +1,5 @@
 use std::{iter::once, mem};
-use swc_common::{Spanned, DUMMY_SP, GLOBALS};
+use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{should_work, Check};
 use swc_ecma_utils::{alias_if_required, prepend, private_ident, undefined, ExprFactory, StmtLike};
@@ -99,6 +99,7 @@ impl OptChaining {
         #[cfg(feature = "rayon")]
         if stmts.len() > 4 {
             use rayon::prelude::*;
+            use swc_common::GLOBALS;
 
             let (mut stmts, mut vars_without_init) = GLOBALS.with(|globals| {
                 stmts
