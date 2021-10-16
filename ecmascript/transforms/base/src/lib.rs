@@ -6,6 +6,7 @@ pub mod hygiene;
 pub mod helpers;
 #[doc(hidden)]
 pub mod native;
+pub mod parallel;
 pub mod pass;
 pub mod perf;
 pub mod quote;
