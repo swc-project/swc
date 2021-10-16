@@ -9,13 +9,18 @@ use self::{
 use std::collections::HashSet;
 use swc_common::{Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::helper;
+use swc_ecma_transforms_base::{
+    helper,
+    perf::{should_work, Check},
+};
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_utils::{
     alias_ident_for, alias_if_required, constructor::inject_after_super, default_constructor,
     private_ident, quote_ident, undefined, ExprFactory, ModuleItemLike, StmtLike,
 };
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitMutWith, VisitWith};
+use swc_ecma_visit::{
+    noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitMutWith, VisitWith,
+};
 
 mod class_name_tdz;
 mod private_field;
@@ -82,6 +87,10 @@ impl Fold for ClassProperties {
     }
 
     fn fold_block_stmt_or_expr(&mut self, body: BlockStmtOrExpr) -> BlockStmtOrExpr {
+        if !should_work::<ShouldWork, _>(&body) {
+            return body;
+        }
+
         let span = body.span();
 
         match body {
@@ -804,5 +813,54 @@ impl ClassProperties {
         } else {
             None
         }
+    }
+}
+
+#[derive(Default)]
+struct ShouldWork {
+    found: bool,
+}
+
+impl Visit for ShouldWork {
+    noop_visit_type!();
+
+    fn visit_ident(&mut self, n: &Ident, _: &dyn Node) {
+        if n.optional {
+            self.found = true;
+        }
+    }
+
+    fn visit_array_pat(&mut self, n: &ArrayPat, _: &dyn Node) {
+        if n.optional {
+            self.found = true;
+        }
+    }
+
+    fn visit_object_pat(&mut self, n: &ObjectPat, _: &dyn Node) {
+        if n.optional {
+            self.found = true;
+        }
+    }
+
+    fn visit_class_method(&mut self, _: &ClassMethod, _: &dyn Node) {
+        self.found = true;
+    }
+
+    fn visit_class_prop(&mut self, _: &ClassProp, _: &dyn Node) {
+        self.found = true;
+    }
+
+    fn visit_private_prop(&mut self, _: &PrivateProp, _: &dyn Node) {
+        self.found = true;
+    }
+
+    fn visit_constructor(&mut self, _: &Constructor, _: &dyn Node) {
+        self.found = true;
+    }
+}
+
+impl Check for ShouldWork {
+    fn should_handle(&self) -> bool {
+        self.found
     }
 }
