@@ -1,12 +1,9 @@
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::Check;
-use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{contains_this_expr, prepend, private_ident};
 use swc_ecma_visit::{
-    noop_fold_type, noop_visit_mut_type, noop_visit_type, Fold, FoldWith, InjectVars, Node, Visit,
-    VisitMut, VisitMutWith,
+    noop_fold_type, noop_visit_mut_type, Fold, FoldWith, InjectVars, VisitMut, VisitMutWith,
 };
 
 /// Compile ES2015 arrow functions to ES5
@@ -302,23 +299,4 @@ impl VisitMut for ThisReplacer<'_> {
     }
 
     fn visit_mut_function(&mut self, _: &mut Function) {}
-}
-
-#[derive(Default)]
-struct ArrowVisitor {
-    found: bool,
-}
-
-impl Visit for ArrowVisitor {
-    noop_visit_type!();
-
-    fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {
-        self.found = true;
-    }
-}
-
-impl Check for ArrowVisitor {
-    fn should_handle(&self) -> bool {
-        self.found
-    }
 }
