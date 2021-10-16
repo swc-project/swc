@@ -1213,8 +1213,6 @@ fn transform_jsx_attr_str(v: &str) -> String {
             '\u{000b}' => buf.push_str("\\v"),
             '\0' => buf.push_str("\\x00"),
 
-            '\\' => buf.push_str("\\\\"),
-
             '\'' if single_quote => buf.push_str("\\'"),
             '"' if !single_quote => buf.push_str("\""),
 
