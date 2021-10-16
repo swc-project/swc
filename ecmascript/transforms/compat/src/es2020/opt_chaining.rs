@@ -20,8 +20,9 @@ impl Fold for OptChaining {
     noop_fold_type!();
 
     fn fold_block_stmt_or_expr(&mut self, e: BlockStmtOrExpr) -> BlockStmtOrExpr {
-        // Thanks to #[fast_path], we are sure that the expression contains an optional
-        // chaining expression.
+        if !should_work::<ShouldWork, _>(&e) {
+            return e;
+        }
 
         match e {
             BlockStmtOrExpr::BlockStmt(..) => e.fold_children_with(self),
