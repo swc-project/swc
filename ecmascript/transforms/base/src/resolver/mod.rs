@@ -1264,6 +1264,82 @@ struct Hoister<'a, 'b> {
 impl VisitMut for Hoister<'_, '_> {
     noop_visit_mut_type!();
 
+    #[inline]
+    fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
+
+    fn visit_mut_assign_pat_prop(&mut self, node: &mut AssignPatProp) {
+        node.visit_mut_children_with(self);
+
+        {
+            if self.catch_param_decls.contains(&node.key.sym) {
+                return;
+            }
+
+            self.resolver.modify(&mut node.key, self.kind)
+        }
+    }
+
+    fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
+        let old_in_block = self.in_block;
+        self.in_block = true;
+        n.visit_mut_children_with(self);
+        self.in_block = old_in_block;
+    }
+
+    #[inline]
+    fn visit_mut_catch_clause(&mut self, c: &mut CatchClause) {
+        let params: Vec<Id> = find_ids(&c.param);
+
+        let orig = self.catch_param_decls.clone();
+
+        self.catch_param_decls
+            .extend(params.into_iter().map(|v| v.0));
+        c.body.visit_mut_with(self);
+
+        self.catch_param_decls = orig;
+    }
+
+    fn visit_mut_class_decl(&mut self, node: &mut ClassDecl) {
+        if self.in_block {
+            return;
+        }
+        self.resolver.in_type = false;
+        self.resolver
+            .modify(&mut node.ident, Some(VarDeclKind::Let));
+    }
+
+    #[inline]
+    fn visit_mut_constructor(&mut self, _: &mut Constructor) {}
+
+    fn visit_mut_export_default_decl(&mut self, node: &mut ExportDefaultDecl) {
+        // Treat default exported functions and classes as declarations
+        // even though they are parsed as expressions.
+        match &mut node.decl {
+            DefaultDecl::Fn(f) => {
+                if let Some(id) = &mut f.ident {
+                    self.resolver.in_type = false;
+                    self.resolver.modify(id, Some(VarDeclKind::Var));
+                }
+
+                f.visit_mut_with(self)
+            }
+            DefaultDecl::Class(c) => {
+                if let Some(id) = &mut c.ident {
+                    self.resolver.in_type = false;
+                    self.resolver.modify(id, Some(VarDeclKind::Let));
+                }
+
+                c.visit_mut_with(self)
+            }
+            _ => {
+                node.visit_mut_children_with(self);
+            }
+        }
+    }
+
+    #[inline]
+    fn visit_mut_expr(&mut self, _: &mut Expr) {}
+
     fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
         if self.catch_param_decls.contains(&node.ident.sym) {
             return;
@@ -1275,22 +1351,37 @@ impl VisitMut for Hoister<'_, '_> {
     }
 
     #[inline]
-    fn visit_mut_expr(&mut self, _: &mut Expr) {}
+    fn visit_mut_function(&mut self, _: &mut Function) {}
 
     #[inline]
-    fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
+    fn visit_mut_param(&mut self, _: &mut Param) {}
+
+    fn visit_mut_pat(&mut self, node: &mut Pat) {
+        self.resolver.in_type = false;
+        match node {
+            Pat::Ident(i) => {
+                if self.catch_param_decls.contains(&i.id.sym) {
+                    return;
+                }
+
+                self.resolver.modify(&mut i.id, self.kind)
+            }
+
+            _ => node.visit_mut_children_with(self),
+        }
+    }
+
+    #[inline]
+    fn visit_mut_pat_or_expr(&mut self, _: &mut PatOrExpr) {}
+
+    #[inline]
+    fn visit_mut_setter_prop(&mut self, _: &mut SetterProp) {}
 
     #[inline]
     fn visit_mut_tagged_tpl(&mut self, _: &mut TaggedTpl) {}
 
     #[inline]
     fn visit_mut_tpl(&mut self, _: &mut Tpl) {}
-
-    #[inline]
-    fn visit_mut_function(&mut self, _: &mut Function) {}
-
-    #[inline]
-    fn visit_mut_setter_prop(&mut self, _: &mut SetterProp) {}
 
     fn visit_mut_var_decl(&mut self, node: &mut VarDecl) {
         if self.in_block {
@@ -1309,56 +1400,6 @@ impl VisitMut for Hoister<'_, '_> {
 
         self.kind = old_kind;
     }
-
-    #[inline]
-    fn visit_mut_var_declarator(&mut self, node: &mut VarDeclarator) {
-        node.name.visit_mut_with(self);
-    }
-
-    fn visit_mut_pat(&mut self, node: &mut Pat) {
-        self.resolver.in_type = false;
-        match node {
-            Pat::Ident(i) => {
-                if self.catch_param_decls.contains(&i.id.sym) {
-                    return;
-                }
-
-                self.resolver.modify(&mut i.id, self.kind)
-            }
-            _ => node.visit_mut_children_with(self),
-        }
-    }
-
-    fn visit_mut_class_decl(&mut self, node: &mut ClassDecl) {
-        if self.in_block {
-            return;
-        }
-        self.resolver.in_type = false;
-        self.resolver
-            .modify(&mut node.ident, Some(VarDeclKind::Let));
-    }
-
-    #[inline]
-    fn visit_mut_catch_clause(&mut self, c: &mut CatchClause) {
-        let params: Vec<Id> = find_ids(&c.param);
-
-        let orig = self.catch_param_decls.clone();
-
-        self.catch_param_decls
-            .extend(params.into_iter().map(|v| v.0));
-        c.body.visit_mut_with(self);
-
-        self.catch_param_decls = orig;
-    }
-
-    #[inline]
-    fn visit_mut_pat_or_expr(&mut self, _: &mut PatOrExpr) {}
-
-    #[inline]
-    fn visit_mut_param(&mut self, _: &mut Param) {}
-
-    #[inline]
-    fn visit_mut_constructor(&mut self, _: &mut Constructor) {}
 
     fn visit_mut_var_decl_or_expr(&mut self, n: &mut VarDeclOrExpr) {
         match n {
@@ -1402,36 +1443,8 @@ impl VisitMut for Hoister<'_, '_> {
         }
     }
 
-    fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
-        let old_in_block = self.in_block;
-        self.in_block = true;
-        n.visit_mut_children_with(self);
-        self.in_block = old_in_block;
-    }
-
-    fn visit_mut_export_default_decl(&mut self, node: &mut ExportDefaultDecl) {
-        // Treat default exported functions and classes as declarations
-        // even though they are parsed as expressions.
-        match &mut node.decl {
-            DefaultDecl::Fn(f) => {
-                if let Some(id) = &mut f.ident {
-                    self.resolver.in_type = false;
-                    self.resolver.modify(id, Some(VarDeclKind::Var));
-                }
-
-                f.visit_mut_with(self)
-            }
-            DefaultDecl::Class(c) => {
-                if let Some(id) = &mut c.ident {
-                    self.resolver.in_type = false;
-                    self.resolver.modify(id, Some(VarDeclKind::Let));
-                }
-
-                c.visit_mut_with(self)
-            }
-            _ => {
-                node.visit_mut_children_with(self);
-            }
-        }
+    #[inline]
+    fn visit_mut_var_declarator(&mut self, node: &mut VarDeclarator) {
+        node.name.visit_mut_with(self);
     }
 }
