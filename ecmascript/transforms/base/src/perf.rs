@@ -15,3 +15,7 @@ where
     n.visit_with(&Invalid { span: DUMMY_SP }, &mut checker);
     checker.should_handle()
 }
+
+pub trait Parallel: Default {
+    fn merge(&mut self, other: Self);
+}
