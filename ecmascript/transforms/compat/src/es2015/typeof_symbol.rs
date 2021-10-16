@@ -1,7 +1,8 @@
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::helper;
+use swc_ecma_transforms_base::{helper, perf::Parallel};
+use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{quote_str, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -9,9 +10,14 @@ pub fn typeof_symbol() -> impl VisitMut + Fold {
     as_folder(TypeOfSymbol)
 }
 
-#[derive(Clone)]
+#[derive(Clone, Default)]
 struct TypeOfSymbol;
 
+impl Parallel for TypeOfSymbol {
+    fn merge(&mut self, _: Self) {}
+}
+
+#[parallel]
 impl VisitMut for TypeOfSymbol {
     noop_visit_mut_type!();
 
