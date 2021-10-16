@@ -4114,10 +4114,14 @@ Foo.identifier = 5;
 );
 
 #[testing::fixture("tests/fixture/**/input.ts")]
+#[testing::fixture("tests/fixture/**/input.tsx")]
 fn exec(input: PathBuf) {
     let output = input.with_file_name("output.js");
     test_fixture(
-        Syntax::Typescript(Default::default()),
+        Syntax::Typescript(TsConfig {
+            tsx: input.to_string_lossy().ends_with(".tsx"),
+            ..Default::default()
+        }),
         &|_| tr(),
         &input,
         &output,
