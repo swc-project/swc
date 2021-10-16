@@ -5,7 +5,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{
     alias_if_required, member_expr, prepend, private_ident, quote_ident, ExprFactory, StmtLike,
 };
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 /// `@babel/plugin-transform-for-of`
 ///
@@ -520,13 +520,9 @@ impl Fold for ForOf {
 impl ForOf {
     fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
     where
-        T: StmtLike + VisitWith<ForOfFinder>,
-        Vec<T>: FoldWith<Self> + VisitWith<ForOfFinder>,
+        T: StmtLike,
+        Vec<T>: FoldWith<Self>,
     {
-        if !contains_for_of(&stmts) {
-            return stmts;
-        }
-
         let stmts = stmts.fold_children_with(self);
 
         let mut buf = Vec::with_capacity(stmts.len());
@@ -558,26 +554,5 @@ impl ForOf {
         }
 
         buf
-    }
-}
-
-fn contains_for_of<N>(node: &N) -> bool
-where
-    N: VisitWith<ForOfFinder>,
-{
-    let mut v = ForOfFinder { found: false };
-    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
-    v.found
-}
-
-struct ForOfFinder {
-    found: bool,
-}
-
-impl Visit for ForOfFinder {
-    noop_visit_type!();
-
-    fn visit_for_of_stmt(&mut self, _: &ForOfStmt, _: &dyn Node) {
-        self.found = true;
     }
 }
