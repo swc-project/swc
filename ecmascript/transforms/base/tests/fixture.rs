@@ -44,13 +44,15 @@ where
         input.extension().unwrap().to_string_lossy(),
     ));
 
-    run_test2(false, |cm, _| {
+    run_test2(false, |cm, handler| {
         let fm = cm.load_file(input).unwrap();
 
         let lexer = Lexer::new(syntax, EsVersion::latest(), StringInput::from(&*fm), None);
         let mut parser = Parser::new_from(lexer);
 
-        let module = parser.parse_module().expect("failed to parse input");
+        let module = parser
+            .parse_module()
+            .map_err(|err| err.into_diagnostic(&handler).emit())?;
 
         let mut folder = op();
 
