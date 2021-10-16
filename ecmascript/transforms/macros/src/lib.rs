@@ -40,4 +40,8 @@ pub fn fast_path(attr: TokenStream, item: TokenStream) -> TokenStream {
 /// impl VisitMut for Pass {}
 /// ```
 #[proc_macro_attribute]
-pub fn parallel(attr: TokenStream, item: TokenStream) -> TokenStream {}
+pub fn parallel(attr: TokenStream, item: TokenStream) -> TokenStream {
+    let item = syn::parse(item).expect("failed to parse input as an item");
+    let expanded = parallel::expand(attr.into(), item);
+    print("parallel", expanded.dump())
+}

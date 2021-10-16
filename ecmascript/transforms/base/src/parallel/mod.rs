@@ -2,6 +2,10 @@
 
 use swc_ecma_visit::{VisitMut, VisitMutWith};
 
+pub trait Parallel: Default {
+    fn merge(&mut self, other: Self);
+}
+
 /// This **may** visit nodes in parallel.
 pub fn visit_mut_par<N, V, F>(nodes: &mut Vec<N>, threshold: usize, visitor: F)
 where

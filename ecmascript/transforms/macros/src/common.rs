@@ -1,3 +1,5 @@
+/// Type of the visitor.
+
 #[derive(Debug, Clone, Copy)]
 pub enum Mode {
     Fold,
