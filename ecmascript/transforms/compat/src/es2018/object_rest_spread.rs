@@ -426,7 +426,7 @@ impl ObjectRest {
             return stmts;
         }
 
-        let mut buf = vec![];
+        let mut buf = Vec::with_capacity(stmts.len());
 
         for stmt in stmts {
             let mut folder = ObjectRest::default();
