@@ -975,9 +975,9 @@ dependencies = [
 
 [[package]]
 name = "libc"
-version = "0.2.103"
+version = "0.2.104"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dd8f7255a17a627354f321ef0055d63b898c6fb27eff628af4d1b66b7331edf6"
+checksum = "7b2f96d100e1cf1929e7719b7edb3b90ab5298072638fccd77be9ce942ecdfce"
 
 [[package]]
 name = "libloading"
@@ -2351,6 +2351,7 @@ dependencies = [
  "swc_ecma_preset_env",
  "swc_ecma_transforms",
  "swc_ecma_transforms_base",
+ "swc_ecma_transforms_compat",
  "swc_ecma_utils",
  "swc_ecma_visit",
  "swc_ecmascript",
@@ -2584,7 +2585,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.54.3"
+version = "0.54.4"
 dependencies = [
  "arbitrary",
  "is-macro",
@@ -2815,7 +2816,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.43.1"
+version = "0.43.2"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -2823,6 +2824,7 @@ dependencies = [
  "is-macro",
  "num-bigint",
  "ordered-float",
+ "rayon",
  "serde",
  "smallvec 1.7.0",
  "swc_atoms 0.2.8",
@@ -3529,7 +3531,7 @@ checksum = "fd6fbd9a79829dd1ad0cc20627bf1ed606756a7f77edff7b66b7064f9cb327c6"
 
 [[package]]
 name = "wasm"
-version = "1.2.98"
+version = "1.2.99"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",

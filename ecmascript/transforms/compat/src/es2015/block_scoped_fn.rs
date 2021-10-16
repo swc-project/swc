@@ -1,9 +1,7 @@
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::Check;
-use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::UsageFinder;
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 pub fn block_scoped_functions() -> impl Fold {
     BlockScopedFns
@@ -13,7 +11,6 @@ pub fn block_scoped_functions() -> impl Fold {
 struct BlockScopedFns;
 
 /// TODO: VisitMut
-#[fast_path(BlockScopedFnFinder)]
 impl Fold for BlockScopedFns {
     noop_fold_type!();
 
@@ -62,32 +59,6 @@ impl Fold for BlockScopedFns {
         stmts.append(&mut extra_stmts);
 
         stmts
-    }
-}
-
-#[derive(Default)]
-struct BlockScopedFnFinder {
-    found: bool,
-}
-
-impl Visit for BlockScopedFnFinder {
-    noop_visit_type!();
-
-    fn visit_stmts(&mut self, stmts: &[Stmt], _: &dyn Node) {
-        for n in stmts {
-            n.visit_with(&Invalid { span: DUMMY_SP }, self);
-        }
-
-        self.found |= stmts.iter().any(|stmt| match stmt {
-            Stmt::Decl(Decl::Fn(..)) => true,
-            _ => false,
-        });
-    }
-}
-
-impl Check for BlockScopedFnFinder {
-    fn should_handle(&self) -> bool {
-        self.found
     }
 }
 
