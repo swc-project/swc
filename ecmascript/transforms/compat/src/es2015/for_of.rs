@@ -42,7 +42,10 @@ use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 /// }
 /// ```
 pub fn for_of(c: Config) -> impl Fold {
-    ForOf { c }
+    ForOf {
+        c,
+        top_level_vars: Default::default(),
+    }
 }
 
 #[derive(Debug, Clone, Copy, Default, Deserialize)]
@@ -53,11 +56,7 @@ pub struct Config {
 
 struct ForOf {
     c: Config,
-}
 
-/// Real folder.
-struct Actual {
-    c: Config,
     ///```js
     /// var _iteratorNormalCompletion = true;
     /// var _didIteratorError = false;
@@ -66,7 +65,7 @@ struct Actual {
     top_level_vars: Vec<VarDeclarator>,
 }
 
-impl Actual {
+impl ForOf {
     fn fold_for_stmt(
         &mut self,
         label: Option<Ident>,
@@ -398,29 +397,6 @@ impl Actual {
     }
 }
 
-/// TODO: VisitMut
-impl Fold for Actual {
-    noop_fold_type!();
-
-    fn fold_stmt(&mut self, stmt: Stmt) -> Stmt {
-        match stmt {
-            Stmt::Labeled(LabeledStmt { span, label, body }) => {
-                // Handle label
-                match *body {
-                    Stmt::ForOf(stmt) => self.fold_for_stmt(Some(label), stmt),
-                    _ => Stmt::Labeled(LabeledStmt {
-                        span,
-                        label,
-                        body: body.fold_children_with(self),
-                    }),
-                }
-            }
-            Stmt::ForOf(stmt) => self.fold_for_stmt(None, stmt),
-            _ => stmt.fold_children_with(self),
-        }
-    }
-}
-
 /// ```js
 /// 
 ///   try {
@@ -512,6 +488,24 @@ impl Fold for ForOf {
         self.fold_stmt_like(n)
     }
 
+    fn fold_stmt(&mut self, stmt: Stmt) -> Stmt {
+        match stmt {
+            Stmt::Labeled(LabeledStmt { span, label, body }) => {
+                // Handle label
+                match *body {
+                    Stmt::ForOf(stmt) => self.fold_for_stmt(Some(label), stmt),
+                    _ => Stmt::Labeled(LabeledStmt {
+                        span,
+                        label,
+                        body: body.fold_children_with(self),
+                    }),
+                }
+            }
+            Stmt::ForOf(stmt) => self.fold_for_stmt(None, stmt),
+            _ => stmt.fold_children_with(self),
+        }
+    }
+
     fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
         self.fold_stmt_like(n)
     }
@@ -523,15 +517,13 @@ impl ForOf {
         T: StmtLike,
         Vec<T>: FoldWith<Self>,
     {
-        let stmts = stmts.fold_children_with(self);
-
         let mut buf = Vec::with_capacity(stmts.len());
 
         for stmt in stmts {
             match stmt.try_into_stmt() {
                 Err(module_item) => buf.push(module_item),
                 Ok(stmt) => {
-                    let mut folder = Actual {
+                    let mut folder = Self {
                         c: self.c,
                         top_level_vars: Default::default(),
                     };
