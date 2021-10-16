@@ -1,7 +1,7 @@
 use crate::common::Mode;
 use pmutil::q;
-use proc_macro2::TokenStream;
-use syn::{ImplItem, ImplItemMethod, ItemImpl, Type};
+use proc_macro2::{Span, TokenStream};
+use syn::{Ident, ImplItem, ImplItemMethod, ItemImpl, Type};
 
 pub fn expand(_attr: TokenStream, mut item: ItemImpl) -> ItemImpl {
     let mode = {
@@ -37,11 +37,14 @@ fn node_type(suffix: &str) -> Type {
 }
 
 fn make_par_visit_method(mode: Mode, suffix: &str, threshold: usize) -> ImplItemMethod {
+    let method_name = Ident::new(&format!("{}_{}", mode.prefix(), suffix), Span::call_site());
+
     match mode {
         Mode::Fold => q!(
             Vars {
                 NodeType: node_type(suffix),
                 threshold,
+                method_name,
             },
             {
                 fn method_name(&mut self, nodes: Vec<NodeType>) -> Vec<NodeType> {
@@ -67,7 +70,7 @@ fn make_par_visit_method(mode: Mode, suffix: &str, threshold: usize) -> ImplItem
                                     a
                                 },
                             );
-                        swc_ecma_transforms_base::parallel::Parallel::merge(self, vistor);
+                        swc_ecma_transforms_base::parallel::Parallel::merge(self, visitor);
 
                         return nodes;
                     }
@@ -81,6 +84,7 @@ fn make_par_visit_method(mode: Mode, suffix: &str, threshold: usize) -> ImplItem
             Vars {
                 NodeType: node_type(suffix),
                 threshold,
+                method_name,
             },
             {
                 fn method_name(&mut self, nodes: &mut Vec<NodeType>) {
@@ -103,7 +107,7 @@ fn make_par_visit_method(mode: Mode, suffix: &str, threshold: usize) -> ImplItem
                                 },
                             );
 
-                        swc_ecma_transforms_base::parallel::Parallel::merge(self, vistor);
+                        swc_ecma_transforms_base::parallel::Parallel::merge(self, visitor);
 
                         return;
                     }
