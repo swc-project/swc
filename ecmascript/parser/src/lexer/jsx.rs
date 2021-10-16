@@ -211,12 +211,6 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         let c = match c {
             '\\' => push_c_and_ret!('\\'),
-            'n' => push_c_and_ret!('\n'),
-            'r' => push_c_and_ret!('\r'),
-            't' => push_c_and_ret!('\t'),
-            'b' => push_c_and_ret!('\u{0008}'),
-            'v' => push_c_and_ret!('\u{000b}'),
-            'f' => push_c_and_ret!('\u{000c}'),
             '\r' => {
                 raw.push_str("\r");
                 self.bump(); // remove '\r'
