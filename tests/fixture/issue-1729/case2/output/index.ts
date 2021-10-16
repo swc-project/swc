@@ -7,9 +7,7 @@ function createConstructor(callback) {
         return new klass(...args);
     };
 }
-const constructor = createConstructor(()=>{
-    class _class {
+const constructor = createConstructor(()=>class {
     }
-    return _class;
-});
+);
 console.log(constructor());
