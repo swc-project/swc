@@ -5,7 +5,8 @@ use swc_common::{
     Mark, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{helper, helper_expr};
+use swc_ecma_transforms_base::{helper, helper_expr, perf::Parallel};
+use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{
     alias_ident_for, alias_if_required, is_literal, private_ident, quote_ident, var::VarCollector,
     ExprFactory, StmtLike,
@@ -1010,8 +1011,14 @@ fn simplify_pat(pat: Pat) -> Pat {
     pat.fold_with(&mut PatSimplifier)
 }
 
+#[derive(Default)]
 struct ObjectSpread;
 
+impl Parallel for ObjectSpread {
+    fn merge(&mut self, _: Self) {}
+}
+
+#[parallel]
 impl VisitMut for ObjectSpread {
     noop_visit_mut_type!();
 
