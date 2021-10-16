@@ -1,5 +1,5 @@
-export default () => {
-    return /*#__PURE__*/React.createElement(Input, {
+export default (()=>{
+    return React.createElement(Input, {
         pattern: ".*\\S+.*"
     });
-}
+});
