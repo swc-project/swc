@@ -1,8 +1,6 @@
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::Parallel;
-use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{contains_this_expr, prepend, private_ident};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, InjectVars, VisitMut, VisitMutWith};
 
@@ -64,45 +62,6 @@ struct Arrow {
     vars: Vec<VarDeclarator>,
 }
 
-impl Parallel for Arrow {
-    fn create(&self) -> Self {
-        Default::default()
-    }
-
-    fn merge(&mut self, other: Self) {
-        self.vars.extend(other.vars);
-    }
-
-    fn after_stmts(&mut self, stmts: &mut Vec<Stmt>) {
-        if !self.vars.is_empty() {
-            prepend(
-                stmts,
-                Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    declare: false,
-                    decls: self.vars.take(),
-                })),
-            );
-        }
-    }
-
-    fn after_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
-        if !self.vars.is_empty() {
-            prepend(
-                stmts,
-                ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    declare: false,
-                    decls: self.vars.take(),
-                }))),
-            );
-        }
-    }
-}
-
-#[parallel]
 impl VisitMut for Arrow {
     noop_visit_mut_type!();
 
@@ -223,6 +182,41 @@ impl VisitMut for Arrow {
         self.in_arrow = false;
         f.visit_mut_children_with(self);
         self.in_arrow = in_arrow;
+    }
+
+    fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
+        stmts.visit_mut_children_with(self);
+
+        if !self.vars.is_empty() {
+            prepend(
+                stmts,
+                ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: self.vars.take(),
+                }))),
+            );
+        }
+    }
+
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        let old_vars = self.vars.take();
+
+        stmts.visit_mut_children_with(self);
+        if !self.vars.is_empty() {
+            prepend(
+                stmts,
+                Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: self.vars.take(),
+                })),
+            );
+        }
+
+        self.vars = old_vars;
     }
 }
 
