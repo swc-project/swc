@@ -126,7 +126,7 @@ fn make_par_visit_method(
                                                             let mut visitor =
                                                                 Parallel::create(&*self);
                                                             let node = node.fold_with(&mut visitor);
-                                                            let mut nodes = vec![];
+                                                            let mut nodes = Vec::with_capacity(4);
 
                                                             ParExplode::explode_method_name(
                                                                 &mut visitor,
@@ -288,7 +288,7 @@ fn make_par_visit_method(
                                                                 Parallel::create(&*self);
                                                             node.visit_mut_with(&mut visitor);
 
-                                                            let mut nodes = vec![];
+                                                            let mut nodes = Vec::with_capacity(4);
 
                                                             ParExplode::explode_method_name(
                                                                 &mut visitor,
