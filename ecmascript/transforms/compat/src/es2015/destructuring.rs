@@ -449,7 +449,6 @@ impl AssignFolder {
 }
 
 /// TODO: VisitMut
-#[fast_path(DestructuringVisitor)]
 impl Fold for Destructuring {
     noop_fold_type!();
 
@@ -882,11 +881,6 @@ impl Destructuring {
         Vec<T>: FoldWith<Self> + VisitWith<DestructuringVisitor>,
         T: StmtLike + VisitWith<DestructuringVisitor> + FoldWith<AssignFolder>,
     {
-        // fast path
-        if !has_destructuring(&stmts) {
-            return stmts;
-        }
-
         let stmts = stmts.fold_children_with(self);
 
         let mut buf = Vec::with_capacity(stmts.len());
