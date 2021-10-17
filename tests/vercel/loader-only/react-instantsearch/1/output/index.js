@@ -250,13 +250,14 @@ var _obj;
     };
     var handleNewSearch = function handleNewSearch() {
         if (!stalledSearchTimer) {
-            stalledSearchTimer = setTimeout(function() {
+            var _tmp;
+            _tmp = setTimeout(function() {
                 var _ref = store.getState(), resultsFacetValues = _ref.resultsFacetValues, partialState = swcHelpers.objectWithoutProperties(_ref, ["resultsFacetValues"]);
                 store.setState(swcHelpers.objectSpread({
                 }, partialState, {
                     isSearchStalled: true
                 }));
-            }, stalledSearchDelay);
+            }, stalledSearchDelay), stalledSearchTimer = _tmp, _tmp;
         }
     };
     var hydrateSearchClient = function hydrateSearchClient(client, results) {
