@@ -91,7 +91,7 @@ fn make_par_visit_method(mode: Mode, suffix: &str, threshold: usize) -> ImplItem
                                                     helpers,
                                                     || {
                                                         swc_ecma_utils::HANDLER.set(handler, || {
-                                                            let mut visitor = self.clone();
+                                                            let mut visitor = swc_ecma_transforms_base::perf::Parallel::create(&*self);
                                                             let node = node.fold_with(&mut visitor);
 
                                                             (visitor, node)
@@ -101,7 +101,7 @@ fn make_par_visit_method(mode: Mode, suffix: &str, threshold: usize) -> ImplItem
                                             })
                                         })
                                         .fold(
-                                            || (self.clone(), vec![]),
+                                            || (swc_ecma_transforms_base::perf::Parallel::create(&*self), vec![]),
                                             |mut a, b| {
                                                 swc_ecma_transforms_base::perf::Parallel::merge(
                                                     &mut a.0, b.0,
@@ -154,7 +154,7 @@ fn make_par_visit_method(mode: Mode, suffix: &str, threshold: usize) -> ImplItem
                                                     helpers,
                                                     || {
                                                         swc_ecma_utils::HANDLER.set(handler, || {
-                                                            let mut visitor = self.clone();
+                                                            let mut visitor = swc_ecma_transforms_base::perf::Parallel::create(&*self);
                                                             node.visit_mut_with(&mut visitor);
 
                                                             visitor
@@ -164,7 +164,7 @@ fn make_par_visit_method(mode: Mode, suffix: &str, threshold: usize) -> ImplItem
                                             })
                                         })
                                         .reduce(
-                                            || self.clone(),
+                                            || swc_ecma_transforms_base::perf::Parallel::create(&*self),
                                             |mut a, b| {
                                                 swc_ecma_transforms_base::perf::Parallel::merge(
                                                     &mut a, b,

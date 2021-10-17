@@ -29,6 +29,10 @@ struct InlineGlobals {
 }
 
 impl Parallel for InlineGlobals {
+    fn create(&self) -> Self {
+        self.clone()
+    }
+
     fn merge(&mut self, _: Self) {}
 }
 

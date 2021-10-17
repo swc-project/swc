@@ -33,11 +33,14 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 pub fn instance_of() -> impl Fold + VisitMut {
     as_folder(InstanceOf)
 }
-#[derive(Clone, Copy)]
 struct InstanceOf;
 
 impl Parallel for InstanceOf {
     fn merge(&mut self, _: Self) {}
+
+    fn create(&self) -> Self {
+        InstanceOf
+    }
 }
 
 #[parallel]

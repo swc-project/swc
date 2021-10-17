@@ -10,11 +10,14 @@ pub fn duplicate_keys() -> impl Fold + VisitMut {
     as_folder(DuplicateKeys)
 }
 
-#[derive(Clone, Copy)]
 struct DuplicateKeys;
 
 impl Parallel for DuplicateKeys {
     fn merge(&mut self, _: Self) {}
+
+    fn create(&self) -> Self {
+        Self
+    }
 }
 
 #[parallel]

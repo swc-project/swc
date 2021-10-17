@@ -8,6 +8,10 @@ struct Example;
 
 impl Parallel for Example {
     fn merge(&mut self, _: Self) {}
+
+    fn create(&self) -> Self {
+        Self
+    }
 }
 
 #[parallel]

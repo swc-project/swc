@@ -24,11 +24,14 @@ pub fn sticky_regex() -> impl 'static + Fold + VisitMut {
     as_folder(StickyRegex)
 }
 
-#[derive(Clone, Copy)]
 struct StickyRegex;
 
 impl Parallel for StickyRegex {
     fn merge(&mut self, _: Self) {}
+
+    fn create(&self) -> Self {
+        StickyRegex
+    }
 }
 
 #[parallel]

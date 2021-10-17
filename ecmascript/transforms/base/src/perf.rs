@@ -16,7 +16,10 @@ where
     checker.should_handle()
 }
 
-pub trait Parallel: Clone {
+pub trait Parallel {
+    /// Used to create visitor.
+    fn create(&self) -> Self;
+
     fn merge(&mut self, other: Self);
 
     /// Invoked after visiting [Stmt]s, possibly in parallel.

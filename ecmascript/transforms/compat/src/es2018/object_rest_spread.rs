@@ -1015,6 +1015,10 @@ fn simplify_pat(pat: Pat) -> Pat {
 struct ObjectSpread;
 
 impl Parallel for ObjectSpread {
+    fn create(&self) -> Self {
+        ObjectSpread
+    }
+
     fn merge(&mut self, _: Self) {}
 }
 

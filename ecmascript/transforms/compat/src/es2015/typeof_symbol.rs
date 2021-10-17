@@ -15,6 +15,10 @@ struct TypeOfSymbol;
 
 impl Parallel for TypeOfSymbol {
     fn merge(&mut self, _: Self) {}
+
+    fn create(&self) -> Self {
+        TypeOfSymbol
+    }
 }
 
 #[parallel]
