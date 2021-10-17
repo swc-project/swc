@@ -393,8 +393,9 @@ impl ClassProperties {
                     // we handle computed key here to preserve the execution order
                     let key = match method.key {
                         PropName::Computed(ComputedPropName { span: c_span, expr }) => {
-                            let expr =
-                                expr.fold_with(&mut ClassNameTdzFolder { class_name: &ident });
+                            let expr = expr.fold_with(&mut as_folder(ClassNameTdzFolder {
+                                class_name: &ident,
+                            }));
                             let ident = private_ident!("tmp");
                             // Handle computed property
                             vars.push(VarDeclarator {
@@ -419,7 +420,7 @@ impl ClassProperties {
                     let prop_span = prop.span();
                     prop.key = prop
                         .key
-                        .fold_with(&mut ClassNameTdzFolder { class_name: &ident });
+                        .fold_with(&mut as_folder(ClassNameTdzFolder { class_name: &ident }));
 
                     if !prop.is_static {
                         prop.key.visit_with(
