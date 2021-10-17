@@ -27,7 +27,6 @@ function useProjectBranches(projectId, opts) {
 var use_project = __webpack_require__(76246);
 
 export function EnvironmentsSelector(param) {
-    var selectedGitBranch = param.selectedGitBranch, checkedProduction = param.checkedProduction, checkedPreview = param.checkedPreview, checkedDevelopment = param.checkedDevelopment, setCheckedProduction = param.setCheckedProduction, setCheckedPreview = param.setCheckedPreview, setCheckedDevelopment = param.setCheckedDevelopment, setSelectedGitBranch = param.setSelectedGitBranch;
     var _query = (0, router.useRouter)().query, projectName = _query.project;
     var ref = (0, use_project.useProject)(projectName), projectInfo = ref.data;
     var ref1 = (0, use_team/* default */.ZP)(), teamSlug = ref1.teamSlug;
