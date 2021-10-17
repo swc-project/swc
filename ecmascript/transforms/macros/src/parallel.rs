@@ -67,7 +67,81 @@ fn make_par_visit_method(mode: Mode, suffix: &str, threshold: usize) -> ImplItem
     let hook = post_visit_hook(mode, suffix);
 
     match mode {
-        Mode::Fold => panic!("#[parallel] is not supported for Fold"),
+        Mode::Fold => q!(
+            Vars {
+                NodeType: node_type(suffix),
+                threshold,
+                method_name,
+                hook,
+            },
+            {
+                fn method_name(&mut self, nodes: Vec<NodeType>) -> Vec<NodeType> {
+                    use swc_ecma_visit::FoldWith;
+                    
+                    #[cfg(feature = "rayon")]
+                    if nodes.len() >= threshold {
+                        use rayon::prelude::*;  
+
+                        let (visitor, mut nodes) = ::swc_common::GLOBALS.with(|globals| {
+                            swc_ecma_transforms_base::helpers::HELPERS.with(|helpers| {
+                                swc_ecma_utils::HANDLER.with(|handler| {
+                                    nodes
+                                        .into_par_iter()
+                                        .map(|node| {
+                                            ::swc_common::GLOBALS.set(&globals, || {
+                                                swc_ecma_transforms_base::helpers::HELPERS.set(
+                                                    helpers,
+                                                    || {
+                                                        swc_ecma_utils::HANDLER.set(handler, || {
+                                                            let mut visitor = swc_ecma_transforms_base::perf::Parallel::create(&*self);
+                                                            let node = node.fold_with(&mut visitor);
+
+                                                            (visitor, node)
+                                                        })
+                                                    },
+                                                )
+                                            })
+                                        })
+                                        .fold(
+                                            || (swc_ecma_transforms_base::perf::Parallel::create(&*self), vec![]),
+                                            |mut a, b| {
+                                                swc_ecma_transforms_base::perf::Parallel::merge(
+                                                    &mut a.0, b.0,
+                                                );
+                                                a.1.push(b.1);
+                                                a
+                                            },
+                                        )
+                                        .reduce(
+                                            ||(swc_ecma_transforms_base::perf::Parallel::create(&*self), vec![]),
+                                            |mut a, b| {
+                                                swc_ecma_transforms_base::perf::Parallel::merge(
+                                                    &mut a.0, b.0,
+                                                );
+
+                                                a.1.extend(b.1);
+
+                                                a
+                                            }
+                                        )
+                                })
+                            })
+                        });
+
+                        {
+                            hook;
+                        }
+
+                        swc_ecma_transforms_base::perf::Parallel::merge(self, visitor);
+
+                        return nodes;
+                    }
+
+                    nodes.fold_children_with(self)
+                }
+            }
+        )
+        .parse(),
         Mode::VisitMut => q!(
             Vars {
                 NodeType: node_type(suffix),
