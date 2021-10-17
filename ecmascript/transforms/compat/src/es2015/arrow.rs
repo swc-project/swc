@@ -2,9 +2,7 @@ use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_this_expr, prepend, private_ident};
-use swc_ecma_visit::{
-    noop_fold_type, noop_visit_mut_type, Fold, FoldWith, InjectVars, VisitMut, VisitMutWith,
-};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, InjectVars, VisitMut, VisitMutWith};
 
 /// Compile ES2015 arrow functions to ES5
 ///
@@ -54,8 +52,8 @@ use swc_ecma_visit::{
 /// };
 /// console.log(bob.printFriends());
 /// ```
-pub fn arrow() -> impl Fold + InjectVars {
-    Arrow::default()
+pub fn arrow() -> impl Fold + VisitMut + InjectVars {
+    as_folder(Arrow::default())
 }
 
 #[derive(Default)]
@@ -64,31 +62,30 @@ struct Arrow {
     vars: Vec<VarDeclarator>,
 }
 
-/// TODO: VisitMut
-impl Fold for Arrow {
-    noop_fold_type!();
+impl VisitMut for Arrow {
+    noop_visit_mut_type!();
 
-    fn fold_constructor(&mut self, c: Constructor) -> Constructor {
+    fn visit_mut_constructor(&mut self, c: &mut Constructor) {
         let in_arrow = self.in_arrow;
         self.in_arrow = false;
-        let res = c.fold_children_with(self);
+        c.visit_mut_children_with(self);
         self.in_arrow = in_arrow;
-        res
     }
 
-    fn fold_expr(&mut self, e: Expr) -> Expr {
-        match e {
+    fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        match expr {
             Expr::Arrow(ArrowExpr {
                 span,
                 params,
                 body,
                 is_async,
                 is_generator,
-                type_params,
-                return_type,
+                ..
             }) => {
+                params.visit_mut_with(self);
+
                 let params: Vec<Param> = params
-                    .fold_with(self)
+                    .take()
                     .into_iter()
                     .map(|pat| Param {
                         span: DUMMY_SP,
@@ -101,10 +98,10 @@ impl Fold for Arrow {
 
                 let in_arrow = self.in_arrow;
                 self.in_arrow = true;
-                let mut body = body.fold_with(self);
+                body.visit_mut_with(self);
                 self.in_arrow = in_arrow;
 
-                let mut body = {
+                let body = {
                     let mut arguments_replacer = ArgumentsReplacer {
                         arguments: private_ident!("_arguments"),
                         found: false,
@@ -117,7 +114,7 @@ impl Fold for Arrow {
                     body
                 };
 
-                let used_this = contains_this_expr(&body);
+                let used_this = contains_this_expr(&*body);
 
                 let this_id = if used_this {
                     Some(private_ident!("_this"))
@@ -152,44 +149,47 @@ impl Fold for Arrow {
                     ident: None,
                     function: Function {
                         decorators: vec![],
-                        span,
+                        span: *span,
                         params,
-                        is_async,
-                        is_generator,
+                        is_async: *is_async,
+                        is_generator: *is_generator,
                         body: Some(match body {
-                            BlockStmtOrExpr::BlockStmt(block) => block,
+                            BlockStmtOrExpr::BlockStmt(block) => block.take(),
                             BlockStmtOrExpr::Expr(expr) => BlockStmt {
                                 span: DUMMY_SP,
                                 stmts: vec![Stmt::Return(ReturnStmt {
                                     span: expr.span(),
-                                    arg: Some(expr),
+                                    arg: Some(expr.take()),
                                 })],
                             },
                         }),
-                        type_params,
-                        return_type,
+                        type_params: Default::default(),
+                        return_type: Default::default(),
                     },
                 });
 
-                return fn_expr;
+                *expr = fn_expr;
+                return;
             }
-            _ => e.fold_children_with(self),
+            _ => {
+                expr.visit_mut_children_with(self);
+            }
         }
     }
 
-    fn fold_function(&mut self, f: Function) -> Function {
+    fn visit_mut_function(&mut self, f: &mut Function) {
         let in_arrow = self.in_arrow;
         self.in_arrow = false;
-        let res = f.fold_children_with(self);
+        f.visit_mut_children_with(self);
         self.in_arrow = in_arrow;
-        res
     }
 
-    fn fold_module_items(&mut self, stmts: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        let mut stmts = stmts.fold_children_with(self);
+    fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
+        stmts.visit_mut_children_with(self);
+
         if !self.vars.is_empty() {
             prepend(
-                &mut stmts,
+                stmts,
                 ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
@@ -198,17 +198,15 @@ impl Fold for Arrow {
                 }))),
             );
         }
-
-        stmts
     }
 
-    fn fold_stmts(&mut self, stmts: Vec<Stmt>) -> Vec<Stmt> {
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
         let old_vars = self.vars.take();
 
-        let mut stmts = stmts.fold_children_with(self);
+        stmts.visit_mut_children_with(self);
         if !self.vars.is_empty() {
             prepend(
-                &mut stmts,
+                stmts,
                 Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
@@ -219,8 +217,6 @@ impl Fold for Arrow {
         }
 
         self.vars = old_vars;
-
-        stmts
     }
 }
 
