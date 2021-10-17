@@ -17,7 +17,7 @@ use swc_ecma_transforms::{fixer, hygiene, pass::noop, resolver, typescript};
 use swc_ecma_visit::FoldWith;
 use test::Bencher;
 
-static SOURCE: &str = include_str!("assets/huge.ts");
+static SOURCE: &str = include_str!("assets/Observable.ts");
 
 fn mk() -> swc::Compiler {
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
