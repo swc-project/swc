@@ -54,6 +54,7 @@ impl Storage for ProgramData {
                     //
                     // e.get_mut().used_above_decl |= var_info.used_above_decl;
                     e.get_mut().used_in_loop |= var_info.used_in_loop;
+                    e.get_mut().used_in_cond |= var_info.used_in_cond;
                     e.get_mut().assign_count += var_info.assign_count;
                     e.get_mut().mutation_by_call_count += var_info.mutation_by_call_count;
                     e.get_mut().usage_count += var_info.usage_count;
@@ -188,6 +189,7 @@ impl ProgramData {
         // Passing object as a argument is possibly modification.
         e.mutated |= is_modify || (ctx.in_call_arg && ctx.is_exact_arg);
         e.used_in_loop |= ctx.in_loop;
+        e.used_in_cond |= ctx.in_cond;
 
         if is_modify && ctx.is_exact_reassignment {
             e.assign_count += 1;

@@ -99,6 +99,7 @@ pub(crate) struct VarUsageInfo {
     used_by_nested_fn: bool,
 
     pub used_in_loop: bool,
+    pub used_in_cond: bool,
 
     pub var_kind: Option<VarDeclKind>,
     pub var_initialized: bool,
@@ -203,14 +204,6 @@ where
 {
     noop_visit_type!();
 
-    fn visit_await_expr(&mut self, n: &AwaitExpr, _: &dyn Node) {
-        let ctx = Ctx {
-            in_await_arg: true,
-            ..self.ctx
-        };
-        n.visit_children_with(&mut *self.with_ctx(ctx));
-    }
-
     fn visit_arrow_expr(&mut self, n: &ArrowExpr, _: &dyn Node) {
         self.with_child(n.span.ctxt, ScopeKind::Fn, |child| {
             {
@@ -248,6 +241,14 @@ where
             ..self.ctx
         };
         n.right.visit_with(n, &mut *self.with_ctx(ctx));
+    }
+
+    fn visit_await_expr(&mut self, n: &AwaitExpr, _: &dyn Node) {
+        let ctx = Ctx {
+            in_await_arg: true,
+            ..self.ctx
+        };
+        n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
     fn visit_block_stmt(&mut self, n: &BlockStmt, _: &dyn Node) {
@@ -343,6 +344,19 @@ where
         self.declare_decl(&n.ident, true, None, false);
 
         n.visit_children_with(self);
+    }
+
+    fn visit_cond_expr(&mut self, n: &CondExpr, _: &dyn Node) {
+        n.test.visit_with(n, self);
+
+        {
+            let ctx = Ctx {
+                in_cond: true,
+                ..self.ctx
+            };
+            n.cons.visit_with(n, &mut *self.with_ctx(ctx));
+            n.alt.visit_with(n, &mut *self.with_ctx(ctx));
+        }
     }
 
     fn visit_do_while_stmt(&mut self, n: &DoWhileStmt, _: &dyn Node) {
