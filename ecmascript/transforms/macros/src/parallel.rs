@@ -81,8 +81,8 @@ fn make_par_visit_method(mode: Mode, suffix: &str, threshold: usize) -> ImplItem
                         use rayon::prelude::*;
 
                         let (visitor, nodes) = ::swc_common::GLOBALS.with(|globals| {
-                            HELPERS.with(|helpers| {
-                                HANDLER.with(|handler| {
+                            swc_ecma_transforms_base::helpers::HELPERS.with(|helpers| {
+                                swc_ecma_utils::HANDLER.with(|handler| {
                                     nodes
                                         .into_par_iter()
                                         .map(|node| {
