@@ -25,7 +25,6 @@ pub fn member_expression_literals() -> impl Fold {
 #[derive(Default, Clone, Copy)]
 struct MemberExprLit;
 
-/// TODO: VisitMut
 impl Fold for MemberExprLit {
     noop_fold_type!();
 
