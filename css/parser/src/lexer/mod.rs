@@ -6,8 +6,6 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{input::Input, BytePos, Span};
 use swc_css_ast::{Token, TokenAndSpan};
 
-mod value;
-
 pub(crate) type LexResult<T> = Result<T, ErrorKind>;
 
 #[derive(Debug)]
@@ -167,7 +165,7 @@ where
             if self.would_start_number()? {
                 self.input.reset_to(pos);
 
-                return self.read_number();
+                return self.read_numeric();
             }
 
             return Ok(Token::Delim { value: c });
@@ -184,7 +182,7 @@ where
             if self.would_start_number()? {
                 self.input.reset_to(pos);
 
-                return self.read_number();
+                return self.read_numeric();
             } else if self.input.cur() == Some('-') && self.input.peek() == Some('>') {
                 self.input.bump();
                 self.input.bump();
@@ -210,7 +208,7 @@ where
             if self.would_start_number()? {
                 self.input.reset_to(pos);
 
-                return self.read_number();
+                return self.read_numeric();
             }
 
             return Ok(Token::Delim { value: c });
@@ -273,7 +271,7 @@ where
         try_delim!(b'}', "}");
 
         if let Some('0'..='9') = self.input.cur() {
-            return self.read_number();
+            return self.read_numeric();
         }
 
         if let Some(c) = self.input.cur() {
@@ -333,6 +331,104 @@ where
             Some(first) if first.is_digit(10) => Ok(true),
             _ => Ok(false),
         }
+    }
+
+    fn read_digits(&mut self) -> JsWord {
+        let mut digits = String::new();
+
+        loop {
+            let code = self.input.cur().unwrap();
+
+            if code.is_digit(10) {
+                self.input.bump();
+                digits.push(code);
+            } else {
+                break;
+            }
+        }
+
+        digits.into()
+    }
+
+    fn read_number(&mut self) -> (f64, String) {
+        let mut repr = String::new();
+
+        if let Some(c) = self.input.cur() {
+            if c == '+' || c == '-' {
+                self.input.bump();
+                repr.push(c);
+            }
+        }
+
+        repr.push_str(&self.read_digits());
+
+        if let Some(c) = self.input.cur() {
+            if c == '.' {
+                if let Some(n) = self.input.peek() {
+                    if n.is_digit(10) {
+                        self.input.bump();
+                        self.input.bump();
+                        repr.push(c);
+                        repr.push(n);
+                        repr.push_str(&self.read_digits());
+                    }
+                }
+            }
+        }
+
+        if let Some(c) = self.input.cur() {
+            if c == 'E' || c == 'e' {
+                if let Some(n) = self.input.peek() {
+                    if n == '-' || n == '+' {
+                        if let Some(nn) = self.input.peek_ahead() {
+                            if nn.is_digit(10) {
+                                self.input.bump();
+                                self.input.bump();
+                                repr.push(c);
+                                repr.push(n);
+                                repr.push_str(&self.read_digits());
+                            }
+                        }
+                    } else if n.is_digit(10) {
+                        self.input.bump();
+                        self.input.bump();
+                        repr.push(c);
+                        repr.push(n);
+                        repr.push_str(&self.read_digits());
+                    }
+                }
+            }
+        }
+
+        let parsed = lexical::parse(&repr.as_bytes()).unwrap_or_else(|err| {
+            unreachable!("failed to parse `{}` using lexical: {:?}", repr, err)
+        });
+
+        (parsed, repr)
+    }
+
+    fn read_numeric(&mut self) -> LexResult<Token> {
+        let number = self.read_number();
+
+        // TODO: need improve
+        // if self.would_start_ident()? {
+        //     let name = self.read_name()?;
+        //
+        //     return Ok(Token::Dimension {
+        //         value: number,
+        //         unit: name.0,
+        //         raw_unit: name.1
+        //     });
+        // } else if self.input.cur().unwrap() == '%' {
+        //     self.input.bump();
+        //
+        //     return Ok(Token::Percent { value: number });
+        // }
+
+        Ok(Token::Num {
+            value: number.0,
+            raw: number.1.into(),
+        })
     }
 
     fn is_valid_escape(&mut self) -> LexResult<bool> {

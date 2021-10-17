@@ -182,7 +182,8 @@
                   "end": 78,
                   "ctxt": 0
                 },
-                "value": 1987.0
+                "value": 1987.0,
+                "raw": "1987"
               }
             ],
             "important": null
@@ -219,7 +220,8 @@
                     "end": 97,
                     "ctxt": 0
                   },
-                  "value": 25.0
+                  "value": 25.0,
+                  "raw": "25"
                 }
               }
             ],
@@ -250,7 +252,8 @@
                   "end": 113,
                   "ctxt": 0
                 },
-                "value": 37.0
+                "value": 37.0,
+                "raw": "37"
               }
             ],
             "important": null
@@ -287,7 +290,8 @@
                     "end": 128,
                     "ctxt": 0
                   },
-                  "value": 12.0
+                  "value": 12.0,
+                  "raw": "12"
                 },
                 "unit": {
                   "span": {
@@ -333,7 +337,8 @@
                     "end": 143,
                     "ctxt": 0
                   },
-                  "value": 75.0
+                  "value": 75.0,
+                  "raw": "75"
                 },
                 "unit": {
                   "span": {
