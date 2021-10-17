@@ -2152,7 +2152,7 @@ where
 
     fn visit_module_items(&mut self, nodes: &[ModuleItem], _: &dyn Node) {
         #[cfg(feature = "concurrent")]
-        if nodes.len() > 128 {
+        if nodes.len() > 16 {
             use rayon::prelude::*;
             let set = nodes
                 .par_iter()
