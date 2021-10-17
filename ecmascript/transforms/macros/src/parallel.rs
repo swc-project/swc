@@ -126,12 +126,14 @@ fn make_par_visit_method(
                                                             let mut visitor =
                                                                 Parallel::create(&*self);
                                                             let node = node.fold_with(&mut visitor);
-                                                            let mut nodes = vec![node];
+                                                            let mut nodes = vec![];
 
                                                             ParExplode::explode_method_name(
                                                                 &mut visitor,
                                                                 &mut nodes,
                                                             );
+
+                                                            nodes.push(node);
 
                                                             (visitor, nodes)
                                                         })
@@ -162,7 +164,16 @@ fn make_par_visit_method(
                         return nodes;
                     }
 
-                    nodes.fold_children_with(self)
+                    let mut buf = Vec::with_capacity(nodes.len());
+
+                    for node in nodes {
+                        let mut visitor = Parallel::create(&*self);
+                        let node = node.fold_with(&mut visitor);
+                        ParExplode::explode_method_name(&mut visitor, &mut buf);
+                        buf.push(node);
+                    }
+
+                    buf
                 }
             }
         )
@@ -254,6 +265,7 @@ fn make_par_visit_method(
             },
             {
                 fn method_name(&mut self, nodes: &mut Vec<NodeType>) {
+                    use std::mem::take;
                     use swc_ecma_transforms_base::perf::{ParExplode, Parallel};
                     use swc_ecma_visit::VisitMutWith;
 
@@ -264,7 +276,7 @@ fn make_par_visit_method(
                                 swc_ecma_utils::HANDLER.with(|handler| {
                                     use rayon::prelude::*;
 
-                                    let (visitor, new_nodes) = std::mem::take(nodes)
+                                    let (visitor, new_nodes) = take(nodes)
                                         .into_par_iter()
                                         .map(|mut node| {
                                             ::swc_common::GLOBALS.set(&globals, || {
@@ -276,12 +288,14 @@ fn make_par_visit_method(
                                                                 Parallel::create(&*self);
                                                             node.visit_mut_with(&mut visitor);
 
-                                                            let mut nodes = vec![node];
+                                                            let mut nodes = vec![];
 
                                                             ParExplode::explode_method_name(
                                                                 &mut visitor,
                                                                 &mut nodes,
                                                             );
+
+                                                            nodes.push(node);
 
                                                             (visitor, nodes)
                                                         })
@@ -314,7 +328,16 @@ fn make_par_visit_method(
                         return;
                     }
 
-                    nodes.visit_mut_children_with(self);
+                    let mut buf = Vec::with_capacity(nodes.len());
+
+                    for mut node in take(nodes) {
+                        let mut visitor = Parallel::create(&*self);
+                        node.visit_mut_with(&mut visitor);
+                        ParExplode::explode_method_name(&mut visitor, &mut buf);
+                        buf.push(node);
+                    }
+
+                    *nodes = buf;
                 }
             }
         )

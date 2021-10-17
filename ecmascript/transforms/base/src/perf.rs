@@ -33,11 +33,11 @@ pub trait Parallel {
 pub trait ParExplode: Parallel {
     /// Invoked after visiting each statements.
     ///
-    /// The first element of `stmts` is the processed statement.
+    /// `stmts` will be empty.
     fn after_one_stmt(&mut self, stmts: &mut Vec<Stmt>);
 
     /// Invoked after visiting each statements.
     ///
-    /// The first element of `stmts` is the processed statement.
+    /// `stmts` will be empty.
     fn after_one_module_item(&mut self, stmts: &mut Vec<ModuleItem>);
 }
