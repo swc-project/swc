@@ -7,7 +7,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{ParExplode, Parallel};
 use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{
-    alias_if_required, member_expr, prepend, private_ident, quote_ident, ExprFactory, StmtLike,
+    alias_if_required, member_expr, prepend, private_ident, quote_ident, ExprFactory,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -551,32 +551,5 @@ impl VisitMut for ForOf {
             }
             _ => s.visit_mut_children_with(self),
         }
-    }
-}
-
-impl ForOf {
-    fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
-    where
-        T: StmtLike,
-        Vec<T>: VisitMutWith<Self>,
-    {
-        let mut buf = Vec::with_capacity(stmts.len());
-
-        for stmt in stmts.take() {
-            match stmt.try_into_stmt() {
-                Err(module_item) => buf.push(module_item),
-                Ok(mut stmt) => {
-                    let mut folder = Self {
-                        c: self.c,
-                        top_level_vars: Default::default(),
-                    };
-                    stmt.visit_mut_with(&mut folder);
-
-                    buf.push(T::from_stmt(stmt));
-                }
-            }
-        }
-
-        *stmts = buf
     }
 }
