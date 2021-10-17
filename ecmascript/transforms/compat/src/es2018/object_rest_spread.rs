@@ -964,50 +964,46 @@ fn excluded_props(props: &[ObjectPatProp]) -> Vec<Option<ExprOrSpread>> {
         .collect()
 }
 
+struct PatSimplifier;
+
+/// TODO: VisitMut
+impl Fold for PatSimplifier {
+    noop_fold_type!();
+
+    fn fold_pat(&mut self, pat: Pat) -> Pat {
+        let pat = pat.fold_children_with(self);
+
+        match pat {
+            Pat::Object(o) => {
+                let ObjectPat { span, props, .. } = o;
+                let props = props.move_flat_map(|mut prop| {
+                    match prop {
+                        ObjectPatProp::KeyValue(KeyValuePatProp { key, value, .. }) => match *value
+                        {
+                            Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {
+                                return None;
+                            }
+                            _ => {
+                                prop = ObjectPatProp::KeyValue(KeyValuePatProp { key, value });
+                            }
+                        },
+                        _ => {}
+                    }
+
+                    Some(prop)
+                });
+
+                Pat::Object(ObjectPat { span, props, ..o })
+            }
+            _ => pat,
+        }
+    }
+}
+
 /// e.g.
 ///
 ///  - `{ x4: {}  }` -> `{}`
 fn simplify_pat(pat: Pat) -> Pat {
-    struct PatSimplifier;
-
-    /// TODO: VisitMut
-    impl Fold for PatSimplifier {
-        noop_fold_type!();
-
-        fn fold_pat(&mut self, pat: Pat) -> Pat {
-            let pat = pat.fold_children_with(self);
-
-            match pat {
-                Pat::Object(o) => {
-                    let ObjectPat { span, props, .. } = o;
-                    let props = props.move_flat_map(|mut prop| {
-                        match prop {
-                            ObjectPatProp::KeyValue(KeyValuePatProp { key, value, .. }) => {
-                                match *value {
-                                    Pat::Object(ObjectPat { ref props, .. })
-                                        if props.is_empty() =>
-                                    {
-                                        return None;
-                                    }
-                                    _ => {
-                                        prop =
-                                            ObjectPatProp::KeyValue(KeyValuePatProp { key, value });
-                                    }
-                                }
-                            }
-                            _ => {}
-                        }
-
-                        Some(prop)
-                    });
-
-                    Pat::Object(ObjectPat { span, props, ..o })
-                }
-                _ => pat,
-            }
-        }
-    }
-
     pat.fold_with(&mut PatSimplifier)
 }
 
