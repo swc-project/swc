@@ -2112,34 +2112,6 @@ where
 {
     noop_visit_type!();
 
-    fn visit_module_items(&mut self, nodes: &[ModuleItem], _: &dyn Node) {
-        #[cfg(feature = "concurrent")]
-        if nodes.len() > 128 {
-            use rayon::prelude::*;
-            let set = nodes
-                .par_iter()
-                .map(|node| {
-                    let mut v = BindingCollector {
-                        only: self.only,
-                        bindings: Default::default(),
-                        is_pat_decl: self.is_pat_decl,
-                    };
-                    node.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
-                    v.bindings
-                })
-                .reduce(AHashSet::default, |mut a, b| {
-                    a.extend(b);
-                    a
-                });
-            self.bindings.extend(set);
-            return;
-        }
-
-        for node in nodes {
-            node.visit_children_with(self)
-        }
-    }
-
     fn visit_class_decl(&mut self, node: &ClassDecl, _: &dyn Node) {
         node.visit_children_with(self);
 
@@ -2178,6 +2150,34 @@ where
         }
     }
 
+    fn visit_module_items(&mut self, nodes: &[ModuleItem], _: &dyn Node) {
+        #[cfg(feature = "concurrent")]
+        if nodes.len() > 16 {
+            use rayon::prelude::*;
+            let set = nodes
+                .par_iter()
+                .map(|node| {
+                    let mut v = BindingCollector {
+                        only: self.only,
+                        bindings: Default::default(),
+                        is_pat_decl: self.is_pat_decl,
+                    };
+                    node.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+                    v.bindings
+                })
+                .reduce(AHashSet::default, |mut a, b| {
+                    a.extend(b);
+                    a
+                });
+            self.bindings.extend(set);
+            return;
+        }
+
+        for node in nodes {
+            node.visit_children_with(self)
+        }
+    }
+
     fn visit_param(&mut self, node: &Param, _: &dyn Node) {
         let old = self.is_pat_decl;
         self.is_pat_decl = true;
@@ -2193,6 +2193,34 @@ where
                 Pat::Ident(i) => self.add(&i.id),
                 _ => {}
             }
+        }
+    }
+
+    fn visit_stmts(&mut self, nodes: &[Stmt], _: &dyn Node) {
+        #[cfg(feature = "concurrent")]
+        if nodes.len() > 16 {
+            use rayon::prelude::*;
+            let set = nodes
+                .par_iter()
+                .map(|node| {
+                    let mut v = BindingCollector {
+                        only: self.only,
+                        bindings: Default::default(),
+                        is_pat_decl: self.is_pat_decl,
+                    };
+                    node.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+                    v.bindings
+                })
+                .reduce(AHashSet::default, |mut a, b| {
+                    a.extend(b);
+                    a
+                });
+            self.bindings.extend(set);
+            return;
+        }
+
+        for node in nodes {
+            node.visit_children_with(self)
         }
     }
 

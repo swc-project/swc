@@ -19,7 +19,8 @@ use swc_ecma_utils::{
     private_ident, quote_ident, undefined, ExprFactory, ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
-    noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitMutWith, VisitWith,
+    as_folder, noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitMutWith,
+    VisitWith,
 };
 
 mod class_name_tdz;
@@ -392,8 +393,9 @@ impl ClassProperties {
                     // we handle computed key here to preserve the execution order
                     let key = match method.key {
                         PropName::Computed(ComputedPropName { span: c_span, expr }) => {
-                            let expr =
-                                expr.fold_with(&mut ClassNameTdzFolder { class_name: &ident });
+                            let expr = expr.fold_with(&mut as_folder(ClassNameTdzFolder {
+                                class_name: &ident,
+                            }));
                             let ident = private_ident!("tmp");
                             // Handle computed property
                             vars.push(VarDeclarator {
@@ -418,7 +420,7 @@ impl ClassProperties {
                     let prop_span = prop.span();
                     prop.key = prop
                         .key
-                        .fold_with(&mut ClassNameTdzFolder { class_name: &ident });
+                        .fold_with(&mut as_folder(ClassNameTdzFolder { class_name: &ident }));
 
                     if !prop.is_static {
                         prop.key.visit_with(
@@ -486,9 +488,9 @@ impl ClassProperties {
                                 in_nested_scope: false,
                                 this_alias_mark: None,
                             })
-                            .fold_with(&mut ThisInStaticFolder {
+                            .fold_with(&mut as_folder(ThisInStaticFolder {
                                 ident: ident.clone(),
-                            })
+                            }))
                     } else {
                         value
                     };

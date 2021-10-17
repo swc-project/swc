@@ -2,23 +2,22 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::ExprFactory;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 pub(super) struct ClassNameTdzFolder<'a> {
     pub class_name: &'a Ident,
 }
 
-/// TODO: VisitMut
-impl<'a> Fold for ClassNameTdzFolder<'a> {
-    noop_fold_type!();
+impl<'a> VisitMut for ClassNameTdzFolder<'a> {
+    noop_visit_mut_type!();
 
-    fn fold_expr(&mut self, expr: Expr) -> Expr {
+    fn visit_mut_expr(&mut self, expr: &mut Expr) {
         match expr {
             Expr::Ident(i) => {
                 //
 
                 if i.sym == self.class_name.sym {
-                    Expr::Seq(SeqExpr {
+                    *expr = Expr::Seq(SeqExpr {
                         span: DUMMY_SP,
                         exprs: vec![
                             Box::new(Expr::Call(CallExpr {
@@ -36,15 +35,16 @@ impl<'a> Fold for ClassNameTdzFolder<'a> {
 
                                 type_args: Default::default(),
                             })),
-                            Box::new(Expr::Ident(i)),
+                            Box::new(Expr::Ident(i.clone())),
                         ],
-                    })
-                } else {
-                    Expr::Ident(i)
+                    });
+                    return;
                 }
             }
 
-            _ => expr.fold_children_with(self),
+            _ => {
+                expr.visit_mut_children_with(self);
+            }
         }
     }
 }

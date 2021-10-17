@@ -1,28 +1,23 @@
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 pub(super) struct ThisInStaticFolder {
     pub ident: Ident,
 }
 
-/// TODO: VisitMut
-impl Fold for ThisInStaticFolder {
-    noop_fold_type!();
+impl VisitMut for ThisInStaticFolder {
+    noop_visit_mut_type!();
 
-    fn fold_class(&mut self, n: Class) -> Class {
-        n
-    }
+    fn visit_mut_class(&mut self, _: &mut Class) {}
 
-    fn fold_expr(&mut self, e: Expr) -> Expr {
-        let e = e.fold_children_with(self);
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
 
         match e {
-            Expr::This(..) => Expr::Ident(self.ident.clone()),
-            _ => e,
+            Expr::This(..) => *e = Expr::Ident(self.ident.clone()),
+            _ => {}
         }
     }
 
-    fn fold_function(&mut self, n: Function) -> Function {
-        n
-    }
+    fn visit_mut_function(&mut self, _: &mut Function) {}
 }

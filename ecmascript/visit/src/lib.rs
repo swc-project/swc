@@ -147,6 +147,7 @@ where
     }
 }
 
+#[inline]
 pub fn as_folder<V>(v: V) -> Folder<V>
 where
     V: VisitMut,

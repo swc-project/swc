@@ -35,7 +35,6 @@ pub fn property_literals() -> impl Fold {
 
 struct PropertyLiteral;
 
-/// TODO: VisitMut
 impl Fold for PropertyLiteral {
     noop_fold_type!();
 
