@@ -352,59 +352,59 @@ where
 
     fn read_number(&mut self) -> (f64, String) {
         let mut repr = String::new();
-        let code = self.input.cur().unwrap();
 
-        if code == '+' || code == '-' {
-            self.input.bump();
-            repr.push(code);
+        if let Some(c) = self.input.cur() {
+            if c == '+' || c == '-' {
+                self.input.bump();
+                repr.push(c);
+            }
         }
 
         repr.push_str(&self.read_digits());
 
-        let code = self.input.cur().unwrap();
-
-        if code == '.' {
-            let next = self.input.peek().unwrap();
-
-            if next.is_digit(10) {
-                self.input.bump();
-                self.input.bump();
-                repr.push(code);
-                repr.push(next);
-                repr.push_str(&self.read_digits());
-            }
-        }
-
-        let code = self.input.cur().unwrap();
-
-        if code == 'E' || code == 'e' {
-            let next = self.input.peek().unwrap();
-
-            if next == '-' || next == '+' {
-                let next_next = self.input.peek_ahead().unwrap();
-
-                if next_next.is_digit(10) {
-                    self.input.bump();
-                    self.input.bump();
-                    repr.push(code);
-                    repr.push(next);
-                    repr.push_str(&self.read_digits());
+        if let Some(c) = self.input.cur() {
+            if c == '.' {
+                if let Some(n) = self.input.peek() {
+                    if n.is_digit(10) {
+                        self.input.bump();
+                        self.input.bump();
+                        repr.push(c);
+                        repr.push(n);
+                        repr.push_str(&self.read_digits());
+                    }
                 }
-            } else if next.is_digit(10) {
-                self.input.bump();
-                self.input.bump();
-                repr.push(code);
-                repr.push(next);
-                repr.push_str(&self.read_digits());
             }
         }
 
-        let raw = repr.clone();
+        if let Some(c) = self.input.cur() {
+            if c == 'E' || c == 'e' {
+                if let Some(n) = self.input.peek() {
+                    if n == '-' || n == '+' {
+                        if let Some(nn) = self.input.peek_ahead() {
+                            if nn.is_digit(10) {
+                                self.input.bump();
+                                self.input.bump();
+                                repr.push(c);
+                                repr.push(n);
+                                repr.push_str(&self.read_digits());
+                            }
+                        }
+                    } else if n.is_digit(10) {
+                        self.input.bump();
+                        self.input.bump();
+                        repr.push(c);
+                        repr.push(n);
+                        repr.push_str(&self.read_digits());
+                    }
+                }
+            }
+        }
+
         let parsed = lexical::parse(&repr.as_bytes()).unwrap_or_else(|err| {
             unreachable!("failed to parse `{}` using lexical: {:?}", repr, err)
         });
 
-        (parsed, raw)
+        (parsed, repr)
     }
 
     fn read_numeric(&mut self) -> LexResult<Token> {
