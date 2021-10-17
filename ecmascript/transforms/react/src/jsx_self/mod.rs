@@ -11,7 +11,7 @@ mod tests;
 /// `@babel/plugin-transform-react-jsx-self`
 ///
 /// Add a __self prop to all JSX Elements
-pub fn jsx_self(dev: bool) -> impl Fold {
+pub fn jsx_self(dev: bool) -> impl Fold + VisitMut {
     as_folder(JsxSelf { dev })
 }
 
