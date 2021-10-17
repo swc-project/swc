@@ -101,7 +101,7 @@ impl Fold for Arrow {
 
                 let in_arrow = self.in_arrow;
                 self.in_arrow = true;
-                let body = body.fold_with(self);
+                let mut body = body.fold_with(self);
                 self.in_arrow = in_arrow;
 
                 let mut body = {
@@ -109,7 +109,7 @@ impl Fold for Arrow {
                         arguments: private_ident!("_arguments"),
                         found: false,
                     };
-                    let body = body.fold_with(&mut arguments_replacer);
+                    body.visit_mut_with(&mut arguments_replacer);
 
                     if arguments_replacer.found {
                         arguments_var = Some(arguments_replacer.arguments.clone());
@@ -235,44 +235,33 @@ struct ArgumentsReplacer {
     found: bool,
 }
 
-/// TODO: VisitMut
-impl Fold for ArgumentsReplacer {
-    noop_fold_type!();
+impl VisitMut for ArgumentsReplacer {
+    noop_visit_mut_type!();
 
-    fn fold_expr(&mut self, e: Expr) -> Expr {
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
         match e {
             Expr::Ident(id) if id.sym == js_word!("arguments") => {
                 self.found = true;
-                Expr::Ident(self.arguments.clone())
+                *e = Expr::Ident(self.arguments.clone());
             }
-            _ => e.fold_children_with(self),
+            _ => e.visit_mut_children_with(self),
         }
     }
 
     /// Don't recurse into prop of member expression unless computed
-    fn fold_member_expr(&mut self, m: MemberExpr) -> MemberExpr {
-        let prop = match &*m.prop {
-            Expr::Ident(id) if !m.computed => Expr::Ident(id.clone()),
-            v => v.clone().fold_with(self),
-        };
-
-        MemberExpr {
-            span: m.span,
-            obj: m.obj.fold_with(self),
-            prop: Box::new(prop),
-            computed: m.computed,
+    fn visit_mut_member_expr(&mut self, m: &mut MemberExpr) {
+        if m.computed {
+            m.prop.visit_mut_with(self);
         }
+
+        m.obj.visit_mut_with(self);
     }
 
     /// Don't recurse into constructor
-    fn fold_constructor(&mut self, c: Constructor) -> Constructor {
-        c
-    }
+    fn visit_mut_constructor(&mut self, _: &mut Constructor) {}
 
     /// Don't recurse into fn
-    fn fold_function(&mut self, f: Function) -> Function {
-        f
-    }
+    fn visit_mut_function(&mut self, _: &mut Function) {}
 }
 
 struct ThisReplacer<'a> {
