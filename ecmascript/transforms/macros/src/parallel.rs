@@ -155,11 +155,11 @@ fn make_par_visit_method(
                             })
                         });
 
+                        Parallel::merge(self, visitor);
+
                         {
                             hook;
                         }
-
-                        Parallel::merge(self, visitor);
 
                         return nodes;
                     }
@@ -240,11 +240,11 @@ fn make_par_visit_method(
                             })
                         });
 
+                        Parallel::merge(self, visitor);
+
                         {
                             hook;
                         }
-
-                        Parallel::merge(self, visitor);
 
                         return nodes;
                     }
@@ -314,11 +314,11 @@ fn make_par_visit_method(
                                             },
                                         );
 
+                                    Parallel::merge(self, visitor);
+
                                     {
                                         hook;
                                     }
-
-                                    Parallel::merge(self, visitor);
 
                                     *nodes = new_nodes;
                                 })
@@ -389,11 +389,11 @@ fn make_par_visit_method(
                                             },
                                         );
 
+                                    Parallel::merge(self, visitor);
+
                                     {
                                         hook;
                                     }
-
-                                    Parallel::merge(self, visitor);
                                 })
                             })
                         });
