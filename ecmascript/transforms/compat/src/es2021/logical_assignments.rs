@@ -1,5 +1,7 @@
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::perf::Parallel;
+use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{alias_ident_for, prepend, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -12,6 +14,17 @@ struct Operators {
     vars: Vec<VarDeclarator>,
 }
 
+impl Parallel for Operators {
+    fn create(&self) -> Self {
+        Default::default()
+    }
+
+    fn merge(&mut self, other: Self) {
+        self.vars.extend(other.vars);
+    }
+}
+
+#[parallel]
 impl VisitMut for Operators {
     noop_visit_mut_type!();
 
