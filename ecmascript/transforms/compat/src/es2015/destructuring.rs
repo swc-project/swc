@@ -1112,15 +1112,6 @@ fn can_be_null(e: &Expr) -> bool {
     }
 }
 
-fn has_destructuring<N>(node: &N) -> bool
-where
-    N: VisitWith<DestructuringVisitor>,
-{
-    let mut v = DestructuringVisitor { found: false };
-    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
-    v.found
-}
-
 #[derive(Default)]
 struct DestructuringVisitor {
     found: bool,
