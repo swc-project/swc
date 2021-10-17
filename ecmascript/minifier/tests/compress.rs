@@ -28,7 +28,7 @@ use swc_ecma_minifier::{
 };
 use swc_ecma_parser::{
     lexer::{input::SourceFileInput, Lexer},
-    Parser,
+    EsConfig, Parser, Syntax,
 };
 use swc_ecma_transforms::{
     fixer,
@@ -149,7 +149,10 @@ fn run(
     let minification_start = Instant::now();
 
     let lexer = Lexer::new(
-        Default::default(),
+        Syntax::Es(EsConfig {
+            jsx: true,
+            ..Default::default()
+        }),
         Default::default(),
         SourceFileInput::from(&*fm),
         Some(&comments),
