@@ -289,6 +289,18 @@ pub struct ForOfStmt {
     pub body: Box<Stmt>,
 }
 
+impl Take for ForOfStmt {
+    fn dummy() -> Self {
+        ForOfStmt {
+            span: DUMMY_SP,
+            await_token: Default::default(),
+            left: Take::dummy(),
+            right: Take::dummy(),
+            body: Take::dummy(),
+        }
+    }
+}
+
 #[ast_node("SwitchCase")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -329,6 +341,12 @@ pub enum VarDeclOrPat {
     Pat(Pat),
 }
 
+impl Take for VarDeclOrPat {
+    fn dummy() -> Self {
+        VarDeclOrPat::Pat(Take::dummy())
+    }
+}
+
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[allow(variant_size_differences)]
@@ -339,4 +357,10 @@ pub enum VarDeclOrExpr {
 
     #[tag("*")]
     Expr(Box<Expr>),
+}
+
+impl Take for VarDeclOrExpr {
+    fn dummy() -> Self {
+        VarDeclOrExpr::Expr(Take::dummy())
+    }
 }
