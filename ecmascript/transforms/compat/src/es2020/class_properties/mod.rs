@@ -19,7 +19,8 @@ use swc_ecma_utils::{
     private_ident, quote_ident, undefined, ExprFactory, ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
-    noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitMutWith, VisitWith,
+    as_folder, noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitMutWith,
+    VisitWith,
 };
 
 mod class_name_tdz;
@@ -486,9 +487,9 @@ impl ClassProperties {
                                 in_nested_scope: false,
                                 this_alias_mark: None,
                             })
-                            .fold_with(&mut ThisInStaticFolder {
+                            .fold_with(&mut as_folder(ThisInStaticFolder {
                                 ident: ident.clone(),
-                            })
+                            }))
                     } else {
                         value
                     };
