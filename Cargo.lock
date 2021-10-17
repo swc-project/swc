@@ -1100,9 +1100,9 @@ dependencies = [
 
 [[package]]
 name = "mio"
-version = "0.7.13"
+version = "0.7.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8c2bdb6314ec10835cd3293dd268473a835c02b7b352e788be788b3c6ca6bb16"
+checksum = "8067b404fe97c70829f082dec8bcf4f71225d7eaea1d8645349cb76fa06205cc"
 dependencies = [
  "libc",
  "log",
@@ -2677,7 +2677,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.40.0"
+version = "0.40.1"
 dependencies = [
  "ansi_term 0.12.1",
  "anyhow",
