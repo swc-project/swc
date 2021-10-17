@@ -16,7 +16,6 @@ struct JsxSrc {
     dev: bool,
 }
 
-/// TODO: VisitMut
 impl VisitMut for JsxSrc {
     noop_visit_mut_type!();
 
