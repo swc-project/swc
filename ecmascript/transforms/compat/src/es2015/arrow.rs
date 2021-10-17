@@ -1,7 +1,7 @@
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{contains_this_expr, private_ident};
+use swc_ecma_utils::{contains_this_expr, prepend, private_ident};
 use swc_ecma_visit::{
     noop_fold_type, noop_visit_mut_type, Fold, FoldWith, InjectVars, VisitMut, VisitMutWith,
 };
@@ -101,7 +101,7 @@ impl Fold for Arrow {
 
                 let in_arrow = self.in_arrow;
                 self.in_arrow = true;
-                let mut body = body.fold_with(self);
+                let body = body.fold_with(self);
                 self.in_arrow = in_arrow;
 
                 let mut body = {
@@ -109,7 +109,7 @@ impl Fold for Arrow {
                         arguments: private_ident!("_arguments"),
                         found: false,
                     };
-                    body.visit_mut_with(&mut arguments_replacer);
+                    let body = body.fold_with(&mut arguments_replacer);
 
                     if arguments_replacer.found {
                         arguments_var = Some(arguments_replacer.arguments.clone());
@@ -184,6 +184,44 @@ impl Fold for Arrow {
         self.in_arrow = in_arrow;
         res
     }
+
+    fn fold_module_items(&mut self, stmts: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        let mut stmts = stmts.fold_children_with(self);
+        if !self.vars.is_empty() {
+            prepend(
+                &mut stmts,
+                ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: self.vars.take(),
+                }))),
+            );
+        }
+
+        stmts
+    }
+
+    fn fold_stmts(&mut self, stmts: Vec<Stmt>) -> Vec<Stmt> {
+        let old_vars = self.vars.take();
+
+        let mut stmts = stmts.fold_children_with(self);
+        if !self.vars.is_empty() {
+            prepend(
+                &mut stmts,
+                Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: self.vars.take(),
+                })),
+            );
+        }
+
+        self.vars = old_vars;
+
+        stmts
+    }
 }
 
 impl InjectVars for Arrow {
@@ -197,32 +235,43 @@ struct ArgumentsReplacer {
     found: bool,
 }
 
-impl VisitMut for ArgumentsReplacer {
-    noop_visit_mut_type!();
+/// TODO: VisitMut
+impl Fold for ArgumentsReplacer {
+    noop_fold_type!();
 
-    /// Don't recurse into constructor
-    fn visit_mut_constructor(&mut self, _: &mut Constructor) {}
-
-    fn visit_mut_expr(&mut self, e: &mut Expr) {
+    fn fold_expr(&mut self, e: Expr) -> Expr {
         match e {
             Expr::Ident(id) if id.sym == js_word!("arguments") => {
                 self.found = true;
-                *e = Expr::Ident(self.arguments.clone());
+                Expr::Ident(self.arguments.clone())
             }
-            _ => e.visit_mut_children_with(self),
+            _ => e.fold_children_with(self),
         }
     }
 
-    /// Don't recurse into fn
-    fn visit_mut_function(&mut self, _: &mut Function) {}
-
     /// Don't recurse into prop of member expression unless computed
-    fn visit_mut_member_expr(&mut self, m: &mut MemberExpr) {
-        m.obj.visit_mut_with(self);
+    fn fold_member_expr(&mut self, m: MemberExpr) -> MemberExpr {
+        let prop = match &*m.prop {
+            Expr::Ident(id) if !m.computed => Expr::Ident(id.clone()),
+            v => v.clone().fold_with(self),
+        };
 
-        if m.computed {
-            m.prop.visit_mut_with(self);
+        MemberExpr {
+            span: m.span,
+            obj: m.obj.fold_with(self),
+            prop: Box::new(prop),
+            computed: m.computed,
         }
+    }
+
+    /// Don't recurse into constructor
+    fn fold_constructor(&mut self, c: Constructor) -> Constructor {
+        c
+    }
+
+    /// Don't recurse into fn
+    fn fold_function(&mut self, f: Function) -> Function {
+        f
     }
 }
 
