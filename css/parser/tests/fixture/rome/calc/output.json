@@ -114,7 +114,8 @@
                         "end": 23,
                         "ctxt": 0
                       },
-                      "value": 2.0
+                      "value": 2.0,
+                      "raw": "2"
                     },
                     "unit": {
                       "span": {
@@ -189,7 +190,8 @@
                           "end": 42,
                           "ctxt": 0
                         },
-                        "value": 2.0
+                        "value": 2.0,
+                        "raw": "2"
                       },
                       "unit": {
                         "span": {
@@ -215,7 +217,8 @@
                           "end": 48,
                           "ctxt": 0
                         },
-                        "value": 1.0
+                        "value": 1.0,
+                        "raw": "1"
                       },
                       "unit": {
                         "span": {
@@ -291,7 +294,8 @@
                           "end": 67,
                           "ctxt": 0
                         },
-                        "value": 2.0
+                        "value": 2.0,
+                        "raw": "2"
                       },
                       "unit": {
                         "span": {
@@ -317,7 +321,8 @@
                           "end": 73,
                           "ctxt": 0
                         },
-                        "value": 1.0
+                        "value": 1.0,
+                        "raw": "1"
                       }
                     }
                   }
@@ -392,7 +397,8 @@
                             "end": 91,
                             "ctxt": 0
                           },
-                          "value": 2.0
+                          "value": 2.0,
+                          "raw": "2"
                         },
                         "unit": {
                           "span": {
@@ -426,7 +432,8 @@
                                 "end": 97,
                                 "ctxt": 0
                               },
-                              "value": 2.0
+                              "value": 2.0,
+                              "raw": "2"
                             }
                           }
                         ]
@@ -446,7 +453,8 @@
                           "end": 102,
                           "ctxt": 0
                         },
-                        "value": 3.0
+                        "value": 3.0,
+                        "raw": "3"
                       },
                       "unit": {
                         "span": {
@@ -530,7 +538,8 @@
                             "end": 121,
                             "ctxt": 0
                           },
-                          "value": 2.0
+                          "value": 2.0,
+                          "raw": "2"
                         },
                         "unit": {
                           "span": {
@@ -557,7 +566,8 @@
                               "end": 127,
                               "ctxt": 0
                             },
-                            "value": 2.0
+                            "value": 2.0,
+                            "raw": "2"
                           }
                         ]
                       }
@@ -569,7 +579,8 @@
                         "end": 131,
                         "ctxt": 0
                       },
-                      "value": 3.0
+                      "value": 3.0,
+                      "raw": "3"
                     }
                   }
                 ]
@@ -643,7 +654,8 @@
                             "end": 148,
                             "ctxt": 0
                           },
-                          "value": 2.0
+                          "value": 2.0,
+                          "raw": "2"
                         },
                         "unit": {
                           "span": {
@@ -685,7 +697,8 @@
                                   "end": 155,
                                   "ctxt": 0
                                 },
-                                "value": 2.0
+                                "value": 2.0,
+                                "raw": "2"
                               },
                               "right": {
                                 "type": "Number",
@@ -694,7 +707,8 @@
                                   "end": 159,
                                   "ctxt": 0
                                 },
-                                "value": 3.0
+                                "value": 3.0,
+                                "raw": "3"
                               }
                             }
                           }
@@ -723,7 +737,8 @@
                             "end": 165,
                             "ctxt": 0
                           },
-                          "value": 2.0
+                          "value": 2.0,
+                          "raw": "2"
                         },
                         "right": {
                           "type": "Number",
@@ -732,7 +747,8 @@
                             "end": 169,
                             "ctxt": 0
                           },
-                          "value": 6.0
+                          "value": 6.0,
+                          "raw": "6"
                         }
                       }
                     }
@@ -808,7 +824,8 @@
                             "end": 187,
                             "ctxt": 0
                           },
-                          "value": 2.0
+                          "value": 2.0,
+                          "raw": "2"
                         },
                         "unit": {
                           "span": {
@@ -835,7 +852,8 @@
                               "end": 193,
                               "ctxt": 0
                             },
-                            "value": 2.0
+                            "value": 2.0,
+                            "raw": "2"
                           }
                         ]
                       }
@@ -847,7 +865,8 @@
                         "end": 197,
                         "ctxt": 0
                       },
-                      "value": 3.0
+                      "value": 3.0,
+                      "raw": "3"
                     }
                   }
                 ]
@@ -937,7 +956,8 @@
                                 "end": 214,
                                 "ctxt": 0
                               },
-                              "value": 2.0
+                              "value": 2.0,
+                              "raw": "2"
                             },
                             "unit": {
                               "span": {
@@ -964,7 +984,8 @@
                                   "end": 220,
                                   "ctxt": 0
                                 },
-                                "value": 2.0
+                                "value": 2.0,
+                                "raw": "2"
                               }
                             ]
                           }
@@ -984,7 +1005,8 @@
                                 "end": 224,
                                 "ctxt": 0
                               },
-                              "value": 3.0
+                              "value": 3.0,
+                              "raw": "3"
                             }
                           ]
                         }
@@ -1011,7 +1033,8 @@
                                 "end": 228,
                                 "ctxt": 0
                               },
-                              "value": 3.0
+                              "value": 3.0,
+                              "raw": "3"
                             },
                             "unit": {
                               "span": {
@@ -1033,7 +1056,8 @@
                         "end": 234,
                         "ctxt": 0
                       },
-                      "value": 5.0
+                      "value": 5.0,
+                      "raw": "5"
                     }
                   }
                 ]

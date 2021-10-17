@@ -46,7 +46,8 @@
                 "end": 24,
                 "ctxt": 0
               },
-              "value": 12.0
+              "value": 12.0,
+              "raw": "12"
             },
             "right": {
               "type": "Number",
@@ -55,7 +56,8 @@
                 "end": 26,
                 "ctxt": 0
               },
-              "value": 9.0
+              "value": 9.0,
+              "raw": "9"
             }
           }
         ],

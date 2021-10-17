@@ -424,7 +424,7 @@ where
 
     #[emitter]
     fn emit_num(&mut self, n: &Num) -> Result {
-        self.wr.write_raw(Some(n.span), &n.value.to_string())?;
+        self.wr.write_raw(Some(n.span), &n.raw)?;
     }
 
     #[emitter]
@@ -493,8 +493,8 @@ where
                 Token::RBracket => {
                     punct!(self, span, "]");
                 }
-                Token::Num(n) => {
-                    self.wr.write_raw(Some(span), &n.value.to_string())?;
+                Token::Num { raw, .. } => {
+                    self.wr.write_raw(Some(span), raw)?;
                 }
                 Token::Ident { raw, .. } => {
                     self.wr.write_raw(Some(n.span), &raw)?;
@@ -686,6 +686,11 @@ where
     #[emitter]
     fn emit_unit(&mut self, n: &Unit) -> Result {
         self.wr.write_raw(Some(n.span), &n.raw)?;
+        let s: Cow<_> = match &n.kind {
+            UnitKind::Px => Cow::Owned("px".into()),
+            UnitKind::Custom(s) => Cow::Borrowed(s),
+        };
+        self.wr.write_raw(Some(n.span), &s)?;
     }
 
     #[emitter]

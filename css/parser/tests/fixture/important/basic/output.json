@@ -168,7 +168,8 @@
                     "end": 64,
                     "ctxt": 0
                   },
-                  "value": 1.0
+                  "value": 1.0,
+                  "raw": "1"
                 },
                 "unit": {
                   "span": {
@@ -429,7 +430,8 @@
                     "end": 269,
                     "ctxt": 0
                   },
-                  "value": 10.0
+                  "value": 10.0,
+                  "raw": "10"
                 },
                 "unit": {
                   "span": {
@@ -480,7 +482,8 @@
                     "end": 310,
                     "ctxt": 0
                   },
-                  "value": 20.0
+                  "value": 20.0,
+                  "raw": "20"
                 },
                 "unit": {
                   "span": {
@@ -531,7 +534,8 @@
                     "end": 358,
                     "ctxt": 0
                   },
-                  "value": 100.0
+                  "value": 100.0,
+                  "raw": "100"
                 },
                 "unit": {
                   "span": {
@@ -582,7 +586,8 @@
                     "end": 401,
                     "ctxt": 0
                   },
-                  "value": 100.0
+                  "value": 100.0,
+                  "raw": "100"
                 },
                 "unit": {
                   "span": {
@@ -632,7 +637,8 @@
                   "end": 441,
                   "ctxt": 0
                 },
-                "value": 1.0
+                "value": 1.0,
+                "raw": "1"
               },
               {
                 "type": "String",
@@ -683,7 +689,8 @@
                     "end": 471,
                     "ctxt": 0
                   },
-                  "value": 1.0
+                  "value": 1.0,
+                  "raw": "1"
                 },
                 "unit": {
                   "span": {

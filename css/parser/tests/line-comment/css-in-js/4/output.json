@@ -119,7 +119,8 @@
                   "end": 52,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               }
             ],
             "important": null

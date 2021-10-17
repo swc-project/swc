@@ -172,7 +172,8 @@
                     "end": 67,
                     "ctxt": 0
                   },
-                  "value": 4.0
+                  "value": 4.0,
+                  "raw": "4"
                 },
                 "unit": {
                   "span": {
@@ -347,7 +348,8 @@
                     "end": 135,
                     "ctxt": 0
                   },
-                  "value": 4.0
+                  "value": 4.0,
+                  "raw": "4"
                 },
                 "unit": {
                   "span": {
@@ -503,7 +505,8 @@
                     "end": 196,
                     "ctxt": 0
                   },
-                  "value": 4.0
+                  "value": 4.0,
+                  "raw": "4"
                 },
                 "unit": {
                   "span": {
@@ -659,7 +662,8 @@
                     "end": 257,
                     "ctxt": 0
                   },
-                  "value": 4.0
+                  "value": 4.0,
+                  "raw": "4"
                 },
                 "unit": {
                   "span": {

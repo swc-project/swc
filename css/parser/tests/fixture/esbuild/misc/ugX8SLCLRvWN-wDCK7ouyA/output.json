@@ -53,7 +53,8 @@
                     "end": 26,
                     "ctxt": 0
                   },
-                  "value": 100.0
+                  "value": 100.0,
+                  "raw": "100"
                 },
                 "unit": {
                   "span": {

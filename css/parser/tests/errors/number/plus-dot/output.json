@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 16,
+    "end": 17,
     "ctxt": 0
   },
   "rules": [
@@ -10,7 +10,7 @@
       "type": "StyleRule",
       "span": {
         "start": 0,
-        "end": 16,
+        "end": 17,
         "ctxt": 0
       },
       "selectors": [
@@ -59,7 +59,7 @@
         "type": "DeclBlock",
         "span": {
           "start": 2,
-          "end": 16,
+          "end": 17,
           "ctxt": 0
         },
         "items": [
@@ -82,13 +82,46 @@
             },
             "values": [
               {
-                "type": "Number",
+                "type": "Tokens",
                 "span": {
-                  "start": 11,
-                  "end": 13,
+                  "start": 10,
+                  "end": 14,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "tokens": [
+                  {
+                    "span": {
+                      "start": 10,
+                      "end": 11,
+                      "ctxt": 0
+                    },
+                    "token": "WhiteSpace"
+                  },
+                  {
+                    "span": {
+                      "start": 11,
+                      "end": 13,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Num": {
+                        "value": 0.0
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 13,
+                      "end": 14,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Delim": {
+                        "value": "."
+                      }
+                    }
+                  }
+                ]
               }
             ],
             "important": null

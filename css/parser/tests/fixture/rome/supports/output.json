@@ -93,7 +93,8 @@
                 "end": 60,
                 "ctxt": 0
               },
-              "value": 0.0
+              "value": 0.0,
+              "raw": "0"
             },
             {
               "type": "Number",
@@ -102,7 +103,8 @@
                 "end": 62,
                 "ctxt": 0
               },
-              "value": 0.0
+              "value": 0.0,
+              "raw": "0"
             },
             {
               "type": "UnitValue",
@@ -118,7 +120,8 @@
                   "end": 64,
                   "ctxt": 0
                 },
-                "value": 2.0
+                "value": 2.0,
+                "raw": "2"
               },
               "unit": {
                 "span": {
@@ -185,7 +188,8 @@
                   "end": 114,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               },
               {
                 "type": "Number",
@@ -194,7 +198,8 @@
                   "end": 116,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               },
               {
                 "type": "UnitValue",
@@ -210,7 +215,8 @@
                     "end": 118,
                     "ctxt": 0
                   },
-                  "value": 2.0
+                  "value": 2.0,
+                  "raw": "2"
                 },
                 "unit": {
                   "span": {
@@ -277,7 +283,8 @@
                     "end": 171,
                     "ctxt": 0
                   },
-                  "value": 0.0
+                  "value": 0.0,
+                  "raw": "0"
                 },
                 {
                   "type": "Number",
@@ -286,7 +293,8 @@
                     "end": 173,
                     "ctxt": 0
                   },
-                  "value": 0.0
+                  "value": 0.0,
+                  "raw": "0"
                 },
                 {
                   "type": "UnitValue",
@@ -302,7 +310,8 @@
                       "end": 175,
                       "ctxt": 0
                     },
-                    "value": 2.0
+                    "value": 2.0,
+                    "raw": "2"
                   },
                   "unit": {
                     "span": {
@@ -362,7 +371,8 @@
                     "end": 223,
                     "ctxt": 0
                   },
-                  "value": 0.0
+                  "value": 0.0,
+                  "raw": "0"
                 },
                 {
                   "type": "Number",
@@ -371,7 +381,8 @@
                     "end": 225,
                     "ctxt": 0
                   },
-                  "value": 0.0
+                  "value": 0.0,
+                  "raw": "0"
                 },
                 {
                   "type": "UnitValue",
@@ -387,7 +398,8 @@
                       "end": 227,
                       "ctxt": 0
                     },
-                    "value": 2.0
+                    "value": 2.0,
+                    "raw": "2"
                   },
                   "unit": {
                     "span": {
@@ -569,7 +581,8 @@
                       "end": 361,
                       "ctxt": 0
                     },
-                    "value": 10.0
+                    "value": 10.0,
+                    "raw": "10"
                   },
                   "unit": {
                     "span": {

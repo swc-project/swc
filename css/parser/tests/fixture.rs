@@ -21,7 +21,7 @@ impl Visit for AssertValid {
         }
 
         match &s.args.tokens[0].token {
-            Token::Colon | Token::Num(..) => return,
+            Token::Colon | Token::Num { .. } => return,
             _ => {}
         }
 
