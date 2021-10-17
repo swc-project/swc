@@ -28,7 +28,7 @@ pub fn function_name() -> impl 'static + Copy + Fold + VisitMut {
 #[derive(Clone, Copy)]
 struct FnName;
 
-struct Renamer {
+struct Rename {
     name: Option<Ident>,
 }
 
@@ -52,7 +52,7 @@ impl VisitMut for FnName {
         }
 
         if let Some(ident) = expr.left.as_ident_mut() {
-            let mut folder = Renamer {
+            let mut folder = Rename {
                 name: Some(ident.clone()),
             };
 
@@ -86,7 +86,7 @@ impl VisitMut for FnName {
 
         match decl.name {
             Pat::Ident(ref mut ident) => {
-                let mut folder = Renamer {
+                let mut folder = Rename {
                     name: Some(prepare(ident.id.clone())),
                 };
                 decl.init.visit_mut_with(&mut folder);
@@ -131,7 +131,7 @@ macro_rules! noop {
     };
 }
 
-impl VisitMut for Renamer {
+impl VisitMut for Rename {
     noop_visit_mut_type!();
 
     impl_for!(visit_mut_fn_expr, FnExpr);
