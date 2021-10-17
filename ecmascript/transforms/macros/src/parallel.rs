@@ -1,7 +1,7 @@
 use crate::common::Mode;
 use pmutil::q;
 use proc_macro2::{Span, TokenStream};
-use syn::{Ident, ImplItem, ImplItemMethod, ItemImpl, Type};
+use syn::{Expr, Ident, ImplItem, ImplItemMethod, ItemImpl, Type};
 
 pub fn expand(_attr: TokenStream, mut item: ItemImpl) -> ItemImpl {
     let mode = {
@@ -36,8 +36,35 @@ fn node_type(suffix: &str) -> Type {
     }
 }
 
+fn post_visit_hook(mode: Mode, suffix: &str) -> Option<Expr> {
+    match suffix {
+        "module_items" => Some(match mode {
+            Mode::Fold => q!(({
+                swc_ecma_transforms_base::perf::Parallel::after_module_items(self, &mut nodes);
+            }))
+            .parse(),
+            Mode::VisitMut => q!(({
+                swc_ecma_transforms_base::perf::Parallel::after_module_items(self, nodes);
+            }))
+            .parse(),
+        }),
+        "stmts" => Some(match mode {
+            Mode::Fold => q!(({
+                swc_ecma_transforms_base::perf::Parallel::after_stmts(self, &mut nodes);
+            }))
+            .parse(),
+            Mode::VisitMut => q!(({
+                swc_ecma_transforms_base::perf::Parallel::after_stmts(self, nodes);
+            }))
+            .parse(),
+        }),
+        _ => None,
+    }
+}
+
 fn make_par_visit_method(mode: Mode, suffix: &str, threshold: usize) -> ImplItemMethod {
     let method_name = Ident::new(&format!("{}_{}", mode.prefix(), suffix), Span::call_site());
+    let hook = post_visit_hook(mode, suffix);
 
     match mode {
         Mode::Fold => q!(
@@ -45,6 +72,7 @@ fn make_par_visit_method(mode: Mode, suffix: &str, threshold: usize) -> ImplItem
                 NodeType: node_type(suffix),
                 threshold,
                 method_name,
+                hook,
             },
             {
                 fn method_name(&mut self, nodes: Vec<NodeType>) -> Vec<NodeType> {
@@ -85,6 +113,11 @@ fn make_par_visit_method(mode: Mode, suffix: &str, threshold: usize) -> ImplItem
                                 })
                             })
                         });
+
+                        {
+                            hook;
+                        }
+
                         swc_ecma_transforms_base::perf::Parallel::merge(self, visitor);
 
                         return nodes;
@@ -100,6 +133,7 @@ fn make_par_visit_method(mode: Mode, suffix: &str, threshold: usize) -> ImplItem
                 NodeType: node_type(suffix),
                 threshold,
                 method_name,
+                hook,
             },
             {
                 fn method_name(&mut self, nodes: &mut Vec<NodeType>) {
@@ -139,6 +173,10 @@ fn make_par_visit_method(mode: Mode, suffix: &str, threshold: usize) -> ImplItem
                                                 a
                                             },
                                         );
+
+                                    {
+                                        hook;
+                                    }
 
                                     swc_ecma_transforms_base::perf::Parallel::merge(self, visitor);
                                 })

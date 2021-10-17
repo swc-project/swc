@@ -1,5 +1,5 @@
 use swc_common::DUMMY_SP;
-use swc_ecma_ast::Invalid;
+use swc_ecma_ast::*;
 use swc_ecma_visit::{Visit, VisitWith};
 
 pub trait Check: Visit + Default {
@@ -18,4 +18,14 @@ where
 
 pub trait Parallel: Clone {
     fn merge(&mut self, other: Self);
+
+    /// Invoked after visiting [Stmt]s, possibly in parallel.
+    ///
+    /// Note: This is called before invoking `merge`.
+    fn after_stmts(&mut self, _stmts: &mut Vec<Stmt>) {}
+
+    /// Invoked after visiting [ModuleItem]s, possibly in parallel.
+    ///
+    /// Note: This is called before invoking `merge`.
+    fn after_module_items(&mut self, _stmts: &mut Vec<ModuleItem>) {}
 }
