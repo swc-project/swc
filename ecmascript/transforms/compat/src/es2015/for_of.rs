@@ -1,7 +1,11 @@
+use std::mem::take;
+
 use serde::Deserialize;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::perf::{ParExplode, Parallel};
+use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{
     alias_if_required, member_expr, prepend, private_ident, quote_ident, ExprFactory, StmtLike,
 };
@@ -480,12 +484,50 @@ fn make_finally_block(
     })
 }
 
+impl Parallel for ForOf {
+    fn create(&self) -> Self {
+        ForOf {
+            c: self.c,
+            top_level_vars: Default::default(),
+        }
+    }
+
+    fn merge(&mut self, other: Self) {
+        self.top_level_vars.extend(other.top_level_vars);
+    }
+}
+
+impl ParExplode for ForOf {
+    fn after_one_stmt(&mut self, stmts: &mut Vec<Stmt>) {
+        // Add variable declaration
+        // e.g. var ref
+        if !self.top_level_vars.is_empty() {
+            stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                decls: take(&mut self.top_level_vars),
+                declare: false,
+            })));
+        }
+    }
+
+    fn after_one_module_item(&mut self, stmts: &mut Vec<ModuleItem>) {
+        // Add variable declaration
+        // e.g. var ref
+        if !self.top_level_vars.is_empty() {
+            stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                decls: take(&mut self.top_level_vars),
+                declare: false,
+            }))));
+        }
+    }
+}
+
+#[parallel(explode)]
 impl VisitMut for ForOf {
     noop_visit_mut_type!();
-
-    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        self.visit_mut_stmt_like(n)
-    }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         match s {
@@ -510,10 +552,6 @@ impl VisitMut for ForOf {
             _ => s.visit_mut_children_with(self),
         }
     }
-
-    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
-        self.visit_mut_stmt_like(n)
-    }
 }
 
 impl ForOf {
@@ -533,17 +571,6 @@ impl ForOf {
                         top_level_vars: Default::default(),
                     };
                     stmt.visit_mut_with(&mut folder);
-
-                    // Add variable declaration
-                    // e.g. var ref
-                    if !folder.top_level_vars.is_empty() {
-                        buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            decls: folder.top_level_vars,
-                            declare: false,
-                        }))));
-                    }
 
                     buf.push(T::from_stmt(stmt));
                 }

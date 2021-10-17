@@ -33,11 +33,11 @@ pub trait Parallel {
 pub trait ParExplode: Parallel {
     /// Invoked after visiting each statements.
     ///
-    /// `stmts` will be empty.
+    /// Implementor should not delete/prepend to `stmts`.
     fn after_one_stmt(&mut self, stmts: &mut Vec<Stmt>);
 
     /// Invoked after visiting each statements.
     ///
-    /// `stmts` will be empty.
+    /// Implementor should not delete/prepend to `stmts`.
     fn after_one_module_item(&mut self, stmts: &mut Vec<ModuleItem>);
 }
