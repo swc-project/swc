@@ -232,6 +232,12 @@ jobs:
         run: |
           ./scripts/ci/test-concurrent.sh ${{ matrix.crate }}
 
+      - name: Run cargo test (swc, concurrent)
+        shell: bash
+        if: matrix.crate == 'swc'
+        run: |
+          ./scripts/ci/test-concurrent.sh ${{ matrix.crate }}
+
   deploy-docs:
     name: Docs
     runs-on: ubuntu-latest

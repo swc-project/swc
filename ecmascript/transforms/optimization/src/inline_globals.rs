@@ -4,6 +4,8 @@ use swc_common::{
     sync::Lrc,
 };
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::perf::Parallel;
+use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{collect_decls, Id};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -18,13 +20,23 @@ pub fn inline_globals(
     })
 }
 
+#[derive(Clone)]
 struct InlineGlobals {
     envs: Lrc<AHashMap<JsWord, Expr>>,
     globals: Lrc<AHashMap<JsWord, Expr>>,
 
-    bindings: AHashSet<Id>,
+    bindings: Lrc<AHashSet<Id>>,
 }
 
+impl Parallel for InlineGlobals {
+    fn create(&self) -> Self {
+        self.clone()
+    }
+
+    fn merge(&mut self, _: Self) {}
+}
+
+#[parallel]
 impl VisitMut for InlineGlobals {
     noop_visit_mut_type!();
 
@@ -93,13 +105,13 @@ impl VisitMut for InlineGlobals {
     }
 
     fn visit_mut_module(&mut self, module: &mut Module) {
-        self.bindings.extend(collect_decls(&*module));
+        self.bindings = Lrc::new(collect_decls(&*module));
 
         module.visit_mut_children_with(self);
     }
 
     fn visit_mut_script(&mut self, script: &mut Script) {
-        self.bindings.extend(collect_decls(&*script));
+        self.bindings = Lrc::new(collect_decls(&*script));
 
         script.visit_mut_children_with(self);
     }

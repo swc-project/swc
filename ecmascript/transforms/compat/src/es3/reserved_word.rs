@@ -25,7 +25,6 @@ struct ReservedWord {
     pub preserve_import: bool,
 }
 
-/// TODO: VisitMut
 impl Fold for ReservedWord {
     noop_fold_type!();
 

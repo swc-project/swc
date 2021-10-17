@@ -1,7 +1,9 @@
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::perf::Parallel;
+use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::quote_ident;
-use swc_ecma_visit::{noop_fold_type, Fold};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut};
 
 #[cfg(test)]
 mod tests;
@@ -9,20 +11,30 @@ mod tests;
 /// `@babel/plugin-transform-react-jsx-self`
 ///
 /// Add a __self prop to all JSX Elements
-pub fn jsx_self(dev: bool) -> impl Fold {
-    JsxSelf { dev }
+pub fn jsx_self(dev: bool) -> impl Fold + VisitMut {
+    as_folder(JsxSelf { dev })
 }
+
+#[derive(Clone, Copy)]
 struct JsxSelf {
     dev: bool,
 }
 
-/// TODO: VisitMut
-impl Fold for JsxSelf {
-    noop_fold_type!();
+impl Parallel for JsxSelf {
+    fn create(&self) -> Self {
+        *self
+    }
 
-    fn fold_jsx_opening_element(&mut self, mut n: JSXOpeningElement) -> JSXOpeningElement {
+    fn merge(&mut self, _: Self) {}
+}
+
+#[parallel]
+impl VisitMut for JsxSelf {
+    noop_visit_mut_type!();
+
+    fn visit_mut_jsx_opening_element(&mut self, n: &mut JSXOpeningElement) {
         if !self.dev {
-            return n;
+            return;
         }
 
         n.attrs.push(JSXAttrOrSpread::JSXAttr(JSXAttr {
@@ -33,6 +45,5 @@ impl Fold for JsxSelf {
                 expr: JSXExpr::Expr(Box::new(ThisExpr { span: DUMMY_SP }.into())),
             })),
         }));
-        n
     }
 }

@@ -1,5 +1,7 @@
 use swc_common::{sync::Lrc, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::perf::Parallel;
+use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::quote_ident;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut};
 
@@ -11,12 +13,21 @@ pub fn jsx_src(dev: bool, cm: Lrc<SourceMap>) -> impl Fold + VisitMut {
     as_folder(JsxSrc { cm, dev })
 }
 
+#[derive(Clone)]
 struct JsxSrc {
     cm: Lrc<SourceMap>,
     dev: bool,
 }
 
-/// TODO: VisitMut
+impl Parallel for JsxSrc {
+    fn create(&self) -> Self {
+        self.clone()
+    }
+
+    fn merge(&mut self, _: Self) {}
+}
+
+#[parallel]
 impl VisitMut for JsxSrc {
     noop_visit_mut_type!();
 

@@ -1,11 +1,8 @@
 use std::{iter, mem};
-use swc_common::{
-    chain,
-    util::{move_map::MoveMap, take::Take},
-    Mark, Spanned, DUMMY_SP,
-};
+use swc_common::{chain, util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{helper, helper_expr};
+use swc_ecma_transforms_base::{helper, helper_expr, perf::Parallel};
+use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{
     alias_ident_for, alias_if_required, is_literal, private_ident, quote_ident, var::VarCollector,
     ExprFactory, StmtLike,
@@ -378,7 +375,7 @@ impl Fold for ObjectRest {
             }
 
             let mut index = self.vars.len();
-            let pat = self.fold_rest(
+            let mut pat = self.fold_rest(
                 &mut index,
                 decl.name,
                 Box::new(Expr::Ident(var_ident.clone())),
@@ -395,10 +392,13 @@ impl Fold for ObjectRest {
                     // instead of
                     // `var b = _objectWithoutProperties(_ref, ['a']), { a } = _ref;`
                     // println!("var: simplified pat = var_ident({:?})", var_ident);
+
+                    pat.visit_mut_with(&mut PatSimplifier);
+
                     self.insert_var_if_not_empty(
                         index,
                         VarDeclarator {
-                            name: simplify_pat(pat),
+                            name: pat,
                             // preserve
                             init: if has_init {
                                 Some(Box::new(Expr::Ident(var_ident.clone())))
@@ -966,52 +966,47 @@ fn excluded_props(props: &[ObjectPatProp]) -> Vec<Option<ExprOrSpread>> {
 /// e.g.
 ///
 ///  - `{ x4: {}  }` -> `{}`
-fn simplify_pat(pat: Pat) -> Pat {
-    struct PatSimplifier;
+struct PatSimplifier;
 
-    /// TODO: VisitMut
-    impl Fold for PatSimplifier {
-        noop_fold_type!();
+impl VisitMut for PatSimplifier {
+    noop_visit_mut_type!();
 
-        fn fold_pat(&mut self, pat: Pat) -> Pat {
-            let pat = pat.fold_children_with(self);
+    fn visit_mut_pat(&mut self, pat: &mut Pat) {
+        pat.visit_mut_children_with(self);
 
-            match pat {
-                Pat::Object(o) => {
-                    let ObjectPat { span, props, .. } = o;
-                    let props = props.move_flat_map(|mut prop| {
-                        match prop {
-                            ObjectPatProp::KeyValue(KeyValuePatProp { key, value, .. }) => {
-                                match *value {
-                                    Pat::Object(ObjectPat { ref props, .. })
-                                        if props.is_empty() =>
-                                    {
-                                        return None;
-                                    }
-                                    _ => {
-                                        prop =
-                                            ObjectPatProp::KeyValue(KeyValuePatProp { key, value });
-                                    }
-                                }
+        match pat {
+            Pat::Object(o) => {
+                o.props.retain(|prop| {
+                    match prop {
+                        ObjectPatProp::KeyValue(KeyValuePatProp { value, .. }) => match &**value {
+                            Pat::Object(ObjectPat { props, .. }) if props.is_empty() => {
+                                return false;
                             }
                             _ => {}
-                        }
+                        },
+                        _ => {}
+                    }
 
-                        Some(prop)
-                    });
-
-                    Pat::Object(ObjectPat { span, props, ..o })
-                }
-                _ => pat,
+                    true
+                });
             }
+            _ => {}
         }
     }
-
-    pat.fold_with(&mut PatSimplifier)
 }
 
+#[derive(Clone, Copy)]
 struct ObjectSpread;
 
+impl Parallel for ObjectSpread {
+    fn create(&self) -> Self {
+        ObjectSpread
+    }
+
+    fn merge(&mut self, _: Self) {}
+}
+
+#[parallel]
 impl VisitMut for ObjectSpread {
     noop_visit_mut_type!();
 
