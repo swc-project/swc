@@ -1,6 +1,7 @@
 use swc_common::util::take::Take;
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::PatOrExprExt;
+use swc_ecma_transforms_base::{ext::PatOrExprExt, perf::Parallel};
+use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{private_ident, UsageFinder};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -28,6 +29,14 @@ pub fn function_name() -> impl 'static + Copy + Fold + VisitMut {
 #[derive(Clone, Copy)]
 struct FnName;
 
+impl Parallel for FnName {
+    fn create(&self) -> Self {
+        *self
+    }
+
+    fn merge(&mut self, _: Self) {}
+}
+
 struct Rename {
     name: Option<Ident>,
 }
@@ -41,6 +50,7 @@ fn prepare(i: Ident) -> Ident {
     i
 }
 
+#[parallel]
 impl VisitMut for FnName {
     noop_visit_mut_type!();
 
