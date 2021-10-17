@@ -1,8 +1,7 @@
 use std::{iter::once, mem};
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::Check;
-use swc_ecma_transforms_macros::fast_path;
+use swc_ecma_transforms_base::perf::{should_work, Check};
 use swc_ecma_utils::{alias_if_required, prepend, private_ident, undefined, ExprFactory, StmtLike};
 use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit};
 
@@ -16,13 +15,14 @@ struct OptChaining {
     vars_with_init: Vec<VarDeclarator>,
 }
 
-#[fast_path(ShouldWork)]
+/// TODO: VisitMut
 impl Fold for OptChaining {
     noop_fold_type!();
 
     fn fold_block_stmt_or_expr(&mut self, e: BlockStmtOrExpr) -> BlockStmtOrExpr {
-        // Thanks to #[fast_path], we are sure that the expression contains an optional
-        // chaining expression.
+        if !should_work::<ShouldWork, _>(&e) {
+            return e;
+        }
 
         match e {
             BlockStmtOrExpr::BlockStmt(..) => e.fold_children_with(self),
@@ -43,6 +43,10 @@ impl Fold for OptChaining {
     }
 
     fn fold_expr(&mut self, e: Expr) -> Expr {
+        if !should_work::<ShouldWork, _>(&e) {
+            return e;
+        }
+
         let e = match e {
             Expr::OptChain(e) => Expr::Cond(self.unwrap(e)),
             Expr::Unary(e) => self.handle_unary(e),
@@ -70,44 +74,86 @@ impl Fold for OptChaining {
 }
 
 impl OptChaining {
-    fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
+    /// Returned statemetns are variable declarations without initializer
+    fn fold_one_stmt_to<T>(&mut self, stmt: T, new: &mut Vec<T>)
     where
         T: StmtLike + FoldWith<Self>,
+    {
+        let stmt = stmt.fold_with(self);
+        if !self.vars_with_init.is_empty() {
+            new.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                span: DUMMY_SP,
+                declare: false,
+                kind: VarDeclKind::Var,
+                decls: mem::replace(&mut self.vars_with_init, vec![]),
+            }))));
+        }
+        new.push(stmt);
+    }
+
+    fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
+    where
+        T: Send + Sync + StmtLike + FoldWith<Self>,
         Vec<T>: FoldWith<Self>,
     {
-        // This is to support nested block statements
-        let old_no_init = mem::replace(&mut self.vars_without_init, vec![]);
-        let old_init = mem::replace(&mut self.vars_with_init, vec![]);
+        #[cfg(feature = "rayon")]
+        if stmts.len() > 4 {
+            use rayon::prelude::*;
+            use swc_common::GLOBALS;
+
+            let (mut stmts, mut vars_without_init) = GLOBALS.with(|globals| {
+                stmts
+                    .into_par_iter()
+                    .map(|stmt| {
+                        GLOBALS.set(&globals, || {
+                            let mut visitor = Self::default();
+                            let mut stmts = Vec::with_capacity(3);
+                            visitor.fold_one_stmt_to(stmt, &mut stmts);
+
+                            (stmts, visitor.vars_without_init)
+                        })
+                    })
+                    .reduce(Default::default, |mut a, b| {
+                        a.0.extend(b.0);
+                        a.1.extend(b.1);
+
+                        a
+                    })
+            });
+
+            if !vars_without_init.is_empty() {
+                prepend(
+                    &mut stmts,
+                    T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        declare: false,
+                        kind: VarDeclKind::Var,
+                        decls: mem::take(&mut vars_without_init),
+                    }))),
+                );
+            }
+            return stmts;
+        }
 
         let mut new: Vec<T> = vec![];
 
+        let mut v = Self::default();
         for stmt in stmts {
-            let stmt = stmt.fold_with(self);
-            if !self.vars_with_init.is_empty() {
-                new.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    declare: false,
-                    kind: VarDeclKind::Var,
-                    decls: mem::replace(&mut self.vars_with_init, vec![]),
-                }))));
-            }
-            new.push(stmt);
+            v.fold_one_stmt_to(stmt, &mut new);
         }
 
-        if !self.vars_without_init.is_empty() {
+        if !v.vars_without_init.is_empty() {
             prepend(
                 &mut new,
                 T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
                     declare: false,
                     kind: VarDeclKind::Var,
-                    decls: mem::replace(&mut self.vars_without_init, vec![]),
+                    decls: mem::replace(&mut v.vars_without_init, vec![]),
                 }))),
             );
         }
 
-        self.vars_without_init = old_no_init;
-        self.vars_with_init = old_init;
         new
     }
 }

@@ -88,7 +88,8 @@
                   "end": 20,
                   "ctxt": 0
                 },
-                "value": 1.0
+                "value": 1.0,
+                "raw": "1"
               },
               {
                 "type": "Number",
@@ -97,7 +98,8 @@
                   "end": 22,
                   "ctxt": 0
                 },
-                "value": 2.0
+                "value": 2.0,
+                "raw": "2"
               },
               {
                 "type": "Number",
@@ -106,7 +108,8 @@
                   "end": 24,
                   "ctxt": 0
                 },
-                "value": 3.0
+                "value": 3.0,
+                "raw": "3"
               },
               {
                 "type": "Number",
@@ -115,7 +118,8 @@
                   "end": 26,
                   "ctxt": 0
                 },
-                "value": 4.0
+                "value": 4.0,
+                "raw": "4"
               }
             ],
             "important": null
@@ -145,7 +149,8 @@
                   "end": 54,
                   "ctxt": 0
                 },
-                "value": 5.0
+                "value": 5.0,
+                "raw": "5"
               }
             ],
             "important": null

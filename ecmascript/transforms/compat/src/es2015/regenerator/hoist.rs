@@ -56,6 +56,7 @@ impl Hoister {
     }
 }
 
+/// TODO: VisitMut
 impl Fold for Hoister {
     noop_fold_type!();
 

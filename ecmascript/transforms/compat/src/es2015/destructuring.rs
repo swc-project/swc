@@ -3,7 +3,6 @@ use std::iter;
 use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Check};
-use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
     alias_ident_for, alias_if_required, has_rest_pat, is_literal, private_ident, prop_name_to_expr,
     quote_ident, undefined, ExprFactory, StmtLike,
@@ -448,7 +447,7 @@ impl AssignFolder {
     }
 }
 
-#[fast_path(DestructuringVisitor)]
+/// TODO: VisitMut
 impl Fold for Destructuring {
     noop_fold_type!();
 
@@ -522,7 +521,7 @@ struct AssignFolder {
     ignore_return_value: Option<()>,
 }
 
-#[fast_path(DestructuringVisitor)]
+/// TODO: VisitMut
 impl Fold for AssignFolder {
     noop_fold_type!();
 
@@ -897,40 +896,20 @@ impl Destructuring {
                 ignore_return_value: None,
             };
 
-            match stmt.try_into_stmt() {
-                Err(item) => {
-                    let item = item.fold_with(&mut folder);
+            let stmt = stmt.fold_with(&mut folder);
 
-                    // Add variable declaration
-                    // e.g. var ref
-                    if !folder.vars.is_empty() {
-                        buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            decls: folder.vars,
-                            declare: false,
-                        }))));
-                    }
-
-                    buf.push(item)
-                }
-                Ok(stmt) => {
-                    let stmt = stmt.fold_with(&mut folder);
-
-                    // Add variable declaration
-                    // e.g. var ref
-                    if !folder.vars.is_empty() {
-                        buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            decls: folder.vars,
-                            declare: false,
-                        }))));
-                    }
-
-                    buf.push(T::from_stmt(stmt));
-                }
+            // Add variable declaration
+            // e.g. var ref
+            if !folder.vars.is_empty() {
+                buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    decls: folder.vars,
+                    declare: false,
+                }))));
             }
+
+            buf.push(stmt)
         }
 
         buf

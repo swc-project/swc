@@ -185,23 +185,11 @@ error: Value
 6 |     opacity: 1e-3;
   |              ^^^^
 
-error: UnitValue
- --> $DIR/tests/fixture/rome/values/input.css:6:11
-  |
-6 |     opacity: 1e-3;
-  |              ^^^^
-
 error: Num
  --> $DIR/tests/fixture/rome/values/input.css:6:11
   |
 6 |     opacity: 1e-3;
-  |              ^
-
-error: Unit
- --> $DIR/tests/fixture/rome/values/input.css:6:12
-  |
-6 |     opacity: 1e-3;
-  |               ^^^
+  |              ^^^^
 
 error: Property
  --> $DIR/tests/fixture/rome/values/input.css:7:2

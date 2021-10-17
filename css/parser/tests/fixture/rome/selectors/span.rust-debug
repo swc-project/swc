@@ -829,7 +829,7 @@ error: Tokens
 29 | p:nth-last-of-type(2) {
    |                    ^
 
-error: Num(NumToken { value: 2.0 })
+error: Num { value: 2.0, raw: Atom('2' type=inline) }
   --> $DIR/tests/fixture/rome/selectors/input.css:29:20
    |
 29 | p:nth-last-of-type(2) {

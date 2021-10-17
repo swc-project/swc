@@ -1,16 +1,14 @@
 use std::mem::replace;
 use swc_common::{util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::Check;
-use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{alias_if_required, undefined, StmtLike};
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 #[cfg(test)]
 mod tests;
 
-pub fn nullish_coalescing() -> impl Fold + 'static {
-    NullishCoalescing::default()
+pub fn nullish_coalescing() -> impl Fold + VisitMut + 'static {
+    as_folder(NullishCoalescing::default())
 }
 
 #[derive(Debug, Default)]
@@ -19,14 +17,14 @@ struct NullishCoalescing {
 }
 
 impl NullishCoalescing {
-    fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
+    fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: FoldWith<Self> + StmtLike,
+        T: VisitMutWith<Self> + StmtLike,
     {
         let mut buf = Vec::with_capacity(stmts.len() + 2);
 
-        for stmt in stmts {
-            let stmt = stmt.fold_with(self);
+        for mut stmt in stmts.take() {
+            stmt.visit_mut_with(self);
 
             if !self.vars.is_empty() {
                 buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
@@ -40,34 +38,33 @@ impl NullishCoalescing {
             buf.push(stmt);
         }
 
-        buf
+        *stmts = buf
     }
 }
 
-#[fast_path(ShouldWork)]
-impl Fold for NullishCoalescing {
-    noop_fold_type!();
+impl VisitMut for NullishCoalescing {
+    noop_visit_mut_type!();
 
     /// Prevents #1123
-    fn fold_block_stmt(&mut self, s: BlockStmt) -> BlockStmt {
-        s.fold_children_with(&mut NullishCoalescing::default())
+    fn visit_mut_block_stmt(&mut self, s: &mut BlockStmt) {
+        s.visit_mut_children_with(&mut NullishCoalescing::default())
     }
 
     /// Prevents #1123
-    fn fold_switch_case(&mut self, s: SwitchCase) -> SwitchCase {
-        s.fold_children_with(&mut NullishCoalescing::default())
+    fn visit_mut_switch_case(&mut self, s: &mut SwitchCase) {
+        s.visit_mut_children_with(&mut NullishCoalescing::default())
     }
 
-    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        self.fold_stmt_like(n)
+    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        self.visit_mut_stmt_like(n)
     }
 
-    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
-        self.fold_stmt_like(n)
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+        self.visit_mut_stmt_like(n)
     }
 
-    fn fold_expr(&mut self, e: Expr) -> Expr {
-        let mut e = e.fold_children_with(self);
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
 
         match e {
             Expr::Bin(BinExpr {
@@ -93,13 +90,14 @@ impl Fold for NullishCoalescing {
                         span: DUMMY_SP,
                         op: op!("="),
                         left: PatOrExpr::Pat(Box::new(Pat::Ident(l.clone().into()))),
-                        right: left,
+                        right: left.take(),
                     })
                 } else {
                     Expr::Ident(l.clone())
                 };
 
-                return make_cond(span, &l, var_expr, right);
+                *e = make_cond(*span, &l, var_expr, right.take());
+                return;
             }
 
             Expr::Assign(ref mut assign @ AssignExpr { op: op!("??="), .. }) => {
@@ -138,16 +136,17 @@ impl Fold for NullishCoalescing {
                             Expr::Ident(alias.clone())
                         };
 
-                        return Expr::Assign(AssignExpr {
+                        *e = Expr::Assign(AssignExpr {
                             span: assign.span,
                             op: op!("="),
                             left: PatOrExpr::Pat(Box::new(Pat::Ident(alias.clone().into()))),
                             right: Box::new(make_cond(assign.span, &alias, var_expr, right_expr)),
                         });
+                        return;
                     }
                     PatOrExpr::Pat(left) => match &mut **left {
                         Pat::Ident(i) => {
-                            return Expr::Assign(AssignExpr {
+                            *e = Expr::Assign(AssignExpr {
                                 span: assign.span,
                                 op: op!("="),
                                 left: PatOrExpr::Pat(Box::new(Pat::Ident(i.clone()))),
@@ -158,6 +157,7 @@ impl Fold for NullishCoalescing {
                                     assign.right.take(),
                                 )),
                             });
+                            return;
                         }
                         _ => {}
                     },
@@ -166,40 +166,6 @@ impl Fold for NullishCoalescing {
 
             _ => {}
         }
-
-        e
-    }
-}
-
-#[derive(Default)]
-struct ShouldWork {
-    /// Found optional chaining?
-    found: bool,
-}
-
-impl Visit for ShouldWork {
-    noop_visit_type!();
-
-    fn visit_bin_expr(&mut self, e: &BinExpr, _: &dyn Node) {
-        if e.op == op!("??") {
-            self.found = true;
-        } else {
-            e.visit_children_with(self)
-        }
-    }
-
-    fn visit_assign_expr(&mut self, e: &AssignExpr, _: &dyn Node) {
-        if e.op == op!("??=") {
-            self.found = true;
-        } else {
-            e.visit_children_with(self)
-        }
-    }
-}
-
-impl Check for ShouldWork {
-    fn should_handle(&self) -> bool {
-        self.found
     }
 }
 

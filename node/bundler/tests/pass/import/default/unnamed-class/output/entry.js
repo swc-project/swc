@@ -1,3 +1,3 @@
-const __default = class {
-};
-console.log(__default);
+class _class {
+}
+console.log(_class);

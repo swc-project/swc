@@ -433,11 +433,11 @@
     var reentry = !1;
     function describeNativeComponentFrame(fn, construct) {
         if (!fn || reentry) return "";
-        var control, frame = componentFrameCache.get(fn);
+        var control, previousDispatcher, frame = componentFrameCache.get(fn);
         if (void 0 !== frame) return frame;
         reentry = !0;
         var previousPrepareStackTrace = Error.prepareStackTrace;
-        Error.prepareStackTrace = void 0, ReactCurrentDispatcher.current, ReactCurrentDispatcher.current = null, disableLogs();
+        Error.prepareStackTrace = void 0, previousDispatcher = ReactCurrentDispatcher.current, ReactCurrentDispatcher.current = null, disableLogs();
         try {
             if (construct) {
                 var Fake = function() {
@@ -483,7 +483,7 @@
                 }
             }
         } finally{
-            reentry = !1, ReactCurrentDispatcher.current = ReactCurrentDispatcher.current, reenableLogs(), Error.prepareStackTrace = previousPrepareStackTrace;
+            reentry = !1, ReactCurrentDispatcher.current = previousDispatcher, reenableLogs(), Error.prepareStackTrace = previousPrepareStackTrace;
         }
         var name = fn ? fn.displayName || fn.name : "", syntheticFrame = name ? describeBuiltInComponentFrame(name) : "";
         return "function" == typeof fn && componentFrameCache.set(fn, syntheticFrame), syntheticFrame;
@@ -539,7 +539,7 @@
             case 22:
                 return describeFunctionComponentFrame(fiber.type._render);
             case 1:
-                return fiber.type, describeNativeComponentFrame(fiber.type, !0);
+                return describeNativeComponentFrame(fiber.type, !0);
             default:
                 return "";
         }
@@ -5229,10 +5229,10 @@
                 parentContainer = returnFiber.stateNode.containerInfo, 1 === (instance3 = instance1).nodeType ? warnForDeletedHydratableElement(parentContainer, instance3) : 8 === instance3.nodeType || warnForDeletedHydratableText(parentContainer, instance3);
                 break;
             case 5:
-                returnFiber.type, returnFiber.memoizedProps, parentInstance = returnFiber.stateNode, instance5 = instance1, !0 !== returnFiber.memoizedProps[SUPPRESS_HYDRATION_WARNING$1] && (1 === instance5.nodeType ? warnForDeletedHydratableElement(parentInstance, instance5) : 8 === instance5.nodeType || warnForDeletedHydratableText(parentInstance, instance5));
+                returnFiber.type, parentProps = returnFiber.memoizedProps, parentInstance = returnFiber.stateNode, instance5 = instance1, !0 !== parentProps[SUPPRESS_HYDRATION_WARNING$1] && (1 === instance5.nodeType ? warnForDeletedHydratableElement(parentInstance, instance5) : 8 === instance5.nodeType || warnForDeletedHydratableText(parentInstance, instance5));
                 break;
         }
-        var parentContainer, instance3, parentInstance, instance5, childToDelete = createFiberFromHostInstanceForDeletion();
+        var parentContainer, instance3, parentProps, parentInstance, instance5, childToDelete = createFiberFromHostInstanceForDeletion();
         childToDelete.stateNode = instance1, childToDelete.return = returnFiber, childToDelete.flags = Deletion, null !== returnFiber.lastEffect ? (returnFiber.lastEffect.nextEffect = childToDelete, returnFiber.lastEffect = childToDelete) : returnFiber.firstEffect = returnFiber.lastEffect = childToDelete;
     }
     function insertNonHydratedInstance(returnFiber, fiber) {
@@ -6941,22 +6941,22 @@
                     return workInProgress.child;
                 })(current11, workInProgress2, renderLanes2);
             case 5:
-                return current43 = current11, workInProgress14 = workInProgress2, renderLanes23 = renderLanes2, pushHostContext(workInProgress14), null === current43 && tryToClaimNextHydratableInstance(workInProgress14), type16 = workInProgress14.type, prevProps = null !== current43 ? current43.memoizedProps : null, shouldSetTextContent(type16, workInProgress14.pendingProps) || null !== prevProps && shouldSetTextContent(type16, prevProps) && (workInProgress14.flags |= 16), markRef(current43, workInProgress14), reconcileChildren(current43, workInProgress14, null, renderLanes23), workInProgress14.child;
+                return current43 = current11, workInProgress14 = workInProgress2, renderLanes23 = renderLanes2, pushHostContext(workInProgress14), null === current43 && tryToClaimNextHydratableInstance(workInProgress14), type16 = workInProgress14.type, nextProps = workInProgress14.pendingProps, prevProps = null !== current43 ? current43.memoizedProps : null, shouldSetTextContent(type16, nextProps) || null !== prevProps && shouldSetTextContent(type16, prevProps) && (workInProgress14.flags |= 16), markRef(current43, workInProgress14), reconcileChildren(current43, workInProgress14, null, renderLanes23), workInProgress14.child;
             case 6:
                 return current44 = current11, workInProgress15 = workInProgress2, null === current44 && tryToClaimNextHydratableInstance(workInProgress15), null;
             case 13:
                 return updateSuspenseComponent(current11, workInProgress2, renderLanes2);
             case 4:
-                return current45 = current11, workInProgress16 = workInProgress2, renderLanes24 = renderLanes2, pushHostContainer(workInProgress16, workInProgress16.stateNode.containerInfo), nextChildren = workInProgress16.pendingProps, null === current45 ? workInProgress16.child = reconcileChildFibers(workInProgress16, null, nextChildren, renderLanes24) : reconcileChildren(current45, workInProgress16, nextChildren, renderLanes24), workInProgress16.child;
+                return current45 = current11, workInProgress16 = workInProgress2, renderLanes24 = renderLanes2, pushHostContainer(workInProgress16, workInProgress16.stateNode.containerInfo), nextChildren2 = workInProgress16.pendingProps, null === current45 ? workInProgress16.child = reconcileChildFibers(workInProgress16, null, nextChildren2, renderLanes24) : reconcileChildren(current45, workInProgress16, nextChildren2, renderLanes24), workInProgress16.child;
             case 11:
                 var type5 = workInProgress2.type, _unresolvedProps2 = workInProgress2.pendingProps, _resolvedProps2 = workInProgress2.elementType === type5 ? _unresolvedProps2 : resolveDefaultProps(type5, _unresolvedProps2);
                 return updateForwardRef(current11, workInProgress2, type5, _resolvedProps2, renderLanes2);
             case 7:
-                return current46 = current11, workInProgress17 = workInProgress2, renderLanes25 = renderLanes2, reconcileChildren(current46, workInProgress17, workInProgress17.pendingProps, renderLanes25), workInProgress17.child;
+                return current46 = current11, workInProgress17 = workInProgress2, renderLanes25 = renderLanes2, nextChildren6 = workInProgress17.pendingProps, reconcileChildren(current46, workInProgress17, nextChildren6, renderLanes25), workInProgress17.child;
             case 8:
-                return current47 = current11, workInProgress18 = workInProgress2, renderLanes26 = renderLanes2, workInProgress18.pendingProps.children, reconcileChildren(current47, workInProgress18, workInProgress18.pendingProps.children, renderLanes26), workInProgress18.child;
+                return current47 = current11, workInProgress18 = workInProgress2, renderLanes26 = renderLanes2, nextChildren7 = workInProgress18.pendingProps.children, reconcileChildren(current47, workInProgress18, nextChildren7, renderLanes26), workInProgress18.child;
             case 12:
-                return current48 = current11, workInProgress19 = workInProgress2, renderLanes27 = renderLanes2, workInProgress19.flags |= Update, workInProgress19.stateNode.effectDuration = 0, workInProgress19.stateNode.passiveEffectDuration = 0, workInProgress19.pendingProps.children, reconcileChildren(current48, workInProgress19, workInProgress19.pendingProps.children, renderLanes27), workInProgress19.child;
+                return current48 = current11, workInProgress19 = workInProgress2, renderLanes27 = renderLanes2, workInProgress19.flags |= Update, (stateNode = workInProgress19.stateNode).effectDuration = 0, stateNode.passiveEffectDuration = 0, nextChildren8 = workInProgress19.pendingProps.children, reconcileChildren(current48, workInProgress19, nextChildren8, renderLanes27), workInProgress19.child;
             case 10:
                 return (function(current, workInProgress, renderLanes) {
                     var context = workInProgress.type._context, newProps = workInProgress.pendingProps, oldProps = workInProgress.memoizedProps, newValue = newProps.value;
@@ -7012,7 +7012,7 @@
             case 9:
                 return current49 = current11, workInProgress20 = workInProgress2, renderLanes28 = renderLanes2, void 0 === (context = workInProgress20.type)._context ? context === context.Consumer || hasWarnedAboutUsingContextAsConsumer || (hasWarnedAboutUsingContextAsConsumer = !0, error("Rendering <Context> directly is not supported and will be removed in a future major release. Did you mean to render <Context.Consumer> instead?")) : context = context._context, "function" != typeof (render = (newProps = workInProgress20.pendingProps).children) && error("A context consumer was rendered with multiple children, or a child that isn't a function. A context consumer expects a single child that is a function. If you did pass a function, make sure there is no trailing or leading whitespace around it."), prepareToReadContext(workInProgress20, renderLanes28), newValue = readContext(context, newProps.unstable_observedBits), ReactCurrentOwner$1.current = workInProgress20, setIsRendering(!0), newChildren = render(newValue), setIsRendering(!1), workInProgress20.flags |= 1, reconcileChildren(current49, workInProgress20, newChildren, renderLanes28), workInProgress20.child;
             case 14:
-                var current43, workInProgress14, renderLanes23, type16, prevProps, current44, workInProgress15, current45, workInProgress16, renderLanes24, nextChildren, current46, workInProgress17, renderLanes25, current47, workInProgress18, renderLanes26, current48, workInProgress19, renderLanes27, current49, workInProgress20, renderLanes28, newChildren, context, newProps, render, newValue, _type2 = workInProgress2.type, _resolvedProps3 = resolveDefaultProps(_type2, workInProgress2.pendingProps);
+                var current43, workInProgress14, renderLanes23, type16, nextProps, prevProps, current44, workInProgress15, current45, workInProgress16, renderLanes24, nextChildren2, current46, workInProgress17, renderLanes25, nextChildren6, current47, workInProgress18, renderLanes26, nextChildren7, current48, workInProgress19, renderLanes27, stateNode, nextChildren8, current49, workInProgress20, renderLanes28, newChildren, context, newProps, render, newValue, _type2 = workInProgress2.type, _resolvedProps3 = resolveDefaultProps(_type2, workInProgress2.pendingProps);
                 if (workInProgress2.type !== workInProgress2.elementType) {
                     var outerPropTypes = _type2.propTypes;
                     outerPropTypes && checkPropTypes(outerPropTypes, _resolvedProps3, "prop", getComponentName(_type2));
@@ -7021,8 +7021,8 @@
             case 15:
                 return updateSimpleMemoComponent(current11, workInProgress2, workInProgress2.type, workInProgress2.pendingProps, updateLanes, renderLanes2);
             case 17:
-                var _current, workInProgress21, Component, nextProps, renderLanes29, hasContext, _Component3 = workInProgress2.type, _unresolvedProps4 = workInProgress2.pendingProps, _resolvedProps4 = workInProgress2.elementType === _Component3 ? _unresolvedProps4 : resolveDefaultProps(_Component3, _unresolvedProps4);
-                return _current = current11, workInProgress21 = workInProgress2, Component = _Component3, nextProps = _resolvedProps4, renderLanes29 = renderLanes2, null !== _current && (_current.alternate = null, workInProgress21.alternate = null, workInProgress21.flags |= Placement), workInProgress21.tag = 1, isContextProvider(Component) ? (hasContext = !0, pushContextProvider(workInProgress21)) : hasContext = !1, prepareToReadContext(workInProgress21, renderLanes29), constructClassInstance(workInProgress21, Component, nextProps), mountClassInstance(workInProgress21, Component, nextProps, renderLanes29), finishClassComponent(null, workInProgress21, Component, !0, hasContext, renderLanes29);
+                var _current, workInProgress21, Component, nextProps1, renderLanes29, hasContext, _Component3 = workInProgress2.type, _unresolvedProps4 = workInProgress2.pendingProps, _resolvedProps4 = workInProgress2.elementType === _Component3 ? _unresolvedProps4 : resolveDefaultProps(_Component3, _unresolvedProps4);
+                return _current = current11, workInProgress21 = workInProgress2, Component = _Component3, nextProps1 = _resolvedProps4, renderLanes29 = renderLanes2, null !== _current && (_current.alternate = null, workInProgress21.alternate = null, workInProgress21.flags |= Placement), workInProgress21.tag = 1, isContextProvider(Component) ? (hasContext = !0, pushContextProvider(workInProgress21)) : hasContext = !1, prepareToReadContext(workInProgress21, renderLanes29), constructClassInstance(workInProgress21, Component, nextProps1), mountClassInstance(workInProgress21, Component, nextProps1, renderLanes29), finishClassComponent(null, workInProgress21, Component, !0, hasContext, renderLanes29);
             case 19:
                 return updateSuspenseListComponent(current11, workInProgress2, renderLanes2);
             case 20:

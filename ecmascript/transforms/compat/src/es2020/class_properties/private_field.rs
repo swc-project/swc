@@ -129,6 +129,7 @@ macro_rules! take_vars {
     };
 }
 
+/// TODO: VisitMut
 impl<'a> Fold for FieldAccessFolder<'a> {
     noop_fold_type!();
 

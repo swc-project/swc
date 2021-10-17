@@ -1,12 +1,11 @@
 use std::{iter, mem::replace};
 use swc_common::{Mark, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{helper, perf::Check};
-use swc_ecma_transforms_macros::fast_path;
+use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
     contains_ident_ref, contains_this_expr, private_ident, quote_ident, ExprFactory, StmtLike,
 };
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 /// `@babel/plugin-transform-async-to-generator`
 ///
@@ -40,7 +39,7 @@ struct Actual {
     extra_stmts: Vec<Stmt>,
 }
 
-#[fast_path(ShouldWork)]
+/// TODO: VisitMut
 impl Fold for AsyncToGenerator {
     noop_fold_type!();
 
@@ -78,7 +77,7 @@ impl AsyncToGenerator {
     }
 }
 
-#[fast_path(ShouldWork)]
+/// TODO: VisitMut
 impl Fold for Actual {
     noop_fold_type!();
 
@@ -497,6 +496,7 @@ impl MethodFolder {
     }
 }
 
+/// TODO: VisitMut
 impl Fold for MethodFolder {
     noop_fold_type!();
 
@@ -910,6 +910,7 @@ macro_rules! noop {
     };
 }
 
+/// TODO: VisitMut
 impl Fold for AsyncFnBodyHandler {
     noop_fold_type!();
 
@@ -952,37 +953,6 @@ impl Fold for AsyncFnBodyHandler {
         let s = s.fold_children_with(self);
 
         handle_await_for(s)
-    }
-}
-
-#[derive(Default)]
-struct ShouldWork {
-    found: bool,
-}
-
-impl Visit for ShouldWork {
-    noop_visit_type!();
-
-    fn visit_function(&mut self, f: &Function, _: &dyn Node) {
-        if f.is_async {
-            self.found = true;
-            return;
-        }
-        f.visit_children_with(self);
-    }
-
-    fn visit_arrow_expr(&mut self, f: &ArrowExpr, _: &dyn Node) {
-        if f.is_async {
-            self.found = true;
-            return;
-        }
-        f.visit_children_with(self);
-    }
-}
-
-impl Check for ShouldWork {
-    fn should_handle(&self) -> bool {
-        self.found
     }
 }
 

@@ -17,6 +17,10 @@
 //!
 //! # `Fold`
 //!
+//! > WARNING: `Fold` is slow, and it's recommended to use VisiMut if you are
+//! experienced.
+//!
+//!
 //! `Fold` takes ownership of value, which means you have to return the new
 //! value. Returning new value means returning ownership of the value. But you
 //! don't have to care about ownership or about managing memories while using

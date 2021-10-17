@@ -79,6 +79,7 @@ struct Scope {
     imported: HashMap<JsWord, Arc<Expr>>,
 }
 
+/// TODO: VisitMut
 impl Fold for ConstModules {
     noop_fold_type!();
 

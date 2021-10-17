@@ -1532,6 +1532,7 @@ struct UnmarkedInvalidHandler {
     case_id: usize,
 }
 
+/// TODO: VisitMut
 impl Fold for UnmarkedInvalidHandler {
     noop_fold_type!();
 
@@ -1553,6 +1554,8 @@ struct InvalidToLit<'a> {
     // Map from loc-id to stmt index
     map: &'a [Loc],
 }
+
+/// TODO: VisitMut
 impl Fold for InvalidToLit<'_> {
     noop_fold_type!();
 
@@ -1585,6 +1588,7 @@ struct CatchParamHandler<'a> {
     param: Option<&'a Pat>,
 }
 
+/// TODO: VisitMut
 impl Fold for CatchParamHandler<'_> {
     noop_fold_type!();
 

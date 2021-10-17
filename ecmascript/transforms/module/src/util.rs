@@ -40,6 +40,8 @@ pub struct Config {
     pub lazy: Lazy,
     #[serde(default)]
     pub no_interop: bool,
+    #[serde(default)]
+    pub ignore_dynamic: bool,
 }
 
 impl Default for Config {
@@ -49,6 +51,7 @@ impl Default for Config {
             strict_mode: default_strict_mode(),
             lazy: Lazy::default(),
             no_interop: false,
+            ignore_dynamic: false,
         }
     }
 }
@@ -516,7 +519,8 @@ impl Scope {
                 callee: ExprOrSuper::Expr(callee),
                 args,
                 ..
-            }) if args.len() == 1
+            }) if !folder.config().ignore_dynamic
+                && args.len() == 1
                 && match *callee {
                     Expr::Ident(Ident {
                         sym: js_word!("import"),

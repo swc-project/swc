@@ -4603,7 +4603,8 @@ test!(
         no_interop: false,
         strict: true,
         strict_mode: true,
-        lazy: Lazy::Bool(false)
+        lazy: Lazy::Bool(false),
+        ignore_dynamic: false
     }),
     issue_1480_1,
     "
@@ -4623,7 +4624,8 @@ test!(
         no_interop: false,
         strict: true,
         strict_mode: true,
-        lazy: Lazy::Bool(false)
+        lazy: Lazy::Bool(false),
+        ignore_dynamic: false
     }),
     issue_1480_2,
     "
@@ -4901,6 +4903,40 @@ test!(
     function _default() {
         return 500;
     }
+    "
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        ignore_dynamic: true,
+        ..Default::default()
+    }),
+    ignore_dynamic_1,
+    "
+    import foo from 'foo';
+    
+
+    function foo() {
+      await import('foo');
+
+      callback(() => import('foo'));
+    }
+
+    import('side-effect')
+
+    await import('awaited')
+    ",
+    "
+    'use strict';
+    var _foo = _interopRequireDefault(require('foo'));
+    function foo() {
+        await import('foo');
+        callback(()=>import('foo')
+        );
+    }
+    import('side-effect');
+    await import('awaited');
     "
 );
 

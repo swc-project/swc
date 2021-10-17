@@ -376,14 +376,14 @@ where
         let span = self.input.cur_span()?;
 
         match bump!(self) {
-            Token::Num(NumToken { value }) => {
+            Token::Num { value, raw, .. } => {
                 if is!(self, Ident) {
                     let unit_span = self.input.cur_span()?;
 
                     // Unit
-                    let value = Num { span, value };
+                    let value = Num { span, value, raw };
                     match bump!(self) {
-                        Token::Ident { value: unit, .. } => {
+                        Token::Ident { raw: unit, .. } => {
                             let kind = UnitKind::from(unit);
                             return Ok(Value::Unit(UnitValue {
                                 span: span!(self, span.lo),
@@ -401,7 +401,7 @@ where
                 }
 
                 if eat!(self, "%") {
-                    let value = Num { span, value };
+                    let value = Num { span, value, raw };
 
                     return Ok(Value::Percent(PercentValue {
                         span: span!(self, span.lo),
@@ -409,7 +409,7 @@ where
                     }));
                 }
 
-                Ok(Value::Number(Num { span, value }))
+                Ok(Value::Number(Num { span, value, raw }))
             }
             _ => {
                 unreachable!()
@@ -542,7 +542,7 @@ where
         let value = bump!(self);
 
         match value {
-            Token::Num(NumToken { value }) => Ok(Num { span, value }),
+            Token::Num { value, raw, .. } => Ok(Num { span, value, raw }),
             _ => {
                 unreachable!()
             }

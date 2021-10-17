@@ -1,8 +1,8 @@
+use swc_common::util::take::Take;
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{helper, perf::Check};
-use swc_ecma_transforms_macros::fast_path;
+use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::ExprFactory;
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 /// `@babel/plugin-transform-instanceof`
 ///
@@ -29,17 +29,16 @@ use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visi
 ///
 /// _instanceof(foo, Bar);
 /// ```
-pub fn instance_of() -> impl Fold {
-    InstanceOf
+pub fn instance_of() -> impl Fold + VisitMut {
+    as_folder(InstanceOf)
 }
 struct InstanceOf;
 
-#[fast_path(InstnaceOfFinder)]
-impl Fold for InstanceOf {
-    noop_fold_type!();
+impl VisitMut for InstanceOf {
+    noop_visit_mut_type!();
 
-    fn fold_expr(&mut self, expr: Expr) -> Expr {
-        let expr = expr.fold_children_with(self);
+    fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        expr.visit_mut_children_with(self);
 
         match expr {
             Expr::Bin(BinExpr {
@@ -47,36 +46,15 @@ impl Fold for InstanceOf {
                 left,
                 op: op!("instanceof"),
                 right,
-            }) => Expr::Call(CallExpr {
-                span,
-                callee: helper!(span, instanceof, "instanceof"),
-                args: vec![left.as_arg(), right.as_arg()],
-                type_args: Default::default(),
-            }),
-            _ => expr,
+            }) => {
+                *expr = Expr::Call(CallExpr {
+                    span: *span,
+                    callee: helper!(*span, instanceof, "instanceof"),
+                    args: vec![left.take().as_arg(), right.take().as_arg()],
+                    type_args: Default::default(),
+                });
+            }
+            _ => {}
         }
-    }
-}
-
-#[derive(Default)]
-struct InstnaceOfFinder {
-    found: bool,
-}
-
-impl Visit for InstnaceOfFinder {
-    noop_visit_type!();
-
-    fn visit_bin_expr(&mut self, e: &BinExpr, _: &dyn Node) {
-        e.visit_children_with(self);
-
-        if e.op == op!("instanceof") {
-            self.found = true
-        }
-    }
-}
-
-impl Check for InstnaceOfFinder {
-    fn should_handle(&self) -> bool {
-        self.found
     }
 }

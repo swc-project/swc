@@ -2,8 +2,7 @@ use std::borrow::Cow;
 use swc_atoms::js_word;
 use swc_common::{pass::CompilerPass, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::Check;
-use swc_ecma_transforms_macros::fast_path;
+use swc_ecma_transforms_base::perf::{should_work, Check};
 use swc_ecma_utils::{prepend, private_ident, quote_ident, undefined, ExprFactory};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
@@ -25,12 +24,14 @@ struct NewTarget {
     var: Option<VarDeclarator>,
 }
 
-#[fast_path(ShouldWork)]
 impl VisitMut for NewTarget {
     noop_visit_mut_type!();
 
     fn visit_mut_arrow_expr(&mut self, e: &mut ArrowExpr) {
-        // #[fast_path] ensures that `e` contains new.target
+        // Ensure that `e` contains new.target
+        if !should_work::<ShouldWork, _>(&*e) {
+            return;
+        }
 
         let old = self.in_arrow_expr;
         if self.var.is_none() {
@@ -143,7 +144,10 @@ impl VisitMut for NewTarget {
     }
 
     fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
-        // #[fast_path] ensures that `f` contains `new.target`.
+        // Ensure that `f` contains `new.target`.
+        if !should_work::<ShouldWork, _>(&*f) {
+            return;
+        }
 
         let old = self.cur.take();
         self.cur = Some(f.ident.clone());
@@ -154,7 +158,10 @@ impl VisitMut for NewTarget {
     }
 
     fn visit_mut_fn_expr(&mut self, f: &mut FnExpr) {
-        // #[fast_path] ensures that `f` contains `new.target`.
+        // Ensure that `f` contains `new.target`.
+        if !should_work::<ShouldWork, _>(&*f) {
+            return;
+        }
 
         let i = f
             .ident
