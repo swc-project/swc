@@ -3,7 +3,7 @@ _jsx("div", {
     id: "w\xf4w"
 });
 _jsx("div", {
-    id: "w"
+    id: "\\w"
 });
 _jsx("div", {
     id: "w < w"

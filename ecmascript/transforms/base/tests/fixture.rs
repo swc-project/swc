@@ -2,7 +2,7 @@ use std::path::{Path, PathBuf};
 use swc_common::{chain, sync::Lrc, Mark, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
 use swc_ecma_transforms_base::{
     fixer::fixer,
     resolver::{resolver_with_mark, ts_resolver},
@@ -44,13 +44,15 @@ where
         input.extension().unwrap().to_string_lossy(),
     ));
 
-    run_test2(false, |cm, _| {
+    run_test2(false, |cm, handler| {
         let fm = cm.load_file(input).unwrap();
 
         let lexer = Lexer::new(syntax, EsVersion::latest(), StringInput::from(&*fm), None);
         let mut parser = Parser::new_from(lexer);
 
-        let module = parser.parse_module().expect("failed to parse input");
+        let module = parser
+            .parse_module()
+            .map_err(|err| err.into_diagnostic(&handler).emit())?;
 
         let mut folder = op();
 
@@ -68,15 +70,22 @@ where
 
 #[fixture("tests/resolver/**/input.js")]
 fn test_resolver(input: PathBuf) {
-    run(Syntax::default(), &input, || {
-        let top_level_mark = Mark::fresh(Mark::root());
+    run(
+        Syntax::Es(EsConfig {
+            jsx: true,
+            ..Default::default()
+        }),
+        &input,
+        || {
+            let top_level_mark = Mark::fresh(Mark::root());
 
-        chain!(
-            resolver_with_mark(top_level_mark),
-            as_folder(TsHygiene { top_level_mark }),
-            fixer(None)
-        )
-    });
+            chain!(
+                resolver_with_mark(top_level_mark),
+                as_folder(TsHygiene { top_level_mark }),
+                fixer(None)
+            )
+        },
+    );
 }
 
 #[fixture("tests/ts-resolver/**/input.ts")]
