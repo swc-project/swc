@@ -1,11 +1,11 @@
 use serde::Deserialize;
 use swc_atoms::js_word;
-use swc_common::{Mark, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     alias_if_required, member_expr, prepend, private_ident, quote_ident, ExprFactory, StmtLike,
 };
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 /// `@babel/plugin-transform-for-of`
 ///
@@ -41,11 +41,11 @@ use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 ///   }
 /// }
 /// ```
-pub fn for_of(c: Config) -> impl Fold {
-    ForOf {
+pub fn for_of(c: Config) -> impl Fold + VisitMut {
+    as_folder(ForOf {
         c,
         top_level_vars: Default::default(),
-    }
+    })
 }
 
 #[derive(Debug, Clone, Copy, Default, Deserialize)]
@@ -480,62 +480,59 @@ fn make_finally_block(
     })
 }
 
-/// TODO: VisitMut
-impl Fold for ForOf {
-    noop_fold_type!();
+impl VisitMut for ForOf {
+    noop_visit_mut_type!();
 
-    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        self.fold_stmt_like(n)
+    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        self.visit_mut_stmt_like(n)
     }
 
-    fn fold_stmt(&mut self, stmt: Stmt) -> Stmt {
-        match stmt {
+    fn visit_mut_stmt(&mut self, s: &mut Stmt) {
+        match s {
             Stmt::Labeled(LabeledStmt { span, label, body }) => {
                 // Handle label
-                match *body {
+                match &mut **body {
                     Stmt::ForOf(stmt) => {
-                        let stmt = stmt.fold_children_with(self);
+                        stmt.visit_mut_children_with(self);
 
-                        self.fold_for_stmt(Some(label), stmt)
+                        *s = self.fold_for_stmt(Some(label.clone()), stmt.take());
                     }
-                    _ => Stmt::Labeled(LabeledStmt {
-                        span,
-                        label,
-                        body: body.fold_children_with(self),
-                    }),
+                    _ => {
+                        body.visit_mut_children_with(self);
+                    }
                 }
             }
             Stmt::ForOf(stmt) => {
-                let stmt = stmt.fold_children_with(self);
+                stmt.visit_mut_children_with(self);
 
-                self.fold_for_stmt(None, stmt)
+                *s = self.fold_for_stmt(None, stmt.take())
             }
-            _ => stmt.fold_children_with(self),
+            _ => s.visit_mut_children_with(self),
         }
     }
 
-    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
-        self.fold_stmt_like(n)
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+        self.visit_mut_stmt_like(n)
     }
 }
 
 impl ForOf {
-    fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
+    fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike,
-        Vec<T>: FoldWith<Self>,
+        Vec<T>: VisitMutWith<Self>,
     {
         let mut buf = Vec::with_capacity(stmts.len());
 
-        for stmt in stmts {
+        for stmt in stmts.take() {
             match stmt.try_into_stmt() {
                 Err(module_item) => buf.push(module_item),
-                Ok(stmt) => {
+                Ok(mut stmt) => {
                     let mut folder = Self {
                         c: self.c,
                         top_level_vars: Default::default(),
                     };
-                    let stmt = stmt.fold_with(&mut folder);
+                    stmt.visit_mut_with(&mut folder);
 
                     // Add variable declaration
                     // e.g. var ref
@@ -553,6 +550,6 @@ impl ForOf {
             }
         }
 
-        buf
+        *stmts = buf
     }
 }
