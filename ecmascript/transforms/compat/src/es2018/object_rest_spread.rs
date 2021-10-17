@@ -1,9 +1,5 @@
 use std::{iter, mem};
-use swc_common::{
-    chain,
-    util::{move_map::MoveMap, take::Take},
-    Mark, Spanned, DUMMY_SP,
-};
+use swc_common::{chain, util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, helper_expr, perf::Parallel};
 use swc_ecma_transforms_macros::parallel;
@@ -379,7 +375,7 @@ impl Fold for ObjectRest {
             }
 
             let mut index = self.vars.len();
-            let pat = self.fold_rest(
+            let mut pat = self.fold_rest(
                 &mut index,
                 decl.name,
                 Box::new(Expr::Ident(var_ident.clone())),
@@ -396,10 +392,13 @@ impl Fold for ObjectRest {
                     // instead of
                     // `var b = _objectWithoutProperties(_ref, ['a']), { a } = _ref;`
                     // println!("var: simplified pat = var_ident({:?})", var_ident);
+
+                    pat.visit_mut_with(&mut PatSimplifier);
+
                     self.insert_var_if_not_empty(
                         index,
                         VarDeclarator {
-                            name: simplify_pat(pat),
+                            name: pat,
                             // preserve
                             init: if has_init {
                                 Some(Box::new(Expr::Ident(var_ident.clone())))
@@ -964,47 +963,36 @@ fn excluded_props(props: &[ObjectPatProp]) -> Vec<Option<ExprOrSpread>> {
         .collect()
 }
 
+/// e.g.
+///
+///  - `{ x4: {}  }` -> `{}`
 struct PatSimplifier;
 
-/// TODO: VisitMut
-impl Fold for PatSimplifier {
-    noop_fold_type!();
+impl VisitMut for PatSimplifier {
+    noop_visit_mut_type!();
 
-    fn fold_pat(&mut self, pat: Pat) -> Pat {
-        let pat = pat.fold_children_with(self);
+    fn visit_mut_pat(&mut self, pat: &mut Pat) {
+        pat.visit_mut_children_with(self);
 
         match pat {
             Pat::Object(o) => {
-                let ObjectPat { span, props, .. } = o;
-                let props = props.move_flat_map(|mut prop| {
+                o.props.retain(|prop| {
                     match prop {
-                        ObjectPatProp::KeyValue(KeyValuePatProp { key, value, .. }) => match *value
-                        {
-                            Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {
-                                return None;
+                        ObjectPatProp::KeyValue(KeyValuePatProp { value, .. }) => match &**value {
+                            Pat::Object(ObjectPat { props, .. }) if props.is_empty() => {
+                                return false;
                             }
-                            _ => {
-                                prop = ObjectPatProp::KeyValue(KeyValuePatProp { key, value });
-                            }
+                            _ => {}
                         },
                         _ => {}
                     }
 
-                    Some(prop)
+                    true
                 });
-
-                Pat::Object(ObjectPat { span, props, ..o })
             }
-            _ => pat,
+            _ => {}
         }
     }
-}
-
-/// e.g.
-///
-///  - `{ x4: {}  }` -> `{}`
-fn simplify_pat(pat: Pat) -> Pat {
-    pat.fold_with(&mut PatSimplifier)
 }
 
 #[derive(Clone, Copy)]
