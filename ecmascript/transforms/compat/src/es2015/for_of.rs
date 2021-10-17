@@ -489,7 +489,7 @@ impl VisitMut for ForOf {
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         match s {
-            Stmt::Labeled(LabeledStmt { span, label, body }) => {
+            Stmt::Labeled(LabeledStmt { label, body, .. }) => {
                 // Handle label
                 match &mut **body {
                     Stmt::ForOf(stmt) => {
