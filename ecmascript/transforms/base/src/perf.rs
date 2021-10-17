@@ -23,9 +23,21 @@ pub trait Parallel {
     /// This can be called in anytime.
     fn merge(&mut self, other: Self);
 
-    /// Invoked after visiting [Stmt]s, possibly in parallel.
+    /// Invoked after visiting all [Stmt]s, possibly in parallel.
     fn after_stmts(&mut self, _stmts: &mut Vec<Stmt>) {}
 
-    /// Invoked after visiting [ModuleItem]s, possibly in parallel.
+    /// Invoked after visiting all [ModuleItem]s, possibly in parallel.
     fn after_module_items(&mut self, _stmts: &mut Vec<ModuleItem>) {}
+}
+
+pub trait ParExplode: Parallel {
+    /// Invoked after visiting each statements.
+    ///
+    /// The first element of `stmts` is the processed statement.
+    fn after_one_stmt(&mut self, stmts: &mut Vec<Stmt>);
+
+    /// Invoked after visiting each statements.
+    ///
+    /// The first element of `stmts` is the processed statement.
+    fn after_one_module_item(&mut self, stmts: &mut Vec<ModuleItem>);
 }
