@@ -74,7 +74,7 @@ impl Fold for OptChaining {
 }
 
 impl OptChaining {
-    /// Returned statemetns are variable declarations without initializer
+    /// Returned statements are variable declarations without initializer
     fn fold_one_stmt_to<T>(&mut self, stmt: T, new: &mut Vec<T>)
     where
         T: StmtLike + FoldWith<Self>,
