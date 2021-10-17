@@ -24,7 +24,7 @@ pub fn sticky_regex() -> impl 'static + Fold + VisitMut {
     as_folder(StickyRegex)
 }
 
-#[derive(Default, Clone, Copy)]
+#[derive(Clone, Copy)]
 struct StickyRegex;
 
 impl Parallel for StickyRegex {

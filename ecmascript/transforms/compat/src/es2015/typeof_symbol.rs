@@ -10,7 +10,7 @@ pub fn typeof_symbol() -> impl VisitMut + Fold {
     as_folder(TypeOfSymbol)
 }
 
-#[derive(Clone, Default)]
+#[derive(Clone, Copy)]
 struct TypeOfSymbol;
 
 impl Parallel for TypeOfSymbol {

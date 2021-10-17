@@ -1011,7 +1011,7 @@ fn simplify_pat(pat: Pat) -> Pat {
     pat.fold_with(&mut PatSimplifier)
 }
 
-#[derive(Default)]
+#[derive(Clone, Copy)]
 struct ObjectSpread;
 
 impl Parallel for ObjectSpread {
