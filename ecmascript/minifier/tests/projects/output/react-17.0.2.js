@@ -382,11 +382,11 @@
     var reentry = !1;
     function describeNativeComponentFrame(fn, construct) {
         if (!fn || reentry) return "";
-        var control, frame = componentFrameCache.get(fn);
+        var control, previousDispatcher, frame = componentFrameCache.get(fn);
         if (void 0 !== frame) return frame;
         reentry = !0;
         var previousPrepareStackTrace = Error.prepareStackTrace;
-        Error.prepareStackTrace = void 0, ReactCurrentDispatcher$1.current, ReactCurrentDispatcher$1.current = null, (function() {
+        Error.prepareStackTrace = void 0, previousDispatcher = ReactCurrentDispatcher$1.current, ReactCurrentDispatcher$1.current = null, (function() {
             if (0 === disabledDepth) {
                 prevLog = console.log, prevInfo = console.info, prevWarn = console.warn, prevError = console.error, prevGroup = console.group, prevGroupCollapsed = console.groupCollapsed, prevGroupEnd = console.groupEnd;
                 var props = {
@@ -452,7 +452,7 @@
                 }
             }
         } finally{
-            reentry = !1, ReactCurrentDispatcher$1.current = ReactCurrentDispatcher$1.current, (function() {
+            reentry = !1, ReactCurrentDispatcher$1.current = previousDispatcher, (function() {
                 if (disabledDepth--, 0 === disabledDepth) {
                     var props = {
                         configurable: !0,

@@ -3544,8 +3544,8 @@
                 nativeDateToISOString.call(new Date(NaN));
             }) ? function() {
                 if (!isFinite(getTime.call(this))) throw RangeError("Invalid time value");
-                var year = this.getUTCFullYear(), milliseconds = this.getUTCMilliseconds(), sign = year < 0 ? "-" : year > 9999 ? "+" : "";
-                return sign + padStart(abs(year), sign ? 6 : 4, 0) + "-" + padStart(this.getUTCMonth() + 1, 2, 0) + "-" + padStart(this.getUTCDate(), 2, 0) + "T" + padStart(this.getUTCHours(), 2, 0) + ":" + padStart(this.getUTCMinutes(), 2, 0) + ":" + padStart(this.getUTCSeconds(), 2, 0) + "." + padStart(milliseconds, 3, 0) + "Z";
+                var date = this, year = date.getUTCFullYear(), milliseconds = date.getUTCMilliseconds(), sign = year < 0 ? "-" : year > 9999 ? "+" : "";
+                return sign + padStart(abs(year), sign ? 6 : 4, 0) + "-" + padStart(date.getUTCMonth() + 1, 2, 0) + "-" + padStart(date.getUTCDate(), 2, 0) + "T" + padStart(date.getUTCHours(), 2, 0) + ":" + padStart(date.getUTCMinutes(), 2, 0) + ":" + padStart(date.getUTCSeconds(), 2, 0) + "." + padStart(milliseconds, 3, 0) + "Z";
             } : nativeDateToISOString;
         },
         6672: function(module, __unused_webpack_exports, __webpack_require__) {

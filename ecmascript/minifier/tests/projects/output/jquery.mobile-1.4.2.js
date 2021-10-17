@@ -74,8 +74,8 @@
     })(jQuery, this), (function($, undefined) {
         var uuid = 0, runiqueId = /^ui-id-\d+$/;
         function focusable(element, isTabIndexNotNaN) {
-            var mapName, img, nodeName = element.nodeName.toLowerCase();
-            return "area" === nodeName ? (mapName = element.parentNode.name, !!element.href && !!mapName && "map" === element.parentNode.nodeName.toLowerCase() && !!(img = $("img[usemap=#" + mapName + "]")[0]) && visible(img)) : (/input|select|textarea|button|object/.test(nodeName) ? !element.disabled : "a" === nodeName ? element.href || isTabIndexNotNaN : isTabIndexNotNaN) && visible(element);
+            var map, mapName, img, nodeName = element.nodeName.toLowerCase();
+            return "area" === nodeName ? (mapName = (map = element.parentNode).name, !!element.href && !!mapName && "map" === map.nodeName.toLowerCase() && !!(img = $("img[usemap=#" + mapName + "]")[0]) && visible(img)) : (/input|select|textarea|button|object/.test(nodeName) ? !element.disabled : "a" === nodeName ? element.href || isTabIndexNotNaN : isTabIndexNotNaN) && visible(element);
         }
         function visible(element) {
             return $.expr.filters.visible(element) && !$(element).parents().addBack().filter(function() {
@@ -828,8 +828,8 @@
             return "" !== u.protocol ? !this.isPath(u.hash) && u.hash && (u.hrefNoHash === this.documentUrl.hrefNoHash || this.documentBaseDiffers && u.hrefNoHash === this.documentBase.hrefNoHash) : /^#/.test(u.href);
         },
         squash: function(url, resolutionUrl) {
-            var href, cleanedUrl, stateIndex, isPath = this.isPath(url), uri = this.parseUrl(url), preservedHash = uri.hash, uiState = "";
-            return resolutionUrl = resolutionUrl || (path.isPath(url) ? path.getLocation() : path.getDocumentUrl()), cleanedUrl = isPath ? path.stripHash(url) : url, cleanedUrl = path.isPath(uri.hash) ? path.stripHash(uri.hash) : cleanedUrl, stateIndex = cleanedUrl.indexOf(this.uiStateKey), stateIndex > -1 && (uiState = cleanedUrl.slice(stateIndex), cleanedUrl = cleanedUrl.slice(0, stateIndex)), href = path.makeUrlAbsolute(cleanedUrl, resolutionUrl), this.parseUrl(href).search, isPath ? ((path.isPath(preservedHash) || 0 === preservedHash.replace("#", "").indexOf(this.uiStateKey)) && (preservedHash = ""), uiState && -1 === preservedHash.indexOf(this.uiStateKey) && (preservedHash += uiState), -1 === preservedHash.indexOf("#") && "" !== preservedHash && (preservedHash = "#" + preservedHash), href = (href = path.parseUrl(href)).protocol + "//" + href.host + href.pathname + this.parseUrl(href).search + preservedHash) : href += href.indexOf("#") > -1 ? uiState : "#" + uiState, href;
+            var href, cleanedUrl, search, stateIndex, isPath = this.isPath(url), uri = this.parseUrl(url), preservedHash = uri.hash, uiState = "";
+            return resolutionUrl = resolutionUrl || (path.isPath(url) ? path.getLocation() : path.getDocumentUrl()), cleanedUrl = isPath ? path.stripHash(url) : url, cleanedUrl = path.isPath(uri.hash) ? path.stripHash(uri.hash) : cleanedUrl, stateIndex = cleanedUrl.indexOf(this.uiStateKey), stateIndex > -1 && (uiState = cleanedUrl.slice(stateIndex), cleanedUrl = cleanedUrl.slice(0, stateIndex)), href = path.makeUrlAbsolute(cleanedUrl, resolutionUrl), search = this.parseUrl(href).search, isPath ? ((path.isPath(preservedHash) || 0 === preservedHash.replace("#", "").indexOf(this.uiStateKey)) && (preservedHash = ""), uiState && -1 === preservedHash.indexOf(this.uiStateKey) && (preservedHash += uiState), -1 === preservedHash.indexOf("#") && "" !== preservedHash && (preservedHash = "#" + preservedHash), href = (href = path.parseUrl(href)).protocol + "//" + href.host + href.pathname + search + preservedHash) : href += href.indexOf("#") > -1 ? uiState : "#" + uiState, href;
         },
         isPreservableHash: function(hash) {
             return 0 === hash.replace("#", "").indexOf(this.uiStateKey);
@@ -1477,12 +1477,12 @@
                 return "string" === $.type(to) && (to = $.mobile.path.stripHash(to)), to && (history = this._getHistory(), (to = $.mobile.path.isPath(to) ? to : $.mobile.path.makeUrlAbsolute("#" + to, this._getDocumentBase())) === $.mobile.path.makeUrlAbsolute("#" + history.initialDst, this._getDocumentBase()) && history.stack.length && history.stack[0].url !== history.initialDst.replace($.mobile.dialogHashKey, "") && (to = this._getInitialContent())), to || this._getInitialContent();
             },
             _handleDialog: function(changePageOptions, data) {
-                var active, activeContent = this.getActivePage();
-                return activeContent && !activeContent.hasClass("ui-dialog") ? ("back" === data.direction ? this.back() : this.forward(), !1) : (data.pageUrl, active = this._getActiveHistory(), $.extend(changePageOptions, {
+                var to, active, activeContent = this.getActivePage();
+                return activeContent && !activeContent.hasClass("ui-dialog") ? ("back" === data.direction ? this.back() : this.forward(), !1) : (to = data.pageUrl, active = this._getActiveHistory(), $.extend(changePageOptions, {
                     role: active.role,
                     transition: active.transition,
                     reverse: "back" === data.direction
-                }), data.pageUrl);
+                }), to);
             },
             _handleNavigate: function(url, data) {
                 var to = $.mobile.path.stripHash(url), history = this._getHistory(), transition = 0 === history.stack.length ? "none" : undefined, changePageOptions = {
