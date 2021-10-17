@@ -442,8 +442,8 @@ fn appearance() {
     );
     t(
         "animation-timing-function:cubic-bezier(0.1,0.7,1.0,0.1);",
-        "-webkit-animation-timing-function:cubic-bezier(0.1, 0.7, 1, \
-         0.1);animation-timing-function:cubic-bezier(0.1, 0.7, 1, 0.1);",
+        "-webkit-animation-timing-function:cubic-bezier(0.1, 0.7, 1.0, \
+         0.1);animation-timing-function:cubic-bezier(0.1, 0.7, 1.0, 0.1);",
     );
 }
 

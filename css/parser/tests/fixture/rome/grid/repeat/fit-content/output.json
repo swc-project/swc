@@ -107,7 +107,8 @@
                       "end": 41,
                       "ctxt": 0
                     },
-                    "value": 4.0
+                    "value": 4.0,
+                    "raw": "4"
                   },
                   {
                     "type": "FnValue",
@@ -141,7 +142,8 @@
                             "end": 58,
                             "ctxt": 0
                           },
-                          "value": 300.0
+                          "value": 300.0,
+                          "raw": "300"
                         },
                         "unit": {
                           "span": {

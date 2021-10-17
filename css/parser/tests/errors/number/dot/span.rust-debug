@@ -50,7 +50,7 @@ error: Property
  --> $DIR/tests/fixture/esbuild/misc/thvW-_S_FCA5eKxKgRyxig/input.css:1:5
   |
 1 | a { width: 0.; }
-  |     ^^^^^^^^^
+  |     ^^^^^^^^
 
 error: Text
  --> $DIR/tests/fixture/esbuild/misc/thvW-_S_FCA5eKxKgRyxig/input.css:1:5
@@ -59,14 +59,32 @@ error: Text
   |     ^^^^^
 
 error: Value
- --> $DIR/tests/fixture/esbuild/misc/thvW-_S_FCA5eKxKgRyxig/input.css:1:12
+ --> $DIR/tests/fixture/esbuild/misc/thvW-_S_FCA5eKxKgRyxig/input.css:1:11
   |
 1 | a { width: 0.; }
-  |            ^^
+  |           ^^^
 
-error: Num
+error: Tokens
+ --> $DIR/tests/fixture/esbuild/misc/thvW-_S_FCA5eKxKgRyxig/input.css:1:11
+  |
+1 | a { width: 0.; }
+  |           ^^^
+
+error: WhiteSpace
+ --> $DIR/tests/fixture/esbuild/misc/thvW-_S_FCA5eKxKgRyxig/input.css:1:11
+  |
+1 | a { width: 0.; }
+  |           ^
+
+error: Num(NumToken { value: 0.0 })
  --> $DIR/tests/fixture/esbuild/misc/thvW-_S_FCA5eKxKgRyxig/input.css:1:12
   |
 1 | a { width: 0.; }
-  |            ^^
+  |            ^
+
+error: Delim { value: '.' }
+ --> $DIR/tests/fixture/esbuild/misc/thvW-_S_FCA5eKxKgRyxig/input.css:1:13
+  |
+1 | a { width: 0.; }
+  |             ^
 

@@ -67,7 +67,7 @@
             "type": "Property",
             "span": {
               "start": 4,
-              "end": 15,
+              "end": 13,
               "ctxt": 0
             },
             "name": {
@@ -82,21 +82,58 @@
             },
             "values": [
               {
-                "type": "PercentValue",
+                "type": "Tokens",
                 "span": {
-                  "start": 11,
+                  "start": 10,
                   "end": 15,
                   "ctxt": 0
                 },
-                "value": {
-                  "type": "Number",
-                  "span": {
-                    "start": 11,
-                    "end": 14,
-                    "ctxt": 0
+                "tokens": [
+                  {
+                    "span": {
+                      "start": 10,
+                      "end": 11,
+                      "ctxt": 0
+                    },
+                    "token": "WhiteSpace"
                   },
-                  "value": 0.0
-                }
+                  {
+                    "span": {
+                      "start": 11,
+                      "end": 13,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Num": {
+                        "value": 0.0
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 13,
+                      "end": 14,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Delim": {
+                        "value": "."
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 14,
+                      "end": 15,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Delim": {
+                        "value": "%"
+                      }
+                    }
+                  }
+                ]
               }
             ],
             "important": null

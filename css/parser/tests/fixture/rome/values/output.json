@@ -203,29 +203,14 @@
             },
             "values": [
               {
-                "type": "UnitValue",
+                "type": "Number",
                 "span": {
                   "start": 58,
                   "end": 62,
                   "ctxt": 0
                 },
-                "value": {
-                  "type": "Number",
-                  "span": {
-                    "start": 58,
-                    "end": 59,
-                    "ctxt": 0
-                  },
-                  "value": 1.0
-                },
-                "unit": {
-                  "span": {
-                    "start": 59,
-                    "end": 62,
-                    "ctxt": 0
-                  },
-                  "kind": "e-3"
-                }
+                "value": 0.001,
+                "raw": "1e-3"
               }
             ],
             "important": null
@@ -255,7 +240,8 @@
                   "end": 81,
                   "ctxt": 0
                 },
-                "value": 0.2
+                "value": 0.2,
+                "raw": "0.2"
               }
             ],
             "important": null
@@ -292,7 +278,8 @@
                     "end": 93,
                     "ctxt": 0
                   },
-                  "value": 20.0
+                  "value": 20.0,
+                  "raw": "20"
                 }
               }
             ],
@@ -330,7 +317,8 @@
                     "end": 111,
                     "ctxt": 0
                   },
-                  "value": -5.0
+                  "value": -5.0,
+                  "raw": "-5"
                 }
               }
             ],
