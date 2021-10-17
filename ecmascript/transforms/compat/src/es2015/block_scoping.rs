@@ -44,7 +44,7 @@ enum ScopeKind {
         args: Vec<Id>,
         /// Produced by identifier reference and consumed by for-of/in loop.
         used: Vec<Id>,
-        /// Map of original identifer to modified syntax context
+        /// Map of original identifier to modified syntax context
         mutated: AHashMap<Id, SyntaxContext>,
     },
     Fn,
