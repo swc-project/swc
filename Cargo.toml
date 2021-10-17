@@ -39,7 +39,9 @@ wrong-target = []
 
 concurrent = [
   "swc_ecma_utils/concurrent",
+  "swc_ecma_transforms_base/concurrent",
   "swc_ecma_transforms_compat/concurrent",
+  "swc_ecma_transforms_optimization/concurrent",
 ]
 
 [dependencies]
@@ -75,6 +77,7 @@ swc_ecma_transforms = {version = "0.84.0", path = "./ecmascript/transforms", fea
 ]}
 swc_ecma_transforms_base = {version = "0.38.0", path = "./ecmascript/transforms/base"}
 swc_ecma_transforms_compat = {version = "0.43.1", path = "./ecmascript/transforms/compat"}
+swc_ecma_transforms_optimization = {version = "0.54.0", path = "./ecmascript/transforms/optimization"}
 swc_ecma_utils = {version = "0.47.0", path = "./ecmascript/utils"}
 swc_ecma_visit = {version = "0.40.0", path = "./ecmascript/visit"}
 swc_ecmascript = {version = "0.76.0", path = "./ecmascript"}
