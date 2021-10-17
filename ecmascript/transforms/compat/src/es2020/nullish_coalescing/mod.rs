@@ -1,4 +1,4 @@
-use std::mem::replace;
+use std::mem::take;
 use swc_common::{util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{alias_if_required, undefined, StmtLike};
@@ -30,7 +30,7 @@ impl NullishCoalescing {
                 buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
-                    decls: replace(&mut self.vars, Default::default()),
+                    decls: take(&mut self.vars),
                     declare: false,
                 }))));
             }

@@ -1,3 +1,4 @@
+use crate::common::Mode;
 use pmutil::q;
 use proc_macro2::TokenStream;
 use swc_macros_common::call_site;
@@ -19,20 +20,6 @@ pub fn expand(attr: TokenStream, item: ItemImpl) -> ItemImpl {
             })
             .collect(),
         ..item
-    }
-}
-#[derive(Debug, Clone, Copy)]
-pub enum Mode {
-    Fold,
-    VisitMut,
-}
-
-impl Mode {
-    pub fn prefix(self) -> &'static str {
-        match self {
-            Mode::Fold => "fold",
-            Mode::VisitMut => "visit_mut",
-        }
     }
 }
 

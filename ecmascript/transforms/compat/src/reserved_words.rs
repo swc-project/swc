@@ -1,13 +1,25 @@
 use swc_atoms::{js_word, JsWord};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::perf::Parallel;
+use swc_ecma_transforms_macros::parallel;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub fn reserved_words() -> impl 'static + Fold + VisitMut {
     as_folder(EsReservedWord)
 }
 
+#[derive(Clone, Copy)]
 struct EsReservedWord;
 
+impl Parallel for EsReservedWord {
+    fn create(&self) -> Self {
+        *self
+    }
+
+    fn merge(&mut self, _: Self) {}
+}
+
+#[parallel]
 impl VisitMut for EsReservedWord {
     noop_visit_mut_type!();
 

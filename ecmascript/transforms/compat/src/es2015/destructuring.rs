@@ -3,6 +3,7 @@ use std::iter;
 use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Check};
+use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
     alias_ident_for, alias_if_required, has_rest_pat, is_literal, private_ident, prop_name_to_expr,
     quote_ident, undefined, ExprFactory, StmtLike,
@@ -522,6 +523,7 @@ struct AssignFolder {
 }
 
 /// TODO: VisitMut
+#[fast_path(DestructuringVisitor)]
 impl Fold for AssignFolder {
     noop_fold_type!();
 
@@ -879,11 +881,6 @@ impl Destructuring {
         Vec<T>: FoldWith<Self> + VisitWith<DestructuringVisitor>,
         T: StmtLike + VisitWith<DestructuringVisitor> + FoldWith<AssignFolder>,
     {
-        // fast path
-        if !has_destructuring(&stmts) {
-            return stmts;
-        }
-
         let stmts = stmts.fold_children_with(self);
 
         let mut buf = Vec::with_capacity(stmts.len());
@@ -896,20 +893,40 @@ impl Destructuring {
                 ignore_return_value: None,
             };
 
-            let stmt = stmt.fold_with(&mut folder);
+            match stmt.try_into_stmt() {
+                Err(item) => {
+                    let item = item.fold_with(&mut folder);
 
-            // Add variable declaration
-            // e.g. var ref
-            if !folder.vars.is_empty() {
-                buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    decls: folder.vars,
-                    declare: false,
-                }))));
+                    // Add variable declaration
+                    // e.g. var ref
+                    if !folder.vars.is_empty() {
+                        buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            decls: folder.vars,
+                            declare: false,
+                        }))));
+                    }
+
+                    buf.push(item)
+                }
+                Ok(stmt) => {
+                    let stmt = stmt.fold_with(&mut folder);
+
+                    // Add variable declaration
+                    // e.g. var ref
+                    if !folder.vars.is_empty() {
+                        buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            decls: folder.vars,
+                            declare: false,
+                        }))));
+                    }
+
+                    buf.push(T::from_stmt(stmt));
+                }
             }
-
-            buf.push(stmt)
         }
 
         buf
@@ -1093,15 +1110,6 @@ fn can_be_null(e: &Expr) -> bool {
 
         Expr::Invalid(..) => unreachable!(),
     }
-}
-
-fn has_destructuring<N>(node: &N) -> bool
-where
-    N: VisitWith<DestructuringVisitor>,
-{
-    let mut v = DestructuringVisitor { found: false };
-    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
-    v.found
 }
 
 #[derive(Default)]

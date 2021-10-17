@@ -6,11 +6,18 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_ecma_transforms_base"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.38.1"
+version = "0.38.2"
+
+[features]
+concurrent = [
+  "rayon",
+  "swc_ecma_utils/concurrent",
+]
 
 [dependencies]
 once_cell = "1.5.2"
 phf = {version = "0.8.0", features = ["macros"]}
+rayon = {version = "1", optional = true}
 scoped-tls = "1.0.0"
 smallvec = "1.6.0"
 swc_atoms = {version = "0.2", path = "../../../atoms"}
@@ -22,4 +29,5 @@ swc_ecma_visit = {version = "0.40.0", path = "../../visit"}
 
 [dev-dependencies]
 swc_ecma_codegen = {version = "0.75.0", path = "../../codegen"}
+swc_ecma_transforms_macros = {version = "0.2.2", path = "../macros"}
 testing = {version = "0.14.0", path = "../../../testing"}
