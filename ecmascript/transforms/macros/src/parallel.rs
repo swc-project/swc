@@ -63,7 +63,7 @@ fn make_par_visit_method(mode: Mode, suffix: &str, threshold: usize) -> ImplItem
                                                     helpers,
                                                     || {
                                                         swc_ecma_utils::HANDLER.set(handler, || {
-                                                            let mut visitor = Self::default();
+                                                            let mut visitor = self.clone();
                                                             let node = node.fold_with(&mut visitor);
 
                                                             (visitor, node)
@@ -73,7 +73,7 @@ fn make_par_visit_method(mode: Mode, suffix: &str, threshold: usize) -> ImplItem
                                             })
                                         })
                                         .fold(
-                                            || (Self::default(), vec![]),
+                                            || (self.clone(), vec![]),
                                             |mut a, b| {
                                                 swc_ecma_transforms_base::perf::Parallel::merge(
                                                     &mut a.0, b.0,
@@ -120,7 +120,7 @@ fn make_par_visit_method(mode: Mode, suffix: &str, threshold: usize) -> ImplItem
                                                     helpers,
                                                     || {
                                                         swc_ecma_utils::HANDLER.set(handler, || {
-                                                            let mut visitor = Self::default();
+                                                            let mut visitor = self.clone();
                                                             node.visit_mut_with(&mut visitor);
 
                                                             visitor
@@ -130,7 +130,7 @@ fn make_par_visit_method(mode: Mode, suffix: &str, threshold: usize) -> ImplItem
                                             })
                                         })
                                         .reduce(
-                                            || Self::default(),
+                                            || self.clone(),
                                             |mut a, b| {
                                                 swc_ecma_transforms_base::perf::Parallel::merge(
                                                     &mut a, b,

@@ -16,6 +16,6 @@ where
     checker.should_handle()
 }
 
-pub trait Parallel: Default {
+pub trait Parallel: Clone {
     fn merge(&mut self, other: Self);
 }
