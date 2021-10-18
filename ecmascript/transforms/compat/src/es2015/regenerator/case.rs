@@ -1215,6 +1215,7 @@ impl CaseHandler<'_> {
 
             Stmt::Try(s) => {
                 let after = self.loc();
+                let try_entry_idx = self.try_entries.len();
 
                 let TryStmt {
                     mut handler,
@@ -1340,7 +1341,7 @@ impl CaseHandler<'_> {
                     None => {}
                 }
 
-                self.try_entries.push(try_entry);
+                self.try_entries.insert(try_entry_idx, try_entry);
             }
 
             Stmt::While(s) => {
