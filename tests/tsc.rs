@@ -124,6 +124,7 @@ fn compile(input: &Path, output: &Path, opts: Options) {
                         .compare_to_file(output)
                         .unwrap();
                 }
+                Err(ref err) if format!("{:?}", err).contains("failed to parse module") => {}
                 Err(ref err) if format!("{:?}", err).contains("not matched") => {}
                 Err(err) => panic!("Error: {:?}", err),
             }
