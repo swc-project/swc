@@ -13,6 +13,10 @@ use testing::{NormalizedOutput, Tester};
 #[testing::fixture("ecmascript/parser/tests/typescript/tsc/**/input.ts")]
 #[testing::fixture("ecmascript/parser/tests/typescript/tsc/**/input.tsx")]
 fn fixture(input: PathBuf) {
+    if input.to_string_lossy().contains("jsdoc") {
+        return;
+    }
+
     let base = Path::new("ecmascript")
         .join("parser")
         .join("tests")
