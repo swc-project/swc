@@ -36,7 +36,7 @@ impl Parse for Config {
                             }};
                             ($inner:expr) => {{
                                 panic!(
-                                    "{}\nnote: exclude() expectes one or more comma-separated \
+                                    "{}\nnote: exclude() expects one or more comma-separated \
              regular expressions, like exclude(\".*\\\\.d\\\\.ts\") or \
              exclude(\".*\\\\.d\\\\.ts\", \".*\\\\.tsx\")",
                                     $inner
@@ -45,7 +45,7 @@ impl Parse for Config {
                         }
 
                         if list.nested.is_empty() {
-                            fail!("empty exlclude()")
+                            fail!("empty exclude()")
                         }
 
                         for token in list.nested.iter() {
@@ -77,7 +77,7 @@ impl Parse for Config {
             let expected = r#"#[fixture("fixture/**/*.ts", exclude("*\.d\.ts"))]"#;
 
             unimplemented!(
-                "Exected something like {}\nGot wrong meta tag: {:?}",
+                "Expected something like {}\nGot wrong meta tag: {:?}",
                 expected,
                 meta,
             )
@@ -131,6 +131,12 @@ pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<ItemFn>, Error> {
             if pattern.is_match(&path_str) {
                 continue 'add;
             }
+
+            if cfg!(target_os = "windows") {
+                if pattern.is_match(&path_str.replace("\\", "/")) {
+                    continue 'add;
+                }
+            }
         }
 
         let ignored = path.components().any(|c| match c {
@@ -161,6 +167,7 @@ pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<ItemFn>, Error> {
                 #[test]
                 #[inline(never)]
                 #[ignore]
+                #[doc(hidden)]
                 fn test_ident() {
                     callee(::std::path::PathBuf::from(path_str));
                 }

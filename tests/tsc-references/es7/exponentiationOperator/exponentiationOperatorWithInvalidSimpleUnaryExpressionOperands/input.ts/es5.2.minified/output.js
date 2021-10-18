@@ -1,0 +1,4 @@
+var temp, _typeof = function(obj) {
+    return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
+};
+Math.pow(!--temp, 3), Math.pow(!temp--, 3), Math.pow(!temp++, 4), Math.pow(!temp--, 4), Math.pow(!--temp, 3), Math.pow(!temp--, 3), Math.pow(!temp++, 4), Math.pow(!temp--, 4), Math.pow(_typeof(--temp), 3), Math.pow(_typeof(temp--), 3), Math.pow(_typeof(3), 4), Math.pow(_typeof(temp++), 4), Math.pow(_typeof(temp--), 4), Math.pow(1, Math.pow(_typeof(--temp), 3)), Math.pow(1, Math.pow(_typeof(temp--), 3)), Math.pow(1, Math.pow(_typeof(3), 4)), Math.pow(1, Math.pow(_typeof(temp++), 4)), Math.pow(1, Math.pow(_typeof(temp--), 4)), Math.pow(delete --temp, 3), Math.pow(delete ++temp, 3), Math.pow(delete temp--, 3), Math.pow(delete temp++, 3), Math.pow(1, Math.pow(delete --temp, 3)), Math.pow(1, Math.pow(delete ++temp, 3)), Math.pow(1, Math.pow(delete temp--, 3)), Math.pow(1, Math.pow(delete temp++, 3));
