@@ -777,7 +777,7 @@ fn should_visit() {
                 config.inline_sources_content,
                 config.target,
                 config.source_maps,
-                &[],
+                &Default::default(),
                 None,
                 // TODO: figure out sourcemaps
                 config.minify,
