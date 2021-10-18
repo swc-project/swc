@@ -73,7 +73,8 @@ it('should handle input sourcemap correctly', async () => {
         module: {
             type: 'commonjs'
         },
-        sourceMaps: true
+        sourceMaps: true,
+        inlineSourcesContent: true
     });
 
     expect(out1.map).toBeTruthy();
@@ -90,6 +91,7 @@ it('should handle input sourcemap correctly', async () => {
             type: 'commonjs'
         },
         sourceMaps: true,
+        inlineSourcesContent: true
     });
 
     console.log(out2.code);
