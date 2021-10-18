@@ -16,7 +16,7 @@ where
     checker.should_handle()
 }
 
-pub trait Parallel {
+pub trait Parallel: Send + Sync {
     /// Used to create visitor.
     fn create(&self) -> Self;
 
