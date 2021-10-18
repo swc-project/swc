@@ -45,14 +45,11 @@ export function HeaderCTA() {
 
     if (varA) {
         return (
-            <Comp
-                href={`/conf/tickets/oct21/${varB.field || ''}`}
-            >
-            </Comp>
+            use(varB.field)
         );
     }
 
     return (
-        <Comp href="/conf"></Comp>
+        pure()
     );
 }

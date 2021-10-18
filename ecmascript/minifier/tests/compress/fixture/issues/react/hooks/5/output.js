@@ -11,7 +11,5 @@ export function HeaderCTA() {
             GLOBALS.get("const1") && GLOBALS.get("const2") ? v1_set(!0) : v1_set(!1);
         }, []), v1;
     }();
-    return void 0 === varA ? null : varA ? <Comp href={`/conf/tickets/oct21/${varB.field || ""}`}>
-
-            </Comp> : <Comp href="/conf"></Comp>;
+    return void 0 === varA ? null : varA ? use(varB.field) : pure();
 }
