@@ -67,16 +67,16 @@ function _fun() {
             }
         }, _callee, null, [
             [
-                22,
-                ,
-                24,
-                28
-            ],
-            [
                 2,
                 17,
                 21,
                 29
+            ],
+            [
+                22,
+                ,
+                24,
+                28
             ]
         ]);
     }))).apply(this, arguments);
