@@ -19,10 +19,11 @@ function g() {
     return regeneratorRuntime.wrap(function g$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){
             case 0:
+                _ctx.t0 = function() {
+                };
                 x = _defineProperty({
-                }, (yield 0), function() {
-                });
-            case 1:
+                }, (yield 0), _ctx.t0);
+            case 2:
             case "end":
                 return _ctx.stop();
         }

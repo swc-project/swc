@@ -28,10 +28,10 @@ function _func() {
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    return before(), _ctx.next = 3, p;
-                case 3:
-                    b = o.fn.call(o, _ctx.sent, a, a), after();
-                case 5:
+                    return before(), _ctx.t0 = o, _ctx.next = 4, p;
+                case 4:
+                    _ctx.t1 = _ctx.sent, _ctx.t2 = a, _ctx.t3 = a, b = _ctx.t0.fn.call(_ctx.t0, _ctx.t1, _ctx.t2, _ctx.t3), after();
+                case 9:
                 case "end":
                     return _ctx.stop();
             }

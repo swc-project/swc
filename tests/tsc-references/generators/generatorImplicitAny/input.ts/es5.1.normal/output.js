@@ -101,11 +101,13 @@ function g5() {
     return regeneratorRuntime.wrap(function g5$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                _ctx.next = 2;
+                _ctx.t0 = f;
+                _ctx.next = 3;
                 return;
-            case 2:
-                f(_ctx.sent);
             case 3:
+                _ctx.t1 = _ctx.sent;
+                (0, _ctx.t0)(_ctx.t1);
+            case 5:
             case "end":
                 return _ctx.stop();
         }
@@ -115,11 +117,13 @@ function g6() {
     return regeneratorRuntime.wrap(function g6$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                _ctx.next = 2;
+                _ctx.t0 = f;
+                _ctx.next = 3;
                 return;
-            case 2:
-                f(_ctx.sent);
             case 3:
+                _ctx.t1 = _ctx.sent;
+                (0, _ctx.t0)(_ctx.t1);
+            case 5:
             case "end":
                 return _ctx.stop();
         }

@@ -19,8 +19,7 @@ function g() {
     return regeneratorRuntime.wrap(function g$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                x = _defineProperty({
-                }, (yield 0), regeneratorRuntime.mark(function _callee() {
+                _ctx.t0 = regeneratorRuntime.mark(function _callee() {
                     return regeneratorRuntime.wrap(function _callee$(_ctx) {
                         while(1)switch(_ctx.prev = _ctx.next){
                             case 0:
@@ -28,8 +27,10 @@ function g() {
                                 return _ctx.stop();
                         }
                     }, _callee);
-                }));
-            case 1:
+                });
+                x = _defineProperty({
+                }, (yield 0), _ctx.t0);
+            case 2:
             case "end":
                 return _ctx.stop();
         }

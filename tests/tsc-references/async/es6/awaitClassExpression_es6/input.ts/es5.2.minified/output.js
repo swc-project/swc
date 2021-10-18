@@ -60,16 +60,16 @@ function _func() {
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    return _ctx.next = 2, p;
-                case 2:
-                    D = (function(_super) {
+                    return _ctx.t0 = function(_super) {
                         "use strict";
                         function D() {
                             return _classCallCheck(this, D), _possibleConstructorReturn(this, _getPrototypeOf(D).apply(this, arguments));
                         }
                         return _inherits(D, _super), D;
-                    })(_ctx.sent);
+                    }, _ctx.next = 3, p;
                 case 3:
+                    _ctx.t1 = _ctx.sent, D = (0, _ctx.t0)(_ctx.t1);
+                case 5:
                 case "end":
                     return _ctx.stop();
             }

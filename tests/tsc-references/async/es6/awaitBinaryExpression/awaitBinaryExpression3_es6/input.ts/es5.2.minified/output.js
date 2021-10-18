@@ -30,8 +30,8 @@ function _func() {
                 case 0:
                     return before(), _ctx.next = 3, p;
                 case 3:
-                    b = _ctx.sent + a, after();
-                case 5:
+                    _ctx.t0 = _ctx.sent, _ctx.t1 = a, b = _ctx.t0 + _ctx.t1, after();
+                case 7:
                 case "end":
                     return _ctx.stop();
             }

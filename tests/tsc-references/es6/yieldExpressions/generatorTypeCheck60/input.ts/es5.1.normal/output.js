@@ -52,10 +52,7 @@ function g() {
     return regeneratorRuntime.wrap(function g$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                _ctx.next = 2;
-                return;
-            case 2:
-                C = /*#__PURE__*/ (function(_super) {
+                _ctx.t0 = /*#__PURE__*/ function(_super) {
                     "use strict";
                     _inherits(C, _super);
                     function C() {
@@ -63,8 +60,13 @@ function g() {
                         return _possibleConstructorReturn(this, _getPrototypeOf(C).apply(this, arguments));
                     }
                     return C;
-                })(_ctx.sent);
+                };
+                _ctx.next = 3;
+                return;
             case 3:
+                _ctx.t1 = _ctx.sent;
+                C = (0, _ctx.t0)(_ctx.t1);
+            case 5:
             case "end":
                 return _ctx.stop();
         }

@@ -12,10 +12,10 @@ var _marked = regeneratorRuntime.mark(function() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
-                x = _defineProperty({
-                }, (yield 0), function() {
-                });
-            case 1:
+                _ctx.t0 = function() {
+                }, x = _defineProperty({
+                }, (yield 0), _ctx.t0);
+            case 2:
             case "end":
                 return _ctx.stop();
         }
