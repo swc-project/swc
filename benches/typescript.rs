@@ -131,7 +131,7 @@ fn bench_codegen(b: &mut Bencher, _target: JscTarget) {
                 false,
                 JscTarget::Es2020,
                 SourceMapsConfig::Bool(false),
-                &[],
+                &Default::default(),
                 None,
                 false,
                 None,
