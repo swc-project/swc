@@ -6,5 +6,6 @@
     }
   },
   "sourceMaps": true,
-  "inlineSourcesContent": true
+  "inlineSourcesContent": true,
+  "inputSourceMap": true
 }
