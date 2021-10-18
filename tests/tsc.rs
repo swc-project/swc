@@ -11,7 +11,17 @@ use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{Syntax, TsConfig};
 use testing::{NormalizedOutput, Tester};
 
-#[testing::fixture("ecmascript/parser/tests/typescript/tsc/**/input.ts")]
+#[testing::fixture(
+    "ecmascript/parser/tests/typescript/tsc/**/input.ts",
+    exclude(
+        "privateNameFieldDestructuredBinding/input.ts",
+        "restPropertyWithBindingPattern/input.ts",
+        "elementAccessChain\\.3/input.ts",
+        "propertyAccessChain\\.3/input.ts",
+        "objectRestNegative/input.ts",
+        "objectRestPropertyMustBeLast/input.ts",
+    )
+)]
 #[testing::fixture("ecmascript/parser/tests/typescript/tsc/**/input.tsx")]
 fn fixture(input: PathBuf) {
     if input.to_string_lossy().contains("jsdoc") {
