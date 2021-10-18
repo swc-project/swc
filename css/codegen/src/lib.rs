@@ -1,6 +1,5 @@
 pub use self::emit::*;
 use self::{ctx::Ctx, list::ListFormat};
-use std::borrow::Cow;
 pub use std::fmt::Result;
 use swc_common::Spanned;
 use swc_css_ast::*;
@@ -686,11 +685,7 @@ where
 
     #[emitter]
     fn emit_unit(&mut self, n: &Unit) -> Result {
-        let s: Cow<_> = match &n.kind {
-            UnitKind::Px => Cow::Owned("px".into()),
-            UnitKind::Custom(s) => Cow::Borrowed(s),
-        };
-        self.wr.write_raw(Some(n.span), &s)?;
+        self.wr.write_raw(Some(n.span), &n.raw)?;
     }
 
     #[emitter]
