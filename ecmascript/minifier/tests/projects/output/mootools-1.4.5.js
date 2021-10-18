@@ -2721,13 +2721,13 @@ Elements.prototype = {
                     }), listener = listeners[uid] || {
                         forms: [],
                         fns: []
-                    }, forms = listener.forms;
+                    }, forms = listener.forms, fns = listener.fns;
                     if (-1 == forms.indexOf(form)) {
                         forms.push(form);
                         var _fn = function(event) {
                             bubbleUp(self, match, fn, event, target);
                         };
-                        form.addEvent(type, _fn), listener.fns.push(_fn), listeners[uid] = listener, self.store(_key + type + "listeners", listeners);
+                        form.addEvent(type, _fn), fns.push(_fn), listeners[uid] = listener, self.store(_key + type + "listeners", listeners);
                     }
                 }
             }
