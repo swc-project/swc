@@ -54,7 +54,7 @@ impl Renamer {
         };
 
         dbg!(&ops);
-        n.visit_mut_with(&mut Operator(&Operations { rename: ops.rename }));
+        n.visit_mut_with(&mut Operator(&Operations::for_operator(ops.rename)));
     }
 }
 
