@@ -1,6 +1,8 @@
 use arrayvec::ArrayVec;
 use swc_common::{util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::perf::Parallel;
+use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{
     contains_this_expr, member_expr, prepend, prepend_stmts, private_ident, quote_ident,
     ExprFactory,
@@ -18,6 +20,46 @@ struct Params {
     vars: Vec<VarDeclarator>,
 }
 // prevent_recurse!(Params, Pat);
+
+impl Parallel for Params {
+    fn create(&self) -> Self {
+        Params {
+            vars: Default::default(),
+        }
+    }
+
+    fn merge(&mut self, other: Self) {
+        self.vars.extend(other.vars);
+    }
+
+    fn after_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        if !self.vars.is_empty() {
+            prepend(
+                stmts,
+                Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: Default::default(),
+                    decls: self.vars.take(),
+                })),
+            )
+        }
+    }
+
+    fn after_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
+        if !self.vars.is_empty() {
+            prepend(
+                stmts,
+                ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: Default::default(),
+                    decls: self.vars.take(),
+                }))),
+            )
+        }
+    }
+}
 
 impl Params {
     fn fold_fn_like(&mut self, ps: Vec<Param>, body: BlockStmt) -> (Vec<Param>, BlockStmt) {
@@ -254,6 +296,7 @@ impl Params {
 }
 
 /// TODO: VisitMut
+#[parallel]
 impl Fold for Params {
     noop_fold_type!();
 
@@ -395,7 +438,7 @@ impl Fold for Params {
                 );
 
                 if need_arrow_to_function {
-                    // We are converting an arrow expression to a function experession, and we
+                    // We are converting an arrow expression to a function expression, and we
                     // should handle usage of this.
                     if contains_this_expr(&body) {
                         // Replace this to `self`.
@@ -484,24 +527,6 @@ impl Fold for Params {
         }
     }
 
-    fn fold_module_items(&mut self, stmts: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        let mut stmts = stmts.fold_children_with(self);
-
-        if !self.vars.is_empty() {
-            prepend(
-                &mut stmts,
-                ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    declare: Default::default(),
-                    decls: self.vars.take(),
-                }))),
-            )
-        }
-
-        stmts
-    }
-
     fn fold_setter_prop(&mut self, f: SetterProp) -> SetterProp {
         if f.body.is_none() {
             return f;
@@ -524,24 +549,6 @@ impl Fold for Params {
             body: Some(body),
             ..f
         }
-    }
-
-    fn fold_stmts(&mut self, stmts: Vec<Stmt>) -> Vec<Stmt> {
-        let mut stmts = stmts.fold_children_with(self);
-
-        if !self.vars.is_empty() {
-            prepend(
-                &mut stmts,
-                Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    declare: Default::default(),
-                    decls: self.vars.take(),
-                })),
-            )
-        }
-
-        stmts
     }
 }
 

@@ -449,6 +449,7 @@ impl AssignFolder {
 }
 
 /// TODO: VisitMut
+#[fast_path(DestructuringVisitor)]
 impl Fold for Destructuring {
     noop_fold_type!();
 
@@ -878,8 +879,8 @@ impl Fold for AssignFolder {
 impl Destructuring {
     fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
     where
-        Vec<T>: FoldWith<Self> + VisitWith<DestructuringVisitor>,
-        T: StmtLike + VisitWith<DestructuringVisitor> + FoldWith<AssignFolder>,
+        Vec<T>: FoldWith<Self>,
+        T: StmtLike + FoldWith<AssignFolder>,
     {
         let stmts = stmts.fold_children_with(self);
 

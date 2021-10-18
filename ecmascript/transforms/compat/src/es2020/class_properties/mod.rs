@@ -9,11 +9,9 @@ use self::{
 use std::collections::HashSet;
 use swc_common::{Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{
-    helper,
-    perf::{should_work, Check},
-};
+use swc_ecma_transforms_base::{helper, perf::Check};
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
+use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
     alias_ident_for, alias_if_required, constructor::inject_after_super, default_constructor,
     private_ident, quote_ident, undefined, ExprFactory, ModuleItemLike, StmtLike,
@@ -56,6 +54,7 @@ struct ClassProperties {
 }
 
 /// TODO: VisitMut
+#[fast_path(ShouldWork)]
 impl Fold for ClassProperties {
     noop_fold_type!();
 
@@ -88,10 +87,6 @@ impl Fold for ClassProperties {
     }
 
     fn fold_block_stmt_or_expr(&mut self, body: BlockStmtOrExpr) -> BlockStmtOrExpr {
-        if !should_work::<ShouldWork, _>(&body) {
-            return body;
-        }
-
         let span = body.span();
 
         match body {
