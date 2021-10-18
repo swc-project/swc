@@ -131,6 +131,12 @@ pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<ItemFn>, Error> {
             if pattern.is_match(&path_str) {
                 continue 'add;
             }
+
+            if cfg!(target_os = "windows") {
+                if pattern.is_match(&path_str.replace("\\", "/")) {
+                    continue 'add;
+                }
+            }
         }
 
         let ignored = path.components().any(|c| match c {
