@@ -10,7 +10,7 @@ use std::{
     sync::Arc,
 };
 use swc::{
-    config::{Options, SourceMapsConfig},
+    config::{Config, Options, SourceMapsConfig},
     Compiler,
 };
 use testing::{assert_eq, NormalizedOutput, StdErr, Tester};
@@ -28,6 +28,10 @@ fn file(f: &str) -> Result<(), StdErr> {
                 fm,
                 &handler,
                 &Options {
+                    config: Config {
+                        inline_sources_content: true,
+                        ..Default::default()
+                    },
                     swcrc: true,
                     is_module: true,
                     source_maps: Some(SourceMapsConfig::Bool(true)),
@@ -79,6 +83,10 @@ fn inline(f: &str) -> Result<(), StdErr> {
                 fm,
                 &handler,
                 &Options {
+                    config: Config {
+                        inline_sources_content: true,
+                        ..Default::default()
+                    },
                     swcrc: true,
                     is_module: true,
                     source_maps: Some(SourceMapsConfig::Str(String::from("inline"))),

@@ -1,0 +1,3 @@
+bar(x, function() {
+}, function() {
+});

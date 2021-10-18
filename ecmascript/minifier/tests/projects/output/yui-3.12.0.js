@@ -234,7 +234,7 @@ var YUI = function() {
             this.Array || this._attach([
                 "yui-base"
             ]);
-            var len, loader, handleBoot, i, Y = this, G_ENV = YUI.Env, mods = G_ENV.mods, Env = Y.Env, used = Env._used, aliases = G_ENV.aliases, queue = G_ENV._loaderQueue, firstArg = args[0], config = Y.config, boot = config.bootstrap, missing = [], r = [], ret = !0, fetchCSS = config.fetchCSS, process = function(names, skip) {
+            var len, loader, handleBoot, i, Y = this, G_ENV = YUI.Env, mods = G_ENV.mods, Env = Y.Env, used = Env._used, aliases = G_ENV.aliases, queue = G_ENV._loaderQueue, firstArg = args[0], YArray = Y.Array, config = Y.config, boot = config.bootstrap, missing = [], r = [], ret = !0, fetchCSS = config.fetchCSS, process = function(names, skip) {
                 var name, len, m, req, use, i = 0, a = [];
                 if (names.length) {
                     if (aliases) {
@@ -258,7 +258,7 @@ var YUI = function() {
             }
             return (mods.loader || mods["loader-base"]) && !Y.Loader && Y._attach([
                 "loader" + (mods.loader ? "" : "-base")
-            ]), boot && Y.Loader && args.length && ((loader = getLoader(Y)).require(args), loader.ignoreRegistered = !0, loader._boot = !0, loader.calculate(null, fetchCSS ? null : "js"), args = loader.sorted, loader._boot = !1), process(args), (len = missing.length) && (len = (missing = Y.Array.dedupe(missing)).length), boot && len && Y.Loader ? (Y._loading = !0, (loader = getLoader(Y)).onEnd = handleLoader, loader.context = Y, loader.data = args, loader.ignoreRegistered = !1, loader.require(missing), loader.insert(null, fetchCSS ? null : "js")) : boot && len && Y.Get && !Env.bootstrapped ? (Y._loading = !0, handleBoot = function() {
+            ]), boot && Y.Loader && args.length && ((loader = getLoader(Y)).require(args), loader.ignoreRegistered = !0, loader._boot = !0, loader.calculate(null, fetchCSS ? null : "js"), args = loader.sorted, loader._boot = !1), process(args), (len = missing.length) && (len = (missing = YArray.dedupe(missing)).length), boot && len && Y.Loader ? (Y._loading = !0, (loader = getLoader(Y)).onEnd = handleLoader, loader.context = Y, loader.data = args, loader.ignoreRegistered = !1, loader.require(missing), loader.insert(null, fetchCSS ? null : "js")) : boot && len && Y.Get && !Env.bootstrapped ? (Y._loading = !0, handleBoot = function() {
                 Y._loading = !1, queue.running = !1, Env.bootstrapped = !0, G_ENV._bootstrapping = !1, Y._attach([
                     "loader"
                 ]) && Y._use(args, callback);

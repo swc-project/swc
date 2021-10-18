@@ -1,0 +1,3 @@
+B(C(), function() {
+}, function() {
+});

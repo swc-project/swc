@@ -327,7 +327,7 @@ impl Options {
             is_module,
             source_maps: source_maps.unwrap_or(SourceMapsConfig::Bool(false)),
             inline_sources_content: config.inline_sources_content,
-            input_source_map: self.config.input_source_map.clone(),
+            input_source_map: config.input_source_map.clone(),
             output_path: output_path.map(|v| v.to_path_buf()),
             source_file_name,
             preserve_comments,
@@ -1137,6 +1137,7 @@ impl Merge for Config {
         self.minify.merge(&from.minify);
         self.env.merge(&from.env);
         self.source_maps.merge(&from.source_maps);
+        self.input_source_map.merge(&from.input_source_map);
         self.inline_sources_content
             .merge(&from.inline_sources_content);
     }
@@ -1199,6 +1200,14 @@ impl Merge for TerserEcmaVersion {
 
 impl Merge for SourceMapsConfig {
     fn merge(&mut self, _: &Self) {}
+}
+
+impl Merge for InputSourceMap {
+    fn merge(&mut self, r: &Self) {
+        if let InputSourceMap::Bool(false) = *self {
+            *self = r.clone();
+        }
+    }
 }
 
 impl Merge for swc_ecma_preset_env::Config {

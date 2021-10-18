@@ -1,0 +1,2 @@
+target: for(;;);
+target: for(;;);

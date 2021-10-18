@@ -1,0 +1,18 @@
+{
+    "version": 3,
+    "file": "x",
+    "mappings": ";;;;;;;;;;;;;;AAAe,SAASA,UAAT,OAA8B;AAAA,MAARC,IAAQ,QAARA,IAAQ;AAC3C,sBAAO;AAAA,cAAMA,IAAI,CAACC;AAAX,IAAP;AACD;;;;;;;;ACDD;AACA;AACA;AACA,eAAe,mBAAO,CAAC,IAA8B;AACrD;AACA;AACA,OAAO,KAAU,EAAE,EAId;AACL",
+    "sources": [
+        "webpack://./pages/static.js",
+        "webpack://../../../packages/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2Fstatic&absolutePagePath=private-next-pages%2Fstatic.js!"
+    ],
+    "sourcesContent": [
+        "export default function StaticPage({ data }) {\n  return <div>{data.foo}</div>\n}\n\nexport async function getStaticProps() {\n  return {\n    props: {\n      data: {\n        foo: 'bar',\n      },\n    },\n  }\n}\n",
+        "\n    (window.__NEXT_P = window.__NEXT_P || []).push([\n      \"/static\",\n      function () {\n        return require(\"private-next-pages/static.js\");\n      }\n    ]);\n    if(module.hot) {\n      module.hot.dispose(function () {\n        window.__NEXT_P.push([\"/static\"])\n      });\n    }\n  "
+    ],
+    "names": [
+        "StaticPage",
+        "data",
+        "foo"
+    ]
+}

@@ -1095,10 +1095,6 @@ impl SourceMap {
 
         let mut src_id = 0u32;
 
-        for name in config.names() {
-            builder.add_name(name);
-        }
-
         if let Some(orig) = orig {
             for src in orig.sources() {
                 let idx = builder.add_source(src);
@@ -1149,6 +1145,12 @@ impl SourceMap {
                 None => continue,
             };
 
+            let mut name_idx = None;
+
+            if let Some(name) = config.name_for_bytepos(pos) {
+                name_idx = Some(builder.add_name(name))
+            }
+
             let mut line = a + 1; // Line numbers start at 1
             let linebpos = f.lines[a as usize];
             debug_assert!(
@@ -1174,7 +1176,7 @@ impl SourceMap {
                 }
             }
 
-            builder.add_raw(lc.line, lc.col, line - 1, col, Some(src_id), None);
+            builder.add_raw(lc.line, lc.col, line - 1, col, Some(src_id), name_idx);
         }
 
         builder.into_sourcemap()
@@ -1244,9 +1246,9 @@ pub trait SourceMapGenConfig {
     /// This should **not** return content of the file.
     fn file_name_to_source(&self, f: &FileName) -> String;
 
-    /// # Returns all identifiers for current module.
-    fn names(&self) -> Vec<&str> {
-        vec![]
+    /// # Returns identifier starting at `bpos`.
+    fn name_for_bytepos(&self, _bpos: BytePos) -> Option<&str> {
+        None
     }
 
     /// You can override this to control `sourceContents`.

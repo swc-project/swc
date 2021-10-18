@@ -2019,7 +2019,8 @@
                 })), this._headerCloseButton = btn;
             },
             close: function() {
-                this._isCloseable && (this._isCloseable = !1, $.mobile.hashListeningEnabled && $.mobile.navigate.history.activeIndex > 0 ? $.mobile.back() : $.mobile.pageContainer.pagecontainer("back"));
+                var hist = $.mobile.navigate.history;
+                this._isCloseable && (this._isCloseable = !1, $.mobile.hashListeningEnabled && hist.activeIndex > 0 ? $.mobile.back() : $.mobile.pageContainer.pagecontainer("back"));
             }
         });
     })(jQuery, this), $12 = jQuery, rInitialLetter = /([A-Z])/g, iconposClass = function(iconpos) {
@@ -2370,7 +2371,8 @@
             _updateAll: function() {
                 var self = this;
                 this._getInputSet().each(function() {
-                    (this.checked || "checkbox" === self.inputtype) && $(this).trigger("change");
+                    var $this = $(this);
+                    (this.checked || "checkbox" === self.inputtype) && $this.trigger("change");
                 }).checkboxradio("refresh");
             },
             _reset: function() {
@@ -4423,10 +4425,10 @@
                 }
             },
             _getFilterableItems: function() {
-                var children = this.options.children, items = children ? $.isFunction(children) ? children() : children.nodeName ? $(children) : children.jquery ? children : this.element.find(children) : {
+                var elem = this.element, children = this.options.children, items = children ? $.isFunction(children) ? children() : children.nodeName ? $(children) : children.jquery ? children : this.element.find(children) : {
                     length: 0
                 };
-                return 0 === items.length && (items = this.element.children()), items;
+                return 0 === items.length && (items = elem.children()), items;
             },
             _filterItems: function(val) {
                 var idx, callback, length, show = [], hide = [], opts = this.options, filterItems = this._getFilterableItems();
@@ -4704,8 +4706,8 @@
                 }), this._focusable(this.tabs), this._hoverable(this.tabs);
             },
             _setupHeightStyle: function(heightStyle) {
-                var maxHeight;
-                "fill" === heightStyle ? (maxHeight = this.element.parent().height(), maxHeight -= this.element.outerHeight() - this.element.height(), this.element.siblings(":visible").each(function() {
+                var maxHeight, parent = this.element.parent();
+                "fill" === heightStyle ? (maxHeight = parent.height(), maxHeight -= this.element.outerHeight() - this.element.height(), this.element.siblings(":visible").each(function() {
                     var elem = $(this), position = elem.css("position");
                     "absolute" !== position && "fixed" !== position && (maxHeight -= elem.outerHeight(!0));
                 }), this.element.children().not(this.panels).each(function() {
