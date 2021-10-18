@@ -53,6 +53,7 @@ console.log('foo')
 
     const out2 = swc.transformSync(raw, {
         sourceMaps: true,
+        inlineSourcesContent: true,
         plugin: swc.plugins([m => m])
     });
 
