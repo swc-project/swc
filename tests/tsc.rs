@@ -63,7 +63,7 @@ fn matrix() -> Vec<(String, Options)> {
             ..Default::default()
         };
 
-        let s = serde_json::to_string(&target).unwrap();
+        let s = serde_json::to_string(&target).unwrap().replace('"', "");
 
         res.push((format!("{}.1.normal", s), Options { ..opts.clone() }));
         res.push((format!("{}.2.minified", s), Options { ..opts.clone() }));
