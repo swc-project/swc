@@ -1,0 +1,4 @@
+{
+    var bar = function bar() {
+    };
+}

@@ -1,0 +1,158 @@
+function _assertThisInitialized(self) {
+    if (self === void 0) {
+        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }
+    return self;
+}
+function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
+function _defineProperties(target, props) {
+    for(var i = 0; i < props.length; i++){
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+    }
+}
+function _createClass(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps);
+    return Constructor;
+}
+function _getPrototypeOf(o) {
+    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+        return o.__proto__ || Object.getPrototypeOf(o);
+    };
+    return _getPrototypeOf(o);
+}
+function _inherits(subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+        throw new TypeError("Super expression must either be null or a function");
+    }
+    subClass.prototype = Object.create(superClass && superClass.prototype, {
+        constructor: {
+            value: subClass,
+            writable: true,
+            configurable: true
+        }
+    });
+    if (superClass) _setPrototypeOf(subClass, superClass);
+}
+function _possibleConstructorReturn(self, call) {
+    if (call && (_typeof(call) === "object" || typeof call === "function")) {
+        return call;
+    }
+    return _assertThisInitialized(self);
+}
+function _setPrototypeOf(o, p) {
+    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+        o.__proto__ = p;
+        return o;
+    };
+    return _setPrototypeOf(o, p);
+}
+var _typeof = function(obj) {
+    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
+};
+var unionNumberString;
+var C = function C() {
+    "use strict";
+    _classCallCheck(this, C);
+};
+var D = /*#__PURE__*/ function(C) {
+    "use strict";
+    _inherits(D, C);
+    function D() {
+        _classCallCheck(this, D);
+        return _possibleConstructorReturn(this, _getPrototypeOf(D).apply(this, arguments));
+    }
+    _createClass(D, [
+        {
+            key: "foo1",
+            value: function foo1() {
+            }
+        }
+    ]);
+    return D;
+}(C);
+var E = /*#__PURE__*/ function(C) {
+    "use strict";
+    _inherits(E, C);
+    function E() {
+        _classCallCheck(this, E);
+        return _possibleConstructorReturn(this, _getPrototypeOf(E).apply(this, arguments));
+    }
+    _createClass(E, [
+        {
+            key: "foo2",
+            value: function foo2() {
+            }
+        }
+    ]);
+    return E;
+}(C);
+var unionDE;
+var num;
+var str;
+var c;
+var d;
+var e;
+// A union type U is assignable to a type T if each type in U is assignable to T
+c = d;
+c = e;
+c = unionDE; // ok
+d = d;
+d = e;
+d = unionDE; // error e is not assignable to d
+e = d;
+e = e;
+e = unionDE; // error d is not assignable to e
+num = num;
+num = str;
+num = unionNumberString; // error string is not assignable to number
+str = num;
+str = str;
+str = unionNumberString; // error since number is not assignable to string
+// A type T is assignable to a union type U if T is assignable to any type in U
+d = c;
+e = c;
+unionDE = c; // error since C is not assinable to either D or E
+d = d;
+e = d;
+unionDE = d; // ok
+d = e;
+e = e;
+unionDE = e; // ok
+num = num;
+str = num;
+unionNumberString = num; // ok 
+num = str;
+str = str;
+unionNumberString = str; // ok
+// Any
+var anyVar;
+anyVar = unionDE;
+anyVar = unionNumberString;
+unionDE = anyVar;
+unionNumberString = anyVar;
+// null
+unionDE = null;
+unionNumberString = null;
+// undefined
+unionDE = undefined;
+unionNumberString = undefined;
+// type parameters
+function foo(t, u) {
+    t = u; // error
+    u = t; // error
+    var x;
+    x = t; // ok
+    x = u; // ok
+    x = undefined;
+    t = x; // error U not assignable to T
+    u = x; // error T not assignable to U
+}

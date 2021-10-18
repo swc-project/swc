@@ -36,7 +36,7 @@ mod fixture;
 /// The function is allowed to return `Result` on error. If it's the case
 ///
 ///
-/// ## Ignoreing a test
+/// ## Ignoring a test
 ///
 /// If the path to the file contains a component starts with `.` (dot), it will
 /// be ignore. This convention is widely used in many projects (including other
