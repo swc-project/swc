@@ -6,12 +6,12 @@ const { async } = require("regenerator-runtime");
 async function f() {
     try {
         throw new 'Real error'
-    } catch (e) {
-        console.log(e.message);
+    } catch (e1) {
+        console.log(e1.message);
         try {
             throw 'Test'
-        } catch (e) {
-            console.log(e);
+        } catch (e2) {
+            console.log(e2);
         }
     }
 }
