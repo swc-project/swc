@@ -864,14 +864,8 @@ impl Compiler {
                 inline_sources_content: config.inline_sources_content,
             };
 
-            let orig = if opts
-                .config
-                .source_maps
-                .as_ref()
-                .map(|v| v.enabled())
-                .unwrap_or_default()
-            {
-                self.get_orig_src_map(&fm, &opts.config.input_source_map, false)?
+            let orig = if config.source_maps.enabled() {
+                self.get_orig_src_map(&fm, &config.input_source_map, false)?
             } else {
                 None
             };
