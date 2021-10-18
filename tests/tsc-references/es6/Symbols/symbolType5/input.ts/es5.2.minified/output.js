@@ -1,0 +1,1 @@
+Symbol.for("multiply");
