@@ -13,16 +13,16 @@ use testing::{NormalizedOutput, Tester};
 #[testing::fixture("ecmascript/parser/tests/typescript/tsc/**/input.ts")]
 #[testing::fixture("ecmascript/parser/tests/typescript/tsc/**/input.tsx")]
 fn fixture(input: PathBuf) {
+    let base = Path::new("ecmascript")
+        .join("parser")
+        .join("tests")
+        .join("typescript")
+        .join("tsc")
+        .canonicalize()
+        .unwrap();
+
     for (name, opts) in matrix() {
-        let rel_path = input
-            .strip_prefix(
-                Path::new("ecmascript")
-                    .join("parser")
-                    .join("tests")
-                    .join("typescript")
-                    .join("tsc"),
-            )
-            .unwrap();
+        let rel_path = input.strip_prefix(&base).unwrap();
 
         let output_dir = Path::new("tests")
             .join("tsc-references")
