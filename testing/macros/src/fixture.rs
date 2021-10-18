@@ -161,6 +161,7 @@ pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<ItemFn>, Error> {
                 #[test]
                 #[inline(never)]
                 #[ignore]
+                #[doc(hidden)]
                 fn test_ident() {
                     callee(::std::path::PathBuf::from(path_str));
                 }
