@@ -12,8 +12,7 @@ var _marked = regeneratorRuntime.mark(function() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
-                x = _defineProperty({
-                }, (yield 0), regeneratorRuntime.mark(function _callee() {
+                _ctx.t0 = regeneratorRuntime.mark(function _callee() {
                     return regeneratorRuntime.wrap(function(_ctx) {
                         for(;;)switch(_ctx.prev = _ctx.next){
                             case 0:
@@ -21,8 +20,9 @@ var _marked = regeneratorRuntime.mark(function() {
                                 return _ctx.stop();
                         }
                     }, _callee);
-                }));
-            case 1:
+                }), x = _defineProperty({
+                }, (yield 0), _ctx.t0);
+            case 2:
             case "end":
                 return _ctx.stop();
         }

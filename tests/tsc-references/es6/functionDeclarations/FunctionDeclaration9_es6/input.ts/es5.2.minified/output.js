@@ -13,9 +13,9 @@ function foo() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
-                v = _defineProperty({
-                }, (yield), foo);
-            case 1:
+                _ctx.t0 = foo, v = _defineProperty({
+                }, (yield), _ctx.t0);
+            case 2:
             case "end":
                 return _ctx.stop();
         }

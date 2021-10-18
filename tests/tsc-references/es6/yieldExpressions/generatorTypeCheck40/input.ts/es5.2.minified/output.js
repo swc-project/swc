@@ -35,16 +35,16 @@ var _typeof = function(obj) {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
-                return _ctx.next = 2, 0;
-            case 2:
-                C = (function(_super) {
+                return _ctx.t0 = function(_super) {
                     "use strict";
                     function C() {
                         return _classCallCheck(this, C), _possibleConstructorReturn(this, _getPrototypeOf(C).apply(this, arguments));
                     }
                     return _inherits(C, _super), C;
-                })(_ctx.sent);
+                }, _ctx.next = 3, 0;
             case 3:
+                _ctx.t1 = _ctx.sent, C = (0, _ctx.t0)(_ctx.t1);
+            case 5:
             case "end":
                 return _ctx.stop();
         }

@@ -38,9 +38,10 @@ function _func() {
                     _ctx.next = 3;
                     return pfn;
                 case 3:
-                    b = _ctx.sent(a, a, a);
+                    _ctx.t0 = _ctx.sent;
+                    b = (0, _ctx.t0)(a, a, a);
                     after();
-                case 5:
+                case 6:
                 case "end":
                     return _ctx.stop();
             }
