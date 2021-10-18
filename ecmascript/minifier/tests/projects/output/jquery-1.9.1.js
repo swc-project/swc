@@ -567,7 +567,8 @@
         queue: function(type, data) {
             var setter = 2;
             return ("string" != typeof type && (data = type, type = "fx", setter--), arguments.length < setter) ? jQuery.queue(this[0], type) : data === undefined ? this : this.each(function() {
-                jQuery._queueHooks(this, type), "fx" === type && "inprogress" !== jQuery.queue(this, type, data)[0] && jQuery.dequeue(this, type);
+                var queue = jQuery.queue(this, type, data);
+                jQuery._queueHooks(this, type), "fx" === type && "inprogress" !== queue[0] && jQuery.dequeue(this, type);
             });
         },
         dequeue: function(type) {
@@ -659,8 +660,8 @@
         val: function(value) {
             var ret, hooks, isFunction, elem = this[0];
             return arguments.length ? (isFunction = jQuery.isFunction(value), this.each(function(i) {
-                var val;
-                1 === this.nodeType && (null == (val = isFunction ? value.call(this, i, jQuery(this).val()) : value) ? val = "" : "number" == typeof val ? val += "" : jQuery.isArray(val) && (val = jQuery.map(val, function(value) {
+                var val, self = jQuery(this);
+                1 === this.nodeType && (null == (val = isFunction ? value.call(this, i, self.val()) : value) ? val = "" : "number" == typeof val ? val += "" : jQuery.isArray(val) && (val = jQuery.map(val, function(value) {
                     return null == value ? "" : value + "";
                 })), (hooks = jQuery.valHooks[this.type] || jQuery.valHooks[this.nodeName.toLowerCase()]) && "set" in hooks && undefined !== hooks.set(this, val, "value") || (this.value = val));
             })) : elem ? (hooks = jQuery.valHooks[elem.type] || jQuery.valHooks[elem.nodeName.toLowerCase()]) && "get" in hooks && undefined !== (ret = hooks.get(elem, "value")) ? ret : "string" == typeof (ret = elem.value) ? ret.replace(rreturn, "") : null == ret ? "" : ret : void 0;

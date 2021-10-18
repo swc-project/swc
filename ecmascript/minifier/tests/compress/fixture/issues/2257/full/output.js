@@ -2723,8 +2723,8 @@
             };
         },
         23140: function(module, __unused_webpack_exports, __webpack_require__) {
-            var wellKnownSymbol = __webpack_require__(81019), create = __webpack_require__(18255), UNSCOPABLES = wellKnownSymbol("unscopables"), ArrayPrototype = Array.prototype;
-            void 0 == ArrayPrototype[UNSCOPABLES] && __webpack_require__(94770).f(ArrayPrototype, UNSCOPABLES, {
+            var wellKnownSymbol = __webpack_require__(81019), create = __webpack_require__(18255), definePropertyModule = __webpack_require__(94770), UNSCOPABLES = wellKnownSymbol("unscopables"), ArrayPrototype = Array.prototype;
+            void 0 == ArrayPrototype[UNSCOPABLES] && definePropertyModule.f(ArrayPrototype, UNSCOPABLES, {
                 configurable: !0,
                 value: create(null)
             }), module.exports = function(key) {
@@ -5790,8 +5790,8 @@
         },
         23172: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var isCallable = __webpack_require__(67106), isObject = __webpack_require__(39817), getPrototypeOf = __webpack_require__(39311), HAS_INSTANCE = __webpack_require__(81019)("hasInstance"), FunctionPrototype = Function.prototype;
-            HAS_INSTANCE in FunctionPrototype || __webpack_require__(94770).f(FunctionPrototype, HAS_INSTANCE, {
+            var isCallable = __webpack_require__(67106), isObject = __webpack_require__(39817), definePropertyModule = __webpack_require__(94770), getPrototypeOf = __webpack_require__(39311), wellKnownSymbol = __webpack_require__(81019), HAS_INSTANCE = wellKnownSymbol("hasInstance"), FunctionPrototype = Function.prototype;
+            HAS_INSTANCE in FunctionPrototype || definePropertyModule.f(FunctionPrototype, HAS_INSTANCE, {
                 value: function(O) {
                     if (!isCallable(this) || !isObject(O)) return !1;
                     if (!isObject(this.prototype)) return O instanceof this;
@@ -8418,14 +8418,14 @@
         },
         74445: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var InternalWeakMap, global = __webpack_require__(19514), redefineAll = __webpack_require__(59855), collection = __webpack_require__(6807), collectionWeak = __webpack_require__(85653), isObject = __webpack_require__(39817), enforceIternalState = __webpack_require__(44670).enforce, NATIVE_WEAK_MAP = __webpack_require__(83165), IS_IE11 = !global.ActiveXObject && "ActiveXObject" in global, isExtensible = Object.isExtensible, wrapper = function(init) {
+            var InternalWeakMap, global = __webpack_require__(19514), redefineAll = __webpack_require__(59855), InternalMetadataModule = __webpack_require__(19322), collection = __webpack_require__(6807), collectionWeak = __webpack_require__(85653), isObject = __webpack_require__(39817), enforceIternalState = __webpack_require__(44670).enforce, NATIVE_WEAK_MAP = __webpack_require__(83165), IS_IE11 = !global.ActiveXObject && "ActiveXObject" in global, isExtensible = Object.isExtensible, wrapper = function(init) {
                 return function() {
                     return init(this, arguments.length ? arguments[0] : void 0);
                 };
-            };
+            }, $WeakMap = module.exports = collection("WeakMap", wrapper, collectionWeak);
             if (NATIVE_WEAK_MAP && IS_IE11) {
-                InternalWeakMap = collectionWeak.getConstructor(wrapper, "WeakMap", !0), __webpack_require__(19322).enable();
-                var WeakMapPrototype = (module.exports = collection("WeakMap", wrapper, collectionWeak)).prototype, nativeDelete = WeakMapPrototype.delete, nativeHas = WeakMapPrototype.has, nativeGet = WeakMapPrototype.get, nativeSet = WeakMapPrototype.set;
+                InternalWeakMap = collectionWeak.getConstructor(wrapper, "WeakMap", !0), InternalMetadataModule.enable();
+                var WeakMapPrototype = $WeakMap.prototype, nativeDelete = WeakMapPrototype.delete, nativeHas = WeakMapPrototype.has, nativeGet = WeakMapPrototype.get, nativeSet = WeakMapPrototype.set;
                 redefineAll(WeakMapPrototype, {
                     "delete": function(key) {
                         if (isObject(key) && !isExtensible(key)) {
