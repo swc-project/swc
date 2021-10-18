@@ -7,6 +7,7 @@ async function f() {
     try {
         throw new 'Real error'
     } catch (e) {
+        console.log(e.message);
         try {
             throw 'Test'
         } catch (e) {
