@@ -5,5 +5,5 @@ var _class = function() {
     }(this, _class);
 };
 export { _class as default };
-export default function _callee() {
+export default function() {
 };
