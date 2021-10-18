@@ -36,7 +36,7 @@ impl Parse for Config {
                             }};
                             ($inner:expr) => {{
                                 panic!(
-                                    "{}\nnote: exclude() expectes one or more comma-separated \
+                                    "{}\nnote: exclude() expects one or more comma-separated \
              regular expressions, like exclude(\".*\\\\.d\\\\.ts\") or \
              exclude(\".*\\\\.d\\\\.ts\", \".*\\\\.tsx\")",
                                     $inner
@@ -45,7 +45,7 @@ impl Parse for Config {
                         }
 
                         if list.nested.is_empty() {
-                            fail!("empty exlclude()")
+                            fail!("empty exclude()")
                         }
 
                         for token in list.nested.iter() {
@@ -77,7 +77,7 @@ impl Parse for Config {
             let expected = r#"#[fixture("fixture/**/*.ts", exclude("*\.d\.ts"))]"#;
 
             unimplemented!(
-                "Exected something like {}\nGot wrong meta tag: {:?}",
+                "Expected something like {}\nGot wrong meta tag: {:?}",
                 expected,
                 meta,
             )

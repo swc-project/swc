@@ -14,4 +14,4 @@ fn ignored(_path: PathBuf) {}
 fn multiple(_path: PathBuf) {}
 
 #[fixture("tests/simple/**/*", exclude(".*\\.tsx", ".*.d\\.ts"))]
-fn exlucde(_path: PathBuf) {}
+fn exclude(_path: PathBuf) {}
