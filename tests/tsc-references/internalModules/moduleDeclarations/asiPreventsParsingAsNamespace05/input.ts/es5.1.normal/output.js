@@ -1,0 +1,1 @@
+var namespace = 10;
