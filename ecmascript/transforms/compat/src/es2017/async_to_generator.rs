@@ -959,6 +959,37 @@ impl Fold for AsyncFnBodyHandler {
     }
 }
 
+#[derive(Default)]
+struct ShouldWork {
+    found: bool,
+}
+
+impl Visit for ShouldWork {
+    noop_visit_type!();
+
+    fn visit_function(&mut self, f: &Function, _: &dyn Node) {
+        if f.is_async {
+            self.found = true;
+            return;
+        }
+        f.visit_children_with(self);
+    }
+
+    fn visit_arrow_expr(&mut self, f: &ArrowExpr, _: &dyn Node) {
+        if f.is_async {
+            self.found = true;
+            return;
+        }
+        f.visit_children_with(self);
+    }
+}
+
+impl Check for ShouldWork {
+    fn should_handle(&self) -> bool {
+        self.found
+    }
+}
+
 fn extract_callee_of_bind_this(n: &mut CallExpr) -> Option<&mut Expr> {
     if n.args.len() != 1 {
         return None;
@@ -1329,35 +1360,4 @@ fn handle_await_for(stmt: Stmt) -> Stmt {
         span: s.span,
         stmts,
     })
-}
-
-#[derive(Default)]
-struct ShouldWork {
-    found: bool,
-}
-
-impl Visit for ShouldWork {
-    noop_visit_type!();
-
-    fn visit_function(&mut self, f: &Function, _: &dyn Node) {
-        if f.is_async {
-            self.found = true;
-            return;
-        }
-        f.visit_children_with(self);
-    }
-
-    fn visit_arrow_expr(&mut self, f: &ArrowExpr, _: &dyn Node) {
-        if f.is_async {
-            self.found = true;
-            return;
-        }
-        f.visit_children_with(self);
-    }
-}
-
-impl Check for ShouldWork {
-    fn should_handle(&self) -> bool {
-        self.found
-    }
 }

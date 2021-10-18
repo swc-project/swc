@@ -6,7 +6,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{
     contains_this_expr, prepend, private_ident, quote_ident, quote_str, ExprFactory, StmtLike,
 };
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 mod case;
 mod hoist;
@@ -52,8 +52,12 @@ impl Regenerator {
     fn fold_stmt_like<T>(&mut self, items: Vec<T>) -> Vec<T>
     where
         T: FoldWith<Self> + StmtLike,
-        Vec<T>: FoldWith<Self>,
+        Vec<T>: FoldWith<Self> + VisitWith<Finder>,
     {
+        if !Finder::find(&items) {
+            return items;
+        }
+
         let mut new = Vec::with_capacity(items.len() + 2);
 
         for item in items {
@@ -83,6 +87,10 @@ impl Fold for Regenerator {
     noop_fold_type!();
 
     fn fold_expr(&mut self, e: Expr) -> Expr {
+        if !Finder::find(&e) {
+            return e;
+        }
+
         let e: Expr = e.fold_children_with(self);
 
         match e {
@@ -115,13 +123,17 @@ impl Fold for Regenerator {
     }
 
     fn fold_fn_decl(&mut self, f: FnDecl) -> FnDecl {
+        if !Finder::find(&f) {
+            return f;
+        }
+
+        if self.regenerator_runtime.is_none() {
+            self.regenerator_runtime = Some(private_ident!("regeneratorRuntime"));
+        }
+
         let f = f.fold_children_with(self);
 
         if f.function.is_generator {
-            if self.regenerator_runtime.is_none() {
-                self.regenerator_runtime = Some(private_ident!("regeneratorRuntime"));
-            }
-
             let marked = private_ident!("_marked");
 
             self.top_level_vars.push(VarDeclarator {
@@ -175,6 +187,10 @@ impl Fold for Regenerator {
     }
 
     fn fold_module_decl(&mut self, i: ModuleDecl) -> ModuleDecl {
+        if !Finder::find(&i) {
+            return i;
+        }
+
         let i = i.fold_children_with(self);
 
         match i {
@@ -503,5 +519,30 @@ impl Fold for FnSentVisitor {
         }
 
         e
+    }
+}
+
+/// Finds a generator function
+struct Finder {
+    found: bool,
+}
+
+impl Finder {
+    fn find<T: VisitWith<Self>>(node: &T) -> bool {
+        let mut v = Finder { found: false };
+        node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+        v.found
+    }
+}
+
+impl Visit for Finder {
+    noop_visit_type!();
+
+    fn visit_function(&mut self, node: &Function, _: &dyn Node) {
+        if node.is_generator {
+            self.found = true;
+            return;
+        }
+        node.visit_children_with(self);
     }
 }
