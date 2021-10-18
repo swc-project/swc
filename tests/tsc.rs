@@ -1,3 +1,4 @@
+use serde::de::DeserializeOwned;
 use std::{
     fs::create_dir_all,
     path::{Path, PathBuf},
@@ -41,36 +42,45 @@ fn fixture(input: PathBuf) {
     }
 }
 
+fn from_json<T>(s: &str) -> T
+where
+    T: DeserializeOwned,
+{
+    serde_json::from_str(s).unwrap()
+}
+
 fn matrix() -> Vec<(String, Options)> {
-    let targets = vec![
-        EsVersion::Es5,
-        EsVersion::Es2015,
-        EsVersion::Es2016,
-        EsVersion::Es2017,
-        EsVersion::Es2018,
-        EsVersion::Es2019,
-        EsVersion::Es2020,
-        EsVersion::Es2021,
-    ];
+    // If we use `es5` as target, we can also verify es2015+ transforms.
+    let targets = vec![EsVersion::Es5];
 
     let mut res = vec![];
 
     for target in targets {
-        let opts = Options {
-            config: Config {
-                jsc: JscConfig {
-                    target: Some(target),
+        for minify in vec![true, false] {
+            let opts = Options {
+                config: Config {
+                    jsc: JscConfig {
+                        target: Some(target),
+                        minify: if minify {
+                            Some(from_json("{ \"compress\": true, \"mangle\": false }"))
+                        } else {
+                            None
+                        },
+                        ..Default::default()
+                    },
                     ..Default::default()
                 },
                 ..Default::default()
-            },
-            ..Default::default()
-        };
+            };
 
-        let s = serde_json::to_string(&target).unwrap().replace('"', "");
+            let s = serde_json::to_string(&target).unwrap().replace('"', "");
 
-        res.push((format!("{}.1.normal", s), Options { ..opts.clone() }));
-        res.push((format!("{}.2.minified", s), Options { ..opts.clone() }));
+            if minify {
+                res.push((format!("{}.2.minified", s), opts));
+            } else {
+                res.push((format!("{}.1.normal", s), opts));
+            }
+        }
     }
 
     res
