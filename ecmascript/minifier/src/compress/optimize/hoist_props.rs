@@ -127,6 +127,7 @@ where
                                 && v.has_property_access
                                 && v.is_fn_local
                                 && !v.used_in_loop
+                                && !v.used_in_cond
                         })
                     })
                     .unwrap_or(false)
