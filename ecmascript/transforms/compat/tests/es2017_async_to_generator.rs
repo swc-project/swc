@@ -2706,7 +2706,11 @@ fn exec_regenerator(input: PathBuf) {
         |_| {
             let top_level_mark = Mark::fresh(Mark::root());
 
-            chain!(async_to_generator(), regenerator(top_level_mark))
+            chain!(
+                async_to_generator(),
+                es2015::for_of(Default::default()),
+                regenerator(top_level_mark)
+            )
         },
         &input,
     );

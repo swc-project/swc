@@ -38,16 +38,16 @@ export function strategy(stratName, gen) {
             }
         }, _callee, null, [
             [
-                18,
-                ,
-                20,
-                24
-            ],
-            [
                 1,
                 13,
                 17,
                 25
+            ],
+            [
+                18,
+                ,
+                20,
+                24
             ]
         ]);
     });
