@@ -495,12 +495,21 @@ impl CaseHandler<'_> {
             }
 
             Expr::New(e) => {
-                let callee = e.callee.map(|e| self.explode_expr(e, false));
+                let callee = e
+                    .callee
+                    .map(|e| self.explode_expr_via_temp_var(None, has_leaping_children, e, false));
                 let args = if let Some(args) = e.args {
                     Some(
                         args.into_iter()
                             .map(|arg| ExprOrSpread {
-                                expr: arg.expr.map(|e| self.explode_expr(e, false)),
+                                expr: arg.expr.map(|e| {
+                                    self.explode_expr_via_temp_var(
+                                        None,
+                                        has_leaping_children,
+                                        e,
+                                        false,
+                                    )
+                                }),
                                 ..arg
                             })
                             .collect(),
@@ -526,11 +535,25 @@ impl CaseHandler<'_> {
                                     | Prop::Getter(_)
                                     | Prop::Shorthand(_) => p,
                                     Prop::KeyValue(p) => Prop::KeyValue(KeyValueProp {
-                                        value: p.value.map(|e| self.explode_expr(e, false)),
+                                        value: p.value.map(|e| {
+                                            self.explode_expr_via_temp_var(
+                                                None,
+                                                has_leaping_children,
+                                                e,
+                                                false,
+                                            )
+                                        }),
                                         ..p
                                     }),
                                     Prop::Assign(p) => Prop::Assign(AssignProp {
-                                        value: p.value.map(|e| self.explode_expr(e, false)),
+                                        value: p.value.map(|e| {
+                                            self.explode_expr_via_temp_var(
+                                                None,
+                                                has_leaping_children,
+                                                e,
+                                                false,
+                                            )
+                                        }),
                                         ..p
                                     }),
                                 }))
