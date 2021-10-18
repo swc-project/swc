@@ -62,7 +62,10 @@ fn matrix() -> Vec<(String, Options)> {
                     jsc: JscConfig {
                         target: Some(target),
                         minify: if minify {
-                            Some(from_json("{ \"compress\": true, \"mangle\": false }"))
+                            Some(from_json(
+                                "{ \"compress\": { \"toplevel\": true }, \"mangle\": false, \
+                                 \"toplevel\": true }",
+                            ))
                         } else {
                             None
                         },
