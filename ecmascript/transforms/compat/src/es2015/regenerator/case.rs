@@ -357,7 +357,9 @@ impl CaseHandler<'_> {
                     _ => me.obj,
                 };
                 let prop = if me.computed {
-                    me.prop.map(|prop| self.explode_expr(prop, false))
+                    me.prop.map(|prop| {
+                        self.explode_expr_via_temp_var(None, has_leaping_children, prop, false)
+                    })
                 } else {
                     me.prop
                 };
@@ -374,7 +376,7 @@ impl CaseHandler<'_> {
                 let has_leaping_args = args.iter().any(|t| contains_leap(t));
                 let mut new_args = vec![];
 
-                let callee = match callee {
+                let new_callee = match callee {
                     ExprOrSuper::Expr(e) if e.is_member() => {
                         let me = match *e {
                             Expr::Member(me) => me,
@@ -389,14 +391,21 @@ impl CaseHandler<'_> {
                             // member expression still gets bound to `this` for the call.
 
                             let obj = match me.obj {
-                                ExprOrSuper::Expr(e) => {
-                                    ExprOrSuper::Expr(e.map(|e| self.explode_expr(e, false)))
-                                }
+                                ExprOrSuper::Expr(e) => ExprOrSuper::Expr(e.map(|e| {
+                                    let var = self.make_var();
+                                    self.explode_expr_via_temp_var(
+                                        Some(var),
+                                        has_leaping_children,
+                                        e,
+                                        false,
+                                    )
+                                })),
                                 _ => me.obj,
                             };
 
                             let prop = if me.computed {
-                                me.prop.map(|e| self.explode_expr(e, false))
+                                me.prop
+                                    .map(|e| self.explode_expr_via_temp_var(None, false, e, false))
                             } else {
                                 me.prop
                             };
@@ -425,7 +434,12 @@ impl CaseHandler<'_> {
 
                     ExprOrSuper::Expr(callee) => {
                         let callee = *callee;
-                        let callee = self.explode_expr(callee, false);
+                        let callee = self.explode_expr_via_temp_var(
+                            None,
+                            has_leaping_children,
+                            callee,
+                            false,
+                        );
 
                         let callee = match callee {
                             Expr::Member(..) => {
@@ -463,7 +477,9 @@ impl CaseHandler<'_> {
 
                 if has_leaping_args {
                     new_args.extend(args.into_iter().map(|arg| ExprOrSpread {
-                        expr: arg.expr.map(|e| self.explode_expr(e, false)),
+                        expr: arg.expr.map(|e| {
+                            self.explode_expr_via_temp_var(None, has_leaping_children, e, false)
+                        }),
                         ..arg
                     }));
                 } else {
@@ -472,7 +488,7 @@ impl CaseHandler<'_> {
 
                 finish!(Expr::Call(CallExpr {
                     span,
-                    callee,
+                    callee: new_callee,
                     args: new_args,
                     type_args
                 }))
