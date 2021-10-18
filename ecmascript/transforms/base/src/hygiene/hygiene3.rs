@@ -14,7 +14,7 @@ pub fn hygiene3() -> impl Fold + VisitMut {
     as_folder(chain!(unique_scope(), Renamer::default()))
 }
 
-/// While visiing identifiers, we check if it will be resolved as a correct
+/// While visiting identifiers, we check if it will be resolved as a correct
 /// variable, and skip if it's the case.
 #[derive(Debug, Default)]
 struct Renamer {}
