@@ -1147,7 +1147,7 @@ impl SourceMap {
 
             let mut name_idx = None;
 
-            for name in config.name_for_bytepos(pos) {
+            if let Some(name) = config.name_for_bytepos(pos) {
                 name_idx = Some(builder.add_name(name))
             }
 
