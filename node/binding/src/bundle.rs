@@ -120,7 +120,7 @@ impl Task for BundleTask {
                             codegen_target,
                             SourceMapsConfig::Bool(true),
                             // TODO
-                            &[],
+                            &Default::default(),
                             None,
                             minify,
                             None,
