@@ -1,8 +1,11 @@
 use std::{iter, mem};
 use swc_common::{chain, util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{helper, helper_expr, perf::Parallel};
-use swc_ecma_transforms_macros::parallel;
+use swc_ecma_transforms_base::{
+    helper, helper_expr,
+    perf::{Check, Parallel},
+};
+use swc_ecma_transforms_macros::{fast_path, parallel};
 use swc_ecma_utils::{
     alias_ident_for, alias_if_required, is_literal, private_ident, quote_ident, var::VarCollector,
     ExprFactory, StmtLike,
@@ -142,6 +145,7 @@ macro_rules! impl_for_for_stmt {
     };
 }
 
+#[derive(Default)]
 struct RestVisitor {
     found: bool,
 }
@@ -157,6 +161,12 @@ impl Visit for RestVisitor {
     }
 }
 
+impl Check for RestVisitor {
+    fn should_handle(&self) -> bool {
+        self.found
+    }
+}
+
 fn contains_rest<N>(node: &N) -> bool
 where
     N: VisitWith<RestVisitor>,
@@ -167,6 +177,7 @@ where
 }
 
 /// TODO: VisitMut
+#[fast_path(RestVisitor)]
 impl Fold for ObjectRest {
     noop_fold_type!();
 

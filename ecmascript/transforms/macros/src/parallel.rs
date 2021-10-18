@@ -28,10 +28,10 @@ pub fn expand(attr: TokenStream, mut item: ItemImpl) -> ItemImpl {
         mode,
         "module_items",
         explode,
-        8,
+        64,
     )));
     item.items.push(ImplItem::Method(make_par_visit_method(
-        mode, "stmts", explode, 7,
+        mode, "stmts", explode, 64,
     )));
 
     item
@@ -104,7 +104,7 @@ fn make_par_visit_method(
                 explode_method_name,
             },
             {
-                fn method_name(&mut self, nodes: Vec<NodeType>) -> Vec<NodeType> {
+                fn method_name(&mut self, mut nodes: Vec<NodeType>) -> Vec<NodeType> {
                     use swc_ecma_transforms_base::perf::{ParExplode, Parallel};
                     use swc_ecma_visit::FoldWith;
 
@@ -126,7 +126,7 @@ fn make_par_visit_method(
                                                             let mut visitor =
                                                                 Parallel::create(&*self);
                                                             let node = node.fold_with(&mut visitor);
-                                                            let mut nodes = vec![];
+                                                            let mut nodes = Vec::with_capacity(4);
 
                                                             ParExplode::explode_method_name(
                                                                 &mut visitor,
@@ -155,11 +155,11 @@ fn make_par_visit_method(
                             })
                         });
 
+                        Parallel::merge(self, visitor);
+
                         {
                             hook;
                         }
-
-                        Parallel::merge(self, visitor);
 
                         return nodes;
                     }
@@ -173,7 +173,12 @@ fn make_par_visit_method(
                         buf.push(node);
                     }
 
-                    buf
+                    let mut nodes = buf;
+                    {
+                        hook;
+                    }
+
+                    nodes
                 }
             }
         )
@@ -240,16 +245,21 @@ fn make_par_visit_method(
                             })
                         });
 
+                        Parallel::merge(self, visitor);
+
                         {
                             hook;
                         }
 
-                        Parallel::merge(self, visitor);
-
                         return nodes;
                     }
 
-                    nodes.fold_children_with(self)
+                    let mut nodes = nodes.fold_children_with(self);
+                    {
+                        hook;
+                    }
+
+                    nodes
                 }
             }
         )
@@ -288,7 +298,7 @@ fn make_par_visit_method(
                                                                 Parallel::create(&*self);
                                                             node.visit_mut_with(&mut visitor);
 
-                                                            let mut nodes = vec![];
+                                                            let mut nodes = Vec::with_capacity(4);
 
                                                             ParExplode::explode_method_name(
                                                                 &mut visitor,
@@ -314,11 +324,11 @@ fn make_par_visit_method(
                                             },
                                         );
 
+                                    Parallel::merge(self, visitor);
+
                                     {
                                         hook;
                                     }
-
-                                    Parallel::merge(self, visitor);
 
                                     *nodes = new_nodes;
                                 })
@@ -338,6 +348,10 @@ fn make_par_visit_method(
                     }
 
                     *nodes = buf;
+
+                    {
+                        hook;
+                    }
                 }
             }
         )
@@ -389,11 +403,11 @@ fn make_par_visit_method(
                                             },
                                         );
 
+                                    Parallel::merge(self, visitor);
+
                                     {
                                         hook;
                                     }
-
-                                    Parallel::merge(self, visitor);
                                 })
                             })
                         });
@@ -402,6 +416,9 @@ fn make_par_visit_method(
                     }
 
                     nodes.visit_mut_children_with(self);
+                    {
+                        hook;
+                    }
                 }
             }
         )
