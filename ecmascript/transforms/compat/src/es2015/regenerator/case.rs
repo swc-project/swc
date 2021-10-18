@@ -595,7 +595,14 @@ impl CaseHandler<'_> {
                 SeqExpr { exprs, ..e }.into()
             }
 
-            Expr::Bin(e) if e.op == op!("&&") || e.op == op!("||") => {
+            Expr::Bin(
+                e
+                @
+                BinExpr {
+                    op: op!("&&") | op!("||"),
+                    ..
+                },
+            ) => {
                 let span = e.span;
                 let op = e.op;
 
