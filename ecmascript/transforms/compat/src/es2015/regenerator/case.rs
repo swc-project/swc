@@ -694,8 +694,12 @@ impl CaseHandler<'_> {
 
             Expr::Bin(e) => {
                 let expr = Expr::Bin(BinExpr {
-                    left: e.left.map(|e| self.explode_expr(e, false)),
-                    right: e.right.map(|e| self.explode_expr(e, false)),
+                    left: e.left.map(|e| {
+                        self.explode_expr_via_temp_var(None, has_leaping_children, e, false)
+                    }),
+                    right: e.right.map(|e| {
+                        self.explode_expr_via_temp_var(None, has_leaping_children, e, false)
+                    }),
                     ..e
                 });
 
