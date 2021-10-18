@@ -3,10 +3,10 @@ use std::mem;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{ext::ExprRefExt, helper};
+use swc_ecma_transforms_base::{ext::ExprRefExt, helper, perf::Parallel};
+use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{
     alias_ident_for, is_literal, member_expr, prepend, quote_ident, undefined, ExprFactory,
-    StmtLike,
 };
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
@@ -30,17 +30,51 @@ struct Spread {
     vars: Vec<VarDeclarator>,
 }
 
+impl Parallel for Spread {
+    fn create(&self) -> Self {
+        Spread {
+            c: self.c,
+            vars: Default::default(),
+        }
+    }
+
+    fn merge(&mut self, other: Self) {
+        self.vars.extend(other.vars);
+    }
+
+    fn after_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        if !self.vars.is_empty() {
+            prepend(
+                stmts,
+                Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: self.vars.take(),
+                })),
+            )
+        }
+    }
+
+    fn after_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
+        if !self.vars.is_empty() {
+            prepend(
+                stmts,
+                ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: self.vars.take(),
+                }))),
+            );
+        }
+    }
+}
+
 /// TODO: VisitMut
+#[parallel]
 impl Fold for Spread {
     noop_fold_type!();
-
-    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        self.fold_stmt_like(n)
-    }
-
-    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
-        self.fold_stmt_like(n)
-    }
 
     fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = e.fold_children_with(self);
@@ -193,33 +227,6 @@ impl Fold for Spread {
             }
             _ => e,
         }
-    }
-}
-
-impl Spread {
-    fn fold_stmt_like<T>(&mut self, items: Vec<T>) -> Vec<T>
-    where
-        T: StmtLike,
-        Vec<T>: FoldWith<Self>,
-    {
-        let orig = self.vars.take();
-
-        let mut items = items.fold_children_with(self);
-        if !self.vars.is_empty() {
-            prepend(
-                &mut items,
-                T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    declare: false,
-                    decls: self.vars.take(),
-                }))),
-            );
-        }
-
-        self.vars = orig;
-
-        items
     }
 }
 
