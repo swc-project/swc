@@ -3,12 +3,13 @@ use std::mem;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{ext::ExprRefExt, helper};
+use swc_ecma_transforms_base::{ext::ExprRefExt, helper, perf::Check};
+use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
     alias_ident_for, is_literal, member_expr, prepend, quote_ident, undefined, ExprFactory,
     StmtLike,
 };
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 pub fn spread(c: Config) -> impl Fold {
     Spread {
@@ -31,6 +32,7 @@ struct Spread {
 }
 
 /// TODO: VisitMut
+#[fast_path(SpreadFinder)]
 impl Fold for Spread {
     noop_fold_type!();
 
@@ -445,4 +447,25 @@ fn expand_literal_args(
     let mut buf = Vec::with_capacity(args.len() + 4);
     expand(&mut buf, args);
     buf
+}
+
+#[derive(Default)]
+struct SpreadFinder {
+    found: bool,
+}
+
+impl Visit for SpreadFinder {
+    noop_visit_type!();
+
+    fn visit_expr_or_spread(&mut self, n: &ExprOrSpread, _: &dyn Node) {
+        n.visit_children_with(self);
+
+        self.found |= n.spread.is_some();
+    }
+}
+
+impl Check for SpreadFinder {
+    fn should_handle(&self) -> bool {
+        self.found
+    }
 }
