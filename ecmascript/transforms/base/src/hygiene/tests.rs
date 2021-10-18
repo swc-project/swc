@@ -1623,11 +1623,9 @@ fn issue_2297_1() {
     );
 }
 
-/// `var` has strnage scoping rule.
+/// `var` has strange scoping rule.
 #[test]
 fn var_awareness_1() {
-#[test]
-fn next_js_0001() {
     test(
         |tester| {
             let mark1 = Mark::fresh(Mark::root());
