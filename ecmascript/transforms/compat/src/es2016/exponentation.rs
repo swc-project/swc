@@ -1,7 +1,11 @@
 use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::PatOrExprExt;
-use swc_ecma_utils::{member_expr, private_ident, ExprFactory, StmtLike};
+use swc_ecma_transforms_base::{
+    ext::PatOrExprExt,
+    perf::{ParExplode, Parallel},
+};
+use swc_ecma_transforms_macros::parallel;
+use swc_ecma_utils::{member_expr, private_ident, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 /// `@babel/plugin-transform-exponentiation-operator`
@@ -32,16 +36,43 @@ struct Exponentation {
     vars: Vec<VarDeclarator>,
 }
 
+impl Parallel for Exponentation {
+    fn create(&self) -> Self {
+        Self::default()
+    }
+
+    fn merge(&mut self, other: Self) {
+        self.vars.extend(other.vars);
+    }
+}
+
+impl ParExplode for Exponentation {
+    fn after_one_stmt(&mut self, stmts: &mut Vec<Stmt>) {
+        if !self.vars.is_empty() {
+            stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                decls: self.vars.take(),
+                declare: false,
+            })));
+        }
+    }
+
+    fn after_one_module_item(&mut self, stmts: &mut Vec<ModuleItem>) {
+        if !self.vars.is_empty() {
+            stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                decls: self.vars.take(),
+                declare: false,
+            }))));
+        }
+    }
+}
+
+#[parallel(explode)]
 impl VisitMut for Exponentation {
     noop_visit_mut_type!();
-
-    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        self.visit_mut_stmt_like(n)
-    }
-
-    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
-        self.visit_mut_stmt_like(n)
-    }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
@@ -93,39 +124,6 @@ impl VisitMut for Exponentation {
             }
             _ => {}
         }
-    }
-}
-
-impl Exponentation {
-    fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
-    where
-        T: StmtLike + VisitMutWith<Self>,
-        Vec<T>: VisitMutWith<Self>,
-    {
-        let orig = self.vars.take();
-
-        let mut buf = Vec::with_capacity(stmts.len());
-
-        for mut stmt in stmts.take() {
-            stmt.visit_mut_with(self);
-
-            // Add variable declaration
-            // e.g. var ref
-            if !self.vars.is_empty() {
-                buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    decls: self.vars.take(),
-                    declare: false,
-                }))));
-            }
-
-            buf.push(stmt);
-        }
-
-        self.vars = orig;
-
-        *stmts = buf
     }
 }
 

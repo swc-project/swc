@@ -8,8 +8,9 @@ use self::{
 use std::iter;
 use swc_common::{comments::Comments, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{helper, native::is_native};
+use swc_ecma_transforms_base::{helper, native::is_native, perf::Check};
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
+use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
     alias_if_required, default_constructor, prepend, private_ident, prop_name_to_expr, quote_expr,
     quote_ident, quote_str, ExprFactory, IsDirective, ModuleItemLike, StmtLike,
@@ -179,6 +180,7 @@ where
 }
 
 /// TODO: VisitMut
+#[fast_path(ClassFinder)]
 impl<C> Fold for Classes<C>
 where
     C: Comments,
@@ -930,4 +932,23 @@ fn escape_keywords(mut e: Box<Expr>) -> Box<Expr> {
     }
 
     e
+}
+
+#[derive(Default)]
+struct ClassFinder {
+    found: bool,
+}
+
+impl Visit for ClassFinder {
+    noop_visit_type!();
+
+    fn visit_class(&mut self, _: &Class, _: &dyn Node) {
+        self.found = true
+    }
+}
+
+impl Check for ClassFinder {
+    fn should_handle(&self) -> bool {
+        self.found
+    }
 }
