@@ -570,12 +570,14 @@ impl CaseHandler<'_> {
             Expr::Array(arr) => {
                 let elems = arr.elems.move_map(|opt| {
                     opt.map(|elem| ExprOrSpread {
-                        expr: elem.expr.map(|e| self.explode_expr(e, false)),
+                        expr: elem.expr.map(|e| {
+                            self.explode_expr_via_temp_var(None, has_leaping_children, e, false)
+                        }),
                         ..elem
                     })
                 });
 
-                ArrayLit { elems, ..arr }.into()
+                finish!(Expr::Array(ArrayLit { elems, ..arr }))
             }
 
             Expr::Seq(e) => {
