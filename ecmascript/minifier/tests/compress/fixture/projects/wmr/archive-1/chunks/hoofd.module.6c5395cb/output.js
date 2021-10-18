@@ -36,7 +36,11 @@ var isServerSide = "undefined" == typeof document, META = "M", TITLE = "T", LINK
                     var newMeta = metaQueue.find(function(m) {
                         return m.keyword === oldMeta.keyword && (m.charset || m[m.keyword] === oldMeta[m.keyword]);
                     });
-                    newMeta ? changeOrCreateMetaTag(newMeta) : document.head.removeChild(document.head.querySelectorAll(oldMeta.charset ? "meta[" + oldMeta.keyword + "]" : "meta[" + oldMeta.keyword + "=\"" + oldMeta[oldMeta.keyword] + "\"]")[0]);
+                    if (newMeta) changeOrCreateMetaTag(newMeta);
+                    else {
+                        var result = document.head.querySelectorAll(oldMeta.charset ? "meta[" + oldMeta.keyword + "]" : "meta[" + oldMeta.keyword + "=\"" + oldMeta[oldMeta.keyword] + "\"]");
+                        document.head.removeChild(result[0]);
+                    }
                 }
             }
         },
@@ -69,14 +73,15 @@ var isServerSide = "undefined" == typeof document, META = "M", TITLE = "T", LINK
         }
     };
 }, defaultDispatcher = createDispatcher(), DispatcherContext = D(defaultDispatcher), useLang = function(language) {
-    isServerSide && F(DispatcherContext)._setLang(language), y(function() {
+    var dispatcher = F(DispatcherContext);
+    isServerSide && dispatcher._setLang(language), y(function() {
         document.getElementsByTagName("html")[0].setAttribute("lang", language);
     }, [
         language, 
     ]);
 }, useLink = function(options) {
-    var hasMounted = s(!1), node = s(), originalOptions = s();
-    isServerSide && !hasMounted.current && F(DispatcherContext)._addToQueue(LINK, options), y(function() {
+    var dispatcher = F(DispatcherContext), hasMounted = s(!1), node = s(), originalOptions = s();
+    isServerSide && !hasMounted.current && dispatcher._addToQueue(LINK, options), y(function() {
         hasMounted.current && Object.keys(options).forEach(function(key) {
             node.current.setAttribute(key, options[key]);
         });
