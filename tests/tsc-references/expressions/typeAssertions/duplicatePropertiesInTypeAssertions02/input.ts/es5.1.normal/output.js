@@ -1,0 +1,3 @@
+// @declaration: true
+var x = {
+};

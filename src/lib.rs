@@ -9,11 +9,11 @@
 //!
 //! ## Dependency version management
 //!
-//! `swc` has [swc_emcascript](https://docs.rs/swc_emcascript) and [swc_css](https://docs.rs/swc_css), which re-exports required modules.
+//! `swc` has [swc_ecmascript](https://docs.rs/swc_emcascript) and [swc_css](https://docs.rs/swc_css), which re-exports required modules.
 //!
 //! ## Testing
 //!
-//! See [testing] and [swc_ecmc_transform_testing](https://docs.rs/swc_ecmc_transform_testing).
+//! See [testing] and [swc_ecma_transform_testing](https://docs.rs/swc_ecmc_transform_testing).
 //!
 //! ## Custom javascript transforms
 //!
@@ -544,7 +544,7 @@ impl Compiler {
                         .context("failed to emit module")?;
                 }
                 // Invalid utf8 is valid in javascript world.
-                String::from_utf8(buf).expect("invalid utf8 characeter detected")
+                String::from_utf8(buf).expect("invalid utf8 character detected")
             };
             let (code, map) = match source_map {
                 SourceMapsConfig::Bool(v) => {
