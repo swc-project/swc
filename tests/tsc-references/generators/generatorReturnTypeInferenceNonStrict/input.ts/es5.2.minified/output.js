@@ -169,10 +169,10 @@ var _marked = regeneratorRuntime.mark(function() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
-                return _ctx.next = 2, 1;
-            case 2:
-                x = f2(_ctx.sent);
+                return _ctx.t0 = f2, _ctx.next = 3, 1;
             case 3:
+                _ctx.t1 = _ctx.sent, x = (0, _ctx.t0)(_ctx.t1);
+            case 5:
             case "end":
                 return _ctx.stop();
         }
@@ -182,10 +182,10 @@ var _marked = regeneratorRuntime.mark(function() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
-                return _ctx.next = 2, 1;
-            case 2:
-                x = f1(_ctx.sent);
+                return _ctx.t0 = f1, _ctx.next = 3, 1;
             case 3:
+                _ctx.t1 = _ctx.sent, x = (0, _ctx.t0)(_ctx.t1);
+            case 5:
             case "end":
                 return _ctx.stop();
         }

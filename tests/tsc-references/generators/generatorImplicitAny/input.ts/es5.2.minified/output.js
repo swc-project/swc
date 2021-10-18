@@ -3,11 +3,11 @@ var _marked = regeneratorRuntime.mark(function() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
-                _ctx.next = 2;
+                _ctx.t0 = f, _ctx.next = 3;
                 return;
-            case 2:
-                f(_ctx.sent);
             case 3:
+                _ctx.t1 = _ctx.sent, (0, _ctx.t0)(_ctx.t1);
+            case 5:
             case "end":
                 return _ctx.stop();
         }
@@ -16,11 +16,11 @@ var _marked = regeneratorRuntime.mark(function() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
-                _ctx.next = 2;
+                _ctx.t0 = f, _ctx.next = 3;
                 return;
-            case 2:
-                f(_ctx.sent);
             case 3:
+                _ctx.t1 = _ctx.sent, (0, _ctx.t0)(_ctx.t1);
+            case 5:
             case "end":
                 return _ctx.stop();
         }
