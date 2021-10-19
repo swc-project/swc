@@ -993,6 +993,7 @@ pub struct GlobalPassOption {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
 pub enum GlobalInliningPassEnvs {
     List(AHashSet<String>),
     Map(AHashMap<String, String>),
