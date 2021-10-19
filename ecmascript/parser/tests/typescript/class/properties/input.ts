@@ -5,4 +5,6 @@ class C {
     x: number = 1;
     x!;
     x!: number;
+    async: boolean;
+    static async: boolean;
 }
