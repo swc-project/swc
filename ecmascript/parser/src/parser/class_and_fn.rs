@@ -736,6 +736,34 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
+        let is_next_line_generator = self.input.had_line_break_before_cur() && is!(self, '*');
+        let getter_or_setter_ident = match key {
+            // `get\n*` is an uninitialized property named 'get' followed by a generator.
+            Either::Right(PropName::Ident(ref i))
+                if (i.sym == js_word!("get") || i.sym == js_word!("set"))
+                    && !self.is_class_property(/* asi */ false)
+                    && !is_next_line_generator =>
+            {
+                Some(i)
+            }
+            _ => None,
+        };
+
+        if getter_or_setter_ident.is_none() && self.is_class_property(/* asi */ true) {
+            return self.make_property(
+                start,
+                decorators,
+                accessibility,
+                key,
+                is_static,
+                is_optional,
+                readonly.is_some(),
+                declare,
+                is_abstract,
+                is_override,
+            );
+        }
+
         if match key {
             Either::Right(PropName::Ident(ref i)) => i.sym == js_word!("async"),
             _ => false,
@@ -780,16 +808,10 @@ impl<'a, I: Tokens> Parser<I> {
             );
         }
 
-        let is_next_line_generator = self.input.had_line_break_before_cur() && is!(self, '*');
-        let key_span = key.span();
+        match getter_or_setter_ident {
+            Some(i) => {
+                let key_span = key.span();
 
-        match key {
-            // `get\n*` is an uninitialized property named 'get' followed by a generator.
-            Either::Right(PropName::Ident(ref i))
-                if (i.sym == js_word!("get") || i.sym == js_word!("set"))
-                    && !self.is_class_property(/* asi */ false)
-                    && !is_next_line_generator =>
-            {
                 // handle get foo(){} / set foo(v){}
                 let key = self.parse_class_prop_name()?;
 
@@ -856,21 +878,6 @@ impl<'a, I: Tokens> Parser<I> {
                 };
             }
             _ => {}
-        }
-
-        if self.is_class_property(/* asi */ true) {
-            return self.make_property(
-                start,
-                decorators,
-                accessibility,
-                key,
-                is_static,
-                is_optional,
-                readonly.is_some(),
-                declare,
-                is_abstract,
-                is_override,
-            );
         }
 
         unexpected!(self, "* for generator, private key, identifier or async")
