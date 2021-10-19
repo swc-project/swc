@@ -8,7 +8,7 @@
     "license": "Apache-2.0 AND MIT",
     "keywords": [
         "swc",
-        "spack",
+        "swcpack",
         "babel",
         "typescript",
         "rust",

@@ -1,18 +1,26 @@
 {
     "version": "0.2",
     "language": "en",
+    "allowCompoundWords": true,
     "words": [
         "aarch",
         "ahash",
         "armv",
         "BUILTINS",
+        "ctxt",
+        "deno",
         "Deno",
         "deps",
+        "ecmascript",
         "gnueabihf",
         "hasher",
         "indexmap",
+        "jszip",
         "msvc",
+        "punct",
         "rustc",
+        "stmts",
+        "swcpack",
         "termcolor"
     ],
     "flagWords": []
