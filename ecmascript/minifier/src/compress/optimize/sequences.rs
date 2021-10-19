@@ -7,7 +7,7 @@ use crate::{
     debug::dump,
     mode::Mode,
     option::CompressOptions,
-    util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt, MoudleItemExt},
+    util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt, ModuleItemExt},
 };
 use retain_mut::RetainMut;
 use std::mem::take;
@@ -641,7 +641,7 @@ where
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, stmts)))]
     pub(super) fn merge_sequences_in_stmts<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: MoudleItemExt,
+        T: ModuleItemExt,
     {
         if !self.options.sequences() && !self.options.collapse_vars {
             if cfg!(feature = "debug") {

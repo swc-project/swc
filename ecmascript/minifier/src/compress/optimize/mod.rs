@@ -8,7 +8,7 @@ use crate::{
     marks::Marks,
     mode::Mode,
     option::CompressOptions,
-    util::{contains_leaping_yield, make_number, MoudleItemExt},
+    util::{contains_leaping_yield, make_number, ModuleItemExt},
 };
 use retain_mut::RetainMut;
 use std::{fmt::Write, mem::take};
@@ -243,7 +243,7 @@ where
 {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: StmtLike + ModuleItemLike + MoudleItemExt + VisitMutWith<Self>,
+        T: StmtLike + ModuleItemLike + ModuleItemExt + VisitMutWith<Self>,
         Vec<T>: VisitMutWith<Self> + VisitWith<UsageAnalyzer>,
     {
         match self.data {

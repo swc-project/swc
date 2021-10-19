@@ -506,7 +506,7 @@ impl Visit for InitializerFinder {
 /// We do not care about variables created by current statement.
 /// But we care about modifications.
 #[derive(Default)]
-struct RequirementCalculartor {
+struct RequirementCalculator {
     required_ids: IndexSet<(Id, Required), ahash::RandomState>,
     /// While bundling, there can be two bindings with same name and syntax
     /// context, in case of wrapped es modules. We exclude them from dependency
@@ -531,7 +531,7 @@ macro_rules! weak {
     };
 }
 
-impl RequirementCalculartor {
+impl RequirementCalculator {
     fn insert(&mut self, i: Id) {
         self.required_ids.insert((
             i,
@@ -544,7 +544,7 @@ impl RequirementCalculartor {
     }
 }
 
-impl Visit for RequirementCalculartor {
+impl Visit for RequirementCalculator {
     noop_visit_type!();
 
     weak!(visit_arrow_expr, ArrowExpr);
@@ -739,7 +739,7 @@ fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
         // Again, we don't need to analyze non-top-level idents because they
         // are not evaluated while lpoading module.
 
-        let mut visitor = RequirementCalculartor::default();
+        let mut visitor = RequirementCalculator::default();
 
         item.visit_with(&Invalid { span: DUMMY_SP }, &mut visitor);
 
