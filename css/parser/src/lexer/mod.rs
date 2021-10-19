@@ -117,6 +117,8 @@ where
             }};
         }
 
+        // TODO: Consume the next input code point. https://www.w3.org/TR/css-syntax-3/#consume-token. We should use `self.input.bump()` and reconsume according spec
+
         if let Some(c) = self.input.cur() {
             if is_whitespace(c) {
                 self.skip_ws()?;
