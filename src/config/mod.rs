@@ -846,7 +846,7 @@ impl Merge for JscExperimental {
     fn merge(&mut self, _from: &Self) {}
 }
 
-/// `paths` sectiob of `tsconfig.json`.
+/// `paths` section of `tsconfig.json`.
 pub type Paths = AHashMap<String, Vec<String>>;
 pub(crate) type CompiledPaths = Vec<(String, Vec<String>)>;
 
