@@ -751,7 +751,7 @@ impl<'a, I: Tokens> Parser<I> {
                     Ok(&Token::BinOp(..)) => {
                         // ) is required
                         self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
-                        let errored_expr =
+                        let errorred_expr =
                             self.parse_bin_op_recursively(Box::new(arrow_expr.into()), 0)?;
 
                         if !is!(self, ';') {
@@ -759,7 +759,7 @@ impl<'a, I: Tokens> Parser<I> {
                             self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
                         }
 
-                        return Ok(errored_expr);
+                        return Ok(errorred_expr);
                     }
                     _ => {}
                 },

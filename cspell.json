@@ -8,6 +8,7 @@
         "armv",
         "ascii",
         "BUILTINS",
+        "canonicalization",
         "canonicalize",
         "combinator",
         "Combinator",
@@ -27,6 +28,7 @@
         "eddyb",
         "elems",
         "esbuild",
+        "esms",
         "Eval",
         "gnueabihf",
         "hasher",
@@ -41,6 +43,8 @@
         "Paren",
         "pmutil",
         "pointee",
+        "prec",
+        "PREC",
         "punct",
         "qself",
         "repr",
@@ -59,5 +63,7 @@
         "Unexporter",
         "unimpl"
     ],
-    "flagWords": []
+    "flagWords": [
+        "actally"
+    ]
 }

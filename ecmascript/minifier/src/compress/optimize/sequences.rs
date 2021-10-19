@@ -25,7 +25,7 @@ where
     M: Mode,
 {
     ///
-    /// # Exmaple
+    /// # Example
     ///
     ///
     /// ## Input
@@ -504,7 +504,7 @@ where
 
     /// Move `var` in subscope to current scope.
     ///
-    /// This mehod acutally `hoist`s [VarDecl]s declared with `var`.
+    /// This method actually `hoist`s [VarDecl]s declared with `var`.
     fn extract_vars(&mut self, s: &mut Stmt) {
         let mut found_other = false;
         match s {

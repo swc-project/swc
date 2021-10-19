@@ -12,7 +12,7 @@ pub(super) struct Scope {
 
     loaded_modules: CloneMap<ModuleId, ()>,
 
-    /// Cached after applying basical transformations.
+    /// Cached after applying basic transformations.
     transformed_modules: CloneMap<ModuleId, TransformedModule>,
 
     accessed_with_computed_key: CloneMap<ModuleId, Lrc<AtomicBool>>,
