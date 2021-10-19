@@ -2148,7 +2148,7 @@ where
         n.visit_mut_children_with(self);
 
         if let Some(arg) = &mut n.arg {
-            self.optimize_in_fn_termiation(&mut **arg);
+            self.optimize_in_fn_termination(&mut **arg);
         }
     }
 
@@ -2387,7 +2387,7 @@ where
     fn visit_mut_throw_stmt(&mut self, n: &mut ThrowStmt) {
         n.visit_mut_children_with(self);
 
-        self.optimize_in_fn_termiation(&mut n.arg);
+        self.optimize_in_fn_termination(&mut n.arg);
     }
 
     fn visit_mut_tpl(&mut self, n: &mut Tpl) {

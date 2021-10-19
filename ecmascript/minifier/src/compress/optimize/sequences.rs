@@ -416,7 +416,7 @@ where
         }
         self.changed = true;
         tracing::debug!(
-            "sequences: Splitted a sequence exprssion to multiple expression statements"
+            "sequences: Splitted a sequence expression to multiple expression statements"
         );
         *stmts = new_stmts;
     }
@@ -482,7 +482,7 @@ where
         e.exprs = new_exprs;
     }
 
-    /// Hoist varaibles in subscope.
+    /// Hoist variables in subscope.
     ///
     /// I don't know why it depends on `sequences`.
     pub(super) fn extract_vars_in_subscopes(&mut self, s: &mut Stmt) {
