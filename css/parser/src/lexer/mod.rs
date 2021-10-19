@@ -547,6 +547,10 @@ where
                         // code point and append the returned code point to
                         // the <string-token>’s value.
                         else if self.is_valid_escape(None, None)? {
+                            raw.push(c);
+
+                            self.input.bump();
+
                             let escape = self.read_escape()?;
 
                             value.push(escape.0);
@@ -591,6 +595,10 @@ where
                 }
                 Some(c) => {
                     if self.is_valid_escape(None, None).unwrap() {
+                        raw.push(c);
+
+                        self.input.bump();
+
                         let escaped = self.read_escape()?;
 
                         value.push(escaped.0);
@@ -689,8 +697,12 @@ where
                     });
                 }
 
-                Some('\\') => {
+                Some(c) if c == '\\' => {
                     if self.is_valid_escape(None, None)? {
+                        raw.push(c);
+
+                        self.input.bump();
+
                         let escaped = self.read_escape()?;
 
                         value.push(escaped.0);
@@ -718,22 +730,14 @@ where
         }
     }
 
-    // TODO: from spec - `\` should be consumed before run this https://www.w3.org/TR/css-syntax-3/#consume-escaped-code-point
     fn read_escape(&mut self) -> LexResult<(char, String)> {
-        assert!(
-            self.input.eat_byte(b'\\'),
-            "read_escape: Expected a backslash"
-        );
-
-        let mut raw = String::new();
-
-        raw.push('\\');
-
         let c = self.input.cur();
         let c = match c {
             Some(v) => v,
             None => return Err(ErrorKind::InvalidEscape),
         };
+
+        let mut raw = String::new();
 
         if c.is_digit(16) {
             let mut hex = c.to_digit(16).unwrap();
@@ -823,7 +827,7 @@ where
 
     fn read_name(&mut self) -> LexResult<(JsWord, JsWord)> {
         let mut raw = String::new();
-        let mut buf = String::new();
+        let mut value = String::new();
 
         loop {
             let c = self.input.cur();
@@ -835,12 +839,16 @@ where
                         self.last_pos = None;
                         self.input.bump();
 
-                        buf.push(c);
+                        value.push(c);
                         raw.push(c);
                     } else if self.is_valid_escape(None, None)? {
+                        raw.push(c);
+
+                        self.input.bump();
+
                         let escaped = self.read_escape()?;
 
-                        buf.push(escaped.0);
+                        value.push(escaped.0);
                         raw.push_str(&escaped.1);
                     } else {
                         break;
@@ -852,7 +860,7 @@ where
             }
         }
 
-        Ok((buf.into(), raw.into()))
+        Ok((value.into(), raw.into()))
     }
 
     fn skip_ws(&mut self) -> LexResult<()> {
