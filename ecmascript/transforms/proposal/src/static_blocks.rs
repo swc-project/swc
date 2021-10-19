@@ -29,6 +29,7 @@ impl ClassStaticBlock {
                             count = count + 1;
                             id_value = format!("{}{}", &id_value.to_string(), count).into();
                         }
+                        private_names.insert(id_value.clone());
                         id_value
                     };
                     ClassMember::PrivateProp(
