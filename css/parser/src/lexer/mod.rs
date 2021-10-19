@@ -130,12 +130,14 @@ where
         }
 
         if self.input.is_byte(b'#') {
-            let first = self.input.peek();
-            let second = self.input.peek_ahead();
+            let c = self.input.cur().unwrap();
+
+            self.input.bump();
+
+            let first = self.input.cur();
+            let second = self.input.peek();
 
             if is_name_continue(first.unwrap()) || self.is_valid_escape(first, second)? {
-                self.input.bump();
-
                 let is_id = self.would_start_ident()?;
                 let name = self.read_name()?;
 
@@ -145,10 +147,6 @@ where
                     raw: name.1,
                 });
             }
-
-            let c = self.input.cur().unwrap();
-
-            self.input.bump();
 
             return Ok(Token::Delim { value: c });
         }
@@ -162,13 +160,13 @@ where
         try_delim!(b')', ")");
 
         if self.input.is_byte(b'+') {
-            let pos = self.input.cur_pos();
+            let start = self.input.cur_pos();
             let c = self.input.cur().unwrap();
 
             self.input.bump();
 
             if self.would_start_number()? {
-                self.input.reset_to(pos);
+                self.input.reset_to(start);
 
                 return self.read_numeric();
             }
@@ -205,13 +203,13 @@ where
         }
 
         if self.input.is_byte(b'.') {
-            let pos = self.input.cur_pos();
+            let start = self.input.cur_pos();
             let c = self.input.cur().unwrap();
 
             self.input.bump();
 
             if self.would_start_number()? {
-                self.input.reset_to(pos);
+                self.input.reset_to(start);
 
                 return self.read_numeric();
             }
