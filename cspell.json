@@ -19,6 +19,7 @@
         "instanceof",
         "jszip",
         "msvc",
+        "Paren",
         "punct",
         "rustc",
         "stmts",
