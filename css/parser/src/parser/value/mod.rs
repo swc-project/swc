@@ -202,6 +202,8 @@ where
 
             Token::Num { .. } => return self.parse_numeric_value(),
 
+            Token::Function { .. } => return self.parse_value_ident_or_fn(),
+
             Token::Ident { .. } => return self.parse_value_ident_or_fn(),
 
             tok!("[") => return self.parse_array_value().map(From::from),
@@ -422,25 +424,31 @@ where
     }
 
     fn parse_value_ident_or_fn(&mut self) -> PResult<Value> {
-        assert!(
-            matches!(cur!(self), Token::Ident { .. }),
-            "parse_value_ident_or_fn: Should be called only if current token is Token::Ident"
-        );
         let span = self.input.cur_span()?;
 
+        let mut is_fn = false;
         let values = match bump!(self) {
             Token::Ident { value, raw } => (value, raw),
+            Token::Function { value, raw } => {
+                is_fn = true;
+
+                (value, raw)
+            }
             _ => {
                 unreachable!()
             }
         };
         let name = Text {
-            span,
+            span: if is_fn {
+                swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default())
+            } else {
+                span
+            },
             value: values.0,
             raw: values.1,
         };
 
-        if eat!(self, "(") {
+        if eat!(self, "(") || is_fn {
             let is_url = name.value.to_ascii_lowercase() == js_word!("url");
             let ctx = Ctx {
                 allow_operation_in_value: if is_url { false } else { true },
@@ -578,19 +586,31 @@ where
     fn parse(&mut self) -> PResult<FnValue> {
         let span = self.input.cur_span()?;
 
+        let mut is_fn = false;
         let values = match bump!(self) {
             Token::Ident { value, raw } => (value, raw),
+            Token::Function { value, raw } => {
+                is_fn = true;
+
+                (value, raw)
+            }
             _ => {
                 unreachable!()
             }
         };
         let name = Text {
-            span,
+            span: if is_fn {
+                swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default())
+            } else {
+                span
+            },
             value: values.0,
             raw: values.1,
         };
 
-        expect!(self, "(");
+        if !is_fn {
+            expect!(self, "(");
+        }
 
         let ctx = Ctx {
             allow_operation_in_value: true,
