@@ -494,11 +494,8 @@ where
         })
     }
 
-    fn read_str(&mut self, mut ending_code_point: Option<char>) -> LexResult<Token> {
-        if ending_code_point.is_none() {
-            ending_code_point = self.input.cur();
-        }
-
+    fn read_str(&mut self, maybe_ending_code_point: Option<char>) -> LexResult<Token> {
+        let ending_code_point = maybe_ending_code_point.or(self.input.cur());
         let mut value = String::new();
         let mut raw = String::new();
 
