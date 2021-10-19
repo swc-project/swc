@@ -140,7 +140,8 @@ where
             let second = self.input.peek();
 
             if is_name_continue(first.unwrap()) || self.is_valid_escape(first, second)? {
-                let is_id = self.would_start_ident()?;
+                let third = self.input.peek_ahead();
+                let is_id = self.would_start_ident(first, second, third)?;
                 let name = self.read_name()?;
 
                 return Ok(Token::Hash {
@@ -193,7 +194,7 @@ where
                 self.input.bump();
 
                 return Ok(Token::CDC);
-            } else if self.would_start_ident()? {
+            } else if self.would_start_ident(None, None, None)? {
                 self.input.reset_to(pos);
 
                 return self
@@ -244,15 +245,19 @@ where
         }
 
         if self.input.is_byte(b'@') {
-            let c = self.input.cur().unwrap();
+            let c = self.input.cur();
 
             self.input.bump();
 
-            if self.would_start_ident()? {
+            let first = self.input.cur();
+            let second = self.input.peek();
+            let third = self.input.peek_ahead();
+
+            if self.would_start_ident(first, second, third)? {
                 return self.read_at_keyword();
             }
 
-            return Ok(Token::Delim { value: c });
+            return Ok(Token::Delim { value: c.unwrap() });
         }
 
         try_delim!(b'[', "[");
@@ -434,6 +439,21 @@ where
                 });
             }
         }
+        // TODO: If the next 3 input code points would start an identifier, then:
+        // TODO: need improve
+        // if self.would_start_ident()? {
+        //     let name = self.read_name()?;
+        //
+        //     return Ok(Token::Dimension {
+        //         value: number,
+        //         unit: name.0,
+        //         raw_unit: name.1
+        //     });
+        // } else if self.input.cur().unwrap() == '%' {
+        //     self.input.bump();
+        //
+        //     return Ok(Token::Percent { value: number });
+        // }
 
         Ok(Token::Num {
             value: number.0,
@@ -788,19 +808,21 @@ where
         })
     }
 
-    fn would_start_ident(&mut self) -> LexResult<bool> {
-        // TODO: The algorithm described here can be called explicitly with three code
-        // points, or can be called with the input stream itself.
-
-        if let Some(first) = self.input.cur() {
+    fn would_start_ident(
+        &mut self,
+        maybe_first: Option<char>,
+        maybe_second: Option<char>,
+        maybe_third: Option<char>,
+    ) -> LexResult<bool> {
+        if let Some(first) = maybe_first.or(self.input.cur()) {
             if first == '-' {
-                if let Some(second) = self.input.peek() {
+                if let Some(second) = maybe_second.or(self.input.peek()) {
                     if is_name_start(second) || second == '-' {
                         return Ok(true);
                     }
 
                     match second {
-                        '\\' => match self.input.peek_ahead() {
+                        '\\' => match maybe_third.or(self.input.peek_ahead()) {
                             Some(c2) => return Ok(!is_newline(c2)),
                             None => return Ok(false),
                         },
