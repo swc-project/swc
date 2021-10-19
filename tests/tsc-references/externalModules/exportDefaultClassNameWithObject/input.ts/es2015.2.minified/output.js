@@ -1,0 +1,1 @@
+export { Object as default };

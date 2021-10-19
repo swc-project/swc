@@ -228,6 +228,7 @@ jobs:
           cargo test --color always -p ${{ matrix.crate }}
 
       - name: Run cargo test (concurrent)
+        if: runner.os != 'Windows'
         shell: bash
         run: |
           ./scripts/ci/test-concurrent.sh ${{ matrix.crate }}
