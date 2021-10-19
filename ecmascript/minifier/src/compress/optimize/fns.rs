@@ -2,7 +2,7 @@ use super::Optimizer;
 use crate::{
     compress::util::is_directive,
     mode::Mode,
-    util::{sort::is_sorted_by, MoudleItemExt},
+    util::{sort::is_sorted_by, ModuleItemExt},
     DISABLE_BUGGY_PASSES,
 };
 use std::cmp::Ordering;
@@ -16,7 +16,7 @@ where
     /// Calls `reorder_stmts_inner` after splitting stmts.
     pub(super) fn reorder_stmts<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: MoudleItemExt,
+        T: ModuleItemExt,
     {
         if self.ctx.in_asm {
             return;
@@ -28,7 +28,7 @@ where
     /// Sorts given statements.
     fn reorder_stmts_inner<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: MoudleItemExt,
+        T: ModuleItemExt,
     {
         if !self.options.join_vars {
             return;

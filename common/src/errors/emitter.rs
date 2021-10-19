@@ -526,7 +526,7 @@ impl EmitterWriter {
                                                      // or the next are vertical line placeholders.
                         || (annotation.takes_space() // If either this or the next annotation is
                             && next.has_label())     // multiline start/end, move it to a new line
-                        || (annotation.has_label()   // so as not to overlap the orizontal lines.
+                        || (annotation.has_label()   // so as not to overlap the horizontal lines.
                             && next.takes_space())
                         || (annotation.takes_space() && next.takes_space())
                         || (overlaps(next, annotation, l)
@@ -556,7 +556,7 @@ impl EmitterWriter {
             return vec![];
         }
 
-        // Write the colunmn separator.
+        // Write the column separator.
         //
         // After this we will have:
         //

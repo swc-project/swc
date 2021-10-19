@@ -157,7 +157,7 @@ fn toposort_real_module_ids<'a>(
     cycles: &'a Vec<Vec<ModuleId>>,
 ) -> impl 'a + Iterator<Item = Vec<ModuleId>> {
     let mut done = AHashSet::<ModuleId>::default();
-    let mut errored = AHashSet::<ModuleId>::default();
+    let mut errorred = AHashSet::<ModuleId>::default();
 
     from_fn(move || {
         while let Some(id) = queue.pop_front() {
@@ -177,7 +177,7 @@ fn toposort_real_module_ids<'a>(
 
                 // Emit
                 done.insert(id);
-                errored.clear();
+                errorred.clear();
                 return Some(vec![id]);
             }
 
@@ -212,7 +212,7 @@ fn toposort_real_module_ids<'a>(
             // dbg!(&deps_of_circle);
 
             if !deps_of_circle.is_empty() {
-                if errored.insert(id) {
+                if errorred.insert(id) {
                     queue.push_front(id);
 
                     // Handle dependencies first.
@@ -230,7 +230,7 @@ fn toposort_real_module_ids<'a>(
 
             // Emit
             done.extend(all_modules_in_circle.iter().copied());
-            errored.clear();
+            errorred.clear();
             return Some(all_modules_in_circle.into_iter().collect());
         }
 

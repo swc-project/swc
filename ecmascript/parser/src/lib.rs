@@ -90,12 +90,12 @@
 //!
 //! ### Null character after `\`
 //!
-//! Becuase [String] of rust should only contain valid utf-8 characters while
-//! javascript allows non-utf8 chraceters, the parser stores invalid utf8
-//! chracters in escpaed form.
+//! Because [String] of rust should only contain valid utf-8 characters while
+//! javascript allows non-utf8 characters, the parser stores invalid utf8
+//! characters in escaped form.
 //!
 //! As a result, swc needs a way to distinguish invalid-utf8 code points and
-//! input specified by the user. The parser stores a null chracter right after
+//! input specified by the user. The parser stores a null character right after
 //! `\\` for non-utf8 code points. Note that other parts of swc is aware of this
 //! fact.
 //!

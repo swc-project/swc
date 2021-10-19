@@ -7,7 +7,7 @@ use swc_ecma_utils::{drop_span, prepend_stmts};
 
 #[derive(Debug, Default)]
 pub(crate) struct Helpers {
-    /// `__spack_require__`
+    /// `__swcpack_require__`
     pub require: AtomicBool,
 }
 
@@ -49,7 +49,7 @@ macro_rules! define {
 }
 
 define!(require {
-    build: build_spack_require
+    build: build_swcpack_require
 });
 
 impl Helpers {
@@ -63,7 +63,7 @@ impl Helpers {
         let mut buf = vec![];
 
         if self.require.load(SeqCst) {
-            build_spack_require(&mut buf);
+            build_swcpack_require(&mut buf);
         }
 
         prepend_stmts(to, buf.into_iter());

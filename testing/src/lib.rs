@@ -261,7 +261,7 @@ pub fn diff(l: &str, r: &str) -> String {
 
 /// Used for assertions.
 ///
-/// Prints string without escpaing special characters on failure.
+/// Prints string without escaping special characters on failure.
 #[derive(PartialEq, Eq)]
 pub struct DebugUsingDisplay<'a>(pub &'a str);
 

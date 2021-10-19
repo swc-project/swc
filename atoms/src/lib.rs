@@ -1,7 +1,7 @@
-//! [JsWord] is an interened string.
+//! [JsWord] is an interned string.
 //!
 //! This type should be used instead of [String] for values, because lots of
-//! values are duplicated. For example, if an identifer is named `myVariable`,
+//! values are duplicated. For example, if an identifier is named `myVariable`,
 //! there will be lots of identifier usages with the value `myVariable`.
 //!
 //! This type

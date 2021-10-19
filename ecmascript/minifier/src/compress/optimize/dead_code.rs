@@ -33,7 +33,7 @@ where
     ///     throw x();
     /// }
     /// ```
-    pub(super) fn optimize_in_fn_termiation(&mut self, e: &mut Expr) {
+    pub(super) fn optimize_in_fn_termination(&mut self, e: &mut Expr) {
         if !self.options.dead_code {
             return;
         }
@@ -45,7 +45,7 @@ where
 
         match e {
             Expr::Assign(assign) => {
-                self.optimize_in_fn_termiation(&mut assign.right);
+                self.optimize_in_fn_termination(&mut assign.right);
 
                 // We only handle identifiers on lhs for now.
                 match &assign.left {

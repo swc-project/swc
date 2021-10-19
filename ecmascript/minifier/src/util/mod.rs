@@ -21,7 +21,7 @@ pub(crate) fn make_number(span: Span, value: f64) -> Expr {
     Expr::Lit(Lit::Num(Number { span, value }))
 }
 
-pub trait MoudleItemExt:
+pub trait ModuleItemExt:
     StmtLike + ModuleItemLike + From<Stmt> + Spanned + std::fmt::Debug
 {
     fn as_module_decl(&self) -> Result<&ModuleDecl, &Stmt>;
@@ -40,7 +40,7 @@ pub trait MoudleItemExt:
     fn as_stmt_mut(&mut self) -> Option<&mut Stmt>;
 }
 
-impl MoudleItemExt for Stmt {
+impl ModuleItemExt for Stmt {
     fn as_module_decl(&self) -> Result<&ModuleDecl, &Stmt> {
         Err(self)
     }
@@ -58,7 +58,7 @@ impl MoudleItemExt for Stmt {
     }
 }
 
-impl MoudleItemExt for ModuleItem {
+impl ModuleItemExt for ModuleItem {
     fn as_module_decl(&self) -> Result<&ModuleDecl, &Stmt> {
         match self {
             ModuleItem::ModuleDecl(v) => Ok(v),
