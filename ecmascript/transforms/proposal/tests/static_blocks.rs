@@ -17,9 +17,12 @@ fn fixture(input: PathBuf) {
             ..Default::default()
         }),
         &|_t| {
-            let pass: Box<dyn Fold>  = if input.to_string_lossy().contains("class-properties") {
-                Box::new(chain!(static_blocks(), class_properties(class_properties::Config::default())))
-            }  else {
+            let pass: Box<dyn Fold> = if input.to_string_lossy().contains("class-properties") {
+                Box::new(chain!(
+                    static_blocks(),
+                    class_properties(class_properties::Config::default())
+                ))
+            } else {
                 Box::new(static_blocks())
             };
             pass
