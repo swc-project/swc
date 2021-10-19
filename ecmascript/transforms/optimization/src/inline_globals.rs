@@ -12,10 +12,12 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 pub fn inline_globals(
     envs: Lrc<AHashMap<JsWord, Expr>>,
     globals: Lrc<AHashMap<JsWord, Expr>>,
+    typeofs: Lrc<AHashMap<JsWord, JsWord>>,
 ) -> impl Fold + VisitMut {
     as_folder(InlineGlobals {
         envs,
         globals,
+        typeofs,
         bindings: Default::default(),
     })
 }
@@ -24,6 +26,7 @@ pub fn inline_globals(
 struct InlineGlobals {
     envs: Lrc<AHashMap<JsWord, Expr>>,
     globals: Lrc<AHashMap<JsWord, Expr>>,
+    typeofs: Lrc<AHashMap<JsWord, JsWord>>,
 
     bindings: Lrc<AHashSet<Id>>,
 }
@@ -173,6 +176,7 @@ mod tests {
         |tester| as_folder(InlineGlobals {
             envs: envs(tester, &[]),
             globals: globals(tester, &[]),
+            typeofs: Default::default(),
             bindings: Default::default()
         }),
         issue_215,
@@ -185,6 +189,7 @@ mod tests {
         |tester| as_folder(InlineGlobals {
             envs: envs(tester, &[("NODE_ENV", "development")]),
             globals: globals(tester, &[]),
+            typeofs: Default::default(),
             bindings: Default::default()
         }),
         node_env,
@@ -197,6 +202,7 @@ mod tests {
         |tester| as_folder(InlineGlobals {
             envs: envs(tester, &[]),
             globals: globals(tester, &[("__DEBUG__", "true")]),
+            typeofs: Default::default(),
             bindings: Default::default()
         }),
         inline_globals,
@@ -209,6 +215,7 @@ mod tests {
         |tester| as_folder(InlineGlobals {
             envs: envs(tester, &[]),
             globals: globals(tester, &[("debug", "true")]),
+            typeofs: Default::default(),
             bindings: Default::default()
         }),
         non_global,
@@ -221,6 +228,7 @@ mod tests {
         |tester| as_folder(InlineGlobals {
             envs: envs(tester, &[]),
             globals: globals(tester, &[]),
+            typeofs: Default::default(),
             bindings: Default::default()
         }),
         issue_417_1,
@@ -233,6 +241,7 @@ mod tests {
         |tester| as_folder(InlineGlobals {
             envs: envs(tester, &[("x", "FOO")]),
             globals: globals(tester, &[]),
+            typeofs: Default::default(),
             bindings: Default::default()
         }),
         issue_417_2,
