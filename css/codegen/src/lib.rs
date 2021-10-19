@@ -499,6 +499,10 @@ where
                 Token::Ident { raw, .. } => {
                     self.wr.write_raw(Some(n.span), &raw)?;
                 }
+                Token::Function { raw, .. } => {
+                    self.wr.write_raw(Some(n.span), &raw)?;
+                    punct!(self, "(");
+                }
                 Token::BadStr { raw, .. } => {
                     self.wr.write_raw(Some(span), &raw)?;
                 }
