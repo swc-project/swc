@@ -219,6 +219,27 @@ impl VisitMut for MultiReplacer {
             }
         }
     }
+
+    fn visit_mut_prop(&mut self, p: &mut Prop) {
+        p.visit_mut_children_with(self);
+
+        match p {
+            Prop::Shorthand(i) => {
+                if let Some(value) = self.vars.remove(&i.to_id()) {
+                    debug!("multi-replacer: Replaced `{}` as shorthand", i);
+                    self.changed = true;
+
+                    *p = Prop::KeyValue(KeyValueProp {
+                        key: PropName::Ident(i.clone()),
+                        value,
+                    });
+
+                    return;
+                }
+            }
+            _ => {}
+        }
+    }
 }
 
 pub(crate) fn replace_id_with_expr<N>(node: &mut N, from: Id, to: Box<Expr>) -> Option<Box<Expr>>
