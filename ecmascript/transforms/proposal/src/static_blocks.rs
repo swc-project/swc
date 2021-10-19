@@ -99,4 +99,18 @@ impl Fold for ClassStaticBlock {
             _ => declaration,
         }
     }
+
+    fn fold_expr(&mut self, expression: Expr) -> Expr {
+        let expression = expression.fold_children_with(self);
+        match  expression {
+            Expr::Class(class_expression) => {
+                let class = self.fold_class_for_static_block(class_expression.class);
+                Expr::Class(ClassExpr {
+                    class,
+                    ..class_expression
+                })
+            },
+            _ => expression
+        }
+    }
 }
