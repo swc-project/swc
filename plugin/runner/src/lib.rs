@@ -23,7 +23,7 @@ pub fn apply_js_plugin(program: &Program, path: &Path) -> Result<Program, Error>
 
         let new = match new_ast {
             RResult::ROk(v) => v,
-            RResult::RErr(err) => return Err(anyhow!("plugin returned an errror\n{}", err)),
+            RResult::RErr(err) => return Err(anyhow!("plugin returned an error\n{}", err)),
         };
         let new = new.into_string();
 
