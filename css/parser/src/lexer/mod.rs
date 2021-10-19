@@ -419,11 +419,15 @@ where
         //         unit: name.0,
         //         raw_unit: name.1
         //     });
-        // } else if self.input.cur().unwrap() == '%' {
-        //     self.input.bump();
-        //
-        //     return Ok(Token::Percent { value: number });
-        // }
+        // } else
+        if self.input.cur().unwrap() == '%' {
+            self.input.bump();
+
+            return Ok(Token::Percent {
+                value: number.0,
+                raw: number.1.into(),
+            });
+        }
 
         Ok(Token::Num {
             value: number.0,

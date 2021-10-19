@@ -43,6 +43,7 @@ impl Error {
             }
             ErrorKind::ExpectedNumber => "Expected a number".into(),
             ErrorKind::InvalidSupportQuery => "Invalid support query".into(),
+            ErrorKind::InvalidKeyframeSelector => "Invalid keyframe selector".into(),
             ErrorKind::InvalidMediaQuery => "Invalid media query".into(),
             ErrorKind::UnknownAtRuleNotTerminated => "Unknown @rule is not terminated".into(),
             ErrorKind::InvalidPropertyValue => "Expected a property value".into(),
@@ -71,6 +72,7 @@ pub enum ErrorKind {
     ExpectedIdentOrStrForAttrSelectorOp,
     ExpectedNumber,
     InvalidSupportQuery,
+    InvalidKeyframeSelector,
     InvalidMediaQuery,
 
     UnknownAtRuleNotTerminated,

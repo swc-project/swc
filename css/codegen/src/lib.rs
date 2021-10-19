@@ -496,6 +496,10 @@ where
                 Token::Num { raw, .. } => {
                     self.wr.write_raw(Some(span), raw)?;
                 }
+                Token::Percent { raw, .. } => {
+                    self.wr.write_raw(Some(span), raw)?;
+                    punct!(self, "%");
+                }
                 Token::Ident { raw, .. } => {
                     self.wr.write_raw(Some(n.span), &raw)?;
                 }
