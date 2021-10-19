@@ -1,4 +1,4 @@
-use crate::{Num, Str, Text, Tokens, Unit};
+use crate::{Num, Str, Text, Tokens};
 use string_enum::StringEnum;
 use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
@@ -114,6 +114,13 @@ pub struct HashValue {
     pub span: Span,
     /// Does **not** include `#`
     pub value: JsWord,
+}
+
+#[ast_node]
+pub struct Unit {
+    pub span: Span,
+    pub value: JsWord,
+    pub raw: JsWord,
 }
 
 #[ast_node("UnitValue")]

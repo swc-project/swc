@@ -383,14 +383,18 @@ where
                     // Unit
                     let value = Num { span, value, raw };
                     match bump!(self) {
-                        Token::Ident { raw: unit, .. } => {
-                            let kind = UnitKind::from(unit);
+                        Token::Ident {
+                            value: unit_value,
+                            raw: unit_raw,
+                            ..
+                        } => {
                             return Ok(Value::Unit(UnitValue {
                                 span: span!(self, span.lo),
                                 value,
                                 unit: Unit {
                                     span: unit_span,
-                                    kind,
+                                    value: unit_value,
+                                    raw: unit_raw,
                                 },
                             }));
                         }
