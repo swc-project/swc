@@ -1,3 +1,6 @@
 class Foo {
-    static #_ = (() => {})();
+    static foo;
+    static #_ = (() => {
+        this.foo = "foo";
+    })();
 }
