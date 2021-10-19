@@ -212,12 +212,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |tester| as_folder(InlineGlobals {
-            envs: envs(tester, &[]),
-            globals: globals(tester, &[]),
-            typeofs: Default::default(),
-            bindings: Default::default()
-        }),
+        |tester| inline_globals(envs(tester, &[]), globals(tester, &[]), Default::default(),),
         issue_215,
         r#"if (process.env.x === 'development') {}"#,
         r#"if (process.env.x === 'development') {}"#
@@ -225,12 +220,11 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |tester| as_folder(InlineGlobals {
-            envs: envs(tester, &[("NODE_ENV", "development")]),
-            globals: globals(tester, &[]),
-            typeofs: Default::default(),
-            bindings: Default::default()
-        }),
+        |tester| inline_globals(
+            envs(tester, &[("NODE_ENV", "development")]),
+            globals(tester, &[]),
+            Default::default(),
+        ),
         node_env,
         r#"if (process.env.NODE_ENV === 'development') {}"#,
         r#"if ('development' === 'development') {}"#
@@ -238,25 +232,23 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |tester| as_folder(InlineGlobals {
-            envs: envs(tester, &[]),
-            globals: globals(tester, &[("__DEBUG__", "true")]),
-            typeofs: Default::default(),
-            bindings: Default::default()
-        }),
-        inline_globals,
+        |tester| inline_globals(
+            envs(tester, &[]),
+            globals(tester, &[("__DEBUG__", "true")]),
+            Default::default(),
+        ),
+        globals_simple,
         r#"if (__DEBUG__) {}"#,
         r#"if (true) {}"#
     );
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |tester| as_folder(InlineGlobals {
-            envs: envs(tester, &[]),
-            globals: globals(tester, &[("debug", "true")]),
-            typeofs: Default::default(),
-            bindings: Default::default()
-        }),
+        |tester| inline_globals(
+            envs(tester, &[]),
+            globals(tester, &[("debug", "true")]),
+            Default::default(),
+        ),
         non_global,
         r#"if (foo.debug) {}"#,
         r#"if (foo.debug) {}"#
@@ -264,12 +256,7 @@ mod tests {
 
     test!(
         Default::default(),
-        |tester| as_folder(InlineGlobals {
-            envs: envs(tester, &[]),
-            globals: globals(tester, &[]),
-            typeofs: Default::default(),
-            bindings: Default::default()
-        }),
+        |tester| inline_globals(envs(tester, &[]), globals(tester, &[]), Default::default(),),
         issue_417_1,
         "const test = process.env['x']",
         "const test = process.env['x']"
@@ -277,12 +264,11 @@ mod tests {
 
     test!(
         Default::default(),
-        |tester| as_folder(InlineGlobals {
-            envs: envs(tester, &[("x", "FOO")]),
-            globals: globals(tester, &[]),
-            typeofs: Default::default(),
-            bindings: Default::default()
-        }),
+        |tester| inline_globals(
+            envs(tester, &[("x", "FOO")]),
+            globals(tester, &[]),
+            Default::default(),
+        ),
         issue_417_2,
         "const test = process.env['x']",
         "const test = 'FOO'"
