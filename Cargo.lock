@@ -883,6 +883,7 @@ dependencies = [
  "autocfg 1.0.1",
  "hashbrown",
  "rayon",
+ "serde",
 ]
 
 [[package]]
@@ -2324,13 +2325,14 @@ checksum = "6446ced80d6c486436db5c078dde11a9f73d42b57fb273121e160b84f63d894c"
 
 [[package]]
 name = "swc"
-version = "0.75.0"
+version = "0.76.0"
 dependencies = [
  "ahash",
  "anyhow",
  "base64 0.13.0",
  "dashmap",
  "either",
+ "indexmap",
  "lru",
  "once_cell",
  "pathdiff",
@@ -2878,7 +2880,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.58.0"
+version = "0.58.1"
 dependencies = [
  "ahash",
  "dashmap",

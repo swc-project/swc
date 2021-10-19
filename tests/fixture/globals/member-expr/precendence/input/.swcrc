@@ -2,9 +2,11 @@
     "jsc": {
         "transform": {
             "optimizer": {
+                "simplify": false,
                 "globals": {
-                    "typeofs": {
-                        "window": "object"
+                    "vars": {
+                        "value.debug": "true",
+                        "value": "'foo'"
                     }
                 }
             }
