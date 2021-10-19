@@ -883,6 +883,7 @@ dependencies = [
  "autocfg 1.0.1",
  "hashbrown",
  "rayon",
+ "serde",
 ]
 
 [[package]]
@@ -2331,6 +2332,7 @@ dependencies = [
  "base64 0.13.0",
  "dashmap",
  "either",
+ "indexmap",
  "lru",
  "once_cell",
  "pathdiff",
