@@ -846,7 +846,7 @@ impl Merge for JscExperimental {
     fn merge(&mut self, _from: &Self) {}
 }
 
-/// `paths` sectiob of `tsconfig.json`.
+/// `paths` section of `tsconfig.json`.
 pub type Paths = AHashMap<String, Vec<String>>;
 pub(crate) type CompiledPaths = Vec<(String, Vec<String>)>;
 
@@ -988,15 +988,24 @@ fn default_jsonify_min_cost() -> usize {
 pub struct GlobalPassOption {
     #[serde(default)]
     pub vars: AHashMap<String, String>,
-    #[serde(default = "default_envs")]
-    pub envs: AHashSet<String>,
+    #[serde(default)]
+    pub envs: GlobalInliningPassEnvs,
 }
 
-fn default_envs() -> AHashSet<String> {
-    let mut v = HashSet::default();
-    v.insert(String::from("NODE_ENV"));
-    v.insert(String::from("SWC_ENV"));
-    v
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum GlobalInliningPassEnvs {
+    List(AHashSet<String>),
+    Map(AHashMap<String, String>),
+}
+
+impl Default for GlobalInliningPassEnvs {
+    fn default() -> Self {
+        let mut v = HashSet::default();
+        v.insert(String::from("NODE_ENV"));
+        v.insert(String::from("SWC_ENV"));
+
+        GlobalInliningPassEnvs::List(v)
+    }
 }
 
 impl GlobalPassOption {
@@ -1056,22 +1065,49 @@ impl GlobalPassOption {
         let env_map = if cfg!(target_arch = "wasm32") {
             Arc::new(Default::default())
         } else {
-            static CACHE: Lazy<DashMap<Vec<String>, ValuesMap, ahash::RandomState>> =
-                Lazy::new(|| Default::default());
+            match &self.envs {
+                GlobalInliningPassEnvs::List(env_list) => {
+                    static CACHE: Lazy<DashMap<Vec<String>, ValuesMap, ahash::RandomState>> =
+                        Lazy::new(|| Default::default());
 
-            let cache_key = self.envs.iter().cloned().collect::<Vec<_>>();
-            if let Some(v) = CACHE.get(&cache_key).as_deref().cloned() {
-                v
-            } else {
-                let envs = self.envs;
-                let map = mk_map(
-                    cm,
-                    handler,
-                    env::vars().filter(|(k, _)| envs.contains(&*k)),
-                    true,
-                );
-                CACHE.insert(cache_key, map.clone());
-                map
+                    let cache_key = env_list.iter().cloned().collect::<Vec<_>>();
+                    if let Some(v) = CACHE.get(&cache_key).as_deref().cloned() {
+                        v
+                    } else {
+                        let map = mk_map(
+                            cm,
+                            handler,
+                            env::vars().filter(|(k, _)| env_list.contains(&*k)),
+                            true,
+                        );
+                        CACHE.insert(cache_key, map.clone());
+                        map
+                    }
+                }
+
+                GlobalInliningPassEnvs::Map(map) => {
+                    static CACHE: Lazy<
+                        DashMap<Vec<(String, String)>, ValuesMap, ahash::RandomState>,
+                    > = Lazy::new(|| Default::default());
+
+                    let cache_key = self
+                        .vars
+                        .iter()
+                        .map(|(k, v)| (k.clone(), v.clone()))
+                        .collect::<Vec<_>>();
+                    if let Some(v) = CACHE.get(&cache_key) {
+                        (*v).clone()
+                    } else {
+                        let map = mk_map(
+                            cm,
+                            handler,
+                            map.into_iter().map(|(k, v)| (k.clone(), v.clone())),
+                            false,
+                        );
+                        CACHE.insert(cache_key, map.clone());
+                        map
+                    }
+                }
             }
         };
 
