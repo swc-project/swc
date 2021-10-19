@@ -419,9 +419,7 @@ where
                     },
                 }));
             }
-            Token::Num { value, raw, .. } => {
-                Ok(Value::Number(Num { span, value, raw }))
-            }
+            Token::Num { value, raw, .. } => Ok(Value::Number(Num { span, value, raw })),
             _ => {
                 unreachable!()
             }
