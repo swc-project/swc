@@ -12,10 +12,12 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 pub fn inline_globals(
     envs: Lrc<AHashMap<JsWord, Expr>>,
     globals: Lrc<AHashMap<JsWord, Expr>>,
+    typeofs: Lrc<AHashMap<JsWord, JsWord>>,
 ) -> impl Fold + VisitMut {
     as_folder(InlineGlobals {
         envs,
         globals,
+        typeofs,
         bindings: Default::default(),
     })
 }
@@ -24,6 +26,7 @@ pub fn inline_globals(
 struct InlineGlobals {
     envs: Lrc<AHashMap<JsWord, Expr>>,
     globals: Lrc<AHashMap<JsWord, Expr>>,
+    typeofs: Lrc<AHashMap<JsWord, JsWord>>,
 
     bindings: Lrc<AHashSet<Id>>,
 }
@@ -59,9 +62,42 @@ impl VisitMut for InlineGlobals {
                 return;
             }
 
+            Expr::Unary(UnaryExpr {
+                span,
+                op: op!("typeof"),
+                arg,
+                ..
+            }) => {
+                match &**arg {
+                    Expr::Ident(Ident {
+                        ref sym,
+                        span: arg_span,
+                        ..
+                    }) => {
+                        if self.bindings.contains(&(sym.clone(), arg_span.ctxt)) {
+                            return;
+                        }
+
+                        // It's ok because we don't recurse into member expressions.
+                        if let Some(value) = self.typeofs.get(sym).cloned() {
+                            *expr = Expr::Lit(Lit::Str(Str {
+                                span: *span,
+                                value,
+                                has_escape: false,
+                                kind: Default::default(),
+                            }));
+                        }
+
+                        return;
+                    }
+                    _ => {}
+                }
+            }
+
             Expr::Member(MemberExpr {
                 obj: ExprOrSuper::Expr(ref obj),
                 ref prop,
+                computed,
                 ..
             }) => match &**obj {
                 Expr::Member(MemberExpr {
@@ -77,8 +113,14 @@ impl VisitMut for InlineGlobals {
                             sym: js_word!("env"),
                             ..
                         }) => match &**prop {
-                            Expr::Lit(Lit::Str(Str { value: ref sym, .. }))
-                            | Expr::Ident(Ident { ref sym, .. }) => {
+                            Expr::Lit(Lit::Str(Str { value: ref sym, .. })) => {
+                                if let Some(env) = self.envs.get(sym) {
+                                    *expr = env.clone();
+                                    return;
+                                }
+                            }
+
+                            Expr::Ident(Ident { ref sym, .. }) if !*computed => {
                                 if let Some(env) = self.envs.get(sym) {
                                     *expr = env.clone();
                                     return;
@@ -173,6 +215,7 @@ mod tests {
         |tester| as_folder(InlineGlobals {
             envs: envs(tester, &[]),
             globals: globals(tester, &[]),
+            typeofs: Default::default(),
             bindings: Default::default()
         }),
         issue_215,
@@ -185,6 +228,7 @@ mod tests {
         |tester| as_folder(InlineGlobals {
             envs: envs(tester, &[("NODE_ENV", "development")]),
             globals: globals(tester, &[]),
+            typeofs: Default::default(),
             bindings: Default::default()
         }),
         node_env,
@@ -197,6 +241,7 @@ mod tests {
         |tester| as_folder(InlineGlobals {
             envs: envs(tester, &[]),
             globals: globals(tester, &[("__DEBUG__", "true")]),
+            typeofs: Default::default(),
             bindings: Default::default()
         }),
         inline_globals,
@@ -209,6 +254,7 @@ mod tests {
         |tester| as_folder(InlineGlobals {
             envs: envs(tester, &[]),
             globals: globals(tester, &[("debug", "true")]),
+            typeofs: Default::default(),
             bindings: Default::default()
         }),
         non_global,
@@ -221,6 +267,7 @@ mod tests {
         |tester| as_folder(InlineGlobals {
             envs: envs(tester, &[]),
             globals: globals(tester, &[]),
+            typeofs: Default::default(),
             bindings: Default::default()
         }),
         issue_417_1,
@@ -233,6 +280,7 @@ mod tests {
         |tester| as_folder(InlineGlobals {
             envs: envs(tester, &[("x", "FOO")]),
             globals: globals(tester, &[]),
+            typeofs: Default::default(),
             bindings: Default::default()
         }),
         issue_417_2,

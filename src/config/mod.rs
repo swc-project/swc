@@ -987,16 +987,19 @@ fn default_jsonify_min_cost() -> usize {
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct GlobalPassOption {
     #[serde(default)]
-    pub vars: AHashMap<String, String>,
+    pub vars: AHashMap<JsWord, JsWord>,
     #[serde(default)]
     pub envs: GlobalInliningPassEnvs,
+
+    #[serde(default)]
+    pub typeofs: AHashMap<JsWord, JsWord>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GlobalInliningPassEnvs {
     List(AHashSet<String>),
-    Map(AHashMap<String, String>),
+    Map(AHashMap<JsWord, JsWord>),
 }
 
 impl Default for GlobalInliningPassEnvs {
@@ -1016,7 +1019,7 @@ impl GlobalPassOption {
         fn mk_map(
             cm: &SourceMap,
             handler: &Handler,
-            values: impl Iterator<Item = (String, String)>,
+            values: impl Iterator<Item = (JsWord, JsWord)>,
             is_env: bool,
         ) -> ValuesMap {
             let mut m = HashMap::default();
@@ -1078,7 +1081,9 @@ impl GlobalPassOption {
                         let map = mk_map(
                             cm,
                             handler,
-                            env::vars().filter(|(k, _)| env_list.contains(&*k)),
+                            env::vars()
+                                .filter(|(k, _)| env_list.contains(&*k))
+                                .map(|(k, v)| (k.into(), v.into())),
                             true,
                         );
                         CACHE.insert(cache_key, map.clone());
@@ -1088,7 +1093,7 @@ impl GlobalPassOption {
 
                 GlobalInliningPassEnvs::Map(map) => {
                     static CACHE: Lazy<
-                        DashMap<Vec<(String, String)>, ValuesMap, ahash::RandomState>,
+                        DashMap<Vec<(JsWord, JsWord)>, ValuesMap, ahash::RandomState>,
                     > = Lazy::new(|| Default::default());
 
                     let cache_key = self
@@ -1113,7 +1118,7 @@ impl GlobalPassOption {
         };
 
         let global_map = {
-            static CACHE: Lazy<DashMap<Vec<(String, String)>, ValuesMap, ahash::RandomState>> =
+            static CACHE: Lazy<DashMap<Vec<(JsWord, JsWord)>, ValuesMap, ahash::RandomState>> =
                 Lazy::new(|| Default::default());
 
             let cache_key = self
@@ -1130,7 +1135,7 @@ impl GlobalPassOption {
             }
         };
 
-        inline_globals(env_map, global_map)
+        inline_globals(env_map, global_map, Arc::new(self.typeofs))
     }
 }
 

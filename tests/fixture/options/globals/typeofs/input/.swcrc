@@ -1,0 +1,13 @@
+{
+    "jsc": {
+        "transform": {
+            "optimizer": {
+                "globals": {
+                    "typeofs": {
+                        "window": "object"
+                    }
+                }
+            }
+        }
+    }
+}
