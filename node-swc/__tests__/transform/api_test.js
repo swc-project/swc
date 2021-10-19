@@ -144,7 +144,7 @@ it("should respect isModule = true", async () => {
             isModule: true,
         }
     );
-    expect(f).toThrowError(`failed to parse module: error was recoverable, but proceeding would result in wrong codegen`)
+    expect(f).toThrowError(/Syntax Error/)
 });
 
 

@@ -3,8 +3,8 @@
         "transform": {
             "optimizer": {
                 "globals": {
-                    "envs": {
-                        "NODE_ENV_ALT": "true"
+                    "typeofs": {
+                        "window": "object"
                     }
                 }
             }

@@ -576,6 +576,14 @@ where
 
         (self.op)(e);
     }
+
+    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
+        e.obj.visit_mut_with(self);
+
+        if e.computed {
+            e.prop.visit_mut_with(self);
+        }
+    }
 }
 
 pub fn replace_expr<N, F>(node: &mut N, op: F)

@@ -1,6 +1,6 @@
 use crate::{
     get_compiler,
-    util::{CtxtExt, MapErr},
+    util::{try_with, CtxtExt, MapErr},
 };
 use anyhow::Context as _;
 use napi::{CallContext, Either, Env, JsObject, JsString, JsUndefined, Task};
@@ -8,7 +8,7 @@ use std::{
     path::{Path, PathBuf},
     sync::Arc,
 };
-use swc::{config::ParseOptions, try_with_handler, Compiler};
+use swc::{config::ParseOptions, Compiler};
 use swc_common::{FileName, SourceFile};
 use swc_ecma_ast::Program;
 
@@ -38,7 +38,7 @@ impl Task for ParseTask {
     type JsValue = JsString;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
-        let program = try_with_handler(self.c.cm.clone(), |handler| {
+        let program = try_with(self.c.cm.clone(), |handler| {
             self.c.parse_js(
                 self.fm.clone(),
                 &handler,
@@ -63,7 +63,7 @@ impl Task for ParseFileTask {
     type JsValue = JsString;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
-        try_with_handler(self.c.cm.clone(), |handler| {
+        try_with(self.c.cm.clone(), |handler| {
             self.c.run(|| {
                 let fm = self
                     .c
@@ -125,7 +125,7 @@ pub fn parse_sync(cx: CallContext) -> napi::Result<JsString> {
         FileName::Anon
     };
 
-    let program = try_with_handler(c.cm.clone(), |handler| {
+    let program = try_with(c.cm.clone(), |handler| {
         c.run(|| {
             let fm = c.cm.new_source_file(filename, src);
             c.parse_js(
@@ -150,7 +150,7 @@ pub fn parse_file_sync(cx: CallContext) -> napi::Result<JsString> {
     let options: ParseOptions = cx.get_deserialized(1)?;
 
     let program = {
-        try_with_handler(c.cm.clone(), |handler| {
+        try_with(c.cm.clone(), |handler| {
             let fm =
                 c.cm.load_file(Path::new(path.as_str()?))
                     .expect("failed to read program file");

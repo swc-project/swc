@@ -3,6 +3,7 @@ use crate::{builder::PassBuilder, SwcComments, SwcImportResolver};
 use anyhow::{bail, Context, Error};
 use dashmap::DashMap;
 use either::Either;
+use indexmap::IndexMap;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
@@ -23,7 +24,7 @@ use swc_common::{
     errors::Handler,
     FileName, Mark, SourceMap,
 };
-use swc_ecma_ast::{Expr, ExprStmt, ModuleItem, Stmt};
+use swc_ecma_ast::Expr;
 use swc_ecma_ext_transforms::jest;
 use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
@@ -37,11 +38,12 @@ use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::{
     hygiene, modules,
     modules::{hoist::import_hoister, path::NodeImportResolver, util::Scope},
-    optimization::{const_modules, inline_globals, json_parse, simplifier},
+    optimization::{const_modules, json_parse, simplifier},
     pass::{noop, Optional},
     proposals::{decorators, export_default_from, import_assertions},
     react, resolver_with_mark, typescript,
 };
+use swc_ecma_transforms_optimization::{inline_globals2, GlobalExprMap};
 use swc_ecma_visit::Fold;
 
 #[cfg(test)]
@@ -218,7 +220,6 @@ impl Options {
             transform.legacy_decorator = true;
         }
         let optimizer = transform.optimizer;
-        let enable_optimizer = optimizer.is_some();
 
         let const_modules = {
             let enabled = transform.const_modules.is_some();
@@ -235,6 +236,8 @@ impl Options {
                 Either::Right(noop())
             }
         };
+
+        let enable_simplifier = optimizer.as_ref().map(|v| v.simplify).unwrap_or_default();
 
         let optimization = {
             let pass =
@@ -255,7 +258,7 @@ impl Options {
             const_modules,
             optimization,
             Optional::new(export_default_from(), syntax.export_default_from()),
-            Optional::new(simplifier(Default::default()), enable_optimizer),
+            Optional::new(simplifier(Default::default()), enable_simplifier),
             json_parse_pass
         );
 
@@ -968,6 +971,9 @@ pub struct OptimizerConfig {
     #[serde(default)]
     pub globals: Option<GlobalPassOption>,
 
+    #[serde(default = "true_by_default")]
+    pub simplify: bool,
+
     #[serde(default)]
     pub jsonify: Option<JsonifyOption>,
 }
@@ -987,16 +993,19 @@ fn default_jsonify_min_cost() -> usize {
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct GlobalPassOption {
     #[serde(default)]
-    pub vars: AHashMap<String, String>,
+    pub vars: IndexMap<JsWord, JsWord, ahash::RandomState>,
     #[serde(default)]
     pub envs: GlobalInliningPassEnvs,
+
+    #[serde(default)]
+    pub typeofs: AHashMap<JsWord, JsWord>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GlobalInliningPassEnvs {
     List(AHashSet<String>),
-    Map(AHashMap<String, String>),
+    Map(AHashMap<JsWord, JsWord>),
 }
 
 impl Default for GlobalInliningPassEnvs {
@@ -1013,10 +1022,32 @@ impl GlobalPassOption {
     pub fn build(self, cm: &SourceMap, handler: &Handler) -> impl 'static + Fold {
         type ValuesMap = Arc<AHashMap<JsWord, Expr>>;
 
+        fn expr(cm: &SourceMap, handler: &Handler, src: String) -> Box<Expr> {
+            let fm = cm.new_source_file(FileName::Anon, src);
+            let lexer = Lexer::new(
+                Syntax::Es(Default::default()),
+                Default::default(),
+                StringInput::from(&*fm),
+                None,
+            );
+
+            let mut p = Parser::new_from(lexer);
+            let expr = p.parse_expr();
+
+            for e in p.take_errors() {
+                e.into_diagnostic(handler).emit()
+            }
+
+            match expr {
+                Ok(v) => v,
+                _ => panic!("{} is not a valid expression", fm.src),
+            }
+        }
+
         fn mk_map(
             cm: &SourceMap,
             handler: &Handler,
-            values: impl Iterator<Item = (String, String)>,
+            values: impl Iterator<Item = (JsWord, JsWord)>,
             is_env: bool,
         ) -> ValuesMap {
             let mut m = HashMap::default();
@@ -1028,36 +1059,10 @@ impl GlobalPassOption {
                     (*v).into()
                 };
                 let v_str = v.clone();
-                let fm = cm.new_source_file(FileName::Custom(format!("GLOBAL.{}", k)), v);
-                let lexer = Lexer::new(
-                    Syntax::Es(Default::default()),
-                    Default::default(),
-                    StringInput::from(&*fm),
-                    None,
-                );
 
-                let mut p = Parser::new_from(lexer);
-                let module = p.parse_module();
+                let e = expr(cm, handler, v_str);
 
-                for e in p.take_errors() {
-                    e.into_diagnostic(handler).emit()
-                }
-
-                let mut module = module
-                    .map_err(|e| e.into_diagnostic(handler).emit())
-                    .unwrap_or_else(|()| {
-                        panic!(
-                            "failed to parse global variable {}=`{}` as module",
-                            k, v_str
-                        )
-                    });
-
-                let expr = match module.body.pop() {
-                    Some(ModuleItem::Stmt(Stmt::Expr(ExprStmt { expr, .. }))) => *expr,
-                    _ => panic!("{} is not a valid expression", v_str),
-                };
-
-                m.insert((*k).into(), expr);
+                m.insert((*k).into(), *e);
             }
 
             Arc::new(m)
@@ -1078,7 +1083,9 @@ impl GlobalPassOption {
                         let map = mk_map(
                             cm,
                             handler,
-                            env::vars().filter(|(k, _)| env_list.contains(&*k)),
+                            env::vars()
+                                .filter(|(k, _)| env_list.contains(&*k))
+                                .map(|(k, v)| (k.into(), v.into())),
                             true,
                         );
                         CACHE.insert(cache_key, map.clone());
@@ -1088,7 +1095,7 @@ impl GlobalPassOption {
 
                 GlobalInliningPassEnvs::Map(map) => {
                     static CACHE: Lazy<
-                        DashMap<Vec<(String, String)>, ValuesMap, ahash::RandomState>,
+                        DashMap<Vec<(JsWord, JsWord)>, ValuesMap, ahash::RandomState>,
                     > = Lazy::new(|| Default::default());
 
                     let cache_key = self
@@ -1112,25 +1119,62 @@ impl GlobalPassOption {
             }
         };
 
-        let global_map = {
-            static CACHE: Lazy<DashMap<Vec<(String, String)>, ValuesMap, ahash::RandomState>> =
+        let global_exprs = {
+            static CACHE: Lazy<DashMap<Vec<(JsWord, JsWord)>, GlobalExprMap, ahash::RandomState>> =
                 Lazy::new(|| Default::default());
 
             let cache_key = self
                 .vars
                 .iter()
+                .filter(|(k, _)| k.contains('.'))
                 .map(|(k, v)| (k.clone(), v.clone()))
                 .collect::<Vec<_>>();
+
             if let Some(v) = CACHE.get(&cache_key) {
                 (*v).clone()
             } else {
-                let map = mk_map(cm, handler, self.vars.into_iter(), false);
+                let map = self
+                    .vars
+                    .iter()
+                    .filter(|(k, _)| k.contains('.'))
+                    .map(|(k, v)| {
+                        (
+                            *expr(cm, handler, k.to_string()),
+                            *expr(cm, handler, v.to_string()),
+                        )
+                    })
+                    .collect::<Vec<_>>();
+                let map = Arc::new(map);
                 CACHE.insert(cache_key, map.clone());
                 map
             }
         };
 
-        inline_globals(env_map, global_map)
+        let global_map = {
+            static CACHE: Lazy<DashMap<Vec<(JsWord, JsWord)>, ValuesMap, ahash::RandomState>> =
+                Lazy::new(|| Default::default());
+
+            let cache_key = self
+                .vars
+                .iter()
+                .filter(|(k, _)| !k.contains('.'))
+                .map(|(k, v)| (k.clone(), v.clone()))
+                .collect::<Vec<_>>();
+            if let Some(v) = CACHE.get(&cache_key) {
+                (*v).clone()
+            } else {
+                let map = mk_map(
+                    cm,
+                    handler,
+                    self.vars.into_iter().filter(|(k, _)| !k.contains('.')),
+                    false,
+                );
+                CACHE.insert(cache_key, map.clone());
+                map
+            }
+        };
+
+        inline_globals2(env_map, global_map, global_exprs, Arc::new(self.typeofs))
     }
 }
 

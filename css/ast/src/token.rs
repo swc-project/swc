@@ -22,7 +22,11 @@ pub enum Token {
         raw: JsWord,
     },
 
-    // TODO: Function
+    Function {
+        value: JsWord,
+        raw: JsWord,
+    },
+
     /// `@`
     AtKeyword {
         value: JsWord,

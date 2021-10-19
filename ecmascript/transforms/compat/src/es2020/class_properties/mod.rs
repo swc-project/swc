@@ -313,7 +313,7 @@ impl ClassProperties {
 impl ClassProperties {
     fn fold_class_as_decl(
         &mut self,
-        ident: Ident,
+        class_ident: Ident,
         mut class: Class,
     ) -> (Vec<VarDeclarator>, ClassDecl, Vec<Stmt>) {
         // Create one mark per class
@@ -375,7 +375,7 @@ impl ClassProperties {
 
         class.body.visit_mut_with(&mut BrandCheckHandler {
             mark: self.mark,
-            class_name: &ident,
+            class_name: &class_ident,
             names: &mut names_used_for_brand_checks,
             statics: &statics,
         });
@@ -389,7 +389,7 @@ impl ClassProperties {
                     let key = match method.key {
                         PropName::Computed(ComputedPropName { span: c_span, expr }) => {
                             let expr = expr.fold_with(&mut as_folder(ClassNameTdzFolder {
-                                class_name: &ident,
+                                class_name: &class_ident,
                             }));
                             let ident = private_ident!("tmp");
                             // Handle computed property
@@ -413,9 +413,9 @@ impl ClassProperties {
 
                 ClassMember::ClassProp(mut prop) => {
                     let prop_span = prop.span();
-                    prop.key = prop
-                        .key
-                        .fold_with(&mut as_folder(ClassNameTdzFolder { class_name: &ident }));
+                    prop.key = prop.key.fold_with(&mut as_folder(ClassNameTdzFolder {
+                        class_name: &class_ident,
+                    }));
 
                     if !prop.is_static {
                         prop.key.visit_with(
@@ -474,7 +474,7 @@ impl ClassProperties {
                     let value = if prop.is_static {
                         value
                             .fold_with(&mut SuperFieldAccessFolder {
-                                class_name: &ident,
+                                class_name: &class_ident,
                                 vars: &mut vars,
                                 constructor_this_mark: None,
                                 is_static: true,
@@ -484,7 +484,7 @@ impl ClassProperties {
                                 this_alias_mark: None,
                             })
                             .fold_with(&mut as_folder(ThisInStaticFolder {
-                                ident: ident.clone(),
+                                ident: class_ident.clone(),
                             }))
                     } else {
                         value
@@ -497,7 +497,11 @@ impl ClassProperties {
                             CallExpr {
                                 span: DUMMY_SP,
                                 callee,
-                                args: vec![ident.clone().as_arg(), key.as_arg(), value.as_arg()],
+                                args: vec![
+                                    class_ident.clone().as_arg(),
+                                    key.as_arg(),
+                                    value.as_arg(),
+                                ],
                                 type_args: Default::default(),
                             }
                             .into_stmt(),
@@ -515,7 +519,7 @@ impl ClassProperties {
                         })));
                     }
                 }
-                ClassMember::PrivateProp(prop) => {
+                ClassMember::PrivateProp(mut prop) => {
                     let prop_span = prop.span();
 
                     let ident = Ident::new(
@@ -529,6 +533,12 @@ impl ClassProperties {
                             used_names: &mut used_names,
                         },
                     );
+                    if prop.is_static {
+                        prop.value.visit_mut_with(&mut ThisInStaticFolder {
+                            ident: class_ident.clone(),
+                        });
+                    }
+
                     let value = prop.value.unwrap_or_else(|| undefined(prop_span));
 
                     let extra_init = if prop.is_static {
@@ -731,7 +741,7 @@ impl ClassProperties {
             private_methods: &private_methods,
             statics: &statics,
             vars: vec![],
-            class_name: &ident,
+            class_name: &class_ident,
             in_assign_pat: false,
         }));
 
@@ -741,14 +751,14 @@ impl ClassProperties {
             private_methods: &private_methods,
             statics: &statics,
             vars: vec![],
-            class_name: &ident,
+            class_name: &class_ident,
             in_assign_pat: false,
         });
 
         (
             vars,
             ClassDecl {
-                ident,
+                ident: class_ident,
                 declare: false,
                 class: Class {
                     body: members,
