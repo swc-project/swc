@@ -1,7 +1,7 @@
 use std::collections::HashSet;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_fold_type, Fold};
+use swc_ecma_visit::{Fold, FoldWith, noop_fold_type};
 
 struct ClassStaticBlock;
 
@@ -80,6 +80,7 @@ impl Fold for ClassStaticBlock {
     noop_fold_type!();
 
     fn fold_decl(&mut self, declaration: Decl) -> Decl {
+        let declaration = declaration.fold_children_with(self);
         match declaration {
             Decl::Class(class_declaration) => {
                 let class = self.fold_class_for_static_block(class_declaration.class);
