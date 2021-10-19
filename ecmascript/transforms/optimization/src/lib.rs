@@ -1,6 +1,6 @@
 pub use self::{
     const_modules::const_modules,
-    inline_globals::{inline_globals, GlobalExprMap},
+    inline_globals::{inline_globals, inline_globals2, GlobalExprMap},
     json_parse::json_parse,
     simplify::simplifier,
 };

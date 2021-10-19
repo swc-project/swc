@@ -90,7 +90,7 @@ impl VisitMut for InlineGlobals {
         }
 
         match expr {
-            Expr::Ident(Ident { ref sym, span, .. }) => {
+            Expr::Ident(Ident { ref sym, .. }) => {
                 // It's ok because we don't recurse into member expressions.
                 if let Some(value) = self.globals.get(sym) {
                     let mut value = value.clone();
