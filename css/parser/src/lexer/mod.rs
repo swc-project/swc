@@ -809,27 +809,8 @@ where
     }
 
     fn read_name(&mut self) -> LexResult<(JsWord, JsWord)> {
-        let start = self.input.cur_pos();
-        self.input.uncons_while(is_name_continue);
-        let end = self.input.last_pos();
-
-        if !self.is_valid_escape()? {
-            let first = self.input.slice(start, end);
-            return Ok((first.into(), first.into()));
-        }
-
         let mut raw = String::new();
         let mut buf = String::new();
-
-        let first = self.input.slice(start, end);
-
-        buf.push_str(first);
-        raw.push_str(first);
-
-        let escaped = self.read_escape()?;
-
-        buf.push(escaped.0);
-        raw.push_str(&escaped.1);
 
         loop {
             let c = self.input.cur();
@@ -837,11 +818,12 @@ where
             match c {
                 Some(c) => {
                     if is_name_continue(c) {
+                        // TODO: remove this
                         self.last_pos = None;
                         self.input.bump();
 
                         buf.push(c);
-                        raw.push(c)
+                        raw.push(c);
                     } else if self.is_valid_escape()? {
                         let escaped = self.read_escape()?;
 
