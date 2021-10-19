@@ -69,8 +69,6 @@ impl VisitMut for InlineGlobals {
     noop_visit_mut_type!();
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        expr.visit_mut_children_with(self);
-
         match expr {
             Expr::Ident(Ident { ref sym, span, .. }) => {
                 if self.bindings.contains(&(sym.clone(), span.ctxt)) {
@@ -88,6 +86,8 @@ impl VisitMut for InlineGlobals {
                 return;
             }
         }
+
+        expr.visit_mut_children_with(self);
 
         match expr {
             Expr::Ident(Ident { ref sym, .. }) => {
