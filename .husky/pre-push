@@ -1,5 +1,5 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-yarn run cspell "**/src/**/*.rs"
+# yarn run cspell "**/src/**/*.rs"
 cargo fmt --all -- --check
