@@ -522,7 +522,7 @@ pub struct Config {
     #[serde(default)]
     pub source_maps: Option<SourceMapsConfig>,
 
-    #[serde(default)]
+    #[serde(default = "true_by_default")]
     pub inline_sources_content: bool,
 }
 
@@ -993,6 +993,7 @@ pub struct GlobalPassOption {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
 pub enum GlobalInliningPassEnvs {
     List(AHashSet<String>),
     Map(AHashMap<String, String>),
