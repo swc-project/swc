@@ -21,7 +21,8 @@
         "rustc",
         "stmts",
         "swcpack",
-        "termcolor"
+        "termcolor",
+        "unimpl"
     ],
     "flagWords": []
 }
