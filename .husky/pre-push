@@ -1,4 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-cargo fmt --all -- --check
+yarn run cspell "**/src/**/*.rs"
