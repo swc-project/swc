@@ -612,8 +612,10 @@ where
                 }
 
                 None => {
-                    // TODO: This is a parse error. Return the <url-token>.
-                    return Err(ErrorKind::Eof);
+                    return Ok(Token::Url {
+                        value: value.into(),
+                        raw: raw.into(),
+                    });
                 }
 
                 Some(c) if is_whitespace(c) => {
