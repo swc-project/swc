@@ -2,7 +2,7 @@ use crate::{
     analyzer::{analyze, ProgramData, UsageAnalyzer},
     marks::Marks,
     option::CompressOptions,
-    util::MoudleItemExt,
+    util::ModuleItemExt,
 };
 use swc_atoms::js_word;
 use swc_common::{collections::AHashMap, util::take::Take};
@@ -44,7 +44,7 @@ struct Ctx {
 impl PrecompressOptimizer<'_> {
     fn handle_stmts<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: for<'aa> VisitMutWith<PrecompressOptimizer<'aa>> + MoudleItemExt,
+        T: for<'aa> VisitMutWith<PrecompressOptimizer<'aa>> + ModuleItemExt,
         Vec<T>: for<'aa> VisitMutWith<PrecompressOptimizer<'aa>> + VisitWith<UsageAnalyzer>,
     {
         if self.data.is_some() {

@@ -17,7 +17,7 @@
 //!
 //! # `Fold`
 //!
-//! > WARNING: `Fold` is slow, and it's recommended to use VisiMut if you are
+//! > WARNING: `Fold` is slow, and it's recommended to use VisitMut if you are
 //! experienced.
 //!
 //!
@@ -68,7 +68,7 @@
 //! different code if a `this` expression is used.
 //!
 //! You can use your `Visit` implementation like  `node.visit_with(&Invalid{
-//! span: DUMY_SP, }, &mut visitor`. I think API is misdesigned, but it works
+//! span: DUMMY_SP, }, &mut visitor`. I think API is mis-designed, but it works
 //! and there are really lots of code using `Visit` already.
 
 pub use either::Either;

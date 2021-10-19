@@ -11,7 +11,7 @@ mod sort;
 pub struct Modules {
     /// Indicates that a statement is injected.
     ///
-    /// Note: This context shoulod be shared for a bundle.
+    /// Note: This context should be shared for a bundle.
     pub(crate) injected_ctxt: SyntaxContext,
 
     // We will change this into `Vec<Module>`.

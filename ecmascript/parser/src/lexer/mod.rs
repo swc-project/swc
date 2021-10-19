@@ -905,7 +905,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 // This is ported from babel.
                 // Seems like regexp literal cannot contain linebreak.
                 if c.is_line_terminator() {
-                    l.error(start, SyntaxError::UnterminatedRegxp)?;
+                    l.error(start, SyntaxError::UnterminatedRegExp)?;
                 }
 
                 if escaped {
@@ -931,7 +931,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         // input is terminated without following `/`
         if !self.is(b'/') {
-            self.error(start, SyntaxError::UnterminatedRegxp)?;
+            self.error(start, SyntaxError::UnterminatedRegExp)?;
         }
 
         self.bump(); // '/'

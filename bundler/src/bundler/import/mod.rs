@@ -147,7 +147,7 @@ where
     L: Load,
     R: Resolve,
 {
-    /// Retursn (local, export)
+    /// Returns (local, export)
     fn ctxt_for(&self, src: &JsWord) -> Option<(SyntaxContext, SyntaxContext)> {
         // Don't apply mark if it's a core module.
         if self
@@ -308,7 +308,7 @@ where
 
                         if e.computed {
                             // If a module is accessed with unknown key, we should import
-                            // everyrthing from it.
+                            // everything from it.
                             self.add_forced_ns_for(obj.to_id());
                             return;
                         }

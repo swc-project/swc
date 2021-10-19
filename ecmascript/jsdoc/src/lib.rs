@@ -192,7 +192,7 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, TagItem> {
         "file" | "fileoverview" | "overview" => {
             let (input, text) = parse_line(i)?;
             i = input;
-            Tag::File(FilelTag { span, text })
+            Tag::File(FileTag { span, text })
         }
 
         "fires" | "emits" => {

@@ -4,7 +4,7 @@ use swc_common::Mark;
 
 #[derive(Debug, Clone, Copy)]
 pub struct Marks {
-    /// [Mark] applied to non-top level varaibles which is injected while
+    /// [Mark] applied to non-top level variables which is injected while
     /// inlining.
     ///
     /// In other words, AST nodes marked with this mark will not be treated as a
@@ -31,8 +31,8 @@ pub struct Marks {
     /// nested.
     pub(crate) standalone: Mark,
 
-    //// Appied to [swc_ecma_ast::Module].
-    pub(crate) bundle_of_standalones: Mark,
+    //// Applied to [swc_ecma_ast::Module].
+    pub(crate) bundle_of_standalone: Mark,
 
     ///  `/** @const */`.
     pub(crate) const_ann: Mark,
@@ -54,7 +54,7 @@ impl Marks {
             non_top_level: m(),
             synthesized_seq: m(),
             standalone: m(),
-            bundle_of_standalones: m(),
+            bundle_of_standalone: m(),
             const_ann: m(),
             noinline: m(),
             pure: m(),

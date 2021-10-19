@@ -101,7 +101,7 @@ where
             let all_deps_of_entry =
                 self.collect_all_deps(&ctx.graph, entry_id, &mut Default::default());
 
-            tracing::debug!("Merging dependenciess: {:?}", all_deps_of_entry);
+            tracing::debug!("Merging dependencies: {:?}", all_deps_of_entry);
 
             let deps = all_deps_of_entry.iter().map(|id| {
                 let dep_info = self.scope.get_module(*id).unwrap();
@@ -223,7 +223,7 @@ where
                 ));
             }
 
-            // We have to exlcude some ids because there are already declared.
+            // We have to exclude some ids because there are already declared.
             // See https://github.com/denoland/deno/issues/8725
             //
             // Let's say D is a dependency which contains export * from './foo';
@@ -539,10 +539,6 @@ where
             module = self.wrap_esm(ctx, info.id, module)?;
         }
 
-        // if !is_entry {
-        //     module = module.fold_with(&mut Unexporter);
-        // }
-
         Ok(module)
     }
 
@@ -620,9 +616,9 @@ where
                                     {
                                         let esm_id =
                                             self.scope.wrapped_esm_id(src.module_id).expect(
-                                                "If a namespace impoet specifier is preserved, it \
-                                                 means failutre of deblobbing and as a result \
-                                                 module should be marked as wrpaped esm",
+                                                "If a namespace import specifier is preserved, it \
+                                                 means failure of deblobbing and as a result \
+                                                 module should be marked as wrapped esm",
                                             );
                                         new.push(
                                             esm_id
@@ -647,7 +643,7 @@ where
                         // One item is `const local_default = expr` and another one is
                         // `export { local_default as default }`.
                         //
-                        // To allow using identifier of the declaration in the originsl module, we
+                        // To allow using identifier of the declaration in the original module, we
                         // create `const local_default = orig_ident` if original identifier exists.
 
                         let local =
@@ -1072,8 +1068,9 @@ where
                                             }
                                             None => {
                                                 unreachable!(
-                                                    "Modules rexported with `export * as foo from \
-                                                     './foo'` should be marked as a wrapped esm"
+                                                    "Modules reexported with `export * as foo \
+                                                     from './foo'` should be marked as a wrapped \
+                                                     esm"
                                                 )
                                             }
                                         }
@@ -1178,9 +1175,9 @@ where
                                     {
                                         let esm_id =
                                             self.scope.wrapped_esm_id(src.module_id).expect(
-                                                "If a namespace impoet specifier is preserved, it \
-                                                 means failutre of deblobbing and as a result \
-                                                 module should be marked as wrpaped esm",
+                                                "If a namespace import specifier is preserved, it \
+                                                 means failure of deblobbing and as a result \
+                                                 module should be marked as wrapped esm",
                                             );
                                         vars.push((
                                             module_id,

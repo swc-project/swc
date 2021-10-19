@@ -14,7 +14,7 @@ where
     /// Handle switches in the case where we can know which branch will be
     /// taken.
     pub(super) fn optimize_const_switches(&mut self, s: &mut Stmt) {
-        if !self.options.switches || self.ctx.stmt_lablled {
+        if !self.options.switches || self.ctx.stmt_labelled {
             return;
         }
 
@@ -320,7 +320,7 @@ where
     }
 
     pub(super) fn optimize_switches(&mut self, _s: &mut Stmt) {
-        if !self.options.switches || self.ctx.stmt_lablled {
+        if !self.options.switches || self.ctx.stmt_labelled {
             return;
         }
 

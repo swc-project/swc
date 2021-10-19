@@ -40,7 +40,7 @@ function _asyncToGenerator(fn) {
         });
     };
 }
-var load = __spack_require__.bind(void 0, function(module, exports) {
+var load = __swcpack_require__.bind(void 0, function(module, exports) {
     /**
  * Copyright (c) 2014-present, Facebook, Inc.
  *

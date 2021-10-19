@@ -58,7 +58,7 @@ pub enum SubclassSelector {
     #[tag("ClassSelector")]
     Class(ClassSelector),
 
-    #[tag("AttrributeSelctor")]
+    #[tag("AttributeSelector")]
     Attr(AttrSelector),
 
     #[tag("PseudoClassSelector")]

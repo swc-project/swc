@@ -717,7 +717,7 @@ impl Handler {
     /// The caller must then teach the user about such a diagnostic.
     ///
     /// Used to suppress emitting the same error multiple times with extended
-    /// explanation when calling `-Zteach`.
+    /// explanation when calling `-Z teach`.
     pub fn must_teach(&self, code: &DiagnosticId) -> bool {
         self.taught_diagnostics.borrow_mut().insert(code.clone())
     }

@@ -9,7 +9,7 @@ pub struct ModuleData {
     pub module: Module,
     /// Used helpers
     ///
-    /// # Exmaple
+    /// # Example
     ///
     /// ```rust,ignore
     /// 

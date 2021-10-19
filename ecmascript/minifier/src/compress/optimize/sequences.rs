@@ -7,7 +7,7 @@ use crate::{
     debug::dump,
     mode::Mode,
     option::CompressOptions,
-    util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt, MoudleItemExt},
+    util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt, ModuleItemExt},
 };
 use retain_mut::RetainMut;
 use std::mem::take;
@@ -25,7 +25,7 @@ where
     M: Mode,
 {
     ///
-    /// # Exmaple
+    /// # Example
     ///
     ///
     /// ## Input
@@ -416,7 +416,7 @@ where
         }
         self.changed = true;
         tracing::debug!(
-            "sequences: Splitted a sequence exprssion to multiple expression statements"
+            "sequences: Splitted a sequence expression to multiple expression statements"
         );
         *stmts = new_stmts;
     }
@@ -482,7 +482,7 @@ where
         e.exprs = new_exprs;
     }
 
-    /// Hoist varaibles in subscope.
+    /// Hoist variables in subscope.
     ///
     /// I don't know why it depends on `sequences`.
     pub(super) fn extract_vars_in_subscopes(&mut self, s: &mut Stmt) {
@@ -504,7 +504,7 @@ where
 
     /// Move `var` in subscope to current scope.
     ///
-    /// This mehod acutally `hoist`s [VarDecl]s declared with `var`.
+    /// This method actually `hoist`s [VarDecl]s declared with `var`.
     fn extract_vars(&mut self, s: &mut Stmt) {
         let mut found_other = false;
         match s {
@@ -641,7 +641,7 @@ where
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, stmts)))]
     pub(super) fn merge_sequences_in_stmts<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: MoudleItemExt,
+        T: ModuleItemExt,
     {
         if !self.options.sequences() && !self.options.collapse_vars {
             if cfg!(feature = "debug") {

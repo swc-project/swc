@@ -749,13 +749,13 @@ impl<C: Comments> Fold for Refresh<C> {
         for stmt in &n.stmts {
             stmt.collect_ident(&mut current_scope);
         }
-        let orig_bindinga = self.scope_binding.len();
+        let orig_bindings = self.scope_binding.len();
         self.scope_binding.extend(current_scope.into_iter());
 
         let orig_hook = mem::replace(&mut self.curr_hook_fn, Vec::new());
         let mut n = n.fold_children_with(self);
         let curr_hook = mem::replace(&mut self.curr_hook_fn, orig_hook);
-        self.scope_binding.truncate(orig_bindinga);
+        self.scope_binding.truncate(orig_bindings);
 
         if curr_hook.len() > 0 {
             let stmt_count = n.stmts.len();

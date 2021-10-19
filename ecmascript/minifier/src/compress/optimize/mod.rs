@@ -8,7 +8,7 @@ use crate::{
     marks::Marks,
     mode::Mode,
     option::CompressOptions,
-    util::{contains_leaping_yield, make_number, MoudleItemExt},
+    util::{contains_leaping_yield, make_number, ModuleItemExt},
 };
 use retain_mut::RetainMut;
 use std::{fmt::Write, mem::take};
@@ -59,7 +59,7 @@ pub(super) fn optimizer<'a, M>(
     data: &'a ProgramData,
     state: &'a mut OptimizerState,
     mode: &'a M,
-    debug_inifinite_loop: bool,
+    debug_infinite_loop: bool,
 ) -> impl 'a + VisitMut + Repeated
 where
     M: Mode,
@@ -89,7 +89,7 @@ where
         done_ctxt,
         label: Default::default(),
         mode,
-        debug_inifinite_loop,
+        debug_infinite_loop,
     }
 }
 
@@ -137,7 +137,7 @@ struct Ctx {
     in_bang_arg: bool,
     in_var_decl_of_for_in_or_of_loop: bool,
     /// `true` while handling inner statements of a labelled statement.
-    stmt_lablled: bool,
+    stmt_labelled: bool,
 
     dont_use_negated_iife: bool,
 
@@ -224,7 +224,7 @@ struct Optimizer<'a, M> {
 
     mode: &'a M,
 
-    debug_inifinite_loop: bool,
+    debug_infinite_loop: bool,
 }
 
 impl<M> Repeated for Optimizer<'_, M> {
@@ -243,7 +243,7 @@ where
 {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: StmtLike + ModuleItemLike + MoudleItemExt + VisitMutWith<Self>,
+        T: StmtLike + ModuleItemLike + ModuleItemExt + VisitMutWith<Self>,
         Vec<T>: VisitMutWith<Self> + VisitWith<UsageAnalyzer>,
     {
         match self.data {
@@ -1582,7 +1582,7 @@ where
 
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
         let ctx = Ctx {
-            stmt_lablled: false,
+            stmt_labelled: false,
             top_level: false,
             in_block: true,
             scope: n.span.ctxt,
@@ -1939,7 +1939,7 @@ where
     fn visit_mut_function(&mut self, n: &mut Function) {
         {
             let ctx = Ctx {
-                stmt_lablled: false,
+                stmt_labelled: false,
                 ..self.ctx
             };
             n.decorators.visit_mut_with(&mut *self.with_ctx(ctx));
@@ -1958,7 +1958,7 @@ where
         {
             let ctx = Ctx {
                 skip_standalone: self.ctx.skip_standalone || is_standalone,
-                stmt_lablled: false,
+                stmt_labelled: false,
                 in_fn_like: true,
                 scope: n.span.ctxt,
                 can_inline_arguments: true,
@@ -2013,7 +2013,7 @@ where
 
     fn visit_mut_labeled_stmt(&mut self, n: &mut LabeledStmt) {
         let ctx = Ctx {
-            stmt_lablled: true,
+            stmt_labelled: true,
             ..self.ctx
         };
         let old_label = self.label.take();
@@ -2148,7 +2148,7 @@ where
         n.visit_mut_children_with(self);
 
         if let Some(arg) = &mut n.arg {
-            self.optimize_in_fn_termiation(&mut **arg);
+            self.optimize_in_fn_termination(&mut **arg);
         }
     }
 
@@ -2218,7 +2218,7 @@ where
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
-        let _tracing = if cfg!(feature = "debug") && self.debug_inifinite_loop {
+        let _tracing = if cfg!(feature = "debug") && self.debug_infinite_loop {
             let text = dump(&*s);
 
             if text.lines().count() < 10 {
@@ -2242,7 +2242,7 @@ where
         };
         s.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
-        if cfg!(feature = "debug") && self.debug_inifinite_loop {
+        if cfg!(feature = "debug") && self.debug_infinite_loop {
             let text = dump(&*s);
 
             if text.lines().count() < 10 {
@@ -2318,7 +2318,7 @@ where
 
         self.optimize_switches(s);
 
-        if cfg!(feature = "debug") && self.debug_inifinite_loop {
+        if cfg!(feature = "debug") && self.debug_infinite_loop {
             let text = dump(&*s);
 
             if text.lines().count() < 10 {
@@ -2387,7 +2387,7 @@ where
     fn visit_mut_throw_stmt(&mut self, n: &mut ThrowStmt) {
         n.visit_mut_children_with(self);
 
-        self.optimize_in_fn_termiation(&mut n.arg);
+        self.optimize_in_fn_termination(&mut n.arg);
     }
 
     fn visit_mut_tpl(&mut self, n: &mut Tpl) {
@@ -2598,7 +2598,7 @@ fn is_callee_this_aware(callee: &Expr) -> bool {
             ..
         }) => match &**obj {
             Expr::Ident(obj) => {
-                if &*obj.sym == "consoole" {
+                if &*obj.sym == "console" {
                     return false;
                 }
             }

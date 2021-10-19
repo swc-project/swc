@@ -18,4 +18,6 @@
   "editor.formatOnSave": true,
   "git.ignoreLimitWarning": true,
   "eslint.enable": false,
+  "cSpell.allowCompoundWords": true,
+  "cSpell.caseSensitive": true,
 }

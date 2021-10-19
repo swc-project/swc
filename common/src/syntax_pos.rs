@@ -103,7 +103,6 @@ pub enum FileName {
     /// Command line
     Anon,
     /// Hack in src/libsyntax/parse.rs
-    /// FIXME(jseyfried)
     MacroExpansion,
     ProcMacroSourceCode,
     Url(Url),
