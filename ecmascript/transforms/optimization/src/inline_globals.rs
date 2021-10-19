@@ -97,6 +97,7 @@ impl VisitMut for InlineGlobals {
             Expr::Member(MemberExpr {
                 obj: ExprOrSuper::Expr(ref obj),
                 ref prop,
+                computed,
                 ..
             }) => match &**obj {
                 Expr::Member(MemberExpr {
@@ -112,8 +113,14 @@ impl VisitMut for InlineGlobals {
                             sym: js_word!("env"),
                             ..
                         }) => match &**prop {
-                            Expr::Lit(Lit::Str(Str { value: ref sym, .. }))
-                            | Expr::Ident(Ident { ref sym, .. }) => {
+                            Expr::Lit(Lit::Str(Str { value: ref sym, .. })) => {
+                                if let Some(env) = self.envs.get(sym) {
+                                    *expr = env.clone();
+                                    return;
+                                }
+                            }
+
+                            Expr::Ident(Ident { ref sym, .. }) if !*computed => {
                                 if let Some(env) = self.envs.get(sym) {
                                     *expr = env.clone();
                                     return;
