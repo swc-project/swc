@@ -1,4 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-# cspell lint
+yarn run cspell "**/src/**/*.rs"
