@@ -220,7 +220,6 @@ impl Options {
             transform.legacy_decorator = true;
         }
         let optimizer = transform.optimizer;
-        let enable_optimizer = optimizer.is_some();
 
         let const_modules = {
             let enabled = transform.const_modules.is_some();
@@ -237,6 +236,8 @@ impl Options {
                 Either::Right(noop())
             }
         };
+
+        let enable_simplifier = optimizer.as_ref().map(|v| v.simplify).unwrap_or_default();
 
         let optimization = {
             let pass =
@@ -257,7 +258,7 @@ impl Options {
             const_modules,
             optimization,
             Optional::new(export_default_from(), syntax.export_default_from()),
-            Optional::new(simplifier(Default::default()), enable_optimizer),
+            Optional::new(simplifier(Default::default()), enable_simplifier),
             json_parse_pass
         );
 
@@ -969,6 +970,9 @@ pub struct ConstModulesConfig {
 pub struct OptimizerConfig {
     #[serde(default)]
     pub globals: Option<GlobalPassOption>,
+
+    #[serde(default = "true_by_default")]
+    pub simplify: bool,
 
     #[serde(default)]
     pub jsonify: Option<JsonifyOption>,
