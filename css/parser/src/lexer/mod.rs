@@ -808,9 +808,6 @@ where
         Ok(self.is_valid_escape()?)
     }
 
-    /// Ported from `consumeName` of esbuild.
-    ///
-    /// https://github.com/evanw/esbuild/blob/a9456dfbf08ab50607952eefb85f2418968c124c/internal/css_lexer/css_lexer.go#L548
     fn read_name(&mut self) -> LexResult<(JsWord, JsWord)> {
         let start = self.input.cur_pos();
         self.input.uncons_while(is_name_continue);
@@ -836,24 +833,27 @@ where
 
         loop {
             let c = self.input.cur();
-            let c = match c {
-                Some(v) => v,
-                None => break,
-            };
 
-            if is_name_continue(c) {
-                self.last_pos = None;
-                self.input.bump();
+            match c {
+                Some(c) => {
+                    if is_name_continue(c) {
+                        self.last_pos = None;
+                        self.input.bump();
 
-                buf.push(c);
-                raw.push(c)
-            } else if self.is_valid_escape()? {
-                let escaped = self.read_escape()?;
+                        buf.push(c);
+                        raw.push(c)
+                    } else if self.is_valid_escape()? {
+                        let escaped = self.read_escape()?;
 
-                buf.push(escaped.0);
-                raw.push_str(&escaped.1);
-            } else {
-                break;
+                        buf.push(escaped.0);
+                        raw.push_str(&escaped.1);
+                    } else {
+                        break;
+                    }
+                }
+                None => {
+                    break;
+                }
             }
         }
 
