@@ -6,17 +6,39 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_transforms_macros::parallel;
-use swc_ecma_utils::{collect_decls, Id};
+use swc_ecma_utils::{collect_decls, ident::IdentLike, Id};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
+/// The key will be compared using [EqIgnoreSpan::eq_ignore_span], and matched
+/// expressions will be replaced with the value.
+pub type GlobalExprMap = Lrc<Vec<(Expr, Expr)>>;
+
+/// Create a global inlining pass, which replaces expressions with the specified
+/// value.
 pub fn inline_globals(
     envs: Lrc<AHashMap<JsWord, Expr>>,
     globals: Lrc<AHashMap<JsWord, Expr>>,
     typeofs: Lrc<AHashMap<JsWord, JsWord>>,
 ) -> impl Fold + VisitMut {
+    inline_globals2(envs, globals, Default::default(), typeofs)
+}
+
+/// Create a global inlining pass, which replaces expressions with the specified
+/// value.
+///
+/// See [GlobalExprMap] for description.
+///
+/// Note: Values specified in `global_exprs` have higher precedence than
+pub fn inline_globals2(
+    envs: Lrc<AHashMap<JsWord, Expr>>,
+    globals: Lrc<AHashMap<JsWord, Expr>>,
+    global_exprs: GlobalExprMap,
+    typeofs: Lrc<AHashMap<JsWord, JsWord>>,
+) -> impl Fold + VisitMut {
     as_folder(InlineGlobals {
         envs,
         globals,
+        global_exprs,
         typeofs,
         bindings: Default::default(),
     })
@@ -26,6 +48,8 @@ pub fn inline_globals(
 struct InlineGlobals {
     envs: Lrc<AHashMap<JsWord, Expr>>,
     globals: Lrc<AHashMap<JsWord, Expr>>,
+    global_exprs: GlobalExprMap,
+
     typeofs: Lrc<AHashMap<JsWord, JsWord>>,
 
     bindings: Lrc<AHashSet<Id>>,
@@ -150,6 +174,30 @@ impl VisitMut for InlineGlobals {
         self.bindings = Lrc::new(collect_decls(&*module));
 
         module.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_prop(&mut self, p: &mut Prop) {
+        p.visit_mut_children_with(self);
+
+        match p {
+            Prop::Shorthand(i) => {
+                if self.bindings.contains(&i.to_id()) {
+                    return;
+                }
+
+                // It's ok because we don't recurse into member expressions.
+                if let Some(mut value) = self.globals.get(&i.sym).cloned().map(Box::new) {
+                    value.visit_mut_with(self);
+                    *p = Prop::KeyValue(KeyValueProp {
+                        key: PropName::Ident(i.clone()),
+                        value,
+                    });
+                }
+
+                return;
+            }
+            _ => {}
+        }
     }
 
     fn visit_mut_script(&mut self, script: &mut Script) {
