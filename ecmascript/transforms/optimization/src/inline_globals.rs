@@ -62,6 +62,38 @@ impl VisitMut for InlineGlobals {
                 return;
             }
 
+            Expr::Unary(UnaryExpr {
+                span,
+                op: op!("typeof"),
+                arg,
+                ..
+            }) => {
+                match &**arg {
+                    Expr::Ident(Ident {
+                        ref sym,
+                        span: arg_span,
+                        ..
+                    }) => {
+                        if self.bindings.contains(&(sym.clone(), arg_span.ctxt)) {
+                            return;
+                        }
+
+                        // It's ok because we don't recurse into member expressions.
+                        if let Some(value) = self.typeofs.get(sym).cloned() {
+                            *expr = Expr::Lit(Lit::Str(Str {
+                                span: *span,
+                                value,
+                                has_escape: false,
+                                kind: Default::default(),
+                            }));
+                        }
+
+                        return;
+                    }
+                    _ => {}
+                }
+            }
+
             Expr::Member(MemberExpr {
                 obj: ExprOrSuper::Expr(ref obj),
                 ref prop,
