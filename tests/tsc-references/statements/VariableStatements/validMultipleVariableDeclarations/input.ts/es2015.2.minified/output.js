@@ -1,0 +1,2 @@
+for(;;);
+new Array();

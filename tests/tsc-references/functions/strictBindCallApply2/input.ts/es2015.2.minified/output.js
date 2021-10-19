@@ -1,0 +1,4 @@
+(function() {
+}).bind({
+    blub: "blub"
+});

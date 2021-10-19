@@ -1,0 +1,2 @@
+({
+})[Symbol.nonsense];
