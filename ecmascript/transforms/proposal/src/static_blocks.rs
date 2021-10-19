@@ -2,6 +2,7 @@ use std::collections::HashSet;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, FoldWith, noop_fold_type};
+use swc_atoms::{JsWord};
 
 struct ClassStaticBlock;
 
@@ -23,7 +24,7 @@ impl ClassStaticBlock {
                 ClassMember::StaticBlock(static_block) => {
                     // TODO: Generate an id that does not duplicate with the id of private fields in
                     // the class
-                    let static_block_private_id = { "_".to_string() };
+                    let static_block_private_id: JsWord = "_".into();
                     ClassMember::PrivateProp(
                         self.fold_static_block(static_block, static_block_private_id),
                     )
@@ -37,7 +38,7 @@ impl ClassStaticBlock {
             ..class
         }
     }
-    fn fold_static_block(&mut self, static_block: StaticBlock, private_id: String) -> PrivateProp {
+    fn fold_static_block(&mut self, static_block: StaticBlock, private_id: JsWord) -> PrivateProp {
         PrivateProp {
             span: DUMMY_SP,
             is_static: true,
@@ -54,7 +55,7 @@ impl ClassStaticBlock {
                 span: DUMMY_SP,
                 id: Ident {
                     span: DUMMY_SP,
-                    sym: private_id.into(),
+                    sym: private_id,
                     optional: false,
                 },
             },
