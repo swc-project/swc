@@ -832,7 +832,6 @@ where
             match c {
                 Some(c) => {
                     if is_name_continue(c) {
-                        // TODO: remove this
                         self.last_pos = None;
                         self.input.bump();
 
