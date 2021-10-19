@@ -34,12 +34,16 @@
         "Paren",
         "punct",
         "repr",
+        "rpos",
+        "rposition",
         "rustc",
         "smallvec",
         "stmts",
         "swcpack",
         "termcolor",
         "uncons",
+        "Unexported",
+        "Unexporter",
         "unimpl"
     ],
     "flagWords": []

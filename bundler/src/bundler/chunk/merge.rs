@@ -223,7 +223,7 @@ where
                 ));
             }
 
-            // We have to exlcude some ids because there are already declared.
+            // We have to exclude some ids because there are already declared.
             // See https://github.com/denoland/deno/issues/8725
             //
             // Let's say D is a dependency which contains export * from './foo';
@@ -643,7 +643,7 @@ where
                         // One item is `const local_default = expr` and another one is
                         // `export { local_default as default }`.
                         //
-                        // To allow using identifier of the declaration in the originsl module, we
+                        // To allow using identifier of the declaration in the original module, we
                         // create `const local_default = orig_ident` if original identifier exists.
 
                         let local =
@@ -1068,8 +1068,9 @@ where
                                             }
                                             None => {
                                                 unreachable!(
-                                                    "Modules rexported with `export * as foo from \
-                                                     './foo'` should be marked as a wrapped esm"
+                                                    "Modules reexported with `export * as foo \
+                                                     from './foo'` should be marked as a wrapped \
+                                                     esm"
                                                 )
                                             }
                                         }
