@@ -19,6 +19,6 @@ swc_common = {version = "0.14.0", path = "../../common"}
 anyhow = "1"
 dashmap = "4.0.2"
 swc_ecma_ast = {version = "0.55.0", path = "../ast"}
-swc_ecma_parser = {version = "0.74.0", path = "../parser"}
+swc_ecma_parser = {version = "0.75.0", path = "../parser"}
 testing = {version = "0.15.0", path = "../../testing"}
 walkdir = "2"
