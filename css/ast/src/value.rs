@@ -83,7 +83,7 @@ pub struct BinValue {
 
 #[ast_node("FnValue")]
 pub struct FnValue {
-    /// Span starting from the `lo` of identifer and to the end of `)`.
+    /// Span starting from the `lo` of identifier and to the end of `)`.
     pub span: Span,
 
     pub name: Text,

@@ -101,7 +101,7 @@ where
             let all_deps_of_entry =
                 self.collect_all_deps(&ctx.graph, entry_id, &mut Default::default());
 
-            tracing::debug!("Merging dependenciess: {:?}", all_deps_of_entry);
+            tracing::debug!("Merging dependencies: {:?}", all_deps_of_entry);
 
             let deps = all_deps_of_entry.iter().map(|id| {
                 let dep_info = self.scope.get_module(*id).unwrap();
@@ -539,10 +539,6 @@ where
             module = self.wrap_esm(ctx, info.id, module)?;
         }
 
-        // if !is_entry {
-        //     module = module.fold_with(&mut Unexporter);
-        // }
-
         Ok(module)
     }
 
@@ -620,9 +616,9 @@ where
                                     {
                                         let esm_id =
                                             self.scope.wrapped_esm_id(src.module_id).expect(
-                                                "If a namespace impoet specifier is preserved, it \
-                                                 means failutre of deblobbing and as a result \
-                                                 module should be marked as wrpaped esm",
+                                                "If a namespace import specifier is preserved, it \
+                                                 means failure of deblobbing and as a result \
+                                                 module should be marked as wrapped esm",
                                             );
                                         new.push(
                                             esm_id
@@ -1178,9 +1174,9 @@ where
                                     {
                                         let esm_id =
                                             self.scope.wrapped_esm_id(src.module_id).expect(
-                                                "If a namespace impoet specifier is preserved, it \
-                                                 means failutre of deblobbing and as a result \
-                                                 module should be marked as wrpaped esm",
+                                                "If a namespace import specifier is preserved, it \
+                                                 means failure of deblobbing and as a result \
+                                                 module should be marked as wrapped esm",
                                             );
                                         vars.push((
                                             module_id,
