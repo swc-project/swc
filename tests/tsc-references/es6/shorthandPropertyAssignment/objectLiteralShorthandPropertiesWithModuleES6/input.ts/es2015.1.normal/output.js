@@ -1,0 +1,15 @@
+// @target: es6
+var m;
+(function(m) {
+    var x;
+    m.x = x;
+})(m || (m = {
+}));
+(function(m) {
+    var z = x;
+    var y = {
+        a: x,
+        x
+    };
+})(m || (m = {
+}));
