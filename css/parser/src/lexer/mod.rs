@@ -132,7 +132,7 @@ where
         }
 
         if self.input.is_byte(b'#') {
-            let c = self.input.cur().unwrap();
+            let c = self.input.cur();
 
             self.input.bump();
 
@@ -151,7 +151,7 @@ where
                 });
             }
 
-            return Ok(Token::Delim { value: c });
+            return Ok(Token::Delim { value: c.unwrap() });
         }
 
         if self.input.is_byte(b'\'') {
@@ -164,28 +164,28 @@ where
 
         if self.input.is_byte(b'+') {
             let start = self.input.cur_pos();
-            let c = self.input.cur().unwrap();
+            let c = self.input.cur();
 
             self.input.bump();
 
-            if self.would_start_number()? {
+            if self.would_start_number(None, None, None)? {
                 self.input.reset_to(start);
 
                 return self.read_numeric();
             }
 
-            return Ok(Token::Delim { value: c });
+            return Ok(Token::Delim { value: c.unwrap() });
         }
 
         try_delim!(b',', ",");
 
         if self.input.is_byte(b'-') {
             let pos = self.input.cur_pos();
-            let c = self.input.cur().unwrap();
+            let c = self.input.cur();
 
             self.input.bump();
 
-            if self.would_start_number()? {
+            if self.would_start_number(None, None, None)? {
                 self.input.reset_to(pos);
 
                 return self.read_numeric();
@@ -202,22 +202,22 @@ where
                     .map(|(value, raw)| Token::Ident { value, raw });
             }
 
-            return Ok(Token::Delim { value: c });
+            return Ok(Token::Delim { value: c.unwrap() });
         }
 
         if self.input.is_byte(b'.') {
             let start = self.input.cur_pos();
-            let c = self.input.cur().unwrap();
+            let c = self.input.cur();
 
             self.input.bump();
 
-            if self.would_start_number()? {
+            if self.would_start_number(None, None, None)? {
                 self.input.reset_to(start);
 
                 return self.read_numeric();
             }
 
-            return Ok(Token::Delim { value: c });
+            return Ok(Token::Delim { value: c.unwrap() });
         }
 
         try_delim!(b':', ":");
@@ -225,7 +225,7 @@ where
         try_delim!(b';', ";");
 
         if self.input.is_byte(b'<') {
-            let c = self.input.cur().unwrap();
+            let c = self.input.cur();
 
             self.input.bump();
 
@@ -241,7 +241,7 @@ where
                 return Ok(tok!("<!--"));
             }
 
-            return Ok(Token::Delim { value: c });
+            return Ok(Token::Delim { value: c.unwrap() });
         }
 
         if self.input.is_byte(b'@') {
@@ -302,8 +302,13 @@ where
         return Ok(Token::Delim { value: c });
     }
 
-    fn would_start_number(&mut self) -> LexResult<bool> {
-        let first = self.input.cur();
+    fn would_start_number(
+        &mut self,
+        maybe_first: Option<char>,
+        maybe_second: Option<char>,
+        maybe_third: Option<char>,
+    ) -> LexResult<bool> {
+        let first = maybe_first.or(self.input.cur());
 
         if first.is_none() {
             return Ok(false);
@@ -311,11 +316,11 @@ where
 
         match first {
             Some('+') | Some('-') => {
-                if let Some(second) = self.input.peek() {
+                if let Some(second) = maybe_second.or(self.input.peek()) {
                     return match second {
                         second if second.is_digit(10) => Ok(true),
                         '.' => {
-                            if let Some(third) = self.input.peek_ahead() {
+                            if let Some(third) = maybe_third.or(self.input.peek_ahead()) {
                                 if third.is_digit(10) {
                                     return Ok(true);
                                 }
