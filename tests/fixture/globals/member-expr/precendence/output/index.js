@@ -1,3 +1,5 @@
 console.log(true);
-console.log('Pass');
+if (true) {
+    console.log('Pass');
+}
 console.log('foo');

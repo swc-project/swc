@@ -1,1 +1,3 @@
-console.log('Pass');
+if (true) {
+    console.log('Pass');
+}
