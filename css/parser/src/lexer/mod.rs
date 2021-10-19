@@ -180,13 +180,13 @@ where
         try_delim!(b',', ",");
 
         if self.input.is_byte(b'-') {
-            let pos = self.input.cur_pos();
+            let start = self.input.cur_pos();
             let c = self.input.cur();
 
             self.input.bump();
 
             if self.would_start_number(None, None, None)? {
-                self.input.reset_to(pos);
+                self.input.reset_to(start);
 
                 return self.read_numeric();
             } else if self.input.cur() == Some('-') && self.input.peek() == Some('>') {
@@ -195,7 +195,7 @@ where
 
                 return Ok(Token::CDC);
             } else if self.would_start_ident(None, None, None)? {
-                self.input.reset_to(pos);
+                self.input.reset_to(start);
 
                 return self
                     .read_name()
