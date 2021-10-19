@@ -1135,23 +1135,7 @@ impl GlobalPassOption {
             }
         };
 
-        let typeofs = {
-            static CACHE: Lazy<
-                DashMap<Vec<(JsWord, JsWord)>, Arc<AHashMap<JsWord, JsWord>>, ahash::RandomState>,
-            > = Lazy::new(|| Default::default());
-
-            let cache_key = self
-                .vars
-                .iter()
-                .map(|(k, v)| (k.clone(), v.clone()))
-                .collect::<Vec<_>>();
-            if let Some(v) = CACHE.get(&cache_key) {
-                (*v).clone()
-            } else {
-            }
-        };
-
-        inline_globals(env_map, global_map, typeofs)
+        inline_globals(env_map, global_map, Arc::new(self.typeofs))
     }
 }
 
