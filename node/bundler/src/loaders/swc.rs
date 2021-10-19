@@ -3,7 +3,7 @@ use anyhow::{bail, Context, Error};
 use helpers::Helpers;
 use std::{collections::HashMap, env, sync::Arc};
 use swc::{
-    config::{InputSourceMap, JscConfig, TransformConfig},
+    config::{GlobalInliningPassEnvs, InputSourceMap, JscConfig, TransformConfig},
     try_with_handler,
 };
 use swc_atoms::JsWord;
@@ -46,13 +46,16 @@ impl SwcLoader {
             .and_then(|g| Some(g.envs.clone()))
             .unwrap_or_default();
 
-        let envs_map: AHashMap<_, _> = envs
-            .into_iter()
-            .map(|name| {
-                let value = env::var(&name).ok();
-                (name, value.unwrap_or_default())
-            })
-            .collect();
+        let envs_map: AHashMap<_, _> = match envs {
+            GlobalInliningPassEnvs::List(envs) => envs
+                .into_iter()
+                .map(|name| {
+                    let value = env::var(&name).ok();
+                    (name, value.unwrap_or_default())
+                })
+                .collect(),
+            GlobalInliningPassEnvs::Map(m) => m,
+        };
 
         for (k, v) in envs_map {
             m.insert(
