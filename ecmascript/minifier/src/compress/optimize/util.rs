@@ -287,4 +287,27 @@ impl VisitMut for ExprReplacer {
             e.prop.visit_mut_with(self);
         }
     }
+
+    fn visit_mut_prop(&mut self, p: &mut Prop) {
+        p.visit_mut_children_with(self);
+
+        match p {
+            Prop::Shorthand(i) => {
+                if self.from.0 == i.sym && self.from.1 == i.span.ctxt {
+                    let value = if let Some(new) = self.to.take() {
+                        new
+                    } else {
+                        unreachable!("`{}` is already taken", i)
+                    };
+                    *p = Prop::KeyValue(KeyValueProp {
+                        key: PropName::Ident(i.clone()),
+                        value,
+                    });
+
+                    return;
+                }
+            }
+            _ => {}
+        }
+    }
 }
