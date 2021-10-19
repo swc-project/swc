@@ -1,0 +1,13 @@
+{
+    "jsc": {
+        "transform": {
+            "optimizer": {
+                "globals": {
+                    "envs": {
+                        "NODE_ENV_ALT": "true"
+                    }
+                }
+            }
+        }
+    }
+}

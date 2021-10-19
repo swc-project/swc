@@ -47,22 +47,22 @@ impl SwcLoader {
             .unwrap_or_default();
 
         let envs_map: AHashMap<_, _> = match envs {
+            GlobalInliningPassEnvs::Map(m) => m,
             GlobalInliningPassEnvs::List(envs) => envs
                 .into_iter()
                 .map(|name| {
                     let value = env::var(&name).ok();
-                    (name, value.unwrap_or_default())
+                    (name.into(), value.unwrap_or_default().into())
                 })
                 .collect(),
-            GlobalInliningPassEnvs::Map(m) => m,
         };
 
         for (k, v) in envs_map {
             m.insert(
-                k.into(),
+                k,
                 Expr::Lit(Lit::Str(Str {
                     span: DUMMY_SP,
-                    value: v.into(),
+                    value: v,
                     has_escape: false,
                     kind: Default::default(),
                 })),
@@ -159,8 +159,11 @@ impl SwcLoader {
             )?;
             let program = helpers::HELPERS.set(&helpers, || {
                 swc_ecma_utils::HANDLER.set(&handler, || {
-                    let program =
-                        program.fold_with(&mut inline_globals(self.env_map(), Default::default()));
+                    let program = program.fold_with(&mut inline_globals(
+                        self.env_map(),
+                        Default::default(),
+                        Default::default(),
+                    ));
                     let program = program.fold_with(&mut expr_simplifier(Default::default()));
                     let program = program.fold_with(&mut dead_branch_remover());
 
@@ -252,8 +255,11 @@ impl SwcLoader {
             let program = if let Some(mut config) = config {
                 helpers::HELPERS.set(&helpers, || {
                     swc_ecma_utils::HANDLER.set(handler, || {
-                        let program = program
-                            .fold_with(&mut inline_globals(self.env_map(), Default::default()));
+                        let program = program.fold_with(&mut inline_globals(
+                            self.env_map(),
+                            Default::default(),
+                            Default::default(),
+                        ));
                         let program = program.fold_with(&mut expr_simplifier(Default::default()));
                         let program = program.fold_with(&mut dead_branch_remover());
 
