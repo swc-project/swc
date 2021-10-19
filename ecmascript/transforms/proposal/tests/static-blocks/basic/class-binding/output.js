@@ -1,6 +1,6 @@
 class Foo {
-    static foo;
+    static bar = 42;
     static #_ = (() => {
-        this.foo = "foo";
+        this.foo = Foo.bar;
     })();
 }
