@@ -1,8 +1,8 @@
 use std::collections::HashSet;
+use swc_atoms::JsWord;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith, noop_fold_type};
-use swc_atoms::{JsWord};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 struct ClassStaticBlock;
 
@@ -23,7 +23,7 @@ impl ClassStaticBlock {
             let new_member = match member {
                 ClassMember::StaticBlock(static_block) => {
                     let static_block_private_id: JsWord = {
-                        let mut id_value:JsWord = "_".into();
+                        let mut id_value: JsWord = "_".into();
                         let mut count = 0;
                         while private_names.contains(&id_value) {
                             count = count + 1;
@@ -103,15 +103,15 @@ impl Fold for ClassStaticBlock {
 
     fn fold_expr(&mut self, expression: Expr) -> Expr {
         let expression = expression.fold_children_with(self);
-        match  expression {
+        match expression {
             Expr::Class(class_expression) => {
                 let class = self.fold_class_for_static_block(class_expression.class);
                 Expr::Class(ClassExpr {
                     class,
                     ..class_expression
                 })
-            },
-            _ => expression
+            }
+            _ => expression,
         }
     }
 }
