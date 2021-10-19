@@ -130,11 +130,12 @@ where
         }
 
         if self.input.is_byte(b'#') {
-            let c = self.input.cur().unwrap();
+            let first = self.input.peek();
+            let second = self.input.peek_ahead();
 
-            self.input.bump();
+            if is_name_continue(first.unwrap()) || self.is_valid_escape(first, second)? {
+                self.input.bump();
 
-            if is_name_continue(self.input.cur().unwrap()) || self.is_valid_escape()? {
                 let is_id = self.would_start_ident()?;
                 let name = self.read_name()?;
 
@@ -144,6 +145,10 @@ where
                     raw: name.1,
                 });
             }
+
+            let c = self.input.cur().unwrap();
+
+            self.input.bump();
 
             return Ok(Token::Delim { value: c });
         }
@@ -253,11 +258,11 @@ where
         try_delim!(b'[', "[");
 
         if self.input.is_byte(b'\\') {
-            let c = self.input.cur().unwrap();
-
-            if self.is_valid_escape()? {
+            if self.is_valid_escape(None, None)? {
                 return self.read_ident_like();
             }
+
+            let c = self.input.cur().unwrap();
 
             self.input.bump();
 
@@ -436,15 +441,21 @@ where
         })
     }
 
-    fn is_valid_escape(&mut self) -> LexResult<bool> {
-        if self.input.cur() != Some('\\') {
+    fn is_valid_escape(
+        &mut self,
+        maybe_first: Option<char>,
+        maybe_second: Option<char>,
+    ) -> LexResult<bool> {
+        let first = maybe_first.or(self.input.cur());
+
+        if first != Some('\\') {
             return Ok(false);
         }
 
-        let c = self.input.peek();
+        let second = maybe_second.or(self.input.peek());
 
-        match c {
-            Some(c) => Ok(!is_newline(c)),
+        match second {
+            Some(second) => Ok(!is_newline(second)),
             None => Ok(false),
         }
     }
@@ -535,7 +546,7 @@ where
                         // Otherwise, (the stream starts with a valid escape) consume an escaped
                         // code point and append the returned code point to
                         // the <string-token>’s value.
-                        else if self.is_valid_escape()? {
+                        else if self.is_valid_escape(None, None)? {
                             let escape = self.read_escape()?;
 
                             value.push(escape.0);
@@ -579,7 +590,7 @@ where
                     break;
                 }
                 Some(c) => {
-                    if self.is_valid_escape().unwrap() {
+                    if self.is_valid_escape(None, None).unwrap() {
                         let escaped = self.read_escape()?;
 
                         value.push(escaped.0);
@@ -679,7 +690,7 @@ where
                 }
 
                 Some('\\') => {
-                    if self.is_valid_escape()? {
+                    if self.is_valid_escape(None, None)? {
                         let escaped = self.read_escape()?;
 
                         value.push(escaped.0);
@@ -798,8 +809,10 @@ where
                 }
             } else if is_name_start(first) {
                 return Ok(true);
-            } else if self.is_valid_escape()? {
-                return Ok(true);
+            } else if first == '\\' {
+                let second = self.input.peek();
+
+                return Ok(self.is_valid_escape(Some(first), second)?);
             } else {
                 return Ok(false);
             }
@@ -824,7 +837,7 @@ where
 
                         buf.push(c);
                         raw.push(c);
-                    } else if self.is_valid_escape()? {
+                    } else if self.is_valid_escape(None, None)? {
                         let escaped = self.read_escape()?;
 
                         buf.push(escaped.0);
