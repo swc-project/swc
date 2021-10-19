@@ -556,7 +556,7 @@ impl EmitterWriter {
             return vec![];
         }
 
-        // Write the colunmn separator.
+        // Write the column separator.
         //
         // After this we will have:
         //
