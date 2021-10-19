@@ -707,8 +707,8 @@ where
         }
     }
 
+    // TODO: from spec - `\` should be consumed before run this https://www.w3.org/TR/css-syntax-3/#consume-escaped-code-point
     fn read_escape(&mut self) -> LexResult<(char, String)> {
-        // TODO: from spec - `\` should be consumed before run this https://www.w3.org/TR/css-syntax-3/#consume-escaped-code-point
         assert!(
             self.input.eat_byte(b'\\'),
             "read_escape: Expected a backslash"
@@ -776,36 +776,36 @@ where
         })
     }
 
-    /// Ported from `wouldStartIdentifier` of `esbuild`.
     fn would_start_ident(&mut self) -> LexResult<bool> {
-        match self.input.cur() {
-            Some(cur) => {
-                if is_name_start(cur) {
-                    return Ok(true);
-                }
+        // TODO: The algorithm described here can be called explicitly with three code
+        // points, or can be called with the input stream itself.
 
-                if cur == '-' {
-                    if let Some(c) = self.input.peek() {
-                        if is_name_start(c) {
-                            return Ok(true);
-                        }
-                        match c {
-                            '-' => return Ok(true),
+        if let Some(first) = self.input.cur() {
+            if first == '-' {
+                if let Some(second) = self.input.peek() {
+                    if is_name_start(second) || second == '-' {
+                        return Ok(true);
+                    }
 
-                            '\\' => match self.input.peek_ahead() {
-                                Some(c2) => return Ok(!is_newline(c2)),
-                                None => return Ok(false),
-                            },
+                    match second {
+                        '\\' => match self.input.peek_ahead() {
+                            Some(c2) => return Ok(!is_newline(c2)),
+                            None => return Ok(false),
+                        },
 
-                            _ => {}
-                        }
+                        _ => {}
                     }
                 }
+            } else if is_name_start(first) {
+                return Ok(true);
+            } else if self.is_valid_escape()? {
+                return Ok(true);
+            } else {
+                return Ok(false);
             }
-            None => {}
         }
 
-        Ok(self.is_valid_escape()?)
+        Ok(false)
     }
 
     fn read_name(&mut self) -> LexResult<(JsWord, JsWord)> {
