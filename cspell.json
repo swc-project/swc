@@ -1,0 +1,19 @@
+{
+    "version": "0.2",
+    "language": "en",
+    "words": [
+        "aarch",
+        "ahash",
+        "armv",
+        "BUILTINS",
+        "Deno",
+        "deps",
+        "gnueabihf",
+        "hasher",
+        "indexmap",
+        "msvc",
+        "rustc",
+        "termcolor"
+    ],
+    "flagWords": []
+}
