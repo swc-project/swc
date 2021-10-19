@@ -81,9 +81,11 @@ where
             self.input.skip_ws()?;
 
             let mut values = vec![];
+
             values.push(value);
+
             loop {
-                if !is_one_of!(self, Str, Num, Ident, "[", "(") {
+                if !is_one_of!(self, Str, Num, Ident, Dimension, "[", "(") {
                     break;
                 }
 
@@ -204,6 +206,8 @@ where
 
             Token::Function { .. } => return self.parse_value_ident_or_fn(),
             Token::Percent { .. } => return self.parse_numeric_value(),
+
+            Token::Dimension { .. } => return self.parse_numeric_value(),
 
             Token::Ident { .. } => return self.parse_value_ident_or_fn(),
 
@@ -384,34 +388,38 @@ where
 
                 Ok(Value::Percent(PercentValue { span, value }))
             }
+            Token::Dimension {
+                value,
+                raw_value,
+                unit,
+                raw_unit,
+                ..
+            } => {
+                let unit_len = raw_unit.len() as u32;
+
+                return Ok(Value::Unit(UnitValue {
+                    span,
+                    value: Num {
+                        value,
+                        raw: raw_value,
+                        span: swc_common::Span::new(
+                            span.lo,
+                            span.hi - BytePos(unit_len),
+                            Default::default(),
+                        ),
+                    },
+                    unit: Unit {
+                        span: swc_common::Span::new(
+                            span.hi - BytePos(unit_len),
+                            span.hi,
+                            Default::default(),
+                        ),
+                        value: unit,
+                        raw: raw_unit,
+                    },
+                }));
+            }
             Token::Num { value, raw, .. } => {
-                if is!(self, Ident) {
-                    let unit_span = self.input.cur_span()?;
-
-                    // Unit
-                    let value = Num { span, value, raw };
-                    match bump!(self) {
-                        Token::Ident {
-                            value: unit_value,
-                            raw: unit_raw,
-                            ..
-                        } => {
-                            return Ok(Value::Unit(UnitValue {
-                                span: span!(self, span.lo),
-                                value,
-                                unit: Unit {
-                                    span: unit_span,
-                                    value: unit_value,
-                                    raw: unit_raw,
-                                },
-                            }));
-                        }
-                        _ => {
-                            unreachable!()
-                        }
-                    }
-                }
-
                 Ok(Value::Number(Num { span, value, raw }))
             }
             _ => {

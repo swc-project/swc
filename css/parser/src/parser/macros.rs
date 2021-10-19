@@ -9,9 +9,13 @@ macro_rules! tok_pat {
     (Ident) => {
         swc_css_ast::Token::Ident { .. }
     };
-    
+
     (Percent) => {
         swc_css_ast::Token::Percent { .. }
+    };
+
+    (Dimension) => {
+        swc_css_ast::Token::Dimension { .. }
     };
 
     (AtKeyword) => {

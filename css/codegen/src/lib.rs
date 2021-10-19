@@ -500,6 +500,10 @@ where
                     self.wr.write_raw(Some(span), raw)?;
                     punct!(self, "%");
                 }
+                Token::Dimension { raw_value, raw_unit, ..} => {
+                    self.wr.write_raw(Some(span), &raw_value)?;
+                    self.wr.write_raw(Some(span), &raw_unit)?;
+                }
                 Token::Ident { raw, .. } => {
                     self.wr.write_raw(Some(n.span), &raw)?;
                 }

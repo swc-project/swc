@@ -150,17 +150,11 @@ error: Tokens
 2 |     .video:nth-child(4n) {
   |                      ^^
 
-error: Num { value: 4.0, raw: Atom('4' type=inline) }
+error: Dimension { value: 4.0, raw_value: Atom('4' type=inline), unit: Atom('n' type=inline), raw_unit: Atom('n' type=inline) }
  --> $DIR/tests/fixture/vercel/001/input.css:2:22
   |
 2 |     .video:nth-child(4n) {
-  |                      ^
-
-error: Ident { value: Atom('n' type=inline), raw: Atom('n' type=inline) }
- --> $DIR/tests/fixture/vercel/001/input.css:2:23
-  |
-2 |     .video:nth-child(4n) {
-  |                       ^
+  |                      ^^
 
 error: DeclBlock
  --> $DIR/tests/fixture/vercel/001/input.css:2:26
