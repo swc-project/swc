@@ -86,7 +86,7 @@ it("(async) should handle plugin", async () => {
     expect(out.code).toBe("");
 });
 
-it("(async) should handel dynmic import", async () => {
+it("(async) should handle dynamic import", async () => {
     const out = await swc.transform("import('foo');", {
         jsc: {
             target: "es3",
