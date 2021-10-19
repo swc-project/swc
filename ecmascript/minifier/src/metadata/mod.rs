@@ -177,7 +177,7 @@ impl VisitMut for InfoMarker<'_> {
 
         if self.state.is_bundle {
             tracing::info!("Running minifier in the bundle mode");
-            m.span = m.span.apply_mark(self.marks.bundle_of_standalones);
+            m.span = m.span.apply_mark(self.marks.bundle_of_standalone);
         } else {
             tracing::info!("Running minifier in the normal mode");
         }
