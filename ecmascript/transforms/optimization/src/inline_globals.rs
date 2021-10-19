@@ -2,6 +2,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
     sync::Lrc,
+    EqIgnoreSpan,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
@@ -75,7 +76,21 @@ impl VisitMut for InlineGlobals {
                 if self.bindings.contains(&(sym.clone(), span.ctxt)) {
                     return;
                 }
+            }
 
+            _ => {}
+        }
+
+        for (key, value) in self.global_exprs.iter() {
+            if key.eq_ignore_span(&*expr) {
+                *expr = value.clone();
+                expr.visit_mut_with(self);
+                return;
+            }
+        }
+
+        match expr {
+            Expr::Ident(Ident { ref sym, span, .. }) => {
                 // It's ok because we don't recurse into member expressions.
                 if let Some(value) = self.globals.get(sym) {
                     let mut value = value.clone();
