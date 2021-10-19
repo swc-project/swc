@@ -1,0 +1,13 @@
+{
+    "jsc": {
+        "transform": {
+            "optimizer": {
+                "globals": {
+                    "vars": {
+                        "process.browser": "true"
+                    }
+                }
+            }
+        }
+    }
+}
