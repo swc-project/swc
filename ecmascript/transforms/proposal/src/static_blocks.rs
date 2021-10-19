@@ -22,9 +22,15 @@ impl ClassStaticBlock {
         for member in class.body {
             let new_member = match member {
                 ClassMember::StaticBlock(static_block) => {
-                    // TODO: Generate an id that does not duplicate with the id of private fields in
-                    // the class
-                    let static_block_private_id: JsWord = "_".into();
+                    let static_block_private_id: JsWord = {
+                        let mut id_value:JsWord = "_".into();
+                        let mut count = 0;
+                        while private_names.contains(&id_value) {
+                            count = count + 1;
+                            id_value = format!("{}{}", &id_value.to_string(), count).into();
+                        }
+                        id_value
+                    };
                     ClassMember::PrivateProp(
                         self.fold_static_block(static_block, static_block_private_id),
                     )
