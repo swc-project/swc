@@ -1,4 +1,5 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-cargo fmt --all -- --check
+# TODO: lint-staged
+# cargo fmt --all -- --check
