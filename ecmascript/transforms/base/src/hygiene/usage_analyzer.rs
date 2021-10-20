@@ -412,6 +412,16 @@ impl Visit for UsageAnalyzer<'_> {
         c.visit_children_with(self);
     }
 
+    fn visit_class_expr(&mut self, c: &ClassExpr, _: &dyn Node) {
+        self.visit_with_scope(c.class.span.ctxt, ScopeKind::Fn, |v| {
+            if let Some(i) = &c.ident {
+                v.add_decl(i.to_id());
+            }
+
+            c.visit_children_with(v);
+        })
+    }
+
     fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
         e.visit_children_with(self);
 
