@@ -8,6 +8,8 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+
+use super::Config;
 #[derive(Debug, Default)]
 pub(super) struct Operations {
     rename: AHashMap<Id, JsWord>,
@@ -15,19 +17,6 @@ pub(super) struct Operations {
 }
 
 impl Operations {
-    #[inline]
-    pub fn for_operator(rename: AHashMap<Id, JsWord>) -> Self {
-        Self {
-            rename,
-            symbols: Default::default(),
-        }
-    }
-
-    #[inline]
-    pub fn is_empty(&self) -> bool {
-        self.rename.is_empty()
-    }
-
     #[inline]
     pub fn rename(&mut self, from: Id, to: JsWord) {
         match self.rename.entry(from) {
@@ -37,11 +26,6 @@ impl Operations {
                 self.symbols.insert(to);
             }
         }
-    }
-
-    #[inline]
-    pub fn will_be_renamed(&self, i: &Id) -> bool {
-        self.rename.contains_key(i)
     }
 
     #[inline]
@@ -60,7 +44,7 @@ impl Operations {
     }
 }
 
-pub(super) struct Operator<'a>(pub &'a Operations);
+pub(super) struct Operator<'a>(pub &'a Operations, pub Config);
 
 impl<'a> VisitMut for Operator<'a> {
     noop_visit_mut_type!();

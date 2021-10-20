@@ -187,7 +187,7 @@ impl Hygiene {
 
         let ops = data.ops.into_inner();
 
-        n.visit_mut_with(&mut Operator(&ops));
+        n.visit_mut_with(&mut Operator(&ops, self.config.clone()));
     }
 }
 
