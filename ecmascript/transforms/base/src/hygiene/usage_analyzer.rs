@@ -379,6 +379,12 @@ impl UsageAnalyzer<'_> {
             return;
         }
 
+        if !self.cur.will_be_resolved_as(&id.0, id.1) {
+            self.rename(id);
+            // As we renamed current identifier, we don't add it to the usage list.
+            return;
+        }
+
         self.cur.add_usage(id);
     }
 }
@@ -512,6 +518,17 @@ impl Visit for UsageAnalyzer<'_> {
                 } else {
                     self.add_usage(i.id.to_id());
                 }
+            }
+            _ => {}
+        }
+    }
+
+    fn visit_prop(&mut self, p: &Prop, _: &dyn Node) {
+        p.visit_children_with(self);
+
+        match p {
+            Prop::Shorthand(i) => {
+                self.add_usage(i.to_id());
             }
             _ => {}
         }
