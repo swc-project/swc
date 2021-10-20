@@ -39,17 +39,15 @@ function MyDecorator(klass) {
         console.log(klass);
     };
 }
-let MyClass1 = ((_class = class MyClass {
+let MyClass = ((_class = class MyClass {
     constructor(){
         _initializerDefineProperty(this, "prop", _descriptor, this);
     }
-}) || _class, _dec = MyDecorator(_class), _dec1 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", String), _descriptor = _applyDecoratedDescriptor(_class.prototype, "prop", [
-    _dec,
-    _dec1
+}) || _class, _dec = MyDecorator(_class), _dec1 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", String), _descriptor = _applyDecoratedDescriptor(_class.prototype, "prop", [_dec, _dec1
 ], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: void 0
 }), _class);
-console.log(new MyClass1());
+console.log(new MyClass());
