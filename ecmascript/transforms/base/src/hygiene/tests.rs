@@ -563,10 +563,19 @@ fn block_in_fn() {
             }))])
         },
         "
+        // Ideal: 
+        //
+        // function Foo() {
+        //     var bar;
+        //     {
+        //         var bar;
+        //     }
+        // }
+
         function Foo() {
             var bar;
             {
-                var bar;
+                var bar1;
             }
         }
         ",
@@ -1350,13 +1359,25 @@ fn opt_2() {
             Ok(stmts)
         },
         "
-        var b = 1;
+        // Ideal:
+        //
+        // var b = 1;
+        // var b11 = 2;
+        // {
+        //     const b2 = 3;
+        //     const b1 = 4;
+        //     {
+        //         b11 = b2 + b + b1 + b11
+        //     }
+        // }
+
+        var b2 = 1;
         var b11 = 2;
         {
-            const b2 = 3;
+            const b = 3;
             const b1 = 4;
             {
-                b11 = b2 + b + b1 + b11
+                b11 = b + b2 + b1 + b11;
             }
         }
         ",
