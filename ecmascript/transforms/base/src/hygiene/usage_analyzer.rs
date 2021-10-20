@@ -337,78 +337,80 @@ impl UsageAnalyzer<'_> {
             trace!("Usage: `{}{:?}`", id.0, id.1);
         }
 
-        let cur_scope_conflicts = {
-            let b = self.cur.data.decls.borrow();
-            let ctxts_of_decls = b.get(&id.0);
+        // let cur_scope_conflicts = {
+        //     let b = self.cur.data.decls.borrow();
+        //     let ctxts_of_decls = b.get(&id.0);
 
-            if let Some(ctxts_of_decls) = ctxts_of_decls {
-                if ctxts_of_decls.is_empty() {
-                    // Unresolved
-                    vec![]
-                } else if ctxts_of_decls.len() == 1 && ctxts_of_decls[0] == id.1 {
-                    // If the only visible declaration is the one with same syntax context, we don't
-                    // need to rename it.
-                    vec![]
-                } else {
-                    // We have other declarations in **current** scope.
+        //     if let Some(ctxts_of_decls) = ctxts_of_decls {
+        //         if ctxts_of_decls.is_empty() {
+        //             // Unresolved
+        //             vec![]
+        //         } else if ctxts_of_decls.len() == 1 && ctxts_of_decls[0] == id.1 {
+        //             // If the only visible declaration is the one with same syntax
+        // context, we don't             // need to rename it.
+        //             vec![]
+        //         } else {
+        //             // We have other declarations in **current** scope.
 
-                    ctxts_of_decls
-                        .iter()
-                        .copied()
-                        .filter(|ctxt| *ctxt != id.1)
-                        .collect()
-                }
-            } else {
-                // Unresolved
-                vec![]
-            }
-        };
+        //             ctxts_of_decls
+        //                 .iter()
+        //                 .copied()
+        //                 .filter(|ctxt| *ctxt != id.1)
+        //                 .collect()
+        //         }
+        //     } else {
+        //         // Unresolved
+        //         vec![]
+        //     }
+        // };
 
-        if !cur_scope_conflicts.is_empty() {
-            if LOG {
-                debug!("Renaming decl: Usage-decl conflict (same scope)");
-            }
+        // if !cur_scope_conflicts.is_empty() {
+        //     if LOG {
+        //         debug!("Renaming decl: Usage-decl conflict (same scope)");
+        //     }
 
-            for ctxt in cur_scope_conflicts {
-                let decl_id = (id.0.clone(), ctxt);
-                self.rename(decl_id);
-            }
+        //     for ctxt in cur_scope_conflicts {
+        //         let decl_id = (id.0.clone(), ctxt);
+        //         self.rename(decl_id);
+        //     }
 
-            self.cur.add_usage(id);
+        //     self.cur.add_usage(id);
 
-            return;
-        }
+        //     return;
+        // }
 
-        let usage_usage_conflict = (|| {
-            // Usage-usage conflict in exactly same scope.
-            // This can happen because swc injects/moves variables.
+        // We don't need usage-usage conflict
 
-            let b = self.cur.data.direct_usages.borrow();
-            let used_ctxts = b.get(&id.0);
+        // let usage_usage_conflict = (|| {
+        //     // Usage-usage conflict in exactly same scope.
+        //     // This can happen because swc injects/moves variables.
 
-            if let Some(ctxts) = used_ctxts {
-                let cur_scope_conflict = if ctxts.contains(&id.1) {
-                    ctxts.len() > 1
-                } else {
-                    ctxts.len() > 0
-                };
+        //     let b = self.cur.data.direct_usages.borrow();
+        //     let used_ctxts = b.get(&id.0);
 
-                if cur_scope_conflict {
-                    if LOG {
-                        debug!("Renaming: Usage-usage conflict (same scope)");
-                    }
-                    return true;
-                }
-            }
+        //     if let Some(ctxts) = used_ctxts {
+        //         let cur_scope_conflict = if ctxts.contains(&id.1) {
+        //             ctxts.len() > 1
+        //         } else {
+        //             ctxts.len() > 0
+        //         };
 
-            false
-        })();
+        //         if cur_scope_conflict {
+        //             if LOG {
+        //                 debug!("Renaming: Usage-usage conflict (same scope)");
+        //             }
+        //             return true;
+        //         }
+        //     }
 
-        if usage_usage_conflict {
-            self.rename(id);
-            // As we renamed current identifier, we don't add it to the usage list.
-            return;
-        }
+        //     false
+        // })();
+
+        // if usage_usage_conflict {
+        //     self.rename(id);
+        //     // As we renamed current identifier, we don't add it to the usage list.
+        //     return;
+        // }
 
         if !self.cur.will_be_resolved_as(&id.0, id.1) {
             if LOG {
