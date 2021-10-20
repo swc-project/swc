@@ -130,19 +130,19 @@ test!(
 
       return <h1 onClick={handleClick}>Hi</h1>;
     };
-    _c1 = Hello;
+    _c = Hello;
     export let Bar = props => <Hello />;
-    _c2 = Bar;
+    _c1 = Bar;
     export default (() => {
       // This one should be ignored.
       // You should name your components.
       return <Hello />;
     });
 
-    var _c1, _c2;
+    var _c, _c1;
 
-    $RefreshReg$(_c1, "Hello");
-    $RefreshReg$(_c2, "Bar");
+    $RefreshReg$(_c, "Hello");
+    $RefreshReg$(_c1, "Bar");
 "#
 );
 

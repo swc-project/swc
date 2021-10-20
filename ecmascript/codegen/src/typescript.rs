@@ -209,7 +209,10 @@ where
     fn emit_ts_external_module_ref(&mut self, n: &TsExternalModuleRef) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        unimplemented!("emit_ts_external_module_ref")
+        keyword!("require");
+        punct!("(");
+        emit!(n.expr);
+        punct!(")");
     }
 
     #[emitter]
