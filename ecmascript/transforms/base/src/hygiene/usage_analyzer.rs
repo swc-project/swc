@@ -6,22 +6,6 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 
-#[derive(Debug)]
-pub struct FreezedData {
-    /// Top level scope uses [SyntaxContext::empty].
-    pub scopes: AHashMap<SyntaxContext, FreezedScopeData>,
-}
-
-#[derive(Debug)]
-pub struct FreezedScopeData {
-    pub kind: ScopeKind,
-
-    pub decls: AHashMap<JsWord, Vec<SyntaxContext>>,
-
-    pub direct_usages: AHashMap<JsWord, Vec<SyntaxContext>>,
-
-    pub usages: AHashMap<JsWord, Vec<SyntaxContext>>,
-}
 #[derive(Debug, Default)]
 
 pub struct Data {
