@@ -34,6 +34,18 @@ pub(super) struct CurScope<'a> {
 }
 
 impl CurScope<'_> {
+    fn contains_decl_with_symbol(&self, sym: &JsWord) -> bool {
+        if let Some(ctxts) = self.data.decls.borrow().get(&sym) {
+            if !ctxts.is_empty() {
+                return true;
+            }
+        }
+        match self.parent {
+            Some(s) => s.contains_decl_with_symbol(sym),
+            None => false,
+        }
+    }
+
     fn add_decl(&self, id: Id) {
         {
             let mut b = self.data.decls.borrow_mut();
@@ -101,6 +113,10 @@ impl UsageAnalyzer<'_> {
             let word: JsWord = format!("{}{}", orig.0, i).into();
 
             if self.data.ops.get_mut().is_used_as_rename_target(&word) {
+                continue;
+            }
+
+            if self.cur.contains_decl_with_symbol(&word) {
                 continue;
             }
 
