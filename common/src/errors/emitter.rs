@@ -164,6 +164,7 @@ impl EmitterWriter {
             short_message,
             teach,
             ui_testing: false,
+            skip_filename: false,
         }
     }
 }
@@ -181,11 +182,17 @@ impl EmitterWriter {
             short_message,
             teach,
             ui_testing: false,
+            skip_filename: false,
         }
     }
 
     pub fn ui_testing(mut self, ui_testing: bool) -> Self {
         self.ui_testing = ui_testing;
+        self
+    }
+
+    pub fn skip_filename(mut self, skip_filename: bool) -> Self {
+        self.skip_filename = skip_filename;
         self
     }
 
