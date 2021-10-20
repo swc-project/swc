@@ -2124,21 +2124,15 @@ where
 
                 ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)) => {
                     let maybe_entry = self.scope.referenced_idents.get(&import.id.to_id());
-                    let (has_concrete, dep_defined) = if let Some(entry) = maybe_entry {
-                        let dep_defined = if let Some(i) = &entry.maybe_dependency {
-                            let id = i.to_id();
-                            self.scope.referenced_idents.contains_key(&id)
-                                || self.scope.decls.contains_key(&id)
-                        } else {
-                            true
-                        };
-                        (entry.has_concrete, dep_defined)
+                    let has_concrete = if let Some(entry) = maybe_entry {
+                        entry.has_concrete
                     } else {
-                        (true, true)
+                        true
                     };
-                    // For some reason TSC preserves `import foo = bar.baz` when `bar` is undefined,
-                    // even if `foo` goes unused. So we have `|| !dep_defined` as well.
-                    if !import.is_type_only && (has_concrete || import.is_export || !dep_defined) {
+                    // TODO(nayeemrmn): For some reason TSC preserves `import foo = bar.baz`
+                    // when `bar.baz` is not defined, even if `foo` goes unused. We can't currently
+                    // identify that case so we strip it anyway.
+                    if !import.is_type_only && (has_concrete || import.is_export) {
                         let var = Decl::Var(VarDecl {
                             span: DUMMY_SP,
                             kind: VarDeclKind::Var,
