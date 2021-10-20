@@ -37,7 +37,7 @@ impl Renamer {
             n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
         }
 
-        let ops = data.ops;
+        let ops = data.ops.into_inner();
 
         dbg!(&ops);
         n.visit_mut_with(&mut Operator(&ops));

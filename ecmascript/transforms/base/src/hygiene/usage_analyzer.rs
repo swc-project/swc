@@ -12,7 +12,7 @@ use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 pub(super) struct Data {
     /// Top level scope uses [SyntaxContext::empty].
     pub scopes: AHashMap<SyntaxContext, ScopeData>,
-    pub ops: Operations,
+    pub ops: RefCell<Operations>,
 }
 
 #[derive(Debug, Default)]
@@ -36,9 +36,9 @@ impl CurScope<'_> {
     fn add_decl(&self, id: Id) {
         {
             let mut b = self.data.decls.borrow_mut();
-            let v = b.entry(id.0.clone()).or_default();
-            if !v.contains(&id.1) {
-                v.push(id.1);
+            let ctxts_of_decls = b.entry(id.0.clone()).or_default();
+            if !ctxts_of_decls.contains(&id.1) {
+                ctxts_of_decls.push(id.1);
             }
         }
 
@@ -93,6 +93,21 @@ pub(super) struct UsageAnalyzer<'a> {
 }
 
 impl UsageAnalyzer<'_> {
+    fn new_symbol(&mut self, orig: Id) -> JsWord {
+        let mut i = 0;
+        loop {
+            i += 1;
+            let word: JsWord = format!("{}{}", orig.0, i).into();
+
+            if self.data.ops.get_mut().is_used_as_rename_target(&word) {
+                continue;
+            }
+
+            // TODO: Check for the current scope if the symbol is already used.
+            break word;
+        }
+    }
+
     fn visit_with_scope<F>(&mut self, scope_ctxt: SyntaxContext, kind: ScopeKind, op: F)
     where
         F: for<'aa> FnOnce(&mut UsageAnalyzer<'aa>),
@@ -115,6 +130,25 @@ impl UsageAnalyzer<'_> {
         let v = take(&mut child.cur.data);
 
         *self.data.scopes.entry(scope_ctxt).or_default() = v;
+    }
+
+    fn add_decl(&mut self, id: Id) {
+        let need_rename = {
+            let mut b = self.cur.data.decls.borrow_mut();
+            let ctxts_of_decls = b.entry(id.0.clone()).or_default();
+            ctxts_of_decls.contains(&id.1)
+        };
+
+        if need_rename {
+            let to = self.new_symbol(id.clone());
+            self.data.ops.get_mut().rename(id, to)
+        } else {
+            self.cur.add_decl(id)
+        }
+    }
+
+    fn add_usage(&self, id: Id) {
+        self.cur.add_usage(id);
     }
 }
 
@@ -158,7 +192,7 @@ impl Visit for UsageAnalyzer<'_> {
 
         match e {
             Expr::Ident(i) => {
-                self.cur.add_usage(i.to_id());
+                self.add_usage(i.to_id());
             }
             _ => {}
         }
@@ -167,7 +201,7 @@ impl Visit for UsageAnalyzer<'_> {
     fn visit_fn_decl(&mut self, f: &FnDecl, _: &dyn Node) {
         f.function.decorators.visit_with(f, self);
 
-        self.cur.add_decl(f.ident.to_id());
+        self.add_decl(f.ident.to_id());
 
         self.visit_with_scope(f.function.span.ctxt, ScopeKind::Fn, |v| {
             f.function.params.visit_with(f, v);
@@ -188,7 +222,7 @@ impl Visit for UsageAnalyzer<'_> {
             f.function.params.visit_with(f, v);
 
             if let Some(i) = &f.ident {
-                v.cur.add_decl(i.to_id());
+                v.add_decl(i.to_id());
             }
 
             match f.function.body.as_ref() {
@@ -218,9 +252,9 @@ impl Visit for UsageAnalyzer<'_> {
         match p {
             Pat::Ident(i) => {
                 if self.is_pat_decl {
-                    self.cur.add_decl(i.id.to_id());
+                    self.add_decl(i.id.to_id());
                 } else {
-                    self.cur.add_usage(i.id.to_id());
+                    self.add_usage(i.id.to_id());
                 }
             }
             _ => {}
