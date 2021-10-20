@@ -167,6 +167,42 @@ impl Visit for ArgumentsFinder {
     }
 }
 
+pub trait StmtLikeExt: StmtLike + Send + Sync {
+    fn into_stmt(self) -> Result<Stmt, ModuleDecl>;
+
+    fn as_stmt(&self) -> Result<&Stmt, &ModuleDecl>;
+}
+
+impl StmtLikeExt for Stmt {
+    #[inline]
+    fn into_stmt(self) -> Result<Stmt, ModuleDecl> {
+        Ok(self)
+    }
+
+    #[inline]
+    fn as_stmt(&self) -> Result<&Stmt, &ModuleDecl> {
+        Ok(self)
+    }
+}
+
+impl StmtLikeExt for ModuleItem {
+    #[inline]
+    fn into_stmt(self) -> Result<Stmt, ModuleDecl> {
+        match self {
+            ModuleItem::ModuleDecl(v) => Err(v),
+            ModuleItem::Stmt(v) => Ok(v),
+        }
+    }
+
+    #[inline]
+    fn as_stmt(&self) -> Result<&Stmt, &ModuleDecl> {
+        match self {
+            ModuleItem::ModuleDecl(v) => Err(v),
+            ModuleItem::Stmt(v) => Ok(v),
+        }
+    }
+}
+
 pub trait ModuleItemLike: StmtLike {
     fn try_into_module_decl(self) -> Result<ModuleDecl, Self> {
         Err(self)
