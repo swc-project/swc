@@ -1,4 +1,4 @@
-use std::collections::HashSet;
+use swc_common::collections::AHashSet;
 use swc_atoms::JsWord;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -12,7 +12,7 @@ pub fn static_blocks() -> impl Fold {
 
 impl ClassStaticBlock {
     fn fold_class_for_static_block(&mut self, class: Class) -> Class {
-        let mut private_names = HashSet::new();
+        let mut private_names = AHashSet::default();
         for member in &class.body {
             if let ClassMember::PrivateProp(private_property) = member {
                 private_names.insert(private_property.key.id.sym.clone());
