@@ -167,13 +167,13 @@ impl Visit for ArgumentsFinder {
     }
 }
 
-pub trait StmtLikeExt: StmtLike + Send + Sync {
+pub trait StmtOrModuleItem: Send + Sync {
     fn into_stmt(self) -> Result<Stmt, ModuleDecl>;
 
     fn as_stmt(&self) -> Result<&Stmt, &ModuleDecl>;
 }
 
-impl StmtLikeExt for Stmt {
+impl StmtOrModuleItem for Stmt {
     #[inline]
     fn into_stmt(self) -> Result<Stmt, ModuleDecl> {
         Ok(self)
@@ -185,7 +185,7 @@ impl StmtLikeExt for Stmt {
     }
 }
 
-impl StmtLikeExt for ModuleItem {
+impl StmtOrModuleItem for ModuleItem {
     #[inline]
     fn into_stmt(self) -> Result<Stmt, ModuleDecl> {
         match self {
