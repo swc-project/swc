@@ -376,6 +376,11 @@ impl Visit for UsageAnalyzer<'_> {
         self.is_pat_decl = old;
     }
 
+    fn visit_class_decl(&mut self, c: &ClassDecl, _: &dyn Node) {
+        self.add_decl(c.ident.to_id());
+        c.visit_children_with(self);
+    }
+
     fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
         e.visit_children_with(self);
 
