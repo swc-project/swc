@@ -198,6 +198,15 @@ pub(super) struct UsageAnalyzer<'a> {
 }
 
 impl UsageAnalyzer<'_> {
+    fn get_renamed_id(&self, id: Id) -> Id {
+        let sym = self.data.ops.borrow().get_renamed(&id);
+
+        match sym {
+            Some(sym) => (sym, SyntaxContext::empty()),
+            None => id,
+        }
+    }
+
     fn rename(&mut self, id: Id) {
         if LOG {
             trace!("Renaming `{}{:?}`", id.0, id.1)
@@ -297,6 +306,8 @@ impl UsageAnalyzer<'_> {
             trace!("Decl: `{}{:?}`", id.0, id.1);
         }
 
+        let id = self.get_renamed_id(id);
+
         let need_rename = {
             let b = self.cur.data.decls.borrow();
             let ctxts_of_decls = b.get(&id.0);
@@ -332,6 +343,8 @@ impl UsageAnalyzer<'_> {
         if LOG {
             trace!("Usage: `{}{:?}`", id.0, id.1);
         }
+
+        let id = self.get_renamed_id(id);
 
         // We rename decl instead of usage.
         let conflicts = self.cur.conflict(&id.0, id.1);
