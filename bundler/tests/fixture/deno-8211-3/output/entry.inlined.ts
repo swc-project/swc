@@ -244,152 +244,152 @@ function timeObject(obj) {
     ]);
 }
 const ianaRegex = /[A-Za-z_+-]{1,256}(:?\/[A-Za-z_+-]{1,256}(\/[A-Za-z_+-]{1,256})?)?/;
-const n = "numeric", s = "short", l = "long";
+const n1 = "numeric", s1 = "short", l = "long";
 const DATE_SHORT = {
-    year: n,
-    month: n,
-    day: n
+    year: n1,
+    month: n1,
+    day: n1
 };
 const DATE_MED = {
-    year: n,
-    month: s,
-    day: n
+    year: n1,
+    month: s1,
+    day: n1
 };
 const DATE_MED_WITH_WEEKDAY = {
-    year: n,
-    month: s,
-    day: n,
-    weekday: s
+    year: n1,
+    month: s1,
+    day: n1,
+    weekday: s1
 };
 const DATE_FULL = {
-    year: n,
+    year: n1,
     month: l,
-    day: n
+    day: n1
 };
 const DATE_HUGE = {
-    year: n,
+    year: n1,
     month: l,
-    day: n,
+    day: n1,
     weekday: l
 };
 const TIME_SIMPLE = {
-    hour: n,
-    minute: n
+    hour: n1,
+    minute: n1
 };
 const TIME_WITH_SECONDS = {
-    hour: n,
-    minute: n,
-    second: n
+    hour: n1,
+    minute: n1,
+    second: n1
 };
 const TIME_WITH_SHORT_OFFSET = {
-    hour: n,
-    minute: n,
-    second: n,
-    timeZoneName: s
+    hour: n1,
+    minute: n1,
+    second: n1,
+    timeZoneName: s1
 };
 const TIME_WITH_LONG_OFFSET = {
-    hour: n,
-    minute: n,
-    second: n,
+    hour: n1,
+    minute: n1,
+    second: n1,
     timeZoneName: l
 };
 const TIME_24_SIMPLE = {
-    hour: n,
-    minute: n,
+    hour: n1,
+    minute: n1,
     hour12: false
 };
 const TIME_24_WITH_SECONDS = {
-    hour: n,
-    minute: n,
-    second: n,
+    hour: n1,
+    minute: n1,
+    second: n1,
     hour12: false
 };
 const TIME_24_WITH_SHORT_OFFSET = {
-    hour: n,
-    minute: n,
-    second: n,
+    hour: n1,
+    minute: n1,
+    second: n1,
     hour12: false,
-    timeZoneName: s
+    timeZoneName: s1
 };
 const TIME_24_WITH_LONG_OFFSET = {
-    hour: n,
-    minute: n,
-    second: n,
+    hour: n1,
+    minute: n1,
+    second: n1,
     hour12: false,
     timeZoneName: l
 };
 const DATETIME_SHORT = {
-    year: n,
-    month: n,
-    day: n,
-    hour: n,
-    minute: n
+    year: n1,
+    month: n1,
+    day: n1,
+    hour: n1,
+    minute: n1
 };
 const DATETIME_SHORT_WITH_SECONDS = {
-    year: n,
-    month: n,
-    day: n,
-    hour: n,
-    minute: n,
-    second: n
+    year: n1,
+    month: n1,
+    day: n1,
+    hour: n1,
+    minute: n1,
+    second: n1
 };
 const DATETIME_MED = {
-    year: n,
-    month: s,
-    day: n,
-    hour: n,
-    minute: n
+    year: n1,
+    month: s1,
+    day: n1,
+    hour: n1,
+    minute: n1
 };
 const DATETIME_MED_WITH_SECONDS = {
-    year: n,
-    month: s,
-    day: n,
-    hour: n,
-    minute: n,
-    second: n
+    year: n1,
+    month: s1,
+    day: n1,
+    hour: n1,
+    minute: n1,
+    second: n1
 };
 const DATETIME_MED_WITH_WEEKDAY = {
-    year: n,
-    month: s,
-    day: n,
-    weekday: s,
-    hour: n,
-    minute: n
+    year: n1,
+    month: s1,
+    day: n1,
+    weekday: s1,
+    hour: n1,
+    minute: n1
 };
 const DATETIME_FULL = {
-    year: n,
+    year: n1,
     month: l,
-    day: n,
-    hour: n,
-    minute: n,
-    timeZoneName: s
+    day: n1,
+    hour: n1,
+    minute: n1,
+    timeZoneName: s1
 };
 const DATETIME_FULL_WITH_SECONDS = {
-    year: n,
+    year: n1,
     month: l,
-    day: n,
-    hour: n,
-    minute: n,
-    second: n,
-    timeZoneName: s
+    day: n1,
+    hour: n1,
+    minute: n1,
+    second: n1,
+    timeZoneName: s1
 };
 const DATETIME_HUGE = {
-    year: n,
+    year: n1,
     month: l,
-    day: n,
+    day: n1,
     weekday: l,
-    hour: n,
-    minute: n,
+    hour: n1,
+    minute: n1,
     timeZoneName: l
 };
 const DATETIME_HUGE_WITH_SECONDS = {
-    year: n,
+    year: n1,
     month: l,
-    day: n,
+    day: n1,
     weekday: l,
-    hour: n,
-    minute: n,
-    second: n,
+    hour: n1,
+    minute: n1,
+    second: n1,
     timeZoneName: l
 };
 function stringify(obj) {
@@ -1841,7 +1841,7 @@ const INVALID1 = "Invalid Duration";
 let intlDTCache = {
 };
 let now = ()=>Date.now()
-, defaultZone = null, defaultLocale = null, defaultNumberingSystem = null, defaultOutputCalendar = null, throwOnInvalid = false;
+, defaultZone1 = null, defaultLocale = null, defaultNumberingSystem = null, defaultOutputCalendar = null, throwOnInvalid = false;
 const INVALID2 = "Invalid Interval";
 class Info {
     static hasDST(zone = Settings.defaultZone) {
@@ -2567,10 +2567,10 @@ function diffRelative(start, end, opts) {
     if (opts.unit) {
         return format(differ(opts.unit), opts.unit);
     }
-    for (const unit of opts.units){
-        const count = differ(unit);
+    for (const unit1 of opts.units){
+        const count = differ(unit1);
         if (Math.abs(count) >= 1) {
-            return format(count, unit);
+            return format(count, unit1);
         }
     }
     return format(0, opts.units[opts.units.length - 1]);
@@ -3733,13 +3733,13 @@ class Settings {
     }
     static set defaultZoneName(z) {
         if (!z) {
-            defaultZone = null;
+            defaultZone1 = null;
         } else {
-            defaultZone = normalizeZone(z);
+            defaultZone1 = normalizeZone(z);
         }
     }
     static get defaultZone() {
-        return defaultZone || LocalZone.instance;
+        return defaultZone1 || LocalZone.instance;
     }
     static get defaultLocale() {
         return defaultLocale;
@@ -4017,13 +4017,13 @@ class Interval {
             ]
         ), flattened = Array.prototype.concat(...ends), arr = flattened.sort((a, b)=>a.time - b.time
         );
-        for (const i of arr){
-            currentCount += i.type === "s" ? 1 : -1;
+        for (const i1 of arr){
+            currentCount += i1.type === "s" ? 1 : -1;
             if (currentCount === 1) {
-                start = i.time;
+                start = i1.time;
             } else {
-                if (start && +start !== +i.time) {
-                    results.push(Interval.fromDateTimes(start, i.time));
+                if (start && +start !== +i1.time) {
+                    results.push(Interval.fromDateTimes(start, i1.time));
                 }
                 start = null;
             }
@@ -4367,7 +4367,7 @@ function buildRegex(units) {
         units
     ];
 }
-function match(input, regex, handlers) {
+function match1(input, regex, handlers) {
     const matches = input.match(regex);
     if (matches) {
         const all = {
@@ -4504,7 +4504,7 @@ function explainFromTokens(locale, input, format) {
             invalidReason: disqualifyingUnit.invalidReason
         };
     } else {
-        const [regexString, handlers] = buildRegex(units), regex = RegExp(regexString, "i"), [rawMatches, matches] = match(input, regex, handlers), [result, zone] = matches ? dateTimeFromMatches(matches) : [
+        const [regexString, handlers] = buildRegex(units), regex = RegExp(regexString, "i"), [rawMatches, matches] = match1(input, regex, handlers), [result, zone] = matches ? dateTimeFromMatches(matches) : [
             null,
             null
         ];
