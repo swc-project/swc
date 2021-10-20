@@ -280,6 +280,10 @@ struct DeclInfo {
     has_type: bool,
     /// Var, Fn, Class
     has_concrete: bool,
+    /// In `import foo = bar.baz`, `foo`'s dependency is `bar`. This means that
+    /// when setting `has_concrete` for `foo`, it must also be set for
+    /// `bar`.
+    maybe_dependency: Option<Ident>,
 }
 
 impl<C> Strip<C>
@@ -1370,10 +1374,22 @@ where
     }
 
     fn visit_ident(&mut self, n: &Ident, _: &dyn Node) {
-        let is_type_only_export = self.is_type_only_export;
         let entry = self.scope.referenced_idents.entry(n.to_id()).or_default();
-        entry.has_concrete |= !is_type_only_export;
-
+        if self.is_type_only_export {
+            entry.has_type = true;
+        } else {
+            entry.has_concrete = true;
+        }
+        if let Some(i) = &entry.maybe_dependency {
+            let id = i.to_id();
+            if let Some(entry) = self.scope.referenced_idents.get_mut(&id) {
+                if self.is_type_only_export {
+                    entry.has_type = true;
+                } else {
+                    entry.has_concrete = true;
+                }
+            }
+        }
         n.visit_children_with(self);
     }
 
@@ -1439,21 +1455,37 @@ where
     fn visit_ts_entity_name(&mut self, name: &TsEntityName, _: &dyn Node) {
         match *name {
             TsEntityName::Ident(ref i) => {
-                let entry = self
-                    .scope
-                    .referenced_idents
-                    .entry((i.sym.clone(), i.span.ctxt()))
-                    .or_default();
+                let entry = self.scope.referenced_idents.entry(i.to_id()).or_default();
                 entry.has_type = true;
+                if let Some(i) = &entry.maybe_dependency {
+                    let id = i.to_id();
+                    if let Some(entry) = self.scope.referenced_idents.get_mut(&id) {
+                        entry.has_type = true;
+                    }
+                }
             }
             TsEntityName::TsQualifiedName(ref q) => q.left.visit_with(&*q, self),
         }
     }
 
     fn visit_ts_import_equals_decl(&mut self, n: &TsImportEqualsDecl, _: &dyn Node) {
-        match n.module_ref {
-            TsModuleRef::TsEntityName(_) => {
-                module_ref_to_expr(n.module_ref.clone()).visit_with(n, self);
+        match &n.module_ref {
+            TsModuleRef::TsEntityName(name) => {
+                let entry = self
+                    .scope
+                    .referenced_idents
+                    .entry(n.id.to_id())
+                    .or_default();
+                let mut name = name;
+                loop {
+                    match name {
+                        TsEntityName::Ident(ref i) => {
+                            entry.maybe_dependency = Some(i.clone());
+                            break;
+                        }
+                        TsEntityName::TsQualifiedName(ref q) => name = &q.left,
+                    }
+                }
             }
             _ => {
                 n.visit_children_with(self);
@@ -2091,7 +2123,16 @@ where
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)) => {
-                    if !import.is_type_only {
+                    let maybe_entry = self.scope.referenced_idents.get(&import.id.to_id());
+                    let (has_concrete, dep_defined) = if let Some(entry) = maybe_entry {
+                        let dep_id = entry.maybe_dependency.as_ref().unwrap().to_id();
+                        (entry.has_concrete, self.scope.referenced_idents.contains_key(&dep_id))
+                    } else {
+                        (true, true)
+                    };
+                    // For some reason TSC preserves `import foo = bar.baz` when `bar` is undefined,
+                    // even if `foo` goes unused. So we have `|| !dep_defined` as well.
+                    if !import.is_type_only && (has_concrete || import.is_export || !dep_defined) {
                         let var = Decl::Var(VarDecl {
                             span: DUMMY_SP,
                             kind: VarDeclKind::Var,
