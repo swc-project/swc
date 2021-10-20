@@ -6,7 +6,7 @@ use swc_common::{collections::AHashMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, ModuleItemLike, StmtExt, StmtLike, StmtOrModuleItem};
 use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
-use tracing::{debug, trace};
+use tracing::{debug, span, trace, Level};
 
 #[derive(Debug, Default)]
 
@@ -137,6 +137,15 @@ impl UsageAnalyzer<'_> {
     where
         F: for<'aa> FnOnce(&mut UsageAnalyzer<'aa>),
     {
+        let _tracing = if LOG {
+            let ctxt_str = format!("{:?}", scope_ctxt);
+            let kind_str = format!("{:?}", kind);
+            //
+            Some(span!(Level::ERROR, "Scope", ctxt = &*ctxt_str, kind = &*kind_str).entered())
+        } else {
+            None
+        };
+
         let mut child = UsageAnalyzer {
             data: self.data,
             cur: CurScope {
