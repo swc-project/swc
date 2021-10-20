@@ -6,7 +6,7 @@ use swc_common::{collections::AHashMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, ModuleItemLike, StmtExt, StmtLike, StmtOrModuleItem};
 use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
-use tracing::trace;
+use tracing::{debug, trace};
 
 #[derive(Debug, Default)]
 
@@ -159,13 +159,26 @@ impl UsageAnalyzer<'_> {
 
     fn add_decl(&mut self, id: Id) {
         let need_rename = {
-            let mut b = self.cur.data.decls.borrow_mut();
-            let ctxts_of_decls = b.entry(id.0.clone()).or_default();
+            let b = self.cur.data.decls.borrow();
+            let ctxts_of_decls = b.get(&id.0);
 
-            if ctxts_of_decls.contains(&id.1) {
-                ctxts_of_decls.len() > 1
+            if let Some(ctxts_of_decls) = ctxts_of_decls {
+                let cur_scope_conflict = if ctxts_of_decls.contains(&id.1) {
+                    ctxts_of_decls.len() > 1
+                } else {
+                    ctxts_of_decls.len() > 0
+                };
+
+                if cur_scope_conflict {
+                    if LOG {
+                        debug!("Renaming: Decl-decl conflict (same scope)");
+                    }
+                }
+
+                cur_scope_conflict
             } else {
-                ctxts_of_decls.len() > 0
+                // Fresh decl
+                false
             }
         };
 
@@ -177,7 +190,50 @@ impl UsageAnalyzer<'_> {
         }
     }
 
-    fn add_usage(&self, id: Id) {
+    fn add_usage(&mut self, id: Id) {
+        let cur_scope_conflicts = {
+            let b = self.cur.data.decls.borrow();
+            let ctxts_of_decls = b.get(&id.0);
+
+            if let Some(ctxts_of_decls) = ctxts_of_decls {
+                if ctxts_of_decls.is_empty() {
+                    // Unresolved
+                    vec![]
+                } else if ctxts_of_decls.len() == 1 && ctxts_of_decls[0] == id.1 {
+                    // If the only visible declaration is the one with same syntax context, we don't
+                    // need to rename it.
+                    vec![]
+                } else {
+                    // We have other declarations in **current** scope.
+
+                    ctxts_of_decls
+                        .iter()
+                        .copied()
+                        .filter(|ctxt| *ctxt != id.1)
+                        .collect()
+                }
+            } else {
+                // Unresolved
+                vec![]
+            }
+        };
+
+        if !cur_scope_conflicts.is_empty() {
+            if LOG {
+                debug!("Renaming decl: Usage-decl conflict (same scope)");
+            }
+
+            for ctxt in cur_scope_conflicts {
+                let decl_id = (id.0.clone(), ctxt);
+                let to = self.new_symbol(decl_id.clone());
+                self.data.ops.get_mut().rename(decl_id, to)
+            }
+
+            self.cur.add_usage(id);
+
+            return;
+        }
+
         self.cur.add_usage(id);
     }
 }
