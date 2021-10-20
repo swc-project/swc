@@ -222,7 +222,9 @@ var _obj;
                 stalledSearchTimer = null;
                 nextIsSearchStalled = false;
             }
-            var resultsFacetValues = currentState.resultsFacetValues, partialState = swcHelpers.objectWithoutProperties(currentState, ["resultsFacetValues"]);
+            var resultsFacetValues = currentState.resultsFacetValues, partialState = swcHelpers.objectWithoutProperties(currentState, [
+                "resultsFacetValues"
+            ]);
             store.setState(swcHelpers.objectSpread({
             }, partialState, {
                 results: results,
@@ -240,7 +242,9 @@ var _obj;
             clearTimeout(stalledSearchTimer);
             nextIsSearchStalled = false;
         }
-        var resultsFacetValues = currentState.resultsFacetValues, partialState = swcHelpers.objectWithoutProperties(currentState, ["resultsFacetValues"]);
+        var resultsFacetValues = currentState.resultsFacetValues, partialState = swcHelpers.objectWithoutProperties(currentState, [
+            "resultsFacetValues"
+        ]);
         store.setState(swcHelpers.objectSpread({
         }, partialState, {
             isSearchStalled: nextIsSearchStalled,
@@ -252,7 +256,9 @@ var _obj;
         if (!stalledSearchTimer) {
             var _tmp;
             _tmp = setTimeout(function() {
-                var _ref = store.getState(), resultsFacetValues = _ref.resultsFacetValues, partialState = swcHelpers.objectWithoutProperties(_ref, ["resultsFacetValues"]);
+                var _ref = store.getState(), resultsFacetValues = _ref.resultsFacetValues, partialState = swcHelpers.objectWithoutProperties(_ref, [
+                    "resultsFacetValues"
+                ]);
                 store.setState(swcHelpers.objectSpread({
                 }, partialState, {
                     isSearchStalled: true
@@ -292,9 +298,13 @@ var _obj;
                 });
                 return client.transporter.responsesCache.get({
                     method: 'search',
-                    args: [requestsWithSerializedParams].concat(swcHelpers.toConsumableArray(methodArgs))
+                    args: [
+                        requestsWithSerializedParams
+                    ].concat(swcHelpers.toConsumableArray(methodArgs))
                 }, function() {
-                    return baseMethod.apply(void 0, [requests].concat(swcHelpers.toConsumableArray(methodArgs)));
+                    return baseMethod.apply(void 0, [
+                        requests
+                    ].concat(swcHelpers.toConsumableArray(methodArgs)));
                 });
             };
         }
