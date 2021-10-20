@@ -47,6 +47,26 @@ impl CurScope<'_> {
         }
     }
 
+    fn remove_usage(&self, id: &Id) {
+        {
+            let mut b = self.data.usages.borrow_mut();
+            let ctxts_of_decls = b.get_mut(&id.0);
+
+            if let Some(ctxts_of_decls) = ctxts_of_decls {
+                if let Some(pos) = ctxts_of_decls.iter().position(|&ctxt| ctxt == id.1) {
+                    ctxts_of_decls.remove(pos);
+                }
+            }
+        }
+
+        // TODO: Consider `var` / `let` / `const`.
+        match self.parent {
+            Some(v) => {
+                v.remove_usage(id);
+            }
+            None => {}
+        }
+    }
     fn remove_decl(&self, id: &Id) {
         {
             let mut b = self.data.decls.borrow_mut();
@@ -188,6 +208,7 @@ impl UsageAnalyzer<'_> {
         }
         let to = self.new_symbol(id.clone());
         self.cur.remove_decl(&id);
+        self.cur.remove_usage(&id);
         self.data.ops.get_mut().rename(id, to);
     }
 
