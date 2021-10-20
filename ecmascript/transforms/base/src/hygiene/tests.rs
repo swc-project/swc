@@ -282,7 +282,7 @@ fn const_then_fn_param() {
                     .fold_with(&mut marker(&[("a", mark2)])),
             ])
         },
-        "const a = 1;
+        "const a1 = 1;
             function foo(a) {
                 use(a);
             }",
@@ -371,7 +371,7 @@ fn shorthand() {
             ])
         },
         "
-            let a = 1;
+            let a1 = 1;
             function foo() {
                 let a = 2;
                 use({ a })
@@ -1127,8 +1127,9 @@ fn issue_295_01() {
                 .fold_with(&mut OnceMarker::new(&[("bar", &[mark1, mark1, mark1])])))
         },
         "
-        export const bar = {
+        const bar1 = {
         };
+        export { bar1 as bar };
         class Foo {
             constructor(){
                 bar;
@@ -1160,11 +1161,12 @@ fn issue_295_02() {
                 .fold_with(&mut OnceMarker::new(&[("bar", &[mark1, mark2])])))
         },
         "
-        export const bar = {
+        const bar1 = {
         };
+        export { bar1 as bar };
         class Foo {
             constructor(){
-                bar1;
+                bar;
             }
         }
         ",
@@ -1551,12 +1553,12 @@ fn issue_2211_1() {
             Ok(stmts)
         },
         "
-        var _bar1 = require('./bar');
+        var _bar = require('./bar');
         const makeX = ()=>{
-            const _bar = ()=>(0, _bar1).bar()
+            const _bar1 = ()=>(0, _bar).bar()
             ;
             return {
-                _bar
+                _bar: _bar1
             };
         };
         ",
