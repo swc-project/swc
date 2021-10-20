@@ -1498,7 +1498,7 @@ fn opt_6() {
             Ok(stmts)
         },
         "
-        var foo1 = 'bar';
+        var foo = 'bar';
         var Foo = function() {
             function Foo() {
                 _bar.set(this, {
