@@ -240,12 +240,11 @@ impl Options {
         let enable_simplifier = optimizer.as_ref().map(|v| v.simplify).unwrap_or_default();
 
         let optimization = {
-            let pass =
-                if let Some(opts) = optimizer.map(|o| o.globals.unwrap_or_else(Default::default)) {
-                    opts.build(cm, handler)
-                } else {
-                    GlobalPassOption::default().build(cm, handler)
-                };
+            let pass = if let Some(opts) = optimizer.and_then(|o| o.globals) {
+                Either::Left(opts.build(cm, handler))
+            } else {
+                Either::Right(noop())
+            };
 
             pass
         };

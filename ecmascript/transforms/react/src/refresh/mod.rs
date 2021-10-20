@@ -569,180 +569,6 @@ where
 ///
 /// TODO: VisitMut
 impl<C: Comments> Fold for Refresh<C> {
-    fn fold_jsx_opening_element(&mut self, n: JSXOpeningElement) -> JSXOpeningElement {
-        if let JSXElementName::Ident(ident) = &n.name {
-            self.used_in_jsx.insert(ident.sym.clone());
-        }
-        n
-    }
-
-    fn fold_call_expr(&mut self, n: CallExpr) -> CallExpr {
-        let n = n.fold_children_with(self);
-
-        if let ExprOrSuper::Expr(expr) = &n.callee {
-            let ident = match expr.as_ref() {
-                Expr::Ident(ident) => ident,
-                Expr::Member(MemberExpr { prop, .. }) => {
-                    if let Expr::Ident(ident) = prop.as_ref() {
-                        ident
-                    } else {
-                        return n;
-                    }
-                }
-                _ => return n,
-            };
-            match ident.sym.as_ref() {
-                "createElement" | "jsx" | "jsxDEV" | "jsxs" => {
-                    let ExprOrSpread { expr, .. } = &n.args[0];
-                    if let Expr::Ident(ident) = expr.as_ref() {
-                        self.used_in_jsx.insert(ident.sym.clone());
-                    }
-                }
-                _ => (),
-            }
-        }
-        n
-    }
-
-    fn fold_fn_decl(&mut self, n: FnDecl) -> FnDecl {
-        let mut n = n.fold_children_with(self);
-
-        if let Some(mut hook) = n
-            .function
-            .body
-            .as_mut()
-            .and_then(|body| self.get_hook_sign(body))
-        {
-            hook.binding = Some(n.ident.clone());
-            self.curr_hook_fn.push(hook);
-        }
-
-        n
-    }
-
-    fn fold_default_decl(&mut self, n: DefaultDecl) -> DefaultDecl {
-        let mut n = n.fold_children_with(self);
-
-        // arrow function is handled in fold_expr
-        if let DefaultDecl::Fn(FnExpr {
-            // original implent somehow doesn't handle unnamed default export either
-            ident: Some(ident),
-            function: Function {
-                body: Some(body), ..
-            },
-        }) = &mut n
-        {
-            if let Some(mut hook) = self.get_hook_sign(body) {
-                hook.binding = Some(ident.clone());
-                self.curr_hook_fn.push(hook);
-            }
-        }
-
-        n
-    }
-
-    fn fold_var_decl(&mut self, n: VarDecl) -> VarDecl {
-        let VarDecl {
-            span,
-            kind,
-            declare,
-            decls,
-        } = n;
-
-        // we don't want fold_expr to mess up with function name inference
-        // so intercept it here
-        let decls = decls
-            .into_iter()
-            .map(|decl| match decl {
-                VarDeclarator {
-                    span,
-                    // it doesn't quite make sense for other Pat to appear here
-                    name: Pat::Ident(BindingIdent { id, type_ann }),
-                    init: Some(init),
-                    definite,
-                } => {
-                    let init = match *init {
-                        Expr::Fn(mut expr) => {
-                            if let Some(mut hook) = expr
-                                .function
-                                .body
-                                .as_mut()
-                                .and_then(|body| self.get_hook_sign(body))
-                            {
-                                hook.binding = Some(id.clone());
-                                self.curr_hook_fn.push(hook);
-                            }
-                            Expr::Fn(expr.fold_children_with(self))
-                        }
-                        Expr::Arrow(mut expr) => {
-                            if let Some(mut hook) = self.get_hook_sign_from_arrow(&mut expr.body) {
-                                hook.binding = Some(id.clone());
-                                self.curr_hook_fn.push(hook);
-                            }
-                            Expr::Arrow(expr.fold_children_with(self))
-                        }
-                        _ => self.fold_expr(*init),
-                    };
-                    VarDeclarator {
-                        span,
-                        name: Pat::Ident(BindingIdent { id, type_ann }),
-                        init: Some(Box::new(init)),
-                        definite,
-                    }
-                }
-                _ => decl.fold_children_with(self),
-            })
-            .collect();
-
-        VarDecl {
-            span,
-            kind,
-            declare,
-            decls,
-        }
-    }
-
-    fn fold_expr(&mut self, n: Expr) -> Expr {
-        let n = n.fold_children_with(self);
-
-        match n {
-            Expr::Fn(mut func) => {
-                if let Some(mut hook) = func
-                    .function
-                    .body
-                    .as_mut()
-                    .and_then(|body| self.get_hook_sign(body))
-                {
-                    // I don't believe many people would use it, but anyway
-                    let mut should_remove = false;
-                    if let Some(ident) = &func.ident {
-                        self.scope_binding.insert(ident.sym.clone());
-                        should_remove = true;
-                    };
-                    let reg = self.gen_hook_register(Expr::Fn(func), &mut hook);
-                    if should_remove {
-                        self.scope_binding.truncate(self.scope_binding.len() - 1);
-                    };
-                    self.curr_hook_fn.push(hook);
-                    reg
-                } else {
-                    Expr::Fn(func)
-                }
-            }
-            Expr::Arrow(mut func) => {
-                if let Some(mut hook) = self.get_hook_sign_from_arrow(&mut func.body) {
-                    let reg = self.gen_hook_register(Expr::Arrow(func), &mut hook);
-                    self.curr_hook_fn.push(hook);
-                    reg
-                } else {
-                    Expr::Arrow(func)
-                }
-            }
-            Expr::Call(call) => Expr::Call(call),
-            _ => n,
-        }
-    }
-
     fn fold_block_stmt(&mut self, n: BlockStmt) -> BlockStmt {
         let mut current_scope = IndexSet::new();
 
@@ -795,7 +621,117 @@ impl<C: Comments> Fold for Refresh<C> {
         n
     }
 
-    fn fold_ts_module_decl(&mut self, n: TsModuleDecl) -> TsModuleDecl {
+    fn fold_call_expr(&mut self, n: CallExpr) -> CallExpr {
+        let n = n.fold_children_with(self);
+
+        if let ExprOrSuper::Expr(expr) = &n.callee {
+            let ident = match expr.as_ref() {
+                Expr::Ident(ident) => ident,
+                Expr::Member(MemberExpr { prop, .. }) => {
+                    if let Expr::Ident(ident) = prop.as_ref() {
+                        ident
+                    } else {
+                        return n;
+                    }
+                }
+                _ => return n,
+            };
+            match ident.sym.as_ref() {
+                "createElement" | "jsx" | "jsxDEV" | "jsxs" => {
+                    if let Some(ExprOrSpread { expr, .. }) = n.args.get(0) {
+                        if let Expr::Ident(ident) = expr.as_ref() {
+                            self.used_in_jsx.insert(ident.sym.clone());
+                        }
+                    }
+                }
+                _ => (),
+            }
+        }
+        n
+    }
+
+    fn fold_default_decl(&mut self, n: DefaultDecl) -> DefaultDecl {
+        let mut n = n.fold_children_with(self);
+
+        // arrow function is handled in fold_expr
+        if let DefaultDecl::Fn(FnExpr {
+            // original implent somehow doesn't handle unnamed default export either
+            ident: Some(ident),
+            function: Function {
+                body: Some(body), ..
+            },
+        }) = &mut n
+        {
+            if let Some(mut hook) = self.get_hook_sign(body) {
+                hook.binding = Some(ident.clone());
+                self.curr_hook_fn.push(hook);
+            }
+        }
+
+        n
+    }
+
+    fn fold_expr(&mut self, n: Expr) -> Expr {
+        let n = n.fold_children_with(self);
+
+        match n {
+            Expr::Fn(mut func) => {
+                if let Some(mut hook) = func
+                    .function
+                    .body
+                    .as_mut()
+                    .and_then(|body| self.get_hook_sign(body))
+                {
+                    // I don't believe many people would use it, but anyway
+                    let mut should_remove = false;
+                    if let Some(ident) = &func.ident {
+                        self.scope_binding.insert(ident.sym.clone());
+                        should_remove = true;
+                    };
+                    let reg = self.gen_hook_register(Expr::Fn(func), &mut hook);
+                    if should_remove {
+                        self.scope_binding.truncate(self.scope_binding.len() - 1);
+                    };
+                    self.curr_hook_fn.push(hook);
+                    reg
+                } else {
+                    Expr::Fn(func)
+                }
+            }
+            Expr::Arrow(mut func) => {
+                if let Some(mut hook) = self.get_hook_sign_from_arrow(&mut func.body) {
+                    let reg = self.gen_hook_register(Expr::Arrow(func), &mut hook);
+                    self.curr_hook_fn.push(hook);
+                    reg
+                } else {
+                    Expr::Arrow(func)
+                }
+            }
+            Expr::Call(call) => Expr::Call(call),
+            _ => n,
+        }
+    }
+
+    fn fold_fn_decl(&mut self, n: FnDecl) -> FnDecl {
+        let mut n = n.fold_children_with(self);
+
+        if let Some(mut hook) = n
+            .function
+            .body
+            .as_mut()
+            .and_then(|body| self.get_hook_sign(body))
+        {
+            hook.binding = Some(n.ident.clone());
+            self.curr_hook_fn.push(hook);
+        }
+
+        n
+    }
+
+    fn fold_jsx_opening_element(&mut self, n: JSXOpeningElement) -> JSXOpeningElement {
+        if let JSXElementName::Ident(ident) = &n.name {
+            self.used_in_jsx.insert(ident.sym.clone());
+        }
         n
     }
 
@@ -1006,5 +942,70 @@ impl<C: Comments> Fold for Refresh<C> {
         }
 
         items
+    }
+
+    fn fold_ts_module_decl(&mut self, n: TsModuleDecl) -> TsModuleDecl {
+        n
+    }
+
+    fn fold_var_decl(&mut self, n: VarDecl) -> VarDecl {
+        let VarDecl {
+            span,
+            kind,
+            declare,
+            decls,
+        } = n;
+
+        // we don't want fold_expr to mess up with function name inference
+        // so intercept it here
+        let decls = decls
+            .into_iter()
+            .map(|decl| match decl {
+                VarDeclarator {
+                    span,
+                    // it doesn't quite make sense for other Pat to appear here
+                    name: Pat::Ident(BindingIdent { id, type_ann }),
+                    init: Some(init),
+                    definite,
+                } => {
+                    let init = match *init {
+                        Expr::Fn(mut expr) => {
+                            if let Some(mut hook) = expr
+                                .function
+                                .body
+                                .as_mut()
+                                .and_then(|body| self.get_hook_sign(body))
+                            {
+                                hook.binding = Some(id.clone());
+                                self.curr_hook_fn.push(hook);
+                            }
+                            Expr::Fn(expr.fold_children_with(self))
+                        }
+                        Expr::Arrow(mut expr) => {
+                            if let Some(mut hook) = self.get_hook_sign_from_arrow(&mut expr.body) {
+                                hook.binding = Some(id.clone());
+                                self.curr_hook_fn.push(hook);
+                            }
+                            Expr::Arrow(expr.fold_children_with(self))
+                        }
+                        _ => self.fold_expr(*init),
+                    };
+                    VarDeclarator {
+                        span,
+                        name: Pat::Ident(BindingIdent { id, type_ann }),
+                        init: Some(Box::new(init)),
+                        definite,
+                    }
+                }
+                _ => decl.fold_children_with(self),
+            })
+            .collect();
+
+        VarDecl {
+            span,
+            kind,
+            declare,
+            decls,
+        }
     }
 }
