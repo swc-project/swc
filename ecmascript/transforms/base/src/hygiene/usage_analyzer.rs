@@ -106,6 +106,11 @@ pub(super) struct UsageAnalyzer<'a> {
 }
 
 impl UsageAnalyzer<'_> {
+    fn rename(&mut self, id: Id) {
+        let to = self.new_symbol(id.clone());
+        self.data.ops.get_mut().rename(id, to)
+    }
+
     fn new_symbol(&mut self, orig: Id) -> JsWord {
         let mut i = 0;
         loop {
@@ -199,8 +204,7 @@ impl UsageAnalyzer<'_> {
         };
 
         if need_rename {
-            let to = self.new_symbol(id.clone());
-            self.data.ops.get_mut().rename(id, to)
+            self.rename(id)
         } else {
             self.cur.add_decl(id)
         }
@@ -241,8 +245,7 @@ impl UsageAnalyzer<'_> {
 
             for ctxt in cur_scope_conflicts {
                 let decl_id = (id.0.clone(), ctxt);
-                let to = self.new_symbol(decl_id.clone());
-                self.data.ops.get_mut().rename(decl_id, to)
+                self.rename(decl_id);
             }
 
             self.cur.add_usage(id);
