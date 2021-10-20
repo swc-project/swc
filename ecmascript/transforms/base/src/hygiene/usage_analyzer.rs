@@ -169,6 +169,8 @@ impl UsageAnalyzer<'_> {
             let mut v = Hoister {
                 inner: self,
                 in_block_stmt: false,
+                var_decl_kind: None,
+                is_pat_decl: false,
             };
 
             for stmt in stmts {
@@ -402,12 +404,24 @@ struct Hoister<'a, 'b> {
     inner: &'a mut UsageAnalyzer<'b>,
 
     in_block_stmt: bool,
+
+    var_decl_kind: Option<VarDeclKind>,
+    is_pat_decl: bool,
 }
 
 /// We don't recurse into [ArrowExpr] or [Function] because declarations in it
 /// are not visible to current scope.
 impl Visit for Hoister<'_, '_> {
     noop_visit_type!();
+
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {}
+
+    fn visit_block_stmt(&mut self, b: &BlockStmt, _: &dyn Node) {
+        let old = self.in_block_stmt;
+        self.in_block_stmt = true;
+        b.visit_children_with(self);
+        self.in_block_stmt = old;
+    }
 
     fn visit_block_stmt_or_expr(&mut self, _: &BlockStmtOrExpr, _: &dyn Node) {}
 
@@ -423,7 +437,50 @@ impl Visit for Hoister<'_, '_> {
         self.inner.add_decl(f.ident.to_id());
     }
 
-    fn visit_function(&mut self, f: &Function, _: &dyn Node) {
-        f.params.visit_with(f, self);
+    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
+
+    fn visit_param(&mut self, _: &Param, _: &dyn Node) {}
+
+    fn visit_pat(&mut self, p: &Pat, _: &dyn Node) {
+        p.visit_children_with(self);
+
+        match p {
+            Pat::Ident(i) => {
+                if !self.is_pat_decl {
+                    return;
+                }
+                if self.in_block_stmt {
+                    //
+                    if let Some(VarDeclKind::Const | VarDeclKind::Let) = self.var_decl_kind {
+                        return;
+                    }
+                } else {
+                }
+
+                self.inner.add_decl(i.id.to_id());
+            }
+            _ => {}
+        }
+    }
+
+    fn visit_var_decl(&mut self, v: &VarDecl, _: &dyn Node) {
+        let old = self.var_decl_kind;
+
+        self.var_decl_kind = Some(v.kind);
+        v.decls.visit_with(v, self);
+
+        self.var_decl_kind = old;
+    }
+
+    fn visit_var_declarator(&mut self, v: &VarDeclarator, _: &dyn Node) {
+        let old = self.is_pat_decl;
+
+        self.is_pat_decl = true;
+        v.name.visit_with(v, self);
+
+        self.is_pat_decl = false;
+        v.init.visit_with(v, self);
+
+        self.is_pat_decl = old;
     }
 }
