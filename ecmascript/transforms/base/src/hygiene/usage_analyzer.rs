@@ -20,6 +20,7 @@ pub(super) struct Data {
 pub(super) struct ScopeData {
     pub kind: ScopeKind,
 
+    pub direct_decls: RefCell<AHashMap<JsWord, Vec<SyntaxContext>>>,
     pub decls: RefCell<AHashMap<JsWord, Vec<SyntaxContext>>>,
 
     /// Usages in current scope.
@@ -47,6 +48,18 @@ impl CurScope<'_> {
     }
 
     fn add_decl(&self, id: Id) {
+        self.add_decl_inner(id, true)
+    }
+
+    fn add_decl_inner(&self, id: Id, direct: bool) {
+        if direct {
+            let mut b = self.data.direct_decls.borrow_mut();
+            let ctxts_of_decls = b.entry(id.0.clone()).or_default();
+            if !ctxts_of_decls.contains(&id.1) {
+                ctxts_of_decls.push(id.1);
+            }
+        }
+
         {
             let mut b = self.data.decls.borrow_mut();
             let ctxts_of_decls = b.entry(id.0.clone()).or_default();
@@ -62,7 +75,7 @@ impl CurScope<'_> {
         // TODO: Consider `var` / `let` / `const`.
         match self.parent {
             Some(v) => {
-                v.add_decl(id);
+                v.add_decl_inner(id, false);
             }
             None => {}
         }
