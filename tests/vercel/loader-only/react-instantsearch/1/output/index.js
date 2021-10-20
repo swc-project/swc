@@ -68,9 +68,9 @@ var _obj;
  * @param {object} SearchParameters - optional additional parameters to send to the algolia API
  * @param {number} stalledSearchDelay - time (in ms) after the search is stalled
  * @return {InstantSearchManager} a new instance of InstantSearchManager
- */ export default function createInstantSearchManager(param) {
-    var indexName = param.indexName, _initialState = param.initialState, initialState = _initialState === void 0 ? {
-    } : _initialState, searchClient = param.searchClient, resultsState = param.resultsState, stalledSearchDelay = param.stalledSearchDelay;
+ */ export default function createInstantSearchManager(param1) {
+    var indexName = param1.indexName, _initialState = param1.initialState, initialState1 = _initialState === void 0 ? {
+    } : _initialState, searchClient = param1.searchClient, resultsState = param1.resultsState, stalledSearchDelay = param1.stalledSearchDelay;
     var createStore = function createStore(initialState) {
         var state = initialState;
         var listeners = [];
@@ -292,13 +292,9 @@ var _obj;
                 });
                 return client.transporter.responsesCache.get({
                     method: 'search',
-                    args: [
-                        requestsWithSerializedParams
-                    ].concat(swcHelpers.toConsumableArray(methodArgs))
+                    args: [requestsWithSerializedParams].concat(swcHelpers.toConsumableArray(methodArgs))
                 }, function() {
-                    return baseMethod.apply(void 0, [
-                        requests
-                    ].concat(swcHelpers.toConsumableArray(methodArgs)));
+                    return baseMethod.apply(void 0, [requests].concat(swcHelpers.toConsumableArray(methodArgs)));
                 });
             };
         }
@@ -493,7 +489,7 @@ var _obj;
     var widgetsManager = createWidgetsManager(onWidgetsUpdate);
     hydrateSearchClient(searchClient, resultsState);
     var store = createStore({
-        widgets: initialState,
+        widgets: initialState1,
         metadata: hydrateMetadata(resultsState),
         results: hydrateResultsState(resultsState),
         error: null,

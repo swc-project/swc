@@ -6,9 +6,7 @@ function a(param) {
         swcHelpers.toConsumableArray(a.slice(0, 1)).concat(// Cmt2
         swcHelpers.toConsumableArray(b), // Cmt3
         swcHelpers.toConsumableArray(c.slice(1))));
-    }, [
-        frameworks
-    ]);
+    }, [frameworks]);
     return 1;
 }
 export default a;
