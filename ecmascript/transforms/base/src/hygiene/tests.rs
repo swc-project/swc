@@ -1640,11 +1640,6 @@ fn var_awareness_1() {
                     for (var i of [1, 2, 3]) {
                         for (var i of [4, 5, 6]) {
                             console.log(i)
-                    for (var i of []) {
-                        for (var keys in keys) {
-                            for (var i of []) {
-                                console.log(i)
-                            }
                         }
                     }
                     ",
@@ -1656,18 +1651,13 @@ fn var_awareness_1() {
         for (var i of [1, 2, 3]) {
             for (var i1 of [4, 5, 6]) {
                 console.log(i1)
-        for (var i of []) {
-            for (var keys in keys) {
-                for (var i1 of []) {
-                    console.log(i1)
-                }
             }
         }
         ",
     );
 }
 
-/// `var` has strnage scoping rule.
+/// `var` has strange scoping rule.
 #[test]
 fn var_awareness_2() {
     test(
@@ -1693,7 +1683,6 @@ fn var_awareness_2() {
         for (var i of [1, 2, 3]) {
             
         }
-
         for (var i1 of [4, 5, 6]) {
             console.log(i1)
         }
