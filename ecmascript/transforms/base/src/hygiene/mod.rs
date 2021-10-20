@@ -135,7 +135,7 @@ pub fn hygiene() -> impl Fold + 'static {
 ///
 /// # Implementation details
 ///
-/// This document exists For curous people and potential contributores.
+/// This document exists For curious people and potential contributors.
 ///
 /// `hygiene` consists of four phases.
 ///
@@ -146,24 +146,15 @@ pub fn hygiene() -> impl Fold + 'static {
 ///
 /// ## Second phase
 ///
-/// At seocnd phase, we collect all declarations and references of identifiers.
-/// We also collect kind of the variable declaration, like `var`, `let` and
-/// `const`. This is done to determine whether we should rename or not in the
-/// third phase.
+/// At second phase, we analyzes the file and determine identifiers to rename.
 ///
 /// Note that we store scoping information for each node, using the fact that
 /// [SyntaxContext] of all `scope` nodes are unique, thanks to the first phase.
 ///
+///
 /// ## Third phase
 ///
-/// At third phase, we check if identifier will be correctly if we skip
-/// renaming, accoarding to the context. If it's the case, we don't have to
-/// rename it so we skip it. If we decide to rename it, we enquque the operation
-/// and update the scoping information.
-///
-/// ## Fourth phase
-///
-///  At fourth phase, we rename all identifiers in the queue.
+///  At third phase, we rename all identifiers in the queue.
 pub fn hygiene_with_config(config: Config) -> impl 'static + Fold + VisitMut {
     as_folder(chain!(unique_scope(), Hygiene { config }))
 }
