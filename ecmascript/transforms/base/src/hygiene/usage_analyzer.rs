@@ -4,7 +4,7 @@ use std::{cell::RefCell, mem::take};
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, Id, ModuleItemLike, StmtLike};
+use swc_ecma_utils::{ident::IdentLike, Id, ModuleItemLike, StmtExt, StmtLike, StmtOrModuleItem};
 use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 
 #[derive(Debug, Default)]
@@ -134,10 +134,21 @@ impl UsageAnalyzer<'_> {
 
     fn visit_stmt_likes<N>(&mut self, stmts: &[N])
     where
-        N: StmtLike + ModuleItemLike + for<'aa> VisitWith<UsageAnalyzer<'aa>>,
+        N: StmtOrModuleItem
+            + for<'aa> VisitWith<UsageAnalyzer<'aa>>
+            + for<'aa, 'bb> VisitWith<Hoister<'aa, 'bb>>,
     {
         {
             // Hoist decls.
+
+            let mut v = Hoister {
+                inner: self,
+                in_block_stmt: false,
+            };
+
+            for stmt in stmts {
+                stmt.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+            }
         }
 
         for stmt in stmts {
@@ -296,5 +307,23 @@ impl Visit for UsageAnalyzer<'_> {
         v.init.visit_with(v, self);
 
         self.is_pat_decl = old;
+    }
+}
+
+struct Hoister<'a, 'b> {
+    inner: &'a mut UsageAnalyzer<'b>,
+
+    in_block_stmt: bool,
+}
+
+/// We don't recurse into [ArrowExpr] or [Function] because declarations in it
+/// are not visible to current scope.
+impl Visit for Hoister<'_, '_> {
+    noop_visit_type!();
+
+    fn visit_block_stmt_or_expr(&mut self, _: &BlockStmtOrExpr, _: &dyn Node) {}
+
+    fn visit_function(&mut self, f: &Function, _: &dyn Node) {
+        f.params.visit_with(f, self);
     }
 }
