@@ -290,8 +290,10 @@ impl Visit for UsageAnalyzer<'_> {
         self.add_decl(f.ident.to_id());
 
         self.visit_with_scope(f.function.span.ctxt, ScopeKind::Fn, |v| {
+            v.is_pat_decl = true;
             f.function.params.visit_with(f, v);
 
+            v.is_pat_decl = false;
             match f.function.body.as_ref() {
                 Some(body) => {
                     body.visit_children_with(v);
@@ -305,12 +307,14 @@ impl Visit for UsageAnalyzer<'_> {
         f.function.decorators.visit_with(f, self);
 
         self.visit_with_scope(f.function.span.ctxt, ScopeKind::Fn, |v| {
+            v.is_pat_decl = true;
             f.function.params.visit_with(f, v);
 
             if let Some(i) = &f.ident {
                 v.add_decl(i.to_id());
             }
 
+            v.is_pat_decl = false;
             match f.function.body.as_ref() {
                 Some(body) => {
                     body.visit_children_with(v);
