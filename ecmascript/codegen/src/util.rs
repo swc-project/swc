@@ -6,8 +6,9 @@ use swc_common::{
 use swc_ecma_ast::*;
 
 pub trait SpanExt: Spanned {
+    #[inline]
     fn is_synthesized(&self) -> bool {
-        self.span().ctxt() != SyntaxContext::empty()
+        false
     }
 
     fn starts_on_new_line(&self, format: ListFormat) -> bool {
