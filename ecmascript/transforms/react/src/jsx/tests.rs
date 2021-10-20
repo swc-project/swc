@@ -62,6 +62,7 @@ fn fixture_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Fold {
 
     options.options.use_builtins |= options.use_builtins;
     chain!(
+        resolver_with_mark(top_level_mark),
         jsx(
             t.cm.clone(),
             Some(t.comments.clone()),
