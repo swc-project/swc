@@ -132,6 +132,8 @@ impl CurScope<'_> {
             if ctxts.len() == 1 {
                 if ctxts[0] == ctxt {
                     return true;
+                } else {
+                    return false;
                 }
             }
         }
