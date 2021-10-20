@@ -1,4 +1,4 @@
-export const obj = {
+const obj1 = {
     each: function(obj, callback, args) {
         var i = 0, length = obj.length, isArray = isArraylike(obj);
         if (args) {
@@ -9,3 +9,4 @@ export const obj = {
         return obj;
     }
 };
+export { obj1 as obj,  };

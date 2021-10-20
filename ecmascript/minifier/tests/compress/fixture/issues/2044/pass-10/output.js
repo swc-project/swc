@@ -3,7 +3,7 @@ function createCommonjsModule(fn) {
 }
 const isFile = (config)=>!0
 , pkgBrowserslist = {
-}, config = {
+}, config1 = {
 };
 createCommonjsModule(function(module, exports) {
     Object.defineProperty(exports, "__esModule", {

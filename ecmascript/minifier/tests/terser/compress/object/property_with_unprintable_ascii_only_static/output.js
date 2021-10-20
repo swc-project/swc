@@ -1,4 +1,4 @@
-class foo {
+class foo1 {
     static get "\x02\x03"() {
         return "bar";
     }

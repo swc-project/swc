@@ -5,7 +5,7 @@ const manager = function() {
     function j(k) {
         return c.has(k) ? c.get(k) : c.set(k, new Map()).get(k);
     }
-    function g(u, v) {
+    function g1(u, v) {
         for (let w of u){
             const x = j(v), y = x.get(w.target);
             y && y(w);
@@ -18,7 +18,7 @@ const manager = function() {
                 const h = b(g);
                 for (const i of c.keys())if (a(i, h)) return i;
                 return null;
-            })(e) || new IntersectionObserver(g, e);
+            })(e) || new IntersectionObserver(g1, e);
         },
         l: function(m, n, o) {
             const p = j(m);
