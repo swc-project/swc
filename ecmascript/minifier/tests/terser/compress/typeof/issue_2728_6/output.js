@@ -1,4 +1,4 @@
-function arguments1(arguments) {
+function arguments(arguments) {
     return typeof arguments;
 }
-console.log(typeof arguments1, arguments1());
+console.log(typeof arguments, arguments());
