@@ -1,5 +1,5 @@
 use super::{
-    ops::{Operations, Operator},
+    ops::Operator,
     usage_analyzer::{Data, UsageAnalyzer},
 };
 use crate::hygiene::{unique_scope::unique_scope, usage_analyzer::CurScope};
@@ -8,15 +8,13 @@ use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith, VisitWith};
 
 pub fn hygiene3() -> impl Fold + VisitMut {
-    as_folder(chain!(unique_scope(), Renamer::default()))
+    as_folder(chain!(unique_scope(), Hygiene::default()))
 }
 
-/// While visiting identifiers, we check if it will be resolved as a correct
-/// variable, and skip if it's the case.
 #[derive(Debug, Default)]
-struct Renamer {}
+struct Hygiene {}
 
-impl Renamer {
+impl Hygiene {
     fn analyze<N>(&mut self, n: &mut N)
     where
         N: for<'aa> VisitWith<UsageAnalyzer<'aa>>,
@@ -39,12 +37,11 @@ impl Renamer {
 
         let ops = data.ops.into_inner();
 
-        dbg!(&ops);
         n.visit_mut_with(&mut Operator(&ops));
     }
 }
 
-impl VisitMut for Renamer {
+impl VisitMut for Hygiene {
     noop_visit_mut_type!();
 
     fn visit_mut_module(&mut self, n: &mut Module) {
