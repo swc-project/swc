@@ -54,7 +54,7 @@ var C = // @Filename: classExtendsItselfIndirectly_file1.ts
     }
     return C;
 } // error
-(E);
+(E1);
 var D = // @Filename: classExtendsItselfIndirectly_file2.ts
 /*#__PURE__*/ function(C) {
     "use strict";
@@ -65,15 +65,15 @@ var D = // @Filename: classExtendsItselfIndirectly_file2.ts
     }
     return D;
 }(C);
-var E = // @Filename: classExtendsItselfIndirectly_file3.ts
+var E1 = // @Filename: classExtendsItselfIndirectly_file3.ts
 /*#__PURE__*/ function(D) {
     "use strict";
-    _inherits(E, D);
-    function E() {
-        _classCallCheck(this, E);
-        return _possibleConstructorReturn(this, _getPrototypeOf(E).apply(this, arguments));
+    _inherits(E1, D);
+    function E1() {
+        _classCallCheck(this, E1);
+        return _possibleConstructorReturn(this, _getPrototypeOf(E1).apply(this, arguments));
     }
-    return E;
+    return E1;
 }(D);
 var C2 = // @Filename: classExtendsItselfIndirectly_file4.ts
 /*#__PURE__*/ function(E2) {
@@ -85,7 +85,7 @@ var C2 = // @Filename: classExtendsItselfIndirectly_file4.ts
     }
     return C2;
 } // error
-(E2);
+(E21);
 var D2 = // @Filename: classExtendsItselfIndirectly_file5.ts
 /*#__PURE__*/ function(C2) {
     "use strict";
@@ -96,13 +96,13 @@ var D2 = // @Filename: classExtendsItselfIndirectly_file5.ts
     }
     return D2;
 }(C2);
-var E2 = // @Filename: classExtendsItselfIndirectly_file6.ts
+var E21 = // @Filename: classExtendsItselfIndirectly_file6.ts
 /*#__PURE__*/ function(D2) {
     "use strict";
-    _inherits(E2, D2);
-    function E2() {
-        _classCallCheck(this, E2);
-        return _possibleConstructorReturn(this, _getPrototypeOf(E2).apply(this, arguments));
+    _inherits(E21, D2);
+    function E21() {
+        _classCallCheck(this, E21);
+        return _possibleConstructorReturn(this, _getPrototypeOf(E21).apply(this, arguments));
     }
-    return E2;
+    return E21;
 }(D2);

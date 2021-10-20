@@ -160,10 +160,10 @@ var n = /*#__PURE__*/ React.createElement(BothWithSpecifiedGeneric, {
     bar: "yes",
     baz: 12
 });
-var o = /*#__PURE__*/ React.createElement(BothWithSpecifiedGeneric, {
+var o1 = /*#__PURE__*/ React.createElement(BothWithSpecifiedGeneric, {
     foo: "no"
 }); // Error, missing required prop bar
-var p = /*#__PURE__*/ React.createElement(BothWithSpecifiedGeneric, {
+var p1 = /*#__PURE__*/ React.createElement(BothWithSpecifiedGeneric, {
     bar: "yes",
     baz: 12
 });

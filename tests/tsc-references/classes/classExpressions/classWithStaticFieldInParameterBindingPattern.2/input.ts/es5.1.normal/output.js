@@ -59,7 +59,7 @@ var C = function C() {
         }
         return _class;
     }(C), _class.x = 1, _class).x], b = tmp === void 0 ? "" : tmp;
-    var C1;
+    var C;
 })();
 var x = "";
 (function(param, param1) {

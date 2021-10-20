@@ -38,28 +38,28 @@ function _setPrototypeOf(o, p) {
 }
 var _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, A = function() {
+}, A1 = function() {
     "use strict";
-    _classCallCheck(this, A);
+    _classCallCheck(this, A1);
 }, B = function(A) {
     "use strict";
     function B() {
         return _classCallCheck(this, B), _possibleConstructorReturn(this, _getPrototypeOf(B).apply(this, arguments));
     }
     return _inherits(B, A), B;
-}(A), C = function(A) {
+}(A1), C = function(A) {
     "use strict";
     function C() {
         return _classCallCheck(this, C), _possibleConstructorReturn(this, _getPrototypeOf(C).apply(this, arguments));
     }
     return _inherits(C, A), C;
-}(A), D = function(A) {
+}(A1), D = function(A) {
     "use strict";
     function D() {
         return _classCallCheck(this, D), _possibleConstructorReturn(this, _getPrototypeOf(D).apply(this, arguments));
     }
     return _inherits(D, A), D;
-}(A), E = function(A) {
+}(A1), E = function(A) {
     "use strict";
     function E() {
         return _classCallCheck(this, E), _possibleConstructorReturn(this, _getPrototypeOf(E).apply(this, arguments));
@@ -72,7 +72,7 @@ var _typeof = function(obj) {
             }
         }
     ]), E;
-}(A), F = function(A) {
+}(A1), F = function(A) {
     "use strict";
     function F() {
         return _classCallCheck(this, F), _possibleConstructorReturn(this, _getPrototypeOf(F).apply(this, arguments));
@@ -84,7 +84,7 @@ var _typeof = function(obj) {
             }
         }
     ]), F;
-}(A), G = function(A) {
+}(A1), G = function(A) {
     "use strict";
     function G() {
         return _classCallCheck(this, G), _possibleConstructorReturn(this, _getPrototypeOf(G).apply(this, arguments));
@@ -102,4 +102,4 @@ var _typeof = function(obj) {
             }
         }
     ]), G;
-}(A);
+}(A1);

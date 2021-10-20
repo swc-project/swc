@@ -1,4 +1,4 @@
-var A;
+var A1;
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
@@ -13,9 +13,9 @@ function _setPrototypeOf(o, p) {
     }, _setPrototypeOf(o, p);
 }
 !function(A) {
-    var Point = function() {
+    var Point1 = function() {
         "use strict";
-        _classCallCheck(this, Point);
+        _classCallCheck(this, Point1);
     };
     A.Origin = {
         x: 0,
@@ -40,7 +40,7 @@ function _setPrototypeOf(o, p) {
                 }
             }), superClass && _setPrototypeOf(subClass, superClass);
         }(Point3d, Point), Point3d;
-    }(Point);
+    }(Point1);
     A.Point3d = Point3d, A.Origin3d = {
         x: 0,
         y: 0,
@@ -67,5 +67,5 @@ function _setPrototypeOf(o, p) {
         ]), Line;
     }();
     A.Line = Line;
-}(A || (A = {
+}(A1 || (A1 = {
 }));

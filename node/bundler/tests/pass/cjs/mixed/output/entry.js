@@ -11,10 +11,10 @@ function __spack_require__(mod) {
     cache = module.exports;
     return cache;
 }
-var load = __swcpack_require__.bind(void 0, function(module, exports) {
+var load = __swcpack_require__.bind(void 0, function(module1, exports) {
     module.exports = 1;
 });
-var load1 = __swcpack_require__.bind(void 0, function(module, exports) {
+var load1 = __swcpack_require__.bind(void 0, function(module2, exports) {
     module.exports = load();
 });
 var { default: a  } = load1();

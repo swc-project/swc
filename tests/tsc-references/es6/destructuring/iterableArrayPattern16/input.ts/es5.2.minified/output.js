@@ -55,9 +55,9 @@ var arr, _typeof = function(obj) {
 }(arr) || function() {
     throw new TypeError("Invalid attempt to spread non-iterable instance");
 }());
-var Bar = function() {
+var Bar1 = function() {
     "use strict";
-    _classCallCheck(this, Bar);
+    _classCallCheck(this, Bar1);
 }, Foo = function(Bar) {
     "use strict";
     function Foo() {
@@ -77,7 +77,7 @@ var Bar = function() {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(Foo, Bar), Foo;
-}(Bar), tmp = Symbol.iterator, FooIterator = function() {
+}(Bar1), tmp = Symbol.iterator, FooIterator = function() {
     "use strict";
     function FooIterator() {
         _classCallCheck(this, FooIterator);

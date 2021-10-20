@@ -8,20 +8,20 @@ function _taggedTemplateLiteral(strings, raw) {
         }
     }));
 }
-function _templateObject1() {
-    var data = _taggedTemplateLiteral([
-        ""
-    ]);
-    _templateObject1 = function _templateObject1() {
-        return data;
-    };
-    return data;
-}
 function _templateObject() {
     var data = _taggedTemplateLiteral([
         ""
     ]);
     _templateObject = function _templateObject() {
+        return data;
+    };
+    return data;
+}
+function _templateObject1() {
+    var data = _taggedTemplateLiteral([
+        ""
+    ]);
+    _templateObject1 = function _templateObject1() {
         return data;
     };
     return data;
@@ -319,11 +319,11 @@ function _templateObject27() {
 // Generic tag with one parameter
 function noParams(n) {
 }
-noParams(_templateObject1());
+noParams(_templateObject());
 // Generic tag with parameter which does not use type parameter
 function noGenericParams(n) {
 }
-noGenericParams(_templateObject());
+noGenericParams(_templateObject1());
 // Generic tag with multiple type parameters and only one used in parameter type annotation
 function someGenerics1a(n, m) {
 }

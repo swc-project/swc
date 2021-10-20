@@ -143,6 +143,6 @@ var q2 = (s = this)=>{
     this.spaaaaace = 4;
 };
 //type of 'this' in global module is GlobalThis
-var t;
-var t = this;
+var t1;
+var t1 = this;
 this.spaaaaace = 4;

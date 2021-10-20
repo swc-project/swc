@@ -1,25 +1,25 @@
 // @Filename: foo1.ts
-var x = 10;
+var x1 = 10;
 var y = 20;
-module.exports = x;
+module.exports = x1;
 module.exports = y;
 // @Filename: foo2.ts
-var x = 10;
+var x1 = 10;
 class y {
 }
-module.exports = x;
+module.exports = x1;
 module.exports = y;
 (function(x) {
     x.x = 10;
-})(x || (x = {
+})(x1 || (x1 = {
 }));
 class y {
 }
-module.exports = x;
+module.exports = x1;
 module.exports = y;
 // @Filename: foo4.ts
-module.exports = x;
-function x() {
+module.exports = x1;
+function x1() {
     return 42;
 }
 function y() {
@@ -27,11 +27,11 @@ function y() {
 }
 module.exports = y;
 // @Filename: foo5.ts
-var x = 5;
+var x1 = 5;
 var y = "test";
 var z = {
 };
-module.exports = x;
+module.exports = x1;
 module.exports = y;
 module.exports = z;
 export { };

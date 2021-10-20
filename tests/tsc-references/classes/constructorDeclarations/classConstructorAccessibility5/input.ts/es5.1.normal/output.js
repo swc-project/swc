@@ -58,13 +58,13 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
-var Base1 = function Base1() {
+var Base = function Base() {
     "use strict";
-    _classCallCheck(this, Base1);
+    _classCallCheck(this, Base);
 };
-var Derived = /*#__PURE__*/ function(Base) {
+var Derived = /*#__PURE__*/ function(Base1) {
     "use strict";
-    _inherits(Derived, Base);
+    _inherits(Derived, Base1);
     function Derived() {
         _classCallCheck(this, Derived);
         return _possibleConstructorReturn(this, _getPrototypeOf(Derived).apply(this, arguments));
@@ -73,12 +73,12 @@ var Derived = /*#__PURE__*/ function(Base) {
         {
             key: "make",
             value: function make() {
-                new Base1();
+                new Base();
             } // ok
         }
     ]);
     return Derived;
-}(Base1);
+}(Base);
 var Unrelated = /*#__PURE__*/ function() {
     "use strict";
     function Unrelated() {
@@ -88,7 +88,7 @@ var Unrelated = /*#__PURE__*/ function() {
         {
             key: "fake",
             value: function fake() {
-                new Base1();
+                new Base();
             } // error
         }
     ]);

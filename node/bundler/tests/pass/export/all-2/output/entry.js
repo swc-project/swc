@@ -1,8 +1,8 @@
 class Root {
 }
-class A1 extends Root {
+class A extends Root {
 }
-export { A1 as A };
-class B1 extends Root {
+export { A as A };
+class B extends Root {
 }
-export { B1 as B };
+export { B as B };

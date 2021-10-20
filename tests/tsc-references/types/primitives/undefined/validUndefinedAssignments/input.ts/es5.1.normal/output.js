@@ -4,7 +4,7 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 var x;
-var a = x;
+var a1 = x;
 var b = x;
 var c = x;
 var d = x;

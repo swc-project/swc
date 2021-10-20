@@ -34,8 +34,8 @@ var C = // all of these valueOf calls should return the type shown in the overri
 }();
 var c;
 var r1 = c.valueOf();
-var i;
-var r2 = i.valueOf();
+var i1;
+var r2 = i1.valueOf();
 var a = {
     valueOf: function() {
     }

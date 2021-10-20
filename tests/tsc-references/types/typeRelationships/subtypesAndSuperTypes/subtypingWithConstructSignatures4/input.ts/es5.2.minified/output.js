@@ -29,16 +29,16 @@ function _setPrototypeOf(o, p) {
 }
 var r1arg, r2arg, r3arg, r4arg, r5arg, r6arg, r11arg, r15arg, r16arg, r17arg, r18arg, _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, Base = function() {
+}, Base1 = function() {
     "use strict";
-    _classCallCheck(this, Base);
+    _classCallCheck(this, Base1);
 }, Derived = function(Base) {
     "use strict";
     function Derived() {
         return _classCallCheck(this, Derived), _possibleConstructorReturn(this, _getPrototypeOf(Derived).apply(this, arguments));
     }
     return _inherits(Derived, Base), Derived;
-}(Base), Derived2 = function(Derived) {
+}(Base1), Derived2 = function(Derived) {
     "use strict";
     function Derived2() {
         return _classCallCheck(this, Derived2), _possibleConstructorReturn(this, _getPrototypeOf(Derived2).apply(this, arguments));
@@ -50,5 +50,5 @@ var r1arg, r2arg, r3arg, r4arg, r5arg, r6arg, r11arg, r15arg, r16arg, r17arg, r1
         return _classCallCheck(this, OtherDerived), _possibleConstructorReturn(this, _getPrototypeOf(OtherDerived).apply(this, arguments));
     }
     return _inherits(OtherDerived, Base), OtherDerived;
-}(Base);
+}(Base1);
 foo1(r1arg), foo2(r2arg), foo3(r3arg), foo4(r4arg), foo5(r5arg), foo6(r6arg), foo11(r11arg), foo15(r15arg), foo16(r16arg), foo17(r17arg), foo18(r18arg);

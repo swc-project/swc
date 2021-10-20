@@ -324,7 +324,7 @@ var SomeDerived3 = //super.publicStaticMemberNotFunction in static member functi
     return SomeDerived3;
 }(SomeBase);
 // In object literal
-var obj = {
+var obj1 = {
     n: super.wat,
     p: super.foo()
 };

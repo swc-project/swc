@@ -20,8 +20,8 @@ function _createClass(Constructor, protoProps, staticProps) {
 // Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
-var TypeScript1;
-(function(TypeScript) {
+var TypeScript;
+(function(TypeScript1) {
     var preFindMemberScope = function preFindMemberScope(ast, parent, walker) {
         var memScope = walker.state;
         if (hasFlag(ast.flags, memScope.matchFlag) && (memScope.pos < 0 || memScope.pos == ast.limChar)) {
@@ -128,7 +128,7 @@ var TypeScript1;
     };
     var findEnclosingScopeAt = function findEnclosingScopeAt(logger, script, text, pos, isMemberCompletion) {
         var context = new EnclosingScopeContext(logger, script, text, pos, isMemberCompletion);
-        TypeScript1.getAstWalkerFactory().walk(script, preFindEnclosingScope, null, null, context);
+        TypeScript.getAstWalkerFactory().walk(script, preFindEnclosingScope, null, null, context);
         if (context.scopeStartAST === null) return null;
         return context;
     };
@@ -139,7 +139,7 @@ var TypeScript1;
         this.checker = checker;
         this.script = null;
     };
-    TypeScript.TypeCollectionContext = TypeCollectionContext;
+    TypeScript1.TypeCollectionContext = TypeCollectionContext;
     var MemberScopeContext = function MemberScopeContext(flow, pos, matchFlag) {
         "use strict";
         _classCallCheck(this, MemberScopeContext);
@@ -150,7 +150,7 @@ var TypeScript1;
         this.ast = null;
         this.options = new AstWalkOptions();
     };
-    TypeScript.MemberScopeContext = MemberScopeContext;
+    TypeScript1.MemberScopeContext = MemberScopeContext;
     var EnclosingScopeContext = /*#__PURE__*/ function() {
         "use strict";
         function EnclosingScopeContext(logger, script, text, pos, isMemberCompletion) {
@@ -214,7 +214,7 @@ var TypeScript1;
                         var ast = this.getScriptFragmentStartAST();
                         var minChar = ast.minChar;
                         var limChar = this.isMemberCompletion ? this.pos : this.pos + 1;
-                        this.scriptFragment = TypeScript1.quickParse(this.logger, ast, this.text, minChar, limChar, null).Script;
+                        this.scriptFragment = TypeScript.quickParse(this.logger, ast, this.text, minChar, limChar, null).Script;
                     }
                     return this.scriptFragment;
                 }
@@ -222,11 +222,11 @@ var TypeScript1;
         ]);
         return EnclosingScopeContext;
     }();
-    TypeScript.EnclosingScopeContext = EnclosingScopeContext;
-    TypeScript.preFindMemberScope = preFindMemberScope;
-    TypeScript.pushTypeCollectionScope = pushTypeCollectionScope;
-    TypeScript.popTypeCollectionScope = popTypeCollectionScope;
-    TypeScript.preFindEnclosingScope = preFindEnclosingScope;
-    TypeScript.findEnclosingScopeAt = findEnclosingScopeAt;
-})(TypeScript1 || (TypeScript1 = {
+    TypeScript1.EnclosingScopeContext = EnclosingScopeContext;
+    TypeScript1.preFindMemberScope = preFindMemberScope;
+    TypeScript1.pushTypeCollectionScope = pushTypeCollectionScope;
+    TypeScript1.popTypeCollectionScope = popTypeCollectionScope;
+    TypeScript1.preFindEnclosingScope = preFindEnclosingScope;
+    TypeScript1.findEnclosingScopeAt = findEnclosingScopeAt;
+})(TypeScript || (TypeScript = {
 }));

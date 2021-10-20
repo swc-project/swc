@@ -1,7 +1,7 @@
 function foo() {
     return !0;
 }
-var BOOLEAN, M, A = function() {
+var BOOLEAN, M1, A = function() {
     "use strict";
     var Constructor;
     function A() {
@@ -26,7 +26,7 @@ var BOOLEAN, M, A = function() {
 !function(M) {
     var n;
     M.n = n;
-}(M || (M = {
+}(M1 || (M1 = {
 }));
 var objA = new A();
 ++BOOLEAN, BOOLEAN++, ++!0, ++{
@@ -45,4 +45,4 @@ var objA = new A();
     y: function(n) {
         return n;
     }
-}++, ++objA.a, ++M.n, ++foo(), ++A.foo(), foo()++, A.foo()++, objA.a++, M.n++, ++!0, ++BOOLEAN, ++foo(), ++objA.a, ++M.n, ++objA.a, M.n, !0++, BOOLEAN++, foo()++, objA.a++, M.n++, objA.a++, M.n++;
+}++, ++objA.a, ++M1.n, ++foo(), ++A.foo(), foo()++, A.foo()++, objA.a++, M1.n++, ++!0, ++BOOLEAN, ++foo(), ++objA.a, ++M1.n, ++objA.a, M1.n, !0++, BOOLEAN++, foo()++, objA.a++, M1.n++, objA.a++, M1.n++;

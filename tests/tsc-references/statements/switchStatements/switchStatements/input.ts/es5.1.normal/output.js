@@ -44,13 +44,13 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
-var M;
+var M1;
 (function(M) {
     var fn = function fn(x) {
         return '';
     };
     M.fn = fn;
-})(M || (M = {
+})(M1 || (M1 = {
 }));
 var x;
 switch(x){
@@ -72,8 +72,8 @@ switch(x){
         'a'
     ]:
     case typeof x === "undefined" ? "undefined" : _typeof(x):
-    case typeof M === "undefined" ? "undefined" : _typeof(M):
-    case M.fn(1):
+    case typeof M1 === "undefined" ? "undefined" : _typeof(M1):
+    case M1.fn(1):
     case function(x) {
         return '';
     }:

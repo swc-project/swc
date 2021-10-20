@@ -17,22 +17,22 @@ Point.Origin = {
     Point.Origin = "";
 })(Point || (Point = {
 }));
-var A;
+var A1;
 (function(A) {
-    var Point1 = function Point1(x, y) {
+    var Point = function Point(x, y) {
         "use strict";
-        _classCallCheck(this, Point1);
+        _classCallCheck(this, Point);
         this.x = x;
         this.y = y;
     };
-    A.Point = Point1;
-    Point1.Origin = {
+    A.Point = Point;
+    Point.Origin = {
         x: 0,
         y: 0
     };
     (function(Point) {
         Point.Origin = "";
-    })(Point1 || (Point1 = {
+    })(Point || (Point = {
     }));
-})(A || (A = {
+})(A1 || (A1 = {
 }));

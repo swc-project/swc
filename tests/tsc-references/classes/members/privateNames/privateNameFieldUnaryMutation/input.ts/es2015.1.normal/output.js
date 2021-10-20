@@ -36,22 +36,22 @@ class C {
         return new C();
     }
     constructor(){
-        var old, old1, old2, old3, old4;
+        var old, old5, old6, old7, old8;
         _test.set(this, {
             writable: true,
             value: 24
         });
         _classPrivateFieldSet(this, _test, (old = +_classPrivateFieldGet(this, _test)) + 1), old;
-        _classPrivateFieldSet(this, _test, (old1 = +_classPrivateFieldGet(this, _test)) - 1), old1;
+        _classPrivateFieldSet(this, _test, (old5 = +_classPrivateFieldGet(this, _test)) - 1), old5;
         _classPrivateFieldSet(this, _test, +_classPrivateFieldGet(this, _test) + 1);
         _classPrivateFieldSet(this, _test, +_classPrivateFieldGet(this, _test) - 1);
-        const a = (_classPrivateFieldSet(this, _test, (old2 = +_classPrivateFieldGet(this, _test)) + 1), old2);
-        const b = (_classPrivateFieldSet(this, _test, (old3 = +_classPrivateFieldGet(this, _test)) - 1), old3);
+        const a = (_classPrivateFieldSet(this, _test, (old6 = +_classPrivateFieldGet(this, _test)) + 1), old6);
+        const b = (_classPrivateFieldSet(this, _test, (old7 = +_classPrivateFieldGet(this, _test)) - 1), old7);
         const c = _classPrivateFieldSet(this, _test, +_classPrivateFieldGet(this, _test) + 1);
         const d = _classPrivateFieldSet(this, _test, +_classPrivateFieldGet(this, _test) - 1);
         for(_classPrivateFieldSet(this, _test, 0); _classPrivateFieldGet(this, _test) < 10; _classPrivateFieldSet(this, _test, +_classPrivateFieldGet(this, _test) + 1)){
         }
-        for(_classPrivateFieldSet(this, _test, 0); _classPrivateFieldGet(this, _test) < 10; _classPrivateFieldSet(this, _test, (old4 = +_classPrivateFieldGet(this, _test)) + 1), old4){
+        for(_classPrivateFieldSet(this, _test, 0); _classPrivateFieldGet(this, _test) < 10; _classPrivateFieldSet(this, _test, (old8 = +_classPrivateFieldGet(this, _test)) + 1), old8){
         }
     }
 }

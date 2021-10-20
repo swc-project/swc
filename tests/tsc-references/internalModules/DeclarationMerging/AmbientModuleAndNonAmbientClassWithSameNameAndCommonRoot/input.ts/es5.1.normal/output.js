@@ -4,7 +4,7 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 // @filename: classPoint.ts
-var A;
+var A1;
 (function(A) {
     var Point = function Point(x, y) {
         "use strict";
@@ -13,9 +13,9 @@ var A;
         this.y = y;
     };
     A.Point = Point;
-})(A || (A = {
+})(A1 || (A1 = {
 }));
 // @filename: test.ts
 var p;
-var p = A.Point.Origin;
-var p = new A.Point(0, 0); // unexpected error here, bug 840000
+var p = A1.Point.Origin;
+var p = new A1.Point(0, 0); // unexpected error here, bug 840000

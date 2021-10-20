@@ -19,7 +19,7 @@ function _extends() {
 // @skipLibCheck: true
 // @libFiles: react.d.ts,lib.d.ts
 var React = require('react');
-var props = {
+var props1 = {
     a: 1,
     b: 1
 };
@@ -28,28 +28,28 @@ var Foo = function(props) {
 };
 // ok
 var a1 = /*#__PURE__*/ React.createElement(Foo, _extends({
-}, props));
+}, props1));
 var a2 = /*#__PURE__*/ React.createElement(Foo, _extends({
     d: 1
-}, props));
+}, props1));
 // error
 var b1 = /*#__PURE__*/ React.createElement(Foo, _extends({
     a: 1
-}, props));
+}, props1));
 var b2 = /*#__PURE__*/ React.createElement(Foo, _extends({
     a: 1,
     b: 2
-}, props));
+}, props1));
 var b3 = /*#__PURE__*/ React.createElement(Foo, _extends({
     a: 1,
     d: 1
-}, props, {
+}, props1, {
     d: 1
 }));
 var b4 = /*#__PURE__*/ React.createElement(Foo, _extends({
     a: 1,
     d: 1
-}, props, {
+}, props1, {
     a: 1,
     d: 1
 }));

@@ -1,23 +1,23 @@
 var // #37859
-TerrestrialAnimalTypes;
+TerrestrialAnimalTypes1;
 (function(TerrestrialAnimalTypes) {
     TerrestrialAnimalTypes["CAT"] = "cat";
     TerrestrialAnimalTypes["DOG"] = "dog";
-})(TerrestrialAnimalTypes || (TerrestrialAnimalTypes = {
+})(TerrestrialAnimalTypes1 || (TerrestrialAnimalTypes1 = {
 }));
-var AlienAnimalTypes;
+var AlienAnimalTypes1;
 (function(AlienAnimalTypes) {
     AlienAnimalTypes["CAT"] = "cat";
-})(AlienAnimalTypes || (AlienAnimalTypes = {
+})(AlienAnimalTypes1 || (AlienAnimalTypes1 = {
 }));
 const catMap = {
     cat: [
         {
-            type: TerrestrialAnimalTypes.CAT,
+            type: TerrestrialAnimalTypes1.CAT,
             address: ""
         },
         {
-            type: AlienAnimalTypes.CAT,
+            type: AlienAnimalTypes1.CAT,
             planet: ""
         }
     ],

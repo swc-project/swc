@@ -35,11 +35,15 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 function a() {
 }
 function b(_param = a()) {
-    var { b =a()  } = _param, x = _objectWithoutProperties(_param, ["b"]);
+    var { b =a()  } = _param, x = _objectWithoutProperties(_param, [
+        "b"
+    ]);
     var a1;
 }
 const x = "";
 function c(_param = a(), d = x) {
-    var { b  } = _param, c = _objectWithoutProperties(_param, ["b"]);
-    var x1;
+    var { b  } = _param, c = _objectWithoutProperties(_param, [
+        "b"
+    ]);
+    var x;
 }

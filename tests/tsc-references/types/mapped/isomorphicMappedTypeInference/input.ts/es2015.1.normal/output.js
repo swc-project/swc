@@ -110,16 +110,16 @@ var g2 = applySpec({
     }
 });
 // Repro from #12633
-const foo = (object, partial)=>object
+const foo1 = (object, partial)=>object
 ;
 let o = {
     a: 5,
     b: 7
 };
-foo(o, {
+foo1(o, {
     b: 9
 });
-o = foo(o, {
+o = foo1(o, {
     b: 9
 });
 let x0 = f20({

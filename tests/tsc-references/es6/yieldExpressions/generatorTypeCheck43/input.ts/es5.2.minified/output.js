@@ -9,10 +9,10 @@ function _defineProperty(obj, key, value) {
 }
 var _marked = regeneratorRuntime.mark(function() {
     var x;
-    return regeneratorRuntime.wrap(function(_ctx) {
-        for(;;)switch(_ctx.prev = _ctx.next){
+    return regeneratorRuntime.wrap(function(_ctx1) {
+        for(;;)switch(_ctx1.prev = _ctx1.next){
             case 0:
-                _ctx.t0 = regeneratorRuntime.mark(function _callee() {
+                _ctx1.t0 = regeneratorRuntime.mark(function _callee() {
                     return regeneratorRuntime.wrap(function(_ctx) {
                         for(;;)switch(_ctx.prev = _ctx.next){
                             case 0:
@@ -21,10 +21,10 @@ var _marked = regeneratorRuntime.mark(function() {
                         }
                     }, _callee);
                 }), x = _defineProperty({
-                }, (yield 0), _ctx.t0);
+                }, (yield 0), _ctx1.t0);
             case 2:
             case "end":
-                return _ctx.stop();
+                return _ctx1.stop();
         }
     }, _marked);
 });

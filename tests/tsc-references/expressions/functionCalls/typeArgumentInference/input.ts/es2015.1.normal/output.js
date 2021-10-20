@@ -91,8 +91,8 @@ someGenerics7((n)=>n
 function someGenerics8(n) {
     return n;
 }
-var x = someGenerics8(someGenerics7);
-x(null, null, null);
+var x1 = someGenerics8(someGenerics7);
+x1(null, null, null);
 // Generic call with multiple parameters of generic type passed arguments with no best common type
 function someGenerics9(a, b, c) {
     return null;

@@ -1,7 +1,7 @@
 function foo() {
     return !0;
 }
-var M, A = function() {
+var M1, A = function() {
     "use strict";
     var Constructor;
     function A() {
@@ -26,7 +26,7 @@ var M, A = function() {
 !function(M) {
     var n;
     M.n = n;
-}(M || (M = {
+}(M1 || (M1 = {
 }));
 var objA = new A();
-objA.a, M.n, foo(), A.foo(), foo(), objA.a, M.n;
+objA.a, M1.n, foo(), A.foo(), foo(), objA.a, M1.n;

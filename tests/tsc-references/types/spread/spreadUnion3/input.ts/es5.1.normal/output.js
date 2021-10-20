@@ -43,7 +43,7 @@ function g(t) {
 g();
 g(undefined);
 g(null);
-var x = _objectSpread({
+var x1 = _objectSpread({
 }, nullAndUndefinedUnion, nullAndUndefinedUnion);
 var y = _objectSpread({
 }, nullAndUndefinedUnion);

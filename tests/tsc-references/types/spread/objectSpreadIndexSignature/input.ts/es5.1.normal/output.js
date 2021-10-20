@@ -27,12 +27,12 @@ function _objectSpread(target) {
     }
     return target;
 }
-var i = _objectSpread({
+var i1 = _objectSpread({
 }, indexed1, {
     b: 11
 });
 // only indexed has indexer, so i[101]: any
-i[101];
+i1[101];
 var ii = _objectSpread({
 }, indexed1, indexed2);
 // both have indexer, so i[1001]: number | boolean

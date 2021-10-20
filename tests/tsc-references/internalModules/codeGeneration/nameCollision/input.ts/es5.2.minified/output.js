@@ -1,4 +1,4 @@
-var X, D;
+var X1, D;
 !function(B) {
     var B1 = function() {
         "use strict";
@@ -11,6 +11,6 @@ var X, D;
     var Y, Z;
     (Y || (Y = {
     })).Z = Z, X.Y = Y;
-})(X || (X = {
+})(X1 || (X1 = {
 })), (D || (D = {
 })).E = "hello";

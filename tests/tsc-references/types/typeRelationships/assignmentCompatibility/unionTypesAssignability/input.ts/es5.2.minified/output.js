@@ -38,9 +38,9 @@ function _setPrototypeOf(o, p) {
 }
 var unionNumberString, unionDE, num, str, c, d, e, anyVar, _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, C = function() {
+}, C1 = function() {
     "use strict";
-    _classCallCheck(this, C);
+    _classCallCheck(this, C1);
 }, D = function(C) {
     "use strict";
     function D() {
@@ -53,7 +53,7 @@ var unionNumberString, unionDE, num, str, c, d, e, anyVar, _typeof = function(ob
             }
         }
     ]), D;
-}(C), E = function(C) {
+}(C1), E = function(C) {
     "use strict";
     function E() {
         return _classCallCheck(this, E), _possibleConstructorReturn(this, _getPrototypeOf(E).apply(this, arguments));
@@ -65,5 +65,5 @@ var unionNumberString, unionDE, num, str, c, d, e, anyVar, _typeof = function(ob
             }
         }
     ]), E;
-}(C);
+}(C1);
 c = d, c = e, c = unionDE, d = d, d = e, e = e = d = unionDE, e = unionDE, num = num, num = str, num = unionNumberString, str = num, str = str, str = unionNumberString, d = c, e = c, unionDE = c, d = d, e = d, unionDE = d, d = e, e = e, unionDE = e, num = num, str = num, unionNumberString = num, num = str, str = str, unionNumberString = str, anyVar = unionDE, anyVar = unionNumberString, unionDE = anyVar, unionNumberString = anyVar, unionDE = null, unionNumberString = null, unionDE = void 0, unionNumberString = void 0;

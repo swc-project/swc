@@ -3,11 +3,11 @@ class A {
         return this;
     }
 }
-function f(x) {
+function f(x1) {
     function g(x) {
         x = x.self();
     }
-    x = x.self();
+    x1 = x1.self();
 }
 class B {
     foo(x) {

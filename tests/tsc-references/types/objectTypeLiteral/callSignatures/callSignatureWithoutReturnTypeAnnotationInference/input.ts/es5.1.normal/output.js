@@ -67,18 +67,18 @@ function foo10(x) {
     return c;
 }
 var r10 = foo10(1);
-var M;
+var M1;
 (function(M) {
     M.x = 1;
-    var C1 = function C1() {
+    var C = function C() {
         "use strict";
-        _classCallCheck(this, C1);
+        _classCallCheck(this, C);
     };
-    M.C = C1;
-})(M || (M = {
+    M.C = C;
+})(M1 || (M1 = {
 }));
 function foo11() {
-    return M;
+    return M1;
 }
 var r11 = foo11();
 function foo12() {
@@ -86,15 +86,15 @@ function foo12() {
     return i2;
 }
 var r12 = foo12();
-function m1() {
+function m11() {
     return 1;
 }
 (function(m1) {
     m1.y = 2;
-})(m1 || (m1 = {
+})(m11 || (m11 = {
 }));
 function foo13() {
-    return m1;
+    return m11;
 }
 var r13 = foo13();
 var c1 = function c1(x) {
@@ -109,16 +109,16 @@ function foo14() {
     return c1;
 }
 var r14 = foo14();
-var e1;
+var e11;
 (function(e1) {
     e1[e1["A"] = 0] = "A";
-})(e1 || (e1 = {
+})(e11 || (e11 = {
 }));
 (function(e1) {
     e1.y = 1;
-})(e1 || (e1 = {
+})(e11 || (e11 = {
 }));
 function foo15() {
-    return e1;
+    return e11;
 }
 var r15 = foo15();

@@ -35,8 +35,8 @@ var z = 0;
 while(z < 10){
     throw z;
 }
-for(var i = 0;;){
-    throw i;
+for(var i1 = 0;;){
+    throw i1;
 }
 for(var idx in {
 }){

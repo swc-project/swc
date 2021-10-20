@@ -29,28 +29,28 @@ function _setPrototypeOf(o, p) {
 }
 var _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, SomeBase = function() {
+}, SomeBase1 = function() {
     "use strict";
-    _classCallCheck(this, SomeBase);
+    _classCallCheck(this, SomeBase1);
 }, SomeDerived1 = function(SomeBase) {
     "use strict";
     function SomeDerived1() {
         return _classCallCheck(this, SomeDerived1), _possibleConstructorReturn(this, _getPrototypeOf(SomeDerived1).apply(this, arguments));
     }
     return _inherits(SomeDerived1, SomeBase), SomeDerived1;
-}(SomeBase), SomeDerived2 = function(SomeBase) {
+}(SomeBase1), SomeDerived2 = function(SomeBase) {
     "use strict";
     function SomeDerived2() {
         return _classCallCheck(this, SomeDerived2), _possibleConstructorReturn(this, _getPrototypeOf(SomeDerived2).apply(this, arguments));
     }
     return _inherits(SomeDerived2, SomeBase), SomeDerived2;
-}(SomeBase), SomeDerived3 = function(SomeBase) {
+}(SomeBase1), SomeDerived3 = function(SomeBase) {
     "use strict";
     function SomeDerived3() {
         return _classCallCheck(this, SomeDerived3), _possibleConstructorReturn(this, _getPrototypeOf(SomeDerived3).apply(this, arguments));
     }
     return _inherits(SomeDerived3, SomeBase), SomeDerived3;
-}(SomeBase);
+}(SomeBase1);
 function fn1() {
     return null;
 }

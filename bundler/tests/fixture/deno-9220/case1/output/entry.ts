@@ -316,7 +316,7 @@ const JpegImage = function jpegImage() {
             decode(component, component.blocks[blockRow][blockCol]);
         }
         const componentsLength = components.length;
-        let component, i, j, k, n;
+        let component1, i, j, k1, n1;
         let decodeFn;
         if (progressive) {
             if (spectralStart === 0) {
@@ -327,7 +327,7 @@ const JpegImage = function jpegImage() {
         } else {
             decodeFn = decodeBaseline;
         }
-        let mcu = 0, marker;
+        let mcu1 = 0, marker;
         let mcuExpected;
         if (componentsLength == 1) {
             mcuExpected = components[0].blocksPerLine * components[0].blocksPerColumn;
@@ -338,31 +338,31 @@ const JpegImage = function jpegImage() {
             resetInterval = mcuExpected;
         }
         let h, v;
-        while(mcu < mcuExpected){
+        while(mcu1 < mcuExpected){
             for(i = 0; i < componentsLength; i++){
                 components[i].pred = 0;
             }
             eobrun = 0;
             if (componentsLength == 1) {
-                component = components[0];
-                for(n = 0; n < resetInterval; n++){
-                    decodeBlock(component, decodeFn, mcu);
-                    mcu++;
+                component1 = components[0];
+                for(n1 = 0; n1 < resetInterval; n1++){
+                    decodeBlock(component1, decodeFn, mcu1);
+                    mcu1++;
                 }
             } else {
-                for(n = 0; n < resetInterval; n++){
+                for(n1 = 0; n1 < resetInterval; n1++){
                     for(i = 0; i < componentsLength; i++){
-                        component = components[i];
-                        h = component.h;
-                        v = component.v;
+                        component1 = components[i];
+                        h = component1.h;
+                        v = component1.v;
                         for(j = 0; j < v; j++){
-                            for(k = 0; k < h; k++){
-                                decodeMcu(component, decodeFn, mcu, j, k);
+                            for(k1 = 0; k1 < h; k1++){
+                                decodeMcu(component1, decodeFn, mcu1, j, k1);
                             }
                         }
                     }
-                    mcu++;
-                    if (mcu === mcuExpected) {
+                    mcu1++;
+                    if (mcu1 === mcuExpected) {
                         break;
                     }
                 }
@@ -509,10 +509,10 @@ const JpegImage = function jpegImage() {
                 dataOut[i] = sample < 0 ? 0 : sample > 255 ? 255 : sample;
             }
         }
-        let i, j;
+        let i1, j;
         for(let blockRow = 0; blockRow < blocksPerColumn; blockRow++){
             const scanLine = blockRow << 3;
-            for(i = 0; i < 8; i++){
+            for(i1 = 0; i1 < 8; i1++){
                 lines.push(new Uint8Array(samplesPerLine));
             }
             for(let blockCol = 0; blockCol < blocksPerLine; blockCol++){
@@ -520,8 +520,8 @@ const JpegImage = function jpegImage() {
                 let offset = 0, sample = blockCol << 3;
                 for(j = 0; j < 8; j++){
                     const line = lines[scanLine + j];
-                    for(i = 0; i < 8; i++){
-                        line[sample + i] = r[offset++];
+                    for(i1 = 0; i1 < 8; i1++){
+                        line[sample + i1] = r[offset++];
                     }
                 }
             }
@@ -590,7 +590,7 @@ const JpegImage = function jpegImage() {
             }
             let jfif = null;
             let adobe = null;
-            let frame, resetInterval;
+            let frame1, resetInterval;
             const quantizationTables = [], frames = [];
             const huffmanTablesAC = [], huffmanTablesDC = [];
             let fileMarker = readUint16();
@@ -674,32 +674,32 @@ const JpegImage = function jpegImage() {
                     case 65473:
                     case 65474:
                         readUint16();
-                        frame = {
+                        frame1 = {
                         };
-                        frame.extended = fileMarker === 65473;
-                        frame.progressive = fileMarker === 65474;
-                        frame.precision = data[offset++];
-                        frame.scanLines = readUint16();
-                        frame.samplesPerLine = readUint16();
-                        frame.components = {
+                        frame1.extended = fileMarker === 65473;
+                        frame1.progressive = fileMarker === 65474;
+                        frame1.precision = data[offset++];
+                        frame1.scanLines = readUint16();
+                        frame1.samplesPerLine = readUint16();
+                        frame1.components = {
                         };
-                        frame.componentsOrder = [];
+                        frame1.componentsOrder = [];
                         let componentsCount = data[offset++], componentId;
                         for(i = 0; i < componentsCount; i++){
                             componentId = data[offset];
                             const h = data[offset + 1] >> 4;
                             const v = data[offset + 1] & 15;
                             const qId = data[offset + 2];
-                            frame.componentsOrder.push(componentId);
-                            frame.components[componentId] = {
+                            frame1.componentsOrder.push(componentId);
+                            frame1.components[componentId] = {
                                 h: h,
                                 v: v,
                                 quantizationIdx: qId
                             };
                             offset += 3;
                         }
-                        prepareComponents(frame);
-                        frames.push(frame);
+                        prepareComponents(frame1);
+                        frames.push(frame1);
                         break;
                     case 65476:
                         const huffmanLength = readUint16();
@@ -727,7 +727,7 @@ const JpegImage = function jpegImage() {
                         const selectorsCount = data[offset++];
                         let components = [], component;
                         for(i = 0; i < selectorsCount; i++){
-                            component = frame.components[data[offset++]];
+                            component = frame1.components[data[offset++]];
                             const tableSpec = data[offset++];
                             component.huffmanTableDC = huffmanTablesDC[tableSpec >> 4];
                             component.huffmanTableAC = huffmanTablesAC[tableSpec & 15];
@@ -736,7 +736,7 @@ const JpegImage = function jpegImage() {
                         const spectralStart = data[offset++];
                         const spectralEnd = data[offset++];
                         const successiveApproximation = data[offset++];
-                        const processed = decodeScan(data, offset, frame, components, resetInterval, spectralStart, spectralEnd, successiveApproximation >> 4, successiveApproximation & 15);
+                        const processed = decodeScan(data, offset, frame1, components, resetInterval, spectralStart, spectralEnd, successiveApproximation >> 4, successiveApproximation & 15);
                         offset += processed;
                         break;
                     case 65535:
@@ -756,24 +756,24 @@ const JpegImage = function jpegImage() {
             if (frames.length != 1) {
                 throw new Error("only single frame JPEGs supported");
             }
-            for(let i = 0; i < frames.length; i++){
-                const cp = frames[i].components;
+            for(let i3 = 0; i3 < frames.length; i3++){
+                const cp = frames[i3].components;
                 for(const j in cp){
                     cp[j].quantizationTable = quantizationTables[cp[j].quantizationIdx];
                     delete cp[j].quantizationIdx;
                 }
             }
-            this.width = frame.samplesPerLine;
-            this.height = frame.scanLines;
+            this.width = frame1.samplesPerLine;
+            this.height = frame1.scanLines;
             this.jfif = jfif;
             this.adobe = adobe;
             this.components = [];
-            for(let i1 = 0; i1 < frame.componentsOrder.length; i1++){
-                const component = frame.components[frame.componentsOrder[i1]];
+            for(let i2 = 0; i2 < frame1.componentsOrder.length; i2++){
+                const component = frame1.components[frame1.componentsOrder[i2]];
                 this.components.push({
-                    lines: buildComponentData(frame, component),
-                    scaleX: component.h / frame.maxH,
-                    scaleY: component.v / frame.maxV
+                    lines: buildComponentData(frame1, component),
+                    scaleX: component.h / frame1.maxH,
+                    scaleY: component.v / frame1.maxV
                 });
             }
         },

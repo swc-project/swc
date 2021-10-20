@@ -22,8 +22,8 @@ var _marked = regeneratorRuntime.mark(g);
 //@target: ES6
 function g() {
     var x;
-    return regeneratorRuntime.wrap(function g$(_ctx) {
-        while(1)switch(_ctx.prev = _ctx.next){
+    return regeneratorRuntime.wrap(function g$(_ctx1) {
+        while(1)switch(_ctx1.prev = _ctx1.next){
             case 0:
                 x = (function() {
                     var tmp = yield 0;
@@ -55,7 +55,7 @@ function g() {
                 })();
             case 1:
             case "end":
-                return _ctx.stop();
+                return _ctx1.stop();
         }
     }, _marked);
 }

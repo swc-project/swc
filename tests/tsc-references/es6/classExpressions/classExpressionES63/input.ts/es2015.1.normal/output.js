@@ -1,5 +1,5 @@
 // @target: es6
-let C = class _class extends class _class1 extends class _class2 {
+let C = class _class extends class _class extends class _class {
     constructor(){
         this.a = 1;
     }

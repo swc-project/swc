@@ -25,7 +25,9 @@ function _objectWithoutPropertiesLoose(source, excluded) {
     for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
     return target;
 }
-_objectWithoutProperties((_complex = complex).x, ["ka"]), _objectWithoutProperties(_complex, [
+_objectWithoutProperties((_complex = complex).x, [
+    "ka"
+]), _objectWithoutProperties(_complex, [
     "x",
     "y"
 ]), ref = _complex, { ka  } = ref.x;
@@ -39,11 +41,15 @@ var arr, complex, _complex, ref, overEmit, _overEmit, ref1, _a = function(arr) {
     throw e;
 }(new TypeError("Cannot destructure undefined")), y = _a.slice(1);
 overEmit.b.z, _extends({
-}, overEmit.a[0]), _objectWithoutProperties(overEmit.b, ["z"]), _objectWithoutProperties(overEmit, [
+}, overEmit.a[0]), _objectWithoutProperties(overEmit.b, [
+    "z"
+]), _objectWithoutProperties(overEmit, [
     "a",
     "b"
 ]), _extends({
-}, (_overEmit = overEmit).a[0]), _objectWithoutProperties(_overEmit.b, ["z"]), _objectWithoutProperties(_overEmit, [
+}, (_overEmit = overEmit).a[0]), _objectWithoutProperties(_overEmit.b, [
+    "z"
+]), _objectWithoutProperties(_overEmit, [
     "a",
     "b"
 ]), ref1 = _overEmit, [{}, ...y] = ref1.a, { z  } = ref1.b;

@@ -78,8 +78,8 @@ new someGenerics7((n)=>n
 , (n)=>n
 );
 var someGenerics8;
-var x = new someGenerics8(someGenerics7);
-new x(null, null, null);
+var x1 = new someGenerics8(someGenerics7);
+new x1(null, null, null);
 var someGenerics9;
 var a9a = new someGenerics9('', 0, []);
 var a9a;

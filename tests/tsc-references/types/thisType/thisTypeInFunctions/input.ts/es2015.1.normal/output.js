@@ -212,7 +212,7 @@ function AnyThis() {
 let interfaceThis = new InterfaceThis();
 let literalTypeThis = new LiteralTypeThis();
 let anyThis = new AnyThis();
-let n = f.call(12);
+let n1 = f.call(12);
 function missingTypeIsImplicitAny(a) {
     return this.anything + a;
 }

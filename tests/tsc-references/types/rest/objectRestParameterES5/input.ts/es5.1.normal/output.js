@@ -49,7 +49,9 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 }
 // @target: es5
 function cloneAgain(_param) {
-    var a = _param.a, clone = _objectWithoutProperties(_param, ["a"]);
+    var a = _param.a, clone = _objectWithoutProperties(_param, [
+        "a"
+    ]);
 }
 suddenly(function(_param) {
     var a = _param.x, rest = _objectWithoutProperties(_param, [
@@ -65,7 +67,9 @@ suddenly(function(param) {
         },
         y: 'noo'
     } : param;
-    var _x = _param.x, _z = _x.z, z = _z === void 0 ? 12 : _z, nested = _objectWithoutProperties(_param.x, ["z"]), rest = _objectWithoutProperties(_param, [
+    var _x = _param.x, _z = _x.z, z = _z === void 0 ? 12 : _z, nested = _objectWithoutProperties(_param.x, [
+        "z"
+    ]), rest = _objectWithoutProperties(_param, [
         "x"
     ]);
     return rest.y + nested.ka;
@@ -79,14 +83,18 @@ var C = /*#__PURE__*/ function() {
         {
             key: "m",
             value: function m(_param) {
-                var a = _param.a, clone = _objectWithoutProperties(_param, ["a"]);
+                var a = _param.a, clone = _objectWithoutProperties(_param, [
+                    "a"
+                ]);
             // actually, never mind, don't clone
             }
         },
         {
             key: "p",
             set: function set(_param) {
-                var a = _param.a, clone = _objectWithoutProperties(_param, ["a"]);
+                var a = _param.a, clone = _objectWithoutProperties(_param, [
+                    "a"
+                ]);
             // actually, never mind, don't clone
             }
         }
@@ -97,7 +105,9 @@ function foobar(param) {
     var _param = param === void 0 ? {
     } : param;
     var _bar = _param.bar, bar = _bar === void 0 ? {
-    } : _bar, opts = _objectWithoutProperties(_param, ["bar"]);
+    } : _bar, opts = _objectWithoutProperties(_param, [
+        "bar"
+    ]);
 }
 foobar();
 foobar({

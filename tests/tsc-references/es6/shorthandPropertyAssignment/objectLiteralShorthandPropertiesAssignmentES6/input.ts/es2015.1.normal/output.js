@@ -1,10 +1,10 @@
 // @lib: es5
 // @target: es6
-var id = 10000;
-var name = "my name";
+var id1 = 10000;
+var name1 = "my name";
 var person = {
-    name,
-    id
+    name: name1,
+    id: id1
 };
 function foo(obj) {
 }

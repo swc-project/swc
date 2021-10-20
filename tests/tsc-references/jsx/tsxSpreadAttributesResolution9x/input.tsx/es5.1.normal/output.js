@@ -95,15 +95,15 @@ var Opt = /*#__PURE__*/ function(_Component) {
     ]);
     return Opt;
 }(React.Component);
-var obj = {
+var obj2 = {
 };
 var obj1 = {
     x: 2
 };
 // OK
-var p = /*#__PURE__*/ React.createElement(Opt, null);
+var p1 = /*#__PURE__*/ React.createElement(Opt, null);
 var y = /*#__PURE__*/ React.createElement(Opt, _extends({
-}, obj));
+}, obj2));
 var y1 = /*#__PURE__*/ React.createElement(Opt, _extends({
 }, obj1));
 var y2 = /*#__PURE__*/ React.createElement(Opt, _extends({

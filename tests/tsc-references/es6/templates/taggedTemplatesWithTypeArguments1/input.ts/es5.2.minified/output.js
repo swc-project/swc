@@ -25,17 +25,6 @@ function _taggedTemplateLiteral(strings, raw) {
         }
     }));
 }
-function _templateObject1() {
-    var data = _taggedTemplateLiteral([
-        "\n    hello\n    ",
-        "\n    brave\n    ",
-        "\n    world\n    ",
-        "\n"
-    ]);
-    return _templateObject1 = function _templateObject1() {
-        return data;
-    }, data;
-}
 function _templateObject() {
     var data = _taggedTemplateLiteral([
         "\n    hello\n    ",
@@ -44,6 +33,17 @@ function _templateObject() {
         "\n"
     ]);
     return _templateObject = function _templateObject() {
+        return data;
+    }, data;
+}
+function _templateObject1() {
+    var data = _taggedTemplateLiteral([
+        "\n    hello\n    ",
+        "\n    brave\n    ",
+        "\n    world\n    ",
+        "\n"
+    ]);
+    return _templateObject1 = function _templateObject1() {
         return data;
     }, data;
 }
@@ -65,14 +65,14 @@ function _templateObject3() {
         return data;
     }, data;
 }
-export var a = f(_templateObject1(), function(stuff) {
+export var a = f(_templateObject(), function(stuff) {
     return stuff.x;
 }, function(stuff) {
     return stuff.y;
 }, function(stuff) {
     return stuff.z;
 });
-export var b = g(_templateObject(), function(stuff) {
+export var b = g(_templateObject1(), function(stuff) {
     return stuff.x;
 }, function(stuff) {
     return stuff.y;

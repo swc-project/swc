@@ -23,9 +23,9 @@ var Foo = function() {
 }, Foo2 = function() {
     "use strict";
     _classCallCheck(this, Foo2);
-}, C = function() {
+}, C1 = function() {
     "use strict";
-    _classCallCheck(this, C);
+    _classCallCheck(this, C1);
 }, D = function(C) {
     "use strict";
     var Constructor, protoProps, staticProps;
@@ -58,4 +58,4 @@ var Foo = function() {
             }
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), D;
-}(C);
+}(C1);

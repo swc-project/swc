@@ -20,8 +20,8 @@ let obj1 = {
     get e () {
         return this.b;
     },
-    set e (value1){
-        this.b = value1;
+    set e (value){
+        this.b = value;
     }
 };
 let p1 = {

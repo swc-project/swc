@@ -33,5 +33,7 @@ var obj = {
     baz: 'qux',
     quux: 'quuz'
 };
-var foo = obj.foo, rest = _objectWithoutProperties(obj, ["foo"]);
+var foo = obj.foo, rest = _objectWithoutProperties(obj, [
+    "foo"
+]);
 delete rest.baz;

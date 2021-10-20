@@ -44,9 +44,9 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
-function foo() {
+function foo1() {
 }
-var x = new foo(); // can be used as a constructor function
+var x = new foo1(); // can be used as a constructor function
 var C = /*#__PURE__*/ function(foo) {
     "use strict";
     _inherits(C, foo);
@@ -56,4 +56,4 @@ var C = /*#__PURE__*/ function(foo) {
     }
     return C;
 } // error, cannot extend it though
-(foo);
+(foo1);

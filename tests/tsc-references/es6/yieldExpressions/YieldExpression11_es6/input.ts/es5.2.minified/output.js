@@ -16,7 +16,7 @@ var C = function() {
     return Constructor = C, protoProps = [
         {
             key: "foo",
-            value: regeneratorRuntime.mark(function foo() {
+            value: regeneratorRuntime.mark(function foo1() {
                 return regeneratorRuntime.wrap(function(_ctx) {
                     for(;;)switch(_ctx.prev = _ctx.next){
                         case 0:
@@ -25,7 +25,7 @@ var C = function() {
                         case "end":
                             return _ctx.stop();
                     }
-                }, foo);
+                }, foo1);
             })
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;

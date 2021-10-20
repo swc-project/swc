@@ -38,16 +38,16 @@ function _setPrototypeOf(o, p) {
 }
 var Flag, E, Flag1, E1, _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, Shape = function() {
+}, Shape1 = function() {
     "use strict";
-    _classCallCheck(this, Shape);
+    _classCallCheck(this, Shape1);
 }, TaggedShape = function(Shape) {
     "use strict";
     function TaggedShape() {
         return _classCallCheck(this, TaggedShape), _possibleConstructorReturn(this, _getPrototypeOf(TaggedShape).apply(this, arguments));
     }
     return _inherits(TaggedShape, Shape), TaggedShape;
-}(Shape), Item = function() {
+}(Shape1), Item = function() {
     "use strict";
     _classCallCheck(this, Item);
 }, Options = function() {
@@ -171,9 +171,9 @@ one(function() {
     "hello",
     35
 ]);
-var A = function() {
+var A1 = function() {
     "use strict";
-    _classCallCheck(this, A);
+    _classCallCheck(this, A1);
 }, B = function(A) {
     "use strict";
     function B() {
@@ -187,7 +187,7 @@ var A = function() {
             }
         }
     ]), B;
-}(A), Form = function() {
+}(A1), Form = function() {
     "use strict";
     function Form() {
         _classCallCheck(this, Form);
@@ -200,9 +200,9 @@ var A = function() {
             }
         }
     ]), Form;
-}(), SampleClass = function(props) {
+}(), SampleClass1 = function(props) {
     "use strict";
-    _classCallCheck(this, SampleClass), this.props = Object.freeze(props);
+    _classCallCheck(this, SampleClass1), this.props = Object.freeze(props);
 }, AnotherSampleClass = function(SampleClass) {
     "use strict";
     function AnotherSampleClass(props) {
@@ -218,7 +218,7 @@ var A = function() {
             }
         }
     ]), AnotherSampleClass;
-}(SampleClass);
+}(SampleClass1);
 new AnotherSampleClass({
 }), (Flag = Flag1 || (Flag1 = {
 })).FLAG_1 = "flag_1", Flag.FLAG_2 = "flag_2";

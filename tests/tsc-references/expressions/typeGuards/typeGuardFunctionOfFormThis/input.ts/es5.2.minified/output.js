@@ -90,10 +90,10 @@ var holder2 = {
     a: a
 };
 holder2.a.isLeader(), holder2.a;
-var ArrowGuard = function() {
+var ArrowGuard1 = function() {
     "use strict";
     var _this = this, _this1 = this;
-    _classCallCheck(this, ArrowGuard), this.isElite = function() {
+    _classCallCheck(this, ArrowGuard1), this.isElite = function() {
         return _instanceof(_this, ArrowElite);
     }, this.isMedic = function() {
         return _instanceof(_this1, ArrowMedic);
@@ -110,7 +110,7 @@ var ArrowGuard = function() {
             }
         }
     ]), ArrowElite;
-}(ArrowGuard), ArrowMedic = function(ArrowGuard) {
+}(ArrowGuard1), ArrowMedic = function(ArrowGuard) {
     "use strict";
     function ArrowMedic() {
         return _classCallCheck(this, ArrowMedic), _possibleConstructorReturn(this, _getPrototypeOf(ArrowMedic).apply(this, arguments));
@@ -122,7 +122,7 @@ var ArrowGuard = function() {
             }
         }
     ]), ArrowMedic;
-}(ArrowGuard), guard = new ArrowGuard();
+}(ArrowGuard1), guard = new ArrowGuard1();
 guard.isElite() ? guard.defend() : guard.isMedic() && guard.heal(), crate.isSundries() ? crate.contents.broken = !0 : crate.isSupplies() && (crate.contents.spoiled = !0), a.isFollower = b.isFollower, a.isLeader = b.isLeader;
 var MimicGuard = function() {
     "use strict";

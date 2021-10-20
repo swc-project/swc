@@ -12,5 +12,5 @@ function _defineProperty(obj, key, value) {
     return obj;
 }
 // @target: es5
-var obj = _defineProperty({
+var obj1 = _defineProperty({
 }, this.bar, 0);

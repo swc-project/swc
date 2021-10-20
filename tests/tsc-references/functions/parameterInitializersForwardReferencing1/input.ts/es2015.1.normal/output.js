@@ -1,14 +1,14 @@
-let foo = "";
-function f1(bar = foo) {
-    var foo1 = 2;
+let foo1 = "";
+function f1(bar = foo1) {
+    var foo = 2;
     return bar; // returns 1
 }
-function f2(bar = (baz = foo)=>baz
+function f2(bar = (baz = foo1)=>baz
 ) {
-    var foo1 = 2;
+    var foo = 2;
     return bar(); // returns 1
 }
-function f3(bar = foo, foo1 = 2) {
+function f3(bar = foo1, foo = 2) {
     return bar;
 }
 function f4(foo, bar = foo) {
@@ -20,8 +20,8 @@ function f5(a = a) {
 function f6(async = async) {
     return async;
 }
-function f7({ [foo]: bar  }) {
-    let foo1 = 2;
+function f7({ [foo1]: bar  }) {
+    let foo = 2;
 }
 class Foo {
     constructor(x = 12, y = x){

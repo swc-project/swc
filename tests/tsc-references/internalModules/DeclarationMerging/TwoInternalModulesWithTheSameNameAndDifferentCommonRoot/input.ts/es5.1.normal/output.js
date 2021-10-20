@@ -4,11 +4,11 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 //@filename: part1.ts
-var Root;
+var Root1;
 (function(Root) {
-    var A;
+    var A1;
     (function(A) {
-        var Utils;
+        var Utils1;
         (function(Utils) {
             function mirror(p) {
                 return {
@@ -17,13 +17,13 @@ var Root;
                 };
             }
             Utils.mirror = mirror;
-        })(Utils || (Utils = {
+        })(Utils1 || (Utils1 = {
         }));
-        A.Utils = Utils;
-    })(A || (A = {
+        A.Utils = Utils1;
+    })(A1 || (A1 = {
     }));
-    Root.A = A;
-})(Root || (Root = {
+    Root.A = A1;
+})(Root1 || (Root1 = {
 }));
 //@filename: part2.ts
 var otherRoot;

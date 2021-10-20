@@ -71,7 +71,7 @@ if (typeof strOrC !== "string") {
     str = strOrC; // string
 }
 if (typeof numOrBool !== "string") {
-    var x1 = numOrBool; // number | boolean
+    var x11 = numOrBool; // number | boolean
 } else {
-    var x2 = numOrBool; // {}
+    var x21 = numOrBool; // {}
 }

@@ -23,7 +23,7 @@ var f = fun(function(x) {
 }, function(x) {
     return x;
 }, 10);
-var g = fun(function(x) {
+var g1 = fun(function(x) {
     return x;
 }, function(x) {
     return x;

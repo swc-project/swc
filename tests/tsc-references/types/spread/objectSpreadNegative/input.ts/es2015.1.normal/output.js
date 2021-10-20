@@ -145,9 +145,9 @@ let spreadC = _objectSpread({
 }, c);
 spreadC.m(); // error 'm' is not in '{ ... c }'
 // non primitive
-let obj = {
+let obj1 = {
     a: 123
 };
 let spreadObj = _objectSpread({
-}, obj);
+}, obj1);
 spreadObj.a; // error 'a' is not in {}

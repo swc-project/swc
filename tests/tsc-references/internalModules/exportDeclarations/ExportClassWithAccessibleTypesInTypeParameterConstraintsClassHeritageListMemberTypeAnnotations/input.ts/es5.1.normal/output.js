@@ -44,7 +44,7 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
-var A;
+var A1;
 (function(A) {
     var Point = function Point() {
         "use strict";
@@ -77,5 +77,5 @@ var A;
         this.end = end;
     };
     A.Line = Line;
-})(A || (A = {
+})(A1 || (A1 = {
 }));

@@ -44,7 +44,7 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
-var M;
+var M1;
 (function(M) {
     var A = function A() {
         "use strict";
@@ -61,7 +61,7 @@ var M;
         return B;
     }(A);
     M.B = B;
-})(M || (M = {
+})(M1 || (M1 = {
 }));
-new M.A;
-new M.B;
+new M1.A;
+new M1.B;

@@ -17,7 +17,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var _this = this;
+var _this1 = this;
 var MyTestClass = // @target: esnext
 /*#__PURE__*/ function() {
     "use strict";
@@ -204,10 +204,10 @@ var q2 = function(param) {
     s.spaaaaaaace = 4;
     //type of 'this' in a fat arrow expression body is typeof globalThis
     var t;
-    var t = _this;
-    _this.spaaaaace = 4;
+    var t = _this1;
+    _this1.spaaaaace = 4;
 };
 //type of 'this' in global module is GlobalThis
-var t;
-var t = this;
+var t1;
+var t1 = this;
 this.spaaaaace = 4;

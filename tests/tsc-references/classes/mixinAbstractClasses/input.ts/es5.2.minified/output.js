@@ -39,7 +39,7 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
-function Mixin(baseClass) {
+function Mixin(baseClass1) {
     var MixinClass = function(baseClass) {
         "use strict";
         function MixinClass() {
@@ -52,7 +52,7 @@ function Mixin(baseClass) {
                 }
             }
         ]), MixinClass;
-    }(baseClass);
+    }(baseClass1);
     return MixinClass;
 }
 var ConcreteBase = function() {

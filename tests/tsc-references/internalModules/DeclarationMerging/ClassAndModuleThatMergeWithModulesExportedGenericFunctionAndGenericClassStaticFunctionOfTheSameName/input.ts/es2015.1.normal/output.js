@@ -1,4 +1,4 @@
-class clodule {
+class clodule1 {
     static fn(id) {
     }
 }
@@ -7,5 +7,5 @@ class clodule {
         return x;
     }
     clodule.fn = fn;
-})(clodule || (clodule = {
+})(clodule1 || (clodule1 = {
 }));

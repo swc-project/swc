@@ -39,5 +39,5 @@ var t = new fnVoid();
 var t;
 // Chained new expressions
 var nested = new new new nestedCtor()()();
-var n = new nested();
-var n = new nested();
+var n1 = new nested();
+var n1 = new nested();

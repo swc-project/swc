@@ -29,22 +29,22 @@ function _setPrototypeOf(o, p) {
 }
 var i, _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, Base = function() {
+}, Base1 = function() {
     "use strict";
-    _classCallCheck(this, Base);
+    _classCallCheck(this, Base1);
 }, Derived = function(Base) {
     "use strict";
     function Derived() {
         return _classCallCheck(this, Derived), _possibleConstructorReturn(this, _getPrototypeOf(Derived).apply(this, arguments));
     }
     return _inherits(Derived, Base), Derived;
-}(Base), Derived2 = function(Base) {
+}(Base1), Derived2 = function(Base) {
     "use strict";
     function Derived2() {
         return _classCallCheck(this, Derived2), _possibleConstructorReturn(this, _getPrototypeOf(Derived2).apply(this, arguments));
     }
     return _inherits(Derived2, Base), Derived2;
-}(Base);
+}(Base1);
 function f(a) {
     return [
         a.x,
@@ -60,7 +60,7 @@ f({
     x: new Derived(),
     y: new Derived2()
 }), f({
-    x: new Base(),
+    x: new Base1(),
     y: new Derived2()
 }), f2({
     x: new Derived(),

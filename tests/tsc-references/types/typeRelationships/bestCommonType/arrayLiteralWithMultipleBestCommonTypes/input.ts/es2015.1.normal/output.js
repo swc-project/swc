@@ -1,18 +1,18 @@
 // when multiple best common types exist we will choose the first candidate
-var a;
-var b;
+var a1;
+var b1;
 var c;
 var as = [
-    a,
-    b
+    a1,
+    b1
 ]; // { x: number; y?: number };[]
 var bs = [
-    b,
-    a
+    b1,
+    a1
 ]; // { x: number; z?: number };[]
 var cs = [
-    a,
-    b,
+    a1,
+    b1,
     c
 ]; // { x: number; y?: number };[]
 var ds = [

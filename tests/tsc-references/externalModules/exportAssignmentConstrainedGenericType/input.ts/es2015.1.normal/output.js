@@ -7,7 +7,7 @@ class Foo {
 module.exports = Foo;
 // @Filename: foo_1.ts
 const foo = require("./foo_0");
-var x = new foo(true); // Should error
+var x1 = new foo(true); // Should error
 var y = new foo({
     a: "test",
     b: 42

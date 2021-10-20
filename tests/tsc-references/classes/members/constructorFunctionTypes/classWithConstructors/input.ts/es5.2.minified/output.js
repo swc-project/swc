@@ -36,18 +36,18 @@ var NonGeneric, Generics, _typeof = function(obj) {
         _classCallCheck(this, C);
     };
     new C(), new C("");
-    var C2 = function(x) {
+    var C21 = function(x) {
         "use strict";
-        _classCallCheck(this, C2);
+        _classCallCheck(this, C21);
     };
-    new C2(), new C2(""), new C2(1);
+    new C21(), new C21(""), new C21(1);
     var D = function(C2) {
         "use strict";
         function D() {
             return _classCallCheck(this, D), _possibleConstructorReturn(this, _getPrototypeOf(D).apply(this, arguments));
         }
         return _inherits(D, C2), D;
-    }(C2);
+    }(C21);
     new D(), new D(1), new D("");
 }(NonGeneric || (NonGeneric = {
 })), (function(Generics) {
@@ -56,18 +56,18 @@ var NonGeneric, Generics, _typeof = function(obj) {
         _classCallCheck(this, C);
     };
     new C(), new C("");
-    var C2 = function(x) {
+    var C22 = function(x) {
         "use strict";
-        _classCallCheck(this, C2);
+        _classCallCheck(this, C22);
     };
-    new C2(), new C2(""), new C2(1, 2);
+    new C22(), new C22(""), new C22(1, 2);
     var D = function(C2) {
         "use strict";
         function D() {
             return _classCallCheck(this, D), _possibleConstructorReturn(this, _getPrototypeOf(D).apply(this, arguments));
         }
         return _inherits(D, C2), D;
-    }(C2);
+    }(C22);
     new D(), new D(1), new D("");
 })(Generics || (Generics = {
 }));

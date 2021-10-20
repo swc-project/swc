@@ -16,10 +16,10 @@ var _marked = regeneratorRuntime.mark(g);
 //@target: ES6
 function g() {
     var x;
-    return regeneratorRuntime.wrap(function g$(_ctx) {
-        while(1)switch(_ctx.prev = _ctx.next){
+    return regeneratorRuntime.wrap(function g$(_ctx1) {
+        while(1)switch(_ctx1.prev = _ctx1.next){
             case 0:
-                _ctx.t0 = regeneratorRuntime.mark(function _callee() {
+                _ctx1.t0 = regeneratorRuntime.mark(function _callee() {
                     return regeneratorRuntime.wrap(function _callee$(_ctx) {
                         while(1)switch(_ctx.prev = _ctx.next){
                             case 0:
@@ -29,10 +29,10 @@ function g() {
                     }, _callee);
                 });
                 x = _defineProperty({
-                }, (yield 0), _ctx.t0);
+                }, (yield 0), _ctx1.t0);
             case 2:
             case "end":
-                return _ctx.stop();
+                return _ctx1.stop();
         }
     }, _marked);
 }

@@ -18,18 +18,18 @@ var intersectDictionaries = function(d1, d2) {
 };
 var testDictionary = function(_value) {
 };
-var d1 = {
+var d11 = {
 };
-testDictionary(d1);
-var d2 = intersectDictionaries(d1, d1);
-testDictionary(d2);
+testDictionary(d11);
+var d21 = intersectDictionaries(d11, d11);
+testDictionary(d21);
 var d3 = {
     s: ''
 };
 testDictionary(d3);
-var d4 = intersectDictionaries(d1, d3);
+var d4 = intersectDictionaries(d11, d3);
 testDictionary(d4);
-var d5 = intersectDictionaries(d3, d1);
+var d5 = intersectDictionaries(d3, d11);
 testDictionary(d5);
 var d6 = intersectDictionaries(d3, d3);
 testDictionary(d6);

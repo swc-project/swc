@@ -64,7 +64,7 @@ function h(obj) {
     }, obj) // error
     ;
 }
-function i(b, t) {
+function i1(b, t) {
     return _objectSpread({
         command: "hi"
     }, b ? t : {

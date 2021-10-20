@@ -18,11 +18,11 @@ var A = function A() {
     "use strict";
     _classCallCheck(this, A);
 };
-var M;
+var M1;
 (function(M) {
     var n;
     M.n = n;
-})(M || (M = {
+})(M1 || (M1 = {
 }));
 var objA = new A();
 // any type var
@@ -35,22 +35,22 @@ var ResultIsNumber5 = --ANY2[0];
 var ResultIsNumber6 = --obj.x;
 var ResultIsNumber7 = --obj.y;
 var ResultIsNumber8 = --objA.a;
-var ResultIsNumber = --M.n;
+var ResultIsNumber = --M1.n;
 var ResultIsNumber9 = ANY2[0]--;
 var ResultIsNumber10 = obj.x--;
 var ResultIsNumber11 = obj.y--;
 var ResultIsNumber12 = objA.a--;
-var ResultIsNumber13 = M.n--;
+var ResultIsNumber13 = M1.n--;
 // miss assignment opertors
 --ANY;
 --ANY1;
 --ANY2[0];
 --ANY, --ANY1;
 --objA.a;
---M.n;
+--M1.n;
 ANY--;
 ANY1--;
 ANY2[0]--;
 ANY--, ANY1--;
 objA.a--;
-M.n--;
+M1.n--;

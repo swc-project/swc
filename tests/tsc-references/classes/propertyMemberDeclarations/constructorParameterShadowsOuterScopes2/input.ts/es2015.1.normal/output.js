@@ -9,7 +9,7 @@
 // the constructor body.
 // Note that when class fields are accepted in the ECMAScript
 // standard, the target will become that year's ES20xx
-var x = 1;
+var x1 = 1;
 class C {
     constructor(x){
         this.b // ok

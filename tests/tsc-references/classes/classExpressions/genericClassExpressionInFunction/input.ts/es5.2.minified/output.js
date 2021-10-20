@@ -29,9 +29,9 @@ function _setPrototypeOf(o, p) {
 }
 var _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, A = function() {
+}, A1 = function() {
     "use strict";
-    _classCallCheck(this, A);
+    _classCallCheck(this, A1);
 }, B2 = function() {
     "use strict";
     _classCallCheck(this, B2), this.anon = (function(A) {
@@ -39,7 +39,7 @@ var _typeof = function(obj) {
             return _classCallCheck(this, _class), _possibleConstructorReturn(this, _getPrototypeOf(_class).apply(this, arguments));
         }
         return _inherits(_class, A), _class;
-    })(A);
+    })(A1);
 }, K = function(_super) {
     "use strict";
     function K() {
@@ -53,7 +53,7 @@ var _typeof = function(obj) {
             return _classCallCheck(this, _class), _possibleConstructorReturn(this, _getPrototypeOf(_class).apply(this, arguments));
         }
         return _inherits(_class, A), _class;
-    })(A);
+    })(A1);
 }()), C = function(_super) {
     "use strict";
     function C() {
@@ -73,6 +73,6 @@ var _typeof = function(obj) {
             return _classCallCheck(this, Inner), _possibleConstructorReturn(this, _getPrototypeOf(Inner).apply(this, arguments));
         }
         return _inherits(Inner, A), Inner;
-    })(A);
+    })(A1);
 }()), c = new C(), k = new K(), s = new S();
 c.genericVar = 12, k.genericVar = 12, s.genericVar = 12;

@@ -12,8 +12,8 @@ const copiedFromGetter = {
     get x () {
         return this.n;
     },
-    set x (n1){
-        this.n = n1;
+    set x (n){
+        this.n = n;
     }
 };
 const copiedFromSetter = {
@@ -21,7 +21,7 @@ const copiedFromSetter = {
     get x () {
         return this.n;
     },
-    set x (_this1){
+    set x (_this){
         this.n = n;
     }
 };
@@ -30,7 +30,7 @@ const copiedFromGetterUnannotated = {
     get x () {
         return this.n;
     },
-    set x (_this2){
+    set x (_this){
         this.n = n;
     }
 };

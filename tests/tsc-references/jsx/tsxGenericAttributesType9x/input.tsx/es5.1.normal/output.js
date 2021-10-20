@@ -77,7 +77,7 @@ var _typeof = function(obj) {
 // @noLib: true
 // @skipLibCheck: true
 // @libFiles: react.d.ts,lib.d.ts
-var React = require('react');
+var React1 = require('react');
 export function makeP(Ctor) {
     return /*#__PURE__*/ (function(_PureComponent) {
         "use strict";
@@ -96,5 +96,5 @@ export function makeP(Ctor) {
             }
         ]);
         return _class;
-    })(React.PureComponent);
+    })(React1.PureComponent);
 }

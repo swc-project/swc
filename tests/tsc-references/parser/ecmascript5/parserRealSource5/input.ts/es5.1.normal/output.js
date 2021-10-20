@@ -20,7 +20,7 @@ function _createClass(Constructor, protoProps, staticProps) {
 // Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
-var TypeScript;
+var TypeScript1;
 (function(TypeScript) {
     var prePrintAST = function prePrintAST(ast, parent, walker) {
         var pc = walker.state;
@@ -94,5 +94,5 @@ var TypeScript;
     TypeScript.PrintContext = PrintContext;
     TypeScript.prePrintAST = prePrintAST;
     TypeScript.postPrintAST = postPrintAST;
-})(TypeScript || (TypeScript = {
+})(TypeScript1 || (TypeScript1 = {
 }));

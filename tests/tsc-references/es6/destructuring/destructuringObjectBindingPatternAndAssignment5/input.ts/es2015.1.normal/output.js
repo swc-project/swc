@@ -33,5 +33,7 @@ function a() {
     let y;
     var _tmp;
     _tmp = {
-    }, y = _objectWithoutProperties(_tmp, ["x"]), ({ x  } = _tmp), _tmp;
+    }, y = _objectWithoutProperties(_tmp, [
+        "x"
+    ]), ({ x  } = _tmp), _tmp;
 }

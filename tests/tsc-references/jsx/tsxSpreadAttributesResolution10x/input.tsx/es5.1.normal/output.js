@@ -95,14 +95,14 @@ var Opt = /*#__PURE__*/ function(_Component) {
     ]);
     return Opt;
 }(React.Component);
-var obj = {
+var obj2 = {
 };
 var obj1 = {
     x: 2
 };
 // Error
 var y = /*#__PURE__*/ React.createElement(Opt, _extends({
-}, obj, {
+}, obj2, {
     x: 3
 }));
 var y1 = /*#__PURE__*/ React.createElement(Opt, _extends({

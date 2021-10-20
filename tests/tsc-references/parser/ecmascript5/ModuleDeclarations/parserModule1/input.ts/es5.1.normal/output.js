@@ -1,4 +1,5 @@
-export var CompilerDiagnostics;
+var CompilerDiagnostics1;
+export { CompilerDiagnostics1 as CompilerDiagnostics };
 (function(CompilerDiagnostics) {
     var Alert = function Alert(output) {
         if (diagnosticWriter) {
@@ -23,5 +24,5 @@ export var CompilerDiagnostics;
     CompilerDiagnostics.Alert = Alert;
     CompilerDiagnostics.debugPrint = debugPrint;
     CompilerDiagnostics.assert = assert;
-})(CompilerDiagnostics || (CompilerDiagnostics = {
+})(CompilerDiagnostics1 || (CompilerDiagnostics1 = {
 }));

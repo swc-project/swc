@@ -7,9 +7,11 @@ var _marked = regeneratorRuntime.mark(function() {
                     return x.length;
                 };
             case 2:
-                return _ctx.delegateYield([function(x) {
+                return _ctx.delegateYield([
+                    function(x) {
                         return x.length;
-                    }], "t0", 3);
+                    }
+                ], "t0", 3);
             case 3:
                 return _ctx.abrupt("return", function(x) {
                     return x.length;

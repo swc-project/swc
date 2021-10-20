@@ -22,7 +22,7 @@ function fn() {
     } finally{
     }
     try {
-    } catch (e2) {
+    } catch (e3) {
     } finally{
     }
     try {

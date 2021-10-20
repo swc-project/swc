@@ -1,3 +1,3 @@
-const a1 = 'a.js';
-const b1 = 'b.js';
-export { a1 as a, b1 as b };
+const a = 'a.js';
+const b = 'b.js';
+export { a as a, b as b };

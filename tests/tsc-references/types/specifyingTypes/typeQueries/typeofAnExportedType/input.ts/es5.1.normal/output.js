@@ -22,38 +22,41 @@ export var i;
 var i2;
 export var r5;
 export var r5;
-export var M;
+var M1;
+export { M1 as M };
 (function(M) {
     M.foo = '';
-    var C1 = function C1() {
+    var C = function C() {
         "use strict";
-        _classCallCheck(this, C1);
+        _classCallCheck(this, C);
     };
-    M.C = C1;
-})(M || (M = {
+    M.C = C;
+})(M1 || (M1 = {
 }));
 export var r6;
 export var r7;
-export var Z = M;
+export var Z = M1;
 export var r8;
 export var r9;
-export var E;
+var E1;
+export { E1 as E };
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {
+})(E1 || (E1 = {
 }));
 export var r10;
 export var r11;
 export var r12;
-export function foo() {
+function foo1() {
 }
+export { foo1 as foo };
 (function(foo) {
     foo.y = 1;
-    var C1 = function C1() {
+    var C = function C() {
         "use strict";
-        _classCallCheck(this, C1);
+        _classCallCheck(this, C);
     };
-    foo.C = C1;
-})(foo || (foo = {
+    foo.C = C;
+})(foo1 || (foo1 = {
 }));
 export var r13;

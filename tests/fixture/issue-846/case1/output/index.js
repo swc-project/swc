@@ -440,7 +440,9 @@ var SomeClass1 = _decorate([], function(_initialize) {
         d: [
             {
                 kind: "method",
-                decorators: [dec],
+                decorators: [
+                    dec
+                ],
                 key: "someMethod",
                 value: function someMethod() {
                 }
@@ -466,7 +468,9 @@ var OtherClass1 = _decorate([], function(_initialize, _SomeClass1) {
         d: [
             {
                 kind: "method",
-                decorators: [dec],
+                decorators: [
+                    dec
+                ],
                 key: "anotherMethod",
                 value: function anotherMethod() {
                     _get(_getPrototypeOf(OtherClass.prototype), "someMethod", this).call(this);

@@ -23,11 +23,14 @@
         },
         7139: function(i, j, k) {
             (window.__NEXT_P = window.__NEXT_P || []).push([
-                "/static", function() {
+                "/static",
+                function() {
                     return k(2943);
-                }]);
+                }
+            ]);
         }
-    }, function(l) {
+    },
+    function(l) {
         l.O(0, [
             774,
             888,
@@ -35,4 +38,5 @@
         ], function() {
             return l(l.s = 7139);
         }), _N_E = l.O();
-    }]);
+    }
+]);

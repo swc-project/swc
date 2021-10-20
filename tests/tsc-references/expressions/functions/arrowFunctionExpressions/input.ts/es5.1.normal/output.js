@@ -150,8 +150,8 @@ var arrrr = function() {
         };
     };
 };
-var e = arrrr()(3)()(4);
-var e;
+var e1 = arrrr()(3)()(4);
+var e1;
 // Arrow function used in arrow function used in function
 function someFn() {
     var arr = function(n) {
@@ -210,14 +210,14 @@ function tryCatchFn() {
             return _this;
         };
     } catch (e) {
-        var _this = this;
+        var _this1 = this;
         var t = function() {
-            return e + _this;
+            return e + _this1;
         };
     } finally{
-        var _this1 = this;
+        var _this2 = this;
         var m = function() {
-            return _this1 + '';
+            return _this2 + '';
         };
     }
 }

@@ -1,4 +1,4 @@
-var M, M2;
+var M1, M2;
 !function(M) {
     var Point = function() {
         "use strict";
@@ -7,6 +7,6 @@ var M, M2;
         }(this, Point);
     };
     M.Point = Point, M.Point = 1;
-}(M || (M = {
+}(M1 || (M1 = {
 })), (M2 || (M2 = {
 })).Point = 1;

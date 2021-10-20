@@ -1,1 +1,4 @@
-var [a, b] = [void 0, void 0];
+var [a, b] = [
+    void 0,
+    void 0
+];

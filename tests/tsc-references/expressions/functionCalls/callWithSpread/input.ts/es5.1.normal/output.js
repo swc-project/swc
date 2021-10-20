@@ -98,15 +98,15 @@ function _toConsumableArray(arr) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
-var _obj, _obj1, _obj2, _obj3, _instance, _obj4, _instance1, _instance2, _instance3;
+var _obj, _obj1, _obj2, _obj3, _instance4, _obj4, _instance1, _instance2, _instance3;
 function foo(x, y) {
     for(var _len = arguments.length, z = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
         z[_key - 2] = arguments[_key];
     }
 }
 var a;
-var z;
-var obj;
+var z1;
+var obj1;
 var xa;
 foo(1, 2, "abc");
 foo.apply(void 0, [
@@ -119,29 +119,29 @@ foo.apply(void 0, [
 ].concat(_toConsumableArray(a), [
     "abc"
 ]));
-obj.foo(1, 2, "abc");
-(_obj = obj).foo.apply(_obj, [
+obj1.foo(1, 2, "abc");
+(_obj = obj1).foo.apply(_obj, [
     1,
     2
 ].concat(_toConsumableArray(a)));
-(_obj1 = obj).foo.apply(_obj1, [
+(_obj1 = obj1).foo.apply(_obj1, [
     1,
     2
 ].concat(_toConsumableArray(a), [
     "abc"
 ]));
-(_obj2 = obj).foo.apply(_obj2, [
+(_obj2 = obj1).foo.apply(_obj2, [
     1,
     2
 ].concat(_toConsumableArray(a))).foo(1, 2, "abc");
-(_instance = (_obj3 = obj).foo.apply(_obj3, [
+(_instance4 = (_obj3 = obj1).foo.apply(_obj3, [
     1,
     2
-].concat(_toConsumableArray(a)))).foo.apply(_instance, [
+].concat(_toConsumableArray(a)))).foo.apply(_instance4, [
     1,
     2
 ].concat(_toConsumableArray(a)));
-(_instance1 = (_obj4 = obj).foo.apply(_obj4, [
+(_instance1 = (_obj4 = obj1).foo.apply(_obj4, [
     1,
     2
 ].concat(_toConsumableArray(a)))).foo.apply(_instance1, [
@@ -150,29 +150,29 @@ obj.foo(1, 2, "abc");
 ].concat(_toConsumableArray(a), [
     "abc"
 ]));
-obj.foo(1, 2, "abc");
-obj.foo.apply(this, [
+obj1.foo(1, 2, "abc");
+obj1.foo.apply(this, [
     1,
     2
 ].concat(_toConsumableArray(a)));
-obj.foo.apply(this, [
+obj1.foo.apply(this, [
     1,
     2
 ].concat(_toConsumableArray(a), [
     "abc"
 ]));
-obj.foo.apply(this, [
+obj1.foo.apply(this, [
     1,
     2
 ].concat(_toConsumableArray(a))).foo(1, 2, "abc");
-obj.foo.apply(this, [
+obj1.foo.apply(this, [
     1,
     2
 ].concat(_toConsumableArray(a))).foo.apply(this, [
     1,
     2
 ].concat(_toConsumableArray(a)));
-obj.foo.apply(this, [
+obj1.foo.apply(this, [
     1,
     2
 ].concat(_toConsumableArray(a))).foo.apply(this, [

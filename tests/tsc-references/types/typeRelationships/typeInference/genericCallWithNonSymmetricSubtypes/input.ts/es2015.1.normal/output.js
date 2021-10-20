@@ -6,7 +6,7 @@ function foo(x, y) {
 }
 var a;
 var b;
-var r = foo(a, b); // { x: number; y?: number; };
+var r1 = foo(a, b); // { x: number; y?: number; };
 var r2 = foo(b, a); // { x: number; z?: number; };
 var x;
 var y;

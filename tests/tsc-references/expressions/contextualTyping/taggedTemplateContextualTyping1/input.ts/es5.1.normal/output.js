@@ -8,25 +8,25 @@ function _taggedTemplateLiteral(strings, raw) {
         }
     }));
 }
-function _templateObject1() {
-    var data = _taggedTemplateLiteral([
-        "",
-        "",
-        ""
-    ]);
-    _templateObject1 = function _templateObject1() {
-        return data;
-    };
-    return data;
-}
 function _templateObject() {
     var data = _taggedTemplateLiteral([
-        "",
         "",
         "",
         ""
     ]);
     _templateObject = function _templateObject() {
+        return data;
+    };
+    return data;
+}
+function _templateObject1() {
+    var data = _taggedTemplateLiteral([
+        "",
+        "",
+        "",
+        ""
+    ]);
+    _templateObject1 = function _templateObject1() {
         return data;
     };
     return data;
@@ -65,11 +65,11 @@ function tempTag1() {
 // Otherwise, the arrow functions' parameters will be typed as 'any',
 // and it is an error to invoke an any-typed value with type arguments,
 // so this test will error.
-tempTag1(_templateObject1(), function(x) {
+tempTag1(_templateObject(), function(x) {
     x(undefined);
     return x;
 }, 10);
-tempTag1(_templateObject(), function(x) {
+tempTag1(_templateObject1(), function(x) {
     x(undefined);
     return x;
 }, function(y) {

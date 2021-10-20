@@ -69,11 +69,11 @@ var D = function(B) {
 D.prototype.foo = function() {
     _this.n = "not checked, so no error";
 };
-var Module = function() {
+var Module1 = function() {
     "use strict";
-    _classCallCheck(this, Module);
+    _classCallCheck(this, Module1);
 };
-Module.prototype.identifier = void 0, Module.prototype.size = null;
+Module1.prototype.identifier = void 0, Module1.prototype.size = null;
 var NormalModule = function(Module) {
     "use strict";
     function NormalModule() {
@@ -93,4 +93,4 @@ var NormalModule = function(Module) {
             }
         }
     ]), NormalModule;
-}(Module);
+}(Module1);

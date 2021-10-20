@@ -31,29 +31,29 @@ var NonGeneric, Generic, _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 !function(NonGeneric) {
-    var C = function() {
+    var C1 = function() {
         "use strict";
-        _classCallCheck(this, C);
+        _classCallCheck(this, C1);
     }, D = function(C) {
         "use strict";
         function D() {
             return _classCallCheck(this, D), _possibleConstructorReturn(this, _getPrototypeOf(D).apply(this, arguments));
         }
         return _inherits(D, C), D;
-    }(C);
-    C.prototype.foo, D.prototype.bar;
+    }(C1);
+    C1.prototype.foo, D.prototype.bar;
 }(NonGeneric || (NonGeneric = {
 })), (function(Generic) {
-    var C = function() {
+    var C2 = function() {
         "use strict";
-        _classCallCheck(this, C);
+        _classCallCheck(this, C2);
     }, D = function(C) {
         "use strict";
         function D() {
             return _classCallCheck(this, D), _possibleConstructorReturn(this, _getPrototypeOf(D).apply(this, arguments));
         }
         return _inherits(D, C), D;
-    }(C);
-    C.prototype.foo, D.prototype.baz;
+    }(C2);
+    C2.prototype.foo, D.prototype.baz;
 })(Generic || (Generic = {
 }));

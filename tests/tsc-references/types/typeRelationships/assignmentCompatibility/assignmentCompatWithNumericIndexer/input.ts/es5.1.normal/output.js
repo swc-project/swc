@@ -48,13 +48,13 @@ var A = function A() {
     "use strict";
     _classCallCheck(this, A);
 };
-var a;
-var b;
-a = b;
-b = a; // error
-var b2;
-a = b2;
-b2 = a; // error
+var a1;
+var b1;
+a1 = b1;
+b1 = a1; // error
+var b21;
+a1 = b21;
+b21 = a1; // error
 var Generics;
 (function(Generics) {
     var foo = function foo() {
@@ -69,9 +69,9 @@ var Generics;
         a = b3; // ok
         b3 = a; // ok
     };
-    var A1 = function A1() {
+    var A = function A() {
         "use strict";
-        _classCallCheck(this, A1);
+        _classCallCheck(this, A);
     };
     var B = /*#__PURE__*/ function(A) {
         "use strict";
@@ -81,6 +81,6 @@ var Generics;
             return _possibleConstructorReturn(this, _getPrototypeOf(B).apply(this, arguments));
         }
         return B;
-    }(A1);
+    }(A);
 })(Generics || (Generics = {
 }));

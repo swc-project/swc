@@ -14,14 +14,14 @@ function _classCallCheck(instance, Constructor) {
 // the constructor body.
 // Note that when class fields are accepted in the ECMAScript
 // standard, the target will become that year's ES20xx
-var x = 1;
+var x1 = 1;
 var C = function C(x) {
     "use strict";
     _classCallCheck(this, C);
     this.b // ok
      = x;
 };
-var y = 1;
+var y1 = 1;
 var D = function D(x) {
     "use strict";
     _classCallCheck(this, D);

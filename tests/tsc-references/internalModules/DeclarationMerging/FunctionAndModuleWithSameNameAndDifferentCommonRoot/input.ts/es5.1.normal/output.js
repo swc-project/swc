@@ -1,5 +1,5 @@
 // @filename: function.ts
-var A;
+var A1;
 (function(A) {
     var Point = function Point() {
         return {
@@ -8,7 +8,7 @@ var A;
         };
     };
     A.Point = Point;
-})(A || (A = {
+})(A1 || (A1 = {
 }));
 // @filename: module.ts
 var B;
@@ -24,6 +24,6 @@ var B;
 }));
 // @filename: test.ts
 var fn;
-var fn = A.Point;
+var fn = A1.Point;
 var cl;
 var cl = B.Point.Origin;

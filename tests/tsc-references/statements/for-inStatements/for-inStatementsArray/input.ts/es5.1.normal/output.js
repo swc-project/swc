@@ -11,9 +11,9 @@ for(var x in a){
 for(var x1 in a){
     for(var y in a){
         for(var z in a){
-            var a1 = a[x1];
-            var a2 = a[y];
-            var a3 = a[z];
+            var a11 = a[x1];
+            var a21 = a[y];
+            var a31 = a[z];
         }
     }
 }
@@ -21,14 +21,14 @@ var i = void 0;
 var j = void 0;
 for(i in a){
     for(j in b){
-        var a1 = a[i];
-        var a2 = a[j];
+        var a12 = a[i];
+        var a22 = a[j];
     }
 }
 var s;
 for(var s in a){
-    var a1 = a[s];
+    var a13 = a[s];
 }
 for(s in a){
-    var a1 = a[s];
+    var a14 = a[s];
 }

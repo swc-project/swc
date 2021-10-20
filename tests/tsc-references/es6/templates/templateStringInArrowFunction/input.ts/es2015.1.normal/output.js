@@ -1,2 +1,2 @@
-var x = (x)=>`abc${x}def`
+var x1 = (x)=>`abc${x}def`
 ;

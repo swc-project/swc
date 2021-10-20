@@ -165,20 +165,20 @@ var A = function() {
         {
             key: "advanced",
             value: function() {
-                var _instance, _instance1, _this = this, _this1 = this, _this2 = this, _this3 = this, _this4 = this, _this5 = this, _this6 = this, _this7 = this, _super_x = function() {
+                var _instance, _instance3, _this = this, _this5 = this, _this6 = this, _this7 = this, _this8 = this, _this9 = this, _this10 = this, _this11 = this, _super_x = function() {
                     for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
                     return (_instance = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance, [
                         _this
                     ].concat(_toConsumableArray(_args)));
                 }, _super_method = function() {
                     for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
-                    return (_instance1 = _get(_getPrototypeOf(B.prototype), "x", _this1)).call.apply(_instance1, [
-                        _this1
+                    return (_instance3 = _get(_getPrototypeOf(B.prototype), "x", _this5)).call.apply(_instance3, [
+                        _this5
                     ].concat(_toConsumableArray(_args)));
                 }, _super_x1 = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this6);
+                    return _get(_getPrototypeOf(B.prototype), "x", _this10);
                 }, _super_method1 = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this7);
+                    return _get(_getPrototypeOf(B.prototype), "x", _this11);
                 };
                 return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                     var _super, _superIndex, f, a, b;
@@ -187,7 +187,7 @@ var A = function() {
                             case 0:
                                 var ref, ref1, _args, _args1;
                                 _super = null, _superIndex = null, f = function() {
-                                }, _super_x(), _super_method(), a = _get(_getPrototypeOf(B.prototype), "x", _this2), b = _get(_getPrototypeOf(B.prototype), "x", _this3), _args = f, _set(_getPrototypeOf(B.prototype), "x", _args, _this4, !0), _args1 = f, _set(_getPrototypeOf(B.prototype), "x", _args1, _this5, !0), ref = {
+                                }, _super_x(), _super_method(), a = _get(_getPrototypeOf(B.prototype), "x", _this6), b = _get(_getPrototypeOf(B.prototype), "x", _this7), _args = f, _set(_getPrototypeOf(B.prototype), "x", _args, _this8, !0), _args1 = f, _set(_getPrototypeOf(B.prototype), "x", _args1, _this9, !0), ref = {
                                     f: f
                                 }, _super_x1() = ref.f, ref1 = {
                                     f: f

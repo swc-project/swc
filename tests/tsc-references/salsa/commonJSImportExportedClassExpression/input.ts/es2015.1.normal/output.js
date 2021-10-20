@@ -9,7 +9,7 @@ const { K  } = require("./mod1");
     k.values();
 }
 // @filename: mod1.js
-exports.K = class K1 {
+exports.K = class K {
     values() {
     }
 };

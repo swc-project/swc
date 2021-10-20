@@ -7,6 +7,6 @@ var x2 = f2(function(x) {
 var x3 = f3(function(x) {
     return x;
 }); // Array<any>
-var x = s(function(a) {
+var x4 = s(function(a) {
     return a.init();
 }); // x is any, should have been {}

@@ -2,7 +2,7 @@
 // body but are not permitted to reference parameters or local variables of the constructor.
 // This effectively means that entities from outer scopes by the same name as a constructor parameter or 
 // local variable are inaccessible in initializer expressions for instance member variables
-var x = 1;
+var x1 = 1;
 class C {
     constructor(x){
         this.b // error, evaluated in scope of constructor, cannot reference x

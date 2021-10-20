@@ -9,15 +9,15 @@ var C = function C() {
 };
 function f1() {
 }
-var M;
+var M1;
 (function(M) {
     M.y = 1;
-})(M || (M = {
+})(M1 || (M1 = {
 }));
-var E;
+var E1;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {
+})(E1 || (E1 = {
 }));
 var a = {
     a: 1,
@@ -40,8 +40,8 @@ var a = {
     j: null,
     k: new C(),
     l: f1,
-    m: M,
+    m: M1,
     n: {
     },
-    o: E.A
+    o: E1.A
 };

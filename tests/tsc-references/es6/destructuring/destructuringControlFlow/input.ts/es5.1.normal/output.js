@@ -63,12 +63,12 @@ function f4() {
     var x;
     var ref;
     ref = 0, x = ref.x, ref; // Error
-    var ref1;
-    ref1 = 0, x = ref1["x"], ref1; // Error
-    var ref2;
-    ref2 = 0, x = ref2["x" + ""], ref2; // Errpr
+    var ref3;
+    ref3 = 0, x = ref3["x"], ref3; // Error
+    var ref4;
+    ref4 = 0, x = ref4["x" + ""], ref4; // Errpr
 }
-var ref = [
+var ref2 = [
     "foo"
-], key = ref[0], value = ref[1];
+], key = ref2[0], value = ref2[1];
 value.toUpperCase(); // Error

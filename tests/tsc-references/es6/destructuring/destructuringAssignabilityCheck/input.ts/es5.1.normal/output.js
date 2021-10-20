@@ -35,7 +35,7 @@ function _throw(e) {
 // @strict: true
 var ref = _slicedToArray({
 }, 0); // should be error
-var undefined = undefined !== null ? undefined : _throw(new TypeError("Cannot destructure undefined")); // error correctly
+var undefined1 = undefined1 !== null ? undefined1 : _throw(new TypeError("Cannot destructure undefined")); // error correctly
 (function(param) {
     var _param = _slicedToArray(param, 0);
     return 0;
@@ -44,7 +44,7 @@ var undefined = undefined !== null ? undefined : _throw(new TypeError("Cannot de
 (function(param) {
     var param = param !== null ? param : _throw(new TypeError("Cannot destructure undefined"));
     return 0;
-})(undefined); // should be error
+})(undefined1); // should be error
 function foo(param) {
     var param = param !== null ? param : _throw(new TypeError("Cannot destructure undefined"));
     return 0;

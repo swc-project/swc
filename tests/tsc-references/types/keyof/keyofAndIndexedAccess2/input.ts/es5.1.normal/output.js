@@ -94,13 +94,14 @@ function fn4() {
     var x = 'abc';
     var y = 'abc';
 }
-// Repro from #31439 and #31691
-export var c = function c() {
+var c1 = function c1() {
     "use strict";
-    _classCallCheck(this, c);
+    _classCallCheck(this, c1);
     this.a = "b";
     this["a"] = "b";
 };
+// Repro from #31439 and #31691
+export { c1 as c };
 // Repro from #32038
 var actions = [
     'resizeTo',

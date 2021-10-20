@@ -17,10 +17,10 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var i;
+var i1;
 var o;
-o = i; // error
-i = o; // ok
+o = i1; // error
+i1 = o; // ok
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {

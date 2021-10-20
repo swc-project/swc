@@ -1,96 +1,96 @@
 let validate = (x)=>x === 'yes' || x === 'no' ? x : 'idk'
 ; // No error
-const u = undefined;
-if (u === 5) {
-    const y = u.toString(10);
+const u1 = undefined;
+if (u1 === 5) {
+    const y = u1.toString(10);
 }
-if (u === true || u === false) {
-    const someBool = u;
+if (u1 === true || u1 === false) {
+    const someBool = u1;
 }
-if (u === undefined) {
-    const undef = u;
+if (u1 === undefined) {
+    const undef = u1;
 }
-if (u === null) {
-    const someNull = u;
+if (u1 === null) {
+    const someNull = u1;
 }
-if (u === symb) {
-    const symbolAlias = u;
+if (u1 === symb) {
+    const symbolAlias = u1;
 }
-if (!(u === 42)) {
+if (!(u1 === 42)) {
 }
-if (u !== 42) {
+if (u1 !== 42) {
 }
-if (u == 42) {
+if (u1 == 42) {
 }
-if (u == true) {
+if (u1 == true) {
 }
-if (u == Object) {
+if (u1 == Object) {
 }
-if (u === aString) {
-    let uString = u;
+if (u1 === aString) {
+    let uString = u1;
 }
-if (u === aBoolean) {
-    let uString = u;
+if (u1 === aBoolean) {
+    let uString = u1;
 }
-if (u === aNumber) {
-    let uNumber = u;
+if (u1 === aNumber) {
+    let uNumber = u1;
 }
-if (u === anObject) {
-    let uObject = u;
+if (u1 === anObject) {
+    let uObject = u1;
 }
-if (u === anObjectLiteral) {
-    let uObjectLiteral = u;
+if (u1 === anObjectLiteral) {
+    let uObjectLiteral = u1;
 }
-if (u === aUnion) {
+if (u1 === aUnion) {
 }
-if (u === anIntersection) {
+if (u1 === anIntersection) {
 }
-if (u === aFunction) {
-    let uFunction = u;
+if (u1 === aFunction) {
+    let uFunction = u1;
 }
-var NumberEnum;
+var NumberEnum1;
 (function(NumberEnum) {
     NumberEnum[NumberEnum["A"] = 0] = "A";
     NumberEnum[NumberEnum["B"] = 1] = "B";
     NumberEnum[NumberEnum["C"] = 2] = "C";
-})(NumberEnum || (NumberEnum = {
+})(NumberEnum1 || (NumberEnum1 = {
 }));
-var StringEnum;
+var StringEnum1;
 (function(StringEnum) {
     StringEnum["A"] = "A";
     StringEnum["B"] = "B";
     StringEnum["C"] = "C";
-})(StringEnum || (StringEnum = {
+})(StringEnum1 || (StringEnum1 = {
 }));
-if (u === NumberEnum || u === StringEnum) {
-    let enumObj = u;
+if (u1 === NumberEnum1 || u1 === StringEnum1) {
+    let enumObj = u1;
 }
-if (u === NumberEnum.A) {
-    let a = u;
+if (u1 === NumberEnum1.A) {
+    let a = u1;
 }
-if (u === StringEnum.B) {
-    let b = u;
+if (u1 === StringEnum1.B) {
+    let b = u1;
 }
 function switchTestEnum(x) {
     switch(x){
-        case StringEnum.A:
+        case StringEnum1.A:
             const a = x;
             break;
-        case StringEnum.B:
+        case StringEnum1.B:
             const b = x;
             break;
-        case StringEnum.C:
+        case StringEnum1.C:
             const c = x;
             break;
     }
 }
 function switchTestCollectEnum(x) {
     switch(x){
-        case StringEnum.A:
+        case StringEnum1.A:
             const a = x;
-        case StringEnum.B:
+        case StringEnum1.B:
             const b = x;
-        case StringEnum.C:
+        case StringEnum1.C:
             const c = x;
             const all = x;
             return;
@@ -172,20 +172,20 @@ function f2(x) {
     return x;
 }
 function notNotEquals(u) {
-    if (u !== NumberEnum) {
+    if (u !== NumberEnum1) {
     } else {
         const o = u;
     }
-    if (u !== NumberEnum.A) {
+    if (u !== NumberEnum1.A) {
     } else {
         const a = u;
     }
-    if (u !== NumberEnum.A && u !== NumberEnum.B && u !== StringEnum.A) {
+    if (u !== NumberEnum1.A && u !== NumberEnum1.B && u !== StringEnum1.A) {
     } else {
         const aOrB = u;
     }
     // equivalent to
-    if (!(u === NumberEnum.A || u === NumberEnum.B || u === StringEnum.A)) {
+    if (!(u === NumberEnum1.A || u === NumberEnum1.B || u === StringEnum1.A)) {
     } else {
         const aOrB = u;
     }

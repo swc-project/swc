@@ -1,7 +1,7 @@
-(function(A1) {
-    A1.Instance = new A();
-})(A || (A = {
+(function(A) {
+    A.Instance = new A1();
+})(A1 || (A1 = {
 }));
 // duplicate identifier
-class A {
+class A1 {
 }

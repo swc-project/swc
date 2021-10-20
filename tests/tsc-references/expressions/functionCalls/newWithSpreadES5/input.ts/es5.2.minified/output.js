@@ -38,7 +38,7 @@ function _toConsumableArray(arr) {
 function f(x, y) {
     for(var _len = arguments.length, z = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)z[_key - 2] = arguments[_key];
 }
-var a, b, c, d, e, g, h, i, B = function(x, y) {
+var a1, b, c, d, e, g, h, i1, B = function(x, y) {
     "use strict";
     for(var _len = arguments.length, z = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)z[_key - 2] = arguments[_key];
     !function(instance, Constructor) {
@@ -48,102 +48,102 @@ var a, b, c, d, e, g, h, i, B = function(x, y) {
 new f(1, 2, "string"), _construct(f, [
     1,
     2
-].concat(_toConsumableArray(a))), _construct(f, [
+].concat(_toConsumableArray(a1))), _construct(f, [
     1,
     2
-].concat(_toConsumableArray(a), [
+].concat(_toConsumableArray(a1), [
     "string"
 ])), _construct(function() {
     for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];
-}, _toConsumableArray(a).concat(_toConsumableArray(a))), _construct(f, [
+}, _toConsumableArray(a1).concat(_toConsumableArray(a1))), _construct(f, [
     1,
     2
-].concat(_toConsumableArray(a), _toConsumableArray(a))), new f(1, 2, "string")(), _construct(f, [
+].concat(_toConsumableArray(a1), _toConsumableArray(a1))), new f(1, 2, "string")(), _construct(f, [
     1,
     2
-].concat(_toConsumableArray(a)))(), _construct(f, [
+].concat(_toConsumableArray(a1)))(), _construct(f, [
     1,
     2
-].concat(_toConsumableArray(a), [
+].concat(_toConsumableArray(a1), [
     "string"
 ]))(), new b.f(1, 2, "string"), _construct(b.f, [
     1,
     2
-].concat(_toConsumableArray(a))), _construct(b.f, [
+].concat(_toConsumableArray(a1))), _construct(b.f, [
     1,
     2
-].concat(_toConsumableArray(a), [
+].concat(_toConsumableArray(a1), [
     "string"
 ])), new b.f(1, 2, "string"), _construct(b.f, [
     1,
     2
-].concat(_toConsumableArray(a))), _construct(b.f, [
+].concat(_toConsumableArray(a1))), _construct(b.f, [
     1,
     2
-].concat(_toConsumableArray(a), [
+].concat(_toConsumableArray(a1), [
     "string"
 ])), new d[1].f(1, 2, "string"), _construct(d[1].f, [
     1,
     2
-].concat(_toConsumableArray(a))), _construct(d[1].f, [
+].concat(_toConsumableArray(a1))), _construct(d[1].f, [
     1,
     2
-].concat(_toConsumableArray(a), [
+].concat(_toConsumableArray(a1), [
     "string"
 ])), new e["a-b"].f(1, 2, "string"), _construct(e["a-b"].f, [
     1,
     2
-].concat(_toConsumableArray(a))), _construct(e["a-b"].f, [
+].concat(_toConsumableArray(a1))), _construct(e["a-b"].f, [
     1,
     2
-].concat(_toConsumableArray(a), [
+].concat(_toConsumableArray(a1), [
     "string"
 ])), new B(1, 2, "string"), _construct(B, [
     1,
     2
-].concat(_toConsumableArray(a))), _construct(B, [
+].concat(_toConsumableArray(a1))), _construct(B, [
     1,
     2
-].concat(_toConsumableArray(a), [
+].concat(_toConsumableArray(a1), [
     "string"
 ])), new c["a-b"](1, 2, "string"), _construct(c["a-b"], [
     1,
     2
-].concat(_toConsumableArray(a))), _construct(c["a-b"], [
+].concat(_toConsumableArray(a1))), _construct(c["a-b"], [
     1,
     2
-].concat(_toConsumableArray(a), [
+].concat(_toConsumableArray(a1), [
     "string"
 ])), new c["a-b"](1, 2, "string"), _construct(c["a-b"], [
     1,
     2
-].concat(_toConsumableArray(a))), _construct(c["a-b"], [
+].concat(_toConsumableArray(a1))), _construct(c["a-b"], [
     1,
     2
-].concat(_toConsumableArray(a), [
+].concat(_toConsumableArray(a1), [
     "string"
 ])), new g[1]["a-b"](1, 2, "string"), _construct(g[1]["a-b"], [
     1,
     2
-].concat(_toConsumableArray(a))), _construct(g[1]["a-b"], [
+].concat(_toConsumableArray(a1))), _construct(g[1]["a-b"], [
     1,
     2
-].concat(_toConsumableArray(a), [
+].concat(_toConsumableArray(a1), [
     "string"
 ])), new h["a-b"]["a-b"](1, 2, "string"), _construct(h["a-b"]["a-b"], [
     1,
     2
-].concat(_toConsumableArray(a))), _construct(h["a-b"]["a-b"], [
+].concat(_toConsumableArray(a1))), _construct(h["a-b"]["a-b"], [
     1,
     2
-].concat(_toConsumableArray(a), [
+].concat(_toConsumableArray(a1), [
     "string"
-])), new i["a-b"][1](1, 2, "string"), _construct(i["a-b"][1], [
+])), new i1["a-b"][1](1, 2, "string"), _construct(i1["a-b"][1], [
     1,
     2
-].concat(_toConsumableArray(a))), _construct(i["a-b"][1], [
+].concat(_toConsumableArray(a1))), _construct(i1["a-b"][1], [
     1,
     2
-].concat(_toConsumableArray(a), [
+].concat(_toConsumableArray(a1), [
     "string"
 ]));

@@ -41,11 +41,11 @@ var A = /*#__PURE__*/ function() {
     ]);
     return A;
 }();
-var M;
+var M1;
 (function(M) {
     var n;
     M.n = n;
-})(M || (M = {
+})(M1 || (M1 = {
 }));
 var objA = new A();
 // number type var
@@ -65,7 +65,7 @@ var ResultIsBoolean5 = !{
 };
 // number type expressions
 var ResultIsBoolean6 = !objA.a;
-var ResultIsBoolean7 = !M.n;
+var ResultIsBoolean7 = !M1.n;
 var ResultIsBoolean8 = !NUMBER1[0];
 var ResultIsBoolean9 = !foo();
 var ResultIsBoolean10 = !A.foo();
@@ -79,5 +79,5 @@ var ResultIsBoolean13 = !!!(NUMBER + NUMBER);
 !NUMBER1;
 !foo();
 !objA.a;
-!M.n;
-!objA.a, M.n;
+!M1.n;
+!objA.a, M1.n;

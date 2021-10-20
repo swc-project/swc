@@ -53,7 +53,7 @@ function _asyncToGenerator(fn) {
     };
 }
 var _class, _dec, _dec1, _dec2, _dec3, _dec4, _dec5;
-let Foo1 = ((_class = class Foo {
+let Foo = ((_class = class Foo {
     fnName1(argName) {
         return _asyncToGenerator(function*() {
         })();
