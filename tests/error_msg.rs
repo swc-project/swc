@@ -2,12 +2,12 @@ use std::path::{Path, PathBuf};
 use swc::{config::Options, Compiler};
 use testing::{NormalizedOutput, Tester};
 
-fn file(f: &str) -> NormalizedOutput {
+fn file(f: impl AsRef<Path>) -> NormalizedOutput {
     Tester::new()
         .print_errors(|cm, handler| -> Result<NormalizedOutput, _> {
             let c = Compiler::new(cm.clone());
 
-            let fm = cm.load_file(Path::new(f)).expect("failed to load file");
+            let fm = cm.load_file(f.as_ref()).expect("failed to load file");
             let s = c.process_js_file(
                 fm,
                 &handler,
@@ -40,5 +40,12 @@ fn issue_1532() {
     assert!(f.contains("unknown variant `esnext`"))
 }
 
-#[testing::fixture("tests/error-reporting/**/input/index.js")]
-fn fixture(index_path: PathBuf) {}
+#[testing::fixture("tests/error-reporting/**/input.js")]
+fn fixture(input: PathBuf) {
+    let test_dir = input.parent().unwrap();
+    let output_path = test_dir.join("output.swc-stderr");
+
+    let output = file(&input);
+
+    output.compare_to_file(&output_path).unwrap();
+}
