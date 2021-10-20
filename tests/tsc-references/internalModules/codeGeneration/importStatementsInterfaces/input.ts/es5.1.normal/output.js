@@ -7,8 +7,6 @@ var B;
 // no code gen expected
 var C;
 (function(C) {
-    var a = A;
-    var b = a.inA;
     var m;
     var p;
     var p = {
