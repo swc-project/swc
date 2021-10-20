@@ -107,6 +107,9 @@ pub(super) struct UsageAnalyzer<'a> {
 
 impl UsageAnalyzer<'_> {
     fn rename(&mut self, id: Id) {
+        if LOG {
+            trace!("Renaming `{}{:?}`", id.0, id.1)
+        }
         let to = self.new_symbol(id.clone());
         self.data.ops.get_mut().rename(id, to)
     }
