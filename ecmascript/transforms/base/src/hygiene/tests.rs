@@ -1563,12 +1563,12 @@ fn issue_2211_1() {
             Ok(stmts)
         },
         "
-        var _bar = require('./bar');
+        var _bar1 = require('./bar');
         const makeX = ()=>{
-            const _bar1 = ()=>(0, _bar).bar()
+            const _bar = ()=>(0, _bar1).bar()
             ;
             return {
-                _bar: _bar1
+                _bar
             };
         };
         ",
@@ -1603,13 +1603,13 @@ fn issue_2211_2() {
             Ok(stmts)
         },
         "
-        var _bar = require('./bar');
+        var _bar1 = require('./bar');
         const makeX = ()=>{
-            const _bar1 = () => _bar();
-
-            const alfa = () => _bar1();
-            
-            return { alfa };
+            const _bar = ()=>_bar1();
+            const alfa = ()=>_bar();
+            return {
+                alfa
+            };
         };
         ",
     );
