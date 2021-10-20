@@ -1165,7 +1165,14 @@ where
             v.spread.is_some()
                 || match &*v.expr {
                     Expr::Lit(Lit::Str(s)) => {
-                        if s.value.contains(|c: char| !c.is_ascii()) {
+                        if s.value.contains(|c: char| {
+                            // whitelist
+                            !c.is_ascii_alphanumeric()
+                                && match c {
+                                    '%' | '[' | ']' | '(' | ')' | '{' | '}' | '-' | '+' => false,
+                                    _ => true,
+                                }
+                        }) {
                             return true;
                         }
                         if s.value.contains("\\\0") || s.value.contains("/") {

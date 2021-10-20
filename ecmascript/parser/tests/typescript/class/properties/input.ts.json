@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 0,
-    "end": 84,
+    "end": 131,
     "ctxt": 0
   },
   "body": [
@@ -21,7 +21,7 @@
       "declare": false,
       "span": {
         "start": 0,
-        "end": 84,
+        "end": 131,
         "ctxt": 0
       },
       "decorators": [],
@@ -261,6 +261,98 @@
           "readonly": false,
           "declare": false,
           "definite": true
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 87,
+            "end": 102,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 87,
+              "end": 92,
+              "ctxt": 0
+            },
+            "value": "async",
+            "optional": false
+          },
+          "value": null,
+          "typeAnnotation": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 92,
+              "end": 101,
+              "ctxt": 0
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 94,
+                "end": 101,
+                "ctxt": 0
+              },
+              "kind": "boolean"
+            }
+          },
+          "isStatic": false,
+          "decorators": [],
+          "computed": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 107,
+            "end": 129,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 114,
+              "end": 119,
+              "ctxt": 0
+            },
+            "value": "async",
+            "optional": false
+          },
+          "value": null,
+          "typeAnnotation": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 119,
+              "end": 128,
+              "ctxt": 0
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 121,
+                "end": 128,
+                "ctxt": 0
+              },
+              "kind": "boolean"
+            }
+          },
+          "isStatic": true,
+          "decorators": [],
+          "computed": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
         }
       ],
       "superClass": null,
