@@ -860,28 +860,28 @@ test!(
     r#"
     var _s = $RefreshSig$(), _s1 = $RefreshSig$();
 
-    export const A = _s(React.memo(_c2 = _s(React.forwardRef(_c1 = _s((props, ref) => {
+    export const A = _s(React.memo(_c1 = _s(React.forwardRef(_c = _s((props, ref) => {
       _s();
     
       const [foo, setFoo] = useState(0);
       React.useEffect(() => {});
       return <h1 ref={ref}>{foo}</h1>;
     }, "useState{[foo, setFoo](0)}\nuseEffect{}")), "useState{[foo, setFoo](0)}\nuseEffect{}")), "useState{[foo, setFoo](0)}\nuseEffect{}");
-    _c3 = A;
-    export const B = _s1(React.memo(_c5 = _s1(React.forwardRef(_c4 = _s1(function (props, ref) {
+    _c2 = A;
+    export const B = _s1(React.memo(_c4 = _s1(React.forwardRef(_c3 = _s1(function (props, ref) {
       _s1();
     
       const [foo, setFoo] = useState(0);
       React.useEffect(() => {});
       return <h1 ref={ref}>{foo}</h1>;
     }, "useState{[foo, setFoo](0)}\nuseEffect{}")), "useState{[foo, setFoo](0)}\nuseEffect{}")), "useState{[foo, setFoo](0)}\nuseEffect{}");
-    _c6 = B;
+    _c5 = B;
 
     function hoc() {
-      var _s6 = $RefreshSig$();
+      var _s = $RefreshSig$();
 
-      return _s6(function Inner() {
-        _s6();
+      return _s(function Inner() {
+        _s();
 
         const [foo, setFoo] = useState(0);
         React.useEffect(() => {});
@@ -891,14 +891,14 @@ test!(
 
     export let C = hoc();
 
-    var _c1, _c2, _c3, _c4, _c5, _c6;
+    var _c, _c1, _c2, _c3, _c4, _c5;
 
-    $RefreshReg$(_c1, "A$React.memo$React.forwardRef");
-    $RefreshReg$(_c2, "A$React.memo");
-    $RefreshReg$(_c3, "A");
-    $RefreshReg$(_c4, "B$React.memo$React.forwardRef");
-    $RefreshReg$(_c5, "B$React.memo");
-    $RefreshReg$(_c6, "B");
+    $RefreshReg$(_c, "A$React.memo$React.forwardRef");
+    $RefreshReg$(_c1, "A$React.memo");
+    $RefreshReg$(_c2, "A");
+    $RefreshReg$(_c3, "B$React.memo$React.forwardRef");
+    $RefreshReg$(_c4, "B$React.memo");
+    $RefreshReg$(_c5, "B");
 "#
 );
 
@@ -1283,7 +1283,7 @@ test!(
 
     _s(Foo, "useState{[foo, setFoo](0)}\nuseEffect{}", true);
 
-    _c1 = Foo;
+    _c = Foo;
 
     function Bar() {
       _s1();
@@ -1295,12 +1295,12 @@ test!(
 
     _s1(Bar, "useState{[foo, setFoo](0)}\nuseEffect{}", true);
 
-    _c2 = Bar;
+    _c1 = Bar;
 
-    var _c1, _c2;
+    var _c, _c1;
 
-    $RefreshReg$(_c1, "Foo");
-    $RefreshReg$(_c2, "Bar");
+    $RefreshReg$(_c, "Foo");
+    $RefreshReg$(_c1, "Bar");
 "#
 );
 
