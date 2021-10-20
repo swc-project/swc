@@ -1316,11 +1316,11 @@ fn opt_1() {
             Ok(stmts)
         },
         "
-        var foo1 = 1;
+        var foo = 1;
         {
-            const foo = 2;
+            const foo1 = 2;
             {
-                foo1 = foo + foo1
+                foo = foo1 + foo
             }
         }
         ",
@@ -1359,25 +1359,13 @@ fn opt_2() {
             Ok(stmts)
         },
         "
-        // Ideal:
-        //
-        // var b = 1;
-        // var b11 = 2;
-        // {
-        //     const b2 = 3;
-        //     const b1 = 4;
-        //     {
-        //         b11 = b2 + b + b1 + b11
-        //     }
-        // }
-
-        var b2 = 1;
-        var b11 = 2;
+        var b = 1;
+        var b1 = 2;
         {
-            const b = 3;
-            const b1 = 4;
+            const b2 = 3;
+            const b11 = 4;
             {
-                b11 = b + b2 + b1 + b11;
+                b1 = b2 + b + b11 + b1;
             }
         }
         ",
@@ -1643,12 +1631,12 @@ fn issue_2297_1() {
             Ok(stmts)
         },
         "
-        var _bar1 = require('./Bar');
+        var _bar = require('./Bar');
         var makeX = function(props) {
-            var _bar = props.bar;
-            var list = _bar.list;
+            var _bar1 = props.bar;
+            var list = _bar1.list;
             return list.map(function() {
-                return _bar1.bar;
+                return _bar.bar;
             });
         };
         ",
