@@ -47,6 +47,27 @@ impl CurScope<'_> {
         }
     }
 
+    fn remove_decl(&self, id: &Id) {
+        {
+            let mut b = self.data.decls.borrow_mut();
+            let ctxts_of_decls = b.get_mut(&id.0);
+
+            if let Some(ctxts_of_decls) = ctxts_of_decls {
+                if let Some(pos) = ctxts_of_decls.iter().position(|&ctxt| ctxt == id.1) {
+                    ctxts_of_decls.remove(pos);
+                }
+            }
+        }
+
+        // TODO: Consider `var` / `let` / `const`.
+        match self.parent {
+            Some(v) => {
+                v.remove_decl(id);
+            }
+            None => {}
+        }
+    }
+
     /// Called when we are exiting a scope.
     fn remove_decls_from_map(&self, map: &AHashMap<JsWord, Vec<SyntaxContext>>) {
         for (sym, dropped_ctxts) in map {
@@ -144,7 +165,8 @@ impl UsageAnalyzer<'_> {
             trace!("Renaming `{}{:?}`", id.0, id.1)
         }
         let to = self.new_symbol(id.clone());
-        self.data.ops.get_mut().rename(id, to)
+        self.cur.remove_decl(&id);
+        self.data.ops.get_mut().rename(id, to);
     }
 
     fn new_symbol(&mut self, orig: Id) -> JsWord {
@@ -430,6 +452,18 @@ impl Visit for UsageAnalyzer<'_> {
                 None => {}
             }
         })
+    }
+
+    fn visit_import_default_specifier(&mut self, s: &ImportDefaultSpecifier, _: &dyn Node) {
+        self.add_decl(s.local.to_id());
+    }
+
+    fn visit_import_named_specifier(&mut self, s: &ImportNamedSpecifier, _: &dyn Node) {
+        self.add_decl(s.local.to_id());
+    }
+
+    fn visit_import_star_as_specifier(&mut self, s: &ImportStarAsSpecifier, _: &dyn Node) {
+        self.add_decl(s.local.to_id());
     }
 
     fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
