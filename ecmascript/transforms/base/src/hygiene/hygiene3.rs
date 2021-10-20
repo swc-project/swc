@@ -1,9 +1,6 @@
-//! Third one
-
 use super::{
     ops::{Operations, Operator},
-    rename::RenameAnalyzer,
-    usage_analyzer::UsageAnalyzer,
+    usage_analyzer::{Data, UsageAnalyzer},
 };
 use crate::hygiene::{unique_scope::unique_scope, usage_analyzer::CurScope};
 use swc_common::{chain, SyntaxContext, DUMMY_SP};
@@ -23,10 +20,9 @@ impl Renamer {
     fn analyze<N>(&mut self, n: &mut N)
     where
         N: for<'aa> VisitWith<UsageAnalyzer<'aa>>,
-        N: for<'aa> VisitWith<RenameAnalyzer<'aa>>,
         N: for<'aa> VisitMutWith<Operator<'aa>>,
     {
-        let mut data = Default::default();
+        let mut data = Data::default();
         {
             let mut v = UsageAnalyzer {
                 data: &mut data,
@@ -41,20 +37,10 @@ impl Renamer {
             n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
         }
 
-        let ops = {
-            let mut v = RenameAnalyzer {
-                data: &mut data,
-                ops: Default::default(),
-                scope_ctxt: Default::default(),
-                is_pat_decl: false,
-            };
-
-            n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
-            v.ops
-        };
+        let ops = data.ops;
 
         dbg!(&ops);
-        n.visit_mut_with(&mut Operator(&Operations::for_operator(ops.rename)));
+        n.visit_mut_with(&mut Operator(&ops));
     }
 }
 

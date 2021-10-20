@@ -1,3 +1,4 @@
+use super::ops::Operations;
 use crate::scope::ScopeKind;
 use std::{cell::RefCell, mem::take};
 use swc_atoms::JsWord;
@@ -8,13 +9,14 @@ use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 
 #[derive(Debug, Default)]
 
-pub struct Data {
+pub(super) struct Data {
     /// Top level scope uses [SyntaxContext::empty].
     pub scopes: AHashMap<SyntaxContext, ScopeData>,
+    pub ops: Operations,
 }
 
 #[derive(Debug, Default)]
-pub struct ScopeData {
+pub(super) struct ScopeData {
     pub kind: ScopeKind,
 
     pub decls: RefCell<AHashMap<JsWord, Vec<SyntaxContext>>>,
@@ -24,7 +26,7 @@ pub struct ScopeData {
     pub usages: RefCell<AHashMap<JsWord, Vec<SyntaxContext>>>,
 }
 
-pub struct CurScope<'a> {
+pub(super) struct CurScope<'a> {
     pub parent: Option<&'a CurScope<'a>>,
     pub scope_ctxt: SyntaxContext,
     pub data: ScopeData,
@@ -83,7 +85,7 @@ impl CurScope<'_> {
     }
 }
 
-pub struct UsageAnalyzer<'a> {
+pub(super) struct UsageAnalyzer<'a> {
     pub data: &'a mut Data,
     pub cur: CurScope<'a>,
 

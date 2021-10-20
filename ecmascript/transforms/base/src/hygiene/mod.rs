@@ -17,7 +17,6 @@ use swc_ecma_visit::{noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub mod hygiene3;
 mod ops;
-mod rename;
 #[cfg(test)]
 mod tests;
 mod unique_scope;
