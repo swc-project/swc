@@ -1164,7 +1164,7 @@ fn issue_295_02() {
         };
         class Foo {
             constructor(){
-                bar;
+                bar1;
             }
         }
         ",
