@@ -115,7 +115,8 @@
         "uncons",
         "Unexported",
         "Unexporter",
-        "unimpl"
+        "unimpl",
+        "untrusted"
     ],
     "flagWords": [
         "actally"
