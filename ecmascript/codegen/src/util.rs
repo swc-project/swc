@@ -1,8 +1,6 @@
 use super::list::ListFormat;
 use std::{rc::Rc, sync::Arc};
-use swc_common::{
-    errors::SourceMapper, BytePos, SourceMap, SourceMapperDyn, Span, Spanned, SyntaxContext,
-};
+use swc_common::{errors::SourceMapper, BytePos, SourceMap, SourceMapperDyn, Span, Spanned};
 use swc_ecma_ast::*;
 
 pub trait SpanExt: Spanned {
