@@ -813,6 +813,8 @@ fn regression_001() {
         |tester| {
             let mark1 = Mark::fresh(Mark::root());
             let mark2 = Mark::fresh(Mark::root());
+            let mark3 = Mark::fresh(Mark::root());
+            let mark4 = Mark::fresh(Mark::root());
 
             Ok(vec![tester
                 .parse_stmt(
@@ -837,10 +839,10 @@ fn regression_001() {
 }();
                     ",
                 )?
-                .fold_with(&mut OnceMarker::new(&[(
-                    "old",
-                    &[mark1, mark2, mark1, mark1, mark2, mark2],
-                )]))])
+                .fold_with(&mut OnceMarker::new(&[
+                    ("old", &[mark1, mark2, mark1, mark1, mark2, mark2]),
+                    ("_obj", &[mark3, mark4, mark3, mark4]),
+                ]))])
         },
         "var Foo = function() {
     function Foo() {
