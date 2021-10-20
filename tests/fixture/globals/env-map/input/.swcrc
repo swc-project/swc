@@ -1,0 +1,14 @@
+{
+    "jsc": {
+        "transform": {
+            "optimizer": {
+                "simplify": false,
+                "globals": {
+                    "envs": {
+                        "NODE_ENV_ALT": "true"
+                    }
+                }
+            }
+        }
+    }
+}

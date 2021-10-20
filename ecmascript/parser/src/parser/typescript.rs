@@ -2231,11 +2231,6 @@ impl<I: Tokens> Parser<I> {
             return Ok(None);
         }
 
-        assert!(
-            !is!(self, "declare"),
-            "try_parse_ts_declare should be called after eating `declare`"
-        );
-
         if self.ctx().in_declare {
             let span_of_declare = span!(self, start);
             self.emit_err(span_of_declare, SyntaxError::TS1038);

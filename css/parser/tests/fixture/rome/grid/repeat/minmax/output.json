@@ -161,7 +161,8 @@
                             "end": 68,
                             "ctxt": 0
                           },
-                          "kind": null
+                          "value": "px",
+                          "raw": "px"
                         }
                       }
                     ]

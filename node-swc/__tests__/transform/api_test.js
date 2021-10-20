@@ -86,7 +86,7 @@ it("(async) should handle plugin", async () => {
     expect(out.code).toBe("");
 });
 
-it("(async) should handel dynmic import", async () => {
+it("(async) should handle dynamic import", async () => {
     const out = await swc.transform("import('foo');", {
         jsc: {
             target: "es3",
@@ -144,7 +144,7 @@ it("should respect isModule = true", async () => {
             isModule: true,
         }
     );
-    expect(f).toThrowError(`failed to parse module: error was recoverable, but proceeding would result in wrong codegen`)
+    expect(f).toThrowError(/Syntax Error/)
 });
 
 

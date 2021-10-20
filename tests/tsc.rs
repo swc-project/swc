@@ -61,7 +61,8 @@ where
 
 fn matrix() -> Vec<(String, Options)> {
     // If we use `es5` as target, we can also verify es2015+ transforms.
-    let targets = vec![EsVersion::Es5];
+    // But we test using es2015 to verify hygiene pass.
+    let targets = vec![EsVersion::Es5, EsVersion::Es2015];
 
     let mut res = vec![];
 
@@ -134,7 +135,7 @@ fn compile(input: &Path, output: &Path, opts: Options) {
                         .compare_to_file(output)
                         .unwrap();
                 }
-                Err(ref err) if format!("{:?}", err).contains("failed to parse module") => {}
+                Err(ref err) if format!("{:?}", err).contains("Syntax Error") => {}
                 Err(ref err) if format!("{:?}", err).contains("not matched") => {}
                 Err(err) => panic!("Error: {:?}", err),
             }

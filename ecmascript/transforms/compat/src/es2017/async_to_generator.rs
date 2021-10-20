@@ -1197,7 +1197,7 @@ fn handle_await_for(stmt: Stmt) -> Stmt {
 
     let catch_clause = {
         // _didIteratorError = true;
-        let mark_as_errored = Stmt::Expr(ExprStmt {
+        let mark_as_errorred = Stmt::Expr(ExprStmt {
             span: DUMMY_SP,
             expr: Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
@@ -1225,7 +1225,7 @@ fn handle_await_for(stmt: Stmt) -> Stmt {
             param: Some(Pat::Ident(err_param.clone().into())),
             body: BlockStmt {
                 span: DUMMY_SP,
-                stmts: vec![mark_as_errored, store_error],
+                stmts: vec![mark_as_errorred, store_error],
             },
         }
     };

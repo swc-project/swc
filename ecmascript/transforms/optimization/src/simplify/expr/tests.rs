@@ -373,7 +373,7 @@ fn test_string_number_comparison() {
 }
 
 #[test]
-fn test_na_ncomparison() {
+fn test_nan_comparison() {
     fold("NaN < NaN", "false");
     fold("NaN >= NaN", "false");
     fold("NaN == NaN", "false");
@@ -441,7 +441,7 @@ fn test_unary_ops_1() {
     fold("a=+false", "a=0");
     fold_same("a=+foo()");
     fold_same("a=+f");
-    //    fold("a=+(f?true:false)", "a=+(f?1:0)"); // TODO(johnlenz): foldable
+    //    fold("a=+(f?true:false)", "a=+(f?1:0)");
 }
 
 #[test]
@@ -530,7 +530,7 @@ fn test_fold_logical_op_2() {
     // Really not foldable, because it would change the type of the
     // expression if foo() returns something truthy but not true.
     // Cf. FoldConstants.tryFoldAndOr().
-    // An example would be if foo() is 1 (truthy) and bar() is 0 (falsey):
+    // An example would be if foo() is 1 (truthy) and bar() is 0 (falsy):
     // (1 && true) || 0 == true
     // 1 || 0 == 1, but true =/= 1
     fold_same("x = foo() && true || bar()");

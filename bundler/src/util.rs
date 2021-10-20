@@ -171,12 +171,12 @@ impl VisitMut for HygieneRemover {
 pub(crate) use rayon::join;
 
 #[cfg(not(feature = "rayon"))]
-pub(crate) fn join<A, B, RA, RB>(oper_a: A, oper_b: B) -> (RA, RB)
+pub(crate) fn join<A, B, RA, RB>(op_a: A, op_b: B) -> (RA, RB)
 where
     A: FnOnce() -> RA,
     B: FnOnce() -> RB,
 {
-    (oper_a(), oper_b())
+    (op_a(), op_b())
 }
 
 #[cfg(feature = "rayon")]

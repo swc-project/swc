@@ -6,7 +6,7 @@ use petgraph::{
 use std::{collections::VecDeque, iter::repeat};
 use swc_common::collections::AHashSet;
 
-/// Is dependancy between nodes hard?
+/// Is dependency between nodes hard?
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub(super) enum Required {
     /// Required to evaluate

@@ -3,7 +3,7 @@ use anyhow::{bail, Context, Error};
 use helpers::Helpers;
 use std::{collections::HashMap, env, sync::Arc};
 use swc::{
-    config::{InputSourceMap, JscConfig, TransformConfig},
+    config::{GlobalInliningPassEnvs, InputSourceMap, JscConfig, TransformConfig},
     try_with_handler,
 };
 use swc_atoms::JsWord;
@@ -46,20 +46,23 @@ impl SwcLoader {
             .and_then(|g| Some(g.envs.clone()))
             .unwrap_or_default();
 
-        let envs_map: AHashMap<_, _> = envs
-            .into_iter()
-            .map(|name| {
-                let value = env::var(&name).ok();
-                (name, value.unwrap_or_default())
-            })
-            .collect();
+        let envs_map: AHashMap<_, _> = match envs {
+            GlobalInliningPassEnvs::Map(m) => m,
+            GlobalInliningPassEnvs::List(envs) => envs
+                .into_iter()
+                .map(|name| {
+                    let value = env::var(&name).ok();
+                    (name.into(), value.unwrap_or_default().into())
+                })
+                .collect(),
+        };
 
         for (k, v) in envs_map {
             m.insert(
-                k.into(),
+                k,
                 Expr::Lit(Lit::Str(Str {
                     span: DUMMY_SP,
-                    value: v.into(),
+                    value: v,
                     has_escape: false,
                     kind: Default::default(),
                 })),
@@ -156,8 +159,11 @@ impl SwcLoader {
             )?;
             let program = helpers::HELPERS.set(&helpers, || {
                 swc_ecma_utils::HANDLER.set(&handler, || {
-                    let program =
-                        program.fold_with(&mut inline_globals(self.env_map(), Default::default()));
+                    let program = program.fold_with(&mut inline_globals(
+                        self.env_map(),
+                        Default::default(),
+                        Default::default(),
+                    ));
                     let program = program.fold_with(&mut expr_simplifier(Default::default()));
                     let program = program.fold_with(&mut dead_branch_remover());
 
@@ -249,8 +255,11 @@ impl SwcLoader {
             let program = if let Some(mut config) = config {
                 helpers::HELPERS.set(&helpers, || {
                     swc_ecma_utils::HANDLER.set(handler, || {
-                        let program = program
-                            .fold_with(&mut inline_globals(self.env_map(), Default::default()));
+                        let program = program.fold_with(&mut inline_globals(
+                            self.env_map(),
+                            Default::default(),
+                            Default::default(),
+                        ));
                         let program = program.fold_with(&mut expr_simplifier(Default::default()));
                         let program = program.fold_with(&mut dead_branch_remover());
 

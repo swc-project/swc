@@ -1,0 +1,15 @@
+{
+    "jsc": {
+        "transform": {
+            "optimizer": {
+                "simplify": false,
+                "globals": {
+                    "vars": {
+                        "value.debug": "true",
+                        "value": "'foo'"
+                    }
+                }
+            }
+        }
+    }
+}

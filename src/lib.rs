@@ -417,7 +417,7 @@ impl Compiler {
 
                 m.map_err(|e| {
                     e.into_diagnostic(handler).emit();
-                    Error::msg("failed to parse module")
+                    Error::msg("Syntax Error")
                 })
                 .map(Program::Module)?
             } else {
@@ -430,16 +430,15 @@ impl Compiler {
 
                 s.map_err(|e| {
                     e.into_diagnostic(handler).emit();
-                    Error::msg("failed to parse module")
+                    Error::msg("Syntax Error")
                 })
                 .map(Program::Script)?
             };
 
             if error {
-                bail!(
-                    "failed to parse module: error was recoverable, but proceeding would result \
-                     in wrong codegen"
-                )
+                return Err(anyhow::anyhow!("Syntax Error").context(
+                    "error was recoverable, but proceeding would result in wrong codegen",
+                ));
             }
 
             Ok(program)

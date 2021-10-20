@@ -444,23 +444,28 @@ where
         }
     }
 
-    /// Ported from `consumeIdentLike` of `esbuild`
     // TODO: rewrite https://www.w3.org/TR/css-syntax-3/#consume-an-ident-like-token
     fn read_ident_like(&mut self) -> LexResult<Token> {
         let name = self.read_name()?;
 
-        // TODO: rewrite https://www.w3.org/TR/css-syntax-3/#consume-ident-like-token
         if name.0.to_ascii_lowercase() == js_word!("url") && self.input.is_byte(b'(') {
-            let pos = self.input.cur_pos();
-
             self.input.bump();
-            let pos_whitespace = self.input.cur_pos();
+
+            let start_whitespace = self.input.cur_pos();
+
             self.skip_ws()?;
 
             match self.input.cur() {
-                Some('"' | '\'') => self.input.reset_to(pos),
+                Some('"' | '\'') => {
+                    self.input.reset_to(start_whitespace);
+
+                    return Ok(Token::Function {
+                        value: name.0,
+                        raw: name.1,
+                    });
+                }
                 _ => {
-                    self.input.reset_to(pos_whitespace);
+                    self.input.reset_to(start_whitespace);
 
                     return self.read_url();
                 }
@@ -612,8 +617,10 @@ where
                 }
 
                 None => {
-                    // TODO: This is a parse error. Return the <url-token>.
-                    return Err(ErrorKind::Eof);
+                    return Ok(Token::Url {
+                        value: value.into(),
+                        raw: raw.into(),
+                    });
                 }
 
                 Some(c) if is_whitespace(c) => {

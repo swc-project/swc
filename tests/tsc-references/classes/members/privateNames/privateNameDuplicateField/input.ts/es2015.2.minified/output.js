@@ -1,0 +1,1 @@
+new WeakMap(), new WeakMap();

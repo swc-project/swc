@@ -433,7 +433,7 @@ where
     }
 
     fn visit_mut_module(&mut self, n: &mut Module) {
-        let is_bundle_mode = n.span.has_mark(self.marks.bundle_of_standalones);
+        let is_bundle_mode = n.span.has_mark(self.marks.bundle_of_standalone);
 
         if is_bundle_mode {
             self.left_parallel_depth = MAX_PAR_DEPTH - 1;

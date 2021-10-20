@@ -666,7 +666,7 @@ where
         }
     }
 
-    /// Runtiem; `classic`
+    /// Runtime; `classic`
     fn fold_attrs_for_next_classic(&mut self, attrs: Vec<JSXAttrOrSpread>) -> Box<Expr> {
         if attrs.is_empty() {
             return Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP })));

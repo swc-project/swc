@@ -148,7 +148,8 @@
                                 "end": 41,
                                 "ctxt": 0
                               },
-                              "kind": "x"
+                              "value": "x",
+                              "raw": "x"
                             }
                           }
                         ]

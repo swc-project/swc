@@ -1,6 +1,6 @@
 use crate::{
     complete_output, get_compiler,
-    util::{deserialize_json, CtxtExt, MapErr},
+    util::{deserialize_json, try_with, CtxtExt, MapErr},
 };
 use anyhow::{Context as _, Error};
 use napi::{CallContext, Env, JsBoolean, JsObject, JsString, Task};
@@ -9,7 +9,7 @@ use std::{
     path::{Path, PathBuf},
     sync::Arc,
 };
-use swc::{config::Options, try_with_handler, Compiler, TransformOutput};
+use swc::{config::Options, Compiler, TransformOutput};
 use swc_common::{FileName, SourceFile};
 use swc_ecma_ast::Program;
 
@@ -35,7 +35,7 @@ impl Task for TransformTask {
     type JsValue = JsObject;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
-        try_with_handler(self.c.cm.clone(), |handler| {
+        try_with(self.c.cm.clone(), |handler| {
             self.c.run(|| match self.input {
                 Input::Program(ref s) => {
                     let program: Program =
@@ -93,7 +93,7 @@ where
         options.config.adjust(Path::new(&options.filename));
     }
 
-    let output = try_with_handler(c.cm.clone(), |handler| {
+    let output = try_with(c.cm.clone(), |handler| {
         c.run(|| {
             if is_module.get_value()? {
                 let program: Program =

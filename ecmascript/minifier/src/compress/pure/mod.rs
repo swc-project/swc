@@ -1,6 +1,6 @@
 use self::ctx::Ctx;
 use crate::{
-    debug::dump, marks::Marks, mode::Mode, option::CompressOptions, util::MoudleItemExt,
+    debug::dump, marks::Marks, mode::Mode, option::CompressOptions, util::ModuleItemExt,
     MAX_PAR_DEPTH,
 };
 use rayon::prelude::*;
@@ -71,7 +71,7 @@ where
 {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: MoudleItemExt,
+        T: ModuleItemExt,
         Vec<T>: VisitWith<self::vars::VarWithOutInitCounter>
             + VisitMutWith<self::vars::VarPrepender>
             + VisitMutWith<self::vars::VarMover>,

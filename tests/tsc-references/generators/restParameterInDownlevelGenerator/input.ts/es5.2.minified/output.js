@@ -27,16 +27,16 @@ var _marked = regeneratorRuntime.mark(function() {
         }
     }, _marked, null, [
         [
-            10,
-            ,
-            12,
-            16
-        ],
-        [
             1,
             5,
             9,
             17
+        ],
+        [
+            10,
+            ,
+            12,
+            16
         ]
     ]);
 });

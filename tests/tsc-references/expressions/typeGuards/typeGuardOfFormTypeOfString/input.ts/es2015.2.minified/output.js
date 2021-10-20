@@ -1,0 +1,2 @@
+var strOrNum, strOrBool, numOrBool, strOrNumOrBool, strOrC;
+"string" == typeof strOrNum, "string" == typeof strOrBool, "string" == typeof strOrNumOrBool || (numOrBool = strOrNumOrBool), "string" == typeof strOrC, "string" == typeof numOrBool, "string" != typeof strOrNum, "string" != typeof strOrBool, "string" != typeof strOrNumOrBool && (numOrBool = strOrNumOrBool), "string" != typeof strOrC, "string" != typeof numOrBool;

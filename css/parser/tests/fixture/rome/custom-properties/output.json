@@ -299,7 +299,8 @@
                     "end": 130,
                     "ctxt": 0
                   },
-                  "kind": "em"
+                  "value": "em",
+                  "raw": "em"
                 }
               }
             ],
@@ -346,7 +347,8 @@
                     "end": 145,
                     "ctxt": 0
                   },
-                  "kind": "ms"
+                  "value": "ms",
+                  "raw": "ms"
                 }
               }
             ],
