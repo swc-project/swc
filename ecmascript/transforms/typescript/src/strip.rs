@@ -2126,7 +2126,8 @@ where
                     let maybe_entry = self.scope.referenced_idents.get(&import.id.to_id());
                     let (has_concrete, dep_defined) = if let Some(entry) = maybe_entry {
                         let dep_id = entry.maybe_dependency.as_ref().unwrap().to_id();
-                        (entry.has_concrete, self.scope.referenced_idents.contains_key(&dep_id))
+                        let dep_defined = self.scope.referenced_idents.contains_key(&dep_id);
+                        (entry.has_concrete, dep_defined)
                     } else {
                         (true, true)
                     };
