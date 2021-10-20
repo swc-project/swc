@@ -144,24 +144,20 @@ impl CurScope<'_> {
 
     /// Given usage (`sym`), will it be resolved as `ctxt` if we don't rename
     /// it?
-    fn will_be_resolved_as(&self, sym: &JsWord, ctxt: SyntaxContext) -> bool {
+    fn conflict(&self, sym: &JsWord, ctxt: SyntaxContext) -> Vec<SyntaxContext> {
+        let mut conflicts = match self.parent {
+            Some(s) => s.conflict(sym, ctxt),
+            None => vec![],
+        };
+
         if let Some(ctxts) = self.data.decls.borrow().get(sym) {
             if ctxts.len() > 1 {
-                return false;
+                return conflicts;
             }
-            if ctxts.len() == 1 {
-                if ctxts[0] == ctxt {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
+            conflicts.extend(ctxts.iter().copied().filter(|&cx| cx != ctxt));
         }
 
-        match self.parent {
-            Some(s) => s.will_be_resolved_as(sym, ctxt),
-            None => true,
-        }
+        conflicts
     }
 
     fn add_usage(&self, id: Id) {
@@ -337,14 +333,14 @@ impl UsageAnalyzer<'_> {
             trace!("Usage: `{}{:?}`", id.0, id.1);
         }
 
-        if !self.cur.will_be_resolved_as(&id.0, id.1) {
-            if LOG {
-                debug!("Renaming usage: It will be resolved to wrong variable");
-            }
+        // We rename decl instead of usage.
+        let conflicts = self.cur.conflict(&id.0, id.1);
 
-            self.rename(id);
-            // As we renamed current identifier, we don't add it to the usage list.
-            return;
+        for ctxt in conflicts {
+            if LOG {
+                debug!("Renaming decl: Usage-decl conflict (ctxt={:?})", ctxt);
+            }
+            self.rename((id.0.clone(), ctxt));
         }
 
         self.cur.add_usage(id);
