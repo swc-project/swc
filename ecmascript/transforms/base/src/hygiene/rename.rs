@@ -118,9 +118,9 @@ impl RenameAnalyzer<'_> {
         self.ops.rename.insert(id, renamed);
     }
 
-    fn rename_decl(&mut self, i: &Ident) {}
+    fn add_decl(&mut self, i: &Ident) {}
 
-    fn rename_usage(&mut self, i: &Ident) {
+    fn add_usage(&mut self, i: &Ident) {
         let i = i.to_id();
         let i = self.apply_ops(i);
 
@@ -176,7 +176,7 @@ impl Visit for RenameAnalyzer<'_> {
 
         match e {
             Expr::Ident(i) => {
-                self.rename_usage(&i);
+                self.add_usage(&i);
             }
             _ => {}
         }
@@ -203,9 +203,9 @@ impl Visit for RenameAnalyzer<'_> {
         match p {
             Pat::Ident(i) => {
                 if self.is_pat_decl {
-                    self.rename_decl(&i.id);
+                    self.add_decl(&i.id);
                 } else {
-                    self.rename_usage(&i.id);
+                    self.add_usage(&i.id);
                 }
             }
             _ => {}
@@ -217,7 +217,7 @@ impl Visit for RenameAnalyzer<'_> {
 
         match p {
             Prop::Shorthand(i) => {
-                self.rename_usage(&i);
+                self.add_usage(&i);
             }
             _ => {}
         }
