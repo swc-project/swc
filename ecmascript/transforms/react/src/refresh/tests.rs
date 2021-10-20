@@ -802,7 +802,7 @@ test!(
 
     _s(Foo, "useState{[foo, setFoo](0)}\nuseEffect{}");
   
-    _c1 = Foo;
+    _c = Foo;
 
     function Bar() {
       _s1();
@@ -814,7 +814,7 @@ test!(
 
     _s1(Bar, "useState{[foo, setFoo](0)}\nuseEffect{}");
   
-    _c2 = Bar;
+    _c1 = Bar;
 
     function baz() {
       _s2();
@@ -823,10 +823,10 @@ test!(
 
     _s2(baz, "useState{}\nuseState{}");
 
-    var _c1, _c2;
+    var _c, _c1;
   
-    $RefreshReg$(_c1, "Foo");
-    $RefreshReg$(_c2, "Bar");
+    $RefreshReg$(_c, "Foo");
+    $RefreshReg$(_c1, "Bar");
 "#
 );
 
