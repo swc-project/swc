@@ -22,7 +22,6 @@ class clodule {
     };
 })(clodule || (clodule = {
 }));
-var clolias = clodule;
 var p;
 var p;
 var p;
@@ -39,7 +38,6 @@ function fundule() {
     };
 })(fundule || (fundule = {
 }));
-var funlias = fundule;
 var p;
 var p;
 var p;
