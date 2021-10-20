@@ -6,5 +6,8 @@ var x338 = (n__2: {
 })=>n__2
 ;
 x338(function named__3() {
-    return [d1, d2];
+    return [
+        d1,
+        d2
+    ];
 });
