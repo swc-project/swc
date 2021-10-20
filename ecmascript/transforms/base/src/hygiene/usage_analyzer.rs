@@ -509,6 +509,16 @@ impl Visit for Hoister<'_, '_> {
 
     fn visit_block_stmt_or_expr(&mut self, _: &BlockStmtOrExpr, _: &dyn Node) {}
 
+    fn visit_class_decl(&mut self, c: &ClassDecl, _: &dyn Node) {
+        c.visit_children_with(self);
+
+        if self.in_block_stmt {
+            return;
+        }
+
+        self.inner.add_decl(c.ident.to_id());
+    }
+
     fn visit_constructor(&mut self, c: &Constructor, _: &dyn Node) {
         c.params.visit_with(c, self);
     }
