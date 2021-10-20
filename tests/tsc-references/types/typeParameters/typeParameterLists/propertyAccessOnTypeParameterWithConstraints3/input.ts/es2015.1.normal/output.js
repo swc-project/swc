@@ -27,12 +27,12 @@ var r1b = new C().g(new B());
 var i;
 var r2 = i.foo.foo();
 var r2b = i.foo['foo']();
-var a;
-var r3 = a().foo(); // error, no inferences for U so it doesn't satisfy constraint
-var r3b = a()['foo']();
+var a1;
+var r3 = a1().foo(); // error, no inferences for U so it doesn't satisfy constraint
+var r3b = a1()['foo']();
 // parameter supplied for type argument inference for U
-var r3c = a(new B()).foo(); // valid call to an invalid function, U is inferred as B, which has a foo
-var r3d = a(new B())['foo'](); // valid call to an invalid function, U is inferred as B, which has a foo
+var r3c = a1(new B()).foo(); // valid call to an invalid function, U is inferred as B, which has a foo
+var r3d = a1(new B())['foo'](); // valid call to an invalid function, U is inferred as B, which has a foo
 var b = {
     foo: (x)=>{
         // BUG 823818

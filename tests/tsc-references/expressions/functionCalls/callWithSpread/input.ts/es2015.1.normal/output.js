@@ -1,7 +1,7 @@
 function foo(x, y, ...z) {
 }
 var a;
-var z;
+var z1;
 var obj;
 var xa;
 foo(1, 2, "abc");

@@ -1,8 +1,8 @@
 // all of these are valid
 var x1;
 x1 = 1;
-var a = 2;
-x1 = a;
+var a1 = 2;
+x1 = a1;
 x1 = true;
 var b = true;
 x1 = b;
@@ -15,13 +15,13 @@ var e = undefined;
 x1 = e;
 var e2;
 x1 = e2;
-var E;
+var E1;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {
+})(E1 || (E1 = {
 }));
-x1 = E.A;
-var f = E.A;
+x1 = E1.A;
+var f = E1.A;
 x1 = f;
 var g;
 x1 = g;

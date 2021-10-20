@@ -1,4 +1,4 @@
-var A, A1, C, X, Z, K, M;
+var A, A1, C, X1, Z, K1, M;
 (A = A1 || (A1 = {
 })).x = "hello world", A.Point = class {
     constructor(x, y){
@@ -15,9 +15,9 @@ var A, A1, C, X, Z, K, M;
             this.x = x, this.y = y;
         }
     };
-})(X || (X = {
+})(X1 || (X1 = {
 })), (Z || (Z = {
-})).y = X.Y, Z.y(), new Z.y.Point(0, 0), (function(K) {
+})).y = X1.Y, Z.y(), new Z.y.Point(0, 0), (function(K) {
     class L {
         constructor(name){
             this.name = name;
@@ -25,6 +25,6 @@ var A, A1, C, X, Z, K, M;
     }
     K.L = L, (L || (L = {
     })).y = 12;
-})(K || (K = {
+})(K1 || (K1 = {
 })), (M || (M = {
-})).D = K.L, new M.D("Hello");
+})).D = K1.L, new M.D("Hello");

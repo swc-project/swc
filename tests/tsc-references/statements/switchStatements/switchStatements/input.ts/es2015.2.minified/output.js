@@ -1,8 +1,8 @@
-var M, x;
+var M, x1;
 switch((M || (M = {
 })).fn = function(x) {
     return "";
-}, x){
+}, x1){
     case "":
     case 12:
     case !0:
@@ -20,7 +20,7 @@ switch((M || (M = {
     case [
         "a"
     ]:
-    case typeof x:
+    case typeof x1:
     case typeof M:
     case M.fn(1):
     case (x)=>""

@@ -1,4 +1,4 @@
-var Formatting;
+var Formatting1;
 !function(Formatting) {
     class Indenter {
         GetIndentationEdits(token, nextToken, node, sameLineIndent) {
@@ -259,5 +259,5 @@ var Formatting;
         }
     }
     Formatting.Indenter = Indenter;
-}(Formatting || (Formatting = {
+}(Formatting1 || (Formatting1 = {
 }));

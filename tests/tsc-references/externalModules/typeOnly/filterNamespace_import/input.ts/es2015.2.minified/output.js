@@ -1,10 +1,10 @@
-var ns;
+var ns1;
 !function(ns) {
     var nested;
     ns.Class = class {
     }, ns.Value = "", (nested || (nested = {
     })).NestedClass = class {
     }, ns.nested = nested;
-}(ns || (ns = {
-})), ns.Class, ns.Value;
+}(ns1 || (ns1 = {
+})), ns1.Class, ns1.Value;
 export { };

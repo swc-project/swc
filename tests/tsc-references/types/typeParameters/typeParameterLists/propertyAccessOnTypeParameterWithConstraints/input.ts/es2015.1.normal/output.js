@@ -11,9 +11,9 @@ var r = new C().f();
 var i;
 var r2 = i.foo.getDate();
 var r2b = i.foo['getDate']();
-var a;
-var r3 = a().getDate();
-var r3b = a()['getDate']();
+var a1;
+var r3 = a1().getDate();
+var r3b = a1()['getDate']();
 var b = {
     foo: (x)=>{
         var a = x['getDate'](); // number

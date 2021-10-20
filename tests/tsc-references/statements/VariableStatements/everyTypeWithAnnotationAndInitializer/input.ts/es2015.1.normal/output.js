@@ -5,7 +5,7 @@ class D {
 function F(x) {
     return 42;
 }
-var M;
+var M1;
 (function(M) {
     class A {
     }
@@ -14,7 +14,7 @@ var M;
         return x.toString();
     }
     M.F2 = F2;
-})(M || (M = {
+})(M1 || (M1 = {
 }));
 var aNumber = 9.9;
 var aString = 'this is a string';
@@ -34,7 +34,7 @@ var aFunction = F;
 var anOtherFunction = F;
 var aLambda = (x)=>2
 ;
-var aModule = M;
-var aClassInModule = new M.A();
+var aModule = M1;
+var aClassInModule = new M1.A();
 var aFunctionInModule = (x)=>'this is a string'
 ;

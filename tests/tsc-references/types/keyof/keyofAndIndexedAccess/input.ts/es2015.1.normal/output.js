@@ -8,12 +8,12 @@ class Item {
 }
 class Options {
 }
-var E;
+var E1;
 (function(E) {
     E[E["A"] = 0] = "A";
     E[E["B"] = 1] = "B";
     E[E["C"] = 2] = "C";
-})(E || (E = {
+})(E1 || (E1 = {
 }));
 function getProperty(obj, key) {
     return obj[key];
@@ -354,7 +354,7 @@ function f(p) {
     let a;
     a[p].add; // any
 }
-let result = dispatchMethod("someMethod", [
+let result1 = dispatchMethod("someMethod", [
     "hello",
     35
 ]);
@@ -421,11 +421,11 @@ function f3(t, k, tk) {
         t[key] = tk; // ok, T[K] ==> T[keyof T]
     }
 }
-var Flag;
+var Flag1;
 (function(Flag) {
     Flag["FLAG_1"] = "flag_1";
     Flag["FLAG_2"] = "flag_2";
-})(Flag || (Flag = {
+})(Flag1 || (Flag1 = {
 }));
 function getFlagsFromSimpleRecord(record, flags) {
     return record[flags[0]];

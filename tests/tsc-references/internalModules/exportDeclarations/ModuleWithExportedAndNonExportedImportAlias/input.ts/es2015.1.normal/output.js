@@ -1,4 +1,4 @@
-var B;
+var B1;
 (function(B) {
     class Line {
         constructor(start, end){
@@ -7,12 +7,12 @@ var B;
         }
     }
     B.Line = Line;
-})(B || (B = {
+})(B1 || (B1 = {
 }));
-var Geometry;
+var Geometry1;
 (function(Geometry) {
     Geometry.Points = A;
-    var Lines = B;
+    var Lines = B1;
     Geometry.Origin = {
         x: 0,
         y: 0
@@ -21,13 +21,13 @@ var Geometry;
         x: 1,
         y: 0
     });
-})(Geometry || (Geometry = {
+})(Geometry1 || (Geometry1 = {
 }));
 // expected to work since all are exported
 var p;
 var p;
-var p = Geometry.Origin;
+var p = Geometry1.Origin;
 var line;
-var line = Geometry.Unit;
+var line = Geometry1.Unit;
 // not expected to work since non are exported
-var line = Geometry.Lines.Line;
+var line = Geometry1.Lines.Line;

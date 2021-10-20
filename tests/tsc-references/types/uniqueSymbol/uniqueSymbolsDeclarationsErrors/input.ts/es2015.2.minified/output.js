@@ -1,4 +1,4 @@
-export const obj = {
+const obj1 = {
     method1 (p) {
         return p;
     },
@@ -6,6 +6,7 @@ export const obj = {
         return p;
     }
 };
+export { obj1 as obj };
 export const classExpression = class {
     method1(p) {
         return p;

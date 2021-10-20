@@ -1,8 +1,8 @@
-var enumdule;
+var enumdule1;
 (function(enumdule) {
     enumdule[enumdule["Red"] = 0] = "Red";
     enumdule[enumdule["Blue"] = 1] = "Blue";
-})(enumdule || (enumdule = {
+})(enumdule1 || (enumdule1 = {
 }));
 (function(enumdule) {
     class Point {
@@ -12,9 +12,9 @@ var enumdule;
         }
     }
     enumdule.Point = Point;
-})(enumdule || (enumdule = {
+})(enumdule1 || (enumdule1 = {
 }));
-var x;
-var x = enumdule.Red;
-var y;
-var y = new enumdule.Point(0, 0);
+var x1;
+var x1 = enumdule1.Red;
+var y1;
+var y1 = new enumdule1.Point(0, 0);

@@ -1,13 +1,13 @@
-var A;
-class Point {
+var A1;
+class Point1 {
     constructor(x, y){
         this.x = x, this.y = y;
     }
 }
-Point.Origin = {
+Point1.Origin = {
     x: 0,
     y: 0
-}, (Point || (Point = {
+}, (Point1 || (Point1 = {
 })).Origin = "", (function(A) {
     class Point {
         constructor(x, y){
@@ -19,5 +19,5 @@ Point.Origin = {
         y: 0
     }, (Point || (Point = {
     })).Origin = "";
-})(A || (A = {
+})(A1 || (A1 = {
 }));

@@ -286,8 +286,8 @@ function fn25(x) {
 function _fn26() {
     _fn26 = _asyncToGenerator(function*(x) {
         try {
-        } catch ({ x: x1  }) {
-            var x1;
+        } catch ({ x: x2  }) {
+            var x2;
         }
     });
     return _fn26.apply(this, arguments);

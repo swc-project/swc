@@ -87,7 +87,7 @@ function f5() {
         return new C();
     };
 }
-class A {
+class A1 {
     m() {
         (function(E) {
             E[E["A"] = 0] = "A";
@@ -111,12 +111,12 @@ class A {
         return new C();
     }
     constructor(){
-        var E;
+        var E1;
         (function(E) {
             E[E["A"] = 0] = "A";
             E[E["B"] = 1] = "B";
             E[E["C"] = 2] = "C";
-        })(E || (E = {
+        })(E1 || (E1 = {
         }));
         class C {
         }

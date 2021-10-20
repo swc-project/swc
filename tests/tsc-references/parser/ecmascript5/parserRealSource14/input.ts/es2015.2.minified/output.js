@@ -240,13 +240,13 @@ var TypeScript1;
         ;
         return TypeScript1.getAstWalkerFactory().walk(script, pre), bestOffset;
     }, TypeScript.walkAST = function(ast, callback) {
-        var path = new AstPath();
+        var path1 = new AstPath();
         TypeScript1.getAstWalkerFactory().walk(ast, function(cur, parent, walker) {
-            var path1 = walker.state;
-            return path1.push(cur), callback(path1, walker), cur;
+            var path = walker.state;
+            return path.push(cur), callback(path, walker), cur;
         }, function(cur, parent, walker) {
             return walker.state.pop(), cur;
-        }, null, path);
+        }, null, path1);
     }, TypeScript.GetAstPathOptions = GetAstPathOptions;
 }(TypeScript1 || (TypeScript1 = {
 }));

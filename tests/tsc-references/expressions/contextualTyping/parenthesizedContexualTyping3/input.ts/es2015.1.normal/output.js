@@ -16,7 +16,7 @@ var e = tempFun`${(x)=>x
 var f = tempFun`${(x)=>x
 } ${(x)=>x
 } ${10}`;
-var g = tempFun`${(x)=>x
+var g1 = tempFun`${(x)=>x
 } ${(x)=>x
 } ${10}`;
 var h = tempFun`${(x)=>x

@@ -4,7 +4,7 @@ class B {
     constructor(){
         _foo.set(this, {
             writable: true,
-            value: (_class = class _class1 {
+            value: (_class = class _class {
                 constructor(){
                     console.log("hello");
                 }

@@ -1,4 +1,4 @@
-var Y;
+var Y1;
 !function(A) {
     var Color, Color1;
     (Color = Color1 || (Color1 = {
@@ -22,5 +22,5 @@ var Y;
         id: 2,
         isvalid: !0
     };
-})(Y || (Y = {
+})(Y1 || (Y1 = {
 }));

@@ -15,7 +15,7 @@ let trace = [], order = (n)=>trace.push(n)
     {
     }
 ], _ref = {
-}, key = order(0), key1 = order(2), { [key]: { [key1]: z  } = order(1)  } = _ref;
+}, key2 = order(0), key1 = order(2), { [key2]: { [key1]: z  } = order(1)  } = _ref;
 !function(source, excluded) {
     if (null == source) return {
     };
@@ -33,9 +33,9 @@ let trace = [], order = (n)=>trace.push(n)
     }
     return target;
 }(_ref, [
-    key
+    key2
 ].map(function(arg) {
-    var key2 = function(input, hint) {
+    var key = function(input, hint) {
         if ("object" !== _typeof(input) || null === input) return input;
         var prim = input[Symbol.toPrimitive];
         if (void 0 !== prim) {
@@ -45,7 +45,7 @@ let trace = [], order = (n)=>trace.push(n)
         }
         return ("string" === hint ? String : Number)(input);
     }(arg, "string");
-    return "symbol" === _typeof(key2) ? key2 : String(key2);
+    return "symbol" === _typeof(key) ? key : String(key);
 }));
 let _ref1 = [
     {

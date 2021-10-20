@@ -26,6 +26,6 @@ _objectSpread({
 }), _objectSpread({
     foo: 1
 }, {
-    set foo (_v1){
+    set foo (_v){
     }
 });

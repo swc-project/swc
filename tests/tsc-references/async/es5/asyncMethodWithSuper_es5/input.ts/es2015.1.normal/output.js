@@ -62,14 +62,14 @@ class B extends A {
     advanced() {
         var _super_x = (..._args)=>super.x(..._args)
         , _super_method = (..._args)=>super["x"](..._args)
-        , _super_x3 = ()=>super.x
-        , _super_method3 = ()=>super["x"]
-        , _super_x4 = (_args)=>// property access (assign)
+        , _super_x2 = ()=>super.x
+        , _super_method2 = ()=>super["x"]
+        , _super_x3 = (_args)=>// property access (assign)
             super.x = _args
-        , _super_method4 = (_args)=>// element access (assign)
+        , _super_method3 = (_args)=>// element access (assign)
             super["x"] = _args
-        , _super_x5 = ()=>super.x
-        , _super_method5 = ()=>super["x"]
+        , _super_x4 = ()=>super.x
+        , _super_method4 = ()=>super["x"]
         ;
         return _asyncToGenerator(function*() {
             const f = ()=>{
@@ -79,17 +79,17 @@ class B extends A {
             // call with element access
             _super_method();
             // property access (read)
-            const a = _super_x3();
+            const a = _super_x2();
             // element access (read)
-            const b = _super_method3();
-            _super_x4(f);
-            _super_method4(f);
+            const b = _super_method2();
+            _super_x3(f);
+            _super_method3(f);
             // destructuring assign with property access
-            ({ f: _super_x5()  } = {
+            ({ f: _super_x4()  } = {
                 f
             });
             // destructuring assign with element access
-            ({ f: _super_method5()  } = {
+            ({ f: _super_method4()  } = {
                 f
             });
         })();

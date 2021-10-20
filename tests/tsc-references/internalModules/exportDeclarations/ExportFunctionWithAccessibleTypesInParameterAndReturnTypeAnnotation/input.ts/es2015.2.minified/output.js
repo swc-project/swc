@@ -1,4 +1,4 @@
-var A;
+var A1;
 !function(A) {
     A.Point = class {
     };
@@ -13,5 +13,5 @@ var A;
             y: 0
         }, p);
     };
-}(A || (A = {
+}(A1 || (A1 = {
 }));

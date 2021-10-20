@@ -1,4 +1,4 @@
-var STRING, M;
+var STRING, M1;
 function foo() {
     return "abc";
 }
@@ -10,14 +10,14 @@ class A {
 !function(M) {
     var n;
     M.n = n;
-}(M || (M = {
+}(M1 || (M1 = {
 }));
 var objA = new A();
-objA.a, M.n, foo(), A.foo(), STRING.charAt(0), foo(), objA.a, M.n;
+objA.a, M1.n, foo(), A.foo(), STRING.charAt(0), foo(), objA.a, M1.n;
 z: ;
 x: "object";
 r: "function";
 z: "";
 z: objA.a;
 z: ;
-z: M.n;
+z: M1.n;

@@ -1,4 +1,4 @@
-var A, D, E, F;
+var A, D, E1, F;
 (A || (A = {
 })).x = 12, (D || (D = {
 })).yes = function() {
@@ -10,7 +10,7 @@ var A, D, E, F;
     }, E.C = class {
     }, (M || (M = {
     })).x = 42, E.Color = Color, E.M = M;
-})(E || (E = {
+})(E1 || (E1 = {
 })), (function(F) {
     var Color2;
     (Color2 = Color || (Color = {

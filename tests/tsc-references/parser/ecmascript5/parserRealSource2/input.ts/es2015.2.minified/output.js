@@ -1,4 +1,4 @@
-var TypeScript;
+var TypeScript1;
 !function(TypeScript) {
     var ErrorRecoverySet, AllowedElements, Modifiers, ASTFlags, DeclFlags, ModuleFlags, SymbolFlags, VarFlags, FncFlags, SignatureFlags, TypeFlags, TypeRelationshipFlags, CodeGenTarget, ModuleGenTarget, ErrorRecoverySet1, AllowedElements1, Modifiers1, ASTFlags1, DeclFlags1, ModuleFlags1, SymbolFlags1, VarFlags1, FncFlags1, SignatureFlags1, TypeFlags1, TypeRelationshipFlags1, CodeGenTarget1, ModuleGenTarget1;
     TypeScript.hasFlag = function(val, flag) {
@@ -28,5 +28,5 @@ var TypeScript;
         }
         return builder;
     }, TypeScript.ErrorRecoverySet = ErrorRecoverySet, TypeScript.AllowedElements = AllowedElements, TypeScript.Modifiers = Modifiers, TypeScript.ASTFlags = ASTFlags, TypeScript.DeclFlags = DeclFlags, TypeScript.ModuleFlags = ModuleFlags, TypeScript.SymbolFlags = SymbolFlags, TypeScript.VarFlags = VarFlags, TypeScript.FncFlags = FncFlags, TypeScript.SignatureFlags = SignatureFlags, TypeScript.TypeFlags = TypeFlags, TypeScript.TypeRelationshipFlags = TypeRelationshipFlags, TypeScript.CodeGenTarget = CodeGenTarget, TypeScript.ModuleGenTarget = ModuleGenTarget;
-}(TypeScript || (TypeScript = {
+}(TypeScript1 || (TypeScript1 = {
 }));

@@ -1,4 +1,4 @@
-class Point {
+class Point1 {
     static Origin() {
         return {
             x: 0,
@@ -14,9 +14,9 @@ class Point {
     function Origin() {
         return "";
     } // not an error, since not exported
-})(Point || (Point = {
+})(Point1 || (Point1 = {
 }));
-var A;
+var A1;
 (function(A) {
     class Point {
         static Origin() {
@@ -37,5 +37,5 @@ var A;
         } // not an error since not exported
     })(Point || (Point = {
     }));
-})(A || (A = {
+})(A1 || (A1 = {
 }));
