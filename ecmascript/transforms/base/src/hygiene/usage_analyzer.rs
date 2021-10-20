@@ -258,6 +258,36 @@ impl UsageAnalyzer<'_> {
             return;
         }
 
+        let usage_usage_conflict = (|| {
+            // Usage-usage conflict in exactly same scope.
+
+            let b = self.cur.data.direct_usages.borrow();
+            let used_ctxts = b.get(&id.0);
+
+            if let Some(ctxts) = used_ctxts {
+                let cur_scope_conflict = if ctxts.contains(&id.1) {
+                    ctxts.len() > 1
+                } else {
+                    ctxts.len() > 0
+                };
+
+                if cur_scope_conflict {
+                    if LOG {
+                        debug!("Renaming: Usage-usage conflict (same scope)");
+                    }
+                    return true;
+                }
+            }
+
+            false
+        })();
+
+        if usage_usage_conflict {
+            self.rename(id);
+            // As we renamed current identifier, we don't add it to the usage list.
+            return;
+        }
+
         self.cur.add_usage(id);
     }
 }
