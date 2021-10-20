@@ -4117,7 +4117,7 @@ Foo.identifier = 5;
 );
 
 to!(
-    deno_12395,
+    deno_12395_1,
     "
     import * as mongo from 'https://deno.land/x/mongo@v0.27.0/mod.ts';
     import MongoClient = mongo.MongoClient;
@@ -4127,6 +4127,18 @@ to!(
     import * as mongo from 'https://deno.land/x/mongo@v0.27.0/mod.ts';
     var MongoClient = mongo.MongoClient;
     const mongoClient = new MongoClient();
+    "
+);
+
+to!(
+    deno_12395_2,
+    "
+    import * as mongo from 'https://deno.land/x/mongo@v0.27.0/mod.ts';
+    import MongoClient = mongo.MongoClient;
+    const mongoClient: MongoClient = {};
+    ",
+    "
+    const mongoClient = {};
     "
 );
 
