@@ -26,6 +26,7 @@ swc_ecma_ast = {version = "0.55.0", path = "../../ast"}
 swc_ecma_parser = {version = "0.75.0", path = "../../parser"}
 swc_ecma_utils = {version = "0.48.0", path = "../../utils"}
 swc_ecma_visit = {version = "0.41.0", path = "../../visit"}
+tracing = "0.1"
 
 [dev-dependencies]
 swc_ecma_codegen = {version = "0.77.0", path = "../../codegen"}
