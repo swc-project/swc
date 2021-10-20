@@ -33,9 +33,12 @@ where
         &self,
         entries: AHashMap<String, TransformedModule>,
     ) -> Result<Vec<Bundle>, Error> {
+        #[cfg(not(target_arch = "wasm32"))]
         let start = Instant::now();
         let (plan, graph, cycles) = self.determine_entries(entries).context("failed to plan")?;
+        #[cfg(not(target_arch = "wasm32"))]
         let dur = Instant::now() - start;
+        #[cfg(not(target_arch = "wasm32"))]
         tracing::debug!("Dependency analysis took {:?}", dur);
 
         if cfg!(debug_assertions) {
@@ -61,6 +64,7 @@ where
             export_stars_in_wrapped: Default::default(),
         };
 
+        #[cfg(not(target_arch = "wasm32"))]
         let start = Instant::now();
         let mut all = (&*plan.all)
             .into_par_iter()
@@ -75,7 +79,9 @@ where
             })
             .collect::<Result<AHashMap<_, _>, _>>()?;
 
+        #[cfg(not(target_arch = "wasm32"))]
         let dur = Instant::now() - start;
+        #[cfg(not(target_arch = "wasm32"))]
         tracing::debug!("Module preparation took {:?}", dur);
 
         let entries = all

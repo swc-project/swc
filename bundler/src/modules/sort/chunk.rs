@@ -69,9 +69,12 @@ fn toposort_real_modules<'a>(
         modules.len()
     );
 
+    #[cfg(not(target_arch = "wasm32"))]
     let start = Instant::now();
     let sorted_ids = toposort_real_module_ids(queue, graph, &cycles).collect::<Vec<_>>();
+    #[cfg(not(target_arch = "wasm32"))]
     let end = Instant::now();
+    #[cfg(not(target_arch = "wasm32"))]
     tracing::debug!("Toposort of module ids took {:?}", end - start);
     for ids in sorted_ids {
         if ids.is_empty() {

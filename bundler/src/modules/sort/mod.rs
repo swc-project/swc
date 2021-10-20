@@ -26,9 +26,13 @@ impl Modules {
         tracing::debug!("Sorting {:?}", entry_id);
 
         let injected_ctxt = self.injected_ctxt;
+
+        #[cfg(not(target_arch = "wasm32"))]
         let start = Instant::now();
         let chunks = self.take_chunks(entry_id, module_graph, cycles, cm);
+        #[cfg(not(target_arch = "wasm32"))]
         let dur = Instant::now() - start;
+        #[cfg(not(target_arch = "wasm32"))]
         tracing::debug!("Sorting took {:?}", dur);
 
         let buf = chunks
