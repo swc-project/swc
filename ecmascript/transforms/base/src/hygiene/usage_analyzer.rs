@@ -1,7 +1,7 @@
 use super::{ops::Operations, LOG};
 use crate::scope::ScopeKind;
 use std::{cell::RefCell, mem::take};
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, StmtOrModuleItem};
@@ -300,6 +300,10 @@ impl UsageAnalyzer<'_> {
     }
 
     fn add_decl(&mut self, id: Id) {
+        if id.0 == js_word!("arguments") {
+            return;
+        }
+
         if LOG {
             trace!("Decl: `{}{:?}`", id.0, id.1);
         }
@@ -338,6 +342,10 @@ impl UsageAnalyzer<'_> {
     }
 
     fn add_usage(&mut self, id: Id) {
+        if id.0 == js_word!("arguments") {
+            return;
+        }
+
         if LOG {
             trace!("Usage: `{}{:?}`", id.0, id.1);
         }
