@@ -47,6 +47,26 @@ impl CurScope<'_> {
         }
     }
 
+    /// Called when we are exiting a scope.
+    fn remove_decls_from_map(&self, map: &AHashMap<JsWord, Vec<SyntaxContext>>) {
+        for (sym, dropped_ctxts) in map {
+            let mut b = self.data.decls.borrow_mut();
+            let ctxts_of_decls = b.get_mut(&sym);
+
+            if let Some(ctxts_of_decls) = ctxts_of_decls {
+                ctxts_of_decls.retain(|&ctxt| !dropped_ctxts.contains(&ctxt));
+            }
+        }
+
+        // TODO: Consider `var` / `let` / `const`.
+        match self.parent {
+            Some(v) => {
+                v.remove_decls_from_map(map);
+            }
+            None => {}
+        }
+    }
+
     fn add_decl(&self, id: Id) {
         self.add_decl_inner(id, true)
     }
@@ -175,6 +195,12 @@ impl UsageAnalyzer<'_> {
         op(&mut child);
 
         let v = take(&mut child.cur.data);
+
+        {
+            let decls_in_scope = take(&mut *v.direct_decls.borrow_mut());
+
+            self.cur.remove_decls_from_map(&decls_in_scope);
+        }
 
         *self.data.scopes.entry(scope_ctxt).or_default() = v;
     }
