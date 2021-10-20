@@ -1593,10 +1593,10 @@ fn issue_2211_2() {
             Ok(stmts)
         },
         "
-        var _bar1 = require('./bar');
+        var _bar = require('./bar');
         const makeX = ()=>{
-            const _bar = ()=>_bar1();
-            const alfa = ()=>_bar();
+            const _bar1 = ()=>_bar();
+            const alfa = ()=>_bar1();
             return {
                 alfa
             };
