@@ -22,7 +22,7 @@ mod tests;
 mod unique_scope;
 mod usage_analyzer;
 
-const LOG: bool = false;
+const LOG: bool = true;
 
 #[derive(Debug, Clone, Default)]
 pub struct Config {
