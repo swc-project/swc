@@ -260,6 +260,7 @@ impl UsageAnalyzer<'_> {
 
         let usage_usage_conflict = (|| {
             // Usage-usage conflict in exactly same scope.
+            // This can happen because swc injects/moves variables.
 
             let b = self.cur.data.direct_usages.borrow();
             let used_ctxts = b.get(&id.0);
