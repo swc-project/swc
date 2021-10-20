@@ -1,4 +1,4 @@
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use swc::{config::Options, Compiler};
 use testing::{NormalizedOutput, Tester};
 
@@ -39,3 +39,6 @@ fn issue_1532() {
 
     assert!(f.contains("unknown variant `esnext`"))
 }
+
+#[testing::fixture("tests/error-reporting/**/input/index.js")]
+fn fixture(index_path: PathBuf) {}
