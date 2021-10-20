@@ -1253,16 +1253,23 @@ fn issue_1507() {
                     "actual1.js",
                     "class Foo {
                         method() {
-                            const cls = class Foo {}
+                            const cls = class Foo {
+                                method() {
+                                    new Foo();
+                                }
+                            }
                         }
                     }",
                 )?
-                .fold_with(&mut OnceMarker::new(&[("Foo", &[mark1, mark2])])))
+                .fold_with(&mut OnceMarker::new(&[("Foo", &[mark1, mark2, mark1])])))
         },
         "
-        let Foo = class Foo {
+        let Foo1 = class Foo {
             method() {
                 const cls = class Foo {
+                    method() {
+                        new Foo1();
+                    }
                 };
             }
         };
