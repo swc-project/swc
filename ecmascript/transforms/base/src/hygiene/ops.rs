@@ -37,11 +37,6 @@ impl Operations {
     pub fn is_used_as_rename_target(&self, symbol: &JsWord) -> bool {
         self.symbols.contains(symbol)
     }
-
-    #[inline]
-    pub fn iter(&self) -> impl Iterator<Item = (&Id, &JsWord)> {
-        self.rename.iter()
-    }
 }
 
 pub(super) struct Operator<'a>(pub &'a Operations, pub Config);
