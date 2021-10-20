@@ -81,27 +81,27 @@ test!(
 
       return <h1 onClick={handleClick}>Hi</h1>;
     }
-    _c1 = Hello;
+    _c = Hello;
     export default function Bar() {
       return <Hello />;
     }
-    _c2 = Bar;
+    _c1 = Bar;
 
     function Baz() {
       return <h1>OK</h1>;
     }
 
-    _c3 = Baz;
+    _c2 = Baz;
     const NotAComp = 'hi';
     export { Baz, NotAComp };
     export function sum() {}
     export const Bad = 42;
 
-    var _c1, _c2, _c3;
+    var _c, _c1, _c2;
 
-    $RefreshReg$(_c1, "Hello");
-    $RefreshReg$(_c2, "Bar");
-    $RefreshReg$(_c3, "Baz");
+    $RefreshReg$(_c, "Hello");
+    $RefreshReg$(_c1, "Bar");
+    $RefreshReg$(_c2, "Baz");
 "#
 );
 
@@ -264,25 +264,25 @@ test!(
       return <h1 onClick={handleClick}>Hi</h1>;
     };
 
-    _c1 = Hello;
+    _c = Hello;
 
     const Bar = () => {
       return <Hello />;
     };
 
-    _c2 = Bar;
+    _c1 = Bar;
 
     var Baz = () => <div />;
 
-    _c3 = Baz;
+    _c2 = Baz;
 
     var sum = () => {};
 
-    var _c1, _c2, _c3;
+    var _c, _c1, _c2;
 
-    $RefreshReg$(_c1, "Hello");
-    $RefreshReg$(_c2, "Bar");
-    $RefreshReg$(_c3, "Baz");
+    $RefreshReg$(_c, "Hello");
+    $RefreshReg$(_c1, "Bar");
+    $RefreshReg$(_c2, "Baz");
 "#
 );
 
@@ -715,19 +715,19 @@ test!(
       return <h1>Hi</h1>;
     }
     
-    _c1 = Foo;
-    export default _c2 = hoc(Foo);
+    _c = Foo;
+    export default _c1 = hoc(Foo);
     export const A = hoc(Foo);
-    _c3 = A;
+    _c2 = A;
     const B = hoc(Foo);
-    _c4 = B;
+    _c3 = B;
 
-    var _c1, _c2, _c3, _c4;
+    var _c, _c1, _c2, _c3;
 
-    $RefreshReg$(_c1, "Foo");
-    $RefreshReg$(_c2, "%default%");
-    $RefreshReg$(_c3, "A");
-    $RefreshReg$(_c4, "B");
+    $RefreshReg$(_c, "Foo");
+    $RefreshReg$(_c1, "%default%");
+    $RefreshReg$(_c2, "A");
+    $RefreshReg$(_c3, "B");
 "#
 );
 
