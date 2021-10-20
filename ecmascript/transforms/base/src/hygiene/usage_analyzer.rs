@@ -411,6 +411,10 @@ impl UsageAnalyzer<'_> {
         }
 
         if !self.cur.will_be_resolved_as(&id.0, id.1) {
+            if LOG {
+                debug!("Renaming usage: It will be resolved to wrong variable");
+            }
+
             self.rename(id);
             // As we renamed current identifier, we don't add it to the usage list.
             return;
