@@ -1253,6 +1253,7 @@ fn issue_1279() {
 }
 
 #[test]
+#[ignore = "Postponed"]
 fn issue_1507() {
     test_module(
         |tester| {
