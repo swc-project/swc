@@ -379,6 +379,18 @@ impl Visit for UsageAnalyzer<'_> {
         })
     }
 
+    fn visit_assign_pat_prop(&mut self, node: &AssignPatProp, _: &dyn Node) {
+        node.visit_children_with(self);
+
+        {
+            if self.is_pat_decl {
+                self.add_decl(node.key.to_id());
+            } else {
+                self.add_usage(node.key.to_id());
+            }
+        }
+    }
+
     fn visit_block_stmt(&mut self, f: &BlockStmt, _: &dyn Node) {
         self.visit_with_scope(f.span.ctxt, ScopeKind::Block, |v| f.visit_children_with(v))
     }
@@ -541,6 +553,25 @@ impl Visit for Hoister<'_, '_> {
     noop_visit_type!();
 
     fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {}
+
+    fn visit_assign_pat_prop(&mut self, node: &AssignPatProp, _: &dyn Node) {
+        node.visit_children_with(self);
+
+        {
+            if !self.is_pat_decl {
+                return;
+            }
+            if self.in_block_stmt {
+                //
+                if let Some(VarDeclKind::Const | VarDeclKind::Let) = self.var_decl_kind {
+                    return;
+                }
+            } else {
+            }
+
+            self.inner.add_decl(node.key.to_id());
+        }
+    }
 
     fn visit_block_stmt(&mut self, b: &BlockStmt, _: &dyn Node) {
         let old = self.in_block_stmt;
