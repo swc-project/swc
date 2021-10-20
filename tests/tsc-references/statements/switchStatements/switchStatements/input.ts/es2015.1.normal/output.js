@@ -1,13 +1,13 @@
-var M;
+var M1;
 (function(M) {
     function fn(x) {
         return '';
     }
     M.fn = fn;
-})(M || (M = {
+})(M1 || (M1 = {
 }));
-var x;
-switch(x){
+var x1;
+switch(x1){
     case '':
     case 12:
     case true:
@@ -25,9 +25,9 @@ switch(x){
     case [
         'a'
     ]:
-    case typeof x:
-    case typeof M:
-    case M.fn(1):
+    case typeof x1:
+    case typeof M1:
+    case M1.fn(1):
     case (x)=>''
     :
     case ((x)=>''

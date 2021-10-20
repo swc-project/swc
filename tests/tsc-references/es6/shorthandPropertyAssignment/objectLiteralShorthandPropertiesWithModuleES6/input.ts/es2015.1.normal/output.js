@@ -1,9 +1,9 @@
 // @target: es6
-var m;
+var m1;
 (function(m) {
     var x;
     m.x = x;
-})(m || (m = {
+})(m1 || (m1 = {
 }));
 (function(m) {
     var z = x;
@@ -11,5 +11,5 @@ var m;
         a: x,
         x
     };
-})(m || (m = {
+})(m1 || (m1 = {
 }));

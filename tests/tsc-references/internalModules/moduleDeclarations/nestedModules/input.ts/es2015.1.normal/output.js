@@ -1,4 +1,4 @@
-var A;
+var A1;
 (function(A) {
     var B;
     (function(B) {
@@ -9,20 +9,20 @@ var A;
     })(B || (B = {
     }));
     A.B = B;
-})(A || (A = {
+})(A1 || (A1 = {
 }));
-var M2;
+var M21;
 (function(M2) {
-    var X;
+    var X1;
     (function(X) {
         var Point;
         X.Point = Point;
-    })(X || (X = {
+    })(X1 || (X1 = {
     }));
-    M2.X = X;
-})(M2 || (M2 = {
+    M2.X = X1;
+})(M21 || (M21 = {
 }));
-var m = M2.X;
+var m = M21.X;
 var point;
 var point = m.Point;
 var p;

@@ -243,7 +243,7 @@ var TypeScript1;
         }
     }
     TypeScript.AstPathContext = AstPathContext;
-    var GetAstPathOptions;
+    var GetAstPathOptions1;
     (function(GetAstPathOptions) {
         GetAstPathOptions[GetAstPathOptions["Default"] = 0] = "Default";
         GetAstPathOptions[GetAstPathOptions["EdgeInclusive"] = 1] = "EdgeInclusive";
@@ -255,9 +255,9 @@ var TypeScript1;
         // we don't find the "precomment" attached to the errorneous empty stmt.
         //TODO: It would be nice to be able to get rid of this.
         "DontPruneSearchBasedOnPosition"] = 2] = "DontPruneSearchBasedOnPosition";
-    })(GetAstPathOptions || (GetAstPathOptions = {
+    })(GetAstPathOptions1 || (GetAstPathOptions1 = {
     }));
-    function getAstPathToPosition(script, pos, options = GetAstPathOptions.Default) {
+    function getAstPathToPosition(script, pos, options = GetAstPathOptions1.Default) {
         var lookInComments = (comments)=>{
             if (comments && comments.length > 0) {
                 for(var i = 0; i < comments.length; i++){
@@ -281,7 +281,7 @@ var TypeScript1;
                 //  bar
                 //  0123
                 // If "position == 3", the caret is at the "right" of the "r" character, which should be considered valid
-                var inclusive = hasFlag(options, GetAstPathOptions.EdgeInclusive) || cur.nodeType === TypeScript1.NodeType.Name || pos === script.limChar; // Special "EOF" case
+                var inclusive = hasFlag(options, GetAstPathOptions1.EdgeInclusive) || cur.nodeType === TypeScript1.NodeType.Name || pos === script.limChar; // Special "EOF" case
                 var minChar = cur.minChar;
                 var limChar = cur.limChar + (inclusive ? 1 : 0);
                 if (pos >= minChar && pos < limChar) {
@@ -301,7 +301,7 @@ var TypeScript1;
                 if (pos >= minChar) {
                     lookInComments(cur.postComments);
                 }
-                if (!hasFlag(options, GetAstPathOptions.DontPruneSearchBasedOnPosition)) {
+                if (!hasFlag(options, GetAstPathOptions1.DontPruneSearchBasedOnPosition)) {
                     // Don't go further down the tree if pos is outside of [minChar, limChar]
                     walker.options.goChildren = minChar <= pos && pos <= limChar;
                 }
@@ -344,10 +344,10 @@ var TypeScript1;
             path.pop();
             return cur;
         };
-        var path = new AstPath();
-        TypeScript1.getAstWalkerFactory().walk(ast, pre, post, null, path);
+        var path1 = new AstPath();
+        TypeScript1.getAstWalkerFactory().walk(ast, pre, post, null, path1);
     }
     TypeScript.walkAST = walkAST;
-    TypeScript.GetAstPathOptions = GetAstPathOptions;
+    TypeScript.GetAstPathOptions = GetAstPathOptions1;
 })(TypeScript1 || (TypeScript1 = {
 }));

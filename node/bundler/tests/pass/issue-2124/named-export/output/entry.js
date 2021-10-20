@@ -11,7 +11,7 @@ function __spack_require__(mod) {
     cache = module.exports;
     return cache;
 }
-var load = __swcpack_require__.bind(void 0, function(module1, exports1) {
+var load = __swcpack_require__.bind(void 0, function(module, exports) {
     // This is a minimal reproduction from lodash@4.17.21
     function lodash(value) {
         console.log('lodash');

@@ -11,16 +11,16 @@ function __spack_require__(mod) {
     cache = module.exports;
     return cache;
 }
-var load = __swcpack_require__.bind(void 0, function(module1, exports) {
+var load = __swcpack_require__.bind(void 0, function(module, exports) {
     module.exports = class Common {
     };
 });
-var load1 = __swcpack_require__.bind(void 0, function(module2, exports) {
+var load1 = __swcpack_require__.bind(void 0, function(module, exports) {
     const Common = load();
     module.exports = class A extends Common {
     };
 });
-var load2 = __swcpack_require__.bind(void 0, function(module3, exports) {
+var load2 = __swcpack_require__.bind(void 0, function(module, exports) {
     const Common = load();
     module.exports = class B extends Common {
     };

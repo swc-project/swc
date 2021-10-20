@@ -11,23 +11,23 @@ function __spack_require__(mod) {
     cache = module.exports;
     return cache;
 }
-var load = __swcpack_require__.bind(void 0, function(module1, exports) {
+var load = __swcpack_require__.bind(void 0, function(module, exports) {
     module.exports = {
         default: 'a-a-a'
     };
 });
-var load1 = __swcpack_require__.bind(void 0, function(module2, exports) {
+var load1 = __swcpack_require__.bind(void 0, function(module, exports) {
     module.exports = load();
 });
-var load2 = __swcpack_require__.bind(void 0, function(module, exports1) {
+var load2 = __swcpack_require__.bind(void 0, function(module, exports) {
     console.log('a-b');
     exports.default = 'ab';
 });
-var load3 = __swcpack_require__.bind(void 0, function(module3, exports) {
+var load3 = __swcpack_require__.bind(void 0, function(module, exports) {
     console.log('b');
     module.exports = 'b';
 });
-var load4 = __swcpack_require__.bind(void 0, function(module4, exports) {
+var load4 = __swcpack_require__.bind(void 0, function(module, exports) {
     var aa = load1();
     var bb = load2();
     load3();

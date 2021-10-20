@@ -1,56 +1,56 @@
-var x;
-x = 3; // OK
-x = 3; // OK
-x = ''; // Error
-x = ''; // Error
-var M;
+var x1;
+x1 = 3; // OK
+x1 = 3; // OK
+x1 = ''; // Error
+x1 = ''; // Error
+var M1;
 (function(M) {
     var y;
     M.y = y;
-})(M || (M = {
+})(M1 || (M1 = {
 }));
-M.y = 3; // OK
-M.y = 3; // OK
-M.y = 3; // OK
-M.y = ''; // Error
-M.y = ''; // Error
-M.y = ''; // Error
-M = {
+M1.y = 3; // OK
+M1.y = 3; // OK
+M1.y = 3; // OK
+M1.y = ''; // Error
+M1.y = ''; // Error
+M1.y = ''; // Error
+M1 = {
     y: 3
 }; // Error
-M = {
+M1 = {
     y: 3
 }; // Error
-var M2;
+var M21;
 (function(M2) {
-    var M3;
+    var M31;
     (function(M3) {
         var x;
         M3.x = x;
-    })(M3 || (M3 = {
+    })(M31 || (M31 = {
     }));
-    M3 = {
+    M31 = {
         x: 3
     }; // Error
-    M2.M3 = M3;
-})(M2 || (M2 = {
+    M2.M3 = M31;
+})(M21 || (M21 = {
 }));
-M2.M3 = {
+M21.M3 = {
     x: 3
 }; // OK
-M2.M3 = {
+M21.M3 = {
     x: 3
 }; // OK
-M2.M3 = {
+M21.M3 = {
     x: 3
 }; // OK
-M2.M3 = {
+M21.M3 = {
     x: ''
 }; // Error
-M2.M3 = {
+M21.M3 = {
     x: ''
 }; // Error
-M2.M3 = {
+M21.M3 = {
     x: ''
 }; // Error
 function fn() {
@@ -75,13 +75,13 @@ function fn2(x, y) {
     y['t'] = ''; // Error
     y['t'] = ''; // Error
 }
-var E;
+var E1;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {
+})(E1 || (E1 = {
 }));
-E = undefined; // Error
-E = undefined; // Error
+E1 = undefined; // Error
+E1 = undefined; // Error
 class C {
 }
 C = undefined; // Error
