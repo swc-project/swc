@@ -274,6 +274,10 @@ impl UsageAnalyzer<'_> {
     }
 
     fn add_decl(&mut self, id: Id) {
+        if LOG {
+            trace!("Decl: `{}{:?}`", id.0, id.1);
+        }
+
         let need_rename = {
             let b = self.cur.data.decls.borrow();
             let ctxts_of_decls = b.get(&id.0);
@@ -306,6 +310,10 @@ impl UsageAnalyzer<'_> {
     }
 
     fn add_usage(&mut self, id: Id) {
+        if LOG {
+            trace!("Usage: `{}{:?}`", id.0, id.1);
+        }
+
         let cur_scope_conflicts = {
             let b = self.cur.data.decls.borrow();
             let ctxts_of_decls = b.get(&id.0);
