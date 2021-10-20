@@ -1633,12 +1633,12 @@ fn issue_2297_1() {
             Ok(stmts)
         },
         "
-        var _bar = require('./Bar');
+        var _bar1 = require('./Bar');
         var makeX = function(props) {
-            var _bar1 = props.bar;
-            var list = _bar1.list;
+            var _bar = props.bar;
+            var list = _bar.list;
             return list.map(function() {
-                return _bar.bar;
+                return _bar1.bar;
             });
         };
         ",
