@@ -1,4 +1,4 @@
-use super::ops::Operations;
+use super::{ops::Operations, LOG};
 use crate::scope::ScopeKind;
 use std::{cell::RefCell, mem::take};
 use swc_atoms::JsWord;
@@ -6,6 +6,7 @@ use swc_common::{collections::AHashMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, ModuleItemLike, StmtExt, StmtLike, StmtOrModuleItem};
 use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
+use tracing::trace;
 
 #[derive(Debug, Default)]
 
@@ -160,7 +161,12 @@ impl UsageAnalyzer<'_> {
         let need_rename = {
             let mut b = self.cur.data.decls.borrow_mut();
             let ctxts_of_decls = b.entry(id.0.clone()).or_default();
-            ctxts_of_decls.contains(&id.1)
+
+            if ctxts_of_decls.contains(&id.1) {
+                ctxts_of_decls.len() > 1
+            } else {
+                ctxts_of_decls.len() > 0
+            }
         };
 
         if need_rename {
@@ -322,6 +328,18 @@ impl Visit for Hoister<'_, '_> {
     noop_visit_type!();
 
     fn visit_block_stmt_or_expr(&mut self, _: &BlockStmtOrExpr, _: &dyn Node) {}
+
+    fn visit_constructor(&mut self, c: &Constructor, _: &dyn Node) {
+        c.params.visit_with(c, self);
+    }
+
+    fn visit_fn_decl(&mut self, f: &FnDecl, _: &dyn Node) {
+        if LOG {
+            trace!("hoister: Fn decl: `{}`", f.ident);
+        }
+
+        self.inner.add_decl(f.ident.to_id());
+    }
 
     fn visit_function(&mut self, f: &Function, _: &dyn Node) {
         f.params.visit_with(f, self);
