@@ -117,7 +117,7 @@ use crate::config::{
 };
 use anyhow::{bail, Context, Error};
 use atoms::JsWord;
-use common::collections::AHashMap;
+use common::{collections::AHashMap, errors::EmitterWriter};
 use config::{util::BoolOrObject, JsMinifyCommentOption, JsMinifyOptions};
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
@@ -210,13 +210,19 @@ impl Write for LockedWriter {
 
 /// Try operation with a [Handler] and prints the errors as a [String] wrapped
 /// by [Err].
-pub fn try_with_handler<F, Ret>(cm: Lrc<SourceMap>, op: F) -> Result<Ret, Error>
+pub fn try_with_handler<F, Ret>(
+    cm: Lrc<SourceMap>,
+    op: F,
+    skip_filename: bool,
+) -> Result<Ret, Error>
 where
     F: FnOnce(&Handler) -> Result<Ret, Error>,
 {
     let wr = Box::new(LockedWriter::default());
 
-    let handler = Handler::with_emitter_writer(wr.clone(), Some(cm.clone()));
+    let e_wr =
+        EmitterWriter::new(wr.clone(), Some(cm.clone()), false, true).skip_filename(skip_filename);
+    let handler = Handler::with_emitter(true, false, Box::new(e_wr));
 
     let ret = swc_ecma_utils::HANDLER.set(&handler, || op(&handler));
 
