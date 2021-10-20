@@ -4,7 +4,7 @@ use std::{cell::RefCell, mem::take};
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, Id, ModuleItemLike, StmtExt, StmtLike, StmtOrModuleItem};
+use swc_ecma_utils::{ident::IdentLike, Id, StmtOrModuleItem};
 use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 use tracing::{debug, span, trace, Level};
 
