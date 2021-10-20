@@ -165,11 +165,13 @@ pub fn hygiene() -> impl Fold + 'static {
 ///
 ///  At fourth phase, we rename all identifiers in the queue.
 pub fn hygiene_with_config(config: Config) -> impl 'static + Fold + VisitMut {
-    as_folder(chain!(unique_scope(), Hygiene::default()))
+    as_folder(chain!(unique_scope(), Hygiene { config }))
 }
 
 #[derive(Debug, Default)]
-struct Hygiene {}
+struct Hygiene {
+    config: Config,
+}
 
 impl Hygiene {
     fn analyze<N>(&mut self, n: &mut N)
