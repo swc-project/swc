@@ -23,7 +23,7 @@ where
         let span = self.input.cur_span()?;
 
         match cur!(self) {
-            Token::Ident { value, .. } if *value.to_ascii_lowercase() == js_word!("url") => {
+            Token::Function { value, .. } if *value.to_ascii_lowercase() == js_word!("url") => {
                 let func = self.parse()?;
 
                 Ok(ImportSource::Fn(func))

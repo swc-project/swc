@@ -78,7 +78,14 @@ where
                             }
                         },
                         Stmt::For(mut stmt) => match &mut stmt.init {
-                            Some(VarDeclOrExpr::VarDecl(var)) => match &mut cur {
+                            Some(VarDeclOrExpr::VarDecl(
+                                var
+                                @
+                                VarDecl {
+                                    kind: VarDeclKind::Var,
+                                    ..
+                                },
+                            )) => match &mut cur {
                                 Some(cur) if cur.kind == var.kind => {
                                     // Merge
                                     cur.decls.append(&mut var.decls);
@@ -94,7 +101,11 @@ where
                                     new.push(T::from_stmt(Stmt::For(stmt)))
                                 }
                             },
-                            None => {
+                            None if cur
+                                .as_ref()
+                                .map(|v| v.kind == VarDeclKind::Var)
+                                .unwrap_or(true) =>
+                            {
                                 stmt.init = cur.take().map(VarDeclOrExpr::VarDecl);
 
                                 new.push(T::from_stmt(Stmt::For(stmt)))
