@@ -862,11 +862,11 @@ fn regression_001() {
     }
     _createClass(Foo, [{
              key: 'test', value: function test(other) {
-                    var old, _obj, old1, _obj;
-                     _classPrivateFieldSet(this, foo, (old = +_classPrivateFieldGet(this, foo)) + \
-         1), old;
-                     _classPrivateFieldSet(_obj = other.obj, foo, (old1 = \
-         +_classPrivateFieldGet(_obj, foo)) + 1), old1;
+                var old, _obj, old1, _obj1;
+                _classPrivateFieldSet(this, foo, (old = +_classPrivateFieldGet(this, foo)) + 1), \
+         old;
+                _classPrivateFieldSet(_obj = other.obj, foo, (old1 = +_classPrivateFieldGet(_obj1, \
+         foo)) + 1), old1;
                 } 
         }]);
     return Foo;
