@@ -4076,7 +4076,7 @@ to!(
     export { TestInfo }
     ",
     "
-    
+
     "
 );
 
@@ -4114,6 +4114,20 @@ class Foo {
 }
 Foo.identifier = 5;
   "
+);
+
+to!(
+    deno_12395,
+    "
+    import * as mongo from 'https://deno.land/x/mongo@v0.27.0/mod.ts';
+    import MongoClient = mongo.MongoClient;
+    const mongoClient = new MongoClient();
+    ",
+    "
+    import * as mongo from 'https://deno.land/x/mongo@v0.27.0/mod.ts';
+    var MongoClient = mongo.MongoClient;
+    const mongoClient = new MongoClient();
+    "
 );
 
 #[testing::fixture("tests/fixture/**/input.ts")]

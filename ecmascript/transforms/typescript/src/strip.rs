@@ -1449,6 +1449,17 @@ where
             TsEntityName::TsQualifiedName(ref q) => q.left.visit_with(&*q, self),
         }
     }
+
+    fn visit_ts_import_equals_decl(&mut self, n: &TsImportEqualsDecl, _: &dyn Node) {
+        match n.module_ref {
+            TsModuleRef::TsEntityName(_) => {
+                module_ref_to_expr(n.module_ref.clone()).visit_with(n, self);
+            }
+            _ => {
+                n.visit_children_with(self);
+            }
+        }
+    }
 }
 
 macro_rules! type_to_none {
