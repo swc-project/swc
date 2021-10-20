@@ -122,6 +122,26 @@ impl CurScope<'_> {
         }
     }
 
+    /// Given usage (`sym`), will it be resolved as `ctxt` if we don't rename
+    /// it?
+    fn will_be_resolved_as(&self, sym: &JsWord, ctxt: SyntaxContext) -> bool {
+        if let Some(ctxts) = self.data.decls.borrow().get(sym) {
+            if ctxts.len() > 1 {
+                return false;
+            }
+            if ctxts.len() == 1 {
+                if ctxts[0] == ctxt {
+                    return true;
+                }
+            }
+        }
+
+        match self.parent {
+            Some(s) => s.will_be_resolved_as(sym, ctxt),
+            None => true,
+        }
+    }
+
     fn add_usage(&self, id: Id) {
         self.add_usage_inner(id, true);
     }
