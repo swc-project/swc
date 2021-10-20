@@ -1127,9 +1127,8 @@ fn issue_295_01() {
                 .fold_with(&mut OnceMarker::new(&[("bar", &[mark1, mark1, mark1])])))
         },
         "
-        const bar1 = {
+        export const bar = {
         };
-        export { bar1 as bar };
         class Foo {
             constructor(){
                 bar;
