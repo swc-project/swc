@@ -420,6 +420,14 @@ impl Visit for UsageAnalyzer<'_> {
         })
     }
 
+    fn visit_export_default_specifier(&mut self, n: &ExportDefaultSpecifier, _: &dyn Node) {
+        self.add_usage(n.exported.to_id());
+    }
+
+    fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier, _: &dyn Node) {
+        self.add_usage(n.orig.to_id());
+    }
+
     fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
         e.visit_children_with(self);
 
