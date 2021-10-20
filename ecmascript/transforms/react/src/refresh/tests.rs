@@ -858,10 +858,10 @@ test!(
     export let C = hoc();
 "#,
     r#"
-    var _s = $RefreshSig$(), _s1 = $RefreshSig$();
+    var _s2 = $RefreshSig$(), _s1 = $RefreshSig$();
 
-    export const A = _s(React.memo(_c1 = _s(React.forwardRef(_c = _s((props, ref) => {
-      _s();
+    export const A = _s2(React.memo(_c1 = _s2 (React.forwardRef(_c = _s2((props, ref) => {
+      _s2();
     
       const [foo, setFoo] = useState(0);
       React.useEffect(() => {});
