@@ -30,7 +30,6 @@ pub(super) struct ScopeData {
 
 pub(super) struct CurScope<'a> {
     pub parent: Option<&'a CurScope<'a>>,
-    pub scope_ctxt: SyntaxContext,
     pub data: ScopeData,
 }
 
@@ -253,7 +252,6 @@ impl UsageAnalyzer<'_> {
             data: self.data,
             cur: CurScope {
                 parent: Some(&self.cur),
-                scope_ctxt,
                 data: ScopeData {
                     kind,
                     ..Default::default()
