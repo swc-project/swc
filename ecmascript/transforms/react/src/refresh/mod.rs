@@ -638,9 +638,10 @@ impl<C: Comments> Fold for Refresh<C> {
             };
             match ident.sym.as_ref() {
                 "createElement" | "jsx" | "jsxDEV" | "jsxs" => {
-                    let ExprOrSpread { expr, .. } = &n.args[0];
-                    if let Expr::Ident(ident) = expr.as_ref() {
-                        self.used_in_jsx.insert(ident.sym.clone());
+                    if let Some(ExprOrSpread { expr, .. }) = n.args.get(0) {
+                        if let Expr::Ident(ident) = expr.as_ref() {
+                            self.used_in_jsx.insert(ident.sym.clone());
+                        }
                     }
                 }
                 _ => (),
