@@ -2,9 +2,9 @@ use super::ops::Operations;
 use crate::scope::ScopeKind;
 use std::{cell::RefCell, mem::take};
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashMap, SyntaxContext};
+use swc_common::{collections::AHashMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, Id};
+use swc_ecma_utils::{ident::IdentLike, Id, ModuleItemLike, StmtLike};
 use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 
 #[derive(Debug, Default)]
@@ -132,6 +132,19 @@ impl UsageAnalyzer<'_> {
         *self.data.scopes.entry(scope_ctxt).or_default() = v;
     }
 
+    fn visit_stmt_likes<N>(&mut self, stmts: &[N])
+    where
+        N: StmtLike + ModuleItemLike + for<'aa> VisitWith<UsageAnalyzer<'aa>>,
+    {
+        {
+            // Hoist decls.
+        }
+
+        for stmt in stmts {
+            stmt.visit_with(&Invalid { span: DUMMY_SP }, self);
+        }
+    }
+
     fn add_decl(&mut self, id: Id) {
         let need_rename = {
             let mut b = self.cur.data.decls.borrow_mut();
@@ -246,6 +259,10 @@ impl Visit for UsageAnalyzer<'_> {
         self.visit_with_scope(m.span.ctxt, ScopeKind::Fn, |v| m.visit_children_with(v))
     }
 
+    fn visit_module_items(&mut self, stmts: &[ModuleItem], _: &dyn Node) {
+        self.visit_stmt_likes(stmts);
+    }
+
     fn visit_pat(&mut self, p: &Pat, _: &dyn Node) {
         p.visit_children_with(self);
 
@@ -263,6 +280,10 @@ impl Visit for UsageAnalyzer<'_> {
 
     fn visit_script(&mut self, s: &Script, _: &dyn Node) {
         self.visit_with_scope(s.span.ctxt, ScopeKind::Fn, |v| s.visit_children_with(v))
+    }
+
+    fn visit_stmts(&mut self, stmts: &[Stmt], _: &dyn Node) {
+        self.visit_stmt_likes(stmts);
     }
 
     fn visit_var_declarator(&mut self, v: &VarDeclarator, _: &dyn Node) {
