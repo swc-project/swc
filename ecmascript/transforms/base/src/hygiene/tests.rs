@@ -1220,16 +1220,18 @@ fn issue_1279() {
                     "class Foo {
                         method() {
                             class Foo {}
+                            new Foo();
                         }
                     }",
                 )?
-                .fold_with(&mut OnceMarker::new(&[("Foo", &[mark1, mark2])])))
+                .fold_with(&mut OnceMarker::new(&[("Foo", &[mark1, mark2, mark1])])))
         },
         "
         let Foo = class Foo {
             method() {
-                let Foo = class Foo {
+                let Foo1 = class Foo {
                 };
+                new Foo();
             }
         };
         ",
