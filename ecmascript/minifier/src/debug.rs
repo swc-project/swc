@@ -1,11 +1,13 @@
 use once_cell::sync::Lazy;
 use std::{env, process::Command};
-use swc_common::{sync::Lrc, SourceMap, SyntaxContext};
-use swc_ecma_ast::{Ident, Module, StrKind};
+use swc_common::{sync::Lrc, SourceMap, SyntaxContext, DUMMY_SP};
+use swc_ecma_ast::{Ident, Invalid, Module, StrKind};
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_transforms::{fixer, hygiene};
 use swc_ecma_utils::{drop_span, DropSpan};
-use swc_ecma_visit::{noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_visit::{
+    noop_visit_mut_type, noop_visit_type, FoldWith, Node, Visit, VisitMut, VisitMutWith, VisitWith,
+};
 
 pub(crate) struct Debugger;
 
@@ -62,6 +64,10 @@ pub(crate) fn invoke(module: &Module) {
     static ENABLED: Lazy<bool> =
         Lazy::new(|| cfg!(feature = "debug") && env::var("SWC_RUN").unwrap_or_default() == "1");
 
+    if cfg!(debug_assertions) {
+        module.visit_with(&Invalid { span: DUMMY_SP }, &mut Assert);
+    }
+
     if !*ENABLED {
         return;
     }
@@ -107,4 +113,12 @@ pub(crate) fn invoke(module: &Module) {
         code,
         String::from_utf8_lossy(&output.stdout)
     )
+}
+
+struct Assert;
+
+impl Visit for Assert {
+    fn visit_invalid(&mut self, _: &Invalid, _: &dyn Node) {
+        panic!("[SWC_RUN] Invalid node found");
+    }
 }
