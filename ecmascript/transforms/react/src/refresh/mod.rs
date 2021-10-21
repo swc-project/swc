@@ -17,7 +17,7 @@ use swc_common::{
     comments::Comments,
     sync::Lrc,
     util::take::Take,
-    BytePos, SourceMap, Span, Spanned, DUMMY_SP,
+    BytePos, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, private_ident, quote_ident, quote_str, Id};
@@ -483,7 +483,10 @@ impl<C: Comments> Refresh<C> {
             Expr::Member(member) => self.cm.span_to_snippet(member.span).unwrap(),
             _ => return Persist::None,
         };
-        let reg_str = reg.last().unwrap().1.clone() + "$" + &hoc_name;
+        let reg_str = (
+            format!("{}${}", reg.last().unwrap().1 .0, &hoc_name).into(),
+            SyntaxContext::empty(),
+        );
         match first_arg.as_mut() {
             Expr::Call(expr) => {
                 let reg_ident = private_ident!("_c");
@@ -832,7 +835,10 @@ impl<C: Comments> Fold for Refresh<C> {
                         if let Persist::Hoc(Hoc { reg, .. }) = self
                             .get_persistent_id_from_possible_hoc(
                                 call,
-                                vec![((private_ident!("_c"), "%default%".to_string()))],
+                                vec![(
+                                    private_ident!("_c"),
+                                    ("%default%".into(), SyntaxContext::empty()),
+                                )],
                                 &ignore,
                             )
                         {
@@ -942,7 +948,7 @@ impl<C: Comments> Fold for Refresh<C> {
                         },
                         ExprOrSpread {
                             spread: None,
-                            expr: Box::new(Expr::Lit(Lit::Str(quote_str!(persistent_id)))),
+                            expr: Box::new(Expr::Lit(Lit::Str(quote_str!(persistent_id.0)))),
                         },
                     ],
                     type_args: None,
