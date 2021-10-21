@@ -2303,11 +2303,11 @@ where
             _ => {}
         }
 
-        self.optiimze_loops_if_cond_is_false(s);
+        self.optimize_loops_if_cond_is_false(s);
         self.optimize_loops_with_break(s);
 
         match s {
-            // We use var devl with no declarator to indicate we dropped an decl.
+            // We use var decl with no declarator to indicate we dropped an decl.
             Stmt::Decl(Decl::Var(VarDecl { decls, .. })) if decls.is_empty() => {
                 *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                 return;
