@@ -26,7 +26,7 @@ if (isC_multipleParams(a, 0)) {
 // Methods
 var obj;
 class D {
-    method1(p11) {
+    method1(p1) {
         return true;
     }
 }

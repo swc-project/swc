@@ -5,7 +5,7 @@ class C {
         }
         return bar;
     }
-    constructor(x2){
+    constructor(x){
     }
 }
 var c = new C({

@@ -20,7 +20,7 @@ var f7 = (x, x)=>{
 var f8 = (x, y)=>{
 };
 class C {
-    foo(x4, x4) {
+    foo(x, x) {
     }
     foo2(x1, x1) {
     }

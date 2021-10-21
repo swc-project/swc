@@ -28,7 +28,7 @@ function defaultArgArrow(a = ()=>()=>b
 , b = 3) {
 }
 class C {
-    method(a2 = b, b1 = 1) {
+    method(a = b, b1 = 1) {
     }
     constructor(a1 = b, b2 = 1){
     }

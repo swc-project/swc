@@ -82,8 +82,8 @@ someGenerics7`${(n)=>n
 function someGenerics8(strs, n) {
     return n;
 }
-var x1 = someGenerics8`${someGenerics7}`;
-x1`${null}${null}${null}`;
+var x = someGenerics8`${someGenerics7}`;
+x`${null}${null}${null}`;
 // Generic tag with multiple parameters of generic type passed arguments with no best common type
 function someGenerics9(strs, a, b, c) {
     return null;

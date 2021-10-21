@@ -1,6 +1,6 @@
-var y1 = undefined;
+var y = undefined;
 function destructure(something, haveValue, haveY) {
-    return something === y1 ? haveY(y1) : haveValue(something);
+    return something === y ? haveY(y) : haveValue(something);
 }
 var value1 = Math.random() > 0.5 ? 'hey!' : undefined;
 var result = destructure(value1, (text)=>'string'

@@ -12,7 +12,7 @@ f();
 f2(1);
 f2(1, 2);
 class C {
-    foo(x2) {
+    foo(x) {
     }
 }
 var c;

@@ -6,8 +6,8 @@ var M1;
     M.fn = fn;
 })(M1 || (M1 = {
 }));
-var x1;
-switch(x1){
+var x;
+switch(x){
     case '':
     case 12:
     case true:
@@ -25,7 +25,7 @@ switch(x1){
     case [
         'a'
     ]:
-    case typeof x1:
+    case typeof x:
     case typeof M1:
     case M1.fn(1):
     case (x)=>''

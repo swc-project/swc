@@ -7,9 +7,9 @@ var lambda3 = (x, y = "hello", ...rest)=>{
 };
 var lambda4 = (y = "hello", ...rest)=>{
 };
-var x1 = function(str = "hello", ...rest) {
+var x = function(str = "hello", ...rest) {
 };
-var y1 = function(num = 10, boo = false, ...rest) {
+var y = function(num = 10, boo = false, ...rest) {
 }();
 var z = function(num, boo = false, ...rest) {
 }(10);

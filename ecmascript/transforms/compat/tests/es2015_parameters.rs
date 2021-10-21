@@ -80,12 +80,12 @@ test!(
 function foo(...a) {
   return a;
 }"#,
-    r#"var a = 'bar';
+    r#"var a1 = 'bar';
 function foo() {
-    for(var _len = arguments.length, a1 = new Array(_len), _key = 0; _key < _len; _key++){
-        a1[_key] = arguments[_key];
+    for(var _len = arguments.length, a = new Array(_len), _key = 0; _key < _len; _key++){
+        a[_key] = arguments[_key];
     }
-    return a1;
+    return a;
 }"#
 );
 

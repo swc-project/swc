@@ -1,14 +1,14 @@
 // ArrowFormalParameters => AssignmentExpression is equivalent to ArrowFormalParameters => { return AssignmentExpression; }
-var a1 = (p)=>p.length
+var a = (p)=>p.length
 ;
-var a1 = (p)=>{
+var a = (p)=>{
     return p.length;
 };
 // Identifier => Block is equivalent to(Identifier) => Block
-var b1 = (j)=>{
+var b = (j)=>{
     return 0;
 };
-var b1 = (j)=>{
+var b = (j)=>{
     return 0;
 };
 // Identifier => AssignmentExpression is equivalent to(Identifier) => AssignmentExpression

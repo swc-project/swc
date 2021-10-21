@@ -6,7 +6,7 @@ var f = function foo(x) {
 var f2 = (x, y)=>{
 };
 class C {
-    foo(x2) {
+    foo(x) {
     }
 }
 var a;

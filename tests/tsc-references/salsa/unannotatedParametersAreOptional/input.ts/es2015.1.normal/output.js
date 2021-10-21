@@ -6,7 +6,7 @@ function f(x) {
 }
 f(); // Always been ok
 class C {
-    static m(x2) {
+    static m(x) {
     }
     m(x1) {
     }
@@ -19,7 +19,7 @@ C.m(); // Always been ok
 new C().m(); // Regression #39261
 new C().p(); // Regression #39261
 const obj = {
-    m (x3) {
+    m (x2) {
     },
     p: (x)=>{
     }

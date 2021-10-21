@@ -5,7 +5,7 @@ var c, i, a, f = function(x) {
 };
 foo(1), foo(), f(1), f(), f2(1), f2(1, 2), c.foo(), c.foo(1), i(), i(1), i.foo(1), i.foo(1, 2), a(), a(1), a.foo(), a.foo(1);
 var b = {
-    foo (x1) {
+    foo (x) {
     },
     a: function(x, y) {
     },

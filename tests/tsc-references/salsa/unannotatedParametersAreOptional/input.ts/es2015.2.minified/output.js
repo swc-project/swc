@@ -1,5 +1,5 @@
 class C {
-    static m(x2) {
+    static m(x) {
     }
     m(x1) {
     }
@@ -10,7 +10,7 @@ class C {
 }
 C.m(), new C().m(), new C().p();
 const obj = {
-    m (x3) {
+    m (x2) {
     },
     p: (x)=>{
     }

@@ -1,4 +1,4 @@
-var E, F, x1, E1, F1;
+var E, F, x, E1, F1;
 function foo(x, a, b) {
 }
 function foo2(x, a, b) {
@@ -25,8 +25,8 @@ foo("", (x)=>""
 , (x)=>""
 ), foo2(null, (x)=>""
 , (x)=>""
-), foo2(x1, (a1)=>(n)=>1
+), foo2(x, (a1)=>(n)=>1
 , (a2)=>2
-), foo2(x1, (a1)=>(n)=>1
+), foo2(x, (a1)=>(n)=>1
 , (a2)=>2
 );

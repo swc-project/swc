@@ -48,10 +48,10 @@ var r9 = foo2(null, (x)=>''
 var r10 = foo2(null, (x)=>''
 , (x)=>''
 ); // Object => Object
-var x1;
-var r11 = foo2(x1, (a1)=>(n)=>1
+var x;
+var r11 = foo2(x, (a1)=>(n)=>1
 , (a2)=>2
 ); // error
-var r12 = foo2(x1, (a1)=>(n)=>1
+var r12 = foo2(x, (a1)=>(n)=>1
 , (a2)=>2
 ); // error

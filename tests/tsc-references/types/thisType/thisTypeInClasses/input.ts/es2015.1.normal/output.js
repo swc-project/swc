@@ -1,5 +1,5 @@
 class C1 {
-    f(x1) {
+    f(x) {
         return undefined;
     }
 }
