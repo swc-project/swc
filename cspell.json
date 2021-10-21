@@ -108,6 +108,7 @@
         "stmts",
         "succ",
         "sugg",
+        "swcify",
         "swcpack",
         "swcrc",
         "termcolor",
