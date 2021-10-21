@@ -515,6 +515,15 @@ impl Visit for UsageAnalyzer<'_> {
         self.visit_stmt_likes(stmts);
     }
 
+    fn visit_param(&mut self, p: &Param, _: &dyn Node) {
+        p.decorators.visit_with(p, self);
+
+        let old = self.is_pat_decl;
+        self.is_pat_decl = true;
+        p.pat.visit_with(p, self);
+        self.is_pat_decl = old;
+    }
+
     fn visit_pat(&mut self, p: &Pat, _: &dyn Node) {
         p.visit_children_with(self);
 
