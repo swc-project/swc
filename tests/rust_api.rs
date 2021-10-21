@@ -148,6 +148,7 @@ fn shopify_2_same_opt() {
                 input_source_map: InputSourceMap::Bool(false),
                 source_maps: None,
                 inline_sources_content: false,
+                ..Default::default()
             },
             skip_helper_injection: false,
             disable_hygiene: false,

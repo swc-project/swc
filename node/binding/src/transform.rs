@@ -35,23 +35,29 @@ impl Task for TransformTask {
     type JsValue = JsObject;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
-        try_with(self.c.cm.clone(), !self.options.error.filename, |handler| {
-            self.c.run(|| match self.input {
-                Input::Program(ref s) => {
-                    let program: Program =
-                        deserialize_json(&s).expect("failed to deserialize Program");
-                    // TODO: Source map
-                    self.c.process_js(&handler, program, &self.options)
-                }
+        try_with(
+            self.c.cm.clone(),
+            !self.options.config.error.filename,
+            |handler| {
+                self.c.run(|| match self.input {
+                    Input::Program(ref s) => {
+                        let program: Program =
+                            deserialize_json(&s).expect("failed to deserialize Program");
+                        // TODO: Source map
+                        self.c.process_js(&handler, program, &self.options)
+                    }
 
-                Input::File(ref path) => {
-                    let fm = self.c.cm.load_file(path).context("failed to load file")?;
-                    self.c.process_js_file(fm, &handler, &self.options)
-                }
+                    Input::File(ref path) => {
+                        let fm = self.c.cm.load_file(path).context("failed to load file")?;
+                        self.c.process_js_file(fm, &handler, &self.options)
+                    }
 
-                Input::Source(ref s) => self.c.process_js_file(s.clone(), &handler, &self.options),
-            })
-        })
+                    Input::Source(ref s) => {
+                        self.c.process_js_file(s.clone(), &handler, &self.options)
+                    }
+                })
+            },
+        )
         .convert_err()
     }
 
@@ -93,7 +99,7 @@ where
         options.config.adjust(Path::new(&options.filename));
     }
 
-    let output = try_with(c.cm.clone(), !options.error.filename, |handler| {
+    let output = try_with(c.cm.clone(), !options.config.error.filename, |handler| {
         c.run(|| {
             if is_module.get_value()? {
                 let program: Program =
