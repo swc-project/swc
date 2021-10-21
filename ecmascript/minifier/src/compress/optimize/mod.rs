@@ -4,7 +4,7 @@ use self::util::MultiReplacer;
 use crate::{
     analyzer::{ProgramData, UsageAnalyzer},
     compress::util::is_pure_undefined,
-    debug::dump,
+    debug::{dump, AssertValid},
     marks::Marks,
     mode::Mode,
     option::CompressOptions,
@@ -2331,6 +2331,10 @@ where
             if text.lines().count() < 10 {
                 tracing::debug!("after: visit_mut_stmt: {}", text);
             }
+        }
+
+        if cfg!(feature = "debug") && cfg!(debug_assertions) {
+            s.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
         }
     }
 

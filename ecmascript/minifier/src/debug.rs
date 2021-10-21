@@ -65,7 +65,7 @@ pub(crate) fn invoke(module: &Module) {
         Lazy::new(|| cfg!(feature = "debug") && env::var("SWC_RUN").unwrap_or_default() == "1");
 
     if cfg!(debug_assertions) {
-        module.visit_with(&Invalid { span: DUMMY_SP }, &mut Assert);
+        module.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
     }
 
     if !*ENABLED {
@@ -115,9 +115,9 @@ pub(crate) fn invoke(module: &Module) {
     )
 }
 
-struct Assert;
+pub(crate) struct AssertValid;
 
-impl Visit for Assert {
+impl Visit for AssertValid {
     noop_visit_type!();
 
     fn visit_invalid(&mut self, _: &Invalid, _: &dyn Node) {
