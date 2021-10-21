@@ -1,7 +1,7 @@
 use once_cell::sync::Lazy;
 use std::{env, process::Command};
 use swc_common::{sync::Lrc, SourceMap, SyntaxContext, DUMMY_SP};
-use swc_ecma_ast::{Ident, Invalid, Module, StrKind};
+use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_transforms::{fixer, hygiene};
 use swc_ecma_utils::{drop_span, DropSpan};
@@ -122,5 +122,11 @@ impl Visit for AssertValid {
 
     fn visit_invalid(&mut self, _: &Invalid, _: &dyn Node) {
         panic!("[SWC_RUN] Invalid node found");
+    }
+
+    fn visit_tpl(&mut self, l: &Tpl, _: &dyn Node) {
+        l.visit_children_with(self);
+
+        assert_eq!(l.exprs.len() + 1, l.quasis.len());
     }
 }
