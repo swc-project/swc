@@ -30,23 +30,23 @@ class C {
     foo(t, u) {
         return t;
     }
-    foo2(t, u) {
-        return u;
+    foo2(t1, u1) {
+        return u1;
     }
-    foo3(t, u) {
-        return t;
+    foo3(t2, u2) {
+        return t2;
     }
-    foo4(t, u) {
-        return t;
+    foo4(t3, u3) {
+        return t3;
     }
-    foo5(t, u) {
-        return t;
+    foo5(t4, u4) {
+        return t4;
     }
     foo6() {
         var x;
         return x;
     }
-    foo7(u) {
+    foo7(u5) {
         var x;
         return x;
     }
@@ -54,9 +54,9 @@ class C {
         var x;
         return x;
     }
-    constructor(t, u){
-        this.t = t;
-        this.u = u;
+    constructor(t5, u6){
+        this.t = t5;
+        this.u = u6;
     }
 }
 var c = new C(b, d1);

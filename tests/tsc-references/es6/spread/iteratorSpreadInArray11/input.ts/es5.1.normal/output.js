@@ -16,5 +16,5 @@ function _toConsumableArray(arr) {
     return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
 }
 //@target: ES6
-var iter;
-var array = _toConsumableArray(iter);
+var iter1;
+var array = _toConsumableArray(iter1);

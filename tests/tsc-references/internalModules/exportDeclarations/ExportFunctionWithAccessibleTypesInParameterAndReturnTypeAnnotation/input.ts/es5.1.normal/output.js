@@ -3,7 +3,7 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-var A;
+var A1;
 (function(A) {
     var fromOrigin = function fromOrigin(p) {
         return new Line({
@@ -24,5 +24,5 @@ var A;
     };
     A.Line = Line;
     A.fromOrigin = fromOrigin;
-})(A || (A = {
+})(A1 || (A1 = {
 }));

@@ -12,7 +12,7 @@ function _defineProperty(obj, key, value) {
     return obj;
 }
 //@target: ES6
-var obj = _defineProperty({
+var obj1 = _defineProperty({
 }, Symbol.iterator, 0);
 // Should give type 'any'.
-obj[Symbol["nonsense"]];
+obj1[Symbol["nonsense"]];

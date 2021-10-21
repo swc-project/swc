@@ -9,7 +9,7 @@ Common.I = class _class {
         this.i = 1;
     }
 };
-Common.O = class _class1 extends Common.I {
+Common.O = class _class extends Common.I {
     constructor(){
         super();
         this.o = 2;

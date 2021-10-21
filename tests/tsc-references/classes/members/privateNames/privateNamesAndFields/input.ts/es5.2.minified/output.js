@@ -21,9 +21,9 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var A = function() {
+var A1 = function() {
     "use strict";
-    _classCallCheck(this, A), _foo.set(this, {
+    _classCallCheck(this, A1), _foo.set(this, {
         writable: !0,
         value: void 0
     }), _classPrivateFieldSet(this, _foo, 3);
@@ -46,4 +46,4 @@ var A = function() {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(B, A), B;
-}(A), _foo1 = new WeakMap();
+}(A1), _foo1 = new WeakMap();

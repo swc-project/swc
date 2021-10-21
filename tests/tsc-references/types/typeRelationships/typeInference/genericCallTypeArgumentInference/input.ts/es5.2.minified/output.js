@@ -5,7 +5,7 @@ function _defineProperties(target, props) {
     }
 }
 "";
-var i, C = function() {
+var i1, C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C(t, u) {
@@ -61,4 +61,4 @@ var i, C = function() {
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }(), c = new C("", 1);
-c.foo("", 1), c.foo2("", 1), c.foo3(!0, 1), c.foo4("", !0), c.foo5(!0, 1), c.foo6(), c.foo7(""), c.foo8(), i.foo("", 1), i.foo2("", 1), i.foo3(!0, 1), i.foo4("", !0), i.foo5(!0, 1), i.foo6(), i.foo7(""), i.foo8();
+c.foo("", 1), c.foo2("", 1), c.foo3(!0, 1), c.foo4("", !0), c.foo5(!0, 1), c.foo6(), c.foo7(""), c.foo8(), i1.foo("", 1), i1.foo2("", 1), i1.foo3(!0, 1), i1.foo4("", !0), i1.foo5(!0, 1), i1.foo6(), i1.foo7(""), i1.foo8();

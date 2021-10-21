@@ -31,7 +31,7 @@ let k = new class {
 }, k), ssk = _objectSpread({
 }, k, k);
 sk.p, sk.m(), sk.g, ssk.p, ssk.m(), ssk.g;
-let i = {
+let i1 = {
     p: 12,
     m () {
     },
@@ -39,8 +39,8 @@ let i = {
         return 0;
     }
 }, si = _objectSpread({
-}, i), ssi = _objectSpread({
-}, i, i);
+}, i1), ssi = _objectSpread({
+}, i1, i1);
 si.p, si.m(), si.g, ssi.p, ssi.m(), ssi.g;
 let o = {
     p: 12,

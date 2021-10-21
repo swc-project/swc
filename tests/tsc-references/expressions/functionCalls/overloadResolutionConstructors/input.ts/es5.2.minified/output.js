@@ -29,28 +29,28 @@ function _setPrototypeOf(o, p) {
 }
 var fn1, fn2, fn3, fn4, fn5, _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, SomeBase = function() {
+}, SomeBase1 = function() {
     "use strict";
-    _classCallCheck(this, SomeBase);
+    _classCallCheck(this, SomeBase1);
 }, SomeDerived1 = function(SomeBase) {
     "use strict";
     function SomeDerived1() {
         return _classCallCheck(this, SomeDerived1), _possibleConstructorReturn(this, _getPrototypeOf(SomeDerived1).apply(this, arguments));
     }
     return _inherits(SomeDerived1, SomeBase), SomeDerived1;
-}(SomeBase), SomeDerived2 = function(SomeBase) {
+}(SomeBase1), SomeDerived2 = function(SomeBase) {
     "use strict";
     function SomeDerived2() {
         return _classCallCheck(this, SomeDerived2), _possibleConstructorReturn(this, _getPrototypeOf(SomeDerived2).apply(this, arguments));
     }
     return _inherits(SomeDerived2, SomeBase), SomeDerived2;
-}(SomeBase), SomeDerived3 = function(SomeBase) {
+}(SomeBase1), SomeDerived3 = function(SomeBase) {
     "use strict";
     function SomeDerived3() {
         return _classCallCheck(this, SomeDerived3), _possibleConstructorReturn(this, _getPrototypeOf(SomeDerived3).apply(this, arguments));
     }
     return _inherits(SomeDerived3, SomeBase), SomeDerived3;
-}(SomeBase);
+}(SomeBase1);
 new fn1(void 0), new fn1({
 }), new fn2(0, void 0), new fn2(0, ""), new fn2("", 0), new fn2("", 0), new fn3(3), new fn3("", 3, ""), new fn3(5, 5, 5), new fn3(4), new fn3("", "", ""), new fn3("", "", 3), new fn3(), new fn4("", 3), new fn4(3, ""), new fn4("", 3), new fn4(3, ""), new fn4("", 3), new fn4(3, ""), new fn4(3, void 0), new fn4("", null), new fn4(null, null), new fn4(!0, null), new fn4(null, !0), new fn5(function(n) {
     return n.toFixed();

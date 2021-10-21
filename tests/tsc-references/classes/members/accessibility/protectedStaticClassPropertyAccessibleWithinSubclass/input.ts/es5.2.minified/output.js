@@ -38,46 +38,46 @@ function _setPrototypeOf(o, p) {
 }
 var _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, Base1 = function() {
+}, Base = function() {
     "use strict";
-    function Base1() {
-        _classCallCheck(this, Base1);
+    function Base() {
+        _classCallCheck(this, Base);
     }
-    return _createClass(Base1, null, [
+    return _createClass(Base, null, [
         {
             key: "staticMethod",
             value: function() {
-                Base1.x;
+                Base.x;
             }
         }
-    ]), Base1;
-}(), Derived1 = function(Base) {
+    ]), Base;
+}(), Derived1 = function(Base1) {
     "use strict";
     function Derived1() {
         return _classCallCheck(this, Derived1), _possibleConstructorReturn(this, _getPrototypeOf(Derived1).apply(this, arguments));
     }
-    return _inherits(Derived1, Base), _createClass(Derived1, null, [
+    return _inherits(Derived1, Base1), _createClass(Derived1, null, [
         {
             key: "staticMethod1",
             value: function() {
-                Base1.x;
+                Base.x;
             }
         }
     ]), Derived1;
-}(Base1), Derived2 = function(Base) {
+}(Base), Derived2 = function(Base2) {
     "use strict";
     function Derived2() {
         return _classCallCheck(this, Derived2), _possibleConstructorReturn(this, _getPrototypeOf(Derived2).apply(this, arguments));
     }
-    return _inherits(Derived2, Base), _createClass(Derived2, null, [
+    return _inherits(Derived2, Base2), _createClass(Derived2, null, [
         {
             key: "staticMethod2",
             value: function() {
-                Base1.x;
+                Base.x;
             }
         }
     ]), Derived2;
-}(Base1), Derived3 = function(Derived1) {
+}(Base), Derived3 = function(Derived1) {
     "use strict";
     function Derived3() {
         return _classCallCheck(this, Derived3), _possibleConstructorReturn(this, _getPrototypeOf(Derived3).apply(this, arguments));
@@ -86,9 +86,9 @@ var _typeof = function(obj) {
         {
             key: "staticMethod3",
             value: function() {
-                Base1.x;
+                Base.x;
             }
         }
     ]), Derived3;
 }(Derived1);
-Base1.x;
+Base.x;

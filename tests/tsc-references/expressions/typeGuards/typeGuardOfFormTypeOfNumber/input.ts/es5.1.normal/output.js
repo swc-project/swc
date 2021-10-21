@@ -71,7 +71,7 @@ if (typeof numOrC !== "number") {
     num = numOrC; // number
 }
 if (typeof strOrBool !== "number") {
-    var y1 = strOrBool; // string | boolean
+    var y11 = strOrBool; // string | boolean
 } else {
-    var y2 = strOrBool; // {}
+    var y21 = strOrBool; // {}
 }

@@ -133,8 +133,8 @@ var Router = /*#__PURE__*/ function() {
                                 if (ST) {
                                     performance.mark('routeChange');
                                 }
-                                var ref3, ref4;
-                                ref3 = options, ref4 = ref3.shallow, shallow = ref4 === void 0 ? false : ref4, ref3;
+                                var ref8, ref3;
+                                ref8 = options, ref3 = ref8.shallow, shallow = ref3 === void 0 ? false : ref3, ref8;
                                 routeProps = {
                                     shallow: shallow
                                 };
@@ -159,8 +159,8 @@ var Router = /*#__PURE__*/ function() {
                                 return _ctx.abrupt("return", true);
                             case 35:
                                 parsed = parseRelativeUrl(url);
-                                var ref5;
-                                ref5 = parsed, pathname = ref5.pathname, query = ref5.query, ref5;
+                                var ref4;
+                                ref4 = parsed, pathname = ref4.pathname, query = ref4.query, ref4;
                                 ;
                                 _ctx.prev = 38;
                                 _ctx.next = 41;
@@ -170,8 +170,8 @@ var Router = /*#__PURE__*/ function() {
                                 _ctx.next = 44;
                                 return getClientBuildManifest();
                             case 44:
-                                var ref6;
-                                ref6 = _ctx.sent, rewrites = ref6.__rewrites, ref6;
+                                var ref5;
+                                ref5 = _ctx.sent, rewrites = ref5.__rewrites, ref5;
                                 _ctx.next = 51;
                                 break;
                             case 47:
@@ -281,8 +281,8 @@ var Router = /*#__PURE__*/ function() {
                                 return this.getRouteInfo(route, pathname, query, as, resolvedAs, routeProps);
                             case 82:
                                 routeInfo = _ctx.sent;
-                                var ref7;
-                                ref7 = routeInfo, error = ref7.error, props = ref7.props, __N_SSG = ref7.__N_SSG, __N_SSP = ref7.__N_SSP, ref7;
+                                var ref6;
+                                ref6 = routeInfo, error = ref6.error, props = ref6.props, __N_SSG = ref6.__N_SSG, __N_SSP = ref6.__N_SSP, ref6;
                                 if (!((__N_SSG || __N_SSP) && props)) {
                                     _ctx.next = 109;
                                     break;
@@ -298,8 +298,8 @@ var Router = /*#__PURE__*/ function() {
                                 }
                                 parsedHref = parseRelativeUrl(destination);
                                 parsedHref.pathname = resolveDynamicRoute(parsedHref.pathname, pages);
-                                var ref8;
-                                ref8 = prepareUrlAs(this, destination, destination), newUrl = ref8.url, newAs = ref8.as, ref8;
+                                var ref7;
+                                ref7 = prepareUrlAs(this, destination, destination), newUrl = ref7.url, newAs = ref7.as, ref7;
                                 return _ctx.abrupt("return", this.change(method, newUrl, newAs, options));
                             case 92:
                                 window.location.href = destination;

@@ -4,7 +4,7 @@ class C {
     }
 }
 class C2 {
-    constructor(x, y){
+    constructor(x1, y){
     }
 }
 var a;

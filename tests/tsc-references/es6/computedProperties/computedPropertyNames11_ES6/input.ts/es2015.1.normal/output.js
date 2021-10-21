@@ -2,7 +2,7 @@
 var s;
 var n;
 var a;
-var v5 = {
+var v1 = {
     get [s] () {
         return 0;
     },
@@ -11,22 +11,22 @@ var v5 = {
     get [s + s] () {
         return 0;
     },
-    set [s + n] (v1){
+    set [s + n] (v){
     },
     get [+s] () {
         return 0;
     },
-    set [""] (v2){
+    set [""] (v){
     },
     get [0] () {
         return 0;
     },
-    set [a] (v3){
+    set [a] (v){
     },
     get [true] () {
         return 0;
     },
-    set [`hello bye`] (v4){
+    set [`hello bye`] (v){
     },
     get [`hello ${a} bye`] () {
         return 0;

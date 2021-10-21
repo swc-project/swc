@@ -12,11 +12,11 @@ function _defineProperty(obj, key, value) {
     }
     return obj;
 }
-foo("", regeneratorRuntime.mark(function _callee() {
-    return regeneratorRuntime.wrap(function _callee$(_ctx) {
-        while(1)switch(_ctx.prev = _ctx.next){
+foo("", regeneratorRuntime.mark(function _callee1() {
+    return regeneratorRuntime.wrap(function _callee$(_ctx1) {
+        while(1)switch(_ctx1.prev = _ctx1.next){
             case 0:
-                return _ctx.delegateYield(_defineProperty({
+                return _ctx1.delegateYield(_defineProperty({
                 }, Symbol.iterator, regeneratorRuntime.mark(function _callee() {
                     return regeneratorRuntime.wrap(function _callee$(_ctx) {
                         while(1)switch(_ctx.prev = _ctx.next){
@@ -33,9 +33,9 @@ foo("", regeneratorRuntime.mark(function _callee() {
                 })), "t0", 1);
             case 1:
             case "end":
-                return _ctx.stop();
+                return _ctx1.stop();
         }
-    }, _callee);
+    }, _callee1);
 }), function(p) {
     return undefined;
 }); // T is fixed, should be string

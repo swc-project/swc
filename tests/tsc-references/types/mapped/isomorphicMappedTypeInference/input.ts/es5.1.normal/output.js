@@ -115,17 +115,17 @@ var g2 = applySpec({
     }
 });
 // Repro from #12633
-var foo = function(object, partial) {
+var foo1 = function(object, partial) {
     return object;
 };
 var o = {
     a: 5,
     b: 7
 };
-foo(o, {
+foo1(o, {
     b: 9
 });
-o = foo(o, {
+o = foo1(o, {
     b: 9
 });
 var x0 = f20({

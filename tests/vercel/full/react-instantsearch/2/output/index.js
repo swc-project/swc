@@ -92,7 +92,9 @@ export default function createInstantSearchManager(z) {
             }, xa, ya.results));
             var Da = Aa.getState(), Ea = Da.isSearchStalled;
             ma.hasPendingRequests() || (clearTimeout(Fa), Fa = null, Ea = !1), Da.resultsFacetValues;
-            var Ga = a.objectWithoutProperties(Da, ["resultsFacetValues"]);
+            var Ga = a.objectWithoutProperties(Da, [
+                "resultsFacetValues"
+            ]);
             Aa.setState(a.objectSpread({
             }, Ga, {
                 results: Ca,
@@ -104,7 +106,9 @@ export default function createInstantSearchManager(z) {
     }, va = function(Ha) {
         var Ia = Ha.error, Ja = Aa.getState(), Ka = Ja.isSearchStalled;
         ma.hasPendingRequests() || (clearTimeout(Fa), Ka = !1), Ja.resultsFacetValues;
-        var La = a.objectWithoutProperties(Ja, ["resultsFacetValues"]);
+        var La = a.objectWithoutProperties(Ja, [
+            "resultsFacetValues"
+        ]);
         Aa.setState(a.objectSpread({
         }, La, {
             isSearchStalled: Ka,
@@ -183,7 +187,9 @@ export default function createInstantSearchManager(z) {
     }, d));
     h(C), ma.on("search", function() {
         Fa || (Fa = setTimeout(function() {
-            var eb = Aa.getState(), fb = eb.resultsFacetValues, gb = a.objectWithoutProperties(eb, ["resultsFacetValues"]);
+            var eb = Aa.getState(), fb = eb.resultsFacetValues, gb = a.objectWithoutProperties(eb, [
+                "resultsFacetValues"
+            ]);
             Aa.setState(a.objectSpread({
             }, gb, {
                 isSearchStalled: !0

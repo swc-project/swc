@@ -1,3 +1,5 @@
-var ref = [void 0, null
+var ref = [
+    void 0,
+    null
 ];
 ref[0], ref[1];

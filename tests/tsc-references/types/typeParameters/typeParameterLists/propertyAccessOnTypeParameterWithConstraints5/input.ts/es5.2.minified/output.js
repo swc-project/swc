@@ -20,7 +20,7 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var i, a, A = function() {
+var i1, a, A = function() {
     "use strict";
     function A() {
         _classCallCheck(this, A);
@@ -74,7 +74,7 @@ var i, a, A = function() {
         }
     ]), C;
 }();
-new C().f(), i.foo.notHere(), i.foo.foo(), a().notHere(), a().foo();
+new C().f(), i1.foo.notHere(), i1.foo.foo(), a().notHere(), a().foo();
 var b = {
     foo: function(x) {
         return x.foo() + x.notHere();

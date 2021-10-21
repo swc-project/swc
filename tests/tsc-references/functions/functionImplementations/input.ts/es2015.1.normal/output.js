@@ -30,11 +30,11 @@ function rec3() {
 function rec4() {
     return rec3();
 }
-var n;
-var n = rec3();
-var n = rec4();
+var n1;
+var n1 = rec3();
+var n1 = rec4();
 // FunctionExpression with no return type annotation and returns a number
-var n = function() {
+var n1 = function() {
     return 3;
 }();
 // FunctionExpression with no return type annotation and returns null
@@ -48,15 +48,15 @@ var un = function() {
     return undefined;
 }();
 // FunctionExpression with no return type annotation and returns a type parameter type
-var n = function(x) {
+var n1 = function(x) {
     return x;
 }(4);
 // FunctionExpression with no return type annotation and returns a constrained type parameter type
-var n = function(x) {
+var n1 = function(x) {
     return x;
 }(4);
 // FunctionExpression with no return type annotation with multiple return statements with identical types
-var n = function() {
+var n1 = function() {
     return 3;
     return 5;
 }();

@@ -15,9 +15,9 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var B = function() {
+var B1 = function() {
     "use strict";
-    _classCallCheck(this, B);
+    _classCallCheck(this, B1);
 }, A = function(B) {
     "use strict";
     function A() {
@@ -37,4 +37,4 @@ var B = function() {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(A, B), A;
-}(B), _x = new WeakMap();
+}(B1), _x = new WeakMap();

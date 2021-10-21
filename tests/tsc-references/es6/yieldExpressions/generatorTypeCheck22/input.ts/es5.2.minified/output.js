@@ -35,9 +35,9 @@ var _marked = regeneratorRuntime.mark(function() {
                 return _ctx.stop();
         }
     }, _marked);
-}), Foo = function() {
+}), Foo1 = function() {
     "use strict";
-    _classCallCheck(this, Foo);
+    _classCallCheck(this, Foo1);
 }, Bar = function(Foo) {
     "use strict";
     function Bar() {
@@ -57,7 +57,7 @@ var _marked = regeneratorRuntime.mark(function() {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(Bar, Foo), Bar;
-}(Foo), Baz = function() {
+}(Foo1), Baz = function() {
     "use strict";
     _classCallCheck(this, Baz);
 };

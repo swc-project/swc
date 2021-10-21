@@ -49,9 +49,9 @@ var C = /*#__PURE__*/ function() {
 }();
 var r4 = new C().f(1, '');
 var r4b = new C().f(1, '');
-var i;
-var r5 = i.f(1, '');
-var r5b = i.f(1, '');
+var i1;
+var r5 = i1.f(1, '');
+var r5b = i1.f(1, '');
 var C2 = /*#__PURE__*/ function() {
     "use strict";
     function C2() {

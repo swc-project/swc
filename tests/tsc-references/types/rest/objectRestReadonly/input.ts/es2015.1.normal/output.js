@@ -33,5 +33,7 @@ const obj = {
     baz: 'qux',
     quux: 'quuz'
 };
-const { foo  } = obj, rest = _objectWithoutProperties(obj, ["foo"]);
+const { foo  } = obj, rest = _objectWithoutProperties(obj, [
+    "foo"
+]);
 delete rest.baz;

@@ -8,7 +8,7 @@ function f(x) {
     var r;
     return r;
 }
-var r = f({
+var r1 = f({
     foo: new Base(),
     bar: new Derived()
 });
@@ -17,8 +17,8 @@ var r2 = f({
     bar: new Derived()
 });
 function f2(x) {
-    var r1;
-    return r1;
+    var r;
+    return r;
 }
 var i;
 var r3 = f2(i);

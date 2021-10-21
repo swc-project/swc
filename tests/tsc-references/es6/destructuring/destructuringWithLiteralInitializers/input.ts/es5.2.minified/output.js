@@ -1,4 +1,4 @@
-var param;
+var param1;
 function _slicedToArray(arr, i) {
     return (function(arr) {
         if (Array.isArray(arr)) return arr;
@@ -69,10 +69,10 @@ function g5(param) {
     var ref = _slicedToArray(void 0 === param ? [] : param, 2);
     ref[0], ref[1];
 }
-(param = {
+(param1 = {
     x: 1,
     y: 1
-}).x, param.y, f2({
+}).x, param1.y, f2({
     x: 1
 }), f2({
     x: 1,

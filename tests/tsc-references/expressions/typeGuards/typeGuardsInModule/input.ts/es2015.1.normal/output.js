@@ -5,7 +5,7 @@ var num;
 var strOrNum;
 var var1;
 // Inside module
-var m1;
+var m11;
 (function(m1) {
     // global vars in function declaration
     num = typeof var1 === "string" && var1.length; // string
@@ -23,14 +23,14 @@ var m1;
         strOrNum = var3; // string | number
     }
     m1.var3 = var3;
-})(m1 || (m1 = {
+})(m11 || (m11 = {
 }));
 // local module
-var m2;
+var m21;
 (function(m2) {
     var var2;
     var var3;
-    var m3;
+    var m31;
     (function(m3) {
         // global vars in function declaration
         num = typeof var1 === "string" && var1.length; // string
@@ -52,8 +52,8 @@ var m2;
             strOrNum = var5; // string | number
         }
         m3.var5 = var5;
-    })(m3 || (m3 = {
+    })(m31 || (m31 = {
     }));
     m2.var3 = var3;
-})(m2 || (m2 = {
+})(m21 || (m21 = {
 }));

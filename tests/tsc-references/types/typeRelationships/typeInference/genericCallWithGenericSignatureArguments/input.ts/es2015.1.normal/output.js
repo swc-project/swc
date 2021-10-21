@@ -17,13 +17,13 @@ var r3 = foo((x)=>1
 var r3ii = foo((x)=>1
 , (x)=>1
 ); // number => number
-var a;
-var b;
-var r4 = foo((x)=>a
-, (x)=>b
+var a1;
+var b1;
+var r4 = foo((x)=>a1
+, (x)=>b1
 ); // typeof a => typeof a
-var r5 = foo((x)=>b
-, (x)=>a
+var r5 = foo((x)=>b1
+, (x)=>a1
 ); // typeof b => typeof b
 function other(x) {
     var r6 = foo((a)=>a

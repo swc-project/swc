@@ -462,8 +462,6 @@ to!(module_01, "module 'foo'{ }", "");
 
 to!(declare_01, "declare var env: FOO", "");
 
-to!(import_equals, "import A = B.C", "var A = B.C;");
-
 to!(
     issue_757,
     "// test.ts
@@ -3384,7 +3382,8 @@ to!(
     }
     ",
     "
-    export var util;
+    var util1;
+    export { util1 as util };
     (function (util) {
         function assertNever(_x) {
             throw new Error();
@@ -3398,7 +3397,7 @@ to!(
         };
         util.objectValues = (obj) => {
         };
-    })(util || (util = {}));
+    })(util1 || (util1 = {}));
 
     "
 );
@@ -3412,11 +3411,12 @@ to!(
     }
     ",
     "
-    export var util;
+    var util1;
+    export { util1 as util };
     (function (util) {
         const c = 3;
         [util.a, util.b] = [1, 2, 3];
-    })(util || (util = {}));
+    })(util1 || (util1 = {}));
     "
 );
 
@@ -3435,7 +3435,8 @@ to!(
     }
     ",
     "
-    export var util;
+    var util1;
+    export { util1 as util };
     (function (util) {
         const c = 3;
         function foo() {
@@ -3443,7 +3444,7 @@ to!(
         util.foo = foo;
         function bar() {
         }
-    })(util || (util = {}));
+    })(util1 || (util1 = {}));
     "
 );
 
@@ -3460,7 +3461,7 @@ to!(
     console(Test.DummyValues.A);
     ",
     "
-    var Test;
+    var Test1;
     (function(Test) {
         var DummyValues;
         (function(DummyValues) {
@@ -3469,9 +3470,9 @@ to!(
         })(DummyValues || (DummyValues = {
         }));
         Test.DummyValues = DummyValues;
-    })(Test || (Test = {
+    })(Test1 || (Test1 = {
     }));
-    console(Test.DummyValues.A);
+    console(Test1.DummyValues.A);
     "
 );
 
@@ -4073,7 +4074,7 @@ to!(
     export { TestInfo }
     ",
     "
-    
+
     "
 );
 
@@ -4111,6 +4112,32 @@ class Foo {
 }
 Foo.identifier = 5;
   "
+);
+
+to!(
+    deno_12395_import_equals_1,
+    "
+    import * as mongo from 'https://deno.land/x/mongo@v0.27.0/mod.ts';
+    import MongoClient = mongo.MongoClient;
+    const mongoClient = new MongoClient();
+    ",
+    "
+    import * as mongo from 'https://deno.land/x/mongo@v0.27.0/mod.ts';
+    var MongoClient = mongo.MongoClient;
+    const mongoClient = new MongoClient();
+    "
+);
+
+to!(
+    deno_12395_import_equals_2,
+    "
+    import * as mongo from 'https://deno.land/x/mongo@v0.27.0/mod.ts';
+    import MongoClient = mongo.MongoClient;
+    const mongoClient: MongoClient = {};
+    ",
+    "
+    const mongoClient = {};
+    "
 );
 
 #[testing::fixture("tests/fixture/**/input.ts")]

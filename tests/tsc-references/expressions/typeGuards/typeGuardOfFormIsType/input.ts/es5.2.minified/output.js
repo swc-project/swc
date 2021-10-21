@@ -11,9 +11,9 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var c1Orc2, c2Ord1, C1 = function() {
+var c1Orc2, c2Ord1, C11 = function() {
     "use strict";
-    _classCallCheck(this, C1);
+    _classCallCheck(this, C11);
 }, C2 = function() {
     "use strict";
     _classCallCheck(this, C2);
@@ -36,7 +36,7 @@ var c1Orc2, c2Ord1, C1 = function() {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(D1, C1), D1;
-}(C1);
+}(C11);
 function isC1(x) {
     return !0;
 }

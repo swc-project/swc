@@ -38,4 +38,6 @@ var a, b, c = {
 }, d;
 var _c;
 var ref;
-_c = c, b = _objectWithoutProperties(_c.x, ["a"]), ref = _c, { a  } = d = ref.x, ref, _c;
+_c = c, b = _objectWithoutProperties(_c.x, [
+    "a"
+]), ref = _c, { a  } = d = ref.x, ref, _c;

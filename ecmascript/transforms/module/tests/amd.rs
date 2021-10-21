@@ -563,15 +563,15 @@ define(["exports"], function (_exports) {
     value: true
   });
   _exports.f = _exports.e = _exports.c = _exports.a = _exports.test = void 0;
-  var test = 2;
-  _exports.test = test;
-  _exports.test = test = 5;
-  _exports.test = test = +test + 1;
+  var test1 = 2;
+  _exports.test = test1;
+  _exports.test = test1 = 5;
+  _exports.test = test1 = +test1 + 1;
 
   (function () {
-    var test1 = 2;
-    test1 = 3;
-    test1++;
+    var test = 2;
+    test = 3;
+    test++;
   })();
 
   var a = 2;

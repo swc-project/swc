@@ -52,15 +52,15 @@ function _superPropBase(object, property) {
 var _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
-function Wagon(numberOxen) {
+function Wagon1(numberOxen) {
     this.numberOxen = numberOxen;
 }
-Wagon.circle = function(wagons) {
+Wagon1.circle = function(wagons) {
     return wagons ? wagons.length : 3.14;
-}, Wagon.prototype.load = function(supplies) {
-}, Wagon.prototype.weight = function(supplies) {
+}, Wagon1.prototype.load = function(supplies) {
+}, Wagon1.prototype.weight = function(supplies) {
     return supplies ? supplies.length : -1;
-}, Wagon.prototype.speed = function() {
+}, Wagon1.prototype.speed = function() {
     return this.numberOxen / this.weight();
 };
 var Sql = function(Wagon) {
@@ -78,7 +78,7 @@ var Sql = function(Wagon) {
             }
         }
     ]), Sql;
-}(Wagon), db = new Sql();
+}(Wagon1), db = new Sql();
 db.numberOxen = db.foonly;
 var Drakkhen = function(Dragon) {
     "use strict";
@@ -86,8 +86,8 @@ var Drakkhen = function(Dragon) {
         return _classCallCheck(this, Drakkhen), _possibleConstructorReturn(this, _getPrototypeOf(Drakkhen).apply(this, arguments));
     }
     return _inherits(Drakkhen, Dragon), Drakkhen;
-}(Dragon);
-function Dragon(numberEaten) {
+}(Dragon1);
+function Dragon1(numberEaten) {
     this.numberEaten = numberEaten;
 }
 var Firedrake = function(Dragon) {
@@ -96,7 +96,7 @@ var Firedrake = function(Dragon) {
         return _classCallCheck(this, Firedrake), _possibleConstructorReturn(this, _getPrototypeOf(Firedrake).call(this));
     }
     return _inherits(Firedrake, Dragon), Firedrake;
-}(Dragon), Conestoga = function(Wagon) {
+}(Dragon1), Conestoga = function(Wagon) {
     "use strict";
     function Conestoga(drunkOO) {
         var _this;
@@ -110,8 +110,8 @@ var Firedrake = function(Dragon) {
             }
         }
     ]), Conestoga;
-}(Wagon), c = new Conestoga(!0);
-function Soup(flavour) {
+}(Wagon1), c = new Conestoga(!0);
+function Soup1(flavour) {
     this.flavour = flavour;
 }
 c.drunkOO, c.numberOxen;
@@ -128,7 +128,7 @@ var Chowder = function(Soup) {
             }
         }
     ]), Chowder;
-}(Soup);
-new Soup(1).flavour, new Chowder({
+}(Soup1);
+new Soup1(1).flavour, new Chowder({
     claim: "ignorant"
 }).flavour.claim, new Chowder(), new Chowder(0);

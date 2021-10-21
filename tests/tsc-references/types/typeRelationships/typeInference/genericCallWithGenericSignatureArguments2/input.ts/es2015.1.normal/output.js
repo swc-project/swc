@@ -29,22 +29,22 @@ var onlyT;
         , (b)=>b
         ); // valid, T is inferred to be Date
     }
-    var E;
+    var E1;
     (function(E) {
         E[E["A"] = 0] = "A";
-    })(E || (E = {
+    })(E1 || (E1 = {
     }));
-    var F;
+    var F1;
     (function(F) {
         F[F["A"] = 0] = "A";
-    })(F || (F = {
+    })(F1 || (F1 = {
     }));
     function foo3(x, a, b) {
         var r;
         return r;
     }
-    var r7 = foo3(E.A, (x)=>E.A
-    , (x)=>F.A
+    var r71 = foo3(E1.A, (x)=>E1.A
+    , (x)=>F1.A
     ); // error
 })(onlyT || (onlyT = {
 }));
@@ -88,7 +88,7 @@ var TU;
         var r;
         return r;
     }
-    var r7 = foo3(E.A, (x)=>E.A
+    var r72 = foo3(E.A, (x)=>E.A
     , (x)=>F.A
     );
 })(TU || (TU = {

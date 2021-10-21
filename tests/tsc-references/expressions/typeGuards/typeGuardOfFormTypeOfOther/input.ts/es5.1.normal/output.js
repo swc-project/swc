@@ -70,7 +70,7 @@ if ((typeof boolOrC === "undefined" ? "undefined" : _typeof(boolOrC)) !== "Objec
     c = boolOrC; // C
 }
 if ((typeof strOrNumOrBool === "undefined" ? "undefined" : _typeof(strOrNumOrBool)) !== "Object") {
-    var q1 = strOrNumOrBool; // string | number | boolean
+    var q11 = strOrNumOrBool; // string | number | boolean
 } else {
-    var q2 = strOrNumOrBool; // {}
+    var q21 = strOrNumOrBool; // {}
 }

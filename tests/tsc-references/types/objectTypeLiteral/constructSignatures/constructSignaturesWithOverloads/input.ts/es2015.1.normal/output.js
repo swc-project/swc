@@ -5,7 +5,7 @@ class C {
 }
 var r1 = new C(1, '');
 class C2 {
-    constructor(x){
+    constructor(x1){
     }
 }
 var r2 = new C2(1, '');

@@ -29,14 +29,14 @@ class cls {
     }
 }
 //Function overloads with differing export
-var M;
+var M1;
 (function(M) {
     function fn1() {
     }
     function fn2() {
     }
     M.fn2 = fn2;
-})(M || (M = {
+})(M1 || (M1 = {
 }));
 function dfn1() {
 }

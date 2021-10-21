@@ -38,7 +38,7 @@ function createLink(func) {
     });
 }
 // Error
-var i = /*#__PURE__*/ React.createElement(InferParamComponent, {
+var i1 = /*#__PURE__*/ React.createElement(InferParamComponent, {
     values: [
         1,
         2,

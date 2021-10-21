@@ -1,21 +1,21 @@
-var A;
+var A1;
 (function(A) {
-    var Color;
+    var Color1;
     (function(Color) {
         Color[Color["Red"] = 0] = "Red";
         Color[Color["Blue"] = 1] = "Blue";
-    })(Color || (Color = {
+    })(Color1 || (Color1 = {
     }));
-    var Day;
+    var Day1;
     (function(Day) {
         Day[Day["Monday"] = 0] = "Monday";
         Day[Day["Tuesday"] = 1] = "Tuesday";
-    })(Day || (Day = {
+    })(Day1 || (Day1 = {
     }));
-    A.Color = Color;
-})(A || (A = {
+    A.Color = Color1;
+})(A1 || (A1 = {
 }));
 // not an error since exported
-var a = A.Color.Red;
+var a = A1.Color.Red;
 // error not exported
-var b = A.Day.Monday;
+var b = A1.Day.Monday;

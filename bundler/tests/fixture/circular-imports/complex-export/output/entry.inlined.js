@@ -1,4 +1,4 @@
-const a1 = 'a';
-const c1 = 'c';
-export { a1 as a };
-export { c1 as c };
+const a = 'a';
+const c = 'c';
+export { a as a };
+export { c as c };

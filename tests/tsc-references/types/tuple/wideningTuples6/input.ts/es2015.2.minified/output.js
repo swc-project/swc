@@ -1,3 +1,5 @@
-var [a, b] = [void 0, null
+var [a, b] = [
+    void 0,
+    null
 ];
 "";

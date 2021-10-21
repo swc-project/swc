@@ -1,7 +1,7 @@
 class C {
     bar(x) {
     }
-    bar(x) {
+    bar(x1) {
     }
     constructor(){
         this.baz = ()=>{

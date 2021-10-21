@@ -17,9 +17,9 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var c, i, b, A = function() {
+var c, i1, b, A1 = function() {
     "use strict";
-    _classCallCheck(this, A);
+    _classCallCheck(this, A1);
 }, B = function(A) {
     "use strict";
     function B() {
@@ -39,7 +39,7 @@ var c, i, b, A = function() {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(B, A), B;
-}(A), C = function() {
+}(A1), C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C() {
@@ -53,10 +53,10 @@ var c, i, b, A = function() {
         }
     ], _defineProperties((Constructor = C).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }();
-c.valueOf(), c.data.hm, c.hm, i.valueOf(), i.data.hm, i.hm;
+c.valueOf(), c.data.hm, c.hm, i1.valueOf(), i1.data.hm, i1.hm;
 var a = {
     valueOf: function() {
     },
     data: new B()
 };
-a.valueOf(), a.data.hm, i.hm, b.valueOf();
+a.valueOf(), a.data.hm, i1.hm, b.valueOf();

@@ -6,13 +6,13 @@ class C {
     }
 }
 class C2 {
-    constructor(x){
-        this.x = x;
+    constructor(x1){
+        this.x = x1;
     }
 }
 class C3 {
-    constructor(y){
-        this.y = y;
+    constructor(y1){
+        this.y = y1;
     }
 }
 var a;

@@ -1,4 +1,4 @@
-var moduleA;
+var moduleA1;
 (function(moduleA) {
     class Point {
         constructor(x, y){
@@ -7,9 +7,8 @@ var moduleA;
         }
     }
     moduleA.Point = Point;
-})(moduleA || (moduleA = {
+})(moduleA1 || (moduleA1 = {
 }));
-var alias = moduleA;
 var p;
 var p;
 var p;
@@ -22,7 +21,6 @@ class clodule {
     };
 })(clodule || (clodule = {
 }));
-var clolias = clodule;
 var p;
 var p;
 var p;
@@ -39,7 +37,6 @@ function fundule() {
     };
 })(fundule || (fundule = {
 }));
-var funlias = fundule;
 var p;
 var p;
 var p;

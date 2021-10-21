@@ -11,9 +11,9 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var Compass, bothIndex, stringOrNumber, someObject, Compass1, A = function() {
+var Compass, bothIndex, stringOrNumber, someObject, Compass1, A1 = function() {
     "use strict";
-    _classCallCheck(this, A);
+    _classCallCheck(this, A1);
 }, B = function(A) {
     "use strict";
     function B() {
@@ -33,7 +33,7 @@ var Compass, bothIndex, stringOrNumber, someObject, Compass1, A = function() {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(B, A), B;
-}(A);
+}(A1);
 (Compass1 = Compass || (Compass = {
 }))[Compass1.North = 0] = "North", Compass1[Compass1.South = 1] = "South", Compass1[Compass1.East = 2] = "East", Compass1[Compass1.West = 3] = "West";
 var numIndex = {
@@ -45,7 +45,7 @@ var numIndex = {
 };
 function noIndex() {
 }
-var obj = {
+var obj1 = {
     10: "ten",
     x: "hello",
     y: 32,
@@ -59,4 +59,4 @@ var obj = {
     "literal property": 100
 }, anyVar = {
 };
-obj.y = 4, anyVar.x = anyVar.y = obj.x = anyVar.z, obj.x, obj.hasOwnProperty, obj.qqq, obj["literal property"], obj["wa wa wa wa wa"], obj["10"], obj["1"], numIndex[3], numIndex[Compass.South], numIndex[anyVar], numIndex.what, numIndex[someObject], strIndex.N, strIndex.zzz, strIndex[10], strIndex[Compass.East], strIndex[null], noIndex[123], noIndex[Compass.South], noIndex[null], noIndex[someObject], noIndex[32], bothIndex[Compass.East], bothIndex[null], bothIndex.foo, bothIndex["1.0"], bothIndex[someObject], numIndex[stringOrNumber], strIndex[stringOrNumber], bothIndex[stringOrNumber];
+obj1.y = 4, anyVar.x = anyVar.y = obj1.x = anyVar.z, obj1.x, obj1.hasOwnProperty, obj1.qqq, obj1["literal property"], obj1["wa wa wa wa wa"], obj1["10"], obj1["1"], numIndex[3], numIndex[Compass.South], numIndex[anyVar], numIndex.what, numIndex[someObject], strIndex.N, strIndex.zzz, strIndex[10], strIndex[Compass.East], strIndex[null], noIndex[123], noIndex[Compass.South], noIndex[null], noIndex[someObject], noIndex[32], bothIndex[Compass.East], bothIndex[null], bothIndex.foo, bothIndex["1.0"], bothIndex[someObject], numIndex[stringOrNumber], strIndex[stringOrNumber], bothIndex[stringOrNumber];

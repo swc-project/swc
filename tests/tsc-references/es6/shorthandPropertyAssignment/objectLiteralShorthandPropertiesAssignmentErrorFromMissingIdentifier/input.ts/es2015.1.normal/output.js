@@ -1,9 +1,9 @@
 // @lib: es5
-var id = 10000;
-var name = "my name";
+var id1 = 10000;
+var name1 = "my name";
 var person = {
-    name,
-    id
+    name: name1,
+    id: id1
 }; // error
 function bar(name, id) {
     return {

@@ -5,10 +5,10 @@ function foo(f) {
 function bar(f) {
     return f;
 }
-var f = foo(function(x) {
+var f1 = foo(function(x) {
     return x;
 });
-var fResult = f("foo");
+var fResult = f1("foo");
 var g = foo(function(x) {
     return x;
 });

@@ -14,7 +14,7 @@ function f(x, y) {
     return null;
 }
 f(1, ""), f(1, "");
-var f3, i, i2, f2 = function(x, y) {
+var f3, i1, i2, f2 = function(x, y) {
     return null;
 };
 f2(1, ""), f2(1, ""), f3(1, ""), f3(1, "");
@@ -32,7 +32,7 @@ var C = function() {
         }
     ]), C;
 }();
-new C().f(1, ""), new C().f(1, ""), i.f(1, ""), i.f(1, "");
+new C().f(1, ""), new C().f(1, ""), i1.f(1, ""), i1.f(1, "");
 var C2 = function() {
     "use strict";
     function C2() {

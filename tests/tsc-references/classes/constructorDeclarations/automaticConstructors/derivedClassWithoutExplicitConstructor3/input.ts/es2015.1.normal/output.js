@@ -23,20 +23,20 @@ var r = new Derived(); // error
 var r2 = new Derived2(1); // error
 var r3 = new Derived('', '');
 class Base2 {
-    constructor(x){
-        this.a = x;
+    constructor(x1){
+        this.a = x1;
     }
 }
 class D extends Base {
-    constructor(y, z){
+    constructor(y1, z1){
         super(2);
         this.b = null;
-        this.b = y;
+        this.b = y1;
     }
 }
 class D2 extends D {
-    constructor(...args){
-        super(...args);
+    constructor(...args1){
+        super(...args1);
         this.x = 2;
         this.y = null;
     }

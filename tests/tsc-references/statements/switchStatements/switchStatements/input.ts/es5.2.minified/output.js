@@ -44,9 +44,9 @@ switch((M || (M = {
     case "":
     default:
 }
-var C = function() {
+var C1 = function() {
     "use strict";
-    _classCallCheck(this, C);
+    _classCallCheck(this, C1);
 }, D = function(C) {
     "use strict";
     function D() {
@@ -66,14 +66,14 @@ var C = function() {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(D, C), D;
-}(C);
-switch(new C()){
+}(C1);
+switch(new C1()){
     case new D():
     case {
         id: 12,
         name: ""
     }:
-    case new C():
+    case new C1():
 }
 switch(""){
 }

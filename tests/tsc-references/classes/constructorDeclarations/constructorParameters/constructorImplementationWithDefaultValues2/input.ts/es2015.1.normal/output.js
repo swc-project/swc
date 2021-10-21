@@ -5,13 +5,13 @@ class C {
     }
 }
 class D {
-    constructor(x = 1, y = x){
+    constructor(x1 = 1, y = x1){
         this.y = y;
-        var z = x;
+        var z = x1;
     }
 }
 class E {
-    constructor(x = new Date()){
-        var y = x;
+    constructor(x2 = new Date()){
+        var y = x2;
     }
 }

@@ -5,19 +5,19 @@ class A {
     }
 }
 class B {
-    foo(x, y) {
+    foo(x1, y1) {
         return null;
     }
 }
 class C {
-    foo(x, y) {
+    foo(x2, y2) {
         return null;
     }
 }
 var a;
 var b = {
-    foo (x, y) {
-        return x;
+    foo (x3, y3) {
+        return x3;
     }
 };
 function foo1(x) {

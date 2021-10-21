@@ -11,12 +11,12 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var x = function() {
+var x1 = function() {
     "use strict";
-    _classCallCheck(this, x);
+    _classCallCheck(this, x1);
 };
-module.exports = x;
-var x = require("./foo1"), y = function(x) {
+module.exports = x1;
+var x1 = require("./foo1"), y = function(x) {
     "use strict";
     function y() {
         var self, call, obj;
@@ -35,5 +35,5 @@ var x = require("./foo1"), y = function(x) {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(y, x), y;
-}(x);
+}(x1);
 export { };

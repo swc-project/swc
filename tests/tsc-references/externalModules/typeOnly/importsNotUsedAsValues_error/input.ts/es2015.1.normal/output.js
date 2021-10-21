@@ -6,11 +6,12 @@ class _class {
 export { _class as default };
 export class A {
 }
-export var C;
+var C1;
+export { C1 as C };
 (function(C) {
     C[C["One"] = 0] = "One";
     C[C["Two"] = 1] = "Two";
-})(C || (C = {
+})(C1 || (C1 = {
 }));
 let a;
 let b;
@@ -21,9 +22,9 @@ console.log(a, b);
 const a = A;
 let b;
 console.log(a, b);
-C.One;
-let c = C.Two;
-let d = C.Two;
+C1.One;
+let c = C1.Two;
+let d = C1.Two;
 console.log(c, d);
 let c;
 let d;
@@ -40,14 +41,14 @@ console.log(h);
 // @Filename: /j.ts
 const H = require('./h'); // noUnusedLocals error only
 var // @Filename: /k.ts
-K;
+K1;
 (function(K) {
     K[K["One"] = 0] = "One";
     K[K["Two"] = 1] = "Two";
-})(K || (K = {
+})(K1 || (K1 = {
 }));
-module.exports = K;
+module.exports = K1;
 // @Filename: /l.ts
-const K = require('./k');
-K.One; // @Filename: /j.ts
+const K1 = require('./k');
+K1.One; // @Filename: /j.ts
  // Sad face https://github.com/microsoft/TypeScript/blob/6b04f5039429b9d412696fe2febe39ecc69ad365/src/testRunner/compilerRunner.ts#L207

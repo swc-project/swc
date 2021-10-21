@@ -34,9 +34,9 @@ ExpandoArrow.prop = 2, ExpandoArrow.m = function(n) {
     ExpandoNamespace.p6 = 42, Ns.foo = function() {
         return ExpandoNamespace;
     };
-})(Ns || (Ns = {
+})(Ns1 || (Ns1 = {
 }));
-var Ns, ExpandoExpr2 = function(n) {
+var Ns1, ExpandoExpr2 = function(n) {
     return n.toString();
 };
 ExpandoExpr2.prop = 2, ExpandoExpr2.m = function(n) {

@@ -8,21 +8,21 @@ function _taggedTemplateLiteral(strings, raw) {
         }
     }));
 }
-function _templateObject1() {
+function _templateObject() {
     var data = _taggedTemplateLiteral([
         ""
     ]);
-    _templateObject1 = function _templateObject1() {
+    _templateObject = function _templateObject() {
         return data;
     };
     return data;
 }
-function _templateObject() {
+function _templateObject1() {
     var data = _taggedTemplateLiteral([
         "",
         ""
     ]);
-    _templateObject = function _templateObject() {
+    _templateObject1 = function _templateObject1() {
         return data;
     };
     return data;
@@ -84,8 +84,8 @@ var c = foo([], 1, 2); // boolean
 var d = foo([], 1, true); // boolean (with error)
 var e = foo([], 1, "2"); // {}
 var f = foo([], 1, 2, 3); // any (with error)
-var u = foo(_templateObject1()); // number
-var v = foo(_templateObject(), 1); // string
+var u = foo(_templateObject()); // number
+var v = foo(_templateObject1(), 1); // string
 var w = foo(_templateObject2(), 1, 2); // boolean
 var x = foo(_templateObject3(), 1, true); // boolean (with error)
 var y = foo(_templateObject4(), 1, "2"); // {}

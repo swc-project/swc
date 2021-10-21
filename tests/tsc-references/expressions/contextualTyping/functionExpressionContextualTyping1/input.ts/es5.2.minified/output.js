@@ -7,9 +7,9 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-(E1 = E2 || (E2 = {
-}))[E1.red = 0] = "red", E1[E1.blue = 1] = "blue";
-var E1, E2, Class = function() {
+(E = E1 || (E1 = {
+}))[E.red = 0] = "red", E[E.blue = 1] = "blue";
+var E, E1, Class = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function Class() {

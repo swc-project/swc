@@ -20,7 +20,9 @@ function foobar(_param = {
 }) {
     var { bar ={
     }  } = _param;
-    _objectWithoutProperties(_param, ["bar"]);
+    _objectWithoutProperties(_param, [
+        "bar"
+    ]);
 }
 suddenly((_param)=>{
     var { x: a  } = _param;
@@ -34,7 +36,9 @@ suddenly((_param)=>{
     },
     y: "noo"
 })=>{
-    var { x: { z =12  }  } = _param, nested = _objectWithoutProperties(_param.x, ["z"]), rest = _objectWithoutProperties(_param, [
+    var { x: { z =12  }  } = _param, nested = _objectWithoutProperties(_param.x, [
+        "z"
+    ]), rest = _objectWithoutProperties(_param, [
         "x"
     ]);
     return rest.y + nested.ka;

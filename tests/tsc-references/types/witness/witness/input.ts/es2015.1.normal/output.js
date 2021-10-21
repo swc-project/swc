@@ -1,8 +1,8 @@
 // Initializers
 var varInit = varInit; // any
-var pInit;
-function fn(pInit1 = pInit1) {
-    var pInit1;
+var pInit1;
+function fn(pInit = pInit) {
+    var pInit;
 }
 class InitClass {
     fn() {
@@ -17,8 +17,8 @@ class InitClass {
 function fnReturn1() {
     return fnReturn1();
 }
-var a;
-var a = fnReturn1();
+var a1;
+var a1 = fnReturn1();
 function fnReturn2() {
     return fnReturn2;
 }
@@ -81,13 +81,13 @@ class C {
         return new (this.fn2());
     }
     fn3() {
-        var a1;
-        return new a1(this.fn3);
+        var a;
+        return new a(this.fn3);
     }
 }
 function fn5() {
-    var a1;
-    return new a1(fn5);
+    var a;
+    return new a(fn5);
 }
 var fn5r = fn5(); // fn5r: should be 'any', but is 'number'
 // Property access
@@ -96,12 +96,12 @@ var propAcc1 = {
 };
 var propAcc1;
 // Property access of module member
-var M2;
-(function(M21) {
-    M21.x = M2.x;
+var M21;
+(function(M2) {
+    M2.x = M21.x;
     var y = x;
     var y;
-})(M2 || (M2 = {
+})(M21 || (M21 = {
 }));
 // Property access of class instance type
 class C2 {

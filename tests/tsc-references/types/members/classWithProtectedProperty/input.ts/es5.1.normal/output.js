@@ -58,18 +58,18 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
-var C1 = // accessing any protected outside the class is an error
+var C = // accessing any protected outside the class is an error
 /*#__PURE__*/ function() {
     "use strict";
-    function C1() {
-        _classCallCheck(this, C1);
+    function C() {
+        _classCallCheck(this, C);
         this.a = '';
         this.b = '';
         this.d = function() {
             return '';
         };
     }
-    _createClass(C1, [
+    _createClass(C, [
         {
             key: "c",
             value: function c() {
@@ -84,14 +84,14 @@ var C1 = // accessing any protected outside the class is an error
             }
         }
     ]);
-    return C1;
+    return C;
 }();
-C1.g = function() {
+C.g = function() {
     return '';
 };
-var D = /*#__PURE__*/ function(C) {
+var D = /*#__PURE__*/ function(C1) {
     "use strict";
-    _inherits(D, C);
+    _inherits(D, C1);
     function D() {
         _classCallCheck(this, D);
         return _possibleConstructorReturn(this, _getPrototypeOf(D).apply(this, arguments));
@@ -107,11 +107,11 @@ var D = /*#__PURE__*/ function(C) {
                 var r3 = d.b;
                 var r4 = d.c();
                 var r5 = d.d();
-                var r6 = C1.e;
-                var r7 = C1.f();
-                var r8 = C1.g();
+                var r6 = C.e;
+                var r7 = C.f();
+                var r8 = C.g();
             }
         }
     ]);
     return D;
-}(C1);
+}(C);

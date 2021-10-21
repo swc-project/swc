@@ -26,7 +26,9 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 }
 let array;
 for (let _ref of array)var { x  } = _ref;
-for (var _ref1 of (_objectWithoutProperties(_ref, ["x"]), array))var { x: xx  } = _ref1;
+for (var _ref1 of (_objectWithoutProperties(_ref, [
+    "x"
+]), array))var { x: xx  } = _ref1;
 for (const norest of (_objectWithoutProperties(_ref1, [
     "x"
 ]), array.map((a)=>(function(target) {

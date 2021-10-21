@@ -32,7 +32,7 @@ class C {
     indexOf(searchString, position) {
         return null;
     }
-    lastIndexOf(searchString, position) {
+    lastIndexOf(searchString1, position1) {
         return null;
     }
     localeCompare(that) {
@@ -44,7 +44,7 @@ class C {
     replace(searchValue, replaceValue) {
         return null;
     }
-    search(regexp) {
+    search(regexp1) {
         return null;
     }
     slice(start, end) {
@@ -53,7 +53,7 @@ class C {
     split(separator, limit) {
         return null;
     }
-    substring(start, end) {
+    substring(start1, end1) {
         return null;
     }
     toLowerCase() {
@@ -86,10 +86,10 @@ function f12(x) {
 }
 function f13(x) {
 }
-var E;
+var E1;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {
+})(E1 || (E1 = {
 }));
 function f14(x) {
 }

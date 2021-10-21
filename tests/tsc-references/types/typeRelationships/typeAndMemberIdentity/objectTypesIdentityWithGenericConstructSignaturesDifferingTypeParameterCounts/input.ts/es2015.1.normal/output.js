@@ -5,14 +5,14 @@ class B {
     }
 }
 class C {
-    constructor(x){
+    constructor(x1){
         return null;
     }
 }
 var a;
 var b = {
-    new (x) {
-        return x;
+    new (x2) {
+        return x2;
     }
 };
 function foo1b(x) {

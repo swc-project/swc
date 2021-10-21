@@ -1,1 +1,3 @@
-foo([void 0]);
+foo([
+    void 0
+]);

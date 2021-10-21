@@ -1,12 +1,12 @@
 //@target: ES6
-var v1 = [
+var v = [
     1
 ];
 var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 try {
-    for(var _iterator = v[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
-        var v = _step.value;
-        v;
+    for(var _iterator = v1[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
+        var v1 = _step.value;
+        v1;
     }
 } catch (err) {
     _didIteratorError = true;

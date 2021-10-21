@@ -404,7 +404,9 @@ where
                     // We just strip this.
                 }
                 ClassMember::Empty(..) => {}
-                ClassMember::StaticBlock(..) => unimplemented!("stage 3 class static blocks"),
+                ClassMember::StaticBlock(..) => unreachable!(
+                    "classes pass: static blocks\nstatic_blocks pass should remove this"
+                ),
             }
         }
 

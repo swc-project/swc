@@ -2,12 +2,12 @@
 function foo(arg) {
     return arg.cb(null);
 }
-var arg = {
+var arg1 = {
     cb: function(x) {
         return '';
     }
 };
-var r = foo(arg); // {}
+var r = foo(arg1); // {}
 // more args not allowed
 var r2 = foo({
     cb: function(x, y) {
@@ -23,7 +23,7 @@ function foo2(arg) {
     return arg.cb(null, null);
 }
 // fewer args ok
-var r4 = foo(arg); // {}
+var r4 = foo(arg1); // {}
 var r5 = foo({
     cb: function(x) {
         return '';

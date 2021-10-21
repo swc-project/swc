@@ -31,25 +31,25 @@ function _slicedToArray(arr, i) {
 }
 var ref = [
     1
-], a = ref[0], tmp = ref[1], b = tmp === void 0 ? a : tmp; // ok
+], a1 = ref[0], tmp6 = ref[1], b = tmp6 === void 0 ? a1 : tmp6; // ok
 var ref1 = [
     1
-], c = ref1[0], tmp1 = ref1[1], d = tmp1 === void 0 ? c : tmp1, tmp2 = ref1[2], e = tmp2 === void 0 ? e : tmp2; // error for e = e
+], c1 = ref1[0], tmp1 = ref1[1], d = tmp1 === void 0 ? c1 : tmp1, tmp2 = ref1[2], e1 = tmp2 === void 0 ? e1 : tmp2; // error for e = e
 var ref2 = [
     1
-], f = ref2[0], tmp3 = ref2[1], g = tmp3 === void 0 ? f : tmp3, tmp4 = ref2[2], h = tmp4 === void 0 ? i : tmp4, tmp5 = ref2[3], i = tmp5 === void 0 ? f : tmp5; // error for h = i
+], f1 = ref2[0], tmp3 = ref2[1], g = tmp3 === void 0 ? f1 : tmp3, tmp4 = ref2[2], h = tmp4 === void 0 ? i1 : tmp4, tmp5 = ref2[3], i1 = tmp5 === void 0 ? f1 : tmp5; // error for h = i
 (function(param) {
-    var _param = _slicedToArray(param, 2), a1 = _param[0], tmp6 = _param[1], b = tmp6 === void 0 ? a1 : tmp6;
+    var _param = _slicedToArray(param, 2), a = _param[0], tmp = _param[1], b = tmp === void 0 ? a : tmp;
 })([
     1
 ]);
 (function(param) {
-    var _param = _slicedToArray(param, 3), c1 = _param[0], tmp7 = _param[1], d = tmp7 === void 0 ? c1 : tmp7, tmp6 = _param[2], e = tmp6 === void 0 ? e : tmp6;
+    var _param = _slicedToArray(param, 3), c = _param[0], tmp = _param[1], d = tmp === void 0 ? c : tmp, tmp7 = _param[2], e = tmp7 === void 0 ? e : tmp7;
 })([
     1
 ]);
 (function(param) {
-    var _param = _slicedToArray(param, 4), f1 = _param[0], tmp8 = _param[1], g = tmp8 === void 0 ? f1 : tmp8, tmp6 = _param[2], h = tmp6 === void 0 ? i : tmp6, tmp7 = _param[3], i1 = tmp7 === void 0 ? f1 : tmp7;
+    var _param = _slicedToArray(param, 4), f = _param[0], tmp = _param[1], g = tmp === void 0 ? f : tmp, tmp8 = _param[2], h = tmp8 === void 0 ? i1 : tmp8, tmp9 = _param[3], i = tmp9 === void 0 ? f : tmp9;
 })([
     1
 ]);

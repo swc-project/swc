@@ -95,13 +95,13 @@ var Poisoned = /*#__PURE__*/ function(_Component) {
     ]);
     return Poisoned;
 }(React.Component);
-var obj = {
+var obj1 = {
     x: "hello world",
     y: 2
 };
 // Error as "obj" has type { x: string; y: number }
-var p = /*#__PURE__*/ React.createElement(Poisoned, _extends({
-}, obj));
+var p1 = /*#__PURE__*/ React.createElement(Poisoned, _extends({
+}, obj1));
 var EmptyProp = /*#__PURE__*/ function(_Component) {
     "use strict";
     _inherits(EmptyProp, _Component);
@@ -119,10 +119,10 @@ var EmptyProp = /*#__PURE__*/ function(_Component) {
     ]);
     return EmptyProp;
 }(React.Component);
-var o = {
+var o1 = {
     prop1: false
 };
 // Ok
 var e = /*#__PURE__*/ React.createElement(EmptyProp, _extends({
-}, o));
+}, o1));
 export { };

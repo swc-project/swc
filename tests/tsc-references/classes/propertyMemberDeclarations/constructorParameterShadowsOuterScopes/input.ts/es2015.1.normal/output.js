@@ -4,15 +4,15 @@
 // local variable are inaccessible in initializer expressions for instance member variables
 var x = 1;
 class C {
-    constructor(x){
+    constructor(x1){
         this.b // error, evaluated in scope of constructor, cannot reference x
-         = x;
-        x = 2; // error, x is string
+         = x1;
+        x1 = 2; // error, x is string
     }
 }
 var y = 1;
 class D {
-    constructor(x){
+    constructor(x2){
         this.b // error, evaluated in scope of constructor, cannot reference y
          = y;
         var y = "";

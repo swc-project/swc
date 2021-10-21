@@ -11,10 +11,10 @@ var C1 = function() {
 };
 function f() {
 }
-(E2 = E1 || (E1 = {
-}))[E2.A = 0] = "A", (f || (f = {
+(E1 = E || (E = {
+}))[E1.A = 0] = "A", (f || (f = {
 })).bar = 1;
-var E1, E2, c = function() {
+var E, E1, c = function() {
     "use strict";
     _classCallCheck(this, c);
 };

@@ -1,13 +1,13 @@
-class Point {
+class Point1 {
     static Origin() {
         return {
             x: 0,
             y: 0
         };
     }
-    constructor(x, y){
-        this.x = x;
-        this.y = y;
+    constructor(x1, y1){
+        this.x = x1;
+        this.y = y1;
     }
 }
 (function(Point) {
@@ -15,11 +15,11 @@ class Point {
         return null;
     } //expected duplicate identifier error
     Point.Origin = Origin;
-})(Point || (Point = {
+})(Point1 || (Point1 = {
 }));
-var A;
+var A1;
 (function(A) {
-    class Point {
+    class Point2 {
         static Origin() {
             return {
                 x: 0,
@@ -31,13 +31,13 @@ var A;
             this.y = y;
         }
     }
-    A.Point = Point;
+    A.Point = Point2;
     (function(Point) {
         function Origin() {
             return "";
         } //expected duplicate identifier error
         Point.Origin = Origin;
-    })(Point || (Point = {
+    })(Point2 || (Point2 = {
     }));
-})(A || (A = {
+})(A1 || (A1 = {
 }));

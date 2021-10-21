@@ -26,18 +26,24 @@ function _objectWithoutPropertiesLoose(source, excluded) {
     return target;
 }
 let other;
-_objectWithoutProperties((_complex = void 0).x, ["ka"]), _objectWithoutProperties(_complex, [
+_objectWithoutProperties((_complex = void 0).x, [
+    "ka"
+]), _objectWithoutProperties(_complex, [
     "x",
     "y"
 ]), { x: { ka  } , y: other  } = _complex;
 let overEmit;
 var _complex, _overEmit, { a: [{}, ...y] , b: { z  }  } = overEmit;
 _extends({
-}, overEmit.a[0]), _objectWithoutProperties(overEmit.b, ["z"]), _objectWithoutProperties(overEmit, [
+}, overEmit.a[0]), _objectWithoutProperties(overEmit.b, [
+    "z"
+]), _objectWithoutProperties(overEmit, [
     "a",
     "b"
 ]), _extends({
-}, (_overEmit = overEmit).a[0]), _objectWithoutProperties(_overEmit.b, ["z"]), _objectWithoutProperties(_overEmit, [
+}, (_overEmit = overEmit).a[0]), _objectWithoutProperties(_overEmit.b, [
+    "z"
+]), _objectWithoutProperties(_overEmit, [
     "a",
     "b"
 ]), { a: [{}, ...y] , b: { z  }  } = _overEmit;

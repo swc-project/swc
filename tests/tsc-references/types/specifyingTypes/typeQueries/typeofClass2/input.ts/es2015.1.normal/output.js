@@ -1,13 +1,13 @@
 class C {
     static foo(x) {
     }
-    static bar(x) {
+    static bar(x1) {
     }
-    constructor(x){
+    constructor(x2){
     }
 }
 class D extends C {
-    static baz(x) {
+    static baz(x3) {
     }
     foo() {
     }

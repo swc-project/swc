@@ -29,77 +29,77 @@ function _setPrototypeOf(o, p) {
 }
 var TwoLevels, _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, Base = function() {
+}, Base1 = function() {
     "use strict";
-    _classCallCheck(this, Base);
+    _classCallCheck(this, Base1);
 }, Derived = function(Base) {
     "use strict";
     function Derived() {
         return _classCallCheck(this, Derived), _possibleConstructorReturn(this, _getPrototypeOf(Derived).apply(this, arguments));
     }
     return _inherits(Derived, Base), Derived;
-}(Base), Derived2 = function(Derived) {
+}(Base1), Derived2 = function(Derived) {
     "use strict";
     function Derived2() {
         return _classCallCheck(this, Derived2), _possibleConstructorReturn(this, _getPrototypeOf(Derived2).apply(this, arguments));
     }
     return _inherits(Derived2, Derived), Derived2;
-}(Derived), A = function() {
+}(Derived), A1 = function() {
     "use strict";
-    _classCallCheck(this, A);
+    _classCallCheck(this, A1);
 }, B = function(A) {
     "use strict";
     function B() {
         return _classCallCheck(this, B), _possibleConstructorReturn(this, _getPrototypeOf(B).apply(this, arguments));
     }
     return _inherits(B, A), B;
-}(A), A2 = function() {
+}(A1), A21 = function() {
     "use strict";
-    _classCallCheck(this, A2);
+    _classCallCheck(this, A21);
 }, B2 = function(A2) {
     "use strict";
     function B2() {
         return _classCallCheck(this, B2), _possibleConstructorReturn(this, _getPrototypeOf(B2).apply(this, arguments));
     }
     return _inherits(B2, A2), B2;
-}(A2), A3 = function() {
+}(A21), A31 = function() {
     "use strict";
-    _classCallCheck(this, A3);
+    _classCallCheck(this, A31);
 }, B3 = function(A3) {
     "use strict";
     function B3() {
         return _classCallCheck(this, B3), _possibleConstructorReturn(this, _getPrototypeOf(B3).apply(this, arguments));
     }
     return _inherits(B3, A3), B3;
-}(A3);
+}(A31);
 !function(TwoLevels) {
-    var A1 = function() {
+    var A4 = function() {
         "use strict";
-        _classCallCheck(this, A1);
+        _classCallCheck(this, A4);
     }, B = function(A) {
         "use strict";
         function B() {
             return _classCallCheck(this, B), _possibleConstructorReturn(this, _getPrototypeOf(B).apply(this, arguments));
         }
         return _inherits(B, A), B;
-    }(A1), A21 = function() {
+    }(A4), A22 = function() {
         "use strict";
-        _classCallCheck(this, A21);
+        _classCallCheck(this, A22);
     }, B2 = function(A2) {
         "use strict";
         function B2() {
             return _classCallCheck(this, B2), _possibleConstructorReturn(this, _getPrototypeOf(B2).apply(this, arguments));
         }
         return _inherits(B2, A2), B2;
-    }(A21), A31 = function() {
+    }(A22), A32 = function() {
         "use strict";
-        _classCallCheck(this, A31);
+        _classCallCheck(this, A32);
     }, B3 = function(A3) {
         "use strict";
         function B3() {
             return _classCallCheck(this, B3), _possibleConstructorReturn(this, _getPrototypeOf(B3).apply(this, arguments));
         }
         return _inherits(B3, A3), B3;
-    }(A31);
+    }(A32);
 }(TwoLevels || (TwoLevels = {
 }));

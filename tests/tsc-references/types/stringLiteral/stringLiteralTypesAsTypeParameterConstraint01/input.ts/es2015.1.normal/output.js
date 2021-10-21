@@ -5,9 +5,9 @@ function foo(f) {
 function bar(f) {
     return f;
 }
-let f = foo((x)=>x
+let f1 = foo((x)=>x
 );
-let fResult = f("foo");
+let fResult = f1("foo");
 let g = foo((x)=>x
 );
 let gResult = g("foo");

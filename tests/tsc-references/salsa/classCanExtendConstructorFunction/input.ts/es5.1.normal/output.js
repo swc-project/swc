@@ -88,18 +88,18 @@ var _typeof = function(obj) {
 /**
  * @constructor
  * @param {number} numberOxen
- */ function Wagon(numberOxen) {
+ */ function Wagon1(numberOxen) {
     this.numberOxen = numberOxen;
 }
-/** @param {Wagon[]=} wagons */ Wagon.circle = function(wagons) {
+/** @param {Wagon[]=} wagons */ Wagon1.circle = function(wagons) {
     return wagons ? wagons.length : 3.14;
 };
-/** @param {*[]=} supplies - *[]= is my favourite type */ Wagon.prototype.load = function(supplies) {
+/** @param {*[]=} supplies - *[]= is my favourite type */ Wagon1.prototype.load = function(supplies) {
 };
-/** @param {*[]=} supplies - Yep, still a great type */ Wagon.prototype.weight = function(supplies) {
+/** @param {*[]=} supplies - Yep, still a great type */ Wagon1.prototype.weight = function(supplies) {
     return supplies ? supplies.length : -1;
 };
-Wagon.prototype.speed = function() {
+Wagon1.prototype.speed = function() {
     return this.numberOxen / this.weight();
 };
 var Sql = // ok
@@ -133,7 +133,7 @@ var Sql = // ok
         }
     ]);
     return Sql;
-}(Wagon);
+}(Wagon1);
 var db = new Sql();
 db.numberOxen = db.foonly;
 var Drakkhen = // error, can't extend a TS constructor function
@@ -145,11 +145,11 @@ var Drakkhen = // error, can't extend a TS constructor function
         return _possibleConstructorReturn(this, _getPrototypeOf(Drakkhen).apply(this, arguments));
     }
     return Drakkhen;
-}(Dragon);
+}(Dragon1);
 // @Filename: second.ts
 /**
  * @constructor
- */ function Dragon(numberEaten) {
+ */ function Dragon1(numberEaten) {
     this.numberEaten = numberEaten;
 }
 var Firedrake = // error!
@@ -161,7 +161,7 @@ var Firedrake = // error!
         return _possibleConstructorReturn(this, _getPrototypeOf(Firedrake).call(this));
     }
     return Firedrake;
-}(Dragon);
+}(Dragon1);
 var Conestoga = // ok
 /*#__PURE__*/ function(Wagon) {
     "use strict";
@@ -183,7 +183,7 @@ var Conestoga = // ok
         }
     ]);
     return Conestoga;
-}(Wagon);
+}(Wagon1);
 var c = new Conestoga(true);
 c.drunkOO;
 c.numberOxen;
@@ -191,7 +191,7 @@ c.numberOxen;
 /**
  * @template T
  * @param {T} flavour
- */ function Soup(flavour) {
+ */ function Soup1(flavour) {
     this.flavour = flavour;
 }
 var Chowder = /** @extends {Soup<{ claim: "ignorant" | "malicious" }>} */ /*#__PURE__*/ function(Soup) {
@@ -210,8 +210,8 @@ var Chowder = /** @extends {Soup<{ claim: "ignorant" | "malicious" }>} */ /*#__P
         }
     ]);
     return Chowder;
-}(Soup);
-var soup = new Soup(1);
+}(Soup1);
+var soup = new Soup1(1);
 soup.flavour;
 var chowder = new Chowder({
     claim: "ignorant"

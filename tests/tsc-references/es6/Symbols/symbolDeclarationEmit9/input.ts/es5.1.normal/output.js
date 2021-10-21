@@ -13,6 +13,6 @@ function _defineProperty(obj, key, value) {
 }
 //@target: ES6
 //@declaration: true
-var obj = _defineProperty({
+var obj1 = _defineProperty({
 }, Symbol.isConcatSpreadable, function() {
 });

@@ -1,10 +1,10 @@
-class Foo {
+class Foo1 {
 }
-class Bar extends Foo {
+class Bar extends Foo1 {
 }
-class Bar2 extends Foo {
+class Bar2 extends Foo1 {
 }
-class Bar3 extends Foo {
+class Bar3 extends Foo1 {
 }
 // another level of indirection
 var M;

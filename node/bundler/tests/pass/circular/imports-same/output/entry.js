@@ -1,4 +1,4 @@
 const foo = 1;
 console.log('a', foo);
-const a1 = foo + 1;
-export { a1 as a };
+const a = foo + 1;
+export { a as a };

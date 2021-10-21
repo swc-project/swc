@@ -11,7 +11,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     return protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Constructor;
 }
 f3(1);
-var f3, i, i2, C = function() {
+var f3, i1, i2, C = function() {
     "use strict";
     function C() {
         _classCallCheck(this, C);
@@ -25,7 +25,7 @@ var f3, i, i2, C = function() {
         }
     ]), C;
 }();
-new C().f(1), i.f(1);
+new C().f(1), i1.f(1);
 var C2 = function() {
     "use strict";
     function C2() {

@@ -2569,7 +2569,7 @@ var ConstructorScoping = function ConstructorScoping() {
   _classCallCheck(this, ConstructorScoping);
   var bar;
   {
-    var bar;
+    var bar1;
   }
 };
 

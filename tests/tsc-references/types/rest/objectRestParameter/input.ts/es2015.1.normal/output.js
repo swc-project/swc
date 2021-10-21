@@ -30,7 +30,9 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 }
 // @target: es2015
 function cloneAgain(_param) {
-    var { a  } = _param, clone = _objectWithoutProperties(_param, ["a"]);
+    var { a  } = _param, clone = _objectWithoutProperties(_param, [
+        "a"
+    ]);
 }
 suddenly((_param)=>{
     var { x: a  } = _param, rest = _objectWithoutProperties(_param, [
@@ -45,25 +47,33 @@ suddenly((_param = {
     },
     y: 'noo'
 })=>{
-    var { x: { z =12  }  } = _param, nested = _objectWithoutProperties(_param.x, ["z"]), rest = _objectWithoutProperties(_param, [
+    var { x: { z =12  }  } = _param, nested = _objectWithoutProperties(_param.x, [
+        "z"
+    ]), rest = _objectWithoutProperties(_param, [
         "x"
     ]);
     return rest.y + nested.ka;
 });
 class C {
-    m(_param) {
-        var { a  } = _param, clone = _objectWithoutProperties(_param, ["a"]);
+    m(_param2) {
+        var { a  } = _param2, clone = _objectWithoutProperties(_param2, [
+            "a"
+        ]);
     // actually, never mind, don't clone
     }
-    set p(_param) {
-        var { a  } = _param, clone = _objectWithoutProperties(_param, ["a"]);
+    set p(_param1) {
+        var { a  } = _param1, clone = _objectWithoutProperties(_param1, [
+            "a"
+        ]);
     // actually, never mind, don't clone
     }
 }
 function foobar(_param = {
 }) {
     var { bar ={
-    }  } = _param, opts = _objectWithoutProperties(_param, ["bar"]);
+    }  } = _param, opts = _objectWithoutProperties(_param, [
+        "bar"
+    ]);
 }
 foobar();
 foobar({

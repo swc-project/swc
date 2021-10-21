@@ -17,9 +17,9 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var a, subType, union, union2, A = function() {
+var a, subType, union, union2, A1 = function() {
     "use strict";
-    _classCallCheck(this, A);
+    _classCallCheck(this, A1);
 }, B = function() {
     "use strict";
     _classCallCheck(this, B);
@@ -42,7 +42,7 @@ var a, subType, union, union2, A = function() {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(C, A), C;
-}(A);
+}(A1);
 isC(a) && a.propC, isA(subType) && subType.propC, isA(union) && union.propA, isC_multipleParams(a, 0) && a.propC;
 var D = function() {
     "use strict";

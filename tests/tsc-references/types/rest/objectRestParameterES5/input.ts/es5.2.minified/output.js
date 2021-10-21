@@ -33,7 +33,9 @@ suddenly(function(_param) {
             ka: 1
         },
         y: "noo"
-    } : param, _z = _param.x.z, nested = _objectWithoutProperties(_param.x, ["z"]), rest = _objectWithoutProperties(_param, [
+    } : param, _z = _param.x.z, nested = _objectWithoutProperties(_param.x, [
+        "z"
+    ]), rest = _objectWithoutProperties(_param, [
         "x"
     ]);
     return rest.y + nested.ka;
@@ -50,13 +52,17 @@ var C = function() {
         {
             key: "m",
             value: function(_param) {
-                _param.a, _objectWithoutProperties(_param, ["a"]);
+                _param.a, _objectWithoutProperties(_param, [
+                    "a"
+                ]);
             }
         },
         {
             key: "p",
             set: function(_param) {
-                _param.a, _objectWithoutProperties(_param, ["a"]);
+                _param.a, _objectWithoutProperties(_param, [
+                    "a"
+                ]);
             }
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
@@ -64,7 +70,9 @@ var C = function() {
 function foobar(param) {
     var _param = void 0 === param ? {
     } : param;
-    _param.bar, _objectWithoutProperties(_param, ["bar"]);
+    _param.bar, _objectWithoutProperties(_param, [
+        "bar"
+    ]);
 }
 foobar(), foobar({
     baz: "hello"

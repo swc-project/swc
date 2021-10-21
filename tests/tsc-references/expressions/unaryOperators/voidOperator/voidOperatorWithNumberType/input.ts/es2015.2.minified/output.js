@@ -1,4 +1,4 @@
-var M;
+var M1;
 class A {
     static foo() {
         return 1;
@@ -7,7 +7,7 @@ class A {
 !function(M) {
     var n;
     M.n = n;
-}(M || (M = {
+}(M1 || (M1 = {
 }));
 var objA = new A();
-objA.a, M.n, A.foo(), objA.a, M.n, objA.a, M.n;
+objA.a, M1.n, A.foo(), objA.a, M1.n, objA.a, M1.n;

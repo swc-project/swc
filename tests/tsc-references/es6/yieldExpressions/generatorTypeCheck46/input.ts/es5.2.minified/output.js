@@ -7,11 +7,11 @@ function _defineProperty(obj, key, value) {
         writable: !0
     }) : obj[key] = value, obj;
 }
-foo("", regeneratorRuntime.mark(function _callee() {
-    return regeneratorRuntime.wrap(function(_ctx) {
-        for(;;)switch(_ctx.prev = _ctx.next){
+foo("", regeneratorRuntime.mark(function _callee1() {
+    return regeneratorRuntime.wrap(function(_ctx1) {
+        for(;;)switch(_ctx1.prev = _ctx1.next){
             case 0:
-                return _ctx.delegateYield(_defineProperty({
+                return _ctx1.delegateYield(_defineProperty({
                 }, Symbol.iterator, regeneratorRuntime.mark(function _callee() {
                     return regeneratorRuntime.wrap(function(_ctx) {
                         for(;;)switch(_ctx.prev = _ctx.next){
@@ -27,8 +27,8 @@ foo("", regeneratorRuntime.mark(function _callee() {
                 })), "t0", 1);
             case 1:
             case "end":
-                return _ctx.stop();
+                return _ctx1.stop();
         }
-    }, _callee);
+    }, _callee1);
 }), function(p) {
 }); // T is fixed, should be string

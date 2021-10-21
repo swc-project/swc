@@ -18,25 +18,25 @@ function _createClass(Constructor, protoProps, staticProps) {
     return Constructor;
 }
 // EveryType used in a nested scope of a different EveryType with the same name, type of the identifier is the one defined in the inner scope
-var s;
-var M1;
+var s1;
+var M11;
 (function(M1) {
-    var s1;
-    var n = s1;
+    var s;
+    var n = s;
     var n;
-    M1.s = s1;
-})(M1 || (M1 = {
+    M1.s = s;
+})(M11 || (M11 = {
 }));
 var M2;
 (function(M2) {
-    var s1;
-    var n = s1;
+    var s;
+    var n = s;
     var n;
 })(M2 || (M2 = {
 }));
 function fn() {
-    var s1;
-    var n = s1;
+    var s;
+    var n = s;
     var n;
 }
 var C = /*#__PURE__*/ function() {

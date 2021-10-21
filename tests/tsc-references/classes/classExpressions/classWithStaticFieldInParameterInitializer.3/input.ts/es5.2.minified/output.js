@@ -27,20 +27,20 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var _class, _class1, _typeof = function(obj) {
+var _class2, _class1, _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, C = function() {
+}, C1 = function() {
     "use strict";
-    _classCallCheck(this, C);
+    _classCallCheck(this, C1);
 };
 !function(param) {
-    (_class = (function(C) {
+    (_class2 = (function(C) {
         "use strict";
         function _class() {
             return _classCallCheck(this, _class), _possibleConstructorReturn(this, _getPrototypeOf(_class).apply(this, arguments));
         }
         return _inherits(_class, C), _class;
-    })(C)).x = 1;
+    })(C1)).x = 1;
 }(), (function(param, param1) {
     (_class1 = (function(C) {
         "use strict";
@@ -48,5 +48,5 @@ var _class, _class1, _typeof = function(obj) {
             return _classCallCheck(this, _class), _possibleConstructorReturn(this, _getPrototypeOf(_class).apply(this, arguments));
         }
         return _inherits(_class, C), _class;
-    })(C)).x = 1;
+    })(C1)).x = 1;
 })();

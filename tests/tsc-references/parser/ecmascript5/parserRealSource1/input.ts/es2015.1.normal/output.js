@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
-var TypeScript;
+var TypeScript1;
 (function(TypeScript) {
-    var CompilerDiagnostics;
+    var CompilerDiagnostics1;
     (function(CompilerDiagnostics) {
         CompilerDiagnostics.debug = false;
         CompilerDiagnostics.diagnosticWriter = null;
@@ -28,7 +28,7 @@ var TypeScript;
             }
         }
         CompilerDiagnostics.assert = assert;
-    })(CompilerDiagnostics || (CompilerDiagnostics = {
+    })(CompilerDiagnostics1 || (CompilerDiagnostics1 = {
     }));
     class NullLogger {
         information() {
@@ -66,11 +66,11 @@ var TypeScript;
         fatal() {
             return this._fatal;
         }
-        log(s) {
-            this.logger.log(s);
+        log(s1) {
+            this.logger.log(s1);
         }
-        constructor(logger){
-            this.logger = logger;
+        constructor(logger1){
+            this.logger = logger1;
             this._information = this.logger.information();
             this._debug = this.logger.debug();
             this._warning = this.logger.warning();
@@ -95,8 +95,8 @@ var TypeScript;
         fatal() {
             return false;
         }
-        log(s) {
-            this.logContents.push(s);
+        log(s2) {
+            this.logContents.push(s2);
         }
         constructor(){
             this.logContents = [];
@@ -157,6 +157,6 @@ var TypeScript;
         return result;
     }
     TypeScript.stringToLiteral = stringToLiteral;
-    TypeScript.CompilerDiagnostics = CompilerDiagnostics;
-})(TypeScript || (TypeScript = {
+    TypeScript.CompilerDiagnostics = CompilerDiagnostics1;
+})(TypeScript1 || (TypeScript1 = {
 }));

@@ -102,7 +102,7 @@ var C = /*#__PURE__*/ function(_super) {
     }
     return C;
 }(new B2().anon);
-var b3Number = B3();
+var b3Number1 = B3();
 var S = /*#__PURE__*/ function(b3Number) {
     "use strict";
     _inherits(S, b3Number);
@@ -111,7 +111,7 @@ var S = /*#__PURE__*/ function(b3Number) {
         return _possibleConstructorReturn(this, _getPrototypeOf(S).apply(this, arguments));
     }
     return S;
-}(b3Number);
+}(b3Number1);
 var c = new C();
 var k = new K();
 var s = new S();

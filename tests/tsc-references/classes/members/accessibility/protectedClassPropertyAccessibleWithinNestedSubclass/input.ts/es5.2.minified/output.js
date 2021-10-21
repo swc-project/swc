@@ -38,9 +38,9 @@ function _setPrototypeOf(o, p) {
 }
 var _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, B = function() {
+}, B1 = function() {
     "use strict";
-    _classCallCheck(this, B);
+    _classCallCheck(this, B1);
 }, C = function(B) {
     "use strict";
     function C() {
@@ -104,7 +104,7 @@ var _typeof = function(obj) {
             }
         }
     ]), C;
-}(B), E = function(C) {
+}(B1), E = function(C) {
     "use strict";
     function E() {
         return _classCallCheck(this, E), _possibleConstructorReturn(this, _getPrototypeOf(E).apply(this, arguments));

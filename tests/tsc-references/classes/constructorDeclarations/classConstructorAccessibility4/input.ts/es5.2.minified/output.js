@@ -38,12 +38,12 @@ function _setPrototypeOf(o, p) {
 }
 var _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, A = function() {
+}, A1 = function() {
     "use strict";
-    function A() {
-        _classCallCheck(this, A);
+    function A1() {
+        _classCallCheck(this, A1);
     }
-    return _createClass(A, [
+    return _createClass(A1, [
         {
             key: "method",
             value: function() {
@@ -55,7 +55,7 @@ var _typeof = function(obj) {
                         {
                             key: "method",
                             value: function() {
-                                new A();
+                                new A1();
                             }
                         }
                     ]), B;
@@ -64,16 +64,16 @@ var _typeof = function(obj) {
                         return _classCallCheck(this, C), _possibleConstructorReturn(this, _getPrototypeOf(C).apply(this, arguments));
                     }
                     return _inherits(C, A), C;
-                }(A);
+                }(A1);
             }
         }
-    ]), A;
-}(), D = function() {
+    ]), A1;
+}(), D1 = function() {
     "use strict";
-    function D() {
-        _classCallCheck(this, D);
+    function D1() {
+        _classCallCheck(this, D1);
     }
-    return _createClass(D, [
+    return _createClass(D1, [
         {
             key: "method",
             value: function() {
@@ -85,7 +85,7 @@ var _typeof = function(obj) {
                         {
                             key: "method",
                             value: function() {
-                                new D();
+                                new D1();
                             }
                         }
                     ]), E;
@@ -94,8 +94,8 @@ var _typeof = function(obj) {
                         return _classCallCheck(this, F), _possibleConstructorReturn(this, _getPrototypeOf(F).apply(this, arguments));
                     }
                     return _inherits(F, D), F;
-                }(D);
+                }(D1);
             }
         }
-    ]), D;
+    ]), D1;
 }();

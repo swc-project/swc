@@ -29,7 +29,7 @@ a(1);
 a.foo();
 a.foo(1);
 var b = {
-    foo (x) {
+    foo (x1) {
     },
     a: function foo(x, y) {
     },

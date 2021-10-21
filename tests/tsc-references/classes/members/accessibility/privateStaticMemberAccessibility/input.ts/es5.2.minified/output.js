@@ -11,10 +11,10 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var Base1 = function() {
+var Base = function() {
     "use strict";
-    _classCallCheck(this, Base1);
-}, Derived = function(Base) {
+    _classCallCheck(this, Base);
+}, Derived = function(Base1) {
     "use strict";
     function Derived() {
         var _this, self, call, obj;
@@ -22,7 +22,7 @@ var Base1 = function() {
             if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
             return self;
         })(self)).bing = function() {
-            return Base1.foo;
+            return Base.foo;
         }, _this;
     }
     return !function(subClass, superClass) {
@@ -34,6 +34,6 @@ var Base1 = function() {
                 configurable: !0
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
-    }(Derived, Base), Derived;
-}(Base1);
-Derived.bar = Base1.foo;
+    }(Derived, Base1), Derived;
+}(Base);
+Derived.bar = Base.foo;

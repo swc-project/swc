@@ -11,13 +11,13 @@ var arr, i, _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
 }, trace = [], order = function(n) {
     return trace.push(n);
-}, tmp3 = void 0;
-(void 0 === tmp3 ? order(0) : tmp3)[order(1)];
+}, tmp = void 0;
+(void 0 === tmp ? order(0) : tmp)[order(1)];
 var tmp1 = {
 };
 (void 0 === tmp1 ? order(0) : tmp1)[order(1)];
 var _ref = {
-}, key = order(0), key1 = order(2), tmp2 = _ref[key];
+}, key2 = order(0), key1 = order(2), tmp2 = _ref[key2];
 (void 0 === tmp2 ? order(1) : tmp2)[key1], (function(source, excluded) {
     if (null == source) return {
     };
@@ -34,9 +34,9 @@ var _ref = {
         for(i = 0; i < sourceSymbolKeys.length; i++)key = sourceSymbolKeys[i], !(excluded.indexOf(key) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
     }
 })(_ref, [
-    key
+    key2
 ].map(function(arg) {
-    var key4 = function(input, hint) {
+    var key = function(input, hint) {
         if ("object" !== _typeof(input) || null === input) return input;
         var prim = input[Symbol.toPrimitive];
         if (void 0 !== prim) {
@@ -46,8 +46,8 @@ var _ref = {
         }
         return ("string" === hint ? String : Number)(input);
     }(arg, "string");
-    return "symbol" === _typeof(key4) ? key4 : String(key4);
-})), void 0 === tmp6;
+    return "symbol" === _typeof(key) ? key : String(key);
+})), void 0 === tmp3;
 var _ref1 = [
     {
         x: 1
@@ -72,6 +72,6 @@ var _ref1 = [
     throw new TypeError("Invalid attempt to destructure non-iterable instance");
 }()), ref = __ref[0], ref = null !== ref ? ref : function(e) {
     throw e;
-}(new TypeError("Cannot destructure undefined")), tmp6 = __ref[1];
+}(new TypeError("Cannot destructure undefined")), tmp3 = __ref[1];
 _extends({
 }, _ref1[0]);

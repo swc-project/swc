@@ -8,9 +8,9 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-function foo() {
+function foo1() {
 }
-new foo();
+new foo1();
 var C = function(foo) {
     "use strict";
     function C() {
@@ -33,4 +33,4 @@ var C = function(foo) {
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(C, foo), C;
 } // error, cannot extend it though
-(foo);
+(foo1);

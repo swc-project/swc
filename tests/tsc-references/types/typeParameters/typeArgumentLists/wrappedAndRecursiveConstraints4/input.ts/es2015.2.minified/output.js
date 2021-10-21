@@ -1,5 +1,5 @@
 new class {
-    foo(x) {
+    foo(x1) {
         return function(x) {
             return x;
         };

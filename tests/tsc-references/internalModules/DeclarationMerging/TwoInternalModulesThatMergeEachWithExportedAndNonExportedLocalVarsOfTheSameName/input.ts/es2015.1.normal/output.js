@@ -1,7 +1,7 @@
 //@filename: part1.ts
-var A;
+var A1;
 (function(A) {
-    var Utils;
+    var Utils1;
     (function(Utils) {
         function mirror(p) {
             return {
@@ -10,14 +10,14 @@ var A;
             };
         }
         Utils.mirror = mirror;
-    })(Utils || (Utils = {
+    })(Utils1 || (Utils1 = {
     }));
     A.Origin = {
         x: 0,
         y: 0
     };
-    A.Utils = Utils;
-})(A || (A = {
+    A.Utils = Utils1;
+})(A1 || (A1 = {
 }));
 (function(A) {
     // not a collision, since we don't export
@@ -32,17 +32,17 @@ var A;
         Utils.Plane = Plane;
     })(Utils || (Utils = {
     }));
-})(A || (A = {
+})(A1 || (A1 = {
 }));
 //@filename: part3.ts
 // test the merging actually worked
 var o;
 var o;
-var o = A.Origin;
-var o = A.Utils.mirror(o);
-var p;
-var p;
-var p = new A.Utils.Plane(o, {
+var o = A1.Origin;
+var o = A1.Utils.mirror(o);
+var p1;
+var p1;
+var p1 = new A1.Utils.Plane(o, {
     x: 1,
     y: 1
 });

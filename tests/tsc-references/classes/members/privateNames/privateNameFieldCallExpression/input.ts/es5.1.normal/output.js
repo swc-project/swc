@@ -86,24 +86,24 @@ function _taggedTemplateLiteral(strings, raw) {
 function _toConsumableArray(arr) {
     return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
 }
-function _templateObject1() {
+function _templateObject() {
     var data = _taggedTemplateLiteral([
         "head",
         "middle",
         "tail"
     ]);
-    _templateObject1 = function _templateObject1() {
+    _templateObject = function _templateObject() {
         return data;
     };
     return data;
 }
-function _templateObject() {
+function _templateObject1() {
     var data = _taggedTemplateLiteral([
         "test",
         "and",
         ""
     ]);
-    _templateObject = function _templateObject() {
+    _templateObject1 = function _templateObject1() {
         return data;
     };
     return data;
@@ -155,8 +155,8 @@ var A = // @target: es2015
                 ].concat(_toConsumableArray(arr), [
                     3
                 ]));
-                var str = _classPrivateFieldGet(this, _fieldFunc2).bind(this)(_templateObject1(), 1, 2);
-                _classPrivateFieldGet(_ref = this.getInstance(), _fieldFunc2).bind(_ref)(_templateObject(), 1, 2);
+                var str = _classPrivateFieldGet(this, _fieldFunc2).bind(this)(_templateObject(), 1, 2);
+                _classPrivateFieldGet(_ref = this.getInstance(), _fieldFunc2).bind(_ref)(_templateObject1(), 1, 2);
             }
         },
         {

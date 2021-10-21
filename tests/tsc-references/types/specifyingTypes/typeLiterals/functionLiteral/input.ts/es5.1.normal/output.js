@@ -1,8 +1,8 @@
 // basic valid forms of function literals
-var x = function() {
+var x1 = function() {
     return 1;
 };
-var x;
+var x1;
 var y;
 var y;
 var y2 = function(x) {

@@ -34,7 +34,7 @@ function tup2(t, u) {
         3
     ]);
 }
-var t2 = tup2([
+var t21 = tup2([
     'hello'
 ], [
     10,
@@ -138,8 +138,8 @@ function f2(t) {
 }
 function f3(t) {
     var _t = _toArray(t), ax = _t.slice(0); // [string, ...T, number]
-    var _t1 = _toArray(t), b1 = _t1[0], bx = _t1.slice(1); // string, [...T, number]
-    var _t2 = _toArray(t), c1 = _t2[0], c2 = _t2[1], cx = _t2.slice(2); // string, [string, ...T, number][1], (number | T[number])[]
+    var _t3 = _toArray(t), b1 = _t3[0], bx = _t3.slice(1); // string, [...T, number]
+    var _t4 = _toArray(t), c1 = _t4[0], c2 = _t4[1], cx = _t4.slice(2); // string, [string, ...T, number][1], (number | T[number])[]
 }
 var tm1 = fm1([
     [
@@ -241,12 +241,12 @@ function f15(k0, k1, k2, k3) {
 }
 // Inference to [...T, ...U] with implied arity for T
 function curry(f) {
-    for(var _len = arguments.length, a = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
-        a[_key - 1] = arguments[_key];
+    for(var _len1 = arguments.length, a = new Array(_len1 > 1 ? _len1 - 1 : 0), _key1 = 1; _key1 < _len1; _key1++){
+        a[_key1 - 1] = arguments[_key1];
     }
     return function() {
-        for(var _len1 = arguments.length, b = new Array(_len1), _key1 = 0; _key1 < _len1; _key1++){
-            b[_key1] = arguments[_key1];
+        for(var _len = arguments.length, b = new Array(_len), _key = 0; _key < _len; _key++){
+            b[_key] = arguments[_key];
         }
         return f.apply(void 0, _toConsumableArray(a).concat(_toConsumableArray(b)));
     };
@@ -364,7 +364,7 @@ function f23(args) {
         42
     ]); // [string]
 }
-var b = a.bind("", 1); // Desc<[boolean], object>
+var b1 = a.bind("", 1); // Desc<[boolean], object>
 function callApi(method) {
     return function() {
         for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){

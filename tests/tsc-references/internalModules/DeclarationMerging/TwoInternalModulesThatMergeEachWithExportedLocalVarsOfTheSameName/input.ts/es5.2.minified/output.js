@@ -1,4 +1,5 @@
-export var A;
+var A1;
+export { A1 as A };
 !function(A) {
     var Utils;
     (Utils || (Utils = {
@@ -11,7 +12,7 @@ export var A;
         x: 0,
         y: 0
     }, A.Utils = Utils;
-}(A || (A = {
+}(A1 || (A1 = {
 })), (function(A) {
     var Utils1, Plane;
     A.Origin = {
@@ -24,5 +25,5 @@ export var A;
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
         })(this, Plane), this.tl = tl, this.br = br;
     }, Utils1.Plane = Plane;
-})(A || (A = {
+})(A1 || (A1 = {
 }));

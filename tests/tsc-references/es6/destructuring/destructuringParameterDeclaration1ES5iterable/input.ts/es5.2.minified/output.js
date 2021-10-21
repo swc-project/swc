@@ -77,7 +77,11 @@ a1([
     x: 200,
     y: !0
 }), (function(param) {
-    var ref = _slicedToArray(void 0 === param ? [void 0, null, void 0] : param, 3);
+    var ref = _slicedToArray(void 0 === param ? [
+        void 0,
+        null,
+        void 0
+    ] : param, 3);
     ref[0], ref[1], ref[2];
 })([
     "string",
@@ -85,8 +89,15 @@ a1([
     2
 ]), (function(param) {
     var ref = _slicedToArray(void 0 === param ? [
-        [void 0], void 0, [
-            [void 0, void 0]
+        [
+            void 0
+        ],
+        void 0,
+        [
+            [
+                void 0,
+                void 0
+            ]
         ]
     ] : param, 3), a = _slicedToArray(ref[0], 1)[0], b = ref[1], ref1 = _slicedToArray(_slicedToArray(ref[2], 1)[0], 2);
     ref1[0], ref1[1];
@@ -101,8 +112,8 @@ a1([
             !1
         ]
     ]
-]), (Foo1 = Foo2 || (Foo2 = {
-}))[Foo1.a = 0] = "a", c0({
+]), (Foo = Foo1 || (Foo1 = {
+}))[Foo.a = 0] = "a", c0({
     z: {
         x: 1,
         y: {
@@ -140,7 +151,7 @@ a1([
     !1,
     !0
 ]);
-var Foo1, Foo2, C2 = function() {
+var Foo, Foo1, C2 = function() {
     "use strict";
     function C2() {
         _classCallCheck(this, C2);

@@ -24,9 +24,9 @@ var ref = {
     stringIdentity: function(x) {
         return x;
     }
-}, tmp = ref.stringIdentity, id = tmp === void 0 ? function(arg) {
+}, tmp1 = ref.stringIdentity, id = tmp1 === void 0 ? function(arg) {
     return arg.length;
-} : tmp;
+} : tmp1;
 function g(param) {
     var _prop = param.prop, prop = _prop === void 0 ? [
         101,

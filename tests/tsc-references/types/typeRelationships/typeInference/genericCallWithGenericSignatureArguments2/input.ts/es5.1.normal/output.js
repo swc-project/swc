@@ -41,20 +41,20 @@ var onlyT;
     }, function(x) {
         return '';
     });
-    var E;
+    var E1;
     (function(E) {
         E[E["A"] = 0] = "A";
-    })(E || (E = {
+    })(E1 || (E1 = {
     }));
-    var F;
+    var F1;
     (function(F) {
         F[F["A"] = 0] = "A";
-    })(F || (F = {
+    })(F1 || (F1 = {
     }));
-    var r7 = foo3(E.A, function(x) {
-        return E.A;
+    var r71 = foo3(E1.A, function(x) {
+        return E1.A;
     }, function(x) {
-        return F.A;
+        return F1.A;
     }); // error
 })(onlyT || (onlyT = {
 }));
@@ -106,7 +106,7 @@ var TU;
         F[F["A"] = 0] = "A";
     })(F || (F = {
     }));
-    var r7 = foo3(E.A, function(x) {
+    var r72 = foo3(E.A, function(x) {
         return E.A;
     }, function(x) {
         return F.A;

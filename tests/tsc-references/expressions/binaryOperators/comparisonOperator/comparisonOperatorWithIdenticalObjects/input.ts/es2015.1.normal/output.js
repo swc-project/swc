@@ -9,7 +9,7 @@ class B1 {
     }
 }
 class Base {
-    fn(b) {
+    fn(b7) {
         return null;
     }
 }

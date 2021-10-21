@@ -2,43 +2,43 @@ function left(a, b = a, c = b) {
     a;
     b;
 }
-function right(a = b, b1 = a) {
+function right(a = b, b = a) {
     a;
-    b1;
+    b;
 }
-function right2(a = b, b1 = c, c1 = a) {
+function right2(a = b, b = c, c = a) {
     a;
-    b1;
-    c1;
+    b;
+    c;
 }
 function inside(a = b) {
-    var b1;
+    var b;
 }
 function outside() {
     var b;
     function inside(a = b) {
-        var b1;
+        var b;
     }
 }
 function defaultArgFunction(a = function() {
     return b;
-}, b1 = 1) {
+}, b = 1) {
 }
 function defaultArgArrow(a = ()=>()=>b
-, b1 = 3) {
+, b = 3) {
 }
 class C {
     method(a = b, b1 = 1) {
     }
-    constructor(a = b, b1 = 1){
+    constructor(a1 = b, b2 = 1){
     }
 }
 // Function expressions
-var x = (a = b, b1 = c, c1 = d)=>{
+var x = (a = b, b = c, c = d)=>{
     var d;
 };
 // Should not produce errors - can reference later parameters if they occur within a function expression initializer.
 function f(a, b = function() {
     return c;
-}, c1 = b()) {
+}, c = b()) {
 }

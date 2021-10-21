@@ -2601,7 +2601,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.77.0"
+version = "0.77.1"
 dependencies = [
  "bitflags",
  "memchr",
@@ -2788,7 +2788,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.40.0"
+version = "0.40.1"
 dependencies = [
  "once_cell",
  "phf",
@@ -2804,6 +2804,7 @@ dependencies = [
  "swc_ecma_utils",
  "swc_ecma_visit",
  "testing",
+ "tracing",
 ]
 
 [[package]]
@@ -2980,7 +2981,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.54.0"
+version = "0.54.1"
 dependencies = [
  "serde",
  "swc_atoms 0.2.9",
@@ -3002,7 +3003,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.48.0"
+version = "0.48.1"
 dependencies = [
  "once_cell",
  "rayon",

@@ -45,9 +45,9 @@ var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 // expected no error
-var B;
+var B1;
 (function(B) {
-    B.a = A;
+    B.a = A1;
     var D = /*#__PURE__*/ function(_C) {
         "use strict";
         _inherits(D, _C);
@@ -58,17 +58,17 @@ var B;
         return D;
     }(a.C);
     B.D = D;
-})(B || (B = {
+})(B1 || (B1 = {
 }));
-var A;
+var A1;
 (function(A) {
     var C = function C() {
         "use strict";
         _classCallCheck(this, C);
     };
     A.C = C;
-    A.b = B;
-})(A || (A = {
+    A.b = B1;
+})(A1 || (A1 = {
 }));
 var c;
-var c = new B.a.C();
+var c = new B1.a.C();

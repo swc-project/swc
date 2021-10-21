@@ -1,4 +1,4 @@
-var M;
+var M1;
 import regeneratorRuntime from "regenerator-runtime";
 !function(M) {
     var generator = regeneratorRuntime.mark(function() {
@@ -11,5 +11,5 @@ import regeneratorRuntime from "regenerator-runtime";
         }, generator);
     });
     M.generator = generator;
-}(M || (M = {
+}(M1 || (M1 = {
 }));

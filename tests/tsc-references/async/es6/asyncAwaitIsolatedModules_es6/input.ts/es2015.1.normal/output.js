@@ -35,13 +35,13 @@ function _f0() {
 function f0() {
     return _f0.apply(this, arguments);
 }
-function _f1() {
-    _f1 = _asyncToGenerator(function*() {
+function _f11() {
+    _f11 = _asyncToGenerator(function*() {
     });
-    return _f1.apply(this, arguments);
+    return _f11.apply(this, arguments);
 }
-function f1() {
-    return _f1.apply(this, arguments);
+function f14() {
+    return _f11.apply(this, arguments);
 }
 function _f3() {
     _f3 = _asyncToGenerator(function*() {
@@ -130,7 +130,7 @@ class C {
         })();
     }
 }
-var M;
+var M1;
 (function(M) {
     function _f1() {
         _f1 = _asyncToGenerator(function*() {
@@ -141,7 +141,7 @@ var M;
         return _f1.apply(this, arguments);
     }
     M.f1 = f1;
-})(M || (M = {
+})(M1 || (M1 = {
 }));
 // @target: ES6
 // @isolatedModules: true

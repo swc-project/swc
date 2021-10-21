@@ -6,13 +6,13 @@ class B {
 class C {
 }
 var a;
-var E;
+var E1;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {
+})(E1 || (E1 = {
 }));
 var b = {
-    foo: E.A
+    foo: E1.A
 };
 function foo5(x) {
 }

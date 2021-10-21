@@ -45,9 +45,11 @@ var temp = [
 [
     1,
     !0, 
-].concat(_toConsumableArray(temp)), _toConsumableArray(temp), _toConsumableArray(temp1), _toConsumableArray(temp1), _toConsumableArray(temp).concat(_toConsumableArray(temp1)), _toConsumableArray(a2), _toConsumableArray(a3), _toConsumableArray([function() {
+].concat(_toConsumableArray(temp)), _toConsumableArray(temp), _toConsumableArray(temp1), _toConsumableArray(temp1), _toConsumableArray(temp).concat(_toConsumableArray(temp1)), _toConsumableArray(a2), _toConsumableArray(a3), _toConsumableArray([
+    function() {
         return 1;
-    }, ]), _toConsumableArray(temp1), [
+    }, 
+]), _toConsumableArray(temp1), [
     _toConsumableArray(temp1)
 ].concat(_toConsumableArray([
     "hello"

@@ -29,7 +29,7 @@ function _objectSpread(target) {
 }
 // @strictNullChecks: true
 // @target: es5
-let o = {
+let o1 = {
     a: 1,
     b: 'no'
 };
@@ -42,14 +42,14 @@ let swap = {
     b: -1
 };
 let addAfter = _objectSpread({
-}, o, {
+}, o1, {
     c: false
 });
 let addBefore = _objectSpread({
     c: false
-}, o);
+}, o1);
 let override = _objectSpread({
-}, o, {
+}, o1, {
     b: 'override'
 });
 let nested = _objectSpread({
@@ -62,9 +62,9 @@ let nested = _objectSpread({
     c: 'whatever'
 });
 let combined = _objectSpread({
-}, o, o2);
+}, o1, o2);
 let combinedAfter = _objectSpread({
-}, o, o2, {
+}, o1, o2, {
     b: 'ok'
 });
 let combinedNestedChangeType = _objectSpread({
@@ -78,7 +78,7 @@ let combinedNestedChangeType = _objectSpread({
 });
 let propertyNested = {
     a: _objectSpread({
-    }, o)
+    }, o1)
 };
 // accessors don't copy the descriptor
 // (which means that readonly getters become read/write properties)
@@ -173,11 +173,11 @@ let cplus = _objectSpread({
 cplus.plus();
 // new field's type conflicting with existing field is OK
 let changeTypeAfter = _objectSpread({
-}, o, {
+}, o1, {
     a: 'wrong type?'
 });
 let changeTypeBoth = _objectSpread({
-}, o, swap);
+}, o1, swap);
 // optional
 function container(definiteBoolean, definiteString, optionalString, optionalNumber) {
     let optionalUnionStops = _objectSpread({
@@ -189,11 +189,11 @@ function container(definiteBoolean, definiteString, optionalString, optionalNumb
     // computed property
     let computedFirst = _objectSpread({
         ['before everything']: 12
-    }, o, {
+    }, o1, {
         b: 'yes'
     });
     let computedAfter = _objectSpread({
-    }, o, {
+    }, o1, {
         b: 'yeah',
         ['at the end']: 14
     });
@@ -201,7 +201,7 @@ function container(definiteBoolean, definiteString, optionalString, optionalNumb
 // shortcut syntax
 let a = 12;
 let shortCutted = _objectSpread({
-}, o, {
+}, o1, {
     a
 });
 // non primitive

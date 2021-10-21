@@ -1,6 +1,6 @@
 var o = {
-    [+"foo"] (y) {
-        return y.length;
+    [+"foo"] (y1) {
+        return y1.length;
     },
     [+"bar"]: (y)=>y.length
 };

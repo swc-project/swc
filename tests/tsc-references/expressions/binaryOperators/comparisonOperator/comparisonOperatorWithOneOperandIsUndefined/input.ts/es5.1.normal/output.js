@@ -1,10 +1,10 @@
 var x;
-var E;
+var E1;
 (function(E) {
     E[E["a"] = 0] = "a";
     E[E["b"] = 1] = "b";
     E[E["c"] = 2] = "c";
-})(E || (E = {
+})(E1 || (E1 = {
 }));
 function foo(t) {
     var foo_r1 = t < x;

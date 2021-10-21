@@ -32,15 +32,15 @@ function _slicedToArray(arr, i) {
 function _throw(e) {
     throw e;
 }
-function foo(param2, param1) {
-    var param2 = param2 !== null ? param2 : _throw(new TypeError("Cannot destructure undefined")), foo = param1.foo, bar = param1.bar;
+function foo(param, param1) {
+    var param = param !== null ? param : _throw(new TypeError("Cannot destructure undefined")), foo = param1.foo, bar = param1.bar;
 }
-function baz(param, param1) {
-    var _param = _slicedToArray(param, 0), foo = param1.foo, bar = param1.bar;
+function baz(param, param2) {
+    var _param = _slicedToArray(param, 0), foo = param2.foo, bar = param2.bar;
 }
-function one(param, param1) {
-    var _param = _slicedToArray(param, 0), param1 = param1 !== null ? param1 : _throw(new TypeError("Cannot destructure undefined"));
+function one(param, param3) {
+    var _param = _slicedToArray(param, 0), param3 = param3 !== null ? param3 : _throw(new TypeError("Cannot destructure undefined"));
 }
-function two(param, param1) {
-    var _param = _slicedToArray(param, 0), _param1 = _slicedToArray(param1, 3), a = _param1[0], b = _param1[1], c = _param1[2];
+function two(param, param4) {
+    var _param = _slicedToArray(param, 0), _param1 = _slicedToArray(param4, 3), a = _param1[0], b = _param1[1], c = _param1[2];
 }

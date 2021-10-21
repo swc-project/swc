@@ -107,9 +107,9 @@ var B3 = /*#__PURE__*/ function(A3) {
 }(A3);
 var TwoLevels;
 (function(TwoLevels) {
-    var A1 = function A1() {
+    var A = function A() {
         "use strict";
-        _classCallCheck(this, A1);
+        _classCallCheck(this, A);
     };
     var B = /*#__PURE__*/ function(A) {
         "use strict";
@@ -119,10 +119,10 @@ var TwoLevels;
             return _possibleConstructorReturn(this, _getPrototypeOf(B).apply(this, arguments));
         }
         return B;
-    }(A1);
-    var A21 = function A21() {
+    }(A);
+    var A2 = function A2() {
         "use strict";
-        _classCallCheck(this, A21);
+        _classCallCheck(this, A2);
     };
     var B2 = /*#__PURE__*/ function(A2) {
         "use strict";
@@ -132,10 +132,10 @@ var TwoLevels;
             return _possibleConstructorReturn(this, _getPrototypeOf(B2).apply(this, arguments));
         }
         return B2;
-    }(A21);
-    var A31 = function A31() {
+    }(A2);
+    var A3 = function A3() {
         "use strict";
-        _classCallCheck(this, A31);
+        _classCallCheck(this, A3);
     };
     var B3 = /*#__PURE__*/ function(A3) {
         "use strict";
@@ -145,6 +145,6 @@ var TwoLevels;
             return _possibleConstructorReturn(this, _getPrototypeOf(B3).apply(this, arguments));
         }
         return B3;
-    }(A31);
+    }(A3);
 })(TwoLevels || (TwoLevels = {
 }));

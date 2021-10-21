@@ -1,22 +1,22 @@
-var E;
+var E1;
 (function(E) {
     E[E["e1"] = 0] = "e1";
     E[E["e2"] = 1] = "e2";
-})(E || (E = {
+})(E1 || (E1 = {
 }));
 class A {
 }
 class A2 {
 }
-function f() {
+function f1() {
 }
 (function(f) {
     f.bar = 1;
-})(f || (f = {
+})(f1 || (f1 = {
 }));
-class c {
+class c1 {
 }
 (function(c) {
     c.bar = 1;
-})(c || (c = {
+})(c1 || (c1 = {
 }));

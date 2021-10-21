@@ -1,4 +1,4 @@
-var M;
+var M1;
 function _defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
         var descriptor = props[i];
@@ -23,5 +23,5 @@ function _defineProperties(target, props) {
         ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
     }();
     M.Symbol = Symbol;
-}(M || (M = {
+}(M1 || (M1 = {
 }));

@@ -85,8 +85,12 @@ var o = {
 };
 var clone = _extends({
 }, o);
-var a = o.a, justB = _objectWithoutProperties(o, ["a"]);
-var a = o.a, renamed = o.b, empty = _objectWithoutProperties(o, ["a", "b"
+var a = o.a, justB = _objectWithoutProperties(o, [
+    "a"
+]);
+var a = o.a, renamed = o.b, empty = _objectWithoutProperties(o, [
+    "a",
+    "b"
 ]);
 var renamed = o['b'], justA = _objectWithoutProperties(o, [
     'b'
@@ -106,29 +110,39 @@ var renamed = o2.d, d = _objectWithoutProperties(o2, [
 ]);
 var nestedrest;
 var x = nestedrest.x, _n1 = nestedrest.n1, y = _n1.y, _n2 = _n1.n2, z = _n2.z, nr = _extends({
-}, nestedrest.n1.n2.n3), restrest = _objectWithoutProperties(nestedrest, ["x", "n1"
+}, nestedrest.n1.n2.n3), restrest = _objectWithoutProperties(nestedrest, [
+    "x",
+    "n1"
 ]);
 var complex;
-var _x = complex.x, ka = _x.ka, other = complex.y, nested = _objectWithoutProperties(complex.x, ["ka"]), rest = _objectWithoutProperties(complex, [
+var _x = complex.x, ka = _x.ka, other = complex.y, nested = _objectWithoutProperties(complex.x, [
+    "ka"
+]), rest = _objectWithoutProperties(complex, [
     "x",
     "y"
 ]);
 var _complex;
 var ref;
-_complex = complex, nested = _objectWithoutProperties(_complex.x, ["ka"]), rest = _objectWithoutProperties(_complex, [
+_complex = complex, nested = _objectWithoutProperties(_complex.x, [
+    "ka"
+]), rest = _objectWithoutProperties(_complex, [
     "x",
     "y"
 ]), ref = _complex, ({ ka  } = ref.x), other = ref.y, ref, _complex;
 var _ref = {
     x: 1,
     y: 2
-}, x = _ref.x, fresh = _objectWithoutProperties(_ref, ["x"]);
+}, x = _ref.x, fresh = _objectWithoutProperties(_ref, [
+    "x"
+]);
 var _tmp;
 var ref1;
 _tmp = {
     x: 1,
     y: 2
-}, fresh = _objectWithoutProperties(_tmp, ["x"]), ref1 = _tmp, x = ref1.x, ref1, _tmp;
+}, fresh = _objectWithoutProperties(_tmp, [
+    "x"
+]), ref1 = _tmp, x = ref1.x, ref1, _tmp;
 var Removable = /*#__PURE__*/ function() {
     "use strict";
     function Removable() {
@@ -157,9 +171,13 @@ var Removable = /*#__PURE__*/ function() {
     return Removable;
 }();
 var removable = new Removable();
-var removed = removable.removed, removableRest = _objectWithoutProperties(removable, ["removed"]);
-var i = removable;
-var removed = i.removed, removableRest2 = _objectWithoutProperties(i, ["removed"]);
+var removed = removable.removed, removableRest = _objectWithoutProperties(removable, [
+    "removed"
+]);
+var i1 = removable;
+var removed = i1.removed, removableRest2 = _objectWithoutProperties(i1, [
+    "removed"
+]);
 var computed = 'b';
 var computed2 = 'a';
 var stillNotGreat = o[computed], soSo = o[computed2], o = _objectWithoutProperties(o, [
@@ -173,6 +191,8 @@ _o = o, o = _objectWithoutProperties(_o, [
     computed2
 ].map(_toPropertyKey)), ref2 = _o, stillNotGreat = ref2[computed], soSo = ref2[computed2], ref2, _o;
 var noContextualType = function(_param) {
-    var _aNumber = _param.aNumber, aNumber = _aNumber === void 0 ? 12 : _aNumber, notEmptyObject = _objectWithoutProperties(_param, ["aNumber"]);
+    var _aNumber = _param.aNumber, aNumber = _aNumber === void 0 ? 12 : _aNumber, notEmptyObject = _objectWithoutProperties(_param, [
+        "aNumber"
+    ]);
     return aNumber + notEmptyObject.anythingGoes;
 };

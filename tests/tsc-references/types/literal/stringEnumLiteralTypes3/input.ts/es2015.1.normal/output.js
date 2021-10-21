@@ -1,9 +1,9 @@
-var Choice;
+var Choice1;
 (function(Choice) {
     Choice["Unknown"] = "";
     Choice["Yes"] = "yes";
     Choice["No"] = "no";
-})(Choice || (Choice = {
+})(Choice1 || (Choice1 = {
 }));
 function f1(a, b, c, d) {
     a = a;
@@ -30,32 +30,32 @@ function f4(a, b, c, d) {
     d = d;
 }
 function f5(a, b, c, d) {
-    a = Choice.Unknown;
-    a = Choice.Yes;
-    a = Choice.No;
-    b = Choice.Unknown;
-    b = Choice.Yes;
-    b = Choice.No;
-    c = Choice.Unknown;
-    c = Choice.Yes;
-    c = Choice.No;
-    d = Choice.Unknown;
-    d = Choice.Yes;
-    d = Choice.No;
+    a = Choice1.Unknown;
+    a = Choice1.Yes;
+    a = Choice1.No;
+    b = Choice1.Unknown;
+    b = Choice1.Yes;
+    b = Choice1.No;
+    c = Choice1.Unknown;
+    c = Choice1.Yes;
+    c = Choice1.No;
+    d = Choice1.Unknown;
+    d = Choice1.Yes;
+    d = Choice1.No;
 }
 function f6(a, b, c, d) {
-    a === Choice.Unknown;
-    a === Choice.Yes;
-    a === Choice.No;
-    b === Choice.Unknown;
-    b === Choice.Yes;
-    b === Choice.No;
-    c === Choice.Unknown;
-    c === Choice.Yes;
-    c === Choice.No;
-    d === Choice.Unknown;
-    d === Choice.Yes;
-    d === Choice.No;
+    a === Choice1.Unknown;
+    a === Choice1.Yes;
+    a === Choice1.No;
+    b === Choice1.Unknown;
+    b === Choice1.Yes;
+    b === Choice1.No;
+    c === Choice1.Unknown;
+    c === Choice1.Yes;
+    c === Choice1.No;
+    d === Choice1.Unknown;
+    d === Choice1.Yes;
+    d === Choice1.No;
 }
 function f7(a, b, c, d) {
     a === a;
@@ -77,44 +77,44 @@ function f7(a, b, c, d) {
 }
 function f10(x) {
     switch(x){
-        case Choice.Unknown:
+        case Choice1.Unknown:
             return x;
-        case Choice.Yes:
+        case Choice1.Yes:
             return x;
-        case Choice.No:
+        case Choice1.No:
             return x;
     }
     return x;
 }
 function f11(x) {
     switch(x){
-        case Choice.Unknown:
+        case Choice1.Unknown:
             return x;
-        case Choice.Yes:
+        case Choice1.Yes:
             return x;
-        case Choice.No:
+        case Choice1.No:
             return x;
     }
     return x;
 }
 function f12(x) {
     switch(x){
-        case Choice.Unknown:
+        case Choice1.Unknown:
             return x;
-        case Choice.Yes:
+        case Choice1.Yes:
             return x;
-        case Choice.No:
+        case Choice1.No:
             return x;
     }
     return x;
 }
 function f13(x) {
     switch(x){
-        case Choice.Unknown:
+        case Choice1.Unknown:
             return x;
-        case Choice.Yes:
+        case Choice1.Yes:
             return x;
-        case Choice.No:
+        case Choice1.No:
             return x;
     }
     return x;

@@ -13,10 +13,10 @@ class Sub extends Base {
 }
 class Test extends Base {
     // @ts-ignore
-    constructor(p){
+    constructor(p1){
         1;
         super();
-        this.p = p;
+        this.p = p1;
         this.prop = 1;
     }
 }

@@ -8,22 +8,22 @@ function _taggedTemplateLiteral(strings, raw) {
         }
     }));
 }
-function _templateObject1() {
+function _templateObject() {
     var data = _taggedTemplateLiteral([
         "abc"
     ]);
-    _templateObject1 = function _templateObject1() {
+    _templateObject = function _templateObject() {
         return data;
     };
     return data;
 }
-function _templateObject() {
+function _templateObject1() {
     var data = _taggedTemplateLiteral([
         "abc",
         "def",
         "ghi"
     ]);
-    _templateObject = function _templateObject() {
+    _templateObject1 = function _templateObject1() {
         return data;
     };
     return data;
@@ -133,8 +133,8 @@ function _templateObject11() {
     return data;
 }
 var f;
-f(_templateObject1());
-f(_templateObject(), 1, 2);
+f(_templateObject());
+f(_templateObject1(), 1, 2);
 f(_templateObject2()).member;
 f(_templateObject3(), 1, 2).member;
 f(_templateObject4())["member"];

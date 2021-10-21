@@ -58,13 +58,13 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
-var A = // @declaration: true
+var A1 = // @declaration: true
 /*#__PURE__*/ function() {
     "use strict";
-    function A() {
-        _classCallCheck(this, A);
+    function A1() {
+        _classCallCheck(this, A1);
     }
-    _createClass(A, [
+    _createClass(A1, [
         {
             key: "method",
             value: function method() {
@@ -76,7 +76,7 @@ var A = // @declaration: true
                         {
                             key: "method",
                             value: function method() {
-                                new A(); // OK
+                                new A1(); // OK
                             }
                         }
                     ]);
@@ -89,18 +89,18 @@ var A = // @declaration: true
                         return _possibleConstructorReturn(this, _getPrototypeOf(C).apply(this, arguments));
                     }
                     return C;
-                }(A);
+                }(A1);
             }
         }
     ]);
-    return A;
+    return A1;
 }();
-var D = /*#__PURE__*/ function() {
+var D1 = /*#__PURE__*/ function() {
     "use strict";
-    function D() {
-        _classCallCheck(this, D);
+    function D1() {
+        _classCallCheck(this, D1);
     }
-    _createClass(D, [
+    _createClass(D1, [
         {
             key: "method",
             value: function method() {
@@ -112,7 +112,7 @@ var D = /*#__PURE__*/ function() {
                         {
                             key: "method",
                             value: function method() {
-                                new D(); // OK
+                                new D1(); // OK
                             }
                         }
                     ]);
@@ -125,9 +125,9 @@ var D = /*#__PURE__*/ function() {
                         return _possibleConstructorReturn(this, _getPrototypeOf(F).apply(this, arguments));
                     }
                     return F;
-                }(D);
+                }(D1);
             }
         }
     ]);
-    return D;
+    return D1;
 }();

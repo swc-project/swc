@@ -16,7 +16,7 @@ var ns = {
 };
 ns.x = {
     status: 'done',
-    m (n) {
+    m (n1) {
     }
 };
 ns.x;
@@ -40,20 +40,20 @@ class Thing {
 // exports-property assignment
 /** @type {DoneStatus} */ exports.x = {
     status: "done",
-    m (n) {
+    m (n2) {
     }
 };
 exports.x;
 /** @type {DoneStatus} */ module.exports.y = {
     status: "done",
-    m (n) {
+    m (n3) {
     }
 };
 module.exports.y;
 // prototype-property assignment
 /** @type {DoneStatus} */ Thing.prototype.x = {
     status: 'done',
-    m (n) {
+    m (n4) {
     }
 };
 Thing.prototype.x;
@@ -62,13 +62,13 @@ function F() {
 }
 /** @type {DoneStatus} */ F.prototype = {
     status: "done",
-    m (n) {
+    m (n5) {
     }
 };
 // @Filename: mod.js
 // module.exports assignment
 /** @type {{ status: 'done', m(n: number): void }} */ module.exports = {
     status: "done",
-    m (n) {
+    m (n6) {
     }
 };

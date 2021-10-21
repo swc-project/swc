@@ -64,7 +64,7 @@ var D = function D() {
 function F(x) {
     return 42;
 }
-var M;
+var M1;
 (function(M) {
     var F2 = function F2(x) {
         return x.toString();
@@ -75,7 +75,7 @@ var M;
     };
     M.A = A;
     M.F2 = F2;
-})(M || (M = {
+})(M1 || (M1 = {
 }));
 // all of these are errors
 for(var a;;){
@@ -88,7 +88,7 @@ for(var a = new C();;){
 }
 for(var a = new D();;){
 }
-for(var a = M;;){
+for(var a = M1;;){
 }
 for(var b;;){
 }
@@ -125,5 +125,5 @@ for(var arr2 = new Array();;){
 }
 for(var m;;){
 }
-for(var m = M.A;;){
+for(var m = M1.A;;){
 }

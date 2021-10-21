@@ -1,6 +1,6 @@
-var A;
+var A1;
 !function(A) {
-    var B;
+    var B1;
     class Point {
         constructor(x, y){
             this.x = x, this.y = y;
@@ -19,7 +19,7 @@ var A;
             }
         }
         B.Line = Line;
-    })(B || (B = {
-    })), A.B = B;
-}(A || (A = {
+    })(B1 || (B1 = {
+    })), A.B = B1;
+}(A1 || (A1 = {
 }));

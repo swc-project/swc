@@ -4,6 +4,6 @@ class C {
     }
 }
 class D {
-    constructor(x, z = "hello"){
+    constructor(x1, z = "hello"){
     }
 }

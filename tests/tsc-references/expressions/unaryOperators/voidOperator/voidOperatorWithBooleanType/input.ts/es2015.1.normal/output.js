@@ -8,11 +8,11 @@ class A {
         return false;
     }
 }
-var M;
+var M1;
 (function(M) {
     var n;
     M.n = n;
-})(M || (M = {
+})(M1 || (M1 = {
 }));
 var objA = new A();
 // boolean type var
@@ -25,7 +25,7 @@ var ResultIsAny3 = void {
 };
 // boolean type expressions
 var ResultIsAny4 = void objA.a;
-var ResultIsAny5 = void M.n;
+var ResultIsAny5 = void M1.n;
 var ResultIsAny6 = void foo();
 var ResultIsAny7 = void A.foo();
 // multiple void  operator
@@ -36,4 +36,4 @@ void BOOLEAN;
 void foo();
 true, false;
 void objA.a;
-void M.n;
+void M1.n;

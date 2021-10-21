@@ -8,12 +8,12 @@ class Item {
 }
 class Options {
 }
-var E;
+var E1;
 (function(E) {
     E[E["A"] = 0] = "A";
     E[E["B"] = 1] = "B";
     E[E["C"] = 2] = "C";
-})(E || (E = {
+})(E1 || (E1 = {
 }));
 function getProperty(obj, key) {
     return obj[key];
@@ -44,11 +44,11 @@ function f13(foo, bar) {
     let z = getProperty(foo, bar); // any
 }
 class Component {
-    getProperty(key) {
-        return this.props[key];
+    getProperty(key2) {
+        return this.props[key2];
     }
-    setProperty(key, value) {
-        this.props[key] = value;
+    setProperty(key1, value3) {
+        this.props[key1] = value3;
     }
 }
 function f20(component) {
@@ -248,11 +248,11 @@ function f84() {
     }, "bar"); // number
 }
 class C1 {
-    get(key) {
-        return this[key];
+    get(key4) {
+        return this[key4];
     }
-    set(key, value) {
-        this[key] = value;
+    set(key3, value1) {
+        this[key3] = value1;
     }
     foo() {
         let x1 = this.x; // number
@@ -293,8 +293,8 @@ class Base {
     get(prop) {
         return this[prop];
     }
-    set(prop, value) {
-        this[prop] = value;
+    set(prop1, value2) {
+        this[prop1] = value2;
     }
 }
 class Person extends Base {
@@ -310,8 +310,8 @@ class OtherPerson {
     getParts() {
         return getProperty(this, "parts");
     }
-    constructor(parts){
-        setProperty(this, "parts", parts);
+    constructor(parts1){
+        setProperty(this, "parts", parts1);
     }
 }
 function path(obj, ...keys) {
@@ -354,7 +354,7 @@ function f(p) {
     let a;
     a[p].add; // any
 }
-let result = dispatchMethod("someMethod", [
+let result1 = dispatchMethod("someMethod", [
     "hello",
     35
 ]);
@@ -390,8 +390,8 @@ class B extends A {
 }
 // Repro from #13749
 class Form {
-    set(prop, value) {
-        this.childFormFactories[prop](value);
+    set(prop2, value) {
+        this.childFormFactories[prop2](value);
     }
 }
 // Repro from #13787
@@ -404,11 +404,11 @@ class AnotherSampleClass extends SampleClass {
     brokenMethod() {
         this.props.foo.concat;
     }
-    constructor(props){
+    constructor(props1){
         const foo = {
             foo: "bar"
         };
-        super(merge(props, foo));
+        super(merge(props1, foo));
     }
 }
 new AnotherSampleClass({
@@ -421,11 +421,11 @@ function f3(t, k, tk) {
         t[key] = tk; // ok, T[K] ==> T[keyof T]
     }
 }
-var Flag;
+var Flag1;
 (function(Flag) {
     Flag["FLAG_1"] = "flag_1";
     Flag["FLAG_2"] = "flag_2";
-})(Flag || (Flag = {
+})(Flag1 || (Flag1 = {
 }));
 function getFlagsFromSimpleRecord(record, flags) {
     return record[flags[0]];

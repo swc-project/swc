@@ -32,7 +32,7 @@ var C = /*#__PURE__*/ function() {
         },
         {
             key: "bar",
-            value: function bar(x) {
+            value: function bar(x1) {
                 C.bar = function() {
                 } // error
                 ;

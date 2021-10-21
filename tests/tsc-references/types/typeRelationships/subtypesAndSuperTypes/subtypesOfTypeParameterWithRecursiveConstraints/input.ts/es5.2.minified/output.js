@@ -34,123 +34,123 @@ var M1, M2, _typeof = function(obj) {
     _classCallCheck(this, Foo);
 };
 !function(M1) {
-    var Base = function() {
+    var Base1 = function() {
         "use strict";
-        _classCallCheck(this, Base);
+        _classCallCheck(this, Base1);
     }, D1 = function(Base) {
         "use strict";
         function D1() {
             return _classCallCheck(this, D1), _possibleConstructorReturn(this, _getPrototypeOf(D1).apply(this, arguments));
         }
         return _inherits(D1, Base), D1;
-    }(Base), D2 = function(Base) {
+    }(Base1), D2 = function(Base) {
         "use strict";
         function D2() {
             return _classCallCheck(this, D2), _possibleConstructorReturn(this, _getPrototypeOf(D2).apply(this, arguments));
         }
         return _inherits(D2, Base), D2;
-    }(Base), D3 = function(Base) {
+    }(Base1), D3 = function(Base) {
         "use strict";
         function D3() {
             return _classCallCheck(this, D3), _possibleConstructorReturn(this, _getPrototypeOf(D3).apply(this, arguments));
         }
         return _inherits(D3, Base), D3;
-    }(Base), D4 = function(Base) {
+    }(Base1), D4 = function(Base) {
         "use strict";
         function D4() {
             return _classCallCheck(this, D4), _possibleConstructorReturn(this, _getPrototypeOf(D4).apply(this, arguments));
         }
         return _inherits(D4, Base), D4;
-    }(Base), D5 = function(Base) {
+    }(Base1), D5 = function(Base) {
         "use strict";
         function D5() {
             return _classCallCheck(this, D5), _possibleConstructorReturn(this, _getPrototypeOf(D5).apply(this, arguments));
         }
         return _inherits(D5, Base), D5;
-    }(Base), D6 = function(Base) {
+    }(Base1), D6 = function(Base) {
         "use strict";
         function D6() {
             return _classCallCheck(this, D6), _possibleConstructorReturn(this, _getPrototypeOf(D6).apply(this, arguments));
         }
         return _inherits(D6, Base), D6;
-    }(Base), D7 = function(Base) {
+    }(Base1), D7 = function(Base) {
         "use strict";
         function D7() {
             return _classCallCheck(this, D7), _possibleConstructorReturn(this, _getPrototypeOf(D7).apply(this, arguments));
         }
         return _inherits(D7, Base), D7;
-    }(Base), D8 = function(Base) {
+    }(Base1), D8 = function(Base) {
         "use strict";
         function D8() {
             return _classCallCheck(this, D8), _possibleConstructorReturn(this, _getPrototypeOf(D8).apply(this, arguments));
         }
         return _inherits(D8, Base), D8;
-    }(Base), D9 = function(Base) {
+    }(Base1), D9 = function(Base) {
         "use strict";
         function D9() {
             return _classCallCheck(this, D9), _possibleConstructorReturn(this, _getPrototypeOf(D9).apply(this, arguments));
         }
         return _inherits(D9, Base), D9;
-    }(Base);
+    }(Base1);
 }(M1 || (M1 = {
 })), (function(M2) {
-    var Base2 = function() {
+    var Base21 = function() {
         "use strict";
-        _classCallCheck(this, Base2);
+        _classCallCheck(this, Base21);
     }, D1 = function(Base2) {
         "use strict";
         function D1() {
             return _classCallCheck(this, D1), _possibleConstructorReturn(this, _getPrototypeOf(D1).apply(this, arguments));
         }
         return _inherits(D1, Base2), D1;
-    }(Base2), D2 = function(Base2) {
+    }(Base21), D2 = function(Base2) {
         "use strict";
         function D2() {
             return _classCallCheck(this, D2), _possibleConstructorReturn(this, _getPrototypeOf(D2).apply(this, arguments));
         }
         return _inherits(D2, Base2), D2;
-    }(Base2), D3 = function(Base2) {
+    }(Base21), D3 = function(Base2) {
         "use strict";
         function D3() {
             return _classCallCheck(this, D3), _possibleConstructorReturn(this, _getPrototypeOf(D3).apply(this, arguments));
         }
         return _inherits(D3, Base2), D3;
-    }(Base2), D4 = function(Base2) {
+    }(Base21), D4 = function(Base2) {
         "use strict";
         function D4() {
             return _classCallCheck(this, D4), _possibleConstructorReturn(this, _getPrototypeOf(D4).apply(this, arguments));
         }
         return _inherits(D4, Base2), D4;
-    }(Base2), D5 = function(Base2) {
+    }(Base21), D5 = function(Base2) {
         "use strict";
         function D5() {
             return _classCallCheck(this, D5), _possibleConstructorReturn(this, _getPrototypeOf(D5).apply(this, arguments));
         }
         return _inherits(D5, Base2), D5;
-    }(Base2), D6 = function(Base2) {
+    }(Base21), D6 = function(Base2) {
         "use strict";
         function D6() {
             return _classCallCheck(this, D6), _possibleConstructorReturn(this, _getPrototypeOf(D6).apply(this, arguments));
         }
         return _inherits(D6, Base2), D6;
-    }(Base2), D7 = function(Base2) {
+    }(Base21), D7 = function(Base2) {
         "use strict";
         function D7() {
             return _classCallCheck(this, D7), _possibleConstructorReturn(this, _getPrototypeOf(D7).apply(this, arguments));
         }
         return _inherits(D7, Base2), D7;
-    }(Base2), D8 = function(Base2) {
+    }(Base21), D8 = function(Base2) {
         "use strict";
         function D8() {
             return _classCallCheck(this, D8), _possibleConstructorReturn(this, _getPrototypeOf(D8).apply(this, arguments));
         }
         return _inherits(D8, Base2), D8;
-    }(Base2), D9 = function(Base2) {
+    }(Base21), D9 = function(Base2) {
         "use strict";
         function D9() {
             return _classCallCheck(this, D9), _possibleConstructorReturn(this, _getPrototypeOf(D9).apply(this, arguments));
         }
         return _inherits(D9, Base2), D9;
-    }(Base2);
+    }(Base21);
 })(M2 || (M2 = {
 }));

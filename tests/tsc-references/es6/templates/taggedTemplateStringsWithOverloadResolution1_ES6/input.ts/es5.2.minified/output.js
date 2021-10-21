@@ -5,20 +5,20 @@ function _taggedTemplateLiteral(strings, raw) {
         }
     }));
 }
-function _templateObject1() {
+function _templateObject() {
     var data = _taggedTemplateLiteral([
         ""
     ]);
-    return _templateObject1 = function _templateObject1() {
+    return _templateObject = function _templateObject() {
         return data;
     }, data;
 }
-function _templateObject() {
+function _templateObject1() {
     var data = _taggedTemplateLiteral([
         "",
         ""
     ]);
-    return _templateObject = function _templateObject() {
+    return _templateObject1 = function _templateObject1() {
         return data;
     }, data;
 }
@@ -66,4 +66,4 @@ function _templateObject5() {
 function foo() {
     for(var _len = arguments.length, stuff = new Array(_len), _key = 0; _key < _len; _key++)stuff[_key] = arguments[_key];
 }
-foo([]), foo([], 1), foo([], 1, 2), foo([], 1, !0), foo([], 1, "2"), foo([], 1, 2, 3), foo(_templateObject1()), foo(_templateObject(), 1), foo(_templateObject2(), 1, 2), foo(_templateObject3(), 1, !0), foo(_templateObject4(), 1, "2"), foo(_templateObject5(), 1, 2, 3);
+foo([]), foo([], 1), foo([], 1, 2), foo([], 1, !0), foo([], 1, "2"), foo([], 1, 2, 3), foo(_templateObject()), foo(_templateObject1(), 1), foo(_templateObject2(), 1, 2), foo(_templateObject3(), 1, !0), foo(_templateObject4(), 1, "2"), foo(_templateObject5(), 1, 2, 3);

@@ -6,21 +6,21 @@ function _taggedTemplateLiteral(strings, raw) {
         }
     }));
 }
-function _templateObject1() {
+function _templateObject() {
     var data = _taggedTemplateLiteral([
         "abc"
     ]);
-    return _templateObject1 = function _templateObject1() {
+    return _templateObject = function _templateObject() {
         return data;
     }, data;
 }
-function _templateObject() {
+function _templateObject1() {
     var data = _taggedTemplateLiteral([
         "abc",
         "def",
         "ghi"
     ]);
-    return _templateObject = function _templateObject() {
+    return _templateObject1 = function _templateObject1() {
         return data;
     }, data;
 }
@@ -116,4 +116,4 @@ function _templateObject11() {
         return data;
     }, data;
 }
-f(_templateObject1()), f(_templateObject(), 1, 2), f.g.h(_templateObject2()), f.g.h(_templateObject3(), 1, 2), f(_templateObject4()).member, f(_templateObject5(), 1, 2).member, f(_templateObject6()).member, f(_templateObject7(), 1, 2).member, f(_templateObject8()).member.someOtherTag(_templateObject9(), 1, 2), f(_templateObject10(), 1, 2).member.someOtherTag(_templateObject11(), 1, 2), f.thisIsNotATag("abc"), f.thisIsNotATag("abc".concat(1, "def", 2, "ghi"));
+f(_templateObject()), f(_templateObject1(), 1, 2), f.g.h(_templateObject2()), f.g.h(_templateObject3(), 1, 2), f(_templateObject4()).member, f(_templateObject5(), 1, 2).member, f(_templateObject6()).member, f(_templateObject7(), 1, 2).member, f(_templateObject8()).member.someOtherTag(_templateObject9(), 1, 2), f(_templateObject10(), 1, 2).member.someOtherTag(_templateObject11(), 1, 2), f.thisIsNotATag("abc"), f.thisIsNotATag("abc".concat(1, "def", 2, "ghi"));

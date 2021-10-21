@@ -4,10 +4,10 @@ class C {
     }
 }
 class C2 {
-    static f(x) {
+    static f(x1) {
     }
 }
 class C3 {
-    static f(x) {
+    static f(x2) {
     }
 }

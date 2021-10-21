@@ -4,7 +4,7 @@
 // @skipLibCheck: true
 // @libFiles: react.d.ts,lib.d.ts
 import * as React from "react";
-let a = /*#__PURE__*/ React.createElement(GenericComponent, {
+let a1 = /*#__PURE__*/ React.createElement(GenericComponent, {
     initialValues: {
         x: "y"
     },

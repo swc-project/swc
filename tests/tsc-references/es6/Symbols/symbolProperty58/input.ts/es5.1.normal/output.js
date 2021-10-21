@@ -11,5 +11,5 @@ function _defineProperty(obj, key, value) {
     }
     return obj;
 }
-var obj = _defineProperty({
+var obj1 = _defineProperty({
 }, Symbol.foo, 0);

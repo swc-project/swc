@@ -1,8 +1,8 @@
-const c1 = 3;
-const d1 = 4;
-export { c1 as d };
-export { d1 as c };
+const c = 3;
+const d = 4;
+export { c as d };
+export { d as c };
 const e = 5;
-const b1 = 1;
+const b = 1;
 export { e as a };
-export { b1 as b };
+export { b as b };

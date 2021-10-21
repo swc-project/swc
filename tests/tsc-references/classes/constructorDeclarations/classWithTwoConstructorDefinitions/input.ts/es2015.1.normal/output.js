@@ -3,6 +3,6 @@ class C {
     }
 }
 class D {
-    constructor(x, y){
+    constructor(x1, y){
     }
 }

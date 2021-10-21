@@ -38,7 +38,7 @@ var _typeof = function(obj) {
 }, AbstractBase = function() {
     "use strict";
     _classCallCheck(this, AbstractBase);
-}, MixedBase = function(baseClass) {
+}, MixedBase1 = function(baseClass1) {
     var MixinClass = function(baseClass) {
         "use strict";
         var Constructor, protoProps, staticProps;
@@ -52,7 +52,7 @@ var _typeof = function(obj) {
                 }
             }
         ], _defineProperties((Constructor = MixinClass).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), MixinClass;
-    }(baseClass);
+    }(baseClass1);
     return MixinClass;
 }(AbstractBase), DerivedFromAbstract = function(MixedBase) {
     "use strict";
@@ -60,5 +60,5 @@ var _typeof = function(obj) {
         return _classCallCheck(this, DerivedFromAbstract), _possibleConstructorReturn(this, _getPrototypeOf(DerivedFromAbstract).apply(this, arguments));
     }
     return _inherits(DerivedFromAbstract, MixedBase), DerivedFromAbstract;
-}(MixedBase);
-new MixedBase();
+}(MixedBase1);
+new MixedBase1();

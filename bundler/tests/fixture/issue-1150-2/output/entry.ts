@@ -14,8 +14,8 @@ class A {
     #c;
     constructor(o = {
     }){
-        const { a: a1 = a , c ,  } = o;
-        this.#a = a1;
+        const { a: a2 = a , c ,  } = o;
+        this.#a = a2;
         this.#c = c;
     }
     a() {

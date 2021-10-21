@@ -96,13 +96,13 @@ var Poisoned = /*#__PURE__*/ function(_Component) {
     ]);
     return Poisoned;
 }(React.Component);
-var obj = {
+var obj1 = {
     x: "hello world",
     y: 2
 };
 // OK
-var p = /*#__PURE__*/ React.createElement(Poisoned, _extends({
-}, obj));
+var p1 = /*#__PURE__*/ React.createElement(Poisoned, _extends({
+}, obj1));
 var EmptyProp = /*#__PURE__*/ function(_Component) {
     "use strict";
     _inherits(EmptyProp, _Component);

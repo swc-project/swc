@@ -1,9 +1,9 @@
 // @lib: es5
-var id = 10000;
-var name = "my name";
+var id1 = 10000;
+var name1 = "my name";
 var person = {
-    name: name,
-    id: id
+    name: name1,
+    id: id1
 }; // error
 var person1; // ok
 function foo(name, id) {
@@ -15,6 +15,6 @@ function foo(name, id) {
 function bar(obj) {
 }
 bar({
-    name: name,
-    id: id
+    name: name1,
+    id: id1
 }); // error

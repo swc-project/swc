@@ -52,5 +52,7 @@ var x1 = numMapPoint.x, q = function(source, excluded) {
         for(i = 0; i < sourceSymbolKeys.length; i++)key = sourceSymbolKeys[i], !(excluded.indexOf(key) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
     }
     return target;
-}(numMapPoint, ["x"]);
+}(numMapPoint, [
+    "x"
+]);
 x1.toFixed(), q.y.toFixed(), q.z.toFixed(), target_string = strArray[0], target_string_undef = strArray[0], target_string_arr = strArray.slice(3), (ref = numMapPoint).x, ref.y, ref.z;

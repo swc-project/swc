@@ -126,9 +126,9 @@ var E = function E(foo2) {
     };
     this.foo1 = '';
 };
-var F = function F() {
+var F1 = function F1() {
     "use strict";
-    _classCallCheck(this, F);
+    _classCallCheck(this, F1);
     this.Inner = /*#__PURE__*/ (function(F) {
         _inherits(_class, F);
         function _class() {
@@ -139,12 +139,12 @@ var F = function F() {
             return _this;
         }
         return _class;
-    })(F);
+    })(F1);
     this.p1 = 0;
 };
-var G = function G(p1) {
+var G1 = function G1(p1) {
     "use strict";
-    _classCallCheck(this, G);
+    _classCallCheck(this, G1);
     this.p1 = p1;
     this.Inner = /*#__PURE__*/ (function(G) {
         _inherits(_class, G);
@@ -156,5 +156,5 @@ var G = function G(p1) {
             return _this;
         }
         return _class;
-    })(G);
+    })(G1);
 };

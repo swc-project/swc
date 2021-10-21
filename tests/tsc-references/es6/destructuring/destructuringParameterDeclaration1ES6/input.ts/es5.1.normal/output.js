@@ -128,7 +128,7 @@ function b7(param) {
                 undefined
             ]
         ]
-    ] : param, 3), ref1 = _slicedToArray(ref[0], 1), a = ref1[0], b = ref[1], ref4 = _slicedToArray(ref[2], 1), ref5 = _slicedToArray(ref4[0], 2), c = ref5[0], d = ref5[1];
+    ] : param, 3), ref2 = _slicedToArray(ref[0], 1), a = ref2[0], b = ref[1], ref3 = _slicedToArray(ref[2], 1), ref4 = _slicedToArray(ref3[0], 2), c = ref4[0], d = ref4[1];
 }
 b1([
     1,
@@ -144,10 +144,10 @@ b2("string", {
     y: true
 });
 var // If the declaration specifies a binding pattern, the parameter type is the implied type of that binding pattern (section 5.1.3)
-Foo;
+Foo1;
 (function(Foo) {
     Foo[Foo["a"] = 0] = "a";
-})(Foo || (Foo = {
+})(Foo1 || (Foo1 = {
 }));
 function c0(param) {
     var _z = param.z, x = _z.x, _y = _z.y, j = _y.j;
@@ -166,10 +166,10 @@ function c3(param) {
     } : param, b = ref.b;
 }
 function c5(param) {
-    var _param = _slicedToArray(param, 3), a = _param[0], b = _param[1], ref = _slicedToArray(_param[2], 1), ref2 = _slicedToArray(ref[0], 1), c = ref2[0];
+    var _param = _slicedToArray(param, 3), a = _param[0], b = _param[1], ref = _slicedToArray(_param[2], 1), ref5 = _slicedToArray(ref[0], 1), c = ref5[0];
 }
 function c6(param) {
-    var _param = _slicedToArray(param, 3), a = _param[0], b = _param[1], ref = _slicedToArray(_param[2], 1), ref2 = _slicedToArray(ref[0], 1), tmp = ref2[0], c = tmp === void 0 ? 1 : tmp;
+    var _param = _slicedToArray(param, 3), a = _param[0], b = _param[1], ref = _slicedToArray(_param[2], 1), ref6 = _slicedToArray(ref[0], 1), tmp = ref6[0], c = tmp === void 0 ? 1 : tmp;
 }
 c0({
     z: {

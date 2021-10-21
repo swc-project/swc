@@ -14,15 +14,15 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var A = function() {
+var A1 = function() {
     "use strict";
-    _classCallCheck(this, A);
+    _classCallCheck(this, A1);
     var _this = this;
     this.constructor, this.d = function() {
         return _this.constructor;
     }, this.constructor;
 };
-A.c = function _target() {
+A1.c = function _target() {
     return _instanceof(this, _target) ? this.constructor : void 0;
 };
 var B = function(A) {
@@ -44,7 +44,7 @@ var B = function(A) {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(B, A), B;
-}(A);
+}(A1);
 function f1() {
     _instanceof(this, f1) && this.constructor, _instanceof(this, f1) && this.constructor;
 }

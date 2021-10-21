@@ -1,20 +1,20 @@
-var E;
+var E1;
 (function(E) {
     E[E["A"] = 0] = "A";
     E[E["B"] = 1] = "B";
-})(E || (E = {
+})(E1 || (E1 = {
 }));
 var n;
 var a;
 var e;
 n = e;
-n = E.A;
+n = E1.A;
 a = n;
 a = e;
-a = E.A;
+a = E1.A;
 e = e;
-e = E.A;
-e = E.B;
+e = E1.A;
+e = E1.B;
 e = n;
 e = null;
 e = undefined;

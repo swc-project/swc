@@ -15,7 +15,7 @@ var C = function() {
     return Constructor = C, protoProps = [
         {
             key: "method",
-            value: function(param, param1) {
+            value: function(param, param2) {
             }
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;

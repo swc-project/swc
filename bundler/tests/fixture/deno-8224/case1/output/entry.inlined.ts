@@ -1,4 +1,4 @@
-const showValue1 = (v)=>{
+const showValue = (v)=>{
     if (v === 0) {
         return showList([
             v
@@ -7,11 +7,11 @@ const showValue1 = (v)=>{
     return `${v}`;
 };
 const showList = (v)=>{
-    return `[${v.map(showValue1).join(', ')}]`;
+    return `[${v.map(showValue).join(', ')}]`;
 };
 console.log(showList([
     1,
     2,
     3
 ]));
-export { showValue1 as showValue };
+export { showValue as showValue };
