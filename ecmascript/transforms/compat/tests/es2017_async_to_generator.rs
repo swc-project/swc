@@ -223,8 +223,8 @@ async function s(x, ...args) {
     r#"
     function _s() {
       _s = _asyncToGenerator((function*(x) {
-          for(let _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
-              args[_key - 1] = arguments[_key];
+          for(let _len1 = arguments.length, args = new Array(_len1 > 1 ? _len1 - 1 : 0), _key1 = 1; _key1 < _len1; _key1++){
+              args[_key1 - 1] = arguments[_key1];
           }
           var _this = this, _arguments = arguments;
           let t = function(y, a) {
@@ -380,16 +380,16 @@ class Class {
     class Class {
       method() {
           return _asyncToGenerator((function*() {
-              var _this = this, _this1 = this;
+              var _this2 = this, _this1 = this;
               this;
               (function() {
-                  return _this;
+                  return _this2;
               });
               (function() {
-                  var _this2 = _this1;
+                  var _this4 = _this1;
                   _this1;
                   (function() {
-                      return _this2;
+                      return _this4;
                   });
                   function x() {
                       var _this = this, _this3 = this;
@@ -408,14 +408,14 @@ class Class {
                   }
               });
               function x() {
-                  var _this = this, _this2 = this;
+                  var _this = this, _this5 = this;
                   this;
                   (function() {
                       _this;
                   });
                   (function() {
                       var _ref = _asyncToGenerator(function*() {
-                          _this2;
+                          _this5;
                       });
                       return function() {
                           return _ref.apply(this, arguments);
