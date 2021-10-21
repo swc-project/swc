@@ -20,8 +20,9 @@ use swc_ecma_codegen::{
     text_writer::{omit_trailing_semi, JsWriter, WriteJs},
     Emitter,
 };
+use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_utils::{find_ids, Id};
-use swc_ecma_visit::{Node, Visit, VisitWith};
+use swc_ecma_visit::{Node, Visit, VisitMutWith, VisitWith};
 use testing::assert_eq;
 
 #[path = "common/mod.rs"]
@@ -1062,6 +1063,7 @@ fn bundle(url: &str, minify: bool) -> String {
                         top_level_mark: Mark::fresh(Mark::root()),
                     },
                 );
+                module.visit_mut_with(&mut fixer(None));
             }
 
             let mut buf = vec![];
