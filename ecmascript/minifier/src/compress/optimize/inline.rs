@@ -554,7 +554,7 @@ where
                 {
                     match &*value {
                         Expr::Lit(Lit::Num(..)) => {
-                            if self.ctx.in_lhs_of_assign {
+                            if self.ctx.is_lhs_of_assign {
                                 return;
                             }
                         }

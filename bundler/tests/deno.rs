@@ -14,11 +14,15 @@ use std::{
 };
 use swc_atoms::js_word;
 use swc_bundler::{Bundler, Load, ModuleRecord};
-use swc_common::{collections::AHashSet, FileName, Span, GLOBALS};
+use swc_common::{collections::AHashSet, FileName, Mark, Span, GLOBALS};
 use swc_ecma_ast::*;
-use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
+use swc_ecma_codegen::{
+    text_writer::{omit_trailing_semi, JsWriter, WriteJs},
+    Emitter,
+};
+use swc_ecma_transforms_base::{fixer::fixer, resolver::resolver_with_mark};
 use swc_ecma_utils::{find_ids, Id};
-use swc_ecma_visit::{Node, Visit, VisitWith};
+use swc_ecma_visit::{Node, Visit, VisitMutWith, VisitWith};
 use testing::assert_eq;
 
 #[path = "common/mod.rs"]
@@ -978,7 +982,7 @@ fn run(url: &str, exports: &[&str]) {
     let path = dir.path().join("main.js");
     // println!("{}", path.display());
 
-    let src = bundle(url);
+    let src = bundle(url, false);
     write(&path, &src).unwrap();
 
     ::testing::run_test2(false, |cm, _| {
@@ -1017,7 +1021,7 @@ fn run(url: &str, exports: &[&str]) {
     assert!(output.success());
 }
 
-fn bundle(url: &str) -> String {
+fn bundle(url: &str, minify: bool) -> String {
     let result = testing::run_test2(false, |cm, _handler| {
         GLOBALS.with(|globals| {
             let mut bundler = Bundler::new(
@@ -1042,15 +1046,42 @@ fn bundle(url: &str) -> String {
                 },
             );
             let output = bundler.bundle(entries).unwrap();
-            let module = output.into_iter().next().unwrap().module;
+            let mut module = output.into_iter().next().unwrap().module;
+
+            if minify {
+                let top_level_mark = Mark::fresh(Mark::root());
+
+                module.visit_mut_with(&mut resolver_with_mark(top_level_mark));
+
+                module = swc_ecma_minifier::optimize(
+                    module,
+                    cm.clone(),
+                    None,
+                    None,
+                    &swc_ecma_minifier::option::MinifyOptions {
+                        compress: Some(Default::default()),
+                        mangle: Some(Default::default()),
+                        ..Default::default()
+                    },
+                    &swc_ecma_minifier::option::ExtraOptions { top_level_mark },
+                );
+                module.visit_mut_with(&mut fixer(None));
+            }
 
             let mut buf = vec![];
             {
+                let mut wr: Box<dyn WriteJs> =
+                    Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None));
+
+                if minify {
+                    wr = Box::new(omit_trailing_semi(wr));
+                }
+
                 Emitter {
-                    cfg: swc_ecma_codegen::Config { minify: false },
+                    cfg: swc_ecma_codegen::Config { minify },
                     cm: cm.clone(),
                     comments: None,
-                    wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
+                    wr,
                 }
                 .emit_module(&module)
                 .unwrap();
@@ -1166,7 +1197,38 @@ fn exec(input: PathBuf) {
     let path = dir.path().join("main.js");
     println!("{}", path.display());
 
-    let src = bundle(&input.to_string_lossy());
+    let src = bundle(&input.to_string_lossy(), false);
+    write(&path, &src).unwrap();
+
+    // println!("{}", src);
+
+    let output = Command::new("deno")
+        .arg("run")
+        .arg("--no-check")
+        .arg("--allow-net")
+        .arg(&path)
+        .stdout(Stdio::inherit())
+        .stderr(Stdio::inherit())
+        .status()
+        .unwrap();
+
+    std::mem::forget(dir);
+
+    assert!(output.success());
+}
+
+#[testing::fixture("tests/deno-exec/**/entry.ts")]
+fn exec_minified(input: PathBuf) {
+    // TODO: Fix the bug.
+    if input.to_string_lossy().contains("deno-9464") {
+        return;
+    }
+
+    let dir = tempfile::tempdir().expect("failed to crate temp file");
+    let path = dir.path().join("main.js");
+    println!("{}", path.display());
+
+    let src = bundle(&input.to_string_lossy(), true);
     write(&path, &src).unwrap();
 
     // println!("{}", src);

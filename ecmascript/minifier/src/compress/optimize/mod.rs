@@ -4,7 +4,7 @@ use self::util::MultiReplacer;
 use crate::{
     analyzer::{ProgramData, UsageAnalyzer},
     compress::util::is_pure_undefined,
-    debug::dump,
+    debug::{dump, AssertValid},
     marks::Marks,
     mode::Mode,
     option::CompressOptions,
@@ -126,7 +126,7 @@ struct Ctx {
     is_delete_arg: bool,
     /// `true` if we are in `arg` of `++arg` or `--arg`.
     is_update_arg: bool,
-    in_lhs_of_assign: bool,
+    is_lhs_of_assign: bool,
     /// `false` for `d` in `d[0] = foo`.
     is_exact_lhs_of_assign: bool,
 
@@ -685,6 +685,15 @@ where
                 self.changed = true;
                 return None;
             }
+
+            Expr::Tpl(t) if t.exprs.is_empty() => {
+                if cfg!(feature = "debug") {
+                    tracing::debug!("ignore_return_value: Dropping tpl expr without expr");
+                }
+                self.changed = true;
+                return None;
+            }
+
             // Function expression cannot have a side effect.
             Expr::Fn(_) => {
                 tracing::debug!(
@@ -1527,7 +1536,7 @@ where
     fn visit_mut_assign_expr(&mut self, e: &mut AssignExpr) {
         {
             let ctx = Ctx {
-                in_lhs_of_assign: true,
+                is_lhs_of_assign: true,
                 is_exact_lhs_of_assign: true,
                 ..self.ctx
             };
@@ -1888,6 +1897,10 @@ where
                 }
             }
         }
+
+        if cfg!(feature = "debug") && cfg!(debug_assertions) {
+            n.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+        }
     }
 
     fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
@@ -1997,6 +2010,10 @@ where
         }
 
         self.ctx.in_asm = old_in_asm;
+
+        if cfg!(feature = "debug") && cfg!(debug_assertions) {
+            n.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+        }
     }
 
     fn visit_mut_if_stmt(&mut self, n: &mut IfStmt) {
@@ -2041,6 +2058,7 @@ where
         if n.computed {
             let ctx = Ctx {
                 is_exact_lhs_of_assign: false,
+                is_lhs_of_assign: false,
                 ..self.ctx
             };
             n.prop.visit_mut_with(&mut *self.with_ctx(ctx));
@@ -2149,6 +2167,10 @@ where
             }
             _ => {}
         }
+
+        if cfg!(feature = "debug") && cfg!(debug_assertions) {
+            n.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+        }
     }
 
     fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {
@@ -2241,7 +2263,7 @@ where
             is_callee: false,
             is_delete_arg: false,
             is_update_arg: false,
-            in_lhs_of_assign: false,
+            is_lhs_of_assign: false,
             in_bang_arg: false,
             is_exported: false,
             in_obj_of_non_computed_member: false,
@@ -2299,11 +2321,11 @@ where
             _ => {}
         }
 
-        self.optiimze_loops_if_cond_is_false(s);
+        self.optimize_loops_if_cond_is_false(s);
         self.optimize_loops_with_break(s);
 
         match s {
-            // We use var devl with no declarator to indicate we dropped an decl.
+            // We use var decl with no declarator to indicate we dropped an decl.
             Stmt::Decl(Decl::Var(VarDecl { decls, .. })) if decls.is_empty() => {
                 *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                 return;
@@ -2331,6 +2353,10 @@ where
             if text.lines().count() < 10 {
                 tracing::debug!("after: visit_mut_stmt: {}", text);
             }
+        }
+
+        if cfg!(feature = "debug") && cfg!(debug_assertions) {
+            s.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
         }
     }
 
@@ -2363,6 +2389,10 @@ where
                 },
                 _ => {}
             }
+        }
+
+        if cfg!(feature = "debug") && cfg!(debug_assertions) {
+            stmts.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
         }
     }
 
