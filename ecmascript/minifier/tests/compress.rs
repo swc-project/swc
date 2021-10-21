@@ -1328,3 +1328,31 @@ impl Visit for Shower<'_> {
         n.visit_children_with(self)
     }
 }
+
+#[testing::fixture("tests/full/**/input.js")]
+fn full(input: PathBuf) {
+    let dir = input.parent().unwrap();
+    let config = find_config(&dir);
+    eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
+
+    testing::run_test2(false, |cm, handler| {
+        let output = run(cm.clone(), &handler, &input, &config, None);
+        let output_module = match output {
+            Some(v) => v,
+            None => return Ok(()),
+        };
+
+        let output = print(cm.clone(), &[output_module.clone()], true);
+
+        eprintln!("---- {} -----\n{}", Color::Green.paint("Output"), output);
+
+        println!("{}", input.display());
+
+        NormalizedOutput::from(output)
+            .compare_to_file(dir.join("output.js"))
+            .unwrap();
+
+        Ok(())
+    })
+    .unwrap()
+}
