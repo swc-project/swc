@@ -126,9 +126,6 @@ pub struct Options {
 
     #[serde(default)]
     pub output_path: Option<PathBuf>,
-
-    #[serde(default)]
-    pub error: ErrorConfig,
 }
 
 impl Options {
@@ -570,6 +567,9 @@ pub struct JsMinifyOptions {
 
     #[serde(default = "true_by_default")]
     pub inline_sources_content: bool,
+
+    #[serde(default)]
+    pub error: ErrorConfig,
 }
 
 fn true_by_default() -> bool {
