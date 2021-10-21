@@ -10,7 +10,7 @@ use crate::{
     expr::{ClassExpression, Expression},
     flow::{ClassImplements, InterfaceExtends},
     object::ObjectKey,
-    stmt::BlockStatement,
+    stmt::{BlockStatement, Statement},
     typescript::{TSDeclareMethod, TSExpressionWithTypeArguments, TSIndexSignature},
 };
 
@@ -149,6 +149,15 @@ pub struct ClassProperty {
 }
 
 #[derive(Debug, Clone, PartialEq)]
+#[ast_serde("StaticBlock")]
+pub struct StaticBlock {
+    #[serde(flatten)]
+    pub base: BaseNode,
+    #[serde(default)]
+    pub body: Vec<Statement>,
+}
+
+#[derive(Debug, Clone, PartialEq)]
 #[ast_serde]
 pub enum ClassBodyEl {
     #[tag("ClassMethod")]
@@ -163,6 +172,8 @@ pub enum ClassBodyEl {
     TSMethod(TSDeclareMethod),
     #[tag("TSIndexSignature")]
     TSIndex(TSIndexSignature),
+    #[tag("StaticBlock")]
+    StaticBlock(StaticBlock),
 }
 
 #[derive(Debug, Clone, PartialEq)]

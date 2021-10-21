@@ -4,10 +4,11 @@ use serde_json::value::Value;
 use swc_babel_ast::{
     ClassBody, ClassBodyEl, ClassExpression, ClassMethod as BabelClassMethod, ClassMethodKind,
     ClassPrivateMethod, ClassPrivateProperty, ClassProperty, Decorator as BabelDecorator,
+    StaticBlock as BabelStaticBlock,
 };
 use swc_ecma_ast::{
     Class, ClassMember, ClassMethod, ClassProp, Constructor, Decorator, MethodKind, PrivateMethod,
-    PrivateProp,
+    PrivateProp, StaticBlock,
 };
 
 impl Babelify for Class {
@@ -57,7 +58,7 @@ impl Babelify for ClassMember {
                 "illegal conversion: Cannot convert {:?} to ClassBodyEl",
                 &self
             ),
-            ClassMember::StaticBlock(..) => unimplemented!("stage 3 class static blocks"),
+            ClassMember::StaticBlock(s) => ClassBodyEl::StaticBlock(s.babelify(ctx)),
         }
     }
 }
@@ -207,6 +208,17 @@ impl Babelify for MethodKind {
             MethodKind::Method => ClassMethodKind::Method,
             MethodKind::Getter => ClassMethodKind::Get,
             MethodKind::Setter => ClassMethodKind::Set,
+        }
+    }
+}
+
+impl Babelify for StaticBlock {
+    type Output = BabelStaticBlock;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        BabelStaticBlock {
+            base: ctx.base(self.span),
+            body: self.body.stmts.babelify(ctx),
         }
     }
 }
