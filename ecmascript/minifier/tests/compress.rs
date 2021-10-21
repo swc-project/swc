@@ -326,6 +326,14 @@ fn base_exec(input: PathBuf) {
     testing::run_test2(false, |cm, handler| {
         let input_src = read_to_string(&input).expect("failed to read input.js as a string");
 
+        let expected_output = stdout_of(&input_src).unwrap();
+
+        eprintln!(
+            "---- {} -----\n{}",
+            Color::Green.paint("Expected"),
+            expected_output
+        );
+
         let output = run(cm.clone(), &handler, &input, &config, None);
         let output = output.expect("Parsing in base test should not fail");
         let output = print(cm.clone(), &[output], false);
@@ -338,7 +346,6 @@ fn base_exec(input: PathBuf) {
 
         println!("{}", input.display());
 
-        let expected_output = stdout_of(&input_src).unwrap();
         let actual_output = stdout_of(&output).expect("failed to execute the optimized code");
         assert_ne!(actual_output, "");
 
