@@ -1888,6 +1888,10 @@ where
                 }
             }
         }
+
+        if cfg!(feature = "debug") && cfg!(debug_assertions) {
+            n.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+        }
     }
 
     fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
