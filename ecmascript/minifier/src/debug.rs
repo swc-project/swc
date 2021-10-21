@@ -118,6 +118,8 @@ pub(crate) fn invoke(module: &Module) {
 struct Assert;
 
 impl Visit for Assert {
+    noop_visit_type!();
+
     fn visit_invalid(&mut self, _: &Invalid, _: &dyn Node) {
         panic!("[SWC_RUN] Invalid node found");
     }
