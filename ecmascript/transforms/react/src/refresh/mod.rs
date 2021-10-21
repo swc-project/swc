@@ -1,14 +1,16 @@
-use std::{
-    collections::{HashMap, HashSet},
-    mem,
+use self::util::{
+    callee_should_ignore, gen_custom_hook_record, is_body_arrow_fn, is_builtin_hook,
+    is_import_or_require, make_assign_stmt, make_call_expr, make_call_stmt, CollectIdent,
 };
-
 use base64;
 use indexmap::IndexSet;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use sha1::{Digest, Sha1};
-
+use std::{
+    collections::{HashMap, HashSet},
+    mem,
+};
 use swc_atoms::JsWord;
 use swc_common::{
     collections::{AHashMap, AHashSet},
@@ -18,12 +20,8 @@ use swc_common::{
     BytePos, SourceMap, Span, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{private_ident, quote_ident, quote_str};
+use swc_ecma_utils::{private_ident, quote_ident, quote_str, Id};
 use swc_ecma_visit::{Fold, FoldWith, Node, Visit};
-use util::{
-    callee_should_ignore, gen_custom_hook_record, is_body_arrow_fn, is_builtin_hook,
-    is_import_or_require, make_assign_stmt, make_call_expr, make_call_stmt, CollectIdent,
-};
 
 pub mod options;
 use options::RefreshOptions;
@@ -34,7 +32,7 @@ mod tests;
 
 struct Hoc {
     insert: bool,
-    reg: Vec<(Ident, String)>,
+    reg: Vec<(Ident, Id)>,
     // use to register hook for all level of HOC, first is hook register ident
     // rest is hook register call args
     hook: Option<HocHook>,
