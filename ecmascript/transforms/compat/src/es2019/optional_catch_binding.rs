@@ -33,4 +33,20 @@ mod tests {
         "try {} catch {}",
         "try {} catch(e) {}"
     );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| tr(),
+        catch_binding_name_collision_1,
+        "try { throw new Error(); } catch { log(e); }",
+        "try { throw new Error(); } catch (e1) { log(e); }"
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| tr(),
+        catch_binding_name_collision_2,
+        "var e; try {} catch { log(e); }",
+        "var e; try {} catch (e1) { log(e); }"
+    );
 }
