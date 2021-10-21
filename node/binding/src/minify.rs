@@ -48,7 +48,7 @@ impl Task for MinifyTask {
     type JsValue = JsObject;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
-        try_with(self.c.cm.clone(), |handler| {
+        try_with(self.c.cm.clone(), false, |handler| {
             let fm = self.code.to_file(self.c.cm.clone());
 
             self.c.minify(fm, &handler, &self.opts)
@@ -82,7 +82,8 @@ pub fn minify_sync(cx: CallContext) -> napi::Result<JsObject> {
 
     let fm = code.to_file(c.cm.clone());
 
-    let output = try_with(c.cm.clone(), |handler| c.minify(fm, &handler, &opts)).convert_err()?;
+    let output =
+        try_with(c.cm.clone(), false, |handler| c.minify(fm, &handler, &opts)).convert_err()?;
 
     complete_output(&cx.env, output)
 }

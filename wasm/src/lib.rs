@@ -19,7 +19,7 @@ pub fn minify_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
 
     let c = compiler();
 
-    try_with_handler(c.cm.clone(), |handler| {
+    try_with_handler(c.cm.clone(), false, |handler| {
         let opts: JsMinifyOptions = opts.into_serde().context("failed to parse options")?;
 
         let fm = c.cm.new_source_file(FileName::Anon, s.into());
