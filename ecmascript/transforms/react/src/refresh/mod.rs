@@ -48,6 +48,11 @@ enum Persist {
 }
 fn get_persistent_id(ident: &Ident) -> Persist {
     if ident.sym.starts_with(|c: char| c.is_ascii_uppercase()) {
+        if cfg!(debug_assertions) {
+            if ident.span.ctxt == SyntaxContext::empty() {
+                panic!("`{}` should be resolved", ident)
+            }
+        }
         Persist::Component(ident.clone())
     } else {
         Persist::None
