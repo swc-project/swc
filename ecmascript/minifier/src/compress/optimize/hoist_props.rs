@@ -93,16 +93,18 @@ where
                                     match &p.key {
                                         PropName::Str(s) => {
                                             tracing::trace!(
-                                                "hoist_props: Storing a varaible to inline \
-                                                 properties"
+                                                "hoist_props: Storing a variable (`{}`) to inline \
+                                                 properties",
+                                                name.id
                                             );
                                             self.simple_props
                                                 .insert((name.to_id(), s.value.clone()), value);
                                         }
                                         PropName::Ident(i) => {
                                             tracing::trace!(
-                                                "hoist_props: Storing a varaible to inline \
-                                                 properties"
+                                                "hoist_props: Storing a variable(`{}`) to inline \
+                                                 properties",
+                                                name.id
                                             );
                                             self.simple_props
                                                 .insert((name.to_id(), i.sym.clone()), value);

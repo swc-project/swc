@@ -63,7 +63,7 @@ where
 
     ///
     /// - `while(false) { var a; foo() }` => `var a;`
-    pub(super) fn optiimze_loops_if_cond_is_false(&mut self, stmt: &mut Stmt) {
+    pub(super) fn optimize_loops_if_cond_is_false(&mut self, stmt: &mut Stmt) {
         if !self.options.loops {
             return;
         }

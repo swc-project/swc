@@ -1,11 +1,32 @@
 use super::Pure;
 use crate::{compress::util::is_pure_undefined, mode::Mode};
+use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 
 impl<M> Pure<'_, M>
 where
     M: Mode,
 {
+    pub(super) fn remove_invalid(&mut self, e: &mut Expr) {
+        match e {
+            Expr::Bin(BinExpr { left, right, .. }) => {
+                self.remove_invalid(left);
+                self.remove_invalid(right);
+
+                if left.is_invalid() {
+                    *e = *right.take();
+                    self.remove_invalid(e);
+                    return;
+                } else if right.is_invalid() {
+                    *e = *left.take();
+                    self.remove_invalid(e);
+                    return;
+                }
+            }
+            _ => {}
+        }
+    }
+
     pub(super) fn drop_undefined_from_return_arg(&mut self, s: &mut ReturnStmt) {
         match s.arg.as_deref() {
             Some(e) => {
