@@ -120,6 +120,7 @@ struct Refresh<C: Comments> {
 }
 
 static IS_HOOK_LIKE: Lazy<Regex> = Lazy::new(|| Regex::new("^use[A-Z]").unwrap());
+
 impl<C: Comments> Refresh<C> {
     fn get_hook_from_call_expr(&self, expr: &CallExpr, lhs: Option<&Pat>) -> Option<Hook> {
         let callee = if let ExprOrSuper::Expr(callee) = &expr.callee {
