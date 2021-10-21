@@ -124,6 +124,10 @@ impl Visit for AssertValid {
         panic!("[SWC_RUN] Invalid node found");
     }
 
+    fn visit_setter_prop(&mut self, p: &SetterProp, _: &dyn Node) {
+        p.body.visit_with(p, self);
+    }
+
     fn visit_tpl(&mut self, l: &Tpl, _: &dyn Node) {
         l.visit_children_with(self);
 
