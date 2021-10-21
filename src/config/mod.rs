@@ -526,6 +526,9 @@ pub struct Config {
 
     #[serde(default = "true_by_default")]
     pub inline_sources_content: bool,
+
+    #[serde(default)]
+    pub error: ErrorConfig,
 }
 
 /// Second argument of `minify`.
@@ -567,9 +570,6 @@ pub struct JsMinifyOptions {
 
     #[serde(default = "true_by_default")]
     pub inline_sources_content: bool,
-
-    #[serde(default)]
-    pub error: ErrorConfig,
 }
 
 fn true_by_default() -> bool {
