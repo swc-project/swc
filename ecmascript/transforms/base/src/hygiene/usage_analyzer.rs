@@ -371,7 +371,10 @@ impl Visit for UsageAnalyzer<'_> {
 
     fn visit_arrow_expr(&mut self, f: &ArrowExpr, _: &dyn Node) {
         self.visit_with_scope(f.span.ctxt, ScopeKind::Fn, |v| {
+            let old = v.is_pat_decl;
+            v.is_pat_decl = true;
             f.params.visit_with(f, v);
+            v.is_pat_decl = old;
 
             match &f.body {
                 BlockStmtOrExpr::BlockStmt(body) => {
