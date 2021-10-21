@@ -14,14 +14,27 @@ where
     pub(super) fn convert_tpl_to_str(&mut self, e: &mut Expr) {
         match e {
             Expr::Tpl(t) if t.quasis.len() == 1 && t.exprs.is_empty() => {
-                if let Some(c) = &t.quasis[0].cooked {
-                    if c.value.chars().all(|c| match c {
-                        '\u{0020}'..='\u{007e}' => true,
-                        '\n' | '\r' => M::force_str_for_tpl(),
-                        _ => false,
-                    }) {
-                        *e = Expr::Lit(Lit::Str(c.clone()));
-                    }
+                let c = &t.quasis[0].raw;
+
+                if c.value.chars().all(|c| match c {
+                    '\u{0020}'..='\u{007e}' => true,
+                    '\n' | '\r' => M::force_str_for_tpl(),
+                    _ => false,
+                }) && (M::force_str_for_tpl()
+                    || (!c.value.contains("\\n") && !c.value.contains("\\r")))
+                    && !c.value.contains("\\0")
+                {
+                    *e = Expr::Lit(Lit::Str(Str {
+                        value: c
+                            .value
+                            .replace("\\`", "`")
+                            .replace("\\$", "$")
+                            .replace("\\n", "\n")
+                            .replace("\\r", "\r")
+                            .replace("\\\\", "\\")
+                            .into(),
+                        ..c.clone()
+                    }));
                 }
             }
             _ => {}
@@ -49,7 +62,6 @@ where
 
         let mut quasis = vec![];
         let mut exprs = vec![];
-        let mut cur = String::new();
         let mut cur_raw = String::new();
 
         for i in 0..(tpl.exprs.len() + tpl.quasis.len()) {
@@ -57,7 +69,6 @@ where
                 let i = i / 2;
                 let q = tpl.quasis[i].take();
 
-                cur.push_str(&q.cooked.unwrap().value);
                 cur_raw.push_str(&q.raw.value);
             } else {
                 let i = i / 2;
@@ -65,19 +76,13 @@ where
 
                 match *e {
                     Expr::Lit(Lit::Str(s)) => {
-                        cur.push_str(&s.value);
                         cur_raw.push_str(&s.value);
                     }
                     _ => {
                         quasis.push(TplElement {
                             span: DUMMY_SP,
                             tail: true,
-                            cooked: Some(Str {
-                                span: DUMMY_SP,
-                                value: take(&mut cur).into(),
-                                has_escape: false,
-                                kind: Default::default(),
-                            }),
+                            cooked: None,
                             raw: Str {
                                 span: DUMMY_SP,
                                 value: take(&mut cur_raw).into(),
@@ -95,12 +100,7 @@ where
         quasis.push(TplElement {
             span: DUMMY_SP,
             tail: true,
-            cooked: Some(Str {
-                span: DUMMY_SP,
-                value: cur.into(),
-                has_escape: false,
-                kind: Default::default(),
-            }),
+            cooked: None,
             raw: Str {
                 span: DUMMY_SP,
                 value: cur_raw.into(),
