@@ -695,17 +695,30 @@ where
             let _ = self.merge_sequences_in_exprs(&mut exprs);
         }
 
-        stmts.retain_mut(|stmt| match stmt.as_stmt_mut() {
-            Some(Stmt::Decl(Decl::Var(v))) => {
-                v.decls.retain(|decl| match decl.init.as_deref() {
-                    Some(Expr::Invalid(..)) => false,
-                    _ => true,
-                });
-
-                !v.decls.is_empty()
+        stmts.retain_mut(|stmt| {
+            match stmt.as_stmt_mut() {
+                Some(Stmt::Expr(es)) => match &mut *es.expr {
+                    Expr::Seq(e) => {
+                        e.exprs.retain(|e| !e.is_invalid());
+                    }
+                    _ => {}
+                },
+                _ => {}
             }
-            Some(Stmt::Expr(s)) if s.expr.is_invalid() => false,
-            _ => true,
+
+            match stmt.as_stmt_mut() {
+                Some(Stmt::Decl(Decl::Var(v))) => {
+                    v.decls.retain(|decl| match decl.init.as_deref() {
+                        Some(Expr::Invalid(..)) => false,
+                        _ => true,
+                    });
+
+                    !v.decls.is_empty()
+                }
+                Some(Stmt::Expr(s)) if s.expr.is_invalid() => false,
+
+                _ => true,
+            }
         });
     }
 
