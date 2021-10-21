@@ -126,7 +126,7 @@ struct Ctx {
     is_delete_arg: bool,
     /// `true` if we are in `arg` of `++arg` or `--arg`.
     is_update_arg: bool,
-    in_lhs_of_assign: bool,
+    is_lhs_of_assign: bool,
     /// `false` for `d` in `d[0] = foo`.
     is_exact_lhs_of_assign: bool,
 
@@ -1527,7 +1527,7 @@ where
     fn visit_mut_assign_expr(&mut self, e: &mut AssignExpr) {
         {
             let ctx = Ctx {
-                in_lhs_of_assign: true,
+                is_lhs_of_assign: true,
                 is_exact_lhs_of_assign: true,
                 ..self.ctx
             };
@@ -2049,6 +2049,7 @@ where
         if n.computed {
             let ctx = Ctx {
                 is_exact_lhs_of_assign: false,
+                is_lhs_of_assign: false,
                 ..self.ctx
             };
             n.prop.visit_mut_with(&mut *self.with_ctx(ctx));
@@ -2253,7 +2254,7 @@ where
             is_callee: false,
             is_delete_arg: false,
             is_update_arg: false,
-            in_lhs_of_assign: false,
+            is_lhs_of_assign: false,
             in_bang_arg: false,
             is_exported: false,
             in_obj_of_non_computed_member: false,
