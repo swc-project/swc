@@ -1,13 +1,13 @@
 // @module: commonjs
 // @Filename: foo_0.ts
 class Foo {
-    constructor(x){
+    constructor(x1){
     }
 }
 module.exports = Foo;
 // @Filename: foo_1.ts
 const foo = require("./foo_0");
-var x1 = new foo(true); // Should error
+var x = new foo(true); // Should error
 var y = new foo({
     a: "test",
     b: 42

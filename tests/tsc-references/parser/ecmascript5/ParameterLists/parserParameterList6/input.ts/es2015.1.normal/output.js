@@ -1,4 +1,4 @@
-class C1 {
-    constructor(C){
+class C {
+    constructor(C1){
     }
 }

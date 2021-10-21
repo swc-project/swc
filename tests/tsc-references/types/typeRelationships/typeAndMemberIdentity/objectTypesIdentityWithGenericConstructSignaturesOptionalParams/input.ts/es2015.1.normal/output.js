@@ -7,14 +7,14 @@ class B {
     }
 }
 class C {
-    constructor(x, y){
+    constructor(x1, y1){
         return null;
     }
 }
 var a;
 var b = {
-    new (x, y) {
-        return new C(x, y);
+    new (x2, y2) {
+        return new C(x2, y2);
     }
 }; // not a construct signature, function called new
 function foo1b(x) {

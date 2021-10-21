@@ -20,7 +20,7 @@ export let y = {
     }
 };
 export class Bar2 {
-    constructor(input){
+    constructor(input1){
     }
 }
 export let shim = {

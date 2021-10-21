@@ -4,7 +4,7 @@ class C {
     [tmp](x) {
         return undefined;
     }
-    [tmp1](x) {
+    [tmp1](x1) {
         return undefined;
     }
 }

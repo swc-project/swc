@@ -1,7 +1,7 @@
 class CBase {
     foo(param) {
     }
-    constructor(param){
+    constructor(param1){
     }
 }
 class C extends CBase {
@@ -16,8 +16,8 @@ class C extends CBase {
         // Should be okay.
         // 'p' should have type 'string'.
         super.foo({
-            method (p) {
-                p.length;
+            method (p1) {
+                p1.length;
             }
         });
     }

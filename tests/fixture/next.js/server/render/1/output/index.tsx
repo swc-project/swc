@@ -43,19 +43,19 @@ function noRouter() {
     throw new Error(message);
 }
 class ServerRouter {
-    constructor(pathname, query, as, { isFallback  }, isReady, basePath, locale, locales, defaultLocale, domainLocales, isPreview, isLocaleDomain){
-        this.route = pathname.replace(/\/$/, "") || "/";
-        this.pathname = pathname;
-        this.query = query;
+    constructor(pathname1, query1, as, { isFallback: isFallback1  }, isReady, basePath1, locale1, locales1, defaultLocale1, domainLocales1, isPreview1, isLocaleDomain){
+        this.route = pathname1.replace(/\/$/, "") || "/";
+        this.pathname = pathname1;
+        this.query = query1;
         this.asPath = as;
-        this.isFallback = isFallback;
-        this.basePath = basePath;
-        this.locale = locale;
-        this.locales = locales;
-        this.defaultLocale = defaultLocale;
+        this.isFallback = isFallback1;
+        this.basePath = basePath1;
+        this.locale = locale1;
+        this.locales = locales1;
+        this.defaultLocale = defaultLocale1;
         this.isReady = isReady;
-        this.domainLocales = domainLocales;
-        this.isPreview = !!isPreview;
+        this.domainLocales = domainLocales1;
+        this.isPreview = !!isPreview1;
         this.isLocaleDomain = !!isLocaleDomain;
     }
     push() {
@@ -802,15 +802,15 @@ function renderToStream(element, generateStaticHTML) {
         const stream = new Writable({
             // Use the buffer from the underlying stream
             highWaterMark: 0,
-            write (chunk, encoding, callback) {
+            write (chunk, encoding, callback1) {
                 if (!underlyingStream) {
                     throw new Error("invariant: write called without an underlying stream. This is a bug in Next.js");
                 }
                 if (!underlyingStream.writable.write(chunk, encoding)) {
-                    underlyingStream.queuedCallbacks.push(()=>callback()
+                    underlyingStream.queuedCallbacks.push(()=>callback1()
                     );
                 } else {
-                    callback();
+                    callback1();
                 }
             }
         });

@@ -9,7 +9,7 @@ class C {
     }
 }
 class D {
-    constructor(x){
+    constructor(x1){
         this.a // error
          = z;
         this.c // error

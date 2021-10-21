@@ -4,11 +4,11 @@ class A {
     }
 }
 class B {
-    constructor(x){
+    constructor(x1){
     }
 }
 class C {
-    constructor(x){
+    constructor(x2){
     }
 }
 var a;

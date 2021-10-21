@@ -15,16 +15,16 @@ var c2;
 c2.p // private, error
 ;
 class C3 {
-    constructor(p){
-        this.p = p;
+    constructor(p1){
+        this.p = p1;
     }
 }
 var c3;
 c3.p // protected, error
 ;
 class Derived extends C3 {
-    constructor(p){
-        super(p);
+    constructor(p2){
+        super(p2);
         this.p; // OK
     }
 }

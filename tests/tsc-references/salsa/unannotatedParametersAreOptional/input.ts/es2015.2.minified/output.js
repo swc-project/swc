@@ -1,7 +1,7 @@
 class C {
-    static m(x) {
+    static m(x2) {
     }
-    m(x) {
+    m(x1) {
     }
     constructor(){
         this.p = (x)=>{
@@ -10,7 +10,7 @@ class C {
 }
 C.m(), new C().m(), new C().p();
 const obj = {
-    m (x) {
+    m (x3) {
     },
     p: (x)=>{
     }

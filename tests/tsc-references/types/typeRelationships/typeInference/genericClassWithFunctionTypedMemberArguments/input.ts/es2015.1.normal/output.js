@@ -3,8 +3,8 @@
 var ImmediatelyFix;
 (function(ImmediatelyFix) {
     class C {
-        foo(x) {
-            return x(null);
+        foo(x1) {
+            return x1(null);
         }
     }
     var c = new C();
@@ -15,8 +15,8 @@ var ImmediatelyFix;
     var r3 = c.foo((x)=>''
     ); // {}
     class C2 {
-        foo(x) {
-            return x(null);
+        foo(x2) {
+            return x2(null);
         }
     }
     var c2 = new C2();
@@ -29,8 +29,8 @@ var ImmediatelyFix;
 var WithCandidates;
 (function(WithCandidates) {
     class C {
-        foo2(x, cb) {
-            return cb(x);
+        foo2(x5, cb) {
+            return cb(x5);
         }
     }
     var c;
@@ -42,8 +42,8 @@ var WithCandidates;
     var r6 = c.foo2('', (a)=>1
     ); // number
     class C2 {
-        foo3(x, cb, y) {
-            return cb(x);
+        foo3(x3, cb1, y) {
+            return cb1(x3);
         }
     }
     var c2;
@@ -53,8 +53,8 @@ var WithCandidates;
         return '';
     }, ''); // string
     class C3 {
-        foo3(x, cb, y) {
-            return cb(x);
+        foo3(x4, cb2, y1) {
+            return cb2(x4);
         }
     }
     var c3;

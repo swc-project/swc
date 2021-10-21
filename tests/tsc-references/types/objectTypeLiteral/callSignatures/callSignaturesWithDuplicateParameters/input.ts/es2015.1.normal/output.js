@@ -20,16 +20,16 @@ var f7 = (x, x)=>{
 var f8 = (x, y)=>{
 };
 class C {
-    foo(x, x) {
+    foo(x4, x4) {
     }
-    foo2(x, x) {
+    foo2(x1, x1) {
     }
-    foo3(x, x) {
+    foo3(x2, x2) {
     }
 }
 var a;
 var b = {
-    foo (x, x) {
+    foo (x3, x3) {
     },
     a: function foo(x, x) {
     },

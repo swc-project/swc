@@ -5,7 +5,7 @@ class C {
     get y() {
         return this;
     }
-    constructor(x){
+    constructor(x1){
         this.x = this;
         var t = this;
         t.x;

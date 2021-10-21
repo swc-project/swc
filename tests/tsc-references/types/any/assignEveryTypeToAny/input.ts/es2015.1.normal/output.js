@@ -1,46 +1,46 @@
 // all of these are valid
-var x1;
-x1 = 1;
+var x;
+x = 1;
 var a1 = 2;
-x1 = a1;
-x1 = true;
+x = a1;
+x = true;
 var b = true;
-x1 = b;
-x1 = "";
+x = b;
+x = "";
 var c = "";
-x1 = c;
+x = c;
 var d;
-x1 = d;
+x = d;
 var e = undefined;
-x1 = e;
+x = e;
 var e2;
-x1 = e2;
+x = e2;
 var E1;
 (function(E) {
     E[E["A"] = 0] = "A";
 })(E1 || (E1 = {
 }));
-x1 = E1.A;
+x = E1.A;
 var f = E1.A;
-x1 = f;
+x = f;
 var g;
-x1 = g;
+x = g;
 class C {
 }
 var h;
-x1 = h;
+x = h;
 var i;
-x1 = i;
-x1 = {
+x = i;
+x = {
     f () {
         return 1;
     }
 };
-x1 = {
-    f (x) {
-        return x;
+x = {
+    f (x1) {
+        return x1;
     }
 };
 function j(a) {
-    x1 = a;
+    x = a;
 }

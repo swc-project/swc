@@ -7,29 +7,29 @@ class D {
     }
     [tmp1](a) {
     }
-    [tmp2](a) {
+    [tmp2](a1) {
         return 1;
     }
     bar() {
         return this._bar;
     }
-    baz(a, x) {
+    baz(a2, x) {
         return "HELLO";
     }
     static [tmp3]() {
     }
-    static [tmp4](a) {
+    static [tmp4](a3) {
     }
-    static [tmp5](a) {
+    static [tmp5](a4) {
         return true;
     }
     static staticMethod() {
         var x = 1 + 2;
         return x;
     }
-    static foo(a) {
+    static foo(a5) {
     }
-    static bar(a) {
+    static bar(a6) {
         return 1;
     }
 }

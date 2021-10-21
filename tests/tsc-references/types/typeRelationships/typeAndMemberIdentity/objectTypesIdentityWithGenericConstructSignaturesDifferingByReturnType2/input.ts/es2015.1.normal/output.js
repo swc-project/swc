@@ -7,13 +7,13 @@ class B {
     }
 }
 class C {
-    constructor(x){
+    constructor(x1){
         return null;
     }
 }
 var a;
 var b = {
-    new (x) {
+    new (x2) {
         return null;
     }
 }; // not a construct signature, function called new

@@ -6,12 +6,12 @@ var f = function foo(x) {
 var f2 = (x, y)=>{
 };
 class C {
-    foo(x) {
+    foo(x2) {
     }
 }
 var a;
 var b = {
-    foo (x) {
+    foo (x1) {
     },
     a: function foo(x, y) {
     },

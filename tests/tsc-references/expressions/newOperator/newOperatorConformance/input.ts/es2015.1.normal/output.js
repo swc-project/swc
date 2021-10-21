@@ -1,11 +1,11 @@
 class C0 {
 }
 class C1 {
-    constructor(n, s){
+    constructor(n1, s1){
     }
 }
 class T {
-    constructor(n){
+    constructor(n2){
     }
 }
 var anyCtor;
@@ -39,5 +39,5 @@ var t = new fnVoid();
 var t;
 // Chained new expressions
 var nested = new new new nestedCtor()()();
-var n1 = new nested();
-var n1 = new nested();
+var n = new nested();
+var n = new nested();

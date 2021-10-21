@@ -8,7 +8,7 @@ var M1;
         }
         get [tmp2]() {
         }
-        set [tmp3](x) {
+        set [tmp3](x1) {
         }
     };
 }(M1 || (M1 = {

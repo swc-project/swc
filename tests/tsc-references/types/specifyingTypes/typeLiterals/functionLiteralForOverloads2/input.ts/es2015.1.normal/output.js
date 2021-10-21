@@ -4,7 +4,7 @@ class C {
     }
 }
 class D {
-    constructor(x){
+    constructor(x1){
     }
 }
 var f = C;

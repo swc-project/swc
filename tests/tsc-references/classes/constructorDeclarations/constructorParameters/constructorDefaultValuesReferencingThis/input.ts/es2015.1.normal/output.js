@@ -3,11 +3,11 @@ class C {
     }
 }
 class D {
-    constructor(x = this){
+    constructor(x1 = this){
     }
 }
 class E {
-    constructor(x = this){
-        this.x = x;
+    constructor(x2 = this){
+        this.x = x2;
     }
 }

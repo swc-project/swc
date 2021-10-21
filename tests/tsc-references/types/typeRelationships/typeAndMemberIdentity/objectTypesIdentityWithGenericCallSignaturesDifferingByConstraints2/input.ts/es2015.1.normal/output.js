@@ -7,23 +7,23 @@ class A {
     }
 }
 class B {
-    foo(x, y) {
+    foo(x1, y1) {
         return null;
     }
 }
 class C {
-    foo(x, y) {
+    foo(x2, y2) {
         return null;
     }
 }
 class D {
-    foo(x, y) {
+    foo(x3, y3) {
         return null;
     }
 }
 var a;
 var b = {
-    foo (x, y) {
+    foo (x4, y4) {
         return '';
     }
 };

@@ -9,32 +9,32 @@ class Base {
     }
     set c(v) {
     }
-    static s(a) {
+    static s(a1) {
     }
     static get t() {
         return x;
     }
-    static set t(v) {
+    static set t(v1) {
     }
-    constructor(a){
+    constructor(a2){
     }
 }
 class Derived extends Base {
-    b(a) {
+    b(a3) {
     }
     get c() {
         return y;
     }
-    set c(v) {
+    set c(v2) {
     }
-    static s(a) {
+    static s(a4) {
     }
     static get t() {
         return y;
     }
-    static set t(a) {
+    static set t(a5) {
     }
-    constructor(a){
+    constructor(a6){
         super(x);
     }
 }

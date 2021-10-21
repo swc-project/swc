@@ -55,14 +55,14 @@ suddenly((_param = {
     return rest.y + nested.ka;
 });
 class C {
-    m(_param) {
-        var { a  } = _param, clone = _objectWithoutProperties(_param, [
+    m(_param2) {
+        var { a  } = _param2, clone = _objectWithoutProperties(_param2, [
             "a"
         ]);
     // actually, never mind, don't clone
     }
-    set p(_param) {
-        var { a  } = _param, clone = _objectWithoutProperties(_param, [
+    set p(_param1) {
+        var { a  } = _param1, clone = _objectWithoutProperties(_param1, [
             "a"
         ]);
     // actually, never mind, don't clone

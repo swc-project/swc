@@ -4,8 +4,8 @@ var obj2 = {
     },
     func2 (x = "hello") {
     },
-    func3 (x, z, y = "hello") {
+    func3 (x1, z, y1 = "hello") {
     },
-    func4 (x, z, y = "hello", ...rest) {
+    func4 (x2, z1, y2 = "hello", ...rest1) {
     }
 };

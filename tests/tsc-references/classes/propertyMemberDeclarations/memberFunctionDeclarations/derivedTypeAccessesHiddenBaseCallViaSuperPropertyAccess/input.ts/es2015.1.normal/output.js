@@ -4,7 +4,7 @@ class Base {
     }
 }
 class Derived extends Base {
-    foo(x) {
+    foo(x1) {
         return null;
     }
     bar() {

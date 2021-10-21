@@ -1,17 +1,17 @@
 // @declaration: true
 class C1 {
-    constructor(x){
-        this.x = x;
+    constructor(x3){
+        this.x = x3;
     }
 }
 class D1 {
-    constructor(x){
-        this.x = x;
+    constructor(x1){
+        this.x = x1;
     }
 }
 class E1 {
-    constructor(x){
-        this.x = x;
+    constructor(x2){
+        this.x = x2;
     }
 }
 var c = new C1(1);
@@ -25,13 +25,13 @@ var Generic;
         }
     }
     class D {
-        constructor(x){
-            this.x = x;
+        constructor(x4){
+            this.x = x4;
         }
     }
     class E {
-        constructor(x){
-            this.x = x;
+        constructor(x5){
+            this.x = x5;
         }
     }
     var c = new C(1);

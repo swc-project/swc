@@ -6,7 +6,7 @@ class C {
 (C || (C = {
 })).x = 1, new C(1, "");
 class C2 {
-    constructor(x){
+    constructor(x1){
     }
 }
 (C2 || (C2 = {

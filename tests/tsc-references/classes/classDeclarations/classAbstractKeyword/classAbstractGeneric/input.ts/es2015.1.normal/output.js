@@ -19,6 +19,6 @@ class G extends A {
     foo() {
         return this.t;
     }
-    bar(t) {
+    bar(t1) {
     }
 }

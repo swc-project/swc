@@ -9,79 +9,79 @@ class Base {
     }
     set c(v) {
     }
-    static s(a) {
+    static s(a1) {
     }
     static get t() {
         return x;
     }
-    static set t(v) {
+    static set t(v1) {
     }
-    constructor(a){
+    constructor(a2){
     }
 }
 // Errors
 // decrease visibility of all public members to protected
 class Derived1 extends Base {
-    constructor(a){
-        super(a);
+    constructor(a3){
+        super(a3);
     }
 }
 class Derived2 extends Base {
-    b(a) {
+    b(a4) {
     }
-    constructor(a){
-        super(a);
+    constructor(a5){
+        super(a5);
     }
 }
 class Derived3 extends Base {
     get c() {
         return x;
     }
-    constructor(a){
-        super(a);
+    constructor(a6){
+        super(a6);
     }
 }
 class Derived4 extends Base {
-    set c(v) {
+    set c(v2) {
     }
-    constructor(a){
-        super(a);
+    constructor(a7){
+        super(a7);
     }
 }
 class Derived5 extends Base {
-    constructor(a){
-        super(a);
+    constructor(a8){
+        super(a8);
     }
 }
 class Derived6 extends Base {
-    constructor(a){
-        super(a);
+    constructor(a9){
+        super(a9);
     }
 }
 class Derived7 extends Base {
-    static s(a) {
+    static s(a10) {
     }
-    constructor(a){
-        super(a);
+    constructor(a11){
+        super(a11);
     }
 }
 class Derived8 extends Base {
     static get t() {
         return x;
     }
-    constructor(a){
-        super(a);
+    constructor(a12){
+        super(a12);
     }
 }
 class Derived9 extends Base {
-    static set t(v) {
+    static set t(v3) {
     }
-    constructor(a){
-        super(a);
+    constructor(a13){
+        super(a13);
     }
 }
 class Derived10 extends Base {
-    constructor(a){
-        super(a);
+    constructor(a14){
+        super(a14);
     }
 }

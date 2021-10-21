@@ -1,7 +1,7 @@
 var num, strOrNum, var1, var2, var21, obj1 = {
-    method (param) {
+    method (param1) {
         var var2;
-        return num = "string" == typeof var1 && var1.length, num = "string" == typeof var2 && var2.length, num = "string" == typeof param && param.length, strOrNum;
+        return num = "string" == typeof var1 && var1.length, num = "string" == typeof var2 && var2.length, num = "string" == typeof param1 && param1.length, strOrNum;
     },
     get prop () {
         return num = "string" == typeof var1 && var1.length, num = "string" == typeof var2 && var2.length, strOrNum;
