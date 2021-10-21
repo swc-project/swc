@@ -5,8 +5,10 @@ use swc_ecma_transforms_module::common_js::common_js;
 use swc_ecma_transforms_testing::{test, Tester};
 
 fn tr(t: &mut Tester) -> impl Fold {
+    let top_level_mark = Mark::fresh(Mark::root());
+
     chain!(
-        hygiene(),
+        resolver_with_mark(top_level_mark),
         refresh(
             true,
             Some(RefreshOptions {
