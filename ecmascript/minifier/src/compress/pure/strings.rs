@@ -43,6 +43,10 @@ where
             return;
         }
 
+        if cfg!(feature = "debug") {
+            tracing::debug!("compress_tpl");
+        }
+
         let mut quasis = vec![];
         let mut exprs = vec![];
         let mut cur = String::new();
