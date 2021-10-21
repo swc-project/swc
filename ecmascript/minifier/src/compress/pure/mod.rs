@@ -1,6 +1,10 @@
 use self::ctx::Ctx;
 use crate::{
-    debug::dump, marks::Marks, mode::Mode, option::CompressOptions, util::ModuleItemExt,
+    debug::{dump, AssertValid},
+    marks::Marks,
+    mode::Mode,
+    option::CompressOptions,
+    util::ModuleItemExt,
     MAX_PAR_DEPTH,
 };
 use rayon::prelude::*;
@@ -498,6 +502,10 @@ where
                 tracing::debug!("after: visit_mut_stmt: {}", text);
             }
         }
+
+        if cfg!(feature = "debug") && cfg!(debug_assertions) {
+            s.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+        }
     }
 
     fn visit_mut_stmts(&mut self, items: &mut Vec<Stmt>) {
@@ -509,6 +517,10 @@ where
             Stmt::Empty(..) => false,
             _ => true,
         });
+
+        if cfg!(feature = "debug") && cfg!(debug_assertions) {
+            items.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+        }
     }
 
     /// We don't optimize [Tpl] contained in [TaggedTpl].
