@@ -18,7 +18,10 @@ use swc_common::{
     SourceMap, Spanned,
 };
 use swc_ecma_ast::*;
-use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
+use swc_ecma_codegen::{
+    text_writer::{omit_trailing_semi, JsWriter, WriteJs},
+    Emitter,
+};
 use swc_ecma_minifier::{
     optimize,
     option::{
@@ -268,7 +271,7 @@ fn base_fixture(input: PathBuf) {
 
         let output = print(cm.clone(), &[output_module.clone()], false);
 
-        eprintln!("---- {} -----\n{}", Color::Green.paint("Ouput"), output);
+        eprintln!("---- {} -----\n{}", Color::Green.paint("Ourput"), output);
 
         println!("{}", input.display());
 
@@ -297,7 +300,7 @@ fn projects(input: PathBuf) {
 
         let output = print(cm.clone(), &[output_module.clone()], false);
 
-        eprintln!("---- {} -----\n{}", Color::Green.paint("Ouput"), output);
+        eprintln!("---- {} -----\n{}", Color::Green.paint("Ourput"), output);
 
         println!("{}", input.display());
 
@@ -386,7 +389,7 @@ fn fixture(input: PathBuf) {
 
         let output = print(cm.clone(), &[output_module.clone()], false);
 
-        eprintln!("---- {} -----\n{}", Color::Green.paint("Ouput"), output);
+        eprintln!("---- {} -----\n{}", Color::Green.paint("Ourput"), output);
 
         let expected = {
             let expected = read_to_string(&dir.join("output.js")).unwrap();
@@ -467,11 +470,16 @@ fn print<N: swc_ecma_codegen::Node>(cm: Lrc<SourceMap>, nodes: &[N], minify: boo
     let mut buf = vec![];
 
     {
+        let mut wr: Box<dyn WriteJs> = Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None));
+        if minify {
+            wr = Box::new(omit_trailing_semi(wr));
+        }
+
         let mut emitter = Emitter {
             cfg: swc_ecma_codegen::Config { minify },
             cm: cm.clone(),
             comments: None,
-            wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
+            wr,
         };
 
         for n in nodes {
