@@ -109,6 +109,7 @@
         "stmts",
         "succ",
         "sugg",
+        "swcify",
         "swcpack",
         "swcrc",
         "systemjs",
@@ -117,7 +118,8 @@
         "uncons",
         "Unexported",
         "Unexporter",
-        "unimpl"
+        "unimpl",
+        "untrusted"
     ],
     "flagWords": [
         "actally"
