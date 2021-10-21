@@ -1,5 +1,5 @@
-const DEBUG1 = true;
-export { DEBUG1 as DEBUG };
-class B1 {
+const DEBUG = true;
+export { DEBUG as DEBUG };
+class B {
 }
-export { B1 as B };
+export { B as B };

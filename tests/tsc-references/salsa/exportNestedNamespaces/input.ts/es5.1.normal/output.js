@@ -21,7 +21,7 @@ exports.Classic = function _class() {
 };
 var k = new s.n.K();
 k.x;
-var classic = new s.Classic();
+var classic1 = new s.Classic();
 /** @param {s.n.K} c
     @param {s.Classic} classic */ function f(c, classic) {
     c.x;

@@ -1098,11 +1098,11 @@ test!(
     ",
     r#"
     var regeneratorRuntime = require("regenerator-runtime");
-    const x = regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
+    const x = regeneratorRuntime.mark(function _callee1() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx1) {
+            while(1)switch(_ctx1.prev = _ctx1.next){
                 case 0:
-                    return _ctx.abrupt("return", Promise.all([
+                    return _ctx1.abrupt("return", Promise.all([
                         [
                             1
                         ],
@@ -1125,9 +1125,9 @@ test!(
                     }))));
                 case 1:
                 case "end":
-                    return _ctx.stop();
+                    return _ctx1.stop();
             }
-        }, _callee);
+        }, _callee1);
     });
     "#
 );

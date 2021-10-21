@@ -39,9 +39,9 @@ var Bar = function() {
             }
         }
     ]), Bar;
-}(), Base = function() {
+}(), Base1 = function() {
     "use strict";
-    _classCallCheck(this, Base);
+    _classCallCheck(this, Base1);
 }, Derived = function(Base) {
     "use strict";
     function Derived() {
@@ -68,4 +68,4 @@ var Bar = function() {
             }
         }
     ]), Derived;
-}(Base);
+}(Base1);

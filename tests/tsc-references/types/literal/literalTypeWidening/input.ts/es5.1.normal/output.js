@@ -133,31 +133,32 @@ function isFailure(result) {
 function increment(x) {
     return x + 1;
 }
-var result = doWork();
-if (isSuccess(result)) {
-    increment(result);
+var result1 = doWork();
+if (isSuccess(result1)) {
+    increment(result1);
 }
 function onMouseOver() {
     return "onmouseover";
 }
-var x = onMouseOver();
+var x1 = onMouseOver();
 // Repro from #23649
 export function Set() {
     for(var _len = arguments.length, keys = new Array(_len), _key = 0; _key < _len; _key++){
         keys[_key] = arguments[_key];
     }
-    var result1 = {
+    var result = {
     };
     keys.forEach(function(key) {
-        return result1[key] = true;
+        return result[key] = true;
     });
-    return result1;
+    return result;
 }
-export function keys(obj) {
+function keys1(obj) {
     return Object.keys(obj);
 }
+export { keys1 as keys };
 var langCodeSet = Set('fr', 'en', 'es', 'it', 'nl');
-export var langCodes = keys(langCodeSet);
+export var langCodes = keys1(langCodeSet);
 var arr = langCodes.map(function(code) {
     return {
         code: code
@@ -165,16 +166,18 @@ var arr = langCodes.map(function(code) {
 });
 // Repro from #29081
 function test(obj) {
-    var a = obj.a, rest = _objectWithoutProperties(obj, ["a"]);
+    var a = obj.a, rest = _objectWithoutProperties(obj, [
+        "a"
+    ]);
     return _objectSpread({
         a: 'hello'
     }, rest);
 }
-var E;
+var E1;
 (function(E) {
     E[E["A"] = 0] = "A";
     E[E["B"] = 1] = "B";
-})(E || (E = {
+})(E1 || (E1 = {
 }));
-var a = f(E.A);
+var a = f(E1.A);
 var b = a;

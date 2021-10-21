@@ -728,20 +728,20 @@ export default class {
 
 "#,
     r#"
-call(function() {
-    var _class = function _class() {
-      'use strict';
-      _classCallCheck(this, _class);
-    };
-    _defineProperty(_class, 'test', true);
-    return _class;
-}());
-var _class = function _class() {
-  'use strict';
-  _classCallCheck(this, _class);
-};
-_defineProperty(_class, 'test', true);
-export { _class as default }
+  call(function() {
+      var _class = function _class() {
+          "use strict";
+          _classCallCheck(this, _class);
+      };
+      _defineProperty(_class, "test", true);
+      return _class;
+  }());
+  var _class1 = function _class1() {
+      "use strict";
+      _classCallCheck(this, _class1);
+  };
+  _defineProperty(_class1, "test", true);
+  export { _class1 as default };
 "#
 );
 
@@ -3423,13 +3423,13 @@ call(function() {
     };
     return _class;
 }());
-class _class{
+class _class1{
 }
 var _test = {
     writable: true,
     value: true
 };
-export { _class as default }
+export { _class1 as default }
 
 
 "#
@@ -3467,7 +3467,7 @@ export default class MyClass3 {
     r#"
 class MyClass {
     constructor(){
-        _myAsyncMethod.set(this, {
+        _myAsyncMethod2.set(this, {
             writable: true,
             value: _asyncToGenerator((function*() {
                 console.log(this);
@@ -3475,7 +3475,7 @@ class MyClass {
         });
     }
 }
-var _myAsyncMethod = new WeakMap();
+var _myAsyncMethod2 = new WeakMap();
 (function() {
     class MyClass2 {
         constructor(){

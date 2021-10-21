@@ -52,23 +52,23 @@ function _toConsumableArray(arr) {
         throw new TypeError("Invalid attempt to spread non-iterable instance");
     })();
 }
-function _templateObject1() {
+function _templateObject() {
     var data = _taggedTemplateLiteral([
         "head",
         "middle",
         "tail"
     ]);
-    return _templateObject1 = function _templateObject1() {
+    return _templateObject = function _templateObject() {
         return data;
     }, data;
 }
-function _templateObject() {
+function _templateObject1() {
     var data = _taggedTemplateLiteral([
         "test",
         "and",
         ""
     ]);
-    return _templateObject = function _templateObject() {
+    return _templateObject1 = function _templateObject1() {
         return data;
     }, data;
 }
@@ -111,7 +111,7 @@ var A = function() {
                     0
                 ].concat(_toConsumableArray(arr), [
                     3
-                ])), _classPrivateFieldGet(this, _fieldFunc2).bind(this)(_templateObject1(), 1, 2), _classPrivateFieldGet(_ref = this.getInstance(), _fieldFunc2).bind(_ref)(_templateObject(), 1, 2);
+                ])), _classPrivateFieldGet(this, _fieldFunc2).bind(this)(_templateObject(), 1, 2), _classPrivateFieldGet(_ref = this.getInstance(), _fieldFunc2).bind(_ref)(_templateObject1(), 1, 2);
             }
         },
         {

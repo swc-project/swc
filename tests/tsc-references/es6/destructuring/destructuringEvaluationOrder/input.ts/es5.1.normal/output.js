@@ -109,8 +109,8 @@ var tmp1 = {
 // order(1) should evaluate next (initializer because property is undefined)
 // order(2) should evaluate last (evaluate object binding pattern from initializer)
 var _ref = {
-}, key = order(0), key1 = order(2), tmp2 = _ref[key], ref3 = tmp2 === void 0 ? order(1) : tmp2, z = ref3[key1], w = _objectWithoutProperties(_ref, [
-    key
+}, key2 = order(0), key1 = order(2), tmp2 = _ref[key2], ref3 = tmp2 === void 0 ? order(1) : tmp2, z = ref3[key1], w = _objectWithoutProperties(_ref, [
+    key2
 ].map(_toPropertyKey));
 // https://github.com/microsoft/TypeScript/issues/39181
 // b = a must occur *after* 'a' has been assigned

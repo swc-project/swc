@@ -20,8 +20,8 @@ function _createClass(Constructor, protoProps, staticProps) {
 // Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
-var TypeScript1;
-(function(TypeScript) {
+var TypeScript;
+(function(TypeScript1) {
     var pushAssignScope = function pushAssignScope(scope, context, type, classType, fnc) {
         var chain = new ScopeChain(null, context.scopeChain, scope);
         chain.thisType = type;
@@ -122,7 +122,7 @@ var TypeScript1;
         withType.symbol = withSymbol;
         withType.setHasImplementation();
         withStmt.type = withType;
-        var withScope = new TypeScript1.SymbolScopeBuilder(withType.members, withType.ambientMembers, null, null, context.scopeChain.scope, withType.symbol);
+        var withScope = new TypeScript.SymbolScopeBuilder(withType.members, withType.ambientMembers, null, null, context.scopeChain.scope, withType.symbol);
         pushAssignScope(withScope, context, null, null, null);
         withType.containedScope = withScope;
     };
@@ -350,11 +350,11 @@ var TypeScript1;
         this.typeFlow = typeFlow;
         this.modDeclChain = modDeclChain;
     };
-    TypeScript.AssignScopeContext = AssignScopeContext;
-    TypeScript.pushAssignScope = pushAssignScope;
-    TypeScript.popAssignScope = popAssignScope;
-    TypeScript.instanceCompare = instanceCompare;
-    TypeScript.instanceFilterStop = instanceFilterStop;
+    TypeScript1.AssignScopeContext = AssignScopeContext;
+    TypeScript1.pushAssignScope = pushAssignScope;
+    TypeScript1.popAssignScope = popAssignScope;
+    TypeScript1.instanceCompare = instanceCompare;
+    TypeScript1.instanceFilterStop = instanceFilterStop;
     var ScopeSearchFilter = /*#__PURE__*/ function() {
         "use strict";
         function ScopeSearchFilter(select, stop) {
@@ -384,15 +384,15 @@ var TypeScript1;
         ]);
         return ScopeSearchFilter;
     }();
-    TypeScript.ScopeSearchFilter = ScopeSearchFilter;
-    TypeScript.instanceFilter = new ScopeSearchFilter(instanceCompare, instanceFilterStop);
-    TypeScript.preAssignModuleScopes = preAssignModuleScopes;
-    TypeScript.preAssignClassScopes = preAssignClassScopes;
-    TypeScript.preAssignInterfaceScopes = preAssignInterfaceScopes;
-    TypeScript.preAssignWithScopes = preAssignWithScopes;
-    TypeScript.preAssignFuncDeclScopes = preAssignFuncDeclScopes;
-    TypeScript.preAssignCatchScopes = preAssignCatchScopes;
-    TypeScript.preAssignScopes = preAssignScopes;
-    TypeScript.postAssignScopes = postAssignScopes;
-})(TypeScript1 || (TypeScript1 = {
+    TypeScript1.ScopeSearchFilter = ScopeSearchFilter;
+    TypeScript1.instanceFilter = new ScopeSearchFilter(instanceCompare, instanceFilterStop);
+    TypeScript1.preAssignModuleScopes = preAssignModuleScopes;
+    TypeScript1.preAssignClassScopes = preAssignClassScopes;
+    TypeScript1.preAssignInterfaceScopes = preAssignInterfaceScopes;
+    TypeScript1.preAssignWithScopes = preAssignWithScopes;
+    TypeScript1.preAssignFuncDeclScopes = preAssignFuncDeclScopes;
+    TypeScript1.preAssignCatchScopes = preAssignCatchScopes;
+    TypeScript1.preAssignScopes = preAssignScopes;
+    TypeScript1.postAssignScopes = postAssignScopes;
+})(TypeScript || (TypeScript = {
 }));

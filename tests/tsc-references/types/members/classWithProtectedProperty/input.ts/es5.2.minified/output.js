@@ -20,14 +20,14 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var C1 = function() {
+var C = function() {
     "use strict";
-    function C1() {
-        _classCallCheck(this, C1), this.a = "", this.b = "", this.d = function() {
+    function C() {
+        _classCallCheck(this, C), this.a = "", this.b = "", this.d = function() {
             return "";
         };
     }
-    return _createClass(C1, [
+    return _createClass(C, [
         {
             key: "c",
             value: function() {
@@ -41,12 +41,12 @@ var C1 = function() {
                 return "";
             }
         }
-    ]), C1;
+    ]), C;
 }();
-C1.g = function() {
+C.g = function() {
     return "";
 };
-var D = function(C) {
+var D = function(C1) {
     "use strict";
     function D() {
         var self, call, obj;
@@ -64,13 +64,13 @@ var D = function(C) {
                 configurable: !0
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
-    }(D, C), _createClass(D, [
+    }(D, C1), _createClass(D, [
         {
             key: "method",
             value: function() {
                 var d = new D();
-                d.x, d.a, d.b, d.c(), d.d(), C1.e, C1.f(), C1.g();
+                d.x, d.a, d.b, d.c(), d.d(), C.e, C.f(), C.g();
             }
         }
     ]), D;
-}(C1);
+}(C);

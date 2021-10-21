@@ -41,11 +41,11 @@ var A = /*#__PURE__*/ function() {
     ]);
     return A;
 }();
-var M;
+var M1;
 (function(M) {
     var n;
     M.n = n;
-})(M || (M = {
+})(M1 || (M1 = {
 }));
 var objA = new A();
 //number type var

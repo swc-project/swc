@@ -3,7 +3,7 @@ class C {
         C.prototype.foo = ()=>{
         };
     }
-    bar(x) {
+    bar(x1) {
         return C.prototype.bar = ()=>{
         }, C.prototype.bar = (x)=>x
         , C.prototype.bar = (x)=>1

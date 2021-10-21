@@ -1,14 +1,14 @@
 var // @target: es5,esnext
-K;
+K1;
 (function(K) {
     K["a"] = "a";
     K["b"] = "b";
-})(K || (K = {
+})(K1 || (K1 = {
 }));
-const { [K.a]: aVal , [K.b]: bVal  } = (()=>{
+const { [K1.a]: aVal , [K1.b]: bVal  } = (()=>{
     return {
-        [K.a]: 1,
-        [K.b]: 1
+        [K1.a]: 1,
+        [K1.b]: 1
     };
 })();
 console.log(aVal, bVal);

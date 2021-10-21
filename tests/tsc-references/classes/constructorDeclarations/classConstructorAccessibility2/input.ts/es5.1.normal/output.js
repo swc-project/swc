@@ -58,65 +58,65 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
-var BaseA1 = // @declaration: true
+var BaseA = // @declaration: true
 /*#__PURE__*/ function() {
     "use strict";
-    function BaseA1(x) {
-        _classCallCheck(this, BaseA1);
+    function BaseA(x) {
+        _classCallCheck(this, BaseA);
         this.x = x;
     }
-    _createClass(BaseA1, [
+    _createClass(BaseA, [
         {
             key: "createInstance",
             value: function createInstance() {
-                new BaseA1(1);
+                new BaseA(1);
             }
         }
     ]);
-    return BaseA1;
+    return BaseA;
 }();
-var BaseB1 = /*#__PURE__*/ function() {
+var BaseB = /*#__PURE__*/ function() {
     "use strict";
-    function BaseB1(x) {
-        _classCallCheck(this, BaseB1);
+    function BaseB(x) {
+        _classCallCheck(this, BaseB);
         this.x = x;
     }
-    _createClass(BaseB1, [
+    _createClass(BaseB, [
         {
             key: "createInstance",
             value: function createInstance() {
-                new BaseB1(2);
+                new BaseB(2);
             }
         }
     ]);
-    return BaseB1;
+    return BaseB;
 }();
-var BaseC1 = /*#__PURE__*/ function() {
+var BaseC = /*#__PURE__*/ function() {
     "use strict";
-    function BaseC1(x) {
-        _classCallCheck(this, BaseC1);
+    function BaseC(x) {
+        _classCallCheck(this, BaseC);
         this.x = x;
     }
-    _createClass(BaseC1, [
+    _createClass(BaseC, [
         {
             key: "createInstance",
             value: function createInstance() {
-                new BaseC1(3);
+                new BaseC(3);
             }
         }
     ], [
         {
             key: "staticInstance",
             value: function staticInstance() {
-                new BaseC1(4);
+                new BaseC(4);
             }
         }
     ]);
-    return BaseC1;
+    return BaseC;
 }();
-var DerivedA = /*#__PURE__*/ function(BaseA) {
+var DerivedA = /*#__PURE__*/ function(BaseA1) {
     "use strict";
-    _inherits(DerivedA, BaseA);
+    _inherits(DerivedA, BaseA1);
     function DerivedA(x) {
         _classCallCheck(this, DerivedA);
         var _this;
@@ -134,22 +134,22 @@ var DerivedA = /*#__PURE__*/ function(BaseA) {
         {
             key: "createBaseInstance",
             value: function createBaseInstance() {
-                new BaseA1(6);
+                new BaseA(6);
             }
         }
     ], [
         {
             key: "staticBaseInstance",
             value: function staticBaseInstance() {
-                new BaseA1(7);
+                new BaseA(7);
             }
         }
     ]);
     return DerivedA;
-}(BaseA1);
-var DerivedB = /*#__PURE__*/ function(BaseB) {
+}(BaseA);
+var DerivedB = /*#__PURE__*/ function(BaseB1) {
     "use strict";
-    _inherits(DerivedB, BaseB);
+    _inherits(DerivedB, BaseB1);
     function DerivedB(x) {
         _classCallCheck(this, DerivedB);
         var _this;
@@ -167,22 +167,22 @@ var DerivedB = /*#__PURE__*/ function(BaseB) {
         {
             key: "createBaseInstance",
             value: function createBaseInstance() {
-                new BaseB1(8);
+                new BaseB(8);
             } // ok
         }
     ], [
         {
             key: "staticBaseInstance",
             value: function staticBaseInstance() {
-                new BaseB1(9);
+                new BaseB(9);
             } // ok
         }
     ]);
     return DerivedB;
-}(BaseB1);
-var DerivedC = /*#__PURE__*/ function(BaseC) {
+}(BaseB);
+var DerivedC = /*#__PURE__*/ function(BaseC1) {
     "use strict";
-    _inherits(DerivedC, BaseC);
+    _inherits(DerivedC, BaseC1);
     function DerivedC(x) {
         _classCallCheck(this, DerivedC);
         var _this;
@@ -200,22 +200,22 @@ var DerivedC = /*#__PURE__*/ function(BaseC) {
         {
             key: "createBaseInstance",
             value: function createBaseInstance() {
-                new BaseC1(10);
+                new BaseC(10);
             } // error
         }
     ], [
         {
             key: "staticBaseInstance",
             value: function staticBaseInstance() {
-                new BaseC1(11);
+                new BaseC(11);
             } // error
         }
     ]);
     return DerivedC;
-}(BaseC1);
-var ba = new BaseA1(1);
-var bb = new BaseB1(1); // error
-var bc = new BaseC1(1); // error
+}(BaseC);
+var ba = new BaseA(1);
+var bb = new BaseB(1); // error
+var bc = new BaseC(1); // error
 var da = new DerivedA(1);
 var db = new DerivedB(1);
 var dc = new DerivedC(1);

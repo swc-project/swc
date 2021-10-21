@@ -4,14 +4,14 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 var x = true;
-var a = x;
+var a1 = x;
 var b = x;
 var c = x;
 var d = x;
-var E;
+var E1;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {
+})(E1 || (E1 = {
 }));
 var e = x;
 var C = function C() {
@@ -22,12 +22,12 @@ var f = x;
 var g = x;
 var h = x;
 var h2 = x; // no error
-var M;
+var M1;
 (function(M) {
     M.a = 1;
-})(M || (M = {
+})(M1 || (M1 = {
 }));
-M = x;
+M1 = x;
 function i(a) {
     a = x;
 }

@@ -1,20 +1,20 @@
-function a() {
-    var a1 = [
+function a1() {
+    var a = [
         ,
         ,
         1
     ];
-    var [b] = a1;
+    var [b] = a;
     f(b);
 }
-function b() {
-    var a1 = [
+function b1() {
+    var a = [
         {
             a: [
                 1
             ]
         }
     ];
-    var [{ b: a1  }] = a1;
-    f(b);
+    var [{ b: a  }] = a;
+    f(b1);
 }

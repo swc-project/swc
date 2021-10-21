@@ -1,4 +1,4 @@
-var NUMBER, M, NUMBER1 = [
+var NUMBER, M1, NUMBER1 = [
     1,
     2
 ];
@@ -13,7 +13,7 @@ class A {
 (function(M) {
     var n;
     M.n = n;
-})(M || (M = {
+})(M1 || (M1 = {
 })), new A(), --NUMBER1, NUMBER1--, --1, --{
     x: 1,
     y: 2

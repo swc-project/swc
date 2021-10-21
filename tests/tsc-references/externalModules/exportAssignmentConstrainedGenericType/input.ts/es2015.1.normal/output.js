@@ -1,7 +1,7 @@
 // @module: commonjs
 // @Filename: foo_0.ts
 class Foo {
-    constructor(x){
+    constructor(x1){
     }
 }
 module.exports = Foo;

@@ -358,7 +358,7 @@ function AnyThis() {
 var interfaceThis = new InterfaceThis();
 var literalTypeThis = new LiteralTypeThis();
 var anyThis = new AnyThis();
-var n = f.call(12);
+var n1 = f.call(12);
 function missingTypeIsImplicitAny(a) {
     return this.anything + a;
 }

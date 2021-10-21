@@ -7,10 +7,10 @@ class D {
 function F(x) {
     return 42;
 }
-function F2(x) {
+function F21(x) {
     return x < 42;
 }
-var M;
+var M1;
 (function(M) {
     class A {
     }
@@ -19,9 +19,9 @@ var M;
         return x.toString();
     }
     M.F2 = F2;
-})(M || (M = {
+})(M1 || (M1 = {
 }));
-var N;
+var N1;
 (function(N) {
     class A {
     }
@@ -30,7 +30,7 @@ var N;
         return x.toString();
     }
     N.F2 = F2;
-})(N || (N = {
+})(N1 || (N1 = {
 }));
 // literals
 if (true) {

@@ -12,9 +12,9 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var Foo = function() {
+var Foo1 = function() {
     "use strict";
-    _classCallCheck(this, Foo);
+    _classCallCheck(this, Foo1);
 }, Bar = function(Foo) {
     "use strict";
     function Bar() {
@@ -34,7 +34,7 @@ var Foo = function() {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(Bar, Foo), Bar;
-}(Foo), Baz = function() {
+}(Foo1), Baz = function() {
     "use strict";
     _classCallCheck(this, Baz);
 }, g3 = regeneratorRuntime.mark(function() {

@@ -7,9 +7,9 @@ function _classCallCheck(instance, Constructor) {
         _classCallCheck(this, Point), this.x = x, this.y = y;
     };
     moduleA.Point = Point;
-}(moduleA || (moduleA = {
+}(moduleA1 || (moduleA1 = {
 }));
-var moduleA, clodule = function() {
+var moduleA1, clodule = function() {
     "use strict";
     _classCallCheck(this, clodule);
 };

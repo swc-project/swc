@@ -13,11 +13,11 @@
         }
     })(Module || (Module = {
     }));
-    var Color;
+    var Color1;
     (function(Color) {
         Color[Color["Blue"] = 0] = "Blue";
         Color[Color["Red"] = 1] = "Red";
-    })(Color || (Color = {
+    })(Color1 || (Color1 = {
     }));
     var x = 12;
     function F(s) {
@@ -34,7 +34,7 @@
     };
 })(A || (A = {
 }));
-var Y;
+var Y1;
 (function(Y) {
     class A {
     }
@@ -72,5 +72,5 @@ var Y;
         id: 2,
         isvalid: true
     };
-})(Y || (Y = {
+})(Y1 || (Y1 = {
 }));

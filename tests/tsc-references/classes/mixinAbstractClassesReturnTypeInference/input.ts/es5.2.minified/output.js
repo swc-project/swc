@@ -53,7 +53,7 @@ var _typeof = function(obj) {
             }
         }
     ]), DerivedFromAbstract2;
-}(function(baseClass) {
+}(function(baseClass1) {
     var MixinClass = function(baseClass) {
         "use strict";
         function MixinClass() {
@@ -72,6 +72,6 @@ var _typeof = function(obj) {
                 }
             }
         ]), MixinClass;
-    }(baseClass);
+    }(baseClass1);
     return MixinClass;
 }(AbstractBase));

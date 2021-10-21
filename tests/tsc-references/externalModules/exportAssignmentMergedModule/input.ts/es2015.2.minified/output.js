@@ -1,5 +1,5 @@
-var Foo, Foo1;
-(Foo1 = Foo || (Foo = {
+var Foo2, Foo1;
+(Foo1 = Foo2 || (Foo2 = {
 })).a = function() {
     return 5;
 }, Foo1.b = !0, (function(Foo) {
@@ -8,8 +8,8 @@ var Foo, Foo1;
         return a;
     }, (Test || (Test = {
     })).answer = 42, Foo.Test = Test;
-})(Foo || (Foo = {
-})), module.exports = Foo;
+})(Foo2 || (Foo2 = {
+})), module.exports = Foo2;
 const foo = require("./foo_0");
 foo.a(), foo.b && (foo.Test.answer = foo.c(42));
 export { };

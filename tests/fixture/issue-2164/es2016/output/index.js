@@ -34,6 +34,6 @@ function _fn() {
     });
     return _fn.apply(this, arguments);
 }
-function fn() {
+function fn1() {
     return _fn.apply(this, arguments);
 }

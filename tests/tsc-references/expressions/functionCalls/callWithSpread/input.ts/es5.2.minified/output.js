@@ -56,49 +56,49 @@ foo(1, 2, "abc"), foo.apply(void 0, [
     2
 ].concat(_toConsumableArray(a), [
     "abc"
-])), obj.foo(1, 2, "abc"), (_obj1 = obj).foo.apply(_obj1, [
+])), obj1.foo(1, 2, "abc"), (_obj = obj1).foo.apply(_obj, [
     1,
     2
-].concat(_toConsumableArray(a))), (_obj2 = obj).foo.apply(_obj2, [
+].concat(_toConsumableArray(a))), (_obj1 = obj1).foo.apply(_obj1, [
     1,
     2
 ].concat(_toConsumableArray(a), [
     "abc"
-])), (_obj3 = obj).foo.apply(_obj3, [
+])), (_obj2 = obj1).foo.apply(_obj2, [
     1,
     2
-].concat(_toConsumableArray(a))).foo(1, 2, "abc"), (_instance1 = (_obj4 = obj).foo.apply(_obj4, [
+].concat(_toConsumableArray(a))).foo(1, 2, "abc"), (_instance4 = (_obj3 = obj1).foo.apply(_obj3, [
+    1,
+    2
+].concat(_toConsumableArray(a)))).foo.apply(_instance4, [
+    1,
+    2
+].concat(_toConsumableArray(a))), (_instance1 = (_obj4 = obj1).foo.apply(_obj4, [
     1,
     2
 ].concat(_toConsumableArray(a)))).foo.apply(_instance1, [
     1,
     2
-].concat(_toConsumableArray(a))), (_instance2 = (_obj5 = obj).foo.apply(_obj5, [
+].concat(_toConsumableArray(a), [
+    "abc"
+])), obj1.foo(1, 2, "abc"), obj1.foo.apply(this, [
     1,
     2
-].concat(_toConsumableArray(a)))).foo.apply(_instance2, [
+].concat(_toConsumableArray(a))), obj1.foo.apply(this, [
     1,
     2
 ].concat(_toConsumableArray(a), [
     "abc"
-])), obj.foo(1, 2, "abc"), obj.foo.apply(this, [
+])), obj1.foo.apply(this, [
     1,
     2
-].concat(_toConsumableArray(a))), obj.foo.apply(this, [
-    1,
-    2
-].concat(_toConsumableArray(a), [
-    "abc"
-])), obj.foo.apply(this, [
-    1,
-    2
-].concat(_toConsumableArray(a))).foo(1, 2, "abc"), obj.foo.apply(this, [
+].concat(_toConsumableArray(a))).foo(1, 2, "abc"), obj1.foo.apply(this, [
     1,
     2
 ].concat(_toConsumableArray(a))).foo.apply(this, [
     1,
     2
-].concat(_toConsumableArray(a))), obj.foo.apply(this, [
+].concat(_toConsumableArray(a))), obj1.foo.apply(this, [
     1,
     2
 ].concat(_toConsumableArray(a))).foo.apply(this, [
@@ -106,10 +106,10 @@ foo(1, 2, "abc"), foo.apply(void 0, [
     2
 ].concat(_toConsumableArray(a), [
     "abc"
-])), xa[1].foo(1, 2, "abc"), (_instance3 = xa[1]).foo.apply(_instance3, [
+])), xa[1].foo(1, 2, "abc"), (_instance2 = xa[1]).foo.apply(_instance2, [
     1,
     2
-].concat(_toConsumableArray(a))), (_instance4 = xa[1]).foo.apply(_instance4, [
+].concat(_toConsumableArray(a))), (_instance3 = xa[1]).foo.apply(_instance3, [
     1,
     2
 ].concat(_toConsumableArray(a), [
@@ -119,7 +119,7 @@ foo(1, 2, "abc"), foo.apply(void 0, [
     2,
     "abc"
 ]);
-var _obj1, _obj2, _obj3, _obj4, _instance1, _obj5, _instance2, _instance3, _instance4, a, obj, xa, C = function() {
+var _obj, _obj1, _obj2, _obj3, _instance4, _obj4, _instance1, _instance2, _instance3, a, obj1, xa, C = function() {
     "use strict";
     function C(x, y) {
         for(var _len = arguments.length, z = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)z[_key - 2] = arguments[_key];

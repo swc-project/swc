@@ -87,4 +87,4 @@ var C2 = /*#__PURE__*/ function(C1) {
     return C2;
 }(C1);
 var c;
-var obj = c[Symbol.toStringTag]().x;
+var obj1 = c[Symbol.toStringTag]().x;

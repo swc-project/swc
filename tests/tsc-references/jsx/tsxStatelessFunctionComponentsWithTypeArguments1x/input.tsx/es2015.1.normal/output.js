@@ -45,7 +45,7 @@ function createLink1(func) {
     });
 }
 // OK
-let i = /*#__PURE__*/ React.createElement(InferParamComponent, {
+let i1 = /*#__PURE__*/ React.createElement(InferParamComponent, {
     values: [
         1,
         2,

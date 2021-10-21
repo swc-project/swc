@@ -8,10 +8,10 @@ class C4 extends Constructor() {
 }
 class C5 extends Constructor() {
 }
-var EX;
+var EX1;
 (function(EX) {
     EX[EX["A"] = 0] = "A";
     EX[EX["B"] = 1] = "B";
     EX[EX["C"] = 2] = "C";
-})(EX || (EX = {
+})(EX1 || (EX1 = {
 }));

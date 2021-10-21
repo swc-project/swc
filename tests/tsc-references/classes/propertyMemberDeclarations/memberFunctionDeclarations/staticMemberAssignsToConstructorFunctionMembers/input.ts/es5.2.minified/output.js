@@ -21,7 +21,7 @@ var C = function() {
         },
         {
             key: "bar",
-            value: function(x) {
+            value: function(x1) {
                 return C.bar = function() {
                 }, C.bar = function(x) {
                     return x;

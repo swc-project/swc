@@ -50,23 +50,23 @@ function foo9(x) {
     return i;
 }
 var r9 = foo9(1);
-class C {
+class C1 {
 }
 function foo10(x) {
     var c;
     return c;
 }
 var r10 = foo10(1);
-var M;
+var M1;
 (function(M) {
     M.x = 1;
     class C {
     }
     M.C = C;
-})(M || (M = {
+})(M1 || (M1 = {
 }));
 function foo11() {
-    return M;
+    return M1;
 }
 var r11 = foo11();
 function foo12() {
@@ -74,39 +74,39 @@ function foo12() {
     return i2;
 }
 var r12 = foo12();
-function m1() {
+function m11() {
     return 1;
 }
 (function(m1) {
     m1.y = 2;
-})(m1 || (m1 = {
+})(m11 || (m11 = {
 }));
 function foo13() {
-    return m1;
+    return m11;
 }
 var r13 = foo13();
-class c1 {
+class c11 {
     constructor(x){
     }
 }
 (function(c1) {
     c1.x = 1;
-})(c1 || (c1 = {
+})(c11 || (c11 = {
 }));
 function foo14() {
-    return c1;
+    return c11;
 }
 var r14 = foo14();
-var e1;
+var e11;
 (function(e1) {
     e1[e1["A"] = 0] = "A";
-})(e1 || (e1 = {
+})(e11 || (e11 = {
 }));
 (function(e1) {
     e1.y = 1;
-})(e1 || (e1 = {
+})(e11 || (e11 = {
 }));
 function foo15() {
-    return e1;
+    return e11;
 }
 var r15 = foo15();

@@ -159,22 +159,22 @@ function f5() {
         return new C();
     };
 }
-var A = /*#__PURE__*/ function() {
+var A1 = /*#__PURE__*/ function() {
     "use strict";
-    function A() {
-        _classCallCheck(this, A);
-        var E;
+    function A1() {
+        _classCallCheck(this, A1);
+        var E1;
         (function(E) {
             E[E["A"] = 0] = "A";
             E[E["B"] = 1] = "B";
             E[E["C"] = 2] = "C";
-        })(E || (E = {
+        })(E1 || (E1 = {
         }));
         var C = function C() {
             _classCallCheck(this, C);
         };
     }
-    _createClass(A, [
+    _createClass(A1, [
         {
             key: "m",
             value: function m() {
@@ -206,7 +206,7 @@ var A = /*#__PURE__*/ function() {
             }
         }
     ]);
-    return A;
+    return A1;
 }();
 function f6() {
     var g = function g() {
@@ -218,7 +218,7 @@ function f6() {
                 return _possibleConstructorReturn(this, _getPrototypeOf(B).apply(this, arguments));
             }
             return B;
-        }(A);
+        }(A2);
         function h() {
             var C = /*#__PURE__*/ function(B) {
                 "use strict";
@@ -237,9 +237,9 @@ function f6() {
         }
         return h();
     };
-    var A = function A() {
+    var A2 = function A2() {
         "use strict";
-        _classCallCheck(this, A);
+        _classCallCheck(this, A2);
     };
     return g();
 }

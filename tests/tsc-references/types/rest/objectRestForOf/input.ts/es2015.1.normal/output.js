@@ -60,7 +60,9 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 // @target: es2015
 let array;
 for (let _ref of array){
-    var { x  } = _ref, restOf = _objectWithoutProperties(_ref, ["x"]);
+    var { x  } = _ref, restOf = _objectWithoutProperties(_ref, [
+        "x"
+    ]);
     [
         x,
         restOf

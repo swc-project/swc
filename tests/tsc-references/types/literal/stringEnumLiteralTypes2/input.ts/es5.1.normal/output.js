@@ -1,10 +1,10 @@
 var // @strictNullChecks: true
-Choice;
+Choice1;
 (function(Choice) {
     Choice["Unknown"] = "";
     Choice["Yes"] = "yes";
     Choice["No"] = "no";
-})(Choice || (Choice = {
+})(Choice1 || (Choice1 = {
 }));
 function f1() {
     var a;
@@ -30,8 +30,8 @@ function f3(a, b) {
     var y = !b;
 }
 function f5(a, b, c) {
-    var z1 = g(Choice.Yes);
-    var z2 = g(Choice.No);
+    var z1 = g(Choice1.Yes);
+    var z2 = g(Choice1.No);
     var z3 = g(a);
     var z4 = g(b);
     var z5 = g(c);
@@ -41,17 +41,17 @@ function assertNever(x) {
 }
 function f10(x) {
     switch(x){
-        case Choice.Yes:
+        case Choice1.Yes:
             return "true";
-        case Choice.No:
+        case Choice1.No:
             return "false";
     }
 }
 function f11(x) {
     switch(x){
-        case Choice.Yes:
+        case Choice1.Yes:
             return "true";
-        case Choice.No:
+        case Choice1.No:
             return "false";
     }
     return assertNever(x);
@@ -64,7 +64,7 @@ function f12(x) {
     }
 }
 function f13(x) {
-    if (x === Choice.Yes) {
+    if (x === Choice1.Yes) {
         x;
     } else {
         x;
@@ -72,17 +72,17 @@ function f13(x) {
 }
 function f20(x) {
     switch(x.kind){
-        case Choice.Yes:
+        case Choice1.Yes:
             return x.a;
-        case Choice.No:
+        case Choice1.No:
             return x.b;
     }
 }
 function f21(x) {
     switch(x.kind){
-        case Choice.Yes:
+        case Choice1.Yes:
             return x.a;
-        case Choice.No:
+        case Choice1.No:
             return x.b;
     }
     return assertNever(x);

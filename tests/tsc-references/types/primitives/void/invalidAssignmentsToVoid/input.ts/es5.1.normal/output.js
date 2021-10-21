@@ -18,12 +18,12 @@ x = C;
 x = c;
 var i;
 x = i;
-var M;
+var M1;
 (function(M) {
     M.x = 1;
-})(M || (M = {
+})(M1 || (M1 = {
 }));
-x = M;
+x = M1;
 function f(a) {
     x = a;
 }

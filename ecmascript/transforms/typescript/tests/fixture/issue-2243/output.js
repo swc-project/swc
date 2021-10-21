@@ -1,6 +1,7 @@
-export function Colors(member) {
-    return Colors.ValueFor(member);
+function Colors1(member) {
+    return Colors1.ValueFor(member);
 }
+export { Colors1 as Colors };
 (function(Colors) {
     Colors.ValueMap = {
         Red: {
@@ -29,5 +30,5 @@ export function Colors(member) {
         return ValueMap[member]?.label;
     }
     Colors.LabelFor = LabelFor;
-})(Colors || (Colors = {
+})(Colors1 || (Colors1 = {
 }));

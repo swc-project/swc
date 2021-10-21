@@ -26,12 +26,12 @@ var D;
 })(D || (D = {
 }));
 // no code gen expected
-var E;
+var E1;
 (function(E) {
     var a = A.inA;
     function xDist(x) {
         return 0 - x.x;
     }
     E.xDist = xDist;
-})(E || (E = {
+})(E1 || (E1 = {
 }));

@@ -1,5 +1,5 @@
 import { jsx as _jsx } from "react/jsx-runtime";
-import React, { Component } from 'react';
+import React, { Component as Component1 } from 'react';
 import PropTypes from 'prop-types';
 import Item from './Item';
 import compareObjects from './compareObjects';
@@ -154,7 +154,7 @@ var ItemsList = /*#__PURE__*/ function(Component) {
         }
     ]);
     return ItemsList;
-}(Component);
+}(Component1);
 ItemsList.propTypes = {
     items: PropTypes.array.isRequired,
     itemProps: PropTypes.oneOfType([

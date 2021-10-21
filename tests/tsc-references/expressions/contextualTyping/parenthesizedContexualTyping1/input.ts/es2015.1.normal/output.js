@@ -15,7 +15,7 @@ var e = fun((x)=>x
 var f = fun((x)=>x
 , (x)=>x
 , 10);
-var g = fun((x)=>x
+var g1 = fun((x)=>x
 , (x)=>x
 , 10);
 var h = fun((x)=>x

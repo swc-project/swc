@@ -29,23 +29,23 @@ function _setPrototypeOf(o, p) {
 }
 var a, _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, C = function() {
+}, C1 = function() {
     "use strict";
-    _classCallCheck(this, C);
-}, C2 = function() {
+    _classCallCheck(this, C1);
+}, C21 = function() {
     "use strict";
-    _classCallCheck(this, C2);
+    _classCallCheck(this, C21);
 }, D = function(C) {
     "use strict";
     function D() {
         return _classCallCheck(this, D), _possibleConstructorReturn(this, _getPrototypeOf(D).apply(this, arguments));
     }
     return _inherits(D, C), D;
-}(C), E = function(C2) {
+}(C1), E = function(C2) {
     "use strict";
     function E() {
         return _classCallCheck(this, E), _possibleConstructorReturn(this, _getPrototypeOf(E).apply(this, arguments));
     }
     return _inherits(E, C2), E;
-}(C2);
+}(C21);
 a.x, a.w;

@@ -123,7 +123,7 @@ var h = /*#__PURE__*/ React.createElement("div", {
     }
 });
 // Error - property not on ontextually typed intrinsic ref callback parameter
-var i = /*#__PURE__*/ React.createElement("div", {
+var i1 = /*#__PURE__*/ React.createElement("div", {
     ref: function(x) {
         return x.propertyNotOnHtmlDivElement;
     }

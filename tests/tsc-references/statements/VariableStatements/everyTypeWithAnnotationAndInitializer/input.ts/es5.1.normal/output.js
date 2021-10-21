@@ -14,7 +14,7 @@ var D = function D() {
 function F(x) {
     return 42;
 }
-var M;
+var M1;
 (function(M) {
     var F2 = function F2(x) {
         return x.toString();
@@ -25,7 +25,7 @@ var M;
     };
     M.A = A;
     M.F2 = F2;
-})(M || (M = {
+})(M1 || (M1 = {
 }));
 var aNumber = 9.9;
 var aString = 'this is a string';
@@ -46,8 +46,8 @@ var anOtherFunction = F;
 var aLambda = function(x) {
     return 2;
 };
-var aModule = M;
-var aClassInModule = new M.A();
+var aModule = M1;
+var aClassInModule = new M1.A();
 var aFunctionInModule = function(x) {
     return 'this is a string';
 };

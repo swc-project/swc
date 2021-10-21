@@ -8,14 +8,14 @@ let p1 = {
 f1({
     x: 10,
     y: 20,
-    moveBy (dx, dy, dz) {
-        this.x += dx, this.y += dy, this.z && dz && (this.z += dz);
+    moveBy (dx1, dy1, dz1) {
+        this.x += dx1, this.y += dy1, this.z && dz1 && (this.z += dz1);
     }
 }), f2({
     x: 10,
     y: 20,
-    moveBy (dx, dy, dz) {
-        this.x += dx, this.y += dy, this.z && dz && (this.z += dz);
+    moveBy (dx2, dy2, dz2) {
+        this.x += dx2, this.y += dy2, this.z && dz2 && (this.z += dz2);
     }
 }), makeObject({
     data: {
@@ -23,8 +23,8 @@ f1({
         y: 0
     },
     methods: {
-        moveBy (dx, dy) {
-            this.x += dx, this.y += dy;
+        moveBy (dx3, dy3) {
+            this.x += dx3, this.y += dy3;
         }
     }
 }), makeObject2({
@@ -33,8 +33,8 @@ f1({
         y: 0
     },
     methods: {
-        moveBy (dx, dy) {
-            this.x += dx, this.y += dy;
+        moveBy (dx4, dy4) {
+            this.x += dx4, this.y += dy4;
         }
     }
 });
@@ -59,8 +59,8 @@ let p12 = defineProps(p1, {
         get () {
             return this.x;
         },
-        set (value) {
-            this.x = value;
+        set (value1) {
+            this.x = value1;
         }
     }
 });
@@ -84,7 +84,7 @@ let vue = new Vue({
             get () {
                 return "hi";
             },
-            set (value) {
+            set (value2) {
             }
         }
     }

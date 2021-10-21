@@ -29,32 +29,32 @@ function _setPrototypeOf(o, p) {
 }
 var Generics, _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, A = function() {
+}, A1 = function() {
     "use strict";
-    _classCallCheck(this, A);
+    _classCallCheck(this, A1);
 }, B = function(A) {
     "use strict";
     function B() {
         return _classCallCheck(this, B), _possibleConstructorReturn(this, _getPrototypeOf(B).apply(this, arguments));
     }
     return _inherits(B, A), B;
-}(A);
+}(A1);
 !function(Generics) {
-    var A1 = function() {
+    var A2 = function() {
         "use strict";
-        _classCallCheck(this, A1);
+        _classCallCheck(this, A2);
     }, B = function(A) {
         "use strict";
         function B() {
             return _classCallCheck(this, B), _possibleConstructorReturn(this, _getPrototypeOf(B).apply(this, arguments));
         }
         return _inherits(B, A), B;
-    }(A1), B3 = function(A) {
+    }(A2), B3 = function(A) {
         "use strict";
         function B3() {
             return _classCallCheck(this, B3), _possibleConstructorReturn(this, _getPrototypeOf(B3).apply(this, arguments));
         }
         return _inherits(B3, A), B3;
-    }(A1);
+    }(A2);
 }(Generics || (Generics = {
 }));

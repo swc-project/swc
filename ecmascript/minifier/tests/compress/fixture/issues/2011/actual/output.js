@@ -18,12 +18,12 @@ function _defineProperty(obj, key, value) {
         writable: !0
     }) : obj[key] = value, obj;
 }
-var ClassA = function ClassA() {
+var ClassA1 = function ClassA() {
     "use strict";
     _classCallCheck(this, ClassA);
 };
 module.exports = (function() {
-    var ClassB = function() {
+    var ClassB1 = function() {
         "use strict";
         function ClassB() {
             _classCallCheck(this, ClassB);
@@ -37,5 +37,5 @@ module.exports = (function() {
             }
         ]), ClassB;
     }();
-    return _defineProperty(ClassB, "MyA", ClassA), ClassB;
+    return _defineProperty(ClassB1, "MyA", ClassA1), ClassB1;
 })();

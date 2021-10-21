@@ -22,7 +22,7 @@ var C = function() {
         },
         {
             key: "bar",
-            value: function(x) {
+            value: function(x1) {
                 return C.prototype.bar = function() {
                 }, C.prototype.bar = function(x) {
                     return x;

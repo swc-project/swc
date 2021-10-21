@@ -19,7 +19,7 @@ function _createClass(Constructor, protoProps, staticProps) {
 }
 //@target: ES6
 //@declaration: true
-var M;
+var M1;
 (function(M) {
     var tmp = Symbol.toPrimitive, tmp1 = Symbol.isConcatSpreadable, tmp2 = Symbol.toPrimitive, tmp3 = Symbol.toPrimitive;
     var C = /*#__PURE__*/ function() {
@@ -54,5 +54,5 @@ var M;
         return C;
     }();
     M.C = C;
-})(M || (M = {
+})(M1 || (M1 = {
 }));

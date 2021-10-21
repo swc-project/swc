@@ -27,7 +27,7 @@ var load3 = __swcpack_require__.bind(void 0, function(module, exports) {
     console.log('b');
     module.exports = 'b';
 });
-var load7 = __swcpack_require__.bind(void 0, function(module, exports) {
+var load4 = __swcpack_require__.bind(void 0, function(module, exports) {
     var aa = load1();
     var bb = load2();
     load3();
@@ -36,10 +36,10 @@ var load7 = __swcpack_require__.bind(void 0, function(module, exports) {
         bb: bb
     };
 });
-var load8 = __swcpack_require__.bind(void 0, function(module, exports) {
+var load5 = __swcpack_require__.bind(void 0, function(module, exports) {
     console.log('c');
 });
-load7();
+load4();
 var b = load3();
-load8();
+load5();
 console.log(b);

@@ -98,7 +98,7 @@ const f45 = (value)=>value
 // Repro from #21863
 function f50() {
 }
-var a = {
+var a1 = {
     o: 1,
     b: 2,
     c: [
@@ -108,7 +108,7 @@ var a = {
         }
     ]
 };
-assign(a, {
+assign(a1, {
     o: 2,
     c: {
         0: {

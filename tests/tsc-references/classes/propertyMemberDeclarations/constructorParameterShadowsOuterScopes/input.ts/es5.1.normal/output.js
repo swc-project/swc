@@ -7,7 +7,7 @@ function _classCallCheck(instance, Constructor) {
 // body but are not permitted to reference parameters or local variables of the constructor.
 // This effectively means that entities from outer scopes by the same name as a constructor parameter or 
 // local variable are inaccessible in initializer expressions for instance member variables
-var x = 1;
+var x1 = 1;
 var C = function C(x) {
     "use strict";
     _classCallCheck(this, C);
@@ -15,7 +15,7 @@ var C = function C(x) {
      = x;
     x = 2; // error, x is string
 };
-var y = 1;
+var y1 = 1;
 var D = function D(x) {
     "use strict";
     _classCallCheck(this, D);

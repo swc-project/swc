@@ -20,7 +20,7 @@ function _createClass(Constructor, protoProps, staticProps) {
 // Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
-var TypeScript;
+var TypeScript1;
 (function(TypeScript) {
     var timeFunction = function timeFunction(logger, funcDescription, func) {
         var start = +new Date();
@@ -74,7 +74,7 @@ var TypeScript;
         }
         return result;
     };
-    var CompilerDiagnostics;
+    var CompilerDiagnostics1;
     (function(CompilerDiagnostics) {
         CompilerDiagnostics.debug = false;
         CompilerDiagnostics.diagnosticWriter = null;
@@ -99,7 +99,7 @@ var TypeScript;
             }
         }
         CompilerDiagnostics.assert = assert;
-    })(CompilerDiagnostics || (CompilerDiagnostics = {
+    })(CompilerDiagnostics1 || (CompilerDiagnostics1 = {
     }));
     var NullLogger = /*#__PURE__*/ function() {
         "use strict";
@@ -247,6 +247,6 @@ var TypeScript;
     TypeScript.BufferedLogger = BufferedLogger;
     TypeScript.timeFunction = timeFunction;
     TypeScript.stringToLiteral = stringToLiteral;
-    TypeScript.CompilerDiagnostics = CompilerDiagnostics;
-})(TypeScript || (TypeScript = {
+    TypeScript.CompilerDiagnostics = CompilerDiagnostics1;
+})(TypeScript1 || (TypeScript1 = {
 }));

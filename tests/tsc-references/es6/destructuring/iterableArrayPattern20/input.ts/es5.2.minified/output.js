@@ -40,9 +40,9 @@ function _slicedToArray(arr, i) {
 }
 var arr, _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, Bar = function() {
+}, Bar1 = function() {
     "use strict";
-    _classCallCheck(this, Bar);
+    _classCallCheck(this, Bar1);
 }, Foo = function(Bar) {
     "use strict";
     function Foo() {
@@ -62,7 +62,7 @@ var arr, _typeof = function(obj) {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(Foo, Bar), Foo;
-}(Bar), tmp = Symbol.iterator, FooArrayIterator = function() {
+}(Bar1), tmp = Symbol.iterator, FooArrayIterator = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function FooArrayIterator() {

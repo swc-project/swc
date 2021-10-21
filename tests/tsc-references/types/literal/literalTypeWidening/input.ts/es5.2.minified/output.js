@@ -7,11 +7,12 @@ export function Set() {
         return result[key] = !0;
     }), result;
 }
-export function keys(obj) {
+function keys1(obj) {
     return Object.keys(obj);
 }
+export { keys1 as keys };
 var langCodeSet = Set("fr", "en", "es", "it", "nl");
-export var langCodes = keys(langCodeSet);
+export var langCodes = keys1(langCodeSet);
 langCodes.map(function(code) {
     return {
         code: code

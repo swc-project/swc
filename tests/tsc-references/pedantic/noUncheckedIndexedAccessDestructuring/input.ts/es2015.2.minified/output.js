@@ -38,6 +38,8 @@ t2.z.toString();
             for(i = 0; i < sourceSymbolKeys.length; i++)key = sourceSymbolKeys[i], !(excluded.indexOf(key) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
         }
         return target;
-    }(numMapPoint, ["x"]);
+    }(numMapPoint, [
+        "x"
+    ]);
     x.toFixed(), q.y.toFixed(), q.z.toFixed();
 }[target_string] = strArray, [target_string_undef] = strArray, [, , , ...target_string_arr] = strArray, ({ x , y , z  } = numMapPoint), { q  } = numMapPoint;

@@ -95,7 +95,7 @@ if (isC_multipleParams(a, 0)) {
     a.propC;
 }
 // Methods
-var obj;
+var obj1;
 var D = /*#__PURE__*/ function() {
     "use strict";
     function D() {

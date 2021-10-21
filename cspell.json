@@ -89,6 +89,7 @@
         "pointee",
         "prec",
         "PREC",
+        "proto",
         "punct",
         "putc",
         "qself",
@@ -108,14 +109,17 @@
         "stmts",
         "succ",
         "sugg",
+        "swcify",
         "swcpack",
         "swcrc",
+        "systemjs",
         "termcolor",
         "typeofs",
         "uncons",
         "Unexported",
         "Unexporter",
-        "unimpl"
+        "unimpl",
+        "untrusted"
     ],
     "flagWords": [
         "actally"

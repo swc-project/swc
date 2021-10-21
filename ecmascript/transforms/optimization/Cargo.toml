@@ -14,6 +14,7 @@ version = "0.58.1"
 concurrent = [
   "swc_common/concurrent",
   "swc_ecma_utils/concurrent",
+  "swc_ecma_transforms_base/concurrent",
   "rayon",
 ]
 

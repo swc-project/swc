@@ -3,11 +3,11 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-(function(A1) {
-    A1.Instance = new A();
-})(A || (A = {
+(function(A) {
+    A.Instance = new A1();
+})(A1 || (A1 = {
 }));
-var A = function A() {
+var A1 = function A1() {
     "use strict";
-    _classCallCheck(this, A);
+    _classCallCheck(this, A1);
 };

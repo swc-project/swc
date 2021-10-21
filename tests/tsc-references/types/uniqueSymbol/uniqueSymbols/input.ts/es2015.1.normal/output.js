@@ -303,8 +303,8 @@ const o2 = {
     *method4 () {
         yield s;
     },
-    method5 (p = s) {
-        return p;
+    method5 (p5 = s) {
+        return p5;
     }
 };
 // property initializers
@@ -325,8 +325,8 @@ class C0 {
     *method4() {
         yield s;
     }
-    method5(p = s) {
-        return p;
+    method5(p1 = s) {
+        return p1;
     }
     constructor(){
         this.a = s;
@@ -387,25 +387,25 @@ const o3 = {
     *method4 () {
         yield s; // yield type should not widen due to contextual type
     },
-    method5 (p = s) {
-        return p;
+    method5 (p2 = s) {
+        return p2;
     }
 };
 // allowed when not emitting declarations
 const o4 = {
-    method1 (p) {
-        return p;
+    method1 (p3) {
+        return p3;
     },
-    method2 (p) {
-        return p;
+    method2 (p4) {
+        return p4;
     }
 };
 const ce0 = class _class {
     method1(p) {
         return p;
     }
-    method2(p) {
-        return p;
+    method2(p6) {
+        return p6;
     }
 };
 function funcInferredReturnType(obj) {

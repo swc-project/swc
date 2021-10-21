@@ -44,7 +44,7 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
-(function(A) {
+(function(A2) {
     var F = function F(s) {
         return 2;
     };
@@ -82,11 +82,11 @@ var _typeof = function(obj) {
         };
     })(Module || (Module = {
     }));
-    var Color;
+    var Color1;
     (function(Color) {
         Color[Color["Blue"] = 0] = "Blue";
         Color[Color["Red"] = 1] = "Red";
-    })(Color || (Color = {
+    })(Color1 || (Color1 = {
     }));
     var x = 12;
     var array = null;
@@ -100,7 +100,7 @@ var _typeof = function(obj) {
     };
 })(A || (A = {
 }));
-var Y;
+var Y1;
 (function(Y) {
     var F = function F(s) {
         return 2;
@@ -158,5 +158,5 @@ var Y;
         id: 2,
         isvalid: true
     };
-})(Y || (Y = {
+})(Y1 || (Y1 = {
 }));

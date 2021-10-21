@@ -8,11 +8,11 @@ use std::{
 use swc::try_with_handler;
 use swc_common::{errors::Handler, sync::Lrc, SourceMap};
 
-pub fn try_with<F, Ret>(cm: Lrc<SourceMap>, op: F) -> Result<Ret, Error>
+pub fn try_with<F, Ret>(cm: Lrc<SourceMap>, skip_filename: bool, op: F) -> Result<Ret, Error>
 where
     F: FnOnce(&Handler) -> Result<Ret, Error>,
 {
-    try_with_handler(cm, |handler| {
+    try_with_handler(cm, skip_filename, |handler| {
         //
         let result = catch_unwind(AssertUnwindSafe(|| op(handler)));
 

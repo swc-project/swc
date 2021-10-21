@@ -30,8 +30,8 @@ class C {
 var c1 = new C(a);
 var c2 = new C(b);
 class C2 {
-    constructor(x){
-        this.x = x;
+    constructor(x1){
+        this.x = x1;
     }
 }
 var c3 = new C2(a);
@@ -42,8 +42,8 @@ var c4 = new C2(b);
 //var c5 = new C3(a);
 //var c6 = new C3<any>(b);
 class C4 {
-    constructor(x){
-        this.x = x;
+    constructor(x2){
+        this.x = x2;
     }
 }
 var c7 = new C4(a);

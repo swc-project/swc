@@ -89,7 +89,7 @@ function d4(param) {
         y: new D()
     } : param, y = ref.y;
 }
-var obj = new Class();
+var obj1 = new Class();
 d0({
     x: 1
 });

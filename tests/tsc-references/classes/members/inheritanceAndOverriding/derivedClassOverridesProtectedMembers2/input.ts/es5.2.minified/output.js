@@ -108,14 +108,14 @@ var x, y, d2, _typeof = function(obj) {
     ]), Derived;
 }(Base), d = new Derived(y);
 d.a, d.b(y), d.c, d.d, d.c = y, Derived.r, Derived.s(y), Derived.t, Derived.u, Derived.t = y;
-var Base2 = function() {
+var Base21 = function() {
     "use strict";
-    _classCallCheck(this, Base2);
+    _classCallCheck(this, Base21);
 }, Derived2 = function(Base2) {
     "use strict";
     function Derived2() {
         return _classCallCheck(this, Derived2), _possibleConstructorReturn(this, _getPrototypeOf(Derived2).apply(this, arguments));
     }
     return _inherits(Derived2, Base2), Derived2;
-}(Base2);
+}(Base21);
 d2[""], d2[1];

@@ -64,12 +64,12 @@ var D = function D() {
 function F(x) {
     return 42;
 }
-function F2(x) {
+function F21(x) {
     return x < 42;
 }
-var M;
+var M1;
 (function(M) {
-    var F21 = function F21(x) {
+    var F2 = function F2(x) {
         return x.toString();
     };
     var A = function A() {
@@ -77,12 +77,12 @@ var M;
         _classCallCheck(this, A);
     };
     M.A = A;
-    M.F2 = F21;
-})(M || (M = {
+    M.F2 = F2;
+})(M1 || (M1 = {
 }));
-var N;
+var N1;
 (function(N) {
-    var F21 = function F21(x) {
+    var F2 = function F2(x) {
         return x.toString();
     };
     var A = function A() {
@@ -90,8 +90,8 @@ var N;
         _classCallCheck(this, A);
     };
     N.A = A;
-    N.F2 = F21;
-})(N || (N = {
+    N.F2 = F2;
+})(N1 || (N1 = {
 }));
 // literals
 if (true) {

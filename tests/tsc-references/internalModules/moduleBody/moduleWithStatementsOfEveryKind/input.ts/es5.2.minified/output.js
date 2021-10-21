@@ -27,23 +27,23 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var Y, _typeof = function(obj) {
+var Y1, _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
-!function(A) {
+!function(A3) {
     var Module, Color, A1, Color1, A2 = function() {
         "use strict";
         _classCallCheck(this, A2);
-    }, AA = function() {
+    }, AA1 = function() {
         "use strict";
-        _classCallCheck(this, AA);
+        _classCallCheck(this, AA1);
     }, B = function(AA) {
         "use strict";
         function B() {
             return _classCallCheck(this, B), _possibleConstructorReturn(this, _getPrototypeOf(B).apply(this, arguments));
         }
         return _inherits(B, AA), B;
-    }(AA), BB = function(A) {
+    }(AA1), BB = function(A) {
         "use strict";
         function BB() {
             return _classCallCheck(this, BB), _possibleConstructorReturn(this, _getPrototypeOf(BB).apply(this, arguments));
@@ -58,35 +58,35 @@ var Y, _typeof = function(obj) {
     }))[Color1.Blue = 0] = "Blue", Color1[Color1.Red = 1] = "Red";
 }(A || (A = {
 })), (function(Y) {
-    var A6 = function() {
+    var A5 = function() {
         "use strict";
-        _classCallCheck(this, A6);
+        _classCallCheck(this, A5);
     };
-    Y.A = A6;
-    var AA = function() {
+    Y.A = A5;
+    var AA2 = function() {
         "use strict";
-        _classCallCheck(this, AA);
+        _classCallCheck(this, AA2);
     };
-    Y.AA = AA;
+    Y.AA = AA2;
     var B = function(AA) {
         "use strict";
         function B() {
             return _classCallCheck(this, B), _possibleConstructorReturn(this, _getPrototypeOf(B).apply(this, arguments));
         }
         return _inherits(B, AA), B;
-    }(AA);
+    }(AA2);
     Y.B = B;
-    var A2, Color2, BB = function(A) {
+    var A4, Color2, BB = function(A) {
         "use strict";
         function BB() {
             return _classCallCheck(this, BB), _possibleConstructorReturn(this, _getPrototypeOf(BB).apply(this, arguments));
         }
         return _inherits(BB, A), BB;
-    }(A6);
+    }(A5);
     Y.BB = BB, Module || (Module = {
-    }), A2 = function() {
+    }), A4 = function() {
         "use strict";
-        _classCallCheck(this, A2);
+        _classCallCheck(this, A4);
     }, (Color2 = Color || (Color = {
     }))[Color2.Blue = 0] = "Blue", Color2[Color2.Red = 1] = "Red", Y.x = 12, Y.F = function(s) {
         return 2;
@@ -97,5 +97,5 @@ var Y, _typeof = function(obj) {
         id: 2,
         isvalid: !0
     };
-})(Y || (Y = {
+})(Y1 || (Y1 = {
 }));

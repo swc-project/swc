@@ -1,11 +1,12 @@
 x = {
-    *foo(a, b) {
+    *foo (a, b) {
         return x;
-    },
+    }
 };
 y = {
-    *foo([{ a }]) {
-        yield a;
+    *foo ([{ a: a1  }]) {
+        yield a1;
     },
-    bar() {},
+    bar () {
+    }
 };

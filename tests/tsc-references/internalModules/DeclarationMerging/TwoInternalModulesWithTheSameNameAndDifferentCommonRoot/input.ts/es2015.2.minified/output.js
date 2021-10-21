@@ -1,4 +1,4 @@
-var Root, otherRoot;
+var Root1, otherRoot;
 !function(Root) {
     var A, A1, Utils;
     A1 = A || (A = {
@@ -9,7 +9,7 @@ var Root, otherRoot;
             y: p.x
         };
     }, A1.Utils = Utils, Root.A = A;
-}(Root || (Root = {
+}(Root1 || (Root1 = {
 })), otherRoot || (otherRoot = {
 }), (A || (A = {
 })).Origin = {

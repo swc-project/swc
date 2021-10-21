@@ -1,9 +1,9 @@
 //@target: ES6
 //@declaration: true
-var M;
+var M1;
 (function(M) {
     function* generator() {
     }
     M.generator = generator;
-})(M || (M = {
+})(M1 || (M1 = {
 }));

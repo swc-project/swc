@@ -5,21 +5,21 @@ function _taggedTemplateLiteral(strings, raw) {
         }
     }));
 }
-function _templateObject1() {
-    var data = _taggedTemplateLiteral([
-        "",
-        ""
-    ]);
-    return _templateObject1 = function _templateObject1() {
-        return data;
-    }, data;
-}
 function _templateObject() {
     var data = _taggedTemplateLiteral([
         "",
         ""
     ]);
     return _templateObject = function _templateObject() {
+        return data;
+    }, data;
+}
+function _templateObject1() {
+    var data = _taggedTemplateLiteral([
+        "",
+        ""
+    ]);
+    return _templateObject1 = function _templateObject1() {
         return data;
     }, data;
 }
@@ -226,7 +226,7 @@ function fn1() {
 }
 function fn2() {
 }
-fn1(_templateObject1(), void 0), fn1(_templateObject(), {
+fn1(_templateObject(), void 0), fn1(_templateObject1(), {
 });
 var d1 = fn2(_templateObject2(), 0, void 0), d2 = fn2(_templateObject3(), 0, void 0);
 function fn3() {

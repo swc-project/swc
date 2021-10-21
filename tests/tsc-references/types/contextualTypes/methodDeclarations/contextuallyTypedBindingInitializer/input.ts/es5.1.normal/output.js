@@ -33,6 +33,6 @@ var ref = {
     stringIdentity: function(x) {
         return x;
     }
-}, tmp = ref.stringIdentity, id = tmp === void 0 ? function(arg) {
+}, tmp1 = ref.stringIdentity, id = tmp1 === void 0 ? function(arg) {
     return arg;
-} : tmp;
+} : tmp1;

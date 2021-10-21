@@ -19,7 +19,7 @@ pub fn minify_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
 
     let c = compiler();
 
-    try_with_handler(c.cm.clone(), |handler| {
+    try_with_handler(c.cm.clone(), false, |handler| {
         let opts: JsMinifyOptions = opts.into_serde().context("failed to parse options")?;
 
         let fm = c.cm.new_source_file(FileName::Anon, s.into());
@@ -38,7 +38,7 @@ pub fn parse_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
 
     let c = compiler();
 
-    try_with_handler(c.cm.clone(), |handler| {
+    try_with_handler(c.cm.clone(), false, |handler| {
         let opts: ParseOptions = opts.into_serde().context("failed to parse options")?;
 
         let fm = c.cm.new_source_file(FileName::Anon, s.into());
@@ -64,7 +64,7 @@ pub fn print_sync(s: JsValue, opts: JsValue) -> Result<JsValue, JsValue> {
 
     let c = compiler();
 
-    try_with_handler(c.cm.clone(), |_handler| {
+    try_with_handler(c.cm.clone(), false, |_handler| {
         let opts: Options = opts.into_serde().context("failed to parse options")?;
 
         let program: Program = s.into_serde().context("failed to deserialize program")?;
@@ -97,7 +97,7 @@ pub fn transform_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
 
     let c = compiler();
 
-    try_with_handler(c.cm.clone(), |handler| {
+    try_with_handler(c.cm.clone(), false, |handler| {
         let opts: Options = opts.into_serde().context("failed to parse options")?;
 
         let fm = c.cm.new_source_file(

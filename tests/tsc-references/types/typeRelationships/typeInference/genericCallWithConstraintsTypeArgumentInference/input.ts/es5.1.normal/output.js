@@ -173,13 +173,13 @@ var r8b = c.foo5(d2, d2); // Derived2
 var r9 = c.foo6(); // Derived
 var r10 = c.foo7(d1); // Base
 var r11 = c.foo8(); // Base
-var i;
-var r4 = i.foo(d1, d2); // Base
-var r5 = i.foo2(b, d2); // Derived
-var r6 = i.foo3(d1, d1); // Derived
-var r7 = i.foo4(d1, d2); // Base
-var r8 = i.foo5(d1, d2); // Derived
-var r8b = i.foo5(d2, d2); // Derived2
-var r9 = i.foo6(); // Derived
-var r10 = i.foo7(d1); // Base
-var r11 = i.foo8(); // Base
+var i1;
+var r4 = i1.foo(d1, d2); // Base
+var r5 = i1.foo2(b, d2); // Derived
+var r6 = i1.foo3(d1, d1); // Derived
+var r7 = i1.foo4(d1, d2); // Base
+var r8 = i1.foo5(d1, d2); // Derived
+var r8b = i1.foo5(d2, d2); // Derived2
+var r9 = i1.foo6(); // Derived
+var r10 = i1.foo7(d1); // Base
+var r11 = i1.foo8(); // Base

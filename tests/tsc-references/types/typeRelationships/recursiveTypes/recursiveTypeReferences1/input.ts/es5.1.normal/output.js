@@ -262,8 +262,8 @@ flat2([
 ]); // Error
 var x1 = foo1(ra1); // Boom!
 var x2 = foo2(ra2); // Boom!
-function parse(node, param) {
-    var index = param === void 0 ? [] : param;
+function parse(node, param1) {
+    var index = param1 === void 0 ? [] : param1;
     return html('ul', node.map(function(param, i) {
         var _param = _slicedToArray(param, 2), el = _param[0], children = _param[1];
         var idx = _toConsumableArray(index).concat([
@@ -279,15 +279,15 @@ function parse(node, param) {
         ]);
     }));
 }
-function cons(hs) {
-    return hs.reduce(function(hss, h) {
-        var hs1 = hss.pop();
-        return hs1.length === 0 || level(h) > level(hs1[0]) ? concat(hss, [
-            concat(hs1, [
+function cons(hs1) {
+    return hs1.reduce(function(hss, h) {
+        var hs = hss.pop();
+        return hs.length === 0 || level(h) > level(hs[0]) ? concat(hss, [
+            concat(hs, [
                 h
             ])
         ]) : concat(hss, [
-            hs1,
+            hs,
             [
                 h
             ]

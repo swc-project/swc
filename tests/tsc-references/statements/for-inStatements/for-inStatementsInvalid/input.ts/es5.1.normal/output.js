@@ -98,26 +98,26 @@ for(var idx in {
 }
 function fn() {
 }
-for(var x in fn()){
+for(var x1 in fn()){
 }
 var c, d, e;
-for(var x in c || d){
+for(var x1 in c || d){
 }
-for(var x in e ? c : d){
+for(var x1 in e ? c : d){
 }
-for(var x in 42 ? c : d){
+for(var x1 in 42 ? c : d){
 }
-for(var x in '' ? c : d){
+for(var x1 in '' ? c : d){
 }
-for(var x in 42 ? d[x] : c[x]){
+for(var x1 in 42 ? d[x1] : c[x1]){
 }
-for(var x in c[23]){
+for(var x1 in c[23]){
 }
-for(var x in function(x) {
+for(var x1 in function(x) {
     return x;
 }){
 }
-for(var x in function(x, y) {
+for(var x1 in function(x, y) {
     return x + y;
 }){
 }
@@ -182,6 +182,6 @@ var B = /*#__PURE__*/ function(A) {
     ]);
     return B;
 }(A);
-var i;
-for(var x in i[42]){
+var i1;
+for(var x1 in i1[42]){
 }

@@ -160,3 +160,17 @@ it("should respect `inlineSourcesContent`", async () => {
 
     expect(j).toHaveProperty('sourcesContent')
 });
+
+it("should respect `error.filename = false`", async () => {
+    const src = 'export default <h1>';
+    try {
+        await swc.transform(src, {
+            error: {
+                filename: false
+            }
+        })
+    } catch (e) {
+        expect(e).not.toContain("-->")
+    }
+
+});

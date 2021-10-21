@@ -1,8 +1,8 @@
-var M;
+var M1;
 !function(M) {
     class A {
     }
     M.A = A, new A;
-}(M || (M = {
-})), new M.A;
+}(M1 || (M1 = {
+})), new M1.A;
 export { };

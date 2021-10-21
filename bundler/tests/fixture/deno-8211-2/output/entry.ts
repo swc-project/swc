@@ -1,10 +1,10 @@
-class Zone1 {
+class Zone {
 }
-class FixedOffsetZone1 extends Zone1 {
+class FixedOffsetZone extends Zone {
 }
-class Info1 {
+class Info {
     use() {
-        console.log(FixedOffsetZone1);
+        console.log(FixedOffsetZone);
     }
 }
-export { Zone1 as Zone, Info1 as Info, FixedOffsetZone1 as FixedOffsetZone };
+export { Zone as Zone, Info as Info, FixedOffsetZone as FixedOffsetZone };

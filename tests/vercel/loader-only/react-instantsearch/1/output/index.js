@@ -68,9 +68,9 @@ var _obj;
  * @param {object} SearchParameters - optional additional parameters to send to the algolia API
  * @param {number} stalledSearchDelay - time (in ms) after the search is stalled
  * @return {InstantSearchManager} a new instance of InstantSearchManager
- */ export default function createInstantSearchManager(param) {
-    var indexName = param.indexName, _initialState = param.initialState, initialState = _initialState === void 0 ? {
-    } : _initialState, searchClient = param.searchClient, resultsState = param.resultsState, stalledSearchDelay = param.stalledSearchDelay;
+ */ export default function createInstantSearchManager(param1) {
+    var indexName = param1.indexName, _initialState = param1.initialState, initialState1 = _initialState === void 0 ? {
+    } : _initialState, searchClient = param1.searchClient, resultsState = param1.resultsState, stalledSearchDelay = param1.stalledSearchDelay;
     var createStore = function createStore(initialState) {
         var state = initialState;
         var listeners = [];
@@ -222,7 +222,9 @@ var _obj;
                 stalledSearchTimer = null;
                 nextIsSearchStalled = false;
             }
-            var resultsFacetValues = currentState.resultsFacetValues, partialState = swcHelpers.objectWithoutProperties(currentState, ["resultsFacetValues"]);
+            var resultsFacetValues = currentState.resultsFacetValues, partialState = swcHelpers.objectWithoutProperties(currentState, [
+                "resultsFacetValues"
+            ]);
             store.setState(swcHelpers.objectSpread({
             }, partialState, {
                 results: results,
@@ -240,7 +242,9 @@ var _obj;
             clearTimeout(stalledSearchTimer);
             nextIsSearchStalled = false;
         }
-        var resultsFacetValues = currentState.resultsFacetValues, partialState = swcHelpers.objectWithoutProperties(currentState, ["resultsFacetValues"]);
+        var resultsFacetValues = currentState.resultsFacetValues, partialState = swcHelpers.objectWithoutProperties(currentState, [
+            "resultsFacetValues"
+        ]);
         store.setState(swcHelpers.objectSpread({
         }, partialState, {
             isSearchStalled: nextIsSearchStalled,
@@ -252,7 +256,9 @@ var _obj;
         if (!stalledSearchTimer) {
             var _tmp;
             _tmp = setTimeout(function() {
-                var _ref = store.getState(), resultsFacetValues = _ref.resultsFacetValues, partialState = swcHelpers.objectWithoutProperties(_ref, ["resultsFacetValues"]);
+                var _ref = store.getState(), resultsFacetValues = _ref.resultsFacetValues, partialState = swcHelpers.objectWithoutProperties(_ref, [
+                    "resultsFacetValues"
+                ]);
                 store.setState(swcHelpers.objectSpread({
                 }, partialState, {
                     isSearchStalled: true
@@ -493,7 +499,7 @@ var _obj;
     var widgetsManager = createWidgetsManager(onWidgetsUpdate);
     hydrateSearchClient(searchClient, resultsState);
     var store = createStore({
-        widgets: initialState,
+        widgets: initialState1,
         metadata: hydrateMetadata(resultsState),
         results: hydrateResultsState(resultsState),
         error: null,

@@ -1,7 +1,7 @@
-(E1 = E2 || (E2 = {
-}))[E1.A = 0] = "A", (F1 = F2 || (F2 = {
-}))[F1.B = 0] = "B";
-var E1, F1, E2, F2, Others, e = E2.A, f = F2.B;
+(E = E1 || (E1 = {
+}))[E.A = 0] = "A", (F = F1 || (F1 = {
+}))[F.B = 0] = "B";
+var E, F, E1, F1, Others, e = E1.A, f = F1.B;
 f = f, f = 1, (function(Others) {
     var C = function() {
         "use strict";

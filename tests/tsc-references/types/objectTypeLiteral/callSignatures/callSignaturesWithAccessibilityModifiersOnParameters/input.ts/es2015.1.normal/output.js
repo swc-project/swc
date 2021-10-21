@@ -22,14 +22,14 @@ var f8 = (x, y)=>{
 class C {
     foo(x, y) {
     }
-    foo2(x, y) {
+    foo2(x1, y1) {
     }
-    foo3(x, y) {
+    foo3(x2, y2) {
     }
 }
 var a;
 var b = {
-    foo (x, y) {
+    foo (x3, y3) {
     },
     a: function foo(x, y) {
     },

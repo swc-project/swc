@@ -97,12 +97,12 @@ class C6 {
 }
 var _b1 = new WeakMap();
 class C7 {
-    constructor(cond){
+    constructor(cond1){
         _b2.set(this, {
             writable: true,
             value: void 0
         });
-        if (cond) {
+        if (cond1) {
             this.a = 1;
             _classPrivateFieldSet(this, _b2, 1);
             return;

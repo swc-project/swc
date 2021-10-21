@@ -1,4 +1,4 @@
-var C, K5, C1, K1;
+var C, K, C1, K1;
 export { _class as default };
 export class A {
 }
@@ -22,7 +22,7 @@ const H = require("./h");
 console.log({
 });
 const H = require("./h");
-(K1 = K5 || (K5 = {
-}))[K1.One = 0] = "One", K1[K1.Two = 1] = "Two", module.exports = K5;
-const K5 = require("./k");
-K5.One;
+(K1 = K || (K = {
+}))[K1.One = 0] = "One", K1[K1.Two = 1] = "Two", module.exports = K;
+const K = require("./k");
+K.One;

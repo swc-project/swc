@@ -14,7 +14,7 @@ var r4 = D.other();
 class C2 {
     thing(x) {
     }
-    static other(x) {
+    static other(x1) {
     }
 }
 class D2 extends C2 {

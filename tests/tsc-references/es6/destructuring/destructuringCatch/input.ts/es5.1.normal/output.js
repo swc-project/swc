@@ -45,8 +45,8 @@ try {
         b: 1
     };
 } catch (param1) {
-    var a = param1.a, b = param1.b;
-    a + b;
+    var a1 = param1.a, b1 = param1.b;
+    a1 + b1;
 }
 try {
     throw [
@@ -58,11 +58,11 @@ try {
         }
     ];
 } catch (param2) {
-    var _param = _slicedToArray(param2, 1), ref = _param[0], _x = _slicedToArray(ref.x, 1), y = _x[0], z = ref.z;
+    var _param1 = _slicedToArray(param2, 1), ref = _param1[0], _x = _slicedToArray(ref.x, 1), y = _x[0], z = ref.z;
     y + z;
 }
 // Test of comment ranges. A fix to GH#11755 should update this.
 try {
 } catch (param3) {
-    var _param = _slicedToArray(param3, 1), /*a*/ a = _param[0];
+    var _param2 = _slicedToArray(param3, 1), /*a*/ a2 = _param2[0];
 }

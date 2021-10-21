@@ -79,7 +79,7 @@ sk.g; // error
 ssk.p;
 ssk.m(); // error
 ssk.g; // error
-var i = {
+var i1 = {
     p: 12,
     m: function() {
     },
@@ -88,9 +88,9 @@ var i = {
     }
 };
 var si = _objectSpread({
-}, i);
+}, i1);
 var ssi = _objectSpread({
-}, i, i);
+}, i1, i1);
 si.p;
 si.m(); // ok
 si.g; // ok

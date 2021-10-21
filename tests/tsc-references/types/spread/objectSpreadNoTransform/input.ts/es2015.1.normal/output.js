@@ -68,4 +68,6 @@ const o = _objectSpread({
 var b;
 var rest;
 var _o;
-_o = o, rest = _objectWithoutProperties(_o, ["b"]), ({ b  } = _o), _o;
+_o = o, rest = _objectWithoutProperties(_o, [
+    "b"
+]), ({ b  } = _o), _o;

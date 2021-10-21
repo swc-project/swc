@@ -177,7 +177,7 @@ g4([
 ]);
 // (arg?: [number, number]) => void
 function g5(param) {
-    var ref = _slicedToArray(param === void 0 ? [] : param, 2), tmp = ref[0], x = tmp === void 0 ? 0 : tmp, tmp1 = ref[1], y = tmp1 === void 0 ? 0 : tmp1;
+    var ref = _slicedToArray(param === void 0 ? [] : param, 2), tmp = ref[0], x = tmp === void 0 ? 0 : tmp, tmp2 = ref[1], y = tmp2 === void 0 ? 0 : tmp2;
 }
 g5();
 g5([

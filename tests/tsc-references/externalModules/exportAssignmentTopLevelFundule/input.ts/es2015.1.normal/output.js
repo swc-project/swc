@@ -1,16 +1,16 @@
 // @module: amd
 // @Filename: foo_0.ts
-function foo() {
+function foo1() {
     return "test";
 }
 (function(foo) {
     foo.answer = 42;
-})(foo || (foo = {
+})(foo1 || (foo1 = {
 }));
-module.exports = foo;
+module.exports = foo1;
 // @Filename: foo_1.ts
-const foo = require("./foo_0");
-if (foo.answer === 42) {
-    var x = foo();
+const foo1 = require("./foo_0");
+if (foo1.answer === 42) {
+    var x = foo1();
 }
 export { };

@@ -2,10 +2,10 @@ class C {
 }
 class D {
 }
-(E11 = E12 || (E12 = {
-}))[E11.one = 0] = "one", (E21 = E22 || (E22 = {
-}))[E21.one = 0] = "one";
-var E11, E21, E12, E22, classCDATuple = [
+(E1 = E11 || (E11 = {
+}))[E1.one = 0] = "one", (E2 = E21 || (E21 = {
+}))[E2.one = 0] = "one";
+var E1, E2, E11, E21, classCDATuple = [
     new C(),
     new D()
 ];

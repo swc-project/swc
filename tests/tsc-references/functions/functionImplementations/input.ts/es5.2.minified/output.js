@@ -43,24 +43,24 @@ function rec4() {
     return rec3();
 }
 rec1(), rec2(), rec3(), rec4();
-var Base = function() {
+var Base1 = function() {
     "use strict";
-    _classCallCheck(this, Base);
+    _classCallCheck(this, Base1);
 }, Derived = function(Base) {
     "use strict";
     function Derived() {
         return _classCallCheck(this, Derived), _possibleConstructorReturn(this, _getPrototypeOf(Derived).apply(this, arguments));
     }
     return _inherits(Derived, Base), Derived;
-}(Base);
-new Base(), new Base();
+}(Base1);
+new Base1(), new Base1();
 var Derived2 = function(Base) {
     "use strict";
     function Derived2() {
         return _classCallCheck(this, Derived2), _possibleConstructorReturn(this, _getPrototypeOf(Derived2).apply(this, arguments));
     }
     return _inherits(Derived2, Base), Derived2;
-}(Base), AnotherClass = function() {
+}(Base1), AnotherClass = function() {
     "use strict";
     _classCallCheck(this, AnotherClass);
 };

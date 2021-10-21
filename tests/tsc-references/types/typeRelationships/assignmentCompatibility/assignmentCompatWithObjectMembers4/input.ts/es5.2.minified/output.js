@@ -31,22 +31,22 @@ var OnlyDerived, WithBase, _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 !function(OnlyDerived) {
-    var t, t2, b, Base = function() {
+    var t, t2, b, Base1 = function() {
         "use strict";
-        _classCallCheck(this, Base);
+        _classCallCheck(this, Base1);
     }, Derived = function(Base) {
         "use strict";
         function Derived() {
             return _classCallCheck(this, Derived), _possibleConstructorReturn(this, _getPrototypeOf(Derived).apply(this, arguments));
         }
         return _inherits(Derived, Base), Derived;
-    }(Base), Derived2 = function(Base) {
+    }(Base1), Derived2 = function(Base) {
         "use strict";
         function Derived2() {
             return _classCallCheck(this, Derived2), _possibleConstructorReturn(this, _getPrototypeOf(Derived2).apply(this, arguments));
         }
         return _inherits(Derived2, Base), Derived2;
-    }(Base), S = function() {
+    }(Base1), S = function() {
         "use strict";
         _classCallCheck(this, S);
     }, T = function() {
@@ -60,29 +60,29 @@ var OnlyDerived, WithBase, _typeof = function(obj) {
     t2 = t2, b = b, b2 = b2, t = t;
 }(OnlyDerived || (OnlyDerived = {
 })), (function(WithBase) {
-    var t, t2, b, Base = function() {
+    var t, t2, b, Base2 = function() {
         "use strict";
-        _classCallCheck(this, Base);
+        _classCallCheck(this, Base2);
     }, Derived = function(Base) {
         "use strict";
         function Derived() {
             return _classCallCheck(this, Derived), _possibleConstructorReturn(this, _getPrototypeOf(Derived).apply(this, arguments));
         }
         return _inherits(Derived, Base), Derived;
-    }(Base), Derived2 = function(Base) {
+    }(Base2), Derived2 = function(Base) {
         "use strict";
         function Derived2() {
             return _classCallCheck(this, Derived2), _possibleConstructorReturn(this, _getPrototypeOf(Derived2).apply(this, arguments));
         }
         return _inherits(Derived2, Base), Derived2;
-    }(Base), S = function() {
+    }(Base2), S = function() {
         "use strict";
         _classCallCheck(this, S);
     }, T = function() {
         "use strict";
         _classCallCheck(this, T);
     }, a2 = {
-        foo: new Base()
+        foo: new Base2()
     }, b2 = {
         foo: new Derived2()
     };

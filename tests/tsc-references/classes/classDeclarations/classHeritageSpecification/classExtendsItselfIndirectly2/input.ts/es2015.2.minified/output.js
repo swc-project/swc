@@ -1,5 +1,5 @@
-var M, N, O;
-class C extends N.E {
+var M, N1, O;
+class C extends N1.E {
 }
 (M || (M = {
 })).D = class extends C {
@@ -7,10 +7,10 @@ class C extends N.E {
     class E extends M.D {
     }
     N.E = E;
-})(N || (N = {
+})(N1 || (N1 = {
 })), (function(O) {
-    var P, Q;
-    class C2 extends Q.E2 {
+    var P, Q1;
+    class C2 extends Q1.E2 {
     }
     (P || (P = {
     })).D2 = class extends C2 {
@@ -18,7 +18,7 @@ class C extends N.E {
         class E2 extends P.D2 {
         }
         Q.E2 = E2;
-    })(Q || (Q = {
+    })(Q1 || (Q1 = {
     }));
 })(O || (O = {
 }));

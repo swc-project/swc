@@ -28,26 +28,26 @@ function f(b) {
 }
 // OK to access possibly-unassigned properties outside the initialising scope
 var test = f(true).s;
-function d() {
+function d1() {
 }
-d.e = 12;
-d.e;
+d1.e = 12;
+d1.e;
 if (!!false) {
-    d.q = false;
+    d1.q = false;
 }
-d.q;
+d1.q;
 if (!!false) {
-    d.q = false;
+    d1.q = false;
 } else {
-    d.q = true;
+    d1.q = true;
 }
-d.q;
+d1.q;
 if (!!false) {
-    d.r = 1;
+    d1.r = 1;
 } else {
-    d.r = 2;
+    d1.r = 2;
 }
-d.r;
+d1.r;
 // test function expressions too
 var g = function g() {
 };

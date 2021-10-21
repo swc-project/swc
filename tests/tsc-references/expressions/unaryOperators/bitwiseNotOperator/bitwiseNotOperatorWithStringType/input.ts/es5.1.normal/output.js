@@ -42,11 +42,11 @@ var A = /*#__PURE__*/ function() {
     ]);
     return A;
 }();
-var M;
+var M1;
 (function(M) {
     var n;
     M.n = n;
-})(M || (M = {
+})(M1 || (M1 = {
 }));
 var objA = new A();
 // string type var
@@ -66,7 +66,7 @@ var ResultIsNumber5 = ~{
 };
 // string type expressions
 var ResultIsNumber6 = ~objA.a;
-var ResultIsNumber7 = ~M.n;
+var ResultIsNumber7 = ~M1.n;
 var ResultIsNumber8 = ~STRING1[0];
 var ResultIsNumber9 = ~foo();
 var ResultIsNumber10 = ~A.foo();
@@ -79,4 +79,4 @@ var ResultIsNumber14 = ~~~(STRING + STRING);
 ~STRING;
 ~STRING1;
 ~foo();
-~objA.a, M.n;
+~objA.a, M1.n;

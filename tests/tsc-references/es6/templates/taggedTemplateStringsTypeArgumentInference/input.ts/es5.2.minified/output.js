@@ -6,6 +6,14 @@ function _taggedTemplateLiteral(strings, raw) {
         }
     }));
 }
+function _templateObject() {
+    var data = _taggedTemplateLiteral([
+        ""
+    ]);
+    return _templateObject = function _templateObject() {
+        return data;
+    }, data;
+}
 function _templateObject1() {
     var data = _taggedTemplateLiteral([
         ""
@@ -16,6 +24,7 @@ function _templateObject1() {
 }
 function _templateObject2() {
     var data = _taggedTemplateLiteral([
+        "",
         ""
     ]);
     return _templateObject2 = function _templateObject2() {
@@ -46,15 +55,6 @@ function _templateObject5() {
         ""
     ]);
     return _templateObject5 = function _templateObject5() {
-        return data;
-    }, data;
-}
-function _templateObject() {
-    var data = _taggedTemplateLiteral([
-        "",
-        ""
-    ]);
-    return _templateObject = function _templateObject() {
         return data;
     }, data;
 }
@@ -300,10 +300,10 @@ function someGenerics9(strs, a, b, c) {
     return null;
 }
 !function(strs, n) {
-}(_templateObject5(), function(n) {
+}(_templateObject4(), function(n) {
     return n;
 }), (function(strs, n) {
-})(_templateObject(), function(n, x) {
+})(_templateObject5(), function(n, x) {
     return n;
 }), someGenerics3(_templateObject6(), function() {
     return "";

@@ -19,13 +19,17 @@ function _slicedToArray(arr, i) {
         throw new TypeError("Invalid attempt to destructure non-iterable instance");
     })();
 }
-var tmp4 = {
+var tmp = {
     b11: "world"
 };
-(void 0 === tmp4 ? {
+(void 0 === tmp ? {
     b11: "string"
-} : tmp4).b11;
-var arr, ref = [void 0, void 0, void 0], tmp1 = ref[0], tmp2 = ref[1], tmp3 = ref[2], ref1 = _slicedToArray([
+} : tmp).b11;
+var arr, ref = [
+    void 0,
+    void 0,
+    void 0
+], tmp1 = ref[0], tmp2 = ref[1], tmp3 = ref[2], ref1 = _slicedToArray([
     1,
     "string"
 ].concat(function(arr) {
@@ -42,15 +46,15 @@ var arr, ref = [void 0, void 0, void 0], tmp1 = ref[0], tmp2 = ref[1], tmp3 = re
 }(arr) || function() {
     throw new TypeError("Invalid attempt to spread non-iterable instance");
 }()), 2);
-ref1[0], ref1[1], void 0 === tmp8;
-var _e = _slicedToArray([
+ref1[0], ref1[1], void 0 === tmp4;
+var _e1 = _slicedToArray([
     1,
     2,
     {
         b1: 4,
         b4: 0
     }
-], 3), e1 = _e[0], e2 = _e[1], tmp8 = _e[2], _f = _slicedToArray([
+], 3), e1 = _e1[0], e2 = _e1[1], tmp4 = _e1[2], _f = _slicedToArray([
     1,
     2,
     {

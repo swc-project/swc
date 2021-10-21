@@ -1,4 +1,4 @@
-var A, B;
+var A, B1;
 A || (A = {
 }), (Point || (Point = {
 })).Origin = {
@@ -22,5 +22,5 @@ A || (A = {
         x: 0,
         y: 0
     }, B.Point = Point;
-})(B || (B = {
+})(B1 || (B1 = {
 }));

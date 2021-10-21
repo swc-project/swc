@@ -12,15 +12,15 @@ function _defineProperty(obj, key, value) {
     return obj;
 }
 var // @target: es6
-E1;
+E11;
 (function(E1) {
     E1[E1["x"] = 0] = "x";
-})(E1 || (E1 = {
+})(E11 || (E11 = {
 }));
-var E2;
+var E21;
 (function(E2) {
     E2[E2["x"] = 0] = "x";
-})(E2 || (E2 = {
+})(E21 || (E21 = {
 }));
 var o = _defineProperty({
-}, E1.x || E2.x, 0);
+}, E11.x || E21.x, 0);

@@ -1,4 +1,4 @@
-var A;
+var A1;
 !function(A) {
     var Point = function(x, y) {
         "use strict";
@@ -7,5 +7,5 @@ var A;
         }(this, Point), this.x = x, this.y = y;
     };
     A.UnitSquare = null;
-}(A || (A = {
+}(A1 || (A1 = {
 }));

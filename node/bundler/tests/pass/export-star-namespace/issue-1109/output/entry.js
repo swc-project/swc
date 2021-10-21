@@ -1,5 +1,5 @@
-var a1 = 1;
+var a = 1;
 const mod = {
-    a: a1
+    a: a
 };
 export { mod as a };

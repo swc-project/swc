@@ -1,4 +1,4 @@
-var A, X;
+var A, X1;
 !function(A) {
     var B, x;
     (B || (B = {
@@ -14,5 +14,5 @@ var A, X;
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
         }(this, Line);
     }, Z1.Line = Line, X.Y = Y;
-})(X || (X = {
+})(X1 || (X1 = {
 }));

@@ -1,9 +1,9 @@
 var // @target: es6
-E;
+E1;
 (function(E) {
     E[E["member"] = 0] = "member";
-})(E || (E = {
+})(E1 || (E1 = {
 }));
 var v = {
-    [E.member]: 0
+    [E1.member]: 0
 };

@@ -6,8 +6,8 @@ function _defineProperty(obj, key, value) {
         writable: !0
     }) : obj[key] = value, obj;
 }
-(K1 = K2 || (K2 = {
-})).a = "a", K1.b = "b";
-var K1, K2, _obj, ref = (_defineProperty(_obj = {
-}, K2.a, 1), _defineProperty(_obj, K2.b, 1), _obj), aVal = ref[K2.a], bVal = ref[K2.b];
+(K = K1 || (K1 = {
+})).a = "a", K.b = "b";
+var K, K1, _obj, ref = (_defineProperty(_obj = {
+}, K1.a, 1), _defineProperty(_obj, K1.b, 1), _obj), aVal = ref[K1.a], bVal = ref[K1.b];
 console.log(aVal, bVal);

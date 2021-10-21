@@ -179,5 +179,5 @@ var SomeDerivedClass = /*#__PURE__*/ function(SomeBaseClass) {
     ]);
     return SomeDerivedClass;
 }(SomeBaseClass);
-var instance = new SomeDerivedClass();
-instance.returnThis().fn();
+var instance1 = new SomeDerivedClass();
+instance1.returnThis().fn();

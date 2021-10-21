@@ -49,9 +49,9 @@ var C5 = /*#__PURE__*/ function() {
         {
             key: "foo",
             value: function foo() {
-                var _this = this, _this1 = this, _this2 = this, _this3 = this;
+                var _this4 = this, _this1 = this, _this2 = this, _this3 = this;
                 var f1 = function(x) {
-                    return _this;
+                    return _this4;
                 };
                 var f2 = function(x) {
                     return _this1;
@@ -62,11 +62,11 @@ var C5 = /*#__PURE__*/ function() {
                     };
                 };
                 var f4 = function(x) {
-                    var _this5 = _this3;
+                    var _this = _this3;
                     var g = function(y) {
-                        var _this6 = _this5;
+                        var _this5 = _this;
                         return function() {
-                            return _this6;
+                            return _this5;
                         };
                     };
                     return g(_this3);

@@ -47,9 +47,13 @@ var _complex, _tmp, _o, _typeof = function(obj) {
 _extends({
 }, o);
 var { a  } = o;
-_objectWithoutProperties(o, ["a"]);
+_objectWithoutProperties(o, [
+    "a"
+]);
 var { a , b: renamed  } = o;
-_objectWithoutProperties(o, ["a", "b"
+_objectWithoutProperties(o, [
+    "a",
+    "b"
 ]);
 var { ["b"]: renamed  } = o;
 _objectWithoutProperties(o, [
@@ -74,14 +78,20 @@ _objectWithoutProperties(o2, [
 let nestedrest;
 var { x , n1: { y , n2: { z  }  }  } = nestedrest;
 _extends({
-}, nestedrest.n1.n2.n3), _objectWithoutProperties(nestedrest, ["x", "n1"
+}, nestedrest.n1.n2.n3), _objectWithoutProperties(nestedrest, [
+    "x",
+    "n1"
 ]);
 let complex;
 var { x: { ka  } , y: other  } = complex;
-_objectWithoutProperties(complex.x, ["ka"]), _objectWithoutProperties(complex, [
+_objectWithoutProperties(complex.x, [
+    "ka"
+]), _objectWithoutProperties(complex, [
     "x",
     "y"
-]), _objectWithoutProperties((_complex = complex).x, ["ka"]), _objectWithoutProperties(_complex, [
+]), _objectWithoutProperties((_complex = complex).x, [
+    "ka"
+]), _objectWithoutProperties(_complex, [
     "x",
     "y"
 ]), { x: { ka  } , y: other  } = _complex;
@@ -89,24 +99,32 @@ var _ref = {
     x: 1,
     y: 2
 }, { x  } = _ref;
-_objectWithoutProperties(_ref, ["x"]), _objectWithoutProperties(_tmp = {
+_objectWithoutProperties(_ref, [
+    "x"
+]), _objectWithoutProperties(_tmp = {
     x: 1,
     y: 2
-}, ["x"]), { x  } = _tmp;
+}, [
+    "x"
+]), { x  } = _tmp;
 var removable = new class {
     set z(value) {
     }
     get both() {
         return 12;
     }
-    set both(value) {
+    set both(value1) {
     }
     m() {
     }
 }(), { removed  } = removable;
-_objectWithoutProperties(removable, ["removed"]);
-var i = removable, { removed  } = i;
-_objectWithoutProperties(i, ["removed"]);
+_objectWithoutProperties(removable, [
+    "removed"
+]);
+var i1 = removable, { removed  } = i1;
+_objectWithoutProperties(i1, [
+    "removed"
+]);
 let computed = "b", computed2 = "a";
 var { [computed]: stillNotGreat , [computed2]: soSo  } = o, o = _objectWithoutProperties(o, [
     computed,
@@ -117,5 +135,7 @@ o = _objectWithoutProperties(_o = o, [
     computed2
 ].map(_toPropertyKey)), ({ [computed]: stillNotGreat , [computed2]: soSo  } = _o), (_param)=>{
     var { aNumber =12  } = _param;
-    return aNumber + _objectWithoutProperties(_param, ["aNumber"]).anythingGoes;
+    return aNumber + _objectWithoutProperties(_param, [
+        "aNumber"
+    ]).anythingGoes;
 };

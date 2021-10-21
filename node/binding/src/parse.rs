@@ -38,7 +38,7 @@ impl Task for ParseTask {
     type JsValue = JsString;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
-        let program = try_with(self.c.cm.clone(), |handler| {
+        let program = try_with(self.c.cm.clone(), false, |handler| {
             self.c.parse_js(
                 self.fm.clone(),
                 &handler,
@@ -63,7 +63,7 @@ impl Task for ParseFileTask {
     type JsValue = JsString;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
-        try_with(self.c.cm.clone(), |handler| {
+        try_with(self.c.cm.clone(), false, |handler| {
             self.c.run(|| {
                 let fm = self
                     .c
@@ -125,7 +125,7 @@ pub fn parse_sync(cx: CallContext) -> napi::Result<JsString> {
         FileName::Anon
     };
 
-    let program = try_with(c.cm.clone(), |handler| {
+    let program = try_with(c.cm.clone(), false, |handler| {
         c.run(|| {
             let fm = c.cm.new_source_file(filename, src);
             c.parse_js(
@@ -150,7 +150,7 @@ pub fn parse_file_sync(cx: CallContext) -> napi::Result<JsString> {
     let options: ParseOptions = cx.get_deserialized(1)?;
 
     let program = {
-        try_with(c.cm.clone(), |handler| {
+        try_with(c.cm.clone(), false, |handler| {
             let fm =
                 c.cm.load_file(Path::new(path.as_str()?))
                     .expect("failed to read program file");

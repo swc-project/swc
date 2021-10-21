@@ -34,12 +34,12 @@ var x13_2;
 foo13(x13_1, x13_2);
 foo13(x13_2, x13_1);
 var x14;
-var E;
+var E1;
 (function(E) {
     E[E["x"] = 10] = "x";
-})(E || (E = {
+})(E1 || (E1 = {
 }));
-f15(E.x).toLowerCase();
+f15(E1.x).toLowerCase();
 var x;
 f16(x);
 var y = [

@@ -4,7 +4,7 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 var x = 1;
-var a = x;
+var a1 = x;
 var b = x;
 var c = x;
 var d = x;
@@ -16,12 +16,12 @@ var e = x;
 var f = x;
 var g = 1;
 var g2 = 1;
-var M;
+var M1;
 (function(M) {
     M.x = 1;
-})(M || (M = {
+})(M1 || (M1 = {
 }));
-M = x;
+M1 = x;
 function i(a) {
     a = x;
 }

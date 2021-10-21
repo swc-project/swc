@@ -5,11 +5,12 @@ export function Set(...keys) {
     return keys.forEach((key)=>result[key] = !0
     ), result;
 }
-export function keys(obj) {
+function keys1(obj) {
     return Object.keys(obj);
 }
+export { keys1 as keys };
 const langCodeSet = Set("fr", "en", "es", "it", "nl");
-export const langCodes = keys(langCodeSet);
+export const langCodes = keys1(langCodeSet);
 langCodes.map((code)=>({
         code
     })

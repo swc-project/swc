@@ -88,13 +88,14 @@ function fn4() {
     let x = 'abc';
     let y = 'abc';
 }
-// Repro from #31439 and #31691
-export class c {
+class c1 {
     constructor(){
         this.a = "b";
         this["a"] = "b";
     }
 }
+// Repro from #31439 and #31691
+export { c1 as c };
 // Repro from #32038
 const actions = [
     'resizeTo',

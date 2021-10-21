@@ -1,4 +1,4 @@
 class C {
-    constructor(C){
+    constructor(C1){
     }
 }

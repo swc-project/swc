@@ -1,4 +1,4 @@
-var ns;
+var ns1;
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
@@ -12,6 +12,6 @@ function _classCallCheck(instance, Constructor) {
         "use strict";
         _classCallCheck(this, NestedClass);
     }, nested1.NestedClass = NestedClass, ns.nested = nested;
-}(ns || (ns = {
-})), ns.Class, ns.Value;
+}(ns1 || (ns1 = {
+})), ns1.Class, ns1.Value;
 export { };

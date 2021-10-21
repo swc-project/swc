@@ -67,8 +67,8 @@ Common.O = /*#__PURE__*/ (function(_I) {
     }
     return _class;
 })(Common.I);
-var o = new Common.O();
+var o1 = new Common.O();
 var i = new Common.I();
-o.i;
-o.o;
+o1.i;
+o1.o;
 i.i;

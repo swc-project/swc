@@ -1,6 +1,6 @@
 // no errors expected
 class C {
-    foo(x) {
+    foo(x1) {
         function bar(x) {
             return x;
         }

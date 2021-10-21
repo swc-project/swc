@@ -1,12 +1,12 @@
-var E;
+var E1;
 (function(E) {
     E[E["A"] = 0] = "A";
     E[E["B"] = 1] = "B";
     E[E["C"] = 2] = "C";
-})(E || (E = {
+})(E1 || (E1 = {
 }));
 let cond;
-function f1(p1 = 1, p2 = "abc", p3 = true, p4 = E.A) {
+function f1(p1 = 1, p2 = "abc", p3 = true, p4 = E1.A) {
     var v1 = 1;
     var v2 = -123;
     var v3 = 3 + 4;
@@ -14,7 +14,7 @@ function f1(p1 = 1, p2 = "abc", p3 = true, p4 = E.A) {
     var v5 = "";
     var v6 = "abc" + "def";
     var v7 = true;
-    var v8 = E.A;
+    var v8 = E1.A;
     let x1 = 1;
     let x2 = -123;
     let x3 = 3 + 4;
@@ -22,7 +22,7 @@ function f1(p1 = 1, p2 = "abc", p3 = true, p4 = E.A) {
     let x5 = "";
     let x6 = "abc" + "def";
     let x7 = true;
-    var x8 = E.A;
+    var x8 = E1.A;
     const c1 = 1;
     const c2 = -123;
     const c3 = 3 + 4;
@@ -30,24 +30,24 @@ function f1(p1 = 1, p2 = "abc", p3 = true, p4 = E.A) {
     const c5 = "";
     const c6 = "abc" + "def";
     const c7 = true;
-    const c8 = E.A;
+    const c8 = E1.A;
 }
-function f2(p1 = 1, p2 = "abc", p3 = true, p4 = E.A) {
+function f2(p1 = 1, p2 = "abc", p3 = true, p4 = E1.A) {
     var v1 = 1;
     var v2 = -123;
     var v3 = "abc";
     var v4 = true;
-    var v5 = E.A;
+    var v5 = E1.A;
     let x1 = 1;
     let x2 = -123;
     let x3 = "abc";
     let x4 = true;
-    let x5 = E.A;
+    let x5 = E1.A;
 }
 function f3() {
     const c1 = cond ? 1 : 2;
     const c2 = cond ? 1 : "two";
-    const c3 = cond ? E.A : cond ? true : 123;
+    const c3 = cond ? E1.A : cond ? true : 123;
     const c4 = cond ? "abc" : null;
     const c5 = cond ? 456 : undefined;
     const c6 = {
@@ -76,7 +76,7 @@ class C1 {
         this.x5 = "";
         this.x6 = "abc" + "def";
         this.x7 = true;
-        this.x8 = E.A;
+        this.x8 = E1.A;
         this.c1 = 1;
         this.c2 = -123;
         this.c3 = 3 + 4;
@@ -84,7 +84,7 @@ class C1 {
         this.c5 = "";
         this.c6 = "abc" + "def";
         this.c7 = true;
-        this.c8 = E.A;
+        this.c8 = E1.A;
     }
 }
 function f4() {
@@ -171,7 +171,7 @@ function f20() {
     ;
     const f3 = ()=>true
     ;
-    const f4 = ()=>E.C
+    const f4 = ()=>E1.C
     ;
     const f5 = ()=>"foo"
     ;
@@ -180,7 +180,7 @@ function f20() {
     const f7 = ()=>"bar"
     ;
 }
-const a = [
+const a1 = [
     1,
     2
 ];
@@ -194,8 +194,8 @@ const x7 = g6([
     1,
     2
 ]); // Type number
-const x8 = g6(a); // Type 1 | 2
-const x9 = g7(a); // Type (1 | 2)[]
+const x8 = g6(a1); // Type 1 | 2
+const x9 = g7(a1); // Type (1 | 2)[]
 const x10 = g8(1, (x)=>x
 ); // Type number
 const x11 = g8(1, (x)=>x + 1

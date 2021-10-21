@@ -1,9 +1,9 @@
 var // type parameter type is not a valid operand of addition operator
-E;
+E1;
 (function(E) {
     E[E["a"] = 0] = "a";
     E[E["b"] = 1] = "b";
-})(E || (E = {
+})(E1 || (E1 = {
 }));
 function foo(t, u) {
     var a;

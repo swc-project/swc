@@ -23,23 +23,23 @@ var d = new D(1); // error
 var e = new E(1); // error
 var Generic;
 (function(Generic) {
-    var C1 = function C1(x) {
+    var C = function C(x) {
         "use strict";
-        _classCallCheck(this, C1);
+        _classCallCheck(this, C);
         this.x = x;
     };
-    var D1 = function D1(x) {
+    var D = function D(x) {
         "use strict";
-        _classCallCheck(this, D1);
+        _classCallCheck(this, D);
         this.x = x;
     };
-    var E1 = function E1(x) {
+    var E = function E(x) {
         "use strict";
-        _classCallCheck(this, E1);
+        _classCallCheck(this, E);
         this.x = x;
     };
-    var c = new C1(1);
-    var d = new D1(1); // error
-    var e = new E1(1); // error
+    var c = new C(1);
+    var d = new D(1); // error
+    var e = new E(1); // error
 })(Generic || (Generic = {
 }));

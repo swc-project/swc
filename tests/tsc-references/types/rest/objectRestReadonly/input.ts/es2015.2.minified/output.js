@@ -18,5 +18,7 @@ const obj = {
         for(i = 0; i < sourceSymbolKeys.length; i++)key = sourceSymbolKeys[i], !(excluded.indexOf(key) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
     }
     return target;
-}(obj, ["foo"]);
+}(obj, [
+    "foo"
+]);
 delete rest.baz;

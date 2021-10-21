@@ -69,4 +69,6 @@ var b;
 var rest;
 var _o;
 var ref;
-_o = o, rest = _objectWithoutProperties(_o, ["b"]), ref = _o, b = ref.b, ref, _o;
+_o = o, rest = _objectWithoutProperties(_o, [
+    "b"
+]), ref = _o, b = ref.b, ref, _o;

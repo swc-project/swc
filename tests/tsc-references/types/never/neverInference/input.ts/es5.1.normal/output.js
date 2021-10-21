@@ -1,6 +1,6 @@
 var neverArray = [];
-var a1 = f1([]); // never
-var a2 = f1(neverArray); // never
+var a11 = f1([]); // never
+var a21 = f1(neverArray); // never
 var list = mkList([], compareNumbers);
 f2(Array.from([
     0

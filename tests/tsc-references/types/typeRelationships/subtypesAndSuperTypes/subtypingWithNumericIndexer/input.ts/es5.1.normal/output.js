@@ -68,9 +68,9 @@ var B2 = /*#__PURE__*/ function(A) {
 }(A);
 var Generics;
 (function(Generics) {
-    var A1 = function A1() {
+    var A = function A() {
         "use strict";
-        _classCallCheck(this, A1);
+        _classCallCheck(this, A);
     };
     var B = /*#__PURE__*/ function(A) {
         "use strict";
@@ -80,7 +80,7 @@ var Generics;
             return _possibleConstructorReturn(this, _getPrototypeOf(B).apply(this, arguments));
         }
         return B;
-    }(A1);
+    }(A);
     var B2 = /*#__PURE__*/ function(A) {
         "use strict";
         _inherits(B2, A);
@@ -89,7 +89,7 @@ var Generics;
             return _possibleConstructorReturn(this, _getPrototypeOf(B2).apply(this, arguments));
         }
         return B2;
-    }(A1);
+    }(A);
     var B3 = /*#__PURE__*/ function(A) {
         "use strict";
         _inherits(B3, A);
@@ -98,7 +98,7 @@ var Generics;
             return _possibleConstructorReturn(this, _getPrototypeOf(B3).apply(this, arguments));
         }
         return B3;
-    }(A1);
+    }(A);
     var B4 = /*#__PURE__*/ function(A) {
         "use strict";
         _inherits(B4, A);
@@ -107,6 +107,6 @@ var Generics;
             return _possibleConstructorReturn(this, _getPrototypeOf(B4).apply(this, arguments));
         }
         return B4;
-    }(A1);
+    }(A);
 })(Generics || (Generics = {
 }));

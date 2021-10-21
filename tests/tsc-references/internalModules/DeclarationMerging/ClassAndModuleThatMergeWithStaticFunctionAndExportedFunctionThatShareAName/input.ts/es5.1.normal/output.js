@@ -45,16 +45,16 @@ var Point = /*#__PURE__*/ function() {
     Point.Origin = Origin;
 })(Point || (Point = {
 }));
-var A;
+var A1;
 (function(A) {
-    var Point1 = /*#__PURE__*/ function() {
+    var Point = /*#__PURE__*/ function() {
         "use strict";
-        function Point1(x, y) {
-            _classCallCheck(this, Point1);
+        function Point(x, y) {
+            _classCallCheck(this, Point);
             this.x = x;
             this.y = y;
         }
-        _createClass(Point1, null, [
+        _createClass(Point, null, [
             {
                 key: "Origin",
                 value: function Origin() {
@@ -65,15 +65,15 @@ var A;
                 } // unexpected error here bug 840246
             }
         ]);
-        return Point1;
+        return Point;
     }();
-    A.Point = Point1;
+    A.Point = Point;
     (function(Point) {
         function Origin() {
             return "";
         } //expected duplicate identifier error
         Point.Origin = Origin;
-    })(Point1 || (Point1 = {
+    })(Point || (Point = {
     }));
-})(A || (A = {
+})(A1 || (A1 = {
 }));

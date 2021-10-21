@@ -27,7 +27,7 @@ var C = // @target: es6
     _createClass(C, [
         {
             key: "foo",
-            value: regeneratorRuntime.mark(function foo() {
+            value: regeneratorRuntime.mark(function foo1() {
                 return regeneratorRuntime.wrap(function foo$(_ctx) {
                     while(1)switch(_ctx.prev = _ctx.next){
                         case 0:
@@ -37,7 +37,7 @@ var C = // @target: es6
                         case "end":
                             return _ctx.stop();
                     }
-                }, foo);
+                }, foo1);
             })
         }
     ]);

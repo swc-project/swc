@@ -76,8 +76,8 @@ a1([
 }), b2("string", {
     x: 200,
     y: !0
-}), (Foo1 = Foo2 || (Foo2 = {
-}))[Foo1.a = 0] = "a", c0({
+}), (Foo = Foo1 || (Foo1 = {
+}))[Foo.a = 0] = "a", c0({
     z: {
         x: 1,
         y: {
@@ -115,7 +115,7 @@ a1([
     !1,
     !0
 ]);
-var Foo1, Foo2, C2 = function() {
+var Foo, Foo1, C2 = function() {
     "use strict";
     function C2() {
         _classCallCheck(this, C2);

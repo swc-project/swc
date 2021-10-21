@@ -51,7 +51,11 @@ var nestedrest, complex, _complex, ref, _tmp, _o, ref1, _typeof = function(obj) 
     b: "no"
 };
 _extends({
-}, o), o.a, _objectWithoutProperties(o, ["a"]), o.a, o.b, _objectWithoutProperties(o, ["a", "b"
+}, o), o.a, _objectWithoutProperties(o, [
+    "a"
+]), o.a, o.b, _objectWithoutProperties(o, [
+    "a",
+    "b"
 ]), o.b, _objectWithoutProperties(o, [
     "b"
 ]), o.b, _objectWithoutProperties(o, [
@@ -70,11 +74,17 @@ o2.d, _objectWithoutProperties(o2, [
 ]), nestedrest.x;
 var _n1 = nestedrest.n1;
 _n1.y, _n1.n2.z, _extends({
-}, nestedrest.n1.n2.n3), _objectWithoutProperties(nestedrest, ["x", "n1"
-]), complex.x.ka, complex.y, _objectWithoutProperties(complex.x, ["ka"]), _objectWithoutProperties(complex, [
+}, nestedrest.n1.n2.n3), _objectWithoutProperties(nestedrest, [
+    "x",
+    "n1"
+]), complex.x.ka, complex.y, _objectWithoutProperties(complex.x, [
+    "ka"
+]), _objectWithoutProperties(complex, [
     "x",
     "y"
-]), _objectWithoutProperties((_complex = complex).x, ["ka"]), _objectWithoutProperties(_complex, [
+]), _objectWithoutProperties((_complex = complex).x, [
+    "ka"
+]), _objectWithoutProperties(_complex, [
     "x",
     "y"
 ]), ref = _complex, ({ ka  } = ref.x), ref.y;
@@ -82,10 +92,14 @@ var _ref = {
     x: 1,
     y: 2
 };
-_ref.x, _objectWithoutProperties(_ref, ["x"]), _objectWithoutProperties(_tmp = {
+_ref.x, _objectWithoutProperties(_ref, [
+    "x"
+]), _objectWithoutProperties(_tmp = {
     x: 1,
     y: 2
-}, ["x"]), _tmp.x;
+}, [
+    "x"
+]), _tmp.x;
 var Removable = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
@@ -115,9 +129,13 @@ var Removable = function() {
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Removable;
 }(), removable = new Removable();
-removable.removed, _objectWithoutProperties(removable, ["removed"]);
-var i = removable;
-i.removed, _objectWithoutProperties(i, ["removed"]);
+removable.removed, _objectWithoutProperties(removable, [
+    "removed"
+]);
+var i1 = removable;
+i1.removed, _objectWithoutProperties(i1, [
+    "removed"
+]);
 var computed = "b", computed2 = "a", stillNotGreat = o[computed], soSo = o[computed2], o = _objectWithoutProperties(o, [
     computed,
     computed2

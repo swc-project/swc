@@ -66,8 +66,12 @@ var o = {
 };
 var clone = _extends({
 }, o);
-var { a  } = o, justB = _objectWithoutProperties(o, ["a"]);
-var { a , b: renamed  } = o, empty = _objectWithoutProperties(o, ["a", "b"
+var { a  } = o, justB = _objectWithoutProperties(o, [
+    "a"
+]);
+var { a , b: renamed  } = o, empty = _objectWithoutProperties(o, [
+    "a",
+    "b"
 ]);
 var { ['b']: renamed  } = o, justA = _objectWithoutProperties(o, [
     'b'
@@ -87,42 +91,56 @@ var { d: renamed  } = o2, d = _objectWithoutProperties(o2, [
 ]);
 let nestedrest;
 var { x , n1: { y , n2: { z  }  }  } = nestedrest, nr = _extends({
-}, nestedrest.n1.n2.n3), restrest = _objectWithoutProperties(nestedrest, ["x", "n1"
+}, nestedrest.n1.n2.n3), restrest = _objectWithoutProperties(nestedrest, [
+    "x",
+    "n1"
 ]);
 let complex;
-var { x: { ka  } , y: other  } = complex, nested = _objectWithoutProperties(complex.x, ["ka"]), rest = _objectWithoutProperties(complex, [
+var { x: { ka  } , y: other  } = complex, nested = _objectWithoutProperties(complex.x, [
+    "ka"
+]), rest = _objectWithoutProperties(complex, [
     "x",
     "y"
 ]);
 var _complex;
-_complex = complex, nested = _objectWithoutProperties(_complex.x, ["ka"]), rest = _objectWithoutProperties(_complex, [
+_complex = complex, nested = _objectWithoutProperties(_complex.x, [
+    "ka"
+]), rest = _objectWithoutProperties(_complex, [
     "x",
     "y"
 ]), ({ x: { ka  } , y: other  } = _complex), _complex;
 var _ref = {
     x: 1,
     y: 2
-}, { x  } = _ref, fresh = _objectWithoutProperties(_ref, ["x"]);
+}, { x  } = _ref, fresh = _objectWithoutProperties(_ref, [
+    "x"
+]);
 var _tmp;
 _tmp = {
     x: 1,
     y: 2
-}, fresh = _objectWithoutProperties(_tmp, ["x"]), ({ x  } = _tmp), _tmp;
+}, fresh = _objectWithoutProperties(_tmp, [
+    "x"
+]), ({ x  } = _tmp), _tmp;
 class Removable {
     set z(value) {
     }
     get both() {
         return 12;
     }
-    set both(value) {
+    set both(value1) {
     }
     m() {
     }
 }
 var removable = new Removable();
-var { removed  } = removable, removableRest = _objectWithoutProperties(removable, ["removed"]);
-var i = removable;
-var { removed  } = i, removableRest2 = _objectWithoutProperties(i, ["removed"]);
+var { removed  } = removable, removableRest = _objectWithoutProperties(removable, [
+    "removed"
+]);
+var i1 = removable;
+var { removed  } = i1, removableRest2 = _objectWithoutProperties(i1, [
+    "removed"
+]);
 let computed = 'b';
 let computed2 = 'a';
 var { [computed]: stillNotGreat , [computed2]: soSo  } = o, o = _objectWithoutProperties(o, [
@@ -135,6 +153,8 @@ _o = o, o = _objectWithoutProperties(_o, [
     computed2
 ].map(_toPropertyKey)), ({ [computed]: stillNotGreat , [computed2]: soSo  } = _o), _o;
 var noContextualType = (_param)=>{
-    var { aNumber =12  } = _param, notEmptyObject = _objectWithoutProperties(_param, ["aNumber"]);
+    var { aNumber =12  } = _param, notEmptyObject = _objectWithoutProperties(_param, [
+        "aNumber"
+    ]);
     return aNumber + notEmptyObject.anythingGoes;
 };

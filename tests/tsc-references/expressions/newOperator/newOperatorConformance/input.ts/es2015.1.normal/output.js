@@ -1,11 +1,11 @@
 class C0 {
 }
 class C1 {
-    constructor(n, s){
+    constructor(n1, s1){
     }
 }
 class T {
-    constructor(n){
+    constructor(n2){
     }
 }
 var anyCtor;

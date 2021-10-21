@@ -1,18 +1,19 @@
-// not allowed when emitting declarations
-export const obj = {
-    method1 (p) {
-        return p;
+const obj1 = {
+    method1 (p2) {
+        return p2;
     },
-    method2 (p) {
-        return p;
+    method2 (p1) {
+        return p1;
     }
 };
+// not allowed when emitting declarations
+export { obj1 as obj };
 export const classExpression = class _class {
     method1(p) {
         return p;
     }
-    method2(p) {
-        return p;
+    method2(p3) {
+        return p3;
     }
 };
 export function funcInferredReturnType(obj) {
@@ -27,16 +28,16 @@ export class ClassWithPrivateNamedMethods {
     static [tmp1]() {
     }
 }
-var tmp3 = s, tmp4 = s, tmp5 = s, tmp6 = s;
+var tmp2 = s, tmp3 = s, tmp4 = s, tmp5 = s;
 export class ClassWithPrivateNamedAccessors {
-    get [tmp3]() {
+    get [tmp2]() {
         return undefined;
     }
-    set [tmp4](v) {
+    set [tmp3](v) {
     }
-    static get [tmp5]() {
+    static get [tmp4]() {
         return undefined;
     }
-    static set [tmp6](v) {
+    static set [tmp5](v1) {
     }
 }

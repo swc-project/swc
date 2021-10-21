@@ -71,7 +71,7 @@ if (typeof boolOrC !== "boolean") {
     bool = boolOrC; // boolean
 }
 if (typeof strOrNum !== "boolean") {
-    var z1 = strOrNum; // string | number
+    var z11 = strOrNum; // string | number
 } else {
-    var z2 = strOrNum; // {}
+    var z21 = strOrNum; // {}
 }

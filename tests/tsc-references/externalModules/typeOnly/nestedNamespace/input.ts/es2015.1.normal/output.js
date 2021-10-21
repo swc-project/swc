@@ -1,8 +1,9 @@
+var types1;
 // @Filename: a.ts
-export var types;
+export { types1 as types };
 (function(types) {
     class A {
     }
     types.A = A;
-})(types || (types = {
+})(types1 || (types1 = {
 }));

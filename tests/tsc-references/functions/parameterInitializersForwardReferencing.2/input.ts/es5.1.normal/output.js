@@ -36,12 +36,16 @@ function a() {
 }
 function b(param) {
     var _param = param === void 0 ? a() : param;
-    var _b = _param.b, b = _b === void 0 ? a() : _b, x = _objectWithoutProperties(_param, ["b"]);
+    var _b = _param.b, b = _b === void 0 ? a() : _b, x = _objectWithoutProperties(_param, [
+        "b"
+    ]);
     var a1;
 }
 var x = "";
 function c(param, param1) {
     var _param = param === void 0 ? a() : param, d = param1 === void 0 ? x : param1;
-    var b = _param.b, c = _objectWithoutProperties(_param, ["b"]);
+    var b = _param.b, c = _objectWithoutProperties(_param, [
+        "b"
+    ]);
     var x1;
 }

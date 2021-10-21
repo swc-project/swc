@@ -1,5 +1,5 @@
 // @filename: function.ts
-var A;
+var A1;
 (function(A) {
     var Point = function Point() {
         return {
@@ -8,7 +8,7 @@ var A;
         };
     };
     A.Point = Point;
-})(A || (A = {
+})(A1 || (A1 = {
 }));
 (function(A) {
     (function(Point) {
@@ -18,16 +18,16 @@ var A;
         };
     })(Point || (Point = {
     }));
-})(A || (A = {
+})(A1 || (A1 = {
 }));
 // @filename: test.ts
 var fn;
-var fn = A.Point;
+var fn = A1.Point;
 var cl;
-var cl = A.Point();
-var cl = A.Point.Origin; // not expected to be an error.
+var cl = A1.Point();
+var cl = A1.Point.Origin; // not expected to be an error.
 // @filename: simple.ts
-var B;
+var B1;
 (function(B) {
     var Point = function Point() {
         return {
@@ -43,10 +43,10 @@ var B;
         };
     })(Point || (Point = {
     }));
-})(B || (B = {
+})(B1 || (B1 = {
 }));
 var fn;
-var fn = B.Point; // not expected to be an error. bug 840000: [corelang] Function of fundule not assignalbe as expected
+var fn = B1.Point; // not expected to be an error. bug 840000: [corelang] Function of fundule not assignalbe as expected
 var cl;
-var cl = B.Point();
-var cl = B.Point.Origin;
+var cl = B1.Point();
+var cl = B1.Point.Origin;

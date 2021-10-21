@@ -43,6 +43,6 @@ var C = // @target: es5
     return C;
 }();
 var c;
-var i;
-c = i;
-i = c;
+var i1;
+c = i1;
+i1 = c;

@@ -1,31 +1,31 @@
 // all errors imported modules conflict with local variables
-var A;
+var A1;
 (function(A) {
     A.Point = {
         x: 0,
         y: 0
     };
-})(A || (A = {
+})(A1 || (A1 = {
 }));
 var B;
 (function(B) {
-    var A1 = {
+    var A = {
         x: 0,
         y: 0
     };
-    var Point = A1;
+    var Point = A;
 })(B || (B = {
 }));
-var X;
+var X1;
 (function(X) {
     class Y {
     }
     X.Y = Y;
-})(X || (X = {
+})(X1 || (X1 = {
 }));
 var Z;
 (function(Z) {
-    var Y = X.Y;
+    var Y = X1.Y;
     var Y = 12;
 })(Z || (Z = {
 }));

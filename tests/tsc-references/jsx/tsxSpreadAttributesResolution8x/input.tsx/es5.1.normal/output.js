@@ -78,7 +78,7 @@ var _typeof = function(obj) {
 // @skipLibCheck: true
 // @libFiles: react.d.ts,lib.d.ts
 var React = require('react');
-var obj = {
+var obj2 = {
 };
 var obj1 = {
     x: 2
@@ -106,7 +106,7 @@ var OverWriteAttr = /*#__PURE__*/ function(_Component) {
 }(React.Component);
 // OK
 var x = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({
-}, obj, {
+}, obj2, {
     y: true,
     overwrite: "hi"
 }, obj1));

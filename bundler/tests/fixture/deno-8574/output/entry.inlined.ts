@@ -146,7 +146,7 @@ function noop() {
 }
 var on = noop;
 var addListener = noop;
-var once1 = noop;
+var once = noop;
 var off = noop;
 var removeListener = noop;
 var removeAllListeners = noop;
@@ -203,7 +203,7 @@ var process = {
     versions,
     on,
     addListener,
-    once: once1,
+    once,
     off,
     removeListener,
     removeAllListeners,
@@ -548,8 +548,8 @@ const DEFAULTS = {
 };
 const endpoint = withDefaults(null, DEFAULTS);
 class Deprecation extends Error {
-    constructor(message){
-        super(message);
+    constructor(message2){
+        super(message2);
         if (Error.captureStackTrace) {
             Error.captureStackTrace(this, this.constructor);
         }
@@ -579,12 +579,12 @@ function wrappy(fn, cb) {
         return ret;
     }
 }
-var once_1 = wrappy_1(once4);
+var once_1 = wrappy_1(once1);
 var strict = wrappy_1(onceStrict);
-once4.proto = once4(function() {
+once1.proto = once1(function() {
     Object.defineProperty(Function.prototype, "once", {
         value: function() {
-            return once4(this);
+            return once1(this);
         },
         configurable: true
     });
@@ -595,7 +595,7 @@ once4.proto = once4(function() {
         configurable: true
     });
 });
-function once4(fn) {
+function once1(fn) {
     var f = function() {
         if (f.called) return f.value;
         f.called = true;
@@ -619,8 +619,8 @@ once_1.strict = strict;
 const logOnce = once_1((deprecation2)=>console.warn(deprecation2)
 );
 class RequestError extends Error {
-    constructor(message, statusCode, options){
-        super(message);
+    constructor(message1, statusCode, options){
+        super(message1);
         if (Error.captureStackTrace) {
             Error.captureStackTrace(this, this.constructor);
         }
@@ -772,11 +772,11 @@ const request = withDefaults1(endpoint, {
         "user-agent": `octokit-request.js/${VERSION1} ${getUserAgent()}`
     }
 });
-const { data  } = await request('GET /repos/{owner}/{repo}/license', {
+const { data: data1  } = await request('GET /repos/{owner}/{repo}/license', {
     headers: {
         authorization: `token ${Deno.env.get('GITHUB_TOKEN')}`
     },
     owner: 'denoland',
     repo: 'deno'
 });
-console.log(data.license.name);
+console.log(data1.license.name);

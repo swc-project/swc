@@ -17,14 +17,14 @@ var a = {
     set one (value){
         this._one = value;
     },
-    set 9 (value1){
-        this._nine = value1;
+    set 9 (value){
+        this._nine = value;
     },
-    set 10 (value2){
-        this._ten = value2;
+    set 10 (value){
+        this._ten = value;
     },
-    set eleven (value3){
-        this._eleven = value3;
+    set eleven (value){
+        this._eleven = value;
     }
 };
 var b = {

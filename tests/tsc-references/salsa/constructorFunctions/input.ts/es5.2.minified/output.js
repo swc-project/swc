@@ -24,12 +24,16 @@ C4(), new C4(), new function() {
         if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
     }(this, _class);
 }(), new function() {
-    this.functions = [function(x) {
+    this.functions = [
+        function(x) {
             return x;
-        }, function(x) {
+        },
+        function(x) {
             return x + 1;
-        }, function(x) {
+        },
+        function(x) {
             return x - 1;
-        }];
+        }
+    ];
 }(), new function(num) {
 }();

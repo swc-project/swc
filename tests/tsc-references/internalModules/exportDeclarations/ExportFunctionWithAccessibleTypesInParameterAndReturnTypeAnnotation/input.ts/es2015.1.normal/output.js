@@ -1,4 +1,4 @@
-var A;
+var A1;
 (function(A) {
     class Point {
     }
@@ -17,5 +17,5 @@ var A;
         }, p);
     }
     A.fromOrigin = fromOrigin;
-})(A || (A = {
+})(A1 || (A1 = {
 }));

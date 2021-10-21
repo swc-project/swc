@@ -8,21 +8,21 @@ function _taggedTemplateLiteral(strings, raw) {
         }
     }));
 }
-function _templateObject1() {
+function _templateObject() {
     var data = _taggedTemplateLiteral([
         "Hello ",
         " World"
     ]);
-    _templateObject1 = function _templateObject1() {
+    _templateObject = function _templateObject() {
         return data;
     };
     return data;
 }
-function _templateObject() {
+function _templateObject1() {
     var data = _taggedTemplateLiteral([
         "Hello"
     ]);
-    _templateObject = function _templateObject() {
+    _templateObject1 = function _templateObject1() {
         return data;
     };
     return data;
@@ -33,5 +33,5 @@ var c = "".concat(123 + 456, " trailing");
 var d = "Hello ".concat(123, " World");
 var e = "Hello";
 var f = 1 + "".concat(1, " end of string");
-var g = tag(_templateObject1(), 123);
-var h = tag(_templateObject());
+var g = tag(_templateObject(), 123);
+var h = tag(_templateObject1());

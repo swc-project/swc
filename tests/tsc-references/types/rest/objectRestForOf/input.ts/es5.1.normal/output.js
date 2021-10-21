@@ -63,7 +63,9 @@ var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError 
 try {
     for(var _iterator = array[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
         var _ref = _step.value;
-        var x = _ref.x, restOf = _objectWithoutProperties(_ref, ["x"]);
+        var x = _ref.x, restOf = _objectWithoutProperties(_ref, [
+            "x"
+        ]);
         [
             x,
             restOf
@@ -88,8 +90,8 @@ var rrestOff = void 0;
 var _iteratorNormalCompletion1 = true, _didIteratorError1 = false, _iteratorError1 = undefined;
 try {
     for(var _iterator1 = array[Symbol.iterator](), _step1; !(_iteratorNormalCompletion1 = (_step1 = _iterator1.next()).done); _iteratorNormalCompletion1 = true){
-        var _ref = _step1.value;
-        var xx = _ref.x, rrestOff = _objectWithoutProperties(_ref, [
+        var _ref1 = _step1.value;
+        var xx = _ref1.x, rrestOff = _objectWithoutProperties(_ref1, [
             "x"
         ]);
         [
@@ -111,15 +113,15 @@ try {
         }
     }
 }
-var _iteratorNormalCompletion3 = true, _didIteratorError3 = false, _iteratorError3 = undefined;
+var _iteratorNormalCompletion2 = true, _didIteratorError2 = false, _iteratorError2 = undefined;
 try {
-    for(var _iterator4 = array.map(function(a) {
+    for(var _iterator2 = array.map(function(a) {
         return _objectSpread({
         }, a, {
             x: 'a string'
         });
-    })[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator4.next()).done); _iteratorNormalCompletion3 = true){
-        var norest = _step3.value;
+    })[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true){
+        var norest = _step2.value;
         [
             norest.x,
             norest.y
@@ -127,16 +129,16 @@ try {
     // x is now a string. who knows why.
     }
 } catch (err) {
-    _didIteratorError3 = true;
-    _iteratorError3 = err;
+    _didIteratorError2 = true;
+    _iteratorError2 = err;
 } finally{
     try {
-        if (!_iteratorNormalCompletion3 && _iterator4.return != null) {
-            _iterator4.return();
+        if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
+            _iterator2.return();
         }
     } finally{
-        if (_didIteratorError3) {
-            throw _iteratorError3;
+        if (_didIteratorError2) {
+            throw _iteratorError2;
         }
     }
 }

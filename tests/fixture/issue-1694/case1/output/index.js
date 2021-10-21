@@ -19,4 +19,4 @@ var MyClass = function MyClass() {
 function get() {
     console.log("Hi from a method with a private identifier called #get");
 }
-var instance = new MyClass();
+var instance1 = new MyClass();

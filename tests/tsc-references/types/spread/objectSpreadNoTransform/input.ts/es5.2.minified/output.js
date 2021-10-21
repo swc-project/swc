@@ -38,4 +38,6 @@ function _defineProperty(obj, key, value) {
 }, {
     a: "yes",
     b: "no"
-}), ["b"]), _o.b;
+}), [
+    "b"
+]), _o.b;

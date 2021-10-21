@@ -1,6 +1,6 @@
 "use strict";
-var Bar;
+var Bar1;
 (function(Bar) {
     Bar[Bar["interface"] = 0] = "interface";
-})(Bar || (Bar = {
+})(Bar1 || (Bar1 = {
 }));

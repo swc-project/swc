@@ -29,16 +29,16 @@ function _setPrototypeOf(o, p) {
 }
 var x, b, b2, b3, b4, b5, b11, b16, _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, Base = function() {
+}, Base1 = function() {
     "use strict";
-    _classCallCheck(this, Base);
+    _classCallCheck(this, Base1);
 }, Derived = function(Base) {
     "use strict";
     function Derived() {
         return _classCallCheck(this, Derived), _possibleConstructorReturn(this, _getPrototypeOf(Derived).apply(this, arguments));
     }
     return _inherits(Derived, Base), Derived;
-}(Base), Derived2 = function(Derived) {
+}(Base1), Derived2 = function(Derived) {
     "use strict";
     function Derived2() {
         return _classCallCheck(this, Derived2), _possibleConstructorReturn(this, _getPrototypeOf(Derived2).apply(this, arguments));
@@ -50,5 +50,5 @@ var x, b, b2, b3, b4, b5, b11, b16, _typeof = function(obj) {
         return _classCallCheck(this, OtherDerived), _possibleConstructorReturn(this, _getPrototypeOf(OtherDerived).apply(this, arguments));
     }
     return _inherits(OtherDerived, Base), OtherDerived;
-}(Base);
+}(Base1);
 x.a = b, b = x.a, x.a2 = b2, b2 = x.a2, x.a3 = b3, b3 = x.a3, x.a4 = b4, b4 = x.a4, x.a5 = b5, b5 = x.a5, x.a11 = b11, b11 = x.a11, x.a16 = b16, b16 = x.a16;

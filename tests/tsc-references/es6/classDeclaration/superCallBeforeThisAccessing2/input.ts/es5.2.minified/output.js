@@ -11,9 +11,9 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var Base = function(c) {
+var Base1 = function(c) {
     "use strict";
-    _classCallCheck(this, Base);
+    _classCallCheck(this, Base1);
 }, D = function(Base) {
     "use strict";
     function D() {
@@ -35,4 +35,4 @@ var Base = function(c) {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(D, Base), D;
-}(Base);
+}(Base1);

@@ -17,9 +17,12 @@ var C4 = function() {
 C4(), new C4(), new function() {
 }(), new class {
 }(), new function() {
-    this.functions = [(x)=>x
-        , (x)=>x + 1
-        , (x)=>x - 1
+    this.functions = [
+        (x)=>x
+        ,
+        (x)=>x + 1
+        ,
+        (x)=>x - 1
     ];
 }(), new function(num) {
 }();
