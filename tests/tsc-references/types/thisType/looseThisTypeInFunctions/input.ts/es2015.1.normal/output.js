@@ -1,12 +1,12 @@
 class C {
-    explicitThis(m) {
-        return this.n + m;
+    explicitThis(m3) {
+        return this.n + m3;
     }
-    implicitThis(m) {
-        return this.n + m;
+    implicitThis(m1) {
+        return this.n + m1;
     }
-    explicitVoid(m) {
-        return m + 1;
+    explicitVoid(m2) {
+        return m2 + 1;
     }
 }
 let c = new C();
@@ -16,8 +16,8 @@ let o = {
     explicitThis: function(m) {
         return m + this.n.length; // error, 'length' does not exist on 'number'
     },
-    implicitThis (m) {
-        return m;
+    implicitThis (m4) {
+        return m4;
     }
 };
 let i = o;

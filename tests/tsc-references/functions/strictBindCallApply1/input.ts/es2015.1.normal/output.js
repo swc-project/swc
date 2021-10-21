@@ -31,10 +31,10 @@ class C {
     overloaded(x) {
         return undefined;
     }
-    generic(x) {
-        return x;
+    generic(x1) {
+        return x1;
     }
-    constructor(a, b){
+    constructor(a1, b1){
     }
 }
 let f10 = c.foo.bind(c);

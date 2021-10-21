@@ -1,9 +1,9 @@
 const obj1 = {
-    method1 (p) {
-        return p;
+    method1 (p2) {
+        return p2;
     },
-    method2 (p) {
-        return p;
+    method2 (p1) {
+        return p1;
     }
 };
 // not allowed when emitting declarations
@@ -12,8 +12,8 @@ export const classExpression = class _class {
     method1(p) {
         return p;
     }
-    method2(p) {
-        return p;
+    method2(p3) {
+        return p3;
     }
 };
 export function funcInferredReturnType(obj) {
@@ -38,6 +38,6 @@ export class ClassWithPrivateNamedAccessors {
     static get [tmp4]() {
         return undefined;
     }
-    static set [tmp5](v) {
+    static set [tmp5](v1) {
     }
 }

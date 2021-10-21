@@ -41,7 +41,7 @@ class SomeDerivedClass extends SomeBaseClass {
         var x;
         return null;
     }
-    static set a(n) {
+    static set a(n1) {
         var x = super.func();
         var x;
     }

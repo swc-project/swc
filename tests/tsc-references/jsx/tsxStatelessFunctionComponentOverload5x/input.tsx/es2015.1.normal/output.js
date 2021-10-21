@@ -70,14 +70,14 @@ const b5 = /*#__PURE__*/ React.createElement(MainButton, _extends({
 }, obj0)); // Spread retain method declaration (see GitHub #13365), so now there is an extra attributes
 const b6 = /*#__PURE__*/ React.createElement(MainButton, _extends({
 }, {
-    onClick (e) {
+    onClick (e1) {
     }
 }, {
     children: 10
 })); // incorrect type for optional attribute
 const b7 = /*#__PURE__*/ React.createElement(MainButton, _extends({
 }, {
-    onClick (e) {
+    onClick (e2) {
     }
 }, {
     children: "hello",

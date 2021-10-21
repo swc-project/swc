@@ -128,7 +128,7 @@ class Removable {
     get both() {
         return 12;
     }
-    set both(value) {
+    set both(value1) {
     }
     m() {
     }

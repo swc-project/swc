@@ -122,8 +122,8 @@ async function copyN(r, dest, size) {
 }
 BigInt(Number.MAX_SAFE_INTEGER);
 class StringReader extends Deno.Buffer {
-    constructor(s){
-        super(new TextEncoder().encode(s).buffer);
+    constructor(s1){
+        super(new TextEncoder().encode(s1).buffer);
     }
 }
 class MultiReader {
@@ -1218,14 +1218,14 @@ class BufReader {
     static create(r, size = 4096) {
         return r instanceof BufReader ? r : new BufReader(r, size);
     }
-    constructor(rd, size = 4096){
+    constructor(rd, size1 = 4096){
         this.r = 0;
         this.w = 0;
         this.eof = false;
-        if (size < 16) {
-            size = MIN_BUF_SIZE;
+        if (size1 < 16) {
+            size1 = MIN_BUF_SIZE;
         }
-        this._reset(new Uint8Array(size), rd);
+        this._reset(new Uint8Array(size1), rd);
     }
     size() {
         return this.buf.byteLength;
@@ -1256,20 +1256,20 @@ class BufReader {
         }
         throw new Error(`No progress after ${100} read() calls`);
     }
-    reset(r) {
-        this._reset(this.buf, r);
+    reset(r1) {
+        this._reset(this.buf, r1);
     }
-    _reset(buf, rd) {
-        this.buf = buf;
-        this.rd = rd;
+    _reset(buf1, rd1) {
+        this.buf = buf1;
+        this.rd = rd1;
         this.eof = false;
     }
-    async read(p) {
-        let rr = p.byteLength;
-        if (p.byteLength === 0) return rr;
+    async read(p1) {
+        let rr = p1.byteLength;
+        if (p1.byteLength === 0) return rr;
         if (this.r === this.w) {
-            if (p.byteLength >= this.buf.byteLength) {
-                const rr = await this.rd.read(p);
+            if (p1.byteLength >= this.buf.byteLength) {
+                const rr = await this.rd.read(p1);
                 const nread = rr ?? 0;
                 assert(nread >= 0, "negative read");
                 return rr;
@@ -1281,15 +1281,15 @@ class BufReader {
             assert(rr >= 0, "negative read");
             this.w += rr;
         }
-        const copied = copy(this.buf.subarray(this.r, this.w), p, 0);
+        const copied = copy(this.buf.subarray(this.r, this.w), p1, 0);
         this.r += copied;
         return copied;
     }
-    async readFull(p) {
+    async readFull(p2) {
         let bytesRead = 0;
-        while(bytesRead < p.length){
+        while(bytesRead < p2.length){
             try {
-                const rr = await this.read(p.subarray(bytesRead));
+                const rr = await this.read(p2.subarray(bytesRead));
                 if (rr === null) {
                     if (bytesRead === 0) {
                         return null;
@@ -1299,11 +1299,11 @@ class BufReader {
                 }
                 bytesRead += rr;
             } catch (err) {
-                err.partial = p.subarray(0, bytesRead);
+                err.partial = p2.subarray(0, bytesRead);
                 throw err;
             }
         }
-        return p;
+        return p2;
     }
     async readByte() {
         while(this.r === this.w){
@@ -1363,11 +1363,11 @@ class BufReader {
             more: false
         };
     }
-    async readSlice(delim) {
+    async readSlice(delim1) {
         let s = 0;
         let slice;
         while(true){
-            let i = this.buf.subarray(this.r + s, this.w).indexOf(delim);
+            let i = this.buf.subarray(this.r + s, this.w).indexOf(delim1);
             if (i >= 0) {
                 i += s;
                 slice = this.buf.subarray(this.r, this.r + i + 1);
@@ -1439,16 +1439,16 @@ class AbstractBufBase {
     }
 }
 class BufWriter extends AbstractBufBase {
-    static create(writer, size = 4096) {
-        return writer instanceof BufWriter ? writer : new BufWriter(writer, size);
+    static create(writer, size2 = 4096) {
+        return writer instanceof BufWriter ? writer : new BufWriter(writer, size2);
     }
-    constructor(writer, size = 4096){
+    constructor(writer1, size3 = 4096){
         super();
-        this.writer = writer;
-        if (size <= 0) {
-            size = DEFAULT_BUF_SIZE;
+        this.writer = writer1;
+        if (size3 <= 0) {
+            size3 = DEFAULT_BUF_SIZE;
         }
-        this.buf = new Uint8Array(size);
+        this.buf = new Uint8Array(size3);
     }
     reset(w) {
         this.err = null;
@@ -1495,21 +1495,21 @@ class BufWriter extends AbstractBufBase {
     }
 }
 class BufWriterSync extends AbstractBufBase {
-    static create(writer, size = 4096) {
-        return writer instanceof BufWriterSync ? writer : new BufWriterSync(writer, size);
+    static create(writer2, size4 = 4096) {
+        return writer2 instanceof BufWriterSync ? writer2 : new BufWriterSync(writer2, size4);
     }
-    constructor(writer, size = 4096){
+    constructor(writer3, size5 = 4096){
         super();
-        this.writer = writer;
-        if (size <= 0) {
-            size = DEFAULT_BUF_SIZE;
+        this.writer = writer3;
+        if (size5 <= 0) {
+            size5 = DEFAULT_BUF_SIZE;
         }
-        this.buf = new Uint8Array(size);
+        this.buf = new Uint8Array(size5);
     }
-    reset(w) {
+    reset(w1) {
         this.err = null;
         this.usedBufferBytes = 0;
-        this.writer = w;
+        this.writer = w1;
     }
     flush() {
         if (this.err !== null) throw this.err;
@@ -1523,28 +1523,28 @@ class BufWriterSync extends AbstractBufBase {
         this.buf = new Uint8Array(this.buf.length);
         this.usedBufferBytes = 0;
     }
-    writeSync(data) {
+    writeSync(data1) {
         if (this.err !== null) throw this.err;
-        if (data.length === 0) return 0;
+        if (data1.length === 0) return 0;
         let totalBytesWritten = 0;
         let numBytesWritten = 0;
-        while(data.byteLength > this.available()){
+        while(data1.byteLength > this.available()){
             if (this.buffered() === 0) {
                 try {
-                    numBytesWritten = this.writer.writeSync(data);
+                    numBytesWritten = this.writer.writeSync(data1);
                 } catch (e) {
                     this.err = e;
                     throw e;
                 }
             } else {
-                numBytesWritten = copy(data, this.buf, this.usedBufferBytes);
+                numBytesWritten = copy(data1, this.buf, this.usedBufferBytes);
                 this.usedBufferBytes += numBytesWritten;
                 this.flush();
             }
             totalBytesWritten += numBytesWritten;
-            data = data.subarray(numBytesWritten);
+            data1 = data1.subarray(numBytesWritten);
         }
-        numBytesWritten = copy(data, this.buf, this.usedBufferBytes);
+        numBytesWritten = copy(data1, this.buf, this.usedBufferBytes);
         this.usedBufferBytes += numBytesWritten;
         totalBytesWritten += numBytesWritten;
         return totalBytesWritten;
@@ -1562,8 +1562,8 @@ function charCode(s) {
     return s.charCodeAt(0);
 }
 class TextProtoReader {
-    constructor(r){
-        this.r = r;
+    constructor(r2){
+        this.r = r2;
     }
     async readLine() {
         const s = await this.readLineSlice();
@@ -1692,7 +1692,7 @@ class PartReader {
         this.n = 0;
         this.total = 0;
     }
-    async read(p) {
+    async read(p3) {
         const br = this.mr.bufReader;
         let peekLength = 1;
         while(this.n === 0){
@@ -1711,8 +1711,8 @@ class PartReader {
         if (this.n === null) {
             return null;
         }
-        const nread = Math.min(p.length, this.n);
-        const buf = p.subarray(0, nread);
+        const nread = Math.min(p3.length, this.n);
+        const buf = p3.subarray(0, nread);
         const r = await br.readFull(buf);
         assert(r === buf);
         this.n -= nread;
@@ -1767,8 +1767,8 @@ function skipLWSPChar(u) {
     return ret.slice(0, j);
 }
 class MultipartReader {
-    constructor(reader, boundary){
-        this.boundary = boundary;
+    constructor(reader, boundary1){
+        this.boundary = boundary1;
         this.newLine = encoder.encode("\r\n");
         this.newLineDashBoundary = encoder.encode(`\r\n--${this.boundary}`);
         this.dashBoundaryDash = encoder.encode(`--${this.boundary}--`);
@@ -1902,11 +1902,11 @@ class MultipartReader {
         const rest = line.slice(this.dashBoundaryDash.length, line.length);
         return rest.length === 0 || equals(skipLWSPChar(rest), this.newLine);
     }
-    isBoundaryDelimiterLine(line) {
-        if (!startsWith(line, this.dashBoundary)) {
+    isBoundaryDelimiterLine(line1) {
+        if (!startsWith(line1, this.dashBoundary)) {
             return false;
         }
-        const rest = line.slice(this.dashBoundary.length);
+        const rest = line1.slice(this.dashBoundary.length);
         return equals(skipLWSPChar(rest), this.newLine);
     }
 }
@@ -1952,10 +1952,10 @@ Content-Type: text/plain\r
 \r
 CONTENT\r
 --------------------------366796e1c748a2fb--`;
-const boundary1 = "------------------------366796e1c748a2fb";
+const boundary = "------------------------366796e1c748a2fb";
 const stringReader = new StringReader(content);
 console.log(content);
-const multipartReader = new MultipartReader(stringReader, boundary1);
+const multipartReader = new MultipartReader(stringReader, boundary);
 const formData = await multipartReader.readForm();
 for (const entry of formData.entries()){
     console.log("entry", entry);

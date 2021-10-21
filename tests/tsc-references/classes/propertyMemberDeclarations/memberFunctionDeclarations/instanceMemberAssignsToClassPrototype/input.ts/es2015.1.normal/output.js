@@ -3,7 +3,7 @@ class C {
         C.prototype.foo = ()=>{
         };
     }
-    bar(x) {
+    bar(x1) {
         C.prototype.bar = ()=>{
         } // error
         ;

@@ -7,7 +7,7 @@ var NonGeneric;
     var c = new C(); // error
     var c2 = new C(''); // ok
     class C2 {
-        constructor(x){
+        constructor(x1){
         }
     }
     var c3 = new C2(); // error
@@ -29,7 +29,7 @@ var Generics;
     var c = new C(); // error
     var c2 = new C(''); // ok
     class C2 {
-        constructor(x){
+        constructor(x2){
         }
     }
     var c3 = new C2(); // error

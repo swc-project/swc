@@ -9,8 +9,8 @@ let C = class _class extends class _class extends class _class {
         this.b = 2;
     }
 } {
-    constructor(...args){
-        super(...args);
+    constructor(...args1){
+        super(...args1);
         this.c = 3;
     }
 };

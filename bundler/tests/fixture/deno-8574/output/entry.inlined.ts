@@ -548,8 +548,8 @@ const DEFAULTS = {
 };
 const endpoint = withDefaults(null, DEFAULTS);
 class Deprecation extends Error {
-    constructor(message){
-        super(message);
+    constructor(message2){
+        super(message2);
         if (Error.captureStackTrace) {
             Error.captureStackTrace(this, this.constructor);
         }
@@ -619,8 +619,8 @@ once_1.strict = strict;
 const logOnce = once_1((deprecation2)=>console.warn(deprecation2)
 );
 class RequestError extends Error {
-    constructor(message, statusCode, options){
-        super(message);
+    constructor(message1, statusCode, options){
+        super(message1);
         if (Error.captureStackTrace) {
             Error.captureStackTrace(this, this.constructor);
         }

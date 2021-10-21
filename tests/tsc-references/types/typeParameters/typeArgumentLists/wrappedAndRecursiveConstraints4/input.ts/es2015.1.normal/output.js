@@ -1,11 +1,11 @@
 class C {
-    foo(x) {
+    foo(x1) {
         function bar(x) {
             return x;
         }
         return bar;
     }
-    constructor(x){
+    constructor(x2){
     }
 }
 var c = new C({

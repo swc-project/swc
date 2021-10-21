@@ -35,12 +35,12 @@ var TypeScript1;
             }
             return head;
         }
-        push(ast) {
+        push(ast1) {
             while(this.asts.length > this.count()){
                 this.asts.pop();
             }
             this.top = this.asts.length;
-            this.asts.push(ast);
+            this.asts.push(ast1);
         }
         up() {
             if (this.top <= -1) throw new Error("Invalid call to 'up'");
@@ -63,8 +63,8 @@ var TypeScript1;
         count() {
             return this.top + 1;
         }
-        get(index) {
-            return this.asts[index];
+        get(index1) {
+            return this.asts[index1];
         }
         isNameOfClass() {
             if (this.ast() === null || this.parent() === null) return false;

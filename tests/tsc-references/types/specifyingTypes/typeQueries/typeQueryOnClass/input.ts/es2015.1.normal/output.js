@@ -1,29 +1,29 @@
 class C {
     static foo(x) {
     }
-    static bar(x) {
+    static bar(x1) {
     }
     static get sc() {
         return 1;
     }
-    static set sc(x) {
+    static set sc(x2) {
     }
     static get sd() {
         return 1;
     }
-    baz(x) {
+    baz(x3) {
         return '';
     }
     get ic() {
         return 1;
     }
-    set ic(x) {
+    set ic(x4) {
     }
     get id() {
         return 1;
     }
-    constructor(x){
-        this.x = x;
+    constructor(x5){
+        this.x = x5;
         this.ia = 1;
         this.ib = ()=>this.ia
         ;
