@@ -2,12 +2,12 @@ use std::path::Path;
 use swc::{config::Options, Compiler};
 use testing::{NormalizedOutput, Tester};
 
-fn file(f: &str) -> NormalizedOutput {
+fn file(f: impl AsRef<Path>) -> NormalizedOutput {
     Tester::new()
         .print_errors(|cm, handler| -> Result<NormalizedOutput, _> {
             let c = Compiler::new(cm.clone());
 
-            let fm = cm.load_file(Path::new(f)).expect("failed to load file");
+            let fm = cm.load_file(f.as_ref()).expect("failed to load file");
             let s = c.process_js_file(
                 fm,
                 &handler,

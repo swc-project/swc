@@ -526,6 +526,9 @@ pub struct Config {
 
     #[serde(default = "true_by_default")]
     pub inline_sources_content: bool,
+
+    #[serde(default)]
+    pub error: ErrorConfig,
 }
 
 /// Second argument of `minify`.
@@ -986,6 +989,13 @@ pub struct JsonifyOption {
 
 fn default_jsonify_min_cost() -> usize {
     1024
+}
+
+#[derive(Debug, Default, Clone, Copy, Serialize, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub struct ErrorConfig {
+    #[serde(default = "true_by_default")]
+    pub filename: bool,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
