@@ -9,7 +9,6 @@ var moduleA1;
     moduleA.Point = Point;
 })(moduleA1 || (moduleA1 = {
 }));
-var alias = moduleA1;
 var p;
 var p;
 var p;
