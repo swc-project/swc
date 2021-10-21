@@ -1,29 +1,27 @@
-use std::{
-    collections::{HashMap, HashSet},
-    mem,
+use self::util::{
+    callee_should_ignore, gen_custom_hook_record, is_body_arrow_fn, is_builtin_hook,
+    is_import_or_require, make_assign_stmt, make_call_expr, make_call_stmt, CollectIdent,
 };
-
 use base64;
 use indexmap::IndexSet;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use sha1::{Digest, Sha1};
-
+use std::{
+    collections::{HashMap, HashSet},
+    mem,
+};
 use swc_atoms::JsWord;
 use swc_common::{
     collections::{AHashMap, AHashSet},
     comments::Comments,
     sync::Lrc,
     util::take::Take,
-    BytePos, SourceMap, Span, Spanned, DUMMY_SP,
+    BytePos, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{private_ident, quote_ident, quote_str};
+use swc_ecma_utils::{ident::IdentLike, private_ident, quote_ident, quote_str, Id};
 use swc_ecma_visit::{Fold, FoldWith, Node, Visit};
-use util::{
-    callee_should_ignore, gen_custom_hook_record, is_body_arrow_fn, is_builtin_hook,
-    is_import_or_require, make_assign_stmt, make_call_expr, make_call_stmt, CollectIdent,
-};
 
 pub mod options;
 use options::RefreshOptions;
@@ -34,7 +32,7 @@ mod tests;
 
 struct Hoc {
     insert: bool,
-    reg: Vec<(Ident, String)>,
+    reg: Vec<(Ident, Id)>,
     // use to register hook for all level of HOC, first is hook register ident
     // rest is hook register call args
     hook: Option<HocHook>,
@@ -50,6 +48,11 @@ enum Persist {
 }
 fn get_persistent_id(ident: &Ident) -> Persist {
     if ident.sym.starts_with(|c: char| c.is_ascii_uppercase()) {
+        if cfg!(debug_assertions) {
+            if ident.span.ctxt == SyntaxContext::empty() {
+                panic!("`{}` should be resolved", ident)
+            }
+        }
         Persist::Component(ident.clone())
     } else {
         Persist::None
@@ -120,6 +123,7 @@ struct Refresh<C: Comments> {
 }
 
 static IS_HOOK_LIKE: Lazy<Regex> = Lazy::new(|| Regex::new("^use[A-Z]").unwrap());
+
 impl<C: Comments> Refresh<C> {
     fn get_hook_from_call_expr(&self, expr: &CallExpr, lhs: Option<&Pat>) -> Option<Hook> {
         let callee = if let ExprOrSuper::Expr(callee) = &expr.callee {
@@ -181,6 +185,7 @@ impl<C: Comments> Refresh<C> {
         let callee = hook_call?;
         Some(Hook { name, callee, key })
     }
+
     fn get_hook_from_expr(&self, expr: &Expr, lhs: Option<&Pat>, reg: &mut Vec<Hook>) {
         match expr {
             Expr::Paren(ParenExpr { expr, .. }) => {
@@ -203,6 +208,7 @@ impl<C: Comments> Refresh<C> {
             _ => (),
         }
     }
+
     fn get_hook_sign(&mut self, body: &mut BlockStmt) -> Option<FnWithHook> {
         let mut sign_res = Vec::new();
         for stmt in &body.stmts {
@@ -237,6 +243,7 @@ impl<C: Comments> Refresh<C> {
             None
         }
     }
+
     fn get_hook_sign_from_arrow(&mut self, body: &mut BlockStmtOrExpr) -> Option<FnWithHook> {
         match body {
             BlockStmtOrExpr::BlockStmt(stmt) => self.get_hook_sign(stmt),
@@ -268,6 +275,7 @@ impl<C: Comments> Refresh<C> {
             }
         }
     }
+
     fn gen_hook_handle(&self, curr_hook_fn: &Vec<FnWithHook>) -> Stmt {
         let refresh_sig = self.options.refresh_sig.as_str();
         Stmt::Decl(Decl::Var(VarDecl {
@@ -285,6 +293,7 @@ impl<C: Comments> Refresh<C> {
             declare: false,
         }))
     }
+
     // The second call is around the function itself. This is used to associate a
     // type with a signature.
     // Unlike with $RefreshReg$, this needs to work for nested declarations too.
@@ -388,6 +397,7 @@ impl<C: Comments> Refresh<C> {
             type_args: None,
         })
     }
+
     fn gen_hook_register_stmt(&self, func: Expr, hook_fn: &mut FnWithHook) -> Stmt {
         Stmt::Expr(ExprStmt {
             span: DUMMY_SP,
@@ -432,7 +442,7 @@ impl<C: Comments> Refresh<C> {
                     // Maybe a HOC.
                     Expr::Call(call_expr) => self.get_persistent_id_from_possible_hoc(
                         call_expr,
-                        vec![(private_ident!("_c"), persistent_id.sym.to_string())],
+                        vec![(private_ident!("_c"), persistent_id.to_id())],
                         ignore,
                     ),
                     _ => Persist::None,
@@ -441,10 +451,11 @@ impl<C: Comments> Refresh<C> {
         }
         Persist::None
     }
+
     fn get_persistent_id_from_possible_hoc(
         &self,
         call_expr: &mut CallExpr,
-        mut reg: Vec<(Ident, String)>,
+        mut reg: Vec<(Ident, Id)>,
         // sadly unlike orignal implent our transform for component happens before hook
         // so we should just ignore hook register
         ignore: &AHashSet<Ident>,
@@ -477,7 +488,10 @@ impl<C: Comments> Refresh<C> {
             Expr::Member(member) => self.cm.span_to_snippet(member.span).unwrap(),
             _ => return Persist::None,
         };
-        let reg_str = reg.last().unwrap().1.clone() + "$" + &hoc_name;
+        let reg_str = (
+            format!("{}${}", reg.last().unwrap().1 .0, &hoc_name).into(),
+            SyntaxContext::empty(),
+        );
         match first_arg.as_mut() {
             Expr::Call(expr) => {
                 let reg_ident = private_ident!("_c");
@@ -749,7 +763,7 @@ impl<C: Comments> Fold for Refresh<C> {
         let module_items = module_items.fold_children_with(self);
 
         let mut items = Vec::with_capacity(module_items.len());
-        let mut refresh_regs = Vec::<(Ident, String)>::new();
+        let mut refresh_regs = Vec::<(Ident, Id)>::new();
 
         if self.curr_hook_fn.len() > 0 {
             items.push(ModuleItem::Stmt(self.gen_hook_handle(&self.curr_hook_fn)));
@@ -826,7 +840,10 @@ impl<C: Comments> Fold for Refresh<C> {
                         if let Persist::Hoc(Hoc { reg, .. }) = self
                             .get_persistent_id_from_possible_hoc(
                                 call,
-                                vec![((private_ident!("_c"), "%default%".to_string()))],
+                                vec![(
+                                    private_ident!("_c"),
+                                    ("%default%".into(), SyntaxContext::empty()),
+                                )],
                                 &ignore,
                             )
                         {
@@ -865,7 +882,7 @@ impl<C: Comments> Fold for Refresh<C> {
                 Persist::Component(persistent_id) => {
                     let registration_handle = private_ident!("_c");
 
-                    refresh_regs.push((registration_handle.clone(), persistent_id.sym.to_string()));
+                    refresh_regs.push((registration_handle.clone(), persistent_id.to_id()));
 
                     items.push(ModuleItem::Stmt(Stmt::Expr(ExprStmt {
                         span: DUMMY_SP,
@@ -884,7 +901,10 @@ impl<C: Comments> Fold for Refresh<C> {
                             span: DUMMY_SP,
                             expr: Box::new(make_assign_stmt(
                                 ident.clone(),
-                                Box::new(Expr::Ident(quote_ident!(name.clone()))),
+                                Box::new(Expr::Ident(Ident::new(
+                                    name.0.clone(),
+                                    DUMMY_SP.with_ctxt(name.1),
+                                ))),
                             )),
                         })))
                     }
@@ -933,7 +953,7 @@ impl<C: Comments> Fold for Refresh<C> {
                         },
                         ExprOrSpread {
                             spread: None,
-                            expr: Box::new(Expr::Lit(Lit::Str(quote_str!(persistent_id)))),
+                            expr: Box::new(Expr::Lit(Lit::Str(quote_str!(persistent_id.0)))),
                         },
                     ],
                     type_args: None,

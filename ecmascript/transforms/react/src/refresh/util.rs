@@ -1,6 +1,6 @@
 use indexmap::IndexSet;
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashSet, Spanned, DUMMY_SP};
+use swc_common::{collections::AHashSet, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 
 pub trait CollectIdent {
@@ -158,10 +158,27 @@ pub fn is_body_arrow_fn(body: &BlockStmtOrExpr) -> bool {
     }
 }
 
+fn assert_hygiene(e: &Expr) {
+    if !cfg!(debug_assertions) {
+        return;
+    }
+
+    match e {
+        Expr::Ident(i) => {
+            if i.span.ctxt == SyntaxContext::empty() {
+                panic!("`{}` should be resolved", i)
+            }
+        }
+        _ => {}
+    }
+}
+
 pub fn make_assign_stmt(handle: Ident, expr: Box<Expr>) -> Expr {
+    assert_hygiene(&expr);
+
     Expr::Assign(AssignExpr {
         span: expr.span(),
-        op: AssignOp::Assign,
+        op: op!("="),
         left: PatOrExpr::Pat(Box::new(Pat::Ident(BindingIdent::from(handle.clone())))),
         right: expr,
     })

@@ -1,12 +1,14 @@
 use super::*;
 use swc_common::{chain, Mark};
-use swc_ecma_transforms_base::{hygiene::hygiene, resolver::resolver_with_mark};
+use swc_ecma_transforms_base::resolver::{resolver, resolver_with_mark};
 use swc_ecma_transforms_module::common_js::common_js;
 use swc_ecma_transforms_testing::{test, Tester};
 
 fn tr(t: &mut Tester) -> impl Fold {
+    let top_level_mark = Mark::fresh(Mark::root());
+
     chain!(
-        hygiene(),
+        resolver_with_mark(top_level_mark),
         refresh(
             true,
             Some(RefreshOptions {
@@ -1084,7 +1086,7 @@ test!(
     |t| {
         let mark = Mark::fresh(Mark::root());
         chain!(
-            hygiene(),
+            resolver(),
             refresh(
                 true,
                 Some(RefreshOptions {
@@ -1337,19 +1339,21 @@ test!(
         dynamic_import: true,
         ..Default::default()
     }),
-    |t| chain!(
-        hygiene(),
-        refresh(
-            true,
-            Some(RefreshOptions {
-                refresh_reg: "import_meta_refreshReg".to_string(),
-                refresh_sig: "import_meta_refreshSig".to_string(),
-                emit_full_signatures: true,
-            }),
-            t.cm.clone(),
-            Some(t.comments.clone())
+    |t| {
+        chain!(
+            resolver(),
+            refresh(
+                true,
+                Some(RefreshOptions {
+                    refresh_reg: "import_meta_refreshReg".to_string(),
+                    refresh_sig: "import_meta_refreshSig".to_string(),
+                    emit_full_signatures: true,
+                }),
+                t.cm.clone(),
+                Some(t.comments.clone())
+            )
         )
-    ),
+    },
     custom_identifier,
     r#"
     export default function Bar () {
@@ -1403,4 +1407,26 @@ test!(
 
     declare module 'x' {}
 "#
+);
+
+test!(
+    Default::default(),
+    tr,
+    next_001,
+    "
+    import dynamic from 'next/dynamic'
+
+    export const Comp = dynamic(() => import('../Content'), { ssr: false })
+    ",
+    "
+    import dynamic from 'next/dynamic';
+    export const Comp = dynamic(_c = ()=>import('../Content')
+    , {
+        ssr: false
+    });
+    _c1 = Comp;
+    var _c, _c1;
+    $RefreshReg$(_c, 'Comp$dynamic');
+    $RefreshReg$(_c1, 'Comp');
+"
 );
