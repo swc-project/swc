@@ -20,7 +20,7 @@ use swc_common::{
     BytePos, SourceMap, Span, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{private_ident, quote_ident, quote_str, Id};
+use swc_ecma_utils::{ident::IdentLike, private_ident, quote_ident, quote_str, Id};
 use swc_ecma_visit::{Fold, FoldWith, Node, Visit};
 
 pub mod options;
@@ -437,7 +437,7 @@ impl<C: Comments> Refresh<C> {
                     // Maybe a HOC.
                     Expr::Call(call_expr) => self.get_persistent_id_from_possible_hoc(
                         call_expr,
-                        vec![(private_ident!("_c"), persistent_id.sym.to_string())],
+                        vec![(private_ident!("_c"), persistent_id.to_id())],
                         ignore,
                     ),
                     _ => Persist::None,
@@ -450,7 +450,7 @@ impl<C: Comments> Refresh<C> {
     fn get_persistent_id_from_possible_hoc(
         &self,
         call_expr: &mut CallExpr,
-        mut reg: Vec<(Ident, String)>,
+        mut reg: Vec<(Ident, Id)>,
         // sadly unlike orignal implent our transform for component happens before hook
         // so we should just ignore hook register
         ignore: &AHashSet<Ident>,
@@ -755,7 +755,7 @@ impl<C: Comments> Fold for Refresh<C> {
         let module_items = module_items.fold_children_with(self);
 
         let mut items = Vec::with_capacity(module_items.len());
-        let mut refresh_regs = Vec::<(Ident, String)>::new();
+        let mut refresh_regs = Vec::<(Ident, Id)>::new();
 
         if self.curr_hook_fn.len() > 0 {
             items.push(ModuleItem::Stmt(self.gen_hook_handle(&self.curr_hook_fn)));
