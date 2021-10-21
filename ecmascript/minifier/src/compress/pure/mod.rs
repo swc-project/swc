@@ -408,7 +408,15 @@ where
     fn visit_mut_seq_expr(&mut self, e: &mut SeqExpr) {
         e.visit_mut_children_with(self);
 
-        e.exprs.retain(|e| !e.is_invalid());
+        e.exprs.retain(|e| {
+            if e.is_invalid() {
+                self.changed = true;
+                tracing::debug!("Removing invalid expr in seq");
+                return false;
+            }
+
+            true
+        });
 
         if e.exprs.len() == 0 {
             return;
