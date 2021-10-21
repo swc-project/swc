@@ -21,7 +21,6 @@ export { E11 as E1 };
 }));
 // @Filename: foo_1.ts
 var foo = require("./foo_0");
-var f = foo.M1;
 var i;
 var x = {
 };
