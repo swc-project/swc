@@ -1189,7 +1189,7 @@ where
             }
         }
 
-        formatting_semi!();
+        semi!();
     }
 
     #[emitter]
