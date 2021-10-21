@@ -223,6 +223,8 @@ where
             e.visit_mut_children_with(&mut *self.with_ctx(ctx));
         }
 
+        self.remove_invalid(e);
+
         match e {
             Expr::Seq(seq) => {
                 if seq.exprs.is_empty() {
