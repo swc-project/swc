@@ -685,6 +685,15 @@ where
                 self.changed = true;
                 return None;
             }
+
+            Expr::Tpl(t) if t.exprs.is_empty() => {
+                if cfg!(feature = "debug") {
+                    tracing::debug!("ignore_return_value: Dropping tpl expr without expr");
+                }
+                self.changed = true;
+                return None;
+            }
+
             // Function expression cannot have a side effect.
             Expr::Fn(_) => {
                 tracing::debug!(
