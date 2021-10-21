@@ -60,8 +60,8 @@ class MyClass {
 // Arrow function used in arrow function
 var arrrr = ()=>(m)=>()=>(n)=>m + n
 ;
-var e = arrrr()(3)()(4);
-var e;
+var e1 = arrrr()(3)()(4);
+var e1;
 // Arrow function used in arrow function used in function
 function someFn() {
     var arr = (n)=>(p)=>p * n

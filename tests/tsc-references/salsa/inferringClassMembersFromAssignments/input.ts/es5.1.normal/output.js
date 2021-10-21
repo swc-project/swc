@@ -17,7 +17,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var _this = this;
+var _this1 = this;
 var C = // @out: output.js
 // @allowJs: true
 // @checkJs: true
@@ -132,9 +132,9 @@ var C = // @out: output.js
 }();
 C.prop = function() {
     if (Math.random()) {
-        _this.inStaticPropertyDeclaration = 0;
+        _this1.inStaticPropertyDeclaration = 0;
     } else {
-        _this.inStaticPropertyDeclaration = "string";
+        _this1.inStaticPropertyDeclaration = "string";
     }
 };
 // @filename: b.ts

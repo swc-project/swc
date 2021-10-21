@@ -12,7 +12,7 @@ class C {
     static get y() {
         return this.x;
     }
-    static set y(x) {
+    static set y(x1) {
         this.y = this.x;
     }
     static foo() {
@@ -29,7 +29,7 @@ class C2 {
         ;
         return null;
     }
-    set y(x) {
+    set y(x2) {
         ()=>{
             this.y = this.x;
         };
@@ -43,7 +43,7 @@ class C2 {
         ;
         return null;
     }
-    static set y(x) {
+    static set y(x3) {
         ()=>{
             this.y = this.x;
         };

@@ -1,11 +1,11 @@
-var A;
+var A1;
 (function(A) {
     A[A["b"] = 5] = "b";
     A[A["c"] = 28] = "c";
-})(A || (A = {
+})(A1 || (A1 = {
 }));
 function foo() {
-    console.log(A);
+    console.log(A1);
 }
 function lazy() {
     foo();

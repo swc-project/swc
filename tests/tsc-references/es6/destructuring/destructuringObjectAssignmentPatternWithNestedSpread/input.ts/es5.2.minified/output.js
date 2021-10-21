@@ -19,4 +19,6 @@ var _c, ref, d;
         a: 1,
         y: 2
     }
-}).x, ["a"]), ref = _c, { a  } = d = ref.x;
+}).x, [
+    "a"
+]), ref = _c, { a  } = d = ref.x;

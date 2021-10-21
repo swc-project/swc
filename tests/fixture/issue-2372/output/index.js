@@ -1,5 +1,5 @@
 "use strict";
-var _1 = require("./");
+var _ = require("./");
 describe('example test that should fail due to compilation', ()=>{
     test.each([
         [
@@ -14,8 +14,8 @@ describe('example test that should fail due to compilation', ()=>{
             2,
             4
         ], 
-    ])('for entry %s', (_, a, b, expected)=>{
-        const result = (0, _1).sum(a, b);
+    ])('for entry %s', (_1, a, b, expected)=>{
+        const result = (0, _).sum(a, b);
         expect(result).toEqual(expected);
     });
 });

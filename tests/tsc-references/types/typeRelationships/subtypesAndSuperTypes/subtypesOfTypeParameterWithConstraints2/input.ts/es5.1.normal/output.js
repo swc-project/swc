@@ -38,16 +38,16 @@ var C2 = function C2() {
     "use strict";
     _classCallCheck(this, C2);
 };
-var E;
+var E1;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {
+})(E1 || (E1 = {
 }));
-function f() {
+function f22() {
 }
 (function(f) {
     f.bar = 1;
-})(f || (f = {
+})(f22 || (f22 = {
 }));
 var c = function c() {
     "use strict";
@@ -98,11 +98,11 @@ function f11(x) {
     var r7 = true ? x : function() {
     }; // ok
 }
-function f12(x) {
+function f12(x1) {
     var r8 = true ? function(x) {
         return x;
-    } : x; // ok
-    var r8b = true ? x : function(x) {
+    } : x1; // ok
+    var r8b = true ? x1 : function(x) {
         return x;
     }; // ok, type parameters not identical across declarations
 }
@@ -122,10 +122,10 @@ function f15(x) {
     var r12 = true ? x : c2; // ok
 }
 function f16(x) {
-    var r13 = true ? E : x; // ok
-    var r13 = true ? x : E; // ok
-    var r14 = true ? E.A : x; // ok
-    var r14 = true ? x : E.A; // ok
+    var r13 = true ? E1 : x; // ok
+    var r13 = true ? x : E1; // ok
+    var r14 = true ? E1.A : x; // ok
+    var r14 = true ? x : E1.A; // ok
 }
 function f17(x) {
     var af;

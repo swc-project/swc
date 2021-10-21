@@ -1,4 +1,4 @@
-var A;
+var A1;
 (function(A) {
     class Point {
         constructor(x, y){
@@ -7,7 +7,7 @@ var A;
         }
     }
     A.Point = Point;
-    var B;
+    var B1;
     (function(B) {
         B.Origin = new Point(0, 0);
         class Line {
@@ -21,8 +21,8 @@ var A;
             }
         }
         B.Line = Line;
-    })(B || (B = {
+    })(B1 || (B1 = {
     }));
-    A.B = B;
-})(A || (A = {
+    A.B = B1;
+})(A1 || (A1 = {
 }));

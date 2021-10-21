@@ -87,7 +87,9 @@ function checkRedirectValues(redirect__6, req__6, method__6) {
     } else if (hasPermanent__6 && typeof permanent__6 !== "boolean") {
         errors__6.push(`\`permanent\` must be \`true\` or \`false\``);
     } else if (hasStatusCode__6 && !allowedStatusCodes.has(statusCode__6)) {
-        errors__6.push(`\`statusCode\` must undefined or one of ${[...allowedStatusCodes].join(", ")}`);
+        errors__6.push(`\`statusCode\` must undefined or one of ${[
+            ...allowedStatusCodes
+        ].join(", ")}`);
     }
     const destinationType__6 = typeof destination__6;
     if (destinationType__6 !== "string") {

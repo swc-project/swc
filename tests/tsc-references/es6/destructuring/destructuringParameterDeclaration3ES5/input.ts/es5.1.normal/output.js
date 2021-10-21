@@ -78,7 +78,7 @@ function a9(param) {
     var _param = _slicedToArray(param, 3), a = _param[0], b = _param[1], ref = _slicedToArray(_param[2], 1), ref1 = _slicedToArray(ref[0], 1), c = ref1[0];
 }
 function a10(param) {
-    var _param = _toArray(param), a = _param[0], b = _param[1], ref = _slicedToArray(_param[2], 1), ref1 = _slicedToArray(ref[0], 1), c = ref1[0], x = _param.slice(3);
+    var _param = _toArray(param), a = _param[0], b = _param[1], ref = _slicedToArray(_param[2], 1), ref2 = _slicedToArray(ref[0], 1), c = ref2[0], x = _param.slice(3);
 }
 function a11(param) {
     var _param = _toArray(param), a = _param[0], b = _param[1], c = _param[2], x = _param.slice(3);
@@ -140,22 +140,22 @@ function foo() {
 }
 foo("hello", 1, 2);
 foo("hello", "world");
-var E;
+var E2;
 (function(E) {
     E[E["a"] = 0] = "a";
     E[E["b"] = 1] = "b";
-})(E || (E = {
+})(E2 || (E2 = {
 }));
-var E1;
+var E11;
 (function(E1) {
     E1[E1["a"] = 0] = "a";
     E1[E1["b"] = 1] = "b";
-})(E1 || (E1 = {
+})(E11 || (E11 = {
 }));
 function foo1() {
     for(var _len = arguments.length, a = new Array(_len), _key = 0; _key < _len; _key++){
         a[_key] = arguments[_key];
     }
 }
-foo1(1, 2, 3, E.a);
-foo1(1, 2, 3, E1.a, E.b);
+foo1(1, 2, 3, E2.a);
+foo1(1, 2, 3, E11.a, E2.b);

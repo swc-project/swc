@@ -31,5 +31,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 var a = 1, b = 2;
 try {
 } catch (_param) {
-    var a = _param.a, b = _objectWithoutProperties(_param, ["a"]);
+    var a1 = _param.a, b1 = _objectWithoutProperties(_param, [
+        "a"
+    ]);
 }

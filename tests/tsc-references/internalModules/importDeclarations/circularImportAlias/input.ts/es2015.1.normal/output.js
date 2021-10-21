@@ -1,19 +1,19 @@
 // expected no error
-var B;
+var B1;
 (function(B) {
-    B.a = A;
+    B.a = A1;
     class D extends a.C {
     }
     B.D = D;
-})(B || (B = {
+})(B1 || (B1 = {
 }));
-var A;
+var A1;
 (function(A) {
     class C {
     }
     A.C = C;
-    A.b = B;
-})(A || (A = {
+    A.b = B1;
+})(A1 || (A1 = {
 }));
 var c;
-var c = new B.a.C();
+var c = new B1.a.C();

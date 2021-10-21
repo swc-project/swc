@@ -29,28 +29,28 @@ function _setPrototypeOf(o, p) {
 }
 var _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, Class = function() {
+}, Class1 = function() {
     "use strict";
-    _classCallCheck(this, Class);
+    _classCallCheck(this, Class1);
 }, SubClass = function(Class) {
     "use strict";
     function SubClass() {
         return _classCallCheck(this, SubClass), _possibleConstructorReturn(this, _getPrototypeOf(SubClass).call(this));
     }
     return _inherits(SubClass, Class), SubClass;
-}(Class), D = function() {
+}(Class1), D1 = function() {
     "use strict";
-    _classCallCheck(this, D);
+    _classCallCheck(this, D1);
 }, SubD = function(D) {
     "use strict";
     function SubD() {
         return _classCallCheck(this, SubD), _possibleConstructorReturn(this, _getPrototypeOf(SubD).call(this));
     }
     return _inherits(SubD, D), SubD;
-}(D);
+}(D1);
 function d0(param) {
     (void 0 === param ? {
-        x: new Class()
+        x: new Class1()
     } : param).x;
 }
 function d1(param) {
@@ -62,7 +62,7 @@ function d2(param) {
 function d3(param) {
     param.y;
 }
-new Class(), d0({
+new Class1(), d0({
     x: 1
 }), d0({
     x: {
@@ -70,7 +70,7 @@ new Class(), d0({
 }), d0({
     x: "string"
 }), d1({
-    x: new Class()
+    x: new Class1()
 }), d1({
     x: {
     }
@@ -86,7 +86,7 @@ new Class(), d0({
 }), d3({
     y: new SubClass()
 }), d3({
-    y: new Class()
+    y: new Class1()
 }), d3({
 }), d3({
     y: 1

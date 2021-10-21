@@ -27,23 +27,23 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var b, b2, Generics, _typeof = function(obj) {
+var b, b21, Generics, _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, A = function() {
+}, A1 = function() {
     "use strict";
-    _classCallCheck(this, A);
+    _classCallCheck(this, A1);
 };
-b = b, b2 = b2, (function(Generics) {
-    var b1, b21, A1 = function() {
+b = b, b21 = b21, (function(Generics) {
+    var b1, b2, A2 = function() {
         "use strict";
-        _classCallCheck(this, A1);
+        _classCallCheck(this, A2);
     }, B = function(A) {
         "use strict";
         function B() {
             return _classCallCheck(this, B), _possibleConstructorReturn(this, _getPrototypeOf(B).apply(this, arguments));
         }
         return _inherits(B, A), B;
-    }(A1);
+    }(A2);
     b1 = b1;
     var B2 = function(A) {
         "use strict";
@@ -51,7 +51,7 @@ b = b, b2 = b2, (function(Generics) {
             return _classCallCheck(this, B2), _possibleConstructorReturn(this, _getPrototypeOf(B2).apply(this, arguments));
         }
         return _inherits(B2, A), B2;
-    }(A1);
-    b21 = b21;
+    }(A2);
+    b2 = b2;
 })(Generics || (Generics = {
 }));

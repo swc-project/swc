@@ -43,20 +43,20 @@ for(var idx in {
 });
 function fn() {
 }
-for(var x in fn());
-for(var x in c || d);
-for(var x in e ? c : d);
-for(var x in c);
-for(var x in d);
-for(var x in d[x]);
-for(var x in c[23]);
-for(var x in function(x) {
+for(var x1 in fn());
+for(var x1 in c || d);
+for(var x1 in e ? c : d);
+for(var x1 in c);
+for(var x1 in d);
+for(var x1 in d[x1]);
+for(var x1 in c[23]);
+for(var x1 in function(x) {
     return x;
 });
-for(var x in function(x, y) {
+for(var x1 in function(x, y) {
     return x + y;
 });
-var aNumber, aBoolean, aRegExp, c, d, e, i, A = function() {
+var aNumber, aBoolean, aRegExp, c, d, e, i1, A = function() {
     "use strict";
     function A() {
         _classCallCheck(this, A);
@@ -114,4 +114,4 @@ var aNumber, aBoolean, aRegExp, c, d, e, i, A = function() {
         }
     ]), B;
 }(A);
-for(var x in i[42]);
+for(var x1 in i1[42]);

@@ -27,11 +27,11 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var E1, E21, E11, _typeof = function(obj) {
+var E1, E2, E11, _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, A = function() {
+}, A1 = function() {
     "use strict";
-    _classCallCheck(this, A), this.a = 10;
+    _classCallCheck(this, A1), this.a = 10;
 }, C = function() {
     "use strict";
     _classCallCheck(this, C);
@@ -44,18 +44,18 @@ var E1, E21, E11, _typeof = function(obj) {
         return _classCallCheck(this, E), _possibleConstructorReturn(this, _getPrototypeOf(E).apply(this, arguments));
     }
     return _inherits(E, A), E;
-}(A), F = function(A) {
+}(A1), F = function(A) {
     "use strict";
     function F() {
         return _classCallCheck(this, F), _possibleConstructorReturn(this, _getPrototypeOf(F).apply(this, arguments));
     }
     return _inherits(F, A), F;
-}(A);
+}(A1);
 (E11 = E1 || (E1 = {
-}))[E11.one = 0] = "one", (E23 = E21 || (E21 = {
-}))[E23.one = 0] = "one";
-var E23, classCDATuple = [
+}))[E11.one = 0] = "one", (E21 = E2 || (E2 = {
+}))[E21.one = 0] = "one";
+var E21, classCDATuple = [
     new C(),
     new D()
 ];
-classCDATuple[2], classCDATuple[5], E1.one, E21.one, new C(), new C(), new D(), t4[2] = 10;
+classCDATuple[2], classCDATuple[5], E1.one, E2.one, new C(), new C(), new D(), t4[2] = 10;

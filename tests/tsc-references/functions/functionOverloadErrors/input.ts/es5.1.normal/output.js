@@ -61,14 +61,14 @@ var cls = //Function overloads that differ by accessibility
     return cls;
 }();
 //Function overloads with differing export
-var M;
+var M1;
 (function(M) {
     var fn1 = function fn1() {
     };
     var fn2 = function fn2() {
     };
     M.fn2 = fn2;
-})(M || (M = {
+})(M1 || (M1 = {
 }));
 function dfn1() {
 }

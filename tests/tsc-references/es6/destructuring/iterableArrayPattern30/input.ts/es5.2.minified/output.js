@@ -28,5 +28,5 @@ var ref = _slicedToArray(new Map([
         "hello",
         !0
     ]
-]), 2), ref1 = _slicedToArray(ref[0], 2), k1 = ref1[0], v1 = ref1[1], ref3 = _slicedToArray(ref[1], 2);
-ref3[0], ref3[1];
+]), 2), ref1 = _slicedToArray(ref[0], 2), k1 = ref1[0], v1 = ref1[1], ref2 = _slicedToArray(ref[1], 2);
+ref2[0], ref2[1];

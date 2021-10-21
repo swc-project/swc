@@ -82,7 +82,7 @@ var Poisoned = /*#__PURE__*/ function(_Component) {
     return Poisoned;
 }(React.Component);
 // OK
-var p = /*#__PURE__*/ React.createElement(Poisoned, {
+var p1 = /*#__PURE__*/ React.createElement(Poisoned, {
     x: true
 });
 export { };

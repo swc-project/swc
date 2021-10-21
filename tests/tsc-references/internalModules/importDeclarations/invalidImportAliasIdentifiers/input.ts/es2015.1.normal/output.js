@@ -4,12 +4,12 @@ var v = V;
 class C {
 }
 var c = C;
-var E;
+var E1;
 (function(E) {
     E[E["Red"] = 0] = "Red";
     E[E["Blue"] = 1] = "Blue";
-})(E || (E = {
+})(E1 || (E1 = {
 }));
-var e = E;
+var e = E1;
 var i = I;
 export { };

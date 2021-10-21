@@ -11,8 +11,8 @@ class BaseB {
     createInstance() {
         new BaseB(2);
     }
-    constructor(x){
-        this.x = x;
+    constructor(x1){
+        this.x = x1;
     }
 }
 class BaseC {
@@ -22,8 +22,8 @@ class BaseC {
     static staticInstance() {
         new BaseC(4);
     }
-    constructor(x){
-        this.x = x;
+    constructor(x2){
+        this.x = x2;
     }
 }
 class DerivedA extends BaseA {
@@ -36,9 +36,9 @@ class DerivedA extends BaseA {
     static staticBaseInstance() {
         new BaseA(7);
     }
-    constructor(x){
-        super(x);
-        this.x = x;
+    constructor(x3){
+        super(x3);
+        this.x = x3;
     }
 }
 class DerivedB extends BaseB {
@@ -51,9 +51,9 @@ class DerivedB extends BaseB {
     static staticBaseInstance() {
         new BaseB(9);
     }
-    constructor(x){
-        super(x);
-        this.x = x;
+    constructor(x4){
+        super(x4);
+        this.x = x4;
     }
 }
 class DerivedC extends BaseC {
@@ -66,9 +66,9 @@ class DerivedC extends BaseC {
     static staticBaseInstance() {
         new BaseC(11);
     }
-    constructor(x){
-        super(x);
-        this.x = x;
+    constructor(x5){
+        super(x5);
+        this.x = x5;
     }
 }
 var ba = new BaseA(1);

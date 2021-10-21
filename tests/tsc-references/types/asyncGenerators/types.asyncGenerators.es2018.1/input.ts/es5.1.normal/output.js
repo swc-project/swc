@@ -224,11 +224,11 @@ function inferReturnType7() {
     return _inferReturnType7.apply(this, arguments);
 }
 function _inferReturnType8() {
-    _inferReturnType8 = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
+    _inferReturnType8 = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee1() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx1) {
+            while(1)switch(_ctx1.prev = _ctx1.next){
                 case 0:
-                    return _ctx.delegateYield(_wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+                    return _ctx1.delegateYield(_wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
                         return regeneratorRuntime.wrap(function _callee$(_ctx) {
                             while(1)switch(_ctx.prev = _ctx.next){
                                 case 0:
@@ -242,9 +242,9 @@ function _inferReturnType8() {
                     }))(), "t0", 1);
                 case 1:
                 case "end":
-                    return _ctx.stop();
+                    return _ctx1.stop();
             }
-        }, _callee);
+        }, _callee1);
     }));
     return _inferReturnType8.apply(this, arguments);
 }
@@ -323,11 +323,11 @@ var assignability4 = function() {
     };
 }();
 var assignability5 = function() {
-    var _ref = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
+    var _ref = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee2() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx2) {
+            while(1)switch(_ctx2.prev = _ctx2.next){
                 case 0:
-                    return _ctx.delegateYield(_wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+                    return _ctx2.delegateYield(_wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
                         return regeneratorRuntime.wrap(function _callee$(_ctx) {
                             while(1)switch(_ctx.prev = _ctx.next){
                                 case 0:
@@ -341,9 +341,9 @@ var assignability5 = function() {
                     }))(), "t0", 1);
                 case 1:
                 case "end":
-                    return _ctx.stop();
+                    return _ctx2.stop();
             }
-        }, _callee);
+        }, _callee2);
     }));
     return function() {
         return _ref.apply(this, arguments);
@@ -421,11 +421,11 @@ var assignability9 = function() {
     };
 }();
 var assignability10 = function() {
-    var _ref = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
+    var _ref = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee3() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx3) {
+            while(1)switch(_ctx3.prev = _ctx3.next){
                 case 0:
-                    return _ctx.delegateYield(_wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+                    return _ctx3.delegateYield(_wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
                         return regeneratorRuntime.wrap(function _callee$(_ctx) {
                             while(1)switch(_ctx.prev = _ctx.next){
                                 case 0:
@@ -439,9 +439,9 @@ var assignability10 = function() {
                     }))(), "t0", 1);
                 case 1:
                 case "end":
-                    return _ctx.stop();
+                    return _ctx3.stop();
             }
-        }, _callee);
+        }, _callee3);
     }));
     return function() {
         return _ref.apply(this, arguments);
@@ -519,11 +519,11 @@ var assignability14 = function() {
     };
 }();
 var assignability15 = function() {
-    var _ref = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
+    var _ref = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee4() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx4) {
+            while(1)switch(_ctx4.prev = _ctx4.next){
                 case 0:
-                    return _ctx.delegateYield(_wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+                    return _ctx4.delegateYield(_wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
                         return regeneratorRuntime.wrap(function _callee$(_ctx) {
                             while(1)switch(_ctx.prev = _ctx.next){
                                 case 0:
@@ -537,9 +537,9 @@ var assignability15 = function() {
                     }))(), "t0", 1);
                 case 1:
                 case "end":
-                    return _ctx.stop();
+                    return _ctx4.stop();
             }
-        }, _callee);
+        }, _callee4);
     }));
     return function() {
         return _ref.apply(this, arguments);
@@ -621,11 +621,11 @@ function explicitReturnType4() {
     return _explicitReturnType4.apply(this, arguments);
 }
 function _explicitReturnType5() {
-    _explicitReturnType5 = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
+    _explicitReturnType5 = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee5() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx5) {
+            while(1)switch(_ctx5.prev = _ctx5.next){
                 case 0:
-                    return _ctx.delegateYield(_wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+                    return _ctx5.delegateYield(_wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
                         return regeneratorRuntime.wrap(function _callee$(_ctx) {
                             while(1)switch(_ctx.prev = _ctx.next){
                                 case 0:
@@ -639,9 +639,9 @@ function _explicitReturnType5() {
                     }))(), "t0", 1);
                 case 1:
                 case "end":
-                    return _ctx.stop();
+                    return _ctx5.stop();
             }
-        }, _callee);
+        }, _callee5);
     }));
     return _explicitReturnType5.apply(this, arguments);
 }
@@ -724,11 +724,11 @@ function explicitReturnType9() {
     return _explicitReturnType9.apply(this, arguments);
 }
 function _explicitReturnType10() {
-    _explicitReturnType10 = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
+    _explicitReturnType10 = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee6() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx6) {
+            while(1)switch(_ctx6.prev = _ctx6.next){
                 case 0:
-                    return _ctx.delegateYield(_wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+                    return _ctx6.delegateYield(_wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
                         return regeneratorRuntime.wrap(function _callee$(_ctx) {
                             while(1)switch(_ctx.prev = _ctx.next){
                                 case 0:
@@ -742,9 +742,9 @@ function _explicitReturnType10() {
                     }))(), "t0", 1);
                 case 1:
                 case "end":
-                    return _ctx.stop();
+                    return _ctx6.stop();
             }
-        }, _callee);
+        }, _callee6);
     }));
     return _explicitReturnType10.apply(this, arguments);
 }
@@ -827,11 +827,11 @@ function explicitReturnType14() {
     return _explicitReturnType14.apply(this, arguments);
 }
 function _explicitReturnType15() {
-    _explicitReturnType15 = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
+    _explicitReturnType15 = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee7() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx7) {
+            while(1)switch(_ctx7.prev = _ctx7.next){
                 case 0:
-                    return _ctx.delegateYield(_wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+                    return _ctx7.delegateYield(_wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
                         return regeneratorRuntime.wrap(function _callee$(_ctx) {
                             while(1)switch(_ctx.prev = _ctx.next){
                                 case 0:
@@ -845,9 +845,9 @@ function _explicitReturnType15() {
                     }))(), "t0", 1);
                 case 1:
                 case "end":
-                    return _ctx.stop();
+                    return _ctx7.stop();
             }
-        }, _callee);
+        }, _callee7);
     }));
     return _explicitReturnType15.apply(this, arguments);
 }

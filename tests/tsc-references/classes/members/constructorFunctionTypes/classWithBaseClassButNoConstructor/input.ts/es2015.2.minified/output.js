@@ -6,7 +6,7 @@ class C extends Base {
 }
 new C(), new C(1);
 class Base2 {
-    constructor(x){
+    constructor(x1){
     }
 }
 class D extends Base2 {

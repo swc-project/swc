@@ -21,10 +21,10 @@ var A = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function A() {
-        var E1;
-        _classCallCheck(this, A), (E1 = E3 || (E3 = {
-        }))[E1.A = 0] = "A", E1[E1.B = 1] = "B", E1[E1.C = 2] = "C";
-        var E3, C = function() {
+        var E;
+        _classCallCheck(this, A), (E = E1 || (E1 = {
+        }))[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C";
+        var E1, C = function() {
             _classCallCheck(this, C);
         };
     }
@@ -32,9 +32,9 @@ var A = function() {
         {
             key: "m",
             value: function() {
-                var E1;
-                (E1 = E || (E = {
-                }))[E1.A = 0] = "A", E1[E1.B = 1] = "B", E1[E1.C = 2] = "C";
+                var E2;
+                (E2 = E || (E = {
+                }))[E2.A = 0] = "A", E2[E2.B = 1] = "B", E2[E2.C = 2] = "C";
                 var C = function() {
                     _classCallCheck(this, C);
                 };
@@ -44,9 +44,9 @@ var A = function() {
         {
             key: "p",
             get: function() {
-                var E1;
-                (E1 = E || (E = {
-                }))[E1.A = 0] = "A", E1[E1.B = 1] = "B", E1[E1.C = 2] = "C";
+                var E3;
+                (E3 = E || (E = {
+                }))[E3.A = 0] = "A", E3[E3.B = 1] = "B", E3[E3.C = 2] = "C";
                 var C = function() {
                     _classCallCheck(this, C);
                 };

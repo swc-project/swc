@@ -86,5 +86,5 @@ var Derived = /*#__PURE__*/ function(Base) {
     ]);
     return Derived;
 }(Base);
-var obj = new Derived(); // nothing printed
-console.log(obj.x); // 1
+var obj1 = new Derived(); // nothing printed
+console.log(obj1.x); // 1

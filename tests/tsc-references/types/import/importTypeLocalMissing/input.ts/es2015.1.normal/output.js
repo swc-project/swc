@@ -18,7 +18,7 @@ export let z = {
     b: 0
 };
 export class Bar2 {
-    constructor(input){
+    constructor(input1){
     }
 }
 export let shim = {

@@ -1,21 +1,21 @@
 var // @module: amd
 // @Filename: foo_0.ts
-foo;
+foo1;
 (function(foo) {
     foo[foo["red"] = 0] = "red";
     foo[foo["green"] = 1] = "green";
     foo[foo["blue"] = 2] = "blue";
-})(foo || (foo = {
+})(foo1 || (foo1 = {
 }));
 (function(foo) {
     foo.answer = 42;
-})(foo || (foo = {
+})(foo1 || (foo1 = {
 }));
-module.exports = foo;
+module.exports = foo1;
 // @Filename: foo_1.ts
-const foo = require("./foo_0");
+const foo1 = require("./foo_0");
 var color;
-if (color === foo.green) {
-    color = foo.answer;
+if (color === foo1.green) {
+    color = foo1.answer;
 }
 export { };

@@ -29,19 +29,19 @@ function _setPrototypeOf(o, p) {
 }
 var _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, B = function(a) {
+}, B1 = function(a) {
     "use strict";
-    _classCallCheck(this, B);
+    _classCallCheck(this, B1);
 }, C = function(B) {
     "use strict";
     function C() {
         return _classCallCheck(this, C), _possibleConstructorReturn(this, _getPrototypeOf(C).apply(this, arguments));
     }
     return _inherits(C, B), C;
-}(B), D = function(B) {
+}(B1), D = function(B) {
     "use strict";
     function D(b) {
         return _classCallCheck(this, D), _possibleConstructorReturn(this, _getPrototypeOf(D).call(this, b));
     }
     return _inherits(D, B), D;
-}(B);
+}(B1);

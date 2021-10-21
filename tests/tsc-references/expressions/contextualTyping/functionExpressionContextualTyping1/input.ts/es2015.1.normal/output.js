@@ -1,10 +1,10 @@
 var // When a function expression with no type parameters and no parameter type annotations 
 // is contextually typed (section 4.19) by a type T and a contextual signature S can be extracted from T
-E;
+E1;
 (function(E) {
     E[E["red"] = 0] = "red";
     E[E["blue"] = 1] = "blue";
-})(E || (E = {
+})(E1 || (E1 = {
 }));
 // A contextual signature S is extracted from a function type T as follows:
 //      If T is a function type with exactly one call signature, and if that call signature is non- generic, S is that signature.
@@ -16,7 +16,7 @@ class Class {
     foo() {
     }
 }
-var a1 = (a1)=>{
+var a11 = (a1)=>{
     a1.foo();
     return 1;
 };
@@ -59,7 +59,7 @@ b7 = (j, m)=>{
 }; // Per spec, no contextual signature can be extracted in this case. (Otherwise clause)
 class C {
     constructor(){
-        var k = (j, k)=>{
+        var k1 = (j, k)=>{
             return [
                 j,
                 k

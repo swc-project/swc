@@ -1,4 +1,4 @@
-var A;
+var A1;
 !function(A) {
     var beez, B = function() {
         "use strict";
@@ -7,5 +7,5 @@ var A;
         }(this, B);
     };
     A.beez2 = new Array(), A.beez = beez;
-}(A || (A = {
+}(A1 || (A1 = {
 }));

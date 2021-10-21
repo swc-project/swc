@@ -8,22 +8,22 @@ function _taggedTemplateLiteral(strings, raw) {
         }
     }));
 }
-function _templateObject1() {
-    var data = _taggedTemplateLiteral([
-        "",
-        ""
-    ]);
-    _templateObject1 = function _templateObject1() {
-        return data;
-    };
-    return data;
-}
 function _templateObject() {
     var data = _taggedTemplateLiteral([
         "",
         ""
     ]);
     _templateObject = function _templateObject() {
+        return data;
+    };
+    return data;
+}
+function _templateObject1() {
+    var data = _taggedTemplateLiteral([
+        "",
+        ""
+    ]);
+    _templateObject1 = function _templateObject1() {
         return data;
     };
     return data;
@@ -249,9 +249,9 @@ function _templateObject21() {
 function fn1() {
     return null;
 }
-var s = fn1(_templateObject1(), undefined);
+var s = fn1(_templateObject(), undefined);
 // No candidate overloads found
-fn1(_templateObject(), {
+fn1(_templateObject1(), {
 }); // Error
 function fn2() {
     return undefined;
@@ -269,12 +269,12 @@ function fn3() {
 }
 var s = fn3(_templateObject6(), 3);
 var s = fn3(_templateObject7(), '', 3, '');
-var n = fn3(_templateObject8(), 5, 5, 5);
-var n;
+var n1 = fn3(_templateObject8(), 5, 5, 5);
+var n1;
 // Generic overloads with differing arity tagging with arguments matching each overload type parameter count
 var s = fn3(_templateObject9(), 4);
 var s = fn3(_templateObject10(), '', '', '');
-var n = fn3(_templateObject11(), '', '', 3);
+var n1 = fn3(_templateObject11(), '', '', 3);
 // Generic overloads with differing arity tagging with argument count that doesn't match any overload
 fn3(_templateObject12()); // Error
 function fn4() {

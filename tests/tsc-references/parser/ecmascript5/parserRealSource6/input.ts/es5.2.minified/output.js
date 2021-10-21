@@ -1,4 +1,4 @@
-var TypeScript1;
+var TypeScript;
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
@@ -8,7 +8,7 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-!function(TypeScript) {
+!function(TypeScript1) {
     var preFindMemberScope = function(ast, parent, walker) {
         var memScope = walker.state;
         return hasFlag(ast.flags, memScope.matchFlag) && (memScope.pos < 0 || memScope.pos == ast.limChar) && (memScope.ast = ast, null == ast.type && memScope.pos >= 0 && memScope.flow.inScopeTypeCheck(ast, memScope.scope), memScope.type = ast.type, memScope.options.stopWalk()), ast;
@@ -57,17 +57,17 @@ function _defineProperties(target, props) {
         return ast;
     }, findEnclosingScopeAt = function(logger, script, text, pos, isMemberCompletion) {
         var context = new EnclosingScopeContext(logger, script, text, pos, isMemberCompletion);
-        return (TypeScript1.getAstWalkerFactory().walk(script, preFindEnclosingScope, null, null, context), null === context.scopeStartAST) ? null : context;
+        return (TypeScript.getAstWalkerFactory().walk(script, preFindEnclosingScope, null, null, context), null === context.scopeStartAST) ? null : context;
     }, TypeCollectionContext = function(scopeChain, checker) {
         "use strict";
         _classCallCheck(this, TypeCollectionContext), this.scopeChain = scopeChain, this.checker = checker, this.script = null;
     };
-    TypeScript.TypeCollectionContext = TypeCollectionContext;
+    TypeScript1.TypeCollectionContext = TypeCollectionContext;
     var MemberScopeContext = function(flow, pos, matchFlag) {
         "use strict";
         _classCallCheck(this, MemberScopeContext), this.flow = flow, this.pos = pos, this.matchFlag = matchFlag, this.type = null, this.ast = null, this.options = new AstWalkOptions();
     };
-    TypeScript.MemberScopeContext = MemberScopeContext;
+    TypeScript1.MemberScopeContext = MemberScopeContext;
     var EnclosingScopeContext = function() {
         "use strict";
         var Constructor, protoProps, staticProps;
@@ -116,18 +116,18 @@ function _defineProperties(target, props) {
                 value: function() {
                     if (null == this.scriptFragment) {
                         var ast = this.getScriptFragmentStartAST(), minChar = ast.minChar, limChar = this.isMemberCompletion ? this.pos : this.pos + 1;
-                        this.scriptFragment = TypeScript1.quickParse(this.logger, ast, this.text, minChar, limChar, null).Script;
+                        this.scriptFragment = TypeScript.quickParse(this.logger, ast, this.text, minChar, limChar, null).Script;
                     }
                     return this.scriptFragment;
                 }
             }
         ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), EnclosingScopeContext;
     }();
-    TypeScript.EnclosingScopeContext = EnclosingScopeContext, TypeScript.preFindMemberScope = preFindMemberScope, TypeScript.pushTypeCollectionScope = function(container, valueMembers, ambientValueMembers, enclosedTypes, ambientEnclosedTypes, context, thisType, classType, moduleDecl) {
+    TypeScript1.EnclosingScopeContext = EnclosingScopeContext, TypeScript1.preFindMemberScope = preFindMemberScope, TypeScript1.pushTypeCollectionScope = function(container, valueMembers, ambientValueMembers, enclosedTypes, ambientEnclosedTypes, context, thisType, classType, moduleDecl) {
         var builder = new SymbolScopeBuilder(valueMembers, ambientValueMembers, enclosedTypes, ambientEnclosedTypes, null, container), chain = new ScopeChain(container, context.scopeChain, builder);
         chain.thisType = thisType, chain.classType = classType, chain.moduleDecl = moduleDecl, context.scopeChain = chain;
-    }, TypeScript.popTypeCollectionScope = function(context) {
+    }, TypeScript1.popTypeCollectionScope = function(context) {
         context.scopeChain = context.scopeChain.previous;
-    }, TypeScript.preFindEnclosingScope = preFindEnclosingScope, TypeScript.findEnclosingScopeAt = findEnclosingScopeAt;
-}(TypeScript1 || (TypeScript1 = {
+    }, TypeScript1.preFindEnclosingScope = preFindEnclosingScope, TypeScript1.findEnclosingScopeAt = findEnclosingScopeAt;
+}(TypeScript || (TypeScript = {
 }));

@@ -48,6 +48,8 @@ function f4(obj) {
     obj.c;
 }
 var modifier = function(targetProps) {
-    var bar = targetProps.bar, rest = _objectWithoutProperties(targetProps, ["bar"]);
+    var bar = targetProps.bar, rest = _objectWithoutProperties(targetProps, [
+        "bar"
+    ]);
     rest.foo;
 };

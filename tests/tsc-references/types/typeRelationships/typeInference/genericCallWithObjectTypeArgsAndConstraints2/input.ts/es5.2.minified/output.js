@@ -11,9 +11,9 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var Base = function() {
+var Base1 = function() {
     "use strict";
-    _classCallCheck(this, Base);
+    _classCallCheck(this, Base1);
 }, Derived = function(Base) {
     "use strict";
     function Derived() {
@@ -33,19 +33,19 @@ var Base = function() {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(Derived, Base), Derived;
-}(Base);
+}(Base1);
 function f(x) {
 }
 function f3(x, y) {
     return y(null);
 }
 f({
-    foo: new Base(),
+    foo: new Base1(),
     bar: new Derived()
 }), f({
     foo: new Derived(),
     bar: new Derived()
-}), f3(new Base(), function(x) {
+}), f3(new Base1(), function(x) {
     return x;
 }), f3(new Derived(), function(x) {
     return x;

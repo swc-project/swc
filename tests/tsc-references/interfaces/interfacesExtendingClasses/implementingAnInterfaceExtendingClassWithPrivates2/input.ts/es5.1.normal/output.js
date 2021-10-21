@@ -78,9 +78,9 @@ var Bar3 = /*#__PURE__*/ function(Foo) {
 // another level of indirection
 var M;
 (function(M) {
-    var Foo1 = function Foo1() {
+    var Foo = function Foo() {
         "use strict";
-        _classCallCheck(this, Foo1);
+        _classCallCheck(this, Foo);
     };
     var Baz = /*#__PURE__*/ function(Foo) {
         "use strict";
@@ -90,7 +90,7 @@ var M;
             return _possibleConstructorReturn(this, _getPrototypeOf(Baz).apply(this, arguments));
         }
         return Baz;
-    }(Foo1);
+    }(Foo);
     var Bar = /*#__PURE__*/ function(Foo) {
         "use strict";
         _inherits(Bar, Foo);
@@ -99,7 +99,7 @@ var M;
             return _possibleConstructorReturn(this, _getPrototypeOf(Bar).apply(this, arguments));
         }
         return Bar;
-    }(Foo1);
+    }(Foo);
     var Bar2 = /*#__PURE__*/ function(Foo) {
         "use strict";
         _inherits(Bar2, Foo);
@@ -108,7 +108,7 @@ var M;
             return _possibleConstructorReturn(this, _getPrototypeOf(Bar2).apply(this, arguments));
         }
         return Bar2;
-    }(Foo1);
+    }(Foo);
     var Bar3 = /*#__PURE__*/ function(Foo) {
         "use strict";
         _inherits(Bar3, Foo);
@@ -117,15 +117,15 @@ var M;
             return _possibleConstructorReturn(this, _getPrototypeOf(Bar3).apply(this, arguments));
         }
         return Bar3;
-    }(Foo1);
+    }(Foo);
 })(M || (M = {
 }));
 // two levels of privates
 var M2;
 (function(M2) {
-    var Foo1 = function Foo1() {
+    var Foo = function Foo() {
         "use strict";
-        _classCallCheck(this, Foo1);
+        _classCallCheck(this, Foo);
     };
     var Baz = /*#__PURE__*/ function(Foo) {
         "use strict";
@@ -135,7 +135,7 @@ var M2;
             return _possibleConstructorReturn(this, _getPrototypeOf(Baz).apply(this, arguments));
         }
         return Baz;
-    }(Foo1);
+    }(Foo);
     var Bar = /*#__PURE__*/ function(Foo) {
         "use strict";
         _inherits(Bar, Foo);
@@ -144,7 +144,7 @@ var M2;
             return _possibleConstructorReturn(this, _getPrototypeOf(Bar).apply(this, arguments));
         }
         return Bar;
-    }(Foo1);
+    }(Foo);
     var b;
     var r1 = b.z;
     var r2 = b.x; // error
@@ -157,7 +157,7 @@ var M2;
             return _possibleConstructorReturn(this, _getPrototypeOf(Bar2).apply(this, arguments));
         }
         return Bar2;
-    }(Foo1);
+    }(Foo);
     var Bar3 = /*#__PURE__*/ function(Foo) {
         "use strict";
         _inherits(Bar3, Foo);
@@ -166,6 +166,6 @@ var M2;
             return _possibleConstructorReturn(this, _getPrototypeOf(Bar3).apply(this, arguments));
         }
         return Bar3;
-    }(Foo1);
+    }(Foo);
 })(M2 || (M2 = {
 }));

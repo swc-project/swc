@@ -8,17 +8,17 @@ function f1(x) {
 class C1 {
 }
 class C2 {
-    static foo(x) {
+    static foo(x4) {
         return undefined;
     }
 }
 C2.y = undefined;
-var N1;
+var N11;
 (function(N1) {
     var x;
     N1.y = this;
     N1.x = x;
-})(N1 || (N1 = {
+})(N11 || (N11 = {
 }));
 class C3 {
     f() {

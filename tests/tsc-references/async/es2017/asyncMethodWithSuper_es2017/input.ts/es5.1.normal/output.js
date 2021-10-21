@@ -265,10 +265,10 @@ var B = /*#__PURE__*/ function(A) {
             key: "advanced",
             value: // async method with assignment/destructuring on 'super' requires a binding
             function advanced() {
-                var _this = this, _this1 = this, _this2 = this, _this3 = this, _this4 = this, _this5 = this, _this6 = this, _this7 = this;
+                var _this = this, _this5 = this, _this6 = this, _this7 = this, _this8 = this, _this9 = this, _this10 = this, _this11 = this;
                 var // call with property access
                 _instance, // call with element access
-                _instance1;
+                _instance3;
                 var _super_x = function() {
                     for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++){
                         _args[_key] = arguments[_key];
@@ -280,23 +280,23 @@ var B = /*#__PURE__*/ function(A) {
                     for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++){
                         _args[_key] = arguments[_key];
                     }
-                    return (_instance1 = _get(_getPrototypeOf(B.prototype), "x", _this1)).call.apply(_instance1, [
-                        _this1
+                    return (_instance3 = _get(_getPrototypeOf(B.prototype), "x", _this5)).call.apply(_instance3, [
+                        _this5
                     ].concat(_toConsumableArray(_args)));
-                }, _super_x1 = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this2);
-                }, _super_method1 = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this3);
-                }, _super_x2 = function(_args) {
-                    // property access (assign)
-                    return _set(_getPrototypeOf(B.prototype), "x", _args, _this4, true);
-                }, _super_method2 = function(_args) {
-                    // element access (assign)
-                    return _set(_getPrototypeOf(B.prototype), "x", _args, _this5, true);
-                }, _super_x3 = function() {
+                }, _super_x2 = function() {
                     return _get(_getPrototypeOf(B.prototype), "x", _this6);
-                }, _super_method3 = function() {
+                }, _super_method2 = function() {
                     return _get(_getPrototypeOf(B.prototype), "x", _this7);
+                }, _super_x3 = function(_args) {
+                    // property access (assign)
+                    return _set(_getPrototypeOf(B.prototype), "x", _args, _this8, true);
+                }, _super_method3 = function(_args) {
+                    // element access (assign)
+                    return _set(_getPrototypeOf(B.prototype), "x", _args, _this9, true);
+                }, _super_x4 = function() {
+                    return _get(_getPrototypeOf(B.prototype), "x", _this10);
+                }, _super_method4 = function() {
+                    return _get(_getPrototypeOf(B.prototype), "x", _this11);
                 };
                 return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                     var f, a, b;
@@ -307,20 +307,20 @@ var B = /*#__PURE__*/ function(A) {
                                 };
                                 _super_x();
                                 _super_method();
-                                a = _super_x1();
-                                b = _super_method1();
-                                _super_x2(f);
-                                _super_method2(f);
+                                a = _super_x2();
+                                b = _super_method2();
+                                _super_x3(f);
+                                _super_method3(f);
                                 var ref;
                                 // destructuring assign with property access
                                 (ref = {
                                     f: f
-                                }, _super_x3() = ref.f, ref);
+                                }, _super_x4() = ref.f, ref);
                                 var ref1;
                                 // destructuring assign with element access
                                 (ref1 = {
                                     f: f
-                                }, _super_method3() = ref1.f, ref1);
+                                }, _super_method4() = ref1.f, ref1);
                             case 9:
                             case "end":
                                 return _ctx.stop();

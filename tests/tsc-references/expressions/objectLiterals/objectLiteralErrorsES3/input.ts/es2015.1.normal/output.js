@@ -12,6 +12,6 @@ var e3 = {
     get a () {
         return '';
     },
-    set a (n1){
+    set a (n){
     }
 };

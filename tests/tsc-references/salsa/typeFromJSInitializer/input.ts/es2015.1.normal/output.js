@@ -10,22 +10,22 @@ function A() {
     this.unknowable = undefined;
     this.empty = [];
 }
-var a = new A();
-a.unknown = 1;
-a.unknown = true;
-a.unknown = {
+var a1 = new A();
+a1.unknown = 1;
+a1.unknown = true;
+a1.unknown = {
 };
-a.unknown = 'hi';
-a.unknowable = 1;
-a.unknowable = true;
-a.unknowable = {
+a1.unknown = 'hi';
+a1.unknowable = 1;
+a1.unknowable = true;
+a1.unknowable = {
 };
-a.unknowable = 'hi';
-a.empty.push(1);
-a.empty.push(true);
-a.empty.push({
+a1.unknowable = 'hi';
+a1.empty.push(1);
+a1.empty.push(true);
+a1.empty.push({
 });
-a.empty.push('hi');
+a1.empty.push('hi');
 /** @type {number | undefined} */ var n;
 // should get any on parameter initialisers
 function f(a = null, b = n, l = []) {
@@ -47,11 +47,11 @@ function f(a = null, b = n, l = []) {
 }
 // should get any on variable initialisers
 var u = undefined;
-var l = [];
+var l1 = [];
 u = undefined;
 u = 1;
 u = true;
 u = {
 };
 u = 'ok';
-l.push('ok');
+l1.push('ok');

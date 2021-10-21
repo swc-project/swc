@@ -10,7 +10,7 @@ function _defineProperties(target, props) {
 function _createClass(Constructor, protoProps, staticProps) {
     return protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Constructor;
 }
-export var obj = {
+var obj1 = {
     method1: function(p) {
         return p;
     },
@@ -18,6 +18,7 @@ export var obj = {
         return p;
     }
 };
+export { obj1 as obj };
 export var classExpression = function() {
     "use strict";
     function _class() {
@@ -65,7 +66,7 @@ export var ClassWithPrivateNamedMethods = function() {
         }
     ]), ClassWithPrivateNamedMethods;
 }();
-var tmp3 = s, tmp4 = s, tmp5 = s, tmp6 = s;
+var tmp2 = s, tmp3 = s, tmp4 = s, tmp5 = s;
 export var ClassWithPrivateNamedAccessors = function() {
     "use strict";
     function ClassWithPrivateNamedAccessors() {
@@ -73,23 +74,23 @@ export var ClassWithPrivateNamedAccessors = function() {
     }
     return _createClass(ClassWithPrivateNamedAccessors, [
         {
-            key: tmp3,
+            key: tmp2,
             get: function() {
             }
         },
         {
-            key: tmp4,
+            key: tmp3,
             set: function(v) {
             }
         }
     ], [
         {
-            key: tmp5,
+            key: tmp4,
             get: function() {
             }
         },
         {
-            key: tmp6,
+            key: tmp5,
             set: function(v) {
             }
         }

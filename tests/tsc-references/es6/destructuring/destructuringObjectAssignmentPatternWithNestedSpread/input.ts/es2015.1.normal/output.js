@@ -37,4 +37,6 @@ let a, b, c = {
     }
 }, d;
 var _c;
-_c = c, b = _objectWithoutProperties(_c.x, ["a"]), ({ x: { a  } = d  } = _c), _c;
+_c = c, b = _objectWithoutProperties(_c.x, [
+    "a"
+]), ({ x: { a  } = d  } = _c), _c;

@@ -4,24 +4,24 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 var // enums assignable to number, any, Object, errors unless otherwise noted
-E;
+E1;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {
+})(E1 || (E1 = {
 }));
-var F;
+var F1;
 (function(F) {
     F[F["B"] = 0] = "B";
-})(F || (F = {
+})(F1 || (F1 = {
 }));
-var e = E.A;
-var f = F.B;
+var e = E1.A;
+var f = F1.B;
 e = f;
 f = e;
 e = 1; // ok
 f = 1; // ok
-var x = e; // ok
-x = f; // ok
+var x1 = e; // ok
+x1 = f; // ok
 var Others;
 (function(Others) {
     var foo = function foo(x, y, z) {

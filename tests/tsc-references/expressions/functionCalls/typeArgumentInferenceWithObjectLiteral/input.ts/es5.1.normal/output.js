@@ -18,15 +18,15 @@ foo({
         return s;
     }
 });
-var E1;
+var E11;
 (function(E1) {
     E1[E1["X"] = 0] = "X";
-})(E1 || (E1 = {
+})(E11 || (E11 = {
 }));
-var E2;
+var E21;
 (function(E2) {
     E2[E2["X"] = 0] = "X";
-})(E2 || (E2 = {
+})(E21 || (E21 = {
 }));
 var v1;
 var v1 = f1({
@@ -44,13 +44,13 @@ var v1 = f1({
     r: function() {
         return 0;
     }
-}, E1.X);
+}, E11.X);
 var v1 = f1({
     w: function(x) {
         return x;
     },
     r: function() {
-        return E1.X;
+        return E11.X;
     }
 }, 0);
 var v2;
@@ -59,14 +59,14 @@ var v2 = f1({
         return x;
     },
     r: function() {
-        return E1.X;
+        return E11.X;
     }
-}, E1.X);
+}, E11.X);
 var v3 = f1({
     w: function(x) {
         return x;
     },
     r: function() {
-        return E1.X;
+        return E11.X;
     }
-}, E2.X); // Error
+}, E21.X); // Error

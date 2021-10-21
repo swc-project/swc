@@ -32,9 +32,9 @@ var _key, _key1, A = function() {
     ], _defineProperties((Constructor = A).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), A;
 }();
 _key = "computed", _key1 = "p";
-var B = function() {
+var B1 = function() {
     "use strict";
-    _classCallCheck(this, B);
+    _classCallCheck(this, B1);
 }, C = function(B) {
     "use strict";
     function C(ka) {
@@ -54,4 +54,4 @@ var B = function() {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(C, B), C;
-}(B);
+}(B1);

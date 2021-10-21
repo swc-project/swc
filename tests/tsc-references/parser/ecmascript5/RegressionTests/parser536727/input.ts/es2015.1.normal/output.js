@@ -3,9 +3,9 @@ function foo(f) {
 }
 var g = (x)=>x + "blah"
 ;
-var x = ()=>g
+var x1 = ()=>g
 ;
 foo(g);
 foo(()=>g
 );
-foo(x);
+foo(x1);

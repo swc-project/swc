@@ -53,5 +53,5 @@ var Base = function() {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(Derived, Base), Derived;
-}(Base), obj = new Derived();
-console.log(obj.x); // 2
+}(Base), obj1 = new Derived();
+console.log(obj1.x); // 2

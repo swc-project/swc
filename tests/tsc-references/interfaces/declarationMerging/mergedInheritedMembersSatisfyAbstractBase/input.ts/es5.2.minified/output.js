@@ -29,16 +29,16 @@ function _setPrototypeOf(o, p) {
 }
 var _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, BaseClass = function() {
+}, BaseClass1 = function() {
     "use strict";
-    _classCallCheck(this, BaseClass);
+    _classCallCheck(this, BaseClass1);
 }, Broken = function(BaseClass) {
     "use strict";
     function Broken() {
         return _classCallCheck(this, Broken), _possibleConstructorReturn(this, _getPrototypeOf(Broken).apply(this, arguments));
     }
     return _inherits(Broken, BaseClass), Broken;
-}(BaseClass);
+}(BaseClass1);
 new Broken().bar;
 var IncorrectlyExtends = function(BaseClass) {
     "use strict";
@@ -46,4 +46,4 @@ var IncorrectlyExtends = function(BaseClass) {
         return _classCallCheck(this, IncorrectlyExtends), _possibleConstructorReturn(this, _getPrototypeOf(IncorrectlyExtends).apply(this, arguments));
     }
     return _inherits(IncorrectlyExtends, BaseClass), IncorrectlyExtends;
-}(BaseClass);
+}(BaseClass1);

@@ -1,6 +1,6 @@
-class A {
+class A1 {
 }
-class B extends A {
+class B extends A1 {
 }
 var Generics;
 (function(Generics) {

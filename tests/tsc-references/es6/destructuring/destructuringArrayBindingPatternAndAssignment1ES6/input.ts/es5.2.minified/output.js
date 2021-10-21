@@ -25,8 +25,8 @@ function _slicedToArray(arr, i) {
     })(arr, i) || _nonIterableRest();
 }
 var _undefined = _slicedToArray(void 0, 2);
-_undefined[0], _undefined[1], void 0 !== tmp1, void 0 === tmp2;
-var _undefined1 = _slicedToArray(void 0, 2), tmp1 = _undefined1[0], tmp2 = _undefined1[1];
+_undefined[0], _undefined[1], void 0 !== tmp, void 0 === tmp1;
+var _undefined1 = _slicedToArray(void 0, 2), tmp = _undefined1[0], tmp1 = _undefined1[1];
 function foo() {
     return [
         1,

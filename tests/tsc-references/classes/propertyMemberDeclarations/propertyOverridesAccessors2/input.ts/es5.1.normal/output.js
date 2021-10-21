@@ -90,5 +90,5 @@ var Derived = /*#__PURE__*/ function(Base) {
     }
     return Derived;
 }(Base);
-var obj = new Derived(); // prints 'x was set to 1'
-console.log(obj.x); // 2
+var obj1 = new Derived(); // prints 'x was set to 1'
+console.log(obj1.x); // 2

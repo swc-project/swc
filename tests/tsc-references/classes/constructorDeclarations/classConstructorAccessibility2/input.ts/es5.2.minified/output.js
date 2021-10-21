@@ -38,59 +38,59 @@ function _setPrototypeOf(o, p) {
 }
 var _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, BaseA1 = function() {
+}, BaseA = function() {
     "use strict";
-    function BaseA1(x) {
-        _classCallCheck(this, BaseA1), this.x = x;
+    function BaseA(x) {
+        _classCallCheck(this, BaseA), this.x = x;
     }
-    return _createClass(BaseA1, [
+    return _createClass(BaseA, [
         {
             key: "createInstance",
             value: function() {
-                new BaseA1(1);
+                new BaseA(1);
             }
         }
-    ]), BaseA1;
-}(), BaseB1 = function() {
+    ]), BaseA;
+}(), BaseB = function() {
     "use strict";
-    function BaseB1(x) {
-        _classCallCheck(this, BaseB1), this.x = x;
+    function BaseB(x) {
+        _classCallCheck(this, BaseB), this.x = x;
     }
-    return _createClass(BaseB1, [
+    return _createClass(BaseB, [
         {
             key: "createInstance",
             value: function() {
-                new BaseB1(2);
+                new BaseB(2);
             }
         }
-    ]), BaseB1;
-}(), BaseC1 = function() {
+    ]), BaseB;
+}(), BaseC = function() {
     "use strict";
-    function BaseC1(x) {
-        _classCallCheck(this, BaseC1), this.x = x;
+    function BaseC(x) {
+        _classCallCheck(this, BaseC), this.x = x;
     }
-    return _createClass(BaseC1, [
+    return _createClass(BaseC, [
         {
             key: "createInstance",
             value: function() {
-                new BaseC1(3);
+                new BaseC(3);
             }
         }
     ], [
         {
             key: "staticInstance",
             value: function() {
-                new BaseC1(4);
+                new BaseC(4);
             }
         }
-    ]), BaseC1;
-}(), DerivedA = function(BaseA) {
+    ]), BaseC;
+}(), DerivedA = function(BaseA1) {
     "use strict";
     function DerivedA(x) {
         var _this;
         return _classCallCheck(this, DerivedA), (_this = _possibleConstructorReturn(this, _getPrototypeOf(DerivedA).call(this, x))).x = x, _this;
     }
-    return _inherits(DerivedA, BaseA), _createClass(DerivedA, [
+    return _inherits(DerivedA, BaseA1), _createClass(DerivedA, [
         {
             key: "createInstance",
             value: function() {
@@ -100,24 +100,24 @@ var _typeof = function(obj) {
         {
             key: "createBaseInstance",
             value: function() {
-                new BaseA1(6);
+                new BaseA(6);
             }
         }
     ], [
         {
             key: "staticBaseInstance",
             value: function() {
-                new BaseA1(7);
+                new BaseA(7);
             }
         }
     ]), DerivedA;
-}(BaseA1), DerivedB = function(BaseB) {
+}(BaseA), DerivedB = function(BaseB1) {
     "use strict";
     function DerivedB(x) {
         var _this;
         return _classCallCheck(this, DerivedB), (_this = _possibleConstructorReturn(this, _getPrototypeOf(DerivedB).call(this, x))).x = x, _this;
     }
-    return _inherits(DerivedB, BaseB), _createClass(DerivedB, [
+    return _inherits(DerivedB, BaseB1), _createClass(DerivedB, [
         {
             key: "createInstance",
             value: function() {
@@ -127,24 +127,24 @@ var _typeof = function(obj) {
         {
             key: "createBaseInstance",
             value: function() {
-                new BaseB1(8);
+                new BaseB(8);
             }
         }
     ], [
         {
             key: "staticBaseInstance",
             value: function() {
-                new BaseB1(9);
+                new BaseB(9);
             }
         }
     ]), DerivedB;
-}(BaseB1), DerivedC = function(BaseC) {
+}(BaseB), DerivedC = function(BaseC1) {
     "use strict";
     function DerivedC(x) {
         var _this;
         return _classCallCheck(this, DerivedC), (_this = _possibleConstructorReturn(this, _getPrototypeOf(DerivedC).call(this, x))).x = x, _this;
     }
-    return _inherits(DerivedC, BaseC), _createClass(DerivedC, [
+    return _inherits(DerivedC, BaseC1), _createClass(DerivedC, [
         {
             key: "createInstance",
             value: function() {
@@ -154,16 +154,16 @@ var _typeof = function(obj) {
         {
             key: "createBaseInstance",
             value: function() {
-                new BaseC1(10);
+                new BaseC(10);
             }
         }
     ], [
         {
             key: "staticBaseInstance",
             value: function() {
-                new BaseC1(11);
+                new BaseC(11);
             }
         }
     ]), DerivedC;
-}(BaseC1);
-new BaseA1(1), new BaseB1(1), new BaseC1(1), new DerivedA(1), new DerivedB(1), new DerivedC(1);
+}(BaseC);
+new BaseA(1), new BaseB(1), new BaseC(1), new DerivedA(1), new DerivedB(1), new DerivedC(1);

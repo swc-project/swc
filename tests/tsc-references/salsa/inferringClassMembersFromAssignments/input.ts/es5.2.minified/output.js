@@ -4,7 +4,7 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-var _this = this, C = function() {
+var _this1 = this, C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C() {
@@ -56,7 +56,7 @@ var _this = this, C = function() {
     ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }();
 C.prop = function() {
-    Math.random() ? _this.inStaticPropertyDeclaration = 0 : _this.inStaticPropertyDeclaration = "string";
+    Math.random() ? _this1.inStaticPropertyDeclaration = 0 : _this1.inStaticPropertyDeclaration = "string";
 };
 var c = new C();
 c.inConstructor, c.inMethod, c.inGetter, c.inSetter, c.inPropertyDeclaration, c.inNestedArrowFunction, c.inMultiple, c.inMultipleMethods, c.inMethodNullable, C.inStaticMethod, C.inStaticGetter, C.inStaticSetter, C.inStaticPropertyDeclaration, C.inStaticNestedArrowFunction;

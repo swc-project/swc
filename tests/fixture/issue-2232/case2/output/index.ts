@@ -67,7 +67,10 @@ var resolver = {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
                         var ref1, ref2;
-                        ref1 = _param, ref = ref1.input, toNumber = ref.toNumber, messageBody = ref.messageBody, ref, ref1, all = _objectWithoutProperties(_param.input, ["toNumber", "messageBody"]), ref2 = _param1, dataSources = ref2.dataSources, ref2;
+                        ref1 = _param, ref = ref1.input, toNumber = ref.toNumber, messageBody = ref.messageBody, ref, ref1, all = _objectWithoutProperties(_param.input, [
+                            "toNumber",
+                            "messageBody"
+                        ]), ref2 = _param1, dataSources = ref2.dataSources, ref2;
                     case 1:
                     case "end":
                         return _ctx.stop();

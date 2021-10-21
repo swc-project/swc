@@ -35,16 +35,16 @@ var C = /*#__PURE__*/ function() {
     return C;
 }();
 var r = new C().f();
-var i;
-var r2 = i.foo.notHere();
-var r2b = i.foo['notHere']();
-var a;
-var r3 = a().notHere();
-var r3b = a()['notHere']();
+var i1;
+var r2 = i1.foo.notHere();
+var r2b = i1.foo['notHere']();
+var a1;
+var r3 = a1().notHere();
+var r3b = a1()['notHere']();
 var b = {
     foo: function(x) {
-        var a1 = x['notHere'](); // should be string
-        return a1 + x.notHere();
+        var a = x['notHere'](); // should be string
+        return a + x.notHere();
     },
     bar: b.foo().notHere()
 };

@@ -133,14 +133,14 @@ function isFailure(result) {
 function increment(x) {
     return x + 1;
 }
-let result = doWork();
-if (isSuccess(result)) {
-    increment(result);
+let result1 = doWork();
+if (isSuccess(result1)) {
+    increment(result1);
 }
 function onMouseOver() {
     return "onmouseover";
 }
-let x = onMouseOver();
+let x1 = onMouseOver();
 // Repro from #23649
 export function Set(...keys) {
     const result = {
@@ -149,27 +149,30 @@ export function Set(...keys) {
     );
     return result;
 }
-export function keys(obj) {
+function keys1(obj) {
     return Object.keys(obj);
 }
+export { keys1 as keys };
 const langCodeSet = Set('fr', 'en', 'es', 'it', 'nl');
-export const langCodes = keys(langCodeSet);
+export const langCodes = keys1(langCodeSet);
 const arr = langCodes.map((code)=>({
         code
     })
 );
 // Repro from #29081
 function test(obj) {
-    let { a  } = obj, rest = _objectWithoutProperties(obj, ["a"]);
+    let { a  } = obj, rest = _objectWithoutProperties(obj, [
+        "a"
+    ]);
     return _objectSpread({
         a: 'hello'
     }, rest);
 }
-var E;
+var E1;
 (function(E) {
     E[E["A"] = 0] = "A";
     E[E["B"] = 1] = "B";
-})(E || (E = {
+})(E1 || (E1 = {
 }));
-const a = f(E.A);
+const a = f(E1.A);
 const b = a;

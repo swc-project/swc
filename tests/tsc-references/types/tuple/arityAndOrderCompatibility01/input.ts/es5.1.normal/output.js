@@ -34,7 +34,7 @@ var y;
 var z;
 var _x = _slicedToArray(x, 3), a = _x[0], b = _x[1], c = _x[2];
 var _y = _slicedToArray(y, 3), d = _y[0], e = _y[1], f = _y[2];
-var _z = _slicedToArray(z, 3), g = _z[0], h = _z[1], i = _z[2];
+var _z = _slicedToArray(z, 3), g = _z[0], h = _z[1], i1 = _z[2];
 var j1 = x;
 var j2 = y;
 var j3 = z;

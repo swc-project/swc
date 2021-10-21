@@ -11,9 +11,9 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var x, StringTreeCollectionBase = function() {
+var x, StringTreeCollectionBase1 = function() {
     "use strict";
-    _classCallCheck(this, StringTreeCollectionBase);
+    _classCallCheck(this, StringTreeCollectionBase1);
 }, StringTreeCollection = function(StringTreeCollectionBase) {
     "use strict";
     function StringTreeCollection() {
@@ -33,5 +33,5 @@ var x, StringTreeCollectionBase = function() {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(StringTreeCollection, StringTreeCollectionBase), StringTreeCollection;
-}(StringTreeCollectionBase);
+}(StringTreeCollectionBase1);
 "string" != typeof x && (x[0] = "", x[0] = new StringTreeCollection);

@@ -25,17 +25,17 @@ var r3ii = foo(function(x) {
 }, function(x) {
     return 1;
 }); // number => number
-var a;
-var b;
+var a1;
+var b1;
 var r4 = foo(function(x) {
-    return a;
+    return a1;
 }, function(x) {
-    return b;
+    return b1;
 }); // typeof a => typeof a
 var r5 = foo(function(x) {
-    return b;
+    return b1;
 }, function(x) {
-    return a;
+    return a1;
 }); // typeof b => typeof b
 function other(x) {
     var r6 = foo(function(a) {

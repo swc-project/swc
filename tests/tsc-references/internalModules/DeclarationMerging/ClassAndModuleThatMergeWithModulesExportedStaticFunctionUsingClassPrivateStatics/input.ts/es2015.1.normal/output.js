@@ -1,12 +1,12 @@
-class clodule1 {
+class clodule {
     static sfn(id) {
         return 42;
     }
 }
-(function(clodule) {
+(function(clodule1) {
     function fn(x, y) {
-        return clodule1.sfn('a');
+        return clodule.sfn('a');
     }
-    clodule.fn = fn;
-})(clodule1 || (clodule1 = {
+    clodule1.fn = fn;
+})(clodule || (clodule = {
 }));

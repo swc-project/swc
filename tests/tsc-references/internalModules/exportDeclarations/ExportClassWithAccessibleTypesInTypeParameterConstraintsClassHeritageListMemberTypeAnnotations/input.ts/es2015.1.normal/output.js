@@ -1,4 +1,4 @@
-var A;
+var A1;
 (function(A) {
     class Point {
     }
@@ -22,5 +22,5 @@ var A;
         }
     }
     A.Line = Line;
-})(A || (A = {
+})(A1 || (A1 = {
 }));

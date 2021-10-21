@@ -37,9 +37,9 @@ var Foo = /*#__PURE__*/ function() {
     ]);
     return Foo;
 }();
-var i;
-var r1 = i.x;
-var r2 = i.y();
-var r3 = i.Z;
-var f = i;
-i = f;
+var i1;
+var r1 = i1.x;
+var r2 = i1.y();
+var r3 = i1.Z;
+var f = i1;
+i1 = f;

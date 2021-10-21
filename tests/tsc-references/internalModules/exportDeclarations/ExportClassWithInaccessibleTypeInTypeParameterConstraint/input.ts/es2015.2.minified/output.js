@@ -1,4 +1,4 @@
-var A;
+var A1;
 !function(A) {
     class Point {
     }
@@ -18,5 +18,5 @@ var A;
             this.start = start, this.end = end;
         }
     };
-}(A || (A = {
+}(A1 || (A1 = {
 }));

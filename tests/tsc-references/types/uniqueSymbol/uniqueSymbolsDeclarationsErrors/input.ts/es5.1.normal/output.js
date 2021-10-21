@@ -17,8 +17,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-// not allowed when emitting declarations
-export var obj = {
+var obj1 = {
     method1: function(p) {
         return p;
     },
@@ -26,6 +25,8 @@ export var obj = {
         return p;
     }
 };
+// not allowed when emitting declarations
+export { obj1 as obj };
 export var classExpression = /*#__PURE__*/ function() {
     "use strict";
     function _class() {
@@ -75,7 +76,7 @@ export var ClassWithPrivateNamedMethods = /*#__PURE__*/ function() {
     ]);
     return ClassWithPrivateNamedMethods;
 }();
-var tmp3 = s, tmp4 = s, tmp5 = s, tmp6 = s;
+var tmp2 = s, tmp3 = s, tmp4 = s, tmp5 = s;
 export var ClassWithPrivateNamedAccessors = /*#__PURE__*/ function() {
     "use strict";
     function ClassWithPrivateNamedAccessors() {
@@ -83,25 +84,25 @@ export var ClassWithPrivateNamedAccessors = /*#__PURE__*/ function() {
     }
     _createClass(ClassWithPrivateNamedAccessors, [
         {
-            key: tmp3,
+            key: tmp2,
             get: function get() {
                 return undefined;
             }
         },
         {
-            key: tmp4,
+            key: tmp3,
             set: function set(v) {
             }
         }
     ], [
         {
-            key: tmp5,
+            key: tmp4,
             get: function get() {
                 return undefined;
             }
         },
         {
-            key: tmp6,
+            key: tmp5,
             set: function set(v) {
             }
         }

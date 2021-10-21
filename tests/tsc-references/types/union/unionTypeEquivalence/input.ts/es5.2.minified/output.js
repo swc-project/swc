@@ -17,9 +17,9 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var C = function() {
+var C1 = function() {
     "use strict";
-    _classCallCheck(this, C);
+    _classCallCheck(this, C1);
 }, D = function(C) {
     "use strict";
     var Constructor, protoProps, staticProps;
@@ -46,4 +46,4 @@ var C = function() {
             }
         }
     ], _defineProperties((Constructor = D).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), D;
-}(C);
+}(C1);

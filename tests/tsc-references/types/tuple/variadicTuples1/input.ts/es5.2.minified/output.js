@@ -14,22 +14,22 @@ function concat(t, u) {
     return _toConsumableArray(t).concat(_toConsumableArray(u));
 }
 function curry(f) {
-    for(var _len = arguments.length, a = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)a[_key - 1] = arguments[_key];
+    for(var _len1 = arguments.length, a = new Array(_len1 > 1 ? _len1 - 1 : 0), _key1 = 1; _key1 < _len1; _key1++)a[_key1 - 1] = arguments[_key1];
     return function() {
-        for(var _len1 = arguments.length, b = new Array(_len1), _key1 = 0; _key1 < _len1; _key1++)b[_key1] = arguments[_key1];
+        for(var _len = arguments.length, b = new Array(_len), _key = 0; _key < _len; _key++)b[_key] = arguments[_key];
         return f.apply(void 0, _toConsumableArray(a).concat(_toConsumableArray(b)));
     };
 }
-t = [
+t1 = [
     "hello"
-], u1 = [
+], u2 = [
     10,
     !0
 ], [
     1
-].concat(_toConsumableArray(t), [
+].concat(_toConsumableArray(t1), [
     2
-], _toConsumableArray(u1), [
+], _toConsumableArray(u2), [
     3
 ]), concat([], []), concat([
     "hello"
@@ -43,7 +43,7 @@ t = [
     1,
     2,
     3
-]), u2 = [
+]), u1 = [
     4,
     5,
     6
@@ -51,7 +51,7 @@ t = [
     1,
     2,
     3
-]).concat(_toConsumableArray(u2)), ft1([
+]).concat(_toConsumableArray(u1)), ft1([
     "hello",
     42
 ]), ft2([
@@ -77,7 +77,7 @@ t = [
         "def"
     ]
 ]);
-var t, u1, u2, fn1 = function(a, b, c, d) {
+var t1, u2, u1, fn1 = function(a, b, c, d) {
     return 0;
 };
 curry(fn1), curry(fn1, 1), curry(fn1, 1, "abc"), curry(fn1, 1, "abc", !0), curry(fn1, 1, "abc", !0, [
@@ -147,7 +147,9 @@ curry(fn3), curry(fn3, "abc", "def"), curry.apply(void 0, [
     42
 ]), call("hello", 32, function(a, b) {
     return 42;
-}), call.apply(void 0, _toConsumableArray(sa).concat([function() {
+}), call.apply(void 0, _toConsumableArray(sa).concat([
+    function() {
         for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];
         return 42;
-    }])), a.bind("", 1), callApi(getUser), callApi(getOrgUser);
+    }
+])), a.bind("", 1), callApi(getUser), callApi(getOrgUser);

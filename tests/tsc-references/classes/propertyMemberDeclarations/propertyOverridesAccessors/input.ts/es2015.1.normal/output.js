@@ -24,8 +24,8 @@ class C {
     }
 }
 class D extends C {
-    constructor(...args){
-        super(...args);
+    constructor(...args1){
+        super(...args1);
         this.p // error
          = 101;
     }

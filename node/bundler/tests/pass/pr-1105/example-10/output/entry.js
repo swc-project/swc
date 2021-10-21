@@ -1,8 +1,8 @@
-function a3(...d) {
+function a(...d) {
     return d.join(" ");
 }
 const mod = {
-    a: a3
+    a: a
 };
 function a1(...d) {
     return d.join("/");

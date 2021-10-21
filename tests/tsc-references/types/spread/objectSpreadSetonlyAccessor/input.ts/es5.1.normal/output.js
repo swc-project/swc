@@ -38,6 +38,6 @@ var o1 = _objectSpread({
 var o2 = _objectSpread({
     foo: 1
 }, {
-    set foo (_v1){
+    set foo (_v){
     }
 });

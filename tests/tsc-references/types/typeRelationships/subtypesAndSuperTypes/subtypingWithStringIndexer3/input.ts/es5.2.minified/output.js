@@ -29,56 +29,56 @@ function _setPrototypeOf(o, p) {
 }
 var Generics, _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, A = function() {
+}, A1 = function() {
     "use strict";
-    _classCallCheck(this, A);
+    _classCallCheck(this, A1);
 }, B = function(A) {
     "use strict";
     function B() {
         return _classCallCheck(this, B), _possibleConstructorReturn(this, _getPrototypeOf(B).apply(this, arguments));
     }
     return _inherits(B, A), B;
-}(A), B2 = function(A) {
+}(A1), B2 = function(A) {
     "use strict";
     function B2() {
         return _classCallCheck(this, B2), _possibleConstructorReturn(this, _getPrototypeOf(B2).apply(this, arguments));
     }
     return _inherits(B2, A), B2;
-}(A);
+}(A1);
 !function(Generics) {
-    var A1 = function() {
+    var A2 = function() {
         "use strict";
-        _classCallCheck(this, A1);
+        _classCallCheck(this, A2);
     }, B = function(A) {
         "use strict";
         function B() {
             return _classCallCheck(this, B), _possibleConstructorReturn(this, _getPrototypeOf(B).apply(this, arguments));
         }
         return _inherits(B, A), B;
-    }(A1), B2 = function(A) {
+    }(A2), B2 = function(A) {
         "use strict";
         function B2() {
             return _classCallCheck(this, B2), _possibleConstructorReturn(this, _getPrototypeOf(B2).apply(this, arguments));
         }
         return _inherits(B2, A), B2;
-    }(A1), B3 = function(A) {
+    }(A2), B3 = function(A) {
         "use strict";
         function B3() {
             return _classCallCheck(this, B3), _possibleConstructorReturn(this, _getPrototypeOf(B3).apply(this, arguments));
         }
         return _inherits(B3, A), B3;
-    }(A1), B4 = function(A) {
+    }(A2), B4 = function(A) {
         "use strict";
         function B4() {
             return _classCallCheck(this, B4), _possibleConstructorReturn(this, _getPrototypeOf(B4).apply(this, arguments));
         }
         return _inherits(B4, A), B4;
-    }(A1), B5 = function(A) {
+    }(A2), B5 = function(A) {
         "use strict";
         function B5() {
             return _classCallCheck(this, B5), _possibleConstructorReturn(this, _getPrototypeOf(B5).apply(this, arguments));
         }
         return _inherits(B5, A), B5;
-    }(A1);
+    }(A2);
 }(Generics || (Generics = {
 }));

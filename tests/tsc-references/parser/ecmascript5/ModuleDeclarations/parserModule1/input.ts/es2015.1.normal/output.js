@@ -1,4 +1,5 @@
-export var CompilerDiagnostics;
+var CompilerDiagnostics1;
+export { CompilerDiagnostics1 as CompilerDiagnostics };
 (function(CompilerDiagnostics) {
     CompilerDiagnostics.debug = false;
     CompilerDiagnostics.diagnosticWriter = null;
@@ -23,5 +24,5 @@ export var CompilerDiagnostics;
         }
     }
     CompilerDiagnostics.assert = assert;
-})(CompilerDiagnostics || (CompilerDiagnostics = {
+})(CompilerDiagnostics1 || (CompilerDiagnostics1 = {
 }));

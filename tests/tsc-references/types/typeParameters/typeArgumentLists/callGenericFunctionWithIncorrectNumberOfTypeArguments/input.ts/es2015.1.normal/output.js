@@ -24,7 +24,7 @@ var i;
 var r5 = i.f(1, '');
 var r5b = i.f(1, '');
 class C2 {
-    f(x, y) {
+    f(x1, y1) {
         return null;
     }
 }

@@ -47,11 +47,11 @@ var C = /*#__PURE__*/ function() {
 var c;
 c.foo();
 c.foo(1);
-var i;
-i();
-i(1);
-i.foo(1);
-i.foo(1, 2);
+var i1;
+i1();
+i1(1);
+i1.foo(1);
+i1.foo(1, 2);
 var a;
 a();
 a(1);

@@ -62,7 +62,7 @@ var AbstractBase = function AbstractBase() {
     "use strict";
     _classCallCheck(this, AbstractBase);
 };
-function Mixin2(baseClass) {
+function Mixin2(baseClass1) {
     var MixinClass = // must be `abstract` because we cannot know *all* of the possible abstract members that need to be
     // implemented for this to be concrete.
     /*#__PURE__*/ function(baseClass) {
@@ -86,7 +86,7 @@ function Mixin2(baseClass) {
             }
         ]);
         return MixinClass;
-    }(baseClass);
+    }(baseClass1);
     return MixinClass;
 }
 var DerivedFromAbstract2 = /*#__PURE__*/ function(_super) {

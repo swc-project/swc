@@ -13,11 +13,11 @@ function _extends() {
     return _extends.apply(this, arguments);
 }
 //@filename: react-consumer.tsx
-var M;
+var M1;
 (function(M) {
     var React;
     M.React = React;
-})(M || (M = {
+})(M1 || (M1 = {
 }));
 (function(M) {
     // Should emit M.React.createElement
@@ -30,5 +30,5 @@ var M;
     }));
     // Quotes
     var x = /*#__PURE__*/ React.createElement("div", null, "This \"quote\" thing");
-})(M || (M = {
+})(M1 || (M1 = {
 }));

@@ -10,34 +10,34 @@ function A() {
     this.unknowable = undefined;
     this.empty = [];
 }
-var a = new A();
-a.unknown = 1;
-a.unknown = true;
-a.unknown = {
+var a1 = new A();
+a1.unknown = 1;
+a1.unknown = true;
+a1.unknown = {
 };
-a.unknown = 'hi';
-a.unknowable = 1;
-a.unknowable = true;
-a.unknowable = {
+a1.unknown = 'hi';
+a1.unknowable = 1;
+a1.unknowable = true;
+a1.unknowable = {
 };
-a.unknowable = 'hi';
-a.empty.push(1);
-a.empty.push(true);
-a.empty.push({
+a1.unknowable = 'hi';
+a1.empty.push(1);
+a1.empty.push(true);
+a1.empty.push({
 });
-a.empty.push('hi');
+a1.empty.push('hi');
 /** @type {number | undefined} */ var n;
 // should get any on parameter initialisers
 function f(param, param1, param2) {
-    var a1 = param === void 0 ? null : param, b = param1 === void 0 ? n : param1, l = param2 === void 0 ? [] : param2;
+    var a = param === void 0 ? null : param, b = param1 === void 0 ? n : param1, l = param2 === void 0 ? [] : param2;
     // a should be any
-    a1 = undefined;
-    a1 = null;
-    a1 = 1;
-    a1 = true;
-    a1 = {
+    a = undefined;
+    a = null;
+    a = 1;
+    a = true;
+    a = {
     };
-    a1 = 'ok';
+    a = 'ok';
     // b should be number | undefined, not any
     b = 1;
     b = undefined;
@@ -48,11 +48,11 @@ function f(param, param1, param2) {
 }
 // should get any on variable initialisers
 var u = undefined;
-var l = [];
+var l1 = [];
 u = undefined;
 u = 1;
 u = true;
 u = {
 };
 u = 'ok';
-l.push('ok');
+l1.push('ok');

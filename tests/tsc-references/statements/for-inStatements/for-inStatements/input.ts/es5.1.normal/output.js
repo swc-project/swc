@@ -89,12 +89,12 @@ var anAny;
 for(anAny in {
 }){
 }
-for(var x in {
+for(var x1 in {
 }){
 }
-for(var x in []){
+for(var x1 in []){
 }
-for(var x in [
+for(var x1 in [
     1,
     2,
     3,
@@ -104,30 +104,30 @@ for(var x in [
 }
 function fn() {
 }
-for(var x in fn()){
+for(var x1 in fn()){
 }
-for(var x in /[a-z]/){
+for(var x1 in /[a-z]/){
 }
-for(var x in new Date()){
+for(var x1 in new Date()){
 }
 var c, d, e;
-for(var x in c || d){
+for(var x1 in c || d){
 }
-for(var x in e ? c : d){
+for(var x1 in e ? c : d){
 }
-for(var x in 42 ? c : d){
+for(var x1 in 42 ? c : d){
 }
-for(var x in '' ? c : d){
+for(var x1 in '' ? c : d){
 }
-for(var x in 42 ? d[x] : c[x]){
+for(var x1 in 42 ? d[x1] : c[x1]){
 }
-for(var x in c[d]){
+for(var x1 in c[d]){
 }
-for(var x in function(x) {
+for(var x1 in function(x) {
     return x;
 }){
 }
-for(var x in function(x, y) {
+for(var x1 in function(x, y) {
     return x + y;
 }){
 }
@@ -192,29 +192,29 @@ var B = /*#__PURE__*/ function(A) {
     ]);
     return B;
 }(A);
-var i;
-for(var x in i[42]){
+var i1;
+for(var x1 in i1[42]){
 }
-var M;
+var M1;
 (function(M) {
     var X = function X() {
         "use strict";
         _classCallCheck(this, X);
     };
     M.X = X;
-})(M || (M = {
+})(M1 || (M1 = {
 }));
-for(var x in M){
+for(var x1 in M1){
 }
-for(var x in M.X){
+for(var x1 in M1.X){
 }
-var Color;
+var Color1;
 (function(Color) {
     Color[Color["Red"] = 0] = "Red";
     Color[Color["Blue"] = 1] = "Blue";
-})(Color || (Color = {
+})(Color1 || (Color1 = {
 }));
-for(var x in Color){
+for(var x1 in Color1){
 }
-for(var x in Color.Blue){
+for(var x1 in Color1.Blue){
 }

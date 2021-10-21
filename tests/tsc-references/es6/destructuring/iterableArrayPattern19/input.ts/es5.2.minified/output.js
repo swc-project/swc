@@ -38,9 +38,9 @@ function _slicedToArray(arr, i) {
         throw new TypeError("Invalid attempt to destructure non-iterable instance");
     })();
 }
-var Bar = function() {
+var Bar1 = function() {
     "use strict";
-    _classCallCheck(this, Bar);
+    _classCallCheck(this, Bar1);
 }, Foo = function(Bar) {
     "use strict";
     function Foo() {
@@ -60,7 +60,7 @@ var Bar = function() {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(Foo, Bar), Foo;
-}(Bar), tmp = Symbol.iterator, FooArrayIterator = function() {
+}(Bar1), tmp = Symbol.iterator, FooArrayIterator = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function FooArrayIterator() {

@@ -4,27 +4,27 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-var clodule1 = function() {
+var clodule = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
-    function clodule1() {
+    function clodule() {
         !function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, clodule1);
+        }(this, clodule);
     }
-    return Constructor = clodule1, protoProps = null, staticProps = [
+    return Constructor = clodule, protoProps = null, staticProps = [
         {
             key: "sfn",
             value: function(id) {
                 return 42;
             }
         }
-    ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), clodule1;
+    ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), clodule;
 }();
-!function(clodule) {
+!function(clodule1) {
     var fn = function(x, y) {
-        return clodule1.sfn("a");
+        return clodule.sfn("a");
     };
-    clodule.fn = fn;
-}(clodule1 || (clodule1 = {
+    clodule1.fn = fn;
+}(clodule || (clodule = {
 }));

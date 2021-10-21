@@ -13,11 +13,11 @@ class A {
         return 1;
     }
 }
-var M;
+var M1;
 (function(M) {
     var n;
     M.n = n;
-})(M || (M = {
+})(M1 || (M1 = {
 }));
 var objA = new A();
 // number type var
@@ -37,7 +37,7 @@ var ResultIsNumber5 = ~{
 };
 // number type expressions
 var ResultIsNumber6 = ~objA.a;
-var ResultIsNumber7 = ~M.n;
+var ResultIsNumber7 = ~M1.n;
 var ResultIsNumber8 = ~NUMBER1[0];
 var ResultIsNumber9 = ~foo();
 var ResultIsNumber10 = ~A.foo();
@@ -50,5 +50,5 @@ var ResultIsNumber13 = ~~~(NUMBER + NUMBER);
 ~NUMBER1;
 ~foo();
 ~objA.a;
-~M.n;
-~objA.a, M.n;
+~M1.n;
+~objA.a, M1.n;

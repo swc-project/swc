@@ -98,7 +98,7 @@ fn issue_1279_1() {
             static g = Foo.f;
         }",
         "
-        let Foo1 = class Foo {
+        let Foo = class Foo {
             static f = 1;
             static g = Foo.f;
         };
@@ -125,11 +125,11 @@ fn issue_1279_2() {
             }
         }",
         "
-        let Foo1 = class Foo {
+        let Foo = class Foo {
             static f = 1;
             static g = Foo.f;
             method() {
-                let Foo2 = class Foo {
+                let Foo = class Foo {
                     static nested = 1;
                     static nested2 = Foo.nested;
                 };

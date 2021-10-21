@@ -29,9 +29,9 @@ function _setPrototypeOf(o, p) {
 }
 var _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, Base = function(x) {
+}, Base1 = function(x) {
     "use strict";
-    _classCallCheck(this, Base), this.a = 1, this.a = x;
+    _classCallCheck(this, Base1), this.a = 1, this.a = x;
 }, Derived = function(Base) {
     "use strict";
     function Derived() {
@@ -39,11 +39,11 @@ var _typeof = function(obj) {
         return _classCallCheck(this, Derived), _this = _possibleConstructorReturn(this, _getPrototypeOf(Derived).apply(this, arguments)), _this.x = 1, _this.y = "hello", _this;
     }
     return _inherits(Derived, Base), Derived;
-}(Base);
+}(Base1);
 new Derived(), new Derived(1), new Derived(1, 2), new Derived(1, 2, 3);
-var Base2 = function(x) {
+var Base21 = function(x) {
     "use strict";
-    _classCallCheck(this, Base2), this.a = x;
+    _classCallCheck(this, Base21), this.a = x;
 }, D = function(Base2) {
     "use strict";
     function D() {
@@ -51,5 +51,5 @@ var Base2 = function(x) {
         return _classCallCheck(this, D), _this = _possibleConstructorReturn(this, _getPrototypeOf(D).apply(this, arguments)), _this.x = 2, _this.y = null, _this;
     }
     return _inherits(D, Base2), D;
-}(Base2);
+}(Base21);
 new D(), new D(new Date()), new D(new Date(), new Date()), new D(new Date(), new Date(), new Date());

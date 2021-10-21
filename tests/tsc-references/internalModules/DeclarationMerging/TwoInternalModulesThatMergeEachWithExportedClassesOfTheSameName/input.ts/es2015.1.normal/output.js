@@ -1,30 +1,30 @@
-var A;
+var A1;
 (function(A) {
     class Point {
     }
     A.Point = Point;
-})(A || (A = {
+})(A1 || (A1 = {
 }));
 (function(A) {
     class Point {
     }
     A.Point = Point;
-})(A || (A = {
+})(A1 || (A1 = {
 }));
-var X;
+var X1;
 (function(X) {
-    var Y;
+    var Y1;
     (function(Y) {
-        var Z;
+        var Z1;
         (function(Z) {
             class Line {
             }
             Z.Line = Line;
-        })(Z || (Z = {
+        })(Z1 || (Z1 = {
         }));
-        Y.Z = Z;
-    })(Y || (Y = {
+        Y.Z = Z1;
+    })(Y1 || (Y1 = {
     }));
-    X.Y = Y;
-})(X || (X = {
+    X.Y = Y1;
+})(X1 || (X1 = {
 }));

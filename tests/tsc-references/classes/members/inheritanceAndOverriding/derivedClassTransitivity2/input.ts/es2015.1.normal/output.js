@@ -4,11 +4,11 @@ class C {
     }
 }
 class D extends C {
-    foo(x) {
+    foo(x1) {
     }
 }
 class E extends D {
-    foo(x, y) {
+    foo(x2, y1) {
     }
 }
 var c;

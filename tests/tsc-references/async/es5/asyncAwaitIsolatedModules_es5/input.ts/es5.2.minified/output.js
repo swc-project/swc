@@ -40,8 +40,8 @@ function _f0() {
         }, _callee);
     }))).apply(this, arguments);
 }
-function _f1() {
-    return (_f1 = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+function _f11() {
+    return (_f11 = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -151,7 +151,7 @@ _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         }
     }, _callee);
 }));
-var M, C = function() {
+var M1, C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C() {
@@ -262,6 +262,6 @@ var M, C = function() {
     M.f1 = function() {
         return _f1.apply(this, arguments);
     };
-}(M || (M = {
+}(M1 || (M1 = {
 }));
 export { };

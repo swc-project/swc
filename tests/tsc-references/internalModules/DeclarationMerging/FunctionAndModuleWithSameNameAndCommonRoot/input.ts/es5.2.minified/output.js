@@ -1,4 +1,4 @@
-var A, B;
+var A, B1;
 (A || (A = {
 })).Point = function() {
     return {
@@ -22,5 +22,5 @@ var A, B;
         x: 0,
         y: 0
     };
-})(B || (B = {
-})), B.Point, B.Point(), B.Point.Origin;
+})(B1 || (B1 = {
+})), B1.Point, B1.Point(), B1.Point.Origin;

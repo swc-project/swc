@@ -17,7 +17,7 @@ class Derived extends Base {
     static get a() {
         return 1;
     }
-    static set a(v) {
+    static set a(v1) {
     }
 }
 var r = Base.x; // ok

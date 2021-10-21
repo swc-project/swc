@@ -8,7 +8,7 @@ function tup2(t, u) {
         3
     ];
 }
-const t2 = tup2([
+const t21 = tup2([
     'hello'
 ], [
     10,
@@ -287,7 +287,7 @@ function f23(args) {
         42
     ]); // [string]
 }
-const b = a.bind("", 1); // Desc<[boolean], object>
+const b1 = a.bind("", 1); // Desc<[boolean], object>
 function callApi(method) {
     return (...args)=>method(...args, {
         })

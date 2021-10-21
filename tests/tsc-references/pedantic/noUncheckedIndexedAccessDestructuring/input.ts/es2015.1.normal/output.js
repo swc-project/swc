@@ -63,7 +63,9 @@ t2.z.toString(); // Should error
     y.toFixed(); // Should OK
     z.toFixed(); // Should error
 }{
-    const { x  } = numMapPoint, q = _objectWithoutProperties(numMapPoint, ["x"]);
+    const { x  } = numMapPoint, q = _objectWithoutProperties(numMapPoint, [
+        "x"
+    ]);
     x.toFixed(); // Should OK
     q.y.toFixed(); // Should OK
     q.z.toFixed(); // Should error

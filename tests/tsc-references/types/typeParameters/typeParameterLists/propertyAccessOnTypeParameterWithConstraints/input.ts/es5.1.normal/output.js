@@ -37,16 +37,16 @@ var C = // generic types should behave as if they have properties of their const
     return C;
 }();
 var r = new C().f();
-var i;
-var r2 = i.foo.getDate();
-var r2b = i.foo['getDate']();
-var a;
-var r3 = a().getDate();
-var r3b = a()['getDate']();
+var i1;
+var r2 = i1.foo.getDate();
+var r2b = i1.foo['getDate']();
+var a1;
+var r3 = a1().getDate();
+var r3b = a1()['getDate']();
 var b = {
     foo: function(x) {
-        var a1 = x['getDate'](); // number
-        return a1 + x.getDate();
+        var a = x['getDate'](); // number
+        return a + x.getDate();
     }
 };
 var r4 = b.foo(new Date());

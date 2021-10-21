@@ -1,12 +1,12 @@
 function foo(arg) {
     return arg.cb(null);
 }
-var arg = {
+var arg1 = {
     cb: function(x) {
         return "";
     }
 };
-foo(arg), foo({
+foo(arg1), foo({
     cb: function(x, y) {
         return "";
     }
@@ -14,7 +14,7 @@ foo(arg), foo({
     cb: function(x, y) {
         return "";
     }
-}), foo(arg), foo({
+}), foo(arg1), foo({
     cb: function(x) {
         return "";
     }

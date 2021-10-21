@@ -52,9 +52,9 @@ var a;
 var b;
 a = b; // ok
 b = a; // error
-var b2;
-a = b2; // ok
-b2 = a; // error
+var b21;
+a = b21; // ok
+b21 = a; // error
 var Generics;
 (function(Generics) {
     var foo = function foo() {
@@ -66,9 +66,9 @@ var Generics;
         a3 = b4; // error
         b4 = a3; // error
     };
-    var A1 = function A1() {
+    var A = function A() {
         "use strict";
-        _classCallCheck(this, A1);
+        _classCallCheck(this, A);
     };
     var B = /*#__PURE__*/ function(A) {
         "use strict";
@@ -78,7 +78,7 @@ var Generics;
             return _possibleConstructorReturn(this, _getPrototypeOf(B).apply(this, arguments));
         }
         return B;
-    }(A1);
+    }(A);
     var b1;
     var a1;
     a1 = b1; // ok
@@ -91,9 +91,9 @@ var Generics;
             return _possibleConstructorReturn(this, _getPrototypeOf(B2).apply(this, arguments));
         }
         return B2;
-    }(A1);
-    var b21;
-    a1 = b21; // ok
-    b21 = a1; // error
+    }(A);
+    var b2;
+    a1 = b2; // ok
+    b2 = a1; // error
 })(Generics || (Generics = {
 }));

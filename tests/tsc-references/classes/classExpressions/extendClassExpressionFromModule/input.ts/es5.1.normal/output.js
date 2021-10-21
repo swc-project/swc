@@ -44,14 +44,14 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
-var x = function x() {
+var x1 = function x1() {
     "use strict";
-    _classCallCheck(this, x);
+    _classCallCheck(this, x1);
 };
-module.exports = x;
+module.exports = x1;
 // @Filename: foo2.ts
 var foo1 = require('./foo1');
-var x = foo1;
+var x1 = foo1;
 var y = /*#__PURE__*/ function(x) {
     "use strict";
     _inherits(y, x);
@@ -60,7 +60,7 @@ var y = /*#__PURE__*/ function(x) {
         return _possibleConstructorReturn(this, _getPrototypeOf(y).apply(this, arguments));
     }
     return y;
-}(x);
+}(x1);
 // @module: commonjs
 // @Filename: foo1.ts
 export { };

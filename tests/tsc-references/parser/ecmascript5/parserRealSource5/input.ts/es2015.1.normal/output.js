@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
-var TypeScript;
+var TypeScript1;
 (function(TypeScript) {
     class PrintContext {
         increaseIndent() {
@@ -27,8 +27,8 @@ var TypeScript;
         write(s) {
             this.builder += s;
         }
-        writeLine(s) {
-            this.builder += s;
+        writeLine(s1) {
+            this.builder += s1;
             this.outfile.WriteLine(this.builder);
             this.builder = "";
         }
@@ -55,5 +55,5 @@ var TypeScript;
         return ast;
     }
     TypeScript.postPrintAST = postPrintAST;
-})(TypeScript || (TypeScript = {
+})(TypeScript1 || (TypeScript1 = {
 }));

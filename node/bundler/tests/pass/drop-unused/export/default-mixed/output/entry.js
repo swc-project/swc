@@ -1,2 +1,2 @@
-const foo1 = 1;
-export { foo1 as foo };
+const foo = 1;
+export { foo as foo };

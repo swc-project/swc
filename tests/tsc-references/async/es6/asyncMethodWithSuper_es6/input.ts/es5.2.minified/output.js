@@ -233,39 +233,39 @@ var A = function() {
         {
             key: "advanced",
             value: function() {
-                var _instance, _instance1, _instance2, _instance3, _this = this, _this1 = this, _this2 = this, _this3 = this, _this4 = this, _this5 = this, _this6 = this, _this7 = this, _this8 = this, _this9 = this, _super_x = function() {
+                var _instance, _instance3, _instance4, _instance5, _this = this, _this5 = this, _this6 = this, _this7 = this, _this8 = this, _this9 = this, _this10 = this, _this11 = this, _this12 = this, _this13 = this, _super_x = function() {
                     for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
                     return (_instance = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance, [
                         _this
                     ].concat(_toConsumableArray(_args)));
                 }, _super_method = function() {
                     for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
-                    return (_instance1 = _get(_getPrototypeOf(B.prototype), "x", _this1)).call.apply(_instance1, [
-                        _this1
+                    return (_instance3 = _get(_getPrototypeOf(B.prototype), "x", _this5)).call.apply(_instance3, [
+                        _this5
                     ].concat(_toConsumableArray(_args)));
                 }, _super_x1 = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this6);
+                    return _get(_getPrototypeOf(B.prototype), "x", _this10);
                 }, _super_method1 = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this7);
+                    return _get(_getPrototypeOf(B.prototype), "x", _this11);
                 }, _super_x2 = function() {
                     for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
-                    return (_instance2 = _get(_getPrototypeOf(B.prototype), "x", _this8)).call.apply(_instance2, [
-                        _this8
+                    return (_instance4 = _get(_getPrototypeOf(B.prototype), "x", _this12)).call.apply(_instance4, [
+                        _this12
                     ].concat(_toConsumableArray(_args)));
                 }, _super_method2 = function() {
                     for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
-                    return (_instance3 = _get(_getPrototypeOf(B.prototype), "x", _this9)).call.apply(_instance3, [
-                        _this9
+                    return (_instance5 = _get(_getPrototypeOf(B.prototype), "x", _this13)).call.apply(_instance5, [
+                        _this13
                     ].concat(_toConsumableArray(_args)));
                 };
-                return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+                return _asyncToGenerator(regeneratorRuntime.mark(function _callee1() {
                     var f, a, b;
-                    return regeneratorRuntime.wrap(function(_ctx) {
-                        for(;;)switch(_ctx.prev = _ctx.next){
+                    return regeneratorRuntime.wrap(function(_ctx1) {
+                        for(;;)switch(_ctx1.prev = _ctx1.next){
                             case 0:
                                 var ref, ref1, _args, _args1;
                                 f = function() {
-                                }, _super_x(), _super_method(), a = _get(_getPrototypeOf(B.prototype), "x", _this2), b = _get(_getPrototypeOf(B.prototype), "x", _this3), _args = f, _set(_getPrototypeOf(B.prototype), "x", _args, _this4, !0), _args1 = f, _set(_getPrototypeOf(B.prototype), "x", _args1, _this5, !0), ref = {
+                                }, _super_x(), _super_method(), a = _get(_getPrototypeOf(B.prototype), "x", _this6), b = _get(_getPrototypeOf(B.prototype), "x", _this7), _args = f, _set(_getPrototypeOf(B.prototype), "x", _args, _this8, !0), _args1 = f, _set(_getPrototypeOf(B.prototype), "x", _args1, _this9, !0), ref = {
                                     f: f
                                 }, _super_x1() = ref.f, ref1 = {
                                     f: f
@@ -292,36 +292,36 @@ var A = function() {
                                 }));
                             case 13:
                             case "end":
-                                return _ctx.stop();
+                                return _ctx1.stop();
                         }
-                    }, _callee);
+                    }, _callee1);
                 }))();
             }
         },
         {
             key: "property_access_only_read_only",
             value: function() {
-                var _instance, _instance1, _this = this, _this1 = this, _this2 = this, _super_x = function() {
+                var _instance, _instance6, _this = this, _this14 = this, _this15 = this, _super_x = function() {
                     for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
                     return (_instance = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance, [
                         _this
                     ].concat(_toConsumableArray(_args)));
-                }, _super_x1 = function() {
+                }, _super_x3 = function() {
                     for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
-                    return (_instance1 = _get(_getPrototypeOf(B.prototype), "x", _this2)).call.apply(_instance1, [
-                        _this2
+                    return (_instance6 = _get(_getPrototypeOf(B.prototype), "x", _this15)).call.apply(_instance6, [
+                        _this15
                     ].concat(_toConsumableArray(_args)));
                 };
-                return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+                return _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
                     var a;
-                    return regeneratorRuntime.wrap(function(_ctx) {
-                        for(;;)switch(_ctx.prev = _ctx.next){
+                    return regeneratorRuntime.wrap(function(_ctx2) {
+                        for(;;)switch(_ctx2.prev = _ctx2.next){
                             case 0:
-                                _super_x(), a = _get(_getPrototypeOf(B.prototype), "x", _this1), _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+                                _super_x(), a = _get(_getPrototypeOf(B.prototype), "x", _this14), _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                                     return regeneratorRuntime.wrap(function(_ctx) {
                                         for(;;)switch(_ctx.prev = _ctx.next){
                                             case 0:
-                                                return _ctx.abrupt("return", _super_x1());
+                                                return _ctx.abrupt("return", _super_x3());
                                             case 1:
                                             case "end":
                                                 return _ctx.stop();
@@ -330,33 +330,33 @@ var A = function() {
                                 }));
                             case 4:
                             case "end":
-                                return _ctx.stop();
+                                return _ctx2.stop();
                         }
-                    }, _callee);
+                    }, _callee2);
                 }))();
             }
         },
         {
             key: "property_access_only_write_only",
             value: function() {
-                var _this = this, _this1 = this, _this2 = this, _super_x = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this1);
+                var _this = this, _this16 = this, _this17 = this, _super_x = function() {
+                    return _get(_getPrototypeOf(B.prototype), "x", _this16);
                 };
-                return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+                return _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
                     var f;
-                    return regeneratorRuntime.wrap(function(_ctx) {
-                        for(;;)switch(_ctx.prev = _ctx.next){
+                    return regeneratorRuntime.wrap(function(_ctx3) {
+                        for(;;)switch(_ctx3.prev = _ctx3.next){
                             case 0:
-                                var ref, _args;
-                                _args = f = function() {
-                                }, _set(_getPrototypeOf(B.prototype), "x", _args, _this, !0), ref = {
+                                var ref, _args2;
+                                _args2 = f = function() {
+                                }, _set(_getPrototypeOf(B.prototype), "x", _args2, _this, !0), ref = {
                                     f: f
                                 }, _super_x() = ref.f, _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                                     return regeneratorRuntime.wrap(function(_ctx) {
                                         for(;;)switch(_ctx.prev = _ctx.next){
                                             case 0:
                                                 var _args;
-                                                return _ctx.abrupt("return", (_args = f, _set(_getPrototypeOf(B.prototype), "x", _args, _this2, !0)));
+                                                return _ctx.abrupt("return", (_args = f, _set(_getPrototypeOf(B.prototype), "x", _args, _this17, !0)));
                                             case 1:
                                             case "end":
                                                 return _ctx.stop();
@@ -365,36 +365,36 @@ var A = function() {
                                 }));
                             case 5:
                             case "end":
-                                return _ctx.stop();
+                                return _ctx3.stop();
                         }
-                    }, _callee);
+                    }, _callee3);
                 }))();
             }
         },
         {
             key: "element_access_only_read_only",
             value: function() {
-                var _instance, _instance1, _this = this, _this1 = this, _this2 = this, _super_method = function() {
+                var _instance, _instance7, _this = this, _this18 = this, _this19 = this, _super_method = function() {
                     for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
                     return (_instance = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance, [
                         _this
                     ].concat(_toConsumableArray(_args)));
-                }, _super_method1 = function() {
+                }, _super_method3 = function() {
                     for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
-                    return (_instance1 = _get(_getPrototypeOf(B.prototype), "x", _this2)).call.apply(_instance1, [
-                        _this2
+                    return (_instance7 = _get(_getPrototypeOf(B.prototype), "x", _this19)).call.apply(_instance7, [
+                        _this19
                     ].concat(_toConsumableArray(_args)));
                 };
-                return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+                return _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
                     var a;
-                    return regeneratorRuntime.wrap(function(_ctx) {
-                        for(;;)switch(_ctx.prev = _ctx.next){
+                    return regeneratorRuntime.wrap(function(_ctx4) {
+                        for(;;)switch(_ctx4.prev = _ctx4.next){
                             case 0:
-                                _super_method(), a = _get(_getPrototypeOf(B.prototype), "x", _this1), _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+                                _super_method(), a = _get(_getPrototypeOf(B.prototype), "x", _this18), _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                                     return regeneratorRuntime.wrap(function(_ctx) {
                                         for(;;)switch(_ctx.prev = _ctx.next){
                                             case 0:
-                                                return _ctx.abrupt("return", _super_method1());
+                                                return _ctx.abrupt("return", _super_method3());
                                             case 1:
                                             case "end":
                                                 return _ctx.stop();
@@ -403,33 +403,33 @@ var A = function() {
                                 }));
                             case 4:
                             case "end":
-                                return _ctx.stop();
+                                return _ctx4.stop();
                         }
-                    }, _callee);
+                    }, _callee4);
                 }))();
             }
         },
         {
             key: "element_access_only_write_only",
             value: function() {
-                var _this = this, _this1 = this, _this2 = this, _super_method = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this1);
+                var _this = this, _this20 = this, _this21 = this, _super_method = function() {
+                    return _get(_getPrototypeOf(B.prototype), "x", _this20);
                 };
-                return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+                return _asyncToGenerator(regeneratorRuntime.mark(function _callee5() {
                     var f;
-                    return regeneratorRuntime.wrap(function(_ctx) {
-                        for(;;)switch(_ctx.prev = _ctx.next){
+                    return regeneratorRuntime.wrap(function(_ctx5) {
+                        for(;;)switch(_ctx5.prev = _ctx5.next){
                             case 0:
-                                var ref, _args;
-                                _args = f = function() {
-                                }, _set(_getPrototypeOf(B.prototype), "x", _args, _this, !0), ref = {
+                                var ref, _args3;
+                                _args3 = f = function() {
+                                }, _set(_getPrototypeOf(B.prototype), "x", _args3, _this, !0), ref = {
                                     f: f
                                 }, _super_method() = ref.f, _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                                     return regeneratorRuntime.wrap(function(_ctx) {
                                         for(;;)switch(_ctx.prev = _ctx.next){
                                             case 0:
                                                 var _args;
-                                                return _ctx.abrupt("return", (_args = f, _set(_getPrototypeOf(B.prototype), "x", _args, _this2, !0)));
+                                                return _ctx.abrupt("return", (_args = f, _set(_getPrototypeOf(B.prototype), "x", _args, _this21, !0)));
                                             case 1:
                                             case "end":
                                                 return _ctx.stop();
@@ -438,36 +438,36 @@ var A = function() {
                                 }));
                             case 5:
                             case "end":
-                                return _ctx.stop();
+                                return _ctx5.stop();
                         }
-                    }, _callee);
+                    }, _callee5);
                 }))();
             }
         },
         {
             key: "property_access_only_read_only_in_generator",
             value: function() {
-                var _instance, _instance1, _this = this, _this1 = this, _this2 = this, _super_x = function() {
+                var _instance, _instance8, _this = this, _this22 = this, _this23 = this, _super_x = function() {
                     for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
                     return (_instance = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance, [
                         _this
                     ].concat(_toConsumableArray(_args)));
-                }, _super_x1 = function() {
+                }, _super_x4 = function() {
                     for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
-                    return (_instance1 = _get(_getPrototypeOf(B.prototype), "x", _this2)).call.apply(_instance1, [
-                        _this2
+                    return (_instance8 = _get(_getPrototypeOf(B.prototype), "x", _this23)).call.apply(_instance8, [
+                        _this23
                     ].concat(_toConsumableArray(_args)));
                 };
-                return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+                return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee6() {
                     var a;
-                    return regeneratorRuntime.wrap(function(_ctx) {
-                        for(;;)switch(_ctx.prev = _ctx.next){
+                    return regeneratorRuntime.wrap(function(_ctx6) {
+                        for(;;)switch(_ctx6.prev = _ctx6.next){
                             case 0:
-                                _super_x(), a = _get(_getPrototypeOf(B.prototype), "x", _this1), _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+                                _super_x(), a = _get(_getPrototypeOf(B.prototype), "x", _this22), _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                                     return regeneratorRuntime.wrap(function(_ctx) {
                                         for(;;)switch(_ctx.prev = _ctx.next){
                                             case 0:
-                                                return _ctx.abrupt("return", _super_x1());
+                                                return _ctx.abrupt("return", _super_x4());
                                             case 1:
                                             case "end":
                                                 return _ctx.stop();
@@ -476,33 +476,33 @@ var A = function() {
                                 }));
                             case 4:
                             case "end":
-                                return _ctx.stop();
+                                return _ctx6.stop();
                         }
-                    }, _callee);
+                    }, _callee6);
                 }))();
             }
         },
         {
             key: "property_access_only_write_only_in_generator",
             value: function() {
-                var _this = this, _this1 = this, _this2 = this, _super_x = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this1);
+                var _this = this, _this24 = this, _this25 = this, _super_x = function() {
+                    return _get(_getPrototypeOf(B.prototype), "x", _this24);
                 };
-                return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+                return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee7() {
                     var f;
-                    return regeneratorRuntime.wrap(function(_ctx) {
-                        for(;;)switch(_ctx.prev = _ctx.next){
+                    return regeneratorRuntime.wrap(function(_ctx7) {
+                        for(;;)switch(_ctx7.prev = _ctx7.next){
                             case 0:
-                                var ref, _args;
-                                _args = f = function() {
-                                }, _set(_getPrototypeOf(B.prototype), "x", _args, _this, !0), ref = {
+                                var ref, _args4;
+                                _args4 = f = function() {
+                                }, _set(_getPrototypeOf(B.prototype), "x", _args4, _this, !0), ref = {
                                     f: f
                                 }, _super_x() = ref.f, _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                                     return regeneratorRuntime.wrap(function(_ctx) {
                                         for(;;)switch(_ctx.prev = _ctx.next){
                                             case 0:
                                                 var _args;
-                                                return _ctx.abrupt("return", (_args = f, _set(_getPrototypeOf(B.prototype), "x", _args, _this2, !0)));
+                                                return _ctx.abrupt("return", (_args = f, _set(_getPrototypeOf(B.prototype), "x", _args, _this25, !0)));
                                             case 1:
                                             case "end":
                                                 return _ctx.stop();
@@ -511,36 +511,36 @@ var A = function() {
                                 }));
                             case 5:
                             case "end":
-                                return _ctx.stop();
+                                return _ctx7.stop();
                         }
-                    }, _callee);
+                    }, _callee7);
                 }))();
             }
         },
         {
             key: "element_access_only_read_only_in_generator",
             value: function() {
-                var _instance, _instance1, _this = this, _this1 = this, _this2 = this, _super_method = function() {
+                var _instance, _instance9, _this = this, _this26 = this, _this27 = this, _super_method = function() {
                     for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
                     return (_instance = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance, [
                         _this
                     ].concat(_toConsumableArray(_args)));
-                }, _super_method1 = function() {
+                }, _super_method4 = function() {
                     for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++)_args[_key] = arguments[_key];
-                    return (_instance1 = _get(_getPrototypeOf(B.prototype), "x", _this2)).call.apply(_instance1, [
-                        _this2
+                    return (_instance9 = _get(_getPrototypeOf(B.prototype), "x", _this27)).call.apply(_instance9, [
+                        _this27
                     ].concat(_toConsumableArray(_args)));
                 };
-                return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+                return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee8() {
                     var a;
-                    return regeneratorRuntime.wrap(function(_ctx) {
-                        for(;;)switch(_ctx.prev = _ctx.next){
+                    return regeneratorRuntime.wrap(function(_ctx8) {
+                        for(;;)switch(_ctx8.prev = _ctx8.next){
                             case 0:
-                                _super_method(), a = _get(_getPrototypeOf(B.prototype), "x", _this1), _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+                                _super_method(), a = _get(_getPrototypeOf(B.prototype), "x", _this26), _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                                     return regeneratorRuntime.wrap(function(_ctx) {
                                         for(;;)switch(_ctx.prev = _ctx.next){
                                             case 0:
-                                                return _ctx.abrupt("return", _super_method1());
+                                                return _ctx.abrupt("return", _super_method4());
                                             case 1:
                                             case "end":
                                                 return _ctx.stop();
@@ -549,33 +549,33 @@ var A = function() {
                                 }));
                             case 4:
                             case "end":
-                                return _ctx.stop();
+                                return _ctx8.stop();
                         }
-                    }, _callee);
+                    }, _callee8);
                 }))();
             }
         },
         {
             key: "element_access_only_write_only_in_generator",
             value: function() {
-                var _this = this, _this1 = this, _this2 = this, _super_method = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this1);
+                var _this = this, _this28 = this, _this29 = this, _super_method = function() {
+                    return _get(_getPrototypeOf(B.prototype), "x", _this28);
                 };
-                return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+                return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee9() {
                     var f;
-                    return regeneratorRuntime.wrap(function(_ctx) {
-                        for(;;)switch(_ctx.prev = _ctx.next){
+                    return regeneratorRuntime.wrap(function(_ctx9) {
+                        for(;;)switch(_ctx9.prev = _ctx9.next){
                             case 0:
-                                var ref, _args;
-                                _args = f = function() {
-                                }, _set(_getPrototypeOf(B.prototype), "x", _args, _this, !0), ref = {
+                                var ref, _args5;
+                                _args5 = f = function() {
+                                }, _set(_getPrototypeOf(B.prototype), "x", _args5, _this, !0), ref = {
                                     f: f
                                 }, _super_method() = ref.f, _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                                     return regeneratorRuntime.wrap(function(_ctx) {
                                         for(;;)switch(_ctx.prev = _ctx.next){
                                             case 0:
                                                 var _args;
-                                                return _ctx.abrupt("return", (_args = f, _set(_getPrototypeOf(B.prototype), "x", _args, _this2, !0)));
+                                                return _ctx.abrupt("return", (_args = f, _set(_getPrototypeOf(B.prototype), "x", _args, _this29, !0)));
                                             case 1:
                                             case "end":
                                                 return _ctx.stop();
@@ -584,9 +584,9 @@ var A = function() {
                                 }));
                             case 5:
                             case "end":
-                                return _ctx.stop();
+                                return _ctx9.stop();
                         }
-                    }, _callee);
+                    }, _callee9);
                 }))();
             }
         }

@@ -157,7 +157,7 @@ function _fn25() {
 function _fn26() {
     return (_fn26 = _asyncToGenerator(function*(x) {
         try {
-        } catch ({ x: x1  }) {
+        } catch ({ x: x2  }) {
         }
     })).apply(this, arguments);
 }

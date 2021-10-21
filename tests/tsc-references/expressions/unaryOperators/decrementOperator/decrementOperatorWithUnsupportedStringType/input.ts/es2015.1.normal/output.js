@@ -12,11 +12,11 @@ class A {
         return "";
     }
 }
-var M;
+var M1;
 (function(M) {
     var n;
     M.n = n;
-})(M || (M = {
+})(M1 || (M1 = {
 }));
 var objA = new A();
 // string type var
@@ -49,13 +49,13 @@ var ResultIsNumber10 = {
 }--;
 // string type expressions
 var ResultIsNumber11 = --objA.a;
-var ResultIsNumber12 = --M.n;
+var ResultIsNumber12 = --M1.n;
 var ResultIsNumber13 = --STRING1[0];
 var ResultIsNumber14 = --foo();
 var ResultIsNumber15 = --A.foo();
 var ResultIsNumber16 = --STRING + STRING;
 var ResultIsNumber17 = objA.a--;
-var ResultIsNumber18 = M.n--;
+var ResultIsNumber18 = M1.n--;
 var ResultIsNumber19 = STRING1[0]--;
 var ResultIsNumber20 = foo()--;
 var ResultIsNumber21 = A.foo()--;
@@ -67,13 +67,13 @@ var ResultIsNumber22 = STRING + STRING--;
 --STRING1[0];
 --foo();
 --objA.a;
---M.n;
---objA.a, M.n;
+--M1.n;
+--objA.a, M1.n;
 ""--;
 STRING--;
 STRING1--;
 STRING1[0]--;
 foo()--;
 objA.a--;
-M.n--;
-objA.a--, M.n--;
+M1.n--;
+objA.a--, M1.n--;

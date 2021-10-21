@@ -1,22 +1,22 @@
 // @Filename: /ns.ts
-var ns;
+var ns1;
 (function(ns) {
     class Class {
     }
     ns.Class = Class;
     ns.Value = "";
-    var nested;
+    var nested1;
     (function(nested) {
         class NestedClass {
         }
         nested.NestedClass = NestedClass;
-    })(nested || (nested = {
+    })(nested1 || (nested1 = {
     }));
-    ns.nested = nested;
-})(ns || (ns = {
+    ns.nested = nested1;
+})(ns1 || (ns1 = {
 }));
-ns.Class; // Error
-ns.Value; // Error
+ns1.Class; // Error
+ns1.Value; // Error
 let c;
 let t = "";
 let n = {

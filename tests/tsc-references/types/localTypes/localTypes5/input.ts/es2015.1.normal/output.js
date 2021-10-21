@@ -11,4 +11,4 @@ function foo() {
     var x = new X();
     return x.m();
 }
-var x = foo();
+var x1 = foo();

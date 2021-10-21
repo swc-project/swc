@@ -17,12 +17,12 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var clodule1 = /*#__PURE__*/ function() {
+var clodule = /*#__PURE__*/ function() {
     "use strict";
-    function clodule1() {
-        _classCallCheck(this, clodule1);
+    function clodule() {
+        _classCallCheck(this, clodule);
     }
-    _createClass(clodule1, null, [
+    _createClass(clodule, null, [
         {
             key: "sfn",
             value: function sfn(id) {
@@ -30,12 +30,12 @@ var clodule1 = /*#__PURE__*/ function() {
             }
         }
     ]);
-    return clodule1;
+    return clodule;
 }();
-(function(clodule) {
+(function(clodule1) {
     var fn = function fn(x, y) {
-        return clodule1.sfn('a');
+        return clodule.sfn('a');
     };
-    clodule.fn = fn;
-})(clodule1 || (clodule1 = {
+    clodule1.fn = fn;
+})(clodule || (clodule = {
 }));

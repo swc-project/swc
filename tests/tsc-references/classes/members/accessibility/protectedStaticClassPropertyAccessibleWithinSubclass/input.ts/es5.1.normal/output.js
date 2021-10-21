@@ -58,47 +58,47 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
-var Base1 = /*#__PURE__*/ function() {
+var Base = /*#__PURE__*/ function() {
     "use strict";
-    function Base1() {
-        _classCallCheck(this, Base1);
+    function Base() {
+        _classCallCheck(this, Base);
     }
-    _createClass(Base1, null, [
+    _createClass(Base, null, [
         {
             key: "staticMethod",
             value: function staticMethod() {
-                Base1.x; // OK, accessed within their declaring class
-                Derived11.x; // OK, accessed within their declaring class
+                Base.x; // OK, accessed within their declaring class
+                Derived1.x; // OK, accessed within their declaring class
                 Derived2.x; // OK, accessed within their declaring class
                 Derived3.x; // Error, redefined in a subclass, can only be accessed in the declaring class or one of its subclasses
             }
         }
     ]);
-    return Base1;
+    return Base;
 }();
-var Derived11 = /*#__PURE__*/ function(Base) {
+var Derived1 = /*#__PURE__*/ function(Base1) {
     "use strict";
-    _inherits(Derived11, Base);
-    function Derived11() {
-        _classCallCheck(this, Derived11);
-        return _possibleConstructorReturn(this, _getPrototypeOf(Derived11).apply(this, arguments));
+    _inherits(Derived1, Base1);
+    function Derived1() {
+        _classCallCheck(this, Derived1);
+        return _possibleConstructorReturn(this, _getPrototypeOf(Derived1).apply(this, arguments));
     }
-    _createClass(Derived11, null, [
+    _createClass(Derived1, null, [
         {
             key: "staticMethod1",
             value: function staticMethod1() {
-                Base1.x; // OK, accessed within a class derived from their declaring class
-                Derived11.x; // OK, accessed within a class derived from their declaring class
+                Base.x; // OK, accessed within a class derived from their declaring class
+                Derived1.x; // OK, accessed within a class derived from their declaring class
                 Derived2.x; // OK, accessed within a class derived from their declaring class
                 Derived3.x; // Error, redefined in a subclass, can only be accessed in the declaring class or one of its subclasses
             }
         }
     ]);
-    return Derived11;
-}(Base1);
-var Derived2 = /*#__PURE__*/ function(Base) {
+    return Derived1;
+}(Base);
+var Derived2 = /*#__PURE__*/ function(Base2) {
     "use strict";
-    _inherits(Derived2, Base);
+    _inherits(Derived2, Base2);
     function Derived2() {
         _classCallCheck(this, Derived2);
         return _possibleConstructorReturn(this, _getPrototypeOf(Derived2).apply(this, arguments));
@@ -107,18 +107,18 @@ var Derived2 = /*#__PURE__*/ function(Base) {
         {
             key: "staticMethod2",
             value: function staticMethod2() {
-                Base1.x; // OK, accessed within a class derived from their declaring class
-                Derived11.x; // OK, accessed within a class derived from their declaring class
+                Base.x; // OK, accessed within a class derived from their declaring class
+                Derived1.x; // OK, accessed within a class derived from their declaring class
                 Derived2.x; // OK, accessed within a class derived from their declaring class
                 Derived3.x; // Error, redefined in a subclass, can only be accessed in the declaring class or one of its subclasses
             }
         }
     ]);
     return Derived2;
-}(Base1);
-var Derived3 = /*#__PURE__*/ function(Derived1) {
+}(Base);
+var Derived3 = /*#__PURE__*/ function(Derived11) {
     "use strict";
-    _inherits(Derived3, Derived1);
+    _inherits(Derived3, Derived11);
     function Derived3() {
         _classCallCheck(this, Derived3);
         return _possibleConstructorReturn(this, _getPrototypeOf(Derived3).apply(this, arguments));
@@ -127,16 +127,16 @@ var Derived3 = /*#__PURE__*/ function(Derived1) {
         {
             key: "staticMethod3",
             value: function staticMethod3() {
-                Base1.x; // OK, accessed within a class derived from their declaring class
-                Derived11.x; // OK, accessed within a class derived from their declaring class
+                Base.x; // OK, accessed within a class derived from their declaring class
+                Derived1.x; // OK, accessed within a class derived from their declaring class
                 Derived2.x; // OK, accessed within a class derived from their declaring class
                 Derived3.x; // OK, accessed within their declaring class
             }
         }
     ]);
     return Derived3;
-}(Derived11);
-Base1.x; // Error, neither within their declaring class nor classes derived from their declaring class
-Derived11.x; // Error, neither within their declaring class nor classes derived from their declaring class
+}(Derived1);
+Base.x; // Error, neither within their declaring class nor classes derived from their declaring class
+Derived1.x; // Error, neither within their declaring class nor classes derived from their declaring class
 Derived2.x; // Error, neither within their declaring class nor classes derived from their declaring class
 Derived3.x; // Error, neither within their declaring class nor classes derived from their declaring class

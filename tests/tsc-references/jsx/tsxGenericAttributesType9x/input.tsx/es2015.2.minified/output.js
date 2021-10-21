@@ -7,9 +7,9 @@ function _extends() {
         return target;
     }).apply(this, arguments);
 }
-const React = require("react");
+const React1 = require("react");
 export function makeP(Ctor) {
-    return class extends React.PureComponent {
+    return class extends React1.PureComponent {
         render() {
             return React.createElement(Ctor, _extends({
             }, this.props));

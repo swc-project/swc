@@ -8,17 +8,6 @@ function _taggedTemplateLiteral(strings, raw) {
         }
     }));
 }
-function _templateObject1() {
-    var data = _taggedTemplateLiteral([
-        "",
-        "  ",
-        ""
-    ]);
-    _templateObject1 = function _templateObject1() {
-        return data;
-    };
-    return data;
-}
 function _templateObject() {
     var data = _taggedTemplateLiteral([
         "",
@@ -26,6 +15,17 @@ function _templateObject() {
         ""
     ]);
     _templateObject = function _templateObject() {
+        return data;
+    };
+    return data;
+}
+function _templateObject1() {
+    var data = _taggedTemplateLiteral([
+        "",
+        "  ",
+        ""
+    ]);
+    _templateObject1 = function _templateObject1() {
         return data;
     };
     return data;
@@ -104,10 +104,10 @@ function _templateObject7() {
 function tempFun(tempStrs, g, x) {
     return g(x);
 }
-var a = tempFun(_templateObject1(), function(x) {
+var a = tempFun(_templateObject(), function(x) {
     return x;
 }, 10);
-var b = tempFun(_templateObject(), function(x) {
+var b = tempFun(_templateObject1(), function(x) {
     return x;
 }, 10);
 var c = tempFun(_templateObject2(), function(x) {
@@ -128,7 +128,7 @@ var f = tempFun(_templateObject5(), function(x) {
 }, function(x) {
     return x;
 }, 10);
-var g = tempFun(_templateObject6(), function(x) {
+var g1 = tempFun(_templateObject6(), function(x) {
     return x;
 }, function(x) {
     return x;

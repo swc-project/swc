@@ -3,7 +3,7 @@ class C {
         C.foo = ()=>{
         };
     }
-    static bar(x) {
+    static bar(x1) {
         C.bar = ()=>{
         } // error
         ;

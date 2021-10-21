@@ -151,18 +151,18 @@ class B extends A {
     advanced() {
         var _super_x = (..._args)=>super.x(..._args)
         , _super_method = (..._args)=>super["x"](..._args)
-        , _super_x3 = ()=>super.x
-        , _super_method3 = ()=>super["x"]
-        , _super_x4 = (_args)=>// property access (assign)
+        , _super_x2 = ()=>super.x
+        , _super_method2 = ()=>super["x"]
+        , _super_x3 = (_args)=>// property access (assign)
             super.x = _args
-        , _super_method4 = (_args)=>// element access (assign)
+        , _super_method3 = (_args)=>// element access (assign)
             super["x"] = _args
-        , _super_x5 = ()=>super.x
-        , _super_method5 = ()=>super["x"]
+        , _super_x4 = ()=>super.x
+        , _super_method4 = ()=>super["x"]
+        , _super_x5 = (..._args)=>super.x(..._args)
+        , _super_method5 = (..._args)=>super["x"](..._args)
         , _super_x6 = (..._args)=>super.x(..._args)
         , _super_method6 = (..._args)=>super["x"](..._args)
-        , _super_x7 = (..._args)=>super.x(..._args)
-        , _super_method7 = (..._args)=>super["x"](..._args)
         ;
         return _asyncToGenerator(function*() {
             const f = ()=>{
@@ -172,42 +172,130 @@ class B extends A {
             // call with element access
             _super_method();
             // property access (read)
-            const a = _super_x3();
+            const a = _super_x2();
             // element access (read)
-            const b = _super_method3();
-            _super_x4(f);
-            _super_method4(f);
+            const b = _super_method2();
+            _super_x3(f);
+            _super_method3(f);
             // destructuring assign with property access
-            ({ f: _super_x5()  } = {
+            ({ f: _super_x4()  } = {
                 f
             });
             // destructuring assign with element access
-            ({ f: _super_method5()  } = {
+            ({ f: _super_method4()  } = {
                 f
             });
             // property access in arrow
-            (()=>_super_x6()
+            (()=>_super_x5()
             );
             // element access in arrow
-            (()=>_super_method6()
+            (()=>_super_method5()
             );
             // property access in async arrow
             _asyncToGenerator(function*() {
-                return _super_x7();
+                return _super_x6();
             });
             // element access in async arrow
             _asyncToGenerator(function*() {
-                return _super_method7();
+                return _super_method6();
             });
         })();
     }
     property_access_only_read_only() {
         var _super_x = (..._args)=>super.x(..._args)
+        , _super_x7 = ()=>super.x
+        , _super_x8 = (..._args)=>super.x(..._args)
+        , _super_x9 = (..._args)=>super.x(..._args)
+        ;
+        return _asyncToGenerator(function*() {
+            // call with property access
+            _super_x();
+            // property access (read)
+            const a = _super_x7();
+            // property access in arrow
+            (()=>_super_x8()
+            );
+            // property access in async arrow
+            _asyncToGenerator(function*() {
+                return _super_x9();
+            });
+        })();
+    }
+    property_access_only_write_only() {
+        var _super_x = (_args)=>// property access (assign)
+            super.x = _args
+        , _super_x10 = ()=>super.x
+        , _super_x11 = (_args)=>super.x = _args
+        , _super_x12 = (_args)=>super.x = _args
+        ;
+        return _asyncToGenerator(function*() {
+            const f = ()=>{
+            };
+            _super_x(f);
+            // destructuring assign with property access
+            ({ f: _super_x10()  } = {
+                f
+            });
+            // property access (assign) in arrow
+            (()=>_super_x11(f)
+            );
+            // property access (assign) in async arrow
+            _asyncToGenerator(function*() {
+                return _super_x12(f);
+            });
+        })();
+    }
+    element_access_only_read_only() {
+        var _super_method = (..._args)=>super["x"](..._args)
+        , _super_method7 = ()=>super["x"]
+        , _super_method8 = (..._args)=>super["x"](..._args)
+        , _super_method9 = (..._args)=>super["x"](..._args)
+        ;
+        return _asyncToGenerator(function*() {
+            // call with element access
+            _super_method();
+            // element access (read)
+            const a = _super_method7();
+            // element access in arrow
+            (()=>_super_method8()
+            );
+            // element access in async arrow
+            _asyncToGenerator(function*() {
+                return _super_method9();
+            });
+        })();
+    }
+    element_access_only_write_only() {
+        var _super_method = (_args)=>// element access (assign)
+            super["x"] = _args
+        , _super_method10 = ()=>super["x"]
+        , _super_method11 = (_args)=>super["x"] = _args
+        , _super_method12 = (_args)=>super["x"] = _args
+        ;
+        return _asyncToGenerator(function*() {
+            const f = ()=>{
+            };
+            _super_method(f);
+            // destructuring assign with element access
+            ({ f: _super_method10()  } = {
+                f
+            });
+            // element access (assign) in arrow
+            (()=>_super_method11(f)
+            );
+            // element access (assign) in async arrow
+            _asyncToGenerator(function*() {
+                return _super_method12(f);
+            });
+        })();
+    }
+    property_access_only_read_only_in_generator() {
+        var _super_x = (..._args)=>super.x(..._args)
         , _super_x13 = ()=>super.x
         , _super_x14 = (..._args)=>super.x(..._args)
         , _super_x15 = (..._args)=>super.x(..._args)
         ;
-        return _asyncToGenerator(function*() {
+        return _wrapAsyncGenerator(function*() {
             // call with property access
             _super_x();
             // property access (read)
@@ -221,37 +309,37 @@ class B extends A {
             });
         })();
     }
-    property_access_only_write_only() {
+    property_access_only_write_only_in_generator() {
         var _super_x = (_args)=>// property access (assign)
             super.x = _args
-        , _super_x19 = ()=>super.x
-        , _super_x20 = (_args)=>super.x = _args
-        , _super_x21 = (_args)=>super.x = _args
+        , _super_x16 = ()=>super.x
+        , _super_x17 = (_args)=>super.x = _args
+        , _super_x18 = (_args)=>super.x = _args
         ;
-        return _asyncToGenerator(function*() {
+        return _wrapAsyncGenerator(function*() {
             const f = ()=>{
             };
             _super_x(f);
             // destructuring assign with property access
-            ({ f: _super_x19()  } = {
+            ({ f: _super_x16()  } = {
                 f
             });
             // property access (assign) in arrow
-            (()=>_super_x20(f)
+            (()=>_super_x17(f)
             );
             // property access (assign) in async arrow
             _asyncToGenerator(function*() {
-                return _super_x21(f);
+                return _super_x18(f);
             });
         })();
     }
-    element_access_only_read_only() {
+    element_access_only_read_only_in_generator() {
         var _super_method = (..._args)=>super["x"](..._args)
         , _super_method13 = ()=>super["x"]
         , _super_method14 = (..._args)=>super["x"](..._args)
         , _super_method15 = (..._args)=>super["x"](..._args)
         ;
-        return _asyncToGenerator(function*() {
+        return _wrapAsyncGenerator(function*() {
             // call with element access
             _super_method();
             // element access (read)
@@ -265,115 +353,27 @@ class B extends A {
             });
         })();
     }
-    element_access_only_write_only() {
-        var _super_method = (_args)=>// element access (assign)
-            super["x"] = _args
-        , _super_method19 = ()=>super["x"]
-        , _super_method20 = (_args)=>super["x"] = _args
-        , _super_method21 = (_args)=>super["x"] = _args
-        ;
-        return _asyncToGenerator(function*() {
-            const f = ()=>{
-            };
-            _super_method(f);
-            // destructuring assign with element access
-            ({ f: _super_method19()  } = {
-                f
-            });
-            // element access (assign) in arrow
-            (()=>_super_method20(f)
-            );
-            // element access (assign) in async arrow
-            _asyncToGenerator(function*() {
-                return _super_method21(f);
-            });
-        })();
-    }
-    property_access_only_read_only_in_generator() {
-        var _super_x = (..._args)=>super.x(..._args)
-        , _super_x25 = ()=>super.x
-        , _super_x26 = (..._args)=>super.x(..._args)
-        , _super_x27 = (..._args)=>super.x(..._args)
-        ;
-        return _wrapAsyncGenerator(function*() {
-            // call with property access
-            _super_x();
-            // property access (read)
-            const a = _super_x25();
-            // property access in arrow
-            (()=>_super_x26()
-            );
-            // property access in async arrow
-            _asyncToGenerator(function*() {
-                return _super_x27();
-            });
-        })();
-    }
-    property_access_only_write_only_in_generator() {
-        var _super_x = (_args)=>// property access (assign)
-            super.x = _args
-        , _super_x31 = ()=>super.x
-        , _super_x32 = (_args)=>super.x = _args
-        , _super_x33 = (_args)=>super.x = _args
-        ;
-        return _wrapAsyncGenerator(function*() {
-            const f = ()=>{
-            };
-            _super_x(f);
-            // destructuring assign with property access
-            ({ f: _super_x31()  } = {
-                f
-            });
-            // property access (assign) in arrow
-            (()=>_super_x32(f)
-            );
-            // property access (assign) in async arrow
-            _asyncToGenerator(function*() {
-                return _super_x33(f);
-            });
-        })();
-    }
-    element_access_only_read_only_in_generator() {
-        var _super_method = (..._args)=>super["x"](..._args)
-        , _super_method25 = ()=>super["x"]
-        , _super_method26 = (..._args)=>super["x"](..._args)
-        , _super_method27 = (..._args)=>super["x"](..._args)
-        ;
-        return _wrapAsyncGenerator(function*() {
-            // call with element access
-            _super_method();
-            // element access (read)
-            const a = _super_method25();
-            // element access in arrow
-            (()=>_super_method26()
-            );
-            // element access in async arrow
-            _asyncToGenerator(function*() {
-                return _super_method27();
-            });
-        })();
-    }
     element_access_only_write_only_in_generator() {
         var _super_method = (_args)=>// element access (assign)
             super["x"] = _args
-        , _super_method31 = ()=>super["x"]
-        , _super_method32 = (_args)=>super["x"] = _args
-        , _super_method33 = (_args)=>super["x"] = _args
+        , _super_method16 = ()=>super["x"]
+        , _super_method17 = (_args)=>super["x"] = _args
+        , _super_method18 = (_args)=>super["x"] = _args
         ;
         return _wrapAsyncGenerator(function*() {
             const f = ()=>{
             };
             _super_method(f);
             // destructuring assign with element access
-            ({ f: _super_method31()  } = {
+            ({ f: _super_method16()  } = {
                 f
             });
             // element access (assign) in arrow
-            (()=>_super_method32(f)
+            (()=>_super_method17(f)
             );
             // element access (assign) in async arrow
             _asyncToGenerator(function*() {
-                return _super_method33(f);
+                return _super_method18(f);
             });
         })();
     }

@@ -58,7 +58,7 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
-function Mixin(baseClass) {
+function Mixin(baseClass1) {
     var MixinClass = // error expected: A mixin class that extends from a type variable containing an abstract construct signature must also be declared 'abstract'.
     /*#__PURE__*/ function(baseClass) {
         "use strict";
@@ -75,14 +75,14 @@ function Mixin(baseClass) {
             }
         ]);
         return MixinClass;
-    }(baseClass);
+    }(baseClass1);
     return MixinClass;
 }
 var AbstractBase = function AbstractBase() {
     "use strict";
     _classCallCheck(this, AbstractBase);
 };
-var MixedBase = Mixin(AbstractBase);
+var MixedBase1 = Mixin(AbstractBase);
 var DerivedFromAbstract = // error expected: Non-abstract class 'DerivedFromAbstract' does not implement inherited abstract member 'abstractBaseMethod' from class 'AbstractBase & Mixin'.
 /*#__PURE__*/ function(MixedBase) {
     "use strict";
@@ -92,6 +92,6 @@ var DerivedFromAbstract = // error expected: Non-abstract class 'DerivedFromAbst
         return _possibleConstructorReturn(this, _getPrototypeOf(DerivedFromAbstract).apply(this, arguments));
     }
     return DerivedFromAbstract;
-}(MixedBase);
+}(MixedBase1);
 // error expected: Cannot create an instance of an abstract class.
-new MixedBase();
+new MixedBase1();

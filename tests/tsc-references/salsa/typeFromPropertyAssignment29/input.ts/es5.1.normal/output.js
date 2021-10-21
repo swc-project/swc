@@ -11,7 +11,7 @@ ExpandoDecl.prop = 2;
 ExpandoDecl.m = function(n) {
     return n + 1;
 };
-var n = ExpandoDecl.prop + ExpandoDecl.m(12) + ExpandoDecl(101).length;
+var n1 = ExpandoDecl.prop + ExpandoDecl.m(12) + ExpandoDecl(101).length;
 var ExpandoExpr = function ExpandoExpr(n) {
     return n.toString();
 };
@@ -24,7 +24,7 @@ ExpandoExpr.prop = {
 ExpandoExpr.m = function(n) {
     return n + 1;
 };
-var n = (ExpandoExpr.prop.x || 0) + ExpandoExpr.m(12) + ExpandoExpr(101).length;
+var n1 = (ExpandoExpr.prop.x || 0) + ExpandoExpr.m(12) + ExpandoExpr(101).length;
 var ExpandoArrow = function(n) {
     return n.toString();
 };
@@ -40,20 +40,20 @@ function ExpandoNested(n) {
     return nested;
 }
 ExpandoNested.also = -1;
-function ExpandoMerge(n) {
+function ExpandoMerge1(n) {
     return n * 100;
 }
-ExpandoMerge.p1 = 111;
+ExpandoMerge1.p1 = 111;
 (function(ExpandoMerge) {
     ExpandoMerge.p2 = 222;
-})(ExpandoMerge || (ExpandoMerge = {
+})(ExpandoMerge1 || (ExpandoMerge1 = {
 }));
 (function(ExpandoMerge) {
     ExpandoMerge.p3 = 333;
-})(ExpandoMerge || (ExpandoMerge = {
+})(ExpandoMerge1 || (ExpandoMerge1 = {
 }));
-var n = ExpandoMerge.p1 + ExpandoMerge.p2 + ExpandoMerge.p3 + ExpandoMerge(1);
-var Ns;
+var n1 = ExpandoMerge1.p1 + ExpandoMerge1.p2 + ExpandoMerge1.p3 + ExpandoMerge1(1);
+var Ns1;
 (function(Ns) {
     var ExpandoNamespace = function ExpandoNamespace() {
     };
@@ -62,7 +62,7 @@ var Ns;
     };
     ExpandoNamespace.p6 = 42;
     Ns.foo = foo;
-})(Ns || (Ns = {
+})(Ns1 || (Ns1 = {
 }));
 // Should not work in Typescript -- must be const
 var ExpandoExpr2 = function ExpandoExpr2(n) {
@@ -72,7 +72,7 @@ ExpandoExpr2.prop = 2;
 ExpandoExpr2.m = function(n) {
     return n + 1;
 };
-var n = ExpandoExpr2.prop + ExpandoExpr2.m(12) + ExpandoExpr2(101).length;
+var n1 = ExpandoExpr2.prop + ExpandoExpr2.m(12) + ExpandoExpr2(101).length;
 var ExpandoClass = function ExpandoClass() {
     "use strict";
     _classCallCheck(this, ExpandoClass);
@@ -83,7 +83,7 @@ ExpandoClass.prop = 2;
 ExpandoClass.m = function(n) {
     return n + 1;
 };
-var n = ExpandoClass.prop + ExpandoClass.m(12) + new ExpandoClass().n;
+var n1 = ExpandoClass.prop + ExpandoClass.m(12) + new ExpandoClass().n;
 // Class expressions shouldn't work in typescript either
 var ExpandoExpr3 = function _class() {
     "use strict";
@@ -94,4 +94,4 @@ ExpandoExpr3.prop = 3;
 ExpandoExpr3.m = function(n) {
     return n + 1;
 };
-var n = ExpandoExpr3.prop + ExpandoExpr3.m(13) + new ExpandoExpr3().n;
+var n1 = ExpandoExpr3.prop + ExpandoExpr3.m(13) + new ExpandoExpr3().n;

@@ -1,6 +1,6 @@
 let neverArray = [];
-let a1 = f1([]); // never
-let a2 = f1(neverArray); // never
+let a11 = f1([]); // never
+let a21 = f1(neverArray); // never
 const list = mkList([], compareNumbers);
 f2(Array.from([
     0

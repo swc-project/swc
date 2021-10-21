@@ -3384,7 +3384,8 @@ to!(
     }
     ",
     "
-    export var util;
+    var util1;
+    export { util1 as util };
     (function (util) {
         function assertNever(_x) {
             throw new Error();
@@ -3398,7 +3399,7 @@ to!(
         };
         util.objectValues = (obj) => {
         };
-    })(util || (util = {}));
+    })(util1 || (util1 = {}));
 
     "
 );
@@ -3412,11 +3413,12 @@ to!(
     }
     ",
     "
-    export var util;
+    var util1;
+    export { util1 as util };
     (function (util) {
         const c = 3;
         [util.a, util.b] = [1, 2, 3];
-    })(util || (util = {}));
+    })(util1 || (util1 = {}));
     "
 );
 
@@ -3435,7 +3437,8 @@ to!(
     }
     ",
     "
-    export var util;
+    var util1;
+    export { util1 as util };
     (function (util) {
         const c = 3;
         function foo() {
@@ -3443,7 +3446,7 @@ to!(
         util.foo = foo;
         function bar() {
         }
-    })(util || (util = {}));
+    })(util1 || (util1 = {}));
     "
 );
 
@@ -3460,7 +3463,7 @@ to!(
     console(Test.DummyValues.A);
     ",
     "
-    var Test;
+    var Test1;
     (function(Test) {
         var DummyValues;
         (function(DummyValues) {
@@ -3469,9 +3472,9 @@ to!(
         })(DummyValues || (DummyValues = {
         }));
         Test.DummyValues = DummyValues;
-    })(Test || (Test = {
+    })(Test1 || (Test1 = {
     }));
-    console(Test.DummyValues.A);
+    console(Test1.DummyValues.A);
     "
 );
 

@@ -1,9 +1,9 @@
-function f11() {
+function f1() {
     console.log("f1");
 }
 function f2() {
     console.log("f2");
 }
 f2();
-f11();
-export { f11 as f1 };
+f1();
+export { f1 as f1 };

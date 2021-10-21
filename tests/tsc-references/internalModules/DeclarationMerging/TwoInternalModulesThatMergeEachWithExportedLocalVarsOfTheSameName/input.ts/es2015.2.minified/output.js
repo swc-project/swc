@@ -1,4 +1,4 @@
-var A;
+var A1;
 !function(A) {
     var Utils;
     (Utils || (Utils = {
@@ -11,8 +11,8 @@ var A;
         x: 0,
         y: 0
     }, A.Utils = Utils;
-}(A || (A = {
-})), (A || (A = {
+}(A1 || (A1 = {
+})), (A1 || (A1 = {
 })).Origin = {
     x: 0,
     y: 0

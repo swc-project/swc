@@ -12,11 +12,11 @@ class A {
         return 1;
     }
 }
-var M;
+var M1;
 (function(M) {
     var n;
     M.n = n;
-})(M || (M = {
+})(M1 || (M1 = {
 }));
 var objA = new A();
 // number type var
@@ -36,7 +36,7 @@ var ResultIsAny5 = void {
 };
 // number type expressions
 var ResultIsAny6 = void objA.a;
-var ResultIsAny7 = void M.n;
+var ResultIsAny7 = void M1.n;
 var ResultIsAny8 = void NUMBER1[0];
 var ResultIsAny9 = void foo();
 var ResultIsAny10 = void A.foo();
@@ -50,5 +50,5 @@ void NUMBER;
 void NUMBER1;
 void foo();
 void objA.a;
-void M.n;
-objA.a, M.n;
+void M1.n;
+objA.a, M1.n;

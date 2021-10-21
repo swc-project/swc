@@ -38,11 +38,11 @@ var A = /*#__PURE__*/ function() {
     ]);
     return A;
 }();
-var M;
+var M1;
 (function(M) {
     var n;
     M.n = n;
-})(M || (M = {
+})(M1 || (M1 = {
 }));
 var objA = new A();
 // boolean type var
@@ -55,7 +55,7 @@ var ResultIsNumber3 = ~{
 };
 // boolean type expressions
 var ResultIsNumber4 = ~objA.a;
-var ResultIsNumber5 = ~M.n;
+var ResultIsNumber5 = ~M1.n;
 var ResultIsNumber6 = ~foo();
 var ResultIsNumber7 = ~A.foo();
 // multiple ~ operators
@@ -66,4 +66,4 @@ var ResultIsNumber8 = ~~BOOLEAN;
 ~foo();
 ~true, false;
 ~objA.a;
-~M.n;
+~M1.n;

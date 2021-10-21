@@ -6,12 +6,12 @@ var array = [
         y: true
     }
 ];
-var E;
+var E1;
 (function(E) {
     E[E["x"] = 0] = "x";
-})(E || (E = {
+})(E1 || (E1 = {
 }));
-for ({ x , y: y = E.x  } of array){
+for ({ x , y: y = E1.x  } of array){
     x;
     y;
 }

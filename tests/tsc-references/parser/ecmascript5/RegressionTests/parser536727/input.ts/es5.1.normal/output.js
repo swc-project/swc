@@ -4,11 +4,11 @@ function foo(f) {
 var g = function(x) {
     return x + "blah";
 };
-var x = function() {
+var x1 = function() {
     return g;
 };
 foo(g);
 foo(function() {
     return g;
 });
-foo(x);
+foo(x1);

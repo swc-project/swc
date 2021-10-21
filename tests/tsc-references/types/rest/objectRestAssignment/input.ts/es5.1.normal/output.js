@@ -65,7 +65,9 @@ var rest;
 var complex;
 var _complex;
 var ref;
-_complex = complex, nested = _objectWithoutProperties(_complex.x, ["ka"]), rest = _objectWithoutProperties(_complex, [
+_complex = complex, nested = _objectWithoutProperties(_complex.x, [
+    "ka"
+]), rest = _objectWithoutProperties(_complex, [
     "x",
     "y"
 ]), ref = _complex, ({ ka  } = ref.x), other = ref.y, ref, _complex;
@@ -73,14 +75,18 @@ _complex = complex, nested = _objectWithoutProperties(_complex.x, ["ka"]), rest 
 var overEmit;
 // var _g = overEmit.a, [_h, ...y] = _g, nested2 = __rest(_h, []), _j = overEmit.b, { z } = _j, c = __rest(_j, ["z"]), rest2 = __rest(overEmit, ["a", "b"]);
 var _a = _toArray(overEmit.a), ref1 = _a[0], ref1 = ref1 !== null ? ref1 : _throw(new TypeError("Cannot destructure undefined")), y = _a.slice(1), _b = overEmit.b, z = _b.z, nested2 = _extends({
-}, overEmit.a[0]), c = _objectWithoutProperties(overEmit.b, ["z"]), rest2 = _objectWithoutProperties(overEmit, [
+}, overEmit.a[0]), c = _objectWithoutProperties(overEmit.b, [
+    "z"
+]), rest2 = _objectWithoutProperties(overEmit, [
     "a",
     "b"
 ]);
 var _overEmit;
 var ref2;
 _overEmit = overEmit, nested2 = _extends({
-}, _overEmit.a[0]), c = _objectWithoutProperties(_overEmit.b, ["z"]), rest2 = _objectWithoutProperties(_overEmit, [
+}, _overEmit.a[0]), c = _objectWithoutProperties(_overEmit.b, [
+    "z"
+]), rest2 = _objectWithoutProperties(_overEmit, [
     "a",
     "b"
 ]), ref2 = _overEmit, [{}, ...y] = ref2.a, ({ z  } = ref2.b), ref2, _overEmit;

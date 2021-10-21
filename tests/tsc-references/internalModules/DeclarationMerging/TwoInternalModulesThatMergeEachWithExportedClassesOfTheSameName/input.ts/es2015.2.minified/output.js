@@ -1,4 +1,4 @@
-var A, X;
+var A, X1;
 (A || (A = {
 })).Point = class {
 }, (A || (A = {
@@ -9,5 +9,5 @@ var A, X;
     }), (Z || (Z = {
     })).Line = class {
     }, Y1.Z = Z, X.Y = Y;
-})(X || (X = {
+})(X1 || (X1 = {
 }));

@@ -13,9 +13,9 @@ function _setPrototypeOf(o, p) {
 }
 var _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, C = function() {
+}, C1 = function() {
     "use strict";
-    _classCallCheck(this, C);
+    _classCallCheck(this, C1);
 }, D = function(C) {
     "use strict";
     function D() {
@@ -35,6 +35,6 @@ var _typeof = function(obj) {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(D, C), D;
-}(C);
+}(C1);
 (D || (D = {
 })).y = D.bar;

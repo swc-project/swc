@@ -76,11 +76,11 @@ function rec3() {
 function rec4() {
     return rec3();
 }
-var n;
-var n = rec3();
-var n = rec4();
+var n1;
+var n1 = rec3();
+var n1 = rec4();
 // FunctionExpression with no return type annotation and returns a number
-var n = function() {
+var n1 = function() {
     return 3;
 }();
 // FunctionExpression with no return type annotation and returns null
@@ -94,15 +94,15 @@ var un = function() {
     return undefined;
 }();
 // FunctionExpression with no return type annotation and returns a type parameter type
-var n = function(x) {
+var n1 = function(x) {
     return x;
 }(4);
 // FunctionExpression with no return type annotation and returns a constrained type parameter type
-var n = function(x) {
+var n1 = function(x) {
     return x;
 }(4);
 // FunctionExpression with no return type annotation with multiple return statements with identical types
-var n = function() {
+var n1 = function() {
     return 3;
     return 5;
 }();
@@ -141,17 +141,17 @@ function thisFunc() {
 }
 // Function signature with optional parameter, no type annotation and initializer has initializer's type
 function opt1(param) {
-    var n1 = param === void 0 ? 4 : param;
-    var m = n1;
+    var n = param === void 0 ? 4 : param;
+    var m = n;
     var m;
 }
 // Function signature with optional parameter, no type annotation and initializer has initializer's widened type
 function opt2(param) {
-    var n1 = param === void 0 ? {
+    var n = param === void 0 ? {
         x: null,
         y: undefined
     } : param;
-    var m = n1;
+    var m = n;
     var m;
 }
 // Function signature with initializer referencing other parameter to the left

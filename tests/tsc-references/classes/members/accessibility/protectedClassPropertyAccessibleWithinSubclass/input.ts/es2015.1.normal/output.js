@@ -18,7 +18,7 @@ class C extends B {
     static get y() {
         return this.x;
     }
-    static set y(x) {
+    static set y(x1) {
         this.y = this.x;
     }
     static foo() {

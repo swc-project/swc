@@ -1,4 +1,4 @@
-var B, A;
+var B1, A1;
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
@@ -13,7 +13,7 @@ function _setPrototypeOf(o, p) {
     }, _setPrototypeOf(o, p);
 }
 !function(B) {
-    B.a = A;
+    B.a = A1;
     var D = function(_C) {
         "use strict";
         function D() {
@@ -35,12 +35,12 @@ function _setPrototypeOf(o, p) {
         })(D, _C), D;
     }(a.C);
     B.D = D;
-}(B || (B = {
+}(B1 || (B1 = {
 })), (function(A) {
     var C = function() {
         "use strict";
         _classCallCheck(this, C);
     };
-    A.C = C, A.b = B;
-})(A || (A = {
-})), new B.a.C();
+    A.C = C, A.b = B1;
+})(A1 || (A1 = {
+})), new B1.a.C();

@@ -21,7 +21,7 @@ var _obj, _mutatorMap = {
 };
 //@target: ES6
 //@declaration: true
-var obj = (_obj = {
+var obj1 = (_obj = {
 }, _mutatorMap[Symbol.isConcatSpreadable] = _mutatorMap[Symbol.isConcatSpreadable] || {
 }, _mutatorMap[Symbol.isConcatSpreadable].get = function() {
     return '';

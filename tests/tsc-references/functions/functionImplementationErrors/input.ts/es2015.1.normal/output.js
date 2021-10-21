@@ -30,10 +30,10 @@ function f5() {
 var m;
 // Function signature with parameter initializer referencing in scope local variable
 function f6(n = m) {
-    var m1 = 4;
+    var m = 4;
 }
 // Function signature with initializer referencing other parameter to the right
-function f7(n = m, m1) {
+function f7(n = m, m) {
 }
 // FunctionExpression with non -void return type annotation with a throw, no return, and other code
 // Should be error but isn't

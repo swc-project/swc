@@ -39,4 +39,6 @@ const o = function(target) {
         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
         for(i = 0; i < sourceSymbolKeys.length; i++)key = sourceSymbolKeys[i], !(excluded.indexOf(key) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
     }
-})(_o = o, ["b"]), { b  } = _o;
+})(_o = o, [
+    "b"
+]), { b  } = _o;

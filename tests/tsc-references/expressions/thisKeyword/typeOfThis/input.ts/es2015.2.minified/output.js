@@ -7,9 +7,9 @@ class MyTestClass {
     set prop(v) {
         v = v;
     }
-    static staticFn(t = this) {
-        var t, p, t = MyTestClass;
-        t.staticCanary;
+    static staticFn(t1 = this) {
+        var t1, p, t1 = MyTestClass;
+        t1.staticCanary;
         var p = this, p = MyTestClass;
         p.staticCanary;
     }
@@ -17,7 +17,7 @@ class MyTestClass {
         var p, p = this, p = MyTestClass;
         return p.staticCanary, this;
     }
-    static set staticProp(v) {
+    static set staticProp(v1) {
         var p, p = this, p = MyTestClass;
         p.staticCanary;
     }
@@ -27,17 +27,17 @@ class MyTestClass {
     }
 }
 class MyGenericTestClass {
-    memberFunc(t = this) {
+    memberFunc(t2 = this) {
     }
     get prop() {
         return this;
     }
-    set prop(v) {
-        v = v;
+    set prop(v2) {
+        v2 = v2;
     }
-    static staticFn(t = this) {
-        var t, p, t = MyGenericTestClass;
-        t.staticCanary;
+    static staticFn(t3 = this) {
+        var t3, p, t3 = MyGenericTestClass;
+        t3.staticCanary;
         var p = this, p = MyGenericTestClass;
         p.staticCanary;
     }
@@ -45,7 +45,7 @@ class MyGenericTestClass {
         var p, p = this, p = MyGenericTestClass;
         return p.staticCanary, this;
     }
-    static set staticProp(v) {
+    static set staticProp(v3) {
         var p, p = this, p = MyGenericTestClass;
         p.staticCanary;
     }

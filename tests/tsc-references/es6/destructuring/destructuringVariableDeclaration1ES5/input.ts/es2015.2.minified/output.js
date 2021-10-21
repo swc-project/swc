@@ -25,7 +25,11 @@ var { a1 , a2  } = {
         t1: !1,
         t2: "hello"
     }
-], [b5 = 3, b6 = !0, b7 = temp] = [void 0, void 0, void 0], [...c1] = [
+], [b5 = 3, b6 = !0, b7 = temp] = [
+    void 0,
+    void 0,
+    void 0
+], [...c1] = [
     1,
     2,
     3
@@ -64,7 +68,9 @@ var { a1 , a2  } = {
             f5: 0
         }
     ]
-}, { g: { g1 =[void 0, null
+}, { g: { g1 =[
+    void 0,
+    null
 ]  }  } = {
     g: {
         g1: [
@@ -72,7 +78,9 @@ var { a1 , a2  } = {
             2
         ]
     }
-}, { h: { h1 =[void 0, null
+}, { h: { h1 =[
+    void 0,
+    null
 ]  }  } = {
     h: {
         h1: [

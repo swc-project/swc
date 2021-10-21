@@ -1,4 +1,4 @@
-const dbPool1 = 1;
+const dbPool = 1;
 function d() {
 }
 async function fn() {
@@ -12,4 +12,4 @@ function router() {
     fn1();
 }
 router();
-export { dbPool1 as dbPool };
+export { dbPool as dbPool };

@@ -1,13 +1,13 @@
 // @target: es5
 function f() {
     var g = function g() {
-        var _arguments = 10; // No capture in 'g', so no conflict.
+        var _arguments1 = 10; // No capture in 'g', so no conflict.
         function h() {
-            var _arguments1 = arguments;
+            var _arguments = arguments;
             var capture = function() {
-                return _arguments1;
+                return _arguments;
             }; // Should trigger an '_arguments' capture into function 'h'
-            foo(_arguments); // Error as this does not resolve to the user defined '_arguments'
+            foo(_arguments1); // Error as this does not resolve to the user defined '_arguments'
         }
     };
     var foo = function foo(x) {

@@ -55,14 +55,14 @@ var o = {
         return m;
     }
 };
-var i = o;
+var i1 = o;
 var o2 = {
     n: 1001,
     explicitThis: function explicitThis(m) {
         return m + this.n.length; // error, this.n: number, no member 'length'
     }
 };
-var x = i.explicitThis;
+var x = i1.explicitThis;
 var n = x(12); // callee:void doesn't match this:I
 var u;
 var y = u.implicitNoThis;
@@ -71,7 +71,7 @@ c.explicitVoid = c.implicitThis // ok, implicitThis(this:any)
 ;
 o.implicitThis = c.implicitThis; // ok, implicitThis(this:any)
 o.implicitThis = c.explicitThis; // ok, implicitThis(this:any) is assignable to explicitThis(this: this)
-o.implicitThis = i.explicitThis;
-i.explicitThis = function(m) {
+o.implicitThis = i1.explicitThis;
+i1.explicitThis = function(m) {
     return this.n.length; // error, this.n: number
 };

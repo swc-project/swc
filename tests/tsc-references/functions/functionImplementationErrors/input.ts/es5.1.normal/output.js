@@ -80,7 +80,7 @@ function f6(param) {
     var m1 = 4;
 }
 // Function signature with initializer referencing other parameter to the right
-function f7(param, m1) {
+function f7(param, m2) {
     var n = param === void 0 ? m : param;
 }
 // FunctionExpression with non -void return type annotation with a throw, no return, and other code

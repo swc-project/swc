@@ -108,17 +108,17 @@ var C = /*#__PURE__*/ function() {
     return C;
 }();
 var r = new C().f();
-var i;
-var r2 = i.foo.notHere();
-var r2b = i.foo['foo']();
-var a;
+var i1;
+var r2 = i1.foo.notHere();
+var r2b = i1.foo['foo']();
+var a1;
 // BUG 794164
-var r3 = a().notHere();
-var r3b = a()['foo']();
+var r3 = a1().notHere();
+var r3b = a1()['foo']();
 var b = {
     foo: function(x) {
-        var a1 = x['foo'](); // should be string
-        return a1 + x.notHere();
+        var a = x['foo'](); // should be string
+        return a + x.notHere();
     },
     // BUG 794164
     bar: b.foo(1).notHere()

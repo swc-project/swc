@@ -3174,13 +3174,13 @@ export default class {
 "#,
     r#"
     var _class;
-    let _class2 = ((_class = class _class1 {
+    let _class1 = ((_class = class _class {
         bar() {
         }
     }) || _class, _applyDecoratedDescriptor(_class.prototype, "bar", [
         foo
     ], Object.getOwnPropertyDescriptor(_class.prototype, "bar"), _class.prototype), _class);
-    export { _class2 as default };
+    export { _class1 as default };
 "#
 );
 
@@ -4907,15 +4907,15 @@ test!(
         _dec6,
         _dec7
     ], Object.getOwnPropertyDescriptor(_class1.prototype, "method"), _class1.prototype), _class1)) || _class1) || _class1) || _class1) || _class1;
-    var _dec55 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
+    var _dec19 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
         typeof Injected === "undefined" ? Object : Injected,
         typeof Injected === "undefined" ? Object : Injected
-    ]), _dec56 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec57 = function(target, key) {
+    ]), _dec20 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec21 = function(target, key) {
         return inject()(target, undefined, 1);
-    }, _dec58 = function(target, key) {
+    }, _dec22 = function(target, key) {
         return inject()(target, undefined, 0);
     };
-    let DecoratedClass = _class2 = Decorate(_class2 = _dec58(_class2 = _dec57(_class2 = _dec56(_class2 = _dec55(((_class2 = class DecoratedClass {
+    let DecoratedClass = _class2 = Decorate(_class2 = _dec22(_class2 = _dec21(_class2 = _dec20(_class2 = _dec19(((_class2 = class DecoratedClass {
         constructor(private readonly module: Injected, otherModule: Injected){
         }
         method(param: string) {

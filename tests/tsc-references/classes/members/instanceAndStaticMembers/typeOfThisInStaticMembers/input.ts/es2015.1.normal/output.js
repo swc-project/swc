@@ -18,7 +18,7 @@ class C2 {
         var t = this;
         return this;
     }
-    constructor(x){
+    constructor(x1){
     }
 }
 var t2 = C2.bar();

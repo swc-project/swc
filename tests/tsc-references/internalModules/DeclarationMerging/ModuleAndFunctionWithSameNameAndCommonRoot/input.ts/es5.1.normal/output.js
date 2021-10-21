@@ -1,5 +1,5 @@
 // @filename: module.ts
-var A;
+var A1;
 (function(A) {
     (function(Point) {
         Point.Origin = {
@@ -8,7 +8,7 @@ var A;
         };
     })(Point || (Point = {
     }));
-})(A || (A = {
+})(A1 || (A1 = {
 }));
 (function(A) {
     var Point = function Point() {
@@ -18,10 +18,10 @@ var A;
         };
     };
     A.Point = Point;
-})(A || (A = {
+})(A1 || (A1 = {
 }));
 // @filename: simple.ts
-var B;
+var B1;
 (function(B) {
     var Point = function Point() {
         return {
@@ -37,5 +37,5 @@ var B;
     })(Point || (Point = {
     }));
     B.Point = Point;
-})(B || (B = {
+})(B1 || (B1 = {
 }));

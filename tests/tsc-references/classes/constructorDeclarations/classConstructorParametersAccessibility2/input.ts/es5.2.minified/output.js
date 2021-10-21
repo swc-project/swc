@@ -21,9 +21,9 @@ var C2 = function(p) {
     _classCallCheck(this, C2), this.p = p;
 };
 c2.p;
-var C3 = function(p) {
+var C31 = function(p) {
     "use strict";
-    _classCallCheck(this, C3), this.p = p;
+    _classCallCheck(this, C31), this.p = p;
 };
 c3.p;
 var Derived = function(C3) {
@@ -45,4 +45,4 @@ var Derived = function(C3) {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(Derived, C3), Derived;
-}(C3);
+}(C31);

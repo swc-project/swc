@@ -7,18 +7,18 @@ class A {
     }
 }
 class B {
-    foo(x) {
+    foo(x1) {
         return null;
     }
 }
 class C {
-    foo(x) {
+    foo(x2) {
         return null;
     }
 }
 var a;
 var b = {
-    foo (x) {
+    foo (x3) {
         return '';
     }
 };

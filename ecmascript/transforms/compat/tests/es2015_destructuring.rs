@@ -80,8 +80,8 @@ test!(
         }
         console.log(arg1, opt1, opt2, arg2, opt3, opt4, arg3);
     };
-    function fn3(arg1, param, arg2, param1) {
-        var opt1 = param.opt1, opt2 = param.opt2, opt3 = param1.opt3, opt4 = param1.opt4;
+    function fn3(arg1, param, arg2, param2) {
+        var opt1 = param.opt1, opt2 = param.opt2, opt3 = param2.opt3, opt4 = param2.opt4;
         for(var _len = arguments.length, arg3 = new Array(_len > 4 ? _len - 4 : 0), _key = 4; _key \
      < _len; _key++){
             arg3[_key - 4] = arguments[_key];
@@ -90,8 +90,8 @@ test!(
     }
     ;
     class cls {
-        fn4(arg1, param, arg2, param1) {
-            var opt1 = param.opt1, opt2 = param.opt2, opt3 = param1.opt3, opt4 = param1.opt4;
+        fn4(arg1, param, arg2, param3) {
+            var opt1 = param.opt1, opt2 = param.opt2, opt3 = param3.opt3, opt4 = param3.opt4;
             for(var _len = arguments.length, arg3 = new Array(_len > 4 ? _len - 4 : 0), _key = 4; \
      _key < _len; _key++){
                 arg3[_key - 4] = arguments[_key];
@@ -216,7 +216,7 @@ test!(
     empty,
     r#"var [, a, [b], [c], d] = ["foo", "hello", [", ", "junk"], ["world"]];"#,
     r#"var ref = ['foo', 'hello', [', ', 'junk'], ['world']], a = ref[1], ref1 = ref[2],
-     b = ref1[0], ref3 = ref[3], c = ref3[0], d = ref[4];
+     b = ref1[0], ref2 = ref[3], c = ref2[0], d = ref[4];
 "#
 );
 
@@ -589,9 +589,9 @@ test!(
   return foo;
 }",
     "
-function foo(bar) {
-    var foo1 = bar.foo;
-    return foo1;
+function foo1(bar) {
+    var foo = bar.foo;
+    return foo;
 }"
 );
 

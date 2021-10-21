@@ -1,4 +1,4 @@
-var Tools;
+var Tools1;
 !function(Tools) {
     var NullLogger = function() {
         "use strict";
@@ -7,5 +7,5 @@ var Tools;
         }(this, NullLogger);
     };
     Tools.NullLogger = NullLogger;
-}(Tools || (Tools = {
-})), Tools.NullLogger();
+}(Tools1 || (Tools1 = {
+})), Tools1.NullLogger();

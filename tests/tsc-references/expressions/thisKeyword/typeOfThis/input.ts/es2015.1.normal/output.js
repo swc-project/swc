@@ -1,8 +1,8 @@
 // @target: esnext
 class MyTestClass {
     //type of 'this' in member function param list is the class instance type
-    memberFunc(t = this) {
-        var t;
+    memberFunc(t1 = this) {
+        var t1;
         //type of 'this' in member function body is the class instance type
         var p = this;
         var p;
@@ -20,10 +20,10 @@ class MyTestClass {
         v = p;
     }
     //type of 'this' in static function param list is constructor function type
-    static staticFn(t = this) {
-        var t;
-        var t = MyTestClass;
-        t.staticCanary;
+    static staticFn(t2 = this) {
+        var t2;
+        var t2 = MyTestClass;
+        t2.staticCanary;
         //type of 'this' in static function body is constructor function type
         var p = this;
         var p;
@@ -38,7 +38,7 @@ class MyTestClass {
         p.staticCanary;
         return this;
     }
-    static set staticProp(v) {
+    static set staticProp(v1) {
         //type of 'this' in static accessor body is constructor function type
         var p = this;
         var p;
@@ -59,8 +59,8 @@ class MyTestClass {
 }
 class MyGenericTestClass {
     //type of 'this' in member function param list is the class instance type
-    memberFunc(t = this) {
-        var t;
+    memberFunc(t3 = this) {
+        var t3;
         //type of 'this' in member function body is the class instance type
         var p = this;
         var p;
@@ -71,17 +71,17 @@ class MyGenericTestClass {
         var p;
         return this;
     }
-    set prop(v) {
+    set prop(v2) {
         var p = this;
         var p;
-        p = v;
-        v = p;
+        p = v2;
+        v2 = p;
     }
     //type of 'this' in static function param list is constructor function type
-    static staticFn(t = this) {
-        var t;
-        var t = MyGenericTestClass;
-        t.staticCanary;
+    static staticFn(t4 = this) {
+        var t4;
+        var t4 = MyGenericTestClass;
+        t4.staticCanary;
         //type of 'this' in static function body is constructor function type
         var p = this;
         var p;
@@ -96,7 +96,7 @@ class MyGenericTestClass {
         p.staticCanary;
         return this;
     }
-    static set staticProp(v) {
+    static set staticProp(v3) {
         //type of 'this' in static accessor body is constructor function type
         var p = this;
         var p;

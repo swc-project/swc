@@ -5,34 +5,34 @@ function _classCallCheck(instance, Constructor) {
 }
 var A;
 (function(A) {
-    var B;
+    var B1;
     (function(B) {
         var x;
         B.x = x;
-    })(B || (B = {
+    })(B1 || (B1 = {
     }));
 })(A || (A = {
 }));
 // ensure the right var decl is exported
-var x;
-var x = A.B.x;
-var X;
+var x1;
+var x1 = A.B.x;
+var X1;
 (function(X) {
     var Y;
     (function(Y) {
-        var Z;
+        var Z1;
         (function(Z) {
             var Line = function Line() {
                 "use strict";
                 _classCallCheck(this, Line);
             };
             Z.Line = Line;
-        })(Z || (Z = {
+        })(Z1 || (Z1 = {
         }));
     })(Y || (Y = {
     }));
     X.Y = Y;
-})(X || (X = {
+})(X1 || (X1 = {
 }));
 // make sure merging works as expected
 var l;

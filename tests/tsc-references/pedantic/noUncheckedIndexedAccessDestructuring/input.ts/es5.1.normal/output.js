@@ -100,8 +100,10 @@ t2.z.toString(); // Should error
     y.toFixed(); // Should OK
     z.toFixed(); // Should error
 }{
-    var x = numMapPoint.x, q = _objectWithoutProperties(numMapPoint, ["x"]);
-    x.toFixed(); // Should OK
+    var x1 = numMapPoint.x, q = _objectWithoutProperties(numMapPoint, [
+        "x"
+    ]);
+    x1.toFixed(); // Should OK
     q.y.toFixed(); // Should OK
     q.z.toFixed(); // Should error
 }var ref;
@@ -111,10 +113,10 @@ ref1 = strArray, target_string_undef = ref1[0], ref1; // Should OK
 var ref2;
 ref2 = strArray, target_string_arr = ref2.slice(3), ref2; // Should OK
 {
-    var x, y, z;
-    var ref4;
-    ref4 = numMapPoint, x = ref4.x, y = ref4.y, z = ref4.z, ref4; // Should OK
-    var q;
+    var x2, y1, z1;
     var ref3;
-    ref3 = numMapPoint, q = ref3.q, ref3; // Should error
+    ref3 = numMapPoint, x2 = ref3.x, y1 = ref3.y, z1 = ref3.z, ref3; // Should OK
+    var q1;
+    var ref4;
+    ref4 = numMapPoint, q1 = ref4.q, ref4; // Should error
 }

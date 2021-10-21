@@ -4,17 +4,17 @@ if (typeof a === "number") {
     var c = a;
 }
 if (typeof a === "string") {
-    var c = a;
+    var c1 = a;
 }
 if (typeof a === "boolean") {
-    var c = a;
+    var c2 = a;
 }
 if (typeof b === "number") {
-    var c = b;
+    var c3 = b;
 }
 if (typeof b === "string") {
-    var c = b;
+    var c4 = b;
 }
 if (typeof b === "boolean") {
-    var c = b;
+    var c5 = b;
 }

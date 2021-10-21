@@ -36,5 +36,5 @@ Common.I = function _class() {
         }), superClass && _setPrototypeOf(subClass, superClass);
     })(_class, _I), _class;
 })(Common.I);
-var o = new Common.O(), i = new Common.I();
-o.i, o.o, i.i;
+var o1 = new Common.O(), i = new Common.I();
+o1.i, o1.o, i.i;

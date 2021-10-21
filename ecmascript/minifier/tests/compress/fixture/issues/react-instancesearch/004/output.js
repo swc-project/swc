@@ -36,8 +36,8 @@ function serializeQueryParameters(parameters) {
         return encode("%s=%s", key, (value = parameters[key], "[object Object]" === Object.prototype.toString.call(value) || "[object Array]" === Object.prototype.toString.call(value)) ? JSON.stringify(parameters[key]) : parameters[key]);
     }).join("&");
 }
-export default function createInstantSearchManager(param) {
-    var indexName = param.indexName, _initialState = param.initialState, searchClient = param.searchClient, resultsState = param.resultsState, stalledSearchDelay = param.stalledSearchDelay, getMetadata = function(state) {
+export default function createInstantSearchManager(param1) {
+    var indexName = param1.indexName, _initialState = param1.initialState, searchClient = param1.searchClient, resultsState = param1.resultsState, stalledSearchDelay = param1.stalledSearchDelay, getMetadata = function(state) {
         return widgetsManager.getWidgets().filter(function(widget) {
             return Boolean(widget.getMetadata);
         }).map(function(widget) {
@@ -251,26 +251,26 @@ export default function createInstantSearchManager(param) {
             hydrateSearchClientWithSingleIndexRequest(client, results);
         }
     }(searchClient, resultsState);
-    var results, state, listeners, store = (state = {
+    var results1, state1, listeners, store = (state1 = {
         widgets: void 0 === _initialState ? {
         } : _initialState,
         metadata: hydrateMetadata(resultsState),
-        results: (results = resultsState) ? Array.isArray(results.results) ? results.results.reduce(function(acc, result) {
+        results: (results1 = resultsState) ? Array.isArray(results1.results) ? results1.results.reduce(function(acc, result) {
             return swcHelpers.objectSpread({
             }, acc, swcHelpers.defineProperty({
             }, result._internalIndexId, new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(result.state), result.rawResults)));
         }, {
-        }) : new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(results.state), results.rawResults) : null,
+        }) : new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(results1.state), results1.rawResults) : null,
         error: null,
         searching: !1,
         isSearchStalled: !0,
         searchingForFacetValues: !1
     }, listeners = [], {
         getState: function() {
-            return state;
+            return state1;
         },
         setState: function(nextState) {
-            state = nextState, listeners.forEach(function(listener) {
+            state1 = nextState, listeners.forEach(function(listener) {
                 return listener();
             });
         },

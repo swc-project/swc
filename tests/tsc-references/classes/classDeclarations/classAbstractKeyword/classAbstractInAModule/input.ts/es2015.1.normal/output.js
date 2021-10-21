@@ -1,4 +1,4 @@
-var M;
+var M1;
 (function(M) {
     class A {
     }
@@ -6,7 +6,7 @@ var M;
     class B extends A {
     }
     M.B = B;
-})(M || (M = {
+})(M1 || (M1 = {
 }));
-new M.A;
-new M.B;
+new M1.A;
+new M1.B;

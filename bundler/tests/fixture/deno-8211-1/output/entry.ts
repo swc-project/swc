@@ -1,5 +1,5 @@
-class Zone1 {
+class Zone {
 }
-class FixedOffsetZone1 extends Zone1 {
+class FixedOffsetZone extends Zone {
 }
-export { Zone1 as Zone, FixedOffsetZone1 as FixedOffsetZone };
+export { Zone as Zone, FixedOffsetZone as FixedOffsetZone };

@@ -131,25 +131,25 @@ var r1b = new C().g(new B());
 //interface I<U extends T, T extends A> {
 //    foo: U;
 //}
-var i;
-var r2 = i.foo.foo();
-var r2b = i.foo['foo']();
-var a;
+var i1;
+var r2 = i1.foo.foo();
+var r2b = i1.foo['foo']();
+var a1;
 //var a: {
 //    <U extends T, T extends A>(): U;
 //    <U extends T, T extends A>(x: U): U;
 //    <U extends T, T extends A>(x: U, y: T): U;
 //}
-var r3 = a().foo();
-var r3b = a()['foo']();
+var r3 = a1().foo();
+var r3b = a1()['foo']();
 // parameter supplied for type argument inference to succeed
 var aB = new B();
-var r3c = a(aB, aB).foo();
-var r3d = a(aB, aB)['foo']();
+var r3c = a1(aB, aB).foo();
+var r3d = a1(aB, aB)['foo']();
 var b = {
     foo: function(x, y) {
-        var a1 = x['foo'](); // should be string
-        return a1 + x.foo();
+        var a = x['foo'](); // should be string
+        return a + x.foo();
     }
 };
 //var b = {
