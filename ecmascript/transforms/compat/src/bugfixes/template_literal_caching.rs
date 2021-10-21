@@ -190,8 +190,8 @@ mod tests {
         single_tag_empty,
         "x``;",
         r#"
-        let _ = t => t, t;
-        x(t || (t = _``));
+        let _ = t => t, t1;
+        x(t1 || (t1 = _``));
         "#
     );
 
@@ -227,8 +227,8 @@ mod tests {
         dynamic_tag,
         "fn()``;",
         r#"
-        let _ = t => t, t;
-        fn()(t || (t = _``));
+        let _ = t => t, t1;
+        fn()(t1 || (t1 = _``));
         "#
     );
 
@@ -260,8 +260,8 @@ mod tests {
         shared_strings_safari_11,
         "x`a` === y`a`;",
         r#"
-        let _ = t => t, t, t1;
-        x(t || (t = _`a`)) === y(t1 || (t1 = _`a`));
+        let _ = t => t, t2, t1;
+        x(t2 || (t2 = _`a`)) === y(t1 || (t1 = _`a`));
         "#
     );
 
@@ -305,8 +305,8 @@ mod tests {
         block_scoped_tag,
         "for (let t of []) t`a`;",
         r#"
-        let _ = t => t, t;
-        for (let t1 of []) t1(t || (t = _`a`));
+        let _ = t => t, t2;
+        for (let t1 of []) t1(t2 || (t2 = _`a`));
         "#
     );
 }
