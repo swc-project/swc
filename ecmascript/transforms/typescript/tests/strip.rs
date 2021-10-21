@@ -462,8 +462,6 @@ to!(module_01, "module 'foo'{ }", "");
 
 to!(declare_01, "declare var env: FOO", "");
 
-to!(import_equals, "import A = B.C", "var A = B.C;");
-
 to!(
     issue_757,
     "// test.ts
@@ -4076,7 +4074,7 @@ to!(
     export { TestInfo }
     ",
     "
-    
+
     "
 );
 
@@ -4114,6 +4112,32 @@ class Foo {
 }
 Foo.identifier = 5;
   "
+);
+
+to!(
+    deno_12395_import_equals_1,
+    "
+    import * as mongo from 'https://deno.land/x/mongo@v0.27.0/mod.ts';
+    import MongoClient = mongo.MongoClient;
+    const mongoClient = new MongoClient();
+    ",
+    "
+    import * as mongo from 'https://deno.land/x/mongo@v0.27.0/mod.ts';
+    var MongoClient = mongo.MongoClient;
+    const mongoClient = new MongoClient();
+    "
+);
+
+to!(
+    deno_12395_import_equals_2,
+    "
+    import * as mongo from 'https://deno.land/x/mongo@v0.27.0/mod.ts';
+    import MongoClient = mongo.MongoClient;
+    const mongoClient: MongoClient = {};
+    ",
+    "
+    const mongoClient = {};
+    "
 );
 
 #[testing::fixture("tests/fixture/**/input.ts")]

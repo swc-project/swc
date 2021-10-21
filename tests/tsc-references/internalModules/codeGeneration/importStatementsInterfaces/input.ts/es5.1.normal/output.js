@@ -1,14 +1,6 @@
 // no code gen expected
-var B;
-(function(B) {
-    var a = A;
-})(B || (B = {
-}));
-// no code gen expected
 var C;
 (function(C) {
-    var a = A;
-    var b = a.inA;
     var m;
     var p;
     var p = {
@@ -21,7 +13,6 @@ var C;
 // no code gen expected
 var D;
 (function(D) {
-    var a = A;
     var p;
 })(D || (D = {
 }));
@@ -31,7 +22,6 @@ var E1;
     var xDist = function xDist(x) {
         return 0 - x.x;
     };
-    var a = A.inA;
     E.xDist = xDist;
 })(E1 || (E1 = {
 }));

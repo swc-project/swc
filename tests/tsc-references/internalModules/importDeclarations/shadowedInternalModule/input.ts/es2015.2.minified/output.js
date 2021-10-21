@@ -1,9 +1,8 @@
-var A, X, Z;
+var A, X;
 (A || (A = {
 })).Point = {
     x: 0,
     y: 0
 }, (X || (X = {
 })).Y = class {
-}, Z || (Z = {
-}), X.Y;
+};

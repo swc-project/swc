@@ -13,7 +13,6 @@ var B;
         x: 0,
         y: 0
     };
-    var Point = A;
 })(B || (B = {
 }));
 var X1;
@@ -25,7 +24,6 @@ var X1;
 }));
 var Z;
 (function(Z) {
-    var Y = X1.Y;
     var Y = 12;
 })(Z || (Z = {
 }));
