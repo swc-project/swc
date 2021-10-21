@@ -123,9 +123,10 @@ where
                         "template: Concatted a string (`{}`) on rhs of `+` to a template literal",
                         rs.value
                     );
-                    let l_str = l_last.cooked.as_mut().unwrap();
+                    let l_str = &mut l_last.raw;
 
-                    let new: JsWord = format!("{}{}", l_str.value, rs.value).into();
+                    let new: JsWord =
+                        format!("{}{}", l_str.value, rs.value.replace("\\", "\\\\")).into();
                     l_str.value = new.clone();
                     l_last.raw.value = new;
 
@@ -143,9 +144,10 @@ where
                         "template: Prepended a string (`{}`) on lhs of `+` to a template literal",
                         ls.value
                     );
-                    let r_str = r_first.cooked.as_mut().unwrap();
+                    let r_str = &mut r_first.raw;
 
-                    let new: JsWord = format!("{}{}", ls.value, r_str.value).into();
+                    let new: JsWord =
+                        format!("{}{}", ls.value.replace("\\", "\\\\"), r_str.value).into();
                     r_str.value = new.clone();
                     r_first.raw.value = new;
 
@@ -162,10 +164,9 @@ where
                     let l_last = l.quasis.pop().unwrap();
                     let mut r_first = rt.quasis.first_mut().unwrap();
 
-                    let r_str = r_first.cooked.as_mut().unwrap();
+                    let r_str = &mut r_first.raw;
 
-                    let new: JsWord =
-                        format!("{}{}", l_last.cooked.unwrap().value, r_str.value).into();
+                    let new: JsWord = format!("{}{}", l_last.raw.value, r_str.value).into();
                     r_str.value = new.clone();
                     r_first.raw.value = new;
                 }
