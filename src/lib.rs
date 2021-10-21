@@ -212,8 +212,8 @@ impl Write for LockedWriter {
 /// by [Err].
 pub fn try_with_handler<F, Ret>(
     cm: Lrc<SourceMap>,
-    op: F,
     skip_filename: bool,
+    op: F,
 ) -> Result<Ret, Error>
 where
     F: FnOnce(&Handler) -> Result<Ret, Error>,
