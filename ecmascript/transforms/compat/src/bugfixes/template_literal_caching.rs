@@ -216,8 +216,8 @@ mod tests {
         function_scoped_tag,
         "const f = t => t`a`;",
         r#"
-        let _ = t => t, t;
-        const f = t1 => t1(t || (t = _`a`));
+        let _ = t => t, t1;
+        const f = t => t(t1 || (t1 = _`a`));
         "#
     );
 
@@ -238,8 +238,8 @@ mod tests {
         dynamic_expressions,
         "const f = t => t`a${1}b${t}${[\"hello\"]}`;",
         r#"
-        let _ = t => t, t;
-        const f = t1 => t1(t || (t = _`a${0}b${0}${0}`), 1, t1, ["hello"]);
+        let _ = t => t, t1;
+        const f = t => t(t1 || (t1 = _`a${0}b${0}${0}`), 1, t, ["hello"]);
         "#
     );
 
@@ -249,8 +249,8 @@ mod tests {
         same_tag_safari_11,
         "x`a` === x`a`;",
         r#"
-        let _ = t => t, t, t1;
-        x(t || (t = _`a`)) === x(t1 || (t1 = _`a`));
+        let _ = t => t, t2, t1;
+        x(t2 || (t2 = _`a`)) === x(t1 || (t1 = _`a`));
         "#
     );
 
