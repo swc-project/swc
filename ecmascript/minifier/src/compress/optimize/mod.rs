@@ -2001,6 +2001,10 @@ where
         }
 
         self.ctx.in_asm = old_in_asm;
+
+        if cfg!(feature = "debug") && cfg!(debug_assertions) {
+            n.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+        }
     }
 
     fn visit_mut_if_stmt(&mut self, n: &mut IfStmt) {
