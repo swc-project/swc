@@ -10644,15 +10644,15 @@
                     return Boolean(value) && "object" == typeof value && !Array.isArray(value) ? result[key] = keysSorter(value) : result[key] = value, result;
                 }, Object.create(null));
             }
-            exports.extract = extract, exports.parse = parse, exports.stringify = (object, options)=>{
+            exports.extract = extract, exports.parse = parse, exports.stringify = (object, options4)=>{
                 if (!object) return "";
-                validateArrayFormatSeparator((options = Object.assign({
+                validateArrayFormatSeparator((options4 = Object.assign({
                     encode: !0,
                     strict: !0,
                     arrayFormat: "none",
                     arrayFormatSeparator: ","
-                }, options)).arrayFormatSeparator);
-                const shouldFilter = (key)=>options.skipNull && isNullOrUndefined(object[key]) || options.skipEmptyString && "" === object[key]
+                }, options4)).arrayFormatSeparator);
+                const shouldFilter = (key)=>options4.skipNull && isNullOrUndefined(object[key]) || options4.skipEmptyString && "" === object[key]
                 , formatter = function(options) {
                     switch(options.arrayFormat){
                         case "index":
@@ -10723,13 +10723,13 @@
                                     ]
                             ;
                     }
-                }(options), objectCopy = {
+                }(options4), objectCopy = {
                 };
                 for (const key3 of Object.keys(object))shouldFilter(key3) || (objectCopy[key3] = object[key3]);
                 const keys = Object.keys(objectCopy);
-                return !1 !== options.sort && keys.sort(options.sort), keys.map((key)=>{
+                return !1 !== options4.sort && keys.sort(options4.sort), keys.map((key)=>{
                     const value = object[key];
-                    return void 0 === value ? "" : null === value ? encode(key, options) : Array.isArray(value) ? value.reduce(formatter(key), []).join("&") : encode(key, options) + "=" + encode(value, options);
+                    return void 0 === value ? "" : null === value ? encode(key, options4) : Array.isArray(value) ? value.reduce(formatter(key), []).join("&") : encode(key, options4) + "=" + encode(value, options4);
                 }).filter((x)=>x.length > 0
                 ).join("&");
             }, exports.parseUrl = (url, options)=>{
@@ -10935,15 +10935,15 @@
             }
             exports.setInitialData = setInitialData, exports.getInitialData = function() {
                 return __initialData__;
-            }, exports.getRenderApp = getRenderApp, exports.reactAppRenderer = function(options4) {
+            }, exports.getRenderApp = getRenderApp, exports.reactAppRenderer = function(options5) {
                 var _a2;
                 return __awaiter(this, void 0, void 0, function() {
                     var appConfig, _b1, buildConfig, appLifecycle, createBaseApp, emitLifeCycles, initAppLifeCycles, context, _c1, href, origin_1, pathname, search, path, query, ssrError, initialContext, _d, _e, runtime1, modifiedAppConfig;
                     return __generator(this, function(_f) {
                         switch(_f.label){
                             case 0:
-                                if (appConfig = options4.appConfig, _b1 = options4.buildConfig, buildConfig = void 0 === _b1 ? {
-                                } : _b1, createBaseApp = (appLifecycle = options4.appLifecycle).createBaseApp, emitLifeCycles = appLifecycle.emitLifeCycles, initAppLifeCycles = appLifecycle.initAppLifeCycles, context = {
+                                if (appConfig = options5.appConfig, _b1 = options5.buildConfig, buildConfig = void 0 === _b1 ? {
+                                } : _b1, createBaseApp = (appLifecycle = options5.appLifecycle).createBaseApp, emitLifeCycles = appLifecycle.emitLifeCycles, initAppLifeCycles = appLifecycle.initAppLifeCycles, context = {
                                 }, !window.__ICE_APP_DATA__) return [
                                     3,
                                     1
@@ -10982,7 +10982,7 @@
                                             ReactDOM.hydrate(React.createElement(App, null), appMountNode);
                                         }) : ReactDOM.render(React.createElement(App, null), appMountNode);
                                     }(runtime1, __assign(__assign({
-                                    }, options4), {
+                                    }, options5), {
                                         appConfig: modifiedAppConfig
                                     }))
                                 ];
@@ -16657,12 +16657,12 @@
             }
             var cache$1 = {
             }, cacheCount$1 = 0;
-            function matchPath(pathname, options5) {
-                void 0 === options5 && (options5 = {
-                }), ("string" == typeof options5 || Array.isArray(options5)) && (options5 = {
-                    path: options5
+            function matchPath(pathname, options6) {
+                void 0 === options6 && (options6 = {
+                }), ("string" == typeof options6 || Array.isArray(options6)) && (options6 = {
+                    path: options6
                 });
-                var _options = options5, path9 = _options.path, _options$exact = _options.exact, exact = void 0 !== _options$exact && _options$exact, _options$strict = _options.strict, strict = void 0 !== _options$strict && _options$strict, _options$sensitive = _options.sensitive, sensitive = void 0 !== _options$sensitive && _options$sensitive, paths = [].concat(path9);
+                var _options = options6, path9 = _options.path, _options$exact = _options.exact, exact = void 0 !== _options$exact && _options$exact, _options$strict = _options.strict, strict = void 0 !== _options$strict && _options$strict, _options$sensitive = _options.sensitive, sensitive = void 0 !== _options$sensitive && _options$sensitive, paths = [].concat(path9);
                 return paths.reduce(function(matched, path10) {
                     if (!path10 && "" !== path10) return null;
                     if (matched) return matched;
