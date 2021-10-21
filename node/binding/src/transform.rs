@@ -35,7 +35,7 @@ impl Task for TransformTask {
     type JsValue = JsObject;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
-        try_with(self.c.cm.clone(), |handler| {
+        try_with(self.c.cm.clone(), !self.options.error.filename, |handler| {
             self.c.run(|| match self.input {
                 Input::Program(ref s) => {
                     let program: Program =
@@ -93,7 +93,7 @@ where
         options.config.adjust(Path::new(&options.filename));
     }
 
-    let output = try_with(c.cm.clone(), |handler| {
+    let output = try_with(c.cm.clone(), !options.error.filename, |handler| {
         c.run(|| {
             if is_module.get_value()? {
                 let program: Program =

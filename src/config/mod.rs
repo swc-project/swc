@@ -126,6 +126,9 @@ pub struct Options {
 
     #[serde(default)]
     pub output_path: Option<PathBuf>,
+
+    #[serde(default)]
+    pub error: ErrorConfig,
 }
 
 impl Options {
@@ -986,6 +989,13 @@ pub struct JsonifyOption {
 
 fn default_jsonify_min_cost() -> usize {
     1024
+}
+
+#[derive(Debug, Default, Clone, Copy, Serialize, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub struct ErrorConfig {
+    #[serde(default = "true_by_default")]
+    pub filename: bool,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
