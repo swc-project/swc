@@ -1020,9 +1020,9 @@ impl EmitterWriter {
                     // remember where we are in the output buffer for easy reference
                     let buffer_msg_line_offset = buffer.num_lines();
 
-                    buffer.prepend(buffer_msg_line_offset, "--> ", Style::LineNumber);
-
                     if !self.skip_filename {
+                        buffer.prepend(buffer_msg_line_offset, "--> ", Style::LineNumber);
+
                         buffer.append(
                             buffer_msg_line_offset,
                             &format!(
