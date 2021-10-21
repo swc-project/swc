@@ -871,7 +871,7 @@ impl<C: Comments> Fold for Refresh<C> {
                 Persist::Component(persistent_id) => {
                     let registration_handle = private_ident!("_c");
 
-                    refresh_regs.push((registration_handle.clone(), persistent_id.sym.to_string()));
+                    refresh_regs.push((registration_handle.clone(), persistent_id.to_id()));
 
                     items.push(ModuleItem::Stmt(Stmt::Expr(ExprStmt {
                         span: DUMMY_SP,
@@ -890,7 +890,10 @@ impl<C: Comments> Fold for Refresh<C> {
                             span: DUMMY_SP,
                             expr: Box::new(make_assign_stmt(
                                 ident.clone(),
-                                Box::new(Expr::Ident(quote_ident!(name.clone()))),
+                                Box::new(Expr::Ident(Ident::new(
+                                    name.0.clone(),
+                                    DUMMY_SP.with_ctxt(name.1),
+                                ))),
                             )),
                         })))
                     }
