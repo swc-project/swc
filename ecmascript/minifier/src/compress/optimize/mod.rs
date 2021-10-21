@@ -2157,6 +2157,10 @@ where
             }
             _ => {}
         }
+
+        if cfg!(feature = "debug") && cfg!(debug_assertions) {
+            n.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+        }
     }
 
     fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {

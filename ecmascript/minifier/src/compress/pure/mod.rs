@@ -392,6 +392,10 @@ where
         p.visit_mut_children_with(self);
 
         self.optimize_arrow_method_prop(p);
+
+        if cfg!(feature = "debug") && cfg!(debug_assertions) {
+            p.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+        }
     }
 
     fn visit_mut_prop_name(&mut self, p: &mut PropName) {
