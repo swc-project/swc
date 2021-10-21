@@ -55,6 +55,7 @@ path-clean = "=0.1.0"
 reqwest = {version = "0.11.4", features = ["blocking"]}
 sha-1 = "0.9"
 swc_ecma_loader = {version = "0.22.0", path = "../ecmascript/loader", features = ["node", "lru"]}
+swc_ecma_minifier = {version = "0.44.3", path = "../ecmascript/minifier"}
 swc_ecma_transforms_react = {version = "0.53.0", path = "../ecmascript/transforms/react"}
 swc_ecma_transforms_typescript = {version = "0.54.0", path = "../ecmascript/transforms/typescript"}
 swc_node_base = {version = "0.5.0", path = "../node/base"}
