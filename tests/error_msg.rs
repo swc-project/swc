@@ -39,13 +39,3 @@ fn issue_1532() {
 
     assert!(f.contains("unknown variant `esnext`"))
 }
-
-#[testing::fixture("tests/error-reporting/**/input.js")]
-fn fixture(input: PathBuf) {
-    let test_dir = input.parent().unwrap();
-    let output_path = test_dir.join("output.swc-stderr");
-
-    let output = file(&input);
-
-    output.compare_to_file(&output_path).unwrap();
-}
