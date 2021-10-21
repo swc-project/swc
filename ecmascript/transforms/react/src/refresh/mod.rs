@@ -181,6 +181,7 @@ impl<C: Comments> Refresh<C> {
         let callee = hook_call?;
         Some(Hook { name, callee, key })
     }
+
     fn get_hook_from_expr(&self, expr: &Expr, lhs: Option<&Pat>, reg: &mut Vec<Hook>) {
         match expr {
             Expr::Paren(ParenExpr { expr, .. }) => {
@@ -203,6 +204,7 @@ impl<C: Comments> Refresh<C> {
             _ => (),
         }
     }
+
     fn get_hook_sign(&mut self, body: &mut BlockStmt) -> Option<FnWithHook> {
         let mut sign_res = Vec::new();
         for stmt in &body.stmts {
@@ -237,6 +239,7 @@ impl<C: Comments> Refresh<C> {
             None
         }
     }
+
     fn get_hook_sign_from_arrow(&mut self, body: &mut BlockStmtOrExpr) -> Option<FnWithHook> {
         match body {
             BlockStmtOrExpr::BlockStmt(stmt) => self.get_hook_sign(stmt),
@@ -268,6 +271,7 @@ impl<C: Comments> Refresh<C> {
             }
         }
     }
+
     fn gen_hook_handle(&self, curr_hook_fn: &Vec<FnWithHook>) -> Stmt {
         let refresh_sig = self.options.refresh_sig.as_str();
         Stmt::Decl(Decl::Var(VarDecl {
@@ -285,6 +289,7 @@ impl<C: Comments> Refresh<C> {
             declare: false,
         }))
     }
+
     // The second call is around the function itself. This is used to associate a
     // type with a signature.
     // Unlike with $RefreshReg$, this needs to work for nested declarations too.
@@ -388,6 +393,7 @@ impl<C: Comments> Refresh<C> {
             type_args: None,
         })
     }
+
     fn gen_hook_register_stmt(&self, func: Expr, hook_fn: &mut FnWithHook) -> Stmt {
         Stmt::Expr(ExprStmt {
             span: DUMMY_SP,
@@ -441,6 +447,7 @@ impl<C: Comments> Refresh<C> {
         }
         Persist::None
     }
+
     fn get_persistent_id_from_possible_hoc(
         &self,
         call_expr: &mut CallExpr,
