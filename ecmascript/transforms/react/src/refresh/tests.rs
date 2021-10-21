@@ -1,6 +1,6 @@
 use super::*;
 use swc_common::{chain, Mark};
-use swc_ecma_transforms_base::{hygiene::hygiene, resolver::resolver_with_mark};
+use swc_ecma_transforms_base::resolver::{resolver, resolver_with_mark};
 use swc_ecma_transforms_module::common_js::common_js;
 use swc_ecma_transforms_testing::{test, Tester};
 
@@ -1086,7 +1086,7 @@ test!(
     |t| {
         let mark = Mark::fresh(Mark::root());
         chain!(
-            hygiene(),
+            resolver(),
             refresh(
                 true,
                 Some(RefreshOptions {
@@ -1339,19 +1339,21 @@ test!(
         dynamic_import: true,
         ..Default::default()
     }),
-    |t| chain!(
-        hygiene(),
-        refresh(
-            true,
-            Some(RefreshOptions {
-                refresh_reg: "import_meta_refreshReg".to_string(),
-                refresh_sig: "import_meta_refreshSig".to_string(),
-                emit_full_signatures: true,
-            }),
-            t.cm.clone(),
-            Some(t.comments.clone())
+    |t| {
+        chain!(
+            resolver(),
+            refresh(
+                true,
+                Some(RefreshOptions {
+                    refresh_reg: "import_meta_refreshReg".to_string(),
+                    refresh_sig: "import_meta_refreshSig".to_string(),
+                    emit_full_signatures: true,
+                }),
+                t.cm.clone(),
+                Some(t.comments.clone())
+            )
         )
-    ),
+    },
     custom_identifier,
     r#"
     export default function Bar () {
