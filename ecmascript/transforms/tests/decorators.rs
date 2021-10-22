@@ -10,7 +10,7 @@ use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::resolver;
 use swc_ecma_transforms_compat::{
     es2015::{classes, function_name},
-    es2020::class_properties,
+    es2022::class_properties,
 };
 use swc_ecma_transforms_module::common_js;
 use swc_ecma_transforms_optimization::simplify::inlining;
