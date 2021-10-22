@@ -451,11 +451,11 @@ impl VisitMut for Mangler<'_> {
     fn visit_mut_var_declarator(&mut self, n: &mut VarDeclarator) {
         let old = self.data.is_pat_decl;
 
-        self.data.is_pat_decl = false;
-        n.init.visit_mut_with(self);
-
         self.data.is_pat_decl = true;
         n.name.visit_mut_with(self);
+
+        self.data.is_pat_decl = false;
+        n.init.visit_mut_with(self);
 
         self.data.is_pat_decl = old;
     }
