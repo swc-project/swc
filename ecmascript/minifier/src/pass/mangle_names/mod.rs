@@ -96,6 +96,8 @@ impl Mangler<'_> {
 
             op(&mut v);
 
+            v.exit_scope();
+
             self.data = v.data;
         }
 
