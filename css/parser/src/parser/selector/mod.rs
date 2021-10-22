@@ -190,13 +190,29 @@ where
 
     fn parse_class_selector(&mut self) -> PResult<ClassSelector> {
         let start = self.input.cur_span()?.lo;
+
         bump!(self);
 
-        let text = self.parse_selector_text()?;
+        let span = self.input.cur_span()?;
+
+        match cur!(self) {
+            Token::Ident { .. } => {}
+            _ => Err(Error::new(span, ErrorKind::ExpectedSelectorText))?,
+        }
+
+        let value = bump!(self);
+        let values = match value {
+            Token::Ident { value, raw } => (value, raw),
+            _ => unreachable!(),
+        };
 
         Ok(ClassSelector {
             span: span!(self, start),
-            text,
+            text: Text {
+                span,
+                value: values.0,
+                raw: values.1,
+            },
         })
     }
 
