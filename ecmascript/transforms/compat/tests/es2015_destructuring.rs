@@ -186,7 +186,7 @@ test!(
 var { x: { y } = {} } = z;"#,
     r#"var z = {
 };
-var tmp = z.x, ref = tmp === void 0 ? {} : tmp, y = ref.y;"#
+var tmp = z.x, y = (tmp === void 0 ? {} : tmp).y;"#
 );
 
 test!(
@@ -527,7 +527,7 @@ const bar = {
         qux: 'baz'
     }
 };
-const _Foo = bar[Foo], qux = _Foo.qux;"
+const qux = bar[Foo].qux;"
 );
 
 test!(
@@ -1225,7 +1225,7 @@ var { x: { y } = {} } = z;
 "#,
     r#"
 var z = {};
-var tmp = z.x, ref = tmp === void 0 ? {} : tmp, y = ref.y;
+var tmp = z.x, y = (tmp === void 0 ? {} : tmp).y;
 "#
 );
 
@@ -1623,7 +1623,7 @@ test!(
 test!(
     syntax(),
     |_| tr(),
-    next_00,
+    next_002,
     "
     ({ NODE_ENV }= process.env);
     ",
