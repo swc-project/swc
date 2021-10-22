@@ -1,4 +1,4 @@
-use std::{cell::RefCell, cmp::Reverse, collections::BinaryHeap};
+use std::{cell::RefCell, cmp::Reverse, collections::BinaryHeap, mem::take};
 
 use self::preserver::idents_to_preserve;
 use super::compute_char_freq::CharFreqInfo;
@@ -26,16 +26,8 @@ pub(crate) fn name_mangler(
 ) -> impl VisitMut {
     Mangler {
         options,
-        n: 0,
-        private_n: 0,
-        preserved: Default::default(),
-        preserved_symbols: Default::default(),
-        renamed_private: Default::default(),
         data: Default::default(),
         cur: Default::default(),
-        recycled_ids: Default::default(),
-        renamed: Default::default(),
-        is_pat_decl: false,
     }
 }
 
@@ -43,6 +35,13 @@ pub(crate) fn name_mangler(
 struct Mangler<'a> {
     options: MangleOptions,
 
+    data: Data,
+
+    cur: Scope<'a>,
+}
+
+#[derive(Debug, Default)]
+struct Data {
     preserved: AHashSet<Id>,
     preserved_symbols: AHashSet<JsWord>,
     data: Option<ProgramData>,
@@ -55,9 +54,6 @@ struct Mangler<'a> {
     // TODO: Reuse number
     renamed_private: AHashMap<Id, JsWord>,
     private_n: usize,
-
-    cur: Scope<'a>,
-
     is_pat_decl: bool,
 }
 
@@ -74,10 +70,36 @@ impl Scope<'_> {}
 impl Mangler<'_> {
     fn exit_scope(&mut self) {
         for &id in self.cur.decls.iter() {
-            let mut b = self.recycled_ids.borrow_mut();
+            let mut b = self.data.recycled_ids.borrow_mut();
 
             b.push(Reverse(id));
         }
+    }
+
+    fn with_scope<F>(&mut self, op: F)
+    where
+        F: for<'aa> FnOnce(&mut Mangler<'aa>),
+    {
+        let data = take(&mut self.data);
+        let parent = take(&mut self.cur);
+        {
+            let scope = Scope {
+                parent: Some(&parent),
+                decls: Default::default(),
+            };
+
+            let mut v = Mangler {
+                options: self.options.clone(),
+                data,
+                cur: scope,
+            };
+
+            op(&mut v);
+
+            self.data = v.data;
+        }
+
+        self.cur = parent;
     }
 }
 
@@ -89,17 +111,17 @@ impl Mangler<'_> {
             _ => {}
         }
 
-        if self.preserved.contains(&i.to_id()) {
+        if self.data.preserved.contains(&i.to_id()) {
             return false;
         }
 
-        if let Some(var) = self.data.as_ref().unwrap().vars.get(&i.to_id()) {
+        if let Some(var) = self.data.data.as_ref().unwrap().vars.get(&i.to_id()) {
             if !var.declared {
                 return false;
             }
         }
 
-        if let Some(v) = self.renamed.get(&i.to_id()) {
+        if let Some(v) = self.data.renamed.get(&i.to_id()) {
             i.span.ctxt = SyntaxContext::empty();
             i.sym = v.clone();
             return true;
@@ -115,17 +137,17 @@ impl Mangler<'_> {
             _ => {}
         }
 
-        if self.preserved.contains(&i.to_id()) {
+        if self.data.preserved.contains(&i.to_id()) {
             return false;
         }
 
-        if let Some(var) = self.data.as_ref().unwrap().vars.get(&i.to_id()) {
+        if let Some(var) = self.data.data.as_ref().unwrap().vars.get(&i.to_id()) {
             if !var.declared {
                 return false;
             }
         }
 
-        if let Some(v) = self.renamed.get(&i.to_id()) {
+        if let Some(v) = self.data.renamed.get(&i.to_id()) {
             i.span.ctxt = SyntaxContext::empty();
             i.sym = v.clone();
             return true;
@@ -135,15 +157,21 @@ impl Mangler<'_> {
     }
 
     fn rename_new(&mut self, i: &mut Ident) -> bool {
+        let recycled = self.data.recycled_ids.get_mut().pop();
+
+        if let Some(recycled) = recycled {
+            self.data.n = recycled.0;
+        }
+
         loop {
-            let sym = incr_base54(&mut self.n);
+            let sym = incr_base54(&mut self.data.n);
 
             let sym: JsWord = sym.into();
-            if self.preserved_symbols.contains(&sym) {
+            if self.data.preserved_symbols.contains(&sym) {
                 continue;
             }
 
-            self.renamed.insert(i.to_id(), sym.clone());
+            self.data.renamed.insert(i.to_id(), sym.clone());
 
             i.sym = sym.clone();
             i.span.ctxt = SyntaxContext::empty();
@@ -156,15 +184,15 @@ impl Mangler<'_> {
     fn rename_private(&mut self, private_name: &mut PrivateName) {
         let id = private_name.id.to_id();
 
-        let new_sym = if let Some(cached) = self.renamed_private.get(&id) {
+        let new_sym = if let Some(cached) = self.data.renamed_private.get(&id) {
             cached.clone()
         } else {
             loop {
-                let sym = incr_base54(&mut self.private_n);
+                let sym = incr_base54(&mut self.data.private_n);
 
                 let sym: JsWord = sym.into();
 
-                self.renamed_private.insert(id.clone(), sym.clone());
+                self.data.renamed_private.insert(id.clone(), sym.clone());
 
                 break sym;
             }
@@ -247,9 +275,9 @@ impl VisitMut for Mangler<'_> {
 
     fn visit_mut_module(&mut self, n: &mut Module) {
         let data = analyze(&*n, None);
-        self.data = Some(data);
-        self.preserved = idents_to_preserve(self.options.clone(), n);
-        self.preserved_symbols = self.preserved.iter().map(|v| v.0.clone()).collect();
+        self.data.data = Some(data);
+        self.data.preserved = idents_to_preserve(self.options.clone(), n);
+        self.data.preserved_symbols = self.data.preserved.iter().map(|v| v.0.clone()).collect();
         n.visit_mut_children_with(self);
     }
 
@@ -268,7 +296,7 @@ impl VisitMut for Mangler<'_> {
             }) => {
                 let key_span = key.span.with_ctxt(SyntaxContext::empty());
                 let orig = key.sym.clone();
-                let renamed = if self.is_pat_decl {
+                let renamed = if self.data.is_pat_decl {
                     self.rename_decl(key)
                 } else {
                     self.rename_usage(key)
@@ -287,7 +315,7 @@ impl VisitMut for Mangler<'_> {
 
                 let key_span = p.key.span.with_ctxt(SyntaxContext::empty());
                 let orig = p.key.sym.clone();
-                let renamed = if self.is_pat_decl {
+                let renamed = if self.data.is_pat_decl {
                     self.rename_decl(&mut p.key)
                 } else {
                     self.rename_usage(&mut p.key)
@@ -324,7 +352,7 @@ impl VisitMut for Mangler<'_> {
 
         match n {
             Pat::Ident(i) => {
-                if self.is_pat_decl {
+                if self.data.is_pat_decl {
                     self.rename_decl(&mut i.id);
                 } else {
                     self.rename_usage(&mut i.id);
@@ -361,9 +389,9 @@ impl VisitMut for Mangler<'_> {
 
     fn visit_mut_script(&mut self, n: &mut Script) {
         let data = analyze(&*n, None);
-        self.data = Some(data);
-        self.preserved = idents_to_preserve(self.options.clone(), n);
-        self.preserved_symbols = self.preserved.iter().map(|v| v.0.clone()).collect();
+        self.data.data = Some(data);
+        self.data.preserved = idents_to_preserve(self.options.clone(), n);
+        self.data.preserved_symbols = self.data.preserved.iter().map(|v| v.0.clone()).collect();
         n.visit_mut_children_with(self);
     }
 }
