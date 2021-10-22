@@ -48,6 +48,7 @@ struct Data {
 
     recycled_ids: RefCell<BinaryHeap<Reverse<usize>>>,
     n: usize,
+    max_n: usize,
 
     renamed: AHashMap<Id, JsWord>,
 
@@ -152,23 +153,26 @@ impl Mangler<'_> {
         loop {
             let (used_n, sym) = incr_base54(&mut self.data.n);
 
-            dbg!(&used_n);
+            // if recycled.is_none() {
+            //     self.data.max_n = self.data.max_n.max(used_n);
+            // }
 
-            if recycled.is_some() {
-                if !self
-                    .data
-                    .recycled_ids
-                    .get_mut()
-                    .iter()
-                    .any(|v| v.0 == used_n)
-                {
-                    // Id is already in use
-                    dbg!("Id in use", used_n);
-                    self.data.n += 1;
+            // dbg!(&used_n);
 
-                    continue;
-                }
-            }
+            // if recycled.is_some() && self.data.max_n < used_n {
+            //     if !self
+            //         .data
+            //         .recycled_ids
+            //         .get_mut()
+            //         .iter()
+            //         .any(|v| v.0 == used_n)
+            //     {
+            //         // Id is already in use
+            //         dbg!("Id in use", used_n);
+
+            //         continue;
+            //     }
+            // }
 
             if is_decl {
                 if !self.cur.decls.contains(&used_n) {
