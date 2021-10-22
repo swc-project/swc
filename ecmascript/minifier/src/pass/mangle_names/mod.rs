@@ -72,6 +72,10 @@ impl Mangler<'_> {
         for &id in self.cur.decls.iter() {
             let mut b = self.data.recycled_ids.borrow_mut();
 
+            if b.iter().any(|elem| elem.0 == id) {
+                continue;
+            }
+
             b.push(Reverse(id));
         }
     }
@@ -148,6 +152,24 @@ impl Mangler<'_> {
         loop {
             let (used_n, sym) = incr_base54(&mut self.data.n);
 
+            dbg!(&used_n);
+
+            if recycled.is_some() {
+                if !self
+                    .data
+                    .recycled_ids
+                    .get_mut()
+                    .iter()
+                    .any(|v| v.0 == used_n)
+                {
+                    // Id is already in use
+                    dbg!("Id in use", used_n);
+                    self.data.n += 1;
+
+                    continue;
+                }
+            }
+
             if is_decl {
                 if !self.cur.decls.contains(&used_n) {
                     self.cur.decls.push(used_n);
@@ -221,6 +243,8 @@ impl VisitMut for Mangler<'_> {
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
+        let old = self.data.is_pat_decl;
+        self.data.is_pat_decl = false;
         e.visit_mut_children_with(self);
 
         match e {
@@ -229,6 +253,8 @@ impl VisitMut for Mangler<'_> {
             }
             _ => {}
         }
+
+        self.data.is_pat_decl = old;
     }
 
     fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
