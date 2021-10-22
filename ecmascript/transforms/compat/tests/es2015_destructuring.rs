@@ -1607,3 +1607,27 @@ test!(
     ref = b, ref1 = ref[0], a = ref1 === void 0 ? 1 : ref1, ref;
     "
 );
+
+test!(
+    syntax(),
+    |_| tr(),
+    next_001,
+    "
+    const { NODE_ENV }= process.env;
+    ",
+    "
+    const NODE_ENV = process.env.NODE_ENV;
+    "
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    next_00,
+    "
+    { NODE_ENV }= process.env;
+    ",
+    "
+    NODE_ENV = process.env.NODE_ENV;
+    "
+);
