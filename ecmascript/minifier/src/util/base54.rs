@@ -33,7 +33,7 @@ pub(crate) fn incr_base54(init: &mut usize) -> (usize, String) {
         return incr_base54(init);
     }
 
-    (n, ret)
+    (*init, ret)
 }
 
 #[cfg(test)]
