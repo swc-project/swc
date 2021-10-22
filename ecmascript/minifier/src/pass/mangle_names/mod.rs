@@ -190,6 +190,19 @@ impl Mangler<'_> {
 impl VisitMut for Mangler<'_> {
     noop_visit_mut_type!();
 
+    fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
+        self.with_scope(|v| {
+            let old = v.data.is_pat_decl;
+            v.data.is_pat_decl = true;
+            n.params.visit_mut_with(v);
+
+            v.data.is_pat_decl = false;
+            n.body.visit_mut_children_with(v);
+
+            v.data.is_pat_decl = old;
+        })
+    }
+
     fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
         self.rename_decl(&mut n.ident);
 
