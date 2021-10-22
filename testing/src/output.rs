@@ -89,19 +89,19 @@ impl NormalizedOutput {
         eprintln!("Comparing output to {}", path.display());
         create_dir_all(path.parent().unwrap()).expect("failed to run `mkdir -p`");
 
-        let diff = Diff {
-            expected,
-            actual: self,
-        };
         if std::env::var("UPDATE").unwrap_or(String::from("0")) == "1" {
-            // ::write_to_file(&path_for_actual, &self.0);
-            crate::write_to_file(&path, &diff.actual.0);
+            crate::write_to_file(&path, &self.0);
 
             eprintln!(
                 "Assertion failed: \nActual file printed to {}",
                 path.display()
             );
         }
+
+        let diff = Diff {
+            expected,
+            actual: self,
+        };
 
         assert_eq!(diff.expected, diff.actual, "Actual:\n{}", diff.actual);
 
