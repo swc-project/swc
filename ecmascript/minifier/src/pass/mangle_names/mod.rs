@@ -148,7 +148,9 @@ impl Mangler<'_> {
             let (used_n, sym) = incr_base54(&mut self.data.n);
 
             if is_decl {
-                self.cur.decls.push(used_n);
+                if !self.cur.decls.contains(&used_n) {
+                    self.cur.decls.push(used_n);
+                }
             }
 
             let sym: JsWord = sym.into();
