@@ -14,7 +14,7 @@ impl<I> Parser<I>
 where
     I: ParserInput,
 {
-    /// TOOD: error recovery.
+    // TODO: error recovery.
     pub(super) fn parse_delimited<T>(&mut self, allow_zero: bool) -> PResult<Vec<T>>
     where
         Self: Parse<T> + ParseDelmited<T>,

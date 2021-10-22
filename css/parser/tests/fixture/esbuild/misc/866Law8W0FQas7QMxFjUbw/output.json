@@ -92,7 +92,7 @@
                   "type": "Number",
                   "span": {
                     "start": 11,
-                    "end": 13,
+                    "end": 12,
                     "ctxt": 0
                   },
                   "value": 10.0,
@@ -100,7 +100,7 @@
                 },
                 "unit": {
                   "span": {
-                    "start": 13,
+                    "start": 12,
                     "end": 17,
                     "ctxt": 0
                   },

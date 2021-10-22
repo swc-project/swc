@@ -345,10 +345,14 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<KeyframeSelector> {
+        let span = self.input.cur_span()?;
+
         if is!(self, Ident) {
             self.parse_id().map(KeyframeSelector::Id)
-        } else {
+        } else if is!(self, Percent) {
             self.parse().map(KeyframeSelector::Percent)
+        } else {
+            Err(Error::new(span, ErrorKind::InvalidKeyframeSelector))
         }
     }
 }

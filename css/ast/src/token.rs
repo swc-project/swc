@@ -70,9 +70,18 @@ pub enum Token {
         raw: JsWord,
     },
 
-    // TODO Percentage
+    Percent {
+        value: f64,
+        raw: JsWord,
+    },
 
-    // TODO dimension
+    Dimension {
+        value: f64,
+        raw_value: JsWord,
+        unit: JsWord,
+        raw_unit: JsWord,
+    },
+
     /// One or more whitespace.
     WhiteSpace,
 
