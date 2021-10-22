@@ -222,6 +222,20 @@ impl VisitMut for Mangler<'_> {
         })
     }
 
+    fn visit_mut_catch_clause(&mut self, n: &mut CatchClause) {
+        self.with_scope(|v| {
+            let old = v.data.is_pat_decl;
+
+            v.data.is_pat_decl = true;
+            n.param.visit_mut_with(v);
+
+            v.data.is_pat_decl = true;
+            n.body.visit_mut_with(v);
+
+            v.data.is_pat_decl = old;
+        })
+    }
+
     fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
         self.rename_decl(&mut n.ident);
 
