@@ -728,6 +728,22 @@ impl Fold for AssignFolder {
                         })
                     }
                     Pat::Object(ObjectPat { span, props, .. }) => {
+                        if props.len() == 1 {
+                            match &props[0] {
+                                ObjectPatProp::Assign(p @ AssignPatProp { value: None, .. }) => {
+                                    return Expr::Assign(AssignExpr {
+                                        span,
+                                        op: op!("="),
+                                        left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                                            p.key.clone().into(),
+                                        ))),
+                                        right: Box::new(right.make_member(p.key.clone())),
+                                    });
+                                }
+                                _ => {}
+                            }
+                        }
+
                         let ref_ident = make_ref_ident(self.c, &mut self.vars, None);
 
                         let mut exprs = vec![];
