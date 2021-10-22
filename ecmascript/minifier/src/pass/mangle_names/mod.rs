@@ -358,6 +358,17 @@ impl VisitMut for Mangler<'_> {
         }
     }
 
+    fn visit_mut_param(&mut self, n: &mut Param) {
+        let old = self.data.is_pat_decl;
+        self.data.is_pat_decl = false;
+        n.decorators.visit_mut_with(self);
+
+        self.data.is_pat_decl = true;
+        n.pat.visit_mut_with(self);
+
+        self.data.is_pat_decl = old;
+    }
+
     fn visit_mut_pat(&mut self, n: &mut Pat) {
         n.visit_mut_children_with(self);
 
