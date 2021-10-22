@@ -240,21 +240,29 @@ impl VisitMut for Mangler<'_> {
     }
 
     fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
-        self.rename_decl(&mut n.ident);
-
         self.with_scope(|v| {
             n.function.visit_mut_with(v);
-        })
+        });
+
+        self.rename_decl(&mut n.ident);
     }
 
     fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
         self.with_scope(|v| {
+            n.function.visit_mut_with(v);
+
             if let Some(i) = &mut n.ident {
                 v.rename_decl(i);
             }
-
-            n.function.visit_mut_with(v);
         })
+    }
+
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        n.body.visit_mut_with(self);
+
+        n.params.visit_mut_with(self);
+
+        n.decorators.visit_mut_with(self);
     }
 
     fn visit_mut_import_default_specifier(&mut self, n: &mut ImportDefaultSpecifier) {
