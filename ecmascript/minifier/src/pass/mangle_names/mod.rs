@@ -17,6 +17,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
+mod analyzer;
 mod preserver;
 
 pub(crate) fn name_mangler(
