@@ -223,6 +223,16 @@ impl VisitMut for Mangler<'_> {
         })
     }
 
+    fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
+        self.with_scope(|v| {
+            if let Some(i) = &mut n.ident {
+                v.rename_decl(i);
+            }
+
+            n.function.visit_mut_with(v);
+        })
+    }
+
     fn visit_mut_import_default_specifier(&mut self, n: &mut ImportDefaultSpecifier) {
         self.rename_decl(&mut n.local);
     }
