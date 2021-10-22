@@ -1625,7 +1625,7 @@ test!(
     |_| tr(),
     next_00,
     "
-    { NODE_ENV }= process.env;
+    ({ NODE_ENV }= process.env);
     ",
     "
     NODE_ENV = process.env.NODE_ENV;
