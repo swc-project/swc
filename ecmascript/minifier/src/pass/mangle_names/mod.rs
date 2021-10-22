@@ -141,6 +141,7 @@ impl Mangler<'_> {
         let recycled = self.data.recycled_ids.get_mut().pop();
 
         if let Some(recycled) = recycled {
+            dbg!(&recycled);
             self.data.n = recycled.0;
         }
 
