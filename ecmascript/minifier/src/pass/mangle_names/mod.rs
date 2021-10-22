@@ -108,32 +108,15 @@ impl Mangler<'_> {
 impl Mangler<'_> {
     /// Returns `true` if renamed.
     fn rename_decl(&mut self, i: &mut Ident) -> bool {
-        match i.sym {
-            js_word!("arguments") => return false,
-            _ => {}
-        }
-
-        if self.data.preserved.contains(&i.to_id()) {
-            return false;
-        }
-
-        if let Some(var) = self.data.data.as_ref().unwrap().vars.get(&i.to_id()) {
-            if !var.declared {
-                return false;
-            }
-        }
-
-        if let Some(v) = self.data.renamed.get(&i.to_id()) {
-            i.span.ctxt = SyntaxContext::empty();
-            i.sym = v.clone();
-            return true;
-        }
-
-        self.rename_new(i)
+        self.rename_new(i, true)
     }
 
     /// Returns `true` if renamed.
     fn rename_usage(&mut self, i: &mut Ident) -> bool {
+        self.rename_new(i, false)
+    }
+
+    fn rename_new(&mut self, i: &mut Ident, is_decl: bool) -> bool {
         match i.sym {
             js_word!("arguments") => return false,
             _ => {}
@@ -155,10 +138,6 @@ impl Mangler<'_> {
             return true;
         }
 
-        self.rename_new(i)
-    }
-
-    fn rename_new(&mut self, i: &mut Ident) -> bool {
         let recycled = self.data.recycled_ids.get_mut().pop();
 
         if let Some(recycled) = recycled {
@@ -234,7 +213,10 @@ impl VisitMut for Mangler<'_> {
 
     fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
         self.rename_decl(&mut n.ident);
-        n.function.visit_mut_with(self);
+
+        self.with_scope(|v| {
+            n.function.visit_mut_with(v);
+        })
     }
 
     fn visit_mut_import_default_specifier(&mut self, n: &mut ImportDefaultSpecifier) {
