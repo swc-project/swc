@@ -27,22 +27,22 @@ function _objectSpread(target) {
     }
     return target;
 }
-var ref = _objectSpread({
+var x = _objectSpread({
 }, {
 }, {
     x: 0
-}), x = ref.x;
-var ref1 = _objectSpread({
+}).x;
+var y = _objectSpread({
     y: 0
 }, {
-}), y = ref1.y;
-var ref2 = _objectSpread({
+}).y;
+var ref = _objectSpread({
     z: 0
 }, {
     a: 0,
     b: 0
-}), z = ref2.z, a = ref2.a, b = ref2.b;
-var ref3 = _objectSpread({
+}), z = ref.z, a = ref.a, b = ref.b;
+var ref1 = _objectSpread({
 }, _objectSpread({
 }, _objectSpread({
 }, {
@@ -53,4 +53,4 @@ var ref3 = _objectSpread({
     e: 0
 }), {
     f: 0
-}), c = ref3.c, d = ref3.d, e = ref3.e, f = ref3.f, g = ref3.g;
+}), c = ref1.c, d = ref1.d, e = ref1.e, f = ref1.f, g = ref1.g;

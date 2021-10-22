@@ -71,9 +71,9 @@ var SubD = /*#__PURE__*/ function(D) {
     return SubD;
 }(D);
 function d0(param) {
-    var ref = param === void 0 ? {
+    var x = (param === void 0 ? {
         x: new Class()
-    } : param, x = ref.x;
+    } : param).x;
 }
 function d1(param) {
     var x = param.x;
@@ -85,9 +85,9 @@ function d3(param) {
     var y = param.y;
 }
 function d4(param) {
-    var ref = param === void 0 ? {
+    var y = (param === void 0 ? {
         y: new D()
-    } : param, y = ref.y;
+    } : param).y;
 }
 var obj1 = new Class();
 d0({
