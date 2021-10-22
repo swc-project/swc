@@ -3,9 +3,7 @@ use swc_ecma_ast::IdentExt;
 const CHARS: &[u8] = b"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$_0123456789";
 
 /// Note: This returns `a` for 0.
-///
-/// Returns [None] if the value is is not a valid ideitifer.
-pub(crate) fn incr_base54(init: &mut usize) -> String {
+pub(crate) fn incr_base54(init: &mut usize) -> (usize, String) {
     let mut n = *init;
 
     *init += 1;
@@ -35,7 +33,7 @@ pub(crate) fn incr_base54(init: &mut usize) -> String {
         return incr_base54(init);
     }
 
-    ret
+    (n, ret)
 }
 
 #[cfg(test)]
@@ -51,7 +49,7 @@ mod tests {
         }
 
         fn gen(&mut self, expected: &str) {
-            let generated = incr_base54(&mut self.n);
+            let generated = incr_base54(&mut self.n).1;
             assert_eq!(generated, expected);
         }
     }
