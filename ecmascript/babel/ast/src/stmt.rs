@@ -398,12 +398,3 @@ pub struct WithStatement {
     pub object: Box<Expression>,
     pub body: Box<Statement>,
 }
-
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-pub struct StaticBlock {
-    #[serde(flatten)]
-    pub base: BaseNode,
-    #[serde(default)]
-    pub body: Vec<Statement>,
-}

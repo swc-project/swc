@@ -78,6 +78,10 @@ define!({
         pub optional: Option<bool>,
         pub readonly: Option<bool>,
     }
+    pub struct StaticBlock {
+        pub base: BaseNode,
+        pub body: Vec<Statement>,
+    }
     pub enum ClassBodyEl {
         Method(ClassMethod),
         PrivateMethod(ClassPrivateMethod),
@@ -85,6 +89,7 @@ define!({
         PrivateProp(ClassPrivateProperty),
         TSMethod(TSDeclareMethod),
         TSIndex(TSIndexSignature),
+        StaticBlock(StaticBlock),
     }
     pub struct ClassBody {
         pub base: BaseNode,
@@ -1815,10 +1820,6 @@ define!({
         pub base: BaseNode,
         pub object: Box<Expression>,
         pub body: Box<Statement>,
-    }
-    pub struct StaticBlock {
-        pub base: BaseNode,
-        pub body: Vec<Statement>,
     }
     pub enum TSTypeElement {
         CallSignatureDecl(TSCallSignatureDeclaration),
