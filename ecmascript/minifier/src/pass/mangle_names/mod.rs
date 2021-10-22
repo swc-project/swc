@@ -143,36 +143,14 @@ impl Mangler<'_> {
             return true;
         }
 
-        let recycled = self.data.recycled_ids.get_mut().pop();
-
-        if let Some(recycled) = recycled {
-            dbg!(&recycled);
-            self.data.n = recycled.0;
-        }
-
         loop {
+            let recycled = self.data.recycled_ids.get_mut().pop();
+
+            if let Some(recycled) = recycled {
+                self.data.n = recycled.0;
+            }
+
             let (used_n, sym) = incr_base54(&mut self.data.n);
-
-            // if recycled.is_none() {
-            //     self.data.max_n = self.data.max_n.max(used_n);
-            // }
-
-            // dbg!(&used_n);
-
-            // if recycled.is_some() && self.data.max_n < used_n {
-            //     if !self
-            //         .data
-            //         .recycled_ids
-            //         .get_mut()
-            //         .iter()
-            //         .any(|v| v.0 == used_n)
-            //     {
-            //         // Id is already in use
-            //         dbg!("Id in use", used_n);
-
-            //         continue;
-            //     }
-            // }
 
             if is_decl {
                 if !self.cur.decls.contains(&used_n) {
