@@ -143,13 +143,25 @@ impl Mangler<'_> {
             return true;
         }
 
-        loop {
-            let recycled = self.data.recycled_ids.get_mut().pop();
+        if let Some(mut n) = self.data.recycled_ids.get_mut().pop() {
+            let (used_n, sym) = incr_base54(&mut n.0);
 
-            if let Some(recycled) = recycled {
-                self.data.n = recycled.0;
+            if is_decl {
+                if !self.cur.decls.contains(&used_n) {
+                    self.cur.decls.push(used_n);
+                }
             }
 
+            let sym: JsWord = sym.into();
+
+            self.data.renamed.insert(i.to_id(), sym.clone());
+
+            i.sym = sym.clone();
+            i.span.ctxt = SyntaxContext::empty();
+            return true;
+        }
+
+        loop {
             let (used_n, sym) = incr_base54(&mut self.data.n);
 
             if is_decl {
