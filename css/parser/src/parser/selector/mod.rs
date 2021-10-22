@@ -342,7 +342,7 @@ where
     }
 
     fn parse_pseudo_class_selector(&mut self) -> PResult<PseudoSelector> {
-        let start = self.input.cur_span()?.lo;
+        let span = self.input.cur_span()?;
 
         expect!(self, ":"); // `:`
 
@@ -350,7 +350,12 @@ where
         self.input.skip_ws()?;
 
         if is!(self, Ident) && peeked_is!(self, "(") {
-            let name = self.parse_selector_text()?;
+            let ident_span = self.input.cur_span()?;
+            let value = bump!(self);
+            let values = match value {
+                Token::Ident { value, raw } => (value, raw),
+                _ => unreachable!(),
+            };
 
             expect!(self, "(");
 
@@ -359,31 +364,38 @@ where
             expect!(self, ")");
 
             return Ok(PseudoSelector {
-                span: span!(self, start),
+                span: span!(self, span.lo),
                 is_element: false,
-                name,
+                name: Text {
+                    span: ident_span,
+                    value: values.0,
+                    raw: values.1,
+                },
                 args,
+            });
+        } else if is!(self, Ident) {
+            let ident_span = self.input.cur_span()?;
+            let value = bump!(self);
+            let values = match value {
+                Token::Ident { value, raw } => (value, raw),
+                _ => unreachable!(),
+            };
+
+            return Ok(PseudoSelector {
+                span: span!(self, span.lo),
+                is_element: false,
+                name: Text {
+                    span: ident_span,
+                    value: values.0,
+                    raw: values.1,
+                },
+                args: Default::default(),
             });
         }
 
-        let name_start = self.input.cur_span()?.lo;
+        let span = self.input.cur_span()?;
 
-        let name = if is!(self, Ident) {
-            self.parse_selector_text()?
-        } else {
-            Text {
-                span: span!(self, name_start),
-                value: js_word!(""),
-                raw: js_word!(""),
-            }
-        };
-
-        Ok(PseudoSelector {
-            span: span!(self, start),
-            is_element: false,
-            name,
-            args: Default::default(),
-        })
+        return Err(Error::new(span, ErrorKind::InvalidSelector));
     }
 
     pub(super) fn parse_compound_selector(&mut self) -> PResult<CompoundSelector> {
@@ -487,27 +499,6 @@ where
             combinator: None,
             type_selector,
             subclass_selectors,
-        })
-    }
-
-    fn parse_selector_text(&mut self) -> PResult<Text> {
-        let span = self.input.cur_span()?;
-
-        match cur!(self) {
-            Token::Ident { .. } => {}
-            _ => Err(Error::new(span, ErrorKind::ExpectedSelectorText))?,
-        }
-
-        let value = bump!(self);
-        let values = match value {
-            Token::Ident { value, raw } => (value, raw),
-            _ => unreachable!(),
-        };
-
-        Ok(Text {
-            span,
-            value: values.0,
-            raw: values.1,
         })
     }
 
