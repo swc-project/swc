@@ -425,7 +425,11 @@ where
     fn read_numeric(&mut self) -> LexResult<Token> {
         let number = self.read_number();
 
-        if self.would_start_ident()? {
+        let next_first = self.input.cur();
+        let next_second = self.input.peek();
+        let next_third = self.input.peek_ahead();
+
+        if self.would_start_ident(next_first, next_second, next_third)? {
             let name = self.read_name()?;
 
             return Ok(Token::Dimension {
@@ -434,7 +438,7 @@ where
                 unit: name.0,
                 raw_unit: name.1,
             });
-        } else if let Some(c) = self.input.cur() {
+        } else if let Some(c) = next_first {
             if c == '%' {
                 self.input.bump();
 
@@ -444,21 +448,6 @@ where
                 });
             }
         }
-        // TODO: If the next 3 input code points would start an identifier, then:
-        // TODO: need improve
-        // if self.would_start_ident()? {
-        //     let name = self.read_name()?;
-        //
-        //     return Ok(Token::Dimension {
-        //         value: number,
-        //         unit: name.0,
-        //         raw_unit: name.1
-        //     });
-        // } else if self.input.cur().unwrap() == '%' {
-        //     self.input.bump();
-        //
-        //     return Ok(Token::Percent { value: number });
-        // }
 
         Ok(Token::Num {
             value: number.0,
