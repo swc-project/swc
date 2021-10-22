@@ -1,0 +1,99 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/vercel/001/input.css:1:1
+  |
+1 | / :nth-child(4n) {
+2 | |     margin-right: 0;
+3 | | }
+  | |__^
+
+error: Rule
+ --> $DIR/tests/fixture/vercel/001/input.css:1:1
+  |
+1 | / :nth-child(4n) {
+2 | |     margin-right: 0;
+3 | | }
+  | |_^
+
+error: StyleRule
+ --> $DIR/tests/fixture/vercel/001/input.css:1:1
+  |
+1 | / :nth-child(4n) {
+2 | |     margin-right: 0;
+3 | | }
+  | |_^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/vercel/001/input.css:1:1
+  |
+1 | :nth-child(4n) {
+  | ^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/vercel/001/input.css:1:1
+  |
+1 | :nth-child(4n) {
+  | ^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/vercel/001/input.css:1:1
+  |
+1 | :nth-child(4n) {
+  | ^^^^^^^^^^^^^^
+
+error: PseudoSelector
+ --> $DIR/tests/fixture/vercel/001/input.css:1:1
+  |
+1 | :nth-child(4n) {
+  | ^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/vercel/001/input.css:1:2
+  |
+1 | :nth-child(4n) {
+  |  ^^^^^^^^^
+
+error: Tokens
+ --> $DIR/tests/fixture/vercel/001/input.css:1:12
+  |
+1 | :nth-child(4n) {
+  |            ^^
+
+error: Dimension { value: 4.0, raw_value: Atom('4' type=inline), unit: Atom('n' type=inline), raw_unit: Atom('n' type=inline) }
+ --> $DIR/tests/fixture/vercel/001/input.css:1:12
+  |
+1 | :nth-child(4n) {
+  |            ^^
+
+error: DeclBlock
+ --> $DIR/tests/fixture/vercel/001/input.css:1:16
+  |
+1 |   :nth-child(4n) {
+  |  ________________^
+2 | |     margin-right: 0;
+3 | | }
+  | |_^
+
+error: Property
+ --> $DIR/tests/fixture/vercel/001/input.css:2:5
+  |
+2 |     margin-right: 0;
+  |     ^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/vercel/001/input.css:2:5
+  |
+2 |     margin-right: 0;
+  |     ^^^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/vercel/001/input.css:2:19
+  |
+2 |     margin-right: 0;
+  |                   ^
+
+error: Num
+ --> $DIR/tests/fixture/vercel/001/input.css:2:19
+  |
+2 |     margin-right: 0;
+  |                   ^
+

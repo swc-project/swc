@@ -410,20 +410,25 @@ where
     fn read_numeric(&mut self) -> LexResult<Token> {
         let number = self.read_number();
 
-        // TODO: need improve
-        // if self.would_start_ident()? {
-        //     let name = self.read_name()?;
-        //
-        //     return Ok(Token::Dimension {
-        //         value: number,
-        //         unit: name.0,
-        //         raw_unit: name.1
-        //     });
-        // } else if self.input.cur().unwrap() == '%' {
-        //     self.input.bump();
-        //
-        //     return Ok(Token::Percent { value: number });
-        // }
+        if self.would_start_ident()? {
+            let name = self.read_name()?;
+
+            return Ok(Token::Dimension {
+                value: number.0,
+                raw_value: number.1.into(),
+                unit: name.0,
+                raw_unit: name.1,
+            });
+        } else if let Some(c) = self.input.cur() {
+            if c == '%' {
+                self.input.bump();
+
+                return Ok(Token::Percent {
+                    value: number.0,
+                    raw: number.1.into(),
+                });
+            }
+        }
 
         Ok(Token::Num {
             value: number.0,

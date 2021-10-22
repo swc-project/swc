@@ -81,9 +81,11 @@ where
             self.input.skip_ws()?;
 
             let mut values = vec![];
+
             values.push(value);
+
             loop {
-                if !is_one_of!(self, Str, Num, Ident, "[", "(") {
+                if !is_one_of!(self, Str, Num, Ident, Dimension, "[", "(") {
                     break;
                 }
 
@@ -203,6 +205,9 @@ where
             Token::Num { .. } => return self.parse_numeric_value(),
 
             Token::Function { .. } => return self.parse_value_ident_or_fn(),
+            Token::Percent { .. } => return self.parse_numeric_value(),
+
+            Token::Dimension { .. } => return self.parse_numeric_value(),
 
             Token::Ident { .. } => return self.parse_value_ident_or_fn(),
 
@@ -371,52 +376,50 @@ where
     }
 
     fn parse_basical_numeric_value(&mut self) -> PResult<Value> {
-        assert!(
-            matches!(cur!(self), Token::Num { .. }),
-            "parse_numeric_value: Should be called only if current token is Token::Num"
-        );
         let span = self.input.cur_span()?;
 
         match bump!(self) {
-            Token::Num { value, raw, .. } => {
-                if is!(self, Ident) {
-                    let unit_span = self.input.cur_span()?;
+            Token::Percent { value, raw, .. } => {
+                let value = Num {
+                    span: swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default()),
+                    value,
+                    raw,
+                };
 
-                    // Unit
-                    let value = Num { span, value, raw };
-                    match bump!(self) {
-                        Token::Ident {
-                            value: unit_value,
-                            raw: unit_raw,
-                            ..
-                        } => {
-                            return Ok(Value::Unit(UnitValue {
-                                span: span!(self, span.lo),
-                                value,
-                                unit: Unit {
-                                    span: unit_span,
-                                    value: unit_value,
-                                    raw: unit_raw,
-                                },
-                            }));
-                        }
-                        _ => {
-                            unreachable!()
-                        }
-                    }
-                }
-
-                if eat!(self, "%") {
-                    let value = Num { span, value, raw };
-
-                    return Ok(Value::Percent(PercentValue {
-                        span: span!(self, span.lo),
-                        value,
-                    }));
-                }
-
-                Ok(Value::Number(Num { span, value, raw }))
+                Ok(Value::Percent(PercentValue { span, value }))
             }
+            Token::Dimension {
+                value,
+                raw_value,
+                unit,
+                raw_unit,
+                ..
+            } => {
+                let unit_len = raw_unit.len() as u32;
+
+                return Ok(Value::Unit(UnitValue {
+                    span,
+                    value: Num {
+                        value,
+                        raw: raw_value,
+                        span: swc_common::Span::new(
+                            span.lo,
+                            span.hi - BytePos(unit_len),
+                            Default::default(),
+                        ),
+                    },
+                    unit: Unit {
+                        span: swc_common::Span::new(
+                            span.hi - BytePos(unit_len),
+                            span.hi,
+                            Default::default(),
+                        ),
+                        value: unit,
+                        raw: raw_unit,
+                    },
+                }));
+            }
+            Token::Num { value, raw, .. } => Ok(Value::Number(Num { span, value, raw })),
             _ => {
                 unreachable!()
             }
@@ -568,14 +571,25 @@ where
 {
     fn parse(&mut self) -> PResult<PercentValue> {
         let span = self.input.cur_span()?;
-        let value = self.parse()?;
 
-        expect!(self, "%");
+        if !is!(self, Percent) {
+            return Err(Error::new(span, ErrorKind::Expected("Percent")));
+        }
 
-        Ok(PercentValue {
-            span: span!(self, span.lo),
-            value,
-        })
+        match bump!(self) {
+            Token::Percent { value, raw } => {
+                let value = Num {
+                    span: swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default()),
+                    value,
+                    raw,
+                };
+
+                Ok(PercentValue { span, value })
+            }
+            _ => {
+                unreachable!()
+            }
+        }
     }
 }
 

@@ -136,26 +136,15 @@
                           {
                             "span": {
                               "start": 49,
-                              "end": 50,
-                              "ctxt": 0
-                            },
-                            "token": {
-                              "Num": {
-                                "value": 4.0,
-                                "raw": "4"
-                              }
-                            }
-                          },
-                          {
-                            "span": {
-                              "start": 50,
                               "end": 51,
                               "ctxt": 0
                             },
                             "token": {
-                              "Ident": {
-                                "value": "n",
-                                "raw": "n"
+                              "Dimension": {
+                                "value": 4.0,
+                                "raw_value": "4",
+                                "unit": "n",
+                                "raw_unit": "n"
                               }
                             }
                           }

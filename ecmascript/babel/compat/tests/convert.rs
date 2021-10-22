@@ -82,7 +82,10 @@ fn fixtures() -> Result<(), Error> {
                         ..Default::default()
                     })
                 } else {
-                    Syntax::default()
+                    Syntax::Es(EsConfig {
+                        static_blocks: true,
+                        ..Default::default()
+                    })
                 };
                 run_test(input, output, syntax, is_module);
             })),
