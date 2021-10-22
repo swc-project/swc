@@ -418,4 +418,15 @@ impl VisitMut for Mangler<'_> {
         self.data.preserved_symbols = self.data.preserved.iter().map(|v| v.0.clone()).collect();
         n.visit_mut_children_with(self);
     }
+
+    fn visit_mut_var_declarator(&mut self, n: &mut VarDeclarator) {
+        let old = self.data.is_pat_decl;
+        self.data.is_pat_decl = true;
+        n.name.visit_mut_with(self);
+
+        self.data.is_pat_decl = false;
+        n.init.visit_mut_with(self);
+
+        self.data.is_pat_decl = old;
+    }
 }
