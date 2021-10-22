@@ -32,14 +32,12 @@ where
         Ok(buf)
     }
 
-    /// Ported from `parseComplexSelector` of `esbuild`.
     pub(super) fn parse_complex_selector(&mut self) -> PResult<ComplexSelector> {
         let start_pos = self.input.cur_span()?.lo;
 
         let sel = self.parse_compound_selector()?;
 
         let mut selectors = vec![sel];
-
         let mut last_pos;
 
         loop {
@@ -52,11 +50,13 @@ where
             }
 
             let combinator = self.parse_combinator()?;
+
             if combinator.is_some() {
                 self.input.skip_ws()?;
             }
 
             let sel = self.parse_compound_selector();
+
             match sel {
                 Ok(mut sel) => {
                     sel.combinator = combinator;
@@ -109,20 +109,8 @@ where
         }
     }
 
-    pub(super) fn parse_compound_selector(&mut self) -> PResult<CompoundSelector> {
-        self.input.skip_ws()?;
-
-        let span = self.input.cur_span()?;
+    fn parse_type_selector(&mut self, span: Span) -> PResult<Option<NamespacedName>> {
         let start_pos = span.lo;
-
-        let mut has_nest_prefix = false;
-
-        // This is an extension: https://drafts.csswg.org/css-nesting-1/
-        if eat!(self, "&") {
-            has_nest_prefix = true;
-        }
-
-        let mut type_selector = None;
 
         match cur!(self) {
             tok!("|") | Token::Ident { .. } | tok!("*") => {
@@ -171,16 +159,33 @@ where
                     }
                 }
 
-                type_selector = Some(NamespacedName {
+                return Ok(Some(NamespacedName {
                     span: span!(self, start_pos),
                     prefix: ns_name_prefix,
                     name: ns_name_name.unwrap(),
-                });
+                }));
             }
 
             _ => {}
         }
 
+        Ok(None)
+    }
+
+    pub(super) fn parse_compound_selector(&mut self) -> PResult<CompoundSelector> {
+        self.input.skip_ws()?;
+
+        let span = self.input.cur_span()?;
+        let start_pos = span.lo;
+
+        let mut has_nest_prefix = false;
+
+        // This is an extension: https://drafts.csswg.org/css-nesting-1/
+        if eat!(self, "&") {
+            has_nest_prefix = true;
+        }
+
+        let type_selector = self.parse_type_selector(span).unwrap();
         let mut subclass_selectors = vec![];
 
         'subclass_selectors: loop {
@@ -345,6 +350,7 @@ where
 
     fn parse_attr_selector(&mut self) -> PResult<AttrSelector> {
         let start_pos = self.input.cur_span()?.lo;
+
         expect!(self, "[");
 
         let name_start_pos = self.input.cur_span()?.lo;
