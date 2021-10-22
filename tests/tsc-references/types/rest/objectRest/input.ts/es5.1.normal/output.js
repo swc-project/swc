@@ -109,13 +109,13 @@ var renamed = o2.d, d = _objectWithoutProperties(o2, [
     "d"
 ]);
 var nestedrest;
-var x = nestedrest.x, _n1 = nestedrest.n1, y = _n1.y, _n2 = _n1.n2, z = _n2.z, nr = _extends({
+var x = nestedrest.x, _n1 = nestedrest.n1, y = _n1.y, z = _n1.n2.z, nr = _extends({
 }, nestedrest.n1.n2.n3), restrest = _objectWithoutProperties(nestedrest, [
     "x",
     "n1"
 ]);
 var complex;
-var _x = complex.x, ka = _x.ka, other = complex.y, nested = _objectWithoutProperties(complex.x, [
+var ka = complex.x.ka, other = complex.y, nested = _objectWithoutProperties(complex.x, [
     "ka"
 ]), rest = _objectWithoutProperties(complex, [
     "x",
@@ -136,13 +136,12 @@ var _ref = {
     "x"
 ]);
 var _tmp;
-var ref1;
 _tmp = {
     x: 1,
     y: 2
 }, fresh = _objectWithoutProperties(_tmp, [
     "x"
-]), ref1 = _tmp, x = ref1.x, ref1, _tmp;
+]), x = _tmp.x, _tmp;
 var Removable = /*#__PURE__*/ function() {
     "use strict";
     function Removable() {
@@ -185,11 +184,11 @@ var stillNotGreat = o[computed], soSo = o[computed2], o = _objectWithoutProperti
     computed2
 ].map(_toPropertyKey));
 var _o;
-var ref2;
+var ref1;
 _o = o, o = _objectWithoutProperties(_o, [
     computed,
     computed2
-].map(_toPropertyKey)), ref2 = _o, stillNotGreat = ref2[computed], soSo = ref2[computed2], ref2, _o;
+].map(_toPropertyKey)), ref1 = _o, stillNotGreat = ref1[computed], soSo = ref1[computed2], ref1, _o;
 var noContextualType = function(_param) {
     var _aNumber = _param.aNumber, aNumber = _aNumber === void 0 ? 12 : _aNumber, notEmptyObject = _objectWithoutProperties(_param, [
         "aNumber"

@@ -5,25 +5,24 @@ x = true;
 x; // boolean
 x = "" = 1;
 x; // string | number
+x = ({
+    x: true
+}).x;
+x; // boolean
 var ref;
 ref = {
-    x: true
-}, x = ref.x, ref;
-x; // boolean
-var ref1;
-ref1 = {
     y: 1
-}, x = ref1.y, ref1;
+}, x = ref.y, ref;
 x; // number
-var ref2, ref3;
-ref2 = {
+var ref1, ref2;
+ref1 = {
     x: true
-}, ref3 = ref2.x, x = ref3 === void 0 ? "" : ref3, ref2;
+}, ref2 = ref1.x, x = ref2 === void 0 ? "" : ref2, ref1;
 x; // string | boolean
-var ref4;
-ref4 = {
+var ref3;
+ref3 = {
     y: 1
-}, x = /a/ = ref4.y, ref4;
+}, x = /a/ = ref3.y, ref3;
 x; // number | RegExp
 var a;
 var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;

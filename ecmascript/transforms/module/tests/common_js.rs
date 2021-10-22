@@ -4282,7 +4282,7 @@ let SomeClass = function() {
     _createClass(SomeClass, [{
             key: 'call',
             value: function call() {
-                var _props = this.props, myFunction = _props.myFunction;
+                var myFunction = this.props.myFunction;
                 if (myFunction) {
                     myFunction();
                 } else {
