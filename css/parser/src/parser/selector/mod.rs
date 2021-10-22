@@ -349,6 +349,7 @@ where
         // TODO: should be removed, because invalid
         self.input.skip_ws()?;
 
+        // TODO: will be `Function` token
         if is!(self, Ident) && peeked_is!(self, "(") {
             let ident_span = self.input.cur_span()?;
             let value = bump!(self);
