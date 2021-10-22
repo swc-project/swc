@@ -61,12 +61,11 @@ function f3(obj) {
 }
 function f4() {
     var x;
+    x = 0..x; // Error
     var ref;
-    ref = 0, x = ref.x, ref; // Error
+    ref = 0, x = ref["x"], ref; // Error
     var ref3;
-    ref3 = 0, x = ref3["x"], ref3; // Error
-    var ref4;
-    ref4 = 0, x = ref4["x" + ""], ref4; // Errpr
+    ref3 = 0, x = ref3["x" + ""], ref3; // Errpr
 }
 var ref2 = [
     "foo"
