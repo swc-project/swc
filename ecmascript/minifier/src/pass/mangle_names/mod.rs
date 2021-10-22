@@ -1,3 +1,5 @@
+use std::{cell::RefCell, cmp::Reverse, collections::BinaryHeap};
+
 use self::preserver::idents_to_preserve;
 use super::compute_char_freq::CharFreqInfo;
 use crate::{
@@ -28,27 +30,60 @@ pub(crate) fn name_mangler(
         private_n: 0,
         preserved: Default::default(),
         preserved_symbols: Default::default(),
-        renamed: Default::default(),
         renamed_private: Default::default(),
         data: Default::default(),
+        cur: Default::default(),
+        recycled_ids: Default::default(),
+        renamed: Default::default(),
+        is_pat_decl: false,
     }
 }
 
 #[derive(Debug)]
-struct Mangler {
+struct Mangler<'a> {
     options: MangleOptions,
-    n: usize,
-    private_n: usize,
 
     preserved: AHashSet<Id>,
     preserved_symbols: AHashSet<JsWord>,
-    renamed: AHashMap<Id, JsWord>,
-    renamed_private: AHashMap<Id, JsWord>,
     data: Option<ProgramData>,
+
+    recycled_ids: RefCell<BinaryHeap<Reverse<usize>>>,
+    n: usize,
+
+    renamed: AHashMap<Id, JsWord>,
+
+    // TODO: Reuse number
+    renamed_private: AHashMap<Id, JsWord>,
+    private_n: usize,
+
+    cur: Scope<'a>,
+
+    is_pat_decl: bool,
 }
 
-impl Mangler {
-    fn rename(&mut self, i: &mut Ident) -> bool {
+#[derive(Debug, Default)]
+struct Scope<'a> {
+    parent: Option<&'a Scope<'a>>,
+
+    /// Decls in current scope.
+    decls: Vec<usize>,
+}
+
+impl Scope<'_> {}
+
+impl Mangler<'_> {
+    fn exit_scope(&mut self) {
+        for &id in self.cur.decls.iter() {
+            let mut b = self.recycled_ids.borrow_mut();
+
+            b.push(Reverse(id));
+        }
+    }
+}
+
+impl Mangler<'_> {
+    /// Returns `true` if renamed.
+    fn rename_decl(&mut self, i: &mut Ident) -> bool {
         match i.sym {
             js_word!("arguments") => return false,
             _ => {}
@@ -70,6 +105,36 @@ impl Mangler {
             return true;
         }
 
+        self.rename_new(i)
+    }
+
+    /// Returns `true` if renamed.
+    fn rename_usage(&mut self, i: &mut Ident) -> bool {
+        match i.sym {
+            js_word!("arguments") => return false,
+            _ => {}
+        }
+
+        if self.preserved.contains(&i.to_id()) {
+            return false;
+        }
+
+        if let Some(var) = self.data.as_ref().unwrap().vars.get(&i.to_id()) {
+            if !var.declared {
+                return false;
+            }
+        }
+
+        if let Some(v) = self.renamed.get(&i.to_id()) {
+            i.span.ctxt = SyntaxContext::empty();
+            i.sym = v.clone();
+            return true;
+        }
+
+        self.rename_new(i)
+    }
+
+    fn rename_new(&mut self, i: &mut Ident) -> bool {
         loop {
             let sym = incr_base54(&mut self.n);
 
@@ -109,11 +174,11 @@ impl Mangler {
     }
 }
 
-impl VisitMut for Mangler {
+impl VisitMut for Mangler<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
-        self.rename(&mut n.ident);
+        self.rename_decl(&mut n.ident);
 
         n.class.visit_mut_with(self);
     }
@@ -123,7 +188,7 @@ impl VisitMut for Mangler {
             n.exported = Some(n.orig.clone());
         }
 
-        self.rename(&mut n.orig);
+        self.rename_usage(&mut n.orig);
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
@@ -131,19 +196,19 @@ impl VisitMut for Mangler {
 
         match e {
             Expr::Ident(i) => {
-                self.rename(i);
+                self.rename_usage(i);
             }
             _ => {}
         }
     }
 
     fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
-        self.rename(&mut n.ident);
+        self.rename_decl(&mut n.ident);
         n.function.visit_mut_with(self);
     }
 
     fn visit_mut_import_default_specifier(&mut self, n: &mut ImportDefaultSpecifier) {
-        self.rename(&mut n.local);
+        self.rename_decl(&mut n.local);
     }
 
     fn visit_mut_import_named_specifier(&mut self, n: &mut ImportNamedSpecifier) {
@@ -154,11 +219,11 @@ impl VisitMut for Mangler {
             }
         }
 
-        self.rename(&mut n.local);
+        self.rename_decl(&mut n.local);
     }
 
     fn visit_mut_import_star_as_specifier(&mut self, n: &mut ImportStarAsSpecifier) {
-        self.rename(&mut n.local);
+        self.rename_decl(&mut n.local);
     }
 
     fn visit_mut_labeled_stmt(&mut self, n: &mut LabeledStmt) {
@@ -203,8 +268,13 @@ impl VisitMut for Mangler {
             }) => {
                 let key_span = key.span.with_ctxt(SyntaxContext::empty());
                 let orig = key.sym.clone();
+                let renamed = if self.is_pat_decl {
+                    self.rename_decl(key)
+                } else {
+                    self.rename_usage(key)
+                };
 
-                if self.rename(key) {
+                if renamed {
                     *n = ObjectPatProp::KeyValue(KeyValuePatProp {
                         key: PropName::Ident(Ident::new(orig, key_span)),
                         value: Box::new(Pat::Ident(key.clone().into())),
@@ -217,8 +287,13 @@ impl VisitMut for Mangler {
 
                 let key_span = p.key.span.with_ctxt(SyntaxContext::empty());
                 let orig = p.key.sym.clone();
+                let renamed = if self.is_pat_decl {
+                    self.rename_decl(&mut p.key)
+                } else {
+                    self.rename_usage(&mut p.key)
+                };
 
-                if self.rename(&mut p.key) {
+                if renamed {
                     if let Some(right) = p.value.take() {
                         *n = ObjectPatProp::KeyValue(KeyValuePatProp {
                             key: PropName::Ident(Ident::new(orig, key_span)),
@@ -249,7 +324,11 @@ impl VisitMut for Mangler {
 
         match n {
             Pat::Ident(i) => {
-                self.rename(&mut i.id);
+                if self.is_pat_decl {
+                    self.rename_decl(&mut i.id);
+                } else {
+                    self.rename_usage(&mut i.id);
+                }
             }
             _ => {}
         }
@@ -267,7 +346,7 @@ impl VisitMut for Mangler {
                 let span = p.span.with_ctxt(SyntaxContext::empty());
                 let orig = p.sym.clone();
 
-                if self.rename(p) {
+                if self.rename_usage(p) {
                     *n = Prop::KeyValue(KeyValueProp {
                         key: PropName::Ident(Ident::new(orig, span)),
                         value: Box::new(Expr::Ident(p.clone())),
