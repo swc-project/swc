@@ -433,7 +433,7 @@ where
                     subclass_selectors.push(SubclassSelector::Pseudo(pseudo));
                 }
 
-                Token::AtKeyword { .. } if self.ctx.allow_at_selctor => {
+                Token::AtKeyword { .. } if self.ctx.allow_at_selector => {
                     let values = match bump!(self) {
                         Token::AtKeyword { value, raw } => (value, raw),
                         _ => {
