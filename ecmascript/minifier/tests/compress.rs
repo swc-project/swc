@@ -1351,7 +1351,16 @@ fn full(input: PathBuf) {
     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
 
     testing::run_test2(false, |cm, handler| {
-        let output = run(cm.clone(), &handler, &input, &config, None);
+        let output = run(
+            cm.clone(),
+            &handler,
+            &input,
+            &config,
+            Some(TestMangleOptions::Normal(MangleOptions {
+                top_level: true,
+                ..Default::default()
+            })),
+        );
         let output_module = match output {
             Some(v) => v,
             None => return Ok(()),
