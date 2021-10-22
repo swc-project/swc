@@ -1,5 +1,4 @@
 use crate::paths;
-use pretty_assertions::assert_eq;
 use std::{
     fmt,
     fs::{create_dir_all, File},
@@ -98,12 +97,16 @@ impl NormalizedOutput {
             );
         }
 
+        if self.0.lines().count() <= 5 {
+            assert_eq!(expected, self, "Actual:\n{}", self);
+        }
+
         let diff = Diff {
             expected,
             actual: self,
         };
 
-        assert_eq!(diff.expected, diff.actual, "Actual:\n{}", diff.actual);
+        pretty_assertions::assert_eq!(diff.expected, diff.actual, "Actual:\n{}", diff.actual);
 
         // Actually unreachable.
         Err(diff)
