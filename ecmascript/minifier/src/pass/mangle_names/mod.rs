@@ -147,6 +147,10 @@ impl Mangler<'_> {
         loop {
             let (used_n, sym) = incr_base54(&mut self.data.n);
 
+            if is_decl {
+                self.cur.decls.push(used_n);
+            }
+
             let sym: JsWord = sym.into();
             if self.data.preserved_symbols.contains(&sym) {
                 continue;
