@@ -94,18 +94,11 @@ where
             self.scope.store_module(v.clone());
 
             // Load dependencies and store them in the `Scope`
-            let results = files
-                .into_par_iter()
-                .map(|(_src, path)| {
-                    tracing::trace!("loading dependency: {}", path);
-                    self.load_transformed(&path)
-                })
-                .collect::<Vec<_>>();
-
-            // Do tasks in parallel, and then wait for result
-            for result in results {
-                result?;
-            }
+            files.into_par_iter().try_for_each(|(_src, path)| {
+                tracing::trace!("loading dependency: {}", path);
+                self.load_transformed(&path)?;
+                Ok::<(), Error>(())
+            })?;
 
             Ok(Some(v))
         })
@@ -290,7 +283,7 @@ where
                 forced_ns,
             } = info;
 
-            let loaded = imports
+            imports
                 .into_par_iter()
                 .map(|v| (v, false, true))
                 .chain(lazy_imports.into_par_iter().map(|v| (v, false, false)))
@@ -325,46 +318,50 @@ where
                         ))
                     })
                 })
-                .collect::<Vec<_>>();
+                .try_for_each(|res: Result<_, Error>| {
+                    // TODO: Report error and proceed instead of returning an error
+                    let (
+                        id,
+                        local_mark,
+                        export_mark,
+                        file_name,
+                        decl,
+                        is_dynamic,
+                        is_unconditional,
+                    ) = res?;
+                    let src = Source {
+                        is_loaded_synchronously: !is_dynamic,
+                        is_unconditional,
+                        module_id: id,
+                        local_ctxt: SyntaxContext::empty().apply_mark(local_mark),
+                        export_ctxt: SyntaxContext::empty().apply_mark(export_mark),
+                        src: decl.src,
+                    };
+                    files.push((src.clone(), file_name));
 
-            for res in loaded {
-                // TODO: Report error and proceed instead of returning an error
-                let (id, local_mark, export_mark, file_name, decl, is_dynamic, is_unconditional) =
-                    res?;
-
-                let src = Source {
-                    is_loaded_synchronously: !is_dynamic,
-                    is_unconditional,
-                    module_id: id,
-                    local_ctxt: SyntaxContext::empty().apply_mark(local_mark),
-                    export_ctxt: SyntaxContext::empty().apply_mark(export_mark),
-                    src: decl.src,
-                };
-                files.push((src.clone(), file_name));
-
-                // TODO: Handle rename
-                let mut specifiers = vec![];
-                for s in decl.specifiers {
-                    match s {
-                        ImportSpecifier::Named(s) => specifiers.push(Specifier::Specific {
-                            local: s.local.into(),
-                            alias: s.imported.map(From::from),
-                        }),
-                        ImportSpecifier::Default(s) => specifiers.push(Specifier::Specific {
-                            local: s.local.into(),
-                            alias: Some(Id::new(js_word!("default"), s.span.ctxt())),
-                        }),
-                        ImportSpecifier::Namespace(s) => {
-                            specifiers.push(Specifier::Namespace {
+                    // TODO: Handle rename
+                    let specifiers = decl
+                        .specifiers
+                        .into_par_iter()
+                        .map(|s| match s {
+                            ImportSpecifier::Named(s) => Specifier::Specific {
+                                local: s.local.into(),
+                                alias: s.imported.map(From::from),
+                            },
+                            ImportSpecifier::Default(s) => Specifier::Specific {
+                                local: s.local.into(),
+                                alias: Some(Id::new(js_word!("default"), s.span.ctxt())),
+                            },
+                            ImportSpecifier::Namespace(s) => Specifier::Namespace {
                                 local: s.local.into(),
                                 all: forced_ns.contains(&src.src.value),
-                            });
-                        }
-                    }
-                }
+                            },
+                        })
+                        .collect();
 
-                merged.specifiers.push((src, specifiers));
-            }
+                    merged.specifiers.push((src, specifiers));
+                    Ok::<(), Error>(())
+                })?;
 
             Ok((merged, files))
         })
