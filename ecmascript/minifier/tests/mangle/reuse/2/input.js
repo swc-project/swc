@@ -1,5 +1,6 @@
 function invalid(rule, params = {
 }, implicit = false) {
+    console.log('invalid');
     return {
         rule,
         params,
@@ -7,6 +8,7 @@ function invalid(rule, params = {
     };
 }
 function nullable(value) {
+    console.log('nullable');
     if (typeof value === "undefined") {
         return invalid("nullable", {
             value
@@ -14,18 +16,22 @@ function nullable(value) {
     }
 }
 function isNullable(rules) {
+    console.log('isNullable');
     return rules.find((rule) => rule === nullable
     ) ? true : false;
 }
 function isOptionalValue(value) {
+    console.log('isOptionalValue');
     return value === undefined || value === null || value === "";
 }
 function required(value) {
+    console.log('required');
     return isOptionalValue(value) ? invalid("required", {
         value
     }, true) : undefined;
 }
 function isOptional(rules) {
+    console.log('isOptional', rules);
     return rules.find((rule) => rule === required
     ) ? false : true;
 }
@@ -145,6 +151,7 @@ const optionallyRequired = new Set([
     "requiredUnlessRule",
 ]);
 const validateValue = async (value, rules, utils) => {
+    console.log('validateValue', value, rules, utils)
     const results = [];
     if (isOptionalValue(value) && isOptional(rules)) {
         const optionallyRequiredRules = rules.filter((r) => optionallyRequired.has(r.name)
