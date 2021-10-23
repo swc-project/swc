@@ -17,6 +17,7 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use tracing::debug;
 
 mod analyzer;
 mod preserver;
@@ -129,6 +130,7 @@ impl Mangler<'_> {
             if let Some(mut n) = reusable_n.pop() {
                 let (n, sym) = incr_base54(&mut n);
 
+                debug!("Reuse `{}` for `{}{:?}`", sym, id.0, id.1);
                 self.data.renamed.insert(id.clone(), sym.into());
                 self.data.renamed_ids.entry(n).or_default().push(id.clone());
             }
