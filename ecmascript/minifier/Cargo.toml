@@ -13,6 +13,7 @@ version = "0.44.4"
 debug = ["backtrace"]
 
 [dependencies]
+ahash = "0.7.6"
 backtrace = {version = "0.3.61", optional = true}
 indexmap = "1.7.0"
 once_cell = "1.5.2"
