@@ -206,17 +206,8 @@ fn fixture(input: PathBuf) {
             None,
             &MinifyOptions {
                 mangle: Some(MangleOptions {
-                    props: Some(ManglePropertiesOptions {
-                        reserved: Default::default(),
-                        undeclared: false,
-                        regex: Default::default(),
-                    }),
                     top_level: true,
-                    keep_class_names: false,
-                    keep_fn_names: false,
-                    keep_private_props: false,
-                    ie8: false,
-                    safari10: false,
+                    ..Default::default()
                 }),
                 compress: None,
                 ..Default::default()
