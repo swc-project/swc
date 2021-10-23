@@ -112,6 +112,8 @@ pub enum EsVersion {
     Es2020,
     #[serde(rename = "es2021")]
     Es2021,
+    #[serde(rename = "es2022")]
+    Es2022,
 }
 
 impl EsVersion {
