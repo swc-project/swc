@@ -1235,6 +1235,8 @@ fn exec_minified(input: PathBuf) {
 
         let src = bundle(&input.to_string_lossy(), false);
         write(&path, &src).unwrap();
+
+        std::mem::forget(dir);
     }
 
     let dir = tempfile::tempdir().expect("failed to crate temp file");
