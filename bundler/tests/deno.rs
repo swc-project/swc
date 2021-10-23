@@ -20,6 +20,7 @@ use swc_ecma_codegen::{
     text_writer::{omit_trailing_semi, JsWriter, WriteJs},
     Emitter,
 };
+use swc_ecma_minifier::option::MangleOptions;
 use swc_ecma_transforms_base::{fixer::fixer, resolver::resolver_with_mark};
 use swc_ecma_utils::{find_ids, Id};
 use swc_ecma_visit::{Node, Visit, VisitMutWith, VisitWith};
@@ -1060,7 +1061,10 @@ fn bundle(url: &str, minify: bool) -> String {
                     None,
                     &swc_ecma_minifier::option::MinifyOptions {
                         compress: Some(Default::default()),
-                        mangle: Some(Default::default()),
+                        mangle: Some(MangleOptions {
+                            top_level: true,
+                            ..Default::default()
+                        }),
                         ..Default::default()
                     },
                     &swc_ecma_minifier::option::ExtraOptions { top_level_mark },
@@ -1073,12 +1077,12 @@ fn bundle(url: &str, minify: bool) -> String {
                 let mut wr: Box<dyn WriteJs> =
                     Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None));
 
-                if minify {
-                    wr = Box::new(omit_trailing_semi(wr));
-                }
+                // if minify {
+                //     wr = Box::new(omit_trailing_semi(wr));
+                // }
 
                 Emitter {
-                    cfg: swc_ecma_codegen::Config { minify },
+                    cfg: swc_ecma_codegen::Config { minify: false },
                     cm: cm.clone(),
                     comments: None,
                     wr,
