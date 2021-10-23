@@ -103,7 +103,7 @@ impl Mangler<'_> {
 
             reusable_n.push(n);
         }
-
+        dbg!(&reusable_n, used);
         reusable_n.reverse();
 
         for id in used {
@@ -302,9 +302,9 @@ impl VisitMut for Mangler<'_> {
     }
 
     fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
-        self.rename_decl(&mut n.ident);
-
         let used = idents_used_by_ordered(&*n);
+
+        self.rename_decl(&mut n.ident);
 
         self.with_scope(&used, |v| {
             n.function.visit_mut_with(v);
