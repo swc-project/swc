@@ -59,9 +59,9 @@ var ref1 = {
     b1: {
         b11: "world"
     }
-}, tmp = ref1.b1, ref2 = tmp === void 0 ? {
+}, tmp = ref1.b1, b11 = (tmp === void 0 ? {
     b11: "string"
-} : tmp, b11 = ref2.b11;
+} : tmp).b11;
 var temp = {
     t1: true,
     t2: "false"
@@ -70,11 +70,11 @@ var tmp1 = 3, b2 = tmp1 === void 0 ? 3 : tmp1, tmp2 = false, b3 = tmp2 === void 
     t1: false,
     t2: "hello"
 }, b4 = tmp3 === void 0 ? temp : tmp3;
-var ref3 = [
+var ref2 = [
     undefined,
     undefined,
     undefined
-], tmp4 = ref3[0], b5 = tmp4 === void 0 ? 3 : tmp4, tmp5 = ref3[1], b6 = tmp5 === void 0 ? true : tmp5, tmp6 = ref3[2], b7 = tmp6 === void 0 ? temp : tmp6;
+], tmp4 = ref2[0], b5 = tmp4 === void 0 ? 3 : tmp4, tmp5 = ref2[1], b6 = tmp5 === void 0 ? true : tmp5, tmp6 = ref2[2], b7 = tmp6 === void 0 ? temp : tmp6;
 // The type T associated with a binding element is determined as follows:
 //      If the binding element is a rest element, T is an array type with
 //          an element type E, where E is the type of the numeric index signature of S.
@@ -102,12 +102,12 @@ var temp1 = [
     false,
     true
 ];
-var ref4 = _slicedToArray([
+var ref3 = _slicedToArray([
     1,
     "string"
-].concat(_toConsumableArray(temp1)), 2), d3 = ref4[0], d4 = ref4[1];
+].concat(_toConsumableArray(temp1)), 2), d3 = ref3[0], d4 = ref3[1];
 //  Combining both forms of destructuring,
-var ref5 = {
+var ref4 = {
     e: [
         1,
         2,
@@ -116,11 +116,11 @@ var ref5 = {
             b4: 0
         }
     ]
-}, _e1 = _slicedToArray(ref5.e, 3), e1 = _e1[0], e2 = _e1[1], tmp7 = _e1[2], e3 = tmp7 === void 0 ? {
+}, _e1 = _slicedToArray(ref4.e, 3), e1 = _e1[0], e2 = _e1[1], tmp7 = _e1[2], e3 = tmp7 === void 0 ? {
     b1: 1000,
     b4: 200
 } : tmp7;
-var ref6 = {
+var ref5 = {
     f: [
         1,
         2,
@@ -129,29 +129,29 @@ var ref6 = {
             f5: 0
         }
     ]
-}, _f = _slicedToArray(ref6.f, 3), f1 = _f[0], f2 = _f[1], ref7 = _f[2], f4 = ref7.f3, f5 = ref7.f5;
+}, _f = _slicedToArray(ref5.f, 3), f1 = _f[0], f2 = _f[1], ref6 = _f[2], f4 = ref6.f3, f5 = ref6.f5;
 // When a destructuring variable declaration, binding property, or binding element specifies
 // an initializer expression, the type of the initializer expression is required to be assignable
 // to the widened form of the type associated with the destructuring variable declaration, binding property, or binding element.
-var ref8 = {
+var ref7 = {
     g: {
         g1: [
             1,
             2
         ]
     }
-}, _g = ref8.g, _g1 = _g.g1, g1 = _g1 === void 0 ? [
+}, _g = ref7.g, _g1 = _g.g1, g1 = _g1 === void 0 ? [
     undefined,
     null
 ] : _g1;
-var ref9 = {
+var ref8 = {
     h: {
         h1: [
             1,
             2
         ]
     }
-}, _h = ref9.h, _h1 = _h.h1, h1 = _h1 === void 0 ? [
+}, _h = ref8.h, _h1 = _h.h1, h1 = _h1 === void 0 ? [
     undefined,
     null
 ] : _h1;

@@ -8,7 +8,7 @@ exports.A = function() {
     this.x = 1;
 };
 // @filename: a.js
-var ref = require("./a-ext"), A = ref.A;
+var A = require("./a-ext").A;
 /** @param {A} p */ function a(p) {
     p.x;
 }
@@ -19,7 +19,7 @@ exports.B = function _class() {
     this.x = 1;
 };
 // @filename: b.js
-var ref1 = require("./b-ext"), B = ref1.B;
+var B = require("./b-ext").B;
 /** @param {B} p */ function b(p) {
     p.x;
 }
@@ -28,7 +28,7 @@ export function C() {
     this.x = 1;
 }
 // @filename: c.js
-var ref2 = require("./c-ext"), C = ref2.C;
+var C = require("./c-ext").C;
 /** @param {C} p */ function c(p) {
     p.x;
 }
@@ -37,7 +37,7 @@ export var D = function D() {
     this.x = 1;
 };
 // @filename: d.js
-var ref3 = require("./d-ext"), D = ref3.D;
+var D = require("./d-ext").D;
 /** @param {D} p */ function d(p) {
     p.x;
 }
@@ -48,7 +48,7 @@ export var E = function E() {
     this.x = 1;
 };
 // @filename: e.js
-var ref4 = require("./e-ext"), E = ref4.E;
+var E = require("./e-ext").E;
 /** @param {E} p */ function e(p) {
     p.x;
 }

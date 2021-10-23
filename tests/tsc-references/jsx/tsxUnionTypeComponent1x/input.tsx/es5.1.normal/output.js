@@ -75,7 +75,7 @@ var MyComponent = /*#__PURE__*/ function(_Component) {
         {
             key: "render",
             value: function render() {
-                var _props = this.props, AnyComponent = _props.AnyComponent;
+                var AnyComponent = this.props.AnyComponent;
                 return(/*#__PURE__*/ React.createElement(AnyComponent, null));
             }
         }

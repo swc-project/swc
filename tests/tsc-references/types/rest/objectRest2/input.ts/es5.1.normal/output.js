@@ -69,8 +69,7 @@ function rootConnection(name) {
                             objects: 12
                         };
                     case 2:
-                        var ref;
-                        ref = _ctx.sent, objects = ref.objects, ref;
+                        objects = _ctx.sent.objects;
                         return _ctx.abrupt("return", _objectSpread({
                         }, connectionFromArray(objects, args)));
                     case 4:

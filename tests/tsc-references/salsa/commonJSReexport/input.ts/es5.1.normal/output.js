@@ -13,5 +13,5 @@ module.exports = {
     nested: require('./first')
 };
 // @filename: main.js
-var _nested = require('./second').nested, hardline = _nested.hardline;
+var hardline = require('./second').nested.hardline;
 hardline;

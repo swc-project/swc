@@ -1,2 +1,2 @@
 //@target: ES5
-var ref = new Foo, x = ref.x;
+var x = (new Foo).x;
