@@ -65,11 +65,24 @@ struct Data {
 struct Scope<'a> {
     parent: Option<&'a Scope<'a>>,
 
+    used: IndexSet<Id, ahash::RandomState>,
+
     /// Decls in current scope.
     decls: Vec<usize>,
 }
 
-impl Scope<'_> {}
+impl Scope<'_> {
+    fn is_used(&self, id: &Id) -> bool {
+        if self.used.contains(id) {
+            return true;
+        }
+
+        match self.parent {
+            Some(s) => s.is_used(id),
+            None => false,
+        }
+    }
+}
 
 impl Mangler<'_> {
     fn exit_scope(&mut self) {
@@ -84,7 +97,7 @@ impl Mangler<'_> {
         }
     }
 
-    fn with_scope<F>(&mut self, used: &IndexSet<Id, ahash::RandomState>, op: F)
+    fn with_scope<F>(&mut self, used: IndexSet<Id, ahash::RandomState>, op: F)
     where
         F: for<'aa> FnOnce(&mut Mangler<'aa>),
     {
@@ -97,16 +110,16 @@ impl Mangler<'_> {
                 None => continue,
             };
 
-            if used.contains(&id_of_n) {
+            if used.contains(&id_of_n) || self.cur.is_used(&id_of_n) {
                 continue;
             }
 
             reusable_n.push(n);
         }
-        dbg!(&reusable_n, used);
+        dbg!(&reusable_n, &used);
         reusable_n.reverse();
 
-        for id in used {
+        for id in used.iter() {
             if let Some(mut n) = reusable_n.pop() {
                 let (n, sym) = incr_base54(&mut n);
 
@@ -120,6 +133,7 @@ impl Mangler<'_> {
         {
             let scope = Scope {
                 parent: Some(&parent),
+                used,
                 decls: Default::default(),
             };
 
@@ -244,7 +258,7 @@ impl VisitMut for Mangler<'_> {
     fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
         let used = idents_used_by_ordered(&*n);
 
-        self.with_scope(&used, |v| {
+        self.with_scope(used, |v| {
             let old = v.data.is_pat_decl;
             v.data.is_pat_decl = true;
             n.params.visit_mut_with(v);
@@ -259,7 +273,7 @@ impl VisitMut for Mangler<'_> {
     fn visit_mut_catch_clause(&mut self, n: &mut CatchClause) {
         let used = idents_used_by_ordered(&*n);
 
-        self.with_scope(&used, |v| {
+        self.with_scope(used, |v| {
             let old = v.data.is_pat_decl;
 
             v.data.is_pat_decl = true;
@@ -306,7 +320,7 @@ impl VisitMut for Mangler<'_> {
 
         self.rename_decl(&mut n.ident);
 
-        self.with_scope(&used, |v| {
+        self.with_scope(used, |v| {
             n.function.visit_mut_with(v);
         });
     }
@@ -314,7 +328,7 @@ impl VisitMut for Mangler<'_> {
     fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
         let used = idents_used_by_ordered(&*n);
 
-        self.with_scope(&used, |v| {
+        self.with_scope(used, |v| {
             if let Some(i) = &mut n.ident {
                 v.rename_decl(i);
             }
