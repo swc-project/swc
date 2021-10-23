@@ -53,7 +53,7 @@ struct Data {
     max_n: usize,
 
     renamed: AHashMap<Id, JsWord>,
-    renamed_ids: AHashMap<usize, Id>,
+    renamed_ids: AHashMap<usize, Vec<Id>>,
 
     // TODO: Reuse number
     renamed_private: AHashMap<Id, JsWord>,
@@ -102,16 +102,18 @@ impl Mangler<'_> {
         F: for<'aa> FnOnce(&mut Mangler<'aa>),
     {
         let mut reusable_n = vec![];
-        for n in 0..self.data.n {
-            let id_of_n = self.data.renamed_ids.get(&n).cloned();
+        'outer: for n in 0..self.data.n {
+            let ids_of_n = self.data.renamed_ids.get(&n).cloned();
 
-            let id_of_n = match id_of_n {
+            let ids_of_n = match ids_of_n {
                 Some(v) => v,
                 None => continue,
             };
 
-            if used.contains(&id_of_n) || self.cur.is_used(&id_of_n) {
-                continue;
+            for id_of_n in ids_of_n {
+                if used.contains(&id_of_n) || self.cur.is_used(&id_of_n) {
+                    continue 'outer;
+                }
             }
 
             reusable_n.push(n);
@@ -128,7 +130,7 @@ impl Mangler<'_> {
                 let (n, sym) = incr_base54(&mut n);
 
                 self.data.renamed.insert(id.clone(), sym.into());
-                self.data.renamed_ids.insert(n, id.clone());
+                self.data.renamed_ids.entry(n).or_default().push(id.clone());
             }
         }
 
@@ -203,7 +205,11 @@ impl Mangler<'_> {
             let sym: JsWord = sym.into();
 
             self.data.renamed.insert(i.to_id(), sym.clone());
-            self.data.renamed_ids.insert(used_n, i.to_id());
+            self.data
+                .renamed_ids
+                .entry(used_n)
+                .or_default()
+                .push(i.to_id());
 
             i.sym = sym.clone();
             i.span.ctxt = SyntaxContext::empty();
@@ -225,7 +231,11 @@ impl Mangler<'_> {
             }
 
             self.data.renamed.insert(i.to_id(), sym.clone());
-            self.data.renamed_ids.insert(used_n, i.to_id());
+            self.data
+                .renamed_ids
+                .entry(used_n)
+                .or_default()
+                .push(i.to_id());
 
             i.sym = sym.clone();
             i.span.ctxt = SyntaxContext::empty();
