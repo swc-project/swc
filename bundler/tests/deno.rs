@@ -1228,13 +1228,21 @@ fn exec_minified(input: PathBuf) {
         return;
     }
 
+    {
+        let dir = tempfile::tempdir().expect("failed to crate temp file");
+        let path = dir.path().join("main.js");
+        println!("Unminified: {}", path.display());
+
+        let src = bundle(&input.to_string_lossy(), false);
+        write(&path, &src).unwrap();
+    }
+
     let dir = tempfile::tempdir().expect("failed to crate temp file");
     let path = dir.path().join("main.js");
     println!("{}", path.display());
 
     let src = bundle(&input.to_string_lossy(), true);
     write(&path, &src).unwrap();
-
     // println!("{}", src);
 
     let output = Command::new("deno")
