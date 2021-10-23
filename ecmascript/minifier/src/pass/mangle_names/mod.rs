@@ -206,6 +206,7 @@ impl Mangler<'_> {
 
             let sym: JsWord = sym.into();
 
+            debug!("Reusing decl `{}` for `{}{:?}`", sym, i.sym, i.span.ctxt);
             self.data.renamed.insert(i.to_id(), sym.clone());
             self.data
                 .renamed_ids
@@ -232,6 +233,7 @@ impl Mangler<'_> {
                 continue;
             }
 
+            debug!("Using symbol `{}` for `{}{:?}`", sym, i.sym, i.span.ctxt);
             self.data.renamed.insert(i.to_id(), sym.clone());
             self.data
                 .renamed_ids
