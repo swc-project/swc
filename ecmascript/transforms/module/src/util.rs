@@ -506,6 +506,7 @@ impl Scope {
         }
 
         match expr {
+            // In a JavaScript module, this is undefined at the top level (i.e., outside functions).
             Expr::This(ThisExpr { span }) if top_level => *undefined(span),
             Expr::Ident(i) => match Self::fold_ident(folder, top_level, i) {
                 Ok(expr) => expr,
@@ -986,6 +987,24 @@ macro_rules! mark_as_nested {
         mark_as_nested!(fold_constructor, Constructor);
         mark_as_nested!(fold_setter_prop, SetterProp);
         mark_as_nested!(fold_getter_prop, GetterProp);
+        mark_as_nested!(fold_static_block, StaticBlock);
+
+        fn fold_class_prop(&mut self, mut n: ClassProp) -> ClassProp {
+            use swc_common::util::take::Take;
+            if n.computed {
+                let key = n.key.take().fold_children_with(self);
+
+                let old = self.in_top_level;
+                self.in_top_level = false;
+                let mut n = n.fold_children_with(self);
+                self.in_top_level = old;
+
+                n.key = key;
+                n
+            } else {
+                n
+            }
+        }
     };
 
     ($name:ident, $T:tt) => {
