@@ -24,7 +24,7 @@ use swc_ecma_transforms::{
     hygiene::{self, hygiene_with_config},
     resolver_with_mark,
 };
-use swc_ecma_visit::FoldWith;
+use swc_ecma_visit::{FoldWith, VisitMutWith};
 use testing::{DebugUsingDisplay, NormalizedOutput};
 
 fn print(cm: Lrc<SourceMap>, m: &Module, minify: bool) -> String {
@@ -193,9 +193,11 @@ fn compressed(compressed_file: PathBuf) {
 #[testing::fixture("tests/mangle/**/input.js")]
 fn fixture(input: PathBuf) {
     testing::run_test2(false, |cm, _handler| {
-        let m = parse(cm.clone(), &input);
+        let mut m = parse(cm.clone(), &input);
 
         let top_level_mark = Mark::fresh(Mark::root());
+
+        m.visit_mut_with(&mut resolver_with_mark(top_level_mark));
 
         let m = optimize(
             m,
