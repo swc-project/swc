@@ -115,10 +115,10 @@ impl Mangler<'_> {
                 continue;
             }
 
-            if let Some(mut n) = reusable_n.pop() {
-                let (n, sym) = incr_base54(&mut n);
+            if let Some(mut n_0) = reusable_n.pop() {
+                let (n, sym) = incr_base54(&mut n_0);
 
-                debug!("Reuse `{}` for `{}{:?}`", sym, id.0, id.1);
+                debug!("Reuse `{}` for `{}{:?}` ({}, {})", sym, id.0, id.1, n, n_0);
                 self.data.renamed.insert(id.clone(), sym.into());
                 self.data.renamed_ids.entry(n).or_default().push(id.clone());
             }
