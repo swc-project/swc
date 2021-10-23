@@ -120,6 +120,10 @@ impl Mangler<'_> {
         reusable_n.reverse();
 
         for id in used.iter() {
+            if self.data.renamed.contains_key(id) {
+                continue;
+            }
+
             if let Some(mut n) = reusable_n.pop() {
                 let (n, sym) = incr_base54(&mut n);
 
