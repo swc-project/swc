@@ -49,6 +49,9 @@
     "dependencies": {
         "@node-rs/helper": "^1.0.0"
     },
+    "optionalDependencies": {
+        "browserslist": "^4.16.6"
+    },
     "types": "./index.d.ts",
     "scripts": {
         "prepare": "husky install",
