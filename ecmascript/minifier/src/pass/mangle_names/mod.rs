@@ -6,7 +6,7 @@ use crate::{
     analyzer::{analyze, ProgramData},
     marks::Marks,
     option::MangleOptions,
-    util::base54::incr_base54,
+    util::{base54::incr_base54, idents_used_by, idents_used_by_ordered},
 };
 use indexmap::IndexSet;
 use swc_atoms::{js_word, JsWord};
@@ -90,7 +90,12 @@ impl Mangler<'_> {
     {
         let mut reusable_n = vec![];
         for n in 0..self.data.n {
-            let id_of_n = self.data.renamed_ids.get(&n).cloned().unwrap();
+            let id_of_n = self.data.renamed_ids.get(&n).cloned();
+
+            let id_of_n = match id_of_n {
+                Some(v) => v,
+                None => continue,
+            };
 
             if used.contains(&id_of_n) {
                 continue;
@@ -237,7 +242,9 @@ impl VisitMut for Mangler<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
-        self.with_scope(|v| {
+        let used = idents_used_by_ordered(&*n);
+
+        self.with_scope(&used, |v| {
             let old = v.data.is_pat_decl;
             v.data.is_pat_decl = true;
             n.params.visit_mut_with(v);
@@ -250,7 +257,9 @@ impl VisitMut for Mangler<'_> {
     }
 
     fn visit_mut_catch_clause(&mut self, n: &mut CatchClause) {
-        self.with_scope(|v| {
+        let used = idents_used_by_ordered(&*n);
+
+        self.with_scope(&used, |v| {
             let old = v.data.is_pat_decl;
 
             v.data.is_pat_decl = true;
@@ -295,13 +304,17 @@ impl VisitMut for Mangler<'_> {
     fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
         self.rename_decl(&mut n.ident);
 
-        self.with_scope(|v| {
+        let used = idents_used_by_ordered(&*n);
+
+        self.with_scope(&used, |v| {
             n.function.visit_mut_with(v);
         });
     }
 
     fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
-        self.with_scope(|v| {
+        let used = idents_used_by_ordered(&*n);
+
+        self.with_scope(&used, |v| {
             if let Some(i) = &mut n.ident {
                 v.rename_decl(i);
             }
