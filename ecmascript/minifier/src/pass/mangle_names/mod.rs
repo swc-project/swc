@@ -197,7 +197,10 @@ impl Mangler<'_> {
                 continue;
             }
 
-            debug!("Using symbol `{}` for `{}{:?}`", sym, i.sym, i.span.ctxt);
+            debug!(
+                "Using symbol `{}` for `{}{:?}` ({},{})",
+                sym, i.sym, i.span.ctxt, used_n, self.data.n
+            );
             self.data.renamed.insert(i.to_id(), sym.clone());
             self.data
                 .renamed_ids
