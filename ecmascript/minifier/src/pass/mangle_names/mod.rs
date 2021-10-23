@@ -298,7 +298,7 @@ impl VisitMut for Mangler<'_> {
     }
 
     fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
-        let used = idents_used_by_ordered(&*n);
+        let used = idents_used_by_ordered(&n.function);
 
         self.rename_decl(&mut n.ident);
 
