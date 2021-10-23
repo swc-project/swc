@@ -49,9 +49,7 @@ struct Data {
     preserved_symbols: AHashSet<JsWord>,
     data: Option<ProgramData>,
 
-    recycled_ids: RefCell<BinaryHeap<Reverse<usize>>>,
     n: usize,
-    max_n: usize,
 
     renamed: AHashMap<Id, JsWord>,
     renamed_ids: AHashMap<usize, Vec<Id>>,
@@ -86,17 +84,7 @@ impl Scope<'_> {
 }
 
 impl Mangler<'_> {
-    fn exit_scope(&mut self) {
-        for &id in self.cur.decls.iter() {
-            let mut b = self.data.recycled_ids.borrow_mut();
-
-            if b.iter().any(|elem| elem.0 == id) {
-                continue;
-            }
-
-            b.push(Reverse(id));
-        }
-    }
+    fn exit_scope(&mut self) {}
 
     fn with_scope<F>(&mut self, used: IndexSet<Id, ahash::RandomState>, op: F)
     where
@@ -192,30 +180,6 @@ impl Mangler<'_> {
         if let Some(v) = self.data.renamed.get(&i.to_id()) {
             i.span.ctxt = SyntaxContext::empty();
             i.sym = v.clone();
-            return true;
-        }
-
-        if let Some(mut n) = self.data.recycled_ids.get_mut().pop() {
-            let (used_n, sym) = incr_base54(&mut n.0);
-
-            if is_decl {
-                if !self.cur.decls.contains(&used_n) {
-                    self.cur.decls.push(used_n);
-                }
-            }
-
-            let sym: JsWord = sym.into();
-
-            debug!("Reusing decl `{}` for `{}{:?}`", sym, i.sym, i.span.ctxt);
-            self.data.renamed.insert(i.to_id(), sym.clone());
-            self.data
-                .renamed_ids
-                .entry(used_n)
-                .or_default()
-                .push(i.to_id());
-
-            i.sym = sym.clone();
-            i.span.ctxt = SyntaxContext::empty();
             return true;
         }
 
