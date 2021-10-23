@@ -4,9 +4,8 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 
-#[derive(Default)]
 pub(super) struct Analyzer<'a> {
-    rename: AHashMap<Id, JsWord>,
+    rename: &'a mut AHashMap<Id, JsWord>,
     scope: Scope<'a>,
 
     is_pat_decl: bool,
@@ -15,6 +14,8 @@ pub(super) struct Analyzer<'a> {
 #[derive(Debug, Default)]
 pub(super) struct Scope<'a> {
     parent: Option<&'a Scope<'a>>,
+
+    used_ids: AHashMap<Id, usize>,
 }
 
 impl Analyzer<'_> {

@@ -8,6 +8,7 @@ use crate::{
     option::MangleOptions,
     util::base54::incr_base54,
 };
+use indexmap::IndexSet;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
@@ -52,6 +53,7 @@ struct Data {
     max_n: usize,
 
     renamed: AHashMap<Id, JsWord>,
+    renamed_ids: AHashMap<usize, Id>,
 
     // TODO: Reuse number
     renamed_private: AHashMap<Id, JsWord>,
@@ -82,10 +84,32 @@ impl Mangler<'_> {
         }
     }
 
-    fn with_scope<F>(&mut self, op: F)
+    fn with_scope<F>(&mut self, used: &IndexSet<Id, ahash::RandomState>, op: F)
     where
         F: for<'aa> FnOnce(&mut Mangler<'aa>),
     {
+        let mut reusable_n = vec![];
+        for n in 0..self.data.n {
+            let id_of_n = self.data.renamed_ids.get(&n).cloned().unwrap();
+
+            if used.contains(&id_of_n) {
+                continue;
+            }
+
+            reusable_n.push(n);
+        }
+
+        reusable_n.reverse();
+
+        for id in used {
+            if let Some(mut n) = reusable_n.pop() {
+                let (n, sym) = incr_base54(&mut n);
+
+                self.data.renamed.insert(id.clone(), sym.into());
+                self.data.renamed_ids.insert(n, id.clone());
+            }
+        }
+
         let data = take(&mut self.data);
         let parent = take(&mut self.cur);
         {
@@ -156,6 +180,7 @@ impl Mangler<'_> {
             let sym: JsWord = sym.into();
 
             self.data.renamed.insert(i.to_id(), sym.clone());
+            self.data.renamed_ids.insert(used_n, i.to_id());
 
             i.sym = sym.clone();
             i.span.ctxt = SyntaxContext::empty();
@@ -177,6 +202,7 @@ impl Mangler<'_> {
             }
 
             self.data.renamed.insert(i.to_id(), sym.clone());
+            self.data.renamed_ids.insert(used_n, i.to_id());
 
             i.sym = sym.clone();
             i.span.ctxt = SyntaxContext::empty();
