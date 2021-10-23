@@ -71,13 +71,13 @@ struct Scope<'a> {
 }
 
 impl Scope<'_> {
-    fn cannot_reuse(&self, n: usize, id: &Id) -> bool {
-        if self.decls.contains(&n) || self.used.contains(id) {
+    fn cannot_reuse(&self, id: &Id) -> bool {
+        if self.used.contains(id) {
             return true;
         }
 
         match self.parent {
-            Some(s) => s.cannot_reuse(n, id),
+            Some(s) => s.cannot_reuse(id),
             None => false,
         }
     }
@@ -100,7 +100,7 @@ impl Mangler<'_> {
             };
 
             for id_of_n in ids_of_n {
-                if used.contains(&id_of_n) || self.cur.cannot_reuse(n, &id_of_n) {
+                if used.contains(&id_of_n) || self.cur.cannot_reuse(&id_of_n) {
                     continue 'outer;
                 }
             }
