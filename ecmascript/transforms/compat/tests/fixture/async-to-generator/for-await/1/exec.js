@@ -1,4 +1,4 @@
-export default function test() {
+function test() {
     const hasDataInReplicache = async (replicache) => {
         for await (const _ of []) {
             return true
