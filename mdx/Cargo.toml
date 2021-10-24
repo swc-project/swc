@@ -10,6 +10,6 @@ version = "0.1.0"
 
 [dependencies]
 swc_atoms = {version = "0.2", path = "../atoms"}
-swc_common = {version = "0.13.4", path = "../common"}
-swc_ecma_ast = {version = "0.54.3", path = "../ecmascript/ast"}
-swc_ecma_parser = {version = "0.73.12", path = "../ecmascript/parser"}
+swc_common = {version = "0.14.0", path = "../common"}
+swc_ecma_ast = {version = "0.56.0", path = "../ecmascript/ast"}
+swc_ecma_parser = {version = "0.76.0", path = "../ecmascript/parser"}
