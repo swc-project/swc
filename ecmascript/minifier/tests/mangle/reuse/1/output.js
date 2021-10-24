@@ -1,7 +1,7 @@
 "use strict";
-const a = (b, c)=>{
-    return c;
+const a = (a, b)=>{
+    return b;
 };
-const d = (b, c, e)=>{
-    return e;
+const b = (a, b, c)=>{
+    return c;
 };
