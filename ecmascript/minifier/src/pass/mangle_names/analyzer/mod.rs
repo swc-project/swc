@@ -87,6 +87,18 @@ impl Visit for Analyzer {
         }
     }
 
+    fn visit_param(&mut self, e: &Param, _: &dyn Node) {
+        let old = self.is_pat_decl;
+
+        self.is_pat_decl = false;
+        e.decorators.visit_with(e, self);
+
+        self.is_pat_decl = true;
+        e.pat.visit_with(e, self);
+
+        self.is_pat_decl = old;
+    }
+
     fn visit_pat(&mut self, e: &Pat, _: &dyn Node) {
         e.visit_children_with(self);
 
