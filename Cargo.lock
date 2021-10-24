@@ -2833,6 +2833,7 @@ dependencies = [
  "ordered-float",
  "rayon",
  "serde",
+ "serde_json",
  "smallvec 1.7.0",
  "swc_atoms 0.2.9",
  "swc_common",
