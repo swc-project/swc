@@ -1077,12 +1077,12 @@ fn bundle(url: &str, minify: bool) -> String {
                 let mut wr: Box<dyn WriteJs> =
                     Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None));
 
-                // if minify {
-                //     wr = Box::new(omit_trailing_semi(wr));
-                // }
+                if minify {
+                    wr = Box::new(omit_trailing_semi(wr));
+                }
 
                 Emitter {
-                    cfg: swc_ecma_codegen::Config { minify: false },
+                    cfg: swc_ecma_codegen::Config { minify },
                     cm: cm.clone(),
                     comments: None,
                     wr,
