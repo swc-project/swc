@@ -24,14 +24,10 @@ mod v2;
 
 pub(crate) fn name_mangler(
     options: MangleOptions,
-    _char_freq_info: CharFreqInfo,
-    _marks: Marks,
+    char_freq_info: CharFreqInfo,
+    marks: Marks,
 ) -> impl VisitMut {
-    Mangler {
-        options,
-        data: Default::default(),
-        cur: Default::default(),
-    }
+    self::v2::name_mangler(options, char_freq_info, marks)
 }
 
 #[derive(Debug)]
