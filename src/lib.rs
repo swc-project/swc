@@ -155,7 +155,7 @@ use swc_ecma_transforms::{
     pass::noop,
     resolver_with_mark,
 };
-use swc_ecma_visit::{noop_visit_type, FoldWith, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, FoldWith, Visit, VisitMutWith, VisitWith};
 
 mod builder;
 pub mod config;
@@ -967,10 +967,12 @@ impl Compiler {
 
             let top_level_mark = Mark::fresh(Mark::root());
 
+            let is_mangler_enabled = min_opts.mangle.is_some();
+
             let module = self.run_transform(handler, false, || {
                 let module = module.fold_with(&mut resolver_with_mark(top_level_mark));
 
-                let module = swc_ecma_minifier::optimize(
+                let mut module = swc_ecma_minifier::optimize(
                     module,
                     self.cm.clone(),
                     Some(&self.comments),
@@ -979,9 +981,10 @@ impl Compiler {
                     &swc_ecma_minifier::option::ExtraOptions { top_level_mark },
                 );
 
-                module
-                    .fold_with(&mut hygiene())
-                    .fold_with(&mut fixer(Some(&self.comments as &dyn Comments)))
+                if !is_mangler_enabled {
+                    module.visit_mut_with(&mut hygiene())
+                }
+                module.fold_with(&mut fixer(Some(&self.comments as &dyn Comments)))
             });
 
             self.print(

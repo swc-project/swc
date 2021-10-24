@@ -1,5 +1,8 @@
 use crate::{
-    config::{CompiledPaths, GlobalPassOption, JsMinifyOptions, JscTarget, ModuleConfig},
+    config::{
+        util::BoolOrObject, CompiledPaths, GlobalPassOption, JsMinifyOptions, JscTarget,
+        ModuleConfig,
+    },
     SwcComments,
 };
 use compat::es2020::export_namespace_from;
@@ -219,6 +222,15 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             ))
         };
 
+        let is_mangler_enabled = self
+            .minify
+            .as_ref()
+            .map(|v| match v.mangle {
+                BoolOrObject::Bool(true) | BoolOrObject::Obj(_) => true,
+                _ => false,
+            })
+            .unwrap_or(false);
+
         let module_scope = Rc::new(RefCell::new(Scope::default()));
         chain!(
             self.pass,
@@ -249,7 +261,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             }),
             Optional::new(
                 hygiene_with_config(self.hygiene.clone().unwrap_or_default()),
-                self.hygiene.is_some()
+                self.hygiene.is_some() && !is_mangler_enabled
             ),
             Optional::new(fixer(comments.map(|v| v as &dyn Comments)), self.fixer),
         )
