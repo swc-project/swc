@@ -166,7 +166,7 @@ where
             };
 
             return Ok((maybe_ns_prefix, Some(wq_name)));
-        } else { 
+        } else {
             self.input.reset(&state);
         }
 
@@ -179,56 +179,44 @@ where
         let ns_prefix = self.parse_ns_prefix(span);
 
         match cur!(self) {
-            Token::Ident { .. } | tok!("*") => {
-                let mut ns_name_name;
-
-                if !is!(self, "|") {
-                    // No namespace prefix.
-
-                    if eat!(self, "*") {
-                        let value: JsWord = "*".into();
-                        let raw = value.clone();
-
-                        ns_name_name = Some(Text { span, value, raw });
-                    } else {
-                        ns_name_name = Some(self.parse_name_token()?);
+            Token::Ident { .. } => {
+                let span = self.input.cur_span()?;
+                let token = bump!(self);
+                let name = match token {
+                    Token::Ident { value, raw } => Text { span, value, raw },
+                    _ => {
+                        unreachable!()
                     }
-                } else {
-                    // e.g.
-                    // `|*`
-                    // `|b`
-
-                    ns_name_name = Some(Text {
-                        span: Span::new(start_pos, start_pos, Default::default()),
-                        value: js_word!(""),
-                        raw: js_word!(""),
-                    });
-                    // TODO:
-                    // nsName.Name.Kind = css_lexer.TIdent
-                }
-
-                if eat!(self, "|") {
-                    if !is!(self, Ident) && !is!(self, "*") {
-                        expect!(self, Ident);
-                        return Err(Error::new(span, ErrorKind::InvalidTypeSelector));
-                    }
-                    
-                    if eat!(self, "*") {
-                        let value: JsWord = "*".into();
-                        let raw = value.clone();
-
-                        ns_name_name = Some(Text { span, value, raw });
-                    } else {
-                        ns_name_name = Some(self.parse_name_token()?);
-                    }
-                }
+                };
 
                 return Ok(Some(NamespacedName {
                     span: span!(self, start_pos),
-                    prefix: if ns_prefix.is_ok() { ns_prefix.unwrap() } else { None },
-                    name: ns_name_name.unwrap(),
+                    prefix: if ns_prefix.is_ok() {
+                        ns_prefix.unwrap()
+                    } else {
+                        None
+                    },
+                    name,
                 }));
             }
+            tok!("*") => {
+                bump!(self);
+
+                let value: JsWord = "*".into();
+                let raw = value.clone();
+                let ns_name_name = Text { span, value, raw };
+
+                return Ok(Some(NamespacedName {
+                    span: span!(self, start_pos),
+                    prefix: if ns_prefix.is_ok() {
+                        ns_prefix.unwrap()
+                    } else {
+                        None
+                    },
+                    name: ns_name_name,
+                }));
+            }
+
             _ => {}
         }
 
