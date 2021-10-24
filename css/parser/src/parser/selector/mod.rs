@@ -181,7 +181,6 @@ where
         match cur!(self) {
             Token::Ident { .. } | tok!("*") => {
                 let mut ns_name_name;
-                let mut ns_name_prefix = None;
 
                 if !is!(self, "|") {
                     // No namespace prefix.
@@ -213,8 +212,7 @@ where
                         expect!(self, Ident);
                         return Err(Error::new(span, ErrorKind::InvalidTypeSelector));
                     }
-
-                    ns_name_prefix = ns_name_name.take();
+                    
                     if eat!(self, "*") {
                         let value: JsWord = "*".into();
                         let raw = value.clone();
@@ -227,11 +225,10 @@ where
 
                 return Ok(Some(NamespacedName {
                     span: span!(self, start_pos),
-                    prefix: if ns_prefix.is_ok() { ns_prefix.unwrap() } else { ns_name_prefix },
+                    prefix: if ns_prefix.is_ok() { ns_prefix.unwrap() } else { None },
                     name: ns_name_name.unwrap(),
                 }));
             }
-
             _ => {}
         }
 
