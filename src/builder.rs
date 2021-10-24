@@ -18,7 +18,7 @@ use swc_ecma_minifier::option::MinifyOptions;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
     compat, fixer, helpers, hygiene, hygiene::hygiene_with_config, modules, modules::util::Scope,
-    optimization::const_modules, pass::Optional, proposals::private_in_object,
+    optimization::const_modules, pass::Optional, compat::es2022::private_in_object,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut};
 
