@@ -71,6 +71,17 @@ struct Scope<'a> {
 }
 
 impl Scope<'_> {
+    fn is_declared(&self, n: usize) -> bool {
+        if self.decls.contains(&n) {
+            return true;
+        }
+
+        match self.parent {
+            Some(s) => s.is_declared(n),
+            None => false,
+        }
+    }
+
     fn cannot_reuse(&self, n: usize, id: &Id) -> bool {
         if self.decls.contains(&n) || self.used.contains(id) {
             return true;
@@ -91,7 +102,12 @@ impl Mangler<'_> {
         F: for<'aa> FnOnce(&mut Mangler<'aa>),
     {
         let mut reusable_n = vec![];
+
         'outer: for n in 0..self.data.n {
+            if self.cur.is_declared(n) {
+                continue;
+            }
+
             let ids_of_n = self.data.renamed_ids.get(&n).cloned();
 
             let ids_of_n = match ids_of_n {
