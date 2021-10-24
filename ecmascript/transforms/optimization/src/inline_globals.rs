@@ -336,4 +336,16 @@ mod tests {
         "const test = process.env['x']",
         "const test = 'FOO'"
     );
+
+    test!(
+        Default::default(),
+        |tester| inline_globals(
+            envs(tester, &[("x", "BAR")]),
+            globals(tester, &[]),
+            Default::default(),
+        ),
+        issue_2499_1,
+        "process.env.x = 'foo'",
+        "process.env.x = 'foo'"
+    );
 }
