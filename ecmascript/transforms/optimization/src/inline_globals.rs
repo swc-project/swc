@@ -68,6 +68,24 @@ impl Parallel for InlineGlobals {
 impl VisitMut for InlineGlobals {
     noop_visit_mut_type!();
 
+    fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
+        n.right.visit_mut_with(self);
+
+        match &mut n.left {
+            PatOrExpr::Expr(l) => {
+                (&mut **l).visit_mut_children_with(self);
+            }
+            PatOrExpr::Pat(l) => match &mut **l {
+                Pat::Expr(l) => {
+                    (&mut **l).visit_mut_children_with(self);
+                }
+                _ => {
+                    l.visit_mut_with(self);
+                }
+            },
+        }
+    }
+
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         match expr {
             Expr::Ident(Ident { ref sym, span, .. }) => {
