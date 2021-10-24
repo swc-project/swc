@@ -1,17 +1,17 @@
-export default function createStore(a) {
-    var b = a, c = [];
+export default function a(b) {
+    var c = b, d = [];
     return {
         getState: function() {
-            return b;
+            return c;
         },
-        setState: function(d) {
-            b = d, c.forEach(function(e) {
-                return e();
+        setState: function(a) {
+            c = a, d.forEach(function(a) {
+                return a();
             });
         },
-        subscribe: function(f) {
-            return c.push(f), function() {
-                c.splice(c.indexOf(f), 1);
+        subscribe: function(a) {
+            return d.push(a), function() {
+                d.splice(d.indexOf(a), 1);
             };
         }
     };
