@@ -30,6 +30,6 @@ impl VisitMut for Mangler {
             analyzer.into_rename_map()
         };
 
-        m.visit_mut_with(rename(&map));
+        m.visit_mut_with(&mut rename(&map));
     }
 }
