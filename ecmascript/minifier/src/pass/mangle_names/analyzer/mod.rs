@@ -1,8 +1,11 @@
+use self::scope::Scope;
 use swc_atoms::JsWord;
 use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
+
+mod scope;
 
 pub(super) struct Analyzer<'a> {
     rename: &'a mut AHashMap<Id, JsWord>,
@@ -11,22 +14,31 @@ pub(super) struct Analyzer<'a> {
     is_pat_decl: bool,
 }
 
-#[derive(Debug, Default)]
-pub(super) struct Scope<'a> {
-    parent: Option<&'a Scope<'a>>,
-
-    used_ids: AHashMap<Id, usize>,
-}
-
 impl Analyzer<'_> {
     fn add_decl(&mut self, id: Id) {}
 
     fn add_usage(&mut self, id: Id) {}
 
+    fn exit_scope(&mut self) {}
+
     fn with_scope<F>(&mut self, op: F)
     where
         F: for<'aa> FnOnce(&mut Analyzer<'aa>),
     {
+        {
+            let mut v = Analyzer {
+                rename: self.rename,
+                scope: Scope {
+                    parent: Some(&self.scope),
+                    ..Default::default()
+                },
+                is_pat_decl: self.is_pat_decl,
+            };
+
+            op(&mut v);
+
+            v.exit_scope();
+        }
     }
 }
 

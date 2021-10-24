@@ -1,5 +1,3 @@
-use std::{cell::RefCell, cmp::Reverse, collections::BinaryHeap, mem::take};
-
 use self::preserver::idents_to_preserve;
 use super::compute_char_freq::CharFreqInfo;
 use crate::{
@@ -9,6 +7,7 @@ use crate::{
     util::{base54::incr_base54, idents_used_by, idents_used_by_ordered},
 };
 use indexmap::IndexSet;
+use std::{cell::RefCell, cmp::Reverse, collections::BinaryHeap, mem::take};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
