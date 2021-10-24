@@ -176,7 +176,12 @@ where
     // TODO: no span ase argument
     fn parse_type_selector(&mut self, span: Span) -> PResult<Option<NamespacedName>> {
         let start_pos = span.lo;
-        let ns_prefix = self.parse_ns_prefix(span);
+
+        let mut prefix = None;
+
+        if let Ok(result) = self.parse_ns_prefix(span) {
+            prefix = result;
+        }
 
         match cur!(self) {
             Token::Ident { .. } => {
@@ -191,11 +196,7 @@ where
 
                 return Ok(Some(NamespacedName {
                     span: span!(self, start_pos),
-                    prefix: if ns_prefix.is_ok() {
-                        ns_prefix.unwrap()
-                    } else {
-                        None
-                    },
+                    prefix,
                     name,
                 }));
             }
@@ -204,16 +205,12 @@ where
 
                 let value: JsWord = "*".into();
                 let raw = value.clone();
-                let ns_name_name = Text { span, value, raw };
+                let name = Text { span, value, raw };
 
                 return Ok(Some(NamespacedName {
                     span: span!(self, start_pos),
-                    prefix: if ns_prefix.is_ok() {
-                        ns_prefix.unwrap()
-                    } else {
-                        None
-                    },
-                    name: ns_name_name,
+                    prefix,
+                    name,
                 }));
             }
 
