@@ -40,13 +40,26 @@ impl Scope {
         self.data.usages.get_mut().insert(id.clone());
     }
 
-    pub(super) fn rename(&mut self, to: &mut AHashMap<Id, JsWord>) {
+    pub(super) fn rename(
+        &mut self,
+        to: &mut AHashMap<Id, JsWord>,
+        preserved: &AHashSet<Id>,
+        preserved_symbols: &AHashSet<JsWord>,
+    ) {
         let mut n = 0;
         for id in self.data.queue.get_mut().take() {
+            if preserved.contains(&id) {
+                continue;
+            }
+
             loop {
                 let (_, sym) = incr_base54(&mut n);
 
                 let sym: JsWord = sym.into();
+
+                if preserved_symbols.contains(&sym) {
+                    continue;
+                }
 
                 if self.can_rename(&id, &sym, &to) {
                     to.insert(id.clone(), sym.clone());
@@ -56,7 +69,7 @@ impl Scope {
         }
 
         for child in self.children.iter_mut() {
-            child.rename(to);
+            child.rename(to, preserved, preserved_symbols);
         }
     }
 

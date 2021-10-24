@@ -1,5 +1,3 @@
-#![allow(unused)]
-
 use crate::option::MangleOptions;
 use swc_common::{collections::AHashSet, DUMMY_SP};
 use swc_ecma_ast::*;

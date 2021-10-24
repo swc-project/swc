@@ -1,6 +1,6 @@
 use self::scope::Scope;
 use swc_atoms::JsWord;
-use swc_common::collections::AHashMap;
+use swc_common::collections::{AHashMap, AHashSet};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
@@ -14,10 +14,11 @@ pub(super) struct Analyzer {
 }
 
 impl Analyzer {
-    pub(super) fn into_rename_map(mut self) -> AHashMap<Id, JsWord> {
+    pub(super) fn into_rename_map(mut self, preserved: &AHashSet<Id>) -> AHashMap<Id, JsWord> {
         let mut map = AHashMap::default();
 
-        self.scope.rename(&mut map);
+        let preserved_symbols = preserved.iter().cloned().map(|v| v.0).collect();
+        self.scope.rename(&mut map, preserved, &preserved_symbols);
 
         map
     }
