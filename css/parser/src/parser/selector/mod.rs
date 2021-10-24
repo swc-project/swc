@@ -153,7 +153,6 @@ where
         }
 
         if is!(self, Ident) {
-            println!("{:?}", self.input.cur());
             let span = self.input.cur_span()?;
             let token = bump!(self);
             let name = match token {
@@ -179,38 +178,33 @@ where
             prefix = result;
         }
 
-        match cur!(self) {
-            Token::Ident { .. } => {
-                let span = self.input.cur_span()?;
-                let token = bump!(self);
-                let name = match token {
-                    Token::Ident { value, raw } => Text { span, value, raw },
-                    _ => {
-                        unreachable!()
-                    }
-                };
+        if is!(self, Ident) {
+            let span = self.input.cur_span()?;
+            let token = bump!(self);
+            let name = match token {
+                Token::Ident { value, raw } => Text { span, value, raw },
+                _ => {
+                    unreachable!()
+                }
+            };
 
-                return Ok(Some(NamespacedName {
-                    span: span!(self, start_pos),
-                    prefix,
-                    name,
-                }));
-            }
-            tok!("*") => {
-                bump!(self);
+            return Ok(Some(NamespacedName {
+                span: span!(self, start_pos),
+                prefix,
+                name,
+            }));
+        } else if is!(self, "*") {
+            bump!(self);
 
-                let value: JsWord = "*".into();
-                let raw = value.clone();
-                let name = Text { span, value, raw };
+            let value: JsWord = "*".into();
+            let raw = value.clone();
+            let name = Text { span, value, raw };
 
-                return Ok(Some(NamespacedName {
-                    span: span!(self, start_pos),
-                    prefix,
-                    name,
-                }));
-            }
-
-            _ => {}
+            return Ok(Some(NamespacedName {
+                span: span!(self, start_pos),
+                prefix,
+                name,
+            }));
         }
 
         Ok(None)
