@@ -36,4 +36,6 @@ impl Scope {
     pub(super) fn add_usage(&mut self, id: &Id) {
         self.data.usages.get_mut().insert(id.clone());
     }
+
+    pub(super) fn rename(&mut self, to: &mut AHashMap<Id, JsWord>) {}
 }
