@@ -19,10 +19,8 @@ impl VisitMut for Mangler {
     noop_visit_mut_type!();
 
     fn visit_mut_module(&mut self, m: &mut Module) {
-        let mut rename = AHashMap::default();
         {
             let mut analyzer = Analyzer {
-                rename: &mut rename,
                 scope: Default::default(),
                 is_pat_decl: Default::default(),
             };

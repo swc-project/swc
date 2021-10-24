@@ -7,14 +7,13 @@ use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 
 mod scope;
 
-pub(super) struct Analyzer<'a> {
-    pub rename: &'a mut AHashMap<Id, JsWord>,
+pub(super) struct Analyzer {
     pub scope: Scope,
 
     pub is_pat_decl: bool,
 }
 
-impl Analyzer<'_> {
+impl Analyzer {
     fn add_decl(&mut self, id: Id) {
         self.scope.add_decl(&id);
     }
@@ -25,11 +24,10 @@ impl Analyzer<'_> {
 
     fn with_scope<F>(&mut self, op: F)
     where
-        F: for<'aa> FnOnce(&mut Analyzer<'aa>),
+        F: FnOnce(&mut Analyzer),
     {
         {
             let mut v = Analyzer {
-                rename: self.rename,
                 scope: Scope {
                     ..Default::default()
                 },
@@ -43,7 +41,7 @@ impl Analyzer<'_> {
     }
 }
 
-impl Visit for Analyzer<'_> {
+impl Visit for Analyzer {
     noop_visit_type!();
 
     fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
