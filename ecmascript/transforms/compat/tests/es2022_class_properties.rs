@@ -8,7 +8,7 @@ use swc_ecma_transforms_compat::{
     es2015::{arrow, block_scoping, classes, function_name, template_literal},
     es2016::exponentation,
     es2017::async_to_generator,
-    es2020::class_properties,
+    es2022::class_properties,
     es3::reserved_words,
 };
 use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, Tester};

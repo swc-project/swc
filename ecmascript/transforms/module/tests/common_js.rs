@@ -26,6 +26,7 @@ fn syntax() -> Syntax {
     Syntax::Es(EsConfig {
         dynamic_import: true,
         top_level_await: true,
+        static_blocks: true,
         ..Default::default()
     })
 }
@@ -3530,13 +3531,11 @@ test!(
     misc_undefined_this_arrow_function,
     r#"
 var foo = () => this;
-
 "#,
     r#"
 "use strict";
 
 var foo = () => void 0;
-
 "#
 );
 
@@ -4282,7 +4281,7 @@ let SomeClass = function() {
     _createClass(SomeClass, [{
             key: 'call',
             value: function call() {
-                var _props = this.props, myFunction = _props.myFunction;
+                var myFunction = this.props.myFunction;
                 if (myFunction) {
                     myFunction();
                 } else {
@@ -4938,6 +4937,95 @@ test!(
     import('side-effect');
     await import('awaited');
     "
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        ..Default::default()
+    }),
+    issue_2344_1,
+    "
+    class LoggingButton extends React.Component {
+        handleClick = () => {
+            console.log('this is:', this);
+        }
+        m() { this }
+        static a = () => this
+    }
+    ",
+    "
+    'use strict';
+    class LoggingButton extends React.Component {
+        handleClick = () => {
+            console.log('this is:', this);
+        }
+        m() { this }
+        static a = () => this
+    }
+    "
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        ..Default::default()
+    }),
+    issue_2344_2,
+    "
+  class A {
+    // this is weird I know
+    [(() => this)()] = 123
+  }
+  class B {
+    // this is weird too I know
+    [(() => this)()]() {}
+  }
+  class C {
+    static [(() => this)()] = 1
+  }
+  class D {
+    static d = class {
+      [(() => this)()]() {}
+    }
+  }
+  ",
+    "
+  'use strict';
+  class A {
+    [(() => void 0)()] = 123
+  }
+  class B {
+    [(() => void 0)()]() {}
+  }
+  class C {
+    static [(() => void 0)()] = 1
+  }
+  class D {
+    static d = class {
+      [(() => this)()]() {}
+    }
+  }
+  "
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        ..Default::default()
+    }),
+    issue_2344_3,
+    "
+  class A {
+    static { this.a = 123 }
+  }
+  ",
+    "
+  'use strict';
+  class A {
+    static { this.a = 123 }
+  }
+  "
 );
 
 #[testing::fixture("tests/fixture/commonjs/**/input.js")]

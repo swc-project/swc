@@ -322,6 +322,21 @@ impl AssignFolder {
                     "destructuring pattern binding requires initializer"
                 );
 
+                if props.len() == 1 {
+                    match &props[0] {
+                        ObjectPatProp::Assign(p @ AssignPatProp { value: None, .. }) => {
+                            decls.push(VarDeclarator {
+                                span: decl.span,
+                                name: Pat::Ident(p.key.clone().into()),
+                                init: Some(Box::new(decl.init.unwrap().make_member(p.key.clone()))),
+                                definite: false,
+                            });
+                            return;
+                        }
+                        _ => {}
+                    }
+                }
+
                 let can_be_null = can_be_null(decl.init.as_ref().unwrap());
                 let ref_ident = make_ref_ident(self.c, decls, decl.init);
 
@@ -713,6 +728,22 @@ impl Fold for AssignFolder {
                         })
                     }
                     Pat::Object(ObjectPat { span, props, .. }) => {
+                        if props.len() == 1 {
+                            match &props[0] {
+                                ObjectPatProp::Assign(p @ AssignPatProp { value: None, .. }) => {
+                                    return Expr::Assign(AssignExpr {
+                                        span,
+                                        op: op!("="),
+                                        left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                                            p.key.clone().into(),
+                                        ))),
+                                        right: Box::new(right.make_member(p.key.clone())),
+                                    });
+                                }
+                                _ => {}
+                            }
+                        }
+
                         let ref_ident = make_ref_ident(self.c, &mut self.vars, None);
 
                         let mut exprs = vec![];

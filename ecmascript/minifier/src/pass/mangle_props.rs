@@ -94,7 +94,7 @@ impl ManglePropertiesState {
                 Some(cached.clone())
             } else {
                 loop {
-                    let sym = incr_base54(&mut self.n);
+                    let sym = incr_base54(&mut self.n).1;
 
                     let mangled_name: JsWord = sym.into();
                     self.cache.insert(name.clone(), mangled_name.clone());
