@@ -7,12 +7,19 @@ use swc_common::collections::AHashMap;
 pub(super) struct Scope<'a> {
     pub parent: Option<&'a Scope<'a>>,
 
-    pub direct_decls: RefCell<AHashMap<JsWord, Vec<usize>>>,
-    pub decls: RefCell<AHashMap<JsWord, Vec<usize>>>,
+    pub data: ScopeData,
+}
+
+#[derive(Debug, Default)]
+pub struct ScopeData {
+    direct_decls: RefCell<AHashMap<JsWord, Vec<usize>>>,
+    decls: RefCell<AHashMap<JsWord, Vec<usize>>>,
+
+    n: usize,
 
     /// Usages in current scope.
-    pub direct_usages: RefCell<AHashMap<JsWord, Vec<usize>>>,
-    pub usages: RefCell<AHashMap<JsWord, Vec<usize>>>,
+    direct_usages: RefCell<AHashMap<JsWord, Vec<usize>>>,
+    usages: RefCell<AHashMap<JsWord, Vec<usize>>>,
 }
 
 impl Scope<'_> {}
