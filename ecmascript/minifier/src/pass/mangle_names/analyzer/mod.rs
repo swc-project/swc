@@ -114,6 +114,15 @@ impl Visit for Analyzer {
         }
     }
 
+    fn visit_prop(&mut self, p: &Prop, _: &dyn Node) {
+        p.visit_children_with(self);
+
+        match p {
+            Prop::Shorthand(i) => self.add_usage(i.to_id()),
+            _ => {}
+        }
+    }
+
     fn visit_var_declarator(&mut self, v: &VarDeclarator, _: &dyn Node) {
         let old = self.is_pat_decl;
 
