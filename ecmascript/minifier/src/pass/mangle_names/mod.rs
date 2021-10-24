@@ -252,14 +252,6 @@ impl Mangler<'_> {
 impl VisitMut for Mangler<'_> {
     noop_visit_mut_type!();
 
-    fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
-        if n.exported.is_none() {
-            n.exported = Some(n.orig.clone());
-        }
-
-        self.rename_usage(&mut n.orig);
-    }
-
     fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
         let used = idents_used_by_ordered(&n.function);
 

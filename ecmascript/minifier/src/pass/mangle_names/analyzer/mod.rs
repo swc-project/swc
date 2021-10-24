@@ -93,6 +93,10 @@ impl Visit for Analyzer {
         c.class.visit_with(c, self);
     }
 
+    fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier, _: &dyn Node) {
+        self.add_usage(n.orig.to_id());
+    }
+
     fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
         e.visit_children_with(self);
 
@@ -126,6 +130,14 @@ impl Visit for Analyzer {
         if e.computed {
             e.prop.visit_with(e, self);
         }
+    }
+
+    fn visit_named_export(&mut self, n: &NamedExport, _: &dyn Node) {
+        if n.src.is_some() {
+            return;
+        }
+
+        n.visit_children_with(self);
     }
 
     fn visit_param(&mut self, e: &Param, _: &dyn Node) {
