@@ -39,7 +39,7 @@ use swc_ecma_transforms::{
     resolver_with_mark,
 };
 use swc_ecma_utils::drop_span;
-use swc_ecma_visit::{FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{FoldWith, Node, Visit, VisitMutWith, VisitWith};
 use testing::{assert_eq, DebugUsingDisplay, NormalizedOutput};
 
 fn load_txt(filename: &str) -> Vec<String> {
@@ -120,6 +120,8 @@ fn run(
         .thread_name(|i| format!("rayon-{}", i + 1))
         .build_global();
 
+    let disable_hygiene = mangle.is_some();
+
     let (_module, config) = parse_compressor_config(cm.clone(), &config);
 
     let fm = cm.load_file(&input).expect("failed to load input.js");
@@ -178,7 +180,7 @@ fn run(
     };
 
     let optimization_start = Instant::now();
-    let output = optimize(
+    let mut output = optimize(
         program,
         cm.clone(),
         Some(&comments),
@@ -206,11 +208,13 @@ fn run(
         end - optimization_start
     );
 
-    let output = output
-        .fold_with(&mut hygiene_with_config(hygiene::Config {
+    if !disable_hygiene {
+        output.visit_mut_with(&mut hygiene_with_config(hygiene::Config {
             ..Default::default()
         }))
-        .fold_with(&mut fixer(None));
+    }
+
+    let output = output.fold_with(&mut fixer(None));
 
     let end = Instant::now();
     tracing::info!(
