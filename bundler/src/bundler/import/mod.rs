@@ -557,6 +557,8 @@ where
     }
 
     fn visit_mut_export_named_specifier(&mut self, s: &mut ExportNamedSpecifier) {
+        self.add_forced_ns_for(s.orig.to_id());
+
         match &s.exported {
             Some(exported) => {
                 debug_assert_eq!(
