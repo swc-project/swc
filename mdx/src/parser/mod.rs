@@ -104,8 +104,18 @@ where
             });
         }
 
-        if self.read_exact_at_line_start("```", true)? {}
+        if self.read_exact_at_line_start("```", true)? {
+            return self.parse_code_block();
+        }
 
+        if self.read_exact_at_line_start(">", true)? {
+            return self.parse_quote_block()?;
+        }
+
+        todo!()
+    }
+
+    pub fn parse_code_block(&mut self) -> PResult<BlockNode> {
         todo!()
     }
 
