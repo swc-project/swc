@@ -61,7 +61,13 @@ impl Scope {
     }
 
     fn can_rename(&self, id: &Id, symbol: &JsWord, renamed: &AHashMap<Id, JsWord>) -> bool {
-        for used_id in self.data.usages.borrow().iter() {
+        for used_id in self
+            .data
+            .usages
+            .borrow()
+            .iter()
+            .chain(self.data.decls.borrow().iter())
+        {
             if *used_id == *id {
                 continue;
             }
