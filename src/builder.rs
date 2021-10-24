@@ -169,11 +169,15 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         } else {
             Either::Right(chain!(
                 Optional::new(
+                    compat::es2022::es2022(compat::es2022::Config { loose: self.loose }),
+                    should_enable(self.target, JscTarget::Es2022)
+                ),
+                Optional::new(
                     compat::es2021::es2021(),
                     should_enable(self.target, JscTarget::Es2021)
                 ),
                 Optional::new(
-                    compat::es2020::es2020(compat::es2020::Config { loose: self.loose }),
+                    compat::es2020::es2020(),
                     should_enable(self.target, JscTarget::Es2020)
                 ),
                 Optional::new(
