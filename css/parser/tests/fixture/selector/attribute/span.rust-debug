@@ -6,9 +6,9 @@ error: Stylesheet
 3  | | [title="foo"] {}
 4  | | [lang~="en-us"] {}
 ...  |
-17 | | a[ class = "test" ] {}
-18 | | a[   class   =   "test"   ] {}
-   | |_______________________________^
+19 | | [href*="insensitive"   i] {}
+20 | | [   href   ] {}
+   | |________________^
 
 error: Rule
  --> $DIR/tests/fixture/selector/attribute/input.css:1:1
@@ -893,6 +893,12 @@ error: NamespacedName
    |  ^^^^
 
 error: Text
+  --> $DIR/tests/fixture/selector/attribute/input.css:15:2
+   |
+15 | [|att] {}
+   |  ^
+
+error: Text
   --> $DIR/tests/fixture/selector/attribute/input.css:15:3
    |
 15 | [|att] {}
@@ -1101,4 +1107,118 @@ error: DeclBlock
    |
 18 | a[   class   =   "test"   ] {}
    |                             ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/attribute/input.css:19:1
+   |
+19 | [href*="insensitive"   i] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleRule
+  --> $DIR/tests/fixture/selector/attribute/input.css:19:1
+   |
+19 | [href*="insensitive"   i] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:19:1
+   |
+19 | [href*="insensitive"   i] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:19:1
+   |
+19 | [href*="insensitive"   i] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:19:1
+   |
+19 | [href*="insensitive"   i] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AttrSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:19:1
+   |
+19 | [href*="insensitive"   i] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: NamespacedName
+  --> $DIR/tests/fixture/selector/attribute/input.css:19:2
+   |
+19 | [href*="insensitive"   i] {}
+   |  ^^^^
+
+error: Text
+  --> $DIR/tests/fixture/selector/attribute/input.css:19:2
+   |
+19 | [href*="insensitive"   i] {}
+   |  ^^^^
+
+error: Str
+  --> $DIR/tests/fixture/selector/attribute/input.css:19:8
+   |
+19 | [href*="insensitive"   i] {}
+   |        ^^^^^^^^^^^^^
+
+error: DeclBlock
+  --> $DIR/tests/fixture/selector/attribute/input.css:19:27
+   |
+19 | [href*="insensitive"   i] {}
+   |                           ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/attribute/input.css:20:1
+   |
+20 | [   href   ] {}
+   | ^^^^^^^^^^^^^^^
+
+error: StyleRule
+  --> $DIR/tests/fixture/selector/attribute/input.css:20:1
+   |
+20 | [   href   ] {}
+   | ^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:20:1
+   |
+20 | [   href   ] {}
+   | ^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:20:1
+   |
+20 | [   href   ] {}
+   | ^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:20:1
+   |
+20 | [   href   ] {}
+   | ^^^^^^^^^^^^
+
+error: AttrSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:20:1
+   |
+20 | [   href   ] {}
+   | ^^^^^^^^^^^^
+
+error: NamespacedName
+  --> $DIR/tests/fixture/selector/attribute/input.css:20:5
+   |
+20 | [   href   ] {}
+   |     ^^^^
+
+error: Text
+  --> $DIR/tests/fixture/selector/attribute/input.css:20:5
+   |
+20 | [   href   ] {}
+   |     ^^^^
+
+error: DeclBlock
+  --> $DIR/tests/fixture/selector/attribute/input.css:20:14
+   |
+20 | [   href   ] {}
+   |              ^^
 

@@ -92,24 +92,6 @@ where
         Ok(None)
     }
 
-    fn parse_name_token(&mut self) -> PResult<Text> {
-        let span = self.input.cur_span()?;
-
-        match cur!(self) {
-            Token::Ident { .. } => {
-                let token = bump!(self);
-
-                match token {
-                    Token::Ident { value, raw } => return Ok(Text { span, value, raw }),
-                    _ => {
-                        unreachable!()
-                    }
-                }
-            }
-            _ => Err(Error::new(span, ErrorKind::Expected("Text"))),
-        }
-    }
-
     fn parse_ns_prefix(&mut self, span: Span) -> PResult<Option<Text>> {
         if is!(self, Ident) && peeked_is!(self, "|") {
             let token = bump!(self);
@@ -145,13 +127,32 @@ where
     }
 
     fn parse_wq_name(&mut self, span: Span) -> PResult<(Option<Text>, Option<Text>)> {
-        let mut prefix = None;
+        let state = self.input.state();
 
-        if let Ok(result) = self.parse_ns_prefix(span) {
-            prefix = result;
+        if is!(self, Ident) && peeked_is!(self, "|")
+            || is!(self, "*") && peeked_is!(self, "|")
+            || is!(self, "|")
+        {
+            let prefix = self.parse_ns_prefix(span)?;
+
+            if is!(self, Ident) {
+                let span = self.input.cur_span()?;
+                let token = bump!(self);
+                let name = match token {
+                    Token::Ident { value, raw } => Text { span, value, raw },
+                    _ => {
+                        unreachable!()
+                    }
+                };
+
+                return Ok((prefix, Some(name)));
+            } else {
+                self.input.reset(&state);
+            }
         }
 
         if is!(self, Ident) {
+            println!("{:?}", self.input.cur());
             let span = self.input.cur_span()?;
             let token = bump!(self);
             let name = match token {
@@ -161,7 +162,7 @@ where
                 }
             };
 
-            return Ok((prefix, Some(name)));
+            return Ok((None, Some(name)));
         }
 
         Ok((None, None))
@@ -231,7 +232,7 @@ where
     }
 
     fn parse_class_selector(&mut self) -> PResult<ClassSelector> {
-        let start = self.input.cur_span()?.lo;
+        let start_pos = self.input.cur_span()?.lo;
 
         bump!(self);
 
@@ -249,7 +250,7 @@ where
         };
 
         Ok(ClassSelector {
-            span: span!(self, start),
+            span: span!(self, start_pos),
             text: Text {
                 span,
                 value: values.0,
@@ -265,57 +266,26 @@ where
 
         self.input.skip_ws()?;
 
+        let start_span = self.input.cur_span()?;
         let name_start_pos = self.input.cur_span()?.lo;
+        let prefix;
+        let name;
 
-        let mut ns_name_prefix = None;
-        let mut ns_name_name;
-
-        match cur!(self) {
-            tok!("|") | tok!("*") => {
-                // "[|x]"
-                // "[*|x]"
-
-                if eat!(self, "*") {
-                    let value: JsWord = "*".into();
-                    let raw = value.clone();
-
-                    ns_name_prefix = Some(Text {
-                        span: span!(self, name_start_pos),
-                        value,
-                        raw,
-                    });
-                } else {
-                    // "[|attr]" is equivalent to "[attr]". From the
-                    // specification: "In keeping with the
-                    // Namespaces in the XML recommendation, default
-                    // namespaces do not apply to attributes, therefore
-                    // attribute selectors
-                    // without a namespace component apply only to attributes
-                    // that have no namespace (equivalent to
-                    // |attr)."
-                }
-
-                expect!(self, "|");
-
-                ns_name_name = self.parse_name_token()?;
-            }
-
-            _ => {
-                // "[x]"
-                // "[x|y]"
-
-                ns_name_name = self.parse_name_token()?;
-
-                if !peeked_is!(self, "=") && eat!(self, "|") {
-                    ns_name_prefix = Some(ns_name_name);
-                    ns_name_name = self.parse_name_token()?;
-                }
-            }
+        if let Ok((p, Some(n))) = self.parse_wq_name(start_span) {
+            prefix = p;
+            name = n;
+        } else {
+            return Err(Error::new(
+                span!(self, start_pos),
+                ErrorKind::InvalidAttrWqName,
+            ));
         }
+
+        // TODO: we don't need it
         let name = NamespacedName {
             span: span!(self, name_start_pos),
-            prefix: ns_name_prefix,
-            name: ns_name_name,
+            prefix,
+            name,
         };
 
         self.input.skip_ws()?;

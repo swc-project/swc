@@ -16,3 +16,5 @@
 [att] {}
 a[ class = "test" ] {}
 a[   class   =   "test"   ] {}
+[href*="insensitive"   i] {}
+[   href   ] {}
