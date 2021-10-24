@@ -73,6 +73,20 @@ impl Visit for Analyzer {
         }
     }
 
+    fn visit_catch_clause(&mut self, n: &CatchClause, _: &dyn Node) {
+        self.with_scope(|v| {
+            let old = v.is_pat_decl;
+
+            v.is_pat_decl = true;
+            n.param.visit_with(n, v);
+
+            v.is_pat_decl = false;
+            n.body.visit_with(n, v);
+
+            v.is_pat_decl = old;
+        })
+    }
+
     fn visit_class_decl(&mut self, c: &ClassDecl, _: &dyn Node) {
         self.add_decl(c.ident.to_id());
 

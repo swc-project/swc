@@ -252,28 +252,6 @@ impl Mangler<'_> {
 impl VisitMut for Mangler<'_> {
     noop_visit_mut_type!();
 
-    fn visit_mut_catch_clause(&mut self, n: &mut CatchClause) {
-        let used = idents_used_by_ordered(&*n);
-
-        self.with_scope(used, |v| {
-            let old = v.data.is_pat_decl;
-
-            v.data.is_pat_decl = true;
-            n.param.visit_mut_with(v);
-
-            v.data.is_pat_decl = true;
-            n.body.visit_mut_with(v);
-
-            v.data.is_pat_decl = old;
-        })
-    }
-
-    fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
-        self.rename_decl(&mut n.ident);
-
-        n.class.visit_mut_with(self);
-    }
-
     fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
         if n.exported.is_none() {
             n.exported = Some(n.orig.clone());
