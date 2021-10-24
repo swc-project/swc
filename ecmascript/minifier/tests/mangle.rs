@@ -243,7 +243,15 @@ fn exec(input: PathBuf) {
     testing::run_test2(false, |cm, handler| {
         let input_src = read_to_string(&input).expect("failed to read input.js as a string");
 
-        let output = run(cm.clone(), &handler, &input, Default::default());
+        let output = run(
+            cm.clone(),
+            &handler,
+            &input,
+            MangleOptions {
+                keep_fn_names: true,
+                ..Default::default()
+            },
+        );
 
         let output = output.expect("Parsing in base test should not fail");
         let output = print(cm.clone(), &output, false);
