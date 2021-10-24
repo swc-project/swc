@@ -252,55 +252,6 @@ impl Mangler<'_> {
 impl VisitMut for Mangler<'_> {
     noop_visit_mut_type!();
 
-    fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
-        let used = idents_used_by_ordered(&n.function);
-
-        self.rename_decl(&mut n.ident);
-
-        self.with_scope(used, |v| {
-            n.function.visit_mut_with(v);
-        });
-    }
-
-    fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
-        let used = idents_used_by_ordered(&*n);
-
-        self.with_scope(used, |v| {
-            if let Some(i) = &mut n.ident {
-                v.rename_decl(i);
-            }
-
-            n.function.visit_mut_with(v);
-        })
-    }
-
-    fn visit_mut_function(&mut self, n: &mut Function) {
-        n.params.visit_mut_with(self);
-
-        n.body.visit_mut_with(self);
-
-        n.decorators.visit_mut_with(self);
-    }
-
-    fn visit_mut_import_default_specifier(&mut self, n: &mut ImportDefaultSpecifier) {
-        self.rename_decl(&mut n.local);
-    }
-
-    fn visit_mut_import_named_specifier(&mut self, n: &mut ImportNamedSpecifier) {
-        match &n.imported {
-            Some(..) => {}
-            None => {
-                n.imported = Some(n.local.clone());
-            }
-        }
-
-        self.rename_decl(&mut n.local);
-    }
-
-    fn visit_mut_import_star_as_specifier(&mut self, n: &mut ImportStarAsSpecifier) {
-        self.rename_decl(&mut n.local);
-    }
-
     fn visit_mut_labeled_stmt(&mut self, n: &mut LabeledStmt) {
         n.body.visit_mut_with(self);
     }

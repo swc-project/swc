@@ -124,6 +124,18 @@ impl Visit for Analyzer {
         })
     }
 
+    fn visit_import_default_specifier(&mut self, n: &ImportDefaultSpecifier, _: &dyn Node) {
+        self.add_decl(n.local.to_id());
+    }
+
+    fn visit_import_named_specifier(&mut self, n: &ImportNamedSpecifier, _: &dyn Node) {
+        self.add_decl(n.local.to_id());
+    }
+
+    fn visit_import_star_as_specifier(&mut self, n: &ImportStarAsSpecifier, _: &dyn Node) {
+        self.add_decl(n.local.to_id());
+    }
+
     fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
         e.obj.visit_with(e, self);
 
