@@ -1,5 +1,5 @@
 use std::cell::RefCell;
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
     util::take::Take,
@@ -27,6 +27,10 @@ pub struct ScopeData {
 
 impl Scope {
     pub(super) fn add_decl(&mut self, id: &Id) {
+        if id.0 == js_word!("arguments") {
+            return;
+        }
+
         self.data.decls.get_mut().insert(id.clone());
         {
             let b = self.data.queue.get_mut();
@@ -37,6 +41,10 @@ impl Scope {
     }
 
     pub(super) fn add_usage(&mut self, id: &Id) {
+        if id.0 == js_word!("arguments") {
+            return;
+        }
+
         self.data.usages.get_mut().insert(id.clone());
     }
 
