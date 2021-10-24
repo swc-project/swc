@@ -1,11 +1,6 @@
 use self::preserver::idents_to_preserve;
 use super::compute_char_freq::CharFreqInfo;
-use crate::{
-    analyzer::{analyze, ProgramData},
-    marks::Marks,
-    option::MangleOptions,
-    util::base54::incr_base54,
-};
+use crate::{marks::Marks, option::MangleOptions, util::base54::incr_base54};
 use swc_atoms::JsWord;
 use swc_common::{
     chain,

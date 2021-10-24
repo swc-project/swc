@@ -1,4 +1,3 @@
-use indexmap::IndexSet;
 use std::time::Instant;
 use swc_common::{
     collections::AHashSet,
@@ -103,7 +102,7 @@ pub(crate) fn make_bool(span: Span, value: bool) -> Expr {
     })
 }
 
-/// Addditional methods for optimizing expressions.
+/// Additional methods for optimizing expressions.
 pub(crate) trait ExprOptExt: Sized {
     fn as_expr(&self) -> &Expr;
     fn as_mut(&mut self) -> &mut Expr;
@@ -120,7 +119,7 @@ pub(crate) trait ExprOptExt: Sized {
         }
     }
 
-    /// This returns itself for normal expressions and returns last exprssions
+    /// This returns itself for normal expressions and returns last expressions
     /// for sequence expressions.
     fn value_mut(&mut self) -> &mut Expr {
         let expr = self.as_mut();
@@ -473,71 +472,4 @@ pub fn now() -> Option<Instant> {
     } else {
         Some(Instant::now())
     }
-}
-
-#[derive(Default)]
-pub(crate) struct OrderedIdentUsageCollector {
-    ids: IndexSet<Id, ahash::RandomState>,
-    ignore_nested: bool,
-}
-
-impl Visit for OrderedIdentUsageCollector {
-    noop_visit_type!();
-
-    fn visit_block_stmt_or_expr(&mut self, n: &BlockStmtOrExpr, _: &dyn Node) {
-        if self.ignore_nested {
-            return;
-        }
-
-        n.visit_children_with(self);
-    }
-
-    fn visit_constructor(&mut self, n: &Constructor, _: &dyn Node) {
-        if self.ignore_nested {
-            return;
-        }
-
-        n.visit_children_with(self);
-    }
-
-    fn visit_function(&mut self, n: &Function, _: &dyn Node) {
-        if self.ignore_nested {
-            return;
-        }
-
-        n.visit_children_with(self);
-    }
-
-    fn visit_ident(&mut self, n: &Ident, _: &dyn Node) {
-        self.ids.insert(n.to_id());
-    }
-
-    fn visit_member_expr(&mut self, n: &MemberExpr, _: &dyn Node) {
-        n.obj.visit_with(n, self);
-
-        if n.computed {
-            n.prop.visit_with(n, self);
-        }
-    }
-
-    fn visit_prop_name(&mut self, n: &PropName, _: &dyn Node) {
-        match n {
-            PropName::Computed(..) => {
-                n.visit_children_with(self);
-            }
-            _ => {}
-        }
-    }
-}
-
-pub(crate) fn idents_used_by_ordered<N>(n: &N) -> IndexSet<Id, ahash::RandomState>
-where
-    N: VisitWith<OrderedIdentUsageCollector>,
-{
-    let mut v = OrderedIdentUsageCollector {
-        ignore_nested: false,
-        ..Default::default()
-    };
-    n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
-    v.ids
 }
