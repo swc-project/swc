@@ -25,6 +25,7 @@
         "cname",
         "combinator",
         "Combinator",
+        "cond",
         "Cond",
         "constness",
         "corejs",
