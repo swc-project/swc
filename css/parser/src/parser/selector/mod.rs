@@ -145,29 +145,23 @@ where
     }
 
     fn parse_wq_name(&mut self, span: Span) -> PResult<(Option<Text>, Option<Text>)> {
-        let state = self.input.state();
-        let mut maybe_ns_prefix = None;
+        let mut prefix = None;
 
-        if is!(self, Ident) && peeked_is!(self, "|")
-            || is!(self, "*") && peeked_is!(self, "|")
-            || is!(self, "|")
-        {
-            maybe_ns_prefix = self.parse_ns_prefix(span).unwrap();
+        if let Ok(result) = self.parse_ns_prefix(span) {
+            prefix = result;
         }
 
         if is!(self, Ident) {
             let span = self.input.cur_span()?;
             let token = bump!(self);
-            let wq_name = match token {
+            let name = match token {
                 Token::Ident { value, raw } => Text { span, value, raw },
                 _ => {
                     unreachable!()
                 }
             };
 
-            return Ok((maybe_ns_prefix, Some(wq_name)));
-        } else {
-            self.input.reset(&state);
+            return Ok((prefix, Some(name)));
         }
 
         Ok((None, None))
