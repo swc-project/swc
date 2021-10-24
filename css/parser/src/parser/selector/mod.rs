@@ -263,6 +263,8 @@ where
 
         expect!(self, "[");
 
+        self.input.skip_ws()?;
+
         let name_start_pos = self.input.cur_span()?.lo;
 
         let mut ns_name_prefix = None;

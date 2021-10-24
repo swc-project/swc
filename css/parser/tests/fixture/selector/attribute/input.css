@@ -14,3 +14,5 @@
 [*|att] {}
 [|att] {}
 [att] {}
+a[ class = "test" ] {}
+a[   class   =   "test"   ] {}
