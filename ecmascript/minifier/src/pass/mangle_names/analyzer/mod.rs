@@ -8,10 +8,10 @@ use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 mod scope;
 
 pub(super) struct Analyzer<'a> {
-    rename: &'a mut AHashMap<Id, JsWord>,
-    scope: Scope,
+    pub rename: &'a mut AHashMap<Id, JsWord>,
+    pub scope: Scope,
 
-    is_pat_decl: bool,
+    pub is_pat_decl: bool,
 }
 
 impl Analyzer<'_> {

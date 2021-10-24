@@ -20,6 +20,7 @@ use tracing::debug;
 
 mod analyzer;
 mod preserver;
+mod v2;
 
 pub(crate) fn name_mangler(
     options: MangleOptions,

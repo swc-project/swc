@@ -4,7 +4,7 @@ use swc_common::collections::{AHashMap, AHashSet};
 use swc_ecma_utils::Id;
 
 #[derive(Debug, Default)]
-pub(super) struct Scope {
+pub(crate) struct Scope {
     pub data: ScopeData,
 
     pub children: Vec<Scope>,
@@ -23,7 +23,7 @@ pub struct ScopeData {
 }
 
 impl Scope {
-    pub fn add_decl(&mut self, id: &Id) {
+    pub(super) fn add_decl(&mut self, id: &Id) {
         self.data.decls.get_mut().insert(id.clone());
         {
             let mut b = self.data.queue.get_mut();
@@ -33,7 +33,7 @@ impl Scope {
         }
     }
 
-    pub fn add_usage(&mut self, id: &Id) {
+    pub(super) fn add_usage(&mut self, id: &Id) {
         self.data.usages.get_mut().insert(id.clone());
     }
 }
