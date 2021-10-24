@@ -52,6 +52,16 @@ impl Analyzer {
 impl Visit for Analyzer {
     noop_visit_type!();
 
+    fn visit_assign_pat_prop(&mut self, p: &AssignPatProp, _: &dyn Node) {
+        p.visit_children_with(self);
+
+        if self.is_pat_decl {
+            self.add_decl(p.key.to_id())
+        } else {
+            self.add_usage(p.key.to_id())
+        }
+    }
+
     fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
         e.visit_children_with(self);
 
