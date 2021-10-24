@@ -1,3 +1,3 @@
-var ref = {
+var as = {
     as: 1
-}, as = ref.as;
+}.as;

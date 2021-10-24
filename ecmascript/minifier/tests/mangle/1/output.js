@@ -1,34 +1,34 @@
 "use strict";
-var a = (this && this.__importDefault) || function(b) {
-    return (b && b.a) ? b : {
-        "default": b
+var a = (this && this.__importDefault) || function(a) {
+    return (a && a.__esModule) ? a : {
+        "default": a
     };
 };
-Object.defineProperty(exports, "a", {
+Object.defineProperty(exports, "__esModule", {
     value: true
 });
-const c = a(require("./config.json"));
-function d({ config =c.default  } = {
+const b = a(require("./config.json"));
+function c({ config: a = b.default  } = {
 }) {
-    function e(f) {
-        const g = config[f] || null;
-        if (!g) {
+    function c(b) {
+        const c = a[b] || null;
+        if (!c) {
             return false;
         }
-        const { available , availableBy  } = g;
-        if (!availableBy) {
-            return available;
+        const { available: d , availableBy: e  } = c;
+        if (!e) {
+            return d;
         }
-        return Date.now() >= availableBy && available;
+        return Date.now() >= e && d;
     }
-    function h(i) {
-        const j = config[i] || null;
-        return j;
+    function d(b) {
+        const c = a[b] || null;
+        return c;
     }
     return {
-        b: h,
-        c: e,
-        d: config
+        longlong10: d,
+        longlong2: c,
+        longlong100: a
     };
 }
-exports.default = d;
+exports.default = c;

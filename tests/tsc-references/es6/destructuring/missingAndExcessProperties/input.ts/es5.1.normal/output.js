@@ -35,18 +35,18 @@ function f3() {
         x: 0,
         y: 0
     }, ref = ref !== null ? ref : _throw(new TypeError("Cannot destructure undefined"));
+    var x = {
+        x: 0,
+        y: 0
+    }.x;
+    var y = {
+        x: 0,
+        y: 0
+    }.y;
     var ref11 = {
         x: 0,
         y: 0
-    }, x = ref11.x;
-    var ref12 = {
-        x: 0,
-        y: 0
-    }, y = ref12.y;
-    var ref13 = {
-        x: 0,
-        y: 0
-    }, x = ref13.x, y = ref13.y;
+    }, x = ref11.x, y = ref11.y;
 }
 // Excess properties
 function f4() {
@@ -56,19 +56,17 @@ function f4() {
         x: 0,
         y: 0
     }, ref;
-    var ref14;
-    ref14 = {
+    x = ({
         x: 0,
         y: 0
-    }, x = ref14.x, ref14;
-    var ref15;
-    ref15 = {
+    }).x;
+    y = ({
         x: 0,
         y: 0
-    }, y = ref15.y, ref15;
-    var ref16;
-    ref16 = {
+    }).y;
+    var ref12;
+    ref12 = {
         x: 0,
         y: 0
-    }, x = ref16.x, y = ref16.y, ref16;
+    }, x = ref12.x, y = ref12.y, ref12;
 }

@@ -8,7 +8,7 @@ use swc_ecma_transforms_compat::{
     es2015,
     es2015::{arrow, destructuring, function_name, parameters},
     es2017::async_to_generator,
-    es2020::class_properties,
+    es2022::class_properties,
 };
 use swc_ecma_transforms_testing::{compare_stdout, test, test_exec};
 use swc_ecma_visit::{Fold, FoldWith};

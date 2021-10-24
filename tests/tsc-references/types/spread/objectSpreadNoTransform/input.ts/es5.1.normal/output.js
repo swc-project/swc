@@ -68,7 +68,6 @@ var o = _objectSpread({
 var b;
 var rest;
 var _o;
-var ref;
 _o = o, rest = _objectWithoutProperties(_o, [
     "b"
-]), ref = _o, b = ref.b, ref, _o;
+]), b = _o.b, _o;

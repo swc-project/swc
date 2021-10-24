@@ -24,7 +24,7 @@ use swc_ecma_transforms::{
     hygiene::{self, hygiene_with_config},
     resolver_with_mark,
 };
-use swc_ecma_visit::FoldWith;
+use swc_ecma_visit::{FoldWith, VisitMutWith};
 use testing::{DebugUsingDisplay, NormalizedOutput};
 
 fn print(cm: Lrc<SourceMap>, m: &Module, minify: bool) -> String {
@@ -193,9 +193,11 @@ fn compressed(compressed_file: PathBuf) {
 #[testing::fixture("tests/mangle/**/input.js")]
 fn fixture(input: PathBuf) {
     testing::run_test2(false, |cm, _handler| {
-        let m = parse(cm.clone(), &input);
+        let mut m = parse(cm.clone(), &input);
 
         let top_level_mark = Mark::fresh(Mark::root());
+
+        m.visit_mut_with(&mut resolver_with_mark(top_level_mark));
 
         let m = optimize(
             m,
@@ -204,17 +206,8 @@ fn fixture(input: PathBuf) {
             None,
             &MinifyOptions {
                 mangle: Some(MangleOptions {
-                    props: Some(ManglePropertiesOptions {
-                        reserved: Default::default(),
-                        undeclared: false,
-                        regex: Default::default(),
-                    }),
                     top_level: true,
-                    keep_class_names: false,
-                    keep_fn_names: false,
-                    keep_private_props: false,
-                    ie8: false,
-                    safari10: false,
+                    ..Default::default()
                 }),
                 compress: None,
                 ..Default::default()
@@ -250,7 +243,15 @@ fn exec(input: PathBuf) {
     testing::run_test2(false, |cm, handler| {
         let input_src = read_to_string(&input).expect("failed to read input.js as a string");
 
-        let output = run(cm.clone(), &handler, &input, Default::default());
+        let output = run(
+            cm.clone(),
+            &handler,
+            &input,
+            MangleOptions {
+                keep_fn_names: true,
+                ..Default::default()
+            },
+        );
 
         let output = output.expect("Parsing in base test should not fail");
         let output = print(cm.clone(), &output, false);

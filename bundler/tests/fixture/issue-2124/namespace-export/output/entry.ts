@@ -1,4 +1,4 @@
-function __spack_require__(mod) {
+function __swcpack_require__(mod) {
     var cache;
     if (cache) {
         return cache;

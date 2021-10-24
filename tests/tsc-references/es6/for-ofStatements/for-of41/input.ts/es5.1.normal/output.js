@@ -43,7 +43,7 @@ var array = [
 var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 try {
     for(var _iterator = array[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
-        var _value = _step.value, _x = _slicedToArray(_value.x, 1), a = _x[0], _y = _value.y, p = _y.p;
+        var _value = _step.value, _x = _slicedToArray(_value.x, 1), a = _x[0], p = _value.y.p;
         a;
         p;
     }

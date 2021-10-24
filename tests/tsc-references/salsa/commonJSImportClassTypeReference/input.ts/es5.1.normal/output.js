@@ -23,7 +23,7 @@ function _createClass(Constructor, protoProps, staticProps) {
 // @outDir: out
 // @declaration: true
 // @filename: main.js
-var ref = require("./mod1"), K = ref.K;
+var K = require("./mod1").K;
 /** @param {K} k */ function f(k) {
     k.values();
 }

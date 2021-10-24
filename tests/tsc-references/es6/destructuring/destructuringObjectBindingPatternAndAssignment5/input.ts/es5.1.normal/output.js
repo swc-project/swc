@@ -32,9 +32,8 @@ function a() {
     var x;
     var y;
     var _tmp;
-    var ref;
     _tmp = {
     }, y = _objectWithoutProperties(_tmp, [
         "x"
-    ]), ref = _tmp, x = ref.x, ref, _tmp;
+    ]), x = _tmp.x, _tmp;
 }
