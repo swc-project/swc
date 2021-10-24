@@ -20,6 +20,7 @@ use swc_ecma_codegen::{
     text_writer::{omit_trailing_semi, JsWriter, WriteJs},
     Emitter,
 };
+use swc_ecma_minifier::option::MangleOptions;
 use swc_ecma_transforms_base::{fixer::fixer, resolver::resolver_with_mark};
 use swc_ecma_utils::{find_ids, Id};
 use swc_ecma_visit::{Node, Visit, VisitMutWith, VisitWith};
@@ -1060,7 +1061,10 @@ fn bundle(url: &str, minify: bool) -> String {
                     None,
                     &swc_ecma_minifier::option::MinifyOptions {
                         compress: Some(Default::default()),
-                        mangle: Some(Default::default()),
+                        mangle: Some(MangleOptions {
+                            top_level: true,
+                            ..Default::default()
+                        }),
                         ..Default::default()
                     },
                     &swc_ecma_minifier::option::ExtraOptions { top_level_mark },
@@ -1224,13 +1228,23 @@ fn exec_minified(input: PathBuf) {
         return;
     }
 
+    {
+        let dir = tempfile::tempdir().expect("failed to crate temp file");
+        let path = dir.path().join("main.js");
+        println!("Unminified: {}", path.display());
+
+        let src = bundle(&input.to_string_lossy(), false);
+        write(&path, &src).unwrap();
+
+        std::mem::forget(dir);
+    }
+
     let dir = tempfile::tempdir().expect("failed to crate temp file");
     let path = dir.path().join("main.js");
     println!("{}", path.display());
 
     let src = bundle(&input.to_string_lossy(), true);
     write(&path, &src).unwrap();
-
     // println!("{}", src);
 
     let output = Command::new("deno")
