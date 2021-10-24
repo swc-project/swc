@@ -179,7 +179,7 @@ where
         let ns_prefix = self.parse_ns_prefix(span);
 
         match cur!(self) {
-            tok!("|") | Token::Ident { .. } | tok!("*") => {
+            Token::Ident { .. } | tok!("*") => {
                 let mut ns_name_name;
                 let mut ns_name_prefix = None;
 
