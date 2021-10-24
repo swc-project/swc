@@ -1,6 +1,5 @@
-use std::mem::take;
-
 use serde::Deserialize;
+use std::mem::take;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
