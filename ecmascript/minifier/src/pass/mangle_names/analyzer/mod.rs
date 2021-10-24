@@ -62,6 +62,12 @@ impl Visit for Analyzer {
         }
     }
 
+    fn visit_class_decl(&mut self, c: &ClassDecl, _: &dyn Node) {
+        self.add_decl(c.ident.to_id());
+
+        c.class.visit_with(c, self);
+    }
+
     fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
         e.visit_children_with(self);
 
