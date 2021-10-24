@@ -147,7 +147,7 @@ where
 
                 return Ok((prefix, Some(name)));
             } else {
-                // TODO: implement `peeked_ahead_is`
+                // TODO: implement `peeked_ahead_is` for perf
                 self.input.reset(&state);
             }
         }
