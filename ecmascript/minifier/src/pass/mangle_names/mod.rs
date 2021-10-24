@@ -252,21 +252,6 @@ impl Mangler<'_> {
 impl VisitMut for Mangler<'_> {
     noop_visit_mut_type!();
 
-    fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
-        let used = idents_used_by_ordered(&*n);
-
-        self.with_scope(used, |v| {
-            let old = v.data.is_pat_decl;
-            v.data.is_pat_decl = true;
-            n.params.visit_mut_with(v);
-
-            v.data.is_pat_decl = false;
-            n.body.visit_mut_children_with(v);
-
-            v.data.is_pat_decl = old;
-        })
-    }
-
     fn visit_mut_catch_clause(&mut self, n: &mut CatchClause) {
         let used = idents_used_by_ordered(&*n);
 
@@ -295,21 +280,6 @@ impl VisitMut for Mangler<'_> {
         }
 
         self.rename_usage(&mut n.orig);
-    }
-
-    fn visit_mut_expr(&mut self, e: &mut Expr) {
-        let old = self.data.is_pat_decl;
-        self.data.is_pat_decl = false;
-        e.visit_mut_children_with(self);
-
-        match e {
-            Expr::Ident(i) => {
-                self.rename_usage(i);
-            }
-            _ => {}
-        }
-
-        self.data.is_pat_decl = old;
     }
 
     fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {

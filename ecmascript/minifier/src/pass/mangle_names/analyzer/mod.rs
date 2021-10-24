@@ -52,6 +52,17 @@ impl Analyzer {
 impl Visit for Analyzer {
     noop_visit_type!();
 
+    fn visit_arrow_expr(&mut self, e: &ArrowExpr, _: &dyn Node) {
+        self.with_scope(|v| {
+            let old = v.is_pat_decl;
+            v.is_pat_decl = true;
+            e.params.visit_with(e, v);
+            v.is_pat_decl = false;
+            e.body.visit_with(e, v);
+            v.is_pat_decl = old;
+        });
+    }
+
     fn visit_assign_pat_prop(&mut self, p: &AssignPatProp, _: &dyn Node) {
         p.visit_children_with(self);
 
