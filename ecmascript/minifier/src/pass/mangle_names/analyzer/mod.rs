@@ -9,17 +9,19 @@ mod scope;
 
 pub(super) struct Analyzer<'a> {
     rename: &'a mut AHashMap<Id, JsWord>,
-    scope: Scope<'a>,
+    scope: Scope,
 
     is_pat_decl: bool,
 }
 
 impl Analyzer<'_> {
-    fn add_decl(&mut self, id: Id) {}
+    fn add_decl(&mut self, id: Id) {
+        self.scope.add_decl(&id);
+    }
 
-    fn add_usage(&mut self, id: Id) {}
-
-    fn exit_scope(&mut self) {}
+    fn add_usage(&mut self, id: Id) {
+        self.scope.add_usage(&id);
+    }
 
     fn with_scope<F>(&mut self, op: F)
     where
@@ -29,7 +31,6 @@ impl Analyzer<'_> {
             let mut v = Analyzer {
                 rename: self.rename,
                 scope: Scope {
-                    parent: Some(&self.scope),
                     ..Default::default()
                 },
                 is_pat_decl: self.is_pat_decl,
@@ -37,7 +38,7 @@ impl Analyzer<'_> {
 
             op(&mut v);
 
-            v.exit_scope();
+            self.scope.children.push(v.scope);
         }
     }
 }
