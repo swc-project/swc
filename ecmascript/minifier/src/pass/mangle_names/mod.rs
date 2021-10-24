@@ -7,7 +7,10 @@ use crate::{
     util::base54::incr_base54,
 };
 use swc_atoms::JsWord;
-use swc_common::collections::{AHashMap, AHashSet};
+use swc_common::{
+    chain,
+    collections::{AHashMap, AHashSet},
+};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -21,7 +24,16 @@ pub(crate) fn name_mangler(
     char_freq_info: CharFreqInfo,
     marks: Marks,
 ) -> impl VisitMut {
-    self::v2::name_mangler(options, char_freq_info, marks)
+    chain!(
+        PrivateNameMangler {
+            options: options.clone(),
+            private_n: Default::default(),
+            preserved: Default::default(),
+            preserved_symbols: Default::default(),
+            renamed_private: Default::default(),
+        },
+        self::v2::name_mangler(options, char_freq_info, marks)
+    )
 }
 
 #[derive(Debug)]
@@ -32,7 +44,6 @@ struct PrivateNameMangler {
     preserved: AHashSet<Id>,
     preserved_symbols: AHashSet<JsWord>,
     renamed_private: AHashMap<Id, JsWord>,
-    data: Option<ProgramData>,
 }
 
 impl PrivateNameMangler {
@@ -76,8 +87,6 @@ impl VisitMut for PrivateNameMangler {
     }
 
     fn visit_mut_module(&mut self, n: &mut Module) {
-        let data = analyze(&*n, None);
-        self.data = Some(data);
         self.preserved = idents_to_preserve(self.options.clone(), n);
         self.preserved_symbols = self.preserved.iter().map(|v| v.0.clone()).collect();
         n.visit_mut_children_with(self);
@@ -90,8 +99,6 @@ impl VisitMut for PrivateNameMangler {
     }
 
     fn visit_mut_script(&mut self, n: &mut Script) {
-        let data = analyze(&*n, None);
-        self.data = Some(data);
         self.preserved = idents_to_preserve(self.options.clone(), n);
         self.preserved_symbols = self.preserved.iter().map(|v| v.0.clone()).collect();
         n.visit_mut_children_with(self);
