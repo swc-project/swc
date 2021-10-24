@@ -117,6 +117,5 @@ ref2 = strArray, target_string_arr = ref2.slice(3), ref2; // Should OK
     var ref3;
     ref3 = numMapPoint, x2 = ref3.x, y1 = ref3.y, z1 = ref3.z, ref3; // Should OK
     var q1;
-    var ref4;
-    ref4 = numMapPoint, q1 = ref4.q, ref4; // Should error
+    q1 = numMapPoint.q; // Should error
 }

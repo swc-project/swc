@@ -76,7 +76,7 @@ var p6 = function(param) {
     var a = param.a;
 };
 var p7 = function(param) {
-    var _a = param.a, b = _a.b;
+    var b = param.a.b;
 };
 var p8 = function(param) {
     var _a = param.a, a = _a === void 0 ? 1 : _a;

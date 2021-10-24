@@ -106,7 +106,7 @@ function b3(param) {
                 j: 1
             }
         }
-    } : param, _z = ref.z, x = _z.x, _y = _z.y, j = _y.j;
+    } : param, _z = ref.z, x = _z.x, j = _z.y.j;
 }
 function b6(param) {
     var ref = _slicedToArray(param === void 0 ? [
@@ -166,20 +166,20 @@ Foo1;
 })(Foo1 || (Foo1 = {
 }));
 function c0(param) {
-    var _z = param.z, x = _z.x, _y = _z.y, j = _y.j;
+    var _z = param.z, x = _z.x, j = _z.y.j;
 }
 function c1(param) {
-    var ref = param === void 0 ? {
+    var z = (param === void 0 ? {
         z: 10
-    } : param, z = ref.z;
+    } : param).z;
 }
 function c2(param) {
     var _z = param.z, z = _z === void 0 ? 10 : _z;
 }
 function c3(param) {
-    var ref = param === void 0 ? {
+    var b = (param === void 0 ? {
         b: "hello"
-    } : param, b = ref.b;
+    } : param).b;
 }
 function c5(param) {
     var _param = _slicedToArray(param, 3), a = _param[0], b = _param[1], ref = _slicedToArray(_param[2], 1), ref5 = _slicedToArray(ref[0], 1), c = ref5[0];

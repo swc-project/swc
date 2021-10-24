@@ -73,32 +73,32 @@ function f2() {
         x: 5,
         y: "hello"
     }, ref = ref !== null ? ref : _throw(new TypeError("Cannot destructure undefined")); // Error, no x and y in target
+    var x = {
+        x: 5,
+        y: "hello"
+    }.x; // Error, no y in target
+    var y = {
+        x: 5,
+        y: "hello"
+    }.y; // Error, no x in target
     var ref5 = {
         x: 5,
         y: "hello"
-    }, x = ref5.x; // Error, no y in target
+    }, x = ref5.x, y = ref5.y;
+    var x;
+    var y;
     var ref6 = {
         x: 5,
         y: "hello"
-    }, y = ref6.y; // Error, no x in target
+    }, a = ref6.x; // Error, no y in target
     var ref7 = {
         x: 5,
         y: "hello"
-    }, x = ref7.x, y = ref7.y;
-    var x;
-    var y;
+    }, b = ref7.y; // Error, no x in target
     var ref8 = {
         x: 5,
         y: "hello"
-    }, a = ref8.x; // Error, no y in target
-    var ref9 = {
-        x: 5,
-        y: "hello"
-    }, b = ref9.y; // Error, no x in target
-    var ref10 = {
-        x: 5,
-        y: "hello"
-    }, a = ref10.x, b = ref10.y;
+    }, a = ref8.x, b = ref8.y;
     var a;
     var b;
 }
@@ -134,41 +134,41 @@ function f7() {
 }
 function f8() {
     var ref = [], a = ref[0], b = ref[1], c = ref[2]; // Error, [] is an empty tuple
-    var ref12 = [
+    var ref10 = [
         1
-    ], d = ref12[0], e = ref12[1], f = ref12[2]; // Error, [1] is a tuple
+    ], d = ref10[0], e = ref10[1], f = ref10[2]; // Error, [1] is a tuple
 }
 function f9() {
     var ref = _slicedToArray({
     }, 2), a = ref[0], b = ref[1]; // Error, not array type
-    var ref13 = _slicedToArray({
+    var ref11 = _slicedToArray({
         0: 10,
         1: 20
-    }, 2), c = ref13[0], d = ref13[1]; // Error, not array type
+    }, 2), c = ref11[0], d = ref11[1]; // Error, not array type
     var e = 10, f = 20;
 }
 function f10() {
     var ref = {
     }, a = ref.a, b = ref.b; // Error
-    var ref14 = [], a = ref14.a, b = ref14.b; // Error
+    var ref12 = [], a = ref12.a, b = ref12.b; // Error
 }
 function f11() {
     var ref = {
         x: 10,
         y: "hello"
     }, a = ref.x, b = ref.y;
-    var ref15 = {
+    var ref13 = {
         0: 10,
         1: "hello"
-    }, a = ref15[0], b = ref15[1];
-    var ref16 = {
+    }, a = ref13[0], b = ref13[1];
+    var ref14 = {
         "<": 10,
         ">": "hello"
-    }, a = ref16["<"], b = ref16[">"];
-    var ref17 = [
+    }, a = ref14["<"], b = ref14[">"];
+    var ref15 = [
         10,
         "hello"
-    ], a = ref17[0], b = ref17[1];
+    ], a = ref15[0], b = ref15[1];
     var a;
     var b;
 }
@@ -185,7 +185,7 @@ function f12() {
             x: 10,
             y: false
         }
-    ] : tmp, 2), b = ref[0], ref18 = ref[1], x = ref18.x, c = ref18.y;
+    ] : tmp, 2), b = ref[0], ref16 = ref[1], x = ref16.x, c = ref16.y;
     var a;
     var b;
     var x;
@@ -205,7 +205,7 @@ function f13() {
     ], a = ref[0], b = ref[1];
 }
 function f14(param) {
-    var _param = _slicedToArray(param, 2), tmp = _param[0], a = tmp === void 0 ? 1 : tmp, ref = _slicedToArray(_param[1], 2), tmp3 = ref[0], b = tmp3 === void 0 ? "hello" : tmp3, ref19 = ref[1], x = ref19.x, tmp4 = ref19.y, c = tmp4 === void 0 ? false : tmp4;
+    var _param = _slicedToArray(param, 2), tmp = _param[0], a = tmp === void 0 ? 1 : tmp, ref = _slicedToArray(_param[1], 2), tmp3 = ref[0], b = tmp3 === void 0 ? "hello" : tmp3, ref17 = ref[1], x = ref17.x, tmp4 = ref17.y, c = tmp4 === void 0 ? false : tmp4;
     var a;
     var b;
     var c;
@@ -268,7 +268,7 @@ f17({
     c: true
 });
 f17(f15());
-var ref11, ref1;
+var ref9, ref1;
 function f18() {
     var a;
     var b;
@@ -278,22 +278,22 @@ function f18() {
         a: a,
         b: b
     }, a = ref.a, b = ref.b, ref;
-    var ref20;
-    ref20 = {
+    var ref18;
+    ref18 = {
         b: b,
         a: a
-    }, a = ref20.a, b = ref20.b, ref20;
-    var ref21;
-    ref21 = [
+    }, a = ref18.a, b = ref18.b, ref18;
+    var ref19;
+    ref19 = [
         a,
         b
-    ], aa[0] = ref21[0], b = ref21[1], ref21;
-    var ref22;
-    ref22 = [
+    ], aa[0] = ref19[0], b = ref19[1], ref19;
+    var ref20;
+    ref20 = [
         b,
         a
-    ], a = ref22[0], b = ref22[1], ref22; // Error
-    ref11 = 1, a = ref11, ref1 = "abc", b = ref1;
+    ], a = ref20[0], b = ref20[1], ref20; // Error
+    ref9 = 1, a = ref9, ref1 = "abc", b = ref1;
 }
 var ref2;
 function f19() {
@@ -304,20 +304,20 @@ function f19() {
         b,
         a
     ], a = ref[0], b = ref[1], ref;
-    var ref23;
-    ref23 = {
+    var ref21;
+    ref21 = {
         b: b,
         a: a
-    }, a = ref23.a, b = ref23.b, ref23;
+    }, a = ref21.a, b = ref21.b, ref21;
     ref2 = [
         1,
         2
     ], [a, b] = ref2;
-    var ref24;
-    var x = (ref24 = [
+    var ref22;
+    var x = (ref22 = [
         1,
         2
-    ], a = ref24[0], b = ref24[1], ref24);
+    ], a = ref22[0], b = ref22[1], ref22);
 }
 function f20(v) {
     var x;
@@ -333,12 +333,12 @@ function f20(v) {
     var _v3 = _toArray(v), x = _v3[0], y = _v3[1], z = _v3[2], a0 = _v3.slice(3);
     var ref;
     ref = v, a3 = ref.slice(0), ref;
+    var ref23;
+    ref23 = v, x = ref23[0], a2 = ref23.slice(1), ref23;
+    var ref24;
+    ref24 = v, x = ref24[0], y = ref24[1], a1 = ref24.slice(2), ref24;
     var ref25;
-    ref25 = v, x = ref25[0], a2 = ref25.slice(1), ref25;
-    var ref26;
-    ref26 = v, x = ref26[0], y = ref26[1], a1 = ref26.slice(2), ref26;
-    var ref27;
-    ref27 = v, x = ref27[0], y = ref27[1], z = ref27[2], a0 = ref27.slice(3), ref27;
+    ref25 = v, x = ref25[0], y = ref25[1], z = ref25[2], a0 = ref25.slice(3), ref25;
 }
 function f21(v) {
     var x;
@@ -354,10 +354,10 @@ function f21(v) {
     var _v6 = _toArray(v), x = _v6[0], y = _v6[1], z = _v6[2], a3 = _v6.slice(3);
     var ref;
     ref = v, a0 = ref.slice(0), ref;
+    var ref26;
+    ref26 = v, x = ref26[0], a1 = ref26.slice(1), ref26;
+    var ref27;
+    ref27 = v, x = ref27[0], y = ref27[1], a2 = ref27.slice(2), ref27;
     var ref28;
-    ref28 = v, x = ref28[0], a1 = ref28.slice(1), ref28;
-    var ref29;
-    ref29 = v, x = ref29[0], y = ref29[1], a2 = ref29.slice(2), ref29;
-    var ref30;
-    ref30 = v, x = ref30[0], y = ref30[1], z = ref30[2], a3 = ref30.slice(3), ref30;
+    ref28 = v, x = ref28[0], y = ref28[1], z = ref28[2], a3 = ref28.slice(3), ref28;
 }

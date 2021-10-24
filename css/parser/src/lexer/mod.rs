@@ -117,6 +117,8 @@ where
             }};
         }
 
+        // TODO: Consume the next input code point. https://www.w3.org/TR/css-syntax-3/#consume-token. We should use `self.input.bump()` and reconsume according spec
+
         if let Some(c) = self.input.cur() {
             if is_whitespace(c) {
                 self.skip_ws()?;
@@ -130,12 +132,16 @@ where
         }
 
         if self.input.is_byte(b'#') {
-            let c = self.input.cur().unwrap();
+            let c = self.input.cur();
 
             self.input.bump();
 
-            if is_name_continue(self.input.cur().unwrap()) || self.is_valid_escape()? {
-                let is_id = self.would_start_ident()?;
+            let first = self.input.cur();
+            let second = self.input.peek();
+
+            if is_name_continue(first.unwrap()) || self.is_valid_escape(first, second)? {
+                let third = self.input.peek_ahead();
+                let is_id = self.would_start_ident(first, second, third)?;
                 let name = self.read_name()?;
 
                 return Ok(Token::Hash {
@@ -145,7 +151,7 @@ where
                 });
             }
 
-            return Ok(Token::Delim { value: c });
+            return Ok(Token::Delim { value: c.unwrap() });
         }
 
         if self.input.is_byte(b'\'') {
@@ -157,30 +163,30 @@ where
         try_delim!(b')', ")");
 
         if self.input.is_byte(b'+') {
-            let pos = self.input.cur_pos();
-            let c = self.input.cur().unwrap();
+            let start = self.input.cur_pos();
+            let c = self.input.cur();
 
             self.input.bump();
 
-            if self.would_start_number()? {
-                self.input.reset_to(pos);
+            if self.would_start_number(None, None, None)? {
+                self.input.reset_to(start);
 
                 return self.read_numeric();
             }
 
-            return Ok(Token::Delim { value: c });
+            return Ok(Token::Delim { value: c.unwrap() });
         }
 
         try_delim!(b',', ",");
 
         if self.input.is_byte(b'-') {
-            let pos = self.input.cur_pos();
-            let c = self.input.cur().unwrap();
+            let start = self.input.cur_pos();
+            let c = self.input.cur();
 
             self.input.bump();
 
-            if self.would_start_number()? {
-                self.input.reset_to(pos);
+            if self.would_start_number(None, None, None)? {
+                self.input.reset_to(start);
 
                 return self.read_numeric();
             } else if self.input.cur() == Some('-') && self.input.peek() == Some('>') {
@@ -188,30 +194,30 @@ where
                 self.input.bump();
 
                 return Ok(Token::CDC);
-            } else if self.would_start_ident()? {
-                self.input.reset_to(pos);
+            } else if self.would_start_ident(None, None, None)? {
+                self.input.reset_to(start);
 
                 return self
                     .read_name()
                     .map(|(value, raw)| Token::Ident { value, raw });
             }
 
-            return Ok(Token::Delim { value: c });
+            return Ok(Token::Delim { value: c.unwrap() });
         }
 
         if self.input.is_byte(b'.') {
-            let pos = self.input.cur_pos();
-            let c = self.input.cur().unwrap();
+            let start = self.input.cur_pos();
+            let c = self.input.cur();
 
             self.input.bump();
 
-            if self.would_start_number()? {
-                self.input.reset_to(pos);
+            if self.would_start_number(None, None, None)? {
+                self.input.reset_to(start);
 
                 return self.read_numeric();
             }
 
-            return Ok(Token::Delim { value: c });
+            return Ok(Token::Delim { value: c.unwrap() });
         }
 
         try_delim!(b':', ":");
@@ -219,7 +225,7 @@ where
         try_delim!(b';', ";");
 
         if self.input.is_byte(b'<') {
-            let c = self.input.cur().unwrap();
+            let c = self.input.cur();
 
             self.input.bump();
 
@@ -235,29 +241,33 @@ where
                 return Ok(tok!("<!--"));
             }
 
-            return Ok(Token::Delim { value: c });
+            return Ok(Token::Delim { value: c.unwrap() });
         }
 
         if self.input.is_byte(b'@') {
-            let c = self.input.cur().unwrap();
+            let c = self.input.cur();
 
             self.input.bump();
 
-            if self.would_start_ident()? {
+            let first = self.input.cur();
+            let second = self.input.peek();
+            let third = self.input.peek_ahead();
+
+            if self.would_start_ident(first, second, third)? {
                 return self.read_at_keyword();
             }
 
-            return Ok(Token::Delim { value: c });
+            return Ok(Token::Delim { value: c.unwrap() });
         }
 
         try_delim!(b'[', "[");
 
         if self.input.is_byte(b'\\') {
-            let c = self.input.cur().unwrap();
-
-            if self.is_valid_escape()? {
+            if self.is_valid_escape(None, None)? {
                 return self.read_ident_like();
             }
+
+            let c = self.input.cur().unwrap();
 
             self.input.bump();
 
@@ -292,8 +302,13 @@ where
         return Ok(Token::Delim { value: c });
     }
 
-    fn would_start_number(&mut self) -> LexResult<bool> {
-        let first = self.input.cur();
+    fn would_start_number(
+        &mut self,
+        maybe_first: Option<char>,
+        maybe_second: Option<char>,
+        maybe_third: Option<char>,
+    ) -> LexResult<bool> {
+        let first = maybe_first.or(self.input.cur());
 
         if first.is_none() {
             return Ok(false);
@@ -301,11 +316,11 @@ where
 
         match first {
             Some('+') | Some('-') => {
-                if let Some(second) = self.input.peek() {
+                if let Some(second) = maybe_second.or(self.input.peek()) {
                     return match second {
                         second if second.is_digit(10) => Ok(true),
                         '.' => {
-                            if let Some(third) = self.input.peek_ahead() {
+                            if let Some(third) = maybe_third.or(self.input.peek_ahead()) {
                                 if third.is_digit(10) {
                                     return Ok(true);
                                 }
@@ -410,7 +425,11 @@ where
     fn read_numeric(&mut self) -> LexResult<Token> {
         let number = self.read_number();
 
-        if self.would_start_ident()? {
+        let next_first = self.input.cur();
+        let next_second = self.input.peek();
+        let next_third = self.input.peek_ahead();
+
+        if self.would_start_ident(next_first, next_second, next_third)? {
             let name = self.read_name()?;
 
             return Ok(Token::Dimension {
@@ -419,7 +438,7 @@ where
                 unit: name.0,
                 raw_unit: name.1,
             });
-        } else if let Some(c) = self.input.cur() {
+        } else if let Some(c) = next_first {
             if c == '%' {
                 self.input.bump();
 
@@ -436,15 +455,21 @@ where
         })
     }
 
-    fn is_valid_escape(&mut self) -> LexResult<bool> {
-        if self.input.cur() != Some('\\') {
+    fn is_valid_escape(
+        &mut self,
+        maybe_first: Option<char>,
+        maybe_second: Option<char>,
+    ) -> LexResult<bool> {
+        let first = maybe_first.or(self.input.cur());
+
+        if first != Some('\\') {
             return Ok(false);
         }
 
-        let c = self.input.peek();
+        let second = maybe_second.or(self.input.peek());
 
-        match c {
-            Some(c) => Ok(!is_newline(c)),
+        match second {
+            Some(second) => Ok(!is_newline(second)),
             None => Ok(false),
         }
     }
@@ -483,11 +508,8 @@ where
         })
     }
 
-    fn read_str(&mut self, mut ending_code_point: Option<char>) -> LexResult<Token> {
-        if ending_code_point.is_none() {
-            ending_code_point = self.input.cur();
-        }
-
+    fn read_str(&mut self, maybe_ending_code_point: Option<char>) -> LexResult<Token> {
+        let ending_code_point = maybe_ending_code_point.or(self.input.cur());
         let mut value = String::new();
         let mut raw = String::new();
 
@@ -535,7 +557,11 @@ where
                         // Otherwise, (the stream starts with a valid escape) consume an escaped
                         // code point and append the returned code point to
                         // the <string-token>’s value.
-                        else if self.is_valid_escape()? {
+                        else if self.is_valid_escape(None, None)? {
+                            raw.push(c);
+
+                            self.input.bump();
+
                             let escape = self.read_escape()?;
 
                             value.push(escape.0);
@@ -579,7 +605,11 @@ where
                     break;
                 }
                 Some(c) => {
-                    if self.is_valid_escape().unwrap() {
+                    if self.is_valid_escape(None, None).unwrap() {
+                        raw.push(c);
+
+                        self.input.bump();
+
                         let escaped = self.read_escape()?;
 
                         value.push(escaped.0);
@@ -678,8 +708,12 @@ where
                     });
                 }
 
-                Some('\\') => {
-                    if self.is_valid_escape()? {
+                Some(c) if c == '\\' => {
+                    if self.is_valid_escape(None, None)? {
+                        raw.push(c);
+
+                        self.input.bump();
+
                         let escaped = self.read_escape()?;
 
                         value.push(escaped.0);
@@ -708,21 +742,13 @@ where
     }
 
     fn read_escape(&mut self) -> LexResult<(char, String)> {
-        // TODO: from spec - `\` should be consumed before run this https://www.w3.org/TR/css-syntax-3/#consume-escaped-code-point
-        assert!(
-            self.input.eat_byte(b'\\'),
-            "read_escape: Expected a backslash"
-        );
-
-        let mut raw = String::new();
-
-        raw.push('\\');
-
         let c = self.input.cur();
         let c = match c {
             Some(v) => v,
             None => return Err(ErrorKind::InvalidEscape),
         };
+
+        let mut raw = String::new();
 
         if c.is_digit(16) {
             let mut hex = c.to_digit(16).unwrap();
@@ -776,88 +802,77 @@ where
         })
     }
 
-    /// Ported from `wouldStartIdentifier` of `esbuild`.
-    fn would_start_ident(&mut self) -> LexResult<bool> {
-        match self.input.cur() {
-            Some(cur) => {
-                if is_name_start(cur) {
-                    return Ok(true);
-                }
+    fn would_start_ident(
+        &mut self,
+        maybe_first: Option<char>,
+        maybe_second: Option<char>,
+        maybe_third: Option<char>,
+    ) -> LexResult<bool> {
+        if let Some(first) = maybe_first.or(self.input.cur()) {
+            if first == '-' {
+                if let Some(second) = maybe_second.or(self.input.peek()) {
+                    if is_name_start(second) || second == '-' {
+                        return Ok(true);
+                    }
 
-                if cur == '-' {
-                    if let Some(c) = self.input.peek() {
-                        if is_name_start(c) {
-                            return Ok(true);
-                        }
-                        match c {
-                            '-' => return Ok(true),
+                    match second {
+                        '\\' => match maybe_third.or(self.input.peek_ahead()) {
+                            Some(c2) => return Ok(!is_newline(c2)),
+                            None => return Ok(false),
+                        },
 
-                            '\\' => match self.input.peek_ahead() {
-                                Some(c2) => return Ok(!is_newline(c2)),
-                                None => return Ok(false),
-                            },
-
-                            _ => {}
-                        }
+                        _ => {}
                     }
                 }
+            } else if is_name_start(first) {
+                return Ok(true);
+            } else if first == '\\' {
+                let second = self.input.peek();
+
+                return Ok(self.is_valid_escape(Some(first), second)?);
+            } else {
+                return Ok(false);
             }
-            None => {}
         }
 
-        Ok(self.is_valid_escape()?)
+        Ok(false)
     }
 
-    /// Ported from `consumeName` of esbuild.
-    ///
-    /// https://github.com/evanw/esbuild/blob/a9456dfbf08ab50607952eefb85f2418968c124c/internal/css_lexer/css_lexer.go#L548
     fn read_name(&mut self) -> LexResult<(JsWord, JsWord)> {
-        let start = self.input.cur_pos();
-        self.input.uncons_while(is_name_continue);
-        let end = self.input.last_pos();
-
-        if !self.is_valid_escape()? {
-            let first = self.input.slice(start, end);
-            return Ok((first.into(), first.into()));
-        }
-
         let mut raw = String::new();
-        let mut buf = String::new();
-
-        let first = self.input.slice(start, end);
-
-        buf.push_str(first);
-        raw.push_str(first);
-
-        let escaped = self.read_escape()?;
-
-        buf.push(escaped.0);
-        raw.push_str(&escaped.1);
+        let mut value = String::new();
 
         loop {
             let c = self.input.cur();
-            let c = match c {
-                Some(v) => v,
-                None => break,
-            };
 
-            if is_name_continue(c) {
-                self.last_pos = None;
-                self.input.bump();
+            match c {
+                Some(c) => {
+                    if is_name_continue(c) {
+                        self.last_pos = None;
+                        self.input.bump();
 
-                buf.push(c);
-                raw.push(c)
-            } else if self.is_valid_escape()? {
-                let escaped = self.read_escape()?;
+                        value.push(c);
+                        raw.push(c);
+                    } else if self.is_valid_escape(None, None)? {
+                        raw.push(c);
 
-                buf.push(escaped.0);
-                raw.push_str(&escaped.1);
-            } else {
-                break;
+                        self.input.bump();
+
+                        let escaped = self.read_escape()?;
+
+                        value.push(escaped.0);
+                        raw.push_str(&escaped.1);
+                    } else {
+                        break;
+                    }
+                }
+                None => {
+                    break;
+                }
             }
         }
 
-        Ok((buf.into(), raw.into()))
+        Ok((value.into(), raw.into()))
     }
 
     fn skip_ws(&mut self) -> LexResult<()> {

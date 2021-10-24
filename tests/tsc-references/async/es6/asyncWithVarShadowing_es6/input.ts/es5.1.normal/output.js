@@ -151,8 +151,7 @@ function _fn5() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    var ref;
-                    ref = y, x = ref.x, ref;
+                    x = y.x;
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -225,11 +224,10 @@ function _fn9() {
     _fn9 = _asyncToGenerator(regeneratorRuntime.mark(function _callee(x) {
         var x;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            var ref;
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    var ref2;
-                    ref2 = y, ref = ref2.z, x = ref.x, ref, ref2;
+                    var ref;
+                    ref = y, x = ref.z.x, ref;
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -248,9 +246,8 @@ function _fn10() {
             var ref;
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    var ref3;
-                    var ref4;
-                    ref3 = y, ref = y, ref4 = ref, x = ref4.x, ref4, ref3;
+                    var ref2;
+                    ref2 = y, ref = y, x = ref.x, ref2;
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -306,8 +303,8 @@ function _fn13() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    var ref, ref5;
-                    ref = y, ref5 = ref[0], x = ref5 === void 0 ? y : ref5, ref;
+                    var ref, ref3;
+                    ref = y, ref3 = ref[0], x = ref3 === void 0 ? y : ref3, ref;
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -363,8 +360,8 @@ function _fn16() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    var ref, ref6;
-                    ref = y, ref6 = ref[0], x = ref6[0], ref6, ref;
+                    var ref, ref4;
+                    ref = y, ref4 = ref[0], x = ref4[0], ref4, ref;
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -382,8 +379,8 @@ function _fn17() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    var ref, ref7, ref8;
-                    ref = y, ref7 = ref[0], ref8 = ref7 === void 0 ? y : ref7, x = ref8[0], ref8, ref;
+                    var ref, ref5, ref6;
+                    ref = y, ref5 = ref[0], ref6 = ref5 === void 0 ? y : ref5, x = ref6[0], ref6, ref;
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -665,8 +662,7 @@ function _fn31() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    var ref;
-                    for(ref = y, x = ref.x, ref;;){
+                    for(x = y.x;;){
                     }
                 case 1:
                 case "end":
@@ -806,8 +802,7 @@ function _fn36() {
                     _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
                     _ctx.prev = 1;
                     for(_iterator = y[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
-                        var ref;
-                        ref = _step.value, x = ref.x, ref;
+                        x = _step.value.x;
                     }
                     _ctx.next = 9;
                     break;

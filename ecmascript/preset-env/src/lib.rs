@@ -19,7 +19,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{
-    compat::{bugfixes, es2015, es2016, es2017, es2018, es2019, es2020, es2021, es3},
+    compat::{bugfixes, es2015, es2016, es2017, es2018, es2019, es2020, es2021, es2022, es3},
     pass::{noop, Optional},
 };
 use swc_ecma_utils::prepend_stmts;
@@ -91,6 +91,13 @@ where
     // ES2021
     let pass = add!(
         pass,
+        ClassProperties,
+        es2022::class_properties(es2022::class_properties::Config { loose })
+    );
+
+    // ES2021
+    let pass = add!(
+        pass,
         LogicalAssignmentOperators,
         es2021::logical_assignments()
     );
@@ -101,11 +108,6 @@ where
     let pass = add!(pass, NullishCoalescing, es2020::nullish_coalescing());
 
     let pass = add!(pass, OptionalChaining, es2020::optional_chaining());
-    let pass = add!(
-        pass,
-        ClassProperties,
-        es2020::class_properties(es2020::class_properties::Config { loose })
-    );
 
     // ES2019
     let pass = add!(pass, OptionalCatchBinding, es2019::optional_catch_binding());
