@@ -14,6 +14,8 @@ pub(super) struct Analyzer {
 }
 
 impl Analyzer {
+    pub(super) fn into_rename_map(mut self) -> AHashMap<Id, JsWord> {}
+
     fn add_decl(&mut self, id: Id) {
         self.scope.add_decl(&id);
     }
