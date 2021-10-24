@@ -94,6 +94,7 @@ where
 
     fn parse_name_token(&mut self) -> PResult<Text> {
         let span = self.input.cur_span()?;
+
         match cur!(self) {
             Token::Ident { .. } => {
                 let token = bump!(self);
@@ -109,8 +110,73 @@ where
         }
     }
 
+    fn parse_ns_prefix(&mut self, span: Span) -> PResult<Option<Text>> {
+        if is!(self, Ident) && peeked_is!(self, "|") {
+            let token = bump!(self);
+            let text = match token {
+                Token::Ident { value, raw } => Text { span, value, raw },
+                _ => {
+                    unreachable!()
+                }
+            };
+
+            bump!(self);
+
+            return Ok(Some(text));
+        } else if is!(self, "*") && peeked_is!(self, "|") {
+            bump!(self);
+            bump!(self);
+
+            let value: JsWord = "*".into();
+            let raw = value.clone();
+
+            return Ok(Some(Text { span, value, raw }));
+        } else if is!(self, "|") {
+            bump!(self);
+
+            return Ok(Some(Text {
+                span: Span::new(span.lo, span.lo, Default::default()),
+                value: js_word!(""),
+                raw: js_word!(""),
+            }));
+        }
+
+        Ok(None)
+    }
+
+    fn parse_wq_name(&mut self, span: Span) -> PResult<(Option<Text>, Option<Text>)> {
+        let state = self.input.state();
+        let mut maybe_ns_prefix = None;
+
+        if is!(self, Ident) && peeked_is!(self, "|")
+            || is!(self, "*") && peeked_is!(self, "|")
+            || is!(self, "|")
+        {
+            maybe_ns_prefix = self.parse_ns_prefix(span).unwrap();
+        }
+
+        if is!(self, Ident) {
+            let span = self.input.cur_span()?;
+            let token = bump!(self);
+            let wq_name = match token {
+                Token::Ident { value, raw } => Text { span, value, raw },
+                _ => {
+                    unreachable!()
+                }
+            };
+
+            return Ok((maybe_ns_prefix, Some(wq_name)));
+        } else { 
+            self.input.reset(&state);
+        }
+
+        Ok((None, None))
+    }
+
+    // TODO: no span ase argument
     fn parse_type_selector(&mut self, span: Span) -> PResult<Option<NamespacedName>> {
         let start_pos = span.lo;
+        let ns_prefix = self.parse_ns_prefix(span);
 
         match cur!(self) {
             tok!("|") | Token::Ident { .. } | tok!("*") => {
@@ -161,7 +227,7 @@ where
 
                 return Ok(Some(NamespacedName {
                     span: span!(self, start_pos),
-                    prefix: ns_name_prefix,
+                    prefix: if ns_prefix.is_ok() { ns_prefix.unwrap() } else { ns_name_prefix },
                     name: ns_name_name.unwrap(),
                 }));
             }
