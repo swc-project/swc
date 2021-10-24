@@ -1,24 +1,19 @@
-use super::{analyzer::Analyzer, preserver::idents_to_preserve};
+use super::analyzer::Analyzer;
 use crate::{marks::Marks, option::MangleOptions, pass::compute_char_freq::CharFreqInfo};
-use swc_common::{
-    collections::{AHashMap, AHashSet},
-    DUMMY_SP,
-};
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms::hygiene::rename;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 
 pub(crate) fn name_mangler(
-    options: MangleOptions,
+    _options: MangleOptions,
     _char_freq_info: CharFreqInfo,
     _marks: Marks,
 ) -> impl VisitMut {
-    Mangler { options }
+    Mangler {}
 }
 
-struct Mangler {
-    options: MangleOptions,
-}
+struct Mangler {}
 
 impl VisitMut for Mangler {
     noop_visit_mut_type!();
