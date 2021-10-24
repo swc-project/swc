@@ -5,38 +5,38 @@
     {
         2943: function(a, b, c) {
             "use strict";
-            var d = function(e) {
-                var f = e.data;
-                return (0, g.jsx)("div", {
-                    children: f.foo
+            var d = function(a) {
+                var b = a.data;
+                return (0, e.jsx)("div", {
+                    children: b.foo
                 });
             };
             c.r(b), c.d(b, {
                 "__N_SSG": function() {
-                    return h;
+                    return f;
                 },
                 "default": function() {
                     return d;
                 }
             });
-            var g = c(4512), h = !0;
+            var e = c(4512), f = !0;
         },
-        7139: function(i, j, k) {
+        7139: function(a, b, c) {
             (window.__NEXT_P = window.__NEXT_P || []).push([
                 "/static",
                 function() {
-                    return k(2943);
+                    return c(2943);
                 }
             ]);
         }
     },
-    function(l) {
-        l.O(0, [
+    function(a) {
+        a.O(0, [
             774,
             888,
             179
         ], function() {
-            return l(l.s = 7139);
-        }), _N_E = l.O();
+            return a(a.s = 7139);
+        }), _N_E = a.O();
     }
 ]);

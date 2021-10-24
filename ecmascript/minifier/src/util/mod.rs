@@ -102,7 +102,7 @@ pub(crate) fn make_bool(span: Span, value: bool) -> Expr {
     })
 }
 
-/// Addditional methods for optimizing expressions.
+/// Additional methods for optimizing expressions.
 pub(crate) trait ExprOptExt: Sized {
     fn as_expr(&self) -> &Expr;
     fn as_mut(&mut self) -> &mut Expr;
@@ -119,7 +119,7 @@ pub(crate) trait ExprOptExt: Sized {
         }
     }
 
-    /// This returns itself for normal expressions and returns last exprssions
+    /// This returns itself for normal expressions and returns last expressions
     /// for sequence expressions.
     fn value_mut(&mut self) -> &mut Expr {
         let expr = self.as_mut();
