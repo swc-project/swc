@@ -32,7 +32,7 @@ where
         Ok(buf)
     }
 
-    pub(super) fn parse_complex_selector(&mut self) -> PResult<ComplexSelector> {
+    fn parse_complex_selector(&mut self) -> PResult<ComplexSelector> {
         let start_pos = self.input.cur_span()?.lo;
 
         let sel = self.parse_compound_selector()?;
@@ -72,17 +72,17 @@ where
         })
     }
 
-    pub(super) fn parse_combinator(&mut self) -> PResult<Option<SelectorCombinator>> {
+    fn parse_combinator(&mut self) -> PResult<Option<SelectorCombinator>> {
         if eat!(self, " ") {
             return Ok(Some(SelectorCombinator::Descendant));
         }
 
-        if eat!(self, "+") {
-            return Ok(Some(SelectorCombinator::NextSibling));
-        }
-
         if eat!(self, ">") {
             return Ok(Some(SelectorCombinator::Child));
+        }
+
+        if eat!(self, "+") {
+            return Ok(Some(SelectorCombinator::NextSibling));
         }
 
         if eat!(self, "~") {
@@ -167,7 +167,7 @@ where
         Ok((None, None))
     }
 
-    // TODO: no span ase argument
+    // TODO: no span as argument
     fn parse_type_selector(&mut self, span: Span) -> PResult<Option<NamespacedName>> {
         let start_pos = span.lo;
 
@@ -441,7 +441,7 @@ where
         return Err(Error::new(span, ErrorKind::InvalidSelector));
     }
 
-    pub(super) fn parse_compound_selector(&mut self) -> PResult<CompoundSelector> {
+    fn parse_compound_selector(&mut self) -> PResult<CompoundSelector> {
         self.input.skip_ws()?;
 
         let span = self.input.cur_span()?;
