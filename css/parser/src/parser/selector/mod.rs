@@ -272,7 +272,7 @@ where
         } else {
             return Err(Error::new(
                 span!(self, start_pos),
-                ErrorKind::InvalidAttrWqName,
+                ErrorKind::InvalidAttrName,
             ));
         }
 

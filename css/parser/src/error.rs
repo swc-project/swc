@@ -38,7 +38,7 @@ impl Error {
             ErrorKind::UnterminatedBlockComment => "Unterminated block comment".into(),
             ErrorKind::InvalidTypeSelector => "Invalid type selector".into(),
             ErrorKind::InvalidSelector => "Invalid selector".into(),
-            ErrorKind::InvalidAttrWqName => "Invalid attribute name".into(),
+            ErrorKind::InvalidAttrName => "Invalid attribute name".into(),
             ErrorKind::ExpectedIdentOrStrForAttrSelectorOp => {
                 "Expected an identifier or a string after an attribute selector operator".into()
             }
@@ -70,7 +70,7 @@ pub enum ErrorKind {
     InvalidTypeSelector,
     InvalidSelector,
     InvalidPropertyValue,
-    InvalidAttrWqName,
+    InvalidAttrName,
     ExpectedIdentOrStrForAttrSelectorOp,
     ExpectedNumber,
     InvalidSupportQuery,
