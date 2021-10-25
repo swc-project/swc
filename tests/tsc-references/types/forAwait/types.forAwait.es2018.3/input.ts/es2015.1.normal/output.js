@@ -122,6 +122,9 @@ function _asyncToGenerator(fn) {
         });
     };
 }
+function _awaitAsyncGenerator(value) {
+    return new _AwaitValue(value);
+}
 function _AwaitValue(value) {
     this.wrapped = value;
 }
@@ -195,7 +198,7 @@ function _f2() {
             var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
             try {
                 for(var _iterator = _asyncIterator({
-                }), _step; _iteratorAbruptCompletion = !(_step = yield _iterator.next()).done; _iteratorAbruptCompletion = false){
+                }), _step; _iteratorAbruptCompletion = !(_step = yield _awaitAsyncGenerator(_iterator.next())).done; _iteratorAbruptCompletion = false){
                     let _value = _step.value;
                     const x = _value;
                 }
@@ -218,7 +221,7 @@ function _f2() {
             var _iteratorAbruptCompletion2 = false, _didIteratorError2 = false, _iteratorError2;
             try {
                 for(var _iterator2 = _asyncIterator({
-                }), _step2; _iteratorAbruptCompletion2 = !(_step2 = yield _iterator2.next()).done; _iteratorAbruptCompletion2 = false){
+                }), _step2; _iteratorAbruptCompletion2 = !(_step2 = yield _awaitAsyncGenerator(_iterator2.next())).done; _iteratorAbruptCompletion2 = false){
                     let _value = _step2.value;
                     y = _value;
                 }

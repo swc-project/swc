@@ -2823,7 +2823,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.47.0"
+version = "0.47.1"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -2884,7 +2884,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.60.0"
+version = "0.60.1"
 dependencies = [
  "ahash",
  "dashmap",

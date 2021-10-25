@@ -955,7 +955,7 @@ impl Fold for AsyncFnBodyHandler {
     fn fold_stmt(&mut self, s: Stmt) -> Stmt {
         let s = s.fold_children_with(self);
 
-        handle_await_for(s)
+        handle_await_for(s, self.is_async_generator)
     }
 }
 
@@ -1024,7 +1024,7 @@ fn extract_callee_of_bind_this(n: &mut CallExpr) -> Option<&mut Expr> {
     }
 }
 
-fn handle_await_for(stmt: Stmt) -> Stmt {
+fn handle_await_for(stmt: Stmt, is_async_generator: bool) -> Stmt {
     let s = match stmt {
         Stmt::ForOf(
             s @ ForOfStmt {
@@ -1138,21 +1138,32 @@ fn handle_await_for(stmt: Stmt) -> Stmt {
             })),
             // _iteratorAbruptCompletion = !(_step = yield _iterator.next()).done
             test: {
+                let iter_next = iterator.clone().make_member(quote_ident!("next"));
+                let iter_next = CallExpr {
+                    span: DUMMY_SP,
+                    callee: iter_next.as_callee(),
+                    args: Default::default(),
+                    type_args: Default::default(),
+                };
+
+                let yield_arg = if is_async_generator {
+                    Box::new(Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: helper!(await_async_generator, "awaitAsyncGenerator"),
+                        args: vec![iter_next.as_arg()],
+                        type_args: Default::default(),
+                    }))
+                } else {
+                    Box::new(Expr::Call(iter_next))
+                };
+
                 let assign_to_step = Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
                     left: PatOrExpr::Pat(Box::new(Pat::Ident(step.clone().into()))),
                     right: Box::new(Expr::Yield(YieldExpr {
                         span: DUMMY_SP,
-                        arg: Some(Box::new(Expr::Call(CallExpr {
-                            span: DUMMY_SP,
-                            callee: iterator
-                                .clone()
-                                .make_member(quote_ident!("next"))
-                                .as_callee(),
-                            args: Default::default(),
-                            type_args: Default::default(),
-                        }))),
+                        arg: Some(yield_arg),
                         delegate: false,
                     })),
                 });
