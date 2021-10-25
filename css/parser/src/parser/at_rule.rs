@@ -133,7 +133,7 @@ where
             "font-face" => {
                 self.input.skip_ws()?;
 
-                let block = self.parse_decl_block()?;
+                let block = self.parse_simple_block()?;
 
                 return Ok(AtRule::FontFace(FontFaceRule {
                     span: span!(self, start),
@@ -224,7 +224,7 @@ where
             "viewport" | "-ms-viewport" => {
                 self.input.skip_ws()?;
 
-                let block = self.parse_decl_block()?;
+                let block = self.parse_simple_block()?;
 
                 return Ok(AtRule::Viewport(ViewportRule {
                     span: span!(self, start),
@@ -371,7 +371,7 @@ where
                 .map(KeyframeBlockRule::AtRule);
         }
 
-        self.parse_decl_block()
+        self.parse_simple_block()
             .map(Box::new)
             .map(KeyframeBlockRule::Decl)
     }
@@ -729,13 +729,11 @@ where
 {
     fn parse(&mut self) -> PResult<NestedPageRule> {
         let start = self.input.cur_span()?.lo;
-
         let ctx = Ctx {
             allow_at_selector: true,
             ..self.ctx
         };
         let prelude = self.with_ctx(ctx).parse_selectors()?;
-
         let block = self.parse()?;
 
         Ok(NestedPageRule {

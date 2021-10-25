@@ -71,8 +71,7 @@ where
             }
         };
 
-        let block = self.parse_decl_block()?;
-
+        let block = self.parse_simple_block()?;
         let span = span!(self, start_pos);
 
         Ok(Rule::Style(StyleRule {
@@ -82,7 +81,7 @@ where
         }))
     }
 
-    pub(crate) fn parse_decl_block(&mut self) -> PResult<DeclBlock> {
+    pub(crate) fn parse_simple_block(&mut self) -> PResult<DeclBlock> {
         let start = self.input.cur_span()?.lo;
 
         expect!(self, "{");
