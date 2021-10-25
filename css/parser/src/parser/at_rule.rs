@@ -105,23 +105,37 @@ where
             "keyframes" | "-moz-keyframes" | "-o-keyframes" | "-webkit-keyframes"
             | "-ms-keyframes" => {
                 self.input.skip_ws()?;
+                
+                let start_name_pos = self.input.cur_span()?.lo;
 
-                let name = if is!(self, "{") {
-                    Text {
+                let name = match bump!(self) {
+                    Token::Ident { value, raw } => Text {
+                        span: span!(self, start_name_pos),
+                        value,
+                        raw,
+                    },
+                    Token::Str { value, raw } => Text {
+                        span: span!(self, start_name_pos),
+                        value,
+                        raw,
+                    },
+                    _ => Text {
                         span: DUMMY_SP,
                         value: js_word!(""),
                         raw: js_word!(""),
-                    }
-                } else {
-                    self.parse_id()?
+                    },
                 };
-
-                expect!(self, "{");
+                let mut blocks= vec![];
 
                 self.input.skip_ws()?;
-                let blocks = self.parse_delimited(true)?;
 
-                expect!(self, "}");
+                if is!(self, "{") {
+                    expect!(self, "{");
+
+                    blocks = self.parse_delimited(true)?;
+
+                    expect!(self, "}");
+                }
 
                 return Ok(AtRule::Keyframes(KeyframesRule {
                     span: span!(self, start),
