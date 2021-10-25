@@ -88,7 +88,8 @@
                   "end": 16,
                   "ctxt": 0
                 },
-                "value": "x,"
+                "value": "x,",
+                "raw": "x\\2c "
               }
             ],
             "important": null
