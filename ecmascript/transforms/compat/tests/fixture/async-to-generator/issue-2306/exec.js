@@ -15,6 +15,5 @@ async function* g2() {
 (async () => {
     for await (const g of g2()) {
         console.log('main:', g);
-        console.log(g);
     }
 })();
