@@ -43,7 +43,7 @@ struct Ctx {
 
     is_in_delimited_value: bool,
 
-    allow_at_selctor: bool,
+    allow_at_selector: bool,
 
     recover_from_property_value: bool,
 }

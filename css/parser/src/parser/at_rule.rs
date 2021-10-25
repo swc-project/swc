@@ -729,7 +729,7 @@ where
         let start = self.input.cur_span()?.lo;
 
         let ctx = Ctx {
-            allow_at_selctor: true,
+            allow_at_selector: true,
             ..self.ctx
         };
         let prelude = self.with_ctx(ctx).parse_selectors()?;
