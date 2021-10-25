@@ -67,6 +67,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     }
     info.done ? resolve(value) : Promise.resolve(value).then(_next, _throw);
 }
+function _awaitAsyncGenerator(value) {
+    return new _AwaitValue(value);
+}
 function _AwaitValue(value) {
     this.wrapped = value;
 }
@@ -385,7 +388,7 @@ function _f2() {
                 case 0:
                     _iteratorAbruptCompletion = !1, _didIteratorError = !1, _ctx.prev = 2, _iterator = _asyncIterator(asyncIterable);
                 case 4:
-                    return _ctx.next = 6, _iterator.next();
+                    return _ctx.next = 6, _awaitAsyncGenerator(_iterator.next());
                 case 6:
                     if (!(_iteratorAbruptCompletion = !(_step = _ctx.sent).done)) {
                         _ctx.next = 11;
@@ -419,7 +422,7 @@ function _f2() {
                 case 27:
                     _iteratorAbruptCompletion6 = !1, _didIteratorError6 = !1, _ctx.prev = 28, _iterator6 = _asyncIterator(iterable);
                 case 30:
-                    return _ctx.next = 32, _iterator6.next();
+                    return _ctx.next = 32, _awaitAsyncGenerator(_iterator6.next());
                 case 32:
                     if (!(_iteratorAbruptCompletion6 = !(_step6 = _ctx.sent).done)) {
                         _ctx.next = 37;
@@ -453,7 +456,7 @@ function _f2() {
                 case 53:
                     _iteratorAbruptCompletion7 = !1, _didIteratorError7 = !1, _ctx.prev = 54, _iterator7 = _asyncIterator(iterableOfPromise);
                 case 56:
-                    return _ctx.next = 58, _iterator7.next();
+                    return _ctx.next = 58, _awaitAsyncGenerator(_iterator7.next());
                 case 58:
                     if (!(_iteratorAbruptCompletion7 = !(_step7 = _ctx.sent).done)) {
                         _ctx.next = 63;
@@ -487,7 +490,7 @@ function _f2() {
                 case 79:
                     _iteratorAbruptCompletion8 = !1, _didIteratorError8 = !1, _ctx.prev = 80, _iterator8 = _asyncIterator(asyncIterable);
                 case 82:
-                    return _ctx.next = 84, _iterator8.next();
+                    return _ctx.next = 84, _awaitAsyncGenerator(_iterator8.next());
                 case 84:
                     if (!(_iteratorAbruptCompletion8 = !(_step8 = _ctx.sent).done)) {
                         _ctx.next = 89;
@@ -521,7 +524,7 @@ function _f2() {
                 case 105:
                     _iteratorAbruptCompletion9 = !1, _didIteratorError9 = !1, _ctx.prev = 106, _iterator9 = _asyncIterator(iterable);
                 case 108:
-                    return _ctx.next = 110, _iterator9.next();
+                    return _ctx.next = 110, _awaitAsyncGenerator(_iterator9.next());
                 case 110:
                     if (!(_iteratorAbruptCompletion9 = !(_step9 = _ctx.sent).done)) {
                         _ctx.next = 115;
@@ -555,7 +558,7 @@ function _f2() {
                 case 131:
                     _iteratorAbruptCompletion10 = !1, _didIteratorError10 = !1, _ctx.prev = 132, _iterator10 = _asyncIterator(iterableOfPromise);
                 case 134:
-                    return _ctx.next = 136, _iterator10.next();
+                    return _ctx.next = 136, _awaitAsyncGenerator(_iterator10.next());
                 case 136:
                     if (!(_iteratorAbruptCompletion10 = !(_step10 = _ctx.sent).done)) {
                         _ctx.next = 141;

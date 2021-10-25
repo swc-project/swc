@@ -82,6 +82,9 @@ function _asyncToGenerator(fn) {
         });
     };
 }
+function _awaitAsyncGenerator(value) {
+    return new _AwaitValue(value);
+}
 function _AwaitValue(value) {
     this.wrapped = value;
 }
@@ -216,7 +219,7 @@ function _f3() {
                 case 0:
                     _iteratorAbruptCompletion = !1, _didIteratorError = !1, _ctx.prev = 2, _iterator = _asyncIterator(y);
                 case 4:
-                    return _ctx.next = 6, _iterator.next();
+                    return _ctx.next = 6, _awaitAsyncGenerator(_iterator.next());
                 case 6:
                     if (!(_iteratorAbruptCompletion = !(_step = _ctx.sent).done)) {
                         _ctx.next = 11;
@@ -275,7 +278,7 @@ function _f4() {
                 case 0:
                     _iteratorAbruptCompletion = !1, _didIteratorError = !1, _ctx.prev = 2, _iterator = _asyncIterator(y);
                 case 4:
-                    return _ctx.next = 6, _iterator.next();
+                    return _ctx.next = 6, _awaitAsyncGenerator(_iterator.next());
                 case 6:
                     if (!(_iteratorAbruptCompletion = !(_step = _ctx.sent).done)) {
                         _ctx.next = 11;
@@ -393,7 +396,7 @@ function _f6() {
                 case 0:
                     _iteratorAbruptCompletion = !1, _didIteratorError = !1, _ctx.prev = 2, _iterator = _asyncIterator(y);
                 case 4:
-                    return _ctx.next = 6, _iterator.next();
+                    return _ctx.next = 6, _awaitAsyncGenerator(_iterator.next());
                 case 6:
                     if (!(_iteratorAbruptCompletion = !(_step = _ctx.sent).done)) {
                         _ctx.next = 13;
@@ -453,7 +456,7 @@ function _f7() {
                 case 1:
                     _iteratorAbruptCompletion = !1, _didIteratorError = !1, _ctx.prev = 2, _iterator = _asyncIterator(y);
                 case 4:
-                    return _ctx.next = 6, _iterator.next();
+                    return _ctx.next = 6, _awaitAsyncGenerator(_iterator.next());
                 case 6:
                     if (!(_iteratorAbruptCompletion = !(_step = _ctx.sent).done)) {
                         _ctx.next = 11;

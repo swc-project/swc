@@ -66,6 +66,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     }
     info.done ? resolve(value) : Promise.resolve(value).then(_next, _throw);
 }
+function _awaitAsyncGenerator(value) {
+    return new _AwaitValue(value);
+}
 function _AwaitValue(value) {
     this.wrapped = value;
 }
@@ -122,7 +125,7 @@ function _f2() {
         var _iteratorError, _iteratorAbruptCompletion = !1, _didIteratorError = !1;
         try {
             for(var _step, _iterator = _asyncIterator({
-            }); _iteratorAbruptCompletion = !(_step = yield _iterator.next()).done; _iteratorAbruptCompletion = !1);
+            }); _iteratorAbruptCompletion = !(_step = yield _awaitAsyncGenerator(_iterator.next())).done; _iteratorAbruptCompletion = !1);
         } catch (err) {
             _didIteratorError = !0, _iteratorError = err;
         } finally{
@@ -135,7 +138,7 @@ function _f2() {
         var _iteratorError2, _iteratorAbruptCompletion2 = !1, _didIteratorError2 = !1;
         try {
             for(var _step2, _iterator2 = _asyncIterator({
-            }); _iteratorAbruptCompletion2 = !(_step2 = yield _iterator2.next()).done; _iteratorAbruptCompletion2 = !1);
+            }); _iteratorAbruptCompletion2 = !(_step2 = yield _awaitAsyncGenerator(_iterator2.next())).done; _iteratorAbruptCompletion2 = !1);
         } catch (err2) {
             _didIteratorError2 = !0, _iteratorError2 = err2;
         } finally{

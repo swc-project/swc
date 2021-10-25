@@ -66,6 +66,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     }
     info.done ? resolve(value) : Promise.resolve(value).then(_next, _throw);
 }
+function _awaitAsyncGenerator(value) {
+    return new _AwaitValue(value);
+}
 function _AwaitValue(value) {
     this.wrapped = value;
 }
@@ -167,7 +170,7 @@ function _f2() {
     })(function*() {
         var _iteratorError, _iteratorAbruptCompletion = !1, _didIteratorError = !1;
         try {
-            for(var _step, _iterator = _asyncIterator(asyncIterable); _iteratorAbruptCompletion = !(_step = yield _iterator.next()).done; _iteratorAbruptCompletion = !1);
+            for(var _step, _iterator = _asyncIterator(asyncIterable); _iteratorAbruptCompletion = !(_step = yield _awaitAsyncGenerator(_iterator.next())).done; _iteratorAbruptCompletion = !1);
         } catch (err) {
             _didIteratorError = !0, _iteratorError = err;
         } finally{
@@ -179,7 +182,7 @@ function _f2() {
         }
         var _iteratorError6, _iteratorAbruptCompletion6 = !1, _didIteratorError6 = !1;
         try {
-            for(var _step6, _iterator6 = _asyncIterator(iterable); _iteratorAbruptCompletion6 = !(_step6 = yield _iterator6.next()).done; _iteratorAbruptCompletion6 = !1);
+            for(var _step6, _iterator6 = _asyncIterator(iterable); _iteratorAbruptCompletion6 = !(_step6 = yield _awaitAsyncGenerator(_iterator6.next())).done; _iteratorAbruptCompletion6 = !1);
         } catch (err6) {
             _didIteratorError6 = !0, _iteratorError6 = err6;
         } finally{
@@ -191,7 +194,7 @@ function _f2() {
         }
         var _iteratorError7, _iteratorAbruptCompletion7 = !1, _didIteratorError7 = !1;
         try {
-            for(var _step7, _iterator7 = _asyncIterator(iterableOfPromise); _iteratorAbruptCompletion7 = !(_step7 = yield _iterator7.next()).done; _iteratorAbruptCompletion7 = !1);
+            for(var _step7, _iterator7 = _asyncIterator(iterableOfPromise); _iteratorAbruptCompletion7 = !(_step7 = yield _awaitAsyncGenerator(_iterator7.next())).done; _iteratorAbruptCompletion7 = !1);
         } catch (err7) {
             _didIteratorError7 = !0, _iteratorError7 = err7;
         } finally{
@@ -203,7 +206,7 @@ function _f2() {
         }
         var _iteratorError8, _iteratorAbruptCompletion8 = !1, _didIteratorError8 = !1;
         try {
-            for(var _step8, _iterator8 = _asyncIterator(asyncIterable); _iteratorAbruptCompletion8 = !(_step8 = yield _iterator8.next()).done; _iteratorAbruptCompletion8 = !1);
+            for(var _step8, _iterator8 = _asyncIterator(asyncIterable); _iteratorAbruptCompletion8 = !(_step8 = yield _awaitAsyncGenerator(_iterator8.next())).done; _iteratorAbruptCompletion8 = !1);
         } catch (err8) {
             _didIteratorError8 = !0, _iteratorError8 = err8;
         } finally{
@@ -215,7 +218,7 @@ function _f2() {
         }
         var _iteratorError9, _iteratorAbruptCompletion9 = !1, _didIteratorError9 = !1;
         try {
-            for(var _step9, _iterator9 = _asyncIterator(iterable); _iteratorAbruptCompletion9 = !(_step9 = yield _iterator9.next()).done; _iteratorAbruptCompletion9 = !1);
+            for(var _step9, _iterator9 = _asyncIterator(iterable); _iteratorAbruptCompletion9 = !(_step9 = yield _awaitAsyncGenerator(_iterator9.next())).done; _iteratorAbruptCompletion9 = !1);
         } catch (err9) {
             _didIteratorError9 = !0, _iteratorError9 = err9;
         } finally{
@@ -227,7 +230,7 @@ function _f2() {
         }
         var _iteratorError10, _iteratorAbruptCompletion10 = !1, _didIteratorError10 = !1;
         try {
-            for(var _step10, _iterator10 = _asyncIterator(iterableOfPromise); _iteratorAbruptCompletion10 = !(_step10 = yield _iterator10.next()).done; _iteratorAbruptCompletion10 = !1);
+            for(var _step10, _iterator10 = _asyncIterator(iterableOfPromise); _iteratorAbruptCompletion10 = !(_step10 = yield _awaitAsyncGenerator(_iterator10.next())).done; _iteratorAbruptCompletion10 = !1);
         } catch (err10) {
             _didIteratorError10 = !0, _iteratorError10 = err10;
         } finally{
