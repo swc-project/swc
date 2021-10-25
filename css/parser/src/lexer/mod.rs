@@ -320,6 +320,13 @@ where
             }
         }
 
+        if self.config.allow_wrong_line_comments {
+            if self.input.is_byte(b'/') && self.input.peek() == Some('/') {
+                self.skip_line_comment()?;
+                self.start_pos = self.input.cur_pos();
+            }
+        }
+
         Ok(value)
     }
 
@@ -898,16 +905,16 @@ where
 
     fn skip_ws(&mut self) -> LexResult<()> {
         loop {
-            if self.input.cur().is_none() {
-                break;
-            }
+            let c = self.input.cur();
 
-            if is_whitespace(self.input.cur().unwrap()) {
-                self.input.bump();
-                continue;
+            match c {
+                Some(c) if is_whitespace(c) => {
+                    self.input.bump();
+                }
+                _ => {
+                    break;
+                }
             }
-
-            break;
         }
 
         if self.config.allow_wrong_line_comments {
