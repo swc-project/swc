@@ -1332,12 +1332,7 @@ where
         let (left_id, right) = match a {
             Mergable::Expr(a) => {
                 match a {
-                    Expr::Assign(AssignExpr {
-                        left,
-                        right,
-                        op: op!("="),
-                        ..
-                    }) => {
+                    Expr::Assign(AssignExpr { left, right, .. }) => {
                         // (a = 5, console.log(a))
                         //
                         // =>
