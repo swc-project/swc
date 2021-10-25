@@ -81,7 +81,7 @@ error: KeyframeBlockRule
 4 | |     }
   | |_____^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/rome/keyframe/input.css:2:10
   |
 2 |       from {
@@ -155,7 +155,7 @@ error: KeyframeBlockRule
 7 | |     }
   | |_____^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/rome/keyframe/input.css:5:8
   |
 5 |       to {
@@ -269,7 +269,7 @@ error: KeyframeBlockRule
 12 | |     }
    | |_____^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/rome/keyframe/input.css:11:10
    |
 11 |       from {
@@ -304,7 +304,7 @@ error: KeyframeBlockRule
 14 | |     }
    | |_____^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/rome/keyframe/input.css:13:8
    |
 13 |       to {
@@ -345,7 +345,7 @@ error: KeyframeBlockRule
 16 | |     }
    | |_____^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/rome/keyframe/input.css:15:9
    |
 15 |       15% {
@@ -386,7 +386,7 @@ error: KeyframeBlockRule
 18 | |     }
    | |_____^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/rome/keyframe/input.css:17:8
    |
 17 |       0% {
@@ -427,7 +427,7 @@ error: KeyframeBlockRule
 20 | |     }
    | |_____^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/rome/keyframe/input.css:19:10
    |
 19 |       100% {

@@ -58,7 +58,7 @@ error: Text
 1 | [ns|\61ttr] {}
   |     ^^^^^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/esbuild/misc/HBQJEriDrHgN_kXjKrVW9g/input.css:1:13
   |
 1 | [ns|\61ttr] {}

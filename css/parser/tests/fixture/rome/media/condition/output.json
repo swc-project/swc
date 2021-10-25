@@ -909,7 +909,7 @@
             }
           ],
           "block": {
-            "type": "DeclBlock",
+            "type": "Block",
             "span": {
               "start": 385,
               "end": 390,
@@ -969,7 +969,7 @@
             }
           ],
           "block": {
-            "type": "DeclBlock",
+            "type": "Block",
             "span": {
               "start": 399,
               "end": 404,

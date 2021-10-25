@@ -40,7 +40,7 @@ error: Text
 1 | a { color: #AABBCCFF }
   | ^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/esbuild/misc/9IIa-42s3YQFw8ilk39GdQ/input.css:1:3
   |
 1 | a { color: #AABBCCFF }

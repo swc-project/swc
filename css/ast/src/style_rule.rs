@@ -5,11 +5,11 @@ use swc_common::{ast_node, Span};
 pub struct StyleRule {
     pub span: Span,
     pub selectors: Vec<ComplexSelector>,
-    pub block: DeclBlock,
+    pub block: Block,
 }
 
-#[ast_node("DeclBlock")]
-pub struct DeclBlock {
+#[ast_node("Block")]
+pub struct Block {
     pub span: Span,
     pub items: Vec<DeclBlockItem>,
 }

@@ -57,7 +57,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 16,
           "end": 109,
@@ -298,7 +298,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 159,
           "end": 286,
@@ -621,7 +621,7 @@
             }
           ],
           "block": {
-            "type": "DeclBlock",
+            "type": "Block",
             "span": {
               "start": 356,
               "end": 413,
@@ -853,7 +853,7 @@
             }
           ],
           "block": {
-            "type": "DeclBlock",
+            "type": "Block",
             "span": {
               "start": 485,
               "end": 542,

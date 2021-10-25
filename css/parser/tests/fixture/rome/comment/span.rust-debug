@@ -50,7 +50,7 @@ error: Text
 5 | a {
   | ^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/rome/comment/input.css:5:3
   |
 5 |   a {
@@ -123,7 +123,7 @@ error: Text
 9 | a {
   | ^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/rome/comment/input.css:9:3
    |
 9  |   a {
@@ -196,7 +196,7 @@ error: Text
 13 | a /* comment */ {
    | ^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/rome/comment/input.css:13:17
    |
 13 |   a /* comment */ {

@@ -43,7 +43,7 @@
             }
           ],
           "rule": {
-            "type": "DeclBlock",
+            "type": "Block",
             "span": {
               "start": 23,
               "end": 37,
@@ -103,7 +103,7 @@
             }
           ],
           "rule": {
-            "type": "DeclBlock",
+            "type": "Block",
             "span": {
               "start": 41,
               "end": 56,

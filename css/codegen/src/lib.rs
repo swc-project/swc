@@ -308,7 +308,7 @@ where
     }
 
     #[emitter]
-    fn emit_decl_block(&mut self, n: &DeclBlock) -> Result {
+    fn emit_block(&mut self, n: &Block) -> Result {
         punct!(self, "{");
 
         self.emit_list(&n.items, ListFormat::SemiDelimited | ListFormat::MultiLine)?;
@@ -354,7 +354,7 @@ where
     #[emitter]
     fn emit_keyframe_block_rule(&mut self, n: &KeyframeBlockRule) -> Result {
         match n {
-            KeyframeBlockRule::Decl(n) => emit!(self, n),
+            KeyframeBlockRule::Block(n) => emit!(self, n),
             KeyframeBlockRule::AtRule(n) => emit!(self, n),
         }
     }

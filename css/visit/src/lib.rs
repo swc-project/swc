@@ -37,10 +37,10 @@ define!({
     pub struct StyleRule {
         pub span: Span,
         pub selectors: Vec<ComplexSelector>,
-        pub block: DeclBlock,
+        pub block: Block,
     }
 
-    pub struct DeclBlock {
+    pub struct Block {
         pub span: Span,
         pub items: Vec<DeclBlockItem>,
     }
@@ -297,7 +297,7 @@ define!({
 
     pub struct FontFaceRule {
         pub span: Span,
-        pub block: DeclBlock,
+        pub block: Block,
     }
 
     pub struct NamespaceRule {
@@ -308,7 +308,7 @@ define!({
 
     pub struct ViewportRule {
         pub span: Span,
-        pub block: DeclBlock,
+        pub block: Block,
     }
 
     pub struct UnknownAtRule {
@@ -341,7 +341,7 @@ define!({
     }
 
     pub enum KeyframeBlockRule {
-        Decl(Box<DeclBlock>),
+        Block(Box<Block>),
         AtRule(Box<AtRule>),
     }
 

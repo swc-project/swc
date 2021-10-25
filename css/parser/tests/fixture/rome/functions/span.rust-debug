@@ -64,7 +64,7 @@ error: Text
 1 | .style {
   |  ^^^^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/rome/functions/input.css:1:8
   |
 1 |   .style {

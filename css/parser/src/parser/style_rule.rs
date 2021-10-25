@@ -81,7 +81,7 @@ where
         }))
     }
 
-    pub(crate) fn parse_simple_block(&mut self) -> PResult<DeclBlock> {
+    pub(crate) fn parse_simple_block(&mut self) -> PResult<Block> {
         let start = self.input.cur_span()?.lo;
 
         expect!(self, "{");
@@ -94,7 +94,7 @@ where
 
         let span = span!(self, start);
 
-        Ok(DeclBlock { span, items })
+        Ok(Block { span, items })
     }
 
     fn parse_decl_block_items(&mut self) -> PResult<Vec<DeclBlockItem>> {

@@ -194,7 +194,7 @@ error: Text
 1 | div, div + #id, div ~ #id, div > #id {
   |                                  ^^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/rome/selectors/input.css:1:38
   |
 1 |   div, div + #id, div ~ #id, div > #id {
@@ -249,7 +249,7 @@ error: Text
 5 | .escaped\.class\.name {
   |  ^^^^^^^^^^^^^^^^^^^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/rome/selectors/input.css:5:23
   |
 5 |   .escaped\.class\.name {
@@ -322,7 +322,7 @@ error: Text
 9 | .class + * {
   |          ^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/rome/selectors/input.css:9:12
    |
 9  |   .class + * {
@@ -395,7 +395,7 @@ error: Text
 13 | a[title] {
    |   ^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/rome/selectors/input.css:13:10
    |
 13 |   a[title] {
@@ -498,7 +498,7 @@ error: Str
 17 | a[title = "title"] {
    |           ^^^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/rome/selectors/input.css:17:20
    |
 17 |   a[title = "title"] {
@@ -601,7 +601,7 @@ error: Str
 21 | a[title~="title" i] {
    |          ^^^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/rome/selectors/input.css:21:21
    |
 21 |   a[title~="title" i] {
@@ -734,7 +734,7 @@ error: Str
 25 | a[title = "title"][href*="image/*" S] {
    |                          ^^^^^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/rome/selectors/input.css:25:39
    |
 25 |   a[title = "title"][href*="image/*" S] {
@@ -835,7 +835,7 @@ error: Num { value: 2.0, raw: Atom('2' type=inline) }
 29 | p:nth-last-of-type(2) {
    |                    ^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/rome/selectors/input.css:29:23
    |
 29 |   p:nth-last-of-type(2) {
@@ -917,7 +917,7 @@ error: Ident { value: Atom('ko' type=inline), raw: Atom('ko' type=inline) }
 32 | :lang(en, ko) {
    |           ^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/rome/selectors/input.css:32:15
    |
 32 |   :lang(en, ko) {
@@ -975,7 +975,7 @@ error: Tokens
 35 | ::pseudo-elem() {
    |               ^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/rome/selectors/input.css:35:17
    |
 35 |   ::pseudo-elem() {
@@ -1057,7 +1057,7 @@ error: Ident { value: Atom('b' type=inline), raw: Atom('b' type=inline) }
 38 | ::pseudo-elem(a, b) {
    |                  ^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/rome/selectors/input.css:38:21
    |
 38 |   ::pseudo-elem(a, b) {

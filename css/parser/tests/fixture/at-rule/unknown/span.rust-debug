@@ -215,219 +215,34 @@ error: RBrace
    |                                                     ^
 
 error: Rule
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:16:1
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:22:1
    |
-16 | / @unknown/*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-17 | | @unknown/*test*/x/*test*/,/*test*/y/*test*/ x(/*test*/1/*test*/+/*test*/2/*test*/)/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-18 | | /*@unknown  {  p  :  v  }*/
-19 | | /*@unknown  x  y  {  p  :  v  }*/
-...  |
-35 | |     <!-- {}
-36 | | }
-   | |__^
+22 | @unknown {s{p:v}}
+   | ^^^^^^^^^^^^^^^^^
 
 error: AtRule
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:16:1
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:22:1
    |
-16 | / @unknown/*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-17 | | @unknown/*test*/x/*test*/,/*test*/y/*test*/ x(/*test*/1/*test*/+/*test*/2/*test*/)/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-18 | | /*@unknown  {  p  :  v  }*/
-19 | | /*@unknown  x  y  {  p  :  v  }*/
-...  |
-35 | |     <!-- {}
-36 | | }
-   | |__^
+22 | @unknown {s{p:v}}
+   | ^^^^^^^^^^^^^^^^^
 
 error: UnknownAtRule
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:16:1
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:22:1
    |
-16 | / @unknown/*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-17 | | @unknown/*test*/x/*test*/,/*test*/y/*test*/ x(/*test*/1/*test*/+/*test*/2/*test*/)/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-18 | | /*@unknown  {  p  :  v  }*/
-19 | | /*@unknown  x  y  {  p  :  v  }*/
-...  |
-35 | |     <!-- {}
-36 | | }
-   | |__^
+22 | @unknown {s{p:v}}
+   | ^^^^^^^^^^^^^^^^^
 
 error: Text
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:16:1
-   |
-16 | @unknown/*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-   | ^^^^^^^^
-
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:16:17
-   |
-16 |   @unknown/*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-   |  _________________^
-17 | | @unknown/*test*/x/*test*/,/*test*/y/*test*/ x(/*test*/1/*test*/+/*test*/2/*test*/)/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-18 | | /*@unknown  {  p  :  v  }*/
-19 | | /*@unknown  x  y  {  p  :  v  }*/
-...  |
-35 | |     <!-- {}
-36 | | }
-   | |__^
-
-error: Ident { value: Atom('x' type=inline), raw: Atom('x' type=inline) }
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:16:17
-   |
-16 | @unknown/*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-   |                 ^
-
-error: Ident { value: Atom('y' type=inline), raw: Atom('y' type=inline) }
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:16:27
-   |
-16 | @unknown/*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-   |                           ^
-
-error: LBrace
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:16:36
-   |
-16 | @unknown/*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-   |                                    ^
-
-error: Ident { value: Atom('p' type=inline), raw: Atom('p' type=inline) }
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:16:45
-   |
-16 | @unknown/*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-   |                                             ^
-
-error: Colon
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:16:54
-   |
-16 | @unknown/*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-   |                                                      ^
-
-error: Ident { value: Atom('v' type=inline), raw: Atom('v' type=inline) }
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:16:63
-   |
-16 | @unknown/*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-   |                                                               ^
-
-error: RBrace
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:16:72
-   |
-16 | @unknown/*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-   |                                                                        ^
-
-error: WhiteSpace
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:16:73
-   |
-16 |   @unknown/*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-   |  _________________________________________________________________________^
-17 | | @unknown/*test*/x/*test*/,/*test*/y/*test*/ x(/*test*/1/*test*/+/*test*/2/*test*/)/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-   | |_
-
-error: AtKeyword { value: Atom('unknown' type=static), raw: Atom('unknown' type=static) }
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:17:1
-   |
-17 | @unknown/*test*/x/*test*/,/*test*/y/*test*/ x(/*test*/1/*test*/+/*test*/2/*test*/)/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-   | ^^^^^^^^
-
-error: Ident { value: Atom('x' type=inline), raw: Atom('x' type=inline) }
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:17:17
-   |
-17 | @unknown/*test*/x/*test*/,/*test*/y/*test*/ x(/*test*/1/*test*/+/*test*/2/*test*/)/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-   |                 ^
-
-error: Comma
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:17:26
-   |
-17 | @unknown/*test*/x/*test*/,/*test*/y/*test*/ x(/*test*/1/*test*/+/*test*/2/*test*/)/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-   |                          ^
-
-error: Ident { value: Atom('y' type=inline), raw: Atom('y' type=inline) }
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:17:35
-   |
-17 | @unknown/*test*/x/*test*/,/*test*/y/*test*/ x(/*test*/1/*test*/+/*test*/2/*test*/)/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-   |                                   ^
-
-error: Ident { value: Atom('x' type=inline), raw: Atom('x' type=inline) }
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:17:45
-   |
-17 | @unknown/*test*/x/*test*/,/*test*/y/*test*/ x(/*test*/1/*test*/+/*test*/2/*test*/)/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-   |                                             ^
-
-error: LParen
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:17:46
-   |
-17 | @unknown/*test*/x/*test*/,/*test*/y/*test*/ x(/*test*/1/*test*/+/*test*/2/*test*/)/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-   |                                              ^
-
-error: Num { value: 1.0, raw: Atom('1' type=inline) }
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:17:55
-   |
-17 | @unknown/*test*/x/*test*/,/*test*/y/*test*/ x(/*test*/1/*test*/+/*test*/2/*test*/)/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-   |                                                       ^
-
-error: Delim { value: '+' }
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:17:64
-   |
-17 | @unknown/*test*/x/*test*/,/*test*/y/*test*/ x(/*test*/1/*test*/+/*test*/2/*test*/)/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-   |                                                                ^
-
-error: Num { value: 2.0, raw: Atom('2' type=inline) }
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:17:73
-   |
-17 | @unknown/*test*/x/*test*/,/*test*/y/*test*/ x(/*test*/1/*test*/+/*test*/2/*test*/)/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-   |                                                                         ^
-
-error: RParen
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:17:82
-   |
-17 | @unknown/*test*/x/*test*/,/*test*/y/*test*/ x(/*test*/1/*test*/+/*test*/2/*test*/)/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-   |                                                                                  ^
-
-error: LBrace
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:17:91
-   |
-17 | @unknown/*test*/x/*test*/,/*test*/y/*test*/ x(/*test*/1/*test*/+/*test*/2/*test*/)/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-   |                                                                                           ^
-
-error: Ident { value: Atom('p' type=inline), raw: Atom('p' type=inline) }
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:17:100
-   |
-17 | @unknown/*test*/x/*test*/,/*test*/y/*test*/ x(/*test*/1/*test*/+/*test*/2/*test*/)/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-   |                                                                                                    ^
-
-error: Colon
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:17:109
-   |
-17 | @unknown/*test*/x/*test*/,/*test*/y/*test*/ x(/*test*/1/*test*/+/*test*/2/*test*/)/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-   |                                                                                                             ^
-
-error: Ident { value: Atom('v' type=inline), raw: Atom('v' type=inline) }
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:17:118
-   |
-17 | @unknown/*test*/x/*test*/,/*test*/y/*test*/ x(/*test*/1/*test*/+/*test*/2/*test*/)/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-   |                                                                                                                      ^
-
-error: RBrace
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:17:127
-   |
-17 | @unknown/*test*/x/*test*/,/*test*/y/*test*/ x(/*test*/1/*test*/+/*test*/2/*test*/)/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-   |                                                                                                                               ^
-
-error: WhiteSpace
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:17:128
-   |
-17 |   @unknown/*test*/x/*test*/,/*test*/y/*test*/ x(/*test*/1/*test*/+/*test*/2/*test*/)/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-   |  ________________________________________________________________________________________________________________________________^
-18 | | /*@unknown  {  p  :  v  }*/
-   | |_
-
-error: AtKeyword { value: Atom('unknown' type=static), raw: Atom('unknown' type=static) }
   --> $DIR/tests/fixture/at-rule/unknown/input.css:22:1
    |
 22 | @unknown {s{p:v}}
    | ^^^^^^^^
 
-error: WhiteSpace
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:22:9
+error: Tokens
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:22:10
    |
 22 | @unknown {s{p:v}}
-   |         ^
+   |          ^^^^^^^^
 
 error: LBrace
   --> $DIR/tests/fixture/at-rule/unknown/input.css:22:10
@@ -477,25 +292,48 @@ error: RBrace
 22 | @unknown {s{p:v}}
    |                 ^
 
-error: WhiteSpace
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:22:18
+error: Rule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:33:1
    |
-22 |   @unknown {s{p:v}}
-   |  __________________^
-23 | | /*@unknown x y {s{p:v}}*/
-   | |_
+33 | / @unknown {
+34 | |     --> {}
+35 | |     <!-- {}
+36 | | }
+   | |_^
 
-error: AtKeyword { value: Atom('unknown' type=static), raw: Atom('unknown' type=static) }
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:33:1
+   |
+33 | / @unknown {
+34 | |     --> {}
+35 | |     <!-- {}
+36 | | }
+   | |_^
+
+error: UnknownAtRule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:33:1
+   |
+33 | / @unknown {
+34 | |     --> {}
+35 | |     <!-- {}
+36 | | }
+   | |_^
+
+error: Text
   --> $DIR/tests/fixture/at-rule/unknown/input.css:33:1
    |
 33 | @unknown {
    | ^^^^^^^^
 
-error: WhiteSpace
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:33:9
+error: Tokens
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:33:10
    |
-33 | @unknown {
-   |         ^
+33 |   @unknown {
+   |  __________^
+34 | |     --> {}
+35 | |     <!-- {}
+36 | | }
+   | |_^
 
 error: LBrace
   --> $DIR/tests/fixture/at-rule/unknown/input.css:33:10
@@ -580,10 +418,4 @@ error: RBrace
    |
 36 | }
    | ^
-
-error: WhiteSpace
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:36:2
-   |
-36 | }
-   |  ^
 

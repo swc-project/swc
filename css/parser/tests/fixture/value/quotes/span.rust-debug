@@ -78,7 +78,7 @@ error: Text
 
 error: Tokens
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/value/quotes/input.css:1:11
    |
 1  |   a::before {
@@ -661,7 +661,7 @@ error: Str
 32 | | o very long title"] {
    | |__________________^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/value/quotes/input.css:32:21
    |
 32 |   o very long title"] {
@@ -764,7 +764,7 @@ error: Str
 35 | a[title="a not so very long title"] {
    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/value/quotes/input.css:35:37
    |
 35 |   a[title="a not so very long title"] {

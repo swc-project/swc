@@ -76,7 +76,7 @@ error: KeyframeBlockRule
 1 | @keyframes name{0%,50%{color:red}25%,75%{color:blue}}
   |                       ^^^^^^^^^^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/esbuild/misc/uWMeE1AAowARdci8tkE-cg/input.css:1:23
   |
 1 | @keyframes name{0%,50%{color:red}25%,75%{color:blue}}
@@ -154,7 +154,7 @@ error: KeyframeBlockRule
 1 | @keyframes name{0%,50%{color:red}25%,75%{color:blue}}
   |                                         ^^^^^^^^^^^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/esbuild/misc/uWMeE1AAowARdci8tkE-cg/input.css:1:41
   |
 1 | @keyframes name{0%,50%{color:red}25%,75%{color:blue}}

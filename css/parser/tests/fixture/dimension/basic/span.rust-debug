@@ -58,7 +58,7 @@ error: Text
 1 | a {
   | ^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/dimension/basic/input.css:1:3
   |
 1 |   a {

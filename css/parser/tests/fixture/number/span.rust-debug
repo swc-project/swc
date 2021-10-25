@@ -58,7 +58,7 @@ error: Text
 1 | div {
   | ^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/number/input.css:1:5
    |
 1  |   div {

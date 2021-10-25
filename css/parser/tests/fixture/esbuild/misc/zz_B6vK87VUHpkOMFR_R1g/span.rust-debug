@@ -40,7 +40,7 @@ error: Text
 1 | a { value: 10e\32x }
   | ^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:3
   |
 1 | a { value: 10e\32x }

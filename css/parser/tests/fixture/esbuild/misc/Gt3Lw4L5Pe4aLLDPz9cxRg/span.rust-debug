@@ -46,7 +46,7 @@ error: Text
 1 | .decl { a: b; c: d }
   |  ^^^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/esbuild/misc/Gt3Lw4L5Pe4aLLDPz9cxRg/input.css:1:7
   |
 1 | .decl { a: b; c: d }

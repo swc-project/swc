@@ -46,7 +46,7 @@ error: Text
 1 | table {
   | ^^^^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/property/escaped/input.css:1:7
   |
 1 |   table {

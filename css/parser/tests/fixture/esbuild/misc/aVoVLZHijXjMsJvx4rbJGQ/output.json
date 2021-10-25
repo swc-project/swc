@@ -14,7 +14,7 @@
         "ctxt": 0
       },
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 10,
           "end": 26,

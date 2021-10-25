@@ -55,7 +55,7 @@ error: Text
 1 | /* comment */a/* comment */
   |              ^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/comment/input.css:2:1
   |
 2 | / {
@@ -135,7 +135,7 @@ error: Text
 9 | div {
   | ^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/comment/input.css:9:5
    |
 9  |   div {
@@ -238,7 +238,7 @@ error: Text
 18 | a {
    | ^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/comment/input.css:18:3
    |
 18 |   a {

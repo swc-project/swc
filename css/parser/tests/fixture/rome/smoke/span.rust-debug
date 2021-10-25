@@ -51,7 +51,7 @@ error: Text
 2 | body {
   | ^^^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/rome/smoke/input.css:2:6
   |
 2 |   body {

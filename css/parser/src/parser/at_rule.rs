@@ -373,7 +373,7 @@ where
 
         self.parse_simple_block()
             .map(Box::new)
-            .map(KeyframeBlockRule::Decl)
+            .map(KeyframeBlockRule::Block)
     }
 }
 

@@ -325,7 +325,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(SpaceValues, visit_space_values);
     mtd!(ComplexSelector, visit_complex_selector);
     mtd!(CompoundSelector, visit_compound_selector);
-    mtd!(DeclBlock, visit_decl_block);
+    mtd!(Block, visit_block);
     mtd!(FnValue, visit_fn_value);
     mtd!(HashValue, visit_hash_value);
     mtd!(IdSelector, visit_id_selector);

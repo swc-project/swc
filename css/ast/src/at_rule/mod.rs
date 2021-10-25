@@ -1,5 +1,5 @@
 pub use self::{document::*, keyframe::*, media::*, page::*, support::*};
-use crate::{DeclBlock, FnValue, Str, Text, Tokens, UrlValue};
+use crate::{Block, FnValue, Str, Text, Tokens, UrlValue};
 use is_macro::Is;
 use swc_common::{ast_node, Span};
 
@@ -74,7 +74,7 @@ pub struct ImportRule {
 #[ast_node("FontFaceRule")]
 pub struct FontFaceRule {
     pub span: Span,
-    pub block: DeclBlock,
+    pub block: Block,
 }
 
 #[ast_node("NamespaceRule")]
@@ -87,7 +87,7 @@ pub struct NamespaceRule {
 #[ast_node("ViewportRule")]
 pub struct ViewportRule {
     pub span: Span,
-    pub block: DeclBlock,
+    pub block: Block,
 }
 
 #[ast_node("UnknownAtRule")]
