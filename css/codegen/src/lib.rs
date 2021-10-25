@@ -207,6 +207,13 @@ where
             emit!(self, pseudo);
         }
     }
+    #[emitter]
+    fn emit_namespace_value(&mut self, n: &NamespaceValue) -> Result {
+        match n {
+            NamespaceValue::Url(n) => emit!(self, n),
+            NamespaceValue::Str(n) => emit!(self, n),
+        }
+    }
 
     #[emitter]
     fn emit_namespace_rule(&mut self, n: &NamespaceRule) -> Result {
