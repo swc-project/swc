@@ -6,9 +6,6 @@ pub mod basic;
 
 #[auto_impl(&mut, Box)]
 pub trait CssWriter {
-    /// Implementor should handle escapes.
-    fn write_ident(&mut self, span: Option<Span>, s: &str, escape_first_dash: bool) -> Result;
-
     /// `punct` should not contain newline.
     fn write_punct(&mut self, span: Option<Span>, punct: &str) -> Result;
 
