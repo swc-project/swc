@@ -127,6 +127,9 @@ where
                 Some(tok!(" ")) => {
                     self.input.skip_ws()?;
                 }
+                Some(tok!(";")) => {
+                    bump!(self);
+                }
                 Some(Token::AtKeyword { .. }) => {
                     // TODO: change on `parse_at_rule`
                     declarations.push(self.parse_declaration()?);
