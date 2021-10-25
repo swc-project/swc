@@ -1,4 +1,5 @@
 use crate::util::base54::incr_base54;
+use rayon::prelude::*;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
@@ -91,12 +92,18 @@ impl Scope {
             }
         }
 
-        for c in self.children.iter() {
-            if !c.can_rename(id, symbol, renamed) {
-                return false;
+        if cfg!(target_arch = "wasm32") {
+            for c in self.children.iter() {
+                if !c.can_rename(id, symbol, renamed) {
+                    return false;
+                }
             }
-        }
 
-        true
+            true
+        } else {
+            self.children
+                .par_iter()
+                .all(|c| c.can_rename(id, symbol, renamed))
+        }
     }
 }
