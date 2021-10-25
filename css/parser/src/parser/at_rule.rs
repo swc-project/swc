@@ -117,9 +117,10 @@ where
                 };
 
                 expect!(self, "{");
+                
                 self.input.skip_ws()?;
-
                 let blocks = self.parse_delimited(true)?;
+                
                 expect!(self, "}");
 
                 return Ok(AtRule::Keyframes(KeyframesRule {
