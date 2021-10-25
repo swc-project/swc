@@ -150,7 +150,6 @@ where
 
                 let rules = self.parse_rule_list(RuleContext {
                     is_top_level: false,
-                    parse_selectors: true,
                 })?;
 
                 expect!(self, "}");
@@ -171,7 +170,6 @@ where
 
                 let rules = self.parse_rule_list(RuleContext {
                     is_top_level: false,
-                    parse_selectors: true,
                 })?;
 
                 expect!(self, "}");
@@ -332,7 +330,6 @@ where
 
         let block = self.parse_rule_list(RuleContext {
             is_top_level: false,
-            parse_selectors: true,
         })?;
 
         expect!(self, "}");

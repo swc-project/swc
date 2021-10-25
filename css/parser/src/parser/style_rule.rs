@@ -1,7 +1,7 @@
 use super::{input::ParserInput, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
-    parser::Ctx,
+    parser::{Ctx, RuleContext},
     Parse,
 };
 use swc_common::Span;
@@ -11,7 +11,41 @@ impl<I> Parser<I>
 where
     I: ParserInput,
 {
-    pub(crate) fn parse_style_rule(&mut self) -> PResult<Rule> {
+    pub(crate) fn parse_rule_list(&mut self, ctx: RuleContext) -> PResult<Vec<Rule>> {
+        let mut rules = vec![];
+
+        loop {
+            self.input.skip_ws()?;
+
+            if self.input.is_eof()? || is!(self, "}") {
+                return Ok(rules);
+            }
+
+            match cur!(self) {
+                tok!("<!--") | tok!("-->") => {
+                    if ctx.is_top_level {
+                        self.input.bump()?;
+
+                        continue;
+                    }
+                }
+
+                Token::AtKeyword { .. } => {
+                    let rule = self.parse_at_rule(Default::default())?;
+
+                    rules.push(rule.into());
+
+                    continue;
+                }
+
+                _ => {}
+            }
+
+            rules.push(self.parse_qualified_rule()?);
+        }
+    }
+    
+    pub(crate) fn parse_qualified_rule(&mut self) -> PResult<Rule> {
         let start_pos = self.input.cur_span()?.lo;
         let start_state = self.input.state();
 

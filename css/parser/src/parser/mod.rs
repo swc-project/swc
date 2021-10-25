@@ -86,49 +86,6 @@ where
         self.parse()
     }
 
-    // TODO: move in `style_rule`
-    fn parse_rule_list(&mut self, ctx: RuleContext) -> PResult<Vec<Rule>> {
-        let mut rules = vec![];
-
-        loop {
-            self.input.skip_ws()?;
-
-            if self.input.is_eof()? || is!(self, "}") {
-                return Ok(rules);
-            }
-
-            match cur!(self) {
-                tok!("<!--") | tok!("-->") => {
-                    if ctx.is_top_level {
-                        self.input.bump()?;
-
-                        continue;
-                    }
-                }
-
-                Token::AtKeyword { .. } => {
-                    let rule = self.parse_at_rule(Default::default())?;
-
-                    rules.push(rule.into());
-
-                    continue;
-                }
-
-                _ => {}
-            }
-
-            if ctx.parse_selectors {
-                rules.push(self.parse_style_rule()?.into());
-            } else {
-                rules.push(self.parse_qualified_rule()?);
-            }
-        }
-    }
-
-    fn parse_qualified_rule(&mut self) -> PResult<Rule> {
-        todo!("parse_qualified_rule: {:?}", cur!(self))
-    }
-
     fn may_parse_str(&mut self) -> PResult<Option<Str>> {
         if is!(self, Str) {
             self.parse_str().map(Some)
@@ -167,9 +124,8 @@ where
 }
 
 #[derive(Clone, Copy)]
-struct RuleContext {
+pub struct RuleContext {
     is_top_level: bool,
-    parse_selectors: bool,
 }
 
 impl<I> Parse<Stylesheet> for Parser<I>
@@ -180,7 +136,6 @@ where
         let start = self.input.cur_span()?;
         let rules = self.parse_rule_list(RuleContext {
             is_top_level: true,
-            parse_selectors: true,
         })?;
 
         let last = self.input.last_pos()?;
