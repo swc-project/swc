@@ -134,9 +134,7 @@ where
 {
     fn parse(&mut self) -> Result<Stylesheet, Error> {
         let start = self.input.cur_span()?;
-        let rules = self.parse_rule_list(RuleContext {
-            is_top_level: true,
-        })?;
+        let rules = self.parse_rule_list(RuleContext { is_top_level: true })?;
 
         let last = self.input.last_pos()?;
 
