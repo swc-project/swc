@@ -86,7 +86,8 @@ where
         let mut props = vec![];
 
         while is!(self, Ident) {
-            let p = self.parse_property()?;
+            let p = self.parse_declaration()?;
+
             props.push(p);
 
             self.input.skip_ws()?;
@@ -101,7 +102,7 @@ where
         Ok(props)
     }
 
-    pub(crate) fn parse_property(&mut self) -> PResult<Property> {
+    pub(crate) fn parse_declaration(&mut self) -> PResult<Property> {
         self.input.skip_ws()?;
 
         let start = self.input.cur_span()?.lo;
@@ -109,6 +110,8 @@ where
         self.input.skip_ws()?;
 
         let name = self.parse_id()?;
+
+        self.input.skip_ws()?;
 
         expect!(self, ":");
 
@@ -122,6 +125,7 @@ where
         };
 
         let important = self.parse_bang_important()?;
+
         if important.is_some() {
             last_pos = self.input.last_pos()?;
         }
@@ -165,7 +169,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Property> {
-        self.parse_property()
+        self.parse_declaration()
     }
 }
 

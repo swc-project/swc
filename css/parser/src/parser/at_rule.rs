@@ -165,10 +165,12 @@ where
                 let query = self.parse()?;
 
                 expect!(self, "{");
+
                 let rules = self.parse_rules(RuleContext {
                     is_top_level: false,
                     parse_selectors: true,
                 })?;
+
                 expect!(self, "}");
 
                 return Ok(AtRule::Media(MediaRule {
@@ -453,7 +455,7 @@ where
                     query,
                 })
             } else {
-                let property = self.parse_property()?;
+                let property = self.parse_declaration()?;
 
                 SupportQuery::Property(property)
             };
@@ -710,7 +712,7 @@ where
             Token::AtKeyword { .. } => Ok(PageRuleBlockItem::Nested(self.parse()?)),
             _ => {
                 let p = self
-                    .parse_property()
+                    .parse_declaration()
                     .map(Box::new)
                     .map(PageRuleBlockItem::Property)?;
                 eat!(self, ";");
