@@ -1,12 +1,10 @@
-use std::cell::RefCell;
+use crate::util::base54::incr_base54;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
     util::take::Take,
 };
 use swc_ecma_utils::Id;
-
-use crate::util::base54::incr_base54;
 
 #[derive(Debug, Default)]
 pub(crate) struct Scope {
@@ -17,12 +15,12 @@ pub(crate) struct Scope {
 
 #[derive(Debug, Default)]
 pub struct ScopeData {
-    decls: RefCell<AHashSet<Id>>,
+    decls: AHashSet<Id>,
 
     /// Usages in current scope.
-    usages: RefCell<AHashSet<Id>>,
+    usages: AHashSet<Id>,
 
-    queue: RefCell<Vec<Id>>,
+    queue: Vec<Id>,
 }
 
 impl Scope {
@@ -31,11 +29,10 @@ impl Scope {
             return;
         }
 
-        self.data.decls.get_mut().insert(id.clone());
+        self.data.decls.insert(id.clone());
         {
-            let b = self.data.queue.get_mut();
-            if !b.contains(id) {
-                b.push(id.clone());
+            if !self.data.queue.contains(id) {
+                self.data.queue.push(id.clone());
             }
         }
     }
@@ -45,7 +42,7 @@ impl Scope {
             return;
         }
 
-        self.data.usages.get_mut().insert(id.clone());
+        self.data.usages.insert(id.clone());
     }
 
     pub(super) fn rename(
@@ -55,7 +52,7 @@ impl Scope {
         preserved_symbols: &AHashSet<JsWord>,
     ) {
         let mut n = 0;
-        for id in self.data.queue.get_mut().take() {
+        for id in self.data.queue.take() {
             if preserved.contains(&id) {
                 continue;
             }
@@ -82,13 +79,7 @@ impl Scope {
     }
 
     fn can_rename(&self, id: &Id, symbol: &JsWord, renamed: &AHashMap<Id, JsWord>) -> bool {
-        for used_id in self
-            .data
-            .usages
-            .borrow()
-            .iter()
-            .chain(self.data.decls.borrow().iter())
-        {
+        for used_id in self.data.usages.iter().chain(self.data.decls.iter()) {
             if *used_id == *id {
                 continue;
             }
