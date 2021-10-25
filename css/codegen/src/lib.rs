@@ -317,10 +317,10 @@ where
     }
 
     #[emitter]
-    fn emit_decl_block_item(&mut self, n: &DeclBlockItem) -> Result {
+    fn emit_declaration_block_item(&mut self, n: &DeclarationBlockItem) -> Result {
         match n {
-            DeclBlockItem::Invalid(n) => emit!(self, n),
-            DeclBlockItem::Declaration(n) => emit!(self, n),
+            DeclarationBlockItem::Invalid(n) => emit!(self, n),
+            DeclarationBlockItem::Declaration(n) => emit!(self, n),
         }
     }
 

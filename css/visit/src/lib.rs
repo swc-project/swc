@@ -42,10 +42,10 @@ define!({
 
     pub struct Block {
         pub span: Span,
-        pub items: Vec<DeclBlockItem>,
+        pub items: Vec<DeclarationBlockItem>,
     }
 
-    pub enum DeclBlockItem {
+    pub enum DeclarationBlockItem {
         Invalid(Tokens),
         Declaration(Declaration),
     }

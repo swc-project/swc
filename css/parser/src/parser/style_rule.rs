@@ -97,7 +97,7 @@ where
         Ok(Block { span, items })
     }
 
-    fn parse_decl_block_items(&mut self) -> PResult<Vec<DeclBlockItem>> {
+    fn parse_decl_block_items(&mut self) -> PResult<Vec<DeclarationBlockItem>> {
         let mut items = vec![];
 
         while is!(self, Ident) {
@@ -238,24 +238,24 @@ where
     }
 }
 
-impl<I> Parse<Vec<DeclBlockItem>> for Parser<I>
+impl<I> Parse<Vec<DeclarationBlockItem>> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<Vec<DeclBlockItem>> {
+    fn parse(&mut self) -> PResult<Vec<DeclarationBlockItem>> {
         self.parse_decl_block_items()
     }
 }
 
-impl<I> Parse<DeclBlockItem> for Parser<I>
+impl<I> Parse<DeclarationBlockItem> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<DeclBlockItem> {
+    fn parse(&mut self) -> PResult<DeclarationBlockItem> {
         let start = self.input.state();
         let start_pos = self.input.cur_span()?.lo;
 
-        let prop = self.parse().map(DeclBlockItem::Declaration);
+        let prop = self.parse().map(DeclarationBlockItem::Declaration);
 
         match prop {
             Ok(v) => return Ok(v),
@@ -270,7 +270,7 @@ where
             tokens.extend(self.input.bump()?);
         }
 
-        Ok(DeclBlockItem::Invalid(Tokens {
+        Ok(DeclarationBlockItem::Invalid(Tokens {
             span: span!(self, start_pos),
             tokens,
         }))

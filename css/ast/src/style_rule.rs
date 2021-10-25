@@ -11,11 +11,11 @@ pub struct StyleRule {
 #[ast_node("Block")]
 pub struct Block {
     pub span: Span,
-    pub items: Vec<DeclBlockItem>,
+    pub items: Vec<DeclarationBlockItem>,
 }
 
 #[ast_node]
-pub enum DeclBlockItem {
+pub enum DeclarationBlockItem {
     #[tag("Tokens")]
     Invalid(Tokens),
     #[tag("Declaration")]

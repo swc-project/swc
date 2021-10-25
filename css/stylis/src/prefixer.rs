@@ -83,11 +83,11 @@ impl Prefixer {
 }
 
 impl VisitMut for Prefixer {
-    fn visit_mut_decl_block_items(&mut self, props: &mut Vec<DeclBlockItem>) {
+    fn visit_mut_declaration_block_items(&mut self, props: &mut Vec<DeclarationBlockItem>) {
         let mut new = vec![];
         for mut n in take(props) {
             n.visit_mut_with(self);
-            new.extend(self.added.drain(..).map(DeclBlockItem::Declaration));
+            new.extend(self.added.drain(..).map(DeclarationBlockItem::Declaration));
             new.push(n);
         }
 
