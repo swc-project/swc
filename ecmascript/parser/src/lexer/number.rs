@@ -34,7 +34,9 @@ impl<'a, I: Input> Lexer<'a, I> {
             0f64
         } else {
             // Use read_number_no_dot to support long numbers.
-            let (val, s, not_octal) = self.read_number_no_dot_as_str(10)?;
+            let (val, s, not_octal) = self
+                .read_number_no_dot_as_str::<10, { lexical::NumberFormatBuilder::from_radix(10) }>(
+                )?;
             if self.input.cur() == Some('n') {
                 self.input.bump();
                 return Ok(Either::Right(s));
@@ -69,10 +71,9 @@ impl<'a, I: Input> Lexer<'a, I> {
                             self.emit_strict_mode_error(start, SyntaxError::LegacyDecimal);
                         } else {
                             // It's Legacy octal, and we should reinterpret value.
-                            let val =
-                                lexical::parse_radix::<f64, _>(&val_str, 8).unwrap_or_else(|err| {
-                                    panic!("failed to parse {} using `lexical`: {:?}", val_str, err)
-                                });
+                            let val = lexical::parse(&val_str).unwrap_or_else(|err| {
+                                panic!("failed to parse {} using `lexical`: {:?}", val_str, err)
+                            });
 
                             return self.make_legacy_octal(start, val).map(Either::Left);
                         }
@@ -152,18 +153,20 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 
     /// Returns `Left(value)` or `Right(BigInt)`
-    pub(super) fn read_radix_number(&mut self, radix: u8) -> LexResult<Either<f64, BigIntValue>> {
+    pub(super) fn read_radix_number<const RADIX: u8, const FORMAT: u128>(
+        &mut self,
+    ) -> LexResult<Either<f64, BigIntValue>> {
         debug_assert!(
-            radix == 2 || radix == 8 || radix == 16,
+            RADIX == 2 || RADIX == 8 || RADIX == 16,
             "radix should be one of 2, 8, 16, but got {}",
-            radix
+            RADIX
         );
         debug_assert_eq!(self.cur(), Some('0'));
 
         self.bump(); // 0
         self.bump(); // x
 
-        let (val, s, _) = self.read_number_no_dot_as_str(radix)?;
+        let (val, s, _) = self.read_number_no_dot_as_str::<RADIX, FORMAT>()?;
         if self.eat(b'n') {
             return Ok(Either::Right(s));
         }
@@ -206,11 +209,13 @@ impl<'a, I: Input> Lexer<'a, I> {
     ///
     ///
     /// Returned bool is `true` is there was `8` or `9`.
-    fn read_number_no_dot_as_str(&mut self, radix: u8) -> LexResult<(f64, BigIntValue, bool)> {
+    fn read_number_no_dot_as_str<const RADIX: u8, const FORMAT: u128>(
+        &mut self,
+    ) -> LexResult<(f64, BigIntValue, bool)> {
         debug_assert!(
-            radix == 2 || radix == 8 || radix == 10 || radix == 16,
+            RADIX == 2 || RADIX == 8 || RADIX == 10 || RADIX == 16,
             "radix for read_number_no_dot should be one of 2, 8, 10, 16, but got {}",
-            radix
+            RADIX
         );
         let start = self.cur_pos();
         let mut non_octal = false;
@@ -220,7 +225,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         let mut raw = Raw(Some(String::new()));
 
         self.read_digits(
-            radix,
+            RADIX,
             |total, radix, v| {
                 read_any = true;
 
@@ -235,14 +240,28 @@ impl<'a, I: Input> Lexer<'a, I> {
         )?;
 
         if !read_any {
-            self.error(start, SyntaxError::ExpectedDigit { radix })?;
+            self.error(start, SyntaxError::ExpectedDigit { radix: RADIX })?;
         }
 
         let raw_str = raw.0.take().unwrap();
         Ok((
-            lexical::parse_radix(raw_str.as_bytes(), radix as _)
-                .expect("failed to parse float using lexical"),
-            BigIntValue::parse_bytes(raw_str.as_bytes(), radix as _)
+            if FORMAT == 10 {
+                lexical::parse_with_options::<f64, _, FORMAT>(
+                    raw_str.as_bytes(),
+                    &lexical::parse_float_options::STANDARD,
+                )
+                .expect("failed to parse float using lexical")
+            } else {
+                lexical::parse_with_options::<i64, _, FORMAT>(
+                    raw_str.as_bytes(),
+                    &lexical::parse_integer_options::STANDARD,
+                )
+                .expect(&format!(
+                    "failed to parse interger using lexical, {}",
+                    raw_str.as_str()
+                )) as f64
+            },
+            BigIntValue::parse_bytes(raw_str.as_bytes(), RADIX as _)
                 .expect("failed to parse string as a bigint"),
             non_octal,
         ))
@@ -517,7 +536,11 @@ mod tests {
     fn read_radix_number() {
         assert_eq!(
             0o73 as f64,
-            lex("0o73", |l| l.read_radix_number(8).unwrap().left().unwrap())
+            lex("0o73", |l| l
+                .read_radix_number::<8, { lexical::NumberFormatBuilder::octal() }>()
+                .unwrap()
+                .left()
+                .unwrap())
         );
     }
 
@@ -546,9 +569,13 @@ mod tests {
     fn large_bin_number() {
         const LONG: &str =
             "0B11111111111111111111111111111111111111111111111101001010100000010111110001111111111";
-
+        const FORMAT: u128 = lexical::NumberFormatBuilder::binary();
         assert_eq!(
-            lex(LONG, |l| l.read_radix_number(2).unwrap().left().unwrap()),
+            lex(LONG, |l| l
+                .read_radix_number::<2, FORMAT>()
+                .unwrap()
+                .left()
+                .unwrap()),
             9.671406556917009e+24
         );
     }
