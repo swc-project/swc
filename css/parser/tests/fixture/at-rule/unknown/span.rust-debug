@@ -6,9 +6,9 @@ error: Stylesheet
 11 | | /*@unknown a b {}*/
 12 | | @unknown {p:v}
 ...  |
-22 | | @unknown {s{p:v}}
-23 | | /*@unknown x y {s{p:v}}*/
-   | |_
+35 | |     <!-- {}
+36 | | }
+   | |__^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/unknown/input.css:9:1
@@ -222,9 +222,9 @@ error: Rule
 18 | | /*@unknown  {  p  :  v  }*/
 19 | | /*@unknown  x  y  {  p  :  v  }*/
 ...  |
-22 | | @unknown {s{p:v}}
-23 | | /*@unknown x y {s{p:v}}*/
-   | |_
+35 | |     <!-- {}
+36 | | }
+   | |__^
 
 error: AtRule
   --> $DIR/tests/fixture/at-rule/unknown/input.css:16:1
@@ -234,9 +234,9 @@ error: AtRule
 18 | | /*@unknown  {  p  :  v  }*/
 19 | | /*@unknown  x  y  {  p  :  v  }*/
 ...  |
-22 | | @unknown {s{p:v}}
-23 | | /*@unknown x y {s{p:v}}*/
-   | |_
+35 | |     <!-- {}
+36 | | }
+   | |__^
 
 error: UnknownAtRule
   --> $DIR/tests/fixture/at-rule/unknown/input.css:16:1
@@ -246,9 +246,9 @@ error: UnknownAtRule
 18 | | /*@unknown  {  p  :  v  }*/
 19 | | /*@unknown  x  y  {  p  :  v  }*/
 ...  |
-22 | | @unknown {s{p:v}}
-23 | | /*@unknown x y {s{p:v}}*/
-   | |_
+35 | |     <!-- {}
+36 | | }
+   | |__^
 
 error: Text
   --> $DIR/tests/fixture/at-rule/unknown/input.css:16:1
@@ -265,9 +265,9 @@ error: Tokens
 18 | | /*@unknown  {  p  :  v  }*/
 19 | | /*@unknown  x  y  {  p  :  v  }*/
 ...  |
-22 | | @unknown {s{p:v}}
-23 | | /*@unknown x y {s{p:v}}*/
-   | |_
+35 | |     <!-- {}
+36 | | }
+   | |__^
 
 error: Ident { value: Atom('x' type=inline), raw: Atom('x' type=inline) }
   --> $DIR/tests/fixture/at-rule/unknown/input.css:16:17
@@ -484,4 +484,106 @@ error: WhiteSpace
    |  __________________^
 23 | | /*@unknown x y {s{p:v}}*/
    | |_
+
+error: AtKeyword { value: Atom('unknown' type=static), raw: Atom('unknown' type=static) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:33:1
+   |
+33 | @unknown {
+   | ^^^^^^^^
+
+error: WhiteSpace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:33:9
+   |
+33 | @unknown {
+   |         ^
+
+error: LBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:33:10
+   |
+33 | @unknown {
+   |          ^
+
+error: WhiteSpace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:33:11
+   |
+33 |   @unknown {
+   |  ___________^
+34 | |     --> {}
+   | |____^
+
+error: CDC
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:34:5
+   |
+34 |     --> {}
+   |     ^^^
+
+error: WhiteSpace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:34:8
+   |
+34 |     --> {}
+   |        ^
+
+error: LBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:34:9
+   |
+34 |     --> {}
+   |         ^
+
+error: RBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:34:10
+   |
+34 |     --> {}
+   |          ^
+
+error: WhiteSpace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:34:11
+   |
+34 |       --> {}
+   |  ___________^
+35 | |     <!-- {}
+   | |____^
+
+error: CDO
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:35:5
+   |
+35 |     <!-- {}
+   |     ^^^^
+
+error: WhiteSpace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:35:9
+   |
+35 |     <!-- {}
+   |         ^
+
+error: LBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:35:10
+   |
+35 |     <!-- {}
+   |          ^
+
+error: RBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:35:11
+   |
+35 |     <!-- {}
+   |           ^
+
+error: WhiteSpace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:35:12
+   |
+35 |       <!-- {}
+   |  ____________^
+36 | | }
+   | |_
+
+error: RBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:36:1
+   |
+36 | }
+   | ^
+
+error: WhiteSpace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:36:2
+   |
+36 | }
+   |  ^
 

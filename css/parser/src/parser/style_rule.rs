@@ -15,33 +15,31 @@ where
         let mut rules = vec![];
 
         loop {
-            self.input.skip_ws()?;
-
+            // TODO: remove `}`
             if self.input.is_eof()? || is!(self, "}") {
                 return Ok(rules);
             }
 
             match cur!(self) {
+                tok!(" ") => {
+                    self.input.skip_ws()?;
+                }
                 tok!("<!--") | tok!("-->") => {
                     if ctx.is_top_level {
                         self.input.bump()?;
 
                         continue;
                     }
-                }
 
+                    rules.push(self.parse_qualified_rule()?);
+                }
                 Token::AtKeyword { .. } => {
-                    let rule = self.parse_at_rule(Default::default())?;
-
-                    rules.push(rule.into());
-
-                    continue;
+                    rules.push(self.parse_at_rule(Default::default())?.into());
                 }
-
-                _ => {}
+                _ => {
+                    rules.push(self.parse_qualified_rule()?);
+                }
             }
-
-            rules.push(self.parse_qualified_rule()?);
         }
     }
     

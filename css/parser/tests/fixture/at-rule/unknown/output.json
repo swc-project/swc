@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 147,
-    "end": 650,
+    "end": 1278,
     "ctxt": 0
   },
   "rules": [
@@ -254,7 +254,7 @@
       "type": "UnknownAtRule",
       "span": {
         "start": 315,
-        "end": 650,
+        "end": 1278,
         "ctxt": 0
       },
       "name": {
@@ -271,7 +271,7 @@
         "type": "Tokens",
         "span": {
           "start": 331,
-          "end": 650,
+          "end": 1278,
           "ctxt": 0
         },
         "tokens": [
@@ -635,6 +635,139 @@
             "span": {
               "start": 649,
               "end": 650,
+              "ctxt": 0
+            },
+            "token": "WhiteSpace"
+          },
+          {
+            "span": {
+              "start": 1242,
+              "end": 1250,
+              "ctxt": 0
+            },
+            "token": {
+              "AtKeyword": {
+                "value": "unknown",
+                "raw": "unknown"
+              }
+            }
+          },
+          {
+            "span": {
+              "start": 1250,
+              "end": 1251,
+              "ctxt": 0
+            },
+            "token": "WhiteSpace"
+          },
+          {
+            "span": {
+              "start": 1251,
+              "end": 1252,
+              "ctxt": 0
+            },
+            "token": "LBrace"
+          },
+          {
+            "span": {
+              "start": 1252,
+              "end": 1257,
+              "ctxt": 0
+            },
+            "token": "WhiteSpace"
+          },
+          {
+            "span": {
+              "start": 1257,
+              "end": 1260,
+              "ctxt": 0
+            },
+            "token": "CDC"
+          },
+          {
+            "span": {
+              "start": 1260,
+              "end": 1261,
+              "ctxt": 0
+            },
+            "token": "WhiteSpace"
+          },
+          {
+            "span": {
+              "start": 1261,
+              "end": 1262,
+              "ctxt": 0
+            },
+            "token": "LBrace"
+          },
+          {
+            "span": {
+              "start": 1262,
+              "end": 1263,
+              "ctxt": 0
+            },
+            "token": "RBrace"
+          },
+          {
+            "span": {
+              "start": 1263,
+              "end": 1268,
+              "ctxt": 0
+            },
+            "token": "WhiteSpace"
+          },
+          {
+            "span": {
+              "start": 1268,
+              "end": 1272,
+              "ctxt": 0
+            },
+            "token": "CDO"
+          },
+          {
+            "span": {
+              "start": 1272,
+              "end": 1273,
+              "ctxt": 0
+            },
+            "token": "WhiteSpace"
+          },
+          {
+            "span": {
+              "start": 1273,
+              "end": 1274,
+              "ctxt": 0
+            },
+            "token": "LBrace"
+          },
+          {
+            "span": {
+              "start": 1274,
+              "end": 1275,
+              "ctxt": 0
+            },
+            "token": "RBrace"
+          },
+          {
+            "span": {
+              "start": 1275,
+              "end": 1276,
+              "ctxt": 0
+            },
+            "token": "WhiteSpace"
+          },
+          {
+            "span": {
+              "start": 1276,
+              "end": 1277,
+              "ctxt": 0
+            },
+            "token": "RBrace"
+          },
+          {
+            "span": {
+              "start": 1277,
+              "end": 1278,
               "ctxt": 0
             },
             "token": "WhiteSpace"

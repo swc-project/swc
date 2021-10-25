@@ -29,3 +29,8 @@
 /*@unknown  {  s  {  p  :  v  }  }*/
 /*@unknown  x  y  {  s  {  p  :  v  }  }*/
 /*@unknown  x  ,  y  f(  1    2  )  {  s  {  p  :  v  }  }*/
+
+@unknown {
+    --> {}
+    <!-- {}
+}
