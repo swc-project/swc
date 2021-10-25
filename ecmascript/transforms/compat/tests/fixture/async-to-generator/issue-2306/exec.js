@@ -10,6 +10,9 @@ async function* g2() {
     }
 }
 
-for await (const g of g2()) {
-    console.log(g);
-}
+
+(async () => {
+    for await (const g of g2()) {
+        console.log(g);
+    }
+})();
