@@ -69,7 +69,6 @@ pub enum ErrorKind {
     UnterminatedBlockComment,
     InvalidTypeSelector,
     InvalidSelector,
-    InvalidPropertyValue,
     InvalidAttrName,
     InvalidDeclarationValue,
     ExpectedIdentOrStrForAttrSelectorOp,

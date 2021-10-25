@@ -1030,7 +1030,7 @@ error: Str
 17 | a[ class = "test" ] {}
    |            ^^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/attribute/input.css:17:21
    |
 17 | a[ class = "test" ] {}
@@ -1102,7 +1102,7 @@ error: Str
 18 | a[   class   =   "test"   ] {}
    |                  ^^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/attribute/input.css:18:29
    |
 18 | a[   class   =   "test"   ] {}
@@ -1162,7 +1162,7 @@ error: Str
 19 | [href*="insensitive"   i] {}
    |        ^^^^^^^^^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/attribute/input.css:19:27
    |
 19 | [href*="insensitive"   i] {}
@@ -1216,7 +1216,7 @@ error: Text
 20 | [   href   ] {}
    |     ^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/attribute/input.css:20:14
    |
 20 | [   href   ] {}

@@ -45,7 +45,7 @@ error: Text
 1 | *|* {}
   | ^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/selector/type/input.css:1:5
   |
 1 | *|* {}
@@ -93,7 +93,7 @@ error: Text
 2 | foo|h1 {}
   |     ^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/selector/type/input.css:2:8
   |
 2 | foo|h1 {}
@@ -135,7 +135,7 @@ error: Text
 3 | foo|* {}
   | ^^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/selector/type/input.css:3:7
   |
 3 | foo|* {}
@@ -183,7 +183,7 @@ error: Text
 4 | |h1 {}
   |  ^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/selector/type/input.css:4:5
   |
 4 | |h1 {}
@@ -231,7 +231,7 @@ error: Text
 5 | *|h1 {}
   |   ^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/selector/type/input.css:5:6
   |
 5 | *|h1 {}
@@ -273,7 +273,7 @@ error: Text
 6 | h1 {}
   | ^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/selector/type/input.css:6:4
   |
 6 | h1 {}
