@@ -132,10 +132,10 @@ where
                 }
                 Some(Token::AtKeyword { .. }) => {
                     // TODO: change on `parse_at_rule`
-                    declarations.push(self.parse_declaration()?);
+                    declarations.push(self.parse()?);
                 }
                 Some(Token::Ident { .. }) => {
-                    declarations.push(self.parse_declaration()?);
+                    declarations.push(self.parse()?);
 
                     self.input.skip_ws()?;
 
