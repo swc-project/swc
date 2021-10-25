@@ -146,10 +146,12 @@ where
                 let query = self.parse()?;
 
                 expect!(self, "{");
-                let rules = self.parse_rules(RuleContext {
+                
+                let rules = self.parse_rule_list(RuleContext {
                     is_top_level: false,
                     parse_selectors: true,
                 })?;
+                
                 expect!(self, "}");
 
                 return Ok(AtRule::Supports(SupportsRule {
@@ -166,7 +168,7 @@ where
 
                 expect!(self, "{");
 
-                let rules = self.parse_rules(RuleContext {
+                let rules = self.parse_rule_list(RuleContext {
                     is_top_level: false,
                     parse_selectors: true,
                 })?;
@@ -327,7 +329,7 @@ where
 
         expect!(self, "{");
 
-        let block = self.parse_rules(RuleContext {
+        let block = self.parse_rule_list(RuleContext {
             is_top_level: false,
             parse_selectors: true,
         })?;

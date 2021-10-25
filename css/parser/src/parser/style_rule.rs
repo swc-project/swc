@@ -82,7 +82,7 @@ where
         Ok(items)
     }
 
-    pub(crate) fn parse_properties(&mut self) -> PResult<Vec<Property>> {
+    pub(crate) fn parse_declaration_list(&mut self) -> PResult<Vec<Property>> {
         let mut props = vec![];
 
         while is!(self, Ident) {
@@ -178,7 +178,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Vec<Property>> {
-        self.parse_properties()
+        self.parse_declaration_list()
     }
 }
 

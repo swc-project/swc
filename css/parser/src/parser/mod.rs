@@ -86,8 +86,10 @@ where
         self.parse()
     }
 
-    fn parse_rules(&mut self, ctx: RuleContext) -> PResult<Vec<Rule>> {
+    // TODO: move in `style_rule`
+    fn parse_rule_list(&mut self, ctx: RuleContext) -> PResult<Vec<Rule>> {
         let mut rules = vec![];
+
         loop {
             self.input.skip_ws()?;
 
@@ -96,17 +98,20 @@ where
             }
 
             match cur!(self) {
-                Token::AtKeyword { .. } => {
-                    let rule = self.parse_at_rule(Default::default())?;
-                    rules.push(rule.into());
-                    continue;
-                }
-
                 tok!("<!--") | tok!("-->") => {
                     if ctx.is_top_level {
                         self.input.bump()?;
+
                         continue;
                     }
+                }
+
+                Token::AtKeyword { .. } => {
+                    let rule = self.parse_at_rule(Default::default())?;
+
+                    rules.push(rule.into());
+
+                    continue;
                 }
 
                 _ => {}
@@ -173,7 +178,7 @@ where
 {
     fn parse(&mut self) -> Result<Stylesheet, Error> {
         let start = self.input.cur_span()?;
-        let rules = self.parse_rules(RuleContext {
+        let rules = self.parse_rule_list(RuleContext {
             is_top_level: true,
             parse_selectors: true,
         })?;
