@@ -462,7 +462,8 @@ fn error_recovery_1() {
         "animation: slide 3s ease infinite;
             __styled-jsx-placeholder__1
         ",
-        "-webkit-animation:slide 3s ease infinite;animation:slide 3s ease infinite;__styled-jsx-placeholder__1\n        ;",
+        "-webkit-animation:slide 3s ease infinite;animation:slide 3s ease \
+         infinite;__styled-jsx-placeholder__1\n        ;",
     );
 }
 
