@@ -123,7 +123,9 @@ where
             if is_whitespace(c) {
                 let value = self.read_ws()?;
 
-                return Ok(Token::WhiteSpace { value: value.into() });
+                return Ok(Token::WhiteSpace {
+                    value: value.into(),
+                });
             }
         }
 
@@ -307,7 +309,7 @@ where
 
         loop {
             let c = self.input.cur();
-            
+
             match c {
                 Some(c) if is_whitespace(c) => {
                     self.input.bump();
