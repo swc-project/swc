@@ -80,15 +80,47 @@ impl Scope {
     }
 
     fn can_rename(&self, id: &Id, symbol: &JsWord, renamed: &AHashMap<Id, JsWord>) -> bool {
-        for used_id in self.data.usages.iter().chain(self.data.decls.iter()) {
-            if *used_id == *id {
-                continue;
-            }
-
-            if let Some(renamed_id) = renamed.get(used_id) {
-                if renamed_id == symbol {
-                    return false;
+        if cfg!(target_arch = "wasm32")
+            || self
+                .data
+                .usages
+                .iter()
+                .chain(self.data.decls.iter())
+                .count()
+                <= 64
+        {
+            for used_id in self.data.usages.iter().chain(self.data.decls.iter()) {
+                if *used_id == *id {
+                    continue;
                 }
+
+                if let Some(renamed_id) = renamed.get(used_id) {
+                    if renamed_id == symbol {
+                        return false;
+                    }
+                }
+            }
+        } else {
+            if self
+                .data
+                .usages
+                .par_iter()
+                .chain(self.data.decls.par_iter())
+                .any(|used_id| {
+                    if *used_id == *id {
+                        return false;
+                    }
+
+                    if let Some(renamed_id) = renamed.get(used_id) {
+                        if renamed_id == symbol {
+                            return true;
+                        }
+                    }
+
+                    false
+                })
+            {
+                return false;
             }
         }
 
