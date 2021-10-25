@@ -120,7 +120,7 @@ where
             if self.input.is_eof()? {
                 return Ok(declarations);
             }
-            
+
             let cur = self.input.cur()?;
 
             match cur {
@@ -160,25 +160,31 @@ where
 
         expect!(self, ":");
 
-        let (value, mut last_pos) = {
+        let mut value = vec![];
+        let mut end = self.input.cur_span()?.hi;
+
+        if !self.input.is_eof()? {
             let ctx = Ctx {
                 allow_operation_in_value: false,
                 recover_from_property_value: true,
                 ..self.ctx
             };
-            self.with_ctx(ctx).parse_property_values()?
-        };
+            let (mut parsed_value, parsed_last_pos) = self.with_ctx(ctx).parse_property_values()?;
+
+            value.append(&mut parsed_value);
+            end = parsed_last_pos;
+        }
 
         let important = self.parse_bang_important()?;
 
         if important.is_some() {
-            last_pos = self.input.last_pos()?;
+            end = self.input.last_pos()?;
         }
 
         self.input.skip_ws()?;
 
         Ok(Declaration {
-            span: Span::new(start, last_pos, Default::default()),
+            span: Span::new(start, end, Default::default()),
             property,
             value,
             important,
