@@ -1,91 +1,54 @@
 error: Stylesheet
  --> $DIR/tests/fixture/at-rule/unknown/input.css:1:1
   |
-1 | / @unknown {}
-2 | | @\unknown {}
-  | |_____________^
+1 | @unknown ("test");
+  | ^^^^^^^^^^^^^^^^^^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/unknown/input.css:1:1
   |
-1 | @unknown {}
-  | ^^^^^^^^^^^
+1 | @unknown ("test");
+  | ^^^^^^^^^^^^^^^^^^
 
 error: AtRule
  --> $DIR/tests/fixture/at-rule/unknown/input.css:1:1
   |
-1 | @unknown {}
-  | ^^^^^^^^^^^
+1 | @unknown ("test");
+  | ^^^^^^^^^^^^^^^^^^
 
 error: UnknownAtRule
  --> $DIR/tests/fixture/at-rule/unknown/input.css:1:1
   |
-1 | @unknown {}
-  | ^^^^^^^^^^^
+1 | @unknown ("test");
+  | ^^^^^^^^^^^^^^^^^^
 
 error: Text
  --> $DIR/tests/fixture/at-rule/unknown/input.css:1:1
   |
-1 | @unknown {}
+1 | @unknown ("test");
   | ^^^^^^^^
 
 error: Tokens
  --> $DIR/tests/fixture/at-rule/unknown/input.css:1:10
   |
-1 | @unknown {}
-  |          ^^
+1 | @unknown ("test");
+  |          ^^^^^^^^^
 
-error: LBrace
+error: LParen
  --> $DIR/tests/fixture/at-rule/unknown/input.css:1:10
   |
-1 | @unknown {}
+1 | @unknown ("test");
   |          ^
 
-error: RBrace
+error: Str { value: Atom('test' type=inline), raw: Atom('"test"' type=inline) }
  --> $DIR/tests/fixture/at-rule/unknown/input.css:1:11
   |
-1 | @unknown {}
-  |           ^
+1 | @unknown ("test");
+  |           ^^^^^^
 
-error: Rule
- --> $DIR/tests/fixture/at-rule/unknown/input.css:2:1
+error: RParen
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:1:17
   |
-2 | @\unknown {}
-  | ^^^^^^^^^^^^
-
-error: AtRule
- --> $DIR/tests/fixture/at-rule/unknown/input.css:2:1
-  |
-2 | @\unknown {}
-  | ^^^^^^^^^^^^
-
-error: UnknownAtRule
- --> $DIR/tests/fixture/at-rule/unknown/input.css:2:1
-  |
-2 | @\unknown {}
-  | ^^^^^^^^^^^^
-
-error: Text
- --> $DIR/tests/fixture/at-rule/unknown/input.css:2:1
-  |
-2 | @\unknown {}
-  | ^^^^^^^^^
-
-error: Tokens
- --> $DIR/tests/fixture/at-rule/unknown/input.css:2:11
-  |
-2 | @\unknown {}
-  |           ^^
-
-error: LBrace
- --> $DIR/tests/fixture/at-rule/unknown/input.css:2:11
-  |
-2 | @\unknown {}
-  |           ^
-
-error: RBrace
- --> $DIR/tests/fixture/at-rule/unknown/input.css:2:12
-  |
-2 | @\unknown {}
-  |            ^
+1 | @unknown ("test");
+  |                 ^
 
