@@ -46,7 +46,7 @@ error: DeclBlock
 1 | a { width: +0.1; }
   |   ^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/5al65IRQbw_x4yG3ke74fQ/input.css:1:5
   |
 1 | a { width: +0.1; }

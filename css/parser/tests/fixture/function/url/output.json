@@ -64,13 +64,13 @@
         },
         "items": [
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 8,
               "end": 109,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 8,
@@ -80,7 +80,7 @@
               "value": "background-image",
               "raw": "background-image"
             },
-            "values": [
+            "value": [
               {
                 "type": "UrlValue",
                 "span": {
@@ -95,13 +95,13 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 115,
               "end": 155,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 115,
@@ -111,7 +111,7 @@
               "value": "background-image",
               "raw": "background-image"
             },
-            "values": [
+            "value": [
               {
                 "type": "FnValue",
                 "span": {
@@ -146,13 +146,13 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 161,
               "end": 201,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 161,
@@ -162,7 +162,7 @@
               "value": "background-image",
               "raw": "background-image"
             },
-            "values": [
+            "value": [
               {
                 "type": "FnValue",
                 "span": {
@@ -197,13 +197,13 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 207,
               "end": 247,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 207,
@@ -213,7 +213,7 @@
               "value": "background-image",
               "raw": "background-image"
             },
-            "values": [
+            "value": [
               {
                 "type": "FnValue",
                 "span": {
@@ -248,13 +248,13 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 253,
               "end": 296,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 253,
@@ -264,7 +264,7 @@
               "value": "background-image",
               "raw": "background-image"
             },
-            "values": [
+            "value": [
               {
                 "type": "FnValue",
                 "span": {
@@ -299,13 +299,13 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 302,
               "end": 345,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 302,
@@ -315,7 +315,7 @@
               "value": "background-image",
               "raw": "background-image"
             },
-            "values": [
+            "value": [
               {
                 "type": "FnValue",
                 "span": {
@@ -350,13 +350,13 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 351,
               "end": 397,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 351,
@@ -366,7 +366,7 @@
               "value": "background-image",
               "raw": "background-image"
             },
-            "values": [
+            "value": [
               {
                 "type": "FnValue",
                 "span": {
@@ -401,13 +401,13 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 403,
               "end": 459,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 403,
@@ -417,7 +417,7 @@
               "value": "background-image",
               "raw": "background-image"
             },
-            "values": [
+            "value": [
               {
                 "type": "FnValue",
                 "span": {
@@ -452,13 +452,13 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 465,
               "end": 488,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 465,
@@ -468,7 +468,7 @@
               "value": "background-image",
               "raw": "background-image"
             },
-            "values": [
+            "value": [
               {
                 "type": "UrlValue",
                 "span": {
@@ -483,13 +483,13 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 494,
               "end": 520,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 494,
@@ -499,7 +499,7 @@
               "value": "background-image",
               "raw": "background-image"
             },
-            "values": [
+            "value": [
               {
                 "type": "UrlValue",
                 "span": {
@@ -514,13 +514,13 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 526,
               "end": 551,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 526,
@@ -530,7 +530,7 @@
               "value": "background-image",
               "raw": "background-image"
             },
-            "values": [
+            "value": [
               {
                 "type": "FnValue",
                 "span": {
@@ -565,13 +565,13 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 557,
               "end": 588,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 557,
@@ -581,7 +581,7 @@
               "value": "background-image",
               "raw": "background-image"
             },
-            "values": [
+            "value": [
               {
                 "type": "FnValue",
                 "span": {
@@ -616,13 +616,13 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 594,
               "end": 619,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 594,
@@ -632,7 +632,7 @@
               "value": "background-image",
               "raw": "background-image"
             },
-            "values": [
+            "value": [
               {
                 "type": "FnValue",
                 "span": {
@@ -667,13 +667,13 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 625,
               "end": 656,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 625,
@@ -683,7 +683,7 @@
               "value": "background-image",
               "raw": "background-image"
             },
-            "values": [
+            "value": [
               {
                 "type": "FnValue",
                 "span": {
@@ -718,13 +718,13 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 662,
               "end": 694,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 662,
@@ -734,7 +734,7 @@
               "value": "background-image",
               "raw": "background-image"
             },
-            "values": [
+            "value": [
               {
                 "type": "FnValue",
                 "span": {
@@ -769,13 +769,13 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 700,
               "end": 734,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 700,
@@ -785,7 +785,7 @@
               "value": "background-image",
               "raw": "background-image"
             },
-            "values": [
+            "value": [
               {
                 "type": "UrlValue",
                 "span": {
@@ -800,13 +800,13 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 740,
               "end": 780,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 740,
@@ -816,7 +816,7 @@
               "value": "background-image",
               "raw": "background-image"
             },
-            "values": [
+            "value": [
               {
                 "type": "UrlValue",
                 "span": {
@@ -831,13 +831,13 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 786,
               "end": 829,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 786,
@@ -847,7 +847,7 @@
               "value": "background-image",
               "raw": "background-image"
             },
-            "values": [
+            "value": [
               {
                 "type": "UrlValue",
                 "span": {
@@ -862,13 +862,13 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 835,
               "end": 888,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 835,
@@ -878,7 +878,7 @@
               "value": "background-image",
               "raw": "background-image"
             },
-            "values": [
+            "value": [
               {
                 "type": "UrlValue",
                 "span": {
@@ -893,13 +893,13 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 894,
               "end": 974,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 894,
@@ -909,7 +909,7 @@
               "value": "background-image",
               "raw": "background-image"
             },
-            "values": [
+            "value": [
               {
                 "type": "UrlValue",
                 "span": {
@@ -924,13 +924,13 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 980,
               "end": 1039,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 980,
@@ -940,7 +940,7 @@
               "value": "background-image",
               "raw": "background-image"
             },
-            "values": [
+            "value": [
               {
                 "type": "UrlValue",
                 "span": {

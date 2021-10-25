@@ -82,7 +82,7 @@ where
         Ok(items)
     }
 
-    pub(crate) fn parse_declaration_list(&mut self) -> PResult<Vec<Property>> {
+    pub(crate) fn parse_declaration_list(&mut self) -> PResult<Vec<Declaration>> {
         let mut props = vec![];
 
         while is!(self, Ident) {
@@ -102,20 +102,20 @@ where
         Ok(props)
     }
 
-    pub(crate) fn parse_declaration(&mut self) -> PResult<Property> {
+    pub(crate) fn parse_declaration(&mut self) -> PResult<Declaration> {
         self.input.skip_ws()?;
 
         let start = self.input.cur_span()?.lo;
 
         self.input.skip_ws()?;
 
-        let name = self.parse_id()?;
+        let property = self.parse_id()?;
 
         self.input.skip_ws()?;
 
         expect!(self, ":");
 
-        let (values, mut last_pos) = {
+        let (value, mut last_pos) = {
             let ctx = Ctx {
                 allow_operation_in_value: false,
                 recover_from_property_value: true,
@@ -130,10 +130,10 @@ where
             last_pos = self.input.last_pos()?;
         }
 
-        Ok(Property {
+        Ok(Declaration {
             span: Span::new(start, last_pos, Default::default()),
-            name,
-            values,
+            property,
+            value,
             important,
         })
     }
@@ -164,20 +164,20 @@ where
     }
 }
 
-impl<I> Parse<Property> for Parser<I>
+impl<I> Parse<Declaration> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<Property> {
+    fn parse(&mut self) -> PResult<Declaration> {
         self.parse_declaration()
     }
 }
 
-impl<I> Parse<Vec<Property>> for Parser<I>
+impl<I> Parse<Vec<Declaration>> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<Vec<Property>> {
+    fn parse(&mut self) -> PResult<Vec<Declaration>> {
         self.parse_declaration_list()
     }
 }
@@ -199,7 +199,7 @@ where
         let start = self.input.state();
         let start_pos = self.input.cur_span()?.lo;
 
-        let prop = self.parse().map(DeclBlockItem::Property);
+        let prop = self.parse().map(DeclBlockItem::Declaration);
 
         match prop {
             Ok(v) => return Ok(v),

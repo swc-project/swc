@@ -66,7 +66,7 @@ error: DeclBlock
 1 | a:after { content: 'a\b' }
   |         ^^^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/2nNBhRWO2cNcBJf09zDxjw/input.css:1:11
   |
 1 | a:after { content: 'a\b' }

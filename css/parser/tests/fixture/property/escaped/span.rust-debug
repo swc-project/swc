@@ -55,7 +55,7 @@ error: DeclBlock
 3 | | }
   | |_^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/property/escaped/input.css:2:5
   |
 2 |     colo\r: \red;

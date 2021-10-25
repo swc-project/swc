@@ -52,7 +52,7 @@ error: DeclBlock
 1 | .selector { property: value\9; }
   |           ^^^^^^^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:13
   |
 1 | .selector { property: value\9; }

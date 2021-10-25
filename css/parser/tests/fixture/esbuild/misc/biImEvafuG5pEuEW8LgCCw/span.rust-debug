@@ -46,7 +46,7 @@ error: DeclBlock
 1 | a { value: f\6e() }
   |   ^^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/biImEvafuG5pEuEW8LgCCw/input.css:1:5
   |
 1 | a { value: f\6e() }

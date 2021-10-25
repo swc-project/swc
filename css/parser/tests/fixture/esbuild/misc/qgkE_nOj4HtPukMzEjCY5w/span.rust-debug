@@ -46,7 +46,7 @@ error: DeclBlock
 1 | a { value: '\2c' }
   |   ^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/qgkE_nOj4HtPukMzEjCY5w/input.css:1:5
   |
 1 | a { value: '\2c' }

@@ -46,7 +46,7 @@ error: DeclBlock
 1 | a { value: #\,x }
   |   ^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/Ys7z8C2qi5O_HM9ElZQrUQ/input.css:1:5
   |
 1 | a { value: #\,x }

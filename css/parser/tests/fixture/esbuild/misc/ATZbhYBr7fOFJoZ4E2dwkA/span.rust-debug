@@ -82,7 +82,7 @@ error: DeclBlock
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
   |                           ^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:29
   |
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
@@ -160,7 +160,7 @@ error: DeclBlock
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
   |                                                   ^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:53
   |
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }

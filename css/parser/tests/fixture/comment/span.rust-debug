@@ -63,7 +63,7 @@ error: DeclBlock
 4 | | }
   | |_^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/comment/input.css:3:14
   |
 3 | /* comment */color/* comment */:/* comment */red/* comment */;
@@ -148,7 +148,7 @@ error: DeclBlock
 15 | | }
    | |_^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/comment/input.css:11:5
    |
 11 |     color: black;
@@ -172,7 +172,7 @@ error: Text
 11 |     color: black;
    |            ^^^^^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/comment/input.css:13:5
    |
 13 |     background: red;
@@ -248,7 +248,7 @@ error: DeclBlock
 21 | | }
    | |_^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/comment/input.css:19:5
    |
 19 |     color: black;

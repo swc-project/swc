@@ -52,7 +52,7 @@ error: PageRuleBlockItem
 2 |         @page :first { margin: 0 }
   |                        ^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:18
   |
 2 |         @page :first { margin: 0 }
@@ -182,7 +182,7 @@ error: PageRuleBlockItem
 4 |             @top-left-corner { content: 'tlc' }
   |                                ^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:23
   |
 4 |             @top-left-corner { content: 'tlc' }
@@ -260,7 +260,7 @@ error: PageRuleBlockItem
 5 |             @top-left { content: 'tl' }
   |                         ^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:16
   |
 5 |             @top-left { content: 'tl' }
@@ -338,7 +338,7 @@ error: PageRuleBlockItem
 6 |             @top-center { content: 'tc' }
   |                           ^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:18
   |
 6 |             @top-center { content: 'tc' }
@@ -416,7 +416,7 @@ error: PageRuleBlockItem
 7 |             @top-right { content: 'tr' }
   |                          ^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:17
   |
 7 |             @top-right { content: 'tr' }
@@ -494,7 +494,7 @@ error: PageRuleBlockItem
 8 |             @top-right-corner { content: 'trc' }
   |                                 ^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:24
   |
 8 |             @top-right-corner { content: 'trc' }
@@ -572,7 +572,7 @@ error: PageRuleBlockItem
 9 |             @bottom-left-corner { content: 'blc' }
   |                                   ^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:26
   |
 9 |             @bottom-left-corner { content: 'blc' }
@@ -650,7 +650,7 @@ error: PageRuleBlockItem
 10 |             @bottom-left { content: 'bl' }
    |                            ^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:19
    |
 10 |             @bottom-left { content: 'bl' }
@@ -728,7 +728,7 @@ error: PageRuleBlockItem
 11 |             @bottom-center { content: 'bc' }
    |                              ^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:21
    |
 11 |             @bottom-center { content: 'bc' }
@@ -806,7 +806,7 @@ error: PageRuleBlockItem
 12 |             @bottom-right { content: 'br' }
    |                             ^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:20
    |
 12 |             @bottom-right { content: 'br' }
@@ -884,7 +884,7 @@ error: PageRuleBlockItem
 13 |             @bottom-right-corner { content: 'brc' }
    |                                    ^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:27
    |
 13 |             @bottom-right-corner { content: 'brc' }
@@ -962,7 +962,7 @@ error: PageRuleBlockItem
 14 |             @left-top { content: 'lt' }
    |                         ^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:16
    |
 14 |             @left-top { content: 'lt' }
@@ -1040,7 +1040,7 @@ error: PageRuleBlockItem
 15 |             @left-middle { content: 'lm' }
    |                            ^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:19
    |
 15 |             @left-middle { content: 'lm' }
@@ -1118,7 +1118,7 @@ error: PageRuleBlockItem
 16 |             @left-bottom { content: 'lb' }
    |                            ^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:19
    |
 16 |             @left-bottom { content: 'lb' }
@@ -1196,7 +1196,7 @@ error: PageRuleBlockItem
 17 |             @right-top { content: 'rt' }
    |                          ^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:17
    |
 17 |             @right-top { content: 'rt' }
@@ -1274,7 +1274,7 @@ error: PageRuleBlockItem
 18 |             @right-middle { content: 'rm' }
    |                             ^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:20
    |
 18 |             @right-middle { content: 'rm' }
@@ -1352,7 +1352,7 @@ error: PageRuleBlockItem
 19 |             @right-bottom { content: 'rb' }
    |                             ^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:20
    |
 19 |             @right-bottom { content: 'rb' }

@@ -46,7 +46,7 @@ error: DeclBlock
 1 | a { color: #aabbcc }
   |   ^^^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/EJPa4WhTn_fRRrDiA2bczg/input.css:1:5
   |
 1 | a { color: #aabbcc }

@@ -46,7 +46,7 @@ error: DeclBlock
 1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
   |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:5
   |
 1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
@@ -106,7 +106,7 @@ error: Num
 1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
   |                          ^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:29
   |
 1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }

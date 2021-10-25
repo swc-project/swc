@@ -298,7 +298,7 @@ where
             MediaQuery::Or(n) => emit!(self, n),
             MediaQuery::Not(n) => emit!(self, n),
             MediaQuery::Only(n) => emit!(self, n),
-            MediaQuery::Property(n) => {
+            MediaQuery::Declaration(n) => {
                 punct!(self, "(");
                 emit!(self, n);
                 punct!(self, ")");
@@ -320,17 +320,18 @@ where
     fn emit_decl_block_item(&mut self, n: &DeclBlockItem) -> Result {
         match n {
             DeclBlockItem::Invalid(n) => emit!(self, n),
-            DeclBlockItem::Property(n) => emit!(self, n),
+            DeclBlockItem::Declaration(n) => emit!(self, n),
         }
     }
 
     #[emitter]
-    fn emit_property(&mut self, n: &Property) -> Result {
-        emit!(self, n.name);
+    fn emit_declaration(&mut self, n: &Declaration) -> Result {
+        emit!(self, n.property);
         punct!(self, ":");
         formatting_space!(self);
+
         self.emit_list(
-            &n.values,
+            &n.value,
             ListFormat::SpaceDelimited | ListFormat::SingleLine,
         )?;
 
@@ -370,7 +371,7 @@ where
             SupportQuery::Not(n) => emit!(self, n),
             SupportQuery::And(n) => emit!(self, n),
             SupportQuery::Or(n) => emit!(self, n),
-            SupportQuery::Property(n) => {
+            SupportQuery::Declaration(n) => {
                 punct!(self, "(");
                 emit!(self, n);
                 punct!(self, ")");
@@ -404,7 +405,7 @@ where
     #[emitter]
     fn emit_page_rule_block_item(&mut self, n: &PageRuleBlockItem) -> Result {
         match n {
-            PageRuleBlockItem::Property(n) => emit!(self, n),
+            PageRuleBlockItem::Declaration(n) => emit!(self, n),
             PageRuleBlockItem::Nested(n) => emit!(self, n),
         }
     }

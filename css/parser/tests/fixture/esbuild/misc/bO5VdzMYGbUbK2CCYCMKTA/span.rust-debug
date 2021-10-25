@@ -52,7 +52,7 @@ error: DeclBlock
 1 | .decl { a: b }
   |       ^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:9
   |
 1 | .decl { a: b }

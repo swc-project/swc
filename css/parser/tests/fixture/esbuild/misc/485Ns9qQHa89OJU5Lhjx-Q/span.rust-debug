@@ -46,7 +46,7 @@ error: DeclBlock
 1 | a { value: \69 dent }
   |   ^^^^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/485Ns9qQHa89OJU5Lhjx-Q/input.css:1:5
   |
 1 | a { value: \69 dent }

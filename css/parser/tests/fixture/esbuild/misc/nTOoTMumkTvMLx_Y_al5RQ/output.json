@@ -64,13 +64,13 @@
         },
         "items": [
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 4,
               "end": 15,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 4,
@@ -80,7 +80,7 @@
               "value": "value",
               "raw": "value"
             },
-            "values": [
+            "value": [
               {
                 "type": "String",
                 "span": {

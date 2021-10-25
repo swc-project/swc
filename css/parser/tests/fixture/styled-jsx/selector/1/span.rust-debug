@@ -103,7 +103,7 @@ error: DeclBlock
 3 | | }
   | |_^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:2:5
   |
 2 |     color: red;

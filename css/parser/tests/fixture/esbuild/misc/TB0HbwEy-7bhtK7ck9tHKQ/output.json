@@ -51,13 +51,13 @@
             },
             "items": [
               {
-                "type": "Property",
+                "type": "Declaration",
                 "span": {
                   "start": 21,
                   "end": 30,
                   "ctxt": 0
                 },
-                "name": {
+                "property": {
                   "type": "Text",
                   "span": {
                     "start": 21,
@@ -67,7 +67,7 @@
                   "value": "color",
                   "raw": "color"
                 },
-                "values": [
+                "value": [
                   {
                     "type": "Text",
                     "span": {
@@ -111,13 +111,13 @@
             },
             "items": [
               {
-                "type": "Property",
+                "type": "Declaration",
                 "span": {
                   "start": 34,
                   "end": 44,
                   "ctxt": 0
                 },
-                "name": {
+                "property": {
                   "type": "Text",
                   "span": {
                     "start": 34,
@@ -127,7 +127,7 @@
                   "value": "color",
                   "raw": "color"
                 },
-                "values": [
+                "value": [
                   {
                     "type": "Text",
                     "span": {

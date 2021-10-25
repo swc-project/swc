@@ -58,7 +58,7 @@ error: DeclBlock
 1 | @keyframes test { from { color: red } to {} }
   |                        ^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/X0UTnZK8bQhMRs3DGoqFAw/input.css:1:26
   |
 1 | @keyframes test { from { color: red } to {} }

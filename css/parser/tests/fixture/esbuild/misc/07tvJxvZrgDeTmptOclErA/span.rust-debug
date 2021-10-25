@@ -46,7 +46,7 @@ error: DeclBlock
 1 | a { margin: 0 1 0 1 }
   |   ^^^^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:5
   |
 1 | a { margin: 0 1 0 1 }

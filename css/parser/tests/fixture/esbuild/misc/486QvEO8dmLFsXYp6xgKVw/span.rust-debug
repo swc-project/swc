@@ -46,7 +46,7 @@ error: DeclBlock
 1 | a { value: #\30hash }
   |   ^^^^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/486QvEO8dmLFsXYp6xgKVw/input.css:1:5
   |
 1 | a { value: #\30hash }

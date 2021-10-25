@@ -90,7 +90,7 @@ error: DeclBlock
 4 | |     }
   | |_____^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/keyframe/input.css:3:9
   |
 3 |         margin-top: 50px !important;
@@ -164,7 +164,7 @@ error: DeclBlock
 7 | |     }
   | |_____^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/keyframe/input.css:6:9
   |
 6 |         margin-top: 100px !important;

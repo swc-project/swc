@@ -1,4 +1,4 @@
-use crate::{ComplexSelector, Property, Tokens};
+use crate::{ComplexSelector, Text, Tokens, Value};
 use swc_common::{ast_node, Span};
 
 #[ast_node("StyleRule")]
@@ -18,6 +18,15 @@ pub struct DeclBlock {
 pub enum DeclBlockItem {
     #[tag("Tokens")]
     Invalid(Tokens),
-    #[tag("Property")]
-    Property(Property),
+    #[tag("Declaration")]
+    Declaration(Declaration),
+}
+
+#[ast_node("Declaration")]
+pub struct Declaration {
+    pub span: Span,
+    pub property: Text,
+    pub value: Vec<Value>,
+    /// The span includes `!`
+    pub important: Option<Span>,
 }

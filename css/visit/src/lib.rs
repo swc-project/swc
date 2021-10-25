@@ -27,10 +27,10 @@ define!({
         pub raw: JsWord,
     }
 
-    pub struct Property {
+    pub struct Declaration {
         pub span: Span,
-        pub name: Text,
-        pub values: Vec<Value>,
+        pub property: Text,
+        pub value: Vec<Value>,
         pub important: Option<Span>,
     }
 
@@ -47,7 +47,7 @@ define!({
 
     pub enum DeclBlockItem {
         Invalid(Tokens),
-        Property(Property),
+        Declaration(Declaration),
     }
 
     pub struct Tokens {
@@ -359,7 +359,7 @@ define!({
         Or(OrMediaQuery),
         Not(NotMediaQuery),
         Only(OnlyMediaQuery),
-        Property(Property),
+        Declaration(Declaration),
         Comma(CommaMediaQuery),
     }
 
@@ -412,7 +412,7 @@ define!({
     }
 
     pub enum PageRuleBlockItem {
-        Property(Box<Property>),
+        Declaration(Box<Declaration>),
         Nested(Box<NestedPageRule>),
     }
 
@@ -436,7 +436,7 @@ define!({
         Not(NotSupportQuery),
         And(AndSupportQuery),
         Or(OrSupportQuery),
-        Property(Property),
+        Declaration(Declaration),
         Paren(ParenSupportQuery),
     }
 

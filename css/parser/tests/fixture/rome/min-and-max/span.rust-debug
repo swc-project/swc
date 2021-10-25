@@ -77,7 +77,7 @@ error: DeclBlock
 12 | | }
    | |_^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/min-and-max/input.css:2:2
   |
 2 |     width: max(500px);
@@ -131,7 +131,7 @@ error: Unit
 2 |     width: max(500px);
   |                   ^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/min-and-max/input.css:3:2
   |
 3 |     width: max(500px, 6 / 4);
@@ -221,7 +221,7 @@ error: Num
 3 |     width: max(500px, 6 / 4);
   |                           ^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/min-and-max/input.css:4:2
   |
 4 |     width: max(500px, 40px + 5%);
@@ -329,7 +329,7 @@ error: Num
 4 |     width: max(500px, 40px + 5%);
   |                              ^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/min-and-max/input.css:5:2
   |
 5 |     width: max(500px, 5% * 400px + 2px);
@@ -485,7 +485,7 @@ error: Unit
 5 |     width: max(500px, 5% * 400px + 2px);
   |                                     ^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/min-and-max/input.css:6:2
   |
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -845,7 +845,7 @@ error: Unit
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
   |                                                                         ^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/min-and-max/input.css:7:2
   |
 7 |     width: min(500px);
@@ -899,7 +899,7 @@ error: Unit
 7 |     width: min(500px);
   |                   ^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/min-and-max/input.css:8:2
   |
 8 |     width: min(500px, 6 / 4);
@@ -989,7 +989,7 @@ error: Num
 8 |     width: min(500px, 6 / 4);
   |                           ^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/min-and-max/input.css:9:2
   |
 9 |     width: min(500px, 40px + 5%);
@@ -1097,7 +1097,7 @@ error: Num
 9 |     width: min(500px, 40px + 5%);
   |                              ^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/rome/min-and-max/input.css:10:2
    |
 10 |     width: min(500px, 5% * 400px + 2px);
@@ -1253,7 +1253,7 @@ error: Unit
 10 |     width: min(500px, 5% * 400px + 2px);
    |                                     ^^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/rome/min-and-max/input.css:11:2
    |
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);

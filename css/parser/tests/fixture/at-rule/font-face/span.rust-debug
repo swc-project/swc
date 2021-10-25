@@ -49,7 +49,7 @@ error: DeclBlock
 5 | | }
   | |_^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/at-rule/font-face/input.css:2:5
   |
 2 |     font-family: "Open Sans";
@@ -73,7 +73,7 @@ error: Str
 2 |     font-family: "Open Sans";
   |                  ^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/at-rule/font-face/input.css:3:5
   |
 3 | /     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),

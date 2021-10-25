@@ -46,7 +46,7 @@ error: DeclBlock
 1 | a { value: url(\,) }
   |   ^^^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/dCIAD8Ab98J4V9rGaJvZlw/input.css:1:5
   |
 1 | a { value: url(\,) }

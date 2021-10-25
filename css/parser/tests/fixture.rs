@@ -333,7 +333,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(Num, visit_num);
     mtd!(ParenValue, visit_paren_value);
     mtd!(PercentValue, visit_percent_value);
-    mtd!(Property, visit_property);
+    mtd!(Declaration, visit_declaration);
     mtd!(PseudoSelector, visit_pseudo_selector);
     mtd!(Rule, visit_rule);
     mtd!(Str, visit_str);

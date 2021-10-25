@@ -39,7 +39,7 @@ error: DeclBlock
 3 | | }
   | |_^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/font/input.css:2:2
   |
 2 |     src: url("");

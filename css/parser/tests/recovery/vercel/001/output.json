@@ -14,13 +14,13 @@
         "ctxt": 0
       },
       "query": {
-        "type": "Property",
+        "type": "Declaration",
         "span": {
           "start": 8,
           "end": 25,
           "ctxt": 0
         },
-        "name": {
+        "property": {
           "type": "Text",
           "span": {
             "start": 8,
@@ -30,7 +30,7 @@
           "value": "min-width",
           "raw": "min-width"
         },
-        "values": [
+        "value": [
           {
             "type": "UnitValue",
             "span": {
@@ -165,13 +165,13 @@
             },
             "items": [
               {
-                "type": "Property",
+                "type": "Declaration",
                 "span": {
                   "start": 63,
                   "end": 78,
                   "ctxt": 0
                 },
-                "name": {
+                "property": {
                   "type": "Text",
                   "span": {
                     "start": 63,
@@ -181,7 +181,7 @@
                   "value": "margin-right",
                   "raw": "margin-right"
                 },
-                "values": [
+                "value": [
                   {
                     "type": "Number",
                     "span": {
@@ -285,13 +285,13 @@
             },
             "items": [
               {
-                "type": "Property",
+                "type": "Declaration",
                 "span": {
                   "start": 118,
                   "end": 133,
                   "ctxt": 0
                 },
-                "name": {
+                "property": {
                   "type": "Text",
                   "span": {
                     "start": 118,
@@ -301,7 +301,7 @@
                   "value": "margin-right",
                   "raw": "margin-right"
                 },
-                "values": [
+                "value": [
                   {
                     "type": "Number",
                     "span": {
@@ -654,13 +654,13 @@
             },
             "items": [
               {
-                "type": "Property",
+                "type": "Declaration",
                 "span": {
                   "start": 250,
                   "end": 264,
                   "ctxt": 0
                 },
-                "name": {
+                "property": {
                   "type": "Text",
                   "span": {
                     "start": 250,
@@ -670,7 +670,7 @@
                   "value": "margin-left",
                   "raw": "margin-left"
                 },
-                "values": [
+                "value": [
                   {
                     "type": "Number",
                     "span": {

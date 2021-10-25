@@ -46,7 +46,7 @@ error: DeclBlock
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:5
   |
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }

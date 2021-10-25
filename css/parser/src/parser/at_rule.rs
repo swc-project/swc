@@ -117,10 +117,10 @@ where
                 };
 
                 expect!(self, "{");
-                
+
                 self.input.skip_ws()?;
                 let blocks = self.parse_delimited(true)?;
-                
+
                 expect!(self, "}");
 
                 return Ok(AtRule::Keyframes(KeyframesRule {
@@ -147,12 +147,12 @@ where
                 let query = self.parse()?;
 
                 expect!(self, "{");
-                
+
                 let rules = self.parse_rule_list(RuleContext {
                     is_top_level: false,
                     parse_selectors: true,
                 })?;
-                
+
                 expect!(self, "}");
 
                 return Ok(AtRule::Supports(SupportsRule {
@@ -458,9 +458,9 @@ where
                     query,
                 })
             } else {
-                let property = self.parse_declaration()?;
+                let declaration = self.parse_declaration()?;
 
-                SupportQuery::Property(property)
+                SupportQuery::Declaration(declaration)
             };
 
             expect!(self, ")");
@@ -531,14 +531,14 @@ where
                         allow_operation_in_value: true,
                         ..self.ctx
                     };
-                    let values = self.with_ctx(ctx).parse_property_values()?.0;
+                    let value = self.with_ctx(ctx).parse_property_values()?.0;
 
                     expect!(self, ")");
 
-                    MediaQuery::Property(Property {
+                    MediaQuery::Declaration(Declaration {
                         span: span!(self, span.lo),
-                        name: id,
-                        values,
+                        property: id,
+                        value,
                         important: Default::default(),
                     })
                 } else {
@@ -717,7 +717,7 @@ where
                 let p = self
                     .parse_declaration()
                     .map(Box::new)
-                    .map(PageRuleBlockItem::Property)?;
+                    .map(PageRuleBlockItem::Declaration)?;
                 eat!(self, ";");
 
                 Ok(p)

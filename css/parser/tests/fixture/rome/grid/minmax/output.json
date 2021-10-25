@@ -65,13 +65,13 @@
         },
         "items": [
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 10,
               "end": 111,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 10,
@@ -81,7 +81,7 @@
               "value": "grid-template-columns",
               "raw": "grid-template-columns"
             },
-            "values": [
+            "value": [
               {
                 "type": "FnValue",
                 "span": {

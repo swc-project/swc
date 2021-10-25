@@ -46,7 +46,7 @@ error: DeclBlock
 1 | a { color: red } a { color: green } a { color: red }
   |   ^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:5
   |
 1 | a { color: red } a { color: green } a { color: red }
@@ -112,7 +112,7 @@ error: DeclBlock
 1 | a { color: red } a { color: green } a { color: red }
   |                    ^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:22
   |
 1 | a { color: red } a { color: green } a { color: red }
@@ -178,7 +178,7 @@ error: DeclBlock
 1 | a { color: red } a { color: green } a { color: red }
   |                                       ^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:41
   |
 1 | a { color: red } a { color: green } a { color: red }

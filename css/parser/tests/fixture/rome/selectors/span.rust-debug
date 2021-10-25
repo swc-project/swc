@@ -404,7 +404,7 @@ error: DeclBlock
 15 | | }
    | |_^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/rome/selectors/input.css:14:3
    |
 14 |   color: purple;
@@ -507,7 +507,7 @@ error: DeclBlock
 19 | | }
    | |_^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/rome/selectors/input.css:18:3
    |
 18 |   color: purple;
@@ -610,7 +610,7 @@ error: DeclBlock
 23 | | }
    | |_^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/rome/selectors/input.css:22:3
    |
 22 |   color: purple;
@@ -743,7 +743,7 @@ error: DeclBlock
 27 | | }
    | |_^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/rome/selectors/input.css:26:2
    |
 26 |     color: purple;

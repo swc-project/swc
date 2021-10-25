@@ -59,7 +59,7 @@ error: DeclBlock
 7 | | }
   | |_^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/comment/input.css:6:2
   |
 6 |     color: white; /* comment */
@@ -132,7 +132,7 @@ error: DeclBlock
 11 | | }
    | |_^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/rome/comment/input.css:10:2
    |
 10 |     color: /* comment */ white;
@@ -205,7 +205,7 @@ error: DeclBlock
 15 | | }
    | |_^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/rome/comment/input.css:14:2
    |
 14 |     color: white;

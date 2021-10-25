@@ -28,7 +28,7 @@ error: DeclBlock
 1 | @viewport { width: 100vw }
   |           ^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/aVoVLZHijXjMsJvx4rbJGQ/input.css:1:13
   |
 1 | @viewport { width: 100vw }
