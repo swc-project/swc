@@ -121,9 +121,9 @@ where
 
         if let Some(c) = self.input.cur() {
             if is_whitespace(c) {
-                self.skip_ws()?;
+                let value = self.read_ws()?;
 
-                return Ok(tok!(" "));
+                return Ok(Token::WhiteSpace { value: value.into() });
             }
         }
 
@@ -300,6 +300,27 @@ where
         self.input.bump();
 
         return Ok(Token::Delim { value: c });
+    }
+
+    fn read_ws(&mut self) -> LexResult<String> {
+        let mut value = String::new();
+
+        loop {
+            let c = self.input.cur();
+            
+            match c {
+                Some(c) if is_whitespace(c) => {
+                    self.input.bump();
+
+                    value.push(c);
+                }
+                _ => {
+                    break;
+                }
+            }
+        }
+
+        Ok(value)
     }
 
     fn would_start_number(
