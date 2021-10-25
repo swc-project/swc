@@ -106,7 +106,9 @@ where
 
         let start = self.input.cur_span()?.lo;
 
-        let name = self.parse_property_name()?;
+        self.input.skip_ws()?;
+
+        let name = self.parse_id()?;
 
         expect!(self, ":");
 
@@ -130,11 +132,6 @@ where
             values,
             important,
         })
-    }
-
-    fn parse_property_name(&mut self) -> PResult<Text> {
-        self.input.skip_ws()?;
-        self.parse_id()
     }
 
     fn parse_bang_important(&mut self) -> PResult<Option<Span>> {
