@@ -131,6 +131,7 @@ where
                 if is!(self, "{") {
                     expect!(self, "{");
 
+                    // TODO: change on `parse_simple_block`
                     blocks = self.parse_delimited(true)?;
 
                     expect!(self, "}");
