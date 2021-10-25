@@ -42,7 +42,7 @@ where
             }
         }
     }
-    
+
     pub(crate) fn parse_qualified_rule(&mut self) -> PResult<Rule> {
         let start_pos = self.input.cur_span()?.lo;
         let start_state = self.input.state();
@@ -114,23 +114,39 @@ where
     }
 
     pub(crate) fn parse_declaration_list(&mut self) -> PResult<Vec<Declaration>> {
-        let mut props = vec![];
+        let mut declarations = vec![];
 
-        while is!(self, Ident) {
-            let p = self.parse_declaration()?;
-
-            props.push(p);
-
-            self.input.skip_ws()?;
-
-            if !eat!(self, ";") {
-                break;
+        loop {
+            if self.input.is_eof()? {
+                return Ok(declarations);
             }
+            
+            let cur = self.input.cur()?;
 
-            self.input.skip_ws()?;
+            match cur {
+                Some(tok!(" ")) => {
+                    self.input.skip_ws()?;
+                }
+                Some(Token::AtKeyword { .. }) => {
+                    // TODO: change on `parse_at_rule`
+                    declarations.push(self.parse_declaration()?);
+                }
+                Some(Token::Ident { .. }) => {
+                    declarations.push(self.parse_declaration()?);
+
+                    self.input.skip_ws()?;
+
+                    if !eat!(self, ";") {
+                        break;
+                    }
+
+                    self.input.skip_ws()?;
+                }
+                _ => {}
+            }
         }
 
-        Ok(props)
+        Ok(declarations)
     }
 
     pub(crate) fn parse_declaration(&mut self) -> PResult<Declaration> {
