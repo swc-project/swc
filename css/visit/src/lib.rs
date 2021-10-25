@@ -299,7 +299,7 @@ define!({
         pub span: Span,
         pub block: Block,
     }
-    
+
     pub enum NamespaceValue {
         Url(UrlValue),
         Str(Str),
