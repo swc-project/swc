@@ -150,8 +150,6 @@ where
     }
 
     pub(crate) fn parse_declaration(&mut self) -> PResult<Declaration> {
-        self.input.skip_ws()?;
-
         let start = self.input.cur_span()?.lo;
 
         self.input.skip_ws()?;
@@ -176,6 +174,8 @@ where
         if important.is_some() {
             last_pos = self.input.last_pos()?;
         }
+
+        self.input.skip_ws()?;
 
         Ok(Declaration {
             span: Span::new(start, last_pos, Default::default()),
