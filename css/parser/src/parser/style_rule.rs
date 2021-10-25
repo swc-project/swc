@@ -113,7 +113,7 @@ where
         Ok(items)
     }
 
-    pub(crate) fn parse_declaration_list(&mut self) -> PResult<Vec<Declaration>> {
+    fn parse_declaration_list(&mut self) -> PResult<Vec<Declaration>> {
         let mut declarations = vec![];
 
         loop {
