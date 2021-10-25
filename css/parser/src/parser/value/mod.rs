@@ -224,7 +224,13 @@ where
                 let token = bump!(self);
 
                 match token {
-                    Token::Hash { value, raw, .. } => return Ok(Value::Hash(HashValue { span, value: value.into(), raw: raw.into() })),
+                    Token::Hash { value, raw, .. } => {
+                        return Ok(Value::Hash(HashValue {
+                            span,
+                            value: value.into(),
+                            raw: raw.into(),
+                        }))
+                    }
                     _ => {
                         unreachable!()
                     }
