@@ -18,7 +18,7 @@ where
         }
 
         match &*e {
-            Expr::Assign(assign) => {
+            Expr::Assign(assign @ AssignExpr { op: op!("="), .. }) => {
                 //
                 let left = match &assign.left {
                     PatOrExpr::Expr(_) => return,
