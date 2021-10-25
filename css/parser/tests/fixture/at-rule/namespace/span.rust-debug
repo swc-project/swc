@@ -39,6 +39,12 @@ error: NamespaceValue
 1 | @namespace empty "";
   |                  ^^
 
+error: Str
+ --> $DIR/tests/fixture/at-rule/namespace/input.css:1:18
+  |
+1 | @namespace empty "";
+  |                  ^^
+
 error: Rule
  --> $DIR/tests/fixture/at-rule/namespace/input.css:2:1
   |
@@ -65,6 +71,12 @@ error: NamespaceValue
 2 | @namespace "";
   |            ^^
 
+error: Str
+ --> $DIR/tests/fixture/at-rule/namespace/input.css:2:12
+  |
+2 | @namespace "";
+  |            ^^
+
 error: Rule
  --> $DIR/tests/fixture/at-rule/namespace/input.css:3:1
   |
@@ -84,6 +96,12 @@ error: NamespaceRule
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: NamespaceValue
+ --> $DIR/tests/fixture/at-rule/namespace/input.css:3:12
+  |
+3 | @namespace url(http://www.w3.org/1999/xhtml);
+  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: UrlValue
  --> $DIR/tests/fixture/at-rule/namespace/input.css:3:12
   |
 3 | @namespace url(http://www.w3.org/1999/xhtml);
@@ -119,6 +137,12 @@ error: NamespaceValue
 4 | @namespace svg url(http://www.w3.org/2000/svg);
   |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: UrlValue
+ --> $DIR/tests/fixture/at-rule/namespace/input.css:4:16
+  |
+4 | @namespace svg url(http://www.w3.org/2000/svg);
+  |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Rule
  --> $DIR/tests/fixture/at-rule/namespace/input.css:5:1
   |
@@ -138,6 +162,12 @@ error: NamespaceRule
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: NamespaceValue
+ --> $DIR/tests/fixture/at-rule/namespace/input.css:5:12
+  |
+5 | @namespace "http://www.w3.org/1999/xhtml";
+  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Str
  --> $DIR/tests/fixture/at-rule/namespace/input.css:5:12
   |
 5 | @namespace "http://www.w3.org/1999/xhtml";
@@ -168,6 +198,12 @@ error: Text
   |            ^^^
 
 error: NamespaceValue
+ --> $DIR/tests/fixture/at-rule/namespace/input.css:6:16
+  |
+6 | @namespace svg "http://www.w3.org/2000/svg";
+  |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Str
  --> $DIR/tests/fixture/at-rule/namespace/input.css:6:16
   |
 6 | @namespace svg "http://www.w3.org/2000/svg";

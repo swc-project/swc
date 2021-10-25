@@ -34,3 +34,9 @@ error: NamespaceValue
 1 | @namespace \2cs 'p\61th';
   |                 ^^^^^^^^
 
+error: Str
+ --> $DIR/tests/fixture/esbuild/misc/a-wik1bC7k04EzrSSB0gcw/input.css:1:17
+  |
+1 | @namespace \2cs 'p\61th';
+  |                 ^^^^^^^^
+
