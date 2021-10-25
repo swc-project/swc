@@ -1,0 +1,109 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/declaration-list/input.css:1:1
+  |
+1 | / a {
+2 | |     prop1: value;
+3 | |     prop2: value;
+4 | | }
+  | |__^
+
+error: Rule
+ --> $DIR/tests/fixture/declaration-list/input.css:1:1
+  |
+1 | / a {
+2 | |     prop1: value;
+3 | |     prop2: value;
+4 | | }
+  | |_^
+
+error: StyleRule
+ --> $DIR/tests/fixture/declaration-list/input.css:1:1
+  |
+1 | / a {
+2 | |     prop1: value;
+3 | |     prop2: value;
+4 | | }
+  | |_^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/declaration-list/input.css:1:1
+  |
+1 | a {
+  | ^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/declaration-list/input.css:1:1
+  |
+1 | a {
+  | ^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/declaration-list/input.css:1:1
+  |
+1 | a {
+  | ^
+
+error: Text
+ --> $DIR/tests/fixture/declaration-list/input.css:1:1
+  |
+1 | a {
+  | ^
+
+error: Block
+ --> $DIR/tests/fixture/declaration-list/input.css:1:3
+  |
+1 |   a {
+  |  ___^
+2 | |     prop1: value;
+3 | |     prop2: value;
+4 | | }
+  | |_^
+
+error: Declaration
+ --> $DIR/tests/fixture/declaration-list/input.css:2:5
+  |
+2 |     prop1: value;
+  |     ^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/declaration-list/input.css:2:5
+  |
+2 |     prop1: value;
+  |     ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/declaration-list/input.css:2:12
+  |
+2 |     prop1: value;
+  |            ^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/declaration-list/input.css:2:12
+  |
+2 |     prop1: value;
+  |            ^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/declaration-list/input.css:3:5
+  |
+3 |     prop2: value;
+  |     ^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/declaration-list/input.css:3:5
+  |
+3 |     prop2: value;
+  |     ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/declaration-list/input.css:3:12
+  |
+3 |     prop2: value;
+  |            ^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/declaration-list/input.css:3:12
+  |
+3 |     prop2: value;
+  |            ^^^^^
+
