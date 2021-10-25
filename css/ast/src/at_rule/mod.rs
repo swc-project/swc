@@ -77,11 +77,20 @@ pub struct FontFaceRule {
     pub block: Block,
 }
 
+#[ast_node]
+pub enum NamespaceValue {
+    #[tag("UrlValue")]
+    Url(UrlValue),
+
+    #[tag("Str")]
+    Str(Str),
+}
+
 #[ast_node("NamespaceRule")]
 pub struct NamespaceRule {
     pub span: Span,
     pub prefix: Text,
-    pub value: Str,
+    pub value: NamespaceValue,
 }
 
 #[ast_node("ViewportRule")]

@@ -105,9 +105,8 @@ where
             "keyframes" | "-moz-keyframes" | "-o-keyframes" | "-webkit-keyframes"
             | "-ms-keyframes" => {
                 self.input.skip_ws()?;
-                
-                let start_name_pos = self.input.cur_span()?.lo;
 
+                let start_name_pos = self.input.cur_span()?.lo;
                 let name = match bump!(self) {
                     Token::Ident { value, raw } => Text {
                         span: span!(self, start_name_pos),
@@ -125,7 +124,7 @@ where
                         raw: js_word!(""),
                     },
                 };
-                let mut blocks= vec![];
+                let mut blocks = vec![];
 
                 self.input.skip_ws()?;
 
@@ -222,9 +221,49 @@ where
             "namespace" => {
                 self.input.skip_ws()?;
 
-                let prefix = self.parse_id()?;
-                self.input.skip_ws()?;
-                let value = self.parse_str()?;
+                // TODO: make optional
+                let mut prefix = Text {
+                    span: DUMMY_SP,
+                    value: js_word!(""),
+                    raw: js_word!(""),
+                };
+
+                if is!(self, Ident) {
+                    let start_name_pos = self.input.cur_span()?.lo;
+
+                    prefix = match bump!(self) {
+                        Token::Ident { value, raw } => Text {
+                            span: span!(self, start_name_pos),
+                            value,
+                            raw,
+                        },
+                        _ => {
+                            unreachable!()
+                        }
+                    };
+
+                    self.input.skip_ws()?;
+                }
+
+                let start_value_pos = self.input.cur_span()?.lo;
+
+                let value = match bump!(self) {
+                    Token::Str { value, raw } => NamespaceValue::Str(Str {
+                        span: span!(self, start_value_pos),
+                        value,
+                        raw,
+                    }),
+                    Token::Url { value, raw } => NamespaceValue::Url(UrlValue {
+                        span: span!(self, start_value_pos),
+                        url: value,
+                        raw,
+                    }),
+                    _ => NamespaceValue::Str(Str {
+                        span: span!(self, start_value_pos),
+                        value: js_word!(""),
+                        raw: js_word!(""),
+                    }),
+                };
 
                 eat!(self, ";");
 

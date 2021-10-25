@@ -28,7 +28,7 @@ error: Text
 1 | @namespace \,s 'p\61th';
   |            ^^^
 
-error: Str
+error: NamespaceValue
  --> $DIR/tests/fixture/esbuild/misc/JygAjyd3aaFifbGpuMgJOA/input.css:1:16
   |
 1 | @namespace \,s 'p\61th';

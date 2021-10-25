@@ -303,7 +303,7 @@ define!({
     pub struct NamespaceRule {
         pub span: Span,
         pub prefix: Text,
-        pub value: Str,
+        pub value: NamespaceValue,
     }
 
     pub struct ViewportRule {
