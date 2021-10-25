@@ -122,6 +122,9 @@ function _asyncToGenerator(fn) {
         });
     };
 }
+function _awaitAsyncGenerator(value) {
+    return new _AwaitValue(value);
+}
 function _AwaitValue(value) {
     this.wrapped = value;
 }
@@ -277,7 +280,7 @@ function _f2() {
         {
             var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
             try {
-                for(var _iterator = _asyncIterator(asyncIterable), _step; _iteratorAbruptCompletion = !(_step = yield _iterator.next()).done; _iteratorAbruptCompletion = false){
+                for(var _iterator = _asyncIterator(asyncIterable), _step; _iteratorAbruptCompletion = !(_step = yield _awaitAsyncGenerator(_iterator.next())).done; _iteratorAbruptCompletion = false){
                     let _value = _step.value;
                     const x = _value;
                 }
@@ -299,7 +302,7 @@ function _f2() {
         {
             var _iteratorAbruptCompletion6 = false, _didIteratorError6 = false, _iteratorError6;
             try {
-                for(var _iterator6 = _asyncIterator(iterable), _step6; _iteratorAbruptCompletion6 = !(_step6 = yield _iterator6.next()).done; _iteratorAbruptCompletion6 = false){
+                for(var _iterator6 = _asyncIterator(iterable), _step6; _iteratorAbruptCompletion6 = !(_step6 = yield _awaitAsyncGenerator(_iterator6.next())).done; _iteratorAbruptCompletion6 = false){
                     let _value = _step6.value;
                     const x = _value;
                 }
@@ -321,7 +324,7 @@ function _f2() {
         {
             var _iteratorAbruptCompletion7 = false, _didIteratorError7 = false, _iteratorError7;
             try {
-                for(var _iterator7 = _asyncIterator(iterableOfPromise), _step7; _iteratorAbruptCompletion7 = !(_step7 = yield _iterator7.next()).done; _iteratorAbruptCompletion7 = false){
+                for(var _iterator7 = _asyncIterator(iterableOfPromise), _step7; _iteratorAbruptCompletion7 = !(_step7 = yield _awaitAsyncGenerator(_iterator7.next())).done; _iteratorAbruptCompletion7 = false){
                     let _value = _step7.value;
                     const x = _value;
                 }
@@ -343,7 +346,7 @@ function _f2() {
         {
             var _iteratorAbruptCompletion8 = false, _didIteratorError8 = false, _iteratorError8;
             try {
-                for(var _iterator8 = _asyncIterator(asyncIterable), _step8; _iteratorAbruptCompletion8 = !(_step8 = yield _iterator8.next()).done; _iteratorAbruptCompletion8 = false){
+                for(var _iterator8 = _asyncIterator(asyncIterable), _step8; _iteratorAbruptCompletion8 = !(_step8 = yield _awaitAsyncGenerator(_iterator8.next())).done; _iteratorAbruptCompletion8 = false){
                     let _value = _step8.value;
                     y = _value;
                 }
@@ -365,7 +368,7 @@ function _f2() {
         {
             var _iteratorAbruptCompletion9 = false, _didIteratorError9 = false, _iteratorError9;
             try {
-                for(var _iterator9 = _asyncIterator(iterable), _step9; _iteratorAbruptCompletion9 = !(_step9 = yield _iterator9.next()).done; _iteratorAbruptCompletion9 = false){
+                for(var _iterator9 = _asyncIterator(iterable), _step9; _iteratorAbruptCompletion9 = !(_step9 = yield _awaitAsyncGenerator(_iterator9.next())).done; _iteratorAbruptCompletion9 = false){
                     let _value = _step9.value;
                     y = _value;
                 }
@@ -387,7 +390,7 @@ function _f2() {
         {
             var _iteratorAbruptCompletion10 = false, _didIteratorError10 = false, _iteratorError10;
             try {
-                for(var _iterator10 = _asyncIterator(iterableOfPromise), _step10; _iteratorAbruptCompletion10 = !(_step10 = yield _iterator10.next()).done; _iteratorAbruptCompletion10 = false){
+                for(var _iterator10 = _asyncIterator(iterableOfPromise), _step10; _iteratorAbruptCompletion10 = !(_step10 = yield _awaitAsyncGenerator(_iterator10.next())).done; _iteratorAbruptCompletion10 = false){
                     let _value = _step10.value;
                     y = _value;
                 }

@@ -123,6 +123,9 @@ function _asyncToGenerator(fn) {
         });
     };
 }
+function _awaitAsyncGenerator(value) {
+    return new _AwaitValue(value);
+}
 function _AwaitValue(value) {
     this.wrapped = value;
 }
@@ -304,7 +307,7 @@ function _f3() {
                     _iterator = _asyncIterator(y);
                 case 4:
                     _ctx.next = 6;
-                    return _iterator.next();
+                    return _awaitAsyncGenerator(_iterator.next());
                 case 6:
                     if (!(_iteratorAbruptCompletion = !(_step = _ctx.sent).done)) {
                         _ctx.next = 11;
@@ -383,7 +386,7 @@ function _f4() {
                     _iterator = _asyncIterator(y);
                 case 4:
                     _ctx.next = 6;
-                    return _iterator.next();
+                    return _awaitAsyncGenerator(_iterator.next());
                 case 6:
                     if (!(_iteratorAbruptCompletion = !(_step = _ctx.sent).done)) {
                         _ctx.next = 11;
@@ -542,7 +545,7 @@ function _f6() {
                     _iterator = _asyncIterator(y);
                 case 4:
                     _ctx.next = 6;
-                    return _iterator.next();
+                    return _awaitAsyncGenerator(_iterator.next());
                 case 6:
                     if (!(_iteratorAbruptCompletion = !(_step = _ctx.sent).done)) {
                         _ctx.next = 13;
@@ -622,7 +625,7 @@ function _f7() {
                     _iterator = _asyncIterator(y);
                 case 4:
                     _ctx.next = 6;
-                    return _iterator.next();
+                    return _awaitAsyncGenerator(_iterator.next());
                 case 6:
                     if (!(_iteratorAbruptCompletion = !(_step = _ctx.sent).done)) {
                         _ctx.next = 11;

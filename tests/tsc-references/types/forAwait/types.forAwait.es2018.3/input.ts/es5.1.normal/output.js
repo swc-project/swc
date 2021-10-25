@@ -123,6 +123,9 @@ function _asyncToGenerator(fn) {
         });
     };
 }
+function _awaitAsyncGenerator(value) {
+    return new _AwaitValue(value);
+}
 function _AwaitValue(value) {
     this.wrapped = value;
 }
@@ -287,7 +290,7 @@ function _f2() {
                     });
                 case 4:
                     _ctx.next = 6;
-                    return _iterator.next();
+                    return _awaitAsyncGenerator(_iterator.next());
                 case 6:
                     if (!(_iteratorAbruptCompletion = !(_step = _ctx.sent).done)) {
                         _ctx.next = 11;
@@ -336,7 +339,7 @@ function _f2() {
                     });
                 case 30:
                     _ctx.next = 32;
-                    return _iterator2.next();
+                    return _awaitAsyncGenerator(_iterator2.next());
                 case 32:
                     if (!(_iteratorAbruptCompletion2 = !(_step2 = _ctx.sent).done)) {
                         _ctx.next = 37;
