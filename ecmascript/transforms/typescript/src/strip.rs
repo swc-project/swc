@@ -366,6 +366,7 @@ where
 
         class.body.retain(|c| match c {
             ClassMember::Constructor(Constructor { body: None, .. }) => false,
+            ClassMember::ClassProp(ClassProp { declare: true, .. }) => false,
             _ => true,
         });
 
