@@ -1723,7 +1723,7 @@ fn issue_2539() {
                 .parse_stmts(
                     "actual1.js",
                     "
-                    export default {
+                    const obj = {
                         foo: {
                             func1(index) {
                             },
@@ -1737,7 +1737,7 @@ fn issue_2539() {
             Ok(stmts)
         },
         "
-        export default {
+        const obj = {
             foo: {
                 func1(index) {
                 },
