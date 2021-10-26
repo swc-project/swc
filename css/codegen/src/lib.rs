@@ -337,7 +337,7 @@ where
         if let Some(tok) = n.important {
             formatting_space!(self);
             punct!(self, tok, "!");
-            self.wr.write_ident(Some(tok), "important", false)?;
+            self.wr.write_raw(Some(tok), "important")?;
         }
 
         if self.ctx.semi_after_property {
@@ -522,13 +522,13 @@ where
                     self.wr.write_raw(Some(span), &raw)?;
                 }
                 Token::Url { raw, .. } => {
-                    self.wr.write_ident(Some(span), "url", false)?;
+                    self.wr.write_raw(Some(span), "url")?;
                     punct!(self, "(");
                     self.wr.write_raw(None, &raw)?;
                     punct!(self, ")");
                 }
                 Token::BadUrl { raw, .. } => {
-                    self.wr.write_ident(Some(span), "url", false)?;
+                    self.wr.write_raw(Some(span), "url")?;
                     punct!(self, "(");
                     self.wr.write_raw(None, &raw)?;
                     punct!(self, ")");
@@ -548,9 +548,9 @@ where
                 Token::Colon => {
                     punct!(self, span, ":");
                 }
-                Token::Hash { value, .. } => {
+                Token::Hash { raw, .. } => {
                     punct!(self, "#");
-                    self.wr.write_ident(Some(span), &value, true)?;
+                    self.wr.write_raw(Some(span), &raw)?;
                 }
                 Token::WhiteSpace => {
                     space!(self);

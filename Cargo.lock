@@ -2504,7 +2504,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.23.0"
+version = "0.24.0"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -2526,7 +2526,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.21.0"
+version = "0.22.0"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -3152,7 +3152,7 @@ dependencies = [
 
 [[package]]
 name = "swc_stylis"
-version = "0.20.0"
+version = "0.21.0"
 dependencies = [
  "swc_atoms 0.2.9",
  "swc_common",
