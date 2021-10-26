@@ -197,10 +197,10 @@ where
         runtime: options.runtime.unwrap_or_default(),
         import_source: options.import_source.into(),
         import_jsx: None,
-        import_jsx_dev: None,
         import_jsxs: None,
         import_create_element: None,
 
+        dev: None,
         development: options.development,
 
         import_fragment: None,
@@ -231,8 +231,6 @@ where
     /// For automatic runtime.
     import_jsx: Option<Ident>,
     /// For automatic runtime.
-    import_jsx_dev: Option<Ident>,
-    /// For automatic runtime.
     import_jsxs: Option<Ident>,
     /// For automatic runtime.
     import_create_element: Option<Ident>,
@@ -240,12 +238,19 @@ where
     import_fragment: Option<Ident>,
     top_level_node: bool,
 
+    /// For automatic runtime.
+    dev: Option<JsxDevMode>,
+
     pragma: Arc<Box<Expr>>,
     comments: Option<C>,
     pragma_frag: Arc<Box<Expr>>,
     use_builtins: bool,
     use_spread: bool,
     throw_if_namespace: bool,
+}
+
+struct JsxDevMode {
+    import: Ident,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Eq)]
@@ -333,6 +338,12 @@ impl<C> Jsx<C>
 where
     C: Comments,
 {
+    fn dev_mode(&mut self) -> &mut JsxDevMode {
+        self.dev.get_or_insert_with(|| JsxDevMode {
+            import: private_ident!("_jsxDEV"),
+        })
+    }
+
     fn jsx_frag_to_expr(&mut self, el: JSXFragment) -> Expr {
         let span = el.span();
 
@@ -345,9 +356,7 @@ where
         match self.runtime {
             Runtime::Automatic => {
                 let jsx = if self.development {
-                    self.import_jsx_dev
-                        .get_or_insert_with(|| private_ident!("_jsxDEV"))
-                        .clone()
+                    self.dev_mode().import.clone()
                 } else {
                     if use_jsxs {
                         self.import_jsxs
@@ -458,9 +467,7 @@ where
                         .clone()
                 } else {
                     if self.development {
-                        self.import_jsx_dev
-                            .get_or_insert_with(|| private_ident!("_jsxDEV"))
-                            .clone()
+                        self.dev_mode().import.clone()
                     } else {
                         if use_jsxs {
                             self.import_jsxs
