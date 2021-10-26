@@ -18,7 +18,7 @@ use swc_ecma_ast::*;
 use swc_ecma_parser::{Parser, StringInput, Syntax};
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
-    drop_span, member_expr, prepend, private_ident, quote_ident, ExprFactory, HANDLER,
+    drop_span, member_expr, prepend, private_ident, quote_ident, undefined, ExprFactory, HANDLER,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -488,12 +488,36 @@ where
 
                 let mut key = None;
 
+                let mut source_attr = None;
+                let mut self_attr = None;
+
                 for attr in el.opening.attrs {
                     match attr {
                         JSXAttrOrSpread::JSXAttr(attr) => {
                             //
                             match attr.name {
                                 JSXAttrName::Ident(i) => {
+                                    match &*i.sym {
+                                        "__source" => {
+                                            source_attr = attr
+                                                .value
+                                                .map(jsx_attr_value_to_expr)
+                                                .flatten()
+                                                .map(|expr| ExprOrSpread { expr, spread: None });
+                                            continue;
+                                        }
+                                        "__self" => {
+                                            self_attr = attr
+                                                .value
+                                                .map(jsx_attr_value_to_expr)
+                                                .flatten()
+                                                .map(|expr| ExprOrSpread { expr, spread: None });
+                                            continue;
+                                        }
+
+                                        _ => {}
+                                    }
+
                                     //
                                     if !use_create_element && i.sym == js_word!("key") {
                                         key = attr
@@ -583,6 +607,8 @@ where
                     }
                 }
 
+                let children_cnt = el.children.len();
+
                 let children = el
                     .children
                     .into_iter()
@@ -615,13 +641,38 @@ where
 
                 self.top_level_node = top_level_node;
 
+                let mut args = once(name.as_arg())
+                    .chain(once(props_obj.as_arg()))
+                    .collect::<Vec<_>>();
+
+                if !self.development {
+                    args.extend(key);
+                } else {
+                    args.push(key.unwrap_or_else(|| ExprOrSpread {
+                        spread: None,
+                        expr: undefined(DUMMY_SP),
+                    }));
+                    args.push(ExprOrSpread {
+                        spread: None,
+                        expr: Box::new(Expr::Lit(Lit::Bool(Bool {
+                            span: DUMMY_SP,
+                            value: children_cnt > 1,
+                        }))),
+                    });
+                    args.push(source_attr.unwrap_or_else(|| ExprOrSpread {
+                        spread: None,
+                        expr: undefined(DUMMY_SP),
+                    }));
+                    args.push(self_attr.unwrap_or_else(|| ExprOrSpread {
+                        spread: None,
+                        expr: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
+                    }));
+                }
+
                 Expr::Call(CallExpr {
                     span,
                     callee: jsx.as_callee(),
-                    args: once(name.as_arg())
-                        .chain(once(props_obj.as_arg()))
-                        .chain(key)
-                        .collect(),
+                    args,
                     type_args: Default::default(),
                 })
             }
@@ -992,10 +1043,10 @@ where
             {
                 // Import for development mode
 
-                if let Some(local) = self.import_jsx_dev.take() {
+                if let Some(dev) = self.dev.take() {
                     let specifier = ImportSpecifier::Named(ImportNamedSpecifier {
                         span: DUMMY_SP,
-                        local,
+                        local: dev.import,
                         imported: Some(quote_ident!("jsxDEV")),
                         is_type_only: false,
                     });
