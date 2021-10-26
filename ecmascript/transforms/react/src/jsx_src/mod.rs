@@ -36,10 +36,7 @@ impl VisitMut for JsxSrc {
             return;
         }
 
-        let file_lines = match self.cm.span_to_lines(e.span) {
-            Ok(v) => v,
-            _ => return,
-        };
+        let loc = self.cm.lookup_char_pos(e.span.lo);
 
         e.attrs.push(JSXAttrOrSpread::JSXAttr(JSXAttr {
             span: DUMMY_SP,
@@ -54,7 +51,7 @@ impl VisitMut for JsxSrc {
                                 key: PropName::Ident(quote_ident!("fileName")),
                                 value: Box::new(Expr::Lit(Lit::Str(Str {
                                     span: DUMMY_SP,
-                                    value: file_lines.file.name.to_string().into(),
+                                    value: loc.file.name.to_string().into(),
                                     has_escape: false,
                                     kind: Default::default(),
                                 }))),
@@ -63,7 +60,14 @@ impl VisitMut for JsxSrc {
                                 key: PropName::Ident(quote_ident!("lineNumber")),
                                 value: Box::new(Expr::Lit(Lit::Num(Number {
                                     span: DUMMY_SP,
-                                    value: (file_lines.lines[0].line_index + 1) as _,
+                                    value: loc.line as _,
+                                }))),
+                            }))),
+                            PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                                key: PropName::Ident(quote_ident!("columnNumber")),
+                                value: Box::new(Expr::Lit(Lit::Num(Number {
+                                    span: DUMMY_SP,
+                                    value: (loc.col.0 + 1) as _,
                                 }))),
                             }))),
                         ],
