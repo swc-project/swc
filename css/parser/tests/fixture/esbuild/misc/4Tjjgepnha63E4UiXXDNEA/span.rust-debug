@@ -40,13 +40,13 @@ error: Text
 1 | a { width: 0.0; }
   | ^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/esbuild/misc/4Tjjgepnha63E4UiXXDNEA/input.css:1:3
   |
 1 | a { width: 0.0; }
   |   ^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/4Tjjgepnha63E4UiXXDNEA/input.css:1:5
   |
 1 | a { width: 0.0; }

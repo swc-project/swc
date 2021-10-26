@@ -27,27 +27,27 @@ define!({
         pub raw: JsWord,
     }
 
-    pub struct Property {
+    pub struct Declaration {
         pub span: Span,
-        pub name: Text,
-        pub values: Vec<Value>,
+        pub property: Text,
+        pub value: Vec<Value>,
         pub important: Option<Span>,
     }
 
     pub struct StyleRule {
         pub span: Span,
         pub selectors: Vec<ComplexSelector>,
-        pub block: DeclBlock,
+        pub block: Block,
     }
 
-    pub struct DeclBlock {
+    pub struct Block {
         pub span: Span,
-        pub items: Vec<DeclBlockItem>,
+        pub items: Vec<DeclarationBlockItem>,
     }
 
-    pub enum DeclBlockItem {
+    pub enum DeclarationBlockItem {
         Invalid(Tokens),
-        Property(Property),
+        Declaration(Declaration),
     }
 
     pub struct Tokens {
@@ -297,18 +297,23 @@ define!({
 
     pub struct FontFaceRule {
         pub span: Span,
-        pub block: DeclBlock,
+        pub block: Block,
+    }
+
+    pub enum NamespaceValue {
+        Url(UrlValue),
+        Str(Str),
     }
 
     pub struct NamespaceRule {
         pub span: Span,
         pub prefix: Text,
-        pub value: Str,
+        pub value: NamespaceValue,
     }
 
     pub struct ViewportRule {
         pub span: Span,
-        pub block: DeclBlock,
+        pub block: Block,
     }
 
     pub struct UnknownAtRule {
@@ -341,7 +346,7 @@ define!({
     }
 
     pub enum KeyframeBlockRule {
-        Decl(Box<DeclBlock>),
+        Block(Box<Block>),
         AtRule(Box<AtRule>),
     }
 
@@ -359,7 +364,7 @@ define!({
         Or(OrMediaQuery),
         Not(NotMediaQuery),
         Only(OnlyMediaQuery),
-        Property(Property),
+        Declaration(Declaration),
         Comma(CommaMediaQuery),
     }
 
@@ -412,7 +417,7 @@ define!({
     }
 
     pub enum PageRuleBlockItem {
-        Property(Box<Property>),
+        Declaration(Box<Declaration>),
         Nested(Box<NestedPageRule>),
     }
 
@@ -436,7 +441,7 @@ define!({
         Not(NotSupportQuery),
         And(AndSupportQuery),
         Or(OrSupportQuery),
-        Property(Property),
+        Declaration(Declaration),
         Paren(ParenSupportQuery),
     }
 

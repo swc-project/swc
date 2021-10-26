@@ -60,7 +60,7 @@ where
                     let v = Value::Lazy(Tokens { span, tokens });
 
                     self.errors
-                        .push(Error::new(span, ErrorKind::InvalidPropertyValue));
+                        .push(Error::new(span, ErrorKind::InvalidDeclarationValue));
 
                     return Ok((vec![v], hi));
                 }
@@ -271,7 +271,7 @@ where
             }));
         }
 
-        Err(Error::new(span, ErrorKind::Expected("Property value")))
+        Err(Error::new(span, ErrorKind::Expected("Declaration value")))
     }
 
     /// This may parse operations, depending on the context.

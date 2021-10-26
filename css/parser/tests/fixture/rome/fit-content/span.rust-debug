@@ -52,7 +52,7 @@ error: Text
 1 | .style {
   |  ^^^^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/rome/fit-content/input.css:1:8
   |
 1 |   .style {
@@ -61,7 +61,7 @@ error: DeclBlock
 3 | | }
   | |_^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/fit-content/input.css:2:2
   |
 2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;

@@ -1,4 +1,4 @@
-use crate::{AtRule, DeclBlock, PercentValue, Text};
+use crate::{AtRule, Block, PercentValue, Text};
 use swc_common::{ast_node, Span};
 
 #[ast_node("KeyframesRule")]
@@ -25,8 +25,8 @@ pub enum KeyframeSelector {
 
 #[ast_node]
 pub enum KeyframeBlockRule {
-    #[tag("DeclBlock")]
-    Decl(Box<DeclBlock>),
+    #[tag("Block")]
+    Block(Box<Block>),
 
     #[tag("*")]
     AtRule(Box<AtRule>),

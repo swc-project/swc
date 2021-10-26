@@ -61,13 +61,13 @@
           "raw": "screen"
         },
         "right": {
-          "type": "Property",
+          "type": "Declaration",
           "span": {
             "start": 35,
             "end": 57,
             "ctxt": 0
           },
-          "name": {
+          "property": {
             "type": "Text",
             "span": {
               "start": 35,
@@ -77,7 +77,7 @@
             "value": "orientation",
             "raw": "orientation"
           },
-          "values": [
+          "value": [
             {
               "type": "Text",
               "span": {

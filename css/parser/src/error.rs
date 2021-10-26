@@ -47,7 +47,7 @@ impl Error {
             ErrorKind::InvalidKeyframeSelector => "Invalid keyframe selector".into(),
             ErrorKind::InvalidMediaQuery => "Invalid media query".into(),
             ErrorKind::UnknownAtRuleNotTerminated => "Unknown @rule is not terminated".into(),
-            ErrorKind::InvalidPropertyValue => "Expected a property value".into(),
+            ErrorKind::InvalidDeclarationValue => "Expected a property value".into(),
         };
         handler.struct_span_err(self.inner.0, &msg)
     }
@@ -69,8 +69,8 @@ pub enum ErrorKind {
     UnterminatedBlockComment,
     InvalidTypeSelector,
     InvalidSelector,
-    InvalidPropertyValue,
     InvalidAttrName,
+    InvalidDeclarationValue,
     ExpectedIdentOrStrForAttrSelectorOp,
     ExpectedNumber,
     InvalidSupportQuery,

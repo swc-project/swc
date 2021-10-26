@@ -58,7 +58,7 @@ error: Str
 1 | [attr="-a"] {}
   |       ^^^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/esbuild/misc/54mhLGCwQMwsuiVkiTzAAQ/input.css:1:13
   |
 1 | [attr="-a"] {}

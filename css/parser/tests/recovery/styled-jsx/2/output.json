@@ -144,7 +144,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 17,
           "end": 66,
@@ -152,13 +152,13 @@
         },
         "items": [
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 23,
               "end": 62,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 23,
@@ -168,7 +168,7 @@
               "value": "flex-basis",
               "raw": "flex-basis"
             },
-            "values": [
+            "value": [
               {
                 "type": "Tokens",
                 "span": {

@@ -88,7 +88,7 @@ error: PageRuleBlockItem
 3 | @page{margin: 1cm}
   |       ^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/at-rule/page/input.css:3:7
   |
 3 | @page{margin: 1cm}
@@ -154,7 +154,7 @@ error: PageRuleBlockItem
 4 | @page {margin: 1cm}
   |        ^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/at-rule/page/input.css:4:8
   |
 4 | @page {margin: 1cm}
@@ -220,7 +220,7 @@ error: PageRuleBlockItem
 5 | @page {margin: 1cm;}
   |        ^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/at-rule/page/input.css:5:8
   |
 5 | @page {margin: 1cm;}
@@ -298,7 +298,7 @@ error: PageRuleBlockItem
 6 | @page :first {margin: 2cm}
   |               ^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/at-rule/page/input.css:6:15
   |
 6 | @page :first {margin: 2cm}
@@ -376,7 +376,7 @@ error: PageRuleBlockItem
 7 | @page :first {margin: 2cm;}
   |               ^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/at-rule/page/input.css:7:15
   |
 7 | @page :first {margin: 2cm;}
@@ -454,7 +454,7 @@ error: PageRuleBlockItem
 8 | @page :first{margin: 2cm;}
   |              ^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/at-rule/page/input.css:8:14
   |
 8 | @page :first{margin: 2cm;}

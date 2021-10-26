@@ -4,7 +4,7 @@
 //! Original test authors have copyright for their work.
 
 use swc_common::FileName;
-use swc_css_ast::DeclBlockItem;
+use swc_css_ast::DeclarationBlockItem;
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig},
     CodegenConfig, Emit,
@@ -472,7 +472,7 @@ fn t(src: &str, expected: &str) {
         //
         let fm = cm.new_source_file(FileName::Anon, src.to_string());
         let mut errors = vec![];
-        let mut props: Vec<DeclBlockItem> = parse_file(
+        let mut props: Vec<DeclarationBlockItem> = parse_file(
             &fm,
             ParserConfig {
                 parse_values: true,

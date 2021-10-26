@@ -64,7 +64,7 @@ error: Text
 1 | .a {
   |  ^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/important/basic/input.css:1:4
    |
 1  |   .a {
@@ -77,7 +77,7 @@ error: DeclBlock
 17 | | }
    | |_^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/important/basic/input.css:2:5
   |
 2 |     prop: important;
@@ -101,7 +101,7 @@ error: Text
 2 |     prop: important;
   |           ^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/important/basic/input.css:3:5
   |
 3 |     color: red important;
@@ -137,7 +137,7 @@ error: Text
 3 |     color: red important;
   |                ^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/important/basic/input.css:4:5
   |
 4 |     width: 1px!important;
@@ -173,7 +173,7 @@ error: Unit
 4 |     width: 1px!important;
   |             ^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/important/basic/input.css:5:5
   |
 5 |     color: red!important;
@@ -197,7 +197,7 @@ error: Text
 5 |     color: red!important;
   |            ^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/important/basic/input.css:6:5
   |
 6 |     color: red !important;
@@ -221,7 +221,7 @@ error: Text
 6 |     color: red !important;
   |            ^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/important/basic/input.css:7:5
   |
 7 |     color: red  !important;
@@ -245,7 +245,7 @@ error: Text
 7 |     color: red  !important;
   |            ^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/important/basic/input.css:8:5
   |
 8 |     color: red !   important   ;
@@ -269,7 +269,7 @@ error: Text
 8 |     color: red !   important   ;
   |            ^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/important/basic/input.css:9:5
   |
 9 |     color: blue !IMPORTANT;
@@ -293,7 +293,7 @@ error: Text
 9 |     color: blue !IMPORTANT;
   |            ^^^^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/important/basic/input.css:10:5
    |
 10 |     color: white !   IMPORTANT   ;
@@ -317,7 +317,7 @@ error: Text
 10 |     color: white !   IMPORTANT   ;
    |            ^^^^^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/important/basic/input.css:11:5
    |
 11 |     margin: 10px      !      important;
@@ -353,7 +353,7 @@ error: Unit
 11 |     margin: 10px      !      important;
    |               ^^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/important/basic/input.css:12:5
    |
 12 |     padding: 20px     !  /* test */   important;
@@ -389,7 +389,7 @@ error: Unit
 12 |     padding: 20px     !  /* test */   important;
    |                ^^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/important/basic/input.css:13:5
    |
 13 |     width: 100px ! /*! test */ important;
@@ -425,7 +425,7 @@ error: Unit
 13 |     width: 100px ! /*! test */ important;
    |               ^^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/important/basic/input.css:14:5
    |
 14 |     height: 100px /*! test */ important;
@@ -473,7 +473,7 @@ error: Text
 14 |     height: 100px /*! test */ important;
    |                               ^^^^^^^^^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/important/basic/input.css:15:5
    |
 15 |     z-index: 1 ""! important;
@@ -509,7 +509,7 @@ error: Str
 15 |     z-index: 1 ""! important;
    |                ^^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/important/basic/input.css:16:5
    |
 16 |     padding: 1px/* sep */!important;

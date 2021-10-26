@@ -1,4 +1,4 @@
-error: Expected Property value
+error: Expected Declaration value
  --> $DIR/tests/recovery/value/quotes/input.css:2:14
   |
 2 |       content: "tes

@@ -60,13 +60,13 @@ error: Text
 
 error: Tokens
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:9
   |
 1 | a:after { content: '\invalid' }
   |         ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:11
   |
 1 | a:after { content: '\invalid' }

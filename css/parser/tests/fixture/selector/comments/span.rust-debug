@@ -65,7 +65,7 @@ error: Text
 1 | /* { } */a b {}
   |            ^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/selector/comments/input.css:1:14
   |
 1 | /* { } */a b {}
@@ -125,7 +125,7 @@ error: Text
 2 | /* test */a b {}
   |             ^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/selector/comments/input.css:2:15
   |
 2 | /* test */a b {}
@@ -185,7 +185,7 @@ error: Text
 3 | /* { } */ a b {}
   |             ^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/selector/comments/input.css:3:15
   |
 3 | /* { } */ a b {}
@@ -245,7 +245,7 @@ error: Text
 4 | /* test */ a b {}
   |              ^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/selector/comments/input.css:4:16
   |
 4 | /* test */ a b {}
@@ -305,7 +305,7 @@ error: Text
 5 | a/* { } */b {}
   |           ^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/selector/comments/input.css:5:13
   |
 5 | a/* { } */b {}
@@ -365,7 +365,7 @@ error: Text
 6 | a/* test */b {}
   |            ^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/selector/comments/input.css:6:14
   |
 6 | a/* test */b {}
@@ -425,7 +425,7 @@ error: Text
 7 | a /* { } */ b {}
   |             ^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/selector/comments/input.css:7:15
   |
 7 | a /* { } */ b {}
@@ -485,7 +485,7 @@ error: Text
 8 | a /* test */ b {}
   |              ^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/selector/comments/input.css:8:16
   |
 8 | a /* test */ b {}
@@ -545,7 +545,7 @@ error: Text
 9 | a b/* { } */ {}
   |   ^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/selector/comments/input.css:9:14
   |
 9 | a b/* { } */ {}
@@ -605,7 +605,7 @@ error: Text
 10 | a b/* test */ {}
    |   ^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/comments/input.css:10:15
    |
 10 | a b/* test */ {}
@@ -665,7 +665,7 @@ error: Text
 11 | a b /* { } */ {}
    |   ^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/comments/input.css:11:15
    |
 11 | a b /* { } */ {}
@@ -725,7 +725,7 @@ error: Text
 12 | a b /* test */ {}
    |   ^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/comments/input.css:12:16
    |
 12 | a b /* test */ {}
@@ -785,7 +785,7 @@ error: Text
 13 | a b/* { } */{}
    |   ^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/comments/input.css:13:13
    |
 13 | a b/* { } */{}
@@ -845,7 +845,7 @@ error: Text
 14 | a b/* test */{}
    |   ^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/comments/input.css:14:14
    |
 14 | a b/* test */{}
@@ -911,7 +911,7 @@ error: Text
 15 | a/* test */,/* test */b{}
    |                       ^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/comments/input.css:15:24
    |
 15 | a/* test */,/* test */b{}
@@ -977,7 +977,7 @@ error: Text
 16 | a /* test */ , /* test */ b {}
    |                           ^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/comments/input.css:16:29
    |
 16 | a /* test */ , /* test */ b {}

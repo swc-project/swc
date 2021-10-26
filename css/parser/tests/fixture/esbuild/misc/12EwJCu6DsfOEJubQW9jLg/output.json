@@ -56,7 +56,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 2,
           "end": 59,
@@ -64,13 +64,13 @@
         },
         "items": [
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 4,
               "end": 26,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 4,
@@ -80,7 +80,7 @@
               "value": "border-radius",
               "raw": "border-radius"
             },
-            "values": [
+            "value": [
               {
                 "type": "Number",
                 "span": {
@@ -125,13 +125,13 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 28,
               "end": 56,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 28,
@@ -141,7 +141,7 @@
               "value": "border-top-right-radius",
               "raw": "border-top-right-radius"
             },
-            "values": [
+            "value": [
               {
                 "type": "Number",
                 "span": {

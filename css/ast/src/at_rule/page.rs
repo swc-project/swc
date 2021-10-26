@@ -1,4 +1,4 @@
-use crate::{ComplexSelector, Property, Text};
+use crate::{ComplexSelector, Declaration, Text};
 use swc_common::{ast_node, Span};
 
 #[ast_node("PageRule")]
@@ -28,7 +28,7 @@ pub struct PageRuleBlock {
 #[ast_node]
 pub enum PageRuleBlockItem {
     #[tag("DeclBlock")]
-    Property(Box<Property>),
+    Declaration(Box<Declaration>),
 
     #[tag("NestedPageRule")]
     Nested(Box<NestedPageRule>),

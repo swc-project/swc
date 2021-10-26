@@ -46,7 +46,7 @@ error: Text
 1 | #\61hash {}
   | ^^^^^^^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/esbuild/misc/fT3vLBT7xnGwPlQ-kXdN1g/input.css:1:10
   |
 1 | #\61hash {}

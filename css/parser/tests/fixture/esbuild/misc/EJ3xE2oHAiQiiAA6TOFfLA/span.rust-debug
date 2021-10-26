@@ -52,7 +52,7 @@ error: Text
 1 | [\,attr] {}
   |  ^^^^^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/esbuild/misc/EJ3xE2oHAiQiiAA6TOFfLA/input.css:1:10
   |
 1 | [\,attr] {}

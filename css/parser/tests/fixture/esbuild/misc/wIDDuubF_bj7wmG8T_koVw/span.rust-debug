@@ -46,7 +46,7 @@ error: Text
 1 | #\30 {}
   | ^^^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/esbuild/misc/wIDDuubF_bj7wmG8T_koVw/input.css:1:6
   |
 1 | #\30 {}

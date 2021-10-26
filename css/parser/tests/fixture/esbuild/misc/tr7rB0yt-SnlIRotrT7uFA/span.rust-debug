@@ -40,7 +40,7 @@ error: Text
 1 | \2d 123 {}
   | ^^^^^^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/esbuild/misc/tr7rB0yt-SnlIRotrT7uFA/input.css:1:9
   |
 1 | \2d 123 {}

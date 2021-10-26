@@ -1,4 +1,4 @@
-error: Expected Property value
+error: Expected Declaration value
  --> $DIR/tests/recovery/delim-token/div/input.css:2:11
   |
 2 |     prop: /;

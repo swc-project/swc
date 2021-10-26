@@ -46,13 +46,13 @@ error: Text
 1 | .decl { a: b; c: d }
   |  ^^^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/esbuild/misc/Gt3Lw4L5Pe4aLLDPz9cxRg/input.css:1:7
   |
 1 | .decl { a: b; c: d }
   |       ^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/Gt3Lw4L5Pe4aLLDPz9cxRg/input.css:1:9
   |
 1 | .decl { a: b; c: d }
@@ -76,7 +76,7 @@ error: Text
 1 | .decl { a: b; c: d }
   |            ^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/Gt3Lw4L5Pe4aLLDPz9cxRg/input.css:1:15
   |
 1 | .decl { a: b; c: d }

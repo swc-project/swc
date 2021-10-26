@@ -1,0 +1,216 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:1:1
+  |
+1 | / @font-face {
+2 | |     font-family: "Open Sans";
+3 | |     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+4 | |     url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
+5 | | }
+  | |__^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:1:1
+  |
+1 | / @font-face {
+2 | |     font-family: "Open Sans";
+3 | |     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+4 | |     url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
+5 | | }
+  | |_^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:1:1
+  |
+1 | / @font-face {
+2 | |     font-family: "Open Sans";
+3 | |     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+4 | |     url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
+5 | | }
+  | |_^
+
+error: FontFaceRule
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:1:1
+  |
+1 | / @font-face {
+2 | |     font-family: "Open Sans";
+3 | |     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+4 | |     url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
+5 | | }
+  | |_^
+
+error: Block
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:1:12
+  |
+1 |   @font-face {
+  |  ____________^
+2 | |     font-family: "Open Sans";
+3 | |     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+4 | |     url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
+5 | | }
+  | |_^
+
+error: Declaration
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:2:5
+  |
+2 |     font-family: "Open Sans";
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:2:5
+  |
+2 |     font-family: "Open Sans";
+  |     ^^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:2:18
+  |
+2 |     font-family: "Open Sans";
+  |                  ^^^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:2:18
+  |
+2 |     font-family: "Open Sans";
+  |                  ^^^^^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:3:5
+  |
+3 | /     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+4 | |     url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
+  | |______________________________________________________________^
+
+error: Text
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:3:5
+  |
+3 |     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+  |     ^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:3:10
+  |
+3 |     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+  |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: FnValue
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:3:10
+  |
+3 |     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+  |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:3:10
+  |
+3 |     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+  |          ^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:3:14
+  |
+3 |     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:3:14
+  |
+3 |     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:3:55
+  |
+3 |       src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+  |  _______________________________________________________^
+4 | |     url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
+  | |_______________________________________________^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:3:55
+  |
+3 |     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+  |                                                       ^^^^^^^^^^^^^^^
+
+error: FnValue
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:3:55
+  |
+3 |     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+  |                                                       ^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:3:55
+  |
+3 |     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+  |                                                       ^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:3:62
+  |
+3 |     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+  |                                                              ^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:3:62
+  |
+3 |     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+  |                                                              ^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:4:5
+  |
+4 |     url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: FnValue
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:4:5
+  |
+4 |     url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:4:5
+  |
+4 |     url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
+  |     ^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:4:9
+  |
+4 |     url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
+  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:4:9
+  |
+4 |     url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
+  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:4:49
+  |
+4 |     url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
+  |                                                 ^^^^^^^^^^^^^^
+
+error: FnValue
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:4:49
+  |
+4 |     url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
+  |                                                 ^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:4:49
+  |
+4 |     url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
+  |                                                 ^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:4:56
+  |
+4 |     url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
+  |                                                        ^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/at-rule/font-face/input.css:4:56
+  |
+4 |     url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
+  |                                                        ^^^^^^
+
