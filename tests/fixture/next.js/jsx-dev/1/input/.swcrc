@@ -1,0 +1,10 @@
+{
+    "jsc": {
+        "transforms": {
+            "react": {
+                "runtime": "automatic",
+                "debug": true
+            }
+        }
+    }
+}
