@@ -325,7 +325,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(SpaceValues, visit_space_values);
     mtd!(ComplexSelector, visit_complex_selector);
     mtd!(CompoundSelector, visit_compound_selector);
-    mtd!(DeclBlock, visit_decl_block);
+    mtd!(Block, visit_block);
     mtd!(FnValue, visit_fn_value);
     mtd!(HashValue, visit_hash_value);
     mtd!(IdSelector, visit_id_selector);
@@ -333,7 +333,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(Num, visit_num);
     mtd!(ParenValue, visit_paren_value);
     mtd!(PercentValue, visit_percent_value);
-    mtd!(Property, visit_property);
+    mtd!(Declaration, visit_declaration);
     mtd!(PseudoSelector, visit_pseudo_selector);
     mtd!(Rule, visit_rule);
     mtd!(Str, visit_str);
@@ -363,6 +363,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(KeyframesRule, visit_keyframes_rule);
     mtd!(MediaQuery, visit_media_query);
     mtd!(MediaRule, visit_media_rule);
+    mtd!(NamespaceValue, visit_namespace_value);
     mtd!(NamespaceRule, visit_namespace_rule);
     mtd!(NestedPageRule, visit_nested_page_rule);
     mtd!(NotMediaQuery, visit_not_media_query);

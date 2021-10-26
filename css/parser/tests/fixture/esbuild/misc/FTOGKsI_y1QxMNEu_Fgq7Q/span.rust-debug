@@ -34,7 +34,7 @@ error: PageRuleBlockItem
 1 | @page { color: red; @top-left {} }
   |         ^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:9
   |
 1 | @page { color: red; @top-left {} }

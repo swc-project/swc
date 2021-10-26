@@ -46,7 +46,7 @@ error: Text
 1 | * {
   | ^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/selector/universal/input.css:1:3
   |
 1 |   * {
@@ -55,7 +55,7 @@ error: DeclBlock
 3 | | }
   | |_^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/selector/universal/input.css:2:5
   |
 2 |     display: block;

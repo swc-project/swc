@@ -58,7 +58,7 @@ error: Text
 1 | [\2cns|attr] {}
   |        ^^^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:14
   |
 1 | [\2cns|attr] {}

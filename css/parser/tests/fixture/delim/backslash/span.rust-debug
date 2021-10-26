@@ -46,7 +46,7 @@ error: Text
 1 | a {
   | ^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/delim/backslash/input.css:1:3
   |
 1 |   a {
@@ -55,7 +55,7 @@ error: DeclBlock
 3 | | }
   | |_^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/delim/backslash/input.css:2:5
   |
 2 |     color: \\ red \\ blue;

@@ -28,6 +28,12 @@ error: Text
 1 | @namespace ns 'p\61th';
   |            ^^
 
+error: NamespaceValue
+ --> $DIR/tests/fixture/esbuild/misc/um4N0M2i5kY73ExgnkIV9g/input.css:1:15
+  |
+1 | @namespace ns 'p\61th';
+  |               ^^^^^^^^
+
 error: Str
  --> $DIR/tests/fixture/esbuild/misc/um4N0M2i5kY73ExgnkIV9g/input.css:1:15
   |

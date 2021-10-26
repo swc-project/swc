@@ -58,7 +58,7 @@ error: Text
 1 | a {
   | ^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/dimension/basic/input.css:1:3
   |
 1 |   a {
@@ -71,7 +71,7 @@ error: DeclBlock
 9 | | }
   | |_^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/dimension/basic/input.css:2:5
   |
 2 |     prop: 10px;
@@ -107,7 +107,7 @@ error: Unit
 2 |     prop: 10px;
   |             ^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/dimension/basic/input.css:3:5
   |
 3 |     prop: .10px;
@@ -143,7 +143,7 @@ error: Unit
 3 |     prop: .10px;
   |              ^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/dimension/basic/input.css:4:5
   |
 4 |     prop: 12.34px;
@@ -179,7 +179,7 @@ error: Unit
 4 |     prop: 12.34px;
   |                ^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/dimension/basic/input.css:5:5
   |
 5 |     prop: 0000.000px;
@@ -215,7 +215,7 @@ error: Unit
 5 |     prop: 0000.000px;
   |                   ^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/dimension/basic/input.css:6:5
   |
 6 |     prop: 1px\\9;
@@ -251,7 +251,7 @@ error: Unit
 6 |     prop: 1px\\9;
   |            ^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/dimension/basic/input.css:7:5
   |
 7 |     prop: 1e;
@@ -287,7 +287,7 @@ error: Unit
 7 |     prop: 1e;
   |            ^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/dimension/basic/input.css:8:5
   |
 8 |     prop: 1unknown;

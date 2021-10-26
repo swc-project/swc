@@ -1,91 +1,421 @@
 error: Stylesheet
- --> $DIR/tests/fixture/at-rule/unknown/input.css:1:1
-  |
-1 | / @unknown {}
-2 | | @\unknown {}
-  | |_____________^
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:9:1
+   |
+9  | / @unknown {}
+10 | | @\unknown {}
+11 | | /*@unknown a b {}*/
+12 | | @unknown {p:v}
+...  |
+35 | |     <!-- {}
+36 | | }
+   | |__^
 
 error: Rule
- --> $DIR/tests/fixture/at-rule/unknown/input.css:1:1
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:9:1
   |
-1 | @unknown {}
+9 | @unknown {}
   | ^^^^^^^^^^^
 
 error: AtRule
- --> $DIR/tests/fixture/at-rule/unknown/input.css:1:1
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:9:1
   |
-1 | @unknown {}
+9 | @unknown {}
   | ^^^^^^^^^^^
 
 error: UnknownAtRule
- --> $DIR/tests/fixture/at-rule/unknown/input.css:1:1
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:9:1
   |
-1 | @unknown {}
+9 | @unknown {}
   | ^^^^^^^^^^^
 
 error: Text
- --> $DIR/tests/fixture/at-rule/unknown/input.css:1:1
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:9:1
   |
-1 | @unknown {}
+9 | @unknown {}
   | ^^^^^^^^
 
 error: Tokens
- --> $DIR/tests/fixture/at-rule/unknown/input.css:1:10
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:9:10
   |
-1 | @unknown {}
+9 | @unknown {}
   |          ^^
 
 error: LBrace
- --> $DIR/tests/fixture/at-rule/unknown/input.css:1:10
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:9:10
   |
-1 | @unknown {}
+9 | @unknown {}
   |          ^
 
 error: RBrace
- --> $DIR/tests/fixture/at-rule/unknown/input.css:1:11
+ --> $DIR/tests/fixture/at-rule/unknown/input.css:9:11
   |
-1 | @unknown {}
+9 | @unknown {}
   |           ^
 
 error: Rule
- --> $DIR/tests/fixture/at-rule/unknown/input.css:2:1
-  |
-2 | @\unknown {}
-  | ^^^^^^^^^^^^
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:10:1
+   |
+10 | @\unknown {}
+   | ^^^^^^^^^^^^
 
 error: AtRule
- --> $DIR/tests/fixture/at-rule/unknown/input.css:2:1
-  |
-2 | @\unknown {}
-  | ^^^^^^^^^^^^
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:10:1
+   |
+10 | @\unknown {}
+   | ^^^^^^^^^^^^
 
 error: UnknownAtRule
- --> $DIR/tests/fixture/at-rule/unknown/input.css:2:1
-  |
-2 | @\unknown {}
-  | ^^^^^^^^^^^^
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:10:1
+   |
+10 | @\unknown {}
+   | ^^^^^^^^^^^^
 
 error: Text
- --> $DIR/tests/fixture/at-rule/unknown/input.css:2:1
-  |
-2 | @\unknown {}
-  | ^^^^^^^^^
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:10:1
+   |
+10 | @\unknown {}
+   | ^^^^^^^^^
 
 error: Tokens
- --> $DIR/tests/fixture/at-rule/unknown/input.css:2:11
-  |
-2 | @\unknown {}
-  |           ^^
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:10:11
+   |
+10 | @\unknown {}
+   |           ^^
 
 error: LBrace
- --> $DIR/tests/fixture/at-rule/unknown/input.css:2:11
-  |
-2 | @\unknown {}
-  |           ^
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:10:11
+   |
+10 | @\unknown {}
+   |           ^
 
 error: RBrace
- --> $DIR/tests/fixture/at-rule/unknown/input.css:2:12
-  |
-2 | @\unknown {}
-  |            ^
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:10:12
+   |
+10 | @\unknown {}
+   |            ^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:12:1
+   |
+12 | @unknown {p:v}
+   | ^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:12:1
+   |
+12 | @unknown {p:v}
+   | ^^^^^^^^^^^^^^
+
+error: UnknownAtRule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:12:1
+   |
+12 | @unknown {p:v}
+   | ^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:12:1
+   |
+12 | @unknown {p:v}
+   | ^^^^^^^^
+
+error: Tokens
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:12:10
+   |
+12 | @unknown {p:v}
+   |          ^^^^^
+
+error: LBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:12:10
+   |
+12 | @unknown {p:v}
+   |          ^
+
+error: Ident { value: Atom('p' type=inline), raw: Atom('p' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:12:11
+   |
+12 | @unknown {p:v}
+   |           ^
+
+error: Colon
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:12:12
+   |
+12 | @unknown {p:v}
+   |            ^
+
+error: Ident { value: Atom('v' type=inline), raw: Atom('v' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:12:13
+   |
+12 | @unknown {p:v}
+   |             ^
+
+error: RBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:12:14
+   |
+12 | @unknown {p:v}
+   |              ^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:15:1
+   |
+15 | @unknown/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:15:1
+   |
+15 | @unknown/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: UnknownAtRule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:15:1
+   |
+15 | @unknown/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:15:1
+   |
+15 | @unknown/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
+   | ^^^^^^^^
+
+error: Tokens
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:15:17
+   |
+15 | @unknown/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: LBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:15:17
+   |
+15 | @unknown/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
+   |                 ^
+
+error: Ident { value: Atom('p' type=inline), raw: Atom('p' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:15:26
+   |
+15 | @unknown/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
+   |                          ^
+
+error: Colon
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:15:35
+   |
+15 | @unknown/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
+   |                                   ^
+
+error: Ident { value: Atom('v' type=inline), raw: Atom('v' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:15:44
+   |
+15 | @unknown/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
+   |                                            ^
+
+error: RBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:15:53
+   |
+15 | @unknown/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
+   |                                                     ^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:22:1
+   |
+22 | @unknown {s{p:v}}
+   | ^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:22:1
+   |
+22 | @unknown {s{p:v}}
+   | ^^^^^^^^^^^^^^^^^
+
+error: UnknownAtRule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:22:1
+   |
+22 | @unknown {s{p:v}}
+   | ^^^^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:22:1
+   |
+22 | @unknown {s{p:v}}
+   | ^^^^^^^^
+
+error: Tokens
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:22:10
+   |
+22 | @unknown {s{p:v}}
+   |          ^^^^^^^^
+
+error: LBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:22:10
+   |
+22 | @unknown {s{p:v}}
+   |          ^
+
+error: Ident { value: Atom('s' type=inline), raw: Atom('s' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:22:11
+   |
+22 | @unknown {s{p:v}}
+   |           ^
+
+error: LBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:22:12
+   |
+22 | @unknown {s{p:v}}
+   |            ^
+
+error: Ident { value: Atom('p' type=inline), raw: Atom('p' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:22:13
+   |
+22 | @unknown {s{p:v}}
+   |             ^
+
+error: Colon
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:22:14
+   |
+22 | @unknown {s{p:v}}
+   |              ^
+
+error: Ident { value: Atom('v' type=inline), raw: Atom('v' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:22:15
+   |
+22 | @unknown {s{p:v}}
+   |               ^
+
+error: RBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:22:16
+   |
+22 | @unknown {s{p:v}}
+   |                ^
+
+error: RBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:22:17
+   |
+22 | @unknown {s{p:v}}
+   |                 ^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:33:1
+   |
+33 | / @unknown {
+34 | |     --> {}
+35 | |     <!-- {}
+36 | | }
+   | |_^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:33:1
+   |
+33 | / @unknown {
+34 | |     --> {}
+35 | |     <!-- {}
+36 | | }
+   | |_^
+
+error: UnknownAtRule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:33:1
+   |
+33 | / @unknown {
+34 | |     --> {}
+35 | |     <!-- {}
+36 | | }
+   | |_^
+
+error: Text
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:33:1
+   |
+33 | @unknown {
+   | ^^^^^^^^
+
+error: Tokens
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:33:10
+   |
+33 |   @unknown {
+   |  __________^
+34 | |     --> {}
+35 | |     <!-- {}
+36 | | }
+   | |_^
+
+error: LBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:33:10
+   |
+33 | @unknown {
+   |          ^
+
+error: WhiteSpace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:33:11
+   |
+33 |   @unknown {
+   |  ___________^
+34 | |     --> {}
+   | |____^
+
+error: CDC
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:34:5
+   |
+34 |     --> {}
+   |     ^^^
+
+error: WhiteSpace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:34:8
+   |
+34 |     --> {}
+   |        ^
+
+error: LBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:34:9
+   |
+34 |     --> {}
+   |         ^
+
+error: RBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:34:10
+   |
+34 |     --> {}
+   |          ^
+
+error: WhiteSpace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:34:11
+   |
+34 |       --> {}
+   |  ___________^
+35 | |     <!-- {}
+   | |____^
+
+error: CDO
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:35:5
+   |
+35 |     <!-- {}
+   |     ^^^^
+
+error: WhiteSpace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:35:9
+   |
+35 |     <!-- {}
+   |         ^
+
+error: LBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:35:10
+   |
+35 |     <!-- {}
+   |          ^
+
+error: RBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:35:11
+   |
+35 |     <!-- {}
+   |           ^
+
+error: WhiteSpace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:35:12
+   |
+35 |       <!-- {}
+   |  ____________^
+36 | | }
+   | |_
+
+error: RBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:36:1
+   |
+36 | }
+   | ^
 

@@ -64,7 +64,7 @@ error: Text
 1 | article p {}
   |         ^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/selector/combinators/input.css:1:11
   |
 1 | article p {}
@@ -124,7 +124,7 @@ error: Text
 2 | article   p   {}
   |           ^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/selector/combinators/input.css:2:15
   |
 2 | article   p   {}
@@ -184,7 +184,7 @@ error: Text
 3 | article > p {}
   |           ^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/selector/combinators/input.css:3:13
   |
 3 | article > p {}
@@ -244,7 +244,7 @@ error: Text
 4 | article    >    p    {}
   |                 ^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/selector/combinators/input.css:4:22
   |
 4 | article    >    p    {}
@@ -304,7 +304,7 @@ error: Text
 5 | p + img {}
   |     ^^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/selector/combinators/input.css:5:9
   |
 5 | p + img {}
@@ -364,7 +364,7 @@ error: Text
 6 | p   +   img {}
   |         ^^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/selector/combinators/input.css:6:13
   |
 6 | p   +   img {}
@@ -424,7 +424,7 @@ error: Text
 7 | p ~ img {}
   |     ^^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/selector/combinators/input.css:7:9
   |
 7 | p ~ img {}
@@ -484,7 +484,7 @@ error: Text
 8 | p    ~    img {}
   |           ^^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/selector/combinators/input.css:8:15
   |
 8 | p    ~    img {}
@@ -562,7 +562,7 @@ error: Text
 9 | article > p > a {}
   |               ^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/selector/combinators/input.css:9:17
   |
 9 | article > p > a {}

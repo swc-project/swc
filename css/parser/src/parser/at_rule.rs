@@ -106,21 +106,36 @@ where
             | "-ms-keyframes" => {
                 self.input.skip_ws()?;
 
-                let name = if is!(self, "{") {
-                    Text {
+                let start_name_pos = self.input.cur_span()?.lo;
+                let name = match bump!(self) {
+                    Token::Ident { value, raw } => Text {
+                        span: span!(self, start_name_pos),
+                        value,
+                        raw,
+                    },
+                    Token::Str { value, raw } => Text {
+                        span: span!(self, start_name_pos),
+                        value,
+                        raw,
+                    },
+                    _ => Text {
                         span: DUMMY_SP,
                         value: js_word!(""),
                         raw: js_word!(""),
-                    }
-                } else {
-                    self.parse_id()?
+                    },
                 };
+                let mut blocks = vec![];
 
-                expect!(self, "{");
                 self.input.skip_ws()?;
 
-                let blocks = self.parse_delimited(true)?;
-                expect!(self, "}");
+                if is!(self, "{") {
+                    expect!(self, "{");
+
+                    // TODO: change on `parse_simple_block`
+                    blocks = self.parse_delimited(true)?;
+
+                    expect!(self, "}");
+                }
 
                 return Ok(AtRule::Keyframes(KeyframesRule {
                     span: span!(self, start),
@@ -132,7 +147,7 @@ where
             "font-face" => {
                 self.input.skip_ws()?;
 
-                let block = self.parse_decl_block()?;
+                let block = self.parse_simple_block()?;
 
                 return Ok(AtRule::FontFace(FontFaceRule {
                     span: span!(self, start),
@@ -146,10 +161,11 @@ where
                 let query = self.parse()?;
 
                 expect!(self, "{");
-                let rules = self.parse_rules(RuleContext {
+
+                let rules = self.parse_rule_list(RuleContext {
                     is_top_level: false,
-                    parse_selectors: true,
                 })?;
+
                 expect!(self, "}");
 
                 return Ok(AtRule::Supports(SupportsRule {
@@ -165,10 +181,11 @@ where
                 let query = self.parse()?;
 
                 expect!(self, "{");
-                let rules = self.parse_rules(RuleContext {
+
+                let rules = self.parse_rule_list(RuleContext {
                     is_top_level: false,
-                    parse_selectors: true,
                 })?;
+
                 expect!(self, "}");
 
                 return Ok(AtRule::Media(MediaRule {
@@ -205,9 +222,49 @@ where
             "namespace" => {
                 self.input.skip_ws()?;
 
-                let prefix = self.parse_id()?;
-                self.input.skip_ws()?;
-                let value = self.parse_str()?;
+                // TODO: make optional
+                let mut prefix = Text {
+                    span: DUMMY_SP,
+                    value: js_word!(""),
+                    raw: js_word!(""),
+                };
+
+                if is!(self, Ident) {
+                    let start_name_pos = self.input.cur_span()?.lo;
+
+                    prefix = match bump!(self) {
+                        Token::Ident { value, raw } => Text {
+                            span: span!(self, start_name_pos),
+                            value,
+                            raw,
+                        },
+                        _ => {
+                            unreachable!()
+                        }
+                    };
+
+                    self.input.skip_ws()?;
+                }
+
+                let start_value_pos = self.input.cur_span()?.lo;
+
+                let value = match bump!(self) {
+                    Token::Str { value, raw } => NamespaceValue::Str(Str {
+                        span: span!(self, start_value_pos),
+                        value,
+                        raw,
+                    }),
+                    Token::Url { value, raw } => NamespaceValue::Url(UrlValue {
+                        span: span!(self, start_value_pos),
+                        url: value,
+                        raw,
+                    }),
+                    _ => NamespaceValue::Str(Str {
+                        span: span!(self, start_value_pos),
+                        value: js_word!(""),
+                        raw: js_word!(""),
+                    }),
+                };
 
                 eat!(self, ";");
 
@@ -221,7 +278,7 @@ where
             "viewport" | "-ms-viewport" => {
                 self.input.skip_ws()?;
 
-                let block = self.parse_decl_block()?;
+                let block = self.parse_simple_block()?;
 
                 return Ok(AtRule::Viewport(ViewportRule {
                     span: span!(self, start),
@@ -325,9 +382,8 @@ where
 
         expect!(self, "{");
 
-        let block = self.parse_rules(RuleContext {
+        let block = self.parse_rule_list(RuleContext {
             is_top_level: false,
-            parse_selectors: true,
         })?;
 
         expect!(self, "}");
@@ -369,9 +425,9 @@ where
                 .map(KeyframeBlockRule::AtRule);
         }
 
-        self.parse_decl_block()
+        self.parse_simple_block()
             .map(Box::new)
-            .map(KeyframeBlockRule::Decl)
+            .map(KeyframeBlockRule::Block)
     }
 }
 
@@ -453,9 +509,9 @@ where
                     query,
                 })
             } else {
-                let property = self.parse_property()?;
+                let declaration = self.parse_declaration()?;
 
-                SupportQuery::Property(property)
+                SupportQuery::Declaration(declaration)
             };
 
             expect!(self, ")");
@@ -526,14 +582,14 @@ where
                         allow_operation_in_value: true,
                         ..self.ctx
                     };
-                    let values = self.with_ctx(ctx).parse_property_values()?.0;
+                    let value = self.with_ctx(ctx).parse_property_values()?.0;
 
                     expect!(self, ")");
 
-                    MediaQuery::Property(Property {
+                    MediaQuery::Declaration(Declaration {
                         span: span!(self, span.lo),
-                        name: id,
-                        values,
+                        property: id,
+                        value,
                         important: Default::default(),
                     })
                 } else {
@@ -710,9 +766,9 @@ where
             Token::AtKeyword { .. } => Ok(PageRuleBlockItem::Nested(self.parse()?)),
             _ => {
                 let p = self
-                    .parse_property()
+                    .parse_declaration()
                     .map(Box::new)
-                    .map(PageRuleBlockItem::Property)?;
+                    .map(PageRuleBlockItem::Declaration)?;
                 eat!(self, ";");
 
                 Ok(p)
@@ -727,13 +783,11 @@ where
 {
     fn parse(&mut self) -> PResult<NestedPageRule> {
         let start = self.input.cur_span()?.lo;
-
         let ctx = Ctx {
             allow_at_selector: true,
             ..self.ctx
         };
         let prelude = self.with_ctx(ctx).parse_selectors()?;
-
         let block = self.parse()?;
 
         Ok(NestedPageRule {

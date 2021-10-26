@@ -1,4 +1,4 @@
-use crate::{Property, Rule, Text};
+use crate::{Declaration, Rule, Text};
 use swc_common::{ast_node, Span};
 
 #[ast_node("MediaRule")]
@@ -27,8 +27,8 @@ pub enum MediaQuery {
     #[tag("OnlyMediaQuery")]
     Only(OnlyMediaQuery),
 
-    #[tag("Property")]
-    Property(Property),
+    #[tag("Declaration")]
+    Declaration(Declaration),
 
     #[tag("CommaMediaQuery")]
     Comma(CommaMediaQuery),

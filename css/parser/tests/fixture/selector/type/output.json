@@ -65,7 +65,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 4,
           "end": 6,
@@ -133,7 +133,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 14,
           "end": 16,
@@ -201,7 +201,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 23,
           "end": 25,
@@ -269,7 +269,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 30,
           "end": 32,
@@ -337,7 +337,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 38,
           "end": 40,
@@ -396,7 +396,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 44,
           "end": 46,

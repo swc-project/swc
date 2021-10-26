@@ -86,7 +86,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 6,
           "end": 8,

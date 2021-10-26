@@ -56,7 +56,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 28,
           "end": 94,
@@ -64,13 +64,13 @@
         },
         "items": [
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 43,
               "end": 78,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 43,
@@ -80,7 +80,7 @@
               "value": "color",
               "raw": "color"
             },
-            "values": [
+            "value": [
               {
                 "type": "Text",
                 "span": {
@@ -147,7 +147,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 136,
           "end": 227,
@@ -155,13 +155,13 @@
         },
         "items": [
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 159,
               "end": 171,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 159,
@@ -171,7 +171,7 @@
               "value": "color",
               "raw": "color"
             },
-            "values": [
+            "value": [
               {
                 "type": "Text",
                 "span": {
@@ -186,13 +186,13 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 195,
               "end": 210,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 195,
@@ -202,7 +202,7 @@
               "value": "background",
               "raw": "background"
             },
-            "values": [
+            "value": [
               {
                 "type": "Text",
                 "span": {
@@ -269,7 +269,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 239,
           "end": 272,
@@ -277,13 +277,13 @@
         },
         "items": [
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 245,
               "end": 257,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 245,
@@ -293,7 +293,7 @@
               "value": "color",
               "raw": "color"
             },
-            "values": [
+            "value": [
               {
                 "type": "Text",
                 "span": {

@@ -64,7 +64,7 @@ error: Text
 1 | a/**/[b] {}
   |       ^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/esbuild/misc/aEF_NRb2u-g7UzHxaKpOfA/input.css:1:10
   |
 1 | a/**/[b] {}

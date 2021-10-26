@@ -43,7 +43,7 @@
             }
           ],
           "rule": {
-            "type": "DeclBlock",
+            "type": "Block",
             "span": {
               "start": 33,
               "end": 77,
@@ -51,13 +51,13 @@
             },
             "items": [
               {
-                "type": "Property",
+                "type": "Declaration",
                 "span": {
                   "start": 43,
                   "end": 70,
                   "ctxt": 0
                 },
-                "name": {
+                "property": {
                   "type": "Text",
                   "span": {
                     "start": 43,
@@ -67,7 +67,7 @@
                   "value": "margin-top",
                   "raw": "margin-top"
                 },
-                "values": [
+                "value": [
                   {
                     "type": "UnitValue",
                     "span": {
@@ -124,7 +124,7 @@
             }
           ],
           "rule": {
-            "type": "DeclBlock",
+            "type": "Block",
             "span": {
               "start": 85,
               "end": 130,
@@ -132,13 +132,13 @@
             },
             "items": [
               {
-                "type": "Property",
+                "type": "Declaration",
                 "span": {
                   "start": 95,
                   "end": 123,
                   "ctxt": 0
                 },
-                "name": {
+                "property": {
                   "type": "Text",
                   "span": {
                     "start": 95,
@@ -148,7 +148,7 @@
                   "value": "margin-top",
                   "raw": "margin-top"
                 },
-                "values": [
+                "value": [
                   {
                     "type": "UnitValue",
                     "span": {
@@ -225,7 +225,7 @@
             }
           ],
           "rule": {
-            "type": "DeclBlock",
+            "type": "Block",
             "span": {
               "start": 160,
               "end": 167,
@@ -253,7 +253,7 @@
             }
           ],
           "rule": {
-            "type": "DeclBlock",
+            "type": "Block",
             "span": {
               "start": 175,
               "end": 182,
@@ -289,7 +289,7 @@
             }
           ],
           "rule": {
-            "type": "DeclBlock",
+            "type": "Block",
             "span": {
               "start": 191,
               "end": 198,
@@ -325,7 +325,7 @@
             }
           ],
           "rule": {
-            "type": "DeclBlock",
+            "type": "Block",
             "span": {
               "start": 206,
               "end": 213,
@@ -361,7 +361,7 @@
             }
           ],
           "rule": {
-            "type": "DeclBlock",
+            "type": "Block",
             "span": {
               "start": 223,
               "end": 230,

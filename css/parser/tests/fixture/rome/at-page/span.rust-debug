@@ -119,7 +119,7 @@ error: PageRuleBlockItem
 2 |     @top-center { content: none }
   |                   ^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/at-page/input.css:2:16
   |
 2 |     @top-center { content: none }
@@ -149,7 +149,7 @@ error: PageRuleBlockItem
 3 |     margin-left: 4cm;
   |     ^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/at-page/input.css:3:2
   |
 3 |     margin-left: 4cm;
@@ -288,7 +288,7 @@ error: PageRuleBlockItem
 7 |     @top-center { content: none }
   |                   ^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/at-page/input.css:7:16
   |
 7 |     @top-center { content: none }
@@ -318,7 +318,7 @@ error: PageRuleBlockItem
 8 |     margin-left: 4cm;
   |     ^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/at-page/input.css:8:2
   |
 8 |     margin-left: 4cm;
@@ -445,7 +445,7 @@ error: PageRuleBlockItem
 12 |     @top-center { content: none }
    |                   ^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/rome/at-page/input.css:12:16
    |
 12 |     @top-center { content: none }
@@ -475,7 +475,7 @@ error: PageRuleBlockItem
 13 |     margin-left: 4cm;
    |     ^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/rome/at-page/input.css:13:2
    |
 13 |     margin-left: 4cm;
@@ -602,7 +602,7 @@ error: PageRuleBlockItem
 17 |     @top-center { CONTENT: none }
    |                   ^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/rome/at-page/input.css:17:16
    |
 17 |     @top-center { CONTENT: none }
@@ -632,7 +632,7 @@ error: PageRuleBlockItem
 18 |     MARGIN-LEFT: 4cm;
    |     ^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/rome/at-page/input.css:18:2
    |
 18 |     MARGIN-LEFT: 4cm;
