@@ -1,0 +1,16 @@
+{
+    "jsc": {
+        "target": "es2016",
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": true
+        },
+        "transform": {
+            "react": {
+                "runtime": "automatic",
+                "development": true,
+                "refresh": true
+            }
+        }
+    }
+}
