@@ -4,8 +4,8 @@ x = {
     }
 };
 y = {
-    foo ([{ a: a1  }]) {
-        return a1;
+    foo ([{ a  }]) {
+        return a;
     },
     bar () {
     }
