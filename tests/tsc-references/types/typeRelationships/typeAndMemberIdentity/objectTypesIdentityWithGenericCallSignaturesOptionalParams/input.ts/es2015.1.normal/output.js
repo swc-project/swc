@@ -2,7 +2,7 @@
 // parameters pairwise identical, have identical type parameter constraints, identical number of parameters with identical kind(required, 
 // optional or rest) and types, and identical return types.
 class A {
-    foo(x, y) {
+    foo(x3, y) {
         return null;
     }
 }
@@ -18,8 +18,8 @@ class C {
 }
 var a;
 var b = {
-    foo (x3, y3) {
-        return x3;
+    foo (x, y) {
+        return x;
     }
 };
 function foo1(x) {

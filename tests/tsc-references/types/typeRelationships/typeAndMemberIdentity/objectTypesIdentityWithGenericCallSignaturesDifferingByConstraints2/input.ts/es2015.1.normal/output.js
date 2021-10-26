@@ -23,7 +23,7 @@ class D {
 }
 var a;
 var b = {
-    foo (x4, y4) {
+    foo (x, y) {
         return '';
     }
 };
