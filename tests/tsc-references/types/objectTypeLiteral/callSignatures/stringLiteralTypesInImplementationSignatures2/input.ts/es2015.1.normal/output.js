@@ -6,8 +6,8 @@ class C {
 }
 var a;
 var b = {
-    foo (x1) {
+    foo (x) {
     },
-    foo (x2) {
+    foo (x) {
     }
 };

@@ -16,8 +16,8 @@ let o = {
     explicitThis: function(m) {
         return m + this.n.length; // error, 'length' does not exist on 'number'
     },
-    implicitThis (m4) {
-        return m4;
+    implicitThis (m) {
+        return m;
     }
 };
 let i = o;
