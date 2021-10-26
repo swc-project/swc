@@ -197,17 +197,20 @@ where
         runtime: options.runtime.unwrap_or_default(),
         import_source: options.import_source.into(),
         import_jsx: None,
+        import_jsx_dev: None,
         import_jsxs: None,
-        import_fragment: None,
         import_create_element: None,
 
+        development: options.development,
+
+        import_fragment: None,
+        top_level_node: true,
         pragma: parse_expr_for_jsx(&cm, "pragma", options.pragma, top_level_mark),
         comments,
         pragma_frag: parse_expr_for_jsx(&cm, "pragmaFrag", options.pragma_frag, top_level_mark),
         use_builtins: options.use_builtins,
         use_spread: options.use_spread,
         throw_if_namespace: options.throw_if_namespace,
-        top_level_node: true,
     })
 }
 
@@ -217,6 +220,8 @@ where
 {
     cm: Lrc<SourceMap>,
 
+    development: bool,
+
     top_level_mark: Mark,
 
     next: bool,
@@ -225,6 +230,8 @@ where
     import_source: JsWord,
     /// For automatic runtime.
     import_jsx: Option<Ident>,
+    /// For automatic runtime.
+    import_jsx_dev: Option<Ident>,
     /// For automatic runtime.
     import_jsxs: Option<Ident>,
     /// For automatic runtime.
@@ -337,14 +344,20 @@ where
 
         match self.runtime {
             Runtime::Automatic => {
-                let jsx = if use_jsxs {
-                    self.import_jsxs
-                        .get_or_insert_with(|| private_ident!("_jsxs"))
+                let jsx = if self.development {
+                    self.import_jsx_dev
+                        .get_or_insert_with(|| private_ident!("_jsxDEV"))
                         .clone()
                 } else {
-                    self.import_jsx
-                        .get_or_insert_with(|| private_ident!("_jsx"))
-                        .clone()
+                    if use_jsxs {
+                        self.import_jsxs
+                            .get_or_insert_with(|| private_ident!("_jsxs"))
+                            .clone()
+                    } else {
+                        self.import_jsx
+                            .get_or_insert_with(|| private_ident!("_jsx"))
+                            .clone()
+                    }
                 };
 
                 let fragment = self
@@ -443,14 +456,22 @@ where
                     self.import_create_element
                         .get_or_insert_with(|| private_ident!("_createElement"))
                         .clone()
-                } else if use_jsxs {
-                    self.import_jsxs
-                        .get_or_insert_with(|| private_ident!("_jsxs"))
-                        .clone()
                 } else {
-                    self.import_jsx
-                        .get_or_insert_with(|| private_ident!("_jsx"))
-                        .clone()
+                    if self.development {
+                        self.import_jsx_dev
+                            .get_or_insert_with(|| private_ident!("_jsxDEV"))
+                            .clone()
+                    } else {
+                        if use_jsxs {
+                            self.import_jsxs
+                                .get_or_insert_with(|| private_ident!("_jsxs"))
+                                .clone()
+                        } else {
+                            self.import_jsx
+                                .get_or_insert_with(|| private_ident!("_jsx"))
+                                .clone()
+                        }
+                    }
                 };
 
                 let mut props_obj = ObjectLit {
@@ -961,51 +982,82 @@ where
                 );
             }
 
-            let imports = self
-                .import_jsx
-                .take()
-                .map(|local| ImportNamedSpecifier {
-                    span: DUMMY_SP,
-                    local,
-                    imported: Some(quote_ident!("jsx")),
-                    is_type_only: false,
-                })
-                .into_iter()
-                .chain(self.import_jsxs.take().map(|local| ImportNamedSpecifier {
-                    span: DUMMY_SP,
-                    local,
-                    imported: Some(quote_ident!("jsxs")),
-                    is_type_only: false,
-                }))
-                .chain(
-                    self.import_fragment
-                        .take()
-                        .map(|local| ImportNamedSpecifier {
-                            span: DUMMY_SP,
-                            local,
-                            imported: Some(quote_ident!("Fragment")),
-                            is_type_only: false,
-                        }),
-                )
-                .map(ImportSpecifier::Named)
-                .collect::<Vec<_>>();
+            {
+                // Import for development mode
 
-            if !imports.is_empty() {
-                prepend(
-                    &mut module.body,
-                    ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                if let Some(local) = self.import_jsx_dev.take() {
+                    let specifier = ImportSpecifier::Named(ImportNamedSpecifier {
                         span: DUMMY_SP,
-                        specifiers: imports,
-                        src: Str {
+                        local,
+                        imported: Some(quote_ident!("jsxDEV")),
+                        is_type_only: false,
+                    });
+
+                    prepend(
+                        &mut module.body,
+                        ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                             span: DUMMY_SP,
-                            value: format!("{}/jsx-runtime", self.import_source).into(),
-                            has_escape: false,
-                            kind: Default::default(),
-                        },
-                        type_only: Default::default(),
-                        asserts: Default::default(),
-                    })),
-                );
+                            specifiers: vec![specifier],
+                            src: Str {
+                                span: DUMMY_SP,
+                                value: format!("{}/jsx-dev-runtime", self.import_source).into(),
+                                has_escape: false,
+                                kind: Default::default(),
+                            },
+                            type_only: Default::default(),
+                            asserts: Default::default(),
+                        })),
+                    );
+                }
+            }
+
+            {
+                let imports = self
+                    .import_jsx
+                    .take()
+                    .map(|local| ImportNamedSpecifier {
+                        span: DUMMY_SP,
+                        local,
+                        imported: Some(quote_ident!("jsx")),
+                        is_type_only: false,
+                    })
+                    .into_iter()
+                    .chain(self.import_jsxs.take().map(|local| ImportNamedSpecifier {
+                        span: DUMMY_SP,
+                        local,
+                        imported: Some(quote_ident!("jsxs")),
+                        is_type_only: false,
+                    }))
+                    .chain(
+                        self.import_fragment
+                            .take()
+                            .map(|local| ImportNamedSpecifier {
+                                span: DUMMY_SP,
+                                local,
+                                imported: Some(quote_ident!("Fragment")),
+                                is_type_only: false,
+                            }),
+                    )
+                    .map(ImportSpecifier::Named)
+                    .collect::<Vec<_>>();
+
+                if !imports.is_empty() {
+                    prepend(
+                        &mut module.body,
+                        ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                            span: DUMMY_SP,
+                            specifiers: imports,
+                            src: Str {
+                                span: DUMMY_SP,
+                                value: format!("{}/jsx-runtime", self.import_source).into(),
+                                has_escape: false,
+                                kind: Default::default(),
+                            },
+                            type_only: Default::default(),
+                            asserts: Default::default(),
+                        })),
+                    );
+                }
             }
         }
     }
