@@ -1,0 +1,3 @@
+
+
+const foo = <div></div>
