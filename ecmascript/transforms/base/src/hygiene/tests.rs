@@ -1710,3 +1710,41 @@ fn var_awareness_2() {
         ",
     );
 }
+
+/// `var` has strange scoping rule.
+#[test]
+fn issue_2539() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            let stmts = tester
+                .parse_stmts(
+                    "actual1.js",
+                    "
+                    export default {
+                        foo: {
+                            func1(index) {
+                            },
+                            func2(index, index1) {
+                            },
+                        },
+                    }
+                    ",
+                )?
+                .fold_with(&mut OnceMarker::new(&[("index", &[mark1, mark2])]));
+            Ok(stmts)
+        },
+        "
+        export default {
+            foo: {
+                func1(index) {
+                },
+                func2(index, index1) {
+                },
+            },
+        }
+        ",
+    );
+}
