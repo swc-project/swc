@@ -4,8 +4,8 @@ x = {
     }
 };
 y = {
-    *foo ([{ a: a1  }]) {
-        yield a1;
+    *foo ([{ a  }]) {
+        yield a;
     },
     bar () {
     }

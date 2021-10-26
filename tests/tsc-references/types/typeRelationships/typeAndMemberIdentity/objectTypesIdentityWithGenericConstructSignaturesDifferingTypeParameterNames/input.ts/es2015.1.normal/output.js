@@ -1,6 +1,6 @@
 // object types are identical structurally
 class B {
-    constructor(x){
+    constructor(x2){
         return null;
     }
 }
@@ -11,8 +11,8 @@ class C {
 }
 var a;
 var b = {
-    new (x2) {
-        return new C(x2);
+    new (x) {
+        return new C(x);
     }
 };
 function foo1b(x) {

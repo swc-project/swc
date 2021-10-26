@@ -7,22 +7,22 @@ var strOrNum;
 var var1;
 var obj1 = {
     // Inside method
-    method (param1) {
+    method (param) {
         // global vars in function declaration
         num = typeof var1 === "string" && var1.length; // string
         // variables in function declaration
         var var2;
         num = typeof var2 === "string" && var2.length; // string
         // parameters in function declaration
-        num = typeof param1 === "string" && param1.length; // string
+        num = typeof param === "string" && param.length; // string
         return strOrNum;
     },
     get prop () {
         // global vars in function declaration
         num = typeof var1 === "string" && var1.length; // string
         // variables in function declaration
-        var var2;
-        num = typeof var2 === "string" && var2.length; // string
+        var var22;
+        num = typeof var22 === "string" && var22.length; // string
         return strOrNum;
     },
     set prop (param){

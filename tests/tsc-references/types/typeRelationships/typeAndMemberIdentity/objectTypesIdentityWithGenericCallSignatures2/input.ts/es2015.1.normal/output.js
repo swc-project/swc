@@ -1,6 +1,6 @@
 // object types are identical structurally
 class A {
-    foo(x, y) {
+    foo(x3, y) {
         return null;
     }
 }
@@ -16,8 +16,8 @@ class C {
 }
 var a;
 var b = {
-    foo (x3, y3) {
-        return x3;
+    foo (x, y) {
+        return x;
     }
 };
 function foo1(x) {

@@ -22,7 +22,7 @@ class D {
 }
 var a;
 var b = {
-    new (x3, y3) {
+    new (x, y) {
         return '';
     }
 }; // not a construct signature, function called new

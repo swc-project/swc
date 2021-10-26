@@ -10,7 +10,7 @@ class C {
 }
 C.m(), new C().m(), new C().p();
 const obj = {
-    m (x2) {
+    m (x) {
     },
     p: (x)=>{
     }

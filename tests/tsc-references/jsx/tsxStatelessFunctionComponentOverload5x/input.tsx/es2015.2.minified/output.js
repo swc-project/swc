@@ -42,13 +42,13 @@ React.createElement(MainButton, {
     }
 }, obj0)), React.createElement(MainButton, _extends({
 }, {
-    onClick (e1) {
+    onClick (e) {
     }
 }, {
     children: 10
 })), React.createElement(MainButton, _extends({
 }, {
-    onClick (e2) {
+    onClick (e) {
     }
 }, {
     children: "hello",

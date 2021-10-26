@@ -38,55 +38,55 @@ let p1 = {
 let p2 = {
     x: 10,
     y: 20,
-    moveBy (dx1, dy1, dz1) {
-        this.x += dx1;
-        this.y += dy1;
-        if (this.z && dz1) {
-            this.z += dz1;
+    moveBy (dx, dy, dz) {
+        this.x += dx;
+        this.y += dy;
+        if (this.z && dz) {
+            this.z += dz;
         }
     }
 };
 let p3 = {
     x: 10,
     y: 20,
-    moveBy (dx2, dy2, dz2) {
-        this.x += dx2;
-        this.y += dy2;
-        if (this.z && dz2) {
-            this.z += dz2;
+    moveBy (dx, dy, dz) {
+        this.x += dx;
+        this.y += dy;
+        if (this.z && dz) {
+            this.z += dz;
         }
     }
 };
 let p4 = {
     x: 10,
     y: 20,
-    moveBy (dx3, dy3, dz3) {
-        this.x += dx3;
-        this.y += dy3;
-        if (this.z && dz3) {
-            this.z += dz3;
+    moveBy (dx, dy, dz) {
+        this.x += dx;
+        this.y += dy;
+        if (this.z && dz) {
+            this.z += dz;
         }
     }
 };
 f1({
     x: 10,
     y: 20,
-    moveBy (dx4, dy4, dz4) {
-        this.x += dx4;
-        this.y += dy4;
-        if (this.z && dz4) {
-            this.z += dz4;
+    moveBy (dx, dy, dz) {
+        this.x += dx;
+        this.y += dy;
+        if (this.z && dz) {
+            this.z += dz;
         }
     }
 });
 f2({
     x: 10,
     y: 20,
-    moveBy (dx5, dy5, dz5) {
-        this.x += dx5;
-        this.y += dy5;
-        if (this.z && dz5) {
-            this.z += dz5;
+    moveBy (dx, dy, dz) {
+        this.x += dx;
+        this.y += dy;
+        if (this.z && dz) {
+            this.z += dz;
         }
     }
 });
@@ -96,9 +96,9 @@ let x1 = makeObject({
         y: 0
     },
     methods: {
-        moveBy (dx6, dy6) {
-            this.x += dx6; // Strongly typed this
-            this.y += dy6; // Strongly typed this
+        moveBy (dx, dy) {
+            this.x += dx; // Strongly typed this
+            this.y += dy; // Strongly typed this
         }
     }
 });
@@ -108,9 +108,9 @@ let x2 = makeObject2({
         y: 0
     },
     methods: {
-        moveBy (dx7, dy7) {
-            this.x += dx7; // Strongly typed this
-            this.y += dy7; // Strongly typed this
+        moveBy (dx, dy) {
+            this.x += dx; // Strongly typed this
+            this.y += dy; // Strongly typed this
         }
     }
 });
@@ -135,8 +135,8 @@ let p12 = defineProps(p1, {
         get () {
             return this.x;
         },
-        set (value1) {
-            this.x = value1;
+        set (value) {
+            this.x = value;
         }
     }
 });
@@ -161,7 +161,7 @@ let vue = new Vue({
             get () {
                 return "hi";
             },
-            set (value2) {
+            set (value) {
             }
         }
     }

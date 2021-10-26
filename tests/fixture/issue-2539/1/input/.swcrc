@@ -1,0 +1,13 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript"
+        },
+        "loose": true,
+        "target": "es2021",
+        "externalHelpers": true
+    },
+    "module": {
+        "type": "commonjs"
+    }
+}

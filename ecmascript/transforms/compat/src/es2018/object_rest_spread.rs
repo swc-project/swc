@@ -129,7 +129,8 @@ macro_rules! impl_for_for_stmt {
                 declare: false,
             }));
 
-            for_stmt.body = Box::new(Stmt::Block(match *for_stmt.body {
+            let body = for_stmt.body.fold_with(self);
+            for_stmt.body = Box::new(Stmt::Block(match *body {
                 Stmt::Block(BlockStmt { span, stmts }) => BlockStmt {
                     span,
                     stmts: iter::once(stmt).chain(stmts).collect(),

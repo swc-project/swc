@@ -1,9 +1,9 @@
 const obj1 = {
-    method1 (p2) {
-        return p2;
+    method1 (p) {
+        return p;
     },
-    method2 (p1) {
-        return p1;
+    method2 (p) {
+        return p;
     }
 };
 // not allowed when emitting declarations
@@ -12,8 +12,8 @@ export const classExpression = class _class {
     method1(p) {
         return p;
     }
-    method2(p3) {
-        return p3;
+    method2(p1) {
+        return p1;
     }
 };
 export function funcInferredReturnType(obj) {

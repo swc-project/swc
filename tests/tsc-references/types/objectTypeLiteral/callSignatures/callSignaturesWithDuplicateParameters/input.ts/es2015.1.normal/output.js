@@ -29,7 +29,7 @@ class C {
 }
 var a;
 var b = {
-    foo (x3, x3) {
+    foo (x, x) {
     },
     a: function foo(x, x) {
     },

@@ -510,6 +510,25 @@ impl Visit for UsageAnalyzer<'_> {
         }
     }
 
+    fn visit_method_prop(&mut self, f: &MethodProp, _: &dyn Node) {
+        f.key.visit_with(f, self);
+
+        f.function.decorators.visit_with(f, self);
+
+        self.visit_with_scope(f.function.span.ctxt, ScopeKind::Fn, |v| {
+            v.is_pat_decl = true;
+            f.function.params.visit_with(f, v);
+
+            v.is_pat_decl = false;
+            match f.function.body.as_ref() {
+                Some(body) => {
+                    body.visit_children_with(v);
+                }
+                None => {}
+            }
+        })
+    }
+
     fn visit_module(&mut self, m: &Module, _: &dyn Node) {
         self.visit_with_scope(m.span.ctxt, ScopeKind::Fn, |v| m.visit_children_with(v))
     }

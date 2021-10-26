@@ -18,7 +18,7 @@ class C {
 }
 var a;
 var b = {
-    foo (x3) {
+    foo (x) {
         return null;
     }
 };

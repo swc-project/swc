@@ -19,7 +19,7 @@ C.m(); // Always been ok
 new C().m(); // Regression #39261
 new C().p(); // Regression #39261
 const obj = {
-    m (x2) {
+    m (x) {
     },
     p: (x)=>{
     }
