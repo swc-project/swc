@@ -37,6 +37,8 @@ macro_rules! impl_for_for_stmt {
                 return for_stmt;
             }
 
+            for_stmt = for_stmt.fold_children_with(self);
+
             let left = match for_stmt.left {
                 VarDeclOrPat::VarDecl(var_decl) => {
                     let ref_ident = private_ident!("_ref");
