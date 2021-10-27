@@ -22,7 +22,11 @@ where
                 if !self
                     .data
                     .as_ref()
-                    .and_then(|data| data.vars.get(&name.to_id()).map(|v| !v.mutated))
+                    .and_then(|data| {
+                        data.vars
+                            .get(&name.to_id())
+                            .map(|v| !v.mutated && !v.reassigned && !v.is_infected())
+                    })
                     .unwrap_or(false)
                 {
                     return;
