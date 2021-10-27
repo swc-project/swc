@@ -1,11 +1,13 @@
 pub use self::{
     arrow::arrow, block_scoped_fn::block_scoped_functions, block_scoping::block_scoping,
-    classes::classes, computed_props::computed_properties, destructuring::destructuring,
-    duplicate_keys::duplicate_keys, for_of::for_of, function_name::function_name,
-    instanceof::instance_of, new_target::new_target, parameters::parameters,
-    regenerator::regenerator, shorthand_property::shorthand, spread::spread,
-    sticky_regex::sticky_regex, template_literal::template_literal, typeof_symbol::typeof_symbol,
+    classes::classes, computed_props::computed_properties, const_readonly::check_constants,
+    destructuring::destructuring, duplicate_keys::duplicate_keys, for_of::for_of,
+    function_name::function_name, instanceof::instance_of, new_target::new_target,
+    parameters::parameters, regenerator::regenerator, shorthand_property::shorthand,
+    spread::spread, sticky_regex::sticky_regex, template_literal::template_literal,
+    typeof_symbol::typeof_symbol,
 };
+
 use serde::Deserialize;
 use swc_common::{chain, comments::Comments, Mark};
 use swc_ecma_visit::Fold;
@@ -15,6 +17,7 @@ mod block_scoped_fn;
 mod block_scoping;
 pub mod classes;
 mod computed_props;
+mod const_readonly;
 pub mod destructuring;
 mod duplicate_keys;
 pub mod for_of;
@@ -60,7 +63,8 @@ where
         computed_properties(),
         destructuring(c.destructuring),
         regenerator(c.regenerator, global_mark),
-        block_scoping(),
+        check_constants(),
+        block_scoping()
     )
 }
 
