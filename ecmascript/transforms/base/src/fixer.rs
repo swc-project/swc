@@ -1492,4 +1492,8 @@ var store = global[SHARED] || (global[SHARED] = {});
         }
         "
     );
+
+    test_fixer!(issue_2550_1, "(1 && { a: 1 })", "1 && { a:1 }");
+
+    identical!(issue_2550_2, "({ isNewPrefsActive } && { a: 1 })");
 }
