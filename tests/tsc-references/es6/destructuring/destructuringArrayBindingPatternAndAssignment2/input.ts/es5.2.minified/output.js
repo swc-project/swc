@@ -31,25 +31,25 @@ function _toConsumableArray(arr) {
         throw new TypeError("Invalid attempt to spread non-iterable instance");
     })();
 }
-var ref = [];
-_slicedToArray(ref[0], 1)[0], _slicedToArray(_slicedToArray(ref[1], 1)[0], 1)[0];
-var _undefined = _slicedToArray(void 0, 2);
-_slicedToArray(_undefined[0], 1)[0], _slicedToArray(_slicedToArray(_undefined[1], 1)[0], 1)[0];
-var ref1 = _slicedToArray([
+var ref = [], a0 = _slicedToArray(ref[0], 1)[0], ref1 = _slicedToArray(ref[1], 1), ref2 = _slicedToArray(ref1[0], 1);
+ref2[0];
+var _undefined = _slicedToArray(void 0, 2), ref3 = _slicedToArray(_undefined[0], 1), a2 = ref3[0], ref4 = _slicedToArray(_undefined[1], 1), ref5 = _slicedToArray(ref4[0], 1);
+ref5[0];
+var ref6 = _slicedToArray([
     1,
     2,
     3
 ], 3);
-ref1[0], ref1[1], ref1[2];
+ref6[0], ref6[1], ref6[2];
 var temp = [
     1,
     2,
     3
-], ref2 = _slicedToArray(_toConsumableArray(temp), 2);
-ref2[0], ref2[1];
-var ref3 = _slicedToArray(_toConsumableArray(temp), 2);
-ref3[0], ref3[1];
-var ref4 = _slicedToArray({
+], ref7 = _slicedToArray(_toConsumableArray(temp), 2);
+ref7[0], ref7[1];
+var ref8 = _slicedToArray(_toConsumableArray(temp), 2);
+ref8[0], ref8[1];
+var ref9 = _slicedToArray({
     2: !0
 }, 3);
-ref4[0], ref4[1], ref4[2];
+ref9[0], ref9[1], ref9[2];

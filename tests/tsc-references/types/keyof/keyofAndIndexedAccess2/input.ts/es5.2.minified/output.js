@@ -5,7 +5,8 @@ export function getAllEntities(state) {
     });
 }
 export function getEntity(id, state) {
-    if (state.ids.includes(id)) return state.entities[id];
+    var ids = state.ids, entities = state.entities;
+    if (ids.includes(id)) return entities[id];
 }
 export var c = function() {
     "use strict";

@@ -1579,8 +1579,8 @@
     });
     var proto$1 = Locale.prototype;
     function get$1(format, index, field, setter) {
-        var utc = createUTC().set(setter, index);
-        return getLocale()[field](utc, format);
+        var locale = getLocale(), utc = createUTC().set(setter, index);
+        return locale[field](utc, format);
     }
     function listMonthsImpl(format, index, field) {
         if (isNumber(format) && (index = format, format = void 0), format = format || "", null != index) return get$1(format, index, field, "month");
