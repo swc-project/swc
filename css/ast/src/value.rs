@@ -114,6 +114,8 @@ pub struct HashValue {
     pub span: Span,
     /// Does **not** include `#`
     pub value: JsWord,
+    /// Does **not** include `#`
+    pub raw: JsWord,
 }
 
 #[ast_node]

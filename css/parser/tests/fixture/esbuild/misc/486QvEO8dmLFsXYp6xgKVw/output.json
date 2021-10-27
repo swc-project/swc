@@ -88,7 +88,8 @@
                   "end": 19,
                   "ctxt": 0
                 },
-                "value": "0hash"
+                "value": "0hash",
+                "raw": "\\30hash"
               }
             ],
             "important": null

@@ -67,24 +67,6 @@ where
         self.w.write_char(' ')
     }
 
-    fn write_hash_value(&mut self, _span: Option<Span>, text: &str) -> Result {
-        for c in text.chars() {
-            match c {
-                ',' => {
-                    self.col += 1;
-                    self.w.write_char('\\')?;
-                }
-
-                _ => {}
-            }
-
-            self.col += 1;
-            self.w.write_char(c)?;
-        }
-
-        Ok(())
-    }
-
     fn write_raw(&mut self, _span: Option<Span>, text: &str) -> Result {
         for (_, s) in text.chars().enumerate() {
             self.col += 1;

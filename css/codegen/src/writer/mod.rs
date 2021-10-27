@@ -11,9 +11,6 @@ pub trait CssWriter {
 
     fn write_space(&mut self) -> Result;
 
-    /// `text` does not contain `#`.
-    fn write_hash_value(&mut self, span: Option<Span>, text: &str) -> Result;
-
     fn write_raw(&mut self, span: Option<Span>, text: &str) -> Result;
 
     fn write_raw_char(&mut self, span: Option<Span>, c: char) -> Result;
