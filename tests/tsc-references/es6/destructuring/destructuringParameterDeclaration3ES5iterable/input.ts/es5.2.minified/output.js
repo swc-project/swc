@@ -38,8 +38,8 @@ function _toConsumableArray(arr) {
     })();
 }
 function a10(param) {
-    var _param = _toArray(param);
-    _param[0], _param[1], _slicedToArray(_slicedToArray(_param[2], 1)[0], 1)[0], _param.slice(3);
+    var _param = _toArray(param), a = _param[0], b = _param[1], ref = _slicedToArray(_param[2], 1), ref1 = _slicedToArray(ref[0], 1);
+    ref1[0], _param.slice(3);
 }
 var E, E1, E2, E11, array = [
     1,
@@ -57,8 +57,8 @@ function foo1() {
 }(_toConsumableArray(array)), (function() {
     for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];
 }).apply(void 0, _toConsumableArray(array)), (function(param) {
-    var _param = _slicedToArray(param, 3);
-    _param[0], _param[1], _slicedToArray(_slicedToArray(_param[2], 1)[0], 1)[0];
+    var _param = _slicedToArray(param, 3), a = _param[0], b = _param[1], ref = _slicedToArray(_param[2], 1), ref2 = _slicedToArray(ref[0], 1);
+    ref2[0];
 })([
     1,
     2,

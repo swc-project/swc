@@ -19,4 +19,4 @@ r: "function";
 z: objA.a;
 z: ;
 z: M1.n;
-z: ;
+z: "a";

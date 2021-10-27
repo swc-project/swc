@@ -4755,7 +4755,7 @@
             };
         },
         88986: function(module, __unused_webpack_exports, __webpack_require__) {
-            var setGlobal = __webpack_require__(65933), store = __webpack_require__(19514)["__core-js_shared__"] || setGlobal("__core-js_shared__", {
+            var global = __webpack_require__(19514), setGlobal = __webpack_require__(65933), store = global["__core-js_shared__"] || setGlobal("__core-js_shared__", {
             });
             module.exports = store;
         },
@@ -5197,7 +5197,7 @@
         },
         39803: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var $ = __webpack_require__(35437), setSpecies = __webpack_require__(53988), ArrayBuffer = __webpack_require__(44757).ArrayBuffer, NativeArrayBuffer = __webpack_require__(19514).ArrayBuffer;
+            var $ = __webpack_require__(35437), global = __webpack_require__(19514), arrayBufferModule = __webpack_require__(44757), setSpecies = __webpack_require__(53988), ArrayBuffer = arrayBufferModule.ArrayBuffer, NativeArrayBuffer = global.ArrayBuffer;
             $({
                 global: !0,
                 forced: NativeArrayBuffer !== ArrayBuffer
@@ -11431,6 +11431,11 @@
                 var b = a.textContent;
                 b === a._wrapperState.initialValue && "" !== b && null !== b && (a.value = b);
             }
+            var kb = {
+                html: "http://www.w3.org/1999/xhtml",
+                mathml: "http://www.w3.org/1998/Math/MathML",
+                svg: "http://www.w3.org/2000/svg"
+            };
             function lb(a) {
                 switch(a){
                     case "svg":
@@ -11451,7 +11456,7 @@
                     });
                 } : a;
             }(function(a, b) {
-                if ("http://www.w3.org/2000/svg" !== a.namespaceURI || "innerHTML" in a) a.innerHTML = b;
+                if (a.namespaceURI !== kb.svg || "innerHTML" in a) a.innerHTML = b;
                 else {
                     for((nb = nb || document.createElement("div")).innerHTML = "<svg>" + b.valueOf().toString() + "</svg>", b = nb.firstChild; a.firstChild;)a.removeChild(a.firstChild);
                     for(; b.firstChild;)a.appendChild(b.firstChild);
@@ -14353,7 +14358,7 @@
                                 }
                                 d = a, b.updateQueue = d, null !== d && (b.flags |= 4);
                             } else {
-                                switch(g = 9 === e.nodeType ? e : e.ownerDocument, "http://www.w3.org/1999/xhtml" === a && (a = lb(c)), "http://www.w3.org/1999/xhtml" === a ? "script" === c ? ((a = g.createElement("div")).innerHTML = "<script></script>", a = a.removeChild(a.firstChild)) : "string" == typeof d.is ? a = g.createElement(c, {
+                                switch(g = 9 === e.nodeType ? e : e.ownerDocument, a === kb.html && (a = lb(c)), a === kb.html ? "script" === c ? ((a = g.createElement("div")).innerHTML = "<script></script>", a = a.removeChild(a.firstChild)) : "string" == typeof d.is ? a = g.createElement(c, {
                                     is: d.is
                                 }) : (a = g.createElement(c), "select" === c && (g = a, d.multiple ? g.multiple = !0 : d.size && (g.size = d.size))) : a = g.createElementNS(a, c), a[wf] = b, a[xf] = d, Bi(a, b, !1, !1), b.stateNode = a, g = wb(c, d), c){
                                     case "dialog":
@@ -16913,7 +16918,9 @@
             }, D.prototype = C.prototype;
             var F = E.prototype = new D;
             F.constructor = E, l(F, C.prototype), F.isPureReactComponent = !0;
-            var H = Object.prototype.hasOwnProperty, I = {
+            var G = {
+                current: null
+            }, H = Object.prototype.hasOwnProperty, I = {
                 key: !0,
                 ref: !0,
                 __self: !0,
@@ -16936,7 +16943,7 @@
                     key: k,
                     ref: h,
                     props: d,
-                    _owner: null
+                    _owner: G.current
                 };
             }
             function L(a) {
@@ -17006,9 +17013,13 @@
                 if (1 === a._status) return a._result;
                 throw a._result;
             }
+            var R = {
+                current: null
+            };
             function S() {
-                throw Error(z(321));
-                return null;
+                var a = R.current;
+                if (null === a) throw Error(z(321));
+                return a;
             }
             exports.Children = {
                 map: P,
@@ -17033,15 +17044,11 @@
                     return a;
                 }
             }, exports.Component = C, exports.PureComponent = E, exports.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = {
-                ReactCurrentDispatcher: {
-                    current: null
-                },
+                ReactCurrentDispatcher: R,
                 ReactCurrentBatchConfig: {
                     transition: 0
                 },
-                ReactCurrentOwner: {
-                    current: null
-                },
+                ReactCurrentOwner: G,
                 IsSomeRendererActing: {
                     current: !1
                 },
@@ -17051,7 +17058,7 @@
                 var e = l({
                 }, a.props), d = a.key, k = a.ref, h = a._owner;
                 if (null != b) {
-                    if (void 0 !== b.ref && (k = b.ref, h = null), void 0 !== b.key && (d = "" + b.key), a.type && a.type.defaultProps) var g = a.type.defaultProps;
+                    if (void 0 !== b.ref && (k = b.ref, h = G.current), void 0 !== b.key && (d = "" + b.key), a.type && a.type.defaultProps) var g = a.type.defaultProps;
                     for(f in b)H.call(b, f) && !I.hasOwnProperty(f) && (e[f] = void 0 === b[f] && void 0 !== g ? g[f] : b[f]);
                 }
                 var f = arguments.length - 2;

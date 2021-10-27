@@ -1,11 +1,11 @@
 let getX;
 var tmp = (getX = (a)=>a.#x
-, "_");
+, "_"), _x = new WeakMap();
 console.log(getX(new class {
     [tmp]() {
     }
     constructor(){
-        new WeakMap().set(this, {
+        _x.set(this, {
             writable: !0,
             value: 100
         });

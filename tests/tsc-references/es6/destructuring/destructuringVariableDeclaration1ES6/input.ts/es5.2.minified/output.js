@@ -19,6 +19,7 @@ function _slicedToArray(arr, i) {
         throw new TypeError("Invalid attempt to destructure non-iterable instance");
     })();
 }
+"world";
 var tmp = {
     b11: "world"
 };

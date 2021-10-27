@@ -851,6 +851,11 @@
         var node = element, textContent = node.textContent;
         textContent === node._wrapperState.initialValue && "" !== textContent && null !== textContent && (node.value = textContent);
     }
+    var Namespaces = {
+        html: "http://www.w3.org/1999/xhtml",
+        mathml: "http://www.w3.org/1998/Math/MathML",
+        svg: "http://www.w3.org/2000/svg"
+    };
     function getIntrinsicNamespace(type) {
         switch(type){
             case "svg":
@@ -871,7 +876,7 @@
             });
         } : func;
     }(function(node, html) {
-        if ("http://www.w3.org/2000/svg" === node.namespaceURI && !("innerHTML" in node)) {
+        if (node.namespaceURI === Namespaces.svg && !("innerHTML" in node)) {
             (reusableSVGContainer = reusableSVGContainer || document.createElement("div")).innerHTML = "<svg>" + html.valueOf().toString() + "</svg>";
             for(var svgNode = reusableSVGContainer.firstChild; node.firstChild;)node.removeChild(node.firstChild);
             for(; svgNode.firstChild;)node.appendChild(svgNode.firstChild);
@@ -3670,7 +3675,7 @@
     function getListenerSetKey(domEventName, capture) {
         return domEventName + "__" + (capture ? "capture" : "bubble");
     }
-    var didWarnInvalidHydration = !1;
+    var didWarnInvalidHydration = !1, HTML_NAMESPACE$1 = Namespaces.html;
     warnedUnknownTags = {
         dialog: !0,
         webview: !0
@@ -3739,7 +3744,7 @@
     }, warnForInvalidEventListener = function(registrationName, listener) {
         !1 === listener ? error1("Expected `%s` listener to be a function, instead got `false`.\n\nIf you used to conditionally omit it with %s={condition && value}, pass %s={condition ? value : undefined} instead.", registrationName, registrationName, registrationName) : error1("Expected `%s` listener to be a function, instead got a value of `%s` type.", registrationName, typeof listener);
     }, normalizeHTML = function(parent, html) {
-        var testElement = "http://www.w3.org/1999/xhtml" === parent.namespaceURI ? parent.ownerDocument.createElement(parent.tagName) : parent.ownerDocument.createElementNS(parent.namespaceURI, parent.tagName);
+        var testElement = parent.namespaceURI === HTML_NAMESPACE$1 ? parent.ownerDocument.createElement(parent.tagName) : parent.ownerDocument.createElementNS(parent.namespaceURI, parent.tagName);
         return testElement.innerHTML = html, testElement.innerHTML;
     };
     var validateDOMNesting = function() {
@@ -7172,7 +7177,7 @@
                                     if (null !== propertyInfo) extraAttributeNames.delete(propertyInfo.attributeName), serverValue = getValueForProperty(domElement, propKey, nextProp, propertyInfo);
                                     else {
                                         var ownNamespace = parentNamespace;
-                                        if ("http://www.w3.org/1999/xhtml" === ownNamespace && (ownNamespace = getIntrinsicNamespace(tag)), "http://www.w3.org/1999/xhtml" === ownNamespace) extraAttributeNames.delete(propKey.toLowerCase());
+                                        if (ownNamespace === HTML_NAMESPACE$1 && (ownNamespace = getIntrinsicNamespace(tag)), ownNamespace === HTML_NAMESPACE$1) extraAttributeNames.delete(propKey.toLowerCase());
                                         else {
                                             var standardName = getPossibleStandardName(propKey);
                                             null !== standardName && standardName !== propKey && (isMismatchDueToBadCasing = !0, extraAttributeNames.delete(standardName)), extraAttributeNames.delete(propKey);
@@ -7202,7 +7207,7 @@
                     else {
                         var type8, props9, rootContainerInstance1, hostContext, internalInstanceHandle, hostContextDev, domElement1, fiber, hostContext1, instance, type9, props7, hostContext2, internalInstanceHandle1, updatePayload1, type10, props8, instance7 = (type8 = type11, props9 = newProps, rootContainerInstance1 = rootContainerInstance, hostContext = currentHostContext, internalInstanceHandle = workInProgress, validateDOMNesting(type8, null, (hostContextDev = hostContext).ancestorInfo), ("string" == typeof props9.children || "number" == typeof props9.children) && validateDOMNesting(null, "" + props9.children, updatedAncestorInfo(hostContextDev.ancestorInfo, type8)), hostContextDev.namespace, precacheFiberNode(internalInstanceHandle, domElement1 = function(type, props, rootContainerElement, parentNamespace) {
                             var isCustomComponentTag, domElement, ownerDocument = getOwnerDocumentFromRootContainer(rootContainerElement), namespaceURI = parentNamespace;
-                            if ("http://www.w3.org/1999/xhtml" === namespaceURI && (namespaceURI = getIntrinsicNamespace(type)), "http://www.w3.org/1999/xhtml" === namespaceURI) {
+                            if (namespaceURI === HTML_NAMESPACE$1 && (namespaceURI = getIntrinsicNamespace(type)), namespaceURI === HTML_NAMESPACE$1) {
                                 if ((isCustomComponentTag = isCustomComponent(type, props)) || type === type.toLowerCase() || error1("<%s /> is using incorrect casing. Use PascalCase for React components, or lowercase for HTML elements.", type), "script" === type) {
                                     var div = ownerDocument.createElement("div");
                                     div.innerHTML = "<script></script>";
@@ -7216,7 +7221,7 @@
                                     props.multiple ? node.multiple = !0 : props.size && (node.size = props.size);
                                 }
                             } else domElement = ownerDocument.createElementNS(namespaceURI, type);
-                            return "http://www.w3.org/1999/xhtml" !== namespaceURI || isCustomComponentTag || "[object HTMLUnknownElement]" !== Object.prototype.toString.call(domElement) || Object.prototype.hasOwnProperty.call(warnedUnknownTags, type) || (warnedUnknownTags[type] = !0, error1("The tag <%s> is unrecognized in this browser. If you meant to render a React component, start its name with an uppercase letter.", type)), domElement;
+                            return namespaceURI !== HTML_NAMESPACE$1 || isCustomComponentTag || "[object HTMLUnknownElement]" !== Object.prototype.toString.call(domElement) || Object.prototype.hasOwnProperty.call(warnedUnknownTags, type) || (warnedUnknownTags[type] = !0, error1("The tag <%s> is unrecognized in this browser. If you meant to render a React component, start its name with an uppercase letter.", type)), domElement;
                         }(type8, props9, rootContainerInstance1, hostContextDev.namespace)), updateFiberProps(domElement1, props9), domElement1);
                         appendAllChildren(instance7, workInProgress, !1, !1), workInProgress.stateNode = instance7, (function(domElement2, tag1, rawProps, rootContainerElement) {
                             var element, props, element1, props10, node, value, props11, isCustomComponentTag1 = isCustomComponent(tag1, rawProps);

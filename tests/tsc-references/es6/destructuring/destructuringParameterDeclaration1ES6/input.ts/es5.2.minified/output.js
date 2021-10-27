@@ -32,8 +32,8 @@ function _slicedToArray(arr, i) {
     })();
 }
 function a1(param) {
-    var _param = _slicedToArray(param, 3);
-    _param[0], _param[1], _slicedToArray(_slicedToArray(_param[2], 1)[0], 1)[0];
+    var _param = _slicedToArray(param, 3), a = _param[0], b = _param[1], ref = _slicedToArray(_param[2], 1), ref1 = _slicedToArray(ref[0], 1);
+    ref1[0];
 }
 function b2(param, param1) {
 }
@@ -50,8 +50,8 @@ function c2(param) {
     param.z;
 }
 function c5(param) {
-    var _param = _slicedToArray(param, 3);
-    _param[0], _param[1], _slicedToArray(_slicedToArray(_param[2], 1)[0], 1)[0];
+    var _param = _slicedToArray(param, 3), a = _param[0], b = _param[1], ref = _slicedToArray(_param[2], 1), ref2 = _slicedToArray(ref[0], 1);
+    ref2[0];
 }
 a1([
     1,

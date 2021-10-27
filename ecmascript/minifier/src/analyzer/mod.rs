@@ -118,6 +118,10 @@ impl VarUsageInfo {
     pub fn is_mutated_only_by_one_call(&self) -> bool {
         self.assign_count == 0 && self.mutation_by_call_count == 1
     }
+
+    pub fn is_infected(&self) -> bool {
+        !self.infects.is_empty()
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
