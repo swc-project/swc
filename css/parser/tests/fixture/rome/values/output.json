@@ -85,7 +85,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 10,
           "end": 36,
@@ -93,13 +93,13 @@
         },
         "items": [
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 13,
               "end": 33,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 13,
@@ -109,7 +109,7 @@
               "value": "content",
               "raw": "content"
             },
-            "values": [
+            "value": [
               {
                 "type": "String",
                 "span": {
@@ -177,7 +177,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 46,
           "end": 115,
@@ -185,13 +185,13 @@
         },
         "items": [
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 49,
               "end": 62,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 49,
@@ -201,7 +201,7 @@
               "value": "opacity",
               "raw": "opacity"
             },
-            "values": [
+            "value": [
               {
                 "type": "Number",
                 "span": {
@@ -216,13 +216,13 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 65,
               "end": 81,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 65,
@@ -232,7 +232,7 @@
               "value": "line-height",
               "raw": "line-height"
             },
-            "values": [
+            "value": [
               {
                 "type": "Number",
                 "span": {
@@ -247,13 +247,13 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 84,
               "end": 94,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 84,
@@ -263,7 +263,7 @@
               "value": "width",
               "raw": "width"
             },
-            "values": [
+            "value": [
               {
                 "type": "PercentValue",
                 "span": {
@@ -286,13 +286,13 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 97,
               "end": 112,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 97,
@@ -302,7 +302,7 @@
               "value": "margin-top",
               "raw": "margin-top"
             },
-            "values": [
+            "value": [
               {
                 "type": "PercentValue",
                 "span": {
@@ -377,7 +377,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 121,
           "end": 139,
@@ -385,13 +385,13 @@
         },
         "items": [
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 124,
               "end": 137,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 124,
@@ -401,7 +401,7 @@
               "value": "color",
               "raw": "color"
             },
-            "values": [
+            "value": [
               {
                 "type": "Text",
                 "span": {
@@ -468,7 +468,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 145,
           "end": 182,
@@ -476,13 +476,13 @@
         },
         "items": [
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 148,
               "end": 161,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 148,
@@ -492,7 +492,7 @@
               "value": "color",
               "raw": "color"
             },
-            "values": [
+            "value": [
               {
                 "type": "Text",
                 "span": {
@@ -507,13 +507,13 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 164,
               "end": 180,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 164,
@@ -523,7 +523,7 @@
               "value": "background",
               "raw": "background"
             },
-            "values": [
+            "value": [
               {
                 "type": "Text",
                 "span": {

@@ -2,7 +2,7 @@
 // parameters pairwise identical, have identical type parameter constraints, identical number of parameters with identical kind(required, 
 // optional or rest) and types, and identical return types.
 class B {
-    constructor(x, y){
+    constructor(x2, y2){
         return null;
     }
 }
@@ -13,8 +13,8 @@ class C {
 }
 var a;
 var b = {
-    new (x2, y2) {
-        return new C(x2, y2);
+    new (x, y) {
+        return new C(x, y);
     }
 }; // not a construct signature, function called new
 function foo1b(x) {

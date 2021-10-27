@@ -11,7 +11,7 @@ class C {
 }
 var a;
 var b = {
-    foo (x1) {
+    foo (x) {
     },
     a: function foo(x, y) {
     },

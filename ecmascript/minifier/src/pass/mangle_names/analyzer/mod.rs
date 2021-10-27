@@ -145,6 +145,14 @@ impl Visit for Analyzer {
         }
     }
 
+    fn visit_method_prop(&mut self, f: &MethodProp, _: &dyn Node) {
+        f.key.visit_with(f, self);
+
+        self.with_scope(|v| {
+            f.function.visit_with(f, v);
+        })
+    }
+
     fn visit_named_export(&mut self, n: &NamedExport, _: &dyn Node) {
         if n.src.is_some() {
             return;

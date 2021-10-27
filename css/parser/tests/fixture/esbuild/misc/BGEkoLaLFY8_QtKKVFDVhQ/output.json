@@ -43,7 +43,7 @@
             }
           ],
           "rule": {
-            "type": "DeclBlock",
+            "type": "Block",
             "span": {
               "start": 25,
               "end": 27,

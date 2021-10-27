@@ -50,7 +50,7 @@ error: Text
 5 | a {
   | ^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/rome/comment/input.css:5:3
   |
 5 |   a {
@@ -59,7 +59,7 @@ error: DeclBlock
 7 | | }
   | |_^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/comment/input.css:6:2
   |
 6 |     color: white; /* comment */
@@ -123,7 +123,7 @@ error: Text
 9 | a {
   | ^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/rome/comment/input.css:9:3
    |
 9  |   a {
@@ -132,7 +132,7 @@ error: DeclBlock
 11 | | }
    | |_^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/rome/comment/input.css:10:2
    |
 10 |     color: /* comment */ white;
@@ -196,7 +196,7 @@ error: Text
 13 | a /* comment */ {
    | ^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/rome/comment/input.css:13:17
    |
 13 |   a /* comment */ {
@@ -205,7 +205,7 @@ error: DeclBlock
 15 | | }
    | |_^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/rome/comment/input.css:14:2
    |
 14 |     color: white;

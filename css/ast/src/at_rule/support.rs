@@ -1,4 +1,4 @@
-use crate::{Property, Rule};
+use crate::{Declaration, Rule};
 use swc_common::{ast_node, Span};
 
 #[ast_node("SupportsRule")]
@@ -21,8 +21,8 @@ pub enum SupportQuery {
     #[tag("OrSupportQuery")]
     Or(OrSupportQuery),
 
-    #[tag("Property")]
-    Property(Property),
+    #[tag("Declaration")]
+    Declaration(Declaration),
 
     #[tag("ParenSupportQuery")]
     Paren(ParenSupportQuery),

@@ -6,7 +6,7 @@ ns.x = {
     }
 }, ns.x = {
     status: "done",
-    m (n1) {
+    m (n) {
     }
 }, ns.x;
 class Thing {
@@ -27,23 +27,23 @@ class Thing {
 }
 exports.x = {
     status: "done",
-    m (n2) {
+    m (n) {
     }
 }, module.exports.y = {
     status: "done",
-    m (n3) {
+    m (n) {
     }
 }, module.exports.y, Thing.prototype.x = {
     status: "done",
-    m (n4) {
+    m (n) {
     }
 }, Thing.prototype.x, (function() {
 }).prototype = {
     status: "done",
-    m (n5) {
+    m (n) {
     }
 }, module.exports = {
     status: "done",
-    m (n6) {
+    m (n) {
     }
 };

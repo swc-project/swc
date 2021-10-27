@@ -49,7 +49,7 @@ error: SupportQuery
 1 | @supports not (display: flex) {
   |                ^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/supports/input.css:1:16
   |
 1 | @supports not (display: flex) {
@@ -126,7 +126,7 @@ error: SupportQuery
 4 | @supports ( box-shadow: 0 0 2px black inset ) or
   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/supports/input.css:4:13
   |
 4 | @supports ( box-shadow: 0 0 2px black inset ) or
@@ -232,7 +232,7 @@ error: SupportQuery
 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/supports/input.css:5:13
   |
 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
@@ -336,7 +336,7 @@ error: SupportQuery
 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/supports/input.css:6:13
   |
 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
@@ -426,7 +426,7 @@ error: SupportQuery
 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/supports/input.css:7:13
   |
 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
@@ -590,7 +590,7 @@ error: SupportQuery
 10 | @supports ((transition-property: color) or
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/rome/supports/input.css:10:13
    |
 10 | @supports ((transition-property: color) or
@@ -620,7 +620,7 @@ error: SupportQuery
 11 |            (animation-name: foo)) and
    |             ^^^^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/rome/supports/input.css:11:13
    |
 11 |            (animation-name: foo)) and
@@ -650,7 +650,7 @@ error: SupportQuery
 12 |           (transform: rotate(10deg)) {}
    |            ^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/rome/supports/input.css:12:12
    |
 12 |           (transform: rotate(10deg)) {}

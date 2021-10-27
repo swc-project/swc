@@ -207,6 +207,13 @@ where
             emit!(self, pseudo);
         }
     }
+    #[emitter]
+    fn emit_namespace_value(&mut self, n: &NamespaceValue) -> Result {
+        match n {
+            NamespaceValue::Url(n) => emit!(self, n),
+            NamespaceValue::Str(n) => emit!(self, n),
+        }
+    }
 
     #[emitter]
     fn emit_namespace_rule(&mut self, n: &NamespaceRule) -> Result {
@@ -298,7 +305,7 @@ where
             MediaQuery::Or(n) => emit!(self, n),
             MediaQuery::Not(n) => emit!(self, n),
             MediaQuery::Only(n) => emit!(self, n),
-            MediaQuery::Property(n) => {
+            MediaQuery::Declaration(n) => {
                 punct!(self, "(");
                 emit!(self, n);
                 punct!(self, ")");
@@ -308,7 +315,7 @@ where
     }
 
     #[emitter]
-    fn emit_decl_block(&mut self, n: &DeclBlock) -> Result {
+    fn emit_block(&mut self, n: &Block) -> Result {
         punct!(self, "{");
 
         self.emit_list(&n.items, ListFormat::SemiDelimited | ListFormat::MultiLine)?;
@@ -317,27 +324,28 @@ where
     }
 
     #[emitter]
-    fn emit_decl_block_item(&mut self, n: &DeclBlockItem) -> Result {
+    fn emit_declaration_block_item(&mut self, n: &DeclarationBlockItem) -> Result {
         match n {
-            DeclBlockItem::Invalid(n) => emit!(self, n),
-            DeclBlockItem::Property(n) => emit!(self, n),
+            DeclarationBlockItem::Invalid(n) => emit!(self, n),
+            DeclarationBlockItem::Declaration(n) => emit!(self, n),
         }
     }
 
     #[emitter]
-    fn emit_property(&mut self, n: &Property) -> Result {
-        emit!(self, n.name);
+    fn emit_declaration(&mut self, n: &Declaration) -> Result {
+        emit!(self, n.property);
         punct!(self, ":");
         formatting_space!(self);
+
         self.emit_list(
-            &n.values,
+            &n.value,
             ListFormat::SpaceDelimited | ListFormat::SingleLine,
         )?;
 
         if let Some(tok) = n.important {
             formatting_space!(self);
             punct!(self, tok, "!");
-            self.wr.write_ident(Some(tok), "important", false)?;
+            self.wr.write_raw(Some(tok), "important")?;
         }
 
         if self.ctx.semi_after_property {
@@ -353,7 +361,7 @@ where
     #[emitter]
     fn emit_keyframe_block_rule(&mut self, n: &KeyframeBlockRule) -> Result {
         match n {
-            KeyframeBlockRule::Decl(n) => emit!(self, n),
+            KeyframeBlockRule::Block(n) => emit!(self, n),
             KeyframeBlockRule::AtRule(n) => emit!(self, n),
         }
     }
@@ -370,7 +378,7 @@ where
             SupportQuery::Not(n) => emit!(self, n),
             SupportQuery::And(n) => emit!(self, n),
             SupportQuery::Or(n) => emit!(self, n),
-            SupportQuery::Property(n) => {
+            SupportQuery::Declaration(n) => {
                 punct!(self, "(");
                 emit!(self, n);
                 punct!(self, ")");
@@ -404,7 +412,7 @@ where
     #[emitter]
     fn emit_page_rule_block_item(&mut self, n: &PageRuleBlockItem) -> Result {
         match n {
-            PageRuleBlockItem::Property(n) => emit!(self, n),
+            PageRuleBlockItem::Declaration(n) => emit!(self, n),
             PageRuleBlockItem::Nested(n) => emit!(self, n),
         }
     }
@@ -522,13 +530,13 @@ where
                     self.wr.write_raw(Some(span), &raw)?;
                 }
                 Token::Url { raw, .. } => {
-                    self.wr.write_ident(Some(span), "url", false)?;
+                    self.wr.write_raw(Some(span), "url")?;
                     punct!(self, "(");
                     self.wr.write_raw(None, &raw)?;
                     punct!(self, ")");
                 }
                 Token::BadUrl { raw, .. } => {
-                    self.wr.write_ident(Some(span), "url", false)?;
+                    self.wr.write_raw(Some(span), "url")?;
                     punct!(self, "(");
                     self.wr.write_raw(None, &raw)?;
                     punct!(self, ")");
@@ -548,9 +556,9 @@ where
                 Token::Colon => {
                     punct!(self, span, ":");
                 }
-                Token::Hash { value, .. } => {
+                Token::Hash { raw, .. } => {
                     punct!(self, "#");
-                    self.wr.write_ident(Some(span), &value, true)?;
+                    self.wr.write_raw(Some(span), &raw)?;
                 }
                 Token::WhiteSpace => {
                     space!(self);

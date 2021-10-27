@@ -269,7 +269,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 37,
           "end": 41,
@@ -329,7 +329,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 65,
           "end": 69,
@@ -419,7 +419,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 82,
           "end": 86,
@@ -509,7 +509,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 97,
           "end": 117,
@@ -517,13 +517,13 @@
         },
         "items": [
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 101,
               "end": 114,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 101,
@@ -533,7 +533,7 @@
               "value": "color",
               "raw": "color"
             },
-            "values": [
+            "value": [
               {
                 "type": "Text",
                 "span": {
@@ -640,7 +640,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 138,
           "end": 158,
@@ -648,13 +648,13 @@
         },
         "items": [
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 142,
               "end": 155,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 142,
@@ -664,7 +664,7 @@
               "value": "color",
               "raw": "color"
             },
-            "values": [
+            "value": [
               {
                 "type": "Text",
                 "span": {
@@ -771,7 +771,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 180,
           "end": 200,
@@ -779,13 +779,13 @@
         },
         "items": [
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 184,
               "end": 197,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 184,
@@ -795,7 +795,7 @@
               "value": "color",
               "raw": "color"
             },
-            "values": [
+            "value": [
               {
                 "type": "Text",
                 "span": {
@@ -941,7 +941,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 240,
           "end": 259,
@@ -949,13 +949,13 @@
         },
         "items": [
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 243,
               "end": 256,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 243,
@@ -965,7 +965,7 @@
               "value": "color",
               "raw": "color"
             },
-            "values": [
+            "value": [
               {
                 "type": "Text",
                 "span": {
@@ -1075,7 +1075,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 283,
           "end": 286,
@@ -1188,7 +1188,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 302,
           "end": 305,
@@ -1258,7 +1258,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 323,
           "end": 326,
@@ -1371,7 +1371,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 348,
           "end": 351,

@@ -1141,9 +1141,9 @@ checksum = "9fbe11972c601a48aa12a0e2aa032e9e251655ce6c6836cac26e5c0b3b5a5dcc"
 
 [[package]]
 name = "napi-derive"
-version = "1.1.0"
+version = "1.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8e7ed160148f94ee17936f00288029cb0cfb37c08bbace9f514f735dcd869ed7"
+checksum = "4d57bc36513971ab3c60e5af84092662fb1b2fa686d0ef4aadab0d0fb6414bb9"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1531,9 +1531,9 @@ checksum = "8b870d8c151b6f2fb93e84a13146138f05d02ed11c7e7c54f8826aaaf7c9f184"
 
 [[package]]
 name = "pkg-config"
-version = "0.3.21"
+version = "0.3.22"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "10e2fcbb64ecbe64c8e040a386c3104d384583af58b956d870aaaf229df6e66d"
+checksum = "12295df4f294471248581bc09bef3c38a5e46f1e36d6a37353621a0c6c357e1f"
 
 [[package]]
 name = "pmutil"
@@ -1548,9 +1548,9 @@ dependencies = [
 
 [[package]]
 name = "ppv-lite86"
-version = "0.2.14"
+version = "0.2.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c3ca011bd0129ff4ae15cd04c4eef202cadf6c51c21e47aba319b4e0501db741"
+checksum = "ed0cfbc8191465bed66e1718596ee0b0b35d5ee1f41c5df2189d0fe8bde535ba"
 
 [[package]]
 name = "precomputed-hash"
@@ -2325,7 +2325,7 @@ checksum = "6446ced80d6c486436db5c078dde11a9f73d42b57fb273121e160b84f63d894c"
 
 [[package]]
 name = "swc"
-version = "0.79.0"
+version = "0.79.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2504,7 +2504,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.23.0"
+version = "0.24.0"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -2515,7 +2515,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_ast"
-version = "0.21.0"
+version = "0.22.0"
 dependencies = [
  "is-macro",
  "serde",
@@ -2526,7 +2526,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.21.0"
+version = "0.22.0"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -2552,7 +2552,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.23.1"
+version = "0.24.0"
 dependencies = [
  "bitflags",
  "lexical",
@@ -2568,7 +2568,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_utils"
-version = "0.18.0"
+version = "0.19.0"
 dependencies = [
  "swc_atoms 0.2.9",
  "swc_common",
@@ -2578,7 +2578,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_visit"
-version = "0.20.0"
+version = "0.21.0"
 dependencies = [
  "swc_atoms 0.2.9",
  "swc_common",
@@ -2679,7 +2679,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.46.2"
+version = "0.46.3"
 dependencies = [
  "ahash",
  "ansi_term 0.12.1",
@@ -2790,7 +2790,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.41.1"
+version = "0.41.2"
 dependencies = [
  "once_cell",
  "phf",
@@ -2823,7 +2823,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.47.1"
+version = "0.47.2"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -2937,7 +2937,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.55.0"
+version = "0.55.1"
 dependencies = [
  "ahash",
  "base64 0.13.0",
@@ -2984,7 +2984,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.56.0"
+version = "0.56.1"
 dependencies = [
  "serde",
  "swc_atoms 0.2.9",
@@ -3152,7 +3152,7 @@ dependencies = [
 
 [[package]]
 name = "swc_stylis"
-version = "0.20.0"
+version = "0.21.0"
 dependencies = [
  "swc_atoms 0.2.9",
  "swc_common",
@@ -3539,7 +3539,7 @@ checksum = "fd6fbd9a79829dd1ad0cc20627bf1ed606756a7f77edff7b66b7064f9cb327c6"
 
 [[package]]
 name = "wasm"
-version = "1.2.103"
+version = "1.2.104"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",

@@ -78,7 +78,7 @@ error: Text
 
 error: Tokens
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/value/quotes/input.css:1:11
    |
 1  |   a::before {
@@ -91,7 +91,7 @@ error: DeclBlock
 29 | | }
    | |_^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/value/quotes/input.css:2:5
   |
 2 |     content: "This string is demarcated by double quotes.";
@@ -115,7 +115,7 @@ error: Str
 2 |     content: "This string is demarcated by double quotes.";
   |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/value/quotes/input.css:3:5
   |
 3 |     content: 'This string is demarcated by single quotes.';
@@ -139,7 +139,7 @@ error: Str
 3 |     content: 'This string is demarcated by single quotes.';
   |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/value/quotes/input.css:4:5
   |
 4 |     content: "This is a string with \" an escaped double quote.";
@@ -163,7 +163,7 @@ error: Str
 4 |     content: "This is a string with \" an escaped double quote.";
   |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/value/quotes/input.css:5:5
   |
 5 |     content: "This string also has \22 an escaped double quote.";
@@ -187,7 +187,7 @@ error: Str
 5 |     content: "This string also has \22 an escaped double quote.";
   |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/value/quotes/input.css:6:5
   |
 6 |     content: 'This is a string with \' an escaped single quote.';
@@ -211,7 +211,7 @@ error: Str
 6 |     content: 'This is a string with \' an escaped single quote.';
   |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/value/quotes/input.css:7:5
   |
 7 |     content: 'This string also has \27 an escaped single quote.';
@@ -235,7 +235,7 @@ error: Str
 7 |     content: 'This string also has \27 an escaped single quote.';
   |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/value/quotes/input.css:8:5
   |
 8 |     content: "This is a string with \\ an escaped backslash.";
@@ -259,7 +259,7 @@ error: Str
 8 |     content: "This is a string with \\ an escaped backslash.";
   |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/value/quotes/input.css:9:5
   |
 9 |     content: "This string also has \22an escaped double quote.";
@@ -283,7 +283,7 @@ error: Str
 9 |     content: "This string also has \22an escaped double quote.";
   |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/value/quotes/input.css:10:5
    |
 10 |     content: "This string also has \22  an escaped double quote.";
@@ -307,7 +307,7 @@ error: Str
 10 |     content: "This string also has \22  an escaped double quote.";
    |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/value/quotes/input.css:11:5
    |
 11 |     content: "This string has a \Aline break in it.";
@@ -331,7 +331,7 @@ error: Str
 11 |     content: "This string has a \Aline break in it.";
    |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/value/quotes/input.css:12:5
    |
 12 | /     content: "A really long \
@@ -360,7 +360,7 @@ error: Str
 13 | | awesome string";
    | |_______________^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/value/quotes/input.css:14:5
    |
 14 |     content: ";'@ /**/\"";
@@ -384,7 +384,7 @@ error: Str
 14 |     content: ";'@ /**/\"";
    |              ^^^^^^^^^^^^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/value/quotes/input.css:15:5
    |
 15 |     content: '\'"\\';
@@ -408,7 +408,7 @@ error: Str
 15 |     content: '\'"\\';
    |              ^^^^^^^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/value/quotes/input.css:16:5
    |
 16 | /     content: "a\
@@ -437,7 +437,7 @@ error: Str
 17 | | b";
    | |__^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/value/quotes/input.css:18:5
    |
 18 | /     content: "a\
@@ -466,7 +466,7 @@ error: Str
 19 | | b";
    | |__^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/value/quotes/input.css:20:5
    |
 20 | /     content: "a\
@@ -495,7 +495,7 @@ error: Str
 21 | | b";
    | |__^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/value/quotes/input.css:22:5
    |
 22 |     content: "a\b";
@@ -519,7 +519,7 @@ error: Str
 22 |     content: "a\b";
    |              ^^^^^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/value/quotes/input.css:23:5
    |
 23 | /     content: "a\
@@ -557,7 +557,7 @@ error: Str
 27 | | b";
    | |__^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/value/quotes/input.css:28:5
    |
 28 |     content: 'a\62 c';
@@ -661,7 +661,7 @@ error: Str
 32 | | o very long title"] {
    | |__________________^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/value/quotes/input.css:32:21
    |
 32 |   o very long title"] {
@@ -670,7 +670,7 @@ error: DeclBlock
 34 | | }
    | |_^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/value/quotes/input.css:33:5
    |
 33 |     color: red;
@@ -764,7 +764,7 @@ error: Str
 35 | a[title="a not so very long title"] {
    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/value/quotes/input.css:35:37
    |
 35 |   a[title="a not so very long title"] {
@@ -773,7 +773,7 @@ error: DeclBlock
 37 | | }
    | |_^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/value/quotes/input.css:36:5
    |
 36 |     color: red;

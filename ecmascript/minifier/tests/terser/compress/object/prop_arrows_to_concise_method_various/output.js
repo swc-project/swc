@@ -2,22 +2,22 @@
     null (x, y) {
         x(y);
     },
-    123 (x1, y1) {
-        x1(y1);
+    123 (x, y) {
+        x(y);
     },
-    "A B" (x2, y2) {
-        x2(y2);
+    "A B" (x, y) {
+        x(y);
     },
-    p1 (x3, y3) {
-        x3(y3);
+    p1 (x, y) {
+        x(y);
     },
-    async p3 (x4, y4) {
-        await x4(y4);
+    async p3 (x, y) {
+        await x(y);
     },
-    [c1] (x5, y5) {
-        x5(y5);
+    [c1] (x, y) {
+        x(y);
     },
-    async [c3] (x6, y6) {
-        await x6(y6);
+    async [c3] (x, y) {
+        await x(y);
     }
 });

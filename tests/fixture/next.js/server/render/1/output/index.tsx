@@ -802,15 +802,15 @@ function renderToStream(element, generateStaticHTML) {
         const stream = new Writable({
             // Use the buffer from the underlying stream
             highWaterMark: 0,
-            write (chunk, encoding, callback1) {
+            write (chunk, encoding, callback) {
                 if (!underlyingStream) {
                     throw new Error("invariant: write called without an underlying stream. This is a bug in Next.js");
                 }
                 if (!underlyingStream.writable.write(chunk, encoding)) {
-                    underlyingStream.queuedCallbacks.push(()=>callback1()
+                    underlyingStream.queuedCallbacks.push(()=>callback()
                     );
                 } else {
-                    callback1();
+                    callback();
                 }
             }
         });

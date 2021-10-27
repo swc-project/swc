@@ -45,7 +45,7 @@ error: PageRuleBlockItem
 2 |     display: none;
   |     ^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/at-page/page-properties/input.css:2:2
   |
 2 |     display: none;

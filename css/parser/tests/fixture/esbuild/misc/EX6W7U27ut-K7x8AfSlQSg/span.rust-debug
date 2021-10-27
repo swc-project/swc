@@ -58,7 +58,7 @@ error: Text
 1 | a>b {}
   |   ^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/esbuild/misc/EX6W7U27ut-K7x8AfSlQSg/input.css:1:5
   |
 1 | a>b {}

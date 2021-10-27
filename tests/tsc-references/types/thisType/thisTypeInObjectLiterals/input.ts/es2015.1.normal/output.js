@@ -17,11 +17,11 @@ let mutuallyRecursive = {
     passthrough (n) {
         return this.sub1(n);
     },
-    sub1 (n1) {
-        if (n1 > 0) {
-            return this.passthrough(n1 - 1);
+    sub1 (n) {
+        if (n > 0) {
+            return this.passthrough(n - 1);
         }
-        return n1;
+        return n;
     }
 };
 var i = mutuallyRecursive.start();

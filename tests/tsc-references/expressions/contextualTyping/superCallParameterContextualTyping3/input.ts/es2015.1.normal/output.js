@@ -16,8 +16,8 @@ class C extends CBase {
         // Should be okay.
         // 'p' should have type 'string'.
         super.foo({
-            method (p1) {
-                p1.length;
+            method (p) {
+                p.length;
             }
         });
     }

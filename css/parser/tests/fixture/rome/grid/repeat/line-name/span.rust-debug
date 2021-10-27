@@ -52,7 +52,7 @@ error: Text
 1 | .style {
   |  ^^^^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/rome/grid/repeat/line-name/input.css:1:8
   |
 1 |   .style {
@@ -61,7 +61,7 @@ error: DeclBlock
 3 | | }
   | |_^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/grid/repeat/line-name/input.css:2:2
   |
 2 |     grid-template-columns: repeat(4, [col-start]);

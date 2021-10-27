@@ -48,7 +48,7 @@ error: Text
 
 error: Tokens
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/esbuild/misc/Ft7g4H2gHwlEjiFMDwEkYQ/input.css:1:16
   |
 1 | :pseudo\,class {}

@@ -1,11 +1,10 @@
 //! AST definitions for CSS.
-pub use self::{at_rule::*, base::*, property::*, selector::*, style_rule::*, token::*, value::*};
+pub use self::{at_rule::*, base::*, selector::*, style_rule::*, token::*, value::*};
 use is_macro::Is;
 use swc_common::{ast_node, Span};
 
 mod at_rule;
 mod base;
-mod property;
 mod selector;
 mod style_rule;
 mod token;

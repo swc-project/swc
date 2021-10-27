@@ -1,0 +1,3 @@
+@charset 'iso-8859-15'; /* Invalid, wrong quoting style used */
+@charset  "UTF-8";      /* Invalid, more than one space */
+@charset "UTF-8";      /* Invalid, there is a character (a space) before the at-rule */

@@ -383,7 +383,7 @@ const o4 = {
     *method4 () {
         yield s; // yield type should not widen due to contextual type
     },
-    method5 (p2 = s) {
-        return p2;
+    method5 (p = s) {
+        return p;
     }
 };

@@ -40,4 +40,10 @@ impl VisitMut for UniqueScope {
 
         self.mark(&mut n.span);
     }
+
+    fn visit_mut_method_prop(&mut self, n: &mut MethodProp) {
+        n.visit_mut_children_with(self);
+
+        self.mark(&mut n.function.span);
+    }
 }

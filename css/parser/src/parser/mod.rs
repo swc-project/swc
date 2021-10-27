@@ -43,7 +43,7 @@ struct Ctx {
 
     is_in_delimited_value: bool,
 
-    allow_at_selctor: bool,
+    allow_at_selector: bool,
 
     recover_from_property_value: bool,
 }
@@ -86,44 +86,6 @@ where
         self.parse()
     }
 
-    fn parse_rules(&mut self, ctx: RuleContext) -> PResult<Vec<Rule>> {
-        let mut rules = vec![];
-        loop {
-            self.input.skip_ws()?;
-
-            if self.input.is_eof()? || is!(self, "}") {
-                return Ok(rules);
-            }
-
-            match cur!(self) {
-                Token::AtKeyword { .. } => {
-                    let rule = self.parse_at_rule(Default::default())?;
-                    rules.push(rule.into());
-                    continue;
-                }
-
-                tok!("<!--") | tok!("-->") => {
-                    if ctx.is_top_level {
-                        self.input.bump()?;
-                        continue;
-                    }
-                }
-
-                _ => {}
-            }
-
-            if ctx.parse_selectors {
-                rules.push(self.parse_style_rule()?.into());
-            } else {
-                rules.push(self.parse_qualified_rule()?);
-            }
-        }
-    }
-
-    fn parse_qualified_rule(&mut self) -> PResult<Rule> {
-        todo!("parse_qualified_rule: {:?}", cur!(self))
-    }
-
     fn may_parse_str(&mut self) -> PResult<Option<Str>> {
         if is!(self, Str) {
             self.parse_str().map(Some)
@@ -162,9 +124,8 @@ where
 }
 
 #[derive(Clone, Copy)]
-struct RuleContext {
+pub struct RuleContext {
     is_top_level: bool,
-    parse_selectors: bool,
 }
 
 impl<I> Parse<Stylesheet> for Parser<I>
@@ -173,10 +134,7 @@ where
 {
     fn parse(&mut self) -> Result<Stylesheet, Error> {
         let start = self.input.cur_span()?;
-        let rules = self.parse_rules(RuleContext {
-            is_top_level: true,
-            parse_selectors: true,
-        })?;
+        let rules = self.parse_rule_list(RuleContext { is_top_level: true })?;
 
         let last = self.input.last_pos()?;
 

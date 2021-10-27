@@ -1,4 +1,5 @@
 const swc = require("../../../");
+const path = require("path");
 
 it("should handle minify", () => {
     const src = '/* Comment */import foo, {bar} from "foo"';
@@ -173,4 +174,20 @@ it("should respect `error.filename = false`", async () => {
         expect(e).not.toContain("-->")
     }
 
+});
+
+it("should merge parser config", async () => {
+    const filename = path.resolve(
+        __dirname + "/../../tests/issue-2546/input.ts"
+    );
+
+    const { code } = await swc.transformFile(filename, {
+        jsc: {
+            parser: {
+                syntax: "typescript",
+            }
+        }
+    })
+
+    expect(code).not.toBeFalsy()
 });

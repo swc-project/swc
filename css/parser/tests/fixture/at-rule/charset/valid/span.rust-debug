@@ -1,0 +1,30 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/at-rule/charset/valid/input.css:1:1
+  |
+1 | @charset "utf-8";
+  | ^^^^^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/charset/valid/input.css:1:1
+  |
+1 | @charset "utf-8";
+  | ^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/charset/valid/input.css:1:1
+  |
+1 | @charset "utf-8";
+  | ^^^^^^^^^^^^^^^^^
+
+error: CharsetRule
+ --> $DIR/tests/fixture/at-rule/charset/valid/input.css:1:1
+  |
+1 | @charset "utf-8";
+  | ^^^^^^^^^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/at-rule/charset/valid/input.css:1:10
+  |
+1 | @charset "utf-8";
+  |          ^^^^^^^
+

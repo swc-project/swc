@@ -120,13 +120,13 @@
             "raw": "screen"
           },
           "right": {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 87,
               "end": 104,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 87,
@@ -136,7 +136,7 @@
               "value": "min-width",
               "raw": "min-width"
             },
-            "values": [
+            "value": [
               {
                 "type": "UnitValue",
                 "span": {
@@ -196,13 +196,13 @@
           "raw": "screen"
         },
         "right": {
-          "type": "Property",
+          "type": "Declaration",
           "span": {
             "start": 127,
             "end": 168,
             "ctxt": 0
           },
-          "name": {
+          "property": {
             "type": "Text",
             "span": {
               "start": 127,
@@ -212,7 +212,7 @@
             "value": "min-width",
             "raw": "min-width"
           },
-          "values": [
+          "value": [
             {
               "type": "UnitValue",
               "span": {
@@ -278,13 +278,13 @@
             "ctxt": 0
           },
           "left": {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 191,
               "end": 208,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 191,
@@ -294,7 +294,7 @@
               "value": "min-width",
               "raw": "min-width"
             },
-            "values": [
+            "value": [
               {
                 "type": "UnitValue",
                 "span": {
@@ -333,13 +333,13 @@
               "ctxt": 0
             },
             "left": {
-              "type": "Property",
+              "type": "Declaration",
               "span": {
                 "start": 214,
                 "end": 231,
                 "ctxt": 0
               },
-              "name": {
+              "property": {
                 "type": "Text",
                 "span": {
                   "start": 214,
@@ -349,7 +349,7 @@
                 "value": "min-width",
                 "raw": "min-width"
               },
-              "values": [
+              "value": [
                 {
                   "type": "UnitValue",
                   "span": {
@@ -381,13 +381,13 @@
               "important": null
             },
             "right": {
-              "type": "Property",
+              "type": "Declaration",
               "span": {
                 "start": 237,
                 "end": 254,
                 "ctxt": 0
               },
-              "name": {
+              "property": {
                 "type": "Text",
                 "span": {
                   "start": 237,
@@ -397,7 +397,7 @@
                 "value": "min-width",
                 "raw": "min-width"
               },
-              "values": [
+              "value": [
                 {
                   "type": "UnitValue",
                   "span": {
@@ -465,13 +465,13 @@
             "ctxt": 0
           },
           "left": {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 277,
               "end": 294,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 277,
@@ -481,7 +481,7 @@
               "value": "min-width",
               "raw": "min-width"
             },
-            "values": [
+            "value": [
               {
                 "type": "UnitValue",
                 "span": {
@@ -520,13 +520,13 @@
               "ctxt": 0
             },
             "left": {
-              "type": "Property",
+              "type": "Declaration",
               "span": {
                 "start": 300,
                 "end": 317,
                 "ctxt": 0
               },
-              "name": {
+              "property": {
                 "type": "Text",
                 "span": {
                   "start": 300,
@@ -536,7 +536,7 @@
                 "value": "min-width",
                 "raw": "min-width"
               },
-              "values": [
+              "value": [
                 {
                   "type": "UnitValue",
                   "span": {
@@ -575,13 +575,13 @@
                 "ctxt": 0
               },
               "left": {
-                "type": "Property",
+                "type": "Declaration",
                 "span": {
                   "start": 323,
                   "end": 340,
                   "ctxt": 0
                 },
-                "name": {
+                "property": {
                   "type": "Text",
                   "span": {
                     "start": 323,
@@ -591,7 +591,7 @@
                   "value": "min-width",
                   "raw": "min-width"
                 },
-                "values": [
+                "value": [
                   {
                     "type": "UnitValue",
                     "span": {
@@ -623,13 +623,13 @@
                 "important": null
               },
               "right": {
-                "type": "Property",
+                "type": "Declaration",
                 "span": {
                   "start": 346,
                   "end": 363,
                   "ctxt": 0
                 },
-                "name": {
+                "property": {
                   "type": "Text",
                   "span": {
                     "start": 346,
@@ -639,7 +639,7 @@
                   "value": "min-width",
                   "raw": "min-width"
                 },
-                "values": [
+                "value": [
                   {
                     "type": "UnitValue",
                     "span": {

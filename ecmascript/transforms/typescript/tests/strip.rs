@@ -4140,6 +4140,42 @@ to!(
     "
 );
 
+test_with_config!(
+    deno_12532_declare_class_prop,
+    strip::Config {
+        use_define_for_class_fields: true,
+        no_empty_export: true,
+        ..Default::default()
+    },
+    "
+    export class Foo {
+        x: number;
+        constructor(x: number) {
+            this.x = x;
+        }
+    }
+    export class Bar extends Foo {
+        declare x: 123;
+        constructor() {
+            super(123);
+        }
+    }
+    ",
+    "
+    export class Foo {
+        x;
+        constructor(x){
+            this.x = x;
+        }
+    }
+    export class Bar extends Foo {
+        constructor() {
+            super(123);
+        }
+    }
+    "
+);
+
 #[testing::fixture("tests/fixture/**/input.ts")]
 #[testing::fixture("tests/fixture/**/input.tsx")]
 fn exec(input: PathBuf) {

@@ -1,0 +1,21 @@
+:root {
+    --number: 1;
+    --unit: 100vw;
+    --color: #06c;
+
+    --function: calc(1 + 1);
+    --variable: var(--unit);
+
+    --string: 'single quoted string';
+    --string: "double quoted string";
+
+    --square-block: [1, 2, 3];
+    --round-block: (1, 2, 3);
+
+    --bracket-block: {1, 2, 3};
+    --JSON: [1, "2", {"three": {"a":1}}, [4]];
+    --javascript: function(rule) { console.log(rule) };
+
+    --CDO: <!--;
+    --CDC: -->;
+}

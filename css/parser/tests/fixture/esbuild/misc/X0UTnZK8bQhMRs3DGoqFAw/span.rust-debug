@@ -52,13 +52,13 @@ error: KeyframeBlockRule
 1 | @keyframes test { from { color: red } to {} }
   |                        ^^^^^^^^^^^^^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/esbuild/misc/X0UTnZK8bQhMRs3DGoqFAw/input.css:1:24
   |
 1 | @keyframes test { from { color: red } to {} }
   |                        ^^^^^^^^^^^^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/X0UTnZK8bQhMRs3DGoqFAw/input.css:1:26
   |
 1 | @keyframes test { from { color: red } to {} }
@@ -106,7 +106,7 @@ error: KeyframeBlockRule
 1 | @keyframes test { from { color: red } to {} }
   |                                          ^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/esbuild/misc/X0UTnZK8bQhMRs3DGoqFAw/input.css:1:42
   |
 1 | @keyframes test { from { color: red } to {} }

@@ -1,0 +1,64 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 0,
+    "end": 146,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "CharsetRule",
+      "span": {
+        "start": 0,
+        "end": 23,
+        "ctxt": 0
+      },
+      "charset": {
+        "type": "String",
+        "span": {
+          "start": 9,
+          "end": 22,
+          "ctxt": 0
+        },
+        "value": "iso-8859-15",
+        "raw": "'iso-8859-15'"
+      }
+    },
+    {
+      "type": "CharsetRule",
+      "span": {
+        "start": 64,
+        "end": 82,
+        "ctxt": 0
+      },
+      "charset": {
+        "type": "String",
+        "span": {
+          "start": 74,
+          "end": 81,
+          "ctxt": 0
+        },
+        "value": "UTF-8",
+        "raw": "\"UTF-8\""
+      }
+    },
+    {
+      "type": "CharsetRule",
+      "span": {
+        "start": 123,
+        "end": 140,
+        "ctxt": 0
+      },
+      "charset": {
+        "type": "String",
+        "span": {
+          "start": 132,
+          "end": 139,
+          "ctxt": 0
+        },
+        "value": "UTF-8",
+        "raw": "\"UTF-8\""
+      }
+    }
+  ]
+}

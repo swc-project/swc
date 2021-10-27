@@ -52,7 +52,7 @@ error: Text
 1 | .class {}
   |  ^^^^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/selector/class/input.css:1:8
   |
 1 | .class {}
@@ -100,7 +100,7 @@ error: Text
 2 | .♥ {}
   |  ^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/selector/class/input.css:2:4
   |
 2 | .♥ {}
@@ -148,7 +148,7 @@ error: Text
 3 | .© {}
   |  ^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/selector/class/input.css:3:4
   |
 3 | .© {}
@@ -196,7 +196,7 @@ error: Text
 4 | .“‘’” {}
   |  ^^^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/selector/class/input.css:4:7
   |
 4 | .“‘’” {}
@@ -244,7 +244,7 @@ error: Text
 5 | .☺☃ {}
   |  ^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/selector/class/input.css:5:5
   |
 5 | .☺☃ {}
@@ -292,7 +292,7 @@ error: Text
 6 | .⌘⌥ {}
   |  ^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/selector/class/input.css:6:5
   |
 6 | .⌘⌥ {}
@@ -340,7 +340,7 @@ error: Text
 7 | .𝄞♪♩♫♬ {}
   |  ^^^^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/selector/class/input.css:7:8
   |
 7 | .𝄞♪♩♫♬ {}
@@ -388,7 +388,7 @@ error: Text
 8 | .💩 {}
   |  ^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/selector/class/input.css:8:4
   |
 8 | .💩 {}
@@ -436,7 +436,7 @@ error: Text
 9 | .\? {}
   |  ^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/selector/class/input.css:9:5
   |
 9 | .\? {}
@@ -484,7 +484,7 @@ error: Text
 10 | .\@ {}
    |  ^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/class/input.css:10:5
    |
 10 | .\@ {}
@@ -532,7 +532,7 @@ error: Text
 11 | .\. {}
    |  ^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/class/input.css:11:5
    |
 11 | .\. {}
@@ -580,7 +580,7 @@ error: Text
 12 | .\3A \) {}
    |  ^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/class/input.css:12:9
    |
 12 | .\3A \) {}
@@ -628,7 +628,7 @@ error: Text
 13 | .\3A \`\( {}
    |  ^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/class/input.css:13:11
    |
 13 | .\3A \`\( {}
@@ -676,7 +676,7 @@ error: Text
 14 | .\31 23 {}
    |  ^^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/class/input.css:14:9
    |
 14 | .\31 23 {}
@@ -724,7 +724,7 @@ error: Text
 15 | .\31 a2b3c {}
    |  ^^^^^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/class/input.css:15:12
    |
 15 | .\31 a2b3c {}
@@ -772,7 +772,7 @@ error: Text
 16 | .\<p\> {}
    |  ^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/class/input.css:16:8
    |
 16 | .\<p\> {}
@@ -820,7 +820,7 @@ error: Text
 17 | .\<\>\<\<\<\>\>\<\> {}
    |  ^^^^^^^^^^^^^^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/class/input.css:17:21
    |
 17 | .\<\>\<\<\<\>\>\<\> {}
@@ -868,7 +868,7 @@ error: Text
 18 | .\+\+\+\+\+\+\+\+\+\+\[\>\+\+\+\+\+\+\+\>\+\+\+\+\+\+\+\+\+\+\>\+\+\+\>\+\<\<\<\<\-\]\>\+\+\.\>\+\.\+\+\+\+\+\+\+\.\.\+\+\+\.\>\+\+\.\<\<\+\+\+\+\+\+\+\+\+\+\+\+\+\+\+\.\>\.\+\+\+\.\-\-\-\-\-\-\.\-\-\-\-\-\-\-\-\.\>\+\.\>\. {}
    |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/class/input.css:18:225
    |
 18 | .\+\+\+\+\+\+\+\+\+\+\[\>\+\+\+\+\+\+\+\>\+\+\+\+\+\+\+\+\+\+\>\+\+\+\>\+\<\<\<\<\-\]\>\+\+\.\>\+\.\+\+\+\+\+\+\+\.\.\+\+\+\.\>\+\+\.\<\<\+\+\+\+\+\+\+\+\+\+\+\+\+\+\+\.\>\.\+\+\+\.\-\-\-\-\-\-\.\-\-\-\-\-\-\-\-\.\>\+\.\>\. {}
@@ -916,7 +916,7 @@ error: Text
 19 | .\# {}
    |  ^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/class/input.css:19:5
    |
 19 | .\# {}
@@ -964,7 +964,7 @@ error: Text
 20 | .\#\# {}
    |  ^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/class/input.css:20:7
    |
 20 | .\#\# {}
@@ -1012,7 +1012,7 @@ error: Text
 21 | .\#\.\#\.\# {}
    |  ^^^^^^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/class/input.css:21:13
    |
 21 | .\#\.\#\.\# {}
@@ -1060,7 +1060,7 @@ error: Text
 22 | .\_ {}
    |  ^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/class/input.css:22:5
    |
 22 | .\_ {}
@@ -1108,7 +1108,7 @@ error: Text
 23 | .\{\} {}
    |  ^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/class/input.css:23:7
    |
 23 | .\{\} {}
@@ -1156,7 +1156,7 @@ error: Text
 24 | .\.fake\-class {}
    |  ^^^^^^^^^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/class/input.css:24:16
    |
 24 | .\.fake\-class {}
@@ -1204,7 +1204,7 @@ error: Text
 25 | .foo\.bar {}
    |  ^^^^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/class/input.css:25:11
    |
 25 | .foo\.bar {}
@@ -1252,7 +1252,7 @@ error: Text
 26 | .\3A hover {}
    |  ^^^^^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/class/input.css:26:12
    |
 26 | .\3A hover {}
@@ -1300,7 +1300,7 @@ error: Text
 27 | .\3A hover\3A focus\3A active {}
    |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/class/input.css:27:31
    |
 27 | .\3A hover\3A focus\3A active {}
@@ -1348,7 +1348,7 @@ error: Text
 28 | .\[attr\=value\] {}
    |  ^^^^^^^^^^^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/class/input.css:28:18
    |
 28 | .\[attr\=value\] {}
@@ -1396,7 +1396,7 @@ error: Text
 29 | .f\/o\/o {}
    |  ^^^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/class/input.css:29:10
    |
 29 | .f\/o\/o {}
@@ -1444,7 +1444,7 @@ error: Text
 30 | .f\\o\\o {}
    |  ^^^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/class/input.css:30:10
    |
 30 | .f\\o\\o {}
@@ -1492,7 +1492,7 @@ error: Text
 31 | .f\*o\*o {}
    |  ^^^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/class/input.css:31:10
    |
 31 | .f\*o\*o {}
@@ -1540,7 +1540,7 @@ error: Text
 32 | .f\!o\!o {}
    |  ^^^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/class/input.css:32:10
    |
 32 | .f\!o\!o {}
@@ -1588,7 +1588,7 @@ error: Text
 33 | .f\'o\'o {}
    |  ^^^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/class/input.css:33:10
    |
 33 | .f\'o\'o {}
@@ -1636,7 +1636,7 @@ error: Text
 34 | .f\~o\~o {}
    |  ^^^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/class/input.css:34:10
    |
 34 | .f\~o\~o {}
@@ -1684,7 +1684,7 @@ error: Text
 35 | .f\+o\+o {}
    |  ^^^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/class/input.css:35:10
    |
 35 | .f\+o\+o {}
@@ -1732,7 +1732,7 @@ error: Text
 36 | .-a-b-c- {}
    |  ^^^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/class/input.css:36:10
    |
 36 | .-a-b-c- {}
@@ -1780,7 +1780,7 @@ error: Text
 37 | .\#fake-id {}
    |  ^^^^^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/selector/class/input.css:37:12
    |
 37 | .\#fake-id {}
