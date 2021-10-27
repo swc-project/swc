@@ -330,6 +330,19 @@ fn base_exec(input: PathBuf) {
     let config = find_config(&dir);
     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
 
+    let mangle = dir.join("mangle.json");
+    let mangle = read_to_string(&mangle).ok();
+    if let Some(mangle) = &mangle {
+        eprintln!(
+            "---- {} -----\n{}",
+            Color::Green.paint("Mangle config"),
+            mangle
+        );
+    }
+
+    let mangle: Option<TestMangleOptions> =
+        mangle.map(|s| serde_json::from_str(&s).expect("failed to deserialize mangle.json"));
+
     testing::run_test2(false, |cm, handler| {
         let input_src = read_to_string(&input).expect("failed to read input.js as a string");
 
@@ -341,7 +354,7 @@ fn base_exec(input: PathBuf) {
             expected_output
         );
 
-        let output = run(cm.clone(), &handler, &input, &config, None);
+        let output = run(cm.clone(), &handler, &input, &config, mangle);
         let output = output.expect("Parsing in base test should not fail");
         let output = print(cm.clone(), &[output], false);
 
