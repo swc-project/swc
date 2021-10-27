@@ -1,3 +1,0 @@
-
-
-const foo = <div></div>
