@@ -205,6 +205,7 @@ where
             Token::Num { .. } => return self.parse_numeric_value(),
 
             Token::Function { .. } => return self.parse_value_ident_or_fn(),
+
             Token::Percent { .. } => return self.parse_numeric_value(),
 
             Token::Dimension { .. } => return self.parse_numeric_value(),
@@ -219,7 +220,22 @@ where
                 return self.parse_brace_value().map(From::from);
             }
 
-            Token::Hash { .. } => return self.parse_hash_value().map(From::from),
+            Token::Hash { .. } => {
+                let token = bump!(self);
+
+                match token {
+                    Token::Hash { value, raw, .. } => {
+                        return Ok(Value::Hash(HashValue {
+                            span,
+                            value: value.into(),
+                            raw: raw.into(),
+                        }))
+                    }
+                    _ => {
+                        unreachable!()
+                    }
+                }
+            }
 
             Token::AtKeyword { .. } => {
                 let name = bump!(self);
@@ -322,18 +338,6 @@ where
         self.input.reset(&start_state);
 
         return Ok(base);
-    }
-
-    fn parse_hash_value(&mut self) -> PResult<HashValue> {
-        let span = self.input.cur_span()?;
-
-        let token = bump!(self);
-        match token {
-            Token::Hash { value, .. } => Ok(HashValue { span, value }),
-            _ => {
-                unreachable!("parse_hash_value should not be ")
-            }
-        }
     }
 
     fn parse_brace_value(&mut self) -> PResult<BraceValue> {

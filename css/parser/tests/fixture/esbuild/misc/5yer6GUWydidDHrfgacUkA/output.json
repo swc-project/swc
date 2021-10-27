@@ -88,7 +88,8 @@
                   "end": 16,
                   "ctxt": 0
                 },
-                "value": "1234"
+                "value": "1234",
+                "raw": "1234"
               }
             ],
             "important": null
