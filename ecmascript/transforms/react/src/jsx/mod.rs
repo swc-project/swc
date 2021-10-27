@@ -18,7 +18,7 @@ use swc_ecma_ast::*;
 use swc_ecma_parser::{Parser, StringInput, Syntax};
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
-    drop_span, member_expr, prepend, private_ident, quote_ident, undefined, ExprFactory, HANDLER,
+    drop_span, member_expr, prepend, private_ident, quote_ident, ExprFactory, HANDLER,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -198,19 +198,16 @@ where
         import_source: options.import_source.into(),
         import_jsx: None,
         import_jsxs: None,
+        import_fragment: None,
         import_create_element: None,
 
-        dev: None,
-        development: options.development,
-
-        import_fragment: None,
-        top_level_node: true,
         pragma: parse_expr_for_jsx(&cm, "pragma", options.pragma, top_level_mark),
         comments,
         pragma_frag: parse_expr_for_jsx(&cm, "pragmaFrag", options.pragma_frag, top_level_mark),
         use_builtins: options.use_builtins,
         use_spread: options.use_spread,
         throw_if_namespace: options.throw_if_namespace,
+        top_level_node: true,
     })
 }
 
@@ -219,8 +216,6 @@ where
     C: Comments,
 {
     cm: Lrc<SourceMap>,
-
-    development: bool,
 
     top_level_mark: Mark,
 
@@ -238,19 +233,12 @@ where
     import_fragment: Option<Ident>,
     top_level_node: bool,
 
-    /// For automatic runtime.
-    dev: Option<JsxDevMode>,
-
     pragma: Arc<Box<Expr>>,
     comments: Option<C>,
     pragma_frag: Arc<Box<Expr>>,
     use_builtins: bool,
     use_spread: bool,
     throw_if_namespace: bool,
-}
-
-struct JsxDevMode {
-    import: Ident,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Eq)]
@@ -338,12 +326,6 @@ impl<C> Jsx<C>
 where
     C: Comments,
 {
-    fn dev_mode(&mut self) -> &mut JsxDevMode {
-        self.dev.get_or_insert_with(|| JsxDevMode {
-            import: private_ident!("_jsxDEV"),
-        })
-    }
-
     fn jsx_frag_to_expr(&mut self, el: JSXFragment) -> Expr {
         let span = el.span();
 
@@ -355,18 +337,14 @@ where
 
         match self.runtime {
             Runtime::Automatic => {
-                let jsx = if self.development {
-                    self.dev_mode().import.clone()
+                let jsx = if use_jsxs {
+                    self.import_jsxs
+                        .get_or_insert_with(|| private_ident!("_jsxs"))
+                        .clone()
                 } else {
-                    if use_jsxs {
-                        self.import_jsxs
-                            .get_or_insert_with(|| private_ident!("_jsxs"))
-                            .clone()
-                    } else {
-                        self.import_jsx
-                            .get_or_insert_with(|| private_ident!("_jsx"))
-                            .clone()
-                    }
+                    self.import_jsx
+                        .get_or_insert_with(|| private_ident!("_jsx"))
+                        .clone()
                 };
 
                 let fragment = self
@@ -465,20 +443,14 @@ where
                     self.import_create_element
                         .get_or_insert_with(|| private_ident!("_createElement"))
                         .clone()
+                } else if use_jsxs {
+                    self.import_jsxs
+                        .get_or_insert_with(|| private_ident!("_jsxs"))
+                        .clone()
                 } else {
-                    if self.development {
-                        self.dev_mode().import.clone()
-                    } else {
-                        if use_jsxs {
-                            self.import_jsxs
-                                .get_or_insert_with(|| private_ident!("_jsxs"))
-                                .clone()
-                        } else {
-                            self.import_jsx
-                                .get_or_insert_with(|| private_ident!("_jsx"))
-                                .clone()
-                        }
-                    }
+                    self.import_jsx
+                        .get_or_insert_with(|| private_ident!("_jsx"))
+                        .clone()
                 };
 
                 let mut props_obj = ObjectLit {
@@ -488,36 +460,12 @@ where
 
                 let mut key = None;
 
-                let mut source_attr = None;
-                let mut self_attr = None;
-
                 for attr in el.opening.attrs {
                     match attr {
                         JSXAttrOrSpread::JSXAttr(attr) => {
                             //
                             match attr.name {
                                 JSXAttrName::Ident(i) => {
-                                    match &*i.sym {
-                                        "__source" => {
-                                            source_attr = attr
-                                                .value
-                                                .map(jsx_attr_value_to_expr)
-                                                .flatten()
-                                                .map(|expr| ExprOrSpread { expr, spread: None });
-                                            continue;
-                                        }
-                                        "__self" => {
-                                            self_attr = attr
-                                                .value
-                                                .map(jsx_attr_value_to_expr)
-                                                .flatten()
-                                                .map(|expr| ExprOrSpread { expr, spread: None });
-                                            continue;
-                                        }
-
-                                        _ => {}
-                                    }
-
                                     //
                                     if !use_create_element && i.sym == js_word!("key") {
                                         key = attr
@@ -607,8 +555,6 @@ where
                     }
                 }
 
-                let children_cnt = el.children.len();
-
                 let children = el
                     .children
                     .into_iter()
@@ -641,38 +587,13 @@ where
 
                 self.top_level_node = top_level_node;
 
-                let mut args = once(name.as_arg())
-                    .chain(once(props_obj.as_arg()))
-                    .collect::<Vec<_>>();
-
-                if !self.development {
-                    args.extend(key);
-                } else {
-                    args.push(key.unwrap_or_else(|| ExprOrSpread {
-                        spread: None,
-                        expr: undefined(DUMMY_SP),
-                    }));
-                    args.push(ExprOrSpread {
-                        spread: None,
-                        expr: Box::new(Expr::Lit(Lit::Bool(Bool {
-                            span: DUMMY_SP,
-                            value: children_cnt > 1,
-                        }))),
-                    });
-                    args.push(source_attr.unwrap_or_else(|| ExprOrSpread {
-                        spread: None,
-                        expr: undefined(DUMMY_SP),
-                    }));
-                    args.push(self_attr.unwrap_or_else(|| ExprOrSpread {
-                        spread: None,
-                        expr: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
-                    }));
-                }
-
                 Expr::Call(CallExpr {
                     span,
                     callee: jsx.as_callee(),
-                    args,
+                    args: once(name.as_arg())
+                        .chain(once(props_obj.as_arg()))
+                        .chain(key)
+                        .collect(),
                     type_args: Default::default(),
                 })
             }
@@ -1040,82 +961,51 @@ where
                 );
             }
 
-            {
-                // Import for development mode
-
-                if let Some(dev) = self.dev.take() {
-                    let specifier = ImportSpecifier::Named(ImportNamedSpecifier {
-                        span: DUMMY_SP,
-                        local: dev.import,
-                        imported: Some(quote_ident!("jsxDEV")),
-                        is_type_only: false,
-                    });
-
-                    prepend(
-                        &mut module.body,
-                        ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+            let imports = self
+                .import_jsx
+                .take()
+                .map(|local| ImportNamedSpecifier {
+                    span: DUMMY_SP,
+                    local,
+                    imported: Some(quote_ident!("jsx")),
+                    is_type_only: false,
+                })
+                .into_iter()
+                .chain(self.import_jsxs.take().map(|local| ImportNamedSpecifier {
+                    span: DUMMY_SP,
+                    local,
+                    imported: Some(quote_ident!("jsxs")),
+                    is_type_only: false,
+                }))
+                .chain(
+                    self.import_fragment
+                        .take()
+                        .map(|local| ImportNamedSpecifier {
                             span: DUMMY_SP,
-                            specifiers: vec![specifier],
-                            src: Str {
-                                span: DUMMY_SP,
-                                value: format!("{}/jsx-dev-runtime", self.import_source).into(),
-                                has_escape: false,
-                                kind: Default::default(),
-                            },
-                            type_only: Default::default(),
-                            asserts: Default::default(),
-                        })),
-                    );
-                }
-            }
+                            local,
+                            imported: Some(quote_ident!("Fragment")),
+                            is_type_only: false,
+                        }),
+                )
+                .map(ImportSpecifier::Named)
+                .collect::<Vec<_>>();
 
-            {
-                let imports = self
-                    .import_jsx
-                    .take()
-                    .map(|local| ImportNamedSpecifier {
+            if !imports.is_empty() {
+                prepend(
+                    &mut module.body,
+                    ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                         span: DUMMY_SP,
-                        local,
-                        imported: Some(quote_ident!("jsx")),
-                        is_type_only: false,
-                    })
-                    .into_iter()
-                    .chain(self.import_jsxs.take().map(|local| ImportNamedSpecifier {
-                        span: DUMMY_SP,
-                        local,
-                        imported: Some(quote_ident!("jsxs")),
-                        is_type_only: false,
-                    }))
-                    .chain(
-                        self.import_fragment
-                            .take()
-                            .map(|local| ImportNamedSpecifier {
-                                span: DUMMY_SP,
-                                local,
-                                imported: Some(quote_ident!("Fragment")),
-                                is_type_only: false,
-                            }),
-                    )
-                    .map(ImportSpecifier::Named)
-                    .collect::<Vec<_>>();
-
-                if !imports.is_empty() {
-                    prepend(
-                        &mut module.body,
-                        ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                        specifiers: imports,
+                        src: Str {
                             span: DUMMY_SP,
-                            specifiers: imports,
-                            src: Str {
-                                span: DUMMY_SP,
-                                value: format!("{}/jsx-runtime", self.import_source).into(),
-                                has_escape: false,
-                                kind: Default::default(),
-                            },
-                            type_only: Default::default(),
-                            asserts: Default::default(),
-                        })),
-                    );
-                }
+                            value: format!("{}/jsx-runtime", self.import_source).into(),
+                            has_escape: false,
+                            kind: Default::default(),
+                        },
+                        type_only: Default::default(),
+                        asserts: Default::default(),
+                    })),
+                );
             }
         }
     }
