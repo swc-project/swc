@@ -543,7 +543,7 @@ function L(...a) {
             case '%j':
                 try {
                     return JSON.stringify(a[d++]);
-                } catch (a) {
+                } catch (c) {
                     return '[Circular]';
                 }
             case '%o':
@@ -1826,19 +1826,19 @@ class vd {
         if (this.fn) {
             try {
                 await this.fn(Ee, ...Fe);
-            } catch (a) {
-                throw this.error(a);
+            } catch (He) {
+                throw this.error(He);
             }
         } else if (this.defaultCommand) {
-            const He = this.getCommand(this.defaultCommand, true);
-            if (!He) {
+            const Ie = this.getCommand(this.defaultCommand, true);
+            if (!Ie) {
                 throw this.error(new Error(`Default command '${this.defaultCommand}' not found.`));
             }
-            He._globalParent = this;
+            Ie._globalParent = this;
             try {
-                await He.execute(Ee, ...Fe);
-            } catch (a) {
-                throw this.error(a);
+                await Ie.execute(Ee, ...Fe);
+            } catch (Je) {
+                throw this.error(Je);
             }
         }
         return {
@@ -1848,64 +1848,64 @@ class vd {
             literal: this.literalArgs
         };
     }
-    async executeExecutable(Ie) {
-        const [Je, ...Ke] = this.getPath().split(' ');
-        Ke.unshift(Je.replace(/\.ts$/, ''));
-        const Le = Ke.join('-');
+    async executeExecutable(Ke) {
+        const [Le, ...Me] = this.getPath().split(' ');
+        Me.unshift(Le.replace(/\.ts$/, ''));
+        const Ne = Me.join('-');
         try {
             await Deno.run({
                 cmd: [
-                    Le,
-                    ...Ie
+                    Ne,
+                    ...Ke
                 ]
             });
             return;
-        } catch (a) {
-            if (!a.message.match(/No such file or directory/)) {
-                throw a;
+        } catch (Oe) {
+            if (!Oe.message.match(/No such file or directory/)) {
+                throw Oe;
             }
         }
         try {
             await Deno.run({
                 cmd: [
-                    Le + '.ts',
-                    ...Ie
+                    Ne + '.ts',
+                    ...Ke
                 ]
             });
             return;
-        } catch (a) {
-            if (!a.message.match(/No such file or directory/)) {
-                throw a;
+        } catch (Pe) {
+            if (!Pe.message.match(/No such file or directory/)) {
+                throw Pe;
             }
         }
-        throw this.error(new Error(`Sub-command executable not found: ${Le}${h('(.ts)')}`));
+        throw this.error(new Error(`Sub-command executable not found: ${Ne}${h('(.ts)')}`));
     }
-    parseFlags(Me) {
+    parseFlags(Qe) {
         try {
-            return F(Me, {
+            return F(Qe, {
                 stopEarly: this._stopEarly,
                 allowEmpty: this._allowEmpty,
                 flags: this.getOptions(true),
                 parse: (a, b, c, d)=>this.parseType(a, b, c, d)
             });
-        } catch (a) {
-            throw this.error(a);
+        } catch (Re) {
+            throw this.error(Re);
         }
     }
-    parseType(Ne, Oe, Pe, Qe) {
-        const Re = this.getType(Ne);
-        if (!Re) {
-            throw this.error(new Error(`No type registered with name: ${Ne}`));
+    parseType(Se, Te, Ue, Ve) {
+        const We = this.getType(Se);
+        if (!We) {
+            throw this.error(new Error(`No type registered with name: ${Se}`));
         }
-        return Re.handler instanceof M ? Re.handler.parse(Oe, Pe, Qe) : Re.handler(Oe, Pe, Qe);
+        return We.handler instanceof M ? We.handler.parse(Te, Ue, Ve) : We.handler(Te, Ue, Ve);
     }
     validateEnvVars() {
-        const Se = this.getEnvVars(true);
-        if (!Se.length) {
+        const Xe = this.getEnvVars(true);
+        if (!Xe.length) {
             return;
         }
         if (ud) {
-            Se.forEach((a)=>{
+            Xe.forEach((a)=>{
                 const b = a.names.find((a)=>!!Deno.env.get(a)
                 );
                 if (b) {
@@ -1921,58 +1921,58 @@ class vd {
             });
         }
     }
-    parseArguments(Te, Ue) {
-        const Ve = [];
-        Te = Te.slice(0);
+    parseArguments(Ye, Ze) {
+        const $e = [];
+        Ye = Ye.slice(0);
         if (!this.hasArguments()) {
-            if (Te.length) {
+            if (Ye.length) {
                 if (this.hasCommands(true)) {
-                    throw this.error(new Error(`Unknown command: ${Te.join(' ')}`));
+                    throw this.error(new Error(`Unknown command: ${Ye.join(' ')}`));
                 } else {
                     throw this.error(new Error(`No arguments allowed for command: ${this._name}`));
                 }
             }
         } else {
-            if (!Te.length) {
-                const We = this.getArguments().filter((a)=>!a.optionalValue
+            if (!Ye.length) {
+                const _e = this.getArguments().filter((a)=>!a.optionalValue
                 ).map((a)=>a.name
                 );
-                if (We.length) {
-                    const Xe = Object.keys(Ue);
-                    const Ye = !!Xe.find((a)=>this.getOption(a, true)?.standalone
+                if (_e.length) {
+                    const af = Object.keys(Ze);
+                    const bf = !!af.find((a)=>this.getOption(a, true)?.standalone
                     );
-                    if (!Ye) {
-                        throw this.error(new Error('Missing argument(s): ' + We.join(', ')));
+                    if (!bf) {
+                        throw this.error(new Error('Missing argument(s): ' + _e.join(', ')));
                     }
                 }
-                return Ve;
+                return $e;
             }
-            for (const Ze of this.getArguments()){
-                if (!Ze.optionalValue && !Te.length) {
-                    throw this.error(new Error(`Missing argument: ${Ze.name}`));
+            for (const cf of this.getArguments()){
+                if (!cf.optionalValue && !Ye.length) {
+                    throw this.error(new Error(`Missing argument: ${cf.name}`));
                 }
-                let $e;
-                if (Ze.variadic) {
-                    $e = Te.splice(0, Te.length);
+                let df;
+                if (cf.variadic) {
+                    df = Ye.splice(0, Ye.length);
                 } else {
-                    $e = Te.shift();
+                    df = Ye.shift();
                 }
-                if ($e) {
-                    Ve.push($e);
+                if (df) {
+                    $e.push(df);
                 }
             }
-            if (Te.length) {
-                throw this.error(new Error(`To many arguments: ${Te.join(' ')}`));
+            if (Ye.length) {
+                throw this.error(new Error(`To many arguments: ${Ye.join(' ')}`));
             }
         }
-        return Ve;
+        return $e;
     }
-    findActionFlag(_e) {
-        const af = Object.keys(_e);
-        for (const bf of af){
-            const cf = this.getOption(bf, true);
-            if (cf?.action) {
-                return cf;
+    findActionFlag(ef) {
+        const ff = Object.keys(ef);
+        for (const gf of ff){
+            const hf = this.getOption(gf, true);
+            if (hf?.action) {
+                return hf;
             }
         }
         return;
@@ -1998,8 +1998,8 @@ class vd {
     getArgsDefinition() {
         return this.argsDefinition;
     }
-    getArgument(df) {
-        return this.getArguments().find((a)=>a.name === df
+    getArgument(jf) {
+        return this.getArguments().find((a)=>a.name === jf
         );
     }
     getArguments() {
@@ -2020,120 +2020,120 @@ class vd {
     getShortDescription() {
         return this.getDescription().trim().split('\n').shift();
     }
-    hasOptions(ef) {
-        return this.getOptions(ef).length > 0;
+    hasOptions(kf) {
+        return this.getOptions(kf).length > 0;
     }
-    getOptions(ff) {
-        return this.getGlobalOptions(ff).concat(this.getBaseOptions(ff));
+    getOptions(lf) {
+        return this.getGlobalOptions(lf).concat(this.getBaseOptions(lf));
     }
-    getBaseOptions(gf) {
+    getBaseOptions(mf) {
         if (!this.options.length) {
             return [];
         }
-        return gf ? this.options.slice(0) : this.options.filter((a)=>!a.hidden
+        return mf ? this.options.slice(0) : this.options.filter((a)=>!a.hidden
         );
     }
-    getGlobalOptions(hf) {
-        const jf = (a, b = [], c = [])=>{
+    getGlobalOptions(nf) {
+        const of = (a, b = [], c = [])=>{
             if (a) {
                 if (a.options.length) {
                     a.options.forEach((a)=>{
                         if (a.global && !this.options.find((b)=>b.name === a.name
-                        ) && c.indexOf(a.name) === -1 && (hf || !a.hidden)) {
+                        ) && c.indexOf(a.name) === -1 && (nf || !a.hidden)) {
                             c.push(a.name);
                             b.push(a);
                         }
                     });
                 }
-                return jf(a._parent, b, c);
+                return of(a._parent, b, c);
             }
             return b;
         };
-        return jf(this._parent);
+        return of(this._parent);
     }
-    hasOption(kf, lf) {
-        return !!this.getOption(kf, lf);
+    hasOption(pf, qf) {
+        return !!this.getOption(pf, qf);
     }
-    getOption(mf, nf) {
-        return this.getBaseOption(mf, nf) ?? this.getGlobalOption(mf, nf);
+    getOption(rf, sf) {
+        return this.getBaseOption(rf, sf) ?? this.getGlobalOption(rf, sf);
     }
-    getBaseOption(of, pf) {
-        const qf = this.options.find((a)=>a.name === of
+    getBaseOption(tf, uf) {
+        const vf = this.options.find((a)=>a.name === tf
         );
-        return qf && (pf || !qf.hidden) ? qf : undefined;
+        return vf && (uf || !vf.hidden) ? vf : undefined;
     }
-    getGlobalOption(rf, sf) {
+    getGlobalOption(wf, xf) {
         if (!this._parent) {
             return;
         }
-        let tf = this._parent.getBaseOption(rf, sf);
-        if (!tf || !tf.global) {
-            return this._parent.getGlobalOption(rf, sf);
+        let yf = this._parent.getBaseOption(wf, xf);
+        if (!yf || !yf.global) {
+            return this._parent.getGlobalOption(wf, xf);
         }
-        return tf;
+        return yf;
     }
-    removeOption(uf) {
-        const vf = this.options.findIndex((a)=>a.name === uf
+    removeOption(zf) {
+        const Af = this.options.findIndex((a)=>a.name === zf
         );
-        if (vf === -1) {
+        if (Af === -1) {
             return;
         }
-        return this.options.splice(vf, 1)[0];
+        return this.options.splice(Af, 1)[0];
     }
-    hasCommands(wf) {
-        return this.getCommands(wf).length > 0;
+    hasCommands(Bf) {
+        return this.getCommands(Bf).length > 0;
     }
-    getCommands(xf) {
-        return this.getGlobalCommands(xf).concat(this.getBaseCommands(xf));
+    getCommands(Cf) {
+        return this.getGlobalCommands(Cf).concat(this.getBaseCommands(Cf));
     }
-    getBaseCommands(yf) {
-        const zf = Array.from(this.commands.values());
-        return yf ? zf : zf.filter((a)=>!a.isHidden
+    getBaseCommands(Df) {
+        const Ef = Array.from(this.commands.values());
+        return Df ? Ef : Ef.filter((a)=>!a.isHidden
         );
     }
-    getGlobalCommands(Af) {
-        const Bf = (a, b = [], c = [])=>{
+    getGlobalCommands(Ff) {
+        const Gf = (a, b = [], c = [])=>{
             if (a) {
                 if (a.commands.size) {
                     a.commands.forEach((a)=>{
-                        if (a.isGlobal && this !== a && !this.commands.has(a._name) && c.indexOf(a._name) === -1 && (Af || !a.isHidden)) {
+                        if (a.isGlobal && this !== a && !this.commands.has(a._name) && c.indexOf(a._name) === -1 && (Ff || !a.isHidden)) {
                             c.push(a._name);
                             b.push(a);
                         }
                     });
                 }
-                return Bf(a._parent, b, c);
+                return Gf(a._parent, b, c);
             }
             return b;
         };
-        return Bf(this._parent);
+        return Gf(this._parent);
     }
-    hasCommand(Cf, Df) {
-        return !!this.getCommand(Cf, Df);
+    hasCommand(Hf, If) {
+        return !!this.getCommand(Hf, If);
     }
-    getCommand(Ef, Ff) {
-        return this.getBaseCommand(Ef, Ff) ?? this.getGlobalCommand(Ef, Ff);
+    getCommand(Jf, Kf) {
+        return this.getBaseCommand(Jf, Kf) ?? this.getGlobalCommand(Jf, Kf);
     }
-    getBaseCommand(Gf, Hf) {
-        let If = this.commands.get(Gf);
-        return If && (Hf || !If.isHidden) ? If : undefined;
+    getBaseCommand(Lf, Mf) {
+        let Nf = this.commands.get(Lf);
+        return Nf && (Mf || !Nf.isHidden) ? Nf : undefined;
     }
-    getGlobalCommand(Jf, Kf) {
+    getGlobalCommand(Of, Pf) {
         if (!this._parent) {
             return;
         }
-        let Lf = this._parent.getBaseCommand(Jf, Kf);
-        if (!Lf?.isGlobal) {
-            return this._parent.getGlobalCommand(Jf, Kf);
+        let Qf = this._parent.getBaseCommand(Of, Pf);
+        if (!Qf?.isGlobal) {
+            return this._parent.getGlobalCommand(Of, Pf);
         }
-        return Lf;
+        return Qf;
     }
-    removeCommand(Mf) {
-        const Nf = this.getBaseCommand(Mf, true);
-        if (Nf) {
-            this.commands.delete(Mf);
+    removeCommand(Rf) {
+        const Sf = this.getBaseCommand(Rf, true);
+        if (Sf) {
+            this.commands.delete(Rf);
         }
-        return Nf;
+        return Sf;
     }
     getTypes() {
         return this.getGlobalTypes().concat(this.getBaseTypes());
@@ -2142,7 +2142,7 @@ class vd {
         return Array.from(this.types.values());
     }
     getGlobalTypes() {
-        const Of = (a, b = [], c = [])=>{
+        const Tf = (a, b = [], c = [])=>{
             if (a) {
                 if (a.types.size) {
                     a.types.forEach((a)=>{
@@ -2152,79 +2152,79 @@ class vd {
                         }
                     });
                 }
-                return Of(a._parent, b, c);
+                return Tf(a._parent, b, c);
             }
             return b;
         };
-        return Of(this._parent);
+        return Tf(this._parent);
     }
-    getType(Pf) {
-        return this.getBaseType(Pf) ?? this.getGlobalType(Pf);
+    getType(Uf) {
+        return this.getBaseType(Uf) ?? this.getGlobalType(Uf);
     }
-    getBaseType(Qf) {
-        return this.types.get(Qf);
+    getBaseType(Vf) {
+        return this.types.get(Vf);
     }
-    getGlobalType(Rf) {
+    getGlobalType(Wf) {
         if (!this._parent) {
             return;
         }
-        let Sf = this._parent.getBaseType(Rf);
-        if (!Sf?.global) {
-            return this._parent.getGlobalType(Rf);
+        let Xf = this._parent.getBaseType(Wf);
+        if (!Xf?.global) {
+            return this._parent.getGlobalType(Wf);
         }
-        return Sf;
+        return Xf;
     }
-    hasEnvVars(Tf) {
-        return this.getEnvVars(Tf).length > 0;
+    hasEnvVars(Yf) {
+        return this.getEnvVars(Yf).length > 0;
     }
-    getEnvVars(Uf) {
-        return this.getGlobalEnvVars(Uf).concat(this.getBaseEnvVars(Uf));
+    getEnvVars(Zf) {
+        return this.getGlobalEnvVars(Zf).concat(this.getBaseEnvVars(Zf));
     }
-    getBaseEnvVars(Vf) {
+    getBaseEnvVars($f) {
         if (!this.envVars.length) {
             return [];
         }
-        return Vf ? this.envVars.slice(0) : this.envVars.filter((a)=>!a.hidden
+        return $f ? this.envVars.slice(0) : this.envVars.filter((a)=>!a.hidden
         );
     }
-    getGlobalEnvVars(Wf) {
-        const Xf = (a, b = [], c = [])=>{
+    getGlobalEnvVars(_f) {
+        const ag = (a, b = [], c = [])=>{
             if (a) {
                 if (a.envVars.length) {
                     a.envVars.forEach((a)=>{
                         if (a.global && !this.envVars.find((b)=>b.names[0] === a.names[0]
-                        ) && c.indexOf(a.names[0]) === -1 && (Wf || !a.hidden)) {
+                        ) && c.indexOf(a.names[0]) === -1 && (_f || !a.hidden)) {
                             c.push(a.names[0]);
                             b.push(a);
                         }
                     });
                 }
-                return Xf(a._parent, b, c);
+                return ag(a._parent, b, c);
             }
             return b;
         };
-        return Xf(this._parent);
+        return ag(this._parent);
     }
-    hasEnvVar(Yf, Zf) {
-        return !!this.getEnvVar(Yf, Zf);
+    hasEnvVar(bg, cg) {
+        return !!this.getEnvVar(bg, cg);
     }
-    getEnvVar($f, _f) {
-        return this.getBaseEnvVar($f, _f) ?? this.getGlobalEnvVar($f, _f);
+    getEnvVar(dg, eg) {
+        return this.getBaseEnvVar(dg, eg) ?? this.getGlobalEnvVar(dg, eg);
     }
-    getBaseEnvVar(ag, bg) {
-        const cg = this.envVars.find((a)=>a.names.indexOf(ag) !== -1
+    getBaseEnvVar(fg, gg) {
+        const hg = this.envVars.find((a)=>a.names.indexOf(fg) !== -1
         );
-        return cg && (bg || !cg.hidden) ? cg : undefined;
+        return hg && (gg || !hg.hidden) ? hg : undefined;
     }
-    getGlobalEnvVar(dg, eg) {
+    getGlobalEnvVar(ig, jg) {
         if (!this._parent) {
             return;
         }
-        let fg = this._parent.getBaseEnvVar(dg, eg);
-        if (!fg?.global) {
-            return this._parent.getGlobalEnvVar(dg, eg);
+        let kg = this._parent.getBaseEnvVar(ig, jg);
+        if (!kg?.global) {
+            return this._parent.getGlobalEnvVar(ig, jg);
         }
-        return fg;
+        return kg;
     }
     hasExamples() {
         return this.examples.length > 0;
@@ -2232,11 +2232,11 @@ class vd {
     getExamples() {
         return this.examples;
     }
-    hasExample(gg) {
-        return !!this.getExample(gg);
+    hasExample(lg) {
+        return !!this.getExample(lg);
     }
-    getExample(hg) {
-        return this.examples.find((a)=>a.name === hg
+    getExample(mg) {
+        return this.examples.find((a)=>a.name === mg
         );
     }
     getRawArgs() {
@@ -2245,25 +2245,25 @@ class vd {
     getLiteralArgs() {
         return this.literalArgs;
     }
-    write(...ig) {
-        qd.writeSync(b(I(2) + L(...ig)));
+    write(...ng) {
+        qd.writeSync(b(I(2) + L(...ng)));
     }
-    writeError(...jg) {
-        rd.writeSync(b(I(2) + i(L(`[ERROR:${this._name}]`, ...jg))));
+    writeError(...og) {
+        rd.writeSync(b(I(2) + i(L(`[ERROR:${this._name}]`, ...og))));
     }
-    log(...kg) {
-        this.write(...kg, '\n');
+    log(...pg) {
+        this.write(...pg, '\n');
     }
-    logError(...lg) {
-        this.writeError(...lg, '\n');
+    logError(...qg) {
+        this.writeError(...qg, '\n');
     }
-    error(mg, ng = true) {
+    error(rg, sg = true) {
         if (this.shouldThrowErrors()) {
-            return mg;
+            return rg;
         }
-        const og = ud ? !!Deno.env.get('CLIFFY_DEBUG') : false;
-        ng && this.help();
-        this.logError(og ? mg : mg.message);
+        const tg = ud ? !!Deno.env.get('CLIFFY_DEBUG') : false;
+        sg && this.help();
+        this.logError(tg ? rg : rg.message);
         this.log();
         Deno.exit(1);
     }
@@ -2321,20 +2321,20 @@ class vd {
         this.hasDefaults = false;
     }
 }
-function pg(a, b) {
+function ug(a, b) {
     return s(a, b, '_');
 }
-class qg {
-    static generate(rg) {
-        return new qg(rg).generate();
+class vg {
+    static generate(wg) {
+        return new vg(wg).generate();
     }
-    constructor(sg){
-        this.cmd = sg;
+    constructor(xg){
+        this.cmd = xg;
         this.actions = new Map();
     }
     generate() {
         return `
-# compdef _${pg(this.cmd.getPath())} ${this.cmd.getPath()}
+# compdef _${ug(this.cmd.getPath())} ${this.cmd.getPath()}
 #
 # zsh completion for ${this.cmd.getPath()}
 #
@@ -2343,8 +2343,8 @@ class qg {
 
 autoload -U is-at-least
 
-(( $+functions[__${pg(this.cmd.getName())}_complete] )) ||
-function __${pg(this.cmd.getName())}_complete {
+(( $+functions[__${ug(this.cmd.getName())}_complete] )) ||
+function __${ug(this.cmd.getName())}_complete {
     local name="$1"; shift
     local action="$1"; shift
     integer ret=1
@@ -2365,9 +2365,9 @@ function __${pg(this.cmd.getName())}_complete {
 
 ${this.generateCompletions(this.cmd).trim()}
 
-# _${pg(this.cmd.getPath())} "\${@}"
+# _${ug(this.cmd.getPath())} "\${@}"
 
-compdef _${pg(this.cmd.getPath())} ${this.cmd.getPath()}
+compdef _${ug(this.cmd.getPath())} ${this.cmd.getPath()}
 
 #
 # Local Variables:
@@ -2379,142 +2379,142 @@ compdef _${pg(this.cmd.getPath())} ${this.cmd.getPath()}
 # vim: ft=zsh sw=4 ts=4 et
 `.trim();
     }
-    generateCompletions(tg, ug = '') {
-        if (!tg.hasCommands(false) && !tg.hasOptions(false) && !tg.hasArguments()) {
+    generateCompletions(yg, zg = '') {
+        if (!yg.hasCommands(false) && !yg.hasOptions(false) && !yg.hasArguments()) {
             return '';
         }
-        ug = (ug ? ug + ' ' : '') + tg.getName();
-        return `(( $+functions[_${pg(ug)}] )) ||
-function _${pg(ug)}() {` + (!tg.getParent() ? `\n\n    local context state state_descr line\n    typeset -A opt_args` : '') + this.generateCommandCompletions(tg, ug) + this.generateSubCommandCompletions(tg, ug) + this.generateArgumentCompletions(tg, ug) + this.generateActions(tg) + `\n}\n\n` + tg.getCommands(false).filter((a)=>a !== tg
-        ).map((a)=>this.generateCompletions(a, ug)
+        zg = (zg ? zg + ' ' : '') + yg.getName();
+        return `(( $+functions[_${ug(zg)}] )) ||
+function _${ug(zg)}() {` + (!yg.getParent() ? `\n\n    local context state state_descr line\n    typeset -A opt_args` : '') + this.generateCommandCompletions(yg, zg) + this.generateSubCommandCompletions(yg, zg) + this.generateArgumentCompletions(yg, zg) + this.generateActions(yg) + `\n}\n\n` + yg.getCommands(false).filter((a)=>a !== yg
+        ).map((a)=>this.generateCompletions(a, zg)
         ).join('');
     }
-    generateCommandCompletions(vg, wg) {
-        const xg = vg.getCommands(false);
-        let yg = xg.map((a)=>`'${a.getName()}:${a.getShortDescription()}'`
+    generateCommandCompletions(Ag, Bg) {
+        const Cg = Ag.getCommands(false);
+        let Dg = Cg.map((a)=>`'${a.getName()}:${a.getShortDescription()}'`
         ).join('\n            ');
-        if (yg) {
-            yg = `
+        if (Dg) {
+            Dg = `
         local -a commands
         commands=(
-            ${yg}
+            ${Dg}
         )
         _describe 'command' commands`;
         }
-        if (vg.hasArguments()) {
-            const zg = wg.split(' ').slice(1).join(' ');
-            const Ag = vg.getArguments()[0];
-            const Bg = this.addAction(Ag, zg);
-            if (Bg) {
-                yg += `\n        __${pg(this.cmd.getName())}_complete ${Bg.arg.name} ${Bg.arg.action} ${Bg.cmd}`;
+        if (Ag.hasArguments()) {
+            const Eg = Bg.split(' ').slice(1).join(' ');
+            const Fg = Ag.getArguments()[0];
+            const Gg = this.addAction(Fg, Eg);
+            if (Gg) {
+                Dg += `\n        __${ug(this.cmd.getName())}_complete ${Gg.arg.name} ${Gg.arg.action} ${Gg.cmd}`;
             }
         }
-        if (yg) {
-            yg = `\n\n    function _commands() {${yg}\n    }`;
+        if (Dg) {
+            Dg = `\n\n    function _commands() {${Dg}\n    }`;
         }
-        return yg;
+        return Dg;
     }
-    generateSubCommandCompletions(Cg, Dg) {
-        if (Cg.hasCommands(false)) {
-            const Eg = Cg.getCommands(false).map((a)=>`${a.getName()}) _${pg(Dg + ' ' + a.getName())} ;;`
+    generateSubCommandCompletions(Hg, Ig) {
+        if (Hg.hasCommands(false)) {
+            const Jg = Hg.getCommands(false).map((a)=>`${a.getName()}) _${ug(Ig + ' ' + a.getName())} ;;`
             ).join('\n            ');
             return `\n
     function _command_args() {
-        case "$words[1]" in\n            ${Eg}\n        esac
+        case "$words[1]" in\n            ${Jg}\n        esac
     }`;
         }
         return '';
     }
-    generateArgumentCompletions(Fg, Gg) {
+    generateArgumentCompletions(Kg, Lg) {
         this.actions.clear();
-        const Hg = this.generateOptions(Fg, Gg);
-        let Ig = 0;
-        let Jg = '\n\n    _arguments -w -s -S -C';
-        if (Fg.hasOptions()) {
-            Jg += ` \\\n        ${Hg.join(' \\\n        ')}`;
+        const Mg = this.generateOptions(Kg, Lg);
+        let Ng = 0;
+        let Og = '\n\n    _arguments -w -s -S -C';
+        if (Kg.hasOptions()) {
+            Og += ` \\\n        ${Mg.join(' \\\n        ')}`;
         }
-        if (Fg.hasCommands(false) || Fg.hasArguments()) {
-            Jg += ` \\\n        '${++Ig}: :_commands'`;
+        if (Kg.hasCommands(false) || Kg.hasArguments()) {
+            Og += ` \\\n        '${++Ng}: :_commands'`;
         }
-        if (Fg.hasArguments() || Fg.hasCommands(false)) {
-            const Kg = [];
-            for (const Lg of Fg.getArguments().slice(1)){
-                const Mg = Gg.split(' ').slice(1).join(' ');
-                const Ng = this.addAction(Lg, Mg);
-                Kg.push(`${++Ig}${Lg.optionalValue ? '::' : ':'}${Ng.name}`);
+        if (Kg.hasArguments() || Kg.hasCommands(false)) {
+            const Pg = [];
+            for (const Qg of Kg.getArguments().slice(1)){
+                const Rg = Lg.split(' ').slice(1).join(' ');
+                const Sg = this.addAction(Qg, Rg);
+                Pg.push(`${++Ng}${Qg.optionalValue ? '::' : ':'}${Sg.name}`);
             }
-            Jg += Kg.map((a)=>`\\\n        '${a}'`
+            Og += Pg.map((a)=>`\\\n        '${a}'`
             ).join('');
-            if (Fg.hasCommands(false)) {
-                Jg += ` \\\n        '*:: :->command_args'`;
+            if (Kg.hasCommands(false)) {
+                Og += ` \\\n        '*:: :->command_args'`;
             }
         }
-        return Jg;
+        return Og;
     }
-    generateOptions(Og, Pg) {
-        const Qg = [];
-        const Rg = Pg.split(' ');
-        Rg.shift();
-        const Sg = Rg.join(' ');
-        const Tg = Og.getOptions(false).map((a)=>a.standalone ? a.flags.split(/[, ] */g) : false
+    generateOptions(Tg, Ug) {
+        const Vg = [];
+        const Wg = Ug.split(' ');
+        Wg.shift();
+        const Xg = Wg.join(' ');
+        const Yg = Tg.getOptions(false).map((a)=>a.standalone ? a.flags.split(/[, ] */g) : false
         ).flat().filter((a)=>typeof a === 'string'
         );
-        for (const Ug of Og.getOptions(false)){
-            Qg.push(this.generateOption(Ug, Sg, Tg));
+        for (const Zg of Tg.getOptions(false)){
+            Vg.push(this.generateOption(Zg, Xg, Yg));
         }
-        return Qg;
+        return Vg;
     }
-    generateOption(Vg, Wg, Xg) {
-        let Yg = Vg.conflicts?.length ? [
-            ...Xg,
-            ...Vg.conflicts
-        ] : Xg;
-        Yg = Vg.collect ? Yg : [
-            ...Yg,
-            ...Vg.flags.split(/[, ] */g)
+    generateOption($g, _g, ah) {
+        let bh = $g.conflicts?.length ? [
+            ...ah,
+            ...$g.conflicts
+        ] : ah;
+        bh = $g.collect ? bh : [
+            ...bh,
+            ...$g.flags.split(/[, ] */g)
         ];
-        let Zg = '';
-        for (const $g of Vg.args){
-            const _g = this.addAction($g, Wg);
-            if ($g.variadic) {
-                Zg += `${$g.optionalValue ? '::' : ':'}${$g.name}:->${_g.name}`;
+        let ch = '';
+        for (const dh of $g.args){
+            const eh = this.addAction(dh, _g);
+            if (dh.variadic) {
+                ch += `${dh.optionalValue ? '::' : ':'}${dh.name}:->${eh.name}`;
             } else {
-                Zg += `${$g.optionalValue ? '::' : ':'}${$g.name}:->${_g.name}`;
+                ch += `${dh.optionalValue ? '::' : ':'}${dh.name}:->${eh.name}`;
             }
         }
-        const ah = Vg.description.trim().split('\n').shift();
-        const bh = Vg.collect ? '*' : '';
-        const ch = Vg.flags.replace(/ +/g, '');
-        if (Vg.standalone) {
-            return `'(- *)'{${bh}${ch}}'[${ah}]${Zg}'`;
+        const fh = $g.description.trim().split('\n').shift();
+        const gh = $g.collect ? '*' : '';
+        const hh = $g.flags.replace(/ +/g, '');
+        if ($g.standalone) {
+            return `'(- *)'{${gh}${hh}}'[${fh}]${ch}'`;
         } else {
-            const dh = Yg.length ? `'(${Yg.join(' ')})'` : '';
-            return `${dh}{${bh}${ch}}'[${ah}]${Zg}'`;
+            const ih = bh.length ? `'(${bh.join(' ')})'` : '';
+            return `${ih}{${gh}${hh}}'[${fh}]${ch}'`;
         }
     }
-    addAction(eh, fh) {
-        const gh = `${eh.name}-${eh.action}`;
-        if (!this.actions.has(gh)) {
-            this.actions.set(gh, {
-                arg: eh,
-                label: `${eh.name}: ${eh.action}`,
-                name: gh,
-                cmd: fh
+    addAction(jh, kh) {
+        const lh = `${jh.name}-${jh.action}`;
+        if (!this.actions.has(lh)) {
+            this.actions.set(lh, {
+                arg: jh,
+                label: `${jh.name}: ${jh.action}`,
+                name: lh,
+                cmd: kh
             });
         }
-        return this.actions.get(gh);
+        return this.actions.get(lh);
     }
-    generateActions(hh) {
-        let ih = [];
+    generateActions(mh) {
+        let nh = [];
         if (this.actions.size) {
-            ih = Array.from(this.actions).map(([a, b])=>`${a}) __${pg(this.cmd.getName())}_complete ${b.arg.name} ${b.arg.action} ${b.cmd} ;;`
+            nh = Array.from(this.actions).map(([a, b])=>`${a}) __${ug(this.cmd.getName())}_complete ${b.arg.name} ${b.arg.action} ${b.cmd} ;;`
             );
         }
-        if (hh.hasCommands(false)) {
-            ih.unshift(`command_args) _command_args ;;`);
+        if (mh.hasCommands(false)) {
+            nh.unshift(`command_args) _command_args ;;`);
         }
-        if (ih.length) {
-            return `\n\n    case "$state" in\n        ${ih.join('\n        ')}\n    esac`;
+        if (nh.length) {
+            return `\n\n    case "$state" in\n        ${nh.join('\n        ')}\n    esac`;
         }
         return '';
     }
