@@ -803,11 +803,19 @@ impl Fixer<'_> {
                 self.unwrap_expr(exprs.last_mut().unwrap());
                 *e = *exprs.last_mut().unwrap().take();
             }
+
             Expr::Paren(ParenExpr {
                 span: paren_span,
                 ref mut expr,
                 ..
             }) => {
+                match &**expr {
+                    Expr::Bin(bin_expr) if bin_expr.left.is_object() => {
+                        return;
+                    }
+                    _ => (),
+                }
+
                 let expr_span = expr.span();
                 let paren_span = *paren_span;
                 self.unwrap_expr(&mut **expr);
@@ -1446,15 +1454,15 @@ var store = global[SHARED] || (global[SHARED] = {});
         "
         function ItemsList() {
             var _ref;
-        
+
             var _temp, _this, _ret;
-        
+
             _classCallCheck(this, ItemsList);
-        
+
             for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
               args[_key] = arguments[_key];
             }
-        
+
             return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = \
          ItemsList.__proto__ || Object.getPrototypeOf(ItemsList)).call.apply(_ref, \
          [this].concat(args))), _this), _this.storeHighlightedItemReference = function \
@@ -1484,4 +1492,8 @@ var store = global[SHARED] || (global[SHARED] = {});
         }
         "
     );
+
+    test_fixer!(issue_2550_1, "(1 && { a: 1 })", "1 && { a:1 }");
+
+    identical!(issue_2550_2, "({ isNewPrefsActive } && { a: 1 })");
 }
