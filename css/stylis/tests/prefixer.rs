@@ -454,7 +454,8 @@ fn error_recovery_1() {
         "__styled-jsx-placeholder__1
             animation: slide 3s ease infinite;
         ",
-        "__styled-jsx-placeholder__1 animation: slide 3s ease infinite;",
+        "__styled-jsx-placeholder__1
+            animation: slide 3s ease infinite;",
     );
 
     t(
@@ -462,7 +463,7 @@ fn error_recovery_1() {
             __styled-jsx-placeholder__1
         ",
         "-webkit-animation:slide 3s ease infinite;animation:slide 3s ease \
-         infinite;__styled-jsx-placeholder__1 ;",
+         infinite;__styled-jsx-placeholder__1\n        ;",
     );
 }
 

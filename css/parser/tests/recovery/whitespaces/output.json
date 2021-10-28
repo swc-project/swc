@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 29,
+    "end": 67,
     "ctxt": 0
   },
   "rules": [
@@ -10,7 +10,7 @@
       "type": "StyleRule",
       "span": {
         "start": 0,
-        "end": 29,
+        "end": 66,
         "ctxt": 0
       },
       "selectors": [
@@ -59,7 +59,7 @@
         "type": "Block",
         "span": {
           "start": 2,
-          "end": 29,
+          "end": 66,
           "ctxt": 0
         },
         "items": [
@@ -67,7 +67,7 @@
             "type": "Tokens",
             "span": {
               "start": 8,
-              "end": 28,
+              "end": 14,
               "ctxt": 0
             },
             "tokens": [
@@ -103,30 +103,27 @@
                     "value": " "
                   }
                 }
-              },
+              }
+            ]
+          },
+          {
+            "type": "Tokens",
+            "span": {
+              "start": 20,
+              "end": 29,
+              "ctxt": 0
+            },
+            "tokens": [
               {
                 "span": {
-                  "start": 14,
-                  "end": 18,
-                  "ctxt": 0
-                },
-                "token": {
-                  "Function": {
-                    "value": "url",
-                    "raw": "url"
-                  }
-                }
-              },
-              {
-                "span": {
-                  "start": 18,
+                  "start": 20,
                   "end": 24,
                   "ctxt": 0
                 },
                 "token": {
-                  "Str": {
-                    "value": "test",
-                    "raw": "\"test\""
+                  "Ident": {
+                    "value": "prop",
+                    "raw": "prop"
                   }
                 }
               },
@@ -136,37 +133,103 @@
                   "end": 25,
                   "ctxt": 0
                 },
-                "token": "RParen"
+                "token": "Colon"
               },
               {
                 "span": {
                   "start": 25,
-                  "end": 26,
+                  "end": 29,
                   "ctxt": 0
                 },
                 "token": {
                   "WhiteSpace": {
-                    "value": " "
+                    "value": "    "
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "Tokens",
+            "span": {
+              "start": 35,
+              "end": 42,
+              "ctxt": 0
+            },
+            "tokens": [
+              {
+                "span": {
+                  "start": 35,
+                  "end": 39,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "prop",
+                    "raw": "prop"
                   }
                 }
               },
               {
                 "span": {
-                  "start": 26,
-                  "end": 27,
+                  "start": 39,
+                  "end": 40,
                   "ctxt": 0
                 },
                 "token": "Colon"
               },
               {
                 "span": {
-                  "start": 27,
-                  "end": 28,
+                  "start": 40,
+                  "end": 42,
                   "ctxt": 0
                 },
                 "token": {
                   "WhiteSpace": {
-                    "value": "\n"
+                    "value": "\n\n"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "Tokens",
+            "span": {
+              "start": 48,
+              "end": 63,
+              "ctxt": 0
+            },
+            "tokens": [
+              {
+                "span": {
+                  "start": 48,
+                  "end": 52,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "prop",
+                    "raw": "prop"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 52,
+                  "end": 53,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "span": {
+                  "start": 53,
+                  "end": 63,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": "    \n\n    "
                   }
                 }
               }

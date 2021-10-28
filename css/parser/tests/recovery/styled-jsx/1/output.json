@@ -262,7 +262,11 @@
                           "end": 137,
                           "ctxt": 0
                         },
-                        "token": "WhiteSpace"
+                        "token": {
+                          "WhiteSpace": {
+                            "value": " "
+                          }
+                        }
                       },
                       {
                         "span": {
@@ -399,7 +403,11 @@
                       "end": 237,
                       "ctxt": 0
                     },
-                    "token": "WhiteSpace"
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
                   },
                   {
                     "span": {
@@ -585,7 +593,11 @@
                               "end": 334,
                               "ctxt": 0
                             },
-                            "token": "WhiteSpace"
+                            "token": {
+                              "WhiteSpace": {
+                                "value": " "
+                              }
+                            }
                           },
                           {
                             "span": {
@@ -660,7 +672,11 @@
                           "end": 378,
                           "ctxt": 0
                         },
-                        "token": "WhiteSpace"
+                        "token": {
+                          "WhiteSpace": {
+                            "value": " "
+                          }
+                        }
                       },
                       {
                         "span": {
@@ -817,7 +833,11 @@
                               "end": 463,
                               "ctxt": 0
                             },
-                            "token": "WhiteSpace"
+                            "token": {
+                              "WhiteSpace": {
+                                "value": " "
+                              }
+                            }
                           },
                           {
                             "span": {
@@ -892,7 +912,11 @@
                           "end": 507,
                           "ctxt": 0
                         },
-                        "token": "WhiteSpace"
+                        "token": {
+                          "WhiteSpace": {
+                            "value": " "
+                          }
+                        }
                       },
                       {
                         "span": {

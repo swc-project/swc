@@ -89,7 +89,7 @@ macro_rules! tok {
     };
 
     (" ") => {
-        swc_css_ast::Token::WhiteSpace
+        swc_css_ast::Token::WhiteSpace { .. }
     };
 
     ("<!--") => {

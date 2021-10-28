@@ -121,9 +121,11 @@ where
 
         if let Some(c) = self.input.cur() {
             if is_whitespace(c) {
-                self.skip_ws()?;
+                let value = self.read_ws()?;
 
-                return Ok(tok!(" "));
+                return Ok(Token::WhiteSpace {
+                    value: value.into(),
+                });
             }
         }
 
@@ -300,6 +302,34 @@ where
         self.input.bump();
 
         return Ok(Token::Delim { value: c });
+    }
+
+    fn read_ws(&mut self) -> LexResult<String> {
+        let mut value = String::new();
+
+        loop {
+            let c = self.input.cur();
+
+            match c {
+                Some(c) if is_whitespace(c) => {
+                    self.input.bump();
+
+                    value.push(c);
+                }
+                _ => {
+                    break;
+                }
+            }
+        }
+
+        if self.config.allow_wrong_line_comments {
+            if self.input.is_byte(b'/') && self.input.peek() == Some('/') {
+                self.skip_line_comment()?;
+                self.start_pos = self.input.cur_pos();
+            }
+        }
+
+        Ok(value)
     }
 
     fn would_start_number(
@@ -877,16 +907,16 @@ where
 
     fn skip_ws(&mut self) -> LexResult<()> {
         loop {
-            if self.input.cur().is_none() {
-                break;
-            }
+            let c = self.input.cur();
 
-            if is_whitespace(self.input.cur().unwrap()) {
-                self.input.bump();
-                continue;
+            match c {
+                Some(c) if is_whitespace(c) => {
+                    self.input.bump();
+                }
+                _ => {
+                    break;
+                }
             }
-
-            break;
         }
 
         if self.config.allow_wrong_line_comments {

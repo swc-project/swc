@@ -1,0 +1,24 @@
+error: Expected Declaration value
+ --> $DIR/tests/recovery/whitespaces/input.css:2:11
+  |
+2 |     prop: ;
+  |           ^
+
+error: Expected Declaration value
+ --> $DIR/tests/recovery/whitespaces/input.css:3:14
+  |
+3 |     prop:    ;
+  |              ^
+
+error: Expected Declaration value
+ --> $DIR/tests/recovery/whitespaces/input.css:6:1
+  |
+6 | ;
+  | ^
+
+error: Expected Declaration value
+ --> $DIR/tests/recovery/whitespaces/input.css:9:5
+  |
+9 |     ;
+  |     ^
+
