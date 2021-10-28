@@ -59,10 +59,6 @@ jobs:
           name: bindings
           path: swc.*.node
 
-      - name: Test in lts docker
-        if: matrix.os == 'ubuntu-18.04'
-        run: docker run --rm -v $(pwd):/swc -w /swc node:lts-slim sh -c "yarn test"
-
   build-windows-i686:
     if: ${{ startsWith(github.ref, 'refs/tags/v') }}
 
@@ -176,11 +172,6 @@ jobs:
         run: |
           docker run --rm -v $(pwd):/swc -w /swc builder sh -c "npm run build"
 
-      - name: Run tests
-        run: |
-          docker pull node:lts-alpine
-          docker run --rm -v $(pwd):/swc -w /swc node:lts-alpine sh -c "yarn && npm test"
-
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
@@ -274,19 +265,6 @@ jobs:
       - name: Cross build aarch64
         run: yarn build --target aarch64-unknown-linux-gnu
 
-      - name: Run tests
-        uses: docker://multiarch/ubuntu-core:arm64-focal
-        with:
-          args: >
-            sh -c "
-              apt-get update && \
-              apt-get install -y ca-certificates gnupg2 curl && \
-              curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
-              apt-get install -y nodejs && \
-              yarn && \
-              npm test
-            "
-
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
@@ -333,15 +311,6 @@ jobs:
 
       - name: Cross build aarch64
         run: yarn build --target aarch64-unknown-linux-musl
-
-      - name: Run tests
-        uses: docker://multiarch/alpine:aarch64-latest-stable
-        with:
-          args: >
-            sh -c "sed -i -e 's/v[[:digit:]]\..*\//edge\//g' /etc/apk/repositories && \
-              apk add nodejs npm && \
-              yarn && \
-              npm test
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
@@ -473,7 +442,6 @@ jobs:
             yarn
             cargo build --release -p node
             yarn build
-            npm test
             rm -rf node_modules
             rm -rf target
       - name: "List files"
