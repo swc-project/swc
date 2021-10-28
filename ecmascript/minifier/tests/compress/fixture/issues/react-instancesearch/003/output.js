@@ -5,26 +5,6 @@ import { hasMultipleIndices } from "./indexUtils";
 import { version as ReactVersion } from "react";
 import version from "./version";
 import { defer } from "./utils";
-function createWidgetsManager(onWidgetsUpdate) {
-    const widgets = [];
-    let scheduled = !1;
-    function scheduleUpdate() {
-        scheduled || (scheduled = !0, defer(()=>{
-            scheduled = !1, onWidgetsUpdate();
-        }));
-    }
-    return {
-        registerWidget (widget) {
-            return widgets.push(widget), scheduleUpdate(), function() {
-                widgets.splice(widgets.indexOf(widget), 1), scheduleUpdate();
-            };
-        },
-        update: scheduleUpdate,
-        getWidgets () {
-            return widgets;
-        }
-    };
-}
 function addAlgoliaAgents(searchClient) {
     "function" == typeof searchClient.addAlgoliaAgent && (searchClient.addAlgoliaAgent(`react (${ReactVersion})`), searchClient.addAlgoliaAgent(`react-instantsearch (${version})`));
 }
@@ -39,16 +19,6 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
     const isFirstWidgetIndex = isIndexWidget(firstWidget), isSecondWidgetIndex = isIndexWidget(secondWidget);
     return isFirstWidgetIndex && !isSecondWidgetIndex ? -1 : !isFirstWidgetIndex && isSecondWidgetIndex ? 1 : 0;
 };
-function serializeQueryParameters(parameters) {
-    const isObjectOrArray = (value)=>"[object Object]" === Object.prototype.toString.call(value) || "[object Array]" === Object.prototype.toString.call(value)
-    , encode = (format, ...args)=>{
-        let i = 0;
-        return format.replace(/%s/g, ()=>encodeURIComponent(args[i++])
-        );
-    };
-    return Object.keys(parameters).map((key)=>encode("%s=%s", key, isObjectOrArray(parameters[key]) ? JSON.stringify(parameters[key]) : parameters[key])
-    ).join("&");
-}
 export default function createInstantSearchManager({ indexName , initialState ={
 } , searchClient , resultsState , stalledSearchDelay ,  }) {
     var results1;
@@ -67,7 +37,26 @@ export default function createInstantSearchManager({ indexName , initialState ={
         indexId: indexName
     })).on("error", handleSearchError);
     let skip = !1, stalledSearchTimer = null, initialSearchParameters = helper.state;
-    const widgetsManager = createWidgetsManager(function() {
+    const widgetsManager = function(onWidgetsUpdate) {
+        const widgets = [];
+        let scheduled = !1;
+        function scheduleUpdate() {
+            scheduled || (scheduled = !0, defer(()=>{
+                scheduled = !1, onWidgetsUpdate();
+            }));
+        }
+        return {
+            registerWidget (widget) {
+                return widgets.push(widget), scheduleUpdate(), function() {
+                    widgets.splice(widgets.indexOf(widget), 1), scheduleUpdate();
+                };
+            },
+            update: scheduleUpdate,
+            getWidgets () {
+                return widgets;
+            }
+        };
+    }(function() {
         const metadata = getMetadata(store.getState().widgets);
         store.setState({
             ...store.getState(),
@@ -83,7 +72,16 @@ export default function createInstantSearchManager({ indexName , initialState ={
                 client.search = (requests, ...methodArgs)=>{
                     const requestsWithSerializedParams = requests.map((request)=>({
                             ...request,
-                            params: serializeQueryParameters(request.params)
+                            params: (function(parameters) {
+                                const isObjectOrArray = (value)=>"[object Object]" === Object.prototype.toString.call(value) || "[object Array]" === Object.prototype.toString.call(value)
+                                , encode = (format, ...args)=>{
+                                    let i = 0;
+                                    return format.replace(/%s/g, ()=>encodeURIComponent(args[i++])
+                                    );
+                                };
+                                return Object.keys(parameters).map((key)=>encode("%s=%s", key, isObjectOrArray(parameters[key]) ? JSON.stringify(parameters[key]) : parameters[key])
+                                ).join("&");
+                            })(request.params)
                         })
                     );
                     return client.transporter.responsesCache.get({
