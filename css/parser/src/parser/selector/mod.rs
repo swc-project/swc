@@ -4,7 +4,7 @@ use crate::{
     Parse,
 };
 use swc_atoms::{js_word, JsWord};
-use swc_common::Span;
+use swc_common::{BytePos, Span};
 use swc_css_ast::*;
 
 impl<I> Parser<I>
@@ -358,16 +358,13 @@ where
         // TODO: should be removed, because invalid
         self.input.skip_ws()?;
 
-        // TODO: will be `Function` token
-        if is!(self, Ident) && peeked_is!(self, "(") {
-            let ident_span = self.input.cur_span()?;
+        if is!(self, Function) {
+            let fn_span = self.input.cur_span()?;
             let value = bump!(self);
             let values = match value {
-                Token::Ident { value, raw } => (value, raw),
+                Token::Function { value, raw } => (value, raw),
                 _ => unreachable!(),
             };
-
-            expect!(self, "(");
 
             let args = self.parse_any_value(false)?;
 
@@ -377,7 +374,7 @@ where
                 span: span!(self, span.lo),
                 is_element: false,
                 name: Text {
-                    span: ident_span,
+                    span: Span::new(fn_span.lo, fn_span.hi - BytePos(1), Default::default()),
                     value: values.0,
                     raw: values.1,
                 },

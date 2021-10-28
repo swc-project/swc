@@ -763,17 +763,11 @@ error: Delim { value: '.' }
 17 |     --javascript: function(rule) { console.log(rule) };
    |                                           ^
 
-error: Ident { value: Atom('log' type=inline), raw: Atom('log' type=inline) }
+error: Function { value: Atom('log' type=inline), raw: Atom('log' type=inline) }
   --> $DIR/tests/fixture/value/custom-property/input.css:17:44
    |
 17 |     --javascript: function(rule) { console.log(rule) };
-   |                                            ^^^
-
-error: LParen
-  --> $DIR/tests/fixture/value/custom-property/input.css:17:47
-   |
-17 |     --javascript: function(rule) { console.log(rule) };
-   |                                               ^
+   |                                            ^^^^
 
 error: Ident { value: Atom('rule' type=inline), raw: Atom('rule' type=inline) }
   --> $DIR/tests/fixture/value/custom-property/input.css:17:48

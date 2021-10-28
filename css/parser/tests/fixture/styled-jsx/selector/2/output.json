@@ -113,23 +113,15 @@
                       {
                         "span": {
                           "start": 15,
-                          "end": 18,
+                          "end": 19,
                           "ctxt": 0
                         },
                         "token": {
-                          "Ident": {
+                          "Function": {
                             "value": "not",
                             "raw": "not"
                           }
                         }
-                      },
-                      {
-                        "span": {
-                          "start": 18,
-                          "end": 19,
-                          "ctxt": 0
-                        },
-                        "token": "LParen"
                       },
                       {
                         "span": {
@@ -158,7 +150,7 @@
                       },
                       {
                         "span": {
-                          "start": 18,
+                          "start": 15,
                           "end": 19,
                           "ctxt": 0
                         },
