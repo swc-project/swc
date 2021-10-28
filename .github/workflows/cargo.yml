@@ -81,9 +81,9 @@ jobs:
             ~/.cargo/
             target
             Cargo.lock
-          key: cargo-test-${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
+          key: cargo-debug-${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: |
-            cache-test-${{ runner.os }}
+            cargo-debug-${{ runner.os }}
 
       # Ensure that all components are compilable.
       - name: Run cargo check for all targets
@@ -223,7 +223,9 @@ jobs:
             ~/.cargo/
             target
             Cargo.lock
-          key: ${{ runner.os }}-cargo-v4
+          key: cargo-debug-${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            cargo-debug-${{ runner.os }}
 
       - name: Run cargo test
         run: |
