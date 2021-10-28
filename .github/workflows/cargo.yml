@@ -232,6 +232,11 @@ jobs:
           jest -v
           cargo test --color always -p ${{ matrix.crate }}
 
+      - name: Run cargo test (swc_ecma_transforms)
+        if: matrix.crate == 'swc_ecma_transforms'
+        run: |
+          cargo test --color always -p swc_ecma_transforms --all-features
+
       - name: Run cargo test (concurrent)
         if: runner.os != 'Windows'
         shell: bash
