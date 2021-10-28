@@ -5,4 +5,8 @@ class MyClass {
     constructor() {
         this.#b = "test";
     }
+
+    method() {
+        return #a in this;
+    }
 }
