@@ -291,10 +291,35 @@ impl VisitMut for Remover {
         }
 
         let last = e.exprs.pop().unwrap();
-        let mut exprs = e
-            .exprs
-            .take()
-            .move_flat_map(|e| ignore_result(*e).map(Box::new));
+
+        let should_preserved_this = matches!(
+            &*last,
+            Expr::Member(..)
+                | Expr::Ident(Ident {
+                    sym: js_word!("eval"),
+                    ..
+                })
+        );
+
+        let mut exprs = if should_preserved_this {
+            e.exprs
+                .take()
+                .into_iter()
+                .enumerate()
+                .filter_map(|(idx, e)| {
+                    if idx == 0 {
+                        return Some(e);
+                    }
+
+                    ignore_result(*e).map(Box::new)
+                })
+                .collect()
+        } else {
+            e.exprs
+                .take()
+                .move_flat_map(|e| ignore_result(*e).map(Box::new))
+        };
+
         exprs.push(last);
 
         e.exprs = exprs;
