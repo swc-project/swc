@@ -1,9 +1,10 @@
 use ansi_term::Color;
 use anyhow::{bail, Context, Error};
 use serde::de::DeserializeOwned;
+use sha1::{Digest, Sha1};
 use std::{
     env,
-    fs::{create_dir_all, read_to_string, OpenOptions},
+    fs::{self, create_dir_all, read_to_string, OpenOptions},
     io::{self, Write},
     mem::{replace, take},
     path::Path,
@@ -448,6 +449,14 @@ where
     })
 }
 
+fn calc_hash(s: &str) -> String {
+    let mut hasher = Sha1::new();
+    hasher.update(s.as_bytes());
+    let sum = hasher.finalize();
+
+    hex::encode(sum)
+}
+
 fn exec_with_jest(test_name: &str, src: &str) -> Result<(), ()> {
     let root = Path::new(env!("CARGO_MANIFEST_DIR"))
         .join("target")
@@ -455,6 +464,18 @@ fn exec_with_jest(test_name: &str, src: &str) -> Result<(), ()> {
         .join(test_name);
 
     create_dir_all(&root).expect("failed to create parent directory for temp directory");
+
+    let hash = calc_hash(src);
+    let success_cache = root.join(format!("{}.success", hash));
+
+    if env::var("SWC_CACHE_TEST").unwrap_or_default() == "1" {
+        println!("Trying cache as `SWC_CACHE_TEST` is `1`");
+
+        if success_cache.exists() {
+            println!("Cache: success");
+            return Ok(());
+        }
+    }
 
     let tmp_dir = tempdir_in(&root).expect("failed to create a temp directory");
     create_dir_all(&tmp_dir).unwrap();
@@ -490,6 +511,7 @@ fn exec_with_jest(test_name: &str, src: &str) -> Result<(), ()> {
         .status()
         .expect("failed to run jest");
     if status.success() {
+        fs::write(&success_cache, "").unwrap();
         return Ok(());
     }
     ::std::mem::forget(tmp_dir);
