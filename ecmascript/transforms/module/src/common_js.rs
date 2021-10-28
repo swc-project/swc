@@ -184,8 +184,18 @@ where
                                 _ => unreachable!(),
                             };
 
-                            //
                             extra_stmts.push(ModuleItem::Stmt(Stmt::Decl(decl.fold_with(self))));
+
+                            if !is_class {
+                                let mut scope = self.scope.borrow_mut();
+                                scope
+                                    .exported_vars
+                                    .entry((ident.sym.clone(), ident.span.ctxt()))
+                                    .or_default()
+                                    .push((ident.sym.clone(), ident.span.ctxt()));
+
+                                drop(scope);
+                            }
 
                             let append_to: &mut Vec<_> = if is_class {
                                 &mut extra_stmts
