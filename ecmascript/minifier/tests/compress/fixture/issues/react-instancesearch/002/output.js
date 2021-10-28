@@ -19,16 +19,6 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
     const isFirstWidgetIndex = isIndexWidget(firstWidget), isSecondWidgetIndex = isIndexWidget(secondWidget);
     return isFirstWidgetIndex && !isSecondWidgetIndex ? -1 : !isFirstWidgetIndex && isSecondWidgetIndex ? 1 : 0;
 };
-function serializeQueryParameters(parameters) {
-    const isObjectOrArray = (value)=>"[object Object]" === Object.prototype.toString.call(value) || "[object Array]" === Object.prototype.toString.call(value)
-    , encode = (format, ...args)=>{
-        let i = 0;
-        return format.replace(/%s/g, ()=>encodeURIComponent(args[i++])
-        );
-    };
-    return Object.keys(parameters).map((key)=>encode("%s=%s", key, isObjectOrArray(parameters[key]) ? JSON.stringify(parameters[key]) : parameters[key])
-    ).join("&");
-}
 export default function createInstantSearchManager({ indexName , initialState ={
 } , searchClient , resultsState , stalledSearchDelay ,  }) {
     var results1;
@@ -63,7 +53,16 @@ export default function createInstantSearchManager({ indexName , initialState ={
                 client.search = (requests, ...methodArgs)=>{
                     const requestsWithSerializedParams = requests.map((request)=>({
                             ...request,
-                            params: serializeQueryParameters(request.params)
+                            params: (function(parameters) {
+                                const isObjectOrArray = (value)=>"[object Object]" === Object.prototype.toString.call(value) || "[object Array]" === Object.prototype.toString.call(value)
+                                , encode = (format, ...args)=>{
+                                    let i = 0;
+                                    return format.replace(/%s/g, ()=>encodeURIComponent(args[i++])
+                                    );
+                                };
+                                return Object.keys(parameters).map((key)=>encode("%s=%s", key, isObjectOrArray(parameters[key]) ? JSON.stringify(parameters[key]) : parameters[key])
+                                ).join("&");
+                            })(request.params)
                         })
                     );
                     return client.transporter.responsesCache.get({

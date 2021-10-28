@@ -9,7 +9,7 @@ use swc_ecma_transforms_module::{
     common_js::common_js, import_analysis::import_analyzer, util::Scope,
 };
 use swc_ecma_transforms_optimization::simplify::{
-    dce::dce, expr_simplifier, inlining::inlining, simplifier,
+    dce::dce, dead_branch_remover, expr_simplifier, inlining::inlining, simplifier,
 };
 use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_testing::{test, test_transform};
@@ -588,4 +588,30 @@ test!(
     console.log("\x001");
     "#,
     ok_if_code_eq
+);
+
+test!(
+    Syntax::default(),
+    |_| dead_branch_remover(),
+    issue_2466_1,
+    "
+    const X = {
+        run() {
+            console.log(this === globalThis);
+        },
+    };
+    
+    X.run();
+    (0, X.run)();
+    ",
+    "
+    const X = {
+        run() {
+            console.log(this === globalThis);
+        },
+    };
+    
+    X.run();
+    (0, X.run)();
+    "
 );

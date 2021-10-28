@@ -75,8 +75,19 @@ impl<M> Pure<'_, M> {
         );
 
         let mut new = vec![];
+        let mut fn_decls = vec![];
         new.extend(stmts.drain(..pos_of_if));
-        let cons = stmts.drain(1..).collect::<Vec<_>>();
+        let cons = stmts
+            .drain(1..)
+            .filter_map(|stmt| {
+                if matches!(stmt, Stmt::Decl(Decl::Fn(..))) {
+                    fn_decls.push(stmt);
+                    return None;
+                }
+
+                Some(stmt)
+            })
+            .collect::<Vec<_>>();
 
         let if_stmt = stmts.take().into_iter().next().unwrap();
         match if_stmt {
@@ -100,6 +111,8 @@ impl<M> Pure<'_, M> {
                 unreachable!()
             }
         }
+
+        new.extend(fn_decls);
 
         *stmts = new;
     }
