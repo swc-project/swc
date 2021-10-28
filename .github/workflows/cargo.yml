@@ -226,7 +226,6 @@ jobs:
           key: cargo-dev--${{ runner.os }}-${{ matrix.crate }}-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: |
             cargo-dev--${{ runner.os }}-${{ matrix.crate }}
-            cargo-dev--${{ runner.os }}
 
       - name: Run cargo test
         run: |
