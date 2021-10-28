@@ -67,6 +67,8 @@ define!({
     }
 
     pub enum Value {
+         SquareBracketBlock(SquareBracketBlock),
+        
         Paren(ParenValue),
 
         Unit(UnitValue),
@@ -84,8 +86,6 @@ define!({
         Fn(FnValue),
 
         Bin(BinValue),
-
-        Array(ArrayValue),
 
         Space(SpaceValues),
 
@@ -134,10 +134,9 @@ define!({
         pub value: Option<Box<Value>>,
     }
 
-    pub struct ArrayValue {
+    pub struct SquareBracketBlock {
         pub span: Span,
-
-        pub values: Vec<Value>,
+        pub children: Option<Vec<Value>>,
     }
 
     pub struct HashValue {
