@@ -16,6 +16,7 @@ env:
   CI: 1
   CARGO_INCREMENTAL: 0
   RUST_LOG: "debug"
+  SWC_CACHE_TEST: 1
 
 jobs:
   check-license:
