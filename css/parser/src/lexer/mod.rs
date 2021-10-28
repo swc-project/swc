@@ -622,7 +622,10 @@ where
                 // EOF
                 // This is a parse error. Return the <string-token>.
                 None => {
-                    return Err(ErrorKind::Eof);
+                    return Ok(Token::Str {
+                        value: value.into(),
+                        raw: raw.into(),
+                    })
                 }
             }
         }
@@ -719,8 +722,10 @@ where
                             });
                         }
                         None => {
-                            // TODO: This is a parse error. Return the <url-token>.
-                            return Err(ErrorKind::Eof);
+                            return Ok(Token::Url {
+                                value: value.into(),
+                                raw: raw.into(),
+                            });
                         }
                         _ => {}
                     }
