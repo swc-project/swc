@@ -243,7 +243,7 @@ jobs:
         shell: bash
         if: matrix.crate == 'swc'
         run: |
-          ./scripts/ci/test-concurrent.sh ${{ matrix.crate }}
+          cargo test --color always -p swc --features concurrent
 
   deploy-docs:
     name: Docs
