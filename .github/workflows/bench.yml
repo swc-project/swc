@@ -17,11 +17,14 @@ jobs:
             ./cache
             ~/.cargo/
             target
-          key: ${{ runner.os }}-benchmark-${{ hashFiles('**/Cargo.toml') }}
+          key: cargo-release-${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            cargo-release-${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
+
       - name: Build (release)
         run: |
-          npm i
-          npm run build
+          yarn
+          yarn build
 
       - name: Print binary size
         run: ls -al ./target/release/libnode*
@@ -31,6 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
       - name: Cache
         uses: actions/cache@v1
         with:
@@ -38,7 +42,10 @@ jobs:
             ./cache
             ~/.cargo/
             target
-          key: ${{ runner.os }}-benchmark-${{ hashFiles('**/Cargo.toml') }}
+          key: cargo-bench-${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            cargo-bench-${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
+
       - name: Run benchmark
         run: cargo bench --all | tee output.txt
 

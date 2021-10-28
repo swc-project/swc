@@ -1,3 +1,5 @@
+#![cfg(not(feature = "wrong-target"))]
+
 use rayon::prelude::*;
 use std::{
     fs::create_dir_all,

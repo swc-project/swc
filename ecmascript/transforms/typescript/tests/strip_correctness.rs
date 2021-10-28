@@ -159,6 +159,7 @@ fn identity(entry: PathBuf) {
                 optional_chaining: true,
                 import_meta: true,
                 top_level_await: true,
+                private_in_object: true,
                 ..Default::default()
             }),
             (&*js_fm).into(),
