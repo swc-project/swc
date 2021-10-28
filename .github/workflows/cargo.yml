@@ -223,8 +223,9 @@ jobs:
             ~/.cargo/
             target
             Cargo.lock
-          key: cargo-debug-${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
+          key: cargo-debug-${{ runner.os }}-${{ matrix.crate }}-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: |
+            cargo-debug-${{ runner.os }}-${{ matrix.crate }}
             cargo-debug-${{ runner.os }}
 
       - name: Run cargo test
