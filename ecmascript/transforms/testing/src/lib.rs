@@ -380,7 +380,7 @@ where
         let src_without_helpers = tester.print(&module, &tester.comments.clone());
         module = module.fold_with(&mut inject_helpers());
 
-        let transfomred_src = tester.print(&module, &tester.comments.clone());
+        let transfromed_src = tester.print(&module, &tester.comments.clone());
 
         println!(
             "\t>>>>> Orig <<<<<\n{}\n\t>>>>> Code <<<<<\n{}",
@@ -391,7 +391,7 @@ where
 
         println!("\t>>>>> Expected stdout <<<<<\n{}", expected);
 
-        let actual = stdout_of(&transfomred_src).unwrap();
+        let actual = stdout_of(&transfromed_src).unwrap();
 
         assert_eq!(expected, actual);
 
@@ -438,57 +438,62 @@ where
         module = module.fold_with(&mut inject_helpers());
 
         let src = tester.print(&module, &tester.comments.clone());
-        let root = Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("target")
-            .join("testing")
-            .join(test_name);
-
-        create_dir_all(&root).expect("failed to create parent directory for temp directory");
-
-        let tmp_dir = tempdir_in(&root).expect("failed to create a temp directory");
-        create_dir_all(&tmp_dir).unwrap();
-
-        let path = tmp_dir.path().join(format!("{}.test.js", test_name));
-
-        let mut tmp = OpenOptions::new()
-            .create(true)
-            .write(true)
-            .open(&path)
-            .expect("failed to create a temp file");
-        write!(tmp, "{}", src).expect("failed to write to temp file");
-        tmp.flush().unwrap();
 
         println!(
             "\t>>>>> Orig <<<<<\n{}\n\t>>>>> Code <<<<<\n{}",
             input, src_without_helpers
         );
 
-        let jest_path = find_executable("jest").expect("failed to find `jest` from path");
-
-        let mut base_cmd = if cfg!(target_os = "windows") {
-            let mut c = Command::new("cmd");
-            c.arg("/C").arg(&jest_path);
-            c
-        } else {
-            Command::new(&jest_path)
-        };
-
-        // I hate windows.
-        if cfg!(target_os = "windows") && env::var("CI").is_ok() {
-            base_cmd.arg("--passWithNoTests");
-        }
-
-        let status = base_cmd
-            .args(&["--testMatch", &format!("{}", path.display())])
-            .current_dir(root)
-            .status()
-            .expect("failed to run jest");
-        if status.success() {
-            return Ok(());
-        }
-        ::std::mem::forget(tmp_dir);
-        panic!("Execution failed")
+        exec_with_jest(test_name, &src)
     })
+}
+
+fn exec_with_jest(test_name: &str, src: &str) -> Result<(), ()> {
+    let root = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("target")
+        .join("testing")
+        .join(test_name);
+
+    create_dir_all(&root).expect("failed to create parent directory for temp directory");
+
+    let tmp_dir = tempdir_in(&root).expect("failed to create a temp directory");
+    create_dir_all(&tmp_dir).unwrap();
+
+    let path = tmp_dir.path().join(format!("{}.test.js", test_name));
+
+    let mut tmp = OpenOptions::new()
+        .create(true)
+        .write(true)
+        .open(&path)
+        .expect("failed to create a temp file");
+    write!(tmp, "{}", src).expect("failed to write to temp file");
+    tmp.flush().unwrap();
+
+    let jest_path = find_executable("jest").expect("failed to find `jest` from path");
+
+    let mut base_cmd = if cfg!(target_os = "windows") {
+        let mut c = Command::new("cmd");
+        c.arg("/C").arg(&jest_path);
+        c
+    } else {
+        Command::new(&jest_path)
+    };
+
+    // I hate windows.
+    if cfg!(target_os = "windows") && env::var("CI").is_ok() {
+        base_cmd.arg("--passWithNoTests");
+    }
+
+    let status = base_cmd
+        .args(&["--testMatch", &format!("{}", path.display())])
+        .current_dir(root)
+        .status()
+        .expect("failed to run jest");
+    if status.success() {
+        return Ok(());
+    }
+    ::std::mem::forget(tmp_dir);
+    panic!("Execution failed")
 }
 
 fn stdout_of(code: &str) -> Result<String, Error> {
