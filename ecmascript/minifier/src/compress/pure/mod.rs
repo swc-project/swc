@@ -33,7 +33,7 @@ pub(crate) fn pure_optimizer<'a, M>(
     options: &'a CompressOptions,
     marks: Marks,
     mode: &'a M,
-    debug_inifinite_loop: bool,
+    debug_infinite_loop: bool,
 ) -> impl 'a + VisitMut + Repeated
 where
     M: Mode,
@@ -44,7 +44,7 @@ where
         ctx: Default::default(),
         changed: Default::default(),
         mode,
-        debug_inifinite_loop,
+        debug_infinite_loop,
     }
 }
 
@@ -55,7 +55,7 @@ struct Pure<'a, M> {
     changed: bool,
     mode: &'a M,
 
-    debug_inifinite_loop: bool,
+    debug_infinite_loop: bool,
 }
 
 impl<M> Repeated for Pure<'_, M> {
@@ -117,7 +117,7 @@ where
                     ctx: self.ctx,
                     changed: false,
                     mode: self.mode,
-                    debug_inifinite_loop: self.debug_inifinite_loop,
+                    debug_infinite_loop: self.debug_infinite_loop,
                 };
                 node.visit_mut_with(&mut v);
 
@@ -136,7 +136,7 @@ where
                         },
                         changed: false,
                         mode: self.mode,
-                        debug_inifinite_loop: self.debug_inifinite_loop,
+                        debug_infinite_loop: self.debug_infinite_loop,
                     };
                     node.visit_mut_with(&mut v);
 
@@ -447,7 +447,7 @@ where
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
-        let _tracing = if cfg!(feature = "debug") && self.debug_inifinite_loop {
+        let _tracing = if cfg!(feature = "debug") && self.debug_infinite_loop {
             let text = dump(&*s);
 
             if text.lines().count() < 10 {
@@ -470,7 +470,7 @@ where
             s.visit_mut_children_with(&mut *self.with_ctx(ctx));
         }
 
-        if cfg!(feature = "debug") && self.debug_inifinite_loop {
+        if cfg!(feature = "debug") && self.debug_infinite_loop {
             let text = dump(&*s);
 
             if text.lines().count() < 10 {
@@ -501,7 +501,7 @@ where
             _ => {}
         }
 
-        if cfg!(feature = "debug") && self.debug_inifinite_loop {
+        if cfg!(feature = "debug") && self.debug_infinite_loop {
             let text = dump(&*s);
 
             if text.lines().count() < 10 {

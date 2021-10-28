@@ -593,3 +593,26 @@ where
 {
     node.visit_mut_with(&mut ExprReplacer { op })
 }
+
+pub(super) fn is_fine_for_if_cons(s: &Stmt) -> bool {
+    match s {
+        Stmt::Decl(Decl::Fn(FnDecl {
+            ident:
+                Ident {
+                    sym: js_word!("undefined"),
+                    ..
+                },
+            ..
+        })) => false,
+
+        Stmt::Decl(
+            Decl::Var(VarDecl {
+                kind: VarDeclKind::Var,
+                ..
+            })
+            | Decl::Fn(..),
+        ) => true,
+        Stmt::Decl(..) => false,
+        _ => true,
+    }
+}
