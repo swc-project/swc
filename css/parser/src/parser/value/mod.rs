@@ -506,7 +506,7 @@ where
         expect!(self, "[");
 
         self.input.skip_ws()?;
-        
+
         let ctx = Ctx {
             is_in_delimited_value: true,
             allow_separating_value_with_space: true,
@@ -514,7 +514,7 @@ where
         };
 
         let children = Some(self.with_ctx(ctx).parse_property_values()?.0);
-        
+
         self.input.skip_ws()?;
 
         expect!(self, "]");
