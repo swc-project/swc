@@ -1,6 +1,7 @@
 use self::{case::CaseHandler, hoist::hoist};
+use serde::Deserialize;
 use std::mem::take;
-use swc_atoms::js_word;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
@@ -12,7 +13,16 @@ mod case;
 mod hoist;
 mod leap;
 
-pub fn regenerator(top_level_mark: Mark) -> impl Fold {
+#[derive(Debug, Default, Deserialize)]
+#[serde(rename_all = "camelCase")]
+
+pub struct Config {
+    /// Import path used instead of `regenerator-runtime`
+    #[serde(default)]
+    pub import_path: Option<JsWord>,
+}
+
+pub fn regenerator(config: Config, top_level_mark: Mark) -> impl Fold {
     Regenerator {
         global_mark: top_level_mark,
         regenerator_runtime: Default::default(),
