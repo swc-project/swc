@@ -71,6 +71,7 @@ jobs:
           skip-fetch-gh-pages: true
 
       - name: Analyze benchmark result (root)
+        if: ${{ github.event_name == 'push' }}
         uses: rhysd/github-action-benchmark@v1
         with:
           # What benchmark tool the output.txt came from
