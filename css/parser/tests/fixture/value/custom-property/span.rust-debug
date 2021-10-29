@@ -499,7 +499,7 @@ error: Comma
 15 |     --bracket-block: {1, 2, 3};
    |                        ^
 
-error: WhiteSpace
+error: WhiteSpace { value: Atom(' ' type=inline) }
   --> $DIR/tests/fixture/value/custom-property/input.css:15:25
    |
 15 |     --bracket-block: {1, 2, 3};
@@ -517,7 +517,7 @@ error: Comma
 15 |     --bracket-block: {1, 2, 3};
    |                           ^
 
-error: WhiteSpace
+error: WhiteSpace { value: Atom(' ' type=inline) }
   --> $DIR/tests/fixture/value/custom-property/input.css:15:28
    |
 15 |     --bracket-block: {1, 2, 3};
@@ -619,7 +619,7 @@ error: Colon
 16 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
    |                              ^
 
-error: WhiteSpace
+error: WhiteSpace { value: Atom(' ' type=inline) }
   --> $DIR/tests/fixture/value/custom-property/input.css:16:31
    |
 16 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
@@ -745,7 +745,7 @@ error: Tokens
 17 |     --javascript: function(rule) { console.log(rule) };
    |                                   ^^^^^^^^^^^^^^^^^^^
 
-error: WhiteSpace
+error: WhiteSpace { value: Atom(' ' type=inline) }
   --> $DIR/tests/fixture/value/custom-property/input.css:17:35
    |
 17 |     --javascript: function(rule) { console.log(rule) };
@@ -787,7 +787,7 @@ error: RParen
 17 |     --javascript: function(rule) { console.log(rule) };
    |                                                    ^
 
-error: WhiteSpace
+error: WhiteSpace { value: Atom(' ' type=inline) }
   --> $DIR/tests/fixture/value/custom-property/input.css:17:53
    |
 17 |     --javascript: function(rule) { console.log(rule) };

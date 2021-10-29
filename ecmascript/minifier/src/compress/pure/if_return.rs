@@ -1,6 +1,5 @@
-use crate::compress::util::negate;
-
 use super::Pure;
+use crate::compress::util::{is_fine_for_if_cons, negate};
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 
@@ -96,7 +95,7 @@ impl<M> Pure<'_, M> {
                 self.changed = true;
                 negate(&mut s.test, false);
 
-                s.cons = if cons.len() == 1 {
+                s.cons = if cons.len() == 1 && is_fine_for_if_cons(&cons[0]) {
                     Box::new(cons.into_iter().next().unwrap())
                 } else {
                     Box::new(Stmt::Block(BlockStmt {

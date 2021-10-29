@@ -1,6 +1,7 @@
 #![allow(dead_code)]
 
 use self::util::MultiReplacer;
+use super::util::is_fine_for_if_cons;
 use crate::{
     analyzer::{ProgramData, UsageAnalyzer},
     compress::util::is_pure_undefined,
@@ -1457,7 +1458,9 @@ where
             Stmt::Block(block) if block.stmts.is_empty() => {
                 *s = Stmt::Empty(EmptyStmt { span: block.span });
             }
-            Stmt::Block(block) if block.stmts.len() == 1 => {
+            Stmt::Block(block)
+                if block.stmts.len() == 1 && is_fine_for_if_cons(&block.stmts[0]) =>
+            {
                 *s = block.stmts.take().into_iter().next().unwrap();
             }
             _ => {}

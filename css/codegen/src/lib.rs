@@ -560,8 +560,8 @@ where
                     punct!(self, "#");
                     self.wr.write_raw(Some(span), &raw)?;
                 }
-                Token::WhiteSpace => {
-                    space!(self);
+                Token::WhiteSpace { value, .. } => {
+                    self.wr.write_raw(None, &value)?;
                 }
                 Token::CDC => {
                     punct!(self, span, "-->");

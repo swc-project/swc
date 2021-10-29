@@ -437,7 +437,7 @@ error: Tokens
 13 |     --braces: { };
    |                ^
 
-error: WhiteSpace
+error: WhiteSpace { value: Atom(' ' type=inline) }
   --> $DIR/tests/fixture/rome/custom-properties/input.css:13:13
    |
 13 |     --braces: { };
