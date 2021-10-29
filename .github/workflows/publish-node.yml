@@ -35,7 +35,7 @@ jobs:
           override: true
 
       - name: Install node dependencies
-        run: npm i
+        run: yarn
 
       - name: Build
         shell: bash
@@ -58,10 +58,6 @@ jobs:
         with:
           name: bindings
           path: swc.*.node
-
-      - name: Test in lts docker
-        if: matrix.os == 'ubuntu-18.04'
-        run: docker run --rm -v $(pwd):/swc -w /swc node:lts-slim sh -c "yarn test"
 
   build-windows-i686:
     if: ${{ startsWith(github.ref, 'refs/tags/v') }}
@@ -95,7 +91,7 @@ jobs:
           target: i686-pc-windows-msvc
 
       - name: Install node dependencies
-        run: npm i
+        run: yarn
 
       - name: Build
         shell: bash
@@ -128,7 +124,7 @@ jobs:
           target: aarch64-pc-windows-msvc
 
       - name: Install node dependencies
-        run: npm i
+        run: yarn
 
       - name: Build
         shell: bash
@@ -170,16 +166,11 @@ jobs:
           docker tag ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine builder
 
       - name: "Install dependencies"
-        run: npm i
+        run: yarn
 
       - name: "Build"
         run: |
           docker run --rm -v $(pwd):/swc -w /swc builder sh -c "npm run build"
-
-      - name: Run tests
-        run: |
-          docker pull node:lts-alpine
-          docker run --rm -v $(pwd):/swc -w /swc node:lts-alpine sh -c "npm i && npm test"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
@@ -216,7 +207,7 @@ jobs:
           key: aarch64-apple-darwin-publish-integration
 
       - name: Install dependencies
-        run: npm i
+        run: yarn
 
       - name: Cross build aarch64
         run: |
@@ -269,23 +260,10 @@ jobs:
           sudo apt-get install gcc-aarch64-linux-gnu g++-aarch64-linux-gnu -y
 
       - name: Install dependencies
-        run: npm i
+        run: yarn
 
       - name: Cross build aarch64
         run: yarn build --target aarch64-unknown-linux-gnu
-
-      - name: Run tests
-        uses: docker://multiarch/ubuntu-core:arm64-focal
-        with:
-          args: >
-            sh -c "
-              apt-get update && \
-              apt-get install -y ca-certificates gnupg2 curl && \
-              curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
-              apt-get install -y nodejs && \
-              npm i && \
-              npm test
-            "
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
@@ -329,19 +307,10 @@ jobs:
           sudo apt-get install gcc-aarch64-linux-gnu -y
 
       - name: Install dependencies
-        run: npm i
+        run: yarn
 
       - name: Cross build aarch64
         run: yarn build --target aarch64-unknown-linux-musl
-
-      - name: Run tests
-        uses: docker://multiarch/alpine:aarch64-latest-stable
-        with:
-          args: >
-            sh -c "sed -i -e 's/v[[:digit:]]\..*\//edge\//g' /etc/apk/repositories && \
-              apk add nodejs npm && \
-              npm i && \
-              npm test
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
@@ -385,7 +354,7 @@ jobs:
           sudo apt-get install gcc-arm-linux-gnueabihf -y
 
       - name: Install dependencies
-        run: npm i
+        run: yarn
 
       - name: Cross build aarch64
         run: yarn build --target armv7-unknown-linux-gnueabihf
@@ -417,7 +386,7 @@ jobs:
           target: aarch64-linux-android
 
       - name: Install node dependencies
-        run: npm i
+        run: yarn
 
       - name: Build
         shell: bash
@@ -470,10 +439,9 @@ jobs:
             whoami
             env
             freebsd-version
-            npm i
+            yarn
             cargo build --release -p node
             yarn build
-            npm test
             rm -rf node_modules
             rm -rf target
       - name: "List files"
@@ -513,7 +481,7 @@ jobs:
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
       - name: Install dependencies
-        run: npm i
+        run: yarn
 
       - name: Download all artifacts
         uses: actions/download-artifact@v2

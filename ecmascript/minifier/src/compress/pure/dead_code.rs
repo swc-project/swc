@@ -1,6 +1,8 @@
 use super::Pure;
-use crate::{compress::util::always_terminates, mode::Mode};
-use swc_atoms::js_word;
+use crate::{
+    compress::util::{always_terminates, is_fine_for_if_cons},
+    mode::Mode,
+};
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, StmtLike, Value};
@@ -14,31 +16,12 @@ where
     where
         T: StmtLike,
     {
-        fn is_inliable(b: &BlockStmt) -> bool {
-            b.stmts.iter().all(|s| match s {
-                Stmt::Decl(Decl::Fn(FnDecl {
-                    ident:
-                        Ident {
-                            sym: js_word!("undefined"),
-                            ..
-                        },
-                    ..
-                })) => false,
-
-                Stmt::Decl(
-                    Decl::Var(VarDecl {
-                        kind: VarDeclKind::Var,
-                        ..
-                    })
-                    | Decl::Fn(..),
-                ) => true,
-                Stmt::Decl(..) => false,
-                _ => true,
-            })
+        fn is_ok(b: &BlockStmt) -> bool {
+            b.stmts.iter().all(|s| is_fine_for_if_cons(s))
         }
 
         if stmts.iter().all(|stmt| match stmt.as_stmt() {
-            Some(Stmt::Block(b)) if is_inliable(b) => false,
+            Some(Stmt::Block(b)) if is_ok(b) => false,
             _ => true,
         }) {
             return;
@@ -51,7 +34,7 @@ where
         for stmt in stmts.take() {
             match stmt.try_into_stmt() {
                 Ok(v) => match v {
-                    Stmt::Block(v) if is_inliable(&v) => {
+                    Stmt::Block(v) if is_ok(&v) => {
                         new.extend(v.stmts.into_iter().map(T::from_stmt));
                     }
                     _ => new.push(T::from_stmt(v)),

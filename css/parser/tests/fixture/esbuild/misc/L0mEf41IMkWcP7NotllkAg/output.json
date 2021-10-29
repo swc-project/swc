@@ -45,7 +45,11 @@
               "end": 10,
               "ctxt": 0
             },
-            "token": "WhiteSpace"
+            "token": {
+              "WhiteSpace": {
+                "value": "\n"
+              }
+            }
           },
           {
             "span": {
@@ -74,7 +78,11 @@
               "end": 13,
               "ctxt": 0
             },
-            "token": "WhiteSpace"
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
           },
           {
             "span": {
@@ -103,7 +111,11 @@
               "end": 16,
               "ctxt": 0
             },
-            "token": "WhiteSpace"
+            "token": {
+              "WhiteSpace": {
+                "value": "\n"
+              }
+            }
           },
           {
             "span": {
@@ -132,7 +144,11 @@
               "end": 19,
               "ctxt": 0
             },
-            "token": "WhiteSpace"
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
           },
           {
             "span": {
@@ -161,7 +177,11 @@
               "end": 22,
               "ctxt": 0
             },
-            "token": "WhiteSpace"
+            "token": {
+              "WhiteSpace": {
+                "value": "\n"
+              }
+            }
           },
           {
             "span": {

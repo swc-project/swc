@@ -98,7 +98,11 @@
                   "end": 14,
                   "ctxt": 0
                 },
-                "token": "WhiteSpace"
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
               },
               {
                 "span": {
@@ -140,7 +144,11 @@
                   "end": 26,
                   "ctxt": 0
                 },
-                "token": "WhiteSpace"
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
               },
               {
                 "span": {
@@ -156,7 +164,11 @@
                   "end": 28,
                   "ctxt": 0
                 },
-                "token": "WhiteSpace"
+                "token": {
+                  "WhiteSpace": {
+                    "value": "\n"
+                  }
+                }
               }
             ]
           }

@@ -23,19 +23,6 @@ var _obj, isMultiIndexContext = function(widget) {
     var isFirstWidgetIndex = isIndexWidget(firstWidget), isSecondWidgetIndex = isIndexWidget(secondWidget);
     return isFirstWidgetIndex && !isSecondWidgetIndex ? -1 : !isFirstWidgetIndex && isSecondWidgetIndex ? 1 : 0;
 };
-function serializeQueryParameters(parameters) {
-    var encode = function(format) {
-        for(var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)args[_key - 1] = arguments[_key];
-        var i = 0;
-        return format.replace(/%s/g, function() {
-            return encodeURIComponent(args[i++]);
-        });
-    };
-    return Object.keys(parameters).map(function(key) {
-        var value;
-        return encode("%s=%s", key, (value = parameters[key], "[object Object]" === Object.prototype.toString.call(value) || "[object Array]" === Object.prototype.toString.call(value)) ? JSON.stringify(parameters[key]) : parameters[key]);
-    }).join("&");
-}
 export default function createInstantSearchManager(param1) {
     var indexName = param1.indexName, _initialState = param1.initialState, searchClient = param1.searchClient, resultsState = param1.resultsState, stalledSearchDelay = param1.stalledSearchDelay, getMetadata = function(state) {
         return widgetsManager.getWidgets().filter(function(widget) {
@@ -225,11 +212,23 @@ export default function createInstantSearchManager(param1) {
                 client._cacheHydrated = !0;
                 var baseMethod = client.search;
                 client.search = function(requests) {
-                    for(var _len = arguments.length, methodArgs = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)methodArgs[_key - 1] = arguments[_key];
+                    for(var _len1 = arguments.length, methodArgs = new Array(_len1 > 1 ? _len1 - 1 : 0), _key1 = 1; _key1 < _len1; _key1++)methodArgs[_key1 - 1] = arguments[_key1];
                     var requestsWithSerializedParams = requests.map(function(request) {
                         return swcHelpers.objectSpread({
                         }, request, {
-                            params: serializeQueryParameters(request.params)
+                            params: function(parameters) {
+                                var encode = function(format) {
+                                    for(var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)args[_key - 1] = arguments[_key];
+                                    var i = 0;
+                                    return format.replace(/%s/g, function() {
+                                        return encodeURIComponent(args[i++]);
+                                    });
+                                };
+                                return Object.keys(parameters).map(function(key) {
+                                    var value;
+                                    return encode("%s=%s", key, (value = parameters[key], "[object Object]" === Object.prototype.toString.call(value) || "[object Array]" === Object.prototype.toString.call(value)) ? JSON.stringify(parameters[key]) : parameters[key]);
+                                }).join("&");
+                            }(request.params)
                         });
                     });
                     return client.transporter.responsesCache.get({

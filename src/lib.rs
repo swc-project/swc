@@ -145,7 +145,7 @@ use swc_ecma_codegen::{self, text_writer::WriteJs, Emitter, Node};
 use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
 };
-use swc_ecma_minifier::option::MinifyOptions;
+use swc_ecma_minifier::option::{MinifyOptions, TopLevelOptions};
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, Syntax};
 use swc_ecma_transforms::{
     fixer,
@@ -924,7 +924,7 @@ impl Compiler {
                 }
             };
 
-            let min_opts = MinifyOptions {
+            let mut min_opts = MinifyOptions {
                 compress: opts
                     .compress
                     .clone()
@@ -933,6 +933,22 @@ impl Compiler {
                 mangle: opts.mangle.clone().into_obj(),
                 ..Default::default()
             };
+
+            // top_level defaults to true if module is true
+
+            // https://github.com/swc-project/swc/issues/2254
+
+            if opts.module {
+                if let Some(opts) = &mut min_opts.compress {
+                    if opts.top_level.is_none() {
+                        opts.top_level = Some(TopLevelOptions { functions: true });
+                    }
+                }
+
+                if let Some(opts) = &mut min_opts.mangle {
+                    opts.top_level = true;
+                }
+            }
 
             let module = self
                 .parse_js(
@@ -945,6 +961,7 @@ impl Compiler {
                         decorators_before_export: true,
                         top_level_await: true,
                         import_assertions: true,
+                        private_in_object: true,
                         dynamic_import: true,
 
                         ..Default::default()

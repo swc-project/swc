@@ -83,7 +83,9 @@ pub enum Token {
     },
 
     /// One or more whitespace.
-    WhiteSpace,
+    WhiteSpace {
+        value: JsWord,
+    },
 
     /// `<!--`
     CDO,

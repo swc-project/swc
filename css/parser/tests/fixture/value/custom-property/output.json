@@ -178,7 +178,8 @@
                   "end": 61,
                   "ctxt": 0
                 },
-                "value": "06c"
+                "value": "06c",
+                "raw": "06c"
               }
             ],
             "important": null
@@ -566,7 +567,11 @@
                         "end": 287,
                         "ctxt": 0
                       },
-                      "token": "WhiteSpace"
+                      "token": {
+                        "WhiteSpace": {
+                          "value": " "
+                        }
+                      }
                     },
                     {
                       "span": {
@@ -595,7 +600,11 @@
                         "end": 290,
                         "ctxt": 0
                       },
-                      "token": "WhiteSpace"
+                      "token": {
+                        "WhiteSpace": {
+                          "value": " "
+                        }
+                      }
                     },
                     {
                       "span": {
@@ -712,7 +721,11 @@
                                 "end": 325,
                                 "ctxt": 0
                               },
-                              "token": "WhiteSpace"
+                              "token": {
+                                "WhiteSpace": {
+                                  "value": " "
+                                }
+                              }
                             },
                             {
                               "span": {
@@ -863,7 +876,11 @@
                         "end": 376,
                         "ctxt": 0
                       },
-                      "token": "WhiteSpace"
+                      "token": {
+                        "WhiteSpace": {
+                          "value": " "
+                        }
+                      }
                     },
                     {
                       "span": {
@@ -938,7 +955,11 @@
                         "end": 394,
                         "ctxt": 0
                       },
-                      "token": "WhiteSpace"
+                      "token": {
+                        "WhiteSpace": {
+                          "value": " "
+                        }
+                      }
                     }
                   ]
                 }

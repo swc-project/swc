@@ -341,7 +341,8 @@ error: LBrace
 33 | @unknown {
    |          ^
 
-error: WhiteSpace
+error: WhiteSpace { value: Atom('
+    ' type=inline) }
   --> $DIR/tests/fixture/at-rule/unknown/input.css:33:11
    |
 33 |   @unknown {
@@ -355,7 +356,7 @@ error: CDC
 34 |     --> {}
    |     ^^^
 
-error: WhiteSpace
+error: WhiteSpace { value: Atom(' ' type=inline) }
   --> $DIR/tests/fixture/at-rule/unknown/input.css:34:8
    |
 34 |     --> {}
@@ -373,7 +374,8 @@ error: RBrace
 34 |     --> {}
    |          ^
 
-error: WhiteSpace
+error: WhiteSpace { value: Atom('
+    ' type=inline) }
   --> $DIR/tests/fixture/at-rule/unknown/input.css:34:11
    |
 34 |       --> {}
@@ -387,7 +389,7 @@ error: CDO
 35 |     <!-- {}
    |     ^^^^
 
-error: WhiteSpace
+error: WhiteSpace { value: Atom(' ' type=inline) }
   --> $DIR/tests/fixture/at-rule/unknown/input.css:35:9
    |
 35 |     <!-- {}
@@ -405,7 +407,8 @@ error: RBrace
 35 |     <!-- {}
    |           ^
 
-error: WhiteSpace
+error: WhiteSpace { value: Atom('
+' type=inline) }
   --> $DIR/tests/fixture/at-rule/unknown/input.css:35:12
    |
 35 |       <!-- {}

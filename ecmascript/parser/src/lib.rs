@@ -280,7 +280,7 @@ impl Syntax {
             Syntax::Es(EsConfig {
                 private_in_object, ..
             }) => private_in_object,
-            _ => false,
+            Syntax::Typescript(_) => true,
         }
     }
 
