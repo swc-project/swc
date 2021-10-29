@@ -67,8 +67,8 @@ define!({
     }
 
     pub enum Value {
-         SquareBracketBlock(SquareBracketBlock),
-        
+        SquareBracketBlock(SquareBracketBlock),
+
         Paren(ParenValue),
 
         Unit(UnitValue),
