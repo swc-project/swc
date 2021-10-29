@@ -159,7 +159,12 @@ where
         es2015::destructuring(es2015::destructuring::Config { loose }),
         true
     );
-    let pass = add!(pass, Regenerator, es2015::regenerator(global_mark), true);
+    let pass = add!(
+        pass,
+        Regenerator,
+        es2015::regenerator(Default::default(), global_mark),
+        true
+    );
     let pass = add!(pass, BlockScoping, es2015::block_scoping(), true);
 
     // TODO:
