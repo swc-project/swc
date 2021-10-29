@@ -1,5 +1,5 @@
 use self::{case::CaseHandler, hoist::hoist};
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use std::mem::take;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{Mark, Spanned, DUMMY_SP};
@@ -13,7 +13,7 @@ mod case;
 mod hoist;
 mod leap;
 
-#[derive(Debug, Default, Clone, Deserialize)]
+#[derive(Debug, Default, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 
 pub struct Config {
