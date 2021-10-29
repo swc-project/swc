@@ -85,7 +85,7 @@ where
             values.push(value);
 
             loop {
-                if !is_one_of!(self, Str, Num, Ident, Dimension, "[", "(") {
+                if !is_one_of!(self, Str, Num, Ident, Function, Dimension, "[", "(") {
                     break;
                 }
 
@@ -170,6 +170,7 @@ where
             }
 
             try_group!("(", ")");
+            try_group!("function", ")");
             try_group!("[", "]");
             try_group!("{", "}");
 
@@ -445,6 +446,7 @@ where
                 unreachable!()
             }
         };
+
         let name = Text {
             span: if is_fn {
                 swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default())
@@ -604,31 +606,17 @@ where
     fn parse(&mut self) -> PResult<FnValue> {
         let span = self.input.cur_span()?;
 
-        let mut is_fn = false;
-        let values = match bump!(self) {
-            Token::Ident { value, raw } => (value, raw),
-            Token::Function { value, raw } => {
-                is_fn = true;
-
-                (value, raw)
-            }
+        let name = match bump!(self) {
+            Token::Function { value, raw } => (value, raw),
             _ => {
                 unreachable!()
             }
         };
         let name = Text {
-            span: if is_fn {
-                swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default())
-            } else {
-                span
-            },
-            value: values.0,
-            raw: values.1,
+            span: swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default()),
+            value: name.0,
+            raw: name.1,
         };
-
-        if !is_fn {
-            expect!(self, "(");
-        }
 
         let ctx = Ctx {
             allow_operation_in_value: true,

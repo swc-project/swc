@@ -504,7 +504,6 @@ where
         }
     }
 
-    // TODO: rewrite https://www.w3.org/TR/css-syntax-3/#consume-an-ident-like-token
     fn read_ident_like(&mut self) -> LexResult<Token> {
         let name = self.read_name()?;
 
@@ -515,6 +514,7 @@ where
 
             self.skip_ws()?;
 
+            // TODO: avoid reset
             match self.input.cur() {
                 Some('"' | '\'') => {
                     self.input.reset_to(start_whitespace);
@@ -530,6 +530,16 @@ where
                     return self.read_url();
                 }
             }
+        }
+
+        if self.input.is_byte(b'(') {
+            self.input.bump();
+            self.last_pos = Some(self.input.cur_pos());
+
+            return Ok(Token::Function {
+                value: name.0,
+                raw: name.1,
+            });
         }
 
         Ok(Token::Ident {

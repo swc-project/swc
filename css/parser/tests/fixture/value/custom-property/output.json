@@ -910,23 +910,15 @@
                     {
                       "span": {
                         "start": 384,
-                        "end": 387,
+                        "end": 388,
                         "ctxt": 0
                       },
                       "token": {
-                        "Ident": {
+                        "Function": {
                           "value": "log",
                           "raw": "log"
                         }
                       }
-                    },
-                    {
-                      "span": {
-                        "start": 387,
-                        "end": 388,
-                        "ctxt": 0
-                      },
-                      "token": "LParen"
                     },
                     {
                       "span": {
