@@ -1,6 +1,8 @@
-error: Expected Declaration value
- --> $DIR/tests/recovery/delim-token/bang/input.css:2:12
+error: Expected !important
+ --> $DIR/tests/recovery/delim-token/bang/input.css:2:13
   |
-2 |     color: !!;
-  |            ^
+2 |       color: !!;
+  |  _____________^
+3 | | }
+  | |_
 

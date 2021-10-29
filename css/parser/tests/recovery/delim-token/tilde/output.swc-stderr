@@ -1,6 +1,0 @@
-error: Expected Declaration value
- --> $DIR/tests/recovery/delim-token/tilde/input.css:2:12
-  |
-2 |     color: ~;
-  |            ^
-

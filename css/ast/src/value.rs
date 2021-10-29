@@ -29,6 +29,9 @@ pub enum Value {
     #[tag("FnValue")]
     Fn(FnValue),
 
+    #[tag("OperatorValue")]
+    Operator(OperatorValue),
+
     #[tag("BinValue")]
     Bin(BinValue),
 
@@ -89,6 +92,12 @@ pub struct FnValue {
     pub name: Text,
 
     pub args: Vec<Value>,
+}
+
+#[ast_node("OperatorValue")]
+pub struct OperatorValue {
+    pub span: Span,
+    pub value: char,
 }
 
 #[ast_node("ParenValue")]

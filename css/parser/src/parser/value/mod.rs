@@ -275,6 +275,20 @@ where
                 }));
             }
 
+            Token::Delim { .. } => {
+                let value = match bump!(self) {
+                    Token::Delim { value } => value,
+                    _ => {
+                        unreachable!()
+                    }
+                };
+
+                return Ok(Value::Operator(OperatorValue {
+                    span: span!(self, span.lo),
+                    value,
+                }));
+            }
+
             _ => {}
         }
 

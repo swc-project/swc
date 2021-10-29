@@ -262,6 +262,11 @@ where
     }
 
     #[emitter]
+    fn emit_operator_value(&mut self, n: &OperatorValue) -> Result {
+        self.wr.write_raw_char(Some(n.span), n.value)?;
+    }
+
+    #[emitter]
     fn emit_value(&mut self, n: &Value) -> Result {
         match n {
             Value::Paren(n) => emit!(self, n),
@@ -280,6 +285,7 @@ where
             Value::AtText(n) => emit!(self, n),
             Value::Url(n) => emit!(self, n),
             Value::Comma(n) => emit!(self, n),
+            Value::Operator(n) => emit!(self, n),
         }
     }
 
