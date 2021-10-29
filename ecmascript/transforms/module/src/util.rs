@@ -121,7 +121,7 @@ pub struct Scope {
     /// Declared variables except const.
     pub(crate) declared_vars: Vec<Id>,
 
-    /// Maps of exported variables.
+    /// Maps of exported bindings.
     ///
     ///
     /// e.g.
@@ -130,7 +130,7 @@ pub struct Scope {
     ///
     ///  - `export { a as b }`
     ///   -> `{ a: [b] }`
-    pub(crate) exported_vars: AHashMap<Id, Vec<Id>>,
+    pub(crate) exported_bindings: AHashMap<Id, Vec<Id>>,
 
     /// This is required to handle
     /// `export * from 'foo';`
@@ -604,7 +604,7 @@ impl Scope {
                 let arg = arg.ident().unwrap();
                 let mut scope = folder.scope_mut();
                 let entry = scope
-                    .exported_vars
+                    .exported_bindings
                     .entry((arg.sym.clone(), arg.span.ctxt()));
 
                 match entry {
@@ -744,7 +744,7 @@ impl Scope {
                         let i = pat.ident().unwrap();
                         let mut scope = folder.scope_mut();
                         let entry = scope
-                            .exported_vars
+                            .exported_bindings
                             .entry((i.id.sym.clone(), i.id.span.ctxt()));
 
                         match entry {
@@ -772,7 +772,7 @@ impl Scope {
                                     .filter_map(|i| {
                                         let mut scope = folder.scope_mut();
                                         let entry = match scope
-                                            .exported_vars
+                                            .exported_bindings
                                             .entry((i.sym.clone(), i.span.ctxt()))
                                         {
                                             Entry::Occupied(entry) => entry,
