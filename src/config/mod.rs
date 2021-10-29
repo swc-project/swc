@@ -43,6 +43,7 @@ use swc_ecma_transforms::{
     proposals::{decorators, export_default_from, import_assertions},
     react, resolver_with_mark, typescript,
 };
+use swc_ecma_transforms_compat::es2015::regenerator;
 use swc_ecma_transforms_optimization::{inline_globals2, GlobalExprMap};
 use swc_ecma_visit::Fold;
 
@@ -272,6 +273,7 @@ impl Options {
             })
             .fixer(!self.disable_fixer)
             .preset_env(config.env)
+            .regenerator(config.regenerator)
             .finalize(
                 base_url,
                 paths.into_iter().collect(),
@@ -529,6 +531,9 @@ pub struct Config {
 
     #[serde(default)]
     pub error: ErrorConfig,
+
+    #[serde(default)]
+    pub regenerator: regenerator::Config,
 }
 
 /// Second argument of `minify`.
