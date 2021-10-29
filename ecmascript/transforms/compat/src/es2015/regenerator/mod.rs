@@ -194,6 +194,7 @@ impl Fold for Regenerator {
                     src: quote_str!(self
                         .config
                         .import_path
+                        .clone()
                         .unwrap_or_else(|| "regenerator-runtime".into())),
                     type_only: Default::default(),
                     asserts: Default::default(),
