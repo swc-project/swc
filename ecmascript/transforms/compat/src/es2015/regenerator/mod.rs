@@ -24,7 +24,8 @@ pub struct Config {
 
 pub fn regenerator(config: Config, top_level_mark: Mark) -> impl Fold {
     Regenerator {
-        global_mark: top_level_mark,
+        config,
+        top_level_mark,
         regenerator_runtime: Default::default(),
         top_level_vars: Default::default(),
     }
@@ -32,14 +33,15 @@ pub fn regenerator(config: Config, top_level_mark: Mark) -> impl Fold {
 
 #[derive(Debug)]
 struct Regenerator {
-    global_mark: Mark,
+    config: Config,
+    top_level_mark: Mark,
     /// [Some] if used.
     regenerator_runtime: Option<Ident>,
     /// mark
     top_level_vars: Vec<VarDeclarator>,
 }
 
-fn require_rt(global_mark: Mark, rt: Ident) -> Stmt {
+fn require_rt(global_mark: Mark, rt: Ident, src: Option<JsWord>) -> Stmt {
     Stmt::Decl(Decl::Var(VarDecl {
         span: DUMMY_SP,
         kind: VarDeclKind::Var,
@@ -50,7 +52,9 @@ fn require_rt(global_mark: Mark, rt: Ident) -> Stmt {
             init: Some(Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: quote_ident!(DUMMY_SP.apply_mark(global_mark), "require").as_callee(),
-                args: vec![quote_str!("regenerator-runtime").as_arg()],
+                args: vec![
+                    quote_str!(src.unwrap_or_else(|| "regenerator-runtime".into())).as_arg(),
+                ],
                 type_args: Default::default(),
             }))),
             definite: false,
@@ -187,7 +191,10 @@ impl Fold for Regenerator {
                 ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                     span: DUMMY_SP,
                     specifiers: vec![specifier],
-                    src: quote_str!("regenerator-runtime"),
+                    src: quote_str!(self
+                        .config
+                        .import_path
+                        .unwrap_or_else(|| "regenerator-runtime".into())),
                     type_only: Default::default(),
                     asserts: Default::default(),
                 })),
@@ -289,7 +296,15 @@ impl Fold for Regenerator {
     fn fold_script(&mut self, s: Script) -> Script {
         let mut s: Script = s.fold_children_with(self);
         if let Some(rt_ident) = self.regenerator_runtime.take() {
-            prepend(&mut s.body, require_rt(self.global_mark, rt_ident).into());
+            prepend(
+                &mut s.body,
+                require_rt(
+                    self.top_level_mark,
+                    rt_ident,
+                    self.config.import_path.clone(),
+                )
+                .into(),
+            );
         }
         s
     }
