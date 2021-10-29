@@ -82,7 +82,7 @@ define!({
         Str(Str),
 
         Fn(FnValue),
-        
+
         Operator(OperatorValue),
 
         Bin(BinValue),
@@ -129,7 +129,7 @@ define!({
 
         pub args: Vec<Value>,
     }
-    
+
     pub struct OperatorValue {
         pub span: Span,
         pub value: char,
