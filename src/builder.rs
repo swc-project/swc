@@ -5,7 +5,7 @@ use crate::{
     },
     SwcComments,
 };
-use compat::es2020::export_namespace_from;
+use compat::{es2015::regenerator, es2020::export_namespace_from};
 use either::Either;
 use std::{cell::RefCell, collections::HashMap, path::PathBuf, rc::Rc, sync::Arc};
 use swc_atoms::JsWord;
@@ -37,6 +37,7 @@ pub struct PassBuilder<'a, 'b, P: swc_ecma_visit::Fold> {
     fixer: bool,
     inject_helpers: bool,
     minify: Option<JsMinifyOptions>,
+    regenerator: regenerator::Config,
 }
 
 impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
@@ -59,6 +60,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             fixer: true,
             inject_helpers: true,
             minify: None,
+            regenerator: Default::default(),
         }
     }
 
@@ -79,6 +81,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             fixer: self.fixer,
             inject_helpers: self.inject_helpers,
             minify: self.minify,
+            regenerator: self.regenerator,
         }
     }
 
@@ -129,6 +132,11 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
 
     pub fn preset_env(mut self, env: Option<swc_ecma_preset_env::Config>) -> Self {
         self.env = env;
+        self
+    }
+
+    pub fn regenerator(mut self, config: regenerator::Config) -> Self {
+        self.regenerator = config;
         self
     }
 
@@ -212,6 +220,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                             destructuring: compat::es2015::destructuring::Config {
                                 loose: self.loose
                             },
+                            regenerator: self.regenerator,
                         }
                     ),
                     should_enable(self.target, JscTarget::Es2015)
