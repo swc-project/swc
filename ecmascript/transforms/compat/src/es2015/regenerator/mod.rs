@@ -13,7 +13,7 @@ mod case;
 mod hoist;
 mod leap;
 
-#[derive(Debug, Default, Deserialize)]
+#[derive(Debug, Default, Clone, Deserialize)]
 #[serde(rename_all = "camelCase")]
 
 pub struct Config {
