@@ -116,7 +116,29 @@ where
             // whitespace
             // Consume as much whitespace as possible. Return a <whitespace-token>.
             Some(c) if is_whitespace(c) => {
-                let value = self.read_ws()?;
+                let mut value = String::new();
+
+                loop {
+                    let c = self.input.cur();
+
+                    match c {
+                        Some(c) if is_whitespace(c) => {
+                            self.input.bump();
+
+                            value.push(c);
+                        }
+                        _ => {
+                            break;
+                        }
+                    }
+                }
+
+                if self.config.allow_wrong_line_comments {
+                    if self.input.is_byte(b'/') && self.input.peek() == Some('/') {
+                        self.skip_line_comment()?;
+                        self.start_pos = self.input.cur_pos();
+                    }
+                }
 
                 return Ok(Token::WhiteSpace {
                     value: value.into(),
@@ -370,34 +392,6 @@ where
                 return Ok(Token::Delim { value: c });
             }
         }
-    }
-
-    fn read_ws(&mut self) -> LexResult<String> {
-        let mut value = String::new();
-
-        loop {
-            let c = self.input.cur();
-
-            match c {
-                Some(c) if is_whitespace(c) => {
-                    self.input.bump();
-
-                    value.push(c);
-                }
-                _ => {
-                    break;
-                }
-            }
-        }
-
-        if self.config.allow_wrong_line_comments {
-            if self.input.is_byte(b'/') && self.input.peek() == Some('/') {
-                self.skip_line_comment()?;
-                self.start_pos = self.input.cur_pos();
-            }
-        }
-
-        Ok(value)
     }
 
     fn would_start_number(
