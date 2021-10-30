@@ -102,7 +102,7 @@ impl Task for ParseFileTask {
 pub fn parse(ctx: CallContext) -> napi::Result<JsObject> {
     let c = get_compiler(&ctx);
     let src = ctx.get::<JsString>(0)?.into_utf8()?.as_str()?.to_string();
-    let options = ctx.get::<JsString>(1)?.into_utf8()?.as_str()?.to_string();
+    let options = ctx.get_buffer_as_string(1)?;
     let filename = ctx.get::<Either<JsString, JsUndefined>>(2)?;
     let filename = if let Either::A(value) = filename {
         FileName::Real(value.into_utf8()?.as_str()?.to_owned().into())

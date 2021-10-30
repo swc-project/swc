@@ -2,7 +2,7 @@ use crate::{
     complete_output, get_compiler,
     util::{deserialize_json, try_with, CtxtExt, MapErr},
 };
-use napi::{CallContext, JsObject, JsString, Task};
+use napi::{CallContext, JsObject, Task};
 use serde::Deserialize;
 use std::sync::Arc;
 use swc::{config::JsMinifyOptions, TransformOutput};
@@ -66,8 +66,8 @@ impl Task for MinifyTask {
 
 #[js_function(2)]
 pub fn minify(cx: CallContext) -> napi::Result<JsObject> {
-    let code = cx.get::<JsString>(0)?.into_utf8()?.as_str()?.to_owned();
-    let options = cx.get::<JsString>(0)?.into_utf8()?.as_str()?.to_owned();
+    let code = cx.get_buffer_as_string(0)?;
+    let options = cx.get_buffer_as_string(1)?;
 
     let c = get_compiler(&cx);
 

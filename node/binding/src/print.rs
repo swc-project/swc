@@ -55,7 +55,7 @@ impl Task for PrintTask {
 pub fn print(cx: CallContext) -> napi::Result<JsObject> {
     let c = get_compiler(&cx);
     let program_json = cx.get::<JsString>(0)?.into_utf8()?.as_str()?.to_string();
-    let options = cx.get::<JsString>(1)?.into_utf8()?.as_str()?.to_string();
+    let options = cx.get_buffer_as_string(1)?;
 
     cx.env
         .spawn(PrintTask {
