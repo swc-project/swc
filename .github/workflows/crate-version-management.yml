@@ -29,7 +29,7 @@ jobs:
             target/
           key: cargo-bump-version
 
-      - name: Install cargo-mono
+      - name: Install cargo mono
         continue-on-error: true
         run: |
           cargo install cargo-mono
@@ -57,7 +57,7 @@ jobs:
 
       - name: Commit files
         run: |
-          git commit -m 'Bump version'
+          git commit -m 'chore: Bump version'
 
       - name: Push back
         uses: ad-m/github-push-action@master
