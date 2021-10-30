@@ -386,13 +386,13 @@
             },
             "value": [
               {
-                "type": "ArrayValue",
+                "type": "SquareBracketBlock",
                 "span": {
                   "start": 220,
                   "end": 229,
                   "ctxt": 0
                 },
-                "values": [
+                "children": [
                   {
                     "type": "CommaValues",
                     "span": {
@@ -644,13 +644,13 @@
             },
             "value": [
               {
-                "type": "ArrayValue",
+                "type": "SquareBracketBlock",
                 "span": {
                   "start": 306,
                   "end": 339,
                   "ctxt": 0
                 },
-                "values": [
+                "children": [
                   {
                     "type": "CommaValues",
                     "span": {
@@ -781,13 +781,13 @@
                         }
                       },
                       {
-                        "type": "ArrayValue",
+                        "type": "SquareBracketBlock",
                         "span": {
                           "start": 335,
                           "end": 338,
                           "ctxt": 0
                         },
-                        "values": [
+                        "children": [
                           {
                             "type": "Number",
                             "span": {

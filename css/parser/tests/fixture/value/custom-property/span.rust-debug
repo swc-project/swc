@@ -337,7 +337,7 @@ error: Value
 12 |     --square-block: [1, 2, 3];
    |                     ^^^^^^^^^
 
-error: ArrayValue
+error: SquareBracketBlock
   --> $DIR/tests/fixture/value/custom-property/input.css:12:21
    |
 12 |     --square-block: [1, 2, 3];
@@ -547,7 +547,7 @@ error: Value
 16 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: ArrayValue
+error: SquareBracketBlock
   --> $DIR/tests/fixture/value/custom-property/input.css:16:13
    |
 16 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
@@ -661,7 +661,7 @@ error: Value
 16 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
    |                                          ^^^
 
-error: ArrayValue
+error: SquareBracketBlock
   --> $DIR/tests/fixture/value/custom-property/input.css:16:42
    |
 16 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];

@@ -109,7 +109,7 @@ error: Value
 2 |     grid-template-columns: repeat(4, [col-start]);
   |                                      ^^^^^^^^^^^
 
-error: ArrayValue
+error: SquareBracketBlock
  --> $DIR/tests/fixture/rome/grid/repeat/line-name/input.css:2:35
   |
 2 |     grid-template-columns: repeat(4, [col-start]);
