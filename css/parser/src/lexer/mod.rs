@@ -989,9 +989,16 @@ where
 
         // Repeatedly consume the next input code point from the stream:
         loop {
-            let c = self.input.cur();
+            let start = self.input.cur_pos();
+            let next = self.input.cur();
 
-            match c {
+            // anything else
+            // Return result.
+            if next.is_none() {
+                break;
+            }
+
+            match next {
                 // name code point
                 // Append the code point to result.
                 Some(c) if is_name_continue(c) => {
@@ -1016,7 +1023,9 @@ where
                 // anything else
                 // Reconsume the current input code point. Return result.
                 _ => {
-                    // TODO: fix me
+                    self.input.bump();
+                    self.input.reset_to(start);
+
                     break;
                 }
             }
