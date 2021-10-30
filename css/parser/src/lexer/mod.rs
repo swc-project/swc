@@ -543,14 +543,15 @@ where
 
         // Repeatedly consume the next input code point from the stream:
         loop {
+            let start = self.input.cur_pos();
             let next = self.input.cur();
 
             match next {
                 // ending code point
                 // Return the <string-token>.
                 Some(c) if c == ending_code_point.unwrap() => {
-                    raw.push(c);
                     self.input.bump();
+                    raw.push(c);
                     self.last_pos = Some(self.input.cur_pos());
 
                     break;
@@ -569,9 +570,11 @@ where
                 // This is a parse error. Reconsume the current input code point, create a
                 // <bad-string-token>, and return it.
                 Some(c) if is_newline(c) => {
-                    // TODO: fix me - reconsume
-                    raw.push(c);
                     self.input.bump();
+
+                    raw.push(c);
+
+                    self.input.reset_to(start);
 
                     return Ok(Token::BadStr {
                         value: value.into(),
@@ -610,10 +613,10 @@ where
                 // Anything else
                 // Append the current input code point to the <string-token>’s value.
                 Some(c) => {
+                    self.input.bump();
+                    
                     value.push(c);
                     raw.push(c);
-
-                    self.input.bump();
                 }
             }
         }
