@@ -2,7 +2,7 @@ use crate::{
     complete_output, get_compiler,
     util::{deserialize_json, CtxtExt, MapErr},
 };
-use napi::{CallContext, Env, Error, JsObject, JsString, Status, Task};
+use napi::{CallContext, Env, JsObject, JsString, Task};
 use std::sync::Arc;
 use swc::{
     config::{Options, SourceMapsConfig},
