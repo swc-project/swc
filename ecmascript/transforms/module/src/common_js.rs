@@ -155,15 +155,15 @@ where
                             ref specifiers,
                             ..
                         })) => {
-                            // handle: export {sym as alias1, alias2, ...}
+                            // handle: export {sym as alias1, alias2, ...} from "x"
                             for ExportNamedSpecifier { orig, exported, .. } in
-                                specifiers.into_iter().map(|e| match e {
-                                    ExportSpecifier::Named(e) => e,
-                                    _ => unreachable!(),
+                                specifiers.into_iter().filter_map(|e| match e {
+                                    ExportSpecifier::Named(e) => Some(e),
+                                    _ => None,
                                 })
                             {
-                                if !exported.is_none() {
-                                    exports.push(exported.as_ref().unwrap().sym.clone());
+                                if let Some(exported) = &exported {
+                                    exports.push(exported.sym.clone());
                                 } else {
                                     exports.push(orig.sym.clone());
                                 }
