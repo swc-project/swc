@@ -554,13 +554,13 @@
             },
             "value": [
               {
-                "type": "ArrayValue",
+                "type": "SquareBracketBlock",
                 "span": {
                   "start": 249,
                   "end": 252,
                   "ctxt": 0
                 },
-                "values": []
+                "children": []
               }
             ],
             "important": null

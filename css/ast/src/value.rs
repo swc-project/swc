@@ -5,6 +5,9 @@ use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 #[ast_node]
 pub enum Value {
+    #[tag("SquareBracketBlock")]
+    SquareBracketBlock(SquareBracketBlock),
+
     #[tag("ParenValue")]
     Paren(ParenValue),
 
@@ -34,9 +37,6 @@ pub enum Value {
 
     #[tag("BinValue")]
     Bin(BinValue),
-
-    #[tag("ArrayValue")]
-    Array(ArrayValue),
 
     #[tag("SpaceValues")]
     Space(SpaceValues),
@@ -108,13 +108,11 @@ pub struct ParenValue {
     pub value: Option<Box<Value>>,
 }
 
-#[ast_node("ArrayValue")]
-pub struct ArrayValue {
+#[ast_node("SquareBracketBlock")]
+pub struct SquareBracketBlock {
     /// Includes `[` and `]`.
     pub span: Span,
-
-    /// Comma separated list of values.
-    pub values: Vec<Value>,
+    pub children: Option<Vec<Value>>,
 }
 
 #[ast_node("HashValue")]

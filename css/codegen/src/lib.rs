@@ -278,7 +278,7 @@ where
             Value::Str(n) => emit!(self, n),
             Value::Fn(n) => emit!(self, n),
             Value::Bin(n) => emit!(self, n),
-            Value::Array(n) => emit!(self, n),
+            Value::SquareBracketBlock(n) => emit!(self, n),
             Value::Space(n) => emit!(self, n),
             Value::Brace(n) => emit!(self, n),
             Value::Lazy(n) => emit!(self, n),
@@ -458,10 +458,12 @@ where
     }
 
     #[emitter]
-    fn emit_array_value(&mut self, n: &ArrayValue) -> Result {
+    fn emit_square_bracket_block(&mut self, n: &SquareBracketBlock) -> Result {
         punct!(self, "[");
 
-        self.emit_list(&n.values, ListFormat::CommaDelimited)?;
+        if let Some(values) = &n.children {
+            self.emit_list(&values, ListFormat::SpaceDelimited)?;
+        }
 
         punct!(self, "]");
     }

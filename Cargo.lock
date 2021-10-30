@@ -14,9 +14,9 @@ dependencies = [
 
 [[package]]
 name = "abi_stable"
-version = "0.10.2"
+version = "0.10.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "709308333aa82687b93e978aeec6c60688cdecd7bd7d0378a9825227145878c4"
+checksum = "3c8f0d5c8e09e8b591f6db9f56b006c9b9e7a44064acb274411ae51aaaa1364d"
 dependencies = [
  "abi_stable_derive",
  "abi_stable_shared",
@@ -26,6 +26,7 @@ dependencies = [
  "libloading",
  "lock_api 0.4.5",
  "parking_lot 0.11.1",
+ "paste",
  "repr_offset",
  "rustc_version 0.4.0",
  "serde",
@@ -35,9 +36,9 @@ dependencies = [
 
 [[package]]
 name = "abi_stable_derive"
-version = "0.10.2"
+version = "0.10.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "178bbfd075531f3af85296ca9839f71d923406682819b595353d73fe4d853643"
+checksum = "3b9810ef8debee5544010d92dac0b88b32853cd5bd5ca3298243c99e931da0f0"
 dependencies = [
  "abi_stable_shared",
  "as_derive_utils",
@@ -51,9 +52,9 @@ dependencies = [
 
 [[package]]
 name = "abi_stable_shared"
-version = "0.10.2"
+version = "0.10.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "00a97e54ce35e7a69bfbd799b5d44d333c9e4eb430744efa4e4a9aa24670a6bc"
+checksum = "ece9da89066e018d908b48755e17cdd08a46ce222f84b1f226e837f836f84a5f"
 dependencies = [
  "core_extensions",
 ]
@@ -135,9 +136,9 @@ checksum = "23b62fc65de8e4e7f52534fb52b0f3ed04746ae267519eef2a83941e8085068b"
 
 [[package]]
 name = "as_derive_utils"
-version = "0.10.2"
+version = "0.10.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "147c76e2cba05d6e2f0206b7e462e2076f907efd79ee37a2297872a1ec3cd177"
+checksum = "e0a26fa495cefb8c86d9ce183b3f39ad11678e54fb3c20e6b7dbd87770811d9b"
 dependencies = [
  "core_extensions",
  "proc-macro2",
@@ -360,6 +361,15 @@ name = "core_extensions"
 version = "1.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "79b110b7cd430bd590fa60a5ba58a383488dab61912318bfb05d968a80cdda6d"
+dependencies = [
+ "core_extensions_proc_macros",
+]
+
+[[package]]
+name = "core_extensions_proc_macros"
+version = "1.5.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c348a81513f573054124b9f10e258a654a0519b65f2dba0142307bd3c7b5b8b6"
 
 [[package]]
 name = "cpufeatures"
@@ -1446,6 +1456,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "paste"
+version = "1.0.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "acbf547ad0c65e31259204bd90935776d1c693cec2f4ff7abb7a1bbbd40dfe58"
+
+[[package]]
 name = "path-clean"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2504,7 +2520,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.25.0"
+version = "0.26.0"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -2515,7 +2531,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_ast"
-version = "0.23.0"
+version = "0.24.0"
 dependencies = [
  "is-macro",
  "serde",
@@ -2526,7 +2542,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.23.0"
+version = "0.24.0"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -2552,7 +2568,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.25.2"
+version = "0.26.0"
 dependencies = [
  "bitflags",
  "lexical",
@@ -2568,7 +2584,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_utils"
-version = "0.20.0"
+version = "0.21.0"
 dependencies = [
  "swc_atoms 0.2.9",
  "swc_common",
@@ -2578,7 +2594,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_visit"
-version = "0.22.0"
+version = "0.23.0"
 dependencies = [
  "swc_atoms 0.2.9",
  "swc_common",
@@ -2712,7 +2728,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.76.1"
+version = "0.76.2"
 dependencies = [
  "either",
  "enum_kind",
@@ -2861,7 +2877,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.54.0"
+version = "0.54.1"
 dependencies = [
  "Inflector",
  "ahash",
@@ -2937,7 +2953,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.56.0"
+version = "0.56.1"
 dependencies = [
  "ahash",
  "base64 0.13.0",
@@ -3154,7 +3170,7 @@ dependencies = [
 
 [[package]]
 name = "swc_stylis"
-version = "0.22.0"
+version = "0.23.0"
 dependencies = [
  "swc_atoms 0.2.9",
  "swc_common",
@@ -3294,9 +3310,9 @@ checksum = "cda74da7e1a664f795bb1f8a87ec406fb89a02522cf6e50620d016add6dbbf5c"
 
 [[package]]
 name = "tokio"
-version = "1.12.0"
+version = "1.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c2c2416fdedca8443ae44b4527de1ea633af61d8f7169ffa6e72c5b53d24efcc"
+checksum = "588b2d10a336da58d877567cd8fb8a14b463e2104910f8132cd054b4b96e29ee"
 dependencies = [
  "autocfg 1.0.1",
  "bytes",
@@ -3320,9 +3336,9 @@ dependencies = [
 
 [[package]]
 name = "tokio-util"
-version = "0.6.8"
+version = "0.6.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "08d3725d3efa29485e87311c5b699de63cde14b00ed4d256b8318aa30ca452cd"
+checksum = "9e99e1983e5d376cd8eb4b66604d2e99e79f5bd988c3055891dcd8c9e2604cc0"
 dependencies = [
  "bytes",
  "futures-core",
