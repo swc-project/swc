@@ -15,6 +15,8 @@ jobs:
   bump:
     name: Bump version
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
 
     steps:
       - uses: actions/checkout@v2
@@ -48,8 +50,8 @@ jobs:
 
       - name: Configure git
         run: |
-          git config --local user.email "kdy1997.dev@gmail.com"
-          git config --local user.name "swc[bot]"
+          git config --global user.email "kdy1@users.noreply.github.com"
+          git config --global user.name "swc[bot]"
 
       - name: Add files
         run: |
@@ -59,8 +61,6 @@ jobs:
         run: |
           git commit -m 'chore: Bump version'
 
-      - name: Push back
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref }}
+      - name: Push
+        run: |
+          git push
