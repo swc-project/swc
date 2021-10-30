@@ -925,48 +925,41 @@ where
         maybe_second: Option<char>,
         maybe_third: Option<char>,
     ) -> LexResult<bool> {
-        //  TODO rewrite me
+        // Look at the first code point:
         let first = maybe_first.or(self.input.cur());
-
-        if first.is_none() {
-            return Ok(false);
-        }
 
         match first {
             // U+002B PLUS SIGN (+)
             // U+002D HYPHEN-MINUS (-)
             Some('+') | Some('-') => {
-                if let Some(second) = maybe_second.or(self.input.peek()) {
-                    return match second {
-                        // If the second code point is a digit, return true.
-                        second if second.is_digit(10) => Ok(true),
-                        // Otherwise, if the second code point is a U+002E FULL STOP (.) and the
-                        // third code point is a digit, return true.
-                        '.' => {
-                            if let Some(third) = maybe_third.or(self.input.peek_ahead()) {
-                                if third.is_digit(10) {
-                                    return Ok(true);
-                                }
+                match maybe_second.or(self.input.peek()) {
+                    // If the second code point is a digit, return true.
+                    Some(second) if second.is_digit(10) => return Ok(true),
+                    // Otherwise, if the second code point is a U+002E FULL STOP (.) and the
+                    // third code point is a digit, return true.
+                    Some('.') => {
+                        if let Some(third) = maybe_third.or(self.input.peek_ahead()) {
+                            if third.is_digit(10) {
+                                return Ok(true);
                             }
-
-                            Ok(false)
                         }
-                        // Otherwise, return false.
-                        _ => Ok(false),
-                    };
-                }
 
-                Ok(false)
+                        return Ok(false)
+                    }
+                    // Otherwise, return false.
+                    _ => return Ok(false),
+                };
             }
             // U+002E FULL STOP (.)
             Some('.') => {
-                // If the second code point is a digit, return true. Otherwise, return false.
+                // If the second code point is a digit, return true.
                 if let Some(second) = self.input.peek() {
                     if second.is_digit(10) {
                         return Ok(true);
                     }
                 }
 
+                // Otherwise, return false.
                 Ok(false)
             }
             // digit
