@@ -868,49 +868,50 @@ where
         maybe_third: Option<char>,
     ) -> LexResult<bool> {
         // Look at the first code point:
-        // TODO rewrite me
-        if let Some(first) = maybe_first.or(self.input.cur()) {
+        let first = maybe_first.or(self.input.cur());
+
+        match first {
             // U+002D HYPHEN-MINUS
-            if first == '-' {
-                if let Some(second) = maybe_second.or(self.input.peek()) {
-                    // If the second code point is a name-start code point or a U+002D HYPHEN-MINUS,
-                    // or the second and third code points are a valid escape, return true.
-                    // Otherwise, return false.
-                    if is_name_start(second) || second == '-' {
-                        return Ok(true);
+            Some('-') => {
+                let second = maybe_second.or(self.input.peek());
+
+                match second {
+                    // If the second code point is a name-start code point 
+                    // return true.
+                    Some(c) if is_name_start(c) => return Ok(true),
+                    // or a U+002D HYPHEN-MINUS,
+                    // return true.
+                    Some('-') => return Ok(true),
+                    // or the second and third code points are a valid escape
+                    // return true.
+                    Some(_) => {
+                        let third = maybe_third.or(self.input.peek_ahead());
+
+                        return self.is_valid_escape(second, third);
                     }
-
-                    match second {
-                        '\\' => match maybe_third.or(self.input.peek_ahead()) {
-                            Some(c2) => return Ok(!is_newline(c2)),
-                            None => return Ok(false),
-                        },
-
-                        _ => {}
+                    // Otherwise, return false.
+                    _ => {
+                        return Ok(false);
                     }
                 }
             }
             // name-start code point
             // Return true.
-            else if is_name_start(first) {
+            Some(c) if is_name_start(c) => {
                 return Ok(true);
             }
             // U+005C REVERSE SOLIDUS (\)
             // If the first and second code points are a valid escape, return true. Otherwise,
             // return false.
-            else if first == '\\' {
+            Some('\\') => {
                 let second = self.input.peek();
 
-                return Ok(self.is_valid_escape(Some(first), second)?);
+                return Ok(self.is_valid_escape(first, second)?);
             }
-            // anything else
-            // Return false.
-            else {
+            _ => {
                 return Ok(false);
             }
         }
-
-        Ok(false)
     }
 
     // Check if three code points would start a number
@@ -944,7 +945,7 @@ where
                             }
                         }
 
-                        return Ok(false)
+                        return Ok(false);
                     }
                     // Otherwise, return false.
                     _ => return Ok(false),
