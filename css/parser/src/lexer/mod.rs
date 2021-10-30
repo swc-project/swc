@@ -545,6 +545,10 @@ where
         loop {
             let start = self.input.cur_pos();
             let next = self.input.cur();
+            
+            // if next.is_some() {
+            //     self.input.bump();
+            // }
 
             match next {
                 // ending code point
@@ -571,9 +575,6 @@ where
                 // <bad-string-token>, and return it.
                 Some(c) if is_newline(c) => {
                     self.input.bump();
-
-                    raw.push(c);
-
                     self.input.reset_to(start);
 
                     return Ok(Token::BadStr {
@@ -586,7 +587,7 @@ where
                 Some(c) if c == '\\' => {
                     // If the next input code point is EOF, do nothing.
                     if self.input.peek().is_none() {
-                        break;
+                        continue;
                     }
                     // Otherwise, if the next input code point is a newline, consume it.
                     else if is_newline(self.input.peek().unwrap()) {

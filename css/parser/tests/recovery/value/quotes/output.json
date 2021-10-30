@@ -142,7 +142,7 @@
                 "token": {
                   "BadStr": {
                     "value": "tes",
-                    "raw": "\"tes\n"
+                    "raw": "\"tes"
                   }
                 }
               },
@@ -180,7 +180,7 @@
                 "token": {
                   "BadStr": {
                     "value": ";",
-                    "raw": "\";\n"
+                    "raw": "\";"
                   }
                 }
               },
