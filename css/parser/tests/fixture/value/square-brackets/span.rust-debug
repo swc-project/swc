@@ -1,0 +1,361 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/value/square-brackets/input.css:1:1
+  |
+1 | / div {
+2 | |     prop:  [];
+3 | |     prop:  [ ];
+4 | |     prop:  [row1-start];
+5 | |     prop:  [red #fff 12px];
+6 | |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
+7 | | }
+  | |__^
+
+error: Rule
+ --> $DIR/tests/fixture/value/square-brackets/input.css:1:1
+  |
+1 | / div {
+2 | |     prop:  [];
+3 | |     prop:  [ ];
+4 | |     prop:  [row1-start];
+5 | |     prop:  [red #fff 12px];
+6 | |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
+7 | | }
+  | |_^
+
+error: StyleRule
+ --> $DIR/tests/fixture/value/square-brackets/input.css:1:1
+  |
+1 | / div {
+2 | |     prop:  [];
+3 | |     prop:  [ ];
+4 | |     prop:  [row1-start];
+5 | |     prop:  [red #fff 12px];
+6 | |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
+7 | | }
+  | |_^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/value/square-brackets/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/value/square-brackets/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/value/square-brackets/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: Text
+ --> $DIR/tests/fixture/value/square-brackets/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: Block
+ --> $DIR/tests/fixture/value/square-brackets/input.css:1:5
+  |
+1 |   div {
+  |  _____^
+2 | |     prop:  [];
+3 | |     prop:  [ ];
+4 | |     prop:  [row1-start];
+5 | |     prop:  [red #fff 12px];
+6 | |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
+7 | | }
+  | |_^
+
+error: Declaration
+ --> $DIR/tests/fixture/value/square-brackets/input.css:2:5
+  |
+2 |     prop:  [];
+  |     ^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/value/square-brackets/input.css:2:5
+  |
+2 |     prop:  [];
+  |     ^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/square-brackets/input.css:2:12
+  |
+2 |     prop:  [];
+  |            ^^
+
+error: SquareBracketBlock
+ --> $DIR/tests/fixture/value/square-brackets/input.css:2:12
+  |
+2 |     prop:  [];
+  |            ^^
+
+error: Declaration
+ --> $DIR/tests/fixture/value/square-brackets/input.css:3:5
+  |
+3 |     prop:  [ ];
+  |     ^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/value/square-brackets/input.css:3:5
+  |
+3 |     prop:  [ ];
+  |     ^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/square-brackets/input.css:3:12
+  |
+3 |     prop:  [ ];
+  |            ^^^
+
+error: SquareBracketBlock
+ --> $DIR/tests/fixture/value/square-brackets/input.css:3:12
+  |
+3 |     prop:  [ ];
+  |            ^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/value/square-brackets/input.css:4:5
+  |
+4 |     prop:  [row1-start];
+  |     ^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/value/square-brackets/input.css:4:5
+  |
+4 |     prop:  [row1-start];
+  |     ^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/square-brackets/input.css:4:12
+  |
+4 |     prop:  [row1-start];
+  |            ^^^^^^^^^^^^
+
+error: SquareBracketBlock
+ --> $DIR/tests/fixture/value/square-brackets/input.css:4:12
+  |
+4 |     prop:  [row1-start];
+  |            ^^^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/square-brackets/input.css:4:13
+  |
+4 |     prop:  [row1-start];
+  |             ^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/value/square-brackets/input.css:4:13
+  |
+4 |     prop:  [row1-start];
+  |             ^^^^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/value/square-brackets/input.css:5:5
+  |
+5 |     prop:  [red #fff 12px];
+  |     ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/value/square-brackets/input.css:5:5
+  |
+5 |     prop:  [red #fff 12px];
+  |     ^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/square-brackets/input.css:5:12
+  |
+5 |     prop:  [red #fff 12px];
+  |            ^^^^^^^^^^^^^^^
+
+error: SquareBracketBlock
+ --> $DIR/tests/fixture/value/square-brackets/input.css:5:12
+  |
+5 |     prop:  [red #fff 12px];
+  |            ^^^^^^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/square-brackets/input.css:5:13
+  |
+5 |     prop:  [red #fff 12px];
+  |             ^^^
+
+error: Text
+ --> $DIR/tests/fixture/value/square-brackets/input.css:5:13
+  |
+5 |     prop:  [red #fff 12px];
+  |             ^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/square-brackets/input.css:5:17
+  |
+5 |     prop:  [red #fff 12px];
+  |                 ^^^^
+
+error: HashValue
+ --> $DIR/tests/fixture/value/square-brackets/input.css:5:17
+  |
+5 |     prop:  [red #fff 12px];
+  |                 ^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/square-brackets/input.css:5:22
+  |
+5 |     prop:  [red #fff 12px];
+  |                      ^^^^
+
+error: UnitValue
+ --> $DIR/tests/fixture/value/square-brackets/input.css:5:22
+  |
+5 |     prop:  [red #fff 12px];
+  |                      ^^^^
+
+error: Num
+ --> $DIR/tests/fixture/value/square-brackets/input.css:5:22
+  |
+5 |     prop:  [red #fff 12px];
+  |                      ^^
+
+error: Unit
+ --> $DIR/tests/fixture/value/square-brackets/input.css:5:24
+  |
+5 |     prop:  [red #fff 12px];
+  |                        ^^
+
+error: Declaration
+ --> $DIR/tests/fixture/value/square-brackets/input.css:6:5
+  |
+6 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/value/square-brackets/input.css:6:5
+  |
+6 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
+  |     ^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/square-brackets/input.css:6:11
+  |
+6 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
+  |           ^^^^^^^^^^^^
+
+error: SquareBracketBlock
+ --> $DIR/tests/fixture/value/square-brackets/input.css:6:11
+  |
+6 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
+  |           ^^^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/square-brackets/input.css:6:12
+  |
+6 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
+  |            ^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/value/square-brackets/input.css:6:12
+  |
+6 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
+  |            ^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/square-brackets/input.css:6:24
+  |
+6 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
+  |                        ^^^
+
+error: PercentValue
+ --> $DIR/tests/fixture/value/square-brackets/input.css:6:24
+  |
+6 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
+  |                        ^^^
+
+error: Num
+ --> $DIR/tests/fixture/value/square-brackets/input.css:6:24
+  |
+6 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
+  |                        ^^
+
+error: Value
+ --> $DIR/tests/fixture/value/square-brackets/input.css:6:28
+  |
+6 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
+  |                            ^^^^^^^^^^^^^^^^^^^^^
+
+error: SquareBracketBlock
+ --> $DIR/tests/fixture/value/square-brackets/input.css:6:28
+  |
+6 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
+  |                            ^^^^^^^^^^^^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/square-brackets/input.css:6:29
+  |
+6 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
+  |                             ^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/value/square-brackets/input.css:6:29
+  |
+6 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
+  |                             ^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/square-brackets/input.css:6:38
+  |
+6 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
+  |                                      ^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/value/square-brackets/input.css:6:38
+  |
+6 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
+  |                                      ^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/square-brackets/input.css:6:50
+  |
+6 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
+  |                                                  ^^^
+
+error: PercentValue
+ --> $DIR/tests/fixture/value/square-brackets/input.css:6:50
+  |
+6 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
+  |                                                  ^^^
+
+error: Num
+ --> $DIR/tests/fixture/value/square-brackets/input.css:6:50
+  |
+6 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
+  |                                                  ^^
+
+error: Value
+ --> $DIR/tests/fixture/value/square-brackets/input.css:6:54
+  |
+6 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
+  |                                                      ^^^^^^^^^^
+
+error: SquareBracketBlock
+ --> $DIR/tests/fixture/value/square-brackets/input.css:6:54
+  |
+6 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
+  |                                                      ^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/square-brackets/input.css:6:55
+  |
+6 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
+  |                                                       ^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/value/square-brackets/input.css:6:55
+  |
+6 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
+  |                                                       ^^^^^^^^
+
