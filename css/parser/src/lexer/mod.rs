@@ -343,6 +343,9 @@ where
             // digit
             // Reconsume the current input code point, consume a numeric token, and return it.
             Some('0'..='9') => {
+                self.input.bump();
+                self.input.reset_to(start);
+
                 return self.read_numeric();
             }
             // name-start code point
