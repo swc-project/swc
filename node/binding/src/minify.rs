@@ -1,17 +1,17 @@
 use crate::{
     complete_output, get_compiler,
-    util::{try_with, CtxtExt, MapErr},
+    util::{deserialize_json, try_with, CtxtExt, MapErr},
 };
-use napi::{CallContext, JsObject, Task};
+use napi::{CallContext, JsObject, JsString, Task};
 use serde::Deserialize;
 use std::sync::Arc;
-use swc::TransformOutput;
+use swc::{config::JsMinifyOptions, TransformOutput};
 use swc_common::{collections::AHashMap, sync::Lrc, FileName, SourceFile, SourceMap};
 
 struct MinifyTask {
     c: Arc<swc::Compiler>,
-    code: MinifyTarget,
-    opts: swc::config::JsMinifyOptions,
+    code: String,
+    options: String,
 }
 
 #[derive(Deserialize)]
@@ -48,10 +48,13 @@ impl Task for MinifyTask {
     type JsValue = JsObject;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
-        try_with(self.c.cm.clone(), false, |handler| {
-            let fm = self.code.to_file(self.c.cm.clone());
+        let input: MinifyTarget = deserialize_json(&self.code).convert_err()?;
+        let options: JsMinifyOptions = deserialize_json(&self.options).convert_err()?;
 
-            self.c.minify(fm, &handler, &self.opts)
+        try_with(self.c.cm.clone(), false, |handler| {
+            let fm = input.to_file(self.c.cm.clone());
+
+            self.c.minify(fm, &handler, &options)
         })
         .convert_err()
     }
@@ -63,12 +66,12 @@ impl Task for MinifyTask {
 
 #[js_function(2)]
 pub fn minify(cx: CallContext) -> napi::Result<JsObject> {
-    let code = cx.get_deserialized(0)?;
-    let opts = cx.get_deserialized(1)?;
+    let code = cx.get::<JsString>(0)?.into_utf8()?.as_str()?.to_owned();
+    let options = cx.get::<JsString>(0)?.into_utf8()?.as_str()?.to_owned();
 
     let c = get_compiler(&cx);
 
-    let task = MinifyTask { c, code, opts };
+    let task = MinifyTask { c, code, options };
 
     cx.env.spawn(task).map(|t| t.promise_object())
 }
