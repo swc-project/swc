@@ -1,4 +1,4 @@
-name: Managment
+name: "Crate version management"
 
 on:
   workflow_dispatch:
