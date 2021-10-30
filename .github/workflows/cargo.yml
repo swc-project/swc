@@ -185,6 +185,7 @@ jobs:
           node-version: 16
 
       - uses: denoland/setup-deno@v1
+        if: matrix.crate == 'swc_bundler'
         with:
           deno-version: v1.x
 
