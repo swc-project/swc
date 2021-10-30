@@ -140,7 +140,7 @@ jobs:
     if: ${{ startsWith(github.ref, 'refs/tags/v') }}
 
     name: stable - linux-musl - node@lts
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
 
     steps:
       - uses: actions/checkout@v2
@@ -170,7 +170,7 @@ jobs:
 
       - name: "Build"
         run: |
-          docker run --rm -v $(pwd):/swc -w /swc builder sh -c "npm run build"
+          docker run --rm -v $(pwd):/swc -w /swc builder sh -c "npm run build -- --target x86_64-unknown-linux-musl"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
