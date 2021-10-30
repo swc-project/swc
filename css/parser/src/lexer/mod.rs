@@ -404,23 +404,6 @@ where
         }
     }
 
-    fn read_digits(&mut self) -> JsWord {
-        let mut digits = String::new();
-
-        loop {
-            let code = self.input.cur().unwrap();
-
-            if code.is_digit(10) {
-                self.input.bump();
-                digits.push(code);
-            } else {
-                break;
-            }
-        }
-
-        digits.into()
-    }
-
     // This section describes how to consume a numeric token from a stream of code
     // points. It returns either a <number-token>, <percentage-token>, or
     // <dimension-token>.
@@ -1042,20 +1025,37 @@ where
         Ok((value.into(), raw.into()))
     }
 
+    fn read_digits(&mut self) -> JsWord {
+        let mut digits = String::new();
+
+        loop {
+            let code = self.input.cur().unwrap();
+
+            if code.is_digit(10) {
+                self.input.bump();
+                digits.push(code);
+            } else {
+                break;
+            }
+        }
+
+        digits.into()
+    }
+
     // This section describes how to consume a number from a stream of code points.
     // It returns a numeric value, and a type which is either "integer" or "number".
     fn read_number(&mut self) -> (f64, String) {
-        // TODO: rewrite me
         // Initially set type to "integer". Let repr be the empty string.
         let mut repr = String::new();
 
         // If the next input code point is U+002B PLUS SIGN (+) or U+002D HYPHEN-MINUS
         // (-), consume it and append it to repr.
-        if let Some(c) = self.input.cur() {
-            if c == '+' || c == '-' {
-                self.input.bump();
-                repr.push(c);
-            }
+        let next = self.input.cur();
+
+        if next == Some('+') || next == Some('-') {
+            self.input.bump();
+
+            repr.push(next.unwrap());
         }
 
         // While the next input code point is a digit, consume it and append it to repr.
@@ -1063,21 +1063,21 @@ where
 
         // If the next 2 input code points are U+002E FULL STOP (.) followed by a digit,
         // then:
-        if let Some(c) = self.input.cur() {
-            if c == '.' {
-                if let Some(n) = self.input.peek() {
-                    if n.is_digit(10) {
-                        // Consume them.
-                        self.input.bump();
-                        self.input.bump();
-                        // Append them to repr.
-                        repr.push(c);
-                        repr.push(n);
+        let next = self.input.cur();
 
-                        // While the next input code point is a digit, consume it and append it to
-                        // repr.
-                        repr.push_str(&self.read_digits());
-                    }
+        if next == Some('.') {
+            if let Some(n) = self.input.peek() {
+                if n.is_digit(10) {
+                    // Consume them.
+                    self.input.bump();
+                    self.input.bump();
+                    // Append them to repr.
+                    repr.push(next.unwrap());
+                    repr.push(n);
+
+                    // While the next input code point is a digit, consume it and append it to
+                    // repr.
+                    repr.push_str(&self.read_digits());
                 }
             }
         }
@@ -1085,26 +1085,37 @@ where
         // If the next 2 or 3 input code points are U+0045 LATIN CAPITAL LETTER E (E) or
         // U+0065 LATIN SMALL LETTER E (e), optionally followed by U+002D HYPHEN-MINUS
         // (-) or U+002B PLUS SIGN (+), followed by a digit, then:
-        if let Some(c) = self.input.cur() {
-            if c == 'E' || c == 'e' {
-                if let Some(n) = self.input.peek() {
-                    if n == '-' || n == '+' {
-                        if let Some(nn) = self.input.peek_ahead() {
-                            if nn.is_digit(10) {
-                                self.input.bump();
-                                self.input.bump();
-                                repr.push(c);
-                                repr.push(n);
-                                repr.push_str(&self.read_digits());
-                            }
+        let next = self.input.cur();
+
+        if next == Some('E') || next == Some('e') {
+            if let Some(next_next) = self.input.peek() {
+                if next_next == '-' || next_next == '+' {
+                    if let Some(next_next_next) = self.input.peek_ahead() {
+                        if next_next_next.is_digit(10) {
+                            // Consume them.
+                            self.input.bump();
+                            self.input.bump();
+
+                            // Append them to repr.
+                            repr.push(next.unwrap());
+                            repr.push(next_next);
+
+                            // While the next input code point is a digit, consume it and append it
+                            // to repr.
+                            repr.push_str(&self.read_digits());
                         }
-                    } else if n.is_digit(10) {
-                        self.input.bump();
-                        self.input.bump();
-                        repr.push(c);
-                        repr.push(n);
-                        repr.push_str(&self.read_digits());
                     }
+                } else if next_next.is_digit(10) {
+                    // Consume them.
+                    self.input.bump();
+                    self.input.bump();
+
+                    // Append them to repr.
+                    repr.push(next.unwrap());
+                    repr.push(next_next);
+
+                    // While the next input code point is a digit, consume it and append it to repr.
+                    repr.push_str(&self.read_digits());
                 }
             }
         }
