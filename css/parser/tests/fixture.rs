@@ -314,7 +314,7 @@ macro_rules! mtd {
 }
 
 impl Visit for SpanVisualizer<'_> {
-    mtd!(ArrayValue, visit_array_value);
+    mtd!(SquareBracketBlock, visit_square_bracket_block);
     mtd!(AtRule, visit_at_rule);
     mtd!(AtSelector, visit_at_selector);
     mtd!(AtTextValue, visit_at_text_value);

@@ -1,4 +1,4 @@
-name: Managment
+name: "Crate version management"
 
 on:
   workflow_dispatch:
@@ -19,7 +19,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: actions/cache@v2
+      - name: Cache
+        uses: actions/cache@v2
         with:
           path: |
             ~/.cargo/bin/
@@ -29,17 +30,16 @@ jobs:
             target/
           key: cargo-bump-version
 
-      - name: Install cargo-mono
-        continue-on-error: true
+      - name: Install cargo mono
         run: |
-          cargo install cargo-mono
+          cargo install cargo-mono --vers 0.2.4
 
       - name: Bump version
         run: |
           if [ "${{ github.event.inputs.breaking }}" == "1" ]; then
-              cargo mono bump ${{ github.event.inputs.crate }}"
+              cargo mono bump ${{ github.event.inputs.crate }} --breaking
           else
-              cargo mono bump ${{ github.event.inputs.crate }}"
+              cargo mono bump ${{ github.event.inputs.crate }}
           fi
 
       - name: Update lockfile
@@ -48,7 +48,7 @@ jobs:
 
       - name: Configure git
         run: |
-          git config --local user.email "bot@swc.rs"
+          git config --local user.email "kdy1997.dev@gmail.com"
           git config --local user.name "swc[bot]"
 
       - name: Add files
@@ -57,7 +57,7 @@ jobs:
 
       - name: Commit files
         run: |
-          git commit -m 'Bump version'
+          git commit -m 'chore: Bump version'
 
       - name: Push back
         uses: ad-m/github-push-action@master
