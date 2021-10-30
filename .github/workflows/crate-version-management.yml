@@ -30,9 +30,8 @@ jobs:
           key: cargo-bump-version
 
       - name: Install cargo mono
-        continue-on-error: true
         run: |
-          cargo install cargo-mono
+          cargo install cargo-mono --vers 0.2.4
 
       - name: Bump version
         run: |
