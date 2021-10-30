@@ -88,16 +88,16 @@ where
     I: Input,
 {
     fn read_token(&mut self) -> LexResult<Token> {
-        if self.input.is_byte(b'/') && self.input.peek() == Some('*') {
-            self.skip_block_comment()?;
-            self.skip_ws()?;
-            self.start_pos = self.input.cur_pos();
+        if self.input.is_byte(b'/') {
+            let peek = self.input.peek();
 
-            return self.read_token();
-        }
+            if peek == Some('*') {
+                self.skip_block_comment()?;
+                self.skip_ws()?;
+                self.start_pos = self.input.cur_pos();
 
-        if self.config.allow_wrong_line_comments {
-            if self.input.is_byte(b'/') && self.input.peek() == Some('/') {
+                return self.read_token();
+            } else if self.config.allow_wrong_line_comments && peek == Some('/') {
                 self.skip_line_comment()?;
                 self.start_pos = self.input.cur_pos();
 
@@ -105,199 +105,205 @@ where
             }
         }
 
-        macro_rules! try_delim {
-            ($b:tt,$tok:tt) => {{
-                if self.input.eat_byte($b) {
-                    return Ok(tok!($tok));
-                }
-            }};
-        }
-
         // TODO: Consume the next input code point. https://www.w3.org/TR/css-syntax-3/#consume-token. We should use `self.input.bump()` and reconsume according spec
 
-        if let Some(c) = self.input.cur() {
-            if is_whitespace(c) {
+        // Consume the next input code point.
+        match self.input.cur() {
+            // whitespace
+            // Consume as much whitespace as possible. Return a <whitespace-token>.
+            Some(c) if is_whitespace(c) => {
                 let value = self.read_ws()?;
 
                 return Ok(Token::WhiteSpace {
                     value: value.into(),
                 });
             }
-        }
+            // U+0022 QUOTATION MARK (")
+            // Consume a string token and return it.
+            Some(c) if c == '"' => {
+                return self.read_str(None);
+            }
+            // U+0023 NUMBER SIGN (#)
+            // If the next input code point is a name code point or the next two input code points
+            // are a valid escape, then:
+            Some(c) if c == '#' => {
+                // TODO: If the next input code point is a name code point or the next two input
+                // code points are a valid escape, then:
+                self.input.bump();
 
-        if self.input.is_byte(b'"') {
-            return self.read_str(None);
-        }
+                let first = self.input.cur();
+                let second = self.input.peek();
 
-        if self.input.is_byte(b'#') {
-            let c = self.input.cur();
+                if is_name_continue(first.unwrap()) || self.is_valid_escape(first, second)? {
+                    let third = self.input.peek_ahead();
+                    let is_id = self.would_start_ident(first, second, third)?;
+                    let name = self.read_name()?;
 
-            self.input.bump();
+                    return Ok(Token::Hash {
+                        is_id,
+                        value: name.0,
+                        raw: name.1,
+                    });
+                }
 
-            let first = self.input.cur();
-            let second = self.input.peek();
+                return Ok(Token::Delim { value: c });
+            }
+            Some(c) if c == '\'' => {
+                return self.read_str(None);
+            }
+            Some(c) if c == '(' => {
+                self.input.bump();
 
-            if is_name_continue(first.unwrap()) || self.is_valid_escape(first, second)? {
+                return Ok(tok!("("));
+            }
+            Some(c) if c == ')' => {
+                self.input.bump();
+
+                return Ok(tok!(")"));
+            }
+            Some(c) if c == '+' => {
+                let start = self.input.cur_pos();
+                let c = self.input.cur();
+
+                self.input.bump();
+
+                if self.would_start_number(None, None, None)? {
+                    self.input.reset_to(start);
+
+                    return self.read_numeric();
+                }
+
+                return Ok(Token::Delim { value: c.unwrap() });
+            }
+            Some(c) if c == ',' => {
+                self.input.bump();
+
+                return Ok(tok!(","));
+            }
+            Some(c) if c == '-' => {
+                let start = self.input.cur_pos();
+
+                self.input.bump();
+
+                if self.would_start_number(None, None, None)? {
+                    self.input.reset_to(start);
+
+                    return self.read_numeric();
+                } else if self.input.cur() == Some('-') && self.input.peek() == Some('>') {
+                    self.input.bump();
+                    self.input.bump();
+
+                    return Ok(Token::CDC);
+                } else if self.would_start_ident(None, None, None)? {
+                    self.input.reset_to(start);
+
+                    return self
+                        .read_name()
+                        .map(|(value, raw)| Token::Ident { value, raw });
+                }
+
+                return Ok(Token::Delim { value: c });
+            }
+            Some(c) if c == '.' => {
+                let start = self.input.cur_pos();
+
+                self.input.bump();
+
+                if self.would_start_number(None, None, None)? {
+                    self.input.reset_to(start);
+
+                    return self.read_numeric();
+                }
+
+                return Ok(Token::Delim { value: c });
+            }
+            Some(c) if c == ':' => {
+                self.input.bump();
+
+                return Ok(tok!(":"));
+            }
+            Some(c) if c == ';' => {
+                self.input.bump();
+
+                return Ok(tok!(";"));
+            }
+            Some(c) if c == '<' => {
+                self.input.bump();
+
+                // <!--
+                if self.input.is_byte(b'!')
+                    && self.input.peek() == Some('-')
+                    && self.input.peek_ahead() == Some('-')
+                {
+                    self.input.bump(); // !
+                    self.input.bump(); // -
+                    self.input.bump(); // -
+
+                    return Ok(tok!("<!--"));
+                }
+
+                return Ok(Token::Delim { value: c });
+            }
+            Some(c) if c == '@' => {
+                self.input.bump();
+
+                let first = self.input.cur();
+                let second = self.input.peek();
                 let third = self.input.peek_ahead();
-                let is_id = self.would_start_ident(first, second, third)?;
-                let name = self.read_name()?;
 
-                return Ok(Token::Hash {
-                    is_id,
-                    value: name.0,
-                    raw: name.1,
-                });
+                if self.would_start_ident(first, second, third)? {
+                    return self.read_at_keyword();
+                }
+
+                return Ok(Token::Delim { value: c });
             }
-
-            return Ok(Token::Delim { value: c.unwrap() });
-        }
-
-        if self.input.is_byte(b'\'') {
-            return self.read_str(None);
-        }
-
-        try_delim!(b'(', "(");
-
-        try_delim!(b')', ")");
-
-        if self.input.is_byte(b'+') {
-            let start = self.input.cur_pos();
-            let c = self.input.cur();
-
-            self.input.bump();
-
-            if self.would_start_number(None, None, None)? {
-                self.input.reset_to(start);
-
-                return self.read_numeric();
-            }
-
-            return Ok(Token::Delim { value: c.unwrap() });
-        }
-
-        try_delim!(b',', ",");
-
-        if self.input.is_byte(b'-') {
-            let start = self.input.cur_pos();
-            let c = self.input.cur();
-
-            self.input.bump();
-
-            if self.would_start_number(None, None, None)? {
-                self.input.reset_to(start);
-
-                return self.read_numeric();
-            } else if self.input.cur() == Some('-') && self.input.peek() == Some('>') {
-                self.input.bump();
+            Some(c) if c == '[' => {
                 self.input.bump();
 
-                return Ok(Token::CDC);
-            } else if self.would_start_ident(None, None, None)? {
-                self.input.reset_to(start);
-
-                return self
-                    .read_name()
-                    .map(|(value, raw)| Token::Ident { value, raw });
+                return Ok(tok!("["));
             }
+            Some(c) if c == '\\' => {
+                if self.is_valid_escape(None, None)? {
+                    return self.read_ident_like();
+                }
 
-            return Ok(Token::Delim { value: c.unwrap() });
-        }
+                let c = self.input.cur().unwrap();
 
-        if self.input.is_byte(b'.') {
-            let start = self.input.cur_pos();
-            let c = self.input.cur();
+                self.input.bump();
 
-            self.input.bump();
+                return Ok(Token::Delim { value: c });
+            }
+            Some(c) if c == ']' => {
+                self.input.bump();
 
-            if self.would_start_number(None, None, None)? {
-                self.input.reset_to(start);
+                return Ok(tok!("]"));
+            }
+            Some(c) if c == '{' => {
+                self.input.bump();
 
+                return Ok(tok!("{"));
+            }
+            Some(c) if c == '}' => {
+                self.input.bump();
+
+                return Ok(tok!("}"));
+            }
+            Some('0'..='9') => {
                 return self.read_numeric();
             }
-
-            return Ok(Token::Delim { value: c.unwrap() });
-        }
-
-        try_delim!(b':', ":");
-
-        try_delim!(b';', ";");
-
-        if self.input.is_byte(b'<') {
-            let c = self.input.cur();
-
-            self.input.bump();
-
-            // <!--
-            if self.input.is_byte(b'!')
-                && self.input.peek() == Some('-')
-                && self.input.peek_ahead() == Some('-')
-            {
-                self.input.bump(); // !
-                self.input.bump(); // -
-                self.input.bump(); // -
-
-                return Ok(tok!("<!--"));
-            }
-
-            return Ok(Token::Delim { value: c.unwrap() });
-        }
-
-        if self.input.is_byte(b'@') {
-            let c = self.input.cur();
-
-            self.input.bump();
-
-            let first = self.input.cur();
-            let second = self.input.peek();
-            let third = self.input.peek_ahead();
-
-            if self.would_start_ident(first, second, third)? {
-                return self.read_at_keyword();
-            }
-
-            return Ok(Token::Delim { value: c.unwrap() });
-        }
-
-        try_delim!(b'[', "[");
-
-        if self.input.is_byte(b'\\') {
-            if self.is_valid_escape(None, None)? {
+            Some(c) if is_name_start(c) => {
                 return self.read_ident_like();
             }
+            None => {
+                // TODO: Return an <EOF-token>.
+                return Err(ErrorKind::Eof);
+            }
+            Some(c) => {
+                self.input.bump();
 
-            let c = self.input.cur().unwrap();
-
-            self.input.bump();
-
-            return Ok(Token::Delim { value: c });
-        }
-
-        try_delim!(b']', "]");
-
-        try_delim!(b'{', "{");
-
-        try_delim!(b'}', "}");
-
-        if let Some('0'..='9') = self.input.cur() {
-            return self.read_numeric();
-        }
-
-        if let Some(c) = self.input.cur() {
-            if is_name_start(c) {
-                return self.read_ident_like();
+                return Ok(Token::Delim { value: c });
             }
         }
-
-        // TODO: Return an <EOF-token>.
-        if self.input.cur().is_none() {
-            return Err(ErrorKind::Eof);
-        }
-
-        let c = self.input.cur().unwrap();
-
-        self.input.bump();
-
-        return Ok(Token::Delim { value: c });
     }
 
     fn read_ws(&mut self) -> LexResult<String> {
