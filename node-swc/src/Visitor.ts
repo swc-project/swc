@@ -620,7 +620,7 @@ export class Visitor {
   visitDeclaration(decl: Declaration): Declaration {
     switch (decl.type) {
       case "ClassDeclaration":
-        return this.visitClassDeclartion(decl);
+        return this.visitClassDeclaration(decl);
       case "FunctionDeclaration":
         return this.visitFunctionDeclaration(decl);
       case "TsEnumDeclaration":
@@ -759,7 +759,7 @@ export class Visitor {
     return decl;
   }
 
-  visitClassDeclartion(decl: ClassDeclaration): Declaration {
+  visitClassDeclaration(decl: ClassDeclaration): Declaration {
     decl = this.visitClass(decl);
     decl.identifier = this.visitIdentifier(decl.identifier);
     return decl;
