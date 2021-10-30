@@ -348,6 +348,9 @@ where
             // name-start code point
             // Reconsume the current input code point, consume an ident-like token, and return it.
             Some(c) if is_name_start(c) => {
+                self.input.bump();
+                self.input.reset_to(start);
+
                 return self.read_ident_like();
             }
             // EOF
