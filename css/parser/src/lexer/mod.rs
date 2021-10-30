@@ -87,30 +87,20 @@ impl<I> Lexer<I>
 where
     I: Input,
 {
-    // The first code point in the input stream that has not yet been consumed.
-    fn next(&mut self) -> Option<char> {
-        self.input.cur()
-    }
-
-    // The second code point in the input stream that has not yet been consumed.
-    fn next_ahead(&mut self) -> Option<char> {
-        self.input.peek()
-    }
-
     fn read_token(&mut self) -> LexResult<Token> {
         // Consume comments.
         // If the next two input code point are U+002F SOLIDUS (/) followed by a U+002A
         // ASTERISK (*), consume them and all following code points up to and including
         // the first U+002A ASTERISK (*) followed by a U+002F SOLIDUS (/), or up to an
         // EOF code point. Return to the start of this step.
-        if self.next() == Some('/') {
-            if self.next_ahead() == Some('*') {
+        if self.input.cur() == Some('/') {
+            if self.input.peek() == Some('*') {
                 self.skip_block_comment()?;
                 self.skip_ws()?;
                 self.start_pos = self.input.cur_pos();
 
                 return self.read_token();
-            } else if self.config.allow_wrong_line_comments && self.next_ahead() == Some('/') {
+            } else if self.config.allow_wrong_line_comments && self.input.peek() == Some('/') {
                 self.skip_line_comment()?;
                 self.start_pos = self.input.cur_pos();
 
@@ -119,7 +109,7 @@ where
         }
 
         // Consume the next input code point.
-        match self.next() {
+        match self.input.cur() {
             // whitespace
             // Consume as much whitespace as possible. Return a <whitespace-token>.
             Some(c) if is_whitespace(c) => {
@@ -159,53 +149,74 @@ where
 
                 return Ok(Token::Delim { value: c });
             }
+            // U+0027 APOSTROPHE (')
+            // Consume a string token and return it.
             Some(c) if c == '\'' => {
                 return self.read_str(None);
             }
+            // U+0028 LEFT PARENTHESIS (()
+            // Return a <(-token>.
             Some(c) if c == '(' => {
                 self.input.bump();
 
                 return Ok(tok!("("));
             }
+            // U+0029 RIGHT PARENTHESIS ())
+            // Return a <)-token>.
             Some(c) if c == ')' => {
                 self.input.bump();
 
                 return Ok(tok!(")"));
             }
+            // U+002B PLUS SIGN (+)
             Some(c) if c == '+' => {
                 let start = self.input.cur_pos();
-                let c = self.input.cur();
 
                 self.input.bump();
 
+                // If the input stream starts with a number, reconsume the current input code
+                // point, consume a numeric token and return it.
                 if self.would_start_number(None, None, None)? {
                     self.input.reset_to(start);
 
                     return self.read_numeric();
                 }
 
-                return Ok(Token::Delim { value: c.unwrap() });
+                // Otherwise, return a <delim-token> with its value set to the current input
+                // code point.
+                return Ok(Token::Delim { value: c });
             }
+            // U+002C COMMA (,)
+            // Return a <comma-token>.
             Some(c) if c == ',' => {
                 self.input.bump();
 
                 return Ok(tok!(","));
             }
+            // U+002D HYPHEN-MINUS (-)
             Some(c) if c == '-' => {
                 let start = self.input.cur_pos();
 
                 self.input.bump();
 
+                // If the input stream starts with a number, reconsume the current input code
+                // point, consume a numeric token, and return it.
                 if self.would_start_number(None, None, None)? {
                     self.input.reset_to(start);
 
                     return self.read_numeric();
-                } else if self.input.cur() == Some('-') && self.input.peek() == Some('>') {
+                }
+                // Otherwise, if the next 2 input code points are U+002D HYPHEN-MINUS U+003E
+                // GREATER-THAN SIGN (->), consume them and return a <CDC-token>.
+                else if self.input.cur() == Some('-') && self.input.peek() == Some('>') {
                     self.input.bump();
                     self.input.bump();
 
                     return Ok(Token::CDC);
-                } else if self.would_start_ident(None, None, None)? {
+                }
+                // Otherwise, if the input stream starts with an identifier, reconsume the current
+                // input code point, consume an ident-like token, and return it.
+                else if self.would_start_ident(None, None, None)? {
                     self.input.reset_to(start);
 
                     return self
@@ -213,35 +224,49 @@ where
                         .map(|(value, raw)| Token::Ident { value, raw });
                 }
 
+                // Otherwise, return a <delim-token> with its value set to the current input
+                // code point.
                 return Ok(Token::Delim { value: c });
             }
+            // U+002E FULL STOP (.)
             Some(c) if c == '.' => {
                 let start = self.input.cur_pos();
 
                 self.input.bump();
 
+                // If the input stream starts with a number, reconsume the current input code
+                // point, consume a numeric token, and return it.
                 if self.would_start_number(None, None, None)? {
                     self.input.reset_to(start);
 
                     return self.read_numeric();
                 }
 
+                // Otherwise, return a <delim-token> with its value set to the current input
+                // code point.
                 return Ok(Token::Delim { value: c });
             }
+            // U+003A COLON (:)
+            // Return a <colon-token>.
             Some(c) if c == ':' => {
                 self.input.bump();
 
                 return Ok(tok!(":"));
             }
+            // U+003B SEMICOLON (;)
+            // Return a <semicolon-token>.
             Some(c) if c == ';' => {
                 self.input.bump();
 
                 return Ok(tok!(";"));
             }
+            // U+003C LESS-THAN SIGN (<)
             Some(c) if c == '<' => {
                 self.input.bump();
 
-                // <!--
+                // If the next 3 input code points are U+0021 EXCLAMATION MARK U+002D
+                // HYPHEN-MINUS U+002D HYPHEN-MINUS (!--), consume them and return a
+                // <CDO-token>.
                 if self.input.is_byte(b'!')
                     && self.input.peek() == Some('-')
                     && self.input.peek_ahead() == Some('-')
@@ -253,8 +278,11 @@ where
                     return Ok(tok!("<!--"));
                 }
 
+                // Otherwise, return a <delim-token> with its value set to the current input
+                // code point.
                 return Ok(Token::Delim { value: c });
             }
+            // U+0040 COMMERCIAL AT (@)
             Some(c) if c == '@' => {
                 self.input.bump();
 
@@ -262,53 +290,77 @@ where
                 let second = self.input.peek();
                 let third = self.input.peek_ahead();
 
+                // If the next 3 input code points would start an identifier, consume a name,
+                // create an <at-keyword-token> with its value set to the returned value, and
+                // return it.
                 if self.would_start_ident(first, second, third)? {
                     return self.read_at_keyword();
                 }
 
+                // Otherwise, return a <delim-token> with its value set to the current input
+                // code point.
                 return Ok(Token::Delim { value: c });
             }
+            // U+005B LEFT SQUARE BRACKET ([)
+            // Return a <[-token>.
             Some(c) if c == '[' => {
                 self.input.bump();
 
                 return Ok(tok!("["));
             }
+            // U+005C REVERSE SOLIDUS (\)
             Some(c) if c == '\\' => {
+                // If the input stream starts with a valid escape, reconsume the current input
+                // code point, consume an ident-like token, and return it.
                 if self.is_valid_escape(None, None)? {
                     return self.read_ident_like();
                 }
 
-                let c = self.input.cur().unwrap();
-
+                // Otherwise, this is a parse error. Return a <delim-token> with its value set
+                // to the current input code point.
                 self.input.bump();
 
                 return Ok(Token::Delim { value: c });
             }
+            // U+005D RIGHT SQUARE BRACKET (])
+            // Return a <]-token>.
             Some(c) if c == ']' => {
                 self.input.bump();
 
                 return Ok(tok!("]"));
             }
+            // U+007B LEFT CURLY BRACKET ({)
+            // Return a <{-token>.
             Some(c) if c == '{' => {
                 self.input.bump();
 
                 return Ok(tok!("{"));
             }
+            // U+007D RIGHT CURLY BRACKET (})
+            // Return a <}-token>.
             Some(c) if c == '}' => {
                 self.input.bump();
 
                 return Ok(tok!("}"));
             }
+            // digit
+            // Reconsume the current input code point, consume a numeric token, and return it.
             Some('0'..='9') => {
                 return self.read_numeric();
             }
+            // name-start code point
+            // Reconsume the current input code point, consume an ident-like token, and return it.
             Some(c) if is_name_start(c) => {
                 return self.read_ident_like();
             }
+            // EOF
+            // Return an <EOF-token>.
             None => {
                 // TODO: Return an <EOF-token>.
                 return Err(ErrorKind::Eof);
             }
+            // anything else
+            // Return a <delim-token> with its value set to the current input code point.
             Some(c) => {
                 self.input.bump();
 
