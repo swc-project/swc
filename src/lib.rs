@@ -599,7 +599,7 @@ impl Compiler {
                     src.push_str("\n//# sourceMappingURL=data:application/json;base64,");
                     base64::encode_config_buf(
                         map.as_bytes(),
-                        base64::Config::new(base64::CharacterSet::UrlSafe, true),
+                        base64::Config::new(base64::CharacterSet::Standard, true),
                         &mut src,
                     );
                     (src, None)
