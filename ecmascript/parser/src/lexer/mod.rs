@@ -461,14 +461,13 @@ impl<'a, I: Input> Lexer<'a, I> {
         self.input.bump();
         let c = self.input.cur();
         if c == Some('!') {
-            loop {
-                while let Some(c) = self.input.cur() {
-                    if c != '\n' && c != '\r' && c != '\u{8232}' && c != '\u{8233}' {
-                        self.input.bump();
-                        continue;
-                    }
+            while let Some(c) = self.input.cur() {
+                self.input.bump();
+                if c == '\n' || c == '\r' || c == '\u{8232}' || c == '\u{8233}' {
+                    return Ok(true);
                 }
             }
+            Ok(false)
         } else {
             self.input.reset_to(start);
             Ok(false)
