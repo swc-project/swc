@@ -48,7 +48,7 @@ jobs:
 
       - name: Configure git
         run: |
-          git config --local user.email "bot@swc.rs"
+          git config --local user.email "kdy1997.dev@gmail.com"
           git config --local user.name "swc[bot]"
 
       - name: Add files
