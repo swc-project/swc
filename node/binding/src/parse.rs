@@ -9,7 +9,7 @@ use std::{
     sync::Arc,
 };
 use swc::{config::ParseOptions, Compiler};
-use swc_common::{FileName, SourceFile};
+use swc_common::FileName;
 use swc_ecma_ast::Program;
 
 // ----- Parsing -----
@@ -39,7 +39,7 @@ impl Task for ParseTask {
     type JsValue = JsString;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
-        let mut options: ParseOptions = deserialize_json(&self.options).convert_err()?;
+        let options: ParseOptions = deserialize_json(&self.options).convert_err()?;
         let fm = self
             .c
             .cm
@@ -72,7 +72,7 @@ impl Task for ParseFileTask {
     fn compute(&mut self) -> napi::Result<Self::Output> {
         try_with(self.c.cm.clone(), false, |handler| {
             self.c.run(|| {
-                let mut options: ParseOptions = deserialize_json(&self.options).convert_err()?;
+                let options: ParseOptions = deserialize_json(&self.options).convert_err()?;
 
                 let fm = self
                     .c
