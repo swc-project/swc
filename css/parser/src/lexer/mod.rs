@@ -108,8 +108,11 @@ where
             }
         }
 
+        let start = self.input.cur_pos();
+        let next = self.input.cur();
+
         // Consume the next input code point.
-        match self.input.cur() {
+        match next {
             // whitespace
             // Consume as much whitespace as possible. Return a <whitespace-token>.
             Some(c) if is_whitespace(c) => {
@@ -170,8 +173,6 @@ where
             }
             // U+002B PLUS SIGN (+)
             Some(c) if c == '+' => {
-                let start = self.input.cur_pos();
-
                 self.input.bump();
 
                 // If the input stream starts with a number, reconsume the current input code
@@ -195,8 +196,6 @@ where
             }
             // U+002D HYPHEN-MINUS (-)
             Some(c) if c == '-' => {
-                let start = self.input.cur_pos();
-
                 self.input.bump();
 
                 // If the input stream starts with a number, reconsume the current input code
@@ -230,8 +229,6 @@ where
             }
             // U+002E FULL STOP (.)
             Some(c) if c == '.' => {
-                let start = self.input.cur_pos();
-
                 self.input.bump();
 
                 // If the input stream starts with a number, reconsume the current input code
