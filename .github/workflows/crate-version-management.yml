@@ -1,4 +1,4 @@
-name: Managment
+name: "Crate version management"
 
 on:
   workflow_dispatch:
@@ -29,10 +29,9 @@ jobs:
             target/
           key: cargo-bump-version
 
-      - name: Install cargo-mono
-        continue-on-error: true
+      - name: Install cargo mono
         run: |
-          cargo install cargo-mono
+          cargo install cargo-mono --vers 0.2.4
 
       - name: Bump version
         run: |
@@ -57,7 +56,7 @@ jobs:
 
       - name: Commit files
         run: |
-          git commit -m 'Bump version'
+          git commit -m 'chore: Bump version'
 
       - name: Push back
         uses: ad-m/github-push-action@master

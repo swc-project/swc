@@ -111,13 +111,13 @@
                     "raw": "4"
                   },
                   {
-                    "type": "ArrayValue",
+                    "type": "SquareBracketBlock",
                     "span": {
                       "start": 43,
                       "end": 54,
                       "ctxt": 0
                     },
-                    "values": [
+                    "children": [
                       {
                         "type": "Text",
                         "span": {
