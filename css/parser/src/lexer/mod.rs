@@ -165,7 +165,7 @@ where
                 let first = self.input.cur();
                 let second = self.input.peek();
 
-                if is_name_continue(first.unwrap()) || self.is_valid_escape(first, second)? {
+                if is_name(first.unwrap()) || self.is_valid_escape(first, second)? {
                     let third = self.input.peek_ahead();
                     let is_id = self.would_start_ident(first, second, third)?;
                     let name = self.read_name()?;
@@ -1011,7 +1011,7 @@ where
             match next {
                 // name code point
                 // Append the code point to result.
-                Some(c) if is_name_continue(c) => {
+                Some(c) if is_name(c) => {
                     self.last_pos = None;
                     self.input.bump();
 
@@ -1284,9 +1284,15 @@ where
     }
 }
 
+#[inline(always)]
+fn is_digit(c: char) -> bool {
+    c.is_digit(10)
+}
+
+#[inline(always)]
 fn is_hex_digit(c: char) -> bool {
     match c {
-        c if c.is_digit(10) => true,
+        c if is_digit(c) => true,
         'A'..='F' => true,
         'a'..='f' => true,
         _ => false,
@@ -1319,7 +1325,8 @@ fn is_non_ascii(c: char) -> bool {
     c as u32 >= 0x80
 }
 
-pub(crate) fn is_name_start(c: char) -> bool {
+#[inline(always)]
+fn is_name_start(c: char) -> bool {
     match c {
         // TODO: `\x00` is not valid
         c if is_letter(c) || is_non_ascii(c) || c == '_' || c == '\x00' => true,
@@ -1327,7 +1334,8 @@ pub(crate) fn is_name_start(c: char) -> bool {
     }
 }
 
-pub(crate) fn is_name_continue(c: char) -> bool {
+#[inline(always)]
+fn is_name(c: char) -> bool {
     is_name_start(c)
         || match c {
             c if c.is_digit(10) || c == '-' => true,
@@ -1335,6 +1343,15 @@ pub(crate) fn is_name_continue(c: char) -> bool {
         }
 }
 
+#[inline(always)]
+fn is_non_printable(c: char) -> bool {
+    match c {
+        '\x00'..='\x08' | '\x0B' | '\x0E'..='\x1F' | '\x7F' => true,
+        _ => false,
+    }
+}
+
+#[inline(always)]
 fn is_newline(c: char) -> bool {
     match c {
         '\n' | '\r' | '\x0C' => true,
@@ -1343,17 +1360,11 @@ fn is_newline(c: char) -> bool {
     }
 }
 
+#[inline(always)]
 fn is_whitespace(c: char) -> bool {
     match c {
         c if c == ' ' || c == '\t' || is_newline(c) => true,
 
-        _ => false,
-    }
-}
-
-fn is_non_printable(c: char) -> bool {
-    match c {
-        '\x00'..='\x08' | '\x0B' | '\x0E'..='\x1F' | '\x7F' => true,
         _ => false,
     }
 }
