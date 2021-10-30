@@ -679,7 +679,7 @@ where
 
                     let c = self.input.cur();
 
-                    // f the next input code point is U+0029 RIGHT PARENTHESIS ()) or EOF, consume
+                    // if the next input code point is U+0029 RIGHT PARENTHESIS ()) or EOF, consume
                     // it and return the <url-token> (if EOF was encountered, this is a parse
                     // error);
                     match c {
@@ -778,57 +778,73 @@ where
     // input code point has already been verified to be part of a valid escape. It
     // will return a code point.
     fn read_escape(&mut self) -> LexResult<(char, String)> {
-        // Consume the next input code point.
-        // TODO rewrite me according spec
-        let c = self.input.cur();
-        let c = match c {
-            Some(v) => v,
-            None => return Err(ErrorKind::InvalidEscape),
-        };
-
         let mut raw = String::new();
 
-        if c.is_digit(16) {
-            let mut hex = c.to_digit(16).unwrap();
+        // Consume the next input code point.
+        let next = self.input.cur();
 
-            raw.push(self.input.cur().unwrap());
-
-            self.input.bump();
-
-            // Consume as many hex digits as possible, but no more than 5.
-            // Note that this means 1-6 hex digits have been consumed in total.
-            for _ in 0..5 {
-                let next = self.input.cur();
-                let digit = match next.and_then(|c| c.to_digit(16)) {
-                    Some(v) => v,
-                    None => break,
-                };
+        match next {
+            // hex digit
+            Some(c) if is_hex_digit(c) => {
+                let mut hex = c.to_digit(16).unwrap();
 
                 raw.push(next.unwrap());
 
                 self.input.bump();
 
-                hex = hex * 16 + digit;
+                // Consume as many hex digits as possible, but no more than 5.
+                // Note that this means 1-6 hex digits have been consumed in total.
+                for _ in 0..5 {
+                    let next = self.input.cur();
+                    let digit = match next.and_then(|c| c.to_digit(16)) {
+                        Some(v) => v,
+                        None => break,
+                    };
+
+                    raw.push(next.unwrap());
+
+                    self.input.bump();
+
+                    hex = hex * 16 + digit;
+                }
+
+                self.last_pos = Some(self.input.cur_pos());
+
+                // If the next input code point is whitespace, consume it as well.
+                if is_whitespace(self.input.cur().unwrap()) {
+                    raw.push(self.input.cur().unwrap());
+
+                    self.input.bump();
+                }
+
+                // Interpret the hex digits as a hexadecimal number. If this number is zero, or
+                // is for a surrogate, or is greater than the maximum allowed code point, return
+                // U+FFFD REPLACEMENT CHARACTER (�).
+                // TODO: fix me
+                let hex = char::from_u32(hex).ok_or_else(|| ErrorKind::InvalidEscape)?;
+
+                // Otherwise, return the code point with that value.
+                return Ok((hex, raw));
             }
+            // EOF
+            // This is a parse error. Return U+FFFD REPLACEMENT CHARACTER (�).
+            None => {
+                let value = '\u{FFFD}';
 
-            self.last_pos = Some(self.input.cur_pos());
+                raw.push(value.clone());
 
-            if is_whitespace(self.input.cur().unwrap()) {
-                raw.push(self.input.cur().unwrap());
+                return Ok((value, raw));
+            }
+            // anything else
+            // Return the current input code point.
+            _ => {
+                raw.push(next.unwrap());
 
                 self.input.bump();
+
+                return Ok((next.unwrap(), raw));
             }
-
-            let hex = char::from_u32(hex).ok_or_else(|| ErrorKind::InvalidEscape)?;
-
-            return Ok((hex, raw));
         }
-
-        raw.push(c);
-
-        self.input.bump();
-
-        Ok((c, raw))
     }
 
     // Check if two code points are a valid escape
@@ -876,7 +892,7 @@ where
                 let second = maybe_second.or(self.input.peek());
 
                 match second {
-                    // If the second code point is a name-start code point 
+                    // If the second code point is a name-start code point
                     // return true.
                     Some(c) if is_name_start(c) => return Ok(true),
                     // or a U+002D HYPHEN-MINUS,
@@ -1265,6 +1281,15 @@ where
         }
 
         Ok(())
+    }
+}
+
+fn is_hex_digit(c: char) -> bool {
+    match c {
+        c if c.is_digit(10) => true,
+        'A'..='F' => true,
+        'a'..='f' => true,
+        _ => false,
     }
 }
 
