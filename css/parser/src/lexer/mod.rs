@@ -87,17 +87,30 @@ impl<I> Lexer<I>
 where
     I: Input,
 {
-    fn read_token(&mut self) -> LexResult<Token> {
-        if self.input.is_byte(b'/') {
-            let peek = self.input.peek();
+    // The first code point in the input stream that has not yet been consumed.
+    fn next(&mut self) -> Option<char> {
+        self.input.cur()
+    }
 
-            if peek == Some('*') {
+    // The second code point in the input stream that has not yet been consumed.
+    fn next_ahead(&mut self) -> Option<char> {
+        self.input.peek()
+    }
+
+    fn read_token(&mut self) -> LexResult<Token> {
+        // Consume comments.
+        // If the next two input code point are U+002F SOLIDUS (/) followed by a U+002A
+        // ASTERISK (*), consume them and all following code points up to and including
+        // the first U+002A ASTERISK (*) followed by a U+002F SOLIDUS (/), or up to an
+        // EOF code point. Return to the start of this step.
+        if self.next() == Some('/') {
+            if self.next_ahead() == Some('*') {
                 self.skip_block_comment()?;
                 self.skip_ws()?;
                 self.start_pos = self.input.cur_pos();
 
                 return self.read_token();
-            } else if self.config.allow_wrong_line_comments && peek == Some('/') {
+            } else if self.config.allow_wrong_line_comments && self.next_ahead() == Some('/') {
                 self.skip_line_comment()?;
                 self.start_pos = self.input.cur_pos();
 
@@ -105,10 +118,8 @@ where
             }
         }
 
-        // TODO: Consume the next input code point. https://www.w3.org/TR/css-syntax-3/#consume-token. We should use `self.input.bump()` and reconsume according spec
-
         // Consume the next input code point.
-        match self.input.cur() {
+        match self.next() {
             // whitespace
             // Consume as much whitespace as possible. Return a <whitespace-token>.
             Some(c) if is_whitespace(c) => {
