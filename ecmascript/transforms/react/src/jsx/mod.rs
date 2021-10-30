@@ -279,41 +279,51 @@ impl JsxDirectives {
                     continue;
                 }
 
-                if line.starts_with("@jsxRuntime ") {
-                    let src = line.replace("@jsxRuntime ", "").trim().to_string();
-                    if src == "classic" {
-                        res.runtime = Some(Runtime::Classic);
-                    } else if src == "automatic" {
-                        res.runtime = Some(Runtime::Automatic);
-                    } else {
-                        todo!("proper error reporting for wrong `@jsxRuntime`")
+                let mut words = line.split_whitespace();
+                loop {
+                    let pragma = words.next();
+                    if pragma.is_none() {
+                        break;
                     }
-                    continue;
-                }
+                    let val = words.next();
 
-                if line.starts_with("@jsxImportSource") {
-                    let src = line.replace("@jsxImportSource", "").trim().to_string();
-                    res.runtime = Some(Runtime::Automatic);
-                    res.import_source = Some(src.into());
-                }
-
-                if line.starts_with("@jsxFrag") {
-                    let src = line.replace("@jsxFrag", "").trim().to_string();
-                    res.pragma_frag = Some(parse_expr_for_jsx(
-                        &cm,
-                        "module-jsx-pragma-frag",
-                        src,
-                        top_level_mark,
-                    ));
-                } else if line.starts_with("@jsx ") {
-                    let src = line.replace("@jsx", "").trim().to_string();
-
-                    res.pragma = Some(parse_expr_for_jsx(
-                        &cm,
-                        "module-jsx-pragma",
-                        src,
-                        top_level_mark,
-                    ));
+                    match pragma {
+                        Some("@jsxRuntime") => match val {
+                            Some("classic") => res.runtime = Some(Runtime::Classic),
+                            Some("automatic") => res.runtime = Some(Runtime::Automatic),
+                            _ => todo!("proper error reporting for wrong `@jsxRuntime`"),
+                        },
+                        Some("@jsxImportSource") => match val {
+                            Some(src) => {
+                                res.runtime = Some(Runtime::Automatic);
+                                res.import_source = Some(src.into());
+                            }
+                            _ => todo!("proper error reporting for wrong `@jsxImportSource`"),
+                        },
+                        Some("@jsxFrag") => match val {
+                            Some(src) => {
+                                res.pragma_frag = Some(parse_expr_for_jsx(
+                                    &cm,
+                                    "module-jsx-pragma-frag",
+                                    src.to_string(),
+                                    top_level_mark,
+                                ))
+                            }
+                            _ => todo!("proper error reporting for wrong `@jsxFrag`"),
+                        },
+                        Some("@jsx") => match val {
+                            Some(src) => {
+                                res.pragma = Some(parse_expr_for_jsx(
+                                    &cm,
+                                    "module-jsx-pragma",
+                                    src.to_string(),
+                                    top_level_mark,
+                                ));
+                            }
+                            _ => todo!("proper error reporting for wrong `@jsxFrag`"),
+                        },
+                        _ => {}
+                    }
                 }
             }
         }
