@@ -170,7 +170,7 @@ jobs:
 
       - name: "Build"
         run: |
-          docker run --rm -v $(pwd):/swc -w /swc builder sh -c "npm run build"
+          docker run --rm -v $(pwd):/swc -w /swc builder sh -c "npm run build --target x86_64-unknown-linux-musl"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
