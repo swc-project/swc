@@ -545,7 +545,7 @@ where
         loop {
             let start = self.input.cur_pos();
             let next = self.input.cur();
-            
+
             // if next.is_some() {
             //     self.input.bump();
             // }
@@ -615,7 +615,7 @@ where
                 // Append the current input code point to the <string-token>’s value.
                 Some(c) => {
                     self.input.bump();
-                    
+
                     value.push(c);
                     raw.push(c);
                 }
