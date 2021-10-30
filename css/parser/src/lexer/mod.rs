@@ -88,10 +88,6 @@ where
     I: Input,
 {
     fn read_token(&mut self) -> LexResult<Token> {
-        if self.input.cur().is_none() {
-            return Err(ErrorKind::Eof);
-        }
-
         if self.input.is_byte(b'/') && self.input.peek() == Some('*') {
             self.skip_block_comment()?;
             self.skip_ws()?;
@@ -294,7 +290,7 @@ where
 
         // TODO: Return an <EOF-token>.
         if self.input.cur().is_none() {
-            unreachable!()
+            return Err(ErrorKind::Eof);
         }
 
         let c = self.input.cur().unwrap();
