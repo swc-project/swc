@@ -717,7 +717,7 @@ where
                         _ => {}
                     }
 
-                    //  otherwise, consume the remnants of a bad url, create a <bad-url-token>, and
+                    // otherwise, consume the remnants of a bad url, create a <bad-url-token>, and
                     // return it.
                     let remnants = self.read_bad_url_remnants()?;
 
@@ -1123,44 +1123,49 @@ where
     // of code points, "cleaning up" after the tokenizer realizes that it’s in the
     // middle of a <bad-url-token> rather than a <url-token>. It returns nothing;
     // its sole use is to consume enough of the input stream to reach a recovery
-    // point where normal tokenizing can resume.
+    // point where normal tokenizing can resume. But for recovery purpose we return
+    // bad URL remnants.
     fn read_bad_url_remnants(&mut self) -> LexResult<(String, String)> {
-        // TODO rewrite me
         let mut value = String::new();
         let mut raw = String::new();
 
         // Repeatedly consume the next input code point from the stream:
         loop {
-            match self.input.cur() {
+            let next = self.input.cur();
+
+            // EOF
+            // Return.
+            if next.is_none() {
+                break;
+            }
+
+            self.input.bump();
+
+            match next {
                 // U+0029 RIGHT PARENTHESIS ())
-                // EOF
+                // Return.
                 Some(c) if c == ')' => {
-                    self.input.bump();
-
                     break;
-                }
-                // the input stream starts with a valid escape
-                Some(c) => {
-                    if self.is_valid_escape(None, None).unwrap() {
-                        raw.push(c);
-
-                        self.input.bump();
-
-                        // Consume an escaped code point. This allows an escaped right parenthesis
-                        // ("\)") to be encountered without ending the <bad-url-token>.
-                        let escaped = self.read_escape()?;
-
-                        value.push(escaped.0);
-                        raw.push_str(&escaped.1);
-                    } else {
-                        value.push(c);
-                        raw.push(c);
-
-                        self.input.bump();
-                    }
                 }
                 None => {
-                    break;
+                    unreachable!()
+                }
+                // the input stream starts with a valid escape
+                Some(c) if self.is_valid_escape(None, None) == Ok(true) => {
+                    raw.push(c);
+
+                    // Consume an escaped code point. This allows an escaped right parenthesis
+                    // ("\)") to be encountered without ending the <bad-url-token>.
+                    let escaped = self.read_escape()?;
+
+                    value.push(escaped.0);
+                    raw.push_str(&escaped.1);
+                }
+                // anything else
+                // Do nothing.
+                Some(c) => {
+                    value.push(c);
+                    raw.push(c);
                 }
             }
         }
