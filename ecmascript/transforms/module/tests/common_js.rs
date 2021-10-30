@@ -4449,7 +4449,7 @@ test!(
     syntax(),
     |_| chain!(
         resolver(),
-        regenerator(Mark::fresh(Mark::root())),
+        regenerator(Default::default(), Mark::fresh(Mark::root())),
         common_js(Mark::fresh(Mark::root()), Default::default(), None)
     ),
     regression_6733,
@@ -4492,7 +4492,10 @@ test!(
     |_| {
         let mark = Mark::fresh(Mark::root());
 
-        chain!(regenerator(mark), common_js(mark, Default::default(), None),)
+        chain!(
+            regenerator(Default::default(), mark),
+            common_js(mark, Default::default(), None),
+        )
     },
     issue_831_2,
     "export function* myGenerator() {

@@ -337,7 +337,7 @@ error: Value
 12 |     --square-block: [1, 2, 3];
    |                     ^^^^^^^^^
 
-error: ArrayValue
+error: SquareBracketBlock
   --> $DIR/tests/fixture/value/custom-property/input.css:12:21
    |
 12 |     --square-block: [1, 2, 3];
@@ -547,7 +547,7 @@ error: Value
 16 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: ArrayValue
+error: SquareBracketBlock
   --> $DIR/tests/fixture/value/custom-property/input.css:16:13
    |
 16 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
@@ -661,7 +661,7 @@ error: Value
 16 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
    |                                          ^^^
 
-error: ArrayValue
+error: SquareBracketBlock
   --> $DIR/tests/fixture/value/custom-property/input.css:16:42
    |
 16 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
@@ -763,17 +763,11 @@ error: Delim { value: '.' }
 17 |     --javascript: function(rule) { console.log(rule) };
    |                                           ^
 
-error: Ident { value: Atom('log' type=inline), raw: Atom('log' type=inline) }
+error: Function { value: Atom('log' type=inline), raw: Atom('log' type=inline) }
   --> $DIR/tests/fixture/value/custom-property/input.css:17:44
    |
 17 |     --javascript: function(rule) { console.log(rule) };
-   |                                            ^^^
-
-error: LParen
-  --> $DIR/tests/fixture/value/custom-property/input.css:17:47
-   |
-17 |     --javascript: function(rule) { console.log(rule) };
-   |                                               ^
+   |                                            ^^^^
 
 error: Ident { value: Atom('rule' type=inline), raw: Atom('rule' type=inline) }
   --> $DIR/tests/fixture/value/custom-property/input.css:17:48

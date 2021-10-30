@@ -8,6 +8,10 @@ macro_rules! ident_tok {
 }
 
 macro_rules! tok {
+    ("function") => {
+        swc_css_ast::Token::Function { .. }
+    };
+
     ("(") => {
         swc_css_ast::Token::LParen
     };

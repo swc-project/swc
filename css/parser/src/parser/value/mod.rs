@@ -26,10 +26,10 @@ where
         let mut values = vec![];
         let mut state = self.input.state();
         let start_pos = self.input.cur_span()?.lo;
-
         let mut hi = self.input.last_pos()?;
+
         loop {
-            if is_one_of!(self, EOF, ";", "}", "!", ")") {
+            if is_one_of!(self, EOF, ";", "}", "!", ")", "]") {
                 self.input.reset(&state);
                 break;
             }
@@ -47,12 +47,12 @@ where
 
             if !eat!(self, " ") {
                 if self.ctx.recover_from_property_value
-                    && !is_one_of!(self, EOF, ";", "}", "!", ")")
+                    && !is_one_of!(self, EOF, ";", "}", "!", ")", "]")
                 {
                     self.input.reset(&start);
 
                     let mut tokens = vec![];
-                    while !is_one_of!(self, EOF, ";", "}", "!", ")") {
+                    while !is_one_of!(self, EOF, ";", "}", "!", ")", "]") {
                         tokens.extend(self.input.bump()?);
                     }
 
@@ -85,7 +85,7 @@ where
             values.push(value);
 
             loop {
-                if !is_one_of!(self, Str, Num, Ident, Dimension, "[", "(") {
+                if !is_one_of!(self, Str, Num, Ident, Function, Dimension, "[", "(") {
                     break;
                 }
 
@@ -170,6 +170,7 @@ where
             }
 
             try_group!("(", ")");
+            try_group!("function", ")");
             try_group!("[", "]");
             try_group!("{", "}");
 
@@ -212,7 +213,7 @@ where
 
             Token::Ident { .. } => return self.parse_value_ident_or_fn(),
 
-            tok!("[") => return self.parse_array_value().map(From::from),
+            tok!("[") => return self.parse_square_brackets_value().map(From::from),
 
             tok!("(") => return self.parse_paren_value().map(From::from),
 
@@ -445,6 +446,7 @@ where
                 unreachable!()
             }
         };
+
         let name = Text {
             span: if is_fn {
                 swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default())
@@ -498,22 +500,28 @@ where
         Ok(args)
     }
 
-    fn parse_array_value(&mut self) -> PResult<ArrayValue> {
+    fn parse_square_brackets_value(&mut self) -> PResult<SquareBracketBlock> {
         let span = self.input.cur_span()?;
 
         expect!(self, "[");
 
+        self.input.skip_ws()?;
+
         let ctx = Ctx {
             is_in_delimited_value: true,
+            allow_separating_value_with_space: true,
             ..self.ctx
         };
-        let values = self.with_ctx(ctx).parse_comma_separated_value()?;
+
+        let children = Some(self.with_ctx(ctx).parse_property_values()?.0);
+
+        self.input.skip_ws()?;
 
         expect!(self, "]");
 
-        Ok(ArrayValue {
+        Ok(SquareBracketBlock {
             span: span!(self, span.lo),
-            values,
+            children,
         })
     }
 
@@ -604,31 +612,17 @@ where
     fn parse(&mut self) -> PResult<FnValue> {
         let span = self.input.cur_span()?;
 
-        let mut is_fn = false;
-        let values = match bump!(self) {
-            Token::Ident { value, raw } => (value, raw),
-            Token::Function { value, raw } => {
-                is_fn = true;
-
-                (value, raw)
-            }
+        let name = match bump!(self) {
+            Token::Function { value, raw } => (value, raw),
             _ => {
                 unreachable!()
             }
         };
         let name = Text {
-            span: if is_fn {
-                swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default())
-            } else {
-                span
-            },
-            value: values.0,
-            raw: values.1,
+            span: swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default()),
+            value: name.0,
+            raw: name.1,
         };
-
-        if !is_fn {
-            expect!(self, "(");
-        }
 
         let ctx = Ctx {
             allow_operation_in_value: true,

@@ -461,7 +461,7 @@ error: Value
 14 |     --brackets: [ ];
    |                 ^^^
 
-error: ArrayValue
+error: SquareBracketBlock
   --> $DIR/tests/fixture/rome/custom-properties/input.css:14:14
    |
 14 |     --brackets: [ ];

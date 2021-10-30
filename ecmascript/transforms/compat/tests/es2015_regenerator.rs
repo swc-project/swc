@@ -12,7 +12,10 @@ fn syntax() -> Syntax {
 }
 
 fn tr(_: ()) -> impl Fold {
-    chain!(resolver(), regenerator(Mark::fresh(Mark::root())))
+    chain!(
+        resolver(),
+        regenerator(Default::default(), Mark::fresh(Mark::root()))
+    )
 }
 
 // computed_properties_example
@@ -946,7 +949,7 @@ test_exec!(
     |_| chain!(
         async_to_generator(),
         es2015::for_of(Default::default()),
-        es2015::regenerator(Mark::fresh(Mark::root())),
+        es2015::regenerator(Default::default(), Mark::fresh(Mark::root())),
     ),
     issue_600_exact_passes,
     "async function foo(b) {
@@ -958,7 +961,7 @@ test_exec!(
 
 test_exec!(
     syntax(),
-    |_| es2015::regenerator(Mark::fresh(Mark::root())),
+    |_| es2015::regenerator(Default::default(), Mark::fresh(Mark::root())),
     issue_600_min,
     "function* foo() {
         try {
@@ -982,7 +985,7 @@ test_exec!(
 
 test_exec!(
     syntax(),
-    |_| es2015::regenerator(Mark::fresh(Mark::root())),
+    |_| es2015::regenerator(Default::default(), Mark::fresh(Mark::root())),
     issue_831_1,
     "function* myGenerator() {
         yield* [1,2,3];
@@ -1002,7 +1005,7 @@ test!(
     |_| {
         let mark = Mark::fresh(Mark::root());
 
-        es2015::regenerator(mark)
+        es2015::regenerator(Default::default(), mark)
     },
     issue_831_3,
     "export function* myGenerator() {
@@ -1030,7 +1033,7 @@ export function myGenerator() {
 
 test_exec!(
     syntax(),
-    |_| es2015::regenerator(Mark::fresh(Mark::root())),
+    |_| es2015::regenerator(Default::default(), Mark::fresh(Mark::root())),
     delegate_context,
     "function* a() {
         yield 5;
@@ -1045,7 +1048,7 @@ test_exec!(
 
 test_exec!(
     syntax(),
-    |_| es2015::regenerator(Mark::fresh(Mark::root())),
+    |_| es2015::regenerator(Default::default(), Mark::fresh(Mark::root())),
     issue_849_1,
     "function* gen() { yield 1 };
 function genFactory() { return function*() { yield 1 }; }
@@ -1056,7 +1059,7 @@ expect(v.next()).toEqual({ done: true })"
 
 test_exec!(
     syntax(),
-    |_| es2015::regenerator(Mark::fresh(Mark::root())),
+    |_| es2015::regenerator(Default::default(), Mark::fresh(Mark::root())),
     issue_853_1,
     "function throwingFn() { throw 'Error' }
 function* gen() { 
@@ -1669,7 +1672,7 @@ test_exec!(
         chain!(
             async_to_generator(),
             es2015::for_of(Default::default()),
-            regenerator(mark)
+            regenerator(Default::default(), mark)
         )
     },
     issue_1918_1,

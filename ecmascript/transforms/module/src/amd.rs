@@ -220,7 +220,7 @@ where
 
                                 for ident in found.drain(..) {
                                     scope
-                                        .exported_vars
+                                        .exported_bindings
                                         .entry((ident.sym.clone(), ident.span.ctxt()))
                                         .or_default()
                                         .push((ident.sym.clone(), ident.span.ctxt()));
@@ -361,14 +361,18 @@ where
 
                                 let key = (orig.sym.clone(), orig.span.ctxt());
                                 if scope.declared_vars.contains(&key) {
-                                    scope.exported_vars.entry(key.clone()).or_default().push(
-                                        exported
-                                            .clone()
-                                            .map(|i| (i.sym.clone(), i.span.ctxt()))
-                                            .unwrap_or_else(|| {
-                                                (orig.sym.clone(), orig.span.ctxt())
-                                            }),
-                                    );
+                                    scope
+                                        .exported_bindings
+                                        .entry(key.clone())
+                                        .or_default()
+                                        .push(
+                                            exported
+                                                .clone()
+                                                .map(|i| (i.sym.clone(), i.span.ctxt()))
+                                                .unwrap_or_else(|| {
+                                                    (orig.sym.clone(), orig.span.ctxt())
+                                                }),
+                                        );
                                 }
 
                                 if let Some(ref src) = export.src {

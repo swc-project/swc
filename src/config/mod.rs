@@ -43,6 +43,7 @@ use swc_ecma_transforms::{
     proposals::{decorators, export_default_from, import_assertions},
     react, resolver_with_mark, typescript,
 };
+use swc_ecma_transforms_compat::es2015::regenerator;
 use swc_ecma_transforms_optimization::{inline_globals2, GlobalExprMap};
 use swc_ecma_visit::Fold;
 
@@ -214,6 +215,8 @@ impl Options {
         let syntax = syntax.unwrap_or_default();
         let mut transform = transform.unwrap_or_default();
 
+        let regenerator = transform.regenerator.clone();
+
         let preserve_comments = js_minify.as_ref().map(|v| v.format.comments.clone());
 
         if syntax.typescript() {
@@ -272,6 +275,7 @@ impl Options {
             })
             .fixer(!self.disable_fixer)
             .preset_env(config.env)
+            .regenerator(regenerator)
             .finalize(
                 base_url,
                 paths.into_iter().collect(),
@@ -951,6 +955,9 @@ pub struct TransformConfig {
 
     #[serde(default)]
     pub hidden: HiddenTransformConfig,
+
+    #[serde(default)]
+    pub regenerator: regenerator::Config,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
