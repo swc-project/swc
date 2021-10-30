@@ -87,6 +87,11 @@ impl<I> Lexer<I>
 where
     I: Input,
 {
+    // #[inline]
+    // fn current_input_code_point(&mut self) -> Option<char> {
+    //     self.input.clone().nth(-1).map(|i| i.1)
+    // }
+    
     fn read_token(&mut self) -> LexResult<Token> {
         // Consume comments.
         // If the next two input code point are U+002F SOLIDUS (/) followed by a U+002A
@@ -611,6 +616,7 @@ where
     }
 
     fn read_str(&mut self, maybe_ending_code_point: Option<char>) -> LexResult<Token> {
+        // TODO: This algorithm may be called with an ending code point, which denotes the code point that ends the string. If an ending code point is not specified, the current input code point is used.
         let ending_code_point = maybe_ending_code_point.or(self.input.cur());
         let mut value = String::new();
         let mut raw = String::new();
