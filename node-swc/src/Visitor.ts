@@ -208,13 +208,13 @@ export class Visitor {
       case "ExportDefaultDeclaration":
         return this.visitExportDefaultDeclaration(n);
       case "ExportNamedDeclaration":
-        return this.visitExportNamedDeclration(n);
+        return this.visitExportNamedDeclaration(n);
       case "ExportDefaultExpression":
         return this.visitExportDefaultExpression(n);
       case "ImportDeclaration":
         return this.visitImportDeclaration(n);
       case "ExportAllDeclaration":
-        return this.visitExportAllDeclration(n);
+        return this.visitExportAllDeclaration(n);
       case "TsImportEqualsDeclaration":
         return this.visitTsImportEqualsDeclaration(n);
       case "TsExportAssignment":
@@ -263,7 +263,7 @@ export class Visitor {
     return n;
   }
 
-  visitExportAllDeclration(n: ExportAllDeclaration): ModuleDeclaration {
+  visitExportAllDeclaration(n: ExportAllDeclaration): ModuleDeclaration {
     n.source = this.visitStringLiteral(n.source);
     return n;
   }
@@ -273,7 +273,7 @@ export class Visitor {
     return n;
   }
 
-  visitExportNamedDeclration(n: ExportNamedDeclaration): ModuleDeclaration {
+  visitExportNamedDeclaration(n: ExportNamedDeclaration): ModuleDeclaration {
     n.specifiers = this.visitExportSpecifiers(n.specifiers);
     n.source = this.visitOptionalStringLiteral(n.source);
     return n;
