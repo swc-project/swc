@@ -19,7 +19,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: actions/cache@v2
+      - name: Cache
+        uses: actions/cache@v2
         with:
           path: |
             ~/.cargo/bin/
@@ -36,9 +37,9 @@ jobs:
       - name: Bump version
         run: |
           if [ "${{ github.event.inputs.breaking }}" == "1" ]; then
-              cargo mono bump ${{ github.event.inputs.crate }}"
+              cargo mono bump ${{ github.event.inputs.crate }} --breaking
           else
-              cargo mono bump ${{ github.event.inputs.crate }}"
+              cargo mono bump ${{ github.event.inputs.crate }}
           fi
 
       - name: Update lockfile
