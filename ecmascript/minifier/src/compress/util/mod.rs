@@ -211,94 +211,122 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
         bin_op: Option<BinaryOp>,
         is_ret_val_ignored: bool,
     ) -> isize {
-        match e {
-            Expr::Unary(UnaryExpr {
-                op: op!("!"), arg, ..
-            }) => {
-                // TODO: Check if this argument is actually start of line.
-                match &**arg {
-                    Expr::Call(CallExpr {
-                        callee: ExprOrSuper::Expr(callee),
-                        ..
-                    }) => match &**callee {
-                        Expr::Fn(..) => return 0,
+        let cost = (|| {
+            match e {
+                Expr::Unary(UnaryExpr {
+                    op: op!("!"), arg, ..
+                }) => {
+                    // TODO: Check if this argument is actually start of line.
+                    match &**arg {
+                        Expr::Call(CallExpr {
+                            callee: ExprOrSuper::Expr(callee),
+                            ..
+                        }) => match &**callee {
+                            Expr::Fn(..) => return 0,
+                            _ => {}
+                        },
                         _ => {}
-                    },
-                    _ => {}
+                    }
+
+                    match &**arg {
+                        Expr::Bin(BinExpr {
+                            op: op!("&&") | op!("||"),
+                            ..
+                        }) => {}
+                        _ => {
+                            if in_bool_ctx {
+                                let c = -cost(arg, true, None, is_ret_val_ignored);
+                                return c.min(-1);
+                            }
+                        }
+                    }
+
+                    match &**arg {
+                        Expr::Unary(UnaryExpr { op: op!("!"), .. }) => -1,
+
+                        _ => {
+                            if in_bool_ctx {
+                                -1
+                            } else {
+                                1
+                            }
+                        }
+                    }
+                }
+                Expr::Bin(BinExpr {
+                    op: op!("===") | op!("!==") | op!("==") | op!("!="),
+                    ..
+                }) => 0,
+
+                Expr::Bin(BinExpr {
+                    op: op @ op!("||") | op @ op!("&&"),
+                    left,
+                    right,
+                    ..
+                }) => {
+                    let l_cost = cost(&left, in_bool_ctx, Some(*op), false);
+
+                    if !is_ret_val_ignored && !is_ok_to_negate_rhs(&right) {
+                        return l_cost + 3;
+                    }
+                    l_cost + cost(&right, in_bool_ctx, Some(*op), is_ret_val_ignored)
                 }
 
-                if in_bool_ctx {
-                    let c = -cost(arg, true, None, is_ret_val_ignored);
-                    return c.min(-1);
+                Expr::Cond(CondExpr { cons, alt, .. })
+                    if is_ok_to_negate_for_cond(&cons) && is_ok_to_negate_for_cond(&alt) =>
+                {
+                    cost(&cons, in_bool_ctx, bin_op, is_ret_val_ignored)
+                        + cost(&alt, in_bool_ctx, bin_op, is_ret_val_ignored)
                 }
 
-                match &**arg {
-                    Expr::Unary(UnaryExpr { op: op!("!"), .. }) => -1,
+                Expr::Cond(..)
+                | Expr::Update(..)
+                | Expr::Bin(BinExpr {
+                    op: op!("in") | op!("instanceof"),
+                    ..
+                }) => 3,
 
-                    _ => 1,
+                Expr::Assign(..) => {
+                    if is_ret_val_ignored {
+                        0
+                    } else {
+                        3
+                    }
+                }
+
+                Expr::Seq(e) => {
+                    if let Some(last) = e.exprs.last() {
+                        return cost(&last, in_bool_ctx, bin_op, is_ret_val_ignored);
+                    }
+
+                    if is_ret_val_ignored {
+                        0
+                    } else {
+                        1
+                    }
+                }
+
+                _ => {
+                    if is_ret_val_ignored {
+                        0
+                    } else {
+                        1
+                    }
                 }
             }
-            Expr::Bin(BinExpr {
-                op: op!("===") | op!("!==") | op!("==") | op!("!="),
-                ..
-            }) => 0,
+        })();
 
-            Expr::Bin(BinExpr {
-                op: op @ op!("||") | op @ op!("&&"),
-                left,
-                right,
-                ..
-            }) => {
-                let l_cost = cost(&left, in_bool_ctx, Some(*op), false);
-
-                if !is_ret_val_ignored && !is_ok_to_negate_rhs(&right) {
-                    return l_cost + 3;
-                }
-                l_cost + cost(&right, in_bool_ctx, Some(*op), is_ret_val_ignored)
-            }
-
-            Expr::Cond(CondExpr { cons, alt, .. })
-                if is_ok_to_negate_for_cond(&cons) && is_ok_to_negate_for_cond(&alt) =>
-            {
-                cost(&cons, in_bool_ctx, bin_op, is_ret_val_ignored)
-                    + cost(&alt, in_bool_ctx, bin_op, is_ret_val_ignored)
-            }
-
-            Expr::Cond(..)
-            | Expr::Update(..)
-            | Expr::Bin(BinExpr {
-                op: op!("in") | op!("instanceof"),
-                ..
-            }) => 3,
-
-            Expr::Assign(..) => {
-                if is_ret_val_ignored {
-                    0
-                } else {
-                    3
-                }
-            }
-
-            Expr::Seq(e) => {
-                if let Some(last) = e.exprs.last() {
-                    return cost(&last, in_bool_ctx, bin_op, is_ret_val_ignored);
-                }
-
-                if is_ret_val_ignored {
-                    0
-                } else {
-                    1
-                }
-            }
-
-            _ => {
-                if is_ret_val_ignored {
-                    0
-                } else {
-                    1
-                }
-            }
+        if cfg!(test) {
+            tracing::trace!(
+                "negation cost of `{}` = {}\nin_book_ctx={:?}\nis_ret_val_ignored={:?}",
+                dump(&e.clone().fold_with(&mut as_folder(fixer(None)))),
+                cost,
+                in_bool_ctx,
+                is_ret_val_ignored
+            );
         }
+
+        cost
     }
 
     let cost = cost(e, in_bool_ctx, None, is_ret_val_ignored);
