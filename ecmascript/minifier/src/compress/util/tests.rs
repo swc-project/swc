@@ -111,9 +111,8 @@ fn negate_cost_5() {
             });
         }) && codeResult = codeResult, \"function\" != typeof filter = config.filter || \
          filter(codeResult) || capacity--, result.codeResult = codeResult, capture && \
-         canvas.width = imageSize.x, canvas.height = imageSize.y, \
-         image_debug#685.a.drawImage(data, imageSize, ctx), result.frame = canvas.toDataURL(), \
-         results.push(result)",
+         canvas.width = imageSize.x, canvas.height = imageSize.y, image_debug.a.drawImage(data, \
+         imageSize, ctx), result.frame = canvas.toDataURL(), results.push(result)",
         true,
         true,
         1000,
