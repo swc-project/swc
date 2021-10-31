@@ -116,3 +116,22 @@ fn negate_cost_5() {
         0,
     );
 }
+
+#[test]
+fn negate_cost_6() {
+    assert_negate_cost(
+        "
+        capacity && codeResult1 && (codeResult2 = codeResult1, !((list = config.blacklist) && \
+         list.some(function(item) {
+            return Object.keys(item).every(function(key) {
+                return item[key] === codeResult2[key];
+            });
+        }))) && (codeResult3 = codeResult1, \"function\" != typeof (filter = config.filter) || \
+         filter(codeResult3)) && (capacity--, result.codeResult = codeResult, capture && \
+         (canvas.width = imageSize.x, canvas.height = imageSize.y, image_debug.a.drawImage(data, \
+         imageSize, ctx), result.frame = canvas.toDataURL()), results.push(result))",
+        true,
+        true,
+        0,
+    );
+}
