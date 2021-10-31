@@ -2866,7 +2866,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_macros"
-version = "0.2.3"
+version = "0.3.0"
 dependencies = [
  "pmutil",
  "proc-macro2",
