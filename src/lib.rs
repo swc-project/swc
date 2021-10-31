@@ -112,8 +112,7 @@ pub extern crate swc_ecmascript as ecmascript;
 
 pub use crate::builder::PassBuilder;
 use crate::config::{
-    BuiltConfig, Config, ConfigFile, InputSourceMap, JscTarget, Merge, Options, Rc, RootMode,
-    SourceMapsConfig,
+    BuiltConfig, Config, ConfigFile, InputSourceMap, Merge, Options, Rc, RootMode, SourceMapsConfig,
 };
 use anyhow::{bail, Context, Error};
 use atoms::JsWord;
@@ -143,7 +142,7 @@ use swc_common::{
     sync::Lrc,
     BytePos, FileName, Globals, Mark, SourceFile, SourceMap, Spanned, DUMMY_SP, GLOBALS,
 };
-use swc_ecma_ast::{Ident, Invalid, Program};
+use swc_ecma_ast::{EsVersion, Ident, Invalid, Program};
 use swc_ecma_codegen::{self, text_writer::WriteJs, Emitter, Node};
 use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
@@ -398,7 +397,7 @@ impl Compiler {
         &self,
         fm: Arc<SourceFile>,
         handler: &Handler,
-        target: JscTarget,
+        target: EsVersion,
         syntax: Syntax,
         is_module: bool,
         parse_comments: bool,
@@ -465,7 +464,7 @@ impl Compiler {
         source_file_name: Option<&str>,
         output_path: Option<PathBuf>,
         inline_sources_content: bool,
-        target: JscTarget,
+        target: EsVersion,
         source_map: SourceMapsConfig,
         source_map_names: &AHashMap<BytePos, JsWord>,
         orig: Option<&sourcemap::SourceMap>,

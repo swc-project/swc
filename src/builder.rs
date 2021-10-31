@@ -1,8 +1,5 @@
 use crate::{
-    config::{
-        util::BoolOrObject, CompiledPaths, GlobalPassOption, JsMinifyOptions, JscTarget,
-        ModuleConfig,
-    },
+    config::{util::BoolOrObject, CompiledPaths, GlobalPassOption, JsMinifyOptions, ModuleConfig},
     SwcComments,
 };
 use compat::{es2015::regenerator, es2020::export_namespace_from};
@@ -31,7 +28,7 @@ pub struct PassBuilder<'a, 'b, P: swc_ecma_visit::Fold> {
     pass: P,
     /// [Mark] for top level bindings and unresolved identifier references.
     top_level_mark: Mark,
-    target: JscTarget,
+    target: EsVersion,
     loose: bool,
     hygiene: Option<hygiene::Config>,
     fixer: bool,
@@ -54,7 +51,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             env: None,
             pass,
             top_level_mark,
-            target: JscTarget::Es5,
+            target: EsVersion::Es5,
             loose,
             hygiene: Some(Default::default()),
             fixer: true,
@@ -125,7 +122,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         self.then(pass)
     }
 
-    pub fn target(mut self, target: JscTarget) -> Self {
+    pub fn target(mut self, target: EsVersion) -> Self {
         self.target = target;
         self
     }
@@ -182,31 +179,31 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             Either::Right(chain!(
                 Optional::new(
                     compat::es2022::es2022(compat::es2022::Config { loose: self.loose }),
-                    should_enable(self.target, JscTarget::Es2022)
+                    should_enable(self.target, EsVersion::Es2022)
                 ),
                 Optional::new(
                     compat::es2021::es2021(),
-                    should_enable(self.target, JscTarget::Es2021)
+                    should_enable(self.target, EsVersion::Es2021)
                 ),
                 Optional::new(
                     compat::es2020::es2020(),
-                    should_enable(self.target, JscTarget::Es2020)
+                    should_enable(self.target, EsVersion::Es2020)
                 ),
                 Optional::new(
                     compat::es2019::es2019(),
-                    should_enable(self.target, JscTarget::Es2019)
+                    should_enable(self.target, EsVersion::Es2019)
                 ),
                 Optional::new(
                     compat::es2018(),
-                    should_enable(self.target, JscTarget::Es2018)
+                    should_enable(self.target, EsVersion::Es2018)
                 ),
                 Optional::new(
                     compat::es2017(),
-                    should_enable(self.target, JscTarget::Es2017)
+                    should_enable(self.target, EsVersion::Es2017)
                 ),
                 Optional::new(
                     compat::es2016(),
-                    should_enable(self.target, JscTarget::Es2016)
+                    should_enable(self.target, EsVersion::Es2016)
                 ),
                 Optional::new(
                     compat::es2015(
@@ -223,11 +220,11 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                             regenerator: self.regenerator,
                         }
                     ),
-                    should_enable(self.target, JscTarget::Es2015)
+                    should_enable(self.target, EsVersion::Es2015)
                 ),
                 Optional::new(
                     compat::es3(syntax.dynamic_import()),
-                    cfg!(feature = "es3") && self.target == JscTarget::Es3
+                    cfg!(feature = "es3") && self.target == EsVersion::Es3
                 )
             ))
         };

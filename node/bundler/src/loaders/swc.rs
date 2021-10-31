@@ -14,8 +14,8 @@ use swc_common::{
     sync::Lrc,
     FileName, DUMMY_SP,
 };
-use swc_ecma_ast::{Expr, Lit, Module, Program, Str};
-use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax};
+use swc_ecma_ast::{EsVersion, Expr, Lit, Module, Program, Str};
+use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_transforms::{
     helpers,
     optimization::{
@@ -157,7 +157,7 @@ impl SwcLoader {
             let program = self.compiler.parse_js(
                 fm.clone(),
                 &handler,
-                JscTarget::Es2020,
+                EsVersion::Es2020,
                 Default::default(),
                 true,
                 true,
@@ -244,7 +244,7 @@ impl SwcLoader {
             let program = self.compiler.parse_js(
                 fm.clone(),
                 handler,
-                JscTarget::Es2020,
+                EsVersion::Es2020,
                 config.as_ref().map(|v| v.syntax).unwrap_or_default(),
                 true,
                 true,

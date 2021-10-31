@@ -3,7 +3,7 @@ use crate::{
     error::Error,
     lexer::{self},
     token::*,
-    Context, JscTarget, Syntax,
+    Context, EsVersion, Syntax,
 };
 use lexer::TokenContexts;
 use std::{cell::RefCell, mem, mem::take, rc::Rc};
@@ -15,7 +15,7 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     fn set_ctx(&mut self, ctx: Context);
     fn ctx(&self) -> Context;
     fn syntax(&self) -> Syntax;
-    fn target(&self) -> JscTarget;
+    fn target(&self) -> EsVersion;
 
     fn set_expr_allowed(&mut self, allow: bool);
     fn token_context(&self) -> &lexer::TokenContexts;
@@ -45,14 +45,14 @@ pub struct TokensInput {
     iter: <Vec<TokenAndSpan> as IntoIterator>::IntoIter,
     ctx: Context,
     syntax: Syntax,
-    target: JscTarget,
+    target: EsVersion,
     token_ctx: TokenContexts,
     errors: Rc<RefCell<Vec<Error>>>,
     module_errors: Rc<RefCell<Vec<Error>>>,
 }
 
 impl TokensInput {
-    pub fn new(tokens: Vec<TokenAndSpan>, ctx: Context, syntax: Syntax, target: JscTarget) -> Self {
+    pub fn new(tokens: Vec<TokenAndSpan>, ctx: Context, syntax: Syntax, target: EsVersion) -> Self {
         TokensInput {
             iter: tokens.into_iter(),
             ctx,
@@ -89,7 +89,7 @@ impl Tokens for TokensInput {
     fn syntax(&self) -> Syntax {
         self.syntax
     }
-    fn target(&self) -> JscTarget {
+    fn target(&self) -> EsVersion {
         self.target
     }
 
@@ -193,7 +193,7 @@ impl<I: Tokens> Tokens for Capturing<I> {
     fn syntax(&self) -> Syntax {
         self.inner.syntax()
     }
-    fn target(&self) -> JscTarget {
+    fn target(&self) -> EsVersion {
         self.inner.target()
     }
 
@@ -454,7 +454,7 @@ impl<I: Tokens> Buffer<I> {
         self.iter.syntax()
     }
     #[inline]
-    pub fn target(&self) -> JscTarget {
+    pub fn target(&self) -> EsVersion {
         self.iter.target()
     }
 

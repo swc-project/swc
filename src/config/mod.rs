@@ -24,7 +24,7 @@ use swc_common::{
     errors::Handler,
     FileName, Mark, SourceMap,
 };
-use swc_ecma_ast::Expr;
+use swc_ecma_ast::{EsVersion, Expr};
 use swc_ecma_ext_transforms::jest;
 use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
@@ -33,6 +33,7 @@ use swc_ecma_minifier::option::{
     terser::{TerserCompressorOptions, TerserEcmaVersion},
     MangleOptions, ManglePropertiesOptions,
 };
+#[allow(deprecated)]
 pub use swc_ecma_parser::JscTarget;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::{
@@ -63,7 +64,7 @@ pub struct ParseOptions {
     pub is_module: bool,
 
     #[serde(default)]
-    pub target: JscTarget,
+    pub target: EsVersion,
 }
 
 #[derive(Debug, Clone, Default, Deserialize)]
@@ -130,7 +131,7 @@ pub struct Options {
 }
 
 impl Options {
-    pub fn codegen_target(&self) -> Option<JscTarget> {
+    pub fn codegen_target(&self) -> Option<EsVersion> {
         self.config.jsc.target
     }
 }
@@ -794,7 +795,7 @@ impl Config {
 pub struct BuiltConfig<P: swc_ecma_visit::Fold> {
     pub pass: P,
     pub syntax: Syntax,
-    pub target: JscTarget,
+    pub target: EsVersion,
     /// Minification for **codegen**. Minifier transforms will be inserted into
     /// `pass`.
     pub minify: bool,
@@ -825,7 +826,7 @@ pub struct JscConfig {
     pub external_helpers: bool,
 
     #[serde(default)]
-    pub target: Option<JscTarget>,
+    pub target: Option<EsVersion>,
 
     #[serde(default)]
     pub loose: bool,
@@ -1343,7 +1344,7 @@ where
     }
 }
 
-impl Merge for JscTarget {
+impl Merge for EsVersion {
     fn merge(&mut self, from: &Self) {
         if *self < *from {
             *self = *from
