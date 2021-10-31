@@ -58,7 +58,7 @@ where
         // `_ || 'undefined' == typeof require`
         tracing::debug!(
             is_return_value_ignored = is_ret_val_ignored,
-            nagate_cost = cost,
+            negate_cost = cost,
             "bools: Negating: (!a && !b) => !(a || b) (because both expression are good for \
              negation)",
         );
