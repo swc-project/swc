@@ -77,7 +77,7 @@ where
         self.with_ctx(ctx).negate(&mut e.right);
 
         if cfg!(feature = "debug") {
-            tracing::trace!("[Change] {} => {}", start, dump(&*e));
+            tracing::debug!("[Change] {} => {}", start, dump(&*e));
         }
 
         true
