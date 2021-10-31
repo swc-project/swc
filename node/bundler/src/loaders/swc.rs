@@ -16,6 +16,9 @@ use swc_common::{
 };
 use swc_ecma_ast::{Expr, Lit, Module, Program, Str};
 use swc_ecma_parser::{lexer::Lexer, EsVersion, Parser, StringInput, Syntax};
+use swc_common::{collections::AHashMap, errors::Handler, sync::Lrc, FileName, DUMMY_SP};
+use swc_ecma_ast::{EsVersion, Expr, Lit, Module, Program, Str};
+use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_transforms::{
     helpers,
     optimization::{

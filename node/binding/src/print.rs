@@ -8,8 +8,7 @@ use swc::{
     config::{Options, SourceMapsConfig},
     Compiler, TransformOutput,
 };
-use swc_ecma_ast::Program;
-use swc_ecma_parser::EsVersion;
+use swc_ecma_ast::{EsVersion, Program};
 
 // ----- Printing -----
 

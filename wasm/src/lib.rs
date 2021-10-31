@@ -2,11 +2,11 @@ use anyhow::{Context, Error};
 use once_cell::sync::Lazy;
 use std::sync::Arc;
 use swc::{
-    config::{EsVersion, JsMinifyOptions, Options, ParseOptions, SourceMapsConfig},
+    config::{JsMinifyOptions, Options, ParseOptions, SourceMapsConfig},
     try_with_handler, Compiler,
 };
 use swc_common::{FileName, FilePathMapping, SourceMap};
-use swc_ecmascript::ast::Program;
+use swc_ecmascript::ast::{EsVersion, Program};
 use wasm_bindgen::prelude::*;
 
 fn convert_err(err: Error) -> JsValue {
