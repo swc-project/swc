@@ -2547,9 +2547,9 @@
                 var key, val, i, parsed = {
                 };
                 return headers && utils.forEach(headers.split("\n"), function(line) {
-                    i = line.indexOf(":"), key = utils.trim(line.substr(0, i)).toLowerCase(), val = utils.trim(line.substr(i + 1)), !key || parsed[key] && ignoreDuplicateOf.indexOf(key) >= 0 || ("set-cookie" === key ? parsed[key] = (parsed[key] ? parsed[key] : []).concat([
+                    i = line.indexOf(":"), key = utils.trim(line.substr(0, i)).toLowerCase(), val = utils.trim(line.substr(i + 1)), key && (parsed[key] && ignoreDuplicateOf.indexOf(key) >= 0 || ("set-cookie" === key ? parsed[key] = (parsed[key] ? parsed[key] : []).concat([
                         val
-                    ]) : parsed[key] = parsed[key] ? parsed[key] + ", " + val : val);
+                    ]) : parsed[key] = parsed[key] ? parsed[key] + ", " + val : val));
                 }), parsed;
             };
         },
@@ -3023,11 +3023,11 @@
                 var length, result, step, iterator, next, value, O = toObject(arrayLike), IS_CONSTRUCTOR = isConstructor(this), argumentsLength = arguments.length, mapfn = argumentsLength > 1 ? arguments[1] : void 0, mapping = void 0 !== mapfn;
                 mapping && (mapfn = bind(mapfn, argumentsLength > 2 ? arguments[2] : void 0, 2));
                 var iteratorMethod = getIteratorMethod(O), index = 0;
-                if (!iteratorMethod || this == Array && isArrayIteratorMethod(iteratorMethod)) for(length = toLength(O.length), result = IS_CONSTRUCTOR ? new this(length) : Array(length); length > index; index++)value = mapping ? mapfn(O[index], index) : O[index], createProperty(result, index, value);
-                else for(next = (iterator = getIterator(O, iteratorMethod)).next, result = IS_CONSTRUCTOR ? new this() : []; !(step = next.call(iterator)).done; index++)value = mapping ? callWithSafeIterationClosing(iterator, mapfn, [
+                if (iteratorMethod && !(this == Array && isArrayIteratorMethod(iteratorMethod))) for(next = (iterator = getIterator(O, iteratorMethod)).next, result = IS_CONSTRUCTOR ? new this() : []; !(step = next.call(iterator)).done; index++)value = mapping ? callWithSafeIterationClosing(iterator, mapfn, [
                     step.value,
                     index
                 ], !0) : step.value, createProperty(result, index, value);
+                else for(length = toLength(O.length), result = IS_CONSTRUCTOR ? new this(length) : Array(length); length > index; index++)value = mapping ? mapfn(O[index], index) : O[index], createProperty(result, index, value);
                 return result.length = index, result;
             };
         },

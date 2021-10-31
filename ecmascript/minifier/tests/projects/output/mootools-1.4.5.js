@@ -1392,7 +1392,7 @@ Event.Keys = {
                 } finally{
                     contextIsDocument || (currentId ? _context.setAttribute("id", currentId) : _context.removeAttribute("id"), context = _context);
                 }
-                if (this.starSelectsClosedQSA) for(i = 0; node = nodes[i++];)!(node.nodeName > "@") || hasOthers && uniques[this.getUID(node)] || found.push(node);
+                if (this.starSelectsClosedQSA) for(i = 0; node = nodes[i++];)node.nodeName > "@" && !(hasOthers && uniques[this.getUID(node)]) && found.push(node);
                 else for(i = 0; node = nodes[i++];)hasOthers && uniques[this.getUID(node)] || found.push(node);
                 return hasOthers && this.sort(found), found;
             }

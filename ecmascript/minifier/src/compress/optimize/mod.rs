@@ -1011,7 +1011,7 @@ where
                     _ => false,
                 } =>
             {
-                tracing::debug!("ignore_return_value: Preserving negated iife");
+                tracing::trace!("ignore_return_value: Preserving negated iife");
                 return Some(e.take());
             }
 
