@@ -134,6 +134,21 @@ fn negate_cost_5_1() {
 }
 
 #[test]
+fn negate_cost_5_2() {
+    assert_negate_cost(
+        "!(capacity && codeResult1 && (codeResult2 = codeResult1, !((list = config.blacklist) && \
+         list.some(function(item) {
+            return Object.keys(item).every(function(key) {
+                return item[key] === codeResult2[key];
+            });
+        }))))",
+        true,
+        false,
+        0,
+    );
+}
+
+#[test]
 fn negate_cost_6() {
     assert_negate_cost(
         "
