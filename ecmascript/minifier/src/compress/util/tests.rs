@@ -128,7 +128,7 @@ fn negate_cost_5_1() {
         }))) && (codeResult3 = codeResult1, \"function\" != typeof (filter = config.filter) || \
          filter(codeResult3)))",
         true,
-        true,
+        false,
         0,
     );
 }
@@ -164,7 +164,7 @@ fn negate_cost_6_1() {
         }))) && (codeResult3 = codeResult1, \"function\" != typeof (filter = config.filter) || \
          filter(codeResult3))",
         true,
-        true,
+        false,
         1,
     );
 }
