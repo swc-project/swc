@@ -4,6 +4,7 @@
 extern crate test;
 
 use std::{hint::black_box, io::stderr, sync::Arc};
+use swc::config::IsModule;
 use swc_babel_compat::babelify::{Babelify, Context};
 use swc_common::{errors::Handler, FileName, FilePathMapping, SourceFile, SourceMap};
 use swc_ecma_ast::{EsVersion, Program};
@@ -36,7 +37,7 @@ fn parse(c: &swc::Compiler, src: &str) -> (Arc<SourceFile>, Program) {
             &handler,
             EsVersion::Es5,
             Syntax::Typescript(Default::default()),
-            true,
+            IsModule::Bool(true),
             true,
         )
         .unwrap();

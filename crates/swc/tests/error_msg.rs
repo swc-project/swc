@@ -1,5 +1,8 @@
 use std::path::Path;
-use swc::{config::Options, Compiler};
+use swc::{
+    config::{IsModule, Options},
+    Compiler,
+};
 use testing::{NormalizedOutput, Tester};
 
 fn file(f: impl AsRef<Path>) -> NormalizedOutput {
@@ -13,7 +16,7 @@ fn file(f: impl AsRef<Path>) -> NormalizedOutput {
                 &handler,
                 &Options {
                     swcrc: true,
-                    is_module: true,
+                    is_module: IsModule::Bool(true),
                     ..Default::default()
                 },
             );

@@ -1,5 +1,5 @@
 use swc::{
-    config::{Config, JscConfig, Options},
+    config::{Config, IsModule, JscConfig, Options},
     Compiler,
 };
 use swc_common::FileName;
@@ -17,7 +17,7 @@ fn compile(src: &str, options: Options) -> String {
                 fm,
                 &handler,
                 &Options {
-                    is_module: true,
+                    is_module: IsModule::Bool(true),
                     ..options
                 },
             );
@@ -146,4 +146,38 @@ fn test_tsx_escape_xhtml() {
     );
 
     assert_eq!(compiled_es2020, expected);
+}
+
+#[test]
+fn is_module_unknown_script() {
+    let source = "module.exports = foo =  2n + 7n;";
+    let expected = "module.exports = foo = 2n + 7n;\n";
+
+    let compiled = compile(
+        source,
+        Options {
+            swcrc: false,
+            is_module: IsModule::Unknown,
+            ..Default::default()
+        },
+    );
+
+    assert_eq!(compiled, expected);
+}
+
+#[test]
+fn is_module_unknown_module() {
+    let source = "export var foo =  2n + 7n;";
+    let expected = "export var foo = 2n + 7n;\n";
+
+    let compiled = compile(
+        source,
+        Options {
+            swcrc: false,
+            is_module: IsModule::Unknown,
+            ..Default::default()
+        },
+    );
+
+    assert_eq!(compiled, expected);
 }

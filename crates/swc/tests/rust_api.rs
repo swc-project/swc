@@ -1,5 +1,7 @@
 use swc::{
-    config::{Config, InputSourceMap, JscConfig, ModuleConfig, Options, SourceMapsConfig},
+    config::{
+        Config, InputSourceMap, IsModule, JscConfig, ModuleConfig, Options, SourceMapsConfig,
+    },
     Compiler,
 };
 use swc_common::FileName;
@@ -96,7 +98,7 @@ fn shopify_1_check_filename() {
                     })),
                     ..Default::default()
                 },
-                is_module: true,
+                is_module: IsModule::Bool(true),
                 ..Default::default()
             },
             |_| noop(),
@@ -161,7 +163,7 @@ fn shopify_2_same_opt() {
             env_name: "development".into(),
             source_maps: Some(SourceMapsConfig::Bool(false)),
             source_file_name: Some("/Users/kdy1/projects/example-swcify/src/App/App.tsx".into()),
-            is_module: true,
+            is_module: IsModule::Bool(true),
             ..Default::default()
         };
 
@@ -223,7 +225,7 @@ fn shopify_3_reduce_defaults() {
             env_name: "development".into(),
             source_maps: Some(SourceMapsConfig::Bool(false)),
             source_file_name: Some("/Users/kdy1/projects/example-swcify/src/App/App.tsx".into()),
-            is_module: true,
+            is_module: IsModule::Bool(true),
             ..Default::default()
         };
 
@@ -279,7 +281,7 @@ fn shopify_4_reduce_more() {
             env_name: "development".into(),
             source_maps: Some(SourceMapsConfig::Bool(false)),
             source_file_name: Some("/Users/kdy1/projects/example-swcify/src/App/App.tsx".into()),
-            is_module: true,
+            is_module: IsModule::Bool(true),
             ..Default::default()
         };
 
