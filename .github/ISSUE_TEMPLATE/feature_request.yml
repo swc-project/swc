@@ -1,0 +1,18 @@
+name: Feature Request
+description: Use this when you want a new feature
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the feature
+    validations:
+      required: true
+  - type: input
+    id: link
+    attributes:
+      label: Babel plugin or link to the feature description
+  - type: textarea
+    id: addition
+    attributes:
+      label: Additional context
+      placeholder: Add any other context about this feature here.

@@ -104,7 +104,7 @@
         ready: function(wait) {
             if (!(!0 === wait ? --jQuery.readyWait : jQuery.isReady)) {
                 if (!document1.body) return setTimeout(jQuery.ready);
-                jQuery.isReady = !0, !0 !== wait && --jQuery.readyWait > 0 || (readyList.resolveWith(document1, [
+                jQuery.isReady = !0, !(!0 !== wait && --jQuery.readyWait > 0) && (readyList.resolveWith(document1, [
                     jQuery
                 ]), jQuery.fn.trigger && jQuery(document1).trigger("ready").off("ready"));
             }
