@@ -104,7 +104,7 @@ fn negate_cost_4() {
 #[test]
 fn negate_cost_5() {
     assert_negate_cost(
-        "!(capacity && codeResult && (codeResult = codeResult, !((list = config.blacklist) && \
+        "(!(capacity && codeResult && (codeResult = codeResult, !((list = config.blacklist) && \
          list.some(function(item) {
             return Object.keys(item).every(function(key) {
                 return item[key] === codeResult[key];
@@ -112,7 +112,7 @@ fn negate_cost_5() {
         }))) && (codeResult = codeResult, \"function\" != typeof (filter = config.filter) || \
          filter(codeResult))) || capacity--, result.codeResult = codeResult, capture && \
          (canvas.width = imageSize.x, canvas.height = imageSize.y, image_debug.a.drawImage(data, \
-         imageSize, ctx), result.frame = canvas.toDataURL()), results.push(result)",
+         imageSize, ctx), result.frame = canvas.toDataURL()), results.push(result))",
         true,
         true,
         1000,
