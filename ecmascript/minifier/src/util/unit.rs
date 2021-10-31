@@ -41,7 +41,10 @@ impl CompileUnit for Module {
             &self
                 .clone()
                 .fold_with(&mut fixer(None))
-                .fold_with(&mut hygiene()),
+                .fold_with(&mut hygiene())
+                .fold_with(&mut DropSpan {
+                    preserve_ctxt: false,
+                }),
         )
     }
 
@@ -75,7 +78,10 @@ impl CompileUnit for FnExpr {
             &self
                 .clone()
                 .fold_with(&mut fixer(None))
-                .fold_with(&mut hygiene()),
+                .fold_with(&mut hygiene())
+                .fold_with(&mut DropSpan {
+                    preserve_ctxt: false,
+                }),
         )
     }
 
