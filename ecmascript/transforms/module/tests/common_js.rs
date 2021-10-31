@@ -1251,11 +1251,9 @@ var _exportNames = {
 };
 
 var _white = require("white");
-var _black = require("black");
 
 Object.keys(_white).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
-  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
   if (key in exports && exports[key] === _white[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
@@ -1264,6 +1262,8 @@ Object.keys(_white).forEach(function (key) {
     }
   });
 });
+
+var _black = require("black");
 
 Object.keys(_black).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -3785,17 +3785,11 @@ export * from 'react';
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var _exportNames = {};
+var _exportNames = {
+};
 
 exports.default = void 0;
 var _react = _interopRequireWildcard(require("react"));
-
-
-// The fact that this exports both a normal default, and all of the names via
-// re-export is an edge case that is important not to miss. See
-// https://github.com/babel/babel/issues/8306 as an example.
-var _default = _react.default;
-exports.default = _default;
 
 Object.keys(_react).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -3808,6 +3802,12 @@ Object.keys(_react).forEach(function (key) {
     }
   });
 });
+
+// The fact that this exports both a normal default, and all of the names via
+// re-export is an edge case that is important not to miss. See
+// https://github.com/babel/babel/issues/8306 as an example.
+var _default = _react.default;
+exports.default = _default;
 
 "#
 );
@@ -4093,19 +4093,19 @@ test!(
     issue_962,
     "import root from './_root.js';
   import stubFalse from './stubFalse.js';
-    
+
   var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
   var freeModule = freeExports && typeof module == 'object' && module && !module.nodeType && \
      module;
-    
+
   var moduleExports = freeModule && freeModule.exports === freeExports;
-    
+
   var Buffer = moduleExports ? root.Buffer : undefined;
-    
+
   var nativeIsBuffer = Buffer ? Buffer.isBuffer : undefined;
-    
+
   var isBuffer = nativeIsBuffer || stubFalse;
-    
+
   export default isBuffer",
     r#"
     "use strict";
@@ -4166,14 +4166,9 @@ Object.defineProperty(exports, "Scope", {
       return _interfaces.Scope;
   }
 });
-var _exportNames = {
-    Scope: true
-};
 var _http = require("./http");
-var _interfaces = require("./interfaces");
 Object.keys(_http).forEach(function(key) {
     if (key === "default" || key === "__esModule") return;
-    if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
     if (key in exports && exports[key] === _http[key]) return;
     Object.defineProperty(exports, key, {
         enumerable: true,
@@ -4182,6 +4177,7 @@ Object.keys(_http).forEach(function(key) {
         }
     });
 });
+var _interfaces = require("./interfaces");
   "#
 );
 
@@ -4214,11 +4210,8 @@ export * from './pipes';
     };
     require("reflect-metadata");
     var _http = require("./http");
-    var _interfaces = require("./interfaces");
-    var _pipes = require("./pipes");
     Object.keys(_http).forEach(function(key) {
         if (key === "default" || key === "__esModule") return;
-        if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
         if (key in exports && exports[key] === _http[key]) return;
         Object.defineProperty(exports, key, {
             enumerable: true,
@@ -4227,6 +4220,8 @@ export * from './pipes';
             }
         });
     });
+    var _interfaces = require("./interfaces");
+    var _pipes = require("./pipes");
     Object.keys(_pipes).forEach(function(key) {
         if (key === "default" || key === "__esModule") return;
         if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
@@ -4544,7 +4539,7 @@ test!(
         console.log(foo);
       }
     }
-    
+
     export default class NotOK {
       constructor() {
         console.log(foo);
@@ -4557,9 +4552,9 @@ test!(
       value: true
     });
     exports.default = void 0;
-    
+
     var _foo = _interopRequireDefault(require('foo'));
-    
+
     class OK {
         constructor() {
             console.log(_foo.default);
@@ -4685,11 +4680,11 @@ test!(
     });
     exports.get = get;
     exports.default = void 0;
-    
+
     function get(key) {
       console.log(key);
     }
-    
+
     var _default = a;
     exports.default = _default;
     "
@@ -4756,20 +4751,18 @@ test!(
     };
     exports.BIZ = void 0;
     var _file1 = require('./File1');
-    var _file2 = require('./File2');
-    const BIZ = 'biz';
-    exports.BIZ = BIZ;
     Object.keys(_file1).forEach(function(key) {
-        if (key === 'default' || key === '__esModule') return;
-        if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
-        if (key in exports && exports[key] === _file1[key]) return;
-        Object.defineProperty(exports, key, {
-            enumerable: true,
-            get: function() {
-                return _file1[key];
-            }
-        });
+      if (key === 'default' || key === '__esModule') return;
+      if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+      if (key in exports && exports[key] === _file1[key]) return;
+      Object.defineProperty(exports, key, {
+          enumerable: true,
+          get: function() {
+              return _file1[key];
+          }
+      });
     });
+    var _file2 = require('./File2');
     Object.keys(_file2).forEach(function(key) {
         if (key === 'default' || key === '__esModule') return;
         if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
@@ -4781,6 +4774,8 @@ test!(
             }
         });
     });
+    const BIZ = 'biz';
+    exports.BIZ = BIZ;
     "
 );
 
@@ -4922,7 +4917,7 @@ test!(
     ignore_dynamic_1,
     "
     import foo from 'foo';
-    
+
 
     function foo() {
       await import('foo');

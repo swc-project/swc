@@ -5,7 +5,28 @@ Object.defineProperty(exports, "__esModule", {
 var _exportNames = {
 };
 var _appConfig = _interopRequireWildcard(require("./app.config"));
+Object.keys(_appConfig).forEach(function(key) {
+    if (key === "default" || key === "__esModule") return;
+    if (key in exports && exports[key] === _appConfig[key]) return;
+    Object.defineProperty(exports, key, {
+        enumerable: true,
+        get: function() {
+            return _appConfig[key];
+        }
+    });
+});
 var _databaseConfig = _interopRequireWildcard(require("./database.config"));
+Object.keys(_databaseConfig).forEach(function(key) {
+    if (key === "default" || key === "__esModule") return;
+    if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+    if (key in exports && exports[key] === _databaseConfig[key]) return;
+    Object.defineProperty(exports, key, {
+        enumerable: true,
+        get: function() {
+            return _databaseConfig[key];
+        }
+    });
+});
 function _interopRequireWildcard(obj) {
     if (obj && obj.__esModule) {
         return obj;
@@ -29,25 +50,3 @@ function _interopRequireWildcard(obj) {
         return newObj;
     }
 }
-Object.keys(_appConfig).forEach(function(key) {
-    if (key === "default" || key === "__esModule") return;
-    if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
-    if (key in exports && exports[key] === _appConfig[key]) return;
-    Object.defineProperty(exports, key, {
-        enumerable: true,
-        get: function() {
-            return _appConfig[key];
-        }
-    });
-});
-Object.keys(_databaseConfig).forEach(function(key) {
-    if (key === "default" || key === "__esModule") return;
-    if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
-    if (key in exports && exports[key] === _databaseConfig[key]) return;
-    Object.defineProperty(exports, key, {
-        enumerable: true,
-        get: function() {
-            return _databaseConfig[key];
-        }
-    });
-});
