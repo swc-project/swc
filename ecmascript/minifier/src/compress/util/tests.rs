@@ -177,7 +177,7 @@ fn negate_cost_6() {
          imageSize, ctx), result.frame = canvas.toDataURL()), results.push(result))",
         true,
         true,
-        0,
+        4,
     );
 }
 
@@ -194,7 +194,7 @@ fn negate_cost_6_1() {
          filter(codeResult3))",
         true,
         false,
-        1,
+        4,
     );
 }
 
