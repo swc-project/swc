@@ -113,7 +113,7 @@ fn negate_cost_5() {
          imageSize, ctx), result.frame = canvas.toDataURL()), results.push(result))",
         true,
         true,
-        0,
+        -1,
     );
 }
 
