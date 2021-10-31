@@ -15,6 +15,7 @@ all-features = true
 concurrent = ["parking_lot"]
 debug = []
 default = []
+source-hash = []
 tty-emitter = ["atty", "termcolor"]
 
 [dependencies]
