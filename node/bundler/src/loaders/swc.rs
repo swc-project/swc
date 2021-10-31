@@ -8,7 +8,12 @@ use swc::{
 };
 use swc_atoms::JsWord;
 use swc_bundler::{Load, ModuleData};
-use swc_common::{collections::AHashMap, errors::Handler, sync::Lrc, FileName, DUMMY_SP};
+use swc_common::{
+    collections::AHashMap,
+    errors::{Handler, HANDLER},
+    sync::Lrc,
+    FileName, DUMMY_SP,
+};
 use swc_ecma_ast::{Expr, Lit, Module, Program, Str};
 use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax};
 use swc_ecma_transforms::{
@@ -158,7 +163,7 @@ impl SwcLoader {
                 true,
             )?;
             let program = helpers::HELPERS.set(&helpers, || {
-                swc_ecma_utils::HANDLER.set(&handler, || {
+                HANDLER.set(&handler, || {
                     let program = program.fold_with(&mut inline_globals(
                         self.env_map(),
                         Default::default(),
@@ -255,7 +260,7 @@ impl SwcLoader {
             // Fold module
             let program = if let Some(mut config) = config {
                 helpers::HELPERS.set(&helpers, || {
-                    swc_ecma_utils::HANDLER.set(handler, || {
+                    HANDLER.set(handler, || {
                         let program = program.fold_with(&mut inline_globals(
                             self.env_map(),
                             Default::default(),

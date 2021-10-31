@@ -1,6 +1,9 @@
 use crate::{fixer::fixer, helpers::HELPERS, hygiene::hygiene_with_config};
 use swc_common::{
-    comments::SingleThreadedComments, errors::Handler, sync::Lrc, FileName, SourceMap,
+    comments::SingleThreadedComments,
+    errors::{Handler, HANDLER},
+    sync::Lrc,
+    FileName, SourceMap,
 };
 use swc_ecma_ast::{Pat, *};
 use swc_ecma_codegen::Emitter;
@@ -20,7 +23,7 @@ impl<'a> Tester<'a> {
         F: FnOnce(&mut Tester<'_>) -> Result<(), ()>,
     {
         let out = ::testing::run_test(false, |cm, handler| {
-            swc_ecma_utils::HANDLER.set(handler, || {
+            HANDLER.set(handler, || {
                 HELPERS.set(&Default::default(), || {
                     op(&mut Tester {
                         cm,

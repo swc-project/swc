@@ -9,6 +9,7 @@ use string_enum::StringEnum;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     comments::{Comment, CommentKind, Comments},
+    errors::HANDLER,
     iter::IdentifyLast,
     sync::Lrc,
     util::take::Take,
@@ -17,9 +18,7 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_parser::{Parser, StringInput, Syntax};
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{
-    drop_span, member_expr, prepend, private_ident, quote_ident, ExprFactory, HANDLER,
-};
+use swc_ecma_utils::{drop_span, member_expr, prepend, private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 mod static_check;
