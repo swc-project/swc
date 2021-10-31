@@ -9,25 +9,10 @@ use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, FoldWith, Node, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
-pub(crate) struct Debugger {
-    fixed: bool,
-}
+pub(crate) struct Debugger {}
 
 impl VisitMut for Debugger {
     noop_visit_mut_type!();
-
-    fn visit_mut_expr(&mut self, e: &mut Expr) {
-        if !cfg!(feature = "debug") {
-            return;
-        }
-        if !self.fixed {
-            e.visit_mut_with(&mut fixer(None));
-        }
-        let old = self.fixed;
-        self.fixed = true;
-        e.visit_mut_children_with(self);
-        self.fixed = old;
-    }
 
     fn visit_mut_ident(&mut self, n: &mut Ident) {
         if !cfg!(feature = "debug") {
@@ -60,7 +45,7 @@ where
     }
 
     let mut node = node.clone();
-    node.visit_mut_with(&mut Debugger { fixed: false });
+    node.visit_mut_with(&mut Debugger {});
     node = drop_span(node);
     let mut buf = vec![];
     let cm = Lrc::new(SourceMap::default());

@@ -33,6 +33,10 @@ impl CompileUnit for Module {
     }
 
     fn dump(&self) -> String {
+        if !cfg!(feature = "debug") {
+            return String::new();
+        }
+
         dump(&self.clone().fold_with(&mut fixer(None)))
     }
 
@@ -58,6 +62,10 @@ impl CompileUnit for FnExpr {
     }
 
     fn dump(&self) -> String {
+        if !cfg!(feature = "debug") {
+            return String::new();
+        }
+
         dump(&self.clone().fold_with(&mut fixer(None)))
     }
 
