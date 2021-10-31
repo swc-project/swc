@@ -71,7 +71,12 @@ impl CompileUnit for FnExpr {
             return String::new();
         }
 
-        dump(&self.clone().fold_with(&mut fixer(None)))
+        dump(
+            &self
+                .clone()
+                .fold_with(&mut fixer(None))
+                .fold_with(&mut hygiene()),
+        )
     }
 
     fn apply<V>(&mut self, visitor: &mut V)
