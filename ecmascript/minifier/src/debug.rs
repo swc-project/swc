@@ -15,12 +15,20 @@ impl VisitMut for Debugger {
     noop_visit_mut_type!();
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
+        if !cfg!(feature = "debug") {
+            return;
+        }
+
         e.visit_mut_with(&mut fixer(None));
 
         e.visit_mut_children_with(self);
     }
 
     fn visit_mut_ident(&mut self, n: &mut Ident) {
+        if !cfg!(feature = "debug") {
+            return;
+        }
+
         if n.span.ctxt == SyntaxContext::empty() {
             return;
         }
@@ -30,6 +38,10 @@ impl VisitMut for Debugger {
     }
 
     fn visit_mut_str_kind(&mut self, n: &mut StrKind) {
+        if !cfg!(feature = "debug") {
+            return;
+        }
+
         *n = Default::default();
     }
 }
