@@ -105,6 +105,7 @@ fn make_par_visit_method(
             },
             {
                 fn method_name(&mut self, mut nodes: Vec<NodeType>) -> Vec<NodeType> {
+                    use swc_common::errors::HANDLER;
                     use swc_ecma_transforms_base::perf::{ParExplode, Parallel};
                     use swc_ecma_visit::FoldWith;
 
@@ -114,7 +115,7 @@ fn make_par_visit_method(
 
                         let (visitor, mut nodes) = ::swc_common::GLOBALS.with(|globals| {
                             swc_ecma_transforms_base::helpers::HELPERS.with(|helpers| {
-                                swc_ecma_utils::HANDLER.with(|handler| {
+                                HANDLER.with(|handler| {
                                     nodes
                                         .into_par_iter()
                                         .map(|node| {
@@ -122,7 +123,7 @@ fn make_par_visit_method(
                                                 swc_ecma_transforms_base::helpers::HELPERS.set(
                                                     helpers,
                                                     || {
-                                                        swc_ecma_utils::HANDLER.set(handler, || {
+                                                        HANDLER.set(handler, || {
                                                             let mut visitor =
                                                                 Parallel::create(&*self);
                                                             let node = node.fold_with(&mut visitor);
@@ -193,6 +194,7 @@ fn make_par_visit_method(
             },
             {
                 fn method_name(&mut self, nodes: Vec<NodeType>) -> Vec<NodeType> {
+                    use swc_common::errors::HANDLER;
                     use swc_ecma_transforms_base::perf::Parallel;
                     use swc_ecma_visit::FoldWith;
 
@@ -202,7 +204,7 @@ fn make_par_visit_method(
 
                         let (visitor, mut nodes) = ::swc_common::GLOBALS.with(|globals| {
                             swc_ecma_transforms_base::helpers::HELPERS.with(|helpers| {
-                                swc_ecma_utils::HANDLER.with(|handler| {
+                                HANDLER.with(|handler| {
                                     nodes
                                         .into_par_iter()
                                         .map(|node| {
@@ -210,7 +212,7 @@ fn make_par_visit_method(
                                                 swc_ecma_transforms_base::helpers::HELPERS.set(
                                                     helpers,
                                                     || {
-                                                        swc_ecma_utils::HANDLER.set(handler, || {
+                                                        HANDLER.set(handler, || {
                                                             let mut visitor =
                                                                 Parallel::create(&*self);
                                                             let node = node.fold_with(&mut visitor);
@@ -276,6 +278,7 @@ fn make_par_visit_method(
             {
                 fn method_name(&mut self, nodes: &mut Vec<NodeType>) {
                     use std::mem::take;
+                    use swc_common::errors::HANDLER;
                     use swc_ecma_transforms_base::perf::{ParExplode, Parallel};
                     use swc_ecma_visit::VisitMutWith;
 
@@ -283,7 +286,7 @@ fn make_par_visit_method(
                     if nodes.len() >= threshold {
                         ::swc_common::GLOBALS.with(|globals| {
                             swc_ecma_transforms_base::helpers::HELPERS.with(|helpers| {
-                                swc_ecma_utils::HANDLER.with(|handler| {
+                                HANDLER.with(|handler| {
                                     use rayon::prelude::*;
 
                                     let (visitor, new_nodes) = take(nodes)
@@ -293,7 +296,7 @@ fn make_par_visit_method(
                                                 swc_ecma_transforms_base::helpers::HELPERS.set(
                                                     helpers,
                                                     || {
-                                                        swc_ecma_utils::HANDLER.set(handler, || {
+                                                        HANDLER.set(handler, || {
                                                             let mut visitor =
                                                                 Parallel::create(&*self);
                                                             node.visit_mut_with(&mut visitor);
@@ -366,6 +369,7 @@ fn make_par_visit_method(
             },
             {
                 fn method_name(&mut self, nodes: &mut Vec<NodeType>) {
+                    use swc_common::errors::HANDLER;
                     use swc_ecma_transforms_base::perf::Parallel;
                     use swc_ecma_visit::VisitMutWith;
 
@@ -373,7 +377,7 @@ fn make_par_visit_method(
                     if nodes.len() >= threshold {
                         ::swc_common::GLOBALS.with(|globals| {
                             swc_ecma_transforms_base::helpers::HELPERS.with(|helpers| {
-                                swc_ecma_utils::HANDLER.with(|handler| {
+                                HANDLER.with(|handler| {
                                     use rayon::prelude::*;
 
                                     let visitor = nodes
@@ -383,7 +387,7 @@ fn make_par_visit_method(
                                                 swc_ecma_transforms_base::helpers::HELPERS.set(
                                                     helpers,
                                                     || {
-                                                        swc_ecma_utils::HANDLER.set(handler, || {
+                                                        HANDLER.set(handler, || {
                                                             let mut visitor =
                                                                 Parallel::create(&*self);
                                                             node.visit_mut_with(&mut visitor);

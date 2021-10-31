@@ -117,7 +117,10 @@ use crate::config::{
 };
 use anyhow::{bail, Context, Error};
 use atoms::JsWord;
-use common::{collections::AHashMap, errors::EmitterWriter};
+use common::{
+    collections::AHashMap,
+    errors::{EmitterWriter, HANDLER},
+};
 use config::{util::BoolOrObject, JsMinifyCommentOption, JsMinifyOptions};
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
@@ -224,7 +227,7 @@ where
         EmitterWriter::new(wr.clone(), Some(cm.clone()), false, true).skip_filename(skip_filename);
     let handler = Handler::with_emitter(true, false, Box::new(e_wr));
 
-    let ret = swc_ecma_utils::HANDLER.set(&handler, || op(&handler));
+    let ret = HANDLER.set(&handler, || op(&handler));
 
     if handler.has_errors() {
         let mut lock =
@@ -815,7 +818,7 @@ impl Compiler {
     {
         self.run(|| {
             helpers::HELPERS.set(&Helpers::new(external_helpers), || {
-                swc_ecma_utils::HANDLER.set(handler, || op())
+                HANDLER.set(handler, || op())
             })
         })
     }
@@ -1078,7 +1081,7 @@ impl Compiler {
 
             let mut pass = config.pass;
             let program = helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
-                swc_ecma_utils::HANDLER.set(handler, || {
+                HANDLER.set(handler, || {
                     // Fold module
                     program.fold_with(&mut pass)
                 })

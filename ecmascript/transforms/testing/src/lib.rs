@@ -13,8 +13,11 @@ use std::{
     sync::{Arc, RwLock},
 };
 use swc_common::{
-    chain, comments::SingleThreadedComments, errors::Handler, sync::Lrc, FileName, SourceMap,
-    DUMMY_SP,
+    chain,
+    comments::SingleThreadedComments,
+    errors::{Handler, HANDLER},
+    sync::Lrc,
+    FileName, SourceMap, DUMMY_SP,
 };
 use swc_ecma_ast::{Pat, *};
 use swc_ecma_codegen::Emitter;
@@ -24,7 +27,7 @@ use swc_ecma_transforms_base::{
     helpers::{inject_helpers, HELPERS},
     hygiene,
 };
-use swc_ecma_utils::{quote_ident, quote_str, DropSpan, ExprFactory, HANDLER};
+use swc_ecma_utils::{quote_ident, quote_str, DropSpan, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 use tempfile::tempdir_in;
 use testing::{assert_eq, find_executable, NormalizedOutput};
@@ -41,7 +44,7 @@ impl<'a> Tester<'a> {
         F: FnOnce(&mut Tester<'_>) -> Result<Ret, ()>,
     {
         let out = ::testing::run_test(false, |cm, handler| {
-            swc_ecma_utils::HANDLER.set(handler, || {
+            HANDLER.set(handler, || {
                 HELPERS.set(&Default::default(), || {
                     op(&mut Tester {
                         cm,
