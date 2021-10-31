@@ -1,8 +1,5 @@
 use crate::{
-    config::{
-        util::BoolOrObject, CompiledPaths, EsVersion, GlobalPassOption, JsMinifyOptions,
-        ModuleConfig,
-    },
+    config::{util::BoolOrObject, CompiledPaths, GlobalPassOption, JsMinifyOptions, ModuleConfig},
     SwcComments,
 };
 use compat::{es2015::regenerator, es2020::export_namespace_from};

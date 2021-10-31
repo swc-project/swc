@@ -15,6 +15,7 @@ use swc_common::{
     sync::Lrc,
     FileName, Mark, SourceMap,
 };
+use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms_react::react;
 use swc_ecma_transforms_typescript::strip;

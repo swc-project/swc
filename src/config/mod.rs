@@ -24,7 +24,7 @@ use swc_common::{
     errors::Handler,
     FileName, Mark, SourceMap,
 };
-use swc_ecma_ast::Expr;
+use swc_ecma_ast::{EsVersion, Expr};
 use swc_ecma_ext_transforms::jest;
 use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
@@ -33,7 +33,8 @@ use swc_ecma_minifier::option::{
     terser::{TerserCompressorOptions, TerserEcmaVersion},
     MangleOptions, ManglePropertiesOptions,
 };
-pub use swc_ecma_parser::EsVersion;
+#[allow(deprecated)]
+pub use swc_ecma_parser::JscTarget;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::{
     hygiene, modules,

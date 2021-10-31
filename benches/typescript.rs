@@ -11,8 +11,8 @@ use std::{
 };
 use swc::config::{Config, JscConfig, Options, SourceMapsConfig};
 use swc_common::{errors::Handler, FileName, FilePathMapping, SourceMap};
-use swc_ecma_ast::Program;
-use swc_ecma_parser::{EsVersion, Syntax, TsConfig};
+use swc_ecma_ast::{EsVersion, Program};
+use swc_ecma_parser::{Syntax, TsConfig};
 use swc_ecma_transforms::{fixer, hygiene, pass::noop, resolver, typescript};
 use swc_ecma_visit::FoldWith;
 use test::Bencher;
