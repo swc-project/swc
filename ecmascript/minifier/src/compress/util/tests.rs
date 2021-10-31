@@ -197,3 +197,18 @@ fn negate_cost_6_1() {
         1,
     );
 }
+
+#[test]
+fn negate_cost_6_2() {
+    assert_negate_cost(
+        "
+        !((list = config.blacklist) && list.some(function(item) {
+            return Object.keys(item).every(function(key) {
+                return item[key] === codeResult2[key];
+            });
+        }))",
+        true,
+        false,
+        -1,
+    );
+}
