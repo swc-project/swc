@@ -129,7 +129,7 @@ fn negate_cost_5_1() {
          filter(codeResult3)))",
         true,
         false,
-        0,
+        -1,
     );
 }
 
@@ -144,7 +144,21 @@ fn negate_cost_5_2() {
         }))))",
         true,
         false,
-        0,
+        -1,
+    );
+}
+
+#[test]
+fn negate_cost_5_3() {
+    assert_negate_cost(
+        "!(codeResult2 = codeResult1, !((list = config.blacklist) && list.some(function(item) {
+            return Object.keys(item).every(function(key) {
+                return item[key] === codeResult2[key];
+            });
+        })))",
+        true,
+        false,
+        -1,
     );
 }
 
