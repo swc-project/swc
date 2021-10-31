@@ -228,15 +228,29 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
                         _ => {}
                     }
 
-                    if in_bool_ctx {
-                        let c = -cost(arg, true, None, is_ret_val_ignored);
-                        return c.min(-1);
+                    match &**arg {
+                        Expr::Bin(BinExpr {
+                            op: op!("&&") | op!("||"),
+                            ..
+                        }) => {}
+                        _ => {
+                            if in_bool_ctx {
+                                let c = -cost(arg, true, None, is_ret_val_ignored);
+                                return c.min(-1);
+                            }
+                        }
                     }
 
                     match &**arg {
                         Expr::Unary(UnaryExpr { op: op!("!"), .. }) => -1,
 
-                        _ => 1,
+                        _ => {
+                            if in_bool_ctx {
+                                -1
+                            } else {
+                                1
+                            }
+                        }
                     }
                 }
                 Expr::Bin(BinExpr {
