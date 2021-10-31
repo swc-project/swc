@@ -430,7 +430,7 @@ var YUI = function() {
         var result = 0;
         if (Lang.isArray(obj)) result = 1;
         else if (Lang.isObject(obj)) try {
-            !("length" in obj) || obj.tagName || obj.scrollTo && obj.document || obj.apply || (result = 2);
+            "length" in obj && !obj.tagName && !(obj.scrollTo && obj.document) && !obj.apply && (result = 2);
         } catch (ex) {
         }
         return result;
