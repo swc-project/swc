@@ -22,7 +22,8 @@ where
         expr: &mut Expr,
         is_ret_val_ignored: bool,
     ) -> bool {
-        if negate_cost(&expr, is_ret_val_ignored, is_ret_val_ignored).unwrap_or(isize::MAX) >= 0 {
+        let cost = negate_cost(&expr, is_ret_val_ignored, is_ret_val_ignored).unwrap_or(isize::MAX);
+        if cost >= 0 {
             return false;
         }
 
@@ -57,6 +58,7 @@ where
         // `_ || 'undefined' == typeof require`
         tracing::debug!(
             is_return_value_ignored = is_ret_val_ignored,
+            nagate_cost = cost,
             "bools: Negating: (!a && !b) => !(a || b) (because both expression are good for \
              negation)",
         );
