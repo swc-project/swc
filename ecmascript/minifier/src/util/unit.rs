@@ -4,7 +4,7 @@ use swc_common::Mark;
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{fixer, hygiene};
 use swc_ecma_utils::DropSpan;
-use swc_ecma_visit::{FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, FoldWith, VisitMut, VisitMutWith};
 
 /// Indicates a unit of minifaction.
 pub(crate) trait CompileUnit:
@@ -42,9 +42,9 @@ impl CompileUnit for Module {
                 .clone()
                 .fold_with(&mut fixer(None))
                 .fold_with(&mut hygiene())
-                .fold_with(&mut DropSpan {
+                .fold_with(&mut as_folder(DropSpan {
                     preserve_ctxt: false,
-                }),
+                })),
         )
     }
 
@@ -79,9 +79,9 @@ impl CompileUnit for FnExpr {
                 .clone()
                 .fold_with(&mut fixer(None))
                 .fold_with(&mut hygiene())
-                .fold_with(&mut DropSpan {
+                .fold_with(&mut as_folder(DropSpan {
                     preserve_ctxt: false,
-                }),
+                })),
         )
     }
 
