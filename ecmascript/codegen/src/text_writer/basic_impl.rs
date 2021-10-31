@@ -1,7 +1,7 @@
 use super::{Result, WriteJs};
 use std::io::{self, Write};
 use swc_common::{sync::Lrc, BytePos, LineCol, SourceMap, Span};
-use swc_ecma_parser::JscTarget;
+use swc_ecma_parser::EsVersion;
 
 ///
 /// -----
@@ -17,7 +17,7 @@ pub struct JsWriter<'a, W: Write> {
     new_line: &'a str,
     srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
     wr: W,
-    target: JscTarget,
+    target: EsVersion,
 }
 
 impl<'a, W: Write> JsWriter<'a, W> {
@@ -27,7 +27,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
         wr: W,
         srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
     ) -> Self {
-        Self::with_target(cm, new_line, wr, srcmap, JscTarget::Es2020)
+        Self::with_target(cm, new_line, wr, srcmap, EsVersion::Es2020)
     }
 
     pub fn with_target(
@@ -35,7 +35,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
         new_line: &'a str,
         wr: W,
         srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
-        target: JscTarget,
+        target: EsVersion,
     ) -> Self {
         JsWriter {
             indent: Default::default(),
@@ -107,7 +107,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
 }
 
 impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
-    fn target(&self) -> JscTarget {
+    fn target(&self) -> EsVersion {
         self.target
     }
     fn increase_indent(&mut self) -> Result {

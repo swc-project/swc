@@ -98,7 +98,7 @@ impl<'a, I: Tokens> Parser<I> {
         trace_cur!(self, parse_stmt_internal);
 
         if top_level && is!(self, "await") {
-            let valid = self.target() >= JscTarget::Es2017 && self.syntax().top_level_await();
+            let valid = self.target() >= EsVersion::Es2017 && self.syntax().top_level_await();
 
             if !valid {
                 self.emit_err(self.input.cur_span(), SyntaxError::TopLevelAwait);

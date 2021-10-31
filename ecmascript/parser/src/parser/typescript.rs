@@ -2688,7 +2688,7 @@ fn make_decl_declare(mut decl: Decl) -> Decl {
 #[cfg(test)]
 mod tests {
     use crate::{
-        lexer::Lexer, test_parser, token::*, Capturing, JscTarget, Parser, Syntax, TsConfig,
+        lexer::Lexer, test_parser, token::*, Capturing, EsVersion, Parser, Syntax, TsConfig,
     };
     use swc_common::DUMMY_SP;
     use swc_ecma_ast::*;
@@ -2773,7 +2773,7 @@ mod tests {
                     Syntax::Typescript(TsConfig {
                         ..Default::default()
                     }),
-                    JscTarget::Es2019,
+                    EsVersion::Es2019,
                     input,
                     None,
                 );
@@ -2799,7 +2799,7 @@ mod tests {
                 Syntax::Typescript(TsConfig {
                     ..Default::default()
                 }),
-                JscTarget::Es2019,
+                EsVersion::Es2019,
                 input,
                 None,
             );

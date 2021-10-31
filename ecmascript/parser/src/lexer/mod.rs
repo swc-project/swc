@@ -8,7 +8,7 @@ pub use self::{
 use crate::{
     error::{Error, SyntaxError},
     token::*,
-    Context, JscTarget, Syntax,
+    Context, Syntax,
 };
 use either::Either::{Left, Right};
 use smallvec::{smallvec, SmallVec};
@@ -106,7 +106,7 @@ pub struct Lexer<'a, I: Input> {
 
     state: State,
     pub(crate) syntax: Syntax,
-    pub(crate) target: JscTarget,
+    pub(crate) target: EsVersion,
 
     errors: Rc<RefCell<Vec<Error>>>,
     module_errors: Rc<RefCell<Vec<Error>>>,
@@ -119,7 +119,7 @@ impl<I: Input> FusedIterator for Lexer<'_, I> {}
 impl<'a, I: Input> Lexer<'a, I> {
     pub fn new(
         syntax: Syntax,
-        target: JscTarget,
+        target: EsVersion,
         input: I,
         comments: Option<&'a dyn Comments>,
     ) -> Self {
@@ -1000,7 +1000,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     }
                     Ok(None) => {}
                     Err(error) => {
-                        if self.target < JscTarget::Es2018 {
+                        if self.target < EsVersion::Es2018 {
                             return Err(error);
                         } else {
                             cooked = None;

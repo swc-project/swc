@@ -16,7 +16,7 @@ use swc_atoms::js_word;
 use swc_bundler::{Bundler, Load, ModuleData, ModuleRecord};
 use swc_common::{sync::Lrc, FileName, SourceMap, Span, GLOBALS};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax, TsConfig};
+use swc_ecma_parser::{lexer::Lexer, EsVersion, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::typescript::strip;
 use swc_ecma_visit::FoldWith;
 use test::Bencher;
@@ -81,7 +81,7 @@ impl Load for Loader {
                 tsx,
                 ..Default::default()
             }),
-            JscTarget::Es2020,
+            EsVersion::Es2020,
             StringInput::from(&*fm),
             None,
         );

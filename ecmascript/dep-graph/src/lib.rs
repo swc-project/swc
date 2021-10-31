@@ -212,7 +212,7 @@ mod tests {
         comments::{Comment, CommentKind, SingleThreadedComments},
         BytePos, FileName, Span, SyntaxContext,
     };
-    use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax, TsConfig};
+    use swc_ecma_parser::{lexer::Lexer, EsVersion, Parser, StringInput, Syntax, TsConfig};
 
     fn helper(
         file_name: &str,
@@ -233,7 +233,7 @@ mod tests {
                     import_assertions: true,
                     ..Default::default()
                 }),
-                JscTarget::Es2015,
+                EsVersion::Es2015,
                 (&*fm).into(),
                 Some(&comments),
             );

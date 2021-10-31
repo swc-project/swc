@@ -2,7 +2,7 @@ use anyhow::{Context, Error};
 use once_cell::sync::Lazy;
 use std::sync::Arc;
 use swc::{
-    config::{JsMinifyOptions, JscTarget, Options, ParseOptions, SourceMapsConfig},
+    config::{EsVersion, JsMinifyOptions, Options, ParseOptions, SourceMapsConfig},
     try_with_handler, Compiler,
 };
 use swc_common::{FileName, FilePathMapping, SourceMap};
@@ -75,7 +75,7 @@ pub fn print_sync(s: JsValue, opts: JsValue) -> Result<JsValue, JsValue> {
                 None,
                 None,
                 true,
-                opts.codegen_target().unwrap_or(JscTarget::Es2020),
+                opts.codegen_target().unwrap_or(EsVersion::Es2020),
                 opts.source_maps
                     .clone()
                     .unwrap_or(SourceMapsConfig::Bool(false)),

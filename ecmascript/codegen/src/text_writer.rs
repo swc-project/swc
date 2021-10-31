@@ -1,7 +1,7 @@
 pub use self::{basic_impl::JsWriter, semicolon::omit_trailing_semi};
 use super::*;
 use swc_common::Span;
-use swc_ecma_parser::JscTarget;
+use swc_ecma_parser::EsVersion;
 
 mod basic_impl;
 mod semicolon;
@@ -15,12 +15,12 @@ pub type Symbol = Str;
 pub trait WriteJs {
     /// Returns javascript target which should be used while generating code.
     ///
-    /// This defaults to [JscTarget::Es2020] because it preserves input as much
+    /// This defaults to [EsVersion::Es2020] because it preserves input as much
     /// as possible.
     ///
     /// Implementor **should return same value** regardless how much time it is
     /// called.
-    fn target(&self) -> JscTarget;
+    fn target(&self) -> EsVersion;
 
     fn increase_indent(&mut self) -> Result;
     fn decrease_indent(&mut self) -> Result;
@@ -54,7 +54,7 @@ where
     W: ?Sized + WriteJs,
 {
     #[inline]
-    fn target(&self) -> JscTarget {
+    fn target(&self) -> EsVersion {
         (**self).target()
     }
 

@@ -112,7 +112,7 @@ pub extern crate swc_ecmascript as ecmascript;
 
 pub use crate::builder::PassBuilder;
 use crate::config::{
-    BuiltConfig, Config, ConfigFile, InputSourceMap, JscTarget, Merge, Options, Rc, RootMode,
+    BuiltConfig, Config, ConfigFile, EsVersion, InputSourceMap, Merge, Options, Rc, RootMode,
     SourceMapsConfig,
 };
 use anyhow::{bail, Context, Error};
@@ -398,7 +398,7 @@ impl Compiler {
         &self,
         fm: Arc<SourceFile>,
         handler: &Handler,
-        target: JscTarget,
+        target: EsVersion,
         syntax: Syntax,
         is_module: bool,
         parse_comments: bool,
@@ -465,7 +465,7 @@ impl Compiler {
         source_file_name: Option<&str>,
         output_path: Option<PathBuf>,
         inline_sources_content: bool,
-        target: JscTarget,
+        target: EsVersion,
         source_map: SourceMapsConfig,
         source_map_names: &AHashMap<BytePos, JsWord>,
         orig: Option<&sourcemap::SourceMap>,

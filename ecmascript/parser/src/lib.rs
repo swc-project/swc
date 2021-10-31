@@ -64,7 +64,7 @@
 //!     let lexer = Lexer::new(
 //!         // We want to parse ecmascript
 //!         Syntax::Es(Default::default()),
-//!         // JscTarget defaults to es5
+//!         // EsVersion defaults to es5
 //!         Default::default(),
 //!         StringInput::from(&*fm),
 //!         None,
@@ -114,7 +114,7 @@ pub use self::{
 use serde::{Deserialize, Serialize};
 use swc_ecma_ast::EsVersion;
 #[deprecated(note = "Use `EsVersion` instead")]
-pub type JscTarget = EsVersion;
+pub type EsVersion = EsVersion;
 
 #[macro_use]
 mod macros;

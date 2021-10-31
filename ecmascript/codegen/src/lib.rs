@@ -15,7 +15,7 @@ use swc_atoms::JsWord;
 use swc_common::{comments::Comments, sync::Lrc, BytePos, SourceMap, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::emitter;
-use swc_ecma_parser::JscTarget;
+use swc_ecma_parser::EsVersion;
 
 #[macro_use]
 pub mod macros;
@@ -2979,7 +2979,7 @@ fn unescape_tpl_lit(s: &str, is_synthesized: bool) -> String {
     result
 }
 
-fn escape_without_source(v: &str, target: JscTarget, single_quote: bool) -> String {
+fn escape_without_source(v: &str, target: EsVersion, single_quote: bool) -> String {
     let mut buf = String::with_capacity(v.len());
     let mut iter = v.chars().peekable();
 
@@ -3038,12 +3038,12 @@ fn escape_without_source(v: &str, target: JscTarget, single_quote: bool) -> Stri
 
 fn escape_with_source<'s>(
     cm: &SourceMap,
-    target: JscTarget,
+    target: EsVersion,
     span: Span,
     s: &'s str,
     single_quote: Option<bool>,
 ) -> String {
-    if target <= JscTarget::Es5 {
+    if target <= EsVersion::Es5 {
         return escape_without_source(s, target, single_quote.unwrap_or(false));
     }
 

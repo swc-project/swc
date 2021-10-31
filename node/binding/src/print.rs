@@ -9,7 +9,7 @@ use swc::{
     Compiler, TransformOutput,
 };
 use swc_ecma_ast::Program;
-use swc_ecma_parser::JscTarget;
+use swc_ecma_parser::EsVersion;
 
 // ----- Printing -----
 
@@ -33,7 +33,7 @@ impl Task for PrintTask {
                 None,
                 options.output_path.clone(),
                 true,
-                options.config.jsc.target.unwrap_or(JscTarget::Es2020),
+                options.config.jsc.target.unwrap_or(EsVersion::Es2020),
                 options
                     .source_maps
                     .clone()

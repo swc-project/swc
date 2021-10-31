@@ -6,7 +6,7 @@ use indexmap::IndexMap;
 use std::path::PathBuf;
 use swc_common::{sync::Lrc, FileName, SourceMap, Span, GLOBALS};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput};
+use swc_ecma_parser::{lexer::Lexer, EsVersion, Parser, StringInput};
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::VisitMutWith;
 
@@ -30,7 +30,7 @@ impl Load for Loader {
 
         let lexer = Lexer::new(
             Default::default(),
-            JscTarget::Es2020,
+            EsVersion::Es2020,
             StringInput::from(&*fm),
             None,
         );
