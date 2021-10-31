@@ -15,7 +15,6 @@ use swc_atoms::JsWord;
 use swc_common::{comments::Comments, sync::Lrc, BytePos, SourceMap, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::emitter;
-use swc_ecma_parser::EsVersion;
 
 #[macro_use]
 pub mod macros;

@@ -9,6 +9,7 @@ use crate::{
     lexer::state::lex_errors,
 };
 use std::{ops::Range, str};
+use swc_ecma_ast::EsVersion;
 use test::{black_box, Bencher};
 
 fn sp(r: Range<usize>) -> Span {

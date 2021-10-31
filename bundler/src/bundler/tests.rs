@@ -6,7 +6,7 @@ use indexmap::IndexMap;
 use std::path::PathBuf;
 use swc_common::{sync::Lrc, FileName, SourceMap, Span, GLOBALS};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, EsVersion, Parser, StringInput};
+use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::VisitMutWith;
 

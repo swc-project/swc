@@ -114,7 +114,7 @@ pub use self::{
 use serde::{Deserialize, Serialize};
 use swc_ecma_ast::EsVersion;
 #[deprecated(note = "Use `EsVersion` instead")]
-pub type EsVersion = EsVersion;
+pub type JscTarget = EsVersion;
 
 #[macro_use]
 mod macros;

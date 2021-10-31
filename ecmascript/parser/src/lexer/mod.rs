@@ -15,7 +15,7 @@ use smallvec::{smallvec, SmallVec};
 use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{comments::Comments, BytePos, Span};
-use swc_ecma_ast::op;
+use swc_ecma_ast::{op, EsVersion};
 
 mod comments_buffer;
 pub mod input;
