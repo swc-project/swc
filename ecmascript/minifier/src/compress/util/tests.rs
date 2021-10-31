@@ -39,8 +39,6 @@ fn assert_negate_cost(s: &str, in_bool_ctx: bool, is_ret_val_ignored: bool, expe
 
         e.visit_mut_with(&mut UnwrapParen);
 
-        dbg!(&e);
-
         let actual = negate_cost(&e, in_bool_ctx, is_ret_val_ignored).unwrap();
 
         assert_eq!(
