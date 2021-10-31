@@ -135,3 +135,20 @@ fn negate_cost_6() {
         0,
     );
 }
+
+#[test]
+fn negate_cost_7() {
+    assert_negate_cost(
+        "
+        capacity && codeResult1 && (codeResult2 = codeResult1, !((list = config.blacklist) && \
+         list.some(function(item) {
+            return Object.keys(item).every(function(key) {
+                return item[key] === codeResult2[key];
+            });
+        }))) && (codeResult3 = codeResult1, \"function\" != typeof (filter = config.filter) || \
+         filter(codeResult3))",
+        true,
+        true,
+        1,
+    );
+}
