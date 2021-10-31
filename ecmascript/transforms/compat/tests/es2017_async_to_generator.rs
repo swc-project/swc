@@ -2419,7 +2419,7 @@ test_exec!(
     Syntax::default(),
     |_| {
         let mark = Mark::fresh(Mark::root());
-        chain!(async_to_generator(), regenerator(mark))
+        chain!(async_to_generator(), regenerator(Default::default(), mark))
     },
     issue_1575_2,
     "
@@ -2569,7 +2569,10 @@ test!(
     Syntax::default(),
     |_| {
         let top_level_mark = Mark::fresh(Mark::root());
-        chain!(async_to_generator(), regenerator(top_level_mark))
+        chain!(
+            async_to_generator(),
+            regenerator(Default::default(), top_level_mark)
+        )
     },
     issue_1684_2,
     "
@@ -2709,7 +2712,7 @@ fn exec_regenerator(input: PathBuf) {
             chain!(
                 async_to_generator(),
                 es2015::for_of(Default::default()),
-                regenerator(top_level_mark)
+                regenerator(Default::default(), top_level_mark)
             )
         },
         &input,

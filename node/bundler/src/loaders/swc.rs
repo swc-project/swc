@@ -189,6 +189,7 @@ impl SwcLoader {
                                             legacy_decorator: c.legacy_decorator,
                                             decorator_metadata: c.decorator_metadata,
                                             hidden: Default::default(),
+                                            ..Default::default()
                                         })
                                     } else {
                                         None

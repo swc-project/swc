@@ -88,17 +88,11 @@ error: Colon
 1 | p :global(span:not(.test)) {
   |               ^
 
-error: Ident { value: Atom('not' type=static), raw: Atom('not' type=static) }
+error: Function { value: Atom('not' type=static), raw: Atom('not' type=static) }
  --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:16
   |
 1 | p :global(span:not(.test)) {
-  |                ^^^
-
-error: LParen
- --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:19
-  |
-1 | p :global(span:not(.test)) {
-  |                   ^
+  |                ^^^^
 
 error: Delim { value: '.' }
  --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:20
@@ -113,10 +107,10 @@ error: Ident { value: Atom('test' type=inline), raw: Atom('test' type=inline) }
   |                     ^^^^
 
 error: RParen
- --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:19
+ --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:16
   |
 1 | p :global(span:not(.test)) {
-  |                   ^
+  |                ^^^^
 
 error: Block
  --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:28

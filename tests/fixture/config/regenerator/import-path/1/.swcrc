@@ -1,0 +1,9 @@
+{
+    "jsc": {
+        "transform": {
+            "regenerator": {
+                "importPath": "custom"
+            }
+        }
+    }
+}
