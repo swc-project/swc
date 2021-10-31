@@ -1,8 +1,6 @@
 name: Bug Report
-about: Use this when swc breaks something
-title: ""
+description: Use this when swc breaks something
 labels: C-bug
-assignees: ""
 body:
   - type: textarea
     id: description

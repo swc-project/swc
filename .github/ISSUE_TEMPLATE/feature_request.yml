@@ -1,8 +1,5 @@
 name: Feature Request
-about: Use this when you want a new feature
-title: ""
-labels: ""
-assignees: ""
+description: Use this when you want a new feature
 body:
   - type: textarea
     id: description
