@@ -155,6 +155,19 @@ where
                             ref specifiers,
                             ..
                         })) => {
+                            // handle: export {sym as alias1, alias2, ...} from "x"
+                            for ExportNamedSpecifier { orig, exported, .. } in
+                                specifiers.into_iter().filter_map(|e| match e {
+                                    ExportSpecifier::Named(e) => Some(e),
+                                    _ => None,
+                                })
+                            {
+                                if let Some(exported) = &exported {
+                                    exports.push(exported.sym.clone());
+                                } else {
+                                    exports.push(orig.sym.clone());
+                                }
+                            }
                             scope.import_to_export(&src, !specifiers.is_empty());
                         }
                         _ => {}
