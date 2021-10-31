@@ -21,7 +21,7 @@ impl VisitMut for UnwrapParen {
 }
 
 fn assert_negate_cost(s: &str, in_bool_ctx: bool, is_ret_val_ignored: bool, expected: isize) {
-    testing::run_test2(false, |cm, _| {
+    testing::run_test2(false, |cm, handler| {
         let fm = cm.new_source_file(FileName::Anon, s.to_string());
 
         let lexer = Lexer::new(
@@ -33,9 +33,9 @@ fn assert_negate_cost(s: &str, in_bool_ctx: bool, is_ret_val_ignored: bool, expe
 
         let mut parser = Parser::new_from(lexer);
 
-        let mut e = parser
-            .parse_expr()
-            .expect("failed to parse input as an expression");
+        let mut e = parser.parse_expr().map_err(|e| {
+            e.into_diagnostic(&handler).emit();
+        })?;
 
         e.visit_mut_with(&mut UnwrapParen);
 
@@ -104,7 +104,7 @@ fn negate_cost_4() {
 #[test]
 fn negate_cost_5() {
     assert_negate_cost(
-        "!capacity && codeResult && codeResult = codeResult, !list = config.blacklist && \
+        "(!capacity && codeResult && codeResult = codeResult, !list = config.blacklist && \
          list.some(function(item) {
             return Object.keys(item).every(function(key) {
                 return item[key] === codeResult[key];
@@ -112,7 +112,7 @@ fn negate_cost_5() {
         }) && codeResult = codeResult, \"function\" != typeof filter = config.filter || \
          filter(codeResult) || capacity--, result.codeResult = codeResult, capture && \
          canvas.width = imageSize.x, canvas.height = imageSize.y, image_debug.a.drawImage(data, \
-         imageSize, ctx), result.frame = canvas.toDataURL(), results.push(result)",
+         imageSize, ctx), result.frame = canvas.toDataURL(), results.push(result))",
         true,
         true,
         1000,
