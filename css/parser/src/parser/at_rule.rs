@@ -107,21 +107,16 @@ where
             "media" => {
                 self.input.skip_ws()?;
 
-                let query = self.parse()?;
+                let at_rule_media = self.parse();
 
-                expect!(self, "{");
-
-                let rules = self.parse_rule_list(RuleContext {
-                    is_top_level: false,
-                })?;
-
-                expect!(self, "}");
-
-                return Ok(AtRule::Media(MediaRule {
-                    span: span!(self, start),
-                    query,
-                    rules,
-                }));
+                if at_rule_media.is_ok() {
+                    return at_rule_media
+                        .map(|mut r: MediaRule| {
+                            r.span.lo = start;
+                            r
+                        })
+                        .map(AtRule::Media);
+                }
             }
 
             "page" => {
@@ -375,8 +370,8 @@ where
 }
 
 impl<I> Parse<ViewportRule> for Parser<I>
-    where
-        I: ParserInput,
+where
+    I: ParserInput,
 {
     fn parse(&mut self) -> PResult<ViewportRule> {
         let span = self.input.cur_span()?;
@@ -670,6 +665,30 @@ where
         }
 
         Err(Error::new(span, ErrorKind::InvalidSupportQuery))
+    }
+}
+
+impl<I> Parse<MediaRule> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<MediaRule> {
+        let span = self.input.cur_span()?;
+        let query = self.parse()?;
+
+        expect!(self, "{");
+
+        let rules = self.parse_rule_list(RuleContext {
+            is_top_level: false,
+        })?;
+
+        expect!(self, "}");
+
+        return Ok(MediaRule {
+            span: span!(self, span.lo),
+            query,
+            rules,
+        });
     }
 }
 
