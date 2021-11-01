@@ -3,10 +3,10 @@ use inflector::Inflector;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use swc_atoms::JsWord;
-use swc_common::{sync::Lrc, FileName, SourceMap};
+use swc_common::{errors::HANDLER, sync::Lrc, FileName, SourceMap};
 use swc_ecma_ast::Expr;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
-use swc_ecma_utils::{quote_ident, HANDLER};
+use swc_ecma_utils::quote_ident;
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]

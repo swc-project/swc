@@ -9,6 +9,7 @@ use crate::{
     lexer::state::lex_errors,
 };
 use std::{ops::Range, str};
+use swc_ecma_ast::EsVersion;
 use test::{black_box, Bencher};
 
 fn sp(r: Range<usize>) -> Span {
@@ -258,7 +259,7 @@ fn tpl_raw_unicode_escape() {
 #[test]
 fn tpl_invalid_unicode_escape() {
     assert_eq!(
-        lex_tokens_with_target(Syntax::default(), JscTarget::Es2018, r"`\unicode`"),
+        lex_tokens_with_target(Syntax::default(), EsVersion::Es2018, r"`\unicode`"),
         vec![
             tok!('`'),
             Token::Template {
@@ -270,7 +271,7 @@ fn tpl_invalid_unicode_escape() {
         ]
     );
     assert_eq!(
-        lex_tokens_with_target(Syntax::default(), JscTarget::Es2017, r"`\unicode`"),
+        lex_tokens_with_target(Syntax::default(), EsVersion::Es2017, r"`\unicode`"),
         vec![
             tok!('`'),
             Token::Error(Error {

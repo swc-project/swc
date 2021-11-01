@@ -14,7 +14,6 @@ pub use self::{
     Purity::{MayBeImpure, Pure},
 };
 use crate::ident::IdentLike;
-use scoped_tls::scoped_thread_local;
 use std::{
     borrow::Cow,
     f64::{INFINITY, NAN},
@@ -23,9 +22,9 @@ use std::{
     ops::Add,
 };
 use swc_atoms::{js_word, JsWord};
-use swc_common::{
-    collections::AHashSet, errors::Handler, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
-};
+#[deprecated(since = "0.50", note = "Use `swc_common::errors::HANDLER` directly")]
+pub use swc_common::errors::HANDLER;
+use swc_common::{collections::AHashSet, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Node, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -212,7 +211,7 @@ pub trait ModuleItemLike: StmtLike {
     }
 }
 
-pub trait StmtLike: Sized + 'static {
+pub trait StmtLike: Sized + 'static + Send + Sync {
     fn try_into_stmt(self) -> Result<Stmt, Self>;
     fn as_stmt(&self) -> Option<&Stmt>;
     fn from_stmt(stmt: Stmt) -> Self;
@@ -1893,11 +1892,6 @@ impl<'a> UsageFinder<'a> {
         v.found
     }
 }
-
-scoped_thread_local!(
-    /// Used for error reporting in transform.
-    pub static HANDLER: Handler
-);
 
 /// make a new expression which evaluates `val` preserving side effects, if any.
 pub fn preserve_effects<I>(span: Span, val: Expr, exprs: I) -> Expr

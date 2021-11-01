@@ -557,7 +557,7 @@ CONTENT\r
 fn test_escape_without_source() {
     fn es2020(src: &str, expected: &str) {
         assert_eq!(
-            super::escape_without_source(src, JscTarget::Es2020, true),
+            super::escape_without_source(src, EsVersion::Es2020, true),
             expected
         )
     }

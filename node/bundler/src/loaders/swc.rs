@@ -8,9 +8,14 @@ use swc::{
 };
 use swc_atoms::JsWord;
 use swc_bundler::{Load, ModuleData};
-use swc_common::{collections::AHashMap, errors::Handler, sync::Lrc, FileName, DUMMY_SP};
-use swc_ecma_ast::{Expr, Lit, Module, Program, Str};
-use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax};
+use swc_common::{
+    collections::AHashMap,
+    errors::{Handler, HANDLER},
+    sync::Lrc,
+    FileName, DUMMY_SP,
+};
+use swc_ecma_ast::{EsVersion, Expr, Lit, Module, Program, Str};
+use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_transforms::{
     helpers,
     optimization::{
@@ -152,13 +157,13 @@ impl SwcLoader {
             let program = self.compiler.parse_js(
                 fm.clone(),
                 &handler,
-                JscTarget::Es2020,
+                EsVersion::Es2020,
                 Default::default(),
                 true,
                 true,
             )?;
             let program = helpers::HELPERS.set(&helpers, || {
-                swc_ecma_utils::HANDLER.set(&handler, || {
+                HANDLER.set(&handler, || {
                     let program = program.fold_with(&mut inline_globals(
                         self.env_map(),
                         Default::default(),
@@ -239,7 +244,7 @@ impl SwcLoader {
             let program = self.compiler.parse_js(
                 fm.clone(),
                 handler,
-                JscTarget::Es2020,
+                EsVersion::Es2020,
                 config.as_ref().map(|v| v.syntax).unwrap_or_default(),
                 true,
                 true,
@@ -255,7 +260,7 @@ impl SwcLoader {
             // Fold module
             let program = if let Some(mut config) = config {
                 helpers::HELPERS.set(&helpers, || {
-                    swc_ecma_utils::HANDLER.set(handler, || {
+                    HANDLER.set(handler, || {
                         let program = program.fold_with(&mut inline_globals(
                             self.env_map(),
                             Default::default(),

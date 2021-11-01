@@ -941,7 +941,7 @@ dependencies = [
 
 [[package]]
 name = "jsdoc"
-version = "0.45.0"
+version = "0.45.1"
 dependencies = [
  "anyhow",
  "dashmap",
@@ -986,9 +986,9 @@ dependencies = [
 
 [[package]]
 name = "libc"
-version = "0.2.105"
+version = "0.2.106"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "869d572136620d55835903746bcb5cdc54cb2851fd0aeec53220b4bb65ef3013"
+checksum = "a60553f9a9e039a333b4e9b20573b9e9b9c0bb3a11e201ccc48ef4283456d673"
 
 [[package]]
 name = "libloading"
@@ -1145,9 +1145,9 @@ dependencies = [
 
 [[package]]
 name = "napi-build"
-version = "1.1.0"
+version = "1.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9fbe11972c601a48aa12a0e2aa032e9e251655ce6c6836cac26e5c0b3b5a5dcc"
+checksum = "87375bacff0768dd606ccf870eae936efd21e3245af9e7b37ae44f969d48be8a"
 
 [[package]]
 name = "napi-derive"
@@ -1162,9 +1162,9 @@ dependencies = [
 
 [[package]]
 name = "napi-sys"
-version = "1.1.1"
+version = "1.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "43563506c466587478849d80f46383d859b91bbec586580dadeb3639588f2f7e"
+checksum = "67cf20e0081fea04e044aa4adf74cfea8ddc0324eec2894b1c700f4cafc72a56"
 
 [[package]]
 name = "native-tls"
@@ -1348,9 +1348,9 @@ checksum = "624a8340c38c1b80fd549087862da4ba43e08858af025b236e509b6649fc13d5"
 
 [[package]]
 name = "openssl"
-version = "0.10.37"
+version = "0.10.38"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2bc6b9e4403633698352880b22cbe2f0e45dd0177f6fabe4585536e56a3e4f75"
+checksum = "0c7ae222234c30df141154f159066c5093ff73b63204dcda7121eb082fc56a95"
 dependencies = [
  "bitflags",
  "cfg-if 1.0.0",
@@ -1368,9 +1368,9 @@ checksum = "28988d872ab76095a6e6ac88d99b54fd267702734fd7ffe610ca27f533ddb95a"
 
 [[package]]
 name = "openssl-sys"
-version = "0.9.68"
+version = "0.9.70"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1c571f25d3f66dd427e417cebf73dbe2361d6125cf6e3a70d143fdf97c9f5150"
+checksum = "c6517987b3f8226b5da3661dad65ff7f300cc59fb5ea8333ca191fc65fde3edf"
 dependencies = [
  "autocfg 1.0.1",
  "cc",
@@ -2341,7 +2341,7 @@ checksum = "6446ced80d6c486436db5c078dde11a9f73d42b57fb273121e160b84f63d894c"
 
 [[package]]
 name = "swc"
-version = "0.80.0"
+version = "0.81.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2447,7 +2447,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.78.0"
+version = "0.78.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2490,7 +2490,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.14.2"
+version = "0.14.3"
 dependencies = [
  "ahash",
  "arbitrary",
@@ -2568,7 +2568,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.26.0"
+version = "0.26.1"
 dependencies = [
  "bitflags",
  "lexical",
@@ -2618,7 +2618,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.78.0"
+version = "0.78.1"
 dependencies = [
  "bitflags",
  "memchr",
@@ -2648,7 +2648,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_dep_graph"
-version = "0.45.0"
+version = "0.45.1"
 dependencies = [
  "swc_atoms 0.2.9",
  "swc_common",
@@ -2660,7 +2660,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ext_transforms"
-version = "0.35.0"
+version = "0.36.1"
 dependencies = [
  "phf",
  "swc_atoms 0.2.9",
@@ -2695,7 +2695,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.47.0"
+version = "0.48.1"
 dependencies = [
  "ahash",
  "ansi_term 0.12.1",
@@ -2728,7 +2728,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.76.2"
+version = "0.76.3"
 dependencies = [
  "either",
  "enum_kind",
@@ -2753,7 +2753,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.62.0"
+version = "0.63.1"
 dependencies = [
  "ahash",
  "dashmap",
@@ -2779,7 +2779,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.91.0"
+version = "0.92.1"
 dependencies = [
  "pretty_assertions 0.6.1",
  "sourcemap",
@@ -2806,7 +2806,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.41.3"
+version = "0.42.1"
 dependencies = [
  "once_cell",
  "phf",
@@ -2827,7 +2827,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_classes"
-version = "0.27.0"
+version = "0.28.1"
 dependencies = [
  "swc_atoms 0.2.9",
  "swc_common",
@@ -2839,7 +2839,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.48.0"
+version = "0.49.1"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -2866,7 +2866,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_macros"
-version = "0.2.3"
+version = "0.3.0"
 dependencies = [
  "pmutil",
  "proc-macro2",
@@ -2877,7 +2877,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.54.1"
+version = "0.55.1"
 dependencies = [
  "Inflector",
  "ahash",
@@ -2900,7 +2900,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.61.0"
+version = "0.62.1"
 dependencies = [
  "ahash",
  "dashmap",
@@ -2929,7 +2929,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.54.0"
+version = "0.55.1"
 dependencies = [
  "either",
  "serde",
@@ -2953,7 +2953,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.56.1"
+version = "0.57.1"
 dependencies = [
  "ahash",
  "base64 0.13.0",
@@ -2981,7 +2981,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.42.1"
+version = "0.43.1"
 dependencies = [
  "ansi_term 0.12.1",
  "anyhow",
@@ -3002,7 +3002,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.57.0"
+version = "0.58.1"
 dependencies = [
  "serde",
  "swc_atoms 0.2.9",
@@ -3024,11 +3024,10 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.49.0"
+version = "0.50.0"
 dependencies = [
  "once_cell",
  "rayon",
- "scoped-tls",
  "swc_atoms 0.2.9",
  "swc_common",
  "swc_ecma_ast",
@@ -3050,7 +3049,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.83.0"
+version = "0.84.1"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3138,7 +3137,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.13.0"
+version = "0.13.1"
 dependencies = [
  "abi_stable",
  "anyhow",
@@ -3156,7 +3155,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_testing"
-version = "0.14.0"
+version = "0.15.1"
 dependencies = [
  "anyhow",
  "swc_atoms 0.2.9",
@@ -3557,7 +3556,7 @@ checksum = "fd6fbd9a79829dd1ad0cc20627bf1ed606756a7f77edff7b66b7064f9cb327c6"
 
 [[package]]
 name = "wasm"
-version = "1.2.106"
+version = "1.2.107"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
