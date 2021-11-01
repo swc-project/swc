@@ -606,8 +606,8 @@ where
 }
 
 impl<I> Parse<Str> for Parser<I>
-    where
-        I: ParserInput,
+where
+    I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Str> {
         let span = self.input.cur_span()?;
@@ -626,8 +626,8 @@ impl<I> Parse<Str> for Parser<I>
 }
 
 impl<I> Parse<UrlValue> for Parser<I>
-    where
-        I: ParserInput,
+where
+    I: ParserInput,
 {
     fn parse(&mut self) -> PResult<UrlValue> {
         let span = self.input.cur_span()?;
@@ -637,7 +637,11 @@ impl<I> Parse<UrlValue> for Parser<I>
         }
 
         match bump!(self) {
-            Token::Url { value, raw } => Ok(UrlValue { span, url: value, raw }),
+            Token::Url { value, raw } => Ok(UrlValue {
+                span,
+                url: value,
+                raw,
+            }),
             _ => {
                 unreachable!()
             }
