@@ -92,21 +92,16 @@ where
             "supports" => {
                 self.input.skip_ws()?;
 
-                let query = self.parse()?;
+                let at_rule_supports = self.parse();
 
-                expect!(self, "{");
-
-                let rules = self.parse_rule_list(RuleContext {
-                    is_top_level: false,
-                })?;
-
-                expect!(self, "}");
-
-                return Ok(AtRule::Supports(SupportsRule {
-                    span: span!(self, start),
-                    query,
-                    rules,
-                }));
+                if at_rule_supports.is_ok() {
+                    return at_rule_supports
+                        .map(|mut r: SupportsRule| {
+                            r.span.lo = start;
+                            r
+                        })
+                        .map(AtRule::Supports);
+                }
             }
 
             "media" => {
@@ -421,6 +416,30 @@ impl<I> Parse<FontFaceRule> for Parser<I>
         return Ok(FontFaceRule {
             span: span!(self, span.lo),
             block,
+        });
+    }
+}
+
+impl<I> Parse<SupportsRule> for Parser<I>
+    where
+        I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<SupportsRule> {
+        let span = self.input.cur_span()?;
+        let query = self.parse()?;
+
+        expect!(self, "{");
+
+        let rules = self.parse_rule_list(RuleContext {
+            is_top_level: false,
+        })?;
+
+        expect!(self, "}");
+
+        return Ok(SupportsRule {
+            span: span!(self, span.lo),
+            query,
+            rules,
         });
     }
 }
