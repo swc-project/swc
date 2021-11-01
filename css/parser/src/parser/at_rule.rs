@@ -157,57 +157,16 @@ where
             "namespace" => {
                 self.input.skip_ws()?;
 
-                // TODO: make optional
-                let mut prefix = Text {
-                    span: DUMMY_SP,
-                    value: js_word!(""),
-                    raw: js_word!(""),
-                };
+                let at_rule_namespace = self.parse();
 
-                if is!(self, Ident) {
-                    let start_name_pos = self.input.cur_span()?.lo;
-
-                    prefix = match bump!(self) {
-                        Token::Ident { value, raw } => Text {
-                            span: span!(self, start_name_pos),
-                            value,
-                            raw,
-                        },
-                        _ => {
-                            unreachable!()
-                        }
-                    };
-
-                    self.input.skip_ws()?;
+                if at_rule_namespace.is_ok() {
+                    return at_rule_namespace
+                        .map(|mut r: NamespaceRule| {
+                            r.span.lo = start;
+                            r
+                        })
+                        .map(AtRule::Namespace);
                 }
-
-                let start_value_pos = self.input.cur_span()?.lo;
-
-                let value = match bump!(self) {
-                    Token::Str { value, raw } => NamespaceValue::Str(Str {
-                        span: span!(self, start_value_pos),
-                        value,
-                        raw,
-                    }),
-                    Token::Url { value, raw } => NamespaceValue::Url(UrlValue {
-                        span: span!(self, start_value_pos),
-                        url: value,
-                        raw,
-                    }),
-                    _ => NamespaceValue::Str(Str {
-                        span: span!(self, start_value_pos),
-                        value: js_word!(""),
-                        raw: js_word!(""),
-                    }),
-                };
-
-                eat!(self, ";");
-
-                return Ok(AtRule::Namespace(NamespaceRule {
-                    span: span!(self, start),
-                    prefix,
-                    value,
-                }));
             }
 
             "viewport" | "-ms-viewport" => {
@@ -407,6 +366,64 @@ where
             span: span!(self, span.lo),
             id: name,
             blocks,
+        });
+    }
+}
+
+impl<I> Parse<NamespaceRule> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<NamespaceRule> {
+        let span = self.input.cur_span()?;
+        // TODO: make optional
+        let mut prefix = Text {
+            span: DUMMY_SP,
+            value: js_word!(""),
+            raw: js_word!(""),
+        };
+
+        if is!(self, Ident) {
+            prefix = match bump!(self) {
+                Token::Ident { value, raw } => Text {
+                    span: span!(self, span.lo),
+                    value,
+                    raw,
+                },
+                _ => {
+                    unreachable!()
+                }
+            };
+
+            self.input.skip_ws()?;
+        }
+
+        let start_value_span = self.input.cur_span()?;
+
+        let value = match bump!(self) {
+            Token::Str { value, raw } => NamespaceValue::Str(Str {
+                span: span!(self, start_value_span.lo),
+                value,
+                raw,
+            }),
+            Token::Url { value, raw } => NamespaceValue::Url(UrlValue {
+                span: span!(self, start_value_span.lo),
+                url: value,
+                raw,
+            }),
+            _ => NamespaceValue::Str(Str {
+                span: span!(self, start_value_span.lo),
+                value: js_word!(""),
+                raw: js_word!(""),
+            }),
+        };
+
+        eat!(self, ";");
+
+        return Ok(NamespaceRule {
+            span: span!(self, span.lo),
+            prefix,
+            value,
         });
     }
 }
