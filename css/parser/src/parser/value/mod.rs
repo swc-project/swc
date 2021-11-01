@@ -215,7 +215,7 @@ where
 
             tok!("[") => return self.parse_square_brackets_value().map(From::from),
 
-            tok!("(") => return self.parse_paren_value().map(From::from),
+            tok!("(") => return self.parse_round_brackets_value().map(From::from),
 
             tok!("{") => {
                 return self.parse_brace_value().map(From::from);
@@ -525,32 +525,30 @@ where
         })
     }
 
-    fn parse_paren_value(&mut self) -> PResult<ParenValue> {
+    fn parse_round_brackets_value(&mut self) -> PResult<RoundBracketBlock> {
         let span = self.input.cur_span()?;
 
         expect!(self, "(");
 
         self.input.skip_ws()?;
 
-        let ctx = Ctx {
-            allow_operation_in_value: true,
-            is_in_delimited_value: true,
-            ..self.ctx
-        };
-        let value = if is!(self, ")") {
+        let children = if is!(self, ")") {
             None
         } else {
-            self.with_ctx(ctx)
-                .parse_one_value()
-                .map(Box::new)
-                .map(Some)?
+            let ctx = Ctx {
+                allow_operation_in_value: true,
+                is_in_delimited_value: true,
+                ..self.ctx
+            };
+
+            Some(self.with_ctx(ctx).parse_property_values()?.0)
         };
 
         expect!(self, ")");
 
-        Ok(ParenValue {
+        Ok(RoundBracketBlock {
             span: span!(self, span.lo),
-            value,
+            children,
         })
     }
 }

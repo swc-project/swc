@@ -676,81 +676,85 @@
                         },
                         "values": [
                           {
-                            "type": "ParenValue",
+                            "type": "RoundBracketBlock",
                             "span": {
                               "start": 153,
                               "end": 160,
                               "ctxt": 0
                             },
-                            "value": {
-                              "type": "BinValue",
-                              "span": {
-                                "start": 154,
-                                "end": 159,
-                                "ctxt": 0
-                              },
-                              "op": "-",
-                              "left": {
-                                "type": "Number",
+                            "children": [
+                              {
+                                "type": "BinValue",
                                 "span": {
                                   "start": 154,
-                                  "end": 155,
-                                  "ctxt": 0
-                                },
-                                "value": 2.0,
-                                "raw": "2"
-                              },
-                              "right": {
-                                "type": "Number",
-                                "span": {
-                                  "start": 158,
                                   "end": 159,
                                   "ctxt": 0
                                 },
-                                "value": 3.0,
-                                "raw": "3"
+                                "op": "-",
+                                "left": {
+                                  "type": "Number",
+                                  "span": {
+                                    "start": 154,
+                                    "end": 155,
+                                    "ctxt": 0
+                                  },
+                                  "value": 2.0,
+                                  "raw": "2"
+                                },
+                                "right": {
+                                  "type": "Number",
+                                  "span": {
+                                    "start": 158,
+                                    "end": 159,
+                                    "ctxt": 0
+                                  },
+                                  "value": 3.0,
+                                  "raw": "3"
+                                }
                               }
-                            }
+                            ]
                           }
                         ]
                       }
                     },
                     "right": {
-                      "type": "ParenValue",
+                      "type": "RoundBracketBlock",
                       "span": {
                         "start": 163,
                         "end": 170,
                         "ctxt": 0
                       },
-                      "value": {
-                        "type": "BinValue",
-                        "span": {
-                          "start": 164,
-                          "end": 169,
-                          "ctxt": 0
-                        },
-                        "op": "-",
-                        "left": {
-                          "type": "Number",
+                      "children": [
+                        {
+                          "type": "BinValue",
                           "span": {
                             "start": 164,
-                            "end": 165,
-                            "ctxt": 0
-                          },
-                          "value": 2.0,
-                          "raw": "2"
-                        },
-                        "right": {
-                          "type": "Number",
-                          "span": {
-                            "start": 168,
                             "end": 169,
                             "ctxt": 0
                           },
-                          "value": 6.0,
-                          "raw": "6"
+                          "op": "-",
+                          "left": {
+                            "type": "Number",
+                            "span": {
+                              "start": 164,
+                              "end": 165,
+                              "ctxt": 0
+                            },
+                            "value": 2.0,
+                            "raw": "2"
+                          },
+                          "right": {
+                            "type": "Number",
+                            "span": {
+                              "start": 168,
+                              "end": 169,
+                              "ctxt": 0
+                            },
+                            "value": 6.0,
+                            "raw": "6"
+                          }
                         }
-                      }
+                      ]
                     }
                   }
                 ]

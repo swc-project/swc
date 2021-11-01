@@ -647,7 +647,7 @@ error: Value
 7 |     width: calc(2em / (2 - 3) / (2 - 6));
   |                       ^^^^^^^
 
-error: ParenValue
+error: RoundBracketBlock
  --> $DIR/tests/fixture/rome/calc/input.css:7:20
   |
 7 |     width: calc(2em / (2 - 3) / (2 - 6));
@@ -695,7 +695,7 @@ error: Value
 7 |     width: calc(2em / (2 - 3) / (2 - 6));
   |                                 ^^^^^^^
 
-error: ParenValue
+error: RoundBracketBlock
  --> $DIR/tests/fixture/rome/calc/input.css:7:30
   |
 7 |     width: calc(2em / (2 - 3) / (2 - 6));
