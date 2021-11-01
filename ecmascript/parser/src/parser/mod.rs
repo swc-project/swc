@@ -6,7 +6,7 @@ use crate::{
     error::SyntaxError,
     lexer::Lexer,
     token::{Token, Word},
-    Context, JscTarget, Syntax,
+    Context, EsVersion, Syntax,
 };
 use std::ops::{Deref, DerefMut};
 use swc_atoms::JsWord;
@@ -73,7 +73,7 @@ impl<I: Tokens> Parser<I> {
         self.input().take_errors()
     }
 
-    pub(crate) fn target(&self) -> JscTarget {
+    pub(crate) fn target(&self) -> EsVersion {
         self.input.target()
     }
 
@@ -245,7 +245,7 @@ where
     F: FnOnce(&mut Parser<Lexer<crate::StringInput<'_>>>) -> Result<Ret, Error>,
 {
     crate::with_test_sess(s, |handler, input| {
-        let lexer = Lexer::new(syntax, JscTarget::Es2019, input, None);
+        let lexer = Lexer::new(syntax, EsVersion::Es2019, input, None);
         let mut p = Parser::new_from(lexer);
         let ret = f(&mut p);
         let mut error = false;
@@ -272,7 +272,7 @@ where
     F: FnOnce(&mut Parser<Lexer<crate::StringInput<'_>>>) -> Result<Ret, Error>,
 {
     crate::with_test_sess(s, |handler, input| {
-        let lexer = Lexer::new(syntax, JscTarget::Es2019, input, Some(&c));
+        let lexer = Lexer::new(syntax, EsVersion::Es2019, input, Some(&c));
         let mut p = Parser::new_from(lexer);
         let ret = f(&mut p);
 

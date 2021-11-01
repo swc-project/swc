@@ -9,8 +9,7 @@ use std::{collections::HashMap, fmt, marker::PhantomData, path::PathBuf};
 use string_enum::StringEnum;
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, FileName};
-use swc_ecma_ast::TargetEnv;
-use swc_ecma_parser::JscTarget;
+use swc_ecma_ast::{EsVersion, TargetEnv};
 
 mod module;
 mod optimization;
@@ -54,7 +53,7 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn codegen_target(&self) -> Option<JscTarget> {
+    pub fn codegen_target(&self) -> Option<EsVersion> {
         self.options
             .as_ref()
             .map(|options| options.codegen_target())

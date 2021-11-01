@@ -6,8 +6,8 @@ extern crate test;
 use std::{hint::black_box, io::stderr, sync::Arc};
 use swc_babel_compat::babelify::{Babelify, Context};
 use swc_common::{errors::Handler, FileName, FilePathMapping, SourceFile, SourceMap};
-use swc_ecma_ast::Program;
-use swc_ecma_parser::{JscTarget, Syntax};
+use swc_ecma_ast::{EsVersion, Program};
+use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{compat::es2020, typescript};
 use swc_ecma_visit::FoldWith;
 use test::Bencher;
@@ -34,7 +34,7 @@ fn parse(c: &swc::Compiler, src: &str) -> (Arc<SourceFile>, Program) {
         .parse_js(
             fm.clone(),
             &handler,
-            JscTarget::Es5,
+            EsVersion::Es5,
             Syntax::Typescript(Default::default()),
             true,
             true,

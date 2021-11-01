@@ -76,6 +76,7 @@
         "LPCSTR",
         "LPSECURITY",
         "mbcs",
+        "memchr",
         "mimalloc",
         "minifier",
         "miri",

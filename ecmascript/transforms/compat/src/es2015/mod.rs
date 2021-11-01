@@ -196,12 +196,12 @@ function foo(scope) {
     //         |_| chain!(
     //             resolver(),
     //             class_properties(),
-    //             // Optional::new(compat::es2018(), target <= JscTarget::Es2018),
-    //             // Optional::new(compat::es2017(), target <= JscTarget::Es2017),
-    //             // Optional::new(compat::es2016(), target <= JscTarget::Es2016),
+    //             // Optional::new(compat::es2018(), target <= EsVersion::Es2018),
+    //             // Optional::new(compat::es2017(), target <= EsVersion::Es2017),
+    //             // Optional::new(compat::es2016(), target <= EsVersion::Es2016),
     //             // Optional::new(compat::es2015(Mark::fresh(Mark::root()),
-    // Default::default()), target <= JscTarget::Es2015),             //
-    // Optional::new(compat::es3(), target <= JscTarget::Es3),
+    // Default::default()), target <= EsVersion::Es2015),             //
+    // Optional::new(compat::es3(), target <= EsVersion::Es3),
     // hygiene(),             fixer(),
     //         ),
     //         issue_405,

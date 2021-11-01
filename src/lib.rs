@@ -112,12 +112,14 @@ pub extern crate swc_ecmascript as ecmascript;
 
 pub use crate::builder::PassBuilder;
 use crate::config::{
-    BuiltConfig, Config, ConfigFile, InputSourceMap, JscTarget, Merge, Options, Rc, RootMode,
-    SourceMapsConfig,
+    BuiltConfig, Config, ConfigFile, InputSourceMap, Merge, Options, Rc, RootMode, SourceMapsConfig,
 };
 use anyhow::{bail, Context, Error};
 use atoms::JsWord;
-use common::{collections::AHashMap, errors::EmitterWriter};
+use common::{
+    collections::AHashMap,
+    errors::{EmitterWriter, HANDLER},
+};
 use config::{util::BoolOrObject, JsMinifyCommentOption, JsMinifyOptions};
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
@@ -140,7 +142,7 @@ use swc_common::{
     sync::Lrc,
     BytePos, FileName, Globals, Mark, SourceFile, SourceMap, Spanned, DUMMY_SP, GLOBALS,
 };
-use swc_ecma_ast::{Ident, Invalid, Program};
+use swc_ecma_ast::{EsVersion, Ident, Invalid, Program};
 use swc_ecma_codegen::{self, text_writer::WriteJs, Emitter, Node};
 use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
@@ -224,7 +226,7 @@ where
         EmitterWriter::new(wr.clone(), Some(cm.clone()), false, true).skip_filename(skip_filename);
     let handler = Handler::with_emitter(true, false, Box::new(e_wr));
 
-    let ret = swc_ecma_utils::HANDLER.set(&handler, || op(&handler));
+    let ret = HANDLER.set(&handler, || op(&handler));
 
     if handler.has_errors() {
         let mut lock =
@@ -395,7 +397,7 @@ impl Compiler {
         &self,
         fm: Arc<SourceFile>,
         handler: &Handler,
-        target: JscTarget,
+        target: EsVersion,
         syntax: Syntax,
         is_module: bool,
         parse_comments: bool,
@@ -462,7 +464,7 @@ impl Compiler {
         source_file_name: Option<&str>,
         output_path: Option<PathBuf>,
         inline_sources_content: bool,
-        target: JscTarget,
+        target: EsVersion,
         source_map: SourceMapsConfig,
         source_map_names: &AHashMap<BytePos, JsWord>,
         orig: Option<&sourcemap::SourceMap>,
@@ -815,7 +817,7 @@ impl Compiler {
     {
         self.run(|| {
             helpers::HELPERS.set(&Helpers::new(external_helpers), || {
-                swc_ecma_utils::HANDLER.set(handler, || op())
+                HANDLER.set(handler, || op())
             })
         })
     }
@@ -1078,7 +1080,7 @@ impl Compiler {
 
             let mut pass = config.pass;
             let program = helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
-                swc_ecma_utils::HANDLER.set(handler, || {
+                HANDLER.set(handler, || {
                     // Fold module
                     program.fold_with(&mut pass)
                 })

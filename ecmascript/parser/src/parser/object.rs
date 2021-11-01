@@ -303,7 +303,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                                 }
 
                                 if self.input.syntax().typescript()
-                                    && self.input.target() == JscTarget::Es3
+                                    && self.input.target() == EsVersion::Es3
                                 {
                                     self.emit_err(key_span, SyntaxError::TS1056);
                                 }
@@ -335,7 +335,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                                 }
 
                                 if p.input.syntax().typescript()
-                                    && p.input.target() == JscTarget::Es3
+                                    && p.input.target() == EsVersion::Es3
                                 {
                                     p.emit_err(key_span, SyntaxError::TS1056);
                                 }
