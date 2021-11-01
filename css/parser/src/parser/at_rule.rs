@@ -256,25 +256,17 @@ where
 {
     fn parse(&mut self) -> PResult<CharsetRule> {
         let span = self.input.cur_span()?;
-        let charset;
+        let charset = match cur!(self) {
+            Token::Str { .. } => self.parse()?,
+            _ => return Err(Error::new(span, ErrorKind::InvalidCharsetAtRule)),
+        };
 
-        if is!(self, Str) {
-            charset = match bump!(self) {
-                Token::Str { value, raw } => Str { span, value, raw },
-                _ => {
-                    unreachable!()
-                }
-            };
+        eat!(self, ";");
 
-            eat!(self, ";");
-
-            return Ok(CharsetRule {
-                span: span!(self, span.lo),
-                charset,
-            });
-        }
-
-        return Err(Error::new(span, ErrorKind::InvalidCharsetAtRule));
+        return Ok(CharsetRule {
+            span: span!(self, span.lo),
+            charset,
+        });
     }
 }
 
