@@ -63,14 +63,15 @@ where
             "charset" => {
                 self.input.skip_ws()?;
 
-                let value = self.may_parse_str()?;
+                let at_rule_charset = self.parse();
 
-                if let Some(v) = value {
-                    eat!(self, ";");
-
-                    let span = span!(self, start);
-
-                    return Ok(AtRule::Charset(CharsetRule { span, charset: v }));
+                if at_rule_charset.is_ok() {
+                    return at_rule_charset
+                        .map(|mut r: CharsetRule| {
+                            r.span.lo = start;
+                            r
+                        })
+                        .map(AtRule::Charset);
                 }
             }
 
@@ -354,6 +355,36 @@ where
                 tokens,
             },
         }))
+    }
+}
+
+impl<I> Parse<CharsetRule> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<CharsetRule> {
+        self.input.skip_ws()?;
+
+        let span = self.input.cur_span()?;
+        let charset;
+
+        if is!(self, Str) {
+            charset = match bump!(self) {
+                Token::Str { value, raw } => Str { span, value, raw },
+                _ => {
+                    unreachable!()
+                }
+            };
+
+            eat!(self, ";");
+
+            return Ok(CharsetRule {
+                span: span!(self, span.lo),
+                charset,
+            });
+        }
+
+        return Err(Error::new(span, ErrorKind::InvalidCharsetAtRule));
     }
 }
 

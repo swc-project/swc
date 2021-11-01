@@ -86,14 +86,6 @@ where
         self.parse()
     }
 
-    fn may_parse_str(&mut self) -> PResult<Option<Str>> {
-        if is!(self, Str) {
-            self.parse_str().map(Some)
-        } else {
-            Ok(None)
-        }
-    }
-
     fn parse_id(&mut self) -> PResult<Text> {
         let span = self.input.cur_span()?;
         if !is!(self, Ident) {

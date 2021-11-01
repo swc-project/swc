@@ -1,8 +1,9 @@
-pub use self::{document::*, keyframe::*, media::*, page::*, support::*};
+pub use self::{charset::*, document::*, keyframe::*, media::*, page::*, support::*};
 use crate::{Block, FnValue, Str, Text, Tokens, UrlValue};
 use is_macro::Is;
 use swc_common::{ast_node, Span};
 
+mod charset;
 mod document;
 mod keyframe;
 mod media;
@@ -44,12 +45,6 @@ pub enum AtRule {
 
     #[tag("UnknownAtRule")]
     Unknown(UnknownAtRule),
-}
-
-#[ast_node("CharsetRule")]
-pub struct CharsetRule {
-    pub span: Span,
-    pub charset: Str,
 }
 
 #[ast_node]
