@@ -155,26 +155,60 @@ where
                 return self.read_str(None);
             }
             // U+0023 NUMBER SIGN (#)
-            // If the next input code point is a name code point or the next two input code points
-            // are a valid escape, then:
             Some(c) if c == '#' => {
-                // TODO: If the next input code point is a name code point or the next two input
-                // code points are a valid escape, then:
                 self.input.bump();
 
                 let first = self.input.cur();
                 let second = self.input.peek();
 
-                if is_name(first.unwrap()) || self.is_valid_escape(first, second)? {
+                // If the next input code point is a name code point or the next two input code
+                // points are a valid escape, then:
+                if (first.is_some() && is_name(first.unwrap()))
+                    || self.is_valid_escape(first, second)?
+                {
+                    // Create a <hash-token>.
+                    let mut hash_token = Token::Hash {
+                        is_id: Default::default(),
+                        value: Default::default(),
+                        raw: Default::default(),
+                    };
+
+                    // If the next 3 input code points would start an identifier, set the
+                    // <hash-token>’s type flag to "id".
                     let third = self.input.peek_ahead();
-                    let is_id = self.would_start_ident(first, second, third)?;
+                    let is_would_start_ident = self.would_start_ident(first, second, third)?;
+
+                    match hash_token {
+                        Token::Hash {
+                            ref mut is_id,
+                            ..
+                        } => {
+                            *is_id = is_would_start_ident;
+                        }
+                        _ => {
+                            unreachable!();
+                        }
+                    }
+
+                    // Consume a name, and set the <hash-token>’s value to the returned string.
                     let name = self.read_name()?;
 
-                    return Ok(Token::Hash {
-                        is_id,
-                        value: name.0,
-                        raw: name.1,
-                    });
+                    match hash_token {
+                        Token::Hash {
+                            ref mut value,
+                            ref mut raw,
+                            ..
+                        } => {
+                            *value = name.0;
+                            *raw = name.1;
+                        }
+                        _ => {
+                            unreachable!();
+                        }
+                    }
+
+                    // Return the <hash-token>.
+                    return Ok(hash_token);
                 }
 
                 return Ok(Token::Delim { value: c });
