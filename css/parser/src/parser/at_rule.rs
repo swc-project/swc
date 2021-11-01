@@ -62,42 +62,16 @@ where
             | "-ms-keyframes" => {
                 self.input.skip_ws()?;
 
-                let start_name_pos = self.input.cur_span()?.lo;
-                let name = match bump!(self) {
-                    Token::Ident { value, raw } => Text {
-                        span: span!(self, start_name_pos),
-                        value,
-                        raw,
-                    },
-                    Token::Str { value, raw } => Text {
-                        span: span!(self, start_name_pos),
-                        value,
-                        raw,
-                    },
-                    _ => Text {
-                        span: DUMMY_SP,
-                        value: js_word!(""),
-                        raw: js_word!(""),
-                    },
-                };
-                let mut blocks = vec![];
+                let at_rule_keyframe = self.parse();
 
-                self.input.skip_ws()?;
-
-                if is!(self, "{") {
-                    expect!(self, "{");
-
-                    // TODO: change on `parse_simple_block`
-                    blocks = self.parse_delimited(true)?;
-
-                    expect!(self, "}");
+                if at_rule_keyframe.is_ok() {
+                    return at_rule_keyframe
+                        .map(|mut r: KeyframesRule| {
+                            r.span.lo = start;
+                            r
+                        })
+                        .map(AtRule::Keyframes);
                 }
-
-                return Ok(AtRule::Keyframes(KeyframesRule {
-                    span: span!(self, start),
-                    id: name,
-                    blocks,
-                }));
             }
 
             "font-face" => {
@@ -384,6 +358,50 @@ where
             span: span!(self, span.lo),
             src: src.unwrap(),
             condition,
+        });
+    }
+}
+
+impl<I> Parse<KeyframesRule> for Parser<I>
+    where
+        I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<KeyframesRule> {
+        let span = self.input.cur_span()?;
+        let name = match bump!(self) {
+            Token::Ident { value, raw } => Text {
+                span: span!(self, span.lo),
+                value,
+                raw,
+            },
+            Token::Str { value, raw } => Text {
+                span: span!(self, span.lo),
+                value,
+                raw,
+            },
+            _ => Text {
+                span: DUMMY_SP,
+                value: js_word!(""),
+                raw: js_word!(""),
+            },
+        };
+        let mut blocks = vec![];
+
+        self.input.skip_ws()?;
+
+        if is!(self, "{") {
+            expect!(self, "{");
+
+            // TODO: change on `parse_simple_block`
+            blocks = self.parse_delimited(true)?;
+
+            expect!(self, "}");
+        }
+
+        return Ok(KeyframesRule {
+            span: span!(self, span.lo),
+            id: name,
+            blocks,
         });
     }
 }
