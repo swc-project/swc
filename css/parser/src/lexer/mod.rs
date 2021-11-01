@@ -179,10 +179,7 @@ where
                     let is_would_start_ident = self.would_start_ident(first, second, third)?;
 
                     match hash_token {
-                        Token::Hash {
-                            ref mut is_id,
-                            ..
-                        } => {
+                        Token::Hash { ref mut is_id, .. } => {
                             *is_id = is_would_start_ident;
                         }
                         _ => {
@@ -624,7 +621,8 @@ where
                         continue;
                     }
                     // Otherwise, if the next input code point is a newline, consume it.
-                    else if is_newline(self.input.peek().unwrap()) {
+                    else if self.input.peek().is_some() && is_newline(self.input.peek().unwrap())
+                    {
                         raw.push(c);
                         self.input.bump();
                         raw.push(self.input.cur().unwrap());
@@ -824,11 +822,11 @@ where
         match next {
             // hex digit
             Some(c) if is_hex_digit(c) => {
+                self.input.bump();
+
                 let mut hex = c.to_digit(16).unwrap();
 
                 raw.push(next.unwrap());
-
-                self.input.bump();
 
                 // Consume as many hex digits as possible, but no more than 5.
                 // Note that this means 1-6 hex digits have been consumed in total.
@@ -839,20 +837,21 @@ where
                         None => break,
                     };
 
-                    raw.push(next.unwrap());
-
                     self.input.bump();
 
+                    raw.push(next.unwrap());
                     hex = hex * 16 + digit;
                 }
 
                 self.last_pos = Some(self.input.cur_pos());
 
                 // If the next input code point is whitespace, consume it as well.
-                if is_whitespace(self.input.cur().unwrap()) {
-                    raw.push(self.input.cur().unwrap());
+                let next = self.input.cur();
 
+                if next.is_some() && is_whitespace(next.unwrap()) {
                     self.input.bump();
+
+                    raw.push(next.unwrap());
                 }
 
                 // Interpret the hex digits as a hexadecimal number. If this number is zero, or
@@ -875,10 +874,10 @@ where
             }
             // anything else
             // Return the current input code point.
-            _ => {
-                raw.push(next.unwrap());
-
+            Some(_) => {
                 self.input.bump();
+
+                raw.push(next.unwrap());
 
                 return Ok((next.unwrap(), raw));
             }
@@ -1086,11 +1085,11 @@ where
         let mut digits = String::new();
 
         loop {
-            let code = self.input.cur().unwrap();
+            let next = self.input.cur();
 
-            if code.is_digit(10) {
+            if next.is_some() && next.unwrap().is_digit(10) {
                 self.input.bump();
-                digits.push(code);
+                digits.push(next.unwrap());
             } else {
                 break;
             }
