@@ -172,12 +172,16 @@ where
             "viewport" | "-ms-viewport" => {
                 self.input.skip_ws()?;
 
-                let block = self.parse_simple_block()?;
+                let at_rule_viewport = self.parse();
 
-                return Ok(AtRule::Viewport(ViewportRule {
-                    span: span!(self, start),
-                    block,
-                }));
+                if at_rule_viewport.is_ok() {
+                    return at_rule_viewport
+                        .map(|mut r: ViewportRule| {
+                            r.span.lo = start;
+                            r
+                        })
+                        .map(AtRule::Viewport);
+                }
             }
 
             _ => {}
@@ -366,6 +370,21 @@ where
             span: span!(self, span.lo),
             id: name,
             blocks,
+        });
+    }
+}
+
+impl<I> Parse<ViewportRule> for Parser<I>
+    where
+        I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<ViewportRule> {
+        let span = self.input.cur_span()?;
+        let block = self.parse_simple_block()?;
+
+        return Ok(ViewportRule {
+            span: span!(self, span.lo),
+            block,
         });
     }
 }
