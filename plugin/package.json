@@ -1,0 +1,7 @@
+{
+    "name": "swc-plugin-dev",
+    "private": true,
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT"
+}
