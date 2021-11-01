@@ -77,12 +77,16 @@ where
             "font-face" => {
                 self.input.skip_ws()?;
 
-                let block = self.parse_simple_block()?;
+                let at_rule_font_face = self.parse();
 
-                return Ok(AtRule::FontFace(FontFaceRule {
-                    span: span!(self, start),
-                    block,
-                }));
+                if at_rule_font_face.is_ok() {
+                    return at_rule_font_face
+                        .map(|mut r: FontFaceRule| {
+                            r.span.lo = start;
+                            r
+                        })
+                        .map(AtRule::FontFace);
+                }
             }
 
             "supports" => {
@@ -402,6 +406,21 @@ impl<I> Parse<KeyframesRule> for Parser<I>
             span: span!(self, span.lo),
             id: name,
             blocks,
+        });
+    }
+}
+
+impl<I> Parse<FontFaceRule> for Parser<I>
+    where
+        I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<FontFaceRule> {
+        let span = self.input.cur_span()?;
+        let block = self.parse_simple_block()?;
+
+        return Ok(FontFaceRule {
+            span: span!(self, span.lo),
+            block,
         });
     }
 }
