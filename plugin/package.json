@@ -3,5 +3,8 @@
     "private": true,
     "version": "1.0.0",
     "main": "index.js",
-    "license": "MIT"
+    "license": "MIT",
+    "devDependencies": {
+        "@swc/plugin-internal-test": "^0.1.4"
+    }
 }
