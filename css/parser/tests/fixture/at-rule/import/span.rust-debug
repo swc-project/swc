@@ -1,14 +1,14 @@
 error: Stylesheet
- --> $DIR/tests/fixture/at-rule/import/input.css:1:1
-  |
-1 | / @import url("./style.css");
-2 | | @import url('./style.css');
-3 | | @import url(./style.css);
-4 | | @import './style.css';
-... |
-8 | | @import URL("./style.css");
-9 | | @import"test.css";
-  | |__________________^
+  --> $DIR/tests/fixture/at-rule/import/input.css:1:1
+   |
+1  | / @import url("./style.css");
+2  | | @import url('./style.css');
+3  | | @import url(./style.css);
+4  | | @import './style.css';
+...  |
+10 | | @import "common.css" screen;
+11 | | @import url('landscape.css') screen and (orientation:landscape);
+   | |_________________________________________________________________^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/import/input.css:1:1
@@ -351,4 +351,148 @@ error: Str
   |
 9 | @import"test.css";
   |        ^^^^^^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/import/input.css:10:1
+   |
+10 | @import "common.css" screen;
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/import/input.css:10:1
+   |
+10 | @import "common.css" screen;
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportRule
+  --> $DIR/tests/fixture/at-rule/import/input.css:10:1
+   |
+10 | @import "common.css" screen;
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportSource
+  --> $DIR/tests/fixture/at-rule/import/input.css:10:9
+   |
+10 | @import "common.css" screen;
+   |         ^^^^^^^^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/at-rule/import/input.css:10:9
+   |
+10 | @import "common.css" screen;
+   |         ^^^^^^^^^^^^
+
+error: MediaQuery
+  --> $DIR/tests/fixture/at-rule/import/input.css:10:22
+   |
+10 | @import "common.css" screen;
+   |                      ^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/at-rule/import/input.css:10:22
+   |
+10 | @import "common.css" screen;
+   |                      ^^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/import/input.css:11:1
+   |
+11 | @import url('landscape.css') screen and (orientation:landscape);
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/import/input.css:11:1
+   |
+11 | @import url('landscape.css') screen and (orientation:landscape);
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportRule
+  --> $DIR/tests/fixture/at-rule/import/input.css:11:1
+   |
+11 | @import url('landscape.css') screen and (orientation:landscape);
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportSource
+  --> $DIR/tests/fixture/at-rule/import/input.css:11:9
+   |
+11 | @import url('landscape.css') screen and (orientation:landscape);
+   |         ^^^^^^^^^^^^^^^^^^^^
+
+error: FnValue
+  --> $DIR/tests/fixture/at-rule/import/input.css:11:9
+   |
+11 | @import url('landscape.css') screen and (orientation:landscape);
+   |         ^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/at-rule/import/input.css:11:9
+   |
+11 | @import url('landscape.css') screen and (orientation:landscape);
+   |         ^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/import/input.css:11:13
+   |
+11 | @import url('landscape.css') screen and (orientation:landscape);
+   |             ^^^^^^^^^^^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/at-rule/import/input.css:11:13
+   |
+11 | @import url('landscape.css') screen and (orientation:landscape);
+   |             ^^^^^^^^^^^^^^^
+
+error: MediaQuery
+  --> $DIR/tests/fixture/at-rule/import/input.css:11:30
+   |
+11 | @import url('landscape.css') screen and (orientation:landscape);
+   |                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AndMediaQuery
+  --> $DIR/tests/fixture/at-rule/import/input.css:11:30
+   |
+11 | @import url('landscape.css') screen and (orientation:landscape);
+   |                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+  --> $DIR/tests/fixture/at-rule/import/input.css:11:30
+   |
+11 | @import url('landscape.css') screen and (orientation:landscape);
+   |                              ^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/at-rule/import/input.css:11:30
+   |
+11 | @import url('landscape.css') screen and (orientation:landscape);
+   |                              ^^^^^^
+
+error: MediaQuery
+  --> $DIR/tests/fixture/at-rule/import/input.css:11:42
+   |
+11 | @import url('landscape.css') screen and (orientation:landscape);
+   |                                          ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/import/input.css:11:42
+   |
+11 | @import url('landscape.css') screen and (orientation:landscape);
+   |                                          ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/at-rule/import/input.css:11:42
+   |
+11 | @import url('landscape.css') screen and (orientation:landscape);
+   |                                          ^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/import/input.css:11:54
+   |
+11 | @import url('landscape.css') screen and (orientation:landscape);
+   |                                                      ^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/at-rule/import/input.css:11:54
+   |
+11 | @import url('landscape.css') screen and (orientation:landscape);
+   |                                                      ^^^^^^^^^
 

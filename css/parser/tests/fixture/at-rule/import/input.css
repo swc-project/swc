@@ -7,3 +7,5 @@
 @import URL(./style.css);
 @import URL("./style.css");
 @import"test.css";
+@import "common.css" screen;
+@import url('landscape.css') screen and (orientation:landscape);

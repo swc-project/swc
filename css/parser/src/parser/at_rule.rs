@@ -15,38 +15,6 @@ impl<I> Parser<I>
 where
     I: ParserInput,
 {
-    fn parse_import_url(&mut self) -> PResult<ImportSource> {
-        if is!(self, Str) {
-            return self.parse_str().map(ImportSource::Str);
-        }
-
-        let span = self.input.cur_span()?;
-
-        match cur!(self) {
-            Token::Function { value, .. } if *value.to_ascii_lowercase() == js_word!("url") => {
-                let func = self.parse()?;
-
-                Ok(ImportSource::Fn(func))
-            }
-
-            Token::Url { .. } => match bump!(self) {
-                Token::Url { value, raw } => Ok(ImportSource::Url(UrlValue {
-                    span,
-                    url: value,
-                    raw,
-                })),
-                _ => {
-                    unreachable!()
-                }
-            },
-
-            _ => Err(Error::new(
-                span,
-                ErrorKind::Expected("url('https://example.com') or 'https://example.com'"),
-            )),
-        }
-    }
-
     pub(super) fn parse_at_rule(&mut self, _ctx: AtRuleContext) -> PResult<AtRule> {
         let start = self.input.cur_span()?.lo;
 
@@ -78,28 +46,15 @@ where
             "import" => {
                 self.input.skip_ws()?;
 
-                let res = self.parse_import_url();
-                match res {
-                    Ok(src) => {
-                        // TODO
+                let at_rule_import = self.parse();
 
-                        self.input.skip_ws()?;
-
-                        let condition = if !is_one_of!(self, ";", EOF) {
-                            Some(self.parse()?)
-                        } else {
-                            None
-                        };
-
-                        eat!(self, ";");
-
-                        return Ok(AtRule::Import(ImportRule {
-                            span: span!(self, start),
-                            src,
-                            condition,
-                        }));
-                    }
-                    Err(err) => return Err(err),
+                if at_rule_import.is_ok() {
+                    return at_rule_import
+                        .map(|mut r: ImportRule| {
+                            r.span.lo = start;
+                            r
+                        })
+                        .map(AtRule::Import);
                 }
             }
 
@@ -363,8 +318,6 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<CharsetRule> {
-        self.input.skip_ws()?;
-
         let span = self.input.cur_span()?;
         let charset;
 
@@ -385,6 +338,53 @@ where
         }
 
         return Err(Error::new(span, ErrorKind::InvalidCharsetAtRule));
+    }
+}
+
+impl<I> Parse<ImportRule> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<ImportRule> {
+        let span = self.input.cur_span()?;
+
+        let src = match cur!(self) {
+            Token::Str { .. } => {
+                let str = self.parse()?;
+
+                Ok(ImportSource::Str(str))
+            }
+            Token::Function { value, .. } if *value.to_ascii_lowercase() == js_word!("url") => {
+                let func = self.parse()?;
+
+                Ok(ImportSource::Fn(func))
+            }
+            Token::Url { .. } => {
+                let url = self.parse()?;
+
+                Ok(ImportSource::Url(url))
+            }
+            _ => Err(Error::new(
+                span,
+                ErrorKind::Expected("url('https://example.com') or 'https://example.com'"),
+            )),
+        };
+
+        self.input.skip_ws()?;
+
+        let condition = if !is_one_of!(self, ";", EOF) {
+            Some(self.parse()?)
+        } else {
+            None
+        };
+
+        eat!(self, ";");
+
+        return Ok(ImportRule {
+            span: span!(self, span.lo),
+            src: src.unwrap(),
+            condition,
+        });
     }
 }
 

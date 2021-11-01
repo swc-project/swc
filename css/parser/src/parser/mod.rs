@@ -99,20 +99,6 @@ where
             }
         }
     }
-
-    fn parse_str(&mut self) -> PResult<Str> {
-        let span = self.input.cur_span()?;
-        if !is!(self, Str) {
-            return Err(Error::new(span, ErrorKind::Expected("Str")));
-        }
-
-        match bump!(self) {
-            Token::Str { value, raw } => Ok(Str { span, value, raw }),
-            _ => {
-                unreachable!()
-            }
-        }
-    }
 }
 
 #[derive(Clone, Copy)]
