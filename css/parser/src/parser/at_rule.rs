@@ -127,25 +127,31 @@ where
             "page" => {
                 self.input.skip_ws()?;
 
-                return self
-                    .parse()
-                    .map(|mut r: PageRule| {
-                        r.span.lo = start;
-                        r
-                    })
-                    .map(AtRule::Page);
+                let at_rule_page = self.parse();
+
+                if at_rule_page.is_ok() {
+                    return at_rule_page
+                        .map(|mut r: PageRule| {
+                            r.span.lo = start;
+                            r
+                        })
+                        .map(AtRule::Page);
+                }
             }
 
             "document" | "-moz-document" => {
                 self.input.skip_ws()?;
 
-                return self
-                    .parse()
-                    .map(|mut r: DocumentRule| {
-                        r.span.lo = start;
-                        r
-                    })
-                    .map(AtRule::Document);
+                let at_rule_document = self.parse();
+
+                if at_rule_document.is_ok() {
+                    return at_rule_document
+                        .map(|mut r: DocumentRule| {
+                            r.span.lo = start;
+                            r
+                        })
+                        .map(AtRule::Document);
+                }
             }
 
             "namespace" => {
@@ -362,8 +368,8 @@ where
 }
 
 impl<I> Parse<KeyframesRule> for Parser<I>
-    where
-        I: ParserInput,
+where
+    I: ParserInput,
 {
     fn parse(&mut self) -> PResult<KeyframesRule> {
         let span = self.input.cur_span()?;
@@ -406,8 +412,8 @@ impl<I> Parse<KeyframesRule> for Parser<I>
 }
 
 impl<I> Parse<FontFaceRule> for Parser<I>
-    where
-        I: ParserInput,
+where
+    I: ParserInput,
 {
     fn parse(&mut self) -> PResult<FontFaceRule> {
         let span = self.input.cur_span()?;
@@ -421,8 +427,8 @@ impl<I> Parse<FontFaceRule> for Parser<I>
 }
 
 impl<I> Parse<SupportsRule> for Parser<I>
-    where
-        I: ParserInput,
+where
+    I: ParserInput,
 {
     fn parse(&mut self) -> PResult<SupportsRule> {
         let span = self.input.cur_span()?;

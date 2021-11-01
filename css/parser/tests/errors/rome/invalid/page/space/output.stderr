@@ -1,6 +1,8 @@
-error: Expected Ident
- --> $DIR/tests/errors/rome/invalid/page/space/input.css:1:12
+error: Unknown @rule is not terminated
+ --> $DIR/tests/errors/rome/invalid/page/space/input.css:1:1
   |
-1 | @page Page: blank {
-  |            ^
+1 | / @page Page: blank {
+2 | |     @top-center { content: none }
+3 | |     margin-left: 4cm;
+  | |_____________________^
 
