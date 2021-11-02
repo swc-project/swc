@@ -7,6 +7,7 @@ var _exportNames = {
 var _appConfig = _interopRequireWildcard(require("./app.config"));
 Object.keys(_appConfig).forEach(function(key) {
     if (key === "default" || key === "__esModule") return;
+    if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
     if (key in exports && exports[key] === _appConfig[key]) return;
     Object.defineProperty(exports, key, {
         enumerable: true,

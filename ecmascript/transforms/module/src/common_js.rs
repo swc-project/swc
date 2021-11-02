@@ -85,7 +85,7 @@ where
         let mut exports = vec![];
         let mut initialized = IndexSet::default();
 
-        let mut export_alls: AHashMap<JsWord, ModuleItem> = Default::default();
+        let mut export_alls: AHashMap<JsWord, Ident> = Default::default();
         // Used only if export * exists
         let mut exported_names: Option<Ident> = None;
 
@@ -233,11 +233,9 @@ where
                             }
 
                             export_alls.entry(export.src.value.clone()).or_insert(
-                                ModuleItem::Stmt(scope.handle_export_all(
-                                    quote_ident!("exports"),
-                                    exported_names.clone(),
-                                    export,
-                                )),
+                                scope
+                                    .import_to_export(&export.src, true)
+                                    .expect("Export should exists"),
                             );
 
                             drop(scope);
@@ -707,9 +705,13 @@ where
                 }
             }
 
-            let export_all = export_alls.remove(&src);
-            if let Some(export_all) = export_all {
-                stmts.push(export_all);
+            let exported = export_alls.remove(&src);
+            if let Some(export) = exported {
+                stmts.push(ModuleItem::Stmt(Scope::handle_export_all(
+                    quote_ident!("exports"),
+                    exported_names.clone(),
+                    export,
+                )));
             }
         }
 
