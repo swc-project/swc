@@ -9,8 +9,8 @@ use std::{
     cell::{Ref, RefCell, RefMut},
     rc::Rc,
 };
-use swc_atoms::js_word;
-use swc_common::{FileName, Mark, Span, DUMMY_SP};
+use swc_atoms::{js_word, JsWord};
+use swc_common::{collections::AHashMap, FileName, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
@@ -84,7 +84,10 @@ where
 
         let mut exports = vec![];
         let mut initialized = IndexSet::default();
-        let mut export_alls = vec![];
+
+        let mut export_alls: AHashMap<JsWord, Ident> = Default::default();
+        // Used only if export * exists
+        let mut exported_names: Option<Ident> = None;
 
         for item in items {
             self.in_top_level = true;
@@ -174,6 +177,7 @@ where
                     }
                     drop(scope);
                     drop(scope_ref_mut);
+
                     match item {
                         ModuleItem::ModuleDecl(ModuleDecl::ExportAll(export)) => {
                             self.scope
@@ -181,7 +185,61 @@ where
                                 .lazy_blacklist
                                 .insert(export.src.value.clone());
 
-                            export_alls.push(export);
+                            let mut scope_ref_mut = self.scope.borrow_mut();
+                            let scope = &mut *scope_ref_mut;
+
+                            if exported_names.is_none()
+                                && (export_alls.len() >= 1 || !exports.is_empty())
+                            {
+                                let exported_names_ident = private_ident!("_exportNames");
+                                stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                                    span: DUMMY_SP,
+                                    kind: VarDeclKind::Var,
+                                    decls: vec![VarDeclarator {
+                                        span: DUMMY_SP,
+                                        name: Pat::Ident(exported_names_ident.clone().into()),
+                                        init: Some(Box::new(Expr::Object(ObjectLit {
+                                            span: DUMMY_SP,
+                                            props: exports
+                                                .clone()
+                                                .into_iter()
+                                                .filter_map(|export| {
+                                                    if export == js_word!("default") {
+                                                        return None;
+                                                    }
+
+                                                    Some(PropOrSpread::Prop(Box::new(
+                                                        Prop::KeyValue(KeyValueProp {
+                                                            key: PropName::Ident(Ident::new(
+                                                                export, DUMMY_SP,
+                                                            )),
+                                                            value: Box::new(Expr::Lit(Lit::Bool(
+                                                                Bool {
+                                                                    span: DUMMY_SP,
+                                                                    value: true,
+                                                                },
+                                                            ))),
+                                                        }),
+                                                    )))
+                                                })
+                                                .collect(),
+                                        }))),
+                                        definite: false,
+                                    }],
+                                    declare: false,
+                                }))));
+
+                                exported_names = Some(exported_names_ident);
+                            }
+
+                            export_alls.entry(export.src.value.clone()).or_insert(
+                                scope
+                                    .import_to_export(&export.src, true)
+                                    .expect("Export should exists"),
+                            );
+
+                            drop(scope);
+                            drop(scope_ref_mut);
                         }
                         ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                             decl: decl @ Decl::Class(..),
@@ -521,61 +579,8 @@ where
             }
         }
 
-        let has_export = !exports.is_empty();
-
         let mut scope_ref_mut = self.scope.borrow_mut();
         let scope = &mut *scope_ref_mut;
-        // Used only if export * exists
-        let exported_names = {
-            if (!export_alls.is_empty() && has_export) || export_alls.len() >= 2 {
-                let exported_names = private_ident!("_exportNames");
-                stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    decls: vec![VarDeclarator {
-                        span: DUMMY_SP,
-                        name: Pat::Ident(exported_names.clone().into()),
-                        init: Some(Box::new(Expr::Object(ObjectLit {
-                            span: DUMMY_SP,
-                            props: exports
-                                .into_iter()
-                                .filter_map(|export| {
-                                    if export == js_word!("default") {
-                                        return None;
-                                    }
-
-                                    Some(PropOrSpread::Prop(Box::new(Prop::KeyValue(
-                                        KeyValueProp {
-                                            key: PropName::Ident(Ident::new(export, DUMMY_SP)),
-                                            value: Box::new(Expr::Lit(Lit::Bool(Bool {
-                                                span: DUMMY_SP,
-                                                value: true,
-                                            }))),
-                                        },
-                                    ))))
-                                })
-                                .collect(),
-                        }))),
-                        definite: false,
-                    }],
-                    declare: false,
-                }))));
-
-                Some(exported_names)
-            } else {
-                None
-            }
-        };
-
-        for export in export_alls {
-            // We use extra_stmts because it should be placed *after* import
-            // statements.
-            extra_stmts.push(ModuleItem::Stmt(scope.handle_export_all(
-                quote_ident!("exports"),
-                exported_names.clone(),
-                export,
-            )));
-        }
 
         if !initialized.is_empty() {
             stmts.push(
@@ -698,6 +703,15 @@ where
                 None => {
                     stmts.push(require.into_stmt().into());
                 }
+            }
+
+            let exported = export_alls.remove(&src);
+            if let Some(export) = exported {
+                stmts.push(ModuleItem::Stmt(Scope::handle_export_all(
+                    quote_ident!("exports"),
+                    exported_names.clone(),
+                    export,
+                )));
             }
         }
 
