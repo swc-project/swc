@@ -194,6 +194,10 @@ impl ProgramData {
         if is_modify && ctx.is_exact_reassignment {
             e.assign_count += 1;
 
+            if ctx.is_op_assign {
+                e.usage_count += 1;
+            }
+
             for other in e.infects.clone() {
                 self.report(other, ctx, true, dejavu)
             }

@@ -52,6 +52,8 @@ pub(crate) struct Ctx {
     pub(super) in_cond: bool,
 
     pub(super) inline_prevented: bool,
+
+    pub(super) is_op_assign: bool,
 }
 
 pub(super) struct WithCtx<'a, S>
