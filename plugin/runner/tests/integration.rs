@@ -1,5 +1,3 @@
-use std::path::PathBuf;
-
 use swc_plugin_runner::resolve;
 
 #[test]
