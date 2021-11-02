@@ -525,7 +525,10 @@ where
         };
 
         for export in export_alls {
-            stmts.push(scope.handle_export_all(
+            let export = scope
+                .import_to_export(&export.src, true)
+                .expect("Export should exists");
+            stmts.push(Scope::handle_export_all(
                 exports_ident.clone(),
                 exported_names.clone(),
                 export,

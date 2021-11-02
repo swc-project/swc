@@ -256,8 +256,8 @@ where
             return;
         }
 
-        // Temporary
-        if self.pass > 30 {
+        // This exists to prevent hanging.
+        if self.pass > 100 {
             panic!("Infinite loop detected (current pass = {})", self.pass)
         }
 
