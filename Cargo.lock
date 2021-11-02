@@ -1211,6 +1211,7 @@ dependencies = [
  "swc_ecma_parser",
  "swc_node_base",
  "swc_node_bundler",
+ "swc_plugin_runner",
  "tracing",
 ]
 
