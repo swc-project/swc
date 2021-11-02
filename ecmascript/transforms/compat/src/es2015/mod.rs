@@ -56,10 +56,10 @@ where
         for_of(c.for_of),
         // Should come before parameters
         // See: https://github.com/swc-project/swc/issues/1036
-        regenerator(c.regenerator, global_mark),
         parameters(),
         computed_properties(),
         destructuring(c.destructuring),
+        regenerator(c.regenerator, global_mark),
         block_scoping(),
     )
 }
