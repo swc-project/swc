@@ -1,7 +1,8 @@
-use rustc_hash::FxHashSet;
 use swc_atoms::JsWord;
-use swc_common::Spanned;
+use swc_common::{collections::AHashSet, Spanned};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::perf::Parallel;
+use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::quote_str;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -11,6 +12,15 @@ pub fn duplicate_keys() -> impl Fold + VisitMut {
 
 struct DuplicateKeys;
 
+impl Parallel for DuplicateKeys {
+    fn merge(&mut self, _: Self) {}
+
+    fn create(&self) -> Self {
+        Self
+    }
+}
+
+#[parallel]
 impl VisitMut for DuplicateKeys {
     noop_visit_mut_type!();
 
@@ -29,8 +39,8 @@ impl VisitMut for DuplicateKeys {
 
 #[derive(Default)]
 struct PropFolder {
-    getter_props: FxHashSet<JsWord>,
-    setter_props: FxHashSet<JsWord>,
+    getter_props: AHashSet<JsWord>,
+    setter_props: AHashSet<JsWord>,
 }
 
 impl VisitMut for PropFolder {
@@ -77,7 +87,7 @@ impl VisitMut for PropFolder {
 }
 
 struct PropNameFolder<'a> {
-    props: &'a mut FxHashSet<JsWord>,
+    props: &'a mut AHashSet<JsWord>,
 }
 
 impl<'a> VisitMut for PropNameFolder<'a> {

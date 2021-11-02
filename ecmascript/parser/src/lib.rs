@@ -64,7 +64,7 @@
 //!     let lexer = Lexer::new(
 //!         // We want to parse ecmascript
 //!         Syntax::Es(Default::default()),
-//!         // JscTarget defaults to es5
+//!         // EsVersion defaults to es5
 //!         Default::default(),
 //!         StringInput::from(&*fm),
 //!         None,
@@ -90,12 +90,12 @@
 //!
 //! ### Null character after `\`
 //!
-//! Becuase [String] of rust should only contain valid utf-8 characters while
-//! javascript allows non-utf8 chraceters, the parser stores invalid utf8
-//! chracters in escpaed form.
+//! Because [String] of rust should only contain valid utf-8 characters while
+//! javascript allows non-utf8 characters, the parser stores invalid utf8
+//! characters in escaped form.
 //!
 //! As a result, swc needs a way to distinguish invalid-utf8 code points and
-//! input specified by the user. The parser stores a null chracter right after
+//! input specified by the user. The parser stores a null character right after
 //! `\\` for non-utf8 code points. Note that other parts of swc is aware of this
 //! fact.
 //!
@@ -112,7 +112,9 @@ pub use self::{
     parser::*,
 };
 use serde::{Deserialize, Serialize};
-pub use swc_ecma_ast::EsVersion as JscTarget;
+use swc_ecma_ast::EsVersion;
+#[deprecated(note = "Use `EsVersion` instead")]
+pub type JscTarget = EsVersion;
 
 #[macro_use]
 mod macros;
@@ -280,7 +282,7 @@ impl Syntax {
             Syntax::Es(EsConfig {
                 private_in_object, ..
             }) => private_in_object,
-            _ => false,
+            Syntax::Typescript(_) => true,
         }
     }
 
@@ -428,9 +430,6 @@ pub struct Context {
 
     /// If true, `:` should not be treated as a type annotation.
     dont_parse_colon_as_type_ann: bool,
-
-    /// See: https://github.com/swc-project/swc/issues/2264
-    dont_store_comments: bool,
 }
 
 #[cfg(test)]

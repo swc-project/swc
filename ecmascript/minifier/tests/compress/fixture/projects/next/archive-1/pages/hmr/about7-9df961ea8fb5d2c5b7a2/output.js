@@ -18,11 +18,14 @@
         },
         9037: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             (window.__NEXT_P = window.__NEXT_P || []).push([
-                "/hmr/about7", function() {
+                "/hmr/about7",
+                function() {
                     return __webpack_require__(4208);
-                }, ]);
+                }, 
+            ]);
         }
-    }, function(__webpack_require__) {
+    },
+    function(__webpack_require__) {
         __webpack_require__.O(0, [
             774,
             888,
@@ -30,4 +33,5 @@
         ], function() {
             return __webpack_require__(__webpack_require__.s = 9037);
         }), _N_E = __webpack_require__.O();
-    }, ]);
+    }, 
+]);

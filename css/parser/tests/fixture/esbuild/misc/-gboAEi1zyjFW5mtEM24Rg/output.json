@@ -46,7 +46,8 @@
                     "end": 1,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "value": "a",
+                  "raw": "a"
                 }
               },
               "subclassSelectors": []
@@ -55,7 +56,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 2,
           "end": 45,
@@ -63,22 +64,23 @@
         },
         "items": [
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 4,
               "end": 43,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 4,
                 "end": 14,
                 "ctxt": 0
               },
-              "value": "box-shadow"
+              "value": "box-shadow",
+              "raw": "box-shadow"
             },
-            "values": [
+            "value": [
               {
                 "type": "FnValue",
                 "span": {
@@ -93,7 +95,8 @@
                     "end": 19,
                     "ctxt": 0
                   },
-                  "value": "rgb"
+                  "value": "rgb",
+                  "raw": "rgb"
                 },
                 "args": [
                   {
@@ -103,7 +106,8 @@
                       "end": 23,
                       "ctxt": 0
                     },
-                    "value": 255.0
+                    "value": 255.0,
+                    "raw": "255"
                   },
                   {
                     "type": "Number",
@@ -112,7 +116,8 @@
                       "end": 26,
                       "ctxt": 0
                     },
-                    "value": 0.0
+                    "value": 0.0,
+                    "raw": "0"
                   },
                   {
                     "type": "Number",
@@ -121,7 +126,8 @@
                       "end": 30,
                       "ctxt": 0
                     },
-                    "value": 17.0
+                    "value": 17.0,
+                    "raw": "17"
                   }
                 ]
               },
@@ -132,7 +138,8 @@
                   "end": 33,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               },
               {
                 "type": "Number",
@@ -141,7 +148,8 @@
                   "end": 35,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               },
               {
                 "type": "Number",
@@ -150,7 +158,8 @@
                   "end": 37,
                   "ctxt": 0
                 },
-                "value": 1.0
+                "value": 1.0,
+                "raw": "1"
               },
               {
                 "type": "Text",
@@ -159,7 +168,8 @@
                   "end": 43,
                   "ctxt": 0
                 },
-                "value": "inset"
+                "value": "inset",
+                "raw": "inset"
               }
             ],
             "important": null

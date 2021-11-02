@@ -1,3 +1,5 @@
+#![cfg(not(feature = "wrong-target"))]
+
 use rayon::prelude::*;
 use std::{
     fs::create_dir_all,
@@ -777,7 +779,7 @@ fn should_visit() {
                 config.inline_sources_content,
                 config.target,
                 config.source_maps,
-                &[],
+                &Default::default(),
                 None,
                 // TODO: figure out sourcemaps
                 config.minify,
@@ -790,6 +792,7 @@ fn should_visit() {
 }
 
 #[testing::fixture("tests/fixture/**/input/")]
+#[testing::fixture("tests/vercel/**/input/")]
 fn tests(input_dir: PathBuf) {
     let output = input_dir.parent().unwrap().join("output");
 
@@ -847,6 +850,7 @@ fn tests(input_dir: PathBuf) {
                             .unwrap();
                     }
                     Err(ref err) if format!("{:?}", err).contains("not matched") => {}
+                    Err(ref err) if format!("{:?}", err).contains("Syntax Error") => return Err(()),
                     Err(err) => panic!("Error: {:?}", err),
                 }
             }

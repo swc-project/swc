@@ -6,10 +6,12 @@ use crate::{
     marks::Marks,
     util::{can_end_conditionally, idents_used_by, now},
 };
-use rustc_hash::{FxHashMap, FxHashSet};
 use std::time::Instant;
-use swc_atoms::JsWord;
-use swc_common::{SyntaxContext, DUMMY_SP};
+use swc_atoms::{js_word, JsWord};
+use swc_common::{
+    collections::{AHashMap, AHashSet},
+    SyntaxContext, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
@@ -84,7 +86,7 @@ pub(crate) struct VarUsageInfo {
 
     pub has_property_access: bool,
     pub has_property_mutation: bool,
-    pub accessed_props: FxHashSet<JsWord>,
+    pub accessed_props: AHashSet<JsWord>,
 
     pub exported: bool,
     /// True if used **above** the declaration. (Not eval order).
@@ -97,6 +99,7 @@ pub(crate) struct VarUsageInfo {
     used_by_nested_fn: bool,
 
     pub used_in_loop: bool,
+    pub used_in_cond: bool,
 
     pub var_kind: Option<VarDeclKind>,
     pub var_initialized: bool,
@@ -115,6 +118,10 @@ impl VarUsageInfo {
     pub fn is_mutated_only_by_one_call(&self) -> bool {
         self.assign_count == 0 && self.mutation_by_call_count == 1
     }
+
+    pub fn is_infected(&self) -> bool {
+        !self.infects.is_empty()
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -132,11 +139,11 @@ pub(crate) struct ScopeData {
 /// Analyzed info of a whole program we are working on.
 #[derive(Debug, Default)]
 pub(crate) struct ProgramData {
-    pub vars: FxHashMap<Id, VarUsageInfo>,
+    pub vars: AHashMap<Id, VarUsageInfo>,
 
     pub top: ScopeData,
 
-    pub scopes: FxHashMap<SyntaxContext, ScopeData>,
+    pub scopes: AHashMap<SyntaxContext, ScopeData>,
 }
 
 /// This assumes there are no two variable with same name and same span hygiene.
@@ -201,14 +208,6 @@ where
 {
     noop_visit_type!();
 
-    fn visit_await_expr(&mut self, n: &AwaitExpr, _: &dyn Node) {
-        let ctx = Ctx {
-            in_await_arg: true,
-            ..self.ctx
-        };
-        n.visit_children_with(&mut *self.with_ctx(ctx));
-    }
-
     fn visit_arrow_expr(&mut self, n: &ArrowExpr, _: &dyn Node) {
         self.with_child(n.span.ctxt, ScopeKind::Fn, |child| {
             {
@@ -246,6 +245,14 @@ where
             ..self.ctx
         };
         n.right.visit_with(n, &mut *self.with_ctx(ctx));
+    }
+
+    fn visit_await_expr(&mut self, n: &AwaitExpr, _: &dyn Node) {
+        let ctx = Ctx {
+            in_await_arg: true,
+            ..self.ctx
+        };
+        n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
     fn visit_block_stmt(&mut self, n: &BlockStmt, _: &dyn Node) {
@@ -341,6 +348,19 @@ where
         self.declare_decl(&n.ident, true, None, false);
 
         n.visit_children_with(self);
+    }
+
+    fn visit_cond_expr(&mut self, n: &CondExpr, _: &dyn Node) {
+        n.test.visit_with(n, self);
+
+        {
+            let ctx = Ctx {
+                in_cond: true,
+                ..self.ctx
+            };
+            n.cons.visit_with(n, &mut *self.with_ctx(ctx));
+            n.alt.visit_with(n, &mut *self.with_ctx(ctx));
+        }
     }
 
     fn visit_do_while_stmt(&mut self, n: &DoWhileStmt, _: &dyn Node) {
@@ -731,18 +751,40 @@ where
     }
 
     fn visit_var_declarator(&mut self, e: &VarDeclarator, _: &dyn Node) {
-        let ctx = Ctx {
-            in_pat_of_var_decl: true,
-            in_pat_of_var_decl_with_init: e.init.is_some(),
-            in_var_decl_with_no_side_effect_for_member_access: match e.init.as_deref() {
-                Some(Expr::Array(..) | Expr::Lit(..)) => true,
-                _ => false,
-            },
-            ..self.ctx
+        let prevent_inline = match &e.name {
+            Pat::Ident(BindingIdent {
+                id:
+                    Ident {
+                        sym: js_word!("arguments"),
+                        ..
+                    },
+                ..
+            }) => true,
+            _ => false,
         };
-        e.name.visit_with(e, &mut *self.with_ctx(ctx));
+        {
+            let ctx = Ctx {
+                inline_prevented: self.ctx.inline_prevented || prevent_inline,
+                in_pat_of_var_decl: true,
+                in_pat_of_var_decl_with_init: e.init.is_some(),
+                in_var_decl_with_no_side_effect_for_member_access: match e.init.as_deref() {
+                    Some(Expr::Array(..) | Expr::Lit(..)) => true,
+                    _ => false,
+                },
+                ..self.ctx
+            };
+            e.name.visit_with(e, &mut *self.with_ctx(ctx));
+        }
 
-        e.init.visit_with(e, self);
+        {
+            let ctx = Ctx {
+                inline_prevented: self.ctx.inline_prevented || prevent_inline,
+                in_pat_of_var_decl: false,
+                ..self.ctx
+            };
+
+            e.init.visit_with(e, &mut *self.with_ctx(ctx));
+        }
     }
 
     fn visit_while_stmt(&mut self, n: &WhileStmt, _: &dyn Node) {

@@ -1,23 +1,27 @@
 use std::{iter, mem};
-use swc_common::{chain, util::move_map::MoveMap, Mark, Spanned, DUMMY_SP};
+use swc_common::{chain, util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{helper, helper_expr, perf::Check};
-use swc_ecma_transforms_macros::fast_path;
+use swc_ecma_transforms_base::{
+    helper, helper_expr,
+    perf::{Check, Parallel},
+};
+use swc_ecma_transforms_macros::{fast_path, parallel};
 use swc_ecma_utils::{
     alias_ident_for, alias_if_required, is_literal, private_ident, quote_ident, var::VarCollector,
     ExprFactory, StmtLike,
 };
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{
+    as_folder, noop_fold_type, noop_visit_mut_type, noop_visit_type, Fold, FoldWith, Node, Visit,
+    VisitMut, VisitMutWith, VisitWith,
+};
 
 /// `@babel/plugin-proposal-object-rest-spread`
 pub fn object_rest_spread() -> impl Fold {
-    chain!(ObjectRest, ObjectSpread)
+    chain!(ObjectRest::default(), as_folder(ObjectSpread))
 }
 
-struct ObjectRest;
-
-#[allow(clippy::vec_box)]
-struct RestFolder {
+#[derive(Default)]
+struct ObjectRest {
     /// Injected before the original statement.
     vars: Vec<VarDeclarator>,
     /// Variables which should be declared using `var`
@@ -121,11 +125,12 @@ macro_rules! impl_for_for_stmt {
             let stmt = Stmt::Decl(Decl::Var(VarDecl {
                 span: DUMMY_SP,
                 kind: VarDeclKind::Var,
-                decls: mem::replace(&mut self.vars, vec![]),
+                decls: mem::take(&mut self.vars),
                 declare: false,
             }));
 
-            for_stmt.body = Box::new(Stmt::Block(match *for_stmt.body {
+            let body = for_stmt.body.fold_with(self);
+            for_stmt.body = Box::new(Stmt::Block(match *body {
                 Stmt::Block(BlockStmt { span, stmts }) => BlockStmt {
                     span,
                     stmts: iter::once(stmt).chain(stmts).collect(),
@@ -141,7 +146,40 @@ macro_rules! impl_for_for_stmt {
     };
 }
 
-impl Fold for RestFolder {
+#[derive(Default)]
+struct RestVisitor {
+    found: bool,
+}
+
+impl Visit for RestVisitor {
+    noop_visit_type!();
+
+    fn visit_object_pat_prop(&mut self, prop: &ObjectPatProp, _: &dyn Node) {
+        match *prop {
+            ObjectPatProp::Rest(..) => self.found = true,
+            _ => prop.visit_children_with(self),
+        }
+    }
+}
+
+impl Check for RestVisitor {
+    fn should_handle(&self) -> bool {
+        self.found
+    }
+}
+
+fn contains_rest<N>(node: &N) -> bool
+where
+    N: VisitWith<RestVisitor>,
+{
+    let mut v = RestVisitor { found: false };
+    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+    v.found
+}
+
+/// TODO: VisitMut
+#[fast_path(RestVisitor)]
+impl Fold for ObjectRest {
     noop_fold_type!();
 
     impl_for_for_stmt!(fold_for_in_stmt, ForInStmt);
@@ -202,7 +240,7 @@ impl Fold for RestFolder {
                 self.exprs.push(Box::new(var_ident.into()));
                 Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
-                    exprs: mem::replace(&mut self.exprs, vec![]),
+                    exprs: mem::take(&mut self.exprs),
                 })
             }
             _ => expr,
@@ -253,6 +291,14 @@ impl Fold for RestFolder {
             }
             _ => decl.fold_children_with(self),
         }
+    }
+
+    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        self.fold_stmt_like(n)
+    }
+
+    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
+        self.fold_stmt_like(n)
     }
 
     fn fold_var_declarators(&mut self, decls: Vec<VarDeclarator>) -> Vec<VarDeclarator> {
@@ -341,7 +387,7 @@ impl Fold for RestFolder {
             }
 
             let mut index = self.vars.len();
-            let pat = self.fold_rest(
+            let mut pat = self.fold_rest(
                 &mut index,
                 decl.name,
                 Box::new(Expr::Ident(var_ident.clone())),
@@ -358,10 +404,13 @@ impl Fold for RestFolder {
                     // instead of
                     // `var b = _objectWithoutProperties(_ref, ['a']), { a } = _ref;`
                     // println!("var: simplified pat = var_ident({:?})", var_ident);
+
+                    pat.visit_mut_with(&mut PatSimplifier);
+
                     self.insert_var_if_not_empty(
                         index,
                         VarDeclarator {
-                            name: simplify_pat(pat),
+                            name: pat,
                             // preserve
                             init: if has_init {
                                 Some(Box::new(Expr::Ident(var_ident.clone())))
@@ -375,64 +424,24 @@ impl Fold for RestFolder {
             }
         }
 
-        mem::replace(&mut self.vars, vec![])
-    }
-}
-
-struct RestVisitor {
-    found: bool,
-}
-
-impl Visit for RestVisitor {
-    noop_visit_type!();
-
-    fn visit_object_pat_prop(&mut self, prop: &ObjectPatProp, _: &dyn Node) {
-        match *prop {
-            ObjectPatProp::Rest(..) => self.found = true,
-            _ => prop.visit_children_with(self),
-        }
-    }
-}
-
-fn contains_rest<N>(node: &N) -> bool
-where
-    N: VisitWith<RestVisitor>,
-{
-    let mut v = RestVisitor { found: false };
-    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
-    v.found
-}
-
-impl Fold for ObjectRest {
-    noop_fold_type!();
-    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        self.fold_stmt_like(n)
-    }
-
-    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
-        self.fold_stmt_like(n)
+        mem::take(&mut self.vars)
     }
 }
 
 impl ObjectRest {
     fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
     where
-        T: StmtLike + VisitWith<RestVisitor> + FoldWith<RestFolder>,
+        T: StmtLike + VisitWith<RestVisitor> + FoldWith<ObjectRest>,
         Vec<T>: FoldWith<Self> + VisitWith<RestVisitor>,
     {
         if !contains_rest(&stmts) {
             return stmts;
         }
-        let stmts = stmts.fold_children_with(self);
 
-        let mut buf = vec![];
+        let mut buf = Vec::with_capacity(stmts.len());
 
         for stmt in stmts {
-            let mut folder = RestFolder {
-                vars: vec![],
-                mutable_vars: vec![],
-                exprs: vec![],
-            };
+            let mut folder = ObjectRest::default();
             let stmt = stmt.fold_with(&mut folder);
 
             // Add variable declaration
@@ -470,86 +479,7 @@ impl ObjectRest {
     }
 }
 
-// impl Fold for RestFolder {
-//     fn fold(&mut self, f: ArrowExpr) -> ArrowExpr {
-//         let body_span = f.body.span();
-//         let (params, stmts) = self.fold_fn_like(
-//             f.params,
-//             match f.body {
-//                 BlockStmtOrExpr::BlockStmt(block) => block.stmts,
-//                 BlockStmtOrExpr::Expr(expr) => vec![Stmt::Return(ReturnStmt {
-//                     span: DUMMY_SP,
-//                     arg: Some(expr),
-//                 })],
-//             },
-//         );
-//         ArrowExpr {
-//             params,
-//             body: BlockStmtOrExpr::BlockStmt(BlockStmt {
-//                 span: body_span,
-//                 stmts,
-//             }),
-//             ..f
-//         }
-//     }
-// }
-
-// impl Fold for RestFolder {
-//     fn fold(&mut self, f: Function) -> Function {
-//         if f.body.is_none() {
-//             return f;
-//         }
-//         let body = f.body.unwrap();
-
-//         let (params, stmts) = self.fold_fn_like(f.params, body.stmts);
-//         Function {
-//             params,
-//             body: Some(BlockStmt { stmts, ..body }),
-//             ..f
-//         }
-//     }
-// }
-
-// impl Fold for RestFolder {
-//     fn fold(&mut self, mut c: CatchClause) -> CatchClause {
-//         if !contains_rest(&c.param) {
-//             // fast path
-//             return c;
-//         }
-
-//         let pat = match c.param {
-//             Some(pat) => pat,
-//             _ => return c,
-//         };
-
-//         ;
-//         let var_ident = private_ident!("_err");
-//         let param = self.fold_rest(pat, box Expr::Ident(var_ident.clone()),
-// false, true);         // initialize (or destructure)
-//         self.push_var_if_not_empty(VarDeclarator {
-//             span: DUMMY_SP,
-//             name: param,
-//             init: Some(box Expr::Ident(var_ident.clone())),
-//             definite: false,
-//         });
-//         c.body.stmts = iter::once(Stmt::Decl(Decl::Var(VarDecl {
-//             span: DUMMY_SP,
-//             kind: VarDeclKind::Let,
-//             decls: mem::replace(&mut self.vars, vec![]),
-//             declare: false,
-//         })))
-//         .chain(c.body.stmts)
-//         .collect();
-
-//         CatchClause {
-//             // catch (_err) {}
-//             param: Some(Pat::Ident(var_ident)),
-//             ..c
-//         }
-//     }
-// }
-
-impl RestFolder {
+impl ObjectRest {
     fn insert_var_if_not_empty(&mut self, idx: usize, mut decl: VarDeclarator) {
         if let Some(e1) = decl.init {
             if let Expr::Ident(ref i1) = *e1 {
@@ -698,7 +628,7 @@ impl RestFolder {
                     Some(Stmt::Decl(Decl::Var(VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
-                        decls: mem::replace(&mut self.vars, vec![]),
+                        decls: mem::take(&mut self.vars),
                         declare: false,
                     })))
                 }
@@ -1048,56 +978,52 @@ fn excluded_props(props: &[ObjectPatProp]) -> Vec<Option<ExprOrSpread>> {
 /// e.g.
 ///
 ///  - `{ x4: {}  }` -> `{}`
-fn simplify_pat(pat: Pat) -> Pat {
-    struct PatSimplifier;
-    impl Fold for PatSimplifier {
-        noop_fold_type!();
+struct PatSimplifier;
 
-        fn fold_pat(&mut self, pat: Pat) -> Pat {
-            let pat = pat.fold_children_with(self);
+impl VisitMut for PatSimplifier {
+    noop_visit_mut_type!();
 
-            match pat {
-                Pat::Object(o) => {
-                    let ObjectPat { span, props, .. } = o;
-                    let props = props.move_flat_map(|mut prop| {
-                        match prop {
-                            ObjectPatProp::KeyValue(KeyValuePatProp { key, value, .. }) => {
-                                match *value {
-                                    Pat::Object(ObjectPat { ref props, .. })
-                                        if props.is_empty() =>
-                                    {
-                                        return None;
-                                    }
-                                    _ => {
-                                        prop =
-                                            ObjectPatProp::KeyValue(KeyValuePatProp { key, value });
-                                    }
-                                }
+    fn visit_mut_pat(&mut self, pat: &mut Pat) {
+        pat.visit_mut_children_with(self);
+
+        match pat {
+            Pat::Object(o) => {
+                o.props.retain(|prop| {
+                    match prop {
+                        ObjectPatProp::KeyValue(KeyValuePatProp { value, .. }) => match &**value {
+                            Pat::Object(ObjectPat { props, .. }) if props.is_empty() => {
+                                return false;
                             }
                             _ => {}
-                        }
+                        },
+                        _ => {}
+                    }
 
-                        Some(prop)
-                    });
-
-                    Pat::Object(ObjectPat { span, props, ..o })
-                }
-                _ => pat,
+                    true
+                });
             }
+            _ => {}
         }
     }
-
-    pat.fold_with(&mut PatSimplifier)
 }
 
+#[derive(Clone, Copy)]
 struct ObjectSpread;
 
-#[fast_path(SpreadVisitor)]
-impl Fold for ObjectSpread {
-    noop_fold_type!();
+impl Parallel for ObjectSpread {
+    fn create(&self) -> Self {
+        ObjectSpread
+    }
 
-    fn fold_expr(&mut self, expr: Expr) -> Expr {
-        let expr = expr.fold_children_with(self);
+    fn merge(&mut self, _: Self) {}
+}
+
+#[parallel]
+impl VisitMut for ObjectSpread {
+    noop_visit_mut_type!();
+
+    fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        expr.visit_mut_children_with(self);
 
         match expr {
             Expr::Object(ObjectLit { span, props }) => {
@@ -1106,7 +1032,7 @@ impl Fold for ObjectSpread {
                     _ => false,
                 });
                 if !has_spread {
-                    return Expr::Object(ObjectLit { span, props });
+                    return;
                 }
 
                 let mut first = true;
@@ -1118,19 +1044,13 @@ impl Fold for ObjectSpread {
                         span: DUMMY_SP,
                         props: vec![],
                     };
-                    for prop in props {
+                    for prop in props.take() {
                         match prop {
                             PropOrSpread::Prop(..) => obj.props.push(prop),
                             PropOrSpread::Spread(SpreadElement { expr, .. }) => {
                                 // Push object if it's not empty
                                 if first || !obj.props.is_empty() {
-                                    let obj = mem::replace(
-                                        &mut obj,
-                                        ObjectLit {
-                                            span: DUMMY_SP,
-                                            props: vec![],
-                                        },
-                                    );
+                                    let obj = obj.take();
                                     buf.push(obj.as_arg());
                                     first = false;
                                 }
@@ -1147,32 +1067,14 @@ impl Fold for ObjectSpread {
                     buf
                 };
 
-                Expr::Call(CallExpr {
-                    span,
+                *expr = Expr::Call(CallExpr {
+                    span: *span,
                     callee: helper!(object_spread, "objectSpread"),
                     args,
                     type_args: Default::default(),
-                })
+                });
             }
-            _ => expr,
+            _ => {}
         }
-    }
-}
-#[derive(Default)]
-struct SpreadVisitor {
-    found: bool,
-}
-
-impl Visit for SpreadVisitor {
-    noop_visit_type!();
-
-    fn visit_spread_element(&mut self, _: &SpreadElement, _: &dyn Node) {
-        self.found = true;
-    }
-}
-
-impl Check for SpreadVisitor {
-    fn should_handle(&self) -> bool {
-        self.found
     }
 }

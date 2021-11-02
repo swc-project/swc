@@ -1,25 +1,23 @@
 use crate::path::ImportResolver;
 use anyhow::Context;
-use indexmap::IndexMap;
+use indexmap::{IndexMap, IndexSet};
 use inflector::Inflector;
-use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
 use serde::{Deserialize, Serialize};
 use std::{
     cell::{Ref, RefMut},
     collections::hash_map::Entry,
-    hash::BuildHasherDefault,
     iter,
 };
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
     util::take::Take,
-    FileName, Mark, Span, SyntaxContext, DUMMY_SP,
+    FileName, Mark, Span, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     ident::IdentLike, member_expr, private_ident, quote_ident, quote_str, undefined,
-    DestructuringFinder, ExprFactory,
+    DestructuringFinder, ExprFactory, Id,
 };
 use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 
@@ -42,6 +40,8 @@ pub struct Config {
     pub lazy: Lazy,
     #[serde(default)]
     pub no_interop: bool,
+    #[serde(default)]
+    pub ignore_dynamic: bool,
 }
 
 impl Default for Config {
@@ -51,6 +51,7 @@ impl Default for Config {
             strict_mode: default_strict_mode(),
             lazy: Lazy::default(),
             no_interop: false,
+            ignore_dynamic: false,
         }
     }
 }
@@ -96,11 +97,11 @@ pub struct Scope {
     ///
     ///  - `import * as bar1 from 'bar';`
     ///   -> `{'bar': Some(bar1)}`
-    pub(crate) imports: IndexMap<JsWord, Option<(JsWord, Span)>, BuildHasherDefault<FxHasher>>,
+    pub(crate) imports: IndexMap<JsWord, Option<(JsWord, Span)>, ahash::RandomState>,
     ///
     /// - `true` is wildcard (`_interopRequireWildcard`)
     /// - `false` is default (`_interopRequireDefault`)
-    pub(crate) import_types: FxHashMap<JsWord, bool>,
+    pub(crate) import_types: AHashMap<JsWord, bool>,
 
     /// This fields tracks if a helper should be injected.
     ///
@@ -115,12 +116,12 @@ pub struct Scope {
     ///
     ///  - `import foo from 'bar';`
     ///   -> `{foo: ('bar', default)}`
-    pub(crate) idents: FxHashMap<(JsWord, SyntaxContext), (JsWord, JsWord)>,
+    pub(crate) idents: AHashMap<Id, (JsWord, JsWord)>,
 
     /// Declared variables except const.
-    pub(crate) declared_vars: Vec<(JsWord, SyntaxContext)>,
+    pub(crate) declared_vars: Vec<Id>,
 
-    /// Maps of exported variables.
+    /// Maps of exported bindings.
     ///
     ///
     /// e.g.
@@ -129,7 +130,7 @@ pub struct Scope {
     ///
     ///  - `export { a as b }`
     ///   -> `{ a: [b] }`
-    pub(crate) exported_vars: AHashMap<(JsWord, SyntaxContext), Vec<(JsWord, SyntaxContext)>>,
+    pub(crate) exported_bindings: AHashMap<Id, Vec<Id>>,
 
     /// This is required to handle
     /// `export * from 'foo';`
@@ -154,13 +155,10 @@ impl Scope {
     /// # Parameters
     /// - `exported_names` Ident of the object literal.
     pub fn handle_export_all(
-        &mut self,
         exports: Ident,
         exported_names: Option<Ident>,
-        export: ExportAll,
+        imported: Ident,
     ) -> Stmt {
-        let imported = self.import_to_export(&export.src, true).unwrap();
-
         let key_ident = private_ident!("key");
 
         let function = Function {
@@ -505,6 +503,7 @@ impl Scope {
         }
 
         match expr {
+            // In a JavaScript module, this is undefined at the top level (i.e., outside functions).
             Expr::This(ThisExpr { span }) if top_level => *undefined(span),
             Expr::Ident(i) => match Self::fold_ident(folder, top_level, i) {
                 Ok(expr) => expr,
@@ -518,7 +517,8 @@ impl Scope {
                 callee: ExprOrSuper::Expr(callee),
                 args,
                 ..
-            }) if args.len() == 1
+            }) if !folder.config().ignore_dynamic
+                && args.len() == 1
                 && match *callee {
                     Expr::Ident(Ident {
                         sym: js_word!("import"),
@@ -601,7 +601,7 @@ impl Scope {
                 let arg = arg.ident().unwrap();
                 let mut scope = folder.scope_mut();
                 let entry = scope
-                    .exported_vars
+                    .exported_bindings
                     .entry((arg.sym.clone(), arg.span.ctxt()));
 
                 match entry {
@@ -741,7 +741,7 @@ impl Scope {
                         let i = pat.ident().unwrap();
                         let mut scope = folder.scope_mut();
                         let entry = scope
-                            .exported_vars
+                            .exported_bindings
                             .entry((i.id.sym.clone(), i.id.span.ctxt()));
 
                         match entry {
@@ -769,7 +769,7 @@ impl Scope {
                                     .filter_map(|i| {
                                         let mut scope = folder.scope_mut();
                                         let entry = match scope
-                                            .exported_vars
+                                            .exported_bindings
                                             .entry((i.sym.clone(), i.span.ctxt()))
                                         {
                                             Entry::Occupied(entry) => entry,
@@ -904,7 +904,10 @@ pub(super) fn use_strict() -> Stmt {
 /// ```js
 /// exports.default = exports.foo = void 0;
 /// ```
-pub(super) fn initialize_to_undefined(exports: Ident, initialized: FxHashSet<JsWord>) -> Box<Expr> {
+pub(super) fn initialize_to_undefined(
+    exports: Ident,
+    initialized: IndexSet<JsWord, ahash::RandomState>,
+) -> Box<Expr> {
     let mut rhs = undefined(DUMMY_SP);
 
     for name in initialized.into_iter() {
@@ -981,6 +984,24 @@ macro_rules! mark_as_nested {
         mark_as_nested!(fold_constructor, Constructor);
         mark_as_nested!(fold_setter_prop, SetterProp);
         mark_as_nested!(fold_getter_prop, GetterProp);
+        mark_as_nested!(fold_static_block, StaticBlock);
+
+        fn fold_class_prop(&mut self, mut n: ClassProp) -> ClassProp {
+            use swc_common::util::take::Take;
+            if n.computed {
+                let key = n.key.take().fold_children_with(self);
+
+                let old = self.in_top_level;
+                self.in_top_level = false;
+                let mut n = n.fold_children_with(self);
+                self.in_top_level = old;
+
+                n.key = key;
+                n
+            } else {
+                n
+            }
+        }
     };
 
     ($name:ident, $T:tt) => {

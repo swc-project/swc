@@ -21,15 +21,22 @@ impl Visit for AssertValid {
         }
 
         match &s.args.tokens[0].token {
-            Token::Colon | Token::Num(..) => return,
+            Token::Colon | Token::Num { .. } => return,
             _ => {}
         }
 
         let mut errors = vec![];
 
-        let _selectors: Vec<ComplexSelector> =
-            parse_tokens(&s.args, ParserConfig { parse_values: true }, &mut errors)
-                .unwrap_or_else(|err| panic!("failed to parse tokens: {:?}\n{:?}", err, s.args));
+        let _selectors: Vec<ComplexSelector> = parse_tokens(
+            &s.args,
+            ParserConfig {
+                parse_values: true,
+
+                ..Default::default()
+            },
+            &mut errors,
+        )
+        .unwrap_or_else(|err| panic!("failed to parse tokens: {:?}\n{:?}", err, s.args));
 
         for err in errors {
             panic!("{:?}", err);
@@ -45,7 +52,7 @@ fn tokens_input(input: PathBuf) {
         let fm = cm.load_file(&input).unwrap();
 
         let tokens = {
-            let mut lexer = Lexer::new(SourceFileInput::from(&*fm));
+            let mut lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
 
             let mut tokens = vec![];
 
@@ -59,9 +66,16 @@ fn tokens_input(input: PathBuf) {
         };
 
         let mut errors = vec![];
-        let ss: Stylesheet =
-            parse_tokens(&tokens, ParserConfig { parse_values: true }, &mut errors)
-                .expect("failed to parse tokens");
+        let ss: Stylesheet = parse_tokens(
+            &tokens,
+            ParserConfig {
+                parse_values: true,
+
+                ..Default::default()
+            },
+            &mut errors,
+        )
+        .expect("failed to parse tokens");
 
         for err in errors {
             err.to_diagnostics(&handler).emit();
@@ -78,16 +92,15 @@ fn tokens_input(input: PathBuf) {
     .unwrap();
 }
 
-#[testing::fixture("tests/fixture/**/input.css")]
-fn pass(input: PathBuf) {
+fn test_pass(input: PathBuf, config: ParserConfig) {
     eprintln!("Input: {}", input.display());
 
     testing::run_test2(false, |cm, handler| {
         let ref_json_path = input.parent().unwrap().join("output.json");
 
         let fm = cm.load_file(&input).unwrap();
-        let lexer = Lexer::new(SourceFileInput::from(&*fm));
-        let mut parser = Parser::new(lexer, ParserConfig { parse_values: true });
+        let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
+        let mut parser = Parser::new(lexer, config);
 
         let stylesheet = parser.parse_all();
 
@@ -99,8 +112,8 @@ fn pass(input: PathBuf) {
 
                 actual_json.clone().compare_to_file(&ref_json_path).unwrap();
 
-                {
-                    let mut lexer = Lexer::new(SourceFileInput::from(&*fm));
+                if !config.allow_wrong_line_comments {
+                    let mut lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
                     let mut tokens = Tokens {
                         span: Span::new(fm.start_pos, fm.end_pos, Default::default()),
                         tokens: vec![],
@@ -123,9 +136,16 @@ fn pass(input: PathBuf) {
                     }
 
                     let mut errors = vec![];
-                    let ss_tok: Stylesheet =
-                        parse_tokens(&tokens, ParserConfig { parse_values: true }, &mut errors)
-                            .expect("failed to parse token");
+                    let ss_tok: Stylesheet = parse_tokens(
+                        &tokens,
+                        ParserConfig {
+                            parse_values: true,
+
+                            ..Default::default()
+                        },
+                        &mut errors,
+                    )
+                    .expect("failed to parse token");
 
                     for err in errors {
                         err.to_diagnostics(&handler).emit();
@@ -153,6 +173,29 @@ fn pass(input: PathBuf) {
     .unwrap();
 }
 
+#[testing::fixture("tests/fixture/**/input.css")]
+fn pass(input: PathBuf) {
+    test_pass(
+        input,
+        ParserConfig {
+            parse_values: true,
+            ..Default::default()
+        },
+    )
+}
+
+#[testing::fixture("tests/line-comment/**/input.css")]
+fn line_commetns(input: PathBuf) {
+    test_pass(
+        input,
+        ParserConfig {
+            parse_values: true,
+            allow_wrong_line_comments: true,
+            ..Default::default()
+        },
+    )
+}
+
 #[testing::fixture("tests/recovery/**/input.css")]
 fn recovery(input: PathBuf) {
     eprintln!("Input: {}", input.display());
@@ -168,9 +211,13 @@ fn recovery(input: PathBuf) {
 
         let ref_json_path = input.parent().unwrap().join("output.json");
 
+        let config = ParserConfig {
+            parse_values: true,
+            allow_wrong_line_comments: false,
+        };
         let fm = cm.load_file(&input).unwrap();
-        let lexer = Lexer::new(SourceFileInput::from(&*fm));
-        let mut parser = Parser::new(lexer, ParserConfig { parse_values: true });
+        let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
+        let mut parser = Parser::new(lexer, config);
 
         let stylesheet = parser.parse_all();
 
@@ -183,7 +230,7 @@ fn recovery(input: PathBuf) {
                 actual_json.clone().compare_to_file(&ref_json_path).unwrap();
 
                 {
-                    let mut lexer = Lexer::new(SourceFileInput::from(&*fm));
+                    let mut lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
                     let mut tokens = Tokens {
                         span: Span::new(fm.start_pos, fm.end_pos, Default::default()),
                         tokens: vec![],
@@ -206,9 +253,15 @@ fn recovery(input: PathBuf) {
                     }
 
                     let mut errors = vec![];
-                    let ss_tok: Stylesheet =
-                        parse_tokens(&tokens, ParserConfig { parse_values: true }, &mut errors)
-                            .expect("failed to parse token");
+                    let ss_tok: Stylesheet = parse_tokens(
+                        &tokens,
+                        ParserConfig {
+                            parse_values: true,
+                            ..Default::default()
+                        },
+                        &mut errors,
+                    )
+                    .expect("failed to parse token");
 
                     for err in errors {
                         err.to_diagnostics(&handler).emit();
@@ -261,7 +314,7 @@ macro_rules! mtd {
 }
 
 impl Visit for SpanVisualizer<'_> {
-    mtd!(ArrayValue, visit_array_value);
+    mtd!(SquareBracketBlock, visit_square_bracket_block);
     mtd!(AtRule, visit_at_rule);
     mtd!(AtSelector, visit_at_selector);
     mtd!(AtTextValue, visit_at_text_value);
@@ -272,7 +325,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(SpaceValues, visit_space_values);
     mtd!(ComplexSelector, visit_complex_selector);
     mtd!(CompoundSelector, visit_compound_selector);
-    mtd!(DeclBlock, visit_decl_block);
+    mtd!(Block, visit_block);
     mtd!(FnValue, visit_fn_value);
     mtd!(HashValue, visit_hash_value);
     mtd!(IdSelector, visit_id_selector);
@@ -280,7 +333,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(Num, visit_num);
     mtd!(ParenValue, visit_paren_value);
     mtd!(PercentValue, visit_percent_value);
-    mtd!(Property, visit_property);
+    mtd!(Declaration, visit_declaration);
     mtd!(PseudoSelector, visit_pseudo_selector);
     mtd!(Rule, visit_rule);
     mtd!(Str, visit_str);
@@ -302,6 +355,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(CommaMediaQuery, visit_comma_media_query);
     mtd!(DocumentRule, visit_document_rule);
     mtd!(FontFaceRule, visit_font_face_rule);
+    mtd!(ImportSource, visit_import_source);
     mtd!(ImportRule, visit_import_rule);
     mtd!(KeyframeBlock, visit_keyframe_block);
     mtd!(KeyframeBlockRule, visit_keyframe_block_rule);
@@ -309,6 +363,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(KeyframesRule, visit_keyframes_rule);
     mtd!(MediaQuery, visit_media_query);
     mtd!(MediaRule, visit_media_rule);
+    mtd!(NamespaceValue, visit_namespace_value);
     mtd!(NamespaceRule, visit_namespace_rule);
     mtd!(NestedPageRule, visit_nested_page_rule);
     mtd!(NotMediaQuery, visit_not_media_query);
@@ -339,13 +394,19 @@ fn span(input: PathBuf) {
     let dir = input.parent().unwrap().to_path_buf();
 
     let output = testing::run_test2(false, |cm, handler| {
+        // Type annotation
         if false {
             return Ok(());
         }
 
+        let config = ParserConfig {
+            parse_values: true,
+            ..Default::default()
+        };
+
         let fm = cm.load_file(&input).unwrap();
-        let lexer = Lexer::new(SourceFileInput::from(&*fm));
-        let mut parser = Parser::new(lexer, ParserConfig { parse_values: true });
+        let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
+        let mut parser = Parser::new(lexer, config);
 
         let stylesheet = parser.parse_all();
 
@@ -381,9 +442,15 @@ fn fail(input: PathBuf) {
     let stderr_path = input.parent().unwrap().join("output.stderr");
 
     let stderr = testing::run_test2(false, |cm, handler| -> Result<(), _> {
+        let config = ParserConfig {
+            parse_values: true,
+
+            ..Default::default()
+        };
+
         let fm = cm.load_file(&input).unwrap();
-        let lexer = Lexer::new(SourceFileInput::from(&*fm));
-        let mut parser = Parser::new(lexer, ParserConfig { parse_values: true });
+        let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
+        let mut parser = Parser::new(lexer, config);
 
         let stylesheet = parser.parse_all();
 

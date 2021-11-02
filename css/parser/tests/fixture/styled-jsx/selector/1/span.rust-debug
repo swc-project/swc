@@ -58,43 +58,43 @@ error: Tokens
 1 | :global(.foo + a) {
   |         ^^^^^^^^
 
-error: Dot
+error: Delim { value: '.' }
  --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:9
   |
 1 | :global(.foo + a) {
   |         ^
 
-error: Ident(Atom('foo' type=inline))
+error: Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
  --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:10
   |
 1 | :global(.foo + a) {
   |          ^^^
 
-error: WhiteSpace
+error: WhiteSpace { value: Atom(' ' type=inline) }
  --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:13
   |
 1 | :global(.foo + a) {
   |             ^
 
-error: Plus
+error: Delim { value: '+' }
  --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:14
   |
 1 | :global(.foo + a) {
   |              ^
 
-error: WhiteSpace
+error: WhiteSpace { value: Atom(' ' type=inline) }
  --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:15
   |
 1 | :global(.foo + a) {
   |               ^
 
-error: Ident(Atom('a' type=inline))
+error: Ident { value: Atom('a' type=inline), raw: Atom('a' type=inline) }
  --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:16
   |
 1 | :global(.foo + a) {
   |                ^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:19
   |
 1 |   :global(.foo + a) {
@@ -103,7 +103,7 @@ error: DeclBlock
 3 | | }
   | |_^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:2:5
   |
 2 |     color: red;

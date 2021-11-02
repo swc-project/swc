@@ -1,5 +1,5 @@
 pub use self::{document::*, keyframe::*, media::*, page::*, support::*};
-use crate::{DeclBlock, Str, Text, Tokens};
+use crate::{Block, FnValue, Str, Text, Tokens, UrlValue};
 use is_macro::Is;
 use swc_common::{ast_node, Span};
 
@@ -52,30 +52,51 @@ pub struct CharsetRule {
     pub charset: Str,
 }
 
+#[ast_node]
+pub enum ImportSource {
+    #[tag("FnValue")]
+    Fn(FnValue),
+
+    #[tag("UrlValue")]
+    Url(UrlValue),
+
+    #[tag("Str")]
+    Str(Str),
+}
+
 #[ast_node("ImportRule")]
 pub struct ImportRule {
     pub span: Span,
-    pub src: Str,
+    pub src: ImportSource,
     pub condition: Option<MediaQuery>,
 }
 
 #[ast_node("FontFaceRule")]
 pub struct FontFaceRule {
     pub span: Span,
-    pub block: DeclBlock,
+    pub block: Block,
+}
+
+#[ast_node]
+pub enum NamespaceValue {
+    #[tag("UrlValue")]
+    Url(UrlValue),
+
+    #[tag("Str")]
+    Str(Str),
 }
 
 #[ast_node("NamespaceRule")]
 pub struct NamespaceRule {
     pub span: Span,
     pub prefix: Text,
-    pub value: Str,
+    pub value: NamespaceValue,
 }
 
 #[ast_node("ViewportRule")]
 pub struct ViewportRule {
     pub span: Span,
-    pub block: DeclBlock,
+    pub block: Block,
 }
 
 #[ast_node("UnknownAtRule")]

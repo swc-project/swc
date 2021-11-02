@@ -26,10 +26,10 @@ where
         let mut values = vec![];
         let mut state = self.input.state();
         let start_pos = self.input.cur_span()?.lo;
-
         let mut hi = self.input.last_pos()?;
+
         loop {
-            if is_one_of!(self, EOF, ";", "}", "!", ")") {
+            if is_one_of!(self, EOF, ";", "}", "!", ")", "]") {
                 self.input.reset(&state);
                 break;
             }
@@ -47,12 +47,12 @@ where
 
             if !eat!(self, " ") {
                 if self.ctx.recover_from_property_value
-                    && !is_one_of!(self, EOF, ";", "}", "!", ")")
+                    && !is_one_of!(self, EOF, ";", "}", "!", ")", "]")
                 {
                     self.input.reset(&start);
 
                     let mut tokens = vec![];
-                    while !is_one_of!(self, EOF, ";", "}", "!", ")") {
+                    while !is_one_of!(self, EOF, ";", "}", "!", ")", "]") {
                         tokens.extend(self.input.bump()?);
                     }
 
@@ -60,7 +60,7 @@ where
                     let v = Value::Lazy(Tokens { span, tokens });
 
                     self.errors
-                        .push(Error::new(span, ErrorKind::InvalidPropertyValue));
+                        .push(Error::new(span, ErrorKind::InvalidDeclarationValue));
 
                     return Ok((vec![v], hi));
                 }
@@ -81,9 +81,11 @@ where
             self.input.skip_ws()?;
 
             let mut values = vec![];
+
             values.push(value);
+
             loop {
-                if !is_one_of!(self, Str, Num, Ident, "[", "(") {
+                if !is_one_of!(self, Str, Num, Ident, Function, Dimension, "[", "(") {
                     break;
                 }
 
@@ -168,6 +170,7 @@ where
             }
 
             try_group!("(", ")");
+            try_group!("function", ")");
             try_group!("[", "]");
             try_group!("{", "}");
 
@@ -193,7 +196,7 @@ where
                 let token = bump!(self);
 
                 match token {
-                    Token::Str { value } => return Ok(Value::Str(Str { span, value })),
+                    Token::Str { value, raw } => return Ok(Value::Str(Str { span, value, raw })),
                     _ => {
                         unreachable!()
                     }
@@ -202,9 +205,15 @@ where
 
             Token::Num { .. } => return self.parse_numeric_value(),
 
+            Token::Function { .. } => return self.parse_value_ident_or_fn(),
+
+            Token::Percent { .. } => return self.parse_numeric_value(),
+
+            Token::Dimension { .. } => return self.parse_numeric_value(),
+
             Token::Ident { .. } => return self.parse_value_ident_or_fn(),
 
-            tok!("[") => return self.parse_array_value().map(From::from),
+            tok!("[") => return self.parse_square_brackets_value().map(From::from),
 
             tok!("(") => return self.parse_paren_value().map(From::from),
 
@@ -212,12 +221,27 @@ where
                 return self.parse_brace_value().map(From::from);
             }
 
-            Token::Hash { .. } => return self.parse_hash_value().map(From::from),
+            Token::Hash { .. } => {
+                let token = bump!(self);
 
-            Token::AtKeyword(..) => {
+                match token {
+                    Token::Hash { value, raw, .. } => {
+                        return Ok(Value::Hash(HashValue {
+                            span,
+                            value: value.into(),
+                            raw: raw.into(),
+                        }))
+                    }
+                    _ => {
+                        unreachable!()
+                    }
+                }
+            }
+
+            Token::AtKeyword { .. } => {
                 let name = bump!(self);
                 let name = match name {
-                    Token::AtKeyword(name) => Text { span, value: name },
+                    Token::AtKeyword { value, raw } => Text { span, value, raw },
                     _ => {
                         unreachable!()
                     }
@@ -238,7 +262,7 @@ where
 
             Token::Url { .. } => {
                 let url = match bump!(self) {
-                    Token::Url { value } => value,
+                    Token::Url { value, raw } => (value, raw),
                     _ => {
                         unreachable!()
                     }
@@ -246,7 +270,8 @@ where
 
                 return Ok(Value::Url(UrlValue {
                     span: span!(self, span.lo),
-                    url,
+                    url: url.0,
+                    raw: url.1,
                 }));
             }
 
@@ -263,7 +288,7 @@ where
             }));
         }
 
-        Err(Error::new(span, ErrorKind::Expected("Property value")))
+        Err(Error::new(span, ErrorKind::Expected("Declaration value")))
     }
 
     /// This may parse operations, depending on the context.
@@ -316,18 +341,6 @@ where
         return Ok(base);
     }
 
-    fn parse_hash_value(&mut self) -> PResult<HashValue> {
-        let span = self.input.cur_span()?;
-
-        let token = bump!(self);
-        match token {
-            Token::Hash { value, .. } => Ok(HashValue { span, value }),
-            _ => {
-                unreachable!("parse_hash_value should not be ")
-            }
-        }
-    }
-
     fn parse_brace_value(&mut self) -> PResult<BraceValue> {
         let span = self.input.cur_span()?;
 
@@ -368,48 +381,50 @@ where
     }
 
     fn parse_basical_numeric_value(&mut self) -> PResult<Value> {
-        assert!(
-            matches!(cur!(self), Token::Num { .. }),
-            "parse_numeric_value: Should be called only if current token is Token::Num"
-        );
         let span = self.input.cur_span()?;
 
         match bump!(self) {
-            Token::Num(NumToken { value }) => {
-                if is!(self, Ident) {
-                    let unit_span = self.input.cur_span()?;
+            Token::Percent { value, raw, .. } => {
+                let value = Num {
+                    span: swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default()),
+                    value,
+                    raw,
+                };
 
-                    // Unit
-                    let value = Num { span, value };
-                    match bump!(self) {
-                        Token::Ident(unit) => {
-                            let kind = UnitKind::from(unit);
-                            return Ok(Value::Unit(UnitValue {
-                                span: span!(self, span.lo),
-                                value,
-                                unit: Unit {
-                                    span: unit_span,
-                                    kind,
-                                },
-                            }));
-                        }
-                        _ => {
-                            unreachable!()
-                        }
-                    }
-                }
-
-                if eat!(self, "%") {
-                    let value = Num { span, value };
-
-                    return Ok(Value::Percent(PercentValue {
-                        span: span!(self, span.lo),
-                        value,
-                    }));
-                }
-
-                Ok(Value::Number(Num { span, value }))
+                Ok(Value::Percent(PercentValue { span, value }))
             }
+            Token::Dimension {
+                value,
+                raw_value,
+                unit,
+                raw_unit,
+                ..
+            } => {
+                let unit_len = raw_unit.len() as u32;
+
+                return Ok(Value::Unit(UnitValue {
+                    span,
+                    value: Num {
+                        value,
+                        raw: raw_value,
+                        span: swc_common::Span::new(
+                            span.lo,
+                            span.hi - BytePos(unit_len),
+                            Default::default(),
+                        ),
+                    },
+                    unit: Unit {
+                        span: swc_common::Span::new(
+                            span.hi - BytePos(unit_len),
+                            span.hi,
+                            Default::default(),
+                        ),
+                        value: unit,
+                        raw: raw_unit,
+                    },
+                }));
+            }
+            Token::Num { value, raw, .. } => Ok(Value::Number(Num { span, value, raw })),
             _ => {
                 unreachable!()
             }
@@ -417,21 +432,32 @@ where
     }
 
     fn parse_value_ident_or_fn(&mut self) -> PResult<Value> {
-        assert!(
-            matches!(cur!(self), Token::Ident { .. }),
-            "parse_value_ident_or_fn: Should be called only if current token is Token::Ident"
-        );
         let span = self.input.cur_span()?;
 
-        let value = match bump!(self) {
-            Token::Ident(value) => value,
+        let mut is_fn = false;
+        let values = match bump!(self) {
+            Token::Ident { value, raw } => (value, raw),
+            Token::Function { value, raw } => {
+                is_fn = true;
+
+                (value, raw)
+            }
             _ => {
                 unreachable!()
             }
         };
-        let name = Text { span, value };
 
-        if eat!(self, "(") {
+        let name = Text {
+            span: if is_fn {
+                swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default())
+            } else {
+                span
+            },
+            value: values.0,
+            raw: values.1,
+        };
+
+        if eat!(self, "(") || is_fn {
             let is_url = name.value.to_ascii_lowercase() == js_word!("url");
             let ctx = Ctx {
                 allow_operation_in_value: if is_url { false } else { true },
@@ -474,22 +500,28 @@ where
         Ok(args)
     }
 
-    fn parse_array_value(&mut self) -> PResult<ArrayValue> {
+    fn parse_square_brackets_value(&mut self) -> PResult<SquareBracketBlock> {
         let span = self.input.cur_span()?;
 
         expect!(self, "[");
 
+        self.input.skip_ws()?;
+
         let ctx = Ctx {
             is_in_delimited_value: true,
+            allow_separating_value_with_space: true,
             ..self.ctx
         };
-        let values = self.with_ctx(ctx).parse_comma_separated_value()?;
+
+        let children = Some(self.with_ctx(ctx).parse_property_values()?.0);
+
+        self.input.skip_ws()?;
 
         expect!(self, "]");
 
-        Ok(ArrayValue {
+        Ok(SquareBracketBlock {
             span: span!(self, span.lo),
-            values,
+            children,
         })
     }
 
@@ -537,7 +569,7 @@ where
         let value = bump!(self);
 
         match value {
-            Token::Num(NumToken { value }) => Ok(Num { span, value }),
+            Token::Num { value, raw, .. } => Ok(Num { span, value, raw }),
             _ => {
                 unreachable!()
             }
@@ -551,14 +583,25 @@ where
 {
     fn parse(&mut self) -> PResult<PercentValue> {
         let span = self.input.cur_span()?;
-        let value = self.parse()?;
 
-        expect!(self, "%");
+        if !is!(self, Percent) {
+            return Err(Error::new(span, ErrorKind::Expected("Percent")));
+        }
 
-        Ok(PercentValue {
-            span: span!(self, span.lo),
-            value,
-        })
+        match bump!(self) {
+            Token::Percent { value, raw } => {
+                let value = Num {
+                    span: swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default()),
+                    value,
+                    raw,
+                };
+
+                Ok(PercentValue { span, value })
+            }
+            _ => {
+                unreachable!()
+            }
+        }
     }
 }
 
@@ -569,15 +612,17 @@ where
     fn parse(&mut self) -> PResult<FnValue> {
         let span = self.input.cur_span()?;
 
-        let value = match bump!(self) {
-            Token::Ident(value) => value,
+        let name = match bump!(self) {
+            Token::Function { value, raw } => (value, raw),
             _ => {
                 unreachable!()
             }
         };
-        let name = Text { span, value };
-
-        expect!(self, "(");
+        let name = Text {
+            span: swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default()),
+            value: name.0,
+            raw: name.1,
+        };
 
         let ctx = Ctx {
             allow_operation_in_value: true,

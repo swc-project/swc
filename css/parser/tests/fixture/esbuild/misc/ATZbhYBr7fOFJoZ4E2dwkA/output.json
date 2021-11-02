@@ -20,7 +20,8 @@
           "end": 15,
           "ctxt": 0
         },
-        "value": "name"
+        "value": "name",
+        "raw": "name"
       },
       "blocks": [
         {
@@ -44,7 +45,8 @@
                   "end": 19,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               }
             },
             {
@@ -61,12 +63,13 @@
                   "end": 24,
                   "ctxt": 0
                 },
-                "value": 50.0
+                "value": 50.0,
+                "raw": "50"
               }
             }
           ],
           "rule": {
-            "type": "DeclBlock",
+            "type": "Block",
             "span": {
               "start": 26,
               "end": 40,
@@ -74,22 +77,23 @@
             },
             "items": [
               {
-                "type": "Property",
+                "type": "Declaration",
                 "span": {
                   "start": 28,
                   "end": 38,
                   "ctxt": 0
                 },
-                "name": {
+                "property": {
                   "type": "Text",
                   "span": {
                     "start": 28,
                     "end": 33,
                     "ctxt": 0
                   },
-                  "value": "color"
+                  "value": "color",
+                  "raw": "color"
                 },
-                "values": [
+                "value": [
                   {
                     "type": "Text",
                     "span": {
@@ -97,7 +101,8 @@
                       "end": 38,
                       "ctxt": 0
                     },
-                    "value": "red"
+                    "value": "red",
+                    "raw": "red"
                   }
                 ],
                 "important": null
@@ -126,7 +131,8 @@
                   "end": 43,
                   "ctxt": 0
                 },
-                "value": 25.0
+                "value": 25.0,
+                "raw": "25"
               }
             },
             {
@@ -143,12 +149,13 @@
                   "end": 48,
                   "ctxt": 0
                 },
-                "value": 75.0
+                "value": 75.0,
+                "raw": "75"
               }
             }
           ],
           "rule": {
-            "type": "DeclBlock",
+            "type": "Block",
             "span": {
               "start": 50,
               "end": 65,
@@ -156,22 +163,23 @@
             },
             "items": [
               {
-                "type": "Property",
+                "type": "Declaration",
                 "span": {
                   "start": 52,
                   "end": 63,
                   "ctxt": 0
                 },
-                "name": {
+                "property": {
                   "type": "Text",
                   "span": {
                     "start": 52,
                     "end": 57,
                     "ctxt": 0
                   },
-                  "value": "color"
+                  "value": "color",
+                  "raw": "color"
                 },
-                "values": [
+                "value": [
                   {
                     "type": "Text",
                     "span": {
@@ -179,7 +187,8 @@
                       "end": 63,
                       "ctxt": 0
                     },
-                    "value": "blue"
+                    "value": "blue",
+                    "raw": "blue"
                   }
                 ],
                 "important": null

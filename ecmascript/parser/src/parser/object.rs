@@ -24,20 +24,12 @@ impl<'a, I: Tokens> Parser<I> {
 
             let mut props = vec![];
 
-            let mut first = true;
             while !eat!(p, '}') {
-                // Handle comma
-                if first {
-                    first = false;
-                } else {
-                    expect!(p, ',');
-                    if eat!(p, '}') {
-                        break;
-                    }
-                }
+                props.push(p.parse_object_prop()?);
 
-                let prop = p.parse_object_prop()?;
-                props.push(prop);
+                if !is!(p, '}') {
+                    expect!(p, ',');
+                }
             }
 
             p.make_object(span!(p, start), props)
@@ -311,7 +303,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                                 }
 
                                 if self.input.syntax().typescript()
-                                    && self.input.target() == JscTarget::Es3
+                                    && self.input.target() == EsVersion::Es3
                                 {
                                     self.emit_err(key_span, SyntaxError::TS1056);
                                 }
@@ -343,7 +335,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                                 }
 
                                 if p.input.syntax().typescript()
-                                    && p.input.target() == JscTarget::Es3
+                                    && p.input.target() == EsVersion::Es3
                                 {
                                     p.emit_err(key_span, SyntaxError::TS1056);
                                 }

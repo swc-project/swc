@@ -10,7 +10,7 @@ use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::resolver;
 use swc_ecma_transforms_compat::{
     es2015::{classes, function_name},
-    es2020::class_properties,
+    es2022::class_properties,
 };
 use swc_ecma_transforms_module::common_js;
 use swc_ecma_transforms_optimization::simplify::inlining;
@@ -3174,13 +3174,13 @@ export default class {
 "#,
     r#"
     var _class;
-    let _class2 = ((_class = class _class1 {
+    let _class1 = ((_class = class _class {
         bar() {
         }
     }) || _class, _applyDecoratedDescriptor(_class.prototype, "bar", [
         foo
     ], Object.getOwnPropertyDescriptor(_class.prototype, "bar"), _class.prototype), _class);
-    export { _class2 as default };
+    export { _class1 as default };
 "#
 );
 
@@ -5031,7 +5031,7 @@ var _dec9 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "funct
     Function,
     Boolean,
     Boolean,
-    void 0
+    String
 ]), _dec10 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec11 = Decorate();
 let Sample = _class = _dec11(_class = _dec10(_class = _dec9(((_class = class Sample {
     constructor(private p0: String, p1: Number, p2: 10, p3: "ABC", p4: boolean, p5: string, p6: number, p7: Object, p8: () => any, p9: "abc" | "def", p10: String | Number, p11: Function, p12: null, p13: undefined, p14: any, p15: (abc: any) => void, p16: false, p17: true, p18: string = "abc"){
@@ -5069,14 +5069,14 @@ let Sample = _class = _dec11(_class = _dec10(_class = _dec9(((_class = class Sam
     _dec1,
     _dec2
 ], Object.getOwnPropertyDescriptor(_class.prototype, "method"), _class.prototype), _dec3 = Decorate(), _dec4 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec5 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
-    void 0,
+    typeof Decorate === "undefined" || typeof Decorate.Name === "undefined" ? Object : Decorate.Name,
     typeof Decorate === "undefined" || typeof Decorate.Name === "undefined" ? Object : Decorate.Name
 ]), _applyDecoratedDescriptor(_class.prototype, "method2", [
     _dec3,
     _dec4,
     _dec5
 ], Object.getOwnPropertyDescriptor(_class.prototype, "method2"), _class.prototype), _dec6 = Decorate(), _dec7 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec8 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
-    void 0
+    String
 ]), _applyDecoratedDescriptor(_class.prototype, "assignments", [
     _dec6,
     _dec7,

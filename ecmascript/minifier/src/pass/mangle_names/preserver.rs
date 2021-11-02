@@ -1,11 +1,10 @@
 use crate::option::MangleOptions;
-use rustc_hash::FxHashSet;
-use swc_common::DUMMY_SP;
+use swc_common::{collections::AHashSet, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 
-pub(super) fn idents_to_preserve<N>(options: MangleOptions, n: &N) -> FxHashSet<Id>
+pub(super) fn idents_to_preserve<N>(options: MangleOptions, n: &N) -> AHashSet<Id>
 where
     N: VisitWith<Preserver>,
 {
@@ -20,21 +19,13 @@ where
 }
 pub(super) struct Preserver {
     options: MangleOptions,
-    preserved: FxHashSet<Id>,
+    preserved: AHashSet<Id>,
     should_preserve: bool,
     in_top_level: bool,
 }
 
 impl Visit for Preserver {
     noop_visit_type!();
-
-    fn visit_class_decl(&mut self, n: &ClassDecl, _: &dyn Node) {
-        n.visit_children_with(self);
-
-        if (self.in_top_level && !self.options.top_level) || self.options.keep_class_names {
-            self.preserved.insert(n.ident.to_id());
-        }
-    }
 
     fn visit_catch_clause(&mut self, n: &CatchClause, _: &dyn Node) {
         let old = self.should_preserve;
@@ -46,6 +37,14 @@ impl Visit for Preserver {
 
         self.should_preserve = old;
         n.body.visit_with(&Invalid { span: DUMMY_SP }, self);
+    }
+
+    fn visit_class_decl(&mut self, n: &ClassDecl, _: &dyn Node) {
+        n.visit_children_with(self);
+
+        if (self.in_top_level && !self.options.top_level) || self.options.keep_class_names {
+            self.preserved.insert(n.ident.to_id());
+        }
     }
 
     fn visit_export_decl(&mut self, n: &ExportDecl, _: &dyn Node) {
@@ -84,6 +83,16 @@ impl Visit for Preserver {
 
         if (self.in_top_level && !self.options.top_level) || self.options.keep_fn_names {
             self.preserved.insert(n.ident.to_id());
+        }
+    }
+
+    fn visit_fn_expr(&mut self, n: &FnExpr, _: &dyn Node) {
+        n.visit_children_with(self);
+
+        if self.options.keep_fn_names {
+            if let Some(i) = &n.ident {
+                self.preserved.insert(i.to_id());
+            }
         }
     }
 

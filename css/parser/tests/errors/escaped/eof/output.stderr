@@ -1,0 +1,8 @@
+error: Expected "}"
+
+error: Expected Declaration value
+ --> $DIR/tests/errors/escaped/eof/input.css:2:12
+  |
+2 |     color: \
+  |            ^
+

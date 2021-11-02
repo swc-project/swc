@@ -96,9 +96,7 @@ impl<'a, I: Tokens> Parser<I> {
                 continue;
             }
             if comma > 0 {
-                // One comma is used for separating elements
-                let cnt = if elems.is_empty() { comma } else { comma - 1 };
-                elems.extend(iter::repeat(None).take(cnt));
+                elems.extend(iter::repeat(None).take(comma));
                 comma = 0;
             }
             let start = cur_pos!(self);
@@ -118,6 +116,10 @@ impl<'a, I: Tokens> Parser<I> {
                 break;
             } else {
                 elems.push(self.parse_binding_element().map(Some)?);
+            }
+
+            if !is!(self, ']') {
+                expect!(self, ',');
             }
         }
 

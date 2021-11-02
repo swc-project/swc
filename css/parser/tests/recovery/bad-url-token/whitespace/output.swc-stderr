@@ -1,0 +1,8 @@
+error: Expected Declaration value
+ --> $DIR/tests/recovery/bad-url-token/whitespace/input.css:2:17
+  |
+2 |       background: url(image.
+  |  _________________^
+3 | |     png);
+  | |________^
+

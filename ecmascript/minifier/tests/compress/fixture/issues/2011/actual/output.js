@@ -7,35 +7,30 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-function _createClass(Constructor, protoProps, staticProps) {
-    return protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Constructor;
-}
-function _defineProperty(obj, key, value) {
-    return key in obj ? Object.defineProperty(obj, key, {
-        value: value,
-        enumerable: !0,
-        configurable: !0,
-        writable: !0
-    }) : obj[key] = value, obj;
-}
-var ClassA = function ClassA() {
+var ClassA1 = function ClassA() {
     "use strict";
     _classCallCheck(this, ClassA);
 };
 module.exports = (function() {
-    var ClassB = function() {
+    var obj, value, ClassB1 = function() {
         "use strict";
+        var Constructor, protoProps, staticProps;
         function ClassB() {
             _classCallCheck(this, ClassB);
         }
-        return _createClass(ClassB, [
+        return Constructor = ClassB, protoProps = [
             {
                 key: "it",
                 value: function() {
                     this.bb = new ClassB.MyA();
                 }
             }
-        ]), ClassB;
+        ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), ClassB;
     }();
-    return _defineProperty(ClassB, "MyA", ClassA), ClassB;
+    return obj = ClassB1, value = ClassA1, "MyA" in obj ? Object.defineProperty(obj, "MyA", {
+        value: value,
+        enumerable: !0,
+        configurable: !0,
+        writable: !0
+    }) : obj.MyA = value, ClassB1;
 })();

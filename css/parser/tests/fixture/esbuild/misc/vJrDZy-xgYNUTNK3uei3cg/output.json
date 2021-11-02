@@ -55,7 +55,8 @@
                         "end": 2,
                         "ctxt": 0
                       },
-                      "value": "b"
+                      "value": "b",
+                      "raw": "b"
                     }
                   },
                   "op": null,
@@ -68,7 +69,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 3,
           "end": 5,

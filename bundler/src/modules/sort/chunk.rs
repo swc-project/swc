@@ -2,9 +2,8 @@ use super::stmt::sort_stmts;
 use crate::{dep_graph::ModuleGraph, modules::Modules, ModuleId};
 use indexmap::IndexSet;
 use petgraph::EdgeDirection::Outgoing;
-use rustc_hash::FxHashSet;
 use std::{collections::VecDeque, iter::from_fn, mem::take, time::Instant};
-use swc_common::{sync::Lrc, SourceMap, SyntaxContext};
+use swc_common::{collections::AHashSet, sync::Lrc, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::prepend_stmts;
 
@@ -70,9 +69,12 @@ fn toposort_real_modules<'a>(
         modules.len()
     );
 
+    #[cfg(not(target_arch = "wasm32"))]
     let start = Instant::now();
     let sorted_ids = toposort_real_module_ids(queue, graph, &cycles).collect::<Vec<_>>();
+    #[cfg(not(target_arch = "wasm32"))]
     let end = Instant::now();
+    #[cfg(not(target_arch = "wasm32"))]
     tracing::debug!("Toposort of module ids took {:?}", end - start);
     for ids in sorted_ids {
         if ids.is_empty() {
@@ -131,14 +133,14 @@ fn cycles_for(
     cycles: &Vec<Vec<ModuleId>>,
     id: ModuleId,
     checked: &mut Vec<ModuleId>,
-) -> IndexSet<ModuleId> {
+) -> IndexSet<ModuleId, ahash::RandomState> {
     checked.push(id);
     let mut v = cycles
         .iter()
         .filter(|v| v.contains(&id))
         .flatten()
         .copied()
-        .collect::<IndexSet<_>>();
+        .collect::<IndexSet<_, _>>();
 
     let ids = v.clone();
 
@@ -157,8 +159,8 @@ fn toposort_real_module_ids<'a>(
     graph: &'a ModuleGraph,
     cycles: &'a Vec<Vec<ModuleId>>,
 ) -> impl 'a + Iterator<Item = Vec<ModuleId>> {
-    let mut done = FxHashSet::<ModuleId>::default();
-    let mut errored = FxHashSet::<ModuleId>::default();
+    let mut done = AHashSet::<ModuleId>::default();
+    let mut errorred = AHashSet::<ModuleId>::default();
 
     from_fn(move || {
         while let Some(id) = queue.pop_front() {
@@ -178,7 +180,7 @@ fn toposort_real_module_ids<'a>(
 
                 // Emit
                 done.insert(id);
-                errored.clear();
+                errorred.clear();
                 return Some(vec![id]);
             }
 
@@ -213,7 +215,7 @@ fn toposort_real_module_ids<'a>(
             // dbg!(&deps_of_circle);
 
             if !deps_of_circle.is_empty() {
-                if errored.insert(id) {
+                if errorred.insert(id) {
                     queue.push_front(id);
 
                     // Handle dependencies first.
@@ -231,7 +233,7 @@ fn toposort_real_module_ids<'a>(
 
             // Emit
             done.extend(all_modules_in_circle.iter().copied());
-            errored.clear();
+            errorred.clear();
             return Some(all_modules_in_circle.into_iter().collect());
         }
 

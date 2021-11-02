@@ -9,6 +9,7 @@ use crate::{
     lexer::state::lex_errors,
 };
 use std::{ops::Range, str};
+use swc_ecma_ast::EsVersion;
 use test::{black_box, Bencher};
 
 fn sp(r: Range<usize>) -> Span {
@@ -258,7 +259,7 @@ fn tpl_raw_unicode_escape() {
 #[test]
 fn tpl_invalid_unicode_escape() {
     assert_eq!(
-        lex_tokens_with_target(Syntax::default(), JscTarget::Es2018, r"`\unicode`"),
+        lex_tokens_with_target(Syntax::default(), EsVersion::Es2018, r"`\unicode`"),
         vec![
             tok!('`'),
             Token::Template {
@@ -270,7 +271,7 @@ fn tpl_invalid_unicode_escape() {
         ]
     );
     assert_eq!(
-        lex_tokens_with_target(Syntax::default(), JscTarget::Es2017, r"`\unicode`"),
+        lex_tokens_with_target(Syntax::default(), EsVersion::Es2017, r"`\unicode`"),
         vec![
             tok!('`'),
             Token::Error(Error {
@@ -939,7 +940,7 @@ fn issue_299_01() {
             Token::JSXName { name: "num".into() },
             tok!('='),
             Token::Str {
-                value: " ".into(),
+                value: "\\ ".into(),
                 has_escape: true
             },
             Token::JSXTagEnd,
@@ -963,40 +964,6 @@ fn issue_299_02() {
                 jsx: true,
                 ..Default::default()
             }),
-            "<Page num='\\''>ABC</Page>;"
-        ),
-        vec![
-            Token::JSXTagStart,
-            Token::JSXName {
-                name: "Page".into()
-            },
-            Token::JSXName { name: "num".into() },
-            tok!('='),
-            Token::Str {
-                value: "'".into(),
-                has_escape: true
-            },
-            Token::JSXTagEnd,
-            JSXText { raw: "ABC".into() },
-            JSXTagStart,
-            tok!('/'),
-            JSXName {
-                name: "Page".into()
-            },
-            JSXTagEnd,
-            Semi,
-        ]
-    );
-}
-
-#[test]
-fn issue_299_03() {
-    assert_eq!(
-        lex_tokens(
-            crate::Syntax::Es(crate::EsConfig {
-                jsx: true,
-                ..Default::default()
-            }),
             "<Page num='\\\\'>ABC</Page>;"
         ),
         vec![
@@ -1007,7 +974,7 @@ fn issue_299_03() {
             Token::JSXName { name: "num".into() },
             tok!('='),
             Token::Str {
-                value: "\\".into(),
+                value: "\\\\".into(),
                 has_escape: true
             },
             Token::JSXTagEnd,

@@ -26,6 +26,7 @@ fn syntax() -> Syntax {
     Syntax::Es(EsConfig {
         dynamic_import: true,
         top_level_await: true,
+        static_blocks: true,
         ..Default::default()
     })
 }
@@ -563,8 +564,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.foo8 = foo8;
-exports.foo2 = exports.foo7 = exports.foo3 = exports.foo4 = exports.bar =
-  exports.foo = exports.foo5 = exports.foo6 = void 0;
+exports.foo7 = exports.foo6 = exports.foo5 = exports.foo4 = exports.foo3 = exports.bar = exports.foo2 = exports.foo = void 0;
 
 var foo = 1;
 exports.foo = foo;
@@ -802,11 +802,11 @@ d = 4;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.e = exports.c = exports.a = exports.test = exports.f = void 0;
-var test = 2;
-exports.test = test;
-exports.test = test = 5;
-exports.test = test = +test + 1;
+exports.f = exports.e = exports.c = exports.a = exports.test = void 0;
+var test1 = 2;
+exports.test = test1;
+exports.test = test1 = 5;
+exports.test = test1 = +test1 + 1;
 
 (function () {
   var test = 2;
@@ -1251,7 +1251,6 @@ var _exportNames = {
 };
 
 var _white = require("white");
-var _black = require("black");
 
 Object.keys(_white).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -1264,6 +1263,8 @@ Object.keys(_white).forEach(function (key) {
     }
   });
 });
+
+var _black = require("black");
 
 Object.keys(_black).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -3531,13 +3532,11 @@ test!(
     misc_undefined_this_arrow_function,
     r#"
 var foo = () => this;
-
 "#,
     r#"
 "use strict";
 
 var foo = () => void 0;
-
 "#
 );
 
@@ -3787,17 +3786,11 @@ export * from 'react';
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var _exportNames = {};
+var _exportNames = {
+};
 
 exports.default = void 0;
 var _react = _interopRequireWildcard(require("react"));
-
-
-// The fact that this exports both a normal default, and all of the names via
-// re-export is an edge case that is important not to miss. See
-// https://github.com/babel/babel/issues/8306 as an example.
-var _default = _react.default;
-exports.default = _default;
 
 Object.keys(_react).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -3810,6 +3803,12 @@ Object.keys(_react).forEach(function (key) {
     }
   });
 });
+
+// The fact that this exports both a normal default, and all of the names via
+// re-export is an edge case that is important not to miss. See
+// https://github.com/babel/babel/issues/8306 as an example.
+var _default = _react.default;
+exports.default = _default;
 
 "#
 );
@@ -4095,19 +4094,19 @@ test!(
     issue_962,
     "import root from './_root.js';
   import stubFalse from './stubFalse.js';
-    
+
   var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
   var freeModule = freeExports && typeof module == 'object' && module && !module.nodeType && \
      module;
-    
+
   var moduleExports = freeModule && freeModule.exports === freeExports;
-    
+
   var Buffer = moduleExports ? root.Buffer : undefined;
-    
+
   var nativeIsBuffer = Buffer ? Buffer.isBuffer : undefined;
-    
+
   var isBuffer = nativeIsBuffer || stubFalse;
-    
+
   export default isBuffer",
     r#"
     "use strict";
@@ -4169,7 +4168,6 @@ Object.defineProperty(exports, "Scope", {
   }
 });
 var _http = require("./http");
-var _interfaces = require("./interfaces");
 Object.keys(_http).forEach(function(key) {
     if (key === "default" || key === "__esModule") return;
     if (key in exports && exports[key] === _http[key]) return;
@@ -4180,6 +4178,7 @@ Object.keys(_http).forEach(function(key) {
         }
     });
 });
+var _interfaces = require("./interfaces");
   "#
 );
 
@@ -4208,11 +4207,10 @@ export * from './pipes';
         }
     });
     var _exportNames = {
+        id: true
     };
     require("reflect-metadata");
     var _http = require("./http");
-    var _interfaces = require("./interfaces");
-    var _pipes = require("./pipes");
     Object.keys(_http).forEach(function(key) {
         if (key === "default" || key === "__esModule") return;
         if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
@@ -4224,6 +4222,8 @@ export * from './pipes';
             }
         });
     });
+    var _interfaces = require("./interfaces");
+    var _pipes = require("./pipes");
     Object.keys(_pipes).forEach(function(key) {
         if (key === "default" || key === "__esModule") return;
         if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
@@ -4283,7 +4283,7 @@ let SomeClass = function() {
     _createClass(SomeClass, [{
             key: 'call',
             value: function call() {
-                var _props = this.props, myFunction = _props.myFunction;
+                var myFunction = this.props.myFunction;
                 if (myFunction) {
                     myFunction();
                 } else {
@@ -4451,7 +4451,7 @@ test!(
     syntax(),
     |_| chain!(
         resolver(),
-        regenerator(Mark::fresh(Mark::root())),
+        regenerator(Default::default(), Mark::fresh(Mark::root())),
         common_js(Mark::fresh(Mark::root()), Default::default(), None)
     ),
     regression_6733,
@@ -4494,7 +4494,10 @@ test!(
     |_| {
         let mark = Mark::fresh(Mark::root());
 
-        chain!(regenerator(mark), common_js(mark, Default::default(), None),)
+        chain!(
+            regenerator(Default::default(), mark),
+            common_js(mark, Default::default(), None),
+        )
     },
     issue_831_2,
     "export function* myGenerator() {
@@ -4538,7 +4541,7 @@ test!(
         console.log(foo);
       }
     }
-    
+
     export default class NotOK {
       constructor() {
         console.log(foo);
@@ -4551,9 +4554,9 @@ test!(
       value: true
     });
     exports.default = void 0;
-    
+
     var _foo = _interopRequireDefault(require('foo'));
-    
+
     class OK {
         constructor() {
             console.log(_foo.default);
@@ -4604,7 +4607,8 @@ test!(
         no_interop: false,
         strict: true,
         strict_mode: true,
-        lazy: Lazy::Bool(false)
+        lazy: Lazy::Bool(false),
+        ignore_dynamic: false
     }),
     issue_1480_1,
     "
@@ -4624,7 +4628,8 @@ test!(
         no_interop: false,
         strict: true,
         strict_mode: true,
-        lazy: Lazy::Bool(false)
+        lazy: Lazy::Bool(false),
+        ignore_dynamic: false
     }),
     issue_1480_2,
     "
@@ -4677,11 +4682,11 @@ test!(
     });
     exports.get = get;
     exports.default = void 0;
-    
+
     function get(key) {
       console.log(key);
     }
-    
+
     var _default = a;
     exports.default = _default;
     "
@@ -4748,20 +4753,18 @@ test!(
     };
     exports.BIZ = void 0;
     var _file1 = require('./File1');
-    var _file2 = require('./File2');
-    const BIZ = 'biz';
-    exports.BIZ = BIZ;
     Object.keys(_file1).forEach(function(key) {
-        if (key === 'default' || key === '__esModule') return;
-        if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
-        if (key in exports && exports[key] === _file1[key]) return;
-        Object.defineProperty(exports, key, {
-            enumerable: true,
-            get: function() {
-                return _file1[key];
-            }
-        });
+      if (key === 'default' || key === '__esModule') return;
+      if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+      if (key in exports && exports[key] === _file1[key]) return;
+      Object.defineProperty(exports, key, {
+          enumerable: true,
+          get: function() {
+              return _file1[key];
+          }
+      });
     });
+    var _file2 = require('./File2');
     Object.keys(_file2).forEach(function(key) {
         if (key === 'default' || key === '__esModule') return;
         if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
@@ -4773,6 +4776,8 @@ test!(
             }
         });
     });
+    const BIZ = 'biz';
+    exports.BIZ = BIZ;
     "
 );
 
@@ -4903,6 +4908,129 @@ test!(
         return 500;
     }
     "
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        ignore_dynamic: true,
+        ..Default::default()
+    }),
+    ignore_dynamic_1,
+    "
+    import foo from 'foo';
+
+
+    function foo() {
+      await import('foo');
+
+      callback(() => import('foo'));
+    }
+
+    import('side-effect')
+
+    await import('awaited')
+    ",
+    "
+    'use strict';
+    var _foo = _interopRequireDefault(require('foo'));
+    function foo() {
+        await import('foo');
+        callback(()=>import('foo')
+        );
+    }
+    import('side-effect');
+    await import('awaited');
+    "
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        ..Default::default()
+    }),
+    issue_2344_1,
+    "
+    class LoggingButton extends React.Component {
+        handleClick = () => {
+            console.log('this is:', this);
+        }
+        m() { this }
+        static a = () => this
+    }
+    ",
+    "
+    'use strict';
+    class LoggingButton extends React.Component {
+        handleClick = () => {
+            console.log('this is:', this);
+        }
+        m() { this }
+        static a = () => this
+    }
+    "
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        ..Default::default()
+    }),
+    issue_2344_2,
+    "
+  class A {
+    // this is weird I know
+    [(() => this)()] = 123
+  }
+  class B {
+    // this is weird too I know
+    [(() => this)()]() {}
+  }
+  class C {
+    static [(() => this)()] = 1
+  }
+  class D {
+    static d = class {
+      [(() => this)()]() {}
+    }
+  }
+  ",
+    "
+  'use strict';
+  class A {
+    [(() => void 0)()] = 123
+  }
+  class B {
+    [(() => void 0)()]() {}
+  }
+  class C {
+    static [(() => void 0)()] = 1
+  }
+  class D {
+    static d = class {
+      [(() => this)()]() {}
+    }
+  }
+  "
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        ..Default::default()
+    }),
+    issue_2344_3,
+    "
+  class A {
+    static { this.a = 123 }
+  }
+  ",
+    "
+  'use strict';
+  class A {
+    static { this.a = 123 }
+  }
+  "
 );
 
 #[testing::fixture("tests/fixture/commonjs/**/input.js")]

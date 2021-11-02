@@ -429,7 +429,7 @@ function _toPropertyKey(arg) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
-var SomeClass = _decorate([], function(_initialize) {
+var SomeClass1 = _decorate([], function(_initialize) {
     var SomeClass = function SomeClass() {
         "use strict";
         _classCallCheck(this, SomeClass);
@@ -450,7 +450,7 @@ var SomeClass = _decorate([], function(_initialize) {
         ]
     };
 });
-var OtherClass = _decorate([], function(_initialize, _SomeClass) {
+var OtherClass1 = _decorate([], function(_initialize, _SomeClass1) {
     var OtherClass = /*#__PURE__*/ function(_SomeClass) {
         "use strict";
         _inherits(OtherClass, _SomeClass);
@@ -462,7 +462,7 @@ var OtherClass = _decorate([], function(_initialize, _SomeClass) {
             return _this;
         }
         return OtherClass;
-    }(_SomeClass);
+    }(_SomeClass1);
     return {
         F: OtherClass,
         d: [
@@ -478,4 +478,4 @@ var OtherClass = _decorate([], function(_initialize, _SomeClass) {
             }
         ]
     };
-}, SomeClass);
+}, SomeClass1);

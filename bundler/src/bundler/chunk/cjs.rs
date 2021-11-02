@@ -137,7 +137,7 @@ fn wrap_module(
         },
     });
 
-    // var load = __spack_require__.bind(void 0, moduleDecl)
+    // var load = __swcpack_require__.bind(void 0, moduleDecl)
     let load_var_init = Stmt::Decl(Decl::Var(VarDecl {
         span: DUMMY_SP,
         kind: VarDeclKind::Var,
@@ -147,9 +147,12 @@ fn wrap_module(
             name: Pat::Ident(load_var.clone().into()),
             init: Some(Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
-                callee: Ident::new("__spack_require__".into(), DUMMY_SP.with_ctxt(helper_ctxt))
-                    .make_member(Ident::new("bind".into(), DUMMY_SP))
-                    .as_callee(),
+                callee: Ident::new(
+                    "__swcpack_require__".into(),
+                    DUMMY_SP.with_ctxt(helper_ctxt),
+                )
+                .make_member(Ident::new("bind".into(), DUMMY_SP))
+                .as_callee(),
                 args: vec![undefined(DUMMY_SP).as_arg(), module_fn.as_arg()],
                 type_args: None,
             }))),
@@ -241,7 +244,7 @@ where
 
                 let load_var = self.bundler.make_cjs_load_var(&dep_module, i.span);
                 // Replace import progress from 'progress';
-                // Side effech import
+                // Side effect import
                 if i.specifiers.is_empty() {
                     self.replaced = true;
                     *node = ModuleItem::Stmt(

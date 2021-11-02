@@ -47,7 +47,8 @@
                       "end": 10,
                       "ctxt": 0
                     },
-                    "value": ",class"
+                    "value": ",class",
+                    "raw": "\\2c class"
                   }
                 }
               ]
@@ -56,7 +57,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 11,
           "end": 13,

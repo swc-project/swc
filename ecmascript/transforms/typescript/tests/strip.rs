@@ -462,8 +462,6 @@ to!(module_01, "module 'foo'{ }", "");
 
 to!(declare_01, "declare var env: FOO", "");
 
-to!(import_equals, "import A = B.C", "var A = B.C;");
-
 to!(
     issue_757,
     "// test.ts
@@ -3384,7 +3382,8 @@ to!(
     }
     ",
     "
-    export var util;
+    var util1;
+    export { util1 as util };
     (function (util) {
         function assertNever(_x) {
             throw new Error();
@@ -3398,7 +3397,7 @@ to!(
         };
         util.objectValues = (obj) => {
         };
-    })(util || (util = {}));
+    })(util1 || (util1 = {}));
 
     "
 );
@@ -3412,11 +3411,12 @@ to!(
     }
     ",
     "
-    export var util;
+    var util1;
+    export { util1 as util };
     (function (util) {
         const c = 3;
         [util.a, util.b] = [1, 2, 3];
-    })(util || (util = {}));
+    })(util1 || (util1 = {}));
     "
 );
 
@@ -3435,7 +3435,8 @@ to!(
     }
     ",
     "
-    export var util;
+    var util1;
+    export { util1 as util };
     (function (util) {
         const c = 3;
         function foo() {
@@ -3443,7 +3444,7 @@ to!(
         util.foo = foo;
         function bar() {
         }
-    })(util || (util = {}));
+    })(util1 || (util1 = {}));
     "
 );
 
@@ -3460,7 +3461,7 @@ to!(
     console(Test.DummyValues.A);
     ",
     "
-    var Test;
+    var Test1;
     (function(Test) {
         var DummyValues;
         (function(DummyValues) {
@@ -3469,9 +3470,9 @@ to!(
         })(DummyValues || (DummyValues = {
         }));
         Test.DummyValues = DummyValues;
-    })(Test || (Test = {
+    })(Test1 || (Test1 = {
     }));
-    console(Test.DummyValues.A);
+    console(Test1.DummyValues.A);
     "
 );
 
@@ -4073,7 +4074,7 @@ to!(
     export { TestInfo }
     ",
     "
-    
+
     "
 );
 
@@ -4113,11 +4114,91 @@ Foo.identifier = 5;
   "
 );
 
+to!(
+    deno_12395_import_equals_1,
+    "
+    import * as mongo from 'https://deno.land/x/mongo@v0.27.0/mod.ts';
+    import MongoClient = mongo.MongoClient;
+    const mongoClient = new MongoClient();
+    ",
+    "
+    import * as mongo from 'https://deno.land/x/mongo@v0.27.0/mod.ts';
+    var MongoClient = mongo.MongoClient;
+    const mongoClient = new MongoClient();
+    "
+);
+
+to!(
+    deno_12395_import_equals_2,
+    "
+    import * as mongo from 'https://deno.land/x/mongo@v0.27.0/mod.ts';
+    import MongoClient = mongo.MongoClient;
+    const mongoClient: MongoClient = {};
+    ",
+    "
+    const mongoClient = {};
+    "
+);
+
+test_with_config!(
+    deno_12532_declare_class_prop,
+    strip::Config {
+        use_define_for_class_fields: true,
+        no_empty_export: true,
+        ..Default::default()
+    },
+    "
+    export class Foo {
+        x: number;
+        constructor(x: number) {
+            this.x = x;
+        }
+    }
+    export class Bar extends Foo {
+        declare x: 123;
+        constructor() {
+            super(123);
+        }
+    }
+    ",
+    "
+    export class Foo {
+        x;
+        constructor(x){
+            this.x = x;
+        }
+    }
+    export class Bar extends Foo {
+        constructor() {
+            super(123);
+        }
+    }
+    "
+);
+
+to!(
+    issue_2613,
+    "
+    export = function (foo: string, bar: number): boolean {
+        return true
+    };
+    ",
+    "
+    module.exports = function (foo, bar) {
+        return true
+    };
+    "
+);
+
 #[testing::fixture("tests/fixture/**/input.ts")]
+#[testing::fixture("tests/fixture/**/input.tsx")]
 fn exec(input: PathBuf) {
     let output = input.with_file_name("output.js");
     test_fixture(
-        Syntax::Typescript(Default::default()),
+        Syntax::Typescript(TsConfig {
+            tsx: input.to_string_lossy().ends_with(".tsx"),
+            ..Default::default()
+        }),
         &|_| tr(),
         &input,
         &output,

@@ -4,21 +4,20 @@
 
 use crate::{resolve::Resolve, NODE_BUILTINS};
 use anyhow::{bail, Context, Error};
+use dashmap::{DashMap, DashSet};
 #[cfg(windows)]
 use normpath::BasePath;
-use rustc_hash::FxHashMap;
+use once_cell::sync::Lazy;
+use path_clean::PathClean;
 use serde::Deserialize;
 use std::{
     fs::File,
     io::BufReader,
     path::{Component, Path, PathBuf},
 };
-use swc_common::FileName;
+use swc_common::{collections::AHashMap, FileName};
 use swc_ecma_ast::TargetEnv;
 use tracing::debug;
-
-use dashmap::{DashMap, DashSet};
-use once_cell::sync::Lazy;
 
 static PACKAGE: &str = "package.json";
 
@@ -28,14 +27,15 @@ static PACKAGE: &str = "package.json";
 /// directory containing the package.json file which is important
 /// to ensure we only apply these `browser` rules to modules in
 /// the owning package.
-static BROWSER_CACHE: Lazy<DashMap<PathBuf, BrowserCache>> = Lazy::new(Default::default);
+static BROWSER_CACHE: Lazy<DashMap<PathBuf, BrowserCache, ahash::RandomState>> =
+    Lazy::new(Default::default);
 
 #[derive(Debug, Default)]
 struct BrowserCache {
-    rewrites: DashMap<PathBuf, PathBuf>,
-    ignores: DashSet<PathBuf>,
-    module_rewrites: DashMap<String, PathBuf>,
-    module_ignores: DashSet<String>,
+    rewrites: DashMap<PathBuf, PathBuf, ahash::RandomState>,
+    ignores: DashSet<PathBuf, ahash::RandomState>,
+    module_rewrites: DashMap<String, PathBuf, ahash::RandomState>,
+    module_ignores: DashSet<String, ahash::RandomState>,
 }
 
 /// Helper to find the nearest `package.json` file to get
@@ -68,7 +68,7 @@ struct PackageJson {
 #[serde(untagged)]
 enum Browser {
     Str(String),
-    Obj(FxHashMap<String, StringOrBool>),
+    Obj(AHashMap<String, StringOrBool>),
 }
 
 #[derive(Deserialize, Clone)]
@@ -81,20 +81,20 @@ enum StringOrBool {
 #[derive(Debug, Default)]
 pub struct NodeModulesResolver {
     target_env: TargetEnv,
-    alias: FxHashMap<String, String>,
+    alias: AHashMap<String, String>,
 }
 
 static EXTENSIONS: &[&str] = &["ts", "tsx", "js", "jsx", "json", "node"];
 
 impl NodeModulesResolver {
     /// Create a node modules resolver for the target runtime environment.
-    pub fn new(target_env: TargetEnv, alias: FxHashMap<String, String>) -> Self {
+    pub fn new(target_env: TargetEnv, alias: AHashMap<String, String>) -> Self {
         Self { target_env, alias }
     }
 
     fn wrap(&self, path: Option<PathBuf>) -> Result<FileName, Error> {
         if let Some(path) = path {
-            let path = path.canonicalize().context("failed to canonicalize")?;
+            let path = path.clean();
             return Ok(FileName::Real(path));
         }
         bail!("index not found")
@@ -191,13 +191,7 @@ impl NodeModulesResolver {
                                             .resolve_as_file(&path)
                                             .or_else(|_| self.resolve_as_directory(&path))?;
                                         if let Some(file) = file {
-                                            let target = file.canonicalize().context(format!(
-                                                "failed to canonicalize browser value {} for key \
-                                                 {} in {}",
-                                                dest,
-                                                k,
-                                                pkg_dir.display()
-                                            ))?;
+                                            let target = file.clean();
 
                                             if let Some(source) = source {
                                                 bucket.rewrites.insert(source, target);

@@ -4,13 +4,12 @@ use crate::{
     mode::Mode,
     util::{idents_used_by, make_number},
 };
-use rustc_hash::FxHashMap;
 use std::{
     collections::HashMap,
     mem::{replace, swap},
 };
 use swc_atoms::js_word;
-use swc_common::{pass::Either, util::take::Take, Spanned, DUMMY_SP};
+use swc_common::{collections::AHashMap, pass::Either, util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, undefined, ExprFactory, Id};
 use swc_ecma_visit::VisitMutWith;
@@ -257,19 +256,16 @@ where
         }
     }
 
-    pub(super) fn inline_vars_in_node<N>(&mut self, n: &mut N, vars: FxHashMap<Id, Box<Expr>>)
+    pub(super) fn inline_vars_in_node<N>(&mut self, n: &mut N, vars: AHashMap<Id, Box<Expr>>)
     where
         N: VisitMutWith<Self>,
     {
         if cfg!(feature = "debug") {
             tracing::trace!("inline: inline_vars_in_node");
         }
-        let ctx = Ctx {
-            inline_prevented: false,
-            ..self.ctx
-        };
+
         let orig_vars = replace(&mut self.state.vars_for_inlining, vars);
-        n.visit_mut_with(&mut *self.with_ctx(ctx));
+        n.visit_mut_with(self);
         self.state.vars_for_inlining = orig_vars;
     }
 
@@ -317,7 +313,7 @@ where
             ExprOrSuper::Expr(e) => &mut **e,
         };
 
-        if self.ctx.inline_prevented {
+        if self.ctx.dont_invoke_iife {
             tracing::trace!("iife: [x] Inline is prevented");
             return;
         }
@@ -532,6 +528,14 @@ where
                 ..
             })) => {
                 if decls.iter().any(|decl| match decl.name {
+                    Pat::Ident(BindingIdent {
+                        id:
+                            Ident {
+                                sym: js_word!("arguments"),
+                                ..
+                            },
+                        ..
+                    }) => true,
                     Pat::Ident(..) => false,
                     _ => true,
                 }) {

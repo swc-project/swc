@@ -14,22 +14,23 @@
         "ctxt": 0
       },
       "query": {
-        "type": "Property",
+        "type": "Declaration",
         "span": {
           "start": 8,
           "end": 25,
           "ctxt": 0
         },
-        "name": {
+        "property": {
           "type": "Text",
           "span": {
             "start": 8,
             "end": 17,
             "ctxt": 0
           },
-          "value": "min-width"
+          "value": "min-width",
+          "raw": "min-width"
         },
-        "values": [
+        "value": [
           {
             "type": "UnitValue",
             "span": {
@@ -44,7 +45,8 @@
                 "end": 22,
                 "ctxt": 0
               },
-              "value": 935.0
+              "value": 935.0,
+              "raw": "935"
             },
             "unit": {
               "span": {
@@ -52,7 +54,8 @@
                 "end": 24,
                 "ctxt": 0
               },
-              "kind": null
+              "value": "px",
+              "raw": "px"
             }
           }
         ],
@@ -100,7 +103,8 @@
                           "end": 38,
                           "ctxt": 0
                         },
-                        "value": "video"
+                        "value": "video",
+                        "raw": "video"
                       }
                     },
                     {
@@ -118,7 +122,8 @@
                           "end": 48,
                           "ctxt": 0
                         },
-                        "value": "nth-child"
+                        "value": "nth-child",
+                        "raw": "nth-child"
                       },
                       "args": {
                         "type": "Tokens",
@@ -131,23 +136,16 @@
                           {
                             "span": {
                               "start": 49,
-                              "end": 50,
-                              "ctxt": 0
-                            },
-                            "token": {
-                              "Num": {
-                                "value": 4.0
-                              }
-                            }
-                          },
-                          {
-                            "span": {
-                              "start": 50,
                               "end": 51,
                               "ctxt": 0
                             },
                             "token": {
-                              "Ident": "n"
+                              "Dimension": {
+                                "value": 4.0,
+                                "raw_value": "4",
+                                "unit": "n",
+                                "raw_unit": "n"
+                              }
                             }
                           }
                         ]
@@ -159,7 +157,7 @@
             }
           ],
           "block": {
-            "type": "DeclBlock",
+            "type": "Block",
             "span": {
               "start": 53,
               "end": 85,
@@ -167,22 +165,23 @@
             },
             "items": [
               {
-                "type": "Property",
+                "type": "Declaration",
                 "span": {
                   "start": 63,
                   "end": 78,
                   "ctxt": 0
                 },
-                "name": {
+                "property": {
                   "type": "Text",
                   "span": {
                     "start": 63,
                     "end": 75,
                     "ctxt": 0
                   },
-                  "value": "margin-right"
+                  "value": "margin-right",
+                  "raw": "margin-right"
                 },
-                "values": [
+                "value": [
                   {
                     "type": "Number",
                     "span": {
@@ -190,7 +189,8 @@
                       "end": 78,
                       "ctxt": 0
                     },
-                    "value": 0.0
+                    "value": 0.0,
+                    "raw": "0"
                   }
                 ],
                 "important": null
@@ -239,7 +239,8 @@
                           "end": 96,
                           "ctxt": 0
                         },
-                        "value": "video"
+                        "value": "video",
+                        "raw": "video"
                       }
                     },
                     {
@@ -257,7 +258,8 @@
                           "end": 107,
                           "ctxt": 0
                         },
-                        "value": "last-child"
+                        "value": "last-child",
+                        "raw": "last-child"
                       },
                       "args": {
                         "type": "Tokens",
@@ -275,7 +277,7 @@
             }
           ],
           "block": {
-            "type": "DeclBlock",
+            "type": "Block",
             "span": {
               "start": 108,
               "end": 140,
@@ -283,22 +285,23 @@
             },
             "items": [
               {
-                "type": "Property",
+                "type": "Declaration",
                 "span": {
                   "start": 118,
                   "end": 133,
                   "ctxt": 0
                 },
-                "name": {
+                "property": {
                   "type": "Text",
                   "span": {
                     "start": 118,
                     "end": 130,
                     "ctxt": 0
                   },
-                  "value": "margin-right"
+                  "value": "margin-right",
+                  "raw": "margin-right"
                 },
-                "values": [
+                "value": [
                   {
                     "type": "Number",
                     "span": {
@@ -306,7 +309,8 @@
                       "end": 133,
                       "ctxt": 0
                     },
-                    "value": 0.0
+                    "value": 0.0,
+                    "raw": "0"
                   }
                 ],
                 "important": null
@@ -355,7 +359,8 @@
                           "end": 151,
                           "ctxt": 0
                         },
-                        "value": "video"
+                        "value": "video",
+                        "raw": "video"
                       }
                     },
                     {
@@ -373,7 +378,8 @@
                           "end": 163,
                           "ctxt": 0
                         },
-                        "value": "first-child"
+                        "value": "first-child",
+                        "raw": "first-child"
                       },
                       "args": {
                         "type": "Tokens",
@@ -422,7 +428,8 @@
                           "end": 175,
                           "ctxt": 0
                         },
-                        "value": "video"
+                        "value": "video",
+                        "raw": "video"
                       }
                     },
                     {
@@ -440,7 +447,8 @@
                           "end": 185,
                           "ctxt": 0
                         },
-                        "value": "nth-child"
+                        "value": "nth-child",
+                        "raw": "nth-child"
                       },
                       "args": {
                         "type": "Tokens",
@@ -458,7 +466,8 @@
                             },
                             "token": {
                               "Num": {
-                                "value": 5.0
+                                "value": 5.0,
+                                "raw": "5"
                               }
                             }
                           }
@@ -502,7 +511,8 @@
                           "end": 200,
                           "ctxt": 0
                         },
-                        "value": "video"
+                        "value": "video",
+                        "raw": "video"
                       }
                     },
                     {
@@ -520,7 +530,8 @@
                           "end": 210,
                           "ctxt": 0
                         },
-                        "value": "nth-child"
+                        "value": "nth-child",
+                        "raw": "nth-child"
                       },
                       "args": {
                         "type": "Tokens",
@@ -538,7 +549,8 @@
                             },
                             "token": {
                               "Num": {
-                                "value": 9.0
+                                "value": 9.0,
+                                "raw": "9"
                               }
                             }
                           }
@@ -582,7 +594,8 @@
                           "end": 225,
                           "ctxt": 0
                         },
-                        "value": "video"
+                        "value": "video",
+                        "raw": "video"
                       }
                     },
                     {
@@ -600,7 +613,8 @@
                           "end": 235,
                           "ctxt": 0
                         },
-                        "value": "nth-child"
+                        "value": "nth-child",
+                        "raw": "nth-child"
                       },
                       "args": {
                         "type": "Tokens",
@@ -618,7 +632,8 @@
                             },
                             "token": {
                               "Num": {
-                                "value": 13.0
+                                "value": 13.0,
+                                "raw": "13"
                               }
                             }
                           }
@@ -631,7 +646,7 @@
             }
           ],
           "block": {
-            "type": "DeclBlock",
+            "type": "Block",
             "span": {
               "start": 240,
               "end": 271,
@@ -639,22 +654,23 @@
             },
             "items": [
               {
-                "type": "Property",
+                "type": "Declaration",
                 "span": {
                   "start": 250,
                   "end": 264,
                   "ctxt": 0
                 },
-                "name": {
+                "property": {
                   "type": "Text",
                   "span": {
                     "start": 250,
                     "end": 261,
                     "ctxt": 0
                   },
-                  "value": "margin-left"
+                  "value": "margin-left",
+                  "raw": "margin-left"
                 },
-                "values": [
+                "value": [
                   {
                     "type": "Number",
                     "span": {
@@ -662,7 +678,8 @@
                       "end": 264,
                       "ctxt": 0
                     },
-                    "value": 0.0
+                    "value": 0.0,
+                    "raw": "0"
                   }
                 ],
                 "important": null
@@ -685,7 +702,10 @@
                 "ctxt": 0
               },
               "token": {
-                "Ident": "__styled-jsx-placeholder__7"
+                "Ident": {
+                  "value": "__styled-jsx-placeholder__7",
+                  "raw": "__styled-jsx-placeholder__7"
+                }
               }
             },
             {
@@ -694,7 +714,11 @@
                 "end": 304,
                 "ctxt": 0
               },
-              "token": "WhiteSpace"
+              "token": {
+                "WhiteSpace": {
+                  "value": "\n"
+                }
+              }
             }
           ]
         }

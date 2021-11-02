@@ -1,11 +1,15 @@
 use super::graph::Required;
 use crate::{id::Id, modules::sort::graph::StmtDepGraph};
 use indexmap::IndexSet;
-use petgraph::EdgeDirection::{Incoming as Dependants, Outgoing as Dependancies};
-use rustc_hash::{FxHashMap, FxHashSet};
+use petgraph::EdgeDirection::{Incoming as Dependants, Outgoing as Dependencies};
 use std::{collections::VecDeque, iter::from_fn, ops::Range};
 use swc_atoms::js_word;
-use swc_common::{sync::Lrc, util::take::Take, SourceMap, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{
+    collections::{AHashMap, AHashSet},
+    sync::Lrc,
+    util::take::Take,
+    SourceMap, Spanned, SyntaxContext, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
 use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
@@ -90,8 +94,8 @@ fn iter<'a>(
     // dbg!(&free);
     // dbg!(&module_starts);
 
-    let mut moves = FxHashSet::default();
-    let mut done = FxHashSet::default();
+    let mut moves = AHashSet::default();
+    let mut done = AHashSet::default();
     let mut stack = VecDeque::new();
     stack.extend(module_starts.iter().copied());
 
@@ -177,7 +181,7 @@ fn iter<'a>(
             // We
             {
                 let deps = graph
-                    .neighbors_directed(idx, Dependancies)
+                    .neighbors_directed(idx, Dependencies)
                     .filter(|dep| {
                         let declared_in_same_module = match &current_range {
                             Some(v) => v.contains(&dep),
@@ -193,7 +197,7 @@ fn iter<'a>(
                             }
                         }
 
-                        // Exlcude emitted items
+                        // Exclude emitted items
                         !done.contains(dep)
                     })
                     .collect::<Vec<_>>();
@@ -263,7 +267,7 @@ fn iter<'a>(
                     // dbg!(&dependants);
 
                     // We only emit free items because we want to emit statements from same module
-                    // to emitted closedly.
+                    // to emitted closely.
                     for dependant in dependants {
                         if !done.contains(&dependant) && free.contains(&dependant) {
                             stack.push_front(dependant);
@@ -303,7 +307,7 @@ fn iter<'a>(
                 // dbg!(&dependants);
 
                 // We only emit free items because we want to emit statements from same module
-                // to emitted closedly.
+                // to emitted closely.
                 for dependant in dependants {
                     if !done.contains(&dependant) && free.contains(&dependant) {
                         stack.push_front(dependant);
@@ -330,7 +334,7 @@ fn iter<'a>(
 struct FieldInitFinter {
     in_object_assign: bool,
     in_rhs: bool,
-    accessed: FxHashSet<Id>,
+    accessed: AHashSet<Id>,
 }
 
 impl FieldInitFinter {
@@ -502,12 +506,12 @@ impl Visit for InitializerFinder {
 /// We do not care about variables created by current statement.
 /// But we care about modifications.
 #[derive(Default)]
-struct RequirementCalculartor {
-    required_ids: IndexSet<(Id, Required)>,
+struct RequirementCalculator {
+    required_ids: IndexSet<(Id, Required), ahash::RandomState>,
     /// While bundling, there can be two bindings with same name and syntax
     /// context, in case of wrapped es modules. We exclude them from dependency
     /// graph.
-    excluded: IndexSet<Id>,
+    excluded: IndexSet<Id, ahash::RandomState>,
 
     in_weak: bool,
     in_var_decl: bool,
@@ -527,7 +531,7 @@ macro_rules! weak {
     };
 }
 
-impl RequirementCalculartor {
+impl RequirementCalculator {
     fn insert(&mut self, i: Id) {
         self.required_ids.insert((
             i,
@@ -540,7 +544,7 @@ impl RequirementCalculartor {
     }
 }
 
-impl Visit for RequirementCalculartor {
+impl Visit for RequirementCalculator {
     noop_visit_type!();
 
     weak!(visit_arrow_expr, ArrowExpr);
@@ -630,15 +634,15 @@ fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
     tracing::debug!("Analyzing dependencies between statements");
     let mut graph = StmtDepGraph::default();
 
-    let mut declared_by = FxHashMap::<Id, Vec<usize>>::default();
-    let mut uninitialized_ids = FxHashMap::<Id, usize>::default();
+    let mut declared_by = AHashMap::<Id, Vec<usize>>::default();
+    let mut uninitialized_ids = AHashMap::<Id, usize>::default();
 
     for (idx, item) in new.iter().enumerate() {
         graph.add_node(idx);
 
         // We start by calculating ids created by statements. Note that we don't need to
         // analyze bodies of functions nor members of classes, because it's not
-        // evaludated until they are called.
+        // evaluated until they are called.
 
         match item {
             // We only check declarations because ids are created by declarations.
@@ -732,10 +736,10 @@ fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
 
     for (idx, item) in new.iter().enumerate() {
         // We then calculate which ids a statement require to be executed.
-        // Again, we don't need to analyze non-top-level idents because they
-        // are not evaluated while lpoading module.
+        // Again, we don't need to analyze non-top-level identifiers because they
+        // are not evaluated while loading module.
 
-        let mut visitor = RequirementCalculartor::default();
+        let mut visitor = RequirementCalculator::default();
 
         item.visit_with(&Invalid { span: DUMMY_SP }, &mut visitor);
 
@@ -768,7 +772,7 @@ fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
                         // );
                         if cfg!(debug_assertions) {
                             let deps: Vec<_> =
-                                graph.neighbors_directed(idx, Dependancies).collect();
+                                graph.neighbors_directed(idx, Dependencies).collect();
                             assert!(deps.contains(&declarator_index));
                         }
                     }
@@ -782,7 +786,7 @@ fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
 
 #[cfg(test)]
 mod tests {
-    use super::{calc_deps, Dependancies};
+    use super::{calc_deps, Dependencies};
     use crate::{bundler::tests::suite, debug::print_hygiene};
     use swc_common::DUMMY_SP;
     use swc_ecma_ast::*;
@@ -802,7 +806,7 @@ mod tests {
                 }
 
                 let deps = graph
-                    .neighbors_directed(i, Dependancies)
+                    .neighbors_directed(i, Dependencies)
                     .collect::<Vec<_>>();
 
                 for dep in deps {

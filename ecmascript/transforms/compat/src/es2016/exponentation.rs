@@ -1,9 +1,12 @@
-use swc_common::{Span, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{ext::PatOrExprExt, perf::Check};
-use swc_ecma_transforms_macros::fast_path;
-use swc_ecma_utils::{member_expr, private_ident, ExprFactory, StmtLike};
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_transforms_base::{
+    ext::PatOrExprExt,
+    perf::{ParExplode, Parallel},
+};
+use swc_ecma_transforms_macros::parallel;
+use swc_ecma_utils::{member_expr, private_ident, ExprFactory};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 /// `@babel/plugin-transform-exponentiation-operator`
 ///
@@ -24,30 +27,61 @@ use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visi
 ///
 /// x = Math.pow(x, 3);
 /// ```
-pub fn exponentation() -> impl Fold {
-    Exponentation
+pub fn exponentation() -> impl Fold + VisitMut {
+    as_folder(Exponentation::default())
 }
 
-#[derive(Clone, Copy)]
-struct Exponentation;
-
 #[derive(Default)]
-struct AssignFolder {
+struct Exponentation {
     vars: Vec<VarDeclarator>,
 }
 
-#[fast_path(ShouldFold)]
-impl Fold for AssignFolder {
-    noop_fold_type!();
+impl Parallel for Exponentation {
+    fn create(&self) -> Self {
+        Self::default()
+    }
 
-    fn fold_expr(&mut self, e: Expr) -> Expr {
-        let e = e.fold_children_with(self);
+    fn merge(&mut self, other: Self) {
+        self.vars.extend(other.vars);
+    }
+}
+
+impl ParExplode for Exponentation {
+    fn after_one_stmt(&mut self, stmts: &mut Vec<Stmt>) {
+        if !self.vars.is_empty() {
+            stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                decls: self.vars.take(),
+                declare: false,
+            })));
+        }
+    }
+
+    fn after_one_module_item(&mut self, stmts: &mut Vec<ModuleItem>) {
+        if !self.vars.is_empty() {
+            stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                decls: self.vars.take(),
+                declare: false,
+            }))));
+        }
+    }
+}
+
+#[parallel(explode)]
+impl VisitMut for Exponentation {
+    noop_visit_mut_type!();
+
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
 
         match e {
             Expr::Assign(AssignExpr {
                 span,
                 left,
-                op: op!("**="),
+                op: op @ op!("**="),
                 right,
             }) => {
                 let lhs: Ident = match left {
@@ -67,79 +101,29 @@ impl Fold for AssignFolder {
                     }
 
                     left => {
-                        return Expr::Assign(AssignExpr {
-                            span,
-                            left,
+                        *e = Expr::Assign(AssignExpr {
+                            span: *span,
+                            left: left.take(),
                             op: op!("="),
-                            right,
+                            right: right.take(),
                         });
+                        return;
                     }
                 };
-                Expr::Assign(AssignExpr {
-                    span,
-                    left,
-                    op: op!("="),
-                    right: Box::new(mk_call(span, Box::new(lhs.into()), right)),
-                })
+
+                *op = op!("=");
+                *right = Box::new(mk_call(*span, Box::new(lhs.into()), right.take()));
             }
             Expr::Bin(BinExpr {
                 span,
                 left,
                 op: op!("**"),
                 right,
-            }) => mk_call(span, left, right),
-            _ => e,
-        }
-    }
-}
-
-#[fast_path(ShouldFold)]
-impl Fold for Exponentation {
-    noop_fold_type!();
-
-    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        self.fold_stmt_like(n)
-    }
-
-    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
-        self.fold_stmt_like(n)
-    }
-}
-
-impl Exponentation {
-    fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
-    where
-        T: StmtLike + VisitWith<ShouldFold>,
-        Vec<T>: FoldWith<Self> + VisitWith<ShouldFold>,
-    {
-        let stmts = stmts.fold_children_with(self);
-
-        let mut buf = vec![];
-
-        for stmt in stmts {
-            match stmt.try_into_stmt() {
-                Err(module_item) => buf.push(module_item),
-                Ok(stmt) => {
-                    let mut folder = AssignFolder::default();
-                    let stmt = stmt.fold_with(&mut folder);
-
-                    // Add variable declaration
-                    // e.g. var ref
-                    if !folder.vars.is_empty() {
-                        buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            decls: folder.vars,
-                            declare: false,
-                        }))));
-                    }
-
-                    buf.push(T::from_stmt(stmt));
-                }
+            }) => {
+                *e = mk_call(*span, left.take(), right.take());
             }
+            _ => {}
         }
-
-        buf
     }
 }
 
@@ -154,37 +138,6 @@ fn mk_call(span: Span, left: Box<Expr>, right: Box<Expr>) -> Expr {
     })
 }
 
-#[derive(Default)]
-struct ShouldFold {
-    found: bool,
-}
-impl Visit for ShouldFold {
-    noop_visit_type!();
-
-    fn visit_bin_expr(&mut self, e: &BinExpr, _: &dyn Node) {
-        if e.op == op!("**") {
-            self.found = true;
-        }
-    }
-
-    fn visit_assign_expr(&mut self, e: &AssignExpr, _: &dyn Node) {
-        if e.op == op!("**=") {
-            self.found = true;
-        }
-
-        if !self.found {
-            e.left.visit_with(e as _, self);
-            e.right.visit_with(e as _, self);
-        }
-    }
-}
-
-impl Check for ShouldFold {
-    fn should_handle(&self) -> bool {
-        self.found
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -192,7 +145,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| Exponentation,
+        |_| exponentation(),
         babel_binary,
         "2 ** 2",
         "Math.pow(2, 2)"
@@ -201,7 +154,7 @@ mod tests {
     test_exec!(
         ignore,
         ::swc_ecma_parser::Syntax::default(),
-        |_| Exponentation,
+        |_| exponentation(),
         babel_comprehensive,
         r#"expect(2 ** 3).toBe(8);
 expect(3 * 2 ** 3).toBe(24);
@@ -230,7 +183,7 @@ expect(2 ** 3 ** 2).toBe(512);"#
         // FIXME
         ignore,
         ::swc_ecma_parser::Syntax::default(),
-        |_| Exponentation,
+        |_| exponentation(),
         babel_memoize_object,
         r#"var counters = 0;
 Object.defineProperty(global, "reader", {
@@ -246,7 +199,7 @@ expect(counters).toBe(1);"#
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| Exponentation,
+        |_| exponentation(),
         assign,
         r#"x **= 3"#,
         r#"x = Math.pow(x, 3)"#,
@@ -254,7 +207,7 @@ expect(counters).toBe(1);"#
     );
 
     //     test!(::swc_ecma_parser::Syntax::default(),
-    //         |_| Exponentation,
+    //         |_| exponentation(),
     //         babel_4403,
     //         "var a, b;
     // a[`${b++}`] **= 1;",
@@ -266,7 +219,7 @@ expect(counters).toBe(1);"#
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| Exponentation,
+        |_| exponentation(),
         issue_740,
         "self.a = 10 ** 2",
         "self.a = Math.pow(10, 2)",
@@ -277,7 +230,7 @@ expect(counters).toBe(1);"#
     // bu JakeChampion
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| Exponentation,
+        |_| exponentation(),
         babel_binary_member_assignment_expression,
         "var x = {}; x.a = 2 ** 2",
         "var x = {}; x.a = Math.pow(2, 2)"
@@ -285,7 +238,7 @@ expect(counters).toBe(1);"#
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| Exponentation,
+        |_| exponentation(),
         assign_to_object_property,
         r#"var self = {}; self.x **= 3"#,
         r#"var self = {}; var ref = self.x; self.x = Math.pow(ref, 3);"#,

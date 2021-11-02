@@ -541,6 +541,11 @@ fn test_optimize_switch_4() {
         "foo();",
     );
     test(
+        "switch (true) {\ncase true:\n  foo();\n  break;\ncase false:\n  bar();\n break; 
+            default: foobar(); break; \n}",
+        "foo();",
+    );
+    test(
         "switch (1) {\ncase 1.1:\n  foo();\n  break;\ncase 2:\n  bar();\n  break;\n}",
         "",
     );

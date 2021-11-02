@@ -194,7 +194,7 @@ error: Text
 1 | div, div + #id, div ~ #id, div > #id {
   |                                  ^^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/rome/selectors/input.css:1:38
   |
 1 |   div, div + #id, div ~ #id, div > #id {
@@ -249,7 +249,7 @@ error: Text
 5 | .escaped\.class\.name {
   |  ^^^^^^^^^^^^^^^^^^^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/rome/selectors/input.css:5:23
   |
 5 |   .escaped\.class\.name {
@@ -322,7 +322,7 @@ error: Text
 9 | .class + * {
   |          ^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/rome/selectors/input.css:9:12
    |
 9  |   .class + * {
@@ -395,7 +395,7 @@ error: Text
 13 | a[title] {
    |   ^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/rome/selectors/input.css:13:10
    |
 13 |   a[title] {
@@ -404,7 +404,7 @@ error: DeclBlock
 15 | | }
    | |_^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/rome/selectors/input.css:14:3
    |
 14 |   color: purple;
@@ -498,7 +498,7 @@ error: Str
 17 | a[title = "title"] {
    |           ^^^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/rome/selectors/input.css:17:20
    |
 17 |   a[title = "title"] {
@@ -507,7 +507,7 @@ error: DeclBlock
 19 | | }
    | |_^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/rome/selectors/input.css:18:3
    |
 18 |   color: purple;
@@ -601,7 +601,7 @@ error: Str
 21 | a[title~="title" i] {
    |          ^^^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/rome/selectors/input.css:21:21
    |
 21 |   a[title~="title" i] {
@@ -610,7 +610,7 @@ error: DeclBlock
 23 | | }
    | |_^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/rome/selectors/input.css:22:3
    |
 22 |   color: purple;
@@ -734,7 +734,7 @@ error: Str
 25 | a[title = "title"][href*="image/*" S] {
    |                          ^^^^^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/rome/selectors/input.css:25:39
    |
 25 |   a[title = "title"][href*="image/*" S] {
@@ -743,7 +743,7 @@ error: DeclBlock
 27 | | }
    | |_^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/rome/selectors/input.css:26:2
    |
 26 |     color: purple;
@@ -829,13 +829,13 @@ error: Tokens
 29 | p:nth-last-of-type(2) {
    |                    ^
 
-error: Num(NumToken { value: 2.0 })
+error: Num { value: 2.0, raw: Atom('2' type=inline) }
   --> $DIR/tests/fixture/rome/selectors/input.css:29:20
    |
 29 | p:nth-last-of-type(2) {
    |                    ^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/rome/selectors/input.css:29:23
    |
 29 |   p:nth-last-of-type(2) {
@@ -893,7 +893,7 @@ error: Tokens
 32 | :lang(en, ko) {
    |       ^^^^^^
 
-error: Ident(Atom('en' type=inline))
+error: Ident { value: Atom('en' type=inline), raw: Atom('en' type=inline) }
   --> $DIR/tests/fixture/rome/selectors/input.css:32:7
    |
 32 | :lang(en, ko) {
@@ -905,19 +905,19 @@ error: Comma
 32 | :lang(en, ko) {
    |         ^
 
-error: WhiteSpace
+error: WhiteSpace { value: Atom(' ' type=inline) }
   --> $DIR/tests/fixture/rome/selectors/input.css:32:10
    |
 32 | :lang(en, ko) {
    |          ^
 
-error: Ident(Atom('ko' type=inline))
+error: Ident { value: Atom('ko' type=inline), raw: Atom('ko' type=inline) }
   --> $DIR/tests/fixture/rome/selectors/input.css:32:11
    |
 32 | :lang(en, ko) {
    |           ^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/rome/selectors/input.css:32:15
    |
 32 |   :lang(en, ko) {
@@ -975,7 +975,7 @@ error: Tokens
 35 | ::pseudo-elem() {
    |               ^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/rome/selectors/input.css:35:17
    |
 35 |   ::pseudo-elem() {
@@ -1033,7 +1033,7 @@ error: Tokens
 38 | ::pseudo-elem(a, b) {
    |               ^^^^
 
-error: Ident(Atom('a' type=inline))
+error: Ident { value: Atom('a' type=inline), raw: Atom('a' type=inline) }
   --> $DIR/tests/fixture/rome/selectors/input.css:38:15
    |
 38 | ::pseudo-elem(a, b) {
@@ -1045,19 +1045,19 @@ error: Comma
 38 | ::pseudo-elem(a, b) {
    |                ^
 
-error: WhiteSpace
+error: WhiteSpace { value: Atom(' ' type=inline) }
   --> $DIR/tests/fixture/rome/selectors/input.css:38:17
    |
 38 | ::pseudo-elem(a, b) {
    |                 ^
 
-error: Ident(Atom('b' type=inline))
+error: Ident { value: Atom('b' type=inline), raw: Atom('b' type=inline) }
   --> $DIR/tests/fixture/rome/selectors/input.css:38:18
    |
 38 | ::pseudo-elem(a, b) {
    |                  ^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/rome/selectors/input.css:38:21
    |
 38 |   ::pseudo-elem(a, b) {

@@ -29,11 +29,11 @@ function _asyncToGenerator(fn) {
     };
 }
 function _scanUser() {
-    _scanUser = _asyncToGenerator(regeneratorRuntime.mark(function _callee(groups) {
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
+    _scanUser = _asyncToGenerator(regeneratorRuntime.mark(function _callee1(groups) {
+        return regeneratorRuntime.wrap(function _callee$(_ctx1) {
+            while(1)switch(_ctx1.prev = _ctx1.next){
                 case 0:
-                    _ctx.next = 2;
+                    _ctx1.next = 2;
                     return Promise.all(groups.map(_asyncToGenerator(regeneratorRuntime.mark(function _callee(param) {
                         var users = param.users;
                         var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, user;
@@ -89,24 +89,24 @@ function _scanUser() {
                             }
                         }, _callee, null, [
                             [
-                                18,
-                                ,
-                                20,
-                                24
-                            ],
-                            [
                                 1,
                                 13,
                                 17,
                                 25
+                            ],
+                            [
+                                18,
+                                ,
+                                20,
+                                24
                             ]
                         ]);
                     }))));
                 case 2:
                 case "end":
-                    return _ctx.stop();
+                    return _ctx1.stop();
             }
-        }, _callee);
+        }, _callee1);
     }));
     return _scanUser.apply(this, arguments);
 }

@@ -47,7 +47,8 @@
                       "end": 6,
                       "ctxt": 0
                     },
-                    "value": "style"
+                    "value": "style",
+                    "raw": "style"
                   }
                 }
               ]
@@ -56,7 +57,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 7,
           "end": 238,
@@ -64,22 +65,23 @@
         },
         "items": [
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 10,
               "end": 26,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 10,
                 "end": 15,
                 "ctxt": 0
               },
-              "value": "width"
+              "value": "width",
+              "raw": "width"
             },
-            "values": [
+            "value": [
               {
                 "type": "FnValue",
                 "span": {
@@ -94,7 +96,8 @@
                     "end": 21,
                     "ctxt": 0
                   },
-                  "value": "calc"
+                  "value": "calc",
+                  "raw": "calc"
                 },
                 "args": [
                   {
@@ -111,7 +114,8 @@
                         "end": 23,
                         "ctxt": 0
                       },
-                      "value": 2.0
+                      "value": 2.0,
+                      "raw": "2"
                     },
                     "unit": {
                       "span": {
@@ -119,7 +123,8 @@
                         "end": 25,
                         "ctxt": 0
                       },
-                      "kind": null
+                      "value": "px",
+                      "raw": "px"
                     }
                   }
                 ]
@@ -128,22 +133,23 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 29,
               "end": 51,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 29,
                 "end": 34,
                 "ctxt": 0
               },
-              "value": "width"
+              "value": "width",
+              "raw": "width"
             },
-            "values": [
+            "value": [
               {
                 "type": "FnValue",
                 "span": {
@@ -158,7 +164,8 @@
                     "end": 40,
                     "ctxt": 0
                   },
-                  "value": "calc"
+                  "value": "calc",
+                  "raw": "calc"
                 },
                 "args": [
                   {
@@ -183,7 +190,8 @@
                           "end": 42,
                           "ctxt": 0
                         },
-                        "value": 2.0
+                        "value": 2.0,
+                        "raw": "2"
                       },
                       "unit": {
                         "span": {
@@ -191,7 +199,8 @@
                           "end": 44,
                           "ctxt": 0
                         },
-                        "kind": null
+                        "value": "px",
+                        "raw": "px"
                       }
                     },
                     "right": {
@@ -208,7 +217,8 @@
                           "end": 48,
                           "ctxt": 0
                         },
-                        "value": 1.0
+                        "value": 1.0,
+                        "raw": "1"
                       },
                       "unit": {
                         "span": {
@@ -216,7 +226,8 @@
                           "end": 50,
                           "ctxt": 0
                         },
-                        "kind": null
+                        "value": "px",
+                        "raw": "px"
                       }
                     }
                   }
@@ -226,22 +237,23 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 54,
               "end": 75,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 54,
                 "end": 59,
                 "ctxt": 0
               },
-              "value": "width"
+              "value": "width",
+              "raw": "width"
             },
-            "values": [
+            "value": [
               {
                 "type": "FnValue",
                 "span": {
@@ -256,7 +268,8 @@
                     "end": 65,
                     "ctxt": 0
                   },
-                  "value": "calc"
+                  "value": "calc",
+                  "raw": "calc"
                 },
                 "args": [
                   {
@@ -281,7 +294,8 @@
                           "end": 67,
                           "ctxt": 0
                         },
-                        "value": 2.0
+                        "value": 2.0,
+                        "raw": "2"
                       },
                       "unit": {
                         "span": {
@@ -289,7 +303,8 @@
                           "end": 69,
                           "ctxt": 0
                         },
-                        "kind": "em"
+                        "value": "em",
+                        "raw": "em"
                       }
                     },
                     "right": {
@@ -306,7 +321,8 @@
                           "end": 73,
                           "ctxt": 0
                         },
-                        "value": 1.0
+                        "value": 1.0,
+                        "raw": "1"
                       }
                     }
                   }
@@ -316,22 +332,23 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 78,
               "end": 105,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 78,
                 "end": 83,
                 "ctxt": 0
               },
-              "value": "width"
+              "value": "width",
+              "raw": "width"
             },
-            "values": [
+            "value": [
               {
                 "type": "FnValue",
                 "span": {
@@ -346,7 +363,8 @@
                     "end": 89,
                     "ctxt": 0
                   },
-                  "value": "calc"
+                  "value": "calc",
+                  "raw": "calc"
                 },
                 "args": [
                   {
@@ -379,7 +397,8 @@
                             "end": 91,
                             "ctxt": 0
                           },
-                          "value": 2.0
+                          "value": 2.0,
+                          "raw": "2"
                         },
                         "unit": {
                           "span": {
@@ -387,7 +406,8 @@
                             "end": 93,
                             "ctxt": 0
                           },
-                          "kind": "em"
+                          "value": "em",
+                          "raw": "em"
                         }
                       },
                       "right": {
@@ -412,7 +432,8 @@
                                 "end": 97,
                                 "ctxt": 0
                               },
-                              "value": 2.0
+                              "value": 2.0,
+                              "raw": "2"
                             }
                           }
                         ]
@@ -432,7 +453,8 @@
                           "end": 102,
                           "ctxt": 0
                         },
-                        "value": 3.0
+                        "value": 3.0,
+                        "raw": "3"
                       },
                       "unit": {
                         "span": {
@@ -440,7 +462,8 @@
                           "end": 104,
                           "ctxt": 0
                         },
-                        "kind": null
+                        "value": "px",
+                        "raw": "px"
                       }
                     }
                   }
@@ -450,22 +473,23 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 108,
               "end": 132,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 108,
                 "end": 113,
                 "ctxt": 0
               },
-              "value": "width"
+              "value": "width",
+              "raw": "width"
             },
-            "values": [
+            "value": [
               {
                 "type": "FnValue",
                 "span": {
@@ -480,7 +504,8 @@
                     "end": 119,
                     "ctxt": 0
                   },
-                  "value": "calc"
+                  "value": "calc",
+                  "raw": "calc"
                 },
                 "args": [
                   {
@@ -513,7 +538,8 @@
                             "end": 121,
                             "ctxt": 0
                           },
-                          "value": 2.0
+                          "value": 2.0,
+                          "raw": "2"
                         },
                         "unit": {
                           "span": {
@@ -521,7 +547,8 @@
                             "end": 123,
                             "ctxt": 0
                           },
-                          "kind": "em"
+                          "value": "em",
+                          "raw": "em"
                         }
                       },
                       "right": {
@@ -539,7 +566,8 @@
                               "end": 127,
                               "ctxt": 0
                             },
-                            "value": 2.0
+                            "value": 2.0,
+                            "raw": "2"
                           }
                         ]
                       }
@@ -551,7 +579,8 @@
                         "end": 131,
                         "ctxt": 0
                       },
-                      "value": 3.0
+                      "value": 3.0,
+                      "raw": "3"
                     }
                   }
                 ]
@@ -560,22 +589,23 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 135,
               "end": 171,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 135,
                 "end": 140,
                 "ctxt": 0
               },
-              "value": "width"
+              "value": "width",
+              "raw": "width"
             },
-            "values": [
+            "value": [
               {
                 "type": "FnValue",
                 "span": {
@@ -590,7 +620,8 @@
                     "end": 146,
                     "ctxt": 0
                   },
-                  "value": "calc"
+                  "value": "calc",
+                  "raw": "calc"
                 },
                 "args": [
                   {
@@ -623,7 +654,8 @@
                             "end": 148,
                             "ctxt": 0
                           },
-                          "value": 2.0
+                          "value": 2.0,
+                          "raw": "2"
                         },
                         "unit": {
                           "span": {
@@ -631,7 +663,8 @@
                             "end": 150,
                             "ctxt": 0
                           },
-                          "kind": "em"
+                          "value": "em",
+                          "raw": "em"
                         }
                       },
                       "right": {
@@ -664,7 +697,8 @@
                                   "end": 155,
                                   "ctxt": 0
                                 },
-                                "value": 2.0
+                                "value": 2.0,
+                                "raw": "2"
                               },
                               "right": {
                                 "type": "Number",
@@ -673,7 +707,8 @@
                                   "end": 159,
                                   "ctxt": 0
                                 },
-                                "value": 3.0
+                                "value": 3.0,
+                                "raw": "3"
                               }
                             }
                           }
@@ -702,7 +737,8 @@
                             "end": 165,
                             "ctxt": 0
                           },
-                          "value": 2.0
+                          "value": 2.0,
+                          "raw": "2"
                         },
                         "right": {
                           "type": "Number",
@@ -711,7 +747,8 @@
                             "end": 169,
                             "ctxt": 0
                           },
-                          "value": 6.0
+                          "value": 6.0,
+                          "raw": "6"
                         }
                       }
                     }
@@ -722,22 +759,23 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 174,
               "end": 198,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 174,
                 "end": 179,
                 "ctxt": 0
               },
-              "value": "width"
+              "value": "width",
+              "raw": "width"
             },
-            "values": [
+            "value": [
               {
                 "type": "FnValue",
                 "span": {
@@ -752,7 +790,8 @@
                     "end": 185,
                     "ctxt": 0
                   },
-                  "value": "calc"
+                  "value": "calc",
+                  "raw": "calc"
                 },
                 "args": [
                   {
@@ -785,7 +824,8 @@
                             "end": 187,
                             "ctxt": 0
                           },
-                          "value": 2.0
+                          "value": 2.0,
+                          "raw": "2"
                         },
                         "unit": {
                           "span": {
@@ -793,7 +833,8 @@
                             "end": 189,
                             "ctxt": 0
                           },
-                          "kind": "em"
+                          "value": "em",
+                          "raw": "em"
                         }
                       },
                       "right": {
@@ -811,7 +852,8 @@
                               "end": 193,
                               "ctxt": 0
                             },
-                            "value": 2.0
+                            "value": 2.0,
+                            "raw": "2"
                           }
                         ]
                       }
@@ -823,7 +865,8 @@
                         "end": 197,
                         "ctxt": 0
                       },
-                      "value": 3.0
+                      "value": 3.0,
+                      "raw": "3"
                     }
                   }
                 ]
@@ -832,22 +875,23 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 201,
               "end": 235,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 201,
                 "end": 206,
                 "ctxt": 0
               },
-              "value": "width"
+              "value": "width",
+              "raw": "width"
             },
-            "values": [
+            "value": [
               {
                 "type": "FnValue",
                 "span": {
@@ -862,7 +906,8 @@
                     "end": 212,
                     "ctxt": 0
                   },
-                  "value": "calc"
+                  "value": "calc",
+                  "raw": "calc"
                 },
                 "args": [
                   {
@@ -911,7 +956,8 @@
                                 "end": 214,
                                 "ctxt": 0
                               },
-                              "value": 2.0
+                              "value": 2.0,
+                              "raw": "2"
                             },
                             "unit": {
                               "span": {
@@ -919,7 +965,8 @@
                                 "end": 216,
                                 "ctxt": 0
                               },
-                              "kind": "em"
+                              "value": "em",
+                              "raw": "em"
                             }
                           },
                           "right": {
@@ -937,7 +984,8 @@
                                   "end": 220,
                                   "ctxt": 0
                                 },
-                                "value": 2.0
+                                "value": 2.0,
+                                "raw": "2"
                               }
                             ]
                           }
@@ -957,7 +1005,8 @@
                                 "end": 224,
                                 "ctxt": 0
                               },
-                              "value": 3.0
+                              "value": 3.0,
+                              "raw": "3"
                             }
                           ]
                         }
@@ -984,7 +1033,8 @@
                                 "end": 228,
                                 "ctxt": 0
                               },
-                              "value": 3.0
+                              "value": 3.0,
+                              "raw": "3"
                             },
                             "unit": {
                               "span": {
@@ -992,7 +1042,8 @@
                                 "end": 230,
                                 "ctxt": 0
                               },
-                              "kind": "em"
+                              "value": "em",
+                              "raw": "em"
                             }
                           }
                         ]
@@ -1005,7 +1056,8 @@
                         "end": 234,
                         "ctxt": 0
                       },
-                      "value": 5.0
+                      "value": 5.0,
+                      "raw": "5"
                     }
                   }
                 ]

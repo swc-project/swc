@@ -52,13 +52,13 @@ error: Tokens
 1 | :pseudo(cl\61ss) {}
   |         ^^^^^^^
 
-error: Ident(Atom('class' type=static))
+error: Ident { value: Atom('class' type=static), raw: Atom('cl\61ss' type=inline) }
  --> $DIR/tests/fixture/esbuild/misc/_e6qpZBWfowEh1P3Wn3orA/input.css:1:9
   |
 1 | :pseudo(cl\61ss) {}
   |         ^^^^^^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/esbuild/misc/_e6qpZBWfowEh1P3Wn3orA/input.css:1:18
   |
 1 | :pseudo(cl\61ss) {}

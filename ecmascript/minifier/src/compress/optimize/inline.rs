@@ -490,14 +490,14 @@ where
                 match &decl {
                     Decl::Class(c) => {
                         tracing::debug!(
-                            "inline: Decided to inline class '{}{:?}' as it's used only once",
+                            "inline: Decided to inline class `{}{:?}` as it's used only once",
                             c.ident.sym,
                             c.ident.span.ctxt
                         );
                     }
                     Decl::Fn(f) => {
                         tracing::debug!(
-                            "inline: Decided to inline function '{}{:?}' as it's used only once",
+                            "inline: Decided to inline function `{}{:?}` as it's used only once",
                             f.ident.sym,
                             f.ident.span.ctxt
                         );
@@ -535,10 +535,6 @@ where
 
     /// Actually inlines variables.
     pub(super) fn inline(&mut self, e: &mut Expr) {
-        if self.ctx.inline_prevented {
-            return;
-        }
-
         match e {
             Expr::Ident(i) => {
                 //
@@ -558,7 +554,7 @@ where
                 {
                     match &*value {
                         Expr::Lit(Lit::Num(..)) => {
-                            if self.ctx.in_lhs_of_assign {
+                            if self.ctx.is_lhs_of_assign {
                                 return;
                             }
                         }
@@ -577,6 +573,7 @@ where
                     return;
                 }
 
+                // Check witohut cloning
                 if let Some(value) = self.state.vars_for_inlining.get(&i.to_id()) {
                     if self.ctx.is_exact_lhs_of_assign && !is_valid_for_lhs(&value) {
                         return;

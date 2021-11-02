@@ -18,13 +18,12 @@ dashmap = "4.0.2"
 is-macro = "0.1.8"
 once_cell = "1"
 regex = "1"
-rustc-hash = "1.1.0"
 serde = {version = "1", features = ["derive"]}
 serde_json = "1"
 string_enum = {version = "0.3", path = "../../macros/string_enum"}
 swc = {path = "../../"}
 swc_atoms = {path = "../../atoms"}
-swc_bundler = {path = "../../bundler"}
+swc_bundler = {path = "../../bundler", features = ["concurrent"]}
 swc_common = {path = "../../common", features = ["concurrent"]}
 swc_ecma_ast = {path = "../../ecmascript/ast"}
 swc_ecma_codegen = {path = "../../ecmascript/codegen"}

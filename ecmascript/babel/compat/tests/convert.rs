@@ -82,7 +82,10 @@ fn fixtures() -> Result<(), Error> {
                         ..Default::default()
                     })
                 } else {
-                    Syntax::default()
+                    Syntax::Es(EsConfig {
+                        static_blocks: true,
+                        ..Default::default()
+                    })
                 };
                 run_test(input, output, syntax, is_module);
             })),
@@ -131,7 +134,7 @@ fn run_test(src: String, expected: String, syntax: Syntax, is_module: bool) {
         .parse_js(
             fm.clone(),
             &handler,
-            Default::default(), // JscTarget (ES version)
+            Default::default(), // EsVersion (ES version)
             syntax,
             is_module,
             true, // parse_conmments

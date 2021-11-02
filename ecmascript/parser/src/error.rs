@@ -63,7 +63,7 @@ pub enum SyntaxError {
     EscapeInReservedWord {
         word: JsWord,
     },
-    UnterminatedRegxp,
+    UnterminatedRegExp,
     UnterminatedTpl,
     IdentAfterNum,
     UnexpectedChar {
@@ -272,7 +272,7 @@ impl SyntaxError {
             SyntaxError::EscapeInReservedWord { ref word } => {
                 format!("Unexpected escape sequence in reserved word: {}", word).into()
             }
-            SyntaxError::UnterminatedRegxp => "Unterminated regexp literal".into(),
+            SyntaxError::UnterminatedRegExp => "Unterminated regexp literal".into(),
             SyntaxError::UnterminatedTpl => "Unterminated template".into(),
             SyntaxError::IdentAfterNum => "Identifier cannot follow number".into(),
             SyntaxError::UnexpectedChar { c } => format!("Unexpected character {:?}", c).into(),

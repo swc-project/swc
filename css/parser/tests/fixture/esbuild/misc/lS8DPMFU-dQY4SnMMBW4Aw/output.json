@@ -20,7 +20,8 @@
           "end": 15,
           "ctxt": 0
         },
-        "value": "test"
+        "value": "test",
+        "raw": "test"
       },
       "blocks": [
         {
@@ -37,11 +38,12 @@
                 "end": 22,
                 "ctxt": 0
               },
-              "value": "from"
+              "value": "from",
+              "raw": "from"
             }
           ],
           "rule": {
-            "type": "DeclBlock",
+            "type": "Block",
             "span": {
               "start": 23,
               "end": 25,
@@ -64,11 +66,12 @@
                 "end": 28,
                 "ctxt": 0
               },
-              "value": "to"
+              "value": "to",
+              "raw": "to"
             }
           ],
           "rule": {
-            "type": "DeclBlock",
+            "type": "Block",
             "span": {
               "start": 29,
               "end": 31,

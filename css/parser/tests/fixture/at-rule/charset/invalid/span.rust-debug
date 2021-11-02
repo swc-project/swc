@@ -1,0 +1,80 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/at-rule/charset/invalid/input.css:1:1
+  |
+1 | / @charset 'iso-8859-15'; /* Invalid, wrong quoting style used */
+2 | | @charset  "UTF-8";      /* Invalid, more than one space */
+3 | | @charset "UTF-8";      /* Invalid, there is a character (a space) before the at-rule */
+  | |_______________________^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/charset/invalid/input.css:1:1
+  |
+1 | @charset 'iso-8859-15'; /* Invalid, wrong quoting style used */
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/charset/invalid/input.css:1:1
+  |
+1 | @charset 'iso-8859-15'; /* Invalid, wrong quoting style used */
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CharsetRule
+ --> $DIR/tests/fixture/at-rule/charset/invalid/input.css:1:1
+  |
+1 | @charset 'iso-8859-15'; /* Invalid, wrong quoting style used */
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/at-rule/charset/invalid/input.css:1:10
+  |
+1 | @charset 'iso-8859-15'; /* Invalid, wrong quoting style used */
+  |          ^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/charset/invalid/input.css:2:1
+  |
+2 | @charset  "UTF-8";      /* Invalid, more than one space */
+  | ^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/charset/invalid/input.css:2:1
+  |
+2 | @charset  "UTF-8";      /* Invalid, more than one space */
+  | ^^^^^^^^^^^^^^^^^^
+
+error: CharsetRule
+ --> $DIR/tests/fixture/at-rule/charset/invalid/input.css:2:1
+  |
+2 | @charset  "UTF-8";      /* Invalid, more than one space */
+  | ^^^^^^^^^^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/at-rule/charset/invalid/input.css:2:11
+  |
+2 | @charset  "UTF-8";      /* Invalid, more than one space */
+  |           ^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/charset/invalid/input.css:3:1
+  |
+3 | @charset "UTF-8";      /* Invalid, there is a character (a space) before the at-rule */
+  | ^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/charset/invalid/input.css:3:1
+  |
+3 | @charset "UTF-8";      /* Invalid, there is a character (a space) before the at-rule */
+  | ^^^^^^^^^^^^^^^^^
+
+error: CharsetRule
+ --> $DIR/tests/fixture/at-rule/charset/invalid/input.css:3:1
+  |
+3 | @charset "UTF-8";      /* Invalid, there is a character (a space) before the at-rule */
+  | ^^^^^^^^^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/at-rule/charset/invalid/input.css:3:10
+  |
+3 | @charset "UTF-8";      /* Invalid, there is a character (a space) before the at-rule */
+  |          ^^^^^^^
+

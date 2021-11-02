@@ -14,13 +14,34 @@
         "ctxt": 0
       },
       "src": {
-        "type": "String",
+        "type": "FnValue",
         "span": {
           "start": 8,
           "end": 22,
           "ctxt": 0
         },
-        "value": "foo.css"
+        "name": {
+          "type": "Text",
+          "span": {
+            "start": 8,
+            "end": 11,
+            "ctxt": 0
+          },
+          "value": "url",
+          "raw": "url"
+        },
+        "args": [
+          {
+            "type": "String",
+            "span": {
+              "start": 12,
+              "end": 21,
+              "ctxt": 0
+            },
+            "value": "foo.css",
+            "raw": "\"foo.css\""
+          }
+        ]
       },
       "condition": {
         "type": "AndMediaQuery",
@@ -36,25 +57,27 @@
             "end": 29,
             "ctxt": 0
           },
-          "value": "screen"
+          "value": "screen",
+          "raw": "screen"
         },
         "right": {
-          "type": "Property",
+          "type": "Declaration",
           "span": {
             "start": 35,
             "end": 57,
             "ctxt": 0
           },
-          "name": {
+          "property": {
             "type": "Text",
             "span": {
               "start": 35,
               "end": 46,
               "ctxt": 0
             },
-            "value": "orientation"
+            "value": "orientation",
+            "raw": "orientation"
           },
-          "values": [
+          "value": [
             {
               "type": "Text",
               "span": {
@@ -62,7 +85,8 @@
                 "end": 56,
                 "ctxt": 0
               },
-              "value": "landscape"
+              "value": "landscape",
+              "raw": "landscape"
             }
           ],
           "important": null

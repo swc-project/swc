@@ -48,7 +48,8 @@
                       "end": 7,
                       "ctxt": 0
                     },
-                    "value": "global"
+                    "value": "global",
+                    "raw": "global"
                   },
                   "args": {
                     "type": "Tokens",
@@ -64,7 +65,11 @@
                           "end": 9,
                           "ctxt": 0
                         },
-                        "token": "Dot"
+                        "token": {
+                          "Delim": {
+                            "value": "."
+                          }
+                        }
                       },
                       {
                         "span": {
@@ -73,7 +78,10 @@
                           "ctxt": 0
                         },
                         "token": {
-                          "Ident": "foo"
+                          "Ident": {
+                            "value": "foo",
+                            "raw": "foo"
+                          }
                         }
                       },
                       {
@@ -82,7 +90,11 @@
                           "end": 13,
                           "ctxt": 0
                         },
-                        "token": "WhiteSpace"
+                        "token": {
+                          "WhiteSpace": {
+                            "value": " "
+                          }
+                        }
                       },
                       {
                         "span": {
@@ -90,7 +102,11 @@
                           "end": 14,
                           "ctxt": 0
                         },
-                        "token": "Plus"
+                        "token": {
+                          "Delim": {
+                            "value": "+"
+                          }
+                        }
                       },
                       {
                         "span": {
@@ -98,7 +114,11 @@
                           "end": 15,
                           "ctxt": 0
                         },
-                        "token": "WhiteSpace"
+                        "token": {
+                          "WhiteSpace": {
+                            "value": " "
+                          }
+                        }
                       },
                       {
                         "span": {
@@ -107,7 +127,10 @@
                           "ctxt": 0
                         },
                         "token": {
-                          "Ident": "a"
+                          "Ident": {
+                            "value": "a",
+                            "raw": "a"
+                          }
                         }
                       }
                     ]
@@ -119,7 +142,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 18,
           "end": 37,
@@ -127,22 +150,23 @@
         },
         "items": [
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 24,
               "end": 34,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 24,
                 "end": 29,
                 "ctxt": 0
               },
-              "value": "color"
+              "value": "color",
+              "raw": "color"
             },
-            "values": [
+            "value": [
               {
                 "type": "Text",
                 "span": {
@@ -150,7 +174,8 @@
                   "end": 34,
                   "ctxt": 0
                 },
-                "value": "red"
+                "value": "red",
+                "raw": "red"
               }
             ],
             "important": null

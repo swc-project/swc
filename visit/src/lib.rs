@@ -17,6 +17,10 @@
 //!
 //! # `Fold`
 //!
+//! > WARNING: `Fold` is slow, and it's recommended to use VisitMut if you are
+//! experienced.
+//!
+//!
 //! `Fold` takes ownership of value, which means you have to return the new
 //! value. Returning new value means returning ownership of the value. But you
 //! don't have to care about ownership or about managing memories while using
@@ -64,7 +68,7 @@
 //! different code if a `this` expression is used.
 //!
 //! You can use your `Visit` implementation like  `node.visit_with(&Invalid{
-//! span: DUMY_SP, }, &mut visitor`. I think API is misdesigned, but it works
+//! span: DUMMY_SP, }, &mut visitor`. I think API is mis-designed, but it works
 //! and there are really lots of code using `Visit` already.
 
 pub use either::Either;

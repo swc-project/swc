@@ -52,6 +52,26 @@ jobs:
         run: |
           (cd ecmascript/transforms && cargo hack check --feature-powerset --no-dev-deps)
 
+      - name: Check swc_ecma_transforms_base
+        run: |
+          (cd ecmascript/transforms/base && cargo hack check --feature-powerset --no-dev-deps)
+
+      - name: Check swc_ecma_transforms_compat
+        run: |
+          (cd ecmascript/transforms/compat && cargo hack check --feature-powerset --no-dev-deps)
+
+      - name: Check swc_ecma_transforms_optimization
+        run: |
+          (cd ecmascript/transforms/optimization && cargo hack check --feature-powerset --no-dev-deps)
+
+      - name: Check swc_ecma_utils
+        run: |
+          (cd ecmascript/utils && cargo hack check --feature-powerset --no-dev-deps)
+
       - name: Check swc_bundler
         run: |
           (cd bundler && cargo hack check --feature-powerset --no-dev-deps)
+
+      - name: Check swc
+        run: |
+          cargo hack check --feature-powerset --no-dev-deps

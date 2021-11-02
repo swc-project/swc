@@ -1,0 +1,10 @@
+{
+    "jsc": {
+        "target": "es5",
+        "externalHelpers": true,
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true
+        }
+    }
+}

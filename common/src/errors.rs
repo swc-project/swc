@@ -20,6 +20,7 @@ use crate::{
     sync::{Lock, LockCell, Lrc},
     syntax_pos::{BytePos, FileLinesResult, FileName, Loc, MultiSpan, Span, NO_EXPANSION},
 };
+use scoped_tls::scoped_thread_local;
 use std::{
     borrow::Cow,
     cell::RefCell,
@@ -717,7 +718,7 @@ impl Handler {
     /// The caller must then teach the user about such a diagnostic.
     ///
     /// Used to suppress emitting the same error multiple times with extended
-    /// explanation when calling `-Zteach`.
+    /// explanation when calling `-Z teach`.
     pub fn must_teach(&self, code: &DiagnosticId) -> bool {
         self.taught_diagnostics.borrow_mut().insert(code.clone())
     }
@@ -825,3 +826,14 @@ impl Level {
         }
     }
 }
+
+scoped_thread_local!(
+    /// Used for error reporting in transform.
+    ///
+    /// This should be only used for errors from the api which does not returning errors.
+    ///
+    /// e.g.
+    ///  - `parser` should not use this.
+    ///  - `transforms` should use this to report error, as it does not return [Result].
+    pub static HANDLER: Handler
+);

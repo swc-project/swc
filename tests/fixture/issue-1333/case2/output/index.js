@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var _ws1 = _interopRequireDefault(require("ws"));
+var _ws = _interopRequireDefault(require("ws"));
 var _utils = require("../../utils");
 var _connection = require("./connection");
 var _serialization = require("./serialization");
@@ -29,7 +29,7 @@ function _interopRequireDefault(obj) {
         default: obj
     };
 }
-const connectionStates = Object.keys(_ws1.default);
+const connectionStates = Object.keys(_ws.default);
 class Shard extends _utils.Emitter {
     /**
      * The current sequence
@@ -53,7 +53,7 @@ class Shard extends _utils.Emitter {
      * Whether this shard is connected to the gateway or not.
      * @type {boolean}
      */ get connected() {
-        return _classPrivateFieldGet(this, _ws2) && _classPrivateFieldGet(this, _ws2).readyState === _ws1.default.OPEN;
+        return _classPrivateFieldGet(this, _ws1) && _classPrivateFieldGet(this, _ws1).readyState === _ws.default.OPEN;
     }
     /**
      * Send a new packet to the discord gateway.
@@ -67,7 +67,7 @@ class Shard extends _utils.Emitter {
                     return;
                 }
                 const encoded = _classPrivateFieldGet(this, _serialization1).encode(data);
-                _classPrivateFieldGet(this, _ws2).send(encoded);
+                _classPrivateFieldGet(this, _ws1).send(encoded);
             };
             if (data.op === _utils.GatewayOp.PRESENCE_UPDATE) {
                 ++_w;
@@ -89,14 +89,14 @@ class Shard extends _utils.Emitter {
         this.heartbeat.reset();
         this.session.clearHelloTimeout();
         // (Step 1) Close the websocket connection.
-        if (_classPrivateFieldGet(this, _ws2)) {
-            if (_classPrivateFieldGet(this, _ws2).readyState === _ws1.default.OPEN) {
-                _classPrivateFieldGet(this, _ws2).close(code);
+        if (_classPrivateFieldGet(this, _ws1)) {
+            if (_classPrivateFieldGet(this, _ws1).readyState === _ws.default.OPEN) {
+                _classPrivateFieldGet(this, _ws1).close(code);
             } else {
-                this._debug(`Ws State: ${connectionStates[_classPrivateFieldGet(this, _ws2).readyState]}`);
+                this._debug(`Ws State: ${connectionStates[_classPrivateFieldGet(this, _ws1).readyState]}`);
                 this._cleanupConnection();
                 try {
-                    _classPrivateFieldGet(this, _ws2).close(code);
+                    _classPrivateFieldGet(this, _ws1).close(code);
                 } catch  {
                 // no-op
                 }
@@ -110,7 +110,7 @@ class Shard extends _utils.Emitter {
         } else if (emit) {
             this.emit(_utils.ShardEvent.DESTROYED);
         }
-        _classPrivateFieldSet(this, _ws2, undefined);
+        _classPrivateFieldSet(this, _ws1, undefined);
         // (Step 4) Set the shard status to disconnected.
         this.status = _utils.Status.DISCONNECTED;
         // (Step 5) Cache ze current sequence!
@@ -130,7 +130,7 @@ class Shard extends _utils.Emitter {
             this.session.identify();
             return;
         }
-        /* Step 1 - If a socket is already present, destroy it. */ if (_classPrivateFieldGet(this, _ws2)) {
+        /* Step 1 - If a socket is already present, destroy it. */ if (_classPrivateFieldGet(this, _ws1)) {
             this._debug("A connection is already present, cleaning up...");
             this.destroy({
                 emit: false
@@ -157,11 +157,11 @@ class Shard extends _utils.Emitter {
          * @type {number}
          */ this.connectedAt = Date.now();
         /* Step 6 - Connect to the gateway. */ const uri = this.manager.gatewayUrl.replace(/\/*$/m, "");
-        _classPrivateFieldSet(this, _ws2, new _ws1.default(`${uri}/?${qs}`));
-        /* Step 7 - Attach the listeners. */ _classPrivateFieldGet(this, _ws2).onopen = this._open.bind(this);
-        _classPrivateFieldGet(this, _ws2).onclose = this._close.bind(this);
-        _classPrivateFieldGet(this, _ws2).onerror = this._error.bind(this);
-        _classPrivateFieldGet(this, _ws2).onmessage = this._message.bind(this);
+        _classPrivateFieldSet(this, _ws1, new _ws.default(`${uri}/?${qs}`));
+        /* Step 7 - Attach the listeners. */ _classPrivateFieldGet(this, _ws1).onopen = this._open.bind(this);
+        _classPrivateFieldGet(this, _ws1).onclose = this._close.bind(this);
+        _classPrivateFieldGet(this, _ws1).onerror = this._error.bind(this);
+        _classPrivateFieldGet(this, _ws1).onmessage = this._message.bind(this);
     }
     _packet(raw) {
         /** @type {DiscordPacket} */ let pak;
@@ -263,7 +263,7 @@ class Shard extends _utils.Emitter {
      */ _open() {
         var ref;
         this.status = _utils.Status.HANDSHAKING;
-        this._debug(`Connected. ${(ref = _classPrivateFieldGet(this, _ws2)) === null || ref === void 0 ? void 0 : ref.url} in ${Date.now() - this.connectedAt}`);
+        this._debug(`Connected. ${(ref = _classPrivateFieldGet(this, _ws1)) === null || ref === void 0 ? void 0 : ref.url} in ${Date.now() - this.connectedAt}`);
         if (_classPrivateFieldGet(this, _queue).length) {
             this._debug(`${_classPrivateFieldGet(this, _queue).length} packets waiting... sending all now.`);
             while(_classPrivateFieldGet(this, _queue).length){
@@ -299,7 +299,7 @@ class Shard extends _utils.Emitter {
         _classPrivateFieldSet(this, _seq, -1);
         this.heartbeat.reset();
         this.session.clearHelloTimeout();
-        if (_classPrivateFieldGet(this, _ws2)) {
+        if (_classPrivateFieldGet(this, _ws1)) {
             this._cleanupConnection();
         }
         this.status = _utils.Status.DISCONNECTED;
@@ -313,14 +313,14 @@ class Shard extends _utils.Emitter {
      * Called whenever the websocket receives a message.
      * @param {WebSocket.MessageEvent} evt
      * @private
-     */ _message(evt) {
-        return _classPrivateFieldGet(this, _compression1) ? _classPrivateFieldGet(this, _compression1).add(evt.data) : this._packet(evt.data);
+     */ _message(evt1) {
+        return _classPrivateFieldGet(this, _compression1) ? _classPrivateFieldGet(this, _compression1).add(evt1.data) : this._packet(evt1.data);
     }
     /**
      * Cleans up the WebSocket connection listeners.
      * @private
      */ _cleanupConnection() {
-        _classPrivateFieldGet(this, _ws2).onopen = _classPrivateFieldGet(this, _ws2).onclose = _classPrivateFieldGet(this, _ws2).onerror = _classPrivateFieldGet(this, _ws2).onmessage = null;
+        _classPrivateFieldGet(this, _ws1).onopen = _classPrivateFieldGet(this, _ws1).onclose = _classPrivateFieldGet(this, _ws1).onerror = _classPrivateFieldGet(this, _ws1).onmessage = null;
     }
     /**
      * Used for debugging shard stuff.
@@ -379,7 +379,7 @@ class Shard extends _utils.Emitter {
         /**
      * The current connection.
      * @type {WebSocket}
-     */ _ws2.set(this, {
+     */ _ws1.set(this, {
             writable: true,
             value: void 0
         });
@@ -446,5 +446,5 @@ var _seq = new WeakMap();
 var _closingSeq = new WeakMap();
 var _bucket = new WeakMap();
 var _presenceBucket = new WeakMap();
-var _ws2 = new WeakMap();
+var _ws1 = new WeakMap();
 var _queue = new WeakMap();

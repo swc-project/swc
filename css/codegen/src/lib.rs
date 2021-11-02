@@ -1,6 +1,5 @@
 pub use self::emit::*;
 use self::{ctx::Ctx, list::ListFormat};
-use std::borrow::Cow;
 pub use std::fmt::Result;
 use swc_common::Spanned;
 use swc_css_ast::*;
@@ -90,6 +89,15 @@ where
         emit!(self, n.charset);
 
         semi!(self);
+    }
+
+    #[emitter]
+    fn emit_import_source(&mut self, n: &ImportSource) -> Result {
+        match n {
+            ImportSource::Fn(n) => emit!(self, n),
+            ImportSource::Url(n) => emit!(self, n),
+            ImportSource::Str(n) => emit!(self, n),
+        }
     }
 
     #[emitter]
@@ -199,6 +207,13 @@ where
             emit!(self, pseudo);
         }
     }
+    #[emitter]
+    fn emit_namespace_value(&mut self, n: &NamespaceValue) -> Result {
+        match n {
+            NamespaceValue::Url(n) => emit!(self, n),
+            NamespaceValue::Str(n) => emit!(self, n),
+        }
+    }
 
     #[emitter]
     fn emit_namespace_rule(&mut self, n: &NamespaceRule) -> Result {
@@ -258,7 +273,7 @@ where
             Value::Str(n) => emit!(self, n),
             Value::Fn(n) => emit!(self, n),
             Value::Bin(n) => emit!(self, n),
-            Value::Array(n) => emit!(self, n),
+            Value::SquareBracketBlock(n) => emit!(self, n),
             Value::Space(n) => emit!(self, n),
             Value::Brace(n) => emit!(self, n),
             Value::Lazy(n) => emit!(self, n),
@@ -279,25 +294,7 @@ where
 
     #[emitter]
     fn emit_str(&mut self, n: &Str) -> Result {
-        // TODO: Handle escapes.
-        punct!(self, "'");
-
-        if n.value.chars().any(|c| c == '\n') {
-            for c in n.value.chars() {
-                match c {
-                    '\n' => {
-                        self.wr.write_raw_char(None, '\\')?;
-                        self.wr.write_raw_char(None, 'n')?;
-                    }
-                    _ => {
-                        self.wr.write_raw_char(None, c)?;
-                    }
-                }
-            }
-        } else {
-            self.wr.write_raw(Some(n.span), &n.value)?;
-        }
-        punct!(self, "'");
+        self.wr.write_raw(Some(n.span), &n.raw)?;
     }
 
     #[emitter]
@@ -308,7 +305,7 @@ where
             MediaQuery::Or(n) => emit!(self, n),
             MediaQuery::Not(n) => emit!(self, n),
             MediaQuery::Only(n) => emit!(self, n),
-            MediaQuery::Property(n) => {
+            MediaQuery::Declaration(n) => {
                 punct!(self, "(");
                 emit!(self, n);
                 punct!(self, ")");
@@ -318,7 +315,7 @@ where
     }
 
     #[emitter]
-    fn emit_decl_block(&mut self, n: &DeclBlock) -> Result {
+    fn emit_block(&mut self, n: &Block) -> Result {
         punct!(self, "{");
 
         self.emit_list(&n.items, ListFormat::SemiDelimited | ListFormat::MultiLine)?;
@@ -327,27 +324,28 @@ where
     }
 
     #[emitter]
-    fn emit_decl_block_item(&mut self, n: &DeclBlockItem) -> Result {
+    fn emit_declaration_block_item(&mut self, n: &DeclarationBlockItem) -> Result {
         match n {
-            DeclBlockItem::Invalid(n) => emit!(self, n),
-            DeclBlockItem::Property(n) => emit!(self, n),
+            DeclarationBlockItem::Invalid(n) => emit!(self, n),
+            DeclarationBlockItem::Declaration(n) => emit!(self, n),
         }
     }
 
     #[emitter]
-    fn emit_property(&mut self, n: &Property) -> Result {
-        emit!(self, n.name);
+    fn emit_declaration(&mut self, n: &Declaration) -> Result {
+        emit!(self, n.property);
         punct!(self, ":");
         formatting_space!(self);
+
         self.emit_list(
-            &n.values,
+            &n.value,
             ListFormat::SpaceDelimited | ListFormat::SingleLine,
         )?;
 
         if let Some(tok) = n.important {
             formatting_space!(self);
             punct!(self, tok, "!");
-            self.wr.write_ident(Some(tok), "important", false)?;
+            self.wr.write_raw(Some(tok), "important")?;
         }
 
         if self.ctx.semi_after_property {
@@ -357,14 +355,13 @@ where
 
     #[emitter]
     fn emit_text(&mut self, n: &Text) -> Result {
-        self.wr
-            .write_ident(Some(n.span), &n.value, self.ctx.escape_first_dash)?;
+        self.wr.write_raw(Some(n.span), &n.raw)?;
     }
 
     #[emitter]
     fn emit_keyframe_block_rule(&mut self, n: &KeyframeBlockRule) -> Result {
         match n {
-            KeyframeBlockRule::Decl(n) => emit!(self, n),
+            KeyframeBlockRule::Block(n) => emit!(self, n),
             KeyframeBlockRule::AtRule(n) => emit!(self, n),
         }
     }
@@ -381,7 +378,7 @@ where
             SupportQuery::Not(n) => emit!(self, n),
             SupportQuery::And(n) => emit!(self, n),
             SupportQuery::Or(n) => emit!(self, n),
-            SupportQuery::Property(n) => {
+            SupportQuery::Declaration(n) => {
                 punct!(self, "(");
                 emit!(self, n);
                 punct!(self, ")");
@@ -415,7 +412,7 @@ where
     #[emitter]
     fn emit_page_rule_block_item(&mut self, n: &PageRuleBlockItem) -> Result {
         match n {
-            PageRuleBlockItem::Property(n) => emit!(self, n),
+            PageRuleBlockItem::Declaration(n) => emit!(self, n),
             PageRuleBlockItem::Nested(n) => emit!(self, n),
         }
     }
@@ -435,14 +432,14 @@ where
 
     #[emitter]
     fn emit_num(&mut self, n: &Num) -> Result {
-        self.wr.write_raw(Some(n.span), &n.value.to_string())?;
+        self.wr.write_raw(Some(n.span), &n.raw)?;
     }
 
     #[emitter]
     fn emit_hash_value(&mut self, n: &HashValue) -> Result {
         punct!(self, "#");
 
-        self.wr.write_hash_value(Some(n.span), &n.value)?;
+        self.wr.write_raw(Some(n.span), &n.raw)?;
     }
 
     #[emitter]
@@ -455,10 +452,12 @@ where
     }
 
     #[emitter]
-    fn emit_array_value(&mut self, n: &ArrayValue) -> Result {
+    fn emit_square_bracket_block(&mut self, n: &SquareBracketBlock) -> Result {
         punct!(self, "[");
 
-        self.emit_list(&n.values, ListFormat::CommaDelimited)?;
+        if let Some(values) = &n.children {
+            self.emit_list(&values, ListFormat::SpaceDelimited)?;
+        }
 
         punct!(self, "]");
     }
@@ -485,10 +484,12 @@ where
         for TokenAndSpan { span, token } in &n.tokens {
             let span = *span;
             match token {
-                Token::AtKeyword(name) => {
+                Token::AtKeyword { raw, .. } => {
                     punct!(self, span, "@");
-                    punct!(self, span, "@");
-                    self.wr.write_ident(Some(span), &name, false)?;
+                    self.wr.write_raw(Some(n.span), &raw)?;
+                }
+                Token::Delim { value } => {
+                    self.wr.write_raw_char(Some(n.span), *value)?;
                 }
                 Token::LParen => {
                     punct!(self, span, "(");
@@ -502,25 +503,44 @@ where
                 Token::RBracket => {
                     punct!(self, span, "]");
                 }
-                Token::Percent => {
-                    punct!(self, span, "%");
+                Token::Num { raw, .. } => {
+                    self.wr.write_raw(Some(span), raw)?;
                 }
-                Token::Num(n) => {
-                    self.wr.write_raw(Some(span), &n.value.to_string())?;
+                Token::Percent { raw, .. } => {
+                    self.wr.write_raw(Some(span), raw)?;
+                    punct!(self, "%");
                 }
-                Token::Ident(n) => {
-                    self.wr.write_ident(Some(span), &n, true)?;
+                Token::Dimension {
+                    raw_value,
+                    raw_unit,
+                    ..
+                } => {
+                    self.wr.write_raw(Some(span), &raw_value)?;
+                    self.wr.write_raw(Some(span), &raw_unit)?;
                 }
-                Token::Str { value } => {
-                    punct!(self, "'");
-                    self.wr.write_raw(Some(span), &value)?;
-                    punct!(self, "'");
+                Token::Ident { raw, .. } => {
+                    self.wr.write_raw(Some(n.span), &raw)?;
                 }
-                Token::Url { value } => {
-                    self.wr.write_ident(Some(span), "url", false)?;
+                Token::Function { raw, .. } => {
+                    self.wr.write_raw(Some(n.span), &raw)?;
                     punct!(self, "(");
+                }
+                Token::BadStr { raw, .. } => {
+                    self.wr.write_raw(Some(span), &raw)?;
+                }
+                Token::Str { raw, .. } => {
+                    self.wr.write_raw(Some(span), &raw)?;
+                }
+                Token::Url { raw, .. } => {
+                    self.wr.write_raw(Some(span), "url")?;
                     punct!(self, "(");
-                    self.wr.write_raw(None, &value)?;
+                    self.wr.write_raw(None, &raw)?;
+                    punct!(self, ")");
+                }
+                Token::BadUrl { raw, .. } => {
+                    self.wr.write_raw(Some(span), "url")?;
+                    punct!(self, "(");
+                    self.wr.write_raw(None, &raw)?;
                     punct!(self, ")");
                 }
                 Token::Comma => {
@@ -528,9 +548,6 @@ where
                 }
                 Token::Semi => {
                     punct!(self, span, ";");
-                }
-                Token::Bang => {
-                    punct!(self, span, "!");
                 }
                 Token::LBrace => {
                     punct!(self, span, "{");
@@ -541,55 +558,18 @@ where
                 Token::Colon => {
                     punct!(self, span, ":");
                 }
-                Token::Asterisk => {
-                    punct!(self, span, "*");
-                }
-                Token::Dot => {
-                    punct!(self, span, ".");
-                }
-                Token::Hash { value, .. } => {
+                Token::Hash { raw, .. } => {
                     punct!(self, "#");
-                    punct!(self, "#");
-                    self.wr.write_ident(Some(span), &value, true)?;
+                    self.wr.write_raw(Some(span), &raw)?;
                 }
-                Token::WhiteSpace => {
-                    space!(self);
+                Token::WhiteSpace { value, .. } => {
+                    self.wr.write_raw(None, &value)?;
                 }
                 Token::CDC => {
                     punct!(self, span, "-->");
                 }
                 Token::CDO => {
                     punct!(self, span, "<!--");
-                }
-                Token::Ampersand => {
-                    punct!(self, span, "&");
-                }
-                Token::Bar => {
-                    punct!(self, span, "|");
-                }
-                Token::Dollar => {
-                    punct!(self, span, "$");
-                }
-                Token::Caret => {
-                    punct!(self, span, "^");
-                }
-                Token::Tilde => {
-                    punct!(self, span, "~");
-                }
-                Token::Equals => {
-                    punct!(self, span, "=");
-                }
-                Token::Plus => {
-                    punct!(self, span, "+");
-                }
-                Token::Minus => {
-                    punct!(self, span, "-");
-                }
-                Token::Div => {
-                    punct!(self, span, "/");
-                }
-                Token::GreaterThan => {
-                    punct!(self, span, ">");
                 }
             }
         }
@@ -608,7 +588,7 @@ where
     fn emit_url_value(&mut self, n: &UrlValue) -> Result {
         keyword!(self, "url");
         punct!(self, "(");
-        self.wr.write_raw(Some(n.span), &n.url)?;
+        self.wr.write_raw(Some(n.span), &n.raw)?;
         punct!(self, ")");
     }
 
@@ -712,10 +692,7 @@ where
             self.wr.write_punct(None, combinator.as_str())?;
         }
 
-        let ctx = Ctx {
-            escape_first_dash: true,
-            ..self.ctx
-        };
+        let ctx = Ctx { ..self.ctx };
         emit!(&mut *self.with_ctx(ctx), n.type_selector);
 
         self.emit_list(&n.subclass_selectors, ListFormat::NotDelimited)?;
@@ -734,11 +711,7 @@ where
 
     #[emitter]
     fn emit_unit(&mut self, n: &Unit) -> Result {
-        let s: Cow<_> = match &n.kind {
-            UnitKind::Px => Cow::Owned("px".into()),
-            UnitKind::Custom(s) => Cow::Borrowed(s),
-        };
-        self.wr.write_ident(Some(n.span), &s, true)?;
+        self.wr.write_raw(Some(n.span), &n.raw)?;
     }
 
     #[emitter]
@@ -754,20 +727,14 @@ where
     #[emitter]
     fn emit_id_selector(&mut self, n: &IdSelector) -> Result {
         punct!(self, "#");
-        let ctx = Ctx {
-            escape_first_dash: true,
-            ..self.ctx
-        };
+        let ctx = Ctx { ..self.ctx };
         emit!(&mut *self.with_ctx(ctx), n.text);
     }
 
     #[emitter]
     fn emit_class_selector(&mut self, n: &ClassSelector) -> Result {
         punct!(self, ".");
-        let ctx = Ctx {
-            escape_first_dash: true,
-            ..self.ctx
-        };
+        let ctx = Ctx { ..self.ctx };
         emit!(&mut *self.with_ctx(ctx), n.text);
     }
 
@@ -778,9 +745,7 @@ where
         emit!(self, n.name);
 
         if let Some(op) = n.op {
-            space!(self);
             self.wr.write_punct(None, op.as_str())?;
-            space!(self);
         }
 
         emit!(self, n.value);

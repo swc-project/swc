@@ -1,7 +1,7 @@
 use super::{input::ParserInput, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
-    parser::Ctx,
+    parser::{Ctx, RuleContext},
     Parse,
 };
 use swc_common::Span;
@@ -11,7 +11,39 @@ impl<I> Parser<I>
 where
     I: ParserInput,
 {
-    pub(crate) fn parse_style_rule(&mut self) -> PResult<Rule> {
+    pub(crate) fn parse_rule_list(&mut self, ctx: RuleContext) -> PResult<Vec<Rule>> {
+        let mut rules = vec![];
+
+        loop {
+            // TODO: remove `}`
+            if self.input.is_eof()? || is!(self, "}") {
+                return Ok(rules);
+            }
+
+            match cur!(self) {
+                tok!(" ") => {
+                    self.input.skip_ws()?;
+                }
+                tok!("<!--") | tok!("-->") => {
+                    if ctx.is_top_level {
+                        self.input.bump()?;
+
+                        continue;
+                    }
+
+                    rules.push(self.parse_qualified_rule()?);
+                }
+                Token::AtKeyword { .. } => {
+                    rules.push(self.parse_at_rule(Default::default())?.into());
+                }
+                _ => {
+                    rules.push(self.parse_qualified_rule()?);
+                }
+            }
+        }
+    }
+
+    pub(crate) fn parse_qualified_rule(&mut self) -> PResult<Rule> {
         let start_pos = self.input.cur_span()?.lo;
         let start_state = self.input.state();
 
@@ -39,8 +71,7 @@ where
             }
         };
 
-        let block = self.parse_decl_block()?;
-
+        let block = self.parse_simple_block()?;
         let span = span!(self, start_pos);
 
         Ok(Rule::Style(StyleRule {
@@ -50,7 +81,7 @@ where
         }))
     }
 
-    pub(crate) fn parse_decl_block(&mut self) -> PResult<DeclBlock> {
+    pub(crate) fn parse_simple_block(&mut self) -> PResult<Block> {
         let start = self.input.cur_span()?.lo;
 
         expect!(self, "{");
@@ -63,10 +94,10 @@ where
 
         let span = span!(self, start);
 
-        Ok(DeclBlock { span, items })
+        Ok(Block { span, items })
     }
 
-    fn parse_decl_block_items(&mut self) -> PResult<Vec<DeclBlockItem>> {
+    fn parse_decl_block_items(&mut self) -> PResult<Vec<DeclarationBlockItem>> {
         let mut items = vec![];
 
         while is!(self, Ident) {
@@ -82,59 +113,85 @@ where
         Ok(items)
     }
 
-    pub(crate) fn parse_properties(&mut self) -> PResult<Vec<Property>> {
-        let mut props = vec![];
+    fn parse_declaration_list(&mut self) -> PResult<Vec<Declaration>> {
+        let mut declarations = vec![];
 
-        while is!(self, Ident) {
-            let p = self.parse_property()?;
-            props.push(p);
-
-            self.input.skip_ws()?;
-
-            if !eat!(self, ";") {
-                break;
+        loop {
+            if self.input.is_eof()? {
+                return Ok(declarations);
             }
 
-            self.input.skip_ws()?;
+            let cur = self.input.cur()?;
+
+            match cur {
+                Some(tok!(" ")) => {
+                    self.input.skip_ws()?;
+                }
+                Some(tok!(";")) => {
+                    bump!(self);
+                }
+                Some(Token::AtKeyword { .. }) => {
+                    // TODO: change on `parse_at_rule`
+                    declarations.push(self.parse()?);
+                }
+                Some(Token::Ident { .. }) => {
+                    declarations.push(self.parse()?);
+
+                    self.input.skip_ws()?;
+
+                    if !eat!(self, ";") {
+                        break;
+                    }
+
+                    self.input.skip_ws()?;
+                }
+                _ => {}
+            }
         }
 
-        Ok(props)
+        Ok(declarations)
     }
 
-    pub(crate) fn parse_property(&mut self) -> PResult<Property> {
-        self.input.skip_ws()?;
-
+    pub(crate) fn parse_declaration(&mut self) -> PResult<Declaration> {
         let start = self.input.cur_span()?.lo;
 
-        let name = self.parse_property_name()?;
+        self.input.skip_ws()?;
+
+        let property = self.parse_id()?;
+
+        self.input.skip_ws()?;
 
         expect!(self, ":");
 
-        let (values, mut last_pos) = {
+        let mut value = vec![];
+        let mut end = self.input.cur_span()?.hi;
+
+        if !self.input.is_eof()? {
             let ctx = Ctx {
                 allow_operation_in_value: false,
                 recover_from_property_value: true,
                 ..self.ctx
             };
-            self.with_ctx(ctx).parse_property_values()?
-        };
+            let (mut parsed_value, parsed_last_pos) = self.with_ctx(ctx).parse_property_values()?;
 
-        let important = self.parse_bang_important()?;
-        if important.is_some() {
-            last_pos = self.input.last_pos()?;
+            value.append(&mut parsed_value);
+            end = parsed_last_pos;
         }
 
-        Ok(Property {
-            span: Span::new(start, last_pos, Default::default()),
-            name,
-            values,
+        let important = self.parse_bang_important()?;
+
+        if important.is_some() {
+            end = self.input.last_pos()?;
+        }
+
+        self.input.skip_ws()?;
+
+        Ok(Declaration {
+            span: Span::new(start, end, Default::default()),
+            property,
+            value,
             important,
         })
-    }
-
-    fn parse_property_name(&mut self) -> PResult<Text> {
-        self.input.skip_ws()?;
-        self.parse_id()
     }
 
     fn parse_bang_important(&mut self) -> PResult<Option<Span>> {
@@ -146,7 +203,7 @@ where
             self.input.skip_ws()?;
 
             let is_important = match bump!(self) {
-                Token::Ident(value) => &*value.to_ascii_lowercase() == "important",
+                Token::Ident { value, .. } => &*value.to_ascii_lowercase() == "important",
                 _ => false,
             };
             if !is_important {
@@ -163,42 +220,42 @@ where
     }
 }
 
-impl<I> Parse<Property> for Parser<I>
+impl<I> Parse<Declaration> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<Property> {
-        self.parse_property()
+    fn parse(&mut self) -> PResult<Declaration> {
+        self.parse_declaration()
     }
 }
 
-impl<I> Parse<Vec<Property>> for Parser<I>
+impl<I> Parse<Vec<Declaration>> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<Vec<Property>> {
-        self.parse_properties()
+    fn parse(&mut self) -> PResult<Vec<Declaration>> {
+        self.parse_declaration_list()
     }
 }
 
-impl<I> Parse<Vec<DeclBlockItem>> for Parser<I>
+impl<I> Parse<Vec<DeclarationBlockItem>> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<Vec<DeclBlockItem>> {
+    fn parse(&mut self) -> PResult<Vec<DeclarationBlockItem>> {
         self.parse_decl_block_items()
     }
 }
 
-impl<I> Parse<DeclBlockItem> for Parser<I>
+impl<I> Parse<DeclarationBlockItem> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<DeclBlockItem> {
+    fn parse(&mut self) -> PResult<DeclarationBlockItem> {
         let start = self.input.state();
         let start_pos = self.input.cur_span()?.lo;
 
-        let prop = self.parse().map(DeclBlockItem::Property);
+        let prop = self.parse().map(DeclarationBlockItem::Declaration);
 
         match prop {
             Ok(v) => return Ok(v),
@@ -213,7 +270,7 @@ where
             tokens.extend(self.input.bump()?);
         }
 
-        Ok(DeclBlockItem::Invalid(Tokens {
+        Ok(DeclarationBlockItem::Invalid(Tokens {
             span: span!(self, start_pos),
             tokens,
         }))

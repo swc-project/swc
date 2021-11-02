@@ -46,7 +46,8 @@
                     "end": 1,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "value": "a",
+                  "raw": "a"
                 }
               },
               "subclassSelectors": [
@@ -65,7 +66,8 @@
                       "end": 7,
                       "ctxt": 0
                     },
-                    "value": "after"
+                    "value": "after",
+                    "raw": "after"
                   },
                   "args": {
                     "type": "Tokens",
@@ -83,7 +85,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 8,
           "end": 29,
@@ -91,22 +93,23 @@
         },
         "items": [
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 10,
               "end": 27,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 10,
                 "end": 17,
                 "ctxt": 0
               },
-              "value": "content"
+              "value": "content",
+              "raw": "content"
             },
-            "values": [
+            "value": [
               {
                 "type": "String",
                 "span": {
@@ -114,7 +117,8 @@
                   "end": 27,
                   "ctxt": 0
                 },
-                "value": "a62 c"
+                "value": "abc",
+                "raw": "'a\\62 c'"
               }
             ],
             "important": null

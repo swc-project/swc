@@ -1,0 +1,2 @@
+React.createElement(function() {
+}, null);

@@ -41,7 +41,7 @@ where
 #[derive(Debug, Default)]
 pub(super) struct RawExports {
     /// Key is None if it's exported from the module itself.
-    pub items: IndexMap<Option<Str>, Vec<Specifier>>,
+    pub items: IndexMap<Option<Str>, Vec<Specifier>, ahash::RandomState>,
 }
 
 #[derive(Debug, Default)]

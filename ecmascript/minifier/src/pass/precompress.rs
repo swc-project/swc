@@ -2,11 +2,10 @@ use crate::{
     analyzer::{analyze, ProgramData, UsageAnalyzer},
     marks::Marks,
     option::CompressOptions,
-    util::MoudleItemExt,
+    util::ModuleItemExt,
 };
-use rustc_hash::FxHashMap;
 use swc_atoms::js_word;
-use swc_common::util::take::Take;
+use swc_common::{collections::AHashMap, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
@@ -33,7 +32,7 @@ struct PrecompressOptimizer<'a> {
     marks: Marks,
 
     data: Option<ProgramData>,
-    fn_decl_count: FxHashMap<Id, usize>,
+    fn_decl_count: AHashMap<Id, usize>,
     ctx: Ctx,
 }
 
@@ -45,7 +44,7 @@ struct Ctx {
 impl PrecompressOptimizer<'_> {
     fn handle_stmts<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: for<'aa> VisitMutWith<PrecompressOptimizer<'aa>> + MoudleItemExt,
+        T: for<'aa> VisitMutWith<PrecompressOptimizer<'aa>> + ModuleItemExt,
         Vec<T>: for<'aa> VisitMutWith<PrecompressOptimizer<'aa>> + VisitWith<UsageAnalyzer>,
     {
         if self.data.is_some() {

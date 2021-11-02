@@ -1,11 +1,9 @@
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::Check;
-use swc_ecma_transforms_macros::fast_path;
+use swc_ecma_transforms_base::perf::Parallel;
+use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{alias_ident_for, prepend, ExprFactory};
-use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
-};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub fn logical_assignments() -> impl Fold + VisitMut {
     as_folder(Operators::default())
@@ -16,7 +14,17 @@ struct Operators {
     vars: Vec<VarDeclarator>,
 }
 
-#[fast_path(OperatorFinder)]
+impl Parallel for Operators {
+    fn create(&self) -> Self {
+        Default::default()
+    }
+
+    fn merge(&mut self, other: Self) {
+        self.vars.extend(other.vars);
+    }
+}
+
+#[parallel]
 impl VisitMut for Operators {
     noop_visit_mut_type!();
 
@@ -157,24 +165,5 @@ impl VisitMut for Operators {
                 })),
             )
         }
-    }
-}
-
-#[derive(Default)]
-struct OperatorFinder {
-    found: bool,
-}
-
-impl Visit for OperatorFinder {
-    noop_visit_type!();
-
-    fn visit_assign_op(&mut self, n: &AssignOp, _: &dyn Node) {
-        self.found |= *n == op!("||=") || *n == op!("??=");
-    }
-}
-
-impl Check for OperatorFinder {
-    fn should_handle(&self) -> bool {
-        self.found
     }
 }

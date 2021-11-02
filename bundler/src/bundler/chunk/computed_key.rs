@@ -47,7 +47,7 @@ where
             v.found
         };
 
-        let mut addtional_items = vec![];
+        let mut additional_items = vec![];
 
         module.iter().for_each(|(module_id, item)| {
             match item {
@@ -73,7 +73,7 @@ where
                                         exported: Some(exported.clone()),
                                         is_type_only: false,
                                     });
-                                    addtional_items.push((
+                                    additional_items.push((
                                         module_id,
                                         ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                                             NamedExport {
@@ -101,7 +101,7 @@ where
         };
         let mut module = module.fold_with(&mut export_visitor);
 
-        module.append_all(addtional_items);
+        module.append_all(additional_items);
 
         let return_stmt = Stmt::Return(ReturnStmt {
             span: DUMMY_SP,

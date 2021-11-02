@@ -6,8 +6,8 @@ use swc_ecma_transforms_base::resolver::resolver;
 use swc_ecma_transforms_compat::{
     es2015,
     es2015::{arrow, block_scoping, classes, spread},
-    es2016, es2017, es2018, es2020,
-    es2020::class_properties,
+    es2016, es2017, es2018, es2022,
+    es2022::class_properties,
 };
 use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, Tester};
 use swc_ecma_visit::Fold;
@@ -2569,7 +2569,7 @@ var ConstructorScoping = function ConstructorScoping() {
   _classCallCheck(this, ConstructorScoping);
   var bar;
   {
-    var bar;
+    var bar1;
   }
 };
 
@@ -6324,7 +6324,7 @@ test!(
         let global_mark = Mark::fresh(Mark::root());
 
         chain!(
-            es2020::es2020(es2020::Config { loose: false }),
+            es2022::es2022(es2022::Config { loose: false }),
             es2018::es2018(),
             es2017::es2017(),
             es2016::es2016(),

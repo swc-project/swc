@@ -11,13 +11,13 @@ use std::{
 };
 use swc::config::{Config, JscConfig, Options, SourceMapsConfig};
 use swc_common::{errors::Handler, FileName, FilePathMapping, SourceMap};
-use swc_ecma_ast::Program;
-use swc_ecma_parser::{JscTarget, Syntax, TsConfig};
+use swc_ecma_ast::{EsVersion, Program};
+use swc_ecma_parser::{Syntax, TsConfig};
 use swc_ecma_transforms::{fixer, hygiene, pass::noop, resolver, typescript};
 use swc_ecma_visit::FoldWith;
 use test::Bencher;
 
-static SOURCE: &str = include_str!("assets/AjaxObservable.ts");
+static SOURCE: &str = include_str!("assets/Observable.ts");
 
 fn mk() -> swc::Compiler {
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
@@ -29,7 +29,7 @@ fn mk() -> swc::Compiler {
 
 fn parse(c: &swc::Compiler) -> Program {
     let fm = c.cm.new_source_file(
-        FileName::Real("rxjs/src/internal/observable/dom/AjaxObservable.ts".into()),
+        FileName::Real("rxjs/src/internal/Observable.ts".into()),
         SOURCE.to_string(),
     );
     let handler = Handler::with_emitter_writer(Box::new(io::stderr()), Some(c.cm.clone()));
@@ -37,7 +37,7 @@ fn parse(c: &swc::Compiler) -> Program {
     c.parse_js(
         fm,
         &handler,
-        JscTarget::Es5,
+        EsVersion::Es5,
         Syntax::Typescript(Default::default()),
         true,
         true,
@@ -95,7 +95,7 @@ fn config_for_file(b: &mut Bencher) {
             &Options {
                 config: Config {
                     jsc: JscConfig {
-                        target: Some(JscTarget::Es2016),
+                        target: Some(EsVersion::Es2016),
                         syntax: Some(Syntax::Typescript(TsConfig {
                             ..Default::default()
                         })),
@@ -108,7 +108,7 @@ fn config_for_file(b: &mut Bencher) {
                 is_module: true,
                 ..Default::default()
             },
-            &FileName::Real("rxjs/src/internal/observable/dom/AjaxObservable.ts".into()),
+            &FileName::Real("rxjs/src/internal/Observable.ts".into()),
             noop(),
         ))
     });
@@ -116,7 +116,7 @@ fn config_for_file(b: &mut Bencher) {
 
 /// This benchmark exists to know exact execution time of each pass.
 
-fn bench_codegen(b: &mut Bencher, _target: JscTarget) {
+fn bench_codegen(b: &mut Bencher, _target: EsVersion) {
     let c = mk();
     let module = as_es(&c);
 
@@ -129,9 +129,9 @@ fn bench_codegen(b: &mut Bencher, _target: JscTarget) {
                 None,
                 None,
                 false,
-                JscTarget::Es2020,
+                EsVersion::Es2020,
                 SourceMapsConfig::Bool(false),
-                &[],
+                &Default::default(),
                 None,
                 false,
                 None,
@@ -150,14 +150,14 @@ macro_rules! codegen {
     };
 }
 
-codegen!(codegen_es3, JscTarget::Es3);
-codegen!(codegen_es5, JscTarget::Es5);
-codegen!(codegen_es2015, JscTarget::Es2015);
-codegen!(codegen_es2016, JscTarget::Es2016);
-codegen!(codegen_es2017, JscTarget::Es2017);
-codegen!(codegen_es2018, JscTarget::Es2018);
-codegen!(codegen_es2019, JscTarget::Es2019);
-codegen!(codegen_es2020, JscTarget::Es2020);
+codegen!(codegen_es3, EsVersion::Es3);
+codegen!(codegen_es5, EsVersion::Es5);
+codegen!(codegen_es2015, EsVersion::Es2015);
+codegen!(codegen_es2016, EsVersion::Es2016);
+codegen!(codegen_es2017, EsVersion::Es2017);
+codegen!(codegen_es2018, EsVersion::Es2018);
+codegen!(codegen_es2019, EsVersion::Es2019);
+codegen!(codegen_es2020, EsVersion::Es2020);
 
 fn bench_full(b: &mut Bencher, opts: &Options) {
     let c = mk();
@@ -167,7 +167,7 @@ fn bench_full(b: &mut Bencher, opts: &Options) {
             let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
 
             let fm = c.cm.new_source_file(
-                FileName::Real("rxjs/src/internal/observable/dom/AjaxObservable.ts".into()),
+                FileName::Real("rxjs/src/internal/Observable.ts".into()),
                 SOURCE.to_string(),
             );
             let _ = c.process_js_file(fm, &handler, opts).unwrap();
@@ -202,14 +202,14 @@ macro_rules! compat {
     };
 }
 
-compat!(full_es3, JscTarget::Es3);
-compat!(full_es5, JscTarget::Es5);
-compat!(full_es2015, JscTarget::Es2015);
-compat!(full_es2016, JscTarget::Es2016);
-compat!(full_es2017, JscTarget::Es2017);
-compat!(full_es2018, JscTarget::Es2018);
-compat!(full_es2019, JscTarget::Es2019);
-compat!(full_es2020, JscTarget::Es2020);
+compat!(full_es3, EsVersion::Es3);
+compat!(full_es5, EsVersion::Es5);
+compat!(full_es2015, EsVersion::Es2015);
+compat!(full_es2016, EsVersion::Es2016);
+compat!(full_es2017, EsVersion::Es2017);
+compat!(full_es2018, EsVersion::Es2018);
+compat!(full_es2019, EsVersion::Es2019);
+compat!(full_es2020, EsVersion::Es2020);
 
 macro_rules! tr_only {
     ($name:ident, $target:expr) => {
@@ -241,9 +241,7 @@ macro_rules! tr_only {
                             is_module: true,
                             ..Default::default()
                         },
-                        &FileName::Real(
-                            "rxjs/src/internal/observable/dom/AjaxObservable.ts".into(),
-                        ),
+                        &FileName::Real("rxjs/src/internal/Observable.ts".into()),
                         noop(),
                     )
                     .unwrap()
@@ -256,14 +254,14 @@ macro_rules! tr_only {
     };
 }
 
-tr_only!(transforms_es3, JscTarget::Es3);
-tr_only!(transforms_es5, JscTarget::Es5);
-tr_only!(transforms_es2015, JscTarget::Es2015);
-tr_only!(transforms_es2016, JscTarget::Es2016);
-tr_only!(transforms_es2017, JscTarget::Es2017);
-tr_only!(transforms_es2018, JscTarget::Es2018);
-tr_only!(transforms_es2019, JscTarget::Es2019);
-tr_only!(transforms_es2020, JscTarget::Es2020);
+tr_only!(transforms_es3, EsVersion::Es3);
+tr_only!(transforms_es5, EsVersion::Es5);
+tr_only!(transforms_es2015, EsVersion::Es2015);
+tr_only!(transforms_es2016, EsVersion::Es2016);
+tr_only!(transforms_es2017, EsVersion::Es2017);
+tr_only!(transforms_es2018, EsVersion::Es2018);
+tr_only!(transforms_es2019, EsVersion::Es2019);
+tr_only!(transforms_es2020, EsVersion::Es2020);
 
 #[bench]
 fn parser(b: &mut Bencher) {

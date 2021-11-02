@@ -2,11 +2,11 @@ use anyhow::{Context, Error};
 use once_cell::sync::Lazy;
 use std::sync::Arc;
 use swc::{
-    config::{JsMinifyOptions, JscTarget, Options, ParseOptions, SourceMapsConfig},
+    config::{JsMinifyOptions, Options, ParseOptions, SourceMapsConfig},
     try_with_handler, Compiler,
 };
 use swc_common::{FileName, FilePathMapping, SourceMap};
-use swc_ecmascript::ast::Program;
+use swc_ecmascript::ast::{EsVersion, Program};
 use wasm_bindgen::prelude::*;
 
 fn convert_err(err: Error) -> JsValue {
@@ -19,7 +19,7 @@ pub fn minify_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
 
     let c = compiler();
 
-    try_with_handler(c.cm.clone(), |handler| {
+    try_with_handler(c.cm.clone(), false, |handler| {
         let opts: JsMinifyOptions = opts.into_serde().context("failed to parse options")?;
 
         let fm = c.cm.new_source_file(FileName::Anon, s.into());
@@ -38,7 +38,7 @@ pub fn parse_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
 
     let c = compiler();
 
-    try_with_handler(c.cm.clone(), |handler| {
+    try_with_handler(c.cm.clone(), false, |handler| {
         let opts: ParseOptions = opts.into_serde().context("failed to parse options")?;
 
         let fm = c.cm.new_source_file(FileName::Anon, s.into());
@@ -64,7 +64,7 @@ pub fn print_sync(s: JsValue, opts: JsValue) -> Result<JsValue, JsValue> {
 
     let c = compiler();
 
-    try_with_handler(c.cm.clone(), |_handler| {
+    try_with_handler(c.cm.clone(), false, |_handler| {
         let opts: Options = opts.into_serde().context("failed to parse options")?;
 
         let program: Program = s.into_serde().context("failed to deserialize program")?;
@@ -75,11 +75,11 @@ pub fn print_sync(s: JsValue, opts: JsValue) -> Result<JsValue, JsValue> {
                 None,
                 None,
                 true,
-                opts.codegen_target().unwrap_or(JscTarget::Es2020),
+                opts.codegen_target().unwrap_or(EsVersion::Es2020),
                 opts.source_maps
                     .clone()
                     .unwrap_or(SourceMapsConfig::Bool(false)),
-                &[],
+                &Default::default(),
                 None,
                 opts.config.minify,
                 None,
@@ -97,7 +97,7 @@ pub fn transform_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
 
     let c = compiler();
 
-    try_with_handler(c.cm.clone(), |handler| {
+    try_with_handler(c.cm.clone(), false, |handler| {
         let opts: Options = opts.into_serde().context("failed to parse options")?;
 
         let fm = c.cm.new_source_file(

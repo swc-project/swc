@@ -1,13 +1,16 @@
 pub use self::hygiene::{Mark, SyntaxContext};
 use crate::{rustc_data_structures::stable_hasher::StableHasher, sync::Lrc};
+#[cfg(feature = "parking_lot")]
+use parking_lot::Mutex;
 use serde::{Deserialize, Serialize};
+#[cfg(not(feature = "parking_lot"))]
+use std::sync::Mutex;
 use std::{
     borrow::Cow,
     cmp, fmt,
     hash::{Hash, Hasher},
     ops::{Add, Sub},
     path::PathBuf,
-    sync::Mutex,
 };
 use url::Url;
 
@@ -100,7 +103,6 @@ pub enum FileName {
     /// Command line
     Anon,
     /// Hack in src/libsyntax/parse.rs
-    /// FIXME(jseyfried)
     MacroExpansion,
     ProcMacroSourceCode,
     Url(Url),

@@ -1,8 +1,7 @@
-use std::collections::hash_map::Entry;
-
 use super::{ScopeDataLike, Storage, VarDataLike};
 use crate::analyzer::{ctx::Ctx, ProgramData, ScopeData, ScopeKind, VarUsageInfo};
-use rustc_hash::FxHashSet;
+use std::collections::hash_map::Entry;
+use swc_common::collections::AHashSet;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 
@@ -55,6 +54,7 @@ impl Storage for ProgramData {
                     //
                     // e.get_mut().used_above_decl |= var_info.used_above_decl;
                     e.get_mut().used_in_loop |= var_info.used_in_loop;
+                    e.get_mut().used_in_cond |= var_info.used_in_cond;
                     e.get_mut().assign_count += var_info.assign_count;
                     e.get_mut().mutation_by_call_count += var_info.mutation_by_call_count;
                     e.get_mut().usage_count += var_info.usage_count;
@@ -161,7 +161,7 @@ impl ScopeDataLike for ScopeData {
 }
 
 impl ProgramData {
-    fn report(&mut self, i: Id, ctx: Ctx, is_modify: bool, dejavu: &mut FxHashSet<Id>) {
+    fn report(&mut self, i: Id, ctx: Ctx, is_modify: bool, dejavu: &mut AHashSet<Id>) {
         // tracing::trace!("report({}{:?})", i.0, i.1);
 
         let is_first = dejavu.is_empty();
@@ -189,6 +189,7 @@ impl ProgramData {
         // Passing object as a argument is possibly modification.
         e.mutated |= is_modify || (ctx.in_call_arg && ctx.is_exact_arg);
         e.used_in_loop |= ctx.in_loop;
+        e.used_in_cond |= ctx.in_cond;
 
         if is_modify && ctx.is_exact_reassignment {
             e.assign_count += 1;

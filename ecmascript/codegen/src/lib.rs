@@ -10,14 +10,11 @@ use self::{
 use crate::util::EndsWithAlphaNum;
 use memchr::memmem::Finder;
 use once_cell::sync::Lazy;
-use std::{borrow::Cow, fmt::Write, io, sync::Arc};
+use std::{borrow::Cow, fmt::Write, io};
 use swc_atoms::JsWord;
-use swc_common::{
-    comments::Comments, sync::Lrc, BytePos, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP,
-};
+use swc_common::{comments::Comments, sync::Lrc, BytePos, SourceMap, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::emitter;
-use swc_ecma_parser::JscTarget;
 
 #[macro_use]
 pub mod macros;
@@ -107,7 +104,7 @@ where
     }
 
     #[emitter]
-    fn emit_module_item(&mut self, node: &ModuleItem) -> Result {
+    pub fn emit_module_item(&mut self, node: &ModuleItem) -> Result {
         match *node {
             ModuleItem::Stmt(ref stmt) => emit!(stmt),
             ModuleItem::ModuleDecl(ref decl) => emit!(decl),
@@ -138,38 +135,60 @@ where
     }
 
     #[emitter]
-    fn emit_export_decl(&mut self, node: &ExportDecl) -> Result {
-        keyword!("export");
+    fn emit_export_decl(&mut self, n: &ExportDecl) -> Result {
+        {
+            let span = if n.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(n.span.lo, n.span.lo + BytePos(6), Default::default())
+            };
+            keyword!(span, "export");
+        }
         space!();
-        emit!(node.decl);
+        emit!(n.decl);
     }
 
     #[emitter]
-    fn emit_export_default_expr(&mut self, node: &ExportDefaultExpr) -> Result {
-        keyword!("export");
+    fn emit_export_default_expr(&mut self, n: &ExportDefaultExpr) -> Result {
+        {
+            let span = if n.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(n.span.lo, n.span.lo + BytePos(6), Default::default())
+            };
+            keyword!(span, "export");
+        }
+
         space!();
         keyword!("default");
         {
-            let starts_with_alpha_num = node.expr.starts_with_alpha_num();
+            let starts_with_alpha_num = n.expr.starts_with_alpha_num();
             if starts_with_alpha_num {
                 space!();
             } else {
                 formatting_space!();
             }
-            emit!(node.expr);
+            emit!(n.expr);
         }
         formatting_semi!();
     }
 
     #[emitter]
-    fn emit_export_default_decl(&mut self, node: &ExportDefaultDecl) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+    fn emit_export_default_decl(&mut self, n: &ExportDefaultDecl) -> Result {
+        self.emit_leading_comments_of_span(n.span(), false)?;
 
-        keyword!("export");
+        {
+            let span = if n.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(n.span.lo, n.span.lo + BytePos(6), Default::default())
+            };
+            keyword!(span, "export");
+        }
         space!();
         keyword!("default");
         space!();
-        match node.decl {
+        match n.decl {
             DefaultDecl::Class(ref n) => emit!(n),
             DefaultDecl::Fn(ref n) => emit!(n),
             DefaultDecl::TsInterfaceDecl(ref n) => emit!(n),
@@ -178,12 +197,19 @@ where
     }
 
     #[emitter]
-    fn emit_import(&mut self, node: &ImportDecl) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+    fn emit_import(&mut self, n: &ImportDecl) -> Result {
+        self.emit_leading_comments_of_span(n.span(), false)?;
 
-        keyword!("import");
-        let starts_with_ident = !node.specifiers.is_empty()
-            && match &node.specifiers[0] {
+        {
+            let span = if n.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(n.span.lo, n.span.lo + BytePos(6), Default::default())
+            };
+            keyword!(span, "import");
+        }
+        let starts_with_ident = !n.specifiers.is_empty()
+            && match &n.specifiers[0] {
                 ImportSpecifier::Default(_) => true,
                 _ => false,
             };
@@ -196,7 +222,7 @@ where
         let mut specifiers = vec![];
         let mut emitted_default = false;
         let mut emitted_ns = false;
-        for specifier in &node.specifiers {
+        for specifier in &n.specifiers {
             match specifier {
                 ImportSpecifier::Named(ref s) => {
                     specifiers.push(s);
@@ -213,7 +239,7 @@ where
 
                     emitted_ns = true;
 
-                    assert!(node.specifiers.len() <= 2);
+                    assert!(n.specifiers.len() <= 2);
                     punct!("*");
                     formatting_space!();
                     keyword!("as");
@@ -237,7 +263,7 @@ where
 
             punct!("{");
             self.emit_list(
-                node.span(),
+                n.span(),
                 Some(&specifiers),
                 ListFormat::NamedImportsOrExportsElements,
             )?;
@@ -248,7 +274,7 @@ where
             formatting_space!();
         }
 
-        emit!(node.src);
+        emit!(n.src);
         formatting_semi!();
     }
 
@@ -340,7 +366,15 @@ where
             },
         );
 
-        keyword!("export");
+        {
+            let span = if node.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(node.span.lo, node.span.lo + BytePos(6), Default::default())
+            };
+            keyword!(span, "export");
+        }
+
         formatting_space!();
         if let Some(spec) = namespace_spec {
             emit!(spec);
@@ -575,7 +609,9 @@ where
             Expr::Invalid(ref n) => emit!(n),
         }
 
-        self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
+        if self.comments.is_some() {
+            self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
+        }
     }
 
     #[emitter]
@@ -755,7 +791,9 @@ where
 
     #[emitter]
     fn emit_meta_prop_expr(&mut self, node: &MetaPropExpr) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        if self.comments.is_some() {
+            self.emit_leading_comments_of_span(node.span(), false)?;
+        }
 
         emit!(node.meta);
         punct!(".");
@@ -849,12 +887,7 @@ where
                         }),
                     ) => false,
 
-                    (_, Expr::Update(UpdateExpr { prefix: true, .. }) | Expr::Unary(..)) => true,
-
-                    (_, Expr::Bin(BinExpr { left, .. })) => match &**left {
-                        Expr::Update(UpdateExpr { prefix: true, .. }) | Expr::Unary(..) => true,
-                        _ => false,
-                    },
+                    (_, r) if is_space_require_before_rhs(r) => true,
 
                     _ => false,
                 }
@@ -1155,7 +1188,7 @@ where
             }
         }
 
-        formatting_semi!();
+        semi!();
     }
 
     #[emitter]
@@ -1476,7 +1509,9 @@ where
 
     #[emitter]
     fn emit_expr_or_spread(&mut self, node: &ExprOrSpread) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        if self.comments.is_some() {
+            self.emit_leading_comments_of_span(node.span(), false)?;
+        }
 
         if node.spread.is_some() {
             punct!("...");
@@ -1825,9 +1860,11 @@ where
                     // -> this comment isn't considered to be trailing comment of parameter "a" due
                     // to newline ,
                     if format.contains(ListFormat::DelimitersMask)
-                        && previous_sibling.span().hi() != parent_node.hi()
+                        && previous_sibling.hi != parent_node.hi()
                     {
-                        self.emit_leading_comments(previous_sibling.span().hi(), true)?;
+                        if self.comments.is_some() {
+                            self.emit_leading_comments(previous_sibling.span().hi(), true)?;
+                        }
                     }
 
                     self.write_delim(format)?;
@@ -1862,8 +1899,10 @@ where
 
                 // Emit this child.
                 if should_emit_intervening_comments {
-                    let comment_range = child.comment_range();
-                    self.emit_trailing_comments_of_pos(comment_range.hi(), false, true)?;
+                    if self.comments.is_some() {
+                        let comment_range = child.comment_range();
+                        self.emit_trailing_comments_of_pos(comment_range.hi(), false, true)?;
+                    }
                 } else {
                     should_emit_intervening_comments = may_emit_intervening_comments;
                 }
@@ -1922,7 +1961,9 @@ where
                         && previous_sibling.span().hi() != parent_node.hi()
                         && emit_trailing_comments
                     {
-                        self.emit_leading_comments(previous_sibling.span().hi(), true)?;
+                        if self.comments.is_some() {
+                            self.emit_leading_comments(previous_sibling.span().hi(), true)?;
+                        }
                     }
                 }
             }
@@ -1991,7 +2032,9 @@ where
             Pat::Invalid(n) => emit!(n),
         }
 
-        self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
+        if self.comments.is_some() {
+            self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
+        }
     }
 
     #[emitter]
@@ -2018,7 +2061,9 @@ where
 
     #[emitter]
     fn emit_spread_element(&mut self, node: &SpreadElement) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        if self.comments.is_some() {
+            self.emit_leading_comments_of_span(node.span(), false)?;
+        }
 
         punct!("...");
         emit!(node.expr)
@@ -2184,7 +2229,9 @@ where
             Stmt::ForOf(ref e) => emit!(e),
             Stmt::Decl(ref e) => emit!(e),
         }
-        self.emit_trailing_comments_of_pos(node.span().hi(), true, true)?;
+        if self.comments.is_some() {
+            self.emit_trailing_comments_of_pos(node.span().hi(), true, true)?;
+        }
 
         if !self.cfg.minify {
             self.wr.write_line()?;
@@ -2254,6 +2301,57 @@ where
         emit!(node.body);
     }
 
+    fn has_leading_comment(&self, arg: &Expr) -> bool {
+        if let Some(cmt) = self.comments {
+            let lo = arg.span().lo;
+
+            // see #415
+            if cmt.has_leading(lo) {
+                return true;
+            }
+        }
+
+        match arg {
+            Expr::Call(c) => match &c.callee {
+                ExprOrSuper::Super(callee) => {
+                    if let Some(cmt) = self.comments {
+                        let lo = callee.span.lo;
+
+                        if cmt.has_leading(lo) {
+                            return true;
+                        }
+                    }
+                }
+                ExprOrSuper::Expr(callee) => {
+                    if self.has_leading_comment(&callee) {
+                        return true;
+                    }
+                }
+            },
+
+            Expr::Member(m) => match &m.obj {
+                ExprOrSuper::Super(obj) => {
+                    if let Some(cmt) = self.comments {
+                        let lo = obj.span.lo;
+
+                        if cmt.has_leading(lo) {
+                            return true;
+                        }
+                    }
+                }
+                ExprOrSuper::Expr(obj) => {
+                    if self.has_leading_comment(&obj) {
+                        return true;
+                    }
+                }
+            },
+
+            _ => {}
+        }
+
+        false
+    }
+
     #[emitter]
     fn emit_return_stmt(&mut self, n: &ReturnStmt) -> Result {
         self.emit_leading_comments_of_span(n.span, false)?;
@@ -2269,14 +2367,10 @@ where
 
         if let Some(ref arg) = n.arg {
             let need_paren = !n.arg.span().is_dummy()
-                && if let Some(cmt) = self.comments {
-                    let lo = n.arg.span().lo();
-
-                    // see #415
-                    cmt.has_leading(lo)
-                } else {
-                    false
-                };
+                && n.arg
+                    .as_deref()
+                    .map(|expr| self.has_leading_comment(expr))
+                    .unwrap_or(false);
             if need_paren {
                 punct!("(");
             } else {
@@ -2698,25 +2792,6 @@ where
     }
 }
 
-#[allow(dead_code)]
-fn get_text_of_node<T: Spanned>(
-    cm: &Arc<SourceMap>,
-    node: &T,
-    _include_travia: bool,
-) -> Option<String> {
-    let span = node.span();
-    if span.is_dummy() || span.ctxt() != SyntaxContext::empty() {
-        // This node is transformed so we shoukld not use original source code.
-        return None;
-    }
-
-    let s = cm.span_to_snippet(span).unwrap();
-    if s == "" {
-        return None;
-    }
-    Some(s)
-}
-
 /// In some cases, we need to emit a space between the operator and the operand.
 /// One obvious case is when the operator is an identifier, like delete or
 /// typeof. We also need to do this for plus and minus expressions in certain
@@ -2745,7 +2820,7 @@ fn should_emit_whitespace_before_operand(node: &UnaryExpr) -> bool {
         _ => {}
     }
 
-    match *node.arg {
+    match &*node.arg {
         Expr::Update(UpdateExpr {
             op: op!("++"),
             prefix: true,
@@ -2764,6 +2839,9 @@ fn should_emit_whitespace_before_operand(node: &UnaryExpr) -> bool {
             op: op!(unary, "-"),
             ..
         }) if node.op == op!(unary, "-") => true,
+
+        Expr::Lit(Lit::Num(v)) if v.value.is_sign_negative() && node.op == op!(unary, "-") => true,
+
         _ => false,
     }
 }
@@ -2900,7 +2978,7 @@ fn unescape_tpl_lit(s: &str, is_synthesized: bool) -> String {
     result
 }
 
-fn escape_without_source(v: &str, target: JscTarget, single_quote: bool) -> String {
+fn escape_without_source(v: &str, target: EsVersion, single_quote: bool) -> String {
     let mut buf = String::with_capacity(v.len());
     let mut iter = v.chars().peekable();
 
@@ -2959,12 +3037,12 @@ fn escape_without_source(v: &str, target: JscTarget, single_quote: bool) -> Stri
 
 fn escape_with_source<'s>(
     cm: &SourceMap,
-    target: JscTarget,
+    target: EsVersion,
     span: Span,
     s: &'s str,
     single_quote: Option<bool>,
 ) -> String {
-    if target <= JscTarget::Es5 {
+    if target <= EsVersion::Es5 {
         return escape_without_source(s, target, single_quote.unwrap_or(false));
     }
 
@@ -3146,4 +3224,16 @@ fn handle_invalid_unicodes(s: &str) -> Cow<str> {
     }
 
     Cow::Owned(s.replace("\\\0", "\\"))
+}
+
+fn is_space_require_before_rhs(rhs: &Expr) -> bool {
+    match rhs {
+        Expr::Lit(Lit::Num(v)) if v.value.is_sign_negative() => true,
+
+        Expr::Update(UpdateExpr { prefix: true, .. }) | Expr::Unary(..) => true,
+
+        Expr::Bin(BinExpr { left, .. }) => is_space_require_before_rhs(&left),
+
+        _ => false,
+    }
 }

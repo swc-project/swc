@@ -1,6 +1,6 @@
-use rustc_hash::FxHashSet;
 use std::time::Instant;
 use swc_common::{
+    collections::AHashSet,
     pass::{CompilerPass, Repeated},
     util::take::Take,
     Mark, Span, Spanned, DUMMY_SP,
@@ -21,7 +21,7 @@ pub(crate) fn make_number(span: Span, value: f64) -> Expr {
     Expr::Lit(Lit::Num(Number { span, value }))
 }
 
-pub trait MoudleItemExt:
+pub trait ModuleItemExt:
     StmtLike + ModuleItemLike + From<Stmt> + Spanned + std::fmt::Debug
 {
     fn as_module_decl(&self) -> Result<&ModuleDecl, &Stmt>;
@@ -40,7 +40,7 @@ pub trait MoudleItemExt:
     fn as_stmt_mut(&mut self) -> Option<&mut Stmt>;
 }
 
-impl MoudleItemExt for Stmt {
+impl ModuleItemExt for Stmt {
     fn as_module_decl(&self) -> Result<&ModuleDecl, &Stmt> {
         Err(self)
     }
@@ -58,7 +58,7 @@ impl MoudleItemExt for Stmt {
     }
 }
 
-impl MoudleItemExt for ModuleItem {
+impl ModuleItemExt for ModuleItem {
     fn as_module_decl(&self) -> Result<&ModuleDecl, &Stmt> {
         match self {
             ModuleItem::ModuleDecl(v) => Ok(v),
@@ -102,7 +102,7 @@ pub(crate) fn make_bool(span: Span, value: bool) -> Expr {
     })
 }
 
-/// Addditional methods for optimizing expressions.
+/// Additional methods for optimizing expressions.
 pub(crate) trait ExprOptExt: Sized {
     fn as_expr(&self) -> &Expr;
     fn as_mut(&mut self) -> &mut Expr;
@@ -119,7 +119,7 @@ pub(crate) trait ExprOptExt: Sized {
         }
     }
 
-    /// This returns itself for normal expressions and returns last exprssions
+    /// This returns itself for normal expressions and returns last expressions
     /// for sequence expressions.
     fn value_mut(&mut self) -> &mut Expr {
         let expr = self.as_mut();
@@ -352,7 +352,7 @@ where
 
 #[derive(Default)]
 pub(crate) struct IdentUsageCollector {
-    ids: FxHashSet<Id>,
+    ids: AHashSet<Id>,
     ignore_nested: bool,
 }
 
@@ -405,7 +405,7 @@ impl Visit for IdentUsageCollector {
     }
 }
 
-pub(crate) fn idents_used_by<N>(n: &N) -> FxHashSet<Id>
+pub(crate) fn idents_used_by<N>(n: &N) -> AHashSet<Id>
 where
     N: VisitWith<IdentUsageCollector>,
 {
@@ -417,7 +417,7 @@ where
     v.ids
 }
 
-pub(crate) fn idents_used_by_ignoring_nested<N>(n: &N) -> FxHashSet<Id>
+pub(crate) fn idents_used_by_ignoring_nested<N>(n: &N) -> AHashSet<Id>
 where
     N: VisitWith<IdentUsageCollector>,
 {

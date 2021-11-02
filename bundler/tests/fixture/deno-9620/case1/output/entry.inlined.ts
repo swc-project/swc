@@ -120,9 +120,10 @@ async function copyN(r, dest, size) {
     }
     return bytesRead;
 }
+BigInt(Number.MAX_SAFE_INTEGER);
 class StringReader extends Deno.Buffer {
-    constructor(s){
-        super(new TextEncoder().encode(s).buffer);
+    constructor(s1){
+        super(new TextEncoder().encode(s1).buffer);
     }
 }
 class MultiReader {
@@ -139,26 +140,6 @@ class MultiReader {
             return 0;
         }
         return result;
-    }
-}
-class LimitedReader {
-    constructor(reader, limit){
-        this.reader = reader;
-        this.limit = limit;
-    }
-    async read(p) {
-        if (this.limit <= 0) {
-            return null;
-        }
-        if (p.length > this.limit) {
-            p = p.subarray(0, this.limit);
-        }
-        const n = await this.reader.read(p);
-        if (n == null) {
-            return null;
-        }
-        this.limit -= n;
-        return n;
     }
 }
 const osType = (()=>{
@@ -181,7 +162,7 @@ function assertPath(path) {
 function isPosixPathSeparator(code) {
     return code === 47;
 }
-function isPathSeparator(code) {
+function isPathSeparator1(code) {
     return isPosixPathSeparator(code) || code === 92;
 }
 function isWindowsDeviceRoot(code) {
@@ -248,7 +229,7 @@ function _format(sep, pathObject) {
     if (dir === pathObject.root) return dir + base;
     return dir + sep + base;
 }
-const sep = "\\";
+const sep3 = "\\";
 const delimiter = ";";
 function resolve(...pathSegments) {
     let resolvedDevice = "";
@@ -280,24 +261,24 @@ function resolve(...pathSegments) {
         let isAbsolute = false;
         const code = path.charCodeAt(0);
         if (len > 1) {
-            if (isPathSeparator(code)) {
+            if (isPathSeparator1(code)) {
                 isAbsolute = true;
-                if (isPathSeparator(path.charCodeAt(1))) {
+                if (isPathSeparator1(path.charCodeAt(1))) {
                     let j = 2;
                     let last = j;
                     for(; j < len; ++j){
-                        if (isPathSeparator(path.charCodeAt(j))) break;
+                        if (isPathSeparator1(path.charCodeAt(j))) break;
                     }
                     if (j < len && j !== last) {
                         const firstPart = path.slice(last, j);
                         last = j;
                         for(; j < len; ++j){
-                            if (!isPathSeparator(path.charCodeAt(j))) break;
+                            if (!isPathSeparator1(path.charCodeAt(j))) break;
                         }
                         if (j < len && j !== last) {
                             last = j;
                             for(; j < len; ++j){
-                                if (isPathSeparator(path.charCodeAt(j))) break;
+                                if (isPathSeparator1(path.charCodeAt(j))) break;
                             }
                             if (j === len) {
                                 device = `\\\\${firstPart}\\${path.slice(last)}`;
@@ -316,14 +297,14 @@ function resolve(...pathSegments) {
                     device = path.slice(0, 2);
                     rootEnd = 2;
                     if (len > 2) {
-                        if (isPathSeparator(path.charCodeAt(2))) {
+                        if (isPathSeparator1(path.charCodeAt(2))) {
                             isAbsolute = true;
                             rootEnd = 3;
                         }
                     }
                 }
             }
-        } else if (isPathSeparator(code)) {
+        } else if (isPathSeparator1(code)) {
             rootEnd = 1;
             isAbsolute = true;
         }
@@ -339,7 +320,7 @@ function resolve(...pathSegments) {
         }
         if (resolvedAbsolute && resolvedDevice.length > 0) break;
     }
-    resolvedTail = normalizeString(resolvedTail, !resolvedAbsolute, "\\", isPathSeparator);
+    resolvedTail = normalizeString(resolvedTail, !resolvedAbsolute, "\\", isPathSeparator1);
     return resolvedDevice + (resolvedAbsolute ? "\\" : "") + resolvedTail || ".";
 }
 function normalize(path) {
@@ -351,24 +332,24 @@ function normalize(path) {
     let isAbsolute = false;
     const code = path.charCodeAt(0);
     if (len > 1) {
-        if (isPathSeparator(code)) {
+        if (isPathSeparator1(code)) {
             isAbsolute = true;
-            if (isPathSeparator(path.charCodeAt(1))) {
+            if (isPathSeparator1(path.charCodeAt(1))) {
                 let j = 2;
                 let last = j;
                 for(; j < len; ++j){
-                    if (isPathSeparator(path.charCodeAt(j))) break;
+                    if (isPathSeparator1(path.charCodeAt(j))) break;
                 }
                 if (j < len && j !== last) {
                     const firstPart = path.slice(last, j);
                     last = j;
                     for(; j < len; ++j){
-                        if (!isPathSeparator(path.charCodeAt(j))) break;
+                        if (!isPathSeparator1(path.charCodeAt(j))) break;
                     }
                     if (j < len && j !== last) {
                         last = j;
                         for(; j < len; ++j){
-                            if (isPathSeparator(path.charCodeAt(j))) break;
+                            if (isPathSeparator1(path.charCodeAt(j))) break;
                         }
                         if (j === len) {
                             return `\\\\${firstPart}\\${path.slice(last)}\\`;
@@ -386,24 +367,24 @@ function normalize(path) {
                 device = path.slice(0, 2);
                 rootEnd = 2;
                 if (len > 2) {
-                    if (isPathSeparator(path.charCodeAt(2))) {
+                    if (isPathSeparator1(path.charCodeAt(2))) {
                         isAbsolute = true;
                         rootEnd = 3;
                     }
                 }
             }
         }
-    } else if (isPathSeparator(code)) {
+    } else if (isPathSeparator1(code)) {
         return "\\";
     }
     let tail;
     if (rootEnd < len) {
-        tail = normalizeString(path.slice(rootEnd), !isAbsolute, "\\", isPathSeparator);
+        tail = normalizeString(path.slice(rootEnd), !isAbsolute, "\\", isPathSeparator1);
     } else {
         tail = "";
     }
     if (tail.length === 0 && !isAbsolute) tail = ".";
-    if (tail.length > 0 && isPathSeparator(path.charCodeAt(len - 1))) {
+    if (tail.length > 0 && isPathSeparator1(path.charCodeAt(len - 1))) {
         tail += "\\";
     }
     if (device === undefined) {
@@ -424,16 +405,16 @@ function normalize(path) {
         return device;
     }
 }
-function isAbsolute(path) {
+function isAbsolute3(path) {
     assertPath(path);
     const len = path.length;
     if (len === 0) return false;
     const code = path.charCodeAt(0);
-    if (isPathSeparator(code)) {
+    if (isPathSeparator1(code)) {
         return true;
     } else if (isWindowsDeviceRoot(code)) {
         if (len > 2 && path.charCodeAt(1) === 58) {
-            if (isPathSeparator(path.charCodeAt(2))) return true;
+            if (isPathSeparator1(path.charCodeAt(2))) return true;
         }
     }
     return false;
@@ -455,14 +436,14 @@ function join(...paths) {
     let needsReplace = true;
     let slashCount = 0;
     assert(firstPart != null);
-    if (isPathSeparator(firstPart.charCodeAt(0))) {
+    if (isPathSeparator1(firstPart.charCodeAt(0))) {
         ++slashCount;
         const firstLen = firstPart.length;
         if (firstLen > 1) {
-            if (isPathSeparator(firstPart.charCodeAt(1))) {
+            if (isPathSeparator1(firstPart.charCodeAt(1))) {
                 ++slashCount;
                 if (firstLen > 2) {
-                    if (isPathSeparator(firstPart.charCodeAt(2))) ++slashCount;
+                    if (isPathSeparator1(firstPart.charCodeAt(2))) ++slashCount;
                     else {
                         needsReplace = false;
                     }
@@ -472,7 +453,7 @@ function join(...paths) {
     }
     if (needsReplace) {
         for(; slashCount < joined.length; ++slashCount){
-            if (!isPathSeparator(joined.charCodeAt(slashCount))) break;
+            if (!isPathSeparator1(joined.charCodeAt(slashCount))) break;
         }
         if (slashCount >= 2) joined = `\\${joined.slice(slashCount)}`;
     }
@@ -581,23 +562,23 @@ function dirname(path) {
     let offset = 0;
     const code = path.charCodeAt(0);
     if (len > 1) {
-        if (isPathSeparator(code)) {
+        if (isPathSeparator1(code)) {
             rootEnd = offset = 1;
-            if (isPathSeparator(path.charCodeAt(1))) {
+            if (isPathSeparator1(path.charCodeAt(1))) {
                 let j = 2;
                 let last = j;
                 for(; j < len; ++j){
-                    if (isPathSeparator(path.charCodeAt(j))) break;
+                    if (isPathSeparator1(path.charCodeAt(j))) break;
                 }
                 if (j < len && j !== last) {
                     last = j;
                     for(; j < len; ++j){
-                        if (!isPathSeparator(path.charCodeAt(j))) break;
+                        if (!isPathSeparator1(path.charCodeAt(j))) break;
                     }
                     if (j < len && j !== last) {
                         last = j;
                         for(; j < len; ++j){
-                            if (isPathSeparator(path.charCodeAt(j))) break;
+                            if (isPathSeparator1(path.charCodeAt(j))) break;
                         }
                         if (j === len) {
                             return path;
@@ -612,15 +593,15 @@ function dirname(path) {
             if (path.charCodeAt(1) === 58) {
                 rootEnd = offset = 2;
                 if (len > 2) {
-                    if (isPathSeparator(path.charCodeAt(2))) rootEnd = offset = 3;
+                    if (isPathSeparator1(path.charCodeAt(2))) rootEnd = offset = 3;
                 }
             }
         }
-    } else if (isPathSeparator(code)) {
+    } else if (isPathSeparator1(code)) {
         return path;
     }
     for(let i = len - 1; i >= offset; --i){
-        if (isPathSeparator(path.charCodeAt(i))) {
+        if (isPathSeparator1(path.charCodeAt(i))) {
             if (!matchedSlash) {
                 end = i;
                 break;
@@ -656,7 +637,7 @@ function basename(path, ext = "") {
         let firstNonSlashEnd = -1;
         for(i = path.length - 1; i >= start; --i){
             const code = path.charCodeAt(i);
-            if (isPathSeparator(code)) {
+            if (isPathSeparator1(code)) {
                 if (!matchedSlash) {
                     start = i + 1;
                     break;
@@ -683,7 +664,7 @@ function basename(path, ext = "") {
         return path.slice(start, end);
     } else {
         for(i = path.length - 1; i >= start; --i){
-            if (isPathSeparator(path.charCodeAt(i))) {
+            if (isPathSeparator1(path.charCodeAt(i))) {
                 if (!matchedSlash) {
                     start = i + 1;
                     break;
@@ -710,7 +691,7 @@ function extname(path) {
     }
     for(let i = path.length - 1; i >= start; --i){
         const code = path.charCodeAt(i);
-        if (isPathSeparator(code)) {
+        if (isPathSeparator1(code)) {
             if (!matchedSlash) {
                 startPart = i + 1;
                 break;
@@ -753,23 +734,23 @@ function parse(path) {
     let rootEnd = 0;
     let code = path.charCodeAt(0);
     if (len > 1) {
-        if (isPathSeparator(code)) {
+        if (isPathSeparator1(code)) {
             rootEnd = 1;
-            if (isPathSeparator(path.charCodeAt(1))) {
+            if (isPathSeparator1(path.charCodeAt(1))) {
                 let j = 2;
                 let last = j;
                 for(; j < len; ++j){
-                    if (isPathSeparator(path.charCodeAt(j))) break;
+                    if (isPathSeparator1(path.charCodeAt(j))) break;
                 }
                 if (j < len && j !== last) {
                     last = j;
                     for(; j < len; ++j){
-                        if (!isPathSeparator(path.charCodeAt(j))) break;
+                        if (!isPathSeparator1(path.charCodeAt(j))) break;
                     }
                     if (j < len && j !== last) {
                         last = j;
                         for(; j < len; ++j){
-                            if (isPathSeparator(path.charCodeAt(j))) break;
+                            if (isPathSeparator1(path.charCodeAt(j))) break;
                         }
                         if (j === len) {
                             rootEnd = j;
@@ -783,7 +764,7 @@ function parse(path) {
             if (path.charCodeAt(1) === 58) {
                 rootEnd = 2;
                 if (len > 2) {
-                    if (isPathSeparator(path.charCodeAt(2))) {
+                    if (isPathSeparator1(path.charCodeAt(2))) {
                         if (len === 3) {
                             ret.root = ret.dir = path;
                             return ret;
@@ -796,7 +777,7 @@ function parse(path) {
                 }
             }
         }
-    } else if (isPathSeparator(code)) {
+    } else if (isPathSeparator1(code)) {
         ret.root = ret.dir = path;
         return ret;
     }
@@ -809,7 +790,7 @@ function parse(path) {
     let preDotState = 0;
     for(; i >= rootEnd; --i){
         code = path.charCodeAt(i);
-        if (isPathSeparator(code)) {
+        if (isPathSeparator1(code)) {
             if (!matchedSlash) {
                 startPart = i + 1;
                 break;
@@ -853,7 +834,7 @@ function fromFileUrl(url) {
     return path;
 }
 function toFileUrl(path) {
-    if (!isAbsolute(path)) {
+    if (!isAbsolute3(path)) {
         throw new TypeError("Must be an absolute path.");
     }
     const [, hostname, pathname] = path.match(/^(?:[/\\]{2}([^/\\]+)(?=[/\\][^/\\]))?(.*)/);
@@ -867,25 +848,23 @@ function toFileUrl(path) {
     }
     return url;
 }
-const mod = function() {
-    return {
-        sep: sep,
-        delimiter: delimiter,
-        resolve: resolve,
-        normalize: normalize,
-        isAbsolute: isAbsolute,
-        join: join,
-        relative: relative,
-        toNamespacedPath: toNamespacedPath,
-        dirname: dirname,
-        basename: basename,
-        extname: extname,
-        format: format,
-        parse: parse,
-        fromFileUrl: fromFileUrl,
-        toFileUrl: toFileUrl
-    };
-}();
+const mod = {
+    sep: sep3,
+    delimiter: delimiter,
+    resolve: resolve,
+    normalize: normalize,
+    isAbsolute: isAbsolute3,
+    join: join,
+    relative: relative,
+    toNamespacedPath: toNamespacedPath,
+    dirname: dirname,
+    basename: basename,
+    extname: extname,
+    format: format,
+    parse: parse,
+    fromFileUrl: fromFileUrl,
+    toFileUrl: toFileUrl
+};
 const sep1 = "/";
 const delimiter1 = ":";
 function resolve1(...pathSegments) {
@@ -1199,27 +1178,25 @@ function toFileUrl1(path) {
     url.pathname = path.replace(/%/g, "%25").replace(/\\/g, "%5C");
     return url;
 }
-const mod1 = function() {
-    return {
-        sep: sep1,
-        delimiter: delimiter1,
-        resolve: resolve1,
-        normalize: normalize1,
-        isAbsolute: isAbsolute1,
-        join: join1,
-        relative: relative1,
-        toNamespacedPath: toNamespacedPath1,
-        dirname: dirname1,
-        basename: basename1,
-        extname: extname1,
-        format: format1,
-        parse: parse1,
-        fromFileUrl: fromFileUrl1,
-        toFileUrl: toFileUrl1
-    };
-}();
-const path = isWindows ? mod : mod1;
-const { basename: basename2 , delimiter: delimiter2 , dirname: dirname2 , extname: extname2 , format: format2 , fromFileUrl: fromFileUrl2 , isAbsolute: isAbsolute2 , join: join2 , normalize: normalize2 , parse: parse2 , relative: relative2 , resolve: resolve2 , sep: sep2 , toFileUrl: toFileUrl2 , toNamespacedPath: toNamespacedPath2 ,  } = path;
+const mod1 = {
+    sep: sep1,
+    delimiter: delimiter1,
+    resolve: resolve1,
+    normalize: normalize1,
+    isAbsolute: isAbsolute1,
+    join: join1,
+    relative: relative1,
+    toNamespacedPath: toNamespacedPath1,
+    dirname: dirname1,
+    basename: basename1,
+    extname: extname1,
+    format: format1,
+    parse: parse1,
+    fromFileUrl: fromFileUrl1,
+    toFileUrl: toFileUrl1
+};
+const path1 = isWindows ? mod : mod1;
+const { basename: basename2 , delimiter: delimiter2 , dirname: dirname2 , extname: extname2 , format: format2 , fromFileUrl: fromFileUrl2 , isAbsolute: isAbsolute2 , join: join2 , normalize: normalize2 , parse: parse2 , relative: relative2 , resolve: resolve2 , sep: sep2 , toFileUrl: toFileUrl2 , toNamespacedPath: toNamespacedPath2 ,  } = path1;
 const DEFAULT_BUF_SIZE = 4096;
 const MIN_BUF_SIZE = 16;
 const CR = "\r".charCodeAt(0);
@@ -1241,14 +1218,14 @@ class BufReader {
     static create(r, size = 4096) {
         return r instanceof BufReader ? r : new BufReader(r, size);
     }
-    constructor(rd, size = 4096){
+    constructor(rd, size1 = 4096){
         this.r = 0;
         this.w = 0;
         this.eof = false;
-        if (size < 16) {
-            size = MIN_BUF_SIZE;
+        if (size1 < 16) {
+            size1 = MIN_BUF_SIZE;
         }
-        this._reset(new Uint8Array(size), rd);
+        this._reset(new Uint8Array(size1), rd);
     }
     size() {
         return this.buf.byteLength;
@@ -1279,20 +1256,20 @@ class BufReader {
         }
         throw new Error(`No progress after ${100} read() calls`);
     }
-    reset(r) {
-        this._reset(this.buf, r);
+    reset(r1) {
+        this._reset(this.buf, r1);
     }
-    _reset(buf, rd) {
-        this.buf = buf;
-        this.rd = rd;
+    _reset(buf1, rd1) {
+        this.buf = buf1;
+        this.rd = rd1;
         this.eof = false;
     }
-    async read(p) {
-        let rr = p.byteLength;
-        if (p.byteLength === 0) return rr;
+    async read(p1) {
+        let rr = p1.byteLength;
+        if (p1.byteLength === 0) return rr;
         if (this.r === this.w) {
-            if (p.byteLength >= this.buf.byteLength) {
-                const rr = await this.rd.read(p);
+            if (p1.byteLength >= this.buf.byteLength) {
+                const rr = await this.rd.read(p1);
                 const nread = rr ?? 0;
                 assert(nread >= 0, "negative read");
                 return rr;
@@ -1304,15 +1281,15 @@ class BufReader {
             assert(rr >= 0, "negative read");
             this.w += rr;
         }
-        const copied = copy(this.buf.subarray(this.r, this.w), p, 0);
+        const copied = copy(this.buf.subarray(this.r, this.w), p1, 0);
         this.r += copied;
         return copied;
     }
-    async readFull(p) {
+    async readFull(p2) {
         let bytesRead = 0;
-        while(bytesRead < p.length){
+        while(bytesRead < p2.length){
             try {
-                const rr = await this.read(p.subarray(bytesRead));
+                const rr = await this.read(p2.subarray(bytesRead));
                 if (rr === null) {
                     if (bytesRead === 0) {
                         return null;
@@ -1322,11 +1299,11 @@ class BufReader {
                 }
                 bytesRead += rr;
             } catch (err) {
-                err.partial = p.subarray(0, bytesRead);
+                err.partial = p2.subarray(0, bytesRead);
                 throw err;
             }
         }
-        return p;
+        return p2;
     }
     async readByte() {
         while(this.r === this.w){
@@ -1386,11 +1363,11 @@ class BufReader {
             more: false
         };
     }
-    async readSlice(delim) {
+    async readSlice(delim1) {
         let s = 0;
         let slice;
         while(true){
-            let i = this.buf.subarray(this.r + s, this.w).indexOf(delim);
+            let i = this.buf.subarray(this.r + s, this.w).indexOf(delim1);
             if (i >= 0) {
                 i += s;
                 slice = this.buf.subarray(this.r, this.r + i + 1);
@@ -1462,16 +1439,16 @@ class AbstractBufBase {
     }
 }
 class BufWriter extends AbstractBufBase {
-    static create(writer, size = 4096) {
-        return writer instanceof BufWriter ? writer : new BufWriter(writer, size);
+    static create(writer, size2 = 4096) {
+        return writer instanceof BufWriter ? writer : new BufWriter(writer, size2);
     }
-    constructor(writer, size = 4096){
+    constructor(writer1, size3 = 4096){
         super();
-        this.writer = writer;
-        if (size <= 0) {
-            size = DEFAULT_BUF_SIZE;
+        this.writer = writer1;
+        if (size3 <= 0) {
+            size3 = DEFAULT_BUF_SIZE;
         }
-        this.buf = new Uint8Array(size);
+        this.buf = new Uint8Array(size3);
     }
     reset(w) {
         this.err = null;
@@ -1518,21 +1495,21 @@ class BufWriter extends AbstractBufBase {
     }
 }
 class BufWriterSync extends AbstractBufBase {
-    static create(writer, size = 4096) {
-        return writer instanceof BufWriterSync ? writer : new BufWriterSync(writer, size);
+    static create(writer2, size4 = 4096) {
+        return writer2 instanceof BufWriterSync ? writer2 : new BufWriterSync(writer2, size4);
     }
-    constructor(writer, size = 4096){
+    constructor(writer3, size5 = 4096){
         super();
-        this.writer = writer;
-        if (size <= 0) {
-            size = DEFAULT_BUF_SIZE;
+        this.writer = writer3;
+        if (size5 <= 0) {
+            size5 = DEFAULT_BUF_SIZE;
         }
-        this.buf = new Uint8Array(size);
+        this.buf = new Uint8Array(size5);
     }
-    reset(w) {
+    reset(w1) {
         this.err = null;
         this.usedBufferBytes = 0;
-        this.writer = w;
+        this.writer = w1;
     }
     flush() {
         if (this.err !== null) throw this.err;
@@ -1546,28 +1523,28 @@ class BufWriterSync extends AbstractBufBase {
         this.buf = new Uint8Array(this.buf.length);
         this.usedBufferBytes = 0;
     }
-    writeSync(data) {
+    writeSync(data1) {
         if (this.err !== null) throw this.err;
-        if (data.length === 0) return 0;
+        if (data1.length === 0) return 0;
         let totalBytesWritten = 0;
         let numBytesWritten = 0;
-        while(data.byteLength > this.available()){
+        while(data1.byteLength > this.available()){
             if (this.buffered() === 0) {
                 try {
-                    numBytesWritten = this.writer.writeSync(data);
+                    numBytesWritten = this.writer.writeSync(data1);
                 } catch (e) {
                     this.err = e;
                     throw e;
                 }
             } else {
-                numBytesWritten = copy(data, this.buf, this.usedBufferBytes);
+                numBytesWritten = copy(data1, this.buf, this.usedBufferBytes);
                 this.usedBufferBytes += numBytesWritten;
                 this.flush();
             }
             totalBytesWritten += numBytesWritten;
-            data = data.subarray(numBytesWritten);
+            data1 = data1.subarray(numBytesWritten);
         }
-        numBytesWritten = copy(data, this.buf, this.usedBufferBytes);
+        numBytesWritten = copy(data1, this.buf, this.usedBufferBytes);
         this.usedBufferBytes += numBytesWritten;
         totalBytesWritten += numBytesWritten;
         return totalBytesWritten;
@@ -1585,8 +1562,8 @@ function charCode(s) {
     return s.charCodeAt(0);
 }
 class TextProtoReader {
-    constructor(r){
-        this.r = r;
+    constructor(r2){
+        this.r = r2;
     }
     async readLine() {
         const s = await this.readLineSlice();
@@ -1661,13 +1638,6 @@ class TextProtoReader {
         return n;
     }
 }
-function randomBoundary() {
-    let boundary = "--------------------------";
-    for(let i = 0; i < 24; i++){
-        boundary += Math.floor(Math.random() * 16).toString(16);
-    }
-    return boundary;
-}
 const encoder = new TextEncoder();
 function matchAfterPrefix(buf, prefix, eof) {
     if (buf.length === prefix.length) {
@@ -1722,7 +1692,7 @@ class PartReader {
         this.n = 0;
         this.total = 0;
     }
-    async read(p) {
+    async read(p3) {
         const br = this.mr.bufReader;
         let peekLength = 1;
         while(this.n === 0){
@@ -1741,8 +1711,8 @@ class PartReader {
         if (this.n === null) {
             return null;
         }
-        const nread = Math.min(p.length, this.n);
-        const buf = p.subarray(0, nread);
+        const nread = Math.min(p3.length, this.n);
+        const buf = p3.subarray(0, nread);
         const r = await br.readFull(buf);
         assert(r === buf);
         this.n -= nread;
@@ -1797,8 +1767,8 @@ function skipLWSPChar(u) {
     return ret.slice(0, j);
 }
 class MultipartReader {
-    constructor(reader, boundary){
-        this.boundary = boundary;
+    constructor(reader, boundary1){
+        this.boundary = boundary1;
         this.newLine = encoder.encode("\r\n");
         this.newLineDashBoundary = encoder.encode(`\r\n--${this.boundary}`);
         this.dashBoundaryDash = encoder.encode(`--${this.boundary}--`);
@@ -1932,11 +1902,11 @@ class MultipartReader {
         const rest = line.slice(this.dashBoundaryDash.length, line.length);
         return rest.length === 0 || equals(skipLWSPChar(rest), this.newLine);
     }
-    isBoundaryDelimiterLine(line) {
-        if (!startsWith(line, this.dashBoundary)) {
+    isBoundaryDelimiterLine(line1) {
+        if (!startsWith(line1, this.dashBoundary)) {
             return false;
         }
-        const rest = line.slice(this.dashBoundary.length);
+        const rest = line1.slice(this.dashBoundary.length);
         return equals(skipLWSPChar(rest), this.newLine);
     }
 }
@@ -1975,116 +1945,6 @@ function multipartFormData(fileMap, valueMap) {
             return entries();
         }
     };
-}
-class PartWriter {
-    constructor(writer, boundary, headers, isFirstBoundary){
-        this.writer = writer;
-        this.boundary = boundary;
-        this.headers = headers;
-        this.closed = false;
-        this.headersWritten = false;
-        let buf = "";
-        if (isFirstBoundary) {
-            buf += `--${boundary}\r\n`;
-        } else {
-            buf += `\r\n--${boundary}\r\n`;
-        }
-        for (const [key, value] of headers.entries()){
-            buf += `${key}: ${value}\r\n`;
-        }
-        buf += `\r\n`;
-        this.partHeader = buf;
-    }
-    close() {
-        this.closed = true;
-    }
-    async write(p) {
-        if (this.closed) {
-            throw new Error("part is closed");
-        }
-        if (!this.headersWritten) {
-            await this.writer.write(encoder.encode(this.partHeader));
-            this.headersWritten = true;
-        }
-        return this.writer.write(p);
-    }
-}
-function checkBoundary(b) {
-    if (b.length < 1 || b.length > 70) {
-        throw new Error(`invalid boundary length: ${b.length}`);
-    }
-    const end = b.length - 1;
-    for(let i = 0; i < end; i++){
-        const c = b.charAt(i);
-        if (!c.match(/[a-zA-Z0-9'()+_,\-./:=?]/) || c === " " && i !== end) {
-            throw new Error("invalid boundary character: " + c);
-        }
-    }
-    return b;
-}
-class MultipartWriter {
-    get boundary() {
-        return this._boundary;
-    }
-    constructor(writer, boundary){
-        this.writer = writer;
-        this.isClosed = false;
-        if (boundary !== void 0) {
-            this._boundary = checkBoundary(boundary);
-        } else {
-            this._boundary = randomBoundary();
-        }
-        this.bufWriter = new BufWriter(writer);
-    }
-    formDataContentType() {
-        return `multipart/form-data; boundary=${this.boundary}`;
-    }
-    createPart(headers) {
-        if (this.isClosed) {
-            throw new Error("multipart: writer is closed");
-        }
-        if (this.lastPart) {
-            this.lastPart.close();
-        }
-        const part = new PartWriter(this.writer, this.boundary, headers, !this.lastPart);
-        this.lastPart = part;
-        return part;
-    }
-    createFormFile(field, filename) {
-        const h = new Headers();
-        h.set("Content-Disposition", `form-data; name="${field}"; filename="${filename}"`);
-        h.set("Content-Type", "application/octet-stream");
-        return this.createPart(h);
-    }
-    createFormField(field) {
-        const h = new Headers();
-        h.set("Content-Disposition", `form-data; name="${field}"`);
-        h.set("Content-Type", "application/octet-stream");
-        return this.createPart(h);
-    }
-    async writeField(field, value) {
-        const f = await this.createFormField(field);
-        await f.write(encoder.encode(value));
-    }
-    async writeFile(field, filename, file) {
-        const f = await this.createFormFile(field, filename);
-        await Deno.copy(file, f);
-    }
-    flush() {
-        return this.bufWriter.flush();
-    }
-    async close() {
-        if (this.isClosed) {
-            throw new Error("multipart: writer is closed");
-        }
-        if (this.lastPart) {
-            this.lastPart.close();
-            this.lastPart = void 0;
-        }
-        await this.writer.write(encoder.encode(`\r\n--${this.boundary}--\r\n`));
-        await this.flush();
-        this.isClosed = true;
-    }
 }
 const content = `--------------------------366796e1c748a2fb\r
 Content-Disposition: form-data; name="payload"\r

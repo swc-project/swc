@@ -1,18 +1,17 @@
 use crate::{
     complete_output, get_compiler,
-    util::{CtxtExt, MapErr},
+    util::{deserialize_json, try_with, CtxtExt, MapErr},
 };
 use napi::{CallContext, JsObject, Task};
-use rustc_hash::FxHashMap;
 use serde::Deserialize;
 use std::sync::Arc;
-use swc::{try_with_handler, TransformOutput};
-use swc_common::{sync::Lrc, FileName, SourceFile, SourceMap};
+use swc::{config::JsMinifyOptions, TransformOutput};
+use swc_common::{collections::AHashMap, sync::Lrc, FileName, SourceFile, SourceMap};
 
 struct MinifyTask {
     c: Arc<swc::Compiler>,
-    code: MinifyTarget,
-    opts: swc::config::JsMinifyOptions,
+    code: String,
+    options: String,
 }
 
 #[derive(Deserialize)]
@@ -21,7 +20,7 @@ enum MinifyTarget {
     /// Code to minify.
     Single(String),
     /// `{ filename: code }`
-    Map(FxHashMap<String, String>),
+    Map(AHashMap<String, String>),
 }
 
 impl MinifyTarget {
@@ -49,10 +48,13 @@ impl Task for MinifyTask {
     type JsValue = JsObject;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
-        try_with_handler(self.c.cm.clone(), |handler| {
-            let fm = self.code.to_file(self.c.cm.clone());
+        let input: MinifyTarget = deserialize_json(&self.code).convert_err()?;
+        let options: JsMinifyOptions = deserialize_json(&self.options).convert_err()?;
 
-            self.c.minify(fm, &handler, &self.opts)
+        try_with(self.c.cm.clone(), false, |handler| {
+            let fm = input.to_file(self.c.cm.clone());
+
+            self.c.minify(fm, &handler, &options)
         })
         .convert_err()
     }
@@ -64,12 +66,12 @@ impl Task for MinifyTask {
 
 #[js_function(2)]
 pub fn minify(cx: CallContext) -> napi::Result<JsObject> {
-    let code = cx.get_deserialized(0)?;
-    let opts = cx.get_deserialized(1)?;
+    let code = cx.get_buffer_as_string(0)?;
+    let options = cx.get_buffer_as_string(1)?;
 
     let c = get_compiler(&cx);
 
-    let task = MinifyTask { c, code, opts };
+    let task = MinifyTask { c, code, options };
 
     cx.env.spawn(task).map(|t| t.promise_object())
 }
@@ -84,7 +86,7 @@ pub fn minify_sync(cx: CallContext) -> napi::Result<JsObject> {
     let fm = code.to_file(c.cm.clone());
 
     let output =
-        try_with_handler(c.cm.clone(), |handler| c.minify(fm, &handler, &opts)).convert_err()?;
+        try_with(c.cm.clone(), false, |handler| c.minify(fm, &handler, &opts)).convert_err()?;
 
     complete_output(&cx.env, output)
 }

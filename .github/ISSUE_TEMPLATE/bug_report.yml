@@ -1,0 +1,47 @@
+name: Bug Report
+description: Use this when swc breaks something
+labels: C-bug
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: |
+        If swc crashed or panicked, you can gain error message by running `swc --sync <input.js>`.
+        Also, you can get backtrace by invoking swc by setting an environment varaible `SWC_DEBUG` to `1`.
+    validations:
+      required: true
+  - type: textarea
+    id: code
+    attributes:
+      label: Input code
+      render: typescript
+  - type: textarea
+    id: config
+    attributes:
+      label: Config
+      description: Paste your `.swcrc` file here.
+      render: json
+  - type: input
+    id: repro-link
+    attributes:
+      label: Playground link
+      description: You can use [swc playground](https://play.swc.rs/) to create a reproduction link, then paste the link here.
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+      description: A clear and concise description of what you expect to happen.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+    validations:
+      required: true
+  - type: textarea
+    id: addition
+    attributes:
+      label: Additional context
+      placeholder: Add any other context about the problem here.

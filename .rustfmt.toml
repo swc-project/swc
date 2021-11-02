@@ -1,4 +1,4 @@
 format_strings = true
-merge_imports = true
+imports_granularity = "Crate"
 use_field_init_shorthand = true
 wrap_comments = true

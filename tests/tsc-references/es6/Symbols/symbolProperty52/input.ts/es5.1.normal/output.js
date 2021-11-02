@@ -1,0 +1,19 @@
+function _defineProperty(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+//@target: ES6
+var obj1 = _defineProperty({
+}, Symbol.nonsense, 0);
+obj1 = {
+};
+obj1[Symbol.nonsense];

@@ -1,9 +1,7 @@
-function foo1() {
+function foo() {
 }
-export { foo1 as foo };
-const mod = function() {
-    return {
-        foo: foo1
-    };
-}();
+export { foo as foo };
+const mod = {
+    foo
+};
 export { mod as lib };

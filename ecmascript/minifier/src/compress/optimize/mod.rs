@@ -1,26 +1,27 @@
 #![allow(dead_code)]
 
-use self::util::replace_id_with_expr;
+use self::util::MultiReplacer;
+use super::util::is_fine_for_if_cons;
 use crate::{
     analyzer::{ProgramData, UsageAnalyzer},
     compress::util::is_pure_undefined,
-    debug::dump,
+    debug::{dump, AssertValid},
     marks::Marks,
     mode::Mode,
     option::CompressOptions,
-    util::{contains_leaping_yield, make_number, MoudleItemExt},
+    util::{contains_leaping_yield, make_number, ModuleItemExt},
 };
 use retain_mut::RetainMut;
-use rustc_hash::FxHashMap;
 use std::{fmt::Write, mem::take};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
-    iter::IdentifyLast, pass::Repeated, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP,
+    collections::AHashMap, iter::IdentifyLast, pass::Repeated, util::take::Take, Mark, Spanned,
+    SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    ident::IdentLike, undefined, ExprExt, ExprFactory, Id, IsEmpty, ModuleItemLike, StmtLike, Type,
-    Value,
+    ident::IdentLike, prepend_stmts, undefined, ExprExt, ExprFactory, Id, IsEmpty, ModuleItemLike,
+    StmtLike, Type, Value,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use tracing::{span, Level};
@@ -48,8 +49,8 @@ mod util;
 
 #[derive(Debug, Default)]
 pub(super) struct OptimizerState {
-    vars_for_inlining: FxHashMap<Id, Box<Expr>>,
-    inlined_vars: FxHashMap<Id, Box<Expr>>,
+    vars_for_inlining: AHashMap<Id, Box<Expr>>,
+    inlined_vars: AHashMap<Id, Box<Expr>>,
 }
 
 /// This pass is simillar to `node.optimize` of terser.
@@ -59,7 +60,7 @@ pub(super) fn optimizer<'a, M>(
     data: &'a ProgramData,
     state: &'a mut OptimizerState,
     mode: &'a M,
-    debug_inifinite_loop: bool,
+    debug_infinite_loop: bool,
 ) -> impl 'a + VisitMut + Repeated
 where
     M: Mode,
@@ -89,7 +90,7 @@ where
         done_ctxt,
         label: Default::default(),
         mode,
-        debug_inifinite_loop,
+        debug_infinite_loop,
     }
 }
 
@@ -113,8 +114,6 @@ struct Ctx {
 
     var_kind: Option<VarDeclKind>,
 
-    /// `true` if we should not inline values.
-    inline_prevented: bool,
     /// `true` if we are in the strict mode. This will be set to `true` for
     /// statements **after** `'use strict'`
     in_strict: bool,
@@ -128,7 +127,7 @@ struct Ctx {
     is_delete_arg: bool,
     /// `true` if we are in `arg` of `++arg` or `--arg`.
     is_update_arg: bool,
-    in_lhs_of_assign: bool,
+    is_lhs_of_assign: bool,
     /// `false` for `d` in `d[0] = foo`.
     is_exact_lhs_of_assign: bool,
 
@@ -139,7 +138,7 @@ struct Ctx {
     in_bang_arg: bool,
     in_var_decl_of_for_in_or_of_loop: bool,
     /// `true` while handling inner statements of a labelled statement.
-    stmt_lablled: bool,
+    stmt_labelled: bool,
 
     dont_use_negated_iife: bool,
 
@@ -164,6 +163,8 @@ struct Ctx {
     can_inline_arguments: bool,
 
     is_nested_if_return_merging: bool,
+
+    dont_invoke_iife: bool,
 
     /// Current scope.
     scope: SyntaxContext,
@@ -200,15 +201,15 @@ struct Optimizer<'a, M> {
     /// Cheap to clone.
     ///
     /// Used for inlining.
-    lits: FxHashMap<Id, Box<Expr>>,
+    lits: AHashMap<Id, Box<Expr>>,
 
     state: &'a mut OptimizerState,
 
-    vars_for_prop_hoisting: FxHashMap<Id, Box<Expr>>,
+    vars_for_prop_hoisting: AHashMap<Id, Box<Expr>>,
     /// Used for `hoist_props`.
-    simple_props: FxHashMap<(Id, JsWord), Box<Expr>>,
-    _simple_array_values: FxHashMap<(Id, usize), Box<Expr>>,
-    typeofs: FxHashMap<Id, JsWord>,
+    simple_props: AHashMap<(Id, JsWord), Box<Expr>>,
+    _simple_array_values: AHashMap<(Id, usize), Box<Expr>>,
+    typeofs: AHashMap<Id, JsWord>,
     /// This information is created by analyzing identifier usages.
     ///
     /// This is calculated multiple time, but only once per one
@@ -224,7 +225,7 @@ struct Optimizer<'a, M> {
 
     mode: &'a M,
 
-    debug_inifinite_loop: bool,
+    debug_infinite_loop: bool,
 }
 
 impl<M> Repeated for Optimizer<'_, M> {
@@ -243,7 +244,7 @@ where
 {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: StmtLike + ModuleItemLike + MoudleItemExt + VisitMutWith<Self>,
+        T: StmtLike + ModuleItemLike + ModuleItemExt + VisitMutWith<Self>,
         Vec<T>: VisitMutWith<Self> + VisitWith<UsageAnalyzer>,
     {
         match self.data {
@@ -685,6 +686,15 @@ where
                 self.changed = true;
                 return None;
             }
+
+            Expr::Tpl(t) if t.exprs.is_empty() => {
+                if cfg!(feature = "debug") {
+                    tracing::debug!("ignore_return_value: Dropping tpl expr without expr");
+                }
+                self.changed = true;
+                return None;
+            }
+
             // Function expression cannot have a side effect.
             Expr::Fn(_) => {
                 tracing::debug!(
@@ -1001,7 +1011,7 @@ where
                     _ => false,
                 } =>
             {
-                tracing::debug!("ignore_return_value: Preserving negated iife");
+                tracing::trace!("ignore_return_value: Preserving negated iife");
                 return Some(e.take());
             }
 
@@ -1165,7 +1175,14 @@ where
             v.spread.is_some()
                 || match &*v.expr {
                     Expr::Lit(Lit::Str(s)) => {
-                        if s.value.contains(|c: char| !c.is_ascii()) {
+                        if s.value.contains(|c: char| {
+                            // whitelist
+                            !c.is_ascii_alphanumeric()
+                                && match c {
+                                    '%' | '[' | ']' | '(' | ')' | '{' | '}' | '-' | '+' => false,
+                                    _ => true,
+                                }
+                        }) {
                             return true;
                         }
                         if s.value.contains("\\\0") || s.value.contains("/") {
@@ -1441,7 +1458,9 @@ where
             Stmt::Block(block) if block.stmts.is_empty() => {
                 *s = Stmt::Empty(EmptyStmt { span: block.span });
             }
-            Stmt::Block(block) if block.stmts.len() == 1 => {
+            Stmt::Block(block)
+                if block.stmts.len() == 1 && is_fine_for_if_cons(&block.stmts[0]) =>
+            {
                 *s = block.stmts.take().into_iter().next().unwrap();
             }
             _ => {}
@@ -1482,18 +1501,45 @@ where
     noop_visit_mut_type!();
 
     fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
+        let prepend = self.prepend_stmts.take();
+
         let ctx = Ctx {
             can_inline_arguments: true,
             ..self.ctx
         };
 
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+
+        if !self.prepend_stmts.is_empty() {
+            let mut stmts = self.prepend_stmts.take();
+            match &mut n.body {
+                BlockStmtOrExpr::BlockStmt(v) => {
+                    prepend_stmts(&mut v.stmts, stmts.into_iter());
+                }
+                BlockStmtOrExpr::Expr(v) => {
+                    self.changed = true;
+                    if cfg!(feature = "debug") {
+                        tracing::debug!("Convertng a body of an arrow expression to BlockStmt");
+                    }
+                    stmts.push(Stmt::Return(ReturnStmt {
+                        span: DUMMY_SP,
+                        arg: Some(v.take()),
+                    }));
+                    n.body = BlockStmtOrExpr::BlockStmt(BlockStmt {
+                        span: DUMMY_SP,
+                        stmts,
+                    });
+                }
+            }
+        }
+
+        self.prepend_stmts = prepend;
     }
 
     fn visit_mut_assign_expr(&mut self, e: &mut AssignExpr) {
         {
             let ctx = Ctx {
-                in_lhs_of_assign: true,
+                is_lhs_of_assign: true,
                 is_exact_lhs_of_assign: true,
                 ..self.ctx
             };
@@ -1555,7 +1601,7 @@ where
 
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
         let ctx = Ctx {
-            stmt_lablled: false,
+            stmt_labelled: false,
             top_level: false,
             in_block: true,
             scope: n.span.ctxt,
@@ -1564,9 +1610,19 @@ where
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
-    fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
-        let inline_prevented = self.ctx.inline_prevented || self.has_noinline(e.span);
+    fn visit_mut_block_stmt_or_expr(&mut self, n: &mut BlockStmtOrExpr) {
+        n.visit_mut_children_with(self);
 
+        match n {
+            BlockStmtOrExpr::BlockStmt(n) => {
+                self.merge_if_returns(&mut n.stmts, false, true);
+                self.drop_else_token(&mut n.stmts);
+            }
+            BlockStmtOrExpr::Expr(_) => {}
+        }
+    }
+
+    fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
         let is_this_undefined = match &e.callee {
             ExprOrSuper::Super(_) => false,
             ExprOrSuper::Expr(e) => e.is_ident(),
@@ -1574,7 +1630,6 @@ where
         {
             let ctx = Ctx {
                 is_callee: true,
-                inline_prevented,
                 is_this_aware_callee: is_this_undefined
                     || match &e.callee {
                         ExprOrSuper::Super(_) => false,
@@ -1610,7 +1665,6 @@ where
         {
             let ctx = Ctx {
                 in_call_arg: true,
-                inline_prevented,
                 is_this_aware_callee: false,
                 ..self.ctx
             };
@@ -1626,7 +1680,7 @@ where
 
         {
             let ctx = Ctx {
-                inline_prevented: true,
+                dont_invoke_iife: true,
                 ..self.ctx
             };
             n.super_class.visit_mut_with(&mut *self.with_ctx(ctx));
@@ -1846,6 +1900,10 @@ where
                 }
             }
         }
+
+        if cfg!(feature = "debug") && cfg!(debug_assertions) {
+            n.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+        }
     }
 
     fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
@@ -1904,7 +1962,7 @@ where
     fn visit_mut_function(&mut self, n: &mut Function) {
         {
             let ctx = Ctx {
-                stmt_lablled: false,
+                stmt_labelled: false,
                 ..self.ctx
             };
             n.decorators.visit_mut_with(&mut *self.with_ctx(ctx));
@@ -1923,7 +1981,7 @@ where
         {
             let ctx = Ctx {
                 skip_standalone: self.ctx.skip_standalone || is_standalone,
-                stmt_lablled: false,
+                stmt_labelled: false,
                 in_fn_like: true,
                 scope: n.span.ctxt,
                 can_inline_arguments: true,
@@ -1955,6 +2013,10 @@ where
         }
 
         self.ctx.in_asm = old_in_asm;
+
+        if cfg!(feature = "debug") && cfg!(debug_assertions) {
+            n.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+        }
     }
 
     fn visit_mut_if_stmt(&mut self, n: &mut IfStmt) {
@@ -1978,7 +2040,7 @@ where
 
     fn visit_mut_labeled_stmt(&mut self, n: &mut LabeledStmt) {
         let ctx = Ctx {
-            stmt_lablled: true,
+            stmt_labelled: true,
             ..self.ctx
         };
         let old_label = self.label.take();
@@ -1999,6 +2061,7 @@ where
         if n.computed {
             let ctx = Ctx {
                 is_exact_lhs_of_assign: false,
+                is_lhs_of_assign: false,
                 ..self.ctx
             };
             n.prop.visit_mut_with(&mut *self.with_ctx(ctx));
@@ -2013,10 +2076,10 @@ where
         };
         self.with_ctx(ctx).handle_stmt_likes(stmts);
 
-        for (from, to) in self.state.inlined_vars.drain() {
-            tracing::debug!("inline: Inlining `{}{:?}`", from.0, from.1);
-            replace_id_with_expr(stmts, from, to);
-        }
+        stmts.visit_mut_with(&mut MultiReplacer {
+            vars: take(&mut self.state.inlined_vars),
+            changed: false,
+        });
 
         stmts.retain(|s| match s {
             ModuleItem::Stmt(Stmt::Empty(..)) => false,
@@ -2107,13 +2170,17 @@ where
             }
             _ => {}
         }
+
+        if cfg!(feature = "debug") && cfg!(debug_assertions) {
+            n.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+        }
     }
 
     fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {
         n.visit_mut_children_with(self);
 
         if let Some(arg) = &mut n.arg {
-            self.optimize_in_fn_termiation(&mut **arg);
+            self.optimize_in_fn_termination(&mut **arg);
         }
     }
 
@@ -2183,7 +2250,7 @@ where
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
-        let _tracing = if cfg!(feature = "debug") && self.debug_inifinite_loop {
+        let _tracing = if cfg!(feature = "debug") && self.debug_infinite_loop {
             let text = dump(&*s);
 
             if text.lines().count() < 10 {
@@ -2199,7 +2266,7 @@ where
             is_callee: false,
             is_delete_arg: false,
             is_update_arg: false,
-            in_lhs_of_assign: false,
+            is_lhs_of_assign: false,
             in_bang_arg: false,
             is_exported: false,
             in_obj_of_non_computed_member: false,
@@ -2207,7 +2274,7 @@ where
         };
         s.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
-        if cfg!(feature = "debug") && self.debug_inifinite_loop {
+        if cfg!(feature = "debug") && self.debug_infinite_loop {
             let text = dump(&*s);
 
             if text.lines().count() < 10 {
@@ -2257,11 +2324,11 @@ where
             _ => {}
         }
 
-        self.optiimze_loops_if_cond_is_false(s);
+        self.optimize_loops_if_cond_is_false(s);
         self.optimize_loops_with_break(s);
 
         match s {
-            // We use var devl with no declarator to indicate we dropped an decl.
+            // We use var decl with no declarator to indicate we dropped an decl.
             Stmt::Decl(Decl::Var(VarDecl { decls, .. })) if decls.is_empty() => {
                 *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                 return;
@@ -2283,12 +2350,16 @@ where
 
         self.optimize_switches(s);
 
-        if cfg!(feature = "debug") && self.debug_inifinite_loop {
+        if cfg!(feature = "debug") && self.debug_infinite_loop {
             let text = dump(&*s);
 
             if text.lines().count() < 10 {
                 tracing::debug!("after: visit_mut_stmt: {}", text);
             }
+        }
+
+        if cfg!(feature = "debug") && cfg!(debug_assertions) {
+            s.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
         }
     }
 
@@ -2322,6 +2393,10 @@ where
                 _ => {}
             }
         }
+
+        if cfg!(feature = "debug") && cfg!(debug_assertions) {
+            stmts.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+        }
     }
 
     fn visit_mut_str(&mut self, s: &mut Str) {
@@ -2337,11 +2412,7 @@ where
     }
 
     fn visit_mut_switch_stmt(&mut self, n: &mut SwitchStmt) {
-        let ctx = Ctx {
-            inline_prevented: !self.options.switches,
-            ..self.ctx
-        };
-        n.discriminant.visit_mut_with(&mut *self.with_ctx(ctx));
+        n.discriminant.visit_mut_with(self);
 
         self.drop_unreachable_cases(n);
 
@@ -2356,7 +2427,7 @@ where
     fn visit_mut_throw_stmt(&mut self, n: &mut ThrowStmt) {
         n.visit_mut_children_with(self);
 
-        self.optimize_in_fn_termiation(&mut n.arg);
+        self.optimize_in_fn_termination(&mut n.arg);
     }
 
     fn visit_mut_tpl(&mut self, n: &mut Tpl) {
@@ -2451,28 +2522,9 @@ where
     }
 
     fn visit_mut_var_declarator(&mut self, var: &mut VarDeclarator) {
-        {
-            let prevent_inline = match &var.name {
-                Pat::Ident(BindingIdent {
-                    id:
-                        Ident {
-                            sym: js_word!("arguments"),
-                            ..
-                        },
-                    ..
-                }) => true,
-                _ => false,
-            };
+        var.name.visit_mut_with(self);
 
-            let ctx = Ctx {
-                inline_prevented: self.ctx.inline_prevented || prevent_inline,
-                ..self.ctx
-            };
-
-            var.name.visit_mut_with(&mut *self.with_ctx(ctx));
-
-            var.init.visit_mut_with(&mut *self.with_ctx(ctx));
-        }
+        var.init.visit_mut_with(self);
 
         self.remove_duplicate_names(var);
 
@@ -2586,7 +2638,7 @@ fn is_callee_this_aware(callee: &Expr) -> bool {
             ..
         }) => match &**obj {
             Expr::Ident(obj) => {
-                if &*obj.sym == "consoole" {
+                if &*obj.sym == "console" {
                     return false;
                 }
             }

@@ -14,7 +14,7 @@
         "ctxt": 0
       },
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 10,
           "end": 26,
@@ -22,22 +22,23 @@
         },
         "items": [
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 12,
               "end": 24,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 12,
                 "end": 17,
                 "ctxt": 0
               },
-              "value": "width"
+              "value": "width",
+              "raw": "width"
             },
-            "values": [
+            "value": [
               {
                 "type": "UnitValue",
                 "span": {
@@ -52,7 +53,8 @@
                     "end": 22,
                     "ctxt": 0
                   },
-                  "value": 100.0
+                  "value": 100.0,
+                  "raw": "100"
                 },
                 "unit": {
                   "span": {
@@ -60,7 +62,8 @@
                     "end": 24,
                     "ctxt": 0
                   },
-                  "kind": "vw"
+                  "value": "vw",
+                  "raw": "vw"
                 }
               }
             ],

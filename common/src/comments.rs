@@ -41,6 +41,46 @@ pub trait Comments {
     fn get_trailing(&self, pos: BytePos) -> Option<Vec<Comment>>;
 
     fn add_pure_comment(&self, pos: BytePos);
+
+    fn with_leading<F, Ret>(&self, pos: BytePos, f: F) -> Ret
+    where
+        Self: Sized,
+        F: FnOnce(&[Comment]) -> Ret,
+    {
+        let cmts = self.take_leading(pos);
+
+        let ret = if let Some(cmts) = &cmts {
+            f(&cmts)
+        } else {
+            f(&[])
+        };
+
+        if let Some(cmts) = cmts {
+            self.add_leading_comments(pos, cmts);
+        }
+
+        ret
+    }
+
+    fn with_trailing<F, Ret>(&self, pos: BytePos, f: F) -> Ret
+    where
+        Self: Sized,
+        F: FnOnce(&[Comment]) -> Ret,
+    {
+        let cmts = self.take_trailing(pos);
+
+        let ret = if let Some(cmts) = &cmts {
+            f(&cmts)
+        } else {
+            f(&[])
+        };
+
+        if let Some(cmts) = cmts {
+            self.add_trailing_comments(pos, cmts);
+        }
+
+        ret
+    }
 }
 
 macro_rules! delegate {
@@ -125,6 +165,183 @@ where
     T: ?Sized + Comments,
 {
     delegate!();
+}
+
+/// Implementation of [Comments] which does not store any comments.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Hash)]
+pub struct NoopComments;
+
+impl Comments for NoopComments {
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn add_leading(&self, _: BytePos, _: Comment) {}
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn add_leading_comments(&self, _: BytePos, _: Vec<Comment>) {}
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn has_leading(&self, _: BytePos) -> bool {
+        false
+    }
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn move_leading(&self, _: BytePos, _: BytePos) {}
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn take_leading(&self, _: BytePos) -> Option<Vec<Comment>> {
+        None
+    }
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn get_leading(&self, _: BytePos) -> Option<Vec<Comment>> {
+        None
+    }
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn add_trailing(&self, _: BytePos, _: Comment) {}
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn add_trailing_comments(&self, _: BytePos, _: Vec<Comment>) {}
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn has_trailing(&self, _: BytePos) -> bool {
+        false
+    }
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn move_trailing(&self, _: BytePos, _: BytePos) {}
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn take_trailing(&self, _: BytePos) -> Option<Vec<Comment>> {
+        None
+    }
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn get_trailing(&self, _: BytePos) -> Option<Vec<Comment>> {
+        None
+    }
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn add_pure_comment(&self, _: BytePos) {}
+}
+
+/// This implementation behaves like [NoopComments] if it's [None].
+impl<C> Comments for Option<C>
+where
+    C: Comments,
+{
+    fn add_leading(&self, pos: BytePos, cmt: Comment) {
+        if let Some(c) = self {
+            c.add_leading(pos, cmt)
+        }
+    }
+
+    fn add_leading_comments(&self, pos: BytePos, comments: Vec<Comment>) {
+        if let Some(c) = self {
+            c.add_leading_comments(pos, comments)
+        }
+    }
+
+    fn has_leading(&self, pos: BytePos) -> bool {
+        if let Some(c) = self {
+            c.has_leading(pos)
+        } else {
+            false
+        }
+    }
+
+    fn move_leading(&self, from: BytePos, to: BytePos) {
+        if let Some(c) = self {
+            c.move_leading(from, to)
+        }
+    }
+
+    fn take_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        if let Some(c) = self {
+            c.take_leading(pos)
+        } else {
+            None
+        }
+    }
+
+    fn get_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        if let Some(c) = self {
+            c.get_leading(pos)
+        } else {
+            None
+        }
+    }
+
+    fn add_trailing(&self, pos: BytePos, cmt: Comment) {
+        if let Some(c) = self {
+            c.add_trailing(pos, cmt)
+        }
+    }
+
+    fn add_trailing_comments(&self, pos: BytePos, comments: Vec<Comment>) {
+        if let Some(c) = self {
+            c.add_trailing_comments(pos, comments)
+        }
+    }
+
+    fn has_trailing(&self, pos: BytePos) -> bool {
+        if let Some(c) = self {
+            c.has_trailing(pos)
+        } else {
+            false
+        }
+    }
+
+    fn move_trailing(&self, from: BytePos, to: BytePos) {
+        if let Some(c) = self {
+            c.move_trailing(from, to)
+        }
+    }
+
+    fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        if let Some(c) = self {
+            c.take_trailing(pos)
+        } else {
+            None
+        }
+    }
+
+    fn get_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        if let Some(c) = self {
+            c.get_trailing(pos)
+        } else {
+            None
+        }
+    }
+
+    fn add_pure_comment(&self, pos: BytePos) {
+        if let Some(c) = self {
+            c.add_pure_comment(pos)
+        }
+    }
+
+    fn with_leading<F, Ret>(&self, pos: BytePos, f: F) -> Ret
+    where
+        Self: Sized,
+        F: FnOnce(&[Comment]) -> Ret,
+    {
+        if let Some(c) = self {
+            c.with_leading(pos, f)
+        } else {
+            f(&[])
+        }
+    }
+
+    fn with_trailing<F, Ret>(&self, pos: BytePos, f: F) -> Ret
+    where
+        Self: Sized,
+        F: FnOnce(&[Comment]) -> Ret,
+    {
+        if let Some(c) = self {
+            c.with_trailing(pos, f)
+        } else {
+            f(&[])
+        }
+    }
 }
 
 pub type SingleThreadedCommentsMapInner = FxHashMap<BytePos, Vec<Comment>>;
@@ -227,6 +444,40 @@ impl Comments for SingleThreadedComments {
             leading.push(pure_comment);
         }
     }
+
+    fn with_leading<F, Ret>(&self, pos: BytePos, f: F) -> Ret
+    where
+        Self: Sized,
+        F: FnOnce(&[Comment]) -> Ret,
+    {
+        let b = self.leading.borrow();
+        let cmts = b.get(&pos);
+
+        let ret = if let Some(cmts) = &cmts {
+            f(&cmts)
+        } else {
+            f(&[])
+        };
+
+        ret
+    }
+
+    fn with_trailing<F, Ret>(&self, pos: BytePos, f: F) -> Ret
+    where
+        Self: Sized,
+        F: FnOnce(&[Comment]) -> Ret,
+    {
+        let b = self.trailing.borrow();
+        let cmts = b.get(&pos);
+
+        let ret = if let Some(cmts) = &cmts {
+            f(&cmts)
+        } else {
+            f(&[])
+        };
+
+        ret
+    }
 }
 
 impl SingleThreadedComments {
@@ -296,6 +547,10 @@ pub enum CommentKind {
     Block,
 }
 
+#[deprecated(
+    since = "0.13.5",
+    note = "helper methods are merged into Comments itself"
+)]
 pub trait CommentsExt: Comments {
     fn with_leading<F, Ret>(&self, pos: BytePos, op: F) -> Ret
     where
@@ -320,4 +575,5 @@ pub trait CommentsExt: Comments {
     }
 }
 
+#[allow(deprecated)]
 impl<C> CommentsExt for C where C: Comments {}

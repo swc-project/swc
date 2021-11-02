@@ -85,24 +85,6 @@ describe('soruce map', () => {
         expect(JSON.parse(map).names).not.toEqual([])
     });
 
-    it("should not have `sourcesContent` if file name is speicified`", async () => {
-        const { map } = await swc.minify({
-            'foo.js': `(function(){
-                            const longName = Math.random() + '_' + Math.random();
-                            console.log(longName);
-                        })()`
-        }, {
-            sourceMap: true,
-            compress: false,
-            mangle: {
-                topLevel: true
-            },
-        });
-
-        const j = JSON.parse(map);
-        expect(j.sourcesContent).toBeUndefined()
-    });
-
     it("should have `sources` if file name is speicified", async () => {
         const { map } = await swc.minify({
             'foo.js': `(function(){

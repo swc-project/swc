@@ -4,7 +4,6 @@
 pub use self::{transform_data::Feature, version::Version};
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
-use rustc_hash::{FxHashMap, FxHashSet};
 use serde::{Deserialize, Serialize};
 use st_map::StaticMap;
 use std::{
@@ -12,10 +11,15 @@ use std::{
     process::Command,
 };
 use swc_atoms::{js_word, JsWord};
-use swc_common::{chain, comments::Comments, FromVariant, Mark, DUMMY_SP};
+use swc_common::{
+    chain,
+    collections::{AHashMap, AHashSet},
+    comments::Comments,
+    FromVariant, Mark, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{
-    compat::{bugfixes, es2015, es2016, es2017, es2018, es2019, es2020, es2021, es3},
+    compat::{bugfixes, es2015, es2016, es2017, es2018, es2019, es2020, es2021, es2022, es3},
     pass::{noop, Optional},
 };
 use swc_ecma_utils::prepend_stmts;
@@ -87,6 +91,13 @@ where
     // ES2021
     let pass = add!(
         pass,
+        ClassProperties,
+        es2022::class_properties(es2022::class_properties::Config { loose })
+    );
+
+    // ES2021
+    let pass = add!(
+        pass,
         LogicalAssignmentOperators,
         es2021::logical_assignments()
     );
@@ -97,11 +108,6 @@ where
     let pass = add!(pass, NullishCoalescing, es2020::nullish_coalescing());
 
     let pass = add!(pass, OptionalChaining, es2020::optional_chaining());
-    let pass = add!(
-        pass,
-        ClassProperties,
-        es2020::class_properties(es2020::class_properties::Config { loose })
-    );
 
     // ES2019
     let pass = add!(pass, OptionalCatchBinding, es2019::optional_catch_binding());
@@ -153,7 +159,12 @@ where
         es2015::destructuring(es2015::destructuring::Config { loose }),
         true
     );
-    let pass = add!(pass, Regenerator, es2015::regenerator(global_mark), true);
+    let pass = add!(
+        pass,
+        Regenerator,
+        es2015::regenerator(Default::default(), global_mark),
+        true
+    );
     let pass = add!(pass, BlockScoping, es2015::block_scoping(), true);
 
     // TODO:
@@ -245,8 +256,8 @@ struct Polyfills {
     shipped_proposals: bool,
     corejs: Version,
     regenerator: bool,
-    includes: FxHashSet<String>,
-    excludes: FxHashSet<String>,
+    includes: AHashSet<String>,
+    excludes: AHashSet<String>,
 }
 
 impl Fold for Polyfills {
@@ -499,9 +510,9 @@ pub enum FeatureOrModule {
 }
 
 impl FeatureOrModule {
-    pub fn split(vec: Vec<FeatureOrModule>) -> (Vec<Feature>, FxHashSet<String>) {
+    pub fn split(vec: Vec<FeatureOrModule>) -> (Vec<Feature>, AHashSet<String>) {
         let mut features: Vec<_> = Default::default();
-        let mut modules: FxHashSet<_> = Default::default();
+        let mut modules: AHashSet<_> = Default::default();
 
         for v in vec {
             match v {
@@ -522,7 +533,7 @@ pub enum Targets {
     Query(Query),
     EsModules(EsModules),
     Versions(Versions),
-    HashMap(FxHashMap<String, QueryOrVersion>),
+    HashMap(AHashMap<String, QueryOrVersion>),
 }
 
 #[derive(Debug, Clone, Copy, Deserialize)]
@@ -581,7 +592,8 @@ impl Query {
             Ok(versions)
         }
 
-        static CACHE: Lazy<DashMap<Query, QueryResult>> = Lazy::new(Default::default);
+        static CACHE: Lazy<DashMap<Query, QueryResult, ahash::RandomState>> =
+            Lazy::new(Default::default);
 
         if let Some(v) = CACHE.get(self) {
             return match &*v {

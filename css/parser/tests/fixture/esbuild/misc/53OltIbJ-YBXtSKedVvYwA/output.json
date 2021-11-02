@@ -46,7 +46,8 @@
                     "end": 1,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "value": "a",
+                  "raw": "a"
                 }
               },
               "subclassSelectors": []
@@ -55,7 +56,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 2,
           "end": 19,
@@ -63,22 +64,23 @@
         },
         "items": [
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 4,
               "end": 17,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 4,
                 "end": 9,
                 "ctxt": 0
               },
-              "value": "value"
+              "value": "value",
+              "raw": "value"
             },
-            "values": [
+            "value": [
               {
                 "type": "UnitValue",
                 "span": {
@@ -93,7 +95,8 @@
                     "end": 13,
                     "ctxt": 0
                   },
-                  "value": 10.0
+                  "value": 10.0,
+                  "raw": "10"
                 },
                 "unit": {
                   "span": {
@@ -101,7 +104,8 @@
                     "end": 17,
                     "ctxt": 0
                   },
-                  "kind": ",x"
+                  "value": ",x",
+                  "raw": "\\2cx"
                 }
               }
             ],

@@ -12,7 +12,7 @@ var obj = {
     set e (a){
         doSomething(a);
     },
-    set f (a1){
+    set f (a){
         doSomething(b);
     }
 };

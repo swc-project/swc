@@ -46,7 +46,8 @@
                     "end": 3,
                     "ctxt": 0
                   },
-                  "value": "div"
+                  "value": "div",
+                  "raw": "div"
                 }
               },
               "subclassSelectors": []
@@ -85,7 +86,8 @@
                     "end": 8,
                     "ctxt": 0
                   },
-                  "value": "div"
+                  "value": "div",
+                  "raw": "div"
                 }
               },
               "subclassSelectors": []
@@ -115,7 +117,8 @@
                       "end": 14,
                       "ctxt": 0
                     },
-                    "value": "id"
+                    "value": "id",
+                    "raw": "id"
                   }
                 }
               ]
@@ -154,7 +157,8 @@
                     "end": 19,
                     "ctxt": 0
                   },
-                  "value": "div"
+                  "value": "div",
+                  "raw": "div"
                 }
               },
               "subclassSelectors": []
@@ -184,7 +188,8 @@
                       "end": 25,
                       "ctxt": 0
                     },
-                    "value": "id"
+                    "value": "id",
+                    "raw": "id"
                   }
                 }
               ]
@@ -223,7 +228,8 @@
                     "end": 30,
                     "ctxt": 0
                   },
-                  "value": "div"
+                  "value": "div",
+                  "raw": "div"
                 }
               },
               "subclassSelectors": []
@@ -253,7 +259,8 @@
                       "end": 36,
                       "ctxt": 0
                     },
-                    "value": "id"
+                    "value": "id",
+                    "raw": "id"
                   }
                 }
               ]
@@ -262,7 +269,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 37,
           "end": 41,
@@ -312,7 +319,8 @@
                       "end": 64,
                       "ctxt": 0
                     },
-                    "value": "escaped.class.name"
+                    "value": "escaped.class.name",
+                    "raw": "escaped\\.class\\.name"
                   }
                 }
               ]
@@ -321,7 +329,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 65,
           "end": 69,
@@ -371,7 +379,8 @@
                       "end": 77,
                       "ctxt": 0
                     },
-                    "value": "class"
+                    "value": "class",
+                    "raw": "class"
                   }
                 }
               ]
@@ -400,7 +409,8 @@
                     "end": 81,
                     "ctxt": 0
                   },
-                  "value": "*"
+                  "value": "*",
+                  "raw": "*"
                 }
               },
               "subclassSelectors": []
@@ -409,7 +419,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 82,
           "end": 86,
@@ -458,7 +468,8 @@
                     "end": 89,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "value": "a",
+                  "raw": "a"
                 }
               },
               "subclassSelectors": [
@@ -484,7 +495,8 @@
                         "end": 95,
                         "ctxt": 0
                       },
-                      "value": "title"
+                      "value": "title",
+                      "raw": "title"
                     }
                   },
                   "op": null,
@@ -497,7 +509,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 97,
           "end": 117,
@@ -505,22 +517,23 @@
         },
         "items": [
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 101,
               "end": 114,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 101,
                 "end": 106,
                 "ctxt": 0
               },
-              "value": "color"
+              "value": "color",
+              "raw": "color"
             },
-            "values": [
+            "value": [
               {
                 "type": "Text",
                 "span": {
@@ -528,7 +541,8 @@
                   "end": 114,
                   "ctxt": 0
                 },
-                "value": "purple"
+                "value": "purple",
+                "raw": "purple"
               }
             ],
             "important": null
@@ -576,7 +590,8 @@
                     "end": 120,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "value": "a",
+                  "raw": "a"
                 }
               },
               "subclassSelectors": [
@@ -602,7 +617,8 @@
                         "end": 126,
                         "ctxt": 0
                       },
-                      "value": "title"
+                      "value": "title",
+                      "raw": "title"
                     }
                   },
                   "op": "=",
@@ -613,7 +629,8 @@
                       "end": 136,
                       "ctxt": 0
                     },
-                    "value": "title"
+                    "value": "title",
+                    "raw": "\"title\""
                   },
                   "modifier": null
                 }
@@ -623,7 +640,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 138,
           "end": 158,
@@ -631,22 +648,23 @@
         },
         "items": [
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 142,
               "end": 155,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 142,
                 "end": 147,
                 "ctxt": 0
               },
-              "value": "color"
+              "value": "color",
+              "raw": "color"
             },
-            "values": [
+            "value": [
               {
                 "type": "Text",
                 "span": {
@@ -654,7 +672,8 @@
                   "end": 155,
                   "ctxt": 0
                 },
-                "value": "purple"
+                "value": "purple",
+                "raw": "purple"
               }
             ],
             "important": null
@@ -702,7 +721,8 @@
                     "end": 161,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "value": "a",
+                  "raw": "a"
                 }
               },
               "subclassSelectors": [
@@ -728,7 +748,8 @@
                         "end": 167,
                         "ctxt": 0
                       },
-                      "value": "title"
+                      "value": "title",
+                      "raw": "title"
                     }
                   },
                   "op": "~=",
@@ -739,7 +760,8 @@
                       "end": 176,
                       "ctxt": 0
                     },
-                    "value": "title"
+                    "value": "title",
+                    "raw": "\"title\""
                   },
                   "modifier": "i"
                 }
@@ -749,7 +771,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 180,
           "end": 200,
@@ -757,22 +779,23 @@
         },
         "items": [
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 184,
               "end": 197,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 184,
                 "end": 189,
                 "ctxt": 0
               },
-              "value": "color"
+              "value": "color",
+              "raw": "color"
             },
-            "values": [
+            "value": [
               {
                 "type": "Text",
                 "span": {
@@ -780,7 +803,8 @@
                   "end": 197,
                   "ctxt": 0
                 },
-                "value": "purple"
+                "value": "purple",
+                "raw": "purple"
               }
             ],
             "important": null
@@ -828,7 +852,8 @@
                     "end": 203,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "value": "a",
+                  "raw": "a"
                 }
               },
               "subclassSelectors": [
@@ -854,7 +879,8 @@
                         "end": 209,
                         "ctxt": 0
                       },
-                      "value": "title"
+                      "value": "title",
+                      "raw": "title"
                     }
                   },
                   "op": "=",
@@ -865,7 +891,8 @@
                       "end": 219,
                       "ctxt": 0
                     },
-                    "value": "title"
+                    "value": "title",
+                    "raw": "\"title\""
                   },
                   "modifier": null
                 },
@@ -891,7 +918,8 @@
                         "end": 225,
                         "ctxt": 0
                       },
-                      "value": "href"
+                      "value": "href",
+                      "raw": "href"
                     }
                   },
                   "op": "*=",
@@ -902,7 +930,8 @@
                       "end": 236,
                       "ctxt": 0
                     },
-                    "value": "image/*"
+                    "value": "image/*",
+                    "raw": "\"image/*\""
                   },
                   "modifier": "S"
                 }
@@ -912,7 +941,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 240,
           "end": 259,
@@ -920,22 +949,23 @@
         },
         "items": [
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 243,
               "end": 256,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 243,
                 "end": 248,
                 "ctxt": 0
               },
-              "value": "color"
+              "value": "color",
+              "raw": "color"
             },
-            "values": [
+            "value": [
               {
                 "type": "Text",
                 "span": {
@@ -943,7 +973,8 @@
                   "end": 256,
                   "ctxt": 0
                 },
-                "value": "purple"
+                "value": "purple",
+                "raw": "purple"
               }
             ],
             "important": null
@@ -991,7 +1022,8 @@
                     "end": 262,
                     "ctxt": 0
                   },
-                  "value": "p"
+                  "value": "p",
+                  "raw": "p"
                 }
               },
               "subclassSelectors": [
@@ -1010,7 +1042,8 @@
                       "end": 279,
                       "ctxt": 0
                     },
-                    "value": "nth-last-of-type"
+                    "value": "nth-last-of-type",
+                    "raw": "nth-last-of-type"
                   },
                   "args": {
                     "type": "Tokens",
@@ -1028,7 +1061,8 @@
                         },
                         "token": {
                           "Num": {
-                            "value": 2.0
+                            "value": 2.0,
+                            "raw": "2"
                           }
                         }
                       }
@@ -1041,7 +1075,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 283,
           "end": 286,
@@ -1092,7 +1126,8 @@
                       "end": 293,
                       "ctxt": 0
                     },
-                    "value": "lang"
+                    "value": "lang",
+                    "raw": "lang"
                   },
                   "args": {
                     "type": "Tokens",
@@ -1109,7 +1144,10 @@
                           "ctxt": 0
                         },
                         "token": {
-                          "Ident": "en"
+                          "Ident": {
+                            "value": "en",
+                            "raw": "en"
+                          }
                         }
                       },
                       {
@@ -1126,7 +1164,11 @@
                           "end": 298,
                           "ctxt": 0
                         },
-                        "token": "WhiteSpace"
+                        "token": {
+                          "WhiteSpace": {
+                            "value": " "
+                          }
+                        }
                       },
                       {
                         "span": {
@@ -1135,7 +1177,10 @@
                           "ctxt": 0
                         },
                         "token": {
-                          "Ident": "ko"
+                          "Ident": {
+                            "value": "ko",
+                            "raw": "ko"
+                          }
                         }
                       }
                     ]
@@ -1147,7 +1192,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 302,
           "end": 305,
@@ -1198,7 +1243,8 @@
                       "end": 320,
                       "ctxt": 0
                     },
-                    "value": "pseudo-elem"
+                    "value": "pseudo-elem",
+                    "raw": "pseudo-elem"
                   },
                   "args": {
                     "type": "Tokens",
@@ -1216,7 +1262,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 323,
           "end": 326,
@@ -1267,7 +1313,8 @@
                       "end": 341,
                       "ctxt": 0
                     },
-                    "value": "pseudo-elem"
+                    "value": "pseudo-elem",
+                    "raw": "pseudo-elem"
                   },
                   "args": {
                     "type": "Tokens",
@@ -1284,7 +1331,10 @@
                           "ctxt": 0
                         },
                         "token": {
-                          "Ident": "a"
+                          "Ident": {
+                            "value": "a",
+                            "raw": "a"
+                          }
                         }
                       },
                       {
@@ -1301,7 +1351,11 @@
                           "end": 345,
                           "ctxt": 0
                         },
-                        "token": "WhiteSpace"
+                        "token": {
+                          "WhiteSpace": {
+                            "value": " "
+                          }
+                        }
                       },
                       {
                         "span": {
@@ -1310,7 +1364,10 @@
                           "ctxt": 0
                         },
                         "token": {
-                          "Ident": "b"
+                          "Ident": {
+                            "value": "b",
+                            "raw": "b"
+                          }
                         }
                       }
                     ]
@@ -1322,7 +1379,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 348,
           "end": 351,

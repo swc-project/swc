@@ -17,23 +17,11 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
 , isIndexWidgetEqualIndex = (widget, indexId)=>widget.props.indexId === indexId
 , sortIndexWidgetsFirst = (firstWidget, secondWidget)=>{
     const isFirstWidgetIndex = isIndexWidget(firstWidget), isSecondWidgetIndex = isIndexWidget(secondWidget);
-    if (isFirstWidgetIndex && !isSecondWidgetIndex) return -1;
-    if (!isFirstWidgetIndex && isSecondWidgetIndex) return 1;
-    return 0;
+    return isFirstWidgetIndex && !isSecondWidgetIndex ? -1 : !isFirstWidgetIndex && isSecondWidgetIndex ? 1 : 0;
 };
-function serializeQueryParameters(parameters) {
-    const isObjectOrArray = (value)=>"[object Object]" === Object.prototype.toString.call(value) || "[object Array]" === Object.prototype.toString.call(value)
-    , encode = (format, ...args)=>{
-        let i = 0;
-        return format.replace(/%s/g, ()=>encodeURIComponent(args[i++])
-        );
-    };
-    return Object.keys(parameters).map((key)=>encode("%s=%s", key, isObjectOrArray(parameters[key]) ? JSON.stringify(parameters[key]) : parameters[key])
-    ).join("&");
-}
 export default function createInstantSearchManager({ indexName , initialState ={
 } , searchClient , resultsState , stalledSearchDelay ,  }) {
-    var results;
+    var results1;
     const helper = algoliasearchHelper(searchClient, indexName, {
         ...HIGHLIGHT_TAGS
     });
@@ -65,7 +53,16 @@ export default function createInstantSearchManager({ indexName , initialState ={
                 client.search = (requests, ...methodArgs)=>{
                     const requestsWithSerializedParams = requests.map((request)=>({
                             ...request,
-                            params: serializeQueryParameters(request.params)
+                            params: (function(parameters) {
+                                const isObjectOrArray = (value)=>"[object Object]" === Object.prototype.toString.call(value) || "[object Array]" === Object.prototype.toString.call(value)
+                                , encode = (format, ...args)=>{
+                                    let i = 0;
+                                    return format.replace(/%s/g, ()=>encodeURIComponent(args[i++])
+                                    );
+                                };
+                                return Object.keys(parameters).map((key)=>encode("%s=%s", key, isObjectOrArray(parameters[key]) ? JSON.stringify(parameters[key]) : parameters[key])
+                                ).join("&");
+                            })(request.params)
                         })
                     );
                     return client.transporter.responsesCache.get({
@@ -88,12 +85,12 @@ export default function createInstantSearchManager({ indexName , initialState ={
     const store = createStore({
         widgets: initialState,
         metadata: hydrateMetadata(resultsState),
-        results: (results = resultsState) ? Array.isArray(results.results) ? results.results.reduce((acc, result)=>({
+        results: (results1 = resultsState) ? Array.isArray(results1.results) ? results1.results.reduce((acc, result)=>({
                 ...acc,
                 [result._internalIndexId]: new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(result.state), result.rawResults)
             })
         , {
-        }) : new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(results.state), results.rawResults) : null,
+        }) : new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(results1.state), results1.rawResults) : null,
         error: null,
         searching: !1,
         isSearchStalled: !0,

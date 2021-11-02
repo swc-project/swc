@@ -46,7 +46,8 @@
                     "end": 1,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "value": "a",
+                  "raw": "a"
                 }
               },
               "subclassSelectors": [
@@ -65,7 +66,8 @@
                       "end": 3,
                       "ctxt": 0
                     },
-                    "value": "b"
+                    "value": "b",
+                    "raw": "b"
                   },
                   "args": {
                     "type": "Tokens",
@@ -92,7 +94,8 @@
                       "end": 5,
                       "ctxt": 0
                     },
-                    "value": "c"
+                    "value": "c",
+                    "raw": "c"
                   },
                   "args": {
                     "type": "Tokens",
@@ -110,7 +113,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 6,
           "end": 8,

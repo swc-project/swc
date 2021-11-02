@@ -12,6 +12,7 @@ impl VisitMut for TextReplacer<'_> {
 
         if &*n.value == self.from {
             n.value = self.to.into();
+            n.raw = self.to.into();
         }
     }
 }

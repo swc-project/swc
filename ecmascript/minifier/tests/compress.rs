@@ -18,7 +18,10 @@ use swc_common::{
     SourceMap, Spanned,
 };
 use swc_ecma_ast::*;
-use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
+use swc_ecma_codegen::{
+    text_writer::{omit_trailing_semi, JsWriter, WriteJs},
+    Emitter,
+};
 use swc_ecma_minifier::{
     optimize,
     option::{
@@ -28,7 +31,7 @@ use swc_ecma_minifier::{
 };
 use swc_ecma_parser::{
     lexer::{input::SourceFileInput, Lexer},
-    Parser,
+    EsConfig, Parser, Syntax,
 };
 use swc_ecma_transforms::{
     fixer,
@@ -36,7 +39,7 @@ use swc_ecma_transforms::{
     resolver_with_mark,
 };
 use swc_ecma_utils::drop_span;
-use swc_ecma_visit::{FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{FoldWith, Node, Visit, VisitMutWith, VisitWith};
 use testing::{assert_eq, DebugUsingDisplay, NormalizedOutput};
 
 fn load_txt(filename: &str) -> Vec<String> {
@@ -117,6 +120,8 @@ fn run(
         .thread_name(|i| format!("rayon-{}", i + 1))
         .build_global();
 
+    let disable_hygiene = mangle.is_some();
+
     let (_module, config) = parse_compressor_config(cm.clone(), &config);
 
     let fm = cm.load_file(&input).expect("failed to load input.js");
@@ -149,7 +154,10 @@ fn run(
     let minification_start = Instant::now();
 
     let lexer = Lexer::new(
-        Default::default(),
+        Syntax::Es(EsConfig {
+            jsx: true,
+            ..Default::default()
+        }),
         Default::default(),
         SourceFileInput::from(&*fm),
         Some(&comments),
@@ -172,7 +180,7 @@ fn run(
     };
 
     let optimization_start = Instant::now();
-    let output = optimize(
+    let mut output = optimize(
         program,
         cm.clone(),
         Some(&comments),
@@ -200,11 +208,13 @@ fn run(
         end - optimization_start
     );
 
-    let output = output
-        .fold_with(&mut hygiene_with_config(hygiene::Config {
+    if !disable_hygiene {
+        output.visit_mut_with(&mut hygiene_with_config(hygiene::Config {
             ..Default::default()
         }))
-        .fold_with(&mut fixer(None));
+    }
+
+    let output = output.fold_with(&mut fixer(None));
 
     let end = Instant::now();
     tracing::info!(
@@ -265,7 +275,7 @@ fn base_fixture(input: PathBuf) {
 
         let output = print(cm.clone(), &[output_module.clone()], false);
 
-        eprintln!("---- {} -----\n{}", Color::Green.paint("Ouput"), output);
+        eprintln!("---- {} -----\n{}", Color::Green.paint("Ourput"), output);
 
         println!("{}", input.display());
 
@@ -294,7 +304,7 @@ fn projects(input: PathBuf) {
 
         let output = print(cm.clone(), &[output_module.clone()], false);
 
-        eprintln!("---- {} -----\n{}", Color::Green.paint("Ouput"), output);
+        eprintln!("---- {} -----\n{}", Color::Green.paint("Ourput"), output);
 
         println!("{}", input.display());
 
@@ -316,14 +326,35 @@ fn projects(input: PathBuf) {
 #[testing::fixture("tests/exec/**/input.js")]
 fn base_exec(input: PathBuf) {
     let dir = input.parent().unwrap();
-    let config = dir.join("config.json");
-    let config = read_to_string(&config).expect("failed to read config.json");
+
+    let config = find_config(&dir);
     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
+
+    let mangle = dir.join("mangle.json");
+    let mangle = read_to_string(&mangle).ok();
+    if let Some(mangle) = &mangle {
+        eprintln!(
+            "---- {} -----\n{}",
+            Color::Green.paint("Mangle config"),
+            mangle
+        );
+    }
+
+    let mangle: Option<TestMangleOptions> =
+        mangle.map(|s| serde_json::from_str(&s).expect("failed to deserialize mangle.json"));
 
     testing::run_test2(false, |cm, handler| {
         let input_src = read_to_string(&input).expect("failed to read input.js as a string");
 
-        let output = run(cm.clone(), &handler, &input, &config, None);
+        let expected_output = stdout_of(&input_src).unwrap();
+
+        eprintln!(
+            "---- {} -----\n{}",
+            Color::Green.paint("Expected"),
+            expected_output
+        );
+
+        let output = run(cm.clone(), &handler, &input, &config, mangle);
         let output = output.expect("Parsing in base test should not fail");
         let output = print(cm.clone(), &[output], false);
 
@@ -335,7 +366,6 @@ fn base_exec(input: PathBuf) {
 
         println!("{}", input.display());
 
-        let expected_output = stdout_of(&input_src).unwrap();
         let actual_output = stdout_of(&output).expect("failed to execute the optimized code");
         assert_ne!(actual_output, "");
 
@@ -383,7 +413,7 @@ fn fixture(input: PathBuf) {
 
         let output = print(cm.clone(), &[output_module.clone()], false);
 
-        eprintln!("---- {} -----\n{}", Color::Green.paint("Ouput"), output);
+        eprintln!("---- {} -----\n{}", Color::Green.paint("Ourput"), output);
 
         let expected = {
             let expected = read_to_string(&dir.join("output.js")).unwrap();
@@ -464,11 +494,16 @@ fn print<N: swc_ecma_codegen::Node>(cm: Lrc<SourceMap>, nodes: &[N], minify: boo
     let mut buf = vec![];
 
     {
+        let mut wr: Box<dyn WriteJs> = Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None));
+        if minify {
+            wr = Box::new(omit_trailing_semi(wr));
+        }
+
         let mut emitter = Emitter {
             cfg: swc_ecma_codegen::Config { minify },
             cm: cm.clone(),
             comments: None,
-            wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
+            wr,
         };
 
         for n in nodes {
@@ -1324,4 +1359,41 @@ impl Visit for Shower<'_> {
         self.show("YieldExpr", n);
         n.visit_children_with(self)
     }
+}
+
+#[testing::fixture("tests/full/**/input.js")]
+fn full(input: PathBuf) {
+    let dir = input.parent().unwrap();
+    let config = find_config(&dir);
+    eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
+
+    testing::run_test2(false, |cm, handler| {
+        let output = run(
+            cm.clone(),
+            &handler,
+            &input,
+            &config,
+            Some(TestMangleOptions::Normal(MangleOptions {
+                top_level: true,
+                ..Default::default()
+            })),
+        );
+        let output_module = match output {
+            Some(v) => v,
+            None => return Ok(()),
+        };
+
+        let output = print(cm.clone(), &[output_module.clone()], true);
+
+        eprintln!("---- {} -----\n{}", Color::Green.paint("Output"), output);
+
+        println!("{}", input.display());
+
+        NormalizedOutput::from(output)
+            .compare_to_file(dir.join("output.js"))
+            .unwrap();
+
+        Ok(())
+    })
+    .unwrap()
 }

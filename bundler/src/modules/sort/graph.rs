@@ -3,10 +3,10 @@ use petgraph::{
     EdgeDirection,
     EdgeDirection::{Incoming, Outgoing},
 };
-use rustc_hash::FxHashSet;
 use std::{collections::VecDeque, iter::repeat};
+use swc_common::collections::AHashSet;
 
-/// Is dependancy between nodes hard?
+/// Is dependency between nodes hard?
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub(super) enum Required {
     /// Required to evaluate
@@ -22,7 +22,7 @@ pub(super) struct StmtDepGraph {
     inner: FastDiGraphMap<usize, Required>,
     /// Read-optimized hashset which contains all direct dependencies and
     /// transitive dependencies.
-    paths: Vec<FxHashSet<usize>>,
+    paths: Vec<AHashSet<usize>>,
 }
 
 impl StmtDepGraph {
@@ -44,8 +44,8 @@ impl StmtDepGraph {
         self.insert_transitives(a, b);
     }
 
-    fn calc_transitives(&self, id: usize, dir: EdgeDirection) -> FxHashSet<usize> {
-        let mut set = FxHashSet::default();
+    fn calc_transitives(&self, id: usize, dir: EdgeDirection) -> AHashSet<usize> {
+        let mut set = AHashSet::default();
 
         let mut queue = VecDeque::default();
         queue.push_front(id);

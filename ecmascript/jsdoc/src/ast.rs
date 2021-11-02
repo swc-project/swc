@@ -96,8 +96,8 @@ pub enum Tag {
     Generator(GeneratorTag),
     #[tag("FunctionTag")]
     Function(FunctionTag),
-    #[tag("FilelTag")]
-    File(FilelTag),
+    #[tag("FileTag")]
+    File(FileTag),
     #[tag("ConstructsTag")]
     Constructs(ConstructsTag),
     #[tag("CopyrightTag")]
@@ -542,7 +542,7 @@ pub struct DeprecatedTag {
 }
 
 #[ast_node]
-pub struct FilelTag {
+pub struct FileTag {
     pub span: Span,
     pub text: Text,
 }

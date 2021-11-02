@@ -1,6 +1,10 @@
 use self::ctx::Ctx;
 use crate::{
-    debug::dump, marks::Marks, mode::Mode, option::CompressOptions, util::MoudleItemExt,
+    debug::{dump, AssertValid},
+    marks::Marks,
+    mode::Mode,
+    option::CompressOptions,
+    util::ModuleItemExt,
     MAX_PAR_DEPTH,
 };
 use rayon::prelude::*;
@@ -29,7 +33,7 @@ pub(crate) fn pure_optimizer<'a, M>(
     options: &'a CompressOptions,
     marks: Marks,
     mode: &'a M,
-    debug_inifinite_loop: bool,
+    debug_infinite_loop: bool,
 ) -> impl 'a + VisitMut + Repeated
 where
     M: Mode,
@@ -40,7 +44,7 @@ where
         ctx: Default::default(),
         changed: Default::default(),
         mode,
-        debug_inifinite_loop,
+        debug_infinite_loop,
     }
 }
 
@@ -51,7 +55,7 @@ struct Pure<'a, M> {
     changed: bool,
     mode: &'a M,
 
-    debug_inifinite_loop: bool,
+    debug_infinite_loop: bool,
 }
 
 impl<M> Repeated for Pure<'_, M> {
@@ -71,7 +75,7 @@ where
 {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: MoudleItemExt,
+        T: ModuleItemExt,
         Vec<T>: VisitWith<self::vars::VarWithOutInitCounter>
             + VisitMutWith<self::vars::VarPrepender>
             + VisitMutWith<self::vars::VarMover>,
@@ -90,6 +94,16 @@ where
         });
     }
 
+    fn optimize_fn_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        self.remove_useless_return(stmts);
+
+        self.negate_if_terminate(stmts, true, false);
+
+        if let Some(last) = stmts.last_mut() {
+            self.drop_unused_stmt_at_end_of_fn(last);
+        }
+    }
+
     /// Visit `nodes`, maybe in parallel.
     fn visit_par<N>(&mut self, nodes: &mut Vec<N>)
     where
@@ -103,7 +117,7 @@ where
                     ctx: self.ctx,
                     changed: false,
                     mode: self.mode,
-                    debug_inifinite_loop: self.debug_inifinite_loop,
+                    debug_infinite_loop: self.debug_infinite_loop,
                 };
                 node.visit_mut_with(&mut v);
 
@@ -122,7 +136,7 @@ where
                         },
                         changed: false,
                         mode: self.mode,
-                        debug_inifinite_loop: self.debug_inifinite_loop,
+                        debug_infinite_loop: self.debug_infinite_loop,
                     };
                     node.visit_mut_with(&mut v);
 
@@ -170,6 +184,11 @@ where
     fn visit_mut_block_stmt_or_expr(&mut self, body: &mut BlockStmtOrExpr) {
         body.visit_mut_children_with(self);
 
+        match body {
+            BlockStmtOrExpr::BlockStmt(b) => self.optimize_fn_stmts(&mut b.stmts),
+            BlockStmtOrExpr::Expr(_) => {}
+        }
+
         self.optimize_arrow_body(body);
     }
 
@@ -203,6 +222,8 @@ where
             };
             e.visit_mut_children_with(&mut *self.with_ctx(ctx));
         }
+
+        self.remove_invalid(e);
 
         match e {
             Expr::Seq(seq) => {
@@ -328,13 +349,7 @@ where
         }
 
         if let Some(body) = &mut f.body {
-            self.remove_useless_return(&mut body.stmts);
-
-            self.negate_if_terminate(&mut body.stmts, true, false);
-
-            if let Some(last) = body.stmts.last_mut() {
-                self.drop_unused_stmt_at_end_of_fn(last);
-            }
+            self.optimize_fn_stmts(&mut body.stmts)
         }
     }
 
@@ -377,6 +392,10 @@ where
         p.visit_mut_children_with(self);
 
         self.optimize_arrow_method_prop(p);
+
+        if cfg!(feature = "debug") && cfg!(debug_assertions) {
+            p.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+        }
     }
 
     fn visit_mut_prop_name(&mut self, p: &mut PropName) {
@@ -399,11 +418,19 @@ where
     fn visit_mut_seq_expr(&mut self, e: &mut SeqExpr) {
         e.visit_mut_children_with(self);
 
+        e.exprs.retain(|e| {
+            if e.is_invalid() {
+                self.changed = true;
+                tracing::debug!("Removing invalid expr in seq");
+                return false;
+            }
+
+            true
+        });
+
         if e.exprs.len() == 0 {
             return;
         }
-
-        self.drop_useless_ident_ref_in_seq(e);
 
         self.merge_seq_call(e);
 
@@ -420,7 +447,7 @@ where
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
-        let _tracing = if cfg!(feature = "debug") && self.debug_inifinite_loop {
+        let _tracing = if cfg!(feature = "debug") && self.debug_infinite_loop {
             let text = dump(&*s);
 
             if text.lines().count() < 10 {
@@ -443,7 +470,7 @@ where
             s.visit_mut_children_with(&mut *self.with_ctx(ctx));
         }
 
-        if cfg!(feature = "debug") && self.debug_inifinite_loop {
+        if cfg!(feature = "debug") && self.debug_infinite_loop {
             let text = dump(&*s);
 
             if text.lines().count() < 10 {
@@ -474,12 +501,16 @@ where
             _ => {}
         }
 
-        if cfg!(feature = "debug") && self.debug_inifinite_loop {
+        if cfg!(feature = "debug") && self.debug_infinite_loop {
             let text = dump(&*s);
 
             if text.lines().count() < 10 {
                 tracing::debug!("after: visit_mut_stmt: {}", text);
             }
+        }
+
+        if cfg!(feature = "debug") && cfg!(debug_assertions) {
+            s.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
         }
     }
 
@@ -492,6 +523,10 @@ where
             Stmt::Empty(..) => false,
             _ => true,
         });
+
+        if cfg!(feature = "debug") && cfg!(debug_assertions) {
+            items.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+        }
     }
 
     /// We don't optimize [Tpl] contained in [TaggedTpl].

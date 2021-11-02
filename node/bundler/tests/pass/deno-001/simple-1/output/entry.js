@@ -13,12 +13,12 @@ class MuxAsyncIterator {
         ++this.iteratorCount;
         this.callIteratorNext(iterator);
     }
-    async callIteratorNext(iterator) {
+    async callIteratorNext(iterator1) {
         try {
-            const { value , done  } = await iterator.next();
+            const { value , done  } = await iterator1.next();
             if (done) --this.iteratorCount;
             else this.yields.push({
-                iterator,
+                iterator: iterator1,
                 value
             });
         } catch (e) {
@@ -164,7 +164,7 @@ async function readTrailers(headers, r) {
     ].filter((k)=>!trailerNames.includes(k)
     );
     if (undeclared.length > 0) throw new Deno.errors.InvalidData(`Undeclared trailers: ${Deno.inspect(undeclared)}.`);
-    for (const [k, v] of result)headers.append(k, v);
+    for (const [k1, v] of result)headers.append(k1, v);
     const missingTrailers = trailerNames.filter((k)=>!result.has(k)
     );
     if (missingTrailers.length > 0) throw new Deno.errors.InvalidData(`Missing trailers: ${Deno.inspect(missingTrailers)}.`);
@@ -373,8 +373,8 @@ async function readRequest(conn, bufr) {
     return req;
 }
 class Server {
-    constructor(listener){
-        this.listener = listener;
+    constructor(listener1){
+        this.listener = listener1;
         this.closing = false;
         this.connections = [];
     }
@@ -427,11 +427,11 @@ class Server {
         // might have been already closed
         }
     }
-    trackConnection(conn) {
-        this.connections.push(conn);
+    trackConnection(conn1) {
+        this.connections.push(conn1);
     }
-    untrackConnection(conn) {
-        const index = this.connections.indexOf(conn);
+    untrackConnection(conn2) {
+        const index = this.connections.indexOf(conn2);
         if (index !== -1) this.connections.splice(index, 1);
     }
     // Accepts a new TCP connection and yields all HTTP requests that arrive on

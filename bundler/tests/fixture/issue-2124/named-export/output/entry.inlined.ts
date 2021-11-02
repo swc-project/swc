@@ -1,4 +1,4 @@
-function __spack_require__(mod) {
+function __swcpack_require__(mod) {
     var cache;
     if (cache) {
         return cache;
@@ -11,7 +11,7 @@ function __spack_require__(mod) {
     cache = module.exports;
     return cache;
 }
-var load = __spack_require__.bind(void 0, function(module, exports) {
+var load = __swcpack_require__.bind(void 0, function(module, exports) {
     function lodash(value) {
         console.log('lodash');
     }
@@ -22,6 +22,6 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
     module.exports = lodash;
     exports.memoize = memoize;
 });
-const _cjs_module_ = load(), memoize = _cjs_module_.memoize;
-const name = memoize();
+const _cjs_module_ = load(), memoize1 = _cjs_module_.memoize;
+const name = memoize1();
 console.log(name);

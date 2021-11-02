@@ -1,17 +1,14 @@
-use std::hash::BuildHasherDefault;
-
 use super::compat::DATA as CORE_JS_COMPAT_DATA;
 use crate::{version::should_enable, Version, Versions};
 use indexmap::IndexSet;
 use once_cell::sync::Lazy;
-use rustc_hash::{FxHashMap, FxHasher};
 use swc_atoms::js_word;
-use swc_common::DUMMY_SP;
+use swc_common::{collections::AHashMap, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, FoldWith};
 
-static ENTRIES: Lazy<FxHashMap<String, Vec<&'static str>>> = Lazy::new(|| {
-    serde_json::from_str::<FxHashMap<String, Vec<String>>>(include_str!("entries.json"))
+static ENTRIES: Lazy<AHashMap<String, Vec<&'static str>>> = Lazy::new(|| {
+    serde_json::from_str::<AHashMap<String, Vec<String>>>(include_str!("entries.json"))
         .expect("failed to parse entries.json from core js 3")
         .into_iter()
         .map(|(k, v)| {
@@ -25,8 +22,8 @@ static ENTRIES: Lazy<FxHashMap<String, Vec<&'static str>>> = Lazy::new(|| {
         .collect()
 });
 
-static MODULES_BY_VERSION: Lazy<FxHashMap<Version, Vec<&'static str>>> = Lazy::new(|| {
-    serde_json::from_str::<FxHashMap<_, _>>(include_str!("modules-by-versions.json"))
+static MODULES_BY_VERSION: Lazy<AHashMap<Version, Vec<&'static str>>> = Lazy::new(|| {
+    serde_json::from_str::<AHashMap<_, _>>(include_str!("modules-by-versions.json"))
         .expect("failed to parse modules-by-versions.json")
         .into_iter()
         .map(|(k, v): (Version, Vec<String>)| {
@@ -45,7 +42,7 @@ pub struct Entry {
     is_any_target: bool,
     target: Versions,
     corejs_version: Version,
-    pub imports: IndexSet<&'static str, BuildHasherDefault<FxHasher>>,
+    pub imports: IndexSet<&'static str, ahash::RandomState>,
     remove_regenerator: bool,
 }
 

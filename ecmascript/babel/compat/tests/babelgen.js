@@ -11,7 +11,7 @@ if (!inputFile) {
 
 const code = readFileSync(inputFile, "utf8");
 
-const plugins = ["classProperties"];
+const plugins = ["classProperties", "classStaticBlocks"];
 if (inputFile && inputFile.endsWith(".jsx")) {
     plugins.push("jsx");
 }

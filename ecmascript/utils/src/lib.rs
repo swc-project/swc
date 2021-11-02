@@ -14,7 +14,6 @@ pub use self::{
     Purity::{MayBeImpure, Pure},
 };
 use crate::ident::IdentLike;
-use scoped_tls::scoped_thread_local;
 use std::{
     borrow::Cow,
     f64::{INFINITY, NAN},
@@ -23,9 +22,9 @@ use std::{
     ops::Add,
 };
 use swc_atoms::{js_word, JsWord};
-use swc_common::{
-    collections::AHashSet, errors::Handler, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
-};
+#[deprecated(since = "0.50", note = "Use `swc_common::errors::HANDLER` directly")]
+pub use swc_common::errors::HANDLER;
+use swc_common::{collections::AHashSet, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Node, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -167,6 +166,42 @@ impl Visit for ArgumentsFinder {
     }
 }
 
+pub trait StmtOrModuleItem: Send + Sync {
+    fn into_stmt(self) -> Result<Stmt, ModuleDecl>;
+
+    fn as_stmt(&self) -> Result<&Stmt, &ModuleDecl>;
+}
+
+impl StmtOrModuleItem for Stmt {
+    #[inline]
+    fn into_stmt(self) -> Result<Stmt, ModuleDecl> {
+        Ok(self)
+    }
+
+    #[inline]
+    fn as_stmt(&self) -> Result<&Stmt, &ModuleDecl> {
+        Ok(self)
+    }
+}
+
+impl StmtOrModuleItem for ModuleItem {
+    #[inline]
+    fn into_stmt(self) -> Result<Stmt, ModuleDecl> {
+        match self {
+            ModuleItem::ModuleDecl(v) => Err(v),
+            ModuleItem::Stmt(v) => Ok(v),
+        }
+    }
+
+    #[inline]
+    fn as_stmt(&self) -> Result<&Stmt, &ModuleDecl> {
+        match self {
+            ModuleItem::ModuleDecl(v) => Err(v),
+            ModuleItem::Stmt(v) => Ok(v),
+        }
+    }
+}
+
 pub trait ModuleItemLike: StmtLike {
     fn try_into_module_decl(self) -> Result<ModuleDecl, Self> {
         Err(self)
@@ -176,7 +211,7 @@ pub trait ModuleItemLike: StmtLike {
     }
 }
 
-pub trait StmtLike: Sized + 'static {
+pub trait StmtLike: Sized + 'static + Send + Sync {
     fn try_into_stmt(self) -> Result<Stmt, Self>;
     fn as_stmt(&self) -> Option<&Stmt>;
     fn from_stmt(stmt: Stmt) -> Self;
@@ -1858,11 +1893,6 @@ impl<'a> UsageFinder<'a> {
     }
 }
 
-scoped_thread_local!(
-    /// Used for error reporting in transform.
-    pub static HANDLER: Handler
-);
-
 /// make a new expression which evaluates `val` preserving side effects, if any.
 pub fn preserve_effects<I>(span: Span, val: Expr, exprs: I) -> Expr
 where
@@ -2084,7 +2114,7 @@ impl VisitMut for IdentReplacer<'_> {
 
 pub struct BindingCollector<I>
 where
-    I: IdentLike + Eq + Hash,
+    I: IdentLike + Eq + Hash + Send + Sync,
 {
     only: Option<SyntaxContext>,
     bindings: AHashSet<I>,
@@ -2093,7 +2123,7 @@ where
 
 impl<I> BindingCollector<I>
 where
-    I: IdentLike + Eq + Hash,
+    I: IdentLike + Eq + Hash + Send + Sync,
 {
     fn add(&mut self, i: &Ident) {
         if let Some(only) = self.only {
@@ -2108,7 +2138,7 @@ where
 
 impl<I> Visit for BindingCollector<I>
 where
-    I: IdentLike + Eq + Hash,
+    I: IdentLike + Eq + Hash + Send + Sync,
 {
     noop_visit_type!();
 
@@ -2150,6 +2180,34 @@ where
         }
     }
 
+    fn visit_module_items(&mut self, nodes: &[ModuleItem], _: &dyn Node) {
+        #[cfg(feature = "concurrent")]
+        if nodes.len() > 16 {
+            use rayon::prelude::*;
+            let set = nodes
+                .par_iter()
+                .map(|node| {
+                    let mut v = BindingCollector {
+                        only: self.only,
+                        bindings: Default::default(),
+                        is_pat_decl: self.is_pat_decl,
+                    };
+                    node.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+                    v.bindings
+                })
+                .reduce(AHashSet::default, |mut a, b| {
+                    a.extend(b);
+                    a
+                });
+            self.bindings.extend(set);
+            return;
+        }
+
+        for node in nodes {
+            node.visit_children_with(self)
+        }
+    }
+
     fn visit_param(&mut self, node: &Param, _: &dyn Node) {
         let old = self.is_pat_decl;
         self.is_pat_decl = true;
@@ -2168,6 +2226,34 @@ where
         }
     }
 
+    fn visit_stmts(&mut self, nodes: &[Stmt], _: &dyn Node) {
+        #[cfg(feature = "concurrent")]
+        if nodes.len() > 16 {
+            use rayon::prelude::*;
+            let set = nodes
+                .par_iter()
+                .map(|node| {
+                    let mut v = BindingCollector {
+                        only: self.only,
+                        bindings: Default::default(),
+                        is_pat_decl: self.is_pat_decl,
+                    };
+                    node.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+                    v.bindings
+                })
+                .reduce(AHashSet::default, |mut a, b| {
+                    a.extend(b);
+                    a
+                });
+            self.bindings.extend(set);
+            return;
+        }
+
+        for node in nodes {
+            node.visit_children_with(self)
+        }
+    }
+
     fn visit_var_declarator(&mut self, node: &VarDeclarator, _: &dyn Node) {
         let old = self.is_pat_decl;
         self.is_pat_decl = true;
@@ -2182,7 +2268,7 @@ where
 /// Collects binding identifiers.
 pub fn collect_decls<I, N>(n: &N) -> AHashSet<I>
 where
-    I: IdentLike + Eq + Hash,
+    I: IdentLike + Eq + Hash + Send + Sync,
     N: VisitWith<BindingCollector<I>>,
 {
     let mut v = BindingCollector {
@@ -2198,7 +2284,7 @@ where
 /// identical to `ctxt`.
 pub fn collect_decls_with_ctxt<I, N>(n: &N, ctxt: SyntaxContext) -> AHashSet<I>
 where
-    I: IdentLike + Eq + Hash,
+    I: IdentLike + Eq + Hash + Send + Sync,
     N: VisitWith<BindingCollector<I>>,
 {
     let mut v = BindingCollector {

@@ -1,10 +1,10 @@
 use swc_atoms::JsWord;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::Check;
-use swc_ecma_transforms_macros::fast_path;
+use swc_ecma_transforms_base::perf::Parallel;
+use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{quote_ident, ExprFactory};
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 /// Compile ES2015 sticky regex to an ES5 RegExp constructor
 ///
@@ -20,19 +20,26 @@ use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visi
 /// ```js
 /// new RegExp("o+", "y")
 /// ```
-pub fn sticky_regex() -> impl 'static + Fold {
-    StickyRegex
+pub fn sticky_regex() -> impl 'static + Fold + VisitMut {
+    as_folder(StickyRegex)
 }
 
-#[derive(Clone, Copy)]
 struct StickyRegex;
 
-#[fast_path(StickyRegexVisitor)]
-impl Fold for StickyRegex {
-    noop_fold_type!();
+impl Parallel for StickyRegex {
+    fn merge(&mut self, _: Self) {}
 
-    fn fold_expr(&mut self, e: Expr) -> Expr {
-        let e = e.fold_children_with(self);
+    fn create(&self) -> Self {
+        StickyRegex
+    }
+}
+
+#[parallel]
+impl VisitMut for StickyRegex {
+    noop_visit_mut_type!();
+
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
 
         match e {
             Expr::Lit(Lit::Regex(Regex { exp, flags, span })) => {
@@ -48,37 +55,19 @@ impl Fold for StickyRegex {
                         })))
                     };
 
-                    Expr::New(NewExpr {
-                        span,
-                        callee: Box::new(quote_ident!(span, "RegExp").into()),
-                        args: Some(vec![str_lit(exp).as_arg(), str_lit(flags).as_arg()]),
+                    *e = Expr::New(NewExpr {
+                        span: *span,
+                        callee: Box::new(quote_ident!(*span, "RegExp").into()),
+                        args: Some(vec![
+                            str_lit(exp.clone()).as_arg(),
+                            str_lit(flags.clone()).as_arg(),
+                        ]),
                         type_args: Default::default(),
                     })
-                } else {
-                    Expr::Lit(Lit::Regex(Regex { exp, flags, span }))
                 }
             }
-            _ => e,
+            _ => {}
         }
-    }
-}
-
-#[derive(Default)]
-struct StickyRegexVisitor {
-    found: bool,
-}
-
-impl Visit for StickyRegexVisitor {
-    noop_visit_type!();
-
-    fn visit_regex(&mut self, n: &Regex, _: &dyn Node) {
-        self.found |= n.flags.contains('y');
-    }
-}
-
-impl Check for StickyRegexVisitor {
-    fn should_handle(&self) -> bool {
-        self.found
     }
 }
 
@@ -89,7 +78,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| StickyRegex,
+        |_| sticky_regex(),
         babel_basic,
         "var re = /o+/y;",
         "var re = new RegExp('o+', 'y');"
@@ -97,7 +86,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| StickyRegex,
+        |_| sticky_regex(),
         babel_ignore_non_sticky,
         "var re = /o+/;",
         "var re = /o+/;"

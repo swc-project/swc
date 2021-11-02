@@ -1,25 +1,25 @@
-use swc_common::DUMMY_SP;
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::IdentExt;
-use swc_ecma_visit::{noop_fold_type, Fold};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut};
 
 /// `@babel/plugin-proposal-export-default-from`
-pub fn export_default_from() -> impl Fold {
-    ExportDefaultFrom
+pub fn export_default_from() -> impl Fold + VisitMut {
+    as_folder(ExportDefaultFrom)
 }
 
 struct ExportDefaultFrom;
 
-impl Fold for ExportDefaultFrom {
-    noop_fold_type!();
+impl VisitMut for ExportDefaultFrom {
+    noop_visit_mut_type!();
 
-    fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
+    fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
         // Imports
         let mut stmts = Vec::with_capacity(items.len() + 4);
         // Statements except import
         let mut extra_stmts = Vec::with_capacity(items.len() + 4);
 
-        for item in items {
+        for item in items.take() {
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(mut export)) => {
                     // Skip if it does not have default export
@@ -80,8 +80,6 @@ impl Fold for ExportDefaultFrom {
 
         stmts.append(&mut extra_stmts);
 
-        stmts.shrink_to_fit();
-
-        stmts
+        *items = stmts;
     }
 }

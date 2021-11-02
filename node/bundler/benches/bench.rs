@@ -16,7 +16,7 @@ use swc_atoms::js_word;
 use swc_bundler::{Bundler, Load, ModuleData, ModuleRecord};
 use swc_common::{sync::Lrc, FileName, SourceMap, Span, GLOBALS};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax, TsConfig};
+use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::typescript::strip;
 use swc_ecma_visit::FoldWith;
 use test::Bencher;
@@ -37,7 +37,7 @@ fn run_bench(b: &mut Bencher, entry: &Path) {
     ::testing::run_test2(false, |cm, _| {
         b.iter(|| {
             GLOBALS.with(|globals| {
-                let bundler = Bundler::new(
+                let mut bundler = Bundler::new(
                     globals,
                     cm.clone(),
                     Loader { cm: cm.clone() },
@@ -81,7 +81,7 @@ impl Load for Loader {
                 tsx,
                 ..Default::default()
             }),
-            JscTarget::Es2020,
+            EsVersion::Es2020,
             StringInput::from(&*fm),
             None,
         );

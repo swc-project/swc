@@ -322,6 +322,21 @@ impl AssignFolder {
                     "destructuring pattern binding requires initializer"
                 );
 
+                if props.len() == 1 {
+                    match &props[0] {
+                        ObjectPatProp::Assign(p @ AssignPatProp { value: None, .. }) => {
+                            decls.push(VarDeclarator {
+                                span: decl.span,
+                                name: Pat::Ident(p.key.clone().into()),
+                                init: Some(Box::new(decl.init.unwrap().make_member(p.key.clone()))),
+                                definite: false,
+                            });
+                            return;
+                        }
+                        _ => {}
+                    }
+                }
+
                 let can_be_null = can_be_null(decl.init.as_ref().unwrap());
                 let ref_ident = make_ref_ident(self.c, decls, decl.init);
 
@@ -448,6 +463,7 @@ impl AssignFolder {
     }
 }
 
+/// TODO: VisitMut
 #[fast_path(DestructuringVisitor)]
 impl Fold for Destructuring {
     noop_fold_type!();
@@ -522,6 +538,7 @@ struct AssignFolder {
     ignore_return_value: Option<()>,
 }
 
+/// TODO: VisitMut
 #[fast_path(DestructuringVisitor)]
 impl Fold for AssignFolder {
     noop_fold_type!();
@@ -711,6 +728,22 @@ impl Fold for AssignFolder {
                         })
                     }
                     Pat::Object(ObjectPat { span, props, .. }) => {
+                        if props.len() == 1 {
+                            match &props[0] {
+                                ObjectPatProp::Assign(p @ AssignPatProp { value: None, .. }) => {
+                                    return Expr::Assign(AssignExpr {
+                                        span,
+                                        op: op!("="),
+                                        left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                                            p.key.clone().into(),
+                                        ))),
+                                        right: Box::new(right.make_member(p.key.clone())),
+                                    });
+                                }
+                                _ => {}
+                            }
+                        }
+
                         let ref_ident = make_ref_ident(self.c, &mut self.vars, None);
 
                         let mut exprs = vec![];
@@ -877,14 +910,9 @@ impl Fold for AssignFolder {
 impl Destructuring {
     fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
     where
-        Vec<T>: FoldWith<Self> + VisitWith<DestructuringVisitor>,
-        T: StmtLike + VisitWith<DestructuringVisitor> + FoldWith<AssignFolder>,
+        Vec<T>: FoldWith<Self>,
+        T: StmtLike + FoldWith<AssignFolder>,
     {
-        // fast path
-        if !has_destructuring(&stmts) {
-            return stmts;
-        }
-
         let stmts = stmts.fold_children_with(self);
 
         let mut buf = Vec::with_capacity(stmts.len());
@@ -1114,15 +1142,6 @@ fn can_be_null(e: &Expr) -> bool {
 
         Expr::Invalid(..) => unreachable!(),
     }
-}
-
-fn has_destructuring<N>(node: &N) -> bool
-where
-    N: VisitWith<DestructuringVisitor>,
-{
-    let mut v = DestructuringVisitor { found: false };
-    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
-    v.found
 }
 
 #[derive(Default)]

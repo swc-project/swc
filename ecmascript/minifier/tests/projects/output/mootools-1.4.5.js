@@ -22,7 +22,7 @@
         }
         return !!item.hasOwnProperty && item instanceof object;
     }, Function = this.Function, enumerables = !0;
-    for(var i in {
+    for(var i1 in {
         toString: 1
     })enumerables = null;
     enumerables && (enumerables = [
@@ -97,10 +97,10 @@
     Type.isEnumerable = function(item) {
         return null != item && "number" == typeof item.length && "[object Function]" != toString.call(item);
     };
-    var hooks = {
+    var hooks1 = {
     }, hooksOf = function(object) {
         var type = typeOf(object.prototype);
-        return hooks[type] || (hooks[type] = []);
+        return hooks1[type] || (hooks1[type] = []);
     }, implement = function(name, method) {
         if (!method || !method.$hidden) {
             for(var hooks = hooksOf(this), i = 0; i < hooks.length; i++){
@@ -131,8 +131,8 @@
     var force = function(name, object, methods) {
         var isType = object != Object, prototype = object.prototype;
         isType && (object = new Type(name, object));
-        for(var i = 0, l = methods.length; i < l; i++){
-            var key = methods[i], generic = object[key], proto = prototype[key];
+        for(var i2 = 0, l1 = methods.length; i2 < l1; i2++){
+            var key = methods[i2], generic = object[key], proto = prototype[key];
             generic && generic.protect(), isType && proto && object.implement(key, proto.protect());
         }
         if (isType) {
@@ -458,7 +458,7 @@
         return array ? hex : "#" + hex.join("");
     }
 }), Array.alias("extend", "append");
-var fireEvent, $pick = function() {
+var fireEvent1, $pick = function() {
     return Array.from(arguments).pick();
 };
 String.implement({
@@ -516,7 +516,7 @@ String.implement({
         return Math.min(max, Math.max(min, this));
     },
     round: function(precision) {
-        return Math.round(this * (precision = Math.pow(10, precision || 0).toFixed(precision < 0 ? -precision : 0))) / precision;
+        return precision = Math.pow(10, precision || 0).toFixed(precision < 0 ? -precision : 0), Math.round(this * precision) / precision;
     },
     times: function(fn, bind) {
         for(var i = 0; i < this; i++)fn.call(bind, i, this);
@@ -798,14 +798,14 @@ var $try = Function.attempt;
     }, function() {
         return MSXML(), MSXML;
     }), Browser.Features.xhr = !!Browser.Request;
-    var version = (Function.attempt(function() {
+    var version1 = (Function.attempt(function() {
         return navigator.plugins["Shockwave Flash"].description;
     }, function() {
         return new ActiveXObject("ShockwaveFlash.ShockwaveFlash").GetVariable("$version");
     }) || "0 r0").match(/\d+/g);
     if (Browser.Plugins.Flash = {
-        version: Number(version[0] || "0." + version[1]) || 0,
-        build: Number(version[2]) || 0
+        version: Number(version1[0] || "0." + version1[1]) || 0,
+        build: Number(version1[2]) || 0
     }, Browser.exec = function(text) {
         if (!text) return text;
         if (window.execScript) window.execScript(text);
@@ -981,8 +981,8 @@ Event.Keys = {
             var value = this.initialize ? this.initialize.apply(this, arguments) : this;
             return this.$caller = this.caller = null, value;
         }).extend(this).implement(params);
-        return newClass.$constructor = Class, newClass.prototype.$constructor = newClass, newClass.prototype.parent = parent, newClass;
-    }), parent = function() {
+        return newClass.$constructor = Class, newClass.prototype.$constructor = newClass, newClass.prototype.parent = parent1, newClass;
+    }), parent1 = function() {
         if (!this.$caller) throw new Error("The method \"parent\" cannot be called.");
         var name = this.$caller.$name, parent = this.$caller.$owner.parent, previous = parent ? parent.prototype[name] : null;
         if (!previous) throw new Error("The method \"" + name + "\" has no parent.");
@@ -1119,7 +1119,7 @@ Event.Keys = {
             reverse: function() {
                 return parse(this.raw, !0);
             }
-        }, separatorIndex = -1; expression != (expression = expression.replace(regexp, parser)););
+        }, separatorIndex = -1; expression != (expression = expression.replace(regexp1, parser)););
         return parsed.length = parsed.expressions.length, currentCache[parsed.raw] = reversed ? reverse(parsed) : parsed;
     }, reverseCombinator = function(combinator) {
         return "!" === combinator ? " " : " " === combinator ? "!" : /^!/.test(combinator) ? combinator.replace(/^!/, "") : "!" + combinator;
@@ -1140,7 +1140,7 @@ Event.Keys = {
         return string.replace(/[-[\]{}()*+?.\\^$|,#\s]/g, function(match) {
             return "\\" + match;
         });
-    }, regexp = new RegExp("^(?:\\s*(,)\\s*|\\s*(<combinator>+)\\s*|(\\s+)|(<unicode>+|\\*)|\\#(<unicode>+)|\\.(<unicode>+)|\\[\\s*(<unicode1>+)(?:\\s*([*^$!~|]?=)(?:\\s*(?:([\"']?)(.*?)\\9)))?\\s*\\](?!\\])|(:+)(<unicode>+)(?:\\((?:(?:([\"'])([^\\13]*)\\13)|((?:\\([^)]+\\)|[^()]*)+))\\))?)".replace(/<combinator>/, "[" + escapeRegExp(">+~`!@$%^&={}\\;</") + "]").replace(/<unicode>/g, "(?:[\\w\\u00a1-\\uFFFF-]|\\\\[^\\s0-9a-f])").replace(/<unicode1>/g, "(?:[:\\w\\u00a1-\\uFFFF-]|\\\\[^\\s0-9a-f])"));
+    }, regexp1 = new RegExp("^(?:\\s*(,)\\s*|\\s*(<combinator>+)\\s*|(\\s+)|(<unicode>+|\\*)|\\#(<unicode>+)|\\.(<unicode>+)|\\[\\s*(<unicode1>+)(?:\\s*([*^$!~|]?=)(?:\\s*(?:([\"']?)(.*?)\\9)))?\\s*\\](?!\\])|(:+)(<unicode>+)(?:\\((?:(?:([\"'])([^\\13]*)\\13)|((?:\\([^)]+\\)|[^()]*)+))\\))?)".replace(/<combinator>/, "[" + escapeRegExp(">+~`!@$%^&={}\\;</") + "]").replace(/<unicode>/g, "(?:[\\w\\u00a1-\\uFFFF-]|\\\\[^\\s0-9a-f])").replace(/<unicode1>/g, "(?:[:\\w\\u00a1-\\uFFFF-]|\\\\[^\\s0-9a-f])"));
     function parser(rawMatch, separator, combinator, combinatorChildren, tagName, id, className, attributeKey, attributeOperator, attributeQuote, attributeValue, pseudoMarker, pseudoClass, pseudoQuote, pseudoClassQuotedValue, pseudoClassValue) {
         if ((separator || -1 === separatorIndex) && (parsed.expressions[++separatorIndex] = [], combinatorIndex = -1, separator)) return "";
         if (combinator || combinatorChildren || -1 === combinatorIndex) {
@@ -1255,7 +1255,7 @@ Event.Keys = {
                 features.brokenStarGEBTN = starSelectsComments || starSelectsClosed;
                 try {
                     testNode.innerHTML = "<a name=\"" + id + "\"></a><b id=\"" + id + "\"></b>", features.idGetsName = document.getElementById(id) === testNode.firstChild;
-                } catch (e1) {
+                } catch (e2) {
                 }
                 if (testNode.getElementsByClassName) {
                     try {
@@ -1264,7 +1264,7 @@ Event.Keys = {
                     }
                     try {
                         testNode.innerHTML = "<a class=\"a\"></a><a class=\"f b a\"></a>", brokenSecondClassNameGEBCN = 2 != testNode.getElementsByClassName("a").length;
-                    } catch (e2) {
+                    } catch (e3) {
                     }
                     features.brokenGEBCN = cachedGetElementsByClassName || brokenSecondClassNameGEBCN;
                 }
@@ -1275,29 +1275,29 @@ Event.Keys = {
                     }
                     try {
                         testNode.innerHTML = "<a class=\"MiX\"></a>", features.brokenMixedCaseQSA = !testNode.querySelectorAll(".MiX").length;
-                    } catch (e2) {
+                    } catch (e4) {
                     }
                     try {
                         testNode.innerHTML = "<select><option selected=\"selected\">a</option></select>", features.brokenCheckedQSA = 0 == testNode.querySelectorAll(":checked").length;
-                    } catch (e3) {
+                    } catch (e5) {
                     }
                     try {
                         testNode.innerHTML = "<a class=\"\"></a>", features.brokenEmptyAttributeQSA = 0 != testNode.querySelectorAll("[class*=\"\"]").length;
-                    } catch (e4) {
+                    } catch (e6) {
                     }
                 }
                 try {
                     testNode.innerHTML = "<form action=\"s\"><input id=\"action\"/></form>", brokenFormAttributeGetter = "s" != testNode.firstChild.getAttribute("action");
-                } catch (e2) {
+                } catch (e7) {
                 }
                 if (features.nativeMatchesSelector = root.matchesSelector || root.mozMatchesSelector || root.webkitMatchesSelector, features.nativeMatchesSelector) try {
                     features.nativeMatchesSelector.call(root, ":slick"), features.nativeMatchesSelector = null;
-                } catch (e3) {
+                } catch (e8) {
                 }
             }
             try {
                 root.slick_expando = 1, delete root.slick_expando, features.getUID = this.getUIDHTML;
-            } catch (e1) {
+            } catch (e9) {
                 features.getUID = this.getUIDXML;
             }
             testRoot.removeChild(testNode), testNode = selected = testRoot = null, features.getAttribute = features.isHTMLDocument && brokenFormAttributeGetter ? function(node, name) {
@@ -1392,7 +1392,7 @@ Event.Keys = {
                 } finally{
                     contextIsDocument || (currentId ? _context.setAttribute("id", currentId) : _context.removeAttribute("id"), context = _context);
                 }
-                if (this.starSelectsClosedQSA) for(i = 0; node = nodes[i++];)!(node.nodeName > "@") || hasOthers && uniques[this.getUID(node)] || found.push(node);
+                if (this.starSelectsClosedQSA) for(i = 0; node = nodes[i++];)node.nodeName > "@" && !(hasOthers && uniques[this.getUID(node)]) && found.push(node);
                 else for(i = 0; node = nodes[i++];)hasOthers && uniques[this.getUID(node)] || found.push(node);
                 return hasOthers && this.sort(found), found;
             }
@@ -1608,7 +1608,7 @@ Event.Keys = {
         }
     };
     for(var c in combinators)local["combinator:" + c] = combinators[c];
-    var pseudos = {
+    var pseudos1 = {
         empty: function(node) {
             var child = node.firstChild;
             return !(child && 1 == child.nodeType) && !(node.innerText || node.textContent || "").length;
@@ -1677,7 +1677,7 @@ Event.Keys = {
             return node.selected;
         }
     };
-    for(var p in pseudos)local["pseudo:" + p] = pseudos[p];
+    for(var p in pseudos1)local["pseudo:" + p] = pseudos1[p];
     var attributeGetters = local.attributeGetters = {
         "for": function() {
             return "htmlFor" in this ? this.htmlFor : this.getAttribute("for");
@@ -1748,8 +1748,8 @@ var Element = function(tag, props) {
     }
     return document.newElement(tag, props);
 };
-Browser.Element && (Element.prototype = Browser.Element.prototype, Element.prototype._fireEvent = function(type, event) {
-    return (fireEvent = Element.prototype.fireEvent).call(this, type, event);
+Browser.Element && (Element.prototype = Browser.Element.prototype, fireEvent1 = Element.prototype.fireEvent, Element.prototype._fireEvent = function(type, event) {
+    return fireEvent1.call(this, type, event);
 }), new Type("Element", Element).mirror(function(name) {
     if (!Array.prototype[name]) {
         var obj = {
@@ -1784,9 +1784,9 @@ var IFrame = new Type("IFrame", function() {
         props.id,
         props.name,
         iframe ? iframe.id || iframe.name : "IFrame_" + String.uniqueID()
-    ].pick();
+    ].pick(), iframe = new Element(iframe || "iframe", props);
     var onLoad = function() {
-        onload.call((iframe = new Element(iframe || "iframe", props)).contentWindow);
+        onload.call(iframe.contentWindow);
     };
     return window.frames[props.id] ? onLoad() : iframe.addListener("load", onLoad), iframe;
 }), Elements = this.Elements = function(nodes) {
@@ -2085,14 +2085,14 @@ Elements.prototype = {
     }), propertyGetters.class = function(node) {
         return "className" in node ? node.className || null : node.getAttribute("class");
     };
-    var el = document.createElement("button");
+    var el1 = document.createElement("button");
     try {
-        el.type = "button";
+        el1.type = "button";
     } catch (e) {
     }
-    "button" != el.type && (propertySetters.type = function(node, value) {
+    "button" != el1.type && (propertySetters.type = function(node, value) {
         node.setAttribute("type", value);
-    }), el = null;
+    }), el1 = null;
     var input = document.createElement("input");
     input.value = "t", input.type = "submit", "t" != input.value && (propertySetters.type = function(node, type) {
         var value = node.value;
@@ -2209,13 +2209,13 @@ Elements.prototype = {
         }
     });
     var collected = {
-    }, storage = {
+    }, storage1 = {
     }, get = function(uid) {
-        return storage[uid] || (storage[uid] = {
+        return storage1[uid] || (storage1[uid] = {
         });
     }, clean = function(item) {
         var uid = item.uniqueNumber;
-        return item.removeEvents && item.removeEvents(), item.clearAttributes && item.clearAttributes(), null != uid && (delete collected[uid], delete storage[uid]), item;
+        return item.removeEvents && item.removeEvents(), item.clearAttributes && item.clearAttributes(), null != uid && (delete collected[uid], delete storage1[uid]), item;
     }, formProps = {
         input: "checked",
         option: "selected",
@@ -2306,13 +2306,13 @@ Elements.prototype = {
     var div1 = document.createElement("div");
     div1.innerHTML = "<nav></nav>";
     var supportsHTML5Elements = 1 == div1.childNodes.length;
-    if (!supportsHTML5Elements) for(var tags = "abbr article aside audio canvas datalist details figcaption figure footer header hgroup mark meter nav output progress section summary time video".split(" "), fragment = document.createDocumentFragment(), l = tags.length; l--;)fragment.createElement(tags[l]);
+    if (!supportsHTML5Elements) for(var tags = "abbr article aside audio canvas datalist details figcaption figure footer header hgroup mark meter nav output progress section summary time video".split(" "), fragment1 = document.createDocumentFragment(), l2 = tags.length; l2--;)fragment1.createElement(tags[l2]);
     div1 = null;
     var supportsTableInnerHTML = Function.attempt(function() {
         return document.createElement("table").innerHTML = "<tr><td></td></tr>", !0;
-    }), tr = document.createElement("tr"), html = "<td></td>";
-    tr.innerHTML = html;
-    var supportsTRInnerHTML = tr.innerHTML == html;
+    }), tr = document.createElement("tr"), html1 = "<td></td>";
+    tr.innerHTML = html1;
+    var supportsTRInnerHTML = tr.innerHTML == html1;
     tr = null, supportsTableInnerHTML && supportsTRInnerHTML && supportsHTML5Elements || (Element.Properties.html.set = (set = Element.Properties.html.set, (translations = {
         table: [
             1,
@@ -2342,12 +2342,12 @@ Elements.prototype = {
             ""
         ]), !wrap) return set.call(this, html);
         var level = wrap[0], wrapper = document.createElement("div"), target = wrapper;
-        for(supportsHTML5Elements || fragment.appendChild(wrapper), wrapper.innerHTML = [
+        for(supportsHTML5Elements || fragment1.appendChild(wrapper), wrapper.innerHTML = [
             wrap[1],
             html,
             wrap[2]
         ].flatten().join(""); level--;)target = target.firstChild;
-        this.empty().adopt(target.childNodes), supportsHTML5Elements || fragment.removeChild(wrapper), wrapper = null;
+        this.empty().adopt(target.childNodes), supportsHTML5Elements || fragment1.removeChild(wrapper), wrapper = null;
     }));
     var testForm = document.createElement("form");
     null.innerHTML = "<select><option>s</option></select>", "s" != null.firstChild.value && (Element.Properties.value = {
@@ -2714,20 +2714,20 @@ Elements.prototype = {
                 })[uid];
                 if (list && list.forms) for(var i = list.forms.length; i--;)list.forms[i].removeEvent(type, list.fns[i]);
             },
-            listen: function(self, match, fn, event, target, uid) {
-                var form = "form" == target.get("tag") ? target : event.target.getParent("form");
+            listen: function(self, match, fn, event1, target, uid) {
+                var form = "form" == target.get("tag") ? target : event1.target.getParent("form");
                 if (form) {
                     var listeners = self.retrieve(_key + type + "listeners", {
                     }), listener = listeners[uid] || {
                         forms: [],
                         fns: []
-                    }, forms = listener.forms;
+                    }, forms = listener.forms, fns = listener.fns;
                     if (-1 == forms.indexOf(form)) {
                         forms.push(form);
                         var _fn = function(event) {
                             bubbleUp(self, match, fn, event, target);
                         };
-                        form.addEvent(type, _fn), listener.fns.push(_fn), listeners[uid] = listener, self.store(_key + type + "listeners", listeners);
+                        form.addEvent(type, _fn), fns.push(_fn), listeners[uid] = listener, self.store(_key + type + "listeners", listeners);
                     }
                 }
             }
@@ -2735,7 +2735,7 @@ Elements.prototype = {
     }, inputObserver = function(type) {
         return {
             base: "focusin",
-            listen: function(self, match, fn, event, target) {
+            listen: function(self, match, fn, event2, target) {
                 var events = {
                     blur: function() {
                         this.removeEvents(events);
@@ -2743,7 +2743,7 @@ Elements.prototype = {
                 };
                 events[type] = function(event) {
                     bubbleUp(self, match, fn, event, target);
-                }, event.target.addEvents(events);
+                }, event2.target.addEvents(events);
             }
         };
     };
@@ -2818,10 +2818,10 @@ Elements.prototype = {
         removeEvent: relay(removeEvent, delegation.removeEvent)
     });
 })(), (function() {
-    var element = document.createElement("div"), child = document.createElement("div");
-    element.style.height = "0", element.appendChild(child);
-    var brokenOffsetParent = child.offsetParent === element;
-    element = child = null;
+    var element1 = document.createElement("div"), child = document.createElement("div");
+    element1.style.height = "0", element1.appendChild(child);
+    var brokenOffsetParent = child.offsetParent === element1;
+    element1 = child = null;
     var isOffset = function(el) {
         return "static" != styleString(el, "position") || isBody(el);
     }, isOffsetStatic = function(el) {
@@ -3345,8 +3345,9 @@ Elements.prototype = {
         return trans;
     }
 }), Fx.Transition = function(transition, params) {
+    params = Array.from(params);
     var easeIn = function(pos) {
-        return transition(pos, params = Array.from(params));
+        return transition(pos, params);
     };
     return Object.append(easeIn, {
         easeIn: easeIn,

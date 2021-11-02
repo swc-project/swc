@@ -35,7 +35,7 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_assignment_expr);
 
-        if self.input.syntax().typescript() {
+        if self.input.syntax().typescript() && self.input.syntax().jsx() {
             // Note: When the JSX plugin is on, type assertions (`<T> x`) aren't valid
             // syntax.
 
@@ -82,7 +82,6 @@ impl<'a, I: Tokens> Parser<I> {
         {
             let ctx = Context {
                 is_direct_child_of_cond: false,
-                dont_store_comments: true,
                 ..self.ctx()
             };
             let res = self.with_ctx(ctx).try_parse_ts(|p| {
@@ -379,8 +378,21 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             if can_be_arrow && id.sym == js_word!("async") && is!(self, BindingIdent) {
+                let ident = self.parse_binding_ident()?;
+                if self.input.syntax().typescript()
+                    && ident.id.sym == js_word!("as")
+                    && !is!(self, "=>")
+                {
+                    // async as type
+                    let type_ann = self.in_type().parse_with(|p| p.parse_ts_type())?;
+                    return Ok(Box::new(Expr::TsAs(TsAsExpr {
+                        span: span!(self, start),
+                        expr: Box::new(Expr::Ident(id)),
+                        type_ann,
+                    })));
+                }
                 // async a => body
-                let arg = self.parse_binding_ident().map(Pat::from)?;
+                let arg = Pat::from(ident);
                 let params = vec![arg];
                 expect!(self, "=>");
                 let body = self.parse_fn_body(true, false)?;
@@ -451,7 +463,7 @@ impl<'a, I: Tokens> Parser<I> {
                     .parse_expr_or_spread()
                     .map(Some)?,
             );
-            if is!(self, ',') {
+            if !is!(self, ']') {
                 expect!(self, ',');
             }
         }
@@ -739,7 +751,7 @@ impl<'a, I: Tokens> Parser<I> {
                     Ok(&Token::BinOp(..)) => {
                         // ) is required
                         self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
-                        let errored_expr =
+                        let errorred_expr =
                             self.parse_bin_op_recursively(Box::new(arrow_expr.into()), 0)?;
 
                         if !is!(self, ';') {
@@ -747,7 +759,7 @@ impl<'a, I: Tokens> Parser<I> {
                             self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
                         }
 
-                        return Ok(errored_expr);
+                        return Ok(errorred_expr);
                     }
                     _ => {}
                 },
@@ -1258,31 +1270,18 @@ impl<'a, I: Tokens> Parser<I> {
 
         expect!(self, '(');
 
-        let mut first = true;
         let mut items = vec![];
         let mut rest_span = None;
 
         // TODO(kdy1): optimize (once we parsed a pattern, we can parse everything else
         // as a pattern instead of reparsing)
         while !eof!(self) && !is!(self, ')') {
-            if first {
-                if is!(self, "async") {
-                    // https://github.com/swc-project/swc/issues/410
-                    self.state.potential_arrow_start = Some(cur_pos!(self));
-                    let expr = self.parse_assignment_expr()?;
-                    expect!(self, ')');
-                    return Ok(vec![PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
-                        expr,
-                        spread: None,
-                    })]);
-                }
-            } else {
-                expect!(self, ',');
-                // Handle trailing comma.
-                if is!(self, ')') {
-                    break;
-                }
-            }
+            // https://github.com/swc-project/swc/issues/410
+            let is_async = is!(self, "async")
+                && matches!(
+                    peek!(self),
+                    Ok(tok!('(') | tok!("function") | Token::Word(..))
+                );
 
             let start = cur_pos!(self);
             self.state.potential_arrow_start = Some(start);
@@ -1486,7 +1485,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             // https://github.com/swc-project/swc/issues/433
-            if first && eat!(self, "=>") && {
+            if eat!(self, "=>") && {
                 debug_assert_eq!(items.len(), 1);
                 match items[0] {
                     PatOrExprOrSpread::ExprOrSpread(ExprOrSpread { ref expr, .. })
@@ -1499,20 +1498,19 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             } {
                 let params = self
-                    .parse_paren_items_as_params(items)?
+                    .parse_paren_items_as_params(items.clone())?
                     .into_iter()
                     .collect();
 
                 let body: BlockStmtOrExpr = self.parse_fn_body(false, false)?;
-                expect!(self, ')');
                 let span = span!(self, start);
 
-                return Ok(vec![PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
+                items.push(PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
                     expr: Box::new(
                         ArrowExpr {
                             span,
                             body,
-                            is_async: false,
+                            is_async,
                             is_generator: false,
                             params,
                             type_params: None,
@@ -1521,10 +1519,12 @@ impl<'a, I: Tokens> Parser<I> {
                         .into(),
                     ),
                     spread: None,
-                })]);
+                }));
             }
 
-            first = false;
+            if !is!(self, ')') {
+                expect!(self, ',');
+            }
         }
 
         expect!(self, ')');

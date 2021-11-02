@@ -5,6 +5,7 @@ use swc_common::{ast_node, Span};
 pub struct Text {
     pub span: Span,
     pub value: JsWord,
+    pub raw: JsWord,
 }
 
 /// Quoted string.
@@ -12,10 +13,12 @@ pub struct Text {
 pub struct Str {
     pub span: Span,
     pub value: JsWord,
+    pub raw: JsWord,
 }
 
 #[ast_node("Number")]
 pub struct Num {
     pub span: Span,
     pub value: f64,
+    pub raw: JsWord,
 }

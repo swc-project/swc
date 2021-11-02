@@ -1,7 +1,5 @@
-var a1 = "a";
-const mod = function() {
-    return {
-        a: a1
-    };
-}();
+var a = "a";
+const mod = {
+    a: a
+};
 export { mod as a };

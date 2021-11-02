@@ -44,53 +44,16 @@ where
 
         Ok(())
     }
-
-    fn write_escaped(&mut self, s: &str, escape_first_dash: bool) -> Result {
-        for (idx, c) in s.chars().enumerate() {
-            match c {
-                ' ' | ',' | ':' | '~' | '+' | '.' | '#' | '\x00'..='\x1f' => {
-                    self.col += 1;
-                    self.w.write_char('\\')?;
-                }
-
-                '-' if escape_first_dash && idx == 0 => {
-                    self.col += 1;
-                    self.w.write_char('\\')?;
-                }
-
-                '0'..='9' if idx == 0 => {
-                    self.col += 3;
-                    self.w.write_char('\\')?;
-                    write!(self.w, "{:x}", c as u32)?;
-                    continue;
-                }
-
-                _ => {}
-            }
-
-            self.col += 1;
-            self.w.write_char(c)?;
-        }
-
-        Ok(())
-    }
 }
 
 impl<W> CssWriter for BasicCssWriter<'_, W>
 where
     W: Write,
 {
-    fn write_ident(&mut self, _span: Option<Span>, s: &str, escape_first_dash: bool) -> Result {
-        self.apply_indent()?;
-        self.write_escaped(s, escape_first_dash)?;
-
-        Ok(())
-    }
-
     fn write_punct(&mut self, _span: Option<Span>, punct: &str) -> Result {
         debug_assert!(
             !punct.contains('\n'),
-            "punct should not contain newline charactters"
+            "punct should not contain newline characters"
         );
 
         self.apply_indent()?;
@@ -104,32 +67,10 @@ where
         self.w.write_char(' ')
     }
 
-    fn write_hash_value(&mut self, _span: Option<Span>, text: &str) -> Result {
-        for c in text.chars() {
-            match c {
-                ',' => {
-                    self.col += 1;
-                    self.w.write_char('\\')?;
-                }
-
-                _ => {}
-            }
-
-            self.col += 1;
-            self.w.write_char(c)?;
-        }
-
-        Ok(())
-    }
-
     fn write_raw(&mut self, _span: Option<Span>, text: &str) -> Result {
-        for (idx, s) in text.split('\n').enumerate() {
-            self.col += s.len();
-            self.w.write_str(s)?;
-
-            if idx != 0 {
-                self.write_newline()?;
-            }
+        for (_, s) in text.chars().enumerate() {
+            self.col += 1;
+            self.w.write_char(s)?;
         }
 
         Ok(())

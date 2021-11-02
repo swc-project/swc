@@ -7,7 +7,7 @@ use self::{
 use crate::{
     analyzer::{analyze, ProgramData, UsageAnalyzer},
     compress::hoist_decls::decl_hoister,
-    debug::{dump, invoke},
+    debug::dump,
     marks::Marks,
     mode::Mode,
     option::CompressOptions,
@@ -217,6 +217,8 @@ where
         }
 
         loop {
+            n.invoke();
+
             self.changed = false;
             self.optimize_unit(n);
             self.pass += 1;
@@ -254,8 +256,8 @@ where
             return;
         }
 
-        // Temporary
-        if self.pass > 30 {
+        // This exists to prevent hanging.
+        if self.pass > 100 {
             panic!("Infinite loop detected (current pass = {})", self.pass)
         }
 
@@ -281,6 +283,8 @@ where
             n.apply(&mut visitor);
             self.changed |= visitor.changed();
             if visitor.changed() {
+                n.invoke();
+
                 tracing::debug!("compressor: Simplified expressions");
                 if cfg!(feature = "debug") {
                     tracing::debug!("===== Simplified =====\n{}", dump(&*n));
@@ -332,6 +336,8 @@ where
                 );
 
                 if cfg!(feature = "debug") && visitor.changed() {
+                    n.invoke();
+
                     let start = n.dump();
                     tracing::debug!("===== After pure =====\n{}", start);
                 }
@@ -418,7 +424,7 @@ where
     noop_visit_mut_type!();
 
     fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
-        if n.function.span.has_mark(self.marks.standalone) {
+        if false && n.function.span.has_mark(self.marks.standalone) {
             self.optimize_unit_repeatedly(n);
             return;
         }
@@ -427,8 +433,9 @@ where
     }
 
     fn visit_mut_module(&mut self, n: &mut Module) {
-        let is_bundle_mode = n.span.has_mark(self.marks.bundle_of_standalones);
+        let is_bundle_mode = false && n.span.has_mark(self.marks.bundle_of_standalone);
 
+        // Disable
         if is_bundle_mode {
             self.left_parallel_depth = MAX_PAR_DEPTH - 1;
         } else {
@@ -439,8 +446,6 @@ where
         n.visit_mut_children_with(self);
 
         self.optimize_unit_repeatedly(n);
-
-        invoke(&*n);
     }
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {

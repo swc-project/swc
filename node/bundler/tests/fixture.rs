@@ -11,11 +11,10 @@ use swc_atoms::js_word;
 use swc_bundler::{BundleKind, Bundler, Config, ModuleRecord};
 use swc_common::{FileName, Span, GLOBALS};
 use swc_ecma_ast::{
-    Bool, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, MetaPropExpr, PropName, Str,
-    TargetEnv,
+    Bool, EsVersion, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, MetaPropExpr,
+    PropName, Str, TargetEnv,
 };
 use swc_ecma_loader::NODE_BUILTINS;
-use swc_ecma_parser::JscTarget;
 use swc_ecma_transforms::fixer;
 use swc_ecma_visit::FoldWith;
 use swc_node_bundler::loaders::swc::SwcLoader;
@@ -67,7 +66,7 @@ fn pass(input_dir: PathBuf) {
                     ..Default::default()
                 },
             );
-            let bundler = Bundler::new(
+            let mut bundler = Bundler::new(
                 compiler.globals(),
                 cm.clone(),
                 &loader,
@@ -95,9 +94,9 @@ fn pass(input_dir: PathBuf) {
                         None,
                         None,
                         false,
-                        JscTarget::Es2020,
+                        EsVersion::Es2020,
                         SourceMapsConfig::Bool(false),
-                        &[],
+                        &Default::default(),
                         None,
                         false,
                         Some(true.into()),

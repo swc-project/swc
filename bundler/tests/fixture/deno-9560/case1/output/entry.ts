@@ -1,15 +1,13 @@
 const water = 'Water';
-function isWater1(x) {
+function isWater(x) {
     return x === water;
 }
-const mod = function() {
-    return {
-        water: water,
-        isWater: isWater1
-    };
-}();
-function foo1(x) {
+const mod = {
+    water: water,
+    isWater: isWater
+};
+function foo(x) {
     return mod[x];
 }
-export { foo1 as foo };
-export { isWater1 as isWater };
+export { foo as foo };
+export { isWater as isWater };

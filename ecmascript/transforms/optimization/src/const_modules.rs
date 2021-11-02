@@ -2,10 +2,10 @@ use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use std::{collections::HashMap, sync::Arc};
 use swc_atoms::JsWord;
-use swc_common::{sync::Lrc, util::move_map::MoveMap, FileName, SourceMap};
+use swc_common::{errors::HANDLER, sync::Lrc, util::move_map::MoveMap, FileName, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
-use swc_ecma_utils::{drop_span, HANDLER};
+use swc_ecma_utils::drop_span;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 pub fn const_modules(
@@ -33,7 +33,8 @@ pub fn const_modules(
 }
 
 fn parse_option(cm: &SourceMap, name: &str, src: String) -> Arc<Expr> {
-    static CACHE: Lazy<DashMap<String, Arc<Expr>>> = Lazy::new(|| DashMap::default());
+    static CACHE: Lazy<DashMap<String, Arc<Expr>, ahash::RandomState>> =
+        Lazy::new(|| DashMap::default());
 
     let fm = cm.new_source_file(FileName::Custom(format!("<const-module-{}.js>", name)), src);
     if let Some(expr) = CACHE.get(&**fm.src) {
@@ -78,6 +79,7 @@ struct Scope {
     imported: HashMap<JsWord, Arc<Expr>>,
 }
 
+/// TODO: VisitMut
 impl Fold for ConstModules {
     noop_fold_type!();
 

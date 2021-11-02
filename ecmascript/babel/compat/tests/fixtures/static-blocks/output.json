@@ -1,0 +1,238 @@
+{
+    "type": "File",
+    "start": 0,
+    "end": 73,
+    "loc": {
+        "start": {
+            "line": 1,
+            "column": 0
+        },
+        "end": {
+            "line": 7,
+            "column": 0
+        }
+    },
+    "errors": [],
+    "program": {
+        "type": "Program",
+        "start": 0,
+        "end": 73,
+        "loc": {
+            "start": {
+                "line": 1,
+                "column": 0
+            },
+            "end": {
+                "line": 7,
+                "column": 0
+            }
+        },
+        "sourceType": "script",
+        "interpreter": null,
+        "body": [
+            {
+                "type": "ClassDeclaration",
+                "start": 0,
+                "end": 72,
+                "loc": {
+                    "start": {
+                        "line": 1,
+                        "column": 0
+                    },
+                    "end": {
+                        "line": 6,
+                        "column": 1
+                    }
+                },
+                "id": {
+                    "type": "Identifier",
+                    "start": 6,
+                    "end": 7,
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 6
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 7
+                        },
+                        "identifierName": "C"
+                    },
+                    "name": "C"
+                },
+                "superClass": null,
+                "body": {
+                    "type": "ClassBody",
+                    "start": 8,
+                    "end": 72,
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 8
+                        },
+                        "end": {
+                            "line": 6,
+                            "column": 1
+                        }
+                    },
+                    "body": [
+                        {
+                            "type": "ClassProperty",
+                            "start": 14,
+                            "end": 25,
+                            "loc": {
+                                "start": {
+                                    "line": 2,
+                                    "column": 4
+                                },
+                                "end": {
+                                    "line": 2,
+                                    "column": 15
+                                }
+                            },
+                            "static": true,
+                            "key": {
+                                "type": "Identifier",
+                                "start": 21,
+                                "end": 24,
+                                "loc": {
+                                    "start": {
+                                        "line": 2,
+                                        "column": 11
+                                    },
+                                    "end": {
+                                        "line": 2,
+                                        "column": 14
+                                    },
+                                    "identifierName": "foo"
+                                },
+                                "name": "foo"
+                            },
+                            "computed": false,
+                            "value": null
+                        },
+                        {
+                            "type": "StaticBlock",
+                            "start": 30,
+                            "end": 70,
+                            "loc": {
+                                "start": {
+                                    "line": 3,
+                                    "column": 4
+                                },
+                                "end": {
+                                    "line": 5,
+                                    "column": 5
+                                }
+                            },
+                            "body": [
+                                {
+                                    "type": "ExpressionStatement",
+                                    "start": 47,
+                                    "end": 64,
+                                    "loc": {
+                                        "start": {
+                                            "line": 4,
+                                            "column": 8
+                                        },
+                                        "end": {
+                                            "line": 4,
+                                            "column": 25
+                                        }
+                                    },
+                                    "expression": {
+                                        "type": "AssignmentExpression",
+                                        "start": 47,
+                                        "end": 63,
+                                        "loc": {
+                                            "start": {
+                                                "line": 4,
+                                                "column": 8
+                                            },
+                                            "end": {
+                                                "line": 4,
+                                                "column": 24
+                                            }
+                                        },
+                                        "operator": "=",
+                                        "left": {
+                                            "type": "MemberExpression",
+                                            "start": 47,
+                                            "end": 55,
+                                            "loc": {
+                                                "start": {
+                                                    "line": 4,
+                                                    "column": 8
+                                                },
+                                                "end": {
+                                                    "line": 4,
+                                                    "column": 16
+                                                }
+                                            },
+                                            "object": {
+                                                "type": "ThisExpression",
+                                                "start": 47,
+                                                "end": 51,
+                                                "loc": {
+                                                    "start": {
+                                                        "line": 4,
+                                                        "column": 8
+                                                    },
+                                                    "end": {
+                                                        "line": 4,
+                                                        "column": 12
+                                                    }
+                                                }
+                                            },
+                                            "computed": false,
+                                            "property": {
+                                                "type": "Identifier",
+                                                "start": 52,
+                                                "end": 55,
+                                                "loc": {
+                                                    "start": {
+                                                        "line": 4,
+                                                        "column": 13
+                                                    },
+                                                    "end": {
+                                                        "line": 4,
+                                                        "column": 16
+                                                    },
+                                                    "identifierName": "foo"
+                                                },
+                                                "name": "foo"
+                                            }
+                                        },
+                                        "right": {
+                                            "type": "StringLiteral",
+                                            "start": 58,
+                                            "end": 63,
+                                            "loc": {
+                                                "start": {
+                                                    "line": 4,
+                                                    "column": 19
+                                                },
+                                                "end": {
+                                                    "line": 4,
+                                                    "column": 24
+                                                }
+                                            },
+                                            "extra": {
+                                                "rawValue": "foo",
+                                                "raw": "\"foo\""
+                                            },
+                                            "value": "foo"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        ],
+        "directives": []
+    },
+    "comments": []
+}

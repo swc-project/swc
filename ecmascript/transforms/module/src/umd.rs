@@ -1,5 +1,3 @@
-use std::cell::{Ref, RefCell, RefMut};
-
 use self::config::BuiltConfig;
 pub use self::config::Config;
 use super::util::{
@@ -7,7 +5,8 @@ use super::util::{
     local_name_for_src, make_descriptor, make_require_call, use_strict, Exports, ModulePass, Scope,
 };
 use crate::path::{ImportResolver, NoopImportResolver};
-use rustc_hash::FxHashSet;
+use indexmap::IndexSet;
+use std::cell::{Ref, RefCell, RefMut};
 use swc_atoms::js_word;
 use swc_common::{sync::Lrc, FileName, Mark, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -71,6 +70,7 @@ where
     resolver: Option<(R, FileName)>,
 }
 
+/// TODO: VisitMut
 impl<R> Fold for Umd<R>
 where
     R: ImportResolver,
@@ -99,7 +99,7 @@ where
         }
 
         let mut exports = vec![];
-        let mut initialized = FxHashSet::default();
+        let mut initialized = IndexSet::default();
         let mut export_alls = vec![];
         let mut emitted_esmodule = false;
         let mut has_export = false;
@@ -230,7 +230,7 @@ where
 
                                 for ident in found.drain(..) {
                                     scope
-                                        .exported_vars
+                                        .exported_bindings
                                         .entry((ident.sym.clone(), ident.span.ctxt()))
                                         .or_default()
                                         .push((ident.sym.clone(), ident.span.ctxt()));
@@ -365,14 +365,18 @@ where
                                 let mut scope_ref_mut = self.scope.borrow_mut();
                                 let scope = &mut *scope_ref_mut;
                                 if scope.declared_vars.contains(&key) {
-                                    scope.exported_vars.entry(key.clone()).or_default().push(
-                                        exported
-                                            .clone()
-                                            .map(|i| (i.sym.clone(), i.span.ctxt()))
-                                            .unwrap_or_else(|| {
-                                                (orig.sym.clone(), orig.span.ctxt())
-                                            }),
-                                    );
+                                    scope
+                                        .exported_bindings
+                                        .entry(key.clone())
+                                        .or_default()
+                                        .push(
+                                            exported
+                                                .clone()
+                                                .map(|i| (i.sym.clone(), i.span.ctxt()))
+                                                .unwrap_or_else(|| {
+                                                    (orig.sym.clone(), orig.span.ctxt())
+                                                }),
+                                        );
                                 }
 
                                 if let Some(ref src) = export.src {
@@ -521,7 +525,10 @@ where
         };
 
         for export in export_alls {
-            stmts.push(scope.handle_export_all(
+            let export = scope
+                .import_to_export(&export.src, true)
+                .expect("Export should exists");
+            stmts.push(Scope::handle_export_all(
                 exports_ident.clone(),
                 exported_names.clone(),
                 export,

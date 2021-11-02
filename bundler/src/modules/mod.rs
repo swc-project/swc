@@ -1,8 +1,7 @@
 use crate::ModuleId;
 use retain_mut::RetainMut;
-use rustc_hash::FxHashMap;
 use std::mem::take;
-use swc_common::{SourceMap, SyntaxContext, DUMMY_SP};
+use swc_common::{collections::AHashMap, SourceMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, FoldWith, Visit, VisitMut, VisitMutWith, VisitWith};
 
@@ -12,13 +11,13 @@ mod sort;
 pub struct Modules {
     /// Indicates that a statement is injected.
     ///
-    /// Note: This context shoulod be shared for a bundle.
+    /// Note: This context should be shared for a bundle.
     pub(crate) injected_ctxt: SyntaxContext,
 
     // We will change this into `Vec<Module>`.
     modules: Vec<(ModuleId, Module)>,
-    prepended_stmts: FxHashMap<ModuleId, Vec<ModuleItem>>,
-    appended_stmts: FxHashMap<ModuleId, Vec<ModuleItem>>,
+    prepended_stmts: AHashMap<ModuleId, Vec<ModuleItem>>,
+    appended_stmts: AHashMap<ModuleId, Vec<ModuleItem>>,
 }
 
 impl Modules {
@@ -151,6 +150,44 @@ impl Modules {
             .entry(module_id)
             .or_default()
             .push(item);
+    }
+
+    #[cfg(not(feature = "concurrent"))]
+    pub(crate) fn par_visit_mut_with<V>(&mut self, v: &mut V)
+    where
+        V: VisitMut,
+    {
+        self.visit_mut_with(v)
+    }
+
+    #[cfg(feature = "concurrent")]
+    pub(crate) fn par_visit_mut_with<V>(&mut self, v: &mut V)
+    where
+        V: Clone + VisitMut + Send + Sync,
+    {
+        use rayon::prelude::*;
+
+        let pre = &mut self.prepended_stmts;
+        let modules = &mut self.modules;
+        let app = &mut self.appended_stmts;
+
+        rayon::scope(|s| {
+            s.spawn(|_| {
+                pre.par_iter_mut()
+                    .for_each(|(_, stmts)| stmts.visit_mut_with(&mut v.clone()));
+            });
+
+            s.spawn(|_| {
+                modules
+                    .par_iter_mut()
+                    .for_each(|(_, stmts)| stmts.visit_mut_with(&mut v.clone()));
+            });
+
+            s.spawn(|_| {
+                app.par_iter_mut()
+                    .for_each(|(_, stmts)| stmts.visit_mut_with(&mut v.clone()));
+            });
+        });
     }
 
     pub fn visit_mut_with<V>(&mut self, v: &mut V)

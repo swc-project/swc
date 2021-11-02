@@ -1,0 +1,36 @@
+div {
+    property: 10;
+    property: +10;
+    property: -10;
+    property: 0.1;
+    property: +0.1;
+    property: -0.1;
+    property: -.1;
+    property: +.1;
+    property: 0;
+    property: 10;
+    property: .10;
+    property: 12.34;
+    property: 0.1;
+    property: 1.0;
+    property: 0.0;
+    property: +0.0;
+    property: -0.0;
+    property: .0;
+    property: 1.200000;
+    property: 1.2e2;
+    property: 1e2;
+    property: .2e2;
+    property: 1.2E2;
+    property: 1.2e+2;
+    property: 1.2e-2;
+    property: -1;
+    property: -1.2;
+    property: -.2;
+    property: -.2;
+    property: +.2;
+    property: -1.2e3;
+    property: 1.75;
+    property: +1.75;
+    property: 1e;
+}

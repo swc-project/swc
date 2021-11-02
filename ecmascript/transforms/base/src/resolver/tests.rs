@@ -61,25 +61,22 @@ fn test_mark_for() {
         let mark3 = Mark::fresh(mark2);
         let mark4 = Mark::fresh(mark3);
 
-        let folder1 = Resolver::new(mark1, Scope::new(ScopeKind::Block, None), true);
+        let folder1 = Resolver::new(Scope::new(ScopeKind::Block, mark1, None), true);
         let mut folder2 = Resolver::new(
-            mark2,
-            Scope::new(ScopeKind::Block, Some(&folder1.current)),
+            Scope::new(ScopeKind::Block, mark2, Some(&folder1.current)),
             true,
         );
         folder2.current.declared_symbols.insert("foo".into());
 
         let mut folder3 = Resolver::new(
-            mark3,
-            Scope::new(ScopeKind::Block, Some(&folder2.current)),
+            Scope::new(ScopeKind::Block, mark3, Some(&folder2.current)),
             true,
         );
         folder3.current.declared_symbols.insert("bar".into());
         assert_eq!(folder3.mark_for_ref(&"bar".into()), Some(mark3));
 
         let mut folder4 = Resolver::new(
-            mark4,
-            Scope::new(ScopeKind::Block, Some(&folder3.current)),
+            Scope::new(ScopeKind::Block, mark4, Some(&folder3.current)),
             true,
         );
         folder4.current.declared_symbols.insert("foo".into());
@@ -101,7 +98,7 @@ fn issue_1279_1() {
             static g = Foo.f;
         }",
         "
-        let Foo1 = class Foo {
+        let Foo = class Foo {
             static f = 1;
             static g = Foo.f;
         };
@@ -128,11 +125,11 @@ fn issue_1279_2() {
             }
         }",
         "
-        let Foo1 = class Foo {
+        let Foo = class Foo {
             static f = 1;
             static g = Foo.f;
             method() {
-                let Foo2 = class Foo {
+                let Foo = class Foo {
                     static nested = 1;
                     static nested2 = Foo.nested;
                 };

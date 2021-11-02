@@ -1,0 +1,51 @@
+class C {
+}
+class C2 extends C {
+}
+class D {
+}
+function F(x) {
+    return 42;
+}
+var M1;
+(function(M) {
+    class A {
+    }
+    M.A = A;
+    function F2(x) {
+        return x.toString();
+    }
+    M.F2 = F2;
+})(M1 || (M1 = {
+}));
+// all of these are errors
+var a;
+var a = 1;
+var a = 'a string';
+var a = new C();
+var a = new D();
+var a = M1;
+var b;
+var b = new C();
+var b = new C2();
+var f = F;
+var f = (x)=>''
+;
+var arr;
+var arr = [
+    1,
+    2,
+    3,
+    4
+];
+var arr = [
+    new C(),
+    new C2(),
+    new D()
+];
+var arr2 = [
+    new D()
+];
+var arr2 = new Array();
+var m;
+var m = M1.A;

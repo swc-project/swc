@@ -4,7 +4,7 @@ use super::util::{
 };
 use crate::path::{ImportResolver, NoopImportResolver};
 use anyhow::Context;
-use rustc_hash::FxHashSet;
+use indexmap::IndexSet;
 use serde::{Deserialize, Serialize};
 use std::{
     cell::{Ref, RefCell, RefMut},
@@ -67,6 +67,7 @@ pub struct Config {
     pub config: util::Config,
 }
 
+/// TODO: VisitMut
 impl<R> Fold for Amd<R>
 where
     R: ImportResolver,
@@ -91,7 +92,7 @@ where
         }
 
         let mut exports = vec![];
-        let mut initialized = FxHashSet::default();
+        let mut initialized = IndexSet::default();
         let mut export_alls = vec![];
         let mut emitted_esmodule = false;
         let mut has_export = false;
@@ -219,7 +220,7 @@ where
 
                                 for ident in found.drain(..) {
                                     scope
-                                        .exported_vars
+                                        .exported_bindings
                                         .entry((ident.sym.clone(), ident.span.ctxt()))
                                         .or_default()
                                         .push((ident.sym.clone(), ident.span.ctxt()));
@@ -360,14 +361,18 @@ where
 
                                 let key = (orig.sym.clone(), orig.span.ctxt());
                                 if scope.declared_vars.contains(&key) {
-                                    scope.exported_vars.entry(key.clone()).or_default().push(
-                                        exported
-                                            .clone()
-                                            .map(|i| (i.sym.clone(), i.span.ctxt()))
-                                            .unwrap_or_else(|| {
-                                                (orig.sym.clone(), orig.span.ctxt())
-                                            }),
-                                    );
+                                    scope
+                                        .exported_bindings
+                                        .entry(key.clone())
+                                        .or_default()
+                                        .push(
+                                            exported
+                                                .clone()
+                                                .map(|i| (i.sym.clone(), i.span.ctxt()))
+                                                .unwrap_or_else(|| {
+                                                    (orig.sym.clone(), orig.span.ctxt())
+                                                }),
+                                        );
                                 }
 
                                 if let Some(ref src) = export.src {
@@ -511,7 +516,10 @@ where
         };
 
         for export in export_alls {
-            stmts.push(scope.handle_export_all(
+            let export = scope
+                .import_to_export(&export.src, true)
+                .expect("Export should exists");
+            stmts.push(Scope::handle_export_all(
                 exports_ident.clone(),
                 exported_names.clone(),
                 export,

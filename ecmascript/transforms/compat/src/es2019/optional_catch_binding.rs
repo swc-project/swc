@@ -1,52 +1,23 @@
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::Check;
-use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::private_ident;
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 struct OptionalCatchBinding;
 
-pub fn optional_catch_binding() -> impl Fold {
-    OptionalCatchBinding
+pub fn optional_catch_binding() -> impl Fold + VisitMut {
+    as_folder(OptionalCatchBinding)
 }
 
-#[fast_path(ShouldWork)]
-impl Fold for OptionalCatchBinding {
-    noop_fold_type!();
+impl VisitMut for OptionalCatchBinding {
+    noop_visit_mut_type!();
 
-    fn fold_catch_clause(&mut self, mut cc: CatchClause) -> CatchClause {
-        cc = cc.fold_children_with(self);
+    fn visit_mut_catch_clause(&mut self, cc: &mut CatchClause) {
+        cc.visit_mut_children_with(self);
 
         if cc.param.is_some() {
-            return cc;
-        }
-
-        CatchClause {
-            param: Some(private_ident!("e").into()),
-            ..cc
-        }
-    }
-}
-#[derive(Default)]
-struct ShouldWork {
-    found: bool,
-}
-
-impl Visit for ShouldWork {
-    noop_visit_type!();
-
-    fn visit_catch_clause(&mut self, n: &CatchClause, _: &dyn Node) {
-        if n.param.is_none() {
-            self.found = true;
             return;
         }
-        n.visit_children_with(self)
-    }
-}
-
-impl Check for ShouldWork {
-    fn should_handle(&self) -> bool {
-        self.found
+        cc.param = Some(private_ident!("e").into());
     }
 }
 
@@ -61,5 +32,21 @@ mod tests {
         issue_411,
         "try {} catch {}",
         "try {} catch(e) {}"
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| tr(),
+        catch_binding_name_collision_1,
+        "try { throw new Error(); } catch { log(e); }",
+        "try { throw new Error(); } catch (e1) { log(e); }"
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| tr(),
+        catch_binding_name_collision_2,
+        "var e; try {} catch { log(e); }",
+        "var e; try {} catch (e1) { log(e); }"
     );
 }

@@ -319,7 +319,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let declare_token = if declare {
             // Handle declare(){}
-            if self.is_class_method()? {
+            if self.is_class_method() {
                 let key = Either::Right(PropName::Ident(Ident::new(
                     js_word!("declare"),
                     span!(self, start),
@@ -341,7 +341,7 @@ impl<'a, I: Tokens> Parser<I> {
                         kind: MethodKind::Method,
                     },
                 );
-            } else if self.is_class_property()? {
+            } else if self.is_class_property(/* asi */ true) {
                 // Property named `declare`
 
                 let key = Either::Right(PropName::Ident(Ident::new(
@@ -379,7 +379,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         if let Some(static_token) = static_token {
             // Handle static(){}
-            if self.is_class_method()? {
+            if self.is_class_method() {
                 let key = Either::Right(PropName::Ident(Ident::new(
                     js_word!("static"),
                     static_token,
@@ -401,7 +401,7 @@ impl<'a, I: Tokens> Parser<I> {
                         kind: MethodKind::Method,
                     },
                 );
-            } else if self.is_class_property()? {
+            } else if self.is_class_property(/* asi */ true) {
                 // Property named `static`
 
                 // Avoid to parse
@@ -616,7 +616,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
         };
 
-        if self.is_class_method()? {
+        if self.is_class_method() {
             // handle a(){} / get(){} / set(){} / async(){}
 
             trace_cur!(self, parse_class_member_with_is_static__normal_class_method);
@@ -736,7 +736,20 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
-        if self.is_class_property()? {
+        let is_next_line_generator = self.input.had_line_break_before_cur() && is!(self, '*');
+        let getter_or_setter_ident = match key {
+            // `get\n*` is an uninitialized property named 'get' followed by a generator.
+            Either::Right(PropName::Ident(ref i))
+                if (i.sym == js_word!("get") || i.sym == js_word!("set"))
+                    && !self.is_class_property(/* asi */ false)
+                    && !is_next_line_generator =>
+            {
+                Some(i)
+            }
+            _ => None,
+        };
+
+        if getter_or_setter_ident.is_none() && self.is_class_property(/* asi */ true) {
             return self.make_property(
                 start,
                 decorators,
@@ -795,15 +808,10 @@ impl<'a, I: Tokens> Parser<I> {
             );
         }
 
-        let is_next_line_generator = self.input.had_line_break_before_cur() && is!(self, '*');
-        let key_span = key.span();
+        match getter_or_setter_ident {
+            Some(i) => {
+                let key_span = key.span();
 
-        match key {
-            // `get\n*` is an uninitialized property named 'get' followed by a generator.
-            Either::Right(PropName::Ident(ref i))
-                if (i.sym == js_word!("get") || i.sym == js_word!("set"))
-                    && !is_next_line_generator =>
-            {
                 // handle get foo(){} / set foo(v){}
                 let key = self.parse_class_prop_name()?;
 
@@ -968,17 +976,20 @@ impl<'a, I: Tokens> Parser<I> {
         })
     }
 
-    fn is_class_method(&mut self) -> PResult<bool> {
-        Ok(is!(self, '(')
+    fn is_class_method(&mut self) -> bool {
+        is!(self, '(')
             || (self.input.syntax().typescript() && is!(self, '<'))
-            || (self.input.syntax().typescript() && is!(self, JSXTagStart)))
+            || (self.input.syntax().typescript() && is!(self, JSXTagStart))
     }
 
-    fn is_class_property(&mut self) -> PResult<bool> {
-        Ok(
-            (self.input.syntax().typescript() && is_one_of!(self, '!', ':'))
-                || is_one_of!(self, '=', ';', '}'),
-        )
+    fn is_class_property(&mut self, asi: bool) -> bool {
+        (self.input.syntax().typescript() && is_one_of!(self, '!', ':'))
+            || is_one_of!(self, '=', '}')
+            || if asi {
+                is!(self, ';')
+            } else {
+                is_exact!(self, ';')
+            }
     }
 
     fn parse_fn<T>(
@@ -1218,7 +1229,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         match kind {
             MethodKind::Getter | MethodKind::Setter
-                if self.input.syntax().typescript() && self.input.target() == JscTarget::Es3 =>
+                if self.input.syntax().typescript() && self.input.target() == EsVersion::Es3 =>
             {
                 self.emit_err(key.span(), SyntaxError::TS1056);
             }

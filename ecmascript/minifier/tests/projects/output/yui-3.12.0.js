@@ -10,7 +10,7 @@ var YUI = function() {
     return Y.instanceOf = instanceOf, Y;
 };
 !function() {
-    var proto, prop, VERSION = "3.12.0", NOOP = function() {
+    var proto, prop1, VERSION = "3.12.0", NOOP = function() {
     }, SLICE = Array.prototype.slice, APPLY_TO_AUTH = {
         "io.xdrReady": 1,
         "io.xdrResponse": 1,
@@ -36,7 +36,7 @@ var YUI = function() {
     }, ALREADY_DONE = {
         success: !0
     };
-    for(prop in docEl && -1 == docClass.indexOf("yui3-js-enabled") && (docClass && (docClass += " "), docClass += "yui3-js-enabled", docEl.className = docClass), VERSION.indexOf("@") > -1 && (VERSION = "3.5.0"), proto = {
+    for(prop1 in docEl && -1 == docClass.indexOf("yui3-js-enabled") && (docClass && (docClass += " "), docClass += "yui3-js-enabled", docEl.className = docClass), VERSION.indexOf("@") > -1 && (VERSION = "3.5.0"), proto = {
         applyConfig: function(o) {
             o = o || NOOP;
             var attr, name, config = this.config, mods = config.modules, groups = config.groups, aliases = config.aliases, loader = this.Env._loader;
@@ -47,7 +47,7 @@ var YUI = function() {
             this.applyConfig(o);
         },
         _init: function() {
-            var filter, el, prop, Y = this, G_ENV = YUI.Env, Env = Y.Env;
+            var filter1, el, prop, Y = this, G_ENV = YUI.Env, Env = Y.Env;
             if (Y.version = VERSION, !Env) {
                 if (Y.Env = {
                     core: [
@@ -92,7 +92,7 @@ var YUI = function() {
                     getBase: G_ENV && G_ENV.getBase || function(pattern) {
                         var parsed, i, len, src, nodes = doc && doc.getElementsByTagName("script") || [], path = Env.cdn;
                         for(i = 0, len = nodes.length; i < len; ++i)if ((src = nodes[i].src) && (parsed = Y.Env.parseBasePath(src, pattern))) {
-                            filter = parsed.filter, path = parsed.path;
+                            filter1 = parsed.filter, path = parsed.path;
                             break;
                         }
                         return path;
@@ -116,7 +116,7 @@ var YUI = function() {
                 useNativeES5: !0,
                 win: win,
                 global: Function("return this")()
-            }, doc && !doc.getElementById("yui3-css-stamp") ? ((el = doc.createElement("div")).innerHTML = "<div id=\"yui3-css-stamp\" style=\"position: absolute !important; visibility: hidden !important\"></div>", YUI.Env.cssStampEl = el.firstChild, doc.body ? doc.body.appendChild(YUI.Env.cssStampEl) : docEl.insertBefore(YUI.Env.cssStampEl, docEl.firstChild)) : doc && doc.getElementById("yui3-css-stamp") && !YUI.Env.cssStampEl && (YUI.Env.cssStampEl = doc.getElementById("yui3-css-stamp")), Y.config.lang = Y.config.lang || "en-US", Y.config.base = YUI.config.base || Y.Env.getBase(Y.Env._BASE_RE), filter && "mindebug".indexOf(filter) || (filter = "min"), filter = filter ? "-" + filter : filter, Y.config.loaderPath = YUI.config.loaderPath || "loader/loader" + filter + ".js";
+            }, doc && !doc.getElementById("yui3-css-stamp") ? ((el = doc.createElement("div")).innerHTML = "<div id=\"yui3-css-stamp\" style=\"position: absolute !important; visibility: hidden !important\"></div>", YUI.Env.cssStampEl = el.firstChild, doc.body ? doc.body.appendChild(YUI.Env.cssStampEl) : docEl.insertBefore(YUI.Env.cssStampEl, docEl.firstChild)) : doc && doc.getElementById("yui3-css-stamp") && !YUI.Env.cssStampEl && (YUI.Env.cssStampEl = doc.getElementById("yui3-css-stamp")), Y.config.lang = Y.config.lang || "en-US", Y.config.base = YUI.config.base || Y.Env.getBase(Y.Env._BASE_RE), filter1 && "mindebug".indexOf(filter1) || (filter1 = "min"), filter1 = filter1 ? "-" + filter1 : filter1, Y.config.loaderPath = YUI.config.loaderPath || "loader/loader" + filter1 + ".js";
         },
         _setup: function() {
             var i, core = [], mods = YUI.Env.mods, extras = this.config.core || [].concat(YUI.Env.core);
@@ -234,7 +234,7 @@ var YUI = function() {
             this.Array || this._attach([
                 "yui-base"
             ]);
-            var len, loader, handleBoot, i, Y = this, G_ENV = YUI.Env, mods = G_ENV.mods, Env = Y.Env, used = Env._used, aliases = G_ENV.aliases, queue = G_ENV._loaderQueue, firstArg = args[0], config = Y.config, boot = config.bootstrap, missing = [], r = [], ret = !0, fetchCSS = config.fetchCSS, process = function(names, skip) {
+            var len1, loader, handleBoot, i1, Y = this, G_ENV = YUI.Env, mods = G_ENV.mods, Env = Y.Env, used = Env._used, aliases = G_ENV.aliases, queue = G_ENV._loaderQueue, firstArg = args[0], YArray = Y.Array, config = Y.config, boot = config.bootstrap, missing = [], r = [], ret1 = !0, fetchCSS = config.fetchCSS, process = function(names, skip) {
                 var name, len, m, req, use, i = 0, a = [];
                 if (names.length) {
                     if (aliases) {
@@ -253,18 +253,18 @@ var YUI = function() {
                 })) : (data && (ret = Y._attach(data)), ret && Y._notify(callback, response, args)), Y._useQueue && Y._useQueue.size() && !Y._loading && Y._use.apply(Y, Y._useQueue.next());
             };
             if ("*" === firstArg) {
-                for(i in args = [], mods)mods.hasOwnProperty(i) && args.push(i);
-                return (ret = Y._attach(args)) && handleLoader(), Y;
+                for(i1 in args = [], mods)mods.hasOwnProperty(i1) && args.push(i1);
+                return (ret1 = Y._attach(args)) && handleLoader(), Y;
             }
             return (mods.loader || mods["loader-base"]) && !Y.Loader && Y._attach([
                 "loader" + (mods.loader ? "" : "-base")
-            ]), boot && Y.Loader && args.length && ((loader = getLoader(Y)).require(args), loader.ignoreRegistered = !0, loader._boot = !0, loader.calculate(null, fetchCSS ? null : "js"), args = loader.sorted, loader._boot = !1), process(args), (len = missing.length) && (len = (missing = Y.Array.dedupe(missing)).length), boot && len && Y.Loader ? (Y._loading = !0, (loader = getLoader(Y)).onEnd = handleLoader, loader.context = Y, loader.data = args, loader.ignoreRegistered = !1, loader.require(missing), loader.insert(null, fetchCSS ? null : "js")) : boot && len && Y.Get && !Env.bootstrapped ? (Y._loading = !0, handleBoot = function() {
+            ]), boot && Y.Loader && args.length && ((loader = getLoader(Y)).require(args), loader.ignoreRegistered = !0, loader._boot = !0, loader.calculate(null, fetchCSS ? null : "js"), args = loader.sorted, loader._boot = !1), process(args), (len1 = missing.length) && (len1 = (missing = YArray.dedupe(missing)).length), boot && len1 && Y.Loader ? (Y._loading = !0, (loader = getLoader(Y)).onEnd = handleLoader, loader.context = Y, loader.data = args, loader.ignoreRegistered = !1, loader.require(missing), loader.insert(null, fetchCSS ? null : "js")) : boot && len1 && Y.Get && !Env.bootstrapped ? (Y._loading = !0, handleBoot = function() {
                 Y._loading = !1, queue.running = !1, Env.bootstrapped = !0, G_ENV._bootstrapping = !1, Y._attach([
                     "loader"
                 ]) && Y._use(args, callback);
             }, G_ENV._bootstrapping ? queue.add(handleBoot) : (G_ENV._bootstrapping = !0, Y.Get.script(config.base + config.loaderPath, {
                 onEnd: handleBoot
-            }))) : (ret = Y._attach(args)) && handleLoader(), Y;
+            }))) : (ret1 = Y._attach(args)) && handleLoader(), Y;
         },
         namespace: function() {
             for(var o, j, d, arg, a = arguments, i = 0; i < a.length; i++)if (o = this, (arg = a[i]).indexOf(".") > -1) for(j = "YAHOO" == (d = arg.split("."))[0] ? 1 : 0; j < d.length; j++)o[d[j]] = o[d[j]] || {
@@ -301,7 +301,7 @@ var YUI = function() {
         destroy: function() {
             this.Event && this.Event._unload(), delete instances[this.id], delete this.Env, delete this.config;
         }
-    }, YUI.prototype = proto, proto)proto.hasOwnProperty(prop) && (YUI[prop] = proto[prop]);
+    }, YUI.prototype = proto, proto)proto.hasOwnProperty(prop1) && (YUI[prop1] = proto[prop1]);
     YUI.applyConfig = function(o) {
         o && (YUI.GlobalConfig && this.prototype.applyConfig.call(this, YUI.GlobalConfig), this.prototype.applyConfig.call(this, o), YUI.GlobalConfig = this.config);
     }, YUI._init(), hasWin ? add(window, "load", handleLoad) : handleLoad(), YUI.Env.add = add, YUI.Env.remove = remove, "object" == typeof exports && (exports.YUI = YUI, YUI.setLoadHook = function(fn) {
@@ -430,7 +430,7 @@ var YUI = function() {
         var result = 0;
         if (Lang.isArray(obj)) result = 1;
         else if (Lang.isObject(obj)) try {
-            !("length" in obj) || obj.tagName || obj.scrollTo && obj.document || obj.apply || (result = 2);
+            "length" in obj && !obj.tagName && !(obj.scrollTo && obj.document) && !obj.apply && (result = 2);
         } catch (ex) {
         }
         return result;
@@ -1047,10 +1047,10 @@ var YUI = function() {
     requires: [
         "yui-base"
     ]
-}), YUI.add("features", function(Y, NAME) {
+}), YUI.add("features", function(Y1, NAME) {
     var feature_tests = {
     };
-    Y.mix(Y.namespace("Features"), {
+    Y1.mix(Y1.namespace("Features"), {
         tests: feature_tests,
         add: function(cat, name, o) {
             feature_tests[cat] = feature_tests[cat] || {
@@ -1058,17 +1058,17 @@ var YUI = function() {
         },
         all: function(cat, args) {
             var cat_o = feature_tests[cat], result = [];
-            return cat_o && Y.Object.each(cat_o, function(v, k) {
-                result.push(k + ":" + (Y.Features.test(cat, k, args) ? 1 : 0));
+            return cat_o && Y1.Object.each(cat_o, function(v, k) {
+                result.push(k + ":" + (Y1.Features.test(cat, k, args) ? 1 : 0));
             }), result.length ? result.join(";") : "";
         },
         test: function(cat, name, args) {
             args = args || [];
             var result, ua, test, cat_o = feature_tests[cat], feature = cat_o && cat_o[name];
-            return feature && (result = feature.result, Y.Lang.isUndefined(result) && ((ua = feature.ua) && (result = Y.UA[ua]), (test = feature.test) && (!ua || result) && (result = test.apply(Y, args)), feature.result = result)), result;
+            return feature && (result = feature.result, Y1.Lang.isUndefined(result) && ((ua = feature.ua) && (result = Y1.UA[ua]), (test = feature.test) && (!ua || result) && (result = test.apply(Y1, args)), feature.result = result)), result;
         }
     });
-    var add = Y.Features.add;
+    var add = Y1.Features.add;
     add("load", "0", {
         name: "app-transitions-native",
         test: function(Y) {
@@ -1130,15 +1130,15 @@ var YUI = function() {
     }), add("load", "8", {
         name: "graphics-svg",
         test: function(Y) {
-            var DOCUMENT = Y.config.doc, useSVG = !Y.config.defaultGraphicEngine || "canvas" != Y.config.defaultGraphicEngine, canvas = DOCUMENT && DOCUMENT.createElement("canvas");
-            return DOCUMENT && DOCUMENT.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1") && (useSVG || !canvas);
+            var DOCUMENT = Y.config.doc, useSVG = !Y.config.defaultGraphicEngine || "canvas" != Y.config.defaultGraphicEngine, canvas = DOCUMENT && DOCUMENT.createElement("canvas"), svg = DOCUMENT && DOCUMENT.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1");
+            return svg && (useSVG || !canvas);
         },
         trigger: "graphics"
     }), add("load", "9", {
         name: "graphics-svg-default",
         test: function(Y) {
-            var DOCUMENT = Y.config.doc, useSVG = !Y.config.defaultGraphicEngine || "canvas" != Y.config.defaultGraphicEngine, canvas = DOCUMENT && DOCUMENT.createElement("canvas");
-            return DOCUMENT && DOCUMENT.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1") && (useSVG || !canvas);
+            var DOCUMENT = Y.config.doc, useSVG = !Y.config.defaultGraphicEngine || "canvas" != Y.config.defaultGraphicEngine, canvas = DOCUMENT && DOCUMENT.createElement("canvas"), svg = DOCUMENT && DOCUMENT.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1");
+            return svg && (useSVG || !canvas);
         },
         trigger: "graphics"
     }), add("load", "10", {
@@ -1240,14 +1240,14 @@ var YUI = function() {
     var SPLIT_REGEX = /[, ]/;
     Y.mix(Y.namespace("Intl"), {
         lookupBestLang: function(preferredLanguages, availableLanguages) {
-            var i, language, result, index;
+            var i2, language1, result, index;
             function scan(language) {
                 var i;
                 for(i = 0; i < availableLanguages.length; i += 1)if (language.toLowerCase() === availableLanguages[i].toLowerCase()) return availableLanguages[i];
             }
-            for(Y.Lang.isString(preferredLanguages) && (preferredLanguages = preferredLanguages.split(SPLIT_REGEX)), i = 0; i < preferredLanguages.length; i += 1)if ((language = preferredLanguages[i]) && "*" !== language) for(; language.length > 0;){
-                if (result = scan(language)) return result;
-                if ((index = language.lastIndexOf("-")) >= 0) language = language.substring(0, index), index >= 2 && "-" === language.charAt(index - 2) && (language = language.substring(0, index - 2));
+            for(Y.Lang.isString(preferredLanguages) && (preferredLanguages = preferredLanguages.split(SPLIT_REGEX)), i2 = 0; i2 < preferredLanguages.length; i2 += 1)if ((language1 = preferredLanguages[i2]) && "*" !== language1) for(; language1.length > 0;){
+                if (result = scan(language1)) return result;
+                if ((index = language1.lastIndexOf("-")) >= 0) language1 = language1.substring(0, index), index >= 2 && "-" === language1.charAt(index - 2) && (language1 = language1.substring(0, index - 2));
                 else break;
             }
             return "";
@@ -1257,16 +1257,16 @@ var YUI = function() {
     requires: [
         "yui-base"
     ]
-}), YUI.add("yui-log", function(Y, NAME) {
-    var INSTANCE = Y, LEVELS = {
+}), YUI.add("yui-log", function(Y2, NAME) {
+    var INSTANCE = Y2, LEVELS = {
         debug: 1,
         info: 2,
         warn: 4,
         error: 8
     };
     INSTANCE.log = function(msg, cat, src, silent) {
-        var bail, excl, incl, m, minlevel, Y = INSTANCE, c = Y.config, publisher = Y.fire ? Y : YUI.Env.globalEvents;
-        return c.debug && (void 0 !== (src = src || "") && (excl = c.logExclude, !(incl = c.logInclude) || src in incl ? incl && src in incl ? bail = !incl[src] : excl && src in excl && (bail = excl[src]) : bail = 1, Y.config.logLevel = Y.config.logLevel || "debug", minlevel = LEVELS[Y.config.logLevel.toLowerCase()], cat in LEVELS && LEVELS[cat] < minlevel && (bail = 1)), bail || (c.useBrowserConsole && (m = src ? src + ": " + msg : msg, Y.Lang.isFunction(c.logFn) ? c.logFn.call(Y, msg, cat, src) : "undefined" != typeof console && console.log ? console[cat && console[cat] && cat in LEVELS ? cat : "log"](m) : "undefined" != typeof opera && opera.postError(m)), publisher && !silent && (publisher !== Y || publisher.getEvent("yui:log") || publisher.publish("yui:log", {
+        var bail, excl, incl, m, f, minlevel, Y = INSTANCE, c = Y.config, publisher = Y.fire ? Y : YUI.Env.globalEvents;
+        return c.debug && (void 0 !== (src = src || "") && (excl = c.logExclude, incl = c.logInclude, !incl || src in incl ? incl && src in incl ? bail = !incl[src] : excl && src in excl && (bail = excl[src]) : bail = 1, Y.config.logLevel = Y.config.logLevel || "debug", minlevel = LEVELS[Y.config.logLevel.toLowerCase()], cat in LEVELS && LEVELS[cat] < minlevel && (bail = 1)), bail || (c.useBrowserConsole && (m = src ? src + ": " + msg : msg, Y.Lang.isFunction(c.logFn) ? c.logFn.call(Y, msg, cat, src) : "undefined" != typeof console && console.log ? (f = cat && console[cat] && cat in LEVELS ? cat : "log", console[f](m)) : "undefined" != typeof opera && opera.postError(m)), publisher && !silent && (publisher !== Y || publisher.getEvent("yui:log") || publisher.publish("yui:log", {
             broadcast: 2
         }), publisher.fire("yui:log", {
             msg: msg,
@@ -1301,7 +1301,7 @@ var YUI = function() {
     ]
 }), YUI.add("loader-base", function(Y, NAME) {
     var VERSION, CDN_BASE, COMBO_BASE, META, groups, yui2Update, galleryUpdate;
-    VERSION = Y.version, COMBO_BASE = (CDN_BASE = Y.Env.base) + "combo?", groups = (META = {
+    VERSION = Y.version, CDN_BASE = Y.Env.base, COMBO_BASE = CDN_BASE + "combo?", META = {
         version: VERSION,
         root: VERSION + "/",
         base: Y.Env.base,
@@ -1323,7 +1323,7 @@ var YUI = function() {
         },
         patterns: {
         }
-    }).groups, yui2Update = function(tnt, yui2, config) {
+    }, groups = META.groups, yui2Update = function(tnt, yui2, config) {
         var root = "2in3." + (tnt || "4") + "/" + (yui2 || "2.9.0") + "/build/", base = config && config.base ? config.base : CDN_BASE, combo = config && config.comboBase ? config.comboBase : COMBO_BASE;
         groups.yui2.base = base + root, groups.yui2.root = root, groups.yui2.comboBase = combo;
     }, galleryUpdate = function(tag, config) {
@@ -1419,7 +1419,7 @@ var YUI = function() {
         _requires: function(mod1, mod2) {
             var i, rm, after_map, s, info = this.moduleInfo, m = info[mod1], other = info[mod2];
             if (!m || !other) return !1;
-            if (rm = m.expanded_map, (after_map = m.after_map) && mod2 in after_map) return !0;
+            if (rm = m.expanded_map, after_map = m.after_map, after_map && mod2 in after_map) return !0;
             if ((after_map = other.after_map) && mod1 in after_map) return !1;
             if (s = info[mod2] && info[mod2].supersedes) {
                 for(i = 0; i < s.length; i++)if (this._requires(mod1, s[i])) return !0;
@@ -1693,7 +1693,7 @@ var YUI = function() {
             }
             this.sorted = s;
         },
-        _insert: function(source, o, type, skipcalc) {
+        _insert: function(source, o1, type, skipcalc) {
             source && this._config(source);
             var deps, complete, modules = this.resolve(!skipcalc), self = this, comp = 0, actions = 0, mods = {
             };
@@ -1783,7 +1783,7 @@ var YUI = function() {
             return this._filter((base || this.base || "") + path, name);
         },
         resolve: function(calc, s) {
-            var len, i, m, url, group, groupName, j, frag, comboSource, comboSources, mods, comboBase, base, urls, tmpBase, baseLen, comboSep, maxURLLength, addSingle, u = [], resCombos = {
+            var len, i, m1, url, group, groupName, j, frag, comboSource, comboSources, mods, comboBase, base, urls, tmpBase, baseLen, comboSep, maxURLLength, addSingle, u = [], resCombos = {
             }, self = this, inserted = self.ignoreRegistered ? {
             } : self.inserted, resolved = {
                 js: [],
@@ -1798,28 +1798,28 @@ var YUI = function() {
                 }, m.attributes && (url.attributes = m.attributes)), resolved[m.type].push(url), resolved[m.type + "Mods"].push(m));
             }, len = s.length, url = comboBase = self.comboBase, comboSources = {
             }, i = 0; i < len; i++){
-                if (comboSource = comboBase, groupName = (m = self.getModule(s[i])) && m.group, group = self.groups[groupName], groupName && group) {
-                    if (!group.combine || m.fullpath) {
-                        addSingle(m);
+                if (comboSource = comboBase, groupName = (m1 = self.getModule(s[i])) && m1.group, group = self.groups[groupName], groupName && group) {
+                    if (!group.combine || m1.fullpath) {
+                        addSingle(m1);
                         continue;
                     }
-                    m.combine = !0, group.comboBase && (comboSource = group.comboBase), "root" in group && L.isValue(group.root) && (m.root = group.root), m.comboSep = group.comboSep || self.comboSep, m.maxURLLength = group.maxURLLength || self.maxURLLength;
+                    m1.combine = !0, group.comboBase && (comboSource = group.comboBase), "root" in group && L.isValue(group.root) && (m1.root = group.root), m1.comboSep = group.comboSep || self.comboSep, m1.maxURLLength = group.maxURLLength || self.maxURLLength;
                 } else if (!self.combine) {
-                    addSingle(m);
+                    addSingle(m1);
                     continue;
                 }
-                comboSources[comboSource] = comboSources[comboSource] || [], comboSources[comboSource].push(m);
+                comboSources[comboSource] = comboSources[comboSource] || [], comboSources[comboSource].push(m1);
             }
             for(j in comboSources)if (comboSources.hasOwnProperty(j) && (resCombos[j] = resCombos[j] || {
                 js: [],
                 jsMods: [],
                 css: [],
                 cssMods: []
-            }, url = j, len = (mods = comboSources[j]).length)) for(i = 0; i < len; i++)!inserted[mods[i]] && ((m = mods[i]) && (m.combine || !m.ext) ? (resCombos[j].comboSep = m.comboSep, resCombos[j].group = m.group, resCombos[j].maxURLLength = m.maxURLLength, frag = (L.isValue(m.root) ? m.root : self.root) + (m.path || m.fullpath), frag = self._filter(frag, m.name), resCombos[j][m.type].push(frag), resCombos[j][m.type + "Mods"].push(m)) : mods[i] && addSingle(mods[i]));
+            }, url = j, mods = comboSources[j], len = mods.length)) for(i = 0; i < len; i++)!inserted[mods[i]] && ((m1 = mods[i]) && (m1.combine || !m1.ext) ? (resCombos[j].comboSep = m1.comboSep, resCombos[j].group = m1.group, resCombos[j].maxURLLength = m1.maxURLLength, frag = (L.isValue(m1.root) ? m1.root : self.root) + (m1.path || m1.fullpath), frag = self._filter(frag, m1.name), resCombos[j][m1.type].push(frag), resCombos[j][m1.type + "Mods"].push(m1)) : mods[i] && addSingle(mods[i]));
             for(j in resCombos)if (resCombos.hasOwnProperty(j)) {
                 for(type in comboSep = resCombos[base = j].comboSep || self.comboSep, maxURLLength = resCombos[base].maxURLLength || self.maxURLLength, resCombos[base])if ("js" === type || "css" === type) {
-                    if (urls = resCombos[base][type], mods = resCombos[base][type + "Mods"], len = urls.length, baseLen = (tmpBase = base + urls.join(comboSep)).length, maxURLLength <= base.length && (maxURLLength = 1024), len) if (baseLen > maxURLLength) {
-                        for(s = 0, u = []; s < len; s++)u.push(urls[s]), (tmpBase = base + u.join(comboSep)).length > maxURLLength && (m = u.pop(), tmpBase = base + u.join(comboSep), resolved[type].push(self._filter(tmpBase, null, resCombos[base].group)), u = [], m && u.push(m));
+                    if (urls = resCombos[base][type], mods = resCombos[base][type + "Mods"], len = urls.length, tmpBase = base + urls.join(comboSep), baseLen = tmpBase.length, maxURLLength <= base.length && (maxURLLength = 1024), len) if (baseLen > maxURLLength) {
+                        for(s = 0, u = []; s < len; s++)u.push(urls[s]), (tmpBase = base + u.join(comboSep)).length > maxURLLength && (m1 = u.pop(), tmpBase = base + u.join(comboSep), resolved[type].push(self._filter(tmpBase, null, resCombos[base].group)), u = [], m1 && u.push(m1));
                         u.length && (tmpBase = base + u.join(comboSep), resolved[type].push(self._filter(tmpBase, null, resCombos[base].group)));
                     } else resolved[type].push(self._filter(tmpBase, null, resCombos[base].group));
                     resolved[type + "Mods"] = resolved[type + "Mods"].concat(mods);
@@ -1865,9 +1865,9 @@ var YUI = function() {
     requires: [
         "loader-base"
     ]
-}), YUI.add("loader-yui3", function(Y, NAME) {
-    YUI.Env[Y.version].modules = YUI.Env[Y.version].modules || {
-    }, Y.mix(YUI.Env[Y.version].modules, {
+}), YUI.add("loader-yui3", function(Y3, NAME) {
+    YUI.Env[Y3.version].modules = YUI.Env[Y3.version].modules || {
+    }, Y3.mix(YUI.Env[Y3.version].modules, {
         "align-plugin": {
             requires: [
                 "node-screen",
@@ -3427,8 +3427,8 @@ var YUI = function() {
             condition: {
                 name: "graphics-svg",
                 test: function(Y) {
-                    var DOCUMENT = Y.config.doc, useSVG = !Y.config.defaultGraphicEngine || "canvas" != Y.config.defaultGraphicEngine, canvas = DOCUMENT && DOCUMENT.createElement("canvas");
-                    return DOCUMENT && DOCUMENT.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1") && (useSVG || !canvas);
+                    var DOCUMENT = Y.config.doc, useSVG = !Y.config.defaultGraphicEngine || "canvas" != Y.config.defaultGraphicEngine, canvas = DOCUMENT && DOCUMENT.createElement("canvas"), svg = DOCUMENT && DOCUMENT.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1");
+                    return svg && (useSVG || !canvas);
                 },
                 trigger: "graphics"
             },
@@ -3440,8 +3440,8 @@ var YUI = function() {
             condition: {
                 name: "graphics-svg-default",
                 test: function(Y) {
-                    var DOCUMENT = Y.config.doc, useSVG = !Y.config.defaultGraphicEngine || "canvas" != Y.config.defaultGraphicEngine, canvas = DOCUMENT && DOCUMENT.createElement("canvas");
-                    return DOCUMENT && DOCUMENT.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1") && (useSVG || !canvas);
+                    var DOCUMENT = Y.config.doc, useSVG = !Y.config.defaultGraphicEngine || "canvas" != Y.config.defaultGraphicEngine, canvas = DOCUMENT && DOCUMENT.createElement("canvas"), svg = DOCUMENT && DOCUMENT.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1");
+                    return svg && (useSVG || !canvas);
                 },
                 trigger: "graphics"
             }
@@ -4734,7 +4734,7 @@ var YUI = function() {
                 "yui-base"
             ]
         }
-    }), YUI.Env[Y.version].md5 = "fd7c67956df50e445f40d1668dd1dc80";
+    }), YUI.Env[Y3.version].md5 = "fd7c67956df50e445f40d1668dd1dc80";
 }, "3.12.0", {
     requires: [
         "loader-base"

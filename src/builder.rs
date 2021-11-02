@@ -1,8 +1,8 @@
 use crate::{
-    config::{CompiledPaths, GlobalPassOption, JsMinifyOptions, JscTarget, ModuleConfig},
+    config::{util::BoolOrObject, CompiledPaths, GlobalPassOption, JsMinifyOptions, ModuleConfig},
     SwcComments,
 };
-use compat::es2020::export_namespace_from;
+use compat::{es2015::regenerator, es2020::export_namespace_from};
 use either::Either;
 use std::{cell::RefCell, collections::HashMap, path::PathBuf, rc::Rc, sync::Arc};
 use swc_atoms::JsWord;
@@ -14,14 +14,9 @@ use swc_ecma_ast::{EsVersion, Module};
 use swc_ecma_minifier::option::MinifyOptions;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
-    compat, fixer, helpers, hygiene,
-    hygiene::hygiene_with_config,
-    modules,
-    modules::util::Scope,
-    optimization::const_modules,
+    compat, compat::es2022::private_in_object, fixer, helpers, hygiene,
+    hygiene::hygiene_with_config, modules, modules::util::Scope, optimization::const_modules,
     pass::Optional,
-    proposals::{import_assertions, private_in_object},
-    typescript,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut};
 
@@ -32,13 +27,14 @@ pub struct PassBuilder<'a, 'b, P: swc_ecma_visit::Fold> {
     env: Option<swc_ecma_preset_env::Config>,
     pass: P,
     /// [Mark] for top level bindings and unresolved identifier references.
-    global_mark: Mark,
-    target: JscTarget,
+    top_level_mark: Mark,
+    target: EsVersion,
     loose: bool,
     hygiene: Option<hygiene::Config>,
     fixer: bool,
     inject_helpers: bool,
     minify: Option<JsMinifyOptions>,
+    regenerator: regenerator::Config,
 }
 
 impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
@@ -46,7 +42,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         cm: &'a Arc<SourceMap>,
         handler: &'b Handler,
         loose: bool,
-        global_mark: Mark,
+        top_level_mark: Mark,
         pass: P,
     ) -> Self {
         PassBuilder {
@@ -54,13 +50,14 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             handler,
             env: None,
             pass,
-            global_mark,
-            target: JscTarget::Es5,
+            top_level_mark,
+            target: EsVersion::Es5,
             loose,
             hygiene: Some(Default::default()),
             fixer: true,
             inject_helpers: true,
             minify: None,
+            regenerator: Default::default(),
         }
     }
 
@@ -74,13 +71,14 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             handler: self.handler,
             env: self.env,
             pass,
-            global_mark: self.global_mark,
+            top_level_mark: self.top_level_mark,
             target: self.target,
             loose: self.loose,
             hygiene: self.hygiene,
             fixer: self.fixer,
             inject_helpers: self.inject_helpers,
             minify: self.minify,
+            regenerator: self.regenerator,
         }
     }
 
@@ -124,13 +122,18 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         self.then(pass)
     }
 
-    pub fn target(mut self, target: JscTarget) -> Self {
+    pub fn target(mut self, target: EsVersion) -> Self {
         self.target = target;
         self
     }
 
     pub fn preset_env(mut self, env: Option<swc_ecma_preset_env::Config>) -> Self {
         self.env = env;
+        self
+    }
+
+    pub fn regenerator(mut self, config: regenerator::Config) -> Self {
+        self.regenerator = config;
         self
     }
 
@@ -154,7 +157,6 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         syntax: Syntax,
         module: Option<ModuleConfig>,
         comments: Option<&'cmt SwcComments>,
-        custom_before_pass: impl 'cmt + swc_ecma_visit::Fold,
     ) -> impl 'cmt + swc_ecma_visit::Fold
     where
         P: 'cmt,
@@ -168,44 +170,44 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
 
         // compat
         let compat_pass = if let Some(env) = self.env {
-            Either::Left(chain!(
-                import_assertions(),
-                Optional::new(typescript::strip(), syntax.typescript()),
-                custom_before_pass,
-                swc_ecma_preset_env::preset_env(self.global_mark, comments.clone(), env)
+            Either::Left(swc_ecma_preset_env::preset_env(
+                self.top_level_mark,
+                comments.clone(),
+                env,
             ))
         } else {
             Either::Right(chain!(
-                import_assertions(),
-                Optional::new(typescript::strip(), syntax.typescript()),
-                custom_before_pass,
                 Optional::new(
-                    compat::es2021::es2021(),
-                    should_enable(self.target, JscTarget::Es2021)
+                    compat::es2022::es2022(compat::es2022::Config { loose: self.loose }),
+                    should_enable(self.target, EsVersion::Es2022)
                 ),
                 Optional::new(
-                    compat::es2020::es2020(compat::es2020::Config { loose: self.loose }),
-                    should_enable(self.target, JscTarget::Es2020)
+                    compat::es2021::es2021(),
+                    should_enable(self.target, EsVersion::Es2021)
+                ),
+                Optional::new(
+                    compat::es2020::es2020(),
+                    should_enable(self.target, EsVersion::Es2020)
                 ),
                 Optional::new(
                     compat::es2019::es2019(),
-                    should_enable(self.target, JscTarget::Es2019)
+                    should_enable(self.target, EsVersion::Es2019)
                 ),
                 Optional::new(
                     compat::es2018(),
-                    should_enable(self.target, JscTarget::Es2018)
+                    should_enable(self.target, EsVersion::Es2018)
                 ),
                 Optional::new(
                     compat::es2017(),
-                    should_enable(self.target, JscTarget::Es2017)
+                    should_enable(self.target, EsVersion::Es2017)
                 ),
                 Optional::new(
                     compat::es2016(),
-                    should_enable(self.target, JscTarget::Es2016)
+                    should_enable(self.target, EsVersion::Es2016)
                 ),
                 Optional::new(
                     compat::es2015(
-                        self.global_mark,
+                        self.top_level_mark,
                         comments.clone(),
                         compat::es2015::Config {
                             for_of: compat::es2015::for_of::Config {
@@ -215,16 +217,26 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                             destructuring: compat::es2015::destructuring::Config {
                                 loose: self.loose
                             },
+                            regenerator: self.regenerator,
                         }
                     ),
-                    should_enable(self.target, JscTarget::Es2015)
+                    should_enable(self.target, EsVersion::Es2015)
                 ),
                 Optional::new(
                     compat::es3(syntax.dynamic_import()),
-                    cfg!(feature = "es3") && self.target == JscTarget::Es3
+                    cfg!(feature = "es3") && self.target == EsVersion::Es3
                 )
             ))
         };
+
+        let is_mangler_enabled = self
+            .minify
+            .as_ref()
+            .map(|v| match v.mangle {
+                BoolOrObject::Bool(true) | BoolOrObject::Obj(_) => true,
+                _ => false,
+            })
+            .unwrap_or(false);
 
         let module_scope = Rc::new(RefCell::new(Scope::default()));
         chain!(
@@ -244,7 +256,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 base_url,
                 paths,
                 base,
-                self.global_mark,
+                self.top_level_mark,
                 module,
                 Rc::clone(&module_scope)
             ),
@@ -252,11 +264,11 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 options: self.minify,
                 cm: self.cm.clone(),
                 comments: comments.cloned(),
-                top_level_mark: self.global_mark,
+                top_level_mark: self.top_level_mark,
             }),
             Optional::new(
                 hygiene_with_config(self.hygiene.clone().unwrap_or_default()),
-                self.hygiene.is_some()
+                self.hygiene.is_some() && !is_mangler_enabled
             ),
             Optional::new(fixer(comments.map(|v| v as &dyn Comments)), self.fixer),
         )

@@ -46,7 +46,8 @@
                     "end": 1,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "value": "a",
+                  "raw": "a"
                 }
               },
               "subclassSelectors": []
@@ -55,7 +56,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 2,
           "end": 33,
@@ -63,22 +64,23 @@
         },
         "items": [
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 4,
               "end": 31,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 4,
                 "end": 26,
                 "ctxt": 0
               },
-              "value": "border-top-left-radius"
+              "value": "border-top-left-radius",
+              "raw": "border-top-left-radius"
             },
-            "values": [
+            "value": [
               {
                 "type": "Number",
                 "span": {
@@ -86,7 +88,8 @@
                   "end": 29,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               },
               {
                 "type": "Number",
@@ -95,7 +98,8 @@
                   "end": 31,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               }
             ],
             "important": null

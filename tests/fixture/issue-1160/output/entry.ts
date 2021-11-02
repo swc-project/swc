@@ -33,13 +33,13 @@ function _initializerDefineProperty(target, property, descriptor, context) {
     });
 }
 var _class, _descriptor, _dec, _dec1;
-var MyEnum;
+var MyEnum1;
 (function(MyEnum) {
     MyEnum["x"] = "xxx";
     MyEnum["y"] = "yyy";
-})(MyEnum || (MyEnum = {
+})(MyEnum1 || (MyEnum1 = {
 }));
-let Xpto1 = ((_class = class Xpto {
+let Xpto = ((_class = class Xpto {
     constructor(){
         _initializerDefineProperty(this, "value", _descriptor, this);
     }

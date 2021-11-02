@@ -34,7 +34,7 @@ error: Tokens
 1 | @unknown x;
   |          ^^
 
-error: Ident(Atom('x' type=inline))
+error: Ident { value: Atom('x' type=inline), raw: Atom('x' type=inline) }
  --> $DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:10
   |
 1 | @unknown x;

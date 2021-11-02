@@ -1,10 +1,17 @@
 macro_rules! ident_tok {
     ($tt:tt) => {
-        swc_css_ast::Token::Ident(swc_atoms::js_word!($tt))
+        swc_css_ast::Token::Ident {
+            value: swc_atoms::js_word!($tt),
+            ..
+        }
     };
 }
 
 macro_rules! tok {
+    ("function") => {
+        swc_css_ast::Token::Function { .. }
+    };
+
     ("(") => {
         swc_css_ast::Token::LParen
     };
@@ -14,7 +21,7 @@ macro_rules! tok {
     };
 
     ("%") => {
-        swc_css_ast::Token::Percent
+        swc_css_ast::Token::Delim { value: '%', .. }
     };
 
     ("--") => {
@@ -30,7 +37,7 @@ macro_rules! tok {
     };
 
     ("!") => {
-        swc_css_ast::Token::Bang
+       swc_css_ast::Token::Delim { value: '!', .. }
     };
 
     ("{") => {
@@ -54,11 +61,7 @@ macro_rules! tok {
     };
 
     ("*") => {
-        swc_css_ast::Token::Asterisk
-    };
-
-    (".") => {
-        swc_css_ast::Token::Dot
+       swc_css_ast::Token::Delim { value: '*', .. }
     };
 
     ("#") => {
@@ -66,31 +69,31 @@ macro_rules! tok {
     };
 
     ("&") => {
-        swc_css_ast::Token::Ampersand
+        swc_css_ast::Token::Delim { value: '&', .. }
     };
 
     ("|") => {
-        swc_css_ast::Token::Bar
+        swc_css_ast::Token::Delim { value: '|', .. }
     };
 
     ("$") => {
-        swc_css_ast::Token::Dollar
+       swc_css_ast::Token::Delim { value: '$', .. }
     };
 
     ("^") => {
-        swc_css_ast::Token::Caret
+       swc_css_ast::Token::Delim { value: '^', .. }
     };
 
     ("~") => {
-        swc_css_ast::Token::Tilde
+        swc_css_ast::Token::Delim { value: '~', .. }
     };
 
     ("=") => {
-        swc_css_ast::Token::Equals
+       swc_css_ast::Token::Delim { value: '=', .. }
     };
 
     (" ") => {
-        swc_css_ast::Token::WhiteSpace
+        swc_css_ast::Token::WhiteSpace { .. }
     };
 
     ("<!--") => {
@@ -102,23 +105,23 @@ macro_rules! tok {
     };
 
     ("+") => {
-        swc_css_ast::Token::Plus
+        swc_css_ast::Token::Delim { value: '+', .. }
     };
 
     ("-") => {
-        swc_css_ast::Token::Minus
+        swc_css_ast::Token::Delim { value: '-', .. }
+    };
+
+    (".") => {
+        swc_css_ast::Token::Delim { value: '.', .. }
     };
 
     ("/") => {
-        swc_css_ast::Token::Div
-    };
-
-    ("~") => {
-        swc_css_ast::Token::Tilde
+       swc_css_ast::Token::Delim { value: '/', .. }
     };
 
     (">") => {
-        swc_css_ast::Token::GreaterThan
+        swc_css_ast::Token::Delim { value: '>', .. }
     };
 
     ("important") => {

@@ -1,0 +1,281 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/selector/type/input.css:1:1
+  |
+1 | / *|* {}
+2 | | foo|h1 {}
+3 | | foo|* {}
+4 | | |h1 {}
+5 | | *|h1 {}
+6 | | h1 {}
+  | |______^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/type/input.css:1:1
+  |
+1 | *|* {}
+  | ^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/selector/type/input.css:1:1
+  |
+1 | *|* {}
+  | ^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/type/input.css:1:1
+  |
+1 | *|* {}
+  | ^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/type/input.css:1:1
+  |
+1 | *|* {}
+  | ^^^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/selector/type/input.css:1:1
+  |
+1 | *|* {}
+  | ^^^
+
+error: Text
+ --> $DIR/tests/fixture/selector/type/input.css:1:1
+  |
+1 | *|* {}
+  | ^
+
+error: Block
+ --> $DIR/tests/fixture/selector/type/input.css:1:5
+  |
+1 | *|* {}
+  |     ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/type/input.css:2:1
+  |
+2 | foo|h1 {}
+  | ^^^^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/selector/type/input.css:2:1
+  |
+2 | foo|h1 {}
+  | ^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/type/input.css:2:1
+  |
+2 | foo|h1 {}
+  | ^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/type/input.css:2:1
+  |
+2 | foo|h1 {}
+  | ^^^^^^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/selector/type/input.css:2:1
+  |
+2 | foo|h1 {}
+  | ^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/selector/type/input.css:2:1
+  |
+2 | foo|h1 {}
+  | ^^^
+
+error: Text
+ --> $DIR/tests/fixture/selector/type/input.css:2:5
+  |
+2 | foo|h1 {}
+  |     ^^
+
+error: Block
+ --> $DIR/tests/fixture/selector/type/input.css:2:8
+  |
+2 | foo|h1 {}
+  |        ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/type/input.css:3:1
+  |
+3 | foo|* {}
+  | ^^^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/selector/type/input.css:3:1
+  |
+3 | foo|* {}
+  | ^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/type/input.css:3:1
+  |
+3 | foo|* {}
+  | ^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/type/input.css:3:1
+  |
+3 | foo|* {}
+  | ^^^^^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/selector/type/input.css:3:1
+  |
+3 | foo|* {}
+  | ^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/selector/type/input.css:3:1
+  |
+3 | foo|* {}
+  | ^^^
+
+error: Block
+ --> $DIR/tests/fixture/selector/type/input.css:3:7
+  |
+3 | foo|* {}
+  |       ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/type/input.css:4:1
+  |
+4 | |h1 {}
+  | ^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/selector/type/input.css:4:1
+  |
+4 | |h1 {}
+  | ^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/type/input.css:4:1
+  |
+4 | |h1 {}
+  | ^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/type/input.css:4:1
+  |
+4 | |h1 {}
+  | ^^^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/selector/type/input.css:4:1
+  |
+4 | |h1 {}
+  | ^^^
+
+error: Text
+ --> $DIR/tests/fixture/selector/type/input.css:4:1
+  |
+4 | |h1 {}
+  | ^
+
+error: Text
+ --> $DIR/tests/fixture/selector/type/input.css:4:2
+  |
+4 | |h1 {}
+  |  ^^
+
+error: Block
+ --> $DIR/tests/fixture/selector/type/input.css:4:5
+  |
+4 | |h1 {}
+  |     ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/type/input.css:5:1
+  |
+5 | *|h1 {}
+  | ^^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/selector/type/input.css:5:1
+  |
+5 | *|h1 {}
+  | ^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/type/input.css:5:1
+  |
+5 | *|h1 {}
+  | ^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/type/input.css:5:1
+  |
+5 | *|h1 {}
+  | ^^^^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/selector/type/input.css:5:1
+  |
+5 | *|h1 {}
+  | ^^^^
+
+error: Text
+ --> $DIR/tests/fixture/selector/type/input.css:5:1
+  |
+5 | *|h1 {}
+  | ^
+
+error: Text
+ --> $DIR/tests/fixture/selector/type/input.css:5:3
+  |
+5 | *|h1 {}
+  |   ^^
+
+error: Block
+ --> $DIR/tests/fixture/selector/type/input.css:5:6
+  |
+5 | *|h1 {}
+  |      ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/type/input.css:6:1
+  |
+6 | h1 {}
+  | ^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/selector/type/input.css:6:1
+  |
+6 | h1 {}
+  | ^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/type/input.css:6:1
+  |
+6 | h1 {}
+  | ^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/type/input.css:6:1
+  |
+6 | h1 {}
+  | ^^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/selector/type/input.css:6:1
+  |
+6 | h1 {}
+  | ^^
+
+error: Text
+ --> $DIR/tests/fixture/selector/type/input.css:6:1
+  |
+6 | h1 {}
+  | ^^
+
+error: Block
+ --> $DIR/tests/fixture/selector/type/input.css:6:4
+  |
+6 | h1 {}
+  |    ^^
+

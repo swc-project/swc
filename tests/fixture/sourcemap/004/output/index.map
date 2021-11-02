@@ -1,0 +1,37 @@
+{
+  "mappings": "CEACA,IAAI,CAAC,gBAAkB,GAAIA,IAAI,CAAC,gBAAkB,IAAK,CAAC,CAAC,EAAEC,IAAI,CAAC,CAAC;IAAA,CAAC;QAAA,GAAG;IAAA,CAAC;IAAE,CAAC;QAEhE,IAAI,EACH,QAAQ,CAAEC,CAAuB,EAAEC,CAAmB,EAAEC,CAAmB,EAAE,CAAC;YAE7E,CAAY;gBFJtBC,CAAO,GAAP,QAAA,CAAOC,CAAA,EAAA,CAAA;gBAAM,GAAK,CAAAC,CAAA,GAAAD,CAAA,CAAAC,IAAA;gBAAlB,MAAA,KAAAC,CAAA,CAAAC,GAAA,EAAA,CAAA,MAAA,CAAA;oBACDC,QAAA,EAAAH,CAAA,CAAAI,GAAA;gBAAA,CAAA;YAAA,CAAA;YAIWP,CAAmB,CAACQ,CAAC,CAACT,CAAmB,GAC5BC,CAAmB,CAACS,CAAC,CAACV,CAAmB,EAAE,CAAC;gBAC1C,CAAS,UAAE,QAAQ,GAAI,CAAC;oBAAC,MAAM,CAAeW,CAAO;gBAAE,CAAC;gBACxD,CAAS,UAAE,QAAQ,GAAI,CAAC;oBAAC,MAAM,CAAeT,CAAU;gBAAE,CAAC;YAE1E,CAAC;YACY,GAAG,CAACG,CAA8C,GAAGJ,CAAmB,CAAC,IAAI,GAZzDU,CAAA,IAAA,CAAA;QAE5C,CAAA;QAAA,IAAA,ECDD,QAAA,CAAAZ,CAAA,EAAAa,CAAA,EAAAX,CAAA,EAAA,CAAA;aAGAY,MAAe,CAAAC,QAAA,GAAAD,MAAQ,CAAAC,QAA8B,IAAA,CAAA,CAAA,EAAAhB,IAAA,CAAA,CAAA;gBACrD,CAAA;gBACA,QAAA,GAAA,CAAA;oBAKK,MAAA,CAAAG,CAAA,CAAA,IAAA;gBACL,CAAA;YAAA,CAAA;QAAA,CAAA;IAAA,CAAA;IAAA,QAAA,CAAAA,CAAA,EAAA,CAAA;QAAAA,CAAA,CAAAc,CAAA,CAAA,CAAA,EAAA,CAAA;YAAA,GAAA;YAAA,GAAA;YAAA,GAAA;QAAA,CAAA,EAAA,QAAA,GAAA,CAAA;YAAA,MAAA,CAAAd,CAAA,CAAAA,CAAA,CAAAe,CAAA,GAAA,IAAA;QAAA,CAAA,GAAAC,IAAA,GAAAhB,CAAA,CAAAc,CAAA;IAAA,CAAA;AAAA,CAAA",
+  "names": [
+    "self",
+    "push",
+    "__unused_webpack_module",
+    "__webpack_exports__",
+    "__webpack_require__",
+    "StaticPage",
+    "_ref",
+    "data",
+    "react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__",
+    "jsx",
+    "children",
+    "foo",
+    "r",
+    "d",
+    "__N_SSG",
+    "__unused_webpack_exports",
+    "window",
+    "__NEXT_P",
+    "O",
+    "s",
+    "_N_E"
+  ],
+  "sources": [
+    "webpack://./pages/static.js",
+    "webpack://../../../packages/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2Fstatic&absolutePagePath=private-next-pages%2Fstatic.js!",
+    "../../input/index.js"
+  ],
+  "sourcesContent": [
+    "export default function StaticPage({ data }) {\n  return <div>{data.foo}</div>\n}\n\nexport async function getStaticProps() {\n  return {\n    props: {\n      data: {\n        foo: 'bar',\n      },\n    },\n  }\n}\n",
+    "\n    (window.__NEXT_P = window.__NEXT_P || []).push([\n      \"/static\",\n      function () {\n        return require(\"private-next-pages/static.js\");\n      }\n    ]);\n    if(module.hot) {\n      module.hot.dispose(function () {\n        window.__NEXT_P.push([\"/static\"])\n      });\n    }\n  ",
+    "(self[\"webpackChunk_N_E\"] = self[\"webpackChunk_N_E\"] || []).push([[158], {\n\n    /***/ 2943:\n    /***/ (function (__unused_webpack_module, __webpack_exports__, __webpack_require__) {\n\n            \"use strict\";\n            __webpack_require__.r(__webpack_exports__);\n    /* harmony export */ __webpack_require__.d(__webpack_exports__, {\n    /* harmony export */   \"__N_SSG\": function () { return /* binding */ __N_SSG; },\n    /* harmony export */   \"default\": function () { return /* binding */ StaticPage; }\n                /* harmony export */\n            });\n    /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4512);\n\n            var __N_SSG = true;\n            function StaticPage(_ref) {\n                var data = _ref.data;\n                return /*#__PURE__*/(0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(\"div\", {\n                    children: data.foo\n                });\n            }\n\n            /***/\n        }),\n\n    /***/ 7139:\n    /***/ (function (__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {\n\n\n            (window.__NEXT_P = window.__NEXT_P || []).push([\n                \"/static\",\n                function () {\n                    return __webpack_require__(2943);\n                }\n            ]);\n            if (false) { }\n\n\n            /***/\n        })\n\n},\n    /******/ function (__webpack_require__) { // webpackRuntimeModules\n    /******/ var __webpack_exec__ = function (moduleId) { return __webpack_require__(__webpack_require__.s = moduleId); }\n    /******/ __webpack_require__.O(0, [774, 888, 179], function () { return __webpack_exec__(7139); });\n    /******/ var __webpack_exports__ = __webpack_require__.O();\n    /******/ _N_E = __webpack_exports__;\n    /******/\n}\n]);"
+  ],
+  "version": 3
+}

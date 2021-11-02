@@ -58,7 +58,7 @@ error: Text
 1 | [\6es|attr] {}
   |       ^^^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/esbuild/misc/e_FDMPgmGFzIY3W0EbjxHA/input.css:1:13
   |
 1 | [\6es|attr] {}

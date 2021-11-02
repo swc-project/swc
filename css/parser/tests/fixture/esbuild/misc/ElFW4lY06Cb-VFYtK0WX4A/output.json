@@ -28,7 +28,8 @@
               "end": 25,
               "ctxt": 0
             },
-            "value": "url-prefix"
+            "value": "url-prefix",
+            "raw": "url-prefix"
           },
           "args": []
         }
@@ -74,7 +75,8 @@
                         "end": 32,
                         "ctxt": 0
                       },
-                      "value": "h1"
+                      "value": "h1",
+                      "raw": "h1"
                     }
                   },
                   "subclassSelectors": []
@@ -83,7 +85,7 @@
             }
           ],
           "block": {
-            "type": "DeclBlock",
+            "type": "Block",
             "span": {
               "start": 33,
               "end": 49,
@@ -91,22 +93,23 @@
             },
             "items": [
               {
-                "type": "Property",
+                "type": "Declaration",
                 "span": {
                   "start": 35,
                   "end": 47,
                   "ctxt": 0
                 },
-                "name": {
+                "property": {
                   "type": "Text",
                   "span": {
                     "start": 35,
                     "end": 40,
                     "ctxt": 0
                   },
-                  "value": "color"
+                  "value": "color",
+                  "raw": "color"
                 },
-                "values": [
+                "value": [
                   {
                     "type": "Text",
                     "span": {
@@ -114,7 +117,8 @@
                       "end": 47,
                       "ctxt": 0
                     },
-                    "value": "green"
+                    "value": "green",
+                    "raw": "green"
                   }
                 ],
                 "important": null

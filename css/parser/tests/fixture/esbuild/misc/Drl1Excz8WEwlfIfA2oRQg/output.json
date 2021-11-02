@@ -55,7 +55,8 @@
                         "end": 2,
                         "ctxt": 0
                       },
-                      "value": "b"
+                      "value": "b",
+                      "raw": "b"
                     }
                   },
                   "op": "=",
@@ -66,7 +67,8 @@
                       "end": 8,
                       "ctxt": 0
                     },
-                    "value": "c"
+                    "value": "c",
+                    "raw": "\"c\""
                   },
                   "modifier": "i"
                 }
@@ -76,7 +78,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 12,
           "end": 14,

@@ -75,6 +75,11 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
     fn target(&self) -> swc_ecma_ast::EsVersion {
         self.inner.target()
     }
+
+    #[inline]
+    fn care_about_srcmap(&self) -> bool {
+        self.inner.care_about_srcmap()
+    }
 }
 
 impl<W: WriteJs> OmitTrailingSemi<W> {

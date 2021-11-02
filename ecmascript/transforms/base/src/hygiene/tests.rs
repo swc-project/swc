@@ -1,5 +1,6 @@
 use super::*;
 use crate::tests::{HygieneVisualizer, Tester};
+use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, hygiene::*, DUMMY_SP};
 use swc_ecma_parser::Syntax;
 use swc_ecma_utils::quote_ident;
@@ -282,7 +283,7 @@ fn const_then_fn_param() {
                     .fold_with(&mut marker(&[("a", mark2)])),
             ])
         },
-        "const a = 1;
+        "const a1 = 1;
             function foo(a) {
                 use(a);
             }",
@@ -371,7 +372,7 @@ fn shorthand() {
             ])
         },
         "
-            let a = 1;
+            let a1 = 1;
             function foo() {
                 let a = 2;
                 use({ a })
@@ -563,10 +564,19 @@ fn block_in_fn() {
             }))])
         },
         "
+        // Ideal: 
+        //
+        // function Foo() {
+        //     var bar;
+        //     {
+        //         var bar;
+        //     }
+        // }
+
         function Foo() {
             var bar;
             {
-                var bar;
+                var bar1;
             }
         }
         ",
@@ -722,8 +732,8 @@ fn for_x() {
             ])
         },
         "
-        for (var _ref of []){
-            var { a } = _ref, b = _objectWithoutProperties(_ref, ['a']);
+        for (var _ref2 of []){
+            var { a } = _ref2, b = _objectWithoutProperties(_ref2, ['a']);
         }
 
         for (var _ref1 of []){
@@ -813,6 +823,8 @@ fn regression_001() {
         |tester| {
             let mark1 = Mark::fresh(Mark::root());
             let mark2 = Mark::fresh(Mark::root());
+            let mark3 = Mark::fresh(Mark::root());
+            let mark4 = Mark::fresh(Mark::root());
 
             Ok(vec![tester
                 .parse_stmt(
@@ -837,10 +849,10 @@ fn regression_001() {
 }();
                     ",
                 )?
-                .fold_with(&mut OnceMarker::new(&[(
-                    "old",
-                    &[mark1, mark2, mark1, mark1, mark2, mark2],
-                )]))])
+                .fold_with(&mut OnceMarker::new(&[
+                    ("old", &[mark1, mark2, mark1, mark1, mark2, mark2]),
+                    ("_obj", &[mark3, mark4, mark3, mark4]),
+                ]))])
         },
         "var Foo = function() {
     function Foo() {
@@ -851,11 +863,11 @@ fn regression_001() {
     }
     _createClass(Foo, [{
              key: 'test', value: function test(other) {
-                    var old, _obj, old1, _obj;
-                     _classPrivateFieldSet(this, foo, (old = +_classPrivateFieldGet(this, foo)) + \
-         1), old;
-                     _classPrivateFieldSet(_obj = other.obj, foo, (old1 = \
-         +_classPrivateFieldGet(_obj, foo)) + 1), old1;
+                var old, _obj, old1, _obj1;
+                _classPrivateFieldSet(this, foo, (old = +_classPrivateFieldGet(this, foo)) + 1), \
+         old;
+                _classPrivateFieldSet(_obj = other.obj, foo, (old1 = +_classPrivateFieldGet(_obj1, \
+         foo)) + 1), old1;
                 } 
         }]);
     return Foo;
@@ -1149,8 +1161,9 @@ fn issue_295_02() {
                 .fold_with(&mut OnceMarker::new(&[("bar", &[mark1, mark2])])))
         },
         "
-        export const bar = {
+        const bar1 = {
         };
+        export { bar1 as bar };
         class Foo {
             constructor(){
                 bar;
@@ -1218,16 +1231,18 @@ fn issue_1279() {
                     "class Foo {
                         method() {
                             class Foo {}
+                            new Foo();
                         }
                     }",
                 )?
-                .fold_with(&mut OnceMarker::new(&[("Foo", &[mark1, mark2])])))
+                .fold_with(&mut OnceMarker::new(&[("Foo", &[mark1, mark2, mark1])])))
         },
         "
         let Foo = class Foo {
             method() {
-                let Foo = class Foo {
+                let Foo1 = class Foo {
                 };
+                new Foo();
             }
         };
         ",
@@ -1238,6 +1253,7 @@ fn issue_1279() {
 }
 
 #[test]
+#[ignore = "Postponed"]
 fn issue_1507() {
     test_module(
         |tester| {
@@ -1249,16 +1265,23 @@ fn issue_1507() {
                     "actual1.js",
                     "class Foo {
                         method() {
-                            const cls = class Foo {}
+                            const cls = class Foo {
+                                method() {
+                                    new Foo();
+                                }
+                            }
                         }
                     }",
                 )?
-                .fold_with(&mut OnceMarker::new(&[("Foo", &[mark1, mark2])])))
+                .fold_with(&mut OnceMarker::new(&[("Foo", &[mark1, mark2, mark1])])))
         },
         "
-        let Foo = class Foo {
+        let Foo1 = class Foo {
             method() {
                 const cls = class Foo {
+                    method() {
+                        new Foo1();
+                    }
                 };
             }
         };
@@ -1296,11 +1319,11 @@ fn opt_1() {
             Ok(stmts)
         },
         "
-        var foo1 = 1;
+        var foo = 1;
         {
-            const foo = 2;
+            const foo1 = 2;
             {
-                foo1 = foo + foo1
+                foo = foo1 + foo
             }
         }
         ",
@@ -1340,12 +1363,12 @@ fn opt_2() {
         },
         "
         var b = 1;
-        var b11 = 2;
+        var b1 = 2;
         {
             const b2 = 3;
-            const b1 = 4;
+            const b11 = 4;
             {
-                b11 = b2 + b + b1 + b11
+                b1 = b2 + b + b11 + b1;
             }
         }
         ",
@@ -1483,7 +1506,7 @@ fn opt_6() {
                     }
                     ",
                 )?
-                .fold_with(&mut OnceMarker::new(&[("foo", &[mark1, mark2, mark1])]));
+                .fold_with(&mut OnceMarker::new(&[("foo", &[mark1, mark1, mark2])]));
             Ok(stmts)
         },
         "
@@ -1573,11 +1596,11 @@ fn issue_2211_2() {
         "
         var _bar = require('./bar');
         const makeX = ()=>{
-            const _bar1 = () => _bar();
-
-            const alfa = () => _bar1();
-            
-            return { alfa };
+            const _bar1 = ()=>_bar();
+            const alfa = ()=>_bar1();
+            return {
+                alfa
+            };
         };
         ",
     );
@@ -1611,14 +1634,117 @@ fn issue_2297_1() {
             Ok(stmts)
         },
         "
-        var _bar = require('./Bar');
+        var _bar1 = require('./Bar');
         var makeX = function(props) {
-            var _bar1 = props.bar;
-            var list = _bar1.list;
+            var _bar = props.bar;
+            var list = _bar.list;
             return list.map(function() {
-                return _bar.bar;
+                return _bar1.bar;
             });
         };
+        ",
+    );
+}
+
+/// `var` has strange scoping rule.
+#[test]
+fn var_awareness_1() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            let stmts = tester
+                .parse_stmts(
+                    "actual1.js",
+                    "
+                    for (var i of [1, 2, 3]) {
+                        for (var i of [4, 5, 6]) {
+                            console.log(i)
+                        }
+                    }
+                    ",
+                )?
+                .fold_with(&mut OnceMarker::new(&[("i", &[mark1, mark2, mark2])]));
+            Ok(stmts)
+        },
+        "
+        for (var i of [1, 2, 3]) {
+            for (var i1 of [4, 5, 6]) {
+                console.log(i1)
+            }
+        }
+        ",
+    );
+}
+
+/// `var` has strange scoping rule.
+#[test]
+fn var_awareness_2() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            let stmts = tester
+                .parse_stmts(
+                    "actual1.js",
+                    "
+                    for (var i of [1, 2, 3]) {
+                    }
+                    for (var i of [4, 5, 6]) {
+                        console.log(i)
+                    }
+                    ",
+                )?
+                .fold_with(&mut OnceMarker::new(&[("i", &[mark1, mark2, mark2])]));
+            Ok(stmts)
+        },
+        "
+        for (var i of [1, 2, 3]) {
+            
+        }
+        for (var i1 of [4, 5, 6]) {
+            console.log(i1)
+        }
+        ",
+    );
+}
+
+/// `var` has strange scoping rule.
+#[test]
+fn issue_2539() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            let stmts = tester
+                .parse_stmts(
+                    "actual1.js",
+                    "
+                    const obj = {
+                        foo: {
+                            func1(index) {
+                            },
+                            func2(index, index1) {
+                            },
+                        },
+                    }
+                    ",
+                )?
+                .fold_with(&mut OnceMarker::new(&[("index", &[mark1, mark2])]));
+            Ok(stmts)
+        },
+        "
+        const obj = {
+            foo: {
+                func1(index) {
+                },
+                func2(index, index1) {
+                },
+            },
+        }
         ",
     );
 }

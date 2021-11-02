@@ -7,7 +7,7 @@ use crate::{
     debug::dump,
     mode::Mode,
     option::CompressOptions,
-    util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt, MoudleItemExt},
+    util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt, ModuleItemExt},
 };
 use retain_mut::RetainMut;
 use std::mem::take;
@@ -25,7 +25,7 @@ where
     M: Mode,
 {
     ///
-    /// # Exmaple
+    /// # Example
     ///
     ///
     /// ## Input
@@ -416,7 +416,7 @@ where
         }
         self.changed = true;
         tracing::debug!(
-            "sequences: Splitted a sequence exprssion to multiple expression statements"
+            "sequences: Splitted a sequence expression to multiple expression statements"
         );
         *stmts = new_stmts;
     }
@@ -482,7 +482,7 @@ where
         e.exprs = new_exprs;
     }
 
-    /// Hoist varaibles in subscope.
+    /// Hoist variables in subscope.
     ///
     /// I don't know why it depends on `sequences`.
     pub(super) fn extract_vars_in_subscopes(&mut self, s: &mut Stmt) {
@@ -504,7 +504,7 @@ where
 
     /// Move `var` in subscope to current scope.
     ///
-    /// This mehod acutally `hoist`s [VarDecl]s declared with `var`.
+    /// This method actually `hoist`s [VarDecl]s declared with `var`.
     fn extract_vars(&mut self, s: &mut Stmt) {
         let mut found_other = false;
         match s {
@@ -565,7 +565,7 @@ where
             };
 
             match &*e.exprs[e.exprs.len() - 2] {
-                Expr::Assign(assign) => {
+                Expr::Assign(assign @ AssignExpr { op: op!("="), .. }) => {
                     if let Some(lhs) = get_lhs_ident(&assign.left) {
                         if lhs.sym == last_id.sym && lhs.span.ctxt == last_id.span.ctxt {
                             e.exprs.pop();
@@ -641,7 +641,7 @@ where
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, stmts)))]
     pub(super) fn merge_sequences_in_stmts<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: MoudleItemExt,
+        T: ModuleItemExt,
     {
         if !self.options.sequences() && !self.options.collapse_vars {
             if cfg!(feature = "debug") {
@@ -692,20 +692,33 @@ where
         }
 
         for mut exprs in exprs {
-            self.merge_sequences_in_exprs(&mut exprs);
+            let _ = self.merge_sequences_in_exprs(&mut exprs);
         }
 
-        stmts.retain_mut(|stmt| match stmt.as_stmt_mut() {
-            Some(Stmt::Decl(Decl::Var(v))) => {
-                v.decls.retain(|decl| match decl.init.as_deref() {
-                    Some(Expr::Invalid(..)) => false,
-                    _ => true,
-                });
-
-                !v.decls.is_empty()
+        stmts.retain_mut(|stmt| {
+            match stmt.as_stmt_mut() {
+                Some(Stmt::Expr(es)) => match &mut *es.expr {
+                    Expr::Seq(e) => {
+                        e.exprs.retain(|e| !e.is_invalid());
+                    }
+                    _ => {}
+                },
+                _ => {}
             }
-            Some(Stmt::Expr(s)) if s.expr.is_invalid() => false,
-            _ => true,
+
+            match stmt.as_stmt_mut() {
+                Some(Stmt::Decl(Decl::Var(v))) => {
+                    v.decls.retain(|decl| match decl.init.as_deref() {
+                        Some(Expr::Invalid(..)) => false,
+                        _ => true,
+                    });
+
+                    !v.decls.is_empty()
+                }
+                Some(Stmt::Expr(s)) if s.expr.is_invalid() => false,
+
+                _ => true,
+            }
         });
     }
 
@@ -764,7 +777,7 @@ where
             .map(Mergable::Expr)
             .collect();
 
-        self.merge_sequences_in_exprs(&mut exprs);
+        let _ = self.merge_sequences_in_exprs(&mut exprs);
 
         e.exprs.retain(|e| !e.is_invalid());
     }
@@ -774,7 +787,7 @@ where
     ///
     /// TODO(kdy1): Check for side effects and call merge_sequential_expr more
     /// if expressions between a and b are side-effect-free.
-    fn merge_sequences_in_exprs(&mut self, exprs: &mut Vec<Mergable>) {
+    fn merge_sequences_in_exprs(&mut self, exprs: &mut Vec<Mergable>) -> Result<(), ()> {
         for idx in 0..exprs.len() {
             for j in idx..exprs.len() {
                 let (a1, a2) = exprs.split_at_mut(idx);
@@ -794,7 +807,7 @@ where
                         },
                         Mergable::Expr(e) => e,
                     },
-                ) {
+                )? {
                     break;
                 }
 
@@ -818,6 +831,8 @@ where
                 }
             }
         }
+
+        Ok(())
     }
 
     fn is_skippable_for_seq(&self, a: Option<&Mergable>, e: &Expr) -> bool {
@@ -918,7 +933,9 @@ where
     }
 
     /// Returns true if something is modified.
-    fn merge_sequential_expr(&mut self, a: &mut Mergable, b: &mut Expr) -> bool {
+    ///
+    /// Returns [Err] iff we should stop checking.
+    fn merge_sequential_expr(&mut self, a: &mut Mergable, b: &mut Expr) -> Result<bool, ()> {
         let _tracing = if cfg!(feature = "debug") {
             let b_str = dump(&*b);
 
@@ -933,16 +950,16 @@ where
                 Expr::Seq(a) => {
                     //
                     for a in a.exprs.iter_mut().rev() {
-                        if self.merge_sequential_expr(&mut Mergable::Expr(a), b) {
-                            return true;
+                        if self.merge_sequential_expr(&mut Mergable::Expr(a), b)? {
+                            return Ok(true);
                         }
 
                         if !self.is_skippable_for_seq(None, &a) {
-                            return false;
+                            return Ok(false);
                         }
                     }
 
-                    return false;
+                    return Ok(false);
                 }
 
                 _ => {}
@@ -950,7 +967,7 @@ where
         }
 
         match b {
-            Expr::Update(..) => return false,
+            Expr::Update(..) | Expr::Arrow(..) | Expr::Fn(..) => return Ok(false),
 
             Expr::Cond(b) => {
                 tracing::trace!("seq: Try test of cond");
@@ -966,16 +983,16 @@ where
                 op, left, right, ..
             }) => {
                 tracing::trace!("seq: Try left of bin");
-                if self.merge_sequential_expr(a, &mut **left) {
-                    return true;
+                if self.merge_sequential_expr(a, &mut **left)? {
+                    return Ok(true);
                 }
 
                 if !self.is_skippable_for_seq(Some(a), &left) {
-                    return false;
+                    return Ok(false);
                 }
 
                 match *op {
-                    op!("&&") | op!("||") | op!("??") => return false,
+                    op!("&&") | op!("||") | op!("??") => return Ok(false),
                     _ => {}
                 }
 
@@ -999,12 +1016,12 @@ where
                 ..
             }) => {
                 tracing::trace!("seq: Try object of member (computed)");
-                if self.merge_sequential_expr(a, &mut **obj) {
-                    return true;
+                if self.merge_sequential_expr(a, &mut **obj)? {
+                    return Ok(true);
                 }
 
                 if obj.may_have_side_effects() {
-                    return false;
+                    return Ok(false);
                 }
 
                 tracing::trace!("seq: Try prop of member (computed)");
@@ -1015,34 +1032,34 @@ where
                 match &mut b.left {
                     PatOrExpr::Expr(b) => {
                         tracing::trace!("seq: Try lhs of assign");
-                        if self.merge_sequential_expr(a, &mut **b) {
-                            return true;
+                        if self.merge_sequential_expr(a, &mut **b)? {
+                            return Ok(true);
                         }
 
                         match &**b {
                             Expr::Ident(..) => {}
 
                             _ => {
-                                return false;
+                                return Ok(false);
                             }
                         }
                     }
                     PatOrExpr::Pat(b) => match &mut **b {
                         Pat::Expr(b) => {
                             tracing::trace!("seq: Try lhs of assign");
-                            if self.merge_sequential_expr(a, &mut **b) {
-                                return true;
+                            if self.merge_sequential_expr(a, &mut **b)? {
+                                return Ok(true);
                             }
 
                             match &**b {
                                 Expr::Ident(..) => {}
                                 _ => {
-                                    return false;
+                                    return Ok(false);
                                 }
                             }
                         }
                         Pat::Ident(..) => {}
-                        _ => return false,
+                        _ => return Ok(false),
                     },
                 }
 
@@ -1056,18 +1073,18 @@ where
                         Expr::Ident(..) => {}
 
                         _ => {
-                            return false;
+                            return Ok(false);
                         }
                     },
                     PatOrExpr::Pat(b) => match &mut **b {
                         Pat::Expr(b) => match &**b {
                             Expr::Ident(..) => {}
                             _ => {
-                                return false;
+                                return Ok(false);
                             }
                         },
                         Pat::Ident(..) => {}
-                        _ => return false,
+                        _ => return Ok(false),
                     },
                 }
 
@@ -1080,8 +1097,8 @@ where
                     match elem {
                         Some(elem) => {
                             tracing::trace!("seq: Try element of array");
-                            if self.merge_sequential_expr(a, &mut elem.expr) {
-                                return true;
+                            if self.merge_sequential_expr(a, &mut elem.expr)? {
+                                return Ok(true);
                             }
 
                             match &*elem.expr {
@@ -1096,7 +1113,7 @@ where
                     }
                 }
 
-                return false;
+                return Ok(false);
             }
 
             Expr::Call(CallExpr {
@@ -1106,7 +1123,7 @@ where
             }) => {
                 let is_this_undefined = b_callee.is_ident();
                 tracing::trace!("seq: Try callee of call");
-                if self.merge_sequential_expr(a, &mut **b_callee) {
+                if self.merge_sequential_expr(a, &mut **b_callee)? {
                     if is_this_undefined {
                         match &**b_callee {
                             Expr::Member(..) => {
@@ -1126,63 +1143,63 @@ where
                         }
                     }
 
-                    return true;
+                    return Ok(true);
                 }
 
                 if !self.is_skippable_for_seq(Some(a), &b_callee) {
-                    return false;
+                    return Ok(false);
                 }
 
                 for arg in b_args {
                     tracing::trace!("seq: Try arg of call");
-                    if self.merge_sequential_expr(a, &mut arg.expr) {
-                        return true;
+                    if self.merge_sequential_expr(a, &mut arg.expr)? {
+                        return Ok(true);
                     }
 
                     if !self.is_skippable_for_seq(Some(a), &arg.expr) {
-                        return false;
+                        return Ok(false);
                     }
                 }
 
-                return false;
+                return Ok(false);
             }
 
             Expr::New(NewExpr {
                 callee: b_callee, ..
             }) => {
                 tracing::trace!("seq: Try callee of new");
-                if self.merge_sequential_expr(a, &mut **b_callee) {
-                    return true;
+                if self.merge_sequential_expr(a, &mut **b_callee)? {
+                    return Ok(true);
                 }
 
-                return false;
+                return Ok(false);
             }
 
             Expr::Seq(SeqExpr { exprs: b_exprs, .. }) => {
                 for b_expr in b_exprs {
                     tracing::trace!("seq: Try elem of seq");
 
-                    if self.merge_sequential_expr(a, &mut **b_expr) {
-                        return true;
+                    if self.merge_sequential_expr(a, &mut **b_expr)? {
+                        return Ok(true);
                     }
 
                     if !self.is_skippable_for_seq(Some(a), &b_expr) {
-                        return false;
+                        return Ok(false);
                     }
                 }
 
-                return false;
+                return Ok(false);
             }
 
             Expr::Object(ObjectLit { props, .. }) => {
                 for prop in props {
                     match prop {
                         PropOrSpread::Spread(prop) => {
-                            if self.merge_sequential_expr(a, &mut *prop.expr) {
-                                return true;
+                            if self.merge_sequential_expr(a, &mut *prop.expr)? {
+                                return Ok(true);
                             }
 
-                            return false;
+                            return Ok(false);
                         }
                         PropOrSpread::Prop(prop) => {
                             // Inline into key
@@ -1196,32 +1213,32 @@ where
                             };
 
                             if let Some(PropName::Computed(key)) = key {
-                                if self.merge_sequential_expr(a, &mut key.expr) {
-                                    return true;
+                                if self.merge_sequential_expr(a, &mut key.expr)? {
+                                    return Ok(true);
                                 }
 
                                 if !self.is_skippable_for_seq(Some(a), &key.expr) {
-                                    return false;
+                                    return Ok(false);
                                 }
                             }
 
                             match &mut **prop {
                                 Prop::KeyValue(prop) => {
-                                    if self.merge_sequential_expr(a, &mut prop.value) {
-                                        return true;
+                                    if self.merge_sequential_expr(a, &mut prop.value)? {
+                                        return Ok(true);
                                     }
 
                                     if !self.is_skippable_for_seq(Some(a), &prop.value) {
-                                        return false;
+                                        return Ok(false);
                                     }
                                 }
                                 Prop::Assign(prop) => {
-                                    if self.merge_sequential_expr(a, &mut prop.value) {
-                                        return true;
+                                    if self.merge_sequential_expr(a, &mut prop.value)? {
+                                        return Ok(true);
                                     }
 
                                     if !self.is_skippable_for_seq(Some(a), &prop.value) {
-                                        return false;
+                                        return Ok(false);
                                     }
                                 }
                                 _ => {}
@@ -1230,7 +1247,7 @@ where
                     }
                 }
 
-                return false;
+                return Ok(false);
             }
 
             _ => {}
@@ -1281,7 +1298,7 @@ where
                                         v.expr_usage,
                                         v.pat_usage
                                     );
-                                    return false;
+                                    return Ok(false);
                                 }
 
                                 let mut replaced = false;
@@ -1296,14 +1313,14 @@ where
                                 });
                                 if replaced {
                                     a.take();
-                                    return true;
+                                    return Ok(true);
                                 }
                             }
 
                             _ => {}
                         }
 
-                        return false;
+                        return Ok(false);
                     }
 
                     _ => {}
@@ -1326,7 +1343,7 @@ where
                             Some(v) => v,
                             None => {
                                 tracing::trace!("[X] sequences: Aborting because lhs is not an id");
-                                return false;
+                                return Ok(false);
                             }
                         };
 
@@ -1341,20 +1358,20 @@ where
                                     left_id.sym,
                                     left_id.span.ctxt
                                 );
-                                return false;
+                                return Ok(false);
                             }
                         }
 
                         (left_id.clone(), right)
                     }
-                    _ => return false,
+                    _ => return Ok(false),
                 }
             }
 
             Mergable::Var(a) => {
                 let left = match &a.name {
                     Pat::Ident(i) => i.id.clone(),
-                    _ => return false,
+                    _ => return Ok(false),
                 };
 
                 if let Some(usage) = self
@@ -1363,16 +1380,16 @@ where
                     .and_then(|data| data.vars.get(&left.to_id()))
                 {
                     if usage.ref_count != 1 {
-                        return false;
+                        return Ok(false);
                     }
                     if usage.reassigned || !usage.is_fn_local {
-                        return false;
+                        return Ok(false);
                     }
                     match &mut a.init {
                         Some(v) => (left, v),
                         None => {
                             if usage.declared_count > 1 {
-                                return false;
+                                return Ok(false);
                             }
 
                             right_val = undefined(DUMMY_SP);
@@ -1380,19 +1397,19 @@ where
                         }
                     }
                 } else {
-                    return false;
+                    return Ok(false);
                 }
             }
         };
 
         if right.is_this() || right.is_ident_ref_to(js_word!("arguments")) {
-            return false;
+            return Ok(false);
         }
         if idents_used_by_ignoring_nested(&**right)
             .iter()
             .any(|v| v.0 == js_word!("arguments"))
         {
-            return false;
+            return Ok(false);
         }
 
         {
@@ -1419,7 +1436,7 @@ where
 
                 if used_by_b.contains(id) {
                     tracing::trace!("[X] sequences: Aborting because of deps");
-                    return false;
+                    return Err(());
                 }
             }
         }
@@ -1440,7 +1457,7 @@ where
                     v.expr_usage,
                     v.pat_usage
                 );
-                return false;
+                return Ok(false);
             }
         }
 
@@ -1458,7 +1475,11 @@ where
 
         replace_id_with_expr(b, left_id.to_id(), to);
 
-        true
+        if cfg!(feature = "debug") {
+            tracing::debug!("sequences: [Chanded] {}", dump(&*b));
+        }
+
+        Ok(true)
     }
 }
 

@@ -1,10 +1,13 @@
-use crate::{Num, Str, Text, Tokens, Unit};
+use crate::{Num, Str, Text, Tokens};
 use string_enum::StringEnum;
 use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 #[ast_node]
 pub enum Value {
+    #[tag("SquareBracketBlock")]
+    SquareBracketBlock(SquareBracketBlock),
+
     #[tag("ParenValue")]
     Paren(ParenValue),
 
@@ -31,9 +34,6 @@ pub enum Value {
 
     #[tag("BinValue")]
     Bin(BinValue),
-
-    #[tag("ArrayValue")]
-    Array(ArrayValue),
 
     #[tag("SpaceValues")]
     Space(SpaceValues),
@@ -83,7 +83,7 @@ pub struct BinValue {
 
 #[ast_node("FnValue")]
 pub struct FnValue {
-    /// Span starting from the `lo` of identifer and to the end of `)`.
+    /// Span starting from the `lo` of identifier and to the end of `)`.
     pub span: Span,
 
     pub name: Text,
@@ -99,13 +99,11 @@ pub struct ParenValue {
     pub value: Option<Box<Value>>,
 }
 
-#[ast_node("ArrayValue")]
-pub struct ArrayValue {
+#[ast_node("SquareBracketBlock")]
+pub struct SquareBracketBlock {
     /// Includes `[` and `]`.
     pub span: Span,
-
-    /// Comma separated list of values.
-    pub values: Vec<Value>,
+    pub children: Option<Vec<Value>>,
 }
 
 #[ast_node("HashValue")]
@@ -114,6 +112,15 @@ pub struct HashValue {
     pub span: Span,
     /// Does **not** include `#`
     pub value: JsWord,
+    /// Does **not** include `#`
+    pub raw: JsWord,
+}
+
+#[ast_node]
+pub struct Unit {
+    pub span: Span,
+    pub value: JsWord,
+    pub raw: JsWord,
 }
 
 #[ast_node("UnitValue")]
@@ -159,6 +166,6 @@ pub struct AtTextValue {
 #[ast_node("UrlValue")]
 pub struct UrlValue {
     pub span: Span,
-
     pub url: JsWord,
+    pub raw: JsWord,
 }

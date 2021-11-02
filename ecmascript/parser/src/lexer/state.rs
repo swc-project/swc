@@ -1,7 +1,10 @@
-use super::{Context, Input, Lexer};
-use crate::{error::Error, input::Tokens, lexer::util::CharExt, token::*, JscTarget, Syntax};
+use super::{
+    comments_buffer::{BufferedComment, BufferedCommentKind},
+    Context, Input, Lexer,
+};
+use crate::{error::Error, input::Tokens, lexer::util::CharExt, token::*, EsVersion, Syntax};
 use enum_kind::Kind;
-use std::{mem, mem::take};
+use std::mem::take;
 use swc_common::BytePos;
 use tracing::trace;
 
@@ -121,7 +124,7 @@ impl<I: Input> Tokens for Lexer<'_, I> {
     fn syntax(&self) -> Syntax {
         self.syntax
     }
-    fn target(&self) -> JscTarget {
+    fn target(&self) -> EsVersion {
         self.target
     }
 
@@ -182,30 +185,39 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                 Some(c) => c,
                 // End of input.
                 None => {
-                    if self
-                        .leading_comments_buffer
-                        .as_ref()
-                        .map(|v| !v.borrow().is_empty())
-                        .unwrap_or(false)
-                    {
+                    if let Some(comments) = self.comments.as_mut() {
+                        let comments_buffer = self.comments_buffer.as_mut().unwrap();
                         let last = self.state.prev_hi;
 
-                        for c in self
-                            .leading_comments_buffer
-                            .as_ref()
-                            .map(|v| v.borrow_mut())
-                            .unwrap()
-                            .drain(..)
-                        {
-                            let comments = self.comments.as_mut().unwrap();
-
+                        // move the pending to the leading or trailing
+                        for c in comments_buffer.take_pending_leading() {
                             // if the file had no tokens and no shebang, then treat any
                             // comments in the leading comments buffer as leading.
                             // Otherwise treat them as trailing.
                             if last == BytePos(0) {
-                                comments.add_leading(last, c);
+                                comments_buffer.push(BufferedComment {
+                                    kind: BufferedCommentKind::Leading,
+                                    pos: last,
+                                    comment: c,
+                                });
                             } else {
-                                comments.add_trailing(last, c);
+                                comments_buffer.push(BufferedComment {
+                                    kind: BufferedCommentKind::Trailing,
+                                    pos: last,
+                                    comment: c,
+                                });
+                            }
+                        }
+
+                        // now fill the user's passed in comments
+                        for comment in comments_buffer.take_comments() {
+                            match comment.kind {
+                                BufferedCommentKind::Leading => {
+                                    comments.add_leading(comment.pos, comment.comment);
+                                }
+                                BufferedCommentKind::Trailing => {
+                                    comments.add_trailing(comment.pos, comment.comment);
+                                }
                             }
                         }
                     }
@@ -283,25 +295,14 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
 
         let span = self.span(start);
         if let Some(ref token) = token {
-            if self.leading_comments_buffer.is_some()
-                && !self
-                    .leading_comments_buffer
-                    .as_ref()
-                    .unwrap()
-                    .borrow()
-                    .is_empty()
-            {
-                self.comments.as_ref().unwrap().add_leading_comments(
-                    start,
-                    mem::replace(
-                        &mut *self
-                            .leading_comments_buffer
-                            .as_ref()
-                            .map(|v| v.borrow_mut())
-                            .unwrap(),
-                        vec![],
-                    ),
-                );
+            if let Some(comments) = self.comments_buffer.as_mut() {
+                for comment in comments.take_pending_leading() {
+                    comments.push(BufferedComment {
+                        kind: BufferedCommentKind::Leading,
+                        pos: start,
+                        comment,
+                    });
+                }
             }
             self.state.update(start, &token);
             self.state.prev_hi = self.last_pos();
@@ -672,7 +673,7 @@ pub enum TokenContext {
 #[cfg(test)]
 pub(crate) fn with_lexer<F, Ret>(
     syntax: Syntax,
-    target: JscTarget,
+    target: EsVersion,
     s: &str,
     f: F,
 ) -> Result<Ret, ::testing::StdErr>
@@ -720,7 +721,7 @@ pub(crate) fn lex_tokens(syntax: Syntax, s: &'static str) -> Vec<Token> {
 #[cfg(test)]
 pub(crate) fn lex_tokens_with_target(
     syntax: Syntax,
-    target: JscTarget,
+    target: EsVersion,
     s: &'static str,
 ) -> Vec<Token> {
     with_lexer(syntax, target, s, |l| Ok(l.map(|ts| ts.token).collect())).unwrap()
@@ -730,7 +731,7 @@ pub(crate) fn lex_tokens_with_target(
 /// if the lexer fails to recover from it.
 #[cfg(test)]
 pub(crate) fn lex_errors(syntax: Syntax, s: &'static str) -> (Vec<Token>, Vec<Error>) {
-    with_lexer(syntax, JscTarget::Es2020, s, |l| {
+    with_lexer(syntax, EsVersion::Es2020, s, |l| {
         let tokens = l.map(|ts| ts.token).collect();
         let errors = l.take_errors();
         Ok((tokens, errors))

@@ -8,7 +8,7 @@ use swc_ecma_transforms_compat::{
     es2015,
     es2015::{arrow, destructuring, function_name, parameters},
     es2017::async_to_generator,
-    es2020::class_properties,
+    es2022::class_properties,
 };
 use swc_ecma_transforms_testing::{compare_stdout, test, test_exec};
 use swc_ecma_visit::{Fold, FoldWith};
@@ -223,8 +223,8 @@ async function s(x, ...args) {
     r#"
     function _s() {
       _s = _asyncToGenerator((function*(x) {
-          for(let _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
-              args[_key - 1] = arguments[_key];
+          for(let _len1 = arguments.length, args = new Array(_len1 > 1 ? _len1 - 1 : 0), _key1 = 1; _key1 < _len1; _key1++){
+              args[_key1 - 1] = arguments[_key1];
           }
           var _this = this, _arguments = arguments;
           let t = function(y, a) {
@@ -380,16 +380,16 @@ class Class {
     class Class {
       method() {
           return _asyncToGenerator((function*() {
-              var _this = this, _this1 = this;
+              var _this2 = this, _this1 = this;
               this;
               (function() {
-                  return _this;
+                  return _this2;
               });
               (function() {
-                  var _this2 = _this1;
+                  var _this4 = _this1;
                   _this1;
                   (function() {
-                      return _this2;
+                      return _this4;
                   });
                   function x() {
                       var _this = this, _this3 = this;
@@ -408,14 +408,14 @@ class Class {
                   }
               });
               function x() {
-                  var _this = this, _this2 = this;
+                  var _this = this, _this5 = this;
                   this;
                   (function() {
                       _this;
                   });
                   (function() {
                       var _ref = _asyncToGenerator(function*() {
-                          _this2;
+                          _this5;
                       });
                       return function() {
                           return _ref.apply(this, arguments);
@@ -2419,7 +2419,7 @@ test_exec!(
     Syntax::default(),
     |_| {
         let mark = Mark::fresh(Mark::root());
-        chain!(async_to_generator(), regenerator(mark))
+        chain!(async_to_generator(), regenerator(Default::default(), mark))
     },
     issue_1575_2,
     "
@@ -2569,7 +2569,10 @@ test!(
     Syntax::default(),
     |_| {
         let top_level_mark = Mark::fresh(Mark::root());
-        chain!(async_to_generator(), regenerator(top_level_mark))
+        chain!(
+            async_to_generator(),
+            regenerator(Default::default(), top_level_mark)
+        )
     },
     issue_1684_2,
     "
@@ -2706,7 +2709,11 @@ fn exec_regenerator(input: PathBuf) {
         |_| {
             let top_level_mark = Mark::fresh(Mark::root());
 
-            chain!(async_to_generator(), regenerator(top_level_mark))
+            chain!(
+                async_to_generator(),
+                es2015::for_of(Default::default()),
+                regenerator(Default::default(), top_level_mark)
+            )
         },
         &input,
     );

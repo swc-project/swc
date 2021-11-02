@@ -1,29 +1,27 @@
-use std::{
-    collections::{HashMap, HashSet},
-    mem,
+use self::util::{
+    callee_should_ignore, gen_custom_hook_record, is_body_arrow_fn, is_builtin_hook,
+    is_import_or_require, make_assign_stmt, make_call_expr, make_call_stmt, CollectIdent,
 };
-
 use base64;
 use indexmap::IndexSet;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use sha1::{Digest, Sha1};
-
+use std::{
+    collections::{HashMap, HashSet},
+    mem,
+};
 use swc_atoms::JsWord;
 use swc_common::{
     collections::{AHashMap, AHashSet},
-    comments::{Comments, CommentsExt},
+    comments::Comments,
     sync::Lrc,
     util::take::Take,
-    BytePos, SourceMap, Span, Spanned, DUMMY_SP,
+    BytePos, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{private_ident, quote_ident, quote_str};
+use swc_ecma_utils::{ident::IdentLike, private_ident, quote_ident, quote_str, Id};
 use swc_ecma_visit::{Fold, FoldWith, Node, Visit};
-use util::{
-    callee_should_ignore, gen_custom_hook_record, is_body_arrow_fn, is_builtin_hook,
-    is_import_or_require, make_assign_stmt, make_call_expr, make_call_stmt, CollectIdent,
-};
 
 pub mod options;
 use options::RefreshOptions;
@@ -34,7 +32,7 @@ mod tests;
 
 struct Hoc {
     insert: bool,
-    reg: Vec<(Ident, String)>,
+    reg: Vec<(Ident, Id)>,
     // use to register hook for all level of HOC, first is hook register ident
     // rest is hook register call args
     hook: Option<HocHook>,
@@ -50,6 +48,11 @@ enum Persist {
 }
 fn get_persistent_id(ident: &Ident) -> Persist {
     if ident.sym.starts_with(|c: char| c.is_ascii_uppercase()) {
+        if cfg!(debug_assertions) {
+            if ident.span.ctxt == SyntaxContext::empty() {
+                panic!("`{}` should be resolved", ident)
+            }
+        }
         Persist::Component(ident.clone())
     } else {
         Persist::None
@@ -120,6 +123,7 @@ struct Refresh<C: Comments> {
 }
 
 static IS_HOOK_LIKE: Lazy<Regex> = Lazy::new(|| Regex::new("^use[A-Z]").unwrap());
+
 impl<C: Comments> Refresh<C> {
     fn get_hook_from_call_expr(&self, expr: &CallExpr, lhs: Option<&Pat>) -> Option<Hook> {
         let callee = if let ExprOrSuper::Expr(callee) = &expr.callee {
@@ -181,6 +185,7 @@ impl<C: Comments> Refresh<C> {
         let callee = hook_call?;
         Some(Hook { name, callee, key })
     }
+
     fn get_hook_from_expr(&self, expr: &Expr, lhs: Option<&Pat>, reg: &mut Vec<Hook>) {
         match expr {
             Expr::Paren(ParenExpr { expr, .. }) => {
@@ -203,6 +208,7 @@ impl<C: Comments> Refresh<C> {
             _ => (),
         }
     }
+
     fn get_hook_sign(&mut self, body: &mut BlockStmt) -> Option<FnWithHook> {
         let mut sign_res = Vec::new();
         for stmt in &body.stmts {
@@ -237,6 +243,7 @@ impl<C: Comments> Refresh<C> {
             None
         }
     }
+
     fn get_hook_sign_from_arrow(&mut self, body: &mut BlockStmtOrExpr) -> Option<FnWithHook> {
         match body {
             BlockStmtOrExpr::BlockStmt(stmt) => self.get_hook_sign(stmt),
@@ -268,6 +275,7 @@ impl<C: Comments> Refresh<C> {
             }
         }
     }
+
     fn gen_hook_handle(&self, curr_hook_fn: &Vec<FnWithHook>) -> Stmt {
         let refresh_sig = self.options.refresh_sig.as_str();
         Stmt::Decl(Decl::Var(VarDecl {
@@ -285,6 +293,7 @@ impl<C: Comments> Refresh<C> {
             declare: false,
         }))
     }
+
     // The second call is around the function itself. This is used to associate a
     // type with a signature.
     // Unlike with $RefreshReg$, this needs to work for nested declarations too.
@@ -388,6 +397,7 @@ impl<C: Comments> Refresh<C> {
             type_args: None,
         })
     }
+
     fn gen_hook_register_stmt(&self, func: Expr, hook_fn: &mut FnWithHook) -> Stmt {
         Stmt::Expr(ExprStmt {
             span: DUMMY_SP,
@@ -432,7 +442,7 @@ impl<C: Comments> Refresh<C> {
                     // Maybe a HOC.
                     Expr::Call(call_expr) => self.get_persistent_id_from_possible_hoc(
                         call_expr,
-                        vec![(private_ident!("_c"), persistent_id.sym.to_string())],
+                        vec![(private_ident!("_c"), persistent_id.to_id())],
                         ignore,
                     ),
                     _ => Persist::None,
@@ -441,10 +451,11 @@ impl<C: Comments> Refresh<C> {
         }
         Persist::None
     }
+
     fn get_persistent_id_from_possible_hoc(
         &self,
         call_expr: &mut CallExpr,
-        mut reg: Vec<(Ident, String)>,
+        mut reg: Vec<(Ident, Id)>,
         // sadly unlike orignal implent our transform for component happens before hook
         // so we should just ignore hook register
         ignore: &AHashSet<Ident>,
@@ -477,7 +488,10 @@ impl<C: Comments> Refresh<C> {
             Expr::Member(member) => self.cm.span_to_snippet(member.span).unwrap(),
             _ => return Persist::None,
         };
-        let reg_str = reg.last().unwrap().1.clone() + "$" + &hoc_name;
+        let reg_str = (
+            format!("{}${}", reg.last().unwrap().1 .0, &hoc_name).into(),
+            SyntaxContext::empty(),
+        );
         match first_arg.as_mut() {
             Expr::Call(expr) => {
                 let reg_ident = private_ident!("_c");
@@ -565,12 +579,59 @@ where
     }
 }
 
-// We let user do /* @refresh reset */ to reset state in the whole file.
+/// We let user do /* @refresh reset */ to reset state in the whole file.
+///
+/// TODO: VisitMut
 impl<C: Comments> Fold for Refresh<C> {
-    fn fold_jsx_opening_element(&mut self, n: JSXOpeningElement) -> JSXOpeningElement {
-        if let JSXElementName::Ident(ident) = &n.name {
-            self.used_in_jsx.insert(ident.sym.clone());
+    fn fold_block_stmt(&mut self, n: BlockStmt) -> BlockStmt {
+        let mut current_scope = IndexSet::new();
+
+        for stmt in &n.stmts {
+            stmt.collect_ident(&mut current_scope);
         }
+        let orig_bindings = self.scope_binding.len();
+        self.scope_binding.extend(current_scope.into_iter());
+
+        let orig_hook = mem::replace(&mut self.curr_hook_fn, Vec::new());
+        let mut n = n.fold_children_with(self);
+        let curr_hook = mem::replace(&mut self.curr_hook_fn, orig_hook);
+        self.scope_binding.truncate(orig_bindings);
+
+        if curr_hook.len() > 0 {
+            let stmt_count = n.stmts.len();
+            let stmts = mem::replace(&mut n.stmts, Vec::with_capacity(stmt_count));
+            n.stmts.push(self.gen_hook_handle(&curr_hook));
+            let (mut handle_map, _) = hook_to_handle_map(curr_hook);
+
+            for stmt in stmts {
+                let mut reg = Vec::new();
+                match &stmt {
+                    Stmt::Decl(Decl::Fn(FnDecl { ident, .. })) => {
+                        if let Some(hook) = handle_map.remove(ident) {
+                            reg.push((ident.clone(), hook));
+                        }
+                    }
+                    Stmt::Decl(Decl::Var(VarDecl { decls, .. })) => {
+                        for decl in decls {
+                            if let Pat::Ident(BindingIdent { id, .. }) = &decl.name {
+                                if let Some(hook) = handle_map.remove(id) {
+                                    reg.push((id.clone(), hook));
+                                }
+                            }
+                        }
+                    }
+                    _ => (),
+                };
+                n.stmts.push(stmt);
+                if reg.len() > 0 {
+                    for (ident, mut hook) in reg {
+                        n.stmts
+                            .push(self.gen_hook_register_stmt(Expr::Ident(ident), &mut hook));
+                    }
+                }
+            }
+        }
+
         n
     }
 
@@ -591,30 +652,15 @@ impl<C: Comments> Fold for Refresh<C> {
             };
             match ident.sym.as_ref() {
                 "createElement" | "jsx" | "jsxDEV" | "jsxs" => {
-                    let ExprOrSpread { expr, .. } = &n.args[0];
-                    if let Expr::Ident(ident) = expr.as_ref() {
-                        self.used_in_jsx.insert(ident.sym.clone());
+                    if let Some(ExprOrSpread { expr, .. }) = n.args.get(0) {
+                        if let Expr::Ident(ident) = expr.as_ref() {
+                            self.used_in_jsx.insert(ident.sym.clone());
+                        }
                     }
                 }
                 _ => (),
             }
         }
-        n
-    }
-
-    fn fold_fn_decl(&mut self, n: FnDecl) -> FnDecl {
-        let mut n = n.fold_children_with(self);
-
-        if let Some(mut hook) = n
-            .function
-            .body
-            .as_mut()
-            .and_then(|body| self.get_hook_sign(body))
-        {
-            hook.binding = Some(n.ident.clone());
-            self.curr_hook_fn.push(hook);
-        }
-
         n
     }
 
@@ -637,67 +683,6 @@ impl<C: Comments> Fold for Refresh<C> {
         }
 
         n
-    }
-
-    fn fold_var_decl(&mut self, n: VarDecl) -> VarDecl {
-        let VarDecl {
-            span,
-            kind,
-            declare,
-            decls,
-        } = n;
-
-        // we don't want fold_expr to mess up with function name inference
-        // so intercept it here
-        let decls = decls
-            .into_iter()
-            .map(|decl| match decl {
-                VarDeclarator {
-                    span,
-                    // it doesn't quite make sense for other Pat to appear here
-                    name: Pat::Ident(BindingIdent { id, type_ann }),
-                    init: Some(init),
-                    definite,
-                } => {
-                    let init = match *init {
-                        Expr::Fn(mut expr) => {
-                            if let Some(mut hook) = expr
-                                .function
-                                .body
-                                .as_mut()
-                                .and_then(|body| self.get_hook_sign(body))
-                            {
-                                hook.binding = Some(id.clone());
-                                self.curr_hook_fn.push(hook);
-                            }
-                            Expr::Fn(expr.fold_children_with(self))
-                        }
-                        Expr::Arrow(mut expr) => {
-                            if let Some(mut hook) = self.get_hook_sign_from_arrow(&mut expr.body) {
-                                hook.binding = Some(id.clone());
-                                self.curr_hook_fn.push(hook);
-                            }
-                            Expr::Arrow(expr.fold_children_with(self))
-                        }
-                        _ => self.fold_expr(*init),
-                    };
-                    VarDeclarator {
-                        span,
-                        name: Pat::Ident(BindingIdent { id, type_ann }),
-                        init: Some(Box::new(init)),
-                        definite,
-                    }
-                }
-                _ => decl.fold_children_with(self),
-            })
-            .collect();
-
-        VarDecl {
-            span,
-            kind,
-            declare,
-            decls,
-        }
     }
 
     fn fold_expr(&mut self, n: Expr) -> Expr {
@@ -741,59 +726,26 @@ impl<C: Comments> Fold for Refresh<C> {
         }
     }
 
-    fn fold_block_stmt(&mut self, n: BlockStmt) -> BlockStmt {
-        let mut current_scope = IndexSet::new();
-
-        for stmt in &n.stmts {
-            stmt.collect_ident(&mut current_scope);
-        }
-        let orig_bindinga = self.scope_binding.len();
-        self.scope_binding.extend(current_scope.into_iter());
-
-        let orig_hook = mem::replace(&mut self.curr_hook_fn, Vec::new());
+    fn fold_fn_decl(&mut self, n: FnDecl) -> FnDecl {
         let mut n = n.fold_children_with(self);
-        let curr_hook = mem::replace(&mut self.curr_hook_fn, orig_hook);
-        self.scope_binding.truncate(orig_bindinga);
 
-        if curr_hook.len() > 0 {
-            let stmt_count = n.stmts.len();
-            let stmts = mem::replace(&mut n.stmts, Vec::with_capacity(stmt_count));
-            n.stmts.push(self.gen_hook_handle(&curr_hook));
-            let (mut handle_map, _) = hook_to_handle_map(curr_hook);
-
-            for stmt in stmts {
-                let mut reg = Vec::new();
-                match &stmt {
-                    Stmt::Decl(Decl::Fn(FnDecl { ident, .. })) => {
-                        if let Some(hook) = handle_map.remove(ident) {
-                            reg.push((ident.clone(), hook));
-                        }
-                    }
-                    Stmt::Decl(Decl::Var(VarDecl { decls, .. })) => {
-                        for decl in decls {
-                            if let Pat::Ident(BindingIdent { id, .. }) = &decl.name {
-                                if let Some(hook) = handle_map.remove(id) {
-                                    reg.push((id.clone(), hook));
-                                }
-                            }
-                        }
-                    }
-                    _ => (),
-                };
-                n.stmts.push(stmt);
-                if reg.len() > 0 {
-                    for (ident, mut hook) in reg {
-                        n.stmts
-                            .push(self.gen_hook_register_stmt(Expr::Ident(ident), &mut hook));
-                    }
-                }
-            }
+        if let Some(mut hook) = n
+            .function
+            .body
+            .as_mut()
+            .and_then(|body| self.get_hook_sign(body))
+        {
+            hook.binding = Some(n.ident.clone());
+            self.curr_hook_fn.push(hook);
         }
 
         n
     }
 
-    fn fold_ts_module_decl(&mut self, n: TsModuleDecl) -> TsModuleDecl {
+    fn fold_jsx_opening_element(&mut self, n: JSXOpeningElement) -> JSXOpeningElement {
+        if let JSXElementName::Ident(ident) = &n.name {
+            self.used_in_jsx.insert(ident.sym.clone());
+        }
         n
     }
 
@@ -811,7 +763,7 @@ impl<C: Comments> Fold for Refresh<C> {
         let module_items = module_items.fold_children_with(self);
 
         let mut items = Vec::with_capacity(module_items.len());
-        let mut refresh_regs = Vec::<(Ident, String)>::new();
+        let mut refresh_regs = Vec::<(Ident, Id)>::new();
 
         if self.curr_hook_fn.len() > 0 {
             items.push(ModuleItem::Stmt(self.gen_hook_handle(&self.curr_hook_fn)));
@@ -888,7 +840,10 @@ impl<C: Comments> Fold for Refresh<C> {
                         if let Persist::Hoc(Hoc { reg, .. }) = self
                             .get_persistent_id_from_possible_hoc(
                                 call,
-                                vec![((private_ident!("_c"), "%default%".to_string()))],
+                                vec![(
+                                    private_ident!("_c"),
+                                    ("%default%".into(), SyntaxContext::empty()),
+                                )],
                                 &ignore,
                             )
                         {
@@ -927,7 +882,7 @@ impl<C: Comments> Fold for Refresh<C> {
                 Persist::Component(persistent_id) => {
                     let registration_handle = private_ident!("_c");
 
-                    refresh_regs.push((registration_handle.clone(), persistent_id.sym.to_string()));
+                    refresh_regs.push((registration_handle.clone(), persistent_id.to_id()));
 
                     items.push(ModuleItem::Stmt(Stmt::Expr(ExprStmt {
                         span: DUMMY_SP,
@@ -946,7 +901,10 @@ impl<C: Comments> Fold for Refresh<C> {
                             span: DUMMY_SP,
                             expr: Box::new(make_assign_stmt(
                                 ident.clone(),
-                                Box::new(Expr::Ident(quote_ident!(name.clone()))),
+                                Box::new(Expr::Ident(Ident::new(
+                                    name.0.clone(),
+                                    DUMMY_SP.with_ctxt(name.1),
+                                ))),
                             )),
                         })))
                     }
@@ -995,7 +953,7 @@ impl<C: Comments> Fold for Refresh<C> {
                         },
                         ExprOrSpread {
                             spread: None,
-                            expr: Box::new(Expr::Lit(Lit::Str(quote_str!(persistent_id)))),
+                            expr: Box::new(Expr::Lit(Lit::Str(quote_str!(persistent_id.0)))),
                         },
                     ],
                     type_args: None,
@@ -1004,5 +962,70 @@ impl<C: Comments> Fold for Refresh<C> {
         }
 
         items
+    }
+
+    fn fold_ts_module_decl(&mut self, n: TsModuleDecl) -> TsModuleDecl {
+        n
+    }
+
+    fn fold_var_decl(&mut self, n: VarDecl) -> VarDecl {
+        let VarDecl {
+            span,
+            kind,
+            declare,
+            decls,
+        } = n;
+
+        // we don't want fold_expr to mess up with function name inference
+        // so intercept it here
+        let decls = decls
+            .into_iter()
+            .map(|decl| match decl {
+                VarDeclarator {
+                    span,
+                    // it doesn't quite make sense for other Pat to appear here
+                    name: Pat::Ident(BindingIdent { id, type_ann }),
+                    init: Some(init),
+                    definite,
+                } => {
+                    let init = match *init {
+                        Expr::Fn(mut expr) => {
+                            if let Some(mut hook) = expr
+                                .function
+                                .body
+                                .as_mut()
+                                .and_then(|body| self.get_hook_sign(body))
+                            {
+                                hook.binding = Some(id.clone());
+                                self.curr_hook_fn.push(hook);
+                            }
+                            Expr::Fn(expr.fold_children_with(self))
+                        }
+                        Expr::Arrow(mut expr) => {
+                            if let Some(mut hook) = self.get_hook_sign_from_arrow(&mut expr.body) {
+                                hook.binding = Some(id.clone());
+                                self.curr_hook_fn.push(hook);
+                            }
+                            Expr::Arrow(expr.fold_children_with(self))
+                        }
+                        _ => self.fold_expr(*init),
+                    };
+                    VarDeclarator {
+                        span,
+                        name: Pat::Ident(BindingIdent { id, type_ann }),
+                        init: Some(Box::new(init)),
+                        definite,
+                    }
+                }
+                _ => decl.fold_children_with(self),
+            })
+            .collect();
+
+        VarDecl {
+            span,
+            kind,
+            declare,
+            decls,
+        }
     }
 }

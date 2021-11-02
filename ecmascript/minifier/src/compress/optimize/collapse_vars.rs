@@ -1,9 +1,7 @@
 use super::Optimizer;
 use crate::mode::Mode;
-use rustc_hash::FxHashMap;
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, Id};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_utils::ident::IdentLike;
 
 /// Methods related to the option `collapse_vars`.
 impl<M> Optimizer<'_, M>
@@ -20,7 +18,7 @@ where
         }
 
         match &*e {
-            Expr::Assign(assign) => {
+            Expr::Assign(assign @ AssignExpr { op: op!("="), .. }) => {
                 //
                 let left = match &assign.left {
                     PatOrExpr::Expr(_) => return,
@@ -43,7 +41,7 @@ where
                         return;
                     }
 
-                    if usage.used_in_loop {
+                    if usage.used_in_loop || usage.used_in_cond {
                         match &*assign.right {
                             Expr::Lit(..) | Expr::Ident(..) => {}
                             _ => return,
@@ -73,29 +71,6 @@ where
                 );
 
                 self.lits.insert(left.to_id(), value);
-            }
-            _ => {}
-        }
-    }
-}
-
-struct Inliner<'a> {
-    values: &'a mut FxHashMap<Id, Option<Box<Expr>>>,
-}
-
-impl VisitMut for Inliner<'_> {
-    noop_visit_mut_type!();
-
-    fn visit_mut_expr(&mut self, e: &mut Expr) {
-        e.visit_mut_children_with(self);
-
-        match e {
-            Expr::Ident(i) => {
-                if let Some(value) = self.values.remove(&i.to_id()) {
-                    tracing::debug!("collapse_vars: Inlining {}{:?}", i.sym, i.span.ctxt);
-
-                    *e = *value.expect("should be used only once");
-                }
             }
             _ => {}
         }

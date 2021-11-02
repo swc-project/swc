@@ -21,7 +21,7 @@ impl VisitMut for UnwrapParen {
 }
 
 fn assert_negate_cost(s: &str, in_bool_ctx: bool, is_ret_val_ignored: bool, expected: isize) {
-    testing::run_test2(false, |cm, _| {
+    testing::run_test2(false, |cm, handler| {
         let fm = cm.new_source_file(FileName::Anon, s.to_string());
 
         let lexer = Lexer::new(
@@ -33,13 +33,11 @@ fn assert_negate_cost(s: &str, in_bool_ctx: bool, is_ret_val_ignored: bool, expe
 
         let mut parser = Parser::new_from(lexer);
 
-        let mut e = parser
-            .parse_expr()
-            .expect("failed to parse input as an expression");
+        let mut e = parser.parse_expr().map_err(|e| {
+            e.into_diagnostic(&handler).emit();
+        })?;
 
         e.visit_mut_with(&mut UnwrapParen);
-
-        dbg!(&e);
 
         let actual = negate_cost(&e, in_bool_ctx, is_ret_val_ignored).unwrap();
 
@@ -98,5 +96,119 @@ fn negate_cost_4() {
         true,
         true,
         2,
+    );
+}
+
+#[test]
+fn negate_cost_5() {
+    assert_negate_cost(
+        "!(capacity && codeResult1 && (codeResult2 = codeResult1, !((list = config.blacklist) && \
+         list.some(function(item) {
+            return Object.keys(item).every(function(key) {
+                return item[key] === codeResult2[key];
+            });
+        }))) && (codeResult3 = codeResult1, \"function\" != typeof (filter = config.filter) || \
+         filter(codeResult3))) || (capacity--, result.codeResult = codeResult, capture && \
+         (canvas.width = imageSize.x, canvas.height = imageSize.y, image_debug.a.drawImage(data, \
+         imageSize, ctx), result.frame = canvas.toDataURL()), results.push(result))",
+        true,
+        true,
+        -1,
+    );
+}
+
+#[test]
+fn negate_cost_5_1() {
+    assert_negate_cost(
+        "!(capacity && codeResult1 && (codeResult2 = codeResult1, !((list = config.blacklist) && \
+         list.some(function(item) {
+            return Object.keys(item).every(function(key) {
+                return item[key] === codeResult2[key];
+            });
+        }))) && (codeResult3 = codeResult1, \"function\" != typeof (filter = config.filter) || \
+         filter(codeResult3)))",
+        true,
+        false,
+        -1,
+    );
+}
+
+#[test]
+fn negate_cost_5_2() {
+    assert_negate_cost(
+        "!(capacity && codeResult1 && (codeResult2 = codeResult1, !((list = config.blacklist) && \
+         list.some(function(item) {
+            return Object.keys(item).every(function(key) {
+                return item[key] === codeResult2[key];
+            });
+        }))))",
+        true,
+        false,
+        -1,
+    );
+}
+
+#[test]
+fn negate_cost_5_3() {
+    assert_negate_cost(
+        "!(codeResult2 = codeResult1, !((list = config.blacklist) && list.some(function(item) {
+            return Object.keys(item).every(function(key) {
+                return item[key] === codeResult2[key];
+            });
+        })))",
+        true,
+        false,
+        -1,
+    );
+}
+
+#[test]
+fn negate_cost_6() {
+    assert_negate_cost(
+        "
+        capacity && codeResult1 && (codeResult2 = codeResult1, !((list = config.blacklist) && \
+         list.some(function(item) {
+            return Object.keys(item).every(function(key) {
+                return item[key] === codeResult2[key];
+            });
+        }))) && (codeResult3 = codeResult1, \"function\" != typeof (filter = config.filter) || \
+         filter(codeResult3)) && (capacity--, result.codeResult = codeResult, capture && \
+         (canvas.width = imageSize.x, canvas.height = imageSize.y, image_debug.a.drawImage(data, \
+         imageSize, ctx), result.frame = canvas.toDataURL()), results.push(result))",
+        true,
+        true,
+        4,
+    );
+}
+
+#[test]
+fn negate_cost_6_1() {
+    assert_negate_cost(
+        "
+        capacity && codeResult1 && (codeResult2 = codeResult1, !((list = config.blacklist) && \
+         list.some(function(item) {
+            return Object.keys(item).every(function(key) {
+                return item[key] === codeResult2[key];
+            });
+        }))) && (codeResult3 = codeResult1, \"function\" != typeof (filter = config.filter) || \
+         filter(codeResult3))",
+        true,
+        false,
+        4,
+    );
+}
+
+#[test]
+fn negate_cost_6_2() {
+    assert_negate_cost(
+        "
+        !((list = config.blacklist) && list.some(function(item) {
+            return Object.keys(item).every(function(key) {
+                return item[key] === codeResult2[key];
+            });
+        }))",
+        true,
+        false,
+        -1,
     );
 }

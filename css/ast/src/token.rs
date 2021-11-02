@@ -17,14 +17,90 @@ pub struct TokenAndSpan {
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub enum Token {
+    Ident {
+        value: JsWord,
+        raw: JsWord,
+    },
+
+    Function {
+        value: JsWord,
+        raw: JsWord,
+    },
+
     /// `@`
-    AtKeyword(JsWord),
+    AtKeyword {
+        value: JsWord,
+        raw: JsWord,
+    },
 
-    /// `(`
-    LParen,
+    /// `#`
+    Hash {
+        is_id: bool,
+        value: JsWord,
+        raw: JsWord,
+    },
 
-    /// `)`
-    RParen,
+    Str {
+        value: JsWord,
+        raw: JsWord,
+    },
+
+    BadStr {
+        value: JsWord,
+        raw: JsWord,
+    },
+
+    /// `url(value)`
+    Url {
+        value: JsWord,
+        raw: JsWord,
+    },
+
+    BadUrl {
+        value: JsWord,
+        raw: JsWord,
+    },
+
+    Delim {
+        value: char,
+    },
+
+    Num {
+        value: f64,
+        raw: JsWord,
+    },
+
+    Percent {
+        value: f64,
+        raw: JsWord,
+    },
+
+    Dimension {
+        value: f64,
+        raw_value: JsWord,
+        unit: JsWord,
+        raw_unit: JsWord,
+    },
+
+    /// One or more whitespace.
+    WhiteSpace {
+        value: JsWord,
+    },
+
+    /// `<!--`
+    CDO,
+
+    /// `-->`
+    CDC,
+
+    /// `:``
+    Colon,
+
+    /// `;`
+    Semi,
+
+    /// `,`
+    Comma,
 
     /// `[`
     LBracket,
@@ -32,93 +108,15 @@ pub enum Token {
     /// `]`
     RBracket,
 
-    /// `%`
-    Percent,
+    /// `(`
+    LParen,
 
-    Num(NumToken),
-
-    Ident(JsWord),
-
-    Str {
-        value: JsWord,
-    },
-
-    /// `url(value)`
-    Url {
-        value: JsWord,
-    },
-
-    /// `,`
-    Comma,
-
-    /// `;`
-    Semi,
-
-    /// `!`
-    Bang,
+    /// `)`
+    RParen,
 
     /// `{`
     LBrace,
 
     /// `}`
     RBrace,
-
-    /// `:``
-    Colon,
-
-    /// `*`
-    Asterisk,
-
-    /// `.`
-    Dot,
-
-    /// `#`
-    Hash {
-        is_id: bool,
-        value: JsWord,
-    },
-
-    /// One or more whitespace.
-    WhiteSpace,
-
-    /// `-->`
-    CDC,
-
-    /// `<!--`
-    CDO,
-
-    /// `&`
-    Ampersand,
-
-    /// `|`
-    Bar,
-
-    /// `$`
-    Dollar,
-
-    /// `^`
-    Caret,
-
-    /// `~`
-    Tilde,
-
-    /// `=`
-    Equals,
-
-    /// `+`
-    Plus,
-
-    /// `-`
-    Minus,
-
-    /// `/`
-    Div,
-
-    /// `<`
-    GreaterThan,
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct NumToken {
-    pub value: f64,
 }

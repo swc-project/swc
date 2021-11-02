@@ -34,7 +34,7 @@ var _class, _dec, _dec1, _dec2, _dec3, _dec4, _dec5, _dec6;
 var _dec7 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
     typeof _appService.AppService === "undefined" ? Object : _appService.AppService
 ]), _dec8 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec9 = (0, _common).Controller();
-let AppController1 = _class = _dec9(_class = _dec8(_class = _dec7(((_class = class AppController {
+let AppController = _class = _dec9(_class = _dec8(_class = _dec7(((_class = class AppController {
     async getHello() {
         const result = await this.appService.getHello();
         return result;
@@ -60,4 +60,4 @@ let AppController1 = _class = _dec9(_class = _dec8(_class = _dec7(((_class = cla
     _dec5,
     _dec6
 ], Object.getOwnPropertyDescriptor(_class.prototype, "create"), _class.prototype), _class)) || _class) || _class) || _class;
-exports.AppController = AppController1;
+exports.AppController = AppController;

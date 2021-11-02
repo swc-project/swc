@@ -70,7 +70,7 @@ error: Text
 
 error: Tokens
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/rome/values/input.css:1:11
   |
 1 |   p::before {
@@ -79,7 +79,7 @@ error: DeclBlock
 3 | | }
   | |_^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/values/input.css:2:2
   |
 2 |     content: ' content ';
@@ -155,7 +155,7 @@ error: Text
 5 | .number {
   |  ^^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/rome/values/input.css:5:9
    |
 5  |   .number {
@@ -167,7 +167,7 @@ error: DeclBlock
 10 | | }
    | |_^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/values/input.css:6:2
   |
 6 |     opacity: 1e-3;
@@ -185,25 +185,13 @@ error: Value
 6 |     opacity: 1e-3;
   |              ^^^^
 
-error: UnitValue
+error: Num
  --> $DIR/tests/fixture/rome/values/input.css:6:11
   |
 6 |     opacity: 1e-3;
   |              ^^^^
 
-error: Num
- --> $DIR/tests/fixture/rome/values/input.css:6:11
-  |
-6 |     opacity: 1e-3;
-  |              ^
-
-error: Unit
- --> $DIR/tests/fixture/rome/values/input.css:6:12
-  |
-6 |     opacity: 1e-3;
-  |               ^^^
-
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/values/input.css:7:2
   |
 7 |     line-height: 0.2;
@@ -227,7 +215,7 @@ error: Num
 7 |     line-height: 0.2;
   |                  ^^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/values/input.css:8:2
   |
 8 |     width: 20%;
@@ -257,7 +245,7 @@ error: Num
 8 |     width: 20%;
   |            ^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/values/input.css:9:2
   |
 9 |     margin-top: -5%;
@@ -327,7 +315,7 @@ error: Text
 12 | foo {
    | ^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/rome/values/input.css:12:5
    |
 12 |   foo {
@@ -336,7 +324,7 @@ error: DeclBlock
 14 | | }
    | |_^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/rome/values/input.css:13:2
    |
 13 |     color: yellow
@@ -402,7 +390,7 @@ error: Text
 16 | bar {
    | ^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/rome/values/input.css:16:5
    |
 16 |   bar {
@@ -412,7 +400,7 @@ error: DeclBlock
 19 | | }
    | |_^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/rome/values/input.css:17:2
    |
 17 |     color: yellow;
@@ -436,7 +424,7 @@ error: Text
 17 |     color: yellow;
    |            ^^^^^^
 
-error: Property
+error: Declaration
   --> $DIR/tests/fixture/rome/values/input.css:18:2
    |
 18 |     background: none

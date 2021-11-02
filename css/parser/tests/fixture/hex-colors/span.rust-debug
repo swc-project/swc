@@ -1,0 +1,337 @@
+error: Stylesheet
+  --> $DIR/tests/fixture/hex-colors/input.css:1:1
+   |
+1  | / a {
+2  | |   color: #000000;
+3  | |   color: #ffffff;
+4  | |   color: #FFFFFF;
+...  |
+12 | |   color: #FFFF;
+13 | | }
+   | |__^
+
+error: Rule
+  --> $DIR/tests/fixture/hex-colors/input.css:1:1
+   |
+1  | / a {
+2  | |   color: #000000;
+3  | |   color: #ffffff;
+4  | |   color: #FFFFFF;
+...  |
+12 | |   color: #FFFF;
+13 | | }
+   | |_^
+
+error: StyleRule
+  --> $DIR/tests/fixture/hex-colors/input.css:1:1
+   |
+1  | / a {
+2  | |   color: #000000;
+3  | |   color: #ffffff;
+4  | |   color: #FFFFFF;
+...  |
+12 | |   color: #FFFF;
+13 | | }
+   | |_^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/hex-colors/input.css:1:1
+  |
+1 | a {
+  | ^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/hex-colors/input.css:1:1
+  |
+1 | a {
+  | ^
+
+error: NamespacedName
+ --> $DIR/tests/fixture/hex-colors/input.css:1:1
+  |
+1 | a {
+  | ^
+
+error: Text
+ --> $DIR/tests/fixture/hex-colors/input.css:1:1
+  |
+1 | a {
+  | ^
+
+error: Block
+  --> $DIR/tests/fixture/hex-colors/input.css:1:3
+   |
+1  |   a {
+   |  ___^
+2  | |   color: #000000;
+3  | |   color: #ffffff;
+4  | |   color: #FFFFFF;
+...  |
+12 | |   color: #FFFF;
+13 | | }
+   | |_^
+
+error: Declaration
+ --> $DIR/tests/fixture/hex-colors/input.css:2:3
+  |
+2 |   color: #000000;
+  |   ^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/hex-colors/input.css:2:3
+  |
+2 |   color: #000000;
+  |   ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/hex-colors/input.css:2:10
+  |
+2 |   color: #000000;
+  |          ^^^^^^^
+
+error: HashValue
+ --> $DIR/tests/fixture/hex-colors/input.css:2:10
+  |
+2 |   color: #000000;
+  |          ^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/hex-colors/input.css:3:3
+  |
+3 |   color: #ffffff;
+  |   ^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/hex-colors/input.css:3:3
+  |
+3 |   color: #ffffff;
+  |   ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/hex-colors/input.css:3:10
+  |
+3 |   color: #ffffff;
+  |          ^^^^^^^
+
+error: HashValue
+ --> $DIR/tests/fixture/hex-colors/input.css:3:10
+  |
+3 |   color: #ffffff;
+  |          ^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/hex-colors/input.css:4:3
+  |
+4 |   color: #FFFFFF;
+  |   ^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/hex-colors/input.css:4:3
+  |
+4 |   color: #FFFFFF;
+  |   ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/hex-colors/input.css:4:10
+  |
+4 |   color: #FFFFFF;
+  |          ^^^^^^^
+
+error: HashValue
+ --> $DIR/tests/fixture/hex-colors/input.css:4:10
+  |
+4 |   color: #FFFFFF;
+  |          ^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/hex-colors/input.css:5:3
+  |
+5 |   color: #0000ffcc;
+  |   ^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/hex-colors/input.css:5:3
+  |
+5 |   color: #0000ffcc;
+  |   ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/hex-colors/input.css:5:10
+  |
+5 |   color: #0000ffcc;
+  |          ^^^^^^^^^
+
+error: HashValue
+ --> $DIR/tests/fixture/hex-colors/input.css:5:10
+  |
+5 |   color: #0000ffcc;
+  |          ^^^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/hex-colors/input.css:6:3
+  |
+6 |   color: #0000FFCC;
+  |   ^^^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/hex-colors/input.css:6:3
+  |
+6 |   color: #0000FFCC;
+  |   ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/hex-colors/input.css:6:10
+  |
+6 |   color: #0000FFCC;
+  |          ^^^^^^^^^
+
+error: HashValue
+ --> $DIR/tests/fixture/hex-colors/input.css:6:10
+  |
+6 |   color: #0000FFCC;
+  |          ^^^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/hex-colors/input.css:7:3
+  |
+7 |   color: #000;
+  |   ^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/hex-colors/input.css:7:3
+  |
+7 |   color: #000;
+  |   ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/hex-colors/input.css:7:10
+  |
+7 |   color: #000;
+  |          ^^^^
+
+error: HashValue
+ --> $DIR/tests/fixture/hex-colors/input.css:7:10
+  |
+7 |   color: #000;
+  |          ^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/hex-colors/input.css:8:3
+  |
+8 |   color: #fff;
+  |   ^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/hex-colors/input.css:8:3
+  |
+8 |   color: #fff;
+  |   ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/hex-colors/input.css:8:10
+  |
+8 |   color: #fff;
+  |          ^^^^
+
+error: HashValue
+ --> $DIR/tests/fixture/hex-colors/input.css:8:10
+  |
+8 |   color: #fff;
+  |          ^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/hex-colors/input.css:9:3
+  |
+9 |   color: #FFF;
+  |   ^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/hex-colors/input.css:9:3
+  |
+9 |   color: #FFF;
+  |   ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/hex-colors/input.css:9:10
+  |
+9 |   color: #FFF;
+  |          ^^^^
+
+error: HashValue
+ --> $DIR/tests/fixture/hex-colors/input.css:9:10
+  |
+9 |   color: #FFF;
+  |          ^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/hex-colors/input.css:10:3
+   |
+10 |   color: #0000;
+   |   ^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/hex-colors/input.css:10:3
+   |
+10 |   color: #0000;
+   |   ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/hex-colors/input.css:10:10
+   |
+10 |   color: #0000;
+   |          ^^^^^
+
+error: HashValue
+  --> $DIR/tests/fixture/hex-colors/input.css:10:10
+   |
+10 |   color: #0000;
+   |          ^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/hex-colors/input.css:11:3
+   |
+11 |   color: #ffff;
+   |   ^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/hex-colors/input.css:11:3
+   |
+11 |   color: #ffff;
+   |   ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/hex-colors/input.css:11:10
+   |
+11 |   color: #ffff;
+   |          ^^^^^
+
+error: HashValue
+  --> $DIR/tests/fixture/hex-colors/input.css:11:10
+   |
+11 |   color: #ffff;
+   |          ^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/hex-colors/input.css:12:3
+   |
+12 |   color: #FFFF;
+   |   ^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/hex-colors/input.css:12:3
+   |
+12 |   color: #FFFF;
+   |   ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/hex-colors/input.css:12:10
+   |
+12 |   color: #FFFF;
+   |          ^^^^^
+
+error: HashValue
+  --> $DIR/tests/fixture/hex-colors/input.css:12:10
+   |
+12 |   color: #FFFF;
+   |          ^^^^^
+

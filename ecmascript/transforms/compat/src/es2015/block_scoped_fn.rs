@@ -1,26 +1,23 @@
-use swc_common::{Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::Check;
-use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::UsageFinder;
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
-pub fn block_scoped_functions() -> impl Fold {
-    BlockScopedFns
+pub fn block_scoped_functions() -> impl Fold + VisitMut {
+    as_folder(BlockScopedFns)
 }
 
 #[derive(Clone, Copy)]
 struct BlockScopedFns;
 
-#[fast_path(BlockScopedFnFinder)]
-impl Fold for BlockScopedFns {
-    noop_fold_type!();
+impl VisitMut for BlockScopedFns {
+    noop_visit_mut_type!();
 
-    fn fold_stmts(&mut self, items: Vec<Stmt>) -> Vec<Stmt> {
+    fn visit_mut_stmts(&mut self, items: &mut Vec<Stmt>) {
         let mut stmts = Vec::with_capacity(items.len());
         let mut extra_stmts = Vec::with_capacity(items.len());
 
-        for stmt in items {
+        for mut stmt in items.take() {
             if let Stmt::Expr(ExprStmt { ref expr, .. }) = stmt {
                 if let Expr::Lit(Lit::Str(..)) = &**expr {
                     stmts.push(stmt);
@@ -53,40 +50,17 @@ impl Fold for BlockScopedFns {
                             declare: false,
                         })))
                     }
-                    _ => extra_stmts.push(stmt.fold_children_with(self)),
+                    _ => {
+                        stmt.visit_mut_children_with(self);
+                        extra_stmts.push(stmt)
+                    }
                 }
             }
         }
 
         stmts.append(&mut extra_stmts);
 
-        stmts
-    }
-}
-
-#[derive(Default)]
-struct BlockScopedFnFinder {
-    found: bool,
-}
-
-impl Visit for BlockScopedFnFinder {
-    noop_visit_type!();
-
-    fn visit_stmts(&mut self, stmts: &[Stmt], _: &dyn Node) {
-        for n in stmts {
-            n.visit_with(&Invalid { span: DUMMY_SP }, self);
-        }
-
-        self.found |= stmts.iter().any(|stmt| match stmt {
-            Stmt::Decl(Decl::Fn(..)) => true,
-            _ => false,
-        });
-    }
-}
-
-impl Check for BlockScopedFnFinder {
-    fn should_handle(&self) -> bool {
-        self.found
+        *items = stmts
     }
 }
 
@@ -97,7 +71,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| BlockScopedFns,
+        |_| block_scoped_functions(),
         hoisting,
         r#"
 {
@@ -122,7 +96,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| BlockScopedFns,
+        |_| block_scoped_functions(),
         basic,
         r#"{
   function name (n) {
@@ -142,7 +116,7 @@ name("Steve");
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| BlockScopedFns,
+        |_| block_scoped_functions(),
         issue_271,
         "
 function foo(scope) {
@@ -165,7 +139,7 @@ function foo(scope) {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| BlockScopedFns,
+        |_| block_scoped_functions(),
         issue_288_1,
         "function components_Link_extends() { components_Link_extends = Object.assign || function \
          (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for \
@@ -185,7 +159,7 @@ function foo(scope) {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| BlockScopedFns,
+        |_| block_scoped_functions(),
         issue_288_2,
         "function _extends() {
   module.exports = _extends = Object.assign || function (target) {
@@ -227,7 +201,7 @@ function foo(scope) {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| BlockScopedFns,
+        |_| block_scoped_functions(),
         hoisting_directives,
         "function foo() {
             'use strict';

@@ -1,10 +1,11 @@
 use self::scope::Scope;
 use crate::{Hook, Load, ModuleId, Resolve};
-use ahash::AHashMap;
 use anyhow::{Context, Error};
 use std::collections::HashMap;
 use swc_atoms::JsWord;
-use swc_common::{sync::Lrc, FileName, Globals, Mark, SourceMap, SyntaxContext, DUMMY_SP, GLOBALS};
+use swc_common::{
+    collections::AHashMap, sync::Lrc, FileName, Globals, Mark, SourceMap, SyntaxContext, GLOBALS,
+};
 use swc_ecma_ast::Module;
 
 mod chunk;
@@ -80,8 +81,6 @@ where
     loader: L,
     resolver: R,
 
-    /// [Mark] used while tree shaking
-    used_mark: Mark,
     _helper_ctxt: SyntaxContext,
     /// Used to mark nodes as synthesized.
     ///
@@ -111,8 +110,6 @@ where
         hook: Box<dyn 'a + Hook>,
     ) -> Self {
         GLOBALS.set(&globals, || {
-            let used_mark = Mark::fresh(Mark::root());
-            tracing::debug!("Used mark: {:?}", DUMMY_SP.apply_mark(used_mark).ctxt());
             let helper_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
             tracing::debug!("Helper ctxt: {:?}", helper_ctxt);
             let synthesized_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
@@ -126,7 +123,6 @@ where
                 cm,
                 loader,
                 resolver,
-                used_mark,
                 _helper_ctxt: helper_ctxt,
                 synthesized_ctxt,
                 injected_ctxt,
@@ -142,7 +138,7 @@ where
     /// Note: This method will panic if entries references each other in
     /// circular manner. However, it applies only to the provided `entries`, and
     /// dependencies with circular reference is ok.
-    pub fn bundle(&self, entries: HashMap<String, FileName>) -> Result<Vec<Bundle>, Error> {
+    pub fn bundle(&mut self, entries: HashMap<String, FileName>) -> Result<Vec<Bundle>, Error> {
         let results = entries
             .into_iter()
             .map(|(name, path)| -> Result<_, Error> {
@@ -186,6 +182,13 @@ where
         let bundles = self.chunk(local)?;
 
         let bundles = self.finalize(bundles)?;
+
+        #[cfg(feature = "concurrent")]
+        {
+            let scope = std::mem::take(&mut self.scope);
+            rayon::spawn(move || drop(scope))
+        }
+
         Ok(bundles)
     }
 

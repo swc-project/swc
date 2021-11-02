@@ -1,21 +1,192 @@
-use rustc_hash::FxHashMap;
+use std::collections::hash_map::Entry;
 use swc_atoms::JsWord;
 use swc_common::{
+    collections::{AHashMap, AHashSet},
     util::{move_map::MoveMap, take::Take},
     Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+
+use super::Config;
 #[derive(Debug, Default)]
 pub(super) struct Operations {
-    pub rename: FxHashMap<Id, JsWord>,
+    pub rename: AHashMap<Id, JsWord>,
+    symbols: AHashSet<JsWord>,
 }
 
-pub(super) struct Operator<'a>(pub &'a Operations);
+impl Operations {
+    #[inline]
+    pub fn rename(&mut self, from: Id, to: JsWord) {
+        match self.rename.entry(from) {
+            Entry::Occupied(..) => {}
+            Entry::Vacant(e) => {
+                e.insert(to.clone());
+                self.symbols.insert(to);
+            }
+        }
+    }
+
+    #[inline]
+    pub fn get_renamed(&self, i: &Id) -> Option<JsWord> {
+        self.rename.get(i).cloned()
+    }
+
+    #[inline]
+    pub fn is_used_as_rename_target(&self, symbol: &JsWord) -> bool {
+        self.symbols.contains(symbol)
+    }
+}
+
+pub(super) struct Operator<'a>(pub &'a AHashMap<Id, JsWord>, pub Config);
+
+impl Operator<'_> {
+    fn keep_class_name(&mut self, ident: &mut Ident, class: &mut Class) -> Option<ClassExpr> {
+        if !self.1.keep_class_names {
+            return None;
+        }
+
+        let mut orig_name = ident.clone();
+        orig_name.span.ctxt = SyntaxContext::empty();
+
+        {
+            // Remove span hygiene of the class.
+            let mut rename = AHashMap::default();
+
+            rename.insert(ident.to_id(), orig_name.sym.clone());
+
+            let mut operator = Operator(&rename, self.1.clone());
+
+            class.visit_mut_with(&mut operator);
+        }
+
+        let _ = self.rename_ident(ident);
+        class.visit_mut_with(self);
+
+        let class_expr = ClassExpr {
+            ident: Some(orig_name),
+            class: class.take(),
+        };
+
+        Some(class_expr)
+    }
+}
 
 impl<'a> VisitMut for Operator<'a> {
     noop_visit_mut_type!();
+
+    /// Preserve key of properties.
+    fn visit_mut_assign_pat_prop(&mut self, p: &mut AssignPatProp) {
+        match &mut p.value {
+            Some(value) => {
+                value.visit_mut_children_with(self);
+            }
+            None => {}
+        }
+    }
+
+    fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
+        if let Some(ident) = &mut n.ident {
+            if let Some(expr) = self.keep_class_name(ident, &mut n.class) {
+                *n = expr;
+                return;
+            }
+        }
+
+        n.ident.visit_mut_with(self);
+
+        n.class.visit_mut_with(self);
+    }
+
+    fn visit_mut_decl(&mut self, decl: &mut Decl) {
+        match decl {
+            Decl::Class(cls) if self.1.keep_class_names => {
+                let span = cls.class.span;
+
+                let expr = self.keep_class_name(&mut cls.ident, &mut cls.class);
+                if let Some(expr) = expr {
+                    let var = VarDeclarator {
+                        span,
+                        name: Pat::Ident(cls.ident.clone().into()),
+                        init: Some(Box::new(Expr::Class(expr))),
+                        definite: false,
+                    };
+                    *decl = Decl::Var(VarDecl {
+                        span,
+                        kind: VarDeclKind::Let,
+                        declare: false,
+                        decls: vec![var],
+                    });
+                    return;
+                }
+
+                return;
+            }
+            _ => {}
+        }
+
+        decl.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_export_named_specifier(&mut self, s: &mut ExportNamedSpecifier) {
+        if s.exported.is_some() {
+            s.orig.visit_mut_with(self);
+            return;
+        }
+
+        let exported = s.orig.clone();
+
+        match self.rename_ident(&mut s.orig) {
+            Ok(..) => {
+                s.exported = Some(exported);
+            }
+            Err(..) => {}
+        }
+    }
+
+    fn visit_mut_ident(&mut self, ident: &mut Ident) {
+        match self.rename_ident(ident) {
+            Ok(i) | Err(i) => i,
+        }
+    }
+
+    fn visit_mut_import_named_specifier(&mut self, s: &mut ImportNamedSpecifier) {
+        if s.imported.is_some() {
+            s.local.visit_mut_with(self);
+            return;
+        }
+
+        let imported = s.local.clone();
+        let local = self.rename_ident(&mut s.local);
+
+        match local {
+            Ok(..) => {
+                s.imported = Some(imported);
+            }
+            Err(..) => {}
+        }
+    }
+
+    /// Preserve key of properties.
+    fn visit_mut_key_value_pat_prop(&mut self, p: &mut KeyValuePatProp) {
+        p.key.visit_mut_with(self);
+        p.value.visit_mut_with(self);
+    }
+
+    fn visit_mut_key_value_prop(&mut self, p: &mut KeyValueProp) {
+        p.key.visit_mut_with(self);
+        p.value.visit_mut_with(self);
+    }
+
+    fn visit_mut_member_expr(&mut self, expr: &mut MemberExpr) {
+        expr.span.visit_mut_with(self);
+        expr.obj.visit_mut_with(self);
+
+        if expr.computed {
+            expr.prop.visit_mut_with(self)
+        }
+    }
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
         let mut stmts = Vec::with_capacity(items.len());
@@ -153,75 +324,6 @@ impl<'a> VisitMut for Operator<'a> {
         *items = stmts
     }
 
-    /// Preserve key of properties.
-    fn visit_mut_assign_pat_prop(&mut self, p: &mut AssignPatProp) {
-        match &mut p.value {
-            Some(value) => {
-                value.visit_mut_children_with(self);
-            }
-            None => {}
-        }
-    }
-
-    fn visit_mut_export_named_specifier(&mut self, s: &mut ExportNamedSpecifier) {
-        if s.exported.is_some() {
-            s.orig.visit_mut_with(self);
-            return;
-        }
-
-        let exported = s.orig.clone();
-
-        match self.rename_ident(&mut s.orig) {
-            Ok(..) => {
-                s.exported = Some(exported);
-            }
-            Err(..) => {}
-        }
-    }
-
-    fn visit_mut_ident(&mut self, ident: &mut Ident) {
-        match self.rename_ident(ident) {
-            Ok(i) | Err(i) => i,
-        }
-    }
-
-    fn visit_mut_import_named_specifier(&mut self, s: &mut ImportNamedSpecifier) {
-        if s.imported.is_some() {
-            s.local.visit_mut_with(self);
-            return;
-        }
-
-        let imported = s.local.clone();
-        let local = self.rename_ident(&mut s.local);
-
-        match local {
-            Ok(..) => {
-                s.imported = Some(imported);
-            }
-            Err(..) => {}
-        }
-    }
-
-    /// Preserve key of properties.
-    fn visit_mut_key_value_pat_prop(&mut self, p: &mut KeyValuePatProp) {
-        p.key.visit_mut_with(self);
-        p.value.visit_mut_with(self);
-    }
-
-    fn visit_mut_key_value_prop(&mut self, p: &mut KeyValueProp) {
-        p.key.visit_mut_with(self);
-        p.value.visit_mut_with(self);
-    }
-
-    fn visit_mut_member_expr(&mut self, expr: &mut MemberExpr) {
-        expr.span.visit_mut_with(self);
-        expr.obj.visit_mut_with(self);
-
-        if expr.computed {
-            expr.prop.visit_mut_with(self)
-        }
-    }
-
     fn visit_mut_object_pat_prop(&mut self, n: &mut ObjectPatProp) {
         n.visit_mut_children_with(self);
 
@@ -312,7 +414,7 @@ impl VisitMut for VarFolder<'_, '_> {
 impl<'a> Operator<'a> {
     /// Returns `Ok(renamed_ident)` if ident should be renamed.
     fn rename_ident(&mut self, ident: &mut Ident) -> Result<(), ()> {
-        if let Some(sym) = self.0.rename.get(&ident.to_id()) {
+        if let Some(sym) = self.0.get(&ident.to_id()) {
             ident.span = ident.span.with_ctxt(SyntaxContext::empty());
             ident.sym = sym.clone();
             return Ok(());

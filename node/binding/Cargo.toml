@@ -20,10 +20,9 @@ backtrace = "0.3"
 napi = {version = "1", features = ["serde-json"]}
 napi-derive = {version = "1"}
 path-clean = "0.1"
-rustc-hash = "1.1.0"
 serde = {version = "1", features = ["derive"]}
 serde_json = {version = "1", features = ["unbounded_depth"]}
-swc = {path = "../../", features = ["wrong-target"]}
+swc = {path = "../../", features = ["concurrent", "wrong-target"]}
 swc_atoms = {version = "0.2.4", path = "../../atoms"}
 swc_bundler = {path = "../../bundler"}
 swc_common = {path = "../../common", features = ["sourcemap"]}

@@ -1,9 +1,8 @@
 use self::metadata::{Metadata, ParamMetadata};
 use super::{contains_decorator, DecoratorFinder};
-use rustc_hash::FxHashMap;
 use smallvec::SmallVec;
 use std::mem::{replace, take};
-use swc_common::{util::move_map::MoveMap, DUMMY_SP};
+use swc_common::{collections::AHashMap, util::move_map::MoveMap, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
@@ -28,7 +27,7 @@ pub(super) struct Legacy {
     uninitialized_vars: Vec<VarDeclarator>,
     initialized_vars: Vec<VarDeclarator>,
     exports: Vec<ExportSpecifier>,
-    enums: FxHashMap<Id, EnumKind>,
+    enums: AHashMap<Id, EnumKind>,
 }
 
 pub(super) fn new(metadata: bool) -> Legacy {
@@ -82,6 +81,7 @@ impl Visit for Legacy {
     }
 }
 
+/// TODO: VisitMut
 impl Fold for Legacy {
     noop_fold_type!();
 

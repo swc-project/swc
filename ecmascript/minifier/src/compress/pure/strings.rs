@@ -14,14 +14,27 @@ where
     pub(super) fn convert_tpl_to_str(&mut self, e: &mut Expr) {
         match e {
             Expr::Tpl(t) if t.quasis.len() == 1 && t.exprs.is_empty() => {
-                if let Some(c) = &t.quasis[0].cooked {
-                    if c.value.chars().all(|c| match c {
-                        '\u{0020}'..='\u{007e}' => true,
-                        '\n' | '\r' => M::force_str_for_tpl(),
-                        _ => false,
-                    }) {
-                        *e = Expr::Lit(Lit::Str(c.clone()));
-                    }
+                let c = &t.quasis[0].raw;
+
+                if c.value.chars().all(|c| match c {
+                    '\u{0020}'..='\u{007e}' => true,
+                    '\n' | '\r' => M::force_str_for_tpl(),
+                    _ => false,
+                }) && (M::force_str_for_tpl()
+                    || (!c.value.contains("\\n") && !c.value.contains("\\r")))
+                    && !c.value.contains("\\0")
+                {
+                    *e = Expr::Lit(Lit::Str(Str {
+                        value: c
+                            .value
+                            .replace("\\`", "`")
+                            .replace("\\$", "$")
+                            .replace("\\n", "\n")
+                            .replace("\\r", "\r")
+                            .replace("\\\\", "\\")
+                            .into(),
+                        ..c.clone()
+                    }));
                 }
             }
             _ => {}
@@ -43,9 +56,12 @@ where
             return;
         }
 
+        if cfg!(feature = "debug") {
+            tracing::debug!("compress_tpl");
+        }
+
         let mut quasis = vec![];
         let mut exprs = vec![];
-        let mut cur = String::new();
         let mut cur_raw = String::new();
 
         for i in 0..(tpl.exprs.len() + tpl.quasis.len()) {
@@ -53,7 +69,6 @@ where
                 let i = i / 2;
                 let q = tpl.quasis[i].take();
 
-                cur.push_str(&q.cooked.unwrap().value);
                 cur_raw.push_str(&q.raw.value);
             } else {
                 let i = i / 2;
@@ -61,19 +76,13 @@ where
 
                 match *e {
                     Expr::Lit(Lit::Str(s)) => {
-                        cur.push_str(&s.value);
                         cur_raw.push_str(&s.value);
                     }
                     _ => {
                         quasis.push(TplElement {
                             span: DUMMY_SP,
                             tail: true,
-                            cooked: Some(Str {
-                                span: DUMMY_SP,
-                                value: take(&mut cur).into(),
-                                has_escape: false,
-                                kind: Default::default(),
-                            }),
+                            cooked: None,
                             raw: Str {
                                 span: DUMMY_SP,
                                 value: take(&mut cur_raw).into(),
@@ -91,12 +100,7 @@ where
         quasis.push(TplElement {
             span: DUMMY_SP,
             tail: true,
-            cooked: Some(Str {
-                span: DUMMY_SP,
-                value: cur.into(),
-                has_escape: false,
-                kind: Default::default(),
-            }),
+            cooked: None,
             raw: Str {
                 span: DUMMY_SP,
                 value: cur_raw.into(),
@@ -123,9 +127,10 @@ where
                         "template: Concatted a string (`{}`) on rhs of `+` to a template literal",
                         rs.value
                     );
-                    let l_str = l_last.cooked.as_mut().unwrap();
+                    let l_str = &mut l_last.raw;
 
-                    let new: JsWord = format!("{}{}", l_str.value, rs.value).into();
+                    let new: JsWord =
+                        format!("{}{}", l_str.value, rs.value.replace("\\", "\\\\")).into();
                     l_str.value = new.clone();
                     l_last.raw.value = new;
 
@@ -143,9 +148,10 @@ where
                         "template: Prepended a string (`{}`) on lhs of `+` to a template literal",
                         ls.value
                     );
-                    let r_str = r_first.cooked.as_mut().unwrap();
+                    let r_str = &mut r_first.raw;
 
-                    let new: JsWord = format!("{}{}", ls.value, r_str.value).into();
+                    let new: JsWord =
+                        format!("{}{}", ls.value.replace("\\", "\\\\"), r_str.value).into();
                     r_str.value = new.clone();
                     r_first.raw.value = new;
 
@@ -162,10 +168,9 @@ where
                     let l_last = l.quasis.pop().unwrap();
                     let mut r_first = rt.quasis.first_mut().unwrap();
 
-                    let r_str = r_first.cooked.as_mut().unwrap();
+                    let r_str = &mut r_first.raw;
 
-                    let new: JsWord =
-                        format!("{}{}", l_last.cooked.unwrap().value, r_str.value).into();
+                    let new: JsWord = format!("{}{}", l_last.raw.value, r_str.value).into();
                     r_str.value = new.clone();
                     r_first.raw.value = new;
                 }

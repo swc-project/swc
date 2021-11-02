@@ -4,21 +4,24 @@ use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::enable_helper;
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, Node, Visit, VisitWith};
+use swc_ecma_visit::{
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitWith,
+};
 
-pub fn import_analyzer(scope: Rc<RefCell<Scope>>) -> ImportAnalyzer {
-    ImportAnalyzer { scope }
+pub fn import_analyzer(scope: Rc<RefCell<Scope>>) -> impl Fold + VisitMut {
+    as_folder(ImportAnalyzer { scope })
 }
 
 pub struct ImportAnalyzer {
     scope: Rc<RefCell<Scope>>,
 }
-/// Inject required helpers methods **for** module transform passes.
-impl Fold for ImportAnalyzer {
-    noop_fold_type!();
 
-    fn fold_module(&mut self, module: Module) -> Module {
-        self.visit_module(&module, &Invalid { span: DUMMY_SP } as _);
+/// Inject required helpers methods **for** module transform passes.
+impl VisitMut for ImportAnalyzer {
+    noop_visit_mut_type!();
+
+    fn visit_mut_module(&mut self, module: &mut Module) {
+        self.visit_module(&*module, &Invalid { span: DUMMY_SP } as _);
 
         for (_, ty) in self.scope.borrow().import_types.iter() {
             if *ty {
@@ -37,8 +40,6 @@ impl Fold for ImportAnalyzer {
         if need_default {
             enable_helper!(interop_require_default);
         }
-
-        module
     }
 }
 

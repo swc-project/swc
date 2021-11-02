@@ -2,12 +2,11 @@ use super::{load::TransformedModule, Bundler};
 use crate::{
     bundler::chunk::merge::Ctx, load::Load, resolve::Resolve, util::IntoParallelIterator, Bundle,
 };
-use ahash::AHashMap;
 use anyhow::{Context, Error};
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
-use rustc_hash::FxHashMap;
 use std::time::Instant;
+use swc_common::collections::AHashMap;
 
 mod cjs;
 mod computed_key;
@@ -34,9 +33,12 @@ where
         &self,
         entries: AHashMap<String, TransformedModule>,
     ) -> Result<Vec<Bundle>, Error> {
+        #[cfg(not(target_arch = "wasm32"))]
         let start = Instant::now();
         let (plan, graph, cycles) = self.determine_entries(entries).context("failed to plan")?;
+        #[cfg(not(target_arch = "wasm32"))]
         let dur = Instant::now() - start;
+        #[cfg(not(target_arch = "wasm32"))]
         tracing::debug!("Dependency analysis took {:?}", dur);
 
         if cfg!(debug_assertions) {
@@ -62,8 +64,9 @@ where
             export_stars_in_wrapped: Default::default(),
         };
 
+        #[cfg(not(target_arch = "wasm32"))]
         let start = Instant::now();
-        let all = (&*plan.all)
+        let mut all = (&*plan.all)
             .into_par_iter()
             .map(|id| -> Result<_, Error> {
                 self.run(|| {
@@ -74,9 +77,11 @@ where
                     Ok((*id, module))
                 })
             })
-            .collect::<Result<FxHashMap<_, _>, _>>()?;
+            .collect::<Result<AHashMap<_, _>, _>>()?;
 
+        #[cfg(not(target_arch = "wasm32"))]
         let dur = Instant::now() - start;
+        #[cfg(not(target_arch = "wasm32"))]
         tracing::debug!("Module preparation took {:?}", dur);
 
         let entries = all
@@ -89,30 +94,58 @@ where
             })
             .collect::<Vec<_>>();
 
-        let merged = entries
-            .into_par_iter()
-            .map(|(id, mut entry)| {
-                self.merge_into_entry(&ctx, id, &mut entry, &all);
+        let merged: Vec<_> = if entries.len() == 1 {
+            entries
+                .into_iter()
+                .map(|(id, mut entry)| {
+                    self.merge_into_entry(&ctx, id, &mut entry, &mut all);
 
-                tracing::debug!("Merged `{}` and it's dep into an entry", id);
+                    tracing::debug!("Merged `{}` and it's dep into an entry", id);
 
-                (id, entry)
-            })
-            .map(|(id, module)| {
-                let kind = plan
-                    .entries
-                    .get(&id)
-                    .unwrap_or_else(|| {
-                        unreachable!("Plan does not contain bundle kind for {:?}", id)
-                    })
-                    .clone();
-                Bundle {
-                    kind,
-                    id,
-                    module: module.into(),
-                }
-            })
-            .collect();
+                    (id, entry)
+                })
+                .map(|(id, module)| {
+                    let kind = plan
+                        .entries
+                        .get(&id)
+                        .unwrap_or_else(|| {
+                            unreachable!("Plan does not contain bundle kind for {:?}", id)
+                        })
+                        .clone();
+                    Bundle {
+                        kind,
+                        id,
+                        module: module.into(),
+                    }
+                })
+                .collect()
+        } else {
+            entries
+                .into_iter()
+                .map(|(id, mut entry)| {
+                    let mut a = all.clone();
+                    self.merge_into_entry(&ctx, id, &mut entry, &mut a);
+
+                    tracing::debug!("Merged `{}` and it's dep into an entry", id);
+
+                    (id, entry)
+                })
+                .map(|(id, module)| {
+                    let kind = plan
+                        .entries
+                        .get(&id)
+                        .unwrap_or_else(|| {
+                            unreachable!("Plan does not contain bundle kind for {:?}", id)
+                        })
+                        .clone();
+                    Bundle {
+                        kind,
+                        id,
+                        module: module.into(),
+                    }
+                })
+                .collect()
+        };
 
         Ok(merged)
     }

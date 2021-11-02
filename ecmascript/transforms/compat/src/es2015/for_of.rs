@@ -1,11 +1,15 @@
+use std::mem::take;
+
 use serde::Deserialize;
 use swc_atoms::js_word;
-use swc_common::{Mark, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::perf::{ParExplode, Parallel};
+use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{
-    alias_if_required, member_expr, prepend, private_ident, quote_ident, ExprFactory, StmtLike,
+    alias_if_required, member_expr, prepend, private_ident, quote_ident, ExprFactory,
 };
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 /// `@babel/plugin-transform-for-of`
 ///
@@ -41,8 +45,11 @@ use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visi
 ///   }
 /// }
 /// ```
-pub fn for_of(c: Config) -> impl Fold {
-    ForOf { c }
+pub fn for_of(c: Config) -> impl Fold + VisitMut {
+    as_folder(ForOf {
+        c,
+        top_level_vars: Default::default(),
+    })
 }
 
 #[derive(Debug, Clone, Copy, Default, Deserialize)]
@@ -53,11 +60,7 @@ pub struct Config {
 
 struct ForOf {
     c: Config,
-}
 
-/// Real folder.
-struct Actual {
-    c: Config,
     ///```js
     /// var _iteratorNormalCompletion = true;
     /// var _didIteratorError = false;
@@ -66,7 +69,7 @@ struct Actual {
     top_level_vars: Vec<VarDeclarator>,
 }
 
-impl Actual {
+impl ForOf {
     fn fold_for_stmt(
         &mut self,
         label: Option<Ident>,
@@ -398,28 +401,6 @@ impl Actual {
     }
 }
 
-impl Fold for Actual {
-    noop_fold_type!();
-
-    fn fold_stmt(&mut self, stmt: Stmt) -> Stmt {
-        match stmt {
-            Stmt::Labeled(LabeledStmt { span, label, body }) => {
-                // Handle label
-                match *body {
-                    Stmt::ForOf(stmt) => self.fold_for_stmt(Some(label), stmt),
-                    _ => Stmt::Labeled(LabeledStmt {
-                        span,
-                        label,
-                        body: body.fold_children_with(self),
-                    }),
-                }
-            }
-            Stmt::ForOf(stmt) => self.fold_for_stmt(None, stmt),
-            _ => stmt.fold_children_with(self),
-        }
-    }
-}
-
 /// ```js
 /// 
 ///   try {
@@ -503,79 +484,72 @@ fn make_finally_block(
     })
 }
 
-impl Fold for ForOf {
-    noop_fold_type!();
-
-    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        self.fold_stmt_like(n)
+impl Parallel for ForOf {
+    fn create(&self) -> Self {
+        ForOf {
+            c: self.c,
+            top_level_vars: Default::default(),
+        }
     }
 
-    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
-        self.fold_stmt_like(n)
+    fn merge(&mut self, other: Self) {
+        self.top_level_vars.extend(other.top_level_vars);
     }
 }
 
-impl ForOf {
-    fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
-    where
-        T: StmtLike + VisitWith<ForOfFinder>,
-        Vec<T>: FoldWith<Self> + VisitWith<ForOfFinder>,
-    {
-        if !contains_for_of(&stmts) {
-            return stmts;
+impl ParExplode for ForOf {
+    fn after_one_stmt(&mut self, stmts: &mut Vec<Stmt>) {
+        // Add variable declaration
+        // e.g. var ref
+        if !self.top_level_vars.is_empty() {
+            stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                decls: take(&mut self.top_level_vars),
+                declare: false,
+            })));
         }
+    }
 
-        let stmts = stmts.fold_children_with(self);
+    fn after_one_module_item(&mut self, stmts: &mut Vec<ModuleItem>) {
+        // Add variable declaration
+        // e.g. var ref
+        if !self.top_level_vars.is_empty() {
+            stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                decls: take(&mut self.top_level_vars),
+                declare: false,
+            }))));
+        }
+    }
+}
 
-        let mut buf = Vec::with_capacity(stmts.len());
+#[parallel(explode)]
+impl VisitMut for ForOf {
+    noop_visit_mut_type!();
 
-        for stmt in stmts {
-            match stmt.try_into_stmt() {
-                Err(module_item) => buf.push(module_item),
-                Ok(stmt) => {
-                    let mut folder = Actual {
-                        c: self.c,
-                        top_level_vars: Default::default(),
-                    };
-                    let stmt = stmt.fold_with(&mut folder);
+    fn visit_mut_stmt(&mut self, s: &mut Stmt) {
+        match s {
+            Stmt::Labeled(LabeledStmt { label, body, .. }) => {
+                // Handle label
+                match &mut **body {
+                    Stmt::ForOf(stmt) => {
+                        stmt.visit_mut_children_with(self);
 
-                    // Add variable declaration
-                    // e.g. var ref
-                    if !folder.top_level_vars.is_empty() {
-                        buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            decls: folder.top_level_vars,
-                            declare: false,
-                        }))));
+                        *s = self.fold_for_stmt(Some(label.clone()), stmt.take());
                     }
-
-                    buf.push(T::from_stmt(stmt));
+                    _ => {
+                        body.visit_mut_children_with(self);
+                    }
                 }
             }
+            Stmt::ForOf(stmt) => {
+                stmt.visit_mut_children_with(self);
+
+                *s = self.fold_for_stmt(None, stmt.take())
+            }
+            _ => s.visit_mut_children_with(self),
         }
-
-        buf
-    }
-}
-
-fn contains_for_of<N>(node: &N) -> bool
-where
-    N: VisitWith<ForOfFinder>,
-{
-    let mut v = ForOfFinder { found: false };
-    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
-    v.found
-}
-
-struct ForOfFinder {
-    found: bool,
-}
-
-impl Visit for ForOfFinder {
-    noop_visit_type!();
-
-    fn visit_for_of_stmt(&mut self, _: &ForOfStmt, _: &dyn Node) {
-        self.found = true;
     }
 }

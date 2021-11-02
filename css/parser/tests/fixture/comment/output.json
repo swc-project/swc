@@ -1,0 +1,352 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 13,
+    "end": 361,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "StyleRule",
+      "span": {
+        "start": 13,
+        "end": 94,
+        "ctxt": 0
+      },
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 13,
+            "end": 14,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 13,
+                "end": 14,
+                "ctxt": 0
+              },
+              "hasNestPrefix": false,
+              "combinator": null,
+              "typeSelector": {
+                "type": "NamespacedName",
+                "span": {
+                  "start": 13,
+                  "end": 14,
+                  "ctxt": 0
+                },
+                "prefix": null,
+                "name": {
+                  "type": "Text",
+                  "span": {
+                    "start": 13,
+                    "end": 14,
+                    "ctxt": 0
+                  },
+                  "value": "a",
+                  "raw": "a"
+                }
+              },
+              "subclassSelectors": []
+            }
+          ]
+        }
+      ],
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 28,
+          "end": 94,
+          "ctxt": 0
+        },
+        "items": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 43,
+              "end": 78,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "Text",
+              "span": {
+                "start": 43,
+                "end": 48,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Text",
+                "span": {
+                  "start": 75,
+                  "end": 78,
+                  "ctxt": 0
+                },
+                "value": "red",
+                "raw": "red"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "StyleRule",
+      "span": {
+        "start": 132,
+        "end": 227,
+        "ctxt": 0
+      },
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 132,
+            "end": 135,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 132,
+                "end": 135,
+                "ctxt": 0
+              },
+              "hasNestPrefix": false,
+              "combinator": null,
+              "typeSelector": {
+                "type": "NamespacedName",
+                "span": {
+                  "start": 132,
+                  "end": 135,
+                  "ctxt": 0
+                },
+                "prefix": null,
+                "name": {
+                  "type": "Text",
+                  "span": {
+                    "start": 132,
+                    "end": 135,
+                    "ctxt": 0
+                  },
+                  "value": "div",
+                  "raw": "div"
+                }
+              },
+              "subclassSelectors": []
+            }
+          ]
+        }
+      ],
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 136,
+          "end": 227,
+          "ctxt": 0
+        },
+        "items": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 159,
+              "end": 171,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "Text",
+              "span": {
+                "start": 159,
+                "end": 164,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Text",
+                "span": {
+                  "start": 166,
+                  "end": 171,
+                  "ctxt": 0
+                },
+                "value": "black",
+                "raw": "black"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 195,
+              "end": 210,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "Text",
+              "span": {
+                "start": 195,
+                "end": 205,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "Text",
+                "span": {
+                  "start": 207,
+                  "end": 210,
+                  "ctxt": 0
+                },
+                "value": "red",
+                "raw": "red"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "StyleRule",
+      "span": {
+        "start": 237,
+        "end": 272,
+        "ctxt": 0
+      },
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 237,
+            "end": 238,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 237,
+                "end": 238,
+                "ctxt": 0
+              },
+              "hasNestPrefix": false,
+              "combinator": null,
+              "typeSelector": {
+                "type": "NamespacedName",
+                "span": {
+                  "start": 237,
+                  "end": 238,
+                  "ctxt": 0
+                },
+                "prefix": null,
+                "name": {
+                  "type": "Text",
+                  "span": {
+                    "start": 237,
+                    "end": 238,
+                    "ctxt": 0
+                  },
+                  "value": "a",
+                  "raw": "a"
+                }
+              },
+              "subclassSelectors": []
+            }
+          ]
+        }
+      ],
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 239,
+          "end": 272,
+          "ctxt": 0
+        },
+        "items": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 245,
+              "end": 257,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "Text",
+              "span": {
+                "start": 245,
+                "end": 250,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Text",
+                "span": {
+                  "start": 252,
+                  "end": 257,
+                  "ctxt": 0
+                },
+                "value": "black",
+                "raw": "black"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 274,
+        "end": 314,
+        "ctxt": 0
+      },
+      "query": {
+        "type": "Text",
+        "span": {
+          "start": 293,
+          "end": 299,
+          "ctxt": 0
+        },
+        "value": "screen",
+        "raw": "screen"
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 315,
+        "end": 359,
+        "ctxt": 0
+      },
+      "query": {
+        "type": "Text",
+        "span": {
+          "start": 336,
+          "end": 342,
+          "ctxt": 0
+        },
+        "value": "screen",
+        "raw": "screen"
+      },
+      "rules": []
+    }
+  ]
+}

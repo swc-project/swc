@@ -47,6 +47,7 @@ struct ObjectLitFolder {
     used_define_enum_props: bool,
 }
 
+/// TODO: VisitMut
 impl Fold for ObjectLitFolder {
     noop_fold_type!();
 
@@ -288,6 +289,7 @@ impl Visit for ComplexVisitor {
     }
 }
 
+/// TODO: VisitMut
 impl Fold for ComputedProps {
     noop_fold_type!();
 
@@ -306,11 +308,6 @@ impl ComputedProps {
         T: StmtLike + VisitWith<ShouldWork> + FoldWith<Self> + FoldWith<ObjectLitFolder>,
         Vec<T>: VisitWith<ShouldWork>,
     {
-        // Fast path when there's no computed properties.
-        if !contains_computed_expr(&stmts) {
-            return stmts;
-        }
-
         // let stmts = stmts.fold_children_with(self);
         let mut buf = Vec::with_capacity(stmts.len());
 

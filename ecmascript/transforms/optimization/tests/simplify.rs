@@ -4,12 +4,12 @@ use std::{cell::RefCell, rc::Rc};
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::{helpers::inject_helpers, resolver::resolver};
-use swc_ecma_transforms_compat::{es2015, es2016, es2017, es2018, es2020::class_properties, es3};
+use swc_ecma_transforms_compat::{es2015, es2016, es2017, es2018, es2022::class_properties, es3};
 use swc_ecma_transforms_module::{
     common_js::common_js, import_analysis::import_analyzer, util::Scope,
 };
 use swc_ecma_transforms_optimization::simplify::{
-    dce::dce, expr_simplifier, inlining::inlining, simplifier,
+    dce::dce, dead_branch_remover, expr_simplifier, inlining::inlining, simplifier,
 };
 use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_testing::{test, test_transform};
@@ -246,7 +246,10 @@ fn test_var_lifting_integration() {
     test("if(false)var a,b;", "");
     test("if(false){var a;var a;}", "");
     test("if(false)var a=function(){var b};", "");
-    test("if(a)if(false)var a;else var b;", "");
+
+    // TODO(kdy1): We can optimize this.
+    // test("if(a)if(false)var a;else var b;", "");
+    test("if(a)if(false)var a;else var b;", "if(a) var a;");
 }
 
 #[test]
@@ -304,18 +307,27 @@ fn test_minimize_expr() {
 
 #[test]
 fn test_bug_issue3() {
-    test_same(concat!(
-        "function foo() {",
-        "  if(sections.length != 1) children[i] = 0;",
-        "  else var selectedid = children[i]",
-        "}",
-        "foo()"
-    ));
+    test(
+        concat!(
+            "function foo() {",
+            "  if(sections.length != 1) children[i] = 0;",
+            "  else var selectedid = children[i]",
+            "}",
+            "foo()"
+        ),
+        concat!(
+            "function foo() {",
+            "  if(sections.length != 1) children[i] = 0;",
+            "  else children[i]",
+            "}",
+            "foo()"
+        ),
+    );
 }
 
 #[test]
 fn test_bug_issue43() {
-    test_same("function foo() {\n  if (a) var b = bar(); else a.b = 1; \n} use(foo);");
+    test_same("function foo() {\n  if (a) bar(); else a.b = 1; \n} use(foo);");
 }
 
 #[test]
@@ -576,4 +588,30 @@ test!(
     console.log("\x001");
     "#,
     ok_if_code_eq
+);
+
+test!(
+    Syntax::default(),
+    |_| dead_branch_remover(),
+    issue_2466_1,
+    "
+    const X = {
+        run() {
+            console.log(this === globalThis);
+        },
+    };
+    
+    X.run();
+    (0, X.run)();
+    ",
+    "
+    const X = {
+        run() {
+            console.log(this === globalThis);
+        },
+    };
+    
+    X.run();
+    (0, X.run)();
+    "
 );

@@ -22,7 +22,7 @@ mod function_name;
 mod instanceof;
 pub mod new_target;
 mod parameters;
-mod regenerator;
+pub mod regenerator;
 mod shorthand_property;
 pub mod spread;
 mod sticky_regex;
@@ -56,7 +56,7 @@ where
         for_of(c.for_of),
         // Should come before parameters
         // See: https://github.com/swc-project/swc/issues/1036
-        regenerator(global_mark),
+        regenerator(c.regenerator, global_mark),
         parameters(),
         computed_properties(),
         destructuring(c.destructuring),
@@ -64,7 +64,8 @@ where
     )
 }
 
-#[derive(Debug, Default, Deserialize)]
+#[derive(Debug, Clone, Default, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Config {
     #[serde(flatten)]
     pub for_of: for_of::Config,
@@ -74,6 +75,9 @@ pub struct Config {
 
     #[serde(flatten)]
     pub spread: spread::Config,
+
+    #[serde(default)]
+    pub regenerator: regenerator::Config,
 }
 
 #[cfg(test)]
@@ -192,12 +196,12 @@ function foo(scope) {
     //         |_| chain!(
     //             resolver(),
     //             class_properties(),
-    //             // Optional::new(compat::es2018(), target <= JscTarget::Es2018),
-    //             // Optional::new(compat::es2017(), target <= JscTarget::Es2017),
-    //             // Optional::new(compat::es2016(), target <= JscTarget::Es2016),
+    //             // Optional::new(compat::es2018(), target <= EsVersion::Es2018),
+    //             // Optional::new(compat::es2017(), target <= EsVersion::Es2017),
+    //             // Optional::new(compat::es2016(), target <= EsVersion::Es2016),
     //             // Optional::new(compat::es2015(Mark::fresh(Mark::root()),
-    // Default::default()), target <= JscTarget::Es2015),             //
-    // Optional::new(compat::es3(), target <= JscTarget::Es3),
+    // Default::default()), target <= EsVersion::Es2015),             //
+    // Optional::new(compat::es3(), target <= EsVersion::Es3),
     // hygiene(),             fixer(),
     //         ),
     //         issue_405,

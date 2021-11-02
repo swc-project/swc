@@ -47,7 +47,8 @@
                       "end": 6,
                       "ctxt": 0
                     },
-                    "value": "style"
+                    "value": "style",
+                    "raw": "style"
                   }
                 }
               ]
@@ -56,7 +57,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 7,
           "end": 540,
@@ -64,22 +65,23 @@
         },
         "items": [
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 10,
               "end": 22,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 10,
                 "end": 15,
                 "ctxt": 0
               },
-              "value": "--foo"
+              "value": "--foo",
+              "raw": "--foo"
             },
-            "values": [
+            "value": [
               {
                 "type": "String",
                 "span": {
@@ -87,28 +89,30 @@
                   "end": 22,
                   "ctxt": 0
                 },
-                "value": "bar"
+                "value": "bar",
+                "raw": "'bar'"
               }
             ],
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 25,
               "end": 44,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 25,
                 "end": 37,
                 "ctxt": 0
               },
-              "value": "--lore-ipsum"
+              "value": "--lore-ipsum",
+              "raw": "--lore-ipsum"
             },
-            "values": [
+            "value": [
               {
                 "type": "String",
                 "span": {
@@ -116,28 +120,30 @@
                   "end": 44,
                   "ctxt": 0
                 },
-                "value": "foo"
+                "value": "foo",
+                "raw": "\"foo\""
               }
             ],
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 47,
               "end": 63,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 47,
                 "end": 54,
                 "ctxt": 0
               },
-              "value": "--FANCY"
+              "value": "--FANCY",
+              "raw": "--FANCY"
             },
-            "values": [
+            "value": [
               {
                 "type": "String",
                 "span": {
@@ -145,28 +151,30 @@
                   "end": 63,
                   "ctxt": 0
                 },
-                "value": "abort"
+                "value": "abort",
+                "raw": "\"abort\""
               }
             ],
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 66,
               "end": 78,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 66,
                 "end": 72,
                 "ctxt": 0
               },
-              "value": "--test"
+              "value": "--test",
+              "raw": "--test"
             },
-            "values": [
+            "value": [
               {
                 "type": "Number",
                 "span": {
@@ -174,28 +182,30 @@
                   "end": 78,
                   "ctxt": 0
                 },
-                "value": 1987.0
+                "value": 1987.0,
+                "raw": "1987"
               }
             ],
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 81,
               "end": 98,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 81,
                 "end": 93,
                 "ctxt": 0
               },
-              "value": "--percentage"
+              "value": "--percentage",
+              "raw": "--percentage"
             },
-            "values": [
+            "value": [
               {
                 "type": "PercentValue",
                 "span": {
@@ -210,29 +220,31 @@
                     "end": 97,
                     "ctxt": 0
                   },
-                  "value": 25.0
+                  "value": 25.0,
+                  "raw": "25"
                 }
               }
             ],
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 101,
               "end": 113,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 101,
                 "end": 109,
                 "ctxt": 0
               },
-              "value": "--number"
+              "value": "--number",
+              "raw": "--number"
             },
-            "values": [
+            "value": [
               {
                 "type": "Number",
                 "span": {
@@ -240,28 +252,30 @@
                   "end": 113,
                   "ctxt": 0
                 },
-                "value": 37.0
+                "value": 37.0,
+                "raw": "37"
               }
             ],
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 116,
               "end": 130,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 116,
                 "end": 124,
                 "ctxt": 0
               },
-              "value": "--length"
+              "value": "--length",
+              "raw": "--length"
             },
-            "values": [
+            "value": [
               {
                 "type": "UnitValue",
                 "span": {
@@ -276,7 +290,8 @@
                     "end": 128,
                     "ctxt": 0
                   },
-                  "value": 12.0
+                  "value": 12.0,
+                  "raw": "12"
                 },
                 "unit": {
                   "span": {
@@ -284,29 +299,31 @@
                     "end": 130,
                     "ctxt": 0
                   },
-                  "kind": "em"
+                  "value": "em",
+                  "raw": "em"
                 }
               }
             ],
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 133,
               "end": 145,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 133,
                 "end": 139,
                 "ctxt": 0
               },
-              "value": "--time"
+              "value": "--time",
+              "raw": "--time"
             },
-            "values": [
+            "value": [
               {
                 "type": "UnitValue",
                 "span": {
@@ -321,7 +338,8 @@
                     "end": 143,
                     "ctxt": 0
                   },
-                  "value": 75.0
+                  "value": 75.0,
+                  "raw": "75"
                 },
                 "unit": {
                   "span": {
@@ -329,29 +347,31 @@
                     "end": 145,
                     "ctxt": 0
                   },
-                  "kind": "ms"
+                  "value": "ms",
+                  "raw": "ms"
                 }
               }
             ],
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 148,
               "end": 165,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 148,
                 "end": 158,
                 "ctxt": 0
               },
-              "value": "--function"
+              "value": "--function",
+              "raw": "--function"
             },
-            "values": [
+            "value": [
               {
                 "type": "FnValue",
                 "span": {
@@ -366,7 +386,8 @@
                     "end": 163,
                     "ctxt": 0
                   },
-                  "value": "foo"
+                  "value": "foo",
+                  "raw": "foo"
                 },
                 "args": []
               }
@@ -374,22 +395,23 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 168,
               "end": 197,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 168,
                 "end": 185,
                 "ctxt": 0
               },
-              "value": "--nested-function"
+              "value": "--nested-function",
+              "raw": "--nested-function"
             },
-            "values": [
+            "value": [
               {
                 "type": "FnValue",
                 "span": {
@@ -404,7 +426,8 @@
                     "end": 190,
                     "ctxt": 0
                   },
-                  "value": "foo"
+                  "value": "foo",
+                  "raw": "foo"
                 },
                 "args": [
                   {
@@ -421,7 +444,8 @@
                         "end": 194,
                         "ctxt": 0
                       },
-                      "value": "bar"
+                      "value": "bar",
+                      "raw": "bar"
                     },
                     "args": []
                   }
@@ -431,22 +455,23 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 200,
               "end": 218,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 200,
                 "end": 213,
                 "ctxt": 0
               },
-              "value": "--parentheses"
+              "value": "--parentheses",
+              "raw": "--parentheses"
             },
-            "values": [
+            "value": [
               {
                 "type": "ParenValue",
                 "span": {
@@ -460,22 +485,23 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 221,
               "end": 234,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 221,
                 "end": 229,
                 "ctxt": 0
               },
-              "value": "--braces"
+              "value": "--braces",
+              "raw": "--braces"
             },
-            "values": [
+            "value": [
               {
                 "type": "BraceValue",
                 "span": {
@@ -497,7 +523,11 @@
                         "end": 233,
                         "ctxt": 0
                       },
-                      "token": "WhiteSpace"
+                      "token": {
+                        "WhiteSpace": {
+                          "value": " "
+                        }
+                      }
                     }
                   ]
                 }
@@ -506,51 +536,53 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 237,
               "end": 252,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 237,
                 "end": 247,
                 "ctxt": 0
               },
-              "value": "--brackets"
+              "value": "--brackets",
+              "raw": "--brackets"
             },
-            "values": [
+            "value": [
               {
-                "type": "ArrayValue",
+                "type": "SquareBracketBlock",
                 "span": {
                   "start": 249,
                   "end": 252,
                   "ctxt": 0
                 },
-                "values": []
+                "children": []
               }
             ],
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 255,
               "end": 284,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 255,
                 "end": 275,
                 "ctxt": 0
               },
-              "value": "--at-keyword-unknown"
+              "value": "--at-keyword-unknown",
+              "raw": "--at-keyword-unknown"
             },
-            "values": [
+            "value": [
               {
                 "type": "AtTextValue",
                 "span": {
@@ -565,7 +597,8 @@
                     "end": 284,
                     "ctxt": 0
                   },
-                  "value": "foobar"
+                  "value": "foobar",
+                  "raw": "foobar"
                 },
                 "block": null
               }
@@ -573,22 +606,23 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 287,
               "end": 313,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 287,
                 "end": 305,
                 "ctxt": 0
               },
-              "value": "--at-keyword-known"
+              "value": "--at-keyword-known",
+              "raw": "--at-keyword-known"
             },
-            "values": [
+            "value": [
               {
                 "type": "AtTextValue",
                 "span": {
@@ -603,7 +637,8 @@
                     "end": 313,
                     "ctxt": 0
                   },
-                  "value": "media"
+                  "value": "media",
+                  "raw": "media"
                 },
                 "block": null
               }
@@ -611,22 +646,23 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 316,
               "end": 354,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 316,
                 "end": 342,
                 "ctxt": 0
               },
-              "value": "--at-keyword-unknown-block"
+              "value": "--at-keyword-unknown-block",
+              "raw": "--at-keyword-unknown-block"
             },
-            "values": [
+            "value": [
               {
                 "type": "AtTextValue",
                 "span": {
@@ -641,7 +677,8 @@
                     "end": 351,
                     "ctxt": 0
                   },
-                  "value": "foobar"
+                  "value": "foobar",
+                  "raw": "foobar"
                 },
                 "block": null
               },
@@ -666,22 +703,23 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 357,
               "end": 392,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 357,
                 "end": 381,
                 "ctxt": 0
               },
-              "value": "--at-keyword-known-block"
+              "value": "--at-keyword-known-block",
+              "raw": "--at-keyword-known-block"
             },
-            "values": [
+            "value": [
               {
                 "type": "AtTextValue",
                 "span": {
@@ -696,7 +734,8 @@
                     "end": 389,
                     "ctxt": 0
                   },
-                  "value": "media"
+                  "value": "media",
+                  "raw": "media"
                 },
                 "block": null
               },
@@ -721,22 +760,23 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 395,
               "end": 419,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 395,
                 "end": 413,
                 "ctxt": 0
               },
-              "value": "--cdo-at-top-level"
+              "value": "--cdo-at-top-level",
+              "raw": "--cdo-at-top-level"
             },
-            "values": [
+            "value": [
               {
                 "type": "Tokens",
                 "span": {
@@ -759,22 +799,23 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 422,
               "end": 445,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 422,
                 "end": 440,
                 "ctxt": 0
               },
-              "value": "--cdc-at-top-level"
+              "value": "--cdc-at-top-level",
+              "raw": "--cdc-at-top-level"
             },
-            "values": [
+            "value": [
               {
                 "type": "Tokens",
                 "span": {
@@ -797,22 +838,23 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 448,
               "end": 478,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 448,
                 "end": 473,
                 "ctxt": 0
               },
-              "value": "--semicolon-not-top-level"
+              "value": "--semicolon-not-top-level",
+              "raw": "--semicolon-not-top-level"
             },
-            "values": [
+            "value": [
               {
                 "type": "ParenValue",
                 "span": {
@@ -843,22 +885,23 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 481,
               "end": 508,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 481,
                 "end": 500,
                 "ctxt": 0
               },
-              "value": "--cdo-not-top-level"
+              "value": "--cdo-not-top-level",
+              "raw": "--cdo-not-top-level"
             },
-            "values": [
+            "value": [
               {
                 "type": "ParenValue",
                 "span": {
@@ -889,22 +932,23 @@
             "important": null
           },
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 511,
               "end": 537,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 511,
                 "end": 530,
                 "ctxt": 0
               },
-              "value": "--cdc-not-top-level"
+              "value": "--cdc-not-top-level",
+              "raw": "--cdc-not-top-level"
             },
-            "values": [
+            "value": [
               {
                 "type": "ParenValue",
                 "span": {

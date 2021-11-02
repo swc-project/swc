@@ -22,7 +22,11 @@ where
                 if !self
                     .data
                     .as_ref()
-                    .and_then(|data| data.vars.get(&name.to_id()).map(|v| !v.mutated))
+                    .and_then(|data| {
+                        data.vars
+                            .get(&name.to_id())
+                            .map(|v| !v.mutated && !v.reassigned && !v.is_infected())
+                    })
                     .unwrap_or(false)
                 {
                     return;
@@ -93,16 +97,18 @@ where
                                     match &p.key {
                                         PropName::Str(s) => {
                                             tracing::trace!(
-                                                "hoist_props: Storing a varaible to inline \
-                                                 properties"
+                                                "hoist_props: Storing a variable (`{}`) to inline \
+                                                 properties",
+                                                name.id
                                             );
                                             self.simple_props
                                                 .insert((name.to_id(), s.value.clone()), value);
                                         }
                                         PropName::Ident(i) => {
                                             tracing::trace!(
-                                                "hoist_props: Storing a varaible to inline \
-                                                 properties"
+                                                "hoist_props: Storing a variable(`{}`) to inline \
+                                                 properties",
+                                                name.id
                                             );
                                             self.simple_props
                                                 .insert((name.to_id(), i.sym.clone()), value);
@@ -127,6 +133,7 @@ where
                                 && v.has_property_access
                                 && v.is_fn_local
                                 && !v.used_in_loop
+                                && !v.used_in_cond
                         })
                     })
                     .unwrap_or(false)

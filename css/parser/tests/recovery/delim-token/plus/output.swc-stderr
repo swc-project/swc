@@ -1,0 +1,6 @@
+error: Expected Declaration value
+ --> $DIR/tests/recovery/delim-token/plus/input.css:2:11
+  |
+2 |     prop: +;
+  |           ^
+

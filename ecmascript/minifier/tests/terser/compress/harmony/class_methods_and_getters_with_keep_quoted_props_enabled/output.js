@@ -1,6 +1,8 @@
 class clss {
-    a() {}
-    b() {}
+    a() {
+    }
+    b() {
+    }
     get c() {
         return "c";
     }
@@ -10,9 +12,11 @@ class clss {
     set e(a) {
         doSomething(a);
     }
-    set f(a) {
+    set f(a1) {
         doSomething(b);
     }
-    static g() {}
-    static h() {}
+    static g() {
+    }
+    static h() {
+    }
 }

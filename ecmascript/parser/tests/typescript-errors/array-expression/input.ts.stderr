@@ -1,0 +1,6 @@
+error: Expected ',', got 'b'
+ --> $DIR/tests/typescript-errors/array-expression/input.ts:1:16
+  |
+1 | const arr = [a b]
+  |                ^
+

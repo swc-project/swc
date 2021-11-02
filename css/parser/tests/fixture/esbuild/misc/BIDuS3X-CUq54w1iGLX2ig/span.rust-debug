@@ -22,11 +22,35 @@ error: ImportRule
 1 | @import url("foo.css") print;
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Str
+error: ImportSource
  --> $DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:9
   |
 1 | @import url("foo.css") print;
   |         ^^^^^^^^^^^^^^
+
+error: FnValue
+ --> $DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:9
+  |
+1 | @import url("foo.css") print;
+  |         ^^^^^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:9
+  |
+1 | @import url("foo.css") print;
+  |         ^^^
+
+error: Value
+ --> $DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:13
+  |
+1 | @import url("foo.css") print;
+  |             ^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:13
+  |
+1 | @import url("foo.css") print;
+  |             ^^^^^^^^^
 
 error: MediaQuery
  --> $DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:24

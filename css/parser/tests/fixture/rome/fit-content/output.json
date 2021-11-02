@@ -47,7 +47,8 @@
                       "end": 6,
                       "ctxt": 0
                     },
-                    "value": "style"
+                    "value": "style",
+                    "raw": "style"
                   }
                 }
               ]
@@ -56,7 +57,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 7,
           "end": 73,
@@ -64,22 +65,23 @@
         },
         "items": [
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 10,
               "end": 70,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 10,
                 "end": 31,
                 "ctxt": 0
               },
-              "value": "grid-template-columns"
+              "value": "grid-template-columns",
+              "raw": "grid-template-columns"
             },
-            "values": [
+            "value": [
               {
                 "type": "FnValue",
                 "span": {
@@ -94,7 +96,8 @@
                     "end": 44,
                     "ctxt": 0
                   },
-                  "value": "fit-content"
+                  "value": "fit-content",
+                  "raw": "fit-content"
                 },
                 "args": [
                   {
@@ -111,7 +114,8 @@
                         "end": 46,
                         "ctxt": 0
                       },
-                      "value": 8.0
+                      "value": 8.0,
+                      "raw": "8"
                     },
                     "unit": {
                       "span": {
@@ -119,7 +123,8 @@
                         "end": 48,
                         "ctxt": 0
                       },
-                      "kind": "ch"
+                      "value": "ch",
+                      "raw": "ch"
                     }
                   }
                 ]
@@ -138,7 +143,8 @@
                     "end": 61,
                     "ctxt": 0
                   },
-                  "value": "fit-content"
+                  "value": "fit-content",
+                  "raw": "fit-content"
                 },
                 "args": [
                   {
@@ -155,7 +161,8 @@
                         "end": 63,
                         "ctxt": 0
                       },
-                      "value": 8.0
+                      "value": 8.0,
+                      "raw": "8"
                     },
                     "unit": {
                       "span": {
@@ -163,7 +170,8 @@
                         "end": 65,
                         "ctxt": 0
                       },
-                      "kind": "ch"
+                      "value": "ch",
+                      "raw": "ch"
                     }
                   }
                 ]
@@ -182,7 +190,8 @@
                     "end": 68,
                     "ctxt": 0
                   },
-                  "value": 1.0
+                  "value": 1.0,
+                  "raw": "1"
                 },
                 "unit": {
                   "span": {
@@ -190,7 +199,8 @@
                     "end": 70,
                     "ctxt": 0
                   },
-                  "kind": "fr"
+                  "value": "fr",
+                  "raw": "fr"
                 }
               }
             ],

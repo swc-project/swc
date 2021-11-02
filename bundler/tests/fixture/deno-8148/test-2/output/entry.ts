@@ -1,8 +1,6 @@
-async function foo1() {
+async function foo() {
 }
-const mod = function() {
-    return {
-        foo: foo1
-    };
-}();
+const mod = {
+    foo: foo
+};
 export { mod as foo };

@@ -416,7 +416,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     fn make_legacy_octal(&mut self, start: BytePos, val: f64) -> LexResult<f64> {
         self.ensure_not_ident()?;
 
-        if self.syntax.typescript() && self.target >= JscTarget::Es5 {
+        if self.syntax.typescript() && self.target >= EsVersion::Es5 {
             self.emit_error(start, SyntaxError::TS1085);
         }
         self.emit_strict_mode_error(start, SyntaxError::LegacyOctal);

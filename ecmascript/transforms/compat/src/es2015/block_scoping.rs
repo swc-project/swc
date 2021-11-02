@@ -44,7 +44,7 @@ enum ScopeKind {
         args: Vec<Id>,
         /// Produced by identifier reference and consumed by for-of/in loop.
         used: Vec<Id>,
-        /// Map of original identifer to modified syntax context
+        /// Map of original identifier to modified syntax context
         mutated: AHashMap<Id, SyntaxContext>,
     },
     Fn,
@@ -418,6 +418,7 @@ impl BlockScoping {
     }
 }
 
+/// TODO: VisitMut
 impl Fold for BlockScoping {
     noop_fold_type!();
 
@@ -761,19 +762,9 @@ impl<'a> FlowHelper<'a> {
     }
 }
 
+/// TODO: VisitMut
 impl Fold for FlowHelper<'_> {
     noop_fold_type!();
-
-    fn fold_switch_case(&mut self, n: SwitchCase) -> SwitchCase {
-        let old = self.in_switch_case;
-        self.in_switch_case = true;
-
-        let n = n.fold_children_with(self);
-
-        self.in_switch_case = old;
-
-        n
-    }
 
     /// noop
     fn fold_arrow_expr(&mut self, f: ArrowExpr) -> ArrowExpr {
@@ -862,6 +853,17 @@ impl Fold for FlowHelper<'_> {
             }
             _ => node.fold_children_with(self),
         }
+    }
+
+    fn fold_switch_case(&mut self, n: SwitchCase) -> SwitchCase {
+        let old = self.in_switch_case;
+        self.in_switch_case = true;
+
+        let n = n.fold_children_with(self);
+
+        self.in_switch_case = old;
+
+        n
     }
 
     fn fold_update_expr(&mut self, n: UpdateExpr) -> UpdateExpr {

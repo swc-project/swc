@@ -1,0 +1,6 @@
+error: Expected Declaration value
+ --> $DIR/tests/recovery/delim-token/at-sign/input.css:2:12
+  |
+2 |     color: @ red;
+  |            ^
+

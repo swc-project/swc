@@ -1,4 +1,5 @@
 const swc = require("../../../");
+const path = require("path");
 
 it("should handle minify", () => {
     const src = '/* Comment */import foo, {bar} from "foo"';
@@ -86,7 +87,7 @@ it("(async) should handle plugin", async () => {
     expect(out.code).toBe("");
 });
 
-it("(async) should handel dynmic import", async () => {
+it("(async) should handle dynamic import", async () => {
     const out = await swc.transform("import('foo');", {
         jsc: {
             target: "es3",
@@ -144,7 +145,7 @@ it("should respect isModule = true", async () => {
             isModule: true,
         }
     );
-    expect(f).toThrowError(`failed to parse module: error was recoverable, but proceeding would result in wrong codegen`)
+    expect(f).toThrowError(/Syntax Error/)
 });
 
 
@@ -159,4 +160,34 @@ it("should respect `inlineSourcesContent`", async () => {
     const j = JSON.parse(map);
 
     expect(j).toHaveProperty('sourcesContent')
+});
+
+it("should respect `error.filename = false`", async () => {
+    const src = 'export default <h1>';
+    try {
+        await swc.transform(src, {
+            error: {
+                filename: false
+            }
+        })
+    } catch (e) {
+        expect(e).not.toContain("-->")
+    }
+
+});
+
+it("should merge parser config", async () => {
+    const filename = path.resolve(
+        __dirname + "/../../tests/issue-2546/input.ts"
+    );
+
+    const { code } = await swc.transformFile(filename, {
+        jsc: {
+            parser: {
+                syntax: "typescript",
+            }
+        }
+    })
+
+    expect(code).not.toBeFalsy()
 });

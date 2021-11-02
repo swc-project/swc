@@ -5,8 +5,7 @@ use self::{
     },
     prop_name::HashKey,
 };
-use rustc_hash::FxHasher;
-use std::{hash::BuildHasherDefault, iter};
+use std::iter;
 use swc_common::{comments::Comments, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, native::is_native, perf::Check};
@@ -31,7 +30,7 @@ where
     }
 }
 
-type IndexMap<K, V> = indexmap::IndexMap<K, V, BuildHasherDefault<FxHasher>>;
+type IndexMap<K, V> = indexmap::IndexMap<K, V, ahash::RandomState>;
 
 /// `@babel/plugin-transform-classes`
 ///
@@ -180,6 +179,7 @@ where
     }
 }
 
+/// TODO: VisitMut
 #[fast_path(ClassFinder)]
 impl<C> Fold for Classes<C>
 where
@@ -404,7 +404,9 @@ where
                     // We just strip this.
                 }
                 ClassMember::Empty(..) => {}
-                ClassMember::StaticBlock(..) => unimplemented!("stage 3 class static blocks"),
+                ClassMember::StaticBlock(..) => unreachable!(
+                    "classes pass: static blocks\nstatic_blocks pass should remove this"
+                ),
             }
         }
 

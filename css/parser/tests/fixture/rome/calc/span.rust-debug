@@ -64,7 +64,7 @@ error: Text
 1 | .style {
   |  ^^^^^
 
-error: DeclBlock
+error: Block
   --> $DIR/tests/fixture/rome/calc/input.css:1:8
    |
 1  |   .style {
@@ -77,7 +77,7 @@ error: DeclBlock
 10 | | }
    | |_^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/calc/input.css:2:2
   |
 2 |     width: calc(2px);
@@ -131,7 +131,7 @@ error: Unit
 2 |     width: calc(2px);
   |                  ^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/calc/input.css:3:2
   |
 3 |     width: calc(2px + 1px);
@@ -221,7 +221,7 @@ error: Unit
 3 |     width: calc(2px + 1px);
   |                        ^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/calc/input.css:4:2
   |
 4 |     width: calc(2em + 1%);
@@ -305,7 +305,7 @@ error: Num
 4 |     width: calc(2em + 1%);
   |                       ^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/calc/input.css:5:2
   |
 5 |     width: calc(2em * 2% * 3px);
@@ -437,7 +437,7 @@ error: Unit
 5 |     width: calc(2em * 2% * 3px);
   |                             ^^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/calc/input.css:6:2
   |
 6 |     width: calc(2em / 2 / 3);
@@ -551,7 +551,7 @@ error: Num
 6 |     width: calc(2em / 2 / 3);
   |                           ^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/calc/input.css:7:2
   |
 7 |     width: calc(2em / (2 - 3) / (2 - 6));
@@ -737,7 +737,7 @@ error: Num
 7 |     width: calc(2em / (2 - 3) / (2 - 6));
   |                                      ^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/calc/input.css:8:2
   |
 8 |     width: calc(2em * 2 + 3);
@@ -851,7 +851,7 @@ error: Num
 8 |     width: calc(2em * 2 + 3);
   |                           ^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/rome/calc/input.css:9:2
   |
 9 |     width: calc(2em * 2 - 3 + 3em / 5);

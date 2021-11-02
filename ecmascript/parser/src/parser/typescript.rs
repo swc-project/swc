@@ -2231,11 +2231,6 @@ impl<I: Tokens> Parser<I> {
             return Ok(None);
         }
 
-        assert!(
-            !is!(self, "declare"),
-            "try_parse_ts_declare should be called after eating `declare`"
-        );
-
         if self.ctx().in_declare {
             let span_of_declare = span!(self, start);
             self.emit_err(span_of_declare, SyntaxError::TS1038);
@@ -2693,7 +2688,7 @@ fn make_decl_declare(mut decl: Decl) -> Decl {
 #[cfg(test)]
 mod tests {
     use crate::{
-        lexer::Lexer, test_parser, token::*, Capturing, JscTarget, Parser, Syntax, TsConfig,
+        lexer::Lexer, test_parser, token::*, Capturing, EsVersion, Parser, Syntax, TsConfig,
     };
     use swc_common::DUMMY_SP;
     use swc_ecma_ast::*;
@@ -2778,7 +2773,7 @@ mod tests {
                     Syntax::Typescript(TsConfig {
                         ..Default::default()
                     }),
-                    JscTarget::Es2019,
+                    EsVersion::Es2019,
                     input,
                     None,
                 );
@@ -2804,7 +2799,7 @@ mod tests {
                 Syntax::Typescript(TsConfig {
                     ..Default::default()
                 }),
-                JscTarget::Es2019,
+                EsVersion::Es2019,
                 input,
                 None,
             );

@@ -1,4 +1,5 @@
 use anyhow::{bail, Context, Error};
+use path_clean::PathClean;
 use reqwest::Url;
 use sha1::{Digest, Sha1};
 use std::{
@@ -12,11 +13,14 @@ use swc_common::{
     comments::SingleThreadedComments,
     errors::{ColorConfig, Handler},
     sync::Lrc,
-    FileName, SourceMap,
+    FileName, Mark, SourceMap,
 };
-use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax, TsConfig};
-use swc_ecma_transforms::{react, typescript::strip};
+use swc_ecma_ast::EsVersion;
+use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
+use swc_ecma_transforms_react::react;
+use swc_ecma_transforms_typescript::strip;
 use swc_ecma_visit::FoldWith;
+
 pub struct Loader {
     pub cm: Lrc<SourceMap>,
 }
@@ -83,6 +87,8 @@ impl Load for Loader {
     fn load(&self, f: &FileName) -> Result<ModuleData, Error> {
         eprintln!("load: {}", f);
 
+        let top_level_mark = Mark::fresh(Mark::root());
+
         let tsx;
         let fm = match f {
             FileName::Real(path) => {
@@ -111,7 +117,7 @@ impl Load for Loader {
                 dynamic_import: true,
                 ..Default::default()
             }),
-            JscTarget::Es2020,
+            EsVersion::Es2020,
             StringInput::from(&*fm),
             None,
         );
@@ -123,13 +129,15 @@ impl Load for Loader {
             err.into_diagnostic(&handler).emit();
             panic!("failed to parse")
         });
-        let module = module
-            .fold_with(&mut strip())
-            .fold_with(&mut react::react::<SingleThreadedComments>(
-                self.cm.clone(),
-                None,
-                Default::default(),
-            ));
+        let module =
+            module
+                .fold_with(&mut strip())
+                .fold_with(&mut react::<SingleThreadedComments>(
+                    self.cm.clone(),
+                    None,
+                    Default::default(),
+                    top_level_mark,
+                ));
 
         Ok(ModuleData {
             fm,
@@ -145,9 +153,8 @@ static EXTENSIONS: &[&str] = &["ts", "tsx", "js", "jsx", "json", "node"];
 
 impl NodeResolver {
     fn wrap(&self, path: PathBuf) -> Result<FileName, Error> {
-        Ok(FileName::Real(
-            path.canonicalize().context("failaed to canonicalize")?,
-        ))
+        let path = path.clean();
+        Ok(FileName::Real(path))
     }
 
     /// Resolve a path as a file. If `path` refers to a file, it is

@@ -291,10 +291,35 @@ impl VisitMut for Remover {
         }
 
         let last = e.exprs.pop().unwrap();
-        let mut exprs = e
-            .exprs
-            .take()
-            .move_flat_map(|e| ignore_result(*e).map(Box::new));
+
+        let should_preserved_this = matches!(
+            &*last,
+            Expr::Member(..)
+                | Expr::Ident(Ident {
+                    sym: js_word!("eval"),
+                    ..
+                })
+        );
+
+        let mut exprs = if should_preserved_this {
+            e.exprs
+                .take()
+                .into_iter()
+                .enumerate()
+                .filter_map(|(idx, e)| {
+                    if idx == 0 {
+                        return Some(e);
+                    }
+
+                    ignore_result(*e).map(Box::new)
+                })
+                .collect()
+        } else {
+            e.exprs
+                .take()
+                .move_flat_map(|e| ignore_result(*e).map(Box::new))
+        };
+
         exprs.push(last);
 
         e.exprs = exprs;
@@ -602,6 +627,10 @@ impl VisitMut for Remover {
                                         &Expr::Lit(Lit::Num(Number { value: test, .. })),
                                         &Expr::Lit(Lit::Num(Number { value: d, .. })),
                                     ) => (test - d).abs() < 1e-10,
+                                    (
+                                        &Expr::Lit(Lit::Bool(Bool { value: test, .. })),
+                                        &Expr::Lit(Lit::Bool(Bool { value: d, .. })),
+                                    ) => test == d,
                                     (&Expr::Lit(Lit::Null(..)), &Expr::Lit(Lit::Null(..))) => true,
                                     (&Expr::Ident(ref test), &Expr::Ident(ref d)) => {
                                         test.sym == d.sym && test.span.ctxt() == d.span.ctxt()

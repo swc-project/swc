@@ -3,9 +3,9 @@ use crate::{builder::PassBuilder, SwcComments, SwcImportResolver};
 use anyhow::{bail, Context, Error};
 use dashmap::DashMap;
 use either::Either;
+use indexmap::IndexMap;
 use once_cell::sync::Lazy;
 use regex::Regex;
-use rustc_hash::{FxHashMap, FxHashSet};
 use serde::{Deserialize, Serialize};
 use std::{
     cell::RefCell,
@@ -19,8 +19,12 @@ use std::{
 };
 use swc_atoms::JsWord;
 pub use swc_common::chain;
-use swc_common::{errors::Handler, FileName, Mark, SourceMap};
-use swc_ecma_ast::{Expr, ExprStmt, ModuleItem, Stmt};
+use swc_common::{
+    collections::{AHashMap, AHashSet},
+    errors::Handler,
+    FileName, Mark, SourceMap,
+};
+use swc_ecma_ast::{EsVersion, Expr};
 use swc_ecma_ext_transforms::jest;
 use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
@@ -29,16 +33,19 @@ use swc_ecma_minifier::option::{
     terser::{TerserCompressorOptions, TerserEcmaVersion},
     MangleOptions, ManglePropertiesOptions,
 };
+#[allow(deprecated)]
 pub use swc_ecma_parser::JscTarget;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::{
     hygiene, modules,
     modules::{hoist::import_hoister, path::NodeImportResolver, util::Scope},
-    optimization::{const_modules, inline_globals, json_parse, simplifier},
+    optimization::{const_modules, json_parse, simplifier},
     pass::{noop, Optional},
-    proposals::{decorators, export_default_from},
+    proposals::{decorators, export_default_from, import_assertions},
     react, resolver_with_mark, typescript,
 };
+use swc_ecma_transforms_compat::es2015::regenerator;
+use swc_ecma_transforms_optimization::{inline_globals2, GlobalExprMap};
 use swc_ecma_visit::Fold;
 
 #[cfg(test)]
@@ -57,7 +64,7 @@ pub struct ParseOptions {
     pub is_module: bool,
 
     #[serde(default)]
-    pub target: JscTarget,
+    pub target: EsVersion,
 }
 
 #[derive(Debug, Clone, Default, Deserialize)]
@@ -124,7 +131,7 @@ pub struct Options {
 }
 
 impl Options {
-    pub fn codegen_target(&self) -> Option<JscTarget> {
+    pub fn codegen_target(&self) -> Option<EsVersion> {
         self.config.jsc.target
     }
 }
@@ -209,13 +216,14 @@ impl Options {
         let syntax = syntax.unwrap_or_default();
         let mut transform = transform.unwrap_or_default();
 
+        let regenerator = transform.regenerator.clone();
+
         let preserve_comments = js_minify.as_ref().map(|v| v.format.comments.clone());
 
         if syntax.typescript() {
             transform.legacy_decorator = true;
         }
         let optimizer = transform.optimizer;
-        let enable_optimizer = optimizer.is_some();
 
         let const_modules = {
             let enabled = transform.const_modules.is_some();
@@ -233,13 +241,14 @@ impl Options {
             }
         };
 
+        let enable_simplifier = optimizer.as_ref().map(|v| v.simplify).unwrap_or_default();
+
         let optimization = {
-            let pass =
-                if let Some(opts) = optimizer.map(|o| o.globals.unwrap_or_else(Default::default)) {
-                    opts.build(cm, handler)
-                } else {
-                    GlobalPassOption::default().build(cm, handler)
-                };
+            let pass = if let Some(opts) = optimizer.and_then(|o| o.globals) {
+                Either::Left(opts.build(cm, handler))
+            } else {
+                Either::Right(noop())
+            };
 
             pass
         };
@@ -249,25 +258,10 @@ impl Options {
             .unwrap_or_else(|| Mark::fresh(Mark::root()));
 
         let pass = chain!(
-            // handle jsx
-            Optional::new(
-                react::react(cm.clone(), comments.clone(), transform.react),
-                syntax.jsx()
-            ),
-            // Decorators may use type information
-            Optional::new(
-                decorators(decorators::Config {
-                    legacy: transform.legacy_decorator,
-                    emit_metadata: transform.decorator_metadata,
-                }),
-                syntax.decorators()
-            ),
-            Optional::new(typescript::strip(), syntax.typescript()),
-            resolver_with_mark(top_level_mark),
             const_modules,
             optimization,
             Optional::new(export_default_from(), syntax.export_default_from()),
-            Optional::new(simplifier(Default::default()), enable_optimizer),
+            Optional::new(simplifier(Default::default()), enable_simplifier),
             json_parse_pass
         );
 
@@ -282,6 +276,7 @@ impl Options {
             })
             .fixer(!self.disable_fixer)
             .preset_env(config.env)
+            .regenerator(regenerator)
             .finalize(
                 base_url,
                 paths.into_iter().collect(),
@@ -289,10 +284,46 @@ impl Options {
                 syntax,
                 config.module,
                 comments,
-                custom_before_pass,
             );
 
-        let pass = chain!(pass, Optional::new(jest::jest(), transform.hidden.jest));
+        let pass = chain!(
+            // Decorators may use type information
+            Optional::new(
+                decorators(decorators::Config {
+                    legacy: transform.legacy_decorator,
+                    emit_metadata: transform.decorator_metadata,
+                }),
+                syntax.decorators()
+            ),
+            import_assertions(),
+            Optional::new(
+                typescript::strip_with_jsx(
+                    cm.clone(),
+                    typescript::Config {
+                        pragma: Some(transform.react.pragma.clone()),
+                        pragma_frag: Some(transform.react.pragma_frag.clone()),
+                        ..Default::default()
+                    },
+                    comments.clone(),
+                    top_level_mark
+                ),
+                syntax.typescript()
+            ),
+            resolver_with_mark(top_level_mark),
+            custom_before_pass,
+            // handle jsx
+            Optional::new(
+                react::react(
+                    cm.clone(),
+                    comments.clone(),
+                    transform.react,
+                    top_level_mark
+                ),
+                syntax.jsx()
+            ),
+            pass,
+            Optional::new(jest::jest(), transform.hidden.jest)
+        );
 
         BuiltConfig {
             minify: config.minify,
@@ -303,7 +334,7 @@ impl Options {
             is_module,
             source_maps: source_maps.unwrap_or(SourceMapsConfig::Bool(false)),
             inline_sources_content: config.inline_sources_content,
-            input_source_map: self.config.input_source_map.clone(),
+            input_source_map: config.input_source_map.clone(),
             output_path: output_path.map(|v| v.to_path_buf()),
             source_file_name,
             preserve_comments,
@@ -498,8 +529,11 @@ pub struct Config {
     #[serde(default)]
     pub source_maps: Option<SourceMapsConfig>,
 
-    #[serde(default)]
+    #[serde(default = "true_by_default")]
     pub inline_sources_content: bool,
+
+    #[serde(default)]
+    pub error: ErrorConfig,
 }
 
 /// Second argument of `minify`.
@@ -534,13 +568,34 @@ pub struct JsMinifyOptions {
     pub toplevel: bool,
 
     #[serde(default)]
-    pub source_map: bool,
+    pub source_map: BoolOrObject<TerserSourceMapOption>,
 
     #[serde(default)]
     pub output_path: Option<String>,
 
-    #[serde(default)]
+    #[serde(default = "true_by_default")]
     pub inline_sources_content: bool,
+}
+
+fn true_by_default() -> bool {
+    true
+}
+
+/// `jsc.minify.sourceMap`
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub struct TerserSourceMapOption {
+    #[serde(default)]
+    pub filename: Option<String>,
+
+    #[serde(default)]
+    pub url: Option<String>,
+
+    #[serde(default)]
+    pub root: Option<String>,
+
+    #[serde(default)]
+    pub content: Option<String>,
 }
 
 /// `jsc.minify.format`.
@@ -679,7 +734,8 @@ impl Default for FileMatcher {
 
 impl FileMatcher {
     pub fn matches(&self, filename: &Path) -> Result<bool, Error> {
-        static CACHE: Lazy<DashMap<String, Regex>> = Lazy::new(Default::default);
+        static CACHE: Lazy<DashMap<String, Regex, ahash::RandomState>> =
+            Lazy::new(Default::default);
 
         match self {
             FileMatcher::Regex(ref s) => {
@@ -739,7 +795,7 @@ impl Config {
 pub struct BuiltConfig<P: swc_ecma_visit::Fold> {
     pub pass: P,
     pub syntax: Syntax,
-    pub target: JscTarget,
+    pub target: EsVersion,
     /// Minification for **codegen**. Minifier transforms will be inserted into
     /// `pass`.
     pub minify: bool,
@@ -770,7 +826,7 @@ pub struct JscConfig {
     pub external_helpers: bool,
 
     #[serde(default)]
-    pub target: Option<JscTarget>,
+    pub target: Option<EsVersion>,
 
     #[serde(default)]
     pub loose: bool,
@@ -800,8 +856,8 @@ impl Merge for JscExperimental {
     fn merge(&mut self, _from: &Self) {}
 }
 
-/// `paths` sectiob of `tsconfig.json`.
-pub type Paths = HashMap<String, Vec<String>, ahash::RandomState>;
+/// `paths` section of `tsconfig.json`.
+pub type Paths = AHashMap<String, Vec<String>>;
 pub(crate) type CompiledPaths = Vec<(String, Vec<String>)>;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -900,6 +956,9 @@ pub struct TransformConfig {
 
     #[serde(default)]
     pub hidden: HiddenTransformConfig,
+
+    #[serde(default)]
+    pub regenerator: regenerator::Config,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
@@ -922,6 +981,9 @@ pub struct OptimizerConfig {
     #[serde(default)]
     pub globals: Option<GlobalPassOption>,
 
+    #[serde(default = "true_by_default")]
+    pub simplify: bool,
+
     #[serde(default)]
     pub jsonify: Option<JsonifyOption>,
 }
@@ -937,30 +999,72 @@ fn default_jsonify_min_cost() -> usize {
     1024
 }
 
+#[derive(Debug, Default, Clone, Copy, Serialize, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub struct ErrorConfig {
+    #[serde(default = "true_by_default")]
+    pub filename: bool,
+}
+
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct GlobalPassOption {
     #[serde(default)]
-    pub vars: FxHashMap<String, String>,
-    #[serde(default = "default_envs")]
-    pub envs: FxHashSet<String>,
+    pub vars: IndexMap<JsWord, JsWord, ahash::RandomState>,
+    #[serde(default)]
+    pub envs: GlobalInliningPassEnvs,
+
+    #[serde(default)]
+    pub typeofs: AHashMap<JsWord, JsWord>,
 }
 
-fn default_envs() -> FxHashSet<String> {
-    let mut v = HashSet::default();
-    v.insert(String::from("NODE_ENV"));
-    v.insert(String::from("SWC_ENV"));
-    v
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GlobalInliningPassEnvs {
+    List(AHashSet<String>),
+    Map(AHashMap<JsWord, JsWord>),
+}
+
+impl Default for GlobalInliningPassEnvs {
+    fn default() -> Self {
+        let mut v = HashSet::default();
+        v.insert(String::from("NODE_ENV"));
+        v.insert(String::from("SWC_ENV"));
+
+        GlobalInliningPassEnvs::List(v)
+    }
 }
 
 impl GlobalPassOption {
     pub fn build(self, cm: &SourceMap, handler: &Handler) -> impl 'static + Fold {
-        type ValuesMap = Arc<FxHashMap<JsWord, Expr>>;
+        type ValuesMap = Arc<AHashMap<JsWord, Expr>>;
+
+        fn expr(cm: &SourceMap, handler: &Handler, src: String) -> Box<Expr> {
+            let fm = cm.new_source_file(FileName::Anon, src);
+            let lexer = Lexer::new(
+                Syntax::Es(Default::default()),
+                Default::default(),
+                StringInput::from(&*fm),
+                None,
+            );
+
+            let mut p = Parser::new_from(lexer);
+            let expr = p.parse_expr();
+
+            for e in p.take_errors() {
+                e.into_diagnostic(handler).emit()
+            }
+
+            match expr {
+                Ok(v) => v,
+                _ => panic!("{} is not a valid expression", fm.src),
+            }
+        }
 
         fn mk_map(
             cm: &SourceMap,
             handler: &Handler,
-            values: impl Iterator<Item = (String, String)>,
+            values: impl Iterator<Item = (JsWord, JsWord)>,
             is_env: bool,
         ) -> ValuesMap {
             let mut m = HashMap::default();
@@ -972,36 +1076,10 @@ impl GlobalPassOption {
                     (*v).into()
                 };
                 let v_str = v.clone();
-                let fm = cm.new_source_file(FileName::Custom(format!("GLOBAL.{}", k)), v);
-                let lexer = Lexer::new(
-                    Syntax::Es(Default::default()),
-                    Default::default(),
-                    StringInput::from(&*fm),
-                    None,
-                );
 
-                let mut p = Parser::new_from(lexer);
-                let module = p.parse_module();
+                let e = expr(cm, handler, v_str);
 
-                for e in p.take_errors() {
-                    e.into_diagnostic(handler).emit()
-                }
-
-                let mut module = module
-                    .map_err(|e| e.into_diagnostic(handler).emit())
-                    .unwrap_or_else(|()| {
-                        panic!(
-                            "failed to parse global variable {}=`{}` as module",
-                            k, v_str
-                        )
-                    });
-
-                let expr = match module.body.pop() {
-                    Some(ModuleItem::Stmt(Stmt::Expr(ExprStmt { expr, .. }))) => *expr,
-                    _ => panic!("{} is not a valid expression", v_str),
-                };
-
-                m.insert((*k).into(), expr);
+                m.insert((*k).into(), *e);
             }
 
             Arc::new(m)
@@ -1010,43 +1088,110 @@ impl GlobalPassOption {
         let env_map = if cfg!(target_arch = "wasm32") {
             Arc::new(Default::default())
         } else {
-            static CACHE: Lazy<DashMap<Vec<String>, ValuesMap>> = Lazy::new(|| Default::default());
+            match &self.envs {
+                GlobalInliningPassEnvs::List(env_list) => {
+                    static CACHE: Lazy<DashMap<Vec<String>, ValuesMap, ahash::RandomState>> =
+                        Lazy::new(|| Default::default());
 
-            let cache_key = self.envs.iter().cloned().collect::<Vec<_>>();
-            if let Some(v) = CACHE.get(&cache_key).as_deref().cloned() {
-                v
+                    let cache_key = env_list.iter().cloned().collect::<Vec<_>>();
+                    if let Some(v) = CACHE.get(&cache_key).as_deref().cloned() {
+                        v
+                    } else {
+                        let map = mk_map(
+                            cm,
+                            handler,
+                            env::vars()
+                                .filter(|(k, _)| env_list.contains(&*k))
+                                .map(|(k, v)| (k.into(), v.into())),
+                            true,
+                        );
+                        CACHE.insert(cache_key, map.clone());
+                        map
+                    }
+                }
+
+                GlobalInliningPassEnvs::Map(map) => {
+                    static CACHE: Lazy<
+                        DashMap<Vec<(JsWord, JsWord)>, ValuesMap, ahash::RandomState>,
+                    > = Lazy::new(|| Default::default());
+
+                    let cache_key = self
+                        .vars
+                        .iter()
+                        .map(|(k, v)| (k.clone(), v.clone()))
+                        .collect::<Vec<_>>();
+                    if let Some(v) = CACHE.get(&cache_key) {
+                        (*v).clone()
+                    } else {
+                        let map = mk_map(
+                            cm,
+                            handler,
+                            map.into_iter().map(|(k, v)| (k.clone(), v.clone())),
+                            false,
+                        );
+                        CACHE.insert(cache_key, map.clone());
+                        map
+                    }
+                }
+            }
+        };
+
+        let global_exprs = {
+            static CACHE: Lazy<DashMap<Vec<(JsWord, JsWord)>, GlobalExprMap, ahash::RandomState>> =
+                Lazy::new(|| Default::default());
+
+            let cache_key = self
+                .vars
+                .iter()
+                .filter(|(k, _)| k.contains('.'))
+                .map(|(k, v)| (k.clone(), v.clone()))
+                .collect::<Vec<_>>();
+
+            if let Some(v) = CACHE.get(&cache_key) {
+                (*v).clone()
             } else {
-                let envs = self.envs;
-                let map = mk_map(
-                    cm,
-                    handler,
-                    env::vars().filter(|(k, _)| envs.contains(&*k)),
-                    true,
-                );
+                let map = self
+                    .vars
+                    .iter()
+                    .filter(|(k, _)| k.contains('.'))
+                    .map(|(k, v)| {
+                        (
+                            *expr(cm, handler, k.to_string()),
+                            *expr(cm, handler, v.to_string()),
+                        )
+                    })
+                    .collect::<Vec<_>>();
+                let map = Arc::new(map);
                 CACHE.insert(cache_key, map.clone());
                 map
             }
         };
 
         let global_map = {
-            static CACHE: Lazy<DashMap<Vec<(String, String)>, ValuesMap>> =
+            static CACHE: Lazy<DashMap<Vec<(JsWord, JsWord)>, ValuesMap, ahash::RandomState>> =
                 Lazy::new(|| Default::default());
 
             let cache_key = self
                 .vars
                 .iter()
+                .filter(|(k, _)| !k.contains('.'))
                 .map(|(k, v)| (k.clone(), v.clone()))
                 .collect::<Vec<_>>();
             if let Some(v) = CACHE.get(&cache_key) {
                 (*v).clone()
             } else {
-                let map = mk_map(cm, handler, self.vars.into_iter(), false);
+                let map = mk_map(
+                    cm,
+                    handler,
+                    self.vars.into_iter().filter(|(k, _)| !k.contains('.')),
+                    false,
+                );
                 CACHE.insert(cache_key, map.clone());
                 map
             }
         };
 
-        inline_globals(env_map, global_map)
+        inline_globals2(env_map, global_map, global_exprs, Arc::new(self.typeofs))
     }
 }
 
@@ -1090,6 +1235,7 @@ impl Merge for Config {
         self.minify.merge(&from.minify);
         self.env.merge(&from.env);
         self.source_maps.merge(&from.source_maps);
+        self.input_source_map.merge(&from.input_source_map);
         self.inline_sources_content
             .merge(&from.inline_sources_content);
     }
@@ -1154,6 +1300,14 @@ impl Merge for SourceMapsConfig {
     fn merge(&mut self, _: &Self) {}
 }
 
+impl Merge for InputSourceMap {
+    fn merge(&mut self, r: &Self) {
+        if let InputSourceMap::Bool(false) = *self {
+            *self = r.clone();
+        }
+    }
+}
+
 impl Merge for swc_ecma_preset_env::Config {
     fn merge(&mut self, from: &Self) {
         *self = from.clone();
@@ -1190,7 +1344,7 @@ where
     }
 }
 
-impl Merge for JscTarget {
+impl Merge for EsVersion {
     fn merge(&mut self, from: &Self) {
         if *self < *from {
             *self = *from
@@ -1215,7 +1369,48 @@ impl Merge for bool {
 
 impl Merge for Syntax {
     fn merge(&mut self, from: &Self) {
-        *self = *from;
+        match (&mut *self, from) {
+            (Syntax::Es(a), Syntax::Es(b)) => {
+                a.merge(b);
+            }
+            (Syntax::Typescript(a), Syntax::Typescript(b)) => {
+                a.merge(b);
+            }
+            _ => {
+                *self = *from;
+            }
+        }
+    }
+}
+
+impl Merge for swc_ecma_parser::EsConfig {
+    fn merge(&mut self, from: &Self) {
+        self.jsx |= from.jsx;
+        self.class_private_props |= from.class_private_props;
+        self.class_private_methods |= from.class_private_methods;
+        self.class_props |= from.class_props;
+        self.fn_bind |= from.fn_bind;
+        self.decorators |= from.decorators;
+        self.decorators_before_export |= from.decorators_before_export;
+        self.export_default_from |= from.export_default_from;
+        self.export_namespace_from |= from.export_namespace_from;
+        self.dynamic_import |= from.dynamic_import;
+        self.nullish_coalescing |= from.nullish_coalescing;
+        self.optional_chaining |= from.optional_chaining;
+        self.import_meta |= from.import_meta;
+        self.top_level_await |= from.top_level_await;
+        self.import_assertions |= from.import_assertions;
+        self.static_blocks |= from.static_blocks;
+        self.private_in_object |= from.private_in_object;
+    }
+}
+
+impl Merge for swc_ecma_parser::TsConfig {
+    fn merge(&mut self, from: &Self) {
+        self.tsx |= from.tsx;
+        self.decorators |= from.decorators;
+        self.dynamic_import |= from.dynamic_import;
+        self.import_assertions |= from.import_assertions;
     }
 }
 
@@ -1254,7 +1449,7 @@ impl Merge for ConstModulesConfig {
 }
 
 fn build_resolver(base_url: PathBuf, paths: CompiledPaths) -> SwcImportResolver {
-    static CACHE: Lazy<DashMap<(PathBuf, CompiledPaths), SwcImportResolver>> =
+    static CACHE: Lazy<DashMap<(PathBuf, CompiledPaths), SwcImportResolver, ahash::RandomState>> =
         Lazy::new(|| Default::default());
 
     if let Some(cached) = CACHE.get(&(base_url.clone(), paths.clone())) {

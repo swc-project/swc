@@ -1,14 +1,16 @@
 name: Publish (node)
 
+env:
+  DEBUG: napi:*
+  APP_NAME: swc
+  MACOSX_DEPLOYMENT_TARGET: "10.13"
+  CARGO_INCREMENTAL: 0
+  CI: "1"
+
 on:
   push:
     tags:
       - v*
-
-env:
-  CARGO_INCREMENTAL: 0
-  CI: "1"
-  DEBUG: "napi:*"
 
 jobs:
   build:
@@ -16,442 +18,191 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-18.04, macos-latest, windows-latest]
-
-    name: Build - ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
+        settings:
+          - host: macos-latest
+            target: x86_64-apple-darwin
+            build: |
+              yarn build
+              strip -x *.node
+          - host: windows-latest
+            build: yarn build
+            target: x86_64-pc-windows-msvc
+          - host: windows-latest
+            build: |
+              export CARGO_PROFILE_RELEASE_CODEGEN_UNITS=32;
+              export CARGO_PROFILE_RELEASE_LTO=false
+              yarn build --target i686-pc-windows-msvc
+              yarn test
+            target: i686-pc-windows-msvc
+            setup: |
+              choco install nodejs-lts --x86 -y --force
+              echo "C:\Program Files (x86)\nodejs" >> $GITHUB_PATH
+          - host: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+            docker: |
+              docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $DOCKER_REGISTRY_URL
+              docker pull $DOCKER_REGISTRY_URL/napi-rs/napi-rs/nodejs-rust:lts-debian
+              docker tag $DOCKER_REGISTRY_URL/napi-rs/napi-rs/nodejs-rust:lts-debian builder
+            build: |
+              docker run --rm -v ~/.cargo/git:/root/.cargo/git -v ~/.cargo/registry:/root/.cargo/registry -v $(pwd):/build -w /build builder yarn build && strip swc.linux-x64-gnu.node
+          - host: ubuntu-latest
+            target: x86_64-unknown-linux-musl
+            docker: |
+              docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $DOCKER_REGISTRY_URL
+              docker pull $DOCKER_REGISTRY_URL/napi-rs/napi-rs/nodejs-rust:lts-alpine
+              docker tag $DOCKER_REGISTRY_URL/napi-rs/napi-rs/nodejs-rust:lts-alpine builder
+            build: docker run --rm -v ~/.cargo/git:/root/.cargo/git -v ~/.cargo/registry:/root/.cargo/registry -v $(pwd):/build -w /build builder yarn build && strip swc.linux-x64-musl.node
+          - host: macos-latest
+            target: aarch64-apple-darwin
+            build: |
+              sudo rm -Rf /Library/Developer/CommandLineTools/SDKs/*;
+              export CC=$(xcrun -f clang);
+              export CXX=$(xcrun -f clang++);
+              SYSROOT=$(xcrun --sdk macosx --show-sdk-path);
+              export CFLAGS="-isysroot $SYSROOT -isystem $SYSROOT";
+              yarn build --target=aarch64-apple-darwin
+              strip -x *.node
+          - host: ubuntu-latest
+            target: aarch64-unknown-linux-gnu
+            setup: |
+              sudo apt-get update
+              sudo apt-get install g++-aarch64-linux-gnu gcc-aarch64-linux-gnu -y
+            build: |
+              yarn build --target=aarch64-unknown-linux-gnu
+              aarch64-linux-gnu-strip swc.linux-arm64-gnu.node
+          - host: ubuntu-latest
+            target: armv7-unknown-linux-gnueabihf
+            setup: |
+              sudo apt-get update
+              sudo apt-get install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf -y
+            build: |
+              yarn build --target=armv7-unknown-linux-gnueabihf
+              arm-linux-gnueabihf-strip swc.linux-arm-gnueabihf.node
+          - host: ubuntu-latest
+            target: aarch64-linux-android
+            build: |
+              export CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android24-clang"
+              yarn build --target aarch64-linux-android
+              ${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android-strip *.node
+          - host: ubuntu-latest
+            target: aarch64-unknown-linux-musl
+            downloadTarget: aarch64-unknown-linux-musl
+            docker: |
+              docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $DOCKER_REGISTRY_URL
+              docker pull ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
+              docker tag ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine builder
+            build: |
+              docker run --rm -v ~/.cargo/git:/root/.cargo/git -v ~/.cargo/registry:/root/.cargo/registry -v $(pwd):/build -w /build builder sh -c "rustup toolchain install $(cat ./rust-toolchain) && rustup target add aarch64-unknown-linux-musl && yarn build --target=aarch64-unknown-linux-musl && /aarch64-linux-musl-cross/bin/aarch64-linux-musl-strip swc.linux-arm64-musl.node"
+          - host: windows-latest
+            target: aarch64-pc-windows-msvc
+            build: yarn build --target aarch64-pc-windows-msvc
+    name: stable - ${{ matrix.settings.target }} - node@14
+    runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v2
-
       - name: Setup node
         uses: actions/setup-node@v2
         with:
           node-version: 14
-
-      - name: Install Rust
+          check-latest: true
+      - name: Install
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
           override: true
-
-      - name: Install node dependencies
-        run: npm i
-
-      - name: Build
-        shell: bash
-        run: npm run build
-        env:
-          MACOSX_DEPLOYMENT_TARGET: "10.13"
-
-      - name: Strip (linux)
-        shell: bash
-        if: matrix.os == 'ubuntu-18.04'
-        run: strip swc.*.node
-
-      - name: Strip (mac os x)
-        shell: bash
-        if: matrix.os == 'macos-latest'
-        run: strip -x swc.*.node
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
+          target: ${{ matrix.settings.target }}
+      - name: Generate Cargo.lock
+        uses: actions-rs/cargo@v1
         with:
-          name: bindings
-          path: swc.*.node
-
-      - name: Test in lts docker
-        if: matrix.os == 'ubuntu-18.04'
-        run: docker run --rm -v $(pwd):/swc -w /swc node:lts-slim sh -c "yarn test"
-
-  build-windows-i686:
-    if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-
-    name: stable - windows-i686 - node@14
-    runs-on: windows-latest
-    env:
-      CARGO_PROFILE_RELEASE_CODEGEN_UNITS: 32
-      CARGO_PROFILE_RELEASE_LTO: "false"
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Install node x86
-        run: |
-          choco install nodejs-lts --x86 -y --force
-          refreshenv
-
-      - name: Set 32bit Node.js path
-        run: |
-          echo "C:\\Program Files (x86)\\nodejs" >> $GITHUB_PATH
-        shell: bash
-
-      - name: Node.js arch
-        run: node -e "console.log(process.arch)"
-
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
+          command: generate-lockfile
+      - name: Cache cargo registry
+        uses: actions/cache@v2
         with:
-          profile: minimal
-          override: true
-          target: i686-pc-windows-msvc
-
-      - name: Install node dependencies
-        run: npm i
-
-      - name: Build
-        shell: bash
-        run: yarn build --target i686-pc-windows-msvc
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
+          path: ~/.cargo/registry
+          key: ${{ matrix.settings.target }}-node@14-cargo-registry-trimmed-${{ hashFiles('**/Cargo.lock') }}
+      - name: Cache cargo index
+        uses: actions/cache@v2
         with:
-          name: bindings
-          path: swc.*.node
-
-  build-windows-aarch64:
-    if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-
-    name: stable - windows-aarch64 - node@14
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup node
-        uses: actions/setup-node@v2
+          path: ~/.cargo/git
+          key: ${{ matrix.settings.target }}-node@14-cargo-index-trimmed-${{ hashFiles('**/Cargo.lock') }}
+      - name: Cache NPM dependencies
+        uses: actions/cache@v2
         with:
-          node-version: 14
-
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          override: true
-          target: aarch64-pc-windows-msvc
-
-      - name: Install node dependencies
-        run: npm i
-
-      - name: Build
-        shell: bash
-        run: yarn build --target aarch64-pc-windows-msvc
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: bindings
-          path: swc.*.node
-
-  build-linux-musl:
-    if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-
-    name: stable - linux-musl - node@lts
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Login to registry
-        run: |
-          docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $DOCKER_REGISTRY_URL
+          path: node_modules
+          key: npm-cache-${{ matrix.settings.target }}-node@14-${{ hashFiles('yarn.lock') }}
+      - name: Pull latest image
+        run: ${{ matrix.settings.docker }}
         env:
           DOCKER_REGISTRY_URL: ghcr.io
           DOCKER_USERNAME: ${{ github.actor }}
           DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            target/
-          key: linux-musl-publish-integration
-
-      - name: Pull docker image
-        run: |
-          docker pull ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
-          docker tag ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine builder
-
-      - name: "Install dependencies"
-        run: npm i
-
-      - name: "Build"
-        run: |
-          docker run --rm -v $(pwd):/swc -w /swc builder sh -c "npm run build"
-
-      - name: Run tests
-        run: |
-          docker pull node:lts-alpine
-          docker run --rm -v $(pwd):/swc -w /swc node:lts-alpine sh -c "npm i && npm test"
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: bindings
-          path: swc.*.node
-
-  build-apple-silicon:
-    if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-
-    name: stable - aarch64-apple-darwin - node@14
-    runs-on: macos-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup node
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14
-
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          override: true
-          target: aarch64-apple-darwin
-
-      - name: Cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            target/
-          key: aarch64-apple-darwin-publish-integration
-
-      - name: Install dependencies
-        run: npm i
-
-      - name: Cross build aarch64
-        run: |
-          sudo rm -Rf /Library/Developer/CommandLineTools/SDKs/*;
-          export CC=$(xcrun -f clang);
-          export CXX=$(xcrun -f clang++);
-          SYSROOT=$(xcrun --sdk macosx --show-sdk-path);
-          export CFLAGS="-isysroot $SYSROOT -isystem $SYSROOT";
-          yarn build --target aarch64-apple-darwin
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: bindings
-          path: swc.*.node
-
-  build-linux-aarch64:
-    if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-
-    name: stable - aarch64-unknown-linux-gnu - node@14
-    runs-on: ubuntu-18.04
-
-    steps:
-      - run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
-
-      - uses: actions/checkout@v2
-
-      - name: Setup node
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14
-
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          override: true
-          target: aarch64-unknown-linux-gnu
-
-      - name: Cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            target/
-          key: aarch64-linux-gnu-publish-integration
-
-      - name: Install cross compile toolchain
-        run: |
-          sudo apt-get update
-          sudo apt-get install gcc-aarch64-linux-gnu g++-aarch64-linux-gnu -y
-
-      - name: Install dependencies
-        run: npm i
-
-      - name: Cross build aarch64
-        run: yarn build --target aarch64-unknown-linux-gnu
-
-      - name: Run tests
-        uses: docker://multiarch/ubuntu-core:arm64-focal
-        with:
-          args: >
-            sh -c "
-              apt-get update && \
-              apt-get install -y ca-certificates gnupg2 curl && \
-              curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
-              apt-get install -y nodejs && \
-              npm i && \
-              npm test
-            "
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: bindings
-          path: swc.*.node
-
-  build-linux-aarch64-musl:
-    if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-
-    name: stable - aarch64-unknown-linux-musl - node@14
-    runs-on: ubuntu-18.04
-
-    steps:
-      - run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
-
-      - uses: actions/checkout@v2
-
-      - name: Setup node
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14
-
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          override: true
-          target: aarch64-unknown-linux-musl
-
-      - name: Cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            target/
-          key: aarch64-linux-musl-publish-integration
-
-      - name: Install cross compile toolchain
-        run: |
-          sudo apt-get update
-          sudo apt-get install gcc-aarch64-linux-gnu -y
-
-      - name: Install dependencies
-        run: npm i
-
-      - name: Cross build aarch64
-        run: yarn build --target aarch64-unknown-linux-musl
-
-      - name: Run tests
-        uses: docker://multiarch/alpine:aarch64-latest-stable
-        with:
-          args: >
-            sh -c "sed -i -e 's/v[[:digit:]]\..*\//edge\//g' /etc/apk/repositories && \
-              apk add nodejs npm && \
-              npm i && \
-              npm test
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: bindings
-          path: swc.*.node
-
-  build-linux-arm7:
-    if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-
-    name: stable - arm7-unknown-linux-gnu - node@14
-    runs-on: ubuntu-18.04
-
-    steps:
-      - run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
-
-      - uses: actions/checkout@v2
-
-      - name: Setup node
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14
-
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          override: true
-          target: armv7-unknown-linux-gnueabihf
-
-      - name: Cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            target/
-          key: arm7-linux-gnu-publish-integration
-
-      - name: Install cross compile toolchain
-        run: |
-          sudo apt-get update
-          sudo apt-get install gcc-arm-linux-gnueabihf -y
-
-      - name: Install dependencies
-        run: npm i
-
-      - name: Cross build aarch64
-        run: yarn build --target armv7-unknown-linux-gnueabihf
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: bindings
-          path: swc.*.node
-
-  build-android-aarch64:
-    if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-
-    name: Build - Android - aarch64
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup node
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14
-
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          override: true
-          target: aarch64-linux-android
-
-      - name: Install node dependencies
-        run: npm i
-
-      - name: Build
+        if: ${{ matrix.settings.docker }}
+      - name: Setup toolchain
+        run: ${{ matrix.settings.setup }}
+        if: ${{ matrix.settings.setup }}
         shell: bash
-        run: |
-          export CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/darwin-x86_64/bin/aarch64-linux-android24-clang"
-          yarn build --target aarch64-linux-android
-
+      - name: Install dependencies
+        run: yarn install --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000
+      - name: Build
+        run: ${{ matrix.settings.build }}
+        shell: bash
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: bindings
+          name: bindings-${{ matrix.settings.target }}
           path: swc.*.node
-
   build-freebsd:
     if: ${{ startsWith(github.ref, 'refs/tags/v') }}
 
-    runs-on: macos-latest
+    runs-on: macos-10.15
     name: Build FreeBSD
     steps:
       - uses: actions/checkout@v2
+      - name: Cleanup useless files to speedup
+        run: |
+          rm -rf css/parser/tests/errors
+          rm -rf css/parser/tests/fixture
+          rm -rf css/parser/tests/line-comment
+          rm -rf css/parser/tests/recovery
+          rm -rf ecmascript/babel/compat/tests/fixtures
+          rm -rf tests/deno-unit
+          rm -rf tests/env
+          rm -rf tests/fixture
+          rm -rf tests/integration
+          rm -rf tests/projects
+          rm -rf tests/serde
+          rm -rf tests/srcmap
+          rm -rf tests/projects
+          rm -rf tests/stacktrace
+          rm -rf tests/swcrc_errors
+          rm -rf tests/vercel
+          rm -rf tests/tsc-references
+          rm -rf bundler/tests
+          rm -rf ecmascript/parser/tests/typescript
+          rm -rf ecmascript/minifier/tests/terser
+          rm -rf ecmascript/minifier/tests/compress
+          rm -rf ecmascript/minifier/tests/exec
+          rm -rf ecmascript/minifier/tests/full
+          rm -rf ecmascript/minifier/tests/mangle
+          rm -rf ecmascript/codegen/tests/fixture
+          rm -rf ecmascript/codegen/tests/test262
+          rm -rf ecmascript/codegen/tests/test262-min
       - name: Build
         id: build
-        uses: vmactions/freebsd-vm@v0.1.4
+        uses: vmactions/freebsd-vm@v0.1.5
         env:
-          DEBUG: "napi:*"
+          DEBUG: napi:*
           RUSTUP_HOME: /usr/local/rustup
           CARGO_HOME: /usr/local/cargo
           RUSTUP_IO_THREADS: 1
         with:
-          envs: "DEBUG RUSTUP_HOME CARGO_HOME RUSTUP_IO_THREADS"
+          envs: DEBUG RUSTUP_HOME CARGO_HOME RUSTUP_IO_THREADS
           usesh: true
           mem: 6000
           prepare: |
-            pkg install -y curl node yarn npm
+            pkg install -y curl node14
+            curl -qL https://www.npmjs.com/install.sh | sh
+            npm install -g yarn
             curl https://sh.rustup.rs -sSf --output rustup.sh
             sh rustup.sh -y --profile minimal --default-toolchain stable
             export PATH="/usr/local/cargo/bin:$PATH"
@@ -468,38 +219,268 @@ jobs:
             whoami
             env
             freebsd-version
-            npm i
-            cargo build --release -p node
+            yarn install --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000
             yarn build
-            npm test
+            yarn test
             rm -rf node_modules
             rm -rf target
-
-      - name: "List files"
-        run: ls -la
-
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: bindings
+          name: bindings-freebsd
           path: swc.*.node
-
+  test-macOS-windows-binding:
+    if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+    name: Test bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}
+    needs:
+      - build
+    strategy:
+      fail-fast: false
+      matrix:
+        settings:
+          - host: windows-latest
+            target: x86_64-pc-windows-msvc
+        node:
+          - "12"
+          - "14"
+          - "16"
+    runs-on: ${{ matrix.settings.host }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+          check-latest: true
+      - name: Cache NPM dependencies
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: npm-cache-test-${{ matrix.settings.target }}-${{ matrix.node }}-${{ hashFiles('yarn.lock') }}
+      - name: Install dependencies
+        run: yarn install --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: bindings-${{ matrix.settings.target }}
+          path: .
+      - name: List packages
+        run: ls -R .
+        shell: bash
+      - name: Build TypeScript
+        run: yarn build:ts
+      - name: Test bindings
+        run: yarn test
+  test-linux-x64-gnu-binding:
+    if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+    name: Test bindings on Linux-x64-gnu - node@${{ matrix.node }}
+    needs:
+      - build
+    strategy:
+      fail-fast: false
+      matrix:
+        node:
+          - "12"
+          - "14"
+          - "16"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+          check-latest: true
+      - name: Cache NPM dependencies
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: npm-cache-test-linux-x64-gnu-${{ matrix.node }}-${{ hashFiles('yarn.lock') }}
+      - name: Install dependencies
+        run: yarn install --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: bindings-x86_64-unknown-linux-gnu
+          path: .
+      - name: List packages
+        run: ls -R .
+        shell: bash
+      - name: Build TypeScript
+        run: yarn build:ts
+      - name: Test bindings
+        run: docker run --rm -v $(pwd):/swc -w /swc node:${{ matrix.node }}-slim yarn test
+  test-linux-x64-musl-binding:
+    if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+    name: Test bindings on x86_64-unknown-linux-musl - node@${{ matrix.node }}
+    needs:
+      - build
+    strategy:
+      fail-fast: false
+      matrix:
+        node:
+          - "12"
+          - "14"
+          - "16"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+          check-latest: true
+      - name: Cache NPM dependencies
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: npm-cache-test-x86_64-unknown-linux-musl-${{ matrix.node }}-${{ hashFiles('yarn.lock') }}
+      - name: Install dependencies
+        run: yarn install --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: bindings-x86_64-unknown-linux-musl
+          path: .
+      - name: List packages
+        run: ls -R .
+        shell: bash
+      - name: Build TypeScript
+        run: yarn build:ts
+      - name: Test bindings
+        run: docker run --rm -v $(pwd):/swc -w /swc node:${{ matrix.node }}-alpine yarn test
+  test-linux-aarch64-gnu-binding:
+    if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+    name: Test bindings on aarch64-unknown-linux-gnu - node@${{ matrix.node }}
+    needs:
+      - build
+    strategy:
+      fail-fast: false
+      matrix:
+        node:
+          - "12"
+          - "14"
+          - "16"
+    runs-on: ubuntu-latest
+    steps:
+      - run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
+      - uses: actions/checkout@v2
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: bindings-aarch64-unknown-linux-gnu
+          path: .
+      - name: List packages
+        run: ls -R .
+        shell: bash
+      - name: Cache NPM dependencies
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: npm-cache-test-linux-aarch64-gnu-${{ matrix.node }}-${{ hashFiles('yarn.lock') }}
+      - name: Install dependencies
+        run: yarn install --ignore-scripts --ignore-platform --registry https://registry.npmjs.org --network-timeout 300000
+      - name: Build TypeScript
+        run: yarn build:ts
+      - name: Setup and run tests
+        uses: addnab/docker-run-action@v3
+        with:
+          image: ghcr.io/napi-rs/napi-rs/nodejs:aarch64-${{ matrix.node }}
+          options: "-v ${{ github.workspace }}:/build -w /build"
+          run: |
+            set -e
+            yarn test
+            ls -la
+  test-linux-aarch64-musl-binding:
+    if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+    name: Test bindings on aarch64-unknown-linux-musl - node@${{ matrix.node }}
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
+      - uses: actions/checkout@v2
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: bindings-aarch64-unknown-linux-musl
+          path: .
+      - name: List packages
+        run: ls -R .
+        shell: bash
+      - name: Cache NPM dependencies
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: npm-cache-test-linux-aarch64-musl-${{ matrix.node }}-${{ hashFiles('yarn.lock') }}
+      - name: Install dependencies
+        run: yarn install --ignore-scripts --ignore-platform --registry https://registry.npmjs.org --network-timeout 300000
+      - name: Build TypeScript
+        run: yarn build:ts
+      - name: Setup and run tests
+        uses: addnab/docker-run-action@v3
+        with:
+          image: multiarch/alpine:aarch64-latest-stable
+          options: "-v ${{ github.workspace }}:/build -w /build"
+          run: |
+            set -e
+            apk add nodejs npm yarn
+            yarn test
+  test-linux-arm-gnueabihf-binding:
+    if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+    name: Test bindings on armv7-unknown-linux-gnueabihf - node@${{ matrix.node }}
+    needs:
+      - build
+    strategy:
+      fail-fast: false
+      matrix:
+        node:
+          - "12"
+          - "14"
+          - "16"
+    runs-on: ubuntu-latest
+    steps:
+      - run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
+      - uses: actions/checkout@v2
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: bindings-armv7-unknown-linux-gnueabihf
+          path: .
+      - name: List packages
+        run: ls -R .
+        shell: bash
+      - name: Cache NPM dependencies
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: npm-cache-test-linux-arm-gnueabihf-${{ matrix.node }}-${{ hashFiles('yarn.lock') }}
+      - name: Install dependencies
+        run: yarn install --ignore-scripts --ignore-platform --registry https://registry.npmjs.org --network-timeout 300000
+      - name: Build TypeScript
+        run: yarn build:ts
+      - name: Setup and run tests
+        uses: addnab/docker-run-action@v3
+        with:
+          image: ghcr.io/napi-rs/napi-rs/nodejs:armhf-${{ matrix.node }}
+          options: "-v ${{ github.workspace }}:/build -w /build"
+          run: |
+            set -e
+            yarn test
+            ls -la
   publish:
     if: ${{ startsWith(github.ref, 'refs/tags/v') }}
 
     name: npm
     runs-on: ubuntu-latest
     needs:
-      - build
-      - build-windows-i686
-      - build-windows-aarch64
-      - build-linux-musl
-      - build-linux-arm7
-      - build-linux-aarch64
-      - build-apple-silicon
-      - build-android-aarch64
+      - test-linux-x64-gnu-binding
+      - test-linux-x64-musl-binding
+      - test-linux-aarch64-gnu-binding
+      - test-linux-arm-gnueabihf-binding
+      - test-macOS-windows-binding
+      - test-linux-aarch64-musl-binding
       - build-freebsd
-      - build-linux-aarch64-musl
     steps:
       - uses: actions/checkout@v2
 
@@ -511,8 +492,14 @@ jobs:
       - name: Set release name
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
+      - name: Cache NPM dependencies
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: npm-cache-publish-${{ hashFiles('yarn.lock') }}
+
       - name: Install dependencies
-        run: npm i
+        run: yarn install --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000
 
       - name: Download all artifacts
         uses: actions/download-artifact@v2

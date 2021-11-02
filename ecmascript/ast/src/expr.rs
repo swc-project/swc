@@ -176,6 +176,15 @@ pub struct ArrayLit {
     pub elems: Vec<Option<ExprOrSpread>>,
 }
 
+impl Take for ArrayLit {
+    fn dummy() -> Self {
+        ArrayLit {
+            span: DUMMY_SP,
+            elems: Default::default(),
+        }
+    }
+}
+
 /// Object literal.
 #[ast_node("ObjectExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
@@ -185,6 +194,15 @@ pub struct ObjectLit {
 
     #[serde(default, rename = "properties")]
     pub props: Vec<PropOrSpread>,
+}
+
+impl Take for ObjectLit {
+    fn dummy() -> Self {
+        ObjectLit {
+            span: DUMMY_SP,
+            props: Default::default(),
+        }
+    }
 }
 
 #[ast_node]

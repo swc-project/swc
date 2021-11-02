@@ -48,7 +48,8 @@
                       "end": 14,
                       "ctxt": 0
                     },
-                    "value": "pseudoclass"
+                    "value": "pseudoclass",
+                    "raw": "pseudocl\\61ss"
                   },
                   "args": {
                     "type": "Tokens",
@@ -66,7 +67,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 15,
           "end": 17,

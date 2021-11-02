@@ -1,7 +1,6 @@
 use super::EnumKind;
-use rustc_hash::FxHashMap;
 use swc_atoms::js_word;
-use swc_common::{util::move_map::MoveMap, Spanned, DUMMY_SP};
+use swc_common::{collections::AHashMap, util::move_map::MoveMap, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, member_expr, quote_ident, undefined, ExprFactory, Id};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
@@ -9,6 +8,7 @@ use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 /// https://github.com/leonardfactory/babel-plugin-transform-typescript-metadata/blob/master/src/parameter/parameterVisitor.ts
 pub(super) struct ParamMetadata;
 
+/// TODO: VisitMut
 impl Fold for ParamMetadata {
     noop_fold_type!();
 
@@ -121,11 +121,12 @@ impl ParamMetadata {
 
 /// https://github.com/leonardfactory/babel-plugin-transform-typescript-metadata/blob/master/src/metadata/metadataVisitor.ts
 pub(super) struct Metadata<'a> {
-    pub(super) enums: &'a FxHashMap<Id, EnumKind>,
+    pub(super) enums: &'a AHashMap<Id, EnumKind>,
 
     pub(super) class_name: Option<&'a Ident>,
 }
 
+/// TODO: VisitMut
 impl Fold for Metadata<'_> {
     noop_fold_type!();
 
@@ -601,7 +602,9 @@ fn get_type_ann_of_pat(p: &Pat) -> Option<&TsTypeAnn> {
         Pat::Array(p) => &p.type_ann,
         Pat::Rest(p) => &p.type_ann,
         Pat::Object(p) => &p.type_ann,
-        Pat::Assign(p) => &p.type_ann,
+        Pat::Assign(p) => {
+            return p.type_ann.as_ref().or_else(|| get_type_ann_of_pat(&p.left));
+        }
         Pat::Invalid(_) => return None,
         Pat::Expr(_) => return None,
     }

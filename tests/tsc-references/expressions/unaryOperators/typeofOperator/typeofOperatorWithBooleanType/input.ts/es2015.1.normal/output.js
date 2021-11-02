@@ -1,0 +1,54 @@
+// @allowUnusedLabels: true
+// typeof  operator on boolean type
+var BOOLEAN;
+function foo() {
+    return true;
+}
+class A {
+    static foo() {
+        return false;
+    }
+}
+var M1;
+(function(M) {
+    var n;
+    M.n = n;
+})(M1 || (M1 = {
+}));
+var objA = new A();
+// boolean type var
+var ResultIsString1 = typeof BOOLEAN;
+// boolean type literal
+var ResultIsString2 = typeof true;
+var ResultIsString3 = typeof {
+    x: true,
+    y: false
+};
+// boolean type expressions
+var ResultIsString4 = typeof objA.a;
+var ResultIsString5 = typeof M1.n;
+var ResultIsString6 = typeof foo();
+var ResultIsString7 = typeof A.foo();
+// multiple typeof  operator
+var ResultIsString8 = typeof typeof BOOLEAN;
+// miss assignment operators
+typeof true;
+typeof BOOLEAN;
+typeof foo();
+typeof true, false;
+typeof objA.a;
+typeof M1.n;
+// use typeof in type query
+var z;
+var x;
+var r;
+z: typeof BOOLEAN;
+r: typeof foo;
+var y = {
+    a: true,
+    b: false
+};
+z: typeof y.a;
+z: typeof objA.a;
+z: typeof A.foo;
+z: typeof M1.n;

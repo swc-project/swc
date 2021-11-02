@@ -4,7 +4,7 @@
 //! Original test authors have copyright for their work.
 
 use swc_common::FileName;
-use swc_css_ast::DeclBlockItem;
+use swc_css_ast::DeclarationBlockItem;
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig},
     CodegenConfig, Emit,
@@ -442,8 +442,8 @@ fn appearance() {
     );
     t(
         "animation-timing-function:cubic-bezier(0.1,0.7,1.0,0.1);",
-        "-webkit-animation-timing-function:cubic-bezier(0.1, 0.7, 1, \
-         0.1);animation-timing-function:cubic-bezier(0.1, 0.7, 1, 0.1);",
+        "-webkit-animation-timing-function:cubic-bezier(0.1, 0.7, 1.0, \
+         0.1);animation-timing-function:cubic-bezier(0.1, 0.7, 1.0, 0.1);",
     );
 }
 
@@ -454,7 +454,8 @@ fn error_recovery_1() {
         "__styled-jsx-placeholder__1
             animation: slide 3s ease infinite;
         ",
-        "__styled-jsx-placeholder__1 animation: slide 3s ease infinite;",
+        "__styled-jsx-placeholder__1
+            animation: slide 3s ease infinite;",
     );
 
     t(
@@ -462,7 +463,7 @@ fn error_recovery_1() {
             __styled-jsx-placeholder__1
         ",
         "-webkit-animation:slide 3s ease infinite;animation:slide 3s ease \
-         infinite;__styled-jsx-placeholder__1 ;",
+         infinite;__styled-jsx-placeholder__1\n        ;",
     );
 }
 
@@ -472,7 +473,7 @@ fn t(src: &str, expected: &str) {
         //
         let fm = cm.new_source_file(FileName::Anon, src.to_string());
         let mut errors = vec![];
-        let mut props: Vec<DeclBlockItem> = parse_file(
+        let mut props: Vec<DeclarationBlockItem> = parse_file(
             &fm,
             ParserConfig {
                 parse_values: true,

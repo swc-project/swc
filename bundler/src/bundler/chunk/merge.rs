@@ -15,12 +15,13 @@ use crate::{
 use anyhow::Error;
 use indexmap::IndexSet;
 use petgraph::EdgeDirection;
-#[cfg(feature = "concurrent")]
-use rayon::iter::ParallelIterator;
-use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
-use std::{hash::BuildHasherDefault, sync::atomic::Ordering};
+use std::sync::atomic::Ordering;
 use swc_atoms::js_word;
-use swc_common::{sync::Lock, FileName, SyntaxContext, DUMMY_SP};
+use swc_common::{
+    collections::{AHashMap, AHashSet},
+    sync::Lock,
+    FileName, SyntaxContext, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, prepend, private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
@@ -31,7 +32,7 @@ pub(super) struct Ctx {
     pub graph: ModuleGraph,
     pub cycles: Vec<Vec<ModuleId>>,
     pub transitive_remap: CloneMap<SyntaxContext, SyntaxContext>,
-    pub export_stars_in_wrapped: Lock<FxHashMap<ModuleId, Vec<SyntaxContext>>>,
+    pub export_stars_in_wrapped: Lock<AHashMap<ModuleId, Vec<SyntaxContext>>>,
 }
 
 impl Ctx {
@@ -90,7 +91,7 @@ where
         ctx: &Ctx,
         entry_id: ModuleId,
         entry: &mut Modules,
-        all: &FxHashMap<ModuleId, Modules>,
+        all: &mut AHashMap<ModuleId, Modules>,
     ) {
         self.run(|| {
             let injected_ctxt = self.injected_ctxt;
@@ -100,7 +101,7 @@ where
             let all_deps_of_entry =
                 self.collect_all_deps(&ctx.graph, entry_id, &mut Default::default());
 
-            tracing::debug!("Merging dependenciess: {:?}", all_deps_of_entry);
+            tracing::debug!("Merging dependencies: {:?}", all_deps_of_entry);
 
             let deps = all_deps_of_entry.iter().map(|id| {
                 let dep_info = self.scope.get_module(*id).unwrap();
@@ -111,7 +112,7 @@ where
                     return Modules::empty(injected_ctxt);
                 }
 
-                all.get(id).cloned().unwrap_or_else(|| {
+                all.remove(id).unwrap_or_else(|| {
                     unreachable!(
                         "failed to merge into {}: module {} does not exist in the map",
                         entry_id, id
@@ -133,8 +134,8 @@ where
         &self,
         graph: &ModuleGraph,
         start: ModuleId,
-        dejavu: &mut FxHashSet<ModuleId>,
-    ) -> IndexSet<ModuleId, BuildHasherDefault<FxHasher>> {
+        dejavu: &mut AHashSet<ModuleId>,
+    ) -> IndexSet<ModuleId, ahash::RandomState> {
         let mut set = IndexSet::default();
 
         for dep in graph.neighbors_directed(start, Outgoing) {
@@ -188,7 +189,7 @@ where
             fn add_var(
                 injected_ctxt: SyntaxContext,
                 vars: &mut Vec<(ModuleId, ModuleItem)>,
-                declared: &mut FxHashSet<Id>,
+                declared: &mut AHashSet<Id>,
                 map: &CloneMap<SyntaxContext, SyntaxContext>,
                 module_id: ModuleId,
                 id: Id,
@@ -222,14 +223,14 @@ where
                 ));
             }
 
-            // We have to exlcude some ids because there are already declared.
+            // We have to exclude some ids because there are already declared.
             // See https://github.com/denoland/deno/issues/8725
             //
             // Let's say D is a dependency which contains export * from './foo';
             // If an user import and export from D, the transitive syntax context map
             // contains a entry from D to foo because it's reexported and
             // the variable (reexported from D) exist because it's imported.
-            let mut declared_ids = FxHashSet::<_>::default();
+            let mut declared_ids = AHashSet::<_>::default();
 
             for (_, stmt) in entry.iter() {
                 match stmt {
@@ -303,7 +304,7 @@ where
 
         {
             let mut map = ctx.export_stars_in_wrapped.lock();
-            let mut additional_props = FxHashMap::<_, Vec<_>>::default();
+            let mut additional_props = AHashMap::<_, Vec<_>>::default();
             // Handle `export *` for wrapped modules.
             for (module_id, ctxts) in map.drain() {
                 for (_, stmt) in entry.iter() {
@@ -538,10 +539,6 @@ where
             module = self.wrap_esm(ctx, info.id, module)?;
         }
 
-        // if !is_entry {
-        //     module = module.fold_with(&mut Unexporter);
-        // }
-
         Ok(module)
     }
 
@@ -619,9 +616,9 @@ where
                                     {
                                         let esm_id =
                                             self.scope.wrapped_esm_id(src.module_id).expect(
-                                                "If a namespace impoet specifier is preserved, it \
-                                                 means failutre of deblobbing and as a result \
-                                                 module should be marked as wrpaped esm",
+                                                "If a namespace import specifier is preserved, it \
+                                                 means failure of deblobbing and as a result \
+                                                 module should be marked as wrapped esm",
                                             );
                                         new.push(
                                             esm_id
@@ -646,7 +643,7 @@ where
                         // One item is `const local_default = expr` and another one is
                         // `export { local_default as default }`.
                         //
-                        // To allow using identifier of the declaration in the originsl module, we
+                        // To allow using identifier of the declaration in the original module, we
                         // create `const local_default = orig_ident` if original identifier exists.
 
                         let local =
@@ -1071,8 +1068,9 @@ where
                                             }
                                             None => {
                                                 unreachable!(
-                                                    "Modules rexported with `export * as foo from \
-                                                     './foo'` should be marked as a wrapped esm"
+                                                    "Modules reexported with `export * as foo \
+                                                     from './foo'` should be marked as a wrapped \
+                                                     esm"
                                                 )
                                             }
                                         }
@@ -1177,9 +1175,9 @@ where
                                     {
                                         let esm_id =
                                             self.scope.wrapped_esm_id(src.module_id).expect(
-                                                "If a namespace impoet specifier is preserved, it \
-                                                 means failutre of deblobbing and as a result \
-                                                 module should be marked as wrpaped esm",
+                                                "If a namespace import specifier is preserved, it \
+                                                 means failure of deblobbing and as a result \
+                                                 module should be marked as wrapped esm",
                                             );
                                         vars.push((
                                             module_id,

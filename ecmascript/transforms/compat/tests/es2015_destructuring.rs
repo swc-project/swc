@@ -80,8 +80,8 @@ test!(
         }
         console.log(arg1, opt1, opt2, arg2, opt3, opt4, arg3);
     };
-    function fn3(arg1, param, arg2, param1) {
-        var opt1 = param.opt1, opt2 = param.opt2, opt3 = param1.opt3, opt4 = param1.opt4;
+    function fn3(arg1, param, arg2, param2) {
+        var opt1 = param.opt1, opt2 = param.opt2, opt3 = param2.opt3, opt4 = param2.opt4;
         for(var _len = arguments.length, arg3 = new Array(_len > 4 ? _len - 4 : 0), _key = 4; _key \
      < _len; _key++){
             arg3[_key - 4] = arguments[_key];
@@ -90,8 +90,8 @@ test!(
     }
     ;
     class cls {
-        fn4(arg1, param, arg2, param1) {
-            var opt1 = param.opt1, opt2 = param.opt2, opt3 = param1.opt3, opt4 = param1.opt4;
+        fn4(arg1, param, arg2, param3) {
+            var opt1 = param.opt1, opt2 = param.opt2, opt3 = param3.opt3, opt4 = param3.opt4;
             for(var _len = arguments.length, arg3 = new Array(_len > 4 ? _len - 4 : 0), _key = 4; \
      _key < _len; _key++){
                 arg3[_key - 4] = arguments[_key];
@@ -186,7 +186,7 @@ test!(
 var { x: { y } = {} } = z;"#,
     r#"var z = {
 };
-var tmp = z.x, ref = tmp === void 0 ? {} : tmp, y = ref.y;"#
+var tmp = z.x, y = (tmp === void 0 ? {} : tmp).y;"#
 );
 
 test!(
@@ -527,7 +527,7 @@ const bar = {
         qux: 'baz'
     }
 };
-const _Foo = bar[Foo], qux = _Foo.qux;"
+const qux = bar[Foo].qux;"
 );
 
 test!(
@@ -589,7 +589,7 @@ test!(
   return foo;
 }",
     "
-function foo(bar) {
+function foo1(bar) {
     var foo = bar.foo;
     return foo;
 }"
@@ -1225,7 +1225,7 @@ var { x: { y } = {} } = z;
 "#,
     r#"
 var z = {};
-var tmp = z.x, ref = tmp === void 0 ? {} : tmp, y = ref.y;
+var tmp = z.x, y = (tmp === void 0 ? {} : tmp).y;
 "#
 );
 
@@ -1605,5 +1605,29 @@ test!(
     "
     var ref, ref1;
     ref = b, ref1 = ref[0], a = ref1 === void 0 ? 1 : ref1, ref;
+    "
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    next_001,
+    "
+    const { NODE_ENV }= process.env;
+    ",
+    "
+    const NODE_ENV = process.env.NODE_ENV;
+    "
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    next_002,
+    "
+    ({ NODE_ENV }= process.env);
+    ",
+    "
+    NODE_ENV = process.env.NODE_ENV;
     "
 );

@@ -35,17 +35,19 @@ impl Error {
             ErrorKind::Expected(s) => format!("Expected {}", s).into(),
             ErrorKind::ExpectedButGot(s) => format!("Expected {}", s).into(),
             ErrorKind::ExpectedSelectorText => "Expected a text for selector".into(),
-            ErrorKind::UnterminatedBlockComment => "Unterminated block commment".into(),
+            ErrorKind::UnterminatedBlockComment => "Unterminated block comment".into(),
             ErrorKind::InvalidTypeSelector => "Invalid type selector".into(),
             ErrorKind::InvalidSelector => "Invalid selector".into(),
+            ErrorKind::InvalidAttrName => "Invalid attribute name".into(),
             ErrorKind::ExpectedIdentOrStrForAttrSelectorOp => {
                 "Expected an identifier or a string after an attribute selector operator".into()
             }
             ErrorKind::ExpectedNumber => "Expected a number".into(),
             ErrorKind::InvalidSupportQuery => "Invalid support query".into(),
+            ErrorKind::InvalidKeyframeSelector => "Invalid keyframe selector".into(),
             ErrorKind::InvalidMediaQuery => "Invalid media query".into(),
             ErrorKind::UnknownAtRuleNotTerminated => "Unknown @rule is not terminated".into(),
-            ErrorKind::InvalidPropertyValue => "Expected a property value".into(),
+            ErrorKind::InvalidDeclarationValue => "Expected a property value".into(),
         };
         handler.struct_span_err(self.inner.0, &msg)
     }
@@ -67,10 +69,12 @@ pub enum ErrorKind {
     UnterminatedBlockComment,
     InvalidTypeSelector,
     InvalidSelector,
-    InvalidPropertyValue,
+    InvalidAttrName,
+    InvalidDeclarationValue,
     ExpectedIdentOrStrForAttrSelectorOp,
     ExpectedNumber,
     InvalidSupportQuery,
+    InvalidKeyframeSelector,
     InvalidMediaQuery,
 
     UnknownAtRuleNotTerminated,

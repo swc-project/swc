@@ -16,6 +16,7 @@ env:
   CI: 1
   CARGO_INCREMENTAL: 0
   RUST_LOG: "debug"
+  SWC_CACHE_TEST: 1
 
 jobs:
   check-license:
@@ -81,14 +82,15 @@ jobs:
             ~/.cargo/
             target
             Cargo.lock
-          key: ${{ runner.os }}-cargo-v4
+          key: cargo-dev--${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            cargo-dev--${{ runner.os }}
+
       # Ensure that all components are compilable.
       - name: Run cargo check for all targets
         run: cargo check --color always --all --all-targets
   test:
     name: Test
-    needs:
-      - check
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -183,6 +185,7 @@ jobs:
           node-version: 16
 
       - uses: denoland/setup-deno@v1
+        if: matrix.crate == 'swc_bundler'
         with:
           deno-version: v1.x
 
@@ -222,12 +225,31 @@ jobs:
             ~/.cargo/
             target
             Cargo.lock
-          key: ${{ runner.os }}-cargo-v4
+          key: cargo-dev--${{ runner.os }}-${{ matrix.crate }}-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            cargo-dev--${{ runner.os }}-${{ matrix.crate }}
 
       - name: Run cargo test
         run: |
           jest -v
           cargo test --color always -p ${{ matrix.crate }}
+
+      - name: Run cargo test (swc_ecma_transforms)
+        if: matrix.crate == 'swc_ecma_transforms'
+        run: |
+          cargo test --color always -p swc_ecma_transforms --all-features
+
+      - name: Run cargo test (concurrent)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          ./scripts/ci/test-concurrent.sh ${{ matrix.crate }}
+
+      - name: Run cargo test (swc, concurrent)
+        shell: bash
+        if: matrix.crate == 'swc'
+        run: |
+          cargo test --color always -p swc --features concurrent
 
   deploy-docs:
     name: Docs

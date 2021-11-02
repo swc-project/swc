@@ -21,22 +21,23 @@
           "ctxt": 0
         },
         "query": {
-          "type": "Property",
+          "type": "Declaration",
           "span": {
             "start": 15,
             "end": 28,
             "ctxt": 0
           },
-          "name": {
+          "property": {
             "type": "Text",
             "span": {
               "start": 15,
               "end": 22,
               "ctxt": 0
             },
-            "value": "display"
+            "value": "display",
+            "raw": "display"
           },
-          "values": [
+          "value": [
             {
               "type": "Text",
               "span": {
@@ -44,7 +45,8 @@
                 "end": 28,
                 "ctxt": 0
               },
-              "value": "flex"
+              "value": "flex",
+              "raw": "flex"
             }
           ],
           "important": null
@@ -67,22 +69,23 @@
           "ctxt": 0
         },
         "left": {
-          "type": "Property",
+          "type": "Declaration",
           "span": {
             "start": 47,
             "end": 78,
             "ctxt": 0
           },
-          "name": {
+          "property": {
             "type": "Text",
             "span": {
               "start": 47,
               "end": 57,
               "ctxt": 0
             },
-            "value": "box-shadow"
+            "value": "box-shadow",
+            "raw": "box-shadow"
           },
-          "values": [
+          "value": [
             {
               "type": "Number",
               "span": {
@@ -90,7 +93,8 @@
                 "end": 60,
                 "ctxt": 0
               },
-              "value": 0.0
+              "value": 0.0,
+              "raw": "0"
             },
             {
               "type": "Number",
@@ -99,7 +103,8 @@
                 "end": 62,
                 "ctxt": 0
               },
-              "value": 0.0
+              "value": 0.0,
+              "raw": "0"
             },
             {
               "type": "UnitValue",
@@ -115,7 +120,8 @@
                   "end": 64,
                   "ctxt": 0
                 },
-                "value": 2.0
+                "value": 2.0,
+                "raw": "2"
               },
               "unit": {
                 "span": {
@@ -123,7 +129,8 @@
                   "end": 66,
                   "ctxt": 0
                 },
-                "kind": null
+                "value": "px",
+                "raw": "px"
               }
             },
             {
@@ -133,7 +140,8 @@
                 "end": 72,
                 "ctxt": 0
               },
-              "value": "black"
+              "value": "black",
+              "raw": "black"
             },
             {
               "type": "Text",
@@ -142,7 +150,8 @@
                 "end": 78,
                 "ctxt": 0
               },
-              "value": "inset"
+              "value": "inset",
+              "raw": "inset"
             }
           ],
           "important": null
@@ -155,22 +164,23 @@
             "ctxt": 0
           },
           "left": {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 96,
               "end": 132,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 96,
                 "end": 111,
                 "ctxt": 0
               },
-              "value": "-moz-box-shadow"
+              "value": "-moz-box-shadow",
+              "raw": "-moz-box-shadow"
             },
-            "values": [
+            "value": [
               {
                 "type": "Number",
                 "span": {
@@ -178,7 +188,8 @@
                   "end": 114,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               },
               {
                 "type": "Number",
@@ -187,7 +198,8 @@
                   "end": 116,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               },
               {
                 "type": "UnitValue",
@@ -203,7 +215,8 @@
                     "end": 118,
                     "ctxt": 0
                   },
-                  "value": 2.0
+                  "value": 2.0,
+                  "raw": "2"
                 },
                 "unit": {
                   "span": {
@@ -211,7 +224,8 @@
                     "end": 120,
                     "ctxt": 0
                   },
-                  "kind": null
+                  "value": "px",
+                  "raw": "px"
                 }
               },
               {
@@ -221,7 +235,8 @@
                   "end": 126,
                   "ctxt": 0
                 },
-                "value": "black"
+                "value": "black",
+                "raw": "black"
               },
               {
                 "type": "Text",
@@ -230,7 +245,8 @@
                   "end": 132,
                   "ctxt": 0
                 },
-                "value": "inset"
+                "value": "inset",
+                "raw": "inset"
               }
             ],
             "important": null
@@ -243,22 +259,23 @@
               "ctxt": 0
             },
             "left": {
-              "type": "Property",
+              "type": "Declaration",
               "span": {
                 "start": 150,
                 "end": 189,
                 "ctxt": 0
               },
-              "name": {
+              "property": {
                 "type": "Text",
                 "span": {
                   "start": 150,
                   "end": 168,
                   "ctxt": 0
                 },
-                "value": "-webkit-box-shadow"
+                "value": "-webkit-box-shadow",
+                "raw": "-webkit-box-shadow"
               },
-              "values": [
+              "value": [
                 {
                   "type": "Number",
                   "span": {
@@ -266,7 +283,8 @@
                     "end": 171,
                     "ctxt": 0
                   },
-                  "value": 0.0
+                  "value": 0.0,
+                  "raw": "0"
                 },
                 {
                   "type": "Number",
@@ -275,7 +293,8 @@
                     "end": 173,
                     "ctxt": 0
                   },
-                  "value": 0.0
+                  "value": 0.0,
+                  "raw": "0"
                 },
                 {
                   "type": "UnitValue",
@@ -291,7 +310,8 @@
                       "end": 175,
                       "ctxt": 0
                     },
-                    "value": 2.0
+                    "value": 2.0,
+                    "raw": "2"
                   },
                   "unit": {
                     "span": {
@@ -299,7 +319,8 @@
                       "end": 177,
                       "ctxt": 0
                     },
-                    "kind": null
+                    "value": "px",
+                    "raw": "px"
                   }
                 },
                 {
@@ -309,7 +330,8 @@
                     "end": 183,
                     "ctxt": 0
                   },
-                  "value": "black"
+                  "value": "black",
+                  "raw": "black"
                 },
                 {
                   "type": "Text",
@@ -318,28 +340,30 @@
                     "end": 189,
                     "ctxt": 0
                   },
-                  "value": "inset"
+                  "value": "inset",
+                  "raw": "inset"
                 }
               ],
               "important": null
             },
             "right": {
-              "type": "Property",
+              "type": "Declaration",
               "span": {
                 "start": 207,
                 "end": 241,
                 "ctxt": 0
               },
-              "name": {
+              "property": {
                 "type": "Text",
                 "span": {
                   "start": 207,
                   "end": 220,
                   "ctxt": 0
                 },
-                "value": "-o-box-shadow"
+                "value": "-o-box-shadow",
+                "raw": "-o-box-shadow"
               },
-              "values": [
+              "value": [
                 {
                   "type": "Number",
                   "span": {
@@ -347,7 +371,8 @@
                     "end": 223,
                     "ctxt": 0
                   },
-                  "value": 0.0
+                  "value": 0.0,
+                  "raw": "0"
                 },
                 {
                   "type": "Number",
@@ -356,7 +381,8 @@
                     "end": 225,
                     "ctxt": 0
                   },
-                  "value": 0.0
+                  "value": 0.0,
+                  "raw": "0"
                 },
                 {
                   "type": "UnitValue",
@@ -372,7 +398,8 @@
                       "end": 227,
                       "ctxt": 0
                     },
-                    "value": 2.0
+                    "value": 2.0,
+                    "raw": "2"
                   },
                   "unit": {
                     "span": {
@@ -380,7 +407,8 @@
                       "end": 229,
                       "ctxt": 0
                     },
-                    "kind": null
+                    "value": "px",
+                    "raw": "px"
                   }
                 },
                 {
@@ -390,7 +418,8 @@
                     "end": 235,
                     "ctxt": 0
                   },
-                  "value": "black"
+                  "value": "black",
+                  "raw": "black"
                 },
                 {
                   "type": "Text",
@@ -399,7 +428,8 @@
                     "end": 241,
                     "ctxt": 0
                   },
-                  "value": "inset"
+                  "value": "inset",
+                  "raw": "inset"
                 }
               ],
               "important": null
@@ -438,22 +468,23 @@
               "ctxt": 0
             },
             "left": {
-              "type": "Property",
+              "type": "Declaration",
               "span": {
                 "start": 261,
                 "end": 287,
                 "ctxt": 0
               },
-              "name": {
+              "property": {
                 "type": "Text",
                 "span": {
                   "start": 261,
                   "end": 280,
                   "ctxt": 0
                 },
-                "value": "transition-property"
+                "value": "transition-property",
+                "raw": "transition-property"
               },
-              "values": [
+              "value": [
                 {
                   "type": "Text",
                   "span": {
@@ -461,28 +492,30 @@
                     "end": 287,
                     "ctxt": 0
                   },
-                  "value": "color"
+                  "value": "color",
+                  "raw": "color"
                 }
               ],
               "important": null
             },
             "right": {
-              "type": "Property",
+              "type": "Declaration",
               "span": {
                 "start": 304,
                 "end": 323,
                 "ctxt": 0
               },
-              "name": {
+              "property": {
                 "type": "Text",
                 "span": {
                   "start": 304,
                   "end": 318,
                   "ctxt": 0
                 },
-                "value": "animation-name"
+                "value": "animation-name",
+                "raw": "animation-name"
               },
-              "values": [
+              "value": [
                 {
                   "type": "Text",
                   "span": {
@@ -490,7 +523,8 @@
                     "end": 323,
                     "ctxt": 0
                   },
-                  "value": "foo"
+                  "value": "foo",
+                  "raw": "foo"
                 }
               ],
               "important": null
@@ -498,22 +532,23 @@
           }
         },
         "right": {
-          "type": "Property",
+          "type": "Declaration",
           "span": {
             "start": 341,
             "end": 365,
             "ctxt": 0
           },
-          "name": {
+          "property": {
             "type": "Text",
             "span": {
               "start": 341,
               "end": 350,
               "ctxt": 0
             },
-            "value": "transform"
+            "value": "transform",
+            "raw": "transform"
           },
-          "values": [
+          "value": [
             {
               "type": "FnValue",
               "span": {
@@ -528,7 +563,8 @@
                   "end": 358,
                   "ctxt": 0
                 },
-                "value": "rotate"
+                "value": "rotate",
+                "raw": "rotate"
               },
               "args": [
                 {
@@ -545,7 +581,8 @@
                       "end": 361,
                       "ctxt": 0
                     },
-                    "value": 10.0
+                    "value": 10.0,
+                    "raw": "10"
                   },
                   "unit": {
                     "span": {
@@ -553,7 +590,8 @@
                       "end": 364,
                       "ctxt": 0
                     },
-                    "kind": "deg"
+                    "value": "deg",
+                    "raw": "deg"
                   }
                 }
               ]

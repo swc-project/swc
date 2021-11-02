@@ -47,7 +47,8 @@
                       "end": 6,
                       "ctxt": 0
                     },
-                    "value": "style"
+                    "value": "style",
+                    "raw": "style"
                   }
                 }
               ]
@@ -56,7 +57,7 @@
         }
       ],
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 7,
           "end": 105,
@@ -64,22 +65,23 @@
         },
         "items": [
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 10,
               "end": 102,
               "ctxt": 0
             },
-            "name": {
+            "property": {
               "type": "Text",
               "span": {
                 "start": 10,
                 "end": 31,
                 "ctxt": 0
               },
-              "value": "grid-template-columns"
+              "value": "grid-template-columns",
+              "raw": "grid-template-columns"
             },
-            "values": [
+            "value": [
               {
                 "type": "FnValue",
                 "span": {
@@ -94,7 +96,8 @@
                     "end": 39,
                     "ctxt": 0
                   },
-                  "value": "repeat"
+                  "value": "repeat",
+                  "raw": "repeat"
                 },
                 "args": [
                   {
@@ -104,7 +107,8 @@
                       "end": 41,
                       "ctxt": 0
                     },
-                    "value": 4.0
+                    "value": 4.0,
+                    "raw": "4"
                   },
                   {
                     "type": "SpaceValues",
@@ -115,13 +119,13 @@
                     },
                     "values": [
                       {
-                        "type": "ArrayValue",
+                        "type": "SquareBracketBlock",
                         "span": {
                           "start": 43,
                           "end": 54,
                           "ctxt": 0
                         },
-                        "values": [
+                        "children": [
                           {
                             "type": "Text",
                             "span": {
@@ -129,7 +133,8 @@
                               "end": 53,
                               "ctxt": 0
                             },
-                            "value": "col-start"
+                            "value": "col-start",
+                            "raw": "col-start"
                           }
                         ]
                       },
@@ -140,16 +145,17 @@
                           "end": 66,
                           "ctxt": 0
                         },
-                        "value": "min-content"
+                        "value": "min-content",
+                        "raw": "min-content"
                       },
                       {
-                        "type": "ArrayValue",
+                        "type": "SquareBracketBlock",
                         "span": {
                           "start": 67,
                           "end": 79,
                           "ctxt": 0
                         },
-                        "values": [
+                        "children": [
                           {
                             "type": "Text",
                             "span": {
@@ -157,7 +163,8 @@
                               "end": 78,
                               "ctxt": 0
                             },
-                            "value": "col-middle"
+                            "value": "col-middle",
+                            "raw": "col-middle"
                           }
                         ]
                       },
@@ -168,16 +175,17 @@
                           "end": 91,
                           "ctxt": 0
                         },
-                        "value": "max-content"
+                        "value": "max-content",
+                        "raw": "max-content"
                       },
                       {
-                        "type": "ArrayValue",
+                        "type": "SquareBracketBlock",
                         "span": {
                           "start": 92,
                           "end": 101,
                           "ctxt": 0
                         },
-                        "values": [
+                        "children": [
                           {
                             "type": "Text",
                             "span": {
@@ -185,7 +193,8 @@
                               "end": 100,
                               "ctxt": 0
                             },
-                            "value": "col-end"
+                            "value": "col-end",
+                            "raw": "col-end"
                           }
                         ]
                       }

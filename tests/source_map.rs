@@ -10,7 +10,7 @@ use std::{
     sync::Arc,
 };
 use swc::{
-    config::{Options, SourceMapsConfig},
+    config::{Config, Options, SourceMapsConfig},
     Compiler,
 };
 use testing::{assert_eq, NormalizedOutput, StdErr, Tester};
@@ -28,6 +28,10 @@ fn file(f: &str) -> Result<(), StdErr> {
                 fm,
                 &handler,
                 &Options {
+                    config: Config {
+                        inline_sources_content: true,
+                        ..Default::default()
+                    },
                     swcrc: true,
                     is_module: true,
                     source_maps: Some(SourceMapsConfig::Bool(true)),
@@ -79,6 +83,10 @@ fn inline(f: &str) -> Result<(), StdErr> {
                 fm,
                 &handler,
                 &Options {
+                    config: Config {
+                        inline_sources_content: true,
+                        ..Default::default()
+                    },
                     swcrc: true,
                     is_module: true,
                     source_maps: Some(SourceMapsConfig::Str(String::from("inline"))),
@@ -113,7 +121,7 @@ fn issue_706() {
     inline("tests/srcmap/issue-706/index.js").unwrap();
 }
 
-#[cfg(target_os = "node-16-breaks-the-test")]
+#[cfg(feature = "node14-test")]
 #[testing::fixture("stacktrace/**/input/")]
 fn stacktrace(input_dir: PathBuf) {
     let dir = input_dir.parent().unwrap();
@@ -123,7 +131,7 @@ fn stacktrace(input_dir: PathBuf) {
 
     Tester::new()
         .print_errors(|cm, handler| {
-            let c = Compiler::new(cm.clone(), Arc::new(handler));
+            let c = Compiler::new(cm.clone());
 
             for entry in WalkDir::new(&input_dir) {
                 let entry = entry.unwrap();
@@ -142,6 +150,7 @@ fn stacktrace(input_dir: PathBuf) {
 
                 match c.process_js_file(
                     fm,
+                    &handler,
                     &Options {
                         swcrc: true,
                         is_module: true,

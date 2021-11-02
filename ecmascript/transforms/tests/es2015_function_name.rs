@@ -10,7 +10,7 @@ use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver::resolver;
 use swc_ecma_transforms_compat::{
     es2015::{arrow, block_scoping, classes, function_name, shorthand},
-    es2020::class_properties,
+    es2022::class_properties,
 };
 use swc_ecma_transforms_module::common_js::common_js;
 use swc_ecma_transforms_proposal::decorators;
@@ -102,16 +102,16 @@ expect(Foo.num = 1).toBe(1);
 expect(Foo.name).toBe('Foo');
 "#,
     r#"
-var Foo = function() {
+var Foo1 = function() {
   var Foo = function() {
    _classCallCheck(this, Foo);
   };
   _defineProperty(Foo, 'num', 0);
   return Foo;
 }();
-expect(Foo.num).toBe(0);
-expect(Foo.num = 1).toBe(1);
-expect(Foo.name).toBe('Foo');
+expect(Foo1.num).toBe(0);
+expect(Foo1.num = 1).toBe(1);
+expect(Foo1.name).toBe('Foo');
 "#
 );
 
@@ -130,7 +130,7 @@ test!(
 
   return extendStatics(d, b);
 };",
-    "var extendStatics = function (d, b) {
+    "var extendStatics = function (d1, b1) {
       extendStatics = Object.setPrototypeOf || ({
         __proto__: []
       }) instanceof Array && function (d, b) {
@@ -139,7 +139,7 @@ test!(
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
   };
 
-  return extendStatics(d, b);
+  return extendStatics(d1, b1);
 };"
 );
 
@@ -837,14 +837,14 @@ console.log(search);
 "#,
     r#"
 var obj = {
-search: function search({
-search: search1
+search: function search1({
+search
 }) {
-console.log(search1);
+console.log(search);
 }
 };
 
-function search({ search }) {
+function search2({ search }) {
 console.log(search);
 }
 

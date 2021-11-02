@@ -1,9 +1,10 @@
 use ansi_term::Color;
 use anyhow::{bail, Context, Error};
 use serde::de::DeserializeOwned;
+use sha1::{Digest, Sha1};
 use std::{
     env,
-    fs::{create_dir_all, read_to_string, OpenOptions},
+    fs::{self, create_dir_all, read_to_string, OpenOptions},
     io::{self, Write},
     mem::{replace, take},
     path::Path,
@@ -12,8 +13,11 @@ use std::{
     sync::{Arc, RwLock},
 };
 use swc_common::{
-    chain, comments::SingleThreadedComments, errors::Handler, sync::Lrc, FileName, SourceMap,
-    DUMMY_SP,
+    chain,
+    comments::SingleThreadedComments,
+    errors::{Handler, HANDLER},
+    sync::Lrc,
+    FileName, SourceMap, DUMMY_SP,
 };
 use swc_ecma_ast::{Pat, *};
 use swc_ecma_codegen::Emitter;
@@ -23,10 +27,10 @@ use swc_ecma_transforms_base::{
     helpers::{inject_helpers, HELPERS},
     hygiene,
 };
-use swc_ecma_utils::{quote_ident, quote_str, DropSpan, ExprFactory, HANDLER};
+use swc_ecma_utils::{quote_ident, quote_str, DropSpan, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 use tempfile::tempdir_in;
-use testing::{assert_eq, find_executable, DebugUsingDisplay, NormalizedOutput};
+use testing::{assert_eq, find_executable, NormalizedOutput};
 
 pub struct Tester<'a> {
     pub cm: Lrc<SourceMap>,
@@ -40,7 +44,7 @@ impl<'a> Tester<'a> {
         F: FnOnce(&mut Tester<'_>) -> Result<Ret, ()>,
     {
         let out = ::testing::run_test(false, |cm, handler| {
-            swc_ecma_utils::HANDLER.set(handler, || {
+            HANDLER.set(handler, || {
                 HELPERS.set(&Default::default(), || {
                     op(&mut Tester {
                         cm,
@@ -362,6 +366,17 @@ where
 
         let module = tester.apply_transform(tr, "input.js", syntax, input)?;
 
+        match ::std::env::var("PRINT_HYGIENE") {
+            Ok(ref s) if s == "1" => {
+                let hygiene_src = tester.print(
+                    &module.clone().fold_with(&mut HygieneVisualizer),
+                    &tester.comments.clone(),
+                );
+                println!("----- Hygiene -----\n{}", hygiene_src);
+            }
+            _ => {}
+        }
+
         let mut module = module
             .fold_with(&mut hygiene::hygiene())
             .fold_with(&mut fixer::fixer(Some(&tester.comments)));
@@ -369,7 +384,7 @@ where
         let src_without_helpers = tester.print(&module, &tester.comments.clone());
         module = module.fold_with(&mut inject_helpers());
 
-        let transfomred_src = tester.print(&module, &tester.comments.clone());
+        let transfromed_src = tester.print(&module, &tester.comments.clone());
 
         println!(
             "\t>>>>> Orig <<<<<\n{}\n\t>>>>> Code <<<<<\n{}",
@@ -380,7 +395,7 @@ where
 
         println!("\t>>>>> Expected stdout <<<<<\n{}", expected);
 
-        let actual = stdout_of(&transfomred_src).unwrap();
+        let actual = stdout_of(&transfromed_src).unwrap();
 
         assert_eq!(expected, actual);
 
@@ -427,57 +442,83 @@ where
         module = module.fold_with(&mut inject_helpers());
 
         let src = tester.print(&module, &tester.comments.clone());
-        let root = Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("target")
-            .join("testing")
-            .join(test_name);
-
-        create_dir_all(&root).expect("failed to create parent directory for temp directory");
-
-        let tmp_dir = tempdir_in(&root).expect("failed to create a temp directory");
-        create_dir_all(&tmp_dir).unwrap();
-
-        let path = tmp_dir.path().join(format!("{}.test.js", test_name));
-
-        let mut tmp = OpenOptions::new()
-            .create(true)
-            .write(true)
-            .open(&path)
-            .expect("failed to create a temp file");
-        write!(tmp, "{}", src).expect("failed to write to temp file");
-        tmp.flush().unwrap();
 
         println!(
             "\t>>>>> Orig <<<<<\n{}\n\t>>>>> Code <<<<<\n{}",
             input, src_without_helpers
         );
 
-        let jest_path = find_executable("jest").expect("failed to find `jest` from path");
+        exec_with_jest(test_name, &src)
+    })
+}
 
-        let mut base_cmd = if cfg!(target_os = "windows") {
-            let mut c = Command::new("cmd");
-            c.arg("/C").arg(&jest_path);
-            c
-        } else {
-            Command::new(&jest_path)
-        };
+fn calc_hash(s: &str) -> String {
+    let mut hasher = Sha1::new();
+    hasher.update(s.as_bytes());
+    let sum = hasher.finalize();
 
-        // I hate windows.
-        if cfg!(target_os = "windows") && env::var("CI").is_ok() {
-            base_cmd.arg("--passWithNoTests");
-        }
+    hex::encode(sum)
+}
 
-        let status = base_cmd
-            .args(&["--testMatch", &format!("{}", path.display())])
-            .current_dir(root)
-            .status()
-            .expect("failed to run jest");
-        if status.success() {
+fn exec_with_jest(test_name: &str, src: &str) -> Result<(), ()> {
+    let root = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("target")
+        .join("testing")
+        .join(test_name);
+
+    create_dir_all(&root).expect("failed to create parent directory for temp directory");
+
+    let hash = calc_hash(src);
+    let success_cache = root.join(format!("{}.success", hash));
+
+    if env::var("SWC_CACHE_TEST").unwrap_or_default() == "1" {
+        println!("Trying cache as `SWC_CACHE_TEST` is `1`");
+
+        if success_cache.exists() {
+            println!("Cache: success");
             return Ok(());
         }
-        ::std::mem::forget(tmp_dir);
-        panic!("Execution failed")
-    })
+    }
+
+    let tmp_dir = tempdir_in(&root).expect("failed to create a temp directory");
+    create_dir_all(&tmp_dir).unwrap();
+
+    let path = tmp_dir.path().join(format!("{}.test.js", test_name));
+
+    let mut tmp = OpenOptions::new()
+        .create(true)
+        .write(true)
+        .open(&path)
+        .expect("failed to create a temp file");
+    write!(tmp, "{}", src).expect("failed to write to temp file");
+    tmp.flush().unwrap();
+
+    let jest_path = find_executable("jest").expect("failed to find `jest` from path");
+
+    let mut base_cmd = if cfg!(target_os = "windows") {
+        let mut c = Command::new("cmd");
+        c.arg("/C").arg(&jest_path);
+        c
+    } else {
+        Command::new(&jest_path)
+    };
+
+    // I hate windows.
+    if cfg!(target_os = "windows") && env::var("CI").is_ok() {
+        base_cmd.arg("--passWithNoTests");
+    }
+
+    let status = base_cmd
+        .args(&["--testMatch", &format!("{}", path.display())])
+        .current_dir(root)
+        .status()
+        .expect("failed to run jest");
+    if status.success() {
+        fs::write(&success_cache, "").unwrap();
+        return Ok(());
+    }
+    ::std::mem::forget(tmp_dir);
+    panic!("Execution failed")
 }
 
 fn stdout_of(code: &str) -> Result<String, Error> {
@@ -610,6 +651,31 @@ pub fn test_fixture<P>(syntax: Syntax, tr: &dyn Fn(&mut Tester) -> P, input: &Pa
 where
     P: Fold,
 {
+    test_fixture_inner(syntax, tr, input, output, false)
+}
+
+pub fn test_fixture_allowing_error<P>(
+    syntax: Syntax,
+    tr: &dyn Fn(&mut Tester) -> P,
+    input: &Path,
+    output: &Path,
+) where
+    P: Fold,
+{
+    test_fixture_inner(syntax, tr, input, output, true)
+}
+
+fn test_fixture_inner<P>(
+    syntax: Syntax,
+    tr: &dyn Fn(&mut Tester) -> P,
+    input: &Path,
+    output: &Path,
+    allow_error: bool,
+) where
+    P: Fold,
+{
+    let _logger = testing::init();
+
     let expected = read_to_string(output);
     let _is_really_expected = expected.is_ok();
     let expected = expected.unwrap_or_default();
@@ -673,11 +739,14 @@ where
         Ok(actual_src)
     });
 
-    let mut results = vec![];
-
-    if !stderr.is_empty() {
-        results
-            .push(NormalizedOutput::from(stderr).compare_to_file(output.with_extension("stderr")));
+    if allow_error {
+        NormalizedOutput::from(stderr)
+            .compare_to_file(output.with_extension("stderr"))
+            .unwrap();
+    } else {
+        if !stderr.is_empty() {
+            panic!("stderr: {}", stderr);
+        }
     }
 
     match actual_src {
@@ -689,25 +758,10 @@ where
                 return;
             }
 
-            if let Ok("1") = env::var("UPDATE").as_deref() {
-                results.push(NormalizedOutput::from(actual_src.clone()).compare_to_file(output));
-            }
-
-            if NormalizedOutput::from(actual_src.clone())
-                == NormalizedOutput::from(expected_src.clone())
-            {
-                return;
-            }
-
-            assert_eq!(
-                DebugUsingDisplay(&actual_src),
-                DebugUsingDisplay(&expected_src)
-            );
+            NormalizedOutput::from(actual_src.clone())
+                .compare_to_file(output)
+                .unwrap();
         }
         _ => {}
-    }
-
-    for result in results {
-        result.unwrap();
     }
 }
