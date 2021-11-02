@@ -196,7 +196,9 @@ fn es2015_classes(b: &mut Bencher) {
 
 #[bench]
 fn es2015_computed_props(b: &mut Bencher) {
-    run(b, swc_ecma_transforms_compat::es2015::computed_properties);
+    run(b, || {
+        swc_ecma_transforms_compat::es2015::computed_properties(Default::default())
+    });
 }
 
 #[bench]

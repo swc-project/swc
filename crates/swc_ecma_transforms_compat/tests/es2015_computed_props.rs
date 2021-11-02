@@ -1,5 +1,5 @@
 use swc_ecma_parser::Syntax;
-use swc_ecma_transforms_compat::es2015::computed_properties;
+use swc_ecma_transforms_compat::es2015::computed_props::{computed_properties, Config};
 use swc_ecma_transforms_testing::{test, test_exec};
 use swc_ecma_visit::Fold;
 
@@ -8,12 +8,12 @@ fn syntax() -> Syntax {
 }
 
 fn tr(_: ()) -> impl Fold {
-    computed_properties()
+    computed_properties(Default::default())
 }
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| computed_properties(),
+    |_| computed_properties(Default::default()),
     issue_210,
     "
 const b = {[a]: 1}
@@ -27,7 +27,7 @@ export const c = _defineProperty({
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| computed_properties(),
+    |_| computed_properties(Default::default()),
     big_int,
     "
 const b = {1n: 1, [x]: 'x', 2n: 2}
@@ -40,7 +40,7 @@ const b = (_obj = {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| computed_properties(),
+    |_| computed_properties(Default::default()),
     accessors,
     r#"var obj = {
   get [foobar]() {
@@ -77,7 +77,7 @@ var obj = ( _obj = {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| computed_properties(),
+    |_| computed_properties(Default::default()),
     argument,
     r#"foo({
   [bar]: "foobar"
@@ -88,7 +88,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| computed_properties(),
+    |_| computed_properties(Default::default()),
     assignment,
     r#"foo = {
   [bar]: "foobar"
@@ -98,7 +98,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| computed_properties(),
+    |_| computed_properties(Default::default()),
     method,
     r#"var obj = {
   [foobar]() {
@@ -119,7 +119,7 @@ var obj = (_obj = {}, _defineProperty(_obj, foobar, function () {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| computed_properties(),
+    |_| computed_properties(Default::default()),
     mixed,
     r#"var obj = {
   ["x" + foo]: "heh",
@@ -135,7 +135,7 @@ var obj = (_obj = {}, _defineProperty(_obj, "x" + foo, "heh"), _defineProperty(_
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| computed_properties(),
+    |_| computed_properties(Default::default()),
     multiple,
     r#"var obj = {
   ["x" + foo]: "heh",
@@ -149,7 +149,7 @@ _defineProperty(_obj, "y" + bar, "noo"), _obj);"#
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| computed_properties(),
+    |_| computed_properties(Default::default()),
     single,
     r#"var obj = {
   ["x" + foo]: "heh"
@@ -159,7 +159,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| computed_properties(),
+    |_| computed_properties(Default::default()),
     symbol,
     r#"var k = Symbol();
 var foo = {
@@ -181,7 +181,7 @@ var foo = ( _obj = {
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| computed_properties(),
+    |_| computed_properties(Default::default()),
     symbol_exec,
     r#"
 var k = Symbol();
@@ -198,7 +198,7 @@ expect(foo[k]).toBe(k)"#
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| computed_properties(),
+    |_| computed_properties(Default::default()),
     this,
     r#"var obj = {
   ["x" + foo.bar]: "heh"
@@ -208,7 +208,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| computed_properties(),
+    |_| computed_properties(Default::default()),
     issue_315_1,
     "
 ({
@@ -238,7 +238,7 @@ export function corge() {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| computed_properties(),
+    |_| computed_properties(Default::default()),
     issue_315_2,
     "
 export function corge() {}
@@ -250,7 +250,7 @@ export function corge() {}
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| computed_properties(),
+    |_| computed_properties(Default::default()),
     issue_315_3,
     "
 export function corge() {}
@@ -281,7 +281,7 @@ _defineProperty({
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| computed_properties(),
+    |_| computed_properties(Default::default()),
     issue_315_4,
     "
 export class Foo {}
@@ -518,6 +518,220 @@ var foo = {
   get [k]() {
     return k;
   }
+};
+
+expect(foo[Symbol.iterator]).toBe("foobar")
+expect(foo[k]).toBe(k)
+
+"#
+);
+
+test!(
+    syntax(),
+    |_| computed_properties(Config { loose: true }),
+    loose_assignment,
+    r#"
+foo = {
+  [bar]: "foobar"
+};
+"#,
+    r#"
+var _obj;
+
+foo = (_obj = {}, _obj[bar] = "foobar", _obj);
+"#
+);
+
+test!(
+    syntax(),
+    |_| computed_properties(Config { loose: true }),
+    loose_argument,
+    r#"
+foo({
+  [bar]: "foobar"
+});
+"#,
+    r#"
+var _obj;
+
+foo((_obj = {}, _obj[bar] = "foobar", _obj));
+"#
+);
+
+test!(
+    syntax(),
+    |_| computed_properties(Config { loose: true }),
+    loose_coerce,
+    r#"
+var obj = {
+  foo: "bar",
+  [bar]: "foo"
+};
+"#,
+    r#"
+var _obj;
+
+var obj = (_obj = {
+  foo: "bar"
+}, _obj[bar] = "foo", _obj);
+"#
+);
+
+test!(
+    syntax(),
+    |_| computed_properties(Config { loose: true }),
+    loose_method,
+    r#"
+var obj = {
+  [foobar]() {
+    return "foobar";
+  },
+  test() {
+    return "regular method after computed property";
+  }
+};
+"#,
+    r#"
+var _obj;
+
+var obj = (_obj = {}, _obj[foobar] = function () {
+  return "foobar";
+}, _obj.test = function () {
+  return "regular method after computed property";
+}, _obj);
+"#
+);
+
+test!(
+    syntax(),
+    |_| computed_properties(Config { loose: true }),
+    loose_mixed,
+    r#"
+var obj = {
+  ["x" + foo]: "heh",
+  ["y" + bar]: "noo",
+  foo: "foo",
+  bar: "bar"
+};
+"#,
+    r#"
+var _obj;
+
+var obj = (_obj = {}, _obj["x" + foo] = "heh", _obj["y" + bar] = "noo", _obj.foo = "foo", _obj.bar = "bar", _obj);
+"#
+);
+
+test!(
+    syntax(),
+    |_| computed_properties(Config { loose: true }),
+    loose_multiple,
+    r#"
+var obj = {
+  ["x" + foo]: "heh",
+  ["y" + bar]: "noo"
+};
+"#,
+    r#"
+var _obj;
+
+var obj = (_obj = {}, _obj["x" + foo] = "heh", _obj["y" + bar] = "noo", _obj);
+"#
+);
+
+test!(
+    syntax(),
+    |_| computed_properties(Config { loose: true }),
+    loose_single,
+    r#"
+var obj = {
+  ["x" + foo]: "heh"
+};
+"#,
+    r#"
+var _obj;
+
+var obj = (_obj = {}, _obj["x" + foo] = "heh", _obj);
+"#
+);
+
+test!(
+    syntax(),
+    |_| computed_properties(Config { loose: true }),
+    loose_this,
+    r#"
+var obj = {
+  ["x" + foo.bar]: "heh"
+};
+"#,
+    r#"
+var _obj;
+
+var obj = (_obj = {}, _obj["x" + foo.bar] = "heh", _obj);
+"#
+);
+
+test!(
+    syntax(),
+    |_| computed_properties(Config { loose: true }),
+    loose_two,
+    r#"
+var obj = {
+  first: "first",
+  [second]: "second",
+}
+"#,
+    r#"
+var _obj;
+
+var obj = (_obj = {
+  first: "first"
+}, _obj[second] = "second", _obj);
+"#
+);
+
+test!(
+    syntax(),
+    |_| computed_properties(Config { loose: true }),
+    loose_variable,
+    r#"
+var foo = {
+  [bar]: "foobar"
+};
+"#,
+    r#"
+var _obj;
+
+var foo = (_obj = {}, _obj[bar] = "foobar", _obj);
+"#
+);
+
+test!(
+    syntax(),
+    |_| computed_properties(Config { loose: true }),
+    loose_str_lit,
+    r#"
+var foo = {
+["213"]: "foobar",
+};
+"#,
+    r#"
+var _obj;
+var foo = (_obj = {
+}, _obj["213"] = "foobar", _obj);
+"#
+);
+
+test_exec!(
+    syntax(),
+    |_| computed_properties(Config { loose: true }),
+    loose_symbol,
+    r#"
+var k = Symbol();
+var foo = {
+[Symbol.iterator]: "foobar",
+get [k]() {
+  return k;
+}
 };
 
 expect(foo[Symbol.iterator]).toBe("foobar")

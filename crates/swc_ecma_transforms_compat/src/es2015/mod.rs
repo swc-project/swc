@@ -14,7 +14,7 @@ mod arrow;
 mod block_scoped_fn;
 mod block_scoping;
 pub mod classes;
-mod computed_props;
+pub mod computed_props;
 pub mod destructuring;
 mod duplicate_keys;
 pub mod for_of;
@@ -57,7 +57,7 @@ where
         // Should come before parameters
         // See: https://github.com/swc-project/swc/issues/1036
         parameters(),
-        computed_properties(),
+        computed_properties(c.computed_props),
         destructuring(c.destructuring),
         regenerator(c.regenerator, global_mark),
         block_scoping(),
@@ -67,6 +67,9 @@ where
 #[derive(Debug, Clone, Default, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Config {
+    #[serde(flatten)]
+    pub computed_props: computed_props::Config,
+
     #[serde(flatten)]
     pub for_of: for_of::Config,
 

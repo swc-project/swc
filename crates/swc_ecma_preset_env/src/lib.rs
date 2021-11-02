@@ -150,7 +150,7 @@ where
     let pass = add!(
         pass,
         ComputedProperties,
-        es2015::computed_properties(),
+        es2015::computed_properties(es2015::computed_props::Config { loose }),
         true
     );
     let pass = add!(

@@ -210,6 +210,9 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                         self.top_level_mark,
                         comments.clone(),
                         compat::es2015::Config {
+                            computed_props: compat::es2015::computed_props::Config {
+                                loose: self.loose
+                            },
                             for_of: compat::es2015::for_of::Config {
                                 assume_array: self.loose
                             },
