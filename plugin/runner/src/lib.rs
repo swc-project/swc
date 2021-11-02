@@ -8,6 +8,7 @@ use swc_common::plugin::{deserialize_for_plugin, serialize_for_plugin};
 use anyhow::{anyhow, bail, Context, Error};
 use std::{
     env::current_dir,
+    fs::read_to_string,
     path::{Path, PathBuf},
 };
 use swc_ecma_ast::Program;
@@ -50,6 +51,14 @@ pub fn apply_js_plugin(
 }
 
 pub fn resolve(name: &str) -> Result<PathBuf, Error> {
+    fn resolve_using_package_json(dir: &Path) -> Result<PathBuf, Error> {
+        let pkg_json = dir.join("package.json");
+        let json =
+            read_to_string(&pkg_json).context("failed to read package.json of main package")?;
+
+        todo!("JSON: {}", json)
+    }
+
     fn check_node_modules(base_dir: &Path, name: &str) -> Result<Option<PathBuf>, Error> {
         let modules_dir = base_dir.join("node_modules");
         if !modules_dir.is_dir() {
@@ -59,7 +68,7 @@ pub fn resolve(name: &str) -> Result<PathBuf, Error> {
         if !name.contains("@") {
             let swc_plugin_dir = modules_dir.join("@swc").join(format!("plugin-{}", name));
             if swc_plugin_dir.is_dir() {
-                todo!("resolve: Official swc plugin")
+                return Ok(Some(resolve_using_package_json(&swc_plugin_dir)?));
             }
         }
 
