@@ -11,9 +11,6 @@ version = "0.14.5"
 [lib]
 crate-type = ["lib", "dylib"]
 
-[lib]
-crate-type = ["lib", "dylib"]
-
 [features]
 concurrent = ["parking_lot"]
 debug = []
