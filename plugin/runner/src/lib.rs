@@ -26,19 +26,23 @@ use swc_plugin::SwcPluginRef;
 
 mod resolve;
 
-pub fn apply_js_plugin(program: &Program, path: &Path) -> Result<Program, Error> {
+pub fn apply_js_plugin(program: &Program, path: &Path, config: &str) -> Result<Program, Error> {
     (|| -> Result<_, Error> {
         let plugin_rt = swc_common::plugin::get_runtime_for_plugin(plugin_name.to_string());
 
         let plugin = SwcPluginRef::load_from_file(path).context("failed to load plugin")?;
 
         let ast_serde = serialize_ast(&program).context("failed to serialize ast")?;
+        let ast_serde = serialize_for_plugin(&program).context("failed to serialize ast")?;
+        let ast_json =
+            serde_json::to_string(&program).context("failed to serialize program as json")?;
 
         let plugin_fn = plugin
             .process_js()
             .ok_or_else(|| anyhow!("the plugin does not support transforming js"))?;
 
         let new_ast = plugin_fn(plugin_rt, RStr::from(config_json), ast_serde.into());
+        let new_ast = plugin_fn(RStr::from(config), RString::from(ast_json));
 
         let new = match new_ast {
             RResult::ROk(v) => v,
