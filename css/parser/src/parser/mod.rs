@@ -86,14 +86,6 @@ where
         self.parse()
     }
 
-    fn may_parse_str(&mut self) -> PResult<Option<Str>> {
-        if is!(self, Str) {
-            self.parse_str().map(Some)
-        } else {
-            Ok(None)
-        }
-    }
-
     fn parse_id(&mut self) -> PResult<Text> {
         let span = self.input.cur_span()?;
         if !is!(self, Ident) {
@@ -102,20 +94,6 @@ where
 
         match bump!(self) {
             Token::Ident { value, raw } => Ok(Text { span, value, raw }),
-            _ => {
-                unreachable!()
-            }
-        }
-    }
-
-    fn parse_str(&mut self) -> PResult<Str> {
-        let span = self.input.cur_span()?;
-        if !is!(self, Str) {
-            return Err(Error::new(span, ErrorKind::Expected("Str")));
-        }
-
-        match bump!(self) {
-            Token::Str { value, raw } => Ok(Str { span, value, raw }),
             _ => {
                 unreachable!()
             }

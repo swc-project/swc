@@ -1,9 +1,11 @@
-pub use self::{document::*, keyframe::*, media::*, page::*, support::*};
-use crate::{Block, FnValue, Str, Text, Tokens, UrlValue};
+pub use self::{charset::*, document::*, import::*, keyframe::*, media::*, page::*, support::*};
+use crate::{Block, Str, Text, Tokens, UrlValue};
 use is_macro::Is;
 use swc_common::{ast_node, Span};
 
+mod charset;
 mod document;
+mod import;
 mod keyframe;
 mod media;
 mod page;
@@ -44,31 +46,6 @@ pub enum AtRule {
 
     #[tag("UnknownAtRule")]
     Unknown(UnknownAtRule),
-}
-
-#[ast_node("CharsetRule")]
-pub struct CharsetRule {
-    pub span: Span,
-    pub charset: Str,
-}
-
-#[ast_node]
-pub enum ImportSource {
-    #[tag("FnValue")]
-    Fn(FnValue),
-
-    #[tag("UrlValue")]
-    Url(UrlValue),
-
-    #[tag("Str")]
-    Str(Str),
-}
-
-#[ast_node("ImportRule")]
-pub struct ImportRule {
-    pub span: Span,
-    pub src: ImportSource,
-    pub condition: Option<MediaQuery>,
 }
 
 #[ast_node("FontFaceRule")]

@@ -15,38 +15,6 @@ impl<I> Parser<I>
 where
     I: ParserInput,
 {
-    fn parse_import_url(&mut self) -> PResult<ImportSource> {
-        if is!(self, Str) {
-            return self.parse_str().map(ImportSource::Str);
-        }
-
-        let span = self.input.cur_span()?;
-
-        match cur!(self) {
-            Token::Function { value, .. } if *value.to_ascii_lowercase() == js_word!("url") => {
-                let func = self.parse()?;
-
-                Ok(ImportSource::Fn(func))
-            }
-
-            Token::Url { .. } => match bump!(self) {
-                Token::Url { value, raw } => Ok(ImportSource::Url(UrlValue {
-                    span,
-                    url: value,
-                    raw,
-                })),
-                _ => {
-                    unreachable!()
-                }
-            },
-
-            _ => Err(Error::new(
-                span,
-                ErrorKind::Expected("url('https://example.com') or 'https://example.com'"),
-            )),
-        }
-    }
-
     pub(super) fn parse_at_rule(&mut self, _ctx: AtRuleContext) -> PResult<AtRule> {
         let start = self.input.cur_span()?.lo;
 
@@ -63,42 +31,30 @@ where
             "charset" => {
                 self.input.skip_ws()?;
 
-                let value = self.may_parse_str()?;
+                let at_rule_charset = self.parse();
 
-                if let Some(v) = value {
-                    eat!(self, ";");
-
-                    let span = span!(self, start);
-
-                    return Ok(AtRule::Charset(CharsetRule { span, charset: v }));
+                if at_rule_charset.is_ok() {
+                    return at_rule_charset
+                        .map(|mut r: CharsetRule| {
+                            r.span.lo = start;
+                            r
+                        })
+                        .map(AtRule::Charset);
                 }
             }
 
             "import" => {
                 self.input.skip_ws()?;
 
-                let res = self.parse_import_url();
-                match res {
-                    Ok(src) => {
-                        // TODO
+                let at_rule_import = self.parse();
 
-                        self.input.skip_ws()?;
-
-                        let condition = if !is_one_of!(self, ";", EOF) {
-                            Some(self.parse()?)
-                        } else {
-                            None
-                        };
-
-                        eat!(self, ";");
-
-                        return Ok(AtRule::Import(ImportRule {
-                            span: span!(self, start),
-                            src,
-                            condition,
-                        }));
-                    }
-                    Err(err) => return Err(err),
+                if at_rule_import.is_ok() {
+                    return at_rule_import
+                        .map(|mut r: ImportRule| {
+                            r.span.lo = start;
+                            r
+                        })
+                        .map(AtRule::Import);
                 }
             }
 
@@ -106,184 +62,121 @@ where
             | "-ms-keyframes" => {
                 self.input.skip_ws()?;
 
-                let start_name_pos = self.input.cur_span()?.lo;
-                let name = match bump!(self) {
-                    Token::Ident { value, raw } => Text {
-                        span: span!(self, start_name_pos),
-                        value,
-                        raw,
-                    },
-                    Token::Str { value, raw } => Text {
-                        span: span!(self, start_name_pos),
-                        value,
-                        raw,
-                    },
-                    _ => Text {
-                        span: DUMMY_SP,
-                        value: js_word!(""),
-                        raw: js_word!(""),
-                    },
-                };
-                let mut blocks = vec![];
+                let at_rule_keyframe = self.parse();
 
-                self.input.skip_ws()?;
-
-                if is!(self, "{") {
-                    expect!(self, "{");
-
-                    // TODO: change on `parse_simple_block`
-                    blocks = self.parse_delimited(true)?;
-
-                    expect!(self, "}");
+                if at_rule_keyframe.is_ok() {
+                    return at_rule_keyframe
+                        .map(|mut r: KeyframesRule| {
+                            r.span.lo = start;
+                            r
+                        })
+                        .map(AtRule::Keyframes);
                 }
-
-                return Ok(AtRule::Keyframes(KeyframesRule {
-                    span: span!(self, start),
-                    id: name,
-                    blocks,
-                }));
             }
 
             "font-face" => {
                 self.input.skip_ws()?;
 
-                let block = self.parse_simple_block()?;
+                let at_rule_font_face = self.parse();
 
-                return Ok(AtRule::FontFace(FontFaceRule {
-                    span: span!(self, start),
-                    block,
-                }));
+                if at_rule_font_face.is_ok() {
+                    return at_rule_font_face
+                        .map(|mut r: FontFaceRule| {
+                            r.span.lo = start;
+                            r
+                        })
+                        .map(AtRule::FontFace);
+                }
             }
 
             "supports" => {
                 self.input.skip_ws()?;
 
-                let query = self.parse()?;
+                let at_rule_supports = self.parse();
 
-                expect!(self, "{");
-
-                let rules = self.parse_rule_list(RuleContext {
-                    is_top_level: false,
-                })?;
-
-                expect!(self, "}");
-
-                return Ok(AtRule::Supports(SupportsRule {
-                    span: span!(self, start),
-                    query,
-                    rules,
-                }));
+                if at_rule_supports.is_ok() {
+                    return at_rule_supports
+                        .map(|mut r: SupportsRule| {
+                            r.span.lo = start;
+                            r
+                        })
+                        .map(AtRule::Supports);
+                }
             }
 
             "media" => {
                 self.input.skip_ws()?;
 
-                let query = self.parse()?;
+                let at_rule_media = self.parse();
 
-                expect!(self, "{");
-
-                let rules = self.parse_rule_list(RuleContext {
-                    is_top_level: false,
-                })?;
-
-                expect!(self, "}");
-
-                return Ok(AtRule::Media(MediaRule {
-                    span: span!(self, start),
-                    query,
-                    rules,
-                }));
+                if at_rule_media.is_ok() {
+                    return at_rule_media
+                        .map(|mut r: MediaRule| {
+                            r.span.lo = start;
+                            r
+                        })
+                        .map(AtRule::Media);
+                }
             }
 
             "page" => {
                 self.input.skip_ws()?;
 
-                return self
-                    .parse()
-                    .map(|mut r: PageRule| {
-                        r.span.lo = start;
-                        r
-                    })
-                    .map(AtRule::Page);
+                let at_rule_page = self.parse();
+
+                if at_rule_page.is_ok() {
+                    return at_rule_page
+                        .map(|mut r: PageRule| {
+                            r.span.lo = start;
+                            r
+                        })
+                        .map(AtRule::Page);
+                }
             }
 
             "document" | "-moz-document" => {
                 self.input.skip_ws()?;
 
-                return self
-                    .parse()
-                    .map(|mut r: DocumentRule| {
-                        r.span.lo = start;
-                        r
-                    })
-                    .map(AtRule::Document);
+                let at_rule_document = self.parse();
+
+                if at_rule_document.is_ok() {
+                    return at_rule_document
+                        .map(|mut r: DocumentRule| {
+                            r.span.lo = start;
+                            r
+                        })
+                        .map(AtRule::Document);
+                }
             }
 
             "namespace" => {
                 self.input.skip_ws()?;
 
-                // TODO: make optional
-                let mut prefix = Text {
-                    span: DUMMY_SP,
-                    value: js_word!(""),
-                    raw: js_word!(""),
-                };
+                let at_rule_namespace = self.parse();
 
-                if is!(self, Ident) {
-                    let start_name_pos = self.input.cur_span()?.lo;
-
-                    prefix = match bump!(self) {
-                        Token::Ident { value, raw } => Text {
-                            span: span!(self, start_name_pos),
-                            value,
-                            raw,
-                        },
-                        _ => {
-                            unreachable!()
-                        }
-                    };
-
-                    self.input.skip_ws()?;
+                if at_rule_namespace.is_ok() {
+                    return at_rule_namespace
+                        .map(|mut r: NamespaceRule| {
+                            r.span.lo = start;
+                            r
+                        })
+                        .map(AtRule::Namespace);
                 }
-
-                let start_value_pos = self.input.cur_span()?.lo;
-
-                let value = match bump!(self) {
-                    Token::Str { value, raw } => NamespaceValue::Str(Str {
-                        span: span!(self, start_value_pos),
-                        value,
-                        raw,
-                    }),
-                    Token::Url { value, raw } => NamespaceValue::Url(UrlValue {
-                        span: span!(self, start_value_pos),
-                        url: value,
-                        raw,
-                    }),
-                    _ => NamespaceValue::Str(Str {
-                        span: span!(self, start_value_pos),
-                        value: js_word!(""),
-                        raw: js_word!(""),
-                    }),
-                };
-
-                eat!(self, ";");
-
-                return Ok(AtRule::Namespace(NamespaceRule {
-                    span: span!(self, start),
-                    prefix,
-                    value,
-                }));
             }
 
             "viewport" | "-ms-viewport" => {
                 self.input.skip_ws()?;
 
-                let block = self.parse_simple_block()?;
+                let at_rule_viewport = self.parse();
 
-                return Ok(AtRule::Viewport(ViewportRule {
-                    span: span!(self, start),
-                    block,
-                }));
+                if at_rule_viewport.is_ok() {
+                    return at_rule_viewport
+                        .map(|mut r: ViewportRule| {
+                            r.span.lo = start;
+                            r
+                        })
+                        .map(AtRule::Viewport);
+                }
             }
 
             _ => {}
@@ -354,6 +247,229 @@ where
                 tokens,
             },
         }))
+    }
+}
+
+impl<I> Parse<CharsetRule> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<CharsetRule> {
+        let span = self.input.cur_span()?;
+        let charset = match cur!(self) {
+            Token::Str { .. } => self.parse()?,
+            _ => return Err(Error::new(span, ErrorKind::InvalidCharsetAtRule)),
+        };
+
+        eat!(self, ";");
+
+        return Ok(CharsetRule {
+            span: span!(self, span.lo),
+            charset,
+        });
+    }
+}
+
+impl<I> Parse<ImportRule> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<ImportRule> {
+        let span = self.input.cur_span()?;
+
+        let src = match cur!(self) {
+            Token::Str { .. } => {
+                let str = self.parse()?;
+
+                Ok(ImportSource::Str(str))
+            }
+            Token::Function { value, .. } if *value.to_ascii_lowercase() == js_word!("url") => {
+                let func = self.parse()?;
+
+                Ok(ImportSource::Fn(func))
+            }
+            Token::Url { .. } => {
+                let url = self.parse()?;
+
+                Ok(ImportSource::Url(url))
+            }
+            _ => Err(Error::new(
+                span,
+                ErrorKind::Expected("url('https://example.com') or 'https://example.com'"),
+            )),
+        };
+
+        self.input.skip_ws()?;
+
+        let condition = if !is_one_of!(self, ";", EOF) {
+            Some(self.parse()?)
+        } else {
+            None
+        };
+
+        eat!(self, ";");
+
+        return Ok(ImportRule {
+            span: span!(self, span.lo),
+            src: src.unwrap(),
+            condition,
+        });
+    }
+}
+
+impl<I> Parse<KeyframesRule> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<KeyframesRule> {
+        let span = self.input.cur_span()?;
+        let name = match bump!(self) {
+            Token::Ident { value, raw } => Text {
+                span: span!(self, span.lo),
+                value,
+                raw,
+            },
+            Token::Str { value, raw } => Text {
+                span: span!(self, span.lo),
+                value,
+                raw,
+            },
+            _ => Text {
+                span: DUMMY_SP,
+                value: js_word!(""),
+                raw: js_word!(""),
+            },
+        };
+        let mut blocks = vec![];
+
+        self.input.skip_ws()?;
+
+        if is!(self, "{") {
+            expect!(self, "{");
+
+            // TODO: change on `parse_simple_block`
+            blocks = self.parse_delimited(true)?;
+
+            expect!(self, "}");
+        }
+
+        return Ok(KeyframesRule {
+            span: span!(self, span.lo),
+            id: name,
+            blocks,
+        });
+    }
+}
+
+impl<I> Parse<ViewportRule> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<ViewportRule> {
+        let span = self.input.cur_span()?;
+        let block = self.parse_simple_block()?;
+
+        return Ok(ViewportRule {
+            span: span!(self, span.lo),
+            block,
+        });
+    }
+}
+
+impl<I> Parse<NamespaceRule> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<NamespaceRule> {
+        let span = self.input.cur_span()?;
+        // TODO: make optional
+        let mut prefix = Text {
+            span: DUMMY_SP,
+            value: js_word!(""),
+            raw: js_word!(""),
+        };
+
+        if is!(self, Ident) {
+            prefix = match bump!(self) {
+                Token::Ident { value, raw } => Text {
+                    span: span!(self, span.lo),
+                    value,
+                    raw,
+                },
+                _ => {
+                    unreachable!()
+                }
+            };
+
+            self.input.skip_ws()?;
+        }
+
+        let start_value_span = self.input.cur_span()?;
+
+        let value = match bump!(self) {
+            Token::Str { value, raw } => NamespaceValue::Str(Str {
+                span: span!(self, start_value_span.lo),
+                value,
+                raw,
+            }),
+            Token::Url { value, raw } => NamespaceValue::Url(UrlValue {
+                span: span!(self, start_value_span.lo),
+                url: value,
+                raw,
+            }),
+            _ => NamespaceValue::Str(Str {
+                span: span!(self, start_value_span.lo),
+                value: js_word!(""),
+                raw: js_word!(""),
+            }),
+        };
+
+        eat!(self, ";");
+
+        return Ok(NamespaceRule {
+            span: span!(self, span.lo),
+            prefix,
+            value,
+        });
+    }
+}
+
+impl<I> Parse<FontFaceRule> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<FontFaceRule> {
+        let span = self.input.cur_span()?;
+        let block = self.parse_simple_block()?;
+
+        return Ok(FontFaceRule {
+            span: span!(self, span.lo),
+            block,
+        });
+    }
+}
+
+impl<I> Parse<SupportsRule> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<SupportsRule> {
+        let span = self.input.cur_span()?;
+        let query = self.parse()?;
+
+        expect!(self, "{");
+
+        let rules = self.parse_rule_list(RuleContext {
+            is_top_level: false,
+        })?;
+
+        expect!(self, "}");
+
+        return Ok(SupportsRule {
+            span: span!(self, span.lo),
+            query,
+            rules,
+        });
     }
 }
 
@@ -541,6 +657,30 @@ where
         }
 
         Err(Error::new(span, ErrorKind::InvalidSupportQuery))
+    }
+}
+
+impl<I> Parse<MediaRule> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<MediaRule> {
+        let span = self.input.cur_span()?;
+        let query = self.parse()?;
+
+        expect!(self, "{");
+
+        let rules = self.parse_rule_list(RuleContext {
+            is_top_level: false,
+        })?;
+
+        expect!(self, "}");
+
+        return Ok(MediaRule {
+            span: span!(self, span.lo),
+            query,
+            rules,
+        });
     }
 }
 

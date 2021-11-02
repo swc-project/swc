@@ -605,6 +605,50 @@ where
     }
 }
 
+impl<I> Parse<Str> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Str> {
+        let span = self.input.cur_span()?;
+
+        if !is!(self, Str) {
+            return Err(Error::new(span, ErrorKind::Expected("Str")));
+        }
+
+        match bump!(self) {
+            Token::Str { value, raw } => Ok(Str { span, value, raw }),
+            _ => {
+                unreachable!()
+            }
+        }
+    }
+}
+
+impl<I> Parse<UrlValue> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<UrlValue> {
+        let span = self.input.cur_span()?;
+
+        if !is!(self, Url) {
+            return Err(Error::new(span, ErrorKind::Expected("Url")));
+        }
+
+        match bump!(self) {
+            Token::Url { value, raw } => Ok(UrlValue {
+                span,
+                url: value,
+                raw,
+            }),
+            _ => {
+                unreachable!()
+            }
+        }
+    }
+}
+
 impl<I> Parse<FnValue> for Parser<I>
 where
     I: ParserInput,
