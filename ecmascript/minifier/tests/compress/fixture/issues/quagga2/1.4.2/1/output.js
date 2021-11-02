@@ -3174,7 +3174,7 @@
                 }
                 steep && (tmp = x0, x0 = y0, y0 = tmp, tmp = x1, x1 = y1, y1 = tmp), x0 > x1 && (tmp = x0, x0 = x1, x1 = tmp, tmp = y0, y0 = y1, y1 = tmp);
                 var deltaX = x1 - x0, deltaY = Math.abs(y1 - y0);
-                deltaX / 2 | 0, y = y0;
+                error = deltaX / 2 | 0, y = y0;
                 var yStep = y0 < y1 ? 1 : -1;
                 for(x = x0; x < x1; x++)steep ? read(y, x) : read(x, y), (error -= deltaY) < 0 && (y += yStep, error += deltaX);
                 return {

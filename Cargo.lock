@@ -2569,7 +2569,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.26.1"
+version = "0.26.2"
 dependencies = [
  "bitflags",
  "lexical",
@@ -2696,7 +2696,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.48.2"
+version = "0.48.3"
 dependencies = [
  "ahash",
  "ansi_term 0.12.1",
@@ -3003,7 +3003,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.58.1"
+version = "0.58.2"
 dependencies = [
  "serde",
  "swc_atoms 0.2.9",
