@@ -11,7 +11,6 @@
 //! ## `sourcemap`
 //!
 //! Adds methods to generate web sourcemap.
-//!
 #![deny(unused)]
 
 pub use self::{
