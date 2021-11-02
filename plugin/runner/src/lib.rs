@@ -1,3 +1,4 @@
+pub use self::resolve::resolve;
 use abi_stable::{
     library::RootModule,
     std_types::{RResult, RStr},
@@ -20,6 +21,12 @@ pub fn apply_js_plugin(
     config_json: &str,
     program: &Program,
 ) -> Result<Program, Error> {
+use swc_ecma_ast::Program;
+use swc_plugin::SwcPluginRef;
+
+mod resolve;
+
+pub fn apply_js_plugin(program: &Program, path: &Path) -> Result<Program, Error> {
     (|| -> Result<_, Error> {
         let plugin_rt = swc_common::plugin::get_runtime_for_plugin(plugin_name.to_string());
 
@@ -48,43 +55,4 @@ pub fn apply_js_plugin(
             path.display()
         )
     })
-}
-
-pub fn resolve(name: &str) -> Result<PathBuf, Error> {
-    fn resolve_using_package_json(dir: &Path) -> Result<PathBuf, Error> {
-        let pkg_json = dir.join("package.json");
-        let json =
-            read_to_string(&pkg_json).context("failed to read package.json of main package")?;
-
-        todo!("JSON: {}", json)
-    }
-
-    fn check_node_modules(base_dir: &Path, name: &str) -> Result<Option<PathBuf>, Error> {
-        let modules_dir = base_dir.join("node_modules");
-        if !modules_dir.is_dir() {
-            return Ok(None);
-        }
-
-        if !name.contains("@") {
-            let swc_plugin_dir = modules_dir.join("@swc").join(format!("plugin-{}", name));
-            if swc_plugin_dir.is_dir() {
-                return Ok(Some(resolve_using_package_json(&swc_plugin_dir)?));
-            }
-        }
-
-        todo!("resolve: Non-official plugins: {}", name)
-    }
-
-    let cwd = current_dir().context("failed to get current directory")?;
-    let mut dir = Some(&*cwd);
-
-    while let Some(base_dir) = dir {
-        if let Ok(Some(path)) = check_node_modules(&base_dir, name) {
-            return Ok(path);
-        }
-
-        dir = cwd.parent();
-    }
-
-    bail!("failed to resolve plugin `{}`", name)
 }
