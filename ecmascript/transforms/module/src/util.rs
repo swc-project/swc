@@ -155,13 +155,10 @@ impl Scope {
     /// # Parameters
     /// - `exported_names` Ident of the object literal.
     pub fn handle_export_all(
-        &mut self,
         exports: Ident,
         exported_names: Option<Ident>,
-        export: ExportAll,
+        imported: Ident,
     ) -> Stmt {
-        let imported = self.import_to_export(&export.src, true).unwrap();
-
         let key_ident = private_ident!("key");
 
         let function = Function {
