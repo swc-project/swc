@@ -4,6 +4,12 @@ use abi_stable::{
 };
 use anyhow::{anyhow, Context, Error};
 use std::path::Path;
+use swc_common::plugin::{deserialize_for_plugin, serialize_for_plugin};
+use anyhow::{anyhow, bail, Context, Error};
+use std::{
+    env::current_dir,
+    path::{Path, PathBuf},
+};
 use swc_ecma_ast::Program;
 use swc_plugin_api::{deserialize_ast, serialize_ast, SwcPluginRef};
 
@@ -41,4 +47,35 @@ pub fn apply_js_plugin(
             path.display()
         )
     })
+}
+
+pub fn resolve(name: &str) -> Result<PathBuf, Error> {
+    fn check_node_modules(base_dir: &Path, name: &str) -> Result<Option<PathBuf>, Error> {
+        let modules_dir = base_dir.join("node_modules");
+        if !modules_dir.is_dir() {
+            return Ok(None);
+        }
+
+        if !name.contains("@") {
+            let swc_plugin_dir = modules_dir.join("@swc").join(format!("plugin-{}", name));
+            if swc_plugin_dir.is_dir() {
+                todo!("resolve: Official swc plugin")
+            }
+        }
+
+        todo!("resolve: Non-official plugins: {}", name)
+    }
+
+    let cwd = current_dir().context("failed to get current directory")?;
+    let mut dir = Some(&*cwd);
+
+    while let Some(base_dir) = dir {
+        if let Ok(Some(path)) = check_node_modules(&base_dir, name) {
+            return Ok(path);
+        }
+
+        dir = cwd.parent();
+    }
+
+    bail!("failed to resolve plugin `{}`", name)
 }
