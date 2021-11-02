@@ -15,6 +15,7 @@ crate-type = ["lib", "cdylib"]
 concurrent = ["parking_lot"]
 debug = []
 default = []
+dynamic = []
 tty-emitter = ["atty", "termcolor"]
 
 [dependencies]
