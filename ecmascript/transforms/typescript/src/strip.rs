@@ -2158,7 +2158,9 @@ where
                     }
                 }
 
-                ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(export)) => {
+                ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(mut export)) => {
+                    export.expr.visit_mut_with(self);
+
                     stmts.push(ModuleItem::Stmt(Stmt::Expr(ExprStmt {
                         span: export.span,
                         expr: Box::new(Expr::Assign(AssignExpr {

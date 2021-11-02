@@ -4176,6 +4176,20 @@ test_with_config!(
     "
 );
 
+to!(
+    issue_2613,
+    "
+    export = function (foo: string, bar: number): boolean {
+        return true
+    };
+    ",
+    "
+    module.exports = function (foo, bar) {
+        return true
+    };
+    "
+);
+
 #[testing::fixture("tests/fixture/**/input.ts")]
 #[testing::fixture("tests/fixture/**/input.tsx")]
 fn exec(input: PathBuf) {

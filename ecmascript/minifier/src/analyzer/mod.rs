@@ -235,6 +235,7 @@ where
         let ctx = Ctx {
             in_assign_lhs: true,
             is_exact_reassignment: true,
+            is_op_assign: n.op != op!("="),
             ..self.ctx
         };
         n.left.visit_with(n, &mut *self.with_ctx(ctx));
