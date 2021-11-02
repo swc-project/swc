@@ -1,0 +1,8 @@
+error: Expected "}"
+
+error: Expected Declaration value
+ --> $DIR/tests/errors/hash/input.css:2:11
+  |
+2 |     prop: #
+  |           ^
+
