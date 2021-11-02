@@ -2,7 +2,7 @@ use std::path::Path;
 use swc_common::FileName;
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
-use swc_plugin_runner::resolve;
+use swc_plugin_runner::{apply_js_plugin, resolve};
 use testing::run_test2;
 
 #[test]
@@ -10,7 +10,12 @@ fn test_resolve_1() {
     let path = resolve("internal-test").expect("failed to resolve");
     println!("{}", path.display());
 
-    assert_js_plugin(&path, "{}", "console.log('Foo')", "console.log('Foo')");
+    assert_js_plugin(
+        &path,
+        "{ \"printError\": false, \"usePrivateIdent\": false }",
+        "console.log('Foo')",
+        "console.log('Foo')",
+    );
 
     panic!("todo")
 }
@@ -35,7 +40,7 @@ fn assert_js_plugin(plugin_path: &Path, config: &str, input: &str, expected: &st
             err.into_diagnostic(&handler).emit();
         })?;
 
-        let res = swc_plugin_runner::apply_js_plugin(&m, plugin_path, config);
+        let res = apply_js_plugin(&m, plugin_path, config).expect("should success");
 
         panic!("{:?}", res)
     })
