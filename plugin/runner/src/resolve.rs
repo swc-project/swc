@@ -35,6 +35,14 @@ fn read_main_field(dir: &Path, json_path: &Path) -> Result<PathBuf, Error> {
     Ok(dir.join(&json.main))
 }
 
+fn pkg_name_without_scope(pkg_name: &str) -> &str {
+    if pkg_name.contains("/") {
+        pkg_name.split("/").nth(1).unwrap()
+    } else {
+        pkg_name
+    }
+}
+
 fn resolve_using_package_json(dir: &Path, pkg_name: &str) -> Result<PathBuf, Error> {
     let node_modules = dir
         .parent()
@@ -56,9 +64,11 @@ fn resolve_using_package_json(dir: &Path, pkg_name: &str) -> Result<PathBuf, Err
         .as_object()
         .ok_or_else(|| anyhow!("`optionalDependencies` of main package.json is not an object"))?;
 
+    let pkg_name_without_scope = pkg_name_without_scope(pkg_name);
+
     for dep_pkg_name in opt_deps.keys() {
         if dep_pkg_name.starts_with(&pkg_name) {
-            let dep_pkg = node_modules.join(dep_pkg_name);
+            let dep_pkg = node_modules.join(pkg_name_without_scope);
 
             if dep_pkg.exists() {
                 return read_main_field(&dep_pkg, &dep_pkg.join("package.json"));
