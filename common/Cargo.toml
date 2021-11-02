@@ -9,7 +9,7 @@ repository = "https://github.com/swc-project/swc.git"
 version = "0.14.3"
 
 [lib]
-crate-type = ["lib", "cdylib"]
+crate-type = ["lib", "dylib"]
 
 [features]
 concurrent = ["parking_lot"]
