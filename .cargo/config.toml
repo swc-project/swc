@@ -5,14 +5,22 @@ rustdocflags = []
 rustflags = [
   "-C",
   "target-feature=+sse2",
+  "-C",
+  "prefer-dynamic",
 ]
 
 [target.aarch64-apple-darwin]
-rustflags = []
+rustflags = [
+  "-C",
+  "prefer-dynamic",
+]
 
 [target.aarch64-unknown-linux-gnu]
 linker = "aarch64-linux-gnu-gcc"
-rustflags = []
+rustflags = [
+  "-C",
+  "prefer-dynamic",
+]
 
 [target.aarch64-unknown-linux-musl]
 linker = "aarch64-linux-musl-gcc"
@@ -25,13 +33,22 @@ rustflags = [
 
 [target.armv7-unknown-linux-gnueabihf]
 linker = "arm-linux-gnueabihf-gcc"
-rustflags = []
+rustflags = [
+  "-C",
+  "prefer-dynamic",
+]
 
 [target.aarch64-linux-android]
-rustflags = []
+rustflags = [
+  "-C",
+  "prefer-dynamic",
+]
 
 [target.aarch64-pc-windows-msvc]
-rustflags = []
+rustflags = [
+  "-C",
+  "prefer-dynamic",
+]
 
 [target.wasm32-unknown-unknown]
 rustflags = []
