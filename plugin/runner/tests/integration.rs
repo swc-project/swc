@@ -17,16 +17,18 @@ fn test_resolve_1() {
         "console.log('Foo')",
     );
 
+    assert_js_plugin(
+        &path,
+        "{ \"printError\": true, \"usePrivateIdent\": false }",
+        "console.log('Foo')",
+        "console.log('Foo')",
+    );
+
     panic!("todo")
 }
 
 fn assert_js_plugin(plugin_path: &Path, config: &str, input: &str, expected: &str) {
     run_test2(false, |cm, handler| {
-        // Type annotation
-        if false {
-            return Ok(());
-        }
-
         let fm = cm.new_source_file(FileName::Anon, input.to_string());
 
         let lexer = Lexer::new(
@@ -40,9 +42,11 @@ fn assert_js_plugin(plugin_path: &Path, config: &str, input: &str, expected: &st
             err.into_diagnostic(&handler).emit();
         })?;
 
-        let res = apply_js_plugin(&m, plugin_path, config).expect("should success");
+        let _res = apply_js_plugin(&m, plugin_path, config).expect("should success");
 
-        panic!("{:?}", res)
+        // TODO: Compare res and expected
+
+        Ok(())
     })
     .unwrap();
 }
