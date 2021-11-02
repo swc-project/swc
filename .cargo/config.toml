@@ -5,8 +5,6 @@ rustdocflags = []
 rustflags = [
   "-C",
   "target-feature=+sse2",
-  "-C",
-  "prefer-dynamic",
 ]
 
 [target.aarch64-apple-darwin]

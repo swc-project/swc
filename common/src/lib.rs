@@ -11,7 +11,14 @@
 //! ## `sourcemap`
 //!
 //! Adds methods to generate web sourcemap.
+//!
+//!
+//! ## `dynamic`
+//!
+//! If this feature is enabled, `swc_common` will be built as a dynamic library
+//! (`cdylib`).
 #![deny(unused)]
+#![cfg_attr(feature = "dynamic", crate_type = "cdylib")]
 
 pub use self::{
     eq::{EqIgnoreSpan, TypeEq},
