@@ -1068,25 +1068,11 @@ where
             }
 
             Expr::Assign(b) => {
-                match &mut b.left {
-                    PatOrExpr::Expr(b) => match &**b {
-                        Expr::Ident(..) => {}
-
-                        _ => {
-                            return Ok(false);
-                        }
-                    },
-                    PatOrExpr::Pat(b) => match &mut **b {
-                        Pat::Expr(b) => match &**b {
-                            Expr::Ident(..) => {}
-                            _ => {
-                                return Ok(false);
-                            }
-                        },
-                        Pat::Ident(..) => {}
-                        _ => return Ok(false),
-                    },
-                }
+                let b_left = get_lhs_ident(&b.left);
+                let _b_left = match b_left {
+                    Some(v) => v.clone(),
+                    None => return Ok(false),
+                };
 
                 tracing::trace!("seq: Try rhs of assign with op");
                 return self.merge_sequential_expr(a, &mut b.right);
