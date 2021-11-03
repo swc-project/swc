@@ -442,11 +442,14 @@ where
         let span = self.input.cur_span()?;
         let start_pos = span.lo;
 
-        let mut has_nest_prefix = false;
+        let mut nesting_selector = None;
 
+        // TODO: move under option, because it is draft
         // This is an extension: https://drafts.csswg.org/css-nesting-1/
         if eat!(self, "&") {
-            has_nest_prefix = true;
+            nesting_selector = Some(NestingSelector {
+                span: span!(self, start_pos),
+            });
         }
 
         let type_selector = self.parse_type_selector(span).unwrap();
@@ -527,13 +530,13 @@ where
 
         let span = span!(self, start_pos);
 
-        if !has_nest_prefix && type_selector.is_none() && subclass_selectors.len() == 0 {
+        if nesting_selector.is_none() && type_selector.is_none() && subclass_selectors.len() == 0 {
             return Err(Error::new(span, ErrorKind::InvalidSelector));
         }
 
         Ok(CompoundSelector {
             span,
-            has_nest_prefix,
+            nesting_selector,
             combinator: None,
             type_selector,
             subclass_selectors,

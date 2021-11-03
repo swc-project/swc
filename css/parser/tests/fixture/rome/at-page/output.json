@@ -85,6 +85,35 @@
                       "subclassSelectors": [
                         {
                           "type": "AtSelector",
+            "prelude": [
+              {
+                "type": "ComplexSelector",
+                "span": {
+                  "start": 22,
+                  "end": 33,
+                  "ctxt": 0
+                },
+                "selectors": [
+                  {
+                    "type": "CompoundSelector",
+                    "span": {
+                      "start": 22,
+                      "end": 33,
+                      "ctxt": 0
+                    },
+                    "nestingSelector": null,
+                    "combinator": null,
+                    "typeSelector": null,
+                    "subclassSelectors": [
+                      {
+                        "type": "AtSelector",
+                        "span": {
+                          "start": 22,
+                          "end": 33,
+                          "ctxt": 0
+                        },
+                        "text": {
+                          "type": "Text",
                           "span": {
                             "start": 22,
                             "end": 33,
@@ -269,6 +298,35 @@
                       "subclassSelectors": [
                         {
                           "type": "AtSelector",
+            "prelude": [
+              {
+                "type": "ComplexSelector",
+                "span": {
+                  "start": 90,
+                  "end": 101,
+                  "ctxt": 0
+                },
+                "selectors": [
+                  {
+                    "type": "CompoundSelector",
+                    "span": {
+                      "start": 90,
+                      "end": 101,
+                      "ctxt": 0
+                    },
+                    "nestingSelector": null,
+                    "combinator": null,
+                    "typeSelector": null,
+                    "subclassSelectors": [
+                      {
+                        "type": "AtSelector",
+                        "span": {
+                          "start": 90,
+                          "end": 101,
+                          "ctxt": 0
+                        },
+                        "text": {
+                          "type": "Text",
                           "span": {
                             "start": 90,
                             "end": 101,
@@ -434,6 +492,35 @@
                       "subclassSelectors": [
                         {
                           "type": "AtSelector",
+            "prelude": [
+              {
+                "type": "ComplexSelector",
+                "span": {
+                  "start": 151,
+                  "end": 162,
+                  "ctxt": 0
+                },
+                "selectors": [
+                  {
+                    "type": "CompoundSelector",
+                    "span": {
+                      "start": 151,
+                      "end": 162,
+                      "ctxt": 0
+                    },
+                    "nestingSelector": null,
+                    "combinator": null,
+                    "typeSelector": null,
+                    "subclassSelectors": [
+                      {
+                        "type": "AtSelector",
+                        "span": {
+                          "start": 151,
+                          "end": 162,
+                          "ctxt": 0
+                        },
+                        "text": {
+                          "type": "Text",
                           "span": {
                             "start": 151,
                             "end": 162,
@@ -599,6 +686,35 @@
                       "subclassSelectors": [
                         {
                           "type": "AtSelector",
+            "prelude": [
+              {
+                "type": "ComplexSelector",
+                "span": {
+                  "start": 212,
+                  "end": 223,
+                  "ctxt": 0
+                },
+                "selectors": [
+                  {
+                    "type": "CompoundSelector",
+                    "span": {
+                      "start": 212,
+                      "end": 223,
+                      "ctxt": 0
+                    },
+                    "nestingSelector": null,
+                    "combinator": null,
+                    "typeSelector": null,
+                    "subclassSelectors": [
+                      {
+                        "type": "AtSelector",
+                        "span": {
+                          "start": 212,
+                          "end": 223,
+                          "ctxt": 0
+                        },
+                        "text": {
+                          "type": "Text",
                           "span": {
                             "start": 212,
                             "end": 223,

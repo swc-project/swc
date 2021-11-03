@@ -42,6 +42,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 0,
+            "end": 6,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 0,
+                "end": 6,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 0,
+                    "end": 6,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 0,
                       "end": 6,
@@ -110,6 +139,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 10,
+            "end": 14,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 10,
+                "end": 14,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 10,
+                    "end": 14,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 10,
                       "end": 14,
@@ -178,6 +236,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 18,
+            "end": 21,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 18,
+                "end": 21,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 18,
+                    "end": 21,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 18,
                       "end": 21,
@@ -246,6 +333,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 25,
+            "end": 38,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 25,
+                "end": 38,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 25,
+                    "end": 38,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 25,
                       "end": 38,
@@ -314,6 +430,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 42,
+            "end": 49,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 42,
+                "end": 49,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 42,
+                    "end": 49,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 42,
                       "end": 49,
@@ -382,6 +527,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 53,
+            "end": 60,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 53,
+                "end": 60,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 53,
+                    "end": 60,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 53,
                       "end": 60,
@@ -450,6 +624,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 64,
+            "end": 81,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 64,
+                "end": 81,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 64,
+                    "end": 81,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 64,
                       "end": 81,
@@ -518,6 +721,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 85,
+            "end": 90,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 85,
+                "end": 90,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 85,
+                    "end": 90,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 85,
                       "end": 90,
@@ -586,6 +818,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 94,
+            "end": 97,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 94,
+                "end": 97,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 94,
+                    "end": 97,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 94,
                       "end": 97,
@@ -654,6 +915,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 101,
+            "end": 104,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 101,
+                "end": 104,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 101,
+                    "end": 104,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 101,
                       "end": 104,
@@ -722,6 +1012,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 108,
+            "end": 111,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 108,
+                "end": 111,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 108,
+                    "end": 111,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 108,
                       "end": 111,
@@ -790,6 +1109,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 115,
+            "end": 119,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 115,
+                "end": 119,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 115,
+                    "end": 119,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 115,
                       "end": 119,
@@ -858,6 +1206,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 126,
+            "end": 130,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 126,
+                "end": 130,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 126,
+                    "end": 130,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 126,
                       "end": 130,
@@ -926,6 +1303,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 139,
+            "end": 146,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 139,
+                "end": 146,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 139,
+                    "end": 146,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 139,
                       "end": 146,
@@ -994,6 +1400,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 150,
+            "end": 160,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 150,
+                "end": 160,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 150,
+                    "end": 160,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 150,
                       "end": 160,
@@ -1062,6 +1497,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 164,
+            "end": 170,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 164,
+                "end": 170,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 164,
+                    "end": 170,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 164,
                       "end": 170,
@@ -1130,6 +1594,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 174,
+            "end": 193,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 174,
+                "end": 193,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 174,
+                    "end": 193,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 174,
                       "end": 193,
@@ -1198,6 +1691,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 197,
+            "end": 420,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 197,
+                "end": 420,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 197,
+                    "end": 420,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 197,
                       "end": 420,
@@ -1266,6 +1788,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 424,
+            "end": 427,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 424,
+                "end": 427,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 424,
+                    "end": 427,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 424,
                       "end": 427,
@@ -1334,6 +1885,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 431,
+            "end": 436,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 431,
+                "end": 436,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 431,
+                    "end": 436,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 431,
                       "end": 436,
@@ -1402,6 +1982,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 440,
+            "end": 451,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 440,
+                "end": 451,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 440,
+                    "end": 451,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 440,
                       "end": 451,
@@ -1470,6 +2079,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 455,
+            "end": 458,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 455,
+                "end": 458,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 455,
+                    "end": 458,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 455,
                       "end": 458,
@@ -1538,6 +2176,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 462,
+            "end": 467,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 462,
+                "end": 467,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 462,
+                    "end": 467,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 462,
                       "end": 467,
@@ -1606,6 +2273,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 471,
+            "end": 485,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 471,
+                "end": 485,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 471,
+                    "end": 485,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 471,
                       "end": 485,
@@ -1674,6 +2370,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 489,
+            "end": 498,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 489,
+                "end": 498,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 489,
+                    "end": 498,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 489,
                       "end": 498,
@@ -1742,6 +2467,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 502,
+            "end": 512,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 502,
+                "end": 512,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 502,
+                    "end": 512,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 502,
                       "end": 512,
@@ -1810,6 +2564,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 516,
+            "end": 545,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 516,
+                "end": 545,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 516,
+                    "end": 545,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 516,
                       "end": 545,
@@ -1878,6 +2661,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 549,
+            "end": 565,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 549,
+                "end": 565,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 549,
+                    "end": 565,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 549,
                       "end": 565,
@@ -1946,6 +2758,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 569,
+            "end": 577,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 569,
+                "end": 577,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 569,
+                    "end": 577,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 569,
                       "end": 577,
@@ -2014,6 +2855,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 581,
+            "end": 589,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 581,
+                "end": 589,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 581,
+                    "end": 589,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 581,
                       "end": 589,
@@ -2082,6 +2952,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 593,
+            "end": 601,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 593,
+                "end": 601,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 593,
+                    "end": 601,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 593,
                       "end": 601,
@@ -2150,6 +3049,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 605,
+            "end": 613,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 605,
+                "end": 613,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 605,
+                    "end": 613,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 605,
                       "end": 613,
@@ -2218,6 +3146,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 617,
+            "end": 625,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 617,
+                "end": 625,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 617,
+                    "end": 625,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 617,
                       "end": 625,
@@ -2286,6 +3243,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 629,
+            "end": 637,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 629,
+                "end": 637,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 629,
+                    "end": 637,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 629,
                       "end": 637,
@@ -2354,6 +3340,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 641,
+            "end": 649,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 641,
+                "end": 649,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 641,
+                    "end": 649,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 641,
                       "end": 649,
@@ -2422,6 +3437,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 653,
+            "end": 661,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 653,
+                "end": 661,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 653,
+                    "end": 661,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 653,
                       "end": 661,
@@ -2490,6 +3534,35 @@
                 "subclassSelectors": [
                   {
                     "type": "ClassSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 665,
+            "end": 675,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 665,
+                "end": 675,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "ClassSelector",
+                  "span": {
+                    "start": 665,
+                    "end": 675,
+                    "ctxt": 0
+                  },
+                  "text": {
+                    "type": "Text",
                     "span": {
                       "start": 665,
                       "end": 675,

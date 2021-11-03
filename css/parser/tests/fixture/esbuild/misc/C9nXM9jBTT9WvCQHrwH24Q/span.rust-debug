@@ -34,6 +34,12 @@ error: CompoundSelector
 1 | &[a] {}
   | ^^^^
 
+error: NestingSelector
+ --> $DIR/tests/fixture/esbuild/misc/C9nXM9jBTT9WvCQHrwH24Q/input.css:1:1
+  |
+1 | &[a] {}
+  | ^
+
 error: SubclassSelector
  --> $DIR/tests/fixture/esbuild/misc/C9nXM9jBTT9WvCQHrwH24Q/input.css:1:2
   |

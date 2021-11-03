@@ -31,6 +31,26 @@
             "selectors": [
               {
                 "type": "CompoundSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 0,
+            "end": 9,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 0,
+                "end": 9,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": {
+                "type": "NamespacedName",
                 "span": {
                   "start": 0,
                   "end": 9,
@@ -717,6 +737,26 @@
             "selectors": [
               {
                 "type": "CompoundSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 880,
+            "end": 917,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 880,
+                "end": 917,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": {
+                "type": "NamespacedName",
                 "span": {
                   "start": 880,
                   "end": 917,
@@ -848,6 +888,26 @@
             "selectors": [
               {
                 "type": "CompoundSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 938,
+            "end": 973,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 938,
+                "end": 973,
+                "ctxt": 0
+              },
+              "nestingSelector": null,
+              "combinator": null,
+              "typeSelector": {
+                "type": "NamespacedName",
                 "span": {
                   "start": 938,
                   "end": 973,

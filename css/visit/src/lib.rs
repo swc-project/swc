@@ -191,6 +191,17 @@ define!({
     }
 
     pub struct TypeSelector {
+        pub nesting_selector: Option<NestingSelector>,
+        pub combinator: Option<SelectorCombinator>,
+        pub type_selector: Option<NamespacedName>,
+        pub subclass_selectors: Vec<SubclassSelector>,
+    }
+
+    pub struct NestingSelector {
+        pub span: Span,
+    }
+
+    pub struct NamespacedName {
         pub span: Span,
         pub prefix: Option<Text>,
         pub name: Text,
