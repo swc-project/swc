@@ -69,6 +69,17 @@
                   "type": "TypeSelector",
                   "span": {
                     "start": 0,
+                    "start": 1,
+                    "end": 2,
+                    "ctxt": 0
+                  },
+                  "value": "*",
+                  "raw": "*"
+                },
+                "name": {
+                  "type": "Text",
+                  "span": {
+                    "start": 3,
                     "end": 4,
                     "ctxt": 0
                   },

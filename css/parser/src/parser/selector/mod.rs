@@ -98,7 +98,9 @@ where
         Ok(None)
     }
 
-    fn parse_ns_prefix(&mut self, span: Span) -> PResult<Option<Text>> {
+    fn parse_ns_prefix(&mut self) -> PResult<Option<Text>> {
+        let span = self.input.cur_span()?;
+
         if is!(self, Ident) && peeked_is!(self, "|") {
             let token = bump!(self);
             let text = match token {
@@ -139,8 +141,7 @@ where
             || is!(self, "*") && peeked_is!(self, "|")
             || is!(self, "|")
         {
-            let span = self.input.cur_span()?;
-            let prefix = self.parse_ns_prefix(span)?;
+            let prefix = self.parse_ns_prefix()?;
 
             if is!(self, Ident) {
                 let span = self.input.cur_span()?;
@@ -181,7 +182,7 @@ where
 
         let mut prefix = None;
 
-        if let Ok(result) = self.parse_ns_prefix(span) {
+        if let Ok(result) = self.parse_ns_prefix() {
             prefix = result;
         }
 
