@@ -4840,7 +4840,7 @@
                     for(i = 0; i < input.length; i++)(currentValue = input[i]) >= n && currentValue < m && (m = currentValue);
                     var handledCPCountPlusOne = handledCPCount + 1;
                     if (m - n > floor((2147483647 - delta) / handledCPCountPlusOne)) throw RangeError("Overflow: input needs wider integers to process");
-                    for(i = 0, delta += (m - n) * handledCPCountPlusOne, n = m; i < input.length; i++){
+                    for(delta += (m - n) * handledCPCountPlusOne, n = m, i = 0; i < input.length; i++){
                         if ((currentValue = input[i]) < n && ++delta > 2147483647) throw RangeError("Overflow: input needs wider integers to process");
                         if (currentValue == n) {
                             for(var q = delta, k = base;; k += base){

@@ -21,7 +21,7 @@ where
             &*seq.exprs[seq.exprs.len() - 2],
             &*seq.exprs[seq.exprs.len() - 1],
         ) {
-            (Expr::Assign(assign), Expr::Ident(ident)) => {
+            (Expr::Assign(assign @ AssignExpr { op: op!("="), .. }), Expr::Ident(ident)) => {
                 // Check if lhs is same as `ident`.
                 match &assign.left {
                     PatOrExpr::Expr(_) => {}
@@ -90,7 +90,7 @@ where
         }
 
         let assign = match e {
-            Expr::Assign(v) => v,
+            Expr::Assign(v @ AssignExpr { op: op!("="), .. }) => v,
             _ => return,
         };
 
@@ -156,7 +156,7 @@ where
 
             match (&mut *a, &mut *b) {
                 (
-                    Expr::Assign(a_assign),
+                    Expr::Assign(a_assign @ AssignExpr { op: op!("="), .. }),
                     Expr::Call(CallExpr {
                         callee: ExprOrSuper::Expr(b_callee),
                         args,
