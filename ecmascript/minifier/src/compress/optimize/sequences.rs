@@ -207,7 +207,7 @@ where
                             match &mut stmt.init {
                                 Some(VarDeclOrExpr::Expr(e)) => {
                                     if exprs.iter().all(|expr| match &**expr {
-                                        Expr::Assign(..) => true,
+                                        Expr::Assign(AssignExpr { op: op!("="), .. }) => true,
                                         _ => false,
                                     }) {
                                         let ids_used_by_exprs =
@@ -363,7 +363,7 @@ where
                 Expr::Seq(seq) => {
                     seq.exprs.len() > 1
                         && seq.exprs.iter().all(|expr| match &**expr {
-                            Expr::Assign(..) => true,
+                            Expr::Assign(AssignExpr { op: op!("="), .. }) => true,
                             _ => false,
                         })
                 }
@@ -387,7 +387,7 @@ where
                             Expr::Seq(seq) => {
                                 seq.exprs.len() > 1
                                     && seq.exprs.iter().all(|expr| match &**expr {
-                                        Expr::Assign(..) => true,
+                                        Expr::Assign(AssignExpr { op: op!("="), .. }) => true,
                                         _ => false,
                                     })
                             }
