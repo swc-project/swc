@@ -132,13 +132,14 @@ where
         Ok(None)
     }
 
-    fn parse_wq_name(&mut self, span: Span) -> PResult<(Option<Text>, Option<Text>)> {
+    fn parse_wq_name(&mut self) -> PResult<(Option<Text>, Option<Text>)> {
         let state = self.input.state();
 
         if is!(self, Ident) && peeked_is!(self, "|")
             || is!(self, "*") && peeked_is!(self, "|")
             || is!(self, "|")
         {
+            let span = self.input.cur_span()?;
             let prefix = self.parse_ns_prefix(span)?;
 
             if is!(self, Ident) {
@@ -268,13 +269,14 @@ where
         self.input.skip_ws()?;
 
         let start_span = self.input.cur_span()?;
+        let name_start_pos = self.input.cur_span()?.lo;
         let prefix;
         let name;
         let mut attr_matcher = None;
         let mut matcher_value = None;
         let mut matcher_modifier = None;
 
-        if let Ok((p, Some(n))) = self.parse_wq_name(start_span) {
+        if let Ok((p, Some(n))) = self.parse_wq_name() {
             prefix = p;
             name = n;
         } else {
