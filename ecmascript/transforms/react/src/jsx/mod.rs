@@ -4,7 +4,7 @@ use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
-use std::{iter, iter::once, mem, sync::Arc};
+use std::{borrow::Cow, iter, iter::once, mem, sync::Arc};
 use string_enum::StringEnum;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
@@ -1130,42 +1130,28 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
 
 #[inline]
 fn jsx_text_to_str(t: JsWord) -> JsWord {
-    static SPACE_NL_START: Lazy<Regex> =
-        Lazy::new(|| Regex::new("^[\t'\n\x0C\r ]*\n[\t'\n\x0C\r ]*").unwrap());
-    static SPACE_NL_END: Lazy<Regex> =
-        Lazy::new(|| Regex::new("[\t'\n\x0C\r ]*\n[\t'\n\x0C\r ]*$").unwrap());
-
-    if t == *" " {
-        return t;
-    }
-
-    if !t.contains(' ') && !t.contains('\n') {
-        return t;
-    }
-
-    let s = SPACE_NL_START.replace_all(&t, "");
-    let s = SPACE_NL_END.replace_all(&s, "");
-    let need_leading_space = s.starts_with(' ');
-    let need_trailing_space = s.ends_with(' ');
-
-    let mut buf = String::from(if need_leading_space { " " } else { "" });
-
-    for (last, s) in s
-        .split(|c: char| c != '\u{a0}' && c.is_ascii_whitespace())
-        .filter(|s| !s.is_empty())
+    static SPACE_START: Lazy<Regex> = Lazy::new(|| Regex::new("^[ ]+").unwrap());
+    static SPACE_END: Lazy<Regex> = Lazy::new(|| Regex::new("[ ]+$").unwrap());
+    t.lines()
+        .map(|s| s.replace('\t', " "))
+        .enumerate()
+        .filter(|(_, v)| v.len() != 0)
         .identify_last()
-    {
-        buf.push_str(s);
-        if !last {
-            buf.push(' ');
-        }
-    }
-
-    if need_trailing_space && !buf.ends_with(' ') {
-        buf.push(' ');
-    }
-
-    buf.into()
+        .map(|(is_last, (i, v))| {
+            let buf = Cow::from(v);
+            let buf = match i {
+                0 => buf,
+                _ => SPACE_START.replace_all(&buf, ""),
+            };
+            let buf = match is_last {
+                true => buf,
+                false => SPACE_END.replace_all(&buf, ""),
+            };
+            buf.into()
+        })
+        .collect::<Vec<String>>()
+        .join(" ")
+        .into()
 }
 
 fn jsx_attr_value_to_expr(v: JSXAttrValue) -> Option<Box<Expr>> {
