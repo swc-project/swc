@@ -284,4 +284,21 @@ impl VisitMut for ThisReplacer<'_> {
     }
 
     fn visit_mut_function(&mut self, _: &mut Function) {}
+
+    /// Don't recurse into fn
+    fn visit_mut_getter_prop(&mut self, n: &mut GetterProp) {
+        n.key.visit_mut_with(self);
+    }
+
+    /// Don't recurse into fn
+    fn visit_mut_method_prop(&mut self, n: &mut MethodProp) {
+        n.key.visit_mut_with(self);
+        n.function.visit_mut_with(self);
+    }
+
+    /// Don't recurse into fn
+    fn visit_mut_setter_prop(&mut self, n: &mut SetterProp) {
+        n.key.visit_mut_with(self);
+        n.param.visit_mut_with(self);
+    }
 }
