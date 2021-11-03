@@ -34,6 +34,12 @@ error: StyleRule
 10 | | }
    | |_^
 
+error: SelectorList
+ --> $DIR/tests/fixture/rome/calc/input.css:1:1
+  |
+1 | .style {
+  | ^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/rome/calc/input.css:1:1
   |

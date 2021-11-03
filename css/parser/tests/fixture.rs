@@ -27,7 +27,7 @@ impl Visit for AssertValid {
 
         let mut errors = vec![];
 
-        let _selectors: Vec<ComplexSelector> = parse_tokens(
+        let _selectors: SelectorList = parse_tokens(
             &s.args,
             ParserConfig {
                 parse_values: true,
@@ -339,6 +339,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(Str, visit_str);
     mtd!(StyleRule, visit_style_rule);
     mtd!(Stylesheet, visit_stylesheet);
+    mtd!(SelectorList, visit_selector_list);
     mtd!(SubclassSelector, visit_subclass_selector);
     mtd!(TagSelector, visit_tag_selector);
     mtd!(Text, visit_text);

@@ -26,6 +26,12 @@ error: StyleRule
 3 | | }
   | |_^
 
+error: SelectorList
+ --> $DIR/tests/fixture/rome/selectors/input.css:1:1
+  |
+1 | div, div + #id, div ~ #id, div > #id {
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/rome/selectors/input.css:1:1
   |
@@ -219,6 +225,12 @@ error: StyleRule
 7 | | }
   | |_^
 
+error: SelectorList
+ --> $DIR/tests/fixture/rome/selectors/input.css:5:1
+  |
+5 | .escaped\.class\.name {
+  | ^^^^^^^^^^^^^^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/rome/selectors/input.css:5:1
   |
@@ -273,6 +285,12 @@ error: StyleRule
 10 | |
 11 | | }
    | |_^
+
+error: SelectorList
+ --> $DIR/tests/fixture/rome/selectors/input.css:9:1
+  |
+9 | .class + * {
+  | ^^^^^^^^^^
 
 error: ComplexSelector
  --> $DIR/tests/fixture/rome/selectors/input.css:9:1
@@ -346,6 +364,12 @@ error: StyleRule
 14 | |   color: purple;
 15 | | }
    | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/rome/selectors/input.css:13:1
+   |
+13 | a[title] {
+   | ^^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/rome/selectors/input.css:13:1
@@ -443,6 +467,12 @@ error: StyleRule
 18 | |   color: purple;
 19 | | }
    | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/rome/selectors/input.css:17:1
+   |
+17 | a[title = "title"] {
+   | ^^^^^^^^^^^^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/rome/selectors/input.css:17:1
@@ -547,6 +577,12 @@ error: StyleRule
 23 | | }
    | |_^
 
+error: SelectorList
+  --> $DIR/tests/fixture/rome/selectors/input.css:21:1
+   |
+21 | a[title~="title" i] {
+   | ^^^^^^^^^^^^^^^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/rome/selectors/input.css:21:1
    |
@@ -649,6 +685,12 @@ error: StyleRule
 26 | |     color: purple;
 27 | | }
    | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/rome/selectors/input.css:25:1
+   |
+25 | a[title = "title"][href*="image/*" S] {
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/rome/selectors/input.css:25:1
@@ -781,6 +823,12 @@ error: StyleRule
 30 | | }
    | |_^
 
+error: SelectorList
+  --> $DIR/tests/fixture/rome/selectors/input.css:29:1
+   |
+29 | p:nth-last-of-type(2) {
+   | ^^^^^^^^^^^^^^^^^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/rome/selectors/input.css:29:1
    |
@@ -856,6 +904,12 @@ error: StyleRule
 32 | / :lang(en, ko) {
 33 | | }
    | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/rome/selectors/input.css:32:1
+   |
+32 | :lang(en, ko) {
+   | ^^^^^^^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/rome/selectors/input.css:32:1
@@ -939,6 +993,12 @@ error: StyleRule
 36 | | }
    | |_^
 
+error: SelectorList
+  --> $DIR/tests/fixture/rome/selectors/input.css:35:1
+   |
+35 | ::pseudo-elem() {
+   | ^^^^^^^^^^^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/rome/selectors/input.css:35:1
    |
@@ -996,6 +1056,12 @@ error: StyleRule
 38 | / ::pseudo-elem(a, b) {
 39 | | }
    | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/rome/selectors/input.css:38:1
+   |
+38 | ::pseudo-elem(a, b) {
+   | ^^^^^^^^^^^^^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/rome/selectors/input.css:38:1

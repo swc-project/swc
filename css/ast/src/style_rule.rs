@@ -1,10 +1,10 @@
-use crate::{ComplexSelector, Text, Tokens, Value};
+use crate::{SelectorList, Text, Tokens, Value};
 use swc_common::{ast_node, Span};
 
 #[ast_node("StyleRule")]
 pub struct StyleRule {
     pub span: Span,
-    pub selectors: Vec<ComplexSelector>,
+    pub selectors: SelectorList,
     pub block: Block,
 }
 

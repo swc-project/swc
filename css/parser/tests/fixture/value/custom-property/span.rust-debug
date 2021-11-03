@@ -34,6 +34,12 @@ error: StyleRule
 21 | | }
    | |_^
 
+error: SelectorList
+ --> $DIR/tests/fixture/value/custom-property/input.css:1:1
+  |
+1 | :root {
+  | ^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/value/custom-property/input.css:1:1
   |

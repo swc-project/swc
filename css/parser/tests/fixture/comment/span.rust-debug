@@ -31,6 +31,12 @@ error: StyleRule
 4 | | }
   | |_^
 
+error: SelectorList
+ --> $DIR/tests/fixture/comment/input.css:1:14
+  |
+1 | /* comment */a/* comment */
+  |              ^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/comment/input.css:1:14
   |
@@ -110,6 +116,12 @@ error: StyleRule
 14 | |     /* end */
 15 | | }
    | |_^
+
+error: SelectorList
+ --> $DIR/tests/fixture/comment/input.css:9:1
+  |
+9 | div {
+  | ^^^
 
 error: ComplexSelector
  --> $DIR/tests/fixture/comment/input.css:9:1
@@ -213,6 +225,12 @@ error: StyleRule
 20 | |     /* c */
 21 | | }
    | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/comment/input.css:18:1
+   |
+18 | a {
+   | ^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/comment/input.css:18:1

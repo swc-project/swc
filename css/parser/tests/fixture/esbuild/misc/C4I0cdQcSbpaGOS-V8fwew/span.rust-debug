@@ -16,6 +16,12 @@ error: StyleRule
 1 | a { value: #0h\61sh }
   | ^^^^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/C4I0cdQcSbpaGOS-V8fwew/input.css:1:1
+  |
+1 | a { value: #0h\61sh }
+  | ^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/C4I0cdQcSbpaGOS-V8fwew/input.css:1:1
   |

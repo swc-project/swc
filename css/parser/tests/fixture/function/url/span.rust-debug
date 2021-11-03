@@ -34,6 +34,12 @@ error: StyleRule
 43 | | }
    | |_^
 
+error: SelectorList
+ --> $DIR/tests/fixture/function/url/input.css:1:1
+  |
+1 | a {
+  | ^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/function/url/input.css:1:1
   |

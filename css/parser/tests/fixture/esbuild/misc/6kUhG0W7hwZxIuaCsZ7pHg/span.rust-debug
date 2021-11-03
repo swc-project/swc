@@ -16,6 +16,12 @@ error: StyleRule
 1 | a:after { content: 'a\62 c' }
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/6kUhG0W7hwZxIuaCsZ7pHg/input.css:1:1
+  |
+1 | a:after { content: 'a\62 c' }
+  | ^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/6kUhG0W7hwZxIuaCsZ7pHg/input.css:1:1
   |

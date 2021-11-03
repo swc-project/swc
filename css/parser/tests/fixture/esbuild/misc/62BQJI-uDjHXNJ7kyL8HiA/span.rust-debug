@@ -16,6 +16,12 @@ error: StyleRule
 1 | [attr\7e=x] {}
   | ^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/62BQJI-uDjHXNJ7kyL8HiA/input.css:1:1
+  |
+1 | [attr\7e=x] {}
+  | ^^^^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/62BQJI-uDjHXNJ7kyL8HiA/input.css:1:1
   |

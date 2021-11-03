@@ -16,6 +16,12 @@ error: StyleRule
 1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1
+  |
+1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
+  | ^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1
   |

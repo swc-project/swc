@@ -16,6 +16,12 @@ error: StyleRule
 1 | a { value: url(\61 bc) }
   | ^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/gPpnAqOuxEdLAEJjFaUEkg/input.css:1:1
+  |
+1 | a { value: url(\61 bc) }
+  | ^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/gPpnAqOuxEdLAEJjFaUEkg/input.css:1:1
   |
