@@ -161,6 +161,7 @@ function serializeStyles(args, registered, mergedProps) {
 
     if (strings == null || strings.raw === undefined) {
         stringMode = false;
+        console.log('stringMode = false')
         styles += handleInterpolation(mergedProps, registered, strings);
     } else {
         if (false) { }
@@ -168,6 +169,7 @@ function serializeStyles(args, registered, mergedProps) {
         styles += strings[0];
     } // we start at 1 since we've already handled the first arg
 
+    console.log(`Styles: ${styles}`)
 
     for (var i = 1; i < args.length; i++) {
         styles += handleInterpolation(mergedProps, registered, args[i]);
@@ -178,6 +180,8 @@ function serializeStyles(args, registered, mergedProps) {
             styles += strings[i];
         }
     }
+
+    console.log(`Styles: ${styles}`)
 
     var sourceMap;
 
