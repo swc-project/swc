@@ -529,14 +529,15 @@ test!(
                                     3
                                 ]
                             ].map(_asyncToGenerator(regeneratorRuntime.mark(function _callee(param) {
-                                var _param = _slicedToArray(param, 1), a = _param[0];
+                                var _param, a;
                                 return regeneratorRuntime.wrap(function _callee$(_ctx) {
                                     while(1)switch(_ctx.prev = _ctx.next){
                                         case 0:
+                                            _param = _slicedToArray(param, 1), a = _param[0];
                                             return _ctx.abrupt("return", Promise.resolve().then(function() {
                                                 return a * 2;
                                             }));
-                                        case 1:
+                                        case 2:
                                         case "end":
                                             return _ctx.stop();
                                     }
