@@ -197,6 +197,8 @@ function serializeStyles(args, registered, mergedProps) {
             match[1];
     }
 
+    console.log(`styles = ${styles}`)
+    console.log(`identifierName = ${identifierName}`)
     var name = hash_browser_esm(styles) + identifierName;
 
     if (false) { }
