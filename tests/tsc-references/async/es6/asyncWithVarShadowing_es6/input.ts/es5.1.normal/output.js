@@ -45,6 +45,9 @@ function _extends() {
     };
     return _extends.apply(this, arguments);
 }
+function _iterableToArray(iter) {
+    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+}
 function _iterableToArrayLimit(arr, i) {
     var _arr = [];
     var _n = true;
@@ -72,6 +75,9 @@ function _nonIterableRest() {
 }
 function _slicedToArray(arr, i) {
     return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
+}
+function _toArray(arr) {
+    return _arrayWithHoles(arr) || _iterableToArray(arr) || _nonIterableRest();
 }
 function _fn1() {
     _fn1 = _asyncToGenerator(regeneratorRuntime.mark(function _callee(x) {
@@ -169,8 +175,7 @@ function _fn6() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    var ref;
-                    ref = y, x = ref.x, z = ref.z, ref;
+                    x = y.x, z = y.z;
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -184,12 +189,11 @@ function fn6(x) {
 }
 function _fn7() {
     _fn7 = _asyncToGenerator(regeneratorRuntime.mark(function _callee(x) {
-        var x;
+        var _x, x;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    var ref, ref1;
-                    ref = y, ref1 = ref.x, x = ref1 === void 0 ? y : ref1, ref;
+                    _x = y.x, x = _x === void 0 ? y : _x;
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -207,8 +211,7 @@ function _fn8() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    var ref;
-                    ref = y, x = ref.z, ref;
+                    x = y.z;
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -226,8 +229,7 @@ function _fn9() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    var ref;
-                    ref = y, x = ref.z.x, ref;
+                    x = y.z.x;
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -241,13 +243,11 @@ function fn9(x) {
 }
 function _fn10() {
     _fn10 = _asyncToGenerator(regeneratorRuntime.mark(function _callee(x) {
-        var x;
+        var tmp, x;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            var ref;
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    var ref2;
-                    ref2 = y, ref = y, x = ref.x, ref2;
+                    tmp = y.z, x = (tmp === void 0 ? y : tmp).x;
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -280,12 +280,11 @@ function fn11(x) {
 }
 function _fn12() {
     _fn12 = _asyncToGenerator(regeneratorRuntime.mark(function _callee(x) {
-        var x;
+        var _y, x;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    var ref;
-                    ref = y, x = ref[0], ref;
+                    _y = _slicedToArray(y, 1), x = _y[0];
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -299,12 +298,11 @@ function fn12(x) {
 }
 function _fn13() {
     _fn13 = _asyncToGenerator(regeneratorRuntime.mark(function _callee(x) {
-        var x;
+        var _y, tmp, x;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    var ref, ref3;
-                    ref = y, ref3 = ref[0], x = ref3 === void 0 ? y : ref3, ref;
+                    _y = _slicedToArray(y, 1), tmp = _y[0], x = tmp === void 0 ? y : tmp;
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -318,12 +316,11 @@ function fn13(x) {
 }
 function _fn14() {
     _fn14 = _asyncToGenerator(regeneratorRuntime.mark(function _callee(x) {
-        var x;
+        var _y, x;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    var ref;
-                    ref = y, x = ref[1], ref;
+                    _y = _slicedToArray(y, 2), x = _y[1];
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -337,12 +334,11 @@ function fn14(x) {
 }
 function _fn15() {
     _fn15 = _asyncToGenerator(regeneratorRuntime.mark(function _callee(x) {
-        var x;
+        var _y, x;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    var ref;
-                    ref = y, x = ref.slice(0), ref;
+                    _y = _toArray(y), x = _y.slice(0);
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -356,12 +352,11 @@ function fn15(x) {
 }
 function _fn16() {
     _fn16 = _asyncToGenerator(regeneratorRuntime.mark(function _callee(x) {
-        var x;
+        var _y, ref, x;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    var ref, ref4;
-                    ref = y, ref4 = ref[0], x = ref4[0], ref4, ref;
+                    _y = _slicedToArray(y, 1), ref = _slicedToArray(_y[0], 1), x = ref[0];
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -375,12 +370,11 @@ function fn16(x) {
 }
 function _fn17() {
     _fn17 = _asyncToGenerator(regeneratorRuntime.mark(function _callee(x) {
-        var x;
+        var _y, tmp, ref, x;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    var ref, ref5, ref6;
-                    ref = y, ref5 = ref[0], ref6 = ref5 === void 0 ? y : ref5, x = ref6[0], ref6, ref;
+                    _y = _slicedToArray(y, 1), tmp = _y[0], ref = _slicedToArray(tmp === void 0 ? y : tmp, 1), x = ref[0];
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -394,13 +388,13 @@ function fn17(x) {
 }
 function _fn18() {
     _fn18 = _asyncToGenerator(regeneratorRuntime.mark(function _callee(param) {
-        var x = param.x;
-        var x;
+        var x, x;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
+                    x = param.x;
                     ;
-                case 1:
+                case 2:
                 case "end":
                     return _ctx.stop();
             }
@@ -413,13 +407,13 @@ function fn18(_) {
 }
 function _fn19() {
     _fn19 = _asyncToGenerator(regeneratorRuntime.mark(function _callee(param) {
-        var _param = _slicedToArray(param, 1), x = _param[0];
-        var x;
+        var _param, x, x;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
+                    _param = _slicedToArray(param, 1), x = _param[0];
                     ;
-                case 1:
+                case 2:
                 case "end":
                     return _ctx.stop();
             }
@@ -556,13 +550,13 @@ function fn25(x) {
 }
 function _fn26() {
     _fn26 = _asyncToGenerator(regeneratorRuntime.mark(function _callee(x) {
-        var x2;
+        var x2, x2;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
                     try {
                     } catch (param) {
-                        var x2 = param.x;
+                        x2 = param.x;
                         ;
                     }
                 case 1:

@@ -37,17 +37,18 @@ var A = function() {
             });
         };
     })(regeneratorRuntime.mark(function _callee() {
-        for(var obj, _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+        var _len, args, _key, obj, _args = arguments;
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    return _ctx.next = 2, Promise.resolve();
-                case 2:
+                    for(_len = _args.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = _args[_key];
+                    return _ctx.next = 3, Promise.resolve();
+                case 3:
                     obj = _defineProperty({
                     }, "a", function() {
                         return _this;
                     });
-                case 3:
+                case 4:
                 case "end":
                     return _ctx.stop();
             }
