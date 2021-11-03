@@ -721,7 +721,7 @@ where
     }
 
     #[emitter]
-    fn emit_namespaced_name(&mut self, n: &NamespacedName) -> Result {
+    fn emit_type_selector(&mut self, n: &TypeSelector) -> Result {
         if let Some(prefix) = &n.prefix {
             emit!(self, prefix);
             punct!(self, "|");

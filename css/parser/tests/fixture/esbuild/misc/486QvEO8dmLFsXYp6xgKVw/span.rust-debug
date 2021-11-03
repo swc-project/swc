@@ -34,7 +34,7 @@ error: CompoundSelector
 1 | a { value: #\30hash }
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/esbuild/misc/486QvEO8dmLFsXYp6xgKVw/input.css:1:1
   |
 1 | a { value: #\30hash }

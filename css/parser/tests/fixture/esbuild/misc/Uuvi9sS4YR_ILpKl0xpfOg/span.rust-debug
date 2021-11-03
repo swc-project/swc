@@ -34,7 +34,7 @@ error: CompoundSelector
 1 | a { value: url(a\62 c) }
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:1
   |
 1 | a { value: url(a\62 c) }

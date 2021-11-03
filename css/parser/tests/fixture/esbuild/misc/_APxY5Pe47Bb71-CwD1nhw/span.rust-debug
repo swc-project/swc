@@ -34,7 +34,7 @@ error: CompoundSelector
 1 | a { color: #AABBCDFF }
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/esbuild/misc/_APxY5Pe47Bb71-CwD1nhw/input.css:1:1
   |
 1 | a { color: #AABBCDFF }

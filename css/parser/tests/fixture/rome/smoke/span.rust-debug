@@ -45,7 +45,7 @@ error: CompoundSelector
 2 | body {
   | ^^^^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/rome/smoke/input.css:2:1
   |
 2 | body {

@@ -34,7 +34,7 @@ error: CompoundSelector
 1 | a { value: @\6beyword }
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:1
   |
 1 | a { value: @\6beyword }

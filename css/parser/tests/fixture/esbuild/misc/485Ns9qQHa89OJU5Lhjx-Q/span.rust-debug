@@ -34,7 +34,7 @@ error: CompoundSelector
 1 | a { value: \69 dent }
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/esbuild/misc/485Ns9qQHa89OJU5Lhjx-Q/input.css:1:1
   |
 1 | a { value: \69 dent }

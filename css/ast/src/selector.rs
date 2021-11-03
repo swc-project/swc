@@ -43,6 +43,12 @@ pub enum SelectorCombinator {
 
 #[ast_node("NamespacedName")]
 pub struct NamespacedName {
+    pub type_selector: Option<TypeSelector>,
+    pub subclass_selectors: Vec<SubclassSelector>,
+}
+
+#[ast_node("TypeSelector")]
+pub struct TypeSelector {
     pub span: Span,
     ///	If present, this is an identifier or "*" and is followed by a "|"
     /// character
@@ -68,6 +74,23 @@ pub enum SubclassSelector {
 
     #[tag("AtSelector")]
     At(AtSelector),
+}
+
+#[ast_node("AttributeSelector")]
+pub struct AttrSelector {
+    pub span: Span,
+    pub name: TypeSelector,
+    pub op: Option<AttrSelectorOp>,
+    pub value: Option<Str>,
+    pub modifier: Option<char>,
+}
+
+#[ast_node("PseudoSelector")]
+pub struct PseudoSelector {
+    pub span: Span,
+    pub is_element: bool,
+    pub name: Text,
+    pub args: Tokens,
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]

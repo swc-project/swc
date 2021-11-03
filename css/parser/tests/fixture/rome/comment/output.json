@@ -31,6 +31,26 @@
             "selectors": [
               {
                 "type": "CompoundSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 20,
+            "end": 21,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 20,
+                "end": 21,
+                "ctxt": 0
+              },
+              "hasNestPrefix": false,
+              "combinator": null,
+              "typeSelector": {
+                "type": "TypeSelector",
                 "span": {
                   "start": 20,
                   "end": 21,
@@ -130,6 +150,26 @@
             "selectors": [
               {
                 "type": "CompoundSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 56,
+            "end": 57,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 56,
+                "end": 57,
+                "ctxt": 0
+              },
+              "hasNestPrefix": false,
+              "combinator": null,
+              "typeSelector": {
+                "type": "TypeSelector",
                 "span": {
                   "start": 56,
                   "end": 57,
@@ -229,6 +269,26 @@
             "selectors": [
               {
                 "type": "CompoundSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 92,
+            "end": 93,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 92,
+                "end": 93,
+                "ctxt": 0
+              },
+              "hasNestPrefix": false,
+              "combinator": null,
+              "typeSelector": {
+                "type": "TypeSelector",
                 "span": {
                   "start": 92,
                   "end": 93,

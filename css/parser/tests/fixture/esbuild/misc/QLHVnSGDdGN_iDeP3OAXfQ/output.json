@@ -42,6 +42,35 @@
                 "subclassSelectors": [
                   {
                     "type": "AttributeSelector",
+      "selectors": [
+        {
+          "type": "ComplexSelector",
+          "span": {
+            "start": 0,
+            "end": 11,
+            "ctxt": 0
+          },
+          "selectors": [
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 0,
+                "end": 11,
+                "ctxt": 0
+              },
+              "hasNestPrefix": false,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "AttributeSelector",
+                  "span": {
+                    "start": 0,
+                    "end": 11,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "TypeSelector",
                     "span": {
                       "start": 0,
                       "end": 11,

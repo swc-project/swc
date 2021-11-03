@@ -922,7 +922,7 @@ error: CompoundSelector
 7 |     a {
   |     ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/rome/media/condition/input.css:7:2
   |
 7 |     a {

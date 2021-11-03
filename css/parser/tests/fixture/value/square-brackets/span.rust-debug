@@ -52,7 +52,7 @@ error: CompoundSelector
 1 | div {
   | ^^^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/value/square-brackets/input.css:1:1
   |
 1 | div {

@@ -330,7 +330,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(FnValue, visit_fn_value);
     mtd!(HashValue, visit_hash_value);
     mtd!(IdSelector, visit_id_selector);
-    mtd!(NamespacedName, visit_namespaced_name);
+    mtd!(TypeSelector, visit_type_selector);
     mtd!(Num, visit_num);
     mtd!(PercentValue, visit_percent_value);
     mtd!(Declaration, visit_declaration);

@@ -40,7 +40,7 @@ error: CompoundSelector
 1 | article p {}
   | ^^^^^^^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/combinators/input.css:1:1
   |
 1 | article p {}
@@ -58,7 +58,7 @@ error: CompoundSelector
 1 | article p {}
   |         ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/combinators/input.css:1:9
   |
 1 | article p {}
@@ -106,7 +106,7 @@ error: CompoundSelector
 2 | article   p   {}
   | ^^^^^^^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/combinators/input.css:2:1
   |
 2 | article   p   {}
@@ -124,7 +124,7 @@ error: CompoundSelector
 2 | article   p   {}
   |           ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/combinators/input.css:2:11
   |
 2 | article   p   {}
@@ -172,7 +172,7 @@ error: CompoundSelector
 3 | article > p {}
   | ^^^^^^^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/combinators/input.css:3:1
   |
 3 | article > p {}
@@ -190,7 +190,7 @@ error: CompoundSelector
 3 | article > p {}
   |           ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/combinators/input.css:3:11
   |
 3 | article > p {}
@@ -238,7 +238,7 @@ error: CompoundSelector
 4 | article    >    p    {}
   | ^^^^^^^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/combinators/input.css:4:1
   |
 4 | article    >    p    {}
@@ -256,7 +256,7 @@ error: CompoundSelector
 4 | article    >    p    {}
   |                 ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/combinators/input.css:4:17
   |
 4 | article    >    p    {}
@@ -304,7 +304,7 @@ error: CompoundSelector
 5 | p + img {}
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/combinators/input.css:5:1
   |
 5 | p + img {}
@@ -322,7 +322,7 @@ error: CompoundSelector
 5 | p + img {}
   |     ^^^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/combinators/input.css:5:5
   |
 5 | p + img {}
@@ -370,7 +370,7 @@ error: CompoundSelector
 6 | p   +   img {}
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/combinators/input.css:6:1
   |
 6 | p   +   img {}
@@ -388,7 +388,7 @@ error: CompoundSelector
 6 | p   +   img {}
   |         ^^^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/combinators/input.css:6:9
   |
 6 | p   +   img {}
@@ -436,7 +436,7 @@ error: CompoundSelector
 7 | p ~ img {}
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/combinators/input.css:7:1
   |
 7 | p ~ img {}
@@ -454,7 +454,7 @@ error: CompoundSelector
 7 | p ~ img {}
   |     ^^^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/combinators/input.css:7:5
   |
 7 | p ~ img {}
@@ -502,7 +502,7 @@ error: CompoundSelector
 8 | p    ~    img {}
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/combinators/input.css:8:1
   |
 8 | p    ~    img {}
@@ -520,7 +520,7 @@ error: CompoundSelector
 8 | p    ~    img {}
   |           ^^^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/combinators/input.css:8:11
   |
 8 | p    ~    img {}
@@ -568,7 +568,7 @@ error: CompoundSelector
 9 | article > p > a {}
   | ^^^^^^^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/combinators/input.css:9:1
   |
 9 | article > p > a {}
@@ -586,7 +586,7 @@ error: CompoundSelector
 9 | article > p > a {}
   |           ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/combinators/input.css:9:11
   |
 9 | article > p > a {}
@@ -604,7 +604,7 @@ error: CompoundSelector
 9 | article > p > a {}
   |               ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/combinators/input.css:9:15
   |
 9 | article > p > a {}

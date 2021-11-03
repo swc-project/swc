@@ -34,7 +34,7 @@ error: CompoundSelector
 1 | a:after { content: 'a\b' }
   | ^^^^^^^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/esbuild/misc/2nNBhRWO2cNcBJf09zDxjw/input.css:1:1
   |
 1 | a:after { content: 'a\b' }

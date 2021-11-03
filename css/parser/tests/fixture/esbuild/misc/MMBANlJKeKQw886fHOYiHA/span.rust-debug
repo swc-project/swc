@@ -34,7 +34,7 @@ error: CompoundSelector
 1 | a { value: 10\32x }
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/esbuild/misc/MMBANlJKeKQw886fHOYiHA/input.css:1:1
   |
 1 | a { value: 10\32x }

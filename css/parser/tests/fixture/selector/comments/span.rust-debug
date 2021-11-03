@@ -41,7 +41,7 @@ error: CompoundSelector
 1 | /* { } */a b {}
   |          ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:1:10
   |
 1 | /* { } */a b {}
@@ -59,7 +59,7 @@ error: CompoundSelector
 1 | /* { } */a b {}
   |            ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:1:12
   |
 1 | /* { } */a b {}
@@ -107,7 +107,7 @@ error: CompoundSelector
 2 | /* test */a b {}
   |           ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:2:11
   |
 2 | /* test */a b {}
@@ -125,7 +125,7 @@ error: CompoundSelector
 2 | /* test */a b {}
   |             ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:2:13
   |
 2 | /* test */a b {}
@@ -173,7 +173,7 @@ error: CompoundSelector
 3 | /* { } */ a b {}
   |           ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:3:11
   |
 3 | /* { } */ a b {}
@@ -191,7 +191,7 @@ error: CompoundSelector
 3 | /* { } */ a b {}
   |             ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:3:13
   |
 3 | /* { } */ a b {}
@@ -239,7 +239,7 @@ error: CompoundSelector
 4 | /* test */ a b {}
   |            ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:4:12
   |
 4 | /* test */ a b {}
@@ -257,7 +257,7 @@ error: CompoundSelector
 4 | /* test */ a b {}
   |              ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:4:14
   |
 4 | /* test */ a b {}
@@ -305,7 +305,7 @@ error: CompoundSelector
 5 | a/* { } */b {}
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:5:1
   |
 5 | a/* { } */b {}
@@ -323,7 +323,7 @@ error: CompoundSelector
 5 | a/* { } */b {}
   |           ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:5:11
   |
 5 | a/* { } */b {}
@@ -371,7 +371,7 @@ error: CompoundSelector
 6 | a/* test */b {}
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:6:1
   |
 6 | a/* test */b {}
@@ -389,7 +389,7 @@ error: CompoundSelector
 6 | a/* test */b {}
   |            ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:6:12
   |
 6 | a/* test */b {}
@@ -437,7 +437,7 @@ error: CompoundSelector
 7 | a /* { } */ b {}
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:7:1
   |
 7 | a /* { } */ b {}
@@ -455,7 +455,7 @@ error: CompoundSelector
 7 | a /* { } */ b {}
   |             ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:7:13
   |
 7 | a /* { } */ b {}
@@ -503,7 +503,7 @@ error: CompoundSelector
 8 | a /* test */ b {}
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:8:1
   |
 8 | a /* test */ b {}
@@ -521,7 +521,7 @@ error: CompoundSelector
 8 | a /* test */ b {}
   |              ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:8:14
   |
 8 | a /* test */ b {}
@@ -569,7 +569,7 @@ error: CompoundSelector
 9 | a b/* { } */ {}
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:9:1
   |
 9 | a b/* { } */ {}
@@ -587,7 +587,7 @@ error: CompoundSelector
 9 | a b/* { } */ {}
   |   ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:9:3
   |
 9 | a b/* { } */ {}
@@ -635,7 +635,7 @@ error: CompoundSelector
 10 | a b/* test */ {}
    | ^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/selector/comments/input.css:10:1
    |
 10 | a b/* test */ {}
@@ -653,7 +653,7 @@ error: CompoundSelector
 10 | a b/* test */ {}
    |   ^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/selector/comments/input.css:10:3
    |
 10 | a b/* test */ {}
@@ -701,7 +701,7 @@ error: CompoundSelector
 11 | a b /* { } */ {}
    | ^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/selector/comments/input.css:11:1
    |
 11 | a b /* { } */ {}
@@ -719,7 +719,7 @@ error: CompoundSelector
 11 | a b /* { } */ {}
    |   ^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/selector/comments/input.css:11:3
    |
 11 | a b /* { } */ {}
@@ -767,7 +767,7 @@ error: CompoundSelector
 12 | a b /* test */ {}
    | ^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/selector/comments/input.css:12:1
    |
 12 | a b /* test */ {}
@@ -785,7 +785,7 @@ error: CompoundSelector
 12 | a b /* test */ {}
    |   ^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/selector/comments/input.css:12:3
    |
 12 | a b /* test */ {}
@@ -833,7 +833,7 @@ error: CompoundSelector
 13 | a b/* { } */{}
    | ^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/selector/comments/input.css:13:1
    |
 13 | a b/* { } */{}
@@ -851,7 +851,7 @@ error: CompoundSelector
 13 | a b/* { } */{}
    |   ^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/selector/comments/input.css:13:3
    |
 13 | a b/* { } */{}
@@ -899,7 +899,7 @@ error: CompoundSelector
 14 | a b/* test */{}
    | ^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/selector/comments/input.css:14:1
    |
 14 | a b/* test */{}
@@ -917,7 +917,7 @@ error: CompoundSelector
 14 | a b/* test */{}
    |   ^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/selector/comments/input.css:14:3
    |
 14 | a b/* test */{}
@@ -965,7 +965,7 @@ error: CompoundSelector
 15 | a/* test */,/* test */b{}
    | ^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/selector/comments/input.css:15:1
    |
 15 | a/* test */,/* test */b{}
@@ -989,7 +989,7 @@ error: CompoundSelector
 15 | a/* test */,/* test */b{}
    |                       ^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/selector/comments/input.css:15:23
    |
 15 | a/* test */,/* test */b{}
@@ -1037,7 +1037,7 @@ error: CompoundSelector
 16 | a /* test */ , /* test */ b {}
    | ^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/selector/comments/input.css:16:1
    |
 16 | a /* test */ , /* test */ b {}
@@ -1061,7 +1061,7 @@ error: CompoundSelector
 16 | a /* test */ , /* test */ b {}
    |                           ^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/selector/comments/input.css:16:27
    |
 16 | a /* test */ , /* test */ b {}
