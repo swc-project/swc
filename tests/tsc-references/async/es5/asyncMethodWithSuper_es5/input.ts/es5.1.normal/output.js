@@ -300,7 +300,7 @@ var B = /*#__PURE__*/ function(A) {
                     return _get(_getPrototypeOf(B.prototype), "x", _this11);
                 };
                 return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-                    var f, a, b;
+                    var f, a, b, ref, ref1;
                     return regeneratorRuntime.wrap(function _callee$(_ctx) {
                         while(1)switch(_ctx.prev = _ctx.next){
                             case 0:
@@ -312,17 +312,17 @@ var B = /*#__PURE__*/ function(A) {
                                 b = _super_method2();
                                 _super_x3(f);
                                 _super_method3(f);
-                                var ref;
+                                ;
                                 // destructuring assign with property access
                                 (ref = {
                                     f: f
                                 }, _super_x4() = ref.f, ref);
-                                var ref1;
+                                ;
                                 // destructuring assign with element access
                                 (ref1 = {
                                     f: f
                                 }, _super_method4() = ref1.f, ref1);
-                            case 9:
+                            case 11:
                             case "end":
                                 return _ctx.stop();
                         }
