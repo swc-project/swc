@@ -14,7 +14,9 @@ use std::mem::take;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{contains_this_expr, ident::IdentLike, undefined, ExprExt, Id, StmtLike};
+use swc_ecma_utils::{
+    contains_this_expr, ident::IdentLike, undefined, ExprExt, Id, StmtLike, UsageFinder,
+};
 use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 use tracing::{span, Level};
 
@@ -1069,10 +1071,14 @@ where
 
             Expr::Assign(b) => {
                 let b_left = get_lhs_ident(&b.left);
-                let _b_left = match b_left {
+                let b_left = match b_left {
                     Some(v) => v.clone(),
                     None => return Ok(false),
                 };
+
+                if UsageFinder::find(&b_left, &b.right) {
+                    return Err(());
+                }
 
                 tracing::trace!("seq: Try rhs of assign with op");
                 return self.merge_sequential_expr(a, &mut b.right);

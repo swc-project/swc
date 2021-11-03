@@ -47,7 +47,7 @@ var cursor, hyphenateRegex = /[A-Z]|^ms/g, animationRegex = /_EMO_([^_]+?)_([^]*
 }, isCustomProperty = function(property) {
     return 45 === property.charCodeAt(1);
 }, labelPattern = /label:\s*([^\s;\n{]+)\s*(;|$)/g, hash_browser_esm = function(str) {
-    for(var k, h = 0, i = 0, len = str.length; len >= 4; ++i, len -= 4)h = (65535 & (k ^= (k = (65535 & (k = 255 & str.charCodeAt(i) | (255 & str.charCodeAt(++i)) << 8 | (255 & str.charCodeAt(++i)) << 16 | (255 & str.charCodeAt(++i)) << 24)) * 1540483477 + ((k >>> 16) * 59797 << 16)) >>> 24)) * 1540483477 + ((k >>> 16) * 59797 << 16) ^ (65535 & h) * 1540483477 + ((h >>> 16) * 59797 << 16);
+    for(var k, h = 0, i = 0, len = str.length; len >= 4; ++i, len -= 4)k = (65535 & (k = 255 & str.charCodeAt(i) | (255 & str.charCodeAt(++i)) << 8 | (255 & str.charCodeAt(++i)) << 16 | (255 & str.charCodeAt(++i)) << 24)) * 1540483477 + ((k >>> 16) * 59797 << 16), k ^= k >>> 24, h = (65535 & k) * 1540483477 + ((k >>> 16) * 59797 << 16) ^ (65535 & h) * 1540483477 + ((h >>> 16) * 59797 << 16);
     switch(len){
         case 3:
             h ^= (255 & str.charCodeAt(i + 2)) << 16;
