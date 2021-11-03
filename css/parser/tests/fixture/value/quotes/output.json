@@ -731,6 +731,18 @@
                     "end": 881,
                     "ctxt": 0
                   },
+                  "value": "a",
+                  "raw": "a"
+                }
+              },
+              "subclassSelectors": [
+                {
+                  "type": "AttributeSelector",
+                  "span": {
+                    "start": 881,
+                    "end": 917,
+                    "ctxt": 0
+                  },
                   "prefix": null,
                   "name": {
                     "type": "Text",
@@ -769,6 +781,16 @@
                         "value": "title",
                         "raw": "title"
                       }
+                    "value": "title",
+                    "raw": "title"
+                  },
+                  "matcher": "=",
+                  "value": {
+                    "type": "String",
+                    "span": {
+                      "start": 888,
+                      "end": 916,
+                      "ctxt": 0
                     },
                     "op": "=",
                     "value": {
@@ -870,6 +892,18 @@
                     "end": 939,
                     "ctxt": 0
                   },
+                  "value": "a",
+                  "raw": "a"
+                }
+              },
+              "subclassSelectors": [
+                {
+                  "type": "AttributeSelector",
+                  "span": {
+                    "start": 939,
+                    "end": 973,
+                    "ctxt": 0
+                  },
                   "prefix": null,
                   "name": {
                     "type": "Text",
@@ -908,6 +942,16 @@
                         "value": "title",
                         "raw": "title"
                       }
+                    "value": "title",
+                    "raw": "title"
+                  },
+                  "matcher": "=",
+                  "value": {
+                    "type": "String",
+                    "span": {
+                      "start": 946,
+                      "end": 972,
+                      "ctxt": 0
                     },
                     "op": "=",
                     "value": {

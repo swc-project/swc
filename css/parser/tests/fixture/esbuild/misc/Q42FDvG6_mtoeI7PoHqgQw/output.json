@@ -45,6 +45,30 @@
                     "end": 1,
                     "ctxt": 0
                   },
+                  "value": "a",
+                  "raw": "a"
+                }
+              },
+              "subclassSelectors": []
+            },
+            {
+              "type": "CompoundSelector",
+              "span": {
+                "start": 2,
+                "end": 5,
+                "ctxt": 0
+              },
+              "hasNestPrefix": false,
+              "combinator": null,
+              "typeSelector": null,
+              "subclassSelectors": [
+                {
+                  "type": "AttributeSelector",
+                  "span": {
+                    "start": 2,
+                    "end": 5,
+                    "ctxt": 0
+                  },
                   "prefix": null,
                   "name": {
                     "type": "Text",
@@ -106,6 +130,18 @@
           }
         ]
       },
+                    "value": "b",
+                    "raw": "b"
+                  },
+                  "matcher": null,
+                  "value": null,
+                  "modifier": null
+                }
+              ]
+            }
+          ]
+        }
+      ],
       "block": {
         "type": "Block",
         "span": {

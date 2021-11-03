@@ -212,11 +212,17 @@ define!({
         At(AtSelector),
     }
 
+    pub enum AttrSelectorValue {
+        Str(Str),
+        Text(Text),
+    }
+
     pub struct AttrSelector {
         pub span: Span,
-        pub name: NamespacedName,
-        pub op: Option<AttrSelectorOp>,
-        pub value: Option<Str>,
+        pub prefix: Option<Text>,
+        pub name: Text,
+        pub matcher: Option<AttrSelectorMatcher>,
+        pub value: Option<AttrSelectorValue>,
         pub modifier: Option<char>,
     }
 

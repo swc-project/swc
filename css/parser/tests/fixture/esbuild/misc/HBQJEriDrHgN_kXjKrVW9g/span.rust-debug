@@ -46,12 +46,6 @@ error: AttrSelector
 1 | [ns|\61ttr] {}
   | ^^^^^^^^^^^
 
-error: NamespacedName
- --> $DIR/tests/fixture/esbuild/misc/HBQJEriDrHgN_kXjKrVW9g/input.css:1:2
-  |
-1 | [ns|\61ttr] {}
-  |  ^^^^^^^^^
-
 error: Text
  --> $DIR/tests/fixture/esbuild/misc/HBQJEriDrHgN_kXjKrVW9g/input.css:1:2
   |

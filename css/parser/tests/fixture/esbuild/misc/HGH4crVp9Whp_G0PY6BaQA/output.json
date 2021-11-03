@@ -45,6 +45,18 @@
                     "end": 1,
                     "ctxt": 0
                   },
+                  "value": "a",
+                  "raw": "a"
+                }
+              },
+              "subclassSelectors": [
+                {
+                  "type": "AttributeSelector",
+                  "span": {
+                    "start": 1,
+                    "end": 4,
+                    "ctxt": 0
+                  },
                   "prefix": null,
                   "name": {
                     "type": "Text",
@@ -94,6 +106,18 @@
           }
         ]
       },
+                    "value": "b",
+                    "raw": "b"
+                  },
+                  "matcher": null,
+                  "value": null,
+                  "modifier": null
+                }
+              ]
+            }
+          ]
+        }
+      ],
       "block": {
         "type": "Block",
         "span": {

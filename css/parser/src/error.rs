@@ -39,10 +39,10 @@ impl Error {
             ErrorKind::InvalidCharsetAtRule => "Invalid @charset at-rule".into(),
             ErrorKind::InvalidTypeSelector => "Invalid type selector".into(),
             ErrorKind::InvalidSelector => "Invalid selector".into(),
-            ErrorKind::InvalidAttrName => "Invalid attribute name".into(),
-            ErrorKind::ExpectedIdentOrStrForAttrSelectorOp => {
-                "Expected an identifier or a string after an attribute selector operator".into()
-            }
+            ErrorKind::InvalidAttrSelectorName => "Invalid attribute name".into(),
+            ErrorKind::InvalidAttrSelectorMatcher => "Invalid attribute matcher".into(),
+            ErrorKind::InvalidAttrSelectorMatcherValue => "Invalid attribute matcher value".into(),
+            ErrorKind::InvalidAttrSelectorModifier => "Invalid attribute modifier".into(),
             ErrorKind::ExpectedNumber => "Expected a number".into(),
             ErrorKind::InvalidSupportQuery => "Invalid support query".into(),
             ErrorKind::InvalidKeyframeSelector => "Invalid keyframe selector".into(),
@@ -71,9 +71,11 @@ pub enum ErrorKind {
     InvalidCharsetAtRule,
     InvalidTypeSelector,
     InvalidSelector,
-    InvalidAttrName,
     InvalidDeclarationValue,
-    ExpectedIdentOrStrForAttrSelectorOp,
+    InvalidAttrSelectorName,
+    InvalidAttrSelectorMatcher,
+    InvalidAttrSelectorMatcherValue,
+    InvalidAttrSelectorModifier,
     ExpectedNumber,
     InvalidSupportQuery,
     InvalidKeyframeSelector,

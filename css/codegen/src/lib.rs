@@ -745,19 +745,33 @@ where
     }
 
     #[emitter]
+    fn emit_attr_selector_value(&mut self, n: &AttrSelectorValue) -> Result {
+        match n {
+            AttrSelectorValue::Str(n) => emit!(self, n),
+            AttrSelectorValue::Text(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
     fn emit_attr_selector(&mut self, n: &AttrSelector) -> Result {
         punct!(self, "[");
 
+        if let Some(prefix) = &n.prefix {
+            emit!(self, prefix);
+            punct!(self, "|");
+        }
+
         emit!(self, n.name);
 
-        if let Some(op) = n.op {
-            self.wr.write_punct(None, op.as_str())?;
+        if let Some(matcher) = n.matcher {
+            self.wr.write_punct(None, matcher.as_str())?;
         }
 
         emit!(self, n.value);
 
         if let Some(m) = &n.modifier {
             space!(self);
+
             self.wr.write_raw_char(None, *m)?;
         }
 

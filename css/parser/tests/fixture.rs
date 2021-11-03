@@ -317,6 +317,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(AtRule, visit_at_rule);
     mtd!(AtSelector, visit_at_selector);
     mtd!(AtTextValue, visit_at_text_value);
+
     mtd!(AttrSelector, visit_attr_selector);
     mtd!(BinValue, visit_bin_value);
     mtd!(BraceValue, visit_brace_value);

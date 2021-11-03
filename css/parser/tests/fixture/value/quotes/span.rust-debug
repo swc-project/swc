@@ -654,12 +654,6 @@ error: AttrSelector
 32 | | o very long title"] {
    | |___________________^
 
-error: NamespacedName
-  --> $DIR/tests/fixture/value/quotes/input.css:31:3
-   |
-31 | a[title="a not s\
-   |   ^^^^^
-
 error: Text
   --> $DIR/tests/fixture/value/quotes/input.css:31:3
    |
@@ -764,12 +758,6 @@ error: AttrSelector
    |
 35 | a[title="a not so very long title"] {
    |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: NamespacedName
-  --> $DIR/tests/fixture/value/quotes/input.css:35:3
-   |
-35 | a[title="a not so very long title"] {
-   |   ^^^^^
 
 error: Text
   --> $DIR/tests/fixture/value/quotes/input.css:35:3

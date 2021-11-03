@@ -58,12 +58,6 @@ error: AttrSelector
 1 | a/**/[b] {}
   |      ^^^
 
-error: NamespacedName
- --> $DIR/tests/fixture/esbuild/misc/aEF_NRb2u-g7UzHxaKpOfA/input.css:1:7
-  |
-1 | a/**/[b] {}
-  |       ^
-
 error: Text
  --> $DIR/tests/fixture/esbuild/misc/aEF_NRb2u-g7UzHxaKpOfA/input.css:1:7
   |
