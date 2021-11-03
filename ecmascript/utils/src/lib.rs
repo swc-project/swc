@@ -58,11 +58,34 @@ impl Visit for ThisVisitor {
     /// Don't recurse into fn
     fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
 
+    /// Don't recurse into fn
+    fn visit_getter_prop(&mut self, n: &GetterProp, _: &dyn Node) {
+        n.key.visit_with(n, self);
+    }
+
+    /// Don't recurse into fn
+    fn visit_method_prop(&mut self, n: &MethodProp, _: &dyn Node) {
+        n.key.visit_with(n, self);
+        n.function.visit_with(n, self);
+    }
+
+    /// Don't recurse into fn
+    fn visit_setter_prop(&mut self, n: &SetterProp, _: &dyn Node) {
+        n.key.visit_with(n, self);
+        n.param.visit_with(n, self);
+    }
+
     fn visit_this_expr(&mut self, _: &ThisExpr, _: &dyn Node) {
         self.found = true;
     }
 }
 
+/// This does not recurse into a function if `this` is changed by it.
+///
+/// e.g.
+///
+///   - The body of an arrow expression is visited.
+///   - The body of a function expression is **not** visited.
 pub fn contains_this_expr<N>(body: &N) -> bool
 where
     N: VisitWith<ThisVisitor>,
