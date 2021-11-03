@@ -2217,6 +2217,34 @@ where
         d.visit_mut_children_with(self);
         d.definite = false;
     }
+
+    fn visit_mut_pat_or_expr(&mut self, node: &mut PatOrExpr) {
+        // Coerce bindingident to assign expr where parenthesis exists due to TsAsExpr
+        // like (warn as any) = v;
+        // We want to do this _before_ visiting children, otherwise handle_expr
+        // wipes out TsAsExpr and there's no way to distinguish between
+        // plain (x) = y vs. (x as any) = y;
+        match node {
+            PatOrExpr::Pat(pat) => match &**pat {
+                Pat::Expr(expr) => match &**expr {
+                    Expr::Paren(ParenExpr { expr, .. }) => match &**expr {
+                        Expr::TsAs(TsAsExpr { expr, .. }) => match &**expr {
+                            Expr::Ident(ident) => {
+                                *node = PatOrExpr::Pat(Box::new(Pat::Ident(ident.clone().into())));
+                            }
+                            _ => (),
+                        },
+                        _ => (),
+                    },
+                    _ => (),
+                },
+                _ => (),
+            },
+            _ => (),
+        }
+
+        node.visit_mut_children_with(self);
+    }
 }
 
 fn module_ref_to_expr(r: TsModuleRef) -> Expr {
