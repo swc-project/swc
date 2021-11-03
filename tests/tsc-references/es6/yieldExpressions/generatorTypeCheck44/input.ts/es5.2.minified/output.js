@@ -15,11 +15,23 @@ var _obj, _marked = regeneratorRuntime.mark(function() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
-                x = (_mutatorMap[yield 0] = _mutatorMap[yield 0] || {
-                }, _mutatorMap[yield 0].get = function() {
+                return _ctx.next = 3, 0;
+            case 3:
+                return _ctx.t0 = _ctx.sent, _ctx.next = 6, 0;
+            case 6:
+                if (_ctx.t2 = _ctx.sent, _ctx.t1 = _mutatorMap[_ctx.t2], _ctx.t1) {
+                    _ctx.next = 10;
+                    break;
+                }
+                _ctx.t1 = {
+                };
+            case 10:
+                return _mutatorMap[_ctx.t0] = _ctx.t1, _ctx.next = 13, 0;
+            case 13:
+                _ctx.t3 = _ctx.sent, _mutatorMap[_ctx.t3].get = function() {
                     return 0;
-                }, _defineEnumerableProperties(_obj, _mutatorMap), _obj);
-            case 1:
+                }, _defineEnumerableProperties(_obj, _mutatorMap), x = _obj;
+            case 17:
             case "end":
                 return _ctx.stop();
         }
