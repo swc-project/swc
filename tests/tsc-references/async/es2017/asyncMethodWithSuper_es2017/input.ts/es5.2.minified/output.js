@@ -181,18 +181,18 @@ var A = function() {
                     return _get(_getPrototypeOf(B.prototype), "x", _this11);
                 };
                 return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-                    var f, a, b;
+                    var f, a, b, ref, ref1;
                     return regeneratorRuntime.wrap(function(_ctx) {
                         for(;;)switch(_ctx.prev = _ctx.next){
                             case 0:
-                                var ref, ref1, _args, _args1;
+                                var _args, _args1;
                                 f = function() {
                                 }, _super_x(), _super_method(), a = _get(_getPrototypeOf(B.prototype), "x", _this6), b = _get(_getPrototypeOf(B.prototype), "x", _this7), _args = f, _set(_getPrototypeOf(B.prototype), "x", _args, _this8, !0), _args1 = f, _set(_getPrototypeOf(B.prototype), "x", _args1, _this9, !0), ref = {
                                     f: f
                                 }, _super_x1() = ref.f, ref1 = {
                                     f: f
                                 }, _super_method1() = ref1.f;
-                            case 9:
+                            case 11:
                             case "end":
                                 return _ctx.stop();
                         }

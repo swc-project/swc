@@ -28,16 +28,17 @@ function _asyncToGenerator(fn) {
         });
     };
 }
+function _throw(e) {
+    throw e;
+}
 function _foo() {
     _foo = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        var tmp, ref, ref;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            var ref;
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    var ref1;
-                    var ref2;
-                    ref1 = baz, ref = {
-                    }, ref2 = ref, ref2, ref1;
+                    tmp = baz.bar, ref = tmp === void 0 ? {
+                    } : tmp, ref = ref !== null ? ref : _throw(new TypeError("Cannot destructure undefined"));
                 case 1:
                 case "end":
                     return _ctx.stop();
