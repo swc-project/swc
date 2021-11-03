@@ -274,17 +274,21 @@ function murmur2(str) {
 
     for (; len >= 4; ++i, len -= 4) {
         k = str.charCodeAt(i) & 0xff | (str.charCodeAt(++i) & 0xff) << 8 | (str.charCodeAt(++i) & 0xff) << 16 | (str.charCodeAt(++i) & 0xff) << 24;
+        console.log(`K1: ${k}`);
         k =
             /* Math.imul(k, m): */
             (k & 0xffff) * 0x5bd1e995 + ((k >>> 16) * 0xe995 << 16);
+        console.log(`K2: ${k}`);
         k ^=
             /* k >>> r: */
             k >>> 24;
+        console.log(`K3: ${k}`);
         h =
             /* Math.imul(k, m): */
             (k & 0xffff) * 0x5bd1e995 + ((k >>> 16) * 0xe995 << 16) ^
             /* Math.imul(h, m): */
             (h & 0xffff) * 0x5bd1e995 + ((h >>> 16) * 0xe995 << 16);
+        console.log(`H: ${h}`);
     } // Handle the last few bytes of the input array
 
 
