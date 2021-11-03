@@ -18,7 +18,6 @@
 	--at-keyword-known-block: @media {};
 	--cdo-at-top-level: <!--;
 	--cdc-at-top-level: -->;
-	/*--semicolon-not-top-level: (;);*/
 	--cdo-not-top-level: (<!--);
 	--cdc-not-top-level: (-->);
 }
