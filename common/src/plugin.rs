@@ -3,11 +3,7 @@
 //! We need to replace operations related to thread-local variables in
 //! `swc_common`.
 
-use crate::{
-    errors::{DiagnosticBuilder, HANDLER},
-    syntax_pos::Mark,
-    SyntaxContext,
-};
+use crate::{syntax_pos::Mark, SyntaxContext};
 use abi_stable::{
     sabi_trait,
     std_types::{RBox, RVec},
@@ -70,7 +66,7 @@ struct PluginEmitter;
 
 #[cfg(feature = "plugin-mode")]
 impl crate::errors::Emitter for PluginEmitter {
-    fn emit(&mut self, db: &DiagnosticBuilder<'_>) {
+    fn emit(&mut self, db: &crate::errors::DiagnosticBuilder<'_>) {
         let bytes: RVec<_> = serialize_for_plugin(&db.diagnostic).unwrap().into();
 
         RT.with(|rt| rt.emit_diagnostic(bytes))
@@ -82,7 +78,7 @@ pub fn with_runtime<F, Ret>(rt: &Runtime, op: F) -> Ret
 where
     F: FnOnce() -> Ret,
 {
-    use crate::errors::Handler;
+    use crate::errors::{Handler, HANDLER};
 
     let handler = Handler::with_emitter(true, false, Box::new(PluginEmitter));
     RT.set(&rt.inner, || {
@@ -115,7 +111,7 @@ struct PluginRt {
 #[cfg(feature = "plugin-rt")]
 impl RuntimeImpl for PluginRt {
     fn emit_diagnostic(&self, db: RVec<u8>) {
-        use crate::errors::Diagnostic;
+        use crate::errors::{Diagnostic, DiagnosticBuilder, HANDLER};
 
         let diagnostic: Diagnostic =
             deserialize_for_plugin(db.as_slice()).expect("plugin send invalid diagnostic");
