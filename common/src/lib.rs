@@ -11,6 +11,21 @@
 //! ## `sourcemap`
 //!
 //! Adds methods to generate web sourcemap.
+//!
+//! ## `plugin-base`
+//!
+//! Base mode for plugins, which can be enabled by `plugin-mode` or `plugin-rt`.
+//!
+//! This mode creates a trait which can be used to override `swc_common` itself.
+//!
+//! ## `plugin-rt`
+//!
+//! Creates an implementation for the plugin trait. This implements simply
+//! invokes thread-locals declared in `swc_common`.
+//!
+//! ## `plugin-mode`
+//!
+//! Allows replacing operations related to thread-local variables with a trait.
 #![deny(unused)]
 
 pub use self::{
@@ -46,6 +61,8 @@ pub mod input;
 pub mod iter;
 pub mod macros;
 pub mod pass;
+#[cfg(feature = "plugin-base")]
+pub mod plugin;
 mod pos;
 mod rustc_data_structures;
 pub mod serializer;
@@ -53,3 +70,6 @@ pub mod source_map;
 pub mod sync;
 mod syntax_pos;
 pub mod util;
+
+#[cfg(all(not(debug_assertions), feature = "plugin-rt", feature = "plugin-mode"))]
+compile_error!("You can't enable `plugin-rt` and `plugin-mode` at the same time");

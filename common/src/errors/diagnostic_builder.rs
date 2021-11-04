@@ -27,7 +27,7 @@ use tracing::debug;
 #[derive(Clone)]
 pub struct DiagnosticBuilder<'a> {
     pub handler: &'a Handler,
-    diagnostic: Box<Diagnostic>,
+    pub(crate) diagnostic: Box<Diagnostic>,
     allow_suggestions: bool,
 }
 
