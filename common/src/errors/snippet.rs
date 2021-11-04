@@ -179,6 +179,10 @@ pub struct StyledString {
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Hash)]
+#[cfg_attr(
+    feature = "diagnostic-serde",
+    derive(serde::Serialize, serde::Deserialize)
+)]
 pub enum Style {
     MainHeaderMsg,
     HeaderMsg,

@@ -40,6 +40,12 @@ error: NestedPageRule
 1 | @page { @top-left {} }
   |         ^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:9
+  |
+1 | @page { @top-left {} }
+  |         ^^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:9
   |

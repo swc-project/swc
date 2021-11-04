@@ -16,6 +16,12 @@ error: StyleRule
 1 | & {}
   | ^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/uUAQc0UQ6MBf-ScTmlXMow/input.css:1:1
+  |
+1 | & {}
+  | ^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/uUAQc0UQ6MBf-ScTmlXMow/input.css:1:1
   |

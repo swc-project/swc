@@ -176,6 +176,10 @@ impl FileName {
 /// - they can have a *label*. In this case, the label is written next to the
 ///   mark in the snippet when we render.
 #[derive(Clone, Debug, Hash, PartialEq, Eq)]
+#[cfg_attr(
+    feature = "diagnostic-serde",
+    derive(serde::Serialize, serde::Deserialize)
+)]
 pub struct MultiSpan {
     primary_spans: Vec<Span>,
     span_labels: Vec<(Span, String)>,

@@ -22,6 +22,12 @@ error: StyleRule
 3 | | }
   | |_^
 
+error: SelectorList
+ --> $DIR/tests/fixture/value/escaped/input.css:1:1
+  |
+1 | table {
+  | ^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/value/escaped/input.css:1:1
   |

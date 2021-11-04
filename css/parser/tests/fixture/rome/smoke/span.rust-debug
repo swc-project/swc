@@ -27,6 +27,12 @@ error: StyleRule
 5 | | }
   | |_^
 
+error: SelectorList
+ --> $DIR/tests/fixture/rome/smoke/input.css:2:1
+  |
+2 | body {
+  | ^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/rome/smoke/input.css:2:1
   |

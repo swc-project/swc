@@ -16,6 +16,12 @@ error: StyleRule
 1 | [attr="--"] {}
   | ^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/QLHVnSGDdGN_iDeP3OAXfQ/input.css:1:1
+  |
+1 | [attr="--"] {}
+  | ^^^^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/QLHVnSGDdGN_iDeP3OAXfQ/input.css:1:1
   |

@@ -16,6 +16,12 @@ error: StyleRule
 1 | a { color: #ABBBCC }
   | ^^^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/CQiowK9DjojqKtlpQifemA/input.css:1:1
+  |
+1 | a { color: #ABBBCC }
+  | ^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/CQiowK9DjojqKtlpQifemA/input.css:1:1
   |

@@ -13,61 +13,69 @@
         "end": 13,
         "ctxt": 0
       },
-      "selectors": [
-        {
-          "type": "ComplexSelector",
-          "span": {
-            "start": 0,
-            "end": 10,
-            "ctxt": 0
-          },
-          "selectors": [
-            {
-              "type": "CompoundSelector",
-              "span": {
-                "start": 0,
-                "end": 10,
-                "ctxt": 0
-              },
-              "hasNestPrefix": false,
-              "combinator": null,
-              "typeSelector": null,
-              "subclassSelectors": [
-                {
-                  "type": "AttributeSelector",
-                  "span": {
-                    "start": 0,
-                    "end": 10,
-                    "ctxt": 0
-                  },
-                  "name": {
-                    "type": "NamespacedName",
+      "selectors": {
+        "type": "SelectorList",
+        "span": {
+          "start": 0,
+          "end": 10,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 0,
+              "end": 10,
+              "ctxt": 0
+            },
+            "selectors": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 0,
+                  "end": 10,
+                  "ctxt": 0
+                },
+                "hasNestPrefix": false,
+                "combinator": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "AttributeSelector",
                     "span": {
-                      "start": 1,
-                      "end": 9,
+                      "start": 0,
+                      "end": 10,
                       "ctxt": 0
                     },
-                    "prefix": null,
                     "name": {
-                      "type": "Text",
+                      "type": "NamespacedName",
                       "span": {
                         "start": 1,
                         "end": 9,
                         "ctxt": 0
                       },
-                      "value": ",attr",
-                      "raw": "\\2c attr"
-                    }
-                  },
-                  "op": null,
-                  "value": null,
-                  "modifier": null
-                }
-              ]
-            }
-          ]
-        }
-      ],
+                      "prefix": null,
+                      "name": {
+                        "type": "Text",
+                        "span": {
+                          "start": 1,
+                          "end": 9,
+                          "ctxt": 0
+                        },
+                        "value": ",attr",
+                        "raw": "\\2c attr"
+                      }
+                    },
+                    "op": null,
+                    "value": null,
+                    "modifier": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
       "block": {
         "type": "Block",
         "span": {

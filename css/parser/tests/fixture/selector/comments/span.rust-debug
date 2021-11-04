@@ -23,6 +23,12 @@ error: StyleRule
 1 | /* { } */a b {}
   |          ^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/selector/comments/input.css:1:10
+  |
+1 | /* { } */a b {}
+  |          ^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/comments/input.css:1:10
   |
@@ -82,6 +88,12 @@ error: StyleRule
   |
 2 | /* test */a b {}
   |           ^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/comments/input.css:2:11
+  |
+2 | /* test */a b {}
+  |           ^^^
 
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/comments/input.css:2:11
@@ -143,6 +155,12 @@ error: StyleRule
 3 | /* { } */ a b {}
   |           ^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/selector/comments/input.css:3:11
+  |
+3 | /* { } */ a b {}
+  |           ^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/comments/input.css:3:11
   |
@@ -202,6 +220,12 @@ error: StyleRule
   |
 4 | /* test */ a b {}
   |            ^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/comments/input.css:4:12
+  |
+4 | /* test */ a b {}
+  |            ^^^
 
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/comments/input.css:4:12
@@ -263,6 +287,12 @@ error: StyleRule
 5 | a/* { } */b {}
   | ^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/selector/comments/input.css:5:1
+  |
+5 | a/* { } */b {}
+  | ^^^^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/comments/input.css:5:1
   |
@@ -322,6 +352,12 @@ error: StyleRule
   |
 6 | a/* test */b {}
   | ^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/comments/input.css:6:1
+  |
+6 | a/* test */b {}
+  | ^^^^^^^^^^^^
 
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/comments/input.css:6:1
@@ -383,6 +419,12 @@ error: StyleRule
 7 | a /* { } */ b {}
   | ^^^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/selector/comments/input.css:7:1
+  |
+7 | a /* { } */ b {}
+  | ^^^^^^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/comments/input.css:7:1
   |
@@ -442,6 +484,12 @@ error: StyleRule
   |
 8 | a /* test */ b {}
   | ^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/comments/input.css:8:1
+  |
+8 | a /* test */ b {}
+  | ^^^^^^^^^^^^^^
 
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/comments/input.css:8:1
@@ -503,6 +551,12 @@ error: StyleRule
 9 | a b/* { } */ {}
   | ^^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/selector/comments/input.css:9:1
+  |
+9 | a b/* { } */ {}
+  | ^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/comments/input.css:9:1
   |
@@ -562,6 +616,12 @@ error: StyleRule
    |
 10 | a b/* test */ {}
    | ^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/comments/input.css:10:1
+   |
+10 | a b/* test */ {}
+   | ^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/comments/input.css:10:1
@@ -623,6 +683,12 @@ error: StyleRule
 11 | a b /* { } */ {}
    | ^^^^^^^^^^^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/selector/comments/input.css:11:1
+   |
+11 | a b /* { } */ {}
+   | ^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/comments/input.css:11:1
    |
@@ -682,6 +748,12 @@ error: StyleRule
    |
 12 | a b /* test */ {}
    | ^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/comments/input.css:12:1
+   |
+12 | a b /* test */ {}
+   | ^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/comments/input.css:12:1
@@ -743,6 +815,12 @@ error: StyleRule
 13 | a b/* { } */{}
    | ^^^^^^^^^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/selector/comments/input.css:13:1
+   |
+13 | a b/* { } */{}
+   | ^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/comments/input.css:13:1
    |
@@ -803,6 +881,12 @@ error: StyleRule
 14 | a b/* test */{}
    | ^^^^^^^^^^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/selector/comments/input.css:14:1
+   |
+14 | a b/* test */{}
+   | ^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/comments/input.css:14:1
    |
@@ -862,6 +946,12 @@ error: StyleRule
    |
 15 | a/* test */,/* test */b{}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/comments/input.css:15:1
+   |
+15 | a/* test */,/* test */b{}
+   | ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/comments/input.css:15:1
@@ -928,6 +1018,12 @@ error: StyleRule
    |
 16 | a /* test */ , /* test */ b {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/comments/input.css:16:1
+   |
+16 | a /* test */ , /* test */ b {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/comments/input.css:16:1
