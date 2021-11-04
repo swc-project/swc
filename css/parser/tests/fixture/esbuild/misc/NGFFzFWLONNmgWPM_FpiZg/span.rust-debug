@@ -16,6 +16,12 @@ error: StyleRule
 1 | a { width: +.00%; }
   | ^^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/NGFFzFWLONNmgWPM_FpiZg/input.css:1:1
+  |
+1 | a { width: +.00%; }
+  | ^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/NGFFzFWLONNmgWPM_FpiZg/input.css:1:1
   |

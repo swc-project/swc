@@ -16,6 +16,12 @@ error: StyleRule
 1 | .decl { a: b; }
   | ^^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/b6WBp-DsAKNB9xg6pcRTzQ/input.css:1:1
+  |
+1 | .decl { a: b; }
+  | ^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/b6WBp-DsAKNB9xg6pcRTzQ/input.css:1:1
   |

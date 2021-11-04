@@ -22,6 +22,12 @@ error: StyleRule
 3 | | }
   | |_^
 
+error: SelectorList
+ --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1
+  |
+1 | p :global(span:not(.test)) {
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1
   |

@@ -26,6 +26,12 @@ error: StyleRule
 3 | | }
   | |_^
 
+error: SelectorList
+ --> $DIR/tests/fixture/rome/values/input.css:1:1
+  |
+1 | p::before {
+  | ^^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/rome/values/input.css:1:1
   |
@@ -124,6 +130,12 @@ error: StyleRule
 9  | |     margin-top: -5%;
 10 | | }
    | |_^
+
+error: SelectorList
+ --> $DIR/tests/fixture/rome/values/input.css:5:1
+  |
+5 | .number {
+  | ^^^^^^^
 
 error: ComplexSelector
  --> $DIR/tests/fixture/rome/values/input.css:5:1
@@ -291,6 +303,12 @@ error: StyleRule
 14 | | }
    | |_^
 
+error: SelectorList
+  --> $DIR/tests/fixture/rome/values/input.css:12:1
+   |
+12 | foo {
+   | ^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/rome/values/input.css:12:1
    |
@@ -365,6 +383,12 @@ error: StyleRule
 18 | |     background: none
 19 | | }
    | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/rome/values/input.css:16:1
+   |
+16 | bar {
+   | ^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/rome/values/input.css:16:1

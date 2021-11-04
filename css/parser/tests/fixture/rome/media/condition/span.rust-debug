@@ -904,6 +904,12 @@ error: StyleRule
 9 | |     }
   | |_____^
 
+error: SelectorList
+ --> $DIR/tests/fixture/rome/media/condition/input.css:7:2
+  |
+7 |     a {
+  |     ^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/rome/media/condition/input.css:7:2
   |
@@ -954,6 +960,12 @@ error: StyleRule
 11 | |
 12 | |     }
    | |_____^
+
+error: SelectorList
+  --> $DIR/tests/fixture/rome/media/condition/input.css:10:2
+   |
+10 |     .style {
+   |     ^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/rome/media/condition/input.css:10:2

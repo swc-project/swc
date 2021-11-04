@@ -34,6 +34,12 @@ error: StyleRule
 21 | | }
    | |_^
 
+error: SelectorList
+ --> $DIR/tests/fixture/value/custom-property/input.css:1:1
+  |
+1 | :root {
+  | ^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/value/custom-property/input.css:1:1
   |
@@ -403,7 +409,7 @@ error: Value
 13 |     --round-block: (1, 2, 3);
    |                    ^^^^^^^^^
 
-error: ParenValue
+error: RoundBracketBlock
   --> $DIR/tests/fixture/value/custom-property/input.css:13:20
    |
 13 |     --round-block: (1, 2, 3);

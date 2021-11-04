@@ -70,6 +70,12 @@ error: NestedPageRule
 1 | @page { color: red; @top-left {} }
   |                     ^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:21
+  |
+1 | @page { color: red; @top-left {} }
+  |                     ^^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:21
   |

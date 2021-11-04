@@ -16,6 +16,12 @@ error: StyleRule
 1 | [\2a|attr] {}
   | ^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/9aSeJQPn4WHMexejaMQQoQ/input.css:1:1
+  |
+1 | [\2a|attr] {}
+  | ^^^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/9aSeJQPn4WHMexejaMQQoQ/input.css:1:1
   |

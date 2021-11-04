@@ -34,9 +34,14 @@ define!({
         pub important: Option<Span>,
     }
 
+    pub struct SelectorList {
+        pub span: Span,
+        pub children: Vec<ComplexSelector>,
+    }
+
     pub struct StyleRule {
         pub span: Span,
-        pub selectors: Vec<ComplexSelector>,
+        pub selectors: SelectorList,
         pub block: Block,
     }
 
@@ -69,7 +74,7 @@ define!({
     pub enum Value {
         SquareBracketBlock(SquareBracketBlock),
 
-        Paren(ParenValue),
+        RoundBracketBlock(RoundBracketBlock),
 
         Unit(UnitValue),
 
@@ -128,10 +133,9 @@ define!({
         pub args: Vec<Value>,
     }
 
-    pub struct ParenValue {
+    pub struct RoundBracketBlock {
         pub span: Span,
-
-        pub value: Option<Box<Value>>,
+        pub children: Option<Vec<Value>>,
     }
 
     pub struct SquareBracketBlock {
@@ -423,9 +427,7 @@ define!({
 
     pub struct NestedPageRule {
         pub span: Span,
-
-        pub prelude: Vec<ComplexSelector>,
-
+        pub prelude: SelectorList,
         pub block: PageRuleBlock,
     }
 

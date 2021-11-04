@@ -78,6 +78,8 @@ allow = [
   "BSD-3-Clause",
   "CC0-1.0",
   "ISC",
+  "Zlib",
+  "MPL-2.0",
 ]
 # List of explictly disallowed licenses
 # See https://spdx.org/licenses/ for list of possible licenses

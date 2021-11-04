@@ -55,10 +55,8 @@ where
 
     #[emitter]
     fn emit_style_rule(&mut self, n: &StyleRule) -> Result {
-        self.emit_list(&n.selectors, ListFormat::CommaDelimited)?;
-
+        emit!(self, n.selectors);
         space!(self);
-
         emit!(self, n.block);
     }
 
@@ -264,7 +262,6 @@ where
     #[emitter]
     fn emit_value(&mut self, n: &Value) -> Result {
         match n {
-            Value::Paren(n) => emit!(self, n),
             Value::Unit(n) => emit!(self, n),
             Value::Number(n) => emit!(self, n),
             Value::Percent(n) => emit!(self, n),
@@ -273,9 +270,10 @@ where
             Value::Str(n) => emit!(self, n),
             Value::Fn(n) => emit!(self, n),
             Value::Bin(n) => emit!(self, n),
-            Value::SquareBracketBlock(n) => emit!(self, n),
-            Value::Space(n) => emit!(self, n),
             Value::Brace(n) => emit!(self, n),
+            Value::SquareBracketBlock(n) => emit!(self, n),
+            Value::RoundBracketBlock(n) => emit!(self, n),
+            Value::Space(n) => emit!(self, n),
             Value::Lazy(n) => emit!(self, n),
             Value::AtText(n) => emit!(self, n),
             Value::Url(n) => emit!(self, n),
@@ -418,13 +416,6 @@ where
     }
 
     #[emitter]
-    fn emit_paren_value(&mut self, n: &ParenValue) -> Result {
-        punct!(self, "(");
-        emit!(self, n.value);
-        punct!(self, ")");
-    }
-
-    #[emitter]
     fn emit_unit_value(&mut self, n: &UnitValue) -> Result {
         emit!(self, n.value);
         emit!(self, n.unit);
@@ -460,6 +451,17 @@ where
         }
 
         punct!(self, "]");
+    }
+
+    #[emitter]
+    fn emit_round_bracket_block(&mut self, n: &RoundBracketBlock) -> Result {
+        punct!(self, "(");
+
+        if let Some(values) = &n.children {
+            self.emit_list(&values, ListFormat::CommaDelimited)?;
+        }
+
+        punct!(self, ")");
     }
 
     #[emitter]
@@ -672,9 +674,13 @@ where
 
     #[emitter]
     fn emit_nested_page_rule(&mut self, n: &NestedPageRule) -> Result {
-        self.emit_list(&n.prelude, ListFormat::CommaDelimited)?;
-
+        emit!(self, n.prelude);
         emit!(self, n.block);
+    }
+
+    #[emitter]
+    fn emit_selector_list(&mut self, n: &SelectorList) -> Result {
+        self.emit_list(&n.children, ListFormat::CommaDelimited)?;
     }
 
     #[emitter]

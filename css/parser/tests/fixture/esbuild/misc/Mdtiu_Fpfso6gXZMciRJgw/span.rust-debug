@@ -16,6 +16,12 @@ error: StyleRule
 1 | a { value: 10\65m }
   | ^^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:1
+  |
+1 | a { value: 10\65m }
+  | ^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:1
   |

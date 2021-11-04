@@ -34,6 +34,12 @@ error: StyleRule
 13 | | }
    | |_^
 
+error: SelectorList
+ --> $DIR/tests/fixture/hex-colors/input.css:1:1
+  |
+1 | a {
+  | ^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/hex-colors/input.css:1:1
   |
