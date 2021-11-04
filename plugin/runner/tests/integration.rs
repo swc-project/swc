@@ -1,5 +1,5 @@
 use std::path::Path;
-use swc_common::FileName;
+use swc_common::{errors::HANDLER, FileName};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_plugin_runner::{apply_js_plugin, resolve};
@@ -42,10 +42,13 @@ fn assert_js_plugin(plugin_path: &Path, config: &str, input: &str, expected: &st
             err.into_diagnostic(&handler).emit();
         })?;
 
-        let _res =
-            apply_js_plugin("internal-test", plugin_path, config, &m).expect("should success");
+        let _res = HANDLER.set(&handler, || {
+            apply_js_plugin("internal-test", plugin_path, config, &m).expect("should success")
+        });
 
         // TODO: Compare res and expected
+
+        println!("Worked");
 
         Ok(())
     })
