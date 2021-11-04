@@ -4,7 +4,7 @@
 //! `swc_common`.
 
 use crate::{
-    errors::{Diagnostic, DiagnosticBuilder, Emitter, HANDLER},
+    errors::{DiagnosticBuilder, Emitter, HANDLER},
     syntax_pos::Mark,
     SyntaxContext,
 };
@@ -115,6 +115,8 @@ struct PluginRt {
 #[cfg(feature = "plugin-rt")]
 impl RuntimeImpl for PluginRt {
     fn emit_diagnostic(&self, db: RVec<u8>) {
+        use crate::errors::Diagnostic;
+
         let diagnostic: Diagnostic =
             deserialize_for_plugin(db.as_slice()).expect("plugin send invalid diagnostic");
 
