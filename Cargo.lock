@@ -3191,7 +3191,7 @@ dependencies = [
  "swc_ecma_codegen",
  "swc_ecma_utils",
  "swc_ecma_visit",
- "swc_plugin",
+ "swc_plugin_api",
 ]
 
 [[package]]

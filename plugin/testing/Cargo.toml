@@ -18,4 +18,4 @@ swc_ecma_ast = {version = "0.56.0", path = "../../ecmascript/ast"}
 swc_ecma_codegen = {version = "0.78.1", path = "../../ecmascript/codegen"}
 swc_ecma_utils = {version = "0.50.0", path = "../../ecmascript/utils"}
 swc_ecma_visit = {version = "0.42.0", path = "../../ecmascript/visit"}
-swc_plugin = {version = "0.10.0", path = "../"}
+swc_plugin_api = {version = "0.1.0", path = "../api"}
