@@ -14,9 +14,9 @@ dependencies = [
 
 [[package]]
 name = "abi_stable"
-version = "0.10.2"
+version = "0.10.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "709308333aa82687b93e978aeec6c60688cdecd7bd7d0378a9825227145878c4"
+checksum = "3c8f0d5c8e09e8b591f6db9f56b006c9b9e7a44064acb274411ae51aaaa1364d"
 dependencies = [
  "abi_stable_derive",
  "abi_stable_shared",
@@ -26,6 +26,7 @@ dependencies = [
  "libloading",
  "lock_api 0.4.5",
  "parking_lot 0.11.1",
+ "paste",
  "repr_offset",
  "rustc_version 0.4.0",
  "serde",
@@ -369,6 +370,15 @@ name = "core_extensions"
 version = "1.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "79b110b7cd430bd590fa60a5ba58a383488dab61912318bfb05d968a80cdda6d"
+dependencies = [
+ "core_extensions_proc_macros",
+]
+
+[[package]]
+name = "core_extensions_proc_macros"
+version = "1.5.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c348a81513f573054124b9f10e258a654a0519b65f2dba0142307bd3c7b5b8b6"
 
 [[package]]
 name = "cpufeatures"
@@ -1453,6 +1463,12 @@ dependencies = [
  "smallvec 1.7.0",
  "winapi",
 ]
+
+[[package]]
+name = "paste"
+version = "1.0.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "acbf547ad0c65e31259204bd90935776d1c693cec2f4ff7abb7a1bbbd40dfe58"
 
 [[package]]
 name = "path-clean"
