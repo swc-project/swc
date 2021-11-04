@@ -12,12 +12,13 @@ version = "0.14.3"
 concurrent = ["parking_lot"]
 debug = []
 default = []
-plugin-base = []
+plugin-base = ["abi_stable"]
 plugin-mode = ["plugin-base"]
 plugin-rt = ["plugin-base"]
 tty-emitter = ["atty", "termcolor"]
 
 [dependencies]
+abi_stable = {version = "0.10.3", optional = true}
 ahash = "0.7.4"
 arbitrary = {version = "1", optional = true, features = ["derive"]}
 ast_node = {version = "0.7.3", path = "../macros/ast_node"}
