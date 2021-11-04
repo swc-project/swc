@@ -9,9 +9,13 @@ use anyhow::{Context, Error};
 use serde::{de::DeserializeOwned, Serialize};
 use std::any::type_name;
 
+pub struct Runtime {
+    inner: Box<dyn RuntimeImpl>,
+}
+
 /// DO NOT USE THIS. This is internal API.
 #[sabi_trait]
-pub trait Runtime {
+pub(crate) trait RuntimeImpl {
     /// Emit a structured diagnostic.
     ///
     /// - `db`: Serialized version of [Diagnostic] which is serialized using
@@ -22,7 +26,7 @@ pub trait Runtime {
 #[cfg(feature = "plugin-mode")]
 scoped_tls::scoped_thread_local!(
     /// DO NOT USE THIS VARIABLE. This is internal API.
-    pub(crate) static RT: Box<dyn Runtime>
+    pub(crate) static RT: Box<dyn RuntimeImpl>
 );
 
 #[cfg(feature = "plugin-mode")]
@@ -38,14 +42,14 @@ impl Emitter for PluginEmitter {
 }
 
 #[cfg(feature = "plugin-mode")]
-pub fn with_runtime<F>(rt: &Box<dyn 'static + Runtime>, op: F)
+pub fn with_runtime<F>(rt: &Runtime, op: F)
 where
     F: FnOnce(),
 {
     use crate::errors::{Handler, HANDLER};
 
     let handler = Handler::with_emitter(true, false, Box::new(PluginEmitter));
-    RT.set(rt, || {
+    RT.set(&rt.inner, || {
         // We proxy error reporting to the core runtime.
         HANDLER.set(&handler, || op())
     })
