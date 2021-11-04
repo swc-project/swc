@@ -94,15 +94,11 @@ walkdir = "2"
 [[example]]
 name = "usage"
 
-[profile.dev]
-rpath = true
-
 [profile.release]
 codegen-units = 1
 lto = "fat"
 # debug = true
 # opt-level = 'z'
-rpath = true
 
 [profile.bench]
 codegen-units = 1
