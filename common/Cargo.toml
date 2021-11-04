@@ -22,7 +22,7 @@ plugin-rt = ["plugin-base"]
 tty-emitter = ["atty", "termcolor"]
 
 [dependencies]
-abi_stable = {version = "0.10.3", optional = true}
+abi_stable = {version = "=0.10.2", optional = true}
 ahash = "0.7.4"
 anyhow = {version = "1.0.45", optional = true}
 arbitrary = {version = "1", optional = true, features = ["derive"]}
