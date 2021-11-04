@@ -8,17 +8,35 @@ use crate::{
     syntax_pos::Mark,
     SyntaxContext,
 };
-use abi_stable::{sabi_trait, std_types::RVec};
+use abi_stable::{
+    sabi_trait,
+    std_types::{RBox, RVec},
+    StableAbi,
+};
 use anyhow::{Context, Error};
 use serde::{de::DeserializeOwned, Serialize};
 use std::any::type_name;
 
+#[repr(transparent)]
+#[derive(StableAbi)]
 pub struct Runtime {
-    inner: Box<dyn RuntimeImpl>,
+    inner: RuntimeImpl_TO<'static, RBox<()>>,
 }
 
+#[cfg(feature = "plugin-mode")]
+scoped_tls::scoped_thread_local!(
+    /// If this variable is configured, many methods of
+    /// `swc_common` will be proxied to this variable.
+    pub(crate) static RT: RuntimeImpl_TO<'static, RBox<()>>
+);
+
+/// **INTERNAL API**
+///
+///
+/// Don't use this. This is for internal use only.
+/// This can be changed without breaking semver version bump.
 #[sabi_trait]
-pub(crate) trait RuntimeImpl {
+pub trait RuntimeImpl {
     /// Emit a structured diagnostic.
     ///
     /// - `db`: Serialized version of Diagnostic which is serialized using
@@ -47,14 +65,6 @@ pub(crate) trait RuntimeImpl {
 
     fn outer_mark_of_syntax_context(&self, ctxt: SyntaxContext) -> Mark;
 }
-
-#[cfg(feature = "plugin-mode")]
-scoped_tls::scoped_thread_local!(
-    /// If this variable is configured, many methods of
-    /// `swc_common` will be proxied to this variable.
-    pub(crate) static RT: Box<dyn RuntimeImpl>
-);
-
 #[cfg(feature = "plugin-mode")]
 struct PluginEmitter;
 
@@ -161,7 +171,11 @@ impl RuntimeImpl for PluginRt {
 
 #[cfg(feature = "plugin-rt")]
 pub fn get_runtime_for_plugin(plugin_name: String) -> Runtime {
-    Runtime {
-        inner: Box::new(PluginRt { name: plugin_name }),
-    }
+    use abi_stable::erased_types::TD_Opaque;
+
+    let rt = PluginRt { name: plugin_name };
+
+    let rt: RuntimeImpl_TO<'_, RBox<_>> = RuntimeImpl_TO::from_value(rt, TD_Opaque);
+
+    Runtime { inner: rt }
 }
