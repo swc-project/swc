@@ -8,8 +8,8 @@ pub enum Value {
     #[tag("SquareBracketBlock")]
     SquareBracketBlock(SquareBracketBlock),
 
-    #[tag("ParenValue")]
-    Paren(ParenValue),
+    #[tag("RoundBracketBlock")]
+    RoundBracketBlock(RoundBracketBlock),
 
     #[tag("UnitValue")]
     Unit(UnitValue),
@@ -91,12 +91,11 @@ pub struct FnValue {
     pub args: Vec<Value>,
 }
 
-#[ast_node("ParenValue")]
-pub struct ParenValue {
+#[ast_node("RoundBracketBlock")]
+pub struct RoundBracketBlock {
     /// Includes `(` and `)`.
     pub span: Span,
-
-    pub value: Option<Box<Value>>,
+    pub children: Option<Vec<Value>>,
 }
 
 #[ast_node("SquareBracketBlock")]

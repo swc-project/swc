@@ -465,52 +465,54 @@
             },
             "value": [
               {
-                "type": "ParenValue",
+                "type": "RoundBracketBlock",
                 "span": {
                   "start": 250,
                   "end": 259,
                   "ctxt": 0
                 },
-                "value": {
-                  "type": "CommaValues",
-                  "span": {
-                    "start": 251,
-                    "end": 258,
-                    "ctxt": 0
-                  },
-                  "values": [
-                    {
-                      "type": "Number",
-                      "span": {
-                        "start": 251,
-                        "end": 252,
-                        "ctxt": 0
-                      },
-                      "value": 1.0,
-                      "raw": "1"
+                "children": [
+                  {
+                    "type": "CommaValues",
+                    "span": {
+                      "start": 251,
+                      "end": 258,
+                      "ctxt": 0
                     },
-                    {
-                      "type": "Number",
-                      "span": {
-                        "start": 254,
-                        "end": 255,
-                        "ctxt": 0
+                    "values": [
+                      {
+                        "type": "Number",
+                        "span": {
+                          "start": 251,
+                          "end": 252,
+                          "ctxt": 0
+                        },
+                        "value": 1.0,
+                        "raw": "1"
                       },
-                      "value": 2.0,
-                      "raw": "2"
-                    },
-                    {
-                      "type": "Number",
-                      "span": {
-                        "start": 257,
-                        "end": 258,
-                        "ctxt": 0
+                      {
+                        "type": "Number",
+                        "span": {
+                          "start": 254,
+                          "end": 255,
+                          "ctxt": 0
+                        },
+                        "value": 2.0,
+                        "raw": "2"
                       },
-                      "value": 3.0,
-                      "raw": "3"
-                    }
-                  ]
-                }
+                      {
+                        "type": "Number",
+                        "span": {
+                          "start": 257,
+                          "end": 258,
+                          "ctxt": 0
+                        },
+                        "value": 3.0,
+                        "raw": "3"
+                      }
+                    ]
+                  }
+                ]
               }
             ],
             "important": null

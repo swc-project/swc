@@ -74,7 +74,7 @@ define!({
     pub enum Value {
         SquareBracketBlock(SquareBracketBlock),
 
-        Paren(ParenValue),
+        RoundBracketBlock(RoundBracketBlock),
 
         Unit(UnitValue),
 
@@ -133,10 +133,9 @@ define!({
         pub args: Vec<Value>,
     }
 
-    pub struct ParenValue {
+    pub struct RoundBracketBlock {
         pub span: Span,
-
-        pub value: Option<Box<Value>>,
+        pub children: Option<Vec<Value>>,
     }
 
     pub struct SquareBracketBlock {

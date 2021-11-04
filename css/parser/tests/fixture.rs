@@ -314,7 +314,6 @@ macro_rules! mtd {
 }
 
 impl Visit for SpanVisualizer<'_> {
-    mtd!(SquareBracketBlock, visit_square_bracket_block);
     mtd!(AtRule, visit_at_rule);
     mtd!(AtSelector, visit_at_selector);
     mtd!(AtTextValue, visit_at_text_value);
@@ -326,12 +325,13 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(ComplexSelector, visit_complex_selector);
     mtd!(CompoundSelector, visit_compound_selector);
     mtd!(Block, visit_block);
+    mtd!(RoundBracketBlock, visit_round_bracket_block);
+    mtd!(SquareBracketBlock, visit_square_bracket_block);
     mtd!(FnValue, visit_fn_value);
     mtd!(HashValue, visit_hash_value);
     mtd!(IdSelector, visit_id_selector);
     mtd!(NamespacedName, visit_namespaced_name);
     mtd!(Num, visit_num);
-    mtd!(ParenValue, visit_paren_value);
     mtd!(PercentValue, visit_percent_value);
     mtd!(Declaration, visit_declaration);
     mtd!(PseudoSelector, visit_pseudo_selector);
