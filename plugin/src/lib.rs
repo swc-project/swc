@@ -1,39 +1,18 @@
 /// Reexported for convenience.
-use abi_stable::{
-    library::RootModule,
-    package_version_strings,
-    sabi_types::VersionStrings,
-    std_types::{RResult, RStr, RString},
-    StableAbi,
-};
+use abi_stable::std_types::{RResult, RStr, RString, RVec};
 use anyhow::Context;
 use serde::de::DeserializeOwned;
+use swc_common::plugin::{deserialize_for_plugin, serialize_for_plugin};
 use swc_ecma_ast::Program;
-
-#[repr(C)]
-#[derive(StableAbi)]
-#[sabi(kind(Prefix(prefix_ref = "SwcPluginRef")))]
-#[sabi(missing_field(panic))]
-pub struct SwcPlugin {
-    #[sabi(last_prefix_field)]
-    pub process_js:
-        Option<extern "C" fn(config_str: RStr, ast_json: RString) -> RResult<RString, RString>>,
-}
-
-impl RootModule for SwcPluginRef {
-    abi_stable::declare_root_module_statics! {SwcPluginRef}
-
-    const BASE_NAME: &'static str = "swc_plugin";
-    const NAME: &'static str = "swc_plugin";
-    const VERSION_STRINGS: VersionStrings = package_version_strings!();
-}
+pub use swc_plugin_api::*;
 
 #[doc(hidden)]
 pub fn invoke_js_plugin<C, F>(
+    rt: swc_common::plugin::Runtime,
     op: fn(C) -> F,
     config_json: RStr,
-    ast_json: RString,
-) -> RResult<RString, RString>
+    ast: RVec<u8>,
+) -> RResult<RVec<u8>, RString>
 where
     C: DeserializeOwned,
     F: swc_ecma_visit::Fold,
@@ -47,31 +26,32 @@ where
         Err(err) => return RResult::RErr(format!("{:?}", err).into()),
     };
 
-    let ast =
-        serde_json::from_str(ast_json.as_str()).context("failed to deserialize ast string as json");
+    let ast = deserialize_for_plugin(ast.as_slice());
     let ast: Program = match ast {
         Ok(v) => v,
         Err(err) => return RResult::RErr(format!("{:?}", err).into()),
     };
 
-    let mut tr = op(config);
+    swc_common::plugin::with_runtime(&rt, || {
+        let mut tr = op(config);
 
-    let ast = ast.fold_with(&mut tr);
+        let ast = ast.fold_with(&mut tr);
 
-    let res = match serde_json::to_string(&ast) {
-        Ok(v) => v,
-        Err(err) => {
-            return RResult::RErr(
-                format!(
-                    "failed to serialize swc_ecma_ast::Program as json: {:?}",
-                    err
+        let res = match serialize_for_plugin(&ast) {
+            Ok(v) => v,
+            Err(err) => {
+                return RResult::RErr(
+                    format!(
+                        "failed to serialize swc_ecma_ast::Program as json: {:?}",
+                        err
+                    )
+                    .into(),
                 )
-                .into(),
-            )
-        }
-    };
+            }
+        };
 
-    RResult::ROk(res.into())
+        RResult::ROk(res.into())
+    })
 }
 
 #[macro_export]
@@ -80,13 +60,14 @@ macro_rules! define_js_plugin {
         #[abi_stable::export_root_module]
         pub fn swc_library() -> $crate::SwcPluginRef {
             extern "C" fn swc_js_plugin(
+                rt: swc_common::plugin::Runtime,
                 config_json: abi_stable::std_types::RStr,
-                ast_json: abi_stable::std_types::RString,
+                ast: abi_stable::std_types::RVec<u8>,
             ) -> abi_stable::std_types::RResult<
-                abi_stable::std_types::RString,
+                abi_stable::std_types::RVec<u8>,
                 abi_stable::std_types::RString,
             > {
-                $crate::invoke_js_plugin($fn_name, config_json, ast_json)
+                $crate::invoke_js_plugin(rt, $fn_name, config_json, ast)
             }
             use abi_stable::prefix_type::PrefixTypeTrait;
 

@@ -3,6 +3,29 @@ use is_macro::Is;
 use string_enum::StringEnum;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
+#[ast_node("SelectorList")]
+pub struct SelectorList {
+    pub span: Span,
+    pub children: Vec<ComplexSelector>,
+}
+
+#[ast_node("ComplexSelector")]
+pub struct ComplexSelector {
+    pub span: Span,
+    pub selectors: Vec<CompoundSelector>,
+}
+
+/// e.g. `foo.c1.c2`
+#[ast_node("CompoundSelector")]
+pub struct CompoundSelector {
+    pub span: Span,
+    /// "&"
+    pub has_nest_prefix: bool,
+    pub combinator: Option<SelectorCombinator>,
+    pub type_selector: Option<NamespacedName>,
+    pub subclass_selectors: Vec<SubclassSelector>,
+}
+
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
 pub enum SelectorCombinator {
     /// ` `
@@ -16,27 +39,6 @@ pub enum SelectorCombinator {
 
     /// `~`
     LaterSibling,
-}
-
-#[ast_node("ComplexSelector")]
-pub struct ComplexSelector {
-    pub span: Span,
-    pub selectors: Vec<CompoundSelector>,
-}
-
-/// e.g. `foo.c1.c2`
-#[ast_node("CompoundSelector")]
-pub struct CompoundSelector {
-    pub span: Span,
-
-    /// "&"
-    pub has_nest_prefix: bool,
-
-    pub combinator: Option<SelectorCombinator>,
-
-    pub type_selector: Option<NamespacedName>,
-
-    pub subclass_selectors: Vec<SubclassSelector>,
 }
 
 #[ast_node("NamespacedName")]

@@ -34,6 +34,12 @@ error: StyleRule
 36 | | }
    | |_^
 
+error: SelectorList
+ --> $DIR/tests/fixture/number/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/number/input.css:1:1
   |

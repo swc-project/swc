@@ -22,6 +22,12 @@ error: StyleRule
 1 | .class {}
   | ^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/selector/class/input.css:1:1
+  |
+1 | .class {}
+  | ^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/class/input.css:1:1
   |
@@ -69,6 +75,12 @@ error: StyleRule
   |
 2 | .♥ {}
   | ^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/class/input.css:2:1
+  |
+2 | .♥ {}
+  | ^^
 
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/class/input.css:2:1
@@ -118,6 +130,12 @@ error: StyleRule
 3 | .© {}
   | ^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/selector/class/input.css:3:1
+  |
+3 | .© {}
+  | ^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/class/input.css:3:1
   |
@@ -165,6 +183,12 @@ error: StyleRule
   |
 4 | .“‘’” {}
   | ^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/class/input.css:4:1
+  |
+4 | .“‘’” {}
+  | ^^^^^
 
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/class/input.css:4:1
@@ -214,6 +238,12 @@ error: StyleRule
 5 | .☺☃ {}
   | ^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/selector/class/input.css:5:1
+  |
+5 | .☺☃ {}
+  | ^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/class/input.css:5:1
   |
@@ -261,6 +291,12 @@ error: StyleRule
   |
 6 | .⌘⌥ {}
   | ^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/class/input.css:6:1
+  |
+6 | .⌘⌥ {}
+  | ^^^
 
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/class/input.css:6:1
@@ -310,6 +346,12 @@ error: StyleRule
 7 | .𝄞♪♩♫♬ {}
   | ^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/selector/class/input.css:7:1
+  |
+7 | .𝄞♪♩♫♬ {}
+  | ^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/class/input.css:7:1
   |
@@ -357,6 +399,12 @@ error: StyleRule
   |
 8 | .💩 {}
   | ^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/class/input.css:8:1
+  |
+8 | .💩 {}
+  | ^^^
 
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/class/input.css:8:1
@@ -406,6 +454,12 @@ error: StyleRule
 9 | .\? {}
   | ^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/selector/class/input.css:9:1
+  |
+9 | .\? {}
+  | ^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/class/input.css:9:1
   |
@@ -453,6 +507,12 @@ error: StyleRule
    |
 10 | .\@ {}
    | ^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:10:1
+   |
+10 | .\@ {}
+   | ^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/class/input.css:10:1
@@ -502,6 +562,12 @@ error: StyleRule
 11 | .\. {}
    | ^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:11:1
+   |
+11 | .\. {}
+   | ^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/class/input.css:11:1
    |
@@ -549,6 +615,12 @@ error: StyleRule
    |
 12 | .\3A \) {}
    | ^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:12:1
+   |
+12 | .\3A \) {}
+   | ^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/class/input.css:12:1
@@ -598,6 +670,12 @@ error: StyleRule
 13 | .\3A \`\( {}
    | ^^^^^^^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:13:1
+   |
+13 | .\3A \`\( {}
+   | ^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/class/input.css:13:1
    |
@@ -645,6 +723,12 @@ error: StyleRule
    |
 14 | .\31 23 {}
    | ^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:14:1
+   |
+14 | .\31 23 {}
+   | ^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/class/input.css:14:1
@@ -694,6 +778,12 @@ error: StyleRule
 15 | .\31 a2b3c {}
    | ^^^^^^^^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:15:1
+   |
+15 | .\31 a2b3c {}
+   | ^^^^^^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/class/input.css:15:1
    |
@@ -741,6 +831,12 @@ error: StyleRule
    |
 16 | .\<p\> {}
    | ^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:16:1
+   |
+16 | .\<p\> {}
+   | ^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/class/input.css:16:1
@@ -790,6 +886,12 @@ error: StyleRule
 17 | .\<\>\<\<\<\>\>\<\> {}
    | ^^^^^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:17:1
+   |
+17 | .\<\>\<\<\<\>\>\<\> {}
+   | ^^^^^^^^^^^^^^^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/class/input.css:17:1
    |
@@ -837,6 +939,12 @@ error: StyleRule
    |
 18 | .\+\+\+\+\+\+\+\+\+\+\[\>\+\+\+\+\+\+\+\>\+\+\+\+\+\+\+\+\+\+\>\+\+\+\>\+\<\<\<\<\-\]\>\+\+\.\>\+\.\+\+\+\+\+\+\+\.\.\+\+\+\.\>\+\+\.\<\<\+\+\+\+\+\+\+\+\+\+\+\+\+\+\+\.\>\.\+\+\+\.\-\-\-\-\-\-\.\-\-\-\-\-\-\-\-\.\>\+\.\>\. {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:18:1
+   |
+18 | .\+\+\+\+\+\+\+\+\+\+\[\>\+\+\+\+\+\+\+\>\+\+\+\+\+\+\+\+\+\+\>\+\+\+\>\+\<\<\<\<\-\]\>\+\+\.\>\+\.\+\+\+\+\+\+\+\.\.\+\+\+\.\>\+\+\.\<\<\+\+\+\+\+\+\+\+\+\+\+\+\+\+\+\.\>\.\+\+\+\.\-\-\-\-\-\-\.\-\-\-\-\-\-\-\-\.\>\+\.\>\. {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/class/input.css:18:1
@@ -886,6 +994,12 @@ error: StyleRule
 19 | .\# {}
    | ^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:19:1
+   |
+19 | .\# {}
+   | ^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/class/input.css:19:1
    |
@@ -933,6 +1047,12 @@ error: StyleRule
    |
 20 | .\#\# {}
    | ^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:20:1
+   |
+20 | .\#\# {}
+   | ^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/class/input.css:20:1
@@ -982,6 +1102,12 @@ error: StyleRule
 21 | .\#\.\#\.\# {}
    | ^^^^^^^^^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:21:1
+   |
+21 | .\#\.\#\.\# {}
+   | ^^^^^^^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/class/input.css:21:1
    |
@@ -1029,6 +1155,12 @@ error: StyleRule
    |
 22 | .\_ {}
    | ^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:22:1
+   |
+22 | .\_ {}
+   | ^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/class/input.css:22:1
@@ -1078,6 +1210,12 @@ error: StyleRule
 23 | .\{\} {}
    | ^^^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:23:1
+   |
+23 | .\{\} {}
+   | ^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/class/input.css:23:1
    |
@@ -1125,6 +1263,12 @@ error: StyleRule
    |
 24 | .\.fake\-class {}
    | ^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:24:1
+   |
+24 | .\.fake\-class {}
+   | ^^^^^^^^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/class/input.css:24:1
@@ -1174,6 +1318,12 @@ error: StyleRule
 25 | .foo\.bar {}
    | ^^^^^^^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:25:1
+   |
+25 | .foo\.bar {}
+   | ^^^^^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/class/input.css:25:1
    |
@@ -1221,6 +1371,12 @@ error: StyleRule
    |
 26 | .\3A hover {}
    | ^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:26:1
+   |
+26 | .\3A hover {}
+   | ^^^^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/class/input.css:26:1
@@ -1270,6 +1426,12 @@ error: StyleRule
 27 | .\3A hover\3A focus\3A active {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:27:1
+   |
+27 | .\3A hover\3A focus\3A active {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/class/input.css:27:1
    |
@@ -1317,6 +1479,12 @@ error: StyleRule
    |
 28 | .\[attr\=value\] {}
    | ^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:28:1
+   |
+28 | .\[attr\=value\] {}
+   | ^^^^^^^^^^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/class/input.css:28:1
@@ -1366,6 +1534,12 @@ error: StyleRule
 29 | .f\/o\/o {}
    | ^^^^^^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:29:1
+   |
+29 | .f\/o\/o {}
+   | ^^^^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/class/input.css:29:1
    |
@@ -1413,6 +1587,12 @@ error: StyleRule
    |
 30 | .f\\o\\o {}
    | ^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:30:1
+   |
+30 | .f\\o\\o {}
+   | ^^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/class/input.css:30:1
@@ -1462,6 +1642,12 @@ error: StyleRule
 31 | .f\*o\*o {}
    | ^^^^^^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:31:1
+   |
+31 | .f\*o\*o {}
+   | ^^^^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/class/input.css:31:1
    |
@@ -1509,6 +1695,12 @@ error: StyleRule
    |
 32 | .f\!o\!o {}
    | ^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:32:1
+   |
+32 | .f\!o\!o {}
+   | ^^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/class/input.css:32:1
@@ -1558,6 +1750,12 @@ error: StyleRule
 33 | .f\'o\'o {}
    | ^^^^^^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:33:1
+   |
+33 | .f\'o\'o {}
+   | ^^^^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/class/input.css:33:1
    |
@@ -1605,6 +1803,12 @@ error: StyleRule
    |
 34 | .f\~o\~o {}
    | ^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:34:1
+   |
+34 | .f\~o\~o {}
+   | ^^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/class/input.css:34:1
@@ -1654,6 +1858,12 @@ error: StyleRule
 35 | .f\+o\+o {}
    | ^^^^^^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:35:1
+   |
+35 | .f\+o\+o {}
+   | ^^^^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/class/input.css:35:1
    |
@@ -1702,6 +1912,12 @@ error: StyleRule
 36 | .-a-b-c- {}
    | ^^^^^^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:36:1
+   |
+36 | .-a-b-c- {}
+   | ^^^^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/class/input.css:36:1
    |
@@ -1749,6 +1965,12 @@ error: StyleRule
    |
 37 | .\#fake-id {}
    | ^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/class/input.css:37:1
+   |
+37 | .\#fake-id {}
+   | ^^^^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/class/input.css:37:1

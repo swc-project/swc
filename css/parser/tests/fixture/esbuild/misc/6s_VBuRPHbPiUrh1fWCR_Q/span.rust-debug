@@ -16,6 +16,12 @@ error: StyleRule
 1 | :pseudo(cl\,ss) {}
   | ^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/6s_VBuRPHbPiUrh1fWCR_Q/input.css:1:1
+  |
+1 | :pseudo(cl\,ss) {}
+  | ^^^^^^^^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/6s_VBuRPHbPiUrh1fWCR_Q/input.css:1:1
   |

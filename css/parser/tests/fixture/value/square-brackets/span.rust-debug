@@ -34,6 +34,12 @@ error: StyleRule
 7 | | }
   | |_^
 
+error: SelectorList
+ --> $DIR/tests/fixture/value/square-brackets/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/value/square-brackets/input.css:1:1
   |

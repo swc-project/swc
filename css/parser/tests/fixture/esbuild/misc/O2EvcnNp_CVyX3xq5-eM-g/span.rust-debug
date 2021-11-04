@@ -19,6 +19,12 @@ error: StyleRule
 2 | | b' }
   | |____^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:1
+  |
+1 | a:after { content: 'a\
+  | ^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:1
   |

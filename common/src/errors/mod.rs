@@ -40,6 +40,10 @@ mod snippet;
 mod styled_buffer;
 
 #[derive(Copy, Clone, Debug, PartialEq, Hash)]
+#[cfg_attr(
+    feature = "diagnostic-serde",
+    derive(serde::Serialize, serde::Deserialize)
+)]
 pub enum Applicability {
     MachineApplicable,
     HasPlaceholders,
@@ -48,6 +52,10 @@ pub enum Applicability {
 }
 
 #[derive(Clone, Debug, PartialEq, Hash)]
+#[cfg_attr(
+    feature = "diagnostic-serde",
+    derive(serde::Serialize, serde::Deserialize)
+)]
 pub struct CodeSuggestion {
     /// Each substitute can have multiple variants due to multiple
     /// applicable suggestions
@@ -91,11 +99,19 @@ pub struct CodeSuggestion {
 
 #[derive(Clone, Debug, PartialEq, Hash)]
 /// See the docs on `CodeSuggestion::substitutions`
+#[cfg_attr(
+    feature = "diagnostic-serde",
+    derive(serde::Serialize, serde::Deserialize)
+)]
 pub struct Substitution {
     pub parts: Vec<SubstitutionPart>,
 }
 
 #[derive(Clone, Debug, PartialEq, Hash)]
+#[cfg_attr(
+    feature = "diagnostic-serde",
+    derive(serde::Serialize, serde::Deserialize)
+)]
 pub struct SubstitutionPart {
     pub span: Span,
     pub snippet: String,
@@ -764,6 +780,10 @@ impl Handler {
 }
 
 #[derive(Copy, PartialEq, Clone, Hash, Debug)]
+#[cfg_attr(
+    feature = "diagnostic-serde",
+    derive(serde::Serialize, serde::Deserialize)
+)]
 pub enum Level {
     Bug,
     Fatal,

@@ -55,10 +55,8 @@ where
 
     #[emitter]
     fn emit_style_rule(&mut self, n: &StyleRule) -> Result {
-        self.emit_list(&n.selectors, ListFormat::CommaDelimited)?;
-
+        emit!(self, n.selectors);
         space!(self);
-
         emit!(self, n.block);
     }
 
@@ -676,9 +674,13 @@ where
 
     #[emitter]
     fn emit_nested_page_rule(&mut self, n: &NestedPageRule) -> Result {
-        self.emit_list(&n.prelude, ListFormat::CommaDelimited)?;
-
+        emit!(self, n.prelude);
         emit!(self, n.block);
+    }
+
+    #[emitter]
+    fn emit_selector_list(&mut self, n: &SelectorList) -> Result {
+        self.emit_list(&n.children, ListFormat::CommaDelimited)?;
     }
 
     #[emitter]

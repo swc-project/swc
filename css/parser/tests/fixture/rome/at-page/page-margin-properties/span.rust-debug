@@ -68,6 +68,12 @@ error: NestedPageRule
 4 | |     }
   | |_____^
 
+error: SelectorList
+ --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:2:2
+  |
+2 |     @top-center {
+  |     ^^^^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:2:2
   |

@@ -16,6 +16,12 @@ error: StyleRule
 1 | a:b(:c) {}
   | ^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/d1BWbOHfSbCE8-_qEz-luA/input.css:1:1
+  |
+1 | a:b(:c) {}
+  | ^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/d1BWbOHfSbCE8-_qEz-luA/input.css:1:1
   |

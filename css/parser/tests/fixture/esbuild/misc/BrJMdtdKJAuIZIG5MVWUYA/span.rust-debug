@@ -16,6 +16,12 @@ error: StyleRule
 1 | .selector { property: value\9; }
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:1
+  |
+1 | .selector { property: value\9; }
+  | ^^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:1
   |
