@@ -7,8 +7,14 @@ use std::path::Path;
 use swc_ecma_ast::Program;
 use swc_plugin_api::SwcPluginRef;
 
-pub fn apply_js_plugin(program: &Program, path: &Path) -> Result<Program, Error> {
+pub fn apply_js_plugin(
+    plugin_name: &str,
+    program: &Program,
+    path: &Path,
+) -> Result<Program, Error> {
     (|| -> Result<_, Error> {
+        let plugin_rt = swc_common::plugin::get_runtime_for_plugin(plugin_name.to_string());
+
         let plugin = SwcPluginRef::load_from_file(path).context("failed to load plugin")?;
 
         let config_json = "{}";
@@ -19,7 +25,7 @@ pub fn apply_js_plugin(program: &Program, path: &Path) -> Result<Program, Error>
             .process_js()
             .ok_or_else(|| anyhow!("the plugin does not support transforming js"))?;
 
-        let new_ast = plugin_fn(RStr::from(config_json), RString::from(ast_json));
+        let new_ast = plugin_fn(plugin_rt, RStr::from(config_json), RString::from(ast_json));
 
         let new = match new_ast {
             RResult::ROk(v) => v,

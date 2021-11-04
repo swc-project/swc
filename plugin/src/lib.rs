@@ -7,6 +7,7 @@ pub use swc_plugin_api::*;
 
 #[doc(hidden)]
 pub fn invoke_js_plugin<C, F>(
+    rt: swc_common::plugin::Runtime,
     op: fn(C) -> F,
     config_json: RStr,
     ast_json: RString,
@@ -31,24 +32,26 @@ where
         Err(err) => return RResult::RErr(format!("{:?}", err).into()),
     };
 
-    let mut tr = op(config);
+    swc_common::plugin::with_runtime(&rt, || {
+        let mut tr = op(config);
 
-    let ast = ast.fold_with(&mut tr);
+        let ast = ast.fold_with(&mut tr);
 
-    let res = match serde_json::to_string(&ast) {
-        Ok(v) => v,
-        Err(err) => {
-            return RResult::RErr(
-                format!(
-                    "failed to serialize swc_ecma_ast::Program as json: {:?}",
-                    err
+        let res = match serde_json::to_string(&ast) {
+            Ok(v) => v,
+            Err(err) => {
+                return RResult::RErr(
+                    format!(
+                        "failed to serialize swc_ecma_ast::Program as json: {:?}",
+                        err
+                    )
+                    .into(),
                 )
-                .into(),
-            )
-        }
-    };
+            }
+        };
 
-    RResult::ROk(res.into())
+        RResult::ROk(res.into())
+    })
 }
 
 #[macro_export]
@@ -57,13 +60,14 @@ macro_rules! define_js_plugin {
         #[abi_stable::export_root_module]
         pub fn swc_library() -> $crate::SwcPluginRef {
             extern "C" fn swc_js_plugin(
+                rt: swc_common::plugin::Runtime,
                 config_json: abi_stable::std_types::RStr,
                 ast_json: abi_stable::std_types::RString,
             ) -> abi_stable::std_types::RResult<
                 abi_stable::std_types::RString,
                 abi_stable::std_types::RString,
             > {
-                $crate::invoke_js_plugin($fn_name, config_json, ast_json)
+                $crate::invoke_js_plugin(rt, $fn_name, config_json, ast_json)
             }
             use abi_stable::prefix_type::PrefixTypeTrait;
 

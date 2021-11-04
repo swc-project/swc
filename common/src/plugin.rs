@@ -78,9 +78,9 @@ impl Emitter for PluginEmitter {
 }
 
 #[cfg(feature = "plugin-mode")]
-pub fn with_runtime<F>(rt: &Runtime, op: F)
+pub fn with_runtime<F, Ret>(rt: &Runtime, op: F) -> Ret
 where
-    F: FnOnce(),
+    F: FnOnce() -> Ret,
 {
     use crate::errors::Handler;
 

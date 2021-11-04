@@ -13,8 +13,13 @@ use abi_stable::{
 #[sabi(missing_field(panic))]
 pub struct SwcPlugin {
     #[sabi(last_prefix_field)]
-    pub process_js:
-        Option<extern "C" fn(config_json: RStr, ast_json: RString) -> RResult<RString, RString>>,
+    pub process_js: Option<
+        extern "C" fn(
+            rt: swc_common::plugin::Runtime,
+            config_json: RStr,
+            ast_json: RString,
+        ) -> RResult<RString, RString>,
+    >,
 }
 
 impl RootModule for SwcPluginRef {
