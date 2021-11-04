@@ -16,6 +16,6 @@ anyhow = "1.0.41"
 serde = "1.0.126"
 serde_json = "1.0.64"
 swc_atoms = {version = "0.2.7", path = "../../atoms"}
-swc_common = {version = "0.14.5", path = "../../common"}
+swc_common = {version = "0.14.5", path = "../../common", features = ["plugin-base"]}
 swc_ecma_ast = {version = "0.56.0", path = "../../ecmascript/ast"}
 swc_ecma_visit = {version = "0.42.0", path = "../../ecmascript/visit"}

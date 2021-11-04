@@ -4,7 +4,7 @@
 //! `swc_common`.
 
 use crate::{
-    errors::{DiagnosticBuilder, Emitter, HANDLER},
+    errors::{DiagnosticBuilder, HANDLER},
     syntax_pos::Mark,
     SyntaxContext,
 };
@@ -69,7 +69,7 @@ pub trait RuntimeImpl {
 struct PluginEmitter;
 
 #[cfg(feature = "plugin-mode")]
-impl Emitter for PluginEmitter {
+impl crate::errors::Emitter for PluginEmitter {
     fn emit(&mut self, db: &DiagnosticBuilder<'_>) {
         let bytes: RVec<_> = serialize_for_plugin(&db.diagnostic).unwrap().into();
 
