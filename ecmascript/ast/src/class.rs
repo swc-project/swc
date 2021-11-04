@@ -269,3 +269,12 @@ pub struct StaticBlock {
     pub span: Span,
     pub body: BlockStmt,
 }
+
+impl Take for StaticBlock {
+    fn dummy() -> Self {
+        StaticBlock {
+            span: DUMMY_SP,
+            body: Take::dummy(),
+        }
+    }
+}
