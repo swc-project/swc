@@ -42,7 +42,8 @@ fn assert_js_plugin(plugin_path: &Path, config: &str, input: &str, expected: &st
             err.into_diagnostic(&handler).emit();
         })?;
 
-        let _res = apply_js_plugin(&m, plugin_path, config).expect("should success");
+        let _res =
+            apply_js_plugin("internal-test", plugin_path, config, &m).expect("should success");
 
         // TODO: Compare res and expected
 

@@ -6,14 +6,10 @@ use abi_stable::{
 use anyhow::{anyhow, Context, Error};
 use std::path::Path;
 use swc_common::plugin::{deserialize_for_plugin, serialize_for_plugin};
-use anyhow::{anyhow, bail, Context, Error};
-use std::{
-    env::current_dir,
-    fs::read_to_string,
-    path::{Path, PathBuf},
-};
 use swc_ecma_ast::Program;
 use swc_plugin_api::{deserialize_ast, serialize_ast, SwcPluginRef};
+
+mod resolve;
 
 pub fn apply_js_plugin(
     plugin_name: &str,
@@ -21,12 +17,6 @@ pub fn apply_js_plugin(
     config_json: &str,
     program: &Program,
 ) -> Result<Program, Error> {
-use swc_ecma_ast::Program;
-use swc_plugin::SwcPluginRef;
-
-mod resolve;
-
-pub fn apply_js_plugin(program: &Program, path: &Path, config: &str) -> Result<Program, Error> {
     (|| -> Result<_, Error> {
         let plugin_rt = swc_common::plugin::get_runtime_for_plugin(plugin_name.to_string());
 
@@ -34,15 +24,12 @@ pub fn apply_js_plugin(program: &Program, path: &Path, config: &str) -> Result<P
 
         let ast_serde = serialize_ast(&program).context("failed to serialize ast")?;
         let ast_serde = serialize_for_plugin(&program).context("failed to serialize ast")?;
-        let ast_json =
-            serde_json::to_string(&program).context("failed to serialize program as json")?;
 
         let plugin_fn = plugin
             .process_js()
             .ok_or_else(|| anyhow!("the plugin does not support transforming js"))?;
 
         let new_ast = plugin_fn(plugin_rt, RStr::from(config_json), ast_serde.into());
-        let new_ast = plugin_fn(RStr::from(config), RString::from(ast_json));
 
         let new = match new_ast {
             RResult::ROk(v) => v,
