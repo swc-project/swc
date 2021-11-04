@@ -11,6 +11,21 @@
 //! ## `sourcemap`
 //!
 //! Adds methods to generate web sourcemap.
+//!
+//! ## `plugin-base`
+//!
+//! Base mode for plugins, which can be enabled by `plugin-mode` or `plugin-rt`.
+//!
+//! This mode creates a trait which can be used to override `swc_common` itself.
+//!
+//! ## `plugin-rt`
+//!
+//! Creates an implementation for the plugin trait. This implements simply
+//! invokes thread-locals declared in `swc_common`.
+//!
+//! ## `plugin-mode`
+//!
+//! Allows replacing operations related to thread-local variables with a trait.
 #![deny(unused)]
 
 pub use self::{
