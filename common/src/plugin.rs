@@ -2,6 +2,7 @@
 //!
 //! We need to replace operations related to thread-local variables in
 //! `swc_common`.
+#![allow(unused)]
 
 use crate::{syntax_pos::Mark, SyntaxContext};
 use abi_stable::{
