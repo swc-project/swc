@@ -58,6 +58,16 @@ struct MarkData {
 
 impl Mark {
     pub fn fresh(parent: Mark) -> Self {
+        #[cfg(feature = "plugin-mode")]
+        {
+            crate::plugin::RT.with(|rt| {
+                let parent = parent.as_u32();
+                let v = rt.fresh_mark(parent);
+                Mark::from_u32(v)
+            })
+        }
+
+        #[cfg(not(feature = "plugin-mode"))]
         HygieneData::with(|data| {
             data.marks.push(MarkData {
                 parent,

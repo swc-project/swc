@@ -13,19 +13,19 @@ pub struct Runtime {
     inner: Box<dyn RuntimeImpl>,
 }
 
-/// DO NOT USE THIS. This is internal API.
 #[sabi_trait]
 pub(crate) trait RuntimeImpl {
     /// Emit a structured diagnostic.
     ///
-    /// - `db`: Serialized version of [Diagnostic] which is serialized using
+    /// - `db`: Serialized version of Diagnostic which is serialized using
     ///   bincode.
     fn emit(&self, db: RVec<u8>);
+
+    fn fresh_mark(&self, parent: u32) -> u32;
 }
 
 #[cfg(feature = "plugin-mode")]
 scoped_tls::scoped_thread_local!(
-    /// DO NOT USE THIS VARIABLE. This is internal API.
     pub(crate) static RT: Box<dyn RuntimeImpl>
 );
 
