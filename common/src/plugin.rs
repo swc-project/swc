@@ -4,7 +4,7 @@
 //! `swc_common`.
 
 use crate::{
-    errors::{DiagnosticBuilder, Emitter},
+    errors::{Diagnostic, DiagnosticBuilder, Emitter, HANDLER},
     syntax_pos::Mark,
     SyntaxContext,
 };
@@ -27,7 +27,7 @@ pub(crate) trait RuntimeImpl {
 
     fn fresh_mark(&self, parent: Mark) -> Mark;
 
-    fn parent_mark(&self, parent: Mark) -> Mark;
+    fn parent_mark(&self, mar: Mark) -> Mark;
 
     fn is_mark_builtin(&self, mark: Mark) -> bool;
 
@@ -72,7 +72,7 @@ pub fn with_runtime<F>(rt: &Runtime, op: F)
 where
     F: FnOnce(),
 {
-    use crate::errors::{Handler, HANDLER};
+    use crate::errors::Handler;
 
     let handler = Handler::with_emitter(true, false, Box::new(PluginEmitter));
     RT.set(&rt.inner, || {
@@ -89,10 +89,65 @@ where
         .with_context(|| format!("failed to serialize `{}` using bincode", type_name::<T>()))
 }
 
-pub fn deserialize_for_plugin<T>(bytes: &[u8]) -> Result<Vec<u8>, Error>
+pub fn deserialize_for_plugin<T>(bytes: &[u8]) -> Result<T, Error>
 where
     T: DeserializeOwned,
 {
     bincode::deserialize(bytes)
         .with_context(|| format!("failed to deserialize `{}` using bincode", type_name::<T>()))
+}
+
+#[cfg(feature = "plugin-rt")]
+struct PluginRt;
+
+#[cfg(feature = "plugin-rt")]
+impl RuntimeImpl for PluginRt {
+    fn emit(&self, db: RVec<u8>) {
+        let diagnostic: Diagnostic =
+            deserialize_for_plugin(db.as_slice()).expect("plugin send invalid diagnostic");
+
+        HANDLER.with(|handler| {
+            DiagnosticBuilder::new_diagnostic(&handler, diagnostic).emit();
+        });
+    }
+
+    fn fresh_mark(&self, parent: Mark) -> Mark {
+        Mark::fresh(parent)
+    }
+
+    fn parent_mark(&self, mark: Mark) -> Mark {
+        mark.parent()
+    }
+
+    fn is_mark_builtin(&self, mark: Mark) -> bool {
+        mark.is_builtin()
+    }
+
+    fn set_mark_is_builtin(&self, mark: Mark, is_builtin: bool) {
+        mark.set_is_builtin(is_builtin)
+    }
+
+    fn is_mark_descendant_of(&self, mark: Mark, ancestor: Mark) -> bool {
+        mark.is_descendant_of(ancestor)
+    }
+
+    fn least_ancestor_of_marks(&self, a: Mark, b: Mark) -> Mark {
+        Mark::least_ancestor(a, b)
+    }
+
+    fn apply_mark_to_syntax_context_internal(
+        &self,
+        ctxt: SyntaxContext,
+        mark: Mark,
+    ) -> SyntaxContext {
+        ctxt.apply_mark(mark)
+    }
+
+    fn remove_mark_of_syntax_context(&self, ctxt: &mut SyntaxContext) -> Mark {
+        ctxt.remove_mark()
+    }
+
+    fn outer_mark_of_syntax_context(&self, ctxt: SyntaxContext) -> Mark {
+        ctxt.outer()
+    }
 }
