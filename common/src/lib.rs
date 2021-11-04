@@ -61,7 +61,6 @@ pub mod input;
 pub mod iter;
 pub mod macros;
 pub mod pass;
-#[doc(hidden)]
 #[cfg(feature = "plugin-base")]
 pub mod plugin;
 mod pos;
