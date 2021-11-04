@@ -561,7 +561,7 @@ impl Take for YieldExpr {
         YieldExpr {
             span: DUMMY_SP,
             arg: Take::dummy(),
-            delegate: Take::dummy(),
+            delegate: false,
         }
     }
 }
@@ -666,7 +666,14 @@ pub struct ParenExpr {
     #[serde(rename = "expression")]
     pub expr: Box<Expr>,
 }
-impl Take for ParenExpr {}
+impl Take for ParenExpr {
+    fn dummy() -> Self {
+        ParenExpr {
+            span: DUMMY_SP,
+            expr: Take::dummy(),
+        }
+    }
+}
 
 #[ast_node]
 #[allow(variant_size_differences)]
