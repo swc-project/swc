@@ -18,15 +18,14 @@
 use super::GLOBALS;
 use crate::collections::AHashMap;
 use serde::{Deserialize, Serialize};
-use std::{
-    collections::{HashMap, HashSet},
-    fmt,
-};
+use std::{collections::HashMap, fmt};
 
 /// A SyntaxContext represents a chain of macro expansions (represented by
 /// marks).
 #[derive(Clone, Copy, PartialEq, Eq, Default, PartialOrd, Ord, Hash, Serialize, Deserialize)]
 #[serde(transparent)]
+#[cfg_attr(feature = "abi_stable", repr(transparent))]
+#[cfg_attr(feature = "abi_stable", derive(abi_stable::StableAbi))]
 pub struct SyntaxContext(u32);
 
 #[cfg(feature = "arbitrary")]
@@ -106,16 +105,37 @@ impl Mark {
     #[inline]
     pub fn is_builtin(self) -> bool {
         assert_ne!(self, Mark::root());
+
+        #[cfg(feature = "plugin-mode")]
+        {
+            crate::plugin::RT.with(|rt| rt.is_mark_builtin(self))
+        }
+
+        #[cfg(not(feature = "plugin-mode"))]
         HygieneData::with(|data| data.marks[self.0 as usize].is_builtin)
     }
 
     #[inline]
     pub fn set_is_builtin(self, is_builtin: bool) {
         assert_ne!(self, Mark::root());
+
+        #[cfg(feature = "plugin-mode")]
+        {
+            crate::plugin::RT.with(|rt| rt.set_mark_is_builtin(self, is_builtin))
+        }
+
+        #[cfg(not(feature = "plugin-mode"))]
         HygieneData::with(|data| data.marks[self.0 as usize].is_builtin = is_builtin)
     }
 
+    #[allow(unused_mut)]
     pub fn is_descendant_of(mut self, ancestor: Mark) -> bool {
+        #[cfg(feature = "plugin-mode")]
+        {
+            crate::plugin::RT.with(|rt| rt.is_mark_descendant_of(self, ancestor))
+        }
+
+        #[cfg(not(feature = "plugin-mode"))]
         HygieneData::with(|data| {
             while self != ancestor {
                 if self == Mark::root() {
@@ -135,8 +155,17 @@ impl Mark {
     /// assert!(a.is_descendant_of(la))
     /// assert!(b.is_descendant_of(la))
     /// ```
+    #[allow(unused_mut)]
     pub fn least_ancestor(mut a: Mark, mut b: Mark) -> Mark {
+        #[cfg(feature = "plugin-mode")]
+        {
+            crate::plugin::RT.with(|rt| rt.least_ancestor_of_marks(a, b))
+        }
+
+        #[cfg(not(feature = "plugin-mode"))]
         HygieneData::with(|data| {
+            use std::collections::HashSet;
+
             // Compute the path from a to the root
             let mut a_path = HashSet::<Mark>::default();
             while a != Mark::root() {
@@ -222,6 +251,12 @@ impl SyntaxContext {
     }
 
     fn apply_mark_internal(self, mark: Mark) -> SyntaxContext {
+        #[cfg(feature = "plugin-mode")]
+        {
+            crate::plugin::RT.with(|rt| rt.apply_mark_to_syntax_context_internal(self, mark))
+        }
+
+        #[cfg(not(feature = "plugin-mode"))]
         HygieneData::with(|data| {
             let syntax_contexts = &mut data.syntax_contexts;
             let mut opaque = syntax_contexts[self.0 as usize].opaque;
@@ -272,6 +307,12 @@ impl SyntaxContext {
     /// the SyntaxContext for the invocation of f that created g1.
     /// Returns the mark that was removed.
     pub fn remove_mark(&mut self) -> Mark {
+        #[cfg(feature = "plugin-mode")]
+        {
+            crate::plugin::RT.with(|rt| rt.remove_mark_of_syntax_context(self))
+        }
+
+        #[cfg(not(feature = "plugin-mode"))]
         HygieneData::with(|data| {
             let outer_mark = data.syntax_contexts[self.0 as usize].outer_mark;
             *self = data.syntax_contexts[self.0 as usize].prev_ctxt;
@@ -389,6 +430,12 @@ impl SyntaxContext {
 
     #[inline]
     pub fn outer(self) -> Mark {
+        #[cfg(feature = "plugin-mode")]
+        {
+            crate::plugin::RT.with(|rt| rt.outer_mark_of_syntax_context(self))
+        }
+
+        #[cfg(not(feature = "plugin-mode"))]
         HygieneData::with(|data| data.syntax_contexts[self.0 as usize].outer_mark)
     }
 }

@@ -6,6 +6,7 @@
 use crate::{
     errors::{DiagnosticBuilder, Emitter},
     syntax_pos::Mark,
+    SyntaxContext,
 };
 use abi_stable::{sabi_trait, std_types::RVec};
 use anyhow::{Context, Error};
@@ -27,6 +28,24 @@ pub(crate) trait RuntimeImpl {
     fn fresh_mark(&self, parent: Mark) -> Mark;
 
     fn parent_mark(&self, parent: Mark) -> Mark;
+
+    fn is_mark_builtin(&self, mark: Mark) -> bool;
+
+    fn set_mark_is_builtin(&self, mark: Mark, is_builtin: bool);
+
+    fn is_mark_descendant_of(&self, mark: Mark, ancestor: Mark) -> bool;
+
+    fn least_ancestor_of_marks(&self, a: Mark, b: Mark) -> Mark;
+
+    fn apply_mark_to_syntax_context_internal(
+        &self,
+        ctxt: SyntaxContext,
+        mark: Mark,
+    ) -> SyntaxContext;
+
+    fn remove_mark_of_syntax_context(&self, ctxt: &mut SyntaxContext) -> Mark;
+
+    fn outer_mark_of_syntax_context(&self, ctxt: SyntaxContext) -> Mark;
 }
 
 #[cfg(feature = "plugin-mode")]
