@@ -42,61 +42,23 @@
                 "subclassSelectors": [
                   {
                     "type": "AttributeSelector",
-      "selectors": [
-        {
-          "type": "ComplexSelector",
-          "span": {
-            "start": 0,
-            "end": 4,
-            "ctxt": 0
-          },
-          "selectors": [
-            {
-              "type": "CompoundSelector",
-              "span": {
-                "start": 0,
-                "end": 4,
-                "ctxt": 0
-              },
-              "hasNestPrefix": true,
-              "combinator": null,
-              "typeSelector": null,
-              "subclassSelectors": [
-                {
-                  "type": "AttributeSelector",
-                  "span": {
-                    "start": 1,
-                    "end": 4,
-                    "ctxt": 0
-                  },
-                  "prefix": null,
-                  "name": {
-                    "type": "Text",
                     "span": {
                       "start": 1,
                       "end": 4,
                       "ctxt": 0
                     },
+                    "prefix": null,
                     "name": {
-                      "type": "NamespacedName",
+                      "type": "Text",
                       "span": {
                         "start": 2,
                         "end": 3,
                         "ctxt": 0
                       },
-                      "prefix": null,
-                      "name": {
-                        "type": "Text",
-                        "span": {
-                          "start": 2,
-                          "end": 3,
-                          "ctxt": 0
-                        },
-                        "value": "a",
-                        "raw": "a"
-                      }
+                      "value": "a",
+                      "raw": "a"
                     },
-                    "op": null,
+                    "matcher": null,
                     "value": null,
                     "modifier": null
                   }
@@ -106,18 +68,6 @@
           }
         ]
       },
-                    "value": "a",
-                    "raw": "a"
-                  },
-                  "matcher": null,
-                  "value": null,
-                  "modifier": null
-                }
-              ]
-            }
-          ]
-        }
-      ],
       "block": {
         "type": "Block",
         "span": {

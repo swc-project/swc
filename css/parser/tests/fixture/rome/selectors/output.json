@@ -491,18 +491,6 @@
                     "end": 89,
                     "ctxt": 0
                   },
-                  "value": "a",
-                  "raw": "a"
-                }
-              },
-              "subclassSelectors": [
-                {
-                  "type": "AttributeSelector",
-                  "span": {
-                    "start": 89,
-                    "end": 96,
-                    "ctxt": 0
-                  },
                   "prefix": null,
                   "name": {
                     "type": "Text",
@@ -523,26 +511,18 @@
                       "end": 96,
                       "ctxt": 0
                     },
+                    "prefix": null,
                     "name": {
-                      "type": "NamespacedName",
+                      "type": "Text",
                       "span": {
                         "start": 90,
                         "end": 95,
                         "ctxt": 0
                       },
-                      "prefix": null,
-                      "name": {
-                        "type": "Text",
-                        "span": {
-                          "start": 90,
-                          "end": 95,
-                          "ctxt": 0
-                        },
-                        "value": "title",
-                        "raw": "title"
-                      }
+                      "value": "title",
+                      "raw": "title"
                     },
-                    "op": null,
+                    "matcher": null,
                     "value": null,
                     "modifier": null
                   }
@@ -552,18 +532,6 @@
           }
         ]
       },
-                    "value": "title",
-                    "raw": "title"
-                  },
-                  "matcher": null,
-                  "value": null,
-                  "modifier": null
-                }
-              ]
-            }
-          ]
-        }
-      ],
       "block": {
         "type": "Block",
         "span": {
@@ -645,18 +613,6 @@
                     "end": 120,
                     "ctxt": 0
                   },
-                  "value": "a",
-                  "raw": "a"
-                }
-              },
-              "subclassSelectors": [
-                {
-                  "type": "AttributeSelector",
-                  "span": {
-                    "start": 120,
-                    "end": 137,
-                    "ctxt": 0
-                  },
                   "prefix": null,
                   "name": {
                     "type": "Text",
@@ -677,26 +633,18 @@
                       "end": 137,
                       "ctxt": 0
                     },
+                    "prefix": null,
                     "name": {
-                      "type": "NamespacedName",
+                      "type": "Text",
                       "span": {
                         "start": 121,
                         "end": 126,
                         "ctxt": 0
                       },
-                      "prefix": null,
-                      "name": {
-                        "type": "Text",
-                        "span": {
-                          "start": 121,
-                          "end": 126,
-                          "ctxt": 0
-                        },
-                        "value": "title",
-                        "raw": "title"
-                      }
+                      "value": "title",
+                      "raw": "title"
                     },
-                    "op": "=",
+                    "matcher": "=",
                     "value": {
                       "type": "String",
                       "span": {
@@ -706,16 +654,6 @@
                       },
                       "value": "title",
                       "raw": "\"title\""
-                    "value": "title",
-                    "raw": "title"
-                  },
-                  "matcher": "=",
-                  "value": {
-                    "type": "String",
-                    "span": {
-                      "start": 129,
-                      "end": 136,
-                      "ctxt": 0
                     },
                     "modifier": null
                   }
@@ -821,46 +759,23 @@
                 "subclassSelectors": [
                   {
                     "type": "AttributeSelector",
-                  "value": "a",
-                  "raw": "a"
-                }
-              },
-              "subclassSelectors": [
-                {
-                  "type": "AttributeSelector",
-                  "span": {
-                    "start": 161,
-                    "end": 179,
-                    "ctxt": 0
-                  },
-                  "prefix": null,
-                  "name": {
-                    "type": "Text",
                     "span": {
                       "start": 161,
                       "end": 179,
                       "ctxt": 0
                     },
+                    "prefix": null,
                     "name": {
-                      "type": "NamespacedName",
+                      "type": "Text",
                       "span": {
                         "start": 162,
                         "end": 167,
                         "ctxt": 0
                       },
-                      "prefix": null,
-                      "name": {
-                        "type": "Text",
-                        "span": {
-                          "start": 162,
-                          "end": 167,
-                          "ctxt": 0
-                        },
-                        "value": "title",
-                        "raw": "title"
-                      }
+                      "value": "title",
+                      "raw": "title"
                     },
-                    "op": "~=",
+                    "matcher": "~=",
                     "value": {
                       "type": "String",
                       "span": {
@@ -870,16 +785,6 @@
                       },
                       "value": "title",
                       "raw": "\"title\""
-                    "value": "title",
-                    "raw": "title"
-                  },
-                  "matcher": "~=",
-                  "value": {
-                    "type": "String",
-                    "span": {
-                      "start": 169,
-                      "end": 176,
-                      "ctxt": 0
                     },
                     "modifier": "i"
                   }
@@ -985,46 +890,23 @@
                 "subclassSelectors": [
                   {
                     "type": "AttributeSelector",
-                  "value": "a",
-                  "raw": "a"
-                }
-              },
-              "subclassSelectors": [
-                {
-                  "type": "AttributeSelector",
-                  "span": {
-                    "start": 203,
-                    "end": 220,
-                    "ctxt": 0
-                  },
-                  "prefix": null,
-                  "name": {
-                    "type": "Text",
                     "span": {
                       "start": 203,
                       "end": 220,
                       "ctxt": 0
                     },
+                    "prefix": null,
                     "name": {
-                      "type": "NamespacedName",
+                      "type": "Text",
                       "span": {
                         "start": 204,
                         "end": 209,
                         "ctxt": 0
                       },
-                      "prefix": null,
-                      "name": {
-                        "type": "Text",
-                        "span": {
-                          "start": 204,
-                          "end": 209,
-                          "ctxt": 0
-                        },
-                        "value": "title",
-                        "raw": "title"
-                      }
+                      "value": "title",
+                      "raw": "title"
                     },
-                    "op": "=",
+                    "matcher": "=",
                     "value": {
                       "type": "String",
                       "span": {
@@ -1034,59 +916,28 @@
                       },
                       "value": "title",
                       "raw": "\"title\""
-                    "value": "title",
-                    "raw": "title"
-                  },
-                  "matcher": "=",
-                  "value": {
-                    "type": "String",
-                    "span": {
-                      "start": 212,
-                      "end": 219,
-                      "ctxt": 0
                     },
                     "modifier": null
                   },
                   {
                     "type": "AttributeSelector",
-                  "prefix": null,
-                  "name": {
-                    "type": "Text",
                     "span": {
                       "start": 220,
                       "end": 239,
                       "ctxt": 0
                     },
+                    "prefix": null,
                     "name": {
-                      "type": "NamespacedName",
+                      "type": "Text",
                       "span": {
                         "start": 221,
                         "end": 225,
                         "ctxt": 0
                       },
-                      "prefix": null,
-                      "name": {
-                        "type": "Text",
-                        "span": {
-                          "start": 221,
-                          "end": 225,
-                          "ctxt": 0
-                        },
-                        "value": "href",
-                        "raw": "href"
-                      }
-                    "value": "href",
-                    "raw": "href"
-                  },
-                  "matcher": "*=",
-                  "value": {
-                    "type": "String",
-                    "span": {
-                      "start": 227,
-                      "end": 236,
-                      "ctxt": 0
+                      "value": "href",
+                      "raw": "href"
                     },
-                    "op": "*=",
+                    "matcher": "*=",
                     "value": {
                       "type": "String",
                       "span": {

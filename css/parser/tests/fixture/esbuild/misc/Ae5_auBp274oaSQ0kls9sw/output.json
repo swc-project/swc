@@ -42,71 +42,23 @@
                 "subclassSelectors": [
                   {
                     "type": "AttributeSelector",
-      "selectors": [
-        {
-          "type": "ComplexSelector",
-          "span": {
-            "start": 0,
-            "end": 7,
-            "ctxt": 0
-          },
-          "selectors": [
-            {
-              "type": "CompoundSelector",
-              "span": {
-                "start": 0,
-                "end": 7,
-                "ctxt": 0
-              },
-              "hasNestPrefix": false,
-              "combinator": null,
-              "typeSelector": null,
-              "subclassSelectors": [
-                {
-                  "type": "AttributeSelector",
-                  "span": {
-                    "start": 0,
-                    "end": 7,
-                    "ctxt": 0
-                  },
-                  "prefix": null,
-                  "name": {
-                    "type": "Text",
                     "span": {
                       "start": 0,
                       "end": 7,
                       "ctxt": 0
                     },
+                    "prefix": null,
                     "name": {
-                      "type": "NamespacedName",
+                      "type": "Text",
                       "span": {
                         "start": 1,
                         "end": 2,
                         "ctxt": 0
                       },
-                      "prefix": null,
-                      "name": {
-                        "type": "Text",
-                        "span": {
-                          "start": 1,
-                          "end": 2,
-                          "ctxt": 0
-                        },
-                        "value": "b",
-                        "raw": "b"
-                      }
-                    "value": "b",
-                    "raw": "b"
-                  },
-                  "matcher": "=",
-                  "value": {
-                    "type": "String",
-                    "span": {
-                      "start": 3,
-                      "end": 6,
-                      "ctxt": 0
+                      "value": "b",
+                      "raw": "b"
                     },
-                    "op": "=",
+                    "matcher": "=",
                     "value": {
                       "type": "String",
                       "span": {
