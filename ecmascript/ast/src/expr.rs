@@ -497,7 +497,14 @@ pub struct SeqExpr {
     pub exprs: Vec<Box<Expr>>,
 }
 
-impl Take for SeqExpr {}
+impl Take for SeqExpr {
+    fn dummy() -> Self {
+        SeqExpr {
+            span: DUMMY_SP,
+            exprs: Take::dummy(),
+        }
+    }
+}
 
 #[ast_node("ArrowFunctionExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
@@ -522,7 +529,19 @@ pub struct ArrowExpr {
     pub return_type: Option<TsTypeAnn>,
 }
 
-impl Take for ArrowExpr {}
+impl Take for ArrowExpr {
+    fn dummy() -> Self {
+        ArrowExpr {
+            span: DUMMY_SP,
+            params: Take::dummy(),
+            body: Take::dummy(),
+            is_async: false,
+            is_generator: false,
+            type_params: Take::dummy(),
+            return_type: Take::dummy(),
+        }
+    }
+}
 
 #[ast_node("YieldExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
@@ -537,7 +556,15 @@ pub struct YieldExpr {
     pub delegate: bool,
 }
 
-impl Take for YieldExpr {}
+impl Take for YieldExpr {
+    fn dummy() -> Self {
+        YieldExpr {
+            span: DUMMY_SP,
+            arg: Take::dummy(),
+            delegate: Take::dummy(),
+        }
+    }
+}
 
 #[ast_node("MetaProperty")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
@@ -573,7 +600,15 @@ pub struct Tpl {
     pub quasis: Vec<TplElement>,
 }
 
-impl Take for Tpl {}
+impl Take for Tpl {
+    fn dummy() -> Self {
+        Tpl {
+            span: DUMMY_SP,
+            exprs: Take::dummy(),
+            quasis: Take::dummy(),
+        }
+    }
+}
 
 #[ast_node("TaggedTemplateExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
@@ -590,7 +625,16 @@ pub struct TaggedTpl {
     pub tpl: Tpl,
 }
 
-impl Take for TaggedTpl {}
+impl Take for TaggedTpl {
+    fn dummy() -> Self {
+        TaggedTpl {
+            span: DUMMY_SP,
+            tag: Take::dummy(),
+            type_params: Take::dummy(),
+            tpl: Take::dummy(),
+        }
+    }
+}
 
 #[ast_node("TemplateElement")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
