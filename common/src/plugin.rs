@@ -23,7 +23,7 @@ pub(crate) trait RuntimeImpl {
     ///
     /// - `db`: Serialized version of Diagnostic which is serialized using
     ///   bincode.
-    fn emit(&self, db: RVec<u8>);
+    fn emit_diagnostic(&self, db: RVec<u8>);
 
     fn fresh_mark(&self, parent: Mark) -> Mark;
 
@@ -63,7 +63,7 @@ impl Emitter for PluginEmitter {
     fn emit(&mut self, db: &DiagnosticBuilder<'_>) {
         let bytes: RVec<_> = serialize_for_plugin(&db.diagnostic).unwrap().into();
 
-        RT.with(|rt| rt.emit(bytes))
+        RT.with(|rt| rt.emit_diagnostic(bytes))
     }
 }
 
@@ -104,7 +104,7 @@ struct PluginRt {
 
 #[cfg(feature = "plugin-rt")]
 impl RuntimeImpl for PluginRt {
-    fn emit(&self, db: RVec<u8>) {
+    fn emit_diagnostic(&self, db: RVec<u8>) {
         let diagnostic: Diagnostic =
             deserialize_for_plugin(db.as_slice()).expect("plugin send invalid diagnostic");
 
