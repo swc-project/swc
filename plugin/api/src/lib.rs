@@ -1,4 +1,3 @@
-/// Reexported for convenience.
 use abi_stable::{
     library::RootModule,
     package_version_strings,
