@@ -18,7 +18,10 @@
 use super::GLOBALS;
 use crate::collections::AHashMap;
 use serde::{Deserialize, Serialize};
-use std::{collections::HashMap, fmt};
+use std::{
+    collections::{HashMap, HashSet},
+    fmt,
+};
 
 /// A SyntaxContext represents a chain of macro expansions (represented by
 /// marks).
@@ -60,11 +63,10 @@ struct MarkData {
 impl Mark {
     pub fn fresh(parent: Mark) -> Self {
         #[cfg(feature = "plugin-mode")]
-        {
-            crate::plugin::RT.with(|rt| rt.fresh_mark(parent))
+        if crate::plugin::RT.is_set() {
+            return crate::plugin::RT.with(|rt| rt.fresh_mark(parent));
         }
 
-        #[cfg(not(feature = "plugin-mode"))]
         HygieneData::with(|data| {
             data.marks.push(MarkData {
                 parent,
@@ -94,11 +96,10 @@ impl Mark {
     #[inline]
     pub fn parent(self) -> Mark {
         #[cfg(feature = "plugin-mode")]
-        {
-            crate::plugin::RT.with(|rt| rt.parent_mark(self))
+        if crate::plugin::RT.is_set() {
+            return crate::plugin::RT.with(|rt| rt.parent_mark(self));
         }
 
-        #[cfg(not(feature = "plugin-mode"))]
         HygieneData::with(|data| data.marks[self.0 as usize].parent)
     }
 
@@ -107,11 +108,10 @@ impl Mark {
         assert_ne!(self, Mark::root());
 
         #[cfg(feature = "plugin-mode")]
-        {
-            crate::plugin::RT.with(|rt| rt.is_mark_builtin(self))
+        if crate::plugin::RT.is_set() {
+            return crate::plugin::RT.with(|rt| rt.is_mark_builtin(self));
         }
 
-        #[cfg(not(feature = "plugin-mode"))]
         HygieneData::with(|data| data.marks[self.0 as usize].is_builtin)
     }
 
@@ -120,22 +120,19 @@ impl Mark {
         assert_ne!(self, Mark::root());
 
         #[cfg(feature = "plugin-mode")]
-        {
-            crate::plugin::RT.with(|rt| rt.set_mark_is_builtin(self, is_builtin))
+        if crate::plugin::RT.is_set() {
+            return crate::plugin::RT.with(|rt| rt.set_mark_is_builtin(self, is_builtin));
         }
 
-        #[cfg(not(feature = "plugin-mode"))]
         HygieneData::with(|data| data.marks[self.0 as usize].is_builtin = is_builtin)
     }
 
-    #[allow(unused_mut)]
     pub fn is_descendant_of(mut self, ancestor: Mark) -> bool {
         #[cfg(feature = "plugin-mode")]
-        {
-            crate::plugin::RT.with(|rt| rt.is_mark_descendant_of(self, ancestor))
+        if crate::plugin::RT.is_set() {
+            return crate::plugin::RT.with(|rt| rt.is_mark_descendant_of(self, ancestor));
         }
 
-        #[cfg(not(feature = "plugin-mode"))]
         HygieneData::with(|data| {
             while self != ancestor {
                 if self == Mark::root() {
@@ -158,14 +155,11 @@ impl Mark {
     #[allow(unused_mut)]
     pub fn least_ancestor(mut a: Mark, mut b: Mark) -> Mark {
         #[cfg(feature = "plugin-mode")]
-        {
-            crate::plugin::RT.with(|rt| rt.least_ancestor_of_marks(a, b))
+        if crate::plugin::RT.is_set() {
+            return crate::plugin::RT.with(|rt| rt.least_ancestor_of_marks(a, b));
         }
 
-        #[cfg(not(feature = "plugin-mode"))]
         HygieneData::with(|data| {
-            use std::collections::HashSet;
-
             // Compute the path from a to the root
             let mut a_path = HashSet::<Mark>::default();
             while a != Mark::root() {
@@ -252,11 +246,11 @@ impl SyntaxContext {
 
     fn apply_mark_internal(self, mark: Mark) -> SyntaxContext {
         #[cfg(feature = "plugin-mode")]
-        {
-            crate::plugin::RT.with(|rt| rt.apply_mark_to_syntax_context_internal(self, mark))
+        if crate::plugin::RT.is_set() {
+            return crate::plugin::RT
+                .with(|rt| rt.apply_mark_to_syntax_context_internal(self, mark));
         }
 
-        #[cfg(not(feature = "plugin-mode"))]
         HygieneData::with(|data| {
             let syntax_contexts = &mut data.syntax_contexts;
             let mut opaque = syntax_contexts[self.0 as usize].opaque;
@@ -308,11 +302,10 @@ impl SyntaxContext {
     /// Returns the mark that was removed.
     pub fn remove_mark(&mut self) -> Mark {
         #[cfg(feature = "plugin-mode")]
-        {
-            crate::plugin::RT.with(|rt| rt.remove_mark_of_syntax_context(self))
+        if crate::plugin::RT.is_set() {
+            return crate::plugin::RT.with(|rt| rt.remove_mark_of_syntax_context(self));
         }
 
-        #[cfg(not(feature = "plugin-mode"))]
         HygieneData::with(|data| {
             let outer_mark = data.syntax_contexts[self.0 as usize].outer_mark;
             *self = data.syntax_contexts[self.0 as usize].prev_ctxt;
@@ -431,11 +424,10 @@ impl SyntaxContext {
     #[inline]
     pub fn outer(self) -> Mark {
         #[cfg(feature = "plugin-mode")]
-        {
-            crate::plugin::RT.with(|rt| rt.outer_mark_of_syntax_context(self))
+        if crate::plugin::RT.is_set() {
+            return crate::plugin::RT.with(|rt| rt.outer_mark_of_syntax_context(self));
         }
 
-        #[cfg(not(feature = "plugin-mode"))]
         HygieneData::with(|data| data.syntax_contexts[self.0 as usize].outer_mark)
     }
 }
