@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 541,
+    "end": 508,
     "ctxt": 0
   },
   "rules": [
@@ -10,7 +10,7 @@
       "type": "StyleRule",
       "span": {
         "start": 0,
-        "end": 540,
+        "end": 507,
         "ctxt": 0
       },
       "selectors": [
@@ -60,7 +60,7 @@
         "type": "Block",
         "span": {
           "start": 7,
-          "end": 540,
+          "end": 507,
           "ctxt": 0
         },
         "items": [
@@ -473,13 +473,13 @@
             },
             "value": [
               {
-                "type": "ParenValue",
+                "type": "RoundBracketBlock",
                 "span": {
                   "start": 215,
                   "end": 218,
                   "ctxt": 0
                 },
-                "value": null
+                "children": null
               }
             ],
             "important": null
@@ -841,61 +841,14 @@
             "type": "Declaration",
             "span": {
               "start": 448,
-              "end": 478,
+              "end": 475,
               "ctxt": 0
             },
             "property": {
               "type": "Text",
               "span": {
                 "start": 448,
-                "end": 473,
-                "ctxt": 0
-              },
-              "value": "--semicolon-not-top-level",
-              "raw": "--semicolon-not-top-level"
-            },
-            "value": [
-              {
-                "type": "ParenValue",
-                "span": {
-                  "start": 475,
-                  "end": 478,
-                  "ctxt": 0
-                },
-                "value": {
-                  "type": "Tokens",
-                  "span": {
-                    "start": 476,
-                    "end": 477,
-                    "ctxt": 0
-                  },
-                  "tokens": [
-                    {
-                      "span": {
-                        "start": 476,
-                        "end": 477,
-                        "ctxt": 0
-                      },
-                      "token": "Semi"
-                    }
-                  ]
-                }
-              }
-            ],
-            "important": null
-          },
-          {
-            "type": "Declaration",
-            "span": {
-              "start": 481,
-              "end": 508,
-              "ctxt": 0
-            },
-            "property": {
-              "type": "Text",
-              "span": {
-                "start": 481,
-                "end": 500,
+                "end": 467,
                 "ctxt": 0
               },
               "value": "--cdo-not-top-level",
@@ -903,30 +856,32 @@
             },
             "value": [
               {
-                "type": "ParenValue",
+                "type": "RoundBracketBlock",
                 "span": {
-                  "start": 502,
-                  "end": 508,
+                  "start": 469,
+                  "end": 475,
                   "ctxt": 0
                 },
-                "value": {
-                  "type": "Tokens",
-                  "span": {
-                    "start": 503,
-                    "end": 507,
-                    "ctxt": 0
-                  },
-                  "tokens": [
-                    {
-                      "span": {
-                        "start": 503,
-                        "end": 507,
-                        "ctxt": 0
-                      },
-                      "token": "CDO"
-                    }
-                  ]
-                }
+                "children": [
+                  {
+                    "type": "Tokens",
+                    "span": {
+                      "start": 470,
+                      "end": 474,
+                      "ctxt": 0
+                    },
+                    "tokens": [
+                      {
+                        "span": {
+                          "start": 470,
+                          "end": 474,
+                          "ctxt": 0
+                        },
+                        "token": "CDO"
+                      }
+                    ]
+                  }
+                ]
               }
             ],
             "important": null
@@ -934,15 +889,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 511,
-              "end": 537,
+              "start": 478,
+              "end": 504,
               "ctxt": 0
             },
             "property": {
               "type": "Text",
               "span": {
-                "start": 511,
-                "end": 530,
+                "start": 478,
+                "end": 497,
                 "ctxt": 0
               },
               "value": "--cdc-not-top-level",
@@ -950,30 +905,32 @@
             },
             "value": [
               {
-                "type": "ParenValue",
+                "type": "RoundBracketBlock",
                 "span": {
-                  "start": 532,
-                  "end": 537,
+                  "start": 499,
+                  "end": 504,
                   "ctxt": 0
                 },
-                "value": {
-                  "type": "Tokens",
-                  "span": {
-                    "start": 533,
-                    "end": 536,
-                    "ctxt": 0
-                  },
-                  "tokens": [
-                    {
-                      "span": {
-                        "start": 533,
-                        "end": 536,
-                        "ctxt": 0
-                      },
-                      "token": "CDC"
-                    }
-                  ]
-                }
+                "children": [
+                  {
+                    "type": "Tokens",
+                    "span": {
+                      "start": 500,
+                      "end": 503,
+                      "ctxt": 0
+                    },
+                    "tokens": [
+                      {
+                        "span": {
+                          "start": 500,
+                          "end": 503,
+                          "ctxt": 0
+                        },
+                        "token": "CDC"
+                      }
+                    ]
+                  }
+                ]
               }
             ],
             "important": null

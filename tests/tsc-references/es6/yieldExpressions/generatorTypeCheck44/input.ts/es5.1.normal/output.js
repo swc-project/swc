@@ -27,12 +27,35 @@ function g() {
     return regeneratorRuntime.wrap(function g$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                x = ({
-                }, _mutatorMap[yield 0] = _mutatorMap[yield 0] || {
-                }, _mutatorMap[yield 0].get = function() {
+                ({
+                });
+                _ctx.next = 3;
+                return 0;
+            case 3:
+                _ctx.t0 = _ctx.sent;
+                _ctx.next = 6;
+                return 0;
+            case 6:
+                _ctx.t2 = _ctx.sent;
+                _ctx.t1 = _mutatorMap[_ctx.t2];
+                if (_ctx.t1) {
+                    _ctx.next = 10;
+                    break;
+                }
+                _ctx.t1 = {
+                };
+            case 10:
+                _mutatorMap[_ctx.t0] = _ctx.t1;
+                _ctx.next = 13;
+                return 0;
+            case 13:
+                _ctx.t3 = _ctx.sent;
+                _mutatorMap[_ctx.t3].get = function() {
                     return 0;
-                }, _defineEnumerableProperties(_obj, _mutatorMap), _obj);
-            case 1:
+                };
+                _defineEnumerableProperties(_obj, _mutatorMap);
+                x = (0, _obj);
+            case 17:
             case "end":
                 return _ctx.stop();
         }

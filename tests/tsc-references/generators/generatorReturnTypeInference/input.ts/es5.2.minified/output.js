@@ -1,4 +1,25 @@
 import regeneratorRuntime from "regenerator-runtime";
+function _slicedToArray(arr, i) {
+    return (function(arr) {
+        if (Array.isArray(arr)) return arr;
+    })(arr) || (function(arr, i) {
+        var _arr = [], _n = !0, _d = !1, _e = void 0;
+        try {
+            for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), !i || _arr.length !== i); _n = !0);
+        } catch (err) {
+            _d = !0, _e = err;
+        } finally{
+            try {
+                _n || null == _i.return || _i.return();
+            } finally{
+                if (_d) throw _e;
+            }
+        }
+        return _arr;
+    })(arr, i) || (function() {
+        throw new TypeError("Invalid attempt to destructure non-iterable instance");
+    })();
+}
 var _marked = regeneratorRuntime.mark(function() {
     return regeneratorRuntime.wrap(function(_ctx1) {
         for(;;)switch(_ctx1.prev = _ctx1.next){
@@ -24,16 +45,15 @@ var _marked = regeneratorRuntime.mark(function() {
         }
     }, _marked);
 }), _marked1 = regeneratorRuntime.mark(function() {
-    var a, b;
+    var ref, tmp, a, tmp1, b;
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
-                _ctx.next = 2;
+                _ctx.t0 = _slicedToArray, _ctx.next = 3;
                 return;
-            case 2:
-                var ref, ref1, ref2;
-                a = void 0 === (ref1 = (ref = _ctx.sent)[0]) ? 1 : ref1, ref2 = ref[1], b = void 0 === ref2 ? 2 : ref2;
             case 3:
+                _ctx.t1 = _ctx.sent, a = void 0 === (tmp = (ref = (0, _ctx.t0)(_ctx.t1, 2))[0]) ? 1 : tmp, tmp1 = ref[1], b = void 0 === tmp1 ? 2 : tmp1;
+            case 9:
             case "end":
                 return _ctx.stop();
         }

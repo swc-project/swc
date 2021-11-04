@@ -14,7 +14,9 @@ use std::mem::take;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{contains_this_expr, ident::IdentLike, undefined, ExprExt, Id, StmtLike};
+use swc_ecma_utils::{
+    contains_this_expr, ident::IdentLike, undefined, ExprExt, Id, StmtLike, UsageFinder,
+};
 use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 use tracing::{span, Level};
 
@@ -207,7 +209,7 @@ where
                             match &mut stmt.init {
                                 Some(VarDeclOrExpr::Expr(e)) => {
                                     if exprs.iter().all(|expr| match &**expr {
-                                        Expr::Assign(..) => true,
+                                        Expr::Assign(AssignExpr { op: op!("="), .. }) => true,
                                         _ => false,
                                     }) {
                                         let ids_used_by_exprs =
@@ -363,7 +365,7 @@ where
                 Expr::Seq(seq) => {
                     seq.exprs.len() > 1
                         && seq.exprs.iter().all(|expr| match &**expr {
-                            Expr::Assign(..) => true,
+                            Expr::Assign(AssignExpr { op: op!("="), .. }) => true,
                             _ => false,
                         })
                 }
@@ -387,7 +389,7 @@ where
                             Expr::Seq(seq) => {
                                 seq.exprs.len() > 1
                                     && seq.exprs.iter().all(|expr| match &**expr {
-                                        Expr::Assign(..) => true,
+                                        Expr::Assign(AssignExpr { op: op!("="), .. }) => true,
                                         _ => false,
                                     })
                             }
@@ -1068,24 +1070,14 @@ where
             }
 
             Expr::Assign(b) => {
-                match &mut b.left {
-                    PatOrExpr::Expr(b) => match &**b {
-                        Expr::Ident(..) => {}
+                let b_left = get_lhs_ident(&b.left);
+                let b_left = match b_left {
+                    Some(v) => v.clone(),
+                    None => return Ok(false),
+                };
 
-                        _ => {
-                            return Ok(false);
-                        }
-                    },
-                    PatOrExpr::Pat(b) => match &mut **b {
-                        Pat::Expr(b) => match &**b {
-                            Expr::Ident(..) => {}
-                            _ => {
-                                return Ok(false);
-                            }
-                        },
-                        Pat::Ident(..) => {}
-                        _ => return Ok(false),
-                    },
+                if UsageFinder::find(&b_left, &b.right) {
+                    return Err(());
                 }
 
                 tracing::trace!("seq: Try rhs of assign with op");

@@ -57,7 +57,7 @@ var Router = /*#__PURE__*/ function() {
             key: "change",
             value: function change(method, url, as, options, forcedScroll) {
                 return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-                    var shouldResolveHref, prevLocale, parsedAs, localePathResult, didNavigate, ref, detectedDomain, asNoBasePath, shallow, routeProps, cleanedAs, localeChange, parsed, pathname, query, pages, rewrites, resolvedAs, rewritesResult, route, parsedAs1, asPathname, routeRegex, routeMatch, shouldInterpolate, interpolatedAs, missingParams, ref1, ref2, routeInfo, error, props, __N_SSG, __N_SSP, destination, parsedHref, newUrl, newAs, notFoundRoute, isValidShallowRoute, _scroll, shouldScroll, resetScroll;
+                    var shouldResolveHref, prevLocale, parsedAs, localePathResult, didNavigate, ref, detectedDomain, asNoBasePath, _shallow, shallow, routeProps, cleanedAs, localeChange, parsed, pathname, query, pages, rewrites, ref1, resolvedAs, rewritesResult, route, parsedAs1, asPathname, routeRegex, routeMatch, shouldInterpolate, interpolatedAs, missingParams, ref2, ref3, routeInfo, error, props, __N_SSG, __N_SSP, destination, parsedHref, ref4, newUrl, newAs, notFoundRoute, isValidShallowRoute, _scroll, shouldScroll, resetScroll;
                     return regeneratorRuntime.wrap(function _callee$(_ctx) {
                         while(1)switch(_ctx.prev = _ctx.next){
                             case 0:
@@ -133,8 +133,7 @@ var Router = /*#__PURE__*/ function() {
                                 if (ST) {
                                     performance.mark('routeChange');
                                 }
-                                var ref8, ref3;
-                                ref8 = options, ref3 = ref8.shallow, shallow = ref3 === void 0 ? false : ref3, ref8;
+                                _shallow = options.shallow, shallow = _shallow === void 0 ? false : _shallow;
                                 routeProps = {
                                     shallow: shallow
                                 };
@@ -159,29 +158,30 @@ var Router = /*#__PURE__*/ function() {
                                 return _ctx.abrupt("return", true);
                             case 35:
                                 parsed = parseRelativeUrl(url);
-                                var ref4;
-                                ref4 = parsed, pathname = ref4.pathname, query = ref4.query, ref4;
+                                pathname = parsed.pathname, query = parsed.query;
                                 ;
                                 _ctx.prev = 38;
                                 _ctx.next = 41;
                                 return this.pageLoader.getPageList();
                             case 41:
                                 pages = _ctx.sent;
-                                _ctx.next = 44;
+                                ;
+                                _ctx.next = 45;
                                 return getClientBuildManifest();
-                            case 44:
-                                var ref5;
-                                ref5 = _ctx.sent, rewrites = ref5.__rewrites, ref5;
-                                _ctx.next = 51;
+                            case 45:
+                                ref1 = _ctx.sent;
+                                rewrites = ref1.__rewrites;
+                                ref1;
+                                _ctx.next = 54;
                                 break;
-                            case 47:
-                                _ctx.prev = 47;
+                            case 50:
+                                _ctx.prev = 50;
                                 _ctx.t0 = _ctx["catch"](38);
                                 // If we fail to resolve the page list or client-build manifest, we must
                                 // do a server-side transition:
                                 window.location.href = as;
                                 return _ctx.abrupt("return", false);
-                            case 51:
+                            case 54:
                                 // If asked to change the current URL we should reload the current page
                                 // (not location.reload() but reload getInitialProps and other Next.js stuffs)
                                 // We also need to set the method = replaceState always
@@ -220,21 +220,21 @@ var Router = /*#__PURE__*/ function() {
                                 }
                                 route = removePathTrailingSlash(pathname);
                                 if (isLocalURL(as)) {
-                                    _ctx.next = 61;
+                                    _ctx.next = 64;
                                     break;
                                 }
                                 if (!(process.env.NODE_ENV !== 'production')) {
-                                    _ctx.next = 59;
+                                    _ctx.next = 62;
                                     break;
                                 }
                                 throw new Error("Invalid href: \"".concat(url, "\" and as: \"").concat(as, "\", received relative href and external as") + "\nSee more info: https://nextjs.org/docs/messages/invalid-relative-url-external-as");
-                            case 59:
+                            case 62:
                                 window.location.href = as;
                                 return _ctx.abrupt("return", false);
-                            case 61:
+                            case 64:
                                 resolvedAs = delLocale(delBasePath(resolvedAs), this.locale);
                                 if (!isDynamicRoute(route)) {
-                                    _ctx.next = 77;
+                                    _ctx.next = 80;
                                     break;
                                 }
                                 parsedAs1 = parseRelativeUrl(resolvedAs);
@@ -245,24 +245,24 @@ var Router = /*#__PURE__*/ function() {
                                 interpolatedAs = shouldInterpolate ? interpolateAs(route, asPathname, query) : {
                                 };
                                 if (!(!routeMatch || shouldInterpolate && !interpolatedAs.result)) {
-                                    _ctx.next = 76;
+                                    _ctx.next = 79;
                                     break;
                                 }
                                 missingParams = Object.keys(routeRegex.groups).filter(function(param) {
                                     return !query[param];
                                 });
                                 if (!(missingParams.length > 0)) {
-                                    _ctx.next = 74;
+                                    _ctx.next = 77;
                                     break;
                                 }
                                 if (process.env.NODE_ENV !== 'production') {
                                     console.warn("".concat(shouldInterpolate ? "Interpolating href" : "Mismatching `as` and `href`", " failed to manually provide ") + "the params: ".concat(missingParams.join(', '), " in the `href`'s `query`"));
                                 }
                                 throw new Error((shouldInterpolate ? "The provided `href` (".concat(url, ") value is missing query values (").concat(missingParams.join(', '), ") to be interpolated properly. ") : "The provided `as` value (".concat(asPathname, ") is incompatible with the `href` value (").concat(route, "). ")) + "Read more: https://nextjs.org/docs/messages/".concat(shouldInterpolate ? 'href-interpolation-failed' : 'incompatible-href-as'));
-                            case 74:
-                                _ctx.next = 77;
+                            case 77:
+                                _ctx.next = 80;
                                 break;
-                            case 76:
+                            case 79:
                                 if (shouldInterpolate) {
                                     as = formatWithValidation(Object.assign({
                                     }, parsedAs1, {
@@ -273,67 +273,65 @@ var Router = /*#__PURE__*/ function() {
                                     // Merge params into `query`, overwriting any specified in search
                                     Object.assign(query, routeMatch);
                                 }
-                            case 77:
+                            case 80:
                                 Router.events.emit('routeChangeStart', as, routeProps);
-                                _ctx.prev = 78;
+                                _ctx.prev = 81;
                                 ;
-                                _ctx.next = 82;
+                                _ctx.next = 85;
                                 return this.getRouteInfo(route, pathname, query, as, resolvedAs, routeProps);
-                            case 82:
+                            case 85:
                                 routeInfo = _ctx.sent;
-                                var ref6;
-                                ref6 = routeInfo, error = ref6.error, props = ref6.props, __N_SSG = ref6.__N_SSG, __N_SSP = ref6.__N_SSP, ref6;
+                                error = routeInfo.error, props = routeInfo.props, __N_SSG = routeInfo.__N_SSG, __N_SSP = routeInfo.__N_SSP;
                                 if (!((__N_SSG || __N_SSP) && props)) {
-                                    _ctx.next = 109;
+                                    _ctx.next = 112;
                                     break;
                                 }
                                 if (!(props.pageProps && props.pageProps.__N_REDIRECT)) {
-                                    _ctx.next = 94;
+                                    _ctx.next = 97;
                                     break;
                                 }
                                 destination = props.pageProps.__N_REDIRECT;
                                 if (!(destination.startsWith('/') && props.pageProps.__N_REDIRECT_BASE_PATH !== false)) {
-                                    _ctx.next = 92;
+                                    _ctx.next = 95;
                                     break;
                                 }
                                 parsedHref = parseRelativeUrl(destination);
                                 parsedHref.pathname = resolveDynamicRoute(parsedHref.pathname, pages);
-                                var ref7;
-                                ref7 = prepareUrlAs(this, destination, destination), newUrl = ref7.url, newAs = ref7.as, ref7;
+                                ref4 = prepareUrlAs(this, destination, destination), newUrl = ref4.url, newAs = ref4.as;
                                 return _ctx.abrupt("return", this.change(method, newUrl, newAs, options));
-                            case 92:
+                            case 95:
                                 window.location.href = destination;
                                 return _ctx.abrupt("return", new Promise(function() {
                                 }));
-                            case 94:
+                            case 97:
                                 this.isPreview = !!props.__N_PREVIEW;
                                 if (!(props.notFound === SSG_DATA_NOT_FOUND)) {
-                                    _ctx.next = 109;
+                                    _ctx.next = 112;
                                     break;
                                 }
                                 ;
-                                _ctx.prev = 97;
-                                _ctx.next = 100;
+                                _ctx.prev = 100;
+                                _ctx.next = 103;
                                 return this.fetchComponent('/404');
-                            case 100:
-                                notFoundRoute = '/404';
-                                _ctx.next = 106;
-                                break;
                             case 103:
-                                _ctx.prev = 103;
-                                _ctx.t1 = _ctx["catch"](97);
-                                notFoundRoute = '/_error';
+                                notFoundRoute = '/404';
+                                _ctx.next = 109;
+                                break;
                             case 106:
-                                _ctx.next = 108;
+                                _ctx.prev = 106;
+                                _ctx.t1 = _ctx["catch"](100);
+                                notFoundRoute = '/_error';
+                            case 109:
+                                _ctx.next = 111;
                                 return this.getRouteInfo(notFoundRoute, notFoundRoute, query, as, resolvedAs, {
                                     shallow: false
                                 });
-                            case 108:
+                            case 111:
                                 routeInfo = _ctx.sent;
-                            case 109:
+                            case 112:
                                 Router.events.emit('beforeHistoryChange', as, routeProps);
                                 this.changeState(method, url, as, options);
-                                if (options._h && pathname === '/_error' && ((ref1 = self.__NEXT_DATA__.props) === null || ref1 === void 0 ? void 0 : (ref2 = ref1.pageProps) === null || ref2 === void 0 ? void 0 : ref2.statusCode) === 500 && (props === null || props === void 0 ? void 0 : props.pageProps)) {
+                                if (options._h && pathname === '/_error' && ((ref2 = self.__NEXT_DATA__.props) === null || ref2 === void 0 ? void 0 : (ref3 = ref2.pageProps) === null || ref3 === void 0 ? void 0 : ref3.statusCode) === 500 && (props === null || props === void 0 ? void 0 : props.pageProps)) {
                                     // ensure statusCode is still correct for static 500 page
                                     // when updating query information
                                     props.pageProps.statusCode = 500;
@@ -345,19 +343,19 @@ var Router = /*#__PURE__*/ function() {
                                     x: 0,
                                     y: 0
                                 } : null;
-                                _ctx.next = 118;
+                                _ctx.next = 121;
                                 return this.set(route, pathname, query, cleanedAs, routeInfo, forcedScroll !== null && forcedScroll !== void 0 ? forcedScroll : resetScroll).catch(function(e) {
                                     if (e.cancelled) error = error || e;
                                     else throw e;
                                 });
-                            case 118:
+                            case 121:
                                 if (!error) {
-                                    _ctx.next = 121;
+                                    _ctx.next = 124;
                                     break;
                                 }
                                 Router.events.emit('routeChangeError', error, cleanedAs, routeProps);
                                 throw error;
-                            case 121:
+                            case 124:
                                 if (process.env.__NEXT_I18N_SUPPORT) {
                                     if (this.locale) {
                                         document.documentElement.lang = this.locale;
@@ -365,32 +363,32 @@ var Router = /*#__PURE__*/ function() {
                                 }
                                 Router.events.emit('routeChangeComplete', as, routeProps);
                                 return _ctx.abrupt("return", true);
-                            case 126:
-                                _ctx.prev = 126;
-                                _ctx.t2 = _ctx["catch"](78);
+                            case 129:
+                                _ctx.prev = 129;
+                                _ctx.t2 = _ctx["catch"](81);
                                 if (!(isError(_ctx.t2) && _ctx.t2.cancelled)) {
-                                    _ctx.next = 130;
+                                    _ctx.next = 133;
                                     break;
                                 }
                                 return _ctx.abrupt("return", false);
-                            case 130:
+                            case 133:
                                 throw _ctx.t2;
-                            case 131:
+                            case 134:
                             case "end":
                                 return _ctx.stop();
                         }
                     }, _callee, this, [
                         [
                             38,
-                            47
+                            50
                         ],
                         [
-                            78,
-                            126
+                            81,
+                            129
                         ],
                         [
-                            97,
-                            103
+                            100,
+                            106
                         ]
                     ]);
                 }).bind(this))();

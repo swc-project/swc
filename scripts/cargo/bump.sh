@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -eu
 
-git pull
+git pull || true
 
 cargo mono bump $@
 # Ensure that Cargo.lock is up-to-date

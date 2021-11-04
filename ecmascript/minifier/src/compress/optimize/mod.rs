@@ -332,6 +332,10 @@ where
 
     /// `a = a + 1` => `a += 1`.
     fn compress_bin_assignment_to_left(&mut self, e: &mut AssignExpr) {
+        if e.op != op!("=") {
+            return;
+        }
+
         // TODO: Handle pure properties.
         let lhs = match &e.left {
             PatOrExpr::Expr(e) => match &**e {
