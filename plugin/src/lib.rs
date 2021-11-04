@@ -2,7 +2,6 @@
 use abi_stable::std_types::{RResult, RStr, RString, RVec};
 use anyhow::Context;
 use serde::de::DeserializeOwned;
-use swc_common::plugin::{deserialize_for_plugin, serialize_for_plugin};
 use swc_ecma_ast::Program;
 pub use swc_plugin_api::*;
 
@@ -26,7 +25,7 @@ where
         Err(err) => return RResult::RErr(format!("{:?}", err).into()),
     };
 
-    let ast = deserialize_for_plugin(ast.as_slice());
+    let ast = deserialize_ast(ast.as_slice());
     let ast: Program = match ast {
         Ok(v) => v,
         Err(err) => return RResult::RErr(format!("{:?}", err).into()),
@@ -37,7 +36,7 @@ where
 
         let ast = ast.fold_with(&mut tr);
 
-        let res = match serialize_for_plugin(&ast) {
+        let res = match serialize_ast(&ast) {
             Ok(v) => v,
             Err(err) => {
                 return RResult::RErr(
