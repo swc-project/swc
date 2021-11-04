@@ -12,6 +12,9 @@ version = "0.14.3"
 concurrent = ["parking_lot"]
 debug = []
 default = []
+plugin-base = []
+plugin-mode = ["plugin-base"]
+plugin-rt = ["plugin-base"]
 tty-emitter = ["atty", "termcolor"]
 
 [dependencies]
