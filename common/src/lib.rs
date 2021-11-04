@@ -61,6 +61,8 @@ pub mod input;
 pub mod iter;
 pub mod macros;
 pub mod pass;
+#[cfg(feature = "plugin-base")]
+mod plugin;
 mod pos;
 mod rustc_data_structures;
 pub mod serializer;
