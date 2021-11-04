@@ -3,7 +3,10 @@
 //! We need to replace operations related to thread-local variables in
 //! `swc_common`.
 
-use crate::errors::{DiagnosticBuilder, Emitter};
+use crate::{
+    errors::{DiagnosticBuilder, Emitter},
+    syntax_pos::Mark,
+};
 use abi_stable::{sabi_trait, std_types::RVec};
 use anyhow::{Context, Error};
 use serde::{de::DeserializeOwned, Serialize};
@@ -21,7 +24,9 @@ pub(crate) trait RuntimeImpl {
     ///   bincode.
     fn emit(&self, db: RVec<u8>);
 
-    fn fresh_mark(&self, parent: u32) -> u32;
+    fn fresh_mark(&self, parent: Mark) -> Mark;
+
+    fn parent_mark(&self, parent: Mark) -> Mark;
 }
 
 #[cfg(feature = "plugin-mode")]

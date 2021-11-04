@@ -48,6 +48,8 @@ struct SyntaxContextData {
 
 /// A mark is a unique id associated with a macro expansion.
 #[derive(Copy, Clone, PartialEq, Eq, Hash, Debug)]
+#[cfg_attr(feature = "abi_stable", repr(transparent))]
+#[cfg_attr(feature = "abi_stable", derive(abi_stable::StableAbi))]
 pub struct Mark(u32);
 
 #[derive(Clone, Debug)]
@@ -60,11 +62,7 @@ impl Mark {
     pub fn fresh(parent: Mark) -> Self {
         #[cfg(feature = "plugin-mode")]
         {
-            crate::plugin::RT.with(|rt| {
-                let parent = parent.as_u32();
-                let v = rt.fresh_mark(parent);
-                Mark::from_u32(v)
-            })
+            crate::plugin::RT.with(|rt| rt.fresh_mark(parent))
         }
 
         #[cfg(not(feature = "plugin-mode"))]
@@ -96,6 +94,12 @@ impl Mark {
 
     #[inline]
     pub fn parent(self) -> Mark {
+        #[cfg(feature = "plugin-mode")]
+        {
+            crate::plugin::RT.with(|rt| rt.parent_mark(self))
+        }
+
+        #[cfg(not(feature = "plugin-mode"))]
         HygieneData::with(|data| data.marks[self.0 as usize].parent)
     }
 
