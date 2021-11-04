@@ -50,6 +50,8 @@ pub(crate) trait RuntimeImpl {
 
 #[cfg(feature = "plugin-mode")]
 scoped_tls::scoped_thread_local!(
+    /// If this variable is configured, many methods of
+    /// `swc_common` will be proxied to this variable.
     pub(crate) static RT: Box<dyn RuntimeImpl>
 );
 
