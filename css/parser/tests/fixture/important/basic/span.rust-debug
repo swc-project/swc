@@ -34,6 +34,12 @@ error: StyleRule
 17 | | }
    | |_^
 
+error: SelectorList
+ --> $DIR/tests/fixture/important/basic/input.css:1:1
+  |
+1 | .a {
+  | ^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/important/basic/input.css:1:1
   |

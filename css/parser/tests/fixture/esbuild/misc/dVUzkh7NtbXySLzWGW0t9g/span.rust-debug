@@ -16,6 +16,12 @@ error: StyleRule
 1 | a { color: red } a { color: green } a { color: red }
   | ^^^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:1
+  |
+1 | a { color: red } a { color: green } a { color: red }
+  | ^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:1
   |
@@ -82,6 +88,12 @@ error: StyleRule
 1 | a { color: red } a { color: green } a { color: red }
   |                  ^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:18
+  |
+1 | a { color: red } a { color: green } a { color: red }
+  |                  ^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:18
   |
@@ -147,6 +159,12 @@ error: StyleRule
   |
 1 | a { color: red } a { color: green } a { color: red }
   |                                     ^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:37
+  |
+1 | a { color: red } a { color: green } a { color: red }
+  |                                     ^
 
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:37

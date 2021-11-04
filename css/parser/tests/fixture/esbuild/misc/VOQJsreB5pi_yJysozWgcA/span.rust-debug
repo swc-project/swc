@@ -140,6 +140,12 @@ error: NestedPageRule
 4 |             @top-left-corner { content: 'tlc' }
   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:4
+  |
+4 |             @top-left-corner { content: 'tlc' }
+  |             ^^^^^^^^^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:4
   |
@@ -217,6 +223,12 @@ error: NestedPageRule
   |
 5 |             @top-left { content: 'tl' }
   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:4
+  |
+5 |             @top-left { content: 'tl' }
+  |             ^^^^^^^^^
 
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:4
@@ -296,6 +308,12 @@ error: NestedPageRule
 6 |             @top-center { content: 'tc' }
   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:4
+  |
+6 |             @top-center { content: 'tc' }
+  |             ^^^^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:4
   |
@@ -373,6 +391,12 @@ error: NestedPageRule
   |
 7 |             @top-right { content: 'tr' }
   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:4
+  |
+7 |             @top-right { content: 'tr' }
+  |             ^^^^^^^^^^
 
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:4
@@ -452,6 +476,12 @@ error: NestedPageRule
 8 |             @top-right-corner { content: 'trc' }
   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:4
+  |
+8 |             @top-right-corner { content: 'trc' }
+  |             ^^^^^^^^^^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:4
   |
@@ -529,6 +559,12 @@ error: NestedPageRule
   |
 9 |             @bottom-left-corner { content: 'blc' }
   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:4
+  |
+9 |             @bottom-left-corner { content: 'blc' }
+  |             ^^^^^^^^^^^^^^^^^^^
 
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:4
@@ -608,6 +644,12 @@ error: NestedPageRule
 10 |             @bottom-left { content: 'bl' }
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:4
+   |
+10 |             @bottom-left { content: 'bl' }
+   |             ^^^^^^^^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:4
    |
@@ -685,6 +727,12 @@ error: NestedPageRule
    |
 11 |             @bottom-center { content: 'bc' }
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:4
+   |
+11 |             @bottom-center { content: 'bc' }
+   |             ^^^^^^^^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:4
@@ -764,6 +812,12 @@ error: NestedPageRule
 12 |             @bottom-right { content: 'br' }
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:4
+   |
+12 |             @bottom-right { content: 'br' }
+   |             ^^^^^^^^^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:4
    |
@@ -841,6 +895,12 @@ error: NestedPageRule
    |
 13 |             @bottom-right-corner { content: 'brc' }
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:4
+   |
+13 |             @bottom-right-corner { content: 'brc' }
+   |             ^^^^^^^^^^^^^^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:4
@@ -920,6 +980,12 @@ error: NestedPageRule
 14 |             @left-top { content: 'lt' }
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:4
+   |
+14 |             @left-top { content: 'lt' }
+   |             ^^^^^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:4
    |
@@ -997,6 +1063,12 @@ error: NestedPageRule
    |
 15 |             @left-middle { content: 'lm' }
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:4
+   |
+15 |             @left-middle { content: 'lm' }
+   |             ^^^^^^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:4
@@ -1076,6 +1148,12 @@ error: NestedPageRule
 16 |             @left-bottom { content: 'lb' }
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:4
+   |
+16 |             @left-bottom { content: 'lb' }
+   |             ^^^^^^^^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:4
    |
@@ -1153,6 +1231,12 @@ error: NestedPageRule
    |
 17 |             @right-top { content: 'rt' }
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:4
+   |
+17 |             @right-top { content: 'rt' }
+   |             ^^^^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:4
@@ -1232,6 +1316,12 @@ error: NestedPageRule
 18 |             @right-middle { content: 'rm' }
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:4
+   |
+18 |             @right-middle { content: 'rm' }
+   |             ^^^^^^^^^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:4
    |
@@ -1309,6 +1399,12 @@ error: NestedPageRule
    |
 19 |             @right-bottom { content: 'rb' }
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:4
+   |
+19 |             @right-bottom { content: 'rb' }
+   |             ^^^^^^^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:4

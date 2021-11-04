@@ -22,6 +22,12 @@ error: StyleRule
 3 | | }
   | |_^
 
+error: SelectorList
+ --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:1:1
+  |
+1 | .style {
+  | ^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:1:1
   |

@@ -11,12 +11,13 @@ impl<I> Parser<I>
 where
     I: ParserInput,
 {
-    pub(super) fn parse_selectors(&mut self) -> PResult<Vec<ComplexSelector>> {
+    pub(super) fn parse_selectors(&mut self) -> PResult<SelectorList> {
         self.input.skip_ws()?;
 
+        let start_pos = self.input.cur_span()?.lo;
         let first = self.parse_complex_selector()?;
-
-        let mut buf = vec![first];
+        let mut last_pos = first.span.clone().hi;
+        let mut children = vec![first];
 
         loop {
             self.input.skip_ws()?;
@@ -25,18 +26,21 @@ where
                 break;
             }
 
-            let s = self.parse_complex_selector()?;
-            buf.push(s);
+            let child = self.parse_complex_selector()?;
+
+            last_pos = child.span.clone().hi;
+            children.push(child);
         }
 
-        Ok(buf)
+        Ok(SelectorList {
+            span: Span::new(start_pos, last_pos, Default::default()),
+            children,
+        })
     }
 
     fn parse_complex_selector(&mut self) -> PResult<ComplexSelector> {
         let start_pos = self.input.cur_span()?.lo;
-
         let sel = self.parse_compound_selector()?;
-
         let mut selectors = vec![sel];
         let mut last_pos;
 
@@ -547,11 +551,11 @@ where
     }
 }
 
-impl<I> Parse<Vec<ComplexSelector>> for Parser<I>
+impl<I> Parse<SelectorList> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<Vec<ComplexSelector>> {
+    fn parse(&mut self) -> PResult<SelectorList> {
         self.parse_selectors()
     }
 }

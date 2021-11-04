@@ -16,6 +16,12 @@ error: StyleRule
 1 | * {}
   | ^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/eBC_tv-_FNqjWVMq-no99A/input.css:1:1
+  |
+1 | * {}
+  | ^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/eBC_tv-_FNqjWVMq-no99A/input.css:1:1
   |

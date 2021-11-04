@@ -34,6 +34,12 @@ error: StyleRule
 29 | | }
    | |_^
 
+error: SelectorList
+ --> $DIR/tests/fixture/value/quotes/input.css:1:1
+  |
+1 | a::before {
+  | ^^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/value/quotes/input.css:1:1
   |
@@ -599,6 +605,13 @@ error: StyleRule
 34 | | }
    | |_^
 
+error: SelectorList
+  --> $DIR/tests/fixture/value/quotes/input.css:31:1
+   |
+31 | / a[title="a not s\
+32 | | o very long title"] {
+   | |___________________^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/value/quotes/input.css:31:1
    |
@@ -709,6 +722,12 @@ error: StyleRule
 36 | |     color: red;
 37 | | }
    | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/value/quotes/input.css:35:1
+   |
+35 | a[title="a not so very long title"] {
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/value/quotes/input.css:35:1

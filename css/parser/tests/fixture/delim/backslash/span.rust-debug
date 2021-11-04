@@ -22,6 +22,12 @@ error: StyleRule
 3 | | }
   | |_^
 
+error: SelectorList
+ --> $DIR/tests/fixture/delim/backslash/input.css:1:1
+  |
+1 | a {
+  | ^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/delim/backslash/input.css:1:1
   |

@@ -22,6 +22,12 @@ error: StyleRule
 1 | [title] {}
   | ^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/selector/attribute/input.css:1:1
+  |
+1 | [title] {}
+  | ^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/attribute/input.css:1:1
   |
@@ -75,6 +81,12 @@ error: StyleRule
   |
 2 | [title=foo] {}
   | ^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/attribute/input.css:2:1
+  |
+2 | [title=foo] {}
+  | ^^^^^^^^^^^
 
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/attribute/input.css:2:1
@@ -136,6 +148,12 @@ error: StyleRule
 3 | [title="foo"] {}
   | ^^^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/selector/attribute/input.css:3:1
+  |
+3 | [title="foo"] {}
+  | ^^^^^^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/attribute/input.css:3:1
   |
@@ -195,6 +213,12 @@ error: StyleRule
   |
 4 | [lang~="en-us"] {}
   | ^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/attribute/input.css:4:1
+  |
+4 | [lang~="en-us"] {}
+  | ^^^^^^^^^^^^^^^
 
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/attribute/input.css:4:1
@@ -256,6 +280,12 @@ error: StyleRule
 5 | [lang|="zh"] {}
   | ^^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/selector/attribute/input.css:5:1
+  |
+5 | [lang|="zh"] {}
+  | ^^^^^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/attribute/input.css:5:1
   |
@@ -315,6 +345,12 @@ error: StyleRule
   |
 6 | [href^="#"] {}
   | ^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/attribute/input.css:6:1
+  |
+6 | [href^="#"] {}
+  | ^^^^^^^^^^^
 
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/attribute/input.css:6:1
@@ -376,6 +412,12 @@ error: StyleRule
 7 | [href$=".org"] {}
   | ^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/selector/attribute/input.css:7:1
+  |
+7 | [href$=".org"] {}
+  | ^^^^^^^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/attribute/input.css:7:1
   |
@@ -435,6 +477,12 @@ error: StyleRule
   |
 8 | [href*="example"] {}
   | ^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/attribute/input.css:8:1
+  |
+8 | [href*="example"] {}
+  | ^^^^^^^^^^^^^^^^^
 
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/attribute/input.css:8:1
@@ -496,6 +544,12 @@ error: StyleRule
 9 | [href*="insensitive" i] {}
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/selector/attribute/input.css:9:1
+  |
+9 | [href*="insensitive" i] {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/attribute/input.css:9:1
   |
@@ -555,6 +609,12 @@ error: StyleRule
    |
 10 | [href*="insensitive" I] {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/attribute/input.css:10:1
+   |
+10 | [href*="insensitive" I] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/attribute/input.css:10:1
@@ -616,6 +676,12 @@ error: StyleRule
 11 | [href*="cAsE" s] {}
    | ^^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/selector/attribute/input.css:11:1
+   |
+11 | [href*="cAsE" s] {}
+   | ^^^^^^^^^^^^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/attribute/input.css:11:1
    |
@@ -676,6 +742,12 @@ error: StyleRule
 12 | [href*="cAsE" S] {}
    | ^^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/selector/attribute/input.css:12:1
+   |
+12 | [href*="cAsE" S] {}
+   | ^^^^^^^^^^^^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/attribute/input.css:12:1
    |
@@ -735,6 +807,12 @@ error: StyleRule
    |
 13 | [foo|att=val] {}
    | ^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/attribute/input.css:13:1
+   |
+13 | [foo|att=val] {}
+   | ^^^^^^^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/attribute/input.css:13:1
@@ -802,6 +880,12 @@ error: StyleRule
 14 | [*|att] {}
    | ^^^^^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/selector/attribute/input.css:14:1
+   |
+14 | [*|att] {}
+   | ^^^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/attribute/input.css:14:1
    |
@@ -861,6 +945,12 @@ error: StyleRule
    |
 15 | [|att] {}
    | ^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/attribute/input.css:15:1
+   |
+15 | [|att] {}
+   | ^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/attribute/input.css:15:1
@@ -922,6 +1012,12 @@ error: StyleRule
 16 | [att] {}
    | ^^^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/selector/attribute/input.css:16:1
+   |
+16 | [att] {}
+   | ^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/attribute/input.css:16:1
    |
@@ -975,6 +1071,12 @@ error: StyleRule
    |
 17 | a[ class = "test" ] {}
    | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/attribute/input.css:17:1
+   |
+17 | a[ class = "test" ] {}
+   | ^^^^^^^^^^^^^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/attribute/input.css:17:1
@@ -1048,6 +1150,12 @@ error: StyleRule
 18 | a[   class   =   "test"   ] {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/selector/attribute/input.css:18:1
+   |
+18 | a[   class   =   "test"   ] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/attribute/input.css:18:1
    |
@@ -1120,6 +1228,12 @@ error: StyleRule
 19 | [href*="insensitive"   i] {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/selector/attribute/input.css:19:1
+   |
+19 | [href*="insensitive"   i] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/attribute/input.css:19:1
    |
@@ -1179,6 +1293,12 @@ error: StyleRule
    |
 20 | [   href   ] {}
    | ^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/attribute/input.css:20:1
+   |
+20 | [   href   ] {}
+   | ^^^^^^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/attribute/input.css:20:1
