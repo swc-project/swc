@@ -26,7 +26,7 @@ impl ClassStaticBlock {
                         let mut count = 0;
                         while private_names.contains(&id_value) {
                             count = count + 1;
-                            id_value = format!("`_{}", count).into();
+                            id_value = format!("_{}", count).into();
                         }
                         private_names.insert(id_value.clone());
                         id_value
