@@ -145,11 +145,26 @@ pub struct Bool {
     pub value: bool,
 }
 
+impl Take for Bool {
+    fn dummy() -> Self {
+        Bool {
+            span: DUMMY_SP,
+            value: false,
+        }
+    }
+}
+
 #[ast_node("NullLiteral")]
 #[derive(Copy, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Null {
     pub span: Span,
+}
+
+impl Take for Null {
+    fn dummy() -> Self {
+        Null { span: DUMMY_SP }
+    }
 }
 
 #[ast_node("RegExpLiteral")]

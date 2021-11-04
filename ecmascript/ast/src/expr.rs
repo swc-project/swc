@@ -230,6 +230,15 @@ pub struct SpreadElement {
     pub expr: Box<Expr>,
 }
 
+impl Take for SpreadElement {
+    fn dummy() -> Self {
+        SpreadElement {
+            dot3_token: DUMMY_SP,
+            expr: Take::dummy(),
+        }
+    }
+}
+
 #[ast_node("UnaryExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -241,6 +250,16 @@ pub struct UnaryExpr {
 
     #[serde(rename = "argument")]
     pub arg: Box<Expr>,
+}
+
+impl Take for UnaryExpr {
+    fn dummy() -> Self {
+        UnaryExpr {
+            span: DUMMY_SP,
+            op: op!("!"),
+            arg: Take::dummy(),
+        }
+    }
 }
 
 #[ast_node("UpdateExpression")]
@@ -258,6 +277,17 @@ pub struct UpdateExpr {
     pub arg: Box<Expr>,
 }
 
+impl Take for UpdateExpr {
+    fn dummy() -> Self {
+        UpdateExpr {
+            span: DUMMY_SP,
+            op: op!("++"),
+            prefix: false,
+            arg: Take::dummy(),
+        }
+    }
+}
+
 #[ast_node("BinaryExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -270,6 +300,17 @@ pub struct BinExpr {
     pub left: Box<Expr>,
 
     pub right: Box<Expr>,
+}
+
+impl Take for BinExpr {
+    fn dummy() -> Self {
+        BinExpr {
+            span: DUMMY_SP,
+            op: op!("*"),
+            left: Take::dummy(),
+            right: Take::dummy(),
+        }
+    }
 }
 
 /// Function expression.
@@ -329,6 +370,17 @@ pub struct AssignExpr {
     pub right: Box<Expr>,
 }
 
+impl Take for AssignExpr {
+    fn dummy() -> Self {
+        AssignExpr {
+            span: DUMMY_SP,
+            op: op!("="),
+            left: Take::dummy(),
+            right: Take::dummy(),
+        }
+    }
+}
+
 #[ast_node("MemberExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -344,6 +396,17 @@ pub struct MemberExpr {
     pub computed: bool,
 }
 
+impl Take for MemberExpr {
+    fn dummy() -> Self {
+        MemberExpr {
+            span: DUMMY_SP,
+            obj: Take::dummy(),
+            prop: Take::dummy(),
+            computed: false,
+        }
+    }
+}
+
 #[ast_node("ConditionalExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -357,6 +420,17 @@ pub struct CondExpr {
 
     #[serde(rename = "alternate")]
     pub alt: Box<Expr>,
+}
+
+impl Take for CondExpr {
+    fn dummy() -> Self {
+        CondExpr {
+            span: DUMMY_SP,
+            test: Take::dummy(),
+            cons: Take::dummy(),
+            alt: Take::dummy(),
+        }
+    }
 }
 
 #[ast_node("CallExpression")]
@@ -402,6 +476,17 @@ pub struct NewExpr {
     // pub type_params: Option<TsTypeParamInstantiation>,
 }
 
+impl Take for NewExpr {
+    fn dummy() -> Self {
+        NewExpr {
+            span: DUMMY_SP,
+            callee: Take::dummy(),
+            args: Take::dummy(),
+            type_args: Take::dummy(),
+        }
+    }
+}
+
 #[ast_node("SequenceExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -410,6 +495,15 @@ pub struct SeqExpr {
 
     #[serde(rename = "expressions")]
     pub exprs: Vec<Box<Expr>>,
+}
+
+impl Take for SeqExpr {
+    fn dummy() -> Self {
+        SeqExpr {
+            span: DUMMY_SP,
+            exprs: Take::dummy(),
+        }
+    }
 }
 
 #[ast_node("ArrowFunctionExpression")]
@@ -435,6 +529,20 @@ pub struct ArrowExpr {
     pub return_type: Option<TsTypeAnn>,
 }
 
+impl Take for ArrowExpr {
+    fn dummy() -> Self {
+        ArrowExpr {
+            span: DUMMY_SP,
+            params: Take::dummy(),
+            body: Take::dummy(),
+            is_async: false,
+            is_generator: false,
+            type_params: Take::dummy(),
+            return_type: Take::dummy(),
+        }
+    }
+}
+
 #[ast_node("YieldExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -446,6 +554,16 @@ pub struct YieldExpr {
 
     #[serde(default)]
     pub delegate: bool,
+}
+
+impl Take for YieldExpr {
+    fn dummy() -> Self {
+        YieldExpr {
+            span: DUMMY_SP,
+            arg: Take::dummy(),
+            delegate: false,
+        }
+    }
 }
 
 #[ast_node("MetaProperty")]
@@ -482,6 +600,16 @@ pub struct Tpl {
     pub quasis: Vec<TplElement>,
 }
 
+impl Take for Tpl {
+    fn dummy() -> Self {
+        Tpl {
+            span: DUMMY_SP,
+            exprs: Take::dummy(),
+            quasis: Take::dummy(),
+        }
+    }
+}
+
 #[ast_node("TaggedTemplateExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -495,6 +623,17 @@ pub struct TaggedTpl {
 
     #[serde(rename = "template")]
     pub tpl: Tpl,
+}
+
+impl Take for TaggedTpl {
+    fn dummy() -> Self {
+        TaggedTpl {
+            span: DUMMY_SP,
+            tag: Take::dummy(),
+            type_params: Take::dummy(),
+            tpl: Take::dummy(),
+        }
+    }
 }
 
 #[ast_node("TemplateElement")]
@@ -526,6 +665,14 @@ pub struct ParenExpr {
 
     #[serde(rename = "expression")]
     pub expr: Box<Expr>,
+}
+impl Take for ParenExpr {
+    fn dummy() -> Self {
+        ParenExpr {
+            span: DUMMY_SP,
+            expr: Take::dummy(),
+        }
+    }
 }
 
 #[ast_node]
