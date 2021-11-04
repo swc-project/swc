@@ -1,7 +1,8 @@
 /// Reexported for convenience.
-use abi_stable::std_types::{RResult, RStr, RString};
+use abi_stable::std_types::{RResult, RStr, RString, RVec};
 use anyhow::Context;
 use serde::de::DeserializeOwned;
+use swc_common::plugin::{deserialize_for_plugin, serialize_for_plugin};
 use swc_ecma_ast::Program;
 pub use swc_plugin_api::*;
 
@@ -10,8 +11,8 @@ pub fn invoke_js_plugin<C, F>(
     rt: swc_common::plugin::Runtime,
     op: fn(C) -> F,
     config_json: RStr,
-    ast_json: RString,
-) -> RResult<RString, RString>
+    ast: RVec<u8>,
+) -> RResult<RVec<u8>, RString>
 where
     C: DeserializeOwned,
     F: swc_ecma_visit::Fold,
@@ -25,8 +26,7 @@ where
         Err(err) => return RResult::RErr(format!("{:?}", err).into()),
     };
 
-    let ast =
-        serde_json::from_str(ast_json.as_str()).context("failed to deserialize ast string as json");
+    let ast = deserialize_for_plugin(ast.as_slice());
     let ast: Program = match ast {
         Ok(v) => v,
         Err(err) => return RResult::RErr(format!("{:?}", err).into()),
@@ -37,7 +37,7 @@ where
 
         let ast = ast.fold_with(&mut tr);
 
-        let res = match serde_json::to_string(&ast) {
+        let res = match serialize_for_plugin(&ast) {
             Ok(v) => v,
             Err(err) => {
                 return RResult::RErr(
@@ -62,12 +62,12 @@ macro_rules! define_js_plugin {
             extern "C" fn swc_js_plugin(
                 rt: swc_common::plugin::Runtime,
                 config_json: abi_stable::std_types::RStr,
-                ast_json: abi_stable::std_types::RString,
+                ast: abi_stable::std_types::RVec<u8>,
             ) -> abi_stable::std_types::RResult<
-                abi_stable::std_types::RString,
+                abi_stable::std_types::RVec<u8>,
                 abi_stable::std_types::RString,
             > {
-                $crate::invoke_js_plugin(rt, $fn_name, config_json, ast_json)
+                $crate::invoke_js_plugin(rt, $fn_name, config_json, ast)
             }
             use abi_stable::prefix_type::PrefixTypeTrait;
 

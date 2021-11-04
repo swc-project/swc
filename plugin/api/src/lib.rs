@@ -2,7 +2,7 @@ use abi_stable::{
     library::RootModule,
     package_version_strings,
     sabi_types::VersionStrings,
-    std_types::{RResult, RStr, RString},
+    std_types::{RResult, RStr, RString, RVec},
     StableAbi,
 };
 
@@ -17,8 +17,8 @@ pub struct SwcPlugin {
         extern "C" fn(
             rt: swc_common::plugin::Runtime,
             config_json: RStr,
-            ast_json: RString,
-        ) -> RResult<RString, RString>,
+            ast: RVec<u8>,
+        ) -> RResult<RVec<u8>, RString>,
     >,
 }
 
