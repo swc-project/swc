@@ -24,7 +24,7 @@ fn test_resolve_1() {
         "console.log('Foo')",
     );
 
-    panic!("todo")
+    // TODO
 }
 
 fn assert_js_plugin(plugin_path: &Path, config: &str, input: &str, expected: &str) {
