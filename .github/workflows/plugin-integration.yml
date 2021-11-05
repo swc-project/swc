@@ -1,0 +1,39 @@
+name: Plugin (swc)
+
+env:
+  RUST_LOG: "debug"
+  SWC_CACHE_TEST: 1
+
+on: [push, pull_request]
+
+jobs:
+  verify:
+    name: Verify plugin - ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-10.15
+          - windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+
+      - name: Install integration test plugin
+        run: |
+          (cd plugin && yarn)
+
+      - name: Invoke test plugin
+        run: |
+          cargo test -p swc_plugin_runner
