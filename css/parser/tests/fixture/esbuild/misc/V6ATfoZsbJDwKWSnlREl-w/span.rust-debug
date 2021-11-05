@@ -46,12 +46,6 @@ error: AttrSelector
 1 | [b~="c"] {}
   | ^^^^^^^^
 
-error: NamespacedName
- --> $DIR/tests/fixture/esbuild/misc/V6ATfoZsbJDwKWSnlREl-w/input.css:1:2
-  |
-1 | [b~="c"] {}
-  |  ^
-
 error: Text
  --> $DIR/tests/fixture/esbuild/misc/V6ATfoZsbJDwKWSnlREl-w/input.css:1:2
   |

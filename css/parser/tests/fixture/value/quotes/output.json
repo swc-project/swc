@@ -751,26 +751,18 @@
                       "end": 917,
                       "ctxt": 0
                     },
+                    "prefix": null,
                     "name": {
-                      "type": "NamespacedName",
+                      "type": "Text",
                       "span": {
                         "start": 882,
                         "end": 887,
                         "ctxt": 0
                       },
-                      "prefix": null,
-                      "name": {
-                        "type": "Text",
-                        "span": {
-                          "start": 882,
-                          "end": 887,
-                          "ctxt": 0
-                        },
-                        "value": "title",
-                        "raw": "title"
-                      }
+                      "value": "title",
+                      "raw": "title"
                     },
-                    "op": "=",
+                    "matcher": "=",
                     "value": {
                       "type": "String",
                       "span": {
@@ -890,26 +882,18 @@
                       "end": 973,
                       "ctxt": 0
                     },
+                    "prefix": null,
                     "name": {
-                      "type": "NamespacedName",
+                      "type": "Text",
                       "span": {
                         "start": 940,
                         "end": 945,
                         "ctxt": 0
                       },
-                      "prefix": null,
-                      "name": {
-                        "type": "Text",
-                        "span": {
-                          "start": 940,
-                          "end": 945,
-                          "ctxt": 0
-                        },
-                        "value": "title",
-                        "raw": "title"
-                      }
+                      "value": "title",
+                      "raw": "title"
                     },
-                    "op": "=",
+                    "matcher": "=",
                     "value": {
                       "type": "String",
                       "span": {

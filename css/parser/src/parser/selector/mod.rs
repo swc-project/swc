@@ -266,9 +266,11 @@ where
         self.input.skip_ws()?;
 
         let start_span = self.input.cur_span()?;
-        let name_start_pos = self.input.cur_span()?.lo;
         let prefix;
         let name;
+        let mut attr_matcher = None;
+        let mut matcher_value = None;
+        let mut matcher_modifier = None;
 
         if let Ok((p, Some(n))) = self.parse_wq_name(start_span) {
             prefix = p;
@@ -276,79 +278,104 @@ where
         } else {
             return Err(Error::new(
                 span!(self, start_pos),
-                ErrorKind::InvalidAttrName,
+                ErrorKind::InvalidAttrSelectorName,
             ));
         }
 
-        // TODO: we don't need it
-        let name = NamespacedName {
-            span: span!(self, name_start_pos),
-            prefix,
-            name,
-        };
-
         self.input.skip_ws()?;
 
-        let attr_op = if eat!(self, "=") {
-            Some(AttrSelectorOp::Equals)
-        } else {
-            match cur!(self) {
+        if !is!(self, "]") {
+            let span = self.input.cur_span()?;
+
+            attr_matcher = match cur!(self) {
                 tok!("~") | tok!("|") | tok!("^") | tok!("$") | tok!("*") => {
                     let tok = bump!(self);
+
                     expect!(self, "=");
+
                     Some(match tok {
-                        tok!("~") => AttrSelectorOp::Tilde,
-                        tok!("|") => AttrSelectorOp::Bar,
-                        tok!("^") => AttrSelectorOp::Caret,
-                        tok!("$") => AttrSelectorOp::Dollar,
-                        tok!("*") => AttrSelectorOp::Asterisk,
+                        tok!("~") => AttrSelectorMatcher::Tilde,
+                        tok!("|") => AttrSelectorMatcher::Bar,
+                        tok!("^") => AttrSelectorMatcher::Caret,
+                        tok!("$") => AttrSelectorMatcher::Dollar,
+                        tok!("*") => AttrSelectorMatcher::Asterisk,
                         _ => {
                             unreachable!()
                         }
                     })
                 }
-                _ => None,
-            }
-        };
+                tok!("=") => {
+                    let tok = bump!(self);
 
-        let mut matcher_value = None;
-        let mut matcher_modifier = None;
+                    Some(match tok {
+                        tok!("=") => AttrSelectorMatcher::Equals,
+                        _ => {
+                            unreachable!()
+                        }
+                    })
+                }
+                _ => Err(Error::new(span, ErrorKind::InvalidAttrSelectorMatcher))?,
+            };
 
-        if let Some(..) = attr_op {
             self.input.skip_ws()?;
 
-            if !is!(self, Str) && !is!(self, Ident) {
-                return Err(Error::new(
-                    span!(self, start_pos),
-                    ErrorKind::ExpectedIdentOrStrForAttrSelectorOp,
-                ));
-            }
+            let span = self.input.cur_span()?;
 
-            let _ = cur!(self);
+            matcher_value = match cur!(self) {
+                Token::Ident { .. } => {
+                    let value = bump!(self);
+                    let ident = match value {
+                        Token::Ident { value, raw } => (value, raw),
+                        _ => unreachable!(),
+                    };
 
-            matcher_value = Some(self.parse_id_or_str_for_attr()?);
+                    Some(AttrSelectorValue::Text(Text {
+                        span,
+                        value: ident.0,
+                        raw: ident.1,
+                    }))
+                }
+                Token::Str { .. } => {
+                    let value = bump!(self);
+                    let str = match value {
+                        Token::Str { value, raw } => (value, raw),
+                        _ => unreachable!(),
+                    };
+
+                    Some(AttrSelectorValue::Str(Str {
+                        span,
+                        value: str.0,
+                        raw: str.1,
+                    }))
+                }
+                _ => Err(Error::new(span, ErrorKind::InvalidAttrSelectorMatcherValue))?,
+            };
 
             self.input.skip_ws()?;
 
             if is!(self, Ident) {
+                let span = self.input.cur_span()?;
+
                 match self.input.cur()? {
-                    Some(Token::Ident { value: s, .. }) => {
-                        if (&**s).eq_ignore_ascii_case("i") || (&**s).eq_ignore_ascii_case("s") {
-                            matcher_modifier = s.chars().next();
-                            bump!(self);
-                        }
+                    Some(Token::Ident { value, .. }) => {
+                        matcher_modifier = value.chars().next();
+
+                        bump!(self);
                     }
-                    _ => {}
+                    _ => Err(Error::new(span, ErrorKind::InvalidAttrSelectorModifier))?,
                 }
             }
+
+            self.input.skip_ws()?;
         }
 
         expect!(self, "]");
 
         Ok(AttrSelector {
             span: span!(self, start_pos),
+            prefix,
             name,
-            op: attr_op,
+            matcher: attr_matcher,
             value: matcher_value,
             modifier: matcher_modifier,
         })
@@ -511,43 +538,6 @@ where
             type_selector,
             subclass_selectors,
         })
-    }
-
-    fn parse_id_or_str_for_attr(&mut self) -> PResult<Str> {
-        let span = self.input.cur_span()?;
-
-        match cur!(self) {
-            Token::Ident { .. } => {
-                let value = bump!(self);
-                let ident = match value {
-                    Token::Ident { value, raw } => (value, raw),
-                    _ => unreachable!(),
-                };
-
-                Ok(Str {
-                    span,
-                    value: ident.0,
-                    raw: ident.1,
-                })
-            }
-            Token::Str { .. } => {
-                let value = bump!(self);
-                let str = match value {
-                    Token::Str { value, raw } => (value, raw),
-                    _ => unreachable!(),
-                };
-
-                Ok(Str {
-                    span,
-                    value: str.0,
-                    raw: str.1,
-                })
-            }
-            _ => Err(Error::new(
-                span,
-                ErrorKind::ExpectedIdentOrStrForAttrSelectorOp,
-            ))?,
-        }
     }
 }
 

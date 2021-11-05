@@ -46,19 +46,13 @@ error: AttrSelector
 1 | [attr=\,] {}
   | ^^^^^^^^^
 
-error: NamespacedName
- --> $DIR/tests/fixture/esbuild/misc/pRKMU9FUvZ77y9hGWxYQnw/input.css:1:2
-  |
-1 | [attr=\,] {}
-  |  ^^^^
-
 error: Text
  --> $DIR/tests/fixture/esbuild/misc/pRKMU9FUvZ77y9hGWxYQnw/input.css:1:2
   |
 1 | [attr=\,] {}
   |  ^^^^
 
-error: Str
+error: Text
  --> $DIR/tests/fixture/esbuild/misc/pRKMU9FUvZ77y9hGWxYQnw/input.css:1:7
   |
 1 | [attr=\,] {}
