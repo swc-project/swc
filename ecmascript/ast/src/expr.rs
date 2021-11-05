@@ -745,7 +745,7 @@ impl Take for BlockStmtOrExpr {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum PatOrExpr {
     #[tag("ThisExpression")]
@@ -791,6 +791,63 @@ pub enum PatOrExpr {
 }
 
 impl PatOrExpr {
+    /// Returns the [Pat] if this is a pattern, otherwise returns [None].
+    pub fn pat(self) -> Option<Box<Pat>> {
+        match self {
+            PatOrExpr::Expr(_) => None,
+            PatOrExpr::Pat(p) => Some(p),
+        }
+    }
+
+    /// Returns the [Expr] if this is an expression, otherwise returns
+    /// `None`.
+    pub fn expr(self) -> Option<Box<Expr>> {
+        match self {
+            PatOrExpr::Expr(e) => Some(e),
+            PatOrExpr::Pat(p) => match *p {
+                Pat::Expr(e) => Some(e),
+                _ => None,
+            },
+        }
+    }
+
+    #[track_caller]
+    pub fn expect_pat(self) -> Box<Pat> {
+        self.pat()
+            .expect("expect_pat is called but it was not a pattern")
+    }
+
+    #[track_caller]
+    pub fn expect_expr(self) -> Box<Expr> {
+        self.expr()
+            .expect("expect_expr is called but it was not a pattern")
+    }
+
+    pub fn as_pat(&self) -> Option<&Pat> {
+        match self {
+            PatOrExpr::Expr(_) => None,
+            PatOrExpr::Pat(p) => Some(p),
+        }
+    }
+
+    pub fn as_expr(&self) -> Option<&Expr> {
+        match self {
+            PatOrExpr::Expr(e) => Some(e),
+            PatOrExpr::Pat(p) => match &**p {
+                Pat::Expr(e) => Some(e),
+                _ => None,
+            },
+        }
+    }
+
+    pub fn is_pat(&self) -> bool {
+        self.as_pat().is_some()
+    }
+
+    pub fn is_expr(&self) -> bool {
+        self.as_expr().is_some()
+    }
+
     pub fn as_ident(&self) -> Option<&Ident> {
         match self {
             PatOrExpr::Expr(v) => match &**v {
@@ -821,6 +878,32 @@ impl PatOrExpr {
                     _ => None,
                 },
                 _ => None,
+            },
+        }
+    }
+
+    pub fn normalize_expr(self) -> Self {
+        match self {
+            PatOrExpr::Pat(pat) => match *pat {
+                Pat::Expr(expr) => PatOrExpr::Expr(expr),
+                _ => return PatOrExpr::Pat(pat),
+            },
+            _ => self,
+        }
+    }
+
+    pub fn normalize_ident(self) -> Self {
+        match self {
+            PatOrExpr::Expr(expr) => match *expr {
+                Expr::Ident(i) => PatOrExpr::Pat(Box::new(Pat::Ident(i.into()))),
+                _ => PatOrExpr::Expr(expr),
+            },
+            PatOrExpr::Pat(pat) => match *pat {
+                Pat::Expr(expr) => match *expr {
+                    Expr::Ident(i) => PatOrExpr::Pat(Box::new(Pat::Ident(i.into()))),
+                    _ => PatOrExpr::Expr(expr),
+                },
+                _ => PatOrExpr::Pat(pat),
             },
         }
     }
