@@ -42,35 +42,6 @@
                 "subclassSelectors": [
                   {
                     "type": "AttributeSelector",
-      "selectors": [
-        {
-          "type": "ComplexSelector",
-          "span": {
-            "start": 0,
-            "end": 4,
-            "ctxt": 0
-          },
-          "selectors": [
-            {
-              "type": "CompoundSelector",
-              "span": {
-                "start": 0,
-                "end": 4,
-                "ctxt": 0
-              },
-              "hasNestPrefix": true,
-              "combinator": null,
-              "typeSelector": null,
-              "subclassSelectors": [
-                {
-                  "type": "AttributeSelector",
-                  "span": {
-                    "start": 1,
-                    "end": 4,
-                    "ctxt": 0
-                  },
-                  "name": {
-                    "type": "TypeSelector",
                     "span": {
                       "start": 1,
                       "end": 4,
@@ -79,6 +50,7 @@
                     "prefix": null,
                     "name": {
                       "type": "Text",
+                      "type": "TypeSelector",
                       "span": {
                         "start": 2,
                         "end": 3,

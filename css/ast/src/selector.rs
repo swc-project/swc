@@ -22,7 +22,7 @@ pub struct CompoundSelector {
     /// "&"
     pub has_nest_prefix: bool,
     pub combinator: Option<SelectorCombinator>,
-    pub type_selector: Option<NamespacedName>,
+    pub type_selector: Option<TypeSelector>,
     pub subclass_selectors: Vec<SubclassSelector>,
 }
 
@@ -39,12 +39,6 @@ pub enum SelectorCombinator {
 
     /// `~`
     LaterSibling,
-}
-
-#[ast_node("NamespacedName")]
-pub struct NamespacedName {
-    pub type_selector: Option<TypeSelector>,
-    pub subclass_selectors: Vec<SubclassSelector>,
 }
 
 #[ast_node("TypeSelector")]

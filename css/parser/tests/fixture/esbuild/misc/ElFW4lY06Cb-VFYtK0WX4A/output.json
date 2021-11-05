@@ -60,26 +60,6 @@
                 "selectors": [
                   {
                     "type": "CompoundSelector",
-          "selectors": [
-            {
-              "type": "ComplexSelector",
-              "span": {
-                "start": 30,
-                "end": 32,
-                "ctxt": 0
-              },
-              "selectors": [
-                {
-                  "type": "CompoundSelector",
-                  "span": {
-                    "start": 30,
-                    "end": 32,
-                    "ctxt": 0
-                  },
-                  "hasNestPrefix": false,
-                  "combinator": null,
-                  "typeSelector": {
-                    "type": "TypeSelector",
                     "span": {
                       "start": 30,
                       "end": 32,
@@ -88,7 +68,7 @@
                     "hasNestPrefix": false,
                     "combinator": null,
                     "typeSelector": {
-                      "type": "NamespacedName",
+                      "type": "TypeSelector",
                       "span": {
                         "start": 30,
                         "end": 32,

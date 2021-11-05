@@ -884,26 +884,6 @@
                 "selectors": [
                   {
                     "type": "CompoundSelector",
-          "selectors": [
-            {
-              "type": "ComplexSelector",
-              "span": {
-                "start": 383,
-                "end": 384,
-                "ctxt": 0
-              },
-              "selectors": [
-                {
-                  "type": "CompoundSelector",
-                  "span": {
-                    "start": 383,
-                    "end": 384,
-                    "ctxt": 0
-                  },
-                  "hasNestPrefix": false,
-                  "combinator": null,
-                  "typeSelector": {
-                    "type": "TypeSelector",
                     "span": {
                       "start": 383,
                       "end": 384,
@@ -912,7 +892,7 @@
                     "hasNestPrefix": false,
                     "combinator": null,
                     "typeSelector": {
-                      "type": "NamespacedName",
+                      "type": "TypeSelector",
                       "span": {
                         "start": 383,
                         "end": 384,

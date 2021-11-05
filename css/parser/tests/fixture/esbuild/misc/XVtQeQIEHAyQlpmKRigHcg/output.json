@@ -31,26 +31,6 @@
             "selectors": [
               {
                 "type": "CompoundSelector",
-      "selectors": [
-        {
-          "type": "ComplexSelector",
-          "span": {
-            "start": 0,
-            "end": 5,
-            "ctxt": 0
-          },
-          "selectors": [
-            {
-              "type": "CompoundSelector",
-              "span": {
-                "start": 0,
-                "end": 1,
-                "ctxt": 0
-              },
-              "hasNestPrefix": false,
-              "combinator": null,
-              "typeSelector": {
-                "type": "TypeSelector",
                 "span": {
                   "start": 0,
                   "end": 1,
@@ -59,7 +39,7 @@
                 "hasNestPrefix": false,
                 "combinator": null,
                 "typeSelector": {
-                  "type": "NamespacedName",
+                  "type": "TypeSelector",
                   "span": {
                     "start": 0,
                     "end": 1,
@@ -81,10 +61,6 @@
               },
               {
                 "type": "CompoundSelector",
-              "hasNestPrefix": false,
-              "combinator": "~",
-              "typeSelector": {
-                "type": "TypeSelector",
                 "span": {
                   "start": 4,
                   "end": 5,
@@ -93,7 +69,7 @@
                 "hasNestPrefix": false,
                 "combinator": "~",
                 "typeSelector": {
-                  "type": "NamespacedName",
+                  "type": "TypeSelector",
                   "span": {
                     "start": 4,
                     "end": 5,
