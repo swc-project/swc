@@ -2,7 +2,7 @@ use super::{is_pure_undefined, Optimizer};
 use crate::{
     compress::{
         optimize::util::replace_id_with_expr,
-        util::{get_lhs_ident, get_lhs_ident_mut, is_directive, is_ident_used_by, replace_expr},
+        util::{is_directive, is_ident_used_by, replace_expr},
     },
     debug::dump,
     mode::Mode,
@@ -241,7 +241,7 @@ where
                                                 ..
                                             }) => {
                                                 if !has_conflict
-                                                    && get_lhs_ident_mut(left).is_some()
+                                                    && left.as_ident().is_some()
                                                     && match &**right {
                                                         Expr::Lit(Lit::Regex(..)) => false,
                                                         Expr::Lit(..) => true,
@@ -568,7 +568,7 @@ where
 
             match &*e.exprs[e.exprs.len() - 2] {
                 Expr::Assign(assign @ AssignExpr { op: op!("="), .. }) => {
-                    if let Some(lhs) = get_lhs_ident(&assign.left) {
+                    if let Some(lhs) = assign.left.as_ident() {
                         if lhs.sym == last_id.sym && lhs.span.ctxt == last_id.span.ctxt {
                             e.exprs.pop();
                             self.changed = true;
@@ -878,7 +878,7 @@ where
             }
 
             Expr::Assign(e) => {
-                let left_id = get_lhs_ident(&e.left);
+                let left_id = e.left.as_ident();
                 let left_id = match left_id {
                     Some(v) => v,
                     _ => return false,
@@ -1070,7 +1070,7 @@ where
             }
 
             Expr::Assign(b) => {
-                let b_left = get_lhs_ident(&b.left);
+                let b_left = b.left.as_ident();
                 let b_left = match b_left {
                     Some(v) => v.clone(),
                     None => return Ok(false),
@@ -1331,7 +1331,7 @@ where
                         //
                         // (console.log(a = 5))
 
-                        let left_id = match get_lhs_ident(left) {
+                        let left_id = match left.as_ident() {
                             Some(v) => v,
                             None => {
                                 tracing::trace!("[X] sequences: Aborting because lhs is not an id");
@@ -1535,7 +1535,7 @@ impl Mergable<'_> {
                 _ => None,
             },
             Mergable::Expr(s) => match &**s {
-                Expr::Assign(s) => get_lhs_ident(&s.left).map(|v| v.to_id()),
+                Expr::Assign(s) => s.left.as_ident().map(|v| v.to_id()),
                 _ => None,
             },
         }
