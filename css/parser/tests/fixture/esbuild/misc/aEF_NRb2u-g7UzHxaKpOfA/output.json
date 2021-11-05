@@ -65,26 +65,18 @@
                       "end": 8,
                       "ctxt": 0
                     },
+                    "prefix": null,
                     "name": {
-                      "type": "NamespacedName",
+                      "type": "Text",
                       "span": {
                         "start": 6,
                         "end": 7,
                         "ctxt": 0
                       },
-                      "prefix": null,
-                      "name": {
-                        "type": "Text",
-                        "span": {
-                          "start": 6,
-                          "end": 7,
-                          "ctxt": 0
-                        },
-                        "value": "b",
-                        "raw": "b"
-                      }
+                      "value": "b",
+                      "raw": "b"
                     },
-                    "op": null,
+                    "matcher": null,
                     "value": null,
                     "modifier": null
                   }

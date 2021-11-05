@@ -4,11 +4,11 @@ error: Stylesheet
 1  | / [title] {}
 2  | | [title=foo] {}
 3  | | [title="foo"] {}
-4  | | [lang~="en-us"] {}
+4  | | [ title = "foo" ] {}
 ...  |
-19 | | [href*="insensitive"   i] {}
-20 | | [   href   ] {}
-   | |________________^
+28 | | [   href   *=   "insensitive"   i   ] {}
+29 | | [   href   ] {}
+   | |_______________^
 
 error: Rule
  --> $DIR/tests/fixture/selector/attribute/input.css:1:1
@@ -51,12 +51,6 @@ error: AttrSelector
   |
 1 | [title] {}
   | ^^^^^^^
-
-error: NamespacedName
- --> $DIR/tests/fixture/selector/attribute/input.css:1:2
-  |
-1 | [title] {}
-  |  ^^^^^
 
 error: Text
  --> $DIR/tests/fixture/selector/attribute/input.css:1:2
@@ -112,19 +106,13 @@ error: AttrSelector
 2 | [title=foo] {}
   | ^^^^^^^^^^^
 
-error: NamespacedName
- --> $DIR/tests/fixture/selector/attribute/input.css:2:2
-  |
-2 | [title=foo] {}
-  |  ^^^^^
-
 error: Text
  --> $DIR/tests/fixture/selector/attribute/input.css:2:2
   |
 2 | [title=foo] {}
   |  ^^^^^
 
-error: Str
+error: Text
  --> $DIR/tests/fixture/selector/attribute/input.css:2:8
   |
 2 | [title=foo] {}
@@ -178,12 +166,6 @@ error: AttrSelector
 3 | [title="foo"] {}
   | ^^^^^^^^^^^^^
 
-error: NamespacedName
- --> $DIR/tests/fixture/selector/attribute/input.css:3:2
-  |
-3 | [title="foo"] {}
-  |  ^^^^^
-
 error: Text
  --> $DIR/tests/fixture/selector/attribute/input.css:3:2
   |
@@ -205,1140 +187,1566 @@ error: Block
 error: Rule
  --> $DIR/tests/fixture/selector/attribute/input.css:4:1
   |
-4 | [lang~="en-us"] {}
-  | ^^^^^^^^^^^^^^^^^^
+4 | [ title = "foo" ] {}
+  | ^^^^^^^^^^^^^^^^^^^^
 
 error: StyleRule
  --> $DIR/tests/fixture/selector/attribute/input.css:4:1
   |
-4 | [lang~="en-us"] {}
-  | ^^^^^^^^^^^^^^^^^^
+4 | [ title = "foo" ] {}
+  | ^^^^^^^^^^^^^^^^^^^^
 
 error: SelectorList
  --> $DIR/tests/fixture/selector/attribute/input.css:4:1
   |
-4 | [lang~="en-us"] {}
-  | ^^^^^^^^^^^^^^^
+4 | [ title = "foo" ] {}
+  | ^^^^^^^^^^^^^^^^^
 
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/attribute/input.css:4:1
   |
-4 | [lang~="en-us"] {}
-  | ^^^^^^^^^^^^^^^
+4 | [ title = "foo" ] {}
+  | ^^^^^^^^^^^^^^^^^
 
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/attribute/input.css:4:1
   |
-4 | [lang~="en-us"] {}
-  | ^^^^^^^^^^^^^^^
+4 | [ title = "foo" ] {}
+  | ^^^^^^^^^^^^^^^^^
 
 error: SubclassSelector
  --> $DIR/tests/fixture/selector/attribute/input.css:4:1
   |
-4 | [lang~="en-us"] {}
-  | ^^^^^^^^^^^^^^^
+4 | [ title = "foo" ] {}
+  | ^^^^^^^^^^^^^^^^^
 
 error: AttrSelector
  --> $DIR/tests/fixture/selector/attribute/input.css:4:1
   |
-4 | [lang~="en-us"] {}
-  | ^^^^^^^^^^^^^^^
-
-error: NamespacedName
- --> $DIR/tests/fixture/selector/attribute/input.css:4:2
-  |
-4 | [lang~="en-us"] {}
-  |  ^^^^
+4 | [ title = "foo" ] {}
+  | ^^^^^^^^^^^^^^^^^
 
 error: Text
- --> $DIR/tests/fixture/selector/attribute/input.css:4:2
+ --> $DIR/tests/fixture/selector/attribute/input.css:4:3
   |
-4 | [lang~="en-us"] {}
-  |  ^^^^
+4 | [ title = "foo" ] {}
+  |   ^^^^^
 
 error: Str
- --> $DIR/tests/fixture/selector/attribute/input.css:4:8
+ --> $DIR/tests/fixture/selector/attribute/input.css:4:11
   |
-4 | [lang~="en-us"] {}
-  |        ^^^^^^^
+4 | [ title = "foo" ] {}
+  |           ^^^^^
 
 error: Block
- --> $DIR/tests/fixture/selector/attribute/input.css:4:17
+ --> $DIR/tests/fixture/selector/attribute/input.css:4:19
   |
-4 | [lang~="en-us"] {}
-  |                 ^^
+4 | [ title = "foo" ] {}
+  |                   ^^
 
 error: Rule
  --> $DIR/tests/fixture/selector/attribute/input.css:5:1
   |
-5 | [lang|="zh"] {}
-  | ^^^^^^^^^^^^^^^
+5 | [   title   =   "foo"   ] {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: StyleRule
  --> $DIR/tests/fixture/selector/attribute/input.css:5:1
   |
-5 | [lang|="zh"] {}
-  | ^^^^^^^^^^^^^^^
+5 | [   title   =   "foo"   ] {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: SelectorList
  --> $DIR/tests/fixture/selector/attribute/input.css:5:1
   |
-5 | [lang|="zh"] {}
-  | ^^^^^^^^^^^^
+5 | [   title   =   "foo"   ] {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/attribute/input.css:5:1
   |
-5 | [lang|="zh"] {}
-  | ^^^^^^^^^^^^
+5 | [   title   =   "foo"   ] {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/attribute/input.css:5:1
   |
-5 | [lang|="zh"] {}
-  | ^^^^^^^^^^^^
+5 | [   title   =   "foo"   ] {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: SubclassSelector
  --> $DIR/tests/fixture/selector/attribute/input.css:5:1
   |
-5 | [lang|="zh"] {}
-  | ^^^^^^^^^^^^
+5 | [   title   =   "foo"   ] {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: AttrSelector
  --> $DIR/tests/fixture/selector/attribute/input.css:5:1
   |
-5 | [lang|="zh"] {}
-  | ^^^^^^^^^^^^
-
-error: NamespacedName
- --> $DIR/tests/fixture/selector/attribute/input.css:5:2
-  |
-5 | [lang|="zh"] {}
-  |  ^^^^
+5 | [   title   =   "foo"   ] {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Text
- --> $DIR/tests/fixture/selector/attribute/input.css:5:2
+ --> $DIR/tests/fixture/selector/attribute/input.css:5:5
   |
-5 | [lang|="zh"] {}
-  |  ^^^^
+5 | [   title   =   "foo"   ] {}
+  |     ^^^^^
 
 error: Str
- --> $DIR/tests/fixture/selector/attribute/input.css:5:8
+ --> $DIR/tests/fixture/selector/attribute/input.css:5:17
   |
-5 | [lang|="zh"] {}
-  |        ^^^^
+5 | [   title   =   "foo"   ] {}
+  |                 ^^^^^
 
 error: Block
- --> $DIR/tests/fixture/selector/attribute/input.css:5:14
+ --> $DIR/tests/fixture/selector/attribute/input.css:5:27
   |
-5 | [lang|="zh"] {}
-  |              ^^
+5 | [   title   =   "foo"   ] {}
+  |                           ^^
 
 error: Rule
  --> $DIR/tests/fixture/selector/attribute/input.css:6:1
   |
-6 | [href^="#"] {}
-  | ^^^^^^^^^^^^^^
+6 | [lang~="en-us"] {}
+  | ^^^^^^^^^^^^^^^^^^
 
 error: StyleRule
  --> $DIR/tests/fixture/selector/attribute/input.css:6:1
   |
-6 | [href^="#"] {}
-  | ^^^^^^^^^^^^^^
+6 | [lang~="en-us"] {}
+  | ^^^^^^^^^^^^^^^^^^
 
 error: SelectorList
  --> $DIR/tests/fixture/selector/attribute/input.css:6:1
   |
-6 | [href^="#"] {}
-  | ^^^^^^^^^^^
+6 | [lang~="en-us"] {}
+  | ^^^^^^^^^^^^^^^
 
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/attribute/input.css:6:1
   |
-6 | [href^="#"] {}
-  | ^^^^^^^^^^^
+6 | [lang~="en-us"] {}
+  | ^^^^^^^^^^^^^^^
 
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/attribute/input.css:6:1
   |
-6 | [href^="#"] {}
-  | ^^^^^^^^^^^
+6 | [lang~="en-us"] {}
+  | ^^^^^^^^^^^^^^^
 
 error: SubclassSelector
  --> $DIR/tests/fixture/selector/attribute/input.css:6:1
   |
-6 | [href^="#"] {}
-  | ^^^^^^^^^^^
+6 | [lang~="en-us"] {}
+  | ^^^^^^^^^^^^^^^
 
 error: AttrSelector
  --> $DIR/tests/fixture/selector/attribute/input.css:6:1
   |
-6 | [href^="#"] {}
-  | ^^^^^^^^^^^
-
-error: NamespacedName
- --> $DIR/tests/fixture/selector/attribute/input.css:6:2
-  |
-6 | [href^="#"] {}
-  |  ^^^^
+6 | [lang~="en-us"] {}
+  | ^^^^^^^^^^^^^^^
 
 error: Text
  --> $DIR/tests/fixture/selector/attribute/input.css:6:2
   |
-6 | [href^="#"] {}
+6 | [lang~="en-us"] {}
   |  ^^^^
 
 error: Str
  --> $DIR/tests/fixture/selector/attribute/input.css:6:8
   |
-6 | [href^="#"] {}
-  |        ^^^
+6 | [lang~="en-us"] {}
+  |        ^^^^^^^
 
 error: Block
- --> $DIR/tests/fixture/selector/attribute/input.css:6:13
+ --> $DIR/tests/fixture/selector/attribute/input.css:6:17
   |
-6 | [href^="#"] {}
-  |             ^^
+6 | [lang~="en-us"] {}
+  |                 ^^
 
 error: Rule
  --> $DIR/tests/fixture/selector/attribute/input.css:7:1
   |
-7 | [href$=".org"] {}
-  | ^^^^^^^^^^^^^^^^^
+7 | [lang|="zh"] {}
+  | ^^^^^^^^^^^^^^^
 
 error: StyleRule
  --> $DIR/tests/fixture/selector/attribute/input.css:7:1
   |
-7 | [href$=".org"] {}
-  | ^^^^^^^^^^^^^^^^^
+7 | [lang|="zh"] {}
+  | ^^^^^^^^^^^^^^^
 
 error: SelectorList
  --> $DIR/tests/fixture/selector/attribute/input.css:7:1
   |
-7 | [href$=".org"] {}
-  | ^^^^^^^^^^^^^^
+7 | [lang|="zh"] {}
+  | ^^^^^^^^^^^^
 
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/attribute/input.css:7:1
   |
-7 | [href$=".org"] {}
-  | ^^^^^^^^^^^^^^
+7 | [lang|="zh"] {}
+  | ^^^^^^^^^^^^
 
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/attribute/input.css:7:1
   |
-7 | [href$=".org"] {}
-  | ^^^^^^^^^^^^^^
+7 | [lang|="zh"] {}
+  | ^^^^^^^^^^^^
 
 error: SubclassSelector
  --> $DIR/tests/fixture/selector/attribute/input.css:7:1
   |
-7 | [href$=".org"] {}
-  | ^^^^^^^^^^^^^^
+7 | [lang|="zh"] {}
+  | ^^^^^^^^^^^^
 
 error: AttrSelector
  --> $DIR/tests/fixture/selector/attribute/input.css:7:1
   |
-7 | [href$=".org"] {}
-  | ^^^^^^^^^^^^^^
-
-error: NamespacedName
- --> $DIR/tests/fixture/selector/attribute/input.css:7:2
-  |
-7 | [href$=".org"] {}
-  |  ^^^^
+7 | [lang|="zh"] {}
+  | ^^^^^^^^^^^^
 
 error: Text
  --> $DIR/tests/fixture/selector/attribute/input.css:7:2
   |
-7 | [href$=".org"] {}
+7 | [lang|="zh"] {}
   |  ^^^^
 
 error: Str
  --> $DIR/tests/fixture/selector/attribute/input.css:7:8
   |
-7 | [href$=".org"] {}
-  |        ^^^^^^
+7 | [lang|="zh"] {}
+  |        ^^^^
 
 error: Block
- --> $DIR/tests/fixture/selector/attribute/input.css:7:16
+ --> $DIR/tests/fixture/selector/attribute/input.css:7:14
   |
-7 | [href$=".org"] {}
-  |                ^^
+7 | [lang|="zh"] {}
+  |              ^^
 
 error: Rule
  --> $DIR/tests/fixture/selector/attribute/input.css:8:1
   |
-8 | [href*="example"] {}
-  | ^^^^^^^^^^^^^^^^^^^^
+8 | [href^="#"] {}
+  | ^^^^^^^^^^^^^^
 
 error: StyleRule
  --> $DIR/tests/fixture/selector/attribute/input.css:8:1
   |
-8 | [href*="example"] {}
-  | ^^^^^^^^^^^^^^^^^^^^
+8 | [href^="#"] {}
+  | ^^^^^^^^^^^^^^
 
 error: SelectorList
  --> $DIR/tests/fixture/selector/attribute/input.css:8:1
   |
-8 | [href*="example"] {}
-  | ^^^^^^^^^^^^^^^^^
+8 | [href^="#"] {}
+  | ^^^^^^^^^^^
 
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/attribute/input.css:8:1
   |
-8 | [href*="example"] {}
-  | ^^^^^^^^^^^^^^^^^
+8 | [href^="#"] {}
+  | ^^^^^^^^^^^
 
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/attribute/input.css:8:1
   |
-8 | [href*="example"] {}
-  | ^^^^^^^^^^^^^^^^^
+8 | [href^="#"] {}
+  | ^^^^^^^^^^^
 
 error: SubclassSelector
  --> $DIR/tests/fixture/selector/attribute/input.css:8:1
   |
-8 | [href*="example"] {}
-  | ^^^^^^^^^^^^^^^^^
+8 | [href^="#"] {}
+  | ^^^^^^^^^^^
 
 error: AttrSelector
  --> $DIR/tests/fixture/selector/attribute/input.css:8:1
   |
-8 | [href*="example"] {}
-  | ^^^^^^^^^^^^^^^^^
-
-error: NamespacedName
- --> $DIR/tests/fixture/selector/attribute/input.css:8:2
-  |
-8 | [href*="example"] {}
-  |  ^^^^
+8 | [href^="#"] {}
+  | ^^^^^^^^^^^
 
 error: Text
  --> $DIR/tests/fixture/selector/attribute/input.css:8:2
   |
-8 | [href*="example"] {}
+8 | [href^="#"] {}
   |  ^^^^
 
 error: Str
  --> $DIR/tests/fixture/selector/attribute/input.css:8:8
   |
-8 | [href*="example"] {}
-  |        ^^^^^^^^^
+8 | [href^="#"] {}
+  |        ^^^
 
 error: Block
- --> $DIR/tests/fixture/selector/attribute/input.css:8:19
+ --> $DIR/tests/fixture/selector/attribute/input.css:8:13
   |
-8 | [href*="example"] {}
-  |                   ^^
+8 | [href^="#"] {}
+  |             ^^
 
 error: Rule
  --> $DIR/tests/fixture/selector/attribute/input.css:9:1
   |
-9 | [href*="insensitive" i] {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+9 | [href$=".org"] {}
+  | ^^^^^^^^^^^^^^^^^
 
 error: StyleRule
  --> $DIR/tests/fixture/selector/attribute/input.css:9:1
   |
-9 | [href*="insensitive" i] {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+9 | [href$=".org"] {}
+  | ^^^^^^^^^^^^^^^^^
 
 error: SelectorList
  --> $DIR/tests/fixture/selector/attribute/input.css:9:1
   |
-9 | [href*="insensitive" i] {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^
+9 | [href$=".org"] {}
+  | ^^^^^^^^^^^^^^
 
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/attribute/input.css:9:1
   |
-9 | [href*="insensitive" i] {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^
+9 | [href$=".org"] {}
+  | ^^^^^^^^^^^^^^
 
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/attribute/input.css:9:1
   |
-9 | [href*="insensitive" i] {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^
+9 | [href$=".org"] {}
+  | ^^^^^^^^^^^^^^
 
 error: SubclassSelector
  --> $DIR/tests/fixture/selector/attribute/input.css:9:1
   |
-9 | [href*="insensitive" i] {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^
+9 | [href$=".org"] {}
+  | ^^^^^^^^^^^^^^
 
 error: AttrSelector
  --> $DIR/tests/fixture/selector/attribute/input.css:9:1
   |
-9 | [href*="insensitive" i] {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^
-
-error: NamespacedName
- --> $DIR/tests/fixture/selector/attribute/input.css:9:2
-  |
-9 | [href*="insensitive" i] {}
-  |  ^^^^
+9 | [href$=".org"] {}
+  | ^^^^^^^^^^^^^^
 
 error: Text
  --> $DIR/tests/fixture/selector/attribute/input.css:9:2
   |
-9 | [href*="insensitive" i] {}
+9 | [href$=".org"] {}
   |  ^^^^
 
 error: Str
  --> $DIR/tests/fixture/selector/attribute/input.css:9:8
   |
-9 | [href*="insensitive" i] {}
-  |        ^^^^^^^^^^^^^
+9 | [href$=".org"] {}
+  |        ^^^^^^
 
 error: Block
- --> $DIR/tests/fixture/selector/attribute/input.css:9:25
+ --> $DIR/tests/fixture/selector/attribute/input.css:9:16
   |
-9 | [href*="insensitive" i] {}
-  |                         ^^
+9 | [href$=".org"] {}
+  |                ^^
 
 error: Rule
   --> $DIR/tests/fixture/selector/attribute/input.css:10:1
    |
-10 | [href*="insensitive" I] {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+10 | [href*="example"] {}
+   | ^^^^^^^^^^^^^^^^^^^^
 
 error: StyleRule
   --> $DIR/tests/fixture/selector/attribute/input.css:10:1
    |
-10 | [href*="insensitive" I] {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+10 | [href*="example"] {}
+   | ^^^^^^^^^^^^^^^^^^^^
 
 error: SelectorList
   --> $DIR/tests/fixture/selector/attribute/input.css:10:1
    |
-10 | [href*="insensitive" I] {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^
+10 | [href*="example"] {}
+   | ^^^^^^^^^^^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/attribute/input.css:10:1
    |
-10 | [href*="insensitive" I] {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^
+10 | [href*="example"] {}
+   | ^^^^^^^^^^^^^^^^^
 
 error: CompoundSelector
   --> $DIR/tests/fixture/selector/attribute/input.css:10:1
    |
-10 | [href*="insensitive" I] {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^
+10 | [href*="example"] {}
+   | ^^^^^^^^^^^^^^^^^
 
 error: SubclassSelector
   --> $DIR/tests/fixture/selector/attribute/input.css:10:1
    |
-10 | [href*="insensitive" I] {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^
+10 | [href*="example"] {}
+   | ^^^^^^^^^^^^^^^^^
 
 error: AttrSelector
   --> $DIR/tests/fixture/selector/attribute/input.css:10:1
    |
-10 | [href*="insensitive" I] {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^
-
-error: NamespacedName
-  --> $DIR/tests/fixture/selector/attribute/input.css:10:2
-   |
-10 | [href*="insensitive" I] {}
-   |  ^^^^
+10 | [href*="example"] {}
+   | ^^^^^^^^^^^^^^^^^
 
 error: Text
   --> $DIR/tests/fixture/selector/attribute/input.css:10:2
    |
-10 | [href*="insensitive" I] {}
+10 | [href*="example"] {}
    |  ^^^^
 
 error: Str
   --> $DIR/tests/fixture/selector/attribute/input.css:10:8
    |
-10 | [href*="insensitive" I] {}
-   |        ^^^^^^^^^^^^^
+10 | [href*="example"] {}
+   |        ^^^^^^^^^
 
 error: Block
-  --> $DIR/tests/fixture/selector/attribute/input.css:10:25
+  --> $DIR/tests/fixture/selector/attribute/input.css:10:19
    |
-10 | [href*="insensitive" I] {}
-   |                         ^^
+10 | [href*="example"] {}
+   |                   ^^
 
 error: Rule
   --> $DIR/tests/fixture/selector/attribute/input.css:11:1
    |
-11 | [href*="cAsE" s] {}
-   | ^^^^^^^^^^^^^^^^^^^
+11 | [href*="insensitive" i] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: StyleRule
   --> $DIR/tests/fixture/selector/attribute/input.css:11:1
    |
-11 | [href*="cAsE" s] {}
-   | ^^^^^^^^^^^^^^^^^^^
+11 | [href*="insensitive" i] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: SelectorList
   --> $DIR/tests/fixture/selector/attribute/input.css:11:1
    |
-11 | [href*="cAsE" s] {}
-   | ^^^^^^^^^^^^^^^^
+11 | [href*="insensitive" i] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/attribute/input.css:11:1
    |
-11 | [href*="cAsE" s] {}
-   | ^^^^^^^^^^^^^^^^
+11 | [href*="insensitive" i] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: CompoundSelector
   --> $DIR/tests/fixture/selector/attribute/input.css:11:1
    |
-11 | [href*="cAsE" s] {}
-   | ^^^^^^^^^^^^^^^^
+11 | [href*="insensitive" i] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: SubclassSelector
   --> $DIR/tests/fixture/selector/attribute/input.css:11:1
    |
-11 | [href*="cAsE" s] {}
-   | ^^^^^^^^^^^^^^^^
+11 | [href*="insensitive" i] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: AttrSelector
   --> $DIR/tests/fixture/selector/attribute/input.css:11:1
    |
-11 | [href*="cAsE" s] {}
-   | ^^^^^^^^^^^^^^^^
-
-error: NamespacedName
-  --> $DIR/tests/fixture/selector/attribute/input.css:11:2
-   |
-11 | [href*="cAsE" s] {}
-   |  ^^^^
+11 | [href*="insensitive" i] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Text
   --> $DIR/tests/fixture/selector/attribute/input.css:11:2
    |
-11 | [href*="cAsE" s] {}
+11 | [href*="insensitive" i] {}
    |  ^^^^
 
 error: Str
   --> $DIR/tests/fixture/selector/attribute/input.css:11:8
    |
-11 | [href*="cAsE" s] {}
-   |        ^^^^^^
+11 | [href*="insensitive" i] {}
+   |        ^^^^^^^^^^^^^
 
 error: Block
-  --> $DIR/tests/fixture/selector/attribute/input.css:11:18
+  --> $DIR/tests/fixture/selector/attribute/input.css:11:25
    |
-11 | [href*="cAsE" s] {}
-   |                  ^^
+11 | [href*="insensitive" i] {}
+   |                         ^^
 
 error: Rule
   --> $DIR/tests/fixture/selector/attribute/input.css:12:1
    |
-12 | [href*="cAsE" S] {}
-   | ^^^^^^^^^^^^^^^^^^^
+12 | [href*="insensitive" I] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: StyleRule
   --> $DIR/tests/fixture/selector/attribute/input.css:12:1
    |
-12 | [href*="cAsE" S] {}
-   | ^^^^^^^^^^^^^^^^^^^
+12 | [href*="insensitive" I] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: SelectorList
   --> $DIR/tests/fixture/selector/attribute/input.css:12:1
    |
-12 | [href*="cAsE" S] {}
-   | ^^^^^^^^^^^^^^^^
+12 | [href*="insensitive" I] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/attribute/input.css:12:1
    |
-12 | [href*="cAsE" S] {}
-   | ^^^^^^^^^^^^^^^^
+12 | [href*="insensitive" I] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: CompoundSelector
   --> $DIR/tests/fixture/selector/attribute/input.css:12:1
    |
-12 | [href*="cAsE" S] {}
-   | ^^^^^^^^^^^^^^^^
+12 | [href*="insensitive" I] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: SubclassSelector
   --> $DIR/tests/fixture/selector/attribute/input.css:12:1
    |
-12 | [href*="cAsE" S] {}
-   | ^^^^^^^^^^^^^^^^
+12 | [href*="insensitive" I] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: AttrSelector
   --> $DIR/tests/fixture/selector/attribute/input.css:12:1
    |
-12 | [href*="cAsE" S] {}
-   | ^^^^^^^^^^^^^^^^
-
-error: NamespacedName
-  --> $DIR/tests/fixture/selector/attribute/input.css:12:2
-   |
-12 | [href*="cAsE" S] {}
-   |  ^^^^
+12 | [href*="insensitive" I] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Text
   --> $DIR/tests/fixture/selector/attribute/input.css:12:2
    |
-12 | [href*="cAsE" S] {}
+12 | [href*="insensitive" I] {}
    |  ^^^^
 
 error: Str
   --> $DIR/tests/fixture/selector/attribute/input.css:12:8
    |
-12 | [href*="cAsE" S] {}
-   |        ^^^^^^
-
-error: Block
-  --> $DIR/tests/fixture/selector/attribute/input.css:12:18
-   |
-12 | [href*="cAsE" S] {}
-   |                  ^^
-
-error: Rule
-  --> $DIR/tests/fixture/selector/attribute/input.css:13:1
-   |
-13 | [foo|att=val] {}
-   | ^^^^^^^^^^^^^^^^
-
-error: StyleRule
-  --> $DIR/tests/fixture/selector/attribute/input.css:13:1
-   |
-13 | [foo|att=val] {}
-   | ^^^^^^^^^^^^^^^^
-
-error: SelectorList
-  --> $DIR/tests/fixture/selector/attribute/input.css:13:1
-   |
-13 | [foo|att=val] {}
-   | ^^^^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/selector/attribute/input.css:13:1
-   |
-13 | [foo|att=val] {}
-   | ^^^^^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/selector/attribute/input.css:13:1
-   |
-13 | [foo|att=val] {}
-   | ^^^^^^^^^^^^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/selector/attribute/input.css:13:1
-   |
-13 | [foo|att=val] {}
-   | ^^^^^^^^^^^^^
-
-error: AttrSelector
-  --> $DIR/tests/fixture/selector/attribute/input.css:13:1
-   |
-13 | [foo|att=val] {}
-   | ^^^^^^^^^^^^^
-
-error: NamespacedName
-  --> $DIR/tests/fixture/selector/attribute/input.css:13:2
-   |
-13 | [foo|att=val] {}
-   |  ^^^^^^^
-
-error: Text
-  --> $DIR/tests/fixture/selector/attribute/input.css:13:2
-   |
-13 | [foo|att=val] {}
-   |  ^^^
-
-error: Text
-  --> $DIR/tests/fixture/selector/attribute/input.css:13:6
-   |
-13 | [foo|att=val] {}
-   |      ^^^
-
-error: Str
-  --> $DIR/tests/fixture/selector/attribute/input.css:13:10
-   |
-13 | [foo|att=val] {}
-   |          ^^^
-
-error: Block
-  --> $DIR/tests/fixture/selector/attribute/input.css:13:15
-   |
-13 | [foo|att=val] {}
-   |               ^^
-
-error: Rule
-  --> $DIR/tests/fixture/selector/attribute/input.css:14:1
-   |
-14 | [*|att] {}
-   | ^^^^^^^^^^
-
-error: StyleRule
-  --> $DIR/tests/fixture/selector/attribute/input.css:14:1
-   |
-14 | [*|att] {}
-   | ^^^^^^^^^^
-
-error: SelectorList
-  --> $DIR/tests/fixture/selector/attribute/input.css:14:1
-   |
-14 | [*|att] {}
-   | ^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/selector/attribute/input.css:14:1
-   |
-14 | [*|att] {}
-   | ^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/selector/attribute/input.css:14:1
-   |
-14 | [*|att] {}
-   | ^^^^^^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/selector/attribute/input.css:14:1
-   |
-14 | [*|att] {}
-   | ^^^^^^^
-
-error: AttrSelector
-  --> $DIR/tests/fixture/selector/attribute/input.css:14:1
-   |
-14 | [*|att] {}
-   | ^^^^^^^
-
-error: NamespacedName
-  --> $DIR/tests/fixture/selector/attribute/input.css:14:2
-   |
-14 | [*|att] {}
-   |  ^^^^^
-
-error: Text
-  --> $DIR/tests/fixture/selector/attribute/input.css:14:2
-   |
-14 | [*|att] {}
-   |  ^
-
-error: Text
-  --> $DIR/tests/fixture/selector/attribute/input.css:14:4
-   |
-14 | [*|att] {}
-   |    ^^^
-
-error: Block
-  --> $DIR/tests/fixture/selector/attribute/input.css:14:9
-   |
-14 | [*|att] {}
-   |         ^^
-
-error: Rule
-  --> $DIR/tests/fixture/selector/attribute/input.css:15:1
-   |
-15 | [|att] {}
-   | ^^^^^^^^^
-
-error: StyleRule
-  --> $DIR/tests/fixture/selector/attribute/input.css:15:1
-   |
-15 | [|att] {}
-   | ^^^^^^^^^
-
-error: SelectorList
-  --> $DIR/tests/fixture/selector/attribute/input.css:15:1
-   |
-15 | [|att] {}
-   | ^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/selector/attribute/input.css:15:1
-   |
-15 | [|att] {}
-   | ^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/selector/attribute/input.css:15:1
-   |
-15 | [|att] {}
-   | ^^^^^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/selector/attribute/input.css:15:1
-   |
-15 | [|att] {}
-   | ^^^^^^
-
-error: AttrSelector
-  --> $DIR/tests/fixture/selector/attribute/input.css:15:1
-   |
-15 | [|att] {}
-   | ^^^^^^
-
-error: NamespacedName
-  --> $DIR/tests/fixture/selector/attribute/input.css:15:2
-   |
-15 | [|att] {}
-   |  ^^^^
-
-error: Text
-  --> $DIR/tests/fixture/selector/attribute/input.css:15:2
-   |
-15 | [|att] {}
-   |  ^
-
-error: Text
-  --> $DIR/tests/fixture/selector/attribute/input.css:15:3
-   |
-15 | [|att] {}
-   |   ^^^
-
-error: Block
-  --> $DIR/tests/fixture/selector/attribute/input.css:15:8
-   |
-15 | [|att] {}
-   |        ^^
-
-error: Rule
-  --> $DIR/tests/fixture/selector/attribute/input.css:16:1
-   |
-16 | [att] {}
-   | ^^^^^^^^
-
-error: StyleRule
-  --> $DIR/tests/fixture/selector/attribute/input.css:16:1
-   |
-16 | [att] {}
-   | ^^^^^^^^
-
-error: SelectorList
-  --> $DIR/tests/fixture/selector/attribute/input.css:16:1
-   |
-16 | [att] {}
-   | ^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/selector/attribute/input.css:16:1
-   |
-16 | [att] {}
-   | ^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/selector/attribute/input.css:16:1
-   |
-16 | [att] {}
-   | ^^^^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/selector/attribute/input.css:16:1
-   |
-16 | [att] {}
-   | ^^^^^
-
-error: AttrSelector
-  --> $DIR/tests/fixture/selector/attribute/input.css:16:1
-   |
-16 | [att] {}
-   | ^^^^^
-
-error: NamespacedName
-  --> $DIR/tests/fixture/selector/attribute/input.css:16:2
-   |
-16 | [att] {}
-   |  ^^^
-
-error: Text
-  --> $DIR/tests/fixture/selector/attribute/input.css:16:2
-   |
-16 | [att] {}
-   |  ^^^
-
-error: Block
-  --> $DIR/tests/fixture/selector/attribute/input.css:16:7
-   |
-16 | [att] {}
-   |       ^^
-
-error: Rule
-  --> $DIR/tests/fixture/selector/attribute/input.css:17:1
-   |
-17 | a[ class = "test" ] {}
-   | ^^^^^^^^^^^^^^^^^^^^^^
-
-error: StyleRule
-  --> $DIR/tests/fixture/selector/attribute/input.css:17:1
-   |
-17 | a[ class = "test" ] {}
-   | ^^^^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
-  --> $DIR/tests/fixture/selector/attribute/input.css:17:1
-   |
-17 | a[ class = "test" ] {}
-   | ^^^^^^^^^^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/selector/attribute/input.css:17:1
-   |
-17 | a[ class = "test" ] {}
-   | ^^^^^^^^^^^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/selector/attribute/input.css:17:1
-   |
-17 | a[ class = "test" ] {}
-   | ^^^^^^^^^^^^^^^^^^^
-
-error: NamespacedName
-  --> $DIR/tests/fixture/selector/attribute/input.css:17:1
-   |
-17 | a[ class = "test" ] {}
-   | ^
-
-error: Text
-  --> $DIR/tests/fixture/selector/attribute/input.css:17:1
-   |
-17 | a[ class = "test" ] {}
-   | ^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/selector/attribute/input.css:17:2
-   |
-17 | a[ class = "test" ] {}
-   |  ^^^^^^^^^^^^^^^^^^
-
-error: AttrSelector
-  --> $DIR/tests/fixture/selector/attribute/input.css:17:2
-   |
-17 | a[ class = "test" ] {}
-   |  ^^^^^^^^^^^^^^^^^^
-
-error: NamespacedName
-  --> $DIR/tests/fixture/selector/attribute/input.css:17:4
-   |
-17 | a[ class = "test" ] {}
-   |    ^^^^^
-
-error: Text
-  --> $DIR/tests/fixture/selector/attribute/input.css:17:4
-   |
-17 | a[ class = "test" ] {}
-   |    ^^^^^
-
-error: Str
-  --> $DIR/tests/fixture/selector/attribute/input.css:17:12
-   |
-17 | a[ class = "test" ] {}
-   |            ^^^^^^
-
-error: Block
-  --> $DIR/tests/fixture/selector/attribute/input.css:17:21
-   |
-17 | a[ class = "test" ] {}
-   |                     ^^
-
-error: Rule
-  --> $DIR/tests/fixture/selector/attribute/input.css:18:1
-   |
-18 | a[   class   =   "test"   ] {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: StyleRule
-  --> $DIR/tests/fixture/selector/attribute/input.css:18:1
-   |
-18 | a[   class   =   "test"   ] {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
-  --> $DIR/tests/fixture/selector/attribute/input.css:18:1
-   |
-18 | a[   class   =   "test"   ] {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/selector/attribute/input.css:18:1
-   |
-18 | a[   class   =   "test"   ] {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/selector/attribute/input.css:18:1
-   |
-18 | a[   class   =   "test"   ] {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: NamespacedName
-  --> $DIR/tests/fixture/selector/attribute/input.css:18:1
-   |
-18 | a[   class   =   "test"   ] {}
-   | ^
-
-error: Text
-  --> $DIR/tests/fixture/selector/attribute/input.css:18:1
-   |
-18 | a[   class   =   "test"   ] {}
-   | ^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/selector/attribute/input.css:18:2
-   |
-18 | a[   class   =   "test"   ] {}
-   |  ^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AttrSelector
-  --> $DIR/tests/fixture/selector/attribute/input.css:18:2
-   |
-18 | a[   class   =   "test"   ] {}
-   |  ^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: NamespacedName
-  --> $DIR/tests/fixture/selector/attribute/input.css:18:6
-   |
-18 | a[   class   =   "test"   ] {}
-   |      ^^^^^
-
-error: Text
-  --> $DIR/tests/fixture/selector/attribute/input.css:18:6
-   |
-18 | a[   class   =   "test"   ] {}
-   |      ^^^^^
-
-error: Str
-  --> $DIR/tests/fixture/selector/attribute/input.css:18:18
-   |
-18 | a[   class   =   "test"   ] {}
-   |                  ^^^^^^
-
-error: Block
-  --> $DIR/tests/fixture/selector/attribute/input.css:18:29
-   |
-18 | a[   class   =   "test"   ] {}
-   |                             ^^
-
-error: Rule
-  --> $DIR/tests/fixture/selector/attribute/input.css:19:1
-   |
-19 | [href*="insensitive"   i] {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: StyleRule
-  --> $DIR/tests/fixture/selector/attribute/input.css:19:1
-   |
-19 | [href*="insensitive"   i] {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
-  --> $DIR/tests/fixture/selector/attribute/input.css:19:1
-   |
-19 | [href*="insensitive"   i] {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/selector/attribute/input.css:19:1
-   |
-19 | [href*="insensitive"   i] {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/selector/attribute/input.css:19:1
-   |
-19 | [href*="insensitive"   i] {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/selector/attribute/input.css:19:1
-   |
-19 | [href*="insensitive"   i] {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AttrSelector
-  --> $DIR/tests/fixture/selector/attribute/input.css:19:1
-   |
-19 | [href*="insensitive"   i] {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: NamespacedName
-  --> $DIR/tests/fixture/selector/attribute/input.css:19:2
-   |
-19 | [href*="insensitive"   i] {}
-   |  ^^^^
-
-error: Text
-  --> $DIR/tests/fixture/selector/attribute/input.css:19:2
-   |
-19 | [href*="insensitive"   i] {}
-   |  ^^^^
-
-error: Str
-  --> $DIR/tests/fixture/selector/attribute/input.css:19:8
-   |
-19 | [href*="insensitive"   i] {}
+12 | [href*="insensitive" I] {}
    |        ^^^^^^^^^^^^^
 
 error: Block
-  --> $DIR/tests/fixture/selector/attribute/input.css:19:27
+  --> $DIR/tests/fixture/selector/attribute/input.css:12:25
    |
-19 | [href*="insensitive"   i] {}
-   |                           ^^
+12 | [href*="insensitive" I] {}
+   |                         ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/attribute/input.css:13:1
+   |
+13 | [href*="cAsE" s] {}
+   | ^^^^^^^^^^^^^^^^^^^
+
+error: StyleRule
+  --> $DIR/tests/fixture/selector/attribute/input.css:13:1
+   |
+13 | [href*="cAsE" s] {}
+   | ^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/attribute/input.css:13:1
+   |
+13 | [href*="cAsE" s] {}
+   | ^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:13:1
+   |
+13 | [href*="cAsE" s] {}
+   | ^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:13:1
+   |
+13 | [href*="cAsE" s] {}
+   | ^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:13:1
+   |
+13 | [href*="cAsE" s] {}
+   | ^^^^^^^^^^^^^^^^
+
+error: AttrSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:13:1
+   |
+13 | [href*="cAsE" s] {}
+   | ^^^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/selector/attribute/input.css:13:2
+   |
+13 | [href*="cAsE" s] {}
+   |  ^^^^
+
+error: Str
+  --> $DIR/tests/fixture/selector/attribute/input.css:13:8
+   |
+13 | [href*="cAsE" s] {}
+   |        ^^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/attribute/input.css:13:18
+   |
+13 | [href*="cAsE" s] {}
+   |                  ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/attribute/input.css:14:1
+   |
+14 | [href*="cAsE" S] {}
+   | ^^^^^^^^^^^^^^^^^^^
+
+error: StyleRule
+  --> $DIR/tests/fixture/selector/attribute/input.css:14:1
+   |
+14 | [href*="cAsE" S] {}
+   | ^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/attribute/input.css:14:1
+   |
+14 | [href*="cAsE" S] {}
+   | ^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:14:1
+   |
+14 | [href*="cAsE" S] {}
+   | ^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:14:1
+   |
+14 | [href*="cAsE" S] {}
+   | ^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:14:1
+   |
+14 | [href*="cAsE" S] {}
+   | ^^^^^^^^^^^^^^^^
+
+error: AttrSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:14:1
+   |
+14 | [href*="cAsE" S] {}
+   | ^^^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/selector/attribute/input.css:14:2
+   |
+14 | [href*="cAsE" S] {}
+   |  ^^^^
+
+error: Str
+  --> $DIR/tests/fixture/selector/attribute/input.css:14:8
+   |
+14 | [href*="cAsE" S] {}
+   |        ^^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/attribute/input.css:14:18
+   |
+14 | [href*="cAsE" S] {}
+   |                  ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/attribute/input.css:15:1
+   |
+15 | [foo|att=val] {}
+   | ^^^^^^^^^^^^^^^^
+
+error: StyleRule
+  --> $DIR/tests/fixture/selector/attribute/input.css:15:1
+   |
+15 | [foo|att=val] {}
+   | ^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/attribute/input.css:15:1
+   |
+15 | [foo|att=val] {}
+   | ^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:15:1
+   |
+15 | [foo|att=val] {}
+   | ^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:15:1
+   |
+15 | [foo|att=val] {}
+   | ^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:15:1
+   |
+15 | [foo|att=val] {}
+   | ^^^^^^^^^^^^^
+
+error: AttrSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:15:1
+   |
+15 | [foo|att=val] {}
+   | ^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/selector/attribute/input.css:15:2
+   |
+15 | [foo|att=val] {}
+   |  ^^^
+
+error: Text
+  --> $DIR/tests/fixture/selector/attribute/input.css:15:6
+   |
+15 | [foo|att=val] {}
+   |      ^^^
+
+error: Text
+  --> $DIR/tests/fixture/selector/attribute/input.css:15:10
+   |
+15 | [foo|att=val] {}
+   |          ^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/attribute/input.css:15:15
+   |
+15 | [foo|att=val] {}
+   |               ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/attribute/input.css:16:1
+   |
+16 | [*|att] {}
+   | ^^^^^^^^^^
+
+error: StyleRule
+  --> $DIR/tests/fixture/selector/attribute/input.css:16:1
+   |
+16 | [*|att] {}
+   | ^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/attribute/input.css:16:1
+   |
+16 | [*|att] {}
+   | ^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:16:1
+   |
+16 | [*|att] {}
+   | ^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:16:1
+   |
+16 | [*|att] {}
+   | ^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:16:1
+   |
+16 | [*|att] {}
+   | ^^^^^^^
+
+error: AttrSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:16:1
+   |
+16 | [*|att] {}
+   | ^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/selector/attribute/input.css:16:2
+   |
+16 | [*|att] {}
+   |  ^
+
+error: Text
+  --> $DIR/tests/fixture/selector/attribute/input.css:16:4
+   |
+16 | [*|att] {}
+   |    ^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/attribute/input.css:16:9
+   |
+16 | [*|att] {}
+   |         ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/attribute/input.css:17:1
+   |
+17 | [   *|att   ] {}
+   | ^^^^^^^^^^^^^^^^
+
+error: StyleRule
+  --> $DIR/tests/fixture/selector/attribute/input.css:17:1
+   |
+17 | [   *|att   ] {}
+   | ^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/attribute/input.css:17:1
+   |
+17 | [   *|att   ] {}
+   | ^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:17:1
+   |
+17 | [   *|att   ] {}
+   | ^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:17:1
+   |
+17 | [   *|att   ] {}
+   | ^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:17:1
+   |
+17 | [   *|att   ] {}
+   | ^^^^^^^^^^^^^
+
+error: AttrSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:17:1
+   |
+17 | [   *|att   ] {}
+   | ^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/selector/attribute/input.css:17:5
+   |
+17 | [   *|att   ] {}
+   |     ^
+
+error: Text
+  --> $DIR/tests/fixture/selector/attribute/input.css:17:7
+   |
+17 | [   *|att   ] {}
+   |       ^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/attribute/input.css:17:15
+   |
+17 | [   *|att   ] {}
+   |               ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/attribute/input.css:18:1
+   |
+18 | [|att] {}
+   | ^^^^^^^^^
+
+error: StyleRule
+  --> $DIR/tests/fixture/selector/attribute/input.css:18:1
+   |
+18 | [|att] {}
+   | ^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/attribute/input.css:18:1
+   |
+18 | [|att] {}
+   | ^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:18:1
+   |
+18 | [|att] {}
+   | ^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:18:1
+   |
+18 | [|att] {}
+   | ^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:18:1
+   |
+18 | [|att] {}
+   | ^^^^^^
+
+error: AttrSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:18:1
+   |
+18 | [|att] {}
+   | ^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/selector/attribute/input.css:18:2
+   |
+18 | [|att] {}
+   |  ^
+
+error: Text
+  --> $DIR/tests/fixture/selector/attribute/input.css:18:3
+   |
+18 | [|att] {}
+   |   ^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/attribute/input.css:18:8
+   |
+18 | [|att] {}
+   |        ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/attribute/input.css:19:1
+   |
+19 | [ |att ] {}
+   | ^^^^^^^^^^^
+
+error: StyleRule
+  --> $DIR/tests/fixture/selector/attribute/input.css:19:1
+   |
+19 | [ |att ] {}
+   | ^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/attribute/input.css:19:1
+   |
+19 | [ |att ] {}
+   | ^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:19:1
+   |
+19 | [ |att ] {}
+   | ^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:19:1
+   |
+19 | [ |att ] {}
+   | ^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:19:1
+   |
+19 | [ |att ] {}
+   | ^^^^^^^^
+
+error: AttrSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:19:1
+   |
+19 | [ |att ] {}
+   | ^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/selector/attribute/input.css:19:3
+   |
+19 | [ |att ] {}
+   |   ^
+
+error: Text
+  --> $DIR/tests/fixture/selector/attribute/input.css:19:4
+   |
+19 | [ |att ] {}
+   |    ^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/attribute/input.css:19:10
+   |
+19 | [ |att ] {}
+   |          ^^
 
 error: Rule
   --> $DIR/tests/fixture/selector/attribute/input.css:20:1
    |
-20 | [   href   ] {}
+20 | [   |att   ] {}
    | ^^^^^^^^^^^^^^^
 
 error: StyleRule
   --> $DIR/tests/fixture/selector/attribute/input.css:20:1
    |
-20 | [   href   ] {}
+20 | [   |att   ] {}
    | ^^^^^^^^^^^^^^^
 
 error: SelectorList
   --> $DIR/tests/fixture/selector/attribute/input.css:20:1
    |
-20 | [   href   ] {}
+20 | [   |att   ] {}
    | ^^^^^^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/attribute/input.css:20:1
    |
-20 | [   href   ] {}
+20 | [   |att   ] {}
    | ^^^^^^^^^^^^
 
 error: CompoundSelector
   --> $DIR/tests/fixture/selector/attribute/input.css:20:1
    |
-20 | [   href   ] {}
+20 | [   |att   ] {}
    | ^^^^^^^^^^^^
 
 error: SubclassSelector
   --> $DIR/tests/fixture/selector/attribute/input.css:20:1
    |
-20 | [   href   ] {}
+20 | [   |att   ] {}
    | ^^^^^^^^^^^^
 
 error: AttrSelector
   --> $DIR/tests/fixture/selector/attribute/input.css:20:1
    |
-20 | [   href   ] {}
+20 | [   |att   ] {}
    | ^^^^^^^^^^^^
-
-error: NamespacedName
-  --> $DIR/tests/fixture/selector/attribute/input.css:20:5
-   |
-20 | [   href   ] {}
-   |     ^^^^
 
 error: Text
   --> $DIR/tests/fixture/selector/attribute/input.css:20:5
    |
-20 | [   href   ] {}
-   |     ^^^^
+20 | [   |att   ] {}
+   |     ^
+
+error: Text
+  --> $DIR/tests/fixture/selector/attribute/input.css:20:6
+   |
+20 | [   |att   ] {}
+   |      ^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/attribute/input.css:20:14
    |
-20 | [   href   ] {}
+20 | [   |att   ] {}
+   |              ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/attribute/input.css:21:1
+   |
+21 | [att] {}
+   | ^^^^^^^^
+
+error: StyleRule
+  --> $DIR/tests/fixture/selector/attribute/input.css:21:1
+   |
+21 | [att] {}
+   | ^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/attribute/input.css:21:1
+   |
+21 | [att] {}
+   | ^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:21:1
+   |
+21 | [att] {}
+   | ^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:21:1
+   |
+21 | [att] {}
+   | ^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:21:1
+   |
+21 | [att] {}
+   | ^^^^^
+
+error: AttrSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:21:1
+   |
+21 | [att] {}
+   | ^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/selector/attribute/input.css:21:2
+   |
+21 | [att] {}
+   |  ^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/attribute/input.css:21:7
+   |
+21 | [att] {}
+   |       ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/attribute/input.css:22:1
+   |
+22 | [ att ] {}
+   | ^^^^^^^^^^
+
+error: StyleRule
+  --> $DIR/tests/fixture/selector/attribute/input.css:22:1
+   |
+22 | [ att ] {}
+   | ^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/attribute/input.css:22:1
+   |
+22 | [ att ] {}
+   | ^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:22:1
+   |
+22 | [ att ] {}
+   | ^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:22:1
+   |
+22 | [ att ] {}
+   | ^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:22:1
+   |
+22 | [ att ] {}
+   | ^^^^^^^
+
+error: AttrSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:22:1
+   |
+22 | [ att ] {}
+   | ^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/selector/attribute/input.css:22:3
+   |
+22 | [ att ] {}
+   |   ^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/attribute/input.css:22:9
+   |
+22 | [ att ] {}
+   |         ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/attribute/input.css:23:1
+   |
+23 | [   att   ] {}
+   | ^^^^^^^^^^^^^^
+
+error: StyleRule
+  --> $DIR/tests/fixture/selector/attribute/input.css:23:1
+   |
+23 | [   att   ] {}
+   | ^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/attribute/input.css:23:1
+   |
+23 | [   att   ] {}
+   | ^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:23:1
+   |
+23 | [   att   ] {}
+   | ^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:23:1
+   |
+23 | [   att   ] {}
+   | ^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:23:1
+   |
+23 | [   att   ] {}
+   | ^^^^^^^^^^^
+
+error: AttrSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:23:1
+   |
+23 | [   att   ] {}
+   | ^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/selector/attribute/input.css:23:5
+   |
+23 | [   att   ] {}
+   |     ^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/attribute/input.css:23:13
+   |
+23 | [   att   ] {}
+   |             ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/attribute/input.css:24:1
+   |
+24 | a[ class = "test" ] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleRule
+  --> $DIR/tests/fixture/selector/attribute/input.css:24:1
+   |
+24 | a[ class = "test" ] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/attribute/input.css:24:1
+   |
+24 | a[ class = "test" ] {}
+   | ^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:24:1
+   |
+24 | a[ class = "test" ] {}
+   | ^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:24:1
+   |
+24 | a[ class = "test" ] {}
+   | ^^^^^^^^^^^^^^^^^^^
+
+error: NamespacedName
+  --> $DIR/tests/fixture/selector/attribute/input.css:24:1
+   |
+24 | a[ class = "test" ] {}
+   | ^
+
+error: Text
+  --> $DIR/tests/fixture/selector/attribute/input.css:24:1
+   |
+24 | a[ class = "test" ] {}
+   | ^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:24:2
+   |
+24 | a[ class = "test" ] {}
+   |  ^^^^^^^^^^^^^^^^^^
+
+error: AttrSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:24:2
+   |
+24 | a[ class = "test" ] {}
+   |  ^^^^^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/selector/attribute/input.css:24:4
+   |
+24 | a[ class = "test" ] {}
+   |    ^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/selector/attribute/input.css:24:12
+   |
+24 | a[ class = "test" ] {}
+   |            ^^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/attribute/input.css:24:21
+   |
+24 | a[ class = "test" ] {}
+   |                     ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/attribute/input.css:25:1
+   |
+25 | a[   class   =   "test"   ] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleRule
+  --> $DIR/tests/fixture/selector/attribute/input.css:25:1
+   |
+25 | a[   class   =   "test"   ] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/attribute/input.css:25:1
+   |
+25 | a[   class   =   "test"   ] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:25:1
+   |
+25 | a[   class   =   "test"   ] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:25:1
+   |
+25 | a[   class   =   "test"   ] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: NamespacedName
+  --> $DIR/tests/fixture/selector/attribute/input.css:25:1
+   |
+25 | a[   class   =   "test"   ] {}
+   | ^
+
+error: Text
+  --> $DIR/tests/fixture/selector/attribute/input.css:25:1
+   |
+25 | a[   class   =   "test"   ] {}
+   | ^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:25:2
+   |
+25 | a[   class   =   "test"   ] {}
+   |  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AttrSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:25:2
+   |
+25 | a[   class   =   "test"   ] {}
+   |  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/selector/attribute/input.css:25:6
+   |
+25 | a[   class   =   "test"   ] {}
+   |      ^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/selector/attribute/input.css:25:18
+   |
+25 | a[   class   =   "test"   ] {}
+   |                  ^^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/attribute/input.css:25:29
+   |
+25 | a[   class   =   "test"   ] {}
+   |                             ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/attribute/input.css:26:1
+   |
+26 | [href*="insensitive"   i] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleRule
+  --> $DIR/tests/fixture/selector/attribute/input.css:26:1
+   |
+26 | [href*="insensitive"   i] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/attribute/input.css:26:1
+   |
+26 | [href*="insensitive"   i] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:26:1
+   |
+26 | [href*="insensitive"   i] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:26:1
+   |
+26 | [href*="insensitive"   i] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:26:1
+   |
+26 | [href*="insensitive"   i] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AttrSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:26:1
+   |
+26 | [href*="insensitive"   i] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/selector/attribute/input.css:26:2
+   |
+26 | [href*="insensitive"   i] {}
+   |  ^^^^
+
+error: Str
+  --> $DIR/tests/fixture/selector/attribute/input.css:26:8
+   |
+26 | [href*="insensitive"   i] {}
+   |        ^^^^^^^^^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/attribute/input.css:26:27
+   |
+26 | [href*="insensitive"   i] {}
+   |                           ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/attribute/input.css:27:1
+   |
+27 | [   href*="insensitive"   i   ] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleRule
+  --> $DIR/tests/fixture/selector/attribute/input.css:27:1
+   |
+27 | [   href*="insensitive"   i   ] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/attribute/input.css:27:1
+   |
+27 | [   href*="insensitive"   i   ] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:27:1
+   |
+27 | [   href*="insensitive"   i   ] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:27:1
+   |
+27 | [   href*="insensitive"   i   ] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:27:1
+   |
+27 | [   href*="insensitive"   i   ] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AttrSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:27:1
+   |
+27 | [   href*="insensitive"   i   ] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/selector/attribute/input.css:27:5
+   |
+27 | [   href*="insensitive"   i   ] {}
+   |     ^^^^
+
+error: Str
+  --> $DIR/tests/fixture/selector/attribute/input.css:27:11
+   |
+27 | [   href*="insensitive"   i   ] {}
+   |           ^^^^^^^^^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/attribute/input.css:27:33
+   |
+27 | [   href*="insensitive"   i   ] {}
+   |                                 ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/attribute/input.css:28:1
+   |
+28 | [   href   *=   "insensitive"   i   ] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleRule
+  --> $DIR/tests/fixture/selector/attribute/input.css:28:1
+   |
+28 | [   href   *=   "insensitive"   i   ] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/attribute/input.css:28:1
+   |
+28 | [   href   *=   "insensitive"   i   ] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:28:1
+   |
+28 | [   href   *=   "insensitive"   i   ] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:28:1
+   |
+28 | [   href   *=   "insensitive"   i   ] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:28:1
+   |
+28 | [   href   *=   "insensitive"   i   ] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AttrSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:28:1
+   |
+28 | [   href   *=   "insensitive"   i   ] {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/selector/attribute/input.css:28:5
+   |
+28 | [   href   *=   "insensitive"   i   ] {}
+   |     ^^^^
+
+error: Str
+  --> $DIR/tests/fixture/selector/attribute/input.css:28:17
+   |
+28 | [   href   *=   "insensitive"   i   ] {}
+   |                 ^^^^^^^^^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/attribute/input.css:28:39
+   |
+28 | [   href   *=   "insensitive"   i   ] {}
+   |                                       ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/attribute/input.css:29:1
+   |
+29 | [   href   ] {}
+   | ^^^^^^^^^^^^^^^
+
+error: StyleRule
+  --> $DIR/tests/fixture/selector/attribute/input.css:29:1
+   |
+29 | [   href   ] {}
+   | ^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/attribute/input.css:29:1
+   |
+29 | [   href   ] {}
+   | ^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:29:1
+   |
+29 | [   href   ] {}
+   | ^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:29:1
+   |
+29 | [   href   ] {}
+   | ^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:29:1
+   |
+29 | [   href   ] {}
+   | ^^^^^^^^^^^^
+
+error: AttrSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:29:1
+   |
+29 | [   href   ] {}
+   | ^^^^^^^^^^^^
+
+error: Text
+  --> $DIR/tests/fixture/selector/attribute/input.css:29:5
+   |
+29 | [   href   ] {}
+   |     ^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/attribute/input.css:29:14
+   |
+29 | [   href   ] {}
    |              ^^
 

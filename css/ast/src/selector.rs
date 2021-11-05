@@ -70,25 +70,8 @@ pub enum SubclassSelector {
     At(AtSelector),
 }
 
-#[ast_node("AttributeSelector")]
-pub struct AttrSelector {
-    pub span: Span,
-    pub name: NamespacedName,
-    pub op: Option<AttrSelectorOp>,
-    pub value: Option<Str>,
-    pub modifier: Option<char>,
-}
-
-#[ast_node("PseudoSelector")]
-pub struct PseudoSelector {
-    pub span: Span,
-    pub is_element: bool,
-    pub name: Text,
-    pub args: Tokens,
-}
-
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
-pub enum AttrSelectorOp {
+pub enum AttrSelectorMatcher {
     /// `=`
     Equals,
 
@@ -106,6 +89,34 @@ pub enum AttrSelectorOp {
 
     /// `*=`
     Asterisk,
+}
+
+#[ast_node]
+#[derive(Is)]
+pub enum AttrSelectorValue {
+    #[tag("String")]
+    Str(Str),
+
+    #[tag("Text")]
+    Text(Text),
+}
+
+#[ast_node("AttributeSelector")]
+pub struct AttrSelector {
+    pub span: Span,
+    pub prefix: Option<Text>,
+    pub name: Text,
+    pub matcher: Option<AttrSelectorMatcher>,
+    pub value: Option<AttrSelectorValue>,
+    pub modifier: Option<char>,
+}
+
+#[ast_node("PseudoSelector")]
+pub struct PseudoSelector {
+    pub span: Span,
+    pub is_element: bool,
+    pub name: Text,
+    pub args: Tokens,
 }
 
 /// `*`

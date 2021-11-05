@@ -64,12 +64,6 @@ error: AttrSelector
 1 | a [b] {}
   |   ^^^
 
-error: NamespacedName
- --> $DIR/tests/fixture/esbuild/misc/Q42FDvG6_mtoeI7PoHqgQw/input.css:1:4
-  |
-1 | a [b] {}
-  |    ^
-
 error: Text
  --> $DIR/tests/fixture/esbuild/misc/Q42FDvG6_mtoeI7PoHqgQw/input.css:1:4
   |
