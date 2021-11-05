@@ -24,6 +24,20 @@ fn test_resolve_1() {
         "console.log('Foo')",
     );
 
+    assert_js_plugin(
+        &path,
+        "{ \"printError\": false, \"usePrivateIdent\": true }",
+        "console.log('Foo')",
+        "console.log('Foo')",
+    );
+
+    assert_js_plugin(
+        &path,
+        "{ \"printError\": true, \"usePrivateIdent\": true }",
+        "console.log('Foo')",
+        "console.log('Foo')",
+    );
+
     // TODO
 }
 
