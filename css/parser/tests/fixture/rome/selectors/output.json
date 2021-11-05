@@ -38,6 +38,7 @@
                 },
                 "nestingSelector": null,
                 "combinator": null,
+                "hasNestPrefix": false,
                 "typeSelector": {
                   "type": "TypeSelector",
                   "span": {
@@ -78,6 +79,7 @@
                 },
                 "nestingSelector": null,
                 "combinator": null,
+                "hasNestPrefix": false,
                 "typeSelector": {
                   "type": "TypeSelector",
                   "span": {
@@ -100,6 +102,15 @@
                 "subclassSelectors": []
               },
               {
+                "type": "Combinator",
+                "span": {
+                  "start": 9,
+                  "end": 10,
+                  "ctxt": 0
+                },
+                "value": "+"
+              },
+              {
                 "type": "CompoundSelector",
                 "span": {
                   "start": 11,
@@ -108,6 +119,7 @@
                 },
                 "nestingSelector": null,
                 "combinator": "+",
+                "hasNestPrefix": false,
                 "typeSelector": null,
                 "subclassSelectors": [
                   {
@@ -149,6 +161,7 @@
                 },
                 "nestingSelector": null,
                 "combinator": null,
+                "hasNestPrefix": false,
                 "typeSelector": {
                   "type": "TypeSelector",
                   "span": {
@@ -171,6 +184,15 @@
                 "subclassSelectors": []
               },
               {
+                "type": "Combinator",
+                "span": {
+                  "start": 20,
+                  "end": 21,
+                  "ctxt": 0
+                },
+                "value": "~"
+              },
+              {
                 "type": "CompoundSelector",
                 "span": {
                   "start": 22,
@@ -179,6 +201,7 @@
                 },
                 "nestingSelector": null,
                 "combinator": "~",
+                "hasNestPrefix": false,
                 "typeSelector": null,
                 "subclassSelectors": [
                   {
@@ -220,6 +243,7 @@
                 },
                 "nestingSelector": null,
                 "combinator": null,
+                "hasNestPrefix": false,
                 "typeSelector": {
                   "type": "TypeSelector",
                   "span": {
@@ -242,6 +266,15 @@
                 "subclassSelectors": []
               },
               {
+                "type": "Combinator",
+                "span": {
+                  "start": 31,
+                  "end": 32,
+                  "ctxt": 0
+                },
+                "value": ">"
+              },
+              {
                 "type": "CompoundSelector",
                 "span": {
                   "start": 33,
@@ -250,6 +283,7 @@
                 },
                 "nestingSelector": null,
                 "combinator": ">",
+                "hasNestPrefix": false,
                 "typeSelector": null,
                 "subclassSelectors": [
                   {
@@ -318,6 +352,7 @@
                 },
                 "nestingSelector": null,
                 "combinator": null,
+                "hasNestPrefix": false,
                 "typeSelector": null,
                 "subclassSelectors": [
                   {
@@ -386,6 +421,7 @@
                 },
                 "nestingSelector": null,
                 "combinator": null,
+                "hasNestPrefix": false,
                 "typeSelector": null,
                 "subclassSelectors": [
                   {
@@ -409,6 +445,15 @@
                 ]
               },
               {
+                "type": "Combinator",
+                "span": {
+                  "start": 78,
+                  "end": 79,
+                  "ctxt": 0
+                },
+                "value": "+"
+              },
+              {
                 "type": "CompoundSelector",
                 "span": {
                   "start": 80,
@@ -417,6 +462,7 @@
                 },
                 "nestingSelector": null,
                 "combinator": "+",
+                "hasNestPrefix": false,
                 "typeSelector": {
                   "type": "TypeSelector",
                   "span": {
@@ -484,6 +530,7 @@
                 },
                 "nestingSelector": null,
                 "combinator": null,
+                "hasNestPrefix": false,
                 "typeSelector": {
                   "type": "TypeSelector",
                   "span": {
@@ -606,6 +653,7 @@
                 },
                 "nestingSelector": null,
                 "combinator": null,
+                "hasNestPrefix": false,
                 "typeSelector": {
                   "type": "TypeSelector",
                   "span": {
@@ -737,6 +785,7 @@
                 },
                 "nestingSelector": null,
                 "combinator": null,
+                "hasNestPrefix": false,
                 "typeSelector": {
                   "type": "TypeSelector",
                   "span": {
@@ -868,6 +917,7 @@
                 },
                 "nestingSelector": null,
                 "combinator": null,
+                "hasNestPrefix": false,
                 "typeSelector": {
                   "type": "TypeSelector",
                   "span": {
@@ -1030,6 +1080,7 @@
                 },
                 "nestingSelector": null,
                 "combinator": null,
+                "hasNestPrefix": false,
                 "typeSelector": {
                   "type": "TypeSelector",
                   "span": {
@@ -1140,6 +1191,7 @@
                 },
                 "nestingSelector": null,
                 "combinator": null,
+                "hasNestPrefix": false,
                 "typeSelector": null,
                 "subclassSelectors": [
                   {
@@ -1265,6 +1317,7 @@
                 },
                 "nestingSelector": null,
                 "combinator": null,
+                "hasNestPrefix": false,
                 "typeSelector": null,
                 "subclassSelectors": [
                   {
@@ -1343,6 +1396,7 @@
                 },
                 "nestingSelector": null,
                 "combinator": null,
+                "hasNestPrefix": false,
                 "typeSelector": null,
                 "subclassSelectors": [
                   {

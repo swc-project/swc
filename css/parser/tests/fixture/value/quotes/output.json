@@ -38,6 +38,7 @@
                 },
                 "nestingSelector": null,
                 "combinator": null,
+                "hasNestPrefix": false,
                 "typeSelector": {
                   "type": "TypeSelector",
                   "span": {
@@ -724,6 +725,7 @@
                 },
                 "nestingSelector": null,
                 "combinator": null,
+                "hasNestPrefix": false,
                 "typeSelector": {
                   "type": "TypeSelector",
                   "span": {
@@ -855,6 +857,7 @@
                 },
                 "nestingSelector": null,
                 "combinator": null,
+                "hasNestPrefix": false,
                 "typeSelector": {
                   "type": "TypeSelector",
                   "span": {

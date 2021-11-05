@@ -45,6 +45,7 @@
                   }
                 },
                 "combinator": null,
+                "hasNestPrefix": true,
                 "typeSelector": null,
                 "subclassSelectors": []
               }

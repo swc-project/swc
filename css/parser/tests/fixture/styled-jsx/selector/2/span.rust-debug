@@ -52,6 +52,12 @@ error: Text
 1 | p :global(span:not(.test)) {
   | ^
 
+error: Combinator
+ --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:2
+  |
+1 | p :global(span:not(.test)) {
+  |  ^
+
 error: CompoundSelector
  --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:3
   |

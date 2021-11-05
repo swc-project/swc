@@ -81,6 +81,7 @@
                       },
                       "nestingSelector": null,
                       "combinator": null,
+                      "hasNestPrefix": false,
                       "typeSelector": null,
                       "subclassSelectors": [
                         {
@@ -265,6 +266,7 @@
                       },
                       "nestingSelector": null,
                       "combinator": null,
+                      "hasNestPrefix": false,
                       "typeSelector": null,
                       "subclassSelectors": [
                         {
@@ -430,6 +432,7 @@
                       },
                       "nestingSelector": null,
                       "combinator": null,
+                      "hasNestPrefix": false,
                       "typeSelector": null,
                       "subclassSelectors": [
                         {
@@ -595,6 +598,7 @@
                       },
                       "nestingSelector": null,
                       "combinator": null,
+                      "hasNestPrefix": false,
                       "typeSelector": null,
                       "subclassSelectors": [
                         {
