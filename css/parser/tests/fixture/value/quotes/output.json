@@ -754,7 +754,6 @@
                     "prefix": null,
                     "name": {
                       "type": "Text",
-                      "type": "TypeSelector",
                       "span": {
                         "start": 882,
                         "end": 887,
@@ -886,7 +885,6 @@
                     "prefix": null,
                     "name": {
                       "type": "Text",
-                      "type": "TypeSelector",
                       "span": {
                         "start": 940,
                         "end": 945,

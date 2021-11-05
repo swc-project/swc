@@ -514,7 +514,6 @@
                     "prefix": null,
                     "name": {
                       "type": "Text",
-                      "type": "TypeSelector",
                       "span": {
                         "start": 90,
                         "end": 95,
@@ -637,7 +636,6 @@
                     "prefix": null,
                     "name": {
                       "type": "Text",
-                      "type": "TypeSelector",
                       "span": {
                         "start": 121,
                         "end": 126,
@@ -769,7 +767,6 @@
                     "prefix": null,
                     "name": {
                       "type": "Text",
-                      "type": "TypeSelector",
                       "span": {
                         "start": 162,
                         "end": 167,
@@ -901,7 +898,6 @@
                     "prefix": null,
                     "name": {
                       "type": "Text",
-                      "type": "TypeSelector",
                       "span": {
                         "start": 204,
                         "end": 209,
@@ -933,7 +929,6 @@
                     "prefix": null,
                     "name": {
                       "type": "Text",
-                      "type": "TypeSelector",
                       "span": {
                         "start": 221,
                         "end": 225,

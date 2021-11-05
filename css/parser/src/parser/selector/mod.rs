@@ -284,13 +284,6 @@ where
             ));
         }
 
-        // TODO: we don't need it
-        let name = TypeSelector {
-            span: span!(self, name_start_pos),
-            prefix,
-            name,
-        };
-
         self.input.skip_ws()?;
 
         if !is!(self, "]") {

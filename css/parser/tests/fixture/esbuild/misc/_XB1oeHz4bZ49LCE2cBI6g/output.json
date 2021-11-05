@@ -49,8 +49,6 @@
                     },
                     "prefix": {
                       "type": "Text",
-                    "name": {
-                      "type": "TypeSelector",
                       "span": {
                         "start": 1,
                         "end": 2,

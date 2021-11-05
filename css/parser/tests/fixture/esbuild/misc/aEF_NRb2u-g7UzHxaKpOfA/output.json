@@ -68,7 +68,6 @@
                     "prefix": null,
                     "name": {
                       "type": "Text",
-                      "type": "TypeSelector",
                       "span": {
                         "start": 6,
                         "end": 7,

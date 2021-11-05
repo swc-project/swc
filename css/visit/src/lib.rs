@@ -219,9 +219,6 @@ define!({
         pub name: Text,
         pub matcher: Option<AttrSelectorMatcher>,
         pub value: Option<AttrSelectorValue>,
-        pub name: TypeSelector,
-        pub op: Option<AttrSelectorOp>,
-        pub value: Option<Str>,
         pub modifier: Option<char>,
     }
 

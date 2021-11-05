@@ -50,7 +50,6 @@
                     "prefix": null,
                     "name": {
                       "type": "Text",
-                      "type": "TypeSelector",
                       "span": {
                         "start": 2,
                         "end": 3,

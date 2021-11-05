@@ -70,23 +70,6 @@ pub enum SubclassSelector {
     At(AtSelector),
 }
 
-#[ast_node("AttributeSelector")]
-pub struct AttrSelector {
-    pub span: Span,
-    pub name: TypeSelector,
-    pub op: Option<AttrSelectorOp>,
-    pub value: Option<Str>,
-    pub modifier: Option<char>,
-}
-
-#[ast_node("PseudoSelector")]
-pub struct PseudoSelector {
-    pub span: Span,
-    pub is_element: bool,
-    pub name: Text,
-    pub args: Tokens,
-}
-
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
 pub enum AttrSelectorMatcher {
     /// `=`
