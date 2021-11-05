@@ -1050,10 +1050,10 @@ error: Text
    | ^
 
 error: ComplexSelector
-  --> $DIR/tests/fixture/selector/comments/input.css:16:15
+  --> $DIR/tests/fixture/selector/comments/input.css:16:27
    |
 16 | a /* test */ , /* test */ b {}
-   |               ^^^^^^^^^^^^^
+   |                           ^
 
 error: CompoundSelector
   --> $DIR/tests/fixture/selector/comments/input.css:16:27
