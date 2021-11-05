@@ -12,7 +12,7 @@ pub struct SelectorList {
 #[ast_node("ComplexSelector")]
 pub struct ComplexSelector {
     pub span: Span,
-    pub selectors: Vec<CompoundSelector>,
+    pub children: Vec<CompoundSelector>,
 }
 
 /// e.g. `foo.c1.c2`

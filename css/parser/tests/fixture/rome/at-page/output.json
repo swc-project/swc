@@ -71,7 +71,7 @@
                     "end": 33,
                     "ctxt": 0
                   },
-                  "selectors": [
+                  "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {
@@ -255,7 +255,7 @@
                     "end": 101,
                     "ctxt": 0
                   },
-                  "selectors": [
+                  "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {
@@ -420,7 +420,7 @@
                     "end": 162,
                     "ctxt": 0
                   },
-                  "selectors": [
+                  "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {
@@ -585,7 +585,7 @@
                     "end": 223,
                     "ctxt": 0
                   },
-                  "selectors": [
+                  "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {

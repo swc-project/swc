@@ -881,7 +881,7 @@
                   "end": 384,
                   "ctxt": 0
                 },
-                "selectors": [
+                "children": [
                   {
                     "type": "CompoundSelector",
                     "span": {
@@ -948,7 +948,7 @@
                   "end": 398,
                   "ctxt": 0
                 },
-                "selectors": [
+                "children": [
                   {
                     "type": "CompoundSelector",
                     "span": {

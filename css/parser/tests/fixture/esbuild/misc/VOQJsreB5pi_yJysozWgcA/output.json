@@ -111,7 +111,7 @@
                     "end": 59,
                     "ctxt": 0
                   },
-                  "selectors": [
+                  "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {
@@ -210,7 +210,7 @@
                     "end": 91,
                     "ctxt": 0
                   },
-                  "selectors": [
+                  "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {
@@ -309,7 +309,7 @@
                     "end": 124,
                     "ctxt": 0
                   },
-                  "selectors": [
+                  "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {
@@ -408,7 +408,7 @@
                     "end": 156,
                     "ctxt": 0
                   },
-                  "selectors": [
+                  "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {
@@ -507,7 +507,7 @@
                     "end": 195,
                     "ctxt": 0
                   },
-                  "selectors": [
+                  "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {
@@ -606,7 +606,7 @@
                     "end": 237,
                     "ctxt": 0
                   },
-                  "selectors": [
+                  "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {
@@ -705,7 +705,7 @@
                     "end": 272,
                     "ctxt": 0
                   },
-                  "selectors": [
+                  "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {
@@ -804,7 +804,7 @@
                     "end": 308,
                     "ctxt": 0
                   },
-                  "selectors": [
+                  "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {
@@ -903,7 +903,7 @@
                     "end": 343,
                     "ctxt": 0
                   },
-                  "selectors": [
+                  "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {
@@ -1002,7 +1002,7 @@
                     "end": 385,
                     "ctxt": 0
                   },
-                  "selectors": [
+                  "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {
@@ -1101,7 +1101,7 @@
                     "end": 417,
                     "ctxt": 0
                   },
-                  "selectors": [
+                  "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {
@@ -1200,7 +1200,7 @@
                     "end": 451,
                     "ctxt": 0
                   },
-                  "selectors": [
+                  "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {
@@ -1299,7 +1299,7 @@
                     "end": 485,
                     "ctxt": 0
                   },
-                  "selectors": [
+                  "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {
@@ -1398,7 +1398,7 @@
                     "end": 517,
                     "ctxt": 0
                   },
-                  "selectors": [
+                  "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {
@@ -1497,7 +1497,7 @@
                     "end": 552,
                     "ctxt": 0
                   },
-                  "selectors": [
+                  "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {
@@ -1596,7 +1596,7 @@
                     "end": 587,
                     "ctxt": 0
                   },
-                  "selectors": [
+                  "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {

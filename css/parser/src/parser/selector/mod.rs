@@ -43,7 +43,7 @@ where
     fn parse_complex_selector(&mut self) -> PResult<ComplexSelector> {
         let start_pos = self.input.cur_span()?.lo;
         let sel = self.parse_compound_selector()?;
-        let mut selectors = vec![sel];
+        let mut children = vec![sel];
         let mut last_pos;
 
         loop {
@@ -61,12 +61,12 @@ where
                 self.input.skip_ws()?;
             }
 
-            let sel = self.parse_compound_selector();
+            let selector = self.parse_compound_selector();
 
-            match sel {
-                Ok(mut sel) => {
-                    sel.combinator = combinator;
-                    selectors.push(sel);
+            match selector {
+                Ok(mut selector) => {
+                    selector.combinator = combinator;
+                    children.push(selector);
                 }
                 Err(err) => return Err(err),
             }
@@ -74,7 +74,7 @@ where
 
         Ok(ComplexSelector {
             span: Span::new(start_pos, last_pos, Default::default()),
-            selectors,
+            children,
         })
     }
 

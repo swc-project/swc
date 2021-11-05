@@ -74,7 +74,7 @@
                     "end": 29,
                     "ctxt": 0
                   },
-                  "selectors": [
+                  "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {

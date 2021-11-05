@@ -179,7 +179,7 @@ define!({
 
     pub struct ComplexSelector {
         pub span: Span,
-        pub selectors: Vec<CompoundSelector>,
+        pub children: Vec<CompoundSelector>,
     }
 
     pub struct CompoundSelector {
