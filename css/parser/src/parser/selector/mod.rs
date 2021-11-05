@@ -15,9 +15,9 @@ where
         self.input.skip_ws()?;
 
         let start_pos = self.input.cur_span()?.lo;
-        let first = self.parse_complex_selector()?;
-        let mut last_pos = first.span.clone().hi;
-        let mut children = vec![first];
+        let child = self.parse_complex_selector()?;
+        let mut last_pos = child.span.clone().hi;
+        let mut children = vec![child];
 
         loop {
             self.input.skip_ws()?;
@@ -42,11 +42,13 @@ where
 
     fn parse_complex_selector(&mut self) -> PResult<ComplexSelector> {
         let start_pos = self.input.cur_span()?.lo;
-        let sel = self.parse_compound_selector()?;
-        let mut children = vec![sel];
+        let child = ComplexSelectorChildren::CompoundSelector(self.parse_compound_selector()?);
+        let mut children = vec![child];
         let mut last_pos;
 
         loop {
+            let span = self.input.cur_span()?;
+
             last_pos = self.input.last_pos()?;
 
             self.input.skip_ws()?;
@@ -55,21 +57,19 @@ where
                 break;
             }
 
-            let combinator = self.parse_combinator()?;
-
-            if combinator.is_some() {
+            let mut combinator = self.parse_combinator()?;
+            
+            if combinator.value == CombinatorValue::Descendant {
+                combinator.span = span;
+            } else {
                 self.input.skip_ws()?;
             }
 
-            let selector = self.parse_compound_selector();
+            children.push(ComplexSelectorChildren::Combinator(combinator));
 
-            match selector {
-                Ok(mut selector) => {
-                    selector.combinator = combinator;
-                    children.push(selector);
-                }
-                Err(err) => return Err(err),
-            }
+            let child = self.parse_compound_selector()?;
+
+            children.push(ComplexSelectorChildren::CompoundSelector(child));
         }
 
         Ok(ComplexSelector {
@@ -78,24 +78,30 @@ where
         })
     }
 
-    fn parse_combinator(&mut self) -> PResult<Option<SelectorCombinator>> {
-        if eat!(self, " ") {
-            return Ok(Some(SelectorCombinator::Descendant));
-        }
+    fn parse_combinator(&mut self) -> PResult<Combinator> {
+        let span = self.input.cur_span()?;
 
         if eat!(self, ">") {
-            return Ok(Some(SelectorCombinator::Child));
+            return Ok(Combinator {
+                span,
+                value: CombinatorValue::Child,
+            });
+        } else if eat!(self, "+") {
+            return Ok(Combinator {
+                span,
+                value: CombinatorValue::NextSibling,
+            });
+        } else if eat!(self, "~") {
+            return Ok(Combinator {
+                span,
+                value: CombinatorValue::LaterSibling,
+            });
         }
 
-        if eat!(self, "+") {
-            return Ok(Some(SelectorCombinator::NextSibling));
-        }
-
-        if eat!(self, "~") {
-            return Ok(Some(SelectorCombinator::LaterSibling));
-        }
-
-        Ok(None)
+        return Ok(Combinator {
+            span,
+            value: CombinatorValue::Descendant,
+        });
     }
 
     fn parse_ns_prefix(&mut self) -> PResult<Option<Text>> {
@@ -539,6 +545,7 @@ where
             span,
             nesting_selector,
             combinator: None,
+            has_nest_prefix,
             type_selector,
             subclass_selectors,
         })

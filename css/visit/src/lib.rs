@@ -179,7 +179,7 @@ define!({
 
     pub struct ComplexSelector {
         pub span: Span,
-        pub children: Vec<CompoundSelector>,
+        pub children: Vec<ComplexSelectorChildren>,
     }
 
     pub struct CompoundSelector {
@@ -191,6 +191,24 @@ define!({
     }
 
     pub struct TypeSelector {
+    pub enum ComplexSelectorChildren {
+        CompoundSelector(CompoundSelector),
+        Combinator(Combinator),
+    }
+
+     pub struct CompoundSelector {
+        pub span: Span,
+        pub has_nest_prefix: bool,
+        pub type_selector: Option<NamespacedName>,
+        pub subclass_selectors: Vec<SubclassSelector>,
+    }
+
+    pub struct Combinator {
+        pub span: Span,
+        pub value: CombinatorValue
+    }
+
+    pub struct NamespacedName {
         pub span: Span,
         pub prefix: Option<Text>,
         pub name: Text,

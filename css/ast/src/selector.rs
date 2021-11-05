@@ -12,7 +12,16 @@ pub struct SelectorList {
 #[ast_node("ComplexSelector")]
 pub struct ComplexSelector {
     pub span: Span,
-    pub children: Vec<CompoundSelector>,
+    pub children: Vec<ComplexSelectorChildren>,
+}
+
+#[ast_node]
+#[derive(Is)]
+pub enum ComplexSelectorChildren {
+    #[tag("CompoundSelector")]
+    CompoundSelector(CompoundSelector),
+    #[tag("Combinator")]
+    Combinator(Combinator),
 }
 
 /// e.g. `foo.c1.c2`
@@ -23,11 +32,20 @@ pub struct CompoundSelector {
     pub nesting_selector: Option<NestingSelector>,
     pub combinator: Option<SelectorCombinator>,
     pub type_selector: Option<TypeSelector>,
+    pub has_nest_prefix: bool,
+    pub type_selector: Option<NamespacedName>,
     pub subclass_selectors: Vec<SubclassSelector>,
 }
 
+#[ast_node("Combinator")]
+pub struct Combinator {
+    pub span: Span,
+    pub value: CombinatorValue,
+    // pub raw: JsWord
+}
+
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
-pub enum SelectorCombinator {
+pub enum CombinatorValue {
     /// ` `
     Descendant,
 
