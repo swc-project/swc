@@ -790,6 +790,42 @@ pub enum PatOrExpr {
     Pat(Box<Pat>),
 }
 
+impl PatOrExpr {
+    pub fn as_ident(&self) -> Option<&Ident> {
+        match self {
+            PatOrExpr::Expr(v) => match &**v {
+                Expr::Ident(i) => Some(i),
+                _ => None,
+            },
+            PatOrExpr::Pat(v) => match &**v {
+                Pat::Ident(i) => Some(&i.id),
+                Pat::Expr(v) => match &**v {
+                    Expr::Ident(i) => Some(i),
+                    _ => None,
+                },
+                _ => None,
+            },
+        }
+    }
+
+    pub fn as_ident_mut(&mut self) -> Option<&mut Ident> {
+        match self {
+            PatOrExpr::Expr(v) => match &mut **v {
+                Expr::Ident(i) => Some(i),
+                _ => None,
+            },
+            PatOrExpr::Pat(v) => match &mut **v {
+                Pat::Ident(i) => Some(&mut i.id),
+                Pat::Expr(v) => match &mut **v {
+                    Expr::Ident(i) => Some(i),
+                    _ => None,
+                },
+                _ => None,
+            },
+        }
+    }
+}
+
 impl Take for PatOrExpr {
     fn dummy() -> Self {
         PatOrExpr::Pat(Take::dummy())
