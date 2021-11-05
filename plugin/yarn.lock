@@ -2,56 +2,56 @@
 # yarn lockfile v1
 
 
-"@swc/plugin-internal-test-android-arm64@0.1.10":
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/@swc/plugin-internal-test-android-arm64/-/plugin-internal-test-android-arm64-0.1.10.tgz#c20e3534fc0551d84bac673059e74f21ffd0ec37"
-  integrity sha512-K+wPyFPbejLya5jS1EKQDJ6o4EbtK8MfC3P/y2CKCxBrDL0E66Rm63wxv7lGFUvIg8yxwjj5FkgTBBFmvz2E6g==
+"@swc/plugin-internal-test-android-arm64@0.1.11":
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/@swc/plugin-internal-test-android-arm64/-/plugin-internal-test-android-arm64-0.1.11.tgz#eeb786e0fb5475520aa8e627054be47546d13d7e"
+  integrity sha512-uDoVH5cQ/FoG+DPgElipE7dcQqw+1LVTkz+G8N6eY4Ah7qlu9QK9wevlJQF8RO9SyMIRG+/I6rEao6f5j0xXSA==
 
-"@swc/plugin-internal-test-darwin-arm64@0.1.10":
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/@swc/plugin-internal-test-darwin-arm64/-/plugin-internal-test-darwin-arm64-0.1.10.tgz#cf45df57a16adcf3f6cfc5cc4f503b37a02dc7c6"
-  integrity sha512-Nag2aRWI0rQpZifEoOcABcLaPq9YqZTEqRHyC8RztpEuvlrTum8JsL9YxO1NoIEvI+iXGG4HMN4OksFS0YUiJA==
+"@swc/plugin-internal-test-darwin-arm64@0.1.11":
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/@swc/plugin-internal-test-darwin-arm64/-/plugin-internal-test-darwin-arm64-0.1.11.tgz#98842be693ef5ae240a7afc1b1cc18fde1cc0f3a"
+  integrity sha512-3eekNR6zKmRW89rSfio6ORBGr4BnVCeL5cGHVfbaObiObxio0scWIMhBfJaq7JtuqotbKTRgwFitYMq1l8FmBQ==
 
-"@swc/plugin-internal-test-darwin-x64@0.1.10":
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/@swc/plugin-internal-test-darwin-x64/-/plugin-internal-test-darwin-x64-0.1.10.tgz#9f7794ddd76030ad0b06ff24d358ad48c599b9e1"
-  integrity sha512-IfOxoGi7Jt0npTuHILJJJ4wGs/cJ6hJRNAwAy66gWFvIw08e1yyH/UXEfaguHW3yxbeRLhFZ86Vx2RRWH6E0Jw==
+"@swc/plugin-internal-test-darwin-x64@0.1.11":
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/@swc/plugin-internal-test-darwin-x64/-/plugin-internal-test-darwin-x64-0.1.11.tgz#d7a369e1b17aa2c98cd62c5bb2df72aeebae52f9"
+  integrity sha512-T7mn2SSaHXFBqGDiRNb0RPiwg21Zjhqo23E+Gs5T/886bw9utldNODaLxIjlxxt4gSo/6XVMPA9/71UtUsHklQ==
 
-"@swc/plugin-internal-test-linux-arm-gnueabihf@0.1.10":
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/@swc/plugin-internal-test-linux-arm-gnueabihf/-/plugin-internal-test-linux-arm-gnueabihf-0.1.10.tgz#7e53a385cd276fb0d6e32a90a77618b3707a75ad"
-  integrity sha512-zsUPi20GVFdudz7BNfyEprkZVgHCcBcnI52ApqKZ8nyeCYMuOq4/BTrgnvk2QvhI/WEglctDg37a6tTAMN3xHg==
+"@swc/plugin-internal-test-linux-arm-gnueabihf@0.1.11":
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/@swc/plugin-internal-test-linux-arm-gnueabihf/-/plugin-internal-test-linux-arm-gnueabihf-0.1.11.tgz#beacbbc57c4d2102e7894d0e75ed00040ca3c42c"
+  integrity sha512-pQM7TRo5+FvFIkx/fQsUKQaakwynR9d3t1E9dqx5JBPoX4zvGl6soRSMVTzP8i9OF6N5Xnh2bLvnCDBXj7EZSw==
 
-"@swc/plugin-internal-test-linux-arm64-gnu@0.1.10":
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/@swc/plugin-internal-test-linux-arm64-gnu/-/plugin-internal-test-linux-arm64-gnu-0.1.10.tgz#2635a7e11b54a848dba7b75077ce6c83a1db4c5e"
-  integrity sha512-giNqcTHSy7z6l1RpVO08MUc06MFw6pfaQ/4v3YM9fAh8tfWeqk9hRqP/9WQc1hGK1hjOm3hWqUl//u2r3O9+vg==
+"@swc/plugin-internal-test-linux-arm64-gnu@0.1.11":
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/@swc/plugin-internal-test-linux-arm64-gnu/-/plugin-internal-test-linux-arm64-gnu-0.1.11.tgz#91dd68ccce980b8e5e884a24d952809d120a6e86"
+  integrity sha512-qZeyehusOyY6UphnJq8ndIfUB4WT4aznvLPkoKQ1MK9hllhf7ZBfYgtLmqrCgOMBRP2FYWt0bvLnJd1wKFBD1A==
 
-"@swc/plugin-internal-test-linux-arm64-musl@0.1.10":
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/@swc/plugin-internal-test-linux-arm64-musl/-/plugin-internal-test-linux-arm64-musl-0.1.10.tgz#a0b28c126e5109cb3d642257f971389bdfed422b"
-  integrity sha512-LSakUgdxzRU+JqqbWjZJ+dw8jersq5jwHIZqcfvh8x5D3faujunDFlXn3ZcRP7fCXED7ikkV4buqVVRirhJMLw==
+"@swc/plugin-internal-test-linux-arm64-musl@0.1.11":
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/@swc/plugin-internal-test-linux-arm64-musl/-/plugin-internal-test-linux-arm64-musl-0.1.11.tgz#c6f53b130742628a47a121603f60dfa9c825e2aa"
+  integrity sha512-tqWsGF4syncKN38bHWtEbrDZd3de0P+IVlOwZe0qg6h7AG5pliGkmNfeFSv9C9biLtyxBfPpmSeePTTwxrlsSg==
 
-"@swc/plugin-internal-test-linux-x64-gnu@0.1.10":
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/@swc/plugin-internal-test-linux-x64-gnu/-/plugin-internal-test-linux-x64-gnu-0.1.10.tgz#4db4f9b05bedc11c546db099d57e7b66472a6b13"
-  integrity sha512-QMTjdkeYRASX0IPg5DDqCWUJ0oSp0AUgqDHpTw6oSLvN8P+KvgvdcM+GGyjMwW5xaerct50IWDmSF3/pR0JnNw==
+"@swc/plugin-internal-test-linux-x64-gnu@0.1.11":
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/@swc/plugin-internal-test-linux-x64-gnu/-/plugin-internal-test-linux-x64-gnu-0.1.11.tgz#8f3f5574920048c3064b8d266868e6a9b241afc4"
+  integrity sha512-XV7CGs8+YvLtURuas1us083NCSG6k21t6Iyw1amvlgerkJsK41FYKgeYBG9f00qXWLvOv3DomoTgFP9ZTbSe/w==
 
-"@swc/plugin-internal-test-win32-x64-msvc@0.1.10":
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/@swc/plugin-internal-test-win32-x64-msvc/-/plugin-internal-test-win32-x64-msvc-0.1.10.tgz#e34d81d4a4c8646810e2481188e9ba08cf517f12"
-  integrity sha512-pKaJx1ekRgo9fjRNDrjxxKb+HCutHJC7ZN3+ERujBz9bNuC3MPExjW9T6KMR/L2wLpX93MwcyGSs1eskmve6dA==
+"@swc/plugin-internal-test-win32-x64-msvc@0.1.11":
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/@swc/plugin-internal-test-win32-x64-msvc/-/plugin-internal-test-win32-x64-msvc-0.1.11.tgz#cfb3fddc66ef20c151405c6e643113fc3886549e"
+  integrity sha512-J3xe52GzbX1LQKxozJ2wOXQkA1chQ9eAWtZdByMKDWSvRi3hb4Jerafj73I/VQ4FGxzo9ngsFSiz45gx2wZdYA==
 
 "@swc/plugin-internal-test@^0.1.4":
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/@swc/plugin-internal-test/-/plugin-internal-test-0.1.10.tgz#51ed35ef956c7dc8206356e3b22ec4c003f47874"
-  integrity sha512-TFrXsxIkU+6EoTiZYdx0VK/uYNeEgM9sazMsB4hH2NhGjLu8SzHHNpogCnz/PZ2nMBcVqwBQFAiFnO7i10QGCg==
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/@swc/plugin-internal-test/-/plugin-internal-test-0.1.11.tgz#039e8b2b1c2187f2cc5ad39cc8ac510a3125682f"
+  integrity sha512-39htlvOckYDkjlhtPBzbbeAqUTd/HwUFL0G9c/pUu7wioZQH4+FG+kJC/HMUVZvP0eBhLvEzWs+Y0EyMPTtpCg==
   optionalDependencies:
-    "@swc/plugin-internal-test-android-arm64" "0.1.10"
-    "@swc/plugin-internal-test-darwin-arm64" "0.1.10"
-    "@swc/plugin-internal-test-darwin-x64" "0.1.10"
-    "@swc/plugin-internal-test-linux-arm-gnueabihf" "0.1.10"
-    "@swc/plugin-internal-test-linux-arm64-gnu" "0.1.10"
-    "@swc/plugin-internal-test-linux-arm64-musl" "0.1.10"
-    "@swc/plugin-internal-test-linux-x64-gnu" "0.1.10"
-    "@swc/plugin-internal-test-win32-x64-msvc" "0.1.10"
+    "@swc/plugin-internal-test-android-arm64" "0.1.11"
+    "@swc/plugin-internal-test-darwin-arm64" "0.1.11"
+    "@swc/plugin-internal-test-darwin-x64" "0.1.11"
+    "@swc/plugin-internal-test-linux-arm-gnueabihf" "0.1.11"
+    "@swc/plugin-internal-test-linux-arm64-gnu" "0.1.11"
+    "@swc/plugin-internal-test-linux-arm64-musl" "0.1.11"
+    "@swc/plugin-internal-test-linux-x64-gnu" "0.1.11"
+    "@swc/plugin-internal-test-win32-x64-msvc" "0.1.11"
