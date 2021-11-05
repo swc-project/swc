@@ -1275,7 +1275,7 @@ where
                     }) => {
                         match &**arg {
                             Expr::Ident(a_id) => {
-                                let mut v = UsageCoutner {
+                                let mut v = UsageCounter {
                                     expr_usage: Default::default(),
                                     pat_usage: Default::default(),
                                     target: &*a_id,
@@ -1434,7 +1434,7 @@ where
         }
 
         {
-            let mut v = UsageCoutner {
+            let mut v = UsageCounter {
                 expr_usage: Default::default(),
                 pat_usage: Default::default(),
                 target: &left_id,
@@ -1475,7 +1475,7 @@ where
     }
 }
 
-struct UsageCoutner<'a> {
+struct UsageCounter<'a> {
     expr_usage: usize,
     pat_usage: usize,
 
@@ -1483,7 +1483,7 @@ struct UsageCoutner<'a> {
     in_lhs: bool,
 }
 
-impl Visit for UsageCoutner<'_> {
+impl Visit for UsageCounter<'_> {
     noop_visit_type!();
 
     fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
