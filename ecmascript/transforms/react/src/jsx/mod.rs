@@ -1132,26 +1132,33 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
 fn jsx_text_to_str(t: JsWord) -> JsWord {
     static SPACE_START: Lazy<Regex> = Lazy::new(|| Regex::new("^[ ]+").unwrap());
     static SPACE_END: Lazy<Regex> = Lazy::new(|| Regex::new("[ ]+$").unwrap());
-    t.lines()
-        .map(|s| s.replace('\t', " "))
-        .enumerate()
-        .filter(|(_, v)| v.len() != 0)
-        .identify_last()
-        .map(|(is_last, (i, v))| {
-            let buf = Cow::from(v);
-            let buf = match i {
-                0 => buf,
-                _ => SPACE_START.replace_all(&buf, ""),
-            };
-            let buf = match is_last {
-                true => buf,
-                false => SPACE_END.replace_all(&buf, ""),
-            };
-            buf.into()
-        })
-        .collect::<Vec<String>>()
-        .join(" ")
-        .into()
+    let mut buf = String::from("");
+    let replaced = t.replace('\t', " ");
+    let lines: Vec<&str> = replaced.lines().collect();
+    for (is_last, (i, line)) in lines.into_iter().enumerate().identify_last() {
+        if line.len() == 0 {
+            continue;
+        }
+        let line = Cow::from(line);
+        let line = if i != 0 {
+            SPACE_START.replace_all(&line, "")
+        } else {
+            line
+        };
+        let line = if is_last {
+            line
+        } else {
+            SPACE_END.replace_all(&line, "")
+        };
+        if line.len() == 0 {
+            continue;
+        }
+        if i != 0 && buf.len() != 0 {
+            buf.push_str(" ")
+        }
+        buf.push_str(&line);
+    }
+    buf.into()
 }
 
 fn jsx_attr_value_to_expr(v: JSXAttrValue) -> Option<Box<Expr>> {
