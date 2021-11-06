@@ -711,6 +711,7 @@ fn should_visit() {
                     None,
                     &handler,
                     &swc::config::Options {
+                        is_module: true,
                         config: swc::config::Config {
                             jsc: JscConfig {
                                 syntax: Some(Syntax::Es(EsConfig {
