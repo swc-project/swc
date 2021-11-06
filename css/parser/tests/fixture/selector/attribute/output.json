@@ -1875,7 +1875,7 @@
                 "hasNestPrefix": false,
                 "combinator": null,
                 "typeSelector": {
-                  "type": "NamespacedName",
+                  "type": "TypeSelector",
                   "span": {
                     "start": 394,
                     "end": 395,
@@ -1974,7 +1974,7 @@
                 "hasNestPrefix": false,
                 "combinator": null,
                 "typeSelector": {
-                  "type": "NamespacedName",
+                  "type": "TypeSelector",
                   "span": {
                     "start": 417,
                     "end": 418,

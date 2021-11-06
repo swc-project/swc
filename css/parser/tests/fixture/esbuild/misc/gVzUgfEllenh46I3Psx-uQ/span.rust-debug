@@ -34,7 +34,7 @@ error: CompoundSelector
 1 | a { margin: 0 1 0px 1px }
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:1
   |
 1 | a { margin: 0 1 0px 1px }

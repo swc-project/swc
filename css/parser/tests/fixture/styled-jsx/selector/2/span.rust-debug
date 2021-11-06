@@ -40,7 +40,7 @@ error: CompoundSelector
 1 | p :global(span:not(.test)) {
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1
   |
 1 | p :global(span:not(.test)) {

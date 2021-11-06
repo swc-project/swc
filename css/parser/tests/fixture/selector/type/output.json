@@ -39,7 +39,7 @@
                 "hasNestPrefix": false,
                 "combinator": null,
                 "typeSelector": {
-                  "type": "NamespacedName",
+                  "type": "TypeSelector",
                   "span": {
                     "start": 0,
                     "end": 3,
@@ -115,7 +115,7 @@
                 "hasNestPrefix": false,
                 "combinator": null,
                 "typeSelector": {
-                  "type": "NamespacedName",
+                  "type": "TypeSelector",
                   "span": {
                     "start": 7,
                     "end": 13,
@@ -191,7 +191,7 @@
                 "hasNestPrefix": false,
                 "combinator": null,
                 "typeSelector": {
-                  "type": "NamespacedName",
+                  "type": "TypeSelector",
                   "span": {
                     "start": 17,
                     "end": 22,
@@ -267,7 +267,7 @@
                 "hasNestPrefix": false,
                 "combinator": null,
                 "typeSelector": {
-                  "type": "NamespacedName",
+                  "type": "TypeSelector",
                   "span": {
                     "start": 26,
                     "end": 29,
@@ -343,7 +343,7 @@
                 "hasNestPrefix": false,
                 "combinator": null,
                 "typeSelector": {
-                  "type": "NamespacedName",
+                  "type": "TypeSelector",
                   "span": {
                     "start": 33,
                     "end": 37,
@@ -419,7 +419,7 @@
                 "hasNestPrefix": false,
                 "combinator": null,
                 "typeSelector": {
-                  "type": "NamespacedName",
+                  "type": "TypeSelector",
                   "span": {
                     "start": 41,
                     "end": 43,

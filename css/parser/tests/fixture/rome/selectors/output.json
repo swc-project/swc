@@ -39,7 +39,7 @@
                 "hasNestPrefix": false,
                 "combinator": null,
                 "typeSelector": {
-                  "type": "NamespacedName",
+                  "type": "TypeSelector",
                   "span": {
                     "start": 0,
                     "end": 3,
@@ -79,7 +79,7 @@
                 "hasNestPrefix": false,
                 "combinator": null,
                 "typeSelector": {
-                  "type": "NamespacedName",
+                  "type": "TypeSelector",
                   "span": {
                     "start": 5,
                     "end": 8,
@@ -150,7 +150,7 @@
                 "hasNestPrefix": false,
                 "combinator": null,
                 "typeSelector": {
-                  "type": "NamespacedName",
+                  "type": "TypeSelector",
                   "span": {
                     "start": 16,
                     "end": 19,
@@ -221,7 +221,7 @@
                 "hasNestPrefix": false,
                 "combinator": null,
                 "typeSelector": {
-                  "type": "NamespacedName",
+                  "type": "TypeSelector",
                   "span": {
                     "start": 27,
                     "end": 30,
@@ -418,7 +418,7 @@
                 "hasNestPrefix": false,
                 "combinator": "+",
                 "typeSelector": {
-                  "type": "NamespacedName",
+                  "type": "TypeSelector",
                   "span": {
                     "start": 80,
                     "end": 81,
@@ -485,7 +485,7 @@
                 "hasNestPrefix": false,
                 "combinator": null,
                 "typeSelector": {
-                  "type": "NamespacedName",
+                  "type": "TypeSelector",
                   "span": {
                     "start": 88,
                     "end": 89,
@@ -607,7 +607,7 @@
                 "hasNestPrefix": false,
                 "combinator": null,
                 "typeSelector": {
-                  "type": "NamespacedName",
+                  "type": "TypeSelector",
                   "span": {
                     "start": 119,
                     "end": 120,
@@ -738,7 +738,7 @@
                 "hasNestPrefix": false,
                 "combinator": null,
                 "typeSelector": {
-                  "type": "NamespacedName",
+                  "type": "TypeSelector",
                   "span": {
                     "start": 160,
                     "end": 161,
@@ -869,7 +869,7 @@
                 "hasNestPrefix": false,
                 "combinator": null,
                 "typeSelector": {
-                  "type": "NamespacedName",
+                  "type": "TypeSelector",
                   "span": {
                     "start": 202,
                     "end": 203,
@@ -1031,7 +1031,7 @@
                 "hasNestPrefix": false,
                 "combinator": null,
                 "typeSelector": {
-                  "type": "NamespacedName",
+                  "type": "TypeSelector",
                   "span": {
                     "start": 261,
                     "end": 262,

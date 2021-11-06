@@ -49,7 +49,7 @@ error: CompoundSelector
 1 | /* comment */a/* comment */
   |              ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/comment/input.css:1:14
   |
 1 | /* comment */a/* comment */
@@ -135,7 +135,7 @@ error: CompoundSelector
 9 | div {
   | ^^^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/comment/input.css:9:1
   |
 9 | div {
@@ -244,7 +244,7 @@ error: CompoundSelector
 18 | a {
    | ^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/comment/input.css:18:1
    |
 18 | a {

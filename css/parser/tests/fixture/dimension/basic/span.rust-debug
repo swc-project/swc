@@ -52,7 +52,7 @@ error: CompoundSelector
 1 | a {
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/dimension/basic/input.css:1:1
   |
 1 | a {

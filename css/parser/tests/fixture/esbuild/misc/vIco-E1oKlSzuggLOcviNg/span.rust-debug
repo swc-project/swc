@@ -34,7 +34,7 @@ error: CompoundSelector
 1 | a { width: 0.0%; }
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/esbuild/misc/vIco-E1oKlSzuggLOcviNg/input.css:1:1
   |
 1 | a { width: 0.0%; }

@@ -1402,7 +1402,7 @@ error: CompoundSelector
 24 | a[ class = "test" ] {}
    | ^^^^^^^^^^^^^^^^^^^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/selector/attribute/input.css:24:1
    |
 24 | a[ class = "test" ] {}
@@ -1474,7 +1474,7 @@ error: CompoundSelector
 25 | a[   class   =   "test"   ] {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/selector/attribute/input.css:25:1
    |
 25 | a[   class   =   "test"   ] {}

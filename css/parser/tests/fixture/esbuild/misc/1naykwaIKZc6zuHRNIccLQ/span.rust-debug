@@ -34,7 +34,7 @@ error: CompoundSelector
 1 | a { value: id\65nt }
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/esbuild/misc/1naykwaIKZc6zuHRNIccLQ/input.css:1:1
   |
 1 | a { value: id\65nt }

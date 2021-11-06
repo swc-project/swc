@@ -79,7 +79,7 @@
                     "hasNestPrefix": false,
                     "combinator": null,
                     "typeSelector": {
-                      "type": "NamespacedName",
+                      "type": "TypeSelector",
                       "span": {
                         "start": 44,
                         "end": 46,

@@ -184,17 +184,13 @@ define!({
 
     pub struct CompoundSelector {
         pub span: Span,
-
         pub has_nest_prefix: bool,
-
         pub combinator: Option<SelectorCombinator>,
-
-        pub type_selector: Option<NamespacedName>,
-
+        pub type_selector: Option<TypeSelector>,
         pub subclass_selectors: Vec<SubclassSelector>,
     }
 
-    pub struct NamespacedName {
+    pub struct TypeSelector {
         pub span: Span,
         pub prefix: Option<Text>,
         pub name: Text,

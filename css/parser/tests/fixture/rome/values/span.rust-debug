@@ -44,7 +44,7 @@ error: CompoundSelector
 1 | p::before {
   | ^^^^^^^^^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/rome/values/input.css:1:1
   |
 1 | p::before {
@@ -321,7 +321,7 @@ error: CompoundSelector
 12 | foo {
    | ^^^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/rome/values/input.css:12:1
    |
 12 | foo {
@@ -402,7 +402,7 @@ error: CompoundSelector
 16 | bar {
    | ^^^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/rome/values/input.css:16:1
    |
 16 | bar {

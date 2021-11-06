@@ -43,7 +43,7 @@ error: CompoundSelector
 1 | a {
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/declaration-list/input.css:1:1
   |
 1 | a {

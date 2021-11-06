@@ -39,7 +39,7 @@
                 "hasNestPrefix": false,
                 "combinator": null,
                 "typeSelector": {
-                  "type": "NamespacedName",
+                  "type": "TypeSelector",
                   "span": {
                     "start": 13,
                     "end": 14,
@@ -138,7 +138,7 @@
                 "hasNestPrefix": false,
                 "combinator": null,
                 "typeSelector": {
-                  "type": "NamespacedName",
+                  "type": "TypeSelector",
                   "span": {
                     "start": 132,
                     "end": 135,
@@ -268,7 +268,7 @@
                 "hasNestPrefix": false,
                 "combinator": null,
                 "typeSelector": {
-                  "type": "NamespacedName",
+                  "type": "TypeSelector",
                   "span": {
                     "start": 237,
                     "end": 238,

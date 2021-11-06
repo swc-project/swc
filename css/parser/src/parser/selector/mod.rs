@@ -175,7 +175,7 @@ where
     }
 
     // TODO: no span as argument
-    fn parse_type_selector(&mut self, span: Span) -> PResult<Option<NamespacedName>> {
+    fn parse_type_selector(&mut self, span: Span) -> PResult<Option<TypeSelector>> {
         let start_pos = span.lo;
 
         let mut prefix = None;
@@ -194,7 +194,7 @@ where
                 }
             };
 
-            return Ok(Some(NamespacedName {
+            return Ok(Some(TypeSelector {
                 span: span!(self, start_pos),
                 prefix,
                 name,
@@ -206,7 +206,7 @@ where
             let raw = value.clone();
             let name = Text { span, value, raw };
 
-            return Ok(Some(NamespacedName {
+            return Ok(Some(TypeSelector {
                 span: span!(self, start_pos),
                 prefix,
                 name,

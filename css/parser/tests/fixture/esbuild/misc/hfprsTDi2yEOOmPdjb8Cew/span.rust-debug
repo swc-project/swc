@@ -34,7 +34,7 @@ error: CompoundSelector
 1 | div#\30 {}
   | ^^^^^^^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/esbuild/misc/hfprsTDi2yEOOmPdjb8Cew/input.css:1:1
   |
 1 | div#\30 {}

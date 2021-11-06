@@ -40,7 +40,7 @@ error: CompoundSelector
 1 | a {
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/delim/backslash/input.css:1:1
   |
 1 | a {

@@ -34,7 +34,7 @@ error: CompoundSelector
 1 | a~/**/b {}
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/esbuild/misc/5nNFwUYmVb5_MMMzIvIeQg/input.css:1:1
   |
 1 | a~/**/b {}
@@ -52,7 +52,7 @@ error: CompoundSelector
 1 | a~/**/b {}
   |       ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/esbuild/misc/5nNFwUYmVb5_MMMzIvIeQg/input.css:1:7
   |
 1 | a~/**/b {}

@@ -34,7 +34,7 @@ error: CompoundSelector
 1 | a { value: '\61bc' }
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/esbuild/misc/eWp7_8m3btY6p4erQ5c2JQ/input.css:1:1
   |
 1 | a { value: '\61bc' }

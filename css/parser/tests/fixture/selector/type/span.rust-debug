@@ -39,7 +39,7 @@ error: CompoundSelector
 1 | *|* {}
   | ^^^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/type/input.css:1:1
   |
 1 | *|* {}
@@ -87,7 +87,7 @@ error: CompoundSelector
 2 | foo|h1 {}
   | ^^^^^^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/type/input.css:2:1
   |
 2 | foo|h1 {}
@@ -141,7 +141,7 @@ error: CompoundSelector
 3 | foo|* {}
   | ^^^^^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/type/input.css:3:1
   |
 3 | foo|* {}
@@ -189,7 +189,7 @@ error: CompoundSelector
 4 | |h1 {}
   | ^^^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/type/input.css:4:1
   |
 4 | |h1 {}
@@ -243,7 +243,7 @@ error: CompoundSelector
 5 | *|h1 {}
   | ^^^^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/type/input.css:5:1
   |
 5 | *|h1 {}
@@ -297,7 +297,7 @@ error: CompoundSelector
 6 | h1 {}
   | ^^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/type/input.css:6:1
   |
 6 | h1 {}
