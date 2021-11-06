@@ -26,6 +26,8 @@ where
                 break;
             }
 
+            self.input.skip_ws()?;
+
             let child = self.parse_complex_selector()?;
 
             last_pos = child.span.clone().hi;
@@ -437,8 +439,6 @@ where
     }
 
     fn parse_compound_selector(&mut self) -> PResult<CompoundSelector> {
-        self.input.skip_ws()?;
-
         let span = self.input.cur_span()?;
         let start_pos = span.lo;
 

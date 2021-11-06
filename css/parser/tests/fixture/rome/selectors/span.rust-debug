@@ -57,10 +57,10 @@ error: Text
   | ^^^
 
 error: ComplexSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:1:5
+ --> $DIR/tests/fixture/rome/selectors/input.css:1:6
   |
 1 | div, div + #id, div ~ #id, div > #id {
-  |     ^^^^^^^^^^
+  |      ^^^^^^^^^
 
 error: CompoundSelector
  --> $DIR/tests/fixture/rome/selectors/input.css:1:6
@@ -105,10 +105,10 @@ error: Text
   |            ^^^
 
 error: ComplexSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:1:16
+ --> $DIR/tests/fixture/rome/selectors/input.css:1:17
   |
 1 | div, div + #id, div ~ #id, div > #id {
-  |                ^^^^^^^^^^
+  |                 ^^^^^^^^^
 
 error: CompoundSelector
  --> $DIR/tests/fixture/rome/selectors/input.css:1:17
@@ -153,10 +153,10 @@ error: Text
   |                       ^^^
 
 error: ComplexSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:1:27
+ --> $DIR/tests/fixture/rome/selectors/input.css:1:28
   |
 1 | div, div + #id, div ~ #id, div > #id {
-  |                           ^^^^^^^^^^
+  |                            ^^^^^^^^^
 
 error: CompoundSelector
  --> $DIR/tests/fixture/rome/selectors/input.css:1:28
