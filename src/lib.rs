@@ -1030,34 +1030,10 @@ impl Compiler {
         program: Program,
         opts: &Options,
     ) -> Result<TransformOutput, Error> {
-        self.run(|| -> Result<_, Error> {
-            let loc = self.cm.lookup_char_pos(program.span().lo());
-            let fm = loc.file;
+        let loc = self.cm.lookup_char_pos(program.span().lo());
+        let fm = loc.file;
 
-            let orig = if opts
-                .config
-                .source_maps
-                .as_ref()
-                .map(|v| v.enabled())
-                .unwrap_or_default()
-            {
-                self.get_orig_src_map(&fm, &opts.config.input_source_map, false)?
-            } else {
-                None
-            };
-
-            let config = self.run(|| self.config_for_file(handler, opts, &fm.name, noop()))?;
-
-            let config = match config {
-                Some(v) => v,
-                None => {
-                    bail!("cannot process file because it's ignored by .swcrc")
-                }
-            };
-
-            self.process_js_inner(handler, program, orig.as_ref(), config)
-        })
-        .context("failed to process js module")
+        self.process_js_with_custom_pass(fm, handler, opts, noop(), noop())
     }
 
     fn process_js_inner(
