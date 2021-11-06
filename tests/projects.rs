@@ -119,6 +119,8 @@ fn project(dir: &str) {
                 let fm = cm.load_file(entry.path()).expect("failed to load file");
 
                 if c.read_config(
+                    fm.clone(),
+                    None,
                     &handler,
                     &Options {
                         swcrc: true,
@@ -734,7 +736,7 @@ fn should_visit() {
             dbg!(config.syntax);
             let program = config.program;
 
-            let config = BuiltConfig {
+            let config = BuiltInput {
                 pass: chain!(Panicking, config.pass),
                 syntax: config.syntax,
                 target: config.target,
