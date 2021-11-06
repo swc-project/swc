@@ -329,6 +329,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(SquareBracketBlock, visit_square_bracket_block);
     mtd!(FnValue, visit_fn_value);
     mtd!(HashValue, visit_hash_value);
+    mtd!(NestingSelector, visit_nesting_selector);
     mtd!(IdSelector, visit_id_selector);
     mtd!(TypeSelector, visit_type_selector);
     mtd!(Num, visit_num);

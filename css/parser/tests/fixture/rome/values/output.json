@@ -36,7 +36,7 @@
                   "end": 9,
                   "ctxt": 0
                 },
-                "hasNestPrefix": false,
+                "nestingSelector": null,
                 "combinator": null,
                 "typeSelector": {
                   "type": "TypeSelector",
@@ -164,7 +164,7 @@
                   "end": 45,
                   "ctxt": 0
                 },
-                "hasNestPrefix": false,
+                "nestingSelector": null,
                 "combinator": null,
                 "typeSelector": null,
                 "subclassSelectors": [
@@ -373,7 +373,7 @@
                   "end": 120,
                   "ctxt": 0
                 },
-                "hasNestPrefix": false,
+                "nestingSelector": null,
                 "combinator": null,
                 "typeSelector": {
                   "type": "TypeSelector",
@@ -472,7 +472,7 @@
                   "end": 144,
                   "ctxt": 0
                 },
-                "hasNestPrefix": false,
+                "nestingSelector": null,
                 "combinator": null,
                 "typeSelector": {
                   "type": "TypeSelector",

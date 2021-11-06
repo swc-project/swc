@@ -79,7 +79,7 @@
                         "end": 33,
                         "ctxt": 0
                       },
-                      "hasNestPrefix": false,
+                      "nestingSelector": null,
                       "combinator": null,
                       "typeSelector": null,
                       "subclassSelectors": [
@@ -263,7 +263,7 @@
                         "end": 101,
                         "ctxt": 0
                       },
-                      "hasNestPrefix": false,
+                      "nestingSelector": null,
                       "combinator": null,
                       "typeSelector": null,
                       "subclassSelectors": [
@@ -428,7 +428,7 @@
                         "end": 162,
                         "ctxt": 0
                       },
-                      "hasNestPrefix": false,
+                      "nestingSelector": null,
                       "combinator": null,
                       "typeSelector": null,
                       "subclassSelectors": [
@@ -593,7 +593,7 @@
                         "end": 223,
                         "ctxt": 0
                       },
-                      "hasNestPrefix": false,
+                      "nestingSelector": null,
                       "combinator": null,
                       "typeSelector": null,
                       "subclassSelectors": [

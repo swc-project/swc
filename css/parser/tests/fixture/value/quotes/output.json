@@ -36,7 +36,7 @@
                   "end": 9,
                   "ctxt": 0
                 },
-                "hasNestPrefix": false,
+                "nestingSelector": null,
                 "combinator": null,
                 "typeSelector": {
                   "type": "TypeSelector",
@@ -722,7 +722,7 @@
                   "end": 917,
                   "ctxt": 0
                 },
-                "hasNestPrefix": false,
+                "nestingSelector": null,
                 "combinator": null,
                 "typeSelector": {
                   "type": "TypeSelector",
@@ -853,7 +853,7 @@
                   "end": 973,
                   "ctxt": 0
                 },
-                "hasNestPrefix": false,
+                "nestingSelector": null,
                 "combinator": null,
                 "typeSelector": {
                   "type": "TypeSelector",

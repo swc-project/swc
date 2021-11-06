@@ -36,7 +36,7 @@
                   "end": 7,
                   "ctxt": 0
                 },
-                "hasNestPrefix": false,
+                "nestingSelector": null,
                 "combinator": null,
                 "typeSelector": {
                   "type": "TypeSelector",
@@ -66,7 +66,7 @@
                   "end": 9,
                   "ctxt": 0
                 },
-                "hasNestPrefix": false,
+                "nestingSelector": null,
                 "combinator": null,
                 "typeSelector": {
                   "type": "TypeSelector",
@@ -133,7 +133,7 @@
                   "end": 20,
                   "ctxt": 0
                 },
-                "hasNestPrefix": false,
+                "nestingSelector": null,
                 "combinator": null,
                 "typeSelector": {
                   "type": "TypeSelector",
@@ -163,7 +163,7 @@
                   "end": 24,
                   "ctxt": 0
                 },
-                "hasNestPrefix": false,
+                "nestingSelector": null,
                 "combinator": null,
                 "typeSelector": {
                   "type": "TypeSelector",
@@ -230,7 +230,7 @@
                   "end": 37,
                   "ctxt": 0
                 },
-                "hasNestPrefix": false,
+                "nestingSelector": null,
                 "combinator": null,
                 "typeSelector": {
                   "type": "TypeSelector",
@@ -260,7 +260,7 @@
                   "end": 41,
                   "ctxt": 0
                 },
-                "hasNestPrefix": false,
+                "nestingSelector": null,
                 "combinator": ">",
                 "typeSelector": {
                   "type": "TypeSelector",
@@ -327,7 +327,7 @@
                   "end": 52,
                   "ctxt": 0
                 },
-                "hasNestPrefix": false,
+                "nestingSelector": null,
                 "combinator": null,
                 "typeSelector": {
                   "type": "TypeSelector",
@@ -357,7 +357,7 @@
                   "end": 62,
                   "ctxt": 0
                 },
-                "hasNestPrefix": false,
+                "nestingSelector": null,
                 "combinator": ">",
                 "typeSelector": {
                   "type": "TypeSelector",
@@ -424,7 +424,7 @@
                   "end": 70,
                   "ctxt": 0
                 },
-                "hasNestPrefix": false,
+                "nestingSelector": null,
                 "combinator": null,
                 "typeSelector": {
                   "type": "TypeSelector",
@@ -454,7 +454,7 @@
                   "end": 76,
                   "ctxt": 0
                 },
-                "hasNestPrefix": false,
+                "nestingSelector": null,
                 "combinator": "+",
                 "typeSelector": {
                   "type": "TypeSelector",
@@ -521,7 +521,7 @@
                   "end": 81,
                   "ctxt": 0
                 },
-                "hasNestPrefix": false,
+                "nestingSelector": null,
                 "combinator": null,
                 "typeSelector": {
                   "type": "TypeSelector",
@@ -551,7 +551,7 @@
                   "end": 91,
                   "ctxt": 0
                 },
-                "hasNestPrefix": false,
+                "nestingSelector": null,
                 "combinator": "+",
                 "typeSelector": {
                   "type": "TypeSelector",
@@ -618,7 +618,7 @@
                   "end": 96,
                   "ctxt": 0
                 },
-                "hasNestPrefix": false,
+                "nestingSelector": null,
                 "combinator": null,
                 "typeSelector": {
                   "type": "TypeSelector",
@@ -648,7 +648,7 @@
                   "end": 102,
                   "ctxt": 0
                 },
-                "hasNestPrefix": false,
+                "nestingSelector": null,
                 "combinator": "~",
                 "typeSelector": {
                   "type": "TypeSelector",
@@ -715,7 +715,7 @@
                   "end": 107,
                   "ctxt": 0
                 },
-                "hasNestPrefix": false,
+                "nestingSelector": null,
                 "combinator": null,
                 "typeSelector": {
                   "type": "TypeSelector",
@@ -745,7 +745,7 @@
                   "end": 119,
                   "ctxt": 0
                 },
-                "hasNestPrefix": false,
+                "nestingSelector": null,
                 "combinator": "~",
                 "typeSelector": {
                   "type": "TypeSelector",
@@ -812,7 +812,7 @@
                   "end": 130,
                   "ctxt": 0
                 },
-                "hasNestPrefix": false,
+                "nestingSelector": null,
                 "combinator": null,
                 "typeSelector": {
                   "type": "TypeSelector",
@@ -842,7 +842,7 @@
                   "end": 134,
                   "ctxt": 0
                 },
-                "hasNestPrefix": false,
+                "nestingSelector": null,
                 "combinator": ">",
                 "typeSelector": {
                   "type": "TypeSelector",
@@ -872,7 +872,7 @@
                   "end": 138,
                   "ctxt": 0
                 },
-                "hasNestPrefix": false,
+                "nestingSelector": null,
                 "combinator": ">",
                 "typeSelector": {
                   "type": "TypeSelector",

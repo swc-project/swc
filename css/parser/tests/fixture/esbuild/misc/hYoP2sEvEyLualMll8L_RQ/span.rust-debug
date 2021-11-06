@@ -34,6 +34,12 @@ error: CompoundSelector
 1 | &* {}
   | ^^
 
+error: NestingSelector
+ --> $DIR/tests/fixture/esbuild/misc/hYoP2sEvEyLualMll8L_RQ/input.css:1:1
+  |
+1 | &* {}
+  | ^
+
 error: TypeSelector
  --> $DIR/tests/fixture/esbuild/misc/hYoP2sEvEyLualMll8L_RQ/input.css:1:1
   |

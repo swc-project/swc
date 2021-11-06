@@ -98,7 +98,9 @@ where
         Ok(None)
     }
 
-    fn parse_ns_prefix(&mut self, span: Span) -> PResult<Option<Text>> {
+    fn parse_ns_prefix(&mut self) -> PResult<Option<Text>> {
+        let span = self.input.cur_span()?;
+
         if is!(self, Ident) && peeked_is!(self, "|") {
             let token = bump!(self);
             let text = match token {
@@ -132,14 +134,14 @@ where
         Ok(None)
     }
 
-    fn parse_wq_name(&mut self, span: Span) -> PResult<(Option<Text>, Option<Text>)> {
+    fn parse_wq_name(&mut self) -> PResult<(Option<Text>, Option<Text>)> {
         let state = self.input.state();
 
         if is!(self, Ident) && peeked_is!(self, "|")
             || is!(self, "*") && peeked_is!(self, "|")
             || is!(self, "|")
         {
-            let prefix = self.parse_ns_prefix(span)?;
+            let prefix = self.parse_ns_prefix()?;
 
             if is!(self, Ident) {
                 let span = self.input.cur_span()?;
@@ -180,7 +182,7 @@ where
 
         let mut prefix = None;
 
-        if let Ok(result) = self.parse_ns_prefix(span) {
+        if let Ok(result) = self.parse_ns_prefix() {
             prefix = result;
         }
 
@@ -267,14 +269,13 @@ where
 
         self.input.skip_ws()?;
 
-        let start_span = self.input.cur_span()?;
         let prefix;
         let name;
         let mut attr_matcher = None;
         let mut matcher_value = None;
         let mut matcher_modifier = None;
 
-        if let Ok((p, Some(n))) = self.parse_wq_name(start_span) {
+        if let Ok((p, Some(n))) = self.parse_wq_name() {
             prefix = p;
             name = n;
         } else {
@@ -442,11 +443,14 @@ where
         let span = self.input.cur_span()?;
         let start_pos = span.lo;
 
-        let mut has_nest_prefix = false;
+        let mut nesting_selector = None;
 
+        // TODO: move under option, because it is draft
         // This is an extension: https://drafts.csswg.org/css-nesting-1/
         if eat!(self, "&") {
-            has_nest_prefix = true;
+            nesting_selector = Some(NestingSelector {
+                span: span!(self, start_pos),
+            });
         }
 
         let type_selector = self.parse_type_selector(span).unwrap();
@@ -527,13 +531,13 @@ where
 
         let span = span!(self, start_pos);
 
-        if !has_nest_prefix && type_selector.is_none() && subclass_selectors.len() == 0 {
+        if nesting_selector.is_none() && type_selector.is_none() && subclass_selectors.len() == 0 {
             return Err(Error::new(span, ErrorKind::InvalidSelector));
         }
 
         Ok(CompoundSelector {
             span,
-            has_nest_prefix,
+            nesting_selector,
             combinator: None,
             type_selector,
             subclass_selectors,

@@ -1,0 +1,96 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/selector/nesting/input.css:1:1
+  |
+1 | & > .bar { color: red; }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/nesting/input.css:1:1
+  |
+1 | & > .bar { color: red; }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/selector/nesting/input.css:1:1
+  |
+1 | & > .bar { color: red; }
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/nesting/input.css:1:1
+  |
+1 | & > .bar { color: red; }
+  | ^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/nesting/input.css:1:1
+  |
+1 | & > .bar { color: red; }
+  | ^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/nesting/input.css:1:1
+  |
+1 | & > .bar { color: red; }
+  | ^
+
+error: NestingSelector
+ --> $DIR/tests/fixture/selector/nesting/input.css:1:1
+  |
+1 | & > .bar { color: red; }
+  | ^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/nesting/input.css:1:5
+  |
+1 | & > .bar { color: red; }
+  |     ^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/nesting/input.css:1:5
+  |
+1 | & > .bar { color: red; }
+  |     ^^^^
+
+error: ClassSelector
+ --> $DIR/tests/fixture/selector/nesting/input.css:1:5
+  |
+1 | & > .bar { color: red; }
+  |     ^^^^
+
+error: Text
+ --> $DIR/tests/fixture/selector/nesting/input.css:1:6
+  |
+1 | & > .bar { color: red; }
+  |      ^^^
+
+error: Block
+ --> $DIR/tests/fixture/selector/nesting/input.css:1:10
+  |
+1 | & > .bar { color: red; }
+  |          ^^^^^^^^^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/selector/nesting/input.css:1:12
+  |
+1 | & > .bar { color: red; }
+  |            ^^^^^^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/selector/nesting/input.css:1:12
+  |
+1 | & > .bar { color: red; }
+  |            ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/selector/nesting/input.css:1:19
+  |
+1 | & > .bar { color: red; }
+  |                   ^^^
+
+error: Text
+ --> $DIR/tests/fixture/selector/nesting/input.css:1:19
+  |
+1 | & > .bar { color: red; }
+  |                   ^^^
+

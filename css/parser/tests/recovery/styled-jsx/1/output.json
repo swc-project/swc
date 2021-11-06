@@ -36,7 +36,7 @@
                   "end": 15,
                   "ctxt": 0
                 },
-                "hasNestPrefix": false,
+                "nestingSelector": null,
                 "combinator": null,
                 "typeSelector": null,
                 "subclassSelectors": [
@@ -198,7 +198,7 @@
                   "end": 126,
                   "ctxt": 0
                 },
-                "hasNestPrefix": false,
+                "nestingSelector": null,
                 "combinator": null,
                 "typeSelector": null,
                 "subclassSelectors": [
@@ -229,7 +229,7 @@
                   "end": 158,
                   "ctxt": 0
                 },
-                "hasNestPrefix": false,
+                "nestingSelector": null,
                 "combinator": null,
                 "typeSelector": null,
                 "subclassSelectors": [
@@ -537,7 +537,7 @@
                       "end": 323,
                       "ctxt": 0
                     },
-                    "hasNestPrefix": false,
+                    "nestingSelector": null,
                     "combinator": null,
                     "typeSelector": null,
                     "subclassSelectors": [
@@ -568,7 +568,7 @@
                       "end": 355,
                       "ctxt": 0
                     },
-                    "hasNestPrefix": false,
+                    "nestingSelector": null,
                     "combinator": null,
                     "typeSelector": null,
                     "subclassSelectors": [
@@ -785,7 +785,7 @@
                       "end": 452,
                       "ctxt": 0
                     },
-                    "hasNestPrefix": false,
+                    "nestingSelector": null,
                     "combinator": null,
                     "typeSelector": null,
                     "subclassSelectors": [
@@ -816,7 +816,7 @@
                       "end": 484,
                       "ctxt": 0
                     },
-                    "hasNestPrefix": false,
+                    "nestingSelector": null,
                     "combinator": null,
                     "typeSelector": null,
                     "subclassSelectors": [
