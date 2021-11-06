@@ -710,6 +710,7 @@ fn should_visit() {
             let config = c
                 .parse_js_as_input(
                     &handler,
+                    None,
                     &swc::config::Options {
                         config: swc::config::Config {
                             jsc: JscConfig {
