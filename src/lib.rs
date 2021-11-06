@@ -817,7 +817,7 @@ impl Compiler {
             )?;
             Ok(Some(built))
         })
-        .with_context(|| format!("failed to load config for file '{:?}'", name))
+        .with_context(|| format!("failed to parse input for file '{:?}'", name))
     }
 
     pub fn run_transform<F, Ret>(&self, handler: &Handler, external_helpers: bool, op: F) -> Ret
