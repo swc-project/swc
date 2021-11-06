@@ -2695,6 +2695,194 @@ test_exec!(
     "
 );
 
+test_exec!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    issue_2402_1,
+    "
+function MyClass(item) {
+  this.item = item;
+  console.log('Constructor | this.item', this.item);
+}
+
+MyClass.prototype.fun = async function fun() {
+  console.log('fun | this.item', this.item);
+  return this.item;
+};
+
+const tmp = new MyClass({ foo: 'bar' });
+
+expect(tmp.fun()).resolves.toEqual({ foo: 'bar' });
+"
+);
+
+test!(
+    Syntax::default(),
+    |_| {
+        let top_level_mark = Mark::fresh(Mark::root());
+        chain!(
+            async_to_generator(),
+            regenerator(Default::default(), top_level_mark)
+        )
+    },
+    issue_2402_2,
+    "
+  function MyClass(item) {
+    this.item = item;
+    console.log('Constructor | this.item', this.item);
+  }
+
+  MyClass.prototype.fun = async function fun() {
+    console.log('fun | this.item', this.item);
+    return this.item;
+  };
+
+  const tmp = new MyClass({ foo: 'bar' });
+
+  tmp.fun().then((res) => {
+    console.log('fun result | item', res);
+  });
+",
+    "
+    var regeneratorRuntime = require('regenerator-runtime');
+function MyClass(item) {
+    this.item = item;
+    console.log('Constructor | this.item', this.item);
+}
+MyClass.prototype.fun = (function() {
+    var _fun = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                    console.log('fun | this.item', this.item);
+                    return _ctx.abrupt('return', this.item);
+                case 2:
+                case 'end':
+                    return _ctx.stop();
+            }
+        }, _callee, this);
+    }));
+    function fun() {
+        return _fun.apply(this, arguments);
+    }
+    return fun;
+})();
+const tmp = new MyClass({
+    foo: 'bar'
+});
+tmp.fun().then((res)=>{
+    console.log('fun result | item', res);
+});
+"
+);
+
+test_exec!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    issue_2305_1,
+    "
+    function MyClass () {}
+
+MyClass.prototype.handle = function () {
+    console.log('this is MyClass handle')
+}
+
+MyClass.prototype.init = async function(param1) {
+    const a = 1;
+
+    if (!param1) {
+        console.log(this)
+        this.handle()
+    }
+
+    if (param1 === a) {
+        return false
+    }
+
+    return true
+}
+
+const myclass = new MyClass()
+myclass.handle()
+expect(myclass.init(2)).resolves.toEqual(true);
+"
+);
+
+test!(
+    Syntax::default(),
+    |_| {
+        let top_level_mark = Mark::fresh(Mark::root());
+        chain!(
+            async_to_generator(),
+            regenerator(Default::default(), top_level_mark)
+        )
+    },
+    issue_2305_2,
+    "
+    function MyClass () {}
+
+    MyClass.prototype.handle = function () {
+        console.log('this is MyClass handle')
+    }
+
+    MyClass.prototype.init = async function(param1) {
+        const a = 1;
+
+        if (!param1) {
+            console.log(this)
+            this.handle()
+        }
+
+        if (param1 === a) {
+            return false
+        }
+
+        return true
+    }
+
+    const myclass = new MyClass()
+    myclass.handle()
+  ",
+    "
+    var regeneratorRuntime = require('regenerator-runtime');
+function MyClass() {
+}
+MyClass.prototype.handle = function() {
+    console.log('this is MyClass handle');
+};
+MyClass.prototype.init = (function(param1) {
+    var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(param1) {
+        var a;
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                    a = 1;
+                    if (!param1) {
+                        console.log(this);
+                        this.handle();
+                    }
+                    if (!(param1 === a)) {
+                        _ctx.next = 4;
+                        break;
+                    }
+                    return _ctx.abrupt('return', false);
+                case 4:
+                    return _ctx.abrupt('return', true);
+                case 5:
+                case 'end':
+                    return _ctx.stop();
+            }
+        }, _callee, this);
+    }));
+    return function() {
+        return _ref.apply(this, arguments);
+    };
+})();
+const myclass = new MyClass();
+myclass.handle();
+  "
+);
+
 #[testing::fixture("tests/fixture/async-to-generator/**/exec.js")]
 fn exec(input: PathBuf) {
     let input = read_to_string(&input).unwrap();
