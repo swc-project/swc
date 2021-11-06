@@ -695,15 +695,13 @@ where
 
     #[emitter]
     fn emit_compound_selector(&mut self, n: &CompoundSelector) -> Result {
-        let ctx = Ctx { ..self.ctx };
-
-        emit!(&mut *self.with_ctx(ctx), n.nesting_selector);
+        emit!(&mut *self.with_ctx(self.ctx), n.nesting_selector);
 
         if let Some(combinator) = &n.combinator {
             self.wr.write_punct(None, combinator.as_str())?;
         }
 
-        emit!(&mut *self.with_ctx(ctx), n.type_selector);
+        emit!(&mut *self.with_ctx(self.ctx), n.type_selector);
 
         self.emit_list(&n.subclass_selectors, ListFormat::NotDelimited)?;
     }
