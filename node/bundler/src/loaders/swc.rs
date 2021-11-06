@@ -180,6 +180,7 @@ impl SwcLoader {
         } else {
             let config = self.compiler.parse_js_as_input(
                 fm.clone(),
+                None,
                 handler,
                 &swc::config::Options {
                     config: {

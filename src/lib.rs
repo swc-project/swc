@@ -784,6 +784,7 @@ impl Compiler {
     pub fn parse_js_as_input<'a, P>(
         &'a self,
         fm: Lrc<SourceFile>,
+        program: Option<Program>,
         handler: &'a Handler,
         opts: &Options,
         name: &FileName,
@@ -802,8 +803,9 @@ impl Compiler {
             let built = opts.build_as_input(
                 &self.cm,
                 name,
-                move |syntax, target, is_module| {
-                    self.parse_js(fm.clone(), handler, target, syntax, is_module, true)
+                move |syntax, target, is_module| match program {
+                    Some(v) => Ok(v),
+                    _ => self.parse_js(fm.clone(), handler, target, syntax, is_module, true),
                 },
                 opts.output_path.as_deref(),
                 opts.source_file_name.clone(),
@@ -843,9 +845,12 @@ impl Compiler {
     }
 
     /// `custom_after_pass` is applied after swc transforms are applied.
+    ///
+    /// `program`: If you already parsed `Program`, you can pass it.
     pub fn process_js_with_custom_pass<P1, P2>(
         &self,
         fm: Arc<SourceFile>,
+        program: Option<Program>,
         handler: &Handler,
         opts: &Options,
         custom_before_pass: impl FnOnce(&Program) -> P1,
@@ -857,7 +862,14 @@ impl Compiler {
     {
         self.run(|| -> Result<_, Error> {
             let config = self.run(|| {
-                self.parse_js_as_input(fm.clone(), handler, opts, &fm.name, custom_before_pass)
+                self.parse_js_as_input(
+                    fm.clone(),
+                    program,
+                    handler,
+                    opts,
+                    &fm.name,
+                    custom_before_pass,
+                )
             })?;
             let config = match config {
                 Some(v) => v,
@@ -901,7 +913,7 @@ impl Compiler {
         handler: &Handler,
         opts: &Options,
     ) -> Result<TransformOutput, Error> {
-        self.process_js_with_custom_pass(fm, handler, opts, |_| noop(), |_| noop())
+        self.process_js_with_custom_pass(fm, None, handler, opts, |_| noop(), |_| noop())
     }
 
     pub fn minify(
@@ -1036,7 +1048,7 @@ impl Compiler {
         let loc = self.cm.lookup_char_pos(program.span().lo());
         let fm = loc.file;
 
-        self.process_js_with_custom_pass(fm, handler, opts, |_| noop(), |_| noop())
+        self.process_js_with_custom_pass(fm, Some(program), handler, opts, |_| noop(), |_| noop())
     }
 
     fn process_js_inner(

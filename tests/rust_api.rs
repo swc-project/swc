@@ -35,6 +35,7 @@ fn test_visit_mut() {
 
         let res = c.process_js_with_custom_pass(
             fm,
+            None,
             &handler,
             &Options {
                 config: Config {
@@ -79,6 +80,7 @@ fn shopify_1_check_filename() {
 
         let res = c.process_js_with_custom_pass(
             fm,
+            None,
             &handler,
             &Options {
                 config: Config {
@@ -177,7 +179,7 @@ fn shopify_2_same_opt() {
             .into(),
         );
 
-        let res = c.process_js_with_custom_pass(fm, &handler, &opts, |_| noop(), |_| noop());
+        let res = c.process_js_with_custom_pass(fm, None, &handler, &opts, |_| noop(), |_| noop());
 
         if res.is_err() {
             return Err(());
@@ -239,7 +241,7 @@ fn shopify_3_reduce_defaults() {
             .into(),
         );
 
-        let res = c.process_js_with_custom_pass(fm, &handler, &opts, |_| noop(), |_| noop());
+        let res = c.process_js_with_custom_pass(fm, None, &handler, &opts, |_| noop(), |_| noop());
 
         if res.is_err() {
             return Err(());
@@ -295,7 +297,7 @@ fn shopify_4_reduce_more() {
             .into(),
         );
 
-        let res = c.process_js_with_custom_pass(fm, &handler, &opts, |_| noop(), |_| noop());
+        let res = c.process_js_with_custom_pass(fm, None, &handler, &opts, |_| noop(), |_| noop());
 
         if res.is_err() {
             return Err(());
