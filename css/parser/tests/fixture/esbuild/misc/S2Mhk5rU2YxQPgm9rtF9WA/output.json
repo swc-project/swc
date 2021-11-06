@@ -71,32 +71,12 @@
                 "selectors": [
                   {
                     "type": "CompoundSelector",
-          "selectors": [
-            {
-              "type": "ComplexSelector",
-              "span": {
-                "start": 44,
-                "end": 46,
-                "ctxt": 0
-              },
-              "selectors": [
-                {
-                  "type": "CompoundSelector",
-                  "span": {
-                    "start": 44,
-                    "end": 46,
-                    "ctxt": 0
-                  },
-                  "nestingSelector": null,
-                  "combinator": null,
-                  "typeSelector": {
-                    "type": "NamespacedName",
                     "span": {
                       "start": 44,
                       "end": 46,
                       "ctxt": 0
                     },
-                    "hasNestPrefix": false,
+                    "nestingSelector": null,
                     "combinator": null,
                     "typeSelector": {
                       "type": "TypeSelector",

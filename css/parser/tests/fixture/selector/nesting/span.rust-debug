@@ -16,6 +16,12 @@ error: StyleRule
 1 | & > .bar { color: red; }
   | ^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/selector/nesting/input.css:1:1
+  |
+1 | & > .bar { color: red; }
+  | ^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/nesting/input.css:1:1
   |

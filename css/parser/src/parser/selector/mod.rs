@@ -269,8 +269,6 @@ where
 
         self.input.skip_ws()?;
 
-        let start_span = self.input.cur_span()?;
-        let name_start_pos = self.input.cur_span()?.lo;
         let prefix;
         let name;
         let mut attr_matcher = None;

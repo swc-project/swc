@@ -36,41 +36,12 @@
                   "end": 8,
                   "ctxt": 0
                 },
-                "hasNestPrefix": false,
+                "nestingSelector": null,
                 "combinator": null,
                 "typeSelector": null,
                 "subclassSelectors": [
                   {
                     "type": "AttributeSelector",
-      "selectors": [
-        {
-          "type": "ComplexSelector",
-          "span": {
-            "start": 0,
-            "end": 8,
-            "ctxt": 0
-          },
-          "selectors": [
-            {
-              "type": "CompoundSelector",
-              "span": {
-                "start": 0,
-                "end": 8,
-                "ctxt": 0
-              },
-              "nestingSelector": null,
-              "combinator": null,
-              "typeSelector": null,
-              "subclassSelectors": [
-                {
-                  "type": "AttributeSelector",
-                  "span": {
-                    "start": 0,
-                    "end": 8,
-                    "ctxt": 0
-                  },
-                  "name": {
-                    "type": "NamespacedName",
                     "span": {
                       "start": 0,
                       "end": 8,
