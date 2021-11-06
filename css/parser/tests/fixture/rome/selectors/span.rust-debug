@@ -407,12 +407,6 @@ error: AttrSelector
 13 | a[title] {
    |  ^^^^^^^
 
-error: NamespacedName
-  --> $DIR/tests/fixture/rome/selectors/input.css:13:3
-   |
-13 | a[title] {
-   |   ^^^^^
-
 error: Text
   --> $DIR/tests/fixture/rome/selectors/input.css:13:3
    |
@@ -509,12 +503,6 @@ error: AttrSelector
    |
 17 | a[title = "title"] {
    |  ^^^^^^^^^^^^^^^^^
-
-error: NamespacedName
-  --> $DIR/tests/fixture/rome/selectors/input.css:17:3
-   |
-17 | a[title = "title"] {
-   |   ^^^^^
 
 error: Text
   --> $DIR/tests/fixture/rome/selectors/input.css:17:3
@@ -619,12 +607,6 @@ error: AttrSelector
 21 | a[title~="title" i] {
    |  ^^^^^^^^^^^^^^^^^^
 
-error: NamespacedName
-  --> $DIR/tests/fixture/rome/selectors/input.css:21:3
-   |
-21 | a[title~="title" i] {
-   |   ^^^^^
-
 error: Text
   --> $DIR/tests/fixture/rome/selectors/input.css:21:3
    |
@@ -728,12 +710,6 @@ error: AttrSelector
 25 | a[title = "title"][href*="image/*" S] {
    |  ^^^^^^^^^^^^^^^^^
 
-error: NamespacedName
-  --> $DIR/tests/fixture/rome/selectors/input.css:25:3
-   |
-25 | a[title = "title"][href*="image/*" S] {
-   |   ^^^^^
-
 error: Text
   --> $DIR/tests/fixture/rome/selectors/input.css:25:3
    |
@@ -757,12 +733,6 @@ error: AttrSelector
    |
 25 | a[title = "title"][href*="image/*" S] {
    |                   ^^^^^^^^^^^^^^^^^^^
-
-error: NamespacedName
-  --> $DIR/tests/fixture/rome/selectors/input.css:25:20
-   |
-25 | a[title = "title"][href*="image/*" S] {
-   |                    ^^^^
 
 error: Text
   --> $DIR/tests/fixture/rome/selectors/input.css:25:20

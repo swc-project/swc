@@ -47,35 +47,27 @@
                       "end": 5,
                       "ctxt": 0
                     },
-                    "name": {
-                      "type": "NamespacedName",
+                    "prefix": {
+                      "type": "Text",
                       "span": {
                         "start": 1,
+                        "end": 2,
+                        "ctxt": 0
+                      },
+                      "value": "a",
+                      "raw": "a"
+                    },
+                    "name": {
+                      "type": "Text",
+                      "span": {
+                        "start": 3,
                         "end": 4,
                         "ctxt": 0
                       },
-                      "prefix": {
-                        "type": "Text",
-                        "span": {
-                          "start": 1,
-                          "end": 2,
-                          "ctxt": 0
-                        },
-                        "value": "a",
-                        "raw": "a"
-                      },
-                      "name": {
-                        "type": "Text",
-                        "span": {
-                          "start": 3,
-                          "end": 4,
-                          "ctxt": 0
-                        },
-                        "value": "b",
-                        "raw": "b"
-                      }
+                      "value": "b",
+                      "raw": "b"
                     },
-                    "op": null,
+                    "matcher": null,
                     "value": null,
                     "modifier": null
                   }
