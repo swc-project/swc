@@ -83,38 +83,6 @@ fn base_tr_resolver_and_hygiene(b: &mut Bencher) {
 }
 
 /// This benchmark exists to know exact execution time of each pass.
-#[bench]
-fn config_for_file(b: &mut Bencher) {
-    let c = mk();
-
-    b.iter(|| {
-        let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
-
-        black_box(c.config_for_file(
-            &handler,
-            &Options {
-                config: Config {
-                    jsc: JscConfig {
-                        target: Some(EsVersion::Es2016),
-                        syntax: Some(Syntax::Typescript(TsConfig {
-                            ..Default::default()
-                        })),
-                        ..Default::default()
-                    },
-                    module: None,
-                    ..Default::default()
-                },
-                swcrc: false,
-                is_module: true,
-                ..Default::default()
-            },
-            &FileName::Real("rxjs/src/internal/Observable.ts".into()),
-            noop(),
-        ))
-    });
-}
-
-/// This benchmark exists to know exact execution time of each pass.
 
 fn bench_codegen(b: &mut Bencher, _target: EsVersion) {
     let c = mk();
