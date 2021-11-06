@@ -39,7 +39,7 @@ jobs:
           cargo test -p swc_plugin_runner
 
   verify-musl:
-    name: Verify plugin
+    name: Verify plugin - musl
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
