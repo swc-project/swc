@@ -10,10 +10,10 @@ use std::{
     sync::Arc,
 };
 use swc::config::{Config, JscConfig, Options, SourceMapsConfig};
-use swc_common::{errors::Handler, FileName, FilePathMapping, SourceMap};
+use swc_common::{errors::Handler, FileName, FilePathMapping, SourceFile, SourceMap};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::{Syntax, TsConfig};
-use swc_ecma_transforms::{fixer, hygiene, pass::noop, resolver, typescript};
+use swc_ecma_transforms::{fixer, hygiene, resolver, typescript};
 use swc_ecma_visit::FoldWith;
 use test::Bencher;
 
@@ -27,26 +27,29 @@ fn mk() -> swc::Compiler {
     c
 }
 
-fn parse(c: &swc::Compiler) -> Program {
+fn parse(c: &swc::Compiler) -> (Arc<SourceFile>, Program) {
     let fm = c.cm.new_source_file(
         FileName::Real("rxjs/src/internal/Observable.ts".into()),
         SOURCE.to_string(),
     );
     let handler = Handler::with_emitter_writer(Box::new(io::stderr()), Some(c.cm.clone()));
 
-    c.parse_js(
-        fm,
-        &handler,
-        EsVersion::Es5,
-        Syntax::Typescript(Default::default()),
-        true,
-        true,
+    (
+        fm.clone(),
+        c.parse_js(
+            fm,
+            &handler,
+            EsVersion::Es5,
+            Syntax::Typescript(Default::default()),
+            true,
+            true,
+        )
+        .unwrap(),
     )
-    .unwrap()
 }
 
 fn as_es(c: &swc::Compiler) -> Program {
-    let program = parse(c);
+    let program = parse(c).1;
 
     program.fold_with(&mut typescript::strip())
 }
@@ -178,58 +181,6 @@ compat!(full_es2017, EsVersion::Es2017);
 compat!(full_es2018, EsVersion::Es2018);
 compat!(full_es2019, EsVersion::Es2019);
 compat!(full_es2020, EsVersion::Es2020);
-
-macro_rules! tr_only {
-    ($name:ident, $target:expr) => {
-        #[bench]
-        fn $name(b: &mut Bencher) {
-            let c = mk();
-            let module = parse(&c);
-
-            b.iter(|| {
-                let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
-                let program = module.clone();
-
-                let mut config = c
-                    .config_for_file(
-                        &handler,
-                        &Options {
-                            config: Config {
-                                jsc: JscConfig {
-                                    target: Some($target),
-                                    syntax: Some(Syntax::Typescript(TsConfig {
-                                        ..Default::default()
-                                    })),
-                                    ..Default::default()
-                                },
-                                module: None,
-                                ..Default::default()
-                            },
-                            swcrc: false,
-                            is_module: true,
-                            ..Default::default()
-                        },
-                        &FileName::Real("rxjs/src/internal/Observable.ts".into()),
-                        noop(),
-                    )
-                    .unwrap()
-                    .unwrap();
-                let program =
-                    c.run_transform(&handler, true, || program.fold_with(&mut config.pass));
-                black_box(program)
-            });
-        }
-    };
-}
-
-tr_only!(transforms_es3, EsVersion::Es3);
-tr_only!(transforms_es5, EsVersion::Es5);
-tr_only!(transforms_es2015, EsVersion::Es2015);
-tr_only!(transforms_es2016, EsVersion::Es2016);
-tr_only!(transforms_es2017, EsVersion::Es2017);
-tr_only!(transforms_es2018, EsVersion::Es2018);
-tr_only!(transforms_es2019, EsVersion::Es2019);
-tr_only!(transforms_es2020, EsVersion::Es2020);
 
 #[bench]
 fn parser(b: &mut Bencher) {

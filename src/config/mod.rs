@@ -24,7 +24,7 @@ use swc_common::{
     errors::Handler,
     FileName, Mark, SourceMap,
 };
-use swc_ecma_ast::{EsVersion, Expr};
+use swc_ecma_ast::{EsVersion, Expr, Program};
 use swc_ecma_ext_transforms::jest;
 use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
@@ -180,10 +180,12 @@ impl Default for InputSourceMap {
 }
 
 impl Options {
-    pub fn build<'a>(
+    /// `parss`: `(syntax, target, is_module)`
+    pub fn build_as_input<'a>(
         &self,
         cm: &Arc<SourceMap>,
         base: &FileName,
+        parse: impl FnOnce(Syntax, EsVersion, bool) -> Result<Program, Error>,
         output_path: Option<&Path>,
         source_file_name: Option<String>,
         handler: &Handler,
@@ -191,7 +193,7 @@ impl Options {
         config: Option<Config>,
         comments: Option<&'a SwcComments>,
         custom_before_pass: impl 'a + swc_ecma_visit::Fold,
-    ) -> BuiltConfig<impl 'a + swc_ecma_visit::Fold> {
+    ) -> Result<BuiltInput<impl 'a + swc_ecma_visit::Fold>, Error> {
         let mut config = config.unwrap_or_else(Default::default);
         config.merge(&self.config);
 
@@ -214,6 +216,8 @@ impl Options {
         let target = target.unwrap_or_default();
 
         let syntax = syntax.unwrap_or_default();
+
+        let program = parse(syntax, target, is_module)?;
         let mut transform = transform.unwrap_or_default();
 
         let regenerator = transform.regenerator.clone();
@@ -325,7 +329,8 @@ impl Options {
             Optional::new(jest::jest(), transform.hidden.jest)
         );
 
-        BuiltConfig {
+        Ok(BuiltInput {
+            program,
             minify: config.minify,
             pass,
             external_helpers,
@@ -338,7 +343,7 @@ impl Options {
             output_path: output_path.map(|v| v.to_path_buf()),
             source_file_name,
             preserve_comments,
-        }
+        })
     }
 }
 
@@ -792,7 +797,8 @@ impl Config {
 }
 
 /// One `BuiltConfig` per a directory with swcrc
-pub struct BuiltConfig<P: swc_ecma_visit::Fold> {
+pub struct BuiltInput<P: swc_ecma_visit::Fold> {
+    pub program: Program,
     pub pass: P,
     pub syntax: Syntax,
     pub target: EsVersion,

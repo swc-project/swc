@@ -178,7 +178,8 @@ impl SwcLoader {
 
             program
         } else {
-            let config = self.compiler.config_for_file(
+            let config = self.compiler.parse_js_as_input(
+                fm.clone(),
                 handler,
                 &swc::config::Options {
                     config: {
@@ -241,24 +242,10 @@ impl SwcLoader {
             // We run transform at this phase to strip out unused dependencies.
             //
             // Note that we don't apply compat transform at loading phase.
-            let program = self.compiler.parse_js(
-                fm.clone(),
-                handler,
-                EsVersion::Es2020,
-                config.as_ref().map(|v| v.syntax).unwrap_or_default(),
-                true,
-                true,
-            );
-            let program = if config.is_some() {
-                program?
-            } else {
-                program.context("tried to parse as ecmascript as it's excluded by .swcrc")?
-            };
+            let program = if let Some(config) = config {
+                let program = config.program;
+                let mut pass = config.pass;
 
-            tracing::trace!("JsLoader.load: parsed");
-
-            // Fold module
-            let program = if let Some(mut config) = config {
                 helpers::HELPERS.set(&helpers, || {
                     HANDLER.set(handler, || {
                         let program = program.fold_with(&mut inline_globals(
@@ -269,13 +256,22 @@ impl SwcLoader {
                         let program = program.fold_with(&mut expr_simplifier(Default::default()));
                         let program = program.fold_with(&mut dead_branch_remover());
 
-                        let program = program.fold_with(&mut config.pass);
+                        let program = program.fold_with(&mut pass);
 
                         program
                     })
                 })
             } else {
-                program
+                self.compiler
+                    .parse_js(
+                        fm.clone(),
+                        handler,
+                        EsVersion::Es2020,
+                        config.as_ref().map(|v| v.syntax).unwrap_or_default(),
+                        true,
+                        true,
+                    )
+                    .context("tried to parse as ecmascript as it's excluded by .swcrc")?
             };
 
             tracing::trace!("JsLoader.load: applied transforms");

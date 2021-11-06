@@ -112,7 +112,7 @@ pub extern crate swc_ecmascript as ecmascript;
 
 pub use crate::builder::PassBuilder;
 use crate::config::{
-    BuiltConfig, Config, ConfigFile, InputSourceMap, Merge, Options, Rc, RootMode, SourceMapsConfig,
+    BuiltInput, Config, ConfigFile, InputSourceMap, Merge, Options, Rc, RootMode, SourceMapsConfig,
 };
 use anyhow::{bail, Context, Error};
 use atoms::JsWord;
@@ -781,13 +781,14 @@ impl Compiler {
     /// This method handles merging of config.
     ///
     /// This method does **not** parse module.
-    pub fn config_for_file<'a>(
+    pub fn parse_js_as_input<'a>(
         &'a self,
-        handler: &Handler,
+        fm: Lrc<SourceFile>,
+        handler: &'a Handler,
         opts: &Options,
         name: &FileName,
         before_pass: impl 'a + swc_ecma_visit::Fold,
-    ) -> Result<Option<BuiltConfig<impl 'a + swc_ecma_visit::Fold>>, Error> {
+    ) -> Result<Option<BuiltInput<impl 'a + swc_ecma_visit::Fold>>, Error> {
         self.run(|| -> Result<_, Error> {
             let config = self.read_config(opts, name)?;
             let config = match config {
@@ -795,9 +796,12 @@ impl Compiler {
                 None => return Ok(None),
             };
 
-            let built = opts.build(
+            let built = opts.build_as_input(
                 &self.cm,
                 name,
+                move |syntax, target, is_module| {
+                    self.parse_js(fm.clone(), handler, target, syntax, is_module, true)
+                },
                 opts.output_path.as_deref(),
                 opts.source_file_name.clone(),
                 &handler,
@@ -805,7 +809,7 @@ impl Compiler {
                 Some(config),
                 Some(&self.comments),
                 before_pass,
-            );
+            )?;
             Ok(Some(built))
         })
         .with_context(|| format!("failed to load config for file '{:?}'", name))
@@ -849,15 +853,17 @@ impl Compiler {
         P2: swc_ecma_visit::Fold,
     {
         self.run(|| -> Result<_, Error> {
-            let config =
-                self.run(|| self.config_for_file(handler, opts, &fm.name, custom_before_pass))?;
+            let config = self.run(|| {
+                self.parse_js_as_input(fm.clone(), handler, opts, &fm.name, custom_before_pass)
+            })?;
             let config = match config {
                 Some(v) => v,
                 None => {
                     bail!("cannot process file because it's ignored by .swcrc")
                 }
             };
-            let config = BuiltConfig {
+            let config = BuiltInput {
+                program: config.program,
                 pass: chain!(config.pass, custom_after_pass),
                 syntax: config.syntax,
                 target: config.target,
@@ -878,16 +884,7 @@ impl Compiler {
                 None
             };
 
-            let program = self.parse_js(
-                fm.clone(),
-                handler,
-                config.target,
-                config.syntax,
-                config.is_module,
-                true,
-            )?;
-
-            self.process_js_inner(handler, program, orig.as_ref(), config)
+            self.process_js_inner(handler, orig.as_ref(), config)
         })
         .context("failed to process js file")
     }
@@ -1039,11 +1036,11 @@ impl Compiler {
     fn process_js_inner(
         &self,
         handler: &Handler,
-        program: Program,
         orig: Option<&sourcemap::SourceMap>,
-        config: BuiltConfig<impl swc_ecma_visit::Fold>,
+        config: BuiltInput<impl swc_ecma_visit::Fold>,
     ) -> Result<TransformOutput, Error> {
         self.run(|| {
+            let program = config.program;
             let source_map_names = {
                 let mut v = IdentCollector {
                     names: Default::default(),

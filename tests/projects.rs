@@ -7,7 +7,7 @@ use std::{
 };
 use swc::{
     config::{
-        BuiltConfig, Config, JscConfig, ModuleConfig, Options, SourceMapsConfig, TransformConfig,
+        BuiltInput, Config, JscConfig, ModuleConfig, Options, SourceMapsConfig, TransformConfig,
     },
     Compiler, TransformOutput,
 };
@@ -118,7 +118,7 @@ fn project(dir: &str) {
 
                 let fm = cm.load_file(entry.path()).expect("failed to load file");
 
-                if c.config_for_file(
+                if c.read_config(
                     &handler,
                     &Options {
                         swcrc: true,
@@ -708,7 +708,7 @@ fn should_visit() {
                 .into(),
             );
             let config = c
-                .config_for_file(
+                .parse_js_as_input(
                     &handler,
                     &swc::config::Options {
                         config: swc::config::Config {
@@ -730,16 +730,7 @@ fn should_visit() {
                 .unwrap();
 
             dbg!(config.syntax);
-            let program = c
-                .parse_js(
-                    fm.clone(),
-                    &handler,
-                    config.target,
-                    config.syntax,
-                    true,
-                    true,
-                )
-                .map_err(|_| ())?;
+            let program = config.program;
 
             let config = BuiltConfig {
                 pass: chain!(Panicking, config.pass),
