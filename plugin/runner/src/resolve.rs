@@ -64,21 +64,14 @@ fn resolve_using_package_json(dir: &Path, pkg_name: &str) -> Result<PathBuf, Err
         .as_object()
         .ok_or_else(|| anyhow!("`optionalDependencies` of main package.json is not an object"))?;
 
-    // Try current target
-    for dep_pkg_name in opt_deps.keys() {
-        if dep_pkg_name.starts_with(&pkg_name) && dep_pkg_name.ends_with(&env!("TARGET")) {
-            let dep_pkg_dir_name = pkg_name_without_scope(&dep_pkg_name);
-
-            let dep_pkg = node_modules.join(dep_pkg_dir_name);
-
-            if dep_pkg.exists() {
-                return read_main_field(&dep_pkg, &dep_pkg.join("package.json"));
-            }
-        }
-    }
+    let is_musl = env!("TARGET").contains("musl");
 
     for dep_pkg_name in opt_deps.keys() {
         if dep_pkg_name.starts_with(&pkg_name) {
+            if is_musl && !dep_pkg_name.contains("musl") {
+                continue;
+            }
+
             let dep_pkg_dir_name = pkg_name_without_scope(&dep_pkg_name);
 
             let dep_pkg = node_modules.join(dep_pkg_dir_name);
