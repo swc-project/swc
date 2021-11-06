@@ -64,7 +64,7 @@
           {
             "type": "ComplexSelector",
             "span": {
-              "start": 4,
+              "start": 5,
               "end": 14,
               "ctxt": 0
             },
@@ -135,7 +135,7 @@
           {
             "type": "ComplexSelector",
             "span": {
-              "start": 15,
+              "start": 16,
               "end": 25,
               "ctxt": 0
             },
@@ -206,7 +206,7 @@
           {
             "type": "ComplexSelector",
             "span": {
-              "start": 26,
+              "start": 27,
               "end": 36,
               "ctxt": 0
             },

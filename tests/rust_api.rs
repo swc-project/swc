@@ -35,6 +35,7 @@ fn test_visit_mut() {
 
         let res = c.process_js_with_custom_pass(
             fm,
+            None,
             &handler,
             &Options {
                 config: Config {
@@ -47,8 +48,8 @@ fn test_visit_mut() {
 
                 ..Default::default()
             },
-            as_folder(PanicOnVisit),
-            noop(),
+            |_| as_folder(PanicOnVisit),
+            |_| noop(),
         );
 
         assert_ne!(res.unwrap().code, "console.log(5 as const)");
@@ -79,6 +80,7 @@ fn shopify_1_check_filename() {
 
         let res = c.process_js_with_custom_pass(
             fm,
+            None,
             &handler,
             &Options {
                 config: Config {
@@ -97,8 +99,8 @@ fn shopify_1_check_filename() {
                 is_module: true,
                 ..Default::default()
             },
-            noop(),
-            noop(),
+            |_| noop(),
+            |_| noop(),
         );
 
         if res.is_err() {
@@ -177,7 +179,7 @@ fn shopify_2_same_opt() {
             .into(),
         );
 
-        let res = c.process_js_with_custom_pass(fm, &handler, &opts, noop(), noop());
+        let res = c.process_js_with_custom_pass(fm, None, &handler, &opts, |_| noop(), |_| noop());
 
         if res.is_err() {
             return Err(());
@@ -239,7 +241,7 @@ fn shopify_3_reduce_defaults() {
             .into(),
         );
 
-        let res = c.process_js_with_custom_pass(fm, &handler, &opts, noop(), noop());
+        let res = c.process_js_with_custom_pass(fm, None, &handler, &opts, |_| noop(), |_| noop());
 
         if res.is_err() {
             return Err(());
@@ -295,7 +297,7 @@ fn shopify_4_reduce_more() {
             .into(),
         );
 
-        let res = c.process_js_with_custom_pass(fm, &handler, &opts, noop(), noop());
+        let res = c.process_js_with_custom_pass(fm, None, &handler, &opts, |_| noop(), |_| noop());
 
         if res.is_err() {
             return Err(());
