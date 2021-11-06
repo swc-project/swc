@@ -234,7 +234,7 @@ impl SwcLoader {
                     ..Default::default()
                 },
                 &fm.name,
-                noop(),
+                |_| noop(),
             )?;
 
             tracing::trace!("JsLoader.load: loaded config");
