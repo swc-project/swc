@@ -726,7 +726,7 @@ fn should_visit() {
                         ..Default::default()
                     },
                     &fm.name,
-                    noop(),
+                    |_| noop(),
                 )
                 .unwrap()
                 .unwrap();
