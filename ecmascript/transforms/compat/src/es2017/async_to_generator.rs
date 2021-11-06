@@ -37,6 +37,7 @@ struct AsyncToGenerator;
 
 struct Actual {
     in_object_prop: bool,
+    in_prototype_assignment: bool,
     extra_stmts: Vec<Stmt>,
 }
 
@@ -67,6 +68,7 @@ impl AsyncToGenerator {
         for stmt in stmts {
             let mut actual = Actual {
                 in_object_prop: false,
+                in_prototype_assignment: false,
                 extra_stmts: vec![],
             };
             let stmt = stmt.fold_with(&mut actual);
@@ -128,7 +130,7 @@ impl Fold for Actual {
                 ident: None,
                 function,
             },
-            self.in_object_prop,
+            self.in_object_prop || self.in_prototype_assignment,
         );
 
         let hoisted_super = if folder.vars.is_empty() {
@@ -211,6 +213,35 @@ impl Fold for Actual {
                 );
             }
 
+            Expr::Assign(assign_expr) => {
+                // flag if expression is assignment to prototype chain should not try to bind
+                // this context
+                match &assign_expr.left {
+                    PatOrExpr::Pat(pat) => match &**pat {
+                        Pat::Expr(pat_expr) => match &**pat_expr {
+                            Expr::Member(MemberExpr {
+                                obj: ExprOrSuper::Expr(ex),
+                                ..
+                            }) => match &**ex {
+                                Expr::Member(MemberExpr { prop, .. }) => match &**prop {
+                                    Expr::Ident(ident) => {
+                                        self.in_prototype_assignment = *ident.sym == *"prototype";
+                                    }
+                                    _ => {}
+                                },
+                                _ => {}
+                            },
+                            _ => {}
+                        },
+                        _ => {}
+                    },
+                    _ => {}
+                }
+
+                let assign_expr = assign_expr.fold_children_with(self);
+                self.in_prototype_assignment = false;
+                return Expr::Assign(assign_expr);
+            }
             _ => {}
         }
 
@@ -694,7 +725,7 @@ impl Actual {
             });
         }
 
-        let callee = make_fn_ref(callee, self.in_object_prop);
+        let callee = make_fn_ref(callee, self.in_object_prop || self.in_prototype_assignment);
 
         Expr::Call(CallExpr {
             span,
@@ -740,7 +771,7 @@ impl Actual {
                 ident: None,
                 function: f,
             },
-            self.in_object_prop,
+            self.in_object_prop || self.in_prototype_assignment,
         );
 
         if is_decl {
