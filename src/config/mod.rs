@@ -181,7 +181,7 @@ impl Default for InputSourceMap {
 
 impl Options {
     /// `parss`: `(syntax, target, is_module)`
-    pub fn build_as_input<'a>(
+    pub fn build_as_input<'a, P>(
         &self,
         cm: &Arc<SourceMap>,
         base: &FileName,
@@ -192,8 +192,11 @@ impl Options {
         is_module: bool,
         config: Option<Config>,
         comments: Option<&'a SwcComments>,
-        custom_before_pass: impl 'a + swc_ecma_visit::Fold,
-    ) -> Result<BuiltInput<impl 'a + swc_ecma_visit::Fold>, Error> {
+        custom_before_pass: impl FnOnce(&Program) -> P,
+    ) -> Result<BuiltInput<impl 'a + swc_ecma_visit::Fold>, Error>
+    where
+        P: 'a + swc_ecma_visit::Fold,
+    {
         let mut config = config.unwrap_or_else(Default::default);
         config.merge(&self.config);
 
@@ -314,7 +317,7 @@ impl Options {
                 syntax.typescript()
             ),
             resolver_with_mark(top_level_mark),
-            custom_before_pass,
+            custom_before_pass(&program),
             // handle jsx
             Optional::new(
                 react::react(

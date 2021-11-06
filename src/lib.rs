@@ -781,14 +781,17 @@ impl Compiler {
     /// This method handles merging of config.
     ///
     /// This method does **not** parse module.
-    pub fn parse_js_as_input<'a>(
+    pub fn parse_js_as_input<'a, P>(
         &'a self,
         fm: Lrc<SourceFile>,
         handler: &'a Handler,
         opts: &Options,
         name: &FileName,
-        before_pass: impl 'a + swc_ecma_visit::Fold,
-    ) -> Result<Option<BuiltInput<impl 'a + swc_ecma_visit::Fold>>, Error> {
+        before_pass: impl 'a + FnOnce(&Program) -> P,
+    ) -> Result<Option<BuiltInput<impl 'a + swc_ecma_visit::Fold>>, Error>
+    where
+        P: 'a + swc_ecma_visit::Fold,
+    {
         self.run(|| -> Result<_, Error> {
             let config = self.read_config(opts, name)?;
             let config = match config {
@@ -845,8 +848,8 @@ impl Compiler {
         fm: Arc<SourceFile>,
         handler: &Handler,
         opts: &Options,
-        custom_before_pass: P1,
-        custom_after_pass: P2,
+        custom_before_pass: impl FnOnce(&Program) -> P1,
+        custom_after_pass: impl FnOnce(&Program) -> P2,
     ) -> Result<TransformOutput, Error>
     where
         P1: swc_ecma_visit::Fold,
@@ -862,9 +865,12 @@ impl Compiler {
                     bail!("cannot process file because it's ignored by .swcrc")
                 }
             };
+
+            let pass = chain!(config.pass, custom_after_pass(&config.program));
+
             let config = BuiltInput {
                 program: config.program,
-                pass: chain!(config.pass, custom_after_pass),
+                pass,
                 syntax: config.syntax,
                 target: config.target,
                 minify: config.minify,
@@ -895,7 +901,7 @@ impl Compiler {
         handler: &Handler,
         opts: &Options,
     ) -> Result<TransformOutput, Error> {
-        self.process_js_with_custom_pass(fm, handler, opts, noop(), noop())
+        self.process_js_with_custom_pass(fm, handler, opts, |_| noop(), |_| noop())
     }
 
     pub fn minify(
@@ -1030,7 +1036,7 @@ impl Compiler {
         let loc = self.cm.lookup_char_pos(program.span().lo());
         let fm = loc.file;
 
-        self.process_js_with_custom_pass(fm, handler, opts, noop(), noop())
+        self.process_js_with_custom_pass(fm, handler, opts, |_| noop(), |_| noop())
     }
 
     fn process_js_inner(
