@@ -119,9 +119,6 @@ fn project(dir: &str) {
                 let fm = cm.load_file(entry.path()).expect("failed to load file");
 
                 if c.read_config(
-                    fm.clone(),
-                    None,
-                    &handler,
                     &Options {
                         swcrc: true,
                         is_module: true,
@@ -129,7 +126,6 @@ fn project(dir: &str) {
                         ..Default::default()
                     },
                     &fm.name,
-                    noop(),
                 )
                 .expect("failed to read config")
                 .is_none()
@@ -734,9 +730,9 @@ fn should_visit() {
                 .unwrap();
 
             dbg!(config.syntax);
-            let program = config.program;
 
             let config = BuiltInput {
+                program: config.program,
                 pass: chain!(Panicking, config.pass),
                 syntax: config.syntax,
                 target: config.target,
@@ -760,6 +756,7 @@ fn should_visit() {
                 c.comments().trailing.retain(preserve_excl);
             }
             let mut pass = config.pass;
+            let program = config.program;
             let program = helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
                 HANDLER.set(&handler, || {
                     // Fold module
