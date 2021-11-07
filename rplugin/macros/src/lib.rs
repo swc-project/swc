@@ -2,7 +2,7 @@ extern crate proc_macro;
 
 use pmutil::{q, Quote, ToTokensExt};
 use swc_macros_common::call_site;
-use syn::{parse, Attribute, Item, ItemImpl, ItemMod, ItemStruct, Lit, Path};
+use syn::{parse, Attribute, Item, ItemImpl, ItemMod, ItemStruct, Lit, Path, Type};
 
 #[proc_macro_attribute]
 pub fn ast_for_plugin(
@@ -46,6 +46,45 @@ pub fn ast_for_plugin(
 
 // fn make_unstable_ast_impl_for_struct(normal_crate_path: &Path, src:
 // &ItemStruct) -> ItemImpl {}
+
+fn patch_field_type(ty: &Type) -> Type {
+    if let Some(ty) = get_generic(&ty, "Box") {
+        return q!(
+            Vars {
+                ty: patch_field_type(ty),
+            },
+            (abi_stable::RBox<ty>)
+        )
+        .parse();
+    }
+
+    ty.clone()
+}
+
+fn get_generic<'a>(ty: &'a Type, wrapper_name: &str) -> Option<&'a Type> {
+    match ty {
+        Type::Path(ty) => {
+            if !ty.path.is_ident(wrapper_name) {
+                return None;
+            }
+            let ident = ty.path.segments.first().unwrap();
+
+            match &ident.arguments {
+                syn::PathArguments::None => None,
+                syn::PathArguments::AngleBracketed(generic) => generic
+                    .args
+                    .iter()
+                    .filter_map(|arg| match arg {
+                        syn::GenericArgument::Type(ty) => Some(ty),
+                        _ => None,
+                    })
+                    .next(),
+                syn::PathArguments::Parenthesized(_) => todo!(),
+            }
+        }
+        _ => None,
+    }
+}
 
 fn add_stable_abi(attrs: &mut Vec<Attribute>) {
     let s = q!({
