@@ -30,6 +30,10 @@ use abi_stable::{
     StableAbi,
 };
 
+/// Implemented for normal AST nodes.
+///
+/// Note that `swc` uses cargo feature named `plugin` to avoid making
+/// compilation slower for users if they don't need plugin support.
 pub trait UnstableAst {
     type Stable: StableAbi;
 
@@ -88,4 +92,8 @@ where
     fn into_stable(self) -> Self::Stable {
         self.into_iter().map(|v| v.into_stable()).collect()
     }
+}
+
+macro_rules! delegate {
+    () => {};
 }
