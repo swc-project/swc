@@ -23,3 +23,13 @@
 //!
 //! `Normal AST -> Plugin AST -> Normal AST -> plugin -> Normal AST -> Plugin
 //! AST -> Normal AST`
+
+use abi_stable::StableAbi;
+
+pub trait UnstableAst {
+    type Stable: StableAbi;
+
+    fn from_stable(n: Self::Stable) -> Self;
+
+    fn into_stable(self) -> Self::Stable;
+}
